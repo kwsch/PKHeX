@@ -97,7 +97,7 @@ public sealed class FormArgumentVerifier : Verifier
             },
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
-            Wyrdeer when pk.CurrentLevel < 31 => GetInvalid(LEvoInvalid),
+            Wyrdeer when enc.Species != (int)Wyrdeer && pk.CurrentLevel < 31 => GetInvalid(LEvoInvalid),
             Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
             Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),

@@ -120,6 +120,16 @@ public sealed class TrainerNameVerifier : Verifier
     private void VerifyGBOTWithinBounds(LegalityAnalysis data, ReadOnlySpan<char> str)
     {
         var pk = data.Entity;
+
+        // Filtered OT names use unavailable characters and can be too long
+        if (pk.Format >= 7)
+        {
+            // Check if it was profanity filtered.
+            var filtered = StringConverter12Transporter.GetFilteredOT(pk.Language, pk.Version);
+            if (str.SequenceEqual(filtered))
+                return;
+        }
+
         if (pk.Japanese)
         {
             if (str.Length > 5)

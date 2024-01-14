@@ -5,7 +5,8 @@ using static PKHeX.Core.GameVersion;
 namespace PKHeX.Core;
 
 /// <summary> Pokémon HOME <see cref="PKM"/> format. </summary>
-public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IScaledSize, IRibbonSetRibbons, IRibbonSetMarks
+public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IScaledSize,
+    IRibbonSetRibbons, IRibbonSetMarks, IAppliedMarkings7
 {
     public readonly GameDataCore Core;
     public GameDataPB7? DataPB7 { get; private set; }
@@ -93,7 +94,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override ushort SID16 { get => Core.SID16; set => Core.SID16 = value; }
     public override uint EXP { get => Core.EXP; set => Core.EXP = value; }
     public bool Favorite { get => Core.IsFavorite; set => Core.IsFavorite = value; }
-    public override int MarkValue { get => Core.MarkValue; set => Core.MarkValue = value; }
+    public ushort MarkingValue { get => Core.MarkingValue; set => Core.MarkingValue = value; }
     public override uint PID { get => Core.PID; set => Core.PID = value; }
     public override int Nature { get => Core.Nature; set => Core.Nature = value; }
     public override int StatNature { get => Core.StatNature; set => Core.StatNature = value; }
@@ -167,12 +168,19 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override string OT_Name { get => Core.OT_Name; set => Core.OT_Name = value; }
     public override string HT_Name { get => Core.HT_Name; set => Core.HT_Name = value; }
 
-    public override int MarkingCount => Core.MarkingCount;
+    public int MarkingCount => Core.MarkingCount;
     public int RibbonCount => Core.RibbonCount;
     public int MarkCount => Core.MarkCount;
     public int RibbonMarkCount => Core.RibbonMarkCount;
-    public override int GetMarking(int index) => Core.GetMarking(index);
-    public override void SetMarking(int index, int value) => Core.SetMarking(index, value);
+    public MarkingColor GetMarking(int index) => Core.GetMarking(index);
+    public void SetMarking(int index, MarkingColor value) => Core.SetMarking(index, value);
+
+    public MarkingColor MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public MarkingColor MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public MarkingColor MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public MarkingColor MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public MarkingColor MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public MarkingColor MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     #endregion
 

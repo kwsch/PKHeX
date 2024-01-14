@@ -10,7 +10,8 @@ namespace PKHeX.Core;
 public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IFatefulEncounter, IContestStats, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8,
-    IRibbonSetCommon9, IRibbonSetMark9
+    IRibbonSetCommon9, IRibbonSetMark9,
+    IAppliedMarkings7
 {
     // Internal Attributes set on creation
     private readonly Memory<byte> Buffer; // Raw Storage
@@ -39,7 +40,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public ushort SID16 { get => ReadUInt16LittleEndian(Data[0x11..]); set => WriteUInt16LittleEndian(Data[0x11..], value); }
     public uint EXP { get => ReadUInt32LittleEndian(Data[0x13..]); set => WriteUInt32LittleEndian(Data[0x13..], value); }
     public bool IsFavorite { get => Data[0x17] != 0; set => Data[0x17] = (byte)(value ? 1 : 0); }
-    public int MarkValue { get => ReadUInt16LittleEndian(Data[0x18..]); set => WriteUInt16LittleEndian(Data[0x18..], (ushort)value); }
+    public ushort MarkingValue { get => ReadUInt16LittleEndian(Data[0x18..]); set => WriteUInt16LittleEndian(Data[0x18..], value); }
     public uint PID { get => ReadUInt32LittleEndian(Data[0x1A..]); set => WriteUInt32LittleEndian(Data[0x1A..], value); }
     public int Nature            { get => Data[0x1E];      set => Data[0x1E] = (byte)value; }
     public int StatNature        { get => Data[0x1F];      set => Data[0x1F] = (byte)value; }
@@ -296,24 +297,31 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int HeldItem { get => ReadUInt16LittleEndian(Data[0xC2..]); set => WriteUInt16LittleEndian(Data[0xC2..], (ushort)value); }
 
-    public int MarkingCount => 6;
-
     public TrainerIDFormat TrainerIDDisplayFormat => ((GameVersion)Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
 
-    public int GetMarking(int index)
+    public int MarkingCount => 6;
+
+    public MarkingColor GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkValue >> (index * 2)) & 3;
+        return (MarkingColor)((MarkingValue >> (index * 2)) & 3);
     }
 
-    public void SetMarking(int index, int value)
+    public void SetMarking(int index, MarkingColor value)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
         var shift = index * 2;
-        MarkValue = (MarkValue & ~(0b11 << shift)) | ((value & 3) << shift);
+        MarkingValue = (ushort)((MarkingValue & ~(0b11 << shift)) | (((byte)value & 3) << shift));
     }
+
+    public MarkingColor MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public MarkingColor MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public MarkingColor MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public MarkingColor MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public MarkingColor MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public MarkingColor MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     public void CopyFrom(PKM pk)
     {
@@ -325,7 +333,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         TID16 = pk.TID16;
         SID16 = pk.SID16;
         EXP = pk.EXP;
-        MarkValue = pk.MarkValue;
+        MarkingValue = pk is IAppliedMarkings7 m7 ? m7.MarkingValue : (ushort)0;
         Nature = pk.Nature;
         StatNature = pk.StatNature;
         FatefulEncounter = pk.FatefulEncounter;
@@ -382,7 +390,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         pk.TID16 = TID16;
         pk.SID16 = SID16;
         pk.EXP = EXP;
-        pk.MarkValue = MarkValue;
+        if (pk is IAppliedMarkings7 m7)
+            m7.MarkingValue = MarkingValue;
         pk.Nature = Nature;
         pk.StatNature = StatNature;
         pk.FatefulEncounter = FatefulEncounter;

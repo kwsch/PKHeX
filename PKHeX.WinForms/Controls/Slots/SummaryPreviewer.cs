@@ -68,6 +68,10 @@ public sealed class SummaryPreviewer
         var src = _source;
         Task.Run(async () =>
         {
+            if (!Previewer.IsHandleCreated)
+                return; // not shown ever
+
+            // Give a little bit of fade-out delay
             await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
             if (!src.IsCancellationRequested)
                 Previewer.Invoke(Previewer.Hide);

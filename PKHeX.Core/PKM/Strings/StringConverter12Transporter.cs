@@ -138,6 +138,10 @@ public static class StringConverter12Transporter
         0x3000, 0x3000, 0x3000, 0x3000, 0x30A9, 0x2640, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // F
     ];
 
+    /// <summary>
+    /// Gets the Trainer Name for a Generation 1 in-game trade (NPC).
+    /// </summary>
+    /// <param name="language">Language to localize with</param>
     public static string GetTradeNameGen1(int language) => language switch
     {
         1 => "トレーナー",
@@ -147,6 +151,85 @@ public static class StringConverter12Transporter
         5 => "Trainer",
         7 => "Entrenador",
       //8 => "트레이너",
+      //9 => "训练家",
+      //10 => "訓練家",
+        _ => string.Empty,
+    };
+
+    /// <summary>
+    /// Gets a "safe" Trainer Name for a Generation 1 or 2 trainer, in the event the original was naughty.
+    /// </summary>
+    /// <param name="language">Language to localize with</param>
+    /// <param name="version">Version transferred from to Bank</param>
+    public static string GetFilteredOT(int language, int version) => version switch
+    {
+        (int)GameVersion.RD => language switch
+        {
+            1 => "レッド．",
+            2 => "Red*",
+            3 => "Rouge*",
+            4 => "Rosso*",
+            5 => "Rot*",
+            7 => "Rojo*",
+            _ => string.Empty,
+        },
+        (int)GameVersion.GN => language switch
+        {
+            1 => "グリーン．",
+            2 => "Blue*",
+            3 => "Bleu*",
+            4 => "Blu*",
+            5 => "Blau*",
+            7 => "Azul*",
+            _ => string.Empty,
+        },
+        (int)GameVersion.BU => language switch
+        {
+            1 => "ブルー．",
+            _ => string.Empty,
+        },
+        (int)GameVersion.YW => language switch
+        {
+            1 => "イエロー．",
+            2 => "Yellow*",
+            3 => "Jaune*",
+            4 => "Giallo*",
+            5 => "Gelb*",
+            7 => "Amarillo*",
+            _ => string.Empty,
+        },
+        (int)GameVersion.GD => language switch
+        {
+            1 => "ゴールド．",
+            2 => "Gold*",
+            3 => "Or*",
+            4 => "Oro*",
+            5 => "Gold*",
+            7 => "Oro*",
+            8 => "금.",
+            _ => string.Empty,
+        },
+        (int)GameVersion.SI => language switch
+        {
+            1 => "シルバー．",
+            2 => "Silver*",
+            3 => "Argent*",
+            4 => "Argento*",
+            5 => "Silber*",
+            7 => "Plata*",
+            8 => "은.",
+            _ => string.Empty,
+        },
+        (int)GameVersion.C => language switch
+        {
+            1 => "クリスタル．",
+            2 => "Crystal*",
+            3 => "Cristal*",
+            4 => "Cristallo*",
+            5 => "Kristall*",
+            7 => "Cristal*",
+            _ => string.Empty,
+        },
         _ => string.Empty,
     };
 }

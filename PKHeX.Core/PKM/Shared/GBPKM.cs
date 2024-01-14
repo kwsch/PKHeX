@@ -120,7 +120,6 @@ public abstract class GBPKM : PKM
     public sealed override uint TSV => 0x0000;
     public sealed override uint PSV => 0xFFFF;
     public sealed override int Characteristic => -1;
-    public sealed override int MarkValue { get => 0; set { } }
     public sealed override int Ability { get => -1; set { } }
     public sealed override int CurrentHandler { get => 0; set { } }
     public sealed override int Egg_Location { get => 0; set { } }
@@ -181,9 +180,6 @@ public abstract class GBPKM : PKM
     public int IV_SPC { get => (DV16 >> 0) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); }
     public sealed override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
     public sealed override int IV_SPD { get => IV_SPC; set { } }
-    public override int MarkingCount => 0;
-    public override int GetMarking(int index) => 0;
-    public override void SetMarking(int index, int value) { }
 
     public void SetNotNicknamed() => SetNotNicknamed(GuessedLanguage());
     public abstract void SetNotNicknamed(int language);

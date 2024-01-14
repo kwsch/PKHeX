@@ -190,13 +190,6 @@ public static class MoveListSuggest
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
         var origin = new EvolutionOrigin(enc.Species, (byte)enc.Version, (byte)enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
         int count = EvolutionChain.GetOriginChain(chain, pk, origin);
-        for (int i = 0; i < count; i++)
-        {
-            if (chain[i].Species != enc.Species)
-                continue;
-            count = i;
-            break;
-        }
         var evos = chain[..count].ToArray();
         var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);
         foreach (var incense in other)

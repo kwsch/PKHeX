@@ -18,9 +18,7 @@ public static class EntityTemplates
         if (pk.Format >= 4)
             pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
 
-        if (tr.Game >= 0)
-            pk.Version = tr.Game;
-
+        pk.Version = GetTemplateVersion(tr);
         pk.Species = GetTemplateSpecies(pk, tr);
         pk.Language = GetTemplateLanguage(tr);
         pk.Gender = pk.GetSaneGender();
@@ -39,6 +37,25 @@ public static class EntityTemplates
 
         ApplyTrashBytes(pk, tr);
         pk.RefreshChecksum();
+    }
+
+    private static int GetTemplateVersion(ITrainerInfo tr)
+    {
+        GameVersion version = (GameVersion)tr.Game;
+        if (version.IsValidSavedVersion())
+            return (int)version;
+
+        if (tr is IVersion v)
+        {
+            version = v.Version;
+            if (version.IsValidSavedVersion())
+                return (int)version;
+            version = v.GetSingleVersion();
+            if (version.IsValidSavedVersion())
+                return (int)version;
+        }
+
+        return default; // 0
     }
 
     private static void ApplyTrashBytes(PKM pk, ITrainerInfo tr)

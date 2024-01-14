@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
 public sealed class PK5 : PKM, ISanityChecksum,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons,
-    IContestStats, IGroundTile
+    IContestStats, IGroundTile, IAppliedMarkings4
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -64,7 +64,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
     public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
-    public override int MarkValue { get => Data[0x16]; set => Data[0x16] = (byte)value; }
+    public byte MarkingValue { get => Data[0x16]; set => Data[0x16] = value; }
     public override int Language { get => Data[0x17]; set => Data[0x17] = (byte)value; }
     public override int EV_HP { get => Data[0x18]; set => Data[0x18] = (byte)value; }
     public override int EV_ATK { get => Data[0x19]; set => Data[0x19] = (byte)value; }
@@ -307,21 +307,28 @@ public sealed class PK5 : PKM, ISanityChecksum,
         return false;
     }
 
-    public override int MarkingCount => 6;
+    public int MarkingCount => 6;
 
-    public override int GetMarking(int index)
+    public bool GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkValue >> index) & 1;
+        return ((MarkingValue >> index) & 1) != 0;
     }
 
-    public override void SetMarking(int index, int value)
+    public void SetMarking(int index, bool value)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        MarkingValue = (byte)((MarkingValue & ~(1 << index)) | ((value ? 1 : 0) << index));
     }
+
+    public bool MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public bool MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public bool MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public bool MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public bool MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public bool MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     public override void RefreshAbility(int n)
     {
@@ -341,7 +348,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
             PID = PID,
             Ability = Ability,
             AbilityNumber = 1 << CalculateAbilityIndex(),
-            MarkValue = MarkValue & 0b_11_1111,
+            MarkingValue = MarkingValue,
             Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad IngameTrade (Japanese B/W)
 
             CNT_Cool = CNT_Cool,

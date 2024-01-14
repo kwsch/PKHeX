@@ -23,7 +23,7 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info) => (GameVersion)pk.Version switch
     {
-        GO => EncounterGenerator8GO.Instance.GetEncounters(pk, chain, info),
+        GO => EncounterGeneratorGO.Instance.GetEncounters(pk, chain, info),
         PLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
         BD or SP => EncounterGenerator8b.Instance.GetEncounters(pk, chain, info),
         SW when pk.Met_Location == LocationsHOME.SWLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),

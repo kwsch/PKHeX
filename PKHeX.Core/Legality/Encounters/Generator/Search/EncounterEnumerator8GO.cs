@@ -13,6 +13,7 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
     private int Index;
     private int EvoIndex;
     private int SubIndex;
+    private SeekMode Mode;
     private EncounterMatchRating Rating = EncounterMatchRating.MaxNotMatch;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
@@ -26,9 +27,17 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
     {
         Start,
         Seek,
+        SeekForward,
+        SeekReverse,
         Slot,
         Fallback,
         End,
+    }
+
+    public enum SeekMode : byte
+    {
+        Forward,
+        Reverse,
     }
 
     public bool MoveNext()
@@ -40,12 +49,24 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
                     break;
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))
                     break;
+                Mode = GetSeekMode();
+                if (Mode == SeekMode.Reverse)
+                    Index = EncountersGO.SlotsGO.Length - 1;
                 State = YieldState.Seek; goto case YieldState.Seek;
 
             case YieldState.Seek:
-                if (!SeekNextArea(EncountersGO.SlotsGO))
+                if (Mode == SeekMode.Forward)
+                { State = YieldState.SeekForward; goto case YieldState.SeekForward; }
+                State = YieldState.SeekReverse; goto case YieldState.SeekReverse;
+            case YieldState.SeekForward:
+                if (!SeekForward(EncountersGO.SlotsGO))
                     goto case YieldState.Fallback;
                 State = YieldState.Slot; goto case YieldState.Slot;
+            case YieldState.SeekReverse:
+                if (!SeekReverse(EncountersGO.SlotsGO))
+                    goto case YieldState.Fallback;
+                State = YieldState.Slot; goto case YieldState.Slot;
+
             case YieldState.Slot:
                 var group = EncountersGO.SlotsGO[Index];
                 if (TryGetNext(group.Slots))
@@ -61,7 +82,7 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
         return false;
     }
 
-    private bool SeekNextArea<TArea>(TArea[] areas)
+    private bool SeekForward<TArea>(TArea[] areas)
         where TArea : ISpeciesForm
     {
         for (; Index < areas.Length; Index++, EvoIndex = 0)
@@ -75,6 +96,41 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
             while (++EvoIndex < Chain.Length);
         }
         return false;
+    }
+
+    private bool SeekReverse<TArea>(TArea[] areas) where TArea : ISpeciesForm
+    {
+        for (; Index > 0; Index--, EvoIndex = 0) // Only difference -- search in reverse!
+        {
+            var area = areas[Index];
+            do
+            {
+                if (IsCompatible(area, Chain[EvoIndex]))
+                    return true;
+            }
+            while (++EvoIndex < Chain.Length);
+        }
+        return false;
+    }
+
+    private readonly SeekMode GetSeekMode()
+    {
+        var species = Entity.Species;
+        if (species is (int)Species.Dudunsparce or (int)Species.Maushold)
+        {
+            if (!EvolutionRestrictions.GetIsExpectedEvolveFormEC100(species, Entity.Form, Entity.EncryptionConstant % 100 == 0))
+                return SeekMode.Reverse;
+        }
+        else if (EvolutionRestrictions.IsFormArgEvolution(species))
+        {
+            if (Entity is IFormArgument { FormArgument: 0 })
+                return SeekMode.Reverse;
+        }
+        else if (WurmpleUtil.IsWurmpleEvo(species) && !WurmpleUtil.IsWurmpleEvoValid(Entity))
+        {
+            return SeekMode.Reverse;
+        }
+        return SeekMode.Forward;
     }
 
     private readonly bool IsCompatible<TArea>(TArea area, EvoCriteria evo) where TArea : ISpeciesForm
@@ -108,7 +164,11 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
                 Rating = rating;
             }
         }
-        EvoIndex = 0; SubIndex = 0; Index++;
+        EvoIndex = 0; SubIndex = 0;
+        if (Mode == SeekMode.Forward)
+            Index++;
+        else
+            Index--;
         return false;
     }
 

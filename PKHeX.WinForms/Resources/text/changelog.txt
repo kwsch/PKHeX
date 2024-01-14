@@ -1,7 +1,19 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/12/22 - New Update:
+24/01/12 - New Update:
+ - Legality: Added Mochi Mayhem Pecharunt, Regulation F, and Blaziken Tera Raid recognition.
+ - - Fixed: Level 100 encounters that were evolved in S/V with level-up methods (Eevee, Magikarp) now recognize correctly.
+ - - Fixed: Gen1/2 transfers to Gen7+ will now recognize filtered OT names as valid. Thanks @abcboy101!
+ - - Fixed: Recognition of Gen8 Hidden Ability patched raids now works as intended.
+ - - Fixed: Recognition of Gen8+ GO encounters that evolve via form arguments now are recognized as intended.
+ - Added: MarkingCircle/Triangle/Square/etc now reimplemented, able to be used in Batch Editor commands.
+ - Added: Gen1/2 transfers to Gen7 can now override the default transfer version via program settings.
+ - Fixed: Gen9 Stellar type can now be set via Batch Editor with its corresponding type value (99).
+ - Fixed: Hover preview custom tooltip shows Hidden Power type correctly (was off by 1).
+ - Changed: Box Dump now uses a GUI to allow changing settings with more flexibility.
+
+23/12/22 - New Update: (156280) [8085920]
  - Legality: Updates for Scarlet & Violet 3.0.0 behaviors revised to fix inaccuracies.
  - - Fixed: Recognition of marks, stellar fixed encounters, and underdepths encounters.
  - - Gold Bottle Cap on flawless IVs in S/V is now flagged; upload to HOME & back to get the official fix.

@@ -63,7 +63,7 @@ public sealed class BK4 : G4PKM
 
     public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
-    public override int MarkValue { get => Data[0x16]; set => Data[0x16] = (byte)value; }
+    public override byte MarkingValue { get => Data[0x16]; set => Data[0x16] = value; }
     public override int Language { get => Data[0x17]; set => Data[0x17] = (byte)value; }
     public override int EV_HP { get => Data[0x18]; set => Data[0x18] = (byte)value; }
     public override int EV_ATK { get => Data[0x19]; set => Data[0x19] = (byte)value; }

@@ -46,4 +46,46 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
     protected override bool IsMatchLocation(PKM pk) => Location == pk.Met_Location;
 
     public bool IsShinyXorValid(ushort pkShinyXor) => pkShinyXor is > 15 or 1;
+
+    public bool ShouldHaveScientistTrash => !SpeciesCategory.IsLegendary(Species)
+                                         && !SpeciesCategory.IsSubLegendary(Species);
+
+    protected override void FinishCorrelation(PK8 pk, ulong seed)
+    {
+        if (!ShouldHaveScientistTrash)
+            return;
+
+        ApplyTrashBytes(pk);
+    }
+
+    public void ApplyTrashBytes(PKM pk)
+    {
+        // Normally we would apply the trash before applying the OT, but we already did.
+        // Just add in the expected trash after the OT.
+        var ot = pk.OT_Trash;
+        var language = pk.Language;
+        var scientist = GetScientistName(language);
+        StringConverter8.ApplyTrashBytes(ot, scientist);
+    }
+
+    public static TrashMatch HasScientistTrash(PKM pk)
+    {
+        var language = pk.Language;
+        var name = GetScientistName(language);
+        return StringConverter8.GetTrashState(pk.OT_Trash, name);
+    }
+
+    private static ReadOnlySpan<char> GetScientistName(int language) => language switch
+    {
+        (int)LanguageID.Japanese => "けんきゅういん",
+        (int)LanguageID.English => "Scientist",
+        (int)LanguageID.French => "Scientifique",
+        (int)LanguageID.Italian => "Scienziata",
+        (int)LanguageID.German => "Forscherin",
+        (int)LanguageID.Spanish => "Científica",
+        (int)LanguageID.Korean => "연구원",
+        (int)LanguageID.ChineseS => "研究员",
+        (int)LanguageID.ChineseT => "研究員",
+        _ => ReadOnlySpan<char>.Empty,
+    };
 }

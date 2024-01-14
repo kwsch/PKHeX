@@ -131,7 +131,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract uint TSV { get; }
     public abstract uint PSV { get; }
     public abstract int Characteristic { get; }
-    public abstract int MarkValue { get; set; }
     public abstract int Met_Location { get; set; }
     public abstract int Egg_Location { get; set; }
     public abstract int OT_Friendship { get; set; }
@@ -522,10 +521,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
             return (int)((Gen5 ? PID >> 16 : PID) & 1);
         }
     }
-
-    public abstract int MarkingCount { get; }
-    public abstract int GetMarking(int index);
-    public abstract void SetMarking(int index, int value);
 
     private int HPBitValPower => ((IV_HP & 2) >> 1) | ((IV_ATK & 2) >> 0) | ((IV_DEF & 2) << 1) | ((IV_SPE & 2) << 2) | ((IV_SPA & 2) << 3) | ((IV_SPD & 2) << 4);
     public virtual int HPPower => Format < 6 ? ((40 * HPBitValPower) / 63) + 30 : 60;
