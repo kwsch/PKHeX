@@ -6,7 +6,7 @@ public sealed class BlueberryClubRoom9(SAV9SV sav, SCBlock block) : SaveBlock<SA
 {
     private Span<byte> Span => Data.AsSpan();
 
-    public BlueberrySupportBoard9 SupportBoard = new(block.Data.AsMemory()[0x00..0x38]);
+    public BlueberrySupportBoard9 SupportBoard => new(block.Data.AsMemory(0, 0x38));
 
     public BlueberryClubRoomStyle9 CurrentStyle { get => (BlueberryClubRoomStyle9)Span[0xE6C]; set => Span[0xE6C] = (byte)value; }
 }
