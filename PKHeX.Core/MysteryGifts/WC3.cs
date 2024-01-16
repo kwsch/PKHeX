@@ -275,7 +275,7 @@ public sealed class WC3(bool Fateful = false)
 
         if (Language != -1 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
-        if (FatefulEncounter != pk.FatefulEncounter)
+        if (FatefulEncounter != pk.FatefulEncounter && !IsEgg)
             return false;
 
         if (pk.IsNative)

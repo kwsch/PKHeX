@@ -338,6 +338,19 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         set => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount] = value;
     }
 
+    public ThrowStyle9 ThrowStyle {
+        get {
+            if(Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+                return (ThrowStyle9)throwStyleBlock.Data[0];
+            return ThrowStyle9.OriginalStyle;
+        }
+        set
+        {
+            if (Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+                throwStyleBlock.ChangeData([(byte)value]);
+        }
+    }
+
     public void CollectAllStakes()
     {
         for (int i = 14; i <= 17; i++)
@@ -419,5 +432,23 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             if (Accessor.TryGetBlock(hash, out var flag))
                 flag.ChangeBooleanType(SCTypeCode.Bool2);
         }
+    }
+
+    public void UnlockAllThrowStyles()
+    {
+        // Unlock Styles
+        for (int i = 1; i <= 3; i++)
+        {
+            var flag = $"FSYS_CLUB_ROOM_BALL_THROW_FORM_0{i}";
+            var hash = (uint)FnvHash.HashFnv1a_64(flag);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.ChangeBooleanType(SCTypeCode.Bool2);
+        }
+
+        // Update Support Board
+        BlueberryClubRoom.BaseballClub2Done = true;
+        BlueberryClubRoom.BaseballClub2Unread = false;
+        BlueberryClubRoom.BaseballClub3Done = true;
+        BlueberryClubRoom.BaseballClub3Unread = false;
     }
 }

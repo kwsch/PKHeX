@@ -2029,6 +2029,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KGameClearIndigoDisk = 0x0DDBBAAF; // FSYS_SCENARIO_GAME_CLEAR_SU2
 
     private const uint KBlueberryClubRoom = 0x08290F0F;
+    public const uint KThrowStyle = 0xD86EB052;
 
     // ItemMachineSave
     private const uint KItemMachineDeployRank = 0x28C953BA; // ItemMachineSave_deployRank
