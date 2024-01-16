@@ -194,6 +194,7 @@ public static class EncounterServerDate
         {1527, (new(2023, 12, 13), new(2024, 12, 01))}, // Paldea Gimmighoul
         {0036, (new(2023, 12, 14), new(2024, 02, 14))}, // コロコロ Roaring Moon and Iron Valiant
         {1007, (new(2023, 12, 29), new(2024, 02, 11))}, // 윈터페스타 Baxcalibur
+        {0038, (new(2024, 01, 14), new(2024, 03, 14))}, // コロコロ Scream Tail & Brute Bonnet & Flutter Mane & Iron Hands & Iron Jugulis & Iron Thorns
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
