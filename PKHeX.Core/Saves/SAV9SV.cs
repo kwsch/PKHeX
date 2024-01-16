@@ -446,9 +446,11 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         // Update Support Board
-        BlueberryClubRoom.BaseballClub2Done = true;
-        BlueberryClubRoom.BaseballClub2Unread = false;
-        BlueberryClubRoom.BaseballClub3Done = true;
-        BlueberryClubRoom.BaseballClub3Unread = false;
+        BlueberryClubRoom.SupportBoard.BaseballClub1SmugElegantPurchased = true;
+        BlueberryClubRoom.SupportBoard.BaseballClub1SmugElegantUnread = false;
+        BlueberryClubRoom.SupportBoard.BaseballClub2TwirlingNinjaPurchased = true;
+        BlueberryClubRoom.SupportBoard.BaseballClub2TwirlingNinjaUnread = false;
+        BlueberryClubRoom.SupportBoard.BaseballClub3ChampionPurchased = true;
+        BlueberryClubRoom.SupportBoard.BaseballClub3ChampionUnread = false;
     }
 }
