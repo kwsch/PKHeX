@@ -79,6 +79,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     }
 
     // Arrays (Blocks)
+    private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
     private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
