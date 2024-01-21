@@ -84,6 +84,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
     public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
+    public BlueberryClubRoom9 BlueberryClubRoom => Blocks.BlueberryClubRoom;
     #endregion
 
     protected override SAV9SV CloneInternal()
@@ -337,6 +338,19 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         set => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount] = value;
     }
 
+    public ThrowStyle9 ThrowStyle {
+        get {
+            if(Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+                return (ThrowStyle9)throwStyleBlock.Data[0];
+            return ThrowStyle9.OriginalStyle;
+        }
+        set
+        {
+            if (Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+                throwStyleBlock.ChangeData([(byte)value]);
+        }
+    }
+
     public void CollectAllStakes()
     {
         for (int i = 14; i <= 17; i++)
@@ -418,5 +432,26 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             if (Accessor.TryGetBlock(hash, out var flag))
                 flag.ChangeBooleanType(SCTypeCode.Bool2);
         }
+    }
+
+    public void UnlockAllThrowStyles()
+    {
+        // Unlock Styles
+        for (int i = 1; i <= 3; i++)
+        {
+            var flag = $"FSYS_CLUB_ROOM_BALL_THROW_FORM_0{i}";
+            var hash = (uint)FnvHash.HashFnv1a_64(flag);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.ChangeBooleanType(SCTypeCode.Bool2);
+        }
+
+        // Update Support Board
+        var board = BlueberryClubRoom.SupportBoard;
+        board.BaseballClub1SmugElegantPurchased = true;
+        board.BaseballClub1SmugElegantUnread = false;
+        board.BaseballClub2TwirlingNinjaPurchased = true;
+        board.BaseballClub2TwirlingNinjaUnread = false;
+        board.BaseballClub3ChampionPurchased = true;
+        board.BaseballClub3ChampionUnread = false;
     }
 }

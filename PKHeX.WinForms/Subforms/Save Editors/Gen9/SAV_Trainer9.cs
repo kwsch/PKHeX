@@ -49,7 +49,9 @@ public partial class SAV_Trainer9 : Form
         else
             TC_Editor.TabPages.Remove(Tab_Blueberry);
 
+        B_ActivateSnacksworthLegendaries.Visible = SAV.SaveRevision >= 2;
         B_UnlockCoaches.Visible = SAV.SaveRevision >= 2;
+        B_UnlockThrowStyles.Visible = SAV.SaveRevision >= 2;
 
         Loading = false;
     }
@@ -60,6 +62,10 @@ public partial class SAV_Trainer9 : Form
         MT_BP.Text = SAV.BlueberryPoints.ToString();
         NUD_BBQSolo.Value = bbq.QuestsDoneSolo;
         NUD_BBQGroup.Value = bbq.QuestsDoneGroup;
+
+        CB_ThrowStyle.Items.Clear();
+        CB_ThrowStyle.Items.AddRange(Util.GetStringList("throw_styles", Main.CurrentLanguage));
+        CB_ThrowStyle.SelectedIndex = (int)SAV.ThrowStyle - 1;
     }
 
     private void GetImages()
@@ -136,6 +142,7 @@ public partial class SAV_Trainer9 : Form
         SAV.BlueberryPoints = Util.ToUInt32(MT_BP.Text);
         bbq.QuestsDoneSolo = (uint)NUD_BBQSolo.Value;
         bbq.QuestsDoneGroup = (uint)NUD_BBQGroup.Value;
+        SAV.ThrowStyle = (ThrowStyle9)CB_ThrowStyle.SelectedIndex + 1;
     }
 
     private void SaveMap()
@@ -408,6 +415,12 @@ public partial class SAV_Trainer9 : Form
     {
         var accessor = SAV.Accessor;
         PlayerFashionUnlock9.UnlockBase(accessor, SAV.Gender);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_UnlockThrowStyles_Click(object sender, EventArgs e)
+    {
+        SAV.UnlockAllThrowStyles();
         System.Media.SystemSounds.Asterisk.Play();
     }
 }

@@ -31,6 +31,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public RaidSevenStar9 RaidSevenStar { get; }
     public Epoch1900Value EnrollmentDate { get; }
     public BlueberryQuestRecord9 BlueberryQuestRecord { get; }
+    public BlueberryClubRoom9 BlueberryClubRoom { get; }
 
     public SaveBlockAccessor9SV(SAV9SV sav)
     {
@@ -74,9 +75,11 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
+        BlueberryClubRoom = new BlueberryClubRoom9(sav, GetBlockSafe(KBlueberryClubRoom));
     }
 
     // Arrays (Blocks)
+    private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
     private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
@@ -2025,6 +2028,9 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
     #region Sudachi 2
     private const uint KGameClearIndigoDisk = 0x0DDBBAAF; // FSYS_SCENARIO_GAME_CLEAR_SU2
+
+    private const uint KBlueberryClubRoom = 0x08290F0F;
+    public const uint KThrowStyle = 0xD86EB052;
 
     // ItemMachineSave
     private const uint KItemMachineDeployRank = 0x28C953BA; // ItemMachineSave_deployRank

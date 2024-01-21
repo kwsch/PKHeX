@@ -22,6 +22,12 @@ public sealed class MarkVerifier : Verifier
             VerifyMarksPresent(data, m);
 
         VerifyAffixedRibbonMark(data, m);
+        if (pk.IsEgg && pk is IRibbonSetAffixed a && a.AffixedRibbon != -1)
+        {
+            // Disallow affixed values on eggs.
+            var affix = (RibbonIndex)a.AffixedRibbon;
+            data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
+        }
 
         // Some encounters come with a fixed Mark, and we've not yet checked if it's missing.
         if (data.EncounterMatch is IEncounterMarkExtra extra && extra.IsMissingExtraMark(pk, out var missing))

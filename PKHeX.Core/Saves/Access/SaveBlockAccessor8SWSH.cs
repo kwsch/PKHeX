@@ -58,6 +58,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
 
     // Arrays (Blocks)
     private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
+    private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
     private const uint KMenuButtons = 0xB1DDDCA8; // X Menu Button Order
@@ -70,7 +71,6 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     private const uint KMisc = 0x1b882b09; // Money
     private const uint KParty = 0x2985fe5d; // Party Data
     private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
-    private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KRecord = 0x37da95a3;
     private const uint KZukan = 0x4716c404; // ZukanData_Pokemon
     private const uint KZukanR1 = 0x3F936BA9; // ZukanData_PokemonR1 (Armor)

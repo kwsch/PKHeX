@@ -108,6 +108,14 @@ internal static class Program
 
     private static void HandleReportingException(Exception? ex, Exception reportingException)
     {
+        try
+        {
+            EmergencyErrorLog(ex, reportingException);
+        }
+        catch (Exception)
+        {
+            // We've failed to even save the error details to a file. There's nothing else we can do.
+        }
         if (reportingException is FileNotFoundException x && x.FileName?.StartsWith("PKHeX.Core") == true)
         {
             Error("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.");
@@ -116,7 +124,6 @@ internal static class Program
         try
         {
             Error("A fatal non-UI error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.");
-            EmergencyErrorLog(ex, reportingException);
         }
         finally
         {
