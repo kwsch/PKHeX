@@ -127,7 +127,14 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
             return false;
 
         if (evo.Form != Form && !IsRandomUnspecificForm)
-            return false;
+        {
+            if (Species is not ((ushort)Core.Species.Deerling or (ushort)Core.Species.Sawsbuck))
+                return false;
+
+            // Deerling can change between forms if imported to a future Gen8+ game.
+            if (pk.Format < 8 || evo.Form >= 4)
+                return false;
+        }
 
         return true;
     }

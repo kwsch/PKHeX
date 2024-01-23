@@ -238,7 +238,17 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             if (m.RibbonMarkDawn && !CanSpawnAtTime(RibbonIndex.MarkDawn))
                 return EncounterMatchRating.DeferredErrors;
         }
+
+        if (IsFormArgDeferralRelevant(pk.Species) && pk is IFormArgument f)
+        {
+            bool isFormArg0 = f.FormArgument == 0;
+            bool mustBeZero = IsFormArgDeferralRelevant(Species);
+            if (isFormArg0 != mustBeZero)
+                return EncounterMatchRating.DeferredErrors;
+        }
         return EncounterMatchRating.Match;
+
+        static bool IsFormArgDeferralRelevant(ushort species) => species is (ushort)Core.Species.Kingambit or (ushort)Core.Species.Annihilape;
     }
     #endregion
 }
