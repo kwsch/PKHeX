@@ -117,11 +117,18 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         if (!this.IsLevelWithinRange(pk.Met_Level))
             return false;
 
-        if (Form != evo.Form && !IsRandomUnspecificForm && Species is not ((int)Core.Species.Burmy or (int)Core.Species.Furfrou))
+        if (Form != evo.Form && !IsRandomUnspecificForm && !IsValidOutOfBoundsForm(pk))
             return false;
 
         return true;
     }
+
+    private bool IsValidOutOfBoundsForm(PKM pk) => Species switch
+    {
+        (int)Core.Species.Burmy or (int)Core.Species.Furfrou => true, // Can change forms in-game.
+        (int)Core.Species.Sawsbuck => pk.Format >= 8, // Friend Safari can change between forms if imported to a future Gen8+
+        _ => false,
+    };
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
