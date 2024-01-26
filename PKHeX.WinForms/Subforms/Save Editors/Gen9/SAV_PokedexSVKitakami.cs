@@ -237,8 +237,7 @@ public partial class SAV_PokedexSVKitakami : Form
     private static string[] GetFormList(in ushort species)
     {
         var s = GameInfo.Strings;
-        if (species == (int)Species.Alcremie)
-            return FormConverter.GetAlcremieFormList(s.forms);
+        // Alcremie: formarg-forms are not stored in bitflags; shown by default. No need for special handling for Alcremie.
         return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
     }
 
