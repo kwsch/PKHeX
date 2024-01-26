@@ -80,6 +80,25 @@ public abstract class PersonalInfo : IPersonalInfo
             return true;
         return form < FormCount;
     }
+
+    /// <summary>
+    /// Gets the span of values for a given Gender
+    /// </summary>
+    /// <param name="gender">Gender</param>
+    /// <param name="ratio">Gender Ratio</param>
+    /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
+    public static (byte Min, byte Max) GetGenderMinMax(int gender, byte ratio) => ratio switch
+    {
+        RatioMagicMale => (0, 255),
+        RatioMagicFemale => (0, 255),
+        RatioMagicGenderless => (0, 255),
+        _ => gender switch
+        {
+            0 => (ratio, 255), // male
+            1 => (0, --ratio), // female
+            _ => (0, 255),
+        },
+    };
 }
 
 public interface IPersonalInfoTM

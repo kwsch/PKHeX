@@ -56,7 +56,7 @@ public readonly struct FrameGenerator
 
                 var gr = pk.PersonalInfo.Gender;
                 Gendered = true;
-                (GenderLow, GenderHigh) = GetGenderMinMax(gender, gr);
+                (GenderLow, GenderHigh) = PersonalInfo.GetGenderMinMax(gender, gr);
                 return;
 
             // Method J
@@ -76,23 +76,4 @@ public readonly struct FrameGenerator
                 throw new ArgumentOutOfRangeException(nameof(version), version, "Unknown version.");
         }
     }
-
-    /// <summary>
-    /// Gets the span of values for a given Gender
-    /// </summary>
-    /// <param name="gender">Gender</param>
-    /// <param name="ratio">Gender Ratio</param>
-    /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-    private static (byte Min, byte Max) GetGenderMinMax(int gender, byte ratio) => ratio switch
-    {
-        PersonalInfo.RatioMagicMale => (0, 255),
-        PersonalInfo.RatioMagicFemale => (0, 255),
-        PersonalInfo.RatioMagicGenderless => (0, 255),
-        _ => gender switch
-        {
-            0 => (ratio, 255), // male
-            1 => (0, --ratio), // female
-            _ => (0, 255),
-        },
-    };
 }

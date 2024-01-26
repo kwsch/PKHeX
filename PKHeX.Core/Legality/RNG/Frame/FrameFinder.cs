@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,9 +16,6 @@ public static class FrameFinder
     /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
     public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
     {
-        if (pk.Version == (int)GameVersion.CXD)
-            return [];
-
         // Don't trust pk.Nature, just get the correct original via EncryptionConstant
         var info = new FrameGenerator(pk) {Nature = (byte)(pk.EncryptionConstant % 25)};
         var seeds = GetSeeds(pidiv, info, pk);
@@ -313,60 +309,33 @@ public static class FrameFinder
         }
     }
 
-    private static bool IsValidPokeBlockNature(uint seed, uint nature, out uint natureOrigin)
+    private static bool IsSafariBlockProc(uint seed) => (seed >> 16) % 100 < 80;
+
+    private static bool IsValidPokeBlockNature(uint seed, uint nature, out uint originSeed)
     {
-        if (nature % 6 == 0) // neutral
+        // Can't get a neutral nature as they don't Like any flavor.
+        if (nature % 6 == 0)
         {
-            natureOrigin = 0;
+            originSeed = 0;
             return false;
         }
 
-        // unroll the RNG to a stack of seeds
-        var stack = new Stack<uint>();
-        for (uint i = 0; i < 25; i++)
+        // Seek backwards to the activation check (80%).
+        // The nature preference table consumes 300 RNG calls, so we need to jump back that far.
+        // Below are the magic RNG multiply & add for 300 prev calls.
+        seed = (0xC048C851u * seed) + 0x196302B4u;
+        if (!IsSafariBlockProc(seed)) // failed proc
         {
-            for (uint j = 1 + i; j < 25; j++)
-                stack.Push(seed = LCRNG.Prev(seed));
-        }
-
-        natureOrigin = LCRNG.Prev(stack.Peek());
-        if (natureOrigin >> (16 % 100) >= 80) // failed proc
+            originSeed = 0;
             return false;
-
-        // init natures
-        Span<byte> natures = stackalloc byte[25];
-        for (byte i = 0; i < 25; i++)
-            natures[i] = i;
-
-        // shuffle nature list
-        for (int i = 0; i < 25; i++)
-        {
-            for (int j = 1 + i; j < 25; j++)
-            {
-                var s = stack.Pop();
-                if (((s >> 16) & 1) == 0)
-                    continue; // only swap if 1
-
-                (natures[i], natures[j]) = (natures[j], natures[i]);
-            }
         }
 
-        var likes = Pokeblock.GetLikedBlockFlavor(nature);
-        // best case scenario is a perfect flavored pokeblock for the nature.
-        // has liked flavor, and all other non-disliked flavors are present.
-        // is it possible to skip this step?
-        for (int i = 0; i < 25; i++)
-        {
-            var n = natures[i];
-            if (n == nature)
-                break;
+        // It's possible to create an evenly flavored Pokeblock with all flavors except the disliked one.
+        // This will be a block that is "LIKED" only by the nature we want.
+        // We can assume the Pokémon was caught with an ideal flavor set. No need to compute the table and check an always-truth.
 
-            var nl = Pokeblock.GetLikedBlockFlavor(natures[i]);
-            if (nl == likes) // next random nature likes the same block as the desired nature
-                return false; // current nature is chosen instead, fail!
-        }
-        // unroll once more to hit the level calc (origin with respect for beginning the nature calcs)
-        natureOrigin = LCRNG.Prev(natureOrigin);
+        // Unroll once more so that we are on the level calc frame.
+        originSeed = LCRNG.Prev(seed);
         return true;
     }
 

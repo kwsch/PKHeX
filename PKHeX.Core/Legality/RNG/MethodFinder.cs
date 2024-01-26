@@ -388,10 +388,18 @@ public static class MethodFinder
 
     internal static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
     {
-        if (pid > 0xFF)
+        if (!IsCuteCharm(pk, pid))
             return GetNonMatch(out pidiv);
+        pidiv = PIDIV.CuteCharm;
+        return true;
+    }
 
-        (var species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
+    public static bool IsCuteCharm(PKM pk, uint pid)
+    {
+        if (pid > 0xFF)
+            return false;
+
+        var (species, gender) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
         static byte getRatio(ushort species)
         {
             return species <= Legal.MaxSpeciesID_4
@@ -399,30 +407,27 @@ public static class MethodFinder
                 : PKX.Personal[species].Gender;
         }
 
-        switch (genderValue)
+        const uint n = 25;
+        switch (gender)
         {
-            case 2: break; // can't cute charm a genderless pk
+            // case 2: break; // can't cute charm a genderless pk
             case 0: // male
                 var gr = getRatio(species);
                 if (gr >= PersonalInfo.RatioMagicFemale) // no modification for PID
                     break;
-                var rate = 25*((gr / 25) + 1); // buffered
-                var nature = pid % 25;
+                var rate = n * ((gr / n) + 1); // buffered
+                var nature = pid % n;
                 if (nature + rate != pid)
                     break;
-
-                pidiv = PIDIV.CuteCharm;
                 return true;
             case 1: // female
-                if (pid >= 25)
+                if (pid >= n)
                     break; // nope, this isn't a valid nature
                 if (getRatio(species) >= PersonalInfo.RatioMagicFemale) // no modification for PID
                     break;
-
-                pidiv = PIDIV.CuteCharm;
                 return true;
         }
-        return GetNonMatch(out pidiv);
+        return false;
     }
 
     private static bool GetChainShinyMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
@@ -799,11 +804,20 @@ public static class MethodFinder
         (int)Species.Marill or (int)Species.Azumarill when IsCuteCharmAzurillMale(pid) => ((int)Species.Azurill, 0),
 
         // Future evolutions
-        (int)Species.Sylveon   => ((int)Species.Eevee, pk.Gender),
-        (int)Species.MrRime    => ((int)Species.MimeJr, pk.Gender),
-        (int)Species.Kleavor   => ((int)Species.Scyther, pk.Gender),
+        _ => GetCuteCharmSpeciesGen4(currentSpecies, pk.Gender),
+    };
 
-        _ => (currentSpecies, pk.Gender),
+    private static (ushort Species, int Gender) GetCuteCharmSpeciesGen4(ushort species, int gender) => species switch
+    {
+        <= Legal.MaxSpeciesID_4 => (species, gender), // has a valid personal reference, all good
+        (int)Species.Sylveon    => ((int)Species.Eevee, gender),
+        (int)Species.MrRime     => ((int)Species.MrMime, gender),
+        (int)Species.Wyrdeer    => ((int)Species.Stantler, gender),
+        (int)Species.Kleavor    => ((int)Species.Scyther, gender),
+        (int)Species.Sneasler   => ((int)Species.Sneasel, gender),
+        (int)Species.Ursaluna   => ((int)Species.Ursaring, gender),
+        (int)Species.Annihilape => ((int)Species.Primeape, gender),
+        _ => (species, gender), // throw an exception? Hitting here is an invalid case.
     };
 
     public static PIDIV GetPokeSpotSeedFirst(PKM pk, byte slot)

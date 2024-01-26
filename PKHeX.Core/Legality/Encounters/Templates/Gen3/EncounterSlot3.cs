@@ -22,8 +22,10 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public GameVersion Version => Parent.Version;
     public byte Location => Parent.Location;
     public SlotType Type => Parent.Type;
+    public bool IsSafari => Locations.IsSafariZoneLocation3(Location);
+    public bool IsSafariHoenn => Locations.IsSafariZoneLocation3RSE(Location);
 
-    private Ball GetRequiredBall(Ball fallback = Ball.None) => Locations.IsSafariZoneLocation3(Location) ? Ball.Safari : fallback;
+    private Ball GetRequiredBall(Ball fallback = Ball.None) => IsSafari ? Ball.Safari : fallback;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);

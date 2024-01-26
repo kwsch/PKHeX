@@ -130,6 +130,7 @@ public static class Locations
     private const int SafariLocation_RSE = 57;
     private const int SafariLocation_FRLG = 136;
     public static bool IsSafariZoneLocation3(byte loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
+    public static bool IsSafariZoneLocation3RSE(byte loc) => loc == SafariLocation_RSE;
 
     public static bool IsEggLocationBred4(int loc, GameVersion ver)
     {

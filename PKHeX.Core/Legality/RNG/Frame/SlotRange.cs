@@ -24,7 +24,7 @@ public static class SlotRange
     /// <summary>
     /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
     /// </summary>
-    private static int HSlot(SlotType type, uint rand)
+    public static int HSlot(SlotType type, uint rand)
     {
         var ESV = rand % 100;
         if ((type & Swarm) != 0)
@@ -44,7 +44,7 @@ public static class SlotRange
     /// <summary>
     /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
     /// </summary>
-    private static int KSlot(SlotType type, uint rand)
+    public static int KSlot(SlotType type, uint rand)
     {
         var ESV = rand % 100;
         return type switch
@@ -60,7 +60,7 @@ public static class SlotRange
     /// <summary>
     /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
     /// </summary>
-    private static int JSlot(SlotType type, uint rand)
+    public static int JSlot(SlotType type, uint rand)
     {
         uint ESV = rand / 656;
         return type switch
