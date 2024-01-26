@@ -215,6 +215,8 @@ public static class SaveUtil
         SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
     ];
 
+    public static long MaxFileSize => Sizes.Max();
+
     /// <summary>Determines the type of the provided save data.</summary>
     /// <param name="data">Save data of which to determine the origins of</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
