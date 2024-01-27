@@ -31,10 +31,8 @@ Recommends:
 Suggests:
  tor,
  unrar-free | unrar,
-Description: simple tool to work around common problems in Wine
- Winetricks lets you install missing DLLs or tweak various Wine settings
- individually.  It also has a menu of supported games/apps for which it
- can do all the workarounds automatically.
+Description: Pokémon core series save editor, programmed in C#
+Pokémon core series save editor, programmed in C#.
  .
  It can be used via GUI or commandline, whichever you prefer; the
  commandline mode is particularly useful as a building block in fancier
