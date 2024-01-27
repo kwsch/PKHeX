@@ -68,3 +68,24 @@ git clone https://github.com/kwsch/PKHeX.git
 DESTDIR=$PWD/build make DESTDIR=$PWD/build install
 sudo mv $PWD/build/* /
 ```
+
+
+vollständiges Handbuch
+
+```
+wget https://github.com/amidevous/PKHeX/releases/download/24.01.12/PKHeX.221218.zip -O PKHeX.221218.zip
+rm -f "PKHeX.exe"
+unzip PKHeX.221218.zip
+rm -f PKHeX.221218.zip
+install -D -m 644 "PKHeX.exe" "$HOME/.local/share/pkhex/PKHeX.exe"
+install -d "$HOME/.local/share/pkhex/"
+install -d "$HOME/.local/share/pkhex/wineprefixes/pkhex"
+install -d "$HOME/.local/share/pkhex/wineprefixes/pkhex/drive_c"
+wget "https://raw.githubusercontent.com/amidevous/PKHeX/master/launcher" -O "launcher"
+sudo install -D -m 755 "launcher" "/usr/bin/pkhex"
+wget "https://raw.githubusercontent.com/amidevous/PKHeX/master/icon.png" -O "icon.png"
+sudo install -D -m 644 "icon.png" "/usr/share/pixmaps/pkhex.png"
+wget "https://raw.githubusercontent.com/amidevous/PKHeX/master/pkhex.desktop" -O "pkhex.desktop"
+sudo install -D -m 644 "pkhex.desktop" "/usr/usr/share/applications/pkhex.desktop"
+WINEPREFIX="$HOME/.local/share/pkhex/wineprefixes/pkhex" winetricks -q --force dotnet40 dotnet45 dotnet452 dotnet46 dotnet461 dotnet462 dotnet471 dotnet472 dotnet48 dotnetcoredesktop3 dotnetdesktop6 win10 >/dev/null 2>&1
+```
