@@ -26,7 +26,17 @@ PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della
 
 ![Main Window](https://i.imgur.com/ICmQ41m.png)
 
-## Building
+## Installare
+
+Ultima versione binaria di Windows
+
+https://projectpokemon.org/home/files/file/1-pkhex/
+
+Pacchetti Linux versione 22.12.18 ultimo lavoro su wine
+
+https://software.opensuse.org//download.html?project=home%3Aamidevousgmail%3Apkhex&package=pkhex
+
+## Edificio
 
 PKHeX è un applicazione Windows Form che necessita del [.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/download/dotnet/8.0).
 
@@ -47,3 +57,13 @@ La collezione di sprite per Leggende Pokémon: Arceus è presa dal progetto [Nat
 ### IDE
 
 PKHeX può essere aperto con IDE come [Visual Studio](https://visualstudio.microsoft.com/it/downloads/) aprendo il file .sln o il file .csproj.
+
+
+## Creazione per Linux o MacOSX versione online 22.12.18 ultimo lavoro su wine
+
+installa wine 9.0 (richiede multiarch) o + e winetricks 20240105 o +
+
+```
+git clone https://github.com/kwsch/PKHeX.git
+sudo make install
+```
