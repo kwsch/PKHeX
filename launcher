@@ -1,0 +1,65 @@
+#!/bin/bash
+# pkhex version 22.12.18 latest full work with wine
+# require wine or wine-stable or winehq-stable 9.0 or + and winetricks 20240105 or +
+# install bin
+#sudo install -d "/usr/share/pkhex/"
+#sudo install -D -m 755 "launcher" "$(DESTDIR)$(PREFIX)/bin/pkhex"
+#download https://projectpokemon.org/home/files/file/1-pkhex/?do=download&version=6855&csrfKey=cd29ab3c78e0744900e1bfd604bbfd83 PKHeX (221218).zip
+#backup
+#download https://github.com/amidevous/PKHeX/releases/download/24.01.12/PKHeX.221218.zip
+#unzip PKHeX.221218.zip
+#rm -f PKHeX.221218.zip
+#sudo install -D -m 644 "PKHeX.exe" "$(DESTDIR)$(PREFIX)/share/pkhex/PKHeX.exe"
+# require install wine or wine-stable or winehq-stable + winetricks
+#init
+#sudo winetricks --self-update
+#sudo rm -rf "/usr/share/pkhex/wineprefixes/pkhex"
+#WINEPREFIX="/usr/share/pkhex/wineprefixes/pkhex" sudo WINEPREFIX="/usr/share/pkhex/wineprefixes/pkhex" winetricks -q --force dotnet40 dotnet45 dotnet452 dotnet46 dotnet461 dotnet462 dotnet471 dotnet472 dotnet48 dotnetcoredesktop3 dotnetdesktop6 win10
+
+XDG_DATA_HOME="$HOME/.local/share"
+PKHEX_DATA_DIRECTORY="$HOME/.local/share/pkhex"
+export WINEDEBUG="${WINEDEBUG--all}"
+export WINEPREFIX="$HOME/.local/share/pkhex/wineprefixes/pkhex"
+
+if [ ! -d "$PKHEX_DATA_DIRECTORY" ]; then
+  echo 'Installing PKHeX...'
+  mkdir -p "${PKHEX_DATA_DIRECTORY}"
+  cd ${PKHEX_DATA_DIRECTORY}
+  cp -R /usr/share/pkhex/* ./
+  wine PKHeX.exe
+  echo 'Completed installing PKHeX.'
+  exit
+fi
+
+case "$1" in
+  'kill')
+    wineserver -k "$2"
+    ;;
+  'winetricks')
+    shift 1
+    winetricks "$@"
+    ;;
+  'wine')
+    shift 1
+    wine "$@"
+    ;;
+  '-h'|'--help'|'help')
+    echo 'Usage:'
+    printf '%s [command]\t\t\tRun PKHeX (with optional command)\n' "$(basename "$0")"
+    printf '%s kill [n]\t\t\tKill PKHeX (optinally with signal n)\n' "$(basename "$0")"
+    printf '%s wine [command]\t\tExecute Wine command on the Wine prefix (winecfg, regedit, ...)\n' "$(basename "$0")"
+    printf '%s winetricks [command]\t\tExecute Winetricks command on the Wine prefix\n' "$(basename "$0")"
+    printf '%s {-h --help help}\t\tDisplay this help\n' "$(basename "$0")"
+    ;;
+  'update')
+    echo 'Updating'
+    cd ${PKHEX_DATA_DIRECTORY}
+    cp -R /usr/share/pkhex/* ./
+    ;;
+  *)
+    # cd ${PKHEX_DATA_DIRECTORY}
+    cd /
+    wine ${PKHEX_DATA_DIRECTORY}/PKHeX.exe "$@"
+    wineserver -w
+    ;;
+esac
