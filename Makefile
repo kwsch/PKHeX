@@ -9,6 +9,7 @@ install:
 	#backup
 	#https://github.com/amidevous/PKHeX/releases/download/24.01.12/PKHeX.221218.zip
 	wget https://github.com/amidevous/PKHeX/releases/download/24.01.12/PKHeX.221218.zip -O PKHeX.221218.zip
+	rm -f "PKHeX.exe"
 	unzip PKHeX.221218.zip
 	rm -f PKHeX.221218.zip
 	install -D -m 644 "PKHeX.exe" "$(DESTDIR)$(PREFIX)/share/pkhex/PKHeX.exe"
