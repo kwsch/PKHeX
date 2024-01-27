@@ -26,7 +26,17 @@ PKHeX espera archivos de guardado que no estén cifrados con las claves específ
 
 ![Pantalla principal](https://i.imgur.com/oM407mV.png)
 
-## Building
+## Instalar
+
+Última versión binaria de Windows
+
+https://projectpokemon.org/home/files/file/1-pkhex/
+
+Paquetes de Linux versión 22.12.18 último trabajo en Wine
+
+https://software.opensuse.org//download.html?project=home%3Aamidevousgmail%3Apkhex&package=pkhex
+
+## Compilación
 
 PKHeX es una aplicación de Windows Forms que requiere [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0).
 
@@ -47,3 +57,12 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 ### IDE
 
 PKHeX se puede abrir con un IDE como [Visual Studio](https://visualstudio.microsoft.com/es/downloads/), abriendo los archivos .sln o .csproj.
+
+## Compilación para Linux o MacOSX versión en línea 22.12.18, último trabajo en Wine
+
+instale Wine 9.0 (requiere multiarca) o + y Winetricks 20240105 o +
+
+```
+git clone https://github.com/kwsch/PKHeX.git
+sudo make install
+```
