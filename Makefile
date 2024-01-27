@@ -1,6 +1,7 @@
 PREFIX := /usr
 DESTDIR := 
 install: 
+	rm -rf .github PKHeX.Core PKHeX.Drawing.Misc PKHeX.Drawing.PokeSprite PKHeX.Drawing PKHeX.WinForms Tests .editorconfig .gitattributes .gitignore Directory.Build.props LICENSE PKHeX.sln README.md
 	install -d "$(DESTDIR)$(PREFIX)/share/pkhex/"
 	install -D -m 755 "launcher" "$(DESTDIR)$(PREFIX)/bin/pkhex"
 	# pkhex version 22.12.18 latest full work with wine
