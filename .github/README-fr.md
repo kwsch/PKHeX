@@ -63,5 +63,6 @@ installer wine 9.0 (multiarch requis) ou + et winetricks 20240105 ou +
 
 ```
 git clone https://github.com/kwsch/PKHeX.git
-sudo make install
+DESTDIR=$PWD/build make DESTDIR=$PWD/build install
+sudo mv $PWD/build/* /
 ```
