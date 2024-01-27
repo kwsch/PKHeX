@@ -16,7 +16,5 @@ install:
 	unzip PKHeX.221218.zip
 	rm -f PKHeX.221218.zip
 	install -D -m 644 "PKHeX.exe" "$(DESTDIR)$(PREFIX)/share/pkhex/PKHeX.exe"
-	echo winetrick create wait 2 hour max
-	WINEPREFIX="$(DESTDIR)$(PREFIX)/share/pkhex/wineprefixes/pkhex" winetricks -q --force dotnet40 dotnet45 dotnet452 dotnet46 dotnet461 dotnet462 dotnet471 dotnet472 dotnet48 dotnetcoredesktop3 dotnetdesktop6 win10 >/dev/null 2>&1
-	install -D -m 644 "icon.png" "$(DESTDIR)$(PREFIX)/share/pixmaps/pkhex.png"
+    install -D -m 644 "icon.png" "$(DESTDIR)$(PREFIX)/share/pixmaps/pkhex.png"
 	install -D -m 644 "pkhex.desktop" "$(DESTDIR)$(PREFIX)/share/applications/pkhex.desktop"
