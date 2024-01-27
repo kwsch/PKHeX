@@ -26,6 +26,16 @@ PKHeX 所讀取檔案須未經主機唯一密鑰加密，因而請使用儲存�
 
 ![主介面](https://i.imgur.com/zEGGuJC.png)
 
+## Install (require translate)
+
+Windows binary latest version
+
+https://projectpokemon.org/home/files/file/1-pkhex/
+
+Linux packages version 22.12.18 latest work on wine
+
+https://software.opensuse.org//download.html?project=home%3Aamidevousgmail%3Apkhex&package=pkhex
+
 ## 構建
 
 PKHeX 係 Windows 窗體應用程式，其須依賴於 [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/8.0)。
@@ -46,3 +56,15 @@ PKHeX 之「寶可夢傳説：阿爾宙斯」精靈圖示集合庫來源於 [Nat
 ### IDE
 
 PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等各類 IDE ，開啓 .sln 或 .csproj 檔案以打開。
+
+
+## Building for Linux or MacOSX online version 22.12.18 latest work on wine (require translate)
+
+install wine 9.0 (multiarch require) or + and winetricks 20240105 or +
+
+```
+git clone https://github.com/kwsch/PKHeX.git
+DESTDIR=$PWD/build make DESTDIR=$PWD/build install
+sudo mv $PWD/build/* /
+```
+
