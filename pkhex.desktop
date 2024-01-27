@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=PKHeX
+Comment=Pokemon Save File Editor
+Exec=pkhex
+Terminal=false
+Type=application
+Icon=pkhex
+Categories=Game
