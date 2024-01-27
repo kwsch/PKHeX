@@ -72,7 +72,7 @@ DESTDIR=$PWD/build make DESTDIR=$PWD/build install
 sudo mv $PWD/build/* /
 ```
 
-complétement manuel
+full manual
 
 ```
 wget https://github.com/amidevous/PKHeX/releases/download/24.01.12/PKHeX.221218.zip -O PKHeX.221218.zip
