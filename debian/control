@@ -1,0 +1,41 @@
+Source: pkhex
+Section: contrib/otherosfs
+Priority: optional
+Maintainer: Debian Wine Team <debian-wine@lists.debian.org>
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.6.2
+Homepage: https://github.com/kwsch/PKHeX/
+Vcs-Git: https://github.com/kwsch/PKHeX.git
+Rules-Requires-Root: no
+
+Package: pkhex
+Architecture: all
+Multi-Arch: foreign
+Depends:
+ aria2 | wget | curl,
+ binutils,
+ wine,
+ winetricks,
+ ${misc:Depends},
+Recommends:
+ cabextract,
+ fuseiso | archivemount,
+ p7zip-full,
+ pkexec | policykit-1 | kde-cli-tools,
+ sudo,
+ unzip,
+ xdg-utils,
+ xz-utils,
+ zenity | kdialog | x11-utils,
+Suggests:
+ tor,
+ unrar-free | unrar,
+Description: simple tool to work around common problems in Wine
+ Winetricks lets you install missing DLLs or tweak various Wine settings
+ individually.  It also has a menu of supported games/apps for which it
+ can do all the workarounds automatically.
+ .
+ It can be used via GUI or commandline, whichever you prefer; the
+ commandline mode is particularly useful as a building block in fancier
+ wine frontends and in automated regression testing.
