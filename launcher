@@ -11,10 +11,7 @@
 #rm -f PKHeX.221218.zip
 #sudo install -D -m 644 "PKHeX.exe" "$(DESTDIR)$(PREFIX)/share/pkhex/PKHeX.exe"
 # require install wine or wine-stable or winehq-stable + winetricks
-#init
-#sudo winetricks --self-update
 #sudo rm -rf "/usr/share/pkhex/wineprefixes/pkhex"
-#WINEPREFIX="/usr/share/pkhex/wineprefixes/pkhex" sudo WINEPREFIX="/usr/share/pkhex/wineprefixes/pkhex" winetricks -q --force dotnet40 dotnet45 dotnet452 dotnet46 dotnet461 dotnet462 dotnet471 dotnet472 dotnet48 dotnetcoredesktop3 dotnetdesktop6 win10
 
 XDG_DATA_HOME="$HOME/.local/share"
 PKHEX_DATA_DIRECTORY="$HOME/.local/share/pkhex"
@@ -25,7 +22,8 @@ if [ ! -d "$PKHEX_DATA_DIRECTORY" ]; then
   echo 'Installing PKHeX...'
   mkdir -p "${PKHEX_DATA_DIRECTORY}"
   cd ${PKHEX_DATA_DIRECTORY}
-  cp -R /usr/share/pkhex/* ./
+  cp -R /usr/share/pkhex/PKHeX.exe ./
+  winetricks --force dotnet40 dotnet45 dotnet452 dotnet46 dotnet461 dotnet462 dotnet471 dotnet472 dotnet48 dotnetcoredesktop3 dotnetdesktop6 win10 >/dev/null 2>&1
   wine PKHeX.exe
   echo 'Completed installing PKHeX.'
   exit
@@ -54,7 +52,8 @@ case "$1" in
   'update')
     echo 'Updating'
     cd ${PKHEX_DATA_DIRECTORY}
-    cp -R /usr/share/pkhex/* ./
+    cp -R /usr/share/pkhex/PKHeX.exe ./
+    winetricks --force dotnet40 dotnet45 dotnet452 dotnet46 dotnet461 dotnet462 dotnet471 dotnet472 dotnet48 dotnetcoredesktop3 dotnetdesktop6 win10 >/dev/null 2>&1
     ;;
   *)
     # cd ${PKHEX_DATA_DIRECTORY}
