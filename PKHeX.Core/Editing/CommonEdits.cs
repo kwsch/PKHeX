@@ -461,14 +461,14 @@ public static class CommonEdits
         }
         else if (species is (int)Species.Dunsparce or (int)Species.Dudunsparce or (int)Species.Tandemaus or (int)Species.Maushold)
         {
+            var isECMod100DependentForm = IsECMod100DependentForm(species, form);
             mod = 100;
             noise = option switch
             {
                 '0' or '3' => 0u,
                 _ => species switch
                 {
-                    (int)Species.Dudunsparce when form == 1 => 0, // 3 Segment
-                    (int)Species.Maushold when form == 0 => 0, // Family of 3
+                    _ when isECMod100DependentForm => 0,
                     _ => (uint)rng.Next(1, 100),
                 },
             };
@@ -479,5 +479,15 @@ public static class CommonEdits
             noise = (uint)(option - '0');
         }
         return unchecked(rand - (rand % mod) + noise);
+    }
+
+    /// <summary>
+    /// Checks if the form of the species depends on a Encryption Constant (ec) where ec % 100 = 0.
+    /// See <see href="link">https://bulbapedia.bulbagarden.net/wiki/Personality_value</see>.
+    /// </summary>
+    private static bool IsECMod100DependentForm(ushort species, byte form)
+    {
+        return (species == (int)Species.Dudunsparce && form == 1) || // 3 segment
+               (species == (int)Species.Maushold && form == 0); // Family of 3
     }
 }
