@@ -113,7 +113,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             // check for dmax level
             // 5 star uses rand(3), otherwise rand(2)
             // some raids can be 5 star and below, so check for both possibilities
-            if (checkDmax && pk is IDynamaxLevelReadOnly r)
+            if (checkDmax && pk is PK8 r) // (PB8 may store Dynamax Level, but it does not get copied by HOME)
             {
                 var current = r.DynamaxLevel;
                 int expectD = GetInitialDynamaxLevel(rand, i);

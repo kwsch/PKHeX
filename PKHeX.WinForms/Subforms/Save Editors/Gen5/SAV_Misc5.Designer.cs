@@ -33,7 +33,6 @@ namespace PKHeX.WinForms
             B_Save = new System.Windows.Forms.Button();
             TC_Misc = new System.Windows.Forms.TabControl();
             TAB_Main = new System.Windows.Forms.TabPage();
-            B_UnlockAllMusicalProps = new System.Windows.Forms.Button();
             GB_KeySystem = new System.Windows.Forms.GroupBox();
             B_AllKeys = new System.Windows.Forms.Button();
             CLB_KeySystem = new System.Windows.Forms.CheckedListBox();
@@ -164,11 +163,11 @@ namespace PKHeX.WinForms
             CB_MedalState = new System.Windows.Forms.ComboBox();
             CB_CurrentMedal = new System.Windows.Forms.ComboBox();
             TAB_Muscial = new System.Windows.Forms.TabPage();
+            B_UnlockAllProps = new System.Windows.Forms.Button();
             CHK_PropObtained = new System.Windows.Forms.CheckBox();
             CB_Prop = new System.Windows.Forms.ComboBox();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
-            B_UnlockAllProps = new System.Windows.Forms.Button();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             GB_KeySystem.SuspendLayout();
@@ -266,7 +265,6 @@ namespace PKHeX.WinForms
             // 
             // TAB_Main
             // 
-            TAB_Main.Controls.Add(B_UnlockAllMusicalProps);
             TAB_Main.Controls.Add(GB_KeySystem);
             TAB_Main.Controls.Add(CHK_LibertyPass);
             TAB_Main.Controls.Add(GB_Roamer);
@@ -279,17 +277,6 @@ namespace PKHeX.WinForms
             TAB_Main.TabIndex = 0;
             TAB_Main.Text = "Main";
             TAB_Main.UseVisualStyleBackColor = true;
-            // 
-            // B_UnlockAllMusicalProps
-            // 
-            B_UnlockAllMusicalProps.Location = new System.Drawing.Point(204, 280);
-            B_UnlockAllMusicalProps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_UnlockAllMusicalProps.Name = "B_UnlockAllMusicalProps";
-            B_UnlockAllMusicalProps.Size = new System.Drawing.Size(168, 48);
-            B_UnlockAllMusicalProps.TabIndex = 5;
-            B_UnlockAllMusicalProps.Text = "Unlock All Musical Props";
-            B_UnlockAllMusicalProps.UseVisualStyleBackColor = true;
-            B_UnlockAllMusicalProps.Click += B_UnlockAllMusicalProps_Click;
             // 
             // GB_KeySystem
             // 
@@ -1822,6 +1809,16 @@ namespace PKHeX.WinForms
             TAB_Muscial.Text = "Musical";
             TAB_Muscial.UseVisualStyleBackColor = true;
             // 
+            // B_UnlockAllProps
+            // 
+            B_UnlockAllProps.Location = new System.Drawing.Point(6, 261);
+            B_UnlockAllProps.Name = "B_UnlockAllProps";
+            B_UnlockAllProps.Size = new System.Drawing.Size(117, 71);
+            B_UnlockAllProps.TabIndex = 2;
+            B_UnlockAllProps.Text = "Unlock All Props";
+            B_UnlockAllProps.UseVisualStyleBackColor = true;
+            B_UnlockAllProps.Click += B_UnlockAllProps_Click;
+            // 
             // CHK_PropObtained
             // 
             CHK_PropObtained.AutoSize = true;
@@ -1841,16 +1838,6 @@ namespace PKHeX.WinForms
             CB_Prop.Size = new System.Drawing.Size(378, 23);
             CB_Prop.TabIndex = 0;
             CB_Prop.SelectedIndexChanged += CB_Prop_SelectedIndexChanged;
-            // 
-            // B_UnlockAllProps
-            // 
-            B_UnlockAllProps.Location = new System.Drawing.Point(6, 261);
-            B_UnlockAllProps.Name = "B_UnlockAllProps";
-            B_UnlockAllProps.Size = new System.Drawing.Size(117, 71);
-            B_UnlockAllProps.TabIndex = 2;
-            B_UnlockAllProps.Text = "Unlock All Props";
-            B_UnlockAllProps.UseVisualStyleBackColor = true;
-            B_UnlockAllProps.Click += B_UnlockAllProps_Click;
             // 
             // SAV_Misc5
             // 
@@ -2045,7 +2032,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_SuperDouble;
         private System.Windows.Forms.CheckBox CHK_SuperSingle;
         private System.Windows.Forms.Panel PAN_MissionMeta;
-        private System.Windows.Forms.Button B_UnlockAllMusicalProps;
         private System.Windows.Forms.CheckBox CHK_Subway7;
         private System.Windows.Forms.CheckBox CHK_Subway3;
         private System.Windows.Forms.CheckBox CHK_Subway2;

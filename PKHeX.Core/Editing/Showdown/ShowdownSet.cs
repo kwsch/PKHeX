@@ -516,10 +516,11 @@ public sealed class ShowdownSet : IBattleTemplate
         Level = pk.CurrentLevel;
         Shiny = pk.IsShiny;
 
-        if (pk is IGigantamax g)
+        if (pk is PK8 g) // Only set Gigantamax if it is a PK8
+        {
             CanGigantamax = g.CanGigantamax;
-        if (pk is IDynamaxLevel d)
-            DynamaxLevel = d.DynamaxLevel;
+            DynamaxLevel = g.DynamaxLevel;
+        }
 
         if (Array.IndexOf(Moves, (ushort)Move.HiddenPower) != -1)
             HiddenPowerType = HiddenPower.GetType(IVs, Context);

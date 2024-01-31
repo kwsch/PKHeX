@@ -69,7 +69,7 @@ public sealed class EvolutionForwardSpecies(EvolutionMethod[][] Entries) : IEvol
         Method = method.Method,
 
         // Temporarily store these and overwrite them when we clean the list.
-        LevelMin = Math.Max(min, method.Level),
+        LevelMin = Math.Max((byte)(min + method.LevelUp), method.Level),
         LevelUpRequired = method.LevelUp, // No need to tweak this, all games of this Type have the same default behavior.
     };
 }

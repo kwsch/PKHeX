@@ -68,7 +68,7 @@ public sealed class EvolutionForwardPersonal(EvolutionMethod[][] Entries, IPerso
         Method = method.Method,
 
         // Temporarily store these and overwrite them when we clean the list.
-        LevelMin = Math.Max(min, method.Level),
+        LevelMin = Math.Max((byte)(min + method.LevelUp), method.Level),
         LevelUpRequired = GetLevelUp(method.LevelUp, currentMaxLevel, tweak),
     };
 
