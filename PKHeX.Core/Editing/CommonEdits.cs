@@ -440,7 +440,7 @@ public static class CommonEdits
     /// <summary>
     /// Gets a <see cref="PKM.EncryptionConstant"/> to match the requested option.
     /// </summary>
-    public static uint GetComplicatedEC(ISpeciesForm pk, char option = ' ')
+    public static uint GetComplicatedEC(ISpeciesForm pk, char option = default)
     {
         var species = pk.Species;
         var form = pk.Form;
@@ -448,11 +448,11 @@ public static class CommonEdits
     }
 
     /// <inheritdoc cref="GetComplicatedEC(ISpeciesForm,char)"/>
-    public static uint GetComplicatedEC(ushort species, byte form, char option = ' ')
+    public static uint GetComplicatedEC(ushort species, byte form, char option = default)
     {
         var rng = Util.Rand;
         uint rand = rng.Rand32();
-        uint mod = 1, noise = 0;
+        uint mod, noise;
         if (species is >= (int)Species.Wurmple and <= (int)Species.Dustox)
         {
             mod = 10;
@@ -462,13 +462,16 @@ public static class CommonEdits
         else if (species is (int)Species.Dunsparce or (int)Species.Dudunsparce or (int)Species.Tandemaus or (int)Species.Maushold)
         {
             mod = 100;
-            noise = option switch
+            noise = species switch
             {
-                '0' or '3' => 0u,
-                _ => species switch
+                // Retain requisite correlation to allow for evolving into this species too.
+                (int)Species.Dudunsparce => form == 1 ? 0 : (uint)rng.Next(1, 100), // 3 Segment
+                (int)Species.Maushold => form == 0 ? 0 : (uint)rng.Next(1, 100), // Family of 3
+
+                // Otherwise, check if one is preferred, and if not, just make it the more common outcome.
+                _ => option switch
                 {
-                    (int)Species.Dudunsparce when form == 1 => 0, // 3 Segment
-                    (int)Species.Maushold when form == 0 => 0, // Family of 3
+                    '0' or '3' => 0u,
                     _ => (uint)rng.Next(1, 100),
                 },
             };
@@ -477,6 +480,10 @@ public static class CommonEdits
         {
             mod = 6;
             noise = (uint)(option - '0');
+        }
+        else
+        {
+            return rand;
         }
         return unchecked(rand - (rand % mod) + noise);
     }

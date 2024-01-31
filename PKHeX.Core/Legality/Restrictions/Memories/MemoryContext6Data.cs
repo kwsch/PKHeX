@@ -122,6 +122,8 @@ public partial class MemoryContext6
         466, // Gracidea
         628, 629, // DNA Splicers
         638, // Reveal Glass
+        718, // Mach Bike
+        719, // Acro Bike
         765, // Prison Bottle
     ];
 

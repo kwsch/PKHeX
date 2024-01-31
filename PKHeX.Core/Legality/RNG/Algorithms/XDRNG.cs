@@ -284,4 +284,63 @@ public static class XDRNG
         }
         return ctr;
     }
+    
+    /// <summary>
+    /// Multiplication constants for jumping 2^(index) frames forward.
+    /// </summary>
+    private static ReadOnlySpan<uint> JumpMult =>
+	[
+        0x000343FD, 0xA9FC6809, 0xDDFF5051, 0xF490B9A1, 0x43BA1741, 0xD290BE81, 0x82E3BD01, 0xBF507A01, 
+        0xF8C4F401, 0x7A19E801, 0x1673D001, 0xB5E7A001, 0x8FCF4001, 0xAF9E8001, 0x9F3D0001, 0x3E7A0001, 
+        0x7CF40001, 0xF9E80001, 0xF3D00001, 0xE7A00001, 0xCF400001, 0x9E800001, 0x3D000001, 0x7A000001, 
+        0xF4000001, 0xE8000001, 0xD0000001, 0xA0000001, 0x40000001, 0x80000001, 0x00000001, 0x00000001, 
+    ];
+
+    /// <summary>
+    /// Addition constants for jumping 2^(index) frames forward.
+    /// </summary>
+    private static ReadOnlySpan<uint> JumpAdd =>
+	[
+        0x00269EC3, 0x1E278E7A, 0x098520C4, 0x7E1DBEC8, 0x3E314290, 0x824E1920, 0x844E8240, 0xFD864480,
+        0xDFB18900, 0xD9F71200, 0x5E3E2400, 0x65BC4800, 0x70789000, 0x74F12000, 0x39E24000, 0xB3C48000,
+        0x67890000, 0xCF120000, 0x9E240000, 0x3C480000, 0x78900000, 0xF1200000, 0xE2400000, 0xC4800000,
+        0x89000000, 0x12000000, 0x24000000, 0x48000000, 0x90000000, 0x20000000, 0x40000000, 0x80000000,
+    ];
+
+    /// <summary>
+    /// Computes the amount of advances (distance) between two seeds.
+    /// </summary>
+    /// <param name="start">Initial seed</param>
+    /// <param name="end">Final seed</param>
+    /// <returns>Count of advances from <see cref="start"/> to arrive at <see cref="end"/>.</returns>
+    /// <remarks>
+    /// To compute the distance, we abuse the fact that a given state bit at index `i` has a periodicity of `2^i`.
+    /// If the bit is present in the state, we must include that bit in our distance result.
+    /// The algorithmic complexity is O(log(n)) for finding n advancements.
+    /// We store a precomputed table of multiply &amp; addition constants (skip 2^n) to avoid computing them on the fly.
+    /// </remarks>
+    public static uint GetDistance(in uint start, in uint end)
+    {
+        int i = 0;
+        uint bit = 1u;
+
+        uint distance = 0u;
+        uint seed = start;
+
+        // Instead of doing a for loop which always does 32 iterations, check to see if we end up at the end seed.
+        // If we do, we can return after [0..31] jumps.
+        // Due to the inputs, we normally have low distance, so normally this won't take more than a few loops.
+        while (seed != end)
+        {
+            // 50:50 odds of this being true.
+            if (((seed ^ end) & bit) != 0)
+            {
+                seed = (seed * JumpMult[i]) + JumpAdd[i];
+                distance |= bit;
+            }
+            i++;
+            bit <<= 1;
+        }
+        return distance;
+    }
 }

@@ -379,6 +379,7 @@ public static class BatchEditing
             catch (Exception ex)
             {
                 Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
+                result = ModifyResult.Error;
             }
         }
         return result;

@@ -68,8 +68,8 @@ public static class StringConverter4Util
     private const int TableKORStart = 0x400;
     private const int TableKOREnd = 0xD65;
 
-    private const ushort SaveInvalidAs = 0x0428; // '?'
-    private const char NUL = '?';
+    private const ushort SaveInvalidAs = 0x1AC; // '?'
+    private const char NUL = (char)StringConverter4.Terminator;
     private const char EMP = NUL; // Empty, not available on keyboard.
     private const char YEN = NUL; // Yen, not available on keyboard.
 
