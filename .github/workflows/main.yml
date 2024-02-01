@@ -35,7 +35,7 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /t:Publish
       
     - name: Show Github infos
       run:  echo 'Workspace path ${{ github.workspace }} - runner.temp ${{ runner.temp }}'     
@@ -45,7 +45,7 @@ jobs:
       id: upload
       with:
         name: Release
-        path: ${{ github.workspace }}\PKHeX.WinForms\bin\Release\net8.0-windows\win-x64\
+        path: ${{ github.workspace }}\PKHeX.WinForms\bin\Release\net8.0-windows\win-x64\*
         overwrite: true
         retention-days: 1
 
