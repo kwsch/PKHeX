@@ -45,7 +45,7 @@ jobs:
       id: upload
       with:
         name: Release
-        path: ${{ github.workspace }}\Digital Clock\bin\Release\*
+        path: ${{ github.workspace }}\PKHeX.WinForms\bin\Release\net8.0-windows\win-x64\
         overwrite: true
         retention-days: 1
 
