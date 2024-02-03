@@ -95,8 +95,9 @@ public class StringQualityTests
             var group = setField.GetValue(strings) as ILocationSet;
             Assert.NotNull(group);
 
-            foreach (var (bank, arr) in group.GetAll())
+            foreach (var (bank, mem) in group.GetAll())
             {
+                var arr = mem.Span;
                 var hs = new HashSet<string>(arr.Length);
                 bool sm0 = bank == 0 && name == nameof(GameStrings.Gen7);
                 for (int index = 0; index < arr.Length; index++)

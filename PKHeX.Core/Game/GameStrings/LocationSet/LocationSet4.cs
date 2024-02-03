@@ -27,7 +27,7 @@ public sealed record LocationSet4(string[] Met0, string[] Met2, string[] Met3) :
         return names[index];
     }
 
-    public IEnumerable<(int Bank, string[] Names)> GetAll()
+    public IEnumerable<(int Bank, ReadOnlyMemory<string> Names)> GetAll()
     {
         yield return (0, Met0);
         yield return (2, Met2);

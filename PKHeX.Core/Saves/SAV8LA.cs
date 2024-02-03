@@ -23,7 +23,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
 
     public SAV8LA()
     {
-        AllBlocks = Meta8.GetBlankDataLA();
+        AllBlocks = BlankBlocks8a.GetBlankBlocks();
         Blocks = new SaveBlockAccessor8LA(this);
         SaveRevision = Blocks.DetectRevision();
         Initialize();

@@ -18,7 +18,7 @@ public sealed record LocationSet0(string[] Met0) : ILocationSet
         return Met0[locationID];
     }
 
-    public IEnumerable<(int Bank, string[] Names)> GetAll()
+    public IEnumerable<(int Bank, ReadOnlyMemory<string> Names)> GetAll()
     {
         yield return (0, Met0);
     }

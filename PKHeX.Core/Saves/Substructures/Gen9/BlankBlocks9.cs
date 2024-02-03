@@ -1,52 +1,20 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public static class Meta9
+/// <summary>
+/// <see cref="SCBlock"/> metadata for Generation 9 games.
+/// </summary>
+public static class BlankBlocks9
 {
-    public const byte BlankRevision = 2;
-    public static SCBlock[] GetBlankDataSV() => GetBlankBlockArray(DefaultChunkSizesSV);
+    public const byte BlankRevision = 2; // Latest, Blueberry
 
     /// <summary>
-    /// Create a blank block array using the provided <see cref="arr"/> definition.
+    /// Creates a blank <see cref="SCBlock"/> array for <see cref="GameVersion.SV"/>
     /// </summary>
-    /// <param name="arr">Block specification tuples (key, size)</param>
-    /// <returns>List of blocks</returns>
-    private static SCBlock[] GetBlankBlockArray(ReadOnlySpan<uint> arr)
-    {
-        var blocks = new SCBlock[arr.Length / 2];
-        for (int i = 0; i < blocks.Length; i++)
-        {
-            int index = i * 2;
-            var key = arr[index];
-            var length = (int) arr[index + 1];
-            var dummy = new byte[length];
-            blocks[i] = new SCBlock(key, SCTypeCode.None, dummy);
-        }
-        return blocks;
-    }
+    public static SCBlock[] GetBlankBlocks() => SCBlockUtil.GetBlankBlockArray(DefaultChunkSizes);
 
-#if DEBUG
-    public static IEnumerable<string> RipSizes(IReadOnlyCollection<SCBlock> blocks)
-    {
-        int ctr = 0;
-        foreach (var block in blocks)
-        {
-            if (block.Data.Length == 0)
-                continue;
-            if (ctr == 4)
-            {
-                yield return Environment.NewLine;
-                ctr = 0;
-            }
-            yield return $"0x{block.Key:X8}, 0x{block.Data.Length:X5}, ";
-            ctr++;
-        }
-    }
-#endif
-
-    private static ReadOnlySpan<uint> DefaultChunkSizesSV =>
+    private static ReadOnlySpan<uint> DefaultChunkSizes =>
     [
         0x00051292, 0x00008, 0x00182D33, 0x00008, 0x0018E0B9, 0x00008, 0x001FD42F, 0x00008,
         0x0022B5C9, 0x00008, 0x003096FA, 0x00008, 0x0031E2C7, 0x00008, 0x003D333A, 0x00020,
