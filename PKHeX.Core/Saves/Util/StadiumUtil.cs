@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.StadiumSaveType;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -59,6 +59,10 @@ public static class StadiumUtil
         return true;
     }
 
+    /// <summary>
+    /// Checks if the <see cref="magic"/> value is present either with or without byte-swapping.
+    /// </summary>
+    /// <remarks>Only checks for a single instance of the magic value.</remarks>
     public static StadiumSaveType IsMagicPresentAbsolute(ReadOnlySpan<byte> data, int offset, uint magic)
     {
         var actual = ReadUInt32LittleEndian(data[offset..]);

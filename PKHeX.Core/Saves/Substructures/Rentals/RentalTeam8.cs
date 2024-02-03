@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -54,14 +53,19 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
     public PK8[] GetTeam()
     {
         var team = new PK8[COUNT_POKE];
-        for (int i = 0; i < team.Length; i++)
-            team[i] = GetSlot(i);
+        GetTeam(team);
         return team;
     }
 
-    public void SetTeam(IReadOnlyList<PK8> team)
+    public void GetTeam(Span<PK8> team)
     {
-        for (int i = 0; i < team.Count; i++)
+        for (int i = 0; i < team.Length; i++)
+            team[i] = GetSlot(i);
+    }
+
+    public void SetTeam(ReadOnlySpan<PK8> team)
+    {
+        for (int i = 0; i < team.Length; i++)
             SetSlot(i, team[i]);
     }
 
@@ -100,7 +104,7 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
         get => Data[0x86D];
         set => Data[0x86D] = value;
     }
-    // 0x12 bytes unused  to pad out to full size 0x880
+    // 0x12 bytes unused to pad out to full size 0x880
 
     public IEnumerable<PKM> Contents => GetTeam();
 
@@ -108,7 +112,12 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
     {
         if (data.Length != SIZE)
             return false;
-        var team = new RentalTeam8(data).GetTeam();
-        return team.All(x => x.ChecksumValid);
+        var team = new RentalTeam8(data);
+        for (int i = 0; i < 6; i++)
+        {
+            if (!team.GetSlot(i).ChecksumValid)
+                return false;
+        }
+        return true;
     }
 }
