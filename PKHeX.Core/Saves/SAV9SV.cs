@@ -24,9 +24,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public SAV9SV()
     {
-        AllBlocks = Meta9.GetBlankDataSV();
+        AllBlocks = BlankBlocks9.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = Meta9.BlankRevision;
+        SaveRevision = BlankBlocks9.BlankRevision;
         Initialize();
         ClearBoxes();
     }

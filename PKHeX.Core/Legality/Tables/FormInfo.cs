@@ -113,7 +113,12 @@ public static class FormInfo
         return false;
     }
 
-    public static bool IsFormChangeEgg(ushort species) => FormChangeEgg.Contains(species);
+    /// <summary>
+    /// Checks if the form can be changed for a given (baby) species into a different-typed form.
+    /// </summary>
+    /// <param name="species">Baby species</param>
+    /// <returns>True if the species can change form to another with a different typing, false if it cannot.</returns>
+    public static bool IsFormChangeEggTypes(ushort species) => FormChangeEgg.Contains(species);
 
     private static ReadOnlySpan<ushort> FormChangeEgg =>
     [
@@ -296,6 +301,13 @@ public static class FormInfo
         return --form;
     }
 
+    /// <summary>
+    /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Lord Form from Legends: Arceus.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    /// <param name="form">Entity form</param>
+    /// <param name="context">Current context</param>
+    /// <returns>True if the form is a Lord Form, false if it is not.</returns>
     public static bool IsLordForm(ushort species, byte form, EntityContext context)
     {
         if (context != EntityContext.Gen8a)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -87,14 +86,19 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
     public PK9[] GetTeam()
     {
         var team = new PK9[COUNT_POKE];
-        for (int i = 0; i < team.Length; i++)
-            team[i] = GetSlot(i);
+        GetTeam(team);
         return team;
     }
 
-    public void SetTeam(IReadOnlyList<PK9> team)
+    public void GetTeam(Span<PK9> team)
     {
-        for (int i = 0; i < team.Count; i++)
+        for (int i = 0; i < team.Length; i++)
+            team[i] = GetSlot(i);
+    }
+
+    public void SetTeam(ReadOnlySpan<PK9> team)
+    {
+        for (int i = 0; i < team.Length; i++)
             SetSlot(i, team[i]);
     }
 
@@ -111,9 +115,19 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
     {
         if (data.Length != SIZE)
             return false;
-        var team = new RentalTeam9(data).GetTeam();
-        // Checksum can be invalid for whatever reason. Just sanity check a little.
-        return team.All(x => (uint)x.Species <= x.MaxSpeciesID && x.Moves.All(y => (uint)y <= x.MaxMoveID));
+        var team = new RentalTeam9(data);
+        for (int i = 0; i < 6; i++)
+        {
+            // Checksum can be invalid for whatever reason. Just sanity check a little.
+            var pk = team.GetSlot(i);
+            if (pk.Species == 0)
+                continue;
+            if (pk.Species > pk.MaxSpeciesID)
+                return false;
+            if (pk.Move1 > pk.MaxMoveID || pk.Move2 > pk.MaxMoveID || pk.Move3 > pk.MaxMoveID || pk.Move4 > pk.MaxMoveID)
+                return false;
+        }
+        return true;
     }
 
     public static RentalTeam9 GetFrom(ReadOnlySpan<byte> data, int index)
@@ -125,5 +139,10 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
 
     public void WriteTo(Span<byte> data, int index) => Data.CopyTo(data[(index * SIZE)..]);
 
-    public ushort EntityChecksum => Checksums.CRC16_CCITT(Data.AsSpan(OFS_1, OFS_END - OFS_1));
+    private Span<byte> CheckSpan => Data.AsSpan(OFS_1, 6 * LEN_POKE);
+
+    /// <summary>
+    /// Simple checksum to detect team duplication.
+    /// </summary>
+    public ushort EntityChecksum => Checksums.CRC16_CCITT(CheckSpan);
 }

@@ -2,12 +2,22 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Hatch Location validity for <see cref="GameVersion.BDSP"/>.
+/// </summary>
 public static class EggHatchLocation8b
 {
     private const byte MaskBD = 1 << 0; // 1
     private const byte MaskSP = 1 << 1; // 2
 
+    /// <summary>
+    /// Returns true if the hatch location is valid for Brilliant Diamond.
+    /// </summary>
     public static bool IsValidMet8BD(int location) => HasLocationFlag(LocationPermitted8b, MaskBD, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for Shining Pearl.
+    /// </summary>
     public static bool IsValidMet8SP(int location) => HasLocationFlag(LocationPermitted8b, MaskSP, location);
 
     private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)

@@ -20,7 +20,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
     public SAV8SWSH()
     {
-        AllBlocks = Meta8.GetBlankDataSWSH();
+        AllBlocks = BlankBlocks8.GetBlankBlocks();
         Blocks = new SaveBlockAccessor8SWSH(this);
         SaveRevision = Zukan.GetRevision();
         Initialize();

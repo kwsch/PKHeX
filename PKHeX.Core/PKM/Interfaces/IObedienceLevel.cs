@@ -1,17 +1,21 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// <inheritdoc cref="IObedienceLevelReadOnly"/>
+/// </summary>
 public interface IObedienceLevel : IObedienceLevelReadOnly
 {
+    /// <summary>
+    /// <inheritdoc cref="IObedienceLevelReadOnly.Obedience_Level"/>
+    /// </summary>
     new byte Obedience_Level { get; set; }
-}
-
-public interface IObedienceLevelReadOnly
-{
-    byte Obedience_Level { get; } // no setter, use for Encounters
 }
 
 public static class ObedienceExtensions
 {
+    /// <summary>
+    /// Suggests the <see cref="IObedienceLevelReadOnly.Obedience_Level"/> for the entity.
+    /// </summary>
     public static byte GetSuggestedObedienceLevel(this IObedienceLevelReadOnly _, PKM entity, int originalMet)
     {
         if (entity.Species is (int)Species.Koraidon or (int)Species.Miraidon && entity is PK9 { FormArgument: not 0 })

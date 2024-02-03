@@ -128,7 +128,7 @@ public sealed class GameStrings : IBasicStrings
 
         Sanitize();
 
-        g4items = (string[])itemlist.Clone();
+        g4items = [..itemlist];
         Get("mail4").CopyTo(g4items, 137);
     }
 

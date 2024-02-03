@@ -42,6 +42,7 @@ public static class ReflectUtil
             return pi.GetValue(obj, null);
         return default;
     }
+
     public static bool SetValue(object obj, string name, object value)
     {
         if (!TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
