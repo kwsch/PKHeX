@@ -25,7 +25,7 @@ public enum LeadRequired : byte
     IntimidateKeenEye = 1 << 3,
     /// <summary> <see cref="Ability.Pressure"/> or <see cref="Ability.Hustle"/> or <see cref="Ability.VitalSpirit"/> </summary>
     PressureHustleSpirit = 1 << 4,
-    /// <summary> <see cref="Ability.SuctionCups"/> </summary>
+    /// <summary> <see cref="Ability.SuctionCups"/> or <see cref="Ability.StickyHold"/> </summary>
     SuctionCups = 1 << 5,
 
     // Compatibility Flags

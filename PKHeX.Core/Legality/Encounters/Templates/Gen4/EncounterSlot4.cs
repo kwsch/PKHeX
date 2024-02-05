@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.Gen4"/>.
 /// </summary>
 public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMagnetStatic, INumberedSlot, IGroundTypeTile, ISlotRNGType, IEncounterFormRandom, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IEncounterSlot34, IGroundTypeTile, IEncounterFormRandom, IRandomCorrelation
 {
     public int Generation => 4;
     int ILocation.Location => Location;
@@ -23,6 +23,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public ushort Location => Parent.Location;
     public SlotType Type => Parent.Type;
     public GroundTileAllowed GroundTile => Parent.GroundTile;
+    public byte AreaRate => Parent.Rate;
 
     public bool CanUseRadar => Version is not (GameVersion.HG or GameVersion.SS) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations4.IsSafariZoneLocation(Location);
 
@@ -167,4 +168,6 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
+
+    public byte PressureLevel => Type != SlotType.Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
 }

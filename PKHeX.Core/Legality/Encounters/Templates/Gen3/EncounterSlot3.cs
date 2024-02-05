@@ -4,13 +4,14 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.Gen3"/>.
 /// </summary>
 public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IMagnetStatic, INumberedSlot, ISlotRNGType, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IEncounterSlot3, IRandomCorrelation
 {
     public int Generation => 3;
     int ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen3;
     public bool EggEncounter => false;
     public Ball FixedBall => GetRequiredBall();
+    public byte AreaRate => Parent.Rate;
 
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
@@ -127,4 +128,6 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     }
 
     public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? PIDType.Method_1_Unown : PIDType.Method_1;
+
+    public byte PressureLevel => Type != SlotType.Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
 }

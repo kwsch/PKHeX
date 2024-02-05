@@ -115,4 +115,17 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
 
         return new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
     }
+
+    public byte GetPressureMax(ushort species, byte levelMax)
+    {
+        foreach (var slot in Slots)
+        {
+            if (slot.Species != species)
+                continue;
+            if (slot.LevelMax < levelMax)
+                continue;
+            levelMax = slot.LevelMax;
+        }
+        return levelMax;
+    }
 }

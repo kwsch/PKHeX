@@ -67,6 +67,19 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
         return new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
     }
 
+    public byte GetPressureMax(ushort species, byte levelMax)
+    {
+        foreach (var slot in Slots)
+        {
+            if (slot.Species != species)
+                continue;
+            if (slot.LevelMax < levelMax)
+                continue;
+            levelMax = slot.LevelMax;
+        }
+        return levelMax;
+    }
+
     public bool IsMunchlaxTree(ITrainerID32 pk) => IsMunchlaxTree(pk, Location);
 
     private static bool IsMunchlaxTree(ITrainerID32 pk, ushort location)
