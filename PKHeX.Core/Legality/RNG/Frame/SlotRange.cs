@@ -53,6 +53,7 @@ public static class SlotRange
             Old_Rod or Good_Rod or Super_Rod => GetKSuperRod(ESV),
             BugContest                       => GetKBCC(ESV),
             Headbutt or (Headbutt | Special) => GetKHeadbutt(ESV),
+            // future: Safari Zone           => rand % 10, todo
             _                                => GetHRegular(ESV),
         };
     }
