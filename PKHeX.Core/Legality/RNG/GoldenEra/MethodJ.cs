@@ -103,8 +103,6 @@ public static class MethodJ
                 ? IsFishPossible(enc.Type, ref result.Origin, ref result.Lead)
                 : IsFishPossible(enc.Type, ref result.Origin);
         }
-        if (enc.Type is SlotType.Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Origin);
         // Can sweet scent trigger.
         return true;
     }
@@ -112,10 +110,9 @@ public static class MethodJ
     private static bool CheckEncounterActivation<T>(T enc, ref uint result)
         where T : IEncounterSlot34
     {
+        // Lead is required to be Cute Charm.
         if (enc.Type.IsFishingRodType())
             return IsFishPossible(enc.Type, ref result);
-        if (enc.Type is SlotType.Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result);
         // Can sweet scent trigger.
         return true;
     }
@@ -354,6 +351,8 @@ public static class MethodJ
     private static bool IsSlotValid<T>(T enc, uint u16SlotRand)
         where T : IEncounterSlot34
     {
+        if (enc.Type is SlotType.HoneyTree)
+            return true; // pre-determined
         var slot = SlotRange.JSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
     }
@@ -409,19 +408,6 @@ public static class MethodJ
             ctr++;
         }
         return ctr;
-    }
-
-
-    private static bool IsRockSmashPossible(byte areaRate, ref uint seed)
-    {
-        var u16 = seed >> 16;
-        var roll = u16 / 656;
-        if (roll < areaRate)
-        {
-            seed = LCRNG.Prev(seed);
-            return true;
-        }
-        return false;
     }
 
     private static bool IsFishPossible(SlotType encType, ref uint seed, ref LeadRequired lead)
