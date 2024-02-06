@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Drawing;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite.Properties;
@@ -234,10 +235,16 @@ public static class SpriteUtil
         // If the image has any transparency, any derived background will bleed into it.
         // Need to undo any transparency values if any present.
         // Remove opaque pixels from original image, leaving only the glow effect pixels.
-        var original = (byte[])pixels.Clone();
+        var temp = ArrayPool<byte>.Shared.Rent(pixels.Length);
+        var original = temp.AsSpan(0, pixels.Length);
+        pixels.CopyTo(original);
+
         ImageUtil.SetAllUsedPixelsOpaque(pixels);
         ImageUtil.GlowEdges(pixels, blue, green, red, baseSprite.Width);
         ImageUtil.RemovePixels(pixels, original);
+
+        original.Clear();
+        ArrayPool<byte>.Shared.Return(temp);
     }
 
     public static Bitmap GetLegalIndicator(bool valid) => valid ? Resources.valid : Resources.warn;
