@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -56,7 +55,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         var game = (GameVersion)pk.Version;
         var iterator = new EncounterEnumerator3(pk, chain, game);
         EncounterSlot3? deferSlot = null;
-        List<Frame>? frames = null;
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
@@ -66,19 +64,14 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
                 continue;
             }
 
-            var wildFrames = frames ?? AnalyzeFrames(pk, info);
-            var frame = wildFrames.Find(s => s.IsSlotCompatibile(s3, pk));
-            if (frame != null)
+            var evo = GoldenEra.GetLevelConstraint(pk, chain, s3, 3);
+            var leadInfo = GoldenEra.GetLeadInfo3(s3, info.PIDIV, evo);
+            if (leadInfo.Lead != LeadRequired.Fail)
                 yield return s3;
             deferSlot ??= s3;
         }
         if (deferSlot != null)
             yield return deferSlot;
-    }
-
-    private static List<Frame> AnalyzeFrames(PKM pk, LegalInfo info)
-    {
-        return FrameFinder.GetFrames(info.PIDIV, pk).ToList();
     }
 
     private const int Generation = 3;

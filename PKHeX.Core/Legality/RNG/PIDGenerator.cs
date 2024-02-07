@@ -260,7 +260,7 @@ public static class PIDGenerator
         SetRandomIVs(pk);
     }
 
-    public static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType type)
+    public static uint SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType type)
     {
         pk.RefreshAbility(ability);
         pk.Gender = gender;
@@ -269,10 +269,11 @@ public static class PIDGenerator
         var rnd = Util.Rand;
         while (true)
         {
-            method(pk, rnd.Rand32());
+            var seed = rnd.Rand32();
+            method(pk, seed);
             if (!IsValidCriteria4(pk, nature, ability, gender))
                 continue;
-            return;
+            return seed;
         }
     }
 

@@ -83,17 +83,14 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         int gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
+        var lvl = new SingleLevelRange(LevelMin);
+        bool hgss = pk.HGSS;
         int ctr = 0;
         do
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-            var pidiv = MethodFinder.Analyze(pk);
-            var frames = FrameFinder.GetFrames(pidiv, pk);
-            foreach (var frame in frames)
-            {
-                if (frame.IsSlotCompatibile(this, pk))
-                    return;
-            }
+            var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
+            if (GoldenEra.TryGetLeadInfoMethod1(this, lvl, hgss, seed, out _))
+                return;
         } while (ctr++ < 10_000);
     }
 

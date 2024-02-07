@@ -183,46 +183,6 @@ public class PIDIVTest
             MethodFinder.Analyze(pk).Type.Should().Be(PIDType.Pokewalker);
     }
 
-    [Fact]
-    public void PIDIVEncounterSlotTest()
-    {
-        // Modest Method 1
-        var pk = new PK3 {PID = 0x6937DA48, IVs = [31, 31, 31, 31, 31, 31]};
-        var pidiv = MethodFinder.Analyze(pk);
-        pidiv.Type.Should().Be(PIDType.Method_1);
-
-        // Test for Method J
-        {
-            // Pearl
-            pk.Version = (int) GameVersion.P;
-            var results = FrameFinder.GetFrames(pidiv, pk).ToArray();
-
-            var failSync = results.Where(z => z.Lead == LeadRequired.SynchronizeFail);
-            var noSync = results.Where(z => z.Lead == LeadRequired.None);
-            var sync = results.Where(z => z.Lead == LeadRequired.Synchronize);
-
-            failSync.Should().HaveCount(1);
-            sync.Should().HaveCount(37);
-            noSync.Should().HaveCount(2);
-
-            const SlotType type = SlotType.Grass;
-            Span<byte> slots = [ 0, 1, 2, 3, 4, 5, 6, 7, 9 ];
-            foreach (var slot in slots)
-                results.Any(z => z.GetSlot(type) == slot).Should().BeTrue("Required slot not present.");
-            var slotsForType = results
-                .Where(z => !z.LevelSlotModified).Select(z => z.GetSlot(type))
-                .Distinct();
-            foreach (var slot in slotsForType)
-                slots.Contains((byte)slot).Should().BeTrue();
-        }
-        // Test for Method H and K
-        {
-            // Sapphire
-            // pk.Version = (int)GameVersion.S;
-            // var results = FrameFinder.GetFrames(pidiv, pk);
-        }
-    }
-
     [Theory]
     [InlineData(0x00001234, 0x4DCB, 0xE161)]
     [InlineData(0x00005678, 0x734D, 0xC596)]

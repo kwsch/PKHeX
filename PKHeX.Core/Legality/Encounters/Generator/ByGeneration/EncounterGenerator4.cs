@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -84,65 +83,14 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                 continue;
             }
 
-            var evo = GetLevelConstraint(pk, chain, s4);
-            var leadInfo = GetLeadInfo(pk, s4, info.PIDIV, evo);
+            var evo = GoldenEra.GetLevelConstraint(pk, chain, s4, 4);
+            var leadInfo = GoldenEra.GetLeadInfo4(pk, s4, info.PIDIV, evo);
             if (leadInfo.Lead != LeadRequired.Fail)
                 yield return s4;
             deferSlot ??= s4;
         }
         if (deferSlot != null)
             yield return deferSlot;
-    }
-
-    private static (uint Seed, LeadRequired Lead) GetLeadInfo(PKM pk, EncounterSlot4 s4, in PIDIV pv, in EvoCriteria evo)
-    {
-        var type = pv.Type;
-        if (type is PIDType.Method_1)
-        {
-            var seed = pv.OriginSeed;
-            var result = pk.HGSS
-                ? MethodK.GetSeed(s4, seed, evo)
-                : MethodJ.GetSeed(s4, seed, evo);
-            if (result.Lead != LeadRequired.Fail)
-                return result;
-
-            // There's a very-very rare chance that the PID-IV can be from Cute Charm too.
-            // It may match Method 1, but since we early-return, we don't check for Cute Charm.
-            // So, we check for Cute Charm here and try checking Cute Charm frames if it matches.
-            if (MethodFinder.IsCuteCharm(pk, pk.EncryptionConstant))
-                type = PIDType.CuteCharm;
-        }
-        if (type is PIDType.CuteCharm)
-        {
-            // Needs to fetch all possible seeds for IVs.
-            // Kinda sucks to do this every encounter, but it's relatively rare -- still good enough perf.
-            var result = TryGetMatchCuteCharm(s4, pk, evo, out var seed);
-            if (result)
-                return (seed, LeadRequired.CuteCharm);
-        }
-        return (default, LeadRequired.Fail);
-    }
-
-    private static bool TryGetMatchCuteCharm(EncounterSlot4 s4, PKM pk, in EvoCriteria evo, out uint seed)
-    {
-        // Can be one of many seeds.
-        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        int ctr = LCRNGReversal.GetSeedsIVs(seeds, (uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
-        seeds = seeds[..ctr];
-
-        var nature = (byte)(pk.EncryptionConstant % 25);
-        byte min = evo.LevelMin, max = evo.LevelMax;
-        bool result = pk.HGSS
-            ? MethodK.TryGetMatchCuteCharm(s4, seeds, nature, min, max, out seed)
-            : MethodJ.TryGetMatchCuteCharm(s4, seeds, nature, min, max, out seed);
-        return result;
-    }
-
-    private static EvoCriteria GetLevelConstraint(PKM pk, EvoCriteria[] chain, EncounterSlot4 s4)
-    {
-        if (pk.Format == 4)
-            return new EvoCriteria { Species = s4.Species, LevelMin = (byte)pk.Met_Level, LevelMax = (byte)pk.Met_Level };
-        return chain.First(x => x.Species == s4.Species);
     }
 
     private const int Generation = 4;
