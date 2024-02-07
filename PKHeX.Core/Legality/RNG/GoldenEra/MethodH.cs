@@ -135,18 +135,31 @@ public static class MethodH
     private static (uint Origin, LeadRequired Lead) GetOriginSeedEmerald<T>(T enc, uint seed, byte nature, int reverseCount, int revCute, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot3
     {
+        (uint Origin, LeadRequired Lead) prefer = (default, Fail);
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
             {
                 if (CheckEncounterActivationEmerald(enc, ref result))
-                    return result;
+                {
+                    if (result.Lead == None)
+                        return result;
+                    if (prefer.Lead == Fail || result.Lead < prefer.Lead)
+                        prefer = result;
+                }
             }
+
             if (reverseCount == 0)
+            {
+                // If we haven't found a lead, we can try checking for Cute Charm if allowed.
+                if (revCute == 0 || prefer.Lead != Fail)
+                    return prefer;
                 break;
+            }
             reverseCount--;
             seed = LCRNG.Prev2(seed);
         }
+
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result)
@@ -154,14 +167,18 @@ public static class MethodH
             {
                 result.Lead = CuteCharm;
                 if (CheckEncounterActivationEmerald(enc, ref result))
-                    return result;
+                {
+                    if (result.Lead == None)
+                        return result;
+                    if (prefer.Lead == Fail || result.Lead < prefer.Lead)
+                        prefer = result;
+                }
             }
-            if (revCute == 0)
-                break;
             revCute--;
+            if (revCute == 0)
+                return prefer;
             seed = LCRNG.Prev2(seed);
         }
-        return (default, Fail);
     }
 
     private static bool CheckEncounterActivationEmerald<T>(T enc, ref (uint Origin, LeadRequired Lead) result)
