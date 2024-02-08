@@ -45,7 +45,7 @@ public static class SlotMethodH
         < 98 => 9, // 94,97 ( 4%)
         < 99 => 10,// 98,98 ( 1%)
           99 => 11,//    99 ( 1%)
-        _ => Invalid,
+           _ => Invalid,
     };
 
     /// <summary>
