@@ -55,6 +55,12 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         var game = (GameVersion)pk.Version;
         var iterator = new EncounterEnumerator3(pk, chain, game);
         EncounterSlot3? deferSlot = null;
+
+        bool emerald = pk.E;
+        byte gender = (byte)pk.Gender;
+        if (pk.Species is (int)Species.Marill or (int)Species.Azumarill)
+            gender = (byte)EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, 0x3F);
+
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
@@ -64,9 +70,9 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
                 continue;
             }
 
-            var evo = GoldenEra.GetLevelConstraint(pk, chain, s3, 3);
-            var leadInfo = GoldenEra.GetLeadInfo3(s3, info.PIDIV, evo);
-            if (leadInfo.Lead != LeadRequired.Fail)
+            var evo = LeadFinder.GetLevelConstraint(pk, chain, s3, 3);
+            var lead = LeadFinder.GetLeadInfo3(s3, info.PIDIV, evo, emerald, gender);
+            if (lead.IsValid())
                 yield return s3;
             deferSlot ??= s3;
         }

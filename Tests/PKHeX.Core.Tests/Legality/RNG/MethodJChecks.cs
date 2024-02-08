@@ -11,7 +11,7 @@ public static class MethodJChecks
     [InlineData(0x00000002, 0x746d2fae, 10)]
     public static void CheckRangeJ(uint prePID, uint seed0, int frames)
     {
-        var pid = MethodJ.GetPID(prePID);
+        var pid = ClassicEraRNG.GetSequentialPID(prePID);
         var nature = (byte)(pid % 25);
         var count = MethodJ.GetReversalWindow(prePID, nature);
         var origin = LCRNG.Reverse(prePID, count * 2);
@@ -62,8 +62,8 @@ public static class MethodJChecks
     public static void CheckImpossibleJ(uint prePID, byte slotIndex)
     {
         var fake = new MockSlot(slotIndex);
-        var (seed, lead) = MethodJ.GetSeed(fake, prePID);
-        lead.Should().Be(LeadRequired.Fail);
-        seed.Should().BeInRange(0, uint.MaxValue);
+        var lead = MethodJ.GetSeed(fake, prePID);
+        lead.IsValid().Should().BeFalse();
+        lead.Seed.Should().BeInRange(0, uint.MaxValue);
     }
 }

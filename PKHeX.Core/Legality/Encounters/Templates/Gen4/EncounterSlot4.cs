@@ -89,8 +89,14 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         do
         {
             var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-            if (GoldenEra.TryGetLeadInfoMethod1(this, lvl, hgss, seed, out _))
-                return;
+            if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, out _))
+                continue;
+            if (Species == (int)Core.Species.Unown && !pk.HGSS) // D/P/Pt only
+            {
+                // ABCD|E(Item)|F(Form)
+                var f = LCRNG.Next6(seed) >> 16;
+                pk.Form = Parent.GetUnownForm(f);
+            }
         } while (ctr++ < 10_000);
     }
 

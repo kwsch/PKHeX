@@ -83,9 +83,9 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                 continue;
             }
 
-            var evo = GoldenEra.GetLevelConstraint(pk, chain, s4, 4);
-            var leadInfo = GoldenEra.GetLeadInfo4(pk, s4, info.PIDIV, evo);
-            if (leadInfo.Lead != LeadRequired.Fail)
+            var evo = LeadFinder.GetLevelConstraint(pk, chain, s4, 4);
+            var lead = LeadFinder.GetLeadInfo4(pk, s4, info.PIDIV, evo);
+            if (lead.IsValid())
                 yield return s4;
             deferSlot ??= s4;
         }

@@ -7,17 +7,17 @@ namespace PKHeX.Core;
 /// <summary>
 /// High-level wrappers for the Golden Era of RNG manipulation.
 /// </summary>
-public static class GoldenEra
+public static class LeadFinder
 {
     /// <inheritdoc cref="GetLeadInfo4{TEnc,TEvo}"/>
-    public static (uint Seed, LeadRequired Lead) GetLeadInfo3<TEnc, TEvo>(TEnc enc, in PIDIV pv, TEvo evo)
+    public static LeadSeed GetLeadInfo3<TEnc, TEvo>(TEnc enc, in PIDIV pv, TEvo evo, bool emerald, int gender)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
     {
         var type = pv.Type;
-        if (type is Method_1 or Method_2 or Method_3 or Method_4 or Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown)
-            return MethodH.GetSeed(enc, pv.OriginSeed, evo);
-        return (default, LeadRequired.Fail);
+        if (ClassicEraRNG.IsGen3Method(type))
+            return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender);
+        return LeadSeed.Invalid;
     }
 
     /// <summary>
@@ -28,14 +28,14 @@ public static class GoldenEra
     /// <param name="pv">PID/IV information</param>
     /// <param name="evo">Level range</param>
     /// <returns>If found, origin seed and lead conditions.</returns>
-    public static (uint Seed, LeadRequired Lead) GetLeadInfo4<TEnc, TEvo>(PKM pk, TEnc enc, in PIDIV pv, TEvo evo)
+    public static LeadSeed GetLeadInfo4<TEnc, TEvo>(PKM pk, TEnc enc, in PIDIV pv, TEvo evo)
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
     {
         var type = pv.Type;
         if (type is Method_1)
         {
-            if (TryGetLeadInfoMethod1(enc, evo, pk.HGSS, pv.OriginSeed, out var result))
+            if (TryGetLeadInfo4(enc, evo, pk.HGSS, pv.OriginSeed, out var result))
                 return result;
 
             // There's a very-very rare chance that the PID-IV can be from Cute Charm too.
@@ -48,42 +48,52 @@ public static class GoldenEra
         {
             // Needs to fetch all possible seeds for IVs.
             // Kinda sucks to do this every encounter, but it's relatively rare -- still good enough perf.
-            var result = TryGetMatchCuteCharm(enc, pk, evo, out var seed);
+            var result = TryGetMatchCuteCharm4(enc, pk, evo, out var seed);
             if (result)
-                return (seed, LeadRequired.CuteCharm);
+                return new(seed, LeadRequired.CuteCharm);
         }
-        return (default, LeadRequired.Fail);
+        return LeadSeed.Invalid;
     }
 
     /// <summary>
     /// Tries to get the lead information for a Generation 4 encounter.
     /// </summary>
     /// <returns>If found, origin seed and lead conditions.</returns>
-    public static bool TryGetLeadInfoMethod1<TEnc, TEvo>(TEnc enc, TEvo evo, bool hgss, uint seed, out (uint Seed, LeadRequired Lead) result)
+    public static bool TryGetLeadInfo4<TEnc, TEvo>(TEnc enc, TEvo evo, bool hgss, uint seed, out LeadSeed result)
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
     {
         result = hgss
             ? MethodK.GetSeed(enc, seed, evo)
             : MethodJ.GetSeed(enc, seed, evo);
-        return result.Lead != LeadRequired.Fail;
+        return result.IsValid();
     }
 
-    private static bool TryGetMatchCuteCharm<TEnc, TEvo>(TEnc enc, PKM pk, TEvo evo, out uint seed)
+    private static bool TryGetMatchCuteCharm4<TEnc, TEvo>(TEnc enc, PKM pk, TEvo evo, out uint seed)
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
     {
         // Can be one of many seeds.
         Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        int ctr = LCRNGReversal.GetSeedsIVs(seeds, (uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
+        var ctr = GetSeedsIVs(pk, seeds);
         seeds = seeds[..ctr];
 
         var nature = (byte)(pk.EncryptionConstant % 25);
         byte min = evo.LevelMin, max = evo.LevelMax;
-        bool result = pk.HGSS
+        return pk.HGSS
             ? MethodK.TryGetMatchCuteCharm(enc, seeds, nature, min, max, out seed)
             : MethodJ.TryGetMatchCuteCharm(enc, seeds, nature, min, max, out seed);
-        return result;
+    }
+
+    private static int GetSeedsIVs(PKM pk, Span<uint> seeds)
+    {
+        var hp = (uint)pk.IV_HP;
+        var atk = (uint)pk.IV_ATK;
+        var def = (uint)pk.IV_DEF;
+        var spa = (uint)pk.IV_SPA;
+        var spd = (uint)pk.IV_SPD;
+        var spe = (uint)pk.IV_SPE;
+        return LCRNGReversal.GetSeedsIVs(seeds, hp, atk, def, spa, spd, spe);
     }
 
     public static EvoCriteria GetLevelConstraint<TEnc>(PKM pk, ReadOnlySpan<EvoCriteria> chain, TEnc enc, [ConstantExpected] int generation)

@@ -76,8 +76,8 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
             do
             {
                 var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
-                var result = MethodH.GetSeed(this, seed, lvl);
-                if (pk.Form != Form && result.Lead != LeadRequired.Fail)
+                var lead = MethodH.GetSeed(this, seed, lvl, false, 2);
+                if (pk.Form != Form && lead.IsValid())
                     return;
                 ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
             } while (ctr++ < 10_000);
@@ -87,8 +87,8 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
             do
             {
                 var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-                var result = MethodH.GetSeed(this, seed, lvl);
-                if (result.Lead != LeadRequired.Fail)
+                var result = MethodH.GetSeed(this, seed, lvl, pk.E, pk.Gender);
+                if (result.IsValid())
                     return;
             } while (ctr++ < 10_000);
         }

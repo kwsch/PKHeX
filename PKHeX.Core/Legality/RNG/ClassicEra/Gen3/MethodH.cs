@@ -15,34 +15,24 @@ public static class MethodH
     /// <param name="enc">Encounter template.</param>
     /// <param name="seed">Seed that immediately generates the PID.</param>
     /// <param name="evo">Level range constraints for the capture, if known.</param>
-    public static (uint Seed, LeadRequired Lead) GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo)
+    /// <param name="enerald">Version encountered in (either Emerald or not)</param>
+    /// <param name="gender">Gender encountered as</param>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, bool enerald, int gender)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
     {
-        var pid = enc.Species != (ushort)Species.Unown ? GetPID(seed) : GetPIDReverse(seed);
+        var pid = enc.Species != (ushort)Species.Unown
+            ? ClassicEraRNG.GetSequentialPID(seed)
+            : ClassicEraRNG.GetReversePID(seed);
         var nature = (byte)(pid % 25);
 
-        var frames = GetReversalWindow(seed, nature);
-        return GetOriginSeed(enc, seed, nature, frames, evo.LevelMin, evo.LevelMax);
+        var info = GetReversalWindow(enc, seed, nature, enerald, gender);
+        return GetOriginSeed(info, enc, seed, nature, evo.LevelMin, evo.LevelMax);
     }
 
-    /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo)"/>
-    public static (uint Seed, LeadRequired Lead) GetSeed<TEnc>(TEnc enc, uint seed)
-        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc);
-
-    private static uint GetPIDReverse(uint seed)
-    {
-        var a = LCRNG.Next16(ref seed);
-        var b = LCRNG.Next16(ref seed);
-        return a << 16 | b;
-    }
-
-    private static uint GetPID(uint seed)
-    {
-        var a = LCRNG.Next16(ref seed);
-        var b = LCRNG.Next16(ref seed);
-        return b << 16 | a;
-    }
+    /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo, bool, int)"/>
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, int gender)
+        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender);
 
     // Summary of Random Determinations:
     // Nature:                       rand() % 25 == nature
@@ -94,16 +84,10 @@ public static class MethodH
     /// <summary>
     /// Caches details useful for the rolling look-back allowed for the input seed.
     /// </summary>
-    public static MethodHWindowInfo GetReversalWindow<T>(T enc, uint seed, byte nature, byte version, int gender)
+    public static MethodHWindowInfo GetReversalWindow<T>(T enc, uint seed, byte nature, bool emerald, int gender)
         where T : IEncounterSlot3
     {
-        if (enc.Species == (int)Species.Unown)
-        {
-            var result = GetReversalWindow(seed, nature, enc.Form);
-            return new((ushort)result, Unown);
-        }
-
-        if (version == (int)GameVersion.E)
+        if (emerald)
         {
             var pi = PersonalTable.E[enc.Species];
             var ratio = pi.Gender;
@@ -113,6 +97,11 @@ public static class MethodH
             var (min, max) = PersonalInfo.GetGenderMinMax(gender, ratio);
             var result = GetReversalWindowCute(seed, nature, min, max);
             return new((ushort)result.NoLead, Emerald, ratio, (ushort)result.Cute);
+        }
+        if (enc.Species == (int)Species.Unown) // Never Emerald
+        {
+            var result = GetReversalWindow(seed, nature, enc.Form);
+            return new((ushort)result, Unown);
         }
         // Otherwise...
         {
@@ -124,7 +113,7 @@ public static class MethodH
     /// <summary>
     /// Gets the first possible origin seed and lead for the input encounter &amp; constraints.
     /// </summary>
-    public static (uint Origin, LeadRequired Lead) GetOriginSeed<T>(in MethodHWindowInfo info, T enc, uint seed, byte nature, byte levelMin, byte levelMax, byte format = Format)
+    public static LeadSeed GetOriginSeed<T>(in MethodHWindowInfo info, T enc, uint seed, byte nature, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot3
     {
         return info.Type == Emerald
@@ -132,19 +121,19 @@ public static class MethodH
             : GetOriginSeed(enc, seed, nature, info.CountRegular, levelMin, levelMax, format);
     }
 
-    private static (uint Origin, LeadRequired Lead) GetOriginSeedEmerald<T>(T enc, uint seed, byte nature, int reverseCount, int revCute, byte levelMin, byte levelMax, byte format = Format)
+    private static LeadSeed GetOriginSeedEmerald<T>(T enc, uint seed, byte nature, int reverseCount, int revCute, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot3
     {
-        (uint Origin, LeadRequired Lead) prefer = (default, Fail);
+        var prefer = LeadSeed.Invalid;
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
             {
                 if (CheckEncounterActivationEmerald(enc, ref result))
                 {
-                    if (result.Lead == None)
+                    if (result.IsNoAbilityLead())
                         return result;
-                    if (prefer.Lead == Fail || result.Lead < prefer.Lead)
+                    if (result.IsBetterThan(prefer))
                         prefer = result;
                 }
             }
@@ -152,7 +141,7 @@ public static class MethodH
             if (reverseCount == 0)
             {
                 // If we haven't found a lead, we can try checking for Cute Charm if allowed.
-                if (revCute == 0 || prefer.Lead != Fail)
+                if (revCute == 0 || prefer.IsValid())
                     return prefer;
                 break;
             }
@@ -163,14 +152,14 @@ public static class MethodH
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result)
-                && result.Lead == None)
+                && result.IsNoAbilityLead())
             {
                 result.Lead = CuteCharm;
                 if (CheckEncounterActivationEmerald(enc, ref result))
                 {
-                    if (result.Lead == None)
+                    if (result.IsNoAbilityLead())
                         return result;
-                    if (prefer.Lead == Fail || result.Lead < prefer.Lead)
+                    if (result.IsBetterThan(prefer))
                         prefer = result;
                 }
             }
@@ -181,19 +170,19 @@ public static class MethodH
         }
     }
 
-    private static bool CheckEncounterActivationEmerald<T>(T enc, ref (uint Origin, LeadRequired Lead) result)
+    private static bool CheckEncounterActivationEmerald<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot3
     {
         if (enc.Type.IsFishingRodType())
             return true; // can just wait and trigger after hooking.
         if (enc.Type is SlotType.Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Origin);
+            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         
         // Can sweet scent trigger.
         return true;
     }
 
-    private static (uint Origin, LeadRequired Lead) GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format)
+    private static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot3
     {
         while (true)
@@ -208,16 +197,16 @@ public static class MethodH
             reverseCount--;
             seed = LCRNG.Prev2(seed);
         }
-        return (default, Fail);
+        return LeadSeed.Invalid;
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref (uint Origin, LeadRequired Lead) result)
+    private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot3
     {
         if (enc.Type.IsFishingRodType())
             return true; // can just wait and trigger after hooking.
         if (enc.Type is SlotType.Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Origin);
+            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         // Can sweet scent trigger.
         return true;
     }
@@ -276,7 +265,7 @@ public static class MethodH
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool TryGetMatchNoLead<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out (uint Origin, LeadRequired Lead) result)
+    private static bool TryGetMatchNoLead<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out LeadSeed result)
         where T : IEncounterSlot3
     {
         var p0 = seed >> 16; // 0
@@ -292,7 +281,7 @@ public static class MethodH
             {
                 var ctx = new FrameCheckDetails<T>(enc, safariBlockSeed, levelMin, levelMax, format);
                 if (IsSlotValidRegular(ctx, out uint origin))
-                { result = (origin, None); return true; }
+                { result = new(origin, None); return true; }
             }
         }
         var reg = GetNature(p0) == nature;
@@ -305,13 +294,13 @@ public static class MethodH
 
             var ctx = new FrameCheckDetails<IEncounterSlot3>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out uint origin))
-            { result = (origin, None); return true; }
+            { result = new(origin, None); return true; }
         }
         result = default; return false;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool TryGetMatch<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out (uint Origin, LeadRequired Lead) result)
+    private static bool TryGetMatch<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out LeadSeed result)
         where T : IEncounterSlot3
     {
         var p0 = seed >> 16; // 0
@@ -341,7 +330,7 @@ public static class MethodH
             var ctx = new FrameCheckDetails<IEncounterSlot3>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out seed))
             {
-                result = (seed, Synchronize);
+                result = new(seed, Synchronize);
                 return true;
             }
         }
@@ -421,29 +410,29 @@ public static class MethodH
         return IsSlotValidFrom1Skip(ctx, out result);
     }
 
-    private static bool TryGetMatchNoSync(in FrameCheckDetails<IEncounterSlot3> ctx, out (uint Origin, LeadRequired Lead) result)
+    private static bool TryGetMatchNoSync(in FrameCheckDetails<IEncounterSlot3> ctx, out LeadSeed result)
     {
         if (IsSlotValidRegular(ctx, out uint seed))
-        { result = (seed, None); return true; }
+        { result = new(seed, None); return true; }
 
         if (IsSlotValidSyncFail(ctx, out seed))
-        { result = (seed, SynchronizeFail); return true; }
+        { result = new(seed, SynchronizeFail); return true; }
         if (IsSlotValidCuteCharmFail(ctx, out seed))
-        { result = (seed, CuteCharmFail); return true; }
+        { result = new(seed, CuteCharmFail); return true; }
         if (IsSlotValidHustleVitalFail(ctx, out seed))
-        { result = (seed, PressureHustleSpiritFail); return true; }
+        { result = new(seed, PressureHustleSpiritFail); return true; }
         if (IsSlotValidStaticMagnetFail(ctx, out seed))
-        { result = (seed, StaticMagnetFail); return true; }
+        { result = new(seed, StaticMagnetFail); return true; }
         // Intimidate/Keen Eye failing will result in no encounter.
 
         if (IsSlotValidStaticMagnet(ctx, out seed))
-        { result = (seed, StaticMagnet); return true; }
+        { result = new(seed, StaticMagnet); return true; }
         if (IsSlotValidHustleVital(ctx, out seed))
-        { result = (seed, PressureHustleSpirit); return true; }
+        { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
-        { result = (seed, IntimidateKeenEye); return true; }
+        { result = new(seed, IntimidateKeenEyeFail); return true; }
         if (TryGetMatchCuteCharm(ctx, out seed))
-        { result = (seed, CuteCharm); return true; }
+        { result = new(seed, CuteCharm); return true; }
 
         result = default; return false;
     }
@@ -541,7 +530,7 @@ public static class MethodH
     private static bool IsSlotValid<T>(T enc, uint u16SlotRand)
         where T : ISlotRNGType, INumberedSlot
     {
-        var slot = SlotRange.HSlot(enc.Type, u16SlotRand);
+        var slot = SlotMethodH.GetSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
     }
 
