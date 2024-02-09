@@ -16,18 +16,23 @@ public static class MethodK
     /// <param name="enc">Encounter template.</param>
     /// <param name="seed">Seed that immediately generates the PID.</param>
     /// <param name="evo">Level range constraints for the capture, if known.</param>
-    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo)
+    /// <param name="format">Current format (different from 4)</param>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, byte format = Format)
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
+        => GetSeed(enc, seed, evo.LevelMin, evo.LevelMax, format);
+
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, byte levelMin, byte levelMax, byte format = Format, int depth = 0)
+        where TEnc : IEncounterSlot34
     {
         var pid = ClassicEraRNG.GetSequentialPID(seed);
         var nature = (byte)(pid % 25);
 
         var frames = GetReversalWindow(seed, nature);
-        return GetOriginSeed(enc, seed, nature, frames, evo.LevelMin, evo.LevelMax);
+        return GetOriginSeed(enc, seed, nature, frames, levelMin, levelMax, format, depth);
     }
 
-    /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo)"/>
+    /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo, byte)"/>
     public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed)
         where TEnc : IEncounterSlot34 => GetSeed(enc, seed, enc);
 
@@ -65,13 +70,13 @@ public static class MethodK
     /// <summary>
     /// Gets the first possible origin seed and lead for the input encounter &amp; constraints.
     /// </summary>
-    public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format)
+    public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format, int depth = 0)
         where T : IEncounterSlot34
     {
         var prefer = LeadSeed.Invalid;
         while (true)
         {
-            if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
+            if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result, depth))
             {
                 if (CheckEncounterActivation(enc, ref result))
                 {
@@ -132,7 +137,7 @@ public static class MethodK
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool TryGetMatch<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out LeadSeed result)
+    private static bool TryGetMatch<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out LeadSeed result, int depth = 0)
         where T : IEncounterSlot34
     {
         var p0 = seed >> 16; // 0
@@ -140,10 +145,12 @@ public static class MethodK
         if (reg)
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            return TryGetMatchNoSync(ctx, out result);
+            if (TryGetMatchNoSync(ctx, out result))
+                return true;
+            if (depth != 4 && enc is EncounterSlot4 s && (s.IsBugContest || s.IsSafariHGSS))
+                return Recurse4x(enc, levelMin, levelMax, seed, nature, format, out result, ++depth);
         }
-        var syncProc = IsSyncPass(p0);
-        if (syncProc)
+        else if (IsSyncPass(p0))
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out seed))
@@ -151,10 +158,79 @@ public static class MethodK
                 result = new(seed, Synchronize);
                 return true;
             }
+            if (depth != 4 && enc is EncounterSlot4 s && (s.IsBugContest || s.IsSafariHGSS))
+                return Recurse4x(enc, levelMin, levelMax, seed, nature, format, out result, ++depth);
         }
         result = default;
         return false;
     }
+
+    private const int MaxSafariContest = 4;
+
+    private static bool Recurse4x<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format,
+        out LeadSeed result, int depth)
+        where T : IEncounterSlot34
+    {
+        // When generating Pokémon's IVs, the game tries to give at least one flawless IV.
+        // The game will roll the {nature,PID/IV} up to 4 times if none of the IVs are at 31 (total of 3 re-rolls)
+        result = default;
+
+        // Use the depth to keep track of how many we have already burned.
+        // First entry to this method will be 1/4 burned (final result).
+        if (depth == MaxSafariContest)
+            return false;
+
+        // Check if the previous 4 frames were a 31-IV Pokémon. If so, it couldn't have been re-rolled from.
+        // If it was, we can adjust our parameters and try the entire search again (expensive!)
+
+        // First we need to determine how far back we can permit the previous skipped encounter to be originating from.
+        // Our only requirement is that the nature PID we currently have not been generated.
+        // This is the same "solved" problem as the regular reversal window.
+
+        // Each loop we have a ~18.75% chance to hit a >=1 31 IV setup and return false.
+        // On average, we look back 5-6 times.
+        bool breakNext = false;
+        while (true)
+        {
+            var iv2 = seed >> 16;
+            if (IsAny31(iv2))
+                return false;
+
+            var iv1 = LCRNG.Prev16(ref seed);
+            if (IsAny31(iv1))
+                return false;
+
+            // Since we're looking backwards and doing recursion in the same method, we need to ensure we don't exceed our previous nature window.
+            var sanityNature = ClassicEraRNG.GetSequentialPID(seed) % 25;
+            if (sanityNature == nature)
+                breakNext = true;
+
+            // Cool, the skipped Pokémon was not 31-IV. Let's try again.
+            // The skipped Pokémon probably had a different nature, so we need to use that value instead.
+            // We basically need to repeat the entire top-level check with slightly adjusted parameters.
+            var origin = LCRNG.Prev2(seed);
+
+            // We need to double-check that this skipped PID/IV could have been landed on via the nature/sync check.
+            // The innate recursion will return true if the skipped frame could have been landed on, or if an even-more previous skipped was landed.
+            result = GetSeed(enc, origin, levelMin, levelMax, format, depth);
+            if (result.IsValid())
+                return true;
+
+            // If the forwards window no longer lets us land on the frame we entered this method from, the window is exhausted.
+            // We need to do at least one recursion as the 4 calls we look backwards from will hide a double-nature PID/frame pair.
+            if (breakNext)
+                return false; // Window exhausted, this nature would have been chosen instead of the frame we entered this method from.
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool IsAny31(uint iv16)
+           => IsLow5Bits31(iv16)
+           || IsLow5Bits31(iv16 >> 5)
+           || IsLow5Bits31(iv16 >> 10);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool IsLow5Bits31(uint iv16) => (iv16 & 0x1F) == 0x1F;
 
     private static bool TryGetMatchCuteCharm<T>(in FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot34

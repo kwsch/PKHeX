@@ -89,7 +89,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         do
         {
             var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-            if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, out _))
+            if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, 4, out _))
                 continue;
             if (Species == (int)Core.Species.Unown)
             {
@@ -178,4 +178,6 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
 
     public byte PressureLevel => Type != SlotType.Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
+    public bool IsBugContest => Type == SlotType.BugContest;
+    public bool IsSafariHGSS => Location == 202;
 }

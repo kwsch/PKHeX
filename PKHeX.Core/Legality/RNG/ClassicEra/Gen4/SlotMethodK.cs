@@ -15,11 +15,12 @@ public static class SlotMethodK
     /// </summary>
     public static byte GetSlot(SlotType type, uint rand) => type switch
     {
-        Rock_Smash or Surf               => GetSurf(rand % 100),
+        Rock_Smash                       => GetRockSmash(rand % 100),
+        Surf                             => GetSurf(rand % 100),
         Old_Rod or Good_Rod or Super_Rod => GetSuperRod(rand % 100),
         BugContest                       => GetBugCatchingContest(rand % 100),
         Headbutt or (Headbutt | Special) => GetHeadbutt(rand % 100),
-        // future: Safari Zone           => GetSafari(rand),
+        // future: Safari Zone           => GetSafari(rand % 10),
         _                                => GetRegular(rand % 100),
     };
 
@@ -40,6 +41,12 @@ public static class SlotMethodK
     public static byte GetSurf(uint roll) => SlotMethodH.GetSurf(roll);
 
     /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Gen4 Rock Smash encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
+    public static byte GetRockSmash(uint roll) => roll >= 80 ? (byte)1 : (byte)0;
+
+    /// <summary>
     /// Calculates the encounter slot index based on the roll for a HG/SS Super Rod encounter.
     /// </summary>
     /// <param name="roll">[0,100)</param>
@@ -56,9 +63,9 @@ public static class SlotMethodK
     /// <summary>
     /// Calculates the encounter slot index based on the roll for a Safari Zone encounter.
     /// </summary>
-    /// <param name="roll">[0,65535] raw roll</param>
+    /// <param name="roll">[0,9] raw roll</param>
     /// <returns></returns>
-    public static byte GetSafari(uint roll) => (byte)(roll % 10);
+    public static byte GetSafari(uint roll) => (byte)roll;
 
     /// <summary>
     /// Calculates the encounter slot index based on the roll for a Bug Catching Contest encounter.
@@ -93,7 +100,7 @@ public static class SlotMethodK
         < 80 => 2, // 65,79 (15%)
         < 90 => 3, // 80,89 (10%)
         < 95 => 4, // 90,94 ( 5%)
-        <=99 => 5, // 95,99 ( 5%)
+        <100 => 5, // 95,99 ( 5%)
            _ => Invalid,
     };
 }

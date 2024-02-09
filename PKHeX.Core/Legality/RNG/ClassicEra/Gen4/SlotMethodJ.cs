@@ -18,7 +18,7 @@ public static class SlotMethodJ
         uint ESV = rand / 656;
         return type switch
         {
-            Old_Rod or Rock_Smash or Surf => GetSurf(ESV),
+            Old_Rod or Surf => GetSurf(ESV),
             Good_Rod or Super_Rod => GetSuperRod(ESV),
             HoneyTree => 0,
             _ => GetRegular(ESV),

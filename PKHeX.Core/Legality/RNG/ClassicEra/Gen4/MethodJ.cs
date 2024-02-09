@@ -16,7 +16,8 @@ public static class MethodJ
     /// <param name="enc">Encounter template.</param>
     /// <param name="seed">Seed that immediately generates the PID.</param>
     /// <param name="evo">Level range constraints for the capture, if known.</param>
-    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo)
+    /// <param name="format">Current format (different from 4)</param>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, byte format)
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
     {
@@ -24,12 +25,12 @@ public static class MethodJ
         var nature = (byte)(pid % 25);
 
         var frames = GetReversalWindow(seed, nature);
-        return GetOriginSeed(enc, seed, nature, frames, evo.LevelMin, evo.LevelMax);
+        return GetOriginSeed(enc, seed, nature, frames, evo.LevelMin, evo.LevelMax, format);
     }
 
-    /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo)"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed)
-        where TEnc : IEncounterSlot34 => GetSeed(enc, seed, enc);
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, byte format)
+        where TEnc : IEncounterSlot34 => GetSeed(enc, seed, enc, format);
 
     // Summary of Random Determinations:
     // For constant-value rand choices, the games avoid using modulo via:

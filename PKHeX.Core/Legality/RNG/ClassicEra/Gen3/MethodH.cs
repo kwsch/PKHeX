@@ -15,9 +15,10 @@ public static class MethodH
     /// <param name="enc">Encounter template.</param>
     /// <param name="seed">Seed that immediately generates the PID.</param>
     /// <param name="evo">Level range constraints for the capture, if known.</param>
-    /// <param name="enerald">Version encountered in (either Emerald or not)</param>
+    /// <param name="emerald">Version encountered in (either Emerald or not)</param>
     /// <param name="gender">Gender encountered as</param>
-    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, bool enerald, int gender)
+    /// <param name="format">Current format (different from 3)</param>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, bool emerald, int gender, byte format)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
     {
@@ -26,13 +27,13 @@ public static class MethodH
             : ClassicEraRNG.GetReversePID(seed);
         var nature = (byte)(pid % 25);
 
-        var info = GetReversalWindow(enc, seed, nature, enerald, gender);
-        return GetOriginSeed(info, enc, seed, nature, evo.LevelMin, evo.LevelMax);
+        var info = GetReversalWindow(enc, seed, nature, emerald, gender);
+        return GetOriginSeed(info, enc, seed, nature, evo.LevelMin, evo.LevelMax, format);
     }
 
-    /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo, bool, int)"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, int gender)
-        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender);
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, int gender, byte format)
+        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender, format);
 
     // Summary of Random Determinations:
     // Nature:                       rand() % 25 == nature

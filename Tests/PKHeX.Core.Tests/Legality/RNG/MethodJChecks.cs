@@ -46,7 +46,7 @@ public static class MethodJChecks
         LeadRequired expectLead = LeadRequired.Synchronize)
     {
         var fake = new MockSlot(slotIndex);
-        var (seed, lead) = MethodJ.GetSeed(fake, prePID);
+        var (seed, lead) = MethodJ.GetSeed(fake, prePID, 4);
         lead.Should().Be(expectLead);
         seed.Should().BeInRange(0, uint.MaxValue);
     }
@@ -62,7 +62,7 @@ public static class MethodJChecks
     public static void CheckImpossibleJ(uint prePID, byte slotIndex)
     {
         var fake = new MockSlot(slotIndex);
-        var lead = MethodJ.GetSeed(fake, prePID);
+        var lead = MethodJ.GetSeed(fake, prePID, 4);
         lead.IsValid().Should().BeFalse();
         lead.Seed.Should().BeInRange(0, uint.MaxValue);
     }

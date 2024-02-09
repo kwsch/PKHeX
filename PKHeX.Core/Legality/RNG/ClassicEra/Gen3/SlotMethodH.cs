@@ -18,9 +18,9 @@ public static class SlotMethodH
 
         return type switch
         {
-            SlotType.Old_Rod => GetHOldRod(ESV),
-            SlotType.Good_Rod => GetHGoodRod(ESV),
-            SlotType.Super_Rod => GetHSuperRod(ESV),
+            SlotType.Old_Rod => GetOldRod(ESV),
+            SlotType.Good_Rod => GetGoodRod(ESV),
+            SlotType.Super_Rod => GetSuperRod(ESV),
             SlotType.Rock_Smash => GetSurf(ESV),
             SlotType.Surf => GetSurf(ESV),
             _ => GetRegular(ESV),
@@ -66,7 +66,7 @@ public static class SlotMethodH
     /// Calculates the encounter slot index based on the roll for a Gen3 Old Rod encounter.
     /// </summary>
     /// <param name="roll">[0,100)</param>
-    public static byte GetHOldRod(uint roll) => roll switch
+    public static byte GetOldRod(uint roll) => roll switch
     {
         < 70 => 0, // 00,69 (70%)
        <= 99 => 1, // 70,99 (30%)
@@ -77,7 +77,7 @@ public static class SlotMethodH
     /// Calculates the encounter slot index based on the roll for a Gen3 Good Rod encounter.
     /// </summary>
     /// <param name="roll">[0,100)</param>
-    public static byte GetHGoodRod(uint roll) => roll switch
+    public static byte GetGoodRod(uint roll) => roll switch
     {
         < 60 => 0, // 00,59 (60%)
         < 80 => 1, // 60,79 (20%)
@@ -89,7 +89,7 @@ public static class SlotMethodH
     /// Calculates the encounter slot index based on the roll for a Gen3 Super Rod encounter.
     /// </summary>
     /// <param name="roll">[0,100)</param>
-    public static byte GetHSuperRod(uint roll) => roll switch
+    public static byte GetSuperRod(uint roll) => roll switch
     {
         < 40 => 0, // 00,39 (40%)
         < 80 => 1, // 40,69 (40%)

@@ -10,13 +10,13 @@ namespace PKHeX.Core;
 public static class LeadFinder
 {
     /// <inheritdoc cref="GetLeadInfo4{TEnc,TEvo}"/>
-    public static LeadSeed GetLeadInfo3<TEnc, TEvo>(TEnc enc, in PIDIV pv, TEvo evo, bool emerald, int gender)
+    public static LeadSeed GetLeadInfo3<TEnc, TEvo>(TEnc enc, in PIDIV pv, TEvo evo, bool emerald, int gender, int format)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
     {
         var type = pv.Type;
         if (type.IsClassicMethod())
-            return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender);
+            return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender, (byte)format);
         return LeadSeed.Invalid;
     }
 
@@ -35,7 +35,7 @@ public static class LeadFinder
         var type = pv.Type;
         if (type is Method_1)
         {
-            if (TryGetLeadInfo4(enc, evo, pk.HGSS, pv.OriginSeed, out var result))
+            if (TryGetLeadInfo4(enc, evo, pk.HGSS, pv.OriginSeed, (byte)pk.Format, out var result))
                 return result;
 
             // There's a very-very rare chance that the PID-IV can be from Cute Charm too.
@@ -59,13 +59,13 @@ public static class LeadFinder
     /// Tries to get the lead information for a Generation 4 encounter.
     /// </summary>
     /// <returns>If found, origin seed and lead conditions.</returns>
-    public static bool TryGetLeadInfo4<TEnc, TEvo>(TEnc enc, TEvo evo, bool hgss, uint seed, out LeadSeed result)
+    public static bool TryGetLeadInfo4<TEnc, TEvo>(TEnc enc, TEvo evo, bool hgss, uint seed, byte format, out LeadSeed result)
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
     {
         result = hgss
-            ? MethodK.GetSeed(enc, seed, evo)
-            : MethodJ.GetSeed(enc, seed, evo);
+            ? MethodK.GetSeed(enc, seed, evo, format)
+            : MethodJ.GetSeed(enc, seed, evo, format);
         return result.IsValid();
     }
 
