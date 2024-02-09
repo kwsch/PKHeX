@@ -91,11 +91,4 @@ public static class ClassicEraRNG
         var rand2 = LCRNG.Next16(ref seed);
         return (rand2 << 15) | rand1;
     }
-
-    /// <summary>
-    /// Checks if the provided PIDType is one of the in-game Method-X types for Gen3.
-    /// </summary>
-    public static bool IsGen3Method(PIDType type) => type
-        is Method_1 or Method_2 or Method_3 or Method_4
-        or Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
 }

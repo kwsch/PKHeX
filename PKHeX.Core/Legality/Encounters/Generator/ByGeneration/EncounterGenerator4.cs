@@ -29,68 +29,82 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         info.PIDIV = MethodFinder.Analyze(pk);
-        var deferredPIDIV = new List<IEncounterable>();
-        var deferredEType = new List<IEncounterable>();
-
-        foreach (var z in GetEncountersInner(pk, chain, info))
-        {
-            if (!IsTypeCompatible(z, pk, info.PIDIV.Type))
-                deferredPIDIV.Add(z);
-            else if (!IsTileCompatible(z, pk))
-                deferredEType.Add(z);
-            else
-                yield return z;
-        }
-
-        static bool IsTileCompatible(IEncounterable enc, PKM pk)
-        {
-            if (pk is not IGroundTile e)
-                return true; // No longer has the data to check
-            if (enc is not IGroundTypeTile t)
-                return e.GroundTile == 0;
-            return t.GroundTile.Contains(e.GroundTile);
-        }
-
-        static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
-        {
-            if (enc is IRandomCorrelation r)
-                return r.IsCompatible(type, pk);
-            return type == PIDType.None;
-        }
-
-        foreach (var z in deferredEType)
-            yield return z;
-
-        if (deferredPIDIV.Count == 0)
-            yield break;
-
-        info.PIDIVMatches = false;
-        foreach (var z in deferredPIDIV)
-            yield return z;
-    }
-
-    private static IEnumerable<IEncounterable> GetEncountersInner(PKM pk, EvoCriteria[] chain, LegalInfo info)
-    {
         var game = (GameVersion)pk.Version;
         var iterator = new EncounterEnumerator4(pk, chain, game);
         EncounterSlot4? deferSlot = null;
+        IEncounterable? deferTile = null;
+        IEncounterable? deferType = null;
+        var leadQueue = new LeadEncounterQueue<EncounterSlot4>();
+
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (e is not EncounterSlot4 s4)
+            if (!IsTileCompatible(e, pk))
+            {
+                deferTile ??= e;
+                continue;
+            }
+
+            if (e is not EncounterSlot4 slot)
             {
                 yield return e;
                 continue;
             }
+            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
+            {
+                deferSlot ??= slot;
+                continue;
+            }
 
-            var evo = LeadFinder.GetLevelConstraint(pk, chain, s4, 4);
-            var lead = LeadFinder.GetLeadInfo4(pk, s4, info.PIDIV, evo);
-            if (lead.IsValid())
-                yield return s4;
-            deferSlot ??= s4;
+            var evo = LeadFinder.GetLevelConstraint(pk, chain, slot, 4);
+            var lead = LeadFinder.GetLeadInfo4(pk, slot, info.PIDIV, evo);
+            if (!lead.IsValid())
+            {
+                deferSlot ??= slot;
+                continue;
+            }
+            leadQueue.Insert(lead, slot);
         }
-        if (deferSlot != null)
+
+        foreach (var cache in leadQueue.List)
+        {
+            info.PIDIV = info.PIDIV.AsEncounteredVia(cache.Lead);
+            yield return cache.Encounter;
+        }
+        if (leadQueue.List.Count != 0)
+            yield break;
+
+        if (deferTile != null)
+        {
+            // Error will be flagged later if this is chosen.
+            yield return deferTile;
+        }
+        else if (deferType != null)
+        {
+            info.PIDIVMatches = false;
+            yield return deferType;
+        }
+        else if (deferSlot != null)
+        {
+            info.FrameMatches = false;
             yield return deferSlot;
+        }
+    }
+
+    private static bool IsTileCompatible(IEncounterTemplate enc, PKM pk)
+    {
+        if (pk is not IGroundTile e)
+            return true; // No longer has the data to check
+        if (enc is not IGroundTypeTile t)
+            return e.GroundTile == 0;
+        return t.GroundTile.Contains(e.GroundTile);
+    }
+
+    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+    {
+        if (enc is IRandomCorrelation r)
+            return r.IsCompatible(type, pk);
+        return type == PIDType.None;
     }
 
     private const int Generation = 4;

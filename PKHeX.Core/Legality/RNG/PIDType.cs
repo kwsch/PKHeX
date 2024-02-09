@@ -1,10 +1,12 @@
+using static PKHeX.Core.PIDType;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// PID + IV correlation.
 /// </summary>
 /// <remarks>This is just a catch-all enumeration to describe the different correlations.</remarks>
-public enum PIDType
+public enum PIDType : byte
 {
     /// <summary> No relationship between the PID and IVs </summary>
     None,
@@ -194,4 +196,15 @@ public enum PIDType
     Tera9,
 
     #endregion
+}
+
+public static class PIDTypeExtensions
+{
+
+    /// <summary>
+    /// Checks if the provided PIDType is one of the in-game Method-X types for Gen3.
+    /// </summary>
+    public static bool IsClassicMethod(this PIDType type) => type
+        is Method_1 or Method_2 or Method_3 or Method_4
+        or Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
 }

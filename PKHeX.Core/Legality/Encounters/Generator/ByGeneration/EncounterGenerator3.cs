@@ -27,34 +27,11 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             yield break;
 
         info.PIDIV = MethodFinder.Analyze(pk);
-        IEncounterable? partial = null;
-
-        foreach (var z in GetEncountersInner(pk, chain, info))
-        {
-            if (IsTypeCompatible(z, pk, info.PIDIV.Type))
-                yield return z;
-            else
-                partial ??= z;
-        }
-        static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
-        {
-            if (enc is IRandomCorrelation r)
-                return r.IsCompatible(type, pk);
-            return type == PIDType.None;
-        }
-
-        if (partial == null)
-            yield break;
-
-        info.PIDIVMatches = false;
-        yield return partial;
-    }
-
-    private static IEnumerable<IEncounterable> GetEncountersInner(PKM pk, EvoCriteria[] chain, LegalInfo info)
-    {
         var game = (GameVersion)pk.Version;
         var iterator = new EncounterEnumerator3(pk, chain, game);
+        IEncounterable? deferType = null;
         EncounterSlot3? deferSlot = null;
+        var leadQueue = new LeadEncounterQueue<EncounterSlot3>();
 
         bool emerald = pk.E;
         byte gender = (byte)pk.Gender;
@@ -64,20 +41,59 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (e is not EncounterSlot3 s3 || s3 is EncounterSlot3Swarm)
+            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
+            {
+                deferType ??= e;
+                continue;
+            }
+
+            if (e is not EncounterSlot3 slot)
             {
                 yield return e;
                 continue;
             }
+            if (slot is EncounterSlot3Swarm)
+            {
+                yield return slot;
+                continue;
+            }
 
-            var evo = LeadFinder.GetLevelConstraint(pk, chain, s3, 3);
-            var lead = LeadFinder.GetLeadInfo3(s3, info.PIDIV, evo, emerald, gender);
-            if (lead.IsValid())
-                yield return s3;
-            deferSlot ??= s3;
+            var evo = LeadFinder.GetLevelConstraint(pk, chain, slot, 3);
+            var lead = LeadFinder.GetLeadInfo3(slot, info.PIDIV, evo, emerald, gender);
+            if (!lead.IsValid())
+            {
+                deferSlot ??= slot;
+                continue;
+            }
+            leadQueue.Insert(lead, slot);
         }
-        if (deferSlot != null)
+
+        foreach (var cache in leadQueue.List)
+        {
+            info.PIDIV = info.PIDIV.AsEncounteredVia(cache.Lead);
+            yield return cache.Encounter;
+        }
+        if (leadQueue.List.Count != 0)
+            yield break;
+
+        if (deferType != null)
+        {
+            // Error will be flagged later if this is chosen.
+            info.PIDIVMatches = false;
+            yield return deferType;
+        }
+        else if (deferSlot != null)
+        {
+            info.FrameMatches = false;
             yield return deferSlot;
+        }
+    }
+
+    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+    {
+        if (enc is IRandomCorrelation r)
+            return r.IsCompatible(type, pk);
+        return type == PIDType.None;
     }
 
     private const int Generation = 3;

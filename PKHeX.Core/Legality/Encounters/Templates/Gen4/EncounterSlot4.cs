@@ -91,11 +91,13 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
             if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, out _))
                 continue;
-            if (Species == (int)Core.Species.Unown && !pk.HGSS) // D/P/Pt only
+            if (Species == (int)Core.Species.Unown)
             {
-                // ABCD|E(Item)|F(Form)
-                var f = LCRNG.Next6(seed) >> 16;
-                pk.Form = Parent.GetUnownForm(f);
+                // ABCD|E(Item)|F(Form) determination
+                if (pk.HGSS)
+                    pk.Form = RuinsOfAlph4.GetEntranceForm(LCRNG.Next6(seed));
+                else
+                    pk.Form = 8; // Always 100% form as 'I' in one of the rooms.
             }
         } while (ctr++ < 10_000);
     }
@@ -152,8 +154,11 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         }
         if (IsDeferredWurmple(pk))
             return EncounterMatchRating.PartialMatch;
+        if (pk.Species == (int)Core.Species.Unown && !EncounterArea4.IsUnownFormValid(pk, pk.Form))
+            return EncounterMatchRating.PartialMatch;
         return EncounterMatchRating.Match;
     }
+
     private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
     #endregion
 

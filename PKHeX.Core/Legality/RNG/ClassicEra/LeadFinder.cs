@@ -15,7 +15,7 @@ public static class LeadFinder
         where TEvo : ILevelRange
     {
         var type = pv.Type;
-        if (ClassicEraRNG.IsGen3Method(type))
+        if (type.IsClassicMethod())
             return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender);
         return LeadSeed.Invalid;
     }

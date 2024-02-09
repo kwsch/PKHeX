@@ -124,38 +124,10 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
         58, // 20 Floaroma Meadow
     ];
 
-    private static ReadOnlySpan<byte> Unown0 =>
-    [
-        0, 1, 2,
-        6, 7,
-        9, 10, 11, 12,
-        14, 15, 16,
-        18, 19, 20, 21, 22, 23, 24, 25
-    ];
-
-    public byte GetUnownForm(uint rand) => Location switch
+    public static bool IsUnownFormValid(PKM pk, byte form)
     {
-        29 => (byte)(26 + rand % 2),
-        30 => Unown0[(int)(rand % Unown0.Length)],
-        32 => 05,
-        34 => 17,
-        40 => 08,
-        41 => 13,
-        42 => 04,
-        43 => 03,
-        _ => 0,
-    };
-
-    public bool GetUnownFormPossible(byte form) => Location switch
-    {
-        29 => form is 26 or 27,
-        30 => Unown0.Contains(form),
-        32 => form == 05,
-        34 => form == 17,
-        40 => form == 08,
-        41 => form == 13,
-        42 => form == 04,
-        43 => form == 03,
-        _ => false,
-    };
+        return pk.HGSS
+            ?   RuinsOfAlph4.IsUnownFormValid(pk, form)
+            : SolaceonRuins4.IsUnownFormValid(pk, form);
+    }
 }

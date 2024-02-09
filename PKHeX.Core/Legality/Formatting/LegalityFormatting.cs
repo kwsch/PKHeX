@@ -97,14 +97,38 @@ public static class LegalityFormatting
         var info = la.Info;
         if (!info.PIDParsed)
             info.PIDIV = MethodFinder.Analyze(la.Entity);
-        AddEncounterInfoPIDIV(lines, info.PIDIV);
+        AddEncounterInfoPIDIV(lines, info);
     }
 
-    private static void AddEncounterInfoPIDIV(List<string> lines, PIDIV pidiv)
+    private static void AddEncounterInfoPIDIV(List<string> lines, LegalInfo info)
     {
+        var pidiv = info.PIDIV;
         lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
-        if (!pidiv.NoSeed)
-            lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
+        if (pidiv.NoSeed)
+            return;
+
+        if (pidiv.IsSeed64())
+        {
+            var seed = pidiv.Seed64;
+            lines.Add(string.Format(L_FOriginSeed_0, seed.ToString("X16")));
+            return;
+        }
+        if (info is { EncounterMatch: IEncounterSlot34 s })
+        {
+            var lead = pidiv.Lead;
+            var seed = !info.FrameMatches ? pidiv.OriginSeed : pidiv.EncounterSeed;
+            var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
+            if (lead != LeadRequired.None)
+                line += $" ({lead})";
+            line += $" [{s.SlotNumber}]";
+            lines.Add(line);
+        }
+        else
+        {
+            var seed = pidiv.OriginSeed;
+            var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
+            lines.Add(line);
+        }
     }
 
     public static string GetEncounterName(this IEncounterable enc)

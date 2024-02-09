@@ -24,16 +24,16 @@ public enum LeadRequired : byte
     /// <summary> Internal tag </summary>
     Fail = 1 << 7,
 
+    /// <summary> <see cref="Ability.Intimidate"/> or <see cref="Ability.KeenEye"/> failed to activate. </summary>
+    IntimidateKeenEyeFail = IntimidateKeenEye | Fail,
+    /// <summary> <inheritdoc cref="PressureHustleSpirit"/> </summary>
+    PressureHustleSpiritFail = PressureHustleSpirit | Fail,
     /// <summary> <inheritdoc cref="Synchronize"/> </summary>
     SynchronizeFail = Synchronize | Fail,
     /// <summary> <inheritdoc cref="CuteCharm"/> </summary>
     CuteCharmFail = CuteCharm | Fail,
     /// <summary> <inheritdoc cref="StaticMagnet"/> </summary>
     StaticMagnetFail = StaticMagnet | Fail,
-    /// <summary> <see cref="Ability.Intimidate"/> or <see cref="Ability.KeenEye"/> failed to activate. </summary>
-    IntimidateKeenEyeFail = IntimidateKeenEye | Fail,
-    /// <summary> <inheritdoc cref="PressureHustleSpirit"/> </summary>
-    PressureHustleSpiritFail = PressureHustleSpirit | Fail,
 
     // Suction cups failing will fail to yield the encounter since it's the first call.
 

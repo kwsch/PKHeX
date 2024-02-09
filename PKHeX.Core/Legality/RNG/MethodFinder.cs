@@ -83,6 +83,45 @@ public static class MethodFinder
             : GetG5MGShinyMatch(pk, pid, out pidiv) || (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv));
     }
 
+    public static bool GetLCRNGMethod1Match(PKM pk, out uint result)
+    {
+        var pid = pk.EncryptionConstant;
+
+        var top = pid & 0xFFFF0000;
+        var bot = pid << 16;
+
+        Span<uint> temp = stackalloc uint[6];
+        for (int i = 0; i < 6; i++)
+            temp[i] = (uint)pk.GetIV(i);
+        ReadOnlySpan<uint> IVs = temp;
+
+        const int maxResults = LCRNG.MaxCountSeedsIV;
+        Span<uint> seeds = stackalloc uint[maxResults];
+        var count = LCRNGReversal.GetSeeds(seeds, bot, top);
+        var reg = seeds[..count];
+        var iv1 = GetIVChunk(IVs[..3]);
+        var iv2 = GetIVChunk(IVs[3..]);
+
+        foreach (var seed in reg)
+        {
+            // Method 1/2/4 can use 3 different RNG frames
+            var C = LCRNG.Next3(seed);
+            var ivC = C >> 16 & 0x7FFF;
+            if (iv1 != ivC)
+                continue;
+            var D = LCRNG.Next(C);
+            var ivD = D >> 16 & 0x7FFF;
+            if (iv2 != ivD)
+                continue;
+            // ABCD
+            result = seed;
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
     private static bool GetLCRNGMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         var count = LCRNGReversal.GetSeeds(seeds, bot, top);

@@ -20,7 +20,7 @@ public static class MethodK
         where TEnc : IEncounterSlot34
         where TEvo : ILevelRange
     {
-        var pid = GetPID(seed);
+        var pid = ClassicEraRNG.GetSequentialPID(seed);
         var nature = (byte)(pid % 25);
 
         var frames = GetReversalWindow(seed, nature);
@@ -30,13 +30,6 @@ public static class MethodK
     /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo)"/>
     public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed)
         where TEnc : IEncounterSlot34 => GetSeed(enc, seed, enc);
-
-    private static uint GetPID(uint seed)
-    {
-        var a = LCRNG.Next16(ref seed);
-        var b = LCRNG.Next16(ref seed);
-        return b << 16 | a;
-    }
 
     /// <inheritdoc cref="MethodJ.GetReversalWindow"/>
     /// <returns>Count of reverses allowed for no specific lead (not cute charm).</returns>

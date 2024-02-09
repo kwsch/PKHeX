@@ -8,7 +8,7 @@ namespace PKHeX.Core.Tests.General;
 public class MarshalTests
 {
     [Theory]
-    [InlineData(8, typeof(PIDIV))]
+    [InlineData(10, typeof(PIDIV))]
     [InlineData(8, typeof(MoveResult))]
     [InlineData(8, typeof(EvolutionMethod))]
     [InlineData(8, typeof(Moveset))]
