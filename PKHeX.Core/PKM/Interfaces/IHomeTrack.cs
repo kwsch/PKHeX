@@ -11,5 +11,9 @@ public interface IHomeTrack
     /// </summary>
     ulong Tracker { get; set; }
 
+    /// <summary>
+    /// Simple check if a <see cref="Tracker"/> is present.
+    /// </summary>
+    /// <remarks>Does not ensure that it is a valid tracker, just non-zero.</remarks>
     bool HasTracker => Tracker != 0;
 }

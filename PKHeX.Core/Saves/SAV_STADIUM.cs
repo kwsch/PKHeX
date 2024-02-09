@@ -81,7 +81,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     {
         var result = base.GetFinalData();
         if (IsPairSwapped)
-            ReverseEndianness(result = (byte[])result.Clone());
+            ReverseEndianness(result = [..result]);
         return result;
     }
 

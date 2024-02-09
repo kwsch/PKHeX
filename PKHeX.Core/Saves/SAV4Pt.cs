@@ -185,9 +185,9 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public Roamer4 RoamerMesprit   => GetRoamer(0);
     public Roamer4 RoamerCresselia => GetRoamer(1);
     public Roamer4 RoamerUnused    => GetRoamer(2); // Darkrai
-    public Roamer4 RoamerArticuno  => GetRoamer(3);
+    public Roamer4 RoamerMoltres   => GetRoamer(3);
     public Roamer4 RoamerZapdos    => GetRoamer(4);
-    public Roamer4 RoamerMoltres   => GetRoamer(5);
+    public Roamer4 RoamerArticuno  => GetRoamer(5);
 
     private Roamer4 GetRoamer(int index)
     {

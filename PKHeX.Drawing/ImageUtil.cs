@@ -113,14 +113,19 @@ public static class ImageUtil
         data = new byte[bmp.Width * bmp.Height * 4];
     }
 
-    public static Bitmap GetBitmap(byte[] data, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
+    public static Bitmap GetBitmap(byte[] data, int width, int height, int length, PixelFormat format = PixelFormat.Format32bppArgb)
     {
         var bmp = new Bitmap(width, height, format);
         var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, format);
         var ptr = bmpData.Scan0;
-        Marshal.Copy(data, 0, ptr, data.Length);
+        Marshal.Copy(data, 0, ptr, length);
         bmp.UnlockBits(bmpData);
         return bmp;
+    }
+
+    public static Bitmap GetBitmap(byte[] data, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
+    {
+        return GetBitmap(data, width, height, data.Length, format);
     }
 
     public static byte[] GetPixelData(Bitmap bitmap)

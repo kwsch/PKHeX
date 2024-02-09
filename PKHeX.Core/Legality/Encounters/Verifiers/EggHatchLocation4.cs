@@ -3,6 +3,9 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Hatch Location validity for <see cref="GameVersion.Gen4"/>.
+/// </summary>
 public static class EggHatchLocation4
 {
     private const byte MaskDP = 1 << 0; // 1
@@ -10,6 +13,9 @@ public static class EggHatchLocation4
     private const byte MaskHGSS = 1 << 2; // 4
     private const byte MaskAll4 = MaskDP | MaskPt | MaskHGSS; // 7
 
+    /// <summary>
+    /// Returns true if the hatch location is valid for the specified Generation 4 game.
+    /// </summary>
     public static bool IsValidMet4(int location, GameVersion game) => game switch
     {
         D or P => IsValidMet4DP(location),
@@ -18,9 +24,24 @@ public static class EggHatchLocation4
         _ => false,
     };
 
+    /// <summary>
+    /// Returns true if the hatch location is valid for Diamond and Pearl.
+    /// </summary>
     public static bool IsValidMet4DP(int location) => HasLocationFlag(LocationPermitted4, MaskDP, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for Platinum.
+    /// </summary>
     public static bool IsValidMet4Pt(int location) => HasLocationFlag(LocationPermitted4, MaskPt, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for HeartGold and SoulSilver.
+    /// </summary>
     public static bool IsValidMet4HGSS(int location) => HasLocationFlag(LocationPermitted4, MaskHGSS, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for any Generation 4 game.
+    /// </summary>
     public static bool IsValidMet4Any(int location) => HasLocationFlag(LocationPermitted4, MaskAll4, location);
 
     private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)

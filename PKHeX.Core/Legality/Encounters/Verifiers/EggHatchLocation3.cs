@@ -3,6 +3,9 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Hatch Location validity for <see cref="GameVersion.Gen3"/>.
+/// </summary>
 public static class EggHatchLocation3
 {
     private const byte MaskRS   = 1 << 0; // 1
@@ -10,6 +13,9 @@ public static class EggHatchLocation3
     private const byte MaskFRLG = 1 << 2; // 4
     private const byte MaskAll = MaskRS | MaskE | MaskFRLG; // 7
 
+    /// <summary>
+    /// Returns true if the hatch location is valid for the specified Generation 3 game.
+    /// </summary>
     public static bool IsValidMet3(int location, GameVersion game) => game switch
     {
         R  or  S => IsValidMet3RS(location),
@@ -18,9 +24,24 @@ public static class EggHatchLocation3
         _ => false,
     };
 
+    /// <summary>
+    /// Returns true if the hatch location is valid for Ruby and Sapphire.
+    /// </summary>
     public static bool IsValidMet3RS(int location) => HasLocationFlag(LocationPermitted3, MaskRS, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for Emerald.
+    /// </summary>
     public static bool IsValidMet3E(int location) => HasLocationFlag(LocationPermitted3, MaskE, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for FireRed and LeafGreen.
+    /// </summary>
     public static bool IsValidMet3FRLG(int location) => HasLocationFlag(LocationPermitted3, MaskFRLG, location);
+
+    /// <summary>
+    /// Returns true if the hatch location is valid for any Generation 3 game.
+    /// </summary>
     public static bool IsValidMet3Any(int location) => HasLocationFlag(LocationPermitted3, MaskAll, location);
 
     private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
