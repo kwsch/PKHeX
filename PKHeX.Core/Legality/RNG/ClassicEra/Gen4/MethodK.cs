@@ -100,17 +100,36 @@ public static class MethodK
             return IsFishPossible(enc.Type, ref result.Seed, ref result.Lead);
         if (enc.Type is Rock_Smash)
             return IsRockSmashPossible(enc.AreaRate, ref result.Seed, ref result.Lead);
+
+        // Ability & Sweet Scent deadlock for BCC:
+        if (enc.Type is BugContest && !result.Lead.IsAbleToSweetScent())
+            return IsBugContestPossibleDeadlock(enc.AreaRate, ref result.Seed);
+
         // Can sweet scent trigger.
         return true;
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref uint result) where T : IEncounterSlot4
+    private static bool IsAbleToSweetScent(this LeadRequired lead) => lead
+        is None // Pretty much anything grass.
+        or IntimidateKeenEye or IntimidateKeenEyeFail // Masquerain & Mawile
+        or PressureHustleSpirit or PressureHustleSpiritFail // Vespiquen
+        // Synchronize: None
+        // Cute Charm: None
+        // Static/Magnet Pull: None
+    ;
+
+    private static bool CheckEncounterActivationCuteCharm<T>(T enc, ref uint result) where T : IEncounterSlot4
     {
         // Lead is required to be Cute Charm.
         if (enc.Type.IsFishingRodType())
             return IsFishPossible(enc.Type, ref result);
         if (enc.Type is Rock_Smash)
             return IsRockSmashPossible(enc.AreaRate, ref result);
+
+        // Ability & Sweet Scent deadlock for BCC:
+        if (enc.Type is BugContest) // No species with Sweet Scent can have Cute Charm.
+            return IsBugContestPossibleDeadlock(enc.AreaRate, ref result);
+
         // Can sweet scent trigger.
         return true;
     }
@@ -130,7 +149,7 @@ public static class MethodK
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, 4);
             if (!TryGetMatchCuteCharm(ctx, out result))
                 continue;
-            if (CheckEncounterActivation(enc, ref result))
+            if (CheckEncounterActivationCuteCharm(enc, ref result))
                 return true;
         }
         result = default; return false;
@@ -456,6 +475,30 @@ public static class MethodK
         return (u16LevelRand % mod) + enc.LevelMin;
     }
 
+    private static bool IsBugContestPossibleDeadlock(uint areaRate, ref uint result)
+    {
+        // BCC only allows one Pokémon to be in the party.
+        // Specific lead abilities can learn Sweet Scent, while others cannot.
+        // The only entry into this method requires an ability that has no species available with Sweet Scent.
+        // Therefore, without Sweet Scent, we need to trigger via turning/walking.
+        // With an area rate of 25, this arrangement will succeed 37% of the time.
+
+        // The game checks 2 random calls to trigger the encounter: movement -> rate -> generate.
+        // HG/SS has an underflow error (via radio) which can pass the first rand call for movement.
+        // Only need to check the second call for rate.
+        // Rate can be improved by 50% if the White Flute is used.
+        // Other abilities can also affect the rate, but we can't use them with our current lead.
+        var rate = areaRate + (areaRate >> 1); // +50% White Flute
+        var rand = (result >> 16);
+        var roll = rand % 100;
+        if (roll >= rate)
+            return false;
+
+        // Skip backwards before the two calls. Valid encounter seed found.
+        result = LCRNG.Prev2(result);
+        return true;
+    }
+
     private static bool IsFishPossible(SlotType4 encType, ref uint seed, ref LeadRequired lead)
     {
         var rate = GetFishingThreshold(encType);
@@ -517,7 +560,7 @@ public static class MethodK
         }
         if (lead != None)
             return false;
-        if (roll < areaRate * 2)
+        if (roll < areaRate * 2u)
         {
             seed = LCRNG.Prev(seed);
             lead = SuctionCups;
