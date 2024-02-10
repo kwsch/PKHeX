@@ -116,6 +116,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KFusedNecrozmaS = 0x203FF693;
     public const uint KFusedNecrozmaM = 0x5369FC39;
     public const uint KFusedCalyrex = 0x916BCA9E;
+    public const uint KSurpriseTrade = 0xB2FDF384;
     private const uint KZukan = 0x0DEAAEBD;
     private const uint KZukanT1 = 0xF5D7C0E2;
     private const uint KMysteryGift = 0x99E1625E;
