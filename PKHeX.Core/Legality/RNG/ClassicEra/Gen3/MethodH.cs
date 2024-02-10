@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using static PKHeX.Core.MethodHCondition;
 using static PKHeX.Core.LeadRequired;
+using static PKHeX.Core.SlotType3;
 
 namespace PKHeX.Core;
 
@@ -174,10 +175,10 @@ public static class MethodH
     private static bool CheckEncounterActivationEmerald<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot3
     {
+        if (enc.Type is Rock_Smash)
+            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         if (enc.Type.IsFishingRodType())
             return true; // can just wait and trigger after hooking.
-        if (enc.Type is SlotType.Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         
         // Can sweet scent trigger.
         return true;
@@ -204,10 +205,10 @@ public static class MethodH
     private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot3
     {
+        if (enc.Type is Rock_Smash)
+            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         if (enc.Type.IsFishingRodType())
             return true; // can just wait and trigger after hooking.
-        if (enc.Type is SlotType.Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         // Can sweet scent trigger.
         return true;
     }
@@ -529,7 +530,7 @@ public static class MethodH
     }
 
     private static bool IsSlotValid<T>(T enc, uint u16SlotRand)
-        where T : ISlotRNGType, INumberedSlot
+        where T : IEncounterSlot3, INumberedSlot
     {
         var slot = SlotMethodH.GetSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
@@ -601,4 +602,10 @@ public static class MethodH
         }
         return encRate;
     }
+
+    private static bool IsFishingRodType(this SlotType3 t) => t
+        is Old_Rod
+        or Good_Rod
+        or Super_Rod
+        or SwarmFish50;
 }

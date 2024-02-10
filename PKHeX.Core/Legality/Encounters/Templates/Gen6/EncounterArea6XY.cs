@@ -3,6 +3,20 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+public enum SlotType6 : byte
+{
+    Standard = 0,
+    Grass = 1,
+    Surf = 2,
+    Old_Rod = 3,
+    Good_Rod = 4,
+    Super_Rod = 5,
+    Rock_Smash = 6,
+
+    Horde = 7,
+    FriendSafari = 8,
+}
+
 /// <summary>
 /// <see cref="GameVersion.XY"/> encounter area
 /// </summary>
@@ -12,7 +26,7 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     public GameVersion Version { get; }
 
     public readonly ushort Location;
-    public readonly SlotType Type;
+    public readonly SlotType6 Type;
 
     public bool IsMatchLocation(int location) => Location == location;
 
@@ -29,7 +43,7 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     public EncounterArea6XY()
     {
         Location = 148; // Friend Safari
-        Type = SlotType.FriendSafari;
+        Type = SlotType6.FriendSafari;
         Version = GameVersion.XY;
 
         Slots = LoadSafariSlots();
@@ -38,7 +52,7 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     private EncounterArea6XY(ReadOnlySpan<byte> data, GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
-        Type = (SlotType)data[2];
+        Type = (SlotType6)data[2];
         Version = game;
 
         Slots = ReadSlots(data);

@@ -1,5 +1,3 @@
-using static PKHeX.Core.PIDType;
-
 namespace PKHeX.Core;
 
 /// <summary>

@@ -18,11 +18,11 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType5 Type => Parent.Type;
 
-    public bool IsHiddenGrotto => Type == SlotType.HiddenGrotto;
+    public bool IsHiddenGrotto => Type == SlotType5.HiddenGrotto;
 
-    private HiddenAbilityPermission IsHiddenAbilitySlot() => Type == SlotType.HiddenGrotto ? HiddenAbilityPermission.Always : HiddenAbilityPermission.Never;
+    private HiddenAbilityPermission IsHiddenAbilitySlot() => IsHiddenGrotto ? HiddenAbilityPermission.Always : HiddenAbilityPermission.Never;
 
     public AbilityPermission Ability => IsHiddenAbilitySlot() switch
     {

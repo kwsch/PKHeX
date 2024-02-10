@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using static PKHeX.Core.SlotType;
+using static PKHeX.Core.SlotType4;
 
 namespace PKHeX.Core;
 
@@ -13,15 +13,18 @@ public static class SlotMethodK
     /// <summary>
     /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
     /// </summary>
-    public static byte GetSlot(SlotType type, uint rand) => type switch
+    public static byte GetSlot(SlotType4 type, uint rand) => type switch
     {
-        Rock_Smash                       => GetRockSmash(rand % 100),
+        Grass                            => GetRegular(rand % 100),
         Surf                             => GetSurf(rand % 100),
         Old_Rod or Good_Rod or Super_Rod => GetSuperRod(rand % 100),
+        Rock_Smash                       => GetRockSmash(rand % 100),
+        Headbutt or HeadbuttSpecial      => GetHeadbutt(rand % 100),
         BugContest                       => GetBugCatchingContest(rand % 100),
-        Headbutt or (Headbutt | Special) => GetHeadbutt(rand % 100),
-        // future: Safari Zone           => GetSafari(rand % 10),
-        _                                => GetRegular(rand % 100),
+        // Honey Tree shouldn't enter here.
+        Safari_Grass or Safari_Surf or
+        Safari_Old_Rod or Safari_Good_Rod or Safari_Super_Rod => GetSafari(rand % 10),
+        _ => Invalid,
     };
 
     /// <summary>

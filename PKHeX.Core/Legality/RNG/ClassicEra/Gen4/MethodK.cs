@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using static PKHeX.Core.LeadRequired;
-using static PKHeX.Core.SlotType;
+using static PKHeX.Core.SlotType4;
 
 namespace PKHeX.Core;
 
@@ -18,12 +18,12 @@ public static class MethodK
     /// <param name="evo">Level range constraints for the capture, if known.</param>
     /// <param name="format">Current format (different from 4)</param>
     public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, byte format = Format)
-        where TEnc : IEncounterSlot34
+        where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
         => GetSeed(enc, seed, evo.LevelMin, evo.LevelMax, format);
 
     public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, byte levelMin, byte levelMax, byte format = Format, int depth = 0)
-        where TEnc : IEncounterSlot34
+        where TEnc : IEncounterSlot4
     {
         var pid = ClassicEraRNG.GetSequentialPID(seed);
         var nature = (byte)(pid % 25);
@@ -34,7 +34,7 @@ public static class MethodK
 
     /// <inheritdoc cref="GetSeed{TEnc, TEvo}(TEnc, uint, TEvo, byte)"/>
     public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed)
-        where TEnc : IEncounterSlot34 => GetSeed(enc, seed, enc);
+        where TEnc : IEncounterSlot4 => GetSeed(enc, seed, enc);
 
     /// <inheritdoc cref="MethodJ.GetReversalWindow"/>
     /// <returns>Count of reverses allowed for no specific lead (not cute charm).</returns>
@@ -71,7 +71,7 @@ public static class MethodK
     /// Gets the first possible origin seed and lead for the input encounter &amp; constraints.
     /// </summary>
     public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format, int depth = 0)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         var prefer = LeadSeed.Invalid;
         while (true)
@@ -94,7 +94,7 @@ public static class MethodK
     }
 
     private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (enc.Type.IsFishingRodType())
             return IsFishPossible(enc.Type, ref result.Seed, ref result.Lead);
@@ -104,7 +104,7 @@ public static class MethodK
         return true;
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref uint result) where T : IEncounterSlot34
+    private static bool CheckEncounterActivation<T>(T enc, ref uint result) where T : IEncounterSlot4
     {
         // Lead is required to be Cute Charm.
         if (enc.Type.IsFishingRodType())
@@ -119,7 +119,7 @@ public static class MethodK
     /// Attempts to find a matching seed for the given encounter and constraints for Cute Charm buffered PIDs.
     /// </summary>
     public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         foreach (uint seed in seeds)
         {
@@ -138,7 +138,7 @@ public static class MethodK
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool TryGetMatch<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out LeadSeed result, int depth = 0)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         var p0 = seed >> 16; // 0
         var reg = GetNature(p0) == nature;
@@ -169,7 +169,7 @@ public static class MethodK
 
     private static bool Recurse4x<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format,
         out LeadSeed result, int depth)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         // When generating Pokémon's IVs, the game tries to give at least one flawless IV.
         // The game will roll the {nature,PID/IV} up to 4 times if none of the IVs are at 31 (total of 3 re-rolls)
@@ -233,7 +233,7 @@ public static class MethodK
     private static bool IsLow5Bits31(uint iv16) => (iv16 & 0x1F) == 0x1F;
 
     private static bool TryGetMatchCuteCharm<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsCuteCharmFail(ctx.Prev1))
         { result = default; return false; }
@@ -242,7 +242,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidCuteCharmFail<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsCuteCharmPass(ctx.Prev1)) // should have triggered
         { result = default; return false; }
@@ -251,7 +251,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidSyncFail<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsSyncPass(ctx.Prev1)) // should have triggered
         { result = default; return false; }
@@ -260,7 +260,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidIntimidate<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsIntimidateKeenEyePass(ctx.Prev1)) // encounter routine aborted
         { result = default; return false; }
@@ -269,7 +269,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidHustleVitalFail<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsHustleVitalPass(ctx.Prev1)) // should have triggered
         { result = default; return false; }
@@ -278,7 +278,7 @@ public static class MethodK
     }
 
     private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsSlotValidRegular(ctx, out uint seed))
         { result = new(seed, None); return true; }
@@ -304,7 +304,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (!ctx.Encounter.IsFixedLevel())
         {
@@ -323,7 +323,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (!ctx.Encounter.IsFixedLevel())
         {
@@ -342,7 +342,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidHustleVital<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (IsHustleVitalFail(ctx.Prev1)) // should have triggered
         { result = default; return false; }
@@ -366,7 +366,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         // Static or Magnet Pull
         // -3 SlotProc (Random % 2 == 0)
@@ -396,7 +396,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValidStaticMagnetFail<T>(in FrameCheckDetails<T> ctx, out uint result)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         if (!ctx.Encounter.IsFixedLevel())
         {
@@ -421,7 +421,7 @@ public static class MethodK
     }
 
     private static bool IsSlotValid<T>(T enc, uint u16SlotRand)
-        where T : IEncounterSlot34
+        where T : IEncounterSlot4
     {
         var slot = SlotMethodK.GetSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
@@ -456,7 +456,7 @@ public static class MethodK
         return (u16LevelRand % mod) + enc.LevelMin;
     }
 
-    private static bool IsFishPossible(SlotType encType, ref uint seed, ref LeadRequired lead)
+    private static bool IsFishPossible(SlotType4 encType, ref uint seed, ref LeadRequired lead)
     {
         var rate = GetFishingThreshold(encType);
         var u16 = seed >> 16;
@@ -481,7 +481,7 @@ public static class MethodK
         return false;
     }
 
-    private static bool IsFishPossible(SlotType encType, ref uint seed)
+    private static bool IsFishPossible(SlotType4 encType, ref uint seed)
     {
         var rate = GetFishingThreshold(encType);
         var u16 = seed >> 16;
@@ -526,11 +526,25 @@ public static class MethodK
         return false;
     }
 
-    private static byte GetFishingThreshold(SlotType type) => type switch
+    private static byte GetFishingThreshold(SlotType4 type) => type switch
     {
         Old_Rod => 25,
         Good_Rod => 50,
         Super_Rod => 75,
+
+        Safari_Old_Rod => 25,
+        Safari_Good_Rod => 50,
+        Safari_Super_Rod => 75,
+
         _ => 0,
     };
+
+    private static bool IsFishingRodType(this SlotType4 t) => t
+        is Old_Rod
+        or Good_Rod
+        or Super_Rod
+
+        or Safari_Old_Rod
+        or Safari_Good_Rod
+        or Safari_Super_Rod;
 }

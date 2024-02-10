@@ -1,3 +1,6 @@
+using static PKHeX.Core.PIDType;
+using static PKHeX.Core.SlotType3;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -22,7 +25,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public byte Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType3 Type => Parent.Type;
     public bool IsSafari => Locations.IsSafariZoneLocation3(Location);
     public bool IsSafariHoenn => Locations.IsSafariZoneLocation3RSE(Location);
 
@@ -75,7 +78,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         {
             do
             {
-                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
+                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1_Unown);
                 var lead = MethodH.GetSeed(this, seed, lvl, false, 2, 3);
                 if (pk.Form != Form && lead.IsValid())
                     return;
@@ -86,7 +89,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         {
             do
             {
-                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
+                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1);
                 var result = MethodH.GetSeed(this, seed, lvl, pk.E, pk.Gender, 3);
                 if (result.IsValid())
                     return;
@@ -135,11 +138,11 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public bool IsCompatible(PIDType val, PKM pk)
     {
         if (Species != (int)Core.Species.Unown)
-            return val is (PIDType.Method_1 or PIDType.Method_2 or PIDType.Method_3 or PIDType.Method_4);
-        return val is (PIDType.Method_1_Unown or PIDType.Method_2_Unown or PIDType.Method_3_Unown or PIDType.Method_4_Unown);
+            return val is (Method_1 or Method_2 or Method_3 or Method_4);
+        return val is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown);
     }
 
-    public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? PIDType.Method_1_Unown : PIDType.Method_1;
+    public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? Method_1_Unown : Method_1;
 
-    public byte PressureLevel => Type != SlotType.Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
+    public byte PressureLevel => Type != Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
 }

@@ -12,7 +12,7 @@ public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>, IAreaL
     public GameVersion Version { get; }
 
     public readonly ushort Location;
-    public readonly SlotType Type;
+    public readonly SlotType6 Type;
 
     public bool IsMatchLocation(int location) => Location == location;
 
@@ -27,7 +27,7 @@ public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>, IAreaL
     private EncounterArea6AO(ReadOnlySpan<byte> data, GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
-        Type = (SlotType)data[2];
+        Type = (SlotType6)data[2];
         Version = game;
 
         Slots = ReadSlots(data);

@@ -1,16 +1,17 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.SlotType3;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// <see cref="GameVersion.Gen3"/> encounter area
 /// </summary>
-public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGType, IAreaLocation
+public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocation
 {
     public EncounterSlot3[] Slots { get; }
     public GameVersion Version { get; }
-    public SlotType Type { get; }
+    public SlotType3 Type { get; }
 
     public readonly byte Rate;
     public readonly byte Location;
@@ -29,21 +30,21 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea3(input[i], game, SlotType.Swarm | SlotType.Grass);
+            result[i] = new EncounterArea3(input[i], game, SwarmGrass50);
         return result;
     }
 
     private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game)
     {
         Location = data[0];
-        Type = (SlotType)data[2];
+        Type = (SlotType3)data[2];
         Rate = data[3];
         Version = game;
 
         Slots = ReadRegularSlots(data);
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType type)
+    private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType3 type)
     {
         Location = data[0];
         Type = type;
@@ -128,4 +129,18 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
         }
         return levelMax;
     }
+}
+
+
+public enum SlotType3 : byte
+{
+    Grass = 0,
+    Surf = 1,
+    Old_Rod = 2,
+    Good_Rod = 3,
+    Super_Rod = 4,
+    Rock_Smash = 5,
+
+    SwarmGrass50 = 6,
+    SwarmFish50 = 7,
 }

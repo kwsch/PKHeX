@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.SlotType2;
 
 namespace PKHeX.Core;
 
@@ -18,7 +19,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     internal readonly EncounterTime Time;
     public readonly byte Rate;
     public readonly byte Location;
-    public readonly SlotType Type;
+    public readonly SlotType2 Type;
 
     public bool IsMatchLocation(int location) => location == Location;
 
@@ -34,13 +35,13 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     {
         Location = data[0];
         Time = (EncounterTime)data[1];
-        var type = (Type = (SlotType)data[2]) & (SlotType)0xF;
+        Type = (SlotType2)data[2];
         Rate = data[3];
 
         Version = game;
 
         var next = data[4..];
-        if (type is > SlotType.Surf and not SlotType.BugContest) // Not Grass/Surf
+        if (Type is > Surf and not BugContest) // Not Grass/Surf
         {
             const int size = 5;
             int count = next.Length / size;
@@ -72,4 +73,19 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
         }
         return slots;
     }
+}
+
+[Flags]
+public enum SlotType2 : byte
+{
+    Grass = 0,
+    Surf = 1,
+    Old_Rod = 2,
+    Good_Rod = 3,
+    Super_Rod = 4,
+    Rock_Smash = 5,
+
+    Headbutt = 6,
+    HeadbuttSpecial = 7,
+    BugContest = 8,
 }

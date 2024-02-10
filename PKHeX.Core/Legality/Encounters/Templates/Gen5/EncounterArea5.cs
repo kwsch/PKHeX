@@ -12,7 +12,7 @@ public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>, IAreaLocat
     public GameVersion Version { get; }
 
     public readonly ushort Location;
-    public readonly SlotType Type;
+    public readonly SlotType5 Type;
 
     public bool IsMatchLocation(int location) => Location == location;
 
@@ -27,7 +27,7 @@ public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>, IAreaLocat
     private EncounterArea5(ReadOnlySpan<byte> data, GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
-        Type = (SlotType)data[2];
+        Type = (SlotType5)data[2];
         Version = game;
 
         Slots = ReadSlots(data);
@@ -57,4 +57,15 @@ public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>, IAreaLocat
         byte max = entry[3];
         return new EncounterSlot5(this, species, form, min, max);
     }
+}
+
+public enum SlotType5 : byte
+{
+    Standard = 0,
+    Grass = 1,
+    Surf = 2,
+    Super_Rod = 3,
+
+    Swarm = 4,
+    HiddenGrotto = 5,
 }

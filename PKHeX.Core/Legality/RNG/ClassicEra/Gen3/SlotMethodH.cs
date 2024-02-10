@@ -1,3 +1,5 @@
+using static PKHeX.Core.SlotType3;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -10,22 +12,19 @@ public static class SlotMethodH
     /// <summary>
     /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
     /// </summary>
-    public static byte GetSlot(SlotType type, uint rand)
+    public static byte GetSlot(SlotType3 type, uint rand) => type switch
     {
-        var ESV = rand % 100;
-        if ((type & SlotType.Swarm) != 0)
-            return ESV < 50 ? (byte)0 : Invalid;
+        Grass => GetRegular(rand % 100),
+        Surf => GetSurf(rand % 100),
+        Old_Rod => GetOldRod(rand % 100),
+        Good_Rod => GetGoodRod(rand % 100),
+        Super_Rod => GetSuperRod(rand % 100),
+        Rock_Smash => GetSurf(rand % 100),
 
-        return type switch
-        {
-            SlotType.Old_Rod => GetOldRod(ESV),
-            SlotType.Good_Rod => GetGoodRod(ESV),
-            SlotType.Super_Rod => GetSuperRod(ESV),
-            SlotType.Rock_Smash => GetSurf(ESV),
-            SlotType.Surf => GetSurf(ESV),
-            _ => GetRegular(ESV),
-        };
-    }
+        SwarmFish50 => (rand % 100 < 50) ? (byte)0 : Invalid,
+        SwarmGrass50 => (rand % 100 < 50) ? (byte)0 : Invalid,
+        _ => Invalid,
+    };
 
     /// <summary>
     /// Calculates the encounter slot index based on the roll for a Gen3 Wild encounter.

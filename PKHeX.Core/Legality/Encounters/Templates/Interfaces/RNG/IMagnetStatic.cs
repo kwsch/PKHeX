@@ -23,13 +23,10 @@ public interface IMagnetStatic
     /// <summary>
     /// Indicates if the slot can be yielded by <see cref="Ability.Static"/>.
     /// </summary>
-    bool IsStaticSlot => StaticCount != 0 && StaticIndex != byte.MaxValue;
+    bool IsStaticSlot => StaticCount != 0;
 
     /// <summary>
     /// Indicates if the slot can be yielded by <see cref="Ability.MagnetPull"/>.
     /// </summary>
-    bool IsMagnetSlot => MagnetPullCount != 0 && MagnetPullIndex != byte.MaxValue;
-
-    bool IsMatchStatic(int index, int count) => index == StaticIndex && count == StaticCount;
-    bool IsMatchMagnet(int index, int count) => index == MagnetPullIndex && count == MagnetPullCount;
+    bool IsMagnetSlot => MagnetPullCount != 0;
 }

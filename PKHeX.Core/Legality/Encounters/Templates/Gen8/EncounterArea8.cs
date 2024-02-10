@@ -1,6 +1,6 @@
 using System;
 using static PKHeX.Core.AreaWeather8;
-using static PKHeX.Core.AreaSlotType8;
+using static PKHeX.Core.SlotType8;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -38,7 +38,7 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
         return others.Contains((byte)location);
     }
 
-    public static bool CanCrossoverTo(int fromLocation, int toLocation, AreaSlotType8 type)
+    public static bool CanCrossoverTo(int fromLocation, int toLocation, SlotType8 type)
     {
         if (!type.CanCrossover())
             return false;
@@ -290,15 +290,15 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
         _ => None,
     };
 
-    public static bool IsCrossoverBleedPossible(AreaSlotType8 type, int fromLocation, byte toLocation) => true;
+    public static bool IsCrossoverBleedPossible(SlotType8 type, int fromLocation, byte toLocation) => true;
 
-    public static bool IsWeatherBleedPossible(AreaSlotType8 type, AreaWeather8 permit, byte location)
+    public static bool IsWeatherBleedPossible(SlotType8 type, AreaWeather8 permit, byte location)
     {
         var weather = GetWeatherBleed(type, location);
         return weather.HasFlag(permit);
     }
 
-    private static AreaWeather8 GetWeatherBleed(AreaSlotType8 type, byte location) => type switch
+    private static AreaWeather8 GetWeatherBleed(SlotType8 type, byte location) => type switch
     {
         SymbolMain or SymbolMain2 or SymbolMain3 => GetWeatherBleedSymbol(location),
         HiddenMain or HiddenMain2                => GetWeatherBleedHiddenGrass(location),
@@ -337,7 +337,7 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
             var min = meta[2];
             var max = meta[3];
             var count = meta[4];
-            var slotType = (AreaSlotType8)meta[5];
+            var slotType = (SlotType8)meta[5];
             ofs += 6;
 
             // Read slots

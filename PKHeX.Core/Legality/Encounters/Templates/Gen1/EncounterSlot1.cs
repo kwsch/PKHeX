@@ -21,7 +21,7 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType1 Type => Parent.Type;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);

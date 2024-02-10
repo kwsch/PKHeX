@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using static PKHeX.Core.SlotType;
+using static PKHeX.Core.SlotType4;
 
 namespace PKHeX.Core;
 
@@ -13,7 +13,7 @@ public static class SlotMethodJ
     /// <summary>
     /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
     /// </summary>
-    public static int GetSlot(SlotType type, uint rand)
+    public static int GetSlot(SlotType4 type, uint rand)
     {
         uint ESV = rand / 656;
         return type switch

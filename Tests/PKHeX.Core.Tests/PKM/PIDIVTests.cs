@@ -55,11 +55,11 @@ public class PIDIVTest
     {
         // Colosseum / XD
         var pk3 = new PK3 {PID = 0x0985A297, IVs = [06, 01, 00, 07, 17, 07]};
-        var (type, seed) = MethodFinder.Analyze(pk3);
-        type.Should().Be(PIDType.CXD);
+        var pv = MethodFinder.Analyze(pk3);
+        pv.Type.Should().Be(PIDType.CXD);
 
         var gk3 = new PK3();
-        PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, seed);
+        PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, pv.OriginSeed);
         gk3.PID.Should().Be(pk3.PID);
         gk3.IVs.SequenceEqual(pk3.IVs).Should().BeTrue();
     }
@@ -69,11 +69,11 @@ public class PIDIVTest
     {
         // Channel Jirachi
         var pkC = new PK3 {PID = 0x264750D9, IVs = [06, 31, 14, 27, 05, 27], SID16 = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
-        var (type, seed) = MethodFinder.Analyze(pkC);
-        type.Should().Be(PIDType.Channel);
+        var pv = MethodFinder.Analyze(pkC);
+        pv.Type.Should().Be(PIDType.Channel);
 
         var gkC = new PK3();
-        PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, seed);
+        PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, pv.OriginSeed);
         gkC.PID.Should().Be(pkC.PID);
         gkC.IVs.SequenceEqual(pkC.IVs).Should().BeTrue();
     }

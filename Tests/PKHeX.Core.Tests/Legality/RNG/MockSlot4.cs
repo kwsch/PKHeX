@@ -1,10 +1,10 @@
 namespace PKHeX.Core.Tests;
 
-public record MockSlot : IEncounterSlot34
+public record MockSlot4 : IEncounterSlot4
 {
-    public MockSlot() { }
+    public MockSlot4() { }
 
-    public MockSlot(byte slotNumber, byte levelMin = 5, byte levelMax = 5, SlotType type = SlotType.Grass)
+    public MockSlot4(byte slotNumber, byte levelMin = 5, byte levelMax = 5, SlotType4 type = SlotType4.Grass)
     {
         SlotNumber = slotNumber;
         LevelMin = levelMin;
@@ -15,7 +15,7 @@ public record MockSlot : IEncounterSlot34
     public byte SlotNumber { get; init; }
     public byte LevelMin { get; init; }
     public byte LevelMax { get; init; }
-    public SlotType Type { get; init; }
+    public SlotType4 Type { get; init; }
 
     public byte StaticIndex { get; init; }
     public byte MagnetPullIndex { get; init; }

@@ -29,7 +29,7 @@ public static class LeadFinder
     /// <param name="evo">Level range</param>
     /// <returns>If found, origin seed and lead conditions.</returns>
     public static LeadSeed GetLeadInfo4<TEnc, TEvo>(PKM pk, TEnc enc, in PIDIV pv, TEvo evo)
-        where TEnc : IEncounterSlot34
+        where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
     {
         var type = pv.Type;
@@ -60,7 +60,7 @@ public static class LeadFinder
     /// </summary>
     /// <returns>If found, origin seed and lead conditions.</returns>
     public static bool TryGetLeadInfo4<TEnc, TEvo>(TEnc enc, TEvo evo, bool hgss, uint seed, byte format, out LeadSeed result)
-        where TEnc : IEncounterSlot34
+        where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
     {
         result = hgss
@@ -70,7 +70,7 @@ public static class LeadFinder
     }
 
     private static bool TryGetMatchCuteCharm4<TEnc, TEvo>(TEnc enc, PKM pk, TEvo evo, out uint seed)
-        where TEnc : IEncounterSlot34
+        where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
     {
         // Can be one of many seeds.

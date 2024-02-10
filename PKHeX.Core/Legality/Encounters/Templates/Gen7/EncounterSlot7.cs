@@ -19,9 +19,9 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType7 Type => Parent.Type;
 
-    public bool IsSOS => Type == SlotType.SOS;
+    public bool IsSOS => Type == SlotType7.SOS;
 
     public AbilityPermission Ability => IsHiddenAbilitySlot() switch
     {

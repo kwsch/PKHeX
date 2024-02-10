@@ -239,7 +239,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
     private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, ushort alphaMove, IPermitRecord permit)
     {
-        if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType.Landmark })
+        if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType8a.Landmark })
         {
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeZero));
             return;
@@ -263,7 +263,7 @@ public sealed class LegendsArceusVerifier : Verifier
         if (enc is not IAlpha { IsAlpha: true })
             return; // okay
 
-        if (enc is EncounterSlot8a { Type: SlotType.Landmark })
+        if (enc is EncounterSlot8a { Type: SlotType8a.Landmark })
             return; // okay
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);

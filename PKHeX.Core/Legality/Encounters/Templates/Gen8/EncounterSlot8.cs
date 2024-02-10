@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
 /// </summary>
-public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, AreaWeather8 Weather, AreaSlotType8 Type)
+public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, AreaWeather8 Weather, SlotType8 Type)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IOverworldCorrelation8
 {
     public int Generation => 8;
@@ -199,7 +199,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
                 return EncounterMatchRating.DeferredErrors;
 
             // Galar Mine hidden encounters can only be found via Curry or Fishing.
-            if (Location is (30 or 54) && Type is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !Type.CanEncounterViaFishing(Weather))
+            if (Location is (30 or 54) && Type is SlotType8.HiddenMain && !m.RibbonMarkCurry && !Type.CanEncounterViaFishing(Weather))
                 return EncounterMatchRating.DeferredErrors;
         }
 

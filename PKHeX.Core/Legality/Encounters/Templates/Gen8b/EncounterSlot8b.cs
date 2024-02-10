@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.SlotType8b;
 
 namespace PKHeX.Core;
 
@@ -23,9 +24,9 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType8b Type => Parent.Type;
 
-    public bool CanUseRadar => Type is SlotType.Grass && !IsUnderground && !IsMarsh && CanUseRadarOverworld(Location);
+    public bool CanUseRadar => Type is Grass && !IsUnderground && !IsMarsh && CanUseRadarOverworld(Location);
 
     private static bool CanUseRadarOverworld(int location) => location switch
     {
@@ -145,7 +146,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
 
     public bool IsInvalidMunchlaxTree(PKM pk)
     {
-        if (Type is not SlotType.HoneyTree)
+        if (Type is not HoneyTree)
             return false;
         return Species == (int)Core.Species.Munchlax && !Parent.IsMunchlaxTree(pk);
     }

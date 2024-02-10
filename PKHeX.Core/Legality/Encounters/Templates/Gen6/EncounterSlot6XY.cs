@@ -22,10 +22,10 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType6 Type => Parent.Type;
 
-    public bool IsFriendSafari => Type == SlotType.FriendSafari;
-    public bool IsHorde => Type == SlotType.Horde;
+    public bool IsFriendSafari => Type == SlotType6.FriendSafari;
+    public bool IsHorde => Type == SlotType6.Horde;
 
     private HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde || IsFriendSafari ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 

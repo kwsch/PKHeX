@@ -11,7 +11,7 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
     public GameVersion Version { get; }
 
     public readonly byte Location;
-    public readonly SlotType Type;
+    public readonly SlotType1 Type;
     public readonly byte Rate;
 
     public static EncounterArea1[] GetAreas(BinLinkerAccessor input, GameVersion game)
@@ -26,7 +26,7 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
     {
         Location = data[0];
         // 1 byte unused
-        Type = (SlotType)data[2];
+        Type = (SlotType1)data[2];
         Rate = data[3];
         Version = game;
 
@@ -45,4 +45,13 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
         }
         Slots = slots;
     }
+}
+
+public enum SlotType1 : byte
+{
+    Grass = 0,
+    Surf = 1,
+    Old_Rod = 2,
+    Good_Rod = 3,
+    Super_Rod = 4,
 }

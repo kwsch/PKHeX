@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.SlotType2;
 
 namespace PKHeX.Core;
 
@@ -25,11 +26,8 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
-
-    // we have "Special" bitflag. Strip it out.
-    public SlotType SlotType => Type & (SlotType)0xF;
-    public bool IsHeadbutt => SlotType == SlotType.Headbutt;
+    public SlotType2 Type => Parent.Type;
+    public bool IsHeadbutt => Type is Headbutt or HeadbuttSpecial;
 
     private static ReadOnlySpan<byte> TreeIndexes =>
     [
@@ -69,7 +67,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
         var pivot = trainerID % 10;
         return Type switch
         {
-            SlotType.Headbutt => (permissions & (1 << pivot)) != 0,
+            Headbutt => (permissions & (1 << pivot)) != 0,
             /*special*/ _ => (permissions & (1 << (pivot + 12))) != 0,
         };
     }

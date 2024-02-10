@@ -1,10 +1,12 @@
+using static PKHeX.Core.SlotType4;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.Gen4"/>.
 /// </summary>
 public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IEncounterSlot34, IGroundTypeTile, IEncounterFormRandom, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IEncounterSlot4, IGroundTypeTile, IEncounterFormRandom, IRandomCorrelation
 {
     public int Generation => 4;
     int ILocation.Location => Location;
@@ -21,7 +23,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public ushort Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType4 Type => Parent.Type;
     public GroundTileAllowed GroundTile => Parent.GroundTile;
     public byte AreaRate => Parent.Rate;
 
@@ -29,7 +31,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     private Ball GetRequiredBallValue(Ball fallback = Ball.None)
     {
-        if (Type is SlotType.BugContest)
+        if (Type is BugContest)
             return Ball.Sport;
         return Locations4.IsSafariZoneLocation(Location) ? Ball.Safari : fallback;
     }
@@ -137,7 +139,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public bool IsInvalidMunchlaxTree(PKM pk)
     {
-        if (Type is not SlotType.HoneyTree)
+        if (Type is not HoneyTree)
             return false;
         return Species == (int)Core.Species.Munchlax && !Parent.IsMunchlaxTree(pk);
     }
@@ -146,7 +148,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     {
         if ((pk.Ball == (int)Ball.Safari) != Locations4.IsSafariZoneLocation(Location))
             return EncounterMatchRating.PartialMatch;
-        if ((pk.Ball == (int)Ball.Sport) != (Type == SlotType.BugContest))
+        if ((pk.Ball == (int)Ball.Sport) != (Type == BugContest))
         {
             // Nincada => Shedinja can wipe the ball back to Poke
             if (pk.Species != (int)Core.Species.Shedinja || pk.Ball != (int)Ball.Poke)
@@ -177,7 +179,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
 
-    public byte PressureLevel => Type != SlotType.Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
-    public bool IsBugContest => Type == SlotType.BugContest;
+    public byte PressureLevel => Type != Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
+    public bool IsBugContest => Type == BugContest;
     public bool IsSafariHGSS => Location == 202;
 }

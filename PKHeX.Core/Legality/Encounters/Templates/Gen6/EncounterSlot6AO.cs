@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.SlotType6;
 
 namespace PKHeX.Core;
 
@@ -21,9 +22,9 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
-    public bool CanDexNav => Type != SlotType.Rock_Smash;
-    public bool IsHorde => Type == SlotType.Horde;
+    public SlotType6 Type => Parent.Type;
+    public bool CanDexNav => Type != Rock_Smash;
+    public bool IsHorde => Type == Horde;
 
     private HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
@@ -121,7 +122,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        var boostMax = Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax;
+        var boostMax = Type != Rock_Smash ? DexNavBoost : FluteBoostMax;
         const int boostMin = FluteBoostMin;
         if (!this.IsLevelWithinRange(pk.Met_Level, boostMin, boostMax))
             return false;

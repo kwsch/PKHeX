@@ -48,17 +48,11 @@ public static class EncounterVerifier
     }
 
     // Gen2 Wild Encounters
-    private static CheckResult VerifyWildEncounterGen2(ITrainerID16 pk, EncounterSlot2 enc) => enc.SlotType switch
+    private static CheckResult VerifyWildEncounterGen2(ITrainerID16 pk, EncounterSlot2 enc) => enc.Type switch
     {
-        SlotType.Headbutt => enc.IsTreeAvailable(pk.TID16)
+        SlotType2.Headbutt or SlotType2.HeadbuttSpecial => enc.IsTreeAvailable(pk.TID16)
             ? GetValid(LG2TreeID)
             : GetInvalid(LG2InvalidTileTreeNotFound),
-        SlotType.Old_Rod or SlotType.Good_Rod or SlotType.Super_Rod => enc.Location switch
-        {
-            19 => GetInvalid(LG2InvalidTilePark), // National Park
-            76 => GetInvalid(LG2InvalidTileR14), // Route 14
-            _ => GetValid(LEncCondition),
-        },
         _ => GetValid(LEncCondition),
     };
 

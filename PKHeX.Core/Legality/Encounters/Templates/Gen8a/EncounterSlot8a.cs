@@ -25,9 +25,9 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType8a Type => Parent.Type;
 
-    public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
+    public bool HasAlphaMove => IsAlpha && Type is not SlotType8a.Landmark;
 
     private const byte ScaleMax = 255;
 
@@ -105,10 +105,10 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     // hardcoded 7 to assume max dex progress + shiny charm.
     private const int MaxRollCount = 7;
 
-    private static byte GetRollCount(SlotType type) => (byte)(MaxRollCount + type switch
+    private static byte GetRollCount(SlotType8a type) => (byte)(MaxRollCount + type switch
     {
-        SlotType.OverworldMMO => 12,
-        SlotType.OverworldMass => 25,
+        SlotType8a.MassOutbreakMassive => 12,
+        SlotType8a.MassOutbreakRegular => 25,
         _ => 0,
     });
 
@@ -187,7 +187,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
 
         var alphaMove = pa.AlphaMove;
         bool hasAlphaMove = alphaMove != 0;
-        if (!pa.IsAlpha || Type is SlotType.Landmark)
+        if (!pa.IsAlpha || Type is SlotType8a.Landmark)
             return !hasAlphaMove ? EncounterMatchRating.Match : EncounterMatchRating.DeferredErrors;
 
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
@@ -217,7 +217,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         if (pk is not IMoveShop8Mastery p)
             return true; // Can't check.
 
-        bool allowAlphaPurchaseBug = Type is not SlotType.OverworldMMO; // Everything else Alpha is pre-1.1
+        bool allowAlphaPurchaseBug = Type is not SlotType8a.MassOutbreakMassive; // Everything else Alpha is pre-1.1
         var level = pk.Met_Level;
         var (learn, mastery) = GetLevelUpInfo();
         ushort alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;

@@ -3,6 +3,15 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+public enum SlotType8a : byte
+{
+    Standard = 0,
+    Distortion = 1,
+    Landmark = 2,
+    MassOutbreakRegular = 3,
+    MassOutbreakMassive = 4,
+}
+
 /// <summary>
 /// <see cref="GameVersion.PLA"/> encounter area
 /// </summary>
@@ -12,7 +21,7 @@ public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLoc
     public GameVersion Version => GameVersion.PLA;
 
     private readonly byte[] Locations;
-    public readonly SlotType Type;
+    public readonly SlotType8a Type;
 
     public int Location => Locations[0];
 
@@ -39,7 +48,7 @@ public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLoc
         if ((align & 1) == 1)
             align++;
         areaData = areaData[align..];
-        Type = areaData[0] + SlotType.Overworld;
+        Type = (SlotType8a)areaData[0];
         var count = areaData[1];
 
         var slots = areaData[2..];
