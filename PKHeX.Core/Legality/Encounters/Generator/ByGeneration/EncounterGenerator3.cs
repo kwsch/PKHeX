@@ -52,11 +52,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
                 yield return e;
                 continue;
             }
-            if (slot is EncounterSlot3Swarm)
-            {
-                yield return slot;
-                continue;
-            }
 
             var evo = LeadFinder.GetLevelConstraint(pk, chain, slot, 3);
             var lead = LeadFinder.GetLeadInfo3(slot, info.PIDIV, evo, emerald, gender, (byte)pk.Format);
