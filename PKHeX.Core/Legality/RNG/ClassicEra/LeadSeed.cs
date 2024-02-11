@@ -1,3 +1,5 @@
+using static PKHeX.Core.LeadRequired;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -5,8 +7,6 @@ namespace PKHeX.Core;
 /// </summary>
 public struct LeadSeed(uint Seed, LeadRequired Lead)
 {
-    public static readonly LeadSeed Invalid = new(default, LeadRequired.Invalid);
-
     /// <summary>
     /// Seed the encounter was triggered from.
     /// </summary>
@@ -23,13 +23,12 @@ public struct LeadSeed(uint Seed, LeadRequired Lead)
         lead = Lead;
     }
 
-    public readonly bool IsNoRequirement() => Lead == LeadRequired.None;
-    public readonly bool IsNoAbilityLead() => Lead == LeadRequired.None;
-    public readonly bool RequiresProcFail() => Lead.HasFlag(LeadRequired.Fail);
-    public readonly bool IsValid() => Lead != LeadRequired.Invalid;
+    public readonly bool IsNoRequirement() => Lead == None;
+    public readonly bool IsNoAbilityLead() => Lead == None;
+    public readonly bool IsValid() => Lead != Invalid;
 
     /// <summary>
     /// Prefers the lead with the most likely value (lowest value).
     /// </summary>
-    public readonly bool IsBetterThan(in LeadSeed other) => Lead < other.Lead;
+    public readonly bool IsBetterThan(in LeadSeed other) => Lead > other.Lead;
 }

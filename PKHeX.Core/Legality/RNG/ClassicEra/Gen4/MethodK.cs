@@ -73,7 +73,7 @@ public static class MethodK
     public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format, int depth = 0)
         where T : IEncounterSlot4
     {
-        var prefer = LeadSeed.Invalid;
+        LeadSeed prefer = default;
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result, depth))
@@ -111,7 +111,7 @@ public static class MethodK
 
     private static bool IsAbleToSweetScent(this LeadRequired lead) => lead
         is None // Pretty much anything grass.
-        or IntimidateKeenEye or IntimidateKeenEyeFail // Masquerain & Mawile
+        or IntimidateKeenEyeFail // Masquerain & Mawile
         or PressureHustleSpirit or PressureHustleSpiritFail // Vespiquen
         // Synchronize: None
         // Cute Charm: None
@@ -312,8 +312,8 @@ public static class MethodK
         { result = new(seed, StaticMagnetFail); return true; }
         // Intimidate/Keen Eye failing will result in no encounter.
 
-        if (IsSlotValidStaticMagnet(ctx, out seed))
-        { result = new(seed, StaticMagnet); return true; }
+        if (IsSlotValidStaticMagnet(ctx, out seed, out var sm))
+        { result = new(seed, sm); return true; }
         if (IsSlotValidHustleVital(ctx, out seed))
         { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
@@ -384,7 +384,7 @@ public static class MethodK
         result = default; return false;
     }
 
-    private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result)
+    private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result, out LeadRequired lead)
         where T : IEncounterSlot4
     {
         // Static or Magnet Pull
@@ -392,6 +392,7 @@ public static class MethodK
         // -2 ESV (select slot)
         // -1 Level
         //  0 Nature
+        lead = None;
         if (!ctx.Encounter.IsFixedLevel())
         {
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
@@ -399,7 +400,7 @@ public static class MethodK
 
             if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
-                if (IsSlotValidStaticMagnet(ctx.Encounter, ctx.Prev2))
+                if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
                 { result = ctx.Seed4; return true; }
             }
         }
@@ -408,7 +409,7 @@ public static class MethodK
             if (IsStaticMagnetFail(ctx.Prev2)) // should have triggered
             { result = default; return false; }
 
-            if (IsSlotValidStaticMagnet(ctx.Encounter, ctx.Prev1))
+            if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev1, out lead))
             { result = ctx.Seed3; return true; }
         }
         result = default; return false;
@@ -444,16 +445,6 @@ public static class MethodK
     {
         var slot = SlotMethodK.GetSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
-    }
-
-    private static bool IsSlotValidStaticMagnet<T>(T enc, uint u16SlotRand) where T : IMagnetStatic
-    {
-        if (enc.IsStaticSlot && u16SlotRand % enc.StaticCount == enc.StaticIndex)
-            return true;
-        // Isn't checked for Fishing slots, but no fishing slots are steel type -- always false.
-        if (enc.IsMagnetSlot && u16SlotRand % enc.MagnetPullCount == enc.MagnetPullIndex)
-            return true;
-        return false;
     }
 
     private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
@@ -501,10 +492,10 @@ public static class MethodK
 
     private static bool IsFishPossible(SlotType4 encType, ref uint seed, ref LeadRequired lead)
     {
-        var rate = GetFishingThreshold(encType);
+        var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 % 100;
-        if (roll < rate)
+        if (roll < rodRate)
         {
             seed = LCRNG.Prev(seed);
             return true;
@@ -514,7 +505,7 @@ public static class MethodK
             return false;
 
         // Suction Cups / Sticky Hold
-        if (roll < rate * 2)
+        if (roll < rodRate * 2)
         {
             seed = LCRNG.Prev(seed);
             lead = SuctionCups;
@@ -526,7 +517,7 @@ public static class MethodK
 
     private static bool IsFishPossible(SlotType4 encType, ref uint seed)
     {
-        var rate = GetFishingThreshold(encType);
+        var rate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 % 100;
         if (roll < rate)
@@ -551,6 +542,7 @@ public static class MethodK
 
     private static bool IsRockSmashPossible(byte areaRate, ref uint seed, ref LeadRequired lead)
     {
+        // No flute boost.
         var u16 = seed >> 16;
         var roll = u16 % 100;
         if (roll < areaRate)
@@ -563,13 +555,13 @@ public static class MethodK
         if (roll < areaRate * 2u)
         {
             seed = LCRNG.Prev(seed);
-            lead = SuctionCups;
+            lead = Illuminate;
             return true;
         }
         return false;
     }
 
-    private static byte GetFishingThreshold(SlotType4 type) => type switch
+    private static byte GetRodRate(SlotType4 type) => type switch
     {
         Old_Rod => 25,
         Good_Rod => 50,

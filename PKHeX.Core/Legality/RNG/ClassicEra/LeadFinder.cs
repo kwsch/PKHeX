@@ -17,7 +17,7 @@ public static class LeadFinder
         var type = pv.Type;
         if (type.IsClassicMethod())
             return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender, (byte)format);
-        return LeadSeed.Invalid;
+        return default;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public static class LeadFinder
             if (result)
                 return new(seed, LeadRequired.CuteCharm);
         }
-        return LeadSeed.Invalid;
+        return default;
     }
 
     /// <summary>

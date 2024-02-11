@@ -425,7 +425,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    internal static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
+    private static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
     {
         if (!IsCuteCharm(pk, pid))
             return GetNonMatch(out pidiv);

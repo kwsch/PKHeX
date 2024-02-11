@@ -1,42 +1,94 @@
+using static PKHeX.Core.LeadRequired;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Indicates the requirement of the player's lead Pokémon, first sent out when starting a battle.
 /// </summary>
+/// <remarks>Ordered by increasing preference.</remarks>
 public enum LeadRequired : byte
 {
-    /// <summary> No Lead ability effect is present, or is not checked for this type of frame. </summary>
-    None = 0,
+    /// <summary> Sentinel value for invalid/impossible to yield lead conditions. </summary>
+    Invalid = 0,
 
-    /// <summary> <see cref="Ability.Synchronize"/> </summary>
-    Synchronize,
-    /// <summary> <see cref="Ability.CuteCharm"/> </summary>
-    CuteCharm,
-    /// <summary> <see cref="Ability.Static"/> or <see cref="Ability.MagnetPull"/> </summary>
-    StaticMagnet,
-    /// <summary> Internal tag -- passing this will abort the encounter. </summary>
-    IntimidateKeenEye,
-    /// <summary> <see cref="Ability.Pressure"/> or <see cref="Ability.Hustle"/> or <see cref="Ability.VitalSpirit"/> </summary>
-    PressureHustleSpirit,
+    // Illuminate can't "fail" to apply.
+    // Suction Cups failing will fail to yield the encounter, otherwise we'd have no lead required.
+    // Intimidate succeeding will fail to yield the encounter.
+
+    /// <inheritdoc cref="Static"/>
+    StaticMagnetFail,
+    /// <inheritdoc cref="CuteCharm"/>
+    CuteCharmFail,
+    /// <inheritdoc cref="Synchronize"/>
+    SynchronizeFail,
+    /// <inheritdoc cref="PressureHustleSpirit"/>
+    PressureHustleSpiritFail,
+
+    /// <summary> <see cref="Ability.Intimidate"/> or <see cref="Ability.KeenEye"/> failed to activate. </summary>
+    IntimidateKeenEyeFail,
+
+    /// <summary> <see cref="Ability.Illuminate"/> or <see cref="Ability.ArenaTrap"/> </summary>
+    Illuminate,
     /// <summary> <see cref="Ability.SuctionCups"/> or <see cref="Ability.StickyHold"/> </summary>
     SuctionCups,
 
-    /// <summary> Internal tag </summary>
-    Fail = 1 << 7,
+    /// <summary> <see cref="Ability.Pressure"/> or <see cref="Ability.Hustle"/> or <see cref="Ability.VitalSpirit"/> </summary>
+    PressureHustleSpirit,
+    /// <summary> <see cref="Ability.MagnetPull"/> </summary>
+    MagnetPull,
+    /// <summary> <see cref="Ability.Static"/> </summary>
+    Static,
+    /// <summary> <see cref="Ability.CuteCharm"/> </summary>
+    CuteCharm,
+    /// <summary> <see cref="Ability.Synchronize"/> </summary>
+    Synchronize,
 
-    /// <summary> <see cref="Ability.Intimidate"/> or <see cref="Ability.KeenEye"/> failed to activate. </summary>
-    IntimidateKeenEyeFail = IntimidateKeenEye | Fail,
-    /// <summary> <inheritdoc cref="PressureHustleSpirit"/> </summary>
-    PressureHustleSpiritFail = PressureHustleSpirit | Fail,
-    /// <summary> <inheritdoc cref="Synchronize"/> </summary>
-    SynchronizeFail = Synchronize | Fail,
-    /// <summary> <inheritdoc cref="CuteCharm"/> </summary>
-    CuteCharmFail = CuteCharm | Fail,
-    /// <summary> <inheritdoc cref="StaticMagnet"/> </summary>
-    StaticMagnetFail = StaticMagnet | Fail,
+    /// <summary> No Lead ability effect is present, or is not checked for this type of frame. </summary>
+    None = byte.MaxValue,
+}
 
-    // Suction cups failing will fail to yield the encounter since it's the first call.
+public static class LeadRequiredExtensions
+{
+    public static bool IsFailTuple(this LeadRequired lr) => lr
+        is PressureHustleSpiritFail
+        or SynchronizeFail
+        or CuteCharmFail
+        or StaticMagnetFail;
 
-    /// <summary> Sentinel value for invalid/impossible to yield lead conditions. </summary>
-    Invalid = byte.MaxValue,
+    public static LeadRequired GetRegular(this LeadRequired lr) => lr switch
+    {
+        PressureHustleSpiritFail => PressureHustleSpirit,
+        SynchronizeFail          => Synchronize,
+        CuteCharmFail            => CuteCharm,
+        StaticMagnetFail         => Static,
+        _                        => None,
+    };
+
+    public static Ability GetAbility(this LeadRequired lr) => lr switch
+    {
+        Synchronize           => Ability.Synchronize,
+        CuteCharm             => Ability.CuteCharm,
+        Static                => Ability.Static,
+        MagnetPull            => Ability.MagnetPull,
+        PressureHustleSpirit  => Ability.Pressure,
+        SuctionCups           => Ability.SuctionCups,
+        Illuminate            => Ability.Illuminate,
+        IntimidateKeenEyeFail => Ability.Intimidate,
+        _                     => Ability.None,
+    };
+
+    public static (Ability Ability, bool IsFail) GetDisplayAbility(this LeadRequired lr)
+    {
+        var isFail = false;
+        if (lr.IsFailTuple())
+        {
+            isFail = true;
+            lr = lr.GetRegular();
+        }
+        else if (lr is IntimidateKeenEyeFail)
+        {
+            isFail = true;
+        }
+        return (lr.GetAbility(), isFail);
+    }
 }

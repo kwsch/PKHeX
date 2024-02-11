@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public readonly struct PIDIV
 {
     internal static readonly PIDIV None = new();
-    internal static readonly PIDIV CuteCharm = new(PIDType.CuteCharm);
+    internal static readonly PIDIV CuteCharm = new(PIDType.CuteCharm); // can be one of many seeds!
     internal static readonly PIDIV Pokewalker = new(PIDType.Pokewalker);
     internal static readonly PIDIV G5MGShiny = new(PIDType.G5MGShiny);
 

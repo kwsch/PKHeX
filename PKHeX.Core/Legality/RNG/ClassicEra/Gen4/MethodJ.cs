@@ -43,6 +43,7 @@ public static class MethodJ
     // Static/Magnet Pull:           rand() >> 15 == 0;
     // Pressure/Hustle/Vital Spirit: rand() >> 15 == 1;
     // Intimidate/Keen Eye:          rand() >> 15 == 1; -- 0 will reject the encounter.
+    // Feebas Spot:                  rand() >> 15 == 1; -- 0 will use regular encounters.
 
     private const byte Format = 4;
 
@@ -61,6 +62,8 @@ public static class MethodJ
     private static bool IsIntimidateKeenEyeFail(uint rand) => (rand >> 15) != 1;
     private static bool IsIntimidateKeenEyePass(uint rand) => (rand >> 15) == 1;
 
+    private static bool IsFeebasChance(uint rand) => (rand >> 15) == 1;
+
     private static uint GetNature(uint rand) => rand / 0xA3Eu;
 
     /// <summary>
@@ -69,7 +72,7 @@ public static class MethodJ
     public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot4
     {
-        var prefer = LeadSeed.Invalid;
+        LeadSeed prefer = default;
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
@@ -94,6 +97,11 @@ public static class MethodJ
     {
         if (enc.Type.IsFishingRodType())
         {
+            if (enc is EncounterSlot4 { Parent.IsCoronetFeebasArea: true } s4)
+            {
+                if (!IsValidCoronetB1F(s4, ref result.Seed))
+                    return false;
+            }
             // D/P don't reference Suction Cups or Sticky Hold.
             return enc is IVersion { Version: Pt }
                 ? IsFishPossible(enc.Type, ref result.Seed, ref result.Lead)
@@ -108,8 +116,32 @@ public static class MethodJ
     {
         // Lead is required to be Cute Charm.
         if (enc.Type.IsFishingRodType())
+        {
+            if (enc is EncounterSlot4 { Parent.IsCoronetFeebasArea: true } s4)
+            {
+                if (!IsValidCoronetB1F(s4, ref result))
+                    return false;
+            }
             return IsFishPossible(enc.Type, ref result);
+        }
         // Can sweet scent trigger.
+        return true;
+    }
+
+    private static bool IsValidCoronetB1F(ISpeciesForm s4, ref uint result)
+    {
+        // The game rolls to check if it might need to replace the slots with Feebas.
+        // This occurs in Mt. Coronet B1F; if passed, check if the player is on a Feebas tile before replacing.
+        // 0 - Hook
+        // 1 - CheckTiles -- current seed
+        // 2- ESV
+        if (s4.Species is (int)Species.Feebas && !IsFeebasChance(result >> 16))
+            return false;
+
+        // Regular slots don't need to falsify the rand().
+        // Players can just fish from a non-Feebas tile.
+        // The rand() call is unavoidable when in the area.
+        result = LCRNG.Prev(result);
         return true;
     }
 
@@ -222,8 +254,8 @@ public static class MethodJ
         { result = new(seed, StaticMagnetFail); return true; }
         // Intimidate/Keen Eye failing will result in no encounter.
 
-        if (IsSlotValidStaticMagnet(ctx, out seed))
-        { result = new(seed, StaticMagnet); return true; }
+        if (IsSlotValidStaticMagnet(ctx, out seed, out var lead))
+        { result = new(seed, lead); return true; }
         if (IsSlotValidHustleVital(ctx, out seed))
         { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
@@ -294,9 +326,10 @@ public static class MethodJ
         result = default; return false;
     }
 
-    private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result)
+    private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result, out LeadRequired lead)
         where T : IEncounterSlot4
     {
+        lead = None;
         if (!ctx.Encounter.IsFixedLevel())
         {
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
@@ -304,7 +337,7 @@ public static class MethodJ
 
             if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
-                if (IsSlotValidStaticMagnet(ctx.Encounter, ctx.Prev2))
+                if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
                 { result = ctx.Seed4; return true; }
             }
         }
@@ -313,7 +346,7 @@ public static class MethodJ
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
             { result = default; return false; }
 
-            if (IsSlotValidStaticMagnet(ctx.Encounter, ctx.Prev1))
+            if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev1, out lead))
             { result = ctx.Seed3; return true; }
         }
         result = default; return false;
@@ -351,17 +384,6 @@ public static class MethodJ
             return true; // pre-determined
         var slot = SlotMethodJ.GetSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
-    }
-
-    private static bool IsSlotValidStaticMagnet<T>(T enc, uint u16SlotRand) where T : IMagnetStatic
-    {
-        // D/P/Pt stays away from modulo operations, but use modulo for Static & Magnet Pull.
-        if (enc.IsStaticSlot && u16SlotRand % enc.StaticCount == enc.StaticIndex)
-            return true;
-        // Isn't checked for Fishing slots, but no fishing slots are steel type -- always false.
-        if (enc.IsMagnetSlot && u16SlotRand % enc.MagnetPullCount == enc.MagnetPullIndex)
-            return true;
-        return false;
     }
 
     private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
@@ -406,18 +428,12 @@ public static class MethodJ
         return ctr;
     }
 
-    private static bool IsFishPossible(SlotType4 encType, ref uint seed, ref LeadRequired lead)
-    {
-        var rate = GetFishingThreshold(encType);
-        return IsFishPossible(rate, ref seed, ref lead);
-    }
-
     private static bool IsFishPossible(SlotType4 encType, ref uint seed)
     {
-        var rate = GetFishingThreshold(encType);
+        var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 / 656;
-        if (roll < rate)
+        if (roll < rodRate)
         {
             seed = LCRNG.Prev(seed);
             return true;
@@ -425,11 +441,12 @@ public static class MethodJ
         return false;
     }
 
-    private static bool IsFishPossible(byte rate, ref uint seed, ref LeadRequired lead)
+    private static bool IsFishPossible(SlotType4 encType, ref uint seed, ref LeadRequired lead)
     {
+        var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 / 656;
-        if (roll < rate)
+        if (roll < rodRate)
         {
             seed = LCRNG.Prev(seed);
             return true;
@@ -439,7 +456,7 @@ public static class MethodJ
             return false;
 
         // Suction Cups / Sticky Hold
-        if (roll < rate * 2)
+        if (roll < rodRate * 2)
         {
             seed = LCRNG.Prev(seed);
             lead = SuctionCups;
@@ -449,7 +466,7 @@ public static class MethodJ
         return false;
     }
 
-    private static byte GetFishingThreshold(SlotType4 type) => type switch
+    private static byte GetRodRate(SlotType4 type) => type switch
     {
         Old_Rod => 25,
         Good_Rod => 50,

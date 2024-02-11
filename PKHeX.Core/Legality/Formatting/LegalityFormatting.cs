@@ -116,11 +116,23 @@ public static class LegalityFormatting
         if (info is { EncounterMatch: IEncounterSlot34 s })
         {
             var lead = pidiv.Lead;
-            var seed = !info.FrameMatches ? pidiv.OriginSeed : pidiv.EncounterSeed;
+            var seed = !info.FrameMatches || lead == LeadRequired.Invalid ? pidiv.OriginSeed : pidiv.EncounterSeed;
             var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
             if (lead != LeadRequired.None)
-                line += $" ({lead})";
-            line += $" [{s.SlotNumber}]";
+            {
+                if (lead is LeadRequired.Static)
+                    line += $" [{s.StaticIndex}/{s.StaticCount}]";
+                else if (lead is LeadRequired.MagnetPull)
+                    line += $" [{s.MagnetPullIndex}/{s.MagnetPullCount}]";
+                else
+                    line += $" [{s.SlotNumber}]";
+
+                line += $" ({lead.Localize()})";
+            }
+            else
+            {
+                line += $" [{s.SlotNumber}]";
+            }
             lines.Add(line);
         }
         else
@@ -129,6 +141,16 @@ public static class LegalityFormatting
             var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
             lines.Add(line);
         }
+    }
+
+    private static string Localize(this LeadRequired lead)
+    {
+        if (lead is LeadRequired.Invalid)
+            return "❌";
+        var (ability, isFail) = lead.GetDisplayAbility();
+        var abilities = GameInfo.Strings.Ability;
+        var name = abilities[(int)ability];
+        return isFail ? string.Format(L_F0_1, name, "❌") : name;
     }
 
     public static string GetEncounterName(this IEncounterable enc)

@@ -82,6 +82,8 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
 
     public bool IsMunchlaxTree(ITrainerID32 pk) => IsMunchlaxTree(pk, Location);
 
+    public bool IsCoronetFeebasArea => Rate is byte.MaxValue; // Sentinel only for Fishing slots.
+
     private static bool IsMunchlaxTree(ITrainerID32 pk, ushort location)
     {
         // We didn't encode the honey tree index to the encounter slot resource.

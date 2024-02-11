@@ -24,4 +24,6 @@ public record MockSlot4 : IEncounterSlot4
     public byte AreaRate { get; init; }
 
     public byte PressureLevel => LevelMax;
+    public ushort Species => 0;
+    public byte Form => 0;
 }

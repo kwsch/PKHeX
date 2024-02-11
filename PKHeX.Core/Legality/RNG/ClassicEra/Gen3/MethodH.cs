@@ -126,7 +126,7 @@ public static class MethodH
     private static LeadSeed GetOriginSeedEmerald<T>(T enc, uint seed, byte nature, int reverseCount, int revCute, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot3
     {
-        var prefer = LeadSeed.Invalid;
+        LeadSeed prefer = default;
         while (true)
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
@@ -199,7 +199,7 @@ public static class MethodH
             reverseCount--;
             seed = LCRNG.Prev2(seed);
         }
-        return LeadSeed.Invalid;
+        return default;
     }
 
     private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
@@ -427,8 +427,8 @@ public static class MethodH
         { result = new(seed, StaticMagnetFail); return true; }
         // Intimidate/Keen Eye failing will result in no encounter.
 
-        if (IsSlotValidStaticMagnet(ctx, out seed))
-        { result = new(seed, StaticMagnet); return true; }
+        if (IsSlotValidStaticMagnet(ctx, out seed, out var lead))
+        { result = new(seed, lead); return true; }
         if (IsSlotValidHustleVital(ctx, out seed))
         { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
@@ -491,7 +491,7 @@ public static class MethodH
         result = default; return false;
     }
 
-    private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result)
+    private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result, out LeadRequired lead)
         where T : IEncounterSlot3
     {
         // Static or Magnet Pull
@@ -499,12 +499,13 @@ public static class MethodH
         // -2 ESV (select slot)
         // -1 Level
         //  0 Nature
+        lead = None;
         if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
         { result = default; return false; }
 
         if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
         {
-            if (IsSlotValidStaticMagnet(ctx.Encounter, ctx.Prev2))
+            if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
             { result = ctx.Seed4; return true; }
         }
         result = default; return false;
@@ -534,16 +535,6 @@ public static class MethodH
     {
         var slot = SlotMethodH.GetSlot(enc.Type, u16SlotRand);
         return slot == enc.SlotNumber;
-    }
-
-    private static bool IsSlotValidStaticMagnet<T>(T enc, uint u16SlotRand) where T : IMagnetStatic
-    {
-        if (enc.IsStaticSlot && u16SlotRand % enc.StaticCount == enc.StaticIndex)
-            return true;
-        // Isn't checked for Fishing slots, but no fishing slots are steel type -- always false.
-        if (enc.IsMagnetSlot && u16SlotRand % enc.MagnetPullCount == enc.MagnetPullIndex)
-            return true;
-        return false;
     }
 
     private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
@@ -577,16 +568,16 @@ public static class MethodH
 
     private const ushort MaxEncounterRate = 2880; // 0xB40
 
-    private static bool IsRatePass(uint seed, byte rate, LeadRequired lead, bool ignoreAbility = true)
+    private static bool IsRatePass(uint seed, byte areaRate, LeadRequired lead, bool ignoreAbility = true)
     {
         var u16 = seed >> 16;
-        var encRate = GetEncounterRate(rate, lead, ignoreAbility);
+        var encRate = GetEncounterRate(areaRate, lead, ignoreAbility);
         return u16 % MaxEncounterRate < encRate;
     }
 
-    private static uint GetEncounterRate(byte areaRateByte, LeadRequired lead, bool ignoreAbility)
+    private static uint GetEncounterRate(byte areaRate, LeadRequired lead, bool ignoreAbility)
     {
-        uint encRate = areaRateByte * 16u;
+        uint encRate = areaRate * 16u;
         // We intend to pass the encounter, as we want an encounter to trigger.
         // Player on a Bike adjusts by *80 /100. We assume the player is not on a bike.
         // Cleanse Tag adjusts by *2 /3. We assume the player is not using a Cleanse Tag.

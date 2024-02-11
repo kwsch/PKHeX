@@ -19,6 +19,7 @@ public class MarshalTests
     public void MarshalSizeExact(int expect, Type t) => Marshal.SizeOf(t).Should().Be(expect);
 
     [Theory]
+    [InlineData( 8, typeof(LeadSeed))]
     [InlineData( 8, typeof(NPCLock))]
     [InlineData( 8, typeof(IndividualValueSet))]
     [InlineData( 8, typeof(EvolutionOrigin))]

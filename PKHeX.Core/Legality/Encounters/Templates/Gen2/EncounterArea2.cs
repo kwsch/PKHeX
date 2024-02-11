@@ -11,17 +11,25 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     public EncounterSlot2[] Slots { get; }
     public GameVersion Version { get; }
 
-    private static ReadOnlySpan<byte> BCC_SlotRates => [ 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 ];
     private static ReadOnlySpan<byte> RatesGrass => [ 30, 30, 20, 10, 5, 4, 1 ];
     private static ReadOnlySpan<byte> RatesSurf => [ 60, 30, 10 ];
 
-    public readonly byte[]? Rates;
+    public readonly byte[] Rates; // Slot specific rates
     internal readonly EncounterTime Time;
-    public readonly byte Rate;
+    public readonly byte Rate; // Area Rate
     public readonly byte Location;
     public readonly SlotType2 Type;
 
     public bool IsMatchLocation(int location) => location == Location;
+
+    public byte GetSlotRate(byte slot) => GetSlotRates()[slot];
+
+    private ReadOnlySpan<byte> GetSlotRates() => Type switch
+    {
+        Grass => RatesGrass,
+        Surf => RatesSurf,
+        _ => Rates,
+    };
 
     public static EncounterArea2[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -41,29 +49,28 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
         Version = game;
 
         var next = data[4..];
-        if (Type is > Surf and not BugContest) // Not Grass/Surf
+        if (Type > Surf) // Not Grass/Surf
         {
-            const int size = 5;
-            int count = next.Length / size;
+            int count = next.Length / (SlotSize + 1); // each slot has a rate
             Rates = next[..count].ToArray();
             Slots = ReadSlots(next[count..], count);
         }
         else
         {
-            const int size = 4;
-            int count = next.Length / size;
-            Rates = null; // fetch as needed.
+            int count = next.Length / SlotSize; // shared rate value
+            Rates = []; // fetch as needed.
             Slots = ReadSlots(next, count);
         }
     }
 
+    private const int SlotSize = 4;
+
     private EncounterSlot2[] ReadSlots(ReadOnlySpan<byte> data, int count)
     {
-        const int size = 4;
         var slots = new EncounterSlot2[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            var entry = data.Slice(i * size, size);
+            var entry = data.Slice(i * SlotSize, SlotSize);
             byte max = entry[3];
             byte min = entry[2];
             byte slotNum = entry[1];
