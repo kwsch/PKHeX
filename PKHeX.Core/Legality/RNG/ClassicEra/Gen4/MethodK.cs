@@ -78,13 +78,10 @@ public static class MethodK
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result, depth))
             {
-                if (CheckEncounterActivation(enc, ref result))
-                {
-                    if (result.IsNoRequirement())
-                        return result;
-                    if (result.IsBetterThan(prefer))
-                        prefer = result;
-                }
+                if (result.IsNoRequirement())
+                    return result;
+                if (result.IsBetterThan(prefer))
+                    prefer = result;
             }
             if (reverseCount == 0)
                 return prefer;
@@ -164,7 +161,7 @@ public static class MethodK
         if (reg)
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (TryGetMatchNoSync(ctx, out result))
+            if (TryGetMatchNoSync(ctx, out result) && CheckEncounterActivation(enc, ref result))
                 return true;
             if (depth != 4 && enc is EncounterSlot4 s && (s.IsBugContest || s.IsSafariHGSS))
                 return Recurse4x(enc, levelMin, levelMax, seed, nature, format, out result, ++depth);
@@ -175,7 +172,8 @@ public static class MethodK
             if (IsSlotValidRegular(ctx, out seed))
             {
                 result = new(seed, Synchronize);
-                return true;
+                if (CheckEncounterActivation(enc, ref result))
+                    return true;
             }
             if (depth != 4 && enc is EncounterSlot4 s && (s.IsBugContest || s.IsSafariHGSS))
                 return Recurse4x(enc, levelMin, levelMax, seed, nature, format, out result, ++depth);
