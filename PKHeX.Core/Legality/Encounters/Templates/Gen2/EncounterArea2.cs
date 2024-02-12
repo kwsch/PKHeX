@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.SlotType2;
 
 namespace PKHeX.Core;
@@ -31,7 +32,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
         _ => Rates,
     };
 
-    public static EncounterArea2[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea2[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea2[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -39,7 +40,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
         return result;
     }
 
-    private EncounterArea2(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea2(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = data[0];
         Time = (EncounterTime)data[1];
@@ -82,7 +83,6 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     }
 }
 
-[Flags]
 public enum SlotType2 : byte
 {
     Grass = 0,

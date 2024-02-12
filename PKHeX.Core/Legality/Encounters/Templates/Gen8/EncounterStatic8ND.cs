@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Encounters8Nest;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -16,7 +17,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
     public byte Index { get; }
     public override string Name => $"Distribution Raid Den Encounter - {Index:000}";
 
-    public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, GameVersion game) : base(game)
+    public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, [ConstantExpected] GameVersion game) : base(game)
     {
         Level = lvl;
         DynamaxLevel = dyna;
@@ -24,7 +25,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
         Index = index;
     }
 
-    public static EncounterStatic8ND Read(ReadOnlySpan<byte> data, GameVersion game)
+    public static EncounterStatic8ND Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         var d = data[13];
         var dlvl = (byte)(d & 0x7F);

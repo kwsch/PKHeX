@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.SlotType8b;
 
@@ -15,7 +16,7 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
     public readonly ushort Location;
     public readonly SlotType8b Type;
 
-    public static EncounterArea8b[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea8b[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea8b[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -23,7 +24,7 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
         return result;
     }
 
-    private EncounterArea8b(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea8b(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
         Type = (SlotType8b)data[2];

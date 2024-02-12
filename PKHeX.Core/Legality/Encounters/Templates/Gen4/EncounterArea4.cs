@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -13,12 +14,12 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
     public SlotType4 Type { get; }
     public GroundTileAllowed GroundTile { get; }
 
-    public readonly ushort Location;
+    public readonly byte Location;
     public readonly byte Rate;
 
     public bool IsMatchLocation(int location) => location == Location;
 
-    public static EncounterArea4[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea4[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea4[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -26,26 +27,27 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
         return result;
     }
 
-    private EncounterArea4(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea4(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
-        Location = ReadUInt16LittleEndian(data);
+        Location = data[0];
+        // data[1] is unused because location is always <= 255.
         Type = (SlotType4)data[2];
         Rate = data[3];
         Version = game;
         // although GroundTilePermission flags are 32bit, none have values > 16bit.
         GroundTile = (GroundTileAllowed)ReadUInt16LittleEndian(data[4..]);
 
-        Slots = ReadRegularSlots(data);
+        Slots = ReadRegularSlots(data[6..]);
     }
 
     private EncounterSlot4[] ReadRegularSlots(ReadOnlySpan<byte> data)
     {
         const int size = 10;
-        int count = (data.Length - 6) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot4[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 6 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadRegularSlot(entry);
         }

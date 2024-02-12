@@ -17,9 +17,9 @@ internal static class Encounters3RSE
     internal static readonly EncounterArea3[] SlotsS = GetRegular("s", "sa"u8, S);
     internal static readonly EncounterArea3[] SlotsE = GetRegular("e", "em"u8, E);
 
-    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, GameVersion game)
+    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion game)
         => EncounterArea3.GetAreas(Get(resource, ident), game);
-    private static EncounterArea3[] GetSwarm([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, GameVersion game)
+    private static EncounterArea3[] GetSwarm([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion game)
         => EncounterArea3.GetAreasSwarm(Get(resource, ident), game);
 
     private static readonly string[] TrainersPikachu = [string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO"];

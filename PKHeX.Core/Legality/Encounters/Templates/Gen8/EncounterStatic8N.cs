@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Encounters8Nest;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -23,7 +24,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     public override byte LevelMin => LevelCaps[MinRank * 2];
     public override byte LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-    public EncounterStatic8N(byte nestID, byte minRank, byte maxRank, byte val, GameVersion game) : base(game)
+    public EncounterStatic8N(byte nestID, byte minRank, byte maxRank, byte val, [ConstantExpected] GameVersion game) : base(game)
     {
         NestID = nestID;
         MinRank = minRank;
@@ -32,7 +33,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         FlawlessIVCount = val;
     }
 
-    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, GameVersion game) => new(data[6], data[7], data[8], data[9], game)
+    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game) => new(data[6], data[7], data[8], data[9], game)
     {
         Species = ReadUInt16LittleEndian(data),
         Form = data[2],

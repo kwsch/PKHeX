@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.SlotType3;
 
@@ -18,7 +19,7 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
 
     public bool IsMatchLocation(int location) => location == Location;
 
-    public static EncounterArea3[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea3[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -26,7 +27,7 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
         return result;
     }
 
-    public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -34,9 +35,10 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
         return result;
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = data[0];
+        // data[1] is unused because location is always <= 255.
         Type = (SlotType3)data[2];
         Rate = data[3];
         Version = game;
@@ -44,10 +46,11 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
         Slots = ReadRegularSlots(data);
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType3 type)
+    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game, [ConstantExpected] SlotType3 type)
     {
         Location = data[0];
-        Type = type;
+        // data[1] is unused because location is always <= 255.
+        Type = type; // data[2] but it's always the same value
         Rate = data[3];
         Version = game;
 

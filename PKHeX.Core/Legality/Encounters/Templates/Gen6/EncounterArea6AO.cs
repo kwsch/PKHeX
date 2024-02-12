@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -16,7 +17,7 @@ public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>, IAreaL
 
     public bool IsMatchLocation(int location) => Location == location;
 
-    public static EncounterArea6AO[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea6AO[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea6AO[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -24,7 +25,7 @@ public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>, IAreaL
         return result;
     }
 
-    private EncounterArea6AO(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea6AO(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
         Type = (SlotType6)data[2];

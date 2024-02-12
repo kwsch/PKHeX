@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -14,7 +15,7 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
     public readonly SlotType1 Type;
     public readonly byte Rate;
 
-    public static EncounterArea1[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea1[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea1[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -22,7 +23,7 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
         return result;
     }
 
-    private EncounterArea1(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea1(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = data[0];
         // 1 byte unused
