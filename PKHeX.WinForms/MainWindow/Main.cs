@@ -579,11 +579,26 @@ public partial class Main : Form
         if (obj != null && LoadFile(obj, path))
             return;
 
-        bool isSAV = WinFormsUtil.IsFileExtensionSAV(path);
-        var msg = isSAV ? MsgFileUnsupported : MsgPKMUnsupported;
-        WinFormsUtil.Error(msg,
+        WinFormsUtil.Error(GetHintInvalidFile(input, path),
             $"{MsgFileLoad}{Environment.NewLine}{path}",
             $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
+    }
+
+    private static string GetHintInvalidFile(ReadOnlySpan<byte> input, string path)
+    {
+        bool isSAV = WinFormsUtil.IsFileExtensionSAV(path);
+        if (!isSAV)
+            return MsgPKMUnsupported;
+
+        // Include a hint for the user to check if the file is all 00 or all FF
+        bool allZero = !input.ContainsAnyExcept<byte>(0x00);
+        if (allZero)
+            return MsgFileLoadAllZero;
+        bool allFF = !input.ContainsAnyExcept<byte>(0xFF);
+        if (allFF)
+            return MsgFileLoadAllFFFF;
+
+        return MsgFileUnsupported;
     }
 
     private bool LoadFile(object? input, string path)
