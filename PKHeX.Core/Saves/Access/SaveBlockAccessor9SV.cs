@@ -46,7 +46,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
         Config = new ConfigSave9(sav, GetBlock(KConfig));
         ConfigCamera = new ConfigCamera9(sav, GetBlockSafe(KConfigCamera));
-        TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes));
+        TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes), GetBlock(KTeamLocks));
         LastSaved = new Epoch1900DateTimeValue(GetBlock(KLastSaved));
         LastDateCycle = new Epoch1970Value(GetBlock(KLastDateCycle));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
@@ -138,6 +138,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KFieldItems = 0x2482AD60; // Stores grabbed status for each existing field item
     private const uint KDefeatedTrainers01 = 0xF018C4AC; // Stores history of up to 300 regular trainers defeated
     private const uint KDefeatedTrainers02 = 0x28E475DE; // 2.0.2+ Expansion with additional 100 slots
+    private const uint KTeamLocks = 0x605EBC30;
 
     // BCAT (Tera Raid Battles)
     private const uint KBCATRaidFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
