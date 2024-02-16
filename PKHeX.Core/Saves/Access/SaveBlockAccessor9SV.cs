@@ -21,7 +21,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public Zukan9 Zukan { get; }
     public ConfigSave9 Config { get; }
     public ConfigCamera9 ConfigCamera { get; }
-    public TeamIndexes9 TeamIndexes { get; }
+    public TeamIndexes8 TeamIndexes { get; }
     public Epoch1900DateTimeValue LastSaved { get; }
     public Epoch1970Value LastDateCycle { get; }
     public PlayerFashion9 PlayerFashion { get; }
@@ -46,7 +46,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
         Config = new ConfigSave9(sav, GetBlock(KConfig));
         ConfigCamera = new ConfigCamera9(sav, GetBlockSafe(KConfigCamera));
-        TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes), GetBlock(KTeamLocks));
+        TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes), GetBlock(KTeamLocks));
         LastSaved = new Epoch1900DateTimeValue(GetBlock(KLastSaved));
         LastDateCycle = new Epoch1970Value(GetBlock(KLastDateCycle));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
@@ -70,11 +70,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
             RaidBlueberry = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T2, false);
         }
 
-        if (TryGetBlock(KSevenStarRaidsDefeat, out var kSevenStarDefeated))
-            RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), kSevenStarDefeated);
-        else
-            RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), GetFakeBlock());
-
+        RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), GetBlockSafe(KSevenStarRaidsDefeat));
         EnrollmentDate = new Epoch1900DateValue(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
         BlueberryClubRoom = new BlueberryClubRoom9(sav, GetBlockSafe(KBlueberryClubRoom));

@@ -76,7 +76,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public Record8 Records => Blocks.Records;
     public TrainerCard8 TrainerCard => Blocks.TrainerCard;
     public FashionUnlock8 Fashion => Blocks.Fashion;
-    public RaidSpawnList8 Raid => Blocks.Raid;
+    public RaidSpawnList8 RaidGalar => Blocks.RaidGalar;
     public RaidSpawnList8 RaidArmor => Blocks.RaidArmor;
     public RaidSpawnList8 RaidCrown => Blocks.RaidCrown;
     public TitleScreen8 TitleScreen => Blocks.TitleScreen;

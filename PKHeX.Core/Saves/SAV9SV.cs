@@ -74,7 +74,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public BoxLayout9 BoxLayout => Blocks.BoxLayout;
     public PlayTime9 Played => Blocks.Played;
     public ConfigSave9 Config => Blocks.Config;
-    public TeamIndexes9 TeamIndexes => Blocks.TeamIndexes;
+    public TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
     public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
     public Epoch1970Value LastDateCycle => Blocks.LastDateCycle;
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
