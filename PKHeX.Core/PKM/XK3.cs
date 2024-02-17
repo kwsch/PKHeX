@@ -34,14 +34,14 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
     public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x02)); set => WriteUInt16BigEndian(Data.AsSpan(0x02), (ushort)value); }
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt16BigEndian(Data.AsSpan(0x04), (ushort)value); }
-    public override int OT_Friendship { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), (ushort)value); }
+    public override byte OT_Friendship { get => (byte)ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), value); }
     public override int Met_Location { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), (ushort)value); }
     // 0x0A-0x0B Unknown
     // 0x0C-0x0D Unknown
     public override int Met_Level { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
     public override int Ball { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
-    public override int OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
-    public override int Stat_Level { get => Data[0x11]; set => Data[0x11] = (byte)value; }
+    public override byte OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x11]; set => Data[0x11] = value; }
     public override byte CNT_Sheen { get => Data[0x12]; set => Data[0x12] = value; }
     public override int PKRS_Strain { get => Data[0x13] & 0xF; set => Data[0x13] = (byte)(value & 0xF); }
     public override byte MarkingValue { get => (byte)SwapBits(Data[0x14], 1, 2); set => Data[0x14] = (byte)SwapBits(value, 1, 2); }
@@ -83,7 +83,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
         }
     }
 
-    public override int Version { get => GetGBAVersionID(Data[0x34]); set => Data[0x34] = GetGCVersionID(value); }
+    public override GameVersion Version { get => GetGBAVersionID((GCVersion)Data[0x34]); set => Data[0x34] = (byte)GetGCVersionID(value); }
     public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
@@ -208,7 +208,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public PK3 ConvertToPK3()
     {
         var pk = ConvertTo<PK3>();
-        if (Version == 15)
+        if (Version == GameVersion.CXD)
         {
             // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
             if (ShadowID != 0)

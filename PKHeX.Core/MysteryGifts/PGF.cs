@@ -13,14 +13,14 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public const int Size = 0xCC;
     public const int SizeFull = 0x2D0;
-    public override int Generation => 5;
+    public override byte Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
     public override bool FatefulEncounter => true;
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value); }
-    public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
+    public byte OriginGame { get => Data[0x04]; set => Data[0x04] = value; }
     // Unused 0x05 0x06, 0x07
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
 
@@ -60,7 +60,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     }
 
     public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }
-    public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
+    public override byte Gender { get => Data[0x35]; set => Data[0x35] = value; }
     public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
     public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x38)); set => WriteUInt16LittleEndian(Data.AsSpan(0x38), (ushort)value); }
@@ -85,7 +85,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         set => StringConverter5.SetString(Data.AsSpan(0x4A, 8 * 2), value, 8, StringConverterOption.ClearFF);
     }
 
-    public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
+    public byte OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
     public override byte Level { get => Data[0x5B]; set => Data[0x5C] = value; }
     public override bool IsEgg { get => Data[0x5C] == 1; set => Data[0x5C] = value ? (byte)1 : (byte)0; }
     // Unused 0x5D 0x5E 0x5F
@@ -194,7 +194,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             Year = (byte)dt.Year;
         }
 
-        int currentLevel = Level > 0 ? Level : 1 + rnd.Next(100);
+        byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         PK5 pk = new()
         {
@@ -246,7 +246,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (Move1 == 0) // No moves defined
         {
             Span<ushort> moves = stackalloc ushort[4];
-            var source = GameData.GetLearnSource((GameVersion)pk.Version);
+            var source = GameData.GetLearnSource(pk.Version);
             source.SetEncounterMoves(Species, Form, Level, moves);
             pk.SetMoves(moves);
         }
@@ -267,7 +267,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             pk.TID16 = TID16;
             pk.SID16 = SID16;
             pk.OT_Name = OT_Name;
-            pk.OT_Gender = (OTGender == 3 ? tr.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
+            pk.OT_Gender = (byte)((OTGender == 3 ? tr.Gender : OTGender) & 1); // some events have variable gender based on receiving SaveFile
         }
 
         pk.IsNicknamed = IsNicknamed;
@@ -284,21 +284,21 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         return pk;
     }
 
-    private int GetVersion(ITrainerInfo tr, Random rnd)
+    private GameVersion GetVersion(ITrainerInfo tr, Random rnd)
     {
         if (OriginGame != 0)
-            return OriginGame;
+            return (GameVersion)OriginGame;
         if (tr.Generation <= 5)
-            return tr.Game;
+            return tr.Version;
         // Gen6+, give random Gen5 game
         var bias = rnd.Next(4);
         for (int i = 0; i < 4; i++)
         {
-            var ver = (int)GameVersion.W + ((bias + i) % 4);
-            if (CanBeReceivedByVersion(ver))
-                return ver;
+            var version = GameVersion.W + (byte)((bias + i) % 4);
+            if (CanBeReceivedByVersion(version))
+                return version;
         }
-        return (int)GameVersion.W; // should never hit this for any distributed card
+        return GameVersion.W; // should never hit this for any distributed card
     }
 
     private void SetEggMetDetails(PK5 pk)
@@ -313,7 +313,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     {
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         pk.Nature = (int)criteria.GetNature((Nature)Nature);
-        pk.Gender = pi.Genderless ? 2 : Gender != 2 ? Gender : criteria.GetGender(pi);
+        pk.Gender = pi.Genderless ? (byte)2 : Gender != 2 ? Gender : criteria.GetGender(pi);
         var av = GetAbilityIndex(criteria);
         SetPID(pk, av);
         pk.RefreshAbility(av);
@@ -395,7 +395,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             if (PID != 0 && pk.PID != PID) return false;
             if (PIDType == 0 && pk.IsShiny) return false;
             if (PIDType == 2 && !pk.IsShiny) return false;
-            if (OriginGame != 0 && OriginGame != pk.Version) return false;
+            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (Language != 0 && Language != pk.Language) return false;
 
             if (!IsMatchEggLocation(pk)) return false;
@@ -435,5 +435,5 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => !CanBeReceivedByVersion(pk.Version);
 
-    public bool CanBeReceivedByVersion(int game) => OriginGame == 0 || OriginGame == game;
+    public bool CanBeReceivedByVersion(GameVersion game) => OriginGame == 0 || (GameVersion)OriginGame == game;
 }

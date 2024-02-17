@@ -111,7 +111,7 @@ public static class EntitySorting
     public static IEnumerable<PKM> OrderByOwnership(this IEnumerable<PKM> list, ITrainerInfo trainer)
     {
         return list.InitialSortBy()
-            .ThenByDescending(p => trainer.IsOriginalHandler(p, ((GameVersion)trainer.Game).IsValidSavedVersion())) // true first
+            .ThenByDescending(p => trainer.IsOriginalHandler(p, trainer.Version.IsValidSavedVersion())) // true first
             .ThenByDescending(p => string.Equals(p.OT_Name, trainer.OT, StringComparison.OrdinalIgnoreCase))
             .OrderByTrainer()
             .ThenBy(p => p.Species)
@@ -232,7 +232,7 @@ public static class EntitySorting
     {
         if (pk.Format >= 6)
             return pk.CurrentHandler != 1;
-        if (checkGame && trainer.Game != pk.Version)
+        if (checkGame && trainer.Version != pk.Version)
             return false;
         if (trainer.TID16 != pk.TID16 || trainer.SID16 != pk.SID16)
             return false;

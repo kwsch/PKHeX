@@ -18,7 +18,7 @@ public sealed class GP1(byte[] Data)
     public bool EggEncounter => false;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
@@ -105,7 +105,7 @@ public sealed class GP1(byte[] Data)
     public int Month => (Date / 1_00) % 1_00;
     public int Day => Date % 1_00;
 
-    public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
+    public byte Gender => (byte)(Data[0x70] - 1); // M=1, F=2, G=3 ;; shift down by 1.
 
     public byte Form => Data[0x72];
     public bool IsShiny => Data[0x73] == 1;
@@ -155,7 +155,7 @@ public sealed class GP1(byte[] Data)
         {
             EncryptionConstant = rnd.Rand32(),
             PID = rnd.Rand32(),
-            Version = (int) GameVersion.GO,
+            Version = GameVersion.GO,
             Species = Species,
             Form = Form,
             Met_Location = 50, // Go complex

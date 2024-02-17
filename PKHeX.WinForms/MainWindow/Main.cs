@@ -175,17 +175,17 @@ public partial class Main : Form
             ErrorWindow.ShowErrorDialog(MsgFileLoadFailAuto, ex, true);
     }
 
-    private void LoadBlankSaveFile(GameVersion ver)
+    private void LoadBlankSaveFile(GameVersion version)
     {
         var current = C_SAV?.SAV;
         var lang = SaveUtil.GetSafeLanguage(current);
         var tr = SaveUtil.GetSafeTrainerName(current, lang);
-        var sav = SaveUtil.GetBlankSAV(ver, tr, lang);
+        var sav = SaveUtil.GetBlankSAV(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
             var max = GameInfo.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
-            ver = (GameVersion)max.Value;
-            sav = SaveUtil.GetBlankSAV(ver, tr, lang);
+            version = (GameVersion)max.Value;
+            sav = SaveUtil.GetBlankSAV(version, tr, lang);
         }
         OpenSAV(sav, string.Empty);
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
@@ -212,9 +212,9 @@ public partial class Main : Form
         });
     }
 
-    private void NotifyNewVersionAvailable(Version ver)
+    private void NotifyNewVersionAvailable(Version version)
     {
-        var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+        var date = $"{2000 + version.Major:00}{version.Minor:00}{version.Build:00}";
         var lbl = L_UpdateAvailable;
         lbl.Text = $"{MsgProgramUpdateAvailable} {date}";
         lbl.Click += (_, _) => Process.Start(new ProcessStartInfo(ThreadPath) { UseShellExecute = true });
@@ -232,7 +232,7 @@ public partial class Main : Form
             bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
             showChangelog = parsed && lastrev < Program.CurrentVersion;
         }
-        Settings.Startup.Version = Program.CurrentVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
+        Settings.Startup.Version = Program.CurrentVersion.ToString(); // set current version so this doesn't happen until the user updates next time
 
         // BAK Prompt
         if (!Settings.Backup.BAKPrompt)
@@ -731,7 +731,7 @@ public partial class Main : Form
 
     private bool OpenSAV(SaveFile sav, string path)
     {
-        if (sav.Version == GameVersion.Invalid)
+        if (!sav.IsVersionValid())
         {
             WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
             return true;
@@ -825,8 +825,8 @@ public partial class Main : Form
         var date = File.GetLastWriteTime(Environment.ProcessPath!);
         string version = $"d-{date:yyyyMMdd}";
 #else
-        var ver = Program.CurrentVersion;
-        string version = $"{2000+ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+        var version = Program.CurrentVersion;
+        string version = $"{2000+version.Major:00}{version.Minor:00}{version.Build:00}";
 #endif
         return $"PKH{(HaX ? "a" : "e")}X ({version})";
     }
@@ -836,11 +836,11 @@ public partial class Main : Form
         string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
         if (sav is ISaveFileRevision rev)
             title = title.Insert(title.Length - 2, rev.SaveRevisionString);
-        var ver = GameInfo.GetVersionName(sav.Version);
+        var version = GameInfo.GetVersionName(sav.Version);
         if (Settings.Privacy.HideSAVDetails)
-            return title + $"[{ver}]";
+            return title + $"[{version}]";
         if (!sav.State.Exportable) // Blank save file
-            return title + $"{sav.Metadata.FileName} [{sav.OT} ({ver})]";
+            return title + $"{sav.Metadata.FileName} [{sav.OT} ({version})]";
         return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.Metadata.BAKName)); // more descriptive
     }
 

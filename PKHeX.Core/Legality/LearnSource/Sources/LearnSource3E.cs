@@ -15,7 +15,7 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
     private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_e.pkl"), "em"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     private const LearnEnvironment Game = E;
-    private const int Generation = 3;
+    private const byte Generation = 3;
     private const int CountTM = 50;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];

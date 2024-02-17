@@ -29,7 +29,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         info.PIDIV = MethodFinder.Analyze(pk);
-        var game = (GameVersion)pk.Version;
+        var game = pk.Version;
         var iterator = new EncounterEnumerator4(pk, chain, game);
         EncounterSlot4? deferSlot = null;
         IEncounterable? deferTile = null;
@@ -74,20 +74,20 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         if (leadQueue.List.Count != 0)
             yield break;
 
+        // Error will be flagged later if this is chosen.
         if (deferTile != null)
         {
-            // Error will be flagged later if this is chosen.
             yield return deferTile;
-        }
-        else if (deferType != null)
-        {
-            info.PIDIVMatches = false;
-            yield return deferType;
         }
         else if (deferSlot != null)
         {
-            info.FrameMatches = false;
+            info.ManualFlag = EncounterYieldFlag.InvalidFrame;
             yield return deferSlot;
+        }
+        else if (deferType != null)
+        {
+            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+            yield return deferType;
         }
     }
 
@@ -107,7 +107,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         return type == PIDType.None;
     }
 
-    private const int Generation = 4;
+    private const byte Generation = 4;
     private const EntityContext Context = EntityContext.Gen4;
     private const byte EggLevel = 1;
 

@@ -34,14 +34,14 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public override ushort Species { get => SpeciesConverter.GetNational3(SpeciesInternal); set => SpeciesInternal = SpeciesConverter.GetInternal3(value); }
     // 02-04 unused
     public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
-    public override int Version { get => GetGBAVersionID(Data[0x08]); set => Data[0x08] = GetGCVersionID(value); }
+    public override GameVersion Version { get => GetGBAVersionID((GCVersion)Data[0x08]); set => Data[0x08] = (byte)GetGCVersionID(value); }
     public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
     public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
     public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = Core.Language.GetGCLangIDfromMain((byte)value); }
     public override int Met_Location { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
     public override int Met_Level { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
     public override int Ball { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
-    public override int OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public override byte OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0x14)); set => WriteUInt32BigEndian(Data.AsSpan(0x14), value); }
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), value); }
@@ -49,7 +49,7 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public override string Nickname { get => StringConverter3GC.GetString(Nickname_Trash); set { StringConverter3GC.SetString(Nickname_Trash, value, 10, StringConverterOption.None); NicknameCopy = value; } }
     public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value, 10, StringConverterOption.None); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x5C)); set => WriteUInt32BigEndian(Data.AsSpan(0x5C), value); }
-    public override int Stat_Level { get => Data[0x60]; set => Data[0x60] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x60]; set => Data[0x60] = value; }
 
     // 0x64-0x77 are battle/status related
     public override int Status_Condition { get; set; } // where are we
@@ -131,8 +131,8 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
         get => Math.Min((ushort)31, ReadUInt16BigEndian(Data.AsSpan(0xAE)));
         set => WriteUInt16BigEndian(Data.AsSpan(0xAE), (ushort)(value & 0x1F)); }
 
-    public override int OT_Friendship {
-        get => Math.Min((ushort)0xFF, ReadUInt16BigEndian(Data.AsSpan(0xB0)));
+    public override byte OT_Friendship {
+        get => (byte)Math.Min((ushort)0xFF, ReadUInt16BigEndian(Data.AsSpan(0xB0)));
         set => WriteUInt16BigEndian(Data.AsSpan(0xB0), (ushort)(value & 0xFF));
     }
 

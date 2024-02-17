@@ -11,7 +11,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, ISeedCorrelation64<PKM>,
         IFlawlessIVCount, IFixedIVSet, IFixedGender, IDynamaxLevelReadOnly, IGigantamaxReadOnly where T : EncounterStatic8Nest<T>
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
 
     int ILocation.Location => SharedNest;
@@ -50,7 +50,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = Info;
         var pk = new PK8
@@ -64,7 +64,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             Ball = (byte)Ball.Poke,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
@@ -133,7 +133,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (pk is PK8 d && d.DynamaxLevel < DynamaxLevel)
             return false;
 
-        if (Version != GameVersion.SWSH && pk.Version != (int)Version && pk.Met_Location != SharedNest)
+        if (Version != GameVersion.SWSH && pk.Version != Version && pk.Met_Location != SharedNest)
             return false;
 
         if (pk is IRibbonSetMark8 { HasMarkEncounter8: true })

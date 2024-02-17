@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -22,9 +23,9 @@ public static class LocationsHOME
     /// </summary>
     /// <param name="version"></param>
     /// <returns>True if a known remap exists.</returns>
-    public static bool IsVersionRemapNeeded(int version) => GetRemapIndex(version) < RemapCount;
+    public static bool IsVersionRemapNeeded(GameVersion version) => GetRemapIndex(version) < RemapCount;
 
-    private static int GetRemapIndex(int version) => version - (int)GameVersion.PLA;
+    private static int GetRemapIndex(GameVersion version) => version - PLA;
 
     /// <summary>
     /// Checks if the SW/SH-context Met Location is one of the remapped HOME locations.
@@ -38,46 +39,46 @@ public static class LocationsHOME
     /// <summary>
     /// Checks if the SW/SH-context Egg Location is valid with respect to the <see cref="original"/> location.
     /// </summary>
-    public static bool IsLocationSWSHEgg(int ver, int met, int egg, ushort original)
+    public static bool IsLocationSWSHEgg(GameVersion version, int met, int egg, ushort original)
     {
         if (original > SWLA && egg == SWSHEgg)
             return true;
 
         // >60000 can be reset to Link Trade (30001), then altered differently.
-        var expect = GetMetSWSH(original, ver);
+        var expect = GetMetSWSH(original, version);
         return expect == met && expect == egg;
     }
 
     /// <summary>
-    /// Gets the SW/SH-context Egg Location when an external entity from the input <see cref="ver"/> resides in SW/SH.
+    /// Gets the SW/SH-context Egg Location when an external entity from the input <see cref="version"/> resides in SW/SH.
     /// </summary>
-    public static ushort GetLocationSWSHEgg(int ver, ushort egg)
+    public static ushort GetLocationSWSHEgg(GameVersion version, ushort egg)
     {
         if (egg == 0)
             return 0;
         if (egg > SWLA)
             return SWSHEgg;
         // >60000 can be reset to Link Trade (30001), then altered differently.
-        return GetMetSWSH(egg, ver);
+        return GetMetSWSH(egg, version);
     }
 
     /// <summary>
-    /// Gets the SW/SH-context <see cref="GameVersion"/> when an external entity from the input <see cref="ver"/> resides in SW/SH.
+    /// Gets the SW/SH-context <see cref="GameVersion"/> when an external entity from the input <see cref="version"/> resides in SW/SH.
     /// </summary>
-    public static int GetVersionSWSH(int ver) => (GameVersion)ver switch
+    public static GameVersion GetVersionSWSH(GameVersion version) => version switch
     {
-        GameVersion.PLA => (int)GameVersion.SW,
-        GameVersion.BD => (int)GameVersion.SW,
-        GameVersion.SP => (int)GameVersion.SH,
-        GameVersion.SL => (int)GameVersion.SW,
-        GameVersion.VL => (int)GameVersion.SH,
-        _ => ver,
+        GameVersion.PLA => GameVersion.SW,
+        GameVersion.BD  => GameVersion.SW,
+        GameVersion.SP  => GameVersion.SH,
+        GameVersion.SL  => GameVersion.SW,
+        GameVersion.VL  => GameVersion.SH,
+        _ => version,
     };
 
     /// <summary>
-    /// Gets the SW/SH-context Met Location when an external entity from the input <see cref="ver"/> resides in SW/SH.
+    /// Gets the SW/SH-context Met Location when an external entity from the input <see cref="version"/> resides in SW/SH.
     /// </summary>
-    public static ushort GetMetSWSH(ushort loc, int ver) => (GameVersion)ver switch
+    public static ushort GetMetSWSH(ushort loc, GameVersion version) => version switch
     {
         GameVersion.PLA => SWLA,
         GameVersion.BD => SWBD,
@@ -87,35 +88,35 @@ public static class LocationsHOME
         _ => loc,
     };
 
-    public static int GetVersionSWSHOriginal(ushort loc) => loc switch
+    public static GameVersion GetVersionSWSHOriginal(ushort loc) => loc switch
     {
-        SWLA => (int)GameVersion.PLA,
-        SWBD => (int)GameVersion.BD,
-        SHSP => (int)GameVersion.SP,
-        SWSL => (int)GameVersion.SL,
-        SHVL => (int)GameVersion.VL,
-        _ => int.MinValue,
+        SWLA => GameVersion.PLA,
+        SWBD => GameVersion.BD,
+        SHSP => GameVersion.SP,
+        SWSL => GameVersion.SL,
+        SHVL => GameVersion.VL,
+        _ => GameVersion.SW,
     };
 
     /// <summary>
-    /// Checks if the met location is a valid location for the input <see cref="ver"/>.
+    /// Checks if the met location is a valid location for the input <see cref="version"/>.
     /// </summary>
     /// <remarks>Relevant when an entity from BD/SP is transferred to SW/SH.</remarks>
-    public static bool IsValidMetBDSP(ushort loc, int ver) => loc switch
+    public static bool IsValidMetBDSP(ushort loc, GameVersion version) => loc switch
     {
-        SHSP when ver == (int)GameVersion.SH => true,
-        SWBD when ver == (int)GameVersion.SW => true,
+        SHSP when version == SH => true,
+        SWBD when version == SW => true,
         _ => false,
     };
 
     /// <summary>
-    /// Checks if the met location is a valid location for the input <see cref="ver"/>.
+    /// Checks if the met location is a valid location for the input <see cref="version"/>.
     /// </summary>
     /// <remarks>Relevant when an entity from S/V is transferred to SW/SH.</remarks>
-    public static bool IsValidMetSV(ushort loc, int ver) => loc switch
+    public static bool IsValidMetSV(ushort loc, GameVersion version) => loc switch
     {
-        SHVL when ver == (int)GameVersion.SH => true,
-        SWSL when ver == (int)GameVersion.SW => true,
+        SHVL when version == SH => true,
+        SWSL when version == SW => true,
         _ => false,
     };
 
@@ -141,7 +142,7 @@ public static class LocationsHOME
         };
     }
 
-    public static bool IsMatchLocation(EntityContext original, EntityContext current, int met, int expect, int version)
+    public static bool IsMatchLocation(EntityContext original, EntityContext current, int met, int expect, GameVersion version)
     {
         var state = GetRemapState(original, current);
         return state switch

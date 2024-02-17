@@ -173,13 +173,13 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     {
         // BD/SP->SW/SH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg
         // (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
-        // PLA->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
-        var ver = pkh.Version;
+        // PLA->SW/SH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
+        var version = pkh.Version;
         var met = side.Met_Location;
         var ball = GetBall(side.Ball);
         var egg = GetEggLocation(side.Egg_Location);
-        if (!IsOriginallySWSH(ver, met))
-            RemapMetEgg(ver, ref met, ref egg);
+        if (!IsOriginallySWSH(version, met))
+            RemapMetEgg(version, ref met, ref egg);
         Ball = ball;
         Met_Location = met;
         Egg_Location = egg;
@@ -197,9 +197,9 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
     }
 
-    private static void RemapMetEgg(int ver, ref int met, ref int egg)
+    private static void RemapMetEgg(GameVersion version, ref int met, ref int egg)
     {
-        var remap = LocationsHOME.GetMetSWSH((ushort)met, ver);
+        var remap = LocationsHOME.GetMetSWSH((ushort)met, version);
         if (remap == met)
             return;
 
@@ -207,7 +207,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         egg = egg is 0 or Locations.Default8bNone ? 0 : LocationsHOME.SWSHEgg;
     }
 
-    private static bool IsOriginallySWSH(int ver, int loc) => ver is (int)GameVersion.SW or (int)GameVersion.SH && !IsFakeMetLocation(loc);
+    private static bool IsOriginallySWSH(GameVersion version, int loc) => version is GameVersion.SW or GameVersion.SH && !IsFakeMetLocation(loc);
     private static bool IsFakeMetLocation(int met) => LocationsHOME.IsLocationSWSH(met);
     private static int GetBall(int ball) => ball > (int)Core.Ball.Beast ? 4 : ball;
     private static int GetEggLocation(int egg) => egg == Locations.Default8bNone ? 0 : egg;

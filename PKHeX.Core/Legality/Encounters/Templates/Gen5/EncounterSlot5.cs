@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
@@ -55,7 +55,7 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
             OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateNDS(),
 
@@ -82,7 +82,7 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);

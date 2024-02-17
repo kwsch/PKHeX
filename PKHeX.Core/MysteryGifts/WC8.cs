@@ -15,7 +15,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public const int Size = 0x2D0;
     public const int CardStart = 0x0;
 
-    public override int Generation => 8;
+    public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8;
     public override bool FatefulEncounter => true;
 
@@ -30,12 +30,12 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public byte RestrictVersion { get => Data[0xE]; set => Data[0xE] = value; }
 
-    public bool CanBeReceivedByVersion(int v) => RestrictVersion switch
+    public bool CanBeReceivedByVersion(GameVersion version) => RestrictVersion switch
     {
         0 when !IsEntity => true, // Whatever, essentially unrestricted for SW/SH receipt. No Entity gifts are 0.
-        1 => v is (int)GameVersion.SW,
-        2 => v is (int)GameVersion.SH,
-        3 => v is (int)GameVersion.SW or (int)GameVersion.SH,
+        1 => version is GameVersion.SW,
+        2 => version is GameVersion.SH,
+        3 => version is GameVersion.SW or GameVersion.SH,
         _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
     };
 
@@ -178,7 +178,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x240)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x240), value); }
     public override byte Form { get => Data[CardStart + 0x242]; set => Data[CardStart + 0x242] = value; }
-    public override int Gender { get => Data[CardStart + 0x243]; set => Data[CardStart + 0x243] = (byte)value; }
+    public override byte Gender { get => Data[CardStart + 0x243]; set => Data[CardStart + 0x243] = value; }
     public override byte Level { get => Data[CardStart + 0x244]; set => Data[CardStart + 0x244] = value; }
     public override bool IsEgg { get => Data[CardStart + 0x245] == 1; set => Data[CardStart + 0x245] = value ? (byte)1 : (byte)0; }
     public int Nature { get => (sbyte)Data[CardStart + 0x246]; set => Data[CardStart + 0x246] = (byte)value; }
@@ -232,7 +232,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public int IV_SPA { get => Data[CardStart + 0x270]; set => Data[CardStart + 0x270] = (byte)value; }
     public int IV_SPD { get => Data[CardStart + 0x271]; set => Data[CardStart + 0x271] = (byte)value; }
 
-    public int OTGender { get => Data[CardStart + 0x272]; set => Data[CardStart + 0x272] = (byte)value; }
+    public byte OTGender { get => Data[CardStart + 0x272]; set => Data[CardStart + 0x272] = (byte)value; }
 
     public int EV_HP  { get => Data[CardStart + 0x273]; set => Data[CardStart + 0x273] = (byte)value; }
     public int EV_ATK { get => Data[CardStart + 0x274]; set => Data[CardStart + 0x274] = (byte)value; }
@@ -405,12 +405,13 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
-        int currentLevel = Level > 0 ? Level : 1 + Util.Rand.Next(100);
+        var rnd = Util.Rand;
+        byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
         var language = tr.Language;
         bool hasOT = GetHasOT(language);
-        var version = OriginGame != 0 ? OriginGame : (int)this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
 
         var pk = new PK8
         {
@@ -440,9 +441,9 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             OT_Name = hasOT ? GetOT(language) : tr.OT,
             OT_Gender = OTGender < 2 ? OTGender : tr.Gender,
             HT_Name = hasOT ? tr.OT : string.Empty,
-            HT_Gender = hasOT ? tr.Gender : 0,
-            HT_Language = (byte)(hasOT ? language : 0),
-            CurrentHandler = hasOT ? 1 : 0,
+            HT_Gender = hasOT ? tr.Gender : default,
+            HT_Language = (byte)(hasOT ? language : default),
+            CurrentHandler = hasOT ? (byte)1 : (byte)0,
             OT_Friendship = pi.BaseFriendship,
 
             OT_Intensity = OT_Intensity,
@@ -469,8 +470,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
             // give random valid game
-            var rnd = Util.Rand;
-            do { pk.Version = (int)GameVersion.SW + rnd.Next(2); }
+            do { pk.Version = GameVersion.SW + (byte)rnd.Next(2); }
             while (!CanBeReceivedByVersion(pk.Version));
         }
 
@@ -662,7 +662,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
             var OT = GetOT(pk.Language); // May not be guaranteed to work.
             if (!string.IsNullOrEmpty(OT) && OT != pk.OT_Name) return false;
-            if (OriginGame != 0 && OriginGame != pk.Version) return false;
+            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0)
             {
                 if (EncryptionConstant != pk.EncryptionConstant)

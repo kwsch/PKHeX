@@ -99,7 +99,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override int Nature { get => Core.Nature; set => Core.Nature = value; }
     public override int StatNature { get => Core.StatNature; set => Core.StatNature = value; }
     public override bool FatefulEncounter { get => Core.FatefulEncounter; set => Core.FatefulEncounter = value; }
-    public override int Gender { get => Core.Gender; set => Core.Gender = value; }
+    public override byte Gender { get => Core.Gender; set => Core.Gender = value; }
     public override byte Form { get => Core.Form; set => Core.Form = value; }
     public override int EV_HP { get => Core.EV_HP; set => Core.EV_HP = value; }
     public override int EV_ATK { get => Core.EV_ATK; set => Core.EV_ATK = value; }
@@ -125,24 +125,24 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override bool IsEgg { get => Core.IsEgg; set => Core.IsEgg = value; }
     public override bool IsNicknamed { get => Core.IsNicknamed; set => Core.IsNicknamed = value; }
     public override int Status_Condition { get => Core.Status_Condition; set => Core.Status_Condition = value; }
-    public override int HT_Gender { get => Core.HT_Gender; set => Core.HT_Gender = value; }
+    public override byte HT_Gender { get => Core.HT_Gender; set => Core.HT_Gender = value; }
     public byte HT_Language { get => Core.HT_Language; set => Core.HT_Language = value; }
-    public override int CurrentHandler { get => Core.CurrentHandler; set => Core.CurrentHandler = value; }
+    public override byte CurrentHandler { get => Core.CurrentHandler; set => Core.CurrentHandler = value; }
     public int HT_TrainerID { get => Core.HT_TrainerID; set => Core.HT_TrainerID = value; }
-    public override int HT_Friendship { get => Core.HT_Friendship; set => Core.HT_Friendship = value; }
+    public override byte HT_Friendship { get => Core.HT_Friendship; set => Core.HT_Friendship = value; }
     public byte HT_Intensity { get => Core.HT_Intensity; set => Core.HT_Intensity = value; }
     public byte HT_Memory { get => Core.HT_Memory; set => Core.HT_Memory = value; }
     public byte HT_Feeling { get => Core.HT_Feeling; set => Core.HT_Feeling = value; }
     public ushort HT_TextVar { get => Core.HT_TextVar; set => Core.HT_TextVar = value; }
-    public override int Version { get => Core.Version; set => Core.Version = value; }
-    public byte BattleVersion { get => Core.BattleVersion; set => Core.BattleVersion = value; }
+    public override GameVersion Version { get => Core.Version; set => Core.Version = value; }
+    public GameVersion BattleVersion { get => Core.BattleVersion; set => Core.BattleVersion = value; }
     public override int Language { get => Core.Language; set => Core.Language = value; }
     public uint FormArgument { get => Core.FormArgument; set => Core.FormArgument = value; }
     public byte FormArgumentRemain { get => Core.FormArgumentRemain; set => Core.FormArgumentRemain = value; }
     public byte FormArgumentElapsed { get => Core.FormArgumentElapsed; set => Core.FormArgumentElapsed = value; }
     public byte FormArgumentMaximum { get => Core.FormArgumentMaximum; set => Core.FormArgumentMaximum = value; }
     public sbyte AffixedRibbon { get => Core.AffixedRibbon; set => Core.AffixedRibbon = value; }
-    public override int OT_Friendship { get => Core.OT_Friendship; set => Core.OT_Friendship = value; }
+    public override byte OT_Friendship { get => Core.OT_Friendship; set => Core.OT_Friendship = value; }
     public byte OT_Intensity { get => Core.OT_Intensity; set => Core.OT_Intensity = value; }
     public byte OT_Memory { get => Core.OT_Memory; set => Core.OT_Memory = value; }
     public ushort OT_TextVar { get => Core.OT_TextVar; set => Core.OT_TextVar = value; }
@@ -154,7 +154,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override int Met_Month { get => Core.Met_Month; set => Core.Met_Month = value; }
     public override int Met_Day { get => Core.Met_Day; set => Core.Met_Day = value; }
     public override int Met_Level { get => Core.Met_Level; set => Core.Met_Level = value; }
-    public override int OT_Gender { get => Core.OT_Gender; set => Core.OT_Gender = value; }
+    public override byte OT_Gender { get => Core.OT_Gender; set => Core.OT_Gender = value; }
     public byte HyperTrainFlags { get => Core.HyperTrainFlags; set => Core.HyperTrainFlags = value; }
     public bool HT_HP { get => Core.HT_HP; set => Core.HT_HP = value; }
     public bool HT_ATK { get => Core.HT_ATK; set => Core.HT_ATK = value; }
@@ -192,7 +192,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     #region Calculated
 
-    public override int CurrentFriendship { get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship; set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } }
+    public override byte CurrentFriendship { get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship; set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } }
 
     public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
     public override uint TSV => (uint)(TID16 ^ SID16) >> 4;
@@ -221,7 +221,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     #endregion
 
-    public override int Stat_Level  { get => CurrentLevel; set => CurrentLevel = value; }
+    public override byte Stat_Level  { get => CurrentLevel; set => CurrentLevel = value; }
     public override int Stat_HPMax  { get => 0; set { } }
     public override int Stat_ATK    { get => 0; set { } }
     public override int Stat_DEF    { get => 0; set { } }
@@ -240,7 +240,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override int MaxAbilityID => Legal.MaxAbilityID_8a;
     public override int MaxItemID => Legal.MaxItemID_8a;
     public override int MaxBallID => Legal.MaxBallID_8a;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
 
     #endregion
 
@@ -324,23 +324,23 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     private IGameDataSide CreateFallback() => Version switch
     {
-        (int)GP or (int)GE => DataPB7 ??= new(),
-        (int)BD or (int)SP => DataPB8 ??= new(),
-        (int)PLA           => DataPA8 ??= new(),
-        (int)SL or (int)VL => DataPK9 ??= new(),
+        GP or GE => DataPB7 ??= new(),
+        BD or SP => DataPB8 ??= new(),
+        PLA      => DataPA8 ??= new(),
+        SL or VL => DataPK9 ??= new(),
         _                  => DataPK8 ??= new(),
     };
 
     private IGameDataSide? OriginalGameData() => Version switch
     {
-        (int)GameVersion.GO when DataPB7 is not null => DataPB7,
-        (int)GP or (int)GE => DataPB7,
-        (int)BD or (int)SP => DataPB8,
-        (int)PLA           => DataPA8,
-        (int)SL or (int)VL => DataPK9,
+        GameVersion.GO when DataPB7 is not null => DataPB7,
+        GP or GE => DataPB7,
+        BD or SP => DataPB8,
+        PLA      => DataPA8,
+        SL or VL => DataPK9,
 
         // SW/SH can be confused with others if we didn't seed with the original transfer data.
-        (int)SW or (int)SH => DataPK8 switch
+        SW or SH => DataPK8 switch
         {
             { Met_Location: LocationsHOME.SWLA } => DataPA8,
             { Met_Location: LocationsHOME.SWBD or LocationsHOME.SHSP } => DataPB8,

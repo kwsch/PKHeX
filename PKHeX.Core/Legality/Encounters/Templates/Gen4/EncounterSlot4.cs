@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IEncounterSlot4, IGroundTypeTile, IEncounterFormRandom, IRandomCorrelation
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     int ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen4;
     public bool EggEncounter => false;
@@ -27,13 +27,15 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public GroundTileAllowed GroundTile => Parent.GroundTile;
     public byte AreaRate => Parent.Rate;
 
-    public bool CanUseRadar => Version is not (GameVersion.HG or GameVersion.SS) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations4.IsSafariZoneLocation(Location);
+    public bool CanUseRadar => Version >= GameVersion.D // HG/SS are below
+                               && GroundTile.HasFlag(GroundTileAllowed.Grass)
+                               && !Locations4.IsMarsh(Location);
 
     private Ball GetRequiredBallValue(Ball fallback = Ball.None)
     {
         if (Type is BugContest)
             return Ball.Sport;
-        return Locations4.IsSafariZoneLocation(Location) ? Ball.Safari : fallback;
+        return Locations4.IsSafariBallRequired(Location) ? Ball.Safari : fallback;
     }
 
     #region Generating
@@ -54,7 +56,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             GroundTile = GroundTile.GetIndex(),
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)GetRequiredBallValue(Ball.Poke),
@@ -82,7 +84,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         var lvl = new SingleLevelRange(LevelMin);
@@ -146,7 +148,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        if ((pk.Ball == (int)Ball.Safari) != Locations4.IsSafariZoneLocation(Location))
+        if ((pk.Ball == (int)Ball.Safari) != Locations4.IsSafariBallRequired(Location))
             return EncounterMatchRating.PartialMatch;
         if ((pk.Ball == (int)Ball.Sport) != (Type == BugContest))
         {
@@ -173,7 +175,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         if (val is PIDType.ChainShiny)
             return pk.IsShiny && CanUseRadar;
         if (val is PIDType.CuteCharm)
-            return pk.Gender is 0 or 1 && MethodFinder.IsCuteCharm4Valid(this, pk);
+            return MethodFinder.IsCuteCharm4Valid(this, pk);
         return false;
     }
 
@@ -181,5 +183,5 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public byte PressureLevel => Type != Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
     public bool IsBugContest => Type == BugContest;
-    public bool IsSafariHGSS => Location == 202;
+    public bool IsSafariHGSS => Locations4.IsSafari(Location);
 }

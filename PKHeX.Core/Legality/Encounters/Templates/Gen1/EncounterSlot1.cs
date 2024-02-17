@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber)
     : IEncounterConvertible<PK1>, IEncounterable, IEncounterMatch, INumberedSlot
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;

@@ -150,7 +150,7 @@ public enum CheckIdentifier : byte
     GVs,
 
     /// <summary>
-    /// The <see cref="CheckResult"/> pertains to <see cref="PKM.MarkValue"/> values.
+    /// The <see cref="CheckResult"/> pertains to <see cref="IAppliedMarkings"/>.
     /// </summary>
     Marking,
 

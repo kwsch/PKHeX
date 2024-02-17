@@ -41,7 +41,7 @@ public sealed class PK4 : G4PKM
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
-    public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
+    public override byte OT_Friendship { get => Data[0x14]; set => Data[0x14] = value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
     public override byte MarkingValue { get => Data[0x16]; set => Data[0x16] = value; }
     public override int Language { get => Data[0x17]; set => Data[0x17] = (byte)value; }
@@ -161,7 +161,7 @@ public sealed class PK4 : G4PKM
     public override bool RibbonWorld             { get => (RIB7 & (1 << 7)) == 1 << 7; set => RIB7 = (byte)((RIB7 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
 
     public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)((Data[0x40] & ~0x01) | (value ? 1 : 0)); }
-    public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
+    public override byte Gender { get => (byte)((Data[0x40] >> 1) & 0x3); set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
     public override byte Form { get => (byte)(Data[0x40] >> 3); set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
     public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte) value; }
     // 0x42-0x43 Unused
@@ -187,7 +187,7 @@ public sealed class PK4 : G4PKM
     }
 
     // 0x5E unused
-    public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
+    public override GameVersion Version { get => (GameVersion)Data[0x5F]; set => Data[0x5F] = (byte)value; }
     private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
     private byte RIB9 { get => Data[0x61]; set => Data[0x61] = value; } // Sinnoh 4
     private byte RIBA { get => Data[0x62]; set => Data[0x62] = value; } // Sinnoh 5
@@ -257,7 +257,7 @@ public sealed class PK4 : G4PKM
     public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
     public override byte BallDPPt { get => Data[0x83]; set => Data[0x83] = value; }
     public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
-    public override int OT_Gender { get => Data[0x84] >> 7; set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); }
+    public override byte OT_Gender { get => (byte)(Data[0x84] >> 7); set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); }
     public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
     public override byte BallHGSS { get => Data[0x86]; set => Data[0x86] = value; }
     public override byte PokeathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
@@ -265,7 +265,7 @@ public sealed class PK4 : G4PKM
 
     #region Battle Stats
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0x88)); set => WriteInt32LittleEndian(Data.AsSpan(0x88), value); }
-    public override int Stat_Level { get => Data[0x8C]; set => Data[0x8C] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x8C]; set => Data[0x8C] = value; }
     public byte BallCapsuleIndex { get => Data[0x8D]; set => Data[0x8D] = value; }
     public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), (ushort)value); }
     public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0x90)); set => WriteUInt16LittleEndian(Data.AsSpan(0x90), (ushort)value); }

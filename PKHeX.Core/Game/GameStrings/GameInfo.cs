@@ -55,7 +55,8 @@ public static class GameInfo
     public static IReadOnlyList<ComboItem> GroundTileDataSource => Sources.GroundTileDataSource;
     public static IReadOnlyList<ComboItem> Regions => GameDataSource.Regions;
 
-    public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameDataSource.LanguageDataSource(gen);
+    public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation)
+        => GameDataSource.LanguageDataSource(generation);
 
     /// <summary>
     /// Gets the location name for the specified parameters.
@@ -66,7 +67,7 @@ public static class GameInfo
     /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
     /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
     /// <returns>Location name</returns>
-    public static string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
+    public static string GetLocationName(bool isEggLocation, int location, byte format, byte generation, GameVersion version)
     {
         return Strings.GetLocationName(isEggLocation, location, format, generation, version);
     }

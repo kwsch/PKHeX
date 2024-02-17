@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTera9
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IEncounterFormRandom
 {
-    public int Generation => 9;
+    public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
     int ILocation.Location => Location;
@@ -178,7 +178,7 @@ public sealed record EncounterTera9
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
@@ -190,7 +190,7 @@ public sealed record EncounterTera9
             Met_Location = Location,
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),

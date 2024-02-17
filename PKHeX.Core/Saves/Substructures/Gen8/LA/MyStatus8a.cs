@@ -28,16 +28,16 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
         set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[0x14];
-        set => Data[0x14] = (byte)value;
+        set => Data[0x14] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[0x15];
-        set => Data[0x15] = (byte)value;
+        set => Data[0x15] = value;
     }
 
     // A6

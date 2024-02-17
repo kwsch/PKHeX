@@ -9,7 +9,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, IRelearn,
         IFlawlessIVCount, IFixedIVSet, IFixedGender, IFixedNature, IDynamaxLevelReadOnly, IGigantamaxReadOnly, IOverworldCorrelation8, IFatefulEncounterReadOnly
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
     int ILocation.Location => Location;
     public bool Gift => FixedBall != Ball.None;
@@ -72,7 +72,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pk = new PK8
         {
@@ -86,7 +86,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             FatefulEncounter = FatefulEncounter,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
@@ -114,7 +114,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     private void SetPINGA(PK8 pk, EncounterCriteria criteria)
     {
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
-            pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+            pk.Met_Level = pk.CurrentLevel = EncounterArea8.BoostLevel;
 
         var pi = PersonalTable.SWSH[Species, Form];
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));

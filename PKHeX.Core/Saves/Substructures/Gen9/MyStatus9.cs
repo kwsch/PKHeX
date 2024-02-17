@@ -23,16 +23,16 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
         set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[0x04];
-        set => Data[0x04] = (byte)value;
+        set => Data[0x04] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[0x05];
-        set => Data[0x05] = (byte)value;
+        set => Data[0x05] = value;
     }
 
     // A6

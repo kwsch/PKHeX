@@ -19,7 +19,7 @@ public static class MethodH
     /// <param name="emerald">Version encountered in (either Emerald or not)</param>
     /// <param name="gender">Gender encountered as</param>
     /// <param name="format">Current format (different from 3)</param>
-    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, bool emerald, int gender, byte format)
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, bool emerald, byte gender, byte format)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
     {
@@ -33,7 +33,7 @@ public static class MethodH
     }
 
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, int gender, byte format)
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, byte gender, byte format)
         where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender, format);
 
     // Summary of Random Determinations:
@@ -86,7 +86,7 @@ public static class MethodH
     /// <summary>
     /// Caches details useful for the rolling look-back allowed for the input seed.
     /// </summary>
-    public static MethodHWindowInfo GetReversalWindow<T>(T enc, uint seed, byte nature, bool emerald, int gender)
+    public static MethodHWindowInfo GetReversalWindow<T>(T enc, uint seed, byte nature, bool emerald, byte gender)
         where T : IEncounterSlot3
     {
         if (emerald)

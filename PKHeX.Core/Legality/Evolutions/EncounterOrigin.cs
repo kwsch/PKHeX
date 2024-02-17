@@ -17,7 +17,7 @@ public static class EncounterOrigin
     public static EvoCriteria[] GetOriginChain(PKM pk, byte generation)
     {
         var (minLevel, maxLevel) = GetMinMax(pk, generation);
-        var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, generation, minLevel, maxLevel);
+        var origin = new EvolutionOrigin(pk.Species, pk.Version, generation, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 
@@ -31,22 +31,22 @@ public static class EncounterOrigin
     {
         var (minLevel, maxLevel) = GetMinMaxGB(pk);
         bool rby = gameSource == GameVersion.RBY;
-        byte ver = rby ? (byte)GameVersion.RBY : (byte)GameVersion.GSC;
+        GameVersion version = rby ? GameVersion.RBY : GameVersion.GSC;
         byte gen = rby ? (byte)1 : (byte)2;
-        var origin = new EvolutionOrigin(pk.Species, ver, gen, minLevel, maxLevel);
+        var origin = new EvolutionOrigin(pk.Species, version, gen, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 
     private static (byte minLevel, byte maxLevel) GetMinMax(PKM pk, byte generation)
     {
-        byte maxLevel = (byte)pk.CurrentLevel;
+        byte maxLevel = pk.CurrentLevel;
         byte minLevel = GetLevelOriginMin(pk, generation);
         return (minLevel, maxLevel);
     }
 
     private static (byte minLevel, byte maxLevel) GetMinMaxGB(PKM pk)
     {
-        byte maxLevel = (byte)pk.CurrentLevel;
+        byte maxLevel = pk.CurrentLevel;
         byte minLevel = GetLevelOriginMinGB(pk);
         return (minLevel, maxLevel);
     }

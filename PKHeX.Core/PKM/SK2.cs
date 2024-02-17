@@ -56,9 +56,9 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override int Move2_PPUps { get => (Data[0x19] & 0xC0) >> 6; set => Data[0x19] = (byte)((Data[0x19] & 0x3F) | ((value & 0x3) << 6)); }
     public override int Move3_PPUps { get => (Data[0x1A] & 0xC0) >> 6; set => Data[0x1A] = (byte)((Data[0x1A] & 0x3F) | ((value & 0x3) << 6)); }
     public override int Move4_PPUps { get => (Data[0x1B] & 0xC0) >> 6; set => Data[0x1B] = (byte)((Data[0x1B] & 0x3F) | ((value & 0x3) << 6)); }
-    public override int CurrentFriendship { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+    public override byte CurrentFriendship { get => Data[0x1C]; set => Data[0x1C] = value; }
 
-    public override int Stat_Level { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x1D]; set => Data[0x1D] = value; }
     public override bool IsEgg { get => (Data[0x1E] & 1) == 1; set => Data[0x1E] = (byte)((Data[0x1E] & ~1) | (value ? 1 : 0)); }
 
     public bool IsRental
@@ -88,7 +88,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
     public int Met_TimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
     public override int Met_Level    { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
-    public override int OT_Gender    { get => (CaughtData >> 7) & 1;    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
+    public override byte OT_Gender    { get => (byte)((CaughtData >> 7) & 1);    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
     public override int Met_Location { get => CaughtData & 0x7F;        set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
 
     public override string Nickname
@@ -127,9 +127,9 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override int Stat_SPD { get; set; }
     #endregion
 
-    public override int OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
+    public override byte OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
     public override bool HasOriginalMetLocation => CaughtData != 0;
-    public override int Version { get => (int)GameVersion.GSC; set { } }
+    public override GameVersion Version { get => GameVersion.GSC; set { } }
 
     protected override void GetNonNickname(int language, Span<byte> data)
     {

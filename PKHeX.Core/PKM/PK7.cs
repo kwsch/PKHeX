@@ -98,7 +98,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
-    public override int Gender { get => (Data[0x1D] >> 1) & 0x3; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
+    public override byte Gender { get => (byte)((Data[0x1D] >> 1) & 0x3); set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
     public override byte Form { get => (byte)(Data[0x1D] >> 3); set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
     public override int EV_HP { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
     public override int EV_ATK { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
@@ -335,8 +335,8 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => StringConverter7.SetString(HT_Trash, value, 12, 0, StringConverterOption.None);
     }
 
-    public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
-    public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
+    public override byte HT_Gender { get => Data[0x92]; set => Data[0x92] = value; }
+    public override byte CurrentHandler { get => Data[0x93]; set => Data[0x93] = value; }
     public byte Geo1_Region  { get => Data[0x94]; set => Data[0x94] = value; }
     public byte Geo1_Country { get => Data[0x95]; set => Data[0x95] = value; }
     public byte Geo2_Region  { get => Data[0x96]; set => Data[0x96] = value; }
@@ -351,7 +351,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     // 0x9F Unused
     // 0xA0 Unused
     // 0xA1 Unused
-    public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
+    public override byte HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = value; }
     public byte HT_Affection { get => Data[0xA3]; set => Data[0xA3] = value; }
     public byte HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = value; }
     public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
@@ -372,7 +372,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => StringConverter7.SetString(OT_Trash, value, 12, 0, StringConverterOption.None);
     }
 
-    public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
+    public override byte OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = value; }
     public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }
     public byte OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = value; }
     public byte OT_Memory { get => Data[0xCD]; set => Data[0xCD] = value; }
@@ -389,7 +389,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), (ushort)value); }
     public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
     public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
-    public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
+    public override byte OT_Gender { get => (byte)(Data[0xDD] >> 7); set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
     public byte HyperTrainFlags { get => Data[0xDE]; set => Data[0xDE] = value; }
     public bool HT_HP  { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -397,7 +397,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
     public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
     public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
-    public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
+    public override GameVersion Version { get => (GameVersion)Data[0xDF]; set => Data[0xDF] = (byte)value; }
     public byte Country { get => Data[0xE0]; set => Data[0xE0] = value; }
     public byte Region { get => Data[0xE1]; set => Data[0xE1] = value; }
     public byte ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = value; }
@@ -405,7 +405,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     #endregion
     #region Battle Stats
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0xE8)); set => WriteInt32LittleEndian(Data.AsSpan(0xE8), value); }
-    public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
+    public override byte Stat_Level { get => Data[0xEC]; set => Data[0xEC] = value; }
     public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
     public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
     // 0xEF unused
@@ -451,7 +451,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     {
         if (IsEgg) // No memories if is egg.
         {
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = 0;
             /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = HT_Affection = OT_Affection = 0;
             this.ClearGeoLocationData();
 
@@ -461,7 +461,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         }
 
         if (IsUntraded)
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Affection = 0;
+            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = HT_Affection = 0;
         if (Generation < 6)
             /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
@@ -508,7 +508,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxBallID => Legal.MaxBallID_7;
-    public override int MaxGameID => Legal.MaxGameID_7;
+    public override GameVersion MaxGameID => Legal.MaxGameID_7;
 
     internal void SetTransferLocale(int lang)
     {

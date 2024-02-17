@@ -213,7 +213,7 @@ public sealed class NicknameVerifier : Verifier
         return false;
     }
 
-    private static int GetForeignNicknameLength(PKM pk, IEncounterTemplate match, int origin)
+    private static int GetForeignNicknameLength(PKM pk, IEncounterTemplate match, byte origin)
     {
         // HOME gifts already verified prior to reaching here.
         System.Diagnostics.Debug.Assert(match is not WC8 {IsHOMEGift:true});
@@ -236,7 +236,7 @@ public sealed class NicknameVerifier : Verifier
     private static bool IsNicknameValid(PKM pk, IEncounterTemplate enc, ReadOnlySpan<char> nickname)
     {
         ushort species = pk.Species;
-        int format = pk.Format;
+        byte format = pk.Format;
         int language = pk.Language;
         var expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
         if (nickname.SequenceEqual(expect))

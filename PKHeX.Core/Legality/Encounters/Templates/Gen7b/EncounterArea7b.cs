@@ -28,17 +28,17 @@ public sealed record EncounterArea7b : IEncounterArea<EncounterSlot7b>, IAreaLoc
     {
         Location = ReadUInt16LittleEndian(data);
         Version = game;
-        Slots = ReadSlots(data);
+        Slots = ReadSlots(data[2..]);
     }
 
     private EncounterSlot7b[] ReadSlots(ReadOnlySpan<byte> data)
     {
         const int size = 4;
-        int count = (data.Length - 2) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot7b[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 2 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadSlot(entry);
         }

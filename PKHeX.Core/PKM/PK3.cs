@@ -86,7 +86,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override int Move2_PPUps { get => (PPUps >> 2) & 3; set => PPUps = (byte)((PPUps & ~(3 << 2)) | (value << 2)); }
     public override int Move3_PPUps { get => (PPUps >> 4) & 3; set => PPUps = (byte)((PPUps & ~(3 << 4)) | (value << 4)); }
     public override int Move4_PPUps { get => (PPUps >> 6) & 3; set => PPUps = (byte)((PPUps & ~(3 << 6)) | (value << 6)); }
-    public override int OT_Friendship { get => Data[0x29]; set => Data[0x29] = (byte)value; }
+    public override byte OT_Friendship { get => Data[0x29]; set => Data[0x29] = value; }
     // Unused 0x2A 0x2B
     #endregion
 
@@ -124,9 +124,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     // Origins
     private ushort Origins { get => ReadUInt16LittleEndian(Data.AsSpan(0x46)); set => WriteUInt16LittleEndian(Data.AsSpan(0x46), value); }
     public override int Met_Level { get => Origins & 0x7F; set => Origins = (ushort)((Origins & ~0x7F) | value); }
-    public override int Version { get => (Origins >> 7) & 0xF; set => Origins = (ushort)((Origins & ~0x780) | ((value & 0xF) << 7)); }
+    public override GameVersion Version { get => (GameVersion)((Origins >> 7) & 0xF); set => Origins = (ushort)((Origins & ~0x780) | (((byte)value & 0xF) << 7)); }
     public override int Ball { get => (Origins >> 11) & 0xF; set => Origins = (ushort)((Origins & ~0x7800) | ((value & 0xF) << 11)); }
-    public override int OT_Gender { get => (Origins >> 15) & 1; set => Origins = (ushort)((Origins & ~(1 << 15)) | ((value & 1) << 15)); }
+    public override byte OT_Gender { get => (byte)((Origins >> 15) & 1); set => Origins = (ushort)((Origins & ~(1 << 15)) | ((value & 1) << 15)); }
 
     private uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x48)); set => WriteUInt32LittleEndian(Data.AsSpan(0x48), value); }
     public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
@@ -182,7 +182,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
 
     #region Battle Stats
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0x50)); set => WriteInt32LittleEndian(Data.AsSpan(0x50), value); }
-    public override int Stat_Level { get => Data[0x54]; set => Data[0x54] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x54]; set => Data[0x54] = value; }
     public sbyte HeldMailID { get => (sbyte)Data[0x55]; set => Data[0x55] = (byte)value; }
     public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), (ushort)value); }
     public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), (ushort)value); }

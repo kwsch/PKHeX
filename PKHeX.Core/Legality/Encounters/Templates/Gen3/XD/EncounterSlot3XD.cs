@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, INumberedSlot, IFatefulEncounterReadOnly, IRandomCorrelation
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public bool FatefulEncounter => true;
     public bool EggEncounter => false;
@@ -40,7 +40,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
             FatefulEncounter = FatefulEncounter,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)GameVersion.CXD,
+            Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
@@ -59,7 +59,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);

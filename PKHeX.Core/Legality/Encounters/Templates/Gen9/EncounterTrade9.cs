@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade9
     : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK9>, IGemType, IFixedGender, IFixedNature, IRibbonPartner, IMoveset
 {
-    public int Generation => 9;
+    public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public int Location => Locations.LinkTrade6NPC;
     public Shiny Shiny { get; init; } = Shiny.Never;
@@ -67,7 +67,7 @@ public sealed record EncounterTrade9
 
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SV[Species, Form];
         var rnd = new Xoroshiro128Plus(Util.Rand.Rand64());
@@ -85,7 +85,7 @@ public sealed record EncounterTrade9
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],

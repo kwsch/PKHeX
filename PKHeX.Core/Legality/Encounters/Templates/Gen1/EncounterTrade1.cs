@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 /// </remarks>
 public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK1>
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;

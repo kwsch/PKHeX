@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Egg Encounter Data
 /// </summary>
-public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Generation, GameVersion Version, EntityContext Context) : IEncounterable
+public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Generation, GameVersion Version, EntityContext Context) : IEncounterable
 {
     public string Name => "Egg";
     public string LongName => "Egg";
@@ -26,7 +26,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
 
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int gen = Generation;
+        var gen = Generation;
         var version = Version;
         var pk = EntityBlank.GetBlank(gen, version);
 
@@ -38,7 +38,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         pk.Language = lang;
         pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
         pk.CurrentLevel = Level;
-        pk.Version = (byte)version;
+        pk.Version = version;
 
         var ball = FixedBall;
         pk.Ball = ball is Ball.None ? (int)Ball.Poke : (int)ball;
@@ -66,7 +66,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         SetMetData(pk);
 
         if (gen >= 4)
-            pk.SetEggMetData(version, (GameVersion)tr.Game);
+            pk.SetEggMetData(version, tr.Version);
 
         if (gen < 6)
             return pk;
@@ -120,7 +120,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         if (pk.Format <= 2)
             return;
 
-        int gender = criteria.GetGender(pk.PersonalInfo);
+        var gender = criteria.GetGender(pk.PersonalInfo);
         int nature = (int)criteria.GetNature();
 
         if (pk.Format <= 5)

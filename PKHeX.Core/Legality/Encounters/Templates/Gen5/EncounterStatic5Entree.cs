@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species, byte Level, byte Form, byte Gender, AbilityPermission Ability)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IMoveset, IFixedGender
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Never;
@@ -32,7 +32,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
@@ -46,7 +46,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
             Ball = (byte)Ball.Dream,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
@@ -69,7 +69,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
+        var gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);

@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom
 {
-    public int Generation => 6;
+    public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
@@ -67,7 +67,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
             OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDate3DS(),
 

@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK8>, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly, IFlawlessIVCount, IFixedGender, IFixedNature
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
     public int Location => Locations.LinkTrade6NPC;
     public Moveset Relearn { get; init; }
@@ -95,7 +95,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SWSH[Species, Form];
         var pk = new PK8
@@ -112,7 +112,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             Gender = Gender,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
@@ -146,7 +146,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
     private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
+        var gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
         pk.Nature = pk.StatNature = nature;

@@ -164,6 +164,6 @@ public static class LegalityFormatting
     {
         if (enc is not ILocation loc)
             return null;
-        return loc.GetEncounterLocation(enc.Generation, (int)enc.Version);
+        return loc.GetEncounterLocation(enc.Generation, enc.Version);
     }
 }

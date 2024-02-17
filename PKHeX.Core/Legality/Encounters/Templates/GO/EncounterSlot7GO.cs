@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type)
     : IEncounterable, IEncounterMatch, IPogoSlot, IEncounterConvertible<PB7>
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
     public bool EggEncounter => false;
@@ -51,7 +51,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             OT_Friendship = PersonalTable.GG[Species].BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             Ball = (byte)Ball.Poke,
             MetDate = this.GetRandomValidDate(),
 
@@ -76,9 +76,9 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     private void SetPINGA(PB7 pk, EncounterCriteria criteria)
     {
-        var g = Gender == Gender.Random ? -1 : (int)Gender;
-        int gender = criteria.GetGender(g, PersonalTable.GG[Species]);
-        int nature = (int)criteria.GetNature();
+        var pi = PersonalTable.GG[Species];
+        var gender = criteria.GetGender(Gender, pi);
+        var nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
         criteria.SetRandomIVsGO(pk, Type.GetMinIV());

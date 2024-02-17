@@ -13,7 +13,7 @@ public static class EncounterVerifier
     /// </summary>
     /// <param name="generation">Source generation to verify</param>
     /// <returns>Returns the verification method appropriate for the input PKM</returns>
-    public static Func<PKM, IEncounterable, CheckResult> GetEncounterVerifierMethod(int generation) => generation switch
+    public static Func<PKM, IEncounterable, CheckResult> GetEncounterVerifierMethod(byte generation) => generation switch
     {
         1 or 2 => VerifyEncounterG12,
         _ => VerifyEncounter,
@@ -57,7 +57,7 @@ public static class EncounterVerifier
     };
 
     // Eggs
-    private static CheckResult VerifyEncounterEgg(PKM pk, int gen) => gen switch
+    private static CheckResult VerifyEncounterEgg(PKM pk, byte generation) => generation switch
     {
         2 => pk.IsEgg ? VerifyUnhatchedEgg2(pk) : VerifyEncounterEgg2(pk),
         3 => pk.IsEgg ? VerifyUnhatchedEgg3(pk) : VerifyEncounterEgg3(pk),
@@ -65,7 +65,7 @@ public static class EncounterVerifier
         5 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade5) : VerifyEncounterEgg5(pk),
         6 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg6(pk),
         7 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg7(pk),
-        8 when GameVersion.BDSP.Contains((GameVersion)pk.Version) => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone) : VerifyEncounterEgg8BDSP(pk),
+        8 when GameVersion.BDSP.Contains(pk.Version) => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone) : VerifyEncounterEgg8BDSP(pk),
         8 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg8(pk),
         9 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg9(pk),
         _ => GetInvalid(LEggLocationInvalid),
@@ -120,7 +120,7 @@ public static class EncounterVerifier
 
         // Check the origin game list.
         var met = (byte)pk.Met_Location;
-        bool valid = EggHatchLocation3.IsValidMet3(met, (GameVersion)pk.Version);
+        bool valid = EggHatchLocation3.IsValidMet3(met, pk.Version);
         if (valid)
             return GetValid(LEggLocation);
 
@@ -177,7 +177,7 @@ public static class EncounterVerifier
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
         var met = (ushort)pk.Met_Location;
-        bool valid = EggHatchLocation4.IsValidMet4(met, (GameVersion)pk.Version);
+        bool valid = EggHatchLocation4.IsValidMet4(met, pk.Version);
         if (valid)
             return GetValid(LEggLocation);
 
@@ -194,7 +194,7 @@ public static class EncounterVerifier
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
         var met = (ushort)pk.Met_Location;
-        bool valid = EggHatchLocation5.IsValidMet5(met, (GameVersion)pk.Version);
+        bool valid = EggHatchLocation5.IsValidMet5(met, pk.Version);
 
         if (valid)
             return GetValid(LEggLocation);
@@ -264,7 +264,7 @@ public static class EncounterVerifier
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
         var met = (ushort)pk.Met_Location;
-        bool valid = pk.Version == (int)GameVersion.BD
+        bool valid = pk.Version == GameVersion.BD
             ? EggHatchLocation8b.IsValidMet8BD(met)
             : EggHatchLocation8b.IsValidMet8SP(met);
 
@@ -283,7 +283,7 @@ public static class EncounterVerifier
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
         var met = (ushort)pk.Met_Location;
-        bool valid = pk.Version == (int)GameVersion.SL
+        bool valid = pk.Version == GameVersion.SL
             ? EggHatchLocation9.IsValidMet9SL(met)
             : EggHatchLocation9.IsValidMet9VL(met);
 

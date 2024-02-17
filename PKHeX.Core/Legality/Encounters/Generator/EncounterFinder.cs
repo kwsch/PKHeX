@@ -67,10 +67,14 @@ public static class EncounterFinder
             break;
         }
 
-        if (info is { FrameMatches: false }) // if false, all valid RNG frame matches have already been consumed
-            info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, CheckIdentifier.PID, LEncConditionBadRNGFrame)); // todo for further confirmation
-        if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
-            info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, LPIDTypeMismatch));
+        var manual = info.ManualFlag;
+        if (manual != EncounterYieldFlag.None)
+        {
+            if (!info.FrameMatches) // if false, all valid RNG frame matches have already been consumed
+                info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, CheckIdentifier.PID, LEncConditionBadRNGFrame)); // todo for further confirmation
+            else if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
+                info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, LPIDTypeMismatch));
+        }
     }
 
     /// <summary>
@@ -167,7 +171,7 @@ public static class EncounterFinder
         LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }
 
-    private static string GetHintWhyNotFound(PKM pk, int generation)
+    private static string GetHintWhyNotFound(PKM pk, byte generation)
     {
         if (WasGiftEgg(pk, generation, (ushort)pk.Egg_Location))
             return LEncGift;
@@ -178,7 +182,7 @@ public static class EncounterFinder
         return LEncInvalid;
     }
 
-    private static bool WasGiftEgg(PKM pk, int generation, ushort eggLocation) => !pk.FatefulEncounter && generation switch
+    private static bool WasGiftEgg(PKM pk, byte generation, ushort eggLocation) => !pk.FatefulEncounter && generation switch
     {
         3 => pk.IsEgg && (byte)pk.Met_Location == 253, // Gift Egg, indistinguishable from normal eggs after hatch
         4 => eggLocation - 2009u <= (2014 - 2009) || (pk.Format != 4 && (eggLocation == Locations.Faraway4 && pk.HGSS)),
@@ -186,7 +190,7 @@ public static class EncounterFinder
         _ => eggLocation is Locations.Breeder6,
     };
 
-    private static bool WasEventEgg(PKM pk, int gen) => gen switch
+    private static bool WasEventEgg(PKM pk, byte generation) => generation switch
     {
         // Event Egg, indistinguishable from normal eggs after hatch
         // can't tell after transfer
@@ -196,11 +200,11 @@ public static class EncounterFinder
         _ => pk.FatefulEncounter && pk.Egg_Day != 0,
     };
 
-    private static bool WasEvent(PKM pk, int gen) => pk.FatefulEncounter || gen switch
+    private static bool WasEvent(PKM pk, byte generation) => pk.FatefulEncounter || generation switch
     {
         3 => Locations.IsEventLocation3(pk.Met_Location) && pk.Format == 3,
         4 => Locations.IsEventLocation4(pk.Met_Location) && pk.Format == 4,
-        >=5 => Locations.IsEventLocation5(pk.Met_Location),
+      >=5 => Locations.IsEventLocation5(pk.Met_Location),
         _ => false,
     };
 }

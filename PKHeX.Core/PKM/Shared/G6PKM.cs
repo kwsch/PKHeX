@@ -25,13 +25,13 @@ public abstract class G6PKM : PKM, ISanityChecksum
     private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_6STORED]);
 
     // Simple Generated Attributes
-    public sealed override int CurrentFriendship
+    public sealed override byte CurrentFriendship
     {
         get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
         set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
     }
 
-    public int OppositeFriendship
+    public byte OppositeFriendship
     {
         get => CurrentHandler == 1 ? OT_Friendship : HT_Friendship;
         set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }

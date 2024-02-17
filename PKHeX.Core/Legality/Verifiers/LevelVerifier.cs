@@ -29,22 +29,21 @@ public sealed class LevelVerifier : Verifier
 
         if (pk.IsEgg)
         {
-            int elvl = enc.LevelMin;
-            if (elvl != pk.CurrentLevel)
+            if (pk.CurrentLevel != enc.LevelMin)
             {
-                data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
+                data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, enc.LevelMin)));
                 return;
             }
 
             var reqEXP = enc is EncounterStatic2 { DizzyPunchEgg: true }
                 ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
-                : Experience.GetEXP(elvl, pk.PersonalInfo.EXPGrowth);
+                : Experience.GetEXP(enc.LevelMin, pk.PersonalInfo.EXPGrowth);
             if (reqEXP != pk.EXP)
                 data.AddLine(GetInvalid(LEggEXP));
             return;
         }
 
-        int lvl = pk.CurrentLevel;
+        var lvl = pk.CurrentLevel;
         if (lvl >= 100)
         {
             var expect = Experience.GetEXP(100, pk.PersonalInfo.EXPGrowth);

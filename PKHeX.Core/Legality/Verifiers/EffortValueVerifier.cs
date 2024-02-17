@@ -24,7 +24,7 @@ public sealed class EffortValueVerifier : Verifier
         }
 
         // In Generation 1 & 2, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
-        int format = pk.Format;
+        byte format = pk.Format;
         if (format < 3) // Can abuse daycare for EV training without EXP gain
             return;
 

@@ -15,7 +15,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     private static ReadOnlySpan<byte> RatesGrass => [ 30, 30, 20, 10, 5, 4, 1 ];
     private static ReadOnlySpan<byte> RatesSurf => [ 60, 30, 10 ];
 
-    public readonly byte[] Rates; // Slot specific rates
+    private readonly byte[] Rates; // Slot specific rates
     internal readonly EncounterTime Time;
     public readonly byte Rate; // Area Rate
     public readonly byte Location;
@@ -23,9 +23,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
 
     public bool IsMatchLocation(int location) => location == Location;
 
-    public byte GetSlotRate(byte slot) => GetSlotRates()[slot];
-
-    private ReadOnlySpan<byte> GetSlotRates() => Type switch
+    public ReadOnlySpan<byte> GetSlotRates() => Type switch
     {
         Grass => RatesGrass,
         Surf => RatesSurf,
@@ -49,18 +47,18 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
 
         Version = game;
 
-        var next = data[4..];
+        var slotData = data[4..];
         if (Type > Surf) // Not Grass/Surf
         {
-            int count = next.Length / (SlotSize + 1); // each slot has a rate
-            Rates = next[..count].ToArray();
-            Slots = ReadSlots(next[count..], count);
+            int count = slotData.Length / (SlotSize + 1); // each slot has a rate
+            Rates = slotData[..count].ToArray();
+            Slots = ReadSlots(slotData[count..], count);
         }
         else
         {
-            int count = next.Length / SlotSize; // shared rate value
+            int count = slotData.Length / SlotSize; // shared rate value
             Rates = []; // fetch as needed.
-            Slots = ReadSlots(next, count);
+            Slots = ReadSlots(slotData, count);
         }
     }
 

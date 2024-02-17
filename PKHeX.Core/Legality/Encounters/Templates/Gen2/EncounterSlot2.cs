@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, INumberedSlot, IEncounterFormRandom
 {
-    public int Generation => 2;
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;

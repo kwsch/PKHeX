@@ -23,7 +23,7 @@ public sealed class GenderVerifier : Verifier
         }
 
         // Check for PID relationship to Gender & Nature if applicable
-        int gen = data.Info.Generation;
+        var gen = data.Info.Generation;
         if (gen is 3 or 4 or 5)
         {
             // Gender-PID & Nature-PID relationship check

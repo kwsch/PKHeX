@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, AreaWeather8 Weather, SlotType8 Type)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IOverworldCorrelation8
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
@@ -57,7 +57,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
@@ -76,7 +76,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             pk.RibbonMarkCurry = true;
 
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
-            pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+            pk.Met_Level = pk.CurrentLevel = EncounterArea8.BoostLevel;
         pk.ResetPartyStats();
         return pk;
     }

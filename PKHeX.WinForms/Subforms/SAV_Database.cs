@@ -86,7 +86,7 @@ public partial class SAV_Database : Form
             {
                 if (sender is not PictureBox pb)
                     return;
-                var index = Array.IndexOf(PKXBOXES, sender);
+                var index = Array.IndexOf(PKXBOXES, pb);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -529,11 +529,11 @@ public partial class SAV_Database : Form
     {
         var settings = new SearchSettings
         {
-            Format = MAXFORMAT - CB_Format.SelectedIndex + 1, // 0->(n-1) => 1->n
+            Format = (byte)(MAXFORMAT - CB_Format.SelectedIndex + 1), // 0->(n-1) => 1->n
             SearchFormat = (SearchComparison)CB_FormatComparator.SelectedIndex,
-            Generation = CB_Generation.SelectedIndex,
+            Generation = (byte)CB_Generation.SelectedIndex,
 
-            Version = WinFormsUtil.GetIndex(CB_GameOrigin),
+            Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin),
             HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
 
             Species = GetU16(CB_Species),

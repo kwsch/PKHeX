@@ -208,7 +208,7 @@ public sealed class HistoryVerifier : Verifier
     // OR/AS contests mistakenly apply 20 affection to the OT instead of the current handler's value
     private static bool IsInvalidContestAffection(IAffection pk) => pk.OT_Affection != 255 && pk.OT_Affection % 20 != 0;
 
-    public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pk, int generation)
+    public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pk, byte generation)
     {
         // Handlers introduced in Generation 6. OT Handling was always the case for Generation 3-5 data.
         if (generation < 6)

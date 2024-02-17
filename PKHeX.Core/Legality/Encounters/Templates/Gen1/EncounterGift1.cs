@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Version = GameVersion.RB)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>, IFixedGBLanguage, IMoveset, IFixedIVSet
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
     public int EggLocation => 0;

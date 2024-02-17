@@ -86,9 +86,9 @@ public sealed class PB8 : G8PKM
         }
 
         if (IsUntraded)
-            HT_Gender = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
+            HT_TextVar = HT_Gender = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
 
-        int gen = Generation;
+        var gen = Generation;
         if (gen < 6)
             OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
         // if (gen != 8) // must be transferred via HOME, and must have memories
@@ -124,7 +124,7 @@ public sealed class PB8 : G8PKM
     public override int MaxAbilityID => Legal.MaxAbilityID_8b;
     public override int MaxItemID => Legal.MaxItemID_8b;
     public override int MaxBallID => Legal.MaxBallID_8b;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
 
     public override bool WasEgg => IsEgg || Egg_Day != 0;
 

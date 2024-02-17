@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic3XD(ushort Species, byte Level)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IFatefulEncounterReadOnly, IRandomCorrelation, IMoveset
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.XD;
     int ILocation.EggLocation => 0;
@@ -48,7 +48,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)GameVersion.CXD,
+            Version = GameVersion.CXD,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
@@ -71,7 +71,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         do

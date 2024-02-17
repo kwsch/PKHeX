@@ -39,7 +39,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string EggLoc => pk.GetLocationString(eggmet: true);
     public string Ball => Get(Strings.balllist, pk.Ball);
     public string OT => pk.OT_Name;
-    public string Version => Get(Strings.gamelist, pk.Version);
+    public string Version => Get(Strings.gamelist, (int)pk.Version);
     public string OTLang => ((LanguageID)pk.Language).ToString();
     public string Legal { get { var la = new LegalityAnalysis(pk); return la.Parsed ? la.Valid.ToString() : "-"; } }
 
@@ -70,12 +70,12 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string NotOT => pk.Format > 5 ? pk.HT_Name : "N/A";
 
     public int AbilityNum => pk.Format > 5 ? pk.AbilityNumber : -1;
-    public int GenderFlag => pk.Gender;
+    public byte GenderFlag => pk.Gender;
     public byte Form => pk.Form;
     public int PKRS_Strain => pk.PKRS_Strain;
     public int PKRS_Days => pk.PKRS_Days;
     public int MetLevel => pk.Met_Level;
-    public int OT_Gender => pk.OT_Gender;
+    public byte OT_Gender => pk.OT_Gender;
 
     public bool FatefulEncounter => pk.FatefulEncounter;
     public bool IsEgg => pk.IsEgg;

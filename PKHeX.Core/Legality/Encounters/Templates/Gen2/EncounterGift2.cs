@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Version = GameVersion.GS)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IFixedGBLanguage, IHatchCycle, IMoveset, IFixedIVSet
 {
-    public int Generation => 2;
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public byte Form => 0;
 
@@ -43,7 +43,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     public bool IsGift => TID16 != UnspecifiedID;
 
-    public sbyte CurrentLevel { get; init; } = -1;
+    public byte CurrentLevel { get; init; }
 
     public byte EggCycles { get; init; }
 
@@ -55,13 +55,13 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = GetTemplateLanguage(tr);
         var pi = PersonalTable.C[Species];
         var pk = new PK2
         {
             Species = Species,
-            CurrentLevel = CurrentLevel == -1 ? LevelMin : CurrentLevel,
+            CurrentLevel = CurrentLevel == 0 ? LevelMin : CurrentLevel,
 
             TID16 = TID16 != UnspecifiedID ? TID16 : tr.TID16,
             OT_Name = GetInitialOT(tr),
@@ -74,7 +74,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (EggEncounter)
         {
         }
-        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Game == (int)GameVersion.C))
+        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Version == GameVersion.C))
         {
             if (!IsGift)
                 pk.OT_Gender = tr.Gender;
@@ -156,7 +156,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Language != EncounterGBLanguage.Any && pk.Japanese != (Language == EncounterGBLanguage.Japanese))
             return false;
 
-        if (CurrentLevel != -1 && CurrentLevel > pk.CurrentLevel)
+        if (CurrentLevel != 0 && CurrentLevel > pk.CurrentLevel)
             return false;
 
         // EC/PID check doesn't exist for these, so check Shiny state here.

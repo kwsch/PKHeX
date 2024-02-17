@@ -45,7 +45,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public int Nature            { get => Data[0x1E];      set => Data[0x1E] = (byte)value; }
     public int StatNature        { get => Data[0x1F];      set => Data[0x1F] = (byte)value; }
     public bool FatefulEncounter { get => Data[0x20] != 0; set => Data[0x20] = (byte)(value ? 1 : 0); }
-    public int Gender { get => Data[0x21]; set => Data[0x21] = (byte)value; }
+    public byte Gender { get => Data[0x21]; set => Data[0x21] = value; }
     public byte Form  { get => Data[0x22]; set => WriteUInt16LittleEndian(Data[0x22..], value); }
     public int EV_HP  { get => Data[0x24]; set => Data[0x24] = (byte)value; }
     public int EV_ATK { get => Data[0x25]; set => Data[0x25] = (byte)value; }
@@ -251,17 +251,17 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         get => StringConverter8.GetString(HT_Trash);
         set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
-    public int HT_Gender      { get => Data[0x86]; set => Data[0x86] = (byte)value; }
+    public byte HT_Gender      { get => Data[0x86]; set => Data[0x86] = value; }
     public byte HT_Language   { get => Data[0x87]; set => Data[0x87] = value; }
-    public int CurrentHandler { get => Data[0x88]; set => Data[0x88] = (byte)value; }
+    public byte CurrentHandler { get => Data[0x88]; set => Data[0x88] = value; }
     public int HT_TrainerID   { get => ReadUInt16LittleEndian(Data[0x89..]); set => WriteUInt16LittleEndian(Data[0x89..], (ushort)value); } // unused?
-    public int HT_Friendship  { get => Data[0x8B]; set => Data[0x8B] = (byte)value; }
+    public byte HT_Friendship  { get => Data[0x8B]; set => Data[0x8B] = value; }
     public byte HT_Intensity  { get => Data[0x8C]; set => Data[0x8C] = value; }
     public byte HT_Memory     { get => Data[0x8D]; set => Data[0x8D] = value; }
     public byte HT_Feeling    { get => Data[0x8E]; set => Data[0x8E] = value; }
     public ushort HT_TextVar  { get => ReadUInt16LittleEndian(Data[0x8F..]); set => WriteUInt16LittleEndian(Data[0x8F..], value); }
-    public int Version        { get => Data[0x91]; set => Data[0x91] = (byte)value; }
-    public byte BattleVersion { get => Data[0x92]; set => Data[0x92] = value; }
+    public GameVersion Version        { get => (GameVersion)Data[0x91]; set => Data[0x91] = (byte)value; }
+    public GameVersion BattleVersion  { get => (GameVersion)Data[0x92]; set => Data[0x92] = (byte)value; }
     public int Language       { get => Data[0x93]; set => Data[0x93] = (byte)value; }
     public uint FormArgument        { get => ReadUInt32LittleEndian(Data[0x94..]); set => WriteUInt32LittleEndian(Data[0x94..], value); }
     public byte FormArgumentRemain  { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
@@ -274,7 +274,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         get => StringConverter8.GetString(OT_Trash);
         set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
-    public int OT_Friendship    { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
+    public byte OT_Friendship    { get => Data[0xB3]; set => Data[0xB3] = value; }
     public byte OT_Intensity    { get => Data[0xB4]; set => Data[0xB4] = value; }
     public byte OT_Memory       { get => Data[0xB5]; set => Data[0xB5] = value; }
     public ushort OT_TextVar    { get => ReadUInt16LittleEndian(Data[0xB6..]); set => WriteUInt16LittleEndian(Data[0xB6..], value); }
@@ -286,7 +286,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public int Met_Month        { get => Data[0xBD]; set => Data[0xBD] = (byte)value; }
     public int Met_Day          { get => Data[0xBE]; set => Data[0xBE] = (byte)value; }
     public int Met_Level        { get => Data[0xBF]; set => Data[0xBF] = (byte)value; }
-    public int OT_Gender        { get => Data[0xC0]; set => Data[0xC0] = (byte)value; }
+    public byte OT_Gender        { get => Data[0xC0]; set => Data[0xC0] = (byte)value; }
     public byte HyperTrainFlags { get => Data[0xC1]; set => Data[0xC1] = value; }
     public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -297,7 +297,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int HeldItem { get => ReadUInt16LittleEndian(Data[0xC2..]); set => WriteUInt16LittleEndian(Data[0xC2..], (ushort)value); }
 
-    public TrainerIDFormat TrainerIDDisplayFormat => ((GameVersion)Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
+    public TrainerIDFormat TrainerIDDisplayFormat => (Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
 
     public int MarkingCount => 6;
 

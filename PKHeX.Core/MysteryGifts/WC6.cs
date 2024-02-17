@@ -12,20 +12,20 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public const int Size = 0x108;
     public const uint EonTicketConst = 0x225D73C2;
-    public override int Generation => 6;
+    public override byte Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;
     public override bool FatefulEncounter => !IsLinkGift; // Link gifts do not set fateful encounter
 
     public int RestrictLanguage { get; set; } // None
     public byte RestrictVersion { get; set; } // Permit All
 
-    public bool CanBeReceivedByVersion(int v)
+    public bool CanBeReceivedByVersion(GameVersion version)
     {
-        if (v is < (int)GameVersion.X or > (int)GameVersion.OR)
+        if (version is < GameVersion.X or > GameVersion.OR)
             return false;
         if (RestrictVersion == 0)
             return true; // no data
-        var bitIndex = v - (int) GameVersion.X;
+        var bitIndex = (int)(version - GameVersion.X);
         var bit = 1 << bitIndex;
         return (RestrictVersion & bit) != 0;
     }
@@ -151,7 +151,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x68)); set => WriteUInt32LittleEndian(Data.AsSpan(0x68), value); }
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value); }
-    public int OriginGame { get => Data[0x6C]; set => Data[0x6C] = (byte)value; }
+    public byte OriginGame { get => Data[0x6C]; set => Data[0x6C] = value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x70)); set => WriteUInt32LittleEndian(Data.AsSpan(0x70), value); }
     public override int Ball { get => Data[0x76]; set => Data[0x76] = (byte)value; }
     public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x78)); set => WriteUInt16LittleEndian(Data.AsSpan(0x78), (ushort)value); }
@@ -172,7 +172,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     }
 
     public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
-    public override int Gender { get => Data[0xA1]; set => Data[0xA1] = (byte)value; }
+    public override byte Gender { get => Data[0xA1]; set => Data[0xA1] = value; }
     public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
     public ShinyType6 PIDType { get => (ShinyType6)Data[0xA3]; set => Data[0xA3] = (byte)value; }
     public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA4), (ushort)value); }
@@ -192,7 +192,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public int IV_SPA { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
     public int IV_SPD { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
 
-    public int OTGender { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
+    public byte OTGender { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
 
     public override string OT_Name
     {
@@ -300,8 +300,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             throw new ArgumentException(nameof(IsEntity));
 
         var rnd = Util.Rand;
-
-        int currentLevel = Level > 0 ? Level : (1 + rnd.Next(100));
+        byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         var pi = PersonalTable.AO.GetFormEntry(Species, Form);
         PK6 pk = new()
         {
@@ -311,8 +310,8 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             SID16 = SID16,
             Met_Level = currentLevel,
             Form = Form,
-            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-            Version = OriginGame != 0 ? OriginGame : tr.Game,
+            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
+            Version = OriginGame != 0 ? (GameVersion)OriginGame : tr.Version,
             Language = Language != 0 ? Language : tr.Language,
             Ball = Ball,
             Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
@@ -328,10 +327,10 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             CNT_Sheen = CNT_Sheen,
 
             OT_Name = OT_Name.Length > 0 ? OT_Name : tr.OT,
-            OT_Gender = OTGender != 3 ? OTGender % 2 : tr.Gender,
+            OT_Gender = OTGender != 3 ? (byte)(OTGender % 2) : tr.Gender,
             HT_Name = OT_Name.Length > 0 ? tr.OT : string.Empty,
-            HT_Gender = OT_Name.Length > 0 ? tr.Gender : 0,
-            CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
+            HT_Gender = OT_Name.Length > 0 ? tr.Gender : default,
+            CurrentHandler = OT_Name.Length > 0 ? (byte)1 : (byte)0,
 
             EXP = Experience.GetEXP(Level, pi.EXPGrowth),
 
@@ -387,7 +386,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
             // give random valid game
-            do { pk.Version = (int)GameVersion.X + rnd.Next(4); }
+            do { pk.Version = GameVersion.X + (byte)rnd.Next(4); }
             while (!CanBeReceivedByVersion(pk.Version));
         }
 
@@ -536,7 +535,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             if (!string.IsNullOrEmpty(OT_Name) && OT_Name != pk.OT_Name) return false;
             if (PIDType == ShinyType6.FixedValue && pk.PID != PID) return false;
             if (!Shiny.IsValid(pk)) return false;
-            if (OriginGame != 0 && OriginGame != pk.Version) return false;
+            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0 && EncryptionConstant != pk.EncryptionConstant) return false;
             if (Language != 0 && Language != pk.Language) return false;
         }

@@ -30,21 +30,25 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
         Type = (SlotType1)data[2];
         Rate = data[3];
         Version = game;
+        Slots = ReadSlots(data[4..]);
+    }
 
-        var next = data[4..];
-        int count = next.Length / 4;
+    private EncounterSlot1[] ReadSlots(ReadOnlySpan<byte> data)
+    {
+        int count = data.Length / 4;
         var slots = new EncounterSlot1[count];
         for (int i = 0; i < slots.Length; i++)
         {
             const int size = 4;
-            var entry = next.Slice(i * size, size);
+            var entry = data.Slice(i * size, size);
             byte max = entry[3];
             byte min = entry[2];
             byte slotNum = entry[1];
             byte species = entry[0];
             slots[i] = new EncounterSlot1(this, species, min, max, slotNum);
         }
-        Slots = slots;
+
+        return slots;
     }
 }
 

@@ -71,7 +71,7 @@ public partial class SAV_Trainer7GG : Form
         CB_Language.SelectedValue = SAV.Language;
         MT_Money.Text = SAV.Blocks.Misc.Money.ToString();
 
-        CB_Game.SelectedValue = SAV.Game;
+        CB_Game.SelectedValue = (int)SAV.Version;
         CB_Gender.SelectedIndex = SAV.Gender;
         trainerID1.LoadIDValues(SAV, SAV.Generation);
 
@@ -102,7 +102,7 @@ public partial class SAV_Trainer7GG : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = WinFormsUtil.GetIndex(CB_Game);
+        SAV.Version = (GameVersion)WinFormsUtil.GetIndex(CB_Game);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);

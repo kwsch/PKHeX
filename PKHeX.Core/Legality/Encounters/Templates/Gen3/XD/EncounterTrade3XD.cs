@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IRandomCorrelation, IFixedTrainer, IFixedNickname, IFatefulEncounterReadOnly, IMoveset
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.XD;
     int ILocation.EggLocation => 0;
@@ -68,7 +68,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
             Met_Location = Location,
             Met_Level = Level,
-            Version = (byte)GameVersion.CXD,
+            Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
             FatefulEncounter = FatefulEncounter,
             Language = lang,
@@ -93,7 +93,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         if (Species == (int)Core.Species.Unown)

@@ -6,7 +6,7 @@ public sealed class EvolutionGroup6 : IEvolutionGroup
 {
     public static readonly EvolutionGroup6 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves6;
-    private const int Generation = 6;
+    private const byte Generation = 6;
     private static PersonalTable6AO Personal => PersonalTable.AO;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 

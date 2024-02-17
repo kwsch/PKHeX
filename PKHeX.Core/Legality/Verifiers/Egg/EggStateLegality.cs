@@ -63,7 +63,7 @@ public static class EggStateLegality
     /// Level which eggs are given to the player.
     /// </summary>
     /// <param name="generation">Generation the egg is given in</param>
-    public static byte GetEggLevel(int generation) => generation >= 4 ? (byte)1 : (byte)5;
+    public static byte GetEggLevel(byte generation) => generation >= 4 ? (byte)1 : (byte)5;
 
     public const byte EggMetLevel34 = 0;
     public const byte EggMetLevel = 1;
@@ -73,7 +73,7 @@ public static class EggStateLegality
     /// </summary>
     /// <param name="version">Game the egg is obtained in</param>
     /// <param name="generation">Generation the egg is given in</param>
-    public static int GetEggLevelMet(GameVersion version, int generation) => generation switch
+    public static int GetEggLevelMet(GameVersion version, byte generation) => generation switch
     {
         2 => version is C ? EggMetLevel : 0, // GS do not store met data
         3 or 4 => EggMetLevel34,
@@ -125,7 +125,7 @@ public static class EggStateLegality
     /// <summary>
     /// Gets a valid <see cref="PKM.Met_Location"/> for an egg hatched in the origin game, accounting for future format transfers altering the data.
     /// </summary>
-    public static int GetEggHatchLocation(GameVersion game, int format) => game switch
+    public static int GetEggHatchLocation(GameVersion game, byte format) => game switch
     {
         R or S or E or FR or LG => format switch
         {

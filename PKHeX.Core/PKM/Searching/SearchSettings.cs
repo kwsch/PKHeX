@@ -11,13 +11,13 @@ namespace PKHeX.Core.Searching;
 /// </summary>
 public sealed class SearchSettings
 {
-    public int Format { get; init; }
-    public int Generation { get; init; }
+    public byte Format { get; init; }
+    public byte Generation { get; init; }
     public required ushort Species { get; init; }
     public int Ability { get; init; } = -1;
     public int Nature { get; init; } = -1;
     public int Item { get; init; } = -1;
-    public int Version { get; init; } = -1;
+    public GameVersion Version { get; init; }
     public int HiddenPowerType { get; init; } = -1;
 
     public SearchComparison SearchFormat { get; init; }
@@ -157,7 +157,7 @@ public sealed class SearchSettings
             return false;
         if (Item > -1 && pk.HeldItem != Item)
             return false;
-        if (Version > -1 && pk.Version != Version)
+        if (Version > 0 && pk.Version != Version)
             return false;
         return true;
     }
@@ -209,7 +209,7 @@ public sealed class SearchSettings
     public IReadOnlyList<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
     {
         if (Version > 0)
-            return [(GameVersion) Version];
+            return [Version];
 
         return Generation switch
         {
@@ -224,7 +224,7 @@ public sealed class SearchSettings
 
     private static GameVersion GetFallbackVersion(ITrainerInfo sav)
     {
-        var parent = GameUtil.GetMetLocationVersionGroup((GameVersion)sav.Game);
+        var parent = GameUtil.GetMetLocationVersionGroup(sav.Version);
         if (parent == Invalid)
             parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(sav.Generation));
         return parent;

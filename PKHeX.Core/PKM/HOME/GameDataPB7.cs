@@ -172,9 +172,9 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
             return null;
 
         var ball = side.Ball;
-        if (pkh.Version is (int)GameVersion.GO)
+        if (pkh.Version is GameVersion.GO)
             return new GameDataPB7 { Ball = ball, Met_Location = Locations.GO7 };
-        if (pkh.Version is (int)GameVersion.GP or (int)GameVersion.GE)
+        if (pkh.Version is GameVersion.GP or GameVersion.GE)
             return new GameDataPB7 { Ball = ball, Met_Location = side.Met_Location };
 
         var result = new GameDataPB7();

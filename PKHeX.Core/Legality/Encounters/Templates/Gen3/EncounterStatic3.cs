@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IFatefulEncounterReadOnly, IRandomCorrelation, IMoveset
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public bool Roaming { get; init; }
     int ILocation.EggLocation => 0;
@@ -38,7 +38,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = GetTemplateLanguage(tr);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
@@ -48,7 +48,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
@@ -93,7 +93,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
     private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         var type = Roaming && Version != GameVersion.E ? PIDType.Method_1_Roamer : PIDType.Method_1;
@@ -179,9 +179,9 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     public bool IsCompatible(PIDType val, PKM pk)
     {
         var version = pk.Version;
-        if (version is (int)GameVersion.E)
+        if (version is GameVersion.E)
             return val is PIDType.Method_1;
-        if (version is (int)GameVersion.FR or(int) GameVersion.LG)
+        if (version is GameVersion.FR or GameVersion.LG)
             return Roaming ? IsRoamerPIDIV(val, pk) : val is PIDType.Method_1;
         // RS, roamer glitch && RSBox s/w emulation => method 4 available
         return Roaming ? IsRoamerPIDIV(val, pk) : val is (PIDType.Method_1 or PIDType.Method_4);

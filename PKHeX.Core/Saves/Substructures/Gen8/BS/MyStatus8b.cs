@@ -78,15 +78,15 @@ public sealed class MyStatus8b : SaveBlock<SAV8BS>
 
     // end structure!
 
-    public int Game
+    public GameVersion Game
     {
         get => ROMCode switch
         {
-            0 => (int)GameVersion.BD,
-            1 => (int)GameVersion.SP,
+            0 => GameVersion.BD,
+            1 => GameVersion.SP,
             _ => throw new ArgumentOutOfRangeException(nameof(Game)),
         };
-        set => ROMCode = (GameVersion)value switch
+        set => ROMCode = value switch
         {
             GameVersion.BD => 0,
             GameVersion.SP => 1,

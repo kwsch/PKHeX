@@ -110,14 +110,14 @@ public static class Locations
     /// Gets the egg location value for a traded unhatched egg.
     /// </summary>
     /// <param name="generation">Generation of the egg</param>
-    /// <param name="ver">Game version of the egg</param>
+    /// <param name="version">Game version of the egg</param>
     /// <returns>Egg Location value</returns>
     /// <remarks>Location will be set to the Met Location until it hatches, then moves to Egg Location.</remarks>
-    public static int TradedEggLocation(int generation, GameVersion ver) => generation switch
+    public static int TradedEggLocation(byte generation, GameVersion version) => generation switch
     {
         4 => LinkTrade4,
         5 => LinkTrade5,
-        8 when GameVersion.BDSP.Contains(ver) => LinkTrade6NPC,
+        8 when GameVersion.BDSP.Contains(version) => LinkTrade6NPC,
         _ => LinkTrade6,
     };
 
@@ -132,11 +132,11 @@ public static class Locations
     public static bool IsSafariZoneLocation3(byte loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
     public static bool IsSafariZoneLocation3RSE(byte loc) => loc == SafariLocation_RSE;
 
-    public static bool IsEggLocationBred4(int loc, GameVersion ver)
+    public static bool IsEggLocationBred4(int loc, GameVersion version)
     {
         if (loc is Daycare4 or LinkTrade4)
             return true;
-        return loc == Faraway4 && ver is GameVersion.Pt or GameVersion.HG or GameVersion.SS;
+        return loc == Faraway4 && version is GameVersion.Pt or GameVersion.HG or GameVersion.SS;
     }
 
     public static bool IsEggLocationBred5(int loc) => loc is Daycare5 or LinkTrade5;
@@ -144,7 +144,7 @@ public static class Locations
     public static bool IsEggLocationBred8b(int loc) => loc is Daycare8b or LinkTrade6NPC;
     public static bool IsEggLocationBred9(int loc) => loc is Picnic9 or LinkTrade6;
 
-    public static int GetDaycareLocation(int generation, GameVersion version) => generation switch
+    public static int GetDaycareLocation(byte generation, GameVersion version) => generation switch
     {
         1 or 2 or 3 => 0,
         4 => Daycare4,

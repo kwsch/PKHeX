@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
     public bool EggEncounter => false;
     public Shiny Shiny => Shiny.Random;
@@ -74,7 +74,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)GetRequiredBall(Ball.Poke),
 

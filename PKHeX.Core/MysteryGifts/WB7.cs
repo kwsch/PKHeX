@@ -16,19 +16,19 @@ public sealed class WB7(byte[] Data)
     private const int CardStart = SizeFull - Size;
     public override bool FatefulEncounter => true;
 
-    public override int Generation => 7;
+    public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;
     public override GameVersion Version { get => GameVersion.GG; set { } }
 
     public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
 
-    public bool CanBeReceivedByVersion(int v)
+    public bool CanBeReceivedByVersion(GameVersion version)
     {
-        if (v is not ((int)GameVersion.GP or (int)GameVersion.GE))
+        if (version is not (GameVersion.GP or GameVersion.GE))
             return false;
         if (RestrictVersion == 0)
             return true; // no data
-        var bitIndex = v - (int)GameVersion.GP;
+        var bitIndex = version - GameVersion.GP;
         var bit = 1 << bitIndex;
         return (RestrictVersion & bit) != 0;
     }
@@ -199,7 +199,7 @@ public sealed class WB7(byte[] Data)
     // }
 
     public int Nature { get => (sbyte)Data[CardStart + 0xA0]; set => Data[CardStart + 0xA0] = (byte)value; }
-    public override int Gender { get => Data[CardStart + 0xA1]; set => Data[CardStart + 0xA1] = (byte)value; }
+    public override byte Gender { get => Data[CardStart + 0xA1]; set => Data[CardStart + 0xA1] = value; }
     public override int AbilityType { get => 3; set => Data[CardStart + 0xA2] = (byte)value; } // no references, always ability 0/1
     public ShinyType6 PIDType { get => (ShinyType6)Data[CardStart + 0xA3]; set => Data[CardStart + 0xA3] = (byte)value; }
     public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4), (ushort)value); }
@@ -213,7 +213,7 @@ public sealed class WB7(byte[] Data)
     public int IV_SPA { get => Data[CardStart + 0xB3]; set => Data[CardStart + 0xB3] = (byte)value; }
     public int IV_SPD { get => Data[CardStart + 0xB4]; set => Data[CardStart + 0xB4] = (byte)value; }
 
-    public int OTGender { get => Data[CardStart + 0xB5]; set => Data[CardStart + 0xB5] = (byte)value; }
+    public byte OTGender { get => Data[CardStart + 0xB5]; set => Data[CardStart + 0xB5] = (byte)value; }
 
     // public override string OT_Name
     // {
@@ -354,7 +354,7 @@ public sealed class WB7(byte[] Data)
 
         var rnd = Util.Rand;
 
-        int currentLevel = Level > 0 ? Level : (1 + rnd.Next(100));
+        byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.GG.GetFormEntry(Species, Form);
 
@@ -370,8 +370,8 @@ public sealed class WB7(byte[] Data)
             SID16 = SID16,
             Met_Level = metLevel,
             Form = Form,
-            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-            Version = OriginGame != 0 ? OriginGame : tr.Game,
+            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
+            Version = OriginGame != 0 ? (GameVersion)OriginGame : tr.Version,
             Language = language,
             Ball = Ball,
             Move1 = Move1,
@@ -392,7 +392,7 @@ public sealed class WB7(byte[] Data)
             AV_SPD = AV_SPD,
 
             OT_Name = hasOT ? GetOT(redeemLanguage) : tr.OT,
-            OT_Gender = OTGender != 3 ? OTGender % 2 : tr.Gender,
+            OT_Gender = (byte)(OTGender != 3 ? OTGender % 2 : tr.Gender),
 
             EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
@@ -412,7 +412,7 @@ public sealed class WB7(byte[] Data)
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
             // give random valid game
-            do { pk.Version = (int)GameVersion.GP + rnd.Next(2); }
+            do { pk.Version = GameVersion.GP + (byte)rnd.Next(2); }
             while (!CanBeReceivedByVersion(pk.Version));
         }
 
@@ -559,7 +559,7 @@ public sealed class WB7(byte[] Data)
             }
             var OT = GetOT(pk.Language);
             if (!string.IsNullOrEmpty(OT) && OT != pk.OT_Name) return false;
-            if (OriginGame != 0 && OriginGame != pk.Version) return false;
+            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0 && EncryptionConstant != pk.EncryptionConstant) return false;
 
             if (!IsMatchEggLocation(pk)) return false;

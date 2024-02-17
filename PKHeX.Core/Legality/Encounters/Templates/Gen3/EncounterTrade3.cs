@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK3>, IContestStatsReadOnly
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public int Location => Locations.LinkTrade3NPC;
     public Shiny Shiny => Shiny.FixedValue;
@@ -84,7 +84,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.E[Species];
         var pk = new PK3
@@ -94,7 +94,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
             Met_Location = Location,
             Met_Level = Level,
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)FixedBall,
             OT_Friendship = pi.BaseFriendship,
 
@@ -161,14 +161,14 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
     {
-        if (Species == (int)Core.Species.Jynx && pk.Version == (int)GameVersion.LG && language == (int)LanguageID.Italian)
+        if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
         return language != 0 && (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames[language]);
     }
 
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
     {
-        if (Species == (int)Core.Species.Jynx && pk.Version == (int)GameVersion.LG && language == (int)LanguageID.Italian)
+        if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
         return language != 0 && (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames[language]);
     }

@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedIVSet, IEncounterConvertible<PK2>
 {
-    public int Generation => 2;
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public int Location => Locations.LinkTrade2NPC;
     public GameVersion Version => GameVersion.GSC;

@@ -13,8 +13,8 @@ namespace PKHeX.Core;
 public abstract class GBPKM : PKM
 {
     public sealed override int MaxBallID => -1;
-    public sealed override int MinGameID => (int)GameVersion.RD;
-    public sealed override int MaxGameID => (int)GameVersion.C;
+    public sealed override GameVersion MinGameID => GameVersion.RD;
+    public sealed override GameVersion MaxGameID => GameVersion.C;
     public sealed override int MaxIV => 15;
     public sealed override int MaxEV => EffortValues.Max12;
 
@@ -94,7 +94,7 @@ public abstract class GBPKM : PKM
         }
     }
 
-    public sealed override int Gender
+    public sealed override byte Gender
     {
         get
         {
@@ -104,7 +104,7 @@ public abstract class GBPKM : PKM
                 PersonalInfo.RatioMagicGenderless => 2,
                 PersonalInfo.RatioMagicFemale => 1,
                 PersonalInfo.RatioMagicMale => 0,
-                _ => IV_ATK > gv >> 4 ? 0 : 1,
+                _ => IV_ATK > gv >> 4 ? (byte)0 : (byte)1,
             };
         }
         set { }
@@ -121,7 +121,7 @@ public abstract class GBPKM : PKM
     public sealed override uint PSV => 0xFFFF;
     public sealed override int Characteristic => -1;
     public sealed override int Ability { get => -1; set { } }
-    public sealed override int CurrentHandler { get => 0; set { } }
+    public sealed override byte CurrentHandler { get => 0; set { } }
     public sealed override int Egg_Location { get => 0; set { } }
     public sealed override int Ball { get => 0; set { } }
     public sealed override uint ID32 { get => TID16; set => TID16 = (ushort)value; }

@@ -46,7 +46,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
-    public int Format => Context.Generation();
+    public byte Format => Context.Generation();
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
     private byte[] Write()
@@ -59,11 +59,11 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract ushort Species { get; set; }
     public abstract string Nickname { get; set; }
     public abstract int HeldItem { get; set; }
-    public abstract int Gender { get; set; }
+    public abstract byte Gender { get; set; }
     public abstract int Nature { get; set; }
     public virtual int StatNature { get => Nature; set => Nature = value; }
     public abstract int Ability { get; set; }
-    public abstract int CurrentFriendship { get; set; }
+    public abstract byte CurrentFriendship { get; set; }
     public abstract byte Form { get; set; }
     public abstract bool IsEgg { get; set; }
     public abstract bool IsNicknamed { get; set; }
@@ -71,7 +71,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract ushort TID16 { get; set; }
     public abstract ushort SID16 { get; set; }
     public abstract string OT_Name { get; set; }
-    public abstract int OT_Gender { get; set; }
+    public abstract byte OT_Gender { get; set; }
     public abstract int Ball { get; set; }
     public abstract int Met_Level { get; set; }
 
@@ -107,7 +107,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int IV_SPA { get; set; }
     public abstract int IV_SPD { get; set; }
     public abstract int Status_Condition { get; set; }
-    public abstract int Stat_Level { get; set; }
+    public abstract byte Stat_Level { get; set; }
     public abstract int Stat_HPMax { get; set; }
     public abstract int Stat_HPCurrent { get; set; }
     public abstract int Stat_ATK { get; set; }
@@ -117,7 +117,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int Stat_SPD { get; set; }
 
     // Hidden Properties
-    public abstract int Version { get; set; }
+    public abstract GameVersion Version { get; set; }
     public abstract uint ID32 { get; set; }
     public abstract int PKRS_Strain { get; set; }
     public abstract int PKRS_Days { get; set; }
@@ -133,7 +133,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int Characteristic { get; }
     public abstract int Met_Location { get; set; }
     public abstract int Egg_Location { get; set; }
-    public abstract int OT_Friendship { get; set; }
+    public abstract byte OT_Friendship { get; set; }
     public virtual bool Japanese => Language == (int)LanguageID.Japanese;
     public virtual bool Korean => Language == (int)LanguageID.Korean;
 
@@ -142,8 +142,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual int Met_Month { get => 0; set { } }
     public virtual int Met_Day { get => 0; set { } }
     public virtual string HT_Name { get => string.Empty; set { } }
-    public virtual int HT_Gender { get => 0; set { } }
-    public virtual int HT_Friendship { get => 0; set { } }
+    public virtual byte HT_Gender { get => 0; set { } }
+    public virtual byte HT_Friendship { get => 0; set { } }
     public virtual byte Enjoyment { get => 0; set { } }
     public virtual byte Fullness { get => 0; set { } }
     public virtual int AbilityNumber { get => 0; set { } }
@@ -236,7 +236,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual ushort RelearnMove4 { get => 0; set { } }
 
     // Exposed but not Present in all
-    public abstract int CurrentHandler { get; set; }
+    public abstract byte CurrentHandler { get; set; }
 
     // Maximums
     public abstract ushort MaxMoveID { get; }
@@ -244,8 +244,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int MaxItemID { get; }
     public abstract int MaxAbilityID { get; }
     public abstract int MaxBallID { get; }
-    public abstract int MaxGameID { get; }
-    public virtual int MinGameID => 0;
+    public abstract GameVersion MaxGameID { get; }
+    public virtual GameVersion MinGameID => 0;
     public abstract int MaxIV { get; }
     public abstract int MaxEV { get; }
     public abstract int MaxStringLengthOT { get; }
@@ -264,41 +264,41 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         }
     }
 
-    public bool E => Version == (int)GameVersion.E;
-    public bool FRLG => Version is (int)FR or (int)LG;
-    public bool Pt => (int)GameVersion.Pt == Version;
-    public bool HGSS => Version is (int)HG or (int)SS;
-    public bool BW => Version is (int)B or (int)W;
-    public bool B2W2 => Version is (int)B2 or (int)W2;
-    public bool XY => Version is (int)X or (int)Y;
-    public bool AO => Version is (int)AS or (int)OR;
-    public bool SM => Version is (int)SN or (int)MN;
-    public bool USUM => Version is (int)US or (int)UM;
-    public bool GO => Version is (int)GameVersion.GO;
-    public bool VC1 => Version is >= (int)RD and <= (int)YW;
-    public bool VC2 => Version is >= (int)GD and <= (int)C;
-    public bool LGPE => Version is (int)GP or (int)GE;
-    public bool SWSH => Version is (int)SW or (int)SH;
-    public virtual bool BDSP => Version is (int)BD or (int)SP;
-    public virtual bool LA => Version is (int)PLA;
-    public virtual bool SV => Version is (int)SL or (int)VL;
+    public bool E => Version == GameVersion.E;
+    public bool FRLG => Version is FR or LG;
+    public bool Pt => GameVersion.Pt == Version;
+    public bool HGSS => Version is HG or SS;
+    public bool BW => Version is B or W;
+    public bool B2W2 => Version is B2 or W2;
+    public bool XY => Version is X or Y;
+    public bool AO => Version is AS or OR;
+    public bool SM => Version is SN or MN;
+    public bool USUM => Version is US or UM;
+    public bool GO => Version is GameVersion.GO;
+    public bool VC1 => Version is >= RD and <= YW;
+    public bool VC2 => Version is >= GD and <= C;
+    public bool LGPE => Version is GP or GE;
+    public bool SWSH => Version is SW or SH;
+    public virtual bool BDSP => Version is BD or SP;
+    public virtual bool LA => Version is PLA;
+    public virtual bool SV => Version is SL or VL;
 
     public bool GO_LGPE => GO && Met_Location == Locations.GO7;
     public bool GO_HOME => GO && Met_Location == Locations.GO8;
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
     public bool Gen9 => SV;
-    public bool Gen8 => Version is >= 44 and <= 49 || GO_HOME;
-    public bool Gen7 => Version is >= 30 and <= 33 || GG;
-    public bool Gen6 => Version is >= 24 and <= 29;
-    public bool Gen5 => Version is >= 20 and <= 23;
-    public bool Gen4 => Version is (>= 7 and <= 12) and not 9;
-    public bool Gen3 => Version is (>= 1 and <= 5) or 15;
-    public bool Gen2 => Version == (int)GSC; // Fixed value set by the Gen2 PKM classes
-    public bool Gen1 => Version == (int)RBY; // Fixed value set by the Gen1 PKM classes
+    public bool Gen8 => Version is >= SW and <= SP || GO_HOME;
+    public bool Gen7 => Version is >= SN and <= UM || GG;
+    public bool Gen6 => Version is >= X and <= OR;
+    public bool Gen5 => Version is >= W and <= B2;
+    public bool Gen4 => Version is HG or SS or D or P or GameVersion.Pt;
+    public bool Gen3 => Version is (>= S and <= LG) or CXD;
+    public bool Gen2 => Version == GSC; // Fixed value set by the Gen2 PKM classes
+    public bool Gen1 => Version == RBY; // Fixed value set by the Gen1 PKM classes
     public bool GenU => Generation <= 0;
 
-    public int Generation
+    public byte Generation
     {
         get
         {
@@ -313,7 +313,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
             if (Gen1) return Format; // 1
             if (VC1) return 1;
             if (VC2) return 2;
-            return -1;
+            return 0;
         }
     }
 
@@ -329,7 +329,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         }
     }
 
-    public int CurrentLevel { get => Experience.GetLevel(EXP, PersonalInfo.EXPGrowth); set => EXP = Experience.GetEXP(Stat_Level = value, PersonalInfo.EXPGrowth); }
+    public byte CurrentLevel { get => Experience.GetLevel(EXP, PersonalInfo.EXPGrowth); set => EXP = Experience.GetEXP(Stat_Level = value, PersonalInfo.EXPGrowth); }
     public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
     public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
     public int MaximumIV => Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(IV_HP, IV_ATK), IV_DEF), IV_SPA), IV_SPD), IV_SPE);
@@ -516,7 +516,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
             if (Generation > 5 || Format > 5)
                 return -1;
 
-            if (Version == (int) CXD)
+            if (Version == CXD)
                 return PersonalInfo.GetIndexOfAbility(Ability); // Can mismatch; not tied to PID
             return (int)((Gen5 ? PID >> 16 : PID) & 1);
         }
@@ -547,7 +547,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual bool WasEgg => IsEgg || Egg_Day != 0;
     public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
     public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
-    private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, (GameVersion)Version);
+    private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, Version);
 
     public virtual bool IsUntraded => false;
     public virtual bool IsNative => Generation == Format;
@@ -565,7 +565,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <returns>True if valid, False if invalid.</returns>
     public virtual bool IsGenderValid()
     {
-        int gender = Gender;
+        byte gender = Gender;
         var gv = PersonalInfo.Gender;
         if (gv == PersonalInfo.RatioMagicGenderless)
             return gender == 2;
@@ -574,7 +574,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         if (gv == PersonalInfo.RatioMagicMale)
             return gender == 0;
 
-        int gen = Generation;
+        var gen = Generation;
         if (gen is not (3 or 4 or 5))
             return gender == (gender & 1);
 
@@ -866,7 +866,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <remarks>
     /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
     /// </remarks>
-    public void SetPIDGender(int gender)
+    public void SetPIDGender(byte gender)
     {
         var rnd = Util.Rand;
         do PID = EntityPID.GetRandomPID(rnd, Species, gender, Version, Nature, Form, PID);
@@ -934,7 +934,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <param name="minFlawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
     public void SetRandomIVs(Span<int> ivs, int minFlawless = 0)
     {
-        if (Version == (int)GameVersion.GO)
+        if (Version == GameVersion.GO)
         {
             SetRandomIVsGO(ivs);
             return;

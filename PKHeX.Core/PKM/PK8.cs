@@ -57,7 +57,7 @@ public sealed class PK8 : G8PKM
     {
         if (IsEgg) // No memories if is egg.
         {
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
+            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
             /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
             // Clear Handler
@@ -66,9 +66,9 @@ public sealed class PK8 : G8PKM
         }
 
         if (IsUntraded)
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
+            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
 
-        int gen = Generation;
+        var gen = Generation;
         if (gen < 6)
             OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
         if (gen != 8) // must be transferred via HOME, and must have memories
@@ -104,7 +104,7 @@ public sealed class PK8 : G8PKM
     public override int MaxAbilityID => Legal.MaxAbilityID_8;
     public override int MaxItemID => Legal.MaxItemID_8;
     public override int MaxBallID => Legal.MaxBallID_8;
-    public override int MaxGameID => Legal.MaxGameID_8;
+    public override GameVersion MaxGameID => Legal.MaxGameID_8;
     public bool IsSideTransfer => LocationsHOME.IsLocationSWSH(Met_Location);
     public override bool SV => Met_Location is LocationsHOME.SWSL or LocationsHOME.SHVL;
     public override bool BDSP => Met_Location is LocationsHOME.SWBD or LocationsHOME.SHSP;

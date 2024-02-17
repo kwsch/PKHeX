@@ -27,16 +27,16 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             yield break;
 
         info.PIDIV = MethodFinder.Analyze(pk);
-        var game = (GameVersion)pk.Version;
+        var game = pk.Version;
         var iterator = new EncounterEnumerator3(pk, chain, game);
         IEncounterable? deferType = null;
         EncounterSlot3? deferSlot = null;
         var leadQueue = new LeadEncounterQueue<EncounterSlot3>();
 
         bool emerald = pk.E;
-        byte gender = (byte)pk.Gender;
+        byte gender = pk.Gender;
         if (pk.Species is (int)Species.Marill or (int)Species.Azumarill)
-            gender = (byte)EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, 0x3F);
+            gender = EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, 0x3F);
 
         foreach (var enc in iterator)
         {
@@ -54,7 +54,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             }
 
             var evo = LeadFinder.GetLevelConstraint(pk, chain, slot, 3);
-            var lead = LeadFinder.GetLeadInfo3(slot, info.PIDIV, evo, emerald, gender, (byte)pk.Format);
+            var lead = LeadFinder.GetLeadInfo3(slot, info.PIDIV, evo, emerald, gender, pk.Format);
             if (!lead.IsValid())
             {
                 deferSlot ??= slot;
@@ -71,16 +71,16 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         if (leadQueue.List.Count != 0)
             yield break;
 
-        if (deferType != null)
+        // Error will be flagged later if this is chosen.
+        if (deferSlot != null)
         {
-            // Error will be flagged later if this is chosen.
-            info.PIDIVMatches = false;
-            yield return deferType;
-        }
-        else if (deferSlot != null)
-        {
-            info.FrameMatches = false;
+            info.ManualFlag = EncounterYieldFlag.InvalidFrame;
             yield return deferSlot;
+        }
+        else if (deferType != null)
+        {
+            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+            yield return deferType;
         }
     }
 
@@ -91,7 +91,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         return type == PIDType.None;
     }
 
-    private const int Generation = 3;
+    private const byte Generation = 3;
     private const EntityContext Context = EntityContext.Gen3;
     private const byte EggLevel = 5;
 

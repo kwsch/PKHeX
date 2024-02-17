@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK5>, IFixedGender, IFixedNature, IFixedIVSet
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public int Location => Locations.LinkTrade5NPC;
     public bool IsFixedNickname { get; init; }
@@ -68,7 +68,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
@@ -83,7 +83,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],

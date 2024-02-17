@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK6>, IMemoryOTReadOnly
 {
-    public int Generation => 6;
+    public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
     public int Location => Locations.LinkTrade6NPC;
     public Shiny Shiny => Shiny.Never;
@@ -63,7 +63,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.AO[Species];
         var pk = new PK6
@@ -80,7 +80,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],

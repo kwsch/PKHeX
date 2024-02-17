@@ -99,7 +99,7 @@ public static class RibbonVerifierCommon6
             list.Add(CountMemoryBattle);
     }
 
-    private static bool IsCountFlagValid(byte count, bool state, int format, byte max)
+    private static bool IsCountFlagValid(byte count, bool state, byte format, byte max)
     {
         if (count > max)
             return false;

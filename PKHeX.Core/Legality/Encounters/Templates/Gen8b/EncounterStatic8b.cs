@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic8b(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>, IFlawlessIVCount, IFatefulEncounterReadOnly, IStaticCorrelation8b
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
     int ILocation.EggLocation => EggLocation;
     int ILocation.Location => Location;
@@ -60,7 +60,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
     public PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8
@@ -75,7 +75,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
             FatefulEncounter = FatefulEncounter,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,

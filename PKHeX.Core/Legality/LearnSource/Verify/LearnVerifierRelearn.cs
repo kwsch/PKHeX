@@ -84,7 +84,7 @@ public static class LearnVerifierRelearn
 
     internal static void VerifyEggMoveset(EncounterEgg e, Span<MoveResult> result, ReadOnlySpan<ushort> moves)
     {
-        int gen = e.Generation;
+        var gen = e.Generation;
         Span<byte> origins = stackalloc byte[moves.Length];
         var valid = MoveBreed.Validate(gen, e.Species, e.Form, e.Version, moves, origins);
         if (valid)

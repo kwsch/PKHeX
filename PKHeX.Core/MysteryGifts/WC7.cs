@@ -12,22 +12,22 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public WC7() : this(new byte[Size]) { }
 
     public const int Size = 0x108;
-    public override int Generation => 7;
+    public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
     public override bool FatefulEncounter => true;
 
     public int RestrictLanguage { get; set; } // None
     public byte RestrictVersion { get; set; } // Permit All
 
-    public bool CanBeReceivedByVersion(int v)
+    public bool CanBeReceivedByVersion(GameVersion version)
     {
-        if (v is < (int)GameVersion.SN or > (int)GameVersion.UM)
+        if (version is < GameVersion.SN or > GameVersion.UM)
             return false;
         if (CardID is 2046)
-            return v is (int)GameVersion.SN or (int)GameVersion.MN;
+            return version is GameVersion.SN or GameVersion.MN;
         if (RestrictVersion == 0)
             return true; // no data
-        var bitIndex = v - (int)GameVersion.SN;
+        var bitIndex = version - GameVersion.SN;
         var bit = 1 << bitIndex;
         return (RestrictVersion & bit) != 0;
     }
@@ -184,10 +184,10 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value);
     }
 
-    public int OriginGame
+    public byte OriginGame
     {
         get => Data[0x6C];
-        set => Data[0x6C] = (byte)value;
+        set => Data[0x6C] = value;
     }
 
     public uint EncryptionConstant {
@@ -221,7 +221,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     }
 
     public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
-    public override int Gender { get => Data[0xA1]; set => Data[0xA1] = (byte)value; }
+    public override byte Gender { get => Data[0xA1]; set => Data[0xA1] = value; }
     public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
     public ShinyType6 PIDType { get => (ShinyType6)Data[0xA3]; set => Data[0xA3] = (byte)value; }
     public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA4), (ushort)value); }
@@ -242,7 +242,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public int IV_SPA { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
     public int IV_SPD { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
 
-    public int OTGender { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
+    public byte OTGender { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
 
     public override string OT_Name
     {
@@ -361,11 +361,10 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             throw new ArgumentException(nameof(IsEntity));
 
         var rnd = Util.Rand;
-
-        int currentLevel = Level > 0 ? Level : (1 + rnd.Next(100));
+        byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
-        var version = OriginGame != 0 ? OriginGame : (int)this.GetCompatibleVersion((GameVersion)tr.Game);
-        var language = Language != 0 ? Language : (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, (GameVersion)version);
+        var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
+        var language = Language != 0 ? Language : (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
 
         var pi = PersonalTable.USUM.GetFormEntry(Species, Form);
         PK7 pk = new()
@@ -393,10 +392,10 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             CNT_Sheen = CNT_Sheen,
 
             OT_Name = OT_Name.Length > 0 ? OT_Name : tr.OT,
-            OT_Gender = OTGender != 3 ? OTGender % 2 : tr.Gender,
+            OT_Gender = OTGender != 3 ? (byte)(OTGender % 2) : tr.Gender,
             HT_Name = OT_Name.Length > 0 ? tr.OT : string.Empty,
-            HT_Gender = OT_Name.Length > 0 ? tr.Gender : 0,
-            CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
+            HT_Gender = OT_Name.Length > 0 ? tr.Gender : default,
+            CurrentHandler = OT_Name.Length > 0 ? (byte)1 : (byte)0,
 
             EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
@@ -450,7 +449,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
             // give random valid game
-            do { pk.Version = (int)GameVersion.SN + rnd.Next(4); }
+            do { pk.Version = GameVersion.SN + (byte)rnd.Next(4); }
             while (!CanBeReceivedByVersion(pk.Version));
         }
 
@@ -575,7 +574,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 if (OTGender != pk.OT_Gender) return false;
             }
             if (!string.IsNullOrEmpty(OT_Name) && OT_Name != pk.OT_Name) return false;
-            if (OriginGame != 0 && OriginGame != pk.Version) return false;
+            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0 && EncryptionConstant != pk.EncryptionConstant) return false;
             if (Language != 0 && Language != pk.Language) return false;
         }

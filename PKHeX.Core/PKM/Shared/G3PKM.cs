@@ -19,7 +19,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
     public sealed override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
-    public sealed override int MaxGameID => Legal.MaxGameID_3;
+    public sealed override GameVersion MaxGameID => Legal.MaxGameID_3;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max255;
     public sealed override int MaxStringLengthOT => 7;
@@ -34,10 +34,10 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override uint EncryptionConstant { get => PID; set { } }
     public sealed override int Nature { get => (int)(PID % 25); set { } }
     public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
-    public sealed override int Gender { get => EntityGender.GetFromPID(Species, PID); set { } }
+    public sealed override byte Gender { get => EntityGender.GetFromPID(Species, PID); set { } }
     public sealed override int Characteristic => -1;
-    public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-    public sealed override int CurrentHandler { get => 0; set { } }
+    public sealed override byte CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
+    public sealed override byte CurrentHandler { get => 0; set { } }
     public sealed override int Egg_Location { get => 0; set { } }
     public int MarkingCount => 4;
     public abstract byte MarkingValue { get; set; }
@@ -137,8 +137,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         return value ^ x;
     }
 
-    protected static byte GetGBAVersionID(byte gc) => (byte)((GCVersion)gc).GetG3VersionID();
-    protected static byte GetGCVersionID(int gba) => (byte)((GameVersion)gba).GetCXDVersionID();
+    protected static GameVersion GetGBAVersionID(GCVersion gc) => gc.GetG3VersionID();
+    protected static GCVersion GetGCVersionID(GameVersion gba) => gba.GetCXDVersionID();
 
     /// <summary>
     /// Interconversion for Generation 3 <see cref="PKM"/> formats.

@@ -108,7 +108,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
-    public override int Gender { get => (Data[0x1D] >> 1) & 0x3; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
+    public override byte Gender { get => (byte)((Data[0x1D] >> 1) & 0x3); set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
     public override byte Form { get => (byte)(Data[0x1D] >> 3); set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
     public override int EV_HP { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
     public override int EV_ATK { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
@@ -220,8 +220,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
 
-    public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
-    public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
+    public override byte HT_Gender { get => Data[0x92]; set => Data[0x92] = value; }
+    public override byte CurrentHandler { get => Data[0x93]; set => Data[0x93] = value; }
     // 0x94 Unused
     // 0x95 Unused
     // 0x96 Unused
@@ -236,13 +236,13 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     // 0x9F Unused
     // 0xA0 Unused
     // 0xA1 Unused
-    public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
+    public override byte HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = value; }
     // 0xA1 HT_Affection Unused
-    public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-    public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-    public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
+    public byte HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = value; }
+    public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
+    public byte HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = value; }
     // 0xA7 Unused
-    public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), (ushort)value); }
+    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
     // 0xAA Unused
     // 0xAB Unused
     public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
@@ -257,7 +257,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
 
-    public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
+    public override byte OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = value; }
     // 0xCB Unused
     // 0xCC Unused
     // 0xCD Unused
@@ -275,7 +275,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), (ushort)value); }
     public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
     public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
-    public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
+    public override byte OT_Gender { get => (byte)(Data[0xDD] >> 7); set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
     public byte HyperTrainFlags { get => Data[0xDE]; set => Data[0xDE] = value; }
     public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1;  set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -283,7 +283,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
     public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
     public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
-    public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
+    public override GameVersion Version { get => (GameVersion)Data[0xDF]; set => Data[0xDF] = (byte)value; }
     // 0xE0 Unused
     // 0xE1 Unused
     // 0xE2 Unused
@@ -292,7 +292,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     #endregion
     #region Battle Stats
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0xE8)); set => WriteInt32LittleEndian(Data.AsSpan(0xE8), value); }
-    public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
+    public override byte Stat_Level { get => Data[0xEC]; set => Data[0xEC] = value; }
     public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
     public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
     // 0xEF unused
@@ -357,7 +357,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public void FixMemories()
     {
         if (IsUntraded)
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = 0;
     }
 
     // Maximums
@@ -366,7 +366,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxBallID => Legal.MaxBallID_7;
-    public override int MaxGameID => Legal.MaxGameID_7b;
+    public override GameVersion MaxGameID => Legal.MaxGameID_7b;
 
     public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {

@@ -15,11 +15,11 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => EffortValues.Max12;
     public override ReadOnlySpan<ushort> HeldItems => [];
-    public override GameVersion Version { get; protected set; } = GameVersion.StadiumJ;
+    public override GameVersion Version { get => GameVersion.StadiumJ; set { } }
 
     protected override SAV1StadiumJ CloneInternal() => new((byte[])Data.Clone());
 
-    public override int Generation => 1;
+    public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
     private const int StringLength = 6; // Japanese Only
     public override int MaxStringLengthOT => StringLength;

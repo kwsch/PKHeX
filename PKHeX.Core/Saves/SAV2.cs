@@ -270,7 +270,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxAbilityID => Legal.MaxAbilityID_2;
     public override int MaxItemID => Legal.MaxItemID_2;
     public override int MaxBallID => 0; // unused
-    public override int MaxGameID => 99; // unused
+    public override GameVersion MaxGameID => GameVersion.Gen2; // unused
     public override int MaxMoney => 999999;
     public override int MaxCoins => 9999;
 
@@ -282,7 +282,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int BoxCount => Japanese ? 9 : 14;
     public override int MaxEV => EffortValues.Max12;
     public override int MaxIV => 15;
-    public override int Generation => 2;
+    public override byte Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;
     protected override int GiftCountMax => 0;
     public override int MaxStringLengthOT => Japanese || Korean ? 5 : 7;
@@ -327,7 +327,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Trainer Info
-    public override GameVersion Version { get; protected set; }
+    public override GameVersion Version { get; set; }
 
     public override string OT
     {
@@ -353,15 +353,15 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); }
     }
 
-    public override int Gender
+    public override byte Gender
     {
-        get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
+        get => Version == GameVersion.C ? Data[Offsets.Gender] : (byte)0;
         set
         {
             if (Version != GameVersion.C)
                 return;
-            Data[Offsets.Gender] = (byte) value;
-            Data[Offsets.Palette] = (byte) value;
+            Data[Offsets.Gender] = value;
+            Data[Offsets.Palette] = value;
         }
     }
 

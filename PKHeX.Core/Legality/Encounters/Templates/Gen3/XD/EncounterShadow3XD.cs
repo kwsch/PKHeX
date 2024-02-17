@@ -13,7 +13,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
     : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IShadow3, IFatefulEncounterReadOnly, IMoveset, IRandomCorrelation
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.XD;
     int ILocation.EggLocation => 0;
@@ -53,7 +53,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)GameVersion.CXD,
+            Version = GameVersion.CXD,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
@@ -79,7 +79,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
 

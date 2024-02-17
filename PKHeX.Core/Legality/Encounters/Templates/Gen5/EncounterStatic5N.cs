@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic5N(uint PID)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IFixedTrainer, IFixedNature
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public GameVersion Version => GameVersion.B2W2;
     public const bool NSparkle = true;
@@ -43,7 +43,7 @@ public sealed record EncounterStatic5N(uint PID)
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
@@ -55,7 +55,7 @@ public sealed record EncounterStatic5N(uint PID)
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
 
-            Version = (byte)version,
+            Version = version,
             Language = lang,
 
             OT_Friendship = pi.BaseFriendship,
@@ -74,7 +74,7 @@ public sealed record EncounterStatic5N(uint PID)
             ID32 = ID32,
             PID = PID,
             Nature = (byte)Nature,
-            Gender = pi.Genderless ? 2 : 0,
+            Gender = pi.Genderless ? (byte)2 : default,
             Ability = Ability switch
             {
                 AbilityPermission.OnlyFirst => pi.Ability1,

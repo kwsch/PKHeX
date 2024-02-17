@@ -15,7 +15,7 @@ public static class EvolutionChain
     public static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
         var min = GetMinLevel(pk, enc);
-        var origin = new EvolutionOrigin(pk.Species, (byte)enc.Version, (byte)enc.Generation, min, (byte)pk.CurrentLevel);
+        var origin = new EvolutionOrigin(pk.Species, enc.Version, enc.Generation, min, pk.CurrentLevel);
         if (!pk.IsEgg && enc is not EncounterInvalid)
             return GetEvolutionChainsSearch(pk, origin, enc.Context, enc.Species);
 

@@ -60,7 +60,7 @@ public static class SpriteUtil
 
     public static Bitmap? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Bitmap;
 
-    public static Bitmap GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
+    public static Bitmap GetSprite(ushort species, byte form, byte gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
     {
         return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, context);
     }
@@ -278,10 +278,10 @@ public static class SpriteUtil
         return img;
     }
 
-    public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
+    public static byte GetDisplayGender(IEncounterTemplate enc) => enc switch
     {
-        IFixedGender { IsFixedGender: true } s => Math.Max(0, (int)s.Gender),
-        IPogoSlot g => (int)g.Gender & 1,
+        IFixedGender { IsFixedGender: true } s => Math.Max((byte)0, s.Gender),
+        IPogoSlot g => (byte)((int)g.Gender & 1),
         _ => 0,
     };
 
@@ -293,7 +293,7 @@ public static class SpriteUtil
         if (gift is { IsEgg: true, Species: (int)Species.Manaphy }) // Manaphy Egg
             return GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, Shiny.Never, gift.Context);
 
-        var gender = Math.Max(0, gift.Gender);
+        var gender = Math.Max((byte)0, gift.Gender);
         var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny ? Shiny.Always : Shiny.Never, gift.Context);
 
         if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)

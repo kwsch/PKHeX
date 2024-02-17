@@ -308,7 +308,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, int generation)
+    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, byte generation)
     {
         bool addedAny = false;
         foreach (var move in moves)
@@ -321,7 +321,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             if (result[index].Valid)
                 continue;
 
-            result[index] = MoveResult.Initial with { Generation = (byte)generation };
+            result[index] = MoveResult.Initial with { Generation = generation };
             addedAny = true;
         }
         return addedAny;

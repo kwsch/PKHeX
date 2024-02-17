@@ -43,7 +43,7 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
         Rate = data[3];
         Version = game;
 
-        Slots = ReadRegularSlots(data);
+        Slots = ReadRegularSlots(data[4..]);
     }
 
     private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game, [ConstantExpected] SlotType3 type)
@@ -54,17 +54,17 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
         Rate = data[3];
         Version = game;
 
-        Slots = ReadSwarmSlots(data);
+        Slots = ReadSwarmSlots(data[4..]);
     }
 
     private EncounterSlot3[] ReadRegularSlots(ReadOnlySpan<byte> data)
     {
         const int size = 10;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot3[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadRegularSlot(entry);
         }
@@ -90,11 +90,11 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
     private EncounterSlot3[] ReadSwarmSlots(ReadOnlySpan<byte> data)
     {
         const int size = 14;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot3[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadSwarmSlot(entry);
         }

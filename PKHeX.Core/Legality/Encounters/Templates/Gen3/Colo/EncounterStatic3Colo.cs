@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IFixedGender, IRandomCorrelation, IMoveset
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.COLO;
     int ILocation.EggLocation => 0;
@@ -47,7 +47,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
 
             Met_Location = Location,
             Met_Level = Level,
-            Version = (byte)GameVersion.CXD,
+            Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
@@ -71,7 +71,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
+        var gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         do

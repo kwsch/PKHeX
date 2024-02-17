@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>Generation 5 Trade with Fixed PID</summary>
 public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK5>
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public int Location => Locations.LinkTrade5NPC;
     public bool IsFixedNickname => true;
@@ -66,7 +66,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.BW[Species];
         var pk = new PK5
@@ -83,7 +83,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang == 1 ? 0 : lang, // Trades for JPN games have language ID of 0, not 1.
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],

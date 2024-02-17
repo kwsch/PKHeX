@@ -33,7 +33,7 @@ public sealed class WC3(bool Fateful = false)
     private const ushort UnspecifiedID = ushort.MaxValue;
 
     public override string OT_Name { get; set; } = string.Empty;
-    public int OT_Gender { get; init; } = 3;
+    public byte OT_Gender { get; init; } = 3;
     public override uint ID32 { get => (uint)(SID16 << 16 | TID16); set => (SID16, TID16) = ((ushort)(value >> 16), (ushort)value); }
     public override ushort TID16 { get; set; } = UnspecifiedID;
     public override ushort SID16 { get; set; } = UnspecifiedID;
@@ -49,7 +49,7 @@ public sealed class WC3(bool Fateful = false)
     public override bool FatefulEncounter { get; } = Fateful; // Obedience Flag
 
     // Mystery Gift Properties
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     public override byte Level { get; set; }
     public override int Ball { get; set; } = 4;
@@ -75,7 +75,7 @@ public sealed class WC3(bool Fateful = false)
     public override int ItemID { get; set; }
     public override bool IsEntity { get; set; } = true;
     public override bool Empty => false;
-    public override int Gender { get; set; }
+    public override byte Gender { get; set; }
     public override byte Form { get; set; }
 
     // Synthetic
@@ -119,7 +119,7 @@ public sealed class WC3(bool Fateful = false)
         }
         else
         {
-            pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : tr.Gender;
+            pk.OT_Gender = OT_Gender != 3 ? (byte)(OT_Gender & 1): tr.Gender;
             pk.TID16 = TID16;
             pk.SID16 = SID16;
 
@@ -167,20 +167,20 @@ public sealed class WC3(bool Fateful = false)
         pk.Met_Level = 0; // hatched
     }
 
-    private int GetVersion(ITrainerInfo sav)
+    private GameVersion GetVersion(ITrainerInfo sav)
     {
         if (Version != 0)
-            return (int) GetRandomVersion(Version);
-        bool gen3 = sav.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)sav.Game);
-        return gen3 ? sav.Game : (int)GameVersion.R;
+            return GetRandomVersion(Version);
+        bool gen3 = sav.Version <= GameVersion.CXD && GameVersion.Gen3.Contains(sav.Version);
+        return gen3 ? sav.Version : GameVersion.R;
     }
 
     private void SetMoves(PK3 pk)
     {
         if (!Moves.HasMoves) // not completely defined
         {
-            var ver = (GameVersion)pk.Version;
-            ILearnSource ls = ver switch
+            var version = pk.Version;
+            ILearnSource ls = version switch
             {
                 GameVersion.R or GameVersion.S => LearnSource3RS.Instance,
                 GameVersion.FR => LearnSource3FR.Instance,
@@ -246,7 +246,7 @@ public sealed class WC3(bool Fateful = false)
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         // Gen3 Version MUST match.
-        if (Version != 0 && !Version.Contains((GameVersion)pk.Version))
+        if (Version != 0 && !Version.Contains(pk.Version))
             return false;
 
         bool hatchedEgg = IsEgg && !pk.IsEgg;

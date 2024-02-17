@@ -25,7 +25,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         base.SetDex(pk);
     }
 
-    protected override void SetDex(ushort species, int bit, byte form, int gender, bool shiny, int lang)
+    protected override void SetDex(ushort species, int bit, byte form, byte gender, bool shiny, int lang)
     {
         if (IsBuddy(species, form))
             form = 0;

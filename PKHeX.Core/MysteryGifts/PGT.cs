@@ -11,10 +11,10 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public PGT() : this(new byte[Size]) { }
 
     public const int Size = 0x104; // 260
-    public override int Generation => 4;
+    public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => IsManaphyEgg || PK.FatefulEncounter;
-    public override GameVersion Version { get => IsManaphyEgg ? GameVersion.Gen4 : (GameVersion)PK.Version; set => PK.Version = (int)value; }
+    public override GameVersion Version { get => IsManaphyEgg ? GameVersion.Gen4 : PK.Version; set => PK.Version = value; }
 
     public override byte Level
     {
@@ -115,7 +115,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override Moveset Moves { get => new(PK.Move1, PK.Move2, PK.Move3, PK.Move4); set => PK.SetMoves(value); }
     public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
     public override bool IsShiny => PK.IsShiny;
-    public override int Gender { get => PK.Gender; set => PK.Gender = value; }
+    public override byte Gender { get => PK.Gender; set => PK.Gender = value; }
     public override byte Form { get => PK.Form; set => PK.Form = value; }
     public override uint ID32 { get => PK.ID32; set => PK.ID32= value; }
     public override ushort TID16 { get => PK.TID16; set => PK.TID16 = value; }
@@ -190,12 +190,12 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.Ability = (int)Core.Ability.Hydration;
         pk4.FatefulEncounter = true;
         pk4.Ball = (int)Core.Ball.Poke;
-        pk4.Version = GameVersion.Gen4.Contains(trainer.Game) ? trainer.Game : (int)GameVersion.D;
+        pk4.Version = GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
         var lang = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
         pk4.Language = lang;
         pk4.Egg_Location = 1; // Ranger (will be +3000 later)
         pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((int)Core.Species.Manaphy, lang, 4);
-        pk4.Met_Location = pk4.Version is (int)GameVersion.HG or (int)GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
+        pk4.Met_Location = pk4.Version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
         pk4.MetDate = EncounterDate.GetDateNDS();
     }
 

@@ -15,7 +15,7 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
     public WR7() : this(new byte[Size]) { }
 
     public const int Size = 0x140;
-    public override int Generation => 7;
+    public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
     public override bool FatefulEncounter => true;
 
@@ -84,7 +84,7 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
     public ushort ItemSet6Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x124)); set => WriteUInt16LittleEndian(Data.AsSpan(0x124), value); }
     public ushort ItemSet6Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x126)); set => WriteUInt16LittleEndian(Data.AsSpan(0x126), value); }
 
-    public override int Gender { get; set; }
+    public override byte Gender { get; set; }
     public override byte Form { get; set; }
     public override uint ID32 { get; set; }
     public override ushort TID16 { get; set; }
@@ -143,8 +143,8 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
         // we'll just generate something as close as we can, since we must return something!
         var pk = new PB7();
         tr.ApplyTo(pk);
-        if (!GameVersion.GG.Contains((GameVersion) tr.Game))
-            pk.Version = (int) GameVersion.GP;
+        if (!GameVersion.GG.Contains(tr.Version))
+            pk.Version = GameVersion.GP;
 
         pk.Species = Species;
         pk.Met_Level = pk.CurrentLevel = Level;

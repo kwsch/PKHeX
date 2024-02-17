@@ -176,8 +176,8 @@ public partial class MemoryAmie : Form
         }
 
         // Save 0-255 stats
-        Entity.HT_Friendship = Util.ToInt32(M_CT_Friendship.Text);
-        Entity.OT_Friendship = Util.ToInt32(M_OT_Friendship.Text);
+        Entity.HT_Friendship = (byte)Util.ToInt32(M_CT_Friendship.Text);
+        Entity.OT_Friendship = (byte)Util.ToInt32(M_OT_Friendship.Text);
 
         if (Entity is IAffection a)
         {

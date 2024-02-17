@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte AlphaType, byte FlawlessIVCount, Gender Gender)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IFlawlessIVCount
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8a;
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
@@ -48,7 +48,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             Met_Location = Location,
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)GameVersion.PLA,
+            Version = GameVersion.PLA,
             IsAlpha = IsAlpha,
             Ball = (int)Ball.LAPoke,
 
@@ -82,7 +82,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
                 var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
                 if (criteria.ForceMinLevelRange && lvl != LevelMin)
                     continue;
-                pk.CurrentLevel = pk.Met_Level = lvl;
+                pk.Met_Level = pk.CurrentLevel = lvl;
             }
             break;
         }

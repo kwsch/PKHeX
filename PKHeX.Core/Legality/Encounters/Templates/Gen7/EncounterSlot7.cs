@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IEncounterFormRandom, IFlawlessIVCountConditional
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
     public bool EggEncounter => false;
     public Ball FixedBall => Location == Locations.Pelago7 ? Ball.Poke : Ball.None;
@@ -55,7 +55,7 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             MetDate = EncounterDate.GetDate3DS(),
             Ball = (byte)Ball.Poke,
 

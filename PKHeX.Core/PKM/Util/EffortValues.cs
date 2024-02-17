@@ -25,7 +25,7 @@ public static class EffortValues
     /// </summary>
     /// <param name="evs">Array to store the resulting EVs</param>
     /// <param name="generation">Generation specific formatting option</param>
-    public static void SetRandom(Span<int> evs, int generation)
+    public static void SetRandom(Span<int> evs, byte generation)
     {
         var rnd = Util.Rand;
         if (generation > 2)

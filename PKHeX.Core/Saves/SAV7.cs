@@ -72,7 +72,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     public override int BoxCount => 32;
     public override int MaxEV => EffortValues.Max252;
-    public override int Generation => 7;
+    public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
     protected override int GiftCountMax => 48;
     protected override int GiftFlagMax => 0x100 * 8;
@@ -84,7 +84,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override int MaxStringLengthNickname => 12;
 
     public override int MaxBallID => Legal.MaxBallID_7; // 26
-    public override int MaxGameID => Legal.MaxGameID_7;
+    public override GameVersion MaxGameID => Legal.MaxGameID_7;
     protected override PK7 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
@@ -111,14 +111,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         return result;
     }
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.SN => GameVersion.SN,
-        (int)GameVersion.MN => GameVersion.MN,
-        (int)GameVersion.US => GameVersion.US,
-        (int)GameVersion.UM => GameVersion.UM,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() =>
+        Version is GameVersion.SN or GameVersion.MN or GameVersion.US or GameVersion.UM;
 
     public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter7.GetString(data);
 
@@ -131,8 +125,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
-    public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)MyStatus.Game; set => MyStatus.Game = (byte)value; }
+    public override byte Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
     public string GameSyncID { get => MyStatus.GameSyncID; set => MyStatus.GameSyncID = value; }
     public byte Region { get => MyStatus.Region; set => MyStatus.Region = value; }

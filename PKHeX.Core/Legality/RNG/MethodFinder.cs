@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.PIDType;
 
 namespace PKHeX.Core;
@@ -297,7 +298,7 @@ public static class MethodFinder
             var lo = B >> 16;
             if (IVsMatch(hi, lo, IVs))
             {
-                pidiv = new PIDIV(CXD, XDRNG.Prev(A));
+                pidiv = new PIDIV(PIDType.CXD, XDRNG.Prev(A));
                 return true;
             }
 
@@ -336,8 +337,8 @@ public static class MethodFinder
 
     private static bool GetChannelMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv, PKM pk)
     {
-        var ver = pk.Version;
-        if (ver is not ((int)GameVersion.R or (int)GameVersion.S))
+        var version = pk.Version;
+        if (version is not (R or S))
             return GetNonMatch(out pidiv);
 
         var undo = (top >> 16) ^ 0x8000;
@@ -352,7 +353,7 @@ public static class MethodFinder
             // no checks, held item can be swapped
 
             var D = XDRNG.Next(C); // Version
-            if ((D >> 31) + 1 != ver) // (0-Sapphire, 1-Ruby)
+            if ((D >> 31) + 1 != (byte)version) // (0-Sapphire, 1-Ruby)
                 continue;
 
             var E = XDRNG.Next(D); // OT Gender
@@ -621,7 +622,7 @@ public static class MethodFinder
 
     private static bool GetColoStarterMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        bool starter = pk.Version == (int)GameVersion.CXD && pk.Species switch
+        bool starter = pk.Version == GameVersion.CXD && pk.Species switch
         {
             (int)Species.Espeon when pk.Met_Level >= 25 => true,
             (int)Species.Umbreon when pk.Met_Level >= 26 => true,
@@ -662,7 +663,7 @@ public static class MethodFinder
     /// <summary>
     /// Checks if the PID is a <see cref="PIDType.BACD_U_S"></see> match.
     /// </summary>
-    /// <param name="idxor"><see cref="PKM.TID16"/> ^ <see cref="PKM.SID16"/></param>
+    /// <param name="idXor"><see cref="PKM.TID16"/> ^ <see cref="PKM.SID16"/></param>
     /// <param name="pid">Full actual PID</param>
     /// <param name="low">Low portion of PID (B)</param>
     /// <param name="A">First RNG call</param>
@@ -670,7 +671,7 @@ public static class MethodFinder
     /// <returns>True/False if the PID matches</returns>
     /// <remarks>First RNG call is unrolled once if the PID is valid with this correlation</remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsBACD_U_S(uint idxor, uint pid, uint low, ref uint A, ref PIDType type)
+    private static bool IsBACD_U_S(uint idXor, uint pid, uint low, ref uint A, ref PIDType type)
     {
         // 0-Origin
         // 1-PIDH
@@ -679,7 +680,7 @@ public static class MethodFinder
         // PID = PIDH << 16 | (SID16 ^ TID16 ^ PIDH)
 
         var X = LCRNG.Prev(A); // unroll once as there's 3 calls instead of 2
-        uint PID = (X & 0xFFFF0000) | (idxor ^ X >> 16);
+        uint PID = (X & 0xFFFF0000) | (idXor ^ X >> 16);
         PID &= 0xFFFFFFF8;
         PID |= low & 0x7; // lowest 3 bits
 
@@ -811,7 +812,7 @@ public static class MethodFinder
     internal static bool IsCuteCharm4Valid(ISpeciesForm enc, PKM pk)
     {
         if (pk.Gender is not (0 or 1))
-            return false;
+            return pk.Species == (ushort)Species.Shedinja;
         if (pk.Species is not ((int)Species.Marill or (int)Species.Azumarill))
             return true;
         if (!IsCuteCharmAzurillMale(pk.PID)) // recognized as not Azurill
@@ -824,7 +825,7 @@ public static class MethodFinder
     /// <summary>
     /// There are some edge cases when the gender ratio changes across evolutions.
     /// </summary>
-    private static (ushort Species, int Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, ushort currentSpecies) => currentSpecies switch
+    private static (ushort Species, byte Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, ushort currentSpecies) => currentSpecies switch
     {
         // Nincada evo chain travels from M/F -> Genderless Shedinja
         (int)Species.Shedinja  => ((int)Species.Nincada, EntityGender.GetFromPID((int)Species.Nincada, pid)),
@@ -846,7 +847,7 @@ public static class MethodFinder
         _ => GetCuteCharmSpeciesGen4(currentSpecies, pk.Gender),
     };
 
-    private static (ushort Species, int Gender) GetCuteCharmSpeciesGen4(ushort species, int gender) => species switch
+    private static (ushort Species, byte Gender) GetCuteCharmSpeciesGen4(ushort species, byte gender) => species switch
     {
         <= Legal.MaxSpeciesID_4 => (species, gender), // has a valid personal reference, all good
         (int)Species.Sylveon    => ((int)Species.Eevee, gender),

@@ -14,7 +14,7 @@ public sealed record EncounterInvalid : IEncounterable
     public byte LevelMin { get; }
     public byte LevelMax { get; }
     public bool EggEncounter { get; }
-    public int Generation { get; }
+    public byte Generation { get; }
     public EntityContext Context { get; }
     public GameVersion Version { get; }
     public bool IsShiny => false;
@@ -34,10 +34,10 @@ public sealed record EncounterInvalid : IEncounterable
         Species = pk.Species;
         Form = pk.Form;
         LevelMin = (byte)pk.Met_Level;
-        LevelMax = (byte)pk.CurrentLevel;
+        LevelMax = pk.CurrentLevel;
         EggEncounter = pk.WasEgg;
         Generation = pk.Generation;
-        Version = (GameVersion)pk.Version;
+        Version = pk.Version;
         Context = pk.Context;
     }
 

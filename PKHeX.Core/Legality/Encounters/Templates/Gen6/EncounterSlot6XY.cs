@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom, IFlawlessIVCount
 {
-    public int Generation => 6;
+    public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
@@ -50,7 +50,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = Version != GameVersion.XY ? Version : GameVersion.XY.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.X;
+        var version = Version != GameVersion.XY ? Version : GameVersion.XY.Contains(tr.Version) ? tr.Version : GameVersion.X;
         var form = GetWildForm(Form);
         var pi = PersonalInfo;
         var pk = new PK6
@@ -63,7 +63,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDate3DS(),
 
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Name = tr.OT,
             OT_Gender = tr.Gender,

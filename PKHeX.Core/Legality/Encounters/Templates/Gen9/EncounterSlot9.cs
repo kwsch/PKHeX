@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte Gender, byte Time)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IEncounterFormRandom, IFixedGender
 {
-    public int Generation => 9;
+    public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
@@ -129,7 +129,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
-        var version = Version != GameVersion.SV ? Version : GameVersion.SV.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.SL;
+        var version = Version != GameVersion.SV ? Version : GameVersion.SV.Contains(tr.Version) ? tr.Version : GameVersion.SL;
         var pi = PersonalTable.SV[Species, form];
         var pk = new PK9
         {
@@ -138,7 +138,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateSwitch(),
 

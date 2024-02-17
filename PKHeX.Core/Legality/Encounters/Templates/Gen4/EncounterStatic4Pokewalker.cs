@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IRandomCorrelation, IFixedGender
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
     public GameVersion Version => GameVersion.HGSS;
 
@@ -69,7 +69,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {
@@ -79,7 +79,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = version,
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)FixedBall,
 
@@ -102,7 +102,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
+        var gender = criteria.GetGender(Gender, pi);
         var nature = (uint)criteria.GetNature();
 
         var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, pk.Gender = gender, pi.Gender);

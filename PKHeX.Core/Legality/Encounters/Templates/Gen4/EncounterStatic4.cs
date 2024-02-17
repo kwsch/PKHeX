@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic4(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IGroundTypeTile, IFatefulEncounterReadOnly, IFixedGender, IRandomCorrelation, IFixedNature
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
     int ILocation.Location => Location;
     int ILocation.EggLocation => EggLocation;
@@ -52,7 +52,7 @@ public sealed record EncounterStatic4(GameVersion Version)
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {
@@ -63,7 +63,7 @@ public sealed record EncounterStatic4(GameVersion Version)
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = version,
             GroundTile = GroundTile.GetIndex(),
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
@@ -110,7 +110,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             return;
         }
 
-        int gender = criteria.GetGender(Gender, pi);
+        var gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
         if (Shiny == Shiny.Always) // Chain Shiny
@@ -122,7 +122,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
     }
 
-    private static void SetChainShiny(PK4 pk, byte gr, int ability, int gender, int nature)
+    private static void SetChainShiny(PK4 pk, byte gr, int ability, byte gender, int nature)
     {
         pk.RefreshAbility(ability);
         pk.Gender = gender;

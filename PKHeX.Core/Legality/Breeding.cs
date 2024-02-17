@@ -61,7 +61,7 @@ public static class Breeding
     /// <summary>
     /// Species that can yield a different baby species when bred.
     /// </summary>
-    public static bool IsSplitBreedNotBabySpecies(ushort species, int generation)
+    public static bool IsSplitBreedNotBabySpecies(ushort species, byte generation)
     {
         if (generation == 3)
             return IsSplitBreedNotBabySpecies3(species);

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IHatchCycle, IFixedGender, IMoveset, IFixedIVSet
 {
-    public int Generation => 2;
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public byte Form => 0;
     public byte EggCycles => DizzyPunchEgg ? (byte)20 : (byte)0;
@@ -39,7 +39,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.C[Species];
         var pk = new PK2
@@ -60,7 +60,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             if (DizzyPunchEgg) // Fixed EXP value instead of exactly Level 5
                 pk.EXP = 125;
         }
-        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Game == (int)GameVersion.C))
+        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Version == GameVersion.C))
         {
             pk.OT_Gender = tr.Gender;
             pk.Met_Level = LevelMin;

@@ -98,23 +98,23 @@ public static class Encounter9RNG
         pk.IV_SPD = ivs[4];
         pk.IV_SPE = ivs[5];
 
-        int abil = enc.Ability switch
+        int ability = enc.Ability switch
         {
             AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
             AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
             _ => (int)enc.Ability,
         };
-        pk.RefreshAbility(abil >> 1);
+        pk.RefreshAbility(ability >> 1);
 
         var gender_ratio = enc.GenderRatio;
-        int gender = gender_ratio switch
+        byte gender = gender_ratio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
             _ => GetGender(gender_ratio, rand.NextInt(100)),
         };
-        if (criteria.Gender != FixedGenderUtil.GenderRandom && gender != criteria.Gender)
+        if (!criteria.IsGenderSatisfied(gender))
             return false;
         pk.Gender = gender;
 
@@ -182,7 +182,7 @@ public static class Encounter9RNG
         // Ability can be changed by Capsule/Patch.
         // Defer this check to later.
         // ReSharper disable once UnusedVariable
-        int abil = enc.Ability switch
+        int ability = enc.Ability switch
         {
             AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
             AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
@@ -190,7 +190,7 @@ public static class Encounter9RNG
         };
 
         var gender_ratio = enc.GenderRatio;
-        int gender = gender_ratio switch
+        byte gender = gender_ratio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
@@ -296,13 +296,13 @@ public static class Encounter9RNG
         return pid;
     }
 
-    public static int GetGender(in int ratio, in ulong rand100) => ratio switch
+    public static byte GetGender(in int ratio, in ulong rand100) => ratio switch
     {
-        0x1F => rand100 < 12 ? 1 : 0, // 12.5%
-        0x3F => rand100 < 25 ? 1 : 0, // 25%
-        0x7F => rand100 < 50 ? 1 : 0, // 50%
-        0xBF => rand100 < 75 ? 1 : 0, // 75%
-        0xE1 => rand100 < 89 ? 1 : 0, // 87.5%
+        0x1F => rand100 < 12 ? (byte)1 : (byte)0, // 12.5%
+        0x3F => rand100 < 25 ? (byte)1 : (byte)0, // 25%
+        0x7F => rand100 < 50 ? (byte)1 : (byte)0, // 50%
+        0xBF => rand100 < 75 ? (byte)1 : (byte)0, // 75%
+        0xE1 => rand100 < 89 ? (byte)1 : (byte)0, // 87.5%
 
         _ => throw new ArgumentOutOfRangeException(nameof(ratio)),
     };

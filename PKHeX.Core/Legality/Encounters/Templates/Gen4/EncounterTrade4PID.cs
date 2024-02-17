@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade4PID
     : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK4>, IContestStatsReadOnly, IMoveset, IFixedGender, IFixedNature
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
     public Shiny Shiny => Shiny.FixedValue;
     public bool IsFixedNickname => true;
@@ -89,7 +89,7 @@ public sealed record EncounterTrade4PID
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.DP[Species];
         var pk = new PK4
@@ -105,7 +105,7 @@ public sealed record EncounterTrade4PID
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = GetReceivedLanguage(lang, version),
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
@@ -239,7 +239,7 @@ public sealed record EncounterTrade4PID
                 return DetectTradeLanguageG4MeisterMagikarp(pk, lang);
         }
         // D/P English origin are Japanese lang. Can't have LanguageID 2
-        if (lang != 1 || pk.Version is not ((int)GameVersion.D or (int)GameVersion.P))
+        if (lang != 1 || pk.Version is not (GameVersion.D or GameVersion.P))
             return lang;
 
         // Since two locales (JPN/ENG) can have the same LanguageID, check which we should be validating with.
@@ -292,6 +292,6 @@ public sealed record EncounterTrade4PID
     public bool IsIncorrectEnglish(PKM pk)
     {
         // Localized English forgot to change the Language ID values.
-        return pk is { Language: (int)LanguageID.English, Version: (int)GameVersion.D or (int)GameVersion.P };
+        return pk is { Language: (int)LanguageID.English, Version: GameVersion.D or GameVersion.P };
     }
 }

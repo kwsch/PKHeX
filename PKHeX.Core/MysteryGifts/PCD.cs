@@ -18,7 +18,7 @@ public sealed class PCD(byte[] Data)
     public PCD() : this(new byte[Size]) { }
 
     public const int Size = 0x358; // 856
-    public override int Generation => 4;
+    public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => Gift.PK.FatefulEncounter;
     public override GameVersion Version { get=> Gift.Version; set => Gift.Version = value; }
@@ -86,7 +86,7 @@ public sealed class PCD(byte[] Data)
     public override bool IsShiny => Gift.IsShiny;
     public override Shiny Shiny => Gift.Shiny;
     public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
-    public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
+    public override byte Gender { get => Gift.Gender; set => Gift.Gender = value; }
     public override byte Form { get => Gift.Form; set => Gift.Form = value; }
     public override uint ID32 { get => Gift.ID32; set => Gift.ID32 = value; }
     public override ushort TID16 { get => Gift.TID16; set => Gift.TID16 = value; }
@@ -130,7 +130,7 @@ public sealed class PCD(byte[] Data)
         return Gift.ConvertToPKM(tr, criteria);
     }
 
-    public bool CanBeReceivedByVersion(int pkmVersion) => (byte)Version == pkmVersion;
+    public bool CanBeReceivedByVersion(GameVersion version) => Version == version;
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {

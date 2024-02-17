@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
     public int EggLocation => 0;

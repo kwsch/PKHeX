@@ -24,7 +24,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     // Simple Generated Attributes
     public abstract IPermitRecord Permit { get; } // PersonalInfo derived metadata
 
-    public override int CurrentFriendship
+    public override byte CurrentFriendship
     {
         get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
         set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
@@ -112,7 +112,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     public override int StatNature { get => Data[0x21]; set => Data[0x21] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x22] & 1) == 1; set => Data[0x22] = (byte)((Data[0x22] & ~0x01) | (value ? 1 : 0)); }
     public bool Flag2 { get => (Data[0x22] & 2) == 2; set => Data[0x22] = (byte)((Data[0x22] & ~0x02) | (value ? 2 : 0)); }
-    public override int Gender { get => (Data[0x22] >> 2) & 0x3; set => Data[0x22] = (byte)((Data[0x22] & 0xF3) | (value << 2)); }
+    public override byte Gender { get => (byte)((Data[0x22] >> 2) & 0x3); set => Data[0x22] = (byte)((Data[0x22] & 0xF3) | (value << 2)); }
     // 0x23 alignment unused
 
     public override byte Form { get => Data[0x24]; set => WriteUInt16LittleEndian(Data.AsSpan(0x24), value); }
@@ -363,12 +363,12 @@ public abstract class G8PKM : PKM, ISanityChecksum,
         set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
 
-    public override int HT_Gender { get => Data[0xC2]; set => Data[0xC2] = (byte)value; }
+    public override byte HT_Gender { get => Data[0xC2]; set => Data[0xC2] = value; }
     public byte HT_Language { get => Data[0xC3]; set => Data[0xC3] = value; }
-    public override int CurrentHandler { get => Data[0xC4]; set => Data[0xC4] = (byte)value; }
+    public override byte CurrentHandler { get => Data[0xC4]; set => Data[0xC4] = value; }
     // 0xC5 unused (alignment)
     public int HT_TrainerID { get => ReadUInt16LittleEndian(Data.AsSpan(0xC6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xC6), (ushort)value); } // unused?
-    public override int HT_Friendship { get => Data[0xC8]; set => Data[0xC8] = (byte)value; }
+    public override byte HT_Friendship { get => Data[0xC8]; set => Data[0xC8] = value; }
     public byte HT_Intensity { get => Data[0xC9]; set => Data[0xC9] = value; }
     public byte HT_Memory { get => Data[0xCA]; set => Data[0xCA] = value; }
     public byte HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = value; }
@@ -382,8 +382,8 @@ public abstract class G8PKM : PKM, ISanityChecksum,
 
     public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
     public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
-    public override int Version { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
-    public byte BattleVersion { get => Data[0xDF]; set => Data[0xDF] = value; }
+    public override GameVersion Version { get => (GameVersion)Data[0xDE]; set => Data[0xDE] = (byte)value; }
+    public GameVersion BattleVersion { get => (GameVersion)Data[0xDF]; set => Data[0xDF] = (byte)value; }
     // public override byte Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
     // public override byte ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
     public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
@@ -403,7 +403,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
         set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
 
-    public override int OT_Friendship { get => Data[0x112]; set => Data[0x112] = (byte)value; }
+    public override byte OT_Friendship { get => Data[0x112]; set => Data[0x112] = value; }
     public byte OT_Intensity { get => Data[0x113]; set => Data[0x113] = value; }
     public byte OT_Memory { get => Data[0x114]; set => Data[0x114] = value; }
     // 0x115 unused align
@@ -420,7 +420,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0x122)); set => WriteUInt16LittleEndian(Data.AsSpan(0x122), (ushort)value); }
     public override int Ball { get => Data[0x124]; set => Data[0x124] = (byte)value; }
     public override int Met_Level { get => Data[0x125] & ~0x80; set => Data[0x125] = (byte)((Data[0x125] & 0x80) | value); }
-    public override int OT_Gender { get => Data[0x125] >> 7; set => Data[0x125] = (byte)((Data[0x125] & ~0x80) | (value << 7)); }
+    public override byte OT_Gender { get => (byte)(Data[0x125] >> 7); set => Data[0x125] = (byte)((Data[0x125] & ~0x80) | (value << 7)); }
     public byte HyperTrainFlags { get => Data[0x126]; set => Data[0x126] = value; }
     public bool HT_HP  { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -444,7 +444,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
 
     #endregion
     #region Battle Stats
-    public override int Stat_Level { get => Data[0x148]; set => Data[0x148] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x148]; set => Data[0x148] = value; }
     // 0x149 unused alignment
     public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0x14A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14A), (ushort)value); }
     public override int Stat_ATK   { get => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14C), (ushort)value); }

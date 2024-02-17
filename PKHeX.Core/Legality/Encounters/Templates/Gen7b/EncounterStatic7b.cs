@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic7b(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>, IFlawlessIVCount, IFixedIVSet
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     int ILocation.Location => Location;
     public int EggLocation => 0;
@@ -35,7 +35,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.GG[Species, Form];
         var pk = new PB7
         {
@@ -45,7 +45,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
             OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 

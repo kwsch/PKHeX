@@ -10,13 +10,13 @@ namespace PKHeX.Core;
 public static class LeadFinder
 {
     /// <inheritdoc cref="GetLeadInfo4{TEnc,TEvo}"/>
-    public static LeadSeed GetLeadInfo3<TEnc, TEvo>(TEnc enc, in PIDIV pv, TEvo evo, bool emerald, int gender, int format)
+    public static LeadSeed GetLeadInfo3<TEnc, TEvo>(TEnc enc, in PIDIV pv, TEvo evo, bool emerald, byte gender, byte format)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
     {
         var type = pv.Type;
         if (type.IsClassicMethod())
-            return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender, (byte)format);
+            return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender, format);
         return default;
     }
 
@@ -35,7 +35,7 @@ public static class LeadFinder
         var type = pv.Type;
         if (type is Method_1)
         {
-            if (TryGetLeadInfo4(enc, evo, pk.HGSS, pv.OriginSeed, (byte)pk.Format, out var result))
+            if (TryGetLeadInfo4(enc, evo, pk.HGSS, pv.OriginSeed, pk.Format, out var result))
                 return result;
 
             // There's a very-very rare chance that the PID-IV can be from Cute Charm too.
@@ -96,7 +96,7 @@ public static class LeadFinder
         return LCRNGReversal.GetSeedsIVs(seeds, hp, atk, def, spa, spd, spe);
     }
 
-    public static EvoCriteria GetLevelConstraint<TEnc>(PKM pk, ReadOnlySpan<EvoCriteria> chain, TEnc enc, [ConstantExpected] int generation)
+    public static EvoCriteria GetLevelConstraint<TEnc>(PKM pk, ReadOnlySpan<EvoCriteria> chain, TEnc enc, [ConstantExpected] byte generation)
         where TEnc : IEncounterSlot34, ISpeciesForm
     {
         if (pk.Format == generation)

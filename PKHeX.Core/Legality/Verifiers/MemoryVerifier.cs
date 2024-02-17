@@ -166,7 +166,7 @@ public sealed class MemoryVerifier : Verifier
 
             // Dynamaxing
             // {0} battled at {1}’s side against {2} that Dynamaxed. {4} that {3}.
-            case 71 when !GetCanDynamaxTrainer(memory.Variable, 8, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
+            case 71 when !GetCanDynamaxTrainer(memory.Variable, 8, handler == 0 ? pk.Version : GameVersion.Any):
             // {0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
             case 72 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                 return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
@@ -179,7 +179,7 @@ public sealed class MemoryVerifier : Verifier
 
             // Species
             // With {1}, {0} went fishing, and they caught {2}. {4} that {3}.
-            case 7 when !GetCanFishSpecies(memory.Variable, mem.Context, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
+            case 7 when !GetCanFishSpecies(memory.Variable, mem.Context, handler == 0 ? pk.Version : GameVersion.Any):
                 return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
             // {0} saw {1} paying attention to {2}. {4} that {3}.
@@ -200,7 +200,7 @@ public sealed class MemoryVerifier : Verifier
 
             // Item
             // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
-            case 5 when !CanBuyItem(mem.Context, memory.Variable, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
+            case 5 when !CanBuyItem(mem.Context, memory.Variable, handler == 0 ? pk.Version : GameVersion.Any):
             // {1} used {2} when {0} was in trouble. {4} that {3}.
             case 15 when !CanUseItem(mem.Context, memory.Variable, pk.Species):
             // {0} saw {1} using {2}. {4} that {3}.
@@ -331,7 +331,7 @@ public sealed class MemoryVerifier : Verifier
 
         // Bounds checking
         var mc = Memories.GetContext(context);
-        if (!mc.CanObtainMemoryOT((GameVersion)pk.Version, memory))
+        if (!mc.CanObtainMemoryOT(pk.Version, memory))
             data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XOT)));
 
         // Verify memory if specific to OT
@@ -354,13 +354,13 @@ public sealed class MemoryVerifier : Verifier
                 return;
 
             // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-            case 6 when !mc.HasPokeCenter((GameVersion)pk.Version, mem.OT_TextVar):
+            case 6 when !mc.HasPokeCenter(pk.Version, mem.OT_TextVar):
                 data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
                 return;
 
             // {0} was with {1} when {1} caught {2}. {4} that {3}.
             case 14:
-                var result = GetCanBeCaptured(mem.OT_TextVar, mc.Context, (GameVersion)pk.Version) // Any Game in the Handling Trainer's generation
+                var result = GetCanBeCaptured(mem.OT_TextVar, mc.Context, pk.Version) // Any Game in the Handling Trainer's generation
                     ? GetValid(string.Format(LMemoryArgSpecies, L_XOT))
                     : GetInvalid(string.Format(LMemoryArgBadSpecies, L_XOT));
                 data.AddLine(result);
@@ -418,7 +418,7 @@ public sealed class MemoryVerifier : Verifier
 
         // Bounds checking
         var mc = Memories.GetContext(memoryGen);
-        if (!mc.CanObtainMemoryHT((GameVersion)pk.Version, memory))
+        if (!mc.CanObtainMemoryHT(pk.Version, memory))
             data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XHT)));
 
         // Verify memory if specific to HT
@@ -480,7 +480,7 @@ public sealed class MemoryVerifier : Verifier
 
         // Transfer 6->7 & withdraw to same HT => keeps past gen memory
         // Don't require link trade memory for these past gen cases
-        int gen = Info.Generation;
+        var gen = Info.Generation;
         if (gen is >= 3 and < 7 && pk.CurrentHandler == 1)
             return;
 

@@ -121,10 +121,10 @@ public static class Wild8bRNG
         }
         else
         {
-            var next = (((int)xors.NextUInt(253) + 1 < genderRatio) ? 1 : 0);
-            if (criteria.Gender is 0 or 1 && next != criteria.Gender)
+            byte gender = xors.NextUInt(253) + 1 < genderRatio ? (byte)1 : (byte)0;
+            if (!criteria.IsGenderSatisfied(gender))
                 return false;
-            pk.Gender = next;
+            pk.Gender = gender;
         }
 
         if (criteria.Nature is Nature.Random)

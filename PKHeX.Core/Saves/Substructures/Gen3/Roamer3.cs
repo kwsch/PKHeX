@@ -46,10 +46,10 @@ public sealed class Roamer3 : IContestStats
         set => WriteInt16LittleEndian(Data.AsSpan(Offset + 10), (short)value);
     }
 
-    public int CurrentLevel
+    public byte CurrentLevel
     {
         get => Data[Offset + 12];
-        set => Data[Offset + 12] = (byte)value;
+        set => Data[Offset + 12] = value;
     }
 
     public int Status { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }

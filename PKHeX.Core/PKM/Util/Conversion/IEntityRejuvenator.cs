@@ -31,12 +31,12 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
 
     private static void ResetOutboundSWSH(PKM result, PK8 pk8)
     {
-        var ver = result.Version;
-        if (ver is (int)GameVersion.BD or (int)GameVersion.SP)
+        var version = result.Version;
+        if (version is GameVersion.BD or GameVersion.SP)
             RejuvenateBDSP(result, pk8);
-        else if (ver is (int)GameVersion.PLA)
+        else if (version is GameVersion.PLA)
             RejuvenatePLA(result, pk8);
-        else if (ver is (int)GameVersion.SL or (int)GameVersion.VL)
+        else if (version is GameVersion.SL or GameVersion.VL)
             RejuvenateSV(result, pk8);
     }
 

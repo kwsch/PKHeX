@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IRandomCorrelation, IFixedTrainer, IMoveset
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version { get; }
     int ILocation.EggLocation => 0;
@@ -61,7 +61,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
             Met_Location = Location,
             Met_Level = Level,
-            Version = (byte)Version,
+            Version = Version,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
@@ -90,7 +90,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         do

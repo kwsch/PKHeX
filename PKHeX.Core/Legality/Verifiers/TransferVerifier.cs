@@ -26,7 +26,7 @@ public sealed class TransferVerifier : Verifier
     private void VerifyVCOTGender(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.OT_Gender == 1 && pk.Version != (int)GameVersion.C)
+        if (pk.OT_Gender == 1 && pk.Version != GameVersion.C)
             data.AddLine(GetInvalid(LG2OTGender));
     }
 
@@ -228,13 +228,13 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, ushort move, int gen)
+    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, ushort move, byte generation)
     {
         int index = pk.GetMoveIndex(move);
         if (index < 0)
             return; // doesn't have move
 
-        if (parse[index].Generation == gen) // not obtained from a future gen
+        if (parse[index].Generation == generation) // not obtained from a future gen
             parse[index] = MoveResult.Unobtainable(0);
     }
 }

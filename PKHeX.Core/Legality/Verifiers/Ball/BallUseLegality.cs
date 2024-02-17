@@ -21,7 +21,7 @@ internal static class BallUseLegality
         return (permit & (1ul << ball)) != 0;
     }
 
-    public static ulong GetWildBalls(int generation, GameVersion game) => generation switch
+    public static ulong GetWildBalls(byte generation, GameVersion game) => generation switch
     {
         1 => WildPokeBalls1,
         2 => WildPokeBalls2,

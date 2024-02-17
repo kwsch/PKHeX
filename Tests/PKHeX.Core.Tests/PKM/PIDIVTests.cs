@@ -68,7 +68,7 @@ public class PIDIVTest
     public void PIDIVMatchingTest3MiscChannel()
     {
         // Channel Jirachi
-        var pkC = new PK3 {PID = 0x264750D9, IVs = [06, 31, 14, 27, 05, 27], SID16 = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
+        var pkC = new PK3 {PID = 0x264750D9, IVs = [06, 31, 14, 27, 05, 27], SID16 = 45819, OT_Gender = 1, Version = GameVersion.R};
         var pv = MethodFinder.Analyze(pkC);
         pv.Type.Should().Be(PIDType.Channel);
 

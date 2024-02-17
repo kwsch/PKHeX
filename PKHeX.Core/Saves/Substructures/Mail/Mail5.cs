@@ -9,10 +9,10 @@ public sealed class Mail5 : MailDetail
 
     public Mail5(byte[] data, int ofs = -1) : base(data, ofs) { }
 
-    public Mail5(byte? lang, byte? ver) : base(new byte[SIZE])
+    public Mail5(byte? lang, byte? version) : base(new byte[SIZE])
     {
         if (lang != null) AuthorLanguage = (byte)lang;
-        if (ver != null) AuthorVersion = (byte)ver;
+        if (version != null) AuthorVersion = (byte)version;
         ResetData();
     }
 
@@ -55,5 +55,5 @@ public sealed class Mail5 : MailDetail
     };
 
     public override void SetBlank() => SetBlank(null, null);
-    public void SetBlank(byte? lang, byte? ver) => new Mail5(lang: lang, ver: ver).Data.CopyTo(Data, 0);
+    public void SetBlank(byte? lang, byte? version) => new Mail5(lang: lang, version: version).Data.CopyTo(Data, 0);
 }

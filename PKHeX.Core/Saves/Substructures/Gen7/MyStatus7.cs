@@ -28,16 +28,16 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 4];
-        set => Data[Offset + 4] = (byte)value;
+        set => Data[Offset + 4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 5];
-        set => Data[Offset + 5] = (byte)value;
+        set => Data[Offset + 5] = value;
     }
 
     public string GameSyncID

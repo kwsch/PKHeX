@@ -25,8 +25,8 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract byte CatchRate { get; set; }
     public virtual int EvoStage { get; set; }
     public abstract byte Gender { get; set; }
-    public abstract int HatchCycles { get; set; }
-    public abstract int BaseFriendship { get; set; }
+    public abstract byte HatchCycles { get; set; }
+    public abstract byte BaseFriendship { get; set; }
     public abstract byte EXPGrowth { get; set; }
     public abstract int GetIndexOfAbility(int abilityID);
     public abstract int GetAbilityAtIndex(int abilityIndex);
@@ -87,7 +87,7 @@ public abstract class PersonalInfo : IPersonalInfo
     /// <param name="gender">Gender</param>
     /// <param name="ratio">Gender Ratio</param>
     /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-    public static (byte Min, byte Max) GetGenderMinMax(int gender, byte ratio) => ratio switch
+    public static (byte Min, byte Max) GetGenderMinMax(byte gender, byte ratio) => ratio switch
     {
         RatioMagicMale => (0, 255),
         RatioMagicFemale => (0, 255),

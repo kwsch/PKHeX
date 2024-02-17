@@ -91,7 +91,7 @@ public sealed class PL6_PKM(byte[] Data) : IRibbonSetEvent3, IRibbonSetEvent4, I
     public uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
     public ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
     public ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value); }
-    public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
+    public byte OriginGame { get => Data[0x04]; set => Data[0x04] = value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
     public int Ball { get => Data[0xE]; set => Data[0xE] = (byte)value; }
     public int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value); }
@@ -110,7 +110,7 @@ public sealed class PL6_PKM(byte[] Data) : IRibbonSetEvent3, IRibbonSetEvent4, I
     }
 
     public int Nature { get => Data[0x38]; set => Data[0x38] = (byte)value; }
-    public int Gender { get => Data[0x39]; set => Data[0x39] = (byte)value; }
+    public byte Gender { get => Data[0x39]; set => Data[0x39] = value; }
     public int AbilityType { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
     public int PIDType { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
     public int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3C), (ushort)value); }
@@ -131,7 +131,7 @@ public sealed class PL6_PKM(byte[] Data) : IRibbonSetEvent3, IRibbonSetEvent4, I
     public int IV_SPA { get => Data[0x4B]; set => Data[0x4B] = (byte)value; }
     public int IV_SPD { get => Data[0x4C]; set => Data[0x4C] = (byte)value; }
 
-    public int OTGender { get => Data[0x4D]; set => Data[0x4D] = (byte)value; }
+    public byte OTGender { get => Data[0x4D]; set => Data[0x4D] = (byte)value; }
 
     public string OT
     {
@@ -198,7 +198,7 @@ public sealed class PL6_PKM(byte[] Data) : IRibbonSetEvent3, IRibbonSetEvent4, I
         }
     }
 
-    public int Generation => 6;
+    public byte Generation => 6;
     public bool IsShiny => false;
     public bool EggEncounter => false;
     public GameVersion Version => GameVersion.Gen6;

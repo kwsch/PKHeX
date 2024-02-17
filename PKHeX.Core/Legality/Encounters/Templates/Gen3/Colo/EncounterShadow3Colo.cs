@@ -13,7 +13,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IShadow3, IMoveset, IRandomCorrelation
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.COLO;
     int ILocation.EggLocation => 0;
@@ -57,7 +57,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)GameVersion.CXD,
+            Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
@@ -89,7 +89,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
 

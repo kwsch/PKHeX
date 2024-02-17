@@ -25,7 +25,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
 
     public override int BoxCount => 31;
     public override int MaxEV => EffortValues.Max252;
-    public override int Generation => 6;
+    public override byte Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;
     protected override int GiftCountMax => 24;
     protected override int GiftFlagMax => 0x100 * 8;
@@ -38,7 +38,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
 
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_6;
     public override int MaxBallID => Legal.MaxBallID_6;
-    public override int MaxGameID => Legal.MaxGameID_6; // OR
+    public override GameVersion MaxGameID => Legal.MaxGameID_6; // OR
 
     protected override PK6 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
@@ -62,8 +62,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public override uint ID32 { get => Status.ID32; set => Status.ID32 = value; }
     public override ushort TID16 { get => Status.TID16; set => Status.TID16 = value; }
     public override ushort SID16 { get => Status.SID16; set => Status.SID16 = value; }
-    public override int Game { get => Status.Game; set => Status.Game = value; }
-    public override int Gender { get => Status.Gender; set => Status.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)Status.Game; set => Status.Game = (byte)value; }
+    public override byte Gender { get => Status.Gender; set => Status.Gender = value; }
     public override int Language { get => Status.Language; set => Status.Language = value; }
     public override string OT { get => Status.OT; set => Status.OT = value; }
     public byte Region { get => Status.Region; set => Status.Region = value; }

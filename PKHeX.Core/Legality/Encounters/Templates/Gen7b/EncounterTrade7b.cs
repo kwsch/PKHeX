@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEncounterMatch, IFixedTrainer, IEncounterConvertible<PB7>
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public int Location => Locations.LinkTrade6NPC;
     public Shiny Shiny => Shiny.Random;
@@ -43,7 +43,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
 
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.GG[Species, Form];
         var pk = new PB7
@@ -57,7 +57,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],

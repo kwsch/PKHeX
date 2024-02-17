@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic8a
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IScaledSizeReadOnly, IMoveset, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8a;
     public GameVersion Version => GameVersion.PLA;
     public int EggLocation => 0;
@@ -70,7 +70,7 @@ public sealed record EncounterStatic8a
             Met_Location = Location,
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)Version,
+            Version = Version,
 
             OT_Name = tr.OT,
             OT_Gender = tr.Gender,
@@ -98,7 +98,7 @@ public sealed record EncounterStatic8a
         var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, IsAlpha);
         // Phione and Zorua have random levels; follow the correlation instead of giving the lowest level.
         if (LevelMin != LevelMax)
-            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+            pk.Met_Level = pk.CurrentLevel = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
 
         // Disassociate the correlation if it is supposed to use the global 128-bit RNG state instead.
         if (Method == EncounterStatic8aCorrelation.Fixed)

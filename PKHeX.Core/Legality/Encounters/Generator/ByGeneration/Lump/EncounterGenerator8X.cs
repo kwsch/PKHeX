@@ -21,7 +21,7 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
         return GetEncounters(pk, chain, info);
     }
 
-    public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info) => (GameVersion)pk.Version switch
+    public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info) => pk.Version switch
     {
         GO => EncounterGeneratorGO.Instance.GetEncounters(pk, chain, info),
         PLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),

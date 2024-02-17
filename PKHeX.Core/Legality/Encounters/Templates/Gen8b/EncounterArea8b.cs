@@ -30,17 +30,17 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
         Type = (SlotType8b)data[2];
         Version = game;
 
-        Slots = ReadSlots(data);
+        Slots = ReadSlots(data[4..]);
     }
 
     private EncounterSlot8b[] ReadSlots(ReadOnlySpan<byte> data)
     {
         const int size = 4;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot8b[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadSlot(entry);
         }

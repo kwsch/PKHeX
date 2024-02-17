@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic5(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IFixedGender
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public bool Roaming { get; init; }
     int ILocation.Location => Location;
@@ -40,7 +40,7 @@ public sealed record EncounterStatic5(GameVersion Version)
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
@@ -54,7 +54,7 @@ public sealed record EncounterStatic5(GameVersion Version)
             Ball = (byte)(FixedBall is Ball.None ? Ball.Poke : FixedBall),
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
@@ -83,7 +83,7 @@ public sealed record EncounterStatic5(GameVersion Version)
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
+        var gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         var type = Shiny == Shiny.Always ? PIDType.G5MGShiny : PIDType.None;

@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 public readonly struct LeadEncounterQueue<TEnc>
 {
-    public readonly List<LeadEncounter<TEnc>> List = new();
+    public readonly List<LeadEncounter<TEnc>> List = new(0);
     public LeadEncounterQueue() { }
 
     public void Insert(LeadSeed lead, TEnc encounter) => Insert(new(lead, encounter));

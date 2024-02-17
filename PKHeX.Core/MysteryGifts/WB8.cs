@@ -18,7 +18,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     public const int Size = 0x2DC;
     public const int CardStart = 0x0;
 
-    public override int Generation => 8;
+    public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
     public override bool FatefulEncounter => true;
 
@@ -38,7 +38,8 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
 
     // TODO: public byte RestrictVersion?
 
-    public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && LocationsHOME.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version));
+    public bool CanBeReceivedByVersion(GameVersion version, PKM pk) => version is GameVersion.BD or GameVersion.SP
+                                || (pk is PK8 && LocationsHOME.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version));
 
     // General Card Properties
 
@@ -181,7 +182,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
 
     public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x288)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x288), value); }
     public override byte Form { get => Data[CardStart + 0x28A]; set => Data[CardStart + 0x28A] = value; }
-    public override int Gender { get => Data[CardStart + 0x28B]; set => Data[CardStart + 0x28B] = (byte)value; }
+    public override byte Gender { get => Data[CardStart + 0x28B]; set => Data[CardStart + 0x28B] = value; }
     public override byte Level { get => Data[CardStart + 0x28C]; set => Data[CardStart + 0x28C] = value; }
     public override bool IsEgg { get => Data[CardStart + 0x28D] == 1; set => Data[CardStart + 0x28D] = value ? (byte)1 : (byte)0; }
     public int Nature { get => (sbyte)Data[CardStart + 0x28E]; set => Data[CardStart + 0x28E] = (byte)value; }
@@ -234,7 +235,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     public int IV_SPA { get => Data[CardStart + 0x2B6]; set => Data[CardStart + 0x2B6] = (byte)value; }
     public int IV_SPD { get => Data[CardStart + 0x2B7]; set => Data[CardStart + 0x2B7] = (byte)value; }
 
-    public int OTGender { get => Data[CardStart + 0x2B8]; set => Data[CardStart + 0x2B8] = (byte)value; }
+    public byte OTGender { get => Data[CardStart + 0x2B8]; set => Data[CardStart + 0x2B8] = (byte)value; }
 
     public int EV_HP  { get => Data[CardStart + 0x2B9]; set => Data[CardStart + 0x2B9] = (byte)value; }
     public int EV_ATK { get => Data[CardStart + 0x2BA]; set => Data[CardStart + 0x2BA] = (byte)value; }
@@ -406,7 +407,8 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
-        int currentLevel = Level > 0 ? Level : 1 + Util.Rand.Next(100);
+        var rnd = Util.Rand;
+        byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.BDSP.GetFormEntry(Species, Form);
         var language = tr.Language;
@@ -414,7 +416,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
 
         var pk = new PB8
         {
-            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
+            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
             TID16 = TID16,
             SID16 = SID16,
             Species = Species,
@@ -435,14 +437,14 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             RelearnMove3 = RelearnMove3,
             RelearnMove4 = RelearnMove4,
 
-            Version = OriginGame != 0 ? OriginGame : tr.Game,
+            Version = OriginGame != 0 ? (GameVersion)OriginGame : tr.Version,
 
             OT_Name = hasOT ? GetOT(language) : tr.OT,
             OT_Gender = OTGender < 2 ? OTGender : tr.Gender,
             HT_Name = hasOT ? tr.OT : string.Empty,
-            HT_Gender = hasOT ? tr.Gender : 0,
-            HT_Language = (byte)(hasOT ? language : 0),
-            CurrentHandler = hasOT ? 1 : 0,
+            HT_Gender = hasOT ? tr.Gender : default,
+            HT_Language = (byte)(hasOT ? language : default),
+            CurrentHandler = hasOT ? (byte)1 : (byte)0,
             OT_Friendship = pi.BaseFriendship,
 
             FatefulEncounter = true,
@@ -478,8 +480,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version, pk))
         {
             // give random valid game
-            var rnd = Util.Rand;
-            do { pk.Version = (int)GameVersion.BD + rnd.Next(2); }
+            do { pk.Version = GameVersion.BD + (byte)rnd.Next(2); }
             while (!CanBeReceivedByVersion(pk.Version, pk));
         }
 
@@ -637,11 +638,11 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
 
             var OT = GetOT(pk.Language); // May not be guaranteed to work.
             if (!string.IsNullOrEmpty(OT) && OT != pk.OT_Name) return false;
-            if (OriginGame != 0 && OriginGame != pk.Version)
+            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version)
             {
-                if (OriginGame is (int)GameVersion.BD && !(pk.Version is (int)GameVersion.SW && pk.Met_Location == LocationsHOME.SWBD))
+                if ((GameVersion)OriginGame is GameVersion.BD && !(pk.Version is GameVersion.SW && pk.Met_Location == LocationsHOME.SWBD))
                     return false;
-                if (OriginGame is (int)GameVersion.SP && !(pk.Version is (int)GameVersion.SH && pk.Met_Location == LocationsHOME.SHSP))
+                if ((GameVersion)OriginGame is GameVersion.SP && !(pk.Version is GameVersion.SH && pk.Met_Location == LocationsHOME.SHSP))
                     return false;
             }
             if (EncryptionConstant != 0)

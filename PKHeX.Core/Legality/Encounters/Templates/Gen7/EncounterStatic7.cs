@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic7(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IRelearn, IEncounterFormRandom, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IFixedIVSet
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
     int ILocation.Location => Location;
     int ILocation.EggLocation => EggLocation;
@@ -53,7 +53,7 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.USUM[Species, Form];
         var pk = new PK7
@@ -69,7 +69,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             FatefulEncounter = FatefulEncounter,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,

@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade4RanchGift
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IFatefulEncounterReadOnly, IFixedTrainer, IMoveset, IFixedGender, IFixedNature
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
 
     /// <summary>
@@ -76,7 +76,7 @@ public sealed record EncounterTrade4RanchGift
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var actualLevel = CurrentLevel != default ? CurrentLevel : Level;
         var pi = PersonalTable.DP[Species];
@@ -92,7 +92,7 @@ public sealed record EncounterTrade4RanchGift
             FatefulEncounter = FatefulEncounter,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],

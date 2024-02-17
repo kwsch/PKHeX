@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IEncounterSlot3, IRandomCorrelation
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     int ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen3;
     public bool EggEncounter => false;
@@ -39,7 +39,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = Version != GameVersion.RSE ? Version : GameVersion.RSE.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.E;
+        var version = Version != GameVersion.RSE ? Version : GameVersion.RSE.Contains(tr.Version) ? tr.Version : GameVersion.E;
         var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
@@ -49,7 +49,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
             Language = lang,
@@ -68,7 +68,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
     private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         var lvl = new SingleLevelRange(LevelMin);

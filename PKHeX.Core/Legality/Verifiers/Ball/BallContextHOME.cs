@@ -36,7 +36,7 @@ public sealed class BallContextHOME : IBallContext
     /// <param name="species">Original encounter species</param>
     /// <returns>True if the restriction can be ignored, false if not.</returns>
     /// <remarks>Ability Patch can be used on any species that has a Hidden Ability distinct from its regular ability.</remarks>
-    public static bool IsAbilityPatchPossible(int format, ushort species)
+    public static bool IsAbilityPatchPossible(byte format, ushort species)
     {
         if (format <= 7)
             return false;

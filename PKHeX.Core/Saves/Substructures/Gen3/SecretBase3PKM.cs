@@ -18,7 +18,7 @@ public sealed class SecretBase3PKM : ISpeciesForm
 
     private PersonalInfo3 PersonalInfo => PersonalTable.E.GetFormEntry(Species, Form);
     public byte Form => Species == (int)Core.Species.Unown ? EntityPID.GetUnownForm3(PID) : (byte)0;
-    public int Gender => EntityGender.GetFromPIDAndRatio(PID, PersonalInfo.Gender);
+    public byte Gender => EntityGender.GetFromPIDAndRatio(PID, PersonalInfo.Gender);
 
     public void GetMoves(Span<ushort> moves)
     {

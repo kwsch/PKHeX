@@ -15,16 +15,16 @@ public static class RecentTrainerCache
     public static string OT_Name => Trainer.OT;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Gender"/>. </summary>
-    public static int OT_Gender => Trainer.Gender;
+    public static byte OT_Gender => Trainer.Gender;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Language"/>. </summary>
     public static int Language => Trainer.Language;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Generation"/>. </summary>
-    public static int Format => Trainer.Generation;
+    public static byte Format => Trainer.Generation;
 
-    /// <summary> Most recently loaded <see cref="ITrainerInfo.Game"/>. </summary>
-    public static int Game => Trainer.Game;
+    /// <summary> Most recently loaded <see cref="ITrainerInfo.Version"/>. </summary>
+    public static GameVersion Version => Trainer.Version;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Context"/>. </summary>
     public static EntityContext Context => Trainer.Context;

@@ -57,7 +57,7 @@ public static class EntityConverter
     /// <param name="pk"></param>
     /// <param name="format"></param>
     /// <returns>True if it can be converted to the requested format value.</returns>
-    public static bool IsConvertibleToFormat(PKM pk, int format)
+    public static bool IsConvertibleToFormat(PKM pk, byte format)
     {
         if (pk.Format >= 3 && pk.Format > format && format < 8)
             return false; // pk3->upward can't go backwards until Gen8+

@@ -189,11 +189,11 @@ public partial class SAV_HallOfFame : Form
 
         SetForms();
         CB_Form.SelectedIndex = entry.Form;
-        SetGenderLabel((int)entry.Gender);
+        SetGenderLabel((byte)entry.Gender);
         Label_OTGender.Text = gendersymbols[(int)entry.OT_Gender];
         UpdateNickname(sender, e);
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
         editing = true;
     }
 
@@ -244,7 +244,7 @@ public partial class SAV_HallOfFame : Form
         WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
 
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
         DisplayEntry(this, EventArgs.Empty); // refresh text view
     }
 
@@ -318,7 +318,8 @@ public partial class SAV_HallOfFame : Form
         if (pi.IsDualGender)
         {
             var fg = EntityGender.GetFromString(Label_Gender.Text);
-            fg = (fg ^ 1) & 1;
+            fg ^= 1;
+            fg &= 1;
             Label_Gender.Text = gendersymbols[fg];
         }
         else
@@ -340,7 +341,7 @@ public partial class SAV_HallOfFame : Form
         Write_Entry(this, EventArgs.Empty);
     }
 
-    private void SetGenderLabel(int gender)
+    private void SetGenderLabel(byte gender)
     {
         Label_Gender.Text = gender switch
         {

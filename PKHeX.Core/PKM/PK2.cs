@@ -61,7 +61,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override int Move2_PPUps { get => (Data[0x18] & 0xC0) >> 6; set => Data[0x18] = (byte)((Data[0x18] & 0x3F) | ((value & 0x3) << 6)); }
     public override int Move3_PPUps { get => (Data[0x19] & 0xC0) >> 6; set => Data[0x19] = (byte)((Data[0x19] & 0x3F) | ((value & 0x3) << 6)); }
     public override int Move4_PPUps { get => (Data[0x1A] & 0xC0) >> 6; set => Data[0x1A] = (byte)((Data[0x1A] & 0x3F) | ((value & 0x3) << 6)); }
-    public override int CurrentFriendship { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
+    public override byte CurrentFriendship { get => Data[0x1B]; set => Data[0x1B] = value; }
     private byte PKRS { get => Data[0x1C]; set => Data[0x1C] = value; }
     public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
     public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
@@ -69,13 +69,13 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public ushort CaughtData { get => ReadUInt16BigEndian(Data.AsSpan(0x1D)); set => WriteUInt16BigEndian(Data.AsSpan(0x1D), value); }
     public int Met_TimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
     public override int Met_Level    { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
-    public override int OT_Gender    { get => (CaughtData >> 7) & 1;    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
+    public override byte OT_Gender    { get => (byte)((CaughtData >> 7) & 1);    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
     public override int Met_Location { get => CaughtData & 0x7F;        set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
 
-    public override int Stat_Level
+    public override byte Stat_Level
     {
         get => Data[0x1F];
-        set => Data[0x1F] = (byte)value;
+        set => Data[0x1F] = value;
     }
 
     #endregion
@@ -93,9 +93,9 @@ public sealed class PK2 : GBPKML, ICaughtData2
     #endregion
 
     public override bool IsEgg { get; set; }
-    public override int OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
+    public override byte OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
     public override bool HasOriginalMetLocation => CaughtData != 0;
-    public override int Version { get => (int)GameVersion.GSC; set { } }
+    public override GameVersion Version { get => GameVersion.GSC; set { } }
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_2;
@@ -136,7 +136,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
         if ((lang == 1) != Japanese)
             lang = Japanese ? 1 : 2;
         var pi = PersonalTable.SM[Species];
-        int abil = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
+        int ability = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
         {
             EncryptionConstant = rnd.Rand32(),
@@ -149,7 +149,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
             PID = rnd.Rand32(),
             Ball = 4,
             MetDate = EncounterDate.GetDate3DS(),
-            Version = HasOriginalMetLocation ? (byte)GameVersion.C : (byte)EntityConverter.VirtualConsoleSourceGen2,
+            Version = HasOriginalMetLocation ? GameVersion.C : EntityConverter.VirtualConsoleSourceGen2,
             Move1 = Move1,
             Move2 = Move2,
             Move3 = Move3,
@@ -174,8 +174,8 @@ public sealed class PK2 : GBPKML, ICaughtData2
             OT_Friendship = pi.BaseFriendship,
             HT_Friendship = pi.BaseFriendship,
 
-            Ability = pi.GetAbilityAtIndex(abil),
-            AbilityNumber = 1 << abil,
+            Ability = pi.GetAbilityAtIndex(ability),
+            AbilityNumber = 1 << ability,
         };
 
         var special = Species is 151 or 251;

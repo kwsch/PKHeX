@@ -55,16 +55,16 @@ public sealed class PlayerData5 : SaveBlock<SAV5>
         set => Data[Offset + 0x1E] = (byte)value;
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 0x1F];
-        set => Data[Offset + 0x1F] = (byte)value;
+        set => Data[Offset + 0x1F] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 0x21];
-        set => Data[Offset + 0x21] = (byte)value;
+        set => Data[Offset + 0x21] = value;
     }
 
     // 22,23 ??

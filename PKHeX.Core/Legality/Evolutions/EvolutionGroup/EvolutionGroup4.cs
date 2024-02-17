@@ -6,7 +6,7 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
 {
     public static readonly EvolutionGroup4 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves4;
-    private const int Generation = 4;
+    private const byte Generation = 4;
     private static PersonalTable4 Personal => PersonalTable.HGSS;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 

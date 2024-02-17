@@ -43,7 +43,7 @@ public static class RuinsOfAlph4
 
     // give a random not-yet-seen form
     // this can be anything depending on the player's SaveFile progress
-    private static bool IsFormValidRadio(byte form) => true;
+    private static bool IsFormValidRadio(byte _) => true;
 
     private const int MaxDepth = 4;
 

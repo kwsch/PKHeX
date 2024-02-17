@@ -77,16 +77,16 @@ public static class RaidRNG
         if (pk.IV_SPE != ivs[5])
             return false;
 
-        int abil = param.Ability switch
+        int ability = param.Ability switch
         {
             AbilityPermission.Any12H => (int)rng.NextInt(3),
             AbilityPermission.Any12 => (int)rng.NextInt(2),
             _ => param.Ability.GetSingleValue(),
         };
-        abil <<= 1; // 1/2/4
+        ability <<= 1; // 1/2/4
 
         var current = pk.AbilityNumber;
-        if (abil == 4)
+        if (ability == 4)
         {
             if (current != 4 && pk is PK8)
                 return false;
@@ -219,22 +219,22 @@ public static class RaidRNG
         pk.IV_SPD = ivs[4];
         pk.IV_SPE = ivs[5];
 
-        int abil = param.Ability switch
+        int ability = param.Ability switch
         {
             AbilityPermission.Any12H => (int)rng.NextInt(3),
             AbilityPermission.Any12 => (int)rng.NextInt(2),
             _ => param.Ability.GetSingleValue(),
         };
-        pk.RefreshAbility(abil);
+        pk.RefreshAbility(ability);
 
-        var gender = param.GenderRatio switch
+        byte gender = param.GenderRatio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (int) rng.NextInt(253) + 1 < param.GenderRatio ? 1 : 0,
+            _ => rng.NextInt(253) + 1 < param.GenderRatio ? (byte)1 : (byte)0,
         };
-        if (criteria.Gender != FixedGenderUtil.GenderRandom && gender != criteria.Gender)
+        if (!criteria.IsGenderSatisfied(gender))
             return false;
         pk.Gender = gender;
 

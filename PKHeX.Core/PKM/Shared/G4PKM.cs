@@ -16,7 +16,7 @@ public abstract class G4PKM : PKM,
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_4;
     public sealed override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public sealed override int MaxBallID => Legal.MaxBallID_4;
-    public sealed override int MaxGameID => Legal.MaxGameID_4;
+    public sealed override GameVersion MaxGameID => Legal.MaxGameID_4;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max255;
     public sealed override int MaxStringLengthOT => 7;
@@ -43,8 +43,8 @@ public abstract class G4PKM : PKM,
     // Future Attributes
     public sealed override uint EncryptionConstant { get => PID; set { } }
     public sealed override int Nature { get => (int)(PID % 25); set { } }
-    public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-    public sealed override int CurrentHandler { get => 0; set { } }
+    public sealed override byte CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
+    public sealed override byte CurrentHandler { get => 0; set { } }
     public sealed override int AbilityNumber { get => 1 << PIDAbility; set { } }
 
     public abstract int ShinyLeaf { get; set; }

@@ -6,11 +6,11 @@ namespace PKHeX.Core;
 public interface ITrainerInfo : ITrainerID32
 {
     string OT { get; }
-    int Gender { get; }
-    int Game { get; }
+    byte Gender { get; }
+    GameVersion Version { get; }
     int Language { get; }
 
-    int Generation { get; }
+    byte Generation { get; }
     EntityContext Context { get; }
 }
 
@@ -28,10 +28,10 @@ public static class TrainerInfoExtensions
     {
         pk.OT_Name = info.OT;
         pk.TID16 = info.TID16;
-        pk.SID16 = pk.Format < 3 || pk.VC ? (ushort)0 : info.SID16;
+        pk.SID16 = pk.Format < 3 || pk.VC ? default : info.SID16;
         pk.OT_Gender = info.Gender;
         pk.Language = info.Language;
-        pk.Version = info.Game;
+        pk.Version = info.Version;
 
         if (pk is not IRegionOrigin tr)
             return;
@@ -82,7 +82,7 @@ public static class TrainerInfoExtensions
         if (pk.IsEgg)
             return tr.IsFromTrainerEgg(pk);
 
-        if (tr.Game == (int)GameVersion.Any)
+        if (tr.Version == GameVersion.Any)
             return true;
 
         if (!IsFromTrainerNoVersion(tr, pk))
@@ -130,7 +130,7 @@ public static class TrainerInfoExtensions
         if (tr.Gender != pk.OT_Gender)
             return false;
 
-        if (tr.Game != pk.Version)
+        if (tr.Version != pk.Version)
         {
             // PK9 does not store version for Picnic eggs.
             if (pk is PK9 { Version: 0 }) { }
@@ -145,10 +145,10 @@ public static class TrainerInfoExtensions
 
     private static bool IsMatchVersion(ITrainerInfo tr, PKM pk)
     {
-        if (tr.Game == pk.Version)
+        if (tr.Version == pk.Version)
             return true;
         if (pk.GO_LGPE)
-            return tr.Game is (int)GameVersion.GP or (int)GameVersion.GE;
+            return tr.Version is GameVersion.GP or GameVersion.GE;
         return false;
     }
 }

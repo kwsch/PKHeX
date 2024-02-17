@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
@@ -37,7 +37,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
             OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 

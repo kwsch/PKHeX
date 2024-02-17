@@ -168,7 +168,7 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
         var remap = LocationsHOME.GetRemapState(EntityContext.Gen8b, Entity.Context);
         hasOriginalLocation = true;
         if (remap.HasFlag(LocationRemapState.Remapped))
-            hasOriginalLocation = location != LocationsHOME.GetMetSWSH((ushort)location, (int)Version);
+            hasOriginalLocation = location != LocationsHOME.GetMetSWSH((ushort)location, Version);
     }
 
     private bool TryGetNext<TArea, TSlot>(TArea[] areas)

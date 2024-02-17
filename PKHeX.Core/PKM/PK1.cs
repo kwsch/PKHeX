@@ -68,7 +68,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     #endregion
 
     #region Party Attributes
-    public override int Stat_Level { get => Data[0x21]; set => Stat_LevelBox = Data[0x21] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x21]; set => Stat_LevelBox = Data[0x21] = value; }
     public override int Stat_HPMax { get => ReadUInt16BigEndian(Data.AsSpan(0x22)); set => WriteUInt16BigEndian(Data.AsSpan(0x22), (ushort)value); }
     public override int Stat_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), (ushort)value); }
     public override int Stat_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), (ushort)value); }
@@ -91,20 +91,20 @@ public sealed class PK1 : GBPKML, IPersonalType
         return false;
     }
 
-    private void SetSpeciesValues(ushort value)
+    private void SetSpeciesValues(ushort species)
     {
-        var updated = SpeciesConverter.GetInternal1(value);
-        if (SpeciesInternal == updated)
+        var internalID = SpeciesConverter.GetInternal1(species);
+        if (SpeciesInternal == internalID)
             return;
 
-        SpeciesInternal = updated;
+        SpeciesInternal = internalID;
 
-        var pi = PersonalTable.RB[value];
+        var pi = PersonalTable.RB[species];
         Type1 = pi.Type1;
         Type2 = pi.Type2;
 
         // Before updating catch rate, check if non-standard
-        if (IsValidCatchRateAnyPreEvo((byte)value, CatchRate))
+        if (IsValidCatchRateAnyPreEvo((byte)species, CatchRate))
             return;
 
         // Matches nothing possible; just reset to current Species' rate.
@@ -126,17 +126,17 @@ public sealed class PK1 : GBPKML, IPersonalType
         return IsCatchRatePreEvolutionRate(baby, species, rate);
     }
 
-    public override int Version { get => (int)GameVersion.RBY; set { } }
+    public override GameVersion Version { get => GameVersion.RBY; set { } }
     public override int PKRS_Strain { get => 0; set { } }
     public override int PKRS_Days { get => 0; set { } }
     public override bool CanHoldItem(ReadOnlySpan<ushort> valid) => false;
     public override int Met_Location { get => 0; set { } }
-    public override int OT_Gender { get => 0; set { } }
+    public override byte OT_Gender { get => 0; set { } }
     public override int Met_Level { get => 0; set { } }
-    public override int CurrentFriendship { get => 0; set { } }
+    public override byte CurrentFriendship { get => 0; set { } }
     public override bool IsEgg { get => false; set { } }
     public override int HeldItem { get => 0; set { } }
-    public override int OT_Friendship { get => 0; set { } }
+    public override byte OT_Friendship { get => 0; set { } }
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_1;
@@ -145,7 +145,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int MaxItemID => Legal.MaxItemID_1;
 
     // Extra
-    public int Gen2Item => ItemConverter.GetItemFuture1(CatchRate);
+    public byte Gen2Item => ItemConverter.GetItemFuture1(CatchRate);
 
     public PK2 ConvertToPK2()
     {
@@ -165,14 +165,14 @@ public sealed class PK1 : GBPKML, IPersonalType
     {
         var rnd = Util.Rand;
         var lang = TransferLanguage(RecentTrainerCache.Language);
-        var version = (byte)EntityConverter.VirtualConsoleSourceGen1;
+        var version = EntityConverter.VirtualConsoleSourceGen1;
         if ((lang == 1) != Japanese)
             lang = Japanese ? 1 : 2;
-        if (version == (byte)GameVersion.BU && !Japanese)
-            version = (byte)GameVersion.RD;
+        if (version == GameVersion.BU && !Japanese)
+            version = GameVersion.RD;
 
         var pi = PersonalTable.SM[Species];
-        int abil = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
+        int ability = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
         {
             EncryptionConstant = rnd.Rand32(),
@@ -208,8 +208,8 @@ public sealed class PK1 : GBPKML, IPersonalType
             OT_Friendship = pi.BaseFriendship,
             HT_Friendship = pi.BaseFriendship,
 
-            Ability = pi.GetAbilityAtIndex(abil),
-            AbilityNumber = 1 << abil,
+            Ability = pi.GetAbilityAtIndex(ability),
+            AbilityNumber = 1 << ability,
         };
 
         bool special = Species == (int)Core.Species.Mew;

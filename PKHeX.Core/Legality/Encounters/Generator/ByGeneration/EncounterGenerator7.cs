@@ -17,7 +17,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        var iterator = new EncounterEnumerator7(pk, chain, (GameVersion)pk.Version);
+        var iterator = new EncounterEnumerator7(pk, chain, pk.Version);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
@@ -61,7 +61,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         return pk.Species;
     }
 
-    private const int Generation = 7;
+    private const byte Generation = 7;
     private const EntityContext Context = EntityContext.Gen7;
     private const byte EggLevel = EggStateLegality.EggMetLevel;
 

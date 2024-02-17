@@ -39,22 +39,14 @@ public static class EntityTemplates
         pk.RefreshChecksum();
     }
 
-    private static int GetTemplateVersion(ITrainerInfo tr)
+    private static GameVersion GetTemplateVersion(ITrainerInfo tr)
     {
-        GameVersion version = (GameVersion)tr.Game;
+        var version = tr.Version;
         if (version.IsValidSavedVersion())
-            return (int)version;
-
-        if (tr is IVersion v)
-        {
-            version = v.Version;
-            if (version.IsValidSavedVersion())
-                return (int)version;
-            version = v.GetSingleVersion();
-            if (version.IsValidSavedVersion())
-                return (int)version;
-        }
-
+            return version;
+        version = version.GetSingleVersion();
+        if (version.IsValidSavedVersion())
+            return version;
         return default; // 0
     }
 
@@ -76,7 +68,7 @@ public static class EntityTemplates
 
     private static ushort GetTemplateSpecies(PKM pk, ITrainerInfo tr)
     {
-        ushort species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
+        ushort species = tr is IGameValueLimit s ? s.MaxSpeciesID : pk.Version.GetMaxSpeciesID();
         if (species == 0)
             species = pk.MaxSpeciesID;
         return species;

@@ -35,7 +35,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public string Nickname { get; private set; } = string.Empty;
 
     /// <inheritdoc/>
-    public int Gender { get; private set; } = -1;
+    public byte? Gender { get; private set; }
 
     /// <inheritdoc/>
     public int HeldItem { get; private set; }
@@ -44,13 +44,13 @@ public sealed class ShowdownSet : IBattleTemplate
     public int Ability { get; private set; } = -1;
 
     /// <inheritdoc/>
-    public int Level { get; private set; } = 100;
+    public byte Level { get; private set; } = 100;
 
     /// <inheritdoc/>
     public bool Shiny { get; private set; }
 
     /// <inheritdoc/>
-    public int Friendship { get; private set; } = 255;
+    public byte Friendship { get; private set; } = 255;
 
     /// <inheritdoc/>
     public int Nature { get; private set; } = -1;
@@ -275,7 +275,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseLevel(ReadOnlySpan<char> value)
     {
-        if (!int.TryParse(value.Trim(), out var val))
+        if (!byte.TryParse(value.Trim(), out var val))
             return false;
         if ((uint)val is 0 or > 100)
             return false;
@@ -285,9 +285,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseFriendship(ReadOnlySpan<char> value)
     {
-        if (!int.TryParse(value.Trim(), out var val))
-            return false;
-        if ((uint)val > byte.MaxValue)
+        if (!byte.TryParse(value.Trim(), out var val))
             return false;
         Friendship = val;
         return true;
@@ -511,7 +509,7 @@ public sealed class ShowdownSet : IBattleTemplate
         pk.GetIVs(IVs);
         pk.GetMoves(Moves);
         Nature = pk.StatNature;
-        Gender = (uint)pk.Gender < 2 ? pk.Gender : 2;
+        Gender = pk.Gender < 2 ? pk.Gender : (byte)2;
         Friendship = pk.CurrentFriendship;
         Level = pk.CurrentLevel;
         Shiny = pk.IsShiny;

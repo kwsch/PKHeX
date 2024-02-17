@@ -38,14 +38,14 @@ public partial class PKMEditor
     {
         pk.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         pk.EXP = Util.ToUInt32(TB_EXP.Text);
-        pk.Stat_Level = Math.Max(1, Util.ToInt32(TB_Level.Text));
+        pk.Stat_Level = (byte)Math.Max(1, Util.ToInt32(TB_Level.Text));
     }
 
     private void LoadOT(PKM pk)
     {
         GB_OT.BackgroundImage = null; // clear the Current Handler indicator just in case we switched formats.
         TB_OT.Text = pk.OT_Name;
-        UC_OTGender.Gender = pk.OT_Gender & 1;
+        UC_OTGender.Gender = (byte)(pk.OT_Gender & 1);
     }
 
     private void SaveOT(PKM pk)
@@ -225,11 +225,11 @@ public partial class PKMEditor
         if (Entity is IFormArgument f)
             FA_Form.SaveArgument(f);
 
-        var friendship = Util.ToInt32(TB_Friendship.Text);
+        var friendship = (byte)Util.ToInt32(TB_Friendship.Text);
         UpdateFromFriendshipTextBox(pk, friendship);
     }
 
-    private static void UpdateFromFriendshipTextBox(PKM pk, int friendship)
+    private static void UpdateFromFriendshipTextBox(PKM pk, byte friendship)
     {
         if (pk.IsEgg)
             pk.OT_Friendship = friendship;
@@ -239,11 +239,11 @@ public partial class PKMEditor
 
     private void LoadMisc3(PKM pk)
     {
-        TB_PID.Text = $"{pk.PID:X8}";
+        TB_PID.Text = pk.PID.ToString("X8");
         UC_Gender.Gender = pk.Gender;
         CB_Nature.SelectedValue = pk.Nature;
         CB_Language.SelectedValue = pk.Language;
-        CB_GameOrigin.SelectedValue = pk.Version;
+        CB_GameOrigin.SelectedValue = (int)pk.Version;
         CB_Ball.SelectedValue = pk.Ball;
         CB_MetLocation.SelectedValue = pk.Met_Location;
         TB_MetLevel.Text = pk.Met_Level.ToString();
@@ -270,9 +270,9 @@ public partial class PKMEditor
             Contest.CopyContestStatsTo(s);
 
         pk.FatefulEncounter = CHK_Fateful.Checked;
-        pk.Ball = WinFormsUtil.GetIndex(CB_Ball);
-        pk.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
-        pk.Language = WinFormsUtil.GetIndex(CB_Language);
+        pk.Ball = (byte)WinFormsUtil.GetIndex(CB_Ball);
+        pk.Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
+        pk.Language = (byte)WinFormsUtil.GetIndex(CB_Language);
         pk.Met_Level = Util.ToInt32(TB_MetLevel.Text);
         pk.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
     }
@@ -366,7 +366,7 @@ public partial class PKMEditor
     private void LoadHandlingTrainer(PKM pk)
     {
         var handler = pk.HT_Name;
-        int gender = pk.HT_Gender & 1;
+        byte gender = (byte)(pk.HT_Gender & 1);
 
         TB_HT.Text = handler;
         UC_HTGender.Gender = gender;
@@ -440,7 +440,7 @@ public partial class PKMEditor
         pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
         pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
         pk8.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
-        pk8.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
+        pk8.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
     }
 
     private void LoadMisc8(PB8 pk8)
@@ -459,7 +459,7 @@ public partial class PKMEditor
         pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
         pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
         pk8.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
-        pk8.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
+        pk8.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
     }
 
     private void LoadMisc8(PA8 pk8)
@@ -481,7 +481,7 @@ public partial class PKMEditor
         pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
         pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
         pk8.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
-        pk8.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
+        pk8.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
         pk8.IsAlpha = Stats.CHK_IsAlpha.Checked;
         pk8.IsNoble = Stats.CHK_IsNoble.Checked;
         pk8.AlphaMove = (ushort)WinFormsUtil.GetIndex(CB_AlphaMastered);
@@ -502,7 +502,7 @@ public partial class PKMEditor
     {
         pk9.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
         pk9.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
-        pk9.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
+        pk9.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
         pk9.TeraTypeOriginal = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOriginal);
         pk9.TeraTypeOverride = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOverride);
         pk9.Obedience_Level = (byte)Util.ToInt32(TB_ObedienceLevel.Text);

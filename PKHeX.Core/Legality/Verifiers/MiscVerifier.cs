@@ -608,8 +608,8 @@ public sealed class MiscVerifier : Verifier
             case (int)Species.Lycanroc when pk.Format == 7 && ((pk.Form == 0 && Moon()) || (pk.Form == 1 && Sun())):
             case (int)Species.Solgaleo when Moon():
             case (int)Species.Lunala when Sun():
-                bool Sun() => (pk.Version & 1) == 0;
-                bool Moon() => (pk.Version & 1) == 1;
+                bool Sun()  => ((uint)pk.Version & 1) == 0;
+                bool Moon() => ((uint)pk.Version & 1) == 1;
                 if (pk.IsUntraded)
                     data.AddLine(GetInvalid(LEvoTradeRequired, Evolution));
                 break;

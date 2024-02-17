@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPermission Ability = AbilityPermission.OnlyHidden)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public GameVersion Version => GameVersion.B2W2;
     public int Location => 30015;
@@ -28,7 +28,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
@@ -42,7 +42,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
             Ball = (byte)FixedBall,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
@@ -62,7 +62,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        int gender = criteria.GetGender(pi);
+        var gender = criteria.GetGender(pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);

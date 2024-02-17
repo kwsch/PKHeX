@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Contains a collection of <see cref="Slots"/> for the area.
 /// </summary>
 /// <typeparam name="T">Encounter Slot type.</typeparam>
-public interface IEncounterArea<out T> where T : IEncounterTemplate, IVersion
+public interface IEncounterArea<out T> where T : IEncounterTemplate
 {
     /// <summary>
     /// Slots in the area.

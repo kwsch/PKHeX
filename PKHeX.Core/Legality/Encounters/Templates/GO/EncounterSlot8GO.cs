@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type, PogoImportFormat OriginFormat)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PKM>, IPogoSlot, IFixedOTFriendship, IEncounterServerDate
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public bool IsDateRestricted => true;
     public bool IsShiny => Shiny.IsShiny();
     public Ball FixedBall => Type.GetValidBall();
@@ -124,7 +124,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
             pk.OT_Friendship = OT_Friendship;
             pk.Met_Location = Location;
             pk.Met_Level = LevelMin;
-            pk.Version = (byte)GameVersion.GO;
+            pk.Version = GameVersion.GO;
             pk.Ball = (byte)GetRequiredBall(Ball.Poke);
             pk.MetDate = this.GetRandomValidDate();
 
@@ -168,8 +168,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         var pi = GetPersonal();
         if (OriginFormat is PogoImportFormat.PK7)
             pk.EXP = Experience.GetEXP(LevelMin, pi.EXPGrowth);
-        var g = Gender == Gender.Random ? -1 : (int)Gender;
-        int gender = criteria.GetGender(g, pi);
+        var gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
@@ -244,7 +243,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
 
     private byte GetHOMEFriendship()
     {
-        var fs = (byte)GetPersonal().BaseFriendship;
+        var fs = GetPersonal().BaseFriendship;
         if (fs == 70)
             return 50;
         return fs;

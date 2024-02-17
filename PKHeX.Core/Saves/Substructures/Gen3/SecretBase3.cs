@@ -9,9 +9,9 @@ public sealed class SecretBase3(byte[] Data, int Offset)
 
     public int SecretBaseLocation { get => Data[Offset + 0]; set => Data[Offset + 0] = (byte) value; }
 
-    public int OT_Gender
+    public byte OT_Gender
     {
-        get => (Data[Offset + 1] >> 4) & 1;
+        get => (byte)((Data[Offset + 1] >> 4) & 1);
         set => Data[Offset + 1] = (byte) ((Data[Offset + 1] & 0xEF) | ((value & 1) << 4));
     }
 

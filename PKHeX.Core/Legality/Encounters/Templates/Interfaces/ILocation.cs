@@ -25,13 +25,13 @@ public static partial class Extensions
             : enc.EggLocation;
     }
 
-    public static string? GetEncounterLocation(this ILocation enc, int gen, int version = -1)
+    public static string? GetEncounterLocation(this ILocation enc, byte generation, GameVersion version = 0)
     {
         int loc = enc.GetLocation();
         if (loc < 0)
             return null;
 
         bool egg = loc != enc.Location;
-        return GameInfo.GetLocationName(egg, loc, gen, gen, (GameVersion)version);
+        return GameInfo.GetLocationName(egg, loc, generation, generation, version);
     }
 }
