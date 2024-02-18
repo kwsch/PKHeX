@@ -57,6 +57,7 @@ public static class DateUtil
         var sb = new System.Text.StringBuilder();
         if (value >= SecondsPerDay)
             sb.Append(value / SecondsPerDay).Append("d ");
+        value %= SecondsPerDay;
         sb.Append(new TimeOnly(ticks: value * TimeSpan.TicksPerSecond).ToString("HH:mm:ss"));
         if (secondsBias >= 0)
             sb.Append(Environment.NewLine).Append("Date: ").Append(Epoch2000.AddSeconds(value + secondsBias));

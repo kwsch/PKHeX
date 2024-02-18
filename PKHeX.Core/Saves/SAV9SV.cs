@@ -75,14 +75,15 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public PlayTime9 Played => Blocks.Played;
     public ConfigSave9 Config => Blocks.Config;
     public TeamIndexes9 TeamIndexes => Blocks.TeamIndexes;
-    public Epoch1970Value LastSaved => Blocks.LastSaved;
+    public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
+    public Epoch1970Value LastDateCycle => Blocks.LastDateCycle;
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
     public RaidSpawnList9 RaidPaldea => Blocks.RaidPaldea;
     public RaidSpawnList9 RaidKitakami => Blocks.RaidKitakami;
     public RaidSpawnList9 RaidBlueberry => Blocks.RaidBlueberry;
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
-    public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
+    public Epoch1900DateValue EnrollmentDate => Blocks.EnrollmentDate;
     public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
     public BlueberryClubRoom9 BlueberryClubRoom => Blocks.BlueberryClubRoom;
     #endregion
