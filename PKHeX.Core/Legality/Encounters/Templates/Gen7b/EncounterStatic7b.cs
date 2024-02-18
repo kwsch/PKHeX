@@ -8,8 +8,8 @@ public sealed record EncounterStatic7b(GameVersion Version)
 {
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
-    int ILocation.Location => Location;
-    public int EggLocation => 0;
+    ushort ILocation.Location => Location;
+    public ushort EggLocation => 0;
     public bool IsShiny => false;
     public bool EggEncounter => false;
 
@@ -42,9 +42,9 @@ public sealed record EncounterStatic7b(GameVersion Version)
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
@@ -53,8 +53,8 @@ public sealed record EncounterStatic7b(GameVersion Version)
             WeightScalar = PokeSizeUtil.GetRandomScalar(),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -71,7 +71,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature();
+        pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
@@ -88,9 +88,9 @@ public sealed record EncounterStatic7b(GameVersion Version)
     {
         if (!IsMatchEggLocation(pk))
             return false;
-        if (pk.Met_Location != Location)
+        if (pk.MetLocation != Location)
             return false;
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
@@ -104,7 +104,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
     #endregion
 }

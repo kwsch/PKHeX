@@ -41,12 +41,12 @@ public sealed class PK5 : PKM, ISanityChecksum,
     private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
 
     // Trash Bytes
-    public override Span<byte> Nickname_Trash => Data.AsSpan(0x48, 22);
-    public override Span<byte> OT_Trash => Data.AsSpan(0x68, 16);
+    public override Span<byte> NicknameTrash => Data.AsSpan(0x48, 22);
+    public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x68, 16);
 
     // Future Attributes
     public override uint EncryptionConstant { get => PID; set { } }
-    public override byte CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
+    public override byte CurrentFriendship { get => OriginalTrainerFriendship; set => OriginalTrainerFriendship = value; }
     public override byte CurrentHandler { get => 0; set { } }
     public override int AbilityNumber { get => HiddenAbility ? 4 : 1 << PIDAbility; set { } }
 
@@ -62,7 +62,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
-    public override byte OT_Friendship { get => Data[0x14]; set => Data[0x14] = value; }
+    public override byte OriginalTrainerFriendship { get => Data[0x14]; set => Data[0x14] = value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
     public byte MarkingValue { get => Data[0x16]; set => Data[0x16] = value; }
     public override int Language { get => Data[0x17]; set => Data[0x17] = (byte)value; }
@@ -72,12 +72,12 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
     public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-    public byte CNT_Cool   { get => Data[0x1E]; set => Data[0x1E] = value; }
-    public byte CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = value; }
-    public byte CNT_Cute   { get => Data[0x20]; set => Data[0x20] = value; }
-    public byte CNT_Smart  { get => Data[0x21]; set => Data[0x21] = value; }
-    public byte CNT_Tough  { get => Data[0x22]; set => Data[0x22] = value; }
-    public byte CNT_Sheen  { get => Data[0x23]; set => Data[0x23] = value; }
+    public byte ContestCool   { get => Data[0x1E]; set => Data[0x1E] = value; }
+    public byte ContestBeauty { get => Data[0x1F]; set => Data[0x1F] = value; }
+    public byte ContestCute   { get => Data[0x20]; set => Data[0x20] = value; }
+    public byte ContestSmart  { get => Data[0x21]; set => Data[0x21] = value; }
+    public byte ContestTough  { get => Data[0x22]; set => Data[0x22] = value; }
+    public byte ContestSheen  { get => Data[0x23]; set => Data[0x23] = value; }
 
     private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
     private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
@@ -134,7 +134,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int Move2_PPUps { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-    private uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x38)); set => WriteUInt32LittleEndian(Data.AsSpan(0x38), value); }
+    public uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x38)); set => WriteUInt32LittleEndian(Data.AsSpan(0x38), value); }
     public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
     public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
     public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -184,14 +184,14 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)((Data[0x40] & ~0x01) | (value ? 1 : 0)); }
     public override byte Gender { get => (byte)((Data[0x40] >> 1) & 0x3); set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
     public override byte Form { get => (byte)(Data[0x40] >> 3); set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
-    public override int Nature { get => Data[0x41]; set => Data[0x41] = (byte)value; }
+    public override Nature Nature { get => (Nature)Data[0x41]; set => Data[0x41] = (byte)value; }
     public bool HiddenAbility { get => (Data[0x42] & 1) == 1; set => Data[0x42] = (byte)((Data[0x42] & ~0x01) | (value ? 1 : 0)); }
     public bool NSparkle { get => (Data[0x42] & 2) == 2; set => Data[0x42] = (byte)((Data[0x42] & ~0x02) | (value ? 2 : 0)); }
     // 0x43-0x47 Unused
     #endregion
 
     #region Block C
-    public override string Nickname { get => StringConverter5.GetString(Nickname_Trash); set => StringConverter5.SetString(Nickname_Trash, value, 10, StringConverterOption.None); }
+    public override string Nickname { get => StringConverter5.GetString(NicknameTrash); set => StringConverter5.SetString(NicknameTrash, value, 10, StringConverterOption.None); }
     // 0x5E unused
     public override GameVersion Version { get => (GameVersion)Data[0x5F]; set => Data[0x5F] = (byte)value; }
     private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -234,21 +234,21 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     #region Block D
-    public override string OT_Name { get => StringConverter5.GetString(OT_Trash); set => StringConverter5.SetString(OT_Trash, value, 7, StringConverterOption.None); }
-    public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
-    public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
-    public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
-    public override int Met_Year { get => Data[0x7B]; set => Data[0x7B] = (byte)value; }
-    public override int Met_Month { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
-    public override int Met_Day { get => Data[0x7D]; set => Data[0x7D] = (byte)value; }
-    public override int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), (ushort)value); }
-    public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(0x80), (ushort)value); }
-    private byte PKRS { get => Data[0x82]; set => Data[0x82] = value; }
-    public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
-    public override int Ball { get => Data[0x83]; set => Data[0x83] = (byte)value; }
-    public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
-    public override byte OT_Gender { get => (byte)(Data[0x84] >> 7); set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); }
+    public override string OriginalTrainerName { get => StringConverter5.GetString(OriginalTrainerTrash); set => StringConverter5.SetString(OriginalTrainerTrash, value, 7, StringConverterOption.None); }
+    public override byte EggYear { get => Data[0x78]; set => Data[0x78] = value; }
+    public override byte EggMonth { get => Data[0x79]; set => Data[0x79] = value; }
+    public override byte EggDay { get => Data[0x7A]; set => Data[0x7A] = value; }
+    public override byte MetYear { get => Data[0x7B]; set => Data[0x7B] = value; }
+    public override byte MetMonth { get => Data[0x7C]; set => Data[0x7C] = value; }
+    public override byte MetDay { get => Data[0x7D]; set => Data[0x7D] = value; }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), value); }
+    public override ushort MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(0x80), value); }
+    public byte PokerusState { get => Data[0x82]; set => Data[0x82] = value; }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
+    public override byte Ball { get => Data[0x83]; set => Data[0x83] = value; }
+    public override byte MetLevel { get => (byte)(Data[0x84] & ~0x80); set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
+    public override byte OriginalTrainerGender { get => (byte)(Data[0x84] >> 7); set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); }
     public GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
     // 0x86 Unused
     public byte PokeStarFame { get => Data[0x87]; set => Data[0x87] = value; }
@@ -299,7 +299,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     // Synthetic Trading Logic
     public bool Trade(string SAV_Trainer, uint savID32, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2013)
     {
-        if (IsEgg && !(SAV_Trainer == OT_Name && savID32 == ID32 && SAV_GENDER == OT_Gender))
+        if (IsEgg && !(SAV_Trainer == OriginalTrainerName && savID32 == ID32 && SAV_GENDER == OriginalTrainerGender))
         {
             SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade5);
             return true;
@@ -351,12 +351,12 @@ public sealed class PK5 : PKM, ISanityChecksum,
             MarkingValue = MarkingValue,
             Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad IngameTrade (Japanese B/W)
 
-            CNT_Cool = CNT_Cool,
-            CNT_Beauty = CNT_Beauty,
-            CNT_Cute = CNT_Cute,
-            CNT_Smart = CNT_Smart,
-            CNT_Tough = CNT_Tough,
-            CNT_Sheen = CNT_Sheen,
+            ContestCool = ContestCool,
+            ContestBeauty = ContestBeauty,
+            ContestCute = ContestCute,
+            ContestSmart = ContestSmart,
+            ContestTough = ContestTough,
+            ContestSheen = ContestSheen,
 
             // Cap EVs -- anything above 252 is dropped down to 252.
             EV_HP  = Math.Min(EV_HP , EffortValues.Max252),
@@ -376,14 +376,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
             Move3_PPUps = Move3_PPUps,
             Move4_PPUps = Move4_PPUps,
 
-            IV_HP = IV_HP,
-            IV_ATK = IV_ATK,
-            IV_DEF = IV_DEF,
-            IV_SPA = IV_SPA,
-            IV_SPD = IV_SPD,
-            IV_SPE = IV_SPE,
-            IsEgg = IsEgg,
-            IsNicknamed = IsNicknamed,
+            IV32 = IV32,
 
             FatefulEncounter = FatefulEncounter,
             Gender = Gender,
@@ -391,28 +384,27 @@ public sealed class PK5 : PKM, ISanityChecksum,
             Nature = Nature,
 
             Version = Version,
-            OT_Name = OT_Name,
+            OriginalTrainerName = OriginalTrainerName,
 
             // Dates are kept upon transfer
             MetDate = MetDate,
             EggMetDate = EggMetDate,
 
             // Locations are kept upon transfer
-            Met_Location = Met_Location,
-            Egg_Location = Egg_Location,
+            MetLocation = MetLocation,
+            EggLocation = EggLocation,
 
-            PKRS_Strain = PKRS_Strain,
-            PKRS_Days = PKRS_Days,
+            PokerusState = PokerusState,
             Ball = Ball,
 
             // OT Gender & Encounter Level
-            Met_Level = Met_Level,
-            OT_Gender = OT_Gender,
+            MetLevel = MetLevel,
+            OriginalTrainerGender = OriginalTrainerGender,
             GroundTile = GroundTile,
 
             // Fill the Ribbon Counter Bytes
-            RibbonCountMemoryContest = CountContestRibbons(),
-            RibbonCountMemoryBattle = CountBattleRibbons(),
+            RibbonCountMemoryContest = CountContestRibbons(Data),
+            RibbonCountMemoryBattle = CountBattleRibbons(Data),
 
             // Copy Ribbons to their new locations.
             RibbonChampionG3 = RibbonChampionG3,
@@ -454,11 +446,11 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
             // Write the Memories, Friendship, and Origin!
             CurrentHandler = 1,
-            HT_Name = RecentTrainerCache.OT_Name,
-            HT_Gender = RecentTrainerCache.OT_Gender,
-            HT_Intensity = 1,
-            HT_Memory = 4,
-            HT_Feeling = MemoryContext6.GetRandomFeeling6(4, 10),
+            HandlingTrainerName = RecentTrainerCache.OriginalTrainerName,
+            HandlingTrainerGender = RecentTrainerCache.OriginalTrainerGender,
+            HandlingTrainerMemoryIntensity = 1,
+            HandlingTrainerMemory = 4,
+            HandlingTrainerMemoryFeeling = MemoryContext6.GetRandomFeeling6(4, 10),
         };
 
         // Write Transfer Location - location is dependent on 3DS system that transfers.
@@ -474,7 +466,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
             pk6.Nickname = Nickname;
 
         // When transferred, friendship gets reset.
-        pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
+        pk6.OriginalTrainerFriendship = pk6.HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
 
         // Gen6 changed the shiny correlation to have 2x the rate.
         // If the current PID would be shiny with those increased odds, fix it.
@@ -488,8 +480,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
         pk6.HealPP();
 
         // Fix Name Strings
-        StringConverter345.TransferGlyphs56(pk6.Nickname_Trash);
-        StringConverter345.TransferGlyphs56(pk6.OT_Trash);
+        StringConverter345.TransferGlyphs56(pk6.NicknameTrash);
+        StringConverter345.TransferGlyphs56(pk6.OriginalTrainerTrash);
 
         // Fix Checksum
         pk6.RefreshChecksum();
@@ -497,38 +489,19 @@ public sealed class PK5 : PKM, ISanityChecksum,
         return pk6; // Done!
     }
 
-    private byte CountBattleRibbons()
+    private static byte CountBattleRibbons(ReadOnlySpan<byte> data)
     {
-        byte count = 0;
-        if (RibbonWinning) count++;
-        if (RibbonVictory) count++;
-        for (int i = 1; i < 7; i++) // Sinnoh Battle Ribbons
-        {
-            if (((Data[0x24] >> i) & 1) == 1)
-                count++;
-        }
-
-        return count;
+        var bits1 = data[0x24] & 0b0111_1111u; // Battle Ribbons
+        var bits2 = data[0x3E] & 0b0110_0000u; // Winning & Victory Ribbons
+        return (byte)BitOperations.PopCount(bits1 | (bits2 << 2));
     }
 
-    private byte CountContestRibbons()
+    private static byte CountContestRibbons(ReadOnlySpan<byte> data)
     {
-        byte count = 0;
-        for (int i = 0; i < 8; i++) // Sinnoh 3, Hoenn 1
-        {
-            if (((Data[0x60] >> i) & 1) == 1) count++;
-            if (((Data[0x61] >> i) & 1) == 1) count++;
-            if (((Data[0x3C] >> i) & 1) == 1) count++;
-            if (((Data[0x3D] >> i) & 1) == 1) count++;
-        }
-
-        for (int i = 0; i < 4; i++) // Sinnoh 4, Hoenn 2
-        {
-            if (((Data[0x62] >> i) & 1) == 1) count++;
-            if (((Data[0x3E] >> i) & 1) == 1) count++;
-        }
-
-        return count;
+        // Gather all 40 bits into a single ulong and PopCount rather than looping each byte.
+        var bits1 = ReadUInt32LittleEndian(data[0x60..]) & 0b1111_11111111_11111111;
+        var bits2 = ReadUInt32LittleEndian(data[0x3C..]) & 0b1111_11111111_11111111;
+        return (byte)BitOperations.PopCount(((ulong)bits1 << 20) | bits2);
     }
 
     private int CalculateAbilityIndex()
@@ -547,11 +520,11 @@ public sealed class PK5 : PKM, ISanityChecksum,
         return (int)(pid & 1);
     }
 
-    internal static int GetTransferMetLocation4(PKM pk)
+    internal static ushort GetTransferMetLocation4(PKM pk)
     {
         // Everything except for crown beasts and Celebi get the default transfer location.
         // Crown beasts and Celebi are 100% identifiable by the species ID and fateful encounter, originating from Gen4.
-        if (!pk.Gen4 || !pk.FatefulEncounter)
+        if (!pk.FatefulEncounter || !pk.Gen4)
             return Locations.Transfer4; // Pokétransfer
 
         return pk.Species switch

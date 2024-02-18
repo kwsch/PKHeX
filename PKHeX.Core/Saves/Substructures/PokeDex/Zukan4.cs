@@ -332,7 +332,7 @@ public sealed class Zukan4(SAV4 sav, int offset) : ZukanBase<SAV4>(sav, offset)
 
         if (species == (int)Species.Pichu && HGSS) // Pichu (HGSS Only)
         {
-            var formID = form == 1 ? (byte)2 : (byte)gender;
+            var formID = form == 1 ? (byte)2 : gender;
             if (TryInsertForm(forms, formID))
                 SetForms(species, forms);
         }

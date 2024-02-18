@@ -166,7 +166,7 @@ public partial class SAV_Trainer : Form
         {
             var xystat = (MyStatus6XY)xy.Status;
             PG_CurrentAppearance.SelectedObject = xystat.Fashion;
-            TB_TRNick.Text = xystat.OT_Nick;
+            TB_TRNick.Text = xystat.Nickname;
         }
 
         CB_Vivillon.SelectedIndex = SAV.Vivillon;
@@ -256,7 +256,7 @@ public partial class SAV_Trainer : Form
         {
             var xystat = (MyStatus6XY)xy.Status;
             xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject;
-            xystat.OT_Nick = TB_TRNick.Text;
+            xystat.Nickname = TB_TRNick.Text;
         }
 
         // Vivillon

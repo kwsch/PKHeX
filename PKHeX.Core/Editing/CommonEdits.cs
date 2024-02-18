@@ -140,16 +140,18 @@ public static class CommonEdits
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
-    public static void SetNature(this PKM pk, int nature)
+    public static void SetNature(this PKM pk, Nature nature)
     {
-        var value = Math.Clamp(nature, (int)Nature.Hardy, (int)Nature.Quirky);
+        if (!nature.IsFixed())
+            nature = 0; // default valid
+
         var format = pk.Format;
         if (format >= 8)
-            pk.StatNature = value;
+            pk.StatNature = nature;
         else if (format is 3 or 4)
-            pk.SetPIDNature(value);
+            pk.SetPIDNature(nature);
         else
-            pk.Nature = value;
+            pk.Nature = nature;
     }
 
     /// <summary>
@@ -344,12 +346,12 @@ public static class CommonEdits
         pk.ClearNickname();
         pk.CurrentFriendship = pk.PersonalInfo.BaseFriendship;
         if (pk.IsTradedEgg)
-            pk.Egg_Location = pk.Met_Location;
+            pk.EggLocation = pk.MetLocation;
         if (pk.Version == 0)
             pk.Version = EggStateLegality.GetEggHatchVersion(pk, tr?.Version ?? RecentTrainerCache.Version);
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
-        if (loc >= 0)
-            pk.Met_Location = loc;
+        if (loc != EncounterSuggestion.LocationNone)
+            pk.MetLocation = loc;
         if (pk.Format >= 4)
             pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
         if (pk.Gen6)
@@ -371,7 +373,7 @@ public static class CommonEdits
         var date = EncounterDate.GetDate(console);
         var today = pk.MetDate = date;
         bool traded = origin != dest;
-        pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
+        pk.EggLocation = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
         pk.EggMetDate = today;
     }
 
@@ -382,7 +384,7 @@ public static class CommonEdits
     public static void MaximizeFriendship(this PKM pk)
     {
         if (pk.IsEgg)
-            pk.OT_Friendship = 1;
+            pk.OriginalTrainerFriendship = 1;
         else
             pk.CurrentFriendship = byte.MaxValue;
         if (pk is ICombatPower pb)
@@ -433,7 +435,7 @@ public static class CommonEdits
         if (pk.Format < 2)
             return string.Empty;
 
-        int location = eggmet ? pk.Egg_Location : pk.Met_Location;
+        ushort location = eggmet ? pk.EggLocation : pk.MetLocation;
         return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, pk.Version);
     }
 

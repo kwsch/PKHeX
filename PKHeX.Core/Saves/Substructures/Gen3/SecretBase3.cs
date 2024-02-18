@@ -9,7 +9,7 @@ public sealed class SecretBase3(byte[] Data, int Offset)
 
     public int SecretBaseLocation { get => Data[Offset + 0]; set => Data[Offset + 0] = (byte) value; }
 
-    public byte OT_Gender
+    public byte OriginalTrainerGender
     {
         get => (byte)((Data[Offset + 1] >> 4) & 1);
         set => Data[Offset + 1] = (byte) ((Data[Offset + 1] & 0xEF) | ((value & 1) << 4));
@@ -27,7 +27,7 @@ public sealed class SecretBase3(byte[] Data, int Offset)
         set => Data[Offset + 1] = (byte)((Data[Offset + 1] & 0x3F) | ((value & 3) << 6));
     }
 
-    public string OT_Name
+    public string OriginalTrainerName
     {
         get => StringConverter3.GetString(Data.AsSpan(Offset + 2, 7), Japanese);
         set => StringConverter3.SetString(Data.AsSpan(Offset + 2, 7), value, 7, Japanese, StringConverterOption.ClearFF);

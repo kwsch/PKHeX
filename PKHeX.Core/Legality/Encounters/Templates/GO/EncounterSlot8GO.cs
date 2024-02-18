@@ -16,9 +16,9 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public Ball FixedBall => Type.GetValidBall();
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public GameVersion Version => GameVersion.GO;
-    public int Location => Locations.GO8;
+    public ushort Location => Locations.GO8;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName
@@ -121,20 +121,20 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
             pk.Species = Species;
             pk.Form = Form;
             pk.CurrentLevel = LevelMin;
-            pk.OT_Friendship = OT_Friendship;
-            pk.Met_Location = Location;
-            pk.Met_Level = LevelMin;
+            pk.OriginalTrainerFriendship = OriginalTrainerFriendship;
+            pk.MetLocation = Location;
+            pk.MetLevel = LevelMin;
             pk.Version = GameVersion.GO;
             pk.Ball = (byte)GetRequiredBall(Ball.Poke);
             pk.MetDate = this.GetRandomValidDate();
 
-            pk.OT_Name = tr.OT;
+            pk.OriginalTrainerName = tr.OT;
             pk.ID32 = tr.ID32;
-            pk.OT_Gender = tr.Gender;
-            pk.HT_Name = "PKHeX";
+            pk.OriginalTrainerGender = tr.Gender;
+            pk.HandlingTrainerName = "PKHeX";
             pk.CurrentHandler = 1;
             if (pk is IHandlerLanguage l)
-                l.HT_Language = 2;
+                l.HandlingTrainerLanguage = 2;
         }
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
@@ -157,7 +157,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         {
             var pi = pk9.PersonalInfo;
             pk9.TeraTypeOriginal = pk9.TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
-            pk9.Obedience_Level = (byte)pk9.Met_Level;
+            pk9.Obedience_Level = pk9.MetLevel;
         }
         pk.ResetPartyStats();
         return pk;
@@ -169,7 +169,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         if (OriginFormat is PogoImportFormat.PK7)
             pk.EXP = Experience.GetEXP(LevelMin, pi.EXPGrowth);
         var gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
         pk.Nature = pk.StatNature = nature;
@@ -213,7 +213,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (!IsBallValid((Ball)pk.Ball, pk.Species, pk))
             return false;
@@ -233,7 +233,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         return EncounterMatchRating.Match;
     }
 
-    public byte OT_Friendship => Species switch
+    public byte OriginalTrainerFriendship => Species switch
     {
         (int)Timburr  when Form == 0 => 70,
         (int)Stunfisk when Form == 0 => 70,
@@ -257,7 +257,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
             return true;
 
         // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.
-        if (pk.OT_Friendship != OT_Friendship)
+        if (pk.OriginalTrainerFriendship != OriginalTrainerFriendship)
             return true;
 
         return IsFormArgIncorrect(pk);
@@ -265,7 +265,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
 
     public bool IsWithinDistributionWindow(PKM pk)
     {
-        var date = new DateOnly(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+        var date = new DateOnly(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
         return IsWithinDistributionWindow(date);
     }
 

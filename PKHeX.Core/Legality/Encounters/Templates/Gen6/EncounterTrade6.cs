@@ -9,12 +9,12 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
 {
     public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
-    public int Location => Locations.LinkTrade6NPC;
+    public ushort Location => Locations.LinkTrade6NPC;
     public Shiny Shiny => Shiny.Never;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname { get; init; } = true;
 
@@ -32,10 +32,10 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
     public byte Form => 0;
     public required byte Level { get; init; }
     public GameVersion Version { get; }
-    public byte OT_Memory { get; }
-    public byte OT_Intensity { get; }
-    public byte OT_Feeling { get; }
-    public ushort OT_TextVar { get; }
+    public byte OriginalTrainerMemory { get; }
+    public byte OriginalTrainerMemoryIntensity { get; }
+    public byte OriginalTrainerMemoryFeeling { get; }
+    public ushort OriginalTrainerMemoryVariable { get; }
 
     private const string _name = "In-game Trade";
     public string Name => _name;
@@ -48,10 +48,10 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
         Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
         Version = version;
-        OT_Memory = m;
-        OT_Intensity = i;
-        OT_Feeling = f;
-        OT_TextVar = v;
+        OriginalTrainerMemory = m;
+        OriginalTrainerMemoryIntensity = i;
+        OriginalTrainerMemoryFeeling = f;
+        OriginalTrainerMemoryVariable = v;
     }
 
     #region Generating
@@ -72,32 +72,32 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             EncryptionConstant = Util.Rand32(),
             Species = Species,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDate3DS(),
             Gender = Gender,
-            Nature = (byte)Nature,
+            Nature = Nature,
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
             Version = version,
             Language = lang,
-            OT_Gender = OTGender,
-            OT_Name = TrainerNames[lang],
+            OriginalTrainerGender = OTGender,
+            OriginalTrainerName = TrainerNames[lang],
 
-            OT_Memory = OT_Memory,
-            OT_Intensity = OT_Intensity,
-            OT_Feeling = OT_Feeling,
-            OT_TextVar = OT_TextVar,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerMemory = OriginalTrainerMemory,
+            OriginalTrainerMemoryIntensity = OriginalTrainerMemoryIntensity,
+            OriginalTrainerMemoryFeeling = OriginalTrainerMemoryFeeling,
+            OriginalTrainerMemoryVariable = OriginalTrainerMemoryVariable,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
-            HT_Name = tr.OT,
-            HT_Gender = tr.Gender,
+            HandlingTrainerName = tr.OT,
+            HandlingTrainerGender = tr.Gender,
             CurrentHandler = 1,
-            HT_Friendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
         };
         if (tr is IRegionOrigin r)
             r.CopyRegionOrigin(pk);
@@ -129,7 +129,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (IVs.IsSpecified)
         {
@@ -142,7 +142,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
-        if (pk.OT_Gender != OTGender)
+        if (pk.OriginalTrainerGender != OTGender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
@@ -154,7 +154,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
         var expect = EggLocation;
         if (pk is PB8 && expect is 0)
             expect = Locations.Default8bNone;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
     private bool IsMatchNatureGenderShiny(PKM pk)
     {
@@ -162,7 +162,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (Gender != pk.Gender)
             return false;
-        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+        if (Nature != Nature.Random && pk.Nature != Nature)
             return false;
         return true;
     }

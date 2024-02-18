@@ -24,7 +24,7 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
     /// </remarks>
     public readonly bool PermitCrossover;
 
-    public bool IsMatchLocation(int location)
+    public bool IsMatchLocation(ushort location)
     {
         if (Location == location)
             return true;
@@ -51,13 +51,13 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
     /// </summary>
     public const int BoostLevel = 60;
 
-    public static bool IsWildArea(int location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
-    public static bool IsBoostedArea60(int location) => IsWildArea(location);
-    public static bool IsBoostedArea60Fog(int location) => IsWildArea8(location); // IoA doesn't have fog restriction by badges, and all Crown stuff is above 60.
+    public static bool IsWildArea(ushort location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
+    public static bool IsBoostedArea60(ushort location) => IsWildArea(location);
+    public static bool IsBoostedArea60Fog(ushort location) => IsWildArea8(location); // IoA doesn't have fog restriction by badges, and all Crown stuff is above 60.
 
-    public static bool IsWildArea8(int location)      => location is >= 122 and <= 154; // Rolling Fields -> Lake of Outrage
-    public static bool IsWildArea8Armor(int location) => location is >= 164 and <= 194; // Fields of Honor -> Honeycalm Island
-    public static bool IsWildArea8Crown(int location) => location is >= 204 and <= 234 and not 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
+    public static bool IsWildArea8(ushort location)      => location is >= 122 and <= 154; // Rolling Fields -> Lake of Outrage
+    public static bool IsWildArea8Armor(ushort location) => location is >= 164 and <= 194; // Fields of Honor -> Honeycalm Island
+    public static bool IsWildArea8Crown(ushort location) => location is >= 204 and <= 234 and not 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
 
     /// <summary>
     /// Location, and areas that it can feed encounters to.

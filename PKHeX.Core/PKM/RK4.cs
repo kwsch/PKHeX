@@ -44,7 +44,7 @@ public sealed class RK4 : G4PKM
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
-    public override byte OT_Friendship { get => Data[0x14]; set => Data[0x14] = value; }
+    public override byte OriginalTrainerFriendship { get => Data[0x14]; set => Data[0x14] = value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
     public override byte MarkingValue { get => Data[0x16]; set => Data[0x16] = value; }
     public override int Language { get => Data[0x17]; set => Data[0x17] = (byte)value; }
@@ -54,12 +54,12 @@ public sealed class RK4 : G4PKM
     public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
     public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-    public override byte CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = value; }
-    public override byte CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = value; }
-    public override byte CNT_Cute { get => Data[0x20]; set => Data[0x20] = value; }
-    public override byte CNT_Smart { get => Data[0x21]; set => Data[0x21] = value; }
-    public override byte CNT_Tough { get => Data[0x22]; set => Data[0x22] = value; }
-    public override byte CNT_Sheen { get => Data[0x23]; set => Data[0x23] = value; }
+    public override byte ContestCool { get => Data[0x1E]; set => Data[0x1E] = value; }
+    public override byte ContestBeauty { get => Data[0x1F]; set => Data[0x1F] = value; }
+    public override byte ContestCute { get => Data[0x20]; set => Data[0x20] = value; }
+    public override byte ContestSmart { get => Data[0x21]; set => Data[0x21] = value; }
+    public override byte ContestTough { get => Data[0x22]; set => Data[0x22] = value; }
+    public override byte ContestSheen { get => Data[0x23]; set => Data[0x23] = value; }
 
     private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
     private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
@@ -116,7 +116,7 @@ public sealed class RK4 : G4PKM
     public override int Move2_PPUps { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-    protected internal override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x38)); set => WriteUInt32LittleEndian(Data.AsSpan(0x38), value); }
+    public override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x38)); set => WriteUInt32LittleEndian(Data.AsSpan(0x38), value); }
     public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
     public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
     public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -168,13 +168,13 @@ public sealed class RK4 : G4PKM
     public override byte Form { get => (byte)(Data[0x40] >> 3); set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
     public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte)value; }
     // 0x42-0x43 Unused
-    public override ushort Egg_LocationExtended
+    public override ushort EggLocationExtended
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x44));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x44), value);
     }
 
-    public override ushort Met_LocationExtended
+    public override ushort MetLocationExtended
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x46));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x46), value);
@@ -185,8 +185,8 @@ public sealed class RK4 : G4PKM
     #region Block C
     public override string Nickname
     {
-        get => StringConverter4.GetString(Nickname_Trash);
-        set => StringConverter4.SetString(Nickname_Trash, value, 10, StringConverterOption.None);
+        get => StringConverter4.GetString(NicknameTrash);
+        set => StringConverter4.SetString(NicknameTrash, value, 10, StringConverterOption.None);
     }
 
     // 0x5E unused
@@ -231,36 +231,36 @@ public sealed class RK4 : G4PKM
     #endregion
 
     #region Block D
-    public override string OT_Name
+    public override string OriginalTrainerName
     {
-        get => StringConverter4.GetString(OT_Trash);
-        set => StringConverter4.SetString(OT_Trash, value, 7, StringConverterOption.None);
+        get => StringConverter4.GetString(OriginalTrainerTrash);
+        set => StringConverter4.SetString(OriginalTrainerTrash, value, 7, StringConverterOption.None);
     }
 
-    public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
-    public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
-    public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
-    public override int Met_Year { get => Data[0x7B]; set => Data[0x7B] = (byte)value; }
-    public override int Met_Month { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
-    public override int Met_Day { get => Data[0x7D]; set => Data[0x7D] = (byte)value; }
+    public override byte EggYear { get => Data[0x78]; set => Data[0x78] = value; }
+    public override byte EggMonth { get => Data[0x79]; set => Data[0x79] = value; }
+    public override byte EggDay { get => Data[0x7A]; set => Data[0x7A] = value; }
+    public override byte MetYear { get => Data[0x7B]; set => Data[0x7B] = value; }
+    public override byte MetMonth { get => Data[0x7C]; set => Data[0x7C] = value; }
+    public override byte MetDay { get => Data[0x7D]; set => Data[0x7D] = value; }
 
-    public override ushort Egg_LocationDP
+    public override ushort EggLocationDP
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x7E));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), value);
     }
-    public override ushort Met_LocationDP
+    public override ushort MetLocationDP
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x80));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x80), value);
     }
 
-    private byte PKRS { get => Data[0x82]; set => Data[0x82] = value; }
-    public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
+    public override byte PokerusState { get => Data[0x82]; set => Data[0x82] = value; }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
     public override byte BallDPPt { get => Data[0x83]; set => Data[0x83] = value; }
-    public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
-    public override byte OT_Gender { get => (byte)(Data[0x84] >> 7); set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); }
+    public override byte MetLevel { get => (byte)(Data[0x84] & ~0x80); set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
+    public override byte OriginalTrainerGender { get => (byte)(Data[0x84] >> 7); set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); }
     public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
     public override byte BallHGSS { get => Data[0x86]; set => Data[0x86] = value; }
     public override byte PokeathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
@@ -307,14 +307,14 @@ public sealed class RK4 : G4PKM
         set => WriteUInt16BigEndian(Data.AsSpan(0x8A), (ushort)value);
     }
 
-    public ushort HT_TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8C), value); }
-    public ushort HT_SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), value); }
+    public ushort HandlingTrainerTID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8C), value); }
+    public ushort HandlingTrainerSID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), value); }
 
-    public override Span<byte> HT_Trash => Data.AsSpan(0x90, 0x10);
-    public override string HT_Name
+    public override Span<byte> HandlingTrainerTrash => Data.AsSpan(0x90, 0x10);
+    public override string HandlingTrainerName
     {
-        get => StringConverter4.GetString(HT_Trash);
-        set => StringConverter4.SetString(HT_Trash, value, 7, StringConverterOption.None);
+        get => StringConverter4.GetString(HandlingTrainerTrash);
+        set => StringConverter4.SetString(HandlingTrainerTrash, value, 7, StringConverterOption.None);
     }
 
     #endregion

@@ -118,7 +118,7 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         var learn = Learnsets[species];
         var level = enc.LevelMin;
         if (pk is ICaughtData2 { CaughtData: not 0 })
-            level = Math.Max(level, (byte)pk.Met_Level); // ensure the met level is somewhat accurate
+            level = Math.Max(level, pk.MetLevel); // ensure the met level is somewhat accurate
         learn.SetEncounterMoves(level, init);
     }
 }

@@ -178,7 +178,7 @@ public static class PokewalkerRNG
         return span[(group * 2) + rare];
     }
 
-    /// <inheritdoc cref="GetPID(ushort, ushort, uint, int, byte)"/>
+    /// <inheritdoc cref="GetPID(ushort, ushort, uint, byte, byte)"/>
     public static uint GetPID(uint id32, uint nature, byte gender, byte genderRatio) =>
         GetPID((ushort)id32, (ushort)(id32 >> 16), nature, gender, genderRatio);
 

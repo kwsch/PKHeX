@@ -13,7 +13,7 @@ public static class EggHatchLocation7
     /// <summary>
     /// Returns true if the hatch location is valid for Sun and Moon.
     /// </summary>
-    public static bool IsValidMet7SM(int location)
+    public static bool IsValidMet7SM(ushort location)
     {
         if (HasLocationFlag(LocationPermitted7, MaskSM, location))
             return true;
@@ -23,14 +23,14 @@ public static class EggHatchLocation7
     /// <summary>
     /// Returns true if the hatch location is valid for Ultra Sun and Ultra Moon.
     /// </summary>
-    public static bool IsValidMet7USUM(int location)
+    public static bool IsValidMet7USUM(ushort location)
     {
         if (HasLocationFlag(LocationPermitted7, MaskUSUM, location))
             return true;
         return location == Locations.Pelago7; // 30016
     }
 
-    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
+    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, ushort location)
     {
         if ((uint)location >= arr.Length)
             return false;

@@ -107,7 +107,7 @@ public static class MysteryUtil
 
         var first =
             $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "
-            + (gift.IsEgg ? strings.EggName : $"{gift.OT_Name} - {id}");
+            + (gift.IsEgg ? strings.EggName : $"{gift.OriginalTrainerName} - {id}");
         result.Add(first);
         result.Add(gift.Moves.GetMovesetLine(strings.Move));
 

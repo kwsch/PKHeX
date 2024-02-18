@@ -16,7 +16,7 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    private int met;
+    private ushort met;
     private bool mustBeSlot;
     private bool hasOriginalLocation;
 
@@ -98,7 +98,7 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
-                if (!Locations.IsEggLocationBred4(Entity.Egg_Location, Version))
+                if (!Locations.IsEggLocationBred4(Entity.EggLocation, Version))
                     goto case YieldState.TradeStart;
                 if (!EncounterGenerator4.TryGetEgg(Chain, Version, out var egg))
                     goto case YieldState.TradeStart;
@@ -241,8 +241,8 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
 
     private void InitializeWildLocationInfo()
     {
-        met = Entity.Met_Location;
-        mustBeSlot = Entity is { Egg_Location: 0, Ball: (int)Ball.Sport or (int)Ball.Safari }; // never static
+        met = Entity.MetLocation;
+        mustBeSlot = Entity is { EggLocation: 0, Ball: (int)Ball.Sport or (int)Ball.Safari }; // never static
         hasOriginalLocation = Entity.Format == 4;
     }
 

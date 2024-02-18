@@ -18,13 +18,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public override byte Level
     {
-        get => IsManaphyEgg ? (byte)1 : IsEntity ? (byte)PK.Met_Level : (byte)0;
-        set { if (IsEntity) PK.Met_Level = value; }
+        get => IsManaphyEgg ? (byte)1 : IsEntity ? PK.MetLevel : (byte)0;
+        set { if (IsEntity) PK.MetLevel = value; }
     }
 
-    public override int Ball
+    public override byte Ball
     {
-        get => IsManaphyEgg ? 4 : IsEntity ? PK.Ball : 0;
+        get => IsManaphyEgg ? (byte)4 : IsEntity ? PK.Ball : (byte)0;
         set { if (IsEntity) PK.Ball = value; }
     }
 
@@ -120,9 +120,9 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override uint ID32 { get => PK.ID32; set => PK.ID32= value; }
     public override ushort TID16 { get => PK.TID16; set => PK.TID16 = value; }
     public override ushort SID16 { get => PK.SID16; set => PK.SID16 = value; }
-    public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
-    public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
-    public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
+    public override string OriginalTrainerName { get => PK.OriginalTrainerName; set => PK.OriginalTrainerName = value; }
+    public override ushort Location { get => PK.MetLocation; set => PK.MetLocation = value; }
+    public override ushort EggLocation { get => PK.EggLocation; set => PK.EggLocation = value; }
     public override bool HasFixedIVs => (PK.IV32 & 0x3FFF_FFFFu) != 0;
     public override void GetIVs(Span<int> value)
     {
@@ -139,10 +139,10 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         PK4 pk4 = new((byte[])PK.Data.Clone()) { Sanity = 0 };
         if (!IsHatched && Detail == 0)
         {
-            pk4.OT_Name = tr.OT;
+            pk4.OriginalTrainerName = tr.OT;
             pk4.TID16 = tr.TID16;
             pk4.SID16 = tr.SID16;
-            pk4.OT_Gender = tr.Gender;
+            pk4.OriginalTrainerGender = tr.Gender;
             pk4.Language = tr.Language;
         }
 
@@ -163,14 +163,14 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     {
         if (!EggEncounter)
         {
-            pk4.Met_Location = pk4.Egg_Location + 3000;
-            pk4.Egg_Location = 0;
+            pk4.MetLocation = (ushort)(pk4.EggLocation + 3000);
+            pk4.EggLocation = 0;
             pk4.MetDate = EncounterDate.GetDateNDS();
             pk4.IsEgg = false;
         }
         else
         {
-            pk4.Egg_Location += 3000;
+            pk4.EggLocation += 3000;
             if (trainer.Generation == 4)
                 SetUnhatchedEggDetails(pk4);
             else
@@ -193,9 +193,9 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.Version = GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
         var lang = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
         pk4.Language = lang;
-        pk4.Egg_Location = 1; // Ranger (will be +3000 later)
+        pk4.EggLocation = 1; // Ranger (will be +3000 later)
         pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((int)Core.Species.Manaphy, lang, 4);
-        pk4.Met_Location = pk4.Version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
+        pk4.MetLocation = pk4.Version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
         pk4.MetDate = EncounterDate.GetDateNDS();
     }
 
@@ -226,7 +226,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
         // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
         // Pre-determine the result values, and generate something.
-        var n = (int)criteria.GetNature();
+        var n = criteria.GetNature();
         // Gender is already pre-determined in the template.
         while (true)
         {
@@ -272,13 +272,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (pk.Language >= (int)LanguageID.Korean) // never korean
             return false;
 
-        var egg = pk.Egg_Location;
+        var egg = pk.EggLocation;
         if (!pk.IsEgg) // Link Trade Egg or Ranger
             return egg is Locations.LinkTrade4 or Locations.Ranger4;
         if (egg != Locations.Ranger4)
             return false;
 
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         return met is Locations.LinkTrade4 or 0;
     }
 

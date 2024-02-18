@@ -19,7 +19,7 @@ public abstract class MemoryContext
     public abstract bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory);
     public abstract bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory);
 
-    public abstract bool HasPokeCenter(GameVersion version, int location);
+    public abstract bool HasPokeCenter(GameVersion version, ushort location);
     public abstract bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk);
     public abstract bool IsInvalidMiscMemory(byte memory, ushort variable);
 

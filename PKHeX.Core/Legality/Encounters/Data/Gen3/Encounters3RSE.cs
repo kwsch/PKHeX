@@ -29,14 +29,14 @@ internal static class Encounters3RSE
     internal static readonly EncounterGift3Colo[] ColoGiftsR =
     [
         // In-Game Bonus Disk (Japan only)
-        new(025, 10, TrainersPikachu, R) { Location = 255, TID16 = 31121, OT_Gender = 0 }, // Colosseum Pikachu bonus gift
-        new(251, 10, TrainersCelebi, R)  { Location = 255, TID16 = 31121, OT_Gender = 1 }, // Ageto Celebi bonus gift
+        new(025, 10, TrainersPikachu, R) { Location = 255, TID16 = 31121, OriginalTrainerGender = 0 }, // Colosseum Pikachu bonus gift
+        new(251, 10, TrainersCelebi, R)  { Location = 255, TID16 = 31121, OriginalTrainerGender = 1 }, // Ageto Celebi bonus gift
     ];
 
     internal static readonly EncounterGift3Colo[] ColoGiftsS =
     [
         // In-Game without Bonus Disk
-        new(250, 70, TrainersMattle, S)  { Location = 255, TID16 = 10048, OT_Gender = 0, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
+        new(250, 70, TrainersMattle, S)  { Location = 255, TID16 = 10048, OriginalTrainerGender = 0, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
     ];
 
     private const string tradeRSE = "traderse";

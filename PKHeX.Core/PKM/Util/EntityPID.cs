@@ -16,7 +16,7 @@ public static class EntityPID
     /// <param name="oldPID">Current PID</param>
     /// <remarks>Used to retain ability bits.</remarks>
     /// <returns>Rerolled PID.</returns>
-    public static uint GetRandomPID(Random rnd, ushort species, byte gender, GameVersion origin, int nature, byte form, uint oldPID)
+    public static uint GetRandomPID(Random rnd, ushort species, byte gender, GameVersion origin, Nature nature, byte form, uint oldPID)
     {
         // Gen6+ (and VC) PIDs do not tie PID to Nature/Gender/Ability
         if (origin is 0 or >= GameVersion.X)
@@ -35,7 +35,7 @@ public static class EntityPID
             uint pid = rnd.Rand32();
 
             // Gen 3/4: Nature derived from PID
-            if (g34 && pid % 25 != nature)
+            if (g34 && pid % 25 != (byte)nature)
                 continue;
 
             // Gen 3 Unown: Letter/form derived from PID

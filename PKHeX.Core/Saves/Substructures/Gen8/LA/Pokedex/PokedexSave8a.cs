@@ -816,7 +816,7 @@ public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
         // 1.0.1: sub_7101283760
         // Is this on receiving an egg?
 
-        // var metLoc = pk.Met_Location;
+        // var metLoc = pk.MetLocation;
         // if (!GetCurrentTime())
         //     return;
         // SetMetOrEggLocation(pk, metLoc, calendarTime);

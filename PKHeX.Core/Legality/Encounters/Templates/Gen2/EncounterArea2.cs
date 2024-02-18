@@ -21,7 +21,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     public readonly byte Location;
     public readonly SlotType2 Type;
 
-    public bool IsMatchLocation(int location) => location == Location;
+    public bool IsMatchLocation(ushort location) => location == Location;
 
     public ReadOnlySpan<byte> GetSlotRates() => Type switch
     {

@@ -57,12 +57,12 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
     public int Palma { get => ReadInt32LittleEndian(Data[0x3B..]); set => WriteInt32LittleEndian(Data[0x3B..], value); }
-    public int Ball { get => Data[0x3F]; set => Data[0x3F] = (byte)value; }
-    public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x40..]); set => WriteUInt16LittleEndian(Data[0x40..], (ushort)value); }
-    public int Met_Location { get => ReadUInt16LittleEndian(Data[0x42..]); set => WriteUInt16LittleEndian(Data[0x42..], (ushort)value); }
+    public byte Ball { get => Data[0x3F]; set => Data[0x3F] = value; }
+    public ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x40..]); set => WriteUInt16LittleEndian(Data[0x40..], value); }
+    public ushort MetLocation { get => ReadUInt16LittleEndian(Data[0x42..]); set => WriteUInt16LittleEndian(Data[0x42..], value); }
 
     // Rev2 Additions
-    public byte PKRS { get => Data[0x44]; set => Data[0x44] = value; }
+    public byte PokerusState { get => Data[0x44]; set => Data[0x44] = value; }
     public ushort Ability { get => ReadUInt16LittleEndian(Data[0x45..]); set => WriteUInt16LittleEndian(Data[0x45..], value); }
     public byte AbilityNumber { get => Data[0x47]; set => Data[0x47] = value; }
 
@@ -82,11 +82,11 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         pk.Palma = Palma;
         PokeJob.CopyTo(pk.PokeJob);
         RecordFlags.CopyTo(pk.RecordFlags);
-        pk.PKRS = PKRS;
+        pk.PokerusState = PokerusState;
         pk.AbilityNumber = AbilityNumber;
         pk.Ability = Ability;
 
-        if (!IsOriginallySWSH(pkh.Version, pk.Met_Location))
+        if (!IsOriginallySWSH(pkh.Version, pk.MetLocation))
             pk.Version = LocationsHOME.GetVersionSWSH(pkh.Version);
     }
 
@@ -100,7 +100,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Palma = pk.Palma;
         pk.PokeJob.CopyTo(PokeJob);
         pk.RecordFlags.CopyTo(RecordFlags);
-        PKRS = pk.PKRS;
+        PokerusState = pk.PokerusState;
         AbilityNumber = (byte)pk.AbilityNumber;
         Ability = (ushort)pk.Ability;
     }
@@ -108,7 +108,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     public void CopyFrom(PK7 pk, PKH pkh)
     {
         this.CopyFrom(pk);
-        PKRS = pk.PKRS;
+        PokerusState = pk.PokerusState;
         AbilityNumber = (byte)pk.AbilityNumber;
         Ability = (ushort)pk.Ability;
 
@@ -175,18 +175,18 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         // (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
         // PLA->SW/SH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
         var version = pkh.Version;
-        var met = side.Met_Location;
+        var met = side.MetLocation;
         var ball = GetBall(side.Ball);
-        var egg = GetEggLocation(side.Egg_Location);
+        var egg = GetEggLocation(side.EggLocation);
         if (!IsOriginallySWSH(version, met))
             RemapMetEgg(version, ref met, ref egg);
         Ball = ball;
-        Met_Location = met;
-        Egg_Location = egg;
+        MetLocation = met;
+        EggLocation = egg;
         if (side is IGameDataSplitAbility a)
             AbilityNumber = a.AbilityNumber;
         if (side is IPokerusStatus p)
-            PKRS = p.PKRS;
+            PokerusState = p.PokerusState;
 
         PopulateFromCore(pkh);
     }
@@ -197,18 +197,18 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
     }
 
-    private static void RemapMetEgg(GameVersion version, ref int met, ref int egg)
+    private static void RemapMetEgg(GameVersion version, ref ushort met, ref ushort egg)
     {
-        var remap = LocationsHOME.GetMetSWSH((ushort)met, version);
+        var remap = LocationsHOME.GetMetSWSH(met, version);
         if (remap == met)
             return;
 
         met = remap;
-        egg = egg is 0 or Locations.Default8bNone ? 0 : LocationsHOME.SWSHEgg;
+        egg = egg is not (0 or Locations.Default8bNone) ? LocationsHOME.SWSHEgg : (ushort)0;
     }
 
-    private static bool IsOriginallySWSH(GameVersion version, int loc) => version is GameVersion.SW or GameVersion.SH && !IsFakeMetLocation(loc);
-    private static bool IsFakeMetLocation(int met) => LocationsHOME.IsLocationSWSH(met);
-    private static int GetBall(int ball) => ball > (int)Core.Ball.Beast ? 4 : ball;
-    private static int GetEggLocation(int egg) => egg == Locations.Default8bNone ? 0 : egg;
+    private static bool IsOriginallySWSH(GameVersion version, ushort loc) => version is GameVersion.SW or GameVersion.SH && !IsFakeMetLocation(loc);
+    private static bool IsFakeMetLocation(ushort met) => LocationsHOME.IsLocationSWSH(met);
+    private static byte GetBall(byte ball) => ball > (byte)Core.Ball.Beast ? (byte)4 : ball;
+    private static ushort GetEggLocation(ushort egg) => egg != Locations.Default8bNone ? egg : (ushort)0;
 }

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Mainline format for Generation 1 &amp; 2 <see cref="PKM"/> objects.
 /// </summary>
-/// <remarks>This format stores <see cref="PKM.Nickname"/> and <see cref="PKM.OT_Name"/> in buffers separate from the rest of the details.</remarks>
+/// <remarks>This format stores <see cref="PKM.Nickname"/> and <see cref="PKM.OriginalTrainerName"/> in buffers separate from the rest of the details.</remarks>
 public abstract class GBPKML : GBPKM
 {
     internal const int StringLengthJapanese = 6;
@@ -19,8 +19,8 @@ public abstract class GBPKML : GBPKM
     private readonly byte[] RawNickname;
 
     // Trash Bytes
-    public sealed override Span<byte> Nickname_Trash => RawNickname;
-    public sealed override Span<byte> OT_Trash => RawOT;
+    public sealed override Span<byte> NicknameTrash => RawNickname;
+    public sealed override Span<byte> OriginalTrainerTrash => RawOT;
 
     protected GBPKML([ConstantExpected] int size, bool jp = false) : base(size)
     {
@@ -29,8 +29,8 @@ public abstract class GBPKML : GBPKM
         // initialize string buffers
         RawOT = new byte[strLen];
         RawNickname = new byte[strLen];
-        OT_Trash.Fill(StringConverter12.G1TerminatorCode);
-        Nickname_Trash.Fill(StringConverter12.G1TerminatorCode);
+        OriginalTrainerTrash.Fill(StringConverter12.G1TerminatorCode);
+        NicknameTrash.Fill(StringConverter12.G1TerminatorCode);
     }
 
     protected GBPKML(byte[] data, bool jp = false) : base(data)
@@ -40,8 +40,8 @@ public abstract class GBPKML : GBPKM
         // initialize string buffers
         RawOT = new byte[strLen];
         RawNickname = new byte[strLen];
-        OT_Trash.Fill(StringConverter12.G1TerminatorCode);
-        Nickname_Trash.Fill(StringConverter12.G1TerminatorCode);
+        OriginalTrainerTrash.Fill(StringConverter12.G1TerminatorCode);
+        NicknameTrash.Fill(StringConverter12.G1TerminatorCode);
     }
 
     public override void SetNotNicknamed(int language) => GetNonNickname(language, RawNickname);
@@ -77,24 +77,24 @@ public abstract class GBPKML : GBPKM
 
     public sealed override string Nickname
     {
-        get => GetString(Nickname_Trash);
+        get => GetString(NicknameTrash);
         set
         {
             if (!IsNicknamed && Nickname == value)
                 return;
 
-            SetStringKeepTerminatorStyle(value, Nickname_Trash);
+            SetStringKeepTerminatorStyle(value, NicknameTrash);
         }
     }
 
-    public sealed override string OT_Name
+    public sealed override string OriginalTrainerName
     {
-        get => GetString(OT_Trash);
+        get => GetString(OriginalTrainerTrash);
         set
         {
-            if (value == OT_Name)
+            if (value == OriginalTrainerName)
                 return;
-            SetStringKeepTerminatorStyle(value, OT_Trash);
+            SetStringKeepTerminatorStyle(value, OriginalTrainerTrash);
         }
     }
 

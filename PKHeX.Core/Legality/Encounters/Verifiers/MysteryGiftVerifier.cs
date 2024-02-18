@@ -74,7 +74,7 @@ public static class MysteryGiftVerifier
             return false; // no data
         if (!val.HasFlag(MysteryGiftRestriction.OTReplacedOnTrade))
             return false;
-        return CurrentOTMatchesReplaced(g.Generation, pk.OT_Name);
+        return CurrentOTMatchesReplaced(g.Generation, pk.OriginalTrainerName);
     }
 
     private static bool CanVersionReceiveGift(byte generation, int version4bit, GameVersion version)

@@ -68,10 +68,11 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
             RaidBlueberry = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T2, false);
         }
 
-        if (TryGetBlock(KSevenStarRaidsDefeat, out var kSevenStarDefeated))
-            RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), kSevenStarDefeated);
-        else
-            RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), GetFakeBlock());
+        var captured = GetBlock(KSevenStarRaidsCapture);
+        var s7 = TryGetBlock(KSevenStarRaidsDefeat, out var defeated);
+        if (!s7)
+            defeated = GetFakeBlock();
+        RaidSevenStar = new RaidSevenStar9(sav, captured, defeated!);
 
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));

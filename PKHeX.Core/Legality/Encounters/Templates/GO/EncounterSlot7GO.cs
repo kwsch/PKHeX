@@ -15,10 +15,10 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool IsShiny => Shiny.IsShiny();
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public GameVersion Version => GameVersion.GO;
-    public int Location => Locations.GO7;
+    public ushort Location => Locations.GO7;
     public string Name => $"Wild Encounter ({Version})";
     public string LongName
     {
@@ -48,16 +48,16 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.GG[Species].BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = PersonalTable.GG[Species].BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = Version,
             Ball = (byte)Ball.Poke,
             MetDate = this.GetRandomValidDate(),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
         };
         SetPINGA(pk, criteria);
@@ -78,7 +78,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     {
         var pi = PersonalTable.GG[Species];
         var gender = criteria.GetGender(Gender, pi);
-        var nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
         criteria.SetRandomIVsGO(pk, Type.GetMinIV());
@@ -118,7 +118,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
         // PoGoEncTool has already extrapolated the evolutions to separate encounters!
 
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         //if (!slot.IsBallValid(ball)) -- can have any of the in-game balls due to re-capture
         //    continue;
@@ -132,7 +132,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
         if (!this.IsWithinStartEnd(stamp))
             return EncounterMatchRating.DeferredErrors;
         if (!this.GetIVsValid(pk))

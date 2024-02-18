@@ -57,14 +57,14 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
         return new EncounterSlot8b(this, species, form, min, max);
     }
 
-    public bool IsMatchLocation(int location)
+    public bool IsMatchLocation(ushort location)
     {
         if (location == Location)
             return true;
         return CanCrossoverTo(location);
     }
 
-    private bool CanCrossoverTo(int location)
+    private bool CanCrossoverTo(ushort location)
     {
         if (Type is Surf)
         {

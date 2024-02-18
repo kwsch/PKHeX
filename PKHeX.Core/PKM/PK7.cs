@@ -96,7 +96,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => WriteUInt32LittleEndian(Data.AsSpan(0x18), value);
     }
 
-    public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+    public override Nature Nature { get => (Nature)Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
     public override byte Gender { get => (byte)((Data[0x1D] >> 1) & 0x3); set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
     public override byte Form { get => (byte)(Data[0x1D] >> 3); set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
@@ -106,16 +106,16 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int EV_SPE { get => Data[0x21]; set => Data[0x21] = (byte)value; }
     public override int EV_SPA { get => Data[0x22]; set => Data[0x22] = (byte)value; }
     public override int EV_SPD { get => Data[0x23]; set => Data[0x23] = (byte)value; }
-    public byte CNT_Cool   { get => Data[0x24]; set => Data[0x24] = value; }
-    public byte CNT_Beauty { get => Data[0x25]; set => Data[0x25] = value; }
-    public byte CNT_Cute   { get => Data[0x26]; set => Data[0x26] = value; }
-    public byte CNT_Smart  { get => Data[0x27]; set => Data[0x27] = value; }
-    public byte CNT_Tough  { get => Data[0x28]; set => Data[0x28] = value; }
-    public byte CNT_Sheen  { get => Data[0x29]; set => Data[0x29] = value; }
+    public byte ContestCool   { get => Data[0x24]; set => Data[0x24] = value; }
+    public byte ContestBeauty { get => Data[0x25]; set => Data[0x25] = value; }
+    public byte ContestCute   { get => Data[0x26]; set => Data[0x26] = value; }
+    public byte ContestSmart  { get => Data[0x27]; set => Data[0x27] = value; }
+    public byte ContestTough  { get => Data[0x28]; set => Data[0x28] = value; }
+    public byte ContestSheen  { get => Data[0x29]; set => Data[0x29] = value; }
     public ResortEventState ResortEventStatus { get => (ResortEventState)Data[0x2A]; set => Data[0x2A] = (byte)value; }
-    public byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
-    public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
+    public byte PokerusState { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
     private byte ST1 { get => Data[0x2C]; set => Data[0x2C] = value; }
     public bool Unused0 { get => (ST1 & (1 << 0)) == 1 << 0; set => ST1 = (byte)((ST1 & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
     public bool Unused1 { get => (ST1 & (1 << 1)) == 1 << 1; set => ST1 = (byte)((ST1 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
@@ -238,7 +238,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     #region Block B
     public override string Nickname
     {
-        get => StringConverter7.GetString(Nickname_Trash);
+        get => StringConverter7.GetString(NicknameTrash);
         set
         {
             // For Pokémon with no nickname, and match their Chinese species name, we need to use the private codepoint range instead of unicode.
@@ -250,11 +250,11 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
                 int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, 7);
                 if (lang is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT)
                 {
-                    StringConverter7.SetString(Nickname_Trash, value, 12, lang, StringConverterOption.None, chinese: true);
+                    StringConverter7.SetString(NicknameTrash, value, 12, lang, StringConverterOption.None, chinese: true);
                     return;
                 }
             }
-            StringConverter7.SetString(Nickname_Trash, value, 12, 0, StringConverterOption.None);
+            StringConverter7.SetString(NicknameTrash, value, 12, 0, StringConverterOption.None);
         }
     }
 
@@ -318,7 +318,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public bool SecretSuperTrainingUnlocked { get => (Data[0x72] & 1) == 1; set => Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); }
     public bool SecretSuperTrainingComplete { get => (Data[0x72] & 2) == 2; set => Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); }
     // 0x73 Unused
-    protected override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x74)); set => WriteUInt32LittleEndian(Data.AsSpan(0x74), value); }
+    public override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x74)); set => WriteUInt32LittleEndian(Data.AsSpan(0x74), value); }
     public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
     public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
     public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -329,13 +329,13 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFFu) | (value ? 0x80000000u : 0u); }
     #endregion
     #region Block C
-    public override string HT_Name
+    public override string HandlingTrainerName
     {
-        get => StringConverter7.GetString(HT_Trash);
-        set => StringConverter7.SetString(HT_Trash, value, 12, 0, StringConverterOption.None);
+        get => StringConverter7.GetString(HandlingTrainerTrash);
+        set => StringConverter7.SetString(HandlingTrainerTrash, value, 12, 0, StringConverterOption.None);
     }
 
-    public override byte HT_Gender { get => Data[0x92]; set => Data[0x92] = value; }
+    public override byte HandlingTrainerGender { get => Data[0x92]; set => Data[0x92] = value; }
     public override byte CurrentHandler { get => Data[0x93]; set => Data[0x93] = value; }
     public byte Geo1_Region  { get => Data[0x94]; set => Data[0x94] = value; }
     public byte Geo1_Country { get => Data[0x95]; set => Data[0x95] = value; }
@@ -351,13 +351,13 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     // 0x9F Unused
     // 0xA0 Unused
     // 0xA1 Unused
-    public override byte HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = value; }
-    public byte HT_Affection { get => Data[0xA3]; set => Data[0xA3] = value; }
-    public byte HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = value; }
-    public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
-    public byte HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = value; }
+    public override byte HandlingTrainerFriendship { get => Data[0xA2]; set => Data[0xA2] = value; }
+    public byte HandlingTrainerAffection { get => Data[0xA3]; set => Data[0xA3] = value; }
+    public byte HandlingTrainerMemoryIntensity { get => Data[0xA4]; set => Data[0xA4] = value; }
+    public byte HandlingTrainerMemory { get => Data[0xA5]; set => Data[0xA5] = value; }
+    public byte HandlingTrainerMemoryFeeling { get => Data[0xA6]; set => Data[0xA6] = value; }
     // 0xA7 Unused
-    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
+    public ushort HandlingTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
     // 0xAA Unused
     // 0xAB Unused
     // 0xAC Unused
@@ -366,30 +366,30 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override byte Enjoyment { get => Data[0xAF]; set => Data[0xAF] = value; }
     #endregion
     #region Block D
-    public override string OT_Name
+    public override string OriginalTrainerName
     {
-        get => StringConverter7.GetString(OT_Trash);
-        set => StringConverter7.SetString(OT_Trash, value, 12, 0, StringConverterOption.None);
+        get => StringConverter7.GetString(OriginalTrainerTrash);
+        set => StringConverter7.SetString(OriginalTrainerTrash, value, 12, 0, StringConverterOption.None);
     }
 
-    public override byte OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = value; }
-    public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }
-    public byte OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = value; }
-    public byte OT_Memory { get => Data[0xCD]; set => Data[0xCD] = value; }
-    public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), value); }
-    public byte OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = value; }
-    public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
-    public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
-    public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
-    public override int Met_Year { get => Data[0xD4]; set => Data[0xD4] = (byte)value; }
-    public override int Met_Month { get => Data[0xD5]; set => Data[0xD5] = (byte)value; }
-    public override int Met_Day { get => Data[0xD6]; set => Data[0xD6] = (byte)value; }
+    public override byte OriginalTrainerFriendship { get => Data[0xCA]; set => Data[0xCA] = value; }
+    public byte OriginalTrainerAffection { get => Data[0xCB]; set => Data[0xCB] = value; }
+    public byte OriginalTrainerMemoryIntensity { get => Data[0xCC]; set => Data[0xCC] = value; }
+    public byte OriginalTrainerMemory { get => Data[0xCD]; set => Data[0xCD] = value; }
+    public ushort OriginalTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), value); }
+    public byte OriginalTrainerMemoryFeeling { get => Data[0xD0]; set => Data[0xD0] = value; }
+    public override byte EggYear { get => Data[0xD1]; set => Data[0xD1] = value; }
+    public override byte EggMonth { get => Data[0xD2]; set => Data[0xD2] = value; }
+    public override byte EggDay { get => Data[0xD3]; set => Data[0xD3] = value; }
+    public override byte MetYear { get => Data[0xD4]; set => Data[0xD4] = value; }
+    public override byte MetMonth { get => Data[0xD5]; set => Data[0xD5] = value; }
+    public override byte MetDay { get => Data[0xD6]; set => Data[0xD6] = value; }
     // Unused 0xD7
-    public override int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), (ushort)value); }
-    public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), (ushort)value); }
-    public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
-    public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
-    public override byte OT_Gender { get => (byte)(Data[0xDD] >> 7); set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), value); }
+    public override ushort MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), value); }
+    public override byte Ball { get => Data[0xDC]; set => Data[0xDC] = value; }
+    public override byte MetLevel { get => (byte)(Data[0xDD] & ~0x80); set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
+    public override byte OriginalTrainerGender { get => (byte)(Data[0xDD] >> 7); set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
     public byte HyperTrainFlags { get => Data[0xDE]; set => Data[0xDE] = value; }
     public bool HT_HP  { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -421,7 +421,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     private const int MedalCount = 30;
     public int SuperTrainingMedalCount(int lowBitCount = MedalCount) => BitOperations.PopCount((SuperTrainBitFlags >> 2) & (uint.MaxValue >> (MedalCount - lowBitCount)));
 
-    public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
+    public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && MetLocation / 10000 == 4 && Gen6;
 
     public int MarkingCount => 6;
 
@@ -451,19 +451,19 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     {
         if (IsEgg) // No memories if is egg.
         {
-            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = 0;
-            /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = HT_Affection = OT_Affection = 0;
+            HandlingTrainerMemoryVariable = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0;
+            /* OriginalTrainerFriendship */ OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = HandlingTrainerAffection = OriginalTrainerAffection = 0;
             this.ClearGeoLocationData();
 
             // Clear Handler
-            HT_Trash.Clear();
+            HandlingTrainerTrash.Clear();
             return;
         }
 
         if (IsUntraded)
-            HT_TextVar = HT_Friendship = HT_Memory = HT_Intensity = HT_Feeling = HT_Affection = 0;
+            HandlingTrainerMemoryVariable = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = HandlingTrainerAffection = 0;
         if (Generation < 6)
-            /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+            /* OriginalTrainerAffection = */ OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
 
         this.SanitizeGeoLocationData();
 
@@ -477,7 +477,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
             return false;
 
         CurrentHandler = 0;
@@ -486,20 +486,20 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (tr.OT != HT_Name || tr.Gender != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
+        if (tr.OT != HandlingTrainerName || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
         {
             // No geolocations are set ingame -- except for bank transfers. Don't emulate bank transfers
             // this.TradeGeoLocation(tr.Country, tr.SubRegion);
         }
 
-        if (HT_Name != tr.OT)
+        if (HandlingTrainerName != tr.OT)
         {
-            HT_Friendship = PersonalInfo.BaseFriendship;
-            HT_Affection = 0;
-            HT_Name = tr.OT;
+            HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
+            HandlingTrainerAffection = 0;
+            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
-        HT_Gender = tr.Gender;
+        HandlingTrainerGender = tr.Gender;
     }
 
     // Maximums

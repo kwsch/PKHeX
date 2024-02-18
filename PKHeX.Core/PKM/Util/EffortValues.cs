@@ -19,6 +19,8 @@ public static class EffortValues
     public const ushort MaxEffective = 508;
     /// <summary> The leftover EVs if two stats are <see cref="Max252"/>. </summary>
     public const byte LeftoverDual252 = 6;
+    /// <summary> Vitamin Max for consideration in Gen3 & Gen4. </summary>
+    public const ushort MaxVitamins34 = 100;
 
     /// <summary>
     /// Gets randomized EVs for a given generation format

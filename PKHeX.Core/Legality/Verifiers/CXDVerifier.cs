@@ -17,7 +17,7 @@ public sealed class CXDVerifier : Verifier
         else if (data.EncounterMatch is EncounterStatic3XD { Species: (ushort)Species.Eevee })
             VerifyStarterXD(data);
 
-        if (pk.OT_Gender == 1)
+        if (pk.OriginalTrainerGender == 1)
             data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
     }
 

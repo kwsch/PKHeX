@@ -187,7 +187,7 @@ public partial class SAV_SecretBase : Form
         pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
         pk.Ability = WinFormsUtil.GetIndex(CB_Ability);
         pk.AbilityNumber = CB_Ability.SelectedIndex << 1;
-        pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
+        pk.Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature);
         pk.Gender = EntityGender.GetFromString(Label_Gender.Text);
         pk.Form = (byte)CB_Form.SelectedIndex;
         pk.EV_HP  = Math.Clamp(Convert.ToInt32(TB_HPEV.Text) , 0, EffortValues.Max252);
@@ -212,7 +212,7 @@ public partial class SAV_SecretBase : Form
         pk.IV_SPE = Convert.ToByte(TB_SPEIV.Text) & 0x1F;
         pk.IsShiny = CHK_Shiny.Checked;
         pk.CurrentFriendship = Convert.ToByte(TB_Friendship.Text);
-        pk.Ball = WinFormsUtil.GetIndex(CB_Ball);
+        pk.Ball = (byte)WinFormsUtil.GetIndex(CB_Ball);
         pk.CurrentLevel = Convert.ToByte(TB_Level.Text);
     }
 
@@ -226,9 +226,9 @@ public partial class SAV_SecretBase : Form
         CB_Species.SelectedValue = (int)pk.Species;
         CB_HeldItem.SelectedValue = pk.HeldItem;
         CB_Form.SelectedIndex = pk.Form;
-
-        CB_Nature.SelectedValue = pk.Nature;
-        CB_Ball.SelectedValue = pk.Ball;
+        
+        CB_Nature.SelectedValue = (int)pk.Nature;
+        CB_Ball.SelectedValue = (int)pk.Ball;
 
         TB_HPIV.Text = pk.IV_HP.ToString();
         TB_ATKIV.Text = pk.IV_ATK.ToString();

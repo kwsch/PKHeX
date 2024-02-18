@@ -26,10 +26,10 @@ public static class TrainerInfoExtensions
     /// <param name="pk">Pokémon to copy to</param>
     public static void ApplyTo(this ITrainerInfo info, PKM pk)
     {
-        pk.OT_Name = info.OT;
+        pk.OriginalTrainerName = info.OT;
         pk.TID16 = info.TID16;
         pk.SID16 = pk.Format < 3 || pk.VC ? default : info.SID16;
-        pk.OT_Gender = info.Gender;
+        pk.OriginalTrainerGender = info.Gender;
         pk.Language = info.Language;
         pk.Version = info.Version;
 
@@ -52,12 +52,12 @@ public static class TrainerInfoExtensions
         if (pk.Format == sav.Generation && !force)
             return;
 
-        pk.HT_Name = sav.OT;
-        pk.HT_Gender = sav.Gender;
-        pk.HT_Friendship = pk.OT_Friendship;
+        pk.HandlingTrainerName = sav.OT;
+        pk.HandlingTrainerGender = sav.Gender;
+        pk.HandlingTrainerFriendship = pk.OriginalTrainerFriendship;
         pk.CurrentHandler = 1;
         if (pk is IHandlerLanguage h)
-            h.HT_Language = (byte)sav.Language;
+            h.HandlingTrainerLanguage = (byte)sav.Language;
 
         if (pk is PK6 pk6 && sav is IRegionOrigin o)
         {
@@ -101,13 +101,13 @@ public static class TrainerInfoExtensions
     {
         if (tr.ID32 != pk.ID32)
             return false;
-        if (tr.OT != pk.OT_Name)
+        if (tr.OT != pk.OriginalTrainerName)
             return false;
 
         if (pk.Format == 3)
             return true; // Generation 3 does not check ot gender nor pokemon version
 
-        if (tr.Gender != pk.OT_Gender)
+        if (tr.Gender != pk.OriginalTrainerGender)
         {
             if (pk.Format == 2)
                 return pk is ICaughtData2 { CaughtData: 0 };
@@ -127,7 +127,7 @@ public static class TrainerInfoExtensions
             return false;
         if (tr.ID32 != pk.ID32)
             return false;
-        if (tr.Gender != pk.OT_Gender)
+        if (tr.Gender != pk.OriginalTrainerGender)
             return false;
 
         if (tr.Version != pk.Version)
@@ -137,7 +137,7 @@ public static class TrainerInfoExtensions
             else { return false; }
         }
 
-        if (tr.OT != pk.OT_Name)
+        if (tr.OT != pk.OriginalTrainerName)
             return false;
 
         return true;

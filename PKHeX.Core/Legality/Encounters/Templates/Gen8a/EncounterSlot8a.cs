@@ -17,14 +17,14 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public bool IsAlpha => AlphaType is not 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
     public SlotType8a Type => Parent.Type;
 
     public bool HasAlphaMove => IsAlpha && Type is not SlotType8a.Landmark;
@@ -45,17 +45,17 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
             Version = GameVersion.PLA,
             IsAlpha = IsAlpha,
             Ball = (int)Ball.LAPoke,
 
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             HeightScalar = IsAlpha ? ScaleMax : PokeSizeUtil.GetRandomScalar(),
             WeightScalar = IsAlpha ? ScaleMax : PokeSizeUtil.GetRandomScalar(),
@@ -82,7 +82,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
                 var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
                 if (criteria.ForceMinLevelRange && lvl != LevelMin)
                     continue;
-                pk.Met_Level = pk.CurrentLevel = lvl;
+                pk.MetLevel = pk.CurrentLevel = lvl;
             }
             break;
         }
@@ -144,7 +144,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Form != evo.Form && Species is not ((int)Core.Species.Rotom or (int)Core.Species.Burmy or (int)Core.Species.Wormadam))
             return false;
@@ -218,7 +218,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             return true; // Can't check.
 
         bool allowAlphaPurchaseBug = Type is not SlotType8a.MassOutbreakMassive; // Everything else Alpha is pre-1.1
-        var level = pk.Met_Level;
+        var level = pk.MetLevel;
         var (learn, mastery) = GetLevelUpInfo();
         ushort alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))

@@ -11,7 +11,7 @@ public sealed record EncounterFixed9
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender
 {
     public byte Generation => 9;
-    int ILocation.Location => Location;
+    ushort ILocation.Location => Location;
     public byte Location => Location0;
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
@@ -19,7 +19,7 @@ public sealed record EncounterFixed9
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public AbilityPermission Ability { get; init; }
 
     public required ushort Species { get; init; }
@@ -86,23 +86,23 @@ public sealed record EncounterFixed9
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
             Version = version,
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Obedience_Level = LevelMin,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
         };
 
         var type = Tera9RNG.GetTeraType(Util.Rand.Rand64(), TeraType, Species, Form);
         pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.TeraType != -1 && type != criteria.TeraType)
+        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
             pk.SetTeraType(type); // sets the override type
 
         pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
@@ -123,7 +123,7 @@ public sealed record EncounterFixed9
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
@@ -134,7 +134,7 @@ public sealed record EncounterFixed9
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -177,7 +177,7 @@ public sealed record EncounterFixed9
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -192,7 +192,7 @@ public sealed record EncounterFixed9
 
     private bool IsMatchLocationRemapped(PKM pk)
     {
-        var met = (ushort)pk.Met_Location;
+        var met = pk.MetLocation;
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetSV(met, version);
@@ -201,7 +201,7 @@ public sealed record EncounterFixed9
 
     private bool IsMatchLocationExact(PKM pk)
     {
-        var loc = pk.Met_Location;
+        var loc = pk.MetLocation;
         if (loc == Location0)
             return true;
         if (loc == 0)

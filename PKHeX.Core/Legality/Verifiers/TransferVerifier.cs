@@ -26,14 +26,14 @@ public sealed class TransferVerifier : Verifier
     private void VerifyVCOTGender(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.OT_Gender == 1 && pk.Version != GameVersion.C)
+        if (pk.OriginalTrainerGender == 1 && pk.Version != GameVersion.C)
             data.AddLine(GetInvalid(LG2OTGender));
     }
 
     private void VerifyVCNatureEXP(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var met = pk.Met_Level;
+        var met = pk.MetLevel;
 
         if (met == 100) // check for precise match, can't receive EXP after transfer.
         {
@@ -53,12 +53,12 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    private static bool VerifyVCNature(int growth, int nature) => growth switch
+    private static bool VerifyVCNature(byte growth, Nature nature) => growth switch
     {
         // exp % 25 with a limited amount of EXP does not allow for every nature
-        0 => (0x01FFFF03 & (1 << nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-        4 => (0x001FFFC0 & (1 << nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-        5 => (0x01FFFCFF & (1 << nature)) != 0, // Slow -- Can't be Impish or Lax
+        0 => (0x01FFFF03u & (1u << (int)nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+        4 => (0x001FFFC0u & (1u << (int)nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+        5 => (0x01FFFCFFu & (1u << (int)nature)) != 0, // Slow -- Can't be Impish or Lax
         _ => true,
     };
 
@@ -87,12 +87,12 @@ public sealed class TransferVerifier : Verifier
         var pk = data.Entity;
         if (pk.Format == 4) // Pal Park (3->4)
         {
-            if (pk.Met_Location != Locations.Transfer3)
+            if (pk.MetLocation != Locations.Transfer3)
                 data.AddLine(GetInvalid(LEggLocationPalPark));
         }
         else // Transporter (4->5)
         {
-            if (pk.Met_Location != Locations.Transfer4)
+            if (pk.MetLocation != Locations.Transfer4)
                 data.AddLine(GetInvalid(LTransferEggLocationTransporter));
         }
     }
@@ -100,7 +100,7 @@ public sealed class TransferVerifier : Verifier
     public void VerifyTransferLegalityG4(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        int loc = pk.Met_Location;
+        ushort loc = pk.MetLocation;
         if (loc == Locations.Transfer4)
             return;
 
@@ -199,11 +199,11 @@ public sealed class TransferVerifier : Verifier
 
     public void VerifyVCEncounter(PKM pk, IEncounterTemplate original, EncounterTransfer7 transfer, LegalityAnalysis data)
     {
-        if (pk.Met_Location != transfer.Location)
+        if (pk.MetLocation != transfer.Location)
             data.AddLine(GetInvalid(LTransferMetLocation));
 
         var expecteEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
-        if (pk.Egg_Location != expecteEgg)
+        if (pk.EggLocation != expecteEgg)
             data.AddLine(GetInvalid(LEggLocationNone));
 
         // Flag Moves that cannot be transferred

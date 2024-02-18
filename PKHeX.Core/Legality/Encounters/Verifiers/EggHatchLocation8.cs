@@ -10,7 +10,7 @@ public static class EggHatchLocation8
     /// <summary>
     /// Returns true if the hatch location is valid for Sword and Shield.
     /// </summary>
-    public static bool IsValidMet8SWSH(int location)
+    public static bool IsValidMet8SWSH(ushort location)
     {
         if (location % 2 != 0)
             return false;

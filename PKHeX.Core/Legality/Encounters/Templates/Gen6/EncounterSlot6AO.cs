@@ -15,13 +15,13 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
     public SlotType6 Type => Parent.Type;
     public bool CanDexNav => Type != Rock_Smash;
     public bool IsHorde => Type == Horde;
@@ -64,16 +64,16 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
             Species = Species,
             Form = GetWildForm(Form),
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = Version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDate3DS(),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -107,7 +107,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature();
+        pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk);
@@ -124,7 +124,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     {
         var boostMax = Type != Rock_Smash ? DexNavBoost : FluteBoostMax;
         const int boostMin = FluteBoostMin;
-        if (!this.IsLevelWithinRange(pk.Met_Level, boostMin, boostMax))
+        if (!this.IsLevelWithinRange(pk.MetLevel, boostMin, boostMax))
             return false;
 
         if (evo.Form != Form && !IsRandomUnspecificForm)

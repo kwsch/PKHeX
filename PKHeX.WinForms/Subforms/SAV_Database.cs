@@ -538,7 +538,7 @@ public partial class SAV_Database : Form
 
             Species = GetU16(CB_Species),
             Ability = WinFormsUtil.GetIndex(CB_Ability),
-            Nature = WinFormsUtil.GetIndex(CB_Nature),
+            Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature),
             Item = WinFormsUtil.GetIndex(CB_HeldItem),
 
             BatchInstructions = RTB_Instructions.Text,

@@ -15,13 +15,13 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.CrossFrom == 0 ? Parent.Location : Parent.CrossFrom;
+    public ushort Location => Parent.ActualLocation();
 
     private static int GetTime(RibbonIndex mark) => mark switch
     {
@@ -136,18 +136,18 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             Species = Species,
             Form = form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateSwitch(),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Obedience_Level = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
         SetPINGA(pk, criteria, pi);
@@ -174,14 +174,14 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         pk.EncryptionConstant = Util.Rand32();
         criteria.SetRandomIVs(pk);
 
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
         var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rand.Next());
         pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.TeraType != -1 && type != criteria.TeraType)
+        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
             pk.SetTeraType(type); // sets the override type
         if (Species == (int)Core.Species.Toxtricity)
             pk.Nature = ToxtricityUtil.GetRandomNature(ref rand, Form);
@@ -200,7 +200,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
 
         if (pk is ITeraType t)

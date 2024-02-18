@@ -21,7 +21,7 @@ public sealed record EncounterArea7 : IEncounterArea<EncounterSlot7>, IAreaLocat
     public readonly ushort Location;
     public readonly SlotType7 Type;
 
-    public bool IsMatchLocation(int location) => Location == location;
+    public bool IsMatchLocation(ushort location) => Location == location;
 
     public static EncounterArea7[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {

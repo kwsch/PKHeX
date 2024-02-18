@@ -43,7 +43,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool RibbonChampionWorld    { get => (RIB1 & (1 << 6)) == 1 << 6; set => RIB1 = (byte)((RIB1 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
     public bool RIB1_7                 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)((RIB1 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
 
-    public override int Ball { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
+    public override byte Ball { get => Data[0x0E]; set => Data[0x0E] = value; }
     public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value); }
     public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value); }
     public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), value); }
@@ -59,19 +59,19 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2), value, 11, StringConverterOption.ClearFF);
     }
 
-    public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }
+    public Nature Nature { get => (Nature)Data[0x34]; set => Data[0x34] = (byte)value; }
     public override byte Gender { get => Data[0x35]; set => Data[0x35] = value; }
     public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-    public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x38)); set => WriteUInt16LittleEndian(Data.AsSpan(0x38), (ushort)value); }
-    public ushort MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x3A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3A), value); }
-    public int MetLevel { get => Data[0x3C]; set => Data[0x3C] = (byte)value; }
-    public byte CNT_Cool   { get => Data[0x3D]; set => Data[0x3D] = value; }
-    public byte CNT_Beauty { get => Data[0x3E]; set => Data[0x3E] = value; }
-    public byte CNT_Cute   { get => Data[0x3F]; set => Data[0x3F] = value; }
-    public byte CNT_Smart  { get => Data[0x40]; set => Data[0x40] = value; }
-    public byte CNT_Tough  { get => Data[0x41]; set => Data[0x41] = value; }
-    public byte CNT_Sheen  { get => Data[0x42]; set => Data[0x42] = value; }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x38)); set => WriteUInt16LittleEndian(Data.AsSpan(0x38), value); }
+    public override ushort Location { get => ReadUInt16LittleEndian(Data.AsSpan(0x3A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3A), value); }
+    public byte MetLevel { get => Data[0x3C]; set => Data[0x3C] = value; }
+    public byte ContestCool   { get => Data[0x3D]; set => Data[0x3D] = value; }
+    public byte ContestBeauty { get => Data[0x3E]; set => Data[0x3E] = value; }
+    public byte ContestCute   { get => Data[0x3F]; set => Data[0x3F] = value; }
+    public byte ContestSmart  { get => Data[0x40]; set => Data[0x40] = value; }
+    public byte ContestTough  { get => Data[0x41]; set => Data[0x41] = value; }
+    public byte ContestSheen  { get => Data[0x42]; set => Data[0x42] = value; }
     public int IV_HP { get => Data[0x43]; set => Data[0x43] = (byte)value; }
     public int IV_ATK { get => Data[0x44]; set => Data[0x44] = (byte)value; }
     public int IV_DEF { get => Data[0x45]; set => Data[0x45] = (byte)value; }
@@ -79,13 +79,13 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public int IV_SPA { get => Data[0x47]; set => Data[0x47] = (byte)value; }
     public int IV_SPD { get => Data[0x48]; set => Data[0x48] = (byte)value; }
     // Unused 0x49
-    public override string OT_Name
+    public override string OriginalTrainerName
     {
         get => StringConverter5.GetString(Data.AsSpan(0x4A, 8 * 2));
         set => StringConverter5.SetString(Data.AsSpan(0x4A, 8 * 2), value, 8, StringConverterOption.ClearFF);
     }
 
-    public byte OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
+    public byte OTGender { get => Data[0x5A]; set => Data[0x5A] = value; }
     public override byte Level { get => Data[0x5B]; set => Data[0x5C] = value; }
     public override bool IsEgg { get => Data[0x5C] == 1; set => Data[0x5C] = value ? (byte)1 : (byte)0; }
     // Unused 0x5D 0x5E 0x5F
@@ -173,7 +173,6 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public bool IsNicknamed => Nickname.Length > 0;
     public override bool IsShiny => PIDType == 2;
-    public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
     public override Moveset Moves => new(Move1, Move2, Move3, Move4);
     public override bool IsEntity { get => CardType == 1; set { if (value) CardType = 1; } }
     public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
@@ -200,8 +199,8 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         {
             Species = Species,
             HeldItem = HeldItem,
-            Met_Level = currentLevel,
-            Nature = Nature != -1 ? Nature : rnd.Next(25),
+            MetLevel = currentLevel,
+            Nature = (sbyte)Nature != -1 ? Nature : (Nature)rnd.Next(25),
             Form = Form,
             Version = GetVersion(tr, rnd),
             Language = Language == 0 ? tr.Language : Language,
@@ -210,15 +209,15 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             Move2 = Move2,
             Move3 = Move3,
             Move4 = Move4,
-            Met_Location = MetLocation,
+            MetLocation = Location,
             MetDate = Date,
-            Egg_Location = EggLocation,
-            CNT_Cool = CNT_Cool,
-            CNT_Beauty = CNT_Beauty,
-            CNT_Cute = CNT_Cute,
-            CNT_Smart = CNT_Smart,
-            CNT_Tough = CNT_Tough,
-            CNT_Sheen = CNT_Sheen,
+            EggLocation = EggLocation,
+            ContestCool = ContestCool,
+            ContestBeauty = ContestBeauty,
+            ContestCute = ContestCute,
+            ContestSmart = ContestSmart,
+            ContestTough = ContestTough,
+            ContestSheen = ContestSheen,
 
             EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
@@ -259,15 +258,15 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         {
             pk.TID16 = tr.TID16;
             pk.SID16 = tr.SID16;
-            pk.OT_Name = tr.OT;
-            pk.OT_Gender = tr.Gender;
+            pk.OriginalTrainerName = tr.OT;
+            pk.OriginalTrainerGender = tr.Gender;
         }
         else // Hardcoded
         {
             pk.TID16 = TID16;
             pk.SID16 = SID16;
-            pk.OT_Name = OT_Name;
-            pk.OT_Gender = (byte)((OTGender == 3 ? tr.Gender : OTGender) & 1); // some events have variable gender based on receiving SaveFile
+            pk.OriginalTrainerName = OriginalTrainerName;
+            pk.OriginalTrainerGender = (byte)((OTGender == 3 ? tr.Gender : OTGender) & 1); // some events have variable gender based on receiving SaveFile
         }
 
         pk.IsNicknamed = IsNicknamed;
@@ -312,7 +311,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria)
     {
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
-        pk.Nature = (int)criteria.GetNature((Nature)Nature);
+        pk.Nature = criteria.GetNature(Nature);
         pk.Gender = pi.Genderless ? (byte)2 : Gender != 2 ? Gender : criteria.GetGender(pi);
         var av = GetAbilityIndex(criteria);
         SetPID(pk, av);
@@ -390,8 +389,8 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         {
             if (SID16 != pk.SID16) return false;
             if (TID16 != pk.TID16) return false;
-            if (OT_Name != pk.OT_Name) return false;
-            if (OTGender < 3 && OTGender != pk.OT_Gender) return false;
+            if (OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (OTGender < 3 && OTGender != pk.OriginalTrainerGender) return false;
             if (PID != 0 && pk.PID != PID) return false;
             if (PIDType == 0 && pk.IsShiny) return false;
             if (PIDType == 2 && !pk.IsShiny) return false;
@@ -399,13 +398,13 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             if (Language != 0 && Language != pk.Language) return false;
 
             if (!IsMatchEggLocation(pk)) return false;
-            if (MetLocation != pk.Met_Location) return false;
+            if (Location != pk.MetLocation) return false;
         }
         else
         {
-            if (EggLocation != pk.Egg_Location) // traded
+            if (EggLocation != pk.EggLocation) // traded
             {
-                if (pk.Egg_Location != Locations.LinkTrade5)
+                if (pk.EggLocation != Locations.LinkTrade5)
                     return false;
             }
             else if (PIDType == 0 && pk.IsShiny)
@@ -420,9 +419,9 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
-        if (Level != pk.Met_Level) return false;
+        if (Level != pk.MetLevel) return false;
         if (Ball != pk.Ball) return false;
-        if (Nature != -1 && pk.Nature != Nature)
+        if ((sbyte)Nature != -1 && pk.Nature != Nature)
             return false;
         if (Gender != 2 && Gender != pk.Gender) return false;
 

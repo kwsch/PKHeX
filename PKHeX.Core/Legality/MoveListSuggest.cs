@@ -26,7 +26,7 @@ public static class MoveListSuggest
         // try to give current moves
         if (enc.Generation <= 2 && pk.Format < 8)
         {
-            var lvl = pk.Format >= 7 ? pk.Met_Level : pk.CurrentLevel;
+            var lvl = pk.Format >= 7 ? pk.MetLevel : pk.CurrentLevel;
             var source = GameData.GetLearnSource(enc.Version);
             source.SetEncounterMoves(enc.Species, 0, lvl, moves);
             return;

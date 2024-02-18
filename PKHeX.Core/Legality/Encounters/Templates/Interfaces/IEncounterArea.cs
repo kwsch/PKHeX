@@ -17,5 +17,5 @@ public interface IEncounterArea<out T> where T : IEncounterTemplate
 /// </summary>
 public interface IAreaLocation
 {
-    bool IsMatchLocation(int location);
+    bool IsMatchLocation(ushort location);
 }

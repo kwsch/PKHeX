@@ -73,46 +73,47 @@ public sealed class SK2 : GBPKM, ICaughtData2
             }
 
             Data[0x1E] |= 4;
-            OT_Name = string.Empty;
+            // Rentals do not have an OT name, so clear it
+            OriginalTrainerTrash.Clear();
         }
     }
 
     // 0x1F
 
-    private byte PKRS { get => Data[0x20]; set => Data[0x20] = value; }
+    public byte PokerusState { get => Data[0x20]; set => Data[0x20] = value; }
     // Crystal only Caught Data
-    public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
 
     public ushort CaughtData { get => ReadUInt16BigEndian(Data.AsSpan(0x21)); set => WriteUInt16BigEndian(Data.AsSpan(0x21), value); }
 
-    public int Met_TimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
-    public override int Met_Level    { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
-    public override byte OT_Gender    { get => (byte)((CaughtData >> 7) & 1);    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
-    public override int Met_Location { get => CaughtData & 0x7F;        set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
+    public int MetTimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
+    public override byte MetLevel    { get => (byte)((CaughtData >> 8) & 0x3F); set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
+    public override byte OriginalTrainerGender    { get => (byte)((CaughtData >> 7) & 1);    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
+    public override ushort MetLocation { get => (ushort)(CaughtData & 0x7F);        set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
 
     public override string Nickname
     {
-        get => StringConverter12.GetString(Nickname_Trash, Japanese);
-        set => StringConverter12.SetString(Nickname_Trash, value, StringLength, Japanese, StringConverterOption.None);
+        get => StringConverter12.GetString(NicknameTrash, Japanese);
+        set => StringConverter12.SetString(NicknameTrash, value, StringLength, Japanese, StringConverterOption.None);
     }
 
-    public override string OT_Name
+    public override string OriginalTrainerName
     {
-        get => StringConverter12.GetString(OT_Trash, Japanese);
+        get => StringConverter12.GetString(OriginalTrainerTrash, Japanese);
         set
         {
             if (IsRental)
             {
-                OT_Trash.Clear();
+                OriginalTrainerTrash.Clear();
                 return;
             }
-            StringConverter12.SetString(OT_Trash, value, StringLength, Japanese, StringConverterOption.None);
+            StringConverter12.SetString(OriginalTrainerTrash, value, StringLength, Japanese, StringConverterOption.None);
         }
     }
 
-    public override Span<byte> Nickname_Trash => Data.AsSpan(0x24, StringLength);
-    public override Span<byte> OT_Trash => Data.AsSpan(0x30, StringLength);
+    public override Span<byte> NicknameTrash => Data.AsSpan(0x24, StringLength);
+    public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x30, StringLength);
 
     #endregion
 
@@ -127,7 +128,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override int Stat_SPD { get; set; }
     #endregion
 
-    public override byte OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
+    public override byte OriginalTrainerFriendship { get => CurrentFriendship; set => CurrentFriendship = value; }
     public override bool HasOriginalMetLocation => CaughtData != 0;
     public override GameVersion Version { get => GameVersion.GSC; set { } }
 
@@ -137,7 +138,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
         StringConverter12.SetString(data, name, data.Length, Japanese, StringConverterOption.Clear50);
     }
 
-    public override void SetNotNicknamed(int language) => GetNonNickname(language, Nickname_Trash);
+    public override void SetNotNicknamed(int language) => GetNonNickname(language, NicknameTrash);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_2;
@@ -172,13 +173,12 @@ public sealed class SK2 : GBPKM, ICaughtData2
         CurrentFriendship = CurrentFriendship,
         Stat_Level = Stat_Level,
         IsEgg = IsEgg,
-        PKRS_Days = PKRS_Days,
-        PKRS_Strain = PKRS_Strain,
+        PokerusState = PokerusState,
         CaughtData = CaughtData,
 
         // Only copies until first 0x50 terminator, but just copy everything
         Nickname = Nickname,
-        OT_Name = IsRental ? Japanese ? "1337" : "PKHeX" : OT_Name,
+        OriginalTrainerName = IsRental ? Japanese ? "1337" : "PKHeX" : OriginalTrainerName,
     };
 
     private static bool IsJapanese(ReadOnlySpan<byte> data)

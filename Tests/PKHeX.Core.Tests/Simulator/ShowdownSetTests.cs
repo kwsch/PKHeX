@@ -25,7 +25,7 @@ public class ShowdownSetTests
         var pk7 = new PK7 {Species = set.Species, Form = set.Form, Moves = set.Moves};
         var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         Assert.True(!encounters.Any());
-        pk7.HT_Name = "PKHeX";
+        pk7.HandlingTrainerName = "PKHeX";
         encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         var first = encounters.FirstOrDefault();
         Assert.NotNull(first);
@@ -38,7 +38,7 @@ public class ShowdownSetTests
         var la = new LegalityAnalysis(pk);
         la.Valid.Should().BeTrue($"Encounter should have generated legally: {egg} {la.Report()}");
 
-        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, pk7.Moves).ToList();
+        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, set.Moves).ToList();
         for (var i = 0; i < test.Count; i++)
         {
             var t = test[i];
@@ -100,7 +100,7 @@ public class ShowdownSetTests
     public void SimulatorGetSplitBreed()
     {
         var set = new ShowdownSet(SetMunchSnorLax);
-        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HT_Name = "PKHeX" }; // !! specify the HT name, we need tutors for this one
+        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = "PKHeX" }; // !! specify the HT name, we need tutors for this one
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.SN).ToList();
         Assert.True(encs.Count > 0);
         Assert.True(encs.All(z => z.Species > 150));
@@ -117,7 +117,7 @@ public class ShowdownSetTests
     public void SimulatorGetVCEgg1()
     {
         var set = new ShowdownSet(SetSlowpoke12);
-        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HT_Name = "PKHeX" };
+        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = "PKHeX" };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
         Assert.True(encs.Count > 0);
 

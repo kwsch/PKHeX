@@ -82,6 +82,10 @@ public sealed class PersonalInfo8LA(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     public int GetMoveShopCount() => System.Numerics.BitOperations.PopCount(MoveShopBits);
 
+    /// <summary>
+    /// Gets the absolute index of the n-th set-bit of the Move Shop Permit bitflags.
+    /// </summary>
+    /// <param name="randIndexFromCount">n-th set-bit to find</param>
     public int GetMoveShopIndex(int randIndexFromCount)
     {
         // Return a count of true indexes from Tutors
@@ -98,10 +102,7 @@ public sealed class PersonalInfo8LA(byte[] Data) : PersonalInfo, IPersonalAbilit
         throw new ArgumentOutOfRangeException(nameof(randIndexFromCount), randIndexFromCount, "Insufficient bits set in the permission list.");
     }
 
-    public bool IsRecordPermitted(int index)
-    {
-        return (MoveShopBits & (1ul << index)) != 0;
-    }
+    public bool IsRecordPermitted(int index) => (MoveShopBits & (1ul << index)) != 0;
 
     public bool GetIsLearnMoveShop(ushort move)
     {

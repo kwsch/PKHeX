@@ -17,7 +17,7 @@ public static class SpriteName
     /// <summary>
     /// Gets the resource name of the <see cref="Ball"/> sprite.
     /// </summary>
-    public static string GetResourceStringBall(int ball) => $"_ball{ball}";
+    public static string GetResourceStringBall(byte ball) => $"_ball{ball}";
 
     /// <summary>
     /// Gets the resource name of the Pokémon sprite.

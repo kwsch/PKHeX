@@ -88,9 +88,9 @@ public sealed class LegendsArceusVerifier : Verifier
         var ls = LearnSource8LA.Instance;
         var moveset = ls.GetLearnset(enc.Species, enc.Form);
         if (enc is IMasteryInitialMoveShop8 ms)
-            ms.LoadInitialMoveset(pa, moves, moveset, pa.Met_Level);
+            ms.LoadInitialMoveset(pa, moves, moveset, pa.MetLevel);
         else
-            moveset.SetEncounterMoves(pa.Met_Level, moves);
+            moveset.SetEncounterMoves(pa.MetLevel, moves);
         var count = moves.IndexOf((ushort)0);
         if ((uint)count >= 4)
             return 4;
@@ -105,7 +105,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
         // Level up to current level
         var level = pa.CurrentLevel;
-        moveset.SetLevelUpMoves(pa.Met_Level, level, moves, purchased, count);
+        moveset.SetLevelUpMoves(pa.MetLevel, level, moves, purchased, count);
         count = moves.IndexOf((ushort)0);
         if ((uint)count >= 4)
             return 4;
@@ -155,7 +155,7 @@ public sealed class LegendsArceusVerifier : Verifier
             // Check if we can swap it into the moveset after it evolves.
             var move = purchased[i];
             var baseLevel = baseLearn.GetLevelLearnMove(move);
-            var mustKnow = baseLevel is not -1 && baseLevel <= pa.Met_Level;
+            var mustKnow = baseLevel is not -1 && baseLevel <= pa.MetLevel;
             if (!mustKnow && currentLearn.GetLevelLearnMove(move) != level)
                 continue;
 

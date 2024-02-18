@@ -9,7 +9,7 @@ public sealed record EncounterArea3XD : IVersion, IEncounterArea<EncounterSlot3X
     public GameVersion Version => GameVersion.XD;
     public readonly byte Location;
 
-    public bool IsMatchLocation(int location) => location == Location;
+    public bool IsMatchLocation(ushort location) => location == Location;
 
     public EncounterArea3XD(byte loc, ushort s0, byte l0, ushort s1, byte l1, ushort s2, byte l2)
     {

@@ -12,8 +12,8 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     public Shiny Shiny => Shiny.Never;
     public bool IsShiny => false;
     public bool EggEncounter => false;
-    public int EggLocation => 0;
-    public int Location => 075;
+    public ushort EggLocation => 0;
+    public ushort Location => 075;
     public string Name => $"Entree Forest Encounter ({Version})";
     public string LongName => Name;
     public byte LevelMin => Level;
@@ -40,18 +40,18 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
             Species = Species,
             Form = Form,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)Ball.Dream,
 
             ID32 = tr.ID32,
             Version = version,
             Language = lang,
-            OT_Gender = tr.Gender,
-            OT_Name = tr.OT,
+            OriginalTrainerGender = tr.Gender,
+            OriginalTrainerName = tr.OT,
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -70,7 +70,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
         var gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
         if (pk.IsShiny)
@@ -86,9 +86,9 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     {
         if (!IsMatchEggLocation(pk))
             return false;
-        if (pk.Met_Location != Location)
+        if (pk.MetLocation != Location)
             return false;
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return true;
@@ -100,7 +100,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

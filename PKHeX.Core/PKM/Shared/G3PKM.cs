@@ -32,13 +32,13 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
 
     public sealed override int Ability { get => PersonalInfo.GetAbility(AbilityBit); set { } }
     public sealed override uint EncryptionConstant { get => PID; set { } }
-    public sealed override int Nature { get => (int)(PID % 25); set { } }
+    public sealed override Nature Nature { get => (Nature)(PID % 25); set { } }
     public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
     public sealed override byte Gender { get => EntityGender.GetFromPID(Species, PID); set { } }
     public sealed override int Characteristic => -1;
-    public sealed override byte CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
+    public sealed override byte CurrentFriendship { get => OriginalTrainerFriendship; set => OriginalTrainerFriendship = value; }
     public sealed override byte CurrentHandler { get => 0; set { } }
-    public sealed override int Egg_Location { get => 0; set { } }
+    public sealed override ushort EggLocation { get => 0; set { } }
     public int MarkingCount => 4;
     public abstract byte MarkingValue { get; set; }
 
@@ -113,12 +113,12 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public abstract bool Unused4 { get; set; }
     public abstract int RibbonCount { get; }
 
-    public abstract byte CNT_Cool   { get; set; }
-    public abstract byte CNT_Beauty { get; set; }
-    public abstract byte CNT_Cute   { get; set; }
-    public abstract byte CNT_Smart  { get; set; }
-    public abstract byte CNT_Tough  { get; set; }
-    public abstract byte CNT_Sheen  { get; set; }
+    public abstract byte ContestCool   { get; set; }
+    public abstract byte ContestBeauty { get; set; }
+    public abstract byte ContestCute   { get; set; }
+    public abstract byte ContestSmart  { get; set; }
+    public abstract byte ContestTough  { get; set; }
+    public abstract byte ContestSheen  { get; set; }
 
     /// <summary>
     /// Swaps bits at a given position
@@ -158,15 +158,15 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         IsEgg = IsEgg,
         FatefulEncounter = FatefulEncounter,
 
-        Met_Location = Met_Location,
-        Met_Level = Met_Level,
+        MetLocation = MetLocation,
+        MetLevel = MetLevel,
         Version = Version,
         Ball = Ball,
 
         Nickname = Nickname,
-        OT_Name = OT_Name,
-        OT_Gender = OT_Gender,
-        OT_Friendship = OT_Friendship,
+        OriginalTrainerName = OriginalTrainerName,
+        OriginalTrainerGender = OriginalTrainerGender,
+        OriginalTrainerFriendship = OriginalTrainerFriendship,
 
         Move1_PPUps = Move1_PPUps,
         Move2_PPUps = Move2_PPUps,
@@ -193,15 +193,15 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         EV_SPE = EV_SPE,
         EV_SPA = EV_SPA,
         EV_SPD = EV_SPD,
-        CNT_Cool = CNT_Cool,
-        CNT_Beauty = CNT_Beauty,
-        CNT_Cute = CNT_Cute,
-        CNT_Smart = CNT_Smart,
-        CNT_Tough = CNT_Tough,
-        CNT_Sheen = CNT_Sheen,
+        ContestCool = ContestCool,
+        ContestBeauty = ContestBeauty,
+        ContestCute = ContestCute,
+        ContestSmart = ContestSmart,
+        ContestTough = ContestTough,
+        ContestSheen = ContestSheen,
 
-        PKRS_Days = PKRS_Days,
-        PKRS_Strain = PKRS_Strain,
+        PokerusDays = PokerusDays,
+        PokerusStrain = PokerusStrain,
 
         // Transfer Ribbons
         RibbonCountG3Cool = RibbonCountG3Cool,

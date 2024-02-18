@@ -29,7 +29,7 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     public readonly ushort Location;
     public readonly SlotType6 Type;
 
-    public bool IsMatchLocation(int location) => Location == location;
+    public bool IsMatchLocation(ushort location) => Location == location;
 
     public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game, EncounterArea6XY safari)
     {

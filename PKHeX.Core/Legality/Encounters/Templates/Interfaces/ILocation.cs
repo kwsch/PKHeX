@@ -8,17 +8,17 @@ public interface ILocation
     /// <summary>
     /// Met Location ID the encounter is found at.
     /// </summary>
-    int Location { get; }
+    ushort Location { get; }
 
     /// <summary>
     /// Egg Location ID the encounter is obtained with.
     /// </summary>
-    int EggLocation { get; }
+    ushort EggLocation { get; }
 }
 
 public static partial class Extensions
 {
-    public static int GetLocation(this ILocation enc)
+    public static ushort GetLocation(this ILocation enc)
     {
         return enc.Location != 0
             ? enc.Location
@@ -27,8 +27,8 @@ public static partial class Extensions
 
     public static string? GetEncounterLocation(this ILocation enc, byte generation, GameVersion version = 0)
     {
-        int loc = enc.GetLocation();
-        if (loc < 0)
+        ushort loc = enc.GetLocation();
+        if (loc == 0)
             return null;
 
         bool egg = loc != enc.Location;

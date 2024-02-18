@@ -30,7 +30,7 @@ public static class LocationsHOME
     /// <summary>
     /// Checks if the SW/SH-context Met Location is one of the remapped HOME locations.
     /// </summary>
-    public static bool IsLocationSWSH(int met) => met switch
+    public static bool IsLocationSWSH(ushort met) => met switch
     {
         SHVL or SWSL or SHSP or SWBD or SWLA => true,
         _ => false,
@@ -39,7 +39,7 @@ public static class LocationsHOME
     /// <summary>
     /// Checks if the SW/SH-context Egg Location is valid with respect to the <see cref="original"/> location.
     /// </summary>
-    public static bool IsLocationSWSHEgg(GameVersion version, int met, int egg, ushort original)
+    public static bool IsLocationSWSHEgg(GameVersion version, ushort met, int egg, ushort original)
     {
         if (original > SWLA && egg == SWSHEgg)
             return true;
@@ -142,7 +142,7 @@ public static class LocationsHOME
         };
     }
 
-    public static bool IsMatchLocation(EntityContext original, EntityContext current, int met, int expect, GameVersion version)
+    public static bool IsMatchLocation(EntityContext original, EntityContext current, ushort met, int expect, GameVersion version)
     {
         var state = GetRemapState(original, current);
         return state switch

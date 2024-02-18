@@ -58,11 +58,11 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
     protected override bool IsMatchLevel(PKM pk)
     {
-        var lvl = pk.Met_Level;
+        var lvl = pk.MetLevel;
 
         if (lvl <= 25) // 1 or 2 stars
         {
-            var met = pk.Met_Location;
+            var met = pk.MetLocation;
             if (met <= byte.MaxValue && InaccessibleRank12DistributionLocations.Contains((byte)met))
                 return false;
         }
@@ -80,7 +80,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
             return false;
 
         // shared nests can be down-leveled to any
-        if (pk.Met_Location == SharedNest)
+        if (pk.MetLocation == SharedNest)
             return true;
 
         // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
@@ -93,7 +93,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        var loc = pk.Met_Location;
+        var loc = pk.MetLocation;
         return loc is SharedNest || Index switch
         {
             >= IndexMinDLC2 => EncounterArea8.IsWildArea(loc),
@@ -104,7 +104,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
     protected override bool IsMatchSeed(PKM pk, ulong seed)
     {
-        bool IsDownleveled = pk.Met_Level < Level;
+        bool IsDownleveled = pk.MetLevel < Level;
         return Verify(pk, seed, IsDownleveled);
     }
 }

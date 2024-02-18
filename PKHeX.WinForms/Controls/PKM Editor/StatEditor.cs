@@ -48,7 +48,7 @@ public partial class StatEditor : UserControl
                 return true;
             if (Entity is IAwakened a)
                 return a.AwakeningAllValid();
-            return Convert.ToUInt32(TB_EVTotal.Text) <= 510;
+            return Convert.ToUInt32(TB_EVTotal.Text) <= EffortValues.Max510;
         }
     }
 
@@ -337,7 +337,7 @@ public partial class StatEditor : UserControl
         };
 
         var newNature = request.GetNewNature(index, Entity.StatNature);
-        if (newNature == -1)
+        if (newNature == Nature.Random)
             return;
 
         MainEditor.ChangeNature(newNature);
@@ -487,7 +487,7 @@ public partial class StatEditor : UserControl
             L_Characteristic.Text = GameInfo.Strings.characteristics[characteristic];
     }
 
-    public string UpdateNatureModification(int nature)
+    public string UpdateNatureModification(Nature nature)
     {
         // Reset Label Colors
         foreach (var l in L_Stats)

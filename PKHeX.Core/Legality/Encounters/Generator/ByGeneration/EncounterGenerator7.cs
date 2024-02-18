@@ -25,7 +25,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
     internal static EncounterTransfer7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
     {
         // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
-        var met = (byte)pk.Met_Level;
+        var met = pk.MetLevel;
         if (pk.VC1)
         {
             // Only yield a VC1 template if it could originate in VC1.
@@ -43,7 +43,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
     }
 
     /// <summary>
-    /// Get the most devolved species that matches the <see cref="pk"/> <see cref="PKM.OT_Friendship"/>.
+    /// Get the most devolved species that matches the <see cref="pk"/> <see cref="PKM.OriginalTrainerFriendship"/>.
     /// </summary>
     private static ushort GetVCSpecies(ReadOnlySpan<EvoCriteria> chain, PKM pk, ushort maxSpecies)
     {
@@ -54,7 +54,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
                 continue;
             if (evo.Form != 0)
                 continue;
-            if (PersonalTable.SM.GetFormEntry(evo.Species, evo.Form).BaseFriendship != pk.OT_Friendship)
+            if (PersonalTable.SM.GetFormEntry(evo.Species, evo.Form).BaseFriendship != pk.OriginalTrainerFriendship)
                 continue;
             return evo.Species;
         }

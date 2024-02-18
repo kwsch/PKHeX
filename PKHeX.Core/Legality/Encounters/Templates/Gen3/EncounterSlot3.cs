@@ -10,7 +10,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IEncounterSlot3, IRandomCorrelation
 {
     public byte Generation => 3;
-    int ILocation.Location => Location;
+    ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen3;
     public bool EggEncounter => false;
     public Ball FixedBall => GetRequiredBall();
@@ -19,7 +19,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
@@ -45,16 +45,16 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = version,
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -69,7 +69,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         var gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         var lvl = new SingleLevelRange(LevelMin);
         int ctr = 0;
@@ -110,7 +110,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         if (pk.Format == 3)
         {
             // Must match level exactly.
-            if (!this.IsLevelWithinRange(pk.Met_Level))
+            if (!this.IsLevelWithinRange(pk.MetLevel))
                 return false;
         }
         else

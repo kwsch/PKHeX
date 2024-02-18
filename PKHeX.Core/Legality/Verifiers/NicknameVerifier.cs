@@ -348,7 +348,7 @@ public sealed class NicknameVerifier : Verifier
                 return;
             }
 
-            lang = t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OT_Name, lang);
+            lang = t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OriginalTrainerName, lang);
             if (lang == -1) // err
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"{Japanese}/{German}", $"{(LanguageID)pk.Language}"), CheckIdentifier.Language));
         }
@@ -385,7 +385,7 @@ public sealed class NicknameVerifier : Verifier
         if (pk.IsNicknamed && (pk.Format < 8 || pk.FatefulEncounter))
             return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
         int lang = pk.Language;
-        if (!t.IsTrainerMatch(pk, pk.OT_Name, lang))
+        if (!t.IsTrainerMatch(pk, pk.OriginalTrainerName, lang))
             return GetInvalid(LEncTradeIndexBad, CheckIdentifier.Trainer);
         return GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname);
     }
@@ -410,7 +410,7 @@ public sealed class NicknameVerifier : Verifier
     private static void VerifyTrainerName(LegalityAnalysis data, IFixedTrainer ft, int language)
     {
         var pk = data.Entity;
-        if (!ft.IsTrainerMatch(pk, pk.OT_Name, language))
+        if (!ft.IsTrainerMatch(pk, pk.OriginalTrainerName, language))
             data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
     }
 }

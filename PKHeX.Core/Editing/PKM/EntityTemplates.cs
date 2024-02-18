@@ -25,8 +25,8 @@ public static class EntityTemplates
 
         pk.ClearNickname();
 
-        pk.OT_Name = tr.OT;
-        pk.OT_Gender = tr.Gender;
+        pk.OriginalTrainerName = tr.OT;
+        pk.OriginalTrainerGender = tr.Gender;
         pk.ID32 = tr.ID32;
         if (tr is IRegionOrigin o && pk is IRegionOrigin gt)
         {
@@ -58,10 +58,10 @@ public static class EntityTemplates
         switch (tr)
         {
             case SAV1 s1:
-                s1.OT_Trash.CopyTo(pk12.OT_Trash);
+                s1.OriginalTrainerTrash.CopyTo(pk12.OriginalTrainerTrash);
                 break;
             case SAV2 s2:
-                s2.OT_Trash.CopyTo(pk12.OT_Trash);
+                s2.OriginalTrainerTrash.CopyTo(pk12.OriginalTrainerTrash);
                 break;
         }
     }

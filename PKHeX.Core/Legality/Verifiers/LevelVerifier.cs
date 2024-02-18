@@ -51,7 +51,7 @@ public sealed class LevelVerifier : Verifier
                 data.AddLine(GetInvalid(LLevelEXPTooHigh));
         }
 
-        if (lvl < pk.Met_Level)
+        if (lvl < pk.MetLevel)
             data.AddLine(GetInvalid(LLevelMetBelow));
         else if (!enc.IsWithinEncounterRange(pk) && lvl != 100 && pk.EXP == Experience.GetEXP(lvl, pk.PersonalInfo.EXPGrowth))
             data.AddLine(Get(LLevelEXPThreshold, Severity.Fishy));
@@ -61,16 +61,16 @@ public sealed class LevelVerifier : Verifier
 
     private static bool IsMetLevelMatchEncounter(MysteryGift gift, PKM pk)
     {
-        if (gift.Level == pk.Met_Level)
+        if (gift.Level == pk.MetLevel)
             return true;
         if (!pk.HasOriginalMetLocation)
             return true;
 
         return gift switch
         {
-            WC3 wc3 when wc3.Met_Level == pk.Met_Level || wc3.IsEgg => true,
-            WC7 wc7 when wc7.MetLevel == pk.Met_Level => true,
-            PGT { IsManaphyEgg: true } when pk.Met_Level == 0 => true,
+            WC3 wc3 when wc3.MetLevel == pk.MetLevel || wc3.IsEgg => true,
+            WC7 wc7 when wc7.MetLevel == pk.MetLevel => true,
+            PGT { IsManaphyEgg: true } when pk.MetLevel == 0 => true,
             _ => false,
         };
     }
@@ -86,10 +86,10 @@ public sealed class LevelVerifier : Verifier
                 data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
             return;
         }
-        if (pk.Met_Location != 0) // crystal
+        if (pk.MetLocation != 0) // crystal
         {
             int lvl = pk.CurrentLevel;
-            if (lvl < pk.Met_Level)
+            if (lvl < pk.MetLevel)
                 data.AddLine(GetInvalid(LLevelMetBelow));
         }
 

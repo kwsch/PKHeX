@@ -52,7 +52,7 @@ public static class SpriteUtil
         Spriter.Initialize(sav);
     }
 
-    public static Bitmap GetBallSprite(int ball)
+    public static Bitmap GetBallSprite(byte ball)
     {
         string resource = SpriteName.GetResourceStringBall(ball);
         return (Bitmap?)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
@@ -204,7 +204,7 @@ public static class SpriteUtil
         if (pct is not 0)
             return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
 
-        var encLevel = enc is { EggEncounter: true } ? enc.LevelMin : pk.Met_Level;
+        var encLevel = enc is { EggEncounter: true } ? enc.LevelMin : pk.MetLevel;
         var color = level != encLevel && pk.HasOriginalMetLocation ? Color.DarkOrange : Color.Yellow;
         return ImageUtil.WritePixels(img, color, start, start + (SpriteWidth * bpp));
     }
@@ -257,10 +257,11 @@ public static class SpriteUtil
         if (enc is MysteryGift g)
             return GetMysteryGiftPreviewPoke(g);
         var gender = GetDisplayGender(enc);
-        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny ? Shiny.Always : Shiny.Never, enc.Context);
+        var shiny = enc.IsShiny ? Shiny.Always : Shiny.Never;
+        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, shiny, enc.Context);
         if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
         {
-            var ballSprite = GetBallSprite((int)b.FixedBall);
+            var ballSprite = GetBallSprite((byte)b.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
         if (enc is IGigantamaxReadOnly {CanGigantamax: true})
@@ -298,7 +299,7 @@ public static class SpriteUtil
 
         if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)
         {
-            var ballSprite = GetBallSprite((int)b.FixedBall);
+            var ballSprite = GetBallSprite((byte)b.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
 

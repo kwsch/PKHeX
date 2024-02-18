@@ -7,7 +7,7 @@ public sealed record EncounterMight9
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IFixedNature
 {
     public byte Generation => 9;
-    int ILocation.Location => Location;
+    ushort ILocation.Location => Location;
     public const ushort Location = Locations.TeraCavern9;
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
@@ -15,7 +15,7 @@ public sealed record EncounterMight9
     public Ball FixedBall => Ball.None;
     public bool EggEncounter => false;
     public bool IsShiny => Shiny == Shiny.Always;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public required Moveset Moves { get; init; }
     public required IndividualValueSet IVs { get; init; }
@@ -263,9 +263,9 @@ public sealed record EncounterMight9
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
             Version = version,
             Ball = (byte)Ball.Poke,
@@ -274,8 +274,8 @@ public sealed record EncounterMight9
             Obedience_Level = LevelMin,
             RibbonMarkMightiest = true,
             AffixedRibbon = (sbyte)RibbonIndex.MarkMightiest,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
         };
         SetPINGA(pk, criteria, pi);
@@ -304,7 +304,7 @@ public sealed record EncounterMight9
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -321,7 +321,7 @@ public sealed record EncounterMight9
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -341,11 +341,11 @@ public sealed record EncounterMight9
         return IsMatchDeferred(pk);
     }
 
-    private static bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private static bool IsMatchLocationExact(PKM pk) => pk.MetLocation == Location;
 
     private static bool IsMatchLocationRemapped(PKM pk)
     {
-        var met = (ushort)pk.Met_Location;
+        var met = pk.MetLocation;
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetSV(met, version);

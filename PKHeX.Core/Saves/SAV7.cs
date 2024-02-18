@@ -175,10 +175,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         if (CT != pk7.CurrentHandler) // Logic updated Friendship
         {
             // Copy over the Friendship Value only under certain circumstances
-            if (pk7.HasMove(216)) // Return
+            if (pk7.HasMove((int)Move.Return) || pk7.HasMove((int)Move.Frustration))
                 pk7.CurrentFriendship = pk7.OppositeFriendship;
-            else if (pk7.HasMove(218)) // Frustration
-                pk.CurrentFriendship = pk7.OppositeFriendship;
         }
 
         pk7.FormArgumentElapsed = pk7.FormArgumentMaximum = 0;

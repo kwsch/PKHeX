@@ -16,7 +16,7 @@ public static class EggHatchLocation5
     /// <summary>
     /// Returns true if the location is valid for the specified Generation 5 game.
     /// </summary>
-    public static bool IsValidMet5(int location, GameVersion game)
+    public static bool IsValidMet5(ushort location, GameVersion game)
     {
         var shift = (uint)(game - W);
         if (shift >= 4)
@@ -29,24 +29,24 @@ public static class EggHatchLocation5
     /// <summary>
     /// Returns true if the hatch location is valid for White.
     /// </summary>
-    public static bool IsValidMet5W(int location) => HasLocationFlag(LocationPermitted5, MaskWhite, location);
+    public static bool IsValidMet5W(ushort location) => HasLocationFlag(LocationPermitted5, MaskWhite, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for Black.
     /// </summary>
-    public static bool IsValidMet5B(int location) => HasLocationFlag(LocationPermitted5, MaskBlack, location);
+    public static bool IsValidMet5B(ushort location) => HasLocationFlag(LocationPermitted5, MaskBlack, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for White 2.
     /// </summary>
-    public static bool IsValidMet5W2(int location) => HasLocationFlag(LocationPermitted5, MaskWhite2, location);
+    public static bool IsValidMet5W2(ushort location) => HasLocationFlag(LocationPermitted5, MaskWhite2, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for Black 2.
     /// </summary>
-    public static bool IsValidMet5B2(int location) => HasLocationFlag(LocationPermitted5, MaskBlack2, location);
+    public static bool IsValidMet5B2(ushort location) => HasLocationFlag(LocationPermitted5, MaskBlack2, location);
 
-    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
+    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, ushort location)
     {
         if ((uint)location >= arr.Length)
             return false;

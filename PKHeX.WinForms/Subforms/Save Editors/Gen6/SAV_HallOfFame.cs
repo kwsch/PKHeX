@@ -154,8 +154,8 @@ public partial class SAV_HallOfFame : Form
         s.Add($"Move 3: {str.Move[entry.Move3]}");
         s.Add($"Move 4: {str.Move[entry.Move4]}");
 
-        string OTGender = gendersymbols[(int)entry.OT_Gender];
-        s.Add($"OT: {entry.OT_Name} ({OTGender}) ({entry.TID16}/{entry.SID16})");
+        string OTGender = gendersymbols[(int)entry.OriginalTrainerGender];
+        s.Add($"OT: {entry.OriginalTrainerName} ({OTGender}) ({entry.TID16}/{entry.SID16})");
         s.Add(string.Empty);
     }
 
@@ -182,7 +182,7 @@ public partial class SAV_HallOfFame : Form
         TB_SID.Text = entry.SID16.ToString("00000");
 
         TB_Nickname.Text = entry.Nickname;
-        TB_OT.Text = entry.OT_Name;
+        TB_OT.Text = entry.OriginalTrainerName;
         CHK_Shiny.Checked = entry.IsShiny;
         TB_Level.Text = entry.Level.ToString("000");
         CHK_Nicknamed.Checked = entry.IsNicknamed;
@@ -190,7 +190,7 @@ public partial class SAV_HallOfFame : Form
         SetForms();
         CB_Form.SelectedIndex = entry.Form;
         SetGenderLabel((byte)entry.Gender);
-        Label_OTGender.Text = gendersymbols[(int)entry.OT_Gender];
+        Label_OTGender.Text = gendersymbols[(int)entry.OriginalTrainerGender];
         UpdateNickname(sender, e);
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
         bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
@@ -225,8 +225,8 @@ public partial class SAV_HallOfFame : Form
             IsShiny = CHK_Shiny.Checked,
             IsNicknamed = CHK_Nicknamed.Checked,
             Nickname = TB_Nickname.Text,
-            OT_Name = TB_OT.Text,
-            OT_Gender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
+            OriginalTrainerName = TB_OT.Text,
+            OriginalTrainerGender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
         };
 
         offset = index * StructureSize;

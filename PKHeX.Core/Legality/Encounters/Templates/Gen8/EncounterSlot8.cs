@@ -15,12 +15,12 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} [{Type}] - {Weather.ToString().Replace("_", string.Empty)}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
 
     // Fishing are only from the hidden table (not symbol).
     public bool CanEncounterViaFishing => Type.CanEncounterViaFishing(Weather);
@@ -55,18 +55,18 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             Species = Species,
             Form = form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
@@ -76,7 +76,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             pk.RibbonMarkCurry = true;
 
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
-            pk.Met_Level = pk.CurrentLevel = EncounterArea8.BoostLevel;
+            pk.MetLevel = pk.CurrentLevel = EncounterArea8.BoostLevel;
         pk.ResetPartyStats();
         return pk;
     }
@@ -95,7 +95,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         bool symbol = Parent.PermitCrossover;
         var c = symbol ? EncounterCriteria.Unrestricted : criteria;
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
 
         var req = GetRequirement(pk);
@@ -136,17 +136,17 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
 
     public bool IsOverworldCorrelationCorrect(PKM pk)
     {
-        var flawless = GetFlawlessIVCount(pk.Met_Level);
+        var flawless = GetFlawlessIVCount(pk.MetLevel);
         return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: flawless);
     }
 
-    private int GetFlawlessIVCount(int met)
+    private int GetFlawlessIVCount(int metLevel)
     {
         const int none = 0;
         const int any023 = -1;
 
         // Brilliant encounters are boosted to max level for the slot.
-        if (met < LevelMax)
+        if (metLevel < LevelMax)
             return none;
 
         if (Parent.PermitCrossover)
@@ -163,11 +163,11 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         if (Form != evo.Form && Species is not (int)Core.Species.Rotom)
             return false;
 
-        var metLocation = pk.Met_Location;
+        var metLocation = pk.MetLocation;
         if (Location != metLocation && !EncounterArea8.CanCrossoverTo(Location, metLocation, Type))
             return false;
 
-        var met = pk.Met_Level;
+        var met = pk.MetLevel;
         if (met == EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60(Location))
             return true;
 
@@ -210,6 +210,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             MustNotHave when IsOverworldCorrelationCorrect(pk) => EncounterMatchRating.DeferredErrors,
             _ => EncounterMatchRating.Match,
         };
-        #endregion
     }
+
+    #endregion
 }

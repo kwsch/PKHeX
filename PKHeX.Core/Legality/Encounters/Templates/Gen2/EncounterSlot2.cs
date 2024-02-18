@@ -19,13 +19,13 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     public AbilityPermission Ability => TransporterLogic.IsHiddenDisallowedVC2(Species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
     public SlotType2 Type => Parent.Type;
     public bool IsHeadbutt => Type is Headbutt or HeadbuttSpecial;
 
@@ -88,21 +88,21 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             Species = Species,
             // Form is only Unown and is derived from IVs.
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
             DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
             Language = lang,
-            OT_Name = tr.OT,
+            OriginalTrainerName = tr.OT,
             TID16 = tr.TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
         if (Version == GameVersion.C)
         {
-            pk.OT_Gender = tr.Gender;
-            pk.Met_Level = LevelMin;
-            pk.Met_Location = Location;
-            pk.Met_TimeOfDay = GetRandomTime();
+            pk.OriginalTrainerGender = tr.Gender;
+            pk.MetLevel = LevelMin;
+            pk.MetLocation = Location;
+            pk.MetTimeOfDay = GetRandomTime();
         }
 
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
@@ -139,9 +139,9 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
         if (pk is not ICaughtData2 {CaughtData: not 0} c2)
             return LevelMin <= evo.LevelMax;
 
-        if (!this.IsLevelWithinRange(c2.Met_Level))
+        if (!this.IsLevelWithinRange(c2.MetLevel))
             return false;
-        if (!Parent.Time.Contains(c2.Met_TimeOfDay))
+        if (!Parent.Time.Contains(c2.MetTimeOfDay))
             return false;
         return true;
     }

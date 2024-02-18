@@ -9,8 +9,8 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.XD;
-    int ILocation.EggLocation => 0;
-    int ILocation.Location => Location;
+    ushort ILocation.EggLocation => 0;
+    ushort ILocation.Location => Location;
     public bool IsShiny => false;
     private bool Gift => FixedBall == Ball.Poke;
     public Shiny Shiny => Shiny.Random;
@@ -44,17 +44,17 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = GameVersion.CXD,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = 0,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -72,7 +72,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         var gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         do
         {
@@ -108,14 +108,14 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             return true;
 
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
         if (pk.Format != 3) // Met Level lost on PK3=>PK4
             return evo.LevelMax >= Level;
-        return pk.Met_Level == Level;
+        return pk.MetLevel == Level;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -123,7 +123,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         if (pk.Format != 3)
             return true; // transfer location verified later
 
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         return Location == met;
     }
 

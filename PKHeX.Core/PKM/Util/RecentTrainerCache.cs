@@ -12,10 +12,10 @@ public static class RecentTrainerCache
     private static IRegionOrigin GetTrainer3DS(ITrainerInfo tr) => tr as IRegionOrigin ?? Trainer67;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.OT"/>. </summary>
-    public static string OT_Name => Trainer.OT;
+    public static string OriginalTrainerName => Trainer.OT;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Gender"/>. </summary>
-    public static byte OT_Gender => Trainer.Gender;
+    public static byte OriginalTrainerGender => Trainer.Gender;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Language"/>. </summary>
     public static int Language => Trainer.Language;

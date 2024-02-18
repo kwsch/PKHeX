@@ -156,8 +156,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
         var nick = span[..stringLength];
         var ot = span.Slice(stringLength, stringLength);
-        nick.CopyTo(pk.Nickname_Trash);
-        ot.CopyTo(pk.OT_Trash);
+        nick.CopyTo(pk.NicknameTrash);
+        ot.CopyTo(pk.OriginalTrainerTrash);
 
         return pk;
     }
@@ -335,7 +335,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT), value, 8, StringConverterOption.Clear50);
     }
 
-    public Span<byte> OT_Trash
+    public Span<byte> OriginalTrainerTrash
     {
         get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength);
         set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }

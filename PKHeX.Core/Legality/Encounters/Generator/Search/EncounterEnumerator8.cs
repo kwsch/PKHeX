@@ -16,7 +16,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    private int met;
+    private ushort met;
     private bool mustBeSlot;
     readonly object IEnumerator.Current => Current;
 
@@ -65,7 +65,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                 if (Chain.Length == 0)
                     break;
 
-                if (Entity.Met_Location == Locations.LinkTrade6NPC)
+                if (Entity.MetLocation == Locations.LinkTrade6NPC)
                     goto case YieldState.TradeStart;
                 if (!Entity.FatefulEncounter)
                     goto case YieldState.Bred;
@@ -83,7 +83,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
-                if (!Locations.IsEggLocationBred6(Entity.Egg_Location))
+                if (!Locations.IsEggLocationBred6(Entity.EggLocation))
                     goto case YieldState.StartCaptures;
                 if (!EncounterGenerator8.TryGetEgg(Chain, Version, out var egg))
                     goto case YieldState.StartCaptures;
@@ -213,7 +213,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
     private void InitializeWildLocationInfo()
     {
         mustBeSlot = Entity is IRibbonIndex r && r.HasEncounterMark();
-        met = Entity.Met_Location;
+        met = Entity.MetLocation;
     }
 
     private bool TryGetNext<TArea, TSlot>(TArea[] areas)

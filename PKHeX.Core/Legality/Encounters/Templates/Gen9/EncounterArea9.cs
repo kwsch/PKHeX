@@ -12,11 +12,11 @@ public sealed record EncounterArea9 : IEncounterArea<EncounterSlot9>, IAreaLocat
     public EncounterSlot9[] Slots { get; }
     public GameVersion Version { get; }
 
-    public readonly ushort Location;
+    public readonly byte Location;
+    public readonly byte CrossFrom; // Actual location if not default
+    public byte ActualLocation() => CrossFrom == 0 ? Location : CrossFrom;
 
-    public bool IsMatchLocation(int location) => Location == location;
-
-    public ushort CrossFrom { get; }
+    public bool IsMatchLocation(ushort location) => Location == location;
 
     public static EncounterArea9[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {

@@ -77,7 +77,7 @@ public sealed class MiscVerifier : Verifier
         var enc = data.EncounterMatch;
         if (enc is IEncounterServerDate { IsDateRestricted: true } serverGift)
         {
-            var date = new DateOnly(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+            var date = new DateOnly(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
 
             // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
             if (enc is WB8 { CardID: 9015 or 9016 or 9017 } or WA8 { CardID: 9018 or 9019 or 9020 })
@@ -168,7 +168,7 @@ public sealed class MiscVerifier : Verifier
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-        if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.Met_Level))
+        if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.MetLevel))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
         if (pk9.IsEgg)
         {
@@ -224,7 +224,7 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
-        if (!Locations9.IsAccessiblePreDLC((ushort)pk9.Met_Location))
+        if (!Locations9.IsAccessiblePreDLC(pk9.MetLocation))
         {
             if (enc is { Species: (int)Species.Larvesta, Form: 0 } and not EncounterEgg)
                 DisallowLevelUpMove(24, (ushort)Move.BugBite, pk9, data);
@@ -295,8 +295,8 @@ public sealed class MiscVerifier : Verifier
         if (pk.Format == 1)
             return;
 
-        var strain = pk.PKRS_Strain;
-        var days = pk.PKRS_Days;
+        var strain = pk.PokerusStrain;
+        var days = pk.PokerusDays;
         bool strainValid = Pokerus.IsStrainValid(pk, strain, days);
         if (!strainValid)
             data.AddLine(GetInvalid(string.Format(LPokerusStrainUnobtainable_0, strain)));
@@ -316,7 +316,7 @@ public sealed class MiscVerifier : Verifier
         {
             if (pk is ICaughtData2 { CaughtData: not 0 } t)
             {
-                var time = t.Met_TimeOfDay;
+                var time = t.MetTimeOfDay;
                 bool valid = data.EncounterOriginal switch
                 {
                     EncounterGift2 g2 when (!g2.EggEncounter || pk.IsEgg) => time == 0,
@@ -417,7 +417,7 @@ public sealed class MiscVerifier : Verifier
                     // Hatching in Gen3 doesn't change the origin version.
                     if (pk.Format != 3)
                         return; // possible hatched in either game, don't bother checking
-                    if (Locations.IsMetLocation3RS((ushort)pk.Met_Location)) // hatched in RS or Emerald
+                    if (Locations.IsMetLocation3RS(pk.MetLocation)) // hatched in RS or Emerald
                         return; // possible hatched in either game, don't bother checking
                     // else, ensure fateful is active (via below)
                 }
@@ -548,7 +548,7 @@ public sealed class MiscVerifier : Verifier
         {
             var Info = data.Info;
             Info.PIDIV = MethodFinder.Analyze(pk);
-            if (Info.PIDIV.Type != PIDType.G5MGShiny && pk.Egg_Location != Locations.LinkTrade5)
+            if (Info.PIDIV.Type != PIDType.G5MGShiny && pk.EggLocation != Locations.LinkTrade5)
                 data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
         }
 
@@ -796,8 +796,8 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyStatNature(LegalityAnalysis data, PKM pk)
     {
-        var sn = pk.StatNature;
-        if (sn == pk.Nature)
+        var sn = (byte)pk.StatNature;
+        if (sn == (byte)pk.Nature)
             return;
         // Only allow Serious nature (12); disallow all other neutral natures.
         if (sn != 12 && (sn > 24 || sn % 6 == 0))

@@ -90,7 +90,7 @@ public static class Experience
     /// </summary>
     /// <param name="experience">Current Experience</param>
     /// <returns>Nature ID (<see cref="Nature"/>)</returns>
-    public static int GetNatureVC(uint experience) => (int)(experience % 25);
+    public static Nature GetNatureVC(uint experience) => (Nature)(experience % 25);
 
     /// <summary>
     /// Gets the amount of EXP to be earned until the next level-up occurs.

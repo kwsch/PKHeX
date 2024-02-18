@@ -18,7 +18,7 @@ public sealed class BallVerifier : Verifier
         data.AddLine(result);
     }
 
-    private static int IsReplacedBall(IVersion enc, PKM pk) => pk switch
+    private static byte IsReplacedBall(IVersion enc, PKM pk) => pk switch
     {
         // Trading from PLA origin -> SW/SH will replace the Legends: Arceus ball with a regular Poké Ball
         PK8 when enc.Version == GameVersion.PLA => (int)Poke,
@@ -204,8 +204,8 @@ public sealed class BallVerifier : Verifier
         };
     }
 
-    private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.Entity.Ball);
-    private CheckResult VerifyBallEquals(Ball ball, ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (int)ball));
+    private CheckResult VerifyBallEquals(LegalityAnalysis data, byte ball) => GetResult(ball == data.Entity.Ball);
+    private CheckResult VerifyBallEquals(Ball ball, ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (byte)ball));
 
     private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
 }

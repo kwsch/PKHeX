@@ -182,7 +182,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
             Span<ushort> moves = stackalloc ushort[4];
-            g8.GetInitialMoves(pk.Met_Level, moves);
+            g8.GetInitialMoves(pk.MetLevel, moves);
             return AddOriginalMoves(result, current, moves, g8.Generation);
         }
         return false;
@@ -199,7 +199,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
             Span<ushort> moves = stackalloc ushort[4];
-            g8.GetInitialMoves(pk.Met_Level, moves);
+            g8.GetInitialMoves(pk.MetLevel, moves);
             AddOriginalMoves(result, pk, evos, types, local, moves);
         }
     }

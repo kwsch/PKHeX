@@ -78,12 +78,12 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
         ChineseT = 8,
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(0x10, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x10, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public byte BirthMonth { get => Data[0x5A]; set => Data[0x5A] = value; }

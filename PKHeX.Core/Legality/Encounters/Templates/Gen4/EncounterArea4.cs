@@ -17,7 +17,7 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
     public readonly byte Location;
     public readonly byte Rate;
 
-    public bool IsMatchLocation(int location) => location == Location;
+    public bool IsMatchLocation(ushort location) => location == Location;
 
     public static EncounterArea4[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {

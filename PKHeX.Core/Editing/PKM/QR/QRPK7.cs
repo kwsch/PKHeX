@@ -20,7 +20,7 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
     public const int SIZE = 0x30;
 
     public uint EncryptionConstant => ReadUInt32LittleEndian(Data.AsSpan(0));
-    public byte HT_Flags => Data[4];
+    public byte HyperTrainFlags => Data[4];
     public byte Unk_5 => Data[5];
     public byte Unk_6 => Data[6];
     public byte Unk_7 => Data[7];
@@ -44,7 +44,7 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
     public ushort Move4 => ReadUInt16LittleEndian(Data.AsSpan(0x1E));
     public byte Unk_20 => Data[0x20];
     public byte AbilityIndex => Data[0x21];
-    public byte Nature => Data[0x22];
+    public Nature Nature => (Nature)Data[0x22];
     public bool FatefulEncounter => (Data[0x23] & 1) == 1;
     public byte Gender => (byte)((Data[0x23] >> 1) & 3);
     public byte Form => (byte)(Data[0x23] >> 3);
@@ -81,7 +81,7 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
             Nature = Nature,
             FatefulEncounter = FatefulEncounter,
             Form = Form,
-            HyperTrainFlags = HT_Flags,
+            HyperTrainFlags = HyperTrainFlags,
             IV_HP = IV_HP,
             IV_ATK = IV_ATK,
             IV_DEF = IV_DEF,
@@ -103,15 +103,15 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
             Move3_PPUps = Move3_PPUps,
             Move4_PPUps = Move4_PPUps,
             HeldItem = HeldItem,
-            HT_Friendship = Friendship,
-            OT_Friendship = Friendship,
+            HandlingTrainerFriendship = Friendship,
+            OriginalTrainerFriendship = Friendship,
             Ball = Ball,
             Version = Version,
 
-            OT_Name = tr.OT,
-            HT_Name = tr.OT,
+            OriginalTrainerName = tr.OT,
+            HandlingTrainerName = tr.OT,
             CurrentLevel = Level,
-            Met_Level = Level,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDate3DS(),
         };
         RecentTrainerCache.SetConsoleRegionData3DS(pk, tr);

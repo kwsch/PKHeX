@@ -37,9 +37,9 @@ public static class EvolutionChain
 
     private static byte GetMinLevel(PKM pk, IEncounterTemplate enc) => enc.Generation switch
     {
-        2 => pk is ICaughtData2 c2 ? Math.Max((byte)c2.Met_Level, enc.LevelMin) : enc.LevelMin,
+        2 => pk is ICaughtData2 c2 ? Math.Max(c2.MetLevel, enc.LevelMin) : enc.LevelMin,
         <= 4 when pk.Format != enc.Generation => enc.LevelMin,
-        _ => Math.Max((byte)pk.Met_Level, enc.LevelMin),
+        _ => Math.Max(pk.MetLevel, enc.LevelMin),
     };
 
     private static EvolutionHistory EvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, Span<EvoCriteria> chain)

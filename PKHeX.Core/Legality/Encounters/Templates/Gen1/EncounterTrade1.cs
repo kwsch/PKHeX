@@ -19,8 +19,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     public AbilityPermission Ability => Species == (ushort)Core.Species.Haunter ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int Location => 0;
-    public int EggLocation => 0;
+    public ushort Location => 0;
+    public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
 
@@ -73,10 +73,10 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     private static bool IsTrainerNameValid(PKM pk)
     {
         if (pk.Format <= 2)
-            return pk.OT_Trash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, ..];
+            return pk.OriginalTrainerTrash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, ..];
         var lang = pk.Language;
         var expect = StringConverter12Transporter.GetTradeNameGen1(lang);
-        return pk.OT_Name == expect;
+        return pk.OriginalTrainerName == expect;
     }
 
     private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);
@@ -126,7 +126,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
-        pk.OT_Trash[0] = StringConverter12.G1TradeOTCode;
+        pk.OriginalTrainerTrash[0] = StringConverter12.G1TradeOTCode;
 
         EncounterUtil.SetEncounterMoves(pk, Version, level);
         if (EvolveOnTrade)

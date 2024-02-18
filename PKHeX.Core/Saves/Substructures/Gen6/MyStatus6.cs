@@ -103,12 +103,12 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
         set => Data[Offset + 0x2D] = (byte)value;
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x48, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 0x48, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);

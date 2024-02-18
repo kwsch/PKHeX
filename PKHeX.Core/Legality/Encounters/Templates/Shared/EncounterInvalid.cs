@@ -22,8 +22,8 @@ public sealed record EncounterInvalid : IEncounterable
 
     public string Name => "Invalid";
     public string LongName => "Invalid";
-    public int Location => 0;
-    public int EggLocation => 0;
+    public ushort Location => 0;
+    public ushort EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12H;
     public Ball FixedBall => Ball.None;
 
@@ -33,7 +33,7 @@ public sealed record EncounterInvalid : IEncounterable
     {
         Species = pk.Species;
         Form = pk.Form;
-        LevelMin = (byte)pk.Met_Level;
+        LevelMin = pk.MetLevel;
         LevelMax = pk.CurrentLevel;
         EggEncounter = pk.WasEgg;
         Generation = pk.Generation;

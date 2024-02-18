@@ -408,8 +408,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
 
         // Copy OT trash bytes for sensitive games (Gen1/2)
-        if (tr is SAV1 s1 && Entity is PK1 p1) s1.OT_Trash.CopyTo(p1.OT_Trash);
-        else if (tr is SAV2 s2 && Entity is PK2 p2) s2.OT_Trash.CopyTo(p2.OT_Trash);
+        if (tr is SAV1 s1 && Entity is PK1 p1) s1.OriginalTrainerTrash.CopyTo(p1.OriginalTrainerTrash);
+        else if (tr is SAV2 s2 && Entity is PK2 p2) s2.OriginalTrainerTrash.CopyTo(p2.OriginalTrainerTrash);
 
         UpdateNickname(this, EventArgs.Empty);
     }
@@ -587,7 +587,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         else if (Entity.Format <= 4)
         {
             Entity.Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
-            Entity.Nature = (byte)WinFormsUtil.GetIndex(CB_Nature);
+            Entity.Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature);
             Entity.Form = (byte)CB_Form.SelectedIndex;
 
             Entity.SetPIDGender(gender);
@@ -640,7 +640,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void ClickBall(object sender, EventArgs e)
     {
-        Entity.Ball = WinFormsUtil.GetIndex(CB_Ball);
+        Entity.Ball = (byte)WinFormsUtil.GetIndex(CB_Ball);
         if ((ModifierKeys & Keys.Alt) != 0)
         {
             CB_Ball.SelectedValue = (int)Ball.Poke;
@@ -648,15 +648,15 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         if ((ModifierKeys & Keys.Shift) != 0)
         {
-            CB_Ball.SelectedValue = BallApplicator.ApplyBallLegalByColor(Entity);
+            CB_Ball.SelectedValue = (int)BallApplicator.ApplyBallLegalByColor(Entity);
             return;
         }
 
         using var frm = new BallBrowser();
         frm.LoadBalls(Entity);
         frm.ShowDialog();
-        if (frm.BallChoice >= 0)
-            CB_Ball.SelectedValue = frm.BallChoice;
+        if (frm.WasBallChosen)
+            CB_Ball.SelectedValue = (int)frm.BallChoice;
     }
 
     private void ClickMetLocation(object sender, EventArgs e)
@@ -818,7 +818,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private bool SetSuggestedMetLocation(bool silent = false)
     {
         var encounter = EncounterSuggestion.GetSuggestedMetInfo(Entity);
-        if (encounter == null || (Entity.Format >= 3 && encounter.Location < 0))
+        if (encounter == null || (Entity.Format >= 3 && encounter.Location == 0))
         {
             if (!silent)
                 WinFormsUtil.Alert(MsgPKMSuggestionNone);
@@ -829,11 +829,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         int minLevel = EncounterSuggestion.GetLowestLevel(Entity, level);
         if (minLevel == 0)
             minLevel = level;
-        int location = encounter.Location;
+        ushort location = encounter.Location;
         if (Entity.Format < 3 && encounter.Encounter is { } x && !x.Version.Contains(GameVersion.C))
             location = 0;
 
-        if (Entity.CurrentLevel >= minLevel && Entity.Met_Level == level && Entity.Met_Location == location)
+        if (Entity.CurrentLevel >= minLevel && Entity.MetLevel == level && Entity.MetLocation == location)
         {
             if (!encounter.HasGroundTile(Entity.Format) || WinFormsUtil.GetIndex(CB_GroundTile) == (int)encounter.GetSuggestedGroundTile())
                 return false;
@@ -854,9 +854,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (Entity.Format >= 3)
         {
-            Entity.Met_Location = location;
+            Entity.MetLocation = location;
             TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
-            CB_MetLocation.SelectedValue = location;
+            CB_MetLocation.SelectedValue = (int)location;
 
             if (encounter.HasGroundTile(Entity.Format))
                 CB_GroundTile.SelectedValue = (int)encounter.GetSuggestedGroundTile();
@@ -866,9 +866,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         else
         {
-            Entity.Met_Location = location;
+            Entity.MetLocation = location;
             TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
-            CB_MetLocation.SelectedValue = location;
+            CB_MetLocation.SelectedValue = (int)location;
             var timeIndex = 0;
             if (encounter.Encounter is { } enc && location is < 253 and not 0)
             {
@@ -900,7 +900,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdateBall(object sender, EventArgs e)
     {
-        PB_Ball.Image = SpriteUtil.GetBallSprite(WinFormsUtil.GetIndex(CB_Ball));
+        PB_Ball.Image = SpriteUtil.GetBallSprite((byte)WinFormsUtil.GetIndex(CB_Ball));
     }
 
     private void UpdateEXPLevel(object sender, EventArgs e)
@@ -949,8 +949,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (sender == UC_Gender)
             Entity.SetPIDGender(Entity.Gender);
-        else if (sender == CB_Nature && Entity.Nature != WinFormsUtil.GetIndex(CB_Nature))
-            Entity.SetPIDNature(WinFormsUtil.GetIndex(CB_Nature));
+        else if (sender == CB_Nature && Entity.Nature != (Nature)WinFormsUtil.GetIndex(CB_Nature))
+            Entity.SetPIDNature((Nature)WinFormsUtil.GetIndex(CB_Nature));
         else if (sender == BTN_RerollPID)
             Entity.SetPIDGender(Entity.Gender);
         else if (sender == CB_Ability && CB_Ability.SelectedIndex != Entity.PIDAbility && Entity.PIDAbility > -1)
@@ -1060,7 +1060,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!FieldsLoaded)
             return;
 
-        // Change the PKRS Days to the legal bounds.
+        // Change the PokerusState Days to the legal bounds.
         ChangePKRSstrainDropDownLists(-1, CB_PKRSStrain.SelectedIndex, CB_PKRSDays.SelectedIndex);
     }
 
@@ -1257,13 +1257,13 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (FieldsLoaded)
         {
             SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
-            int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(Entity);
-            int eggLoc = CHK_AsEgg.Checked
+            var metLoc = EncounterSuggestion.TryGetSuggestedTransferLocation(Entity);
+            var eggLoc = CHK_AsEgg.Checked
                 ? EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Entity, true)
                 : LocationEdits.GetNoneLocation(Entity);
 
-            CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
-            CB_EggLocation.SelectedValue = eggLoc;
+            CB_MetLocation.SelectedValue = (int)Math.Max((ushort)0, metLoc);
+            CB_EggLocation.SelectedValue = (int)eggLoc;
         }
         else
         {
@@ -1296,16 +1296,16 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_ExtraByte.Text = Entity.Data[offset].ToString();
     }
 
-    public void ChangeNature(int newNature)
+    public void ChangeNature(Nature newNature)
     {
         if (Entity.Format < 3)
             return;
 
         var cb = Entity.Format >= 8 ? CB_StatNature : CB_Nature;
-        cb.SelectedValue = newNature;
+        cb.SelectedValue = (int)newNature;
     }
 
-    private void UpdateNatureModification(ComboBox cb, int nature)
+    private void UpdateNatureModification(ComboBox cb, Nature nature)
     {
         string text = Stats.UpdateNatureModification(nature);
         NatureTip.SetToolTip(cb, text);
@@ -1388,17 +1388,17 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (tb == TB_Nickname)
         {
             Entity.Nickname = tb.Text;
-            trash = Entity.Nickname_Trash;
+            trash = Entity.NicknameTrash;
         }
         else if (tb == TB_OT)
         {
-            Entity.OT_Name = tb.Text;
-            trash = Entity.OT_Trash;
+            Entity.OriginalTrainerName = tb.Text;
+            trash = Entity.OriginalTrainerTrash;
         }
         else if (tb == TB_HT)
         {
-            Entity.HT_Name = tb.Text;
-            trash = Entity.HT_Trash;
+            Entity.HandlingTrainerName = tb.Text;
+            trash = Entity.HandlingTrainerTrash;
         }
         else
         {
@@ -1439,7 +1439,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         if (Entity.Format == 3 && CHK_IsEgg.Checked)
-            Entity.OT_Name = TB_OT.Text; // going to be remapped
+            Entity.OriginalTrainerName = TB_OT.Text; // going to be remapped
 
         Entity.IsEgg = CHK_IsEgg.Checked;
         if (CHK_IsEgg.Checked)
@@ -1460,12 +1460,12 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 var loc = isTraded
                     ? Locations.TradedEggLocation(sav.Generation, sav.Version)
                     : LocationEdits.GetNoneLocation(Entity);
-                CB_MetLocation.SelectedValue = loc;
+                CB_MetLocation.SelectedValue = (int)loc;
             }
             else if (Entity.Format == 3)
             {
                 CB_Language.SelectedValue = Entity.Language; // JPN
-                TB_OT.Text = Entity.OT_Name;
+                TB_OT.Text = Entity.OriginalTrainerName;
             }
 
             CHK_NicknamedFlag.Checked = EggStateLegality.IsNicknameFlagSet(Entity);
@@ -1495,7 +1495,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             else
             {
                 CAL_MetDate.Value = CAL_EggDate.Value;
-                CB_MetLocation.SelectedValue = EncounterSuggestion.GetSuggestedEggMetLocation(Entity);
+                CB_MetLocation.SelectedValue = (int)EncounterSuggestion.GetSuggestedEggMetLocation(Entity);
             }
 
             var nick = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
@@ -1524,7 +1524,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Remove egg met data
         CHK_IsEgg.Checked = false;
         CAL_EggDate.Value = new DateTime(2000, 01, 01);
-        CB_EggLocation.SelectedValue = LocationEdits.GetNoneLocation(Entity);
+        CB_EggLocation.SelectedValue = (int)LocationEdits.GetNoneLocation(Entity);
 
         UpdateLegality();
     }
@@ -1538,7 +1538,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void UpdateShiny(bool changePID)
     {
         Entity.PID = Util.GetHexValue(TB_PID.Text);
-        Entity.Nature = (byte)WinFormsUtil.GetIndex(CB_Nature);
+        Entity.Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature);
         Entity.Gender = UC_Gender.Gender;
         Entity.Form = (byte)CB_Form.SelectedIndex;
         Entity.Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
@@ -1608,7 +1608,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             FieldsLoaded = false;
             Entity.PID = Util.GetHexValue(TB_PID.Text);
-            CB_Nature.SelectedValue = Entity.Nature;
+            CB_Nature.SelectedValue = (int)Entity.Nature;
             UC_Gender.Gender = Entity.Gender;
             UpdateNatureModification(CB_Nature, Entity.Nature);
             FieldsLoaded = true;
@@ -1693,14 +1693,14 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             if (Entity.Format <= 4)
                 UpdateRandomPID(sender, e);
-            Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
+            Entity.Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature);
             UpdateNatureModification(CB_Nature, Entity.Nature);
             Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
             UpdateLegality();
         }
         else if (sender == CB_StatNature)
         {
-            Entity.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
+            Entity.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
             UpdateNatureModification(CB_StatNature, Entity.StatNature);
             Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
             UpdateLegality();
@@ -1797,8 +1797,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         ValidateComboBox((ComboBox)sender);
-        Entity.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
-        Entity.Egg_Location = WinFormsUtil.GetIndex(CB_EggLocation);
+        Entity.MetLocation = (ushort)WinFormsUtil.GetIndex(CB_MetLocation);
+        Entity.EggLocation = (ushort)WinFormsUtil.GetIndex(CB_EggLocation);
         UpdateLegality();
     }
 
@@ -1845,8 +1845,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void OpenHistory(object sender, EventArgs e)
     {
         // Write back current values
-        Entity.HT_Name = TB_HT.Text;
-        Entity.OT_Name = TB_OT.Text;
+        Entity.HandlingTrainerName = TB_HT.Text;
+        Entity.OriginalTrainerName = TB_OT.Text;
         Entity.IsEgg = CHK_IsEgg.Checked;
         UpdateFromFriendshipTextBox(Entity, (byte)Util.ToInt32(TB_Friendship.Text));
         using var form = new MemoryAmie(Entity);

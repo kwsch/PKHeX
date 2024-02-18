@@ -14,8 +14,8 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public bool IsShiny => false;
-    public int Location => 0;
-    public int EggLocation => Locations.GetDaycareLocation(Generation, Version);
+    public ushort Location => 0;
+    public ushort EggLocation => Locations.GetDaycareLocation(Generation, Version);
     public Ball FixedBall => Generation <= 5 ? Ball.Poke : Ball.None;
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12H;
@@ -41,8 +41,8 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         pk.Version = version;
 
         var ball = FixedBall;
-        pk.Ball = ball is Ball.None ? (int)Ball.Poke : (int)ball;
-        pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+        pk.Ball = ball is Ball.None ? (byte)Ball.Poke : (byte)ball;
+        pk.OriginalTrainerFriendship = pk.PersonalInfo.BaseFriendship;
 
         SetEncounterMoves(pk, version);
         pk.HealPP();
@@ -52,13 +52,13 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         {
             if (version != GameVersion.C)
             {
-                pk.OT_Gender = 0;
+                pk.OriginalTrainerGender = 0;
             }
             else
             {
-                pk.Met_Location = Locations.HatchLocationC;
-                pk.Met_Level = 1;
-                ((PK2)pk).Met_TimeOfDay = Util.Rand.Next(1, 4); // Morning | Day | Night
+                pk.MetLocation = Locations.HatchLocationC;
+                pk.MetLevel = 1;
+                ((PK2)pk).MetTimeOfDay = Util.Rand.Next(1, 4); // Morning | Day | Night
             }
             return pk;
         }
@@ -92,7 +92,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         {
             var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, Util.Rand.Rand64());
             tera.TeraTypeOriginal = (MoveType)type;
-            if (criteria.TeraType != -1 && type != criteria.TeraType)
+            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
                 tera.SetTeraType(type); // sets the override type
         }
 
@@ -121,7 +121,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
             return;
 
         var gender = criteria.GetGender(pk.PersonalInfo);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
 
         if (pk.Format <= 5)
         {
@@ -142,11 +142,11 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
     private void SetMetData(PKM pk)
     {
-        pk.Met_Level = EggStateLegality.GetEggLevelMet(Version, Generation);
-        pk.Met_Location = Math.Max(0, EggStateLegality.GetEggHatchLocation(Version, Generation));
+        pk.MetLevel = EggStateLegality.GetEggLevelMet(Version, Generation);
+        pk.MetLocation = Math.Max((ushort)0, EggStateLegality.GetEggHatchLocation(Version, Generation));
 
         if (pk is IObedienceLevel l)
-            l.Obedience_Level = (byte)pk.Met_Level;
+            l.Obedience_Level = pk.MetLevel;
     }
 
     private void SetEncounterMoves(PKM pk, GameVersion version)

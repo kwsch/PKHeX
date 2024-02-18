@@ -48,6 +48,16 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
 
     private const int RandomIV = -1;
 
+    public bool IsSpecifiedNature() => Nature != Nature.Random;
+    public bool IsSpecifiedTeraType() => TeraType != -1;
+
+    public bool IsSpecifiedIVs() => IV_HP != RandomIV
+                                && IV_ATK != RandomIV
+                                && IV_DEF != RandomIV
+                                && IV_SPA != RandomIV
+                                && IV_SPD != RandomIV
+                                && IV_SPE != RandomIV;
+
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
     /// </summary>

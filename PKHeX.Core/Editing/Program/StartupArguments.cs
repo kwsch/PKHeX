@@ -94,7 +94,7 @@ public sealed class StartupArguments
         if (pk is { Format: 1, Japanese: true })
             version = GameVersion.BU;
 
-        return SaveUtil.GetBlankSAV(version, pk.OT_Name, (LanguageID)pk.Language);
+        return SaveUtil.GetBlankSAV(version, pk.OriginalTrainerName, (LanguageID)pk.Language);
     }
 
     private static SaveFile GetBlankSaveFile(GameVersion version, SaveFile? current)

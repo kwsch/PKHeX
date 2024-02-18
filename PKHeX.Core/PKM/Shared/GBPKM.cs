@@ -41,7 +41,7 @@ public abstract class GBPKM : PKM
             if (_isnicknamed is {} actual)
                 return actual;
 
-            var current = Nickname_Trash;
+            var current = NicknameTrash;
             Span<byte> expect = stackalloc byte[current.Length];
             var language = GuessedLanguage();
             GetNonNickname(language, expect);
@@ -74,7 +74,7 @@ public abstract class GBPKM : PKM
                 return (int)LanguageID.Japanese;
             if (Korean)
                 return (int)LanguageID.Korean;
-            if (StringConverter12.IsG12German(OT_Trash))
+            if (StringConverter12.IsG12German(OriginalTrainerTrash))
                 return (int)LanguageID.German; // german
             int lang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
             if (lang > 0)
@@ -114,7 +114,7 @@ public abstract class GBPKM : PKM
     public sealed override bool IsGenderValid() => true; // not a separate property, derived via IVs
     public sealed override uint EncryptionConstant { get => 0; set { } }
     public sealed override uint PID { get => 0; set { } }
-    public sealed override int Nature { get => 0; set { } }
+    public sealed override Nature Nature { get => 0; set { } }
     public sealed override bool ChecksumValid => true;
     public sealed override bool FatefulEncounter { get => false; set { } }
     public sealed override uint TSV => 0x0000;
@@ -122,8 +122,8 @@ public abstract class GBPKM : PKM
     public sealed override int Characteristic => -1;
     public sealed override int Ability { get => -1; set { } }
     public sealed override byte CurrentHandler { get => 0; set { } }
-    public sealed override int Egg_Location { get => 0; set { } }
-    public sealed override int Ball { get => 0; set { } }
+    public sealed override ushort EggLocation { get => 0; set { } }
+    public sealed override byte Ball { get => 0; set { } }
     public sealed override uint ID32 { get => TID16; set => TID16 = (ushort)value; }
     public sealed override ushort SID16 { get => 0; set { } }
     #endregion
@@ -253,7 +253,7 @@ public abstract class GBPKM : PKM
     internal void ImportFromFuture(PKM pk)
     {
         Nickname = pk.Nickname;
-        OT_Name = pk.OT_Name;
+        OriginalTrainerName = pk.OriginalTrainerName;
         IV_ATK = pk.IV_ATK / 2;
         IV_DEF = pk.IV_DEF / 2;
         IV_SPC = pk.IV_SPA / 2;

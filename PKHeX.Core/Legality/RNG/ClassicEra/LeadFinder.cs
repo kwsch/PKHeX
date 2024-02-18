@@ -100,7 +100,7 @@ public static class LeadFinder
         where TEnc : IEncounterSlot34, ISpeciesForm
     {
         if (pk.Format == generation)
-            return new EvoCriteria { Species = enc.Species, LevelMin = (byte)pk.Met_Level, LevelMax = (byte)pk.Met_Level };
+            return new EvoCriteria { Species = enc.Species, LevelMin = pk.MetLevel, LevelMax = pk.MetLevel };
         foreach (var evo in chain)
         {
             if (evo.Species == enc.Species)

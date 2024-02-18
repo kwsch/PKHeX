@@ -15,7 +15,7 @@ public sealed class SearchSettings
     public byte Generation { get; init; }
     public required ushort Species { get; init; }
     public int Ability { get; init; } = -1;
-    public int Nature { get; init; } = -1;
+    public Nature Nature { get; init; } = Nature.Random;
     public int Item { get; init; } = -1;
     public GameVersion Version { get; init; }
     public int HiddenPowerType { get; init; } = -1;
@@ -153,7 +153,7 @@ public sealed class SearchSettings
             return false;
         if (Ability > -1 && pk.Ability != Ability)
             return false;
-        if (Nature > -1 && pk.StatNature != Nature)
+        if (Nature.IsFixed() && pk.StatNature != Nature)
             return false;
         if (Item > -1 && pk.HeldItem != Item)
             return false;

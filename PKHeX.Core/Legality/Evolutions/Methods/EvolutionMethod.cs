@@ -76,7 +76,7 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
         LevelUpFormFemale1 when pk.Form != 1 => BadForm,
 
         // Permit the evolution if we're exploring for mistakes.
-        LevelUpBeauty when pk is IContestStatsReadOnly s && s.CNT_Beauty < Argument => skipChecks ? Valid : LowContestStat,
+        LevelUpBeauty when pk is IContestStatsReadOnly s && s.ContestBeauty < Argument => skipChecks ? Valid : LowContestStat,
         LevelUpNatureAmped or LevelUpNatureLowKey when ToxtricityUtil.GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks ? Valid : BadForm,
 
         // Version checks come in pairs, check for any pair match

@@ -16,8 +16,8 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
         return pk.Version switch
         {
-            SW when pk.Met_Location == LocationsHOME.SWSL => Instance.GetEncountersSWSH(pk, chain, SL),
-            SH when pk.Met_Location == LocationsHOME.SHVL => Instance.GetEncountersSWSH(pk, chain, VL),
+            SW when pk.MetLocation == LocationsHOME.SWSL => Instance.GetEncountersSWSH(pk, chain, SL),
+            SH when pk.MetLocation == LocationsHOME.SHVL => Instance.GetEncountersSWSH(pk, chain, VL),
             _ => GetEncounters(pk, chain, info),
         };
     }

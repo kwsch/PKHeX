@@ -8,8 +8,8 @@ public sealed record EncounterStatic7(GameVersion Version)
 {
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
-    int ILocation.Location => Location;
-    int ILocation.EggLocation => EggLocation;
+    ushort ILocation.Location => Location;
+    ushort ILocation.EggLocation => EggLocation;
     public bool RibbonWishing => Species == (int)Core.Species.Magearna;
 
     public bool EggEncounter => EggLocation != 0;
@@ -62,8 +62,8 @@ public sealed record EncounterStatic7(GameVersion Version)
             Species = Species,
             Form = GetWildForm(Form, tr),
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDate3DS(),
             Ball = (byte)(FixedBall is Ball.None ? Ball.Poke : FixedBall),
             FatefulEncounter = FatefulEncounter,
@@ -71,10 +71,10 @@ public sealed record EncounterStatic7(GameVersion Version)
             ID32 = tr.ID32,
             Version = version,
             Language = lang,
-            OT_Gender = tr.Gender,
-            OT_Name = tr.OT,
+            OriginalTrainerGender = tr.Gender,
+            OriginalTrainerName = tr.OT,
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -89,9 +89,9 @@ public sealed record EncounterStatic7(GameVersion Version)
         if (EggEncounter)
         {
             // Fake as hatched.
-            pk.Met_Location = Locations.HatchLocation7;
-            pk.Met_Level = EggStateLegality.EggMetLevel;
-            pk.Egg_Location = EggLocation;
+            pk.MetLocation = Locations.HatchLocation7;
+            pk.MetLevel = EggStateLegality.EggMetLevel;
+            pk.EggLocation = EggLocation;
             pk.EggMetDate = pk.MetDate;
         }
 
@@ -137,7 +137,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             criteria.SetRandomIVs(pk, FlawlessIVCount);
 
         var ability = criteria.GetAbilityFromNumber(Ability);
-        pk.Nature = (int)criteria.GetNature(Nature);
+        pk.Nature = criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.AbilityNumber = 1 << ability;
         pk.Ability = pi.GetAbilityAtIndex(ability);
@@ -159,7 +159,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             return false;
         if (!IsMatchLocation(pk))
             return false;
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (!IsMatchForm(pk, evo))
             return false;
@@ -167,7 +167,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;
-        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+        if (Nature != Nature.Random && pk.Nature != Nature)
             return false;
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
@@ -186,7 +186,7 @@ public sealed record EncounterStatic7(GameVersion Version)
         if (EggEncounter)
             return true;
 
-        return pk.Met_Location == Location;
+        return pk.MetLocation == Location;
     }
 
     private bool IsMatchEggLocation(PKM pk)
@@ -194,21 +194,21 @@ public sealed record EncounterStatic7(GameVersion Version)
         if (!EggEncounter)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.Egg_Location == expect;
+            return pk.EggLocation == expect;
         }
 
         // Gift Eevee edge case
         if (EggLocation == Locations.Daycare5 && !Relearn.HasMoves && pk.RelearnMove1 != 0)
             return false;
 
-        var eggloc = pk.Egg_Location;
+        var eggLoc = pk.EggLocation;
         if (!pk.IsEgg) // hatched
-            return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+            return eggLoc == EggLocation || eggLoc == Locations.LinkTrade6;
 
         // Unhatched:
-        if (eggloc != EggLocation)
+        if (eggLoc != EggLocation)
             return false;
-        if (pk.Met_Location is not (0 or Locations.LinkTrade6))
+        if (pk.MetLocation is not (0 or Locations.LinkTrade6))
             return false;
         return true;
     }

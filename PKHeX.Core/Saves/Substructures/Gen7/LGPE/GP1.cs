@@ -158,15 +158,15 @@ public sealed class GP1(byte[] Data)
             Version = GameVersion.GO,
             Species = Species,
             Form = Form,
-            Met_Location = 50, // Go complex
-            Met_Year = Year - 2000,
-            Met_Month = Month,
-            Met_Day = Day,
+            MetLocation = 50, // Go complex
+            MetYear = (byte)(Year - 2000),
+            MetMonth = (byte)Month,
+            MetDay = (byte)Day,
             CurrentLevel = Level,
-            Met_Level = Level,
+            MetLevel = Level,
             TID16 = sav.TID16,
             SID16 = sav.SID16,
-            OT_Name = sav.OT,
+            OriginalTrainerName = sav.OT,
             Ball = 4,
             Language = sav.Language,
         };
@@ -189,7 +189,7 @@ public sealed class GP1(byte[] Data)
 
         var pi = pk.PersonalInfo;
         pk.Gender = criteria.GetGender(Gender, pi);
-        pk.Nature = (int)criteria.GetNature();
+        pk.Nature = criteria.GetNature();
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         bool isShiny = pk.IsShiny;
@@ -206,7 +206,7 @@ public sealed class GP1(byte[] Data)
         Span<ushort> moves = stackalloc ushort[4];
         ((ILearnSource)LearnSource7GG.Instance).SetEncounterMoves(Species, Form, Level, moves);
         pk.SetMoves(moves);
-        pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+        pk.OriginalTrainerFriendship = pk.PersonalInfo.BaseFriendship;
 
         pk.HeightScalar = HeightScalar;
         pk.WeightScalar = WeightScalar;

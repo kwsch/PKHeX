@@ -26,8 +26,8 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
     {
         if (pk.Format >= 7 && !enc.SkipChecks)
         {
-            var max = pk.Met_Level;
-            enc = enc with { LevelMin = 2, LevelMax = (byte)max };
+            var max = pk.MetLevel;
+            enc = enc with { LevelMin = 2, LevelMax = max };
         }
         int present = 1;
         for (int i = 1; i < result.Length; i++)
@@ -53,7 +53,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         if (pk.Format > 2)
-            enc = enc with { LevelMax = (byte)pk.Met_Level };
+            enc = enc with { LevelMax = pk.MetLevel };
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

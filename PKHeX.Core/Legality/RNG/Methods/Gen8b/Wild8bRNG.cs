@@ -127,16 +127,16 @@ public static class Wild8bRNG
             pk.Gender = gender;
         }
 
-        if (criteria.Nature is Nature.Random)
-            pk.Nature = (int)xors.NextUInt(25);
+        if (!criteria.IsSpecifiedNature())
+            pk.Nature = (Nature)xors.NextUInt(25);
         else // Skip nature, assuming Synchronize
-            pk.Nature = (int)criteria.Nature;
+            pk.Nature = criteria.Nature;
         pk.StatNature = pk.Nature;
 
         // Remainder
         var scale = (IScaledSize)pk;
-        scale.HeightScalar = (byte)((int)xors.NextUInt(0x81) + (int)xors.NextUInt(0x80));
-        scale.WeightScalar = (byte)((int)xors.NextUInt(0x81) + (int)xors.NextUInt(0x80));
+        scale.HeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));
+        scale.WeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));
 
         // Item, don't care
         return true;

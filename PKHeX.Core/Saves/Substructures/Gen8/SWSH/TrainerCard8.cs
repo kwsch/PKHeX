@@ -7,12 +7,12 @@ namespace PKHeX.Core;
 
 public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    private Span<byte> OT_Trash => Data.AsSpan(0x00, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x00, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public byte Language

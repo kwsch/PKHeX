@@ -54,7 +54,7 @@ public static class EncounterMovesetGenerator
     public static void OptimizeCriteria(PKM pk, ITrainerID32 info)
     {
         pk.ID32 = info.ID32; // Necessary for Gen2 Headbutt encounters and Honey Tree encounters
-        var htTrash = pk.HT_Trash;
+        var htTrash = pk.HandlingTrainerTrash;
         if (htTrash.Length != 0)
             htTrash[0] = 1; // Fake Trash to indicate trading.
     }

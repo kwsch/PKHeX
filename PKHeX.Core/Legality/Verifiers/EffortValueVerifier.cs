@@ -9,10 +9,7 @@ namespace PKHeX.Core;
 public sealed class EffortValueVerifier : Verifier
 {
     protected override CheckIdentifier Identifier => CheckIdentifier.EVs;
-
-    private const int totalMax = 510; // Total Max
-    private const int vitaMax = 100; // Vitamin Max for consideration in Gen3 & Gen4.
-
+    
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
@@ -29,7 +26,7 @@ public sealed class EffortValueVerifier : Verifier
             return;
 
         int sum = pk.EVTotal;
-        if (sum > totalMax) // format >= 3
+        if (sum > EffortValues.Max510) // format >= 3
             data.AddLine(GetInvalid(LEffortAbove510));
 
         var enc = data.EncounterMatch;
@@ -51,7 +48,7 @@ public sealed class EffortValueVerifier : Verifier
 
     private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, Span<int> evs, PKM pk)
     {
-        bool anyAbove100 = evs.Find(static ev => ev > vitaMax) != default;
+        bool anyAbove100 = evs.Find(static ev => ev > EffortValues.MaxVitamins34) != default;
         if (!anyAbove100)
             return;
 
@@ -66,7 +63,7 @@ public sealed class EffortValueVerifier : Verifier
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
             var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
             if (baseEXP == pk.EXP)
-                data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, vitaMax)));
+                data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, EffortValues.MaxVitamins34)));
         }
     }
 }

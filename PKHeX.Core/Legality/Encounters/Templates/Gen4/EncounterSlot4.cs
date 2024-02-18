@@ -9,14 +9,14 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IEncounterSlot4, IGroundTypeTile, IEncounterFormRandom, IRandomCorrelation
 {
     public byte Generation => 4;
-    int ILocation.Location => Location;
+    ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen4;
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => GetRequiredBallValue();
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
@@ -52,18 +52,18 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             Species = Species,
             Form = GetWildForm(Form),
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = Version,
             GroundTile = GroundTile.GetIndex(),
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)GetRequiredBallValue(Ball.Poke),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -85,7 +85,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
         var gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         var lvl = new SingleLevelRange(LevelMin);
         bool hgss = pk.HGSS;
@@ -122,7 +122,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         if (pk.Format == 4)
         {
             // Must match level exactly.
-            if (!this.IsLevelWithinRange(pk.Met_Level))
+            if (!this.IsLevelWithinRange(pk.MetLevel))
                 return false;
         }
         else

@@ -16,8 +16,8 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.COLO;
-    int ILocation.EggLocation => 0;
-    int ILocation.Location => Location;
+    ushort ILocation.EggLocation => 0;
+    ushort ILocation.Location => Location;
     public bool IsShiny => false;
     public bool EggEncounter => false;
     public Shiny Shiny => Shiny.Random;
@@ -53,16 +53,16 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
-            OT_Gender = 0,
+            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
+            OriginalTrainerGender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
@@ -90,7 +90,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         var gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
 
         // Ensure that any generated specimen has valid Shadow Locks
@@ -179,21 +179,21 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
             return true;
 
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
         if (pk.Format != 3) // Met Level lost on PK3=>PK4
             return evo.LevelMax >= Level;
-        return pk.Met_Level == Level;
+        return pk.MetLevel == Level;
     }
 
     private bool IsMatchLocation(PKM pk)
     {
         if (pk.Format != 3)
             return true; // transfer location verified later
-        return pk.Met_Location == Location;
+        return pk.MetLocation == Location;
     }
 
     #endregion

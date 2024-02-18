@@ -172,13 +172,13 @@ public static class Overworld8aRNG
             return false;
         pk.Gender = gender;
 
-        int nature = (int)rand.NextInt(25);
+        var nature = (Nature)rand.NextInt(25);
         pk.Nature = pk.StatNature = nature;
 
         var (height, weight) = para.IsAlpha
             ? (byte.MaxValue, byte.MaxValue)
-            : ((byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)),
-               (byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)));
+            : ((byte)(rand.NextInt(0x81) + rand.NextInt(0x80)),
+               (byte)(rand.NextInt(0x81) + rand.NextInt(0x80)));
 
         if (pk is IScaledSize s)
         {
@@ -279,14 +279,14 @@ public static class Overworld8aRNG
         if (pk.Gender != gender)
             return false;
 
-        var nature = (int)rand.NextInt(25);
+        var nature = (Nature)rand.NextInt(25);
         if (pk.Nature != nature)
             return false;
 
         var (height, weight) = para.IsAlpha
             ? (byte.MaxValue, byte.MaxValue)
-            : ((byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)),
-               (byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)));
+            : ((byte)(rand.NextInt(0x81) + rand.NextInt(0x80)),
+               (byte)(rand.NextInt(0x81) + rand.NextInt(0x80)));
 
         if (pk is IScaledSize s)
         {

@@ -39,9 +39,9 @@ public sealed class HistoryVerifier : Verifier
 
         if (pk.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
             data.AddLine(GetInvalid(LMemoryHTFlagInvalid));
-        else if (pk.HT_Friendship != 0)
+        else if (pk.HandlingTrainerFriendship != 0)
             data.AddLine(GetInvalid(LMemoryStatFriendshipHT0));
-        else if (pk is IAffection {HT_Affection: not 0})
+        else if (pk is IAffection {HandlingTrainerAffection: not 0})
             data.AddLine(GetInvalid(LMemoryStatAffectionHT0));
 
         // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.
@@ -70,9 +70,9 @@ public sealed class HistoryVerifier : Verifier
 
             if (flag == 1)
             {
-                if (pk.HT_Name != tr.OT)
+                if (pk.HandlingTrainerName != tr.OT)
                     data.AddLine(GetInvalid(LTransferHTMismatchName));
-                if (pk is IHandlerLanguage h && h.HT_Language != tr.Language)
+                if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
                     data.AddLine(Get(LTransferHTMismatchLanguage, Severity.Fishy));
             }
         }
@@ -91,7 +91,7 @@ public sealed class HistoryVerifier : Verifier
     };
 
     /// <summary>
-    /// Checks the non-Memory data for the <see cref="PKM.OT_Name"/> details.
+    /// Checks the non-Memory data for the <see cref="PKM.OriginalTrainerName"/> details.
     /// </summary>
     private void VerifyOTMisc(LegalityAnalysis data, bool neverOT)
     {
@@ -117,7 +117,7 @@ public sealed class HistoryVerifier : Verifier
         {
             // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
             // If none match, then it is not a valid OT friendship.
-            var fs = pk.OT_Friendship;
+            var fs = pk.OriginalTrainerFriendship;
             var enc = data.Info.EncounterMatch;
             if (GetBaseFriendship(enc) != fs)
                 data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
@@ -130,7 +130,7 @@ public sealed class HistoryVerifier : Verifier
         // Since some evolutions have different base friendship values, check all possible evolutions for a match.
         // If none match, then it is not a valid OT friendship.
         // VC transfers use S/M personal info
-        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OT_Friendship);
+        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OriginalTrainerFriendship);
         if (!any)
             data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
     }
@@ -158,7 +158,7 @@ public sealed class HistoryVerifier : Verifier
         {
             // Can gain affection in Gen6 via the Contest glitch applying affection to OT rather than HT.
             // VC encounters cannot obtain OT affection since they can't visit Gen6.
-            if ((origin <= 2 && a.OT_Affection != 0) || IsInvalidContestAffection(a))
+            if ((origin <= 2 && a.OriginalTrainerAffection != 0) || IsInvalidContestAffection(a))
                 data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
         }
         else if (neverOT)
@@ -167,7 +167,7 @@ public sealed class HistoryVerifier : Verifier
             {
                 if (pk is { IsUntraded: true, XY: true })
                 {
-                    if (a.OT_Affection != 0)
+                    if (a.OriginalTrainerAffection != 0)
                         data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
                 }
                 else if (IsInvalidContestAffection(a))
@@ -177,19 +177,19 @@ public sealed class HistoryVerifier : Verifier
             }
             else
             {
-                if (a.OT_Affection != 0)
+                if (a.OriginalTrainerAffection != 0)
                     data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
             }
         }
     }
 
     /// <summary>
-    /// Checks the non-Memory data for the <see cref="PKM.HT_Name"/> details.
+    /// Checks the non-Memory data for the <see cref="PKM.HandlingTrainerName"/> details.
     /// </summary>
     private void VerifyHTMisc(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var htGender = pk.HT_Gender;
+        var htGender = pk.HandlingTrainerGender;
         if (htGender > 1 || (pk.IsUntraded && htGender != 0))
             data.AddLine(GetInvalid(string.Format(LMemoryHTGender, htGender)));
     }
@@ -206,7 +206,7 @@ public sealed class HistoryVerifier : Verifier
     }
 
     // OR/AS contests mistakenly apply 20 affection to the OT instead of the current handler's value
-    private static bool IsInvalidContestAffection(IAffection pk) => pk.OT_Affection != 255 && pk.OT_Affection % 20 != 0;
+    private static bool IsInvalidContestAffection(IAffection pk) => pk.OriginalTrainerAffection != 255 && pk.OriginalTrainerAffection % 20 != 0;
 
     public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pk, byte generation)
     {
@@ -218,8 +218,8 @@ public sealed class HistoryVerifier : Verifier
         {
             IFixedTrainer { IsFixedTrainer: true } => false,
             EncounterSlot8GO => false,
-            WC6 { OT_Name.Length: > 0 } => false,
-            WC7 { OT_Name.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
+            WC6 { OriginalTrainerName.Length: > 0 } => false,
+            WC7 { OriginalTrainerName.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
             WB7 wb7 when wb7.GetHasOT(pk.Language) => false,
             WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
             WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
@@ -231,7 +231,7 @@ public sealed class HistoryVerifier : Verifier
 
     private static int GetBaseFriendship(IEncounterTemplate enc) => enc switch
     {
-        IFixedOTFriendship f => f.OT_Friendship,
+        IFixedOTFriendship f => f.OriginalTrainerFriendship,
         _ => GetBaseFriendship(enc.Context, enc.Species, enc.Form),
     };
 

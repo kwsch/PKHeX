@@ -69,7 +69,7 @@ public static class EntityFormat
         if (data[0x5F] < 0x10 && ReadUInt16LittleEndian(data[0x80..]) < 0x3333)
             return FormatPK4; // Gen3/4 version origin, not Transporter
         if (ReadUInt16LittleEndian(data[0x46..]) != 0)
-            return FormatPK4; // PK4.Met_LocationExtended (unused in PK5)
+            return FormatPK4; // PK4.MetLocationExtended (unused in PK5)
         return FormatPK5;
     }
 

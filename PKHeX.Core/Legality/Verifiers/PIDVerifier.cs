@@ -23,7 +23,7 @@ public sealed class PIDVerifier : Verifier
 
         if (pk.PID == 0)
             data.AddLine(Get(LPIDZero, Severity.Fishy));
-        if (pk.Nature >= 25) // out of range
+        if (!pk.Nature.IsFixed()) // out of range
             data.AddLine(GetInvalid(LPIDNatureMismatch));
 
         VerifyShiny(data);

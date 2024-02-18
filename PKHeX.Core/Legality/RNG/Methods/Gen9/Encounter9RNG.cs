@@ -27,7 +27,7 @@ public static class Encounter9RNG
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
-            if (criteria.TeraType != -1 && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
+            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
                 pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
@@ -47,7 +47,7 @@ public static class Encounter9RNG
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
-            if (criteria.TeraType != -1 && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
+            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
                 pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
@@ -118,10 +118,10 @@ public static class Encounter9RNG
             return false;
         pk.Gender = gender;
 
-        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
-                : (byte)rand.NextInt(25);
-        if (criteria.Nature != Nature.Random && nature != (int)criteria.Nature)
+                : (Nature)rand.NextInt(25);
+        if (criteria.Nature != Nature.Random && nature != criteria.Nature)
             return false;
         pk.Nature = pk.StatNature = nature;
 
@@ -200,21 +200,21 @@ public static class Encounter9RNG
         if (pk.Gender != gender)
             return false;
 
-        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
-                : (byte)rand.NextInt(25);
+                : (Nature)rand.NextInt(25);
         if (pk.Nature != nature)
             return false;
 
         if (enc.Height == 0)
         {
-            var value = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
+            var value = (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
             if (!IsHeightMatchSV(pk, value))
                 return false;
         }
         if (enc.Weight == 0)
         {
-            var value = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
+            var value = (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
             if (pk is IScaledSize s && s.WeightScalar != value)
                 return false;
         }
@@ -235,7 +235,7 @@ public static class Encounter9RNG
         return true;
     }
 
-    public static bool IsHeightMatchSV(PKM pk, int value)
+    public static bool IsHeightMatchSV(PKM pk, byte value)
     {
         // HOME copies Scale to Height. Untouched by HOME must match the value.
         // Viewing the save file in HOME will alter it too. Tracker definitely indicates it was viewed.

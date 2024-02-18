@@ -40,9 +40,9 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract bool Valid { get; set; }
 
     // Trash Bytes
-    public abstract Span<byte> Nickname_Trash { get; }
-    public abstract Span<byte> OT_Trash { get; }
-    public virtual Span<byte> HT_Trash => [];
+    public abstract Span<byte> NicknameTrash { get; }
+    public abstract Span<byte> OriginalTrainerTrash { get; }
+    public virtual Span<byte> HandlingTrainerTrash => [];
 
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
@@ -60,8 +60,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract string Nickname { get; set; }
     public abstract int HeldItem { get; set; }
     public abstract byte Gender { get; set; }
-    public abstract int Nature { get; set; }
-    public virtual int StatNature { get => Nature; set => Nature = value; }
+    public abstract Nature Nature { get; set; }
+    public virtual Nature StatNature { get => Nature; set => Nature = value; }
     public abstract int Ability { get; set; }
     public abstract byte CurrentFriendship { get; set; }
     public abstract byte Form { get; set; }
@@ -70,10 +70,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract uint EXP { get; set; }
     public abstract ushort TID16 { get; set; }
     public abstract ushort SID16 { get; set; }
-    public abstract string OT_Name { get; set; }
-    public abstract byte OT_Gender { get; set; }
-    public abstract int Ball { get; set; }
-    public abstract int Met_Level { get; set; }
+    public abstract string OriginalTrainerName { get; set; }
+    public abstract byte OriginalTrainerGender { get; set; }
+    public abstract byte Ball { get; set; }
+    public abstract byte MetLevel { get; set; }
 
     // Aliases of ID32
     public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
@@ -119,8 +119,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     // Hidden Properties
     public abstract GameVersion Version { get; set; }
     public abstract uint ID32 { get; set; }
-    public abstract int PKRS_Strain { get; set; }
-    public abstract int PKRS_Days { get; set; }
+    public abstract int PokerusStrain { get; set; }
+    public abstract int PokerusDays { get; set; }
 
     public abstract uint EncryptionConstant { get; set; }
     public abstract uint PID { get; set; }
@@ -131,19 +131,19 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract uint TSV { get; }
     public abstract uint PSV { get; }
     public abstract int Characteristic { get; }
-    public abstract int Met_Location { get; set; }
-    public abstract int Egg_Location { get; set; }
-    public abstract byte OT_Friendship { get; set; }
+    public abstract ushort MetLocation { get; set; }
+    public abstract ushort EggLocation { get; set; }
+    public abstract byte OriginalTrainerFriendship { get; set; }
     public virtual bool Japanese => Language == (int)LanguageID.Japanese;
     public virtual bool Korean => Language == (int)LanguageID.Korean;
 
     // Future Properties
-    public virtual int Met_Year { get => 0; set { } }
-    public virtual int Met_Month { get => 0; set { } }
-    public virtual int Met_Day { get => 0; set { } }
-    public virtual string HT_Name { get => string.Empty; set { } }
-    public virtual byte HT_Gender { get => 0; set { } }
-    public virtual byte HT_Friendship { get => 0; set { } }
+    public virtual byte MetYear { get => 0; set { } }
+    public virtual byte MetMonth { get => 0; set { } }
+    public virtual byte MetDay { get => 0; set { } }
+    public virtual string HandlingTrainerName { get => string.Empty; set { } }
+    public virtual byte HandlingTrainerGender { get => 0; set { } }
+    public virtual byte HandlingTrainerFriendship { get => 0; set { } }
     public virtual byte Enjoyment { get => 0; set { } }
     public virtual byte Fullness { get => 0; set { } }
     public virtual int AbilityNumber { get => 0; set { } }
@@ -163,33 +163,33 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         get
         {
             // Check to see if date is valid
-            if (!DateUtil.IsDateValid(2000 + Met_Year, Met_Month, Met_Day))
+            if (!DateUtil.IsDateValid(2000 + MetYear, MetMonth, MetDay))
                 return null;
-            return new DateOnly(2000 + Met_Year, Met_Month, Met_Day);
+            return new DateOnly(2000 + MetYear, MetMonth, MetDay);
         }
         set
         {
             if (value.HasValue)
             {
                 // Only update the properties if a value is provided.
-                Met_Year = value.Value.Year - 2000;
-                Met_Month = value.Value.Month;
-                Met_Day = value.Value.Day;
+                MetYear = (byte)(value.Value.Year - 2000);
+                MetMonth = (byte)value.Value.Month;
+                MetDay = (byte)value.Value.Day;
             }
             else
             {
                 // Clear the Met Date.
                 // If code tries to access MetDate again, null will be returned.
-                Met_Year = 0;
-                Met_Month = 0;
-                Met_Day = 0;
+                MetYear = 0;
+                MetMonth = 0;
+                MetDay = 0;
             }
         }
     }
 
-    public virtual int Egg_Year { get => 0; set { } }
-    public virtual int Egg_Month { get => 0; set { } }
-    public virtual int Egg_Day { get => 0; set { } }
+    public virtual byte EggYear { get => 0; set { } }
+    public virtual byte EggMonth { get => 0; set { } }
+    public virtual byte EggDay { get => 0; set { } }
 
     /// <summary>
     /// The date a Pokémon was met as an egg.
@@ -206,26 +206,26 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         get
         {
             // Check to see if date is valid
-            if (!DateUtil.IsDateValid(2000 + Egg_Year, Egg_Month, Egg_Day))
+            if (!DateUtil.IsDateValid(2000 + EggYear, EggMonth, EggDay))
                 return null;
-            return new DateOnly(2000 + Egg_Year, Egg_Month, Egg_Day);
+            return new DateOnly(2000 + EggYear, EggMonth, EggDay);
         }
         set
         {
             if (value.HasValue)
             {
                 // Only update the properties if a value is provided.
-                Egg_Year = value.Value.Year - 2000;
-                Egg_Month = value.Value.Month;
-                Egg_Day = value.Value.Day;
+                EggYear = (byte)(value.Value.Year - 2000);
+                EggMonth = (byte)value.Value.Month;
+                EggDay = (byte)value.Value.Day;
             }
             else
             {
                 // Clear the Met Date.
                 // If code tries to access MetDate again, null will be returned.
-                Egg_Year = 0;
-                Egg_Month = 0;
-                Egg_Day = 0;
+                EggYear = 0;
+                EggMonth = 0;
+                EggDay = 0;
             }
         }
     }
@@ -283,8 +283,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual bool LA => Version is PLA;
     public virtual bool SV => Version is SL or VL;
 
-    public bool GO_LGPE => GO && Met_Location == Locations.GO7;
-    public bool GO_HOME => GO && Met_Location == Locations.GO8;
+    public bool GO_LGPE => GO && MetLocation == Locations.GO7;
+    public bool GO_HOME => GO && MetLocation == Locations.GO8;
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
     public bool Gen9 => SV;
@@ -317,15 +317,15 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         }
     }
 
-    public bool PKRS_Infected { get => PKRS_Days != 0 || PKRS_Strain != 0; set => PKRS_Strain = value ? Math.Max(PKRS_Strain, 1) : 0; }
+    public bool IsPokerusInfected { get => PokerusDays != 0 || PokerusStrain != 0; set => PokerusStrain = value ? Math.Max(PokerusStrain, 1) : 0; }
 
-    public bool PKRS_Cured
+    public bool IsPokerusCured
     {
-        get => PKRS_Days == 0 && PKRS_Strain > 0;
+        get => PokerusDays == 0 && PokerusStrain > 0;
         set
         {
-            PKRS_Days = value ? 0 : 1;
-            PKRS_Infected = true;
+            PokerusDays = value ? 0 : 1;
+            IsPokerusInfected = true;
         }
     }
 
@@ -532,8 +532,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         get => 15 * HPBitValType / 63;
         set
         {
-            var arr = HiddenPower.DefaultLowBits;
-            var bits = (uint)value >= arr.Length ? 0 : arr[value];
+            var bits = HiddenPower.GetLowBits(value);
             IV_HP = (IV_HP & ~1)   + ((bits >> 0) & 1);
             IV_ATK = (IV_ATK & ~1) + ((bits >> 1) & 1);
             IV_DEF = (IV_DEF & ~1) + ((bits >> 2) & 1);
@@ -544,9 +543,9 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     }
 
     // Misc Egg Facts
-    public virtual bool WasEgg => IsEgg || Egg_Day != 0;
-    public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
-    public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
+    public virtual bool WasEgg => IsEgg || EggDay != 0;
+    public bool WasTradedEgg => EggLocation == GetTradedEggLocation();
+    public bool IsTradedEgg => MetLocation == GetTradedEggLocation();
     private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, Version);
 
     public virtual bool IsUntraded => false;
@@ -800,12 +799,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <param name="month">Month the <see cref="PKM"/> was traded.</param>
     /// <param name="y">Day the <see cref="PKM"/> was traded.</param>
     /// <param name="location">Link Trade location value.</param>
-    protected void SetLinkTradeEgg(int day, int month, int y, int location)
+    protected void SetLinkTradeEgg(int day, int month, int y, ushort location)
     {
-        Met_Day = day;
-        Met_Month = month;
-        Met_Year = y - 2000;
-        Met_Location = location;
+        MetDay = (byte)day;
+        MetMonth = (byte)month;
+        MetYear = (byte)(y - 2000);
+        MetLocation = location;
     }
 
     /// <summary>
@@ -882,7 +881,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <remarks>
     /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
     /// </remarks>
-    public void SetPIDNature(int nature)
+    public void SetPIDNature(Nature nature)
     {
         var rnd = Util.Rand;
         do PID = EntityPID.GetRandomPID(rnd, Species, Gender, Version, nature, Form, PID);

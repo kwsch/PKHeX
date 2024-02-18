@@ -14,14 +14,14 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public byte Form => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} - Cave Spot";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -36,16 +36,16 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
             FatefulEncounter = FatefulEncounter,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = 0,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -60,7 +60,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         var gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var nature = criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
     }

@@ -14,9 +14,9 @@ internal static class BallUseLegality
     /// <returns>True if it is impossible to capture in a <see cref="Heavy"/> ball.</returns>
     public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Species.Beldum or (int)Species.TapuKoko or (int)Species.TapuLele or (int)Species.TapuBulu or (int)Species.TapuFini;
 
-    public static bool IsBallPermitted(ulong permit, int ball)
+    public static bool IsBallPermitted(ulong permit, byte ball)
     {
-        if ((uint)ball >= 64)
+        if (ball >= 64)
             return false;
         return (permit & (1ul << ball)) != 0;
     }

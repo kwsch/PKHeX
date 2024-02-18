@@ -113,7 +113,7 @@ public static class Locations
     /// <param name="version">Game version of the egg</param>
     /// <returns>Egg Location value</returns>
     /// <remarks>Location will be set to the Met Location until it hatches, then moves to Egg Location.</remarks>
-    public static int TradedEggLocation(byte generation, GameVersion version) => generation switch
+    public static ushort TradedEggLocation(byte generation, GameVersion version) => generation switch
     {
         4 => LinkTrade4,
         5 => LinkTrade5,
@@ -121,30 +121,30 @@ public static class Locations
         _ => LinkTrade6,
     };
 
-    public static bool IsPtHGSSLocation(int location) => location is > 111 and < 2000;
-    public static bool IsPtHGSSLocationEgg(int location) => location is > 2010 and < 3000;
-    public static bool IsEventLocation3(int location) => location is 255;
-    public static bool IsEventLocation4(int location) => location is >= 3000 and <= 3076;
-    public static bool IsEventLocation5(int location) => location is > 40000 and < 50000;
+    public static bool IsPtHGSSLocation(ushort location) => location is > 111 and < 2000;
+    public static bool IsPtHGSSLocationEgg(ushort location) => location is > 2010 and < 3000;
+    public static bool IsEventLocation3(ushort location) => location is 255;
+    public static bool IsEventLocation4(ushort location) => location is >= 3000 and <= 3076;
+    public static bool IsEventLocation5(ushort location) => location is > 40000 and < 50000;
 
     private const int SafariLocation_RSE = 57;
     private const int SafariLocation_FRLG = 136;
     public static bool IsSafariZoneLocation3(byte loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
     public static bool IsSafariZoneLocation3RSE(byte loc) => loc == SafariLocation_RSE;
 
-    public static bool IsEggLocationBred4(int loc, GameVersion version)
+    public static bool IsEggLocationBred4(ushort loc, GameVersion version)
     {
         if (loc is Daycare4 or LinkTrade4)
             return true;
         return loc == Faraway4 && version is GameVersion.Pt or GameVersion.HG or GameVersion.SS;
     }
 
-    public static bool IsEggLocationBred5(int loc) => loc is Daycare5 or LinkTrade5;
-    public static bool IsEggLocationBred6(int loc) => loc is Daycare5 or LinkTrade6;
-    public static bool IsEggLocationBred8b(int loc) => loc is Daycare8b or LinkTrade6NPC;
-    public static bool IsEggLocationBred9(int loc) => loc is Picnic9 or LinkTrade6;
+    public static bool IsEggLocationBred5(ushort loc) => loc is Daycare5 or LinkTrade5;
+    public static bool IsEggLocationBred6(ushort loc) => loc is Daycare5 or LinkTrade6;
+    public static bool IsEggLocationBred8b(ushort loc) => loc is Daycare8b or LinkTrade6NPC;
+    public static bool IsEggLocationBred9(ushort loc) => loc is Picnic9 or LinkTrade6;
 
-    public static int GetDaycareLocation(byte generation, GameVersion version) => generation switch
+    public static ushort GetDaycareLocation(byte generation, GameVersion version) => generation switch
     {
         1 or 2 or 3 => 0,
         4 => Daycare4,

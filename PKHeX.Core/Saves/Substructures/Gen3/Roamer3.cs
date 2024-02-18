@@ -22,7 +22,7 @@ public sealed class Roamer3 : IContestStats
         IsGlitched = sav.Version != GameVersion.E;
     }
 
-    private uint IV32
+    public uint IV32
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset));
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value);
@@ -54,12 +54,12 @@ public sealed class Roamer3 : IContestStats
 
     public int Status { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
 
-    public byte CNT_Cool   { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = value; }
-    public byte CNT_Beauty { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = value; }
-    public byte CNT_Cute   { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }
-    public byte CNT_Smart  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = value; }
-    public byte CNT_Tough  { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = value; }
-    public byte CNT_Sheen  { get => 0; set { } }
+    public byte ContestCool   { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = value; }
+    public byte ContestBeauty { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = value; }
+    public byte ContestCute   { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }
+    public byte ContestSmart  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = value; }
+    public byte ContestTough  { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = value; }
+    public byte ContestSheen  { get => 0; set { } }
     public bool Active    { get => Data[Offset + 0x13] == 1; set => Data[Offset + 0x13] = value ? (byte)1 : (byte)0; }
 
     // Derived Properties

@@ -9,16 +9,16 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
 {
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
-    public int Location => Locations.LinkTrade6NPC;
-    public byte OT_Memory => 1;
-    public byte OT_Intensity => 3;
-    public byte OT_Feeling => 5;
-    public ushort OT_TextVar => 40;
+    public ushort Location => Locations.LinkTrade6NPC;
+    public byte OriginalTrainerMemory => 1;
+    public byte OriginalTrainerMemoryIntensity => 3;
+    public byte OriginalTrainerMemoryFeeling => 5;
+    public ushort OriginalTrainerMemoryVariable => 40;
     public Shiny Shiny => Shiny.Never;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
 
@@ -71,32 +71,32 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
             Species = Species,
             Form = Form,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDate3DS(),
             Gender = Gender,
-            Nature = (byte)Nature,
+            Nature = Nature,
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
             Version = version,
             Language = lang,
-            OT_Gender = OTGender,
-            OT_Name = TrainerNames[lang],
+            OriginalTrainerGender = OTGender,
+            OriginalTrainerName = TrainerNames[lang],
 
-            OT_Memory = OT_Memory,
-            OT_Intensity = OT_Intensity,
-            OT_Feeling = OT_Feeling,
-            OT_TextVar = OT_TextVar,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerMemory = OriginalTrainerMemory,
+            OriginalTrainerMemoryIntensity = OriginalTrainerMemoryIntensity,
+            OriginalTrainerMemoryFeeling = OriginalTrainerMemoryFeeling,
+            OriginalTrainerMemoryVariable = OriginalTrainerMemoryVariable,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = true,
             Nickname = Nicknames[lang],
 
-            HT_Name = tr.OT,
-            HT_Gender = tr.Gender,
+            HandlingTrainerName = tr.OT,
+            HandlingTrainerGender = tr.Gender,
             CurrentHandler = 1,
-            HT_Friendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
         };
         if (tr is IRegionOrigin r)
             r.CopyRegionOrigin(pk);
@@ -126,7 +126,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (IVs.IsSpecified)
         {
@@ -139,7 +139,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
-        if (pk.OT_Gender != OTGender)
+        if (pk.OriginalTrainerGender != OTGender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
@@ -153,7 +153,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
         var expect = EggLocation;
         if (pk is PB8)
             expect = Locations.Default8bNone;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
     private bool IsMatchNatureGenderShiny(PKM pk)
     {
@@ -161,7 +161,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (Gender != pk.Gender)
             return false;
-        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+        if (Nature != Nature.Random && pk.Nature != Nature)
             return false;
         return true;
     }

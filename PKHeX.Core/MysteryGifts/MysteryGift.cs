@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Mystery Gift Template File
 /// </summary>
-public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainerID32, IFatefulEncounterReadOnly, IEncounterMatch
+public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFatefulEncounterReadOnly, IEncounterMatch
 {
     /// <summary>
     /// Determines whether the given length of bytes is valid for a mystery gift.
@@ -144,7 +144,6 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
 
     // Search Properties
     public virtual Moveset Moves { get => default; set { } }
-    public virtual Moveset Relearn { get => default; set { } }
     public virtual int[] IVs { get => []; set { } }
     public virtual bool HasFixedIVs => true;
     public virtual void GetIVs(Span<int> value) { }
@@ -164,20 +163,20 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
     public abstract uint ID32 { get; set; }
     public abstract ushort TID16 { get; set; }
     public abstract ushort SID16 { get; set; }
-    public abstract string OT_Name { get; set; }
-    public abstract int Location { get; set; }
+    public abstract string OriginalTrainerName { get; set; }
+    public abstract ushort Location { get; set; }
 
     public abstract byte Level { get; set; }
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public abstract int Ball { get; set; }
+    public abstract byte Ball { get; set; }
     public virtual bool EggEncounter => IsEgg;
-    public abstract int EggLocation { get; set; }
+    public abstract ushort EggLocation { get; set; }
 
     protected virtual bool IsMatchEggLocation(PKM pk)
     {
         var expect = EggEncounter ? EggLocation : pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     public Ball FixedBall => (Ball)Ball;

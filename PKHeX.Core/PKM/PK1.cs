@@ -29,8 +29,8 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override PK1 Clone()
     {
         PK1 clone = new((byte[])Data.Clone(), Japanese);
-        OT_Trash.CopyTo(clone.OT_Trash);
-        Nickname_Trash.CopyTo(clone.Nickname_Trash);
+        OriginalTrainerTrash.CopyTo(clone.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(clone.NicknameTrash);
         return clone;
     }
 
@@ -127,16 +127,16 @@ public sealed class PK1 : GBPKML, IPersonalType
     }
 
     public override GameVersion Version { get => GameVersion.RBY; set { } }
-    public override int PKRS_Strain { get => 0; set { } }
-    public override int PKRS_Days { get => 0; set { } }
+    public override int PokerusStrain { get => 0; set { } }
+    public override int PokerusDays { get => 0; set { } }
     public override bool CanHoldItem(ReadOnlySpan<ushort> valid) => false;
-    public override int Met_Location { get => 0; set { } }
-    public override byte OT_Gender { get => 0; set { } }
-    public override int Met_Level { get => 0; set { } }
+    public override ushort MetLocation { get => 0; set { } }
+    public override byte OriginalTrainerGender { get => 0; set { } }
+    public override byte MetLevel { get => 0; set { } }
     public override byte CurrentFriendship { get => 0; set { } }
     public override bool IsEgg { get => false; set { } }
     public override int HeldItem { get => 0; set { } }
-    public override byte OT_Friendship { get => 0; set { } }
+    public override byte OriginalTrainerFriendship { get => 0; set { } }
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_1;
@@ -151,8 +151,8 @@ public sealed class PK1 : GBPKML, IPersonalType
     {
         PK2 pk2 = new(Japanese) {Species = Species};
         Data.AsSpan(7, 0x1A).CopyTo(pk2.Data.AsSpan(1));
-        OT_Trash.CopyTo(pk2.OT_Trash);
-        Nickname_Trash.CopyTo(pk2.Nickname_Trash);
+        OriginalTrainerTrash.CopyTo(pk2.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(pk2.NicknameTrash);
 
         pk2.HeldItem = Gen2Item;
         pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
@@ -180,7 +180,7 @@ public sealed class PK1 : GBPKML, IPersonalType
             TID16 = TID16,
             CurrentLevel = CurrentLevel,
             EXP = EXP,
-            Met_Level = CurrentLevel,
+            MetLevel = CurrentLevel,
             Nature = Experience.GetNatureVC(EXP),
             PID = rnd.Rand32(),
             Ball = 4,
@@ -194,19 +194,19 @@ public sealed class PK1 : GBPKML, IPersonalType
             Move2_PPUps = Move2_PPUps,
             Move3_PPUps = Move3_PPUps,
             Move4_PPUps = Move4_PPUps,
-            Met_Location = Locations.Transfer1, // "Kanto region", hardcoded.
+            MetLocation = Locations.Transfer1, // "Kanto region", hardcoded.
             Gender = Gender,
             IsNicknamed = false,
 
             CurrentHandler = 1,
-            HT_Name = RecentTrainerCache.OT_Name,
-            HT_Gender = RecentTrainerCache.OT_Gender,
+            HandlingTrainerName = RecentTrainerCache.OriginalTrainerName,
+            HandlingTrainerGender = RecentTrainerCache.OriginalTrainerGender,
 
             Language = lang,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, 7),
-            OT_Name = GetTransferTrainerName(lang),
-            OT_Friendship = pi.BaseFriendship,
-            HT_Friendship = pi.BaseFriendship,
+            OriginalTrainerName = GetTransferTrainerName(lang),
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
 
             Ability = pi.GetAbilityAtIndex(ability),
             AbilityNumber = 1 << ability,
@@ -225,7 +225,7 @@ public sealed class PK1 : GBPKML, IPersonalType
         else if (IsNicknamedBank)
         {
             pk7.IsNicknamed = true;
-            pk7.Nickname = StringConverter12Transporter.GetString(Nickname_Trash, Japanese);
+            pk7.Nickname = StringConverter12Transporter.GetString(NicknameTrash, Japanese);
         }
 
         pk7.HealPP();
@@ -235,8 +235,8 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     private string GetTransferTrainerName(int lang)
     {
-        if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+        if (OriginalTrainerTrash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
             return StringConverter12Transporter.GetTradeNameGen1(lang);
-        return StringConverter12Transporter.GetString(OT_Trash, Japanese);
+        return StringConverter12Transporter.GetString(OriginalTrainerTrash, Japanese);
     }
 }

@@ -53,7 +53,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public byte Friendship { get; private set; } = 255;
 
     /// <inheritdoc/>
-    public int Nature { get; private set; } = -1;
+    public Nature Nature { get; private set; } = Nature.Random;
 
     /// <inheritdoc/>
     public string FormName { get; private set; } = string.Empty;
@@ -254,14 +254,14 @@ public sealed class ShowdownSet : IBattleTemplate
         var firstSpace = identifier.IndexOf(' ');
         if (firstSpace == -1)
             return false;
-        var naturestr = identifier[..firstSpace];
-        return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, naturestr)) >= 0;
+        var nature = identifier[..firstSpace];
+        return (Nature = (Nature)StringUtil.FindIndexIgnoreCase(Strings.natures, nature)).IsFixed();
     }
 
     private bool ParseEntry(ReadOnlySpan<char> identifier, ReadOnlySpan<char> value) => identifier switch
     {
         "Ability"       => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
-        "Nature"        => (Nature  = StringUtil.FindIndexIgnoreCase(Strings.natures    , value)) >= 0,
+        "Nature"        => (Nature  = (Nature)StringUtil.FindIndexIgnoreCase(Strings.natures    , value)).IsFixed(),
         "Shiny"         => Shiny         = StringUtil.IsMatchIgnoreCase("Yes", value),
         "Gigantamax"    => CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value),
         "Friendship"    => ParseFriendship(value),
@@ -387,7 +387,7 @@ public sealed class ShowdownSet : IBattleTemplate
             result.Add("Gigantamax: Yes");
 
         if ((uint)Nature < Strings.Natures.Count)
-            result.Add($"{Strings.Natures[Nature]} Nature");
+            result.Add($"{Strings.Natures[(byte)Nature]} Nature");
 
         // Moves
         result.AddRange(GetStringMoves());

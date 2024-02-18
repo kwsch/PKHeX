@@ -112,7 +112,7 @@ public static class EntitySorting
     {
         return list.InitialSortBy()
             .ThenByDescending(p => trainer.IsOriginalHandler(p, trainer.Version.IsValidSavedVersion())) // true first
-            .ThenByDescending(p => string.Equals(p.OT_Name, trainer.OT, StringComparison.OrdinalIgnoreCase))
+            .ThenByDescending(p => string.Equals(p.OriginalTrainerName, trainer.OT, StringComparison.OrdinalIgnoreCase))
             .OrderByTrainer()
             .ThenBy(p => p.Species)
             .FinalSortBy();
@@ -215,8 +215,8 @@ public static class EntitySorting
     /// <param name="list">Output list of <see cref="PKM"/> data.</param>
     private static IOrderedEnumerable<PKM> OrderByTrainer(this IOrderedEnumerable<PKM> list)
     {
-        return list.ThenBy(p => p.OT_Name)
-            .ThenBy(p => p.OT_Gender)
+        return list.ThenBy(p => p.OriginalTrainerName)
+            .ThenBy(p => p.OriginalTrainerGender)
             .ThenBy(p => p.TID16)
             .ThenBy(p => p.SID16);
     }
@@ -236,9 +236,9 @@ public static class EntitySorting
             return false;
         if (trainer.TID16 != pk.TID16 || trainer.SID16 != pk.SID16)
             return false;
-        if (trainer.Gender != pk.OT_Gender)
+        if (trainer.Gender != pk.OriginalTrainerGender)
             return false;
-        return trainer.OT == pk.OT_Name;
+        return trainer.OT == pk.OriginalTrainerName;
     }
 
     /// <summary>

@@ -249,8 +249,8 @@ public static class EntityConverter
         if (pk.Nickname.Length > limit.MaxStringLengthNickname)
             pk.Nickname = pk.Nickname[..pk.MaxStringLengthNickname];
 
-        if (pk.OT_Name.Length > limit.MaxStringLengthOT)
-            pk.OT_Name = pk.OT_Name[..pk.MaxStringLengthOT];
+        if (pk.OriginalTrainerName.Length > limit.MaxStringLengthOT)
+            pk.OriginalTrainerName = pk.OriginalTrainerName[..pk.MaxStringLengthOT];
 
         if (pk.Move1 > limit.MaxMoveID || pk.Move2 > limit.MaxMoveID || pk.Move3 > limit.MaxMoveID || pk.Move4 > limit.MaxMoveID)
             pk.ClearInvalidMoves();

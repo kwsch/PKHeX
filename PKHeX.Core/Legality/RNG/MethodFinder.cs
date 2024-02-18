@@ -357,7 +357,7 @@ public static class MethodFinder
                 continue;
 
             var E = XDRNG.Next(D); // OT Gender
-            if (E >> 31 != pk.OT_Gender)
+            if (E >> 31 != pk.OriginalTrainerGender)
                 continue;
 
             if (!XDRNG.GetSequentialIVsUInt32(E, IVs))
@@ -624,8 +624,8 @@ public static class MethodFinder
     {
         bool starter = pk.Version == GameVersion.CXD && pk.Species switch
         {
-            (int)Species.Espeon when pk.Met_Level >= 25 => true,
-            (int)Species.Umbreon when pk.Met_Level >= 26 => true,
+            (int)Species.Espeon when pk.MetLevel >= 25 => true,
+            (int)Species.Umbreon when pk.MetLevel >= 26 => true,
             _ => false,
         };
         if (!starter)

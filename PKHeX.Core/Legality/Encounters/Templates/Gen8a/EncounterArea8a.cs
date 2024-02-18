@@ -23,9 +23,9 @@ public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLoc
     private readonly byte[] Locations;
     public readonly SlotType8a Type;
 
-    public int Location => Locations[0];
+    public ushort Location => Locations[0];
 
-    public bool IsMatchLocation(int location)
+    public bool IsMatchLocation(ushort location)
     {
         return Array.IndexOf(Locations, (byte)location) != -1;
     }
@@ -41,12 +41,11 @@ public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLoc
     private EncounterArea8a(ReadOnlySpan<byte> areaData)
     {
         // Area Metadata
-        int locationCount = areaData[0];
+        var locationCount = areaData[0];
         Locations = areaData.Slice(1, locationCount).ToArray();
 
-        int align = (locationCount + 1);
-        if ((align & 1) == 1)
-            align++;
+        var align = (locationCount + 1);
+        align += align & 1; // ensure alignment is even
         areaData = areaData[align..];
         Type = (SlotType8a)areaData[0];
         var count = areaData[1];

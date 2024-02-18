@@ -92,12 +92,12 @@ internal static class BatchModifications
         if (encounter == null)
             return ModifyResult.Error;
 
-        int location = encounter.Location;
+        var location = encounter.Location;
         var level = encounter.LevelMin;
         var minimumLevel = EncounterSuggestion.GetLowestLevel(pk, level);
 
-        pk.Met_Level = level;
-        pk.Met_Location = location;
+        pk.MetLevel = level;
+        pk.MetLocation = location;
         pk.CurrentLevel = Math.Max(minimumLevel, level);
 
         return ModifyResult.Modified;

@@ -411,7 +411,7 @@ public partial class SAV_Trainer7 : Form
     private void SaveThrowType()
     {
         if (CB_BallThrowType.SelectedIndex >= 0)
-            SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
+            SAV.MyStatus.BallThrowType = (byte)CB_BallThrowType.SelectedIndex;
 
         if (SAV is not SAV7SM) // unlock flags are in flag editor instead
             return;

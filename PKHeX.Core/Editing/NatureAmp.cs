@@ -15,18 +15,18 @@ public static class NatureAmp
     /// <param name="statIndex">Stat Index to mutate</param>
     /// <param name="currentNature">Current nature to derive the current amps from</param>
     /// <returns>New nature value</returns>
-    public static int GetNewNature(this NatureAmpRequest type, int statIndex, int currentNature)
+    public static Nature GetNewNature(this NatureAmpRequest type, int statIndex, Nature currentNature)
     {
-        if (currentNature >= NatureCount)
-            return -1;
+        if ((uint)currentNature >= NatureCount)
+            return Nature.Random;
 
         var (up, dn) = GetNatureModification(currentNature);
 
         return GetNewNature(type, statIndex, up, dn);
     }
 
-    /// <inheritdoc cref="GetNewNature(NatureAmpRequest,int,int)"/>
-    public static int GetNewNature(NatureAmpRequest type, int statIndex, int up, int dn)
+    /// <inheritdoc cref="GetNewNature(NatureAmpRequest,int,Nature)"/>
+    public static Nature GetNewNature(NatureAmpRequest type, int statIndex, int up, int dn)
     {
         // 
         switch (type)
@@ -41,7 +41,7 @@ public static class NatureAmp
                 up = dn = statIndex;
                 break;
             default:
-                return -1; // failure
+                return Nature.Random; // failure
         }
 
         return CreateNatureFromAmps(up, dn);
@@ -53,20 +53,20 @@ public static class NatureAmp
     /// <param name="up">Increased stat</param>
     /// <param name="dn">Decreased stat</param>
     /// <returns>Nature</returns>
-    public static int CreateNatureFromAmps(int up, int dn)
+    public static Nature CreateNatureFromAmps(int up, int dn)
     {
         if ((uint)up > 5 || (uint)dn > 5)
-            return -1;
-        return (up * 5) + dn;
+            return Nature.Random;
+        return (Nature)((up * 5) + dn);
     }
 
     /// <summary>
     /// Decompose the nature to the two stat indexes that are modified
     /// </summary>
-    public static (int up, int dn) GetNatureModification(int nature)
+    public static (int up, int dn) GetNatureModification(Nature nature)
     {
-        var up = (nature / 5);
-        var dn = (nature % 5);
+        var up = ((byte)nature / 5);
+        var dn = ((byte)nature % 5);
         return (up, dn);
     }
 
@@ -77,13 +77,13 @@ public static class NatureAmp
     /// <param name="up">Increased stat</param>
     /// <param name="dn">Decreased stat</param>
     /// <returns>True if nature modification values are equal or the Nature is out of range.</returns>
-    public static bool IsNeutralOrInvalid(int nature, int up, int dn)
+    public static bool IsNeutralOrInvalid(Nature nature, int up, int dn)
     {
-        return up == dn || nature >= 25; // invalid
+        return up == dn || (byte)nature >= 25; // invalid
     }
 
-    /// <inheritdoc cref="IsNeutralOrInvalid(int, int, int)"/>
-    public static bool IsNeutralOrInvalid(int nature)
+    /// <inheritdoc cref="IsNeutralOrInvalid(Nature, int, int)"/>
+    public static bool IsNeutralOrInvalid(Nature nature)
     {
         var (up, dn) = GetNatureModification(nature);
         return IsNeutralOrInvalid(nature, up, dn);
@@ -94,7 +94,7 @@ public static class NatureAmp
     /// </summary>
     /// <param name="stats">Current stats to amplify if appropriate</param>
     /// <param name="nature">Nature</param>
-    public static void ModifyStatsForNature(Span<ushort> stats, int nature)
+    public static void ModifyStatsForNature(Span<ushort> stats, Nature nature)
     {
         var (up, dn) = GetNatureModification(nature);
         if (IsNeutralOrInvalid(nature, up, dn))
@@ -139,17 +139,17 @@ public static class NatureAmp
         0, 0, 0, 0, 0, // Quirky
     ];
 
-    private const int NatureCount = 25;
+    private const byte NatureCount = 25;
     private const int AmpWidth = 5;
 
-    public static int AmplifyStat(int nature, int index, int initial) => GetNatureAmp(nature, index) switch
+    public static int AmplifyStat(Nature nature, int index, int initial) => GetNatureAmp(nature, index) switch
     {
         1 => 110 * initial / 100, // 110%
         -1 => 90 * initial / 100, // 90%
         _ => initial,
     };
 
-    private static sbyte GetNatureAmp(int nature, int index)
+    private static sbyte GetNatureAmp(Nature nature, int index)
     {
         if ((uint)nature >= NatureCount)
             return -1;
@@ -157,11 +157,11 @@ public static class NatureAmp
         return amps[index];
     }
 
-    public static ReadOnlySpan<sbyte> GetAmps(int nature)
+    public static ReadOnlySpan<sbyte> GetAmps(Nature nature)
     {
         if ((uint)nature >= NatureCount)
             nature = 0;
-        return Table.Slice(AmpWidth * nature, AmpWidth);
+        return Table.Slice(AmpWidth * (byte)nature, AmpWidth);
     }
 }
 
