@@ -213,7 +213,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public int GTS { get; protected set; } = int.MinValue;
 
     public int ChatterOffset { get; protected set; } = int.MinValue;
-    public Chatter4 Chatter => new(this);
+    public Chatter4 Chatter => new(this, ChatterOffset);
 
     // Storage
     public override int PartyCount

@@ -4,13 +4,8 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
-public sealed class GoParkStorage : SaveBlock<SAV7b>, IEnumerable<GP1>
+public sealed class GoParkStorage(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset), IEnumerable<GP1>
 {
-    public GoParkStorage(SAV7b sav) : base(sav)
-    {
-        Offset = sav.Blocks.GetBlockOffset(BelugaBlockIndex.GoParkEntities);
-    }
-
     public const int SlotsPerArea = 50;
     public const int Areas = 20;
     public const int Count = SlotsPerArea * Areas; // 1000

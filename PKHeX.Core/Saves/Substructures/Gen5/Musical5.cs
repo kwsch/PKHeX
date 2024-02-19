@@ -1,10 +1,7 @@
 namespace PKHeX.Core;
 
-public sealed class Musical5 : SaveBlock<SAV5>
+public sealed class Musical5(SAV5 SAV, int offset) : SaveBlock<SAV5>(SAV, offset)
 {
-    public Musical5(SAV5BW SAV, int offset) : base(SAV) => Offset = offset;
-    public Musical5(SAV5B2W2 SAV, int offset) : base(SAV) => Offset = offset;
-
     private const int PropOffset = 0x258;
 
     public void UnlockAllMusicalProps()

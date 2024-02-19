@@ -7,4 +7,5 @@ public abstract class MyItem : SaveBlock<SaveFile>
     public abstract IReadOnlyList<InventoryPouch> Inventory { get; set; }
     protected MyItem(SaveFile SAV) : base(SAV) { }
     protected MyItem(SaveFile SAV, byte[] data) : base(SAV, data) { }
+    protected MyItem(SaveFile SAV, int offset) : base(SAV, offset) { }
 }

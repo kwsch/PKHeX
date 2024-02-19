@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class HallOfFame7 : SaveBlock<SAV7>
+public sealed class HallOfFame7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset)
 {
-    public HallOfFame7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-    public HallOfFame7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
-
     // this HoF region is immediately after the Event Flags
     private const int MaxCount = 12;
     public int First1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), (ushort)value); }

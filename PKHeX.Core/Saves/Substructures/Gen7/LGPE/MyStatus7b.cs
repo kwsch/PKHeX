@@ -3,10 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class MyStatus7b : SaveBlock<SAV7b>
+public sealed class MyStatus7b(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
 {
-    public MyStatus7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
-
     // Player Information
 
     // idb uint8 offset: 0x58

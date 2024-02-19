@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 
 public sealed class SuperTrainBlock : SaveBlock<SAV6>
 {
-    public SuperTrainBlock(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public SuperTrainBlock(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public SuperTrainBlock(SAV6XY sav, int offset) : base(sav, offset) { }
+    public SuperTrainBlock(SAV6AO sav, int offset) : base(sav, offset) { }
 
     // Structure:
     // 6 bytes stage unlock flags

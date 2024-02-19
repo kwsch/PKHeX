@@ -19,8 +19,8 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
     private const int Unlocked = PCFlags + 1;                  // 0x43E;
     private const int LastViewedBoxOffset = Unlocked + 1;      // 0x43F;
 
-    public BoxLayout6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public BoxLayout6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public BoxLayout6(SAV6XY sav, int offset) : base(sav, offset) { }
+    public BoxLayout6(SAV6AO sav, int offset) : base(sav, offset) { }
 
     public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
 

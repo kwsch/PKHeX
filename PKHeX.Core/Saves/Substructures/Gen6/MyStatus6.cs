@@ -6,10 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 6 savedata object that stores the player's trainer data.
 /// </summary>
-public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
+public class MyStatus6(SAV6 sav, int offset) : SaveBlock<SAV6>(sav, offset), IRegionOrigin
 {
-    public MyStatus6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-
     public uint ID32
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));

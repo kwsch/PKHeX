@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface for Accessing named blocks within a Generation 7 LGP/E save file.
@@ -16,4 +16,5 @@ public interface ISaveBlock7b
     PokeListHeader Storage { get; }
     WB7Records GiftRecords { get; }
     CaptureRecords Captured { get; }
+    GoParkStorage Park { get; }
 }

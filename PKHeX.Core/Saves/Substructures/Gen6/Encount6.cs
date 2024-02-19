@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class Encount6 : SaveBlock<SAV6>
 {
-    public Encount6(SAV6XY SAV, int offset) : base(SAV) => Offset = offset;
-    public Encount6(SAV6AO SAV, int offset) : base(SAV) => Offset = offset;
+    public Encount6(SAV6XY SAV, int offset) : base(SAV, offset) { }
+    public Encount6(SAV6AO SAV, int offset) : base(SAV, offset) { }
 
     public ushort RepelItemUsed { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), value); }
     public byte RepelSteps { get => Data[Offset + 0x02]; set => Data[Offset + 0x02] = value; }
