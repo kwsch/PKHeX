@@ -1135,3 +1135,5 @@ Kostbarkeits
 Edle
 Terastal
 Stellar
+Fernes Land
+Judäa

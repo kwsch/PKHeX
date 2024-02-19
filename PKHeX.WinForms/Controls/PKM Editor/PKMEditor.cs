@@ -441,9 +441,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UC_Gender.AllowClick = pi.IsDualGender;
 
         bool hasForms = FormInfo.HasFormSelection(pi, species, Entity.Format);
-        CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
+        CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = true;// hasForms;
 
-        if (HaX && Entity.Format >= 4)
+        if (true)//HaX && Entity.Format >= 4)
             Label_Form.Visible = true; // show with value entry textbox
 
         if (!hasForms)

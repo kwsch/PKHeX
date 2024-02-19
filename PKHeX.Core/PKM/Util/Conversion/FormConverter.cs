@@ -63,10 +63,13 @@ public static class FormConverter
             ],
             Pikachu => GetFormsPikachu(context, types, forms),
             Slowbro when generation >= 8 => GetFormsGalarSlowbro(types, forms),
-
-            Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd or Articuno or Zapdos or Moltres when generation >= 8 => GetFormsGalar(types, forms),
-            Growlithe or Arcanine or Voltorb or Electrode when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Weezing or Ponyta or Rapidash or MrMime or Articuno or Zapdos or Moltres when generation >= 7 => GetFormsGalar(types, forms),
+            Slowpoke or Farfetchd when generation >= 8 => GetFormsGalar(types, forms),
+            Growlithe or Arcanine or Voltorb or Electrode or Scyther when generation >= 7 => GetFormsHisui(species, generation, types, forms),
             Tauros when generation >= 9 => GetFormsPaldea(species, types, forms),
+            Tentacool or Tentacruel when generation >= 9 => GetFormsPaldea(species, types, forms),
+
+            Dragonair or Dragonite when generation >= 7 => GetFormsJudea(types, forms),
 
             _ => GetFormsAlolan(context, types, forms, species),
         };
@@ -78,8 +81,11 @@ public static class FormConverter
         return (Species)species switch
         {
             Pichu when context is Gen4 => GetFormsPichu(types, forms),
-            Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
-            Typhlosion or Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Slowking or Corsola when generation >= 7 => GetFormsGalar(types, forms),
+            Meganium or Typhlosion when generation >= 7 => GetFormsHisui(species, generation, types, forms),
+            Feraligatr when generation >= 7 => GetFormsOrre(types, forms),
+            Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Quagsire when generation >= 7 => GetFormsPaldea(species, types, forms),
             Wooper when generation >= 9 => GetFormsPaldea(species, types, forms),
             Unown => GetFormsUnown(generation),
             _ => EMPTY,
@@ -107,6 +113,8 @@ public static class FormConverter
                 forms[903], // Defense
                 forms[904], // Speed
             ],
+            Ludicolo when generation >= 7 => GetFormsOrre(types, forms),
+            Claydol when generation >= 7 => GetFormsJudea(types, forms),
             _ => EMPTY,
         };
     }
@@ -149,6 +157,7 @@ public static class FormConverter
                 forms[923], // Sky
             ],
             Arceus => GetFormsArceus(species, generation, types, forms),
+            Weavile when generation >= 7 => GetFormsHisui(species, generation, types, forms),
             _ => EMPTY,
         };
     }
@@ -157,7 +166,9 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Samurott or Lilligant or Zorua or Zoroark or Braviary when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Serperior or Emboar or Samurott or Zorua or Zoroark or Braviary when generation >= 7 => GetFormsHisui(species, generation, types, forms),
+            Lilligant when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Chandelure when generation >= 7 => GetFormsJudea(types, forms),
             Basculin when generation >= 8 => [
                 forms[(int)Basculin], // Red
                 forms[942], // Blue
@@ -282,7 +293,9 @@ public static class FormConverter
                 forms[(int)Aegislash], // Shield
                 forms[1005], // Blade
             ],
-            Sliggoo or Goodra or Avalugg when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Goodra when generation >= 7 => GetFormsHisui(species, generation, types, forms),
+            Sliggoo or Avalugg when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+
             Pumpkaboo or Gourgeist => [
                 forms[(int)Pumpkaboo], // Average
                 forms[1006], // Small
@@ -312,7 +325,7 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Decidueye when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Decidueye or Incineroar or Primarina when generation >= 7 => GetFormsHisui(species, generation, types, forms),
             Oricorio => [
                 forms[(int)Oricorio], // "RED" - Baile
                 forms[1021], // "YLW" - Pom-Pom
@@ -760,6 +773,9 @@ public static class FormConverter
         // AO
         015 or 018 or 080 or 208 or 254 or 260 or 302 or 319 or 323 or 334 or
         362 or 373 or 376 or 384 or 428 or 475 or 531 or 719
+
+        //USUMABZB
+        or 12 or 68 or 99 or 131 or 133 or 143 or 330 or 478 or 479
     ;
 
     private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
@@ -787,6 +803,24 @@ public static class FormConverter
         [
             types[0], // Normal
             forms[Galarian], // Galarian
+        ];
+    }
+
+    private static string[] GetFormsJudea(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    {
+        return
+        [
+            types[0], // Normal
+            forms[Judean], // Judean
+        ];
+    }
+
+    private static string[] GetFormsOrre(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    {
+        return
+        [
+            types[0], // Normal
+            forms[Orrean], // Orrean
         ];
     }
 
@@ -918,6 +952,9 @@ public static class FormConverter
     private const int Masterpiece = 1134;
     private const int Terastal = 1135;
     private const int Stellar = 1136;
+
+    private const int Orrean= 1137;
+    private const int Judean = 1138;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 

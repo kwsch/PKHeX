@@ -1135,3 +1135,5 @@ Artisan
 Masterpiece
 Terastal
 Stellar
+Orre
+Judea
