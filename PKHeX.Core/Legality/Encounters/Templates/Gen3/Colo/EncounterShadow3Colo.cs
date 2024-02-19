@@ -125,9 +125,10 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         // Cancel this operation if too many attempts are made to prevent infinite loops.
         int ctr = 0;
         const int max = 100_000;
+        var rnd = Util.Rand;
         do
         {
-            var seed = Util.Rand32();
+            var seed = rnd.Rand32();
             PIDGenerator.SetValuesFromSeedXDRNG_EReader(pk, seed);
             if (pk.Nature != nature || pk.Gender != gender)
                 continue;

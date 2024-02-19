@@ -1,13 +1,18 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 public static class SolaceonRuins4
 {
+    /// <summary>
+    /// Checks if the requested <see cref="form"/> is valid for the given seed.
+    /// </summary>
     public static bool IsUnownFormValid(PKM pk, byte form)
     {
         if (IsSingleFormRoomUnown(form))
-            return true; // Specific rooms with only one form.
+            return true; // FRIEND: Specific rooms with only one form.
+
+        // Only forms beyond here are the !? and Dead End rooms.
 
         if (!MethodFinder.GetLCRNGMethod1Match(pk, out var seed))
             return true; // invalid anyway, don't care.
@@ -17,6 +22,9 @@ public static class SolaceonRuins4
         return expect == form;
     }
 
+    /// <summary>
+    /// Unown forms available in every Dead End room.
+    /// </summary>
     private static ReadOnlySpan<byte> Unown0 =>
     [
         0, 1, 2,
@@ -28,7 +36,7 @@ public static class SolaceonRuins4
 
     private static byte GetUnownForm(uint rand, byte prefer)
     {
-        if (prefer >= 26)
+        if (prefer >= 26) // Area from Maniac Tunnel
             return (byte)(26 + (rand & 1));
         return Unown0[(int)(rand % Unown0.Length)];
     }

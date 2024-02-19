@@ -70,7 +70,8 @@ public sealed record EncounterTrade9
         var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SV[Species, Form];
-        var rnd = new Xoroshiro128Plus(Util.Rand.Rand64());
+        var rnd = Util.Rand;
+        var xoro = new Xoroshiro128Plus(rnd.Rand64());
         var pk = new PK9
         {
             Species = Species,
@@ -95,9 +96,9 @@ public sealed record EncounterTrade9
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = Weight.GetSizeValue(Weight != SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
-            Scale = Scale.GetSizeValue(Scale != SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
+            HeightScalar = PokeSizeUtil.GetRandomScalar(rnd),
+            WeightScalar = Weight.GetSizeValue(Weight != SizeType9.RANDOM ? FixedValueScale : default, ref xoro),
+            Scale = Scale.GetSizeValue(Scale != SizeType9.RANDOM ? FixedValueScale : default, ref xoro),
             TeraTypeOriginal = GetOriginalTeraType(),
 
             HandlingTrainerName = tr.OT,
@@ -124,8 +125,9 @@ public sealed record EncounterTrade9
 
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = pk.StatNature = criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));

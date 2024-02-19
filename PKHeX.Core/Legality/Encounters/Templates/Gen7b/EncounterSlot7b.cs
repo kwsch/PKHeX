@@ -41,9 +41,6 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
-
             Language = lang,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
@@ -61,11 +58,15 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
 
     private void SetPINGA(PB7 pk, EncounterCriteria criteria, PersonalInfo7GG pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
 
         criteria.SetRandomIVs(pk);
     }

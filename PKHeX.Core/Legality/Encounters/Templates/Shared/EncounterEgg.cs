@@ -46,6 +46,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
         SetEncounterMoves(pk, version);
         pk.HealPP();
+        var rnd = Util.Rand;
         SetPINGA(pk, criteria);
 
         if (gen <= 2)
@@ -58,7 +59,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
             {
                 pk.MetLocation = Locations.HatchLocationC;
                 pk.MetLevel = 1;
-                ((PK2)pk).MetTimeOfDay = Util.Rand.Next(1, 4); // Morning | Day | Night
+                ((PK2)pk).MetTimeOfDay = rnd.Next(1, 4); // Morning | Day | Night
             }
             return pk;
         }
@@ -82,15 +83,15 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         pk.RelearnMove4 = pk.Move4;
         if (pk is IScaledSize s)
         {
-            s.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            s.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            s.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
             if (pk is IScaledSize3 s3)
-                s3.Scale = PokeSizeUtil.GetRandomScalar();
+                s3.Scale = PokeSizeUtil.GetRandomScalar(rnd);
         }
 
         if (pk is ITeraType tera)
         {
-            var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, Util.Rand.Rand64());
+            var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rnd.Rand64());
             tera.TeraTypeOriginal = (MoveType)type;
             if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
                 tera.SetTeraType(type); // sets the override type

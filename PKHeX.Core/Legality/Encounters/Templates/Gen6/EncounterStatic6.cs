@@ -53,9 +53,11 @@ public sealed record EncounterStatic6(GameVersion Version)
         var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.AO[Species];
+        var rnd = Util.Rand;
         var pk = new PK6
         {
-            EncryptionConstant = Util.Rand32(),
+            EncryptionConstant = rnd.Rand32(),
+            PID = rnd.Rand32(),
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
@@ -104,7 +106,6 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
     {
-        pk.PID = Util.Rand32();
         if (pk.IsShiny)
         {
             if (Shiny == Shiny.Never || (Shiny != Shiny.Always && !criteria.Shiny.IsShiny()))

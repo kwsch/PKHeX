@@ -170,15 +170,16 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
 
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         criteria.SetRandomIVs(pk);
 
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
-        var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
+        var rand = new Xoroshiro128Plus(rnd.Rand64());
         var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rand.Next());
         pk.TeraTypeOriginal = (MoveType)type;
         if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
@@ -186,9 +187,9 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         if (Species == (int)Core.Species.Toxtricity)
             pk.Nature = ToxtricityUtil.GetRandomNature(ref rand, Form);
 
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.Scale = PokeSizeUtil.GetRandomScalar();
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.Scale = PokeSizeUtil.GetRandomScalar(rnd);
     }
 
     #endregion

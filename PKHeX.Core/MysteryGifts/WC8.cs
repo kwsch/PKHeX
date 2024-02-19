@@ -512,8 +512,8 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
         if (!IsHOMEGiftOld(date))
         {
-            pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
         }
 
         pk.ResetPartyStats();

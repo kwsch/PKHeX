@@ -64,10 +64,11 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
         var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.USUM[Species, Form];
+        var rnd = Util.Rand;
         var pk = new PK7
         {
-            PID = Util.Rand32(),
-            EncryptionConstant = Util.Rand32(),
+            PID = rnd.Rand32(),
+            EncryptionConstant = rnd.Rand32(),
             Species = Species,
             Form = Form,
             CurrentLevel = Level,

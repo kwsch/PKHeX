@@ -82,8 +82,6 @@ public sealed record EncounterStatic8b(GameVersion Version)
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
         };
 
         if (EggEncounter)

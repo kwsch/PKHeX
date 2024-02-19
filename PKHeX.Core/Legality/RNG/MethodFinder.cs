@@ -105,7 +105,6 @@ public static class MethodFinder
 
         foreach (var seed in reg)
         {
-            // Method 1/2/4 can use 3 different RNG frames
             var C = LCRNG.Next3(seed);
             var ivC = C >> 16 & 0x7FFF;
             if (iv1 != ivC)

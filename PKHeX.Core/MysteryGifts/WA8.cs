@@ -510,8 +510,8 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
         pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();

@@ -95,8 +95,9 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
 
     private void SetPINGA(PB8 pk, EncounterCriteria criteria, PersonalInfo8BDSP pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         criteria.SetRandomIVs(pk);
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);

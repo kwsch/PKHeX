@@ -93,8 +93,6 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             OriginalTrainerFriendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
 
             DynamaxLevel = DynamaxLevel,
             CanGigantamax = CanGigantamax,

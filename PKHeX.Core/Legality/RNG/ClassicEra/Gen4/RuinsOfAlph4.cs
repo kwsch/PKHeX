@@ -4,15 +4,25 @@ namespace PKHeX.Core;
 
 public static class RuinsOfAlph4
 {
+    /// <summary>
+    /// Checks if the requested <see cref="form"/> is valid for the given seed.
+    /// </summary>
     public static bool IsUnownFormValid(PKM pk, byte form)
     {
         if (!MethodFinder.GetLCRNGMethod1Match(pk, out var seed))
             return true; // invalid anyway, don't care.
 
+        // ABCD|E(Item)|F(Form) determination
         var f = LCRNG.Next6(seed);
         return IsFormValid(form, f);
     }
 
+    /// <summary>
+    /// Checks if the requested <see cref="form"/> is valid for the given seed.
+    /// </summary>
+    /// <param name="form">Form to validate</param>
+    /// <param name="seed">RNG state that determines the form</param>
+    /// <returns></returns>
     public static bool IsFormValid(byte form, uint seed)
     {
         if (form >= 26) // Entrance
@@ -39,6 +49,11 @@ public static class RuinsOfAlph4
         return false;
     }
 
+    /// <summary>
+    /// Gets one of the two entry area forms (!?)
+    /// </summary>
+    /// <param name="seed">RNG state that determines which form is picked.</param>
+    /// <returns>Form ID</returns>
     public static byte GetEntranceForm(uint seed) => (byte)(26 + ((seed >> 16) & 1));
 
     // give a random not-yet-seen form

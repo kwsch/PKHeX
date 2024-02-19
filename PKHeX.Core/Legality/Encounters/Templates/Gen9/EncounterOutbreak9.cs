@@ -101,15 +101,6 @@ public sealed record EncounterOutbreak9
         if (Ribbon != Unset)
             pk.SetRibbonIndex(Ribbon);
 
-        var type = Tera9RNG.GetTeraType(Util.Rand.Rand64(), GemType.Default, Species, Form);
-        pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
-            pk.SetTeraType(type); // sets the override type
-
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.Scale = !IsForcedScaleRange ? PokeSizeUtil.GetRandomScalar() : (byte)Util.Rand.Next(ScaleMin, ScaleMax + 1);
-
         SetPINGA(pk, criteria, pi);
         EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
@@ -119,15 +110,28 @@ public sealed record EncounterOutbreak9
 
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         criteria.SetRandomIVs(pk);
+
+        var type = Tera9RNG.GetTeraType(rnd.Rand64(), GemType.Default, Species, Form);
+        pk.TeraTypeOriginal = (MoveType)type;
+        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
+            pk.SetTeraType(type); // sets the override type
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.Scale = !IsForcedScaleRange
+            ? PokeSizeUtil.GetRandomScalar(rnd)
+            : (byte)rnd.Next(ScaleMin, ScaleMax + 1);
+
     }
-#endregion
+    #endregion
 
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)

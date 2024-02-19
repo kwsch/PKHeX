@@ -114,10 +114,11 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     {
         var pk = GetBlank();
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var rnd = Util.Rand;
         {
             pk.Language = lang;
-            pk.PID = Util.Rand32();
-            pk.EncryptionConstant = Util.Rand32();
+            pk.PID = rnd.Rand32();
+            pk.EncryptionConstant = rnd.Rand32();
             pk.Species = Species;
             pk.Form = Form;
             pk.CurrentLevel = LevelMin;
@@ -143,8 +144,8 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
 
         if (pk is IScaledSize s2)
         {
-            s2.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            s2.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            s2.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            s2.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
             if (pk is IScaledSize3 s3)
                 s3.Scale = s2.HeightScalar;
         }

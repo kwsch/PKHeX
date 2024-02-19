@@ -58,7 +58,6 @@ public sealed record EncounterStatic7(GameVersion Version)
         var pi = PersonalTable.USUM[Species, Form];
         var pk = new PK7
         {
-            EncryptionConstant = Util.Rand32(),
             Species = Species,
             Form = GetWildForm(Form, tr),
             CurrentLevel = LevelMin,
@@ -119,7 +118,9 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)
     {
-        pk.PID = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.EncryptionConstant = rnd.Rand32();
+        pk.PID = rnd.Rand32();
         if (pk.IsShiny)
         {
             if (Shiny == Shiny.Never || (Shiny != Shiny.Always && !criteria.Shiny.IsShiny()))

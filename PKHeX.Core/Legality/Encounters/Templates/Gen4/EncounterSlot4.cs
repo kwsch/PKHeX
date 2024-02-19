@@ -96,14 +96,22 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, 4, out _))
                 continue;
             if (Species == (int)Core.Species.Unown)
-            {
-                // ABCD|E(Item)|F(Form) determination
-                if (pk.HGSS)
-                    pk.Form = RuinsOfAlph4.GetEntranceForm(LCRNG.Next6(seed));
-                else
-                    pk.Form = 8; // Always 100% form as 'I' in one of the rooms.
-            }
+                pk.Form = GetUnownForm(seed, hgss);
+            break;
         } while (ctr++ < 10_000);
+    }
+
+    /// <summary>
+    /// Gets a legal Unown form based on the game version and seed that generated the Method 1 spread.
+    /// </summary>
+    private static byte GetUnownForm(uint seed, bool hgss)
+    {
+        // ABCD|E(Item)|F(Form) determination
+        if (!hgss)
+            return 8; // Always 100% form as 'I' in one of the rooms. Don't need to check rand(1) choice.
+
+        var formSeed = LCRNG.Next6(seed);
+        return RuinsOfAlph4.GetEntranceForm(formSeed); // !?
     }
 
     #endregion

@@ -100,15 +100,6 @@ public sealed record EncounterFixed9
             ID32 = tr.ID32,
         };
 
-        var type = Tera9RNG.GetTeraType(Util.Rand.Rand64(), TeraType, Species, Form);
-        pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
-            pk.SetTeraType(type); // sets the override type
-
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.Scale = TeraType != 0 ? (byte)(MinScaleStrongTera + Util.Rand.Next(byte.MaxValue - MinScaleStrongTera + 1)) : PokeSizeUtil.GetRandomScalar();
-
         SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
@@ -121,13 +112,26 @@ public sealed record EncounterFixed9
 
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         criteria.SetRandomIVs(pk, FlawlessIVCount);
+
+        var type = Tera9RNG.GetTeraType(rnd.Rand64(), TeraType, Species, Form);
+        pk.TeraTypeOriginal = (MoveType)type;
+        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
+            pk.SetTeraType(type); // sets the override type
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.Scale = TeraType != 0
+            ? (byte)(MinScaleStrongTera + rnd.Next(byte.MaxValue - MinScaleStrongTera + 1))
+            : PokeSizeUtil.GetRandomScalar(rnd);
+
     }
     #endregion
 

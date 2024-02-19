@@ -52,7 +52,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = Version != GameVersion.XY ? Version : GameVersion.XY.Contains(tr.Version) ? tr.Version : GameVersion.X;
         var form = GetWildForm(Form);
-        var pi = PersonalInfo;
+        var pi = PersonalTable.XY[Species, form];
         var pk = new PK6
         {
             Species = Species,
@@ -79,7 +79,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         if (IsRandomUnspecificForm && Form == EncounterUtil.FormVivillon)
             pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.SetRandomMemory6();
         pk.ResetPartyStats();
@@ -97,11 +97,11 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         return (byte)Util.Rand.Next(PersonalTable.XY[Species].FormCount);
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6XY pi)
     {
-        var pi = PersonalTable.XY.GetFormEntry(Species, Form);
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));

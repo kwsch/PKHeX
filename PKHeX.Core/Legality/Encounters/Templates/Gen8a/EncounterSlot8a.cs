@@ -29,8 +29,6 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
 
     public bool HasAlphaMove => IsAlpha && Type is not SlotType8a.Landmark;
 
-    private const byte ScaleMax = 255;
-
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -56,9 +54,6 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             OriginalTrainerFriendship = pi.BaseFriendship,
-
-            HeightScalar = IsAlpha ? ScaleMax : PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = IsAlpha ? ScaleMax : PokeSizeUtil.GetRandomScalar(),
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
         SetPINGA(pk, criteria, pi);
