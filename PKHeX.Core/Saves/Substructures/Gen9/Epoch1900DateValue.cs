@@ -7,23 +7,22 @@ namespace PKHeX.Core;
 /// Stores the <see cref="Timestamp"/> to indicate the seconds since 1900 (rounded to days) that an event occurred.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class Epoch1900Value(Memory<byte> Data)
+public sealed class Epoch1900DateValue(Memory<byte> Data)
 {
     // Data should be 4 bytes where we only care about the first 3 bytes i.e. 24 bits
     // First 6 bits are day, next 6 bits are 0 indexed month, last 12 bits are year from 1900
     private Span<byte> Span => Data.Span;
 
-    public Epoch1900Value(SCBlock block) : this(block.Data) { }
+    public Epoch1900DateValue(SCBlock block) : this(block.Data) { }
 
     private static DateTime Epoch => new(1900, 1, 1);
 
     public DateTime Timestamp
     {
         get => Epoch
-                .AddDays(Span[2] >> 2)
-                .AddDays(-1)
+                .AddDays((Span[2] >> 2) - 1)
                 .AddMonths(((Span[2] & 0b0000_0011) << 2) | ((Span[1] & 0b1111_0000) >> 4))
-                .AddYears(((Span[1] & 0b0000_1111) << 4) | Span[0]);
+                .AddYears(((Span[1] & 0b0000_1111) << 8) | Span[0]);
         set {
             int day = value.Day;
             int month = value.Month - Epoch.Month;
