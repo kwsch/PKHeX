@@ -292,7 +292,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool RIB1_7                 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)((RIB1 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
 
     // Meta Accessible Properties
-    public override int[] IVs
+    public int[] IVs
     {
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
@@ -620,25 +620,16 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         return PIDType != 0 || pk.PID == PID;
     }
 
-    public override GameVersion Version
+    public override GameVersion Version => CardID == 2046 ? GameVersion.SM : RestrictVersion switch
     {
-        get
-        {
-            if (CardID == 2046)
-                return GameVersion.SM;
-            return RestrictVersion switch
-            {
-                1 => GameVersion.SN,
-                2 => GameVersion.MN,
-                3 => GameVersion.SM,
-                4 => GameVersion.US,
-                8 => GameVersion.UM,
-                12 => GameVersion.USUM,
-                _ => GameVersion.Gen7,
-            };
-        }
-        set { }
-    }
+        1 => GameVersion.SN,
+        2 => GameVersion.MN,
+        3 => GameVersion.SM,
+        4 => GameVersion.US,
+        8 => GameVersion.UM,
+        12 => GameVersion.USUM,
+        _ => GameVersion.Gen7,
+    };
 
     protected override bool IsMatchDeferred(PKM pk) => false;
 

@@ -81,6 +81,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     public string Extension => GetType().Name.ToLowerInvariant();
     public string FileName => $"{CardHeader}.{Extension}";
     public abstract byte Generation { get; }
+    public abstract GameVersion Version { get; }
     public abstract EntityContext Context { get; }
     public abstract bool FatefulEncounter { get; }
 
@@ -120,14 +121,8 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     /// </summary>
     public string LongName => $"{Name} ({Type})";
 
-    public virtual GameVersion Version
-    {
-        get => GameUtil.GetVersion(Generation);
-        set { }
-    }
-
     // Properties
-    public virtual ushort Species { get => 0; set { } }
+    public abstract ushort Species { get; set; }
     public abstract AbilityPermission Ability { get; }
     public abstract bool GiftUsed { get; set; }
     public abstract string CardTitle { get; set; }
@@ -144,7 +139,6 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
 
     // Search Properties
     public virtual Moveset Moves { get => default; set { } }
-    public virtual int[] IVs { get => []; set { } }
     public virtual bool HasFixedIVs => true;
     public virtual void GetIVs(Span<int> value) { }
     public virtual bool IsShiny => false;

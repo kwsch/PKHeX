@@ -56,9 +56,9 @@ public sealed class TransferVerifier : Verifier
     private static bool VerifyVCNature(byte growth, Nature nature) => growth switch
     {
         // exp % 25 with a limited amount of EXP does not allow for every nature
-        0 => (0x01FFFF03u & (1u << (int)nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-        4 => (0x001FFFC0u & (1u << (int)nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-        5 => (0x01FFFCFFu & (1u << (int)nature)) != 0, // Slow -- Can't be Impish or Lax
+        0 => (0x01FFFF03u & (1u << (byte)nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+        4 => (0x001FFFC0u & (1u << (byte)nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+        5 => (0x01FFFCFFu & (1u << (byte)nature)) != 0, // Slow -- Can't be Impish or Lax
         _ => true,
     };
 
@@ -202,8 +202,8 @@ public sealed class TransferVerifier : Verifier
         if (pk.MetLocation != transfer.Location)
             data.AddLine(GetInvalid(LTransferMetLocation));
 
-        var expecteEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
-        if (pk.EggLocation != expecteEgg)
+        var expectEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
+        if (pk.EggLocation != expectEgg)
             data.AddLine(GetInvalid(LEggLocationNone));
 
         // Flag Moves that cannot be transferred

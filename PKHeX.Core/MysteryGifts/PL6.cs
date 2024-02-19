@@ -31,10 +31,12 @@ public sealed class PL6
 
     public bool Enabled { get => (Flags & 0x80) != 0; set => Flags = value ? (byte)(1 << 7) : (byte)0; }
 
+    private Span<byte> Source => Data.AsSpan(0x01, 110);
+
     /// <summary>
     /// Name of data source
     /// </summary>
-    public string Origin { get => StringConverter6.GetString(Data.AsSpan(0x01, 110)); set => StringConverter6.SetString(Data.AsSpan(0x01, 110), value, 54, StringConverterOption.ClearZero); }
+    public string Origin { get => StringConverter6.GetString(Source); set => StringConverter6.SetString(Source, value, 54, StringConverterOption.ClearZero); }
 
     // Pokemon transfer flags?
     public uint Flags_1 { get => ReadUInt32LittleEndian(Data.AsSpan(0x099)); set => WriteUInt32LittleEndian(Data.AsSpan(0x099), value); }

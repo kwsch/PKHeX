@@ -140,13 +140,11 @@ public static class MysteryUtil
             return false;
         }
 
-        if (g is WC6 { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
+        if (g is WC6 { CardID: 2048, ItemID: 726 } && sav is not SAV6AO)
         {
-            if (sav is not SAV6AO)
-            {
-                message = MsgMysteryGiftSlotSpecialReject;
-                return false;
-            }
+            // Eon Ticket (OR/AS)
+            message = MsgMysteryGiftSlotSpecialReject;
+            return false;
         }
 
         message = string.Empty;

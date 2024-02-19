@@ -284,7 +284,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public ushort Checksum => ReadUInt16LittleEndian(Data.AsSpan(0x2C4));
 
     // Meta Accessible Properties
-    public override int[] IVs
+    public int[] IVs
     {
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
@@ -427,11 +427,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public bool CanHandleOT(int language) => !GetHasOT(language);
 
-    public override GameVersion Version
-    {
-        get => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.SV;
-        set { }
-    }
+    public override GameVersion Version => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.SV;
 
     public override PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {

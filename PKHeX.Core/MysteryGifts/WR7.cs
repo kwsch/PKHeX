@@ -19,7 +19,7 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
     public override EntityContext Context => EntityContext.Gen7;
     public override bool FatefulEncounter => true;
 
-    public override GameVersion Version { get => GameVersion.GG; set { } }
+    public override GameVersion Version => GameVersion.GG;
 
     public override AbilityPermission Ability => AbilityPermission.Any12H; // undefined
 

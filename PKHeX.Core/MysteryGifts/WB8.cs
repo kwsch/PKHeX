@@ -252,7 +252,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     public byte ContestSheen  { get => Data[0x2C4]; set => Data[0x2C4] = value; }
 
     // Meta Accessible Properties
-    public override int[] IVs
+    public int[] IVs
     {
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
@@ -394,11 +394,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
 
     public bool CanHandleOT(int language) => !GetHasOT(language);
 
-    public override GameVersion Version
-    {
-        get => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.BDSP;
-        set { }
-    }
+    public override GameVersion Version => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.BDSP;
 
     public override PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {

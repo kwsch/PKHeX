@@ -21,7 +21,7 @@ public sealed class PCD(byte[] Data)
     public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => Gift.PK.FatefulEncounter;
-    public override GameVersion Version { get=> Gift.Version; set => Gift.Version = value; }
+    public override GameVersion Version => Gift.Version;
 
     public override byte Level
     {

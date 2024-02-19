@@ -206,14 +206,9 @@ public class PIDIVTest
 
         // See if any origin seed for the IVs matches what we expect
         // Load the IVs
-        uint rand1 = 0; // HP/ATK/DEF
-        uint rand3 = 0; // SPE/SPA/SPD
-        var IVs = pk4.IVs;
-        for (int i = 0; i < 3; i++)
-        {
-            rand1 |= (uint)IVs[i] << (5 * i);
-            rand3 |= (uint)IVs[i+3] << (5 * i);
-        }
+        var iv32 = pk4.IV32;
+        uint rand1 = iv32 & 0x7FFF; // HP/ATK/DEF
+        uint rand3 = (iv32 >> 15) & 0x7FFF; // SPE/SPA/SPD
 
         Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
         int count = LCRNGReversalSkip.GetSeedsIVs(seeds, rand1 << 16, rand3 << 16);

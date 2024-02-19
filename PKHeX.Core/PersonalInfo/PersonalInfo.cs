@@ -100,21 +100,3 @@ public abstract class PersonalInfo : IPersonalInfo
         },
     };
 }
-
-public interface IPersonalInfoTM
-{
-    bool GetIsLearnTM(int index);
-    void SetIsLearnTM(int index, bool value);
-}
-
-public interface IPersonalInfoTutorType
-{
-    bool GetIsLearnTutorType(int index);
-    void SetIsLearnTutorType(int index, bool value);
-}
-
-public interface IPersonalInfoTR
-{
-    bool GetIsLearnTR(int index);
-    void SetIsLearnTR(int index, bool value);
-}

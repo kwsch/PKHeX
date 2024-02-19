@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// This is fabricated data built to emulate the future generation Mystery Gift objects.
 /// Data here is not stored in any save file and cannot be naturally exported.
 /// </remarks>
-public sealed class WC3(bool Fateful = false)
+public sealed class WC3(GameVersion Version, bool Fateful = false)
     : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate, IRandomCorrelation
 {
     public override MysteryGift Clone() => (WC3)MemberwiseClone();
@@ -39,13 +39,13 @@ public sealed class WC3(bool Fateful = false)
     public override ushort SID16 { get; set; } = UnspecifiedID;
     public override ushort Location { get; set; } = 255; // Event
     public override ushort EggLocation { get => 0; set {} }
-    public override GameVersion Version { get; set; }
-    public int Language { get; init; } = -1;
+    public byte Language { get; init; } // default 0 for eggs
     public override ushort Species { get; set; }
     public override bool IsEgg { get; set; }
     public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
+    public override GameVersion Version { get; } = Version;
     public override bool FatefulEncounter { get; } = Fateful; // Obedience Flag
 
     // Mystery Gift Properties
@@ -222,7 +222,7 @@ public sealed class WC3(bool Fateful = false)
 
     private LanguageID GetSafeLanguageNotEgg(LanguageID hatchLang)
     {
-        if (Language != -1)
+        if (Language != 0)
             return (LanguageID) Language;
         if (hatchLang < LanguageID.Korean && hatchLang != LanguageID.Hacked)
             return hatchLang;
@@ -273,7 +273,7 @@ public sealed class WC3(bool Fateful = false)
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
-        if (Language != -1 && Language != pk.Language) return false;
+        if (Language != 0 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
         if (FatefulEncounter != pk.FatefulEncounter && !IsEgg)
             return false;

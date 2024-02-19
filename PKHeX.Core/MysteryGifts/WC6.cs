@@ -243,7 +243,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool RIB1_7                 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)((RIB1 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
 
     // Meta Accessible Properties
-    public override int[] IVs
+    public int[] IVs
     {
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
@@ -585,20 +585,16 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         return Species != pk.Species;
     }
 
-    public override GameVersion Version
+    public override GameVersion Version => RestrictVersion switch
     {
-        get => RestrictVersion switch
-        {
-            1 => GameVersion.X,
-            2 => GameVersion.Y,
-            3 => GameVersion.XY,
-            4 => GameVersion.AS,
-            8 => GameVersion.OR,
-            12 => GameVersion.ORAS,
-            _ => GameVersion.Gen6,
-        };
-        set { }
-    }
+        1 => GameVersion.X,
+        2 => GameVersion.Y,
+        3 => GameVersion.XY,
+        4 => GameVersion.AS,
+        8 => GameVersion.OR,
+        12 => GameVersion.ORAS,
+        _ => GameVersion.Gen6,
+    };
 
     protected override bool IsMatchPartial(PKM pk)
     {

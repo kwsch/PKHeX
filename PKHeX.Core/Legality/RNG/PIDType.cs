@@ -29,19 +29,19 @@ public enum PIDType : byte
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_4,
 
-    /// <summary> Method H1_Unown (FRLG) </summary>
+    /// <summary> Method H1_Unown (FR/LG) </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_1_Unown,
 
-    /// <summary> Method H2_Unown (FRLG) </summary>
+    /// <summary> Method H2_Unown (FR/LG) </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_2_Unown,
 
-    /// <summary> Method H3_Unown (FRLG) </summary>
+    /// <summary> Method H3_Unown (FR/LG) </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_3_Unown,
 
-    /// <summary> Method H4_Unown (FRLG) </summary>
+    /// <summary> Method H4_Unown (FR/LG) </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_4_Unown,
 
@@ -62,13 +62,13 @@ public enum PIDType : byte
     BACD_U,
 
     /// <summary>
-    /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny.
+    /// Event Reversed Order PID restricted to 16bit Origin Seed, anti-shiny.
     /// </summary>
     /// <remarks><see cref="LCRNG"/> seed is clamped to 16bits.</remarks>
     BACD_R_A,
 
     /// <summary>
-    /// Event Reversed Order PID without Origin Seed restrictions, antishiny.
+    /// Event Reversed Order PID without Origin Seed restrictions, anti-shiny.
     /// </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     BACD_U_A,
@@ -86,13 +86,13 @@ public enum PIDType : byte
     BACD_U_S,
 
     /// <summary>
-    /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny (nyx)
+    /// Event Reversed Order PID restricted to 16bit Origin Seed, anti-shiny (nyx)
     /// </summary>
     /// <remarks><see cref="LCRNG"/> seed is clamped to 16bits.</remarks>
     BACD_R_AX,
 
     /// <summary>
-    /// Event Reversed Order PID without Origin Seed restrictions, antishiny (nyx)
+    /// Event Reversed Order PID without Origin Seed restrictions, anti-shiny (nyx)
     /// </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     BACD_U_AX,
@@ -200,7 +200,6 @@ public enum PIDType : byte
 
 public static class PIDTypeExtensions
 {
-
     /// <summary>
     /// Checks if the provided PIDType is one of the in-game Method-X types for Gen3.
     /// </summary>

@@ -18,7 +18,7 @@ public sealed class WB7(byte[] Data)
 
     public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;
-    public override GameVersion Version { get => GameVersion.GG; set { } }
+    public override GameVersion Version => GameVersion.GG;
 
     public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
 
@@ -239,7 +239,7 @@ public sealed class WB7(byte[] Data)
     public byte AV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = value; }
 
     // Meta Accessible Properties
-    public override int[] IVs
+    public int[] IVs
     {
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set

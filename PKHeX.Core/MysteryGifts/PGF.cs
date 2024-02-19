@@ -15,6 +15,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public const int SizeFull = 0x2D0;
     public override byte Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
+    public override GameVersion Version => OriginGame == 0 ? GameVersion.Gen5 : (GameVersion)OriginGame;
     public override bool FatefulEncounter => true;
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
@@ -147,7 +148,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool MultiObtain { get => Data[0xB4] == 1; set => Data[0xB4] = value ? (byte)1 : (byte)0; }
 
     // Meta Accessible Properties
-    public override int[] IVs
+    public int[] IVs
     {
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set

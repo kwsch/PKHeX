@@ -14,7 +14,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => IsManaphyEgg || PK.FatefulEncounter;
-    public override GameVersion Version { get => IsManaphyEgg ? GameVersion.Gen4 : PK.Version; set => PK.Version = value; }
+    public override GameVersion Version => IsManaphyEgg ? GameVersion.Gen4 : PK.Version;
 
     public override byte Level
     {
