@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem5B2W2(SaveFile SAV, int offset) : MyItem(SAV, offset)
+public sealed class MyItem5B2W2(SAV5B2W2 SAV, int offset) : MyItem(SAV, offset)
 {
     // offsets/pouch sizes are the same for both B/W and B2/W2, but Key Item permissions are different
     private const int HeldItem = 0x000; // 0
