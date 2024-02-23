@@ -61,6 +61,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public PokeListHeader Storage => Blocks.Storage;
     public WB7Records GiftRecords => Blocks.GiftRecords;
     public CaptureRecords Captured => Blocks.Captured;
+    public PlayerGeoLocation7b PlayerGeoLocation => Blocks.PlayerGeoLocation;
 
     public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
 
