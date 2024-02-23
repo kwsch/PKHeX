@@ -2,10 +2,8 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class WB7Records : SaveBlock<SAV7b>
+public sealed class WB7Records(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
 {
-    public WB7Records(SAV7b sav, int offset) : base(sav) => Offset = offset;
-
     private const int RecordMax = 10; // 0xE90 > (0x140 * 0xA = 0xC80), not sure what final 0x210 bytes are used for
     private const int FlagCountMax = 0x1C00; // (7168) end of the block?
 

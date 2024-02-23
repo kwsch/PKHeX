@@ -18,7 +18,7 @@ public partial class SAV_Trainer7GG : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV7b)(Origin = sav).Clone();
-        Park = new GoParkStorage(SAV);
+        Park = SAV.Park;
         UpdateGoSummary(0);
 
         if (Main.Unicode)

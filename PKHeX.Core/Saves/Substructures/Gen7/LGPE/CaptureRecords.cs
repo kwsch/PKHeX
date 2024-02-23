@@ -3,10 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class CaptureRecords : SaveBlock<SAV7b>
+public sealed class CaptureRecords(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
 {
-    public CaptureRecords(SAV7b sav, int offset) : base(sav) => Offset = offset;
-
     private const int ENTRY_COUNT = 153;
     private const int MAX_COUNT_ENTRY_CAPTURE = 9_999;
     private const int MAX_COUNT_ENTRY_TRANSFER = 999_999_999;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -10,8 +10,8 @@ public interface IMisc6
 
 public sealed class Misc6AO : SaveBlock<SAV6>, IMisc6
 {
-    public Misc6AO(SAV6AO sav, int offset) : base(sav) => Offset = offset;
-    public Misc6AO(SAV6AODemo sav, int offset) : base(sav) => Offset = offset;
+    public Misc6AO(SAV6AO sav, int offset) : base(sav, offset) { }
+    public Misc6AO(SAV6AODemo sav, int offset) : base(sav, offset) { }
 
     public uint Money
     {

@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BoxLayout7 : SaveBlock<SAV7>, IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
+public sealed class BoxLayout7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset), IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
 {
     private const int BoxCount = 32;
 
@@ -18,9 +18,6 @@ public sealed class BoxLayout7 : SaveBlock<SAV7>, IBoxDetailName, IBoxDetailWall
     private const int TeamCount = 6;
     private const int NONE_SELECTED = -1;
     public readonly int[] TeamSlots = new int[TeamCount * 6];
-
-    public BoxLayout7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-    public BoxLayout7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
     public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
 

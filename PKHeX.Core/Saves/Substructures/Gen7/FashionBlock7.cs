@@ -2,11 +2,8 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class FashionBlock7 : SaveBlock<SAV7>
+public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset)
 {
-    public FashionBlock7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-    public FashionBlock7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
-
     private const int FashionLength = 0x1A08;
 
     public FashionItem7[] Wardrobe

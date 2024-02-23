@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Situation6 : SaveBlock<SAV6>
+public sealed class Situation6(SAV6 SAV, int offset) : SaveBlock<SAV6>(SAV, offset)
 {
-    public Situation6(SAV6 SAV, int offset) : base(SAV) => Offset = offset;
-
     public int M
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02));

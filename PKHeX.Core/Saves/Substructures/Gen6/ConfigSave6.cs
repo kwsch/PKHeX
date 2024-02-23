@@ -19,8 +19,8 @@ public sealed class ConfigSave6 : SaveBlock<SAV6>
      * unknown:14       19..31
      */
 
-    public ConfigSave6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public ConfigSave6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public ConfigSave6(SAV6XY sav, int offset) : base(sav, offset) { }
+    public ConfigSave6(SAV6AO sav, int offset) : base(sav, offset) { }
 
     public int ConfigValue
     {

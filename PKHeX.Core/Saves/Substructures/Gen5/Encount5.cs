@@ -3,9 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public abstract class Encount5 : SaveBlock<SAV5>
+public abstract class Encount5(SAV5 SAV, int offset) : SaveBlock<SAV5>(SAV, offset)
 {
-    protected Encount5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
     public ushort LastLocation { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public ushort CaptureUnknown { get => ReadUInt16LittleEndian(Data.AsSpan()[0x02..]); set => WriteUInt16LittleEndian(Data.AsSpan()[0x02..], value); }
 

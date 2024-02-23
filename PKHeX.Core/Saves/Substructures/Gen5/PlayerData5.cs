@@ -6,11 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Combined save block; 0x100 for first, 0x100 for second.
 /// </summary>
-public sealed class PlayerData5 : SaveBlock<SAV5>
+public sealed class PlayerData5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset)
 {
-    public PlayerData5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
-    public PlayerData5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
-
     private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 4, 0x10);
 
     public string OT

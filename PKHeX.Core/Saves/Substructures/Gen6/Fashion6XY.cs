@@ -2,10 +2,8 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class Fashion6XY : SaveBlock<SAV6XY>
+public sealed class Fashion6XY(SAV6XY sav, int offset) : SaveBlock<SAV6XY>(sav, offset)
 {
-    public Fashion6XY(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-
     public void UnlockAllAccessories()
     {
         SAV.SetData(AllAccessories, Offset);
