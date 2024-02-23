@@ -2114,12 +2114,12 @@ namespace PKHeX.WinForms.Controls
             // Contest
             // 
             Contest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            Contest.CNT_Beauty = 0;
-            Contest.CNT_Cool = 0;
-            Contest.CNT_Cute = 0;
-            Contest.CNT_Sheen = 0;
-            Contest.CNT_Smart = 0;
-            Contest.CNT_Tough = 0;
+            Contest.ContestBeauty = 0;
+            Contest.ContestCool = 0;
+            Contest.ContestCute = 0;
+            Contest.ContestSheen = 0;
+            Contest.ContestSmart = 0;
+            Contest.ContestTough = 0;
             Contest.Location = new System.Drawing.Point(4, 328);
             Contest.Margin = new System.Windows.Forms.Padding(0);
             Contest.Name = "Contest";
