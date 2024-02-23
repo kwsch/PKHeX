@@ -7,12 +7,12 @@ namespace PKHeX.Core;
 
 public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    private Span<byte> OT_Trash => Data.AsSpan(0x00, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x00, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public byte Language
@@ -103,10 +103,10 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
         set => Data[Offset + 0x1B5] = value ? (byte)1 : (byte)0;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[0x38];
-        set => Data[0x38] = (byte)value;
+        set => Data[0x38] = value;
     }
 
     public string Number
@@ -289,9 +289,9 @@ public sealed class TrainerCard8Poke(byte[] Data, int Offset) : ISpeciesForm
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
     }
 
-    public int Gender
+    public byte Gender
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+        get => (byte)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
     }
 

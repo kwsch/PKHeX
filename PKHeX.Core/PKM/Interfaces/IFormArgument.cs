@@ -113,7 +113,7 @@ public static class FormArgumentUtil
     /// <param name="context">Context to check with.</param>
     public static uint GetFormArgumentMax(ushort species, byte form, EntityContext context)
     {
-        int gen = context.Generation();
+        var gen = context.Generation();
         if (gen <= 5)
             return 0;
 

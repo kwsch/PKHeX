@@ -14,7 +14,7 @@ public readonly record struct NPCLock
     public int FramesConsumed => Seen ? 5 : 7;
     public bool Seen => State > 1;
     public bool Shadow => State != 0;
-    public (byte Nature, byte Gender) GetLock => (Nature, Gender);
+    public (Nature Nature, byte Gender) GetLock => ((Nature)Nature, Gender);
 
     // Not-Shadow
     public NPCLock(ushort s, byte n, byte g, byte r)

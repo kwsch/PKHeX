@@ -131,12 +131,12 @@ public sealed class GameDataSource
         return HaX ? Util.GetCBList(items) : Util.GetCBList(items, allowed);
     }
 
-    public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)
+    public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation)
     {
         var languages = new List<ComboItem>(LanguageList);
-        if (gen == 3)
+        if (generation == 3)
             languages.RemoveAll(static l => l.Value >= (int)LanguageID.Korean);
-        else if (gen < 7)
+        else if (generation < 7)
             languages.RemoveAll(static l => l.Value > (int)LanguageID.Korean);
         return languages;
     }

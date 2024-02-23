@@ -16,7 +16,7 @@ public record struct EncounterEnumerator8a(PKM Entity, EvoCriteria[] Chain) : IE
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    private int met;
+    private ushort met;
     private bool hasOriginalMet;
     readonly object IEnumerator.Current => Current;
 
@@ -89,7 +89,7 @@ public record struct EncounterEnumerator8a(PKM Entity, EvoCriteria[] Chain) : IE
 
     private void InitializeWildLocationInfo()
     {
-        met = Entity.Met_Location;
+        met = Entity.MetLocation;
         var remap = LocationsHOME.GetRemapState(EntityContext.Gen8a, Entity.Context);
         hasOriginalMet = true;
         if (remap.HasFlag(LocationRemapState.Remapped))

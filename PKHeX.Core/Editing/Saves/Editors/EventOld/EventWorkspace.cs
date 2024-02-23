@@ -28,7 +28,7 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
             s7.UpdateMagearnaConstant();
     }
 
-    private static string GetResourceSuffix(TSave ver) => GetVersion(ver) switch
+    private static string GetResourceSuffix(TSave version) => GetVersion(version) switch
     {
         X or Y or XY => "xy",
         OR or AS or ORAS => "oras",
@@ -44,12 +44,12 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
         FR or LG or FRLG => "frlg",
         C => "c",
         GD or SI or GS => "gs",
-        _ => throw new ArgumentOutOfRangeException(nameof(ver), ver, null),
+        _ => throw new ArgumentOutOfRangeException(nameof(version), version, null),
     };
 
-    private static GameVersion GetVersion(TSave ver)
+    private static GameVersion GetVersion(TSave version)
     {
-        if (ver is IVersion v)
+        if (version is IVersion v)
             return v.Version;
         return Invalid;
     }

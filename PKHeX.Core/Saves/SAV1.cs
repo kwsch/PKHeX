@@ -232,14 +232,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
     public override int MaxBallID => 0; // unused
-    public override int MaxGameID => 99; // unused
+    public override GameVersion MaxGameID => GameVersion.RBY; // unused
     public override int MaxMoney => 999999;
     public override int MaxCoins => 9999;
 
     public override int BoxCount => Japanese ? 8 : 12;
     public override int MaxEV => EffortValues.Max12;
     public override int MaxIV => 15;
-    public override int Generation => 1;
+    public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
     protected override int GiftCountMax => 0;
     public override int MaxStringLengthOT => Japanese ? 5 : 7;
@@ -258,15 +258,15 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     private byte GetRBYChecksum(int start, int end)
     {
-        byte chksum = 0;
-        for (int i = start; i < end; i++)
-            chksum += Data[i];
-        chksum ^= 0xFF;
-        return chksum;
+        var span = Data.AsSpan(start, end - start);
+        byte result = 0;
+        foreach (ref var b in span)
+            result += b;
+        return (byte)~result;
     }
 
     // Trainer Info
-    public override GameVersion Version { get; protected set; }
+    public override GameVersion Version { get; set; }
 
     public override string OT
     {
@@ -274,9 +274,9 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
-    public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
+    public Span<byte> OriginalTrainerTrash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
 
-    public override int Gender
+    public override byte Gender
     {
         get => 0;
         set { }

@@ -22,7 +22,7 @@ public partial class SAV_Roamer3 : Form
 
     private void LoadData()
     {
-        TB_PID.Text = $"{Reader.PID:X8}";
+        TB_PID.Text = Reader.PID.ToString("X8");
         CHK_Shiny.Checked = Reader.IsShiny(Reader.PID);
 
         CB_Species.SelectedValue = (int)Reader.Species;
@@ -50,7 +50,7 @@ public partial class SAV_Roamer3 : Form
             Util.ToInt32(TB_SPDIV.Text),
         ]);
         Reader.Active = CHK_Active.Checked;
-        Reader.CurrentLevel = (int)NUD_Level.Value;
+        Reader.CurrentLevel = (byte)NUD_Level.Value;
     }
 
     private void B_Save_Click(object sender, EventArgs e)

@@ -22,7 +22,7 @@ public abstract class PokeListGB<T> where T : GBPKML
     private readonly int StringLength;
     private readonly byte[] Data;
     private readonly byte Capacity;
-    private readonly int Entry_Size;
+    private readonly int EntrySize;
     protected readonly bool Japanese;
 
     public readonly T[] Pokemon;
@@ -38,10 +38,10 @@ public abstract class PokeListGB<T> where T : GBPKML
     {
         Japanese = jp;
         Capacity = (byte)c;
-        Entry_Size = GetEntrySize();
+        EntrySize = GetEntrySize();
         StringLength = GetStringLength(jp);
         byte[] data = d ?? GetEmptyList(c, jp);
-        var dataSize = 1 + 1 + (Capacity * (Entry_Size + 1 + (2 * StringLength)));
+        var dataSize = 1 + 1 + (Capacity * (EntrySize + 1 + (2 * StringLength)));
 
         Array.Resize(ref data, dataSize);
         Data = data;
@@ -81,7 +81,7 @@ public abstract class PokeListGB<T> where T : GBPKML
         return result;
     }
 
-    private int GetOffsetPKMData(int base_ofs, int index) => base_ofs + (Entry_Size * index);
+    private int GetOffsetPKMData(int base_ofs, int index) => base_ofs + (EntrySize * index);
     private int GetOffsetPKMOT(int base_ofs, int index) => GetOffsetPKMData(base_ofs, Capacity) + (StringLength * index);
     private int GetOffsetPKMNickname(int base_ofs, int index) => GetOffsetPKMOT(base_ofs, Capacity) + (StringLength * index);
 
@@ -140,7 +140,7 @@ public abstract class PokeListGB<T> where T : GBPKML
         int otOfs = GetOffsetPKMOT(base_ofs, index);
         int nkOfs = GetOffsetPKMNickname(base_ofs, index);
 
-        var dat = Data.AsSpan(pkOfs, Entry_Size).ToArray();
+        var dat = Data.AsSpan(pkOfs, EntrySize).ToArray();
         var otname = Data.AsSpan(otOfs, StringLength);
         var nick = Data.AsSpan(nkOfs, StringLength);
 
@@ -154,8 +154,8 @@ public abstract class PokeListGB<T> where T : GBPKML
         int nkOfs = GetOffsetPKMNickname(base_ofs, index);
 
         var pk = Pokemon[index];
-        Array.Copy(pk.Data, 0, Data, pkOfs, Entry_Size);
-        pk.OT_Trash.CopyTo(Data.AsSpan(otOfs));
-        pk.Nickname_Trash.CopyTo(Data.AsSpan(nkOfs));
+        Array.Copy(pk.Data, 0, Data, pkOfs, EntrySize);
+        pk.OriginalTrainerTrash.CopyTo(Data.AsSpan(otOfs));
+        pk.NicknameTrash.CopyTo(Data.AsSpan(nkOfs));
     }
 }

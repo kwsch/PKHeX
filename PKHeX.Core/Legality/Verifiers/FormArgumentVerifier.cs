@@ -93,7 +93,7 @@ public sealed class FormArgumentVerifier : Verifier
                 // Without being leveled up at least once, it cannot have a form arg value.
                 >= 999 => GetInvalid(LFormArgumentHigh),
                 0 => GetValid(LFormArgumentValid),
-                _ => pk.CurrentLevel != pk.Met_Level ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
+                _ => pk.CurrentLevel != pk.MetLevel ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
             },
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),

@@ -5,5 +5,5 @@
 /// </summary>
 public interface IFixedOTFriendship
 {
-    byte OT_Friendship { get; }
+    byte OriginalTrainerFriendship { get; }
 }

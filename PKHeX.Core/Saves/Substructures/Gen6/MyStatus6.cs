@@ -26,16 +26,16 @@ public class MyStatus6(SAV6 sav, int offset) : SaveBlock<SAV6>(sav, offset), IRe
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 4];
-        set => Data[Offset + 4] = (byte)value;
+        set => Data[Offset + 4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 5];
-        set => Data[Offset + 5] = (byte)value;
+        set => Data[Offset + 5] = value;
     }
 
     public int MultiplayerSpriteID_1
@@ -101,12 +101,12 @@ public class MyStatus6(SAV6 sav, int offset) : SaveBlock<SAV6>(sav, offset), IRe
         set => Data[Offset + 0x2D] = (byte)value;
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x48, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 0x48, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);

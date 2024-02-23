@@ -1,23 +1,25 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.SlotType3;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// <see cref="GameVersion.Gen3"/> encounter area
 /// </summary>
-public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGType, IAreaLocation
+public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocation
 {
     public EncounterSlot3[] Slots { get; }
     public GameVersion Version { get; }
-    public SlotType Type { get; }
+    public SlotType3 Type { get; }
 
     public readonly byte Rate;
     public readonly byte Location;
 
-    public bool IsMatchLocation(int location) => location == Location;
+    public bool IsMatchLocation(ushort location) => location == Location;
 
-    public static EncounterArea3[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea3[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -25,42 +27,44 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
         return result;
     }
 
-    public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea3(input[i], game, SlotType.Swarm | SlotType.Grass);
+            result[i] = new EncounterArea3(input[i], game, SwarmGrass50);
         return result;
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = data[0];
-        Type = (SlotType)data[2];
+        // data[1] is unused because location is always <= 255.
+        Type = (SlotType3)data[2];
         Rate = data[3];
         Version = game;
 
-        Slots = ReadRegularSlots(data);
+        Slots = ReadRegularSlots(data[4..]);
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType type)
+    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game, [ConstantExpected] SlotType3 type)
     {
         Location = data[0];
-        Type = type;
+        // data[1] is unused because location is always <= 255.
+        Type = type; // data[2] but it's always the same value
         Rate = data[3];
         Version = game;
 
-        Slots = ReadSwarmSlots(data);
+        Slots = ReadSwarmSlots(data[4..]);
     }
 
     private EncounterSlot3[] ReadRegularSlots(ReadOnlySpan<byte> data)
     {
         const int size = 10;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot3[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadRegularSlot(entry);
         }
@@ -86,11 +90,11 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
     private EncounterSlot3[] ReadSwarmSlots(ReadOnlySpan<byte> data)
     {
         const int size = 14;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot3[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadSwarmSlot(entry);
         }
@@ -115,4 +119,31 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
 
         return new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
     }
+
+    public byte GetPressureMax(ushort species, byte levelMax)
+    {
+        foreach (var slot in Slots)
+        {
+            if (slot.Species != species)
+                continue;
+            if (slot.LevelMax < levelMax)
+                continue;
+            levelMax = slot.LevelMax;
+        }
+        return levelMax;
+    }
+}
+
+
+public enum SlotType3 : byte
+{
+    Grass = 0,
+    Surf = 1,
+    Old_Rod = 2,
+    Good_Rod = 3,
+    Super_Rod = 4,
+    Rock_Smash = 5,
+
+    SwarmGrass50 = 6,
+    SwarmFish50 = 7,
 }

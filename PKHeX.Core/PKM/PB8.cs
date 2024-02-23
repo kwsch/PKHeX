@@ -32,7 +32,7 @@ public sealed class PB8 : G8PKM
 
     public PB8()
     {
-        Egg_Location = Met_Location = Locations.Default8bNone;
+        EggLocation = MetLocation = Locations.Default8bNone;
         AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
     }
 
@@ -50,7 +50,7 @@ public sealed class PB8 : G8PKM
         if (IsEgg)
         {
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
-            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
+            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OriginalTrainerGender) || (tr.OT != OriginalTrainerName))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
 
             // Unfortunately, BD/SP doesn't return if it's an egg, and can update the HT details & handler.
@@ -67,30 +67,30 @@ public sealed class PB8 : G8PKM
     {
         if (BDSP)
         {
-            OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
-            HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0; // future inter-format conversion?
+            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
+            HandlingTrainerMemoryVariable = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0; // future inter-format conversion?
         }
 
         if (IsEgg) // No memories if is egg.
         {
-            HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
-            OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+            HandlingTrainerMemoryVariable = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0;
+            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
 
             // Clear Handler
             if (!IsTradedEgg)
             {
-                HT_Friendship = HT_Gender = HT_Language = 0;
-                HT_Trash.Clear();
+                HandlingTrainerFriendship = HandlingTrainerGender = HandlingTrainerLanguage = 0;
+                HandlingTrainerTrash.Clear();
             }
             return;
         }
 
         if (IsUntraded)
-            HT_Gender = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
+            HandlingTrainerMemoryVariable = HandlingTrainerGender = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = HandlingTrainerLanguage = 0;
 
-        int gen = Generation;
+        var gen = Generation;
         if (gen < 6)
-            OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
         // if (gen != 8) // must be transferred via HOME, and must have memories
         //     this.SetTradeMemoryHT8(); // not faking HOME tracker.
     }
@@ -98,7 +98,7 @@ public sealed class PB8 : G8PKM
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
             return false;
 
         CurrentHandler = 0;
@@ -107,14 +107,14 @@ public sealed class PB8 : G8PKM
 
     private void TradeHT(ITrainerInfo tr)
     {
-        if (HT_Name != tr.OT)
+        if (HandlingTrainerName != tr.OT)
         {
-            HT_Friendship = PersonalInfo.BaseFriendship;
-            HT_Name = tr.OT;
+            HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
+            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
-        HT_Gender = tr.Gender;
-        HT_Language = (byte)tr.Language;
+        HandlingTrainerGender = tr.Gender;
+        HandlingTrainerLanguage = (byte)tr.Language;
         //this.SetTradeMemoryHT8();
     }
 
@@ -124,9 +124,9 @@ public sealed class PB8 : G8PKM
     public override int MaxAbilityID => Legal.MaxAbilityID_8b;
     public override int MaxItemID => Legal.MaxItemID_8b;
     public override int MaxBallID => Legal.MaxBallID_8b;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
 
-    public override bool WasEgg => IsEgg || Egg_Day != 0;
+    public override bool WasEgg => IsEgg || EggDay != 0;
 
-    public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(LA && Met_Location == LocationsHOME.SWLA);
+    public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(LA && MetLocation == LocationsHOME.SWLA);
 }

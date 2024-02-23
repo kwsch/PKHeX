@@ -1,10 +1,10 @@
 ﻿namespace PKHeX.Core;
 
 /// <summary>
-/// Exposes <see cref="OT_Affection"/> and <see cref="HT_Affection"/> properties used by Gen6/7.
+/// Exposes <see cref="OriginalTrainerAffection"/> and <see cref="HandlingTrainerAffection"/> properties used by Gen6/7.
 /// </summary>
 public interface IAffection
 {
-    byte OT_Affection { get; set; }
-    byte HT_Affection { get; set; }
+    byte OriginalTrainerAffection { get; set; }
+    byte HandlingTrainerAffection { get; set; }
 }

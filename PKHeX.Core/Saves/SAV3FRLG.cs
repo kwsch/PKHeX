@@ -11,7 +11,7 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
 {
     // Configuration
     protected override SAV3FRLG CloneInternal() => new(Write());
-    public override GameVersion Version { get; protected set; } = GameVersion.FR; // allow mutation
+    public override GameVersion Version { get; set; } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
     public override PersonalTable3 Personal => _personal;
 

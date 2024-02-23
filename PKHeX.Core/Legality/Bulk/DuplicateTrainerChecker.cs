@@ -66,7 +66,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         }
 
         // ID-SID16 should only occur for one Trainer name
-        if (pp.OT_Name != cp.OT_Name)
+        if (pp.OriginalTrainerName != cp.OriginalTrainerName)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
             input.AddLine(ps, cs, "TID sharing across different trainer names detected.", ident, severity);

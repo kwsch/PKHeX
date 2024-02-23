@@ -27,14 +27,14 @@ public readonly ref struct HallFame6Entity
     public uint Level { get => (Pack >> 07) & 0x7Fu; set => Pack = (Pack & ~(0x7Fu << 07)) | ((value & 0x7F) << 07); }
     private uint Shiny { get => (Pack >> 14) & 0x01u; set => Pack = (Pack & ~(0x01u << 14)) | ((value & 0x01) << 14); }
     private uint Nick { get => (Pack >> 15) & 0x01u; set => Pack = (Pack & ~(0x01u << 15)) | ((value & 0x01) << 15); }
-    public uint OT_Gender { get => (Pack >> 16) & 0x01u; set => Pack = (Pack & ~(0x01u << 16)) | ((value & 0x01) << 16); }
+    public uint OriginalTrainerGender { get => (Pack >> 16) & 0x01u; set => Pack = (Pack & ~(0x01u << 16)) | ((value & 0x01) << 16); }
     // remaining bits unused
 
     public bool IsNicknamed { get => Nick == 1; set => Nick = value ? 1u : 0u; }
     public bool IsShiny { get => Shiny == 1; set => Shiny = value ? 1u : 0u; }
 
     private Span<byte> Nick_Trash => Data.Slice(0x18, 24);
-    private Span<byte> OT_Trash => Data.Slice(0x30, 24);
+    private Span<byte> OriginalTrainerTrash => Data.Slice(0x30, 24);
 
     // Don't mimic in-game behavior of not clearing strings. First entry should always have clean trash.
     private const StringConverterOption Option = StringConverterOption.ClearZero;
@@ -42,7 +42,7 @@ public readonly ref struct HallFame6Entity
     public void ClearTrash()
     {
         Nick_Trash.Clear();
-        OT_Trash.Clear();
+        OriginalTrainerTrash.Clear();
     }
 
     public string Nickname
@@ -51,9 +51,9 @@ public readonly ref struct HallFame6Entity
         set => StringConverter6.SetString(Nick_Trash, value, 12, Option);
     }
 
-    public string OT_Name
+    public string OriginalTrainerName
     {
-        get => StringConverter6.GetString(OT_Trash);
-        set => StringConverter6.SetString(OT_Trash, value, 12, Option);
+        get => StringConverter6.GetString(OriginalTrainerTrash);
+        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Option);
     }
 }

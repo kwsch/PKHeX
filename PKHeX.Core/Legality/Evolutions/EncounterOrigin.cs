@@ -17,7 +17,7 @@ public static class EncounterOrigin
     public static EvoCriteria[] GetOriginChain(PKM pk, byte generation)
     {
         var (minLevel, maxLevel) = GetMinMax(pk, generation);
-        var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, generation, minLevel, maxLevel);
+        var origin = new EvolutionOrigin(pk.Species, pk.Version, generation, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 
@@ -31,22 +31,22 @@ public static class EncounterOrigin
     {
         var (minLevel, maxLevel) = GetMinMaxGB(pk);
         bool rby = gameSource == GameVersion.RBY;
-        byte ver = rby ? (byte)GameVersion.RBY : (byte)GameVersion.GSC;
+        GameVersion version = rby ? GameVersion.RBY : GameVersion.GSC;
         byte gen = rby ? (byte)1 : (byte)2;
-        var origin = new EvolutionOrigin(pk.Species, ver, gen, minLevel, maxLevel);
+        var origin = new EvolutionOrigin(pk.Species, version, gen, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 
     private static (byte minLevel, byte maxLevel) GetMinMax(PKM pk, byte generation)
     {
-        byte maxLevel = (byte)pk.CurrentLevel;
+        byte maxLevel = pk.CurrentLevel;
         byte minLevel = GetLevelOriginMin(pk, generation);
         return (minLevel, maxLevel);
     }
 
     private static (byte minLevel, byte maxLevel) GetMinMaxGB(PKM pk)
     {
-        byte maxLevel = (byte)pk.CurrentLevel;
+        byte maxLevel = pk.CurrentLevel;
         byte minLevel = GetLevelOriginMinGB(pk);
         return (minLevel, maxLevel);
     }
@@ -55,10 +55,10 @@ public static class EncounterOrigin
     {
         3 => GetLevelOriginMin3(pk),
         4 => GetLevelOriginMin4(pk),
-        _ => Math.Max((byte)1, (byte)pk.Met_Level),
+        _ => Math.Max((byte)1, pk.MetLevel),
     };
 
-    private static bool IsEggLocationNonZero(PKM pk) => pk.Egg_Location != LocationEdits.GetNoneLocation(pk.Context);
+    private static bool IsEggLocationNonZero(PKM pk) => pk.EggLocation != LocationEdits.GetNoneLocation(pk.Context);
 
     private static byte GetLevelOriginMinGB(PKM pk)
     {
@@ -68,7 +68,7 @@ public static class EncounterOrigin
             return EggLevel;
         if (pk is not ICaughtData2 { CaughtData: not 0 } pk2)
             return MinWildLevel;
-        return (byte)pk2.Met_Level;
+        return pk2.MetLevel;
     }
 
     private static byte GetLevelOriginMin3(PKM pk)
@@ -79,7 +79,7 @@ public static class EncounterOrigin
             return MinWildLevel;
         if (pk.IsEgg)
             return EggLevel;
-        return (byte)pk.Met_Level;
+        return pk.MetLevel;
     }
 
     private static byte GetLevelOriginMin4(PKM pk)
@@ -90,6 +90,6 @@ public static class EncounterOrigin
             return IsEggLocationNonZero(pk) ? EggLevel : MinWildLevel;
         if (pk.IsEgg || IsEggLocationNonZero(pk))
             return EggLevel;
-        return (byte)pk.Met_Level;
+        return pk.MetLevel;
     }
 }

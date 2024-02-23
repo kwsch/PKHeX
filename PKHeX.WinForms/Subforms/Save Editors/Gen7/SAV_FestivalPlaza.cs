@@ -264,7 +264,7 @@ public partial class SAV_FestivalPlaza : Form
                 ? facility.NPC
                 : 0;
         CHK_FacilityIntroduced.Checked = facility.IsIntroduced;
-        TB_OTName.Text = facility.OT_Name;
+        TB_OTName.Text = facility.OriginalTrainerName;
         LoadOTlabel(facility.Gender);
         if (CB_FacilityMessage.SelectedIndex >= 0)
             LoadFMessage(CB_FacilityMessage.SelectedIndex);
@@ -556,7 +556,7 @@ public partial class SAV_FestivalPlaza : Form
         if (CB_FacilityType.SelectedIndex >= 0)
             facility.Type = CB_FacilityType.SelectedIndex;
         facility.Color = (byte)NUD_FacilityColor.Value;
-        facility.OT_Name = TB_OTName.Text;
+        facility.OriginalTrainerName = TB_OTName.Text;
         if (CB_FacilityNPC.SelectedIndex >= 0)
             facility.NPC = CB_FacilityNPC.SelectedIndex;
         facility.IsIntroduced = CHK_FacilityIntroduced.Checked;
@@ -646,7 +646,7 @@ public partial class SAV_FestivalPlaza : Form
         if (entry < 0)
             return;
 
-        f[entry].OT_Name = TB_OTName.Text;
+        f[entry].OriginalTrainerName = TB_OTName.Text;
     }
 
     private void LB_FacilityIndex_SelectedIndexChanged(object sender, EventArgs e)
@@ -681,7 +681,7 @@ public partial class SAV_FestivalPlaza : Form
         if (facility.IsIntroduced)
             facility.ClearTrainerFesID();
         facility.IsIntroduced = false;
-        facility.OT_Name = string.Empty;
+        facility.OriginalTrainerName = string.Empty;
         facility.Gender = 0;
         for (int i = 0; i < 4; i++)
             facility.SetMessage(i, 0);

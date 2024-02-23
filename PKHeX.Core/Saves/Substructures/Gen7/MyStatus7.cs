@@ -28,16 +28,16 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 4];
-        set => Data[Offset + 4] = (byte)value;
+        set => Data[Offset + 4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 5];
-        set => Data[Offset + 5] = (byte)value;
+        set => Data[Offset + 5] = value;
     }
 
     public string GameSyncID
@@ -94,12 +94,12 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
         set => Data[Offset + 0x35] = (byte)value;
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x38, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 0x38, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public int DressUpSkinColor
@@ -126,7 +126,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
         set => Data[Offset + 0x78] = (byte)((Data[Offset + 0x78] & ~2) | (value ? 2 : 0)); // in battle
     }
 
-    public int BallThrowType
+    public byte BallThrowType
     {
         get => Data[Offset + 0x7A];
         set => Data[Offset + 0x7A] = (byte)(value > 8 ? 0 : value);

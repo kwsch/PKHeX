@@ -161,24 +161,24 @@ public static class Overworld8aRNG
 
         pk.RefreshAbility((int)rand.NextInt(2));
 
-        int gender = para.GenderRatio switch
+        byte gender = para.GenderRatio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (int)rand.NextInt(252) + 1 < para.GenderRatio ? 1 : 0,
+            _ => rand.NextInt(252) + 1 < para.GenderRatio ? (byte)1 : (byte)0,
         };
-        if (gender != criteria.Gender && criteria.Gender != FixedGenderUtil.GenderRandom)
+        if (!criteria.IsGenderSatisfied(gender))
             return false;
         pk.Gender = gender;
 
-        int nature = (int)rand.NextInt(25);
+        var nature = (Nature)rand.NextInt(25);
         pk.Nature = pk.StatNature = nature;
 
         var (height, weight) = para.IsAlpha
             ? (byte.MaxValue, byte.MaxValue)
-            : ((byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)),
-               (byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)));
+            : ((byte)(rand.NextInt(0x81) + rand.NextInt(0x80)),
+               (byte)(rand.NextInt(0x81) + rand.NextInt(0x80)));
 
         if (pk is IScaledSize s)
         {
@@ -261,32 +261,32 @@ public static class Overworld8aRNG
         if (pk.IV_SPE != ivs[5])
             return false;
 
-        int abil = (int)rand.NextInt(2);
-        abil <<= 1; // 1/2/4
+        int ability = (int)rand.NextInt(2);
+        ability <<= 1; // 1/2/4
 
         var current = pk.AbilityNumber;
-        if (abil == 4 && current != 4)
+        if (ability == 4 && current != 4)
             return false;
         // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
 
-        int gender = para.GenderRatio switch
+        byte gender = para.GenderRatio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (int)rand.NextInt(252) + 1 < para.GenderRatio ? 1 : 0,
+            _ => rand.NextInt(252) + 1 < para.GenderRatio ? (byte)1 : (byte)0,
         };
         if (pk.Gender != gender)
             return false;
 
-        var nature = (int)rand.NextInt(25);
+        var nature = (Nature)rand.NextInt(25);
         if (pk.Nature != nature)
             return false;
 
         var (height, weight) = para.IsAlpha
             ? (byte.MaxValue, byte.MaxValue)
-            : ((byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)),
-               (byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)));
+            : ((byte)(rand.NextInt(0x81) + rand.NextInt(0x80)),
+               (byte)(rand.NextInt(0x81) + rand.NextInt(0x80)));
 
         if (pk is IScaledSize s)
         {
@@ -299,13 +299,13 @@ public static class Overworld8aRNG
         return true;
     }
 
-    public static int GetRandomLevel(ulong slotSeed, byte LevelMin, byte LevelMax)
+    public static byte GetRandomLevel(ulong slotSeed, byte min, byte max)
     {
-        var delta = LevelMax - LevelMin;
-        var xoro = new Xoroshiro128Plus(slotSeed);
-        xoro.Next();
-        xoro.Next(); // slot, entitySeed
-        var amp = (int)xoro.NextInt((ulong)delta + 1);
-        return LevelMin + amp;
+        var delta = 1ul + max - min;
+        var rnd = new Xoroshiro128Plus(slotSeed);
+        rnd.Next();
+        rnd.Next(); // slot, entitySeed
+        var amp = (byte)rnd.NextInt(delta);
+        return (byte)(min + amp);
     }
 }

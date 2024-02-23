@@ -157,11 +157,11 @@ public static class HomeCrypto
         // Strings should be \0000 terminated if decrypted.
         // Any non-zero value is a sign of encryption.
         if (ReadUInt16LittleEndian(core[0xB5..]) != 0) // OT
-            return true; // OT_Name final terminator should be 0 if decrypted.
+            return true; // OriginalTrainerName final terminator should be 0 if decrypted.
         if (ReadUInt16LittleEndian(core[0x60..]) != 0) // Nick
             return true; // Nickname final terminator should be 0 if decrypted.
         if (ReadUInt16LittleEndian(core[0x88..]) != 0) // HT
-            return true; // HT_Name final terminator should be 0 if decrypted.
+            return true; // HandlingTrainerName final terminator should be 0 if decrypted.
 
         //// Fall back to checksum.
         //return ReadUInt32LittleEndian(data[0xA..0xE]) == GetChecksum1(data);
@@ -172,11 +172,11 @@ public static class HomeCrypto
     {
         var core = data.Slice(SIZE_1HEADER + 2, SIZE_2CORE);
         if (ReadUInt16LittleEndian(core[0xB1..]) != 0)
-            return true; // OT_Name final terminator should be 0 if decrypted.
+            return true; // OriginalTrainerName final terminator should be 0 if decrypted.
         if (ReadUInt16LittleEndian(core[0x5C..]) != 0)
             return true; // Nickname final terminator should be 0 if decrypted.
         if (ReadUInt16LittleEndian(core[0x84..]) != 0)
-            return true; // HT_Name final terminator should be 0 if decrypted.
+            return true; // HandlingTrainerName final terminator should be 0 if decrypted.
 
         //// Fall back to checksum.
         //return ReadUInt32LittleEndian(data[0xA..0xE]) == GetChecksum1(data);

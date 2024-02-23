@@ -98,7 +98,7 @@ public partial class SAV_Trainer7 : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SN;
+        CB_Game.SelectedIndex = SAV.Version - GameVersion.SN;
         CB_Gender.SelectedIndex = SAV.Gender;
 
         // Display Data
@@ -322,7 +322,7 @@ public partial class SAV_Trainer7 : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
+        SAV.Version = (GameVersion)(CB_Game.SelectedIndex + 30);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
@@ -396,7 +396,7 @@ public partial class SAV_Trainer7 : Form
     private void SaveTrainerAppearance()
     {
         // Skin changed && (gender matches || override)
-        int gender = CB_Gender.SelectedIndex & 1;
+        byte gender = (byte)(CB_Gender.SelectedIndex & 1);
         int skin = CB_SkinColor.SelectedIndex & 1;
         var gStr = CB_Gender.Items[gender]!.ToString();
         var sStr = CB_Gender.Items[skin]!.ToString();
@@ -411,7 +411,7 @@ public partial class SAV_Trainer7 : Form
     private void SaveThrowType()
     {
         if (CB_BallThrowType.SelectedIndex >= 0)
-            SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
+            SAV.MyStatus.BallThrowType = (byte)CB_BallThrowType.SelectedIndex;
 
         if (SAV is not SAV7SM) // unlock flags are in flag editor instead
             return;

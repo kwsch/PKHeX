@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// This is fabricated data built to emulate the future generation Mystery Gift objects.
 /// Data here is not stored in any save file and cannot be naturally exported.
 /// </remarks>
-public sealed class WC3(bool Fateful = false)
+public sealed class WC3(GameVersion Version, bool Fateful = false)
     : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate, IRandomCorrelation
 {
     public override MysteryGift Clone() => (WC3)MemberwiseClone();
@@ -32,27 +32,27 @@ public sealed class WC3(bool Fateful = false)
 
     private const ushort UnspecifiedID = ushort.MaxValue;
 
-    public override string OT_Name { get; set; } = string.Empty;
-    public int OT_Gender { get; init; } = 3;
+    public override string OriginalTrainerName { get; set; } = string.Empty;
+    public byte OriginalTrainerGender { get; init; } = 3;
     public override uint ID32 { get => (uint)(SID16 << 16 | TID16); set => (SID16, TID16) = ((ushort)(value >> 16), (ushort)value); }
     public override ushort TID16 { get; set; } = UnspecifiedID;
     public override ushort SID16 { get; set; } = UnspecifiedID;
-    public override int Location { get; set; } = 255;
-    public override int EggLocation { get => 0; set {} }
-    public override GameVersion Version { get; set; }
-    public int Language { get; init; } = -1;
+    public override ushort Location { get; set; } = 255; // Event
+    public override ushort EggLocation { get => 0; set {} }
+    public byte Language { get; init; } // default 0 for eggs
     public override ushort Species { get; set; }
     public override bool IsEgg { get; set; }
     public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
+    public override GameVersion Version { get; } = Version;
     public override bool FatefulEncounter { get; } = Fateful; // Obedience Flag
 
     // Mystery Gift Properties
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     public override byte Level { get; set; }
-    public override int Ball { get; set; } = 4;
+    public override byte Ball { get; set; } = 4;
     public override bool IsShiny => Shiny == Shiny.Always;
     public override bool HasFixedIVs => false;
     public bool RibbonEarth { get; set; }
@@ -75,15 +75,15 @@ public sealed class WC3(bool Fateful = false)
     public override int ItemID { get; set; }
     public override bool IsEntity { get; set; } = true;
     public override bool Empty => false;
-    public override int Gender { get; set; }
+    public override byte Gender { get; set; }
     public override byte Form { get; set; }
 
     // Synthetic
-    private readonly int? _metLevel;
+    private readonly byte? _metLevel;
 
-    public int Met_Level
+    public byte MetLevel
     {
-        get => _metLevel ?? (IsEgg ? 0 : Level);
+        get => _metLevel ?? (IsEgg ? (byte)0 : Level);
         init => _metLevel = value;
     }
 
@@ -94,8 +94,8 @@ public sealed class WC3(bool Fateful = false)
         PK3 pk = new()
         {
             Species = Species,
-            Met_Level = Met_Level,
-            Met_Location = Location,
+            MetLevel = MetLevel,
+            MetLocation = Location,
             Ball = 4,
 
             // Ribbons
@@ -119,23 +119,23 @@ public sealed class WC3(bool Fateful = false)
         }
         else
         {
-            pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : tr.Gender;
+            pk.OriginalTrainerGender = OriginalTrainerGender != 3 ? (byte)(OriginalTrainerGender & 1): tr.Gender;
             pk.TID16 = TID16;
             pk.SID16 = SID16;
 
             pk.Language = (int)GetSafeLanguage((LanguageID)tr.Language);
-            pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : tr.OT;
+            pk.OriginalTrainerName = !string.IsNullOrWhiteSpace(OriginalTrainerName) ? OriginalTrainerName : tr.OT;
             if (IsEgg)
             {
                 pk.IsEgg = true; // lang should be set to japanese already
-                if (pk.OT_Trash[0] == 0xFF)
-                    pk.OT_Name = "ゲーフリ";
+                if (pk.OriginalTrainerTrash[0] == 0xFF)
+                    pk.OriginalTrainerName = "ゲーフリ";
             }
         }
         pk.Nickname = Nickname ?? SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
         var pi = pk.PersonalInfo;
-        pk.OT_Friendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+        pk.OriginalTrainerFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
         // Generate PIDIV
         SetPINGA(pk, criteria);
@@ -151,36 +151,36 @@ public sealed class WC3(bool Fateful = false)
     private void SetForceHatchDetails(PK3 pk, ITrainerInfo sav)
     {
         pk.Language = (int)GetSafeLanguageNotEgg((LanguageID)sav.Language);
-        pk.OT_Name = sav.OT;
+        pk.OriginalTrainerName = sav.OT;
         // ugly workaround for character table interactions
-        if (string.IsNullOrWhiteSpace(pk.OT_Name))
+        if (string.IsNullOrWhiteSpace(pk.OriginalTrainerName))
         {
             pk.Language = (int)LanguageID.English;
-            pk.OT_Name = "PKHeX";
+            pk.OriginalTrainerName = "PKHeX";
         }
 
-        pk.OT_Gender = sav.Gender;
+        pk.OriginalTrainerGender = sav.Gender;
         pk.TID16 = sav.TID16;
         pk.SID16 = sav.SID16;
-        pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
+        pk.MetLocation = pk.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
         pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
-        pk.Met_Level = 0; // hatched
+        pk.MetLevel = 0; // hatched
     }
 
-    private int GetVersion(ITrainerInfo sav)
+    private GameVersion GetVersion(ITrainerInfo sav)
     {
         if (Version != 0)
-            return (int) GetRandomVersion(Version);
-        bool gen3 = sav.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)sav.Game);
-        return gen3 ? sav.Game : (int)GameVersion.R;
+            return GetRandomVersion(Version);
+        bool gen3 = sav.Version <= GameVersion.CXD && GameVersion.Gen3.Contains(sav.Version);
+        return gen3 ? sav.Version : GameVersion.R;
     }
 
     private void SetMoves(PK3 pk)
     {
         if (!Moves.HasMoves) // not completely defined
         {
-            var ver = (GameVersion)pk.Version;
-            ILearnSource ls = ver switch
+            var version = pk.Version;
+            ILearnSource ls = version switch
             {
                 GameVersion.R or GameVersion.S => LearnSource3RS.Instance,
                 GameVersion.FR => LearnSource3FR.Instance,
@@ -222,7 +222,7 @@ public sealed class WC3(bool Fateful = false)
 
     private LanguageID GetSafeLanguageNotEgg(LanguageID hatchLang)
     {
-        if (Language != -1)
+        if (Language != 0)
             return (LanguageID) Language;
         if (hatchLang < LanguageID.Korean && hatchLang != LanguageID.Hacked)
             return hatchLang;
@@ -246,7 +246,7 @@ public sealed class WC3(bool Fateful = false)
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         // Gen3 Version MUST match.
-        if (Version != 0 && !Version.Contains((GameVersion)pk.Version))
+        if (Version != 0 && !Version.Contains(pk.Version))
             return false;
 
         bool hatchedEgg = IsEgg && !pk.IsEgg;
@@ -254,16 +254,16 @@ public sealed class WC3(bool Fateful = false)
         {
             if (SID16 != UnspecifiedID && SID16 != pk.SID16) return false;
             if (TID16 != UnspecifiedID && TID16 != pk.TID16) return false;
-            if (OT_Gender < 3 && OT_Gender != pk.OT_Gender) return false;
-            var wcOT = OT_Name;
+            if (OriginalTrainerGender < 3 && OriginalTrainerGender != pk.OriginalTrainerGender) return false;
+            var wcOT = OriginalTrainerName;
             if (!string.IsNullOrEmpty(wcOT))
             {
                 if (wcOT.Length > 7) // Colosseum MATTLE Ho-Oh
                 {
-                    if (!GetIsValidOTMattleHoOh(wcOT, pk.OT_Name, pk is CK3))
+                    if (!GetIsValidOTMattleHoOh(wcOT, pk.OriginalTrainerName, pk is CK3))
                         return false;
                 }
-                else if (wcOT != pk.OT_Name)
+                else if (wcOT != pk.OriginalTrainerName)
                 {
                     return false;
                 }
@@ -273,7 +273,7 @@ public sealed class WC3(bool Fateful = false)
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
-        if (Language != -1 && Language != pk.Language) return false;
+        if (Language != 0 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
         if (FatefulEncounter != pk.FatefulEncounter && !IsEgg)
             return false;
@@ -282,18 +282,18 @@ public sealed class WC3(bool Fateful = false)
         {
             if (hatchedEgg)
                 return true; // defer egg specific checks to later.
-            if (Met_Level != pk.Met_Level)
+            if (MetLevel != pk.MetLevel)
                 return false;
-            if (Location != pk.Met_Location)
+            if (Location != pk.MetLocation)
                 return false;
         }
         else
         {
             if (pk.IsEgg)
                 return false;
-            if (Level > pk.Met_Level)
+            if (Level > pk.MetLevel)
                 return false;
-            if (pk.Egg_Location != LocationEdits.GetNoneLocation(pk.Context))
+            if (pk.EggLocation != LocationEdits.GetNoneLocation(pk.Context))
                 return false;
         }
         return true;

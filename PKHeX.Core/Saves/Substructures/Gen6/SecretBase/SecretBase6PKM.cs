@@ -50,10 +50,10 @@ public sealed class SecretBase6PKM : ISanityChecksum, IFatefulEncounter
         set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
     }
 
-    public int Nature { get => Data[0x14]; set => Data[0x14] = (byte)value; }
+    public Nature Nature { get => (Nature)Data[0x14]; set => Data[0x14] = (byte)value; }
 
     public bool FatefulEncounter { get => (Data[0x15] & 1) == 1; set => Data[0x15] = (byte)((Data[0x15] & ~0x01) | (value ? 1 : 0)); }
-    public int Gender { get => (Data[0x15] >> 1) & 0x3; set => Data[0x15] = (byte)((Data[0x15] & ~0x06) | (value << 1)); }
+    public byte Gender { get => (byte)((Data[0x15] >> 1) & 0x3); set => Data[0x15] = (byte)((Data[0x15] & ~0x06) | (value << 1)); }
     public byte Form { get => (byte)(Data[0x15] >> 3); set => Data[0x15] = (byte)((Data[0x15] & 0x07) | (value << 3)); }
 
     public int EV_HP { get => Data[0x16]; set => Data[0x16] = (byte)value; }
@@ -103,7 +103,7 @@ public sealed class SecretBase6PKM : ISanityChecksum, IFatefulEncounter
     public bool IsShiny { get => ((Data[0x2D] >> 5) & 1) == 1; set => Data[0x2D] = (byte)((Data[0x2D] & ~32) | (value ? 32 : 0)); }
 
     public int CurrentFriendship { get => Data[0x2E]; set => Data[0x2E] = (byte)value; }
-    public int Ball { get => Data[0x2F]; set => Data[0x2F] = (byte)value; }
-    public int CurrentLevel { get => Data[0x30]; set => Data[0x30] = (byte)value; }
+    public byte Ball { get => Data[0x2F]; set => Data[0x2F] = value; }
+    public byte CurrentLevel { get => Data[0x30]; set => Data[0x30] = value; }
     // 0x31,0x32,0x33 unused (alignment padding to u32)
 }

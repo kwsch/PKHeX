@@ -18,7 +18,7 @@ public sealed class BallVerifier : Verifier
         data.AddLine(result);
     }
 
-    private static int IsReplacedBall(IVersion enc, PKM pk) => pk switch
+    private static byte IsReplacedBall(IVersion enc, PKM pk) => pk switch
     {
         // Trading from PLA origin -> SW/SH will replace the Legends: Arceus ball with a regular Poké Ball
         PK8 when enc.Version == GameVersion.PLA => (int)Poke,
@@ -183,14 +183,6 @@ public sealed class BallVerifier : Verifier
         if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval)
             return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithoutRaid);
 
-        // PLA Voltorb: Only via PLA (transfer only, not wild) and GO
-        if (enc is { Species: (ushort)Species.Voltorb, Form: 1 })
-            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithRaid);
-
-        // S/V Tauros forms > 1: Only local Wild Balls for Blaze/Aqua breeds -- can't inherit balls from Kantonian/Combat.
-        if (enc is { Species: (ushort)Species.Tauros, Form: > 1 })
-            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs9);
-
         var instance = BallContextHOME.Instance;
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
@@ -204,8 +196,8 @@ public sealed class BallVerifier : Verifier
         };
     }
 
-    private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.Entity.Ball);
-    private CheckResult VerifyBallEquals(Ball ball, ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (int)ball));
+    private CheckResult VerifyBallEquals(LegalityAnalysis data, byte ball) => GetResult(ball == data.Entity.Ball);
+    private CheckResult VerifyBallEquals(Ball ball, ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (byte)ball));
 
     private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
 }

@@ -18,10 +18,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         DexKitakami = new(sav, kitakami);
 
         // Starting in 2.0.1, the developers have dummied out the old Paldea Pokédex block and exclusively use the new Kitakami block.
-        if (kitakami.Data.Length != 0)
-            Mode = Kitakami;
-        else
-            Mode = Paldea;
+        Mode = kitakami.Data.Length != 0 ? Kitakami : Paldea;
     }
 
     /// <summary>

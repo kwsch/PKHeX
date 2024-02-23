@@ -9,7 +9,9 @@ public static class Locations4
 {
     private const int SafariLocation_HGSS = 202;
     private const int MarshLocation_DPPt = 52;
-    public static bool IsSafariZoneLocation(ushort loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
+    public static bool IsSafariBallRequired(ushort loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
+    public static bool IsMarsh(ushort loc) => loc == MarshLocation_DPPt;
+    public static bool IsSafari(ushort loc) => loc == SafariLocation_HGSS;
 
     /// <summary>
     /// Available location list for the 00000 set of location names.

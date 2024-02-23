@@ -101,7 +101,7 @@ internal static class GBRestrictions
     private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-        var head = new EvoCriteria { Species = pk.Species, Form = pk.Form, LevelMax = (byte)pk.CurrentLevel }; // as struct to avoid boxing
+        var head = new EvoCriteria { Species = pk.Species, Form = pk.Form, LevelMax = pk.CurrentLevel }; // as struct to avoid boxing
         do
         {
             var species = head.Species;

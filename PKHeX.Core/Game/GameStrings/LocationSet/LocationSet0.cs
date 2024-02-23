@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Generation 2-3 specific met location name holder.
+/// </summary>
+/// <remarks>Single segment, no shift bias.</remarks>
 public sealed record LocationSet0(string[] Met0) : ILocationSet
 {
     public ReadOnlySpan<string> GetLocationNames(int bankID) => bankID switch

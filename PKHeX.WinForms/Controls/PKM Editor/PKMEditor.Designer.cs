@@ -2095,12 +2095,12 @@ namespace PKHeX.WinForms.Controls
             // Contest
             // 
             Contest.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
-            Contest.CNT_Beauty = ((global::System.Byte)(0));
-            Contest.CNT_Cool = ((global::System.Byte)(0));
-            Contest.CNT_Cute = ((global::System.Byte)(0));
-            Contest.CNT_Sheen = ((global::System.Byte)(0));
-            Contest.CNT_Smart = ((global::System.Byte)(0));
-            Contest.CNT_Tough = ((global::System.Byte)(0));
+            Contest.ContestBeauty = ((global::System.Byte)(0));
+            Contest.ContestCool = ((global::System.Byte)(0));
+            Contest.ContestCute = ((global::System.Byte)(0));
+            Contest.ContestSheen = ((global::System.Byte)(0));
+            Contest.ContestSmart = ((global::System.Byte)(0));
+            Contest.ContestTough = ((global::System.Byte)(0));
             Contest.Location = (new global::System.Drawing.Point(4, 328));
             Contest.Margin = (new global::System.Windows.Forms.Padding(0));
             Contest.Name = ("Contest");

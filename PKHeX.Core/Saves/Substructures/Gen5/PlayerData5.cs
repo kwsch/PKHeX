@@ -8,12 +8,12 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PlayerData5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset)
 {
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 4, 0x10);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 4, 0x10);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public uint ID32
@@ -52,16 +52,16 @@ public sealed class PlayerData5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, off
         set => Data[Offset + 0x1E] = (byte)value;
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 0x1F];
-        set => Data[Offset + 0x1F] = (byte)value;
+        set => Data[Offset + 0x1F] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 0x21];
-        set => Data[Offset + 0x21] = (byte)value;
+        set => Data[Offset + 0x21] = value;
     }
 
     // 22,23 ??

@@ -162,7 +162,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
     public override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
-    public sealed override int MaxGameID => Legal.MaxGameID_3;
+    public sealed override GameVersion MaxGameID => Legal.MaxGameID_3;
 
     public abstract int EventFlagCount { get; }
     public abstract int EventWorkCount { get; }
@@ -186,7 +186,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     public sealed override int BoxCount => 14;
     public sealed override int MaxEV => EffortValues.Max255;
-    public sealed override int Generation => 3;
+    public sealed override byte Generation => 3;
     public sealed override EntityContext Context => EntityContext.Gen3;
     protected sealed override int GiftCountMax => 1;
     public sealed override int MaxStringLengthOT => 7;
@@ -325,10 +325,10 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         }
     }
 
-    public sealed override int Gender
+    public sealed override byte Gender
     {
         get => Small[8];
-        set => Small[8] = (byte)value;
+        set => Small[8] = value;
     }
 
     public sealed override uint ID32

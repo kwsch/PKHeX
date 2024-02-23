@@ -72,7 +72,7 @@ public partial class SAV_Encounters : Form
             {
                 if (sender is not PictureBox pb)
                     return;
-                var index = Array.IndexOf(PKXBOXES, sender);
+                var index = Array.IndexOf(PKXBOXES, pb);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -88,7 +88,7 @@ public partial class SAV_Encounters : Form
         }
 
         Counter = L_Count.Text;
-        L_Viewed.Text = string.Empty; // invis for now
+        L_Viewed.Text = string.Empty; // invisible for now
         L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
         PopulateComboBoxes();
 
@@ -358,7 +358,7 @@ public partial class SAV_Encounters : Form
             Species = GetU16(CB_Species),
 
             BatchInstructions = RTB_Instructions.Text,
-            Version = WinFormsUtil.GetIndex(CB_GameOrigin),
+            Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin),
         };
 
         static ushort GetU16(ListControl cb)

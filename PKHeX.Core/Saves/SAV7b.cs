@@ -66,13 +66,13 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
 
     // Feature Overrides
-    public override int Generation => 7;
+    public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;
     public override ushort MaxMoveID => Legal.MaxMoveID_7b;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7b;
     public override int MaxItemID => Legal.MaxItemID_7b;
     public override int MaxBallID => Legal.MaxBallID_7b;
-    public override int MaxGameID => Legal.MaxGameID_7b;
+    public override GameVersion MaxGameID => Legal.MaxGameID_7b;
     public override int MaxAbilityID => Legal.MaxAbilityID_7b;
 
     public override int MaxIV => 31;
@@ -135,19 +135,14 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
         return StringConverter8.SetString(destBuffer, value, maxLength);
     }
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.GP => GameVersion.GP,
-        (int)GameVersion.GE => GameVersion.GE,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.GP or GameVersion.GE;
 
     // Player Information
     public override uint ID32 { get => Blocks.Status.ID32; set => Blocks.Status.ID32 = value; }
     public override ushort TID16 { get => Blocks.Status.TID16; set => Blocks.Status.TID16 = value; }
     public override ushort SID16 { get => Blocks.Status.SID16; set => Blocks.Status.SID16 = value; }
-    public override int Game { get => Blocks.Status.Game; set => Blocks.Status.Game = value; }
-    public override int Gender { get => Blocks.Status.Gender; set => Blocks.Status.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)Blocks.Status.Game; set => Blocks.Status.Game = (byte)value; }
+    public override byte Gender { get => Blocks.Status.Gender; set => Blocks.Status.Gender = value; }
     public override int Language { get => Blocks.Status.Language; set => Blocks.Config.Language = Blocks.Status.Language = value; } // stored in multiple places
     public override string OT { get => Blocks.Status.OT; set => Blocks.Status.OT = value; }
     public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }
