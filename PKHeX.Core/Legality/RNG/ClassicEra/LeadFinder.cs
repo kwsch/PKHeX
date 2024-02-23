@@ -79,7 +79,7 @@ public static class LeadFinder
         seeds = seeds[..ctr];
 
         var nature = (byte)(pk.EncryptionConstant % 25);
-        byte min = evo.LevelMin, max = evo.LevelMax;
+        var (min, max) = (evo.LevelMin, evo.LevelMax);
         return pk.HGSS
             ? MethodK.TryGetMatchCuteCharm(enc, seeds, nature, min, max, out seed)
             : MethodJ.TryGetMatchCuteCharm(enc, seeds, nature, min, max, out seed);

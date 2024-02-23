@@ -212,8 +212,11 @@ public class PIDIVTest
 
         Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
         int count = LCRNGReversalSkip.GetSeedsIVs(seeds, rand1 << 16, rand3 << 16);
+        // Seeds need to be unrolled twice to account for the 2 PID rolls before IVs.
+
         var reg = seeds[..count];
-        reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
+        var index = reg.IndexOf(LCRNG.Next2(0x48FBAA42u));
+        index.Should().NotBe(-1);
     }
 
     [Fact]

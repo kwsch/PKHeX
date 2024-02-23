@@ -50,7 +50,7 @@ public static class MethodJ
     private static bool IsCuteCharmFail(uint rand) => (rand / 0x5556) == 0; // 1/3 odds
     private static bool IsCuteCharmPass(uint rand) => (rand / 0x5556) != 0; // 2/3 odds
 
-    private static bool IsSyncFail(uint rand) => (rand >> 15) != 0;
+  //private static bool IsSyncFail(uint rand) => (rand >> 15) != 0;
     private static bool IsSyncPass(uint rand) => (rand >> 15) == 0;
 
     private static bool IsStaticMagnetFail(uint rand) => (rand >> 15) != 0;
@@ -59,7 +59,7 @@ public static class MethodJ
     private static bool IsHustleVitalFail(uint rand) => (rand >> 15) != 1;
     private static bool IsHustleVitalPass(uint rand) => (rand >> 15) == 1;
 
-    private static bool IsIntimidateKeenEyeFail(uint rand) => (rand >> 15) != 1;
+  //private static bool IsIntimidateKeenEyeFail(uint rand) => (rand >> 15) != 1;
     private static bool IsIntimidateKeenEyePass(uint rand) => (rand >> 15) == 1;
 
     private static bool IsFeebasChance(uint rand) => (rand >> 15) == 1;
