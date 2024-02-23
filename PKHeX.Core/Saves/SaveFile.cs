@@ -318,6 +318,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Slot Storing
     public static PKMImportSetting SetUpdateDex { protected get; set; } = PKMImportSetting.Update;
     public static PKMImportSetting SetUpdatePKM { protected get; set; } = PKMImportSetting.Update;
+    public static PKMImportSetting SetUpdateRecords { protected get; set; } = PKMImportSetting.Update;
 
     public abstract Type PKMType { get; }
     protected abstract PKM GetPKM(byte[] data);

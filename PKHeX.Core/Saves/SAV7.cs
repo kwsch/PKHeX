@@ -183,7 +183,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         pk7.FormArgumentRemain = (byte)GetFormArgument(pk);
 
         pk.RefreshChecksum();
-        AddCountAcquired(pk);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk);
     }
 
     private void AddCountAcquired(PKM pk)

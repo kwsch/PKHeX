@@ -142,7 +142,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
         }
 
         pk.RefreshChecksum();
-        AddCountAcquired(pk);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk);
     }
 
     private void AddCountAcquired(PKM pk)

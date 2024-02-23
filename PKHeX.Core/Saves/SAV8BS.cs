@@ -308,7 +308,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         pb8.Trade(this, now.Day, now.Month, now.Year);
 
         pb8.RefreshChecksum();
-        AddCountAcquired(pb8);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk);
     }
 
     private void AddCountAcquired(PKM pk)

@@ -201,7 +201,8 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         }
 
         pk8.RefreshChecksum();
-        AddCountAcquired(pk8);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk8);
     }
 
     private static uint GetFormArgument(PKM pk)

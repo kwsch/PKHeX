@@ -207,7 +207,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         pk9.RefreshChecksum();
-        AddCountAcquired(pk9);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk9);
     }
 
     private static uint GetFormArgument(PKM pk)
