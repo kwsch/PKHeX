@@ -68,6 +68,6 @@ public static class QRPKM
         }
 
         if (pk.Format >= 3 && (uint)pk.Nature < s.Natures.Count)
-            yield return s.natures[pk.Nature];
+            yield return s.natures[(byte)pk.Nature];
     }
 }

@@ -182,7 +182,7 @@ public sealed class RecvData8b(byte[] Data, int Offset = 0)
         set => StringConverter8.SetString(Data.AsSpan(Offset + 0x1E, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
-    public byte OT_Gender { get => Data[Offset + 0x38]; set => Data[Offset + 0x38] = value; }
+    public byte OriginalTrainerGender { get => Data[Offset + 0x38]; set => Data[Offset + 0x38] = value; }
     public byte IsEgg     { get => Data[Offset + 0x39]; set => Data[Offset + 0x39] = value; }
     public byte TwoRibbon { get => Data[Offset + 0x3A]; set => Data[Offset + 0x3A] = value; }
     public byte Gender    { get => Data[Offset + 0x3B]; set => Data[Offset + 0x3B] = value; }

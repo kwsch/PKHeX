@@ -222,7 +222,7 @@ public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup 
         for (; Index < db.Length;)
         {
             var enc = db[Index++];
-            if (!enc.CanBeReceivedByVersion((int)Version))
+            if (!enc.CanBeReceivedByVersion(Version))
                 continue;
             foreach (var evo in Chain)
             {

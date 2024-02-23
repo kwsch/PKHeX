@@ -178,8 +178,8 @@ public static class PokewalkerRNG
         return span[(group * 2) + rare];
     }
 
-    /// <inheritdoc cref="GetPID(ushort, ushort, uint, int, byte)"/>
-    public static uint GetPID(uint id32, uint nature, int gender, byte genderRatio) =>
+    /// <inheritdoc cref="GetPID(ushort, ushort, uint, byte, byte)"/>
+    public static uint GetPID(uint id32, uint nature, byte gender, byte genderRatio) =>
         GetPID((ushort)id32, (ushort)(id32 >> 16), nature, gender, genderRatio);
 
     /// <summary>
@@ -191,7 +191,7 @@ public static class PokewalkerRNG
     /// <param name="gender">Gender to set PID to.</param>
     /// <param name="genderRatio">Gender ratio of the species.</param>
     /// <returns>PID for the given parameters.</returns>
-    public static uint GetPID(ushort TID16, ushort SID16, uint nature, int gender, byte genderRatio)
+    public static uint GetPID(ushort TID16, ushort SID16, uint nature, byte gender, byte genderRatio)
     {
         if (nature >= 24)
             nature = 0;

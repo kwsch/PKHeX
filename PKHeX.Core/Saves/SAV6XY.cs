@@ -130,12 +130,7 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
         State.Edited = true;
     }
 
-    public override GameVersion Version => Game switch
-    {
-        (int) GameVersion.X => GameVersion.X,
-        (int) GameVersion.Y => GameVersion.Y,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.X or GameVersion.Y;
 
     protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
     protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.GetGifts(); set => Blocks.MysteryGift.SetGifts(value); }

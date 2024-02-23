@@ -3,7 +3,7 @@ using static PKHeX.Core.LegalityCheckStrings;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies the <see cref="PKM.OT_Name"/>.
+/// Verifies the <see cref="PKM.OriginalTrainerName"/>.
 /// </summary>
 public sealed class TrainerIDVerifier : Verifier
 {

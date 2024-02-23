@@ -136,16 +136,16 @@ public sealed class MyStatus8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
         set => WriteUInt16LittleEndian(Data.AsSpan(0xA2), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[0xA4];
-        set => Data[0xA4] = (byte)value;
+        set => Data[0xA4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[0xA5];
-        set => Data[0xA5] = (byte)value;
+        set => Data[0xA5] = value;
     }
 
     // A6
@@ -165,12 +165,12 @@ public sealed class MyStatus8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
         }
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(0xB0, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0xB0, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     // D0

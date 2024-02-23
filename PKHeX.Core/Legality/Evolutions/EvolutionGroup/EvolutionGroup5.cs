@@ -6,7 +6,7 @@ public sealed class EvolutionGroup5 : IEvolutionGroup
 {
     public static readonly EvolutionGroup5 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves5;
-    private const int Generation = 5;
+    private const byte Generation = 5;
     private static PersonalTable5B2W2 Personal => PersonalTable.B2W2;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
@@ -39,7 +39,7 @@ public sealed class EvolutionGroup5 : IEvolutionGroup
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         if (enc.Generation < Generation)
-            EvolutionUtil.UpdateFloor(result, (byte)pk.Met_Level, enc.LevelMax);
+            EvolutionUtil.UpdateFloor(result, pk.MetLevel, enc.LevelMax);
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

@@ -1,4 +1,4 @@
-using static PKHeX.Core.AreaSlotType8;
+using static PKHeX.Core.SlotType8;
 using static PKHeX.Core.AreaWeather8;
 
 namespace PKHeX.Core;
@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Encounter Slot Types for <see cref="GameVersion.SWSH"/>
 /// </summary>
-public enum AreaSlotType8 : byte
+public enum SlotType8 : byte
 {
     SymbolMain,
     SymbolMain2,
@@ -28,11 +28,11 @@ public enum AreaSlotType8 : byte
 }
 
 /// <summary>
-/// Extension methods for <see cref="AreaSlotType8"/>.
+/// Extension methods for <see cref="SlotType8"/>.
 /// </summary>
-public static class AreaSlotType8Extensions
+public static class SlotType8Extensions
 {
-    public static bool CanCrossover(this AreaSlotType8 type) => type is not (HiddenMain or HiddenMain2 or OnlyFishing);
-    public static bool CanEncounterViaFishing(this AreaSlotType8 type, AreaWeather8 weather) => type is OnlyFishing || weather.HasFlag(Fishing);
-    public static bool CanEncounterViaCurry(this AreaSlotType8 type) => type is HiddenMain or HiddenMain2;
+    public static bool CanCrossover(this SlotType8 type) => type is not (HiddenMain or HiddenMain2 or OnlyFishing);
+    public static bool CanEncounterViaFishing(this SlotType8 type, AreaWeather8 weather) => type is OnlyFishing || weather.HasFlag(Fishing);
+    public static bool CanEncounterViaCurry(this SlotType8 type) => type is HiddenMain or HiddenMain2;
 }

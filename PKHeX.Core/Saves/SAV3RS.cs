@@ -12,7 +12,7 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
 {
     // Configuration
     protected override SAV3RS CloneInternal() => new(Write());
-    public override GameVersion Version { get => GameVersion.RS; protected set { } }
+    public override GameVersion Version { get => GameVersion.RS; set { } }
     public override PersonalTable3 Personal => PersonalTable.RS;
 
     public override int EventFlagCount => 8 * 288;

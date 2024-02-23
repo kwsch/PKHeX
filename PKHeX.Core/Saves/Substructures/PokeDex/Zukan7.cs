@@ -29,33 +29,30 @@ public class Zukan7 : Zukan<SaveFile>
     public Zukan7(SAV7USUM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexUSUM) { }
     protected Zukan7(SAV7b sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexGG) { }
 
-    private Zukan7(SaveFile sav, int dex, int langflag, Func<ushort, byte, int, int> form) : base(sav, dex, langflag)
+    private Zukan7(SaveFile sav, int dex, int langflag, Func<ushort, byte, int> form) : base(sav, dex, langflag)
     {
-        DexFormIndexFetcher = form;
+        GetCountFormsPriorTo = form;
         FormBaseSpecies = GetFormIndexBaseSpeciesList();
         Debug.Assert(!SAV.State.Exportable || ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex)) == MAGIC);
     }
 
-    public Func<ushort, byte, int, int> DexFormIndexFetcher { get; }
+    public Func<ushort, byte, int> GetCountFormsPriorTo { get; }
 
-    protected sealed override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
+    protected sealed override void SetAllDexSeenFlags(int baseBit, byte form, byte gender, bool isShiny, bool value = true)
     {
         var species = (ushort)(baseBit + 1);
         if (species == (int)Species.Castform)
             isShiny = false;
 
         // Starting with Gen7, form bits are stored in the same region as the species flags.
-        int formstart = form;
-        int formend = form;
-        bool reset = GetSaneFormsToIterate(species, out int fs, out int fe, formstart);
+        int formStart = form;
+        int formEnd = form;
+        bool reset = GetSaneFormsToIterate(species, out var fs, out var fe, form);
         if (reset)
-        {
-            formstart = fs;
-            formend = fe;
-        }
+            (formStart, formEnd) = (fs, fe);
 
         int shiny = isShiny ? 1 : 0;
-        for (int f = formstart; f <= formend; f++)
+        for (int f = formStart; f <= formEnd; f++)
         {
             int formBit = baseBit;
             if (f > 0) // Override the bit to overwrite
@@ -63,9 +60,9 @@ public class Zukan7 : Zukan<SaveFile>
                 var fc = SAV.Personal[species].FormCount;
                 if (fc > 1) // actually has forms
                 {
-                    int index = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
+                    int index = GetCountFormsPriorTo(species, fc);
                     if (index >= 0) // bit index valid
-                        formBit = index + f;
+                        formBit = SAV.MaxSpeciesID + index + (f - 1);
                 }
             }
             SetDexFlags(baseBit, formBit, gender, shiny, value);
@@ -192,10 +189,10 @@ public class Zukan7 : Zukan<SaveFile>
 
     public int GetDexFormIndex(ushort species, byte formCount, int form)
     {
-        var index = DexFormIndexFetcher(species, formCount, form);
+        var index = GetCountFormsPriorTo(species, formCount);
         if (index < 0)
             return index;
-        return index + SAV.MaxSpeciesID - 1;
+        return SAV.MaxSpeciesID + index + (form - 1);
     }
 
     public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
@@ -254,12 +251,13 @@ public class Zukan7 : Zukan<SaveFile>
         return SAV.Personal[species].Gender;
     }
 
-    public ushort GetBaseSpecies(ushort index)
+    public ushort GetBaseSpecies(int index)
     {
-        if (index <= SAV.MaxSpeciesID)
-            return index;
+        if (index < SAV.MaxSpeciesID)
+            return (ushort)(index + 1);
 
-        return FormBaseSpecies[index - SAV.MaxSpeciesID - 1];
+        var species = index - SAV.MaxSpeciesID;
+        return FormBaseSpecies[species];
     }
 
     protected sealed override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
@@ -314,5 +312,21 @@ public class Zukan7 : Zukan<SaveFile>
         for (int i = 0; i < DexLangIDCount; i++)
             result[i] = value;
         return result;
+    }
+
+    public int GetEntryIndex(ushort species, byte form)
+    {
+        if (form <= 0)
+            return species - 1;
+        var fc = SAV.Personal[species].FormCount;
+        if (fc <= 1) // no forms at all
+            return species - 1;
+
+        int previous = GetCountFormsPriorTo(species, fc);
+        if (previous < 0) // no dex forms
+            return species - 1;
+
+        // bit index valid
+        return (SAV.MaxSpeciesID + previous + (form - 1));
     }
 }

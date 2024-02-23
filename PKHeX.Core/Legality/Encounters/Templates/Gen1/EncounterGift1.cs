@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,14 +8,14 @@ namespace PKHeX.Core;
 public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Version = GameVersion.RB)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>, IFixedGBLanguage, IMoveset, IFixedIVSet
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public bool IsShiny => false;
-    public int Location => 0;
+    public ushort Location => 0;
 
     public const ushort UnspecifiedID = 0;
 
@@ -26,9 +25,9 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     public EncounterGBLanguage Language { get; init; } = EncounterGBLanguage.Japanese;
 
     /// <summary> Trainer name for the event. </summary>
-    public string OT_Name { get; init; } = string.Empty;
+    public string OriginalTrainerName { get; init; } = string.Empty;
 
-    public IReadOnlyList<string> OT_Names { get; init; } = [];
+    public ReadOnlyMemory<string> TrainerNames { get; init; }
 
     /// <summary> Trainer ID for the event. </summary>
     public ushort TID16 { get; init; } = UnspecifiedID;
@@ -59,7 +58,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
             CatchRate = GetInitialCatchRate(pi),
             DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) : EncounterUtil.GetRandomDVs(Util.Rand),
 
-            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
+            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
@@ -68,10 +67,10 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
 
         if (TID16 != UnspecifiedID)
             pk.TID16 = TID16;
-        if (OT_Name.Length != 0)
-            pk.OT_Name = OT_Name;
-        else if (OT_Names.Count != 0)
-            pk.OT_Name = OT_Names[Util.Rand.Next(OT_Names.Count)];
+        if (OriginalTrainerName.Length != 0)
+            pk.OriginalTrainerName = OriginalTrainerName;
+        else if (TrainerNames.Length != 0)
+            pk.OriginalTrainerName = TrainerNames.Span[Util.Rand.Next(TrainerNames.Length)];
 
         if (Version == GameVersion.Stadium)
         {
@@ -112,7 +111,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
         {
             // Amnesia Psyduck has different catch rates depending on language
             if (Species == (int)Core.Species.Psyduck)
-                return (Language == EncounterGBLanguage.Japanese) ? (byte)167 : (byte)168;
+                return Language == EncounterGBLanguage.Japanese ? (byte)167 : (byte)168;
         }
 
         // Encounters can have different Catch Rates (RBG vs Y)
@@ -156,14 +155,14 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
         if (TID16 != UnspecifiedID && pk.TID16 != TID16)
             return false;
 
-        if (OT_Name.Length != 0)
+        if (OriginalTrainerName.Length != 0)
         {
-            if (pk.OT_Name != OT_Name)
+            if (pk.OriginalTrainerName != OriginalTrainerName)
                 return false;
         }
-        else if (OT_Names.Count != 0)
+        else if (TrainerNames.Length != 0)
         {
-            if (!OT_Names.Contains(pk.OT_Name))
+            if (!TrainerNames.Span.Contains(pk.OriginalTrainerName))
                 return false;
         }
 
@@ -183,7 +182,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
             return true;
 
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk)

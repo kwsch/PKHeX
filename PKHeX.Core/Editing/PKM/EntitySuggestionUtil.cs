@@ -9,12 +9,12 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EntitySuggestionUtil
 {
-    public static List<string> GetMetLocationSuggestionMessage(PKM pk, int level, int location, int minimumLevel, IEncounterable? enc)
+    public static List<string> GetMetLocationSuggestionMessage(PKM pk, int level, ushort location, int minimumLevel, IEncounterable? enc)
     {
         var suggestion = new List<string> { MsgPKMSuggestionStart };
         if (pk.Format >= 3)
         {
-            var metList = GameInfo.GetLocationList((GameVersion)pk.Version, pk.Context, egg: false);
+            var metList = GameInfo.GetLocationList(pk.Version, pk.Context, egg: false);
             var locationName = metList.First(loc => loc.Value == location).Text;
             suggestion.Add($"{MsgPKMSuggestionMetLocation} {locationName}");
             suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");

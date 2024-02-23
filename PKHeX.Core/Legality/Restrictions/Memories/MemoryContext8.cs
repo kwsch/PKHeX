@@ -55,7 +55,7 @@ public sealed partial class MemoryContext8 : MemoryContext
     public override bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory) => CanObtainMemorySWSH(memory);
 
     public override bool CanObtainMemory(byte memory) => CanObtainMemorySWSH(memory);
-    public override bool HasPokeCenter(GameVersion version, int location) => location == 9; // in a Pokémon Center
+    public override bool HasPokeCenter(GameVersion version, ushort location) => location == 9; // in a Pokémon Center
 
     public override bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk)
     {
@@ -64,7 +64,7 @@ public sealed partial class MemoryContext8 : MemoryContext
             return false;
 
         if (memory is 1 or 2 or 3) // Encounter only
-            return IsInvalidGenLoc8(memory, pk.Met_Location, pk.Egg_Location, variable, pk, enc);
+            return IsInvalidGenLoc8(memory, pk.MetLocation, pk.EggLocation, variable, pk, enc);
         return IsInvalidGenLoc8Other(memory, variable);
     }
 
@@ -89,7 +89,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         _ => ItemStorage8SWSH.IsTechRecord((ushort)item) || PurchaseItemsNoTR.BinarySearch((ushort)item) >= 0,
     };
 
-    private static bool IsInvalidGenLoc8(byte memory, int loc, int egg, ushort variable, PKM pk, IEncounterTemplate enc)
+    private static bool IsInvalidGenLoc8(byte memory, ushort loc, int egg, ushort variable, PKM pk, IEncounterTemplate enc)
     {
         if (variable > 255)
             return true;

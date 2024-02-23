@@ -91,7 +91,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
     public sealed override int BoxCount => 18;
     public sealed override int MaxEV => EffortValues.Max255;
-    public sealed override int Generation => 4;
+    public sealed override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public int EventFlagCount => 0xB60; // 2912
     public int EventWorkCount => (EventFlag - EventWork) >> 1;
@@ -106,7 +106,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     // MaxItemID
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_4;
     public sealed override int MaxBallID => Legal.MaxBallID_4;
-    public sealed override int MaxGameID => Legal.MaxGameID_4; // Colo/XD
+    public sealed override GameVersion MaxGameID => Legal.MaxGameID_4; // Colo/XD
 
     // Checksums
     protected abstract int FooterSize { get; }
@@ -255,10 +255,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         set => WriteUInt32LittleEndian(General[(Trainer1 + 0x14)..], value);
     }
 
-    public override int Gender
+    public override byte Gender
     {
         get => General[Trainer1 + 0x18];
-        set => General[Trainer1 + 0x18] = (byte)value;
+        set => General[Trainer1 + 0x18] = value;
     }
 
     public override int Language

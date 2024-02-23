@@ -47,7 +47,7 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
         var cs = cr.Slot;
         var ca = cr.Analysis;
         const CheckIdentifier ident = PID;
-        int gen = pa.Info.Generation;
+        var gen = pa.Info.Generation;
 
         if (ca.Info.Generation != gen)
         {

@@ -6,15 +6,15 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int Location => 0;
+    public ushort Location => 0;
 
     private const byte LightBallPikachuCatchRate = 0xA3; // 163 - Light Ball
     public byte Form => 0;
@@ -44,7 +44,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
             CatchRate = IsStarterPikachu ? LightBallPikachuCatchRate : pi.CatchRate,
             DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
-            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
+            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
@@ -82,7 +82,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
             return true;
 
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk)

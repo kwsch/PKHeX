@@ -49,9 +49,9 @@ public sealed class TitleScreen8Poke(byte[] Data, int Offset) : ISpeciesForm
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
     }
 
-    public int Gender
+    public byte Gender
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+        get => (byte)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
     }
 

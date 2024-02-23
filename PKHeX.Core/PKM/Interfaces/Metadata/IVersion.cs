@@ -13,29 +13,35 @@ public interface IVersion
 
 public static partial class Extensions
 {
-    private static bool CanBeReceivedBy(this IVersion ver, GameVersion game) => ver.Version.Contains(game);
+    private static bool CanBeReceivedBy(this IVersion version, GameVersion game) => version.Version.Contains(game);
 
-    public static GameVersion GetCompatibleVersion(this IVersion ver, GameVersion prefer)
+    public static GameVersion GetCompatibleVersion(this IVersion version, GameVersion prefer)
     {
-        if (ver.CanBeReceivedBy(prefer) || ver.Version == GameVersion.Any)
+        if (version.CanBeReceivedBy(prefer) || version.Version == GameVersion.Any)
             return prefer;
-        return ver.GetSingleVersion();
+        return version.GetSingleVersion();
     }
 
-    public static GameVersion GetSingleVersion(this IVersion ver)
+    public static GameVersion GetSingleVersion(this IVersion version)
     {
-        const int max = (int)GameUtil.HighestGameID;
-        var v = ver.Version;
+        var v = version.Version;
         if (v.IsValidSavedVersion())
             return v;
+        return v.GetSingleVersion();
+    }
+
+    public static GameVersion GetSingleVersion(this GameVersion lump)
+    {
+        const int max = (int)GameUtil.HighestGameID;
         var rnd = Util.Rand;
         while (true) // this isn't optimal, but is low maintenance
         {
             var game = (GameVersion)rnd.Next(1, max);
+            if (!lump.Contains(game))
+                continue;
             if (game == GameVersion.BU)
                 continue; // Ignore this one; only can be Japanese language.
-            if (ver.CanBeReceivedBy(game))
-                return game;
+            return game;
         }
     }
 }

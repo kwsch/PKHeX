@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -14,11 +15,11 @@ public sealed class SAV1Stadium : SAV_STADIUM
     public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => EffortValues.Max12;
     public override ReadOnlySpan<ushort> HeldItems => [];
-    public override GameVersion Version { get; protected set; } = GameVersion.Stadium;
+    public override GameVersion Version { get => GameVersion.Stadium; set { } }
 
     protected override SAV1Stadium CloneInternal() => new((byte[])Data.Clone(), Japanese);
 
-    public override int Generation => 1;
+    public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
     private int StringLength => Japanese ? StringLengthJ : StringLengthU;
     private const int StringLengthJ = 6;
@@ -113,8 +114,8 @@ public sealed class SAV1Stadium : SAV_STADIUM
         var nick = data.AsSpan(PokeCrypto.SIZE_1STORED, len);
         var ot = data.AsSpan(PokeCrypto.SIZE_1STORED + len, len);
         var pk1 = new PK1(data[..PokeCrypto.SIZE_1STORED], Japanese);
-        nick.CopyTo(pk1.Nickname_Trash);
-        ot.CopyTo(pk1.OT_Trash);
+        nick.CopyTo(pk1.NicknameTrash);
+        ot.CopyTo(pk1.OriginalTrainerTrash);
         return pk1;
     }
 
@@ -126,8 +127,8 @@ public sealed class SAV1Stadium : SAV_STADIUM
         var data = pk.Data;
         int len = StringLength;
         data.CopyTo(result, 0);
-        gb.Nickname_Trash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED));
-        gb.OT_Trash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED + len));
+        gb.NicknameTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED));
+        gb.OriginalTrainerTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED + len));
         return result;
     }
 
@@ -288,7 +289,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
         return result == StadiumSaveType.Swapped;
     }
 
-    private static StadiumSaveType IsStadium(ReadOnlySpan<byte> data, int teamSize, int boxSize)
+    private static StadiumSaveType IsStadium(ReadOnlySpan<byte> data, [ConstantExpected] int teamSize, [ConstantExpected] int boxSize)
     {
         var isTeam = StadiumUtil.IsMagicPresentEither(data, teamSize, MAGIC_FOOTER, 10);
         if (isTeam != StadiumSaveType.None)

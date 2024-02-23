@@ -12,8 +12,8 @@ public static class QRMessageUtil
     private const string QR6PathBad = "null/#";
     private const string QR6Path = "http://lunarcookies.github.io/b1s1.html#";
     private const string QR6PathWC = "http://lunarcookies.github.io/wc.html#";
-    private static string GetExploitURLPrefixPKM(int format) => format == 6 ? QR6Path : QR6PathBad;
-    private static string GetExploitURLPrefixWC(int format) => format == 6 ? QR6PathWC : QR6PathBad;
+    private static string GetExploitURLPrefixPKM(byte format) => format == 6 ? QR6Path : QR6PathBad;
+    private static string GetExploitURLPrefixWC(byte format) => format == 6 ? QR6PathWC : QR6PathBad;
 
     /// <summary>
     /// Gets the <see cref="PKM"/> data from the message that is encoded in a QR.

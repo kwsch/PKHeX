@@ -17,12 +17,12 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        var iterator = new EncounterEnumerator8(pk, chain, (GameVersion)pk.Version);
+        var iterator = new EncounterEnumerator8(pk, chain, pk.Version);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
 
-    private const int Generation = 8;
+    private const byte Generation = 8;
     private const EntityContext Context = EntityContext.Gen8;
     private const byte EggLevel = 1;
 

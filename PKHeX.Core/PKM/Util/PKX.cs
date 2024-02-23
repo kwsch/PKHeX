@@ -8,5 +8,5 @@ public static class PKX
     internal static IPersonalTable Personal => PersonalTable.SV;
     public const EntityContext Context = EntityContext.Gen9;
     public const GameVersion Version = GameVersion.SL;
-    public const int Generation = 9;
+    public const byte Generation = 9;
 }

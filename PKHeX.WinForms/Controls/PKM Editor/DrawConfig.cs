@@ -73,7 +73,7 @@ public sealed class DrawConfig : IDisposable
 
     public DrawConfig() => LoadBrushes();
 
-    public Color GetGenderColor(int gender) => gender switch
+    public Color GetGenderColor(byte gender) => gender switch
     {
         0 => Male,
         1 => Female,

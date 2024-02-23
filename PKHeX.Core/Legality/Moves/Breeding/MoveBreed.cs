@@ -18,7 +18,7 @@ public static class MoveBreed
     /// <param name="moves">Moves the egg supposedly originated with</param>
     /// <param name="origins">Output buffer indicating the origin of each index within <see cref="moves"/></param>
     /// <returns>True if the moves are ordered correctly, without missing moves.</returns>
-    public static bool Validate(int generation, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins) => generation switch
+    public static bool Validate(byte generation, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins) => generation switch
     {
         2 => MoveBreed2.Validate(species, version, moves, origins),
         3 => MoveBreed3.Validate(species, version, moves, origins),
@@ -53,7 +53,7 @@ public static class MoveBreed
     /// <remarks>Uses inputs calculated from <see cref="Validate"/>. Don't call this directly unless already parsed the input as invalid.</remarks>
     /// <returns>Expected moves for the encounter</returns>
     /// <inheritdoc cref="Validate"/>
-    public static bool GetExpectedMoves(int generation, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins, Span<ushort> result)
+    public static bool GetExpectedMoves(byte generation, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins, Span<ushort> result)
     {
         // Try rearranging the order of the moves.
         // Group and order moves by their possible origin flags.
@@ -94,7 +94,7 @@ public static class MoveBreed
         return false;
     }
 
-    private static void GetSortedMoveOrder(int generation, ReadOnlySpan<ushort> moves, Span<byte> origins, Span<MoveOrder> expected)
+    private static void GetSortedMoveOrder(byte generation, ReadOnlySpan<ushort> moves, Span<byte> origins, Span<MoveOrder> expected)
     {
         if (generation == 2)
         {

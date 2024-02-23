@@ -50,12 +50,12 @@ public partial class SAV_MysteryGiftDB : Form
         grid.SetBackground(Resources.box_wp_clean);
         var newWidth = grid.Width;
         var newHeight = grid.Height;
-        var wdelta = newWidth - smallWidth;
-        if (wdelta != 0)
-            Width += wdelta;
-        var hdelta = newHeight - smallHeight;
-        if (hdelta != 0)
-            Height += hdelta;
+        var wDelta = newWidth - smallWidth;
+        if (wDelta != 0)
+            Width += wDelta;
+        var hDelta = newHeight - smallHeight;
+        if (hDelta != 0)
+            Height += hDelta;
 
         PKXBOXES = [.. grid.Entries];
 
@@ -75,7 +75,7 @@ public partial class SAV_MysteryGiftDB : Form
             {
                 if (sender is not PictureBox pb)
                     return;
-                var index = Array.IndexOf(PKXBOXES, sender);
+                var index = Array.IndexOf(PKXBOXES, pb);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -305,7 +305,7 @@ public partial class SAV_MysteryGiftDB : Form
         // Populate Search Query Result
         IEnumerable<MysteryGift> res = RawDB;
 
-        int format = MAXFORMAT + 1 - CB_Format.SelectedIndex;
+        byte format = (byte)(MAXFORMAT + 1 - CB_Format.SelectedIndex);
 
         switch (CB_FormatComparator.SelectedIndex)
         {
@@ -429,11 +429,11 @@ public partial class SAV_MysteryGiftDB : Form
     {
         if (!MysteryPokeGrid.RectangleToScreen(MysteryPokeGrid.ClientRectangle).Contains(MousePosition))
             return;
-        int oldval = SCR_Box.Value;
-        int newval = oldval + (e.Delta < 0 ? 1 : -1);
-        if (newval < SCR_Box.Minimum || SCR_Box.Maximum < newval)
+        int oldVal = SCR_Box.Value;
+        int newVal = oldVal + (e.Delta < 0 ? 1 : -1);
+        if (newVal < SCR_Box.Minimum || SCR_Box.Maximum < newVal)
             return;
-        FillPKXBoxes(SCR_Box.Value = newval);
+        FillPKXBoxes(SCR_Box.Value = newVal);
         ShowSet.Clear();
     }
 
@@ -454,7 +454,8 @@ public partial class SAV_MysteryGiftDB : Form
 
     private void ShowHoverTextForSlot(object sender, EventArgs e)
     {
-        var pb = (PictureBox)sender;
+        if (sender is not PictureBox pb)
+            return;
         int index = Array.IndexOf(PKXBOXES, pb);
         if (!GetShiftedIndex(ref index))
             return;

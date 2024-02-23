@@ -13,9 +13,16 @@ public static class GenderApplicator
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
     /// <remarks>Has special logic for an unspecified gender.</remarks>
-    public static void SetSaneGender(this PKM pk, int gender)
+    public static void SetSaneGender(this PKM pk, byte gender)
     {
-        int g = gender == -1 ? pk.GetSaneGender() : gender;
+        var g = gender > 2 ? pk.GetSaneGender() : gender;
+        pk.SetGender(g);
+    }
+
+    /// <inheritdoc cref="SetSaneGender(PKM, byte)"/>
+    public static void SetSaneGender(this PKM pk, byte? gender)
+    {
+        var g = gender ?? pk.GetSaneGender();
         pk.SetGender(g);
     }
 
@@ -24,9 +31,9 @@ public static class GenderApplicator
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
-    public static void SetGender(this PKM pk, int gender)
+    public static void SetGender(this PKM pk, byte gender)
     {
-        gender = Math.Clamp(gender, 0, 2);
+        gender = Math.Clamp(gender, (byte)0, (byte)2);
         if (pk.Gender == gender)
             return;
 
@@ -50,7 +57,7 @@ public static class GenderApplicator
     /// </summary>
     /// <param name="pk"></param>
     /// <returns>Most-legal <see cref="PKM.Gender"/> value</returns>
-    public static int GetSaneGender(this PKM pk)
+    public static byte GetSaneGender(this PKM pk)
     {
         var gt = pk.PersonalInfo.Gender;
         switch (gt)
@@ -69,7 +76,7 @@ public static class GenderApplicator
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="gender">Desired <see cref="PKM.Gender"/>.</param>
-    public static void SetAttackIVFromGender(this PKM pk, int gender)
+    public static void SetAttackIVFromGender(this PKM pk, byte gender)
     {
         var rnd = Util.Rand;
         while (pk.Gender != gender)

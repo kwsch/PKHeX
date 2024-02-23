@@ -5,12 +5,12 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IContestStatsReadOnly
 {
-    byte CNT_Cool { get; }
-    byte CNT_Beauty { get; }
-    byte CNT_Cute { get; }
-    byte CNT_Smart { get; }
-    byte CNT_Tough { get; }
-    byte CNT_Sheen { get; }
+    byte ContestCool { get; }
+    byte ContestBeauty { get; }
+    byte ContestCute { get; }
+    byte ContestSmart { get; }
+    byte ContestTough { get; }
+    byte ContestSheen { get; }
 }
 
 public static partial class Extensions
@@ -22,17 +22,17 @@ public static partial class Extensions
     /// <returns>True if it has any nonzero contest stat, false if all are zero.</returns>
     public static bool HasContestStats(this IContestStatsReadOnly stats)
     {
-        if (stats.CNT_Cool != 0)
+        if (stats.ContestCool != 0)
             return true;
-        if (stats.CNT_Beauty != 0)
+        if (stats.ContestBeauty != 0)
             return true;
-        if (stats.CNT_Cute != 0)
+        if (stats.ContestCute != 0)
             return true;
-        if (stats.CNT_Smart != 0)
+        if (stats.ContestSmart != 0)
             return true;
-        if (stats.CNT_Tough != 0)
+        if (stats.ContestTough != 0)
             return true;
-        if (stats.CNT_Sheen != 0)
+        if (stats.ContestSheen != 0)
             return true;
         return false;
     }
@@ -41,68 +41,68 @@ public static partial class Extensions
 
     public static bool IsContestAboveOrEqual(this IContestStatsReadOnly current, IContestStatsReadOnly initial)
     {
-        if (current.CNT_Cool   < initial.CNT_Cool)
+        if (current.ContestCool   < initial.ContestCool)
             return false;
-        if (current.CNT_Beauty < initial.CNT_Beauty)
+        if (current.ContestBeauty < initial.ContestBeauty)
             return false;
-        if (current.CNT_Cute   < initial.CNT_Cute)
+        if (current.ContestCute   < initial.ContestCute)
             return false;
-        if (current.CNT_Smart  < initial.CNT_Smart)
+        if (current.ContestSmart  < initial.ContestSmart)
             return false;
-        if (current.CNT_Tough  < initial.CNT_Tough)
+        if (current.ContestTough  < initial.ContestTough)
             return false;
-        if (current.CNT_Sheen  < initial.CNT_Sheen)
+        if (current.ContestSheen  < initial.ContestSheen)
             return false;
         return true;
     }
 
     public static bool IsContestEqual(this IContestStatsReadOnly current, IContestStatsReadOnly initial)
     {
-        if (current.CNT_Cool != initial.CNT_Cool)
+        if (current.ContestCool != initial.ContestCool)
             return false;
-        if (current.CNT_Beauty != initial.CNT_Beauty)
+        if (current.ContestBeauty != initial.ContestBeauty)
             return false;
-        if (current.CNT_Cute != initial.CNT_Cute)
+        if (current.ContestCute != initial.ContestCute)
             return false;
-        if (current.CNT_Smart != initial.CNT_Smart)
+        if (current.ContestSmart != initial.ContestSmart)
             return false;
-        if (current.CNT_Tough != initial.CNT_Tough)
+        if (current.ContestTough != initial.ContestTough)
             return false;
-        if (current.CNT_Sheen != initial.CNT_Sheen)
+        if (current.ContestSheen != initial.ContestSheen)
             return false;
         return true;
     }
 
     public static void CopyContestStatsTo(this IContestStatsReadOnly source, IContestStats dest)
     {
-        dest.CNT_Cool = source.CNT_Cool;
-        dest.CNT_Beauty = source.CNT_Beauty;
-        dest.CNT_Cute = source.CNT_Cute;
-        dest.CNT_Smart = source.CNT_Smart;
-        dest.CNT_Tough = source.CNT_Tough;
-        dest.CNT_Sheen = source.CNT_Sheen;
+        dest.ContestCool = source.ContestCool;
+        dest.ContestBeauty = source.ContestBeauty;
+        dest.ContestCute = source.ContestCute;
+        dest.ContestSmart = source.ContestSmart;
+        dest.ContestTough = source.ContestTough;
+        dest.ContestSheen = source.ContestSheen;
     }
 
     public static void SetAllContestStatsTo(this IContestStats dest, byte value, byte sheen)
     {
-        dest.CNT_Cool = value;
-        dest.CNT_Beauty = value;
-        dest.CNT_Cute = value;
-        dest.CNT_Smart = value;
-        dest.CNT_Tough = value;
-        dest.CNT_Sheen = sheen;
+        dest.ContestCool = value;
+        dest.ContestBeauty = value;
+        dest.ContestCute = value;
+        dest.ContestSmart = value;
+        dest.ContestTough = value;
+        dest.ContestSheen = sheen;
     }
 
     private const byte CONTEST_MAX = 255;
 
     /// <summary>
-    /// Check if any contest stat besides <see cref="IContestStatsReadOnly.CNT_Sheen"/> is equal to <see cref="CONTEST_MAX"/>.
+    /// Check if any contest stat besides <see cref="IContestStatsReadOnly.ContestSheen"/> is equal to <see cref="CONTEST_MAX"/>.
     /// </summary>
     /// <param name="s">Entity to check</param>
     /// <returns>True if any equals <see cref="CONTEST_MAX"/></returns>
-    public static bool IsAnyContestStatMax(this IContestStatsReadOnly s) => CONTEST_MAX == s.CNT_Cool
-                                                                         || CONTEST_MAX == s.CNT_Beauty
-                                                                         || CONTEST_MAX == s.CNT_Cute
-                                                                         || CONTEST_MAX == s.CNT_Smart
-                                                                         || CONTEST_MAX == s.CNT_Tough;
+    public static bool IsAnyContestStatMax(this IContestStatsReadOnly s) => CONTEST_MAX == s.ContestCool
+                                                                         || CONTEST_MAX == s.ContestBeauty
+                                                                         || CONTEST_MAX == s.ContestCute
+                                                                         || CONTEST_MAX == s.ContestSmart
+                                                                         || CONTEST_MAX == s.ContestTough;
 }

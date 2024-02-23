@@ -36,12 +36,7 @@ public sealed class SAV6AODemo : SAV6
         Party            = 0x03E00;
     }
 
-    public override GameVersion Version => Game switch
-    {
-        (int) GameVersion.AS => GameVersion.AS,
-        (int) GameVersion.OR => GameVersion.OR,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.AS or GameVersion.OR;
 
     public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }
     public override int Vivillon { get => Blocks.Misc.Vivillon; set => Blocks.Misc.Vivillon = value; } // unused

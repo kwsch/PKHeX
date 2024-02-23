@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
 public sealed record EncounterStatic8NC(GameVersion Version) : EncounterStatic8Nest<EncounterStatic8NC>(Version), ILocation
 {
-    int ILocation.Location => Watchtower;
+    ushort ILocation.Location => Watchtower;
     public const ushort Location = Watchtower;
     public override string Name => "Watchtower Crystal Den Encounter";
 
@@ -16,13 +16,13 @@ public sealed record EncounterStatic8NC(GameVersion Version) : EncounterStatic8N
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        var loc = pk.Met_Location;
+        var loc = pk.MetLocation;
         return loc is SharedNest or Watchtower;
     }
 
     protected override bool IsMatchLevel(PKM pk)
     {
-        var lvl = pk.Met_Level;
+        var lvl = pk.MetLevel;
         if (lvl == Level)
             return true;
 
@@ -31,7 +31,7 @@ public sealed record EncounterStatic8NC(GameVersion Version) : EncounterStatic8N
             return false;
         if (lvl is < 20 or > 55)
             return false;
-        if (pk is { Met_Location: Watchtower, IsShiny: true })
+        if (pk is { MetLocation: Watchtower, IsShiny: true })
             return false; // host cannot downlevel and be shiny
         return lvl % 5 == 0;
     }

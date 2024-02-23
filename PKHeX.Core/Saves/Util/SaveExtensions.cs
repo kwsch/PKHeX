@@ -51,7 +51,7 @@ public static class SaveExtensions
                 msg = MsgIndexItemHeld;
             if (msg != null)
             {
-                var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, (GameVersion)pk.Version);
+                var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, pk.Version);
                 errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
             }
         }

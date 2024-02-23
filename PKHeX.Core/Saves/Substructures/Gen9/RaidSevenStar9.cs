@@ -31,9 +31,11 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
     public uint Identifier
     {
         get => captured.Identifier;
-        set {
+        set
+        {
             captured.Identifier = value;
-            if (defeated != null) defeated.Identifier = value;
+            if (defeated != null)
+                defeated.Identifier = value;
         }
     }
 
@@ -47,8 +49,9 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
     [Category(General), Description("Indicates if this Tera Raid Boss has been defeated at least once by the player.")]
     public bool Defeated
     {
-        get => defeated != null ? defeated.Defeated : captured.Defeated;
-        set {
+        get => defeated?.Defeated ?? captured.Defeated;
+        set
+        {
             if (defeated != null)
                 defeated.Defeated = value;
             else

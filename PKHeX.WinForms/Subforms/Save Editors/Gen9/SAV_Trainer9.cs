@@ -106,7 +106,7 @@ public partial class SAV_Trainer9 : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SL;
+        CB_Game.SelectedIndex = SAV.Version - GameVersion.SL;
         CB_Gender.SelectedIndex = SAV.Gender;
 
         // Display Data
@@ -152,7 +152,7 @@ public partial class SAV_Trainer9 : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = (byte)(CB_Game.SelectedIndex + (int)GameVersion.SL);
+        SAV.Version = (GameVersion)(CB_Game.SelectedIndex + (byte)GameVersion.SL);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
