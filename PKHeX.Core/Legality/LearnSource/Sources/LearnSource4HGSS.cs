@@ -17,7 +17,7 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
     private static readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_4;
     private const LearnEnvironment Game = HGSS;
-    private const int Generation = 4;
+    private const byte Generation = 4;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 

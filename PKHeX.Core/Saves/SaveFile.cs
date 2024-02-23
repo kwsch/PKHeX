@@ -60,10 +60,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     #region Metadata & Limits
     public virtual string MiscSaveInfo() => string.Empty;
-    public virtual GameVersion Version { get; protected set; }
+    public virtual bool IsVersionValid() => true;
+    public virtual GameVersion Version { get => default; set { } }
     public abstract bool ChecksumsValid { get; }
     public abstract string ChecksumInfo { get; }
-    public abstract int Generation { get; }
+    public abstract byte Generation { get; }
     public abstract EntityContext Context { get; }
     #endregion
 
@@ -93,8 +94,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public abstract int MaxAbilityID { get; }
     public abstract int MaxItemID { get; }
     public abstract int MaxBallID { get; }
-    public abstract int MaxGameID { get; }
-    public virtual int MinGameID => 0;
+    public abstract GameVersion MaxGameID { get; }
+    public virtual GameVersion MinGameID => 0;
     #endregion
 
     /// <summary>
@@ -136,9 +137,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #endregion
 
     #region Player Info
-    public virtual int Gender { get; set; }
+    public virtual byte Gender { get; set; }
     public virtual int Language { get => -1; set { } }
-    public virtual int Game { get => (int)GameVersion.Any; set { } }
     public virtual uint ID32 { get; set; }
     public virtual ushort TID16 { get; set; }
     public virtual ushort SID16 { get; set; }
@@ -318,6 +318,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Slot Storing
     public static PKMImportSetting SetUpdateDex { protected get; set; } = PKMImportSetting.Update;
     public static PKMImportSetting SetUpdatePKM { protected get; set; } = PKMImportSetting.Update;
+    public static PKMImportSetting SetUpdateRecords { protected get; set; } = PKMImportSetting.Update;
 
     public abstract Type PKMType { get; }
     protected abstract PKM GetPKM(byte[] data);

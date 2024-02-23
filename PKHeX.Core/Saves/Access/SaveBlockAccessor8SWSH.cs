@@ -24,7 +24,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public Record8 Records { get; }
     public TrainerCard8 TrainerCard{ get; }
     public FashionUnlock8 Fashion { get; }
-    public RaidSpawnList8 Raid { get; }
+    public RaidSpawnList8 RaidGalar { get; }
     public RaidSpawnList8 RaidArmor { get; }
     public RaidSpawnList8 RaidCrown { get; }
     public TitleScreen8 TitleScreen { get; }
@@ -48,16 +48,17 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
         Daycare = new Daycare8(sav, GetBlock(KDaycare));
         Records = new Record8(sav, GetBlock(KRecord));
         Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
-        Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
+        RaidGalar = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
         RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
         RaidCrown = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR2), RaidSpawnList8.RaidCountLegal_R2);
         TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
-        TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
+        TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes), GetBlock(KTeamLocks));
         FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
     }
 
     // Arrays (Blocks)
     private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
+    private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
     private const uint KMenuButtons = 0xB1DDDCA8; // X Menu Button Order
@@ -70,7 +71,6 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     private const uint KMisc = 0x1b882b09; // Money
     private const uint KParty = 0x2985fe5d; // Party Data
     private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
-    private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KRecord = 0x37da95a3;
     private const uint KZukan = 0x4716c404; // ZukanData_Pokemon
     private const uint KZukanR1 = 0x3F936BA9; // ZukanData_PokemonR1 (Armor)
@@ -97,6 +97,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     private const uint KTrainer3EndlessRecordData = 0x7BD78AF1; // Trainer 3's Data of Best Endless Dynamax Adventure Record
     private const uint KTrainer4EndlessRecordData = 0x7AD7895E; // Trainer 4's Data of Best Endless Dynamax Adventure Record
     private const uint KPokeJobStorage = 0xB25C772B; // Pokémon storage while they are doing Jobs
+    private const uint KTeamLocks = 0x605EBC30; 
 
     // Rental Teams - Objects (Blocks)
     private const uint KRentalTeam1 = 0x149A1DD0;

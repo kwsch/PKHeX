@@ -101,13 +101,13 @@ public partial class MemoryContext8
     private static ReadOnlySpan<byte> MultiLoc206 => [ 04, 37 ]; // town of Freezington: someone’s house, snowcapped town
     private static ReadOnlySpan<byte> MultiLoc220 => [ 53, 65 ];// at the Crown Shrine: on a snow-swept road, in a mystical place
 
-    private static bool IsMultiGenLocArea(int location, out ReadOnlySpan<byte> expect)
+    private static bool IsMultiGenLocArea(ushort location, out ReadOnlySpan<byte> expect)
     {
         expect = GetMultiGenLocAreaList(location);
         return expect.Length != 0;
     }
 
-    private static ReadOnlySpan<byte> GetMultiGenLocAreaList(int location) => location switch
+    private static ReadOnlySpan<byte> GetMultiGenLocAreaList(ushort location) => location switch
     {
         006 => MultiLoc006,
         014 => MultiLoc014,
@@ -128,7 +128,7 @@ public partial class MemoryContext8
         _ => [],
     };
 
-    private static bool IsSingleGenLocArea(int location, out byte expect)
+    private static bool IsSingleGenLocArea(ushort location, out byte expect)
     {
         var arr = SingleGenLocAreas;
         if ((location & 1) != 0 || (uint)(location >>= 1) >= arr.Length)
@@ -316,6 +316,9 @@ public partial class MemoryContext8
         0x8FFBFA, 0x8CDFFA, 0xFCE9EF, 0x8F6F7B, 0x826AB0, 0x866AB0, 0x8C69FE, 0x776AB0, 0x8CFB7A, 0x0CFEBA,
     ];
 
+    /// <summary>
+    /// Bitflag array with set bits indicating if the species ID can be captured in <see cref="GameVersion.SW"/>.
+    /// </summary>
     public static ReadOnlySpan<byte> CaptureFlagsSW =>
     [
         0xFE, 0x1F, 0x00, 0xFE, 0xFF, 0x3F, 0xFC, 0xFC, 0x1F, 0xE3, 0x0F, 0xFC, 0xCC, 0xFF, 0xFF, 0xFF,
@@ -328,6 +331,9 @@ public partial class MemoryContext8
         0x07,
     ];
 
+    /// <summary>
+    /// Bitflag array with set bits indicating if the species ID can be captured in <see cref="GameVersion.SH"/>.
+    /// </summary>
     public static ReadOnlySpan<byte> CaptureFlagsSH =>
     [
         0xFE, 0x1F, 0x00, 0xFE, 0xFF, 0x3F, 0xFC, 0xFC, 0x1F, 0xE3, 0x0F, 0xFC, 0xCC, 0xFF, 0xFF, 0xFF,

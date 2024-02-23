@@ -175,17 +175,17 @@ public partial class Main : Form
             ErrorWindow.ShowErrorDialog(MsgFileLoadFailAuto, ex, true);
     }
 
-    private void LoadBlankSaveFile(GameVersion ver)
+    private void LoadBlankSaveFile(GameVersion version)
     {
         var current = C_SAV?.SAV;
         var lang = SaveUtil.GetSafeLanguage(current);
         var tr = SaveUtil.GetSafeTrainerName(current, lang);
-        var sav = SaveUtil.GetBlankSAV(ver, tr, lang);
+        var sav = SaveUtil.GetBlankSAV(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
             var max = GameInfo.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
-            ver = (GameVersion)max.Value;
-            sav = SaveUtil.GetBlankSAV(ver, tr, lang);
+            version = (GameVersion)max.Value;
+            sav = SaveUtil.GetBlankSAV(version, tr, lang);
         }
         OpenSAV(sav, string.Empty);
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
@@ -212,9 +212,9 @@ public partial class Main : Form
         });
     }
 
-    private void NotifyNewVersionAvailable(Version ver)
+    private void NotifyNewVersionAvailable(Version version)
     {
-        var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+        var date = $"{2000 + version.Major:00}{version.Minor:00}{version.Build:00}";
         var lbl = L_UpdateAvailable;
         lbl.Text = $"{MsgProgramUpdateAvailable} {date}";
         lbl.Click += (_, _) => Process.Start(new ProcessStartInfo(ThreadPath) { UseShellExecute = true });
@@ -232,7 +232,7 @@ public partial class Main : Form
             bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
             showChangelog = parsed && lastrev < Program.CurrentVersion;
         }
-        Settings.Startup.Version = Program.CurrentVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
+        Settings.Startup.Version = Program.CurrentVersion.ToString(); // set current version so this doesn't happen until the user updates next time
 
         // BAK Prompt
         if (!Settings.Backup.BAKPrompt)
@@ -411,8 +411,12 @@ public partial class Main : Form
         PKME_Tabs.UpdateUnicode(GenderSymbols);
         SpriteName.AllowShinySprite = settings.Sprite.ShinySprites;
         SpriteBuilderUtil.SpriterPreference = settings.Sprite.SpritePreference;
-        SaveFile.SetUpdateDex = settings.SlotWrite.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
-        SaveFile.SetUpdatePKM = settings.SlotWrite.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
+
+        var write = settings.SlotWrite;
+        SaveFile.SetUpdateDex = write.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
+        SaveFile.SetUpdatePKM = write.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
+        SaveFile.SetUpdateRecords = write.SetUpdateRecords ? PKMImportSetting.Update : PKMImportSetting.Skip;
+
         C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
         CommonEdits.ShowdownSetIVMarkings = settings.Import.ApplyMarkings;
         CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
@@ -420,10 +424,14 @@ public partial class Main : Form
         C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
         ParseSettings.InitFromSettings(settings.Legality);
         PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
-        EntityConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
-        EntityConverter.RejuvenateHOME = settings.Advanced.AllowGuessRejuvenateHOME;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
+
+        var converter = settings.Converter;
+        EntityConverter.AllowIncompatibleConversion = converter.AllowIncompatibleConversion;
+        EntityConverter.RejuvenateHOME = converter.AllowGuessRejuvenateHOME;
+        EntityConverter.VirtualConsoleSourceGen1 = converter.VirtualConsoleSourceGen1;
+        EntityConverter.VirtualConsoleSourceGen2 = converter.VirtualConsoleSourceGen2;
 
         SpriteBuilder.LoadSettings(settings.Sprite);
     }
@@ -575,11 +583,26 @@ public partial class Main : Form
         if (obj != null && LoadFile(obj, path))
             return;
 
-        bool isSAV = WinFormsUtil.IsFileExtensionSAV(path);
-        var msg = isSAV ? MsgFileUnsupported : MsgPKMUnsupported;
-        WinFormsUtil.Error(msg,
+        WinFormsUtil.Error(GetHintInvalidFile(input, path),
             $"{MsgFileLoad}{Environment.NewLine}{path}",
             $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
+    }
+
+    private static string GetHintInvalidFile(ReadOnlySpan<byte> input, string path)
+    {
+        bool isSAV = WinFormsUtil.IsFileExtensionSAV(path);
+        if (!isSAV)
+            return MsgPKMUnsupported;
+
+        // Include a hint for the user to check if the file is all 00 or all FF
+        bool allZero = !input.ContainsAnyExcept<byte>(0x00);
+        if (allZero)
+            return MsgFileLoadAllZero;
+        bool allFF = !input.ContainsAnyExcept<byte>(0xFF);
+        if (allFF)
+            return MsgFileLoadAllFFFF;
+
+        return MsgFileUnsupported;
     }
 
     private bool LoadFile(object? input, string path)
@@ -727,7 +750,7 @@ public partial class Main : Form
 
     private bool OpenSAV(SaveFile sav, string path)
     {
-        if (sav.Version == GameVersion.Invalid)
+        if (!sav.IsVersionValid())
         {
             WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
             return true;
@@ -821,8 +844,8 @@ public partial class Main : Form
         var date = File.GetLastWriteTime(Environment.ProcessPath!);
         string version = $"d-{date:yyyyMMdd}";
 #else
-        var ver = Program.CurrentVersion;
-        string version = $"{2000+ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+        var v = Program.CurrentVersion;
+        string version = $"{2000+v.Major:00}{v.Minor:00}{v.Build:00}";
 #endif
         return $"PKH{(HaX ? "a" : "e")}X ({version})";
     }
@@ -832,11 +855,11 @@ public partial class Main : Form
         string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
         if (sav is ISaveFileRevision rev)
             title = title.Insert(title.Length - 2, rev.SaveRevisionString);
-        var ver = GameInfo.GetVersionName(sav.Version);
+        var version = GameInfo.GetVersionName(sav.Version);
         if (Settings.Privacy.HideSAVDetails)
-            return title + $"[{ver}]";
+            return title + $"[{version}]";
         if (!sav.State.Exportable) // Blank save file
-            return title + $"{sav.Metadata.FileName} [{sav.OT} ({ver})]";
+            return title + $"{sav.Metadata.FileName} [{sav.OT} ({version})]";
         return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.Metadata.BAKName)); // more descriptive
     }
 
@@ -970,6 +993,9 @@ public partial class Main : Form
             PKME_Tabs.PopulateFields(pk); // put data back in form
             Text = GetProgramTitle(sav);
         }
+
+        foreach (var plugin in Plugins)
+            plugin.NotifyDisplayLanguageChanged(lang);
     }
     #endregion
 

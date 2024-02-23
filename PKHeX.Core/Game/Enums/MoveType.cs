@@ -31,7 +31,7 @@ public enum MoveType : sbyte
 /// </summary>
 public static class MoveTypeExtensions
 {
-    public static MoveType GetMoveTypeGeneration(this MoveType type, int generation)
+    public static MoveType GetMoveTypeGeneration(this MoveType type, byte generation)
     {
         if (generation <= 2)
             return GetMoveTypeFromG12(type);

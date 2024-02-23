@@ -1,12 +1,12 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic for applying a <see cref="PK1.Catch_Rate"/> value.
+/// Logic for applying a <see cref="PK1.CatchRate"/> value.
 /// </summary>
 public static class CatchRateApplicator
 {
     /// <summary>
-    /// Gets the suggested <see cref="PK1.Catch_Rate"/> for the entity.
+    /// Gets the suggested <see cref="PK1.CatchRate"/> for the entity.
     /// </summary>
     public static int GetSuggestedCatchRate(PK1 pk, SaveFile sav)
     {
@@ -15,13 +15,13 @@ public static class CatchRateApplicator
     }
 
     /// <summary>
-    /// Gets the suggested <see cref="PK1.Catch_Rate"/> for the entity.
+    /// Gets the suggested <see cref="PK1.CatchRate"/> for the entity.
     /// </summary>
     public static byte GetSuggestedCatchRate(PK1 pk, SaveFile sav, LegalityAnalysis la)
     {
         // If it is already valid, just use the current value.
         if (la.Valid)
-            return pk.Catch_Rate;
+            return pk.CatchRate;
 
         // If it has ever visited generation 2, the Held Item can be removed prior to trade back.
         if (la.Info.Generation == 2)
@@ -36,20 +36,20 @@ public static class CatchRateApplicator
             default:
                 var pt = GetPersonalTable(sav, enc.Version);
                 var pi = pt[enc.Species];
-                return (byte)pi.CatchRate;
+                return pi.CatchRate;
         }
     }
 
-    private static PersonalTable1 GetPersonalTable(SaveFile sav, GameVersion ver)
+    private static PersonalTable1 GetPersonalTable(SaveFile sav, GameVersion version)
     {
         if (sav.Personal is PersonalTable1 pt)
         {
             var other = sav.Version;
-            if (other.Contains(ver) || ver.Contains(other))
+            if (other.Contains(version) || version.Contains(other))
                 return pt;
         }
 
-        if (!GameVersion.RB.Contains(ver))
+        if (!GameVersion.RB.Contains(version))
             return PersonalTable.Y;
         return PersonalTable.RB;
     }

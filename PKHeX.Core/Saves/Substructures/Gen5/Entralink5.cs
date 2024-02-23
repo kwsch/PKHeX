@@ -3,10 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public abstract class Entralink5 : SaveBlock<SAV5>
+public abstract class Entralink5(SAV5 SAV, int offset) : SaveBlock<SAV5>(SAV, offset)
 {
-    protected Entralink5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
-
     public ushort WhiteForestLevel
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0C));

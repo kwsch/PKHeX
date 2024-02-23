@@ -98,8 +98,6 @@ namespace PKHeX.WinForms
             B_MaxLP = new System.Windows.Forms.Button();
             L_LP = new System.Windows.Forms.Label();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
-            B_UnlockCoaches = new System.Windows.Forms.Button();
-            B_ActivateSnacksworthLegendaries = new System.Windows.Forms.Button();
             B_UnlockClothing = new System.Windows.Forms.Button();
             B_UnlockBikeUpgrades = new System.Windows.Forms.Button();
             B_UnlockTMRecipes = new System.Windows.Forms.Button();
@@ -119,13 +117,19 @@ namespace PKHeX.WinForms
             P_CurrIcon = new System.Windows.Forms.PictureBox();
             P_CurrPhoto = new System.Windows.Forms.PictureBox();
             Tab_Blueberry = new System.Windows.Forms.TabPage();
-            NUD_BBQGroup = new System.Windows.Forms.NumericUpDown();
-            NUD_BBQSolo = new System.Windows.Forms.NumericUpDown();
-            L_BBQGroup = new System.Windows.Forms.Label();
-            L_BBQSolo = new System.Windows.Forms.Label();
+            GB_BBQ = new System.Windows.Forms.GroupBox();
             L_BP = new System.Windows.Forms.Label();
-            MT_BP = new System.Windows.Forms.MaskedTextBox();
             B_MaxBP = new System.Windows.Forms.Button();
+            MT_BP = new System.Windows.Forms.MaskedTextBox();
+            L_BBQSolo = new System.Windows.Forms.Label();
+            L_BBQGroup = new System.Windows.Forms.Label();
+            NUD_BBQSolo = new System.Windows.Forms.NumericUpDown();
+            NUD_BBQGroup = new System.Windows.Forms.NumericUpDown();
+            B_UnlockThrowStyles = new System.Windows.Forms.Button();
+            B_UnlockCoaches = new System.Windows.Forms.Button();
+            B_ActivateSnacksworthLegendaries = new System.Windows.Forms.Button();
+            CB_ThrowStyle = new System.Windows.Forms.ComboBox();
+            L_ThrowStyle = new System.Windows.Forms.Label();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -139,8 +143,9 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_CurrIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).BeginInit();
             Tab_Blueberry.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)NUD_BBQGroup).BeginInit();
+            GB_BBQ.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BBQSolo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_BBQGroup).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -389,7 +394,7 @@ namespace PKHeX.WinForms
             CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Gender.FormattingEnabled = true;
             CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
-            CB_Gender.Location = new System.Drawing.Point(293, 123);
+            CB_Gender.Location = new System.Drawing.Point(298, 13);
             CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Gender.Name = "CB_Gender";
             CB_Gender.Size = new System.Drawing.Size(33, 23);
@@ -741,8 +746,6 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
-            Tab_MiscValues.Controls.Add(B_UnlockCoaches);
-            Tab_MiscValues.Controls.Add(B_ActivateSnacksworthLegendaries);
             Tab_MiscValues.Controls.Add(B_UnlockClothing);
             Tab_MiscValues.Controls.Add(B_UnlockBikeUpgrades);
             Tab_MiscValues.Controls.Add(B_UnlockTMRecipes);
@@ -758,42 +761,20 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
             // 
-            // B_UnlockCoaches
-            // 
-            B_UnlockCoaches.Location = new System.Drawing.Point(387, 124);
-            B_UnlockCoaches.Margin = new System.Windows.Forms.Padding(0);
-            B_UnlockCoaches.Name = "B_UnlockCoaches";
-            B_UnlockCoaches.Size = new System.Drawing.Size(90, 45);
-            B_UnlockCoaches.TabIndex = 66;
-            B_UnlockCoaches.Text = "Unlock All Coaches";
-            B_UnlockCoaches.UseVisualStyleBackColor = true;
-            B_UnlockCoaches.Click += B_UnlockCoaches_Click;
-            // 
-            // B_ActivateSnacksworthLegendaries
-            // 
-            B_ActivateSnacksworthLegendaries.Location = new System.Drawing.Point(289, 124);
-            B_ActivateSnacksworthLegendaries.Margin = new System.Windows.Forms.Padding(0);
-            B_ActivateSnacksworthLegendaries.Name = "B_ActivateSnacksworthLegendaries";
-            B_ActivateSnacksworthLegendaries.Size = new System.Drawing.Size(90, 45);
-            B_ActivateSnacksworthLegendaries.TabIndex = 65;
-            B_ActivateSnacksworthLegendaries.Text = "Activate Legendaries";
-            B_ActivateSnacksworthLegendaries.UseVisualStyleBackColor = true;
-            B_ActivateSnacksworthLegendaries.Click += B_ActivateSnacksworthLegendaries_Click;
-            // 
             // B_UnlockClothing
             // 
-            B_UnlockClothing.Location = new System.Drawing.Point(15, 182);
+            B_UnlockClothing.Location = new System.Drawing.Point(290, 125);
             B_UnlockClothing.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockClothing.Name = "B_UnlockClothing";
-            B_UnlockClothing.Size = new System.Drawing.Size(260, 45);
+            B_UnlockClothing.Size = new System.Drawing.Size(90, 45);
             B_UnlockClothing.TabIndex = 64;
-            B_UnlockClothing.Text = "Unlock Clothing Options";
+            B_UnlockClothing.Text = "Unlock All Fashion";
             B_UnlockClothing.UseVisualStyleBackColor = true;
             B_UnlockClothing.Click += B_UnlockClothing_Click;
             // 
             // B_UnlockBikeUpgrades
             // 
-            B_UnlockBikeUpgrades.Location = new System.Drawing.Point(387, 74);
+            B_UnlockBikeUpgrades.Location = new System.Drawing.Point(390, 75);
             B_UnlockBikeUpgrades.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockBikeUpgrades.Name = "B_UnlockBikeUpgrades";
             B_UnlockBikeUpgrades.Size = new System.Drawing.Size(90, 45);
@@ -804,7 +785,7 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockTMRecipes
             // 
-            B_UnlockTMRecipes.Location = new System.Drawing.Point(289, 74);
+            B_UnlockTMRecipes.Location = new System.Drawing.Point(290, 75);
             B_UnlockTMRecipes.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockTMRecipes.Name = "B_UnlockTMRecipes";
             B_UnlockTMRecipes.Size = new System.Drawing.Size(90, 45);
@@ -815,7 +796,7 @@ namespace PKHeX.WinForms
             // 
             // B_CollectAllStakes
             // 
-            B_CollectAllStakes.Location = new System.Drawing.Point(387, 25);
+            B_CollectAllStakes.Location = new System.Drawing.Point(390, 25);
             B_CollectAllStakes.Margin = new System.Windows.Forms.Padding(0);
             B_CollectAllStakes.Name = "B_CollectAllStakes";
             B_CollectAllStakes.Size = new System.Drawing.Size(90, 45);
@@ -826,7 +807,7 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockFlyLocations
             // 
-            B_UnlockFlyLocations.Location = new System.Drawing.Point(289, 25);
+            B_UnlockFlyLocations.Location = new System.Drawing.Point(290, 25);
             B_UnlockFlyLocations.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockFlyLocations.Name = "B_UnlockFlyLocations";
             B_UnlockFlyLocations.Size = new System.Drawing.Size(90, 45);
@@ -999,13 +980,12 @@ namespace PKHeX.WinForms
             // 
             // Tab_Blueberry
             // 
-            Tab_Blueberry.Controls.Add(NUD_BBQGroup);
-            Tab_Blueberry.Controls.Add(NUD_BBQSolo);
-            Tab_Blueberry.Controls.Add(L_BBQGroup);
-            Tab_Blueberry.Controls.Add(L_BBQSolo);
-            Tab_Blueberry.Controls.Add(L_BP);
-            Tab_Blueberry.Controls.Add(MT_BP);
-            Tab_Blueberry.Controls.Add(B_MaxBP);
+            Tab_Blueberry.Controls.Add(GB_BBQ);
+            Tab_Blueberry.Controls.Add(B_UnlockThrowStyles);
+            Tab_Blueberry.Controls.Add(B_UnlockCoaches);
+            Tab_Blueberry.Controls.Add(B_ActivateSnacksworthLegendaries);
+            Tab_Blueberry.Controls.Add(CB_ThrowStyle);
+            Tab_Blueberry.Controls.Add(L_ThrowStyle);
             Tab_Blueberry.Location = new System.Drawing.Point(4, 24);
             Tab_Blueberry.Name = "Tab_Blueberry";
             Tab_Blueberry.Padding = new System.Windows.Forms.Padding(3);
@@ -1014,45 +994,25 @@ namespace PKHeX.WinForms
             Tab_Blueberry.Text = "Blueberry";
             Tab_Blueberry.UseVisualStyleBackColor = true;
             // 
-            // NUD_BBQGroup
+            // GB_BBQ
             // 
-            NUD_BBQGroup.Location = new System.Drawing.Point(218, 169);
-            NUD_BBQGroup.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
-            NUD_BBQGroup.Name = "NUD_BBQGroup";
-            NUD_BBQGroup.Size = new System.Drawing.Size(94, 23);
-            NUD_BBQGroup.TabIndex = 85;
-            // 
-            // NUD_BBQSolo
-            // 
-            NUD_BBQSolo.Location = new System.Drawing.Point(218, 140);
-            NUD_BBQSolo.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
-            NUD_BBQSolo.Name = "NUD_BBQSolo";
-            NUD_BBQSolo.Size = new System.Drawing.Size(94, 23);
-            NUD_BBQSolo.TabIndex = 84;
-            // 
-            // L_BBQGroup
-            // 
-            L_BBQGroup.Location = new System.Drawing.Point(91, 169);
-            L_BBQGroup.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_BBQGroup.Name = "L_BBQGroup";
-            L_BBQGroup.Size = new System.Drawing.Size(120, 23);
-            L_BBQGroup.TabIndex = 83;
-            L_BBQGroup.Text = "Group Quests:";
-            L_BBQGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_BBQSolo
-            // 
-            L_BBQSolo.Location = new System.Drawing.Point(93, 140);
-            L_BBQSolo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_BBQSolo.Name = "L_BBQSolo";
-            L_BBQSolo.Size = new System.Drawing.Size(120, 23);
-            L_BBQSolo.TabIndex = 82;
-            L_BBQSolo.Text = "Solo Quests:";
-            L_BBQSolo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            GB_BBQ.Controls.Add(L_BP);
+            GB_BBQ.Controls.Add(B_MaxBP);
+            GB_BBQ.Controls.Add(MT_BP);
+            GB_BBQ.Controls.Add(L_BBQSolo);
+            GB_BBQ.Controls.Add(L_BBQGroup);
+            GB_BBQ.Controls.Add(NUD_BBQSolo);
+            GB_BBQ.Controls.Add(NUD_BBQGroup);
+            GB_BBQ.Location = new System.Drawing.Point(6, 17);
+            GB_BBQ.Name = "GB_BBQ";
+            GB_BBQ.Size = new System.Drawing.Size(240, 110);
+            GB_BBQ.TabIndex = 91;
+            GB_BBQ.TabStop = false;
+            GB_BBQ.Text = "BBQ";
             // 
             // L_BP
             // 
-            L_BP.Location = new System.Drawing.Point(176, 109);
+            L_BP.Location = new System.Drawing.Point(88, 18);
             L_BP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BP.Name = "L_BP";
             L_BP.Size = new System.Drawing.Size(37, 23);
@@ -1060,9 +1020,19 @@ namespace PKHeX.WinForms
             L_BP.Text = "BP:";
             L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // B_MaxBP
+            // 
+            B_MaxBP.Location = new System.Drawing.Point(201, 19);
+            B_MaxBP.Margin = new System.Windows.Forms.Padding(0);
+            B_MaxBP.Name = "B_MaxBP";
+            B_MaxBP.Size = new System.Drawing.Size(23, 23);
+            B_MaxBP.TabIndex = 78;
+            B_MaxBP.Text = "+";
+            B_MaxBP.UseVisualStyleBackColor = true;
+            // 
             // MT_BP
             // 
-            MT_BP.Location = new System.Drawing.Point(218, 109);
+            MT_BP.Location = new System.Drawing.Point(130, 19);
             MT_BP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_BP.Mask = "0000000";
             MT_BP.Name = "MT_BP";
@@ -1070,15 +1040,90 @@ namespace PKHeX.WinForms
             MT_BP.TabIndex = 77;
             MT_BP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // B_MaxBP
+            // L_BBQSolo
             // 
-            B_MaxBP.Location = new System.Drawing.Point(289, 109);
-            B_MaxBP.Margin = new System.Windows.Forms.Padding(0);
-            B_MaxBP.Name = "B_MaxBP";
-            B_MaxBP.Size = new System.Drawing.Size(23, 23);
-            B_MaxBP.TabIndex = 78;
-            B_MaxBP.Text = "+";
-            B_MaxBP.UseVisualStyleBackColor = true;
+            L_BBQSolo.Location = new System.Drawing.Point(7, 45);
+            L_BBQSolo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BBQSolo.Name = "L_BBQSolo";
+            L_BBQSolo.Size = new System.Drawing.Size(120, 23);
+            L_BBQSolo.TabIndex = 82;
+            L_BBQSolo.Text = "Solo Quests:";
+            L_BBQSolo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_BBQGroup
+            // 
+            L_BBQGroup.Location = new System.Drawing.Point(5, 74);
+            L_BBQGroup.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BBQGroup.Name = "L_BBQGroup";
+            L_BBQGroup.Size = new System.Drawing.Size(120, 23);
+            L_BBQGroup.TabIndex = 83;
+            L_BBQGroup.Text = "Group Quests:";
+            L_BBQGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_BBQSolo
+            // 
+            NUD_BBQSolo.Location = new System.Drawing.Point(132, 45);
+            NUD_BBQSolo.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
+            NUD_BBQSolo.Name = "NUD_BBQSolo";
+            NUD_BBQSolo.Size = new System.Drawing.Size(94, 23);
+            NUD_BBQSolo.TabIndex = 84;
+            // 
+            // NUD_BBQGroup
+            // 
+            NUD_BBQGroup.Location = new System.Drawing.Point(132, 74);
+            NUD_BBQGroup.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
+            NUD_BBQGroup.Name = "NUD_BBQGroup";
+            NUD_BBQGroup.Size = new System.Drawing.Size(94, 23);
+            NUD_BBQGroup.TabIndex = 85;
+            // 
+            // B_UnlockThrowStyles
+            // 
+            B_UnlockThrowStyles.Location = new System.Drawing.Point(290, 75);
+            B_UnlockThrowStyles.Name = "B_UnlockThrowStyles";
+            B_UnlockThrowStyles.Size = new System.Drawing.Size(90, 45);
+            B_UnlockThrowStyles.TabIndex = 90;
+            B_UnlockThrowStyles.Text = "Unlock All Throw Styles";
+            B_UnlockThrowStyles.UseVisualStyleBackColor = true;
+            B_UnlockThrowStyles.Click += B_UnlockThrowStyles_Click;
+            // 
+            // B_UnlockCoaches
+            // 
+            B_UnlockCoaches.Location = new System.Drawing.Point(390, 25);
+            B_UnlockCoaches.Margin = new System.Windows.Forms.Padding(0);
+            B_UnlockCoaches.Name = "B_UnlockCoaches";
+            B_UnlockCoaches.Size = new System.Drawing.Size(90, 45);
+            B_UnlockCoaches.TabIndex = 89;
+            B_UnlockCoaches.Text = "Unlock All Coaches";
+            B_UnlockCoaches.UseVisualStyleBackColor = true;
+            B_UnlockCoaches.Click += B_UnlockCoaches_Click;
+            // 
+            // B_ActivateSnacksworthLegendaries
+            // 
+            B_ActivateSnacksworthLegendaries.Location = new System.Drawing.Point(290, 25);
+            B_ActivateSnacksworthLegendaries.Margin = new System.Windows.Forms.Padding(0);
+            B_ActivateSnacksworthLegendaries.Name = "B_ActivateSnacksworthLegendaries";
+            B_ActivateSnacksworthLegendaries.Size = new System.Drawing.Size(90, 45);
+            B_ActivateSnacksworthLegendaries.TabIndex = 88;
+            B_ActivateSnacksworthLegendaries.Text = "Activate Legendaries";
+            B_ActivateSnacksworthLegendaries.UseVisualStyleBackColor = true;
+            B_ActivateSnacksworthLegendaries.Click += B_ActivateSnacksworthLegendaries_Click;
+            // 
+            // CB_ThrowStyle
+            // 
+            CB_ThrowStyle.FormattingEnabled = true;
+            CB_ThrowStyle.Location = new System.Drawing.Point(115, 139);
+            CB_ThrowStyle.Name = "CB_ThrowStyle";
+            CB_ThrowStyle.Size = new System.Drawing.Size(121, 23);
+            CB_ThrowStyle.TabIndex = 87;
+            // 
+            // L_ThrowStyle
+            // 
+            L_ThrowStyle.AutoSize = true;
+            L_ThrowStyle.Location = new System.Drawing.Point(37, 142);
+            L_ThrowStyle.Name = "L_ThrowStyle";
+            L_ThrowStyle.Size = new System.Drawing.Size(71, 15);
+            L_ThrowStyle.TabIndex = 86;
+            L_ThrowStyle.Text = "Throw Style:";
             // 
             // SAV_Trainer9
             // 
@@ -1110,8 +1155,10 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).EndInit();
             Tab_Blueberry.ResumeLayout(false);
             Tab_Blueberry.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)NUD_BBQGroup).EndInit();
+            GB_BBQ.ResumeLayout(false);
+            GB_BBQ.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BBQSolo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_BBQGroup).EndInit();
             ResumeLayout(false);
         }
 
@@ -1215,5 +1262,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_MaxBP;
         private System.Windows.Forms.Button B_ActivateSnacksworthLegendaries;
         private System.Windows.Forms.Button B_UnlockCoaches;
+        private System.Windows.Forms.Button B_UnlockThrowStyles;
+        private System.Windows.Forms.ComboBox CB_ThrowStyle;
+        private System.Windows.Forms.Label L_ThrowStyle;
+        private System.Windows.Forms.GroupBox GB_BBQ;
     }
 }

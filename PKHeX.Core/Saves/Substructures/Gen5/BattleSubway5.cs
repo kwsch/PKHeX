@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BattleSubway5 : SaveBlock<SAV5>
+public sealed class BattleSubway5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset)
 {
-    public BattleSubway5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
-    public BattleSubway5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
-
     private Span<byte> Raw => Data.AsSpan(Offset);
 
     public int BP { get => ReadUInt16LittleEndian(Raw); set => WriteUInt16LittleEndian(Raw, (ushort)value); }

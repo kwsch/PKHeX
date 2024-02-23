@@ -45,7 +45,7 @@ public static class BatchMods
         new ComplexSuggestion(PROP_EVS, (_, _, info) => BatchModifications.SetEVs(info.Entity)),
         new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => BatchModifications.SetSuggestedRelearnData(info, value)),
         new ComplexSuggestion(PROP_RIBBONS, (_, value, info) => BatchModifications.SetSuggestedRibbons(info, value)),
-        new ComplexSuggestion(nameof(PKM.Met_Location), (_, _, info) => BatchModifications.SetSuggestedMetData(info)),
+        new ComplexSuggestion(nameof(PKM.MetLocation), (_, _, info) => BatchModifications.SetSuggestedMetData(info)),
         new ComplexSuggestion(nameof(PKM.CurrentLevel), (_, _, info) => BatchModifications.SetMinimumCurrentLevel(info)),
         new ComplexSuggestion(PROP_CONTESTSTATS, p => p is IContestStats, (_, value, info) => BatchModifications.SetContestStats(info.Entity, info.Legality, value)),
         new ComplexSuggestion(PROP_MOVEMASTERY, (_, value, info) => BatchModifications.SetSuggestedMasteryData(info, value)),
@@ -67,7 +67,6 @@ public static class BatchMods
         new ComplexSet(nameof(PKM.AbilityNumber), value => value.Length == 2 && value.StartsWith(CONST_SPECIAL), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
 
         // Random
-        new ComplexSet(nameof(PKM.EncryptionConstant), value => value == CONST_RAND, (pk, _) => pk.EncryptionConstant = Util.Rand32()),
         new ComplexSet(nameof(PKM.PID), value => value == CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
         new ComplexSet(nameof(PKM.Gender), value => value == CONST_RAND, (pk, _) => pk.SetPIDGender(pk.Gender)),
         new ComplexSet(PROP_EVS, value => value == CONST_RAND, (pk, _) => SetRandomEVs(pk)),
@@ -82,7 +81,7 @@ public static class BatchMods
         new ComplexSet(nameof(PKM.IsNicknamed), value => string.Equals(value, "false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
 
         // Complicated
-        new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => pk.EncryptionConstant = CommonEdits.GetComplicatedEC(pk, option: cmd.PropertyValue[^1])),
+        new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => pk.EncryptionConstant = CommonEdits.GetComplicatedEC(pk, option: (cmd.PropertyValue.Length == CONST_RAND.Length ? default : cmd.PropertyValue[^1]))),
     ];
 
     private static void SetRandomTeraType(PKM pk)

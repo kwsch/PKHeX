@@ -11,10 +11,10 @@ public sealed class Mail4 : MailDetail
 
     public Mail4(byte[] data) : base(data, -1) { }
 
-    public Mail4(byte? lang, byte? ver) : base(new byte[SIZE])
+    public Mail4(byte? lang, byte? version) : base(new byte[SIZE])
     {
         if (lang != null) AuthorLanguage = (byte)lang;
-        if (ver != null) AuthorVersion = (byte)ver;
+        if (version != null) AuthorVersion = (byte)version;
         ResetData();
     }
 
@@ -59,10 +59,10 @@ public sealed class Mail4 : MailDetail
 
     public override void SetBlank() => SetBlank(0, 0);
 
-    public void SetBlank(byte lang, byte ver)
+    public void SetBlank(byte lang, byte version)
     {
         Array.Clear(Data, 0, Data.Length);
         AuthorLanguage = lang;
-        AuthorVersion = ver;
+        AuthorVersion = version;
     }
 }

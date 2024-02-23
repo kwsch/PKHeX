@@ -14,7 +14,7 @@ public static class FormChangeUtil
     /// <param name="form">Entity form</param>
     /// <param name="generation">Generation we're checking in</param>
     /// <param name="option">Conditions we're checking with</param>
-    public static bool ShouldIterateForms(ushort species, byte form, int generation, LearnOption option)
+    public static bool ShouldIterateForms(ushort species, byte form, byte generation, LearnOption option)
     {
         if (option.IsPast())
             return IsFormChangeDifferentMoves(species, generation);
@@ -37,7 +37,7 @@ public static class FormChangeUtil
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static bool IsFormChangeDifferentMoves(ushort species, int generation) => species switch
+    private static bool IsFormChangeDifferentMoves(ushort species, byte generation) => species switch
     {
         (int)Species.Deoxys    => generation >= 6,
         (int)Species.Giratina  => generation >= 6,

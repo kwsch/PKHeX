@@ -16,12 +16,12 @@ public sealed class MyStatus8b : SaveBlock<SAV8BS>
 
     public MyStatus8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 0, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public uint ID32
@@ -78,15 +78,15 @@ public sealed class MyStatus8b : SaveBlock<SAV8BS>
 
     // end structure!
 
-    public int Game
+    public GameVersion Game
     {
         get => ROMCode switch
         {
-            0 => (int)GameVersion.BD,
-            1 => (int)GameVersion.SP,
+            0 => GameVersion.BD,
+            1 => GameVersion.SP,
             _ => throw new ArgumentOutOfRangeException(nameof(Game)),
         };
-        set => ROMCode = (GameVersion)value switch
+        set => ROMCode = value switch
         {
             GameVersion.BD => 0,
             GameVersion.SP => 1,

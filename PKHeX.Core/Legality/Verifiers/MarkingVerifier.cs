@@ -4,7 +4,7 @@ using static PKHeX.Core.CheckIdentifier;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies the <see cref="PKM.MarkValue"/>.
+/// Verifies the <see cref="IAppliedMarkings"/>.
 /// </summary>
 public sealed class MarkingVerifier : Verifier
 {
@@ -26,26 +26,14 @@ public sealed class MarkingVerifier : Verifier
 
     private void VerifyMarkValue(LegalityAnalysis data, PKM pk)
     {
-        var mv = pk.MarkValue;
-        if (mv == 0)
-            return;
-
         // Eggs can have markings applied.
-        //if (pk.IsEgg)
-        //{
-        //    data.AddLine(GetInvalid(LMarkValueShouldBeZero));
-        //    return;
-        //}
-
-        switch (pk.Format)
+        switch (pk)
         {
-            case <= 2:
+            case IAppliedMarkings3 m4:
+                VerifyMarkValueSingle(data, m4, m4.MarkingValue);
                 return;
-            case <= 6:
-                VerifyMarkValueSingle(data, pk, mv);
-                return;
-            default:
-                VerifyMarkValueDual(data, pk, mv);
+            case IAppliedMarkings7 m7:
+                VerifyMarkValueDual(data, m7, m7.MarkingValue);
                 return;
         }
     }
@@ -54,8 +42,10 @@ public sealed class MarkingVerifier : Verifier
     private const int Single6 = 0b_111111;
     private const int Dual6 = 0b_1111_1111_1111;
 
-    private void VerifyMarkValueDual(LegalityAnalysis data, PKM pk, int mv)
+    private void VerifyMarkValueDual(LegalityAnalysis data, IAppliedMarkings7 pk, ushort mv)
     {
+        if (mv == 0)
+            return;
         if (mv > Dual6)
             data.AddLine(GetInvalid(LMarkValueUnusedBitsPresent));
 
@@ -63,20 +53,22 @@ public sealed class MarkingVerifier : Verifier
         for (int i = 0; i < count; i++)
         {
             var value = pk.GetMarking(i);
-            if (value is not (0 or 1 or 2))
+            if (value is not (0 or MarkingColor.Blue or MarkingColor.Pink))
                 data.AddLine(GetInvalid(string.Format(LMarkValueOutOfRange_0, i)));
         }
     }
 
-    private void VerifyMarkValueSingle(LegalityAnalysis data, PKM pk, int mv)
+    private void VerifyMarkValueSingle(LegalityAnalysis data, IAppliedMarkings3 pk, byte mv)
     {
+        if (mv == 0)
+            return;
         if (!IsMarkValueValid3456(pk, mv))
             data.AddLine(GetInvalid(LMarkValueUnusedBitsPresent));
     }
 
-    private static bool IsMarkValueValid3456(PKM pk, int value)
+    private static bool IsMarkValueValid3456(IAppliedMarkings3 pk, int value)
     {
-        var max = pk.Format is 3 ? Single4 : Single6;
+        var max = pk is IAppliedMarkings4 ? Single6 : Single4;
         return value <= max;
     }
 }

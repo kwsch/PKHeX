@@ -38,7 +38,7 @@ public sealed partial class MemoryContext6 : MemoryContext
         return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
     }
 
-    public static bool GetHasPokeCenterLocation(GameVersion game, int loc)
+    public static bool GetHasPokeCenterLocation(GameVersion game, ushort loc)
     {
         if (game == GameVersion.Any)
             return GetHasPokeCenterLocation(GameVersion.X, loc) || GetHasPokeCenterLocation(GameVersion.AS, loc);
@@ -84,7 +84,7 @@ public sealed partial class MemoryContext6 : MemoryContext
     };
 
     public override bool CanObtainMemory(byte memory) => memory <= MAX_MEMORY_ID_AO;
-    public override bool HasPokeCenter(GameVersion version, int location) => GetHasPokeCenterLocation(version, location);
+    public override bool HasPokeCenter(GameVersion version, ushort location) => GetHasPokeCenterLocation(version, location);
 
     public override bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk)
     {

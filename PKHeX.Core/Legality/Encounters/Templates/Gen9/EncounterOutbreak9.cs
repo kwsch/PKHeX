@@ -9,15 +9,15 @@ namespace PKHeX.Core;
 public sealed record EncounterOutbreak9
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IFixedGender
 {
-    public int Generation => 9;
-    int ILocation.Location => Location;
+    public byte Generation => 9;
+    ushort ILocation.Location => Location;
     public ushort Location => GetFirstMetLocation(MetBase, MetFlags);
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
     public Shiny Shiny => IsShiny ? Shiny.Always : Shiny.Random;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.None;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
     public required ushort Species { get; init; }
@@ -75,7 +75,7 @@ public sealed record EncounterOutbreak9
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
@@ -83,17 +83,17 @@ public sealed record EncounterOutbreak9
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Obedience_Level = LevelMin,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
         };
 
@@ -101,17 +101,8 @@ public sealed record EncounterOutbreak9
         if (Ribbon != Unset)
             pk.SetRibbonIndex(Ribbon);
 
-        var type = Tera9RNG.GetTeraType(Util.Rand.Rand64(), GemType.Default, Species, Form);
-        pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.TeraType != -1 && type != criteria.TeraType)
-            pk.SetTeraType(type); // sets the override type
-
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.Scale = !IsForcedScaleRange ? PokeSizeUtil.GetRandomScalar() : (byte)Util.Rand.Next(ScaleMin, ScaleMax + 1);
-
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -119,20 +110,33 @@ public sealed record EncounterOutbreak9
 
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         criteria.SetRandomIVs(pk);
+
+        var type = Tera9RNG.GetTeraType(rnd.Rand64(), GemType.Default, Species, Form);
+        pk.TeraTypeOriginal = (MoveType)type;
+        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
+            pk.SetTeraType(type); // sets the override type
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.Scale = !IsForcedScaleRange
+            ? PokeSizeUtil.GetRandomScalar(rnd)
+            : (byte)rnd.Next(ScaleMin, ScaleMax + 1);
+
     }
-#endregion
+    #endregion
 
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -148,7 +152,7 @@ public sealed record EncounterOutbreak9
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -163,14 +167,14 @@ public sealed record EncounterOutbreak9
 
     private bool IsMatchLocationRemapped(PKM pk)
     {
-        var met = (ushort)pk.Met_Location;
+        var met = pk.MetLocation;
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetSV(met, version);
         return LocationsHOME.GetMetSWSH(Location, version) == met;
     }
 
-    private bool IsMatchLocationExact(PKM pk) => IsMetLocationMatch(MetBase, MetFlags, pk.Met_Location);
+    private bool IsMatchLocationExact(PKM pk) => IsMetLocationMatch(MetBase, MetFlags, pk.MetLocation);
 
     private static ushort GetFirstMetLocation(byte met, UInt128 flags)
     {

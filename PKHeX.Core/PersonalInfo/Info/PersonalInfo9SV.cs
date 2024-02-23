@@ -20,7 +20,7 @@ public sealed class PersonalInfo9SV(byte[] Data) : PersonalInfo, IPersonalAbilit
     public override int SPD { get => Data[0x05]; set => Data[0x05] = (byte)value; }
     public override byte Type1 { get => Data[0x06]; set => Data[0x06] = value; }
     public override byte Type2 { get => Data[0x07]; set => Data[0x07] = value; }
-    public override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
+    public override byte CatchRate { get => Data[0x08]; set => Data[0x08] = value; }
     public override int EvoStage { get => Data[0x09]; set => Data[0x09] = (byte)value; }
     private int EVYield { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
     public override int EV_HP { get => (EVYield >> 0) & 0x3; set => EVYield = (EVYield & ~(0x3 << 0)) | ((value & 0x3) << 0); }
@@ -30,8 +30,8 @@ public sealed class PersonalInfo9SV(byte[] Data) : PersonalInfo, IPersonalAbilit
     public override int EV_SPA { get => (EVYield >> 8) & 0x3; set => EVYield = (EVYield & ~(0x3 << 8)) | ((value & 0x3) << 8); }
     public override int EV_SPD { get => (EVYield >> 10) & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | ((value & 0x3) << 10); }
     public override byte Gender         { get => Data[0x0C]; set => Data[0x0C] = value; }
-    public override int HatchCycles    { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
-    public override int BaseFriendship { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
+    public override byte HatchCycles    { get => Data[0x0D]; set => Data[0x0D] = value; }
+    public override byte BaseFriendship { get => Data[0x0E]; set => Data[0x0E] = value; }
     public override byte EXPGrowth     { get => Data[0x0F]; set => Data[0x0F] = value; }
     public override int EggGroup1      { get => Data[0x10]; set => Data[0x10] = (byte)value; }
     public override int EggGroup2      { get => Data[0x11]; set => Data[0x11] = (byte)value; }

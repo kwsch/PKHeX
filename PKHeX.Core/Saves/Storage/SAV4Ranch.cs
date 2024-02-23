@@ -187,9 +187,9 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     {
         RK4 rk = (RK4)this.GetCompatiblePKM(pk);
         rk.OwnershipType = type;
-        rk.HT_TID = htTID;
-        rk.HT_SID = htSID;
-        rk.HT_Name = htName;
+        rk.HandlingTrainerTID = htTID;
+        rk.HandlingTrainerSID = htSID;
+        rk.HandlingTrainerName = htName;
 
         WriteBoxSlot(rk, data);
     }

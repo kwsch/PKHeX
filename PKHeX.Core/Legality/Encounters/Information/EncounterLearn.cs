@@ -48,41 +48,44 @@ public static class EncounterLearn
         if (speciesID <= 0)
             return [];
 
-        var allMoves = moves.ToList();
-        var span = new ushort[allMoves.Count];
-        for (int i = 0; i < span.Length; i++)
+        const int maxMoves = 4;
+        Span<ushort> span = stackalloc ushort[maxMoves];
+        int ctr = 0;
+        foreach (var move in moves)
         {
-            var move = allMoves[i];
             var index = StringUtil.FindIndexIgnoreCase(str.movelist, move);
             if (index <= 0)
                 return [];
-            span[i] = (ushort)index;
+            span[ctr++] = (ushort)index;
+            if (ctr >= span.Length)
+                break;
         }
+        var moveset = span[..ctr].ToArray();
 
-        return GetLearn((ushort)speciesID, span, form);
+        return GetLearn((ushort)speciesID, moveset, form);
     }
 
     /// <summary>
     /// Gets all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
     /// </summary>
-    public static IEnumerable<IEncounterable> GetLearn(ushort species, ushort[] moves, byte form = 0)
+    public static IEnumerable<IEncounterable> GetLearn(ushort species, ReadOnlyMemory<ushort> moves, byte form = 0)
     {
         if (species == 0)
             return [];
-        if (moves.AsSpan().Contains<ushort>(0))
+        if (moves.Span.Contains<ushort>(0))
             return [];
 
         var vers = GameUtil.GameVersions;
         return GetLearnInternal(species, form, moves, vers);
     }
 
-    private static IEnumerable<IEncounterable> GetLearnInternal(ushort species, byte form, ushort[] moves, GameVersion[] vers)
+    private static IEnumerable<IEncounterable> GetLearnInternal(ushort species, byte form, ReadOnlyMemory<ushort> moves, GameVersion[] vers)
     {
         bool iterated = false;
         if (PersonalTable.SV.IsPresentInGame(species, form))
         {
             var blank = new PK9 { Species = species, Form = form };
-            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, vers);
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, GameVersion.SL, GameVersion.VL);
             foreach (var enc in encs)
                 yield return enc;
         }
@@ -92,7 +95,6 @@ public static class EncounterLearn
             var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, GameVersion.PLA);
             foreach (var enc in encs)
                 yield return enc;
-            iterated = true;
         }
         if (PersonalTable.BDSP.IsPresentInGame(species, form))
         {
@@ -100,7 +102,6 @@ public static class EncounterLearn
             var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, GameVersion.BD, GameVersion.SP);
             foreach (var enc in encs)
                 yield return enc;
-            iterated = true;
         }
         if (PersonalTable.SWSH.IsPresentInGame(species, form))
         {

@@ -348,7 +348,7 @@ LPIDGenderMatch = Il sesso combacia con il PID.
 LPIDGenderMismatch = Il sesso non combacia con il PID.
 LPIDNatureMatch = La Natura combacia il PID.
 LPIDNatureMismatch = La Natura non combacia con il PID.
-LPIDTypeMismatch = Encounter Type PID mismatch.
+LPIDTypeMismatch = PID+ correlation does not match what was expected for the Encounter's type.
 LPIDZero = Il PID non è impostato.
 LPokerusDaysTooHigh_0 = I giorni di Pokérus rimanenti sono troppi, previsto <= {0}.
 LPokerusStrainUnobtainable_0 = Pokérus Strain {0} non può essere ottenuta.

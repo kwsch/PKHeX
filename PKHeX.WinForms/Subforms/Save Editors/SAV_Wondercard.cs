@@ -64,7 +64,7 @@ public partial class SAV_Wondercard : Form
             ViewGiftData(g);
     }
 
-    private List<PictureBox> GetGiftPictureBoxes(int generation) => generation switch
+    private List<PictureBox> GetGiftPictureBoxes(byte generation) => generation switch
     {
         4 => PopulateViewGiftsG4(),
         5 or 6 or 7 => PopulateViewGiftsG567(),

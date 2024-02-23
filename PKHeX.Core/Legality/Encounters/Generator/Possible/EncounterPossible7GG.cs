@@ -175,7 +175,7 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
         for (; Index < db.Length;)
         {
             var enc = db[Index++];
-            if (!enc.CanBeReceivedByVersion((int)Version))
+            if (!enc.CanBeReceivedByVersion(Version))
                 continue;
             foreach (var evo in Chain)
             {

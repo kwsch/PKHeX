@@ -32,8 +32,8 @@ public sealed class OPower6 : SaveBlock<SAV6>
         new(3, Accuracy) {Offset = 62},
     ];
 
-    public OPower6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public OPower6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public OPower6(SAV6XY sav, int offset) : base(sav, offset) { }
+    public OPower6(SAV6AO sav, int offset) : base(sav, offset) { }
 
     private static OPowerFlagSet Get(OPower6Type type) => Array.Find(Mapping, t => t.Identifier == type) ?? throw new ArgumentOutOfRangeException(nameof(type));
     public static int GetOPowerCount(OPower6Type type) => Get(type).BaseCount;

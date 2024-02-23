@@ -8,12 +8,12 @@ public static class LocationEdits
     /// <summary>
     /// Gets the "None" location index for a specific <see cref="PKM"/> context.
     /// </summary>
-    public static int GetNoneLocation(PKM pk) => GetNoneLocation(pk.Context);
+    public static ushort GetNoneLocation(PKM pk) => GetNoneLocation(pk.Context);
 
     /// <summary>
     /// Gets the "None" location index for a specific <see cref="PKM"/> context.
     /// </summary>
-    public static int GetNoneLocation(EntityContext context) => context switch
+    public static ushort GetNoneLocation(EntityContext context) => context switch
     {
         EntityContext.Gen8b => Locations.Default8bNone,
         _ => 0,

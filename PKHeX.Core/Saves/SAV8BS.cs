@@ -108,7 +108,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override int BoxCount => BoxLayout8b.BoxCount;
     public override int MaxEV => EffortValues.Max252;
 
-    public override int Generation => 8;
+    public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
     public override PersonalTable8BDSP Personal => PersonalTable.BDSP;
     public override int MaxStringLengthOT => 12;
@@ -117,7 +117,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8b;
     public override int MaxItemID => Legal.MaxItemID_8b;
     public override int MaxBallID => Legal.MaxBallID_8b;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
     public override int MaxAbilityID => Legal.MaxAbilityID_8b;
 
     public bool HasFirstSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_1;
@@ -234,12 +234,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public MysteryBlock8b MysteryRecords { get; }
     #endregion
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.BD => GameVersion.BD,
-        (int)GameVersion.SP => GameVersion.SP,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.BD or GameVersion.SP;
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
 
@@ -256,8 +251,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
-    public override int Gender { get => MyStatus.Male ? 0 : 1; set => MyStatus.Male = value == 0; }
+    public override GameVersion Version { get => MyStatus.Game; set => MyStatus.Game = value; }
+    public override byte Gender { get => MyStatus.Male ? (byte)0 : (byte)1; set => MyStatus.Male = value == 0; }
     public override int Language { get => Config.Language; set => Config.Language = value; }
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
     public override uint Money { get => MyStatus.Money; set => MyStatus.Money = value; }
@@ -313,7 +308,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         pb8.Trade(this, now.Day, now.Month, now.Year);
 
         pb8.RefreshChecksum();
-        AddCountAcquired(pb8);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk);
     }
 
     private void AddCountAcquired(PKM pk)

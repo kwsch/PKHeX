@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 
 public sealed class PlayTime6 : SaveBlock<SaveFile>
 {
-    public PlayTime6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-    public PlayTime6(SAV7 sav, int offset) : base(sav) => Offset = offset;
+    public PlayTime6(SAV6 sav, int offset) : base(sav, offset) { }
+    public PlayTime6(SAV7 sav, int offset) : base(sav, offset) { }
 
     public int PlayedHours
     {

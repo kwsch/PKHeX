@@ -25,6 +25,7 @@ public sealed class PKHeXSettings
 
     // General
     public LegalitySettings Legality { get; set; } = new();
+    public EntityConverterSettings Converter { get; set; } = new();
     public SetImportSettings Import { get; set; } = new();
     public SlotWriteSettings SlotWrite { get; set; } = new();
     public PrivacySettings Privacy { get; set; } = new();
@@ -214,8 +215,11 @@ public sealed class LegalitySettings : IParseSettings
     [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
     public Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
 
-    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match.")]
-    public Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
+    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match for Generation 3 encounters.")]
+    public Severity RNGFrameNotFound3 { get; set; } = Severity.Fishy;
+
+    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match for Generation 4 encounters.")]
+    public Severity RNGFrameNotFound4 { get; set; } = Severity.Invalid;
 
     [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
     public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
@@ -224,7 +228,7 @@ public sealed class LegalitySettings : IParseSettings
     public Severity Gen8MemoryMissingHT { get; set; } = Severity.Fishy;
 
     [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
-    public Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
+    public Severity HOMETransferTrackerNotPresent { get; set; } = Severity.Invalid;
 
     [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
     public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
@@ -237,7 +241,7 @@ public sealed class LegalitySettings : IParseSettings
 }
 
 [Serializable]
-public sealed class AdvancedSettings
+public sealed class EntityConverterSettings
 {
     [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
     public EntityCompatibilitySetting AllowIncompatibleConversion { get; set; } = EntityCompatibilitySetting.DisallowIncompatible;
@@ -245,6 +249,16 @@ public sealed class AdvancedSettings
     [LocalizedDescription("Allow PKM file conversion paths to guess the legal original encounter data that is not stored in the format that it was converted from.")]
     public EntityRejuvenationSetting AllowGuessRejuvenateHOME { get; set; } = EntityRejuvenationSetting.MissingDataHOME;
 
+    [LocalizedDescription("Default version to set when transferring from Generation 1 3DS Virtual Console to Generation 7.")]
+    public GameVersion VirtualConsoleSourceGen1 { get; set; } = GameVersion.RD;
+
+    [LocalizedDescription("Default version to set when transferring from Generation 2 3DS Virtual Console to Generation 7.")]
+    public GameVersion VirtualConsoleSourceGen2 { get; set; } = GameVersion.SI;
+}
+
+[Serializable]
+public sealed class AdvancedSettings
+{
     [LocalizedDescription("Folder path that contains dump(s) of block hash-names. If a specific dump file does not exist, only names defined within the program's code will be loaded.")]
     public string PathBlockKeyList { get; set; } = string.Empty;
 
@@ -368,6 +382,9 @@ public sealed class SlotWriteSettings
 
     [LocalizedDescription("Automatically adapt the PKM Info to the Save File (Handler, Format)")]
     public bool SetUpdatePKM { get; set; } = true;
+
+    [LocalizedDescription("Automatically increment the Save File's counters for obtained Pokémon (eggs/captures) when injecting a PKM.")]
+    public bool SetUpdateRecords { get; set; } = true;
 
     [LocalizedDescription("When enabled and closing/loading a save file, the program will alert if the current save file has been modified without saving.")]
     public bool ModifyUnset { get; set; } = true;

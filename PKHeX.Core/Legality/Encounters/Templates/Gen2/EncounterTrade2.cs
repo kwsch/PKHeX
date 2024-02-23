@@ -8,16 +8,16 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedIVSet, IEncounterConvertible<PK2>
 {
-    public int Generation => 2;
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
-    public int Location => Locations.LinkTrade2NPC;
+    public ushort Location => Locations.LinkTrade2NPC;
     public GameVersion Version => GameVersion.GSC;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
 
@@ -64,26 +64,26 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
             Species = Species,
             CurrentLevel = Level,
 
-            Met_Location = Location,
+            MetLocation = Location,
 
             Nickname = Nicknames[lang],
-            OT_Name = TrainerNames[lang],
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerFriendship = pi.BaseFriendship,
         };
 
         if (IVs.IsSpecified)
         {
-            pk.DV16 = EncounterUtil1.GetDV16(IVs);
-            pk.OT_Gender = OTGender;
+            pk.DV16 = EncounterUtil.GetDV16(IVs);
+            pk.OriginalTrainerGender = OTGender;
             pk.TID16 = TID16;
         }
         else
         {
-            pk.DV16 = EncounterUtil1.GetRandomDVs(Util.Rand);
+            pk.DV16 = EncounterUtil.GetRandomDVs(Util.Rand);
             pk.TID16 = tr.TID16;
         }
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
 
@@ -108,18 +108,18 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
             }
             if (pk is ICaughtData2 { CaughtData: not 0 } c)
             {
-                if (c.Met_Location != Locations.LinkTrade2NPC)
+                if (c.MetLocation != Locations.LinkTrade2NPC)
                     return false;
-                if (c.Met_Level != 0)
+                if (c.MetLevel != 0)
                     return false;
-                if (IVs.IsSpecified && c.OT_Gender != OTGender)
+                if (IVs.IsSpecified && c.OriginalTrainerGender != OTGender)
                     return false;
             }
         }
         else // 7+
         {
             // require male except if transferred from GS
-            if (pk.VC1 && pk.OT_Gender != 0)
+            if (pk.VC1 && pk.OriginalTrainerGender != 0)
                 return false;
             if (IVs.IsSpecified)
             {
@@ -134,7 +134,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
     private bool IsTrainerNicknameCorrect(PKM pk)
     {
-        var indexOT = GetIndexTrainer(pk.OT_Name, pk);
+        var indexOT = GetIndexTrainer(pk.OriginalTrainerName, pk);
         if (indexOT == -1)
             return false;
         if (pk.Nickname != Nicknames[indexOT])
@@ -192,7 +192,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
     {
-        var index = GetIndexTrainer(pk.OT_Name, pk);
+        var index = GetIndexTrainer(pk.OriginalTrainerName, pk);
         if (index == -1)
             return false;
         return nickname.SequenceEqual(Nicknames[index]);

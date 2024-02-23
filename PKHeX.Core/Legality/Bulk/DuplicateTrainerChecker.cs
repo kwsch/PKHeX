@@ -49,9 +49,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
 
     private static bool VerifyIDReuse(BulkAnalysis input, SlotCache ps, LegalityAnalysis pa, SlotCache cs, LegalityAnalysis ca)
     {
-        if (pa.EncounterMatch is MysteryGift { EggEncounter: false })
-            return false;
-        if (ca.EncounterMatch is MysteryGift { EggEncounter: false })
+        if (IsNotPlayerDetails(pa.EncounterMatch) || IsNotPlayerDetails(ca.EncounterMatch))
             return false;
 
         const CheckIdentifier ident = Trainer;
@@ -68,7 +66,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         }
 
         // ID-SID16 should only occur for one Trainer name
-        if (pp.OT_Name != cp.OT_Name)
+        if (pp.OriginalTrainerName != cp.OriginalTrainerName)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
             input.AddLine(ps, cs, "TID sharing across different trainer names detected.", ident, severity);
@@ -76,6 +74,13 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
 
         return false;
     }
+
+    private static bool IsNotPlayerDetails(IEncounterTemplate enc) => enc switch
+    {
+        IFixedTrainer { IsFixedTrainer: true } => true,
+        MysteryGift { IsEgg: false } => true,
+        _ => false,
+    };
 
     private static bool IsSharedVersion(PKM pp, LegalityAnalysis pa, PKM cp, LegalityAnalysis ca)
     {
@@ -95,6 +100,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
 
         static bool IsTradedEggVersionNoUpdate(PKM pk, LegalityAnalysis la) => la.Info.Generation switch
         {
+            2 => true, // No version stored, just ignore.
             3 => true, // No egg location, assume can be traded. Doesn't update version upon hatch.
             4 => pk.WasTradedEgg, // Gen4 traded eggs do not update version upon hatch.
             _ => false, // Gen5+ eggs have an egg location, and update the version upon hatch.

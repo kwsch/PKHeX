@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
-public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite, IFormArgument
+public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite, IFormArgument, IAppliedMarkings7
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -98,7 +98,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int AbilityNumber { get => Data[0x15] & 7; set => Data[0x15] = (byte)((Data[0x15] & ~7) | (value & 7)); }
     public bool IsFavorite { get => (Data[0x15] & 8) != 0; set => Data[0x15] = (byte)((Data[0x15] & ~8) | ((value ? 1 : 0) << 3)); }
-    public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
+    public ushort MarkingValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), value); }
 
     public override uint PID
     {
@@ -106,9 +106,9 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => WriteUInt32LittleEndian(Data.AsSpan(0x18), value);
     }
 
-    public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+    public override Nature Nature { get => (Nature)Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
-    public override int Gender { get => (Data[0x1D] >> 1) & 0x3; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
+    public override byte Gender { get => (byte)((Data[0x1D] >> 1) & 0x3); set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
     public override byte Form { get => (byte)(Data[0x1D] >> 3); set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
     public override int EV_HP { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
     public override int EV_ATK { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
@@ -123,9 +123,9 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public byte AV_SPA { get => Data[0x28]; set => Data[0x28] = value; }
     public byte AV_SPD { get => Data[0x29]; set => Data[0x29] = value; }
     public ResortEventState ResortEventStatus { get => (ResortEventState)Data[0x2A]; set => Data[0x2A] = (byte)value; }
-    private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
-    public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
+    public byte PokerusState { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
     public float HeightAbsolute { get => ReadSingleLittleEndian(Data.AsSpan(0x2C)); set => WriteSingleLittleEndian(Data.AsSpan(0x2C), value); }
     // 0x38 Unused
     // 0x39 Unused
@@ -140,8 +140,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     #region Block B
     public override string Nickname
     {
-        get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
+        get => StringConverter8.GetString(NicknameTrash);
+        set => StringConverter8.SetString(NicknameTrash, value, 12, StringConverterOption.None);
     }
 
     public override ushort Move1
@@ -203,7 +203,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     // 0x72 Unused
     // 0x73 Unused
-    protected override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x74)); set => WriteUInt32LittleEndian(Data.AsSpan(0x74), value); }
+    public override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x74)); set => WriteUInt32LittleEndian(Data.AsSpan(0x74), value); }
     public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
     public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
     public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -214,14 +214,14 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFFu) | (value ? 0x80000000u : 0u); }
     #endregion
     #region Block C
-    public override string HT_Name
+    public override string HandlingTrainerName
     {
-        get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
+        get => StringConverter8.GetString(HandlingTrainerTrash);
+        set => StringConverter8.SetString(HandlingTrainerTrash, value, 12, StringConverterOption.None);
     }
 
-    public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
-    public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
+    public override byte HandlingTrainerGender { get => Data[0x92]; set => Data[0x92] = value; }
+    public override byte CurrentHandler { get => Data[0x93]; set => Data[0x93] = value; }
     // 0x94 Unused
     // 0x95 Unused
     // 0x96 Unused
@@ -236,13 +236,13 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     // 0x9F Unused
     // 0xA0 Unused
     // 0xA1 Unused
-    public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
-    // 0xA1 HT_Affection Unused
-    public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-    public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-    public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
+    public override byte HandlingTrainerFriendship { get => Data[0xA2]; set => Data[0xA2] = value; }
+    // 0xA1 HandlingTrainerAffection Unused
+    public byte HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = value; }
+    public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
+    public byte HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = value; }
     // 0xA7 Unused
-    public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), (ushort)value); }
+    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
     // 0xAA Unused
     // 0xAB Unused
     public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
@@ -251,31 +251,31 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override byte Enjoyment { get => Data[0xAF]; set => Data[0xAF] = value; }
     #endregion
     #region Block D
-    public override string OT_Name
+    public override string OriginalTrainerName
     {
-        get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
+        get => StringConverter8.GetString(OriginalTrainerTrash);
+        set => StringConverter8.SetString(OriginalTrainerTrash, value, 12, StringConverterOption.None);
     }
 
-    public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
+    public override byte OriginalTrainerFriendship { get => Data[0xCA]; set => Data[0xCA] = value; }
     // 0xCB Unused
     // 0xCC Unused
     // 0xCD Unused
     // 0xCE Unused
     // 0xCF Unused
     // 0xD0 Unused
-    public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
-    public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
-    public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
-    public override int Met_Year { get => Data[0xD4]; set => Data[0xD4] = (byte)value; }
-    public override int Met_Month { get => Data[0xD5]; set => Data[0xD5] = (byte)value; }
-    public override int Met_Day { get => Data[0xD6]; set => Data[0xD6] = (byte)value; }
+    public override byte EggYear { get => Data[0xD1]; set => Data[0xD1] = value; }
+    public override byte EggMonth { get => Data[0xD2]; set => Data[0xD2] = value; }
+    public override byte EggDay { get => Data[0xD3]; set => Data[0xD3] = value; }
+    public override byte MetYear { get => Data[0xD4]; set => Data[0xD4] = value; }
+    public override byte MetMonth { get => Data[0xD5]; set => Data[0xD5] = value; }
+    public override byte MetDay { get => Data[0xD6]; set => Data[0xD6] = value; }
     public int Rank { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // unused but fetched for stat calcs, and set for trpoke data?
-    public override int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), (ushort)value); }
-    public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), (ushort)value); }
-    public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
-    public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
-    public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), value); }
+    public override ushort MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), value); }
+    public override byte Ball { get => Data[0xDC]; set => Data[0xDC] = value; }
+    public override byte MetLevel { get => (byte)(Data[0xDD] & ~0x80); set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
+    public override byte OriginalTrainerGender { get => (byte)(Data[0xDD] >> 7); set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
     public byte HyperTrainFlags { get => Data[0xDE]; set => Data[0xDE] = value; }
     public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1;  set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -283,7 +283,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
     public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
     public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
-    public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
+    public override GameVersion Version { get => (GameVersion)Data[0xDF]; set => Data[0xDF] = (byte)value; }
     // 0xE0 Unused
     // 0xE1 Unused
     // 0xE2 Unused
@@ -292,7 +292,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     #endregion
     #region Battle Stats
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0xE8)); set => WriteInt32LittleEndian(Data.AsSpan(0xE8), value); }
-    public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
+    public override byte Stat_Level { get => Data[0xEC]; set => Data[0xEC] = value; }
     public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
     public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
     // 0xEF unused
@@ -309,27 +309,34 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     // 102/103 unused
     #endregion
 
-    public override int MarkingCount => 6;
+    public int MarkingCount => 6;
 
-    public override int GetMarking(int index)
+    public MarkingColor GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkValue >> (index * 2)) & 3;
+        return (MarkingColor)((MarkingValue >> (index * 2)) & 3);
     }
 
-    public override void SetMarking(int index, int value)
+    public void SetMarking(int index, MarkingColor value)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
         var shift = index * 2;
-        MarkValue = (MarkValue & ~(0b11 << shift)) | ((value & 3) << shift);
+        MarkingValue = (ushort)((MarkingValue & ~(0b11 << shift)) | (((byte)value & 3) << shift));
     }
+
+    public MarkingColor MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public MarkingColor MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public MarkingColor MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public MarkingColor MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public MarkingColor MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public MarkingColor MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
             return false;
 
         CurrentHandler = 0;
@@ -338,19 +345,19 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (HT_Name != tr.OT)
+        if (HandlingTrainerName != tr.OT)
         {
-            HT_Friendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
-            HT_Name = tr.OT;
+            HandlingTrainerFriendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
+            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
-        HT_Gender = tr.Gender;
+        HandlingTrainerGender = tr.Gender;
     }
 
     public void FixMemories()
     {
         if (IsUntraded)
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+            HT_TextVar = HandlingTrainerFriendship = HT_Memory = HT_Intensity = HT_Feeling = 0;
     }
 
     // Maximums
@@ -359,12 +366,12 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxBallID => Legal.MaxBallID_7;
-    public override int MaxGameID => Legal.MaxGameID_7b;
+    public override GameVersion MaxGameID => Legal.MaxGameID_7b;
 
     public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
         int level = CurrentLevel;
-        int nature = Nature;
+        var nature = Nature;
         int friend = CurrentFriendship; // stats +10% depending on friendship!
         int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
         stats[0] = (ushort)(AV_HP  + GetStat(p.HP,  HT_HP  ? 31 : IV_HP,  level) + 10 + level);
@@ -393,7 +400,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     /// <param name="nature"><see cref="PKM.Nature"/></param>
     /// <param name="statIndex">Stat amp index in the nature amp table</param>
     /// <returns>Initial Stat with nature amplification applied.</returns>
-    private static int GetStat(int baseStat, int iv, int level, int nature, int statIndex)
+    private static int GetStat(int baseStat, int iv, int level, Nature nature, int statIndex)
     {
         int initial = GetStat(baseStat, iv, level) + 5;
         return NatureAmp.AmplifyStat(nature, statIndex, initial);
@@ -407,7 +414,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         {
             var p = PersonalInfo;
             int level = CurrentLevel;
-            int nature = Nature;
+            var nature = Nature;
             int scalar = CPScalar;
 
             // Calculate stats for all, then sum together.
@@ -546,7 +553,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return (byte)unsigned;
     }
 
-    public static int GetRandomIndex(int bits, int characterIndex, int nature)
+    public static int GetRandomIndex(int bits, int characterIndex, Nature nature)
     {
         if (bits is 6 or 7)
             return GetRandomIndex(characterIndex);

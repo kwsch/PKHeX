@@ -29,8 +29,8 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override PK1 Clone()
     {
         PK1 clone = new((byte[])Data.Clone(), Japanese);
-        OT_Trash.CopyTo(clone.OT_Trash);
-        Nickname_Trash.CopyTo(clone.Nickname_Trash);
+        OriginalTrainerTrash.CopyTo(clone.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(clone.NicknameTrash);
         return clone;
     }
 
@@ -44,7 +44,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
     public byte Type1 { get => Data[5]; set => Data[5] = value; }
     public byte Type2 { get => Data[6]; set => Data[6] = value; }
-    public byte Catch_Rate { get => Data[7]; set => Data[7] = value; }
+    public byte CatchRate { get => Data[7]; set => Data[7] = value; }
     public override ushort Move1 { get => Data[8]; set => Data[8] = (byte)value; }
     public override ushort Move2 { get => Data[9]; set => Data[9] = (byte)value; }
     public override ushort Move3 { get => Data[10]; set => Data[10] = (byte)value; }
@@ -68,7 +68,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     #endregion
 
     #region Party Attributes
-    public override int Stat_Level { get => Data[0x21]; set => Stat_LevelBox = Data[0x21] = (byte)value; }
+    public override byte Stat_Level { get => Data[0x21]; set => Stat_LevelBox = Data[0x21] = value; }
     public override int Stat_HPMax { get => ReadUInt16BigEndian(Data.AsSpan(0x22)); set => WriteUInt16BigEndian(Data.AsSpan(0x22), (ushort)value); }
     public override int Stat_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), (ushort)value); }
     public override int Stat_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), (ushort)value); }
@@ -91,24 +91,24 @@ public sealed class PK1 : GBPKML, IPersonalType
         return false;
     }
 
-    private void SetSpeciesValues(ushort value)
+    private void SetSpeciesValues(ushort species)
     {
-        var updated = SpeciesConverter.GetInternal1(value);
-        if (SpeciesInternal == updated)
+        var internalID = SpeciesConverter.GetInternal1(species);
+        if (SpeciesInternal == internalID)
             return;
 
-        SpeciesInternal = updated;
+        SpeciesInternal = internalID;
 
-        var pi = PersonalTable.RB[value];
+        var pi = PersonalTable.RB[species];
         Type1 = pi.Type1;
         Type2 = pi.Type2;
 
         // Before updating catch rate, check if non-standard
-        if (IsValidCatchRateAnyPreEvo((byte)value, Catch_Rate))
+        if (IsValidCatchRateAnyPreEvo((byte)species, CatchRate))
             return;
 
         // Matches nothing possible; just reset to current Species' rate.
-        Catch_Rate = (byte)pi.CatchRate;
+        CatchRate = pi.CatchRate;
     }
 
     private static bool IsValidCatchRateAnyPreEvo(byte species, byte rate)
@@ -126,17 +126,17 @@ public sealed class PK1 : GBPKML, IPersonalType
         return IsCatchRatePreEvolutionRate(baby, species, rate);
     }
 
-    public override int Version { get => (int)GameVersion.RBY; set { } }
-    public override int PKRS_Strain { get => 0; set { } }
-    public override int PKRS_Days { get => 0; set { } }
+    public override GameVersion Version { get => GameVersion.RBY; set { } }
+    public override int PokerusStrain { get => 0; set { } }
+    public override int PokerusDays { get => 0; set { } }
     public override bool CanHoldItem(ReadOnlySpan<ushort> valid) => false;
-    public override int Met_Location { get => 0; set { } }
-    public override int OT_Gender { get => 0; set { } }
-    public override int Met_Level { get => 0; set { } }
-    public override int CurrentFriendship { get => 0; set { } }
+    public override ushort MetLocation { get => 0; set { } }
+    public override byte OriginalTrainerGender { get => 0; set { } }
+    public override byte MetLevel { get => 0; set { } }
+    public override byte CurrentFriendship { get => 0; set { } }
     public override bool IsEgg { get => false; set { } }
     public override int HeldItem { get => 0; set { } }
-    public override int OT_Friendship { get => 0; set { } }
+    public override byte OriginalTrainerFriendship { get => 0; set { } }
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_1;
@@ -145,14 +145,14 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int MaxItemID => Legal.MaxItemID_1;
 
     // Extra
-    public int Gen2Item => ItemConverter.GetItemFuture1(Catch_Rate);
+    public byte Gen2Item => ItemConverter.GetItemFuture1(CatchRate);
 
     public PK2 ConvertToPK2()
     {
         PK2 pk2 = new(Japanese) {Species = Species};
         Data.AsSpan(7, 0x1A).CopyTo(pk2.Data.AsSpan(1));
-        OT_Trash.CopyTo(pk2.OT_Trash);
-        Nickname_Trash.CopyTo(pk2.Nickname_Trash);
+        OriginalTrainerTrash.CopyTo(pk2.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(pk2.NicknameTrash);
 
         pk2.HeldItem = Gen2Item;
         pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
@@ -165,8 +165,14 @@ public sealed class PK1 : GBPKML, IPersonalType
     {
         var rnd = Util.Rand;
         var lang = TransferLanguage(RecentTrainerCache.Language);
+        var version = EntityConverter.VirtualConsoleSourceGen1;
+        if ((lang == 1) != Japanese)
+            lang = Japanese ? 1 : 2;
+        if (version == GameVersion.BU && !Japanese)
+            version = GameVersion.RD;
+
         var pi = PersonalTable.SM[Species];
-        int abil = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
+        int ability = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
         {
             EncryptionConstant = rnd.Rand32(),
@@ -174,12 +180,12 @@ public sealed class PK1 : GBPKML, IPersonalType
             TID16 = TID16,
             CurrentLevel = CurrentLevel,
             EXP = EXP,
-            Met_Level = CurrentLevel,
+            MetLevel = CurrentLevel,
             Nature = Experience.GetNatureVC(EXP),
             PID = rnd.Rand32(),
             Ball = 4,
             MetDate = EncounterDate.GetDate3DS(),
-            Version = (int)GameVersion.RD, // Default to red
+            Version = version,
             Move1 = Move1,
             Move2 = Move2,
             Move3 = Move3,
@@ -188,22 +194,22 @@ public sealed class PK1 : GBPKML, IPersonalType
             Move2_PPUps = Move2_PPUps,
             Move3_PPUps = Move3_PPUps,
             Move4_PPUps = Move4_PPUps,
-            Met_Location = Locations.Transfer1, // "Kanto region", hardcoded.
+            MetLocation = Locations.Transfer1, // "Kanto region", hardcoded.
             Gender = Gender,
             IsNicknamed = false,
 
             CurrentHandler = 1,
-            HT_Name = RecentTrainerCache.OT_Name,
-            HT_Gender = RecentTrainerCache.OT_Gender,
+            HandlingTrainerName = RecentTrainerCache.OriginalTrainerName,
+            HandlingTrainerGender = RecentTrainerCache.OriginalTrainerGender,
 
             Language = lang,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, 7),
-            OT_Name = GetTransferTrainerName(lang),
-            OT_Friendship = pi.BaseFriendship,
-            HT_Friendship = pi.BaseFriendship,
+            OriginalTrainerName = GetTransferTrainerName(lang),
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
 
-            Ability = pi.GetAbilityAtIndex(abil),
-            AbilityNumber = 1 << abil,
+            Ability = pi.GetAbilityAtIndex(ability),
+            AbilityNumber = 1 << ability,
         };
 
         bool special = Species == (int)Core.Species.Mew;
@@ -219,7 +225,7 @@ public sealed class PK1 : GBPKML, IPersonalType
         else if (IsNicknamedBank)
         {
             pk7.IsNicknamed = true;
-            pk7.Nickname = StringConverter12Transporter.GetString(Nickname_Trash, Japanese);
+            pk7.Nickname = StringConverter12Transporter.GetString(NicknameTrash, Japanese);
         }
 
         pk7.HealPP();
@@ -229,8 +235,8 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     private string GetTransferTrainerName(int lang)
     {
-        if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+        if (OriginalTrainerTrash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
             return StringConverter12Transporter.GetTradeNameGen1(lang);
-        return StringConverter12Transporter.GetString(OT_Trash, Japanese);
+        return StringConverter12Transporter.GetString(OriginalTrainerTrash, Japanese);
     }
 }

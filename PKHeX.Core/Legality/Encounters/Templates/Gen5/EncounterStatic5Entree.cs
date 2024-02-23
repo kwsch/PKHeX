@@ -6,14 +6,14 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species, byte Level, byte Form, byte Gender, AbilityPermission Ability)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IMoveset, IFixedGender
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Never;
     public bool IsShiny => false;
     public bool EggEncounter => false;
-    public int EggLocation => 0;
-    public int Location => 075;
+    public ushort EggLocation => 0;
+    public ushort Location => 075;
     public string Name => $"Entree Forest Encounter ({Version})";
     public string LongName => Name;
     public byte LevelMin => Level;
@@ -32,7 +32,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
@@ -40,18 +40,18 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
             Species = Species,
             Form = Form,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)Ball.Dream,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = tr.Gender,
-            OT_Name = tr.OT,
+            OriginalTrainerGender = tr.Gender,
+            OriginalTrainerName = tr.OT,
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -59,7 +59,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, Level);
+            EncounterUtil.SetEncounterMoves(pk, version, Level);
 
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
@@ -69,8 +69,8 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature();
+        var gender = criteria.GetGender(Gender, pi);
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
         if (pk.IsShiny)
@@ -86,9 +86,9 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     {
         if (!IsMatchEggLocation(pk))
             return false;
-        if (pk.Met_Location != Location)
+        if (pk.MetLocation != Location)
             return false;
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return true;
@@ -100,7 +100,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

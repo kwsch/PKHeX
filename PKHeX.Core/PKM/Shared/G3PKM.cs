@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Base <see cref="PKM"/> Class
 /// </summary>
-public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IRibbonSetRibbons, IContestStats
+public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IRibbonSetRibbons, IContestStats, IAppliedMarkings3
 {
     protected G3PKM(byte[] data) : base(data) { }
     protected G3PKM([ConstantExpected] int size) : base(size) { }
@@ -19,7 +19,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
     public sealed override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
-    public sealed override int MaxGameID => Legal.MaxGameID_3;
+    public sealed override GameVersion MaxGameID => Legal.MaxGameID_3;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max255;
     public sealed override int MaxStringLengthOT => 7;
@@ -32,28 +32,34 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
 
     public sealed override int Ability { get => PersonalInfo.GetAbility(AbilityBit); set { } }
     public sealed override uint EncryptionConstant { get => PID; set { } }
-    public sealed override int Nature { get => (int)(PID % 25); set { } }
+    public sealed override Nature Nature { get => (Nature)(PID % 25); set { } }
     public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
-    public sealed override int Gender { get => EntityGender.GetFromPID(Species, PID); set { } }
+    public sealed override byte Gender { get => EntityGender.GetFromPID(Species, PID); set { } }
     public sealed override int Characteristic => -1;
-    public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-    public sealed override int CurrentHandler { get => 0; set { } }
-    public sealed override int Egg_Location { get => 0; set { } }
-    public override int MarkingCount => 4;
+    public sealed override byte CurrentFriendship { get => OriginalTrainerFriendship; set => OriginalTrainerFriendship = value; }
+    public sealed override byte CurrentHandler { get => 0; set { } }
+    public sealed override ushort EggLocation { get => 0; set { } }
+    public int MarkingCount => 4;
+    public abstract byte MarkingValue { get; set; }
 
-    public override int GetMarking(int index)
+    public bool GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkValue >> index) & 1;
+        return ((MarkingValue >> index) & 1) != 0;
     }
 
-    public override void SetMarking(int index, int value)
+    public void SetMarking(int index, bool value)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        MarkingValue = (byte)((MarkingValue & ~(1 << index)) | ((value ? 1 : 0) << index));
     }
+
+    public bool MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public bool MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); } // Purposefully reverse because we swap bits already and want to match Gen4+
+    public bool MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public bool MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
 
     public abstract ushort SpeciesInternal { get; set; } // raw access
 
@@ -107,12 +113,12 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public abstract bool Unused4 { get; set; }
     public abstract int RibbonCount { get; }
 
-    public abstract byte CNT_Cool   { get; set; }
-    public abstract byte CNT_Beauty { get; set; }
-    public abstract byte CNT_Cute   { get; set; }
-    public abstract byte CNT_Smart  { get; set; }
-    public abstract byte CNT_Tough  { get; set; }
-    public abstract byte CNT_Sheen  { get; set; }
+    public abstract byte ContestCool   { get; set; }
+    public abstract byte ContestBeauty { get; set; }
+    public abstract byte ContestCute   { get; set; }
+    public abstract byte ContestSmart  { get; set; }
+    public abstract byte ContestTough  { get; set; }
+    public abstract byte ContestSheen  { get; set; }
 
     /// <summary>
     /// Swaps bits at a given position
@@ -131,8 +137,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         return value ^ x;
     }
 
-    protected static byte GetGBAVersionID(byte gc) => (byte)((GCVersion)gc).GetG3VersionID();
-    protected static byte GetGCVersionID(int gba) => (byte)((GameVersion)gba).GetCXDVersionID();
+    protected static GameVersion GetGBAVersionID(GCVersion gc) => gc.GetG3VersionID();
+    protected static GCVersion GetGCVersionID(GameVersion gba) => gba.GetCXDVersionID();
 
     /// <summary>
     /// Interconversion for Generation 3 <see cref="PKM"/> formats.
@@ -152,15 +158,15 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         IsEgg = IsEgg,
         FatefulEncounter = FatefulEncounter,
 
-        Met_Location = Met_Location,
-        Met_Level = Met_Level,
+        MetLocation = MetLocation,
+        MetLevel = MetLevel,
         Version = Version,
         Ball = Ball,
 
         Nickname = Nickname,
-        OT_Name = OT_Name,
-        OT_Gender = OT_Gender,
-        OT_Friendship = OT_Friendship,
+        OriginalTrainerName = OriginalTrainerName,
+        OriginalTrainerGender = OriginalTrainerGender,
+        OriginalTrainerFriendship = OriginalTrainerFriendship,
 
         Move1_PPUps = Move1_PPUps,
         Move2_PPUps = Move2_PPUps,
@@ -187,15 +193,15 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         EV_SPE = EV_SPE,
         EV_SPA = EV_SPA,
         EV_SPD = EV_SPD,
-        CNT_Cool = CNT_Cool,
-        CNT_Beauty = CNT_Beauty,
-        CNT_Cute = CNT_Cute,
-        CNT_Smart = CNT_Smart,
-        CNT_Tough = CNT_Tough,
-        CNT_Sheen = CNT_Sheen,
+        ContestCool = ContestCool,
+        ContestBeauty = ContestBeauty,
+        ContestCute = ContestCute,
+        ContestSmart = ContestSmart,
+        ContestTough = ContestTough,
+        ContestSheen = ContestSheen,
 
-        PKRS_Days = PKRS_Days,
-        PKRS_Strain = PKRS_Strain,
+        PokerusDays = PokerusDays,
+        PokerusStrain = PokerusStrain,
 
         // Transfer Ribbons
         RibbonCountG3Cool = RibbonCountG3Cool,

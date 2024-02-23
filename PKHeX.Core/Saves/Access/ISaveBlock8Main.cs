@@ -17,7 +17,7 @@ public interface ISaveBlock8Main
     Daycare8 Daycare { get; }
     Record8 Records { get; }
     TrainerCard8 TrainerCard { get; }
-    RaidSpawnList8 Raid { get; }
+    RaidSpawnList8 RaidGalar { get; }
     RaidSpawnList8 RaidArmor { get; }
     RaidSpawnList8 RaidCrown { get; }
     TitleScreen8 TitleScreen { get; }

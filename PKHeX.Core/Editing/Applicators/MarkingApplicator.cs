@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic for modifying the <see cref="PKM.MarkValue"/>.
+/// Logic for modifying the <see cref="IAppliedMarkings"/>.
 /// </summary>
 public static class MarkingApplicator
 {
@@ -14,21 +14,40 @@ public static class MarkingApplicator
     public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
 
     /// <summary>
-    /// Sets the <see cref="PKM.MarkValue"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
+    /// Sets the applied Markings to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetMarkings(this PKM pk)
     {
-        if (pk.MarkingCount < 6)
+        if (pk is not IAppliedMarkings { MarkingCount: 6 })
             return; // insufficient marking indexes
 
+        if (pk is IAppliedMarkings<MarkingColor> c)
+            SetMarkings(c, pk);
+        else if (pk is IAppliedMarkings<bool> b)
+            SetMarkings(b, pk);
+    }
+
+    private static void SetMarkings(this IAppliedMarkings<bool> mark, PKM pk)
+    {
         var method = MarkingMethod(pk);
-        pk.SetMarking(0, method(pk.IV_HP , 0));
-        pk.SetMarking(1, method(pk.IV_ATK, 1));
-        pk.SetMarking(2, method(pk.IV_DEF, 2));
-        pk.SetMarking(3, method(pk.IV_SPA, 3));
-        pk.SetMarking(4, method(pk.IV_SPD, 4));
-        pk.SetMarking(5, method(pk.IV_SPE, 5));
+        mark.SetMarking(0, method(pk.IV_HP , 0) == 1);
+        mark.SetMarking(1, method(pk.IV_ATK, 1) == 1);
+        mark.SetMarking(2, method(pk.IV_DEF, 2) == 1);
+        mark.SetMarking(3, method(pk.IV_SPA, 3) == 1);
+        mark.SetMarking(4, method(pk.IV_SPD, 4) == 1);
+        mark.SetMarking(5, method(pk.IV_SPE, 5) == 1);
+    }
+
+    private static void SetMarkings(this IAppliedMarkings<MarkingColor> mark, PKM pk)
+    {
+        var method = MarkingMethod(pk);
+        mark.SetMarking(0, (MarkingColor)method(pk.IV_HP, 0));
+        mark.SetMarking(1, (MarkingColor)method(pk.IV_ATK, 1));
+        mark.SetMarking(2, (MarkingColor)method(pk.IV_DEF, 2));
+        mark.SetMarking(3, (MarkingColor)method(pk.IV_SPA, 3));
+        mark.SetMarking(4, (MarkingColor)method(pk.IV_SPD, 4));
+        mark.SetMarking(5, (MarkingColor)method(pk.IV_SPE, 5));
     }
 
     /// <summary>
@@ -37,18 +56,19 @@ public static class MarkingApplicator
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="index">Marking index to toggle</param>
     /// <returns>Current marking value</returns>
-    public static int ToggleMarking(this PKM pk, int index)
+    public static void ToggleMarking(this PKM pk, int index)
     {
-        var marking = pk.GetMarking(index);
-        var revised = NextMarking(pk.Format, marking);
-        pk.SetMarking(index, revised);
-        return revised;
+        if (pk is IAppliedMarkings<MarkingColor> c)
+            c.SetMarking(index, c.GetMarking(index).Next());
+        else if (pk is IAppliedMarkings<bool> b)
+            b.SetMarking(index, !b.GetMarking(index));
     }
 
-    private static int NextMarking(int format, int marking) => format switch
+    private static MarkingColor Next(this MarkingColor value) => value switch
     {
-        <= 6 => marking ^ 1, // toggle : 0 (off) | 1 (on)
-        _ => (marking + 1) % 3, // cycle 0->1->2->0... : 0 (none) | 1 (blue) | 2 (pink)
+        MarkingColor.Blue => MarkingColor.Pink,
+        MarkingColor.Pink => MarkingColor.None,
+        _ => MarkingColor.Blue,
     };
 
     private static Func<int, int, int> FlagHighLow(PKM pk)

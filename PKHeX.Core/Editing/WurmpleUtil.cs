@@ -29,6 +29,12 @@ public static class WurmpleUtil
     }
 
     /// <summary>
+    /// Checks to see if the input species is a Wurmple evolution
+    /// </summary>
+    /// <returns>True if Wurmple evolution, false if not</returns>
+    public static bool IsWurmpleEvo(ushort species) => GetWurmpleEvoGroup(species) != WurmpleEvolution.None;
+
+    /// <summary>
     /// Gets the Wurmple <see cref="PKM.EncryptionConstant"/> for a given Evolution Value
     /// </summary>
     /// <param name="evoVal">Wurmple Evolution Value</param>

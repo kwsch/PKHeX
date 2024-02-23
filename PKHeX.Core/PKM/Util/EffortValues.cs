@@ -19,13 +19,15 @@ public static class EffortValues
     public const ushort MaxEffective = 508;
     /// <summary> The leftover EVs if two stats are <see cref="Max252"/>. </summary>
     public const byte LeftoverDual252 = 6;
+    /// <summary> Vitamin Max for consideration in Gen3 & Gen4. </summary>
+    public const ushort MaxVitamins34 = 100;
 
     /// <summary>
     /// Gets randomized EVs for a given generation format
     /// </summary>
     /// <param name="evs">Array to store the resulting EVs</param>
     /// <param name="generation">Generation specific formatting option</param>
-    public static void SetRandom(Span<int> evs, int generation)
+    public static void SetRandom(Span<int> evs, byte generation)
     {
         var rnd = Util.Rand;
         if (generation > 2)

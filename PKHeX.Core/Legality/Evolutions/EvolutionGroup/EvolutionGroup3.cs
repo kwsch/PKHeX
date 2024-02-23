@@ -6,7 +6,7 @@ public sealed class EvolutionGroup3 : IEvolutionGroup
 {
     public static readonly EvolutionGroup3 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves3;
-    private const int Generation = 3;
+    private const byte Generation = 3;
     private static PersonalTable3 Personal => PersonalTable.E;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
@@ -18,7 +18,7 @@ public sealed class EvolutionGroup3 : IEvolutionGroup
     {
         if (pk.Format == 4 && !enc.SkipChecks) // 5+ already have been revised
         {
-            byte max = (byte)pk.Met_Level;
+            byte max = pk.MetLevel;
             EvolutionUtil.UpdateCeiling(result, max);
             enc = enc with { LevelMin = 1, LevelMax = max };
         }
@@ -46,7 +46,7 @@ public sealed class EvolutionGroup3 : IEvolutionGroup
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         if (pk.Format > Generation)
-            enc = enc with { LevelMax = (byte)pk.Met_Level };
+            enc = enc with { LevelMax = pk.MetLevel };
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

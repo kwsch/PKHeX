@@ -10,25 +10,24 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
 {
     private readonly byte[] Data = (byte[])Data.Clone();
 
-    public GameVersion Version => (GameVersion)CassetteVersion;
     public bool EggEncounter => false;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public int Generation => Version.GetGeneration();
+    public byte Generation => Version.GetGeneration();
     public EntityContext Context => EntityContext.Gen7;
     public bool IsShiny => false;
 
     public const int SIZE = 0x30;
 
     public uint EncryptionConstant => ReadUInt32LittleEndian(Data.AsSpan(0));
-    public byte HT_Flags => Data[4];
-    public int Unk_5 => Data[5];
-    public int Unk_6 => Data[6];
-    public int Unk_7 => Data[7];
-    public int Move1_PPUps => Data[8];
-    public int Move2_PPUps => Data[9];
-    public int Move3_PPUps => Data[0xA];
-    public int Move4_PPUps => Data[0xB];
+    public byte HyperTrainFlags => Data[4];
+    public byte Unk_5 => Data[5];
+    public byte Unk_6 => Data[6];
+    public byte Unk_7 => Data[7];
+    public byte Move1_PPUps => Data[8];
+    public byte Move2_PPUps => Data[9];
+    public byte Move3_PPUps => Data[0xA];
+    public byte Move4_PPUps => Data[0xB];
     public uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0xC)); set => WriteUInt32LittleEndian(Data.AsSpan(0xC), value); }
     public int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | (uint)((value > 31 ? 31 : value) << 00); }
     public int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | (uint)((value > 31 ? 31 : value) << 05); }
@@ -43,11 +42,11 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
     public ushort Move2 => ReadUInt16LittleEndian(Data.AsSpan(0x1A));
     public ushort Move3 => ReadUInt16LittleEndian(Data.AsSpan(0x1C));
     public ushort Move4 => ReadUInt16LittleEndian(Data.AsSpan(0x1E));
-    public int Unk_20 => Data[0x20];
-    public int AbilityIndex => Data[0x21];
-    public int Nature => Data[0x22];
+    public byte Unk_20 => Data[0x20];
+    public byte AbilityIndex => Data[0x21];
+    public Nature Nature => (Nature)Data[0x22];
     public bool FatefulEncounter => (Data[0x23] & 1) == 1;
-    public int Gender => (Data[0x23] >> 1) & 3;
+    public byte Gender => (byte)((Data[0x23] >> 1) & 3);
     public byte Form => (byte)(Data[0x23] >> 3);
     public byte EV_HP => Data[0x24];
     public byte EV_ATK => Data[0x25];
@@ -55,12 +54,12 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
     public byte EV_SPE => Data[0x27];
     public byte EV_SPA => Data[0x28];
     public byte EV_SPD => Data[0x29];
-    public int Unk_2A => Data[0x2A];
-    public int Friendship => Data[0x2B];
-    public int Ball => Data[0x2C];
+    public byte Unk_2A => Data[0x2A];
+    public byte Friendship => Data[0x2B];
+    public byte Ball => Data[0x2C];
     public byte Level => Data[0x2D];
-    public int CassetteVersion => Data[0x2E];
-    public int Language => Data[0x2F];
+    public GameVersion Version => (GameVersion)Data[0x2E];
+    public byte Language => Data[0x2F];
 
     /// <summary>
     /// Converts the <see cref="Data"/> to a rough PKM.
@@ -82,7 +81,7 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
             Nature = Nature,
             FatefulEncounter = FatefulEncounter,
             Form = Form,
-            HyperTrainFlags = HT_Flags,
+            HyperTrainFlags = HyperTrainFlags,
             IV_HP = IV_HP,
             IV_ATK = IV_ATK,
             IV_DEF = IV_DEF,
@@ -104,15 +103,15 @@ public sealed class QRPK7(byte[] Data) : IEncounterInfo
             Move3_PPUps = Move3_PPUps,
             Move4_PPUps = Move4_PPUps,
             HeldItem = HeldItem,
-            HT_Friendship = Friendship,
-            OT_Friendship = Friendship,
+            HandlingTrainerFriendship = Friendship,
+            OriginalTrainerFriendship = Friendship,
             Ball = Ball,
-            Version = CassetteVersion,
+            Version = Version,
 
-            OT_Name = tr.OT,
-            HT_Name = tr.OT,
+            OriginalTrainerName = tr.OT,
+            HandlingTrainerName = tr.OT,
             CurrentLevel = Level,
-            Met_Level = Level,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDate3DS(),
         };
         RecentTrainerCache.SetConsoleRegionData3DS(pk, tr);

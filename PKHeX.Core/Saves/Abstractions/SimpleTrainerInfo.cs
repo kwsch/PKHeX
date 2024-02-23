@@ -8,7 +8,7 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     public string OT { get; set; } = "PKHeX";
     public ushort TID16 { get; set; } = 12345;
     public ushort SID16 { get; set; } = 54321;
-    public int Gender { get; set; }
+    public byte Gender { get; set; }
     public int Language { get; set; } = (int)LanguageID.English;
     public uint ID32 { get => (uint)(TID16 | (SID16 << 16)); set => (TID16, SID16) = ((ushort)value, (ushort)(value >> 16)); }
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
@@ -18,13 +18,13 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     public byte Region { get; set; } = 7; // California
     public byte Country { get; set; } = 49; // USA
 
-    public int Game { get; }
-    public int Generation { get; init; } = PKX.Generation;
+    public GameVersion Version { get; }
+    public byte Generation { get; init; } = PKX.Generation;
     public EntityContext Context { get; init; } = PKX.Context;
 
     public SimpleTrainerInfo(GameVersion game = PKX.Version)
     {
-        Game = (int) game;
+        Version = game;
         SanityCheckRegionOrigin(game);
     }
 
@@ -34,7 +34,7 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
             this.ClearRegionOrigin();
     }
 
-    public SimpleTrainerInfo(ITrainerInfo other) : this((GameVersion)other.Game)
+    public SimpleTrainerInfo(ITrainerInfo other) : this(other.Version)
     {
         OT = other.OT;
         TID16 = other.TID16;
@@ -47,6 +47,6 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
         if (other is IRegionOrigin r)
             r.CopyRegionOrigin(this);
 
-        SanityCheckRegionOrigin((GameVersion)Game);
+        SanityCheckRegionOrigin(Version);
     }
 }

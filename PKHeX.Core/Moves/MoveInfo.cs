@@ -165,7 +165,6 @@ public static class MoveInfo
 
         // Unreleased
         (int)LightofRuin => false,
-        (int)MalignantChain => false,
 
         _ => IsMoveKnowable(move),
     };
@@ -231,7 +230,7 @@ public static class MoveInfo
         return types[move];
     }
 
-    public static bool IsAnyFromGeneration(int generation, ReadOnlySpan<MoveResult> moves)
+    public static bool IsAnyFromGeneration(byte generation, ReadOnlySpan<MoveResult> moves)
     {
         foreach (var move in moves)
         {

@@ -155,7 +155,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         InventoryType.Berries, InventoryType.Balls, InventoryType.BattleItems, InventoryType.Treasure,
     ];
 
-    public static ushort[] GetAll() => [..Pouch_Regular_BS, ..Pouch_Ball_BS, ..Pouch_Battle_BS, ..Pouch_Berries_BS, ..Pouch_TMHM_BS, ..Pouch_Medicine_BS, ..Pouch_Treasure_BS];
+    public static ushort[] GetAllHeld() => [..Pouch_Regular_BS, ..Pouch_Ball_BS, ..Pouch_Battle_BS, ..Pouch_Berries_BS, ..Pouch_TMHM_BS, ..Pouch_Medicine_BS, ..Pouch_Treasure_BS];
 
     public static InventoryType GetInventoryPouch(ushort itemIndex)
     {

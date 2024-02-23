@@ -15,7 +15,7 @@ public sealed class BV6(byte[] Data) : BattleVideo
     private const int PlayerCount = 4;
 
     public override IReadOnlyList<PK6> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
-    public override int Generation => 6;
+    public override byte Generation => 6;
 
     internal new static bool IsValid(ReadOnlySpan<byte> data)
     {

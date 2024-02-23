@@ -17,6 +17,8 @@ public partial class BatchEditor : Form
     private Core.BatchEditor editor = new();
     private readonly EntityInstructionBuilder UC_Builder;
 
+    private static string LastUsedCommands = string.Empty;
+
     public BatchEditor(PKM pk, SaveFile sav)
     {
         InitializeComponent();
@@ -32,6 +34,9 @@ public partial class BatchEditor : Form
         SAV = sav;
         DragDrop += TabMain_DragDrop;
         DragEnter += TabMain_DragEnter;
+
+        RTB_Instructions.Text = LastUsedCommands;
+        Closing += (_, _) => LastUsedCommands = RTB_Instructions.Text;
     }
 
     private void B_Open_Click(object sender, EventArgs e)

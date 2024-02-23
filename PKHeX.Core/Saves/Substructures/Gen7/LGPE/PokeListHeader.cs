@@ -25,9 +25,8 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
     private const int MAX_SLOTS = 1000;
     private const int SLOT_EMPTY = 1001;
 
-    public PokeListHeader(SAV7b sav, int offset) : base(sav)
+    public PokeListHeader(SAV7b sav, int offset) : base(sav, offset)
     {
-        Offset = offset;
         var info = PokeListInfo = LoadPointerData();
         if (!sav.State.Exportable)
         {

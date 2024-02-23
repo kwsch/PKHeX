@@ -36,6 +36,7 @@ public partial class StatEditor : UserControl
     public bool HaX { get => CHK_HackedStats.Enabled; set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
     private readonly ToolTip EVTip = new();
+    private StatEditorStatOrder StatOrder;
 
     public bool Valid
     {
@@ -47,7 +48,7 @@ public partial class StatEditor : UserControl
                 return true;
             if (Entity is IAwakened a)
                 return a.AwakeningAllValid();
-            return Convert.ToUInt32(TB_EVTotal.Text) <= 510;
+            return Convert.ToUInt32(TB_EVTotal.Text) <= EffortValues.Max510;
         }
     }
 
@@ -336,7 +337,7 @@ public partial class StatEditor : UserControl
         };
 
         var newNature = request.GetNewNature(index, Entity.StatNature);
-        if (newNature == -1)
+        if (newNature == Nature.Random)
             return;
 
         MainEditor.ChangeNature(newNature);
@@ -486,7 +487,7 @@ public partial class StatEditor : UserControl
             L_Characteristic.Text = GameInfo.Strings.characteristics[characteristic];
     }
 
-    public string UpdateNatureModification(int nature)
+    public string UpdateNatureModification(Nature nature)
     {
         // Reset Label Colors
         foreach (var l in L_Stats)
@@ -504,7 +505,7 @@ public partial class StatEditor : UserControl
         return $"+{incr.Text} / -{decr.Text}".Replace(":", "");
     }
 
-    public void SetATKIVGender(int gender)
+    public void SetATKIVGender(byte gender)
     {
         Entity.SetAttackIVFromGender(gender);
         TB_IVATK.Text = Entity.IV_ATK.ToString();
@@ -609,40 +610,65 @@ public partial class StatEditor : UserControl
             tb.ResetBackColor();
     }
 
-    public void ToggleInterface(PKM pk, int gen)
+    private void SetStatOrder(StatEditorStatOrder order)
     {
-        FLP_StatsTotal.Visible = gen >= 3;
-        FLP_Characteristic.Visible = gen >= 3;
-        FLP_HPType.Visible = gen <= 7 || pk is PB8;
+        if (order == StatOrder)
+            return;
+
+        // https://stackoverflow.com/a/30219698
+        // WinForms hack to create the handles and avoid Z-order changing on visibility toggle.
+        // Otherwise, our stat ordering may be incorrect if we change it more than once.
+        foreach (Control ctrl in FLP_Stats.Controls)
+            _ = ctrl.Handle;
+
+        // In Generation 1, Special Defense and Special Attack are combined.
+        // Additionally, Speed is shown before Special.
+        const int baseIndex = 1;
+        if (order == StatEditorStatOrder.Gen1Special)
+        {
+            FLP_SpD.Visible = Label_SPA.Visible = false;
+            Label_SPC.Visible = true;
+            FLP_Stats.Controls.SetChildIndex(FLP_Spe, baseIndex + 3); // Speed
+        }
+        else if (order == StatEditorStatOrder.Current)
+        {
+            FLP_SpD.Visible = Label_SPA.Visible = true;
+            Label_SPC.Visible = false;
+            FLP_Stats.Controls.SetChildIndex(FLP_Spe, baseIndex + 5); // Speed
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException(nameof(order), order, null);
+        }
+
+        StatOrder = order;
+    }
+
+    public void ToggleInterface(PKM pk, byte format)
+    {
+        FLP_StatsTotal.Visible = format >= 3;
+        FLP_Characteristic.Visible = format >= 3;
+        FLP_HPType.Visible = format <= 7 || pk is PB8;
         FLP_TeraType.Visible = FLP_TeraInner.Visible = pk is ITeraType;
-        Label_HiddenPowerPower.Visible = gen <= 5;
-        FLP_DynamaxLevel.Visible = gen == 8;
+        Label_HiddenPowerPower.Visible = format <= 5;
+        FLP_DynamaxLevel.Visible = format == 8;
         FLP_AlphaNoble.Visible = pk is PA8;
 
-        switch (gen)
+        SetStatOrder(format == 1 ? StatEditorStatOrder.Gen1Special : StatEditorStatOrder.Current);
+
+        switch (format)
         {
             case 1:
-                FLP_SpD.Visible = false;
-                Label_SPA.Visible = false;
-                Label_SPC.Visible = true;
                 TB_IVHP.Enabled = false;
                 SetEVMaskSize(Stat_HP.Size, "00000", MT_EVs);
                 break;
             case 2:
-                FLP_SpD.Visible = true;
-                Label_SPA.Visible = true;
-                Label_SPC.Visible = false;
                 TB_IVHP.Enabled = false;
                 SetEVMaskSize(Stat_HP.Size, "00000", MT_EVs);
-                TB_EVSPD.Enabled = TB_IVSPD.Enabled = false;
                 break;
             default:
-                FLP_SpD.Visible = true;
-                Label_SPA.Visible = true;
-                Label_SPC.Visible = false;
                 TB_IVHP.Enabled = true;
                 SetEVMaskSize(TB_EVTotal.Size, "000", MT_EVs);
-                TB_EVSPD.Enabled = TB_IVSPD.Enabled = true;
                 break;
         }
 
@@ -782,4 +808,23 @@ public sealed class TypePictureBox : PictureBox
         var name = GameInfo.Strings.types[index];
         Tip.SetToolTip(this, name);
     }
+}
+
+/// <summary>
+/// Stat display order for a stat editor.
+/// </summary>
+public enum StatEditorStatOrder
+{
+    /// <summary>
+    /// Stat order for everything after Generation 1.
+    /// </summary>
+    /// <remarks>
+    /// Default load state for a GUI.
+    /// </remarks>
+    Current = 0,
+
+    /// <summary>
+    /// Stat order for Generation 1; Speed before Special.
+    /// </summary>
+    Gen1Special,
 }

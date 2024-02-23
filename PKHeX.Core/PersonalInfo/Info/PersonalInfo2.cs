@@ -20,12 +20,12 @@ public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, 
     public override int SPD { get => Data[0x06]; set => Data[0x06] = (byte)value; }
     public override byte Type1 { get => Data[0x07]; set => Data[0x07] = value; }
     public override byte Type2 { get => Data[0x08]; set => Data[0x08] = value; }
-    public override int CatchRate { get => Data[0x09]; set => Data[0x09] = (byte)value; }
+    public override byte CatchRate { get => Data[0x09]; set => Data[0x09] = value; }
     public override int BaseEXP { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
     public int Item1 { get => Data[0xB]; set => Data[0xB] = (byte)value; }
     public int Item2 { get => Data[0xC]; set => Data[0xC] = (byte)value; }
     public override byte Gender { get => Data[0xD]; set => Data[0xD] = value; }
-    public override int HatchCycles { get => Data[0xF]; set => Data[0xF] = (byte)value; }
+    public override byte HatchCycles { get => Data[0xF]; set => Data[0xF] = value; }
     public override byte EXPGrowth { get => Data[0x16]; set => Data[0x16] = value; }
     public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)((Data[0x17] & 0xF0) | value); }
     public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)((Data[0x17] & 0x0F) | (value << 4)); }
@@ -42,7 +42,7 @@ public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, 
     public override int GetIndexOfAbility(int abilityID) => -1;
     public override int GetAbilityAtIndex(int abilityIndex) => -1;
     public override int AbilityCount => 0;
-    public override int BaseFriendship { get => 70; set { } }
+    public override byte BaseFriendship { get => 70; set { } }
     public override int EscapeRate { get => 0; set { } }
     public override int Color { get => 0; set { } }
 

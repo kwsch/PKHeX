@@ -36,22 +36,30 @@ public sealed class BallContextHOME : IBallContext
     /// <param name="species">Original encounter species</param>
     /// <returns>True if the restriction can be ignored, false if not.</returns>
     /// <remarks>Ability Patch can be used on any species that has a Hidden Ability distinct from its regular ability.</remarks>
-    public static bool IsAbilityPatchPossible(int format, ushort species)
+    public static bool IsAbilityPatchPossible(byte format, ushort species)
     {
         if (format <= 7)
             return false;
-
-        // Species (that can breed, from Gen6/7) that have never had a Hidden Ability distinct from their regular ability
-        // Gen8+ has encounters with HA, so this is no longer a concern for anything originating from Gen8+.
-        return species switch
-        {
-            (int)Species.Lunatone => false, // Levitate
-            (int)Species.Solrock => false, // Levitate
-            (int)Species.Rotom => false, // Levitate
-            (int)Species.Archen => false, // Defeatist
-            _ => true,
-        };
+        return IsPastGenWithUniqueHiddenAbility(species);
     }
+
+    /// <summary>
+    /// Species (that can breed, from Gen6/7) that can visit a Gen8+ game with a unique Hidden Ability.
+    /// </summary>
+    /// <param name="species">Original encounter species</param>
+    /// <returns>True if ability patch can bump to Hidden Ability, false if not.</returns>
+    /// <remarks>
+    /// Gen8+ has encounters with HA, so this is no longer a concern for anything originating from Gen8+.
+    /// </remarks>
+    private static bool IsPastGenWithUniqueHiddenAbility(ushort species) => species switch
+    {
+        // Species that have never had a Hidden Ability distinct from their regular ability
+        (int)Species.Lunatone => false, // Levitate
+        (int)Species.Solrock => false, // Levitate
+        (int)Species.Rotom => false, // Levitate
+        (int)Species.Archen => false, // Defeatist
+        _ => true,
+    };
 
     public BallInheritanceResult CanBreedWithBall(ushort species, byte form, Ball ball, PKM pk) => CanBreedWithBall(species, form, ball) ? Valid : Invalid;
 
@@ -114,7 +122,7 @@ public sealed class BallContextHOME : IBallContext
         0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x2B, 0x0B, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, // 420-439
         0x7F, 0x2B, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x2F, 0x7F, 0x7F, 0x7F, 0x7F, // 440-459
         0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, // 460-479
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, // 480-499
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, // 480-499
         0x7F, 0x7F, 0x7F, 0x7F, 0x03, 0x03, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x23, 0x03, 0x23, 0x03, 0x23, 0x03, 0x7F, 0x7F, 0x7F, // 500-519
         0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, // 520-539
         0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, // 540-559

@@ -20,7 +20,7 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
     {
         if (enc.Generation >= 8)
             return null;
-        if ((GameVersion)enc.Version is GP or GE or GG or GO)
+        if (enc.Version is GP or GE or GG or GO)
             return EvolutionGroup7b.Instance;
         return EvolutionGroup7.Instance;
     }
@@ -56,10 +56,21 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
 
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
+        if (IsUnavailableEvoChain(pk.Species, pk.Form))
+            result = result[..1]; // Only allow the highest (current).
         if (CheckAllAdjacent(pk, enc))
             return EvolveMulti(result, pk, enc, history);
         return EvolveSingle(result, pk, enc, history);
     }
+
+    private static bool IsUnavailableEvoChain(ushort species, byte form) => species switch
+    {
+        // Split-evolution Alolans can't be reached in any game Gen8+. Must have been via Gen7.
+        (int)Species.Raichu when form == 1 => true,
+        (int)Species.Exeggutor when form == 1 => true,
+        (int)Species.Marowak when form == 1 => true,
+        _ => false,
+    };
 
     private int DevolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc)
     {

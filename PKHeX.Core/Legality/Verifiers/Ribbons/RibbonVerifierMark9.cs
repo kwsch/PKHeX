@@ -31,8 +31,9 @@ public static class RibbonVerifierMark9
     {
         if (r.RibbonMarkAlpha)
             list.Add(MarkAlpha);
-        if (r.RibbonMarkGourmand)
-            list.Add(MarkGourmand);
+        // Can apply to eggs if in party. Just can't affix.
+        // if (r.RibbonMarkGourmand)
+        //     list.Add(MarkGourmand);
         if (r.RibbonMarkItemfinder)
             list.Add(MarkItemfinder);
         if (r.RibbonMarkJumbo)

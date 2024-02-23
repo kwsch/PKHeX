@@ -28,16 +28,16 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
         set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[0x14];
-        set => Data[0x14] = (byte)value;
+        set => Data[0x14] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[0x15];
-        set => Data[0x15] = (byte)value;
+        set => Data[0x15] = value;
     }
 
     // A6
@@ -57,12 +57,12 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
         }
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(0x20, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x20, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public byte Unk_0x50

@@ -90,10 +90,6 @@ public static class StringConverter345
     /// </summary>
     /// <param name="glyph">Codepoint glyph stored in data.</param>
     /// <returns>Unicode private use codepoint.</returns>
-    /// <remarks>
-    /// Use two comparisons instead of one-after-subtraction.
-    /// Most players never select these special characters, so the hot path will be almost always false.
-    /// </remarks>
     public static ushort GetMigratedPrivateChar(ushort glyph) =>
         (ushort)(glyph - PrivateUseStartGlyph + PrivateUseStartUnicode);
 

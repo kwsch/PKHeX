@@ -2,26 +2,35 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Hatch Location validity for <see cref="GameVersion.Gen7"/>.
+/// </summary>
 public static class EggHatchLocation7
 {
     private const byte MaskSM = 1 << 0; // 1
     private const byte MaskUSUM = 1 << 1; // 2
 
-    public static bool IsValidMet7SM(int location)
+    /// <summary>
+    /// Returns true if the hatch location is valid for Sun and Moon.
+    /// </summary>
+    public static bool IsValidMet7SM(ushort location)
     {
         if (HasLocationFlag(LocationPermitted7, MaskSM, location))
             return true;
         return location == Locations.Pelago7; // 30016
     }
 
-    public static bool IsValidMet7USUM(int location)
+    /// <summary>
+    /// Returns true if the hatch location is valid for Ultra Sun and Ultra Moon.
+    /// </summary>
+    public static bool IsValidMet7USUM(ushort location)
     {
         if (HasLocationFlag(LocationPermitted7, MaskUSUM, location))
             return true;
         return location == Locations.Pelago7; // 30016
     }
 
-    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
+    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, ushort location)
     {
         if ((uint)location >= arr.Length)
             return false;

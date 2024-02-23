@@ -26,7 +26,7 @@ public static class MoveListSuggest
         // try to give current moves
         if (enc.Generation <= 2 && pk.Format < 8)
         {
-            var lvl = pk.Format >= 7 ? pk.Met_Level : pk.CurrentLevel;
+            var lvl = pk.Format >= 7 ? pk.MetLevel : pk.CurrentLevel;
             var source = GameData.GetLearnSource(enc.Version);
             source.SetEncounterMoves(enc.Species, 0, lvl, moves);
             return;
@@ -34,7 +34,7 @@ public static class MoveListSuggest
 
         if (pk.Species == enc.Species || pk.Context.Generation() >= 8)
         {
-            var game = (GameVersion)pk.Version; // account for SW/SH foreign mutated versions
+            var game = pk.Version; // account for SW/SH foreign mutated versions
             if (pk.Context.Generation() >= 8)
                 game = pk.Context.GetSingleGameVersion();
             var source = GameData.GetLearnSource(game);
@@ -166,7 +166,7 @@ public static class MoveListSuggest
     private static void GetSuggestedRelearnEgg(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
     {
         enc.GetEggRelearnMoves(parse, pk, moves);
-        int generation = enc.Generation;
+        byte generation = enc.Generation;
 
         // Gen2 does not have split breed, Gen5 and below do not store relearn moves in the data structure.
         if (generation <= 5)
@@ -188,15 +188,8 @@ public static class MoveListSuggest
         var generator = EncounterGenerator.GetGenerator(enc.Version);
 
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var origin = new EvolutionOrigin(enc.Species, (byte)enc.Version, (byte)enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
+        var origin = new EvolutionOrigin(enc.Species, enc.Version, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
         int count = EvolutionChain.GetOriginChain(chain, pk, origin);
-        for (int i = 0; i < count; i++)
-        {
-            if (chain[i].Species != enc.Species)
-                continue;
-            count = i;
-            break;
-        }
         var evos = chain[..count].ToArray();
         var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);
         foreach (var incense in other)

@@ -10,7 +10,7 @@ public interface IBattleVersion
     /// <summary>
     /// Indicates which <see cref="GameVersion"/> the Pokémon's moves were reset on.
     /// </summary>
-    byte BattleVersion { get; set; }
+    GameVersion BattleVersion { get; set; }
 }
 
 public static class BattleVersionExtensions
@@ -21,7 +21,7 @@ public static class BattleVersionExtensions
     public static bool IsBattleVersionValid<T>(this T pk, EvolutionHistory h) where T : PKM, IBattleVersion => pk.BattleVersion switch
     {
         0 => true,
-        (int)GameVersion.SW or (int)GameVersion.SH => h.HasVisitedSWSH && LocationsHOME.GetVersionSWSH(pk.Version) is not ((int)GameVersion.SW or (int)GameVersion.SH),
+        GameVersion.SW or GameVersion.SH => h.HasVisitedSWSH && LocationsHOME.GetVersionSWSH(pk.Version) is not (GameVersion.SW or GameVersion.SH),
         _ => false,
     };
 
@@ -42,7 +42,7 @@ public static class BattleVersionExtensions
         source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
         pk.SetMoves(moves);
         pk.FixMoves();
-        v.BattleVersion = (byte)version;
+        v.BattleVersion = version;
     }
 
     /// <summary>
@@ -50,13 +50,12 @@ public static class BattleVersionExtensions
     /// </summary>
     public static int GetMinGeneration(this IBattleVersion v)
     {
-        var ver = v.BattleVersion;
-        if (ver == 0)
+        var version = v.BattleVersion;
+        if (version == 0)
             return 1;
-        var game = (GameVersion) ver;
-        if (!game.IsValidSavedVersion())
+        if (!version.IsValidSavedVersion())
             return -1;
-        var gen = game.GetGeneration();
+        var gen = version.GetGeneration();
         if (gen >= 8)
             return gen;
         return -1;

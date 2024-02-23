@@ -15,11 +15,11 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
     public WR7() : this(new byte[Size]) { }
 
     public const int Size = 0x140;
-    public override int Generation => 7;
+    public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
     public override bool FatefulEncounter => true;
 
-    public override GameVersion Version { get => GameVersion.GG; set { } }
+    public override GameVersion Version => GameVersion.GG;
 
     public override AbilityPermission Ability => AbilityPermission.Any12H; // undefined
 
@@ -84,13 +84,13 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
     public ushort ItemSet6Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x124)); set => WriteUInt16LittleEndian(Data.AsSpan(0x124), value); }
     public ushort ItemSet6Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x126)); set => WriteUInt16LittleEndian(Data.AsSpan(0x126), value); }
 
-    public override int Gender { get; set; }
+    public override byte Gender { get; set; }
     public override byte Form { get; set; }
     public override uint ID32 { get; set; }
     public override ushort TID16 { get; set; }
     public override ushort SID16 { get; set; }
 
-    public override string OT_Name
+    public override string OriginalTrainerName
     {
         get => StringConverter8.GetString(Data.AsSpan(0x120, 0x1A));
         set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value, 12, StringConverterOption.ClearZero);
@@ -108,11 +108,11 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
     protected override bool IsMatchPartial(PKM pk) => false;
     public override Shiny Shiny => Shiny.Never;
 
-    public override int Location { get; set; }
-    public override int EggLocation { get; set; }
-    public override int Ball { get; set; } = 4;
+    public override ushort Location { get; set; }
+    public override ushort EggLocation { get; set; }
+    public override byte Ball { get; set; } = 4;
 
-    public override string CardTitle { get => $"{nameof(WB7)} Record ({OT_Name}) [{LanguageReceived}]"; set { } }
+    public override string CardTitle { get => $"{nameof(WB7)} Record ({OriginalTrainerName}) [{LanguageReceived}]"; set { } }
 
     public override bool IsItem
     {
@@ -143,11 +143,11 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
         // we'll just generate something as close as we can, since we must return something!
         var pk = new PB7();
         tr.ApplyTo(pk);
-        if (!GameVersion.GG.Contains((GameVersion) tr.Game))
-            pk.Version = (int) GameVersion.GP;
+        if (!GameVersion.GG.Contains(tr.Version))
+            pk.Version = GameVersion.GP;
 
         pk.Species = Species;
-        pk.Met_Level = pk.CurrentLevel = Level;
+        pk.MetLevel = pk.CurrentLevel = Level;
         pk.MetDate = Date;
 
         return pk; // can't really do much more, just return the rough data

@@ -186,10 +186,10 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int MaxAbilityID => Legal.MaxAbilityID_3;
     public override int MaxBallID => Legal.MaxBallID_3;
     public override int MaxItemID => Legal.MaxItemID_3_XD;
-    public override int MaxGameID => Legal.MaxGameID_3;
+    public override GameVersion MaxGameID => Legal.MaxGameID_3;
 
     public override int MaxEV => EffortValues.Max255;
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 7;
@@ -320,13 +320,13 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     }
 
     // Trainer Info
-    public override GameVersion Version { get => GameVersion.XD; protected set { } }
+    public override GameVersion Version { get => GameVersion.XD; set { } }
     public override string OT { get => GetString(Data.AsSpan(Trainer1 + 0x00, 20)); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value, 10, StringConverterOption.ClearZero); }
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), value); }
 
-    public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
+    public override byte Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = value; }
     public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4), value); }
     public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E8)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E8), value); }
 

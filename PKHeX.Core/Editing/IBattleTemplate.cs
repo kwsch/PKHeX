@@ -18,7 +18,7 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamaxReadOnly, IDynamaxLe
     /// <summary>
     /// <see cref="PKM.Gender"/> name of the Set entity.
     /// </summary>
-    int Gender { get; }
+    byte? Gender { get; }
 
     /// <summary>
     /// <see cref="PKM.HeldItem"/> of the Set entity.
@@ -33,7 +33,7 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamaxReadOnly, IDynamaxLe
     /// <summary>
     /// <see cref="PKM.CurrentLevel"/> of the Set entity.
     /// </summary>
-    int Level { get; }
+    byte Level { get; }
 
     /// <summary>
     /// <see cref="PKM.CurrentLevel"/> of the Set entity.
@@ -43,7 +43,7 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamaxReadOnly, IDynamaxLe
     /// <summary>
     /// <see cref="PKM.CurrentFriendship"/> of the Set entity.
     /// </summary>
-    int Friendship { get; }
+    byte Friendship { get; }
 
     /// <summary>
     /// <see cref="PKM.Form"/> name of the Set entity, stored in PKHeX style (instead of Showdown's)

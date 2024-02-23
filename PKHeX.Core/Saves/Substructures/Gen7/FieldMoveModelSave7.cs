@@ -3,11 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class FieldMoveModelSave7 : SaveBlock<SAV7>
+public sealed class FieldMoveModelSave7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset)
 {
-    public FieldMoveModelSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-    public FieldMoveModelSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
-
     //public int Unknown { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), (ushort)value); } // related to Ride Pokémon
     public float X { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x08), value); }
     public float Z { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x0C), value); }

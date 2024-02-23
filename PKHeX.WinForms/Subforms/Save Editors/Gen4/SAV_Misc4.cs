@@ -187,7 +187,7 @@ public partial class SAV_Misc4 : Form
         for (PoketchApp i = 0; i <= PoketchApp.Alarm_Clock; i++)
         {
             var name = i.ToString();
-            var title = $"{i:00} - {name}";
+            var title = $"{(int)i:00} - {name}";
             CB_CurrentApp.Items.Add(name);
             var value = s.GetPoketchAppUnlocked(i);
             CLB_Poketch.Items.Add(title, value);

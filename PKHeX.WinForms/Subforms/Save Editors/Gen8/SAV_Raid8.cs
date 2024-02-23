@@ -18,7 +18,7 @@ public partial class SAV_Raid8 : Form
         SAV = (SAV8SWSH)(Origin = sav).Clone();
         Raids = raidOrigin switch
         {
-            MaxRaidOrigin.Galar => SAV.Raid,
+            MaxRaidOrigin.Galar => SAV.RaidGalar,
             MaxRaidOrigin.IsleOfArmor => SAV.RaidArmor,
             MaxRaidOrigin.CrownTundra => SAV.RaidCrown,
             _ => throw new ArgumentOutOfRangeException($"Raid Origin {raidOrigin} is not valid for Sword and Shield")

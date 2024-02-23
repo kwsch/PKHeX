@@ -75,30 +75,51 @@ public partial class SAV_Underground : Form
         var trapsList = SAV.GetUGI_Traps();
         var treasuresList = SAV.GetUGI_Treasures();
 
+        var sphereCount = spheresList[MAX_SIZE..];
+        spheresList = spheresList[..MAX_SIZE];
+
         // Goods
         for (int i = 0; i < goodsList.Length; i++)
         {
-            DGV_UGGoods.Rows[i].Cells[0].Value = ugGoods[goodsList[i]];
+            var goods = goodsList[i];
+            if (goods >= ugGoods.Length)
+                goods = 0;
+            var cell = DGV_UGGoods.Rows[i].Cells;
+            cell[0].Value = ugGoods[goods];
         }
 
-        // Spheres (split in two, first 40 positions are the sphere type, last 40 are their size)
-        for (int i = 0; i < (spheresList.Length / 2); i++)
+        // Spheres
+        for (int i = 0; i < spheresList.Length; i++)
         {
-            var row = DGV_UGSpheres.Rows[i];
-            row.Cells[0].Value = ugSpheres[spheresList[i]];
-            row.Cells[1].Value = spheresList[i + MAX_SIZE].ToString();
+            var sphere = spheresList[i];
+            var count = sphereCount[i];
+            if (sphere >= ugSpheres.Length)
+                sphere = count = 0;
+
+            var cell = DGV_UGSpheres.Rows[i].Cells;
+            cell[0].Value = ugSpheres[sphere];
+            cell[1].Value = count;
         }
 
         // Traps
         for (int i = 0; i < trapsList.Length; i++)
         {
-            DGV_UGTraps.Rows[i].Cells[0].Value = ugTraps[trapsList[i]];
+            var trap = trapsList[i];
+            if (trap >= ugTraps.Length)
+                trap = 0;
+
+            var cell = DGV_UGTraps.Rows[i].Cells;
+            cell[0].Value = ugTraps[trap];
         }
 
         // Treasures
         for (int i = 0; i < treasuresList.Length; i++)
         {
-            DGV_UGTreasures.Rows[i].Cells[0].Value = ugTreasures[treasuresList[i]];
+            var treasure = treasuresList[i];
+            if (treasure >= ugTreasures.Length)
+                treasure = 0;
+            var cell = DGV_UGTreasures.Rows[i].Cells;
+            cell[0].Value = ugTreasures[treasure];
         }
     }
 
@@ -176,13 +197,13 @@ public partial class SAV_Underground : Form
 
     private void GetUGScores()
     {
-        U_PlayersMet.Value = SAV.UG_PlayersMet;
-        U_Gifts.Value = SAV.UG_Gifts;
-        U_Spheres.Value = SAV.UG_Spheres;
-        U_Fossils.Value = SAV.UG_Fossils;
-        U_TrapsA.Value = SAV.UG_TrapsAvoided;
-        U_TrapsT.Value = SAV.UG_TrapsTriggered;
-        U_Flags.Value = SAV.UG_Flags;
+        U_PlayersMet.Value = Math.Clamp(SAV.UG_PlayersMet, 0, U_PlayersMet.Maximum);
+        U_Gifts.Value = Math.Clamp(SAV.UG_Gifts, 0, U_Gifts.Maximum);
+        U_Spheres.Value = Math.Clamp(SAV.UG_Spheres, 0, U_Spheres.Maximum);
+        U_Fossils.Value = Math.Clamp(SAV.UG_Fossils, 0, U_Fossils.Maximum);
+        U_TrapsA.Value = Math.Clamp(SAV.UG_TrapsAvoided, 0, U_TrapsA.Maximum);
+        U_TrapsT.Value = Math.Clamp(SAV.UG_TrapsTriggered, 0, U_TrapsT.Maximum);
+        U_Flags.Value = Math.Clamp(SAV.UG_Flags, 0, U_Flags.Maximum);
     }
 
     private void SetUGScores()

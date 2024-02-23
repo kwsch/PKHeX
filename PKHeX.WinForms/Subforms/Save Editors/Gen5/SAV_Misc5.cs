@@ -583,7 +583,7 @@ public partial class SAV_Misc5 : Form
         }
         else if (sender == CB_Gender)
         {
-            CurrentSlot.Gender = WinFormsUtil.GetIndex(CB_Gender);
+            CurrentSlot.Gender = (byte)WinFormsUtil.GetIndex(CB_Gender);
         }
         else if (sender == CB_Form)
         {
@@ -761,13 +761,6 @@ public partial class SAV_Misc5 : Form
         sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
     }
 
-    private void B_UnlockAllMusicalProps_Click(object sender, EventArgs e)
-    {
-        SAV.Musical.UnlockAllMusicalProps();
-        B_UnlockAllMusicalProps.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
-    }
-
     private const string ForestCityBinFilter = "Forest City Bin|*.fc5";
     private const string ForestCityBinPath = "{0}.fc5";
 
@@ -904,6 +897,7 @@ public partial class SAV_Misc5 : Form
     private void B_UnlockAllProps_Click(object sender, EventArgs e)
     {
         SAV.Musical.UnlockAllMusicalProps();
+        B_UnlockAllProps.Enabled = false;
         System.Media.SystemSounds.Asterisk.Play();
     }
 }

@@ -35,7 +35,7 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
             yield return enc.Encounter;
     }
 
-    private const int Generation = 2;
+    private const byte Generation = 2;
     private const EntityContext Context = EntityContext.Gen2;
     private const byte EggLevel = 5;
 

@@ -48,6 +48,8 @@ public static class MessageStrings
     #region Main Window
 
     public static string MsgFileLoad { get; set; } = "File Loaded:";
+    public static string MsgFileLoadAllZero { get; set; } = "File is uninitialized (all zero). Please ensure it was properly saved.";
+    public static string MsgFileLoadAllFFFF { get; set; } = "File is uninitialized (all 0xFF). Please ensure it was properly saved.";
     public static string MsgFileLoadFail { get; set; } = "Unable to load file.";
     public static string MsgFileLoadFailAuto { get; set; } = "An error occurred while attempting to auto-load your save file.";
     public static string MsgFileLoadFailAutoAdvise { get; set; } = "It is advised to manually remove bad filenames from the folder.";

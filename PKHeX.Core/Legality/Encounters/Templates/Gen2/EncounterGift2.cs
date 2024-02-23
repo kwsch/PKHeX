@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,13 +8,13 @@ namespace PKHeX.Core;
 public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Version = GameVersion.GS)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IFixedGBLanguage, IHatchCycle, IMoveset, IFixedIVSet
 {
-    public int Generation => 2;
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public byte Form => 0;
 
     public Ball FixedBall => Ball.Poke;
-    int ILocation.Location => Location;
-    public int EggLocation => 0;
+    ushort ILocation.Location => Location;
+    public ushort EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
 
@@ -32,9 +31,9 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
     public EncounterGBLanguage Language { get; init; } = EncounterGBLanguage.Japanese;
 
     /// <summary> Trainer name for the event. </summary>
-    public string OT_Name { get; init; } = string.Empty;
+    public string OriginalTrainerName { get; init; } = string.Empty;
 
-    public IReadOnlyList<string> OT_Names { get; init; } = [];
+    public ReadOnlyMemory<string> TrainerNames { get; init; }
 
     private const ushort UnspecifiedID = 0;
 
@@ -43,7 +42,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     public bool IsGift => TID16 != UnspecifiedID;
 
-    public sbyte CurrentLevel { get; init; } = -1;
+    public byte CurrentLevel { get; init; }
 
     public byte EggCycles { get; init; }
 
@@ -55,18 +54,18 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = GetTemplateLanguage(tr);
         var pi = PersonalTable.C[Species];
         var pk = new PK2
         {
             Species = Species,
-            CurrentLevel = CurrentLevel == -1 ? LevelMin : CurrentLevel,
+            CurrentLevel = CurrentLevel == 0 ? LevelMin : CurrentLevel,
 
             TID16 = TID16 != UnspecifiedID ? TID16 : tr.TID16,
-            OT_Name = GetInitialOT(tr),
+            OriginalTrainerName = GetInitialOT(tr),
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -74,13 +73,13 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (EggEncounter)
         {
         }
-        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Game == (int)GameVersion.C))
+        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Version == GameVersion.C))
         {
             if (!IsGift)
-                pk.OT_Gender = tr.Gender;
-            pk.Met_Level = LevelMin;
-            pk.Met_Location = Location;
-            pk.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+                pk.OriginalTrainerGender = tr.Gender;
+            pk.MetLevel = LevelMin;
+            pk.MetLocation = Location;
+            pk.MetTimeOfDay = EncounterTime.Any.RandomValidTime();
         }
 
         if (Shiny == Shiny.Always)
@@ -89,7 +88,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         if (IVs.IsSpecified)
             criteria.SetRandomIVs(pk, IVs);
@@ -116,10 +115,10 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     private string GetInitialOT(ITrainerInfo tr)
     {
-        if (OT_Name.Length != 0)
-            return OT_Name;
-        if (OT_Names.Count != 0)
-            return OT_Names[Util.Rand.Next(OT_Names.Count)];
+        if (OriginalTrainerName.Length != 0)
+            return OriginalTrainerName;
+        if (TrainerNames.Length != 0)
+            return TrainerNames.Span[Util.Rand.Next(TrainerNames.Length)];
         return tr.OT;
     }
 
@@ -156,7 +155,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Language != EncounterGBLanguage.Any && pk.Japanese != (Language == EncounterGBLanguage.Japanese))
             return false;
 
-        if (CurrentLevel != -1 && CurrentLevel > pk.CurrentLevel)
+        if (CurrentLevel != 0 && CurrentLevel > pk.CurrentLevel)
             return false;
 
         // EC/PID check doesn't exist for these, so check Shiny state here.
@@ -170,14 +169,14 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (TID16 != UnspecifiedID && pk.TID16 != TID16)
             return false;
 
-        if (OT_Name.Length != 0)
+        if (OriginalTrainerName.Length != 0)
         {
-            if (pk.OT_Name != OT_Name)
+            if (pk.OriginalTrainerName != OriginalTrainerName)
                 return false;
         }
-        else if (OT_Names.Count != 0)
+        else if (TrainerNames.Length != 0)
         {
-            if (!OT_Names.Contains(pk.OT_Name))
+            if (!TrainerNames.Span.Contains(pk.OriginalTrainerName))
                 return false;
         }
 
@@ -189,28 +188,28 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (pk is not ICaughtData2 c2)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.Egg_Location == expect;
+            return pk.EggLocation == expect;
         }
 
         if (pk.IsEgg)
         {
             if (!EggEncounter)
                 return false;
-            if (c2.Met_Location != 0 && c2.Met_Level != 0)
+            if (c2.MetLocation != 0 && c2.MetLevel != 0)
                 return false;
-            if (pk.OT_Friendship > EggCycles)
+            if (pk.OriginalTrainerFriendship > EggCycles)
                 return false;
         }
         else
         {
-            switch (c2.Met_Level)
+            switch (c2.MetLevel)
             {
-                case 0 when c2.Met_Location != 0:
+                case 0 when c2.MetLocation != 0:
                     return false;
                 case 1: // 0 = second floor of every Pokémon Center, valid
                     return true;
                 default:
-                    if (pk.Met_Location == 0 && c2.Met_Level != 0)
+                    if (pk.MetLocation == 0 && c2.MetLevel != 0)
                         return false;
                     break;
             }
@@ -229,7 +228,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Version is GameVersion.C or GameVersion.GSC)
         {
             if (c2.CaughtData is not 0)
-                return Location == pk.Met_Location;
+                return Location == pk.MetLocation;
             if (pk.Species == (int)Core.Species.Celebi)
                 return false; // Cannot reset the Met data
         }
@@ -248,7 +247,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (evo.LevelMax < Level)
             return false;
         if (pk is ICaughtData2 { CaughtData: not 0 })
-            return pk.Met_Level == (EggEncounter ? 1 : Level);
+            return pk.MetLevel == (EggEncounter ? 1 : Level);
         return true;
     }
 
