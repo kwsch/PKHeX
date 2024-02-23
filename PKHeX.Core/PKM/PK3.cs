@@ -309,9 +309,10 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         nickTrash[..destOT.Length].CopyTo(destOT);
         pk4.OriginalTrainerName = OriginalTrainerName;
 
-        if (HeldItem > 0)
+        var item = (ushort)HeldItem;
+        if (item != 0)
         {
-            ushort item = ItemConverter.GetItemFuture3((ushort)HeldItem);
+            item = ItemConverter.GetItemFuture3(item);
             if (ItemConverter.IsItemTransferable34(item))
                 pk4.HeldItem = item;
         }

@@ -226,22 +226,6 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
                 return count < formIn;
         }
     }
-
-    public ushort GetSpecies(ushort species, byte form)
-    {
-        if (form <= 0)
-            return species;
-        var fc = SAV.Personal[species].FormCount;
-        if (fc <= 1)
-            return species;
-
-        // actually has forms
-        int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
-        if (f >= 0) // bit index valid
-            return (ushort)(f + form + 1);
-
-        return species;
-    }
 }
 
 public enum DexSizeType

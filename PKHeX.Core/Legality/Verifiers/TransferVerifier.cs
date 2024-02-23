@@ -190,7 +190,7 @@ public sealed class TransferVerifier : Verifier
         // Can't validate the actual values (we aren't the server), so we can only check against zero.
         if (pk is IHomeTrack { HasTracker: false })
         {
-            data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
+            data.AddLine(Get(LTransferTrackerMissing, ParseSettings.HOMETransferTrackerNotPresent));
             // To the reader: It seems like the best course of action for setting a tracker is:
             // - Transfer a 0-Tracker pk to HOME to get assigned a valid Tracker
             // - Don't make one up.

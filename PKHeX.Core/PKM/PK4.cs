@@ -298,10 +298,8 @@ public sealed class PK4 : G4PKM
 
     public RK4 ConvertToRK4()
     {
-        byte[] data = Data.AsSpan(0, PokeCrypto.SIZE_4RSTORED).ToArray();
-        for (int i = PokeCrypto.SIZE_4STORED; i < PokeCrypto.SIZE_4RSTORED; i++)
-            data[i] = 0;
-
+        var data = new byte[PokeCrypto.SIZE_4STORED];
+        Data.AsSpan(0, PokeCrypto.SIZE_4RSTORED).CopyTo(data);
         var rk4 = new RK4(data) { OwnershipType = RanchOwnershipType.Hayley };
 
         rk4.RefreshChecksum();
@@ -311,7 +309,7 @@ public sealed class PK4 : G4PKM
     public PK5 ConvertToPK5()
     {
         // Double Check Location Data to see if we're already a PK5
-        if (Data[0x5F] < 0x10 && ReadUInt16LittleEndian(Data.AsSpan(0x80)) > 0x4000)
+        if (Version <= GameVersion.CXD && MetLocationDP > 0x4000)
             return new PK5(Data);
 
         PK5 pk5 = new(Data.AsSpan(0, PokeCrypto.SIZE_5PARTY).ToArray()) // Convert away!
@@ -354,8 +352,8 @@ public sealed class PK4 : G4PKM
         pk5.Ball = Ball;
 
         // Transfer Nickname and OT Name, update encoding
-        pk5.Nickname = Nickname;
-        pk5.OriginalTrainerName = OriginalTrainerName;
+        TransferTrash(NicknameTrash, pk5.NicknameTrash);
+        TransferTrash(OriginalTrainerTrash, pk5.OriginalTrainerTrash);
 
         // Fix Level
         pk5.MetLevel = pk5.CurrentLevel;
@@ -376,5 +374,12 @@ public sealed class PK4 : G4PKM
 
         pk5.RefreshChecksum();
         return pk5;
+    }
+
+    public static void TransferTrash(ReadOnlySpan<byte> src, Span<byte> dest)
+    {
+        Span<char> temp = stackalloc char[13];
+        var len = StringConverter4.LoadString(src, temp);
+        StringConverter5.SetString(dest, temp[..len], len);
     }
 }

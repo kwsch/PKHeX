@@ -433,7 +433,7 @@ public static class LegalityCheckStrings
     public static string LPIDGenderMismatch { get; set; } = "PID-Gender mismatch.";
     public static string LPIDNatureMatch { get; set; } = "Nature matches PID.";
     public static string LPIDNatureMismatch { get; set; } = "PID-Nature mismatch.";
-    public static string LPIDTypeMismatch { get; set; } = "Encounter Type PID mismatch.";
+    public static string LPIDTypeMismatch { get; set; } = "PID+ correlation does not match what was expected for the Encounter's type.";
     public static string LPIDZero { get; set; } = "PID is not set.";
 
     public static string LPokerusDaysTooHigh_0 { get; set; } = "Pokérus Days Remaining value is too high; expected <= {0}.";
