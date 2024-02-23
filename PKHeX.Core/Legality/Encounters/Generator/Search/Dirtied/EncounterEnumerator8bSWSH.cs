@@ -17,7 +17,7 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    private int met;
+    private ushort met;
     private bool hasOriginalLocation;
     private bool mustBeWild;
     readonly object IEnumerator.Current => Current;
@@ -152,23 +152,23 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
         return false;
     }
 
-    private readonly bool WasBredEggBDSP() => Entity.Met_Level == EggStateLegality.EggMetLevel && Entity.Egg_Location switch
+    private readonly bool WasBredEggBDSP() => Entity.MetLevel == EggStateLegality.EggMetLevel && Entity.EggLocation switch
     {
         LocationsHOME.SWSHEgg => true, // Regular hatch location (not link trade)
-        LocationsHOME.SWBD => Entity.Met_Location == LocationsHOME.SWBD, // Link Trade transferred over must match Met Location
-        LocationsHOME.SHSP => Entity.Met_Location == LocationsHOME.SHSP, // Link Trade transferred over must match Met Location
+        LocationsHOME.SWBD => Entity.MetLocation == LocationsHOME.SWBD, // Link Trade transferred over must match Met Location
+        LocationsHOME.SHSP => Entity.MetLocation == LocationsHOME.SHSP, // Link Trade transferred over must match Met Location
         _ => false,
     };
 
     private void InitializeWildLocationInfo()
     {
         mustBeWild = Entity.Ball == (byte)Ball.Safari;
-        met = Entity.Met_Location;
+        met = Entity.MetLocation;
         var location = met;
         var remap = LocationsHOME.GetRemapState(EntityContext.Gen8b, Entity.Context);
         hasOriginalLocation = true;
         if (remap.HasFlag(LocationRemapState.Remapped))
-            hasOriginalLocation = location != LocationsHOME.GetMetSWSH((ushort)location, (int)Version);
+            hasOriginalLocation = location != LocationsHOME.GetMetSWSH(location, Version);
     }
 
     private bool TryGetNext<TArea, TSlot>(TArea[] areas)

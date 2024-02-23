@@ -29,16 +29,16 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 4];
-        set => Data[Offset + 4] = (byte)value;
+        set => Data[Offset + 4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 5];
-        set => Data[Offset + 5] = OverworldGender = (byte)value;
+        set => Data[Offset + 5] = OverworldGender = value;
     }
 
     public const int GameSyncIDSize = 16; // 8 bytes
@@ -61,12 +61,12 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
         set => Data[Offset + 0x35] = (byte)value;
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x38, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 0x38, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     // The value here corresponds to a Trainer Class string (ranging from 000 to 383, use pkNX to get a full list).

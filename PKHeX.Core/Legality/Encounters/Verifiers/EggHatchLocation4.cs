@@ -16,7 +16,7 @@ public static class EggHatchLocation4
     /// <summary>
     /// Returns true if the hatch location is valid for the specified Generation 4 game.
     /// </summary>
-    public static bool IsValidMet4(int location, GameVersion game) => game switch
+    public static bool IsValidMet4(ushort location, GameVersion game) => game switch
     {
         D or P => IsValidMet4DP(location),
         Pt => IsValidMet4Pt(location),
@@ -27,24 +27,24 @@ public static class EggHatchLocation4
     /// <summary>
     /// Returns true if the hatch location is valid for Diamond and Pearl.
     /// </summary>
-    public static bool IsValidMet4DP(int location) => HasLocationFlag(LocationPermitted4, MaskDP, location);
+    public static bool IsValidMet4DP(ushort location) => HasLocationFlag(LocationPermitted4, MaskDP, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for Platinum.
     /// </summary>
-    public static bool IsValidMet4Pt(int location) => HasLocationFlag(LocationPermitted4, MaskPt, location);
+    public static bool IsValidMet4Pt(ushort location) => HasLocationFlag(LocationPermitted4, MaskPt, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for HeartGold and SoulSilver.
     /// </summary>
-    public static bool IsValidMet4HGSS(int location) => HasLocationFlag(LocationPermitted4, MaskHGSS, location);
+    public static bool IsValidMet4HGSS(ushort location) => HasLocationFlag(LocationPermitted4, MaskHGSS, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for any Generation 4 game.
     /// </summary>
-    public static bool IsValidMet4Any(int location) => HasLocationFlag(LocationPermitted4, MaskAll4, location);
+    public static bool IsValidMet4Any(ushort location) => HasLocationFlag(LocationPermitted4, MaskAll4, location);
 
-    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
+    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, ushort location)
     {
         if ((uint)location >= arr.Length)
             return false;

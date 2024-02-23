@@ -22,7 +22,7 @@ public static class BallApplicator
         var clone = pk.Clone();
         foreach (var b in BallList)
         {
-            var ball = (int)b;
+            var ball = (byte)b;
             clone.Ball = ball;
             if (clone.Ball != ball)
                 continue; // Some setters guard against out of bounds values.
@@ -38,7 +38,7 @@ public static class BallApplicator
     /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
     /// </remarks>
     /// <param name="pk">Pokémon to modify.</param>
-    public static int ApplyBallLegalRandom(PKM pk)
+    public static byte ApplyBallLegalRandom(PKM pk)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
         var count = GetBallListFromColor(pk, balls);
@@ -54,7 +54,7 @@ public static class BallApplicator
     /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
     /// </remarks>
     /// <param name="pk">Pokémon to modify.</param>
-    public static int ApplyBallLegalByColor(PKM pk)
+    public static byte ApplyBallLegalByColor(PKM pk)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
         GetBallListFromColor(pk, balls);
@@ -65,20 +65,20 @@ public static class BallApplicator
     /// Applies a random ball value in a cyclical manner.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    public static int ApplyBallNext(PKM pk)
+    public static byte ApplyBallNext(PKM pk)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
         GetBallList(pk.Ball, balls);
         var next = balls[0];
-        return pk.Ball = (int)next;
+        return pk.Ball = (byte)next;
     }
 
-    private static int ApplyFirstLegalBall(PKM pk, ReadOnlySpan<Ball> balls)
+    private static byte ApplyFirstLegalBall(PKM pk, ReadOnlySpan<Ball> balls)
     {
         var initial = pk.Ball;
         foreach (var b in balls)
         {
-            var test = (int)b;
+            var test = (byte)b;
             pk.Ball = test;
             if (new LegalityAnalysis(pk).Valid)
                 return test;
@@ -86,7 +86,7 @@ public static class BallApplicator
         return initial; // fail, revert
     }
 
-    private static int GetBallList(int ball, Span<Ball> result)
+    private static int GetBallList(byte ball, Span<Ball> result)
     {
         var balls = BallList;
         var currentBall = (Ball)ball;

@@ -27,6 +27,6 @@ public static partial class Extensions
             return level == encounter.LevelMin;
         if (encounter is MysteryGift g)
             return level == g.Level;
-        return level == pk.Met_Level;
+        return level == pk.MetLevel;
     }
 }

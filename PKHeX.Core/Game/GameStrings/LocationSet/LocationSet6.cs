@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Generation 5+ specific met location name holder.
+/// </summary>
+/// <remarks>Multi-segment, large gaps.</remarks>
 public sealed record LocationSet6(string[] Met0, string[] Met3, string[] Met4, string[] Met6) : ILocationSet
 {
     public ReadOnlySpan<string> GetLocationNames(int bankID) => bankID switch
@@ -22,7 +26,7 @@ public sealed record LocationSet6(string[] Met0, string[] Met3, string[] Met4, s
         _ => Get(Met0, locationID),
     };
 
-    private static string Get(string[] names, int index)
+    private static string Get(ReadOnlySpan<string> names, int index)
     {
         if ((uint)index >= names.Length)
             return string.Empty;

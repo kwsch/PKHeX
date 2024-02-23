@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <param name="LevelMin">Minimum level the encounter originated at</param>
 /// <param name="LevelMax">Maximum level in final state</param>
 /// <param name="Options">Options to toggle logic when using this data</param>
-public readonly record struct EvolutionOrigin(ushort Species, byte Version, byte Generation, byte LevelMin, byte LevelMax, OriginOptions Options = 0)
+public readonly record struct EvolutionOrigin(ushort Species, GameVersion Version, byte Generation, byte LevelMin, byte LevelMax, OriginOptions Options = 0)
 {
     /// <summary>
     /// Checks if evolution checks against the Entity should be skipped when devolving or devolving.
@@ -21,7 +21,7 @@ public readonly record struct EvolutionOrigin(ushort Species, byte Version, byte
     /// <summary>
     /// Internally used to enforce Gen1 origin encounters NOT jumping to Gen2 to continue devolving.
     /// </summary>
-    public bool IsDiscardRequired(int format) => format <= 2 && Options.HasFlag(OriginOptions.ForceDiscard);
+    public bool IsDiscardRequired(byte format) => format <= 2 && Options.HasFlag(OriginOptions.ForceDiscard);
 }
 
 [Flags]

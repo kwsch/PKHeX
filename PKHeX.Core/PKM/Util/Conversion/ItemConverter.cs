@@ -41,7 +41,9 @@ public static class ItemConverter
         if (item == NaN)
             return 0;
         int index = Item3to4.IndexOf(item);
-        return (ushort)Math.Max(0, index);
+        if (index == -1)
+            return 0;
+        return (ushort)index;
     }
 
     /// <summary>
@@ -54,7 +56,9 @@ public static class ItemConverter
         if (item == NaN)
             return 0;
         int index = Item2to4.IndexOf(item);
-        return (byte)Math.Max(0, index);
+        if (index == -1)
+            return 0;
+        return (byte)index;
     }
 
     #region Item Mapping Tables
@@ -139,7 +143,7 @@ public static class ItemConverter
     /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</br>
     /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/data/items/catch_rate_items.asm#L5-L17</br>
     /// </remarks>
-    private static int GetTeruSamaItem(byte value) => value switch
+    private static byte GetTeruSamaItem(byte value) => value switch
     {
         0x19 => 0x92, // Leftovers
         0x2D => 0x53, // Bitter Berry
@@ -153,7 +157,7 @@ public static class ItemConverter
     /// </summary>
     /// <param name="value">Gen1 Item</param>
     /// <returns>Gen2 Item</returns>
-    public static int GetItemFuture1(byte value)
+    public static byte GetItemFuture1(byte value)
     {
         if (!IsItemTransferable12(value))
             return GetTeruSamaItem(value);
@@ -208,7 +212,7 @@ public static class ItemConverter
     /// <param name="item">Item ID</param>
     /// <param name="generation">Generation the <see cref="item"/> exists in</param>
     /// <returns>True if is an HM</returns>
-    public static bool IsItemHM(ushort item, int generation) => generation switch
+    public static bool IsItemHM(ushort item, byte generation) => generation switch
     {
         1 => item is (>= 196 and <= 200),
         2 => item is (>= 243 and <= 249),

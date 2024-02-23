@@ -13,14 +13,14 @@ public static class EggHatchLocation9
     /// <summary>
     /// Returns true if the hatch location is valid for Scarlet.
     /// </summary>
-    public static bool IsValidMet9SL(int location) => HasLocationFlag(LocationPermitted9, MaskScarlet, location);
+    public static bool IsValidMet9SL(ushort location) => HasLocationFlag(LocationPermitted9, MaskScarlet, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for Violet.
     /// </summary>
-    public static bool IsValidMet9VL(int location) => HasLocationFlag(LocationPermitted9, MaskViolet, location);
+    public static bool IsValidMet9VL(ushort location) => HasLocationFlag(LocationPermitted9, MaskViolet, location);
 
-    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
+    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, ushort location)
     {
         if ((uint)location >= arr.Length)
             return false;

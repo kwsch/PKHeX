@@ -105,7 +105,7 @@ public partial class SAV_Trainer : Form
         // Get Data
         string OT_NAME = SAV.OT;
 
-        CB_Game.SelectedIndex = SAV.Game - 0x18;
+        CB_Game.SelectedIndex = (int)(SAV.Version - 0x18);
         CB_Gender.SelectedIndex = SAV.Gender;
 
         // Display Data
@@ -166,7 +166,7 @@ public partial class SAV_Trainer : Form
         {
             var xystat = (MyStatus6XY)xy.Status;
             PG_CurrentAppearance.SelectedObject = xystat.Fashion;
-            TB_TRNick.Text = xystat.OT_Nick;
+            TB_TRNick.Text = xystat.Nickname;
         }
 
         CB_Vivillon.SelectedIndex = SAV.Vivillon;
@@ -191,7 +191,7 @@ public partial class SAV_Trainer : Form
 
     private void Save()
     {
-        SAV.Game = (byte)(CB_Game.SelectedIndex + 0x18);
+        SAV.Version = (GameVersion)(CB_Game.SelectedIndex + 0x18);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.TID16 = (ushort)Util.ToUInt32(MT_TID.Text);
@@ -256,7 +256,7 @@ public partial class SAV_Trainer : Form
         {
             var xystat = (MyStatus6XY)xy.Status;
             xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject;
-            xystat.OT_Nick = TB_TRNick.Text;
+            xystat.Nickname = TB_TRNick.Text;
         }
 
         // Vivillon
@@ -308,8 +308,10 @@ public partial class SAV_Trainer : Form
     private void Change255(object sender, EventArgs e)
     {
         MaskedTextBox box = (MaskedTextBox)sender;
-        if (box.Text.Length == 0) box.Text = "0";
-        if (Util.ToInt32(box.Text) > 255) box.Text = "255";
+        if (box.Text.Length == 0)
+            box.Text = "0";
+        else if (Util.ToInt32(box.Text) > 255)
+            box.Text = "255";
     }
 
     private void ChangeFFFF(object sender, EventArgs e)

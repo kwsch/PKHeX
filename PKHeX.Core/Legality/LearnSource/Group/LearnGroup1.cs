@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LearnGroup1 : ILearnGroup
 {
     public static readonly LearnGroup1 Instance = new();
-    private const int Generation = 1;
+    private const byte Generation = 1;
     public ushort MaxMoveID => Legal.MaxMoveID_1;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => pk.Context switch

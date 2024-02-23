@@ -329,6 +329,6 @@ public sealed class SuperTrainingSpeciesRecord(byte[] Data, int Offset) : ISpeci
     {
         Species = pk.Species;
         Form = pk.Form;
-        Gender = (byte)pk.Gender;
+        Gender = pk.Gender;
     }
 }

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Object that can be fed to a <see cref="IEncounterConvertible"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
 /// </summary>
-public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbilityNumber, IShinyPotential
+public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShinyPotential
 {
     /// <summary>
     /// Default criteria with no restrictions (random) for all fields.
@@ -14,8 +14,8 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     public static readonly EncounterCriteria Unrestricted = new();
 
     /// <summary> End result's gender. </summary>
-    /// <remarks> Leave as -1 to not restrict gender. </remarks>
-    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
+    /// <remarks> Leave as null to not restrict gender. </remarks>
+    public byte? Gender { get; init; }
 
     /// <summary> End result's ability numbers permitted. </summary>
     /// <remarks> Leave as <see cref="Any12H"/> to not restrict ability. </remarks>
@@ -48,13 +48,23 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
 
     private const int RandomIV = -1;
 
+    public bool IsSpecifiedNature() => Nature != Nature.Random;
+    public bool IsSpecifiedTeraType() => TeraType != -1;
+
+    public bool IsSpecifiedIVs() => IV_HP != RandomIV
+                                && IV_ATK != RandomIV
+                                && IV_DEF != RandomIV
+                                && IV_SPA != RandomIV
+                                && IV_SPD != RandomIV
+                                && IV_SPE != RandomIV;
+
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
     /// </summary>
     /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is last!</param>
     /// <param name="generation">Destination generation</param>
     /// <returns>True if compatible, false if incompatible.</returns>
-    public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs, int generation)
+    public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs, byte generation)
     {
         var IVs = encounterIVs;
         if (!ivCanMatch(IV_HP , IVs[0])) return false;
@@ -91,7 +101,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     /// <returns>Initialized criteria data to be passed to generators.</returns>
     public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi) => new()
     {
-        Gender = (byte)s.Gender,
+        Gender = s.Gender,
         IV_HP = s.IVs[0],
         IV_ATK = s.IVs[1],
         IV_DEF = s.IVs[2],
@@ -147,26 +157,44 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     }
 
     /// <summary>
+    /// Indicates if the <see cref="Gender"/> is specified.
+    /// </summary>
+    public bool IsGenderSpecified => Gender != null;
+
+    /// <summary>
+    /// Indicates if the requested gender matches the criteria.
+    /// </summary>
+    public bool IsGenderSatisfied(byte gender) => !IsGenderSpecified || gender == Gender;
+
+    /// <summary>
     /// Gets the gender to generate, random if unspecified by the template or criteria.
     /// </summary>
-    public int GetGender(int gender, IGenderDetail pkPersonalInfo)
+    public byte GetGender(byte gender, IGenderDetail pkPersonalInfo)
     {
         if ((uint)gender < 3)
             return gender;
         return GetGender(pkPersonalInfo);
     }
 
+    /// <inheritdoc cref="GetGender(byte, IGenderDetail)"/>
+    public byte GetGender(Gender gender, IGenderDetail pkPersonalInfo)
+    {
+        if (gender == Core.Gender.Random)
+            return GetGender(pkPersonalInfo);
+        return (byte)gender;
+    }
+
     /// <summary>
     /// Gets the gender to generate, random if unspecified.
     /// </summary>
-    public int GetGender(IGenderDetail pkPersonalInfo)
+    public byte GetGender(IGenderDetail pkPersonalInfo)
     {
         if (!pkPersonalInfo.IsDualGender)
             return pkPersonalInfo.FixedGender();
         if (pkPersonalInfo.Genderless)
             return 2;
-        if (Gender is 0 or 1)
-            return Gender;
+        if (Gender is {  } request and (0 or 1))
+            return request;
         return pkPersonalInfo.RandomGender();
     }
 

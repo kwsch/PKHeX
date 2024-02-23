@@ -173,7 +173,7 @@ public static class PlayerFashionUnlock9
         return added;
     }
 
-    public static int UnlockBase(SCBlockAccessor acc, int gender)
+    public static int UnlockBase(SCBlockAccessor acc, byte gender)
     {
         int count = 0;
         count += Add(acc, KFashionUnlockedBag, Bag);

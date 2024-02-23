@@ -11,33 +11,33 @@ public sealed class ZukanSpinda8b : SaveBlock<SAV8BS>
 {
     public ZukanSpinda8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-    public uint GetSeen(int gender, bool shiny)
+    public uint GetSeen(byte gender, bool shiny)
     {
         var ofs = GetOffset(gender, shiny);
         return ReadUInt32LittleEndian(Data.AsSpan(Offset + ofs));
     }
 
-    public uint GetCaught(int gender, bool shiny)
+    public uint GetCaught(byte gender, bool shiny)
     {
         var ofs = GetOffset(gender, shiny);
         return ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10 + ofs));
     }
 
-    public void SetSeen(int gender, bool shiny, uint value)
+    public void SetSeen(byte gender, bool shiny, uint value)
     {
         var ofs = GetOffset(gender, shiny);
         WriteUInt32LittleEndian(Data.AsSpan(Offset + ofs), value);
     }
 
-    public void SetCaught(int gender, bool shiny, uint value)
+    public void SetCaught(byte gender, bool shiny, uint value)
     {
         var ofs = GetOffset(gender, shiny);
         WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10 + ofs), value);
     }
 
-    private static int GetOffset(int gender, bool shiny) => 4 * ((gender & 1) + (shiny ? 2 : 0));
+    private static int GetOffset(byte gender, bool shiny) => 4 * ((gender & 1) + (shiny ? 2 : 0));
 
-    public void SetDex(ZukanState8b state, uint ec, int gender, bool shiny)
+    public void SetDex(ZukanState8b state, uint ec, byte gender, bool shiny)
     {
         if (state < ZukanState8b.Seen) // not seen yet
             SetSeen(gender, shiny, ec);

@@ -146,10 +146,10 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     public override int MaxAbilityID => Legal.MaxAbilityID_3;
     public override int MaxBallID => Legal.MaxBallID_3;
     public override int MaxItemID => Legal.MaxItemID_3_COLO;
-    public override int MaxGameID => Legal.MaxGameID_3;
+    public override GameVersion MaxGameID => Legal.MaxGameID_3;
 
     public override int MaxEV => EffortValues.Max255;
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 10; // as evident by Mattle Ho-Oh
@@ -268,7 +268,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     }
 
     // Trainer Info
-    public override GameVersion Version { get => GameVersion.COLO; protected set { } }
+    public override GameVersion Version { get => GameVersion.COLO; set { } }
 
     // Storage
     public override int GetPartyOffset(int slot)
@@ -377,7 +377,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), value); }
 
-    public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
+    public override byte Gender { get => Data[0xAF8]; set => Data[0xAF8] = value; }
     public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(0xAFC)); set => WriteUInt32BigEndian(Data.AsSpan(0xAFC), value); }
     public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(0xB00)); set => WriteUInt32BigEndian(Data.AsSpan(0xB00), value); }
     public string RUI_Name { get => GetString(Data.AsSpan(0xB3A, 20)); set => SetString(Data.AsSpan(0xB3A, 20), value, 10, StringConverterOption.ClearZero); }

@@ -5,10 +5,10 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IContestStats : IContestStatsReadOnly
 {
-    new byte CNT_Cool   { get; set; }
-    new byte CNT_Beauty { get; set; }
-    new byte CNT_Cute   { get; set; }
-    new byte CNT_Smart  { get; set; }
-    new byte CNT_Tough  { get; set; }
-    new byte CNT_Sheen  { get; set; }
+    new byte ContestCool   { get; set; }
+    new byte ContestBeauty { get; set; }
+    new byte ContestCute   { get; set; }
+    new byte ContestSmart  { get; set; }
+    new byte ContestTough  { get; set; }
+    new byte ContestSheen  { get; set; }
 }

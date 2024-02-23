@@ -18,7 +18,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
     private YieldState State;
     private readonly PKM Entity;
     private readonly EvoCriteria[] Chain;
-    private readonly int met;
+    private readonly ushort met;
     private readonly bool hasOriginalMet;
     private readonly bool canOriginateCrystal;
 
@@ -31,7 +31,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
         {
             canOriginateCrystal = true;
             hasOriginalMet = true;
-            met = c2.Met_Location;
+            met = c2.MetLocation;
         }
         else
         {
@@ -116,7 +116,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.StaticC:
                 if (TryGetNext(Encounters2.StaticC))
                     return true;
-                if (hasOriginalMet || Entity.OT_Gender == 1)
+                if (hasOriginalMet || Entity.OriginalTrainerGender == 1)
                 { Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared; }
                 Index = 0; State = YieldState.StaticGD; goto case YieldState.StaticGD;
             case YieldState.StaticGD:
@@ -143,7 +143,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.SlotC:
                 if (TryGetNextLocation<EncounterArea2, EncounterSlot2>(Encounters2.SlotsC))
                     return true;
-                if (hasOriginalMet || Entity.OT_Gender == 1)
+                if (hasOriginalMet || Entity.OriginalTrainerGender == 1)
                 { Index = 0; goto case YieldState.SlotEnd; }
                 Index = 0; State = YieldState.SlotGD; goto case YieldState.SlotGD;
             case YieldState.SlotGD:

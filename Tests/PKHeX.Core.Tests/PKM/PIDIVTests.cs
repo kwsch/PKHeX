@@ -55,11 +55,11 @@ public class PIDIVTest
     {
         // Colosseum / XD
         var pk3 = new PK3 {PID = 0x0985A297, IVs = [06, 01, 00, 07, 17, 07]};
-        var (type, seed) = MethodFinder.Analyze(pk3);
-        type.Should().Be(PIDType.CXD);
+        var pv = MethodFinder.Analyze(pk3);
+        pv.Type.Should().Be(PIDType.CXD);
 
         var gk3 = new PK3();
-        PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, seed);
+        PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, pv.OriginSeed);
         gk3.PID.Should().Be(pk3.PID);
         gk3.IVs.SequenceEqual(pk3.IVs).Should().BeTrue();
     }
@@ -68,12 +68,12 @@ public class PIDIVTest
     public void PIDIVMatchingTest3MiscChannel()
     {
         // Channel Jirachi
-        var pkC = new PK3 {PID = 0x264750D9, IVs = [06, 31, 14, 27, 05, 27], SID16 = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
-        var (type, seed) = MethodFinder.Analyze(pkC);
-        type.Should().Be(PIDType.Channel);
+        var pkC = new PK3 {PID = 0x264750D9, IVs = [06, 31, 14, 27, 05, 27], SID16 = 45819, OriginalTrainerGender = 1, Version = GameVersion.R};
+        var pv = MethodFinder.Analyze(pkC);
+        pv.Type.Should().Be(PIDType.Channel);
 
         var gkC = new PK3();
-        PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, seed);
+        PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, pv.OriginSeed);
         gkC.PID.Should().Be(pkC.PID);
         gkC.IVs.SequenceEqual(pkC.IVs).Should().BeTrue();
     }
@@ -183,46 +183,6 @@ public class PIDIVTest
             MethodFinder.Analyze(pk).Type.Should().Be(PIDType.Pokewalker);
     }
 
-    [Fact]
-    public void PIDIVEncounterSlotTest()
-    {
-        // Modest Method 1
-        var pk = new PK3 {PID = 0x6937DA48, IVs = [31, 31, 31, 31, 31, 31]};
-        var pidiv = MethodFinder.Analyze(pk);
-        pidiv.Type.Should().Be(PIDType.Method_1);
-
-        // Test for Method J
-        {
-            // Pearl
-            pk.Version = (int) GameVersion.P;
-            var results = FrameFinder.GetFrames(pidiv, pk).ToArray();
-
-            var failSync = results.Where(z => z.Lead == LeadRequired.SynchronizeFail);
-            var noSync = results.Where(z => z.Lead == LeadRequired.None);
-            var sync = results.Where(z => z.Lead == LeadRequired.Synchronize);
-
-            failSync.Should().HaveCount(1);
-            sync.Should().HaveCount(37);
-            noSync.Should().HaveCount(2);
-
-            const SlotType type = SlotType.Grass;
-            Span<byte> slots = [ 0, 1, 2, 3, 4, 5, 6, 7, 9 ];
-            foreach (var slot in slots)
-                results.Any(z => z.GetSlot(type) == slot).Should().BeTrue("Required slot not present.");
-            var slotsForType = results
-                .Where(z => !z.LevelSlotModified).Select(z => z.GetSlot(type))
-                .Distinct();
-            foreach (var slot in slotsForType)
-                slots.Contains((byte)slot).Should().BeTrue();
-        }
-        // Test for Method H and K
-        {
-            // Sapphire
-            // pk.Version = (int)GameVersion.S;
-            // var results = FrameFinder.GetFrames(pidiv, pk);
-        }
-    }
-
     [Theory]
     [InlineData(0x00001234, 0x4DCB, 0xE161)]
     [InlineData(0x00005678, 0x734D, 0xC596)]
@@ -246,19 +206,17 @@ public class PIDIVTest
 
         // See if any origin seed for the IVs matches what we expect
         // Load the IVs
-        uint rand1 = 0; // HP/ATK/DEF
-        uint rand3 = 0; // SPE/SPA/SPD
-        var IVs = pk4.IVs;
-        for (int i = 0; i < 3; i++)
-        {
-            rand1 |= (uint)IVs[i] << (5 * i);
-            rand3 |= (uint)IVs[i+3] << (5 * i);
-        }
+        var iv32 = pk4.IV32;
+        uint rand1 = iv32 & 0x7FFF; // HP/ATK/DEF
+        uint rand3 = (iv32 >> 15) & 0x7FFF; // SPE/SPA/SPD
 
         Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
         int count = LCRNGReversalSkip.GetSeedsIVs(seeds, rand1 << 16, rand3 << 16);
+        // Seeds need to be unrolled twice to account for the 2 PID rolls before IVs.
+
         var reg = seeds[..count];
-        reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
+        var index = reg.IndexOf(LCRNG.Next2(0x48FBAA42u));
+        index.Should().NotBe(-1);
     }
 
     [Fact]

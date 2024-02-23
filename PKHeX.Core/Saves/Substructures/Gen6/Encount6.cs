@@ -118,7 +118,7 @@ public sealed class Roamer6(Memory<byte> Data)
     public bool Flag1 { get => SpecForm >> 14 != 0; set => SpecForm = (ushort)((SpecForm & 0xBFFF) | (value ? (1 << 14) : 0)); }
     public bool Flag2 { get => SpecForm >> 15 != 0; set => SpecForm = (ushort)((SpecForm & 0x7FFF) | (value ? (1 << 15) : 0)); }
 
-    public int CurrentLevel { get => Span[4]; set => Span[4] = (byte)value; }
+    public byte CurrentLevel { get => Span[4]; set => Span[4] = value; }
     private int Status { get => Span[7]; set => Span[7] = (byte)value; }
     public Roamer6State RoamStatus { get => (Roamer6State)((Status >> 4) & 0xF); set => Status = (Status & 0x0F) | (((int)value << 4) & 0xF0); }
 

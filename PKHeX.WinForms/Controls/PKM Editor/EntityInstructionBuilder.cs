@@ -36,7 +36,7 @@ public partial class EntityInstructionBuilder : UserControl
         if (currentFormat == CB_Format.SelectedIndex)
             return;
 
-        int format = CB_Format.SelectedIndex;
+        byte format = (byte)CB_Format.SelectedIndex;
         CB_Property.Items.Clear();
         CB_Property.Items.AddRange(BatchEditing.Properties[format]);
         CB_Property.SelectedIndex = 0;

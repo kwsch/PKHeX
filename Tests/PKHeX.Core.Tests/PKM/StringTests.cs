@@ -10,7 +10,7 @@ public class StringTests
     public void EncodesOTNameCorrectly()
     {
         const string name_fabian = "Fabian♂";
-        var pk = new PK7 { OT_Name = name_fabian };
+        var pk = new PK7 { OriginalTrainerName = name_fabian };
         Span<byte> byte_fabian =
         [
             0x46, 0x00, // F
@@ -22,7 +22,7 @@ public class StringTests
             0x8E, 0xE0, // ♂
             0x00, 0x00, // \0 terminator
         ];
-        CheckStringGetSet(nameof(pk.OT_Name), name_fabian, pk.OT_Name, byte_fabian, pk.OT_Trash);
+        CheckStringGetSet(nameof(pk.OriginalTrainerName), name_fabian, pk.OriginalTrainerName, byte_fabian, pk.OriginalTrainerTrash);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class StringTests
             0x40, 0x26, // ♀
             0x00, 0x00, // \0 terminator
         ];
-        CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.Nickname_Trash);
+        CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.NicknameTrash);
     }
 
     private static void CheckStringGetSet(string check, string instr, string outstr, ReadOnlySpan<byte> indata, ReadOnlySpan<byte> outdata)

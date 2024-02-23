@@ -12,40 +12,40 @@ public static class ValidityTests
     public static IEnumerable<object[]> Lock1()
     {
         // Zubat (F) (Serious)
-        yield return new object[] { Poochyena, 0xAF4E3161, new[] { 11, 29, 25, 6, 23, 10 } };
+        yield return [Poochyena, 0xAF4E3161, new[] { 11, 29, 25, 6, 23, 10 }];
 
         // Murkrow (M) (Docile)
-        yield return new object[] { Pineco, 0xC3A0F1E5, new[] { 30, 3, 9, 10, 27, 30 } };
+        yield return [Pineco, 0xC3A0F1E5, new[] { 30, 3, 9, 10, 27, 30 }];
     }
 
     public static IEnumerable<object[]> Lock2()
     {
         // Goldeen (F) (Serious)
         // Horsea (M) (Quirky)
-        yield return new object[] { Spheal, 0xA459BF44, new[] { 0, 11, 4, 28, 6, 13 } };
+        yield return [Spheal, 0xA459BF44, new[] { 0, 11, 4, 28, 6, 13 }];
 
         // Kirlia (M) (Hardy)
         // Linoone (F) (Hardy)
-        yield return new object[] { Natu, 0x8E14DAB6, new[] { 29, 24, 30, 16, 3, 18 } };
+        yield return [Natu, 0x8E14DAB6, new[] { 29, 24, 30, 16, 3, 18 }];
 
         // Remoraid (M) (Docile) -- 73DB58CC
         // Golbat (M) (Bashful) -- F6B04390
-        yield return new object[] { Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 } };
+        yield return [Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 }];
 
         // 519AEF0E
         // Duskull (M) (Quirky) -- 45BE3B97
         // Spinarak (F) (Hardy) -- E18F5A3E
-        yield return new object[] { ColoMakuhita, 0xC252FEBA, new[] { 15, 9, 17, 16, 24, 22 } };
+        yield return [ColoMakuhita, 0xC252FEBA, new[] { 15, 9, 17, 16, 24, 22 }];
 
         // 559C5F72 -- Quirky F => skip
         // Duskull (M) (Quirky) -- A5AC2CCB
         // Spinarak (F) (Hardy) -- D08FF135
-        yield return new object[] { ColoMakuhita, 0x61C676FC, new[] { 20, 28, 21, 18, 9, 1 } };
+        yield return [ColoMakuhita, 0x61C676FC, new[] { 20, 28, 21, 18, 9, 1 }];
 
         // 3CCB97BA -- Quirky F => skip * 2, Hardy Skip
         // Duskull (M) (Quirky) -- 7F0D6783 @ 161
         // Spinarak (F) (Hardy) -- 6C03F545 @ 182
-        yield return new object[] { ColoMakuhita, 0x3B27608D, new[] { 7, 12, 5, 19, 3, 7 } };
+        yield return [ColoMakuhita, 0x3B27608D, new[] { 7, 12, 5, 19, 3, 7 }];
     }
 
     public static IEnumerable<object[]> Lock3()
@@ -53,17 +53,17 @@ public static class ValidityTests
         // Luvdisc (F) (Docile)
         // Beautifly (M) (Hardy)
         // Roselia (M) (Quirky)
-        yield return new object[] { Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 } };
+        yield return [Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 }];
 
         // Kadabra (M) (Docile)
         // Sneasel (F) (Hardy)
         // Misdreavus (F) (Bashful)
-        yield return new object[] { Meowth, 0x77D87601, new[] { 10, 27, 26, 13, 30, 19 } };
+        yield return [Meowth, 0x77D87601, new[] { 10, 27, 26, 13, 30, 19 }];
 
         // Ralts (M) (Docile)
         // Voltorb (-) (Hardy)
         // Bagon (F) (Quirky)
-        yield return new object[] { Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 } };
+        yield return [Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 }];
     }
 
     public static IEnumerable<object[]> Lock4()
@@ -72,25 +72,25 @@ public static class ValidityTests
         // Jumpluff (M) (Docile)
         // Azumarill (F) (Hardy)
         // Shadow Tangela
-        yield return new object[] { Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 } };
+        yield return [Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 }];
 
         // Huntail (M) (Docile)
         // Cacturne (F) (Hardy)
         // Weezing (F) (Serious)
         // Ursaring (F) (Bashful)
-        yield return new object[] { Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 } };
+        yield return [Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 }];
 
         // Lairon (F) (Bashful)
         // Sealeo (F) (Serious)
         // Slowking (F) (Docile)
         // Ursaring (M) (Quirky)
-        yield return new object[] { Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 } };
+        yield return [Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 }];
     }
 
     public static IEnumerable<object[]> Lock5()
     {
         // many prior, all non-shadow
-        yield return new object[] { Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 } };
+        yield return [Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 }];
     }
 
     [Theory]
@@ -113,11 +113,11 @@ public static class PIDTests
 {
     public static IEnumerable<object[]> TestData()
     {
-        yield return new object[]
-        {
-            new[]
+        yield return
+        [
+            new uint[][]
             {
-                new uint[] {0xD118BA52, 0xA3127782, 0x16D95FA5, 0x31538B48},
+                [0xD118BA52, 0xA3127782, 0x16D95FA5, 0x31538B48],
                 [0x7D5FFE3E, 0x1D5720ED, 0xE0D89C99, 0x3494CDA1],
                 [0xAEB0C3A6, 0x956DC2FD, 0x3C11DCE8, 0xC93DF897],
                 [0xACCE2655, 0xFF2BA0A2, 0x22A8A7E6, 0x5F5380F4],
@@ -128,13 +128,13 @@ public static class PIDTests
                 [0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076],
                 [0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C],
             },
-            Delcatty,
-        };
-        yield return new object[]
-        {
-            new[]
+            Delcatty
+        ];
+        yield return
+        [
+            new uint[][]
             {
-                new uint[] {0x4D6BE487, 0xBB3EFBFB, 0x6FD7EE06, 0x289D435F, 0x0EC25CE5},
+                [0x4D6BE487, 0xBB3EFBFB, 0x6FD7EE06, 0x289D435F, 0x0EC25CE5],
                 [0xB04DF5B3, 0x661E499C, 0x94EB752D, 0xC5FA9DE5, 0x0A8C9738],
                 [0xCBB9A3B0, 0x9AC1A0B8, 0xCA3CAD46, 0x54FFCA27, 0x1D5AEC4F],
                 [0xB2AF145E, 0x455155C9, 0xB5CE4932, 0x4B8C6554, 0x55CE5E4B],
@@ -145,8 +145,8 @@ public static class PIDTests
                 [0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A],
                 [0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325],
             },
-            Butterfree,
-        };
+            Butterfree
+        ];
     }
 
     [Theory]

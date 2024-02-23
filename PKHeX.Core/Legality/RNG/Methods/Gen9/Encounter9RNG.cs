@@ -27,7 +27,7 @@ public static class Encounter9RNG
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
-            if (criteria.TeraType != -1 && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
+            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
                 pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
@@ -47,7 +47,7 @@ public static class Encounter9RNG
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
-            if (criteria.TeraType != -1 && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
+            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
                 pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
@@ -98,30 +98,30 @@ public static class Encounter9RNG
         pk.IV_SPD = ivs[4];
         pk.IV_SPE = ivs[5];
 
-        int abil = enc.Ability switch
+        int ability = enc.Ability switch
         {
             AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
             AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
             _ => (int)enc.Ability,
         };
-        pk.RefreshAbility(abil >> 1);
+        pk.RefreshAbility(ability >> 1);
 
         var gender_ratio = enc.GenderRatio;
-        int gender = gender_ratio switch
+        byte gender = gender_ratio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
             _ => GetGender(gender_ratio, rand.NextInt(100)),
         };
-        if (criteria.Gender != FixedGenderUtil.GenderRandom && gender != criteria.Gender)
+        if (!criteria.IsGenderSatisfied(gender))
             return false;
         pk.Gender = gender;
 
-        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
-                : (byte)rand.NextInt(25);
-        if (criteria.Nature != Nature.Random && nature != (int)criteria.Nature)
+                : (Nature)rand.NextInt(25);
+        if (criteria.Nature != Nature.Random && nature != criteria.Nature)
             return false;
         pk.Nature = pk.StatNature = nature;
 
@@ -182,7 +182,7 @@ public static class Encounter9RNG
         // Ability can be changed by Capsule/Patch.
         // Defer this check to later.
         // ReSharper disable once UnusedVariable
-        int abil = enc.Ability switch
+        int ability = enc.Ability switch
         {
             AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
             AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
@@ -190,7 +190,7 @@ public static class Encounter9RNG
         };
 
         var gender_ratio = enc.GenderRatio;
-        int gender = gender_ratio switch
+        byte gender = gender_ratio switch
         {
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
@@ -200,21 +200,21 @@ public static class Encounter9RNG
         if (pk.Gender != gender)
             return false;
 
-        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
-                : (byte)rand.NextInt(25);
+                : (Nature)rand.NextInt(25);
         if (pk.Nature != nature)
             return false;
 
         if (enc.Height == 0)
         {
-            var value = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
+            var value = (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
             if (!IsHeightMatchSV(pk, value))
                 return false;
         }
         if (enc.Weight == 0)
         {
-            var value = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
+            var value = (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
             if (pk is IScaledSize s && s.WeightScalar != value)
                 return false;
         }
@@ -235,7 +235,7 @@ public static class Encounter9RNG
         return true;
     }
 
-    public static bool IsHeightMatchSV(PKM pk, int value)
+    public static bool IsHeightMatchSV(PKM pk, byte value)
     {
         // HOME copies Scale to Height. Untouched by HOME must match the value.
         // Viewing the save file in HOME will alter it too. Tracker definitely indicates it was viewed.
@@ -296,13 +296,13 @@ public static class Encounter9RNG
         return pid;
     }
 
-    public static int GetGender(in int ratio, in ulong rand100) => ratio switch
+    public static byte GetGender(in int ratio, in ulong rand100) => ratio switch
     {
-        0x1F => rand100 < 12 ? 1 : 0, // 12.5%
-        0x3F => rand100 < 25 ? 1 : 0, // 25%
-        0x7F => rand100 < 50 ? 1 : 0, // 50%
-        0xBF => rand100 < 75 ? 1 : 0, // 75%
-        0xE1 => rand100 < 89 ? 1 : 0, // 87.5%
+        0x1F => rand100 < 12 ? (byte)1 : (byte)0, // 12.5%
+        0x3F => rand100 < 25 ? (byte)1 : (byte)0, // 25%
+        0x7F => rand100 < 50 ? (byte)1 : (byte)0, // 50%
+        0xBF => rand100 < 75 ? (byte)1 : (byte)0, // 75%
+        0xE1 => rand100 < 89 ? (byte)1 : (byte)0, // 87.5%
 
         _ => throw new ArgumentOutOfRangeException(nameof(ratio)),
     };

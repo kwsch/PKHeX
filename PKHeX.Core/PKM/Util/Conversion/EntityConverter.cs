@@ -57,7 +57,7 @@ public static class EntityConverter
     /// <param name="pk"></param>
     /// <param name="format"></param>
     /// <returns>True if it can be converted to the requested format value.</returns>
-    public static bool IsConvertibleToFormat(PKM pk, int format)
+    public static bool IsConvertibleToFormat(PKM pk, byte format)
     {
         if (pk.Format >= 3 && pk.Format > format && format < 8)
             return false; // pk3->upward can't go backwards until Gen8+
@@ -249,8 +249,8 @@ public static class EntityConverter
         if (pk.Nickname.Length > limit.MaxStringLengthNickname)
             pk.Nickname = pk.Nickname[..pk.MaxStringLengthNickname];
 
-        if (pk.OT_Name.Length > limit.MaxStringLengthOT)
-            pk.OT_Name = pk.OT_Name[..pk.MaxStringLengthOT];
+        if (pk.OriginalTrainerName.Length > limit.MaxStringLengthOT)
+            pk.OriginalTrainerName = pk.OriginalTrainerName[..pk.MaxStringLengthOT];
 
         if (pk.Move1 > limit.MaxMoveID || pk.Move2 > limit.MaxMoveID || pk.Move3 > limit.MaxMoveID || pk.Move4 > limit.MaxMoveID)
             pk.ClearInvalidMoves();

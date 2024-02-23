@@ -11,12 +11,12 @@ public sealed class PlayerData5 : SaveBlock<SAV5>
     public PlayerData5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
     public PlayerData5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 4, 0x10);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 4, 0x10);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public uint ID32
@@ -55,16 +55,16 @@ public sealed class PlayerData5 : SaveBlock<SAV5>
         set => Data[Offset + 0x1E] = (byte)value;
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 0x1F];
-        set => Data[Offset + 0x1F] = (byte)value;
+        set => Data[Offset + 0x1F] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 0x21];
-        set => Data[Offset + 0x21] = (byte)value;
+        set => Data[Offset + 0x21] = value;
     }
 
     // 22,23 ??

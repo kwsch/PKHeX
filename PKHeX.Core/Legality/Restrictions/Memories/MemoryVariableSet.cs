@@ -14,8 +14,8 @@ public readonly record struct MemoryVariableSet(string Handler, byte MemoryID, u
 {
     public static MemoryVariableSet Read(ITrainerMemories pk, int handler) => handler switch
     {
-        0 => new(L_XOT, pk.OT_Memory, pk.OT_TextVar, pk.OT_Intensity, pk.OT_Feeling), // OT
-        1 => new(L_XHT, pk.HT_Memory, pk.HT_TextVar, pk.HT_Intensity, pk.HT_Feeling), // HT
+        0 => new(L_XOT, pk.OriginalTrainerMemory, pk.OriginalTrainerMemoryVariable, pk.OriginalTrainerMemoryIntensity, pk.OriginalTrainerMemoryFeeling), // OT
+        1 => new(L_XHT, pk.HandlingTrainerMemory, pk.HandlingTrainerMemoryVariable, pk.HandlingTrainerMemoryIntensity, pk.HandlingTrainerMemoryFeeling), // HT
         _ => new(L_XOT, 0, 0, 0, 0),
     };
 }

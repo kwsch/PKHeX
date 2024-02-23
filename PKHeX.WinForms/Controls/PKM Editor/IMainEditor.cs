@@ -9,7 +9,7 @@ public interface IMainEditor : IPKMView
     SaveFile RequestSaveFile { get; }
 
     void UpdateIVsGB(bool skipForm);
-    void ChangeNature(int newNature);
+    void ChangeNature(Nature newNature);
 }
 
 [Flags]

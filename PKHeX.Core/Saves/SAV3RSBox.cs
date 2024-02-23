@@ -110,10 +110,10 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     public override int MaxAbilityID => Legal.MaxAbilityID_3;
     public override int MaxItemID => Legal.MaxItemID_3;
     public override int MaxBallID => Legal.MaxBallID_3;
-    public override int MaxGameID => Legal.MaxGameID_3;
+    public override GameVersion MaxGameID => Legal.MaxGameID_3;
 
     public override int MaxEV => EffortValues.Max255;
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 7;
@@ -131,7 +131,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
     // Trainer Info
-    public override GameVersion Version { get => GameVersion.RSBOX; protected set { } }
+    public override GameVersion Version { get => GameVersion.RSBOX; set { } }
 
     // Storage
     public override int GetPartyOffset(int slot) => -1;

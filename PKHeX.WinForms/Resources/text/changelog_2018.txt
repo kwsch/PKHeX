@@ -361,7 +361,7 @@
  - - Added: Gen2 headbutt encounters are now checked for headbutt legality. Thanks @javierhimura!
  - - Added: Transferring a pk from XD to any other game will now receive a Fateful Encounter flag if appropriate.
  - Added: WC3 (gen3 event template) -> pk conversion. Use the Mystery Gift Database.
- - Added: Ability to batch edit trash bytes (.Nickname_Trash=$[]43,00,...)
+ - Added: Ability to batch edit trash bytes (.NicknameTrash=$[]43,00,...)
  - Added: Inventory items can now be sorted by index number.
  - Changed: Event Flag/Constant editor redesigned to separate tabs.
  - Changed: Deoxys in Gen3 now shows up with the game-specific form.
@@ -934,8 +934,8 @@
  - Fixed: Trash Bytes now are no longer cleared when saving data. Thanks SciresM & Lunarcookies!
  - Fixed: Re-ordered controls to make tabbing flow down the form. Thanks Favna!
  - Fixed: Vivillon Form selection in the Trainer Info editor will now function with refactored code. Thanks KingGengar & Favna!
- - Fixed: New PKRS capping code will now behave properly. Thanks Favna and evandixon!
- - Changed: PKRS Days capped at legal limits.
+ - Fixed: New PokerusState capping code will now behave properly. Thanks Favna and evandixon!
+ - Changed: PokerusState Days capped at legal limits.
  - Changed: Forms drop-down and label will be hidden if a Pokémon has no forms.
  - Hotfix: Changing the exe name to auto-load a language will now function properly. Thanks supercarotte!
  - Hotfix: Wonder Card QRs with non-held items will no longer error out. Thanks ShinyMeganium!
@@ -990,7 +990,7 @@
 15/01/28 - New Update: (9900)
  - Added: Save editing for retail games. Load ramsav.bin and export with Export SAV button in the SAV tab. 
  - - Change the target RAM binary by holding shift while exporting.
- - Fixed: PKRS display logic should now behave as intended.
+ - Fixed: PokerusState display logic should now behave as intended.
  - Changed: Gender/Game changing in Trainer Info has been disabled (it's not a simple 'switch').
  - Improved: Loading Box/Debug binaries will display the boxes if they are not visible.
  - Update (b): Added 2 more types of XY RAMSav types.
@@ -1027,7 +1027,7 @@
  - Added: Viewing of the second daycare in ORAS; click anywhere in the groupbox to trigger the switching code. Thanks Leanny!
  - Added: More verbosity to Box Report.
  - Improved: Data loading speeds (boxes, etc).
- - Improved: PKRS information will only appear if it has been infected/cured; checkboxes to alter are still always visible.
+ - Improved: PokerusState information will only appear if it has been infected/cured; checkboxes to alter are still always visible.
  - Fixed: Pumpkaboo form names. Thanks Pkmnninja!
  - Fixed: Checksum detection should now trigger when loading pkx files. Oops.
  - Fixed: Translation shouldn't error out if the translation file is malformed.
@@ -1287,7 +1287,7 @@
  - Fixed: Pokerus infection/curing logic.
  - Fixed: Memory loading now doesn't error out with no data, and has all memory types and locations.
  - Added: DE/FR (early) language translations.
- - Added: Shiny/PKRS Cured/Pentagon sprites to marking.
+ - Added: Shiny/PokerusState Cured/Pentagon sprites to marking.
  - Added: Ribbon sprites from ingame; Expert Battler (Super Maison ribbon) now has proper sprite. Also added the 40/8 complete Memory ribbons.
  - Added: Base friendships for Kalos Pokemon.
  - Added: Clicking Friendship Label now toggles between Base & Max; pressing with Control resets it.

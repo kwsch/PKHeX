@@ -19,9 +19,9 @@ public partial class PKMEditor
         LoadMisc2(pk2);
 
         TID_Trainer.LoadIDValues(pk2, pk2.Format);
-        TB_MetLevel.Text = c2.Met_Level.ToString();
-        CB_MetLocation.SelectedValue = c2.Met_Location;
-        CB_MetTimeOfDay.SelectedIndex = c2.Met_TimeOfDay;
+        TB_MetLevel.Text = c2.MetLevel.ToString();
+        CB_MetLocation.SelectedValue = (int)c2.MetLocation;
+        CB_MetTimeOfDay.SelectedIndex = c2.MetTimeOfDay;
 
         // Attempt to detect language
         CB_Language.SelectedValue = pk2.GuessedLanguage();
@@ -59,9 +59,9 @@ public partial class PKMEditor
         SaveMisc1(pk2);
         SaveMisc2(pk2);
 
-        c2.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-        c2.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
-        c2.Met_TimeOfDay = CB_MetTimeOfDay.SelectedIndex;
+        c2.MetLevel = (byte)Util.ToInt32(TB_MetLevel.Text);
+        c2.MetLocation = (ushort)WinFormsUtil.GetIndex(CB_MetLocation);
+        c2.MetTimeOfDay = CB_MetTimeOfDay.SelectedIndex;
 
         SavePartyStats(pk2);
         pk2.FixMoves();

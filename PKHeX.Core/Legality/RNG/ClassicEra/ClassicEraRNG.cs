@@ -29,15 +29,53 @@ public static class ClassicEraRNG
     }
 
     /// <summary>
-    /// Generates a PID for a given seed.
+    /// Rolls the RNG forward twice to get the usual Method 1 call-ordered PID.
     /// </summary>
-    /// <param name="seed">Seed to use for the RNG.</param>
+    /// <param name="seed">Seed right before the first PID call.</param>
     /// <returns>32-bit value containing the PID (high | low).</returns>
     public static uint GetSequentialPID(ref uint seed)
     {
         var rand1 = LCRNG.Next16(ref seed);
         var rand2 = LCRNG.Next16(ref seed);
         return (rand2 << 16) | rand1;
+    }
+
+    /// <summary>
+    /// Rolls the RNG forward twice to get the usual Method 1 call-ordered PID.
+    /// </summary>
+    /// <param name="seed">Seed right before the first PID call.</param>
+    /// <returns>32-bit value containing the PID (high | low).</returns>
+    public static uint GetSequentialPID(uint seed)
+    {
+        var rand1 = LCRNG.Next16(ref seed);
+        var rand2 = LCRNG.Next16(ref seed);
+        return (rand2 << 16) | rand1;
+    }
+
+    /// <summary>
+    /// Rolls the RNG forward twice to get the reverse Method 1 call-ordered PID.
+    /// </summary>
+    /// <param name="seed">Seed right before the first PID call.</param>
+    /// <remarks>Generation 3 Unown</remarks>
+    /// <returns>32-bit value containing the PID (high | low).</returns>
+    public static uint GetReversePID(ref uint seed)
+    {
+        var rand1 = LCRNG.Next16(ref seed);
+        var rand2 = LCRNG.Next16(ref seed);
+        return (rand2 << 16) | rand1;
+    }
+
+    /// <summary>
+    /// Rolls the RNG forward twice to get the reverse Method 1 call-ordered PID.
+    /// </summary>
+    /// <param name="seed">Seed right before the first PID call.</param>
+    /// <remarks>Generation 3 Unown</remarks>
+    /// <returns>32-bit value containing the PID (high | low).</returns>
+    public static uint GetReversePID(uint seed)
+    {
+        var rand1 = LCRNG.Next16(ref seed);
+        var rand2 = LCRNG.Next16(ref seed);
+        return (rand1 << 16) | rand2;
     }
 
     /// <summary>

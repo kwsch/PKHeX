@@ -1,36 +1,41 @@
+using static PKHeX.Core.SlotType4;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.Gen4"/>.
 /// </summary>
 public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMagnetStatic, INumberedSlot, IGroundTypeTile, ISlotRNGType, IEncounterFormRandom, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IEncounterSlot4, IGroundTypeTile, IEncounterFormRandom, IRandomCorrelation
 {
-    public int Generation => 4;
-    int ILocation.Location => Location;
+    public byte Generation => 4;
+    ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen4;
     public bool EggEncounter => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => GetRequiredBallValue();
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public ushort Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public SlotType4 Type => Parent.Type;
     public GroundTileAllowed GroundTile => Parent.GroundTile;
+    public byte AreaRate => Parent.Rate;
 
-    public bool CanUseRadar => Version is not (GameVersion.HG or GameVersion.SS) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations4.IsSafariZoneLocation(Location);
+    public bool CanUseRadar => Version >= GameVersion.D // HG/SS are below
+                               && GroundTile.HasFlag(GroundTileAllowed.Grass)
+                               && !Locations4.IsMarsh(Location);
 
     private Ball GetRequiredBallValue(Ball fallback = Ball.None)
     {
-        if (Type is SlotType.BugContest)
+        if (Type is BugContest)
             return Ball.Sport;
-        return Locations4.IsSafariZoneLocation(Location) ? Ball.Safari : fallback;
+        return Locations4.IsSafariBallRequired(Location) ? Ball.Safari : fallback;
     }
 
     #region Generating
@@ -47,18 +52,18 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             Species = Species,
             Form = GetWildForm(Form),
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)Version,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = Version,
             GroundTile = GroundTile.GetIndex(),
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)GetRequiredBallValue(Ball.Poke),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -79,21 +84,34 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
-        int gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var gender = criteria.GetGender(pi);
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
+        var lvl = new SingleLevelRange(LevelMin);
+        bool hgss = pk.HGSS;
         int ctr = 0;
         do
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-            var pidiv = MethodFinder.Analyze(pk);
-            var frames = FrameFinder.GetFrames(pidiv, pk);
-            foreach (var frame in frames)
-            {
-                if (frame.IsSlotCompatibile(this, pk))
-                    return;
-            }
+            var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
+            if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, 4, out _))
+                continue;
+            if (Species == (int)Core.Species.Unown)
+                pk.Form = GetUnownForm(seed, hgss);
+            break;
         } while (ctr++ < 10_000);
+    }
+
+    /// <summary>
+    /// Gets a legal Unown form based on the game version and seed that generated the Method 1 spread.
+    /// </summary>
+    private static byte GetUnownForm(uint seed, bool hgss)
+    {
+        // ABCD|E(Item)|F(Form) determination
+        if (!hgss)
+            return 8; // Always 100% form as 'I' in one of the rooms. Don't need to check rand(1) choice.
+
+        var formSeed = LCRNG.Next6(seed);
+        return RuinsOfAlph4.GetEntranceForm(formSeed); // !?
     }
 
     #endregion
@@ -112,7 +130,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         if (pk.Format == 4)
         {
             // Must match level exactly.
-            if (!this.IsLevelWithinRange(pk.Met_Level))
+            if (!this.IsLevelWithinRange(pk.MetLevel))
                 return false;
         }
         else
@@ -131,16 +149,16 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public bool IsInvalidMunchlaxTree(PKM pk)
     {
-        if (Type is not SlotType.HoneyTree)
+        if (Type is not HoneyTree)
             return false;
         return Species == (int)Core.Species.Munchlax && !Parent.IsMunchlaxTree(pk);
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        if ((pk.Ball == (int)Ball.Safari) != Locations4.IsSafariZoneLocation(Location))
+        if ((pk.Ball == (int)Ball.Safari) != Locations4.IsSafariBallRequired(Location))
             return EncounterMatchRating.PartialMatch;
-        if ((pk.Ball == (int)Ball.Sport) != (Type == SlotType.BugContest))
+        if ((pk.Ball == (int)Ball.Sport) != (Type == BugContest))
         {
             // Nincada => Shedinja can wipe the ball back to Poke
             if (pk.Species != (int)Core.Species.Shedinja || pk.Ball != (int)Ball.Poke)
@@ -148,8 +166,11 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         }
         if (IsDeferredWurmple(pk))
             return EncounterMatchRating.PartialMatch;
+        if (pk.Species == (int)Core.Species.Unown && !EncounterArea4.IsUnownFormValid(pk, pk.Form))
+            return EncounterMatchRating.PartialMatch;
         return EncounterMatchRating.Match;
     }
+
     private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
     #endregion
 
@@ -162,9 +183,13 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         if (val is PIDType.ChainShiny)
             return pk.IsShiny && CanUseRadar;
         if (val is PIDType.CuteCharm)
-            return pk.Gender is 0 or 1 && MethodFinder.IsCuteCharm4Valid(this, pk);
+            return MethodFinder.IsCuteCharm4Valid(this, pk);
         return false;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
+
+    public byte PressureLevel => Type != Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
+    public bool IsBugContest => Type == BugContest;
+    public bool IsSafariHGSS => Locations4.IsSafari(Location);
 }

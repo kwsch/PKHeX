@@ -11,7 +11,7 @@ public sealed class BV7(byte[] data) : BattleVideo
     private const string NPC = "NPC";
     private const int PlayerCount = 4;
 
-    public override int Generation => 7;
+    public override byte Generation => 7;
     private readonly byte[] Data = (byte[])data.Clone();
 
     public override IReadOnlyList<PK7> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();

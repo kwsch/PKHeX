@@ -12,7 +12,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 {
     // Configuration
     protected override SAV3E CloneInternal() => new(Write());
-    public override GameVersion Version { get => GameVersion.E; protected set { } }
+    public override GameVersion Version { get => GameVersion.E; set { } }
     public override PersonalTable3 Personal => PersonalTable.E;
 
     public override int EventFlagCount => 8 * 300;
@@ -157,13 +157,14 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     public DecorationInventory3 Decorations => new(Large.AsSpan(0x2734, DecorationInventory3.SIZE));
 
+    private Span<byte> SwarmSpan => Large.AsSpan(0x2B90, Swarm3.SIZE);
     public Swarm3 Swarm
     {
-        get => new(Large.AsSpan(0x2B90, Swarm3.SIZE).ToArray());
-        set => SetData(Large.AsSpan(0x2B90), value.Data);
+        get => new(SwarmSpan.ToArray());
+        set => SetData(SwarmSpan, value.Data);
     }
 
-    private void ClearSwarm() => Large.AsSpan(0x2B90, Swarm3.SIZE).Clear();
+    private void ClearSwarm() => SwarmSpan.Clear();
 
     public IReadOnlyList<Swarm3> DefaultSwarms => Swarm3Details.Swarms_E;
 

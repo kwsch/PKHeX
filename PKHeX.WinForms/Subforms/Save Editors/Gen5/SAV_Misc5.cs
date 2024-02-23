@@ -583,7 +583,7 @@ public partial class SAV_Misc5 : Form
         }
         else if (sender == CB_Gender)
         {
-            CurrentSlot.Gender = WinFormsUtil.GetIndex(CB_Gender);
+            CurrentSlot.Gender = (byte)WinFormsUtil.GetIndex(CB_Gender);
         }
         else if (sender == CB_Form)
         {

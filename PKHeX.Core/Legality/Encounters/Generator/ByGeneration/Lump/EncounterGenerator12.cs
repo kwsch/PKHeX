@@ -22,7 +22,7 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
     private static IEnumerable<IEncounterable> GetEncounters(PKM pk)
     {
         // If the current data indicates that it must have originated from Crystal, only yield encounter data from Crystal.
-        bool crystal = pk is ICaughtData2 { CaughtData: not 0 } or { Format: >= 7, OT_Gender: 1 };
+        bool crystal = pk is ICaughtData2 { CaughtData: not 0 } or { Format: >= 7, OriginalTrainerGender: 1 };
         if (crystal)
             return EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.C);
 

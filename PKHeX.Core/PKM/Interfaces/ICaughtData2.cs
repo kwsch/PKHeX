@@ -6,8 +6,8 @@
 public interface ICaughtData2
 {
     ushort CaughtData { get; set; }
-    int Met_TimeOfDay { get; set; }
-    int Met_Level { get; set; }
-    int OT_Gender { get; set; }
-    int Met_Location { get; set; }
+    int MetTimeOfDay { get; set; }
+    byte MetLevel { get; set; }
+    byte OriginalTrainerGender { get; set; }
+    ushort MetLocation { get; set; }
 }

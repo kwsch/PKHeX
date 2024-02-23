@@ -220,21 +220,21 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     private static GameVersion GetSAVType(ReadOnlySpan<byte> data)
     {
-        GameVersion ver;
-        if ((ver = GetIsG1SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG2SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG3SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG4SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG5SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG6SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG7SAV(data)) != Invalid)
-            return ver;
+        GameVersion version;
+        if ((version = GetIsG1SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG2SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG3SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG4SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG5SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG6SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG7SAV(data)) != Invalid)
+            return version;
 
         if (GetIsBelugaSAV(data) != Invalid)
             return GG;
@@ -262,14 +262,14 @@ public static class SaveUtil
         if (SAV1StadiumJ.IsStadium(data))
             return StadiumJ;
 
-        if ((ver = GetIsG8SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG8SAV_BDSP(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG8SAV_LA(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG9SAV(data)) != Invalid)
-            return ver;
+        if ((version = GetIsG8SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG8SAV_BDSP(data)) != Invalid)
+            return version;
+        if ((version = GetIsG8SAV_LA(data)) != Invalid)
+            return version;
+        if ((version = GetIsG9SAV(data)) != Invalid)
+            return version;
 
         return Invalid;
     }
@@ -609,8 +609,8 @@ public static class SaveUtil
         if (data.Length is not (SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3))
             return Invalid;
 
-        var ver = (Gem8Version)ReadUInt32LittleEndian(data);
-        if (ver is not (Gem8Version.V1_0 or Gem8Version.V1_1 or Gem8Version.V1_2 or Gem8Version.V1_3))
+        var version = (Gem8Version)ReadUInt32LittleEndian(data);
+        if (version is not (Gem8Version.V1_0 or Gem8Version.V1_1 or Gem8Version.V1_2 or Gem8Version.V1_3))
             return Invalid;
 
         return BDSP;
@@ -820,7 +820,7 @@ public static class SaveUtil
     public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
     {
         var sav = GetBlankSAV(game, language);
-        sav.Game = (int)game;
+        sav.Version = game;
         sav.OT = trainerName;
         if (sav.Generation >= 4)
             sav.Language = (int)language;
@@ -895,8 +895,8 @@ public static class SaveUtil
     /// <returns>Save File for that generation.</returns>
     public static SaveFile GetBlankSAV(EntityContext context, string trainerName, LanguageID language = LanguageID.English)
     {
-        var ver = context.GetSingleGameVersion();
-        return GetBlankSAV(ver, trainerName, language);
+        var version = context.GetSingleGameVersion();
+        return GetBlankSAV(version, trainerName, language);
     }
 
     /// <summary>

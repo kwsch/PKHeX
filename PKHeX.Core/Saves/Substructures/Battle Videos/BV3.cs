@@ -12,7 +12,7 @@ public sealed class BV3(byte[] Data) : BattleVideo
     public readonly byte[] Data = (byte[])Data.Clone();
 
     internal const int SIZE = 0xF80;
-    public override int Generation => 3;
+    public override byte Generation => 3;
 
     public override IReadOnlyList<PK3> BattlePKMs => PlayerTeams.SelectMany(z => z).ToArray();
 

@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.SlotType8b;
 
 namespace PKHeX.Core;
 
@@ -12,9 +14,9 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
     public GameVersion Version { get; }
 
     public readonly ushort Location;
-    public readonly SlotType Type;
+    public readonly SlotType8b Type;
 
-    public static EncounterArea8b[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea8b[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
     {
         var result = new EncounterArea8b[input.Length];
         for (int i = 0; i < result.Length; i++)
@@ -22,23 +24,23 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
         return result;
     }
 
-    private EncounterArea8b(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea8b(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
-        Type = (SlotType)data[2];
+        Type = (SlotType8b)data[2];
         Version = game;
 
-        Slots = ReadSlots(data);
+        Slots = ReadSlots(data[4..]);
     }
 
     private EncounterSlot8b[] ReadSlots(ReadOnlySpan<byte> data)
     {
         const int size = 4;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot8b[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             slots[i] = ReadSlot(entry);
         }
@@ -55,16 +57,16 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
         return new EncounterSlot8b(this, species, form, min, max);
     }
 
-    public bool IsMatchLocation(int location)
+    public bool IsMatchLocation(ushort location)
     {
         if (location == Location)
             return true;
         return CanCrossoverTo(location);
     }
 
-    private bool CanCrossoverTo(int location)
+    private bool CanCrossoverTo(ushort location)
     {
-        if (Type is SlotType.Surf)
+        if (Type is Surf)
         {
             return Location switch
             {
@@ -125,4 +127,23 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
         201, // 19 Fuego Ironworks
         253, // 20 Floaroma Meadow
     ];
+}
+
+
+public enum SlotType8b : byte
+{
+    // Unused; relic from previous PKHeX codebase and pkl not updated to remove.
+    Any = 0,
+
+    Grass = 1,
+    Surf = 2,
+    Old_Rod = 3,
+    Good_Rod = 4,
+    Super_Rod = 5,
+    Rock_Smash = 6,
+
+    // Unused; relic from previous PKHeX codebase and pkl not updated to remove.
+    Headbutt = 7,
+
+    HoneyTree = 8,
 }

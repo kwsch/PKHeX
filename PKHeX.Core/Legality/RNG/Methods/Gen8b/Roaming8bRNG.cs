@@ -21,8 +21,8 @@ public static class Roaming8bRNG
             flawless = 0;
 
         // Since the inner methods do not set Gender (only fixed Genders are applicable) and Nature (assume Synchronize used), set them here.
-        pk.Gender = pk.Species == (int)Species.Cresselia ? 1 : 2; // Mesprit
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Gender = (byte)(pk.Species == (int)Species.Cresselia ? 1 : 2); // Mesprit
+        pk.Nature = pk.StatNature = criteria.GetNature();
 
         int ctr = 0;
         var rnd = Util.Rand;
@@ -101,8 +101,8 @@ public static class Roaming8bRNG
 
         // Remainder
         var scale = (IScaledSize)pk;
-        scale.HeightScalar = (byte)((int)xoro.NextUInt(0x81) + (int)xoro.NextUInt(0x80));
-        scale.WeightScalar = (byte)((int)xoro.NextUInt(0x81) + (int)xoro.NextUInt(0x80));
+        scale.HeightScalar = (byte)(xoro.NextUInt(0x81) + xoro.NextUInt(0x80));
+        scale.WeightScalar = (byte)(xoro.NextUInt(0x81) + xoro.NextUInt(0x80));
 
         return true;
     }
@@ -180,7 +180,7 @@ public static class Roaming8bRNG
         }
 
         // Check that the nature matches
-        if (pk.Nature != (int)xoro.NextUInt(25))
+        if (pk.Nature != (Nature)xoro.NextUInt(25))
             return false;
 
         return GetIsHeightWeightMatch(pk, xoro);
@@ -192,7 +192,7 @@ public static class Roaming8bRNG
         // Assume that the gender is a match due to cute charm.
 
         // Check that the nature matches
-        if (pk.Nature != (int)xoro.NextUInt(25))
+        if (pk.Nature != (Nature)xoro.NextUInt(25))
             return false;
 
         return GetIsHeightWeightMatch(pk, xoro);

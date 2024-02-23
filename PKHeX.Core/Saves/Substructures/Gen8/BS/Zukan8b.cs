@@ -348,7 +348,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
             SAV.ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
     }
 
-    private void SetGenderFlag(ushort species, int gender, bool shiny)
+    private void SetGenderFlag(ushort species, byte gender, bool shiny)
     {
         switch (gender)
         {
