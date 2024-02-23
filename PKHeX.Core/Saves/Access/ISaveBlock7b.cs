@@ -17,4 +17,5 @@ public interface ISaveBlock7b
     WB7Records GiftRecords { get; }
     CaptureRecords Captured { get; }
     GoParkStorage Park { get; }
+    PlayerGeoLocation7b PlayerGeoLocation { get; }
 }

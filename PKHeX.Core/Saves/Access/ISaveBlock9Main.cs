@@ -13,7 +13,7 @@ public interface ISaveBlock9Main
     PlayTime9 Played { get; }
     Zukan9 Zukan { get; }
     ConfigSave9 Config { get; }
-    TeamIndexes9 TeamIndexes { get; }
+    TeamIndexes8 TeamIndexes { get; }
     Epoch1900DateTimeValue LastSaved { get; }
     Epoch1970Value LastDateCycle { get; }
     PlayerFashion9 PlayerFashion { get; }
@@ -22,4 +22,5 @@ public interface ISaveBlock9Main
     RaidSpawnList9 RaidKitakami { get; }
     RaidSpawnList9 RaidBlueberry { get; }
     BlueberryQuestRecord9 BlueberryQuestRecord { get; }
+    BlueberryClubRoom9 BlueberryClubRoom { get; }
 }
