@@ -413,7 +413,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
+        if (!BelongsTo(tr))
             return false;
 
         CurrentHandler = 0;

@@ -169,15 +169,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     {
         PK7 pk7 = (PK7)pk;
         // Apply to this Save File
-        int CT = pk7.CurrentHandler;
-        var now = EncounterDate.GetDate3DS();
-        pk7.Trade(this, now.Day, now.Month, now.Year);
-        if (CT != pk7.CurrentHandler) // Logic updated Friendship
-        {
-            // Copy over the Friendship Value only under certain circumstances
-            if (pk7.HasMove((int)Move.Return) || pk7.HasMove((int)Move.Frustration))
-                pk7.CurrentFriendship = pk7.OppositeFriendship;
-        }
+        pk7.UpdateHandler(this);
 
         pk7.FormArgumentElapsed = pk7.FormArgumentMaximum = 0;
         pk7.FormArgumentRemain = (byte)GetFormArgument(pk);

@@ -45,13 +45,28 @@ public sealed class PB8 : G8PKM
         set => Data[0x52] = (byte)((Data[0x52] & 0xFE) | (value ? 1 : 0));
     }
 
-    public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
+    public bool BelongsTo(ITrainerInfo tr)
+    {
+        if (tr.Version != Version)
+            return false;
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+    public void UpdateHandler(ITrainerInfo tr)
     {
         if (IsEgg)
         {
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
-            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OriginalTrainerGender) || (tr.OT != OriginalTrainerName))
-                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
+            const ushort location = Locations.LinkTrade6NPC;
+            if (MetLocation != location && !BelongsTo(tr))
+            {
+                var date = EncounterDate.GetDate3DS();
+                SetLinkTradeEgg(date.Day, date.Month, date.Year, location);
+            }
 
             // Unfortunately, BD/SP doesn't return if it's an egg, and can update the HT details & handler.
             // Continue to the rest of the method.
@@ -67,15 +82,13 @@ public sealed class PB8 : G8PKM
     {
         if (BDSP)
         {
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
-            HandlingTrainerMemoryVariable = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0; // future inter-format conversion?
+            this.ClearMemoriesOT();
+            this.ClearMemoriesHT();
         }
 
         if (IsEgg) // No memories if is egg.
         {
-            HandlingTrainerMemoryVariable = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0;
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
-
+            // Memories already cleared above.
             // Clear Handler
             if (!IsTradedEgg)
             {
@@ -86,19 +99,23 @@ public sealed class PB8 : G8PKM
         }
 
         if (IsUntraded)
-            HandlingTrainerMemoryVariable = HandlingTrainerGender = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = HandlingTrainerLanguage = 0;
-
-        var gen = Generation;
-        if (gen < 6)
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
-        // if (gen != 8) // must be transferred via HOME, and must have memories
-        //     this.SetTradeMemoryHT8(); // not faking HOME tracker.
+        {
+            // Memories already cleared above.
+            HandlingTrainerFriendship = HandlingTrainerGender = HandlingTrainerLanguage = 0;
+            HandlingTrainerTrash.Clear();
+        }
+        else
+        {
+            var gen = Generation;
+            if (gen < 6)
+                this.ClearMemoriesOT();
+        }
     }
 
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
+        if (!BelongsTo(tr))
             return false;
 
         CurrentHandler = 0;

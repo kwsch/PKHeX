@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace PKHeX.Core;
 
 /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-public abstract class G6PKM : PKM, ISanityChecksum
+public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
 {
     public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
@@ -79,20 +79,41 @@ public abstract class G6PKM : PKM, ISanityChecksum
     }
 
     // Synthetic Trading Logic
-    public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
+    public bool BelongsTo(ITrainerInfo tr)
+    {
+        if (tr.Version != Version)
+            return false;
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+    public void UpdateHandler(ITrainerInfo tr)
     {
         if (IsEgg)
         {
             // Eggs do not have any modifications done if they are traded
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
-            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OriginalTrainerGender) || (tr.OT != OriginalTrainerName))
-                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
+            const ushort location = Locations.LinkTrade6;
+            if (MetLocation != location && !BelongsTo(tr))
+            {
+                var date = EncounterDate.GetDate3DS();
+                SetLinkTradeEgg(date.Day, date.Month, date.Year, location);
+            }
             return;
         }
 
         // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
+        var handler = CurrentHandler;
         if (!TradeOT(tr))
             TradeHT(tr);
+        if (handler == CurrentHandler)
+            return; // Logic updated Friendship
+        // Copy over the Friendship Value only under certain circumstances
+        if (HasMove((int)Move.Return) || HasMove((int)Move.Frustration))
+            CurrentFriendship = OppositeFriendship;
     }
 
     protected abstract bool TradeOT(ITrainerInfo tr);

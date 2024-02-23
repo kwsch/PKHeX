@@ -42,7 +42,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
         var ball = FixedBall;
         pk.Ball = ball is Ball.None ? (byte)Ball.Poke : (byte)ball;
-        pk.OriginalTrainerFriendship = pk.PersonalInfo.BaseFriendship;
+        pk.OriginalTrainerFriendship = EggStateLegality.GetEggHatchFriendship(Context);
 
         SetEncounterMoves(pk, version);
         pk.HealPP();
@@ -51,17 +51,22 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
         if (gen <= 2)
         {
-            if (version != GameVersion.C)
+            var pk2 = (PK2)pk;
+            if (version == GameVersion.C)
             {
-                pk.OriginalTrainerGender = 0;
+                // Set met data for Crystal hatch.
+                pk2.MetLocation = Locations.HatchLocationC;
+                pk2.MetLevel = 1;
+                pk2.MetTimeOfDay = rnd.Next(1, 4); // Morning | Day | Night
             }
-            else
+            else // G/S
             {
-                pk.MetLocation = Locations.HatchLocationC;
-                pk.MetLevel = 1;
-                ((PK2)pk).MetTimeOfDay = rnd.Next(1, 4); // Morning | Day | Night
+                // G/S can't set any data for Trainer Gender.
+                pk2.OriginalTrainerGender = 0;
             }
-            return pk;
+
+            // No other revisions needed.
+            return pk2;
         }
 
         SetMetData(pk);

@@ -5,7 +5,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
-public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite, IFormArgument, IAppliedMarkings7
+public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite,
+    IFormArgument, IAppliedMarkings7, IHandlerUpdate
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -336,7 +337,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
+        if (!BelongsTo(tr))
             return false;
 
         CurrentHandler = 0;
@@ -357,7 +358,10 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public void FixMemories()
     {
         if (IsUntraded)
-            HT_TextVar = HandlingTrainerFriendship = HT_Memory = HT_Intensity = HT_Feeling = 0;
+        {
+            HandlingTrainerTrash.Clear();
+            HandlingTrainerGender = HandlingTrainerFriendship = 0;
+        }
     }
 
     // Maximums

@@ -23,6 +23,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4Pt((byte[])Data.Clone()) : new SAV4Pt();
+    public override GameVersion Version { get => GameVersion.Pt; set { } }
     public override PersonalTable4 Personal => PersonalTable.Pt;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_Pt;
     public override int MaxItemID => Legal.MaxItemID_4_Pt;

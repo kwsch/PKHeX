@@ -8,7 +8,8 @@ namespace PKHeX.Core;
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public sealed class PA8 : PKM, ISanityChecksum,
     IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery, IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IPokerusStatus,
-    IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9
+    IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9,
+    IHandlerUpdate
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -570,7 +571,19 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return 0x40 + (index >> 3);
     }
 
-    public void Trade(ITrainerInfo tr)
+    public bool BelongsTo(ITrainerInfo tr)
+    {
+        if (tr.Version != Version)
+            return false;
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+
+    public void UpdateHandler(ITrainerInfo tr)
     {
         // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
         if (!TradeOT(tr))
@@ -581,38 +594,27 @@ public sealed class PA8 : PKM, ISanityChecksum,
     {
         if (LA)
         {
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
-            HandlingTrainerMemoryVariable = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0; // future inter-format conversion?
-        }
-
-        if (IsEgg) // No memories if is egg.
-        {
-            HandlingTrainerMemoryVariable = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0;
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
-
-            // Clear Handler
-            if (!IsTradedEgg)
-            {
-                HandlingTrainerFriendship = HandlingTrainerGender = HandlingTrainerLanguage = 0;
-                HandlingTrainerTrash.Clear();
-            }
-            return;
+            this.ClearMemoriesOT();
+            this.ClearMemoriesHT();
         }
 
         if (IsUntraded)
-            HandlingTrainerMemoryVariable = HandlingTrainerGender = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = HandlingTrainerLanguage = 0;
-
-        var gen = Generation;
-        if (gen < 6)
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
-        // if (gen != 8) // must be transferred via HOME, and must have memories
-        //     this.SetTradeMemoryHT8(); // not faking HOME tracker.
+        {
+            HandlingTrainerGender = HandlingTrainerFriendship = HandlingTrainerLanguage = 0;
+            HandlingTrainerTrash.Clear();
+        }
+        else
+        {
+            var gen = Generation;
+            if (gen < 6)
+                this.ClearMemoriesOT();
+        }
     }
 
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
+        if (!BelongsTo(tr))
             return false;
 
         CurrentHandler = 0;

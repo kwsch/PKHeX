@@ -148,7 +148,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     {
         var pa8 = (PA8)pk;
         // Apply to this Save File
-        pa8.Trade(this);
+        pa8.UpdateHandler(this);
         pa8.RefreshChecksum();
     }
 

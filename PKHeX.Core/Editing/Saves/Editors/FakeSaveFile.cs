@@ -30,7 +30,7 @@ public sealed class FakeSaveFile : SaveFile
     public override int BoxCount => 1;
     public override int GetPartyOffset(int slot) => -1;
     protected override void SetChecksums() { }
-
+    public override GameVersion Version { get => GameVersion.R; set { } }
     public override Type PKMType => typeof(PK3);
     protected override PK3 GetPKM(byte[] data) => BlankPKM;
     protected override byte[] DecryptPKM(byte[] data) => data;

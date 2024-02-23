@@ -96,8 +96,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     {
         var pb7 = (PB7)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateSwitch();
-        pb7.Trade(this, now.Day, now.Month, now.Year);
+        pb7.UpdateHandler(this);
         pb7.RefreshChecksum();
     }
 

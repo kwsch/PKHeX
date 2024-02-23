@@ -344,7 +344,7 @@ public static class CommonEdits
             return;
         pk.IsEgg = false;
         pk.ClearNickname();
-        pk.CurrentFriendship = pk.PersonalInfo.BaseFriendship;
+        pk.OriginalTrainerFriendship = Math.Min(pk.OriginalTrainerFriendship, EggStateLegality.GetEggHatchFriendship(pk.Context));
         if (pk.IsTradedEgg)
             pk.EggLocation = pk.MetLocation;
         if (pk.Version == 0)

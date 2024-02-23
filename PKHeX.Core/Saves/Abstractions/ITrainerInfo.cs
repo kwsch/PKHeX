@@ -42,36 +42,6 @@ public static class TrainerInfoExtensions
     }
 
     /// <summary>
-    /// Copies the <see cref="ITrainerInfo"/> data to the <see cref="PKM"/> object's Handling Trainer data.
-    /// </summary>
-    /// <param name="sav">Trainer Information</param>
-    /// <param name="pk">Pokémon to copy to</param>
-    /// <param name="force">If true, will overwrite the Handling Trainer Data even if it has not been traded.</param>
-    public static void ApplyHandlingTrainerInfo(this ITrainerInfo sav, PKM pk, bool force = false)
-    {
-        if (pk.Format == sav.Generation && !force)
-            return;
-
-        pk.HandlingTrainerName = sav.OT;
-        pk.HandlingTrainerGender = sav.Gender;
-        pk.HandlingTrainerFriendship = pk.OriginalTrainerFriendship;
-        pk.CurrentHandler = 1;
-        if (pk is IHandlerLanguage h)
-            h.HandlingTrainerLanguage = (byte)sav.Language;
-
-        if (pk is PK6 pk6 && sav is IRegionOrigin o)
-        {
-            pk6.Geo1_Country = o.Country;
-            pk6.Geo1_Region = o.Region;
-            pk6.SetTradeMemoryHT6(true);
-        }
-        else if (pk is PK8 pk8 && PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))
-        {
-            pk8.SetTradeMemoryHT8();
-        }
-    }
-
-    /// <summary>
     /// Checks if the <see cref="ITrainerInfo"/> data matches the <see cref="PKM"/> object's Original Trainer data.
     /// </summary>
     /// <param name="tr">Trainer Information</param>
@@ -81,9 +51,6 @@ public static class TrainerInfoExtensions
     {
         if (pk.IsEgg)
             return tr.IsFromTrainerEgg(pk);
-
-        if (tr.Version == GameVersion.Any)
-            return true;
 
         if (!IsFromTrainerNoVersion(tr, pk))
             return false;

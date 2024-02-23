@@ -61,7 +61,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Metadata & Limits
     public virtual string MiscSaveInfo() => string.Empty;
     public virtual bool IsVersionValid() => true;
-    public virtual GameVersion Version { get => default; set { } }
+    public abstract GameVersion Version { get; set; }
     public abstract bool ChecksumsValid { get; }
     public abstract string ChecksumInfo { get; }
     public abstract byte Generation { get; }

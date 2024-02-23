@@ -153,4 +153,29 @@ public static class EggStateLegality
         SL or VL => Locations.HatchLocation9,
         _ => 0,
     };
+
+    /// <summary>
+    /// Gets the initial friendship value for an egg when it is hatched.
+    /// </summary>
+    public static byte GetEggHatchFriendship(EntityContext context) => context switch
+    {
+        // From Gen2->Gen7, the value was 120.
+        EntityContext.Gen2 => 120,
+        EntityContext.Gen3 => 120,
+        EntityContext.Gen4 => 120,
+        EntityContext.Gen5 => 120,
+        EntityContext.Gen6 => 120,
+        EntityContext.Gen7 => 120,
+        // No eggs in LGP/E.
+
+        // Starting in SW/SH, Friendship was rescaled away from 255 (to 160-ish), so the value is lower than prior.
+        _ => 100,
+    };
+
+    /// <summary>
+    /// Reasonable value for the friendship of an egg when it is hatched.
+    /// </summary>
+    /// <remarks>Only use if you're trying to generalize a value for hatched eggs without checking context.</remarks>
+
+    public const byte EggHatchFriendshipGeneral = 100;
 }

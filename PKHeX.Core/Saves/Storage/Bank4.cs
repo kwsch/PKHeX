@@ -9,6 +9,7 @@ public sealed class Bank4 : BulkStorage
 {
     public Bank4(byte[] data) : base(data, typeof(PK4), 0) => Version = GameVersion.HGSS;
 
+    public override GameVersion Version { get => GameVersion.HGSS; set { } }
     public override PersonalTable4 Personal => PersonalTable.HGSS;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_HGSS;
     protected override Bank4 CloneInternal() => new((byte[])Data.Clone());

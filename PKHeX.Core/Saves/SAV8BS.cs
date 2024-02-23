@@ -304,8 +304,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     {
         var pb8 = (PB8)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateSwitch();
-        pb8.Trade(this, now.Day, now.Month, now.Year);
+        pb8.UpdateHandler(this);
 
         pb8.RefreshChecksum();
         if (SetUpdateRecords != PKMImportSetting.Skip)

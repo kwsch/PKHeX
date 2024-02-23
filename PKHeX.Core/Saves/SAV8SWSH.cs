@@ -191,8 +191,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     {
         PK8 pk8 = (PK8)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateSwitch();
-        pk8.Trade(this, now.Day, now.Month, now.Year);
+        pk8.UpdateHandler(this);
 
         if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk8.Species, pk8.Form))
         {

@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 9 <see cref="PKM"/> format. </summary>
-public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedienceLevel,
+public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedienceLevel, IHandlerUpdate,
     IContestStats, IHyperTrain, IScaledSize, IScaledSize3, IFavorite, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IAppliedMarkings7,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetCommon9, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetMark9
 {
@@ -549,34 +549,30 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         return 0x40 + (index >> 3);
     }
 
-    public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
+    // Synthetic Trading Logic
+    public bool BelongsTo(ITrainerInfo tr)
+    {
+        if (tr.Version != Version)
+            return false;
+        return BelongsToSkipVersion(tr);
+    }
+
+    public bool BelongsToSkipVersion(ITrainerInfo tr)
+    {
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        if (tr.Language != Language)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+    public void UpdateHandler(ITrainerInfo tr)
     {
         if (IsEgg)
         {
-            if (EggLocation == 60005 && tr.Gender == OriginalTrainerGender && tr.Language == Language && tr.OT == OriginalTrainerName)
-                return; // Jacq gift, don't change.
-
-            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
-            // If not matching the trainer details, mark as a traded egg.
-            if (!IsTradedEgg && tr.Gender == OriginalTrainerGender && tr.Language == Language && tr.OT == OriginalTrainerName)
-            {
-                OriginalTrainerTrash.Clear();
-                NicknameTrash.Clear();
-                HandlingTrainerTrash.Clear();
-                CurrentHandler = 0;
-                Language = tr.Language;
-                Nickname = SpeciesName.GetEggName(tr.Language, 9);
-                OriginalTrainerName = tr.OT;
-                HandlingTrainerLanguage = 0;
-            }
-            else
-            {
-                HandlingTrainerName = tr.OT;
-                HandlingTrainerGender = tr.Gender;
-                HandlingTrainerLanguage = (byte)tr.Language;
-                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
-                CurrentHandler = 1;
-            }
+            UpdateHandlerEgg(tr);
             return;
         }
 
@@ -585,33 +581,79 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
             TradeHT(tr);
     }
 
+    private void UpdateHandlerEgg(ITrainerInfo tr)
+    {
+        bool belongs = BelongsToSkipVersion(tr);
+        if (EggLocation == 60005 && belongs)
+            return; // Jacq gift, don't change.
+
+        // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
+        // If not matching the trainer details, mark as a traded egg.
+        // If it's the OT's, be nice and reset the data.
+        if (belongs)
+            SetHandlerEggOT(tr);
+        else
+            SetHandlerEggTraded(tr);
+    }
+
+    private void SetHandlerEggOT(ITrainerInfo tr)
+    {
+        // Reset back to the OT.
+        OriginalTrainerTrash.Clear();
+        NicknameTrash.Clear();
+        HandlingTrainerTrash.Clear();
+        HandlingTrainerGender = 0;
+        HandlingTrainerLanguage = 0;
+
+        Nickname = SpeciesName.GetEggName(tr.Language, 9);
+        OriginalTrainerName = tr.OT;
+        CurrentHandler = 0;
+    }
+
+    private void SetHandlerEggTraded(ITrainerInfo tr)
+    {
+        HandlingTrainerName = tr.OT;
+        HandlingTrainerGender = tr.Gender;
+        HandlingTrainerLanguage = (byte)tr.Language;
+
+        var date = EncounterDate.GetDateSwitch();
+        SetLinkTradeEgg(date.Day, date.Month, date.Year, Locations.LinkTrade6);
+        CurrentHandler = 1;
+    }
+
     public void FixMemories()
     {
         if (IsEgg) // No memories if is egg.
         {
             // HT_Language is set for eggs
-            HandlingTrainerMemoryVariable = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0;
-            /* OriginalTrainerFriendship */
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
+            this.ClearMemoriesOT();
+            this.ClearMemoriesHT();
+            HandlingTrainerGender = 0;
+            HandlingTrainerFriendship = 0;
+            HandlingTrainerTrash.Clear();
             return;
         }
 
         if (IsUntraded)
         {
-            // HT_Language is set for gifts
-            // Skip clearing that.
-            HandlingTrainerMemoryVariable = HandlingTrainerFriendship = HandlingTrainerMemory = HandlingTrainerMemoryIntensity = HandlingTrainerMemoryFeeling = 0;
+            // HT_Language is set for gifts -- skip clearing that.
+            this.ClearMemoriesHT();
+            HandlingTrainerGender = 0;
+            HandlingTrainerFriendship = 0;
+            HandlingTrainerTrash.Clear();
         }
-
-        var gen = Generation;
-        if (gen < 6)
-            OriginalTrainerMemoryVariable = OriginalTrainerMemory = OriginalTrainerMemoryIntensity = OriginalTrainerMemoryFeeling = 0;
+        else
+        {
+            var gen = Generation;
+            if (gen < 6)
+                this.ClearMemoriesOT();
+        }
     }
 
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OriginalTrainerGender && tr.OT == OriginalTrainerName))
+        if (!BelongsTo(tr))
             return false;
 
         CurrentHandler = 0;

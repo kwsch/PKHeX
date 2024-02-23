@@ -347,9 +347,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     {
         var pk4 = (PK4)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateNDS();
-        if (pk4.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
-            pk.RefreshChecksum();
+        pk4.UpdateHandler(this);
+        pk.RefreshChecksum();
     }
 
     // Daycare

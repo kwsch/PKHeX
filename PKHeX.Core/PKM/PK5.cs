@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
 public sealed class PK5 : PKM, ISanityChecksum,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons,
-    IContestStats, IGroundTile, IAppliedMarkings4
+    IContestStats, IGroundTile, IAppliedMarkings4, IHandlerUpdate
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -297,14 +297,29 @@ public sealed class PK5 : PKM, ISanityChecksum,
     }
 
     // Synthetic Trading Logic
-    public bool Trade(string SAV_Trainer, uint savID32, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2013)
+    public bool BelongsTo(ITrainerInfo tr)
     {
-        if (IsEgg && !(SAV_Trainer == OriginalTrainerName && savID32 == ID32 && SAV_GENDER == OriginalTrainerGender))
+        if (tr.Version != Version)
+            return false;
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+    public void UpdateHandler(ITrainerInfo tr)
+    {
+        if (IsEgg)
         {
-            SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade5);
-            return true;
+            // Don't bother updating eggs that were already traded.
+            const ushort location = Locations.LinkTrade5;
+            if (MetLocation != location && !BelongsTo(tr))
+            {
+                var date = EncounterDate.GetDateNDS();
+                SetLinkTradeEgg(date.Day, date.Month, date.Year, location);
+            }
         }
-        return false;
     }
 
     public int MarkingCount => 6;

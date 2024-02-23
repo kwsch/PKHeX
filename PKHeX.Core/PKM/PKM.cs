@@ -797,13 +797,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     /// <param name="day">Day the <see cref="PKM"/> was traded.</param>
     /// <param name="month">Month the <see cref="PKM"/> was traded.</param>
-    /// <param name="y">Day the <see cref="PKM"/> was traded.</param>
+    /// <param name="year">Day the <see cref="PKM"/> was traded.</param>
     /// <param name="location">Link Trade location value.</param>
-    protected void SetLinkTradeEgg(int day, int month, int y, ushort location)
+    protected void SetLinkTradeEgg(int day, int month, int year, ushort location)
     {
         MetDay = (byte)day;
         MetMonth = (byte)month;
-        MetYear = (byte)(y - 2000);
+        MetYear = (byte)(year - 2000);
         MetLocation = location;
     }
 

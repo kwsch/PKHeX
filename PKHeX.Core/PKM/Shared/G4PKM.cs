@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace PKHeX.Core;
 
 /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
-public abstract class G4PKM : PKM,
+public abstract class G4PKM : PKM, IHandlerUpdate,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons, IContestStats, IGroundTile, IAppliedMarkings4
 {
     protected G4PKM(byte[] data) : base(data) { }
@@ -279,15 +279,29 @@ public abstract class G4PKM : PKM,
     }
 
     // Synthetic Trading Logic
-    public bool Trade(string SAV_Trainer, uint savID32, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
+    public bool BelongsTo(ITrainerInfo tr)
     {
-        // Eggs do not have any modifications done if they are traded
-        if (IsEgg && !(SAV_Trainer == OriginalTrainerName && savID32 == ID32 && SAV_GENDER == OriginalTrainerGender))
+        if (tr.Version != Version)
+            return false;
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+    public void UpdateHandler(ITrainerInfo tr)
+    {
+        if (IsEgg)
         {
-            SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade4);
-            return true;
+            // Don't bother updating eggs that were already traded.
+            const ushort location = Locations.LinkTrade4;
+            if (MetLocation != location && !BelongsTo(tr))
+            {
+                var date = EncounterDate.GetDateNDS();
+                SetLinkTradeEgg(date.Day, date.Month, date.Year, location);
+            }
         }
-        return false;
     }
 
     // Enforce D/P content only (no Pt or HG/SS)

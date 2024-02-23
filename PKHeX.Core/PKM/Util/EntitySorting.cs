@@ -251,7 +251,16 @@ public static class EntitySorting
         var currentFriendship = pk.CurrentFriendship;
         if (currentFriendship == 255)
             return 255;
-        var baseFriendship = pk.PersonalInfo.BaseFriendship;
+
+        var baseFriendship = GetInitialFriendship(pk);
         return currentFriendship - baseFriendship;
+    }
+
+    private static byte GetInitialFriendship(PKM pk)
+    {
+        // Don't get too intricate with this, we generally want to know if it's been raised.
+        if (pk.WasEgg)
+            return EggStateLegality.EggHatchFriendshipGeneral;
+        return pk.PersonalInfo.BaseFriendship;
     }
 }
