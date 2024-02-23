@@ -825,8 +825,8 @@ public partial class Main : Form
         var date = File.GetLastWriteTime(Environment.ProcessPath!);
         string version = $"d-{date:yyyyMMdd}";
 #else
-        var version = Program.CurrentVersion;
-        string version = $"{2000+version.Major:00}{version.Minor:00}{version.Build:00}";
+        var v = Program.CurrentVersion;
+        string version = $"{2000+v.Major:00}{v.Minor:00}{v.Build:00}";
 #endif
         return $"PKH{(HaX ? "a" : "e")}X ({version})";
     }
