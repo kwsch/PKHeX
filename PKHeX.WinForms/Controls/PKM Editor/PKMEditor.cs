@@ -2211,16 +2211,22 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             BTN_NicknameWarn.Visible = BTN_OTNameWarn.Visible = false;
             return;
         }
-        BTN_NicknameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
-        BTN_OTNameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_OT.Text, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
+
+        var context = Entity.Context;
+        var langPk = (LanguageID)WinFormsUtil.GetIndex(CB_Language);
+        var langSav = (LanguageID)RequestSaveFile.Language;
+        BTN_NicknameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, context, langPk, langSav);
+        BTN_OTNameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_OT.Text, context, langPk, langSav);
     }
 
-    private void FontWarn(string name, string message, Button button)
+    private void FontWarn(string name, string message, Control ctrl)
     {
-        var displayed = StringFontUtil.ReplaceUndefinedCharacters(name, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
+        var langPk = (LanguageID)WinFormsUtil.GetIndex(CB_Language);
+        var langSav = (LanguageID)RequestSaveFile.Language;
+        var displayed = StringFontUtil.ReplaceUndefinedCharacters(name, Entity.Context, langPk, langSav);
         if (displayed == name) // save language was changed
         {
-            button.Visible = false;
+            ctrl.Visible = false;
             return;
         }
         WinFormsUtil.Alert(string.Format(message, name, displayed));

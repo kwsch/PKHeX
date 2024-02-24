@@ -506,8 +506,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            UC_Gender.AccessibleDescription = "Entity Gender Pane (0) (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)";
-            UC_Gender.AccessibleName = "Entity Gender Pane (0) (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)";
+            UC_Gender.AccessibleDescription = "Entity Gender Pane";
+            UC_Gender.AccessibleName = "Entity Gender Pane";
             UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_Gender.AllowClick = false;
             UC_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_Gender.BackgroundImage");
@@ -628,7 +628,6 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.Name = "TB_Nickname";
             TB_Nickname.Size = new System.Drawing.Size(144, 23);
             TB_Nickname.TabIndex = 5;
-            TB_Nickname.GotFocus += RefreshFontWarningButton;
             TB_Nickname.TextChanged += UpdateIsNicknamed;
             TB_Nickname.TextChanged += RefreshFontWarningButton;
             TB_Nickname.MouseDown += UpdateNicknameClick;
@@ -2502,14 +2501,13 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Name = "TB_OT";
             TB_OT.Size = new System.Drawing.Size(94, 23);
             TB_OT.TabIndex = 3;
-            TB_OT.GotFocus += RefreshFontWarningButton;
             TB_OT.TextChanged += RefreshFontWarningButton;
             TB_OT.MouseDown += UpdateNicknameClick;
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = "Trainer Gender Pane (0) (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)";
-            UC_OTGender.AccessibleName = "Trainer Gender Pane (0) (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)";
+            UC_OTGender.AccessibleDescription = "Trainer Gender Pane";
+            UC_OTGender.AccessibleName = "Trainer Gender Pane";
             UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
@@ -2716,8 +2714,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane (0) (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)";
-            UC_HTGender.AccessibleName = "Handling Trainer Gender Pane (0) (0) (0) (0) (0) (0) (0) (0) (0) (0) (0)";
+            UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane";
+            UC_HTGender.AccessibleName = "Handling Trainer Gender Pane";
             UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_HTGender.AllowClick = true;
             UC_HTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_HTGender.BackgroundImage");
