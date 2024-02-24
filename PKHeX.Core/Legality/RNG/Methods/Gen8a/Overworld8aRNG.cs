@@ -201,7 +201,8 @@ public static class Overworld8aRNG
         _ => Shiny.Never,
     };
 
-    public static bool Verify(PKM pk, ulong seed, in OverworldParam8a para)
+    public static bool Verify(PKM pk, ulong seed, in OverworldParam8a para,
+        bool isFixedH = false, bool isFixedW = false)
     {
         var rand = new Xoroshiro128Plus(seed);
         var ec = (uint)rand.NextInt();
@@ -290,9 +291,9 @@ public static class Overworld8aRNG
 
         if (pk is IScaledSize s)
         {
-            if (s.HeightScalar != height)
+            if (!isFixedH && s.HeightScalar != height)
                 return false;
-            if (s.WeightScalar != weight)
+            if (!isFixedW && s.WeightScalar != weight)
                 return false;
         }
 

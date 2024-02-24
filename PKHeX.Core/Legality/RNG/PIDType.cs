@@ -172,10 +172,10 @@ public enum PIDType : byte
     Pokewalker,
 
     /// <summary>
-    /// Generation 8 Raid PID
+    /// Generation 8 Xoroshiro correlation
     /// </summary>
     /// <remarks>Formulaic based on PID &amp; EC values from a 64bit-seed.</remarks>
-    Raid8,
+    Xoroshiro,
 
     /// <summary>
     /// Generation 8 Overworld Spawn PID

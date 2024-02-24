@@ -130,11 +130,8 @@ public sealed class MiscVerifier : Verifier
         else if (enc is ISeedCorrelation64<PKM> s64)
         {
             if (s64.TryGetSeed(pk, out var seed))
-                data.Info.PIDIV = new PIDIV(PIDType.Raid8, seed);
-        }
-        else if (enc is IMasteryInitialMoveShop8 m)
-        {
-            if (!m.IsForcedMasteryCorrect(pk))
+                data.Info.PIDIV = new PIDIV(PIDType.Xoroshiro, seed);
+            if (enc is IMasteryInitialMoveShop8 m && !m.IsForcedMasteryCorrect(pk))
                 data.AddLine(GetInvalid(LEncMasteryInitial));
         }
 

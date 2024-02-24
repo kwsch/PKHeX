@@ -6,7 +6,9 @@ namespace PKHeX.Core;
 /// Generation 8 Static Encounter
 /// </summary>
 public sealed record EncounterStatic8a
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IScaledSizeReadOnly, IMoveset, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, ISeedCorrelation64<PKM>,
+        IAlphaReadOnly, IMasteryInitialMoveShop8, IScaledSizeReadOnly,
+        IMoveset, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8a;
@@ -283,4 +285,20 @@ public sealed record EncounterStatic8a
         return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
     }
     #endregion
+
+    public bool TryGetSeed(PKM pk, out ulong seed)
+    {
+        // Check if it matches any single-roll seed.
+        var param = GetParams();
+        var solver = new XoroMachineSkip(pk.EncryptionConstant, pk.PID);
+        foreach (var s in solver)
+        {
+            if (!Overworld8aRNG.Verify(pk, s, param, HasFixedHeight, HasFixedWeight))
+                continue;
+            seed = s;
+            return true;
+        }
+        seed = default;
+        return false;
+    }
 }

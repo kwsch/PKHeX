@@ -52,7 +52,7 @@ public readonly struct PIDIV
 #endif
     public bool IsClassicMethod() => Type.IsClassicMethod();
 
-    public bool IsSeed64() => Type is PIDType.Raid8;
+    public bool IsSeed64() => Type is PIDType.Xoroshiro;
 
     public PIDIV AsEncounteredVia(LeadSeed condition) => this with { Lead = condition.Lead, EncounterSeed = condition.Seed };
 }

@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <param name="AlphaType">0=Never, 1=Random, 2=Guaranteed</param>
 /// <param name="FlawlessIVCount"></param>
 public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte AlphaType, byte FlawlessIVCount, Gender Gender)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IFlawlessIVCount
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IFlawlessIVCount, ISeedCorrelation64<PKM>
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8a;
@@ -233,4 +233,21 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
     }
     #endregion
+
+    public bool TryGetSeed(PKM pk, out ulong seed)
+    {
+        // Check if it matches any single-roll seed.
+        var pi = PersonalTable.LA[Species, Form];
+        var param = GetParams(pi) with { RollCount = 1 };
+        var solver = new XoroMachineSkip(pk.EncryptionConstant, pk.PID);
+        foreach (var s in solver)
+        {
+            if (!Overworld8aRNG.Verify(pk, s, param))
+                continue;
+            seed = s;
+            return true;
+        }
+        seed = default;
+        return false;
+    }
 }
