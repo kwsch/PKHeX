@@ -1,13 +1,17 @@
 using System;
+using static PKHeX.Core.EncounterGift1.TrainerType;
+using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Event data for Generation 1
 /// </summary>
-public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Version = GameVersion.RB)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>, IFixedGBLanguage, IMoveset, IFixedIVSet
+public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>,
+     IMoveset, IFixedIVSet
 {
+    public const int SerializedSize = 8;
+
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
@@ -16,122 +20,159 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public bool IsShiny => false;
     public ushort Location => 0;
-
-    public const ushort UnspecifiedID = 0;
-
-    public Shiny Shiny { get; init; } = Shiny.Random;
     public byte Form => 0;
+    public Shiny Shiny => Shiny.Random;
 
-    public EncounterGBLanguage Language { get; init; } = EncounterGBLanguage.Japanese;
-
-    /// <summary> Trainer name for the event. </summary>
-    public string OriginalTrainerName { get; init; } = string.Empty;
-
-    public ReadOnlyMemory<string> TrainerNames { get; init; }
-
-    /// <summary> Trainer ID for the event. </summary>
-    public ushort TID16 { get; init; } = UnspecifiedID;
-
-    public IndividualValueSet IVs { get; init; }
-    public Moveset Moves { get; init; }
+    public Moveset Moves { get; }
+    public IndividualValueSet IVs { get; }
+    public ushort Species { get; }
+    public byte Level { get; }
+    public GameVersion Version { get; }
+    public LanguageRestriction Language { get; }
+    public TrainerType Trainer { get; }
 
     public string Name => "Event Gift";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
+    public enum LanguageRestriction : byte
+    {
+        Any = 0,
+        Japanese = 1,
+        International = 2,
+    }
+
+    public enum TrainerType : byte
+    {
+        Recipient,
+        VirtualConsoleMew = 1,
+        Stadium = 2,
+        EuropeTour = 3,
+    }
+
+    private const ushort TrainerIDStadiumJPN = 1999;
+    private const ushort TrainerIDStadiumINT = 2000;
+    private const ushort TrainerIDVirtualConsoleMew = 2_27_96; // Red/Green (Japan) release date!
+    private const string StadiumENG = "STADIUM";
+    private const string StadiumJPN = "スタジアム";
+    private const string StadiumFRE = "STADE";
+    private const string StadiumITA = "STADIO";
+    private const string StadiumSPA = "ESTADIO";
+    private const string VirtualConsoleMewINT = "GF";
+    private const string VirtualConsoleMewJPN = "ゲーフリ";
+    private const string FirstTourOT = "YOSHIRA";
+
+    private static bool IsTourOT(ReadOnlySpan<char> str) => str switch
+    {
+        "YOSHIRA" => true,
+        "YOSHIRB" => true,
+        "YOSHIBA" => true,
+        "YOSHIBB" => true,
+        "LINKE" => true,
+        "LINKW" => true,
+        "LUIGE" => true,
+        "LUIGW" => true,
+        "LUIGIC" => true,
+        "YOSHIC" => true,
+        _ => false,
+    };
+
+    public EncounterGift1(ReadOnlySpan<byte> data)
+    {
+        Species = data[0];
+        Level = data[1];
+        Moves = new Moveset(data[2], data[3], data[4], data[5]);
+        Language = (LanguageRestriction)data[6];
+        Trainer = (TrainerType)data[7];
+
+        if (Trainer is EuropeTour)
+            IVs = new(5, 10, 1, 12, 5, 5);
+        else if (Trainer is VirtualConsoleMew)
+            IVs = new(15, 15, 15, 15, 15, 15);
+
+        Version = Trainer == Stadium ? GameVersion.Stadium : GameVersion.RB;
+    }
+
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
-
     public PK1 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
 
     public PK1 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var lang = GetTemplateLanguage(tr);
-        var isJapanese = lang == (int)LanguageID.Japanese;
-        var pi = EncounterUtil.GetPersonal1(Version, Species);
+        var lang = GetLanguage((LanguageID)tr.Language);
+        var isJapanese = lang == Japanese;
+        var pi = PersonalTable.RB[Species];
+        var rand = Util.Rand;
         var pk = new PK1(isJapanese)
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            CatchRate = GetInitialCatchRate(pi),
-            DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) : EncounterUtil.GetRandomDVs(Util.Rand),
-
-            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
-            TID16 = tr.TID16,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, (int)lang, Generation),
             Type1 = pi.Type1,
             Type2 = pi.Type2,
+            DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) : EncounterUtil.GetRandomDVs(rand),
+
+            CatchRate = Trainer switch
+            {
+                Stadium => 168, // be nice and give a Gorgeous Box
+                _ => pi.CatchRate,
+            },
+            TID16 = Trainer switch
+            {
+                Recipient => tr.TID16,
+                Stadium => lang == Japanese ? TrainerIDStadiumJPN : TrainerIDStadiumINT,
+                VirtualConsoleMew => TrainerIDVirtualConsoleMew,
+                _ => (ushort)rand.Next(10, 200),
+            },
+
+            OriginalTrainerName = Trainer switch
+            {
+                Recipient => EncounterUtil.GetTrainerName(tr, (int)lang),
+                Stadium => lang switch
+                {
+                    Japanese => StadiumJPN,
+                    English => StadiumENG,
+                    French => StadiumFRE,
+                    Italian => StadiumITA,
+                    German => StadiumENG, // Same as English
+                    Spanish => StadiumSPA,
+                    _ => StadiumENG, // shouldn't hit here
+                },
+                EuropeTour => FirstTourOT, // YOSHIRA
+                _ => string.Empty,
+            },
         };
 
-        if (TID16 != UnspecifiedID)
-            pk.TID16 = TID16;
-        if (OriginalTrainerName.Length != 0)
-            pk.OriginalTrainerName = OriginalTrainerName;
-        else if (TrainerNames.Length != 0)
-            pk.OriginalTrainerName = TrainerNames.Span[Util.Rand.Next(TrainerNames.Length)];
-
-        if (Version == GameVersion.Stadium)
-        {
-            // Amnesia Psyduck has different catch rates depending on language
-            if (Species == (int)Core.Species.Psyduck)
-                pk.CatchRate = pk.Japanese ? (byte)167 : (byte)168;
-            else
-                pk.CatchRate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
-        }
-
-        if (Moves.HasMoves)
-            pk.SetMoves(Moves);
-        else
-            EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-
+        pk.SetMoves(Moves);
         pk.ResetPartyStats();
         return pk;
     }
 
-    private int GetTemplateLanguage(ITrainerInfo tr)
+    private LanguageID GetLanguage(LanguageID request)
     {
-        // Japanese events must be Japanese
-        if (Language == EncounterGBLanguage.Japanese)
-            return 1;
+        if (Language == LanguageRestriction.Japanese)
+            return Japanese;
 
-        // International events must be non-Japanese
-        var lang = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
-        if (lang == 1 && Language == EncounterGBLanguage.International)
-            return 2;
-        return lang;
+        if (request is not (English or French or Italian or German or Spanish))
+            return English;
+        return request;
     }
 
     #endregion
-
-    private byte GetInitialCatchRate(PersonalInfo1 pi)
-    {
-        if (Version == GameVersion.Stadium)
-        {
-            // Amnesia Psyduck has different catch rates depending on language
-            if (Species == (int)Core.Species.Psyduck)
-                return Language == EncounterGBLanguage.Japanese ? (byte)167 : (byte)168;
-        }
-
-        // Encounters can have different Catch Rates (RBG vs Y)
-        return pi.CatchRate;
-    }
 
     #region Matching
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (Language != EncounterGBLanguage.Any && pk.Japanese != (Language == EncounterGBLanguage.Japanese))
+        if (Language != LanguageRestriction.Any && pk.Japanese != (Language == LanguageRestriction.Japanese))
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
         if (Level > evo.LevelMax)
-            return false;
-        // Encounters with this version have to originate from the Japanese Blue game.
-        if (Version == GameVersion.BU && !pk.Japanese)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
@@ -151,23 +192,40 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
         // EC/PID check doesn't exist for these, so check Shiny state here.
         if (!IsShinyValid(pk))
             return false;
-
-        if (TID16 != UnspecifiedID && pk.TID16 != TID16)
+        if (!IsTrainerIDValid(pk))
             return false;
-
-        if (OriginalTrainerName.Length != 0)
-        {
-            if (pk.OriginalTrainerName != OriginalTrainerName)
-                return false;
-        }
-        else if (TrainerNames.Length != 0)
-        {
-            if (!TrainerNames.Span.Contains(pk.OriginalTrainerName))
-                return false;
-        }
-
+        if (!IsTrainerNameValid(pk))
+            return false;
         return true;
     }
+
+    private bool IsTrainerNameValid(PKM pk) => Trainer switch
+    {
+        Recipient => true,
+        VirtualConsoleMew => pk.OriginalTrainerName == (pk.Language == 1 ? VirtualConsoleMewJPN : VirtualConsoleMewINT),
+        Stadium => pk.Language switch
+        {
+            (int)Japanese => pk.OriginalTrainerName == StadiumJPN,
+            _ => pk.OriginalTrainerName switch
+            {
+                StadiumENG => true,
+                StadiumFRE => true,
+                StadiumITA => true,
+                StadiumSPA => true,
+                _ => false,
+            },
+        },
+        EuropeTour => IsTourOT(pk.OriginalTrainerName),
+        _ => true,
+    };
+
+    private bool IsTrainerIDValid(ITrainerID16 pk) => Trainer switch
+    {
+        Recipient => true,
+        VirtualConsoleMew => pk.TID16 == TrainerIDVirtualConsoleMew,
+        Stadium => pk.TID16 == (Language == LanguageRestriction.Japanese ? TrainerIDStadiumJPN : TrainerIDStadiumINT),
+        _ => true,
+    };
 
     private bool IsShinyValid(PKM pk) => Shiny switch
     {
@@ -213,15 +271,10 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
             return true;
 
         if (Version == GameVersion.Stadium)
-        {
-            // Amnesia Psyduck has different catch rates depending on language
-            if (Species == (int)Core.Species.Psyduck)
-                return rate == (Language == EncounterGBLanguage.Japanese ? 167 : 168);
             return rate is 167 or 168;
-        }
 
-        // Encounters can have different Catch Rates (RBG vs Y)
-        return GBRestrictions.RateMatchesEncounter(Species, Version, rate);
+        var pi = PersonalTable.RB[Species];
+        return pi.CatchRate == rate;
     }
 
     #endregion

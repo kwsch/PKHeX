@@ -13,7 +13,7 @@ public static class TrashBytes
     /// </summary>
     /// <param name="buffer">Buffer to check the length of.</param>
     /// <param name="terminator">String terminator to search for.</param>
-    /// <returns>Index of the terminator, or max length if not found.</returns>
+    /// <returns>Decoded index (char) of the terminator, or max length if not found.</returns>
     public static int GetStringLength(ReadOnlySpan<byte> buffer, ushort terminator = 0)
     {
         int index = FindTerminatorIndex(buffer, terminator);
@@ -25,7 +25,7 @@ public static class TrashBytes
     /// </summary>
     /// <param name="buffer">Backing buffer of the string.</param>
     /// <param name="terminator">Terminator character to search for.</param>
-    /// <returns>Index of the terminator, or -1 if not found.</returns>
+    /// <returns>Decoded index (char) of the terminator, or -1 if not found.</returns>
     /// <remarks>When used on a raw string, returns the computed length of the string, assuming a terminator is present.</remarks>
     public static int FindTerminatorIndex(ReadOnlySpan<byte> buffer, ushort terminator = 0)
     {

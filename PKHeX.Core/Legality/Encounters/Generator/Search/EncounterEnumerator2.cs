@@ -171,7 +171,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                     return SetCurrent(Encounters2.CelebiVC);
                 goto case YieldState.Fallback;
             case YieldState.EventGB:
-                if (TryGetNext(Encounters2GBEra.StaticEventsGB))
+                if (TryGetNext(Encounters2GBEra.Gifts))
                     return true;
                 State = YieldState.Fallback; goto case YieldState.Fallback;
 

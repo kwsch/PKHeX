@@ -94,7 +94,7 @@ public sealed class TrainerNameVerifier : Verifier
         {
             // Transferring from RBY->Gen7 won't have OT Gender in PK1, nor will PK1 originated encounters.
             // GSC Trades already checked for OT Gender matching.
-            if (pk is { Format: > 2, VC1: true } || enc is { Generation: 1 } or EncounterGift2 { IsGift: true })
+            if (pk is { Format: > 2, VC1: true } || enc is { Generation: 1 } or EncounterGift2 { EggEncounter: false })
                 data.AddLine(GetInvalid(LG1OTGender));
         }
 

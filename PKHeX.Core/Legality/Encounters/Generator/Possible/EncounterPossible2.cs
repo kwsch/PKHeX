@@ -169,7 +169,7 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
                     return SetCurrent(Encounters2.CelebiVC);
                 break;
             case YieldState.EventGB:
-                if (TryGetNext(Encounters2GBEra.StaticEventsGB))
+                if (TryGetNext(Encounters2GBEra.Gifts))
                     return true;
                 break;
         }
