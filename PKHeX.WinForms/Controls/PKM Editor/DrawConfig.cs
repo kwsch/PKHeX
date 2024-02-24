@@ -10,7 +10,6 @@ namespace PKHeX.WinForms;
 /// <summary>
 /// Drawing Configuration for painting and updating controls
 /// </summary>
-[Serializable]
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed class DrawConfig : IDisposable
 {

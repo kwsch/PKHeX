@@ -752,9 +752,10 @@ public partial class SAV_Database : Form
 
     private static DateTime GetRevisedTime(SlotCache arg)
     {
+        // This isn't displayed to the user, so just return the quickest -- Utc (not local time).
         var src = arg.Source;
         if (src is not SlotInfoFile f)
-            return DateTime.Now;
+            return DateTime.UtcNow;
         return File.GetLastWriteTimeUtc(f.Path);
     }
 
