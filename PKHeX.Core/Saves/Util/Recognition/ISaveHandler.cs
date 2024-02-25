@@ -20,6 +20,12 @@ public interface ISaveHandler
     /// <param name="input">Combined data</param>
     /// <returns>Null if not a valid save file for this handler's format. Returns an object containing header, footer, and inner data references.</returns>
     SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input);
+
+    /// <summary>
+    /// When exporting a save file, the handler might want to update the header/footer.
+    /// </summary>
+    /// <param name="input">Combined data</param>
+    void Finalize(Span<byte> input);
 }
 #endif
 

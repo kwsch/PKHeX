@@ -141,6 +141,7 @@ public static class SaveUtil
         new SaveHandlerDeSmuME(),
         new SaveHandlerBizHawk(),
         new SaveHandlerARDS(),
+        new SaveHandlerNSO(),
     ];
 #endif
 
@@ -699,7 +700,7 @@ public static class SaveUtil
                 continue;
 
             var meta = sav.Metadata;
-            meta.SetExtraInfo(split.Header, split.Footer);
+            meta.SetExtraInfo(split.Header, split.Footer, split.Handler);
             if (path is not null)
                 meta.SetExtraInfo(path);
             return sav;
@@ -787,7 +788,7 @@ public static class SaveUtil
         }
 
         if (split != null)
-            sav.Metadata.SetExtraInfo(split.Header, split.Footer);
+            sav.Metadata.SetExtraInfo(split.Header, split.Footer, split.Handler);
         return sav;
     }
 
