@@ -527,14 +527,14 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public bool MysteryGiftIsUnlocked
+    public bool IsMysteryGiftUnlocked
     {
         get
         {
             int ofs = Offsets.MysteryGiftIsUnlocked;
             if (ofs == -1)
                 return false;
-            return Data[ofs] == 0x00;
+            return (sbyte)Data[ofs] >= 0x00; // -1 is disabled; [0,5] is unlocked
         }
         set
         {
