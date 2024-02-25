@@ -115,12 +115,10 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         {
             int offset = Offsets.Daycare;
 
-            DaycareFlags[0] = Data[offset];
             offset++;
             var pk1 = ReadPKMFromOffset(offset); // parent 1
             var daycare1 = new PokeList2(pk1);
             offset += (StringLength * 2) + 0x20; // nick/ot/pk
-            DaycareFlags[1] = Data[offset];
             offset++;
             //byte steps = Data[offset];
             offset++;
@@ -567,12 +565,35 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => value.SaveAll(Data);
     }
 
-    private readonly byte[] DaycareFlags = new byte[2];
+    public ref byte DaycareFlagByte(int index)
+    {
+        var offset = GetDaycareOffset(index);
+        return ref Data[offset];
+    }
+
+    private int GetDaycareOffset(int index)
+    {
+        int offset = Offsets.Daycare;
+        if (index != 0)
+            offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED + 1;
+        return offset;
+    }
+
     public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + (slot * 2));
     public override uint? GetDaycareEXP(int loc, int slot) => null;
-    public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlags[slot] & 1) != 0;
+    public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlagByte(slot) & 1) != 0;
     public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
+
+    public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+    {
+        if (occupied)
+            DaycareFlagByte(slot) |= 1;
+        else
+            DaycareFlagByte(slot) &= 0xFE;
+    }
+
+    // bit 6 of the first flag byte
+    public bool IsEggAvailable { get => (DaycareFlagByte(0) & 0x40) != 0; set => DaycareFlagByte(0) = (byte)((DaycareFlagByte(0) & 0xBF) | (value ? 0x40 : 0)); }
 
     // Storage
     public override int PartyCount
