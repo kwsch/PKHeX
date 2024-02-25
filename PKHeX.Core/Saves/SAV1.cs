@@ -304,8 +304,15 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
 
+    public byte RivalStarter { get => Data[Offsets.Starter - 2]; set => Data[Offsets.Starter - 2] = value; }
     public bool Yellow => Starter == 0x54; // Pikachu
-    public int Starter => Data[Offsets.Starter];
+    public byte Starter { get => Data[Offsets.Starter]; set => Data[Offsets.Starter] = value; }
+
+
+    public ref byte WramD72E => ref Data[Offsets.Starter + 0x17]; // offset relative to player starter
+
+    // bit0 of d72e
+    public bool IsSilphLaprasReceived { get => (WramD72E & 1) != 0; set => WramD72E = (byte)((WramD72E & 0xFE) | (value ? 1 : 0)); }
 
     public byte PikaFriendship
     {
