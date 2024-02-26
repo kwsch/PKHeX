@@ -51,7 +51,7 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
         Captured = new CaptureRecords(sav, GetBlockOffset(BelugaBlockIndex.CaptureRecord));
         FashionPlayer = new Fashion7b(sav, GetBlockOffset(BelugaBlockIndex.FashionPlayer));
         FashionStarter = new Fashion7b(sav, GetBlockOffset(BelugaBlockIndex.FashionStarter));
-        Park = new GoParkStorage(sav, sav.Blocks.GetBlockOffset(BelugaBlockIndex.GoParkEntities));
+        Park = new GoParkStorage(sav, GetBlockOffset(BelugaBlockIndex.GoParkEntities));
         PlayerGeoLocation = new PlayerGeoLocation7b(sav, GetBlockOffset(BelugaBlockIndex.PlayerGeoLocation));
     }
 
