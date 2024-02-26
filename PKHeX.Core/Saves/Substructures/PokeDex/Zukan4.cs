@@ -6,11 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used by <see cref="SAV4"/> games.
 /// </summary>
-public sealed class Zukan4(SAV4 sav, int offset) : ZukanBase<SAV4>(sav, offset)
+public sealed class Zukan4(SAV4 sav, Memory<byte> raw) : ZukanBase<SAV4>(sav, raw)
 {
-    private readonly Memory<byte> Buffer = sav.GeneralBuffer[offset..];
-    private Span<byte> Data => Buffer.Span;
-
     // General structure: u32 magic, 4*bitflags, u32 spinda, form flags, language flags, more form flags, upgrade flags
 
     /* 4 BitRegions with 0x40*8 bits

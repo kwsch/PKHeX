@@ -136,10 +136,10 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             daycare3.Write().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
             DaycareOffset = Offsets.Daycare;
         }
-
-        // Enable Pokedex editing
-        PokeDex = 0;
     }
+
+    private int DaycareOffset = -1;
+    public override bool HasPokeDex => true;
 
     private int EventFlag => Offsets.EventFlag;
     private int EventWork => Offsets.EventWork;

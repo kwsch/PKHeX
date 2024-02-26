@@ -10,17 +10,16 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size 0x4288</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
+public sealed class SealBallDecoData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
+    private readonly Memory<byte> _raw = raw;
     public const int COUNT_CAPSULE = 99; // CapsuleData[99]
 
-    private const int SIZE = 4 + (COUNT_CAPSULE * SealCapsule8b.SIZE); // 0x4288
+    public const int SIZE = 4 + (COUNT_CAPSULE * SealCapsule8b.SIZE); // 0x4288
 
-    public SealBallDecoData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
+    public void Clear() => Data.Clear();
 
-    public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
-
-    public byte CapsuleCount { get => Data[Offset]; set => Data[Offset] = value; }
+    public byte CapsuleCount { get => Data[0]; set => Data[0] = value; }
 
     public SealCapsule8b[] Capsules
     {
@@ -32,7 +31,7 @@ public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
     {
         var result = new SealCapsule8b[COUNT_CAPSULE];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new SealCapsule8b(Data, Offset + 4 + (i * SealCapsule8b.SIZE));
+            result[i] = new SealCapsule8b(_raw.Slice(4 + (i * SealCapsule8b.SIZE), SealCapsule8b.SIZE));
         return result;
     }
 
@@ -44,16 +43,18 @@ public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class SealCapsule8b(byte[] Data, int Offset)
+public sealed class SealCapsule8b(Memory<byte> raw)
 {
     public const int COUNT_SEAL = 20; // AffixSealData[20]
     public const int SIZE = 12 + (COUNT_SEAL * AffixSealData8b.SIZE); // 0xAC
 
+    private Span<byte> Data => raw.Span;
+
     public override string ToString() => $"{(Species)Species}-{EncryptionConstant:X8}-{Unknown}";
 
-    public uint Species            { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value); }
-    public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value); }
-    public uint Unknown            { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 8)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 8), value); }
+    public uint Species            { get => ReadUInt32LittleEndian(Data[..]); set => WriteUInt32LittleEndian(Data[..], value); }
+    public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data[4..]); set => WriteUInt32LittleEndian(Data[4..], value); }
+    public uint Unknown            { get => ReadUInt32LittleEndian(Data[8..]); set => WriteUInt32LittleEndian(Data[8..], value); }
 
     public AffixSealData8b[] Seals
     {
@@ -65,7 +66,7 @@ public sealed class SealCapsule8b(byte[] Data, int Offset)
     {
         var result = new AffixSealData8b[COUNT_SEAL];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new AffixSealData8b(Data, Offset + 0xC + (i * AffixSealData8b.SIZE));
+            result[i] = new AffixSealData8b(raw.Slice(0xC + (i * AffixSealData8b.SIZE), AffixSealData8b.SIZE));
         return result;
     }
 
@@ -77,14 +78,16 @@ public sealed class SealCapsule8b(byte[] Data, int Offset)
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class AffixSealData8b(byte[] Data, int Offset)
+public sealed class AffixSealData8b(Memory<byte> raw)
 {
     public const int SIZE = 8; // u16 id, s16 x,y,z
 
+    private Span<byte> Data => raw.Span;
+
     public override string ToString() => $"{(Seal8b)SealID}-({X},{Y},{Z})";
 
-    public ushort SealID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value); }
-    public short X { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 2)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 2), value); }
-    public short Y { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 4)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 4), value); }
-    public short Z { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 6)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 6), value); }
+    public ushort SealID { get => ReadUInt16LittleEndian(Data[..]); set => WriteUInt16LittleEndian(Data[..], value); }
+    public short X { get => ReadInt16LittleEndian(Data[2..]); set => WriteInt16LittleEndian(Data[2..], value); }
+    public short Y { get => ReadInt16LittleEndian(Data[4..]); set => WriteInt16LittleEndian(Data[4..], value); }
+    public short Z { get => ReadInt16LittleEndian(Data[6..]); set => WriteInt16LittleEndian(Data[6..], value); }
 }

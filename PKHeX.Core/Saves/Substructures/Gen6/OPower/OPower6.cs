@@ -32,26 +32,26 @@ public sealed class OPower6 : SaveBlock<SAV6>
         new(3, Accuracy) {Offset = 62},
     ];
 
-    public OPower6(SAV6XY sav, int offset) : base(sav, offset) { }
-    public OPower6(SAV6AO sav, int offset) : base(sav, offset) { }
+    public OPower6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
+    public OPower6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
     private static OPowerFlagSet Get(OPower6Type type) => Array.Find(Mapping, t => t.Identifier == type) ?? throw new ArgumentOutOfRangeException(nameof(type));
     public static int GetOPowerCount(OPower6Type type) => Get(type).BaseCount;
-    public int GetOPowerLevel(OPower6Type type) => Get(type).GetOPowerLevel(Data.AsSpan(Offset));
+    public int GetOPowerLevel(OPower6Type type) => Get(type).GetOPowerLevel(Data);
 
     public static bool GetHasOPowerS(OPower6Type type) => Get(type).HasOPowerS;
     public static bool GetHasOPowerMAX(OPower6Type type) => Get(type).HasOPowerMAX;
-    public bool GetOPowerS(OPower6Type type) => Get(type).GetOPowerS(Data.AsSpan(Offset));
-    public bool GetOPowerMAX(OPower6Type type) => Get(type).GetOPowerMAX(Data.AsSpan(Offset));
+    public bool GetOPowerS(OPower6Type type) => Get(type).GetOPowerS(Data);
+    public bool GetOPowerMAX(OPower6Type type) => Get(type).GetOPowerMAX(Data);
 
-    public void SetOPowerLevel(OPower6Type type, int lvl) => Get(type).SetOPowerLevel(Data.AsSpan(Offset), lvl);
-    public void SetOPowerS(OPower6Type type, bool value) => Get(type).SetOPowerS(Data.AsSpan(Offset), value);
-    public void SetOPowerMAX(OPower6Type type, bool value) => Get(type).SetOPowerMAX(Data.AsSpan(Offset), value);
+    public void SetOPowerLevel(OPower6Type type, int lvl) => Get(type).SetOPowerLevel(Data, lvl);
+    public void SetOPowerS(OPower6Type type, bool value) => Get(type).SetOPowerS(Data, value);
+    public void SetOPowerMAX(OPower6Type type, bool value) => Get(type).SetOPowerMAX(Data, value);
 
     public bool MasterFlag
     {
-        get => Data[Offset] == 1;
-        set => Data[Offset] = (byte) (value ? OPowerFlagState.Unlocked : OPowerFlagState.Locked);
+        get => Data[0] == 1;
+        set => Data[0] = (byte) (value ? OPowerFlagState.Unlocked : OPowerFlagState.Locked);
     }
 
     public void UnlockAll() => ToggleFlags(allEvents: true);
@@ -60,7 +60,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
 
     private void ToggleFlags(bool allEvents = false, bool clearOnly = false)
     {
-        var span = Data.AsSpan(Offset);
+        var span = Data;
         foreach (var m in Mapping)
         {
             // Clear before applying new value
@@ -80,6 +80,4 @@ public sealed class OPower6 : SaveBlock<SAV6>
             m.SetOPowerMAX(span, true);
         }
     }
-
-    public byte[] Write() => Data;
 }

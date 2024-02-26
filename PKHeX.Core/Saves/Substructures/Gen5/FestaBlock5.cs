@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class FestaBlock5(SAV5B2W2 SAV, int offset) : SaveBlock<SAV5B2W2>(SAV, offset)
+public sealed class FestaBlock5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5B2W2>(SAV, raw)
 {
     public const ushort MaxScore = 9999;
     public const int FunfestFlag = 2438;
@@ -12,44 +12,44 @@ public sealed class FestaBlock5(SAV5B2W2 SAV, int offset) : SaveBlock<SAV5B2W2>(
 
     public ushort Hosted
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF0), Math.Min(MaxScore, value));
+        get => ReadUInt16LittleEndian(Data[0xF0..]);
+        set => WriteUInt16LittleEndian(Data[0xF0..], Math.Min(MaxScore, value));
     }
 
     public ushort Participated
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF2), Math.Min(MaxScore, value));
+        get => ReadUInt16LittleEndian(Data[0xF2..]);
+        set => WriteUInt16LittleEndian(Data[0xF2..], Math.Min(MaxScore, value));
     }
 
     public ushort Completed
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF4));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF4), Math.Min(MaxScore, value));
+        get => ReadUInt16LittleEndian(Data[0xF4..]);
+        set => WriteUInt16LittleEndian(Data[0xF4..], Math.Min(MaxScore, value));
     }
 
     public ushort TopScores
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF6));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF6), Math.Min(MaxScore, value));
+        get => ReadUInt16LittleEndian(Data[0xF6..]);
+        set => WriteUInt16LittleEndian(Data[0xF6..], Math.Min(MaxScore, value));
     }
 
     public byte WhiteEXP
     {
-        get => Data[Offset + 0xF8];
-        set => Data[Offset + 0xF8] = value;
+        get => Data[0xF8];
+        set => Data[0xF8] = value;
     }
 
     public byte BlackEXP
     {
-        get => Data[Offset + 0xF9];
-        set => Data[Offset + 0xF9] = value;
+        get => Data[0xF9];
+        set => Data[0xF9] = value;
     }
 
     public byte Participants
     {
-        get => Data[Offset + 0xFA];
-        set => Data[Offset + 0xFA] = value;
+        get => Data[0xFA];
+        set => Data[0xFA] = value;
     }
 
     private static int GetMissionRecordOffset(int mission)
@@ -61,14 +61,14 @@ public sealed class FestaBlock5(SAV5B2W2 SAV, int offset) : SaveBlock<SAV5B2W2>(
 
     public Funfest5Score GetMissionRecord(int mission)
     {
-        var raw = ReadUInt32LittleEndian(Data.AsSpan(Offset + GetMissionRecordOffset(mission)));
+        var raw = ReadUInt32LittleEndian(Data[GetMissionRecordOffset(mission)..]);
         return new Funfest5Score(raw);
     }
 
     public void SetMissionRecord(int mission, Funfest5Score score)
     {
         var value = score.RawValue;
-        WriteUInt32LittleEndian(Data.AsSpan(Offset + GetMissionRecordOffset(mission)), value);
+        WriteUInt32LittleEndian(Data[GetMissionRecordOffset(mission)..], value);
     }
 
     public bool IsFunfestMissionsUnlocked

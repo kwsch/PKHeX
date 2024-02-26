@@ -2,14 +2,12 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class ResortSave7 : SaveBlock<SAV7>
+public sealed class ResortSave7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw)
 {
-    public ResortSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
-
     private const int SIZE_7STORED_R = PokeCrypto.SIZE_6STORED + 4;
 
     public const int ResortCount = 93;
-    public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * SIZE_7STORED_R);
+    public static int GetResortSlotOffset(int slot) => 0x16 + (slot * SIZE_7STORED_R);
 
     public PK7[] ResortPKM
     {
@@ -31,14 +29,14 @@ public sealed class ResortSave7 : SaveBlock<SAV7>
             for (int i = 0; i < value.Length; i++)
             {
                 var ofs = GetResortSlotOffset(i);
-                var dest = Data.AsSpan(ofs, PokeCrypto.SIZE_6STORED);
+                var dest = Data.Slice(ofs, PokeCrypto.SIZE_6STORED);
                 SAV.SetSlotFormatStored(value[i], dest);
             }
         }
     }
 
     public const int BEANS_MAX = 15;
-    public Span<byte> GetBeans() => Data.AsSpan(Offset + 0x564C, BEANS_MAX);
+    public Span<byte> GetBeans() => Data.Slice(0x564C, BEANS_MAX);
     public void ClearBeans() => GetBeans().Clear();
     public void FillBeans(byte value = 255) => GetBeans().Fill(value);
 

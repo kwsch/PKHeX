@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -31,12 +32,19 @@ public sealed class SaveBlockAccessor6AODemo(SAV6AODemo sav) : ISaveBlockAccesso
     ];
 
     public IReadOnlyList<BlockInfo6> BlockInfo => BlocksAODemo;
-    public MyItem Items { get; } = new MyItem6AO(sav, 0x00000);
-    public ItemInfo6 ItemInfo { get; } = new(sav, 0x00C00);
-    public GameTime6 GameTime { get; } = new(sav, 0x00E00);
-    public Situation6 Situation { get; } = new(sav, 0x01000);
-    public PlayTime6 Played { get; } = new(sav, 0x01400);
-    public MyStatus6 Status { get; } = new(sav, 0x03C00);
-    public RecordBlock6 Records { get; } = new RecordBlock6AO(sav, 0x05400);
-    public Misc6AO Misc { get; } = new(sav, 0x03A00);
+    public MyItem Items { get; } = new MyItem6AO(sav, Block(sav, 0));
+    public ItemInfo6 ItemInfo { get; } = new(sav, Block(sav, 1));
+    public GameTime6 GameTime { get; } = new(sav, Block(sav, 2));
+    public Situation6 Situation { get; } = new(sav, Block(sav, 3));
+    public PlayTime6 Played { get; } = new(sav, Block(sav, 5));
+    public Misc6AO Misc { get; } = new(sav, Block(sav, 8));
+    public MyStatus6 Status { get; } = new(sav, Block(sav, 9));
+    public RecordBlock6 Records { get; } = new RecordBlock6AO(sav, Block(sav, 15));
+
+    private static Memory<byte> Block(SAV6AODemo sav, int index)
+    {
+        var data = sav.Data;
+        var block = BlocksAODemo[index];
+        return data.AsMemory(block.Offset, block.Length);
+    }
 }

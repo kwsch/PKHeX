@@ -40,13 +40,13 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
         Initialize();
     }
 
+    public override bool HasPokeDex => true;
+    public override bool HasWondercards => true;
+
     private void Initialize()
     {
-        Box = Blocks.GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
-        Party = Blocks.GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
-        PokeDex = Blocks.GetBlockOffset(BelugaBlockIndex.Zukan);
-
-        WondercardData = Blocks.GiftRecords.Offset;
+        Box = Blocks.BlockInfo[(int)BelugaBlockIndex.PokeListPokemon].Offset;
+        Party = Blocks.BlockInfo[(int)BelugaBlockIndex.PokeListPokemon].Offset;
     }
 
     // Save Block accessors

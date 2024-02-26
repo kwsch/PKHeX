@@ -14,7 +14,8 @@ public sealed class Fused8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sa
         return PokeCrypto.SIZE_8PARTY * slot;
     }
 
-    private Span<byte> GetSlotSpan(int index) => Data.AsSpan(GetFusedSlotOffset(index), PokeCrypto.SIZE_8STORED);
+    public Memory<byte> this[int i] => Raw.Slice(GetFusedSlotOffset(i), PokeCrypto.SIZE_8STORED);
+    private Span<byte> GetSlotSpan(int index) => Data.Slice(GetFusedSlotOffset(index), PokeCrypto.SIZE_8STORED);
     private PK8 GetStoredSlot(int index) => (PK8)SAV.GetStoredSlot(GetSlotSpan(index));
     private void SetStoredSlot(PK8 pk, int index) => pk.EncryptedBoxData.CopyTo(GetSlotSpan(index));
 

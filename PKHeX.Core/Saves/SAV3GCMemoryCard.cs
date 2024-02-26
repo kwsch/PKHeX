@@ -201,11 +201,12 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
 
     public GCMemoryCardState GetMemoryCardState()
     {
-        if (!IsMemoryCardSize(Data))
+        ReadOnlySpan<byte> data = Data;
+        if (!IsMemoryCardSize(data))
             return GCMemoryCardState.Invalid; // Invalid size
 
         // Size in megabits, not megabytes
-        int m_sizeMb = Data.Length / BLOCK_SIZE / MBIT_TO_BLOCKS;
+        int m_sizeMb = data.Length / BLOCK_SIZE / MBIT_TO_BLOCKS;
         if (m_sizeMb != Header_Size) // Memory card file size does not match the header size
             return GCMemoryCardState.Invalid;
 
@@ -222,18 +223,18 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
         for (int i = 0; i < NumEntries_Directory; i++)
         {
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (i * DENTRY_SIZE);
-            if (ReadUInt32BigEndian(Data.AsSpan(offset)) == uint.MaxValue) // empty entry
+            if (ReadUInt32BigEndian(data[offset..]) == uint.MaxValue) // empty entry
                 continue;
 
-            int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
+            int FirstBlock = ReadUInt16BigEndian(data[0x36..]);
             if (FirstBlock < 5)
                 continue;
 
-            int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
+            int BlockCount = ReadUInt16BigEndian(data[0x38..]);
             var dataEnd = (FirstBlock + BlockCount) * BLOCK_SIZE;
 
             // Memory card directory contains info for deleted files with boundaries beyond memory card size, ignore
-            if (dataEnd > Data.Length)
+            if (dataEnd > data.Length)
                 continue;
 
             var header = Data.AsSpan(offset, 4);

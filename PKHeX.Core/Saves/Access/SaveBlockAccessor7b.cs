@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -5,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Information for Accessing individual blocks within a <see cref="SAV7b"/>.
 /// </summary>
-public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISaveBlock7b
+public sealed class SaveBlockAccessor7b(SAV7b sav) : ISaveBlockAccessor<BlockInfo7b>, ISaveBlock7b
 {
     private const int boGG = 0xB8800 - 0x200; // nowhere near 1MB (savedata.bin size)
 
@@ -36,40 +37,25 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
 
     public IReadOnlyList<BlockInfo7b> BlockInfo => BlockInfoGG;
 
-    public SaveBlockAccessor7b(SAV7b sav)
-    {
-        Zukan = new Zukan7b(sav, GetBlockOffset(BelugaBlockIndex.Zukan), 0x550);
-        Config = new ConfigSave7b(sav, GetBlockOffset(BelugaBlockIndex.ConfigSave));
-        Items = new MyItem7b(sav, GetBlockOffset(BelugaBlockIndex.MyItem));
-        Coordinates = new Coordinates7b(sav, GetBlockOffset(BelugaBlockIndex.Coordinates));
-        Storage = new PokeListHeader(sav, GetBlockOffset(BelugaBlockIndex.PokeListHeader));
-        Status = new MyStatus7b(sav, GetBlockOffset(BelugaBlockIndex.MyStatus));
-        Played = new PlayTime7b(sav, GetBlockOffset(BelugaBlockIndex.PlayTime));
-        Misc = new Misc7b(sav, GetBlockOffset(BelugaBlockIndex.Misc));
-        EventWork = new EventWork7b(sav, GetBlockOffset(BelugaBlockIndex.EventWork));
-        GiftRecords = new WB7Records(sav, GetBlockOffset(BelugaBlockIndex.WB7Record));
-        Captured = new CaptureRecords(sav, GetBlockOffset(BelugaBlockIndex.CaptureRecord));
-        FashionPlayer = new Fashion7b(sav, GetBlockOffset(BelugaBlockIndex.FashionPlayer));
-        FashionStarter = new Fashion7b(sav, GetBlockOffset(BelugaBlockIndex.FashionStarter));
-        Park = new GoParkStorage(sav, sav.Blocks.GetBlockOffset(BelugaBlockIndex.GoParkEntities));
-        PlayerGeoLocation = new PlayerGeoLocation7b(sav, GetBlockOffset(BelugaBlockIndex.PlayerGeoLocation));
-    }
+    public MyItem Items { get; } = new MyItem7b(sav, Block(sav, BelugaBlockIndex.MyItem));
+    public Coordinates7b Coordinates { get; } = new(sav, Block(sav, BelugaBlockIndex.Coordinates));
+    public Misc7b Misc { get; } = new(sav, Block(sav, BelugaBlockIndex.Misc));
+    public Zukan7b Zukan { get; } = new(sav, Block(sav, BelugaBlockIndex.Zukan), 0x550);
+    public MyStatus7b Status { get; } = new(sav, Block(sav, BelugaBlockIndex.MyStatus));
+    public PlayTime7b Played { get; } = new(sav, Block(sav, BelugaBlockIndex.PlayTime));
+    public ConfigSave7b Config { get; } = new(sav, Block(sav, BelugaBlockIndex.ConfigSave));
+    public EventWork7b EventWork { get; } = new(sav, Block(sav, BelugaBlockIndex.EventWork));
+    public PokeListHeader Storage { get; } = new(sav, Block(sav, BelugaBlockIndex.PokeListHeader), sav.State.Exportable);
+    public WB7Records GiftRecords { get; } = new(sav, Block(sav, BelugaBlockIndex.WB7Record));
+    public CaptureRecords Captured { get; } = new(sav, Block(sav, BelugaBlockIndex.CaptureRecord));
+    public Fashion7b FashionPlayer { get; } = new(sav, Block(sav, BelugaBlockIndex.FashionPlayer));
+    public Fashion7b FashionStarter { get; } = new(sav, Block(sav, BelugaBlockIndex.FashionStarter));
+    public GoParkStorage Park { get; } = new(sav, Block(sav, BelugaBlockIndex.GoParkEntities));
+    public PlayerGeoLocation7b PlayerGeoLocation { get; } = new(sav, Block(sav, BelugaBlockIndex.PlayerGeoLocation));
 
-    public MyItem Items { get; }
-    public Coordinates7b Coordinates { get; }
-    public Misc7b Misc { get; }
-    public Zukan7b Zukan { get; }
-    public MyStatus7b Status { get; }
-    public PlayTime7b Played { get; }
-    public ConfigSave7b Config { get; }
-    public EventWork7b EventWork { get; }
-    public PokeListHeader Storage { get; }
-    public WB7Records GiftRecords { get; }
-    public CaptureRecords Captured { get; }
-    public Fashion7b FashionPlayer { get; }
-    public Fashion7b FashionStarter { get; }
-    public GoParkStorage Park { get; }
-    public PlayerGeoLocation7b PlayerGeoLocation { get; }
-    public BlockInfo GetBlock(BelugaBlockIndex index) => BlockInfo[(int)index];
-    public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
+    public static Memory<byte> Block(SAV7b sav, BelugaBlockIndex index)
+    {
+        var block = BlockInfoGG[(int)index];
+        return sav.Data.AsMemory(block.Offset, block.Length);
+    }
 }

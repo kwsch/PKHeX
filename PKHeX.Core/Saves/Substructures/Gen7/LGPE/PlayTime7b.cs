@@ -3,27 +3,27 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class PlayTime7b(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
+public sealed class PlayTime7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
 {
     public int PlayedHours
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, (ushort)value);
     }
 
     public int PlayedMinutes
     {
-        get => Data[Offset + 2];
-        set => Data[Offset + 2] = (byte)value;
+        get => Data[2];
+        set => Data[2] = (byte)value;
     }
 
     public int PlayedSeconds
     {
-        get => Data[Offset + 3];
-        set => Data[Offset + 3] = (byte)value;
+        get => Data[3];
+        set => Data[3] = (byte)value;
     }
 
-    private Epoch1900DateTimeValue LastSaved => new(Data.AsMemory(Offset + 0x4));
+    private Epoch1900DateTimeValue LastSaved => new(Raw.Slice(0x4, 8));
     public string LastSavedTime => $"{LastSaved.Year:0000}-{LastSaved.Month:00}-{LastSaved.Day:00} {LastSaved.Hour:00}ː{LastSaved.Minute:00}"; // not :
 
     public DateTime? LastSavedDate

@@ -20,15 +20,15 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
         ClearBoxes();
     }
 
+    public override bool HasPokeDex => true;
+    public override bool HasWondercards => true;
+    public override bool HasDaycare => true;
+
     private void Initialize()
     {
         Party = Blocks.BlockInfo[04].Offset;
-        PokeDex = Blocks.BlockInfo[06].Offset;
-
         TeamSlots = Blocks.BoxLayout.TeamSlots;
         Box = Blocks.BlockInfo[14].Offset;
-        WondercardData = Blocks.MysteryGift.Offset;
-        DaycareOffset = Blocks.Daycare.Offset;
 
         ReloadBattleTeams();
     }

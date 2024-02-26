@@ -29,6 +29,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
     private readonly int[] subOffsets = new int[16];
     private readonly byte[] BAK;
+    private int DaycareOffset;
 
     public SAV3XD() : base(SaveUtil.SIZE_G3XD)
     {

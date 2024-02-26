@@ -9,7 +9,7 @@ public sealed class BoxLayout9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sa
     private const int StringMaxLength = SAV6.LongStringLength / 2;
 
     private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
-    private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
+    private Span<byte> GetBoxNameSpan(int box) => Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
 
     public string GetBoxName(int box)
     {

@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class MysteryBlock7 : SaveBlock<SAV7>
+public sealed class MysteryBlock7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw)
 {
     private const int FlagStart = 0;
     private const int MaxReceivedFlag = 2048;
@@ -10,17 +10,15 @@ public sealed class MysteryBlock7 : SaveBlock<SAV7>
     // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
     private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-    public MysteryBlock7(SAV7 sav, int offset) : base(sav) => Offset = offset;
-
     // Mystery Gift
     public bool[] MysteryGiftReceivedFlags
     {
-        get => FlagUtil.GetBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
+        get => FlagUtil.GetBitFlagArray(Data, MaxReceivedFlag);
         set
         {
             if (value.Length != MaxReceivedFlag)
                 return;
-            FlagUtil.SetBitFlagArray(Data.AsSpan(Offset + FlagStart), value);
+            FlagUtil.SetBitFlagArray(Data, value);
             SAV.State.Edited = true;
         }
     }
@@ -50,11 +48,11 @@ public sealed class MysteryBlock7 : SaveBlock<SAV7>
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = GetGiftOffset(index);
-        var data = SAV.Data.AsSpan(offset, WC7.Size).ToArray();
+        var data = Data.Slice(offset, WC7.Size).ToArray();
         return new WC7(data);
     }
 
-    private int GetGiftOffset(int index) => Offset + CardStart + (index * WC7.Size);
+    private static int GetGiftOffset(int index) => CardStart + (index * WC7.Size);
 
     private void SetGift(WC7 wc7, int index)
     {
@@ -63,6 +61,6 @@ public sealed class MysteryBlock7 : SaveBlock<SAV7>
         if (wc7.Data.Length != WC7.Size)
             throw new InvalidCastException(nameof(wc7));
 
-        SAV.SetData(wc7.Data, GetGiftOffset(index));
+        SAV.SetData(Data[GetGiftOffset(index)..], wc7.Data);
     }
 }

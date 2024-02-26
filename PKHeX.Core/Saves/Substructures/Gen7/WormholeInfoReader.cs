@@ -10,8 +10,8 @@ public sealed class WormholeInfoReader(SAV7 SAV)
     // https://projectpokemon.org/home/forums/topic/39433-gen-7-save-research-thread/?page=3&tab=comments#comment-239090
     public bool WormholeShininess // 0x4535 = Misc (0x4400 in US/UM) + 0x0135
     {
-        get => SAV.Data[SAV.Misc.Offset + 0x0135] == 1;
-        set => SAV.Data[SAV.Misc.Offset + 0x0135] = value ? (byte)1 : (byte)0;
+        get => SAV.Misc.Data[0x0135] == 1;
+        set => SAV.Misc.Data[0x0135] = value ? (byte)1 : (byte)0;
     }
 
     public const int WormholeSlotMax = 15;

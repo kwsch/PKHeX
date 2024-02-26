@@ -35,6 +35,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private readonly StrategyMemo StrategyMemo;
     public const int MaxShadowID = 0x80; // 128
     private int Memo;
+    private int DaycareOffset;
 
     private readonly byte[] BAK;
     private readonly bool Japanese;

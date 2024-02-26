@@ -5,28 +5,28 @@ namespace PKHeX.Core;
 
 public sealed class PlayTime6 : SaveBlock<SaveFile>
 {
-    public PlayTime6(SAV6 sav, int offset) : base(sav, offset) { }
-    public PlayTime6(SAV7 sav, int offset) : base(sav, offset) { }
+    public PlayTime6(SAV6 sav, Memory<byte> raw) : base(sav, raw) { }
+    public PlayTime6(SAV7 sav, Memory<byte> raw) : base(sav, raw) { }
 
     public int PlayedHours
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, (ushort)value);
     }
 
     public int PlayedMinutes
     {
-        get => Data[Offset + 2];
-        set => Data[Offset + 2] = (byte)value;
+        get => Data[2];
+        set => Data[2] = (byte)value;
     }
 
     public int PlayedSeconds
     {
-        get => Data[Offset + 3];
-        set => Data[Offset + 3] = (byte)value;
+        get => Data[3];
+        set => Data[3] = (byte)value;
     }
 
-    private uint LastSaved { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
+    private uint LastSaved { get => ReadUInt32LittleEndian(Data[0x4..]); set => WriteUInt32LittleEndian(Data[0x4..], value); }
     private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
     private int LastSavedMonth { get => (int)((LastSaved >> 12) & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | (((uint)value & 0xF) << 12); }
     private int LastSavedDay { get => (int)((LastSaved >> 16) & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | (((uint)value & 0x1F) << 16); }

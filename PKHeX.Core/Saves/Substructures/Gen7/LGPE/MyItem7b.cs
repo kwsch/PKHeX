@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem7b(SAV7b sav, int offset) : MyItem(sav, offset)
+public sealed class MyItem7b(SAV7b sav, Memory<byte> raw) : MyItem(sav, raw)
 {
     private const int Medicine = 0x0000; // 0
     private const int TM       = 0x00F0; // 1

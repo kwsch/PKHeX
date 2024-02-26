@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset)
+public sealed class FashionBlock7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw)
 {
     private const int FashionLength = 0x1A08;
 
@@ -10,7 +10,7 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
     {
         get
         {
-            var data = SAV.Data.AsSpan(Offset, 0x5A8).ToArray();
+            var data = Data[..0x5A8].ToArray();
             return Array.ConvertAll(data, b => new FashionItem7(b));
         }
         set
@@ -18,11 +18,11 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
             if (value.Length != 0x5A8)
                 throw new ArgumentOutOfRangeException($"Unexpected size: 0x{value.Length:X}");
             var arr = Array.ConvertAll(value, z => z.Value);
-            SAV.SetData(arr, Offset);
+            SAV.SetData(Data[..0x5A8], arr);
         }
     }
 
-    public void Clear() => Array.Clear(Data, Offset, FashionLength);
+    public void Clear() => Data[..FashionLength].Clear();
 
     /// <summary>
     /// Resets the fashion unlocks to default values.
@@ -31,7 +31,7 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
     {
         var offsetList = GetDefaultFashionOffsets(SAV);
         foreach (var ofs in offsetList)
-            SAV.Data[Offset + ofs] = 3; // owned | new
+            SAV.Data[ofs] = 3; // owned | new
     }
 
     private static ReadOnlySpan<ushort> GetDefaultFashionOffsets(SAV7 sav) => sav switch

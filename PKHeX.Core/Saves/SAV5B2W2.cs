@@ -36,10 +36,11 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
         CGearInfoOffset = 0x1C000;
         CGearDataOffset = 0x52800;
         EntreeForestOffset = 0x22A00;
-        PokeDex = Blocks.Zukan.PokeDex;
-        WondercardData = Blocks.Mystery.Offset;
-        DaycareOffset = Blocks.Daycare.Offset;
     }
+
+    public override bool HasWondercards => true;
+    public override bool HasDaycare => true;
+    public override bool HasPokeDex => true;
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem Items => Blocks.Items;

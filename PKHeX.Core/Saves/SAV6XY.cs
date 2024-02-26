@@ -34,6 +34,11 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
     protected override int EventWork => 0x14A00;
     protected override int EventFlag => EventWork + 0x2F0;
 
+    public override bool HasPokeDex => true;
+    public override bool HasWondercards => true;
+    public override bool HasDaycare => true;
+
+    private const int DaycareOffset = 0x1B200;
     private void Initialize()
     {
         // Enable Features
@@ -41,15 +46,12 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
         PCLayout = 0x4400;
         BattleBoxOffset = 0x04A00;
         PSS = 0x05000;
-        PokeDex = 0x15000;
         HoF = 0x19400;
-        DaycareOffset = 0x1B200;
+        ;
         BerryField = 0x1B800;
         WondercardFlags = 0x1BC00;
         Box = 0x22600;
         JPEG = 0x57200;
-
-        WondercardData = WondercardFlags + 0x100;
 
         // Extra Viewable Slots
         Fused = 0x16000;
@@ -102,8 +104,6 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
     public override void SetDaycareRNGSeed(int loc, string seed)
     {
         if (loc != 0)
-            return;
-        if (DaycareOffset < 0)
             return;
         if (seed.Length > DaycareSeedSize)
             return;

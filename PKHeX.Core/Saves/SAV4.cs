@@ -37,8 +37,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
     protected abstract int EventFlag { get; }
     protected abstract int EventWork { get; }
-    public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
-    public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
+    public sealed override bool GetFlag(int offset, int bitIndex) => GetFlag(General, offset, bitIndex);
+    public sealed override void SetFlag(int offset, int bitIndex, bool value) => SetFlag(General, offset, bitIndex, value);
 
     protected SAV4([ConstantExpected] int gSize, [ConstantExpected] int sSize)
     {
@@ -213,7 +213,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public int GTS { get; protected set; } = int.MinValue;
 
     public int ChatterOffset { get; protected set; } = int.MinValue;
-    public Chatter4 Chatter => new(this, ChatterOffset);
+    public Chatter4 Chatter => new(this, Data.AsMemory(ChatterOffset));
 
     // Storage
     public override int PartyCount
@@ -352,6 +352,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     }
 
     // Daycare
+    public sealed override bool HasDaycare => true;
+    protected abstract int DaycareOffset { get; }
     public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * SIZE_PARTY);
 
     public override uint? GetDaycareEXP(int loc, int slot)
@@ -476,6 +478,9 @@ public abstract class SAV4 : SaveFile, IEventFlag37
             }
         }
     }
+
+    public sealed override bool HasWondercards => true;
+    protected abstract int WondercardData { get; }
 
     protected sealed override DataMysteryGift[] MysteryGiftCards
     {

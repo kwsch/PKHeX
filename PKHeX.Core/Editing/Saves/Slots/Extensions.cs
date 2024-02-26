@@ -145,12 +145,11 @@ public static partial class Extensions
                 new SlotInfoMisc(uu.Data, 1, uu.GetFusedSlotOffset(1)) {Type = StorageSlotType.Fused},
                 new SlotInfoMisc(uu.Data, 2, uu.GetFusedSlotOffset(2)) {Type = StorageSlotType.Fused},
             ]);
-            var ba = uu.BattleAgency;
             list.AddRange(
             [
-                new SlotInfoMisc(uu.Data, 0, ba.GetSlotOffset(0)) {Type = StorageSlotType.Misc},
-                new SlotInfoMisc(uu.Data, 1, ba.GetSlotOffset(1)) {Type = StorageSlotType.Misc},
-                new SlotInfoMisc(uu.Data, 2, ba.GetSlotOffset(2)) {Type = StorageSlotType.Misc},
+                new SlotInfoMisc(uu.BattleAgency[0], 0) {Type = StorageSlotType.Misc},
+                new SlotInfoMisc(uu.BattleAgency[1], 1) {Type = StorageSlotType.Misc},
+                new SlotInfoMisc(uu.BattleAgency[2], 2) {Type = StorageSlotType.Misc},
             ]);
         }
 
@@ -158,15 +157,16 @@ public static partial class Extensions
             return list;
 
         for (int i = 0; i < ResortSave7.ResortCount; i++)
-            list.Add(new SlotInfoMisc(sav.Data, i, sav.ResortSave.GetResortSlotOffset(i)) { Type = StorageSlotType.Resort });
+            list.Add(new SlotInfoMisc(sav.Data, i, ResortSave7.GetResortSlotOffset(i)) { Type = StorageSlotType.Resort });
         return list;
     }
 
     private static List<SlotInfoMisc> GetExtraSlots7b(SAV7b sav)
     {
+        var dc = sav.Blocks.BlockInfo[(int)BelugaBlockIndex.Daycare].Offset;
         return
         [
-            new(sav.Data, 0, sav.Blocks.GetBlockOffset(BelugaBlockIndex.Daycare) + 8, true) {Type = StorageSlotType.Daycare},
+            new(sav.Data.AsMemory(dc + 8, PokeCrypto.SIZE_6PARTY), 0, true) {Type = StorageSlotType.Daycare},
         ];
     }
 
@@ -176,14 +176,14 @@ public static partial class Extensions
         var dc = sav.Daycare;
         var list = new List<SlotInfoMisc>
         {
-            new(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true) {Type = StorageSlotType.Fused},
-            new(fused.Data, 1, Fused8.GetFusedSlotOffset(1), true) {Type = StorageSlotType.Fused},
-            new(fused.Data, 2, Fused8.GetFusedSlotOffset(2), true) {Type = StorageSlotType.Fused},
+            new(fused[0], 0, true) {Type = StorageSlotType.Fused},
+            new(fused[1], 1, true) {Type = StorageSlotType.Fused},
+            new(fused[2], 2, true) {Type = StorageSlotType.Fused},
 
-            new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 0)) {Type = StorageSlotType.Daycare},
-            new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 1)) {Type = StorageSlotType.Daycare},
-            new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 0)) {Type = StorageSlotType.Daycare},
-            new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)) {Type = StorageSlotType.Daycare},
+            new(dc[0], 0) {Type = StorageSlotType.Daycare},
+            new(dc[1], 0) {Type = StorageSlotType.Daycare},
+            new(dc[2], 0) {Type = StorageSlotType.Daycare},
+            new(dc[3], 0) {Type = StorageSlotType.Daycare},
         };
 
         if (sav is SAV8SWSH {SaveRevision: >= 2} s8)
@@ -200,15 +200,15 @@ public static partial class Extensions
     {
         return
         [
-            new(sav.Data, 0, sav.UgSaveData.GetSlotOffset(0), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 1, sav.UgSaveData.GetSlotOffset(1), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 2, sav.UgSaveData.GetSlotOffset(2), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 3, sav.UgSaveData.GetSlotOffset(3), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 4, sav.UgSaveData.GetSlotOffset(4), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 5, sav.UgSaveData.GetSlotOffset(5), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 6, sav.UgSaveData.GetSlotOffset(6), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 7, sav.UgSaveData.GetSlotOffset(7), true) { Type = StorageSlotType.Misc },
-            new(sav.Data, 8, sav.UgSaveData.GetSlotOffset(8), true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[0], 0, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[1], 1, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[2], 2, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[3], 3, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[4], 4, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[5], 5, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[6], 6, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[7], 7, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[8], 8, true) { Type = StorageSlotType.Misc },
         ];
     }
 
@@ -223,7 +223,7 @@ public static partial class Extensions
         var list = new List<SlotInfoMisc>
         {
             // Ride Legend
-            new(sav.BoxInfo.Data.AsMemory(afterBox), 0, true, Mutable: true) { Type = StorageSlotType.Party },
+            new(sav.BoxInfo.Raw.Slice(afterBox, PokeCrypto.SIZE_9PARTY), 0, true, Mutable: true) { Type = StorageSlotType.Party },
         };
 
         var block = sav.Blocks.GetBlock(SaveBlockAccessor9SV.KFusedCalyrex);

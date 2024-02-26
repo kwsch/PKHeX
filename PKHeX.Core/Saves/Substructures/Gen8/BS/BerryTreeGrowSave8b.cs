@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class BerryTreeGrowSave8b : SaveBlock<SAV8BS>
 {
-    public BerryTreeGrowSave8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
+    public BerryTreeGrowSave8b(SAV8BS sav, Memory<byte> raw) : base(sav, raw) { }
 
     public const int KinomiGrowsCount = 128;
 
@@ -20,5 +20,5 @@ public sealed class BerryTreeGrowSave8b : SaveBlock<SAV8BS>
     // KinomiGrow[] kinomiGrows; // 0x0
     // long LastUpdateMinutes; // 0x8
 
-    public long LastUpdateMinutes { get => ReadInt64LittleEndian(Data.AsSpan(Offset + 0x800)); set => WriteInt64LittleEndian(Data.AsSpan(Offset + 0x800), value); }
+    public long LastUpdateMinutes { get => ReadInt64LittleEndian(Data[0x800..]); set => WriteInt64LittleEndian(Data[0x800..], value); }
 }

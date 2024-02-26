@@ -12,20 +12,20 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
 {
     public uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x10));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
+        get => ReadUInt32LittleEndian(Data[0x10..]);
+        set => WriteUInt32LittleEndian(Data[0x10..], value);
     }
 
     public ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x10));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x10), value);
+        get => ReadUInt16LittleEndian(Data[0x10..]);
+        set => WriteUInt16LittleEndian(Data[0x10..], value);
     }
 
     public ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x12));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value);
+        get => ReadUInt16LittleEndian(Data[0x12..]);
+        set => WriteUInt16LittleEndian(Data[0x12..], value);
     }
 
     public byte Game
@@ -43,12 +43,12 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
     // A6
     public int Language
     {
-        get => Data[Offset + 0x17];
+        get => Data[0x17];
         set
         {
             if (value == Language)
                 return;
-            Data[Offset + 0x17] = (byte)value;
+            Data[0x17] = (byte)value;
 
             // For runtime language, the game shifts all languages above Language 6 (unused) down one.
             if (value >= 6)
@@ -57,7 +57,7 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
         }
     }
 
-    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x20, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.Slice(0x20, 0x1A);
 
     public string OT
     {
@@ -67,7 +67,7 @@ public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
 
     public byte Unk_0x50
     {
-        get => Data[Offset + 0x50];
-        set => Data[Offset + 0x50] = value;
+        get => Data[0x50];
+        set => Data[0x50] = value;
     }
 }

@@ -189,7 +189,7 @@ public partial class SAV_Trainer7 : Form
         CB_Vivillon.SelectedIndex = (SAV.Misc.Vivillon < CB_Vivillon.Items.Count) ? SAV.Misc.Vivillon : -1;
         NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.Misc.DaysFromRefreshed);
 
-        if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
+        if ((sbyte)SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
             CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
 
         if (SAV is SAV7SM)
@@ -539,16 +539,16 @@ public partial class SAV_Trainer7 : Form
                     break;
                 }
             case 1: // Full Legal
-                byte[] data1 = SAV is SAV7USUM
+                ReadOnlySpan<byte> data1 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                     : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                SAV.SetData(data1, SAV.Fashion.Offset);
+                SAV.SetData(SAV.Fashion.Data, data1);
                 break;
             case 2: // Everything
-                byte[] data2 = SAV is SAV7USUM
+                ReadOnlySpan<byte> data2 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                     : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                SAV.SetData(data2, SAV.Fashion.Offset);
+                SAV.SetData(SAV.Fashion.Data, data2);
                 break;
             default:
                 return;

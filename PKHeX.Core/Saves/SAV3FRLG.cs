@@ -36,18 +36,11 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
 
     protected override int EventFlag => 0xEE0;
     protected override int EventWork => 0x1000;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x2F80; // large
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
-
-        // large
-        DaycareOffset = 0x2F80;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     public bool ResetPersonal(GameVersion g)
     {

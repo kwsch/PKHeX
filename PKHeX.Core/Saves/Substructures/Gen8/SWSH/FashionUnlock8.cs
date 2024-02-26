@@ -18,8 +18,8 @@ public sealed class FashionUnlock8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8
     public const int REGION_LEGWEAR   = 13;
     public const int REGION_FOOTWEAR  = 14;
 
-    private Span<byte> GetOwnedRegion(int region) => Data.AsSpan(region * SIZE_ENTRY, SIZE_ENTRY);
-    private Span<byte> GetNewRegion(int region) => Data.AsSpan((region + REGIONS) * SIZE_ENTRY, SIZE_ENTRY);
+    private Span<byte> GetOwnedRegion(int region) => Data.Slice(region * SIZE_ENTRY, SIZE_ENTRY);
+    private Span<byte> GetNewRegion(int region) => Data.Slice((region + REGIONS) * SIZE_ENTRY, SIZE_ENTRY);
 
     public bool[] GetArrayOwnedFlag(int region) => FlagUtil.GetBitFlagArray(GetOwnedRegion(region), SIZE_ENTRY * 8);
     public bool[] GetArrayNewFlag(int region) => FlagUtil.GetBitFlagArray(GetNewRegion(region), SIZE_ENTRY * 8);

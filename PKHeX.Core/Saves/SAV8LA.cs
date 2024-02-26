@@ -130,11 +130,11 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
 
+    public override bool HasPokeDex => true;
     private void Initialize()
     {
         Box = 0;
         Party = 0;
-        PokeDex = 0;
     }
 
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);

@@ -108,8 +108,10 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         DaycareOffset = GetPartyOffset(7);
 
         // Enable Pokedex editing
-        PokeDex = 0;
     }
+
+    private int DaycareOffset = -1;
+    public override bool HasPokeDex => true;
 
     private void UnpackBox(int srcOfs, int destOfs, int boxSize, int boxIndex, PokeListType boxCapacity)
     {

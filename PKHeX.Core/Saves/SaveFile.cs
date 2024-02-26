@@ -104,7 +104,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <param name="offset">Offset to read from</param>
     /// <param name="bitIndex">Bit index to read</param>
     /// <returns>Flag is Set (true) or not Set (false)</returns>
-    public virtual bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(Data, offset, bitIndex);
+    public virtual bool GetFlag(int offset, int bitIndex) => GetFlag(Data, offset, bitIndex);
 
     /// <summary>
     /// Sets the <see cref="bool"/> status of the Flag at the specified offset and index.
@@ -113,15 +113,21 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <param name="bitIndex">Bit index to read</param>
     /// <param name="value">Flag status to set</param>
     /// <remarks>Flag is Set (true) or not Set (false)</remarks>
-    public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
+    public virtual void SetFlag(int offset, int bitIndex, bool value) => SetFlag(Data, offset, bitIndex, value);
+
+    public virtual bool GetFlag(Span<byte> data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset, bitIndex);
+    public virtual void SetFlag(Span<byte> data, int offset, int bitIndex, bool value)
+    {
+        FlagUtil.SetFlag(data, offset, bitIndex, value);
+        State.Edited = true;
+    }
 
     public virtual IReadOnlyList<InventoryPouch> Inventory { get => []; set { } }
 
     #region Mystery Gift
     protected virtual int GiftCountMax => int.MinValue;
     protected virtual int GiftFlagMax => 0x800;
-    protected int WondercardData { get; set; } = int.MinValue;
-    public bool HasWondercards => WondercardData > -1;
+    public virtual bool HasWondercards => false;
     protected virtual bool[] MysteryGiftReceivedFlags { get => []; set { } }
     protected virtual DataMysteryGift[] MysteryGiftCards { get => []; set { } }
 
@@ -228,8 +234,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     protected abstract void SetChecksums();
 
     #region Daycare
-    public bool HasDaycare => DaycareOffset > -1;
-    protected int DaycareOffset { get; set; } = int.MinValue;
+    public virtual bool HasDaycare => false;
     public virtual int DaycareSeedSize => 0;
     public int DaycareIndex;
     public virtual bool HasTwoDaycares => false;
@@ -395,8 +400,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #endregion
 
     #region Pokédex
-    public int PokeDex { get; protected set; } = int.MinValue;
-    public bool HasPokeDex => PokeDex > -1;
+    public virtual bool HasPokeDex => false;
     public virtual bool GetSeen(ushort species) => false;
     public virtual void SetSeen(ushort species, bool seen) { }
     public virtual bool GetCaught(ushort species) => false;

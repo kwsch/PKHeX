@@ -29,15 +29,16 @@ public sealed class SAV5BW : SAV5
     protected override int EventFlagOffset => EventWorkOffset + 0x27C;
     public override int MaxItemID => Legal.MaxItemID_5_BW;
 
+    public override bool HasPokeDex => true;
+    public override bool HasWondercards => true;
+    public override bool HasDaycare => true;
+
     private void Initialize()
     {
         BattleBoxOffset = 0x20A00;
         CGearInfoOffset = 0x1C000;
         CGearDataOffset = 0x52000;
         EntreeForestOffset = 0x22C00;
-        PokeDex = Blocks.Zukan.PokeDex;
-        WondercardData = Blocks.Mystery.Offset;
-        DaycareOffset = Blocks.Daycare.Offset;
     }
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;

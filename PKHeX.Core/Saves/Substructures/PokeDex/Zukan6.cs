@@ -16,14 +16,14 @@ public abstract class Zukan6 : Zukan<SAV6>
     protected override int DexLangIDCount => 7;
     protected int SpindaOffset { get; init; }
 
-    protected Zukan6(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)
+    protected Zukan6(SAV6XY sav, Memory<byte> dex, int langflag) : base(sav, dex, langflag)
     {
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexXY;
     }
 
     private Func<ushort, byte, int> DexFormIndexFetcher { get; }
 
-    protected Zukan6(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
+    protected Zukan6(SAV6AO sav, Memory<byte> dex, int langflag) : base(sav, dex, langflag)
     {
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexORAS;
     }
@@ -130,8 +130,8 @@ public abstract class Zukan6 : Zukan<SAV6>
 
     public uint SpindaPID
     {
-        get => ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + SpindaOffset));
-        set => WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + SpindaOffset), value);
+        get => ReadUInt32LittleEndian(Data[SpindaOffset..]);
+        set => WriteUInt32LittleEndian(Data[SpindaOffset..], value);
     }
 
     public bool[] GetLanguageBitflags(ushort species)
@@ -183,7 +183,7 @@ public abstract class Zukan6 : Zukan<SAV6>
 /// </summary>
 public sealed class Zukan6AO : Zukan6
 {
-    public Zukan6AO(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
+    public Zukan6AO(SAV6AO sav, Memory<byte> dex, int langflag) : base(sav, dex, langflag)
     {
         SpindaOffset = 0x680;
     }
@@ -197,13 +197,13 @@ public sealed class Zukan6AO : Zukan6
 
     public ushort GetEncounterCount(int index)
     {
-        var ofs = PokeDex + 0x686 + (index * 2);
+        var ofs = 0x686 + (index * 2);
         return ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs));
     }
 
     public void SetEncounterCount(int index, ushort value)
     {
-        var ofs = PokeDex + 0x686 + (index * 2);
+        var ofs = 0x686 + (index * 2);
         WriteUInt16LittleEndian(SAV.Data.AsSpan(ofs), value);
     }
 }
@@ -213,7 +213,7 @@ public sealed class Zukan6AO : Zukan6
 /// </summary>
 public sealed class Zukan6XY : Zukan6
 {
-    public Zukan6XY(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)
+    public Zukan6XY(SAV6XY sav, Memory<byte> dex, int langflag) : base(sav, dex, langflag)
     {
         SpindaOffset = 0x648;
     }

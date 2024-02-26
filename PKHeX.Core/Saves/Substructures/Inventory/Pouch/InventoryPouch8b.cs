@@ -4,8 +4,8 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int maxCount, int offset)
-    : InventoryPouch(type, info, maxCount, offset)
+public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int maxCount)
+    : InventoryPouch(type, info, maxCount, 0)
 {
     public bool SetNew { get; set; }
 
@@ -31,9 +31,9 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
         SortBy<InventoryItem8b, ushort>(z => !z.IsValidSaveSortNumberCount ? (ushort)0xFFFF : z.SortOrder);
     }
 
-    public InventoryItem8b GetItem(ReadOnlySpan<byte> data, ushort itemID)
+    public static InventoryItem8b GetItem(ReadOnlySpan<byte> data, ushort itemID)
     {
-        var ofs = GetItemOffset(itemID, Offset);
+        var ofs = GetItemOffset(itemID);
         return InventoryItem8b.Read(itemID, data[ofs..]);
     }
 
@@ -64,7 +64,7 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
                 item.IsNew |= !original.IsValidSaveSortNumberCount;
             }
 
-            var ofs = GetItemOffset(index, Offset);
+            var ofs = GetItemOffset(index);
             item.Write(data[ofs..]);
 
             // In the event of duplicates, we just overwrite what was previously written by a prior duplicate.
@@ -81,7 +81,7 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
         }
     }
 
-    public static int GetItemOffset(ushort index, int baseOffset) => baseOffset + (InventoryItem8b.SIZE * index);
+    public static int GetItemOffset(ushort index) => InventoryItem8b.SIZE * index;
 
-    public void ClearItem(Span<byte> data, ushort index) => InventoryItem8b.Clear(data, GetItemOffset(index, Offset));
+    public static void ClearItem(Span<byte> data, ushort index) => InventoryItem8b.Clear(data, GetItemOffset(index));
 }

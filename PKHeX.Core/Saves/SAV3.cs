@@ -35,8 +35,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     // There's no harm having buffers larger than their actual size (per format).
     // A checksum consuming extra zeroes does not change the prior checksum result.
-    public readonly byte[] Small   = new byte[1 * SIZE_SECTOR_USED]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
-    public readonly byte[] Large   = new byte[4 * SIZE_SECTOR_USED]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
+    public readonly byte[] Small = new byte[1 * SIZE_SECTOR_USED]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
+    public readonly byte[] Large = new byte[4 * SIZE_SECTOR_USED]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
     public readonly byte[] Storage = new byte[9 * SIZE_SECTOR_USED]; //  [0x83D0]
 
     private readonly int ActiveSlot;
@@ -64,9 +64,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
             var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
             switch (id)
             {
-                case >=5: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Storage.AsSpan((id - 5) * SIZE_SECTOR_USED)); break;
-                case >=1: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Large  .AsSpan((id - 1) * SIZE_SECTOR_USED)); break;
-                default:  data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Small  .AsSpan(0                          )); break;
+                case >= 5: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Storage.AsSpan((id - 5) * SIZE_SECTOR_USED)); break;
+                case >= 1: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Large.AsSpan((id - 1) * SIZE_SECTOR_USED)); break;
+                default: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Small.AsSpan(0)); break;
             }
         }
     }
@@ -81,9 +81,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
             var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
             switch (id)
             {
-                case >=5: Storage.AsSpan((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
-                case >=1: Large  .AsSpan((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
-                default:  Small  .AsSpan(0                          , SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
+                case >= 5: Storage.AsSpan((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
+                case >= 1: Large.AsSpan((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
+                default: Small.AsSpan(0, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
             }
         }
     }
@@ -176,8 +176,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     /// <returns>New <see cref="SaveFile"/> object.</returns>
     public SAV3 ForceLoad(GameVersion version) => version switch
     {
-        GameVersion.R or GameVersion.S or GameVersion.RS     => new SAV3RS(Data),
-        GameVersion.E                                        => new SAV3E(Data),
+        GameVersion.R or GameVersion.S or GameVersion.RS => new SAV3RS(Data),
+        GameVersion.E => new SAV3E(Data),
         GameVersion.FR or GameVersion.LG or GameVersion.FRLG => new SAV3FRLG(Data),
         _ => throw new ArgumentOutOfRangeException(nameof(version)),
     };
@@ -284,7 +284,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
             for (int i = 0; i < COUNT_MAIN; i++)
             {
                 if (!IsSectorValid(i))
-                    list.Add($"Sector {i} @ {i*SIZE_SECTOR:X5} invalid.");
+                    list.Add($"Sector {i} @ {i * SIZE_SECTOR:X5} invalid.");
             }
 
             if (Data.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
@@ -392,8 +392,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Large.AsSpan(EventWork)[(index * 2)..], value);
     #endregion
 
-    public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(Large, offset, bitIndex);
-    public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Large, offset, bitIndex, value);
+    public sealed override bool GetFlag(int offset, int bitIndex) => GetFlag(Large, offset, bitIndex);
+    public sealed override void SetFlag(int offset, int bitIndex, bool value) => SetFlag(Large, offset, bitIndex, value);
 
     protected abstract int BadgeFlagStart { get; }
     public abstract uint Coin { get; set; }
@@ -438,6 +438,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     protected abstract InventoryPouch3[] GetItems();
 
     protected abstract int DaycareSlotSize { get; }
+    protected abstract int DaycareOffset { get; }
+    protected abstract int PokeDex { get; }
+    public override bool HasPokeDex => true;
 
     public sealed override uint? GetDaycareEXP(int loc, int slot) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)));
     public sealed override void SetDaycareEXP(int loc, int slot, uint EXP) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)), EXP);

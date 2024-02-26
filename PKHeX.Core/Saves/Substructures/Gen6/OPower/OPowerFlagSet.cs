@@ -11,7 +11,7 @@ internal sealed class OPowerFlagSet(int Count, OPower6Type Identifier)
     public int BaseCount => Math.Min(3, Count);
     public bool HasOPowerS => Count > 3;
     public bool HasOPowerMAX => Count == 5;
-    public int Offset { get; init; }
+    public required int Offset { get; init; }
 
     public int GetOPowerLevel(ReadOnlySpan<byte> data)
     {

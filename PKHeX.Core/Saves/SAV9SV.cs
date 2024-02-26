@@ -104,11 +104,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override int MaxItemID => m_item;
     public override int MaxAbilityID => m_abil;
 
+    public override bool HasPokeDex => true;
+
     private void Initialize()
     {
         Box = 0;
         Party = 0;
-        PokeDex = 0;
         TeamIndexes.LoadBattleTeams();
 
         int rev = SaveRevision;
@@ -254,7 +255,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
     public override PK9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.AsSpan(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     //public int GetRecord(int recordID) => Records.GetRecord(recordID);
     //public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);

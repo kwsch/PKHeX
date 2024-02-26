@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class MysteryBlock5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset)
+public sealed class MysteryBlock5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
 {
     private const int FlagStart = 0;
     private const int MaxReceivedFlag = 2048;
@@ -12,7 +12,6 @@ public sealed class MysteryBlock5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, o
     private const int CardStart = FlagStart + FlagRegionSize;
 
     private const int DataSize = 0xA90;
-    private int SeedOffset => Offset + DataSize;
 
     // Everything is stored encrypted, and only decrypted on demand. Only crypt on object fetch...
 
@@ -20,17 +19,22 @@ public sealed class MysteryBlock5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, o
     {
         get
         {
-            uint seed = ReadUInt32LittleEndian(Data.AsSpan(SeedOffset));
-            byte[] wcData = SAV.Data.AsSpan(Offset + FlagStart, 0xA90).ToArray(); // Encrypted, Decrypt
-            return GetAlbum(seed, wcData);
+            byte[] wcData = Data[..0xA90].ToArray(); // Encrypted, Decrypt
+            return GetAlbum(AlbumSeed, wcData);
         }
         set
         {
             var wcData = SetAlbum(value);
             // Write Back
-            wcData.CopyTo(Data, Offset + FlagStart);
-            WriteUInt32LittleEndian(Data.AsSpan(SeedOffset), value.Seed);
+            wcData.CopyTo(Data);
+            AlbumSeed = value.Seed;
         }
+    }
+
+    private uint AlbumSeed
+    {
+        get => ReadUInt32LittleEndian(Data[DataSize..]);
+        set => WriteUInt32LittleEndian(Data[DataSize..], value);
     }
 
     private static EncryptedMysteryGiftAlbum GetAlbum(uint seed, byte[] wcData)

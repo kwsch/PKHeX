@@ -7,23 +7,23 @@ public sealed class PlayTime8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
 {
     public int PlayedHours
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, (ushort)value);
     }
 
     public int PlayedMinutes
     {
-        get => Data[Offset + 2];
-        set => Data[Offset + 2] = (byte)value;
+        get => Data[2];
+        set => Data[2] = (byte)value;
     }
 
     public int PlayedSeconds
     {
-        get => Data[Offset + 3];
-        set => Data[Offset + 3] = (byte)value;
+        get => Data[3];
+        set => Data[3] = (byte)value;
     }
 
-    private uint LastSaved { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
+    private uint LastSaved { get => ReadUInt32LittleEndian(Data[0x4..]); set => WriteUInt32LittleEndian(Data[0x4..], value); }
     private int LastSavedYear { get => (int)(LastSaved & 0xFFF) + 1900; set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)(value - 1900); }
     private int LastSavedMonth { get => (int)((LastSaved >> 12) & 0xF) + 1; set => LastSaved = (LastSaved & 0xFFFF0FFF) | (((uint)(value - 1) & 0xF) << 12); }
     private int LastSavedDay { get => (int)((LastSaved >> 16) & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | (((uint)value & 0x1F) << 16); }

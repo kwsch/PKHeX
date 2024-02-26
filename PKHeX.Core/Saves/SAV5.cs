@@ -166,7 +166,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     private bool CGearSkinPresent
     {
         get => Data[CGearSkinInfoOffset + 2] == 1;
-        set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
+        set => Data[CGearSkinInfoOffset + 2] = PlayerData.Data[(this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
     }
 
     private static ReadOnlySpan<byte> DLCFooter => [ 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 ];

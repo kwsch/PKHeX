@@ -10,16 +10,16 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
     // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
     private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-    public MysteryBlock6(SAV6XY sav, int offset) : base(sav, offset) { }
-    public MysteryBlock6(SAV6AO sav, int offset) : base(sav, offset) { }
+    public MysteryBlock6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
+    public MysteryBlock6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
-    public bool[] GetReceivedFlags() => FlagUtil.GetBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
+    public bool[] GetReceivedFlags() => FlagUtil.GetBitFlagArray(Data, MaxReceivedFlag);
 
     public void SetReceivedFlags(ReadOnlySpan<bool> value)
     {
         if (value.Length != MaxReceivedFlag)
             return;
-        FlagUtil.SetBitFlagArray(Data.AsSpan(Offset + FlagStart), value);
+        FlagUtil.SetBitFlagArray(Data, value);
         SAV.State.Edited = true;
     }
 
@@ -50,7 +50,7 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
         return new WC6(data);
     }
 
-    private int GetGiftOffset(int index) => Offset + CardStart + (index * WC6.Size);
+    private static int GetGiftOffset(int index) => CardStart + (index * WC6.Size);
 
     public void SetGift(DataMysteryGift wc6, int index)
     {

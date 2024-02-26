@@ -12,15 +12,16 @@ public sealed class SAV4DP : SAV4Sinnoh
     public SAV4DP() : base(GeneralSize, StorageSize)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public SAV4DP(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
+    private const int PokeDex = 0x12DC;
     public override Zukan4 Dex { get; }
 
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP((byte[])Data.Clone()) : new SAV4DP();
@@ -45,6 +46,8 @@ public sealed class SAV4DP : SAV4Sinnoh
 
     protected override int EventWork => 0xD9C;
     protected override int EventFlag => 0xFDC;
+    protected override int DaycareOffset => 0x141C;
+    protected override int WondercardData => 0xA7FC;
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Tower;
 
     private void GetSAVOffsets()
@@ -52,15 +55,10 @@ public sealed class SAV4DP : SAV4Sinnoh
         AdventureInfo = 0;
         Trainer1 = 0x64;
         Party = 0x98;
-        PokeDex = 0x12DC;
         ChatterOffset = 0x61CC;
         Geonet = 0x96D8;
         WondercardFlags = 0xA6D0;
-        WondercardData = 0xA7fC;
-
-        DaycareOffset = 0x141C;
         OFS_HONEY = 0x72E4;
-
         OFS_UG_Stats = 0x3A2C;
         OFS_UG_Items = 0x42B0;
 

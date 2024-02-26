@@ -14,7 +14,7 @@ namespace PKHeX.Core;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class LastSaved8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
 {
-    private uint LastSaved { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0), value); }
+    private uint LastSaved { get => ReadUInt32LittleEndian(Data.Slice(0x0)); set => WriteUInt32LittleEndian(Data.Slice(0x0), value); }
     private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
     private int LastSavedMonth { get => (int)((LastSaved >> 12) & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | (((uint)value & 0xF) << 12); }
     private int LastSavedDay { get => (int)((LastSaved >> 16) & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | (((uint)value & 0x1F) << 16); }

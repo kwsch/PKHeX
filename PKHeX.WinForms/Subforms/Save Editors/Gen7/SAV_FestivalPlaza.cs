@@ -89,8 +89,8 @@ public partial class SAV_FestivalPlaza : Form
         for (int i = 0; i < res2.Length - 1; i++)
             CLB_Reward.Items.Add(res2[i], (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(i)]);
 
-        for (int i = 0; i < 7; i++)
-            f[i] = new FestaFacility(SAV, i);
+        for (int i = 0; i < JoinFesta7.FestaFacilityCount; i++)
+            f[i] = SAV.Festa.GetFestaFacility(i);
 
         string[] res3 = ["Meet", "Part", "Moved", "Disappointed"];
         CB_FacilityMessage.Items.Clear();
@@ -176,7 +176,7 @@ public partial class SAV_FestivalPlaza : Form
     private bool editing;
     private static ReadOnlySpan<byte> RewardState => [ 0, 2, 1 ]; // CheckState.Indeterminate <-> CheckState.Checked
     private readonly int typeMAX;
-    private readonly FestaFacility[] f = new FestaFacility[7];
+    private readonly FestaFacility[] f = new FestaFacility[JoinFesta7.FestaFacilityCount];
     private readonly string[] RES_Color = Enum.GetNames(typeof(FestivalPlazaFacilityColor));
 
     public enum FestivalPlazaFacilityColor : byte
@@ -291,9 +291,6 @@ public partial class SAV_FestivalPlaza : Form
             SAV.Festa.SetFestaPrizeReceived(i - 1, RewardState[(int)CLB_Reward.GetItemCheckState(i)]);
 
         SaveFacility();
-        foreach (FestaFacility facility in f)
-            facility.CopyTo(SAV);
-
         if (SAV is SAV7USUM)
             SaveBattleAgency();
     }
@@ -321,7 +318,7 @@ public partial class SAV_FestivalPlaza : Form
             var m = (int)NUD_Trainers[i].Maximum;
             NUD_Trainers[i].Value = (uint)j > m ? m : j;
         }
-        B_AgentGlass.Enabled = (SAV.Data[SAV.Fashion.Offset + 0xD0] & 1) == 0;
+        B_AgentGlass.Enabled = (SAV.Fashion.Data[0xD0] & 1) == 0;
     }
 
     private void LoadPictureBox()
@@ -759,7 +756,7 @@ public partial class SAV_FestivalPlaza : Form
     {
         if (NUD_Grade.Value < 30 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Agent Sunglasses is reward of Grade 30.", "Continue?"))
             return;
-        SAV.Data[SAV.Fashion.Offset + 0xD0] = 3;
+        SAV.Fashion.Data[0xD0] = 3;
         B_AgentGlass.Enabled = false;
         System.Media.SystemSounds.Asterisk.Play();
     }

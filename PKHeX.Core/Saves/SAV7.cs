@@ -30,7 +30,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     protected void ReloadBattleTeams()
     {
-        var demo = this is SAV7SM && !Data.AsSpan(BoxLayout.Offset, 0x4C4).ContainsAnyExcept<byte>(0); // up to Battle Box values
+        var demo = this is SAV7SM && !BoxLayout.Data[..0x4C4].ContainsAnyExcept<byte>(0); // up to Battle Box values
         if (demo || !State.Exportable)
         {
             BoxLayout.ClearBattleTeams();
@@ -156,7 +156,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
+    protected override int GetBoxWallpaperOffset(int box) => BoxLayout7.GetBoxWallpaperOffset(box);
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];

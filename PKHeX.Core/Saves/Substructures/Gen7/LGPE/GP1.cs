@@ -23,15 +23,9 @@ public sealed class GP1(byte[] Data)
     public AbilityPermission Ability => AbilityPermission.Any12;
 
     public GP1() : this(new byte[SIZE]) => InitializeBlank(Data);
-    public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+    public void WriteTo(Span<byte> data) => Data.CopyTo(data);
 
-    public static GP1 FromData(byte[] data, int offset)
-    {
-        var span = data.AsSpan(offset);
-        return FromData(span);
-    }
-
-    private static GP1 FromData(ReadOnlySpan<byte> span)
+    public static GP1 FromData(ReadOnlySpan<byte> span)
     {
         var result = new GP1();
         span[..SIZE].CopyTo(result.Data);

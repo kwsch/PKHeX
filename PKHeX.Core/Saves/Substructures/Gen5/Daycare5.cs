@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Daycare5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset)
+public sealed class Daycare5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
 {
     // struct daycareSlot
     // bool32 occupied
@@ -21,7 +21,7 @@ public sealed class Daycare5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset
     {
         if (SAV is not SAV5B2W2)
             return null;
-        return ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x1CC));
+        return ReadUInt64LittleEndian(Data[0x1CC..]);
     }
 
     public void SetSeed(ReadOnlySpan<char> value)
@@ -29,16 +29,16 @@ public sealed class Daycare5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset
         if (SAV is not SAV5B2W2)
             return;
         var data = Util.GetBytesFromHexString(value);
-        SAV.SetData(data, Offset + 0x1CC);
+        SAV.SetData(data, 0x1CC);
     }
 
-    private int GetDaycareSlotOffset(int slot) => Offset + (SlotSize * slot);
+    private static int GetDaycareSlotOffset(int slot) => (SlotSize * slot);
     public int GetPKMOffset(int slot) => GetDaycareSlotOffset(slot) + 4;
     private int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot) + 4 + PokeCrypto.SIZE_5PARTY;
 
-    public bool? IsOccupied(int slot) => ReadUInt32LittleEndian(Data.AsSpan(GetDaycareSlotOffset(slot))) == 1;
-    public void SetOccupied(int slot, bool occupied) => WriteUInt32LittleEndian(Data.AsSpan(GetDaycareSlotOffset(slot)), occupied ? 1u : 0);
+    public bool? IsOccupied(int slot) => ReadUInt32LittleEndian(Data[GetDaycareSlotOffset(slot)..]) == 1;
+    public void SetOccupied(int slot, bool occupied) => WriteUInt32LittleEndian(Data[GetDaycareSlotOffset(slot)..], occupied ? 1u : 0);
 
-    public uint? GetEXP(int slot) => ReadUInt32LittleEndian(Data.AsSpan(GetDaycareEXPOffset(slot)));
-    public void SetEXP(int slot, uint EXP) => WriteUInt32LittleEndian(Data.AsSpan(GetDaycareEXPOffset(slot)), EXP);
+    public uint? GetEXP(int slot) => ReadUInt32LittleEndian(Data[GetDaycareEXPOffset(slot)..]);
+    public void SetEXP(int slot, uint EXP) => WriteUInt32LittleEndian(Data[GetDaycareEXPOffset(slot)..], EXP);
 }

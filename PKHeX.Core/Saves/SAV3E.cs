@@ -29,17 +29,11 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     protected override int EventWork => 0x139C;
     public override int MaxItemID => Legal.MaxItemID_3_E;
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x3030; // large
 
-        // large
-        DaycareOffset = 0x3030;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     #region Small
     public override bool NationalDex

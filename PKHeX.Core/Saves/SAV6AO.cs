@@ -34,21 +34,21 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     protected override int EventWork => 0x14A00;
     protected override int EventFlag => EventWork + 0x2F0;
 
+    public override bool HasPokeDex => true;
+    public override bool HasWondercards => true;
+    public override bool HasDaycare => true;
+
     private void Initialize()
     {
         PCLayout = 0x04400;
         BattleBoxOffset = 0x04A00;
         PSS = 0x05000;
         Party = 0x14200;
-        PokeDex = 0x15000;
         HoF = 0x19E00;
-        DaycareOffset = 0x1BC00;
         BerryField = 0x1C400;
         WondercardFlags = 0x1CC00;
         Box = 0x33000;
         JPEG = 0x67C00;
-
-        WondercardData = WondercardFlags + 0x100;
     }
 
     /// <summary> Offset of the UnionPokemon block. </summary>
@@ -108,6 +108,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     // Daycare
     public override int DaycareSeedSize => 16;
     public override bool HasTwoDaycares => true;
+    private const int DaycareOffset = 0x1BC00;
 
     public override int GetDaycareSlotOffset(int loc, int slot)
     {
@@ -154,8 +155,6 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     public override void SetDaycareRNGSeed(int loc, string seed)
     {
         if (loc != 0)
-            return;
-        if (DaycareOffset < 0)
             return;
         if (seed.Length > DaycareSeedSize)
             return;

@@ -28,17 +28,11 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     protected override int EventFlag => 0x1220;
     protected override int EventWork => 0x1340;
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x2F9C; // large
 
-        // large
-        DaycareOffset = 0x2F9C;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     #region Small
     public override bool NationalDex

@@ -13,13 +13,13 @@ public sealed class SAV4HGSS : SAV4
     public SAV4HGSS() : base(GeneralSize, StorageSize)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public SAV4HGSS(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public override Zukan4 Dex { get; }
@@ -32,6 +32,7 @@ public sealed class SAV4HGSS : SAV4
     public const int GeneralSize = 0xF628;
     private const int StorageSize = 0x12310; // Start 0xF700, +0 starts box data
     private const int GeneralGap = 0xD8;
+    private const int PokeDex = 0x12B8;
     protected override int FooterSize => 0x10;
 
     protected override BlockInfo4[] ExtraBlocks =>
@@ -52,6 +53,8 @@ public sealed class SAV4HGSS : SAV4
 
     protected override int EventWork => 0xDE4;
     protected override int EventFlag => 0x10C4;
+    protected override int DaycareOffset => 0x15FC;
+    protected override int WondercardData => 0x9E3C;
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Arcade;
 
     private void GetSAVOffsets()
@@ -59,14 +62,10 @@ public sealed class SAV4HGSS : SAV4
         AdventureInfo = 0;
         Trainer1 = 0x64;
         Party = 0x98;
-        PokeDex = 0x12B8;
         Extra = 0x230C;
         ChatterOffset = 0x4E74;
         Geonet = 0x8D44;
         WondercardFlags = 0x9D3C;
-        WondercardData = 0x9E3C;
-
-        DaycareOffset = 0x15FC;
         Seal = 0x4E20;
 
         Box = 0;

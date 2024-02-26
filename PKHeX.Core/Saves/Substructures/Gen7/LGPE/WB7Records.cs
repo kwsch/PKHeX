@@ -2,21 +2,21 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class WB7Records(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
+public sealed class WB7Records(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
 {
     private const int RecordMax = 10; // 0xE90 > (0x140 * 0xA = 0xC80), not sure what final 0x210 bytes are used for
     private const int FlagCountMax = 0x1C00; // (7168) end of the block?
 
-    private int FlagStart => Offset + (RecordMax * WR7.Size);
+    private const int FlagStart = (RecordMax * WR7.Size);
 
-    private int GetRecordOffset(int index)
+    private static int GetRecordOffset(int index)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, RecordMax);
 
-        return Offset + (index * WR7.Size);
+        return (index * WR7.Size);
     }
 
-    private int GetFlagOffset(int flag)
+    private static int GetFlagOffset(int flag)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(flag, FlagCountMax);
         return FlagStart + (flag / 8);
@@ -25,14 +25,14 @@ public sealed class WB7Records(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, of
     public WR7 GetRecord(int index)
     {
         int ofs = GetRecordOffset(index);
-        byte[] data = Data.AsSpan(ofs, WR7.Size).ToArray();
+        byte[] data = Data.Slice(ofs, WR7.Size).ToArray();
         return new WR7(data);
     }
 
     public void SetRecord(WR7 record, int index)
     {
         int ofs = GetRecordOffset(index);
-        record.Data.CopyTo(Data, ofs);
+        record.Data.CopyTo(Data[ofs..]);
     }
 
     public WR7[] GetRecords()

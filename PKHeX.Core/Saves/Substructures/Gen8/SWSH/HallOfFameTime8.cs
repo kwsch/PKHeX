@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -17,8 +17,8 @@ public sealed class HallOfFameTime8 : SaveBlock<SAV8SWSH>
     [Category(General), Description("Raw amount of seconds since 1970 (Unix Timestamp)")]
     public long TimeStamp
     {
-        get => ReadInt64LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteInt64LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadInt64LittleEndian(Data);
+        set => WriteInt64LittleEndian(Data, value);
     }
 
     [Category(General), Description("Date and Time (UTC) the player entered the Hall Of Fame")]
