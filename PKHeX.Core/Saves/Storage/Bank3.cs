@@ -9,6 +9,7 @@ public sealed class Bank3 : BulkStorage
 {
     public Bank3(byte[] data) : base(data, typeof(PK3), 0) => Version = GameVersion.RS;
 
+    public override GameVersion Version { get => GameVersion.RS; set { } }
     public override PersonalTable3 Personal => PersonalTable.RS;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     protected override Bank3 CloneInternal() => new((byte[])Data.Clone());

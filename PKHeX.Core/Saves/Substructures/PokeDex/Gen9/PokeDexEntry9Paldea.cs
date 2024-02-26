@@ -67,9 +67,9 @@ public readonly ref struct PokeDexEntry9Paldea
         SetState(newValue);
     }
 
-    public bool GetIsGenderSeen(int gender) => (FlagsGenderSeen & (1u << gender)) != 0;
+    public bool GetIsGenderSeen(byte gender) => (FlagsGenderSeen & (1u << gender)) != 0;
 
-    public void SetIsGenderSeen(int gender, bool value)
+    public void SetIsGenderSeen(byte gender, bool value)
     {
         if (value)
             FlagsGenderSeen |= (ushort)(1u << gender);

@@ -25,12 +25,12 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        var iterator = new EncounterEnumerator5(pk, chain, (GameVersion)pk.Version);
+        var iterator = new EncounterEnumerator5(pk, chain, pk.Version);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
 
-    private const int Generation = 5;
+    private const byte Generation = 5;
     private const EntityContext Context = EntityContext.Gen5;
     private const byte EggLevel = EggStateLegality.EggMetLevel;
 

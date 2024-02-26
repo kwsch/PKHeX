@@ -34,14 +34,14 @@ public abstract class BulkStorage : SaveFile
     protected override int SIZE_STORED => blank.SIZE_STORED;
     protected override int SIZE_PARTY => blank.SIZE_PARTY;
     public sealed override int MaxEV => blank.MaxEV;
-    public sealed override int Generation => blank.Format;
+    public sealed override byte Generation => blank.Format;
     public sealed override EntityContext Context => blank.Context;
     public sealed override ushort MaxMoveID => blank.MaxMoveID;
     public sealed override ushort MaxSpeciesID => blank.MaxSpeciesID;
     public sealed override int MaxAbilityID => blank.MaxAbilityID;
     public sealed override int MaxItemID => blank.MaxItemID;
     public sealed override int MaxBallID => blank.MaxBallID;
-    public sealed override int MaxGameID => blank.MaxGameID;
+    public sealed override GameVersion MaxGameID => blank.MaxGameID;
     public sealed override int MaxStringLengthOT => blank.MaxStringLengthOT;
     public sealed override int MaxStringLengthNickname => blank.MaxStringLengthNickname;
     public bool IsBigEndian => blank is BK4 or XK3 or CK3;

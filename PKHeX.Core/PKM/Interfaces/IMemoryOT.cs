@@ -5,10 +5,10 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IMemoryOT : IMemoryOTReadOnly
 {
-    new byte OT_Memory { get; set; }
-    new byte OT_Intensity { get; set; }
-    new byte OT_Feeling { get; set; }
-    new ushort OT_TextVar { get; set; }
+    new byte OriginalTrainerMemory { get; set; }
+    new byte OriginalTrainerMemoryIntensity { get; set; }
+    new byte OriginalTrainerMemoryFeeling { get; set; }
+    new ushort OriginalTrainerMemoryVariable { get; set; }
 }
 
 public static partial class Extensions
@@ -18,6 +18,6 @@ public static partial class Extensions
     /// </summary>
     public static void ClearMemoriesOT(this IMemoryOT ot)
     {
-        ot.OT_TextVar = ot.OT_Memory = ot.OT_Feeling = ot.OT_Intensity = 0;
+        ot.OriginalTrainerMemoryVariable = ot.OriginalTrainerMemory = ot.OriginalTrainerMemoryFeeling = ot.OriginalTrainerMemoryIntensity = 0;
     }
 }

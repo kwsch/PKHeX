@@ -44,8 +44,8 @@ public sealed class PersonalInfo1(byte[] Data) : PersonalInfo, IPersonalInfoTM
     public override int GetIndexOfAbility(int abilityID) => -1;
     public override int GetAbilityAtIndex(int abilityIndex) => -1;
     public override int AbilityCount => 0;
-    public override int HatchCycles { get => 0; set { } }
-    public override int BaseFriendship { get => 0; set { } }
+    public override byte HatchCycles { get => 0; set { } }
+    public override byte BaseFriendship { get => 0; set { } }
     public override int EscapeRate { get => 0; set { } }
     public override int Color { get => 0; set { } }
 

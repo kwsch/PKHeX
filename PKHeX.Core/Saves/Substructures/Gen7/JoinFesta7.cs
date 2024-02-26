@@ -3,11 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class JoinFesta7 : SaveBlock<SAV7>
+public sealed class JoinFesta7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset)
 {
-    public JoinFesta7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-    public JoinFesta7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
-
     public int FestaCoins
     {
         get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x508));

@@ -27,11 +27,11 @@ public static class EncounterStateUtil
     /// <remarks>Only applicable for Generation 4 origins and above.</remarks>
     public static bool IsMetAsEgg(PKM pk) => pk switch
     {
-        // This all could be simplified to just checking Egg_Day != 0 without type checks.
-        // Leaving like this to indicate how Egg_Location is not a true indicator due to quirks from BD/SP.
+        // This all could be simplified to just checking EggDay != 0 without type checks.
+        // Leaving like this to indicate how EggLocation is not a true indicator due to quirks from BD/SP.
 
-        PA8 or PK8 => pk.Egg_Location is not 0 || pk is { BDSP: true, Egg_Day: not 0 },
-        PB8 pb8 => pb8.Egg_Location is not Locations.Default8bNone,
-        _ => pk.Egg_Location is not 0,
+        PA8 or PK8 => pk.EggLocation is not 0 || pk is { BDSP: true, EggDay: not 0 },
+        PB8 pb8 => pb8.EggLocation is not Locations.Default8bNone,
+        _ => pk.EggLocation is not 0,
     };
 }

@@ -310,4 +310,13 @@ public static class HiddenPower
         0b111101, // Dragon
         0b111111, // Dark
     ];
+
+    /// <summary>
+    /// Gets the suggested low-bits for the input Hidden Power Type
+    /// </summary>
+    public static byte GetLowBits(int type)
+    {
+        var arr = DefaultLowBits;
+        return (uint)type < arr.Length ? arr[type] : (byte)0;
+    }
 }

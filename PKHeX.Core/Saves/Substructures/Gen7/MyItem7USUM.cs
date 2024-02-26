@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem7USUM : MyItem
+public sealed class MyItem7USUM(SAV7USUM SAV, int offset) : MyItem(SAV, offset)
 {
     private const int HeldItem = 0; // 427 (Case 0)
     private const int KeyItem = HeldItem + (4 * 427); // 198 (Case 4)
@@ -11,8 +11,6 @@ public sealed class MyItem7USUM : MyItem
     private const int Berry = Medicine + (4 * 60); // 67 (Case 3)
     private const int ZCrystals = Berry + (4 * 67); // 35 (Case 5)
     private const int BattleItems = ZCrystals + (4 * 35); // 11 (Case 6)
-
-    public MyItem7USUM(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {

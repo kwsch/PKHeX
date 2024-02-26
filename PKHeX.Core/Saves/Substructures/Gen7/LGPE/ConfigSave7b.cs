@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class ConfigSave7b : SaveBlock<SAV7b>
+public sealed class ConfigSave7b(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
 {
     /* ===First 8 bits===
      * talkSpeed:2
@@ -13,8 +13,6 @@ public sealed class ConfigSave7b : SaveBlock<SAV7b>
      *
      * everything else: unknown
      */
-
-    public ConfigSave7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
     public int ConfigValue
     {

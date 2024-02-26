@@ -55,8 +55,10 @@ public sealed class SaveHandlerGCI : ISaveHandler
         var header = input[..headerSize].ToArray();
         var data = input[headerSize..].ToArray();
 
-        return new SaveHandlerSplitResult(data, header, []);
+        return new SaveHandlerSplitResult(data, header, [], this);
     }
+
+    public void Finalize(Span<byte> data) { }
 
     /// <summary>
     /// Checks if the game code is one of the recognizable versions.

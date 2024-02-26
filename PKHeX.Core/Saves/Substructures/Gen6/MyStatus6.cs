@@ -6,10 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 6 savedata object that stores the player's trainer data.
 /// </summary>
-public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
+public class MyStatus6(SAV6 sav, int offset) : SaveBlock<SAV6>(sav, offset), IRegionOrigin
 {
-    public MyStatus6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-
     public uint ID32
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));
@@ -28,16 +26,16 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[Offset + 4];
-        set => Data[Offset + 4] = (byte)value;
+        set => Data[Offset + 4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 5];
-        set => Data[Offset + 5] = (byte)value;
+        set => Data[Offset + 5] = value;
     }
 
     public int MultiplayerSpriteID_1
@@ -103,12 +101,12 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
         set => Data[Offset + 0x2D] = (byte)value;
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x48, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(Offset + 0x48, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);

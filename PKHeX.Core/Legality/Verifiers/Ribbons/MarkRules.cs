@@ -48,7 +48,7 @@ public static class MarkRules
     {
         MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
         MarkFishing when !IsMarkAllowedFishing(x) => false,
-        MarkMisty when x.Generation == 8 && pk.Met_Level < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60Fog(pk.Met_Location) => false,
+        MarkMisty when x.Generation == 8 && pk.MetLevel < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60Fog(pk.MetLocation) => false,
         MarkDestiny => x is EncounterSlot9, // Capture on Birthday
         >= MarkCloudy and <= MarkMisty => IsWeatherPermitted8(mark, x),
         _ => true,
@@ -79,7 +79,7 @@ public static class MarkRules
         MarkFishing => false,
         MarkDestiny => true, // Capture on Birthday
         >= MarkLunchtime and <= MarkDawn => true, // no time restrictions
-        >= MarkCloudy and <= MarkMisty => pk is PK8 || EncounterSlot9.CanSpawnInWeather(mark, (byte)pk.Met_Location),
+        >= MarkCloudy and <= MarkMisty => pk is PK8 || EncounterSlot9.CanSpawnInWeather(mark, (byte)pk.MetLocation),
         _ => true,
     };
 

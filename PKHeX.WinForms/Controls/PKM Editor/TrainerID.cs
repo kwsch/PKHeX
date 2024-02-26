@@ -46,7 +46,7 @@ public partial class TrainerID : UserControl
         return xor >> 4;
     }
 
-    public void LoadIDValues(ITrainerID32 tr, int format)
+    public void LoadIDValues(ITrainerID32 tr, byte format)
     {
         Trainer = tr;
         var display = tr.GetTrainerIDFormat();
@@ -87,7 +87,7 @@ public partial class TrainerID : UserControl
         TB_SID7.Text = tr.GetTrainerSID7().ToString(TrainerIDExtensions.SID7);
     }
 
-    private void SetFormat(TrainerIDFormat display, int format)
+    private void SetFormat(TrainerIDFormat display, byte format)
     {
         if ((display, format) == (DisplayType, XorFormat))
             return;

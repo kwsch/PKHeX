@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LearnGroup8a : ILearnGroup
 {
     public static readonly LearnGroup8a Instance = new();
-    private const int Generation = 8;
+    private const byte Generation = 8;
     private const EntityContext Context = EntityContext.Gen8a;
     public ushort MaxMoveID => Legal.MaxMoveID_8a;
 

@@ -23,7 +23,7 @@ public sealed class PIDVerifier : Verifier
 
         if (pk.PID == 0)
             data.AddLine(Get(LPIDZero, Severity.Fishy));
-        if (pk.Nature >= 25) // out of range
+        if (!pk.Nature.IsFixed()) // out of range
             data.AddLine(GetInvalid(LPIDNatureMismatch));
 
         VerifyShiny(data);
@@ -161,8 +161,8 @@ public sealed class PIDVerifier : Verifier
     /// <returns>True if the <see cref="ec"/> is appropriate to use.</returns>
     public static bool GetTransferEC(PKM pk, out uint ec)
     {
-        var ver = pk.Version;
-        if (ver is 0 or >= (int)GameVersion.X) // Gen6+ ignored
+        var version = pk.Version;
+        if (version is 0 or >= GameVersion.X) // Gen6+ ignored
         {
             ec = 0;
             return false;

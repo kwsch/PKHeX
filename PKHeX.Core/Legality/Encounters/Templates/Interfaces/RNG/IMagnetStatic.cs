@@ -23,13 +23,38 @@ public interface IMagnetStatic
     /// <summary>
     /// Indicates if the slot can be yielded by <see cref="Ability.Static"/>.
     /// </summary>
-    bool IsStaticSlot => StaticCount != 0 && StaticIndex != byte.MaxValue;
+    bool IsStaticSlot => StaticCount != 0;
 
     /// <summary>
     /// Indicates if the slot can be yielded by <see cref="Ability.MagnetPull"/>.
     /// </summary>
-    bool IsMagnetSlot => MagnetPullCount != 0 && MagnetPullIndex != byte.MaxValue;
+    bool IsMagnetSlot => MagnetPullCount != 0;
+}
 
-    bool IsMatchStatic(int index, int count) => index == StaticIndex && count == StaticCount;
-    bool IsMatchMagnet(int index, int count) => index == MagnetPullIndex && count == MagnetPullCount;
+public static class MagnetStaticExtensions
+{
+    /// <summary>
+    /// Checks if the <see cref="enc"/> can be an encounter slot chosen via Static or Magnet Pull.
+    /// </summary>
+    /// <param name="enc">Encounter Slot</param>
+    /// <param name="u16SlotRand">[0,65535]</param>
+    /// <param name="lead">Which one it matched, if any.</param>
+    /// <returns>False if not a matching slot.</returns>
+    public static bool IsSlotValidStaticMagnet<T>(this T enc, uint u16SlotRand, out LeadRequired lead) where T : IMagnetStatic
+    {
+        if (enc.IsStaticSlot && u16SlotRand % enc.StaticCount == enc.StaticIndex)
+        {
+            lead = LeadRequired.Static;
+            return true;
+        }
+        // Isn't checked for Fishing slots, but no fishing slots are steel type -- always false.
+        if (enc.IsMagnetSlot && u16SlotRand % enc.MagnetPullCount == enc.MagnetPullIndex)
+        {
+            lead = LeadRequired.MagnetPull;
+            return true;
+        }
+
+        lead = LeadRequired.None;
+        return false;
+    }
 }

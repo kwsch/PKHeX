@@ -10,8 +10,8 @@ public sealed class MyItem6AO : MyItem
     private const int Medicine = 0x970; // 3, +2 items shift because 2 HMs added
     private const int Berry = 0xA70; // 4
 
-    public MyItem6AO(SAV6AO SAV, int offset) : base(SAV) => Offset = offset;
-    public MyItem6AO(SAV6AODemo SAV, int offset) : base(SAV) => Offset = offset;
+    public MyItem6AO(SAV6AO SAV, int offset) : base(SAV, offset) { }
+    public MyItem6AO(SAV6AODemo SAV, int offset) : base(SAV, offset) { }
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {

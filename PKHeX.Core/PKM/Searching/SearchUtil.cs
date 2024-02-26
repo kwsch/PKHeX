@@ -9,7 +9,7 @@ namespace PKHeX.Core.Searching;
 public static class SearchUtil
 {
     // Future: Might need to clamp down further for generations that cannot exist in the current format.
-    public static bool SatisfiesFilterFormat(PKM pk, int format, SearchComparison formatOperand) => formatOperand switch
+    public static bool SatisfiesFilterFormat(PKM pk, byte format, SearchComparison formatOperand) => formatOperand switch
     {
         SearchComparison.GreaterThanEquals when pk.Format <  format => false,
         SearchComparison.Equals            when pk.Format != format => false,
@@ -20,7 +20,7 @@ public static class SearchUtil
         _ => true,
     };
 
-    public static bool SatisfiesFilterGeneration(PKM pk, int generation) => generation switch
+    public static bool SatisfiesFilterGeneration(PKM pk, byte generation) => generation switch
     {
         1 => pk.VC || pk.Format < 3,
         2 => pk.VC || pk.Format < 3,

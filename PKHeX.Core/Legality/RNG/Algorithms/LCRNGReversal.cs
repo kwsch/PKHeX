@@ -16,7 +16,7 @@ public static class LCRNGReversal
     private const uint LCRNG_INC = 0x4034; // (((diff * 0x67d3 + 0x4034) >> 16) * 0xd3e) % 0x67d3 line up with the first 16bit low solution modulo 0x67d3 if it exists (see diff definition in code)
 
     /// <summary>
-    /// Finds all seeds that can generate the IVs, with a vblank skip between the two IV rand() calls.
+    /// Finds all seeds that can generate the IVs.
     /// </summary>
     /// <param name="result">Result storage array, to be populated starting at index 0.</param>
     /// <param name="hp" >Entity IV for HP</param>

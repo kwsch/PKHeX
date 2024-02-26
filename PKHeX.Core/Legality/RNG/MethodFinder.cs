@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.PIDType;
 
 namespace PKHeX.Core;
@@ -81,6 +82,44 @@ public static class MethodFinder
         return pk.Gen4
             ? (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv)) || GetG5MGShinyMatch(pk, pid, out pidiv)
             : GetG5MGShinyMatch(pk, pid, out pidiv) || (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv));
+    }
+
+    public static bool GetLCRNGMethod1Match(PKM pk, out uint result)
+    {
+        var pid = pk.EncryptionConstant;
+
+        var top = pid & 0xFFFF0000;
+        var bot = pid << 16;
+
+        Span<uint> temp = stackalloc uint[6];
+        for (int i = 0; i < 6; i++)
+            temp[i] = (uint)pk.GetIV(i);
+        ReadOnlySpan<uint> IVs = temp;
+
+        const int maxResults = LCRNG.MaxCountSeedsIV;
+        Span<uint> seeds = stackalloc uint[maxResults];
+        var count = LCRNGReversal.GetSeeds(seeds, bot, top);
+        var reg = seeds[..count];
+        var iv1 = GetIVChunk(IVs[..3]);
+        var iv2 = GetIVChunk(IVs[3..]);
+
+        foreach (var seed in reg)
+        {
+            var C = LCRNG.Next3(seed);
+            var ivC = C >> 16 & 0x7FFF;
+            if (iv1 != ivC)
+                continue;
+            var D = LCRNG.Next(C);
+            var ivD = D >> 16 & 0x7FFF;
+            if (iv2 != ivD)
+                continue;
+            // ABCD
+            result = seed;
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 
     private static bool GetLCRNGMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
@@ -258,7 +297,7 @@ public static class MethodFinder
             var lo = B >> 16;
             if (IVsMatch(hi, lo, IVs))
             {
-                pidiv = new PIDIV(CXD, XDRNG.Prev(A));
+                pidiv = new PIDIV(PIDType.CXD, XDRNG.Prev(A));
                 return true;
             }
 
@@ -297,8 +336,8 @@ public static class MethodFinder
 
     private static bool GetChannelMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv, PKM pk)
     {
-        var ver = pk.Version;
-        if (ver is not ((int)GameVersion.R or (int)GameVersion.S))
+        var version = pk.Version;
+        if (version is not (R or S))
             return GetNonMatch(out pidiv);
 
         var undo = (top >> 16) ^ 0x8000;
@@ -313,11 +352,11 @@ public static class MethodFinder
             // no checks, held item can be swapped
 
             var D = XDRNG.Next(C); // Version
-            if ((D >> 31) + 1 != ver) // (0-Sapphire, 1-Ruby)
+            if ((D >> 31) + 1 != (byte)version) // (0-Sapphire, 1-Ruby)
                 continue;
 
             var E = XDRNG.Next(D); // OT Gender
-            if (E >> 31 != pk.OT_Gender)
+            if (E >> 31 != pk.OriginalTrainerGender)
                 continue;
 
             if (!XDRNG.GetSequentialIVsUInt32(E, IVs))
@@ -386,12 +425,20 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    internal static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
+    private static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
+    {
+        if (!IsCuteCharm(pk, pid))
+            return GetNonMatch(out pidiv);
+        pidiv = PIDIV.CuteCharm;
+        return true;
+    }
+
+    public static bool IsCuteCharm(PKM pk, uint pid)
     {
         if (pid > 0xFF)
-            return GetNonMatch(out pidiv);
+            return false;
 
-        (var species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
+        var (species, gender) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
         static byte getRatio(ushort species)
         {
             return species <= Legal.MaxSpeciesID_4
@@ -399,30 +446,27 @@ public static class MethodFinder
                 : PKX.Personal[species].Gender;
         }
 
-        switch (genderValue)
+        const uint n = 25;
+        switch (gender)
         {
-            case 2: break; // can't cute charm a genderless pk
+            // case 2: break; // can't cute charm a genderless pk
             case 0: // male
                 var gr = getRatio(species);
                 if (gr >= PersonalInfo.RatioMagicFemale) // no modification for PID
                     break;
-                var rate = 25*((gr / 25) + 1); // buffered
-                var nature = pid % 25;
+                var rate = n * ((gr / n) + 1); // buffered
+                var nature = pid % n;
                 if (nature + rate != pid)
                     break;
-
-                pidiv = PIDIV.CuteCharm;
                 return true;
             case 1: // female
-                if (pid >= 25)
+                if (pid >= n)
                     break; // nope, this isn't a valid nature
                 if (getRatio(species) >= PersonalInfo.RatioMagicFemale) // no modification for PID
                     break;
-
-                pidiv = PIDIV.CuteCharm;
                 return true;
         }
-        return GetNonMatch(out pidiv);
+        return false;
     }
 
     private static bool GetChainShinyMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
@@ -577,10 +621,10 @@ public static class MethodFinder
 
     private static bool GetColoStarterMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        bool starter = pk.Version == (int)GameVersion.CXD && pk.Species switch
+        bool starter = pk.Version == GameVersion.CXD && pk.Species switch
         {
-            (int)Species.Espeon when pk.Met_Level >= 25 => true,
-            (int)Species.Umbreon when pk.Met_Level >= 26 => true,
+            (int)Species.Espeon when pk.MetLevel >= 25 => true,
+            (int)Species.Umbreon when pk.MetLevel >= 26 => true,
             _ => false,
         };
         if (!starter)
@@ -618,7 +662,7 @@ public static class MethodFinder
     /// <summary>
     /// Checks if the PID is a <see cref="PIDType.BACD_U_S"></see> match.
     /// </summary>
-    /// <param name="idxor"><see cref="PKM.TID16"/> ^ <see cref="PKM.SID16"/></param>
+    /// <param name="idXor"><see cref="PKM.TID16"/> ^ <see cref="PKM.SID16"/></param>
     /// <param name="pid">Full actual PID</param>
     /// <param name="low">Low portion of PID (B)</param>
     /// <param name="A">First RNG call</param>
@@ -626,7 +670,7 @@ public static class MethodFinder
     /// <returns>True/False if the PID matches</returns>
     /// <remarks>First RNG call is unrolled once if the PID is valid with this correlation</remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsBACD_U_S(uint idxor, uint pid, uint low, ref uint A, ref PIDType type)
+    private static bool IsBACD_U_S(uint idXor, uint pid, uint low, ref uint A, ref PIDType type)
     {
         // 0-Origin
         // 1-PIDH
@@ -635,7 +679,7 @@ public static class MethodFinder
         // PID = PIDH << 16 | (SID16 ^ TID16 ^ PIDH)
 
         var X = LCRNG.Prev(A); // unroll once as there's 3 calls instead of 2
-        uint PID = (X & 0xFFFF0000) | (idxor ^ X >> 16);
+        uint PID = (X & 0xFFFF0000) | (idXor ^ X >> 16);
         PID &= 0xFFFFFFF8;
         PID |= low & 0x7; // lowest 3 bits
 
@@ -767,7 +811,7 @@ public static class MethodFinder
     internal static bool IsCuteCharm4Valid(ISpeciesForm enc, PKM pk)
     {
         if (pk.Gender is not (0 or 1))
-            return false;
+            return pk.Species == (ushort)Species.Shedinja;
         if (pk.Species is not ((int)Species.Marill or (int)Species.Azumarill))
             return true;
         if (!IsCuteCharmAzurillMale(pk.PID)) // recognized as not Azurill
@@ -780,7 +824,7 @@ public static class MethodFinder
     /// <summary>
     /// There are some edge cases when the gender ratio changes across evolutions.
     /// </summary>
-    private static (ushort Species, int Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, ushort currentSpecies) => currentSpecies switch
+    private static (ushort Species, byte Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, ushort currentSpecies) => currentSpecies switch
     {
         // Nincada evo chain travels from M/F -> Genderless Shedinja
         (int)Species.Shedinja  => ((int)Species.Nincada, EntityGender.GetFromPID((int)Species.Nincada, pid)),
@@ -799,11 +843,20 @@ public static class MethodFinder
         (int)Species.Marill or (int)Species.Azumarill when IsCuteCharmAzurillMale(pid) => ((int)Species.Azurill, 0),
 
         // Future evolutions
-        (int)Species.Sylveon   => ((int)Species.Eevee, pk.Gender),
-        (int)Species.MrRime    => ((int)Species.MimeJr, pk.Gender),
-        (int)Species.Kleavor   => ((int)Species.Scyther, pk.Gender),
+        _ => GetCuteCharmSpeciesGen4(currentSpecies, pk.Gender),
+    };
 
-        _ => (currentSpecies, pk.Gender),
+    private static (ushort Species, byte Gender) GetCuteCharmSpeciesGen4(ushort species, byte gender) => species switch
+    {
+        <= Legal.MaxSpeciesID_4 => (species, gender), // has a valid personal reference, all good
+        (int)Species.Sylveon    => ((int)Species.Eevee, gender),
+        (int)Species.MrRime     => ((int)Species.MrMime, gender),
+        (int)Species.Wyrdeer    => ((int)Species.Stantler, gender),
+        (int)Species.Kleavor    => ((int)Species.Scyther, gender),
+        (int)Species.Sneasler   => ((int)Species.Sneasel, gender),
+        (int)Species.Ursaluna   => ((int)Species.Ursaring, gender),
+        (int)Species.Annihilape => ((int)Species.Primeape, gender),
+        _ => (species, gender), // throw an exception? Hitting here is an invalid case.
     };
 
     public static PIDIV GetPokeSpotSeedFirst(PKM pk, byte slot)

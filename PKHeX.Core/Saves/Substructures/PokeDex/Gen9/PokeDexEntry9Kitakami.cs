@@ -142,8 +142,8 @@ public readonly ref struct PokeDexEntry9Kitakami
             FlagsLanguage &= (ushort)~mask;
     }
 
-    public bool GetIsGenderSeen(int gender) => GetFlag(ref FlagsGenderSeen, gender);
-    public void SetIsGenderSeen(int gender, bool value) => SetFlag(ref FlagsGenderSeen, gender, value);
+    public bool GetIsGenderSeen(byte gender) => GetFlag(ref FlagsGenderSeen, gender);
+    public void SetIsGenderSeen(byte gender, bool value) => SetFlag(ref FlagsGenderSeen, gender, value);
 
     public bool GetIsModelSeen(bool shiny) => GetFlag(ref FlagsShinySeen, shiny ? 1 : 0);
     public void SetIsModelSeen(bool shiny, bool value) => SetFlag(ref FlagsShinySeen, shiny ? 1 : 0, value);

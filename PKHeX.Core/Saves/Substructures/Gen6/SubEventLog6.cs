@@ -6,10 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// SUBE block that stores in-game event results.
 /// </summary>
-public abstract class SubEventLog6 : SaveBlock<SAV6>, IGymTeamInfo
+public abstract class SubEventLog6(SAV6 sav, int offset) : SaveBlock<SAV6>(sav, offset), IGymTeamInfo
 {
-    protected SubEventLog6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-
     protected abstract int BadgeVictoryOffset { get; }
 
     /// <summary>

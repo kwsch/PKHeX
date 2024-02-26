@@ -10,7 +10,7 @@ public sealed class FakeSaveFile : SaveFile
     public override string Extension => string.Empty;
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override string GetString(ReadOnlySpan<byte> data) => string.Empty;
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option) => 0;
     public override PersonalTable3 Personal => PersonalTable.RS;
@@ -25,12 +25,12 @@ public sealed class FakeSaveFile : SaveFile
     public override ushort MaxSpeciesID => 1;
     public override int MaxItemID => 5;
     public override int MaxBallID => 5;
-    public override int MaxGameID => 5;
+    public override GameVersion MaxGameID => GameVersion.LG;
     public override int MaxAbilityID => 0;
     public override int BoxCount => 1;
     public override int GetPartyOffset(int slot) => -1;
     protected override void SetChecksums() { }
-
+    public override GameVersion Version { get => GameVersion.R; set { } }
     public override Type PKMType => typeof(PK3);
     protected override PK3 GetPKM(byte[] data) => BlankPKM;
     protected override byte[] DecryptPKM(byte[] data) => data;

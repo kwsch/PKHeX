@@ -6,10 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 Chatter Recording
 /// </summary>
-public sealed class Chatter5 : SaveBlock<SAV5>, IChatter
+public sealed class Chatter5(SAV5 SAV, int offset) : SaveBlock<SAV5>(SAV, offset), IChatter
 {
-    public Chatter5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
-
     public bool Initialized
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset)) == 1u;

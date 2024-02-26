@@ -16,30 +16,30 @@ public sealed class Record3(SAV3 SAV)
         return offset;
     }
 
-    public static int GetOffset(GameVersion ver) => ver switch
+    public static int GetOffset(GameVersion version) => version switch
     {
         GameVersion.RS or GameVersion.R or GameVersion.S => 0x1540,
         GameVersion.E => 0x159C,
         GameVersion.FRLG or GameVersion.FR or GameVersion.LG => 0x1200,
-        _ => throw new ArgumentOutOfRangeException(nameof(ver), ver, null),
+        _ => throw new ArgumentOutOfRangeException(nameof(version), version, null),
     };
 
-    private static Type GetEnumType(GameVersion ver) => ver switch
+    private static Type GetEnumType(GameVersion version) => version switch
     {
         GameVersion.RS or GameVersion.R or GameVersion.S => typeof(RecID3RuSa),
         GameVersion.FRLG or GameVersion.FR or GameVersion.LG => typeof(RecID3FRLG),
         GameVersion.E => typeof(RecID3Emerald),
-        _ => throw new ArgumentOutOfRangeException(nameof(ver), ver, null),
+        _ => throw new ArgumentOutOfRangeException(nameof(version), version, null),
     };
 
-    public static int[] GetEnumValues(GameVersion ver) => (int[])Enum.GetValues(GetEnumType(ver));
-    public static string[] GetEnumNames(GameVersion ver) => Enum.GetNames(GetEnumType(ver));
+    public static int[] GetEnumValues(GameVersion version) => (int[])Enum.GetValues(GetEnumType(version));
+    public static string[] GetEnumNames(GameVersion version) => Enum.GetNames(GetEnumType(version));
 
     public static IList<ComboItem> GetItems(SAV3 sav)
     {
-        var ver = sav.Version;
-        var names = GetEnumNames(ver);
-        var values = GetEnumValues(ver);
+        var version = sav.Version;
+        var names = GetEnumNames(version);
+        var values = GetEnumValues(version);
 
         var result = new ComboItem[values.Length];
         for (int i = 0; i < result.Length; i++)

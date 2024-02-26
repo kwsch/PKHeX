@@ -68,6 +68,6 @@ public static class ShinyExtensions
     {
         if (pk.Format < 8 && !ShowSquareBeforeGen8)
             return false;
-        return pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO;
+        return pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == GameVersion.GO;
     }
 }

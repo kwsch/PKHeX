@@ -17,7 +17,7 @@ public static class FormItem
     /// <param name="item">Held Item</param>
     /// <param name="format">Generation/Format of the entity</param>
     /// <returns>Form ID</returns>
-    public static byte GetFormArceus(int item, int format) => item switch
+    public static byte GetFormArceus(int item, byte format) => item switch
     {
         (>= 777 and <= 793) => GetFormArceusZCrystal(item),
         (>= 298 and <= 313) or 644 => GetFormArceusPlate(item, format),
@@ -37,7 +37,7 @@ public static class FormItem
     /// <param name="item">Held Item</param>
     /// <param name="format">Generation/Format of the entity</param>
     /// <returns>Held Item</returns>
-    public static byte GetFormArceusPlate(int item, int format)
+    public static byte GetFormArceusPlate(int item, byte format)
     {
         byte form = (byte)(Arceus_PlateIDs.IndexOf((ushort)item) + 1);
         if (format != 4) // No need to consider Curse type
@@ -53,7 +53,7 @@ public static class FormItem
     /// <param name="form">Form ID</param>
     /// <param name="format">Generation/Format of the entity</param>
     /// <returns>Held Item</returns>
-    public static ushort GetItemArceus(byte form, int format)
+    public static ushort GetItemArceus(byte form, byte format)
     {
         var index = form - 1;
         if (format == 4 && form > 8)
@@ -162,7 +162,7 @@ public static class FormItem
     /// <param name="format">Generation/Format of the entity</param>
     /// <param name="form">Expected Form ID</param>
     /// <returns>True if the form is required</returns>
-    public static bool TryGetForm(ushort species, int item, int format, out byte form)
+    public static bool TryGetForm(ushort species, int item, byte format, out byte form)
     {
         switch (species)
         {

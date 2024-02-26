@@ -10,8 +10,8 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
     // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
     private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-    public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public MysteryBlock6(SAV6XY sav, int offset) : base(sav, offset) { }
+    public MysteryBlock6(SAV6AO sav, int offset) : base(sav, offset) { }
 
     public bool[] GetReceivedFlags() => FlagUtil.GetBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
 

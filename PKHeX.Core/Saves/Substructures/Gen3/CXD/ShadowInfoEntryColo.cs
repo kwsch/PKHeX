@@ -12,6 +12,6 @@ public sealed class ShadowInfoEntryColo
     public ShadowInfoEntryColo(byte[] data) => Data = data;
 
     public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
-    public int Met_Location { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), (ushort)value); }
+    public ushort MetLocation { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), value); }
     public uint Unk08 { get => ReadUInt32BigEndian(Data.AsSpan(0x08)); set => WriteUInt32BigEndian(Data.AsSpan(0x08), value); }
 }

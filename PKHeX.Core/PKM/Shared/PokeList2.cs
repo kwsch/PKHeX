@@ -11,8 +11,8 @@ public sealed class PokeList2 : PokeListGB<PK2>
     protected override PK2 GetEntry(byte[] dat, ReadOnlySpan<byte> otname, ReadOnlySpan<byte> nick, bool egg)
     {
         var result = new PK2(dat, Japanese) { IsEgg = egg };
-        otname.CopyTo(result.OT_Trash);
-        nick.CopyTo(result.Nickname_Trash);
+        otname.CopyTo(result.OriginalTrainerTrash);
+        nick.CopyTo(result.NicknameTrash);
         return result;
     }
 

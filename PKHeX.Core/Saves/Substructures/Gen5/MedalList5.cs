@@ -7,10 +7,8 @@ public sealed class MedalList5 : SaveBlock<SAV5B2W2>
     private const int MAX_MEDALS = 255;
     private readonly Medal5[] Medals;
 
-    public MedalList5(SAV5B2W2 SAV, int offset) : base(SAV)
+    public MedalList5(SAV5B2W2 SAV, int offset) : base(SAV, offset)
     {
-        Offset = offset;
-
         var memory = Data.AsMemory(Offset, MAX_MEDALS * Medal5.SIZE);
         Medals = GetMedals(memory);
     }

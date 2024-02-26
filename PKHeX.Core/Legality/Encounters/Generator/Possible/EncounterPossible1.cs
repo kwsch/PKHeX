@@ -157,7 +157,7 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
                 { State = YieldState.EventVC; goto case YieldState.EventVC; }
                 State = YieldState.EventGB; goto case YieldState.EventGB;
             case YieldState.EventVC:
-                if (TryGetNext(Encounters1VC.Gifts))
+                if (TryGetNext(Encounters1VC.Gift))
                     return true;
                 break;
             case YieldState.EventGB:
@@ -192,6 +192,19 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
                     continue;
                 return SetCurrent(enc);
             }
+        }
+        return false;
+    }
+
+    private bool TryGetNext<T>(T enc) where T : class, IEncounterable, IEncounterMatch
+    {
+        if (Index++ != 0)
+            return false;
+        foreach (var evo in Chain)
+        {
+            if (evo.Species != enc.Species)
+                continue;
+            return SetCurrent(enc);
         }
         return false;
     }

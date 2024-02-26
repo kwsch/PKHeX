@@ -25,8 +25,8 @@ public static class EntityTemplates
 
         pk.ClearNickname();
 
-        pk.OT_Name = tr.OT;
-        pk.OT_Gender = tr.Gender;
+        pk.OriginalTrainerName = tr.OT;
+        pk.OriginalTrainerGender = tr.Gender;
         pk.ID32 = tr.ID32;
         if (tr is IRegionOrigin o && pk is IRegionOrigin gt)
         {
@@ -39,22 +39,14 @@ public static class EntityTemplates
         pk.RefreshChecksum();
     }
 
-    private static int GetTemplateVersion(ITrainerInfo tr)
+    private static GameVersion GetTemplateVersion(ITrainerInfo tr)
     {
-        GameVersion version = (GameVersion)tr.Game;
+        var version = tr.Version;
         if (version.IsValidSavedVersion())
-            return (int)version;
-
-        if (tr is IVersion v)
-        {
-            version = v.Version;
-            if (version.IsValidSavedVersion())
-                return (int)version;
-            version = v.GetSingleVersion();
-            if (version.IsValidSavedVersion())
-                return (int)version;
-        }
-
+            return version;
+        version = version.GetSingleVersion();
+        if (version.IsValidSavedVersion())
+            return version;
         return default; // 0
     }
 
@@ -66,17 +58,17 @@ public static class EntityTemplates
         switch (tr)
         {
             case SAV1 s1:
-                s1.OT_Trash.CopyTo(pk12.OT_Trash);
+                s1.OriginalTrainerTrash.CopyTo(pk12.OriginalTrainerTrash);
                 break;
             case SAV2 s2:
-                s2.OT_Trash.CopyTo(pk12.OT_Trash);
+                s2.OriginalTrainerTrash.CopyTo(pk12.OriginalTrainerTrash);
                 break;
         }
     }
 
     private static ushort GetTemplateSpecies(PKM pk, ITrainerInfo tr)
     {
-        ushort species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
+        ushort species = tr is IGameValueLimit s ? s.MaxSpeciesID : pk.Version.GetMaxSpeciesID();
         if (species == 0)
             species = pk.MaxSpeciesID;
         return species;

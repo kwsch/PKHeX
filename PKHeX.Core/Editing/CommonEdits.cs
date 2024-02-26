@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public static class CommonEdits
 {
     /// <summary>
-    /// Setting which enables/disables automatic manipulation of <see cref="PKM.MarkValue"/> when importing from a <see cref="IBattleTemplate"/>.
+    /// Setting which enables/disables automatic manipulation of <see cref="IAppliedMarkings"/> when importing from a <see cref="IBattleTemplate"/>.
     /// </summary>
     public static bool ShowdownSetIVMarkings { get; set; } = true;
 
@@ -51,12 +51,12 @@ public static class CommonEdits
     /// Sets the <see cref="PKM.Ability"/> value by sanity checking the provided <see cref="PKM.Ability"/> against the possible pool of abilities.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="abil">Desired <see cref="Ability"/> value to set.</param>
-    public static void SetAbility(this PKM pk, int abil)
+    /// <param name="abilityID">Desired <see cref="Ability"/> value to set.</param>
+    public static void SetAbility(this PKM pk, int abilityID)
     {
-        if (abil < 0)
+        if (abilityID < 0)
             return;
-        var index = pk.PersonalInfo.GetIndexOfAbility(abil);
+        var index = pk.PersonalInfo.GetIndexOfAbility(abilityID);
         index = Math.Max(0, index);
         pk.SetAbilityIndex(index);
     }
@@ -82,7 +82,7 @@ public static class CommonEdits
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetRandomEC(this PKM pk)
     {
-        int gen = pk.Generation;
+        var gen = pk.Generation;
         if (gen is 3 or 4 or 5)
         {
             pk.EncryptionConstant = pk.PID;
@@ -109,7 +109,7 @@ public static class CommonEdits
         if (pk.IsShiny && type.IsValid(pk))
             return false;
 
-        if (type == Shiny.Random || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO || pk.Format <= 2)
+        if (type == Shiny.Random || pk.FatefulEncounter || pk.Version == GameVersion.GO || pk.Format <= 2)
         {
             pk.SetShiny();
             return true;
@@ -140,16 +140,18 @@ public static class CommonEdits
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
-    public static void SetNature(this PKM pk, int nature)
+    public static void SetNature(this PKM pk, Nature nature)
     {
-        var value = Math.Clamp(nature, (int)Nature.Hardy, (int)Nature.Quirky);
+        if (!nature.IsFixed())
+            nature = 0; // default valid
+
         var format = pk.Format;
         if (format >= 8)
-            pk.StatNature = value;
+            pk.StatNature = nature;
         else if (format is 3 or 4)
-            pk.SetPIDNature(value);
+            pk.SetPIDNature(nature);
         else
-            pk.Nature = value;
+            pk.Nature = nature;
     }
 
     /// <summary>
@@ -342,14 +344,14 @@ public static class CommonEdits
             return;
         pk.IsEgg = false;
         pk.ClearNickname();
-        pk.CurrentFriendship = pk.PersonalInfo.BaseFriendship;
+        pk.OriginalTrainerFriendship = Math.Min(pk.OriginalTrainerFriendship, EggStateLegality.GetEggHatchFriendship(pk.Context));
         if (pk.IsTradedEgg)
-            pk.Egg_Location = pk.Met_Location;
+            pk.EggLocation = pk.MetLocation;
         if (pk.Version == 0)
-            pk.Version = (int)EggStateLegality.GetEggHatchVersion(pk, (GameVersion)(tr?.Game ?? RecentTrainerCache.Game));
+            pk.Version = EggStateLegality.GetEggHatchVersion(pk, tr?.Version ?? RecentTrainerCache.Version);
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
-        if (loc >= 0)
-            pk.Met_Location = loc;
+        if (loc != EncounterSuggestion.LocationNone)
+            pk.MetLocation = loc;
         if (pk.Format >= 4)
             pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
         if (pk.Gen6)
@@ -371,7 +373,7 @@ public static class CommonEdits
         var date = EncounterDate.GetDate(console);
         var today = pk.MetDate = date;
         bool traded = origin != dest;
-        pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
+        pk.EggLocation = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
         pk.EggMetDate = today;
     }
 
@@ -382,7 +384,7 @@ public static class CommonEdits
     public static void MaximizeFriendship(this PKM pk)
     {
         if (pk.IsEgg)
-            pk.OT_Friendship = 1;
+            pk.OriginalTrainerFriendship = 1;
         else
             pk.CurrentFriendship = byte.MaxValue;
         if (pk is ICombatPower pb)
@@ -433,8 +435,8 @@ public static class CommonEdits
         if (pk.Format < 2)
             return string.Empty;
 
-        int location = eggmet ? pk.Egg_Location : pk.Met_Location;
-        return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, (GameVersion)pk.Version);
+        ushort location = eggmet ? pk.EggLocation : pk.MetLocation;
+        return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, pk.Version);
     }
 
     /// <summary>

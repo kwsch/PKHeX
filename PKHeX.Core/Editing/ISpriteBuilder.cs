@@ -9,7 +9,7 @@ public interface ISpriteBuilder<T>
     /// <summary>
     /// Gets a sprite using the requested parameters.
     /// </summary>
-    T GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny,
+    T GetSprite(ushort species, byte form, byte gender, uint formarg, int heldItem, bool isEgg, Shiny shiny,
         EntityContext context = EntityContext.None);
 
     /// <summary>

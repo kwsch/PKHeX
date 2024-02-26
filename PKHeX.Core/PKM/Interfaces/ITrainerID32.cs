@@ -33,12 +33,12 @@ public static class ITrainerID32Extensions
     /// </summary>
     /// <param name="tr">Possessing trainer</param>
     /// <param name="pid"><see cref="PKM.PID"/></param>
-    /// <param name="gen">Generation of origin.</param>
+    /// <param name="generation">Generation of origin.</param>
     /// <returns>True if shiny, false if not.</returns>
-    public static bool IsShiny(this ITrainerID32 tr, uint pid, int gen = 7)
+    public static bool IsShiny(this ITrainerID32 tr, uint pid, byte generation = 7)
     {
         var xor = GetShinyXor(tr, pid);
-        var threshold = (gen >= 7 ? ShinyXorThreshold7 : ShinyXorThreshold36);
+        var threshold = (generation >= 7 ? ShinyXorThreshold7 : ShinyXorThreshold36);
         return xor < threshold;
     }
 

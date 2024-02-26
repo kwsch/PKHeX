@@ -56,7 +56,7 @@ internal static class LearnVerifierHistory
         else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g)
         {
             Span<ushort> initial = stackalloc ushort[4];
-            g.GetInitialMoves(pk.Met_Level, initial);
+            g.GetInitialMoves(pk.MetLevel, initial);
             MarkInitialMoves(result, current, initial);
         }
     }

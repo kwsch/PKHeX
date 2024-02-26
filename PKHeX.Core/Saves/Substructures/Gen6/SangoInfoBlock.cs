@@ -3,10 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class SangoInfoBlock : SaveBlock<SAV6AO>
+public sealed class SangoInfoBlock(SAV6AO SAV, int offset) : SaveBlock<SAV6AO>(SAV, offset)
 {
-    public SangoInfoBlock(SAV6AO SAV, int offset) : base(SAV) => Offset = offset;
-
     private const uint EON_MAGIC = WC6.EonTicketConst;
 
     public uint EonTicketReceivedMagic // 0x319B8

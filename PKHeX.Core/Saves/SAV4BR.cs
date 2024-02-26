@@ -102,10 +102,10 @@ public sealed class SAV4BR : SaveFile
     public override int MaxAbilityID => Legal.MaxAbilityID_4;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public override int MaxBallID => Legal.MaxBallID_4;
-    public override int MaxGameID => Legal.MaxGameID_4;
+    public override GameVersion MaxGameID => Legal.MaxGameID_4;
 
     public override int MaxEV => EffortValues.Max255;
-    public override int Generation => 4;
+    public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 7;
@@ -154,7 +154,7 @@ public sealed class SAV4BR : SaveFile
     }
 
     // Trainer Info
-    public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
+    public override GameVersion Version { get => GameVersion.BATREV; set { } }
 
     private string GetOTName(int slot)
     {
@@ -244,9 +244,8 @@ public sealed class SAV4BR : SaveFile
     {
         var pk4 = (BK4)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateNDS();
-        if (pk4.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
-            pk.RefreshChecksum();
+        pk4.UpdateHandler(this);
+        pk.RefreshChecksum();
     }
 
     protected override void SetPartyValues(PKM pk, bool isParty)

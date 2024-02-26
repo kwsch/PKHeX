@@ -61,7 +61,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override PA8 BlankPKM => new();
     public override Type PKMType => typeof(PA8);
     public override int MaxEV => EffortValues.Max252;
-    public override int Generation => 8;
+    public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
@@ -72,16 +72,12 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
-    public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)MyStatus.Game; set => MyStatus.Game = (byte)value; }
+    public override byte Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.PLA => GameVersion.PLA,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.PLA;
 
     protected override void SetChecksums() { } // None!
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
@@ -101,7 +97,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8a;
     public override int MaxItemID => Legal.MaxItemID_8a;
     public override int MaxBallID => Legal.MaxBallID_8a;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
     public override int MaxAbilityID => Legal.MaxAbilityID_8a;
 
     #region Blocks
@@ -152,7 +148,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     {
         var pa8 = (PA8)pk;
         // Apply to this Save File
-        pa8.Trade(this);
+        pa8.UpdateHandler(this);
         pa8.RefreshChecksum();
     }
 

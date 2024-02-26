@@ -20,7 +20,7 @@ public abstract class TrainerFashion6
         data3 = ReadUInt32LittleEndian(span[12..]);
     }
 
-    public static TrainerFashion6 GetFashion(byte[] data, int offset, int gender)
+    public static TrainerFashion6 GetFashion(byte[] data, int offset, byte gender)
     {
         if (gender == 0) // m
             return new Fashion6Male(data, offset);

@@ -3,10 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public abstract class Misc5 : SaveBlock<SAV5>, IGymTeamInfo
+public abstract class Misc5(SAV5 sav, int offset) : SaveBlock<SAV5>(sav, offset), IGymTeamInfo
 {
-    protected Misc5(SAV5 sav, int offset) : base(sav) => Offset = offset;
-
     public uint Money
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset));

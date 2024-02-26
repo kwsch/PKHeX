@@ -3,10 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class SecretBase6Block : SaveBlock<SAV6AO>
+public sealed class SecretBase6Block(SAV6AO sav, int offset) : SaveBlock<SAV6AO>(sav, offset)
 {
-    public SecretBase6Block(SAV6AO sav, int offset) : base(sav) => Offset = offset;
-
     // structure: 0x7AD0 bytes total
     // [0000-031F] SecretBaseGoodStock[200] (800 bytes)
     // [0320-0321] u16 SecretBaseSelfLocation (-1 if not created)
