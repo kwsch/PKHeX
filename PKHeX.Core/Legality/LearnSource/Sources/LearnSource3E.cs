@@ -18,7 +18,7 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
     private const byte Generation = 3;
     private const int CountTM = 50;
 
-    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species < Learnsets.Length ? species : 0];
     internal PersonalInfo3 this[ushort species] => Personal[species];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo3? pi)

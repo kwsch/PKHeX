@@ -18,7 +18,7 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const LearnEnvironment Game = C;
 
-    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species < Learnsets.Length ? species : 0];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo2? pi)
     {
