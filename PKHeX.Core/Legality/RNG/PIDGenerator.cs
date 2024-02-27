@@ -144,9 +144,9 @@ public static class PIDGenerator
         if ((pid2 > 7 ? 0 : 1) != (pid1 ^ SID16 ^ TID16))
             pid ^= 0x80000000;
         pk.PID = pid;
-        pk.HeldItem = (int)(C >> 31) + 169; // 0-Ganlon, 1-Salac
-        pk.Version = (int)(D >> 31) + 1; // 0-Sapphire, 1-Ruby
-        pk.OT_Gender = (int)(E >> 31);
+        pk.HeldItem = (ushort)(C >> 31) + 169; // 0-Ganlon, 1-Salac
+        pk.Version = GameVersion.S + (byte)(D >> 31); // 0-Sapphire, 1-Ruby
+        pk.OriginalTrainerGender = (byte)(E >> 31);
         Span<int> ivs = stackalloc int[6];
         XDRNG.GetSequentialIVsInt32(E, ivs);
         pk.SetIVs(ivs);
@@ -225,7 +225,7 @@ public static class PIDGenerator
         pk.PID = (D & 0xFFFF0000) | (E >> 16);
     }
 
-    public static void SetRandomPokeSpotPID(PKM pk, int nature, int gender, int ability, int slot)
+    public static void SetRandomPokeSpotPID(PKM pk, Nature nature, byte gender, int ability, int slot)
     {
         var rnd = Util.Rand;
         while (true)
@@ -260,7 +260,7 @@ public static class PIDGenerator
         SetRandomIVs(pk);
     }
 
-    public static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType type)
+    public static uint SetRandomWildPID4(PKM pk, Nature nature, int ability, byte gender, PIDType type)
     {
         pk.RefreshAbility(ability);
         pk.Gender = gender;
@@ -269,14 +269,15 @@ public static class PIDGenerator
         var rnd = Util.Rand;
         while (true)
         {
-            method(pk, rnd.Rand32());
+            var seed = rnd.Rand32();
+            method(pk, seed);
             if (!IsValidCriteria4(pk, nature, ability, gender))
                 continue;
-            return;
+            return seed;
         }
     }
 
-    public static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
+    public static bool IsValidCriteria4(PKM pk, Nature nature, int ability, byte gender)
     {
         if (pk.GetSaneGender() != gender)
             return false;
@@ -290,7 +291,7 @@ public static class PIDGenerator
         return true;
     }
 
-    public static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
+    public static void SetRandomWildPID5(PKM pk, Nature nature, int ability, byte gender, PIDType specific = PIDType.None)
     {
         var tidbit = (pk.TID16 ^ pk.SID16) & 1;
         pk.RefreshAbility(ability);

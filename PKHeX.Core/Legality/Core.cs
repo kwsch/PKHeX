@@ -25,7 +25,7 @@ public static class Legal
     internal const int MaxItemID_3_XD = 593;
     internal const int MaxAbilityID_3 = 77;
     internal const int MaxBallID_3 = 0xC;
-    internal const int MaxGameID_3 = 15; // CXD
+    internal const GameVersion MaxGameID_3 = GameVersion.CXD;
 
     internal const int MaxSpeciesID_4 = 493;
     internal const int MaxMoveID_4 = 467;
@@ -34,7 +34,7 @@ public static class Legal
     internal const int MaxItemID_4_HGSS = 536;
     internal const int MaxAbilityID_4 = 123;
     internal const int MaxBallID_4 = 0x18;
-    internal const int MaxGameID_4 = 15; // CXD
+    internal const GameVersion MaxGameID_4 = GameVersion.CXD;
 
     internal const int MaxSpeciesID_5 = 649;
     internal const int MaxMoveID_5 = 559;
@@ -42,7 +42,7 @@ public static class Legal
     internal const int MaxItemID_5_B2W2 = 638;
     internal const int MaxAbilityID_5 = 164;
     internal const int MaxBallID_5 = 0x19;
-    internal const int MaxGameID_5 = 23; // B2
+    internal const GameVersion MaxGameID_5 = GameVersion.B2;
 
     internal const int MaxSpeciesID_6 = 721;
     internal const int MaxMoveID_6_XY = 617;
@@ -52,14 +52,14 @@ public static class Legal
     internal const int MaxAbilityID_6_XY = 188;
     internal const int MaxAbilityID_6_AO = 191;
     internal const int MaxBallID_6 = 0x19;
-    internal const int MaxGameID_6 = 27; // OR
+    internal const GameVersion MaxGameID_6 = GameVersion.OR;
 
     internal const int MaxSpeciesID_7 = 802;
     internal const int MaxMoveID_7 = 719;
     internal const int MaxItemID_7 = 920;
     internal const int MaxAbilityID_7 = 232;
     internal const int MaxBallID_7 = 0x1A; // 26
-    internal const int MaxGameID_7 = 41; // Crystal (VC?)
+    internal const GameVersion MaxGameID_7 = GameVersion.C;
 
     internal const int MaxSpeciesID_7_USUM = 807;
     internal const int MaxMoveID_7_USUM = 728;
@@ -70,7 +70,7 @@ public static class Legal
     internal const int MaxMoveID_7b = 742; // Double Iron Bash
     internal const int MaxItemID_7b = 1057; // Magmar Candy
     internal const int MaxBallID_7b = (int)Ball.Beast;
-    internal const int MaxGameID_7b = (int)GameVersion.GE;
+    internal const GameVersion MaxGameID_7b = GameVersion.GE;
     internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
 
     // Current Binaries
@@ -98,20 +98,20 @@ public static class Legal
     internal const int MaxAbilityID_8_R2 = 267; // As One (Glastrier)
 
     internal const int MaxBallID_8 = 0x1A; // 26 Beast
-    internal const int MaxGameID_8 = 45; // Shield
+    internal const GameVersion MaxGameID_8 = GameVersion.SH;
 
     internal const int MaxSpeciesID_8a = (int)Species.Enamorus;
     internal const int MaxMoveID_8a = (int)Move.TakeHeart;
     internal const int MaxItemID_8a = 1828; // Legend Plate
     internal const int MaxBallID_8a = (int)Ball.LAOrigin;
-  //internal const int MaxGameID_8a = (int)GameVersion.SP;
+  //internal const GameVersion MaxGameID_8a = GameVersion.SP;
     internal const int MaxAbilityID_8a = MaxAbilityID_8_R2;
 
     internal const int MaxSpeciesID_8b = MaxSpeciesID_4; // Arceus-493
     internal const int MaxMoveID_8b = MaxMoveID_8_R2;
     internal const int MaxItemID_8b = 1822; // DS Sounds
     internal const int MaxBallID_8b = (int)Ball.LAOrigin;
-  //internal const int MaxGameID_8b = (int)GameVersion.SP;
+  //internal const GameVersion MaxGameID_8b = GameVersion.SP;
     internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
 
     internal const int MaxSpeciesID_9 = MaxSpeciesID_9_T2;
@@ -135,8 +135,8 @@ public static class Legal
     internal const int MaxAbilityID_9_T2 = (int)Ability.PoisonPuppeteer;
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
-    internal const int MaxGameID_9 = (int)GameVersion.VL;
-    internal const int MaxGameID_HOME = MaxGameID_9;
+    internal const GameVersion MaxGameID_9 = GameVersion.VL;
+    internal const GameVersion MaxGameID_HOME = MaxGameID_9;
 
     internal static readonly ushort[] HeldItems_GSC = ItemStorage2.GetAllHeld();
     internal static readonly ushort[] HeldItems_RS = ItemStorage3RS.GetAllHeld();
@@ -154,7 +154,7 @@ public static class Legal
     internal static readonly ushort[] HeldItems_LA = [];
     internal static readonly ushort[] HeldItems_SV = ItemStorage9SV.GetAllHeld();
 
-    internal static int GetMaxLanguageID(int generation) => generation switch
+    internal static int GetMaxLanguageID(byte generation) => generation switch
     {
         1 => (int) LanguageID.Spanish, // 1-7 except 6
         3 => (int) LanguageID.Spanish, // 1-7 except 6
@@ -208,7 +208,7 @@ public static class Legal
     /// </summary>
     /// <param name="generation">Generation of the Trainer</param>
     /// <param name="language">Language of the Trainer</param>
-    public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
+    public static int GetMaxLengthOT(byte generation, LanguageID language) => language switch
     {
         LanguageID.ChineseS or LanguageID.ChineseT => 6,
         LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
@@ -220,7 +220,7 @@ public static class Legal
     /// </summary>
     /// <param name="generation">Generation of the Trainer</param>
     /// <param name="language">Language of the Trainer</param>
-    public static int GetMaxLengthNickname(int generation, LanguageID language) => language switch
+    public static int GetMaxLengthNickname(byte generation, LanguageID language) => language switch
     {
         LanguageID.ChineseS or LanguageID.ChineseT => 6,
         LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,

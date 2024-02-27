@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class PWTBlock5 : SaveBlock<SAV5B2W2>
+public sealed class PWTBlock5(SAV5B2W2 sav, int offset) : SaveBlock<SAV5B2W2>(sav, offset)
 {
-    public PWTBlock5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
-
     public ushort GetPWTRecord(int id) => GetPWTRecord((PWTRecordID)id);
 
     public ushort GetPWTRecord(PWTRecordID id)

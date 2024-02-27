@@ -33,12 +33,12 @@ public interface IGameValueLimit
     /// <summary>
     /// Maximum Version ID value that can exist.
     /// </summary>
-    int MaxGameID { get; }
+    GameVersion MaxGameID { get; }
 
     /// <summary>
     /// Minimum Version ID value that can exist.
     /// </summary>
-    int MinGameID { get; }
+    GameVersion MinGameID { get; }
 
     /// <summary>
     /// Maximum IV value that is possible.

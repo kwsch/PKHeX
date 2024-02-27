@@ -58,7 +58,7 @@ public sealed class Zukan5 : Zukan<SAV5>
             SetFlag(PokeDexLanguageFlags, lbit, value);
     }
 
-    protected override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
+    protected override void SetAllDexSeenFlags(int baseBit, byte form, byte gender, bool isShiny, bool value = true)
     {
         var shiny = isShiny ? 1 : 0;
         SetDexFlags(baseBit, baseBit, gender, shiny);

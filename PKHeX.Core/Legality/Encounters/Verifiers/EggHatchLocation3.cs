@@ -16,7 +16,7 @@ public static class EggHatchLocation3
     /// <summary>
     /// Returns true if the hatch location is valid for the specified Generation 3 game.
     /// </summary>
-    public static bool IsValidMet3(int location, GameVersion game) => game switch
+    public static bool IsValidMet3(ushort location, GameVersion game) => game switch
     {
         R  or  S => IsValidMet3RS(location),
         E        => IsValidMet3E(location),
@@ -27,24 +27,24 @@ public static class EggHatchLocation3
     /// <summary>
     /// Returns true if the hatch location is valid for Ruby and Sapphire.
     /// </summary>
-    public static bool IsValidMet3RS(int location) => HasLocationFlag(LocationPermitted3, MaskRS, location);
+    public static bool IsValidMet3RS(ushort location) => HasLocationFlag(LocationPermitted3, MaskRS, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for Emerald.
     /// </summary>
-    public static bool IsValidMet3E(int location) => HasLocationFlag(LocationPermitted3, MaskE, location);
+    public static bool IsValidMet3E(ushort location) => HasLocationFlag(LocationPermitted3, MaskE, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for FireRed and LeafGreen.
     /// </summary>
-    public static bool IsValidMet3FRLG(int location) => HasLocationFlag(LocationPermitted3, MaskFRLG, location);
+    public static bool IsValidMet3FRLG(ushort location) => HasLocationFlag(LocationPermitted3, MaskFRLG, location);
 
     /// <summary>
     /// Returns true if the hatch location is valid for any Generation 3 game.
     /// </summary>
-    public static bool IsValidMet3Any(int location) => HasLocationFlag(LocationPermitted3, MaskAll, location);
+    public static bool IsValidMet3Any(ushort location) => HasLocationFlag(LocationPermitted3, MaskAll, location);
 
-    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, int location)
+    private static bool HasLocationFlag(ReadOnlySpan<byte> arr, byte mask, ushort location)
     {
         if ((uint)location >= arr.Length)
             return false;

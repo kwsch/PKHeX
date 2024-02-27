@@ -32,8 +32,8 @@ public sealed class PersonalInfo3(byte[] Data) : PersonalInfo, IPersonalAbility1
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0xC)); set => WriteInt16LittleEndian(Data.AsSpan(0xC), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0xE)); set => WriteInt16LittleEndian(Data.AsSpan(0xE), (short)value); }
     public override byte Gender { get => Data[0x10]; set => Data[0x10] = value; }
-    public override int HatchCycles { get => Data[0x11]; set => Data[0x11] = (byte)value; }
-    public override int BaseFriendship { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public override byte HatchCycles { get => Data[0x11]; set => Data[0x11] = value; }
+    public override byte BaseFriendship { get => Data[0x12]; set => Data[0x12] = value; }
     public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }
     public override int EggGroup1 { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int EggGroup2 { get => Data[0x15]; set => Data[0x15] = (byte)value; }

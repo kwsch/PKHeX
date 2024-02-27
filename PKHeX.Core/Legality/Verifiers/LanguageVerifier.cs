@@ -12,9 +12,9 @@ public sealed class LanguageVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        int originalGeneration = data.Info.Generation;
-        int currentLanguage = pk.Language;
-        int maxLanguageID = Legal.GetMaxLanguageID(originalGeneration);
+        var originalGeneration = data.Info.Generation;
+        var currentLanguage = pk.Language;
+        var maxLanguageID = Legal.GetMaxLanguageID(originalGeneration);
         var enc = data.EncounterMatch;
         if (!IsValidLanguageID(currentLanguage, maxLanguageID, pk, enc))
         {
@@ -37,11 +37,11 @@ public sealed class LanguageVerifier : Verifier
         if (originalGeneration <= 2)
         {
             // Korean Crystal does not exist, neither do Korean VC1
-            if (pk.Korean && !GameVersion.GS.Contains((GameVersion)pk.Version))
+            if (pk.Korean && !GameVersion.GS.Contains(pk.Version))
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
 
             // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
-            if (pk is { Version: (int)GameVersion.BU, Japanese: false })
+            if (pk is { Version: GameVersion.BU, Japanese: false })
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(LanguageID.Japanese), (LanguageID)currentLanguage)));
         }
     }

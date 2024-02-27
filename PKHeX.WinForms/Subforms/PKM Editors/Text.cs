@@ -153,7 +153,7 @@ public partial class TrashEditor : Form
     {
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         var language = WinFormsUtil.GetIndex(CB_Language);
-        var gen = (int)NUD_Generation.Value;
+        var gen = (byte)NUD_Generation.Value;
         string speciesName = SpeciesName.GetSpeciesNameGeneration(species, language, gen);
 
         if (string.IsNullOrEmpty(speciesName)) // no result
@@ -205,7 +205,7 @@ public partial class TrashEditor : Form
         Margin = new Padding(0),
     };
 
-    private static ReadOnlySpan<ushort> GetChars(int generation) => generation switch
+    private static ReadOnlySpan<ushort> GetChars(byte generation) => generation switch
     {
         5 => SpecialCharsGen5,
         6 => SpecialCharsGen67,

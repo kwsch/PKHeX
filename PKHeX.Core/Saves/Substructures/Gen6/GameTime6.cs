@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class GameTime6 : SaveBlock<SAV6>
+public sealed class GameTime6(SAV6 sav, int offset) : SaveBlock<SAV6>(sav, offset)
 {
-    public GameTime6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-
     public int ResumeYear { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
     public int ResumeMonth { get => Data[Offset + 0x8]; set => Data[Offset + 0x8] = (byte)value; }
     public int ResumeDay { get => Data[Offset + 0x9]; set => Data[Offset + 0x9] = (byte)value; }

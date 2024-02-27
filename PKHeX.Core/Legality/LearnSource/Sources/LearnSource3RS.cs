@@ -15,10 +15,10 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
     private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     private const LearnEnvironment Game = RS;
-    private const int Generation = 3;
+    private const byte Generation = 3;
     private const int CountTM = 50;
 
-    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species < Learnsets.Length ? species : 0];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo3? pi)
     {

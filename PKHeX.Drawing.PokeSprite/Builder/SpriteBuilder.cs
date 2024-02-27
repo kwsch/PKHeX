@@ -53,8 +53,8 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
 
     protected abstract string GetSpriteStringSpeciesOnly(ushort species);
 
-    protected abstract string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context);
-    protected abstract string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context);
+    protected abstract string GetSpriteAll(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context);
+    protected abstract string GetSpriteAllSecondary(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context);
     protected abstract string GetItemResourceName(int item);
     protected abstract Bitmap Unknown { get; }
     protected abstract Bitmap GetEggSprite(ushort species);
@@ -104,7 +104,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
     /// <param name="isEgg">Is currently in an egg</param>
     /// <param name="shiny">Is it shiny</param>
     /// <param name="context">Context the sprite is for</param>
-    public Bitmap GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, EntityContext context = EntityContext.None)
+    public Bitmap GetSprite(ushort species, byte form, byte gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, EntityContext context = EntityContext.None)
     {
         if (species == 0)
             return None;
@@ -133,7 +133,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return baseSprite;
     }
 
-    private Bitmap GetBaseImage(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
+    private Bitmap GetBaseImage(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context)
     {
         var img = FormInfo.IsTotemForm(species, form, context)
             ? GetBaseImageTotem(species, form, gender, formarg, shiny, context)
@@ -141,7 +141,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return img ?? GetBaseImageFallback(species, form, gender, formarg, shiny, context);
     }
 
-    private Bitmap? GetBaseImageTotem(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
+    private Bitmap? GetBaseImageTotem(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context)
     {
         var baseform = FormInfo.GetTotemBaseForm(species, form);
         var b = GetBaseImageDefault(species, baseform, gender, formarg, shiny, context);
@@ -153,7 +153,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return ImageUtil.LayerImage(b, layer, 0, 0);
     }
 
-    private Bitmap? GetBaseImageDefault(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
+    private Bitmap? GetBaseImageDefault(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context)
     {
         var file = GetSpriteAll(species, form, gender, formarg, shiny, context);
         var resource = (Bitmap?)Resources.ResourceManager.GetObject(file);
@@ -165,7 +165,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return resource;
     }
 
-    private Bitmap GetBaseImageFallback(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
+    private Bitmap GetBaseImageFallback(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context)
     {
         if (shiny) // try again without shiny
         {

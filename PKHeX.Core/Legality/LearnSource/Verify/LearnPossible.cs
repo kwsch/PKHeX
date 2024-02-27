@@ -37,7 +37,7 @@ public static class LearnPossible
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g)
         {
             Span<ushort> initial = stackalloc ushort[4];
-            g.GetInitialMoves(pk.Met_Level, initial);
+            g.GetInitialMoves(pk.MetLevel, initial);
             SetAll(initial, result);
         }
         else if (enc.Generation >= 6)

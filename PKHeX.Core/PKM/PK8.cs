@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
-public sealed class PK8 : G8PKM
+public sealed class PK8 : G8PKM, IHandlerUpdate
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -35,14 +35,30 @@ public sealed class PK8 : G8PKM
     public PK8(byte[] data) : base(data) { }
     public override PK8 Clone() => new((byte[])Data.Clone());
 
-    public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
+    // Synthetic Trading Logic
+    public bool BelongsTo(ITrainerInfo tr)
+    {
+        if (tr.Version != Version)
+            return false;
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+        return tr.OT == OriginalTrainerName;
+    }
+
+    public void UpdateHandler(ITrainerInfo tr)
     {
         if (IsEgg)
         {
             // Eggs do not have any modifications done if they are traded
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
-            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
-                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
+            const ushort location = Locations.LinkTrade6;
+            if (MetLocation != location && !BelongsTo(tr))
+            {
+                var date = EncounterDate.GetDateSwitch();
+                SetLinkTradeEgg(date.Day, date.Month, date.Year, location);
+            }
             return;
         }
 
@@ -57,28 +73,31 @@ public sealed class PK8 : G8PKM
     {
         if (IsEgg) // No memories if is egg.
         {
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
-            /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
-
-            // Clear Handler
-            HT_Trash.Clear();
+            this.ClearMemoriesOT();
+            this.ClearMemoriesHT();
+            HandlingTrainerGender = HandlingTrainerFriendship = HandlingTrainerLanguage = 0;
+            HandlingTrainerTrash.Clear();
             return;
         }
 
         if (IsUntraded)
-            HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
-
-        int gen = Generation;
-        if (gen < 6)
-            OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
-        if (gen != 8) // must be transferred via HOME, and must have memories
-            this.SetTradeMemoryHT8(); // not faking HOME tracker.
+        {
+            this.ClearMemoriesHT();
+            HandlingTrainerGender = HandlingTrainerFriendship = HandlingTrainerLanguage = 0;
+            HandlingTrainerTrash.Clear();
+        }
+        else
+        {
+            var gen = Generation;
+            if (gen < 6)
+                this.ClearMemoriesOT();
+        }
     }
 
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!BelongsTo(tr))
             return false;
 
         CurrentHandler = 0;
@@ -87,14 +106,14 @@ public sealed class PK8 : G8PKM
 
     private void TradeHT(ITrainerInfo tr)
     {
-        if (HT_Name != tr.OT)
+        if (HandlingTrainerName != tr.OT)
         {
-            HT_Friendship = 50;
-            HT_Name = tr.OT;
+            HandlingTrainerFriendship = 50;
+            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
-        HT_Gender = tr.Gender;
-        HT_Language = (byte)tr.Language;
+        HandlingTrainerGender = tr.Gender;
+        HandlingTrainerLanguage = (byte)tr.Language;
         this.SetTradeMemoryHT8();
     }
 
@@ -104,10 +123,10 @@ public sealed class PK8 : G8PKM
     public override int MaxAbilityID => Legal.MaxAbilityID_8;
     public override int MaxItemID => Legal.MaxItemID_8;
     public override int MaxBallID => Legal.MaxBallID_8;
-    public override int MaxGameID => Legal.MaxGameID_8;
-    public bool IsSideTransfer => LocationsHOME.IsLocationSWSH(Met_Location);
-    public override bool SV => Met_Location is LocationsHOME.SWSL or LocationsHOME.SHVL;
-    public override bool BDSP => Met_Location is LocationsHOME.SWBD or LocationsHOME.SHSP;
-    public override bool LA => Met_Location is LocationsHOME.SWLA;
+    public override GameVersion MaxGameID => Legal.MaxGameID_8;
+    public bool IsSideTransfer => LocationsHOME.IsLocationSWSH(MetLocation);
+    public override bool SV => MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL;
+    public override bool BDSP => MetLocation is LocationsHOME.SWBD or LocationsHOME.SHSP;
+    public override bool LA => MetLocation is LocationsHOME.SWLA;
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
 }

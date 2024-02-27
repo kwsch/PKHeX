@@ -24,7 +24,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public Record8 Records { get; }
     public TrainerCard8 TrainerCard{ get; }
     public FashionUnlock8 Fashion { get; }
-    public RaidSpawnList8 Raid { get; }
+    public RaidSpawnList8 RaidGalar { get; }
     public RaidSpawnList8 RaidArmor { get; }
     public RaidSpawnList8 RaidCrown { get; }
     public TitleScreen8 TitleScreen { get; }
@@ -48,7 +48,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
         Daycare = new Daycare8(sav, GetBlock(KDaycare));
         Records = new Record8(sav, GetBlock(KRecord));
         Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
-        Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
+        RaidGalar = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
         RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
         RaidCrown = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR2), RaidSpawnList8.RaidCountLegal_R2);
         TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));

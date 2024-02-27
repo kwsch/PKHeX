@@ -75,13 +75,13 @@ public static class LCRNGReversalSkip
         return ctr;
     }
 
-    private static void AddSeeds(Span<uint> result, uint low, uint first, uint second, ref int ctr)
+    private static void AddSeeds(Span<uint> result, uint low, uint first, uint third, ref int ctr)
     {
         // at most 5 iterations
         do
         {
             var test = first | low;
-            if ((LCRNG.Next2(test) & 0x7fff0000) != second)
+            if ((LCRNG.Next2(test) & 0x7fff0000) != third)
                 continue;
             var seed = LCRNG.Prev(test);
             result[ctr++] = seed;

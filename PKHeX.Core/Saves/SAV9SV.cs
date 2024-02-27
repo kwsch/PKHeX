@@ -74,7 +74,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public BoxLayout9 BoxLayout => Blocks.BoxLayout;
     public PlayTime9 Played => Blocks.Played;
     public ConfigSave9 Config => Blocks.Config;
-    public TeamIndexes9 TeamIndexes => Blocks.TeamIndexes;
+    public TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
     public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
     public Epoch1970Value LastDateCycle => Blocks.LastDateCycle;
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
@@ -98,7 +98,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     private ushort m_spec, m_item, m_move, m_abil;
     public override int MaxBallID => Legal.MaxBallID_9;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
     public override ushort MaxMoveID => m_move;
     public override ushort MaxSpeciesID => m_spec;
     public override int MaxItemID => m_item;
@@ -154,19 +154,14 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override int BoxCount => BoxLayout9.BoxCount;
     public override int MaxEV => EffortValues.Max252;
-    public override int Generation => 9;
+    public override byte Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
     protected override PK9 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.SL => GameVersion.SL,
-        (int)GameVersion.VL => GameVersion.VL,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.SL or GameVersion.VL;
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
@@ -176,8 +171,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
-    public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)MyStatus.Game; set => MyStatus.Game = (byte)value; }
+    public override byte Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KMoney, value); }
@@ -202,8 +197,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         PK9 pk9 = (PK9)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateSwitch();
-        pk9.Trade(this, now.Day, now.Month, now.Year);
+        pk9.UpdateHandler(this);
 
         if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk9.Species, pk9.Form))
         {
@@ -212,7 +206,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         pk9.RefreshChecksum();
-        AddCountAcquired(pk9);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk9);
     }
 
     private static uint GetFormArgument(PKM pk)

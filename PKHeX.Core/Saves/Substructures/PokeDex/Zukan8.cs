@@ -610,7 +610,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
             if (shinyToo)
                 SetDisplayShiny(species);
 
-            SetGenderDisplayed(species, (uint)pi.RandomGender());
+            SetGenderDisplayed(species, pi.RandomGender());
         }
         else
         {

@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 public sealed class MaisonBlock : SaveBlock<SAV6>
 {
-    public MaisonBlock(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public MaisonBlock(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public MaisonBlock(SAV6XY sav, int offset) : base(sav, offset) { }
+    public MaisonBlock(SAV6AO sav, int offset) : base(sav, offset) { }
 
     // 5 * [u16*4: normal,super,normalStreak,superStreak]
     public const int MaisonStatCount = 20;

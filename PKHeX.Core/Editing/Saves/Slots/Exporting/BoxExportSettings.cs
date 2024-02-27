@@ -1,12 +1,13 @@
-using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Settings for exporting boxes
 /// </summary>
-[Serializable]
+[TypeConverter(typeof(ExpandableObjectConverter))]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed record BoxExportSettings
 {
     /// <summary>

@@ -1,51 +1,88 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using static PKHeX.Core.LanguageID;
+using static PKHeX.Core.EncounterGift2.TrainerType;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Event data for Generation 2
 /// </summary>
-public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Version = GameVersion.GS)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IFixedGBLanguage, IHatchCycle, IMoveset, IFixedIVSet
+public sealed record EncounterGift2
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IHatchCycle, IMoveset, IFixedIVSet
 {
-    public int Generation => 2;
+    public const int SerializedSize = 12;
+
+    public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public byte Form => 0;
-
     public Ball FixedBall => Ball.Poke;
-    int ILocation.Location => Location;
-    public int EggLocation => 0;
+    ushort ILocation.Location => Location;
+    public ushort EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
-
-    public Shiny Shiny { get; init; } = Shiny.Random;
-    public byte Location { get; init; }
-    public IndividualValueSet IVs { get; init; }
-    public Moveset Moves { get; init; }
     public bool EggEncounter => EggCycles != 0;
+
+    public Moveset Moves { get; }
+    public IndividualValueSet IVs => default; // future?
+    public ushort Species { get; }
+    public byte Level { get; }
+    public GameVersion Version { get; }
+    public TrainerType Trainer { get; }
+    public byte CurrentLevel { get; }
+    public byte EggCycles { get; }
+    public byte Location { get; }
+    public Shiny Shiny { get; }
+    public LanguageRestriction Language { get; }
 
     public string Name => "GB Era Event Gift";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public EncounterGBLanguage Language { get; init; } = EncounterGBLanguage.Japanese;
 
-    /// <summary> Trainer name for the event. </summary>
-    public string OT_Name { get; init; } = string.Empty;
+    public enum LanguageRestriction : byte
+    {
+        International = 0,
+        Japanese = 1,
+        English = 2,
+        InternationalNotEnglish = 3,
+    }
 
-    public IReadOnlyList<string> OT_Names { get; init; } = [];
+    public enum TrainerType : byte
+    {
+        Recipient,
+        GiftStadiumJPN = 1,
+        GiftStadiumENG = 2,
+        GiftStadiumINT = 3,
+        PokemonCenterNewYork = 4,
+    }
 
-    private const ushort UnspecifiedID = 0;
+    private const ushort TrainerIDStadiumJPN = 2000;
+    private const ushort TrainerIDStadiumENG = 2000;
+    private const ushort TrainerIDStadiumINT = 2001;
+    private const string StadiumJPN = "スタジアム";
+    private const string StadiumENG = "Stadium";
+    private const string StadiumFRE = "Stade";
+    private const string StadiumGER = "Stadion";
+    private const string StadiumITA = "Stadio";
+    private const string StadiumSPA = "Estadio";
+    private const string FirstPCNY = "PCNYa";
 
-    /// <summary> Trainer ID for the event. </summary>
-    public ushort TID16 { get; init; } = UnspecifiedID;
+    public static bool IsTrainerPCNY(ReadOnlySpan<char> str) => str is "PCNYa" or "PCNYb" or "PCNYc" or "PCNYd";
 
-    public bool IsGift => TID16 != UnspecifiedID;
+    public EncounterGift2(ReadOnlySpan<byte> data)
+    {
+        Species = data[0];
+        Level = data[1];
+        Moves = new(data[2], data[3], data[4], data[5]);
+        Location = data[6];
+        CurrentLevel = data[7];
+        Shiny = data[8] == 0 ? Shiny.Random : Shiny.Always;
+        EggCycles = data[9] == 1 ? (byte)10 : (byte)0;
+        Language = (LanguageRestriction)data[10];
+        Trainer = (TrainerType)data[11];
 
-    public sbyte CurrentLevel { get; init; } = -1;
-
-    public byte EggCycles { get; init; }
+        Version = Location != 0 ? GameVersion.C : GameVersion.GS;
+    }
 
     #region Generating
 
@@ -55,72 +92,76 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
-        int lang = GetTemplateLanguage(tr);
+        var lang = GetLanguage((LanguageID)tr.Language);
         var pi = PersonalTable.C[Species];
         var pk = new PK2
         {
             Species = Species,
-            CurrentLevel = CurrentLevel == -1 ? LevelMin : CurrentLevel,
+            CurrentLevel = CurrentLevel == 0 ? LevelMin : CurrentLevel,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, (int)lang, Generation),
 
-            TID16 = TID16 != UnspecifiedID ? TID16 : tr.TID16,
-            OT_Name = GetInitialOT(tr),
-
-            OT_Friendship = pi.BaseFriendship,
-
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            TID16 = Trainer switch
+            {
+                Recipient => tr.TID16,
+                GiftStadiumJPN => TrainerIDStadiumJPN,
+                GiftStadiumENG => TrainerIDStadiumENG,
+                GiftStadiumINT => TrainerIDStadiumINT,
+                _ => (ushort)Util.Rand.Next(10, 200),
+            },
+            OriginalTrainerName = Trainer switch
+            {
+                Recipient => EncounterUtil.GetTrainerName(tr, (int)lang),
+                GiftStadiumJPN => StadiumJPN,
+                GiftStadiumENG => StadiumENG,
+                GiftStadiumINT => lang switch
+                {
+                    French => StadiumFRE,
+                    Italian => StadiumITA,
+                    German => StadiumGER,
+                    Spanish => StadiumSPA,
+                    _ => StadiumENG, // shouldn't hit here
+                },
+                PokemonCenterNewYork => FirstPCNY,
+                _ => EncounterUtil.GetTrainerName(tr, 1),
+            },
         };
 
         if (EggEncounter)
         {
+            // Fake as hatched on G/S.
         }
-        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Game == (int)GameVersion.C))
+        else
         {
-            if (!IsGift)
-                pk.OT_Gender = tr.Gender;
-            pk.Met_Level = LevelMin;
-            pk.Met_Location = Location;
-            pk.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+            pk.MetLevel = LevelMin;
+            pk.MetLocation = Location;
+            pk.MetTimeOfDay = EncounterTime.Any.RandomValidTime();
         }
 
         if (Shiny == Shiny.Always)
             pk.SetShiny();
-
-        if (Moves.HasMoves)
-            pk.SetMoves(Moves);
-        else
-            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
-
+        pk.SetMoves(Moves);
         if (IVs.IsSpecified)
             criteria.SetRandomIVs(pk, IVs);
         else
             criteria.SetRandomIVs(pk);
 
         pk.ResetPartyStats();
-
         return pk;
     }
 
-    private int GetTemplateLanguage(ITrainerInfo tr)
+    private LanguageID GetLanguage(LanguageID request)
     {
-        // Japanese events must be Japanese
-        if (Language == EncounterGBLanguage.Japanese)
-            return 1;
+        if (Language == LanguageRestriction.Japanese)
+            return Japanese;
+        if (Language == LanguageRestriction.English)
+            return English;
 
-        // International events must be non-Japanese
-        var lang = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
-        if (lang == 1 && Language == EncounterGBLanguage.International)
-            return 2;
-        return lang;
-    }
-
-    private string GetInitialOT(ITrainerInfo tr)
-    {
-        if (OT_Name.Length != 0)
-            return OT_Name;
-        if (OT_Names.Count != 0)
-            return OT_Names[Util.Rand.Next(OT_Names.Count)];
-        return tr.OT;
+        if (request is not (English or French or Italian or German or Spanish))
+            request = English;
+        if (request == English && Language == LanguageRestriction.InternationalNotEnglish)
+            return French;
+        return request;
     }
 
     #endregion
@@ -153,10 +194,10 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
-        if (Language != EncounterGBLanguage.Any && pk.Japanese != (Language == EncounterGBLanguage.Japanese))
+        if (!IsLanguageValid(pk.Language))
             return false;
 
-        if (CurrentLevel != -1 && CurrentLevel > pk.CurrentLevel)
+        if (CurrentLevel != 0 && CurrentLevel > pk.CurrentLevel)
             return false;
 
         // EC/PID check doesn't exist for these, so check Shiny state here.
@@ -167,50 +208,73 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
             return true;
 
         // Check OT Details
-        if (TID16 != UnspecifiedID && pk.TID16 != TID16)
+        if (!IsTrainerIDValid(pk))
             return false;
-
-        if (OT_Name.Length != 0)
-        {
-            if (pk.OT_Name != OT_Name)
-                return false;
-        }
-        else if (OT_Names.Count != 0)
-        {
-            if (!OT_Names.Contains(pk.OT_Name))
-                return false;
-        }
-
+        if (!IsTrainerNameValid(pk))
+            return false;
         return true;
     }
+
+    private bool IsLanguageValid(int pkLanguage)
+    {
+        if (pkLanguage == (int)Japanese)
+            return Language is LanguageRestriction.Japanese;
+        return Language is not LanguageRestriction.Japanese;
+    }
+
+    private bool IsTrainerNameValid(PKM pk) => Trainer switch
+    {
+        Recipient => true,
+        GiftStadiumJPN => pk.OriginalTrainerName == StadiumJPN,
+        GiftStadiumENG => pk.OriginalTrainerName == StadiumENG,
+        GiftStadiumINT => pk.OriginalTrainerName switch
+        {
+            StadiumGER => true,
+            StadiumFRE => true,
+            StadiumITA => true,
+            StadiumSPA => true,
+            _ => false,
+        },
+        PokemonCenterNewYork => IsTrainerPCNY(pk.OriginalTrainerName),
+        _ => true,
+    };
+
+    private bool IsTrainerIDValid(ITrainerID16 pk) => Trainer switch
+    {
+        Recipient => true,
+        GiftStadiumJPN => pk.TID16 == TrainerIDStadiumJPN,
+        GiftStadiumENG => pk.TID16 == TrainerIDStadiumENG,
+        GiftStadiumINT => pk.TID16 == TrainerIDStadiumINT,
+        _ => true,
+    };
 
     private bool IsMatchEggLocation(PKM pk)
     {
         if (pk is not ICaughtData2 c2)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.Egg_Location == expect;
+            return pk.EggLocation == expect;
         }
 
         if (pk.IsEgg)
         {
             if (!EggEncounter)
                 return false;
-            if (c2.Met_Location != 0 && c2.Met_Level != 0)
+            if (c2.MetLocation != 0 && c2.MetLevel != 0)
                 return false;
-            if (pk.OT_Friendship > EggCycles)
+            if (pk.OriginalTrainerFriendship > EggCycles)
                 return false;
         }
         else
         {
-            switch (c2.Met_Level)
+            switch (c2.MetLevel)
             {
-                case 0 when c2.Met_Location != 0:
+                case 0 when c2.MetLocation != 0:
                     return false;
                 case 1: // 0 = second floor of every Pokémon Center, valid
                     return true;
                 default:
-                    if (pk.Met_Location == 0 && c2.Met_Level != 0)
+                    if (pk.MetLocation == 0 && c2.MetLevel != 0)
                         return false;
                     break;
             }
@@ -229,7 +293,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Version is GameVersion.C or GameVersion.GSC)
         {
             if (c2.CaughtData is not 0)
-                return Location == pk.Met_Location;
+                return Location == pk.MetLocation;
             if (pk.Species == (int)Core.Species.Celebi)
                 return false; // Cannot reset the Met data
         }
@@ -248,7 +312,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (evo.LevelMax < Level)
             return false;
         if (pk is ICaughtData2 { CaughtData: not 0 })
-            return pk.Met_Level == (EggEncounter ? 1 : Level);
+            return pk.MetLevel == (EggEncounter ? 1 : Level);
         return true;
     }
 

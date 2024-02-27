@@ -15,12 +15,12 @@ public sealed class MyStatus6XY(SAV6XY sav, int offset) : MyStatus6(sav, offset)
         set => value.Write(Data, Offset + 0x30);
     }
 
-    private Span<byte> Nickname_Trash => Data.AsSpan(Offset + 0x62, SAV6.ShortStringLength);
+    private Span<byte> NicknameTrash => Data.AsSpan(Offset + 0x62, SAV6.ShortStringLength);
 
-    public string OT_Nick
+    public string Nickname
     {
-        get => SAV.GetString(Nickname_Trash);
-        set => SAV.SetString(Nickname_Trash, value, 12, StringConverterOption.ClearZero);
+        get => SAV.GetString(NicknameTrash);
+        set => SAV.SetString(NicknameTrash, value, 12, StringConverterOption.ClearZero);
     }
 
     public short EyeColor

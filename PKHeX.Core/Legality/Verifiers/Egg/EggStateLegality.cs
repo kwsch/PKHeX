@@ -15,7 +15,7 @@ public static class EggStateLegality
     /// <returns>True if valid, false if invalid.</returns>
     public static bool GetIsEggHatchCyclesValid(PKM pk, IEncounterTemplate enc)
     {
-        var hatchCounter = pk.OT_Friendship;
+        var hatchCounter = pk.OriginalTrainerFriendship;
         var max = GetMaximumEggHatchCycles(pk, enc);
         if (hatchCounter > max)
             return false;
@@ -63,7 +63,7 @@ public static class EggStateLegality
     /// Level which eggs are given to the player.
     /// </summary>
     /// <param name="generation">Generation the egg is given in</param>
-    public static byte GetEggLevel(int generation) => generation >= 4 ? (byte)1 : (byte)5;
+    public static byte GetEggLevel(byte generation) => generation >= 4 ? (byte)1 : (byte)5;
 
     public const byte EggMetLevel34 = 0;
     public const byte EggMetLevel = 1;
@@ -73,22 +73,22 @@ public static class EggStateLegality
     /// </summary>
     /// <param name="version">Game the egg is obtained in</param>
     /// <param name="generation">Generation the egg is given in</param>
-    public static int GetEggLevelMet(GameVersion version, int generation) => generation switch
+    public static byte GetEggLevelMet(GameVersion version, byte generation) => generation switch
     {
-        2 => version is C ? EggMetLevel : 0, // GS do not store met data
+        2 => version is C ? EggMetLevel : (byte)0, // GS do not store met data
         3 or 4 => EggMetLevel34,
         _ => EggMetLevel,
     };
 
     /// <summary>
-    /// Checks if the <see cref="PKM.HT_Name"/> and associated details can be set for the provided egg <see cref="pk"/>.
+    /// Checks if the <see cref="PKM.HandlingTrainerName"/> and associated details can be set for the provided egg <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Egg Entity</param>
     /// <returns>True if valid, false if invalid.</returns>
     public static bool IsValidHTEgg(PKM pk) => pk switch
     {
-        PB8 { Met_Location: Locations.LinkTrade6NPC } pb8 when pb8.HT_Friendship == PersonalTable.BDSP[pb8.Species].BaseFriendship => true,
-        PK9 { Met_Location: Locations.LinkTrade6, HT_Language: not 0 } => true, // fine regardless of handler (trade-back)
+        PB8 { MetLocation: Locations.LinkTrade6NPC } pb8 when pb8.HandlingTrainerFriendship == PersonalTable.BDSP[pb8.Species].BaseFriendship => true,
+        PK9 { MetLocation: Locations.LinkTrade6, HandlingTrainerLanguage: not 0 } => true, // fine regardless of handler (trade-back)
         _ => false,
     };
 
@@ -123,9 +123,9 @@ public static class EggStateLegality
     public static bool IsNicknameFlagSet(PKM pk) => IsNicknameFlagSet(new LegalityAnalysis(pk).EncounterMatch, pk);
 
     /// <summary>
-    /// Gets a valid <see cref="PKM.Met_Location"/> for an egg hatched in the origin game, accounting for future format transfers altering the data.
+    /// Gets a valid <see cref="PKM.MetLocation"/> for an egg hatched in the origin game, accounting for future format transfers altering the data.
     /// </summary>
-    public static int GetEggHatchLocation(GameVersion game, int format) => game switch
+    public static ushort GetEggHatchLocation(GameVersion game, byte format) => game switch
     {
         R or S or E or FR or LG => format switch
         {
@@ -151,6 +151,31 @@ public static class EggStateLegality
         BD or SP => Locations.HatchLocation8b,
 
         SL or VL => Locations.HatchLocation9,
-        _ => -1,
+        _ => 0,
     };
+
+    /// <summary>
+    /// Gets the initial friendship value for an egg when it is hatched.
+    /// </summary>
+    public static byte GetEggHatchFriendship(EntityContext context) => context switch
+    {
+        // From Gen2->Gen7, the value was 120.
+        EntityContext.Gen2 => 120,
+        EntityContext.Gen3 => 120,
+        EntityContext.Gen4 => 120,
+        EntityContext.Gen5 => 120,
+        EntityContext.Gen6 => 120,
+        EntityContext.Gen7 => 120,
+        // No eggs in LGP/E.
+
+        // Starting in SW/SH, Friendship was rescaled away from 255 (to 160-ish), so the value is lower than prior.
+        _ => 100,
+    };
+
+    /// <summary>
+    /// Reasonable value for the friendship of an egg when it is hatched.
+    /// </summary>
+    /// <remarks>Only use if you're trying to generalize a value for hatched eggs without checking context.</remarks>
+
+    public const byte EggHatchFriendshipGeneral = 100;
 }

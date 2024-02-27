@@ -13,7 +13,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     protected override PK5 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-    protected internal override string ShortSummary => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
+    protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => ".sav";
 
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_BW;
@@ -24,7 +24,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
 
     public override int BoxCount => 24;
     public override int MaxEV => EffortValues.Max255;
-    public override int Generation => 5;
+    public override byte Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
@@ -38,7 +38,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_5;
     public override int MaxAbilityID => Legal.MaxAbilityID_5;
     public override int MaxBallID => Legal.MaxBallID_5;
-    public override int MaxGameID => Legal.MaxGameID_5; // B2
+    public override GameVersion MaxGameID => Legal.MaxGameID_5; // B2
 
     protected SAV5([ConstantExpected] int size) : base(size)
     {
@@ -49,12 +49,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     protected SAV5(byte[] data) : base(data)
     {
         Initialize();
-    }
-
-    public override GameVersion Version
-    {
-        get => (GameVersion)Game;
-        protected set => Game = (int)value;
     }
 
     private void Initialize()
@@ -115,9 +109,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     {
         var pk5 = (PK5)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateNDS();
-        if (pk5.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
-            pk.RefreshChecksum();
+        pk5.UpdateHandler(this);
+        pk5.RefreshChecksum();
     }
 
     // Player Data
@@ -128,8 +121,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public int Country { get => PlayerData.Country; set => PlayerData.Country = value; }
     public int Region { get => PlayerData.Region; set => PlayerData.Region = value; }
     public override int Language { get => PlayerData.Language; set => PlayerData.Language = value; }
-    public override int Game { get => PlayerData.Game; set => PlayerData.Game = value; }
-    public override int Gender { get => PlayerData.Gender; set => PlayerData.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)PlayerData.Game; set => PlayerData.Game = (byte)value; }
+    public override byte Gender { get => PlayerData.Gender; set => PlayerData.Gender = value; }
     public override int PlayedHours { get => PlayerData.PlayedHours; set => PlayerData.PlayedHours = value; }
     public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
     public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }

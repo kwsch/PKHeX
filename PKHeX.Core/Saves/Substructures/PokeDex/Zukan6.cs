@@ -60,7 +60,7 @@ public abstract class Zukan6 : Zukan<SAV6>
             SetFlag(PokeDexLanguageFlags, lbit, value);
     }
 
-    protected override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
+    protected override void SetAllDexSeenFlags(int baseBit, byte form, byte gender, bool isShiny, bool value = true)
     {
         var shiny = isShiny ? 1 : 0;
         SetDexFlags(baseBit, baseBit, gender, shiny);
@@ -83,7 +83,7 @@ public abstract class Zukan6 : Zukan<SAV6>
         SetFormFlags(pk);
     }
 
-    protected abstract void SetCaughtFlag(int bit, int origin);
+    protected abstract void SetCaughtFlag(int bit, GameVersion origin);
 
     private int FormLen => SAV is SAV6XY ? 0x18 : 0x26;
     private int FormDex => 0x8 + (BitSeenSize * 9);
@@ -188,7 +188,7 @@ public sealed class Zukan6AO : Zukan6
         SpindaOffset = 0x680;
     }
 
-    protected override void SetCaughtFlag(int bit, int origin)
+    protected override void SetCaughtFlag(int bit, GameVersion origin)
     {
         SetFlag(OFS_CAUGHT, bit);
         if (GetEncounterCount(bit) == 0)
@@ -218,10 +218,10 @@ public sealed class Zukan6XY : Zukan6
         SpindaOffset = 0x648;
     }
 
-    protected override void SetCaughtFlag(int bit, int origin)
+    protected override void SetCaughtFlag(int bit, GameVersion origin)
     {
         // Species: 1-649 for X/Y, and not for OR/AS; Set the Foreign Owned Flag
-        if (origin < (int)GameVersion.X && bit < (int)Species.Genesect)
+        if (origin < GameVersion.X && bit < (int)Species.Genesect)
             SetForeignFlag(bit);
         else
             SetFlag(OFS_CAUGHT, bit);

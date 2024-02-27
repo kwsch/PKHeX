@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class UnityTower5 : SaveBlock<SAV5>
+public sealed class UnityTower5(SAV5 SAV, int offset) : SaveBlock<SAV5>(SAV, offset)
 {
     private const int CountryCount = 232;
 
@@ -49,9 +49,6 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
         Yellow = 2, // already communicated with
         Red = 3, // own registered location
     }
-
-    public UnityTower5(SAV5BW SAV, int offset) : base(SAV) => Offset = offset;
-    public UnityTower5(SAV5B2W2 SAV, int offset) : base(SAV) => Offset = offset;
 
     private const int UnityTowerOffset = 0x320;
     private const int GeonetGlobalFlagOffset = 0x344;

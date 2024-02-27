@@ -237,22 +237,22 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
                 continue;
 
             var header = Data.AsSpan(offset, 4);
-            var ver = SaveHandlerGCI.GetGameCode(header);
-            if (ver == GameVersion.COLO)
+            var version = SaveHandlerGCI.GetGameCode(header);
+            if (version == GameVersion.COLO)
             {
                 if (HasCOLO) // another entry already exists
                     return GCMemoryCardState.DuplicateCOLO;
                 EntryCOLO = i;
                 SaveGameCount++;
             }
-            else if (ver == GameVersion.XD)
+            else if (version == GameVersion.XD)
             {
                 if (HasXD) // another entry already exists
                     return GCMemoryCardState.DuplicateXD;
                 EntryXD = i;
                 SaveGameCount++;
             }
-            else if (ver == GameVersion.RSBOX)
+            else if (version == GameVersion.RSBOX)
             {
                 if (HasRSBOX) // another entry already exists
                     return GCMemoryCardState.DuplicateRSBOX;

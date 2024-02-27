@@ -86,12 +86,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     public SecretBase6Block SecretBase => Blocks.SecretBase;
     #endregion
 
-    public override GameVersion Version => Game switch
-    {
-        (int) GameVersion.AS => GameVersion.AS,
-        (int) GameVersion.OR => GameVersion.OR,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.AS or GameVersion.OR;
 
     public override bool GetCaught(ushort species) => Blocks.Zukan.GetCaught(species);
     public override bool GetSeen(ushort species) => Blocks.Zukan.GetSeen(species);

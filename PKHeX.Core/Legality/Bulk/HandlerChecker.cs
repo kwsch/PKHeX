@@ -35,9 +35,9 @@ public sealed class HandlerChecker : IBulkAnalyzer
         if (flag != 1)
             return;
 
-        if (pk.HT_Name != tr.OT)
+        if (pk.HandlingTrainerName != tr.OT)
             input.AddLine(cs, LegalityCheckStrings.LTransferHTMismatchName, Trainer);
-        if (pk is IHandlerLanguage h && h.HT_Language != tr.Language)
+        if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
             input.AddLine(cs, LegalityCheckStrings.LTransferHTMismatchLanguage, Trainer);
     }
 }

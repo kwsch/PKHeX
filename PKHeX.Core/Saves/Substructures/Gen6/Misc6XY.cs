@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Misc6XY : SaveBlock<SAV6XY>, IMisc6
+public sealed class Misc6XY(SAV6XY sav, int offset) : SaveBlock<SAV6XY>(sav, offset), IMisc6
 {
-    public Misc6XY(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-
     public uint Money
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x8));
