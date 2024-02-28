@@ -24,8 +24,8 @@ public sealed class PlayerData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8B
 
     public bool GearType
     {
-        get => ReadUInt32LittleEndian(Data[..]) == 1;
-        set => WriteUInt32LittleEndian(Data[..], value ? 1u : 0);
+        get => ReadUInt32LittleEndian(Data) == 1;
+        set => WriteUInt32LittleEndian(Data, value ? 1u : 0);
     }
     public bool ShoesFlag
     {

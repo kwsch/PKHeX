@@ -86,7 +86,7 @@ public abstract class Zukan<T>(T sav, Memory<byte> raw, int langflag) : ZukanBas
     protected abstract void SetAllDexSeenFlags(int baseBit, byte b, byte gender, bool isShiny, bool value = true);
 
     protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(Data, ofs + (bitIndex >> 3), bitIndex);
-    protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(ofs + (bitIndex >> 3), bitIndex, value);
+    protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(Data, ofs + (bitIndex >> 3), bitIndex, value);
 
     public override bool GetCaught(ushort species) => GetFlag(OFS_CAUGHT, species - 1);
     public virtual void SetCaught(ushort species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);

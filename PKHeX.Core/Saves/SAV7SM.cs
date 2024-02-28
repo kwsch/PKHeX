@@ -22,7 +22,6 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
 
     public override bool HasPokeDex => true;
     public override bool HasWondercards => true;
-    public override bool HasDaycare => true;
 
     private void Initialize()
     {

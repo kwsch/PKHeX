@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed class Situation7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw)
 {
     // "StartLocation"
-    public int M { get => ReadUInt16LittleEndian(Data[..]); set => WriteUInt16LittleEndian(Data[..], (ushort)value); }
+    public int M { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, (ushort)value); }
     public float X { get => ReadSingleLittleEndian(Data[0x08..]); set => WriteSingleLittleEndian(Data[0x08..], value); }
     public float Z { get => ReadSingleLittleEndian(Data[0x0C..]); set => WriteSingleLittleEndian(Data[0x0C..], value); }
     public float Y { get => ReadSingleLittleEndian(Data[0x10..]); set => WriteSingleLittleEndian(Data[0x10..], value); }

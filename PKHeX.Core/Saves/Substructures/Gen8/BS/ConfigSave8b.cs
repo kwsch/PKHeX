@@ -13,8 +13,8 @@ public sealed class ConfigSave8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8B
 {
     public TextSpeedOption TextSpeed
     {
-        get => (TextSpeedOption)ReadInt32LittleEndian(Data[..]);
-        set => WriteInt32LittleEndian(Data[..], (int)value);
+        get => (TextSpeedOption)ReadInt32LittleEndian(Data);
+        set => WriteInt32LittleEndian(Data, (int)value);
     }
 
     public int Language

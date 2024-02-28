@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 <see cref="SaveFile"/> object for <see cref="GameVersion.SV"/> games.
 /// </summary>
-public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision
+public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision, IBoxDetailName, IBoxDetailWallpaper
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.DisplayValue}";
     public override string Extension => string.Empty;
@@ -190,8 +190,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
     protected override void SetPKM(PKM pk, bool isParty = false)
@@ -278,8 +278,6 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => (byte)Blocks.GetBlockValue(SaveBlockAccessor9SV.KBoxesUnlocked); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KBoxesUnlocked, (byte)value); }
-    public override bool HasBoxWallpapers => true;
-    public override bool HasNamableBoxes => true;
     public Span<byte> Coordinates => Blocks.GetBlock(SaveBlockAccessor9SV.KCoordinates).Data;
     public float X { get => ReadSingleLittleEndian(Coordinates); set => WriteSingleLittleEndian(Coordinates, value); }
     public float Y { get => ReadSingleLittleEndian(Coordinates[4..]); set => WriteSingleLittleEndian(Coordinates[4..], value); }
@@ -313,7 +311,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         RW = rw;
     }
 
-    public override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         if ((uint)box >= BoxCount)
             return box;
@@ -321,7 +319,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         return b.Data[box];
     }
 
-    public override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         if ((uint)box >= BoxCount)
             return;

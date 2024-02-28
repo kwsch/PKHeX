@@ -31,7 +31,6 @@ public sealed class SAV5BW : SAV5
 
     public override bool HasPokeDex => true;
     public override bool HasWondercards => true;
-    public override bool HasDaycare => true;
 
     private void Initialize()
     {

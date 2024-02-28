@@ -68,8 +68,8 @@ public sealed class RaidSpawnDetail(Memory<byte> raw)
     [Category(General), Description("FNV Hash for fetching the Raid data table (64bit)."), TypeConverter(typeof(TypeConverterU64))]
     public ulong Hash
     {
-        get => ReadUInt64LittleEndian(Data[..]);
-        set => WriteUInt64LittleEndian(Data[..], value);
+        get => ReadUInt64LittleEndian(Data);
+        set => WriteUInt64LittleEndian(Data, value);
     }
 
     [Category(General), Description("RNG Seed for generating the Raid's content (64bit)."), TypeConverter(typeof(TypeConverterU64))]

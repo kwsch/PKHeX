@@ -48,7 +48,6 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public int PSS { get; protected set; } = int.MinValue;
     public int BerryField { get; protected set; } = int.MinValue;
     public int HoF { get; protected set; } = int.MinValue;
-    protected int PCLayout { private get; set; } = int.MinValue;
     protected int BattleBoxOffset { get; set; } = int.MinValue;
     public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
@@ -84,28 +83,10 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public override uint SecondsToFame { get => GameTime.SecondsToFame; set => GameTime.SecondsToFame = value; }
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
-    // Daycare
-    public override int DaycareSeedSize => 16;
-
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
-
-    private int GetBoxNameOffset(int box) => PCLayout + (LongStringLength * box);
-
-    public override string GetBoxName(int box)
-    {
-        if (PCLayout < 0)
-            return $"B{box + 1}";
-        return GetString(Data.AsSpan(GetBoxNameOffset(box), LongStringLength));
-    }
-
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
-    {
-        var span = Data.AsSpan(GetBoxNameOffset(box), LongStringLength);
-        SetString(span, value, LongStringLength / 2, StringConverterOption.ClearZero);
-    }
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {

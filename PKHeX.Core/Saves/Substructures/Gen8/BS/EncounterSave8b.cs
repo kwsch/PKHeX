@@ -31,8 +31,8 @@ public sealed class EncounterSave8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SA
 
     public int EncounterWalkCount
     {
-        get => ReadInt32LittleEndian(Data[..]);
-        set => WriteInt32LittleEndian(Data[..], value);
+        get => ReadInt32LittleEndian(Data);
+        set => WriteInt32LittleEndian(Data, value);
     }
 
     public uint SafariRandSeed
@@ -148,8 +148,8 @@ public sealed class HoneyTree8b(Memory<byte> raw)
 
     public bool Spreaded
     {
-        get => ReadUInt32LittleEndian(Data[..]) == 1;
-        set => WriteUInt32LittleEndian(Data[..], value ? 1u : 0u);
+        get => ReadUInt32LittleEndian(Data) == 1;
+        set => WriteUInt32LittleEndian(Data, value ? 1u : 0u);
     }
 
     public int Minutes

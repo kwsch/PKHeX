@@ -7,7 +7,7 @@ public sealed class HallOfFame7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sa
 {
     // this HoF region is immediately after the Event Flags
     private const int MaxCount = 12;
-    public int First1 { get => ReadUInt16LittleEndian(Data[..]); set => WriteUInt16LittleEndian(Data[..], (ushort)value); }
+    public int First1 { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, (ushort)value); }
     public int First2 { get => ReadUInt16LittleEndian(Data[0x02..]); set => WriteUInt16LittleEndian(Data[0x02..], (ushort)value); }
     public int First3 { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt16LittleEndian(Data[0x04..], (ushort)value); }
     public int First4 { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt16LittleEndian(Data[0x04..], (ushort)value); }

@@ -9,10 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x808</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class BerryTreeGrowSave8b : SaveBlock<SAV8BS>
+public sealed class BerryTreeGrowSave8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
-    public BerryTreeGrowSave8b(SAV8BS sav, Memory<byte> raw) : base(sav, raw) { }
-
     public const int KinomiGrowsCount = 128;
 
     public const int KinomiSize = 0x10;

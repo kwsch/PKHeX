@@ -48,8 +48,8 @@ public sealed class TitleScreen8Poke(Memory<byte> raw) : ISpeciesForm
 
     public ushort Species
     {
-        get => ReadUInt16LittleEndian(Data[..]);
-        set => WriteUInt32LittleEndian(Data[..], value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public byte Form

@@ -5,8 +5,6 @@ namespace PKHeX.Core;
 
 public sealed class SecretBase6Block(SAV6AO sav, Memory<byte> raw) : SaveBlock<SAV6AO>(sav, raw)
 {
-    private readonly Memory<byte> _raw = raw;
-
     // structure: 0x7AD0 bytes total
     // [0000-031F] SecretBaseGoodStock[200] (800 bytes)
     // [0320-0321] u16 SecretBaseSelfLocation (-1 if not created)
@@ -21,7 +19,7 @@ public sealed class SecretBase6Block(SAV6AO sav, Memory<byte> raw) : SaveBlock<S
     public const int Count_Goods = 200;
     public const int Count_Goods_Used = 173;
 
-    public SecretBase6GoodStock GetGood(int index) => new(_raw.Slice(GetGoodOffset(index), SecretBase6GoodStock.SIZE));
+    public SecretBase6GoodStock GetGood(int index) => new(Raw.Slice(GetGoodOffset(index), SecretBase6GoodStock.SIZE));
 
     private static int GetGoodOffset(int index)
     {
@@ -45,8 +43,8 @@ public sealed class SecretBase6Block(SAV6AO sav, Memory<byte> raw) : SaveBlock<S
 
     public const int OtherSecretBaseCount = 30;
     private const int OtherSecretStart = 0x638;
-    public SecretBase6 GetSecretBaseSelf() => new(_raw.Slice(0x324, SecretBase6.SIZE));
-    public SecretBase6Other GetSecretBaseOther(int index) => new(_raw.Slice(OtherSecretStart + GetSecretBaseOtherOffset(index), SecretBase6Other.SIZE));
+    public SecretBase6 GetSecretBaseSelf() => new(Raw.Slice(0x324, SecretBase6.SIZE));
+    public SecretBase6Other GetSecretBaseOther(int index) => new(Raw.Slice(OtherSecretStart + GetSecretBaseOtherOffset(index), SecretBase6Other.SIZE));
 
     private static int GetSecretBaseOtherOffset(int index)
     {
@@ -63,10 +61,9 @@ public sealed class SecretBase6Block(SAV6AO sav, Memory<byte> raw) : SaveBlock<S
 
     public void DeleteOther(int index)
     {
-        int baseOffset = OtherSecretStart;
         const int maxBaseIndex = OtherSecretBaseCount - 1;
         const int size = SecretBase6Other.SIZE;
-        int offset = baseOffset + GetSecretBaseOtherOffset(index);
+        int offset = OtherSecretStart + GetSecretBaseOtherOffset(index);
         var arr = Data;
         if ((uint)index < OtherSecretBaseCount)
         {
@@ -79,7 +76,7 @@ public sealed class SecretBase6Block(SAV6AO sav, Memory<byte> raw) : SaveBlock<S
         }
 
         // Ensure Last Entry is Cleared
-        int lastBaseOffset = baseOffset + (size * maxBaseIndex);
+        const int lastBaseOffset = OtherSecretStart + (size * maxBaseIndex);
         arr.Slice(lastBaseOffset, size).Clear();
     }
 }

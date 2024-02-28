@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 <see cref="SaveFile"/> object for Pokémon Battle Revolution saves.
 /// </summary>
-public sealed class SAV4BR : SaveFile
+public sealed class SAV4BR : SaveFile, IBoxDetailName
 {
     protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
     public override string Extension => string.Empty;
@@ -206,18 +206,18 @@ public sealed class SAV4BR : SaveFile
         return Data.AsSpan(ofs, BoxNameLength);
     }
 
-    public override string GetBoxName(int box)
+    public string GetBoxName(int box)
     {
         if (BoxName < 0)
-            return $"BOX {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
 
         var span = GetBoxNameSpan(box);
         if (ReadUInt16BigEndian(span) == 0)
-            return $"BOX {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
         return GetString(span);
     }
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         if (BoxName < 0)
             return;

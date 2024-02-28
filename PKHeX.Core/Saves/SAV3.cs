@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
+public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareExperience
 {
     protected internal sealed override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public sealed override string Extension => ".sav";
@@ -436,23 +436,22 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     }
 
     protected abstract InventoryPouch3[] GetItems();
-
-    protected abstract int DaycareSlotSize { get; }
-    protected abstract int DaycareOffset { get; }
     protected abstract int PokeDex { get; }
     public override bool HasPokeDex => true;
 
-    public sealed override uint? GetDaycareEXP(int loc, int slot) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)));
-    public sealed override void SetDaycareEXP(int loc, int slot, uint EXP) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)), EXP);
-    public sealed override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(Large.AsSpan(GetDaycareSlotOffset(loc, slot)));
-    public sealed override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
-    public sealed override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * DaycareSlotSize);
-
-    protected abstract int EggEventFlag { get; }
-    public sealed override bool? IsDaycareHasEgg(int loc) => GetEventFlag(EggEventFlag);
-    public sealed override void SetDaycareHasEgg(int loc, bool hasEgg) => SetEventFlag(EggEventFlag, hasEgg);
-
+    public int DaycareSlotCount => 2;
+    protected abstract int DaycareSlotSize { get; }
+    protected abstract int DaycareOffset { get; }
     protected abstract int GetDaycareEXPOffset(int slot);
+    public Memory<byte> GetDaycareSlot(int slot) => Large.AsMemory(GetDaycareSlotOffset(slot), DaycareSlotSize);
+    public uint GetDaycareEXP(int index) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(index)));
+    public void SetDaycareEXP(int index, uint value) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(index)), value);
+    public bool IsDaycareOccupied(int slot) => IsPKMPresent(Large.AsSpan(GetDaycareSlotOffset(slot)));
+    public void SetDaycareOccupied(int slot, bool occupied) { /* todo */ }
+    public int GetDaycareSlotOffset(int slot) => DaycareOffset + (slot * DaycareSlotSize);
+    protected abstract int EggEventFlag { get; }
+    public bool IsEggAvailable { get => GetEventFlag(EggEventFlag); set => SetEventFlag(EggEventFlag, value); }
+
 
     #region Storage
     public sealed override int GetBoxOffset(int box) => Box + 4 + (SIZE_STORED * box * COUNT_SLOTSPERBOX);
@@ -463,7 +462,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         set => Storage[0] = (byte)value;
     }
 
-    public sealed override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         if (box > COUNT_BOX)
             return box;
@@ -473,7 +472,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     private const int COUNT_BOXNAME = 8 + 1;
 
-    public sealed override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         if (box > COUNT_BOX)
             return;
@@ -481,20 +480,20 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         Storage[offset] = (byte)value;
     }
 
-    protected sealed override int GetBoxWallpaperOffset(int box)
+    protected int GetBoxWallpaperOffset(int box)
     {
         int offset = GetBoxOffset(COUNT_BOX);
         offset += (COUNT_BOX * COUNT_BOXNAME) + box;
         return offset;
     }
 
-    public sealed override string GetBoxName(int box)
+    public string GetBoxName(int box)
     {
         int offset = GetBoxOffset(COUNT_BOX);
         return StringConverter3.GetString(Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
     }
 
-    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int offset = GetBoxOffset(COUNT_BOX);
         var dest = Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);

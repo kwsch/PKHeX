@@ -52,7 +52,7 @@ public static partial class Extensions
     {
         return
         [
-            new(sav.Data.AsMemory(sav.GetDaycareSlotOffset(0, 2)), 0) {Type = StorageSlotType.Daycare }, // egg
+            new(sav.GetDaycareEgg(), 0) {Type = StorageSlotType.Daycare }, // egg
         ];
     }
 

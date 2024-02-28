@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class UgCountRecord8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
-    public short DigFossilPlayCount     { get => ReadInt16LittleEndian(Data[..]); set => WriteInt16LittleEndian(Data[..], value); }
+    public short DigFossilPlayCount     { get => ReadInt16LittleEndian(Data); set => WriteInt16LittleEndian(Data, value); }
     public short NumStatueBroadcastOnTV { get => ReadInt16LittleEndian(Data[0x02..]); set => WriteInt16LittleEndian(Data[0x02..], value); }
     public int NumTimesSecretBaseBroadcastOnTVWereLiked { get => ReadInt32LittleEndian(Data[0x04..]); set => WriteInt32LittleEndian(Data[0x04..], value); }
     public int SomeoneSecretBaseLikeCount               { get => ReadInt32LittleEndian(Data[0x08..]); set => WriteInt32LittleEndian(Data[0x08..], value); }

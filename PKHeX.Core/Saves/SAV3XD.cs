@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
 /// </summary>
-public sealed class SAV3XD : SaveFile, IGCSaveFile
+public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) {PlayTimeString}";
     public override string Extension => this.GCExtension();
@@ -335,9 +335,9 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int GetPartyOffset(int slot) => Party + (SIZE_STORED * slot);
     private int GetBoxInfoOffset(int box) => Box + (((30 * SIZE_STORED) + 0x14) * box);
     public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
-    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxInfoOffset(box), 16));
+    public string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxInfoOffset(box), 16));
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value, 8, StringConverterOption.ClearZero);
     }
@@ -445,11 +445,14 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     // 0x01 -- Deposited Level
     // 0x02-0x03 -- unused?
     // 0x04-0x07 -- Initial EXP
-    public override int GetDaycareSlotOffset(int loc, int slot) { return DaycareOffset + 8; }
-    public override uint? GetDaycareEXP(int loc, int slot) { return null; }
-    public override bool? IsDaycareOccupied(int loc, int slot) { return null; }
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
+    public int DaycareSlotCount => 1;
+    public bool IsDaycareOccupied(int slot) => Data[DaycareOffset] != 0;
+    public void SetDaycareOccupied(int slot, bool occupied) => Data[DaycareOffset] = (byte)(occupied ? 1 : 0);
+    public byte GetDaycareLevel(int slot) => Data[DaycareOffset + 1];
+    public void SetDaycareLevel(int slot, byte level) => Data[DaycareOffset + 1] = level;
+    public uint GetDaycareEXP(int index) => ReadUInt32BigEndian(Data.AsSpan(DaycareOffset + 4));
+    public void SetDaycareEXP(int index, uint value) => WriteUInt32BigEndian(Data.AsSpan(DaycareOffset + 4), value);
+    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(DaycareOffset + 8);
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
 

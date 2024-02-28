@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.ORAS"/>.
 /// </summary>
 /// <inheritdoc cref="SAV6" />
-public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
+public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetailName, IBoxDetailWallpaper, IDaycareMulti
 {
     public SAV6AO(byte[] data) : base(data, SaveBlockAccessor6AO.BlockMetadataOffset)
     {
@@ -36,11 +36,9 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
 
     public override bool HasPokeDex => true;
     public override bool HasWondercards => true;
-    public override bool HasDaycare => true;
 
     private void Initialize()
     {
-        PCLayout = 0x04400;
         BattleBoxOffset = 0x04A00;
         PSS = 0x05000;
         Party = 0x14200;
@@ -106,67 +104,8 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     }
 
     // Daycare
-    public override int DaycareSeedSize => 16;
-    public override bool HasTwoDaycares => true;
-    private const int DaycareOffset = 0x1BC00;
 
-    public override int GetDaycareSlotOffset(int loc, int slot)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        return ofs + 8 + (slot * (SIZE_STORED + 8));
-    }
 
-    public override uint? GetDaycareEXP(int loc, int slot)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        return ReadUInt32LittleEndian(Data.AsSpan(ofs + ((SIZE_STORED + 8) * slot) + 4));
-    }
-
-    public override bool? IsDaycareOccupied(int loc, int slot)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
-    }
-
-    public override string GetDaycareRNGSeed(int loc)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        return Util.GetHexStringFromBytes(Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2));
-    }
-
-    public override bool? IsDaycareHasEgg(int loc)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        return Data[ofs + 0x1E0] == 1;
-    }
-
-    public override void SetDaycareEXP(int loc, int slot, uint EXP)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        WriteUInt32LittleEndian(Data.AsSpan(ofs + ((SIZE_STORED + 8) * slot) + 4), EXP);
-    }
-
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        Data[ofs + ((SIZE_STORED + 8) * slot)] = occupied ? (byte)1 : (byte)0;
-    }
-
-    public override void SetDaycareRNGSeed(int loc, string seed)
-    {
-        if (loc != 0)
-            return;
-        if (seed.Length > DaycareSeedSize)
-            return;
-
-        Util.GetBytesFromHexString(seed).CopyTo(Data, DaycareOffset + 0x1E8);
-    }
-
-    public override void SetDaycareHasEgg(int loc, bool hasEgg)
-    {
-        int ofs = loc == 0 ? DaycareOffset : Daycare2;
-        Data[ofs + 0x1E0] = hasEgg ? (byte)1 : (byte)0;
-    }
 
     public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
     public override byte[] GetJPEGData() => !HasJPPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004).ToArray();
@@ -176,13 +115,19 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.GetGifts(); set => Blocks.MysteryGift.SetGifts(value); }
 
     public override int CurrentBox { get => Blocks.BoxLayout.CurrentBox; set => Blocks.BoxLayout.CurrentBox = value; }
-    protected override int GetBoxWallpaperOffset(int box) => Blocks.BoxLayout.GetBoxWallpaperOffset(box);
     public override int BoxesUnlocked { get => Blocks.BoxLayout.BoxesUnlocked; set => Blocks.BoxLayout.BoxesUnlocked = value; }
     public override byte[] BoxFlags { get => Blocks.BoxLayout.BoxFlags; set => Blocks.BoxLayout.BoxFlags = value; }
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int wallpaper) => BoxLayout.SetBoxWallpaper(box, wallpaper);
+    public string GetBoxName(int box) => BoxLayout.GetBoxName(box);
+    public void SetBoxName(int box, ReadOnlySpan<char> name) => BoxLayout.SetBoxName(box, name);
 
     public bool BattleBoxLocked
     {
         get => Blocks.BattleBox.Locked;
         set => Blocks.BattleBox.Locked = value;
     }
+
+    public int DaycareCount => 2;
+    public IDaycareStorage this[int index] => Blocks.Daycare[index];
 }

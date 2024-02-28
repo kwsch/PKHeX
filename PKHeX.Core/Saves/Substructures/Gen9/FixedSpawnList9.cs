@@ -54,8 +54,8 @@ public sealed class FixedSpawnDetail(Memory<byte> raw)
     [Category(Misc), Description("Unknown Hash.")]
     public ulong Hash
     {
-        get => ReadUInt64LittleEndian(Data[..]);
-        set => WriteUInt64LittleEndian(Data[..], value);
+        get => ReadUInt64LittleEndian(Data);
+        set => WriteUInt64LittleEndian(Data, value);
     }
 
     [Category(General), Description("Indicates if this entry is available on the overworld.")]

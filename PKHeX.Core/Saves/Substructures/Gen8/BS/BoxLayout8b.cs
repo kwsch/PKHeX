@@ -7,15 +7,13 @@ namespace PKHeX.Core;
 /// Information about the storage boxes.
 /// </summary>
 /// <remarks>Structure name: SaveBoxData, size: 0x64A</remarks>
-public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
+public sealed class BoxLayout8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw), IBoxDetailName
 {
     public const int BoxCount = 40;
 
     private const int StringMaxLength = SAV6.LongStringLength / 2;
     public readonly int[] TeamSlots = new int[TeamCount * TeamSlotCount];
     private const int TeamNameLength = 0x16;
-
-    public BoxLayout8b(SAV8BS sav, Memory<byte> raw) : base(sav, raw) { }
 
     private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
     private static int GetTeamNameOffset(int box) => GetBoxNameOffset(BoxCount) + (TeamNameLength * box);
@@ -24,7 +22,7 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
     {
         var span = Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
         if (ReadUInt16LittleEndian(span) == 0)
-            return $"Box {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxName(box);
         return SAV.GetString(span);
     }
 

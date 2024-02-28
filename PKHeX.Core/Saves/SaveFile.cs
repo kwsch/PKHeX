@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base Class for Save Files
 /// </summary>
-public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpaper, IBoxDetailName, IGeneration, IVersion
+public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVersion
 {
     // General Object Properties
     public byte[] Data;
@@ -232,23 +232,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     // Varied Methods
     protected abstract void SetChecksums();
-
-    #region Daycare
-    public virtual bool HasDaycare => false;
-    public virtual int DaycareSeedSize => 0;
-    public int DaycareIndex;
-    public virtual bool HasTwoDaycares => false;
-    public virtual int GetDaycareSlotOffset(int loc, int slot) => -1;
-    public virtual uint? GetDaycareEXP(int loc, int slot) => null;
-    public virtual string GetDaycareRNGSeed(int loc) => string.Empty;
-    public virtual bool? IsDaycareHasEgg(int loc) => null;
-    public virtual bool? IsDaycareOccupied(int loc, int slot) => null;
-
-    public virtual void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public virtual void SetDaycareRNGSeed(int loc, string seed) { }
-    public virtual void SetDaycareHasEgg(int loc, bool hasEgg) { }
-    public virtual void SetDaycareOccupied(int loc, int slot, bool occupied) { }
-    #endregion
 
     private Span<byte> GetPartySpan(int index) => PartyBuffer[GetPartyOffset(index)..];
     public PKM GetPartySlotAtIndex(int index) => GetPartySlot(GetPartySpan(index));
@@ -616,16 +599,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
         int len = BoxSlotCount * SIZE_BOXSLOT;
         byte[] boxdata = storage.Slice(GetBoxOffset(0), len * BoxCount).ToArray(); // get all boxes
-        string[] boxNames = Get(GetBoxName, BoxCount);
-        int[] boxWallpapers = Get(GetBoxWallpaper, BoxCount);
 
-        static T[] Get<T>(Func<int, T> act, int count)
-        {
-            T[] result = new T[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = act(i);
-            return result;
-        }
+        if (this is IBoxDetailWallpaper w)
+            w.MoveWallpaper(box, insertBeforeBox);
+        if (this is IBoxDetailName n)
+            n.MoveBoxName(box, insertBeforeBox);
 
         min /= BoxSlotCount;
         max /= BoxSlotCount;
@@ -642,8 +620,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             }
 
             boxdata.AsSpan(len * i, len).CopyTo(storage[GetBoxOffset(b)..]);
-            SetBoxName(b, boxNames[i]);
-            SetBoxWallpaper(b, boxWallpapers[i]);
         }
 
         SlotPointerUtil.UpdateMove(box, insertBeforeBox, BoxSlotCount, SlotPointers);
@@ -674,14 +650,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         b1.CopyTo(boxData[b2o..]);
 
         // Name
-        string b1n = GetBoxName(box1);
-        SetBoxName(box1, GetBoxName(box2));
-        SetBoxName(box2, b1n);
+        if (this is IBoxDetailName n)
+            n.SwapBoxName(box1, box2);
 
         // Wallpaper
-        int b1w = GetBoxWallpaper(box1);
-        SetBoxWallpaper(box1, GetBoxWallpaper(box2));
-        SetBoxWallpaper(box2, b1w);
+        if (this is IBoxDetailWallpaper w)
+            w.SwapWallpaper(box1, box2);
 
         // Pointers
         SlotPointerUtil.UpdateSwap(box1, box2, BoxSlotCount, SlotPointers);
@@ -810,31 +784,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             }
         }
         return modified;
-    }
-    #endregion
-
-    #region Storage Name & Decoration
-    public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
-    public virtual bool HasNamableBoxes => HasBoxWallpapers;
-
-    public abstract string GetBoxName(int box);
-    public abstract void SetBoxName(int box, ReadOnlySpan<char> value);
-    protected virtual int GetBoxWallpaperOffset(int box) => -1;
-
-    public virtual int GetBoxWallpaper(int box)
-    {
-        int offset = GetBoxWallpaperOffset(box);
-        if (offset < 0 || (uint)box > BoxCount)
-            return box;
-        return Data[offset];
-    }
-
-    public virtual void SetBoxWallpaper(int box, int value)
-    {
-        int offset = GetBoxWallpaperOffset(box);
-        if (offset < 0 || (uint)box > BoxCount)
-            return;
-        Data[offset] = (byte)value;
     }
     #endregion
 

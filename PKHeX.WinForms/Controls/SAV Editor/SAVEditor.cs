@@ -170,7 +170,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     public int GetViewIndex(ISlotInfo slot)
     {
-        if (!SAV.HasDaycare)
+        if (GetCurrentDaycare() is not { })
             return -1;
 
         for (int i = 0; i < SlotPictureBoxes.Count; i++)
@@ -203,8 +203,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private SlotInfoMisc GetSlotData(int index)
     {
-        var ofs = SAV.GetDaycareSlotOffset(SAV.DaycareIndex, index);
-        return new SlotInfoMisc(SAV, index, ofs);
+        if (GetCurrentDaycare() is not { } s)
+            throw new Exception();
+        return new SlotInfoMisc(s.GetDaycareSlot(index), index);
     }
 
     public void SetPKMBoxes()
@@ -245,45 +246,110 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void ResetDaycare()
     {
-        if (!SAV.HasDaycare)
+        IDaycareStorage? s = GetCurrentDaycare();
+        if (s is null)
             return;
 
+        int slotCount = s.DaycareSlotCount;
         for (int i = 0; i < 2; i++)
         {
-            var relIndex = i;
-            var pb = UpdateSlot(relIndex);
+            if (i >= slotCount)
+            {
+                L_SlotOccupied[i].Visible = false;
+                TB_SlotEXP[i].Visible = false;
+                continue;
+            }
 
-            uint? exp = SAV.GetDaycareEXP(SAV.DaycareIndex, i);
-            TB_SlotEXP[i].Visible = L_SlotEXP[i].Visible = exp != null;
-            TB_SlotEXP[i].Text = exp.ToString();
+            if (s is IDaycareExperience dExp)
+            {
+                var exp = dExp.GetDaycareEXP(i);
+                L_SlotEXP[i].Visible = TB_SlotEXP[i].Visible = true;
+                TB_SlotEXP[i].Text = exp.ToString();
+            }
+            else
+            {
+                L_SlotEXP[i].Visible = TB_SlotEXP[i].Visible = true;
+            }
 
-            bool? occ = SAV.IsDaycareOccupied(SAV.DaycareIndex, i);
-            L_SlotOccupied[i].Visible = occ != null;
-            if (occ == true) // If Occupied
+            bool occ = s.IsDaycareOccupied(i);
+            L_SlotOccupied[i].Visible = true;
+            if (occ) // If Occupied
             {
                 L_SlotOccupied[i].Text = $"{i + 1}: ✓";
             }
             else
             {
                 L_SlotOccupied[i].Text = $"{i + 1}: ✘";
+                var pb = UpdateSlot(i);
                 var current = pb.Image;
                 if (current != null)
                     pb.Image = ImageUtil.ChangeOpacity(current, 0.6);
             }
         }
 
-        bool? egg = SAV.IsDaycareHasEgg(SAV.DaycareIndex);
-        DayCare_HasEgg.Visible = egg != null;
-        DayCare_HasEgg.Checked = egg == true;
+        LoadDaycareEggState(s);
+        LoadDaycareSeed(s);
+    }
 
-        var seed = SAV.GetDaycareRNGSeed(SAV.DaycareIndex);
-        bool hasSeed = !string.IsNullOrEmpty(seed);
-        if (hasSeed)
+    private IDaycareStorage? GetCurrentDaycare()
+    {
+        if (SAV is IDaycareMulti m)
         {
-            TB_RNGSeed.MaxLength = SAV.DaycareSeedSize;
-            TB_RNGSeed.Text = seed;
+            if (DaycareIndex < m.DaycareCount)
+                return m[DaycareIndex];
+            return m[DaycareIndex = 0];
         }
-        L_DaycareSeed.Visible = TB_RNGSeed.Visible = hasSeed;
+        if (SAV is IDaycareStorage s)
+            return s;
+        return null;
+    }
+
+    private void LoadDaycareEggState(IDaycareStorage s)
+    {
+        if (s is IDaycareEggState dEgg)
+        {
+            DayCare_HasEgg.Visible = true;
+            DayCare_HasEgg.Checked = dEgg.IsEggAvailable;
+        }
+        else
+        {
+            DayCare_HasEgg.Visible = false;
+        }
+    }
+
+    private void LoadDaycareSeed(IDaycareStorage s)
+    {
+        if (s is IDaycareRandomState<ushort> u16)
+        {
+            TB_RNGSeed.Visible = true;
+            TB_RNGSeed.MaxLength = 4;
+            TB_RNGSeed.Text = $"{u16.Seed:X4}";
+        }
+        else if (s is IDaycareRandomState<uint> u32)
+        {
+            TB_RNGSeed.Visible = true;
+            TB_RNGSeed.MaxLength = 8;
+            TB_RNGSeed.Text = $"{u32.Seed:X8}";
+        }
+        else if (s is IDaycareRandomState<ulong> u64)
+        {
+            TB_RNGSeed.Visible = true;
+            TB_RNGSeed.MaxLength = 16;
+            TB_RNGSeed.Text = $"{u64.Seed:X16}";
+        }
+        else if (s is IDaycareRandomState<UInt128> u128)
+        {
+            TB_RNGSeed.Visible = true;
+            TB_RNGSeed.MaxLength = 32;
+            TB_RNGSeed.Text = $"{u128.Seed:X32}";
+        }
+        else
+        {
+            L_DaycareSeed.Visible = TB_RNGSeed.Visible = false;
+            return;
+        }
+
+        L_DaycareSeed.Visible = TB_RNGSeed.Visible = true;
     }
 
     private PictureBox UpdateSlot(int relIndex)
@@ -454,9 +520,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         // Write final value back to the save
         if (tb == TB_RNGSeed)
         {
-            var value = filterText.PadLeft(SAV.DaycareSeedSize, '0');
-            SAV.SetDaycareRNGSeed(SAV.DaycareIndex, value);
-            SAV.State.Edited = true;
+            if (GetCurrentDaycare() is { } s)
+                SetDaycareSeed(s, filterText);
         }
         else if (tb == TB_GameSync && SAV is IGameSync sync)
         {
@@ -475,14 +540,42 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         }
     }
 
+    private void SetDaycareSeed(IDaycareStorage daycare, string filterText)
+    {
+        if (daycare is IDaycareRandomState<ushort> u16)
+        {
+            if (ushort.TryParse(filterText, System.Globalization.NumberStyles.HexNumber, null, out var v16))
+                u16.Seed = v16;
+        }
+        else if (daycare is IDaycareRandomState<uint> u32)
+        {
+            if (uint.TryParse(filterText, System.Globalization.NumberStyles.HexNumber, null, out var v32))
+                u32.Seed = v32;
+        }
+        else if (daycare is IDaycareRandomState<ulong> u64)
+        {
+            if (ulong.TryParse(filterText, System.Globalization.NumberStyles.HexNumber, null, out var v64))
+                u64.Seed = v64;
+        }
+        else if (daycare is IDaycareRandomState<UInt128> u128)
+        {
+            if (UInt128.TryParse(filterText, System.Globalization.NumberStyles.HexNumber, null, out var v128))
+                u128.Seed = v128;
+        }
+        SAV.State.Edited = true;
+    }
+
+    private int DaycareIndex;
+
     private void SwitchDaycare(object sender, EventArgs e)
     {
-        if (!SAV.HasTwoDaycares)
+        if (SAV is not IDaycareMulti m)
             return;
-        var current = string.Format(MsgSaveSwitchDaycareCurrent, SAV.DaycareIndex + 1);
+        var current = string.Format(MsgSaveSwitchDaycareCurrent, DaycareIndex + 1);
+        var next = (DaycareIndex + 1) % m.DaycareCount;
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveSwitchDaycareView, current))
             return;
-        SAV.DaycareIndex ^= 1;
+        DaycareIndex = next;
         ResetDaycare();
     }
 
@@ -1067,7 +1160,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
     {
-        if ((!sav.HasDaycare && SL_Extra.SlotCount == 0) || !sav.State.Exportable)
+        if ((GetCurrentDaycare() is null && SL_Extra.SlotCount == 0) || !sav.State.Exportable)
         {
             if (tabBoxMulti.TabPages.Contains(Tab_Other))
                 tabBoxMulti.TabPages.Remove(Tab_Other);
@@ -1098,13 +1191,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             return;
         }
 
-        GB_Daycare.Visible = sav.HasDaycare;
+        DaycareIndex = 0;
+        GB_Daycare.Visible = sav is IDaycareStorage or IDaycareMulti;
         B_ConvertKorean.Visible = sav is SAV4;
         B_OpenPokeblocks.Visible = sav is SAV6AO;
         B_OpenSecretBase.Visible = sav is SAV6AO;
         B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
-        B_OpenBoxLayout.Visible = sav.HasNamableBoxes;
+        B_OpenBoxLayout.Visible = sav is IBoxDetailName;
         B_OpenWondercards.Visible = sav.HasWondercards;
         B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;

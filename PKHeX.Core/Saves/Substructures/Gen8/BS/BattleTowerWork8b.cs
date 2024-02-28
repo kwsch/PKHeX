@@ -23,7 +23,7 @@ public sealed class BattleTowerWork8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<
     // uint day_challeng_cnt;
     // BTLTOWER_CLASSDATA[4] class_data;
     // uint challenge_cnt;
-    public int MasterRankMax { get => ReadInt32LittleEndian(Data[..]); set => WriteInt32LittleEndian(Data[..], value); } // max_master_rank
+    public int MasterRankMax { get => ReadInt32LittleEndian(Data); set => WriteInt32LittleEndian(Data, value); } // max_master_rank
     public int PlayMode      { get => ReadInt32LittleEndian(Data[0x4..]); set => WriteInt32LittleEndian(Data[0x4..], value); }// play_mode
     public int PlayModeOld   { get => ReadInt32LittleEndian(Data[0x8..]); set => WriteInt32LittleEndian(Data[0x8..], value); } // old_playmode
     public uint BP           { get => ReadUInt32LittleEndian(Data[0xC..]); set => WriteUInt32LittleEndian(Data[0xC..], value); } // btl_point

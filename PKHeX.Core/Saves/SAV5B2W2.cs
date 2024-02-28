@@ -39,7 +39,6 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     }
 
     public override bool HasWondercards => true;
-    public override bool HasDaycare => true;
     public override bool HasPokeDex => true;
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
@@ -73,6 +72,4 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
         get => Data.AsSpan(0x23BA4, MaxStringLengthOT * 2);
         set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
     }
-
-    public override string GetDaycareRNGSeed(int loc) => $"{Daycare.GetSeed()!:X16}";
 }

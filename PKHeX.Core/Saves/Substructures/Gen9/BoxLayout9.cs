@@ -15,7 +15,7 @@ public sealed class BoxLayout9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sa
     {
         var span = GetBoxNameSpan(box);
         if (System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(span) == 0)
-            return $"Box {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxName(box);
         return SAV.GetString(span);
     }
 

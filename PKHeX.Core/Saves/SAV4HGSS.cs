@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="SaveFile"/> format for <see cref="GameVersion.HGSS"/>
 /// </summary>
-public sealed class SAV4HGSS : SAV4
+public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
 {
     public SAV4HGSS() : base(GeneralSize, StorageSize)
     {
@@ -105,7 +105,7 @@ public sealed class SAV4HGSS : SAV4
 
     public override int GetBoxOffset(int box) => box * 0x1000;
     private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
-    protected override int GetBoxWallpaperOffset(int box) => BOX_WP + box;
+    private static int GetBoxWallpaperOffset(int box) => BOX_WP + box;
 
     // 8 bytes current box (align 32) & (stored count?)
     public override int CurrentBox
@@ -127,9 +127,9 @@ public sealed class SAV4HGSS : SAV4
     }
 
     private Span<byte> GetBoxNameSpan(int box) => Storage.Slice(GetBoxNameOffset(box), BOX_NAME_LEN);
-    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+    public string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
         var span = GetBoxNameSpan(box);
@@ -145,14 +145,14 @@ public sealed class SAV4HGSS : SAV4
         return value;
     }
 
-    public override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         int offset = GetBoxWallpaperOffset(box);
         int value = Storage[offset];
         return AdjustWallpaper(value, -0x10);
     }
 
-    public override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         value = AdjustWallpaper(value, 0x10);
         Storage[GetBoxWallpaperOffset(box)] = (byte)value;

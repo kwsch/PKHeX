@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x2C0</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
+public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw), IDaycareStorage, IDaycareEggState, IDaycareRandomState<ulong>
 {
     // BLOCK STRUCTURE
     // PB8[2] Parents;
@@ -20,14 +20,25 @@ public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(
     private const int SlotCount = 2;
     private const int ExtraDataOffset = PokeCrypto.SIZE_8PARTY * SlotCount;
 
-    public bool GetDaycareSlotOccupied(int slot) => GetSlot(slot).Species != 0;
+    public int DaycareSlotCount => 2;
+
+    public bool IsDaycareOccupied(int slot) => GetSlot(slot).Species != 0;
+
+    public void SetDaycareOccupied(int slot, bool occupied)
+    {
+        if (occupied)
+            return;
+        GetDaycareSlot(slot).Span.Clear();
+    }
 
     public static int GetParentSlotOffset(int slot)
     {
         if ((uint)slot >= SlotCount)
             throw new ArgumentOutOfRangeException(nameof(slot));
-        return (slot * PokeCrypto.SIZE_8PARTY);
+        return slot * PokeCrypto.SIZE_8PARTY;
     }
+
+    public Memory<byte> GetDaycareSlot(int index) => Raw.Slice(GetParentSlotOffset(index), PokeCrypto.SIZE_8PARTY);
 
     public PB8 GetSlot(int slot)
     {
@@ -44,7 +55,7 @@ public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(
         set => WriteUInt32LittleEndian(ExtraData, value ? 1u : 0u);
     }
 
-    public ulong DaycareSeed
+    public ulong Seed
     {
         get => ReadUInt64LittleEndian(ExtraData[4..]);
         set => WriteUInt64LittleEndian(ExtraData[4..], value);

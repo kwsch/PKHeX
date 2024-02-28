@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
 /// </summary>
-public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>
+public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<ulong>
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
@@ -88,7 +88,6 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
 
     public override bool HasPokeDex => true;
-    public override bool HasDaycare => true;
 
     private void Initialize()
     {
@@ -268,11 +267,10 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout8b.GetBoxWallpaperOffset(box);
-    public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-    public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = (byte)value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
@@ -350,16 +348,13 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
 
     #region Daycare
-    public override int DaycareSeedSize => 16; // 8byte
-    public override int GetDaycareSlotOffset(int loc, int slot) => Daycare8b.GetParentSlotOffset(slot);
-    public override uint? GetDaycareEXP(int loc, int slot) => 0;
-    public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetDaycareSlotOccupied(slot);
-    public override bool? IsDaycareHasEgg(int loc) => Daycare.IsEggAvailable;
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
-    public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.IsEggAvailable = hasEgg;
-    public override string GetDaycareRNGSeed(int loc) => $"{Daycare.DaycareSeed:X16}";
-    public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = Util.GetHexValue64(seed);
+    public int DaycareSlotCount => Daycare.DaycareSlotCount;
+    public bool IsDaycareOccupied(int slot) => Daycare.IsDaycareOccupied(slot);
+    public bool IsEggAvailable { get => Daycare.IsEggAvailable; set => Daycare.IsEggAvailable = value; }
+    public void SetDaycareOccupied(int slot, bool occupied) { }
+    public Memory<byte> GetDaycareSlot(int index) => Daycare.GetDaycareSlot(index);
+    ulong IDaycareRandomState<ulong>.Seed { get => Daycare.Seed; set => Daycare.Seed = value; }
+    public void SetDaycareRNGSeed(string seed) => Daycare.Seed = Util.GetHexValue64(seed);
     #endregion
 
     public int EventWorkCount => FlagWork8b.COUNT_WORK;

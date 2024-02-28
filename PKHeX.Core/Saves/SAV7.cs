@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlag37
+public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<UInt128>
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -156,11 +156,10 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout7.GetBoxWallpaperOffset(box);
-    public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-    public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
     public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
@@ -237,14 +236,23 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         return AllBlocks[08].Offset + (PokeCrypto.SIZE_6PARTY * slot); // 0x104*slot
     }
 
-    public override int DaycareSeedSize => Daycare7.DaycareSeedSize; // 128 bits
-    public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetDaycareSlotOffset(slot);
-    public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetIsOccupied(slot);
-    public override string GetDaycareRNGSeed(int loc) => Daycare.RNGSeed;
-    public override bool? IsDaycareHasEgg(int loc) => Daycare.HasEgg;
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
-    public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.RNGSeed = seed;
-    public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.HasEgg = hasEgg;
+    // Daycare - delegate from block
+    public int DaycareSlotCount => Daycare.DaycareSlotCount;
+    public Memory<byte> GetDaycareSlot(int index) => Daycare.GetDaycareSlot(index);
+    public bool IsDaycareOccupied(int index) => Daycare.IsDaycareOccupied(index);
+    public void SetDaycareOccupied(int index, bool occupied) => Daycare.SetDaycareOccupied(index, occupied);
+
+    public bool IsEggAvailable
+    {
+        get => Daycare.IsEggAvailable;
+        set => Daycare.IsEggAvailable = value;
+    }
+
+    UInt128 IDaycareRandomState<UInt128>.Seed
+    {
+        get => Daycare.Seed;
+        set => Daycare.Seed = value;
+    }
 
     protected override bool[] MysteryGiftReceivedFlags { get => MysteryGift.MysteryGiftReceivedFlags; set => MysteryGift.MysteryGiftReceivedFlags = value; }
     protected override DataMysteryGift[] MysteryGiftCards { get => MysteryGift.MysteryGiftCards; set => MysteryGift.MysteryGiftCards = value; }

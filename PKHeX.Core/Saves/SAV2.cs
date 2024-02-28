@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 2 <see cref="SaveFile"/> object.
 /// </summary>
-public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>
+public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>, IBoxDetailName, IDaycareStorage, IDaycareEggState
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => ".sav";
@@ -134,11 +134,9 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             daycare1.Write().CopyTo(Data, GetPartyOffset(7 + (0 * 2)));
             daycare2.Write().CopyTo(Data, GetPartyOffset(7 + (1 * 2)));
             daycare3.Write().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
-            DaycareOffset = Offsets.Daycare;
         }
     }
 
-    private int DaycareOffset = -1;
     public override bool HasPokeDex => true;
 
     private int EventFlag => Offsets.EventFlag;
@@ -288,7 +286,6 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
     public override bool HasParty => true;
-    public override bool HasNamableBoxes => true;
     private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
 
     // Checksums
@@ -579,12 +576,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return offset;
     }
 
-    public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + (slot * 2));
-    public override uint? GetDaycareEXP(int loc, int slot) => null;
-    public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlagByte(slot) & 1) != 0;
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
+    public int DaycareSlotCount => 2;
+    private int GetDaycareSlotOffset(int slot) => GetPartyOffset(7 + (slot * 2));
+    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(GetDaycareSlotOffset(slot), SIZE_STORED);
+    public Memory<byte> GetDaycareEgg() => Data.AsMemory(GetDaycareSlotOffset(2), SIZE_STORED);
+    public bool IsDaycareOccupied(int slot) => (DaycareFlagByte(slot) & 1) != 0;
 
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+    public void SetDaycareOccupied(int slot, bool occupied)
     {
         if (occupied)
             DaycareFlagByte(slot) |= 1;
@@ -623,7 +621,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
     }
 
-    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+    public string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
     private Span<byte> GetBoxNameSpan(int box)
     {
@@ -631,7 +629,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return Data.AsSpan(Offsets.BoxNames + (box * len), len);
     }
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = GetBoxNameSpan(box);
         SetString(span, value, 8, StringConverterOption.Clear50);

@@ -7,8 +7,8 @@ public sealed class PokeFinder7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sa
 {
     public ushort CameraVersion
     {
-        get => ReadUInt16LittleEndian(Data[..]);
-        set => WriteUInt16LittleEndian(Data[..], value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     public bool GyroFlag

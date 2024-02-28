@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 5 <see cref="SaveFile"/> object for <see cref="GameVersion.FRLG"/>.
 /// </summary>
 /// <inheritdoc cref="SAV3" />
-public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
+public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomState<ushort>
 {
     // Configuration
     protected override SAV3FRLG CloneInternal() => new(Write());
@@ -18,7 +18,6 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     public override int EventFlagCount => 8 * 288;
     public override int EventWorkCount => 0x100;
     protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
-    public override int DaycareSeedSize => 4; // 16bit
     protected override int EggEventFlag => 0x266;
     protected override int BadgeFlagStart => 0x820;
 
@@ -128,9 +127,12 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     protected override int SeenOffset2 => 0x5F8;
     protected override int MailOffset => 0x2CD0;
 
-    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pk slot
-    public override string GetDaycareRNGSeed(int loc) => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2))).ToString("X4"); // after the 2nd slot EXP, before the step counter
-    public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), (ushort)Util.GetHexValue(seed));
+    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
+    ushort IDaycareRandomState<ushort>.Seed
+    {
+        get => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)));
+        set => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), value);
+    }
 
     protected override int ExternalEventData => 0x30A7;
 

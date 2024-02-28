@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Storage data is stored in one contiguous block, and the remaining data is stored in another block.
 /// </remarks>
-public abstract class SAV4 : SaveFile, IEventFlag37
+public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRandomState<uint>, IDaycareExperience, IDaycareEggState
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public sealed override string Extension => ".sav";
@@ -352,27 +352,53 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     }
 
     // Daycare
-    public sealed override bool HasDaycare => true;
+    public int DaycareSlotCount => 2;
+    private const int DaycareSlotSize = PokeCrypto.SIZE_4PARTY;
     protected abstract int DaycareOffset { get; }
-    public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * SIZE_PARTY);
+    public Memory<byte> GetDaycareSlot(int slot) => GeneralBuffer.Slice(DaycareOffset + (slot * DaycareSlotSize), DaycareSlotSize);
 
-    public override uint? GetDaycareEXP(int loc, int slot)
+    // EXP: Last 4 bytes of each slot
+    public uint GetDaycareEXP(int index)
     {
-        int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, 2u);
+        int ofs = DaycareOffset + DaycareSlotSize - 4;
         return ReadUInt32LittleEndian(General[ofs..]);
     }
 
-    public override bool? IsDaycareOccupied(int loc, int slot) => null; // todo
-
-    public override void SetDaycareEXP(int loc, int slot, uint EXP)
+    public void SetDaycareEXP(int index, uint value)
     {
-        int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
-        WriteUInt32LittleEndian(General[ofs..], EXP);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, 2u);
+        int ofs = DaycareOffset + DaycareSlotSize - 4;
+        WriteUInt32LittleEndian(General[ofs..], value);
     }
 
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+    public bool IsDaycareOccupied(int index) => GetStoredSlot(GetDaycareSlot(index).Span).Species != 0;
+
+    public void SetDaycareOccupied(int index, bool occupied)
     {
-        // todo
+        if (occupied)
+            return; // how would we even set this? just ignore and assume they'll set the slot data via other means.
+        GetDaycareSlot(index).Span.Clear();
+    }
+
+    uint IDaycareRandomState<uint>.Seed
+    {
+        get => ReadUInt32LittleEndian(General[(DaycareOffset + (2 * DaycareSlotSize))..]);
+        set => WriteUInt32LittleEndian(General[DaycareOffset..], value);
+    }
+
+    public byte DaycareStepCounter { get => General[DaycareOffset + (2 * DaycareSlotSize) + 4]; set => General[DaycareOffset + (2 * DaycareSlotSize) + 4] = value; }
+
+    public bool IsEggAvailable
+    {
+        get => ((IDaycareRandomState<uint>)this).Seed != 0;
+        set
+        {
+            if (!value)
+                ((IDaycareRandomState<uint>)this).Seed = 0;
+            else if (((IDaycareRandomState<uint>)this).Seed == 0)
+                ((IDaycareRandomState<uint>)this).Seed = (uint)Util.Rand.Next(1, int.MaxValue);
+        }
     }
 
     // Mystery Gift

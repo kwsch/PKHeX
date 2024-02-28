@@ -115,7 +115,8 @@ public static class BoxExport
 
     private static string GetFolderName(SaveFile sav, int box, BoxExportFolderNaming mode)
     {
-        var boxName = Util.CleanFileName(sav.GetBoxName(box));
+        var boxName = sav is IBoxDetailNameRead r ? r.GetBoxName(box) : BoxDetailNameExtensions.GetDefaultBoxName(box);
+        boxName = Util.CleanFileName(boxName);
         return mode switch
         {
             BoxExportFolderNaming.BoxName => boxName,

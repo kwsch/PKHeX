@@ -11,14 +11,14 @@ public sealed class MyStatus7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
 
     public uint ID32
     {
-        get => ReadUInt32LittleEndian(Data[..]);
-        set => WriteUInt32LittleEndian(Data[..], value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data[..]);
-        set => WriteUInt16LittleEndian(Data[..], value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     public ushort SID16

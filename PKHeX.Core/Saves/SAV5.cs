@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
+public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareRandomState<ulong>, IDaycareStorage, IDaycareExperience, IDaycareEggState
 {
     protected override PK5 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -71,13 +71,14 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public int PGL => AllBlocks[35].Offset + 8; // Dream World Upload
 
     // Daycare
-    public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
-    public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.IsOccupied(slot);
-    public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetPKMOffset(slot);
-    public override uint? GetDaycareEXP(int loc, int slot) => Daycare.GetEXP(slot);
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) => Daycare.SetEXP(slot, EXP);
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
-    public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.SetSeed(seed);
+    public int DaycareSlotCount => 2;
+    public Memory<byte> GetDaycareSlot(int slot) => Daycare.GetDaycareSlot(slot);
+    public bool IsDaycareOccupied(int slot) => Daycare.IsDaycareOccupied(slot);
+    public uint GetDaycareEXP(int slot) => Daycare.GetDaycareEXP(slot);
+    public void SetDaycareEXP(int slot, uint value) => Daycare.SetDaycareEXP(slot, value);
+    public void SetDaycareOccupied(int slot, bool occupied) => Daycare.SetDaycareOccupied(slot, occupied);
+    public bool IsEggAvailable { get => Daycare.IsEggAvailable; set => Daycare.IsEggAvailable = value; }
+    ulong IDaycareRandomState<ulong>.Seed { get => Daycare.Seed; set => Daycare.Seed = value; }
 
     // Storage
     public override int PartyCount
@@ -89,12 +90,11 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30) + (box * 0x10);
     public override int GetPartyOffset(int slot) => Party + 8 + (SIZE_PARTY * slot);
 
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
-    public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-    public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
     protected int BattleBoxOffset;
@@ -166,7 +166,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     private bool CGearSkinPresent
     {
         get => Data[CGearSkinInfoOffset + 2] == 1;
-        set => Data[CGearSkinInfoOffset + 2] = PlayerData.Data[(this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
+        set => Data[CGearSkinInfoOffset + 2] = PlayerData.Data[this is SAV5B2W2 ? 0x6C : 0x54] = value ? (byte)1 : (byte)0;
     }
 
     private static ReadOnlySpan<byte> DLCFooter => [ 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 ];
