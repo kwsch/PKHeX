@@ -628,6 +628,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             SAV7b s => new SAV_EventWork(s),
             SAV8BS s => new SAV_FlagWork8b(s),
             IEventFlag37 g37 => new SAV_EventFlags(g37),
+            IEventFlagProvider37 p => new SAV_EventFlags(p.EventWork),
             SAV2 s => new SAV_EventFlags2(s),
             _ => throw new Exception(),
         };
@@ -806,7 +807,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, result));
     }
 
-    private void B_OUTHallofFame_Click(object sender, EventArgs e)
+    private void B_HallofFame_Click(object sender, EventArgs e)
     {
         using var form = SAV switch
         {
@@ -1199,13 +1200,13 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
         B_OpenBoxLayout.Visible = sav is IBoxDetailName;
-        B_OpenWondercards.Visible = sav.HasWondercards;
+        B_OpenWondercards.Visible = sav is IMysteryGiftStorageProvider;
         B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;
         B_OpenPokedex.Visible = sav.HasPokeDex;
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
         B_OpenFriendSafari.Visible = sav is SAV6XY;
-        B_OpenEventFlags.Visible = sav is IEventFlag37 or SAV1 or SAV2 or SAV8BS or SAV7b;
+        B_OpenEventFlags.Visible = sav is IEventFlag37 or IEventFlagProvider37 or SAV1 or SAV2 or SAV8BS or SAV7b;
         B_CGearSkin.Visible = sav.Generation == 5;
         B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 

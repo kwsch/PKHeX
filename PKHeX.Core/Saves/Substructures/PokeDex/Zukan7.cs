@@ -327,6 +327,6 @@ public class Zukan7 : Zukan<SaveFile>
             return species - 1;
 
         // bit index valid
-        return (SAV.MaxSpeciesID + previous + (form - 1));
+        return SAV.MaxSpeciesID + previous + (form - 1);
     }
 }

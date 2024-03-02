@@ -72,7 +72,7 @@ public sealed class SaveBlockAccessor6XY(SAV6XY sav) : ISaveBlockAccessor<BlockI
 
     public IReadOnlyList<BlockInfo6> BlockInfo => BlocksXY;
     public Puff6 Puff { get; } = new(sav, Block(sav, 0));
-    public MyItem Items { get; } = new MyItem6XY(sav, Block(sav, 1));
+    public MyItem6XY Items { get; } = new(sav, Block(sav, 1));
     public ItemInfo6 ItemInfo { get; } = new(sav, Block(sav, 2));
     public GameTime6 GameTime { get; } = new(sav, Block(sav, 3));
     public Situation6 Situation { get; } = new(sav, Block(sav, 4));
@@ -81,18 +81,26 @@ public sealed class SaveBlockAccessor6XY(SAV6XY sav) : ISaveBlockAccessor<BlockI
     public Misc6XY Misc { get; } = new(sav, Block(sav, 11));
     public BoxLayout6 BoxLayout { get; } = new(sav, Block(sav, 12));
     public BattleBox6 BattleBox { get; } = new(sav, Block(sav, 13));
-    public MyStatus6 Status { get; } = new MyStatus6XY(sav, Block(sav, 17));
+    public MyStatus6XY Status { get; } = new(sav, Block(sav, 17));
+    public EventWork6 EventWork { get; } = new(sav, Block(sav, 19));
     public Zukan6XY Zukan { get; } = new(sav, Block(sav, 20), 0x3C8);
+    public UnionPokemon6 Fused { get; } = new(sav, Block(sav, 22));
     public ConfigSave6 Config { get; } = new(sav, Block(sav, 23));
     public OPower6 OPower { get; } = new(sav, Block(sav, 25));
+    public GTS6 GTS { get; } = new(sav, Block(sav, 28));
     public Encount6 Encount { get; } = new(sav, Block(sav, 31));
     public MaisonBlock Maison { get; } = new(sav, Block(sav, 37));
     public Daycare6XY Daycare { get; } = new(sav, Block(sav, 38));
     public MysteryBlock6 MysteryGift { get; } = new(sav, Block(sav, 41));
-    public SubEventLog6 SUBE { get; } = new SubEventLog6XY(sav, Block(sav, 42));
-    public RecordBlock6 Records { get; } = new RecordBlock6XY(sav, Block(sav, 44));
+    public SubEventLog6XY SUBE { get; } = new(sav, Block(sav, 42));
+    public RecordBlock6XY Records { get; } = new(sav, Block(sav, 44));
     public SuperTrainBlock SuperTrain { get; } = new(sav, Block(sav, 46));
     public LinkBlock6 Link { get; } = new(sav, Block(sav, 48));
+
+    MyItem ISaveBlock6Core.Items => Items;
+    SubEventLog6 ISaveBlock6Main.SUBE => SUBE;
+    RecordBlock6 ISaveBlock6Core.Records => Records;
+    MyStatus6 ISaveBlock6Core.Status => Status;
 
     private static Memory<byte> Block(SAV6XY sav, int i)
     {

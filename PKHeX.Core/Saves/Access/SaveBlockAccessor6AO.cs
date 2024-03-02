@@ -75,7 +75,7 @@ public sealed class SaveBlockAccessor6AO(SAV6AO sav) : ISaveBlockAccessor<BlockI
 
     public IReadOnlyList<BlockInfo6> BlockInfo => BlocksAO;
     public Puff6 Puff { get; } = new(sav, Block(sav, 0));
-    public MyItem Items { get; } = new MyItem6AO(sav, Block(sav, 1));
+    public MyItem6AO Items { get; } = new(sav, Block(sav, 1));
     public ItemInfo6 ItemInfo { get; } = new(sav, Block(sav, 2));
     public GameTime6 GameTime { get; } = new(sav, Block(sav, 3));
     public Situation6 Situation { get; } = new(sav, Block(sav, 4));
@@ -84,19 +84,27 @@ public sealed class SaveBlockAccessor6AO(SAV6AO sav) : ISaveBlockAccessor<BlockI
     public BoxLayout6 BoxLayout { get; } = new(sav, Block(sav, 12));
     public BattleBox6 BattleBox { get; } = new(sav, Block(sav, 13));
     public MyStatus6 Status { get; } = new(sav, Block(sav, 17));
+    public EventWork6 EventWork { get; } = new(sav, Block(sav, 19));
     public Zukan6AO Zukan { get; } = new(sav, Block(sav, 20), 0x400);
+    public UnionPokemon6 Fused { get; } = new(sav, Block(sav, 22));
     public ConfigSave6 Config { get; } = new(sav, Block(sav, 23));
     public OPower6 OPower { get; } = new(sav, Block(sav, 25));
+    public GTS6 GTS { get; } = new(sav, Block(sav, 28));
     public Encount6 Encount { get; } = new(sav, Block(sav, 31));
     public MaisonBlock Maison { get; } = new(sav, Block(sav, 37));
     public Daycare6AO Daycare { get; } = new(sav, Block(sav, 38));
+    public BerryField6AO BerryField { get; } = new(sav, Block(sav, 40));
     public MysteryBlock6 MysteryGift { get; } = new(sav, Block(sav, 41));
-    public SubEventLog6 SUBE { get; } = new SubEventLog6AO(sav, Block(sav, 42));
-    public RecordBlock6 Records { get; } = new RecordBlock6AO(sav, Block(sav, 44));
+    public SubEventLog6AO SUBE { get; } = new(sav, Block(sav, 42));
+    public RecordBlock6AO Records { get; } = new(sav, Block(sav, 44));
     public SuperTrainBlock SuperTrain { get; } = new(sav, Block(sav, 46));
     public LinkBlock6 Link { get; } = new(sav, Block(sav, 48));
     public SecretBase6Block SecretBase { get; } = new(sav, Block(sav, 54));
     public SangoInfoBlock Sango { get; } = new(sav, Block(sav, 55));
+
+    MyItem ISaveBlock6Core.Items => Items;
+    SubEventLog6 ISaveBlock6Main.SUBE => SUBE;
+    RecordBlock6 ISaveBlock6Core.Records=> Records;
 
     private static Memory<byte> Block(SAV6AO sav, int index)
     {

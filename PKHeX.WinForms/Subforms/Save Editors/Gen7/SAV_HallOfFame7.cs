@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -20,7 +20,7 @@ public partial class SAV_HallOfFame7 : Form
             CB_C1, CB_C2, CB_C3, CB_C4, CB_C5, CB_C6,
         ];
 
-        var block = SAV.Fame;
+        var block = SAV.EventWork.Fame;
         var specList = GameInfo.FilteredSources.Species;
         for (int i = 0; i < entries.Length; i++)
         {
@@ -28,7 +28,7 @@ public partial class SAV_HallOfFame7 : Form
             cb.Items.Clear();
             cb.InitializeBinding();
             cb.DataSource = new BindingSource(specList, null);
-            cb.SelectedValue = block.GetEntry(i);
+            cb.SelectedValue = (int)block.GetEntry(i);
         }
 
         if (SAV is SAV7USUM uu)
@@ -41,7 +41,7 @@ public partial class SAV_HallOfFame7 : Form
 
     private void B_Close_Click(object sender, EventArgs e)
     {
-        var block = SAV.Fame;
+        var block = SAV.EventWork.Fame;
         for (int i = 0; i < entries.Length; i++)
             block.SetEntry(i, (ushort)WinFormsUtil.GetIndex(entries[i]));
 

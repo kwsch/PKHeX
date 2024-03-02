@@ -115,32 +115,14 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     /// <remarks>Flag is Set (true) or not Set (false)</remarks>
     public virtual void SetFlag(int offset, int bitIndex, bool value) => SetFlag(Data, offset, bitIndex, value);
 
-    public virtual bool GetFlag(Span<byte> data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset, bitIndex);
-    public virtual void SetFlag(Span<byte> data, int offset, int bitIndex, bool value)
+    public bool GetFlag(Span<byte> data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset, bitIndex);
+    public void SetFlag(Span<byte> data, int offset, int bitIndex, bool value)
     {
         FlagUtil.SetFlag(data, offset, bitIndex, value);
         State.Edited = true;
     }
 
     public virtual IReadOnlyList<InventoryPouch> Inventory { get => []; set { } }
-
-    #region Mystery Gift
-    protected virtual int GiftCountMax => int.MinValue;
-    protected virtual int GiftFlagMax => 0x800;
-    public virtual bool HasWondercards => false;
-    protected virtual bool[] MysteryGiftReceivedFlags { get => []; set { } }
-    protected virtual DataMysteryGift[] MysteryGiftCards { get => []; set { } }
-
-    public virtual MysteryGiftAlbum GiftAlbum
-    {
-        get => new(MysteryGiftCards, MysteryGiftReceivedFlags);
-        set
-        {
-            MysteryGiftReceivedFlags = value.Flags;
-            MysteryGiftCards = value.Gifts;
-        }
-    }
-    #endregion
 
     #region Player Info
     public virtual byte Gender { get; set; }

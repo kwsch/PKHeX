@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<UInt128>
+public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlagProvider37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<UInt128>, IMysteryGiftStorageProvider
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -61,7 +60,9 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public abstract ResortSave7 ResortSave { get; }
     public abstract FieldMenu7 FieldMenu { get; }
     public abstract FashionBlock7 Fashion { get; }
-    public abstract HallOfFame7 Fame { get; }
+    public abstract EventWork7 EventWork { get; }
+    public abstract UnionPokemon7 Fused { get; }
+    public abstract GTS7 GTS { get; }
     #endregion
 
     // Configuration
@@ -74,12 +75,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override int MaxEV => EffortValues.Max252;
     public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
-    protected override int GiftCountMax => 48;
-    protected override int GiftFlagMax => 0x100 * 8;
-    public abstract int EventFlagCount { get; }
-    public int EventWorkCount => 1000;
-    private int EventWork => AllBlocks[05].Offset;
-    private int EventFlag => EventWork + (EventWorkCount * 2); // After Event Const (u16)*n
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
 
@@ -254,22 +249,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         set => Daycare.Seed = value;
     }
 
-    protected override bool[] MysteryGiftReceivedFlags { get => MysteryGift.MysteryGiftReceivedFlags; set => MysteryGift.MysteryGiftReceivedFlags = value; }
-    protected override DataMysteryGift[] MysteryGiftCards { get => MysteryGift.MysteryGiftCards; set => MysteryGift.MysteryGiftCards = value; }
-    public bool GetEventFlag(int flagNumber)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
-        return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
-    }
-
-    public void SetEventFlag(int flagNumber, bool value)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
-        SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
-    }
-
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWork + (index * 2)));
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWork)[(index * 2)..], value);
+    IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
 }

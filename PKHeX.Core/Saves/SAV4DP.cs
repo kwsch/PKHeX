@@ -12,17 +12,21 @@ public sealed class SAV4DP : SAV4Sinnoh
     public SAV4DP() : base(GeneralSize, StorageSize)
     {
         Initialize();
+        Mystery = new MysteryBlock4DP(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4DP.Size));
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public SAV4DP(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize)
     {
         Initialize();
+        Mystery = new MysteryBlock4DP(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4DP.Size));
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
+    private const int OffsetMystery = 0xA7FC;
     private const int PokeDex = 0x12DC;
     public override Zukan4 Dex { get; }
+    public override MysteryBlock4DP Mystery { get; }
 
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP((byte[])Data.Clone()) : new SAV4DP();
     public override GameVersion Version { get => GameVersion.DP; set { } }
@@ -47,7 +51,6 @@ public sealed class SAV4DP : SAV4Sinnoh
     protected override int EventWork => 0xD9C;
     protected override int EventFlag => 0xFDC;
     protected override int DaycareOffset => 0x141C;
-    protected override int WondercardData => 0xA7FC;
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Tower;
 
     private void GetSAVOffsets()
@@ -105,47 +108,6 @@ public sealed class SAV4DP : SAV4Sinnoh
             return pouch.LoadAll(General);
         }
         set => value.SaveAll(General);
-    }
-
-    // reverse crc32 polynomial, nice!
-    private const uint MysteryGiftDPSlotActive = 0xEDB88320;
-
-    public bool[] GetMysteryGiftDPSlotActiveFlags()
-    {
-        var span = General[(WondercardFlags + 0x100)..]; // skip over flags
-        bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
-        for (int i = 0; i < active.Length; i++)
-            active[i] = ReadUInt32LittleEndian(span[(4*i)..]) == MysteryGiftDPSlotActive;
-
-        return active;
-    }
-
-    public void SetMysteryGiftDPSlotActiveFlags(ReadOnlySpan<bool> value)
-    {
-        if (value.Length != GiftCountMax)
-            return;
-
-        var span = General[(WondercardFlags + 0x100)..]; // skip over flags
-        for (int i = 0; i < value.Length; i++)
-            WriteUInt32LittleEndian(span[(4 * i)..], value[i] ? MysteryGiftDPSlotActive : 0);
-    }
-
-    public override MysteryGiftAlbum GiftAlbum
-    {
-        get => base.GiftAlbum;
-        set
-        {
-            base.GiftAlbum = value;
-            SetActiveGiftFlags(value.Gifts);
-        }
-    }
-
-    private void SetActiveGiftFlags(IReadOnlyList<MysteryGift> gifts)
-    {
-        var arr = new bool[gifts.Count];
-        for (int i = 0; i < arr.Length; i++)
-            arr[i] = !gifts[i].Empty;
-        SetMysteryGiftDPSlotActiveFlags(arr);
     }
 
     public override int M { get => ReadUInt16LittleEndian(General[0x1238..]); set => WriteUInt16LittleEndian(General[0x1238..], (ushort)value); }

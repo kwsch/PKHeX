@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 6 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IRegionOrigin, IGameSync, IEventFlag37
+public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IRegionOrigin, IGameSync, IEventFlagProvider37
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -18,21 +17,15 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     protected SAV6([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size, biOffset) { }
 
     // Configuration
-    protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
-    public override PK6 BlankPKM => new();
-    public override Type PKMType => typeof(PK6);
+    protected sealed override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+    protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+    public sealed override PK6 BlankPKM => new();
+    public sealed override Type PKMType => typeof(PK6);
 
-    public override int BoxCount => 31;
-    public override int MaxEV => EffortValues.Max252;
-    public override byte Generation => 6;
-    public override EntityContext Context => EntityContext.Gen6;
-    protected override int GiftCountMax => 24;
-    protected override int GiftFlagMax => 0x100 * 8;
-    public int EventFlagCount => 8 * 0x1A0;
-    public int EventWorkCount => (EventFlag - EventWork) / sizeof(ushort);
-    protected abstract int EventFlag { get; }
-    protected abstract int EventWork { get; }
+    public sealed override int BoxCount => 31;
+    public sealed override int MaxEV => EffortValues.Max252;
+    public sealed override byte Generation => 6;
+    public sealed override EntityContext Context => EntityContext.Gen6;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
 
@@ -43,13 +36,9 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     protected override PK6 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
-    protected int WondercardFlags { get; set; } = int.MinValue;
     protected int JPEG { get; set; } = int.MinValue;
     public int PSS { get; protected set; } = int.MinValue;
-    public int BerryField { get; protected set; } = int.MinValue;
     public int HoF { get; protected set; } = int.MinValue;
-    protected int BattleBoxOffset { get; set; } = int.MinValue;
-    public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
     public virtual string JPEGTitle => string.Empty;
     public virtual byte[] GetJPEGData() => [];
@@ -168,21 +157,6 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public abstract PlayTime6 Played { get; }
     public abstract MyStatus6 Status { get; }
     public abstract RecordBlock6 Records { get; }
-
-    public bool GetEventFlag(int flagNumber)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
-        return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
-    }
-
-    public void SetEventFlag(int flagNumber, bool value)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
-        SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
-    }
-
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWork + (index * 2)));
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWork)[(index * 2)..], value);
+    public abstract EventWork6 EventWork { get; }
+    IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
 }

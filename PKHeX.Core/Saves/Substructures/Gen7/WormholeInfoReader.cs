@@ -24,7 +24,7 @@ public sealed class WormholeInfoReader(SAV7 SAV)
         {
             for (int i = 1; i <= WormholeSlotMax; i++)
             {
-                if (!SAV.GetEventFlag(i))
+                if (!SAV.EventWork.GetEventFlag(i))
                     return i;
             }
             return -1;
@@ -34,7 +34,7 @@ public sealed class WormholeInfoReader(SAV7 SAV)
             if (value is < 1 or > WormholeSlotMax)
                 return;
             for (int i = 1; i <= WormholeSlotMax; i++)
-                SAV.SetEventFlag(i, value != i);
+                SAV.EventWork.SetEventFlag(i, value != i);
         }
     }
 

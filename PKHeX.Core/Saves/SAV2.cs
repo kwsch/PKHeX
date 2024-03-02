@@ -280,7 +280,6 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxIV => 15;
     public override byte Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;
-    protected override int GiftCountMax => 0;
     public override int MaxStringLengthOT => Japanese || Korean ? 5 : 7;
     public override int MaxStringLengthNickname => Japanese || Korean ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;

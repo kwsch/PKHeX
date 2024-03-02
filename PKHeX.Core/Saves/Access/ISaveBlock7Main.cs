@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface for Accessing named blocks within a Generation 7 save file.
@@ -25,5 +25,7 @@ public interface ISaveBlock7Main
     ResortSave7 ResortSave { get; }
     FieldMenu7 FieldMenu { get; }
     FashionBlock7 Fashion { get; }
-    HallOfFame7 Fame { get; }
+    EventWork7 EventWork { get; }
+    UnionPokemon7 Fused { get; }
+    GTS7 GTS { get; }
 }

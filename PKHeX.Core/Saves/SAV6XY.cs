@@ -30,33 +30,20 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public override int MaxItemID => Legal.MaxItemID_6_XY;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
 
-    protected override int EventWork => 0x14A00;
-    protected override int EventFlag => EventWork + 0x2F0;
-
     public override bool HasPokeDex => true;
-    public override bool HasWondercards => true;
 
-    private const int DaycareOffset = 0x1B200;
     private void Initialize()
     {
         // Enable Features
         Party = 0x14200;
-        BattleBoxOffset = 0x04A00;
         PSS = 0x05000;
         HoF = 0x19400;
 
-        BerryField = 0x1B800;
-        WondercardFlags = 0x1BC00;
         Box = 0x22600;
         JPEG = 0x57200;
-
-        // Extra Viewable Slots
-        Fused = 0x16000;
-        GTS = 0x17800;
     }
 
-    public int GTS { get; private set; } = int.MinValue;
-    public int Fused { get; private set; } = int.MinValue;
+    public const int BerryField = 0x1B800;
 
     #region Blocks
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
@@ -67,6 +54,9 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public override PlayTime6 Played => Blocks.Played;
     public override MyStatus6 Status => Blocks.Status;
     public override RecordBlock6 Records => Blocks.Records;
+    public override EventWork6 EventWork => Blocks.EventWork;
+    public UnionPokemon6 Fused => Blocks.Fused;
+    public GTS6 GTS => Blocks.GTS;
     public Puff6 Puff => Blocks.Puff;
     public OPower6 OPower => Blocks.OPower;
     public LinkBlock6 Link => Blocks.Link;
@@ -125,10 +115,6 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     }
 
     public override bool IsVersionValid() => Version is GameVersion.X or GameVersion.Y;
-
-    protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
-    protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.GetGifts(); set => Blocks.MysteryGift.SetGifts(value); }
-
     public override bool GetCaught(ushort species) => Blocks.Zukan.GetCaught(species);
     public override bool GetSeen(ushort species) => Blocks.Zukan.GetSeen(species);
     public override void SetSeen(ushort species, bool seen) => Blocks.Zukan.SetSeen(species, seen);

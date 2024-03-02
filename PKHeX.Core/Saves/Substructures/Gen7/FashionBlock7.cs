@@ -31,7 +31,7 @@ public sealed class FashionBlock7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(
     {
         var offsetList = GetDefaultFashionOffsets(SAV);
         foreach (var ofs in offsetList)
-            SAV.Data[ofs] = 3; // owned | new
+            Data[ofs] = 3; // owned | new
     }
 
     private static ReadOnlySpan<ushort> GetDefaultFashionOffsets(SAV7 sav) => sav switch
@@ -48,6 +48,8 @@ public sealed class FashionBlock7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(
     private static ReadOnlySpan<ushort> DefaultFashionOffsetSM_F => [ 0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517 ];
     private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_M => [ 0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584 ];
     private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_F => [ 0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8 ];
+
+    public void ImportPayload(ReadOnlySpan<byte> data) => SAV.SetData(Data[..FashionLength], data);
 }
 
 // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)

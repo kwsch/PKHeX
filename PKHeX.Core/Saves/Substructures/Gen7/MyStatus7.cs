@@ -46,7 +46,7 @@ public sealed class MyStatus7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav,
             ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, GameSyncIDSize);
 
             var data = Util.GetBytesFromHexString(value);
-            SAV.SetData(data, 0x10);
+            SAV.SetData(Data[0x10..], data);
         }
     }
 
@@ -58,7 +58,7 @@ public sealed class MyStatus7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav,
             ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, NexUniqueIDSize);
 
             var data = Util.GetBytesFromHexString(value);
-            SAV.SetData(data, 0x18);
+            SAV.SetData(Data[0x18..], data);
         }
     }
 

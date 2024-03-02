@@ -13,12 +13,14 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     public SAV4HGSS() : base(GeneralSize, StorageSize)
     {
         Initialize();
+        Mystery = new MysteryBlock4HGSS(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4HGSS.Size));
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public SAV4HGSS(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
     {
         Initialize();
+        Mystery = new MysteryBlock4HGSS(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4HGSS.Size));
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
@@ -51,10 +53,11 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         GetSAVOffsets();
     }
 
+    private const int OffsetMystery = 0x9E3C;
     protected override int EventWork => 0xDE4;
     protected override int EventFlag => 0x10C4;
     protected override int DaycareOffset => 0x15FC;
-    protected override int WondercardData => 0x9E3C;
+    public override MysteryBlock4HGSS Mystery { get; }
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Arcade;
 
     private void GetSAVOffsets()

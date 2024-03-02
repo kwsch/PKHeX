@@ -192,7 +192,6 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
-    protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 9999999;
@@ -448,11 +447,10 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     public int DaycareSlotCount => 1;
     public bool IsDaycareOccupied(int slot) => Data[DaycareOffset] != 0;
     public void SetDaycareOccupied(int slot, bool occupied) => Data[DaycareOffset] = (byte)(occupied ? 1 : 0);
-    public byte GetDaycareLevel(int slot) => Data[DaycareOffset + 1];
-    public void SetDaycareLevel(int slot, byte level) => Data[DaycareOffset + 1] = level;
+    public byte DaycareDepositLevel { get => Data[DaycareOffset + 1]; set => Data[DaycareOffset + 1] = value; }
     public uint GetDaycareEXP(int index) => ReadUInt32BigEndian(Data.AsSpan(DaycareOffset + 4));
     public void SetDaycareEXP(int index, uint value) => WriteUInt32BigEndian(Data.AsSpan(DaycareOffset + 4), value);
-    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(DaycareOffset + 8);
+    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(DaycareOffset + 8, PokeCrypto.SIZE_3XSTORED);
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
 

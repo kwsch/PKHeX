@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareRandomState<ulong>, IDaycareStorage, IDaycareExperience, IDaycareEggState
+public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBoxDetailName, IBoxDetailWallpaper, IDaycareRandomState<ulong>, IDaycareStorage, IDaycareExperience, IDaycareEggState, IMysteryGiftStorageProvider
 {
     protected override PK5 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -28,11 +28,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
     public override EntityContext Context => EntityContext.Gen5;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
-    protected override int GiftCountMax => 12;
-    public abstract int EventFlagCount { get; }
-    public abstract int EventWorkCount { get; }
-    protected abstract int EventFlagOffset { get; }
-    protected abstract int EventWorkOffset { get; }
 
     public override ushort MaxMoveID => Legal.MaxMoveID_5;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_5;
@@ -65,10 +60,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
 
     protected int CGearInfoOffset;
     protected int CGearDataOffset;
-    protected int EntreeForestOffset;
     private int AdventureInfo;
-    public abstract int GTS { get; }
-    public int PGL => AllBlocks[35].Offset + 8; // Dream World Upload
 
     // Daycare
     public int DaycareSlotCount => 2;
@@ -97,14 +89,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
     public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
-    protected int BattleBoxOffset;
-
-    public bool BattleBoxLocked
-    {
-        get => Data[BattleBoxOffset + 0x358] != 0; // Wi-Fi/Live Tournament Active
-        set => Data[BattleBoxOffset + 0x358] = value ? (byte)1 : (byte)0;
-    }
-
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
         var pk5 = (PK5)pk;
@@ -129,7 +113,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
     public override uint Money { get => Misc.Money; set => Misc.Money = value; }
     public override uint SecondsToStart { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34), value); }
     public override uint SecondsToFame  { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C), value); }
-    public override MysteryGiftAlbum GiftAlbum { get => Mystery.GiftAlbum; set => Mystery.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
@@ -142,23 +125,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
     {
         return StringConverter5.SetString(destBuffer, value, maxLength, option);
     }
-
-    public bool GetEventFlag(int flagNumber)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
-        return GetFlag(EventFlagOffset + (flagNumber >> 3), flagNumber & 7);
-    }
-
-    public void SetEventFlag(int flagNumber, bool value)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
-        SetFlag(EventFlagOffset + (flagNumber >> 3), flagNumber & 7, value);
-    }
-
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWorkOffset + (index * 2)));
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWorkOffset)[(index * 2)..], value);
 
     // DLC
     private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;
@@ -205,12 +171,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
         }
     }
 
-    public EntreeForest EntreeData
-    {
-        get => new(Data.AsSpan(EntreeForestOffset, EntreeForest.SIZE).ToArray());
-        set => SetData(value.Write(), EntreeForestOffset);
-    }
-
     public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
     public abstract MyItem Items { get; }
     public abstract Zukan5 Zukan { get; }
@@ -225,10 +185,23 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
     public abstract Musical5 Musical { get; }
     public abstract Encount5 Encount { get; }
     public abstract UnityTower5 UnityTower { get; }
+    public abstract EventWork5 EventWork { get; }
+    public abstract BattleBox5 BattleBox { get; }
+    public abstract EntreeForest EntreeForest { get; }
+    public abstract GlobalLink5 GlobalLink { get; }
+    public abstract WhiteBlack5 Forest { get; }
+    public abstract GTS5 GTS { get; }
+    IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
+
+    protected override byte[] GetFinalData()
+    {
+        EntreeForest.EndAccess();
+        Mystery.EndAccess();
+        return base.GetFinalData();
+    }
 
     public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
     public byte[] GetMailData(int offset) => Data.AsSpan(offset, Mail5.SIZE).ToArray();
-    public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
     public MailDetail GetMail(int mailIndex)
     {
@@ -236,4 +209,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37, IBoxDetailNa
         var data = GetMailData(ofs);
         return new Mail5(data, ofs);
     }
+
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => Mystery;
 }

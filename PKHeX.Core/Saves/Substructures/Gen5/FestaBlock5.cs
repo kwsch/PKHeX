@@ -73,8 +73,8 @@ public sealed class FestaBlock5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5
 
     public bool IsFunfestMissionsUnlocked
     {
-        get => SAV.GetEventFlag(FunfestFlag);
-        set => SAV.SetEventFlag(FunfestFlag, value);
+        get => SAV.EventWork.GetEventFlag(FunfestFlag);
+        set => SAV.EventWork.SetEventFlag(FunfestFlag, value);
     }
 
     public bool IsFunfestMissionUnlocked(int mission)
@@ -88,7 +88,7 @@ public sealed class FestaBlock5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5
         var req = FunfestMissionUnlockFlagRequired[mission];
         foreach (var f in req)
         {
-            if (!SAV.GetEventFlag(f))
+            if (!SAV.EventWork.GetEventFlag(f))
                 return false;
         }
         return true;
@@ -102,7 +102,7 @@ public sealed class FestaBlock5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5
         IsFunfestMissionsUnlocked = true;
         var req = FunfestMissionUnlockFlagRequired[mission];
         foreach (var f in req)
-            SAV.SetEventFlag(f, true);
+            SAV.EventWork.SetEventFlag(f, true);
     }
 
     public void UnlockAllFunfestMissions()

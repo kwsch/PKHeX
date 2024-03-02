@@ -54,11 +54,13 @@ public sealed class SaveBlockAccessor7SM(SAV7SM sav) : ISaveBlockAccessor<BlockI
 
     public IReadOnlyList<BlockInfo7> BlockInfo => BlockInfoSM;
 
-    public MyItem Items { get; } = new MyItem7SM(sav, Block(sav, 0));
+    public MyItem7SM Items { get; } = new(sav, Block(sav, 0));
     public Situation7 Situation { get; } = new(sav, Block(sav, 1));
     public MyStatus7 MyStatus { get; } = new(sav, Block(sav, 3));
-    public HallOfFame7 Fame { get; } = new(sav, Block(sav, 5)[0x9C4..]);
+    public EventWork7SM EventWork { get; } = new(sav, Block(sav, 5));
     public Zukan7 Zukan { get; } = new(sav, Block(sav, 6), 0x550);
+    public GTS7 GTS { get; } = new(sav, Block(sav, 07));
+    public UnionPokemon7 Fused { get; } = new(sav, Block(sav, 8));
     public Misc7 Misc { get; } = new(sav, Block(sav, 9));
     public FieldMenu7 FieldMenu { get; } = new(sav, Block(sav, 10));
     public ConfigSave7 Config { get; } = new(sav, Block(sav, 11));
@@ -71,9 +73,13 @@ public sealed class SaveBlockAccessor7SM(SAV7SM sav) : ISaveBlockAccessor<BlockI
     public JoinFesta7 Festa { get; } = new(sav, Block(sav, 21));
     public PokeFinder7 PokeFinder { get; } = new(sav, Block(sav, 26));
     public MysteryBlock7 MysteryGift { get; } = new(sav, Block(sav, 27));
-    public RecordBlock6 Records { get; } = new RecordBlock7SM(sav, Block(sav, 28));
+    public RecordBlock7SM Records { get; } = new(sav, Block(sav, 28));
     public BattleTree7 BattleTree { get; } = new(sav, Block(sav, 32));
     public Daycare7 Daycare { get; } = new(sav, Block(sav, 33));
+
+    MyItem ISaveBlock7Main.Items => Items;
+    EventWork7 ISaveBlock7Main.EventWork => EventWork;
+    RecordBlock6 ISaveBlock7Main.Records => Records;
 
     private static Memory<byte> Block(SAV7SM sav, int index)
     {

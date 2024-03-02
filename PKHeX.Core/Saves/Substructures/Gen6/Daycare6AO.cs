@@ -40,7 +40,7 @@ public sealed class Daycare6AO(SAV6AO sav, Memory<byte> raw) : SaveBlock<SAV6AO>
     public IDaycareStorage this[int index] => index == 0 ? Primary : Secondary;
 }
 
-public class Daycare6Couple(Memory<byte> Raw) : IDaycareStorage, IDaycareRandomState<ulong>, IDaycareEggState, IDaycareExperience
+public sealed class Daycare6Couple(Memory<byte> Raw) : IDaycareStorage, IDaycareRandomState<ulong>, IDaycareEggState, IDaycareExperience
 {
     public const int SIZE = 0x1F0;
     private const int SIZE_STORED = PokeCrypto.SIZE_6STORED;

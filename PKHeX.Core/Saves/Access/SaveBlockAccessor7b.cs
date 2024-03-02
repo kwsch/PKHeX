@@ -37,7 +37,7 @@ public sealed class SaveBlockAccessor7b(SAV7b sav) : ISaveBlockAccessor<BlockInf
 
     public IReadOnlyList<BlockInfo7b> BlockInfo => BlockInfoGG;
 
-    public MyItem Items { get; } = new MyItem7b(sav, Block(sav, BelugaBlockIndex.MyItem));
+    public MyItem7b Items { get; } = new(sav, Block(sav, BelugaBlockIndex.MyItem));
     public Coordinates7b Coordinates { get; } = new(sav, Block(sav, BelugaBlockIndex.Coordinates));
     public Misc7b Misc { get; } = new(sav, Block(sav, BelugaBlockIndex.Misc));
     public Zukan7b Zukan { get; } = new(sav, Block(sav, BelugaBlockIndex.Zukan), 0x550);
@@ -48,6 +48,7 @@ public sealed class SaveBlockAccessor7b(SAV7b sav) : ISaveBlockAccessor<BlockInf
     public PokeListHeader Storage { get; } = new(sav, Block(sav, BelugaBlockIndex.PokeListHeader), sav.State.Exportable);
     public WB7Records GiftRecords { get; } = new(sav, Block(sav, BelugaBlockIndex.WB7Record));
     public CaptureRecords Captured { get; } = new(sav, Block(sav, BelugaBlockIndex.CaptureRecord));
+    public Daycare7b Daycare { get; } = new(sav, Block(sav, BelugaBlockIndex.Daycare));
     public Fashion7b FashionPlayer { get; } = new(sav, Block(sav, BelugaBlockIndex.FashionPlayer));
     public Fashion7b FashionStarter { get; } = new(sav, Block(sav, BelugaBlockIndex.FashionStarter));
     public GoParkStorage Park { get; } = new(sav, Block(sav, BelugaBlockIndex.GoParkEntities));

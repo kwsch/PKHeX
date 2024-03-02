@@ -19,7 +19,6 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     }
 
     public override bool HasPokeDex => true;
-    public override bool HasWondercards => true;
 
     private void Initialize()
     {
@@ -33,7 +32,6 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_USUM;
     protected override SAV7USUM CloneInternal() => new((byte[])Data.Clone());
-    public override int EventFlagCount => 4960;
     public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
@@ -44,12 +42,12 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     #region Blocks
     public SaveBlockAccessor7USUM Blocks { get; }
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
-    public override MyItem Items => Blocks.Items;
+    public override MyItem7USUM Items => Blocks.Items;
     public override MysteryBlock7 MysteryGift => Blocks.MysteryGift;
     public override PokeFinder7 PokeFinder => Blocks.PokeFinder;
     public override JoinFesta7 Festa => Blocks.Festa;
     public override Daycare7 Daycare => Blocks.Daycare;
-    public override RecordBlock6 Records => Blocks.Records;
+    public override RecordBlock7USUM Records => Blocks.Records;
     public override PlayTime6 Played => Blocks.Played;
     public override MyStatus7 MyStatus => Blocks.MyStatus;
     public override FieldMoveModelSave7 Overworld => Blocks.Overworld;
@@ -63,7 +61,9 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override ResortSave7 ResortSave => Blocks.ResortSave;
     public override FieldMenu7 FieldMenu => Blocks.FieldMenu;
     public override FashionBlock7 Fashion => Blocks.Fashion;
-    public override HallOfFame7 Fame => Blocks.Fame;
+    public override EventWork7USUM EventWork => Blocks.EventWork;
+    public override UnionPokemon7 Fused => Blocks.Fused;
+    public override GTS7 GTS => Blocks.GTS;
     public BattleAgency7 BattleAgency => Blocks.BattleAgency;
     #endregion
 }

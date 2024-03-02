@@ -115,7 +115,6 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
-    protected override int GiftCountMax => 1;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 999999;

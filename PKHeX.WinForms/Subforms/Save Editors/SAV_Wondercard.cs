@@ -19,13 +19,20 @@ public partial class SAV_Wondercard : Form
     private readonly SaveFile Origin;
     private readonly SaveFile SAV;
     private readonly SummaryPreviewer Summary = new();
+    private readonly IMysteryGiftStorage Cards;
+    private readonly IMysteryGiftFlags? Flags;
+    private readonly DataMysteryGift[] Album;
 
     public SAV_Wondercard(SaveFile sav, DataMysteryGift? g = null)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        Cards = GetMysteryGiftProvider(sav);
         SAV = (Origin = sav).Clone();
-        mga = SAV.GiftAlbum;
+
+        Album = LoadMysteryGifts();
+        Flags = Cards as IMysteryGiftFlags;
+
         pba = GetGiftPictureBoxes(SAV.Generation);
         foreach (var pb in pba)
         {
@@ -34,14 +41,14 @@ public partial class SAV_Wondercard : Form
             pb.DragEnter += BoxSlot_DragEnter;
             pb.MouseDown += BoxSlot_MouseDown;
             pb.ContextMenuStrip = mnuVSD;
-            pb.MouseHover += (_, _) => Summary.Show(pb, mga.Gifts[pba.IndexOf(pb)]);
+            pb.MouseHover += (_, _) => Summary.Show(pb, Album[pba.IndexOf(pb)]);
             pb.Enter += (sender, e) =>
             {
                 var index = pba.IndexOf(pb);
                 if (index < 0)
                     return;
 
-                var enc = mga.Gifts[index];
+                var enc = Album[index];
                 pb.AccessibleDescription = string.Join(Environment.NewLine, enc.GetTextLines());
             };
         }
@@ -52,7 +59,7 @@ public partial class SAV_Wondercard : Form
         if (LB_Received.Items.Count > 0)
             LB_Received.SelectedIndex = 0;
 
-        if (mga.Gifts[0] is WR7) // giftused is not a valid prop
+        if (Album[0] is WR7) // giftused is not a valid prop
             B_UnusedAll.Visible = B_UsedAll.Visible = L_QR.Visible = false;
 
         DragEnter += Main_DragEnter;
@@ -64,6 +71,25 @@ public partial class SAV_Wondercard : Form
             ViewGiftData(g);
     }
 
+    private DataMysteryGift[] LoadMysteryGifts()
+    {
+        var count = Cards.GiftCountMax;
+        var size = SAV is SAV4HGSS ? count + 1 : count;
+        var result = new DataMysteryGift[size];
+        for (int i = 0; i < count; i++)
+            result[i] = Cards.GetMysteryGift(i);
+        if (SAV is SAV4HGSS s4)
+            result[^1] = s4.LockCapsuleSlot;
+        return result;
+    }
+
+    private static IMysteryGiftStorage GetMysteryGiftProvider(SaveFile sav)
+    {
+        if (sav is IMysteryGiftStorageProvider provider)
+            return provider.MysteryGiftStorage;
+        throw new ArgumentException("Save file does not support Mystery Gifts.", nameof(sav));
+    }
+
     private List<PictureBox> GetGiftPictureBoxes(byte generation) => generation switch
     {
         4 => PopulateViewGiftsG4(),
@@ -71,24 +97,20 @@ public partial class SAV_Wondercard : Form
         _ => throw new ArgumentOutOfRangeException(nameof(generation), generation, "Game not supported."),
     };
 
-    private readonly MysteryGiftAlbum mga;
     private DataMysteryGift? mg;
     private readonly List<PictureBox> pba; // don't mutate this list
 
     // Re-population Functions
     private void SetBackground(int index, Image bg)
     {
-        for (int i = 0; i < mga.Gifts.Length; i++)
+        for (int i = 0; i < Album.Length; i++)
             pba[i].BackgroundImage = index == i ? bg : null;
     }
 
     private void SetGiftBoxes()
     {
-        for (int i = 0; i < mga.Gifts.Length; i++)
-        {
-            MysteryGift m = mga.Gifts[i];
-            pba[i].Image = m.Sprite();
-        }
+        for (int i = 0; i < Album.Length; i++)
+            pba[i].Image = Album[i].Sprite();
     }
 
     private void ViewGiftData(DataMysteryGift g)
@@ -118,9 +140,12 @@ public partial class SAV_Wondercard : Form
     private void GetReceivedFlags()
     {
         LB_Received.Items.Clear();
-        for (int i = 1; i < mga.Flags.Length; i++)
+        if (Flags is not { } f)
+            return;
+        var count = f.MysteryGiftReceivedFlagMax;
+        for (int i = 1; i < count; i++)
         {
-            if (mga.Flags[i])
+            if (f.GetMysteryGiftReceivedFlag(i))
                 LB_Received.Items.Add(i.ToString("0000"));
         }
 
@@ -130,7 +155,7 @@ public partial class SAV_Wondercard : Form
 
     private void SetCardID(int cardID)
     {
-        if (cardID is <= 0 or >= 0x100 * 8)
+        if (Flags is null || (uint)cardID >= Flags.MysteryGiftReceivedFlagMax)
             return;
 
         string card = cardID.ToString("0000");
@@ -167,12 +192,11 @@ public partial class SAV_Wondercard : Form
         WinFormsUtil.ExportMGDialog(mg);
     }
 
-    private static int GetLastUnfilledByType(MysteryGift gift, MysteryGiftAlbum album)
+    private static int GetLastUnfilledByType(DataMysteryGift gift, ReadOnlySpan<DataMysteryGift> album)
     {
-        var gifts = album.Gifts;
-        for (int i = 0; i < gifts.Length; i++)
+        for (int i = 0; i < album.Length; i++)
         {
-            var exist = gifts[i];
+            var exist = album[i];
             if (!exist.Empty)
                 continue;
             if (exist.Type != gift.Type)
@@ -191,7 +215,7 @@ public partial class SAV_Wondercard : Form
         int index = pba.IndexOf(pb);
 
         SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotView);
-        ViewGiftData(mga.Gifts[index]);
+        ViewGiftData(Album[index]);
     }
 
     private void ClickSet(object sender, EventArgs e)
@@ -211,13 +235,13 @@ public partial class SAV_Wondercard : Form
         int index = pba.IndexOf(pb);
 
         // Hijack to the latest unfilled slot if index creates interstitial empty slots.
-        int lastUnfilled = GetLastUnfilledByType(gift, mga);
+        int lastUnfilled = GetLastUnfilledByType(gift, Album);
         if (lastUnfilled > -1 && lastUnfilled < index)
             index = lastUnfilled;
         if (gift is PCD { IsLockCapsule: true })
             index = 11;
 
-        var gifts = mga.Gifts;
+        var gifts = Album;
         var other = gifts[index];
         if (gift is PCD { CanConvertToPGT: true } pcd && other is PGT)
         {
@@ -246,25 +270,25 @@ public partial class SAV_Wondercard : Form
             return;
         int index = pba.IndexOf(pb);
 
-        var arr = mga.Gifts[index].Data;
+        var arr = Album[index].Data;
         Array.Clear(arr, 0, arr.Length);
 
         // Shuffle blank card down
         int i = index;
-        while (i < mga.Gifts.Length - 1)
+        while (i < Album.Length - 1)
         {
-            if (mga.Gifts[i + 1].Empty)
+            if (Album[i + 1].Empty)
                 break;
-            if (mga.Gifts[i + 1].Type != mga.Gifts[i].Type)
+            if (Album[i + 1].Type != Album[i].Type)
                 break;
 
             i++;
 
-            var mg1 = mga.Gifts[i];
-            var mg2 = mga.Gifts[i - 1];
+            var mg1 = Album[i];
+            var mg2 = Album[i - 1];
 
-            mga.Gifts[i - 1] = mg1;
-            mga.Gifts[i] = mg2;
+            Album[i - 1] = mg1;
+            Album[i] = mg2;
         }
         SetBackground(i, Drawing.PokeSprite.Properties.Resources.slotDel);
         SetGiftBoxes();
@@ -278,22 +302,42 @@ public partial class SAV_Wondercard : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        // Store the list of set flag indexes back to the bitflag array.
-        bool[] flags = new bool[mga.Flags.Length];
-        foreach (var o in LB_Received.Items)
-        {
-            var value = o?.ToString();
-            if (value == null)
-                continue;
-            var flag = Util.ToUInt32(value);
-            flags[flag] = true;
-        }
-
-        flags.CopyTo(mga.Flags, 0);
-        SAV.GiftAlbum = mga;
+        SaveReceivedFlags();
+        SaveReceivedCards();
 
         Origin.CopyChangesFrom(SAV);
         Close();
+    }
+
+    private void SaveReceivedCards()
+    {
+        if (Cards is MysteryBlock4 s4)
+        {
+            s4.IsDeliveryManActive = Album.Any(g => !g.Empty);
+            MysteryBlock4.UpdateSlotPGT(Album, SAV is SAV4HGSS);
+            if (SAV is SAV4HGSS hgss)
+                hgss.LockCapsuleSlot = (PCD)Album[^1];
+        }
+        int count = Cards.GiftCountMax;
+        for (int i = 0; i < count; i++)
+            Cards.SetMysteryGift(i, Album[i]);
+        if (Cards is MysteryBlock5 s5)
+            s5.EndAccess(); // need to encrypt the at-rest data with the seed.
+    }
+
+    private void SaveReceivedFlags()
+    {
+        if (Flags is null)
+            return; // nothing to save
+
+        // Store the list of set flag indexes back to the bitflag array.
+        Flags.ClearReceivedFlags();
+        foreach (var o in LB_Received.Items)
+        {
+            if (o?.ToString() is not { } x || !int.TryParse(x, out var index))
+                continue;
+            Flags.SetMysteryGiftReceivedFlag(index, true);
+        }
     }
 
     // Delete Received Flag
@@ -407,14 +451,14 @@ public partial class SAV_Wondercard : Form
         if (data.Length == 0)
             return;
 
-        string[] types = mga.Gifts.Select(g => g.Type).Distinct().ToArray();
+        string[] types = Album.Select(g => g.Type).Distinct().ToArray();
         var gift = MysteryGift.GetMysteryGift(data);
         if (gift == null)
             return;
 
         string giftType = gift.Type;
 
-        if (mga.Gifts.All(card => card.Data.Length != data.Length))
+        if (Album.All(card => card.Data.Length != data.Length))
             WinFormsUtil.Alert(MsgMysteryGiftQRTypeLength, string.Format(MsgQRDecodeSize, $"0x{data.Length:X}"));
         else if (types.All(type => type != giftType))
             WinFormsUtil.Alert(MsgMysteryGiftTypeIncompatible, $"{MsgMysteryGiftQRReceived} {gift.Type}{Environment.NewLine}{MsgMysteryGiftTypeUnexpected} {string.Join(", ", types)}");
@@ -442,7 +486,7 @@ public partial class SAV_Wondercard : Form
             return;
 
         int index = pba.IndexOf(pb);
-        var gift = mga.Gifts[index];
+        var gift = Album[index];
         if (gift.Empty)
             return;
 
@@ -480,8 +524,8 @@ public partial class SAV_Wondercard : Form
         int index = pba.IndexOf(pb);
 
         // Hijack to the latest unfilled slot if index creates interstitial empty slots.
-        int lastUnfilled = GetLastUnfilledByType(mg, mga);
-        if (lastUnfilled > -1 && lastUnfilled < index && mga.Gifts[lastUnfilled].Type == mga.Gifts[index].Type)
+        int lastUnfilled = GetLastUnfilledByType(mg, Album);
+        if (lastUnfilled > -1 && lastUnfilled < index && Album[lastUnfilled].Type == Album[index].Type)
             index = lastUnfilled;
         if (mg is PCD { IsLockCapsule: true })
             index = 11;
@@ -501,7 +545,7 @@ public partial class SAV_Wondercard : Form
             if (gift == null)
             { WinFormsUtil.Alert(MsgFileUnsupported, first); return; }
 
-            ref var dest = ref mga.Gifts[index];
+            ref var dest = ref Album[index];
             if (gift is PCD { CanConvertToPGT: true } pcd && dest is PGT)
             {
                 gift = pcd.Gift;
@@ -529,7 +573,7 @@ public partial class SAV_Wondercard : Form
 
     private int SwapSlots(int dest, int src)
     {
-        var gifts = mga.Gifts;
+        var gifts = Album;
         var s1 = gifts[dest];
         var s2 = gifts[src];
 
@@ -629,7 +673,7 @@ public partial class SAV_Wondercard : Form
         FLP_Gifts.Controls.Add(f2);
         FLP_Gifts.Controls.Add(f3);
 
-        if (mga.Gifts.Length == 12) // lock capsule
+        if (Album.Length == 12) // lock capsule
         {
             // Row 4
             var f4 = GetFlowLayoutPanel();
@@ -649,8 +693,8 @@ public partial class SAV_Wondercard : Form
         List<PictureBox> pb = [];
 
         const int cellsPerRow = 6;
-        int rows = (int)Math.Ceiling(mga.Gifts.Length / (decimal)cellsPerRow);
-        int countRemaining = mga.Gifts.Length;
+        int rows = (int)Math.Ceiling(Album.Length / (decimal)cellsPerRow);
+        int countRemaining = Album.Length;
         var spriter = SpriteUtil.Spriter;
 
         for (int i = 0; i < rows; i++)
@@ -704,7 +748,7 @@ public partial class SAV_Wondercard : Form
 
     private void B_ModifyAll_Click(object sender, EventArgs e)
     {
-        foreach (var g in mga.Gifts)
+        foreach (var g in Album)
             g.GiftUsed = sender == B_UsedAll;
         SetGiftBoxes();
         System.Media.SystemSounds.Asterisk.Play();

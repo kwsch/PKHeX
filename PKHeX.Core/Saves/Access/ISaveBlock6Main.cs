@@ -8,6 +8,8 @@ public interface ISaveBlock6Main : ISaveBlock6Core
 {
     Puff6 Puff { get; }
     OPower6 OPower { get; }
+    GTS6 GTS { get; }
+    UnionPokemon6 Fused { get; }
     LinkBlock6 Link { get; }
     BoxLayout6 BoxLayout { get; }
     BattleBox6 BattleBox { get; }

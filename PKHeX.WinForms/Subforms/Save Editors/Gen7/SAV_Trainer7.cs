@@ -201,9 +201,9 @@ public partial class SAV_Trainer7 : Form
         for (int i = 0; i < LB_Stamps.Items.Count; i++)
             LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
-        CHK_UnlockSuperSingles.Checked = SAV.GetEventFlag(333);
-        CHK_UnlockSuperDoubles.Checked = SAV.GetEventFlag(334);
-        CHK_UnlockSuperMulti.Checked = SAV.GetEventFlag(335);
+        CHK_UnlockSuperSingles.Checked = SAV.EventWork.GetEventFlag(333);
+        CHK_UnlockSuperDoubles.Checked = SAV.EventWork.GetEventFlag(334);
+        CHK_UnlockSuperMulti.Checked = SAV.EventWork.GetEventFlag(335);
 
         CHK_UnlockMega.Checked = SAV.MyStatus.MegaUnlocked;
         CHK_UnlockZMove.Checked = SAV.MyStatus.ZMoveUnlocked;
@@ -218,11 +218,11 @@ public partial class SAV_Trainer7 : Form
         LB_BallThrowTypeUnlocked.SetSelected(0, true);
         LB_BallThrowTypeUnlocked.SetSelected(1, true);
         for (int i = 2; i < BattleStyles.Count; i++)
-            LB_BallThrowTypeUnlocked.SetSelected(i, SAV.GetEventFlag(unlockStart + i));
+            LB_BallThrowTypeUnlocked.SetSelected(i, SAV.EventWork.GetEventFlag(unlockStart + i));
 
         LB_BallThrowTypeLearned.SetSelected(0, true);
         for (int i = 1; i < BattleStyles.Count; i++)
-            LB_BallThrowTypeLearned.SetSelected(i, SAV.GetEventFlag(learnedStart + i));
+            LB_BallThrowTypeLearned.SetSelected(i, SAV.EventWork.GetEventFlag(learnedStart + i));
 
         CB_BallThrowTypeListMode.SelectedIndex = 0;
     }
@@ -257,7 +257,7 @@ public partial class SAV_Trainer7 : Form
         {
             var dest = FlyDestNameIndex[i];
             var name = dest < 0 ? FlyDestAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
-            var state = SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
+            var state = SAV.EventWork.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
             CLB_FlyDest.Items.Add(name, state);
         }
         int[] MapUnmaskNameIndex = [
@@ -282,7 +282,7 @@ public partial class SAV_Trainer7 : Form
         {
             var dest = MapUnmaskNameIndex[i];
             var name = dest < 0 ? MapUnmaskAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
-            var state = SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i]);
+            var state = SAV.EventWork.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i]);
             CLB_MapUnmask.Items.Add(name, state);
         }
     }
@@ -419,26 +419,26 @@ public partial class SAV_Trainer7 : Form
         const int unlockStart = 292;
         const int learnedStart = 3479;
         for (int i = 2; i < BattleStyles.Count; i++)
-            SAV.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
+            SAV.EventWork.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
         for (int i = 1; i < BattleStyles.Count; i++)
-            SAV.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
+            SAV.EventWork.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
     }
 
     private void SaveFlags()
     {
         SAV.Misc.Stamps = GetBits(LB_Stamps);
 
-        SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
-        SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
-        SAV.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
+        SAV.EventWork.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
+        SAV.EventWork.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
+        SAV.EventWork.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
 
         SAV.MyStatus.MegaUnlocked = CHK_UnlockMega.Checked;
         SAV.MyStatus.ZMoveUnlocked = CHK_UnlockZMove.Checked;
 
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
-            SAV.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
+            SAV.EventWork.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
         for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
-            SAV.SetEventFlag(SkipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
+            SAV.EventWork.SetEventFlag(SkipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
     }
 
     private void SaveUltraData()
@@ -542,13 +542,13 @@ public partial class SAV_Trainer7 : Form
                 ReadOnlySpan<byte> data1 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                     : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                SAV.SetData(SAV.Fashion.Data, data1);
+                SAV.Fashion.ImportPayload(data1);
                 break;
             case 2: // Everything
                 ReadOnlySpan<byte> data2 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                     : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                SAV.SetData(SAV.Fashion.Data, data2);
+                SAV.Fashion.ImportPayload(data2);
                 break;
             default:
                 return;

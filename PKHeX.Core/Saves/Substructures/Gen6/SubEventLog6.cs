@@ -15,6 +15,8 @@ public abstract class SubEventLog6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>
     /// </summary>
     public abstract int Give { get; }
 
+    public Memory<byte> GiveSlot => Raw.Slice(Give, PokeCrypto.SIZE_6STORED);
+
     /// <summary>
     /// Absolute offset of the <see cref="PK6"/> that is unreferenced?
     /// </summary>

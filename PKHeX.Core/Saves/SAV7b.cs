@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
 /// </summary>
-public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
+public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStorageProvider
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
     public override string Extension => ".bin";
@@ -41,7 +41,6 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     }
 
     public override bool HasPokeDex => true;
-    public override bool HasWondercards => true;
 
     private void Initialize()
     {
@@ -50,7 +49,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     }
 
     // Save Block accessors
-    public MyItem Items => Blocks.Items;
+    public MyItem7b Items => Blocks.Items;
     public Coordinates7b Coordinates => Blocks.Coordinates;
     public Misc7b Misc => Blocks.Misc;
     public Zukan7b Zukan => Blocks.Zukan;
@@ -60,6 +59,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public EventWork7b EventWork => Blocks.EventWork;
     public PokeListHeader Storage => Blocks.Storage;
     public WB7Records GiftRecords => Blocks.GiftRecords;
+    public Daycare7b Daycare => Blocks.Daycare;
     public CaptureRecords Captured => Blocks.Captured;
     public GoParkStorage Park => Blocks.Park;
     public PlayerGeoLocation7b PlayerGeoLocation => Blocks.PlayerGeoLocation;
@@ -80,9 +80,6 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public override int MaxEV => EffortValues.Max252;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override int GiftCountMax => 48;
-    protected override int GiftFlagMax => 0x100 * 8;
-    public int EventFlagCount => 4160; // 0xDC0 (true max may be up to 0x7F less. 23A8 starts u64 hashvals)
 
     public override bool HasParty => false; // handled via team slots
 
@@ -148,24 +145,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public override int PlayedMinutes { get => Blocks.Played.PlayedMinutes; set => Blocks.Played.PlayedMinutes = value; }
     public override int PlayedSeconds { get => Blocks.Played.PlayedSeconds; set => Blocks.Played.PlayedSeconds = value; }
 
-    /// <summary>
-    /// Gets the <see cref="bool"/> status of a desired Event Flag
-    /// </summary>
-    /// <param name="flagNumber">Event Flag to check</param>
-    /// <returns>Flag is Set (true) or not Set (false)</returns>
-    public bool GetEventFlag(int flagNumber) => Blocks.EventWork.GetFlag(flagNumber);
-
-    /// <summary>
-    /// Sets the <see cref="bool"/> status of a desired Event Flag
-    /// </summary>
-    /// <param name="flagNumber">Event Flag to check</param>
-    /// <param name="value">Event Flag status to set</param>
-    /// <remarks>Flag is Set (true) or not Set (false)</remarks>
-    public void SetEventFlag(int flagNumber, bool value) => Blocks.EventWork.SetFlag(flagNumber, value);
-
-    protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.GetFlags(); set => Blocks.GiftRecords.SetFlags(value); }
-    protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.GetRecords(); set => Blocks.GiftRecords.SetRecords((WR7[])value); }
-
     public int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
     public string GameSyncID { get => Blocks.Status.GameSyncID; set => Blocks.Status.GameSyncID = value; }
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => Blocks.GiftRecords;
 }

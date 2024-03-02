@@ -32,14 +32,18 @@ public sealed class SaveBlockAccessor6AODemo(SAV6AODemo sav) : ISaveBlockAccesso
     ];
 
     public IReadOnlyList<BlockInfo6> BlockInfo => BlocksAODemo;
-    public MyItem Items { get; } = new MyItem6AO(sav, Block(sav, 0));
+    public MyItem6AO Items { get; } = new(sav, Block(sav, 0));
     public ItemInfo6 ItemInfo { get; } = new(sav, Block(sav, 1));
     public GameTime6 GameTime { get; } = new(sav, Block(sav, 2));
     public Situation6 Situation { get; } = new(sav, Block(sav, 3));
     public PlayTime6 Played { get; } = new(sav, Block(sav, 5));
     public Misc6AO Misc { get; } = new(sav, Block(sav, 8));
     public MyStatus6 Status { get; } = new(sav, Block(sav, 9));
-    public RecordBlock6 Records { get; } = new RecordBlock6AO(sav, Block(sav, 15));
+    public EventWork6 EventWork { get; } = new(sav, Block(sav, 11));
+    public RecordBlock6AO Records { get; } = new(sav, Block(sav, 15));
+
+    MyItem ISaveBlock6Core.Items => Items;
+    RecordBlock6 ISaveBlock6Core.Records => Records;
 
     private static Memory<byte> Block(SAV6AODemo sav, int index)
     {

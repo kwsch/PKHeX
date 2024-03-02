@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class MysteryBlock5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
+public sealed class MysteryBlock5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw), IMysteryGiftStorage, IMysteryGiftFlags
 {
     private const int FlagStart = 0;
     private const int MaxReceivedFlag = 2048;
@@ -14,67 +14,87 @@ public sealed class MysteryBlock5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
     private const int DataSize = 0xA90;
 
     // Everything is stored encrypted, and only decrypted on demand. Only crypt on object fetch...
-
-    public EncryptedMysteryGiftAlbum GiftAlbum
-    {
-        get
-        {
-            byte[] wcData = Data[..0xA90].ToArray(); // Encrypted, Decrypt
-            return GetAlbum(AlbumSeed, wcData);
-        }
-        set
-        {
-            var wcData = SetAlbum(value);
-            // Write Back
-            wcData.CopyTo(Data);
-            AlbumSeed = value.Seed;
-        }
-    }
-
     private uint AlbumSeed
     {
         get => ReadUInt32LittleEndian(Data[DataSize..]);
         set => WriteUInt32LittleEndian(Data[DataSize..], value);
     }
 
-    private static EncryptedMysteryGiftAlbum GetAlbum(uint seed, byte[] wcData)
+    private Span<byte> DataRegion => Data[..^4]; // 0xA90
+    private Span<byte> FlagRegion => Data[..CardStart]; // 0x100
+
+    private bool IsDecrypted;
+    public void EndAccess() => EnsureDecrypted(false);
+    private void EnsureDecrypted(bool state = true)
     {
-        PokeCrypto.CryptArray(wcData, seed);
-
-        var flags = new bool[MaxReceivedFlag];
-        var gifts = new DataMysteryGift[MaxCardsPresent];
-        var Info = new EncryptedMysteryGiftAlbum(gifts, flags, seed);
-
-        // 0x100 Bytes for Used Flags
-        for (int i = 0; i < Info.Flags.Length; i++)
-            Info.Flags[i] = ((wcData[i / 8] >> (i % 8)) & 0x1) == 1;
-        // 12 PGFs
-        for (int i = 0; i < Info.Gifts.Length; i++)
-        {
-            var data = wcData.AsSpan(CardStart + (i * PGF.Size), PGF.Size).ToArray();
-            Info.Gifts[i] = new PGF(data);
-        }
-
-        return Info;
+        if (IsDecrypted == state)
+            return;
+        PokeCrypto.CryptArray(DataRegion, AlbumSeed);
+        IsDecrypted = state;
     }
 
-    private static byte[] SetAlbum(EncryptedMysteryGiftAlbum value)
+    public void ClearReceivedFlags()
     {
-        byte[] wcData = new byte[0xA90];
-
-        // Toss back into byte[]
-        for (int i = 0; i < value.Flags.Length; i++)
-        {
-            if (value.Flags[i])
-                wcData[i / 8] |= (byte) (1 << (i & 7));
-        }
-
-        var span = wcData.AsSpan(CardStart);
-        for (int i = 0; i < value.Gifts.Length; i++)
-            value.Gifts[i].Data.CopyTo(span[(i * PGF.Size)..]);
-
-        // Decrypted, Encrypt
-        PokeCrypto.CryptArray(wcData, value.Seed);
-        return wcData;
+        EnsureDecrypted();
+        FlagRegion.Clear();
     }
+
+    private static int GetGiftOffset(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxCardsPresent);
+        return CardStart + (index * PGF.Size);
+    }
+
+    private Span<byte> GetCardSpan(int index)
+    {
+        var offset = GetGiftOffset(index);
+        EnsureDecrypted();
+        return Data.Slice(offset, PGF.Size);
+    }
+
+    public PGF GetMysteryGift(int index) => new(GetCardSpan(index).ToArray());
+
+    public void SetMysteryGift(int index, PGF pgf)
+    {
+        if ((uint)index > MaxCardsPresent)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        if (pgf.Data.Length != PGF.Size)
+            throw new InvalidCastException(nameof(pgf));
+        SAV.SetData(GetCardSpan(index), pgf.Data);
+    }
+
+    public int MysteryGiftReceivedFlagMax => MaxReceivedFlag;
+    public bool GetMysteryGiftReceivedFlag(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        EnsureDecrypted();
+        return FlagUtil.GetFlag(Data, index); // offset 0
+    }
+
+    public void SetMysteryGiftReceivedFlag(int index, bool value)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        EnsureDecrypted();
+        FlagUtil.SetFlag(Data, index, value); // offset 0
+    }
+
+    public int GiftCountMax => MaxCardsPresent;
+    DataMysteryGift IMysteryGiftStorage.GetMysteryGift(int index) => GetMysteryGift(index);
+    void IMysteryGiftStorage.SetMysteryGift(int index, DataMysteryGift gift) => SetMysteryGift(index, (PGF)gift);
+}
+
+public sealed class GTS5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
+{
+    // 0x08: Stored Upload
+    private const int SizeStored = PokeCrypto.SIZE_5STORED;
+
+    public Memory<byte> Upload => Raw[..SizeStored];
+}
+
+public sealed class GlobalLink5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
+{
+    // 0x08: Stored Upload
+    private const int SizeStored = PokeCrypto.SIZE_5STORED;
+
+    public Memory<byte> Upload => Raw.Slice(8, SizeStored);
 }

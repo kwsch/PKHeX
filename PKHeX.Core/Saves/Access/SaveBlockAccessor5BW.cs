@@ -84,18 +84,29 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
 
     public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksBW;
     public BoxLayout5 BoxLayout { get; } = new(sav, Block(sav, 0));
-    public MyItem Items { get; } = new MyItem5BW(sav, Block(sav, 25));
+    public MyItem5BW Items { get; } = new(sav, Block(sav, 25));
     public PlayerData5 PlayerData { get; } = new(sav, Block(sav, 27));
     public UnityTower5 UnityTower { get; } = new(sav, Block(sav, 29));
     public MysteryBlock5 Mystery { get; } = new(sav, Block(sav, 34));
+    public GlobalLink5 GlobalLink { get;  } = new(sav, Block(sav, 35));
     public Chatter5 Chatter { get; } = new(sav, Block(sav, 36));
     public Musical5 Musical { get; } = new(sav, Block(sav, 42));
+    public WhiteBlack5BW Forest { get; } = new(sav, Block(sav, 43));
+    public EventWork5BW EventWork { get; } = new(sav, Block(sav, 45));
+    public GTS5 GTS { get; } = new(sav, Block(sav, 46));
+    public BattleBox5 BattleBox { get; } = new(sav, Block(sav, 49));
     public Daycare5 Daycare { get; } = new(sav, Block(sav, 50));
-    public Misc5 Misc { get; } = new Misc5BW(sav, Block(sav, 52));
-    public Entralink5 Entralink { get; } = new Entralink5BW(sav, Block(sav, 53));
+    public Misc5BW Misc { get; } = new(sav, Block(sav, 52));
+    public Entralink5BW Entralink { get; } = new(sav, Block(sav, 53));
     public Zukan5 Zukan { get; } = new(sav, Block(sav, 55), 0x320);
-    public Encount5 Encount { get; } = new Encount5BW(sav, Block(sav, 56));
+    public Encount5BW Encount { get; } = new(sav, Block(sav, 56));
     public BattleSubway5 BattleSubway { get; } = new(sav, Block(sav, 58));
+    public EntreeForest EntreeForest { get; } = new(sav, Block(sav, 61));
+    EventWork5 ISaveBlock5BW.EventWork => EventWork;
+    Encount5 ISaveBlock5BW.Encount => Encount;
+    MyItem ISaveBlock5BW.Items => Items;
+    Entralink5 ISaveBlock5BW.Entralink => Entralink;
+    Misc5 ISaveBlock5BW.Misc => Misc;
 
     public static Memory<byte> Block(SAV5BW sav, int index)
     {

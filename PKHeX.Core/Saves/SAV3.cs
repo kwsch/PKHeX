@@ -188,7 +188,6 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override int MaxEV => EffortValues.Max255;
     public sealed override byte Generation => 3;
     public sealed override EntityContext Context => EntityContext.Gen3;
-    protected sealed override int GiftCountMax => 1;
     public sealed override int MaxStringLengthOT => 7;
     public sealed override int MaxStringLengthNickname => 10;
     public sealed override int MaxMoney => 999999;
@@ -451,7 +450,6 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public int GetDaycareSlotOffset(int slot) => DaycareOffset + (slot * DaycareSlotSize);
     protected abstract int EggEventFlag { get; }
     public bool IsEggAvailable { get => GetEventFlag(EggEventFlag); set => SetEventFlag(EggEventFlag, value); }
-
 
     #region Storage
     public sealed override int GetBoxOffset(int box) => Box + 4 + (SIZE_STORED * box * COUNT_SLOTSPERBOX);
