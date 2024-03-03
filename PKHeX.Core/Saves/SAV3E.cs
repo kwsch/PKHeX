@@ -77,9 +77,9 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0x200)); set => WriteUInt16LittleEndian(Small.AsSpan(0x200), Math.Min((ushort)9999, value)); }
     public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0x202)); set => WriteUInt16LittleEndian(Small.AsSpan(0x202), Math.Min((ushort)9999, value)); }
     // u32 field8;
-    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0x208)); set => WriteUInt32LittleEndian(Small.AsSpan(0x208), Math.Min(9999, value)); }
+    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0x208)); set => WriteUInt32LittleEndian(Small.AsSpan(0x208), Math.Min(99990, value)); }
 
-    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0x20C)); set => WriteUInt32LittleEndian(Small.AsSpan(0x20C), Math.Min(9999, value)); }
+    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0x20C)); set => WriteUInt32LittleEndian(Small.AsSpan(0x20C), Math.Min(99990, value)); }
     public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0x210)); set => WriteUInt16LittleEndian(Small.AsSpan(0x210), Math.Min((ushort)9999, value)); }
     public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0x212)); set => WriteUInt16LittleEndian(Small.AsSpan(0x212), Math.Min((ushort)9999, value)); }
 

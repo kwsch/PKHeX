@@ -588,7 +588,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     }
 
     protected const byte PokedexNationalUnlockRSE = 0xDA;
-    protected const byte PokedexNationalUnlockFRLG = 0xDA;
+    protected const byte PokedexNationalUnlockFRLG = 0xB9;
     protected const ushort PokedexNationalUnlockWorkRSE = 0x0302;
     protected const ushort PokedexNationalUnlockWorkFRLG = 0x6258;
 
