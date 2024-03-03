@@ -98,3 +98,9 @@ public sealed class GlobalLink5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sa
 
     public Memory<byte> Upload => Raw.Slice(8, SizeStored);
 }
+
+public sealed class AdventureInfo5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
+{
+    public uint SecondsToStart { get => ReadUInt32LittleEndian(Data[0x34..]); set => WriteUInt32LittleEndian(Data[0x34..], value); }
+    public uint SecondsToFame { get => ReadUInt32LittleEndian(Data[0x3C..]); set => WriteUInt32LittleEndian(Data[0x3C..], value); }
+}

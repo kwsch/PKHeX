@@ -52,7 +52,7 @@ public static class MemeCrypto
 
     public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output)
     {
-        foreach (MemeKeyIndex keyIndex in Enum.GetValues(typeof(MemeKeyIndex)))
+        foreach (MemeKeyIndex keyIndex in Enum.GetValues<MemeKeyIndex>())
         {
             if (VerifyMemeData(input, out output, keyIndex))
                 return true;

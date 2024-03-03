@@ -51,7 +51,7 @@ public sealed class ResortSave7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sa
     /// </summary>
     public static string[] GetBeanIndexNames()
     {
-        var colors = Enum.GetNames(typeof(BeanColor7));
+        var colors = Enum.GetNames<BeanColor7>();
         return GetBeanIndexNames(colors);
     }
 

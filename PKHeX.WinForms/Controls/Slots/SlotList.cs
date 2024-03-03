@@ -8,7 +8,7 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 {
-    private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
+    private static readonly string[] names = Enum.GetNames<StorageSlotType>();
     private readonly Label[] Labels = new Label[names.Length];
     private readonly List<PictureBox> slots = [];
     private List<SlotInfoMisc> SlotOffsets = [];

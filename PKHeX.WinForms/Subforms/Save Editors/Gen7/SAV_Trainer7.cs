@@ -45,7 +45,7 @@ public partial class SAV_Trainer7 : Form
     private readonly bool Loading;
     private bool MapUpdated;
 
-    private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
+    private static readonly string[] AllStyles = Enum.GetNames<PlayerBattleStyle7>();
     private readonly List<string> BattleStyles = [..AllStyles];
 
     private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
@@ -65,7 +65,7 @@ public partial class SAV_Trainer7 : Form
         Main.SetCountrySubRegion(CB_Country, "countries");
 
         CB_SkinColor.Items.Clear();
-        CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(PlayerSkinColor7)));
+        CB_SkinColor.Items.AddRange(Enum.GetNames<PlayerSkinColor7>());
 
         L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
         CB_Vivillon.InitializeBinding();
@@ -80,7 +80,7 @@ public partial class SAV_Trainer7 : Form
             LB_BallThrowTypeLearned.Items.Add(t);
         }
 
-        var stamps = Enum.GetNames(typeof(Stamp7)).Select(z => z.Replace("_", " "));
+        var stamps = Enum.GetNames<Stamp7>().Select(z => z.Replace("_", " "));
         foreach (string t in stamps)
             LB_Stamps.Items.Add(t);
     }

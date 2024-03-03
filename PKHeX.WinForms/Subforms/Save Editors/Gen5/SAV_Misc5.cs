@@ -296,11 +296,12 @@ public partial class SAV_Misc5 : Form
         if (SAV is SAV5B2W2 b2w2)
         {
             var pass = (Entralink5B2W2)entree;
-            var ppv = (PassPower5[])Enum.GetValues(typeof(PassPower5));
-            var ppn = Enum.GetNames(typeof(PassPower5));
-            ComboItem[] PassPowerB = [.. ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text)];
-            var cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
-            foreach (var cb in cba)
+            var ppv = Enum.GetValues<PassPower5>();
+            var ppn = Enum.GetNames<PassPower5>();
+            var PassPowerB = new ComboItem[ppv.Length];
+            for (int i = 0; i < ppv.Length; i++)
+                PassPowerB[i] = new ComboItem(ppn[i], (int)ppv[i]);
+            foreach (var cb in (ComboBox[])[CB_PassPower1, CB_PassPower2, CB_PassPower3])
             {
                 cb.Items.Clear();
                 cb.InitializeBinding();
@@ -320,7 +321,7 @@ public partial class SAV_Misc5 : Form
             NUD_EntreeWhiteEXP.SetValueClamped(block.WhiteEXP);
             NUD_EntreeBlackEXP.SetValueClamped(block.BlackEXP);
 
-            string[] FMTitles = Enum.GetNames(typeof(Funfest5Mission));
+            string[] FMTitles = Enum.GetNames<Funfest5Mission>();
             LB_FunfestMissions.Items.Clear();
             LB_FunfestMissions.Items.AddRange(FMTitles);
 

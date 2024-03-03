@@ -23,7 +23,7 @@ public sealed class PlayTime7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
         set => Data[3] = (byte)value;
     }
 
-    private Epoch1900DateTimeValue LastSaved => new(Raw.Slice(0x4, 8));
+    private Epoch1900DateTimeValue LastSaved => new(Raw.Slice(0x4, 4));
     public string LastSavedTime => $"{LastSaved.Year:0000}-{LastSaved.Month:00}-{LastSaved.Day:00} {LastSaved.Hour:00}ː{LastSaved.Minute:00}"; // not :
 
     public DateTime? LastSavedDate

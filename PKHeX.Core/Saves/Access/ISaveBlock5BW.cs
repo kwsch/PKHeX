@@ -21,4 +21,5 @@ public interface ISaveBlock5BW
     BattleBox5 BattleBox { get; }
     GlobalLink5 GlobalLink { get; }
     GTS5 GTS { get; }
+    AdventureInfo5 AdventureInfo { get; }
 }

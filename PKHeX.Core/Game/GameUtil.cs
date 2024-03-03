@@ -18,7 +18,7 @@ public static class GameUtil
 
     private static GameVersion[] GetValidGameVersions()
     {
-        var all = (GameVersion[])Enum.GetValues(typeof(GameVersion));
+        var all = Enum.GetValues<GameVersion>();
         var valid = Array.FindAll(all, IsValidSavedVersion);
         Array.Reverse(valid);
         return valid;

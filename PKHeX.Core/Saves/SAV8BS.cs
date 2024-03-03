@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
 /// </summary>
-public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<ulong>
+public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventWorkArray<int>, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<ulong>
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
@@ -23,7 +23,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public SAV8BS(byte[] data, bool exportable = true) : base(data, exportable)
     {
         FlagWork = new FlagWork8b(this, Data.AsMemory(0x00004));
-        Items = new MyItem8b(this, Data.AsMemory(0x0563C));
+        Items = new MyItem8b(this, Data.AsMemory(0x0563C, MyItem8b.SIZE));
         Underground = new UndergroundItemList8b(this, Data.AsMemory(0x111BC));
         SelectBoundItems = new SaveItemShortcut8b(this, Data.AsMemory(0x14090, 8));
         PartyInfo = new Party8b(this, Data.AsMemory(0x14098));
@@ -70,8 +70,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         // 0xE9818 -- 0x10 byte[] MD5 hash of all savedata;
 
         // v1.1 additions
-        RecordAdd = new RecordAddData8b(this, Data.AsMemory(0xE9828, 0x3C0));
-        MysteryRecords = new MysteryBlock8b(this, Data.AsMemory(0xE9BE8)); // size: ???
+        RecordAdd = new RecordAddData8b(this, GetSafe(Data, 0xE9828, 0x3C0));
+        MysteryRecords = new MysteryBlock8b(this, GetSafe(Data, 0xE9BE8, MysteryBlock8b.MinSize)); // size: ???
         // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10bytes
         // PLAYREPORT_DATA -- reporting player progress online? 248 bytes?
         // MT_DATA mtData; -- 0x400 bytes
@@ -83,6 +83,13 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         // PLAYREPORT_DATA playReportDataRef sizeof(0xF8)
 
         Initialize();
+    }
+
+    private static Memory<byte> GetSafe(Memory<byte> src, int ofs, int len)
+    {
+        if (ofs + len > src.Length)
+            return new byte[len];
+        return src.Slice(ofs, len);
     }
 
     public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
@@ -243,10 +250,6 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         return StringConverter8.SetString(destBuffer, value, maxLength, option);
     }
 
-    public int EventFlagCount => FlagWork8b.COUNT_FLAG;
-    public bool GetEventFlag(int flagNumber) => FlagWork.GetFlag(flagNumber);
-    public void SetEventFlag(int flagNumber, bool value) => FlagWork.SetFlag(flagNumber, value);
-
     // Player Information
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
@@ -354,7 +357,6 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public void SetDaycareOccupied(int slot, bool occupied) { }
     public Memory<byte> GetDaycareSlot(int index) => Daycare.GetDaycareSlot(index);
     ulong IDaycareRandomState<ulong>.Seed { get => Daycare.Seed; set => Daycare.Seed = value; }
-    public void SetDaycareRNGSeed(string seed) => Daycare.Seed = Util.GetHexValue64(seed);
     #endregion
 
     public int EventWorkCount => FlagWork8b.COUNT_WORK;

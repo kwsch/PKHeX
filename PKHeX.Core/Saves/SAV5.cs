@@ -50,7 +50,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     {
         Box = 0x400;
         Party = 0x18E00;
-        AdventureInfo = 0x1D900;
     }
 
     // Blocks & Offsets
@@ -60,7 +59,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
 
     protected int CGearInfoOffset;
     protected int CGearDataOffset;
-    private int AdventureInfo;
 
     // Daycare
     public int DaycareSlotCount => 2;
@@ -111,8 +109,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
     public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
     public override uint Money { get => Misc.Money; set => Misc.Money = value; }
-    public override uint SecondsToStart { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34), value); }
-    public override uint SecondsToFame  { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C), value); }
+    public override uint SecondsToStart { get => AdventureInfo.SecondsToStart; set => AdventureInfo.SecondsToStart = value; }
+    public override uint SecondsToFame  { get => AdventureInfo.SecondsToFame ; set => AdventureInfo.SecondsToFame  = value; }
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
@@ -191,6 +189,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract GlobalLink5 GlobalLink { get; }
     public abstract WhiteBlack5 Forest { get; }
     public abstract GTS5 GTS { get; }
+    public abstract AdventureInfo5 AdventureInfo { get; }
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
 
     protected override byte[] GetFinalData()

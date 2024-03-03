@@ -90,6 +90,7 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
     public MysteryBlock5 Mystery { get; } = new(sav, Block(sav, 34));
     public GlobalLink5 GlobalLink { get;  } = new(sav, Block(sav, 35));
     public Chatter5 Chatter { get; } = new(sav, Block(sav, 36));
+    public AdventureInfo5 AdventureInfo { get; } = new(sav, Block(sav, 37));
     public Musical5 Musical { get; } = new(sav, Block(sav, 42));
     public WhiteBlack5BW Forest { get; } = new(sav, Block(sav, 43));
     public EventWork5BW EventWork { get; } = new(sav, Block(sav, 45));

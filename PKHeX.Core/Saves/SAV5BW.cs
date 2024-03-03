@@ -53,4 +53,5 @@ public sealed class SAV5BW : SAV5
     public override GlobalLink5 GlobalLink => Blocks.GlobalLink;
     public override GTS5 GTS => Blocks.GTS;
     public override WhiteBlack5BW Forest => Blocks.Forest;
+    public override AdventureInfo5 AdventureInfo => Blocks.AdventureInfo;
 }

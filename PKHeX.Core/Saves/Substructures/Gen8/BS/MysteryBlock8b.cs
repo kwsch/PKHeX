@@ -23,6 +23,7 @@ public sealed class MysteryBlock8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV
     public const int OFS_RECVFLAG = OFS_RECV + (RecvDataMax * RecvData8b.SIZE); // 0x2BC0
     public const int OFS_ONEDAY = OFS_RECVFLAG + FlagSize; // 0x2CC0
     public const int OFS_SERIALLOCK = OFS_ONEDAY + (OneDayMax * OneDay8b.SIZE); // 0x2D60
+    public const int MinSize = OFS_SERIALLOCK + 8; // 0x2D68
 
     // Structure:
     // RecvData[50] recvDatas;

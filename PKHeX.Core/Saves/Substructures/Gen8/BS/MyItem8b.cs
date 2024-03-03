@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed class MyItem8b(SAV8BS sav, Memory<byte> raw) : MyItem(sav, raw)
 {
     public const int ItemSaveSize = 3000;
+    public const int SIZE = ItemSaveSize * InventoryItem8b.SIZE;
 
     public int GetItemQuantity(ushort itemIndex)
     {
