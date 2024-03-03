@@ -220,12 +220,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     /** Each value unit represents 1/60th of a second. Value 0 if no record. */
     public uint GetTrainerHillRecord(TrainerHillMode3E mode)
     {
-        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4));
+        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + ((byte)mode * 4)));
     }
 
     public void SetTrainerHillRecord(TrainerHillMode3E mode, uint value)
     {
-        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4), value);
+        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + ((byte)mode * 4)), value);
         State.Edited = true;
     }
 
