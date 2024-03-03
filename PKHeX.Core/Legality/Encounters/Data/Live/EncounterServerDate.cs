@@ -166,7 +166,7 @@ public static class EncounterServerDate
     /// </summary>
     public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9Gifts = new()
     {
-        {0001, (new(2022, 11, 17), Never)}, // PokéCenter Flabébé
+        {0001, (new(2022, 11, 17), Never)}, // PokéCenter Birthday Flabébé
         {0006, (new(2022, 12, 16), new(2023, 02, 01))}, // Jump Festa Gyarados
         {0501, (new(2023, 02, 16), new(2023, 02, 21))}, // Jiseok's Garganacl
         {1513, (new(2023, 02, 27), new(2024, 03, 01))}, // Hisuian Zoroark DLC Purchase Gift
@@ -189,13 +189,13 @@ public static class EncounterServerDate
         {1006, (new(2023, 11, 02), new(2024, 01, 01))}, // Korea Bundle Fidough
         {0508, (new(2023, 11, 17), new(2023, 11, 21))}, // Alex's Dragapult
         {1526, (new(2023, 11, 22), new(2024, 11, 01))}, // Team Star Revavroom
-        {1529, (new(2023, 12, 07), new(2023, 12, 22))}, // Darkrai
-        {1530, (new(2023, 12, 07), new(2024, 01, 04))}, // Shiny Lucario
+        {1529, (new(2023, 12, 07), new(2023, 12, 22))}, // New Moon Darkrai
+        {1530, (new(2023, 12, 07), new(2024, 01, 04))}, // Shiny Buddy Lucario
         {1527, (new(2023, 12, 13), new(2024, 12, 01))}, // Paldea Gimmighoul
         {0036, (new(2023, 12, 14), new(2024, 02, 14))}, // コロコロ Roaring Moon and Iron Valiant
         {1007, (new(2023, 12, 29), new(2024, 02, 11))}, // 윈터페스타 Baxcalibur
-        {0038, (new(2024, 01, 14), new(2024, 03, 14))}, // コロコロ Scream Tail & Brute Bonnet & Flutter Mane & Iron Hands & Iron Jugulis & Iron Thorns
-        {0048, (new(2024, 02, 22), new(2024, 02, 29))}, // PokéCenter Snorlax
+        {0038, (new(2024, 01, 14), new(2024, 03, 14))}, // コロコロ Scream Tail, Brute Bonnet, Flutter Mane, Iron Hands, Iron Jugulis, and Iron Thorns
+        {0048, (new(2024, 02, 22), new(2024, 04, 01))}, // Project Snorlax Campaign Gift
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
