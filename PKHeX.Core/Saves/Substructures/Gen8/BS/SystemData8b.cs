@@ -25,7 +25,7 @@ public sealed class SystemData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8B
     private const int OFS_SNAPSHOT = 4 + (3 * SIZE_GMTIME) + SIZE_GMTIME; // 0x34
     private const int OFS_FDBGM = OFS_SNAPSHOT + SIZE_SNAPSHOT;
     private const int OFS_RESERVED = OFS_FDBGM + 4;
-    internal const int SIZE_TOTAL = OFS_RESERVED + (6 * 8); // 0x138
+    internal const int SIZE = OFS_RESERVED + (6 * 8); // 0x138
 
     public uint CountStart   { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
     public long TicksStart   { get =>  ReadInt64LittleEndian(Data[(4 + (0 * SIZE_GMTIME))..]); set =>  WriteInt64LittleEndian(Data[(4 + (0 * SIZE_GMTIME))..], value); }

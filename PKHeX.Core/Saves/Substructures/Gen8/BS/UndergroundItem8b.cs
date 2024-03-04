@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 
 public sealed class UndergroundItem8b
 {
-    private const int SIZE = 0xC;
+    public const int SIZE = 0xC;
     public readonly int Index; // not serialized
     public UgItemType Type => UgItemUtil.GetType(Index);
     public int MaxValue => UgItemUtil.GetMax(Index);

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// 2ED4
+/// </summary>
 public sealed class UndergroundItemList8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     public const int ItemSaveSize = 999;
     public const int ItemMaxCount = 999;
     public const int StatueMaxCount = 99;
+    public const int SIZE = ItemSaveSize * UndergroundItem8b.SIZE;
 
     public IReadOnlyList<UndergroundItem8b> ReadItems()
     {

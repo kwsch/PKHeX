@@ -98,7 +98,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
 
         // Put save slot back in original save data
         byte[] newFile = (byte[])base.Data.Clone();
-        ColoCrypto.SetSlot(newFile, SaveIndex, Raw.Span);
+        ColoCrypto.SetSlot(newFile, SaveIndex, Data);
 
         return newFile;
     }

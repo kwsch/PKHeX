@@ -7,15 +7,20 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class Party8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
+    private const int SizeSingle = PokeCrypto.SIZE_8PARTY;
+    private const int TeamSize = 6 * SizeSingle;
+
+    public const int SIZE = TeamSize + 2; // 0x812
+
     public int PartyCount
     {
-        get => Data[(6 * PokeCrypto.SIZE_8PARTY)];
-        set => Data[(6 * PokeCrypto.SIZE_8PARTY)] = (byte)value;
+        get => Data[TeamSize];
+        set => Data[TeamSize] = (byte)value;
     }
 
     public int MarkingIndex
     {
-        get => Data[(6 * PokeCrypto.SIZE_8PARTY) + 1];
-        set => Data[(6 * PokeCrypto.SIZE_8PARTY) + 1] = (byte)value;
+        get => Data[TeamSize + 1];
+        set => Data[TeamSize + 1] = (byte)value;
     }
 }

@@ -17,6 +17,7 @@ public sealed class FlagWork8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>
     public const int OFS_WORK = 0;
     public const int OFS_FLAG = OFS_WORK + (COUNT_WORK * 4);
     public const int OFS_SYSTEM = OFS_FLAG + (COUNT_FLAG * 4);
+    public const int SIZE = OFS_SYSTEM + (COUNT_SYSTEM * 4); // 0x55F0
 
     public const int FH_START = 0;
     public const int FH_END = 63;

@@ -19,6 +19,7 @@ public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(
 
     private const int SlotCount = 2;
     private const int ExtraDataOffset = PokeCrypto.SIZE_8PARTY * SlotCount;
+    public const int SIZE = ExtraDataOffset + 16; // 0x2C0
 
     public int DaycareSlotCount => 2;
 

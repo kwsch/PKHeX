@@ -20,58 +20,61 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         return gen <= 8;
     });
 
+    public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
+
     public SAV8BS(byte[] data, bool exportable = true) : base(data, exportable)
     {
-        FlagWork = new FlagWork8b(this, Data.AsMemory(0x00004));
-        Items = new MyItem8b(this, Data.AsMemory(0x0563C, MyItem8b.SIZE));
-        Underground = new UndergroundItemList8b(this, Data.AsMemory(0x111BC));
-        SelectBoundItems = new SaveItemShortcut8b(this, Data.AsMemory(0x14090, 8));
-        PartyInfo = new Party8b(this, Data.AsMemory(0x14098));
-        BoxLayout = new BoxLayout8b(this, Data.AsMemory(0x148AA, 0x64A));
+        var Raw = Data.AsMemory();
+        FlagWork = new FlagWork8b(this, Raw.Slice(0x00004, FlagWork8b.SIZE));
+        Items = new MyItem8b(this, Raw.Slice(0x0563C, MyItem8b.SIZE));
+        Underground = new UndergroundItemList8b(this, Raw.Slice(0x111BC, UndergroundItemList8b.SIZE));
+        SelectBoundItems = new SaveItemShortcut8b(this, Raw.Slice(0x14090, 8));
+        PartyInfo = new Party8b(this, Raw.Slice(0x14098, Party8b.SIZE));
+        BoxLayout = new BoxLayout8b(this, Raw.Slice(0x148AA, 0x64A));
         // 0x14EF4 - Box[40]
 
         // PLAYER_DATA:
-        Config = new ConfigSave8b(this, Data.AsMemory(0x79B74, 0x40));
-        MyStatus = new MyStatus8b(this, Data.AsMemory(0x79BB4, 0x50));
-        Played = new PlayTime8b(this, Data.AsMemory(0x79C04, 0x04));
-        Contest = new Contest8b(this, Data.AsMemory(0x79C08, 0x720));
+        Config = new ConfigSave8b(this, Raw.Slice(0x79B74, 0x40));
+        MyStatus = new MyStatus8b(this, Raw.Slice(0x79BB4, 0x50));
+        Played = new PlayTime8b(this, Raw.Slice(0x79C04, 0x04));
+        Contest = new Contest8b(this, Raw.Slice(0x79C08, 0x720));
 
-        Zukan = new Zukan8b(this, Data.AsMemory(0x7A328, 0x30B8));
-        BattleTrainer = new BattleTrainerStatus8b(this, Data.AsMemory(0x7D3E0, 0x1618));
-        MenuSelection = new MenuSelect8b(this, Data.AsMemory(0x7E9F8, 0x44));
-        FieldObjects = new FieldObjectSave8b(this, Data.AsMemory(0x7EA3C, 0x109A0));
-        Records = new Record8b(this, Data.AsMemory(0x8F3DC, 0x78 * 12));
-        Encounter = new EncounterSave8b(this, Data.AsMemory(0x8F97C, 0x188));
-        Player = new PlayerData8b(this, Data.AsMemory(0x8FB04, PlayerData8b.SIZE));
-        SealDeco = new SealBallDecoData8b(this, Data.AsMemory(0x8FB84, SealBallDecoData8b.SIZE));
-        SealList = new SealList8b(this, Data.AsMemory(0x93E0C, 0x960)); // size: 0x960 SaveSealData[200]
-        Random = new RandomGroup8b(this, Data.AsMemory(0x9476C, 0x630)); // size: 0x630
-        FieldGimmick = new FieldGimmickSave8b(this, Data.AsMemory(0x94D9C)); // FieldGimmickSaveData; int[3] gearRotate
-        BerryTrees = new BerryTreeGrowSave8b(this, Data.AsMemory(0x94DA8, 0x808)); // size: 0x808
-        Poffins = new PoffinSaveData8b(this, Data.AsMemory(0x955B0, 0x644)); // size: 0x644
-        BattleTower = new BattleTowerWork8b(this, Data.AsMemory(0x95BF4, 0x1B8)); // size: 0x1B8
-        System = new SystemData8b(this, Data.AsMemory(0x95DAC, SystemData8b.SIZE_TOTAL));
-        Poketch = new Poketch8b(this, Data.AsMemory(0x95EE4)); // todo
-        Daycare = new Daycare8b(this, Data.AsMemory(0x96080, 0x2C0));
+        Zukan = new Zukan8b(this, Raw.Slice(0x7A328, 0x30B8));
+        BattleTrainer = new BattleTrainerStatus8b(this, Raw.Slice(0x7D3E0, 0x1618));
+        MenuSelection = new MenuSelect8b(this, Raw.Slice(0x7E9F8, 0x44));
+        FieldObjects = new FieldObjectSave8b(this, Raw.Slice(0x7EA3C, 0x109A0));
+        Records = new Record8b(this, Raw.Slice(0x8F3DC, 0x78 * 12));
+        Encounter = new EncounterSave8b(this, Raw.Slice(0x8F97C, 0x188));
+        Player = new PlayerData8b(this, Raw.Slice(0x8FB04, PlayerData8b.SIZE));
+        SealDeco = new SealBallDecoData8b(this, Raw.Slice(0x8FB84, SealBallDecoData8b.SIZE));
+        SealList = new SealList8b(this, Raw.Slice(0x93E0C, 0x960)); // size: 0x960 SaveSealData[200]
+        Random = new RandomGroup8b(this, Raw.Slice(0x9476C, 0x630)); // size: 0x630
+        FieldGimmick = new FieldGimmickSave8b(this, Raw.Slice(0x94D9C, 0xC)); // FieldGimmickSaveData; int[3] gearRotate
+        BerryTrees = new BerryTreeGrowSave8b(this, Raw.Slice(0x94DA8, 0x808)); // size: 0x808
+        Poffins = new PoffinSaveData8b(this, Raw.Slice(0x955B0, 0x644)); // size: 0x644
+        BattleTower = new BattleTowerWork8b(this, Raw.Slice(0x95BF4, 0x1B8)); // size: 0x1B8
+        System = new SystemData8b(this, Raw.Slice(0x95DAC, SystemData8b.SIZE));
+        Poketch = new Poketch8b(this, Raw.Slice(0x95EE4, Poketch8b.SIZE));
+        Daycare = new Daycare8b(this, Raw.Slice(0x96080, Daycare8b.SIZE));
         // 0x96340 - _DENDOU_SAVEDATA; DENDOU_RECORD[30], POKEMON_DATA_INSIDE[6], ushort[4] ?
         // BadgeSaveData; byte[8]
         // BoukenNote; byte[24]
         // TV_DATA (int[48], TV_STR_DATA[42]), (int[37], bool[37])*2, (int[8], int[8]), TV_STR_DATA[10]; 144 128bit zeroed (900 bytes?)? 
-        UgSaveData = new UgSaveData8b(this, Data.AsMemory(0x9A89C, 0x27A0));
+        UgSaveData = new UgSaveData8b(this, Raw.Slice(0x9A89C, 0x27A0));
         // 0x9D03C - GMS_DATA // size: 0x31304, (GMS_POINT_DATA[650], ushort, ushort, byte)?; substructure GMS_POINT_HISTORY_DATA[5]
         // 0xCE340 - PLAYER_NETWORK_DATA; bcatFlagArray byte[1300]
-        UnionSave = new UnionSaveData8b(this, Data.AsMemory(0xCEA10, 0xC));
-        ContestPhotoLanguage = new ContestPhotoLanguage8b(this, Data.AsMemory(0xCEA1C, 0x18));
-        ZukanExtra = new ZukanSpinda8b(this, Data.AsMemory(0xCEA34, 0x64));
+        UnionSave = new UnionSaveData8b(this, Raw.Slice(0xCEA10, 0xC));
+        ContestPhotoLanguage = new ContestPhotoLanguage8b(this, Raw.Slice(0xCEA1C, 0x18));
+        ZukanExtra = new ZukanSpinda8b(this, Raw.Slice(0xCEA34, 0x64));
         // CON_PHOTO_EXT_DATA[5]
         // GMS_POINT_HISTORY_EXT_DATA[3250]
-        UgCount = new UgCountRecord8b(this, Data.AsMemory(0xE8178, 0x20)); // size: 0x20
+        UgCount = new UgCountRecord8b(this, Raw.Slice(0xE8178, 0x20)); // size: 0x20
         // 0xE8198 - ReBuffnameData; RE_DENDOU_RECORD[30], RE_DENDOU_POKEMON_DATA_INSIDE[6] (0x20) = 0x1680
         // 0xE9818 -- 0x10 byte[] MD5 hash of all savedata;
 
         // v1.1 additions
-        RecordAdd = new RecordAddData8b(this, GetSafe(Data, 0xE9828, 0x3C0));
-        MysteryRecords = new MysteryBlock8b(this, GetSafe(Data, 0xE9BE8, MysteryBlock8b.MinSize)); // size: ???
+        RecordAdd = new RecordAddData8b(this, GetSafe(Raw, 0xE9828, 0x3C0));
+        MysteryRecords = new MysteryBlock8b(this, GetSafe(Raw, 0xE9BE8, MysteryBlock8b.MinSize)); // size: ???
         // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10bytes
         // PLAYREPORT_DATA -- reporting player progress online? 248 bytes?
         // MT_DATA mtData; -- 0x400 bytes
@@ -91,8 +94,6 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
             return new byte[len];
         return src.Slice(ofs, len);
     }
-
-    public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
 
     public override bool HasPokeDex => true;
 

@@ -16,6 +16,8 @@ public sealed class Poketch8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(
     public const int POKETCH_POKE_HISTORY_COUNT_MAX = 12; // poke_history[12]
     public const int POKETCH_PEDOMETER_MAX = 99999;
     public const int POKETCH_CALENDER_MONTH_MAX = 12; // calendar markbit uint[12]
+
+    public const int SIZE = 0x19C;
 }
 
 public enum PoketchApp8b
