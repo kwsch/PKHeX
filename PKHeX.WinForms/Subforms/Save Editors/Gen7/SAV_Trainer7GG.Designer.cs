@@ -63,17 +63,6 @@ namespace PKHeX.WinForms
             L_RivalName = new System.Windows.Forms.Label();
             trainerID1 = new Controls.TrainerID();
             GB_Adventure = new System.Windows.Forms.GroupBox();
-            Tab_Complex = new System.Windows.Forms.TabPage();
-            B_DeleteAll = new System.Windows.Forms.Button();
-            B_DeleteGo = new System.Windows.Forms.Button();
-            B_ImportGoFiles = new System.Windows.Forms.Button();
-            B_ExportGoFiles = new System.Windows.Forms.Button();
-            L_GoSlotSummary = new System.Windows.Forms.Label();
-            B_Import = new System.Windows.Forms.Button();
-            B_Export = new System.Windows.Forms.Button();
-            L_GoSlot = new System.Windows.Forms.Label();
-            NUD_GoIndex = new System.Windows.Forms.NumericUpDown();
-            B_ExportGoSummary = new System.Windows.Forms.Button();
             Tab_BadgeMap = new System.Windows.Forms.TabPage();
             GB_Map = new System.Windows.Forms.GroupBox();
             NUD_SZ = new System.Windows.Forms.NumericUpDown();
@@ -92,11 +81,26 @@ namespace PKHeX.WinForms
             L_CurrentMap = new System.Windows.Forms.Label();
             L_Z = new System.Windows.Forms.Label();
             L_X = new System.Windows.Forms.Label();
+            Tab_Complex = new System.Windows.Forms.TabPage();
+            B_DeleteAll = new System.Windows.Forms.Button();
+            B_DeleteGo = new System.Windows.Forms.Button();
+            B_ImportGoFiles = new System.Windows.Forms.Button();
+            B_ExportGoFiles = new System.Windows.Forms.Button();
+            L_GoSlotSummary = new System.Windows.Forms.Label();
+            B_Import = new System.Windows.Forms.Button();
+            B_Export = new System.Windows.Forms.Button();
+            L_GoSlot = new System.Windows.Forms.Label();
+            NUD_GoIndex = new System.Windows.Forms.NumericUpDown();
+            B_ExportGoSummary = new System.Windows.Forms.Button();
+            L_Started = new System.Windows.Forms.Label();
+            CAL_AdventureBeginDate = new System.Windows.Forms.DateTimePicker();
+            CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
+            L_LastSaved = new System.Windows.Forms.Label();
+            CAL_AdventureBeginTime = new System.Windows.Forms.DateTimePicker();
+            CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             GB_Adventure.SuspendLayout();
-            Tab_Complex.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)NUD_GoIndex).BeginInit();
             Tab_BadgeMap.SuspendLayout();
             GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_SZ).BeginInit();
@@ -107,6 +111,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_M).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).BeginInit();
+            Tab_Complex.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_GoIndex).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -133,7 +139,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_OTName.Location = new System.Drawing.Point(115, 8);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -420,7 +426,7 @@ namespace PKHeX.WinForms
             // 
             // TB_RivalName
             // 
-            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_RivalName.Location = new System.Drawing.Point(338, 7);
             TB_RivalName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_RivalName.MaxLength = 12;
@@ -451,10 +457,16 @@ namespace PKHeX.WinForms
             // 
             // GB_Adventure
             // 
+            GB_Adventure.Controls.Add(L_Started);
+            GB_Adventure.Controls.Add(CAL_AdventureBeginDate);
             GB_Adventure.Controls.Add(MT_Seconds);
+            GB_Adventure.Controls.Add(CAL_LastSavedDate);
             GB_Adventure.Controls.Add(MT_Hours);
+            GB_Adventure.Controls.Add(L_LastSaved);
             GB_Adventure.Controls.Add(L_Seconds);
+            GB_Adventure.Controls.Add(CAL_AdventureBeginTime);
             GB_Adventure.Controls.Add(L_Hours);
+            GB_Adventure.Controls.Add(CAL_LastSavedTime);
             GB_Adventure.Controls.Add(MT_Minutes);
             GB_Adventure.Controls.Add(L_Minutes);
             GB_Adventure.Location = new System.Drawing.Point(4, 150);
@@ -465,137 +477,6 @@ namespace PKHeX.WinForms
             GB_Adventure.TabIndex = 56;
             GB_Adventure.TabStop = false;
             GB_Adventure.Text = "Adventure Info";
-            // 
-            // Tab_Complex
-            // 
-            Tab_Complex.AllowDrop = true;
-            Tab_Complex.Controls.Add(B_DeleteAll);
-            Tab_Complex.Controls.Add(B_DeleteGo);
-            Tab_Complex.Controls.Add(B_ImportGoFiles);
-            Tab_Complex.Controls.Add(B_ExportGoFiles);
-            Tab_Complex.Controls.Add(L_GoSlotSummary);
-            Tab_Complex.Controls.Add(B_Import);
-            Tab_Complex.Controls.Add(B_Export);
-            Tab_Complex.Controls.Add(L_GoSlot);
-            Tab_Complex.Controls.Add(NUD_GoIndex);
-            Tab_Complex.Controls.Add(B_ExportGoSummary);
-            Tab_Complex.Location = new System.Drawing.Point(4, 24);
-            Tab_Complex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Complex.Name = "Tab_Complex";
-            Tab_Complex.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Complex.Size = new System.Drawing.Size(452, 337);
-            Tab_Complex.TabIndex = 4;
-            Tab_Complex.Text = "GO Complex";
-            Tab_Complex.UseVisualStyleBackColor = true;
-            Tab_Complex.DragDrop += Main_DragDrop;
-            Tab_Complex.DragEnter += Main_DragEnter;
-            // 
-            // B_DeleteAll
-            // 
-            B_DeleteAll.Location = new System.Drawing.Point(354, 160);
-            B_DeleteAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_DeleteAll.Name = "B_DeleteAll";
-            B_DeleteAll.Size = new System.Drawing.Size(88, 27);
-            B_DeleteAll.TabIndex = 9;
-            B_DeleteAll.Text = "Delete All";
-            B_DeleteAll.UseVisualStyleBackColor = true;
-            B_DeleteAll.Click += B_DeleteAll_Click;
-            // 
-            // B_DeleteGo
-            // 
-            B_DeleteGo.Location = new System.Drawing.Point(259, 160);
-            B_DeleteGo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_DeleteGo.Name = "B_DeleteGo";
-            B_DeleteGo.Size = new System.Drawing.Size(88, 27);
-            B_DeleteGo.TabIndex = 8;
-            B_DeleteGo.Text = "Delete";
-            B_DeleteGo.UseVisualStyleBackColor = true;
-            B_DeleteGo.Click += B_DeleteGo_Click;
-            // 
-            // B_ImportGoFiles
-            // 
-            B_ImportGoFiles.Location = new System.Drawing.Point(142, 255);
-            B_ImportGoFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_ImportGoFiles.Name = "B_ImportGoFiles";
-            B_ImportGoFiles.Size = new System.Drawing.Size(128, 73);
-            B_ImportGoFiles.TabIndex = 7;
-            B_ImportGoFiles.Text = "Import from Folder (start at current slot)";
-            B_ImportGoFiles.UseVisualStyleBackColor = true;
-            B_ImportGoFiles.Click += B_ImportGoFiles_Click;
-            // 
-            // B_ExportGoFiles
-            // 
-            B_ExportGoFiles.Location = new System.Drawing.Point(7, 255);
-            B_ExportGoFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_ExportGoFiles.Name = "B_ExportGoFiles";
-            B_ExportGoFiles.Size = new System.Drawing.Size(128, 73);
-            B_ExportGoFiles.TabIndex = 6;
-            B_ExportGoFiles.Text = "Export all to Folder";
-            B_ExportGoFiles.UseVisualStyleBackColor = true;
-            B_ExportGoFiles.Click += B_ExportGoFiles_Click;
-            // 
-            // L_GoSlotSummary
-            // 
-            L_GoSlotSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            L_GoSlotSummary.Location = new System.Drawing.Point(31, 67);
-            L_GoSlotSummary.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_GoSlotSummary.Name = "L_GoSlotSummary";
-            L_GoSlotSummary.Size = new System.Drawing.Size(220, 120);
-            L_GoSlotSummary.TabIndex = 5;
-            L_GoSlotSummary.Text = "Summary";
-            // 
-            // B_Import
-            // 
-            B_Import.Location = new System.Drawing.Point(259, 100);
-            B_Import.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_Import.Name = "B_Import";
-            B_Import.Size = new System.Drawing.Size(88, 27);
-            B_Import.TabIndex = 4;
-            B_Import.Text = "Import";
-            B_Import.UseVisualStyleBackColor = true;
-            B_Import.Click += B_Import_Click;
-            // 
-            // B_Export
-            // 
-            B_Export.Location = new System.Drawing.Point(259, 67);
-            B_Export.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_Export.Name = "B_Export";
-            B_Export.Size = new System.Drawing.Size(88, 27);
-            B_Export.TabIndex = 3;
-            B_Export.Text = "Export";
-            B_Export.UseVisualStyleBackColor = true;
-            B_Export.Click += B_Export_Click;
-            // 
-            // L_GoSlot
-            // 
-            L_GoSlot.Location = new System.Drawing.Point(6, 40);
-            L_GoSlot.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_GoSlot.Name = "L_GoSlot";
-            L_GoSlot.Size = new System.Drawing.Size(99, 23);
-            L_GoSlot.TabIndex = 2;
-            L_GoSlot.Text = "Slot:";
-            L_GoSlot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_GoIndex
-            // 
-            NUD_GoIndex.Location = new System.Drawing.Point(112, 40);
-            NUD_GoIndex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_GoIndex.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
-            NUD_GoIndex.Name = "NUD_GoIndex";
-            NUD_GoIndex.Size = new System.Drawing.Size(140, 23);
-            NUD_GoIndex.TabIndex = 1;
-            NUD_GoIndex.ValueChanged += NUD_GoIndex_ValueChanged;
-            // 
-            // B_ExportGoSummary
-            // 
-            B_ExportGoSummary.Location = new System.Drawing.Point(278, 255);
-            B_ExportGoSummary.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_ExportGoSummary.Name = "B_ExportGoSummary";
-            B_ExportGoSummary.Size = new System.Drawing.Size(153, 73);
-            B_ExportGoSummary.TabIndex = 0;
-            B_ExportGoSummary.Text = "Dump Text Summary of Go Park Entities";
-            B_ExportGoSummary.UseVisualStyleBackColor = true;
-            B_ExportGoSummary.Click += B_ExportGoSummary_Click;
             // 
             // Tab_BadgeMap
             // 
@@ -815,6 +696,209 @@ namespace PKHeX.WinForms
             L_X.Text = "X Coordinate:";
             L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // Tab_Complex
+            // 
+            Tab_Complex.AllowDrop = true;
+            Tab_Complex.Controls.Add(B_DeleteAll);
+            Tab_Complex.Controls.Add(B_DeleteGo);
+            Tab_Complex.Controls.Add(B_ImportGoFiles);
+            Tab_Complex.Controls.Add(B_ExportGoFiles);
+            Tab_Complex.Controls.Add(L_GoSlotSummary);
+            Tab_Complex.Controls.Add(B_Import);
+            Tab_Complex.Controls.Add(B_Export);
+            Tab_Complex.Controls.Add(L_GoSlot);
+            Tab_Complex.Controls.Add(NUD_GoIndex);
+            Tab_Complex.Controls.Add(B_ExportGoSummary);
+            Tab_Complex.Location = new System.Drawing.Point(4, 24);
+            Tab_Complex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Complex.Name = "Tab_Complex";
+            Tab_Complex.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Complex.Size = new System.Drawing.Size(452, 337);
+            Tab_Complex.TabIndex = 4;
+            Tab_Complex.Text = "GO Complex";
+            Tab_Complex.UseVisualStyleBackColor = true;
+            Tab_Complex.DragDrop += Main_DragDrop;
+            Tab_Complex.DragEnter += Main_DragEnter;
+            // 
+            // B_DeleteAll
+            // 
+            B_DeleteAll.Location = new System.Drawing.Point(354, 160);
+            B_DeleteAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DeleteAll.Name = "B_DeleteAll";
+            B_DeleteAll.Size = new System.Drawing.Size(88, 27);
+            B_DeleteAll.TabIndex = 9;
+            B_DeleteAll.Text = "Delete All";
+            B_DeleteAll.UseVisualStyleBackColor = true;
+            B_DeleteAll.Click += B_DeleteAll_Click;
+            // 
+            // B_DeleteGo
+            // 
+            B_DeleteGo.Location = new System.Drawing.Point(259, 160);
+            B_DeleteGo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DeleteGo.Name = "B_DeleteGo";
+            B_DeleteGo.Size = new System.Drawing.Size(88, 27);
+            B_DeleteGo.TabIndex = 8;
+            B_DeleteGo.Text = "Delete";
+            B_DeleteGo.UseVisualStyleBackColor = true;
+            B_DeleteGo.Click += B_DeleteGo_Click;
+            // 
+            // B_ImportGoFiles
+            // 
+            B_ImportGoFiles.Location = new System.Drawing.Point(142, 255);
+            B_ImportGoFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ImportGoFiles.Name = "B_ImportGoFiles";
+            B_ImportGoFiles.Size = new System.Drawing.Size(128, 73);
+            B_ImportGoFiles.TabIndex = 7;
+            B_ImportGoFiles.Text = "Import from Folder (start at current slot)";
+            B_ImportGoFiles.UseVisualStyleBackColor = true;
+            B_ImportGoFiles.Click += B_ImportGoFiles_Click;
+            // 
+            // B_ExportGoFiles
+            // 
+            B_ExportGoFiles.Location = new System.Drawing.Point(7, 255);
+            B_ExportGoFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ExportGoFiles.Name = "B_ExportGoFiles";
+            B_ExportGoFiles.Size = new System.Drawing.Size(128, 73);
+            B_ExportGoFiles.TabIndex = 6;
+            B_ExportGoFiles.Text = "Export all to Folder";
+            B_ExportGoFiles.UseVisualStyleBackColor = true;
+            B_ExportGoFiles.Click += B_ExportGoFiles_Click;
+            // 
+            // L_GoSlotSummary
+            // 
+            L_GoSlotSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            L_GoSlotSummary.Location = new System.Drawing.Point(31, 67);
+            L_GoSlotSummary.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_GoSlotSummary.Name = "L_GoSlotSummary";
+            L_GoSlotSummary.Size = new System.Drawing.Size(220, 120);
+            L_GoSlotSummary.TabIndex = 5;
+            L_GoSlotSummary.Text = "Summary";
+            // 
+            // B_Import
+            // 
+            B_Import.Location = new System.Drawing.Point(259, 100);
+            B_Import.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Import.Name = "B_Import";
+            B_Import.Size = new System.Drawing.Size(88, 27);
+            B_Import.TabIndex = 4;
+            B_Import.Text = "Import";
+            B_Import.UseVisualStyleBackColor = true;
+            B_Import.Click += B_Import_Click;
+            // 
+            // B_Export
+            // 
+            B_Export.Location = new System.Drawing.Point(259, 67);
+            B_Export.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Export.Name = "B_Export";
+            B_Export.Size = new System.Drawing.Size(88, 27);
+            B_Export.TabIndex = 3;
+            B_Export.Text = "Export";
+            B_Export.UseVisualStyleBackColor = true;
+            B_Export.Click += B_Export_Click;
+            // 
+            // L_GoSlot
+            // 
+            L_GoSlot.Location = new System.Drawing.Point(6, 40);
+            L_GoSlot.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_GoSlot.Name = "L_GoSlot";
+            L_GoSlot.Size = new System.Drawing.Size(99, 23);
+            L_GoSlot.TabIndex = 2;
+            L_GoSlot.Text = "Slot:";
+            L_GoSlot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_GoIndex
+            // 
+            NUD_GoIndex.Location = new System.Drawing.Point(112, 40);
+            NUD_GoIndex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_GoIndex.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUD_GoIndex.Name = "NUD_GoIndex";
+            NUD_GoIndex.Size = new System.Drawing.Size(140, 23);
+            NUD_GoIndex.TabIndex = 1;
+            NUD_GoIndex.ValueChanged += NUD_GoIndex_ValueChanged;
+            // 
+            // B_ExportGoSummary
+            // 
+            B_ExportGoSummary.Location = new System.Drawing.Point(278, 255);
+            B_ExportGoSummary.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ExportGoSummary.Name = "B_ExportGoSummary";
+            B_ExportGoSummary.Size = new System.Drawing.Size(153, 73);
+            B_ExportGoSummary.TabIndex = 0;
+            B_ExportGoSummary.Text = "Dump Text Summary of Go Park Entities";
+            B_ExportGoSummary.UseVisualStyleBackColor = true;
+            B_ExportGoSummary.Click += B_ExportGoSummary_Click;
+            // 
+            // L_Started
+            // 
+            L_Started.Location = new System.Drawing.Point(8, 48);
+            L_Started.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Started.Name = "L_Started";
+            L_Started.Size = new System.Drawing.Size(93, 23);
+            L_Started.TabIndex = 59;
+            L_Started.Text = "Game Started:";
+            L_Started.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CAL_AdventureBeginDate
+            // 
+            CAL_AdventureBeginDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_AdventureBeginDate.Location = new System.Drawing.Point(108, 48);
+            CAL_AdventureBeginDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_AdventureBeginDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureBeginDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureBeginDate.Name = "CAL_AdventureBeginDate";
+            CAL_AdventureBeginDate.Size = new System.Drawing.Size(115, 23);
+            CAL_AdventureBeginDate.TabIndex = 58;
+            CAL_AdventureBeginDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // CAL_LastSavedDate
+            // 
+            CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_LastSavedDate.Location = new System.Drawing.Point(108, 98);
+            CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedDate.Name = "CAL_LastSavedDate";
+            CAL_LastSavedDate.Size = new System.Drawing.Size(115, 23);
+            CAL_LastSavedDate.TabIndex = 55;
+            CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // L_LastSaved
+            // 
+            L_LastSaved.Location = new System.Drawing.Point(8, 98);
+            L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_LastSaved.Name = "L_LastSaved";
+            L_LastSaved.Size = new System.Drawing.Size(93, 23);
+            L_LastSaved.TabIndex = 56;
+            L_LastSaved.Text = "Last Saved:";
+            L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CAL_AdventureBeginTime
+            // 
+            CAL_AdventureBeginTime.CustomFormat = "HH:mm:ss";
+            CAL_AdventureBeginTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_AdventureBeginTime.Location = new System.Drawing.Point(138, 70);
+            CAL_AdventureBeginTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_AdventureBeginTime.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureBeginTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureBeginTime.Name = "CAL_AdventureBeginTime";
+            CAL_AdventureBeginTime.ShowUpDown = true;
+            CAL_AdventureBeginTime.Size = new System.Drawing.Size(84, 23);
+            CAL_AdventureBeginTime.TabIndex = 57;
+            CAL_AdventureBeginTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // CAL_LastSavedTime
+            // 
+            CAL_LastSavedTime.CustomFormat = "HH:mm";
+            CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_LastSavedTime.Location = new System.Drawing.Point(138, 120);
+            CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedTime.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedTime.Name = "CAL_LastSavedTime";
+            CAL_LastSavedTime.ShowUpDown = true;
+            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 23);
+            CAL_LastSavedTime.TabIndex = 60;
+            CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
             // SAV_Trainer7GG
             // 
             AllowDrop = true;
@@ -838,8 +922,6 @@ namespace PKHeX.WinForms
             Tab_Overview.PerformLayout();
             GB_Adventure.ResumeLayout(false);
             GB_Adventure.PerformLayout();
-            Tab_Complex.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)NUD_GoIndex).EndInit();
             Tab_BadgeMap.ResumeLayout(false);
             GB_Map.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_SZ).EndInit();
@@ -850,6 +932,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_M).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).EndInit();
+            Tab_Complex.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_GoIndex).EndInit();
             ResumeLayout(false);
         }
 
@@ -919,5 +1003,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_CurrentMap;
         private System.Windows.Forms.Label L_Z;
         private System.Windows.Forms.Label L_X;
+        private System.Windows.Forms.Label L_Started;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureBeginDate;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedDate;
+        private System.Windows.Forms.Label L_LastSaved;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureBeginTime;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedTime;
     }
 }
