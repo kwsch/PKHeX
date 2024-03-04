@@ -93,6 +93,12 @@ public partial class SAV_Trainer7GG : Form
         MT_Hours.Text = SAV.PlayedHours.ToString();
         MT_Minutes.Text = SAV.PlayedMinutes.ToString();
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
+
+        CAL_AdventureBeginDate.Value = CAL_AdventureBeginTime.Value = SAV.PlayerGeoLocation.AdventureBegin.Timestamp;
+        if (SAV.Played.LastSavedDate is { } d)
+            CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = d;
+        else
+            CAL_LastSavedDate.Enabled = CAL_LastSavedTime.Enabled = false;
     }
 
     private void Save()
@@ -132,6 +138,10 @@ public partial class SAV_Trainer7GG : Form
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
         SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
         SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
+
+        SAV.PlayerGeoLocation.AdventureBegin.Timestamp = CAL_AdventureBeginDate.Value.Date.AddSeconds(CAL_AdventureBeginTime.Value.TimeOfDay.TotalSeconds);
+        if (CAL_LastSavedDate.Enabled)
+            SAV.Played.LastSavedDate = CAL_LastSavedDate.Value.Date.AddSeconds(CAL_LastSavedTime.Value.TimeOfDay.TotalSeconds);
     }
 
     private void ClickString(object sender, MouseEventArgs e)
