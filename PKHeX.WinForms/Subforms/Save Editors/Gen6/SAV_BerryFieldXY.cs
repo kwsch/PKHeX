@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -22,7 +22,7 @@ public partial class SAV_BerryFieldXY : Form
         // Change Berry Field
 
         // Gather Data
-        int ofs = SAV.BerryField + 0xC + (listBox1.SelectedIndex * 0x18);
+        int ofs = SAV6XY.BerryField + 0xC + (listBox1.SelectedIndex * 0x18);
         int berry = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 0)));
         int u1 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 1)));
         int u2 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 2)));

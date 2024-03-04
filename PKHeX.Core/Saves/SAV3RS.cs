@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 3 <see cref="SaveFile"/> object for <see cref="GameVersion.RS"/>.
 /// </summary>
 /// <inheritdoc cref="SAV3" />
-public sealed class SAV3RS : SAV3, IGen3Hoenn
+public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 {
     // Configuration
     protected override SAV3RS CloneInternal() => new(Write());
@@ -18,7 +18,6 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     public override int EventFlagCount => 8 * 288;
     public override int EventWorkCount => 0x100;
     protected override int DaycareSlotSize => SIZE_STORED;
-    public override int DaycareSeedSize => 4; // 16bit
     protected override int EggEventFlag => 0x86;
     protected override int BadgeFlagStart => 0x807;
 
@@ -28,17 +27,11 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     protected override int EventFlag => 0x1220;
     protected override int EventWork => 0x1340;
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x2F9C; // large
 
-        // large
-        DaycareOffset = 0x2F9C;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     #region Small
     public override bool NationalDex
@@ -142,9 +135,12 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
 
     protected override int MailOffset => 0x2B4C;
 
-    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, 2) + (2 * 0x38) + (4 * slot); // consecutive vals, after both consecutive slots & 2 mail
-    public override string GetDaycareRNGSeed(int loc) => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2))).ToString("X4");
-    public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), (ushort)Util.GetHexValue(seed));
+    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(2) + (2 * 0x38) + (4 * slot); // consecutive vals, after both consecutive slots & 2 mail
+    ushort IDaycareRandomState<ushort>.Seed
+    {
+        get => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)));
+        set => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), value);
+    }
 
     protected override int ExternalEventData => 0x311B;
 

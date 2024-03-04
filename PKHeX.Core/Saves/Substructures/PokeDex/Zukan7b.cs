@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
 /// </summary>>
-public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex, langflag)
+public sealed class Zukan7b(SAV7b sav, Memory<byte> dex, int langflag) : Zukan7(sav, dex, langflag)
 {
     private const int UNSET = 0x007F00FE;
     private const int BaseOffset = 0x2A00;

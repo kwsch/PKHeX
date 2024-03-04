@@ -25,10 +25,10 @@ public static class Records
         return MaxByType[maxes[recordID]];
     }
 
-    public static int GetOffset(int baseOfs, int recordID) => recordID switch
+    public static int GetOffset(int recordID) => recordID switch
     {
-        < LargeRecordCount => baseOfs + (recordID * sizeof(int)),
-        < Count => baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)),
+        < LargeRecordCount => (recordID * sizeof(int)),
+        < Count => (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)),
         _ => -1,
     };
 

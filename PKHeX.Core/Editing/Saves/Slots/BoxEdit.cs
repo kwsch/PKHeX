@@ -30,8 +30,17 @@ public sealed class BoxEdit(SaveFile SAV)
     }
 
     public int CurrentBox { get; private set; }
-    public int BoxWallpaper { get => SAV.GetBoxWallpaper(CurrentBox); set => SAV.SetBoxWallpaper(CurrentBox, value); }
-    public string BoxName { get => SAV.GetBoxName(CurrentBox); set => SAV.SetBoxName(CurrentBox, value); }
+    public int BoxWallpaper
+    {
+        get => (SAV as IBoxDetailWallpaper)?.GetBoxWallpaper(CurrentBox) ?? 0;
+        set => (SAV as IBoxDetailWallpaper)?.SetBoxWallpaper(CurrentBox, value);
+    }
+
+    public string BoxName
+    {
+        get => (SAV as IBoxDetailNameRead)?.GetBoxName(CurrentBox) ?? BoxDetailNameExtensions.GetDefaultBoxName(CurrentBox);
+        set => (SAV as IBoxDetailName)?.SetBoxName(CurrentBox, value);
+    }
 
     public int MoveLeft(bool max = false)
     {

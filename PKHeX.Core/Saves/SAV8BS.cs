@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
 /// </summary>
-public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>
+public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventWorkArray<int>, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<ulong>
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
@@ -20,58 +20,61 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         return gen <= 8;
     });
 
+    public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
+
     public SAV8BS(byte[] data, bool exportable = true) : base(data, exportable)
     {
-        FlagWork = new FlagWork8b(this, 0x00004);
-        Items = new MyItem8b(this, 0x0563C);
-        Underground = new UndergroundItemList8b(this, 0x111BC);
-        SelectBoundItems = new SaveItemShortcut8b(this, 0x14090); // size: 0x8
-        PartyInfo = new Party8b(this, 0x14098);
-        BoxLayout = new BoxLayout8b(this, 0x148AA); // size: 0x64A
+        var Raw = Data.AsMemory();
+        FlagWork = new FlagWork8b(this, Raw.Slice(0x00004, FlagWork8b.SIZE));
+        Items = new MyItem8b(this, Raw.Slice(0x0563C, MyItem8b.SIZE));
+        Underground = new UndergroundItemList8b(this, Raw.Slice(0x111BC, UndergroundItemList8b.SIZE));
+        SelectBoundItems = new SaveItemShortcut8b(this, Raw.Slice(0x14090, 8));
+        PartyInfo = new Party8b(this, Raw.Slice(0x14098, Party8b.SIZE));
+        BoxLayout = new BoxLayout8b(this, Raw.Slice(0x148AA, 0x64A));
         // 0x14EF4 - Box[40]
 
         // PLAYER_DATA:
-        Config = new ConfigSave8b(this, 0x79B74); // size: 0x40
-        MyStatus = new MyStatus8b(this, 0x79BB4); // size: 0x50
-        Played = new PlayTime8b(this, 0x79C04); // size: 0x04
-        Contest = new Contest8b(this, 0x79C08); // size: 0x720
+        Config = new ConfigSave8b(this, Raw.Slice(0x79B74, 0x40));
+        MyStatus = new MyStatus8b(this, Raw.Slice(0x79BB4, 0x50));
+        Played = new PlayTime8b(this, Raw.Slice(0x79C04, 0x04));
+        Contest = new Contest8b(this, Raw.Slice(0x79C08, 0x720));
 
-        Zukan = new Zukan8b(this, 0x7A328); // size: 0x30B8
-        BattleTrainer = new BattleTrainerStatus8b(this, 0x7D3E0); // size: 0x1618
-        MenuSelection = new MenuSelect8b(this, 0x7E9F8); // size: 0x44
-        FieldObjects = new FieldObjectSave8b(this, 0x7EA3C); // size: 0x109A0 (1000 * 0x44)
-        Records = new Record8b(this, 0x8F3DC); // size: 0x78 * 12
-        Encounter = new EncounterSave8b(this, 0x8F97C); // size: 0x188
-        Player = new PlayerData8b(this, 0x8FB04); // 0x80
-        SealDeco = new SealBallDecoData8b(this, 0x8FB84); // size: 0x4288
-        SealList = new SealList8b(this, 0x93E0C); // size: 0x960 SaveSealData[200]
-        Random = new RandomGroup8b(this, 0x9476C); // size: 0x630
-        FieldGimmick = new FieldGimmickSave8b(this, 0x94D9C); // FieldGimmickSaveData; int[3] gearRotate
-        BerryTrees = new BerryTreeGrowSave8b(this, 0x94DA8); // size: 0x808
-        Poffins = new PoffinSaveData8b(this, 0x955B0); // size: 0x644
-        BattleTower = new BattleTowerWork8b(this, 0x95BF4); // size: 0x1B8
-        System = new SystemData8b(this, 0x95DAC); // size: 0x138
-        Poketch = new Poketch8b(this, 0x95EE4); // todo
-        Daycare = new Daycare8b(this, 0x96080); // 0x2C0
+        Zukan = new Zukan8b(this, Raw.Slice(0x7A328, 0x30B8));
+        BattleTrainer = new BattleTrainerStatus8b(this, Raw.Slice(0x7D3E0, 0x1618));
+        MenuSelection = new MenuSelect8b(this, Raw.Slice(0x7E9F8, 0x44));
+        FieldObjects = new FieldObjectSave8b(this, Raw.Slice(0x7EA3C, 0x109A0));
+        Records = new Record8b(this, Raw.Slice(0x8F3DC, 0x78 * 12));
+        Encounter = new EncounterSave8b(this, Raw.Slice(0x8F97C, 0x188));
+        Player = new PlayerData8b(this, Raw.Slice(0x8FB04, PlayerData8b.SIZE));
+        SealDeco = new SealBallDecoData8b(this, Raw.Slice(0x8FB84, SealBallDecoData8b.SIZE));
+        SealList = new SealList8b(this, Raw.Slice(0x93E0C, 0x960)); // size: 0x960 SaveSealData[200]
+        Random = new RandomGroup8b(this, Raw.Slice(0x9476C, 0x630)); // size: 0x630
+        FieldGimmick = new FieldGimmickSave8b(this, Raw.Slice(0x94D9C, 0xC)); // FieldGimmickSaveData; int[3] gearRotate
+        BerryTrees = new BerryTreeGrowSave8b(this, Raw.Slice(0x94DA8, 0x808)); // size: 0x808
+        Poffins = new PoffinSaveData8b(this, Raw.Slice(0x955B0, 0x644)); // size: 0x644
+        BattleTower = new BattleTowerWork8b(this, Raw.Slice(0x95BF4, 0x1B8)); // size: 0x1B8
+        System = new SystemData8b(this, Raw.Slice(0x95DAC, SystemData8b.SIZE));
+        Poketch = new Poketch8b(this, Raw.Slice(0x95EE4, Poketch8b.SIZE));
+        Daycare = new Daycare8b(this, Raw.Slice(0x96080, Daycare8b.SIZE));
         // 0x96340 - _DENDOU_SAVEDATA; DENDOU_RECORD[30], POKEMON_DATA_INSIDE[6], ushort[4] ?
         // BadgeSaveData; byte[8]
         // BoukenNote; byte[24]
         // TV_DATA (int[48], TV_STR_DATA[42]), (int[37], bool[37])*2, (int[8], int[8]), TV_STR_DATA[10]; 144 128bit zeroed (900 bytes?)? 
-        UgSaveData = new UgSaveData8b(this, 0x9A89C); // size: 0x27A0
+        UgSaveData = new UgSaveData8b(this, Raw.Slice(0x9A89C, 0x27A0));
         // 0x9D03C - GMS_DATA // size: 0x31304, (GMS_POINT_DATA[650], ushort, ushort, byte)?; substructure GMS_POINT_HISTORY_DATA[5]
         // 0xCE340 - PLAYER_NETWORK_DATA; bcatFlagArray byte[1300]
-        UnionSave = new UnionSaveData8b(this, 0xCEA10); // size: 0xC
-        ContestPhotoLanguage = new ContestPhotoLanguage8b(this, 0xCEA1C); // size: 0x18
-        ZukanExtra = new ZukanSpinda8b(this, 0xCEA34); // size: 0x64 (100)
+        UnionSave = new UnionSaveData8b(this, Raw.Slice(0xCEA10, 0xC));
+        ContestPhotoLanguage = new ContestPhotoLanguage8b(this, Raw.Slice(0xCEA1C, 0x18));
+        ZukanExtra = new ZukanSpinda8b(this, Raw.Slice(0xCEA34, 0x64));
         // CON_PHOTO_EXT_DATA[5]
         // GMS_POINT_HISTORY_EXT_DATA[3250]
-        UgCount = new UgCountRecord8b(this, 0xE8178); // size: 0x20
+        UgCount = new UgCountRecord8b(this, Raw.Slice(0xE8178, 0x20)); // size: 0x20
         // 0xE8198 - ReBuffnameData; RE_DENDOU_RECORD[30], RE_DENDOU_POKEMON_DATA_INSIDE[6] (0x20) = 0x1680
         // 0xE9818 -- 0x10 byte[] MD5 hash of all savedata;
 
         // v1.1 additions
-        RecordAdd = new RecordAddData8b(this, 0xE9828); // size: 0x3C0
-        MysteryRecords = new MysteryBlock8b(this, 0xE9BE8); // size: ???
+        RecordAdd = new RecordAddData8b(this, GetSafe(Raw, 0xE9828, 0x3C0));
+        MysteryRecords = new MysteryBlock8b(this, GetSafe(Raw, 0xE9BE8, MysteryBlock8b.MinSize)); // size: ???
         // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10bytes
         // PLAYREPORT_DATA -- reporting player progress online? 248 bytes?
         // MT_DATA mtData; -- 0x400 bytes
@@ -85,14 +88,19 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         Initialize();
     }
 
-    public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
+    private static Memory<byte> GetSafe(Memory<byte> src, int ofs, int len)
+    {
+        if (ofs + len > src.Length)
+            return new byte[len];
+        return src.Slice(ofs, len);
+    }
+
+    public override bool HasPokeDex => true;
 
     private void Initialize()
     {
         Box = 0x14EF4;
-        Party = PartyInfo.Offset;
-        PokeDex = Zukan.PokeDex;
-        DaycareOffset = Daycare.Offset;
+        Party = 1;
 
         ReloadBattleTeams();
         TeamSlots = BoxLayout.TeamSlots;
@@ -243,10 +251,6 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         return StringConverter8.SetString(destBuffer, value, maxLength, option);
     }
 
-    public int EventFlagCount => FlagWork8b.COUNT_FLAG;
-    public bool GetEventFlag(int flagNumber) => FlagWork.GetFlag(flagNumber);
-    public void SetEventFlag(int flagNumber, bool value) => FlagWork.SetFlag(flagNumber, value);
-
     // Player Information
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
@@ -267,11 +271,10 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
-    public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-    public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = (byte)value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
@@ -344,21 +347,17 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public int RecordCount => Record8b.RecordCount;
     public int GetRecord(int recordID) => Records.GetRecord(recordID);
-    public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
+    public int GetRecordOffset(int recordID) => Record8b.GetRecordOffset(recordID);
     public int GetRecordMax(int recordID) => Record8b.GetMax(recordID);
     public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
 
     #region Daycare
-    public override int DaycareSeedSize => 16; // 8byte
-    public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetParentSlotOffset(slot);
-    public override uint? GetDaycareEXP(int loc, int slot) => 0;
-    public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetDaycareSlotOccupied(slot);
-    public override bool? IsDaycareHasEgg(int loc) => Daycare.IsEggAvailable;
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
-    public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.IsEggAvailable = hasEgg;
-    public override string GetDaycareRNGSeed(int loc) => $"{Daycare.DaycareSeed:X16}";
-    public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = Util.GetHexValue64(seed);
+    public int DaycareSlotCount => Daycare.DaycareSlotCount;
+    public bool IsDaycareOccupied(int slot) => Daycare.IsDaycareOccupied(slot);
+    public bool IsEggAvailable { get => Daycare.IsEggAvailable; set => Daycare.IsEggAvailable = value; }
+    public void SetDaycareOccupied(int slot, bool occupied) { }
+    public Memory<byte> GetDaycareSlot(int index) => Daycare.GetDaycareSlot(index);
+    ulong IDaycareRandomState<ulong>.Seed { get => Daycare.Seed; set => Daycare.Seed = value; }
     #endregion
 
     public int EventWorkCount => FlagWork8b.COUNT_WORK;

@@ -564,7 +564,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenHallofFame.TabIndex = 1;
             B_OpenHallofFame.Text = "Hall of Fame";
             B_OpenHallofFame.UseVisualStyleBackColor = true;
-            B_OpenHallofFame.Click += B_OUTHallofFame_Click;
+            B_OpenHallofFame.Click += B_HallofFame_Click;
             // 
             // B_OUTPasserby
             // 

@@ -1,85 +1,56 @@
 using System;
-using static PKHeX.Core.OPower6Type;
 
 namespace PKHeX.Core;
 
 public sealed class OPower6 : SaveBlock<SAV6>
 {
-    private static readonly OPowerFlagSet[] Mapping =
-    [
-        // Skip unused byte
-        new(5, Hatching) {Offset = 1},
-        new(5, Bargain) {Offset = 6},
-        new(5, Prize_Money) {Offset = 11},
-        new(5, Exp_Point) {Offset = 16},
-        new(5, Capture) {Offset = 21},
+    public OPower6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) => ArgumentOutOfRangeException.ThrowIfNotEqual(raw.Length, Size);
+    public OPower6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) => ArgumentOutOfRangeException.ThrowIfNotEqual(raw.Length, Size);
 
-        new(3, Encounter) {Offset = 26},
-        new(3, Stealth) {Offset = 29},
-        new(3, HP_Restoring) {Offset = 32},
-        new(3, PP_Restoring) {Offset = 35},
+    // Structure:
 
-        new(1, Full_Recovery) {Offset = 38},
+    // u8[65] OPowerTypeFlags
+    // u8 Points
+    // u8[10] Field Level 1
+    // u8[10] Field Level 2
+    // u8[7] Battle Level 1
+    // u8[7] Battle Level 2
+    public const int OffsetFlags = 0;
+    public const int OffsetPoints = 65;
+    public const int OffsetFieldLevel1 = 66;
+    public const int OffsetFieldLevel2 = OffsetFieldLevel1 + (int)OPower6FieldType.Count;
+    public const int OffsetBattleLevel1 = OffsetFieldLevel2 + (int)OPower6FieldType.Count;
+    public const int OffsetBattleLevel2 = OffsetBattleLevel1 + (int)OPower6BattleType.Count;
+    public const int Size = OffsetBattleLevel2 + (int)OPower6BattleType.Count; // 100
 
-        new(5, Befriending) {Offset = 39},
+    private Span<byte> IndexFlags => Data[OffsetFlags..OffsetPoints];
+    private Span<byte> FieldLevels1 => Data[OffsetFieldLevel1..OffsetFieldLevel2];
+    private Span<byte> FieldLevels2 => Data[OffsetFieldLevel2..OffsetBattleLevel1];
+    private Span<byte> BattleLevels1 => Data[OffsetBattleLevel1..OffsetBattleLevel2];
+    private Span<byte> BattleLevels2 => Data[OffsetBattleLevel2..Size];
 
-        new(3, Attack) {Offset = 44},
-        new(3, Defense) {Offset = 47},
-        new(3, Sp_Attack) {Offset = 50},
-        new(3, Sp_Defense) {Offset = 53},
-        new(3, Speed) {Offset = 56},
-        new(3, Critical) {Offset = 59},
-        new(3, Accuracy) {Offset = 62},
-    ];
+    public byte Points { get => Data[OffsetPoints]; set => Data[OffsetPoints] = value; }
 
-    public OPower6(SAV6XY sav, int offset) : base(sav, offset) { }
-    public OPower6(SAV6AO sav, int offset) : base(sav, offset) { }
+    public OPowerFlagState GetState(OPower6Index index) => (OPowerFlagState)IndexFlags[(int)index];
+    public byte GetLevel1(OPower6FieldType type) => FieldLevels1[(int)type];
+    public byte GetLevel2(OPower6FieldType type) => FieldLevels2[(int)type];
+    public byte GetLevel1(OPower6BattleType type) => BattleLevels1[(int)type];
+    public byte GetLevel2(OPower6BattleType type) => BattleLevels2[(int)type];
 
-    private static OPowerFlagSet Get(OPower6Type type) => Array.Find(Mapping, t => t.Identifier == type) ?? throw new ArgumentOutOfRangeException(nameof(type));
-    public static int GetOPowerCount(OPower6Type type) => Get(type).BaseCount;
-    public int GetOPowerLevel(OPower6Type type) => Get(type).GetOPowerLevel(Data.AsSpan(Offset));
+    public void SetState(OPower6Index index, OPowerFlagState state) => IndexFlags[(int)index] = (byte)state;
+    public void SetLevel1(OPower6FieldType type, byte value) => FieldLevels1[(int)type] = value;
+    public void SetLevel2(OPower6FieldType type, byte value) => FieldLevels2[(int)type] = value;
+    public void SetLevel1(OPower6BattleType type, byte value) => BattleLevels1[(int)type] = value;
+    public void SetLevel2(OPower6BattleType type, byte value) => BattleLevels2[(int)type] = value;
 
-    public static bool GetHasOPowerS(OPower6Type type) => Get(type).HasOPowerS;
-    public static bool GetHasOPowerMAX(OPower6Type type) => Get(type).HasOPowerMAX;
-    public bool GetOPowerS(OPower6Type type) => Get(type).GetOPowerS(Data.AsSpan(Offset));
-    public bool GetOPowerMAX(OPower6Type type) => Get(type).GetOPowerMAX(Data.AsSpan(Offset));
-
-    public void SetOPowerLevel(OPower6Type type, int lvl) => Get(type).SetOPowerLevel(Data.AsSpan(Offset), lvl);
-    public void SetOPowerS(OPower6Type type, bool value) => Get(type).SetOPowerS(Data.AsSpan(Offset), value);
-    public void SetOPowerMAX(OPower6Type type, bool value) => Get(type).SetOPowerMAX(Data.AsSpan(Offset), value);
-
-    public bool MasterFlag
+    public void UnlockAll()
     {
-        get => Data[Offset] == 1;
-        set => Data[Offset] = (byte) (value ? OPowerFlagState.Unlocked : OPowerFlagState.Locked);
+        IndexFlags.Fill(1);
+        FieldLevels1.Fill(3);
+        FieldLevels2.Fill(3);
+        BattleLevels1.Fill(3);
+        BattleLevels2.Fill(3);
     }
 
-    public void UnlockAll() => ToggleFlags(allEvents: true);
-    public void UnlockRegular() => ToggleFlags();
-    public void ClearAll() => ToggleFlags(clearOnly: true);
-
-    private void ToggleFlags(bool allEvents = false, bool clearOnly = false)
-    {
-        var span = Data.AsSpan(Offset);
-        foreach (var m in Mapping)
-        {
-            // Clear before applying new value
-            m.SetOPowerLevel(span, 0);
-            m.SetOPowerS(span, false);
-            m.SetOPowerMAX(span, false);
-
-            if (clearOnly)
-                continue;
-
-            int lvl = allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is OR/AS event only @ 1 level
-            m.SetOPowerLevel(span, lvl);
-            if (!allEvents)
-                continue;
-
-            m.SetOPowerS(span, true);
-            m.SetOPowerMAX(span, true);
-        }
-    }
-
-    public byte[] Write() => Data;
+    public void ClearAll() => Data[1..].Clear(); // skip the unlock flag.
 }

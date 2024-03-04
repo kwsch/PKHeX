@@ -398,7 +398,7 @@ file static class InventoryTypeImageUtil
             ImageSize = Properties.Resources.bag_items.Size, // Match the size of the resources.
         };
         var images = result.Images;
-        var types = (InventoryType[])Enum.GetValues(typeof(InventoryType));
+        var types = Enum.GetValues<InventoryType>();
         foreach (var type in types)
         {
             if (type is InventoryType.None)

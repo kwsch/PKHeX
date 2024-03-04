@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Abstract <see cref="SaveFile"/> format for <see cref="GameVersion.DP"/> and <see cref="GameVersion.Pt"/>
 /// </summary>
-public abstract class SAV4Sinnoh : SAV4
+public abstract class SAV4Sinnoh : SAV4, IBoxDetailName, IBoxDetailWallpaper
 {
     protected override int FooterSize => 0x14;
     protected SAV4Sinnoh([ConstantExpected] int gSize, [ConstantExpected] int sSize) : base(gSize, sSize) { }
@@ -30,7 +30,7 @@ public abstract class SAV4Sinnoh : SAV4
 
     public override int GetBoxOffset(int box) => 4 + (box * BOX_DATA_LEN);
     private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
-    protected override int GetBoxWallpaperOffset(int box) => BOX_WP + box;
+    protected static int GetBoxWallpaperOffset(int box) => BOX_WP + box;
 
     public override int CurrentBox // (align 32)
     {
@@ -45,14 +45,16 @@ public abstract class SAV4Sinnoh : SAV4
     }
 
     private Span<byte> GetBoxNameSpan(int box) => Storage.Slice(GetBoxNameOffset(box), BOX_NAME_LEN);
-    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+    public string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
         var span = GetBoxNameSpan(box);
         SetString(span, value, maxlen, StringConverterOption.ClearZero);
     }
+    public abstract int GetBoxWallpaper(int box);
+    public abstract void SetBoxWallpaper(int box, int value);
     #endregion
 
     #region Poketch

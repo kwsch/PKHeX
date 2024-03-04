@@ -10,11 +10,9 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x630</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class RandomGroup8b : SaveBlock<SAV8BS>
+public sealed class RandomGroup8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     public const int COUNT_GROUP = 12;
-
-    public RandomGroup8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
     public RandomSeed8b[] Seeds
     {
@@ -26,7 +24,7 @@ public sealed class RandomGroup8b : SaveBlock<SAV8BS>
     {
         var result = new RandomSeed8b[COUNT_GROUP];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new RandomSeed8b(Data, Offset + (i * RandomSeed8b.SIZE));
+            result[i] = new RandomSeed8b(Raw.Slice(i * RandomSeed8b.SIZE, RandomSeed8b.SIZE));
         return result;
     }
 
@@ -42,8 +40,10 @@ public sealed class RandomGroup8b : SaveBlock<SAV8BS>
 /// Random Seed data.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class RandomSeed8b(byte[] Data, int Offset)
+public sealed class RandomSeed8b(Memory<byte> raw)
 {
+    private Span<byte> Data => raw.Span;
+
     public const int GROUP_NAME_SIZE = 16; // chars
     public const int PERSON_NAME_SIZE = 32; // chars
 
@@ -59,46 +59,46 @@ public sealed class RandomSeed8b(byte[] Data, int Offset)
 
     public string GroupName
     {
-        get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2), value, GROUP_NAME_SIZE, StringConverterOption.ClearZero);
+        get => StringConverter8.GetString(Data[..(GROUP_NAME_SIZE * 2)]);
+        set => StringConverter8.SetString(Data[..(GROUP_NAME_SIZE * 2)], value, GROUP_NAME_SIZE, StringConverterOption.ClearZero);
     }
 
     public string PlayerName
     {
-        get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2), value, PERSON_NAME_SIZE, StringConverterOption.ClearZero);
+        get => StringConverter8.GetString(Data.Slice(OFS_PLAYERNAME, PERSON_NAME_SIZE * 2));
+        set => StringConverter8.SetString(Data.Slice(OFS_PLAYERNAME, PERSON_NAME_SIZE * 2), value, PERSON_NAME_SIZE, StringConverterOption.ClearZero);
     }
 
-    public bool Male { get => Data[Offset + OFS_GENDER] == 1; set => Data[Offset + OFS_GENDER] = (byte)(value ? 1 : 0); }
+    public bool Male { get => Data[OFS_GENDER] == 1; set => Data[+ OFS_GENDER] = (byte)(value ? 1 : 0); }
 
     public int RegionCode
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_REGION));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_REGION), value);
+        get => ReadInt32LittleEndian(Data[OFS_REGION..]);
+        set => WriteInt32LittleEndian(Data[OFS_REGION..], value);
     }
 
     public ulong Seed
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_SEED));
-        set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_SEED), value);
+        get => ReadUInt64LittleEndian(Data[OFS_SEED..]);
+        set => WriteUInt64LittleEndian(Data[OFS_SEED..], value);
     }
 
     public ulong Random
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_RAND));
-        set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_RAND), value);
+        get => ReadUInt64LittleEndian(Data[OFS_RAND..]);
+        set => WriteUInt64LittleEndian(Data[OFS_RAND..], value);
     }
 
     public long Ticks
     {
-        get => ReadInt64LittleEndian(Data.AsSpan(Offset + OFS_TICK));
-        set => WriteInt64LittleEndian(Data.AsSpan(Offset + OFS_TICK), value);
+        get => ReadInt64LittleEndian(Data[OFS_TICK..]);
+        set => WriteInt64LittleEndian(Data[OFS_TICK..], value);
     }
 
     public int UserID
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_UID));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_UID), value);
+        get => ReadInt32LittleEndian(Data[OFS_UID..]);
+        set => WriteInt32LittleEndian(Data[OFS_UID..], value);
     }
 
     public DateTime Timestamp { get => DateTime.FromFileTimeUtc(Ticks); set => Ticks = value.ToFileTimeUtc(); }

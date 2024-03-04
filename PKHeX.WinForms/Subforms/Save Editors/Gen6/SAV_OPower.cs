@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -8,7 +8,12 @@ public partial class SAV_OPower : Form
 {
     private readonly SaveFile Origin;
     private readonly SaveFile SAV;
-    private readonly OPower6 Data;
+    private readonly OPower6 Block;
+
+    private readonly NumericUpDown[] NUDField_A;
+    private readonly NumericUpDown[] NUDField_B;
+    private readonly NumericUpDown[] NUDBattle_A;
+    private readonly NumericUpDown[] NUDBattle_B;
 
     public SAV_OPower(ISaveBlock6Main sav)
     {
@@ -16,63 +21,72 @@ public partial class SAV_OPower : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         Origin = (SaveFile)sav;
         SAV = Origin.Clone();
-        Data = ((ISaveBlock6Main)SAV).OPower;
+        Block = ((ISaveBlock6Main)SAV).OPower;
 
-        Current = Types[0];
-        foreach (var z in Types)
-            CB_Type.Items.Add(z.ToString());
-        CB_Type.SelectedIndex = 0;
-        CHK_Master.Checked = Data.MasterFlag;
+        Label[] LabelField = [L_F0, L_F1, L_F2, L_F3, L_F4, L_F5, L_F6, L_F7, L_F8, L_F9];
+        Label[] LabelBattle = [L_B0, L_B1, L_B2, L_B3, L_B4, L_B5, L_B6];
+        NUDField_A = [NUD_F0A, NUD_F1A, NUD_F2A, NUD_F3A, NUD_F4A, NUD_F5A, NUD_F6A, NUD_F7A, NUD_F8A, NUD_F9A];
+        NUDField_B = [NUD_F0B, NUD_F1B, NUD_F2B, NUD_F3B, NUD_F4B, NUD_F5B, NUD_F6B, NUD_F7B, NUD_F8B, NUD_F9B];
+        NUDBattle_A = [NUD_B0A, NUD_B1A, NUD_B2A, NUD_B3A, NUD_B4A, NUD_B5A, NUD_B6A];
+        NUDBattle_B = [NUD_B0B, NUD_B1B, NUD_B2B, NUD_B3B, NUD_B4B, NUD_B5B, NUD_B6B];
+
+        // get names, without the "Count" enum value at the end.
+        var nameIndex = Enum.GetNames<OPower6Index>().AsSpan()[..^1];
+        var nameField = Enum.GetNames<OPower6FieldType>().AsSpan()[..^1];
+        var nameBattle = Enum.GetNames<OPower6BattleType>().AsSpan()[..^1];
+        foreach (string index in nameIndex)
+            CLB_Unlock.Items.Add(index);
+        for (int i = 0; i < nameField.Length; i++)
+            LabelField[i].Text = nameField[i];
+        for (int i = 0; i < nameBattle.Length; i++)
+            LabelBattle[i].Text = nameBattle[i];
+
         LoadCurrent();
 
-        CB_Type.SelectedIndexChanged += (s, e) => { SaveCurrent(); LoadCurrent(); };
-        B_ClearAll.Click += (s, e) => { Data.ClearAll(); LoadCurrent(); };
-        B_GiveAll.Click += (s, e) => { Data.UnlockRegular(); LoadCurrent(); };
-        B_GiveAllMAX.Click += (s, e) => { Data.UnlockAll(); LoadCurrent(); };
+        B_ClearAll.Click += (_, _) => { Block.ClearAll(); LoadCurrent(); };
+        B_GiveAll.Click += (_, _) => { Block.UnlockAll(); LoadCurrent(); };
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        SaveData();
-        Close();
-    }
-
-    private static readonly OPower6Type[] Types = (OPower6Type[])Enum.GetValues(typeof(OPower6Type));
-    private static readonly string[] Values = Enum.GetNames(typeof(OPower6Value));
-
-    private OPower6Type Current;
-
-    private void SaveData()
-    {
-        Data.MasterFlag = CHK_Master.Checked;
         SaveCurrent();
-        Origin.Data = SAV.Data;
-        Origin.State.Edited = true;
+        Origin.CopyChangesFrom(SAV);
+        Close();
     }
 
     private void LoadCurrent()
     {
-        Current = Types[CB_Type.SelectedIndex];
-
-        CB_Value.Items.Clear();
-        int count = OPower6.GetOPowerCount(Current);
-        for (int i = 0; i <= count; i++)
-            CB_Value.Items.Add(Values[i]);
-
-        CB_Value.SelectedIndex = Data.GetOPowerLevel(Current);
-
-        CHK_S.Enabled = OPower6.GetHasOPowerS(Current);
-        CHK_S.Checked = Data.GetOPowerS(Current);
-        CHK_MAX.Enabled = OPower6.GetHasOPowerMAX(Current);
-        CHK_MAX.Checked = Data.GetOPowerMAX(Current);
+        for (int i = 0; i < CLB_Unlock.Items.Count; i++)
+            CLB_Unlock.SetItemChecked(i, Block.GetState((OPower6Index)i) == OPowerFlagState.Unlocked);
+        for (int i = 0; i < NUDField_A.Length; i++)
+        {
+            NUDField_A[i].Value = Block.GetLevel1((OPower6FieldType)i);
+            NUDField_B[i].Value = Block.GetLevel2((OPower6FieldType)i);
+        }
+        for (int i = 0; i < NUDBattle_A.Length; i++)
+        {
+            NUDBattle_A[i].Value = Block.GetLevel1((OPower6BattleType)i);
+            NUDBattle_B[i].Value = Block.GetLevel2((OPower6BattleType)i);
+        }
+        NUD_Points.Value = Block.Points;
     }
 
     private void SaveCurrent()
     {
-        Data.SetOPowerLevel(Current, CB_Value.SelectedIndex);
-        Data.SetOPowerS(Current, CHK_S.Checked);
-        Data.SetOPowerMAX(Current, CHK_MAX.Checked);
+        for (int i = 0; i < CLB_Unlock.Items.Count; i++)
+            Block.SetState((OPower6Index)i, CLB_Unlock.GetItemChecked(i) ? OPowerFlagState.Unlocked : OPowerFlagState.Locked);
+        for (int i = 0; i < NUDField_A.Length; i++)
+        {
+            Block.SetLevel1((OPower6FieldType)i, (byte)NUDField_A[i].Value);
+            Block.SetLevel2((OPower6FieldType)i, (byte)NUDField_B[i].Value);
+        }
+        for (int i = 0; i < NUDBattle_A.Length; i++)
+        {
+            Block.SetLevel1((OPower6BattleType)i, (byte)NUDBattle_A[i].Value);
+            Block.SetLevel2((OPower6BattleType)i, (byte)NUDBattle_B[i].Value);
+        }
+        Block.Points = (byte)NUD_Points.Value;
     }
 }

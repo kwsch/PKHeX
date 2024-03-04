@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokémon Stadium 2 (Pokémon Stadium GS in Japan)
 /// </summary>
-public sealed class SAV2Stadium : SAV_STADIUM
+public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
 {
     public override int SaveRevision => Japanese ? 0 : 1;
     public override string SaveRevisionString => Japanese ? "J" : "U";
@@ -143,14 +143,23 @@ public sealed class SAV2Stadium : SAV_STADIUM
         return $"{name} [{id:D5}:{str}]";
     }
 
-    public override string GetBoxName(int box)
+    public string GetBoxName(int box)
     {
         var ofs = GetBoxOffset(box) - 0x10;
         var boxNameSpan = Data.AsSpan(ofs, 0x10);
         var str = GetString(boxNameSpan);
         if (string.IsNullOrWhiteSpace(str))
-            return $"Box {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxName(box);
         return str;
+    }
+
+    public void SetBoxName(int box, ReadOnlySpan<char> name)
+    {
+        if (name.Length > StringLength)
+            throw new ArgumentOutOfRangeException(nameof(name), "Box name is too long.");
+        var ofs = GetBoxOffset(box) - 0x10;
+        var boxNameSpan = Data.AsSpan(ofs, 0x10);
+        SetString(boxNameSpan, name, StringLength, StringConverterOption.None);
     }
 
     public override SlotGroup GetTeam(int team)

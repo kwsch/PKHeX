@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -87,20 +88,38 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     ];
 
     public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksB2W2;
-    public BoxLayout5 BoxLayout { get; } = new(sav, 0x00000);
-    public PlayerData5 PlayerData { get; } = new(sav, 0x19400);
-    public MyItem Items { get; } = new MyItem5B2W2(sav, 0x18400);
-    public UnityTower5 UnityTower { get; } = new(sav, 0x19600);
-    public MysteryBlock5 Mystery { get; } = new(sav, 0x1C800);
-    public Chatter5 Chatter { get; } = new(sav, 0x1D500);
-    public Musical5 Musical { get; } = new(sav, 0x1F700);
-    public Daycare5 Daycare { get; } = new(sav, 0x20D00);
-    public Misc5 Misc { get; } = new Misc5B2W2(sav, 0x21100);
-    public Zukan5 Zukan { get; } = new(sav, 0x21400, 0x328); // form flags size is + 8 from B/W with new forms (Therians)
-    public Entralink5 Entralink { get; } = new Entralink5B2W2(sav, 0x21200);
-    public Encount5 Encount { get; } = new Encount5B2W2(sav, 0x21900);
-    public BattleSubway5 BattleSubway { get; } = new(sav, 0x21B00);
-    public PWTBlock5 PWT { get; } = new(sav, 0x23700);
-    public MedalList5 Medals { get; } = new(sav, 0x25300);
-    public FestaBlock5 Festa { get; } = new(sav, 0x25900);
+    public BoxLayout5 BoxLayout { get; } = new(sav, Block(sav, 0));
+    public MyItem5B2W2 Items { get; } = new(sav, Block(sav, 25));
+    public PlayerData5 PlayerData { get; } = new(sav, Block(sav, 27));
+    public UnityTower5 UnityTower { get; } = new(sav, Block(sav, 29));
+    public MysteryBlock5 Mystery { get; } = new(sav, Block(sav, 34));
+    public GlobalLink5 GlobalLink { get; } = new(sav, Block(sav, 35));
+    public Chatter5 Chatter { get; } = new(sav, Block(sav, 36));
+    public AdventureInfo5 AdventureInfo { get; } = new(sav, Block(sav, 37));
+    public Musical5 Musical { get; } = new(sav, Block(sav, 42));
+    public WhiteBlack5B2W2 Forest { get; } = new(sav, Block(sav, 43));
+    public EventWork5B2W2 EventWork { get; } = new(sav, Block(sav, 45));
+    public GTS5 GTS { get; } = new(sav, Block(sav, 46));
+    public BattleBox5 BattleBox { get; } = new(sav, Block(sav, 49));
+    public Daycare5 Daycare { get; } = new(sav, Block(sav, 50));
+    public Misc5B2W2 Misc { get; } = new(sav, Block(sav, 52));
+    public Entralink5B2W2 Entralink { get; } = new(sav, Block(sav, 53));
+    public Zukan5 Zukan { get; } = new(sav, Block(sav, 54), 0x328); // form flags size is + 8 from B/W with new forms (Therians)
+    public Encount5B2W2 Encount { get; } = new(sav, Block(sav, 55));
+    public BattleSubway5 BattleSubway { get; } = new(sav, Block(sav, 57));
+    public EntreeForest EntreeForest { get; } = new(sav, Block(sav, 60));
+    public PWTBlock5 PWT { get; } = new(sav, Block(sav, 63));
+    public MedalList5 Medals { get; } = new(sav, Block(sav, 68));
+    public FestaBlock5 Festa { get; } = new(sav, Block(sav, 70));
+    EventWork5 ISaveBlock5BW.EventWork => EventWork;
+    Encount5 ISaveBlock5BW.Encount => Encount;
+    MyItem ISaveBlock5BW.Items => Items;
+    Entralink5 ISaveBlock5BW.Entralink => Entralink;
+    Misc5 ISaveBlock5BW.Misc => Misc;
+
+    public static Memory<byte> Block(SAV5B2W2 sav, int index)
+    {
+        var block = BlocksB2W2[index];
+        return sav.Data.AsMemory(block.Offset, block.Length);
+    }
 }

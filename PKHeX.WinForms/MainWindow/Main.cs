@@ -89,7 +89,7 @@ public partial class Main : Form
     public static IReadOnlyList<string> GenderSymbols { get; private set; } = GameInfo.GenderSymbolUnicode;
     public static bool HaX { get; private set; }
 
-    private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
+    private readonly string[] main_langlist = Enum.GetNames<ProgramLanguage>();
 
     private static readonly List<IPlugin> Plugins = [];
     #endregion

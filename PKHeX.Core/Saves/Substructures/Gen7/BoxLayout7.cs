@@ -3,7 +3,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BoxLayout7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset), IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
+public sealed class BoxLayout7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw),
+    IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
 {
     private const int BoxCount = 32;
 
@@ -19,7 +20,7 @@ public sealed class BoxLayout7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offs
     private const int NONE_SELECTED = -1;
     public readonly int[] TeamSlots = new int[TeamCount * 6];
 
-    public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
+    public static int GetBoxWallpaperOffset(int box) => PCBackgrounds + box;
 
     public int GetBoxWallpaper(int box)
     {
@@ -35,40 +36,40 @@ public sealed class BoxLayout7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offs
         Data[GetBoxWallpaperOffset(box)] = (byte)value;
     }
 
-    private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
-    private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);
+    private Span<byte> GetBoxNameSpan(int box) => Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
+    private static int GetBoxNameOffset(int box) => (SAV6.LongStringLength * box);
     public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
     public void SetBoxName(int box, ReadOnlySpan<char> value) => SAV.SetString(GetBoxNameSpan(box), value, StringMaxLength, StringConverterOption.ClearZero);
 
     public byte[] BoxFlags
     {
-        get => [ Data[Offset + PCFlags] ]; // bits for wallpaper unlocks
+        get => [ Data[PCFlags] ]; // bits for wallpaper unlocks
         set
         {
             if (value.Length != 1)
                 return;
-            Data[Offset + PCFlags] = value[0];
+            Data[PCFlags] = value[0];
         }
     }
 
     public int BoxesUnlocked
     {
-        get => Data[Offset + Unlocked];
+        get => Data[Unlocked];
         set
         {
             if (value > BoxCount)
                 value = BoxCount;
-            Data[Offset + Unlocked] = (byte)value;
+            Data[Unlocked] = (byte)value;
         }
     }
 
-    public int CurrentBox { get => Data[Offset + LastViewedBoxOffset]; set => Data[Offset + LastViewedBoxOffset] = (byte)value; }
+    public int CurrentBox { get => Data[LastViewedBoxOffset]; set => Data[LastViewedBoxOffset] = (byte)value; }
 
     public void LoadBattleTeams()
     {
         for (int i = 0; i < TeamCount * 6; i++)
         {
-            short val = ReadInt16LittleEndian(Data.AsSpan(Offset + BattleBoxFlags + (i * 2)));
+            short val = ReadInt16LittleEndian(Data[(BattleBoxFlags + (i * 2))..]);
             if (val < 0)
             {
                 TeamSlots[i] = NONE_SELECTED;
@@ -92,7 +93,7 @@ public sealed class BoxLayout7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offs
 
     public void SaveBattleTeams()
     {
-        var span = Data.AsSpan(Offset + BattleBoxFlags);
+        var span = Data[BattleBoxFlags..];
         for (int i = 0; i < TeamCount * 6; i++)
         {
             int index = TeamSlots[i];
@@ -114,8 +115,8 @@ public sealed class BoxLayout7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offs
             SetIsTeamLocked(i, false);
     }
 
-    public bool GetIsTeamLocked(int team) => Data[Offset + PCBackgrounds - TeamCount - team] == 1;
-    public void SetIsTeamLocked(int team, bool value) => Data[Offset + PCBackgrounds - TeamCount - team] = value ? (byte)1 : (byte)0;
+    public bool GetIsTeamLocked(int team) => Data[PCBackgrounds - TeamCount - team] == 1;
+    public void SetIsTeamLocked(int team, bool value) => Data[PCBackgrounds - TeamCount - team] = value ? (byte)1 : (byte)0;
 
     public string this[int i]
     {

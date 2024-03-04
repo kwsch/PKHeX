@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -8,10 +8,8 @@ namespace PKHeX.Core;
 /// Defeated Status for all trainers (Dpr.Trainer.TrainerID)
 /// </summary>
 /// <remarks>size: 0x1618</remarks>
-public sealed class BattleTrainerStatus8b : SaveBlock<SAV8BS>
+public sealed class BattleTrainerStatus8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
-    public BattleTrainerStatus8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
-
     // Structure:
     // (bool IsWin, bool IsBattleSearcher)[707];
     private const int COUNT_TRAINER = 707;
@@ -48,11 +46,11 @@ public sealed class BattleTrainerStatus8b : SaveBlock<SAV8BS>
     {
         if ((uint)trainer >= COUNT_TRAINER)
             throw new ArgumentOutOfRangeException(nameof(trainer));
-        return Offset + (trainer * SIZE_TRAINER);
+        return (trainer * SIZE_TRAINER);
     }
 
-    public bool GetIsWin(int trainer) => ReadUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer))) == 1;
-    public bool GetIsBattleSearcher(int trainer) => ReadUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer) + 4)) == 1;
-    public void SetIsWin(int trainer, bool value) => WriteUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer)), value ? 1u : 0u);
-    public void SetIsBattleSearcher(int trainer, bool value) => WriteUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer) + 4), value ? 1u : 0u);
+    public bool GetIsWin(int trainer) => ReadUInt32LittleEndian(Data[GetTrainerOffset(trainer)..]) == 1;
+    public bool GetIsBattleSearcher(int trainer) => ReadUInt32LittleEndian(Data[(GetTrainerOffset(trainer) + 4)..]) == 1;
+    public void SetIsWin(int trainer, bool value) => WriteUInt32LittleEndian(Data[GetTrainerOffset(trainer)..], value ? 1u : 0u);
+    public void SetIsBattleSearcher(int trainer, bool value) => WriteUInt32LittleEndian(Data[(GetTrainerOffset(trainer) + 4)..], value ? 1u : 0u);
 }

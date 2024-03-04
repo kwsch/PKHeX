@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
+public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBoxDetailName, IBoxDetailWallpaper, IDaycareRandomState<ulong>, IDaycareStorage, IDaycareExperience, IDaycareEggState, IMysteryGiftStorageProvider
 {
     protected override PK5 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -28,11 +28,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override EntityContext Context => EntityContext.Gen5;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
-    protected override int GiftCountMax => 12;
-    public abstract int EventFlagCount { get; }
-    public abstract int EventWorkCount { get; }
-    protected abstract int EventFlagOffset { get; }
-    protected abstract int EventWorkOffset { get; }
 
     public override ushort MaxMoveID => Legal.MaxMoveID_5;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_5;
@@ -55,7 +50,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     {
         Box = 0x400;
         Party = 0x18E00;
-        AdventureInfo = 0x1D900;
     }
 
     // Blocks & Offsets
@@ -65,19 +59,16 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
 
     protected int CGearInfoOffset;
     protected int CGearDataOffset;
-    protected int EntreeForestOffset;
-    private int AdventureInfo;
-    public abstract int GTS { get; }
-    public int PGL => AllBlocks[35].Offset + 8; // Dream World Upload
 
     // Daycare
-    public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
-    public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.IsOccupied(slot);
-    public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetPKMOffset(slot);
-    public override uint? GetDaycareEXP(int loc, int slot) => Daycare.GetEXP(slot);
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) => Daycare.SetEXP(slot, EXP);
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
-    public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.SetSeed(seed);
+    public int DaycareSlotCount => 2;
+    public Memory<byte> GetDaycareSlot(int slot) => Daycare.GetDaycareSlot(slot);
+    public bool IsDaycareOccupied(int slot) => Daycare.IsDaycareOccupied(slot);
+    public uint GetDaycareEXP(int slot) => Daycare.GetDaycareEXP(slot);
+    public void SetDaycareEXP(int slot, uint value) => Daycare.SetDaycareEXP(slot, value);
+    public void SetDaycareOccupied(int slot, bool occupied) => Daycare.SetDaycareOccupied(slot, occupied);
+    public bool IsEggAvailable { get => Daycare.IsEggAvailable; set => Daycare.IsEggAvailable = value; }
+    ulong IDaycareRandomState<ulong>.Seed { get => Daycare.Seed; set => Daycare.Seed = value; }
 
     // Storage
     public override int PartyCount
@@ -89,21 +80,12 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30) + (box * 0x10);
     public override int GetPartyOffset(int slot) => Party + 8 + (SIZE_PARTY * slot);
 
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
-    public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-    public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
-
-    protected int BattleBoxOffset;
-
-    public bool BattleBoxLocked
-    {
-        get => Data[BattleBoxOffset + 0x358] != 0; // Wi-Fi/Live Tournament Active
-        set => Data[BattleBoxOffset + 0x358] = value ? (byte)1 : (byte)0;
-    }
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
@@ -127,9 +109,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
     public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
     public override uint Money { get => Misc.Money; set => Misc.Money = value; }
-    public override uint SecondsToStart { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34), value); }
-    public override uint SecondsToFame  { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C), value); }
-    public override MysteryGiftAlbum GiftAlbum { get => Mystery.GiftAlbum; set => Mystery.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
+    public override uint SecondsToStart { get => AdventureInfo.SecondsToStart; set => AdventureInfo.SecondsToStart = value; }
+    public override uint SecondsToFame  { get => AdventureInfo.SecondsToFame ; set => AdventureInfo.SecondsToFame  = value; }
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
@@ -143,30 +124,13 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         return StringConverter5.SetString(destBuffer, value, maxLength, option);
     }
 
-    public bool GetEventFlag(int flagNumber)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
-        return GetFlag(EventFlagOffset + (flagNumber >> 3), flagNumber & 7);
-    }
-
-    public void SetEventFlag(int flagNumber, bool value)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
-        SetFlag(EventFlagOffset + (flagNumber >> 3), flagNumber & 7, value);
-    }
-
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWorkOffset + (index * 2)));
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWorkOffset)[(index * 2)..], value);
-
     // DLC
     private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;
 
     private bool CGearSkinPresent
     {
         get => Data[CGearSkinInfoOffset + 2] == 1;
-        set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
+        set => Data[CGearSkinInfoOffset + 2] = PlayerData.Data[this is SAV5B2W2 ? 0x6C : 0x54] = value ? (byte)1 : (byte)0;
     }
 
     private static ReadOnlySpan<byte> DLCFooter => [ 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 ];
@@ -205,12 +169,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         }
     }
 
-    public EntreeForest EntreeData
-    {
-        get => new(Data.AsSpan(EntreeForestOffset, EntreeForest.SIZE).ToArray());
-        set => SetData(value.Write(), EntreeForestOffset);
-    }
-
     public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
     public abstract MyItem Items { get; }
     public abstract Zukan5 Zukan { get; }
@@ -225,10 +183,24 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public abstract Musical5 Musical { get; }
     public abstract Encount5 Encount { get; }
     public abstract UnityTower5 UnityTower { get; }
+    public abstract EventWork5 EventWork { get; }
+    public abstract BattleBox5 BattleBox { get; }
+    public abstract EntreeForest EntreeForest { get; }
+    public abstract GlobalLink5 GlobalLink { get; }
+    public abstract WhiteBlack5 Forest { get; }
+    public abstract GTS5 GTS { get; }
+    public abstract AdventureInfo5 AdventureInfo { get; }
+    IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
+
+    protected override byte[] GetFinalData()
+    {
+        EntreeForest.EndAccess();
+        Mystery.EndAccess();
+        return base.GetFinalData();
+    }
 
     public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
     public byte[] GetMailData(int offset) => Data.AsSpan(offset, Mail5.SIZE).ToArray();
-    public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
     public MailDetail GetMail(int mailIndex)
     {
@@ -236,4 +208,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         var data = GetMailData(ofs);
         return new Mail5(data, ofs);
     }
+
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => Mystery;
 }

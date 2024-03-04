@@ -1,6 +1,6 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
-public enum TrainerSprite6
+public enum TrainerSprite6 : byte
 {
     Serena = 00,
     Calem = 01,

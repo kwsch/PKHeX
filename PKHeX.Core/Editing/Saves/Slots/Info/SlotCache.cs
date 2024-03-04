@@ -38,9 +38,11 @@ public sealed class SlotCache : IComparable<SlotCache>
         SAV = sav;
     }
 
+    private string GetBoxName(int box) => SAV is IBoxDetailNameRead r ? r.GetBoxName(box) : BoxDetailNameExtensions.GetDefaultBoxName(box);
+
     public string Identify() => GetFileName() + Source switch
     {
-        SlotInfoBox box => $"[{box.Box + 1:00}] ({SAV.GetBoxName(box.Box)})-{box.Slot + 1:00}: {Entity.FileName}",
+        SlotInfoBox box => $"[{box.Box + 1:00}] ({GetBoxName(box.Box)})-{box.Slot + 1:00}: {Entity.FileName}",
         SlotInfoFile file => $"File: {file.Path}",
         SlotInfoMisc misc => $"{misc.Type}-{misc.Slot}: {Entity.FileName}",
         SlotInfoParty party => $"Party: {party.Slot}: {Entity.FileName}",

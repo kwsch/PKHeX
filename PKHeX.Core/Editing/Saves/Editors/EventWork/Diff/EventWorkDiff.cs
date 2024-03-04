@@ -28,12 +28,22 @@ public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : class, IEve
             return;
         var s1 = SaveUtil.GetVariantSAV(f1);
         var s2 = SaveUtil.GetVariantSAV(f2);
-        if (s1 == null || s2 == null || s1.GetType() != s2.GetType() || s1 is not T t1 || s2 is not T t2)
+        if (s1 == null || s2 == null || s1.GetType() != s2.GetType() || GetBlock(s1) is not { } t1 || GetBlock(s2) is not { } t2)
         {
             Message = DifferentGameGroup;
             return;
         }
+
         Diff(t1, t2);
+    }
+
+    private static T? GetBlock(SaveFile s1)
+    {
+        if (s1 is T t1)
+            return t1;
+        if (s1 is IEventFlagProvider37 p1)
+            return p1.EventWork as T;
+        return null;
     }
 
     private static EventWorkDiffCompatibility SanityCheckSaveInfo(T s1, T s2)
