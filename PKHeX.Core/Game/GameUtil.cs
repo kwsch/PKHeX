@@ -210,9 +210,9 @@ public static class GameUtil
         SM     => version is SN or MN,
         USUM   => version is US or UM,
         Gen7   => version is SN or MN or US or UM or SM or USUM,
-        
+
         GG     => version is GP or GE,
-        Gen7b  => version is GP or GE or GO,
+        Gen7b  => version is GP or GE or GO or GG,
 
         SWSH   => version is SW or SH,
         BDSP   => version is BD or SP,
