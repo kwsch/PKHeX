@@ -29,7 +29,7 @@ internal static class LearnVerifierEgg
         {
             VerifyMovesInitial(result, current, x);
         }
-        else if (enc.Version is not (GameVersion.Any or >= GameVersion.Unknown))
+        else if (enc.Version is not (GameVersion.Any or >= GameVersion.Invalid))
         {
             var ls = GameData.GetLearnSource(enc.Version);
             var learn = ls.GetLearnset(enc.Species, enc.Form);

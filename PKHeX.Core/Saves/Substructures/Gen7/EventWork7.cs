@@ -58,6 +58,8 @@ public sealed class EventWork7SM(SAV7SM sav, Memory<byte> raw) : EventWork7(sav,
     protected override Memory<byte> FameSpan => Raw.Slice(OffsetPostData, HallOfFame7.SIZE);
 
     public const int MagearnaEventFlag = 3100;
+
+    public void UpdateMagearnaConstant() => ((SAV7SM)SAV).UpdateMagearnaConstant();
 }
 
 public sealed class EventWork7USUM(SAV7USUM sav, Memory<byte> raw) : EventWork7(sav, raw)

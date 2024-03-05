@@ -268,7 +268,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             }
             else
             {
-                L_SlotEXP[i].Visible = TB_SlotEXP[i].Visible = true;
+                L_SlotEXP[i].Visible = TB_SlotEXP[i].Visible = false;
             }
 
             bool occ = s.IsDaycareOccupied(i);
@@ -276,6 +276,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             if (occ) // If Occupied
             {
                 L_SlotOccupied[i].Text = $"{i + 1}: ✓";
+                UpdateSlot(i);
             }
             else
             {
@@ -627,8 +628,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             SAV1 s => (Form)new SAV_EventReset1(s),
             SAV7b s => new SAV_EventWork(s),
             SAV8BS s => new SAV_FlagWork8b(s),
-            IEventFlag37 g37 => new SAV_EventFlags(g37),
-            IEventFlagProvider37 p => new SAV_EventFlags(p.EventWork),
+            IEventFlag37 g37 => new SAV_EventFlags(g37, SAV.Version),
+            IEventFlagProvider37 p => new SAV_EventFlags(p.EventWork, SAV.Version),
             SAV2 s => new SAV_EventFlags2(s),
             _ => throw new Exception(),
         };

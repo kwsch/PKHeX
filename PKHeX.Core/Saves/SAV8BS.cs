@@ -100,7 +100,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     private void Initialize()
     {
         Box = 0x14EF4;
-        Party = 1;
+        Party = 0;
 
         ReloadBattleTeams();
         TeamSlots = BoxLayout.TeamSlots;
@@ -270,6 +270,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
+    protected override Span<byte> PartyBuffer => PartyInfo.Data;
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
     public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);

@@ -59,6 +59,6 @@ public static class GCVersionExtensions
         GCVersion.FR => GameVersion.FR,
         GCVersion.LG => GameVersion.LG,
         GCVersion.CXD => GameVersion.CXD,
-        _ => GameVersion.Unknown,
+        _ => GameVersion.Invalid,
     };
 }
