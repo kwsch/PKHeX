@@ -20,7 +20,7 @@ public abstract class EventWork5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(s
 public sealed class EventWork5BW(SAV5BW sav, Memory<byte> raw) : EventWork5(sav, raw)
 {
     public const int OffsetEventWork = 0;
-    public const int OffsetEventFlag = OffsetEventWork + (CountEventFlag * sizeof(ushort));
+    public const int OffsetEventFlag = OffsetEventWork + (CountEventWork * sizeof(ushort));
 
     public const int CountEventWork = 0x13E;
     public const int CountEventFlag = 0xB60;
@@ -39,7 +39,7 @@ public sealed class EventWork5BW(SAV5BW sav, Memory<byte> raw) : EventWork5(sav,
 public sealed class EventWork5B2W2(SAV5B2W2 sav, Memory<byte> raw) : EventWork5(sav, raw)
 {
     public const int OffsetEventWork = 0;
-    public const int OffsetEventFlag = OffsetEventWork + (CountEventFlag * sizeof(ushort));
+    public const int OffsetEventFlag = OffsetEventWork + (CountEventWork * sizeof(ushort));
 
     public const int CountEventWork = 0x1AF;
     public const int CountEventFlag = 0xBF8;

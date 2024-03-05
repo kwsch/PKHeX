@@ -67,10 +67,13 @@ public partial class EntityInstructionBuilder : UserControl
     private static bool GetPropertyDisplayText(PropertyInfo pi, PKM pk, out string display)
     {
         var type = pi.PropertyType;
-        if (type.IsGenericType && typeof(Span<>) == type.GetGenericTypeDefinition())
+        if (type.IsGenericType)
         {
-            display = pi.PropertyType.ToString();
-            return false;
+            if (type.GetGenericTypeDefinition().IsByRefLike) // Span, ReadOnlySpan
+            {
+                display = pi.PropertyType.ToString();
+                return false;
+            }
         }
 
         var value = pi.GetValue(pk);

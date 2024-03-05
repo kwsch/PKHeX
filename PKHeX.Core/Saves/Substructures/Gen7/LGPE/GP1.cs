@@ -125,7 +125,7 @@ public sealed class GP1(byte[] Data)
         {
             string form = Form > 0 ? $"-{Form:00}" : string.Empty;
             string star = IsShiny ? " ★" : string.Empty;
-            return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+            return $"{Species:0000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
         }
     }
 

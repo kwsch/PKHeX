@@ -42,6 +42,7 @@ public sealed class SAV5BW : SAV5
     public override Daycare5 Daycare => Blocks.Daycare;
     public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
     public override PlayerData5 PlayerData => Blocks.PlayerData;
+    public override PlayerPosition5 PlayerPosition => Blocks.PlayerPosition;
     public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
     public override Entralink5BW Entralink => Blocks.Entralink;
     public override Musical5 Musical => Blocks.Musical;

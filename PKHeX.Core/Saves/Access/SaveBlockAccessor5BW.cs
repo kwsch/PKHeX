@@ -86,6 +86,7 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
     public BoxLayout5 BoxLayout { get; } = new(sav, Block(sav, 0));
     public MyItem5BW Items { get; } = new(sav, Block(sav, 25));
     public PlayerData5 PlayerData { get; } = new(sav, Block(sav, 27));
+    public PlayerPosition5 PlayerPosition { get; } = new(sav, Block(sav, 28));
     public UnityTower5 UnityTower { get; } = new(sav, Block(sav, 29));
     public MysteryBlock5 Mystery { get; } = new(sav, Block(sav, 34));
     public GlobalLink5 GlobalLink { get;  } = new(sav, Block(sav, 35));

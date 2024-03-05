@@ -83,28 +83,12 @@ public sealed class PlayerData5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sa
         get => Data[0x24 + 3];
         set => Data[0x24 + 3] = (byte)value;
     }
+}
 
-    public int M
-    {
-        get => ReadInt32LittleEndian(Data[0x180..]);
-        set => WriteUInt16LittleEndian(Data[0x180..], (ushort)value);
-    }
-
-    public int X
-    {
-        get => ReadUInt16LittleEndian(Data[0x186..]);
-        set => WriteUInt16LittleEndian(Data[0x186..], (ushort)value);
-    }
-
-    public int Z
-    {
-        get => ReadUInt16LittleEndian(Data[0x18A..]);
-        set => WriteUInt16LittleEndian(Data[0x18A..], (ushort)value);
-    }
-
-    public int Y
-    {
-        get => ReadUInt16LittleEndian(Data[0x18E..]);
-        set => WriteUInt16LittleEndian(Data[0x18E..], (ushort)value);
-    }
+public sealed class PlayerPosition5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
+{
+    public int M { get => ReadInt32LittleEndian(Data[0x80..]); set => WriteUInt16LittleEndian(Data[0x80..], (ushort)value); }
+    public int X { get => ReadUInt16LittleEndian(Data[0x86..]); set => WriteUInt16LittleEndian(Data[0x86..], (ushort)value); }
+    public int Z { get => ReadUInt16LittleEndian(Data[0x8A..]); set => WriteUInt16LittleEndian(Data[0x8A..], (ushort)value); }
+    public int Y { get => ReadUInt16LittleEndian(Data[0x8E..]); set => WriteUInt16LittleEndian(Data[0x8E..], (ushort)value); }
 }

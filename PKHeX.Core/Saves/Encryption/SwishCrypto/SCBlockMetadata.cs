@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class SCBlockMetadata
 {
-    private readonly Dictionary<IDataIndirect, string> BlockList;
+    private readonly Dictionary<string, IDataIndirect> BlockList;
     private readonly Dictionary<uint, string> ValueList;
     private readonly SCBlockAccessor Accessor;
 
@@ -98,8 +98,8 @@ public sealed class SCBlockMetadata
             var obj = BlockList.FirstOrDefault(z => z.Key.Equals(block.Data));
             if (obj is not (null, null))
             {
-                saveBlock = obj.Key;
-                return obj.Value;
+                saveBlock = obj.Value;
+                return obj.Key;
             }
         }
 

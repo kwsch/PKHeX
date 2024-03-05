@@ -146,7 +146,7 @@ public partial class SAV_SimpleTrainer : Form
             L_Coins.Text = "BP"; // no translation boo
             MT_Coins.Text = s.BattleSubway.BP.ToString();
 
-            var pd = s.PlayerData;
+            var pd = s.PlayerPosition;
             NUD_M.Value = pd.M;
             NUD_X.Value = pd.X;
             NUD_Z.Value = pd.Z;
@@ -261,7 +261,7 @@ public partial class SAV_SimpleTrainer : Form
         {
             if (MapUpdated)
             {
-                var pd = s.PlayerData;
+                var pd = s.PlayerPosition;
                 pd.M = (int)NUD_M.Value;
                 pd.X = (int)NUD_X.Value;
                 pd.Z = (int)NUD_Z.Value;

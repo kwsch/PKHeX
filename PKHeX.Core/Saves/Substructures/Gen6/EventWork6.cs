@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed class EventWork6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), IEventFlag37
 {
     public const int OffsetEventWork = 0;
-    public const int OffsetEventFlag = OffsetEventWork + (CountEventFlag * sizeof(ushort));
+    public const int OffsetEventFlag = OffsetEventWork + (CountEventWork * sizeof(ushort));
 
     public const int CountEventWork = 0x178;
     public const int CountEventFlag = 0xD00; // 3328

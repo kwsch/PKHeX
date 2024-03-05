@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRevision, IBoxDetailName
+public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRevision, IBoxDetailName, IBoxDetailWallpaper
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.LastSavedTime}";
     public override string Extension => string.Empty;

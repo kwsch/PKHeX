@@ -44,15 +44,14 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                 deferTile ??= e;
                 continue;
             }
-
+            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
+            {
+                deferType ??= e;
+                continue;
+            }
             if (e is not EncounterSlot4 slot)
             {
                 yield return e;
-                continue;
-            }
-            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
-            {
-                deferSlot ??= slot;
                 continue;
             }
 

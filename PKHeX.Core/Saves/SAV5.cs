@@ -178,6 +178,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract Daycare5 Daycare { get; }
     public abstract BoxLayout5 BoxLayout { get; }
     public abstract PlayerData5 PlayerData { get; }
+    public abstract PlayerPosition5 PlayerPosition { get; }
     public abstract BattleSubway5 BattleSubway { get; }
     public abstract Entralink5 Entralink { get; }
     public abstract Musical5 Musical { get; }
