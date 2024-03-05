@@ -7,8 +7,8 @@ public sealed class WB7Records(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
     private const int CardStart = 0;
     private const int FlagStart = (MaxCardsPresent * WR7.Size);
 
-    private const int MaxCardsPresent = 10; // 0xE90 > (0x140 * 0xA = 0xC80), not sure what final 0x210 bytes are used for
-    private const int MaxReceivedFlag = 0x1C00; // (7168) end of the block?
+    private const int MaxCardsPresent = 10; // 0xE90 > (0x140 * 0xA = 0xC80)
+    private const int MaxReceivedFlag = 0x1080; // (4224) end of the block -- max ever distributed was 2001 (Mew)
 
     public void ClearReceivedFlags() => Data[..(MaxReceivedFlag / 8)].Clear();
 
