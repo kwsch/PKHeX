@@ -234,6 +234,10 @@ public static partial class Extensions
             list.Add(new(solgaleo.Data, 2, true) { Type = StorageSlotType.Fused });
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedNecrozmaM, out var lunala))
             list.Add(new(lunala.Data, 3, true) { Type = StorageSlotType.Fused });
+
+        var st = sav.Blocks.GetBlock(SaveBlockAccessor9SV.KSurpriseTrade).Data.AsMemory();
+        list.Add(new(st[0x198..], 0) { Type = StorageSlotType.Misc }); // my upload
+        list.Add(new(st[0x2C..], 1) { Type = StorageSlotType.Misc }); // received from others
         return list;
     }
 }
