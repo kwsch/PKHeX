@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BV6(byte[] Data) : BattleVideo
+public sealed class BattleVideo6(byte[] Data) : IBattleVideo
 {
     private readonly byte[] Data = (byte[])Data.Clone();
 
@@ -14,10 +14,10 @@ public sealed class BV6(byte[] Data) : BattleVideo
     private const string NPC = "NPC";
     private const int PlayerCount = 4;
 
-    public override IReadOnlyList<PK6> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
-    public override byte Generation => 6;
+    public IEnumerable<PKM> Contents => PlayerTeams.SelectMany(t => t);
+    public byte Generation => 6;
 
-    internal new static bool IsValid(ReadOnlySpan<byte> data)
+    public static bool IsValid(ReadOnlySpan<byte> data)
     {
         if (data.Length != SIZE)
             return false;

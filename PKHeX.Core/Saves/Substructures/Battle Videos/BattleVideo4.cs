@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +9,7 @@ namespace PKHeX.Core;
 /// Extra-data block for Hall of Fame records.
 /// </summary>
 /// <param name="Raw">Chunk of memory storing the structure.</param>
-public sealed class BattleVideo4(Memory<byte> Raw)
+public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
 {
     private const int SIZE = 0x1D50;
     private const int SIZE_FOOTER = 0x10;
@@ -20,6 +22,10 @@ public sealed class BattleVideo4(Memory<byte> Raw)
     private const int CryptoStart = 0xE8;
     private const int CryptoEnd = 0x1D4C;
     private Span<byte> CryptoData => Data[CryptoStart..CryptoEnd];
+
+    public byte Generation => 4;
+    public IEnumerable<PKM> Contents => GetTeam(0).Concat(GetTeam(1)); // don't bother with multi-battles
+    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE_USED && ReadUInt32LittleEndian(data[^8..]) == SIZE;
 
     // Structure:
     // 0x00: u32 Key
@@ -65,7 +71,6 @@ public sealed class BattleVideo4(Memory<byte> Raw)
     #region Footer
     public bool SizeValid => BlockSize == SIZE;
     public bool ChecksumValid => Checksum == GetChecksum();
-    public bool IsValid => SizeValid && ChecksumValid;
 
     public uint Magic { get => ReadUInt32LittleEndian(Footer); set => WriteUInt32LittleEndian(Footer, value); }
     public uint Revision { get => ReadUInt32LittleEndian(Footer[0x4..]); set => WriteUInt32LittleEndian(Footer[0x4..], value); }

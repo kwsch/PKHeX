@@ -280,10 +280,10 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     private const int OFS_BV = 31 * 0x1000; // last sector of the save
     public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(Data.AsSpan(OFS_BV)) == EXTRADATA_SENTINEL;
 
-    private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BV3.SIZE);
-    public BV3 BattleVideo
+    private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BattleVideo3.SIZE);
+    public BattleVideo3 BattleVideo
     {
-        get => HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
+        get => HasBattleVideo ? new BattleVideo3(BattleVideoData.ToArray()) : new BattleVideo3();
         set => SetData(BattleVideoData, value.Data);
     }
 }
