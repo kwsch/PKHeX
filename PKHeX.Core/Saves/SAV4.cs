@@ -196,8 +196,23 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
     }
 
+    public BattleVideo4? GetBattleVideo(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, 4);
+        index = 2 + index; // 2-5, skip HoF and Battle Hall
+        if (ExtraBlocks.Count < index)
+            return null; // not in D/P
+
+        var block = ExtraBlocks[index];
+        var active = GetActiveExtraBlock(block);
+        return active == -1 ? null : new BattleVideo4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, BattleVideo4.SIZE_BLOCK));
+    }
+
     public Hall4? GetHall()
     {
+        if (ExtraBlocks.Count < 1)
+            return null; // not in D/P
+
         var block = ExtraBlocks[1];
         var active = GetActiveExtraBlock(block);
         return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_BLOCK));
