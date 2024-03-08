@@ -9,48 +9,45 @@ namespace PKHeX.Core;
 /// Extra-data block for Battle Video records.
 /// </summary>
 /// <param name="Raw">Chunk of memory storing the structure.</param>
-public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
+public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
 {
-    private const int SIZE = 0x1D50;
-    private const int SIZE_FOOTER = 0x10;
+    private const int SIZE = 0x1900;
+    private const int SIZE_FOOTER = 0x14;
     public const int SIZE_USED = SIZE + SIZE_FOOTER;
-  //public const int SIZE_BLOCK = 0x2000;
+    //public const int SIZE_BLOCK = 0x2000;
 
     private Span<byte> Data => Raw.Span[..SIZE_USED];
 
     public bool IsDecrypted;
-    private const int CryptoStart = 0xE8;
-    private const int CryptoEnd = 0x1D4C;
+    private const int CryptoStart = 0xC4;
+    private const int CryptoEnd = 0x18A0;
     private Span<byte> CryptoData => Data[CryptoStart..CryptoEnd];
 
     public byte Generation => 4;
     public IEnumerable<PKM> Contents => GetTeam(0).Concat(GetTeam(1)); // don't bother with multi-battles
-    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE_USED && ReadUInt32LittleEndian(data[^8..]) == SIZE;
+    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE_USED && ReadUInt32LittleEndian(data[0x1908..]) == SIZE_USED;
 
     // Structure:
-    // 0x00: u32 Key
-    // 0x04... ???
-    // 0xE8 - 0x1D4C: encrypted region
-    // 0x1D4C: u16 cryptoSeed ~~ inflate to 32 via seed |= (seed ^ 0xFFFF) << 16;
-    // u16 alignment
-    // extdata 0x10 byte footer
+    // 0xC4 - 0x18A0: encrypted region
+    // 0x18A0: u16 cryptoSeed ~~ inflate to 32 via seed |= (seed ^ 0xFFFF) << 16;
+    // footer
 
     // Encrypted Region:
-    // 0xE8... ???
-    // 0x1238: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
-    // 0x14DC: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
-    // 0x1780: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
-    // 0x1A24: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
-    // 0x1CC8: char[8] OT, 16 bytes trainer info
-    // 0x1CE8: char[8] OT, 16 bytes trainer info
-    // 0x1D08: char[8] OT, 16 bytes trainer info
-    // 0x1D28: char[8] OT, 16 bytes trainer info
-    // 0x1D48: 4 bytes ???
+    // 0xC4... ???
+    // 0x0CFC: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
+    // 0x0FA0: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
+    // 0x1244: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
+    // 0x14E8: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
+    // 0x178C: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
+    // 0x17D0: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
+    // 0x1814: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
+    // 0x1858: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
+    // 0x189C: 0xC bytes ???
 
     public const int SizeVideoPoke = 0x70;
 
     public uint Key { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
-    public ushort Seed { get => ReadUInt16LittleEndian(Data[0x1D4C..]); set => WriteUInt16LittleEndian(Data[0x1D4C..], value); }
+    public ushort Seed { get => ReadUInt16LittleEndian(Data[0x18A0..]); set => WriteUInt16LittleEndian(Data[0x18A0..], value); }
 
     public void Decrypt() => SetDecryptedState(true);
     public void Encrypt() => SetDecryptedState(false);
@@ -62,6 +59,10 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
         IsDecrypted = state;
     }
 
+    /// <summary>
+    /// Same as Gen4!
+    /// </summary>
+    /// <returns></returns>
     public uint GetEncryptionSeed()
     {
         uint seed = Seed;
@@ -72,13 +73,10 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
     public bool SizeValid => BlockSize == SIZE;
     public bool ChecksumValid => Checksum == GetChecksum();
 
-    public uint Magic { get => ReadUInt32LittleEndian(Footer); set => WriteUInt32LittleEndian(Footer, value); }
-    public uint Revision { get => ReadUInt32LittleEndian(Footer[0x4..]); set => WriteUInt32LittleEndian(Footer[0x4..], value); }
     public int BlockSize { get => ReadInt32LittleEndian(Footer[0x8..]); set => WriteInt32LittleEndian(Footer[0x8..], value); }
-    public ushort BlockID { get => ReadUInt16LittleEndian(Footer[0xC..]); set => WriteUInt16LittleEndian(Footer[0xC..], value); }
-    public ushort Checksum { get => ReadUInt16LittleEndian(Footer[0xE..]); set => WriteUInt16LittleEndian(Footer[0xE..], value); }
+    public ushort Checksum { get => ReadUInt16LittleEndian(Footer[0x12..]); set => WriteUInt16LittleEndian(Footer[0x12..], value); }
 
-    private ReadOnlySpan<byte> GetRegion() => Data[..(SIZE + SIZE_FOOTER)];
+    private ReadOnlySpan<byte> GetRegion() => Data[..SIZE_USED];
     private Span<byte> Footer => Data.Slice(SIZE, SIZE_FOOTER);
     private ushort GetChecksum() => Checksums.CRC16_CCITT(GetRegion()[..^2]);
     public void RefreshChecksum() => Checksum = GetChecksum();
@@ -88,12 +86,12 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
 
     private const int TrainerCount = 4;
     private const int TrainerLength = 0x2A4;
-    public Span<byte> Trainer1 => Data.Slice(0x1238, TrainerLength);
-    public Span<byte> Trainer2 => Data.Slice(0x14DC, TrainerLength);
-    public Span<byte> Trainer3 => Data.Slice(0x1780, TrainerLength);
-    public Span<byte> Trainer4 => Data.Slice(0x1A24, TrainerLength);
+    public Span<byte> Trainer1 => Data.Slice(0x0CFC, TrainerLength);
+    public Span<byte> Trainer2 => Data.Slice(0x0FA0, TrainerLength);
+    public Span<byte> Trainer3 => Data.Slice(0x1244, TrainerLength);
+    public Span<byte> Trainer4 => Data.Slice(0x14E8, TrainerLength);
 
-    public PK4[] GetTeam(int trainer)
+    public PK5[] GetTeam(int trainer)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)trainer, TrainerCount);
         var span = trainer switch
@@ -107,19 +105,20 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
         int count = span[2];
         if (count > 6)
             count = 6;
-        var result = new PK4[count];
+        var result = new PK5[count];
         for (int i = 0; i < count; i++)
         {
             var ofs = 4 + (i * SizeVideoPoke);
             var segment = span.Slice(ofs, SizeVideoPoke);
-            var entity = new PK4();
-            InflateToPK4(segment, entity.Data);
+            var entity = new PK5();
+            InflateToPK5(segment, entity.Data);
             result[i] = entity;
         }
         return result;
     }
 
-    public static void InflateToPK4(ReadOnlySpan<byte> video, Span<byte> entity)
+    /// <summary> <see cref="BattleVideo4.InflateToPK4"/> </summary>
+    public static void InflateToPK5(ReadOnlySpan<byte> video, Span<byte> entity)
     {
         VerifySpanSizes(entity, video);
 
@@ -149,11 +148,12 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
 
         // We're still missing things like Version and Met Location, but this is all we can recover.
         // Recalculate checksum.
-        ushort checksum = Checksums.Add16(entity[8..PokeCrypto.SIZE_4STORED]);
+        ushort checksum = Checksums.Add16(entity[8..PokeCrypto.SIZE_5STORED]);
         WriteUInt16LittleEndian(entity[6..], checksum);
     }
 
-    public static void DeflateFromPK4(ReadOnlySpan<byte> entity, Span<byte> video)
+    /// <summary> <see cref="BattleVideo4.DeflateFromPK4"/> </summary>
+    public static void DeflateFromPK5(ReadOnlySpan<byte> entity, Span<byte> video)
     {
         VerifySpanSizes(entity, video);
 
@@ -185,7 +185,7 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
     {
         if (video.Length < SizeVideoPoke)
             throw new ArgumentOutOfRangeException(nameof(video), "Video size is too small.");
-        if (entity.Length < PokeCrypto.SIZE_4STORED)
+        if (entity.Length < PokeCrypto.SIZE_5STORED)
             throw new ArgumentOutOfRangeException(nameof(entity), "Entity size is too small.");
     }
     #endregion

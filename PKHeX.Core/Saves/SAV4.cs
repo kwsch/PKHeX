@@ -205,7 +205,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
         var block = ExtraBlocks[index];
         var active = GetActiveExtraBlock(block);
-        return active == -1 ? null : new BattleVideo4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, BattleVideo4.SIZE_BLOCK));
+        return active == -1 ? null : new BattleVideo4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, BattleVideo4.SIZE_USED));
     }
 
     public Hall4? GetHall()
@@ -215,7 +215,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
         var block = ExtraBlocks[1];
         var active = GetActiveExtraBlock(block);
-        return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_BLOCK));
+        return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_USED));
     }
 
     protected int WondercardFlags = int.MinValue;

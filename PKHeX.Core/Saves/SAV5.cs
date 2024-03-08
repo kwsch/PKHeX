@@ -193,6 +193,11 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract AdventureInfo5 AdventureInfo { get; }
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
 
+    public abstract Span<byte> BattleVideoNative { get; }
+    public abstract Span<byte> BattleVideoDownload1 { get; }
+    public abstract Span<byte> BattleVideoDownload2 { get; }
+    public abstract Span<byte> BattleVideoDownload3 { get; }
+
     protected override byte[] GetFinalData()
     {
         EntreeForest.EndAccess();
