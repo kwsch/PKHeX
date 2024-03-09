@@ -19,11 +19,14 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     private Span<byte> Data => Raw.Span[..SIZE_USED];
 
     public bool IsDecrypted;
-    private const int CryptoStart = 0xC4;
-    private const int CryptoEnd = 0x18A0;
-    private Span<byte> CryptoData => Data[CryptoStart..CryptoEnd];
+    private Span<byte> CryptoData => Data[0xC4..0x18A0];
+    private Span<byte> Footer => Data.Slice(SIZE, SIZE_FOOTER);
 
-    public byte Generation => 4;
+    public Span<byte> DecryptedChecksumRegion => CryptoData; // ccitt16 -> 0x18A0
+    public Span<byte> EncryptedChecksumRegion => Data[..0x18A4]; // ccitt16 -> 0x18A6
+    public Span<byte> FooterChecksumRegion => Footer[..4]; // ccitt16 -> 0x12
+
+    public byte Generation => 5;
     public IEnumerable<PKM> Contents => GetTeam(0).Concat(GetTeam(1)); // don't bother with multi-battles
     public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE_USED && ReadUInt32LittleEndian(data[0x1908..]) == SIZE_USED;
 
@@ -47,7 +50,13 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     public const int SizeVideoPoke = 0x70;
 
     public uint Key { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+
+    /// <summary> <see cref="CalculateDecryptedChecksum"/> </summary>
     public ushort Seed { get => ReadUInt16LittleEndian(Data[0x18A0..]); set => WriteUInt16LittleEndian(Data[0x18A0..], value); }
+    // 0000: ^ seed is truncated to u16.
+    public ushort EncryptedCount { get => ReadUInt16LittleEndian(Data[0x18A4..]); set => WriteUInt16LittleEndian(Data[0x18A4..], value); }
+    public ushort EncryptedChecksum { get => ReadUInt16LittleEndian(Data[0x18A6..]); set => WriteUInt16LittleEndian(Data[0x18A6..], value); }
+    // 0xFF padding(?) to 0x1900
 
     public void Decrypt() => SetDecryptedState(true);
     public void Encrypt() => SetDecryptedState(false);
@@ -71,15 +80,43 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
 
     #region Footer
     public bool SizeValid => BlockSize == SIZE;
-    public bool ChecksumValid => Checksum == GetChecksum();
+    public bool ChecksumValid => FooterChecksum == CalculateFooterChecksum();
 
+    public ushort EncryptedChecksumCopy { get => ReadUInt16LittleEndian(Footer); set => WriteUInt16LittleEndian(Footer, value); }
+    // 0000
+    public uint FooterCount { get => ReadUInt32LittleEndian(Footer[0x4..]); set => WriteUInt32LittleEndian(Footer[0x4..], value); }
     public int BlockSize { get => ReadInt32LittleEndian(Footer[0x8..]); set => WriteInt32LittleEndian(Footer[0x8..], value); }
-    public ushort Checksum { get => ReadUInt16LittleEndian(Footer[0x12..]); set => WriteUInt16LittleEndian(Footer[0x12..], value); }
+    public uint BlockID { get => ReadUInt32LittleEndian(Footer[0xC..]); set => WriteUInt32LittleEndian(Footer[0xC..], value); }
+    // 0000
+    public ushort FooterChecksum { get => ReadUInt16LittleEndian(Footer[0x12..]); set => WriteUInt16LittleEndian(Footer[0x12..], value); }
 
-    private ReadOnlySpan<byte> GetRegion() => Data[..SIZE_USED];
-    private Span<byte> Footer => Data.Slice(SIZE, SIZE_FOOTER);
-    private ushort GetChecksum() => Checksums.CRC16_CCITT(GetRegion()[..^2]);
-    public void RefreshChecksum() => Checksum = GetChecksum();
+    private ushort CalculateEncryptedChecksum()
+    {
+        if (IsDecrypted)
+            throw new InvalidOperationException("Cannot calculate checksum when decrypted.");
+        return Checksums.CRC16_CCITT(EncryptedChecksumRegion);
+    }
+
+    private ushort CalculateDecryptedChecksum()
+    {
+        if (!IsDecrypted)
+            throw new InvalidOperationException("Cannot calculate checksum when encrypted.");
+        return Checksums.CRC16_CCITT(DecryptedChecksumRegion);
+    }
+
+    private ushort CalculateFooterChecksum() => Checksums.CRC16_CCITT(FooterChecksumRegion);
+
+    public void RefreshChecksums()
+    {
+        var state = IsDecrypted;
+        Decrypt();
+        Seed = CalculateDecryptedChecksum();
+        Encrypt();
+        EncryptedChecksum = CalculateEncryptedChecksum();
+        FooterChecksum = CalculateFooterChecksum();
+        SetDecryptedState(state);
+    }
+
     #endregion
 
     #region Conversion

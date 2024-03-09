@@ -73,8 +73,8 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
         set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
     }
 
-    public override Span<byte> BattleVideoNative    => Data.AsSpan(0x4C000, BattleVideo5.SIZE_USED);
-    public override Span<byte> BattleVideoDownload1 => Data.AsSpan(0x4DA00, BattleVideo5.SIZE_USED);
-    public override Span<byte> BattleVideoDownload2 => Data.AsSpan(0x4F400, BattleVideo5.SIZE_USED);
-    public override Span<byte> BattleVideoDownload3 => Data.AsSpan(0x50E00, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoNative    => Data.AsMemory(0x4C000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload1 => Data.AsMemory(0x4DA00, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload2 => Data.AsMemory(0x4F400, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload3 => Data.AsMemory(0x50E00, BattleVideo5.SIZE_USED);
 }

@@ -57,8 +57,8 @@ public sealed class SAV5BW : SAV5
     public override WhiteBlack5BW Forest => Blocks.Forest;
     public override AdventureInfo5 AdventureInfo => Blocks.AdventureInfo;
 
-    public override Span<byte> BattleVideoNative    => Data.AsSpan(0x4A000, BattleVideo5.SIZE_USED);
-    public override Span<byte> BattleVideoDownload1 => Data.AsSpan(0x4C000, BattleVideo5.SIZE_USED);
-    public override Span<byte> BattleVideoDownload2 => Data.AsSpan(0x4E000, BattleVideo5.SIZE_USED);
-    public override Span<byte> BattleVideoDownload3 => Data.AsSpan(0x50000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoNative    => Data.AsMemory(0x4A000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload1 => Data.AsMemory(0x4C000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload2 => Data.AsMemory(0x4E000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload3 => Data.AsMemory(0x50000, BattleVideo5.SIZE_USED);
 }

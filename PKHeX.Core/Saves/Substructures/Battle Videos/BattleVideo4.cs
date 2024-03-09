@@ -19,9 +19,10 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
     private Span<byte> Data => Raw.Span[..SIZE_USED];
 
     public bool IsDecrypted;
-    private const int CryptoStart = 0xE8;
-    private const int CryptoEnd = 0x1D4C;
-    private Span<byte> CryptoData => Data[CryptoStart..CryptoEnd];
+    private Span<byte> CryptoData => Data[0xE8..0x1D4C];
+    private Span<byte> Footer => Data.Slice(SIZE, SIZE_FOOTER);
+
+    public Span<byte> DecryptedChecksumRegion => CryptoData; // ccitt16 -> 0x1D4C
 
     public byte Generation => 4;
     public IEnumerable<PKM> Contents => GetTeam(0).Concat(GetTeam(1)); // don't bother with multi-battles
@@ -50,6 +51,8 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
     public const int SizeVideoPoke = 0x70;
 
     public uint Key { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+
+    /// <summary> <see cref="CalculateDecryptedChecksum"/> </summary>
     public ushort Seed { get => ReadUInt16LittleEndian(Data[0x1D4C..]); set => WriteUInt16LittleEndian(Data[0x1D4C..], value); }
 
     public void Decrypt() => SetDecryptedState(true);
@@ -70,7 +73,7 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
 
     #region Footer
     public bool SizeValid => BlockSize == SIZE;
-    public bool ChecksumValid => Checksum == GetChecksum();
+    public bool ChecksumValid => Checksum == CalculateFooterChecksum();
 
     public uint Magic { get => ReadUInt32LittleEndian(Footer); set => WriteUInt32LittleEndian(Footer, value); }
     public uint Revision { get => ReadUInt32LittleEndian(Footer[0x4..]); set => WriteUInt32LittleEndian(Footer[0x4..], value); }
@@ -78,10 +81,30 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
     public ushort BlockID { get => ReadUInt16LittleEndian(Footer[0xC..]); set => WriteUInt16LittleEndian(Footer[0xC..], value); }
     public ushort Checksum { get => ReadUInt16LittleEndian(Footer[0xE..]); set => WriteUInt16LittleEndian(Footer[0xE..], value); }
 
-    private ReadOnlySpan<byte> GetRegion() => Data[..(SIZE + SIZE_FOOTER)];
-    private Span<byte> Footer => Data.Slice(SIZE, SIZE_FOOTER);
-    private ushort GetChecksum() => Checksums.CRC16_CCITT(GetRegion()[..^2]);
-    public void RefreshChecksum() => Checksum = GetChecksum();
+    private ushort CalculateFooterChecksum()
+    {
+        if (IsDecrypted)
+            throw new InvalidOperationException("Cannot calculate checksum when decrypted.");
+        return Checksums.CRC16_CCITT(Data[..^2]);
+    }
+
+    private ushort CalculateDecryptedChecksum()
+    {
+        if (!IsDecrypted)
+            throw new InvalidOperationException("Cannot calculate checksum when encrypted.");
+        return Checksums.CRC16_CCITT(DecryptedChecksumRegion);
+    }
+
+    public void RefreshChecksums()
+    {
+        var state = IsDecrypted;
+        Decrypt();
+        Seed = CalculateDecryptedChecksum();
+        Encrypt();
+        Checksum = CalculateFooterChecksum();
+        SetDecryptedState(state);
+    }
+
     #endregion
 
     #region Conversion
