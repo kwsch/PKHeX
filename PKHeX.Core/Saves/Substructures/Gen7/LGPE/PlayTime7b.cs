@@ -3,8 +3,11 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class PlayTime7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
+public sealed class PlayTime7b : SaveBlock<SaveFile>
 {
+    public PlayTime7b(SAV7b sav, Memory<byte> raw) : base(sav, raw) { }
+    public PlayTime7b(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
+
     public int PlayedHours
     {
         get => ReadUInt16LittleEndian(Data);
@@ -24,23 +27,19 @@ public sealed class PlayTime7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
     }
 
     private Epoch1900DateTimeValue LastSaved => new(Raw.Slice(0x4, 4));
-    public string LastSavedTime => $"{LastSaved.Year:0000}-{LastSaved.Month:00}-{LastSaved.Day:00} {LastSaved.Hour:00}ː{LastSaved.Minute:00}"; // not :
+    public string LastSavedTime => LastSaved.DisplayValue;
 
     public DateTime? LastSavedDate
     {
         get => !DateUtil.IsDateValid(LastSaved.Year, LastSaved.Month, LastSaved.Day)
             ? null
-            : new DateTime(LastSaved.Year, LastSaved.Month, LastSaved.Day, LastSaved.Hour, LastSaved.Minute, 0);
+            : LastSaved.Timestamp;
         set
         {
             // Only update the properties if a value is provided.
             if (value is { } dt)
             {
-                LastSaved.Year = dt.Year;
-                LastSaved.Month = dt.Month;
-                LastSaved.Day = dt.Day;
-                LastSaved.Hour = dt.Hour;
-                LastSaved.Minute = dt.Minute;
+                LastSaved.Timestamp = dt;
             }
             else // Clear the date.
             {

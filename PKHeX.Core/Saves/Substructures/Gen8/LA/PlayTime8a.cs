@@ -18,5 +18,5 @@ public sealed class PlayTime8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sa
 
     public byte PlayedMinutes { get => Data[2]; set => Data[2] = value; }
     public byte PlayedSeconds { get => Data[3]; set => Data[3] = value; }
-    public string LastSavedTime => $"{PlayedHours:0000}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
+    public string PlayedTime => $"{PlayedHours:0000}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
 }
