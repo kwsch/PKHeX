@@ -3,8 +3,11 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class PlayTime7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
+public sealed class PlayTime7b : SaveBlock<SaveFile>
 {
+    public PlayTime7b(SAV7b sav, Memory<byte> raw) : base(sav, raw) { }
+    public PlayTime7b(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
+
     public int PlayedHours
     {
         get => ReadUInt16LittleEndian(Data);

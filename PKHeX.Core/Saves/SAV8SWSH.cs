@@ -70,7 +70,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public Misc8 Misc => Blocks.Misc;
     public Zukan8 Zukan => Blocks.Zukan;
     public BoxLayout8 BoxLayout => Blocks.BoxLayout;
-    public PlayTime8 Played => Blocks.Played;
+    public PlayTime7b Played => Blocks.Played;
     public Fused8 Fused => Blocks.Fused;
     public Daycare8 Daycare => Blocks.Daycare;
     public Record8 Records => Blocks.Records;
