@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRevision, IBoxDetailName, IBoxDetailWallpaper
 {
-    protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.LastSavedTime}";
+    protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.DisplayValue}";
     public override string Extension => string.Empty;
 
     public SAV8LA(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
@@ -114,7 +114,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public MyItem8a Items => Blocks.Items;
     public Epoch1970Value AdventureStart => Blocks.AdventureStart;
     public Coordinates8a Coordinates => Blocks.Coordinates;
-    public LastSaved8a LastSaved => Blocks.LastSaved;
+    public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
     public PlayTime8a Played => Blocks.Played;
     public AreaSpawnerSet8a AreaSpawners => new(Blocks.GetBlock(SaveBlockAccessor8LA.KSpawners));
     #endregion
