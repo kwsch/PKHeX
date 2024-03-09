@@ -21,7 +21,7 @@ public sealed class PokedexSaveData
     {
         ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, POKEDEX_SAVE_DATA_SIZE);
 
-        GlobalData = new PokedexSaveGlobalData(data.Slice(0, PokedexSaveGlobalData.SIZE));
+        GlobalData = new PokedexSaveGlobalData(data[..PokedexSaveGlobalData.SIZE]);
 
         LocalData = new PokedexSaveLocalData[5];
         for (var i = 0; i < LocalData.Length; i++)

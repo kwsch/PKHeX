@@ -81,7 +81,7 @@ public partial class SAV_HallOfFame : Form
         int index = LB_DataEntry.SelectedIndex;
         int offset = index * StructureSize;
 
-        uint vnd = ReadUInt32LittleEndian(Data.Slice(offset + 0x1B0));
+        uint vnd = ReadUInt32LittleEndian(Data[(offset + 0x1B0)..]);
         uint vn = vnd & 0xFF;
         TB_VN.Text = vn.ToString("000");
         var s = new List<string> { $"Entry #{vn}" };
@@ -241,9 +241,9 @@ public partial class SAV_HallOfFame : Form
         date |= (uint)((CAL_MetDate.Value.Day & 0x1F) << 12);
         vnd |= (date & 0x1FFFF) << 14;
         //Fix for top bit
-        uint rawvnd = ReadUInt32LittleEndian(Data.Slice(offset + 0x1B0));
+        uint rawvnd = ReadUInt32LittleEndian(Data[(offset + 0x1B0)..]);
         vnd |= rawvnd & 0x80000000;
-        WriteUInt32LittleEndian(Data.Slice(offset + 0x1B0), vnd);
+        WriteUInt32LittleEndian(Data[(offset + 0x1B0)..], vnd);
 
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
         bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);

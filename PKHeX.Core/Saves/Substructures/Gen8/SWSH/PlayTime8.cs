@@ -39,9 +39,8 @@ public sealed class PlayTime8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
         set
         {
             // Only update the properties if a value is provided.
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                var dt = value.Value;
                 LastSavedYear = dt.Year;
                 LastSavedMonth = dt.Month;
                 LastSavedDay = dt.Day;

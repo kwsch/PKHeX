@@ -101,14 +101,14 @@ public sealed class BattleVideo7(byte[] data) : IBattleVideo
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                MatchYear = value.Value.Year;
-                MatchDay = value.Value.Day;
-                MatchMonth = value.Value.Month;
-                MatchHour = value.Value.Hour;
-                MatchMinute = value.Value.Minute;
-                MatchSecond = value.Value.Second;
+                MatchYear = dt.Year;
+                MatchDay = dt.Day;
+                MatchMonth = dt.Month;
+                MatchHour = dt.Hour;
+                MatchMinute = dt.Minute;
+                MatchSecond = dt.Second;
             }
             else
             {

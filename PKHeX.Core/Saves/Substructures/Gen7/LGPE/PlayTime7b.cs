@@ -34,9 +34,8 @@ public sealed class PlayTime7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
         set
         {
             // Only update the properties if a value is provided.
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                var dt = value.Value;
                 LastSaved.Year = dt.Year;
                 LastSaved.Month = dt.Month;
                 LastSaved.Day = dt.Day;

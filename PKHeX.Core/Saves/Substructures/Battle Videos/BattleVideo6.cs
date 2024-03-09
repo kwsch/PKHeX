@@ -143,14 +143,14 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                MatchYear = value.Value.Year;
-                MatchDay = value.Value.Day;
-                MatchMonth = value.Value.Month;
-                MatchHour = value.Value.Hour;
-                MatchMinute = value.Value.Minute;
-                MatchSecond = value.Value.Second;
+                MatchYear = dt.Year;
+                MatchDay = dt.Day;
+                MatchMonth = dt.Month;
+                MatchHour = dt.Hour;
+                MatchMinute = dt.Minute;
+                MatchSecond = dt.Second;
             }
             else
             {
@@ -169,14 +169,14 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                UploadYear = value.Value.Year;
-                UploadDay = value.Value.Day;
-                UploadMonth = value.Value.Month;
-                UploadHour = value.Value.Hour;
-                UploadMinute = value.Value.Minute;
-                UploadSecond = value.Value.Second;
+                UploadYear = dt.Year;
+                UploadDay = dt.Day;
+                UploadMonth = dt.Month;
+                UploadHour = dt.Hour;
+                UploadMinute = dt.Minute;
+                UploadSecond = dt.Second;
             }
             else
             {

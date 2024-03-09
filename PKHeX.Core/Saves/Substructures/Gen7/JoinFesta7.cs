@@ -78,9 +78,8 @@ public sealed class JoinFesta7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav
             : null;
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                DateTime dt = value.Value;
                 FestaYear = dt.Year;
                 FestaMonth = dt.Month;
                 FestaDay = dt.Day;
