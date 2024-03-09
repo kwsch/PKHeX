@@ -261,9 +261,9 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
     public override uint Money { get => MyStatus.Money; set => MyStatus.Money = value; }
 
-    public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = (ushort)value; }
-    public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = (byte)value; }
-    public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = (byte)value; }
+    public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
+    public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
+    public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
     // Inventory
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
