@@ -115,7 +115,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public Epoch1970Value AdventureStart => Blocks.AdventureStart;
     public Coordinates8a Coordinates => Blocks.Coordinates;
     public LastSaved8a LastSaved => Blocks.LastSaved;
-    public PlayTime8a Played => Blocks.Played;
+    public PlayTime8b Played => Blocks.Played;
     public AreaSpawnerSet8a AreaSpawners => new(Blocks.GetBlock(SaveBlockAccessor8LA.KSpawners));
     #endregion
 

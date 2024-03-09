@@ -12,7 +12,7 @@ public interface ISaveBlock8Main
     Misc8 Misc { get; }
     Zukan8 Zukan { get; }
     BoxLayout8 BoxLayout { get; }
-    PlayTime8 Played { get; }
+    PlayTime7b Played { get; }
     Fused8 Fused { get; }
     Daycare8 Daycare { get; }
     Record8 Records { get; }

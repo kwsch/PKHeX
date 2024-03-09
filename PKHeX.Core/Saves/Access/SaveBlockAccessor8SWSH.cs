@@ -18,7 +18,7 @@ public sealed class SaveBlockAccessor8SWSH(SAV8SWSH sav) : SCBlockAccessor, ISav
     public Misc8 Misc { get; } = new(sav, Block(sav, KMisc));
     public Zukan8 Zukan { get; } = new(sav, Block(sav, KZukan), BlockSafe(sav, KZukanR1), BlockSafe(sav, KZukanR2));
     public BoxLayout8 BoxLayout { get; } = new(sav, Block(sav, KBoxLayout));
-    public PlayTime8 Played { get; } = new(sav, Block(sav, KPlayTime));
+    public PlayTime7b Played { get; } = new(sav, Block(sav, KPlayTime));
     public Fused8 Fused { get; } = new(sav, Block(sav, KFused));
     public Daycare8 Daycare { get; } = new(sav, Block(sav, KDaycare));
     public Record8 Records { get; } = new(sav, Block(sav, KRecord));
