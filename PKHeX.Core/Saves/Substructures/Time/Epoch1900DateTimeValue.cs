@@ -41,7 +41,7 @@ public sealed class Epoch1900DateTimeValue(Memory<byte> Data) : EpochDateTime(Da
         }
     }
 
-    public override string DisplayValue => $"{Timestamp.Year:0000}-{Timestamp.Month:00}-{Timestamp.Day:00} {Timestamp.Hour:00}ː{Timestamp.Minute:00}ː{Timestamp.Second:00}"; // not :
+    public override string DisplayValue => $"{Timestamp.Year:0000}-{Timestamp.Month:00}-{Timestamp.Day:00} {Timestamp.Hour:00}ː{Timestamp.Minute:00}" + (HasSeconds ? $"ː{Timestamp.Second:00}" : ""); // not :
 
     /// <summary>
     /// time_t (seconds since 1900 Epoch)

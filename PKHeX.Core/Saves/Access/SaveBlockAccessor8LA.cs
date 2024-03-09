@@ -15,7 +15,7 @@ public sealed class SaveBlockAccessor8LA(SAV8LA sav) : SCBlockAccessor, ISaveBlo
     public MyItem8a Items { get; } = new(sav, Block(sav, KItemRegular));
     public Epoch1970Value AdventureStart { get; } = new(Block(sav, KAdventureStart));
     public Coordinates8a Coordinates { get; } = new(sav, Block(sav, KCoordinates));
-    public LastSaved8a LastSaved { get; } = new(sav, Block(sav, KLastSaved));
+    public Epoch1900DateTimeValue LastSaved { get; } = new(Block(sav, KLastSaved));
     public PlayerFashion8a FashionPlayer { get; } = new(sav, Block(sav, KFashionPlayer));
     public PlayTime8b Played { get; } = new(sav, Block(sav, KPlayTime));
 
