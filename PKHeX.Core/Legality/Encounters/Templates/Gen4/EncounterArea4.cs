@@ -161,3 +161,10 @@ public enum SlotType4 : byte
     Safari_Good_Rod = 13,
     Safari_Super_Rod = 14,
 }
+
+public static class SlotType4Extensions
+{
+    public static bool IsSafari(this SlotType4 type) => type >= SlotType4.Safari_Grass;
+    public static bool IsLevelRandDPPt(this SlotType4 type) => type != SlotType4.Grass;
+    public static bool IsLevelRandHGSS(this SlotType4 type) => type != SlotType4.Grass && !type.IsSafari();
+}

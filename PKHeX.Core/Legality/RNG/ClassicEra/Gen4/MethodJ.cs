@@ -148,7 +148,7 @@ public static class MethodJ
     /// <summary>
     /// Attempts to find a matching seed for the given encounter and constraints for Cute Charm buffered PIDs.
     /// </summary>
-    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, out uint result)
+    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, byte format, out uint result)
         where T : IEncounterSlot4
     {
         foreach (uint seed in seeds)
@@ -157,7 +157,7 @@ public static class MethodJ
             var reg = GetNature(p0) == nature;
             if (!reg)
                 continue;
-            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, 4);
+            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (!TryGetMatchCuteCharm(ctx, out result))
                 continue;
             if (!CheckEncounterActivation(enc, ref result))
@@ -264,12 +264,14 @@ public static class MethodJ
         result = default; return false;
     }
 
+    private static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt();
+
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev3))
                 { result = ctx.Seed4; return true; }
@@ -286,9 +288,9 @@ public static class MethodJ
     private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed3; return true; }
@@ -312,7 +314,7 @@ public static class MethodJ
         if (!IsOriginalLevelValid(ctx.LevelMin, ctx.LevelMax, ctx.Format, expectLevel))
         { result = default; return false; }
 
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
             // Don't bother evaluating Prev1 for level, as it's always bumped to max after.
             if (IsSlotValid(ctx.Encounter, ctx.Prev3))
@@ -330,12 +332,12 @@ public static class MethodJ
         where T : IEncounterSlot4
     {
         lead = None;
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
             { result = default; return false; }
 
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
                 { result = ctx.Seed4; return true; }
@@ -355,12 +357,12 @@ public static class MethodJ
     private static bool IsSlotValidStaticMagnetFail<T>(in FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
             if (IsStaticMagnetPass(ctx.Prev3)) // should have triggered
             { result = default; return false; }
 
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed4; return true; }

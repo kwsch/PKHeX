@@ -48,7 +48,7 @@ public static class LeadFinder
         {
             // Needs to fetch all possible seeds for IVs.
             // Kinda sucks to do this every encounter, but it's relatively rare -- still good enough perf.
-            var result = TryGetMatchCuteCharm4(enc, pk, evo, out var seed);
+            var result = TryGetMatchCuteCharm4(enc, pk, evo, pk.Format, out var seed);
             if (result)
                 return new(seed, LeadRequired.CuteCharm);
         }
@@ -69,7 +69,7 @@ public static class LeadFinder
         return result.IsValid();
     }
 
-    private static bool TryGetMatchCuteCharm4<TEnc, TEvo>(TEnc enc, PKM pk, TEvo evo, out uint seed)
+    private static bool TryGetMatchCuteCharm4<TEnc, TEvo>(TEnc enc, PKM pk, TEvo evo, byte format, out uint seed)
         where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
     {
@@ -81,8 +81,8 @@ public static class LeadFinder
         var nature = (byte)(pk.EncryptionConstant % 25);
         var (min, max) = (evo.LevelMin, evo.LevelMax);
         return pk.HGSS
-            ? MethodK.TryGetMatchCuteCharm(enc, seeds, nature, min, max, out seed)
-            : MethodJ.TryGetMatchCuteCharm(enc, seeds, nature, min, max, out seed);
+            ? MethodK.TryGetMatchCuteCharm(enc, seeds, nature, min, max, format, out seed)
+            : MethodJ.TryGetMatchCuteCharm(enc, seeds, nature, min, max, format, out seed);
     }
 
     private static int GetSeedsIVs(PKM pk, Span<uint> seeds)
