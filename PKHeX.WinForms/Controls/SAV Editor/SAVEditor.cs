@@ -170,11 +170,13 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     public int GetViewIndex(ISlotInfo slot)
     {
-        if (GetCurrentDaycare() is not { })
+        if (GetCurrentDaycare() is not { } dc)
             return -1;
 
         for (int i = 0; i < SlotPictureBoxes.Count; i++)
         {
+            if (dc.DaycareSlotCount == i)
+                break;
             var data = GetSlotData(i);
             if (data.Equals(slot))
                 return i;
