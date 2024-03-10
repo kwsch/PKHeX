@@ -64,11 +64,6 @@ public static class RuinsOfAlph4
 
     private static bool IsFormValidInterior(byte form, uint rand)
     {
-        // Eager-check the full set of forms, as most players will have unlocked all forms.
-        var full = rand % 26;
-        if (full == form)
-            return true;
-
         // Let's have some fun: permute the combinations of unlocked forms & resulting form choice-s.
         Span<byte> forms = stackalloc byte[26]; // A-Z
         return Recurse(forms, form, rand, 0);
@@ -86,16 +81,19 @@ public static class RuinsOfAlph4
         if (Recurse(forms, form, rand, newCount, depth + 1))
             return true;
 
+        // Try with the forms we added in this stack frame.
+        // Don't need to check the not-added case as earlier depths will check the same set when needed.
+        var roll = rand % newCount;
+        var expect = forms[(int)roll];
+        if (expect == form)
+            return true;
+
         // Try checking without the added forms. No need to clear what we just added.
         // Check this case before the nothing-else case, as players aren't likely to be missing many sets.
         if (Recurse(forms, form, rand, count, depth + 1))
             return true;
 
-        // Try with the forms we added in this stack frame.
-        // Don't need to check the not-added case as earlier depths will check the same set when needed.
-        var roll = rand % newCount;
-        var expect = forms[(int)roll];
-        return expect == form;
+        return false;
     }
 
     private static int AddForms(Span<byte> forms, int count, int depth)
@@ -108,10 +106,10 @@ public static class RuinsOfAlph4
 
     private static (byte Start, byte End) GetForms(int index) => index switch
     {
-        0 => (00, 09), // A-J [00,09] = 10
-        1 => (10, 16), // K-Q [10,16] = 7
-        2 => (17, 21), // R-V [17,21] = 5
-        3 => (22, 25), // W-Z [22,25] = 4
+        0 => (00, 09), // A-J = 10
+        1 => (17, 21), // R-V = 5
+        2 => (10, 16), // K-Q = 7
+        3 => (22, 25), // W-Z = 4
         _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 }
