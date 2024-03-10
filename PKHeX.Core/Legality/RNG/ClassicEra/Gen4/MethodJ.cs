@@ -148,7 +148,7 @@ public static class MethodJ
     /// <summary>
     /// Attempts to find a matching seed for the given encounter and constraints for Cute Charm buffered PIDs.
     /// </summary>
-    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, byte format, out uint result)
+    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, byte format, out LeadSeed result)
         where T : IEncounterSlot4
     {
         foreach (uint seed in seeds)
@@ -158,14 +158,34 @@ public static class MethodJ
             if (!reg)
                 continue;
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (!TryGetMatchCuteCharm(ctx, out result))
+
+            if (!TryGetMatchCuteCharm(ctx, out var s))
                 continue;
-            if (!CheckEncounterActivation(enc, ref result))
+            if (!CheckEncounterActivation(enc, ref s))
                 continue;
+            result = new(s, CuteCharm);
             return true;
+        }
+        if (CanRadar(enc))
+        {
+            foreach (uint seed in seeds)
+            {
+                var p0 = seed >> 16; // 0
+                var reg = GetNature(p0) == nature;
+                if (!reg)
+                    continue;
+
+                var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
+                if (IsCuteCharmFail(ctx.Prev1))
+                    continue;
+                result = new(ctx.Seed2, CuteCharmRadar);
+                return true;
+            }
         }
         result = default; return false;
     }
+
+    private static bool CanRadar<T>(T enc) where T : IEncounterSlot4 => enc is EncounterSlot4 { Type: Grass, CanUseRadar: true };
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool TryGetMatch<T>(T enc, byte levelMin, byte levelMax, uint seed, byte nature, byte format, out LeadSeed result)
@@ -185,6 +205,11 @@ public static class MethodJ
             if (IsSlotValidRegular(ctx, out seed))
             {
                 result = new(seed, Synchronize);
+                return true;
+            }
+            if (CanRadar(enc))
+            {
+                result = new(ctx.Seed1, SynchronizeRadar);
                 return true;
             }
         }
@@ -260,6 +285,9 @@ public static class MethodJ
         { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
         { result = new(seed, IntimidateKeenEyeFail); return true; }
+
+        if (CanRadar(ctx.Encounter))
+        { result = new(ctx.Seed1, Radar); return true; }
 
         result = default; return false;
     }

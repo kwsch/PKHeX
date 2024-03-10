@@ -43,8 +43,21 @@ public enum LeadRequired : byte
     /// <summary> <see cref="Ability.Synchronize"/> </summary>
     Synchronize,
 
+    /// <summary> Higher display priority for radar-only encounters. </summary>
+    CuteCharmRadar,
+    /// <summary> Higher display priority for radar-only encounters. </summary>
+    SynchronizeRadar,
+    /// <summary> Higher display priority for radar-only encounters. </summary>
+    Radar,
+
     /// <summary> No Lead ability effect is present, or is not checked for this type of frame. </summary>
     None = byte.MaxValue,
+}
+
+public enum EncounterTriggerCondition : byte
+{
+    None,
+    Radar,
 }
 
 public static class LeadRequiredExtensions
@@ -74,10 +87,13 @@ public static class LeadRequiredExtensions
         SuctionCups           => Ability.SuctionCups,
         Illuminate            => Ability.Illuminate,
         IntimidateKeenEyeFail => Ability.Intimidate,
+
+        SynchronizeRadar      => Ability.Synchronize,
+        CuteCharmRadar        => Ability.CuteCharm,
         _                     => Ability.None,
     };
 
-    public static (Ability Ability, bool IsFail) GetDisplayAbility(this LeadRequired lr)
+    public static (Ability Ability, bool IsFail, EncounterTriggerCondition Condition) GetDisplayAbility(this LeadRequired lr)
     {
         var isFail = false;
         if (lr.IsFailTuple())
@@ -89,6 +105,14 @@ public static class LeadRequiredExtensions
         {
             isFail = true;
         }
-        return (lr.GetAbility(), isFail);
+
+        var condition = lr switch
+        {
+            Radar            => EncounterTriggerCondition.Radar,
+            SynchronizeRadar => EncounterTriggerCondition.Radar,
+            CuteCharmRadar   => EncounterTriggerCondition.Radar,
+            _                => EncounterTriggerCondition.None,
+        };
+        return (lr.GetAbility(), isFail, condition);
     }
 }

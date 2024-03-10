@@ -469,7 +469,7 @@ public static class MethodFinder
         return false;
     }
 
-    private static bool GetChainShinyMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetChainShinyMatch(Span<uint> seeds, ITrainerID32 pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         // 13 shiny bits
         // PIDH & 7
@@ -482,36 +482,43 @@ public static class MethodFinder
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
-            // check the individual bits
-            var s = seed;
-            int i = 15;
-            do
-            {
-                var bit = s >> 16 & 1;
-                if (bit != (pid >> i & 1))
-                    break;
-                s = LCRNG.Prev(s);
-            }
-            while (--i != 2);
-            if (i != 2) // bit failed
+            if (!IsChainShinyValid(pk, pid, seed, out uint s))
                 continue;
-            // Shiny Bits of PID validated
-            var upper = s;
-            if ((upper >> 16 & 7) != (pid >> 16 & 7))
-                continue;
-            var lower = LCRNG.Prev(upper);
-            if ((lower >> 16 & 7) != (pid & 7))
-                continue;
-
-            var upid = (((pid & 0xFFFF) ^ pk.TID16 ^ pk.SID16) & 0xFFF8) | ((upper >> 16) & 0x7);
-            if (upid != pid >> 16)
-                continue;
-
-            s = LCRNG.Prev2(lower); // unroll one final time to get the origin seed
             pidiv = new PIDIV(ChainShiny, s);
             return true;
         }
         return GetNonMatch(out pidiv);
+    }
+
+    public static bool IsChainShinyValid(ITrainerID32 pk, uint pid, uint seed, out uint s)
+    {
+        // check the individual bits
+        s = seed;
+        int i = 15;
+        do
+        {
+            var bit = s >> 16 & 1;
+            if (bit != (pid >> i & 1))
+                break;
+            s = LCRNG.Prev(s);
+        }
+        while (--i != 2);
+        if (i != 2) // bit failed
+            return false;
+        // Shiny Bits of PID validated
+        var upper = s;
+        if ((upper >> 16 & 7) != (pid >> 16 & 7))
+            return false;
+        var lower = LCRNG.Prev(upper);
+        if ((lower >> 16 & 7) != (pid & 7))
+            return false;
+
+        var upid = (((pid & 0xFFFF) ^ pk.TID16 ^ pk.SID16) & 0xFFF8) | ((upper >> 16) & 0x7);
+        if (upid != pid >> 16)
+            return false;
+
+        s = LCRNG.Prev2(lower); // unroll one final time to get the origin seed
+        return true;
     }
 
     private static bool GetBACDMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)

@@ -134,7 +134,7 @@ public static class MethodK
     /// <summary>
     /// Attempts to find a matching seed for the given encounter and constraints for Cute Charm buffered PIDs.
     /// </summary>
-    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, byte format, out uint result)
+    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, byte format, out LeadSeed result)
         where T : IEncounterSlot4
     {
         foreach (uint seed in seeds)
@@ -144,10 +144,13 @@ public static class MethodK
             if (!reg)
                 continue;
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (!TryGetMatchCuteCharm(ctx, out result))
+            if (!TryGetMatchCuteCharm(ctx, out var s))
                 continue;
-            if (CheckEncounterActivationCuteCharm(enc, ref result))
-                return true;
+            if (!CheckEncounterActivationCuteCharm(enc, ref s))
+                continue;
+
+            result = new(s, CuteCharm);
+            return true;
         }
         result = default; return false;
     }

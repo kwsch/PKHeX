@@ -179,7 +179,7 @@ public static class MethodH
             return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
         if (enc.Type.IsFishingRodType())
             return true; // can just wait and trigger after hooking.
-        
+
         // Can sweet scent trigger.
         return true;
     }

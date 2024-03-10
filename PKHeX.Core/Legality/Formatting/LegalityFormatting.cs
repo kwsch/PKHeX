@@ -147,10 +147,13 @@ public static class LegalityFormatting
     {
         if (lead is LeadRequired.Invalid)
             return "❌";
-        var (ability, isFail) = lead.GetDisplayAbility();
+        var (ability, isFail, condition) = lead.GetDisplayAbility();
         var abilities = GameInfo.Strings.Ability;
         var name = abilities[(int)ability];
-        return isFail ? string.Format(L_F0_1, name, "❌") : name;
+        var result = isFail ? string.Format(L_F0_1, name, "❌") : name;
+        if (condition != EncounterTriggerCondition.None)
+            result += $"-{condition}";
+        return result;
     }
 
     public static string GetEncounterName(this IEncounterable enc)

@@ -230,7 +230,6 @@ public partial class SAV_HallOfFame : Form
             OriginalTrainerGender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
         };
 
-
         offset = index * StructureSize;
 
         uint vnd = 0;
