@@ -17,7 +17,7 @@ public sealed class SaveBlockAccessor8LA(SAV8LA sav) : SCBlockAccessor, ISaveBlo
     public Coordinates8a Coordinates { get; } = new(sav, Block(sav, KCoordinates));
     public Epoch1900DateTimeValue LastSaved { get; } = new(Block(sav, KLastSaved));
     public PlayerFashion8a FashionPlayer { get; } = new(sav, Block(sav, KFashionPlayer));
-    public PlayTime8a Played { get; } = new(sav, Block(sav, KPlayTime));
+    public PlayTime8b Played { get; } = new(sav, Block(sav, KPlayTime));
 
     public int DetectRevision() => HasBlock(0x8184EFB4) ? 1 : 0;
 

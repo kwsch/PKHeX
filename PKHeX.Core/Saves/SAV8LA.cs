@@ -115,7 +115,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public Epoch1970Value AdventureStart => Blocks.AdventureStart;
     public Coordinates8a Coordinates => Blocks.Coordinates;
     public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
-    public PlayTime8a Played => Blocks.Played;
+    public PlayTime8b Played => Blocks.Played;
     public AreaSpawnerSet8a AreaSpawners => new(Blocks.GetBlock(SaveBlockAccessor8LA.KSpawners));
     #endregion
 
@@ -123,9 +123,9 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor8LA.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor8LA.KMoney, value); }
     public override int MaxMoney => 9_999_999;
 
-    public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = (ushort)value; }
-    public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = (byte)value; }
-    public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = (byte)value; }
+    public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
+    public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
+    public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;

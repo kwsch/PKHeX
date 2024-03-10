@@ -13,5 +13,5 @@ public interface ISaveBlock8LA
     MyItem8a Items { get; }
     Epoch1970Value AdventureStart { get; }
     Epoch1900DateTimeValue LastSaved { get; }
-    PlayTime8a Played { get; }
+    PlayTime8b Played { get; }
 }
