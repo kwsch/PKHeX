@@ -1,7 +1,23 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-24/01/12 - New Update:
+24/03/10 - New Update:
+ - Legality: Added Encounter Slot RNG correlation checks for Gen4 (and Gen3). Because Encounter Type PID mismatch wasn't enough!
+ - - When hovering over a slot, the program will indicate a possible method to encounter the slot with a lead & initial seed (not Method 1).
+ - - Added: Gen8+ RNG seeds that are 64bit correlation (like SW/SH raids) will now indicate the detected RNG seed.
+ - - Added: Gen1/2 Event Gifts are now recognized completely. Thanks @ShadowMario3!
+ - Changed: Save Block handling reworked to better match the real game behavior of managing chunks of memory. Thanks @foohyfooh!
+ - Added: Out-of-bounds text entry characters are now indicated with a [?] next to the Nickname/OT text entry. Thanks @abcboy101!
+ - Added: Batch Editor commands are kept when the window is closed, while the program remains open.
+ - Added: Loading empty save files (all 00 or FF) will now give a more detailed error message indicating failure.
+ - Added: More games indicate Daycare status completely. Maybe editing in the future?
+ - Added: Gen1/2 NSO save files are now able to be loaded, edited, and exported without needing an external tool.
+ - Added: Gen2 player color palette now editable via Block Data editor. Thanks @Bl4ckSh4rk!
+ - Added: Gen4/5 Battle Videos can now be extracted & interacted with via PKHeX.Core API code.
+ - Fixed: Gen3 FR/LG National Dex unlock fixed. Thanks @Bl4ckSh4rk!
+ - Fixed: Gen9 Alcremie formarg handling for Pokédex fixed. Thanks @sora10pls!
+
+24/01/12 - New Update: (390462) [8476382]
  - Legality: Added Mochi Mayhem Pecharunt, Regulation F, and Blaziken Tera Raid recognition.
  - - Fixed: Level 100 encounters that were evolved in S/V with level-up methods (Eevee, Magikarp) now recognize correctly.
  - - Fixed: Gen1/2 transfers to Gen7+ will now recognize filtered OT names as valid. Thanks @abcboy101!

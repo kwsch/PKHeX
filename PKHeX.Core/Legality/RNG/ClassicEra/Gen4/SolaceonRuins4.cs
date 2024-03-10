@@ -31,7 +31,7 @@ public static class SolaceonRuins4
         6, 7,
         9, 10, 11, 12,
         14, 15, 16,
-        18, 19, 20, 21, 22, 23, 24, 25
+        18, 19, 20, 21, 22, 23, 24, 25,
     ];
 
     private static byte GetUnownForm(uint rand, byte prefer)
