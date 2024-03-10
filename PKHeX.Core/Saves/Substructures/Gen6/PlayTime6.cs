@@ -3,7 +3,11 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public abstract class PlayTime<T>(T sav, Memory<byte> raw) : SaveBlock<T>(sav, raw) where T : SaveFile
+/// <summary>
+/// Simple 4-byte block storing time played in a save file.
+/// </summary>
+public abstract class PlayTime<TSave>(TSave sav, Memory<byte> raw) : SaveBlock<TSave>(sav, raw)
+    where TSave : SaveFile
 {
     public int PlayedHours
     {
@@ -26,9 +30,16 @@ public abstract class PlayTime<T>(T sav, Memory<byte> raw) : SaveBlock<T>(sav, r
     public string PlayedTime => $"{PlayedHours:0000}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
 }
 
-public abstract class PlayTimeLastSaved<T, E>(T sav, Memory<byte> raw) : PlayTime<T>(sav, raw) where T : SaveFile where E : EpochDateTime
+/// <summary>
+/// Object storing the playtime of a save file as well as the last saved date.
+/// </summary>
+/// <typeparam name="TSave">Type of Save File</typeparam>
+/// <typeparam name="TEpoch">Type of Epoch for the <see cref="LastSaved"/> timestamp.</typeparam>
+public abstract class PlayTimeLastSaved<TSave, TEpoch>(TSave sav, Memory<byte> raw) : PlayTime<TSave>(sav, raw)
+    where TSave : SaveFile
+    where TEpoch : EpochDateTime
 {
-    protected abstract E LastSaved { get; }
+    protected abstract TEpoch LastSaved { get; }
     public string LastSavedTime => $"{LastSaved.Year:0000}-{LastSaved.Month:00}-{LastSaved.Day:00} {LastSaved.Hour:00}ː{LastSaved.Minute:00}"; // not :
 
     public DateTime? LastSavedDate
@@ -56,6 +67,9 @@ public abstract class PlayTimeLastSaved<T, E>(T sav, Memory<byte> raw) : PlayTim
     }
 }
 
+/// <summary>
+/// PlayTime object with a zero-epoch Last Saved timestamp.
+/// </summary>
 public sealed class PlayTime6 : PlayTimeLastSaved<SaveFile, Epoch0000DateTime>
 {
     public PlayTime6(SAV6 sav, Memory<byte> raw) : base(sav, raw) { }

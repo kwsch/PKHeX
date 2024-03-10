@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// PlayTime object with a 1900-epoch Last Saved timestamp.
+/// </summary>
 public sealed class PlayTime7b : PlayTimeLastSaved<SaveFile, Epoch1900DateTimeValue>
 {
     public PlayTime7b(SAV7b sav, Memory<byte> raw) : base(sav, raw) { }

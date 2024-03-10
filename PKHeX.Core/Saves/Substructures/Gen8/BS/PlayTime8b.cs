@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Playtime storage
+/// PlayTime object without a Last Saved timestamp.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class PlayTime8b : PlayTime<SaveFile>
