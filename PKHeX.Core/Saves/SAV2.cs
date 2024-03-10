@@ -359,6 +359,12 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
+    public byte Palette
+    {
+        get => Data[Offsets.Palette];
+        set => Data[Offsets.Palette] = value;
+    }
+
     public override uint ID32
     {
         get => TID16;
