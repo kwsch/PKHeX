@@ -11,8 +11,8 @@ public sealed class Epoch0000DateTime(Memory<byte> Data): EpochDateTime(Data)
 
     private static DateTime Epoch => new(0, 1, 1);
 
-    public override int Year { get => (int)(RawDate & 0xFFF); set => RawDate = (RawDate & 0xFFFFF000) | (uint)(value); }
-    public override int Month { get => (int)((RawDate >> 12) & 0xF); set => RawDate = (RawDate & 0xFFFF0FFF) | (((uint)value & 0xF) << 12); }
+    public override int Year { get => RawYear; set => RawYear = value; }
+    public override int Month { get => RawMonth; set => RawMonth = value; }
     
     public override DateTime Timestamp
     {
@@ -27,7 +27,7 @@ public sealed class Epoch0000DateTime(Memory<byte> Data): EpochDateTime(Data)
         }
     }
 
-    public override string DisplayValue => $"{Timestamp.Year:0000}-{Timestamp.Month:00}-{Timestamp.Day:00} {Timestamp.Hour:00}ː{Timestamp.Minute:00}ː{Timestamp.Second:00}"; // not :
+    public override string DisplayValue => $"{Timestamp.Year:0000}-{Timestamp.Month:00}-{Timestamp.Day:00} {Timestamp.Hour:00}ː{Timestamp.Minute:00}"; // not :
 
     /// <summary>
     /// time_t
