@@ -257,7 +257,7 @@ public sealed class MiscVerifier : Verifier
         ArgumentOutOfRangeException.ThrowIfNegative(flagIndex, nameof(move)); // Always expect it to match.
         if (pk.GetMoveRecordFlag(flagIndex))
             return;
-        m = new MoveResult(LearnMethod.None);
+        m = m with { Info = m.Info with { Method = LearnMethod.None} };
     }
 
     public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual, IEncounterTemplate enc)

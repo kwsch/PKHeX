@@ -19,6 +19,8 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
     private const LearnEnvironment Game = HGSS;
     private const byte Generation = 4;
 
+    public LearnEnvironment Environment => Game;
+
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo4? pi)

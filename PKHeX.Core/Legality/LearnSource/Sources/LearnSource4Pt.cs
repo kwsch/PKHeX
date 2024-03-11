@@ -17,6 +17,8 @@ public sealed class LearnSource4Pt : LearnSource4, ILearnSource<PersonalInfo4>, 
     private const LearnEnvironment Game = Pt;
     private const byte Generation = 4;
 
+    public LearnEnvironment Environment => Game;
+
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo4? pi)

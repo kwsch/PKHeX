@@ -137,7 +137,7 @@ public sealed class LearnGroup1 : ILearnGroup
             x.CopyTo(moves);
         else
             GetEncounterMoves(enc, moves);
-        LearnVerifierHistory.MarkInitialMoves(result, current, moves);
+        LearnVerifierHistory.MarkInitialMoves(result, current, moves, enc.Version == GameVersion.YW ? LearnEnvironment.YW : LearnEnvironment.RB);
 
         // Flag empty slots if never visited Gen2 move deleter.
         if (pk is not PK1 pk1)

@@ -39,6 +39,11 @@ public interface ILearnSource
             return default;
         return GetLearnset(species, form).GetAllMoves();
     }
+
+    /// <summary>
+    /// Indication of what environment this source is for.
+    /// </summary>
+    public LearnEnvironment Environment { get; }
 }
 
 /// <summary>

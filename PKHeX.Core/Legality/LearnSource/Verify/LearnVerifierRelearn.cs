@@ -94,7 +94,7 @@ public static class LearnVerifierRelearn
                 if (moves[i] == 0)
                     result[i] = MoveResult.Empty;
                 else
-                    result[i] = new(EggSourceUtil.GetSource(origins[i], gen));
+                    result[i] = new(EggSourceUtil.GetSource(origins[i], gen), GameData.GetLearnSource(e.Version).Environment);
             }
         }
         else
@@ -111,7 +111,7 @@ public static class LearnVerifierRelearn
                 else if (current == 0)
                     result[i] = MoveResult.Empty;
                 else
-                    result[i] = new(EggSourceUtil.GetSource(origins[i], gen));
+                    result[i] = new(EggSourceUtil.GetSource(origins[i], gen), GameData.GetLearnSource(e.Version).Environment);
             }
         }
 

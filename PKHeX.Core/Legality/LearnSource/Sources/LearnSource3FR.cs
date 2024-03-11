@@ -18,6 +18,8 @@ public sealed class LearnSource3FR : LearnSource3, ILearnSource<PersonalInfo3>, 
     private const byte Generation = 3;
     private const int CountTM = 50;
 
+    public LearnEnvironment Environment => Game;
+
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species < Learnsets.Length ? species : 0];
     internal PersonalInfo3 this[ushort species] => Personal[species];
 
