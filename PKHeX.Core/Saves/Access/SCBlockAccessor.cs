@@ -116,7 +116,7 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
         var index = FindIndex(array, key);
         if (index != -1)
             return array[index];
-        throw new KeyNotFoundException(nameof(key));
+        throw new KeyNotFoundException($"Key not found: {key:X8}");
     }
 
     private static SCBlock FindOrDefault(IReadOnlyList<SCBlock> array, uint key)

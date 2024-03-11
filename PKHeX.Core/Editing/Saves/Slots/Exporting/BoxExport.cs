@@ -81,6 +81,9 @@ public static class BoxExport
     private static int ExportBox(SaveFile sav, string destPath, IFileNamer<PKM> namer, int box, BoxExportSettings settings,
         int boxSlotCount, int total)
     {
+        if (!Directory.Exists(destPath))
+            Directory.CreateDirectory(destPath);
+
         int count = GetSlotCountForBox(boxSlotCount, box, total);
         int ctr = 0;
         // Export each slot in the box.
