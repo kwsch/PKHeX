@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.ORAS"/>.
 /// </summary>
 /// <inheritdoc cref="SAV6" />
-public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetailName, IBoxDetailWallpaper, IDaycareMulti
+public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetailName, IBoxDetailWallpaper, IMysteryGiftStorageProvider, IDaycareMulti
 {
     public SAV6AO(byte[] data) : base(data, SaveBlockAccessor6AO.BlockMetadataOffset)
     {
@@ -75,6 +75,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
     MyItem ISaveBlock6Core.Items => Items;
     SubEventLog6 ISaveBlock6Main.SUBE => SUBE;
     RecordBlock6 ISaveBlock6Core.Records => Records;
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
     #endregion
 
     public override bool IsVersionValid() => Version is GameVersion.AS or GameVersion.OR;

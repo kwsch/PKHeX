@@ -27,8 +27,8 @@ public partial class SAV_Wondercard : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        Cards = GetMysteryGiftProvider(sav);
         SAV = (Origin = sav).Clone();
+        Cards = GetMysteryGiftProvider(SAV);
 
         Album = LoadMysteryGifts();
         Flags = Cards as IMysteryGiftFlags;

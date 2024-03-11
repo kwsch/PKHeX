@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.XY"/>.
 /// </summary>
 /// <inheritdoc cref="SAV6" />
-public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareExperience, IDaycareRandomState<ulong>
+public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetailName, IBoxDetailWallpaper, IMysteryGiftStorageProvider, IDaycareStorage, IDaycareEggState, IDaycareExperience, IDaycareRandomState<ulong>
 {
     public SAV6XY(byte[] data) : base(data, SaveBlockAccessor6XY.BlockMetadataOffset)
     {
@@ -71,6 +71,8 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public SubEventLog6 SUBE => Blocks.SUBE;
     public ConfigSave6 Config => Blocks.Config;
     public Encount6 Encount => Blocks.Encount;
+
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
     #endregion
 
     protected override void SetDex(PKM pk) => Blocks.Zukan.SetDex(pk);
