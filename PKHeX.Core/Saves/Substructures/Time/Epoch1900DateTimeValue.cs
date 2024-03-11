@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -17,8 +16,8 @@ public sealed class Epoch1900DateTimeValue(Memory<byte> Data) : EpochDateTime(Da
 
     private static DateTime Epoch => new(1900, 1, 1);
 
-    public override int Year { get => (int)(RawDate & 0xFFF) + Epoch.Year; set => RawDate = (RawDate & 0xFFFFF000) | (uint)(value - Epoch.Year); }
-    public override int Month { get => (int)((RawDate >> 12) & 0xF) + 1; set => RawDate = (RawDate & 0xFFFF0FFF) | (((uint)(value - 1) & 0xF) << 12); }
+    public override int Year { get => RawYear + Epoch.Year; set => RawYear = value - Epoch.Year; }
+    public override int Month { get => RawMonth + 1; set => RawMonth = value - 1; }
     public bool HasSeconds => Span.Length > 4;
     public int Second {
         get => HasSeconds ? Span[4] : 0;
