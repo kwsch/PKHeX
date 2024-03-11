@@ -92,7 +92,10 @@ public sealed class LearnGroup1 : ILearnGroup
             return;
 
         Span<ushort> moves = stackalloc ushort[4];
-        GetEncounterMoves(enc, moves);
+        if (enc is IMoveset m)
+            m.Moves.CopyTo(moves);
+        else
+            GetEncounterMoves(enc, moves);
 
         // Count the amount of initial moves not present in the current list.
         int count = CountMissing(current, moves);
