@@ -158,7 +158,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         {
             var pi = pk9.PersonalInfo;
             pk9.TeraTypeOriginal = pk9.TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
-            pk9.Obedience_Level = pk9.MetLevel;
+            pk9.ObedienceLevel = pk9.MetLevel;
         }
         pk.ResetPartyStats();
         return pk;

@@ -6,15 +6,15 @@ namespace PKHeX.Core;
 public interface IObedienceLevel : IObedienceLevelReadOnly
 {
     /// <summary>
-    /// <inheritdoc cref="IObedienceLevelReadOnly.Obedience_Level"/>
+    /// <inheritdoc cref="IObedienceLevelReadOnly.ObedienceLevel"/>
     /// </summary>
-    new byte Obedience_Level { get; set; }
+    new byte ObedienceLevel { get; set; }
 }
 
 public static class ObedienceExtensions
 {
     /// <summary>
-    /// Suggests the <see cref="IObedienceLevelReadOnly.Obedience_Level"/> for the entity.
+    /// Suggests the <see cref="IObedienceLevelReadOnly.ObedienceLevel"/> for the entity.
     /// </summary>
     public static byte GetSuggestedObedienceLevel(this IObedienceLevelReadOnly _, PKM entity, int originalMet)
     {
