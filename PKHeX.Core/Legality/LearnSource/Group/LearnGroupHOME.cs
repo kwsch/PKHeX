@@ -127,7 +127,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             // HOME has special handling to allow Volt Tackle outside learnset possibilities.
             // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
             if (!valid && move is not (ushort)Move.VoltTackle)
-                r = r with { Info = r.Info with { Method = LearnMethod.Unobtainable } };
+                r = default;
         }
 
         return MoveResult.AllParsed(result);
