@@ -102,10 +102,8 @@ public static class MethodJ
                 if (!IsValidCoronetB1F(s4, ref result.Seed))
                     return false;
             }
-            // D/P don't reference Suction Cups or Sticky Hold.
-            return enc is IVersion { Version: Pt }
-                ? IsFishPossible(enc.Type, ref result.Seed, ref result.Lead)
-                : IsFishPossible(enc.Type, ref result.Seed);
+            // D/P/Pt don't update the rod rate boost for Suction Cups or Sticky Hold correctly.
+            return IsFishPossible(enc.Type, ref result.Seed);
         }
         // Can sweet scent trigger.
         return true;
@@ -468,31 +466,6 @@ public static class MethodJ
             seed = LCRNG.Prev(seed);
             return true;
         }
-        return false;
-    }
-
-    private static bool IsFishPossible(SlotType4 encType, ref uint seed, ref LeadRequired lead)
-    {
-        var rodRate = GetRodRate(encType);
-        var u16 = seed >> 16;
-        var roll = u16 / 656;
-        if (roll < rodRate)
-        {
-            seed = LCRNG.Prev(seed);
-            return true;
-        }
-
-        if (lead != None)
-            return false;
-
-        // Suction Cups / Sticky Hold
-        if (roll < rodRate * 2)
-        {
-            seed = LCRNG.Prev(seed);
-            lead = SuctionCups;
-            return true;
-        }
-
         return false;
     }
 

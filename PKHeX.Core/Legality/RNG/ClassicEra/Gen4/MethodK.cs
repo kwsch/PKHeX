@@ -498,12 +498,16 @@ public static class MethodK
         var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 % 100;
-        if (roll < rodRate)
+
+        // HG/SS: Lead (Following) Pokémon with >= 250 adds +50 to the rate. Assume the best case.
+        rodRate += 50; // This happens before Suction Cups / Sticky Hold, can be compounded.
+        if (roll < rodRate) // This will always succeed for Good/Super rod due to the base+bonus being >=100
         {
             seed = LCRNG.Prev(seed);
             return true;
         }
 
+        // Old Rod might reach here (75% < 100%)
         if (lead != None)
             return false;
 
@@ -514,20 +518,25 @@ public static class MethodK
             lead = SuctionCups;
             return true;
         }
-
         return false;
     }
 
+    // Lead is something else, and cannot be changed. Does the same as the above method without a ref LeadRequired.
     private static bool IsFishPossible(SlotType4 encType, ref uint seed)
     {
-        var rate = GetRodRate(encType);
+        var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 % 100;
-        if (roll < rate)
+
+        // HG/SS: Lead (Following) Pokémon with >= 250 adds +50 to the rate. Assume the best case.
+        rodRate += 50; // This happens before Suction Cups / Sticky Hold, can be compounded.
+        if (roll < rodRate) // This will always succeed for Good/Super rod due to the base+bonus being >=100
         {
             seed = LCRNG.Prev(seed);
             return true;
         }
+
+        // Old Rod might reach here (75% < 100%)
         return false;
     }
 
