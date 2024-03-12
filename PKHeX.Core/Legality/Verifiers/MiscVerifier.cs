@@ -170,7 +170,7 @@ public sealed class MiscVerifier : Verifier
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-        if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.MetLevel))
+        if (!IsObedienceLevelValid(pk9, pk9.ObedienceLevel, pk9.MetLevel))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
         if (pk9.IsEgg)
         {

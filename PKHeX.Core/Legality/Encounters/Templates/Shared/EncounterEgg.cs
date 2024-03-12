@@ -152,7 +152,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         pk.MetLocation = Math.Max((ushort)0, EggStateLegality.GetEggHatchLocation(Version, Generation));
 
         if (pk is IObedienceLevel l)
-            l.Obedience_Level = pk.MetLevel;
+            l.ObedienceLevel = pk.MetLevel;
     }
 
     private void SetEncounterMoves(PKM pk, GameVersion version)

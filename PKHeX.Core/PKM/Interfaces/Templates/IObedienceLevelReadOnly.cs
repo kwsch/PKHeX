@@ -7,5 +7,5 @@ public interface IObedienceLevelReadOnly
     /// <summary>
     /// Indicates the level the Pokémon was obtained by the current handler.
     /// </summary>
-    byte Obedience_Level { get; } // no setter, use for Encounters
+    byte ObedienceLevel { get; } // no setter, use for Encounters
 }
