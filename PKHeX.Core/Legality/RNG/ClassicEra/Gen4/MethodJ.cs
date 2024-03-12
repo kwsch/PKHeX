@@ -65,6 +65,7 @@ public static class MethodJ
     private static bool IsFeebasChance(uint rand) => (rand >> 15) == 1;
 
     private static uint GetNature(uint rand) => rand / 0xA3Eu;
+    public static uint GetHoneyTreeLevel(uint rand) => 5 + (rand / 0x1745); // 5957; rand(11) using the pre-compiled rand function.
 
     /// <summary>
     /// Gets the first possible origin seed and lead for the input encounter &amp; constraints.
@@ -105,6 +106,13 @@ public static class MethodJ
             // D/P/Pt don't update the rod rate boost for Suction Cups or Sticky Hold correctly.
             return IsFishPossible(enc.Type, ref result.Seed);
         }
+        if (enc.Type is HoneyTree)
+        {
+            // Doesn't actually consume the Encounter Slot call, we return true when comparing ESV.
+            // Roll forward once here rather than add a branch in each method.
+            ref var seed = ref result.Seed;
+            seed = LCRNG.Next(seed);
+        }
         // Can sweet scent trigger.
         return true;
     }
@@ -121,6 +129,12 @@ public static class MethodJ
                     return false;
             }
             return IsFishPossible(enc.Type, ref result);
+        }
+        if (enc.Type is HoneyTree)
+        {
+            // Doesn't actually consume the Encounter Slot call, we return true when comparing ESV.
+            // Roll forward once here rather than add a branch in each method.
+            result = LCRNG.Next(result);
         }
         // Can sweet scent trigger.
         return true;
@@ -414,9 +428,9 @@ public static class MethodJ
         return slot == enc.SlotNumber;
     }
 
-    private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
+    private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : IEncounterSlot4
     {
-        var level = GetExpectedLevel(enc, u16LevelRand);
+        var level = enc.Type is HoneyTree ? GetHoneyTreeLevel(u16LevelRand) : GetExpectedLevel(enc, u16LevelRand);
         return IsOriginalLevelValid(min, max, format, level);
     }
 

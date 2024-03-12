@@ -27,7 +27,7 @@ public enum LeadRequired : byte
     /// <summary> <see cref="Ability.Intimidate"/> or <see cref="Ability.KeenEye"/> failed to activate. </summary>
     IntimidateKeenEyeFail,
 
-    /// <summary> <see cref="Ability.Illuminate"/> or <see cref="Ability.ArenaTrap"/> </summary>
+    /// <summary> <see cref="Ability.Illuminate"/> or <see cref="Ability.ArenaTrap"/> or <see cref="Ability.NoGuard"/> </summary>
     Illuminate,
     /// <summary> <see cref="Ability.SuctionCups"/> or <see cref="Ability.StickyHold"/> </summary>
     SuctionCups,
