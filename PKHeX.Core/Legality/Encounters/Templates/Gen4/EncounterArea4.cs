@@ -75,7 +75,7 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
         {
             if (slot.Species != species)
                 continue;
-            if (slot.LevelMax < levelMax)
+            if (slot.LevelMax <= levelMax)
                 continue;
             levelMax = slot.LevelMax;
         }

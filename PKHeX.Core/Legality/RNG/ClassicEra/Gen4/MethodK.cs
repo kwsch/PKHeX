@@ -169,7 +169,7 @@ public static class MethodK
             if (depth != 4 && enc is EncounterSlot4 s && (s.IsBugContest || s.IsSafariHGSS))
                 return Recurse4x(enc, levelMin, levelMax, seed, nature, format, out result, ++depth);
         }
-        else if (IsSyncPass(p0))
+        else if (IsSyncPass(p0) && !(enc.Type is Grass && enc.LevelMax < levelMin))
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out seed))
@@ -300,6 +300,21 @@ public static class MethodK
     private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
         where T : IEncounterSlot4
     {
+        if (ctx.Encounter.Type is Grass)
+        {
+            if (ctx.Encounter.LevelMax < ctx.LevelMin) // Must be boosted via Pressure/Hustle/Vital Spirit
+            {
+                if (IsSlotValidHustleVital(ctx, out var pressure))
+                { result = new(pressure, PressureHustleSpirit); return true; }
+                result = default; return false;
+            }
+            if (ctx.Encounter.PressureLevel <= ctx.LevelMax) // Can be boosted, or not.
+            {
+                if (IsSlotValidHustleVital(ctx, out var pressure))
+                { result = new(pressure, PressureHustleSpirit); return true; }
+            }
+        }
+
         if (IsSlotValidRegular(ctx, out uint seed))
         { result = new(seed, None); return true; }
 
@@ -315,8 +330,6 @@ public static class MethodK
 
         if (IsSlotValidStaticMagnet(ctx, out seed, out var sm))
         { result = new(seed, sm); return true; }
-        if (IsSlotValidHustleVital(ctx, out seed))
-        { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
         { result = new(seed, IntimidateKeenEyeFail); return true; }
 
