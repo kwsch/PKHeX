@@ -140,14 +140,14 @@ public sealed class SAV1Stadium : SAV_STADIUM
 
     private int GetTeamOffsetJ(int team)
     {
-        if ((uint) team > TeamCount)
+        if ((uint) team >= TeamCount)
             throw new ArgumentOutOfRangeException(nameof(team));
         return GetTeamTypeOffsetJ(team / TeamCountJ) + (TeamSizeJ * (team % TeamCountJ));
     }
 
     private int GetTeamOffsetU(int team)
     {
-        if ((uint)team > TeamCount)
+        if ((uint)team >= TeamCount)
             throw new ArgumentOutOfRangeException(nameof(team));
         return GetTeamTypeOffsetU(team / TeamCountU) + (TeamSizeU * (team % TeamCountU));
     }

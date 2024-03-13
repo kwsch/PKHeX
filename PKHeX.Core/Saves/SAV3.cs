@@ -462,7 +462,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public int GetBoxWallpaper(int box)
     {
-        if (box > COUNT_BOX)
+        if (box >= COUNT_BOX)
             return box;
         int offset = GetBoxWallpaperOffset(box);
         return Storage[offset];
@@ -472,7 +472,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public void SetBoxWallpaper(int box, int value)
     {
-        if (box > COUNT_BOX)
+        if (box >= COUNT_BOX)
             return;
         int offset = GetBoxWallpaperOffset(box);
         Storage[offset] = (byte)value;

@@ -9,7 +9,7 @@ public static class GameLanguage
 {
     public const string DefaultLanguage = "en"; // English
     public static int DefaultLanguageIndex => Array.IndexOf(LanguageCodes, DefaultLanguage);
-    public static string Language2Char(int lang) => lang > LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
+    public static string Language2Char(int lang) => (uint)lang >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
 
     public static int LanguageCount => LanguageCodes.Length;
 

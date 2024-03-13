@@ -137,14 +137,14 @@ public sealed class BoxLayout8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS
 
     public int GetBoxWallpaper(int box)
     {
-        if ((uint)box > BoxCount)
+        if ((uint)box >= BoxCount)
             return 0;
         return Data[GetBoxWallpaperOffset(box)] - 1;
     }
 
     public void SetBoxWallpaper(int box, int value)
     {
-        if ((uint)box > BoxCount)
+        if ((uint)box >= BoxCount)
             return;
         Data[GetBoxWallpaperOffset(box)] = (byte)(value + 1);
     }

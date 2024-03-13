@@ -678,7 +678,7 @@ public abstract class MysteryBlock4(SAV4 sav, Memory<byte> raw) : SaveBlock<SAV4
     }
 
     private Span<byte> GetCardSpanPGT(int index) => Data.Slice(GetGiftOffsetPGT(index), PGT.Size);
-    private Span<byte> GetCardSpanPCD(int index) => Data.Slice(GetGiftOffsetPCD(index), PGT.Size);
+    private Span<byte> GetCardSpanPCD(int index) => Data.Slice(GetGiftOffsetPCD(index), PCD.Size);
     public PGT GetMysteryGiftPGT(int index) => new(GetCardSpanPGT(index).ToArray());
     public PCD GetMysteryGiftPCD(int index) => new(GetCardSpanPCD(index).ToArray());
 

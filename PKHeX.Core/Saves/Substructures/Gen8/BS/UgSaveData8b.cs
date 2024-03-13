@@ -122,9 +122,9 @@ public sealed class UgSaveData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8B
 
     public void FillNPC(byte value, int start = 0, int count = COUNT_TRAINERS)
     {
-        if ((uint)start + (uint)count > COUNT_TRAINERS)
+        if ((uint)start + (uint)count >= COUNT_TRAINERS)
             throw new ArgumentOutOfRangeException(nameof(count));
-        if ((uint)start > COUNT_TRAINERS)
+        if ((uint)start >= COUNT_TRAINERS)
             throw new ArgumentOutOfRangeException(nameof(start));
 
         var ofs = OFS_NPC + start;
