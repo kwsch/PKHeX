@@ -286,11 +286,6 @@ public static class MethodJ
                 { result = new(pressure, PressureHustleSpirit); return true; }
                 result = default; return false;
             }
-            if (ctx.Encounter.PressureLevel <= ctx.LevelMax) // Can be boosted, or not.
-            {
-                if (IsSlotValidHustleVital(ctx, out var pressure))
-                { result = new(pressure, PressureHustleSpirit); return true; }
-            }
         }
 
         if (IsSlotValidRegular(ctx, out uint seed))
@@ -310,6 +305,11 @@ public static class MethodJ
         { result = new(seed, lead); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
         { result = new(seed, IntimidateKeenEyeFail); return true; }
+        if (ctx.Encounter.PressureLevel <= ctx.LevelMax) // Can be boosted, or not.
+        {
+            if (IsSlotValidHustleVital(ctx, out var pressure))
+            { result = new(pressure, PressureHustleSpirit); return true; }
+        }
 
         if (CanRadar(ctx.Encounter))
         { result = new(ctx.Seed1, Radar); return true; }
