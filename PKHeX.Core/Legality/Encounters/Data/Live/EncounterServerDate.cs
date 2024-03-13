@@ -196,7 +196,7 @@ public static class EncounterServerDate
         {1007, (new(2023, 12, 29), new(2024, 02, 11))}, // 윈터페스타 Baxcalibur
         {0038, (new(2024, 01, 14), new(2024, 03, 14))}, // コロコロ Scream Tail, Brute Bonnet, Flutter Mane, Iron Hands, Iron Jugulis, and Iron Thorns
         {0048, (new(2024, 02, 22), new(2024, 04, 01))}, // Project Snorlax Campaign Gift
-        {1534, (new(2024, 03, 13), new(2025, 02, 28))}, // YOASOBI Pawmot
+        {1534, (new(2024, 03, 12), new(2025, 03, 01))}, // YOASOBI Pawmot
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
