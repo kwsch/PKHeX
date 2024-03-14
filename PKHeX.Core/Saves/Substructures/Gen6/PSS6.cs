@@ -19,7 +19,7 @@ public static class PSS6
             result.Add("----");
             result.Add(headers[g]);
             result.Add("----");
-            // uint count = ReadUInt32LittleEndian(data.AsSpan(offset + 0x4E20));
+            // uint count = ReadUInt32LittleEndian(Data.Slice(0x4E20));
             ReadTrainers(result, data, offset, 100);
             offset += 0x5000; // Advance to next block
         }

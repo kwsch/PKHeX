@@ -6,40 +6,34 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 Entrée Forest
 /// </summary>
-public sealed class EntreeForest
+public sealed class EntreeForest(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
 {
-    /// <summary>
-    /// Areas 1 through 8 have 20 slots.
-    /// </summary>
+    /// <summary> Areas 1 through 8 have 20 slots. </summary>
     private const byte Count18 = 20;
 
-    /// <summary>
-    /// 9th Area has only 10 slots.
-    /// </summary>
+    /// <summary> 9th Area has only 10 slots. </summary>
     private const byte Count9 = 10;
 
     private const int TotalSlots = Count18 + (3 * 8 * Count18) + (3 * Count9); // 530
 
-    /// <summary>
-    /// Areas 3 through 8 can be unlocked (set a value 0 to 6).
-    /// </summary>
+    /// <summary> Areas 3 through 8 can be unlocked (set a value 0 to 6). </summary>
     private const byte MaxUnlock38Areas = 6;
 
     private const int EncryptionSeedOffset = SIZE - 4; // 0x84C
     public const int SIZE = 0x850;
 
-    private readonly byte[] Data;
+    private Span<byte> DataRegion => Data[..EncryptionSeedOffset]; // 0x84C
 
-    public EntreeForest(byte[] data) => CryptRegion(Data = data);
-
-    public byte[] Write()
+    private bool IsDecrypted;
+    public void EndAccess() => EnsureDecrypted(false);
+    public void StartAccess() => EnsureDecrypted();
+    public void EnsureDecrypted(bool state = true)
     {
-        byte[] data = (byte[])Data.Clone();
-        CryptRegion(data);
-        return data;
+        if (IsDecrypted == state)
+            return;
+        PokeCrypto.CryptArray(DataRegion, EncryptionSeed);
+        IsDecrypted = state;
     }
-
-    private void CryptRegion(Span<byte> data) => PokeCrypto.CryptArray(data[..EncryptionSeedOffset], EncryptionSeed);
 
     /// <summary>
     /// Gets all Entree Slot data.
@@ -48,9 +42,10 @@ public sealed class EntreeForest
     {
         get
         {
+            EnsureDecrypted();
             var slots = new EntreeSlot[TotalSlots];
             for (int i = 0; i < slots.Length; i++)
-                slots[i] = new EntreeSlot(Data.AsMemory(i * EntreeSlot.SIZE, EntreeSlot.SIZE)) { Area = GetSlotArea(i) };
+                slots[i] = new EntreeSlot(Raw.Slice(i * EntreeSlot.SIZE, EntreeSlot.SIZE)) { Area = GetSlotArea(i) };
             return slots;
         }
     }
@@ -75,8 +70,8 @@ public sealed class EntreeForest
 
     public uint EncryptionSeed
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(EncryptionSeedOffset));
-        private set => WriteUInt32LittleEndian(Data.AsSpan(EncryptionSeedOffset), value);
+        get => ReadUInt32LittleEndian(Data[EncryptionSeedOffset..]);
+        private set => WriteUInt32LittleEndian(Data[EncryptionSeedOffset..], value);
     }
 
     public void UnlockAllAreas()

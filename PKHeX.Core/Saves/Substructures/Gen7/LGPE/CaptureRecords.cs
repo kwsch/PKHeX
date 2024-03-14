@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class CaptureRecords(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav, offset)
+public sealed class CaptureRecords(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
 {
     private const int ENTRY_COUNT = 153;
     private const int MAX_COUNT_ENTRY_CAPTURE = 9_999;
@@ -25,12 +25,12 @@ public sealed class CaptureRecords(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav
     private const int TotalTransferredOffset = 0x7A8;
 
     // Calling into these directly, you should be sure that you're less than ENTRY_COUNT.
-    private int GetCapturedOffset(int index) => Offset + CapturedOffset + (index * 4);
-    private int GetTransferredOffset(int index) => Offset + TransferredOffset + (index * 4);
-    public uint GetCapturedCountIndex(int index) => ReadUInt32LittleEndian(Data.AsSpan(GetCapturedOffset(index)));
-    public uint GetTransferredCountIndex(int index) => ReadUInt32LittleEndian(Data.AsSpan(GetTransferredOffset(index)));
-    public void SetCapturedCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data.AsSpan(GetCapturedOffset(index)), Math.Min(MAX_COUNT_ENTRY_CAPTURE, value));
-    public void SetTransferredCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data.AsSpan(GetTransferredOffset(index)), Math.Min(MAX_COUNT_ENTRY_TRANSFER, value));
+    private int GetCapturedOffset(int index) => CapturedOffset + (index * 4);
+    private int GetTransferredOffset(int index) => TransferredOffset + (index * 4);
+    public uint GetCapturedCountIndex(int index) => ReadUInt32LittleEndian(Data[GetCapturedOffset(index)..]);
+    public uint GetTransferredCountIndex(int index) => ReadUInt32LittleEndian(Data[GetTransferredOffset(index)..]);
+    public void SetCapturedCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data[GetCapturedOffset(index)..], Math.Min(MAX_COUNT_ENTRY_CAPTURE, value));
+    public void SetTransferredCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data[GetTransferredOffset(index)..], Math.Min(MAX_COUNT_ENTRY_TRANSFER, value));
 
     public const ushort MaxIndex = 152;
 
@@ -82,14 +82,14 @@ public sealed class CaptureRecords(SAV7b sav, int offset) : SaveBlock<SAV7b>(sav
 
     public uint TotalCaptured
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + TotalCapturedOffset));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + TotalCapturedOffset), Math.Min(MAX_COUNT_TOTAL, value));
+        get => ReadUInt32LittleEndian(Data[TotalCapturedOffset..]);
+        set => WriteUInt32LittleEndian(Data[TotalCapturedOffset..], Math.Min(MAX_COUNT_TOTAL, value));
     }
 
     public uint TotalTransferred
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + TotalTransferredOffset));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + TotalTransferredOffset), Math.Min(MAX_COUNT_TOTAL, value));
+        get => ReadUInt32LittleEndian(Data[TotalTransferredOffset..]);
+        set => WriteUInt32LittleEndian(Data[TotalTransferredOffset..], Math.Min(MAX_COUNT_TOTAL, value));
     }
 
     public uint CalculateTotalCaptured()

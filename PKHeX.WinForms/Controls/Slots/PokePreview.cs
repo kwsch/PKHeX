@@ -82,7 +82,7 @@ public partial class PokePreview : Form
         }
 
         var gender = pk.Gender;
-        if (gender > GenderImages.Length)
+        if (gender >= GenderImages.Length)
             gender = 2;
         PB_Gender.Image = GenderImages[gender];
     }

@@ -7,10 +7,9 @@ namespace PKHeX.Core;
 /// Stores additional record data.
 /// </summary>
 /// <remarks>size: 0x3C0</remarks>
-public sealed class RecordAddData8b : SaveBlock<SAV8BS>
+public sealed class RecordAddData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     // RECORD_ADD_DATA: 0x30-sized[12] (0x240 bytes), and 12*byte[32] (0x180), total 0x3C0
-    public RecordAddData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
     private const int COUNT_RECORD_ADD = 12;
     private const int COUNT_RECORD_RANKING = 12;
@@ -20,7 +19,7 @@ public sealed class RecordAddData8b : SaveBlock<SAV8BS>
     {
         if ((uint)index >= COUNT_RECORD_ADD)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return new RecordAdd8b(Data, Offset + (index * RecordAdd8b.SIZE));
+        return new RecordAdd8b(Raw.Slice(index * RecordAdd8b.SIZE, RecordAdd8b.SIZE));
     }
 
     public RecordAdd8b[] GetRecords()
@@ -47,14 +46,16 @@ public sealed class RecordAddData8b : SaveBlock<SAV8BS>
     }
 }
 
-public sealed class RecordAdd8b(byte[] Data, int Offset)
+public sealed class RecordAdd8b(Memory<byte> Raw)
 {
+    private Span<byte> Data => Raw.Span;
+
     public const int SIZE = 0x30;
 
     public string OT
     {
-        get => StringConverter8.GetString(Data.AsSpan(Offset + 0, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value, 12, StringConverterOption.ClearZero);
+        get => StringConverter8.GetString(Data[..0x1A]);
+        set => StringConverter8.SetString(Data[..0x1A], value, 12, StringConverterOption.ClearZero);
     }
 
     // 1A reserved byte
@@ -62,37 +63,37 @@ public sealed class RecordAdd8b(byte[] Data, int Offset)
 
     public int Language
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x1C));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value);
+        get => ReadInt32LittleEndian(Data[0x1C..]);
+        set => WriteInt32LittleEndian(Data[0x1C..], value);
     }
 
-    public byte Gender { get => Data[Offset + 0x20]; set => Data[Offset + 0x20] = value; }
+    public byte Gender { get => Data[0x20]; set => Data[0x20] = value; }
     // 21
     // 22
     // 23
 
     public int BodyType
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x24));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x24), value);
+        get => ReadInt32LittleEndian(Data[0x24..]);
+        set => WriteInt32LittleEndian(Data[0x24..], value);
     }
 
     public uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x28));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x28), value);
+        get => ReadUInt32LittleEndian(Data[0x28..]);
+        set => WriteUInt32LittleEndian(Data[0x28..], value);
     }
 
     public ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x28));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x28), value);
+        get => ReadUInt16LittleEndian(Data[0x28..]);
+        set => WriteUInt16LittleEndian(Data[0x28..], value);
     }
 
     public ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x2A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x2A), value);
+        get => ReadUInt16LittleEndian(Data[0x2A..]);
+        set => WriteUInt16LittleEndian(Data[0x2A..], value);
     }
 
     // 0x2C int32 reserved

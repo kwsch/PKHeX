@@ -119,7 +119,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     private const int FluteBoostMin = 4; // White Flute decreases levels.
     private const int FluteBoostMax = 4; // Black Flute increases levels.
-    private const int DexNavBoost = 30; // Maximum DexNav chain
+    private const int DexNavBoost = 29 + FluteBoostMax; // Maximum DexNav chain (95) and Flute.
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {

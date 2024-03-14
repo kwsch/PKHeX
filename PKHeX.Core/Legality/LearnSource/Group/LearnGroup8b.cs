@@ -50,7 +50,7 @@ public sealed class LearnGroup8b : ILearnGroup
                 continue;
             var move = current[i];
             if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.Shared);
+                result[i] = new(LearnMethod.Shared, game.Environment);
         }
     }
 

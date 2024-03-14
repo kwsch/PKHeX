@@ -232,11 +232,13 @@ namespace PKHeX.WinForms.Controls
             L_ExtraBytes = new System.Windows.Forms.Label();
             CB_ExtraBytes = new System.Windows.Forms.ComboBox();
             TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
+            FLP_HomeTracker = new System.Windows.Forms.FlowLayoutPanel();
             L_HomeTracker = new System.Windows.Forms.Label();
             TB_HomeTracker = new System.Windows.Forms.TextBox();
+            FLP_EncryptionConstant = new System.Windows.Forms.FlowLayoutPanel();
             Label_EncryptionConstant = new System.Windows.Forms.Label();
-            TB_EC = new System.Windows.Forms.TextBox();
             BTN_RerollEC = new System.Windows.Forms.Button();
+            TB_EC = new System.Windows.Forms.TextBox();
             TC_Editor = new VerticalTabControlEntityEditor();
             Tab_Main = new System.Windows.Forms.TabPage();
             Tab_Met = new System.Windows.Forms.TabPage();
@@ -331,6 +333,8 @@ namespace PKHeX.WinForms.Controls
             FLP_HT.SuspendLayout();
             FLP_HTLanguage.SuspendLayout();
             FLP_ExtraBytes.SuspendLayout();
+            FLP_HomeTracker.SuspendLayout();
+            FLP_EncryptionConstant.SuspendLayout();
             TC_Editor.SuspendLayout();
             SuspendLayout();
             // 
@@ -506,8 +510,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            UC_Gender.AccessibleDescription = "Entity Gender Pane";
-            UC_Gender.AccessibleName = "Entity Gender Pane";
+            UC_Gender.AccessibleDescription = "Entity Gender Pane (0) (0)";
+            UC_Gender.AccessibleName = "Entity Gender Pane (0) (0)";
             UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_Gender.AllowClick = false;
             UC_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_Gender.BackgroundImage");
@@ -628,7 +632,6 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.Name = "TB_Nickname";
             TB_Nickname.Size = new System.Drawing.Size(144, 23);
             TB_Nickname.TabIndex = 5;
-            TB_Nickname.TextChanged += UpdateIsNicknamed;
             TB_Nickname.TextChanged += RefreshFontWarningButton;
             TB_Nickname.MouseDown += UpdateNicknameClick;
             // 
@@ -2439,11 +2442,8 @@ namespace PKHeX.WinForms.Controls
             FLP_OTMisc.Controls.Add(FLP_HT);
             FLP_OTMisc.Controls.Add(FLP_HTLanguage);
             FLP_OTMisc.Controls.Add(FLP_ExtraBytes);
-            FLP_OTMisc.Controls.Add(L_HomeTracker);
-            FLP_OTMisc.Controls.Add(TB_HomeTracker);
-            FLP_OTMisc.Controls.Add(Label_EncryptionConstant);
-            FLP_OTMisc.Controls.Add(TB_EC);
-            FLP_OTMisc.Controls.Add(BTN_RerollEC);
+            FLP_OTMisc.Controls.Add(FLP_HomeTracker);
+            FLP_OTMisc.Controls.Add(FLP_EncryptionConstant);
             FLP_OTMisc.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_OTMisc.Location = new System.Drawing.Point(0, 0);
             FLP_OTMisc.Name = "FLP_OTMisc";
@@ -2506,8 +2506,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = "Trainer Gender Pane";
-            UC_OTGender.AccessibleName = "Trainer Gender Pane";
+            UC_OTGender.AccessibleDescription = "Trainer Gender Pane (0) (0)";
+            UC_OTGender.AccessibleName = "Trainer Gender Pane (0) (0)";
             UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
@@ -2714,8 +2714,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane";
-            UC_HTGender.AccessibleName = "Handling Trainer Gender Pane";
+            UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane (0) (0)";
+            UC_HTGender.AccessibleName = "Handling Trainer Gender Pane (0) (0)";
             UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_HTGender.AllowClick = true;
             UC_HTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_HTGender.BackgroundImage");
@@ -2802,9 +2802,20 @@ namespace PKHeX.WinForms.Controls
             TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_ExtraByte.Validated += UpdateExtraByteValue;
             // 
+            // FLP_HomeTracker
+            // 
+            FLP_HomeTracker.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_HomeTracker.Controls.Add(L_HomeTracker);
+            FLP_HomeTracker.Controls.Add(TB_HomeTracker);
+            FLP_HomeTracker.Location = new System.Drawing.Point(0, 336);
+            FLP_HomeTracker.Margin = new System.Windows.Forms.Padding(0);
+            FLP_HomeTracker.Name = "FLP_HomeTracker";
+            FLP_HomeTracker.Size = new System.Drawing.Size(272, 24);
+            FLP_HomeTracker.TabIndex = 49;
+            // 
             // L_HomeTracker
             // 
-            L_HomeTracker.Location = new System.Drawing.Point(0, 336);
+            L_HomeTracker.Location = new System.Drawing.Point(0, 0);
             L_HomeTracker.Margin = new System.Windows.Forms.Padding(0);
             L_HomeTracker.Name = "L_HomeTracker";
             L_HomeTracker.Size = new System.Drawing.Size(128, 24);
@@ -2816,7 +2827,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_HomeTracker.Location = new System.Drawing.Point(128, 338);
+            TB_HomeTracker.Location = new System.Drawing.Point(128, 2);
             TB_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             TB_HomeTracker.MaxLength = 16;
             TB_HomeTracker.Name = "TB_HomeTracker";
@@ -2825,9 +2836,21 @@ namespace PKHeX.WinForms.Controls
             TB_HomeTracker.TabIndex = 31;
             TB_HomeTracker.Validated += Update_ID64;
             // 
+            // FLP_EncryptionConstant
+            // 
+            FLP_EncryptionConstant.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_EncryptionConstant.Controls.Add(Label_EncryptionConstant);
+            FLP_EncryptionConstant.Controls.Add(BTN_RerollEC);
+            FLP_EncryptionConstant.Controls.Add(TB_EC);
+            FLP_EncryptionConstant.Location = new System.Drawing.Point(0, 360);
+            FLP_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0);
+            FLP_EncryptionConstant.Name = "FLP_EncryptionConstant";
+            FLP_EncryptionConstant.Size = new System.Drawing.Size(272, 24);
+            FLP_EncryptionConstant.TabIndex = 50;
+            // 
             // Label_EncryptionConstant
             // 
-            Label_EncryptionConstant.Location = new System.Drawing.Point(0, 360);
+            Label_EncryptionConstant.Location = new System.Drawing.Point(0, 0);
             Label_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0);
             Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             Label_EncryptionConstant.Size = new System.Drawing.Size(128, 24);
@@ -2835,23 +2858,10 @@ namespace PKHeX.WinForms.Controls
             Label_EncryptionConstant.Text = "Encryption Constant:";
             Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // TB_EC
-            // 
-            TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_EC.Location = new System.Drawing.Point(128, 362);
-            TB_EC.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            TB_EC.MaxLength = 8;
-            TB_EC.Name = "TB_EC";
-            TB_EC.PlaceholderText = "12345678";
-            TB_EC.Size = new System.Drawing.Size(64, 20);
-            TB_EC.TabIndex = 33;
-            TB_EC.Validated += Update_ID;
-            // 
             // BTN_RerollEC
             // 
             BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F);
-            BTN_RerollEC.Location = new System.Drawing.Point(192, 360);
+            BTN_RerollEC.Location = new System.Drawing.Point(128, 0);
             BTN_RerollEC.Margin = new System.Windows.Forms.Padding(0);
             BTN_RerollEC.Name = "BTN_RerollEC";
             BTN_RerollEC.Size = new System.Drawing.Size(56, 24);
@@ -2859,6 +2869,19 @@ namespace PKHeX.WinForms.Controls
             BTN_RerollEC.Text = "Reroll";
             BTN_RerollEC.UseVisualStyleBackColor = true;
             BTN_RerollEC.Click += UpdateRandomEC;
+            // 
+            // TB_EC
+            // 
+            TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_EC.Location = new System.Drawing.Point(184, 2);
+            TB_EC.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            TB_EC.MaxLength = 8;
+            TB_EC.Name = "TB_EC";
+            TB_EC.PlaceholderText = "12345678";
+            TB_EC.Size = new System.Drawing.Size(64, 20);
+            TB_EC.TabIndex = 33;
+            TB_EC.Validated += Update_ID;
             // 
             // TC_Editor
             // 
@@ -3045,7 +3068,6 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)PB_BattleVersion).EndInit();
             Hidden_OTMisc.ResumeLayout(false);
             FLP_OTMisc.ResumeLayout(false);
-            FLP_OTMisc.PerformLayout();
             FLP_OT.ResumeLayout(false);
             FLP_OT.PerformLayout();
             FLP_Country.ResumeLayout(false);
@@ -3057,6 +3079,10 @@ namespace PKHeX.WinForms.Controls
             FLP_HTLanguage.ResumeLayout(false);
             FLP_ExtraBytes.ResumeLayout(false);
             FLP_ExtraBytes.PerformLayout();
+            FLP_HomeTracker.ResumeLayout(false);
+            FLP_HomeTracker.PerformLayout();
+            FLP_EncryptionConstant.ResumeLayout(false);
+            FLP_EncryptionConstant.PerformLayout();
             TC_Editor.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -3278,5 +3304,7 @@ namespace PKHeX.WinForms.Controls
         private global::System.Windows.Forms.PictureBox PB_Affixed;
         private System.Windows.Forms.Button BTN_NicknameWarn;
         private System.Windows.Forms.Button BTN_OTNameWarn;
+        private System.Windows.Forms.FlowLayoutPanel FLP_HomeTracker;
+        private System.Windows.Forms.FlowLayoutPanel FLP_EncryptionConstant;
     }
 }

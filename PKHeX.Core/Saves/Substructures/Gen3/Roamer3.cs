@@ -5,62 +5,63 @@ namespace PKHeX.Core;
 
 public sealed class Roamer3 : IContestStats
 {
-    private readonly int Offset;
+    public const int SIZE = 0x14;
     public bool IsGlitched { get; }
-    private readonly byte[] Data;
-    private readonly SAV3 SAV;
+    private readonly Memory<byte> Raw;
+    private Span<byte> Data => Raw.Span;
 
     public Roamer3(SAV3 sav)
     {
-        Data = (SAV = sav).Large;
-        Offset = sav.Version switch
+        var buffer = sav.Large;
+        var offset = sav.Version switch
         {
             GameVersion.RS => 0x3144,
             GameVersion.E => 0x31DC,
             _ => 0x30D0, // FRLG
         };
+        Raw = buffer.AsMemory(offset, SIZE);
         IsGlitched = sav.Version != GameVersion.E;
     }
 
     public uint IV32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public uint PID
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 4));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value);
+        get => ReadUInt32LittleEndian(Data[4..]);
+        set => WriteUInt32LittleEndian(Data[4..], value);
     }
 
     public ushort Species
     {
-        get => SpeciesConverter.GetNational3(ReadUInt16LittleEndian(Data.AsSpan(Offset + 8)));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetInternal3(value));
+        get => SpeciesConverter.GetNational3(ReadUInt16LittleEndian(Data[8..]));
+        set => WriteUInt16LittleEndian(Data[8..], SpeciesConverter.GetInternal3(value));
     }
 
     public int HP_Current
     {
-        get => ReadInt16LittleEndian(Data.AsSpan(Offset + 10));
-        set => WriteInt16LittleEndian(Data.AsSpan(Offset + 10), (short)value);
+        get => ReadInt16LittleEndian(Data[10..]);
+        set => WriteInt16LittleEndian(Data[10..], (short)value);
     }
 
     public byte CurrentLevel
     {
-        get => Data[Offset + 12];
-        set => Data[Offset + 12] = value;
+        get => Data[12];
+        set => Data[12] = value;
     }
 
-    public int Status { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
+    public int Status { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
 
-    public byte ContestCool   { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = value; }
-    public byte ContestBeauty { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = value; }
-    public byte ContestCute   { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }
-    public byte ContestSmart  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = value; }
-    public byte ContestTough  { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = value; }
+    public byte ContestCool   { get => Data[0x0E]; set => Data[0x0E] = value; }
+    public byte ContestBeauty { get => Data[0x0F]; set => Data[0x0F] = value; }
+    public byte ContestCute   { get => Data[0x10]; set => Data[0x10] = value; }
+    public byte ContestSmart  { get => Data[0x11]; set => Data[0x11] = value; }
+    public byte ContestTough  { get => Data[0x12]; set => Data[0x12] = value; }
     public byte ContestSheen  { get => 0; set { } }
-    public bool Active    { get => Data[Offset + 0x13] == 1; set => Data[Offset + 0x13] = value ? (byte)1 : (byte)0; }
+    public bool Active    { get => Data[0x13] == 1; set => Data[0x13] = value ? (byte)1 : (byte)0; }
 
     // Derived Properties
     private int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | (uint)((value > 31 ? 31 : value) << 00); }
@@ -92,13 +93,14 @@ public sealed class Roamer3 : IContestStats
     }
 
     /// <summary>
-    /// Indicates if the Roamer is shiny with the <see cref="SAV"/>'s Trainer Details.
+    /// Indicates if the Roamer is shiny with the <see cref="tr"/>'s Trainer Details.
     /// </summary>
     /// <param name="pid">PID to check for</param>
+    /// <param name="tr">Trainer to check for</param>
     /// <returns>Indication if the PID is shiny for the trainer.</returns>
-    public bool IsShiny(uint pid)
+    public static bool IsShiny(uint pid, ITrainerID32 tr)
     {
-        var tmp = SAV.ID32 ^ pid;
+        var tmp = tr.ID32 ^ pid;
         var xor = (tmp >> 16) ^ (tmp & 0xFFFF);
         return xor < 8;
     }

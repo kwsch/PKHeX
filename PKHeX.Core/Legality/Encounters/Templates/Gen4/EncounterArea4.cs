@@ -75,7 +75,7 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
         {
             if (slot.Species != species)
                 continue;
-            if (slot.LevelMax < levelMax)
+            if (slot.LevelMax <= levelMax)
                 continue;
             levelMax = slot.LevelMax;
         }
@@ -160,4 +160,11 @@ public enum SlotType4 : byte
     Safari_Old_Rod = 12,
     Safari_Good_Rod = 13,
     Safari_Super_Rod = 14,
+}
+
+public static class SlotType4Extensions
+{
+    public static bool IsSafari(this SlotType4 type) => type >= SlotType4.Safari_Grass;
+    public static bool IsLevelRandDPPt(this SlotType4 type) => type != SlotType4.Grass;
+    public static bool IsLevelRandHGSS(this SlotType4 type) => type != SlotType4.Grass && !type.IsSafari();
 }

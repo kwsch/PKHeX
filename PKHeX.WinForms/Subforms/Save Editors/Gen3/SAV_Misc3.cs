@@ -94,10 +94,10 @@ public partial class SAV_Misc3 : Form
     private void ReadJoyful(IGen3Joyful j)
     {
         TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
-        TB_J2.Text = Math.Min(9999, j.JoyfulJumpScore).ToString();
+        TB_J2.Text = Math.Min(99990, j.JoyfulJumpScore).ToString();
         TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
         TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
-        TB_B2.Text = Math.Min(9999, j.JoyfulBerriesScore).ToString();
+        TB_B2.Text = Math.Min(99990, j.JoyfulBerriesScore).ToString();
         TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
     }
 

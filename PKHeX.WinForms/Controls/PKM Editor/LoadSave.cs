@@ -495,7 +495,7 @@ public partial class PKMEditor
         CB_BattleVersion.SelectedValue = (int)pk9.BattleVersion;
         Stats.CB_TeraTypeOriginal.SelectedValue = (int)pk9.TeraTypeOriginal;
         Stats.CB_TeraTypeOverride.SelectedValue = (int)pk9.TeraTypeOverride;
-        TB_ObedienceLevel.Text = pk9.Obedience_Level.ToString();
+        TB_ObedienceLevel.Text = pk9.ObedienceLevel.ToString();
     }
 
     private void SaveMisc9(PK9 pk9)
@@ -505,6 +505,6 @@ public partial class PKMEditor
         pk9.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
         pk9.TeraTypeOriginal = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOriginal);
         pk9.TeraTypeOverride = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOverride);
-        pk9.Obedience_Level = (byte)Util.ToInt32(TB_ObedienceLevel.Text);
+        pk9.ObedienceLevel = (byte)Util.ToInt32(TB_ObedienceLevel.Text);
     }
 }

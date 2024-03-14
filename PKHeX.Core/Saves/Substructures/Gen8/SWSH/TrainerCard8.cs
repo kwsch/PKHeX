@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 
 public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x00, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data[..0x1A];
 
     public string OT
     {
@@ -23,20 +23,20 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
 
     public int TrainerID
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(0x1C));
-        set => WriteInt32LittleEndian(Data.AsSpan(0x1C), value);
+        get => ReadInt32LittleEndian(Data[0x1C..]);
+        set => WriteInt32LittleEndian(Data[0x1C..], value);
     }
 
     public ushort PokeDexOwned
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x20));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x20), value);
+        get => ReadUInt16LittleEndian(Data[0x20..]);
+        set => WriteUInt16LittleEndian(Data[0x20..], value);
     }
 
     public ushort ShinyPokemonFound
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x22));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x22), value);
+        get => ReadUInt16LittleEndian(Data[0x22..]);
+        set => WriteUInt16LittleEndian(Data[0x22..], value);
     }
 
     public byte Game
@@ -53,20 +53,20 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
 
     public ushort CurryTypesOwned
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x26));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x26), value);
+        get => ReadUInt16LittleEndian(Data[0x26..]);
+        set => WriteUInt16LittleEndian(Data[0x26..], value);
     }
 
     public const int RotoRallyScoreMax = 99_999;
 
     public int RotoRallyScore
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(0x28));
+        get => ReadInt32LittleEndian(Data[0x28..]);
         set
         {
             if (value > RotoRallyScoreMax)
                 value = RotoRallyScoreMax;
-            WriteInt32LittleEndian(Data.AsSpan(0x28), value);
+            WriteInt32LittleEndian(Data[0x28..], value);
             // set to the other block since it doesn't have an accessor
             SAV.SetValue(SaveBlockAccessor8SWSH.KRotoRally, (uint)value);
         }
@@ -76,31 +76,31 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
 
     public int CaughtPokemon
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(0x2C));
+        get => ReadInt32LittleEndian(Data[0x2C..]);
         set
         {
             if (value > MaxPokemonCaught)
                 value = MaxPokemonCaught;
-            WriteInt32LittleEndian(Data.AsSpan(0x2C), value);
+            WriteInt32LittleEndian(Data[0x2C..], value);
         }
     }
 
     public bool PokeDexComplete
     {
-        get => Data[Offset + 0x30] == 1;
-        set => Data[Offset + 0x30] = value ? (byte)1 : (byte)0;
+        get => Data[0x30] == 1;
+        set => Data[0x30] = value ? (byte)1 : (byte)0;
     }
 
     public bool ArmorDexComplete
     {
-        get => Data[Offset + 0x1B4] == 1;
-        set => Data[Offset + 0x1B4] = value ? (byte)1 : (byte)0;
+        get => Data[0x1B4] == 1;
+        set => Data[0x1B4] = value ? (byte)1 : (byte)0;
     }
 
     public bool CrownDexComplete
     {
-        get => Data[Offset + 0x1B5] == 1;
-        set => Data[Offset + 0x1B5] = value ? (byte)1 : (byte)0;
+        get => Data[0x1B5] == 1;
+        set => Data[0x1B5] = value ? (byte)1 : (byte)0;
     }
 
     public byte Gender
@@ -111,7 +111,7 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
 
     public string Number
     {
-        get => Encoding.ASCII.GetString(Data, 0x39, 3);
+        get => Encoding.ASCII.GetString(Data.Slice(0x39, 3));
         set
         {
             for (int i = 0; i < 3; i++)
@@ -122,98 +122,98 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
 
     public ulong Skin // aka the base model
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x40));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x40), value);
+        get => ReadUInt64LittleEndian(Data[0x40..]);
+        set => WriteUInt64LittleEndian(Data[0x40..], value);
     }
 
     public ulong Hair
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x48));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x48), value);
+        get => ReadUInt64LittleEndian(Data[0x48..]);
+        set => WriteUInt64LittleEndian(Data[0x48..], value);
     }
 
     public ulong Brow
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x50));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x50), value);
+        get => ReadUInt64LittleEndian(Data[0x50..]);
+        set => WriteUInt64LittleEndian(Data[0x50..], value);
     }
 
     public ulong Lashes
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x58));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x58), value);
+        get => ReadUInt64LittleEndian(Data[0x58..]);
+        set => WriteUInt64LittleEndian(Data[0x58..], value);
     }
 
     public ulong Contacts
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x60));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x60), value);
+        get => ReadUInt64LittleEndian(Data[0x60..]);
+        set => WriteUInt64LittleEndian(Data[0x60..], value);
     }
 
     public ulong Lips
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x68));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x68), value);
+        get => ReadUInt64LittleEndian(Data[0x68..]);
+        set => WriteUInt64LittleEndian(Data[0x68..], value);
     }
 
     public ulong Glasses
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x70));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x70), value);
+        get => ReadUInt64LittleEndian(Data[0x70..]);
+        set => WriteUInt64LittleEndian(Data[0x70..], value);
     }
 
     public ulong Hat
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x78));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x78), value);
+        get => ReadUInt64LittleEndian(Data[0x78..]);
+        set => WriteUInt64LittleEndian(Data[0x78..], value);
     }
 
     public ulong Jacket
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x80));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x80), value);
+        get => ReadUInt64LittleEndian(Data[0x80..]);
+        set => WriteUInt64LittleEndian(Data[0x80..], value);
     }
 
     public ulong Top
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x88));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x88), value);
+        get => ReadUInt64LittleEndian(Data[0x88..]);
+        set => WriteUInt64LittleEndian(Data[0x88..], value);
     }
 
     public ulong Bag
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x90));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x90), value);
+        get => ReadUInt64LittleEndian(Data[0x90..]);
+        set => WriteUInt64LittleEndian(Data[0x90..], value);
     }
 
     public ulong Gloves
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x98));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x98), value);
+        get => ReadUInt64LittleEndian(Data[0x98..]);
+        set => WriteUInt64LittleEndian(Data[0x98..], value);
     }
 
     public ulong BottomOrDress
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0xA0));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0xA0), value);
+        get => ReadUInt64LittleEndian(Data[0xA0..]);
+        set => WriteUInt64LittleEndian(Data[0xA0..], value);
     }
 
     public ulong Sock
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0xA8));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0xA8), value);
+        get => ReadUInt64LittleEndian(Data[0xA8..]);
+        set => WriteUInt64LittleEndian(Data[0xA8..], value);
     }
 
     public ulong Shoe
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0xB0));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0xB0), value);
+        get => ReadUInt64LittleEndian(Data[0xB0..]);
+        set => WriteUInt64LittleEndian(Data[0xB0..], value);
     }
 
     public ulong MomSkin // aka the base model
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0xC0));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0xC0), value);
+        get => ReadUInt64LittleEndian(Data[0xC0..]);
+        set => WriteUInt64LittleEndian(Data[0xC0..], value);
     }
 
     // Trainer Card Pokemon
@@ -229,9 +229,16 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
     /// </summary>
     public TrainerCard8Poke ViewPoke(int index)
     {
-        if ((uint) index >= 6)
+        var ofs = GetPokeOffset(index);
+        var raw = block.Data.AsMemory(ofs, TrainerCard8Poke.SIZE);
+        return new TrainerCard8Poke(raw);
+    }
+
+    public static int GetPokeOffset(int index)
+    {
+        if ((uint)index >= 6)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return new TrainerCard8Poke(Data, Offset + 0xC8 + (index * TrainerCard8Poke.SIZE));
+        return 0xC8 + (index * TrainerCard8Poke.SIZE);
     }
 
     /// <summary>
@@ -249,77 +256,51 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
 
     public ushort StartedYear
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x170));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x170), value);
+        get => ReadUInt16LittleEndian(Data[0x170..]);
+        set => WriteUInt16LittleEndian(Data[0x170..], value);
     }
 
     public byte StartedMonth
     {
-        get => Data[Offset + 0x172];
-        set => Data[Offset + 0x172] = value;
+        get => Data[0x172];
+        set => Data[0x172] = value;
     }
 
     public byte StartedDay
     {
-        get => Data[Offset + 0x173];
-        set => Data[Offset + 0x173] = value;
+        get => Data[0x173];
+        set => Data[0x173] = value;
     }
 
     public uint TimestampPrinted
     {
         // should this be an unsigned long?
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1A8));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1A8), value);
+        get => ReadUInt32LittleEndian(Data[0x1A8..]);
+        set => WriteUInt32LittleEndian(Data[0x1A8..], value);
     }
 }
 
-public sealed class TrainerCard8Poke(byte[] Data, int Offset) : ISpeciesForm
+public sealed class TrainerCard8Poke(Memory<byte> raw) : ISpeciesForm
 {
     public const int SIZE = 0x1C;
 
-    public ushort Species
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
-    }
+    private Span<byte> Data => raw.Span;
 
-    public byte Form
-    {
-        get => Data[Offset + 0x04];
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
-    }
-
-    public byte Gender
-    {
-        get => (byte)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
-    }
+    public ushort Species { get => ReadUInt16LittleEndian(Data); set => WriteInt32LittleEndian(Data, value); }
+    public byte Form { get => Data[0x04]; set => WriteInt32LittleEndian(Data[0x04..], value); }
+    public byte Gender { get => Data[0x08]; set => WriteInt32LittleEndian(Data[0x08..], value); }
 
     public bool IsShiny
     {
-        get => Data[Offset + 0xC] != 0;
-        set => Data[Offset + 0xC] = value ? (byte)1 : (byte)0;
+        get => Data[0xC] != 0;
+        set => Data[0xC] = value ? (byte)1 : (byte)0;
     }
 
-    public uint EncryptionConstant
-    {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10), value);
-    }
+    public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data[0x10..]); set => WriteUInt32LittleEndian(Data[0x10..], value); }
+    public uint Unknown { get => ReadUInt32LittleEndian(Data[0x14..]); set => WriteUInt32LittleEndian(Data[0x14..], value); }
+    public int FormArgument { get => ReadInt32LittleEndian(Data[0x18..]); set => WriteInt32LittleEndian(Data[0x18..], value); }
 
-    public uint Unknown
-    {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x14));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
-    }
-
-    public int FormArgument
-    {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x18));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x18), value);
-    }
-
-    public void Clear() => Array.Clear(Data, Offset, SIZE);
+    public void Clear() => Data.Clear();
 
     public void LoadFrom(PKM pk)
     {

@@ -297,9 +297,13 @@ public partial class SAV_BlockDump8 : Form
                     CB_Key.DataSource = SortedBlockKeys;
                     Filter = string.Empty;
                 }
-                // Input is hexadecimal number, select the item
-                CB_Key.SelectedValue = hex;
-                return;
+                // Input is hexadecimal number, select the item -- if it exists.
+                bool exists = SortedBlockKeys.Any(z => z.Value == hex);
+                if (exists)
+                {
+                    CB_Key.SelectedValue = hex;
+                    return;
+                }
             }
         }
 

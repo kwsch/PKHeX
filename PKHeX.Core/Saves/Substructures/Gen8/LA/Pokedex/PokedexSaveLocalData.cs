@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,13 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Local region (within Hisui) <see cref="GameVersion.PLA"/> Pokédex structure.
 /// </summary>
-public sealed class PokedexSaveLocalData
+public sealed class PokedexSaveLocalData(Memory<byte> raw)
 {
-    private readonly byte[] _data;
-    private readonly int Offset;
-
-    public PokedexSaveLocalData(byte[] data, int offset) => (_data, Offset) = (data, offset);
-    private Span<byte> Data => _data.AsSpan(Offset);
+    public const int SIZE = 0x10;
+    private Span<byte> Data => raw.Span;
 
     public ushort Field_00 { get => ReadUInt16LittleEndian(Data);  set => WriteUInt16LittleEndian(Data, value); }
     public byte Field_02 { get => Data[2]; set => Data[2] = value; }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x138</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class SystemData8b : SaveBlock<SAV8BS>
+public sealed class SystemData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     // Structure:
     // (u32 count, u64 FILETIME) Start Time
@@ -25,18 +25,16 @@ public sealed class SystemData8b : SaveBlock<SAV8BS>
     private const int OFS_SNAPSHOT = 4 + (3 * SIZE_GMTIME) + SIZE_GMTIME; // 0x34
     private const int OFS_FDBGM = OFS_SNAPSHOT + SIZE_SNAPSHOT;
     private const int OFS_RESERVED = OFS_FDBGM + 4;
-    private const int SIZE_TOTAL = OFS_RESERVED + (6 * 8); // 0x138
+    internal const int SIZE = OFS_RESERVED + (6 * 8); // 0x138
 
-    public SystemData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
-
-    public uint CountStart   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (0 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (0 * SIZE_GMTIME)), value); }
-    public long TicksStart   { get =>  ReadInt64LittleEndian(Data.AsSpan(Offset + 4 + (0 * SIZE_GMTIME))); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (0 * SIZE_GMTIME)), value); }
-    public uint CountLatest  { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (1 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (1 * SIZE_GMTIME)), value); }
-    public long TicksLatest  { get =>  ReadInt64LittleEndian(Data.AsSpan(Offset + 4 + (1 * SIZE_GMTIME))); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (1 * SIZE_GMTIME)), value); }
-    public uint CountPenalty { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (2 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (2 * SIZE_GMTIME)), value); }
-    public long TicksPenalty { get =>  ReadInt64LittleEndian(Data.AsSpan(Offset + 4 + (2 * SIZE_GMTIME))); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (2 * SIZE_GMTIME)), value); }
-    public uint CountDaily   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (3 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (3 * SIZE_GMTIME)), value); }
-    public long TicksDaily   { get =>  ReadInt64LittleEndian(Data.AsSpan(Offset + 4 + (3 * SIZE_GMTIME))); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (3 * SIZE_GMTIME)), value); }
+    public uint CountStart   { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public long TicksStart   { get =>  ReadInt64LittleEndian(Data[(4 + (0 * SIZE_GMTIME))..]); set =>  WriteInt64LittleEndian(Data[(4 + (0 * SIZE_GMTIME))..], value); }
+    public uint CountLatest  { get => ReadUInt32LittleEndian(Data[(0 + (1 * SIZE_GMTIME))..]); set => WriteUInt32LittleEndian(Data[(0 + (1 * SIZE_GMTIME))..], value); }
+    public long TicksLatest  { get =>  ReadInt64LittleEndian(Data[(4 + (1 * SIZE_GMTIME))..]); set =>  WriteInt64LittleEndian(Data[(4 + (1 * SIZE_GMTIME))..], value); }
+    public uint CountPenalty { get => ReadUInt32LittleEndian(Data[(0 + (2 * SIZE_GMTIME))..]); set => WriteUInt32LittleEndian(Data[(0 + (2 * SIZE_GMTIME))..], value); }
+    public long TicksPenalty { get =>  ReadInt64LittleEndian(Data[(4 + (2 * SIZE_GMTIME))..]); set =>  WriteInt64LittleEndian(Data[(4 + (2 * SIZE_GMTIME))..], value); }
+    public uint CountDaily   { get => ReadUInt32LittleEndian(Data[(0 + (3 * SIZE_GMTIME))..]); set => WriteUInt32LittleEndian(Data[(0 + (3 * SIZE_GMTIME))..], value); }
+    public long TicksDaily   { get =>  ReadInt64LittleEndian(Data[(4 + (3 * SIZE_GMTIME))..]); set =>  WriteInt64LittleEndian(Data[(4 + (3 * SIZE_GMTIME))..], value); }
 
     // byte[] nxSnapshot
     // u32 fd_bgmEvnet

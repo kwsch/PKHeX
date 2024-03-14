@@ -7,18 +7,16 @@ namespace PKHeX.Core;
 /// Array storing all the seal sticker counts the player has collected.
 /// </summary>
 /// <remarks>size: 0x960</remarks>
-public sealed class SealList8b : SaveBlock<SAV8BS>
+public sealed class SealList8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     public const int SealSaveSize = 200;
     public const int SealMaxCount = 99;
-
-    public SealList8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
     public IReadOnlyList<SealSticker8b> ReadItems()
     {
         var result = new SealSticker8b[SealSaveSize];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new SealSticker8b(Data, Offset, i);
+            result[i] = new SealSticker8b(Data, i);
         return result;
     }
 
@@ -26,7 +24,7 @@ public sealed class SealList8b : SaveBlock<SAV8BS>
     {
         ArgumentOutOfRangeException.ThrowIfNotEqual(items.Count, SealSaveSize);
         foreach (var item in items)
-            item.Write(Data, Offset);
+            item.Write(Data);
         SAV.State.Edited = true;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -5,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Information for Accessing individual blocks within a <see cref="SAV7SM"/>.
 /// </summary>
-public sealed class SaveBlockAccessor7SM : ISaveBlockAccessor<BlockInfo7>, ISaveBlock7SM
+public sealed class SaveBlockAccessor7SM(SAV7SM sav) : ISaveBlockAccessor<BlockInfo7>, ISaveBlock7SM
 {
     public const int BlockMetadataOffset = SaveUtil.SIZE_G7SM - 0x200;
     private const int boSM = BlockMetadataOffset;
@@ -51,52 +52,39 @@ public sealed class SaveBlockAccessor7SM : ISaveBlockAccessor<BlockInfo7>, ISave
         new(boSM, 36, 0x6BA00, 0x00200), // 36 TurtleSalmonSave
     ];
 
-    public SaveBlockAccessor7SM(SAV7SM sav)
-    {
-        var bi = BlockInfo;
-
-        Items = new MyItem7SM(sav, 0);
-        Situation = new Situation7(sav, bi[01].Offset);
-        MyStatus = new MyStatus7(sav, bi[03].Offset);
-        Fame = new HallOfFame7(sav, bi[05].Offset + 0x9C4);
-        Zukan = new Zukan7(sav, bi[06].Offset, 0x550);
-        Misc = new Misc7(sav, bi[09].Offset);
-        FieldMenu = new FieldMenu7(sav, bi[10].Offset);
-        Config = new ConfigSave7(sav, bi[11].Offset);
-        GameTime = new GameTime7(sav, bi[12].Offset);
-        BoxLayout = new BoxLayout7(sav, bi[13].Offset);
-        ResortSave = new ResortSave7(sav, bi[15].Offset);
-        Played = new PlayTime6(sav, bi[16].Offset);
-        Overworld = new FieldMoveModelSave7(sav, bi[17].Offset);
-        Fashion = new FashionBlock7(sav, bi[18].Offset);
-        Festa = new JoinFesta7(sav, bi[21].Offset);
-        PokeFinder = new PokeFinder7(sav, bi[26].Offset);
-        MysteryGift = new MysteryBlock7(sav, bi[27].Offset);
-        Records = new RecordBlock7SM(sav, bi[28].Offset);
-        BattleTree = new BattleTree7(sav, bi[32].Offset);
-        Daycare = new Daycare7(sav, bi[33].Offset);
-    }
-
     public IReadOnlyList<BlockInfo7> BlockInfo => BlockInfoSM;
 
-    public MyItem Items { get; }
-    public MysteryBlock7 MysteryGift { get; }
-    public PokeFinder7 PokeFinder { get; }
-    public JoinFesta7 Festa { get; }
-    public Daycare7 Daycare { get; }
-    public RecordBlock6 Records { get; }
-    public PlayTime6 Played { get; }
-    public MyStatus7 MyStatus { get; }
-    public FieldMoveModelSave7 Overworld { get; }
-    public Situation7 Situation { get; }
-    public ConfigSave7 Config { get; }
-    public GameTime7 GameTime { get; }
-    public Misc7 Misc { get; }
-    public Zukan7 Zukan { get; }
-    public BoxLayout7 BoxLayout { get; }
-    public BattleTree7 BattleTree { get; }
-    public ResortSave7 ResortSave { get; }
-    public FieldMenu7 FieldMenu { get; }
-    public FashionBlock7 Fashion { get; }
-    public HallOfFame7 Fame { get; }
+    public MyItem7SM Items { get; } = new(sav, Block(sav, 0));
+    public Situation7 Situation { get; } = new(sav, Block(sav, 1));
+    public MyStatus7 MyStatus { get; } = new(sav, Block(sav, 3));
+    public EventWork7SM EventWork { get; } = new(sav, Block(sav, 5));
+    public Zukan7 Zukan { get; } = new(sav, Block(sav, 6), 0x550);
+    public GTS7 GTS { get; } = new(sav, Block(sav, 07));
+    public UnionPokemon7 Fused { get; } = new(sav, Block(sav, 8));
+    public Misc7 Misc { get; } = new(sav, Block(sav, 9));
+    public FieldMenu7 FieldMenu { get; } = new(sav, Block(sav, 10));
+    public ConfigSave7 Config { get; } = new(sav, Block(sav, 11));
+    public GameTime7 GameTime { get; } = new(sav, Block(sav, 12));
+    public BoxLayout7 BoxLayout { get; } = new(sav, Block(sav, 13));
+    public ResortSave7 ResortSave { get; } = new(sav, Block(sav, 15));
+    public PlayTime6 Played { get; } = new(sav, Block(sav, 16));
+    public FieldMoveModelSave7 Overworld { get; } = new(sav, Block(sav, 17));
+    public FashionBlock7 Fashion { get; } = new(sav, Block(sav, 18));
+    public JoinFesta7 Festa { get; } = new(sav, Block(sav, 21));
+    public PokeFinder7 PokeFinder { get; } = new(sav, Block(sav, 26));
+    public MysteryBlock7 MysteryGift { get; } = new(sav, Block(sav, 27));
+    public RecordBlock7SM Records { get; } = new(sav, Block(sav, 28));
+    public BattleTree7 BattleTree { get; } = new(sav, Block(sav, 32));
+    public Daycare7 Daycare { get; } = new(sav, Block(sav, 33));
+
+    MyItem ISaveBlock7Main.Items => Items;
+    EventWork7 ISaveBlock7Main.EventWork => EventWork;
+    RecordBlock6 ISaveBlock7Main.Records => Records;
+
+    private static Memory<byte> Block(SAV7SM sav, int index)
+    {
+        var data = sav.Data;
+        var block = BlockInfoSM[index];
+        return data.AsMemory(block.Offset, block.Length);
+    }
 }

@@ -34,14 +34,14 @@
             dgv_val = new System.Windows.Forms.DataGridViewComboBoxColumn();
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
-            NUD_Cells = new System.Windows.Forms.NumericUpDown();
+            NUD_CellsTotal = new System.Windows.Forms.NumericUpDown();
             L_Cells = new System.Windows.Forms.Label();
             B_GiveAll = new System.Windows.Forms.Button();
             L_Collected = new System.Windows.Forms.Label();
-            NUD_Collected = new System.Windows.Forms.NumericUpDown();
+            NUD_CellsCollected = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_Cells).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_Collected).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CellsTotal).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CellsCollected).BeginInit();
             SuspendLayout();
             // 
             // dgv
@@ -113,13 +113,13 @@
             // 
             // NUD_Cells
             // 
-            NUD_Cells.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            NUD_Cells.Location = new System.Drawing.Point(105, 357);
-            NUD_Cells.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_Cells.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            NUD_Cells.Name = "NUD_Cells";
-            NUD_Cells.Size = new System.Drawing.Size(77, 23);
-            NUD_Cells.TabIndex = 3;
+            NUD_CellsTotal.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            NUD_CellsTotal.Location = new System.Drawing.Point(105, 357);
+            NUD_CellsTotal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_CellsTotal.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_CellsTotal.Name = "NUD_CellsTotal";
+            NUD_CellsTotal.Size = new System.Drawing.Size(77, 23);
+            NUD_CellsTotal.TabIndex = 3;
             // 
             // L_Cells
             // 
@@ -157,23 +157,23 @@
             // 
             // NUD_Collected
             // 
-            NUD_Collected.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            NUD_Collected.Location = new System.Drawing.Point(105, 328);
-            NUD_Collected.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_Collected.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            NUD_Collected.Name = "NUD_Collected";
-            NUD_Collected.Size = new System.Drawing.Size(77, 23);
-            NUD_Collected.TabIndex = 6;
+            NUD_CellsCollected.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            NUD_CellsCollected.Location = new System.Drawing.Point(105, 328);
+            NUD_CellsCollected.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_CellsCollected.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_CellsCollected.Name = "NUD_CellsCollected";
+            NUD_CellsCollected.Size = new System.Drawing.Size(77, 23);
+            NUD_CellsCollected.TabIndex = 6;
             // 
             // SAV_ZygardeCell
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(588, 393);
             Controls.Add(L_Collected);
-            Controls.Add(NUD_Collected);
+            Controls.Add(NUD_CellsCollected);
             Controls.Add(B_GiveAll);
             Controls.Add(L_Cells);
-            Controls.Add(NUD_Cells);
+            Controls.Add(NUD_CellsTotal);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
             Controls.Add(dgv);
@@ -185,8 +185,8 @@
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Cells/Sticker Editor";
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_Cells).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_Collected).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CellsTotal).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CellsCollected).EndInit();
             ResumeLayout(false);
         }
 
@@ -195,13 +195,13 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.NumericUpDown NUD_Cells;
+        private System.Windows.Forms.NumericUpDown NUD_CellsTotal;
         private System.Windows.Forms.Label L_Cells;
         private System.Windows.Forms.Button B_GiveAll;
         private System.Windows.Forms.DataGridViewComboBoxColumn dgv_val;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_location;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ref;
         private System.Windows.Forms.Label L_Collected;
-        private System.Windows.Forms.NumericUpDown NUD_Collected;
+        private System.Windows.Forms.NumericUpDown NUD_CellsCollected;
     }
 }

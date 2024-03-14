@@ -103,7 +103,7 @@ public partial class SAV_Encounters : Form
 
     private void GetTypeFilters()
     {
-        var types = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
+        var types = Enum.GetValues<EncounterTypeGroup>();
         var checks = types.Select(z => new CheckBox
         {
             Name = z.ToString(),

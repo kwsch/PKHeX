@@ -15,11 +15,18 @@ public static partial class Extensions
 {
     private static bool CanBeReceivedBy(this IVersion version, GameVersion game) => version.Version.Contains(game);
 
+    /// <summary>
+    /// Gets a compatible saved version value for the given <see cref="IVersion"/>.
+    /// </summary>
+    /// <param name="version">Object requesting a saved version.</param>
+    /// <param name="prefer">Preferred version to use, if possible.</param>
     public static GameVersion GetCompatibleVersion(this IVersion version, GameVersion prefer)
     {
-        if (version.CanBeReceivedBy(prefer) || version.Version == GameVersion.Any)
-            return prefer;
-        return version.GetSingleVersion();
+        if (!version.CanBeReceivedBy(prefer))
+            return version.GetSingleVersion();
+        if (!prefer.IsValidSavedVersion())
+            return prefer.GetSingleVersion();
+        return prefer;
     }
 
     public static GameVersion GetSingleVersion(this IVersion version)

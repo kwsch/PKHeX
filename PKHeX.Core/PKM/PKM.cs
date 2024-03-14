@@ -169,12 +169,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
                 // Only update the properties if a value is provided.
-                MetYear = (byte)(value.Value.Year - 2000);
-                MetMonth = (byte)value.Value.Month;
-                MetDay = (byte)value.Value.Day;
+                MetYear = (byte)(dt.Year - 2000);
+                MetMonth = (byte)dt.Month;
+                MetDay = (byte)dt.Day;
             }
             else
             {
@@ -212,12 +212,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
                 // Only update the properties if a value is provided.
-                EggYear = (byte)(value.Value.Year - 2000);
-                EggMonth = (byte)value.Value.Month;
-                EggDay = (byte)value.Value.Day;
+                EggYear = (byte)(dt.Year - 2000);
+                EggMonth = (byte)dt.Month;
+                EggDay = (byte)dt.Day;
             }
             else
             {

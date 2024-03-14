@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface for Accessing named blocks within a Generation 8 <see cref="GameVersion.PLA"/> save file.
@@ -12,6 +12,6 @@ public interface ISaveBlock8LA
     BoxLayout8a BoxLayout { get; }
     MyItem8a Items { get; }
     Epoch1970Value AdventureStart { get; }
-    LastSaved8a LastSaved { get; }
-    PlayTime8a Played { get; }
+    Epoch1900DateTimeValue LastSaved { get; }
+    PlayTime8b Played { get; }
 }

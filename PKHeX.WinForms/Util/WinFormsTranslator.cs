@@ -13,8 +13,8 @@ public static class WinFormsTranslator
     private static readonly Dictionary<string, TranslationContext> Context = [];
     internal static void TranslateInterface(this Control form, string lang) => TranslateForm(form, GetContext(lang));
 
-    private static string GetTranslationFileNameInternal(string lang) => $"lang_{lang}";
-    private static string GetTranslationFileNameExternal(string lang) => $"lang_{lang}.txt";
+    private static string GetTranslationFileNameInternal(ReadOnlySpan<char> lang) => $"lang_{lang}";
+    private static string GetTranslationFileNameExternal(ReadOnlySpan<char> lang) => $"lang_{lang}.txt";
 
     public static IReadOnlyDictionary<string, string> GetDictionary(string lang) => GetContext(lang).Lookup;
 
@@ -68,7 +68,7 @@ public static class WinFormsTranslator
         };
     }
 
-    private static void TranslateControl(object c, TranslationContext context, string formname)
+    private static void TranslateControl(object c, TranslationContext context, ReadOnlySpan<char> formname)
     {
         if (c is Control r)
         {
@@ -86,7 +86,7 @@ public static class WinFormsTranslator
         }
     }
 
-    private static ReadOnlySpan<string> GetTranslationFile(string lang)
+    private static ReadOnlySpan<string> GetTranslationFile(ReadOnlySpan<char> lang)
     {
         var file = GetTranslationFileNameInternal(lang);
         // Check to see if the desired translation file exists in the same folder as the executable
@@ -181,22 +181,52 @@ public static class WinFormsTranslator
         }
     }
 
-    public static void DumpAll(params string[] banlist)
+    public static void DumpAll(ReadOnlySpan<string> banlist)
     {
         foreach (var (lang, value) in Context)
         {
             var fn = GetTranslationFileNameExternal(lang);
             var lines = value.Write();
-            var result = lines.Where(z => !banlist.Any(z.Contains));
-            File.WriteAllLines(fn, result);
+
+            // Write a new file.
+            using var fs = new StreamWriter(fn);
+            foreach (var line in lines)
+            {
+                // Ensure line isn't banned.
+                if (IsBannedContains(line, banlist))
+                    continue;
+                fs.WriteLine(line);
+            }
         }
     }
 
-    public static void LoadAllForms(IEnumerable<Type> types, params string[] banlist)
+    private static bool IsBannedContains(ReadOnlySpan<char> line, ReadOnlySpan<string> banlist)
     {
-        types = types.Where(t => t.BaseType == typeof(Form) && !banlist.Contains(t.Name));
+        foreach (var banned in banlist)
+        {
+            if (banned.AsSpan().Contains(line, StringComparison.Ordinal))
+                return true;
+        }
+        return false;
+    }
+
+    private static bool IsBannedStartsWith(ReadOnlySpan<char> line, ReadOnlySpan<string> banlist)
+    {
+        foreach (var banned in banlist)
+        {
+            if (line.StartsWith(banned, StringComparison.Ordinal))
+                return true;
+        }
+        return false;
+    }
+
+    public static void LoadAllForms(IEnumerable<Type> types, ReadOnlySpan<string> banlist)
+    {
         foreach (var t in types)
         {
+            if (t.BaseType == typeof(Form) && IsBannedStartsWith(t.Name, banlist))
+                continue;
+
             var constructors = t.GetConstructors();
             if (constructors.Length == 0)
             { System.Diagnostics.Debug.WriteLine($"No constructors: {t.Name}"); continue; }
@@ -222,11 +252,10 @@ public static class WinFormsTranslator
         }
     }
 
-    public static void RemoveAll(string defaultLanguage, params string[] banlist)
+    public static void RemoveAll(string defaultLanguage, ReadOnlySpan<string> banlist)
     {
         var badKeys = Context[defaultLanguage];
-        var split = badKeys.Write().Select(z => z.Split(TranslationContext.Separator)[0])
-            .Where(l => !banlist.Any(l.StartsWith)).ToArray();
+        var split = GetSkips(banlist, badKeys);
         foreach (var c in Context)
         {
             var lang = c.Key;
@@ -235,6 +264,24 @@ public static class WinFormsTranslator
             var result = lines.Where(l => !split.Any(s => l.StartsWith(s + TranslationContext.Separator)));
             File.WriteAllLines(fn, result);
         }
+    }
+
+    private static string[] GetSkips(ReadOnlySpan<string> banlist, TranslationContext badKeys)
+    {
+        List<string> split = [];
+        foreach (var line in badKeys.Write())
+        {
+            var index = line.IndexOf(TranslationContext.Separator);
+            if (index < 0)
+                continue;
+            var key = line.AsSpan(0, index);
+            if (IsBannedStartsWith(key, banlist))
+                split.Add(key.ToString());
+        }
+
+        if (split.Count == 0)
+            return [];
+        return [..split];
     }
 
     public static void LoadSettings<T>(string defaultLanguage, bool add = true)

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 5 <see cref="SaveFile"/> object for <see cref="GameVersion.FRLG"/>.
 /// </summary>
 /// <inheritdoc cref="SAV3" />
-public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
+public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomState<ushort>
 {
     // Configuration
     protected override SAV3FRLG CloneInternal() => new(Write());
@@ -18,7 +18,6 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     public override int EventFlagCount => 8 * 288;
     public override int EventWorkCount => 0x100;
     protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
-    public override int DaycareSeedSize => 4; // 16bit
     protected override int EggEventFlag => 0x266;
     protected override int BadgeFlagStart => 0x820;
 
@@ -36,18 +35,11 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
 
     protected override int EventFlag => 0xEE0;
     protected override int EventWork => 0x1000;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x2F80; // large
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
-
-        // large
-        DaycareOffset = 0x2F80;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     public bool ResetPersonal(GameVersion g)
     {
@@ -75,9 +67,9 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0xB04)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB04), Math.Min((ushort)9999, value)); }
     public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0xB06)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB06), Math.Min((ushort)9999, value)); }
     // u32 field8;
-    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB0C)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB0C), Math.Min(9999, value)); }
+    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB0C)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB0C), Math.Min(99990, value)); }
 
-    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB10)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB10), Math.Min(9999, value)); }
+    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB10)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB10), Math.Min(99990, value)); }
     public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB14)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB14), Math.Min((ushort)9999, value)); }
     public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0xB16)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB16), Math.Min((ushort)9999, value)); }
 
@@ -135,9 +127,12 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     protected override int SeenOffset2 => 0x5F8;
     protected override int MailOffset => 0x2CD0;
 
-    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pk slot
-    public override string GetDaycareRNGSeed(int loc) => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2))).ToString("X4"); // after the 2nd slot EXP, before the step counter
-    public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), (ushort)Util.GetHexValue(seed));
+    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
+    ushort IDaycareRandomState<ushort>.Seed
+    {
+        get => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)));
+        set => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), value);
+    }
 
     protected override int ExternalEventData => 0x30A7;
 

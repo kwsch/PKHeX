@@ -146,7 +146,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Obedience_Level = LevelMin,
+            ObedienceLevel = LevelMin,
             OriginalTrainerFriendship = pi.BaseFriendship,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };

@@ -5,18 +5,18 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BV3(byte[] Data) : BattleVideo
+public sealed class BattleVideo3(byte[] Data) : IBattleVideo
 {
-    public BV3() : this(new byte[SIZE]) { }
+    public BattleVideo3() : this(new byte[SIZE]) { }
 
     public readonly byte[] Data = (byte[])Data.Clone();
 
     internal const int SIZE = 0xF80;
-    public override byte Generation => 3;
+    public byte Generation => 3;
 
-    public override IReadOnlyList<PK3> BattlePKMs => PlayerTeams.SelectMany(z => z).ToArray();
+    public IEnumerable<PKM> Contents => PlayerTeams.SelectMany(z => z);
 
-    internal new static bool IsValid(ReadOnlySpan<byte> data)
+    public static bool IsValid(ReadOnlySpan<byte> data)
     {
         if (data.Length != SIZE)
             return false;

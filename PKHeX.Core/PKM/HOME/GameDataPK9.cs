@@ -124,7 +124,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         pk.TeraTypeOverride = TeraTypeOverride;
         RecordFlagsBase.CopyTo(pk.RecordFlagsBase);
         RecordFlagsDLC.CopyTo(pk.RecordFlagsDLC);
-        pk.Obedience_Level = Obedience_Level;
+        pk.ObedienceLevel = Obedience_Level;
         pk.Ability = Ability;
         pk.AbilityNumber = AbilityNumber;
     }
@@ -137,7 +137,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         TeraTypeOverride = pk.TeraTypeOverride;
         pk.RecordFlagsBase.CopyTo(RecordFlagsBase);
         pk.RecordFlagsDLC.CopyTo(RecordFlagsDLC);
-        Obedience_Level = pk.Obedience_Level;
+        Obedience_Level = pk.ObedienceLevel;
         Ability = (ushort)pk.Ability;
         AbilityNumber = (byte)pk.AbilityNumber;
     }

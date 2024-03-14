@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem7USUM(SAV7USUM SAV, int offset) : MyItem(SAV, offset)
+public sealed class MyItem7USUM(SAV7USUM SAV, Memory<byte> raw) : MyItem(SAV, raw)
 {
     private const int HeldItem = 0; // 427 (Case 0)
     private const int KeyItem = HeldItem + (4 * 427); // 198 (Case 4)

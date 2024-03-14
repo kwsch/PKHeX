@@ -119,7 +119,7 @@ public static class BallApplicator
         return items.Length;
     }
 
-    private static readonly Ball[] BallList = (Ball[])Enum.GetValues(typeof(Ball));
+    private static readonly Ball[] BallList = Enum.GetValues<Ball>();
     private static int MaxBallSpanAlloc => BallList.Length;
 
     static BallApplicator()
@@ -129,7 +129,7 @@ public static class BallApplicator
         Span<Ball> all = stackalloc Ball[BallList.Length - exclude.Length];
         all = all[..FillExcept(all, exclude, BallList)];
 
-        var colors = (PersonalColor[])Enum.GetValues(typeof(PersonalColor));
+        var colors = Enum.GetValues<PersonalColor>();
         foreach (var color in colors)
         {
             int c = (int)color;

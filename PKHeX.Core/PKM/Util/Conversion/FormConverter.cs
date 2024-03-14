@@ -966,7 +966,7 @@ public static class FormConverter
 
     public static string[] GetFormArgumentStrings(ushort species) => species switch
     {
-        (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
+        (int)Alcremie => Enum.GetNames<AlcremieDecoration>(),
         _ => EMPTY,
     };
 }

@@ -56,7 +56,7 @@ public static class SaveExtensions
             }
         }
 
-        if (pk.Species > strings.Species.Count)
+        if (pk.Species >= strings.Species.Count)
             errata.Add($"{MsgIndexSpeciesRange} {pk.Species}");
         else if (sav.MaxSpeciesID < pk.Species)
             errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pk.Species]}");
@@ -68,7 +68,7 @@ public static class SaveExtensions
         for (int i = 0; i < 4; i++)
         {
             var move = pk.GetMove(i);
-            if ((uint)move > movestr.Count)
+            if ((uint)move >= movestr.Count)
                 errata.Add($"{MsgIndexMoveRange} {move}");
             else if (move > sav.MaxMoveID)
                 errata.Add($"{MsgIndexMoveGame} {movestr[move]}");

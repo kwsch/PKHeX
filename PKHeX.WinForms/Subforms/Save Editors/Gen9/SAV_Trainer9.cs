@@ -122,6 +122,7 @@ public partial class SAV_Trainer9 : Form
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
         CAL_AdventureStartDate.Value = SAV.EnrollmentDate.Timestamp;
+        CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = SAV.LastSaved.Timestamp;
     }
 
     private void Save()
@@ -166,6 +167,7 @@ public partial class SAV_Trainer9 : Form
         SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
         SAV.EnrollmentDate.Timestamp = CAL_AdventureStartDate.Value;
+        SAV.LastSaved.Timestamp = CAL_LastSavedDate.Value.Date.AddSeconds(CAL_LastSavedTime.Value.TimeOfDay.TotalSeconds);
 
         if (SAV.Blocks.TryGetBlock(KBlueberryPoints, out var block))
             block.SetValue(Util.ToUInt32(MT_BP.Text));

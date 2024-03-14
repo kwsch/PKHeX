@@ -85,6 +85,8 @@ public sealed class Daycare8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(
         _ => throw new ArgumentOutOfRangeException(nameof(daycare), daycare, "Expected 0/1"),
     };
 
-    public ulong GetDaycareSeed(int daycare) => ReadUInt64LittleEndian(Data.AsSpan(GetDaycareMetadataOffset(daycare) + 6));
-    public void SetDaycareSeed(int daycare, ulong value) => WriteUInt64LittleEndian(Data.AsSpan(GetDaycareMetadataOffset(daycare) + 6), value);
+    public ulong GetDaycareSeed(int daycare) => ReadUInt64LittleEndian(Data[(GetDaycareMetadataOffset(daycare) + 6)..]);
+    public void SetDaycareSeed(int daycare, ulong value) => WriteUInt64LittleEndian(Data[(GetDaycareMetadataOffset(daycare) + 6)..], value);
+
+    public Memory<byte> this[int i] => Raw[GetDaycareSlotOffset(i >> 1, i & 1)..];
 }

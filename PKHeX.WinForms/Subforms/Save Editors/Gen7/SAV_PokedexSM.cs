@@ -190,6 +190,9 @@ public partial class SAV_PokedexSM : Form
         bool isSpeciesEntry = species <= SAV.MaxSpeciesID;
         editing = true;
 
+        CHK_P1.Enabled = isSpeciesEntry;
+        CHK_P1.Checked = Dex.GetCaught(species);
+
         var gt = Dex.GetBaseSpeciesGenderValue(index);
         var canBeMale = gt != PersonalInfo.RatioMagicFemale;
         var canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);

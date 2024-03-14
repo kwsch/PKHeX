@@ -5,17 +5,17 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BV7(byte[] data) : BattleVideo
+public sealed class BattleVideo7(byte[] data) : IBattleVideo
 {
     public const int SIZE = 0x2BC0;
     private const string NPC = "NPC";
     private const int PlayerCount = 4;
 
-    public override byte Generation => 7;
+    public byte Generation => 7;
     private readonly byte[] Data = (byte[])data.Clone();
 
-    public override IReadOnlyList<PK7> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
-    internal new static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
+    public IEnumerable<PKM> Contents => PlayerTeams.SelectMany(t => t);
+    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
 
     private static ReadOnlySpan<ushort> TeamOffsets => [0xE41, 0x145E, 0x1A7B, 0x2098];
 
@@ -101,14 +101,14 @@ public sealed class BV7(byte[] data) : BattleVideo
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
-                MatchYear = value.Value.Year;
-                MatchDay = value.Value.Day;
-                MatchMonth = value.Value.Month;
-                MatchHour = value.Value.Hour;
-                MatchMinute = value.Value.Minute;
-                MatchSecond = value.Value.Second;
+                MatchYear = dt.Year;
+                MatchDay = dt.Day;
+                MatchMonth = dt.Month;
+                MatchHour = dt.Hour;
+                MatchMinute = dt.Minute;
+                MatchSecond = dt.Second;
             }
             else
             {

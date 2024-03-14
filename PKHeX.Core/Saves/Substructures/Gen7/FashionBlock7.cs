@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, offset)
+public sealed class FashionBlock7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw)
 {
     private const int FashionLength = 0x1A08;
 
@@ -10,7 +10,7 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
     {
         get
         {
-            var data = SAV.Data.AsSpan(Offset, 0x5A8).ToArray();
+            var data = Data[..0x5A8].ToArray();
             return Array.ConvertAll(data, b => new FashionItem7(b));
         }
         set
@@ -18,11 +18,11 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
             if (value.Length != 0x5A8)
                 throw new ArgumentOutOfRangeException($"Unexpected size: 0x{value.Length:X}");
             var arr = Array.ConvertAll(value, z => z.Value);
-            SAV.SetData(arr, Offset);
+            SAV.SetData(Data[..0x5A8], arr);
         }
     }
 
-    public void Clear() => Array.Clear(Data, Offset, FashionLength);
+    public void Clear() => Data[..FashionLength].Clear();
 
     /// <summary>
     /// Resets the fashion unlocks to default values.
@@ -31,7 +31,7 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
     {
         var offsetList = GetDefaultFashionOffsets(SAV);
         foreach (var ofs in offsetList)
-            SAV.Data[Offset + ofs] = 3; // owned | new
+            Data[ofs] = 3; // owned | new
     }
 
     private static ReadOnlySpan<ushort> GetDefaultFashionOffsets(SAV7 sav) => sav switch
@@ -48,6 +48,8 @@ public sealed class FashionBlock7(SAV7 sav, int offset) : SaveBlock<SAV7>(sav, o
     private static ReadOnlySpan<ushort> DefaultFashionOffsetSM_F => [ 0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517 ];
     private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_M => [ 0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584 ];
     private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_F => [ 0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8 ];
+
+    public void ImportPayload(ReadOnlySpan<byte> data) => SAV.SetData(Data[..FashionLength], data);
 }
 
 // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)

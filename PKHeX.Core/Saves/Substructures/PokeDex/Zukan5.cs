@@ -13,12 +13,12 @@ public sealed class Zukan5 : Zukan<SAV5>
     protected override int DexLangFlagByteCount => 7;
     protected override int DexLangIDCount => 7;
 
-    public Zukan5(SAV5B2W2 sav, int dex, int langflag) : base(sav, dex, langflag)
+    public Zukan5(SAV5B2W2 sav, Memory<byte> dex, int langflag) : base(sav, dex, langflag)
     {
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexB2W2;
     }
 
-    public Zukan5(SAV5BW sav, int dex, int langflag) : base(sav, dex, langflag)
+    public Zukan5(SAV5BW sav, Memory<byte> dex, int langflag) : base(sav, dex, langflag)
     {
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexBW;
     }

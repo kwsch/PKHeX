@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_OTName.Location = new System.Drawing.Point(115, 8);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -274,7 +274,7 @@ namespace PKHeX.WinForms
             // 
             // L_LastSaved
             // 
-            L_LastSaved.Location = new System.Drawing.Point(4, 127);
+            L_LastSaved.Location = new System.Drawing.Point(4, 95);
             L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_LastSaved.Name = "L_LastSaved";
             L_LastSaved.Size = new System.Drawing.Size(93, 23);
@@ -285,7 +285,7 @@ namespace PKHeX.WinForms
             // CAL_LastSavedDate
             // 
             CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            CAL_LastSavedDate.Location = new System.Drawing.Point(104, 127);
+            CAL_LastSavedDate.Location = new System.Drawing.Point(104, 95);
             CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CAL_LastSavedDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             CAL_LastSavedDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
@@ -801,7 +801,7 @@ namespace PKHeX.WinForms
             // 
             // L_Started
             // 
-            L_Started.Location = new System.Drawing.Point(4, 40);
+            L_Started.Location = new System.Drawing.Point(4, 45);
             L_Started.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Started.Name = "L_Started";
             L_Started.Size = new System.Drawing.Size(93, 23);
@@ -812,7 +812,7 @@ namespace PKHeX.WinForms
             // CAL_AdventureStartDate
             // 
             CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            CAL_AdventureStartDate.Location = new System.Drawing.Point(104, 40);
+            CAL_AdventureStartDate.Location = new System.Drawing.Point(104, 45);
             CAL_AdventureStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CAL_AdventureStartDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
@@ -825,7 +825,7 @@ namespace PKHeX.WinForms
             // 
             CAL_AdventureStartTime.CustomFormat = "HH:mm:ss";
             CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            CAL_AdventureStartTime.Location = new System.Drawing.Point(134, 62);
+            CAL_AdventureStartTime.Location = new System.Drawing.Point(134, 67);
             CAL_AdventureStartTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CAL_AdventureStartTime.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             CAL_AdventureStartTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
@@ -839,7 +839,7 @@ namespace PKHeX.WinForms
             // 
             CAL_LastSavedTime.CustomFormat = "HH:mm";
             CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            CAL_LastSavedTime.Location = new System.Drawing.Point(134, 149);
+            CAL_LastSavedTime.Location = new System.Drawing.Point(134, 117);
             CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CAL_LastSavedTime.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);

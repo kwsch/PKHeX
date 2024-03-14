@@ -170,7 +170,7 @@ public sealed class MiscVerifier : Verifier
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-        if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.MetLevel))
+        if (!IsObedienceLevelValid(pk9, pk9.ObedienceLevel, pk9.MetLevel))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
         if (pk9.IsEgg)
         {
@@ -257,7 +257,7 @@ public sealed class MiscVerifier : Verifier
         ArgumentOutOfRangeException.ThrowIfNegative(flagIndex, nameof(move)); // Always expect it to match.
         if (pk.GetMoveRecordFlag(flagIndex))
             return;
-        m = new MoveResult(LearnMethod.None);
+        m = m with { Info = m.Info with { Method = LearnMethod.None} };
     }
 
     public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual, IEncounterTemplate enc)

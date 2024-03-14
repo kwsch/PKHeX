@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Storage data is stored in one contiguous block, and the remaining data is stored in another block.
 /// </remarks>
-public abstract class SAV4 : SaveFile, IEventFlag37
+public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRandomState<uint>, IDaycareExperience, IDaycareEggState, IMysteryGiftStorageProvider
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public sealed override string Extension => ".sav";
@@ -37,8 +37,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
     protected abstract int EventFlag { get; }
     protected abstract int EventWork { get; }
-    public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
-    public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
+    public sealed override bool GetFlag(int offset, int bitIndex) => GetFlag(General, offset, bitIndex);
+    public sealed override void SetFlag(int offset, int bitIndex, bool value) => SetFlag(General, offset, bitIndex, value);
 
     protected SAV4([ConstantExpected] int gSize, [ConstantExpected] int sSize)
     {
@@ -95,7 +95,6 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public override EntityContext Context => EntityContext.Gen4;
     public int EventFlagCount => 0xB60; // 2912
     public int EventWorkCount => (EventFlag - EventWork) >> 1;
-    protected sealed override int GiftCountMax => 11;
     public sealed override int MaxStringLengthOT => 7;
     public sealed override int MaxStringLengthNickname => 10;
     public sealed override int MaxMoney => 999999;
@@ -197,11 +196,26 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
     }
 
+    public BattleVideo4? GetBattleVideo(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, 4);
+        index = 2 + index; // 2-5, skip HoF and Battle Hall
+        if (ExtraBlocks.Count < index)
+            return null; // not in D/P
+
+        var block = ExtraBlocks[index];
+        var active = GetActiveExtraBlock(block);
+        return active == -1 ? null : new BattleVideo4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, BattleVideo4.SIZE_USED));
+    }
+
     public Hall4? GetHall()
     {
+        if (ExtraBlocks.Count < 1)
+            return null; // not in D/P
+
         var block = ExtraBlocks[1];
         var active = GetActiveExtraBlock(block);
-        return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_BLOCK));
+        return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_USED));
     }
 
     protected int WondercardFlags = int.MinValue;
@@ -213,7 +227,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public int GTS { get; protected set; } = int.MinValue;
 
     public int ChatterOffset { get; protected set; } = int.MinValue;
-    public Chatter4 Chatter => new(this, ChatterOffset);
+    public Chatter4 Chatter => new(this, Data.AsMemory(ChatterOffset));
 
     // Storage
     public override int PartyCount
@@ -352,172 +366,57 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     }
 
     // Daycare
-    public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * SIZE_PARTY);
+    public int DaycareSlotCount => 2;
+    private const int DaycareSlotSize = PokeCrypto.SIZE_4PARTY;
+    protected abstract int DaycareOffset { get; }
+    public Memory<byte> GetDaycareSlot(int slot) => GeneralBuffer.Slice(DaycareOffset + (slot * DaycareSlotSize), DaycareSlotSize);
 
-    public override uint? GetDaycareEXP(int loc, int slot)
+    // EXP: Last 4 bytes of each slot
+    public uint GetDaycareEXP(int index)
     {
-        int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, 2u);
+        int ofs = DaycareOffset + DaycareSlotSize - 4;
         return ReadUInt32LittleEndian(General[ofs..]);
     }
 
-    public override bool? IsDaycareOccupied(int loc, int slot) => null; // todo
-
-    public override void SetDaycareEXP(int loc, int slot, uint EXP)
+    public void SetDaycareEXP(int index, uint value)
     {
-        int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
-        WriteUInt32LittleEndian(General[ofs..], EXP);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, 2u);
+        int ofs = DaycareOffset + DaycareSlotSize - 4;
+        WriteUInt32LittleEndian(General[ofs..], value);
     }
 
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+    public bool IsDaycareOccupied(int index) => GetStoredSlot(GetDaycareSlot(index).Span).Species != 0;
+
+    public void SetDaycareOccupied(int index, bool occupied)
     {
-        // todo
+        if (occupied)
+            return; // how would we even set this? just ignore and assume they'll set the slot data via other means.
+        GetDaycareSlot(index).Span.Clear();
+    }
+
+    uint IDaycareRandomState<uint>.Seed
+    {
+        get => ReadUInt32LittleEndian(General[(DaycareOffset + (2 * DaycareSlotSize))..]);
+        set => WriteUInt32LittleEndian(General[DaycareOffset..], value);
+    }
+
+    public byte DaycareStepCounter { get => General[DaycareOffset + (2 * DaycareSlotSize) + 4]; set => General[DaycareOffset + (2 * DaycareSlotSize) + 4] = value; }
+
+    public bool IsEggAvailable
+    {
+        get => ((IDaycareRandomState<uint>)this).Seed != 0;
+        set
+        {
+            if (!value)
+                ((IDaycareRandomState<uint>)this).Seed = 0;
+            else if (((IDaycareRandomState<uint>)this).Seed == 0)
+                ((IDaycareRandomState<uint>)this).Seed = (uint)Util.Rand.Next(1, int.MaxValue);
+        }
     }
 
     // Mystery Gift
-    private bool MysteryGiftActive { get => (General[72] & 1) == 1; set => General[72] = (byte)((General[72] & 0xFE) | (value ? 1 : 0)); }
-
-    private static bool IsMysteryGiftAvailable(DataMysteryGift[] value)
-    {
-        for (int i = 0; i < 8; i++) // 8 PGT
-        {
-            if (value[i] is PGT {CardType: not 0})
-                return true;
-        }
-        for (int i = 8; i < 11; i++) // 3 PCD
-        {
-            if (value[i] is PCD {Gift.CardType: not 0 })
-                return true;
-        }
-        return false;
-    }
-
-    private bool MatchMysteryGifts(DataMysteryGift[] value, Span<byte> indexes)
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            if (value[i] is not PGT pgt)
-                continue;
-
-            if (pgt.CardType == 0) // empty
-            {
-                indexes[i] = pgt.Slot = 0;
-                continue;
-            }
-
-            indexes[i] = pgt.Slot = 3;
-            for (byte j = 0; j < 3; j++)
-            {
-                if (value[8 + j] is not PCD pcd)
-                    continue;
-
-                // Check if data matches (except Slot @ 0x02)
-                if (!pcd.GiftEquals(pgt))
-                    continue;
-
-                if (this is not SAV4HGSS)
-                    j++; // HG/SS 0,1,2; D/P/Pt 1,2,3
-                indexes[i] = pgt.Slot = j;
-                break;
-            }
-        }
-        return true;
-    }
-
-    public override MysteryGiftAlbum GiftAlbum
-    {
-        get => new(MysteryGiftCards, MysteryGiftReceivedFlags) {Flags = {[2047] = false}};
-        set
-        {
-            bool available = IsMysteryGiftAvailable(value.Gifts);
-            if (available && !MysteryGiftActive)
-                MysteryGiftActive = true;
-            value.Flags[2047] = available;
-
-            // Check encryption for each gift (decrypted wc4 sneaking in)
-            foreach (var g in value.Gifts)
-            {
-                if (g is PGT pgt)
-                {
-                    pgt.VerifyPKEncryption();
-                }
-                else if (g is PCD pcd)
-                {
-                    var dg = pcd.Gift;
-                    if (dg.VerifyPKEncryption())
-                        pcd.Gift = dg; // set encrypted gift back to PCD.
-                }
-            }
-
-            MysteryGiftReceivedFlags = value.Flags;
-            MysteryGiftCards = value.Gifts;
-        }
-    }
-
-    protected sealed override bool[] MysteryGiftReceivedFlags
-    {
-        get
-        {
-            bool[] result = new bool[GiftFlagMax];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = ((General[WondercardFlags + (i >> 3)] >> (i & 7)) & 0x1) == 1;
-            return result;
-        }
-        set
-        {
-            if (GiftFlagMax != value.Length)
-                return;
-
-            Span<byte> data = General.Slice(WondercardFlags, value.Length / 8);
-            data.Clear();
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i])
-                    data[i >> 3] |= (byte)(1 << (i & 7));
-            }
-        }
-    }
-
-    protected sealed override DataMysteryGift[] MysteryGiftCards
-    {
-        get
-        {
-            int pcd = this is SAV4HGSS ? 4 : 3;
-            DataMysteryGift[] cards = new DataMysteryGift[8 + pcd];
-            for (int i = 0; i < 8; i++) // 8 PGT
-                cards[i] = new PGT(General.Slice(WondercardData + (i * PGT.Size), PGT.Size).ToArray());
-            for (int i = 8; i < 11; i++) // 3 PCD
-                cards[i] = new PCD(General.Slice(WondercardData + (8 * PGT.Size) + ((i-8) * PCD.Size), PCD.Size).ToArray());
-            if (this is SAV4HGSS hgss)
-                cards[^1] = hgss.LockCapsuleSlot;
-            return cards;
-        }
-        set
-        {
-            Span<byte> indexes = stackalloc byte[8];
-            bool matchAny = MatchMysteryGifts(value, indexes); // automatically applied
-            if (!matchAny)
-                return;
-
-            for (int i = 0; i < 8; i++) // 8 PGT
-            {
-                if (value[i] is PGT)
-                {
-                    var ofs = (WondercardData + (i * PGT.Size));
-                    SetData(General[ofs..], value[i].Data);
-                }
-            }
-            for (int i = 8; i < 11; i++) // 3 PCD
-            {
-                if (value[i] is PCD)
-                {
-                    var ofs = (WondercardData + (8 * PGT.Size) + ((i - 8) * PCD.Size));
-                    SetData(General[ofs..], value[i].Data);
-                }
-            }
-            if (this is SAV4HGSS hgss && value.Length >= 11 && value[^1] is PCD capsule)
-                hgss.LockCapsuleSlot = capsule;
-        }
-    }
+    public bool IsMysteryGiftUnlocked { get => (General[72] & 1) == 1; set => General[72] = (byte)((General[72] & 0xFE) | (value ? 1 : 0)); }
 
     protected sealed override void SetDex(PKM pk) => Dex.SetDex(pk);
     public sealed override bool GetCaught(ushort species) => Dex.GetCaught(species);
@@ -654,4 +553,209 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
     public abstract int BP { get; set; }
     public abstract BattleFrontierFacility4 MaxFacility { get; }
+
+    public abstract MysteryBlock4 Mystery { get; }
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => Mystery;
+}
+
+public sealed class MysteryBlock4DP(SAV4DP sav, Memory<byte> raw) : MysteryBlock4(sav, raw)
+{
+    // 0x100 Flags
+    // 11 u32 IsActive sentinels
+    // 8 PGT
+    // 3 PCD
+    public const int Size = (MaxReceivedFlag / 8) + (SentinelCount * sizeof(uint)) + (MaxCountPGT * PGT.Size) + (MaxCountPCD * PCD.Size);
+    protected override int CardStart => FlagStart + FlagRegionSize + (11 * sizeof(uint));
+    private const int SentinelCount = 11;
+
+    // reverse crc32 polynomial, nice!
+    private const uint MysteryGiftDPSlotActive = 0xEDB88320;
+
+    private Span<byte> SentinelSpan => Data.Slice(FlagStart + FlagRegionSize, 11 * sizeof(uint));
+
+    public uint GetMysteryGiftReceivedSentinel(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, SentinelCount);
+        return ReadUInt32LittleEndian(SentinelSpan[(index * sizeof(uint))..]);
+    }
+
+    public void SetMysteryGiftReceivedSentinel(int index, uint value)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, SentinelCount);
+        WriteUInt32LittleEndian(SentinelSpan[(index * sizeof(uint))..], value);
+    }
+
+    public override void SetMysteryGift(int index, PGT pgt)
+    {
+        base.SetMysteryGift(index, pgt);
+        SetMysteryGiftReceivedSentinel(index, pgt.Empty ? 0 : MysteryGiftDPSlotActive);
+    }
+
+    public override void SetMysteryGift(int index, PCD pcd)
+    {
+        base.SetMysteryGift(index, pcd);
+        SetMysteryGiftReceivedSentinel(index, pcd.Empty ? 0 : MysteryGiftDPSlotActive);
+    }
+}
+
+public sealed class MysteryBlock4Pt(SAV4Pt sav, Memory<byte> raw) : MysteryBlock4(sav, raw)
+{
+    // 0x100 Flags
+    // 8 PGT
+    // 3 PCD
+    public const int Size = (MaxReceivedFlag / 8) + (MaxCountPGT * PGT.Size) + (MaxCountPCD * PCD.Size);
+    protected override int CardStart => FlagStart + FlagRegionSize;
+}
+
+public sealed class MysteryBlock4HGSS(SAV4HGSS sav, Memory<byte> raw) : MysteryBlock4(sav, raw)
+{
+    // 0x100 Flags
+    // 8 PGT
+    // 3 PCD0x100
+    public const int Size = (MaxReceivedFlag / 8) + (MaxCountPGT * PGT.Size) + (MaxCountPCD * PCD.Size);
+    protected override int CardStart => FlagStart + FlagRegionSize;
+}
+
+public abstract class MysteryBlock4(SAV4 sav, Memory<byte> raw) : SaveBlock<SAV4>(sav, raw), IMysteryGiftStorage, IMysteryGiftFlags
+{
+    protected const int FlagStart = 0;
+    protected const int MaxReceivedFlag = 2048;
+    protected const int MaxCountPGT = 8;
+    protected const int MaxCountPCD = 3;
+    protected const int MaxCardsPresent = MaxCountPGT + MaxCountPCD;
+    protected const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
+    protected abstract int CardStart { get; }
+    private const int FlagDeliveryManActive = 2047;
+
+    private int CardRegionPGTStart => CardStart;
+    private int CardRegionPCDStart => CardRegionPGTStart + (MaxCountPGT * PGT.Size);
+
+    public bool IsDeliveryManActive
+    {
+        get => GetMysteryGiftReceivedFlag(FlagDeliveryManActive);
+        set
+        {
+            if (value && !SAV.IsMysteryGiftUnlocked)
+                SAV.IsMysteryGiftUnlocked = true; // be nice to the user and unlock the Mystery Gift menu feature.
+            SetMysteryGiftReceivedFlag(FlagDeliveryManActive, value);
+        }
+    }
+
+    public int GiftCountMax => MaxCardsPresent;
+    DataMysteryGift IMysteryGiftStorage.GetMysteryGift(int index)
+    {
+        if ((uint)index < MaxCountPGT)
+            return GetMysteryGiftPGT(index);
+        if ((uint)index < MaxCardsPresent)
+            return GetMysteryGiftPCD(index - MaxCountPGT);
+        throw new ArgumentOutOfRangeException(nameof(index));
+    }
+
+    void IMysteryGiftStorage.SetMysteryGift(int index, DataMysteryGift gift)
+    {
+        if ((uint) index < MaxCountPGT)
+            SetMysteryGift(index, (PGT)gift);
+        else if ((uint)index < MaxCardsPresent)
+            SetMysteryGift(index - MaxCountPGT, (PCD)gift);
+        else throw new ArgumentOutOfRangeException(nameof(index));
+    }
+
+    public int MysteryGiftReceivedFlagMax => FlagDeliveryManActive; // ignore the delivery man flag when populating flags
+    private Span<byte> FlagRegion => Data[..CardStart]; // 0x100
+
+    public void ClearReceivedFlags() => FlagRegion.Clear();
+
+    private int GetGiftOffsetPGT(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxCountPGT);
+        return CardRegionPGTStart + (index * PGT.Size);
+    }
+
+    private int GetGiftOffsetPCD(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxCountPCD);
+        return CardRegionPCDStart + (index * PCD.Size);
+    }
+
+    private Span<byte> GetCardSpanPGT(int index) => Data.Slice(GetGiftOffsetPGT(index), PGT.Size);
+    private Span<byte> GetCardSpanPCD(int index) => Data.Slice(GetGiftOffsetPCD(index), PCD.Size);
+    public PGT GetMysteryGiftPGT(int index) => new(GetCardSpanPGT(index).ToArray());
+    public PCD GetMysteryGiftPCD(int index) => new(GetCardSpanPCD(index).ToArray());
+
+    public virtual void SetMysteryGift(int index, PGT pgt)
+    {
+        if ((uint)index > MaxCardsPresent)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        if (pgt.Data.Length != PGT.Size)
+            throw new InvalidCastException(nameof(pgt));
+        pgt.VerifyPKEncryption();
+        SAV.SetData(GetCardSpanPGT(index), pgt.Data);
+    }
+
+    public virtual void SetMysteryGift(int index, PCD pcd)
+    {
+        if ((uint)index > MaxCardsPresent)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        if (pcd.Data.Length != PCD.Size)
+            throw new InvalidCastException(nameof(pcd));
+        var gift = pcd.Gift;
+        if (gift.VerifyPKEncryption())
+            pcd.Gift = gift; // ensure data is encrypted in the object
+        SAV.SetData(GetCardSpanPCD(index), pcd.Data);
+    }
+
+    public bool GetMysteryGiftReceivedFlag(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        return FlagUtil.GetFlag(Data, index); // offset 0
+    }
+
+    public void SetMysteryGiftReceivedFlag(int index, bool value)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        FlagUtil.SetFlag(Data, index, value); // offset 0
+    }
+
+    // HG/SS 0,1,2,[3]; D/P/Pt 1,2,3,[4]
+    private const byte NoPCDforPGT = 3; // 4 for DPPt; handle this manually.
+
+    /// <summary>
+    /// Each PGT points to a PCD slot if it is correlated.
+    /// </summary>
+    public static void UpdateSlotPGT(ReadOnlySpan<DataMysteryGift> value, bool hgss)
+    {
+        var arrPGT = value[..MaxCountPGT];
+        var arrPCD = value.Slice(MaxCountPGT, MaxCountPCD);
+        UpdateSlotPGT(hgss, arrPGT, arrPCD);
+    }
+
+    public static void UpdateSlotPGT(bool hgss, ReadOnlySpan<DataMysteryGift> arrPGT, ReadOnlySpan<DataMysteryGift> arrPCD)
+    {
+        foreach (var gift in arrPGT)
+        {
+            var pgt = (PGT)gift;
+            if (pgt.CardType == 0) // empty
+            {
+                pgt.Slot = 0;
+                continue;
+            }
+
+            var index = FindIndexPCD(pgt, arrPCD);
+            if (!hgss)
+                index++;
+            pgt.Slot = index;
+        }
+    }
+
+    private static byte FindIndexPCD(PGT pgt, ReadOnlySpan<DataMysteryGift> arrPCD)
+    {
+        for (byte i = 0; i < arrPCD.Length; i++)
+        {
+            var pcd = (PCD)arrPCD[i];
+            // Check if data matches (except Slot @ 0x02)
+            if (pcd.GiftEquals(pgt))
+                return i;
+        }
+        return NoPCDforPGT;
+    }
 }

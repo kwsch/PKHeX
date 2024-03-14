@@ -17,4 +17,9 @@ public interface ISaveBlock5BW
     Entralink5 Entralink { get; }
     Musical5 Musical { get; }
     Encount5 Encount { get; }
+    EventWork5 EventWork { get; }
+    BattleBox5 BattleBox { get; }
+    GlobalLink5 GlobalLink { get; }
+    GTS5 GTS { get; }
+    AdventureInfo5 AdventureInfo { get; }
 }

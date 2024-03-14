@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Dendou4
+public sealed class Dendou4(Memory<byte> raw)
 {
     private const int SIZE = 0x2AB0;
     private const int SIZE_FOOTER = 0x10;
@@ -12,10 +12,7 @@ public sealed class Dendou4
     public const int MaxClears = 9999;
     public const int MaxRecords = 30;
 
-    private readonly byte[] Raw;
-    private readonly int Offset;
-    private Span<byte> Data => Raw.AsSpan(Offset, SIZE_BLOCK);
-    public Dendou4(byte[] data, int offset) => (Raw, Offset) = (data, offset);
+    private Span<byte> Data => raw.Span;
 
     // Structure:
     // record[30] records

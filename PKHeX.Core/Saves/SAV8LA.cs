@@ -6,9 +6,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRevision
+public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRevision, IBoxDetailName, IBoxDetailWallpaper
 {
-    protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.LastSavedTime}";
+    protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.DisplayValue}";
     public override string Extension => string.Empty;
 
     public SAV8LA(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
@@ -114,8 +114,8 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public MyItem8a Items => Blocks.Items;
     public Epoch1970Value AdventureStart => Blocks.AdventureStart;
     public Coordinates8a Coordinates => Blocks.Coordinates;
-    public LastSaved8a LastSaved => Blocks.LastSaved;
-    public PlayTime8a Played => Blocks.Played;
+    public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
+    public PlayTime8b Played => Blocks.Played;
     public AreaSpawnerSet8a AreaSpawners => new(Blocks.GetBlock(SaveBlockAccessor8LA.KSpawners));
     #endregion
 
@@ -123,18 +123,18 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor8LA.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor8LA.KMoney, value); }
     public override int MaxMoney => 9_999_999;
 
-    public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = (ushort)value; }
-    public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = (byte)value; }
-    public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = (byte)value; }
+    public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
+    public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
+    public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
 
+    public override bool HasPokeDex => true;
     private void Initialize()
     {
         Box = 0;
         Party = 0;
-        PokeDex = 0;
     }
 
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
@@ -184,8 +184,6 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
     #region Boxes
-    public override bool HasBoxWallpapers => false;
-    public override bool HasNamableBoxes => true;
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => (byte)Blocks.GetBlockValue(SaveBlockAccessor8LA.KBoxesUnlocked); set => Blocks.SetBlockValue(SaveBlockAccessor8LA.KBoxesUnlocked, (byte)value); }
 
@@ -209,10 +207,10 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     }
 
     public override int GetBoxOffset(int box) => Box + (SIZE_BOXSLOT * box * 30);
-    public override string GetBoxName(int box) => BoxLayout.GetBoxName(box);
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
 
-    public override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         if ((uint)box >= BoxCount)
             return box;
@@ -220,7 +218,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
         return b.Data[box];
     }
 
-    public override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         if ((uint)box >= BoxCount)
             return;

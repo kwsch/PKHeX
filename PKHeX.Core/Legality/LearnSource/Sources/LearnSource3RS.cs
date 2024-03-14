@@ -18,6 +18,8 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
     private const byte Generation = 3;
     private const int CountTM = 50;
 
+    public LearnEnvironment Environment => Game;
+
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species < Learnsets.Length ? species : 0];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo3? pi)

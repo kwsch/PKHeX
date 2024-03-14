@@ -134,7 +134,7 @@ public static class MethodK
     /// <summary>
     /// Attempts to find a matching seed for the given encounter and constraints for Cute Charm buffered PIDs.
     /// </summary>
-    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, out uint result)
+    public static bool TryGetMatchCuteCharm<T>(T enc, ReadOnlySpan<uint> seeds, byte nature, byte levelMin, byte levelMax, byte format, out LeadSeed result)
         where T : IEncounterSlot4
     {
         foreach (uint seed in seeds)
@@ -143,11 +143,14 @@ public static class MethodK
             var reg = GetNature(p0) == nature;
             if (!reg)
                 continue;
-            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, 4);
-            if (!TryGetMatchCuteCharm(ctx, out result))
+            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
+            if (!TryGetMatchCuteCharm(ctx, out var s))
                 continue;
-            if (CheckEncounterActivationCuteCharm(enc, ref result))
-                return true;
+            if (!CheckEncounterActivationCuteCharm(enc, ref s))
+                continue;
+
+            result = new(s, CuteCharm);
+            return true;
         }
         result = default; return false;
     }
@@ -166,7 +169,7 @@ public static class MethodK
             if (depth != 4 && enc is EncounterSlot4 s && (s.IsBugContest || s.IsSafariHGSS))
                 return Recurse4x(enc, levelMin, levelMax, seed, nature, format, out result, ++depth);
         }
-        else if (IsSyncPass(p0))
+        else if (IsSyncPass(p0) && !(enc.Type is Grass && enc.LevelMax < levelMin))
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out seed))
@@ -297,6 +300,16 @@ public static class MethodK
     private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
         where T : IEncounterSlot4
     {
+        if (ctx.Encounter.Type is Grass)
+        {
+            if (ctx.Encounter.LevelMax < ctx.LevelMin) // Must be boosted via Pressure/Hustle/Vital Spirit
+            {
+                if (IsSlotValidHustleVital(ctx, out var pressure))
+                { result = new(pressure, PressureHustleSpirit); return true; }
+                result = default; return false;
+            }
+        }
+
         if (IsSlotValidRegular(ctx, out uint seed))
         { result = new(seed, None); return true; }
 
@@ -312,20 +325,25 @@ public static class MethodK
 
         if (IsSlotValidStaticMagnet(ctx, out seed, out var sm))
         { result = new(seed, sm); return true; }
-        if (IsSlotValidHustleVital(ctx, out seed))
-        { result = new(seed, PressureHustleSpirit); return true; }
         if (IsSlotValidIntimidate(ctx, out seed))
         { result = new(seed, IntimidateKeenEyeFail); return true; }
+        if (ctx.Encounter.PressureLevel <= ctx.LevelMax) // Can be boosted, or not.
+        {
+            if (IsSlotValidHustleVital(ctx, out var pressure))
+            { result = new(pressure, PressureHustleSpirit); return true; }
+        }
 
         result = default; return false;
     }
 
+    private static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandHGSS();
+
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev3))
                 { result = ctx.Seed4; return true; }
@@ -342,9 +360,9 @@ public static class MethodK
     private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed3; return true; }
@@ -368,7 +386,7 @@ public static class MethodK
         if (!IsOriginalLevelValid(ctx.LevelMin, ctx.LevelMax, ctx.Format, expectLevel))
         { result = default; return false; }
 
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
             // Don't bother evaluating Prev1 for level, as it's always bumped to max after.
             if (IsSlotValid(ctx.Encounter, ctx.Prev3))
@@ -391,12 +409,12 @@ public static class MethodK
         // -1 Level
         //  0 Nature
         lead = None;
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
             { result = default; return false; }
 
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
                 { result = ctx.Seed4; return true; }
@@ -416,12 +434,12 @@ public static class MethodK
     private static bool IsSlotValidStaticMagnetFail<T>(in FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
-        if (!ctx.Encounter.IsFixedLevel())
+        if (IsLevelRand(ctx.Encounter))
         {
             if (IsStaticMagnetPass(ctx.Prev3)) // should have triggered
             { result = default; return false; }
 
-            if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed4; return true; }
@@ -493,12 +511,16 @@ public static class MethodK
         var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 % 100;
-        if (roll < rodRate)
+
+        // HG/SS: Lead (Following) Pokémon with >= 250 adds +50 to the rate. Assume the best case.
+        rodRate += 50; // This happens before Suction Cups / Sticky Hold, can be compounded.
+        if (roll < rodRate) // This will always succeed for Good/Super rod due to the base+bonus being >=100
         {
             seed = LCRNG.Prev(seed);
             return true;
         }
 
+        // Old Rod might reach here (75% < 100%)
         if (lead != None)
             return false;
 
@@ -509,20 +531,25 @@ public static class MethodK
             lead = SuctionCups;
             return true;
         }
-
         return false;
     }
 
+    // Lead is something else, and cannot be changed. Does the same as the above method without a ref LeadRequired.
     private static bool IsFishPossible(SlotType4 encType, ref uint seed)
     {
-        var rate = GetRodRate(encType);
+        var rodRate = GetRodRate(encType);
         var u16 = seed >> 16;
         var roll = u16 % 100;
-        if (roll < rate)
+
+        // HG/SS: Lead (Following) Pokémon with >= 250 adds +50 to the rate. Assume the best case.
+        rodRate += 50; // This happens before Suction Cups / Sticky Hold, can be compounded.
+        if (roll < rodRate) // This will always succeed for Good/Super rod due to the base+bonus being >=100
         {
             seed = LCRNG.Prev(seed);
             return true;
         }
+
+        // Old Rod might reach here (75% < 100%)
         return false;
     }
 

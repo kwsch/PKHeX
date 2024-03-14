@@ -36,7 +36,8 @@ public static class BoxUtil
             var boxFolder = path;
             if (boxFolders)
             {
-                var boxName = Util.CleanFileName(sav.GetBoxName(box));
+                string boxName = sav is IBoxDetailName bn ? bn.GetBoxName(box) : BoxDetailNameExtensions.GetDefaultBoxName(box);
+                boxName = Util.CleanFileName(boxName);
                 boxFolder = Path.Combine(path, boxName);
                 Directory.CreateDirectory(boxFolder);
             }
@@ -225,17 +226,17 @@ public static class BoxUtil
     {
         int count = sav.BoxCount;
         var result = new string[count];
-        if (!sav.State.Exportable)
+        if (!sav.State.Exportable || sav is not IBoxDetailNameRead r)
         {
             for (int i = 0; i < count; i++)
-                result[i] = $"Box {i + 1}";
+                result[i] = BoxDetailNameExtensions.GetDefaultBoxName(i);
             return result;
         }
 
         for (int i = 0; i < count; i++)
         {
-            try { result[i] = sav.GetBoxName(i); }
-            catch { result[i] = $"Box {i + 1}"; }
+            try { result[i] = r.GetBoxName(i); }
+            catch { result[i] = BoxDetailNameExtensions.GetDefaultBoxName(i); }
         }
 
         return result;
