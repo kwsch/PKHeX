@@ -395,13 +395,15 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         GetDaycareSlot(index).Span.Clear();
     }
 
+    private int DaycareEnd => DaycareOffset + (2 * DaycareSlotSize);
+
     uint IDaycareRandomState<uint>.Seed
     {
-        get => ReadUInt32LittleEndian(General[(DaycareOffset + (2 * DaycareSlotSize))..]);
-        set => WriteUInt32LittleEndian(General[DaycareOffset..], value);
+        get => ReadUInt32LittleEndian(General[DaycareEnd..]);
+        set => WriteUInt32LittleEndian(General[DaycareEnd..], value);
     }
 
-    public byte DaycareStepCounter { get => General[DaycareOffset + (2 * DaycareSlotSize) + 4]; set => General[DaycareOffset + (2 * DaycareSlotSize) + 4] = value; }
+    public byte DaycareStepCounter { get => General[DaycareEnd + 4]; set => General[DaycareEnd + 4] = value; }
 
     public bool IsEggAvailable
     {
