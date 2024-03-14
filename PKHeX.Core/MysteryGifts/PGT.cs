@@ -1,5 +1,6 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.GiftType4;
 
 namespace PKHeX.Core;
 
@@ -29,23 +30,6 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     }
 
     public override AbilityPermission Ability => IsManaphyEgg ? AbilityPermission.Any12 : (int)(PK.PID & 1) == 1 ? AbilityPermission.OnlySecond : AbilityPermission.OnlyFirst;
-
-    private enum GiftType
-    {
-        Pokémon = 1,
-        PokémonEgg = 2,
-        Item = 3,
-        Rule = 4,
-        Seal = 5,
-        Accessory = 6,
-        ManaphyEgg = 7,
-        MemberCard = 8,
-        OaksLetter = 9,
-        AzureFlute = 10,
-        PokétchApp = 11,
-        Ribbon = 12,
-        PokéWalkerArea = 14,
-    }
 
     public override string CardTitle { get => "Raw Gift (PGT)"; set { } }
     public override int CardID { get => -1; set { } }
@@ -88,7 +72,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     /// <returns>True if data was encrypted, false if the data was not modified.</returns>
     public bool VerifyPKEncryption()
     {
-        if (PGTGiftType is not (GiftType.Pokémon or GiftType.PokémonEgg))
+        if (GiftType is not (Pokémon or PokémonEgg))
             return false; // not encrypted
         if (ReadUInt32LittleEndian(Data.AsSpan(0x64 + 8)) != 0)
             return false; // already encrypted (unused PK4 field, zero)
@@ -103,13 +87,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         ekdata.CopyTo(span);
     }
 
-    private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }
-    public bool IsHatched => PGTGiftType == GiftType.Pokémon;
-    public override bool IsEgg { get => PGTGiftType == GiftType.PokémonEgg || IsManaphyEgg; set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
-    public bool IsManaphyEgg { get => PGTGiftType == GiftType.ManaphyEgg; set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
+    public GiftType4 GiftType { get => (GiftType4)Data[0]; set => Data[0] = (byte)value; }
+    public bool IsHatched => GiftType == Pokémon;
+    public override bool IsEgg { get => GiftType == PokémonEgg || IsManaphyEgg; set { if (value) { GiftType = PokémonEgg; PK.IsEgg = true; } } }
+    public bool IsManaphyEgg { get => GiftType == ManaphyEgg; set { if (value) GiftType = ManaphyEgg; } }
     public override bool EggEncounter => IsEgg;
-    public override bool IsItem { get => PGTGiftType == GiftType.Item; set { if (value) PGTGiftType = GiftType.Item; } }
-    public override bool IsEntity { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
+    public override bool IsItem { get => GiftType == Item; set { if (value) GiftType = Item; } }
+    public override bool IsEntity { get => GiftType is Pokémon or PokémonEgg or ManaphyEgg; set { } }
 
     public override ushort Species { get => IsManaphyEgg ? (ushort)490 : PK.Species; set => PK.Species = value; }
     public override Moveset Moves { get => new(PK.Move1, PK.Move2, PK.Move3, PK.Move4); set => PK.SetMoves(value); }
@@ -334,4 +318,22 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         // Hatched when the egg was shiny: PID needs to be from the ARNG.
         return val == PIDType.G4MGAntiShiny;
     }
+}
+
+public enum GiftType4 : byte
+{
+    None = 0,
+    Pokémon = 1,
+    PokémonEgg = 2,
+    Item = 3,
+    Rule = 4,
+    Seal = 5,
+    Accessory = 6,
+    ManaphyEgg = 7,
+    MemberCard = 8,
+    OaksLetter = 9,
+    AzureFlute = 10,
+    PokétchApp = 11,
+    Ribbon = 12,
+    PokéWalkerArea = 14,
 }

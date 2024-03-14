@@ -369,20 +369,20 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public int DaycareSlotCount => 2;
     private const int DaycareSlotSize = PokeCrypto.SIZE_4PARTY;
     protected abstract int DaycareOffset { get; }
-    public Memory<byte> GetDaycareSlot(int slot) => GeneralBuffer.Slice(DaycareOffset + (slot * DaycareSlotSize), DaycareSlotSize);
+    public Memory<byte> GetDaycareSlot(int slot) => GeneralBuffer.Slice(DaycareOffset + (slot * DaycareSlotSize), PokeCrypto.SIZE_4STORED);
 
     // EXP: Last 4 bytes of each slot
     public uint GetDaycareEXP(int index)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, 2u);
-        int ofs = DaycareOffset + DaycareSlotSize - 4;
+        int ofs = DaycareOffset + DaycareSlotSize - 4 + (index * DaycareSlotSize);
         return ReadUInt32LittleEndian(General[ofs..]);
     }
 
     public void SetDaycareEXP(int index, uint value)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, 2u);
-        int ofs = DaycareOffset + DaycareSlotSize - 4;
+        int ofs = DaycareOffset + DaycareSlotSize - 4 + (index * DaycareSlotSize);
         WriteUInt32LittleEndian(General[ofs..], value);
     }
 

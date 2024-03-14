@@ -51,6 +51,7 @@ public sealed class PCD(byte[] Data)
     }
 
     private PGT? _gift;
+    public GiftType4 GiftType => Gift.GiftType;
 
     public Span<byte> GetMetadata() => Data.AsSpan(PGT.Size);
     public void SetMetadata(ReadOnlySpan<byte> data) => data.CopyTo(Data.AsSpan(PGT.Size));
