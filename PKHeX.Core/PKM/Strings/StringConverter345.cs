@@ -80,6 +80,25 @@ public static class StringConverter345
     private static bool IsJapanese3(byte glyph) => glyph is (>= JapaneseStartGlyph and <= JapaneseEndGlyph) or JapaneseYenGlyph;
 
     /// <summary>
+    /// Remaps Gen4 Glyphs to Gen5 Glyphs.
+    /// </summary>
+    /// <param name="buffer">Input characters to transfer in place</param>
+    /// <returns>Remapped string</returns>
+    public static void TransferGlyphs45(Span<char> input)
+    {
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (IsInvalid45(input[i]))
+                input[i] = '?';
+        }
+    }
+
+    // These characters are converted to halfwidth question marks upon transfer to Gen5, in addition to the empty/invalid characters in Gen4.
+    // None of these are user-enterable. Note that halfwidth '&' transfers properly, despite it not being user-enterable either.
+    private static bool IsInvalid45(char c) => c == StringConverter4.Terminator || InvalidSearchVal45.Contains(c);
+    private static readonly SearchValues<char> InvalidSearchVal45 = SearchValues.Create("$_ª°ºÂÃÅÆÊËÎÏÐÔÕØÛÝÞãåæðõøýþÿŒœŞş‣←↑→↓⑧⑨⑩⑪⑫⒅⒆⒇⒈⒉⒊⒋⒌⒍⒎⒏♈♉♊♋♌♍♎♏円＆＿");
+
+    /// <summary>
     /// Remaps Gen5 Glyphs to unicode codepoint.
     /// </summary>
     /// <param name="buffer">Input characters to transfer in place</param>
