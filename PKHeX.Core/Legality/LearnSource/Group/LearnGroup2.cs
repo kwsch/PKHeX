@@ -48,7 +48,9 @@ public sealed class LearnGroup2 : ILearnGroup
             x.CopyTo(moves);
         else
             GetEncounterMoves(pk, enc, moves);
-        LearnVerifierHistory.MarkInitialMoves(result, current, moves);
+
+        var game = enc.Version is GameVersion.C or GameVersion.GSC ? LearnEnvironment.C : LearnEnvironment.GS;
+        LearnVerifierHistory.MarkInitialMoves(result, current, moves, game);
     }
 
     private static void GetEncounterMoves(PKM pk, IEncounterTemplate enc, Span<ushort> moves)
@@ -71,9 +73,9 @@ public sealed class LearnGroup2 : ILearnGroup
                 continue;
             var move = current[i];
             if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.EggMove);
+                result[i] = new(LearnMethod.EggMove, inst.Environment);
             else if (levelMoves.Contains(move))
-                result[i] = new(LearnMethod.InheritLevelUp);
+                result[i] = new(LearnMethod.InheritLevelUp, inst.Environment);
         }
     }
 

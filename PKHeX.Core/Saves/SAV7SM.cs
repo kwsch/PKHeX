@@ -20,15 +20,13 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
         ClearBoxes();
     }
 
+    public override bool HasPokeDex => true;
+
     private void Initialize()
     {
         Party = Blocks.BlockInfo[04].Offset;
-        PokeDex = Blocks.BlockInfo[06].Offset;
-
         TeamSlots = Blocks.BoxLayout.TeamSlots;
         Box = Blocks.BlockInfo[14].Offset;
-        WondercardData = Blocks.MysteryGift.Offset;
-        DaycareOffset = Blocks.Daycare.Offset;
 
         ReloadBattleTeams();
     }
@@ -40,12 +38,12 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
     #region Blocks
     public SaveBlockAccessor7SM Blocks { get; }
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
-    public override MyItem Items => Blocks.Items;
+    public override MyItem7SM Items => Blocks.Items;
     public override MysteryBlock7 MysteryGift => Blocks.MysteryGift;
     public override PokeFinder7 PokeFinder => Blocks.PokeFinder;
     public override JoinFesta7 Festa => Blocks.Festa;
     public override Daycare7 Daycare => Blocks.Daycare;
-    public override RecordBlock6 Records => Blocks.Records;
+    public override RecordBlock7SM Records => Blocks.Records;
     public override PlayTime6 Played => Blocks.Played;
     public override MyStatus7 MyStatus => Blocks.MyStatus;
     public override FieldMoveModelSave7 Overworld => Blocks.Overworld;
@@ -59,10 +57,11 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
     public override ResortSave7 ResortSave => Blocks.ResortSave;
     public override FieldMenu7 FieldMenu => Blocks.FieldMenu;
     public override FashionBlock7 Fashion => Blocks.Fashion;
-    public override HallOfFame7 Fame => Blocks.Fame;
+    public override EventWork7SM EventWork => Blocks.EventWork;
+    public override UnionPokemon7 Fused => Blocks.Fused;
+    public override GTS7 GTS => Blocks.GTS;
     #endregion
 
-    public override int EventFlagCount => 4000;
     public override ushort MaxMoveID => Legal.MaxMoveID_7;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7;
     public override int MaxItemID => Legal.MaxItemID_7;
@@ -72,7 +71,7 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
 
     public void UpdateMagearnaConstant()
     {
-        var flag = GetEventFlag(3100);
+        var flag = EventWork.GetEventFlag(EventWork7SM.MagearnaEventFlag); // 3100
         ulong value = flag ? MagearnaConst : 0ul;
         WriteUInt64LittleEndian(Data.AsSpan(Blocks.BlockInfo[35].Offset + 0x168), value);
     }

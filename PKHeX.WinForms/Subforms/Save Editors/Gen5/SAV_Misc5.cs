@@ -20,11 +20,7 @@ public partial class SAV_Misc5 : Form
     private ComboBox[] cbr = null!;
     private int ofsFly;
     private int[] FlyDestC = null!;
-    private const int WorkRoamer = 192;
-    private const int ofsRoamer = 0x21B00;
     private const int ofsLibPass = 0x212BC;
-    private const int ofsForestCity = 0x1FA00;
-    private const int ofsForestCitySize = 0x1E8;
     private const uint keyLibPass = 2010_04_06; // 0x132B536
     private uint valLibPass;
     private bool bLibPass;
@@ -125,7 +121,7 @@ public partial class SAV_Misc5 : Form
                 CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & (1 << (FlyDestC[i] & 7))) != 0);
         }
 
-        if (SAV is SAV5BW)
+        if (SAV is SAV5BW bw)
         {
             TC_Misc.TabPages.Remove(TAB_Medals);
             GB_KeySystem.Visible = false;
@@ -139,7 +135,7 @@ public partial class SAV_Misc5 : Form
             // Top 2 bit acts as flags of some sorts
             for (int i = 0; i < cbr.Length; i++)
             {
-                int c = SAV.Data[ofsRoamer + 0x2E + i];
+                byte c = bw.Encount.GetRoamerState(i);
                 var states = GetStates();
                 if (states.All(z => z.Value != c))
                     states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
@@ -155,7 +151,7 @@ public partial class SAV_Misc5 : Form
             // to the cabin in where old grandpa and grandma live
             // located at route 7.
             {
-                var current = SAV.GetWork(WorkRoamer);
+                var current = bw.EventWork.GetWorkRoamer();
                 var states = GetRoamStatusStates();
                 if (states.All(z => z.Value != current))
                     states.Add(new ComboItem($"Unknown (0x{current:X2})", current));
@@ -234,29 +230,29 @@ public partial class SAV_Misc5 : Form
         }
         WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsFly), valFly);
 
-        if (SAV is SAV5BW)
+        if (SAV is SAV5BW bw)
         {
             // Roamer
+            var encount = bw.Encount;
             for (int i = 0; i < cbr.Length; i++)
             {
-                int c = SAV.Data[ofsRoamer + 0x2E + i];
-                var d = (ushort)WinFormsUtil.GetIndex(cbr[i]);
+                int c = bw.Encount.GetRoamerState(i);
+                var d = (byte)WinFormsUtil.GetIndex(cbr[i]);
 
                 if (c == d)
                     continue;
-                SAV.Data[ofsRoamer + 0x2E + i] = (byte)d;
+                encount.SetRoamerState(i, d);
                 if (c != 1)
                     continue;
-                SAV.Data.AsSpan(ofsRoamer + 4 + (i * 0x14), 14).Clear();
-                SAV.Data[ofsRoamer + 0x2C + i] = 0;
+                var roamer = i == 0 ? encount.Roamer1 : encount.Roamer2;
+                roamer.Clear();
+                encount.SetRoamerState2C(i, 0);
             }
 
             // RoamStatus
             {
-                int current = SAV.GetWork(192);
                 var desired = (ushort)WinFormsUtil.GetIndex(CB_RoamStatus);
-                if (current != desired)
-                    SAV.SetWork(WorkRoamer, desired);
+                bw.EventWork.SetWorkRoamer(desired);
             }
 
             // LibertyPass
@@ -300,11 +296,12 @@ public partial class SAV_Misc5 : Form
         if (SAV is SAV5B2W2 b2w2)
         {
             var pass = (Entralink5B2W2)entree;
-            var ppv = (PassPower5[])Enum.GetValues(typeof(PassPower5));
-            var ppn = Enum.GetNames(typeof(PassPower5));
-            ComboItem[] PassPowerB = [.. ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text)];
-            var cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
-            foreach (var cb in cba)
+            var ppv = Enum.GetValues<PassPower5>();
+            var ppn = Enum.GetNames<PassPower5>();
+            var PassPowerB = new ComboItem[ppv.Length];
+            for (int i = 0; i < ppv.Length; i++)
+                PassPowerB[i] = new ComboItem(ppn[i], (int)ppv[i]);
+            foreach (var cb in (ComboBox[])[CB_PassPower1, CB_PassPower2, CB_PassPower3])
             {
                 cb.Items.Clear();
                 cb.InitializeBinding();
@@ -324,7 +321,7 @@ public partial class SAV_Misc5 : Form
             NUD_EntreeWhiteEXP.SetValueClamped(block.WhiteEXP);
             NUD_EntreeBlackEXP.SetValueClamped(block.BlackEXP);
 
-            string[] FMTitles = Enum.GetNames(typeof(Funfest5Mission));
+            string[] FMTitles = Enum.GetNames<Funfest5Mission>();
             LB_FunfestMissions.Items.Clear();
             LB_FunfestMissions.Items.AddRange(FMTitles);
 
@@ -498,7 +495,8 @@ public partial class SAV_Misc5 : Form
 
     private void LoadForest()
     {
-        Forest = SAV.EntreeData;
+        Forest = SAV.EntreeForest;
+        Forest.EnsureDecrypted();
         AllSlots = Forest.Slots;
         NUD_Unlocked.SetValueClamped(Forest.Unlock38Areas + 2);
         CHK_Area9.Checked = Forest.Unlock9thArea;
@@ -522,7 +520,6 @@ public partial class SAV_Misc5 : Form
     {
         Forest.Unlock38Areas = (int)NUD_Unlocked.Value - 2;
         Forest.Unlock9thArea = CHK_Area9.Checked;
-        SAV.EntreeData = Forest;
     }
 
     private IList<EntreeSlot> CurrentSlots = null!;
@@ -766,18 +763,23 @@ public partial class SAV_Misc5 : Form
 
     private void B_DumpFC_Click(object sender, EventArgs e)
     {
+        if (SAV is not SAV5BW bw)
+            return;
         using var sfd = new SaveFileDialog();
         sfd.Filter = ForestCityBinFilter;
         sfd.FileName = string.Format(ForestCityBinPath, SAV.Version);
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        var data = SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize).ToArray();
+        var data = bw.Forest.ForestCity.ToArray();
         File.WriteAllBytes(sfd.FileName, data);
     }
 
     private void B_ImportFC_Click(object sender, EventArgs e)
     {
+        if (SAV is not SAV5BW bw)
+            return;
+
         using var ofd = new OpenFileDialog();
         ofd.Filter = ForestCityBinFilter;
         ofd.FileName = string.Format(ForestCityBinPath, SAV.Version);
@@ -785,14 +787,14 @@ public partial class SAV_Misc5 : Form
             return;
 
         var fi = new FileInfo(ofd.FileName);
-        if (fi.Length != ofsForestCitySize)
+        if (fi.Length != WhiteBlack5BW.ForestCitySize)
         {
-            WinFormsUtil.Alert(string.Format(MessageStrings.MsgFileSizeIncorrect, fi.Length, ofsForestCitySize));
+            WinFormsUtil.Alert(string.Format(MessageStrings.MsgFileSizeIncorrect, fi.Length, WhiteBlack5BW.ForestCitySize));
             return;
         }
 
         var data = File.ReadAllBytes(ofd.FileName);
-        SAV.SetData(data, ofsForestCity);
+        bw.SetData(bw.Forest.ForestCity.Span, data);
     }
 
     private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);

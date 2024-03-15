@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem7SM(SAV7SM SAV, int offset) : MyItem(SAV, offset)
+public sealed class MyItem7SM(SAV7SM SAV, Memory<byte> raw) : MyItem(SAV, raw)
 {
     private const int HeldItem = 0; // 430 (Case 0)
     private const int KeyItem = HeldItem + (4 * 430); // 184 (Case 4)
@@ -18,12 +19,12 @@ public sealed class MyItem7SM(SAV7SM SAV, int offset) : MyItem(SAV, offset)
             var info = ItemStorage7SM.Instance;
             InventoryPouch7[] pouch =
             [
-                new(InventoryType.Medicine, info, 999, Offset + Medicine),
-                new(InventoryType.Items, info, 999, Offset + HeldItem),
-                new(InventoryType.TMHMs, info, 1, Offset + TMHM),
-                new(InventoryType.Berries, info, 999, Offset + Berry),
-                new(InventoryType.KeyItems, info, 1, Offset + KeyItem),
-                new(InventoryType.ZCrystals, info, 1, Offset + ZCrystals),
+                new(InventoryType.Medicine, info, 999, Medicine),
+                new(InventoryType.Items, info, 999, HeldItem),
+                new(InventoryType.TMHMs, info, 1, TMHM),
+                new(InventoryType.Berries, info, 999, Berry),
+                new(InventoryType.KeyItems, info, 1, KeyItem),
+                new(InventoryType.ZCrystals, info, 1, ZCrystals),
             ];
             return pouch.LoadAll(Data);
         }

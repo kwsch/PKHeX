@@ -271,7 +271,7 @@ public sealed record EncounterMight9
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            Obedience_Level = LevelMin,
+            ObedienceLevel = LevelMin,
             RibbonMarkMightiest = true,
             AffixedRibbon = (sbyte)RibbonIndex.MarkMightiest,
             OriginalTrainerName = tr.OT,

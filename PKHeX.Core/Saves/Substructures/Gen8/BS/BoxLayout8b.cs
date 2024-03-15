@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Information about the storage boxes.
 /// </summary>
 /// <remarks>Structure name: SaveBoxData, size: 0x64A</remarks>
-public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
+public sealed class BoxLayout8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw), IBoxDetailName
 {
     public const int BoxCount = 40;
 
@@ -15,29 +15,27 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
     public readonly int[] TeamSlots = new int[TeamCount * TeamSlotCount];
     private const int TeamNameLength = 0x16;
 
-    public BoxLayout8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
-
     private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
     private static int GetTeamNameOffset(int box) => GetBoxNameOffset(BoxCount) + (TeamNameLength * box);
 
     public string GetBoxName(int box)
     {
-        var span = Data.AsSpan(Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
+        var span = Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
         if (ReadUInt16LittleEndian(span) == 0)
-            return $"Box {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxName(box);
         return SAV.GetString(span);
     }
 
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        var span = Data.AsSpan(Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
+        var span = Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
         SAV.SetString(span, value, StringMaxLength, StringConverterOption.ClearZero);
     }
 
     public string GetTeamName(int team)
     {
-        var offset = Offset + GetTeamNameOffset(team);
-        var span = Data.AsSpan(offset, TeamNameLength);
+        var offset = GetTeamNameOffset(team);
+        var span = Data.Slice(offset, TeamNameLength);
         if (ReadUInt16LittleEndian(span) == 0)
             return $"Team {team + 1}";
         return SAV.GetString(span);
@@ -45,8 +43,8 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
 
     public void SetTeamName(int team, ReadOnlySpan<char> value)
     {
-        var offset = Offset + GetTeamNameOffset(team);
-        var span = Data.AsSpan(offset, TeamNameLength);
+        var offset = GetTeamNameOffset(team);
+        var span = Data.Slice(offset, TeamNameLength);
         SAV.SetString(span, value, TeamNameLength/2, StringConverterOption.ClearZero);
     }
 
@@ -65,7 +63,7 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
     {
         for (int i = 0; i < TeamCount * TeamSlotCount; i++)
         {
-            short val = ReadInt16LittleEndian(Data.AsSpan(Offset + TeamPositionOffset + (i * 2)));
+            short val = ReadInt16LittleEndian(Data[(TeamPositionOffset + (i * 2))..]);
             if (val < 0)
             {
                 TeamSlots[i] = NONE_SELECTED;
@@ -88,7 +86,7 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
 
     public void SaveBattleTeams()
     {
-        var span = Data.AsSpan(Offset + TeamPositionOffset);
+        var span = Data[TeamPositionOffset..];
         for (int i = 0; i < TeamCount * 6; i++)
         {
             int index = TeamSlots[i];
@@ -107,53 +105,53 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
     // bitflags
     public byte LockedTeam
     {
-        get => Data[Offset + 0x61C];
+        get => Data[0x61C];
         set
         {
             if (value > BoxCount)
                 value = BoxCount;
-            Data[Offset + 0x61C] = value;
+            Data[0x61C] = value;
         }
     }
 
     public byte BoxesUnlocked
     {
-        get => Data[Offset + 0x61D];
+        get => Data[0x61D];
         set
         {
             if (value > BoxCount)
                 value = BoxCount;
-            Data[Offset + 0x61D] = value;
+            Data[0x61D] = value;
         }
     }
 
     public byte CurrentBox
     {
-        get => Data[Offset + 0x61E];
-        set => Data[Offset + 0x61E] = value;
+        get => Data[0x61E];
+        set => Data[0x61E] = value;
     }
 
     public bool GetIsTeamLocked(int team) => (LockedTeam & (1 << team)) != 0;
 
-    public int GetBoxWallpaperOffset(int box) => Offset + 0x620 + box;
+    public static int GetBoxWallpaperOffset(int box) => 0x620 + box;
 
     public int GetBoxWallpaper(int box)
     {
-        if ((uint)box > BoxCount)
+        if ((uint)box >= BoxCount)
             return 0;
         return Data[GetBoxWallpaperOffset(box)] - 1;
     }
 
     public void SetBoxWallpaper(int box, int value)
     {
-        if ((uint)box > BoxCount)
+        if ((uint)box >= BoxCount)
             return;
         Data[GetBoxWallpaperOffset(box)] = (byte)(value + 1);
     }
 
     public ushort StatusPut
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x648));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x648), value);
+        get => ReadUInt16LittleEndian(Data[0x648..]);
+        set => WriteUInt16LittleEndian(Data[0x648..], value);
     }
 }

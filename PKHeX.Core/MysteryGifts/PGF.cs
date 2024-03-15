@@ -118,12 +118,12 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         }
         set
         {
-            if (value.HasValue)
+            if (value is { } dt)
             {
                 // Only update the properties if a value is provided.
-                Year = (ushort)value.Value.Year;
-                Month = (byte)value.Value.Month;
-                Day = (byte)value.Value.Day;
+                Year = (ushort)dt.Year;
+                Month = (byte)dt.Month;
+                Day = (byte)dt.Day;
             }
             else
             {

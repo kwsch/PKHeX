@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using System;
+using System.ComponentModel;
 
 namespace PKHeX.Core;
 
@@ -7,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x19C</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class Poketch8b : SaveBlock<SAV8BS>
+public sealed class Poketch8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     public const int APP_REGIST_MAX = 20; // bool array unlock flags
     public const int POKETCH_MAP_MARK_MAX = 6; // mark_map_pos[6]
@@ -16,29 +17,29 @@ public sealed class Poketch8b : SaveBlock<SAV8BS>
     public const int POKETCH_PEDOMETER_MAX = 99999;
     public const int POKETCH_CALENDER_MONTH_MAX = 12; // calendar markbit uint[12]
 
-    public Poketch8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
+    public const int SIZE = 0x19C;
+}
 
-    public enum PoketchApp8b
-    {
-        DWATCH = 0,
-        CALC = 1,
-        MEMO = 2,
-        PEDOMETER = 3,
-        POKELIST = 4,
-        NATSUKI_CHECK = 5,
-        DOWSING = 6,
-        SODATEYA_CAMERA = 7,
-        POKEMON_HISTORY = 8,
-        COUNTER = 9,
-        AWATCH = 10,
-        MAP_MARKING = 11,
-        COINTOSS = 12,
-        CALENDER = 13,
-        DOTART = 14,
-        ROULETTE = 15,
-        POKEMON_COUNTER = 16,
-        KITCHEN_TIMER = 17,
-        COLOR_CHANGER = 18,
-        HIDEN_WAZA = 19,
-    }
+public enum PoketchApp8b
+{
+    DWATCH = 0,
+    CALC = 1,
+    MEMO = 2,
+    PEDOMETER = 3,
+    POKELIST = 4,
+    NATSUKI_CHECK = 5,
+    DOWSING = 6,
+    SODATEYA_CAMERA = 7,
+    POKEMON_HISTORY = 8,
+    COUNTER = 9,
+    AWATCH = 10,
+    MAP_MARKING = 11,
+    COINTOSS = 12,
+    CALENDER = 13,
+    DOTART = 14,
+    ROULETTE = 15,
+    POKEMON_COUNTER = 16,
+    KITCHEN_TIMER = 17,
+    COLOR_CHANGER = 18,
+    HIDEN_WAZA = 19,
 }

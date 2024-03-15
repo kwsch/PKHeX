@@ -422,7 +422,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     public override byte MetYear { get => Data[0x11C]; set => Data[0x11C] = value; }
     public override byte MetMonth { get => Data[0x11D]; set => Data[0x11D] = value; }
     public override byte MetDay { get => Data[0x11E]; set => Data[0x11E] = value; }
-    public byte Obedience_Level { get => Data[0x11F]; set => Data[0x11F] = value; }
+    public byte ObedienceLevel { get => Data[0x11F]; set => Data[0x11F] = value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x120)); set => WriteUInt16LittleEndian(Data.AsSpan(0x120), value); }
     public override ushort MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x122)); set => WriteUInt16LittleEndian(Data.AsSpan(0x122), value); }
     public override byte Ball { get => Data[0x124]; set => Data[0x124] = value; }

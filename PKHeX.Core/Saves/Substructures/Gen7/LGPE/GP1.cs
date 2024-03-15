@@ -23,15 +23,9 @@ public sealed class GP1(byte[] Data)
     public AbilityPermission Ability => AbilityPermission.Any12;
 
     public GP1() : this(new byte[SIZE]) => InitializeBlank(Data);
-    public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+    public void WriteTo(Span<byte> data) => Data.CopyTo(data);
 
-    public static GP1 FromData(byte[] data, int offset)
-    {
-        var span = data.AsSpan(offset);
-        return FromData(span);
-    }
-
-    private static GP1 FromData(ReadOnlySpan<byte> span)
+    public static GP1 FromData(ReadOnlySpan<byte> span)
     {
         var result = new GP1();
         span[..SIZE].CopyTo(result.Data);
@@ -131,7 +125,7 @@ public sealed class GP1(byte[] Data)
         {
             string form = Form > 0 ? $"-{Form:00}" : string.Empty;
             string star = IsShiny ? " ★" : string.Empty;
-            return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+            return $"{Species:0000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
         }
     }
 

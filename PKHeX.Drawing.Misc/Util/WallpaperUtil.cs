@@ -7,12 +7,18 @@ namespace PKHeX.Drawing.Misc;
 
 public static class WallpaperUtil
 {
+    private static Bitmap DefaultWallpaper => Resources.box_wp16xy;
+
     public static Bitmap WallpaperImage(this SaveFile sav, int box) => GetWallpaper(sav, box);
 
     private static Bitmap GetWallpaper(SaveFile sav, int box)
     {
-        string s = GetWallpaperResourceName(sav.Version, sav.GetBoxWallpaper(box));
-        return (Bitmap?)Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy;
+        if (sav is not IBoxDetailWallpaper wp)
+            return DefaultWallpaper;
+
+        int wallpaper = wp.GetBoxWallpaper(box);
+        string s = GetWallpaperResourceName(sav.Version, wallpaper);
+        return (Bitmap?)Resources.ResourceManager.GetObject(s) ?? DefaultWallpaper;
     }
 
     public static string GetWallpaperResourceName(GameVersion version, int index)

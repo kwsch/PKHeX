@@ -254,7 +254,7 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="bv">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out BattleVideo? bv)
+    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out IBattleVideo? bv)
     {
         bv = BattleVideo.GetVariantBattleVideo(data);
         return bv != null;

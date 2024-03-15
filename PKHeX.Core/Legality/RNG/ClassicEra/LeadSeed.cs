@@ -30,5 +30,5 @@ public struct LeadSeed(uint Seed, LeadRequired Lead)
     /// <summary>
     /// Prefers the lead with the most likely value (lowest value).
     /// </summary>
-    public readonly bool IsBetterThan(in LeadSeed other) => Lead > other.Lead;
+    public readonly bool IsBetterThan(LeadSeed other) => Lead > other.Lead;
 }

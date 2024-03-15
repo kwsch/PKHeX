@@ -92,7 +92,10 @@ public sealed class LearnGroup1 : ILearnGroup
             return;
 
         Span<ushort> moves = stackalloc ushort[4];
-        GetEncounterMoves(enc, moves);
+        if (enc is IMoveset m)
+            m.Moves.CopyTo(moves);
+        else
+            GetEncounterMoves(enc, moves);
 
         // Count the amount of initial moves not present in the current list.
         int count = CountMissing(current, moves);
@@ -134,7 +137,7 @@ public sealed class LearnGroup1 : ILearnGroup
             x.CopyTo(moves);
         else
             GetEncounterMoves(enc, moves);
-        LearnVerifierHistory.MarkInitialMoves(result, current, moves);
+        LearnVerifierHistory.MarkInitialMoves(result, current, moves, enc.Version == GameVersion.YW ? LearnEnvironment.YW : LearnEnvironment.RB);
 
         // Flag empty slots if never visited Gen2 move deleter.
         if (pk is not PK1 pk1)

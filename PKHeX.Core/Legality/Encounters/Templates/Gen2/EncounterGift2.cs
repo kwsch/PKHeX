@@ -156,11 +156,13 @@ public sealed record EncounterGift2
             return Japanese;
         if (Language == LanguageRestriction.English)
             return English;
-
-        if (request is not (English or French or Italian or German or Spanish))
-            request = English;
-        if (request == English && Language == LanguageRestriction.InternationalNotEnglish)
+        if (Language == LanguageRestriction.International && request is not (English or French or Italian or German or Spanish))
+            return English;
+        if (Language == LanguageRestriction.InternationalNotEnglish && request is not (French or Italian or German or Spanish))
             return French;
+
+        if (request is Hacked or UNUSED_6 or >= Korean)
+            return English;
         return request;
     }
 

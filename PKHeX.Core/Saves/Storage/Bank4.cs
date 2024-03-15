@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 <see cref="SaveFile"/> object that reads Generation 4 PokeStock .stk dumps.
 /// </summary>
-public sealed class Bank4 : BulkStorage
+public sealed class Bank4 : BulkStorage, IBoxDetailNameRead
 {
     public Bank4(byte[] data) : base(data, typeof(PK4), 0) => Version = GameVersion.HGSS;
 
@@ -22,6 +22,6 @@ public sealed class Bank4 : BulkStorage
 
     private int BoxDataSize => SlotsPerBox * SIZE_STORED;
     public override int GetBoxOffset(int box) => Box + (BoxDataSize * box);
-    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxNameOffset(box), BoxNameSize / 2));
+    public string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxNameOffset(box), BoxNameSize / 2));
     private static int GetBoxNameOffset(int box) => 0x3FC00 + (0x19 * box);
 }

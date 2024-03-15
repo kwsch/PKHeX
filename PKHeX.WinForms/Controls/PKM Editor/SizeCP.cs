@@ -21,8 +21,8 @@ public partial class SizeCP : UserControl
     }
 
     private readonly bool Initialized;
-    private static readonly string[] SizeClass = Enum.GetNames(typeof(PokeSize));
-    private static readonly string[] SizeClassDetailed = Enum.GetNames(typeof(PokeSizeDetailed));
+    private static readonly string[] SizeClass = Enum.GetNames<PokeSize>();
+    private static readonly string[] SizeClassDetailed = Enum.GetNames<PokeSizeDetailed>();
 
     public void LoadPKM(PKM entity)
     {

@@ -544,7 +544,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         else
             pk.Scale = (byte)Scale;
 
-        pk.Obedience_Level = Level;
+        pk.ObedienceLevel = Level;
         pk.ResetPartyStats();
         pk.RefreshChecksum();
         return pk;

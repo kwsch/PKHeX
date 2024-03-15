@@ -157,7 +157,7 @@ public sealed class SearchSettings
             return false;
         if (Item > -1 && pk.HeldItem != Item)
             return false;
-        if (Version > 0 && pk.Version != Version)
+        if (Version.IsValidSavedVersion() && pk.Version != Version)
             return false;
         return true;
     }

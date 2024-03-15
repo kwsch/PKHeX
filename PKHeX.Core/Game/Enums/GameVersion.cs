@@ -7,7 +7,6 @@ public enum GameVersion : byte
 {
     #region Indicators for method empty arguments & result indication. Not stored values.
     Any = 0,
-    Unknown = byte.MaxValue - 1,
     Invalid = byte.MaxValue,
     #endregion
 

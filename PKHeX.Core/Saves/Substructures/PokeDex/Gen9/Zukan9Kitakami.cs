@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV>(sav, 0)
+public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV>(sav, default)
 {
     public PokeDexEntry9Kitakami Get(ushort species)
     {

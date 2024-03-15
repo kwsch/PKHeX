@@ -177,13 +177,14 @@ public sealed class LearnGroupHOME : ILearnGroup
         {
             Span<ushort> moves = stackalloc ushort[4];
             x.CopyTo(moves);
-            return AddOriginalMoves(result, current, moves, enc.Generation);
+            var ls = GameData.GetLearnSource(enc.Version);
+            return AddOriginalMoves(result, current, moves, ls.Environment);
         }
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
             Span<ushort> moves = stackalloc ushort[4];
             g8.GetInitialMoves(pk.MetLevel, moves);
-            return AddOriginalMoves(result, current, moves, g8.Generation);
+            return AddOriginalMoves(result, current, moves, g8.OriginFormat == PogoImportFormat.PK7 ? LearnEnvironment.USUM : LearnEnvironment.GG);
         }
         return false;
     }
@@ -308,7 +309,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, byte generation)
+    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, LearnEnvironment game)
     {
         bool addedAny = false;
         foreach (var move in moves)
@@ -321,7 +322,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             if (result[index].Valid)
                 continue;
 
-            result[index] = MoveResult.Initial with { Generation = generation };
+            result[index] = MoveResult.Initial(game);
             addedAny = true;
         }
         return addedAny;

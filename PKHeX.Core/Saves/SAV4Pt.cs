@@ -12,16 +12,19 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public SAV4Pt() : base(GeneralSize, StorageSize)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Mystery = new MysteryBlock4Pt(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4Pt.Size));
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public SAV4Pt(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Mystery = new MysteryBlock4Pt(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4Pt.Size));
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public override Zukan4 Dex { get; }
+    public override MysteryBlock4Pt Mystery { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4Pt((byte[])Data.Clone()) : new SAV4Pt();
     public override GameVersion Version { get => GameVersion.Pt; set { } }
     public override PersonalTable4 Personal => PersonalTable.Pt;
@@ -43,14 +46,12 @@ public sealed class SAV4Pt : SAV4Sinnoh
         new BlockInfo4(5, 0x2A000, 0x1D60), // Battle Video (Other Videos 3)
     ];
 
-    private void Initialize()
-    {
-        Version = GameVersion.Pt;
-        GetSAVOffsets();
-    }
+    private void Initialize() => GetSAVOffsets();
 
     protected override int EventWork => 0xDAC;
     protected override int EventFlag => 0xFEC;
+    private const int OffsetMystery = 0xB4C0;
+    protected override int DaycareOffset => 0x1654;
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Arcade;
 
     private const int OFS_AccessoryMultiCount = 0x4E38; // 4 bits each
@@ -59,19 +60,19 @@ public sealed class SAV4Pt : SAV4Sinnoh
     private const int OFS_ToughWord = 0xCEB4;
     private const int OFS_VillaFurniture = 0x111F;
 
+    private const int PokeDex = 0x1328;
+    public override bool HasPokeDex => true;
+
     private void GetSAVOffsets()
     {
         AdventureInfo = 0;
         Trainer1 = 0x68;
         Party = 0xA0;
-        PokeDex = 0x1328;
         Extra = 0x2820;
         ChatterOffset = 0x64EC;
         Geonet = 0xA4C4;
         WondercardFlags = 0xB4C0;
-        WondercardData = 0xB5C0;
 
-        DaycareOffset = 0x1654;
         OFS_HONEY = 0x7F38;
 
         OFS_UG_Stats = 0x3CB4;

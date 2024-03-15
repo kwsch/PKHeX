@@ -131,7 +131,7 @@ public static class EntityContextExtensions
     /// </summary>
     public static EntityContext GetContext(this GameVersion version) => version switch
     {
-        GameVersion.GP or GameVersion.GE or GameVersion.GO => Gen7b,
+        GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
         GameVersion.PLA => Gen8a,
         GameVersion.BD or GameVersion.SP => Gen8b,
         _ => (EntityContext)version.GetGeneration(),

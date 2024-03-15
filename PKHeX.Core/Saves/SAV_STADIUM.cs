@@ -49,8 +49,6 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
 
     protected sealed override byte[] DecryptPKM(byte[] data) => data;
     public sealed override int GetPartyOffset(int slot) => -1;
-    public override string GetBoxName(int box) => $"Box {box + 1}";
-    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value) { }
     public sealed override bool ChecksumsValid => GetBoxChecksumsValid();
     public sealed override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
     protected abstract void SetBoxChecksum(int box);

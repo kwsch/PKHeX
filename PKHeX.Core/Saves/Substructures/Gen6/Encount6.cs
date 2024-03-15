@@ -9,26 +9,26 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class Encount6 : SaveBlock<SAV6>
 {
-    public Encount6(SAV6XY SAV, int offset) : base(SAV, offset) { }
-    public Encount6(SAV6AO SAV, int offset) : base(SAV, offset) { }
+    public Encount6(SAV6XY SAV, Memory<byte> raw) : base(SAV, raw) { }
+    public Encount6(SAV6AO SAV, Memory<byte> raw) : base(SAV, raw) { }
 
-    public ushort RepelItemUsed { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), value); }
-    public byte RepelSteps { get => Data[Offset + 0x02]; set => Data[Offset + 0x02] = value; }
+    public ushort RepelItemUsed { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
+    public byte RepelSteps { get => Data[0x02]; set => Data[0x02] = value; }
 
     // 0x04
 
     public PokeRadar6 Radar
     {
-        get => new(Data.AsMemory(Offset + 0x04, PokeRadar6.SIZE));
-        set => value.Data.CopyTo(Data.AsMemory(Offset + 0x04));
+        get => new(Raw.Slice(0x04, PokeRadar6.SIZE));
+        set => value.Data.Span.CopyTo(Data[0x04..]);
     }
 
     // 0x1C
 
     public Roamer6 Roamer
     {
-        get => new(Data.AsMemory(Offset + 0x1C, Roamer6.SIZE));
-        set => value.Data.CopyTo(Data.AsMemory(Offset + 0x1C, Roamer6.SIZE));
+        get => new(Raw.Slice(0x1C, Roamer6.SIZE));
+        set => value.Data.Span.CopyTo(Data.Slice(0x1C, Roamer6.SIZE));
     }
 
     // 0x44

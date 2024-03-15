@@ -105,7 +105,7 @@ public sealed record EncounterTrade9
             HandlingTrainerLanguage = (byte)tr.Language,
             CurrentHandler = 1,
             HandlingTrainerFriendship = pi.BaseFriendship,
-            Obedience_Level = Level,
+            ObedienceLevel = Level,
         };
 
         EncounterUtil.SetEncounterMoves(pk, version, Level);

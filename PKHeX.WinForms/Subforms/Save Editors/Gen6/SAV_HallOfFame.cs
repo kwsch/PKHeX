@@ -16,7 +16,8 @@ public partial class SAV_HallOfFame : Form
     private bool editing;
 
     private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
-    private readonly byte[] data;
+    private readonly Memory<byte> Raw;
+    private Span<byte> Data => Raw.Span;
 
     private const int Count = 16;
     private const int StructureSize = 0x1B4;
@@ -28,7 +29,7 @@ public partial class SAV_HallOfFame : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV6)(Origin = sav).Clone();
 
-        data = SAV.Data.AsSpan(SAV.HoF, StructureTotal).ToArray(); // Copy HoF section of save into Data
+        Raw = SAV.Data.AsSpan(SAV.HoF, StructureTotal).ToArray(); // Copy HoF section of save into Data
         Setup();
         LB_DataEntry.SelectedIndex = 0;
         NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
@@ -68,7 +69,7 @@ public partial class SAV_HallOfFame : Form
 
     private void B_Close_Click(object sender, EventArgs e)
     {
-        Origin.SetData(data, SAV.HoF);
+        Origin.SetData(Data, SAV.HoF);
         Close();
     }
 
@@ -80,7 +81,7 @@ public partial class SAV_HallOfFame : Form
         int index = LB_DataEntry.SelectedIndex;
         int offset = index * StructureSize;
 
-        uint vnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
+        uint vnd = ReadUInt32LittleEndian(Data[(offset + 0x1B0)..]);
         uint vn = vnd & 0xFF;
         TB_VN.Text = vn.ToString("000");
         var s = new List<string> { $"Entry #{vn}" };
@@ -125,7 +126,7 @@ public partial class SAV_HallOfFame : Form
         int moncount = 0;
         for (int i = 0; i < 6; i++)
         {
-            var entry = new HallFame6Entity(data.AsSpan(offset, HallFame6Entity.SIZE));
+            var entry = new HallFame6Entity(Data.Slice(offset, HallFame6Entity.SIZE));
             if (entry.Species == 0)
                 continue;
 
@@ -168,7 +169,7 @@ public partial class SAV_HallOfFame : Form
         if (offset < 0)
             return;
 
-        var entry = new HallFame6Entity(data.AsSpan(offset, HallFame6Entity.SIZE));
+        var entry = new HallFame6Entity(Data.Slice(offset, HallFame6Entity.SIZE));
         CB_Species.SelectedValue = (int)entry.Species;
         CB_HeldItem.SelectedValue = (int)entry.HeldItem;
         CB_Move1.SelectedValue = (int)entry.Move1;
@@ -207,7 +208,7 @@ public partial class SAV_HallOfFame : Form
         int index = LB_DataEntry.SelectedIndex;
         int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
         int offset = (index * StructureSize) + (partymember * HallFame6Entity.SIZE);
-        var span = data.AsSpan(offset, HallFame6Entity.SIZE);
+        var span = Data.Slice(offset, HallFame6Entity.SIZE);
         var entry = new HallFame6Entity(span)
         {
             Species = Convert.ToUInt16(CB_Species.SelectedValue),
@@ -239,9 +240,9 @@ public partial class SAV_HallOfFame : Form
         date |= (uint)((CAL_MetDate.Value.Day & 0x1F) << 12);
         vnd |= (date & 0x1FFFF) << 14;
         //Fix for top bit
-        uint rawvnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
+        uint rawvnd = ReadUInt32LittleEndian(Data[(offset + 0x1B0)..]);
         vnd |= rawvnd & 0x80000000;
-        WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
+        WriteUInt32LittleEndian(Data[(offset + 0x1B0)..], vnd);
 
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
         bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
@@ -373,10 +374,15 @@ public partial class SAV_HallOfFame : Form
 
         int offset = index * StructureSize;
         if (index != 15)
-            Array.Copy(data, offset + StructureSize, data, offset, StructureSize * (Count - 1 - index));
+        {
+            // Shift down
+            var dest = Data[offset..];
+            var above = Data.Slice(offset + StructureSize, StructureSize * (Count - 1 - index));
+            above.CopyTo(dest);
+        }
 
         // Ensure Last Entry is Cleared
-        data.AsSpan(StructureSize * (Count - 1), StructureSize).Clear();
+        Data.Slice(StructureSize * (Count - 1), StructureSize).Clear();
         DisplayEntry(LB_DataEntry, EventArgs.Empty);
     }
 
@@ -390,7 +396,7 @@ public partial class SAV_HallOfFame : Form
         var team = LB_DataEntry.SelectedIndex;
         var member = (int)NUP_PartyIndex.Value - 1;
         int offset = (team * (4 + (6 * HallFame6Entity.SIZE))) + (member * HallFame6Entity.SIZE);
-        var nicktrash = data.AsSpan(offset + 0x18, 26);
+        var nicktrash = Data.Slice(0x18 + offset, 26);
         var text = tb.Text;
         SAV.SetString(nicktrash, text, 12, StringConverterOption.ClearZero);
         var d = new TrashEditor(tb, nicktrash, SAV);

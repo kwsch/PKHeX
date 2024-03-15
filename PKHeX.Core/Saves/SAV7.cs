@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlag37
+public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlagProvider37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<UInt128>, IMysteryGiftStorageProvider
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -30,7 +29,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     protected void ReloadBattleTeams()
     {
-        var demo = this is SAV7SM && !Data.AsSpan(BoxLayout.Offset, 0x4C4).ContainsAnyExcept<byte>(0); // up to Battle Box values
+        var demo = this is SAV7SM && !BoxLayout.Data[..0x4C4].ContainsAnyExcept<byte>(0); // up to Battle Box values
         if (demo || !State.Exportable)
         {
             BoxLayout.ClearBattleTeams();
@@ -61,7 +60,9 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public abstract ResortSave7 ResortSave { get; }
     public abstract FieldMenu7 FieldMenu { get; }
     public abstract FashionBlock7 Fashion { get; }
-    public abstract HallOfFame7 Fame { get; }
+    public abstract EventWork7 EventWork { get; }
+    public abstract UnionPokemon7 Fused { get; }
+    public abstract GTS7 GTS { get; }
     #endregion
 
     // Configuration
@@ -74,12 +75,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override int MaxEV => EffortValues.Max252;
     public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
-    protected override int GiftCountMax => 48;
-    protected override int GiftFlagMax => 0x100 * 8;
-    public abstract int EventFlagCount { get; }
-    public int EventWorkCount => 1000;
-    private int EventWork => AllBlocks[05].Offset;
-    private int EventFlag => EventWork + (EventWorkCount * 2); // After Event Const (u16)*n
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
 
@@ -156,11 +151,10 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
-    protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
-    public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-    public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+    public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
     public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
@@ -237,31 +231,24 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         return AllBlocks[08].Offset + (PokeCrypto.SIZE_6PARTY * slot); // 0x104*slot
     }
 
-    public override int DaycareSeedSize => Daycare7.DaycareSeedSize; // 128 bits
-    public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetDaycareSlotOffset(slot);
-    public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetIsOccupied(slot);
-    public override string GetDaycareRNGSeed(int loc) => Daycare.RNGSeed;
-    public override bool? IsDaycareHasEgg(int loc) => Daycare.HasEgg;
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
-    public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.RNGSeed = seed;
-    public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.HasEgg = hasEgg;
+    // Daycare - delegate from block
+    public int DaycareSlotCount => Daycare.DaycareSlotCount;
+    public Memory<byte> GetDaycareSlot(int index) => Daycare.GetDaycareSlot(index);
+    public bool IsDaycareOccupied(int index) => Daycare.IsDaycareOccupied(index);
+    public void SetDaycareOccupied(int index, bool occupied) => Daycare.SetDaycareOccupied(index, occupied);
 
-    protected override bool[] MysteryGiftReceivedFlags { get => MysteryGift.MysteryGiftReceivedFlags; set => MysteryGift.MysteryGiftReceivedFlags = value; }
-    protected override DataMysteryGift[] MysteryGiftCards { get => MysteryGift.MysteryGiftCards; set => MysteryGift.MysteryGiftCards = value; }
-    public bool GetEventFlag(int flagNumber)
+    public bool IsEggAvailable
     {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
-        return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
+        get => Daycare.IsEggAvailable;
+        set => Daycare.IsEggAvailable = value;
     }
 
-    public void SetEventFlag(int flagNumber, bool value)
+    UInt128 IDaycareRandomState<UInt128>.Seed
     {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
-        SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
+        get => Daycare.Seed;
+        set => Daycare.Seed = value;
     }
 
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWork + (index * 2)));
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWork)[(index * 2)..], value);
+    IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
+    IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
 }

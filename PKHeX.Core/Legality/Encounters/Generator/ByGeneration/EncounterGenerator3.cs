@@ -46,7 +46,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
                 deferType ??= e;
                 continue;
             }
-
             if (e is not EncounterSlot3 slot)
             {
                 yield return e;

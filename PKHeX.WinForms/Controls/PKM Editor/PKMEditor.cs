@@ -1938,9 +1938,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void ToggleSecrets(bool hidden, byte format)
     {
-        Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = format >= 6 && !hidden;
+        FLP_EncryptionConstant.Visible = format >= 6 && !hidden;
         BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = format >= 3 && !hidden;
-        TB_HomeTracker.Visible = L_HomeTracker.Visible = format >= 8 && !hidden;
+        FLP_HomeTracker.Visible = format >= 8 && !hidden;
     }
 
     private void ToggleInterface(byte format)

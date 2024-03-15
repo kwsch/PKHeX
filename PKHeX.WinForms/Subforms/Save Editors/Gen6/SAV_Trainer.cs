@@ -81,13 +81,12 @@ public partial class SAV_Trainer : Form
         CB_Region.InitializeBinding();
         Main.SetCountrySubRegion(CB_Country, "countries");
 
-        var names = Enum.GetNames(typeof(TrainerSprite6));
-        var values = (int[])Enum.GetValues(typeof(TrainerSprite6));
-        var data = names.Zip(values, (a, b) => new ComboItem(a, b))
-            .ToList();
-        if (SAV is not SAV6AO)
-            data.RemoveAll(z => z.Value > 36);
-
+        var names = Enum.GetNames<TrainerSprite6>();
+        var values = Enum.GetValues<TrainerSprite6>();
+        var max = SAV is not SAV6AO ? (int)TrainerSprite6.Trevor : names.Length;
+        var data = new ComboItem[max];
+        for (int i = 0; i < max; i++)
+            data[i] = new ComboItem(names[i], (int)values[i]);
         CB_MultiplayerSprite.InitializeBinding();
         CB_MultiplayerSprite.DataSource = data;
 
@@ -249,7 +248,7 @@ public partial class SAV_Trainer : Form
 
         // Sprite
         if (SAV is IMultiplayerSprite ms)
-            ms.MultiplayerSpriteID = Convert.ToByte(CB_MultiplayerSprite.SelectedValue);
+            ms.MultiplayerSpriteID = (byte)WinFormsUtil.GetIndex(CB_MultiplayerSprite);
 
         // Appearance
         if (SAV is SAV6XY xy)

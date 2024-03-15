@@ -4,36 +4,20 @@ namespace PKHeX.Core;
 
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051, RCS1213 // Remove unused private members
-public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
+public sealed class SaveBlockAccessor8LA(SAV8LA sav) : SCBlockAccessor, ISaveBlock8LA
 {
-    public override IReadOnlyList<SCBlock> BlockInfo { get; }
-    public Party8a PartyInfo { get; }
-    public Box8 BoxInfo { get; }
-    public MyStatus8a MyStatus { get; }
-    public PokedexSave8a PokedexSave { get; }
-    public BoxLayout8a BoxLayout { get; }
-    public MyItem8a Items { get; }
-    public Epoch1970Value AdventureStart { get; }
-    public Coordinates8a Coordinates { get; }
-    public LastSaved8a LastSaved { get; }
-    public PlayerFashion8a FashionPlayer { get; }
-    public PlayTime8a Played { get; }
-
-    public SaveBlockAccessor8LA(SAV8LA sav)
-    {
-        BlockInfo = sav.AllBlocks;
-        BoxInfo = new Box8(sav, GetBlock(KBox));
-        PokedexSave = new PokedexSave8a(sav, GetBlock(KZukan));
-        BoxLayout = new BoxLayout8a(sav, GetBlock(KBoxLayout));
-        PartyInfo = new Party8a(sav, GetBlock(KParty));
-        MyStatus = new MyStatus8a(sav, GetBlock(KMyStatus));
-        Items = new MyItem8a(sav, GetBlock(KItemRegular));
-        AdventureStart = new Epoch1970Value(GetBlock(KAdventureStart));
-        LastSaved = new LastSaved8a(sav, GetBlock(KLastSaved));
-        Played = new PlayTime8a(sav, GetBlock(KPlayTime));
-        Coordinates = new Coordinates8a(sav, GetBlock(KCoordinates));
-        FashionPlayer = new PlayerFashion8a(sav, GetBlock(KFashionPlayer));
-    }
+    public override IReadOnlyList<SCBlock> BlockInfo { get; } = sav.AllBlocks;
+    public Party8a PartyInfo { get; } = new(sav, Block(sav, KParty));
+    public Box8 BoxInfo { get; } = new(sav, Block(sav, KBox));
+    public MyStatus8a MyStatus { get; } = new(sav, Block(sav, KMyStatus));
+    public PokedexSave8a PokedexSave { get; } = new(sav, Block(sav, KZukan));
+    public BoxLayout8a BoxLayout { get; } = new(sav, Block(sav, KBoxLayout));
+    public MyItem8a Items { get; } = new(sav, Block(sav, KItemRegular));
+    public Epoch1970Value AdventureStart { get; } = new(Block(sav, KAdventureStart));
+    public Coordinates8a Coordinates { get; } = new(sav, Block(sav, KCoordinates));
+    public Epoch1900DateTimeValue LastSaved { get; } = new(Block(sav, KLastSaved));
+    public PlayerFashion8a FashionPlayer { get; } = new(sav, Block(sav, KFashionPlayer));
+    public PlayTime8b Played { get; } = new(sav, Block(sav, KPlayTime));
 
     public int DetectRevision() => HasBlock(0x8184EFB4) ? 1 : 0;
 

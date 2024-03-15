@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 3 <see cref="SaveFile"/> object for <see cref="GameVersion.E"/>.
 /// </summary>
 /// <inheritdoc cref="SAV3" />
-public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
+public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycareRandomState<uint>
 {
     // Configuration
     protected override SAV3E CloneInternal() => new(Write());
@@ -18,7 +18,6 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public override int EventFlagCount => 8 * 300;
     public override int EventWorkCount => 0x100;
     protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
-    public override int DaycareSeedSize => 8; // 32bit
     protected override int EggEventFlag => 0x86;
     protected override int BadgeFlagStart => 0x867;
 
@@ -29,17 +28,11 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     protected override int EventWork => 0x139C;
     public override int MaxItemID => Legal.MaxItemID_3_E;
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x3030; // large
 
-        // large
-        DaycareOffset = 0x3030;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     #region Small
     public override bool NationalDex
@@ -183,9 +176,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     protected override int MailOffset => 0x2BE0;
 
-    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pk slot
-    public override string GetDaycareRNGSeed(int loc) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareSlotOffset(0, 2))).ToString("X8");  // after the 2 slots, before the step counter
-    public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), Util.GetHexValue(seed));
+    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
+    uint IDaycareRandomState<uint>.Seed // after the 2 slots, before the step counter
+    {
+        get => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)));
+        set => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), value);
+    }
 
     protected override int ExternalEventData => 0x31B3;
 
@@ -224,12 +220,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     /** Each value unit represents 1/60th of a second. Value 0 if no record. */
     public uint GetTrainerHillRecord(TrainerHillMode3E mode)
     {
-        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4));
+        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + ((byte)mode * 4)));
     }
 
     public void SetTrainerHillRecord(TrainerHillMode3E mode, uint value)
     {
-        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4), value);
+        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + ((byte)mode * 4)), value);
         State.Edited = true;
     }
 
@@ -284,10 +280,10 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     private const int OFS_BV = 31 * 0x1000; // last sector of the save
     public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(Data.AsSpan(OFS_BV)) == EXTRADATA_SENTINEL;
 
-    private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BV3.SIZE);
-    public BV3 BattleVideo
+    private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BattleVideo3.SIZE);
+    public BattleVideo3 BattleVideo
     {
-        get => HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
+        get => HasBattleVideo ? new BattleVideo3(BattleVideoData.ToArray()) : new BattleVideo3();
         set => SetData(BattleVideoData, value.Data);
     }
 }
