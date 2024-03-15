@@ -15,13 +15,13 @@ public static class StringConverter
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
     /// <returns>Decoded string.</returns>
-    public static string GetString(ReadOnlySpan<byte> data, byte generation, bool jp, bool isBigEndian = false) => generation switch
+    public static string GetString(ReadOnlySpan<byte> data, byte generation, bool jp, bool isBigEndian = false, int language = 0) => generation switch
     {
         3 when isBigEndian => StringConverter3GC.GetString(data),
         4 when isBigEndian => StringConverter4GC.GetString(data),
 
         1 or 2 => StringConverter12.GetString(data, jp),
-        3 => StringConverter3.GetString(data, jp),
+        3 => StringConverter3.GetString(data, language),
         4 => StringConverter4.GetString(data),
         5 => StringConverter5.GetString(data),
         6 => StringConverter6.GetString(data),
@@ -40,13 +40,13 @@ public static class StringConverter
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
     /// <returns>Decoded string.</returns>
-    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, byte generation, bool jp, bool isBigEndian = false) => generation switch
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, byte generation, bool jp, bool isBigEndian = false, int language = 0) => generation switch
     {
         3 when isBigEndian => StringConverter3GC.LoadString(data, result),
         4 when isBigEndian => StringConverter4GC.LoadString(data, result),
 
         1 or 2 => StringConverter12.LoadString(data, result, jp),
-        3 => StringConverter3.LoadString(data, result, jp),
+        3 => StringConverter3.LoadString(data, result, language),
         4 => StringConverter4.LoadString(data, result),
         5 => StringConverter5.LoadString(data, result),
         6 => StringConverter6.LoadString(data, result),
@@ -66,7 +66,7 @@ public static class StringConverter
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
-    /// <param name="language">Language specific conversion (Chinese)</param>
+    /// <param name="language">Language specific conversion</param>
     /// <returns>Count of bytes written to the <see cref="destBuffer"/>.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option,
         byte generation, bool jp, bool isBigEndian, int language = 0) => generation switch
@@ -75,7 +75,7 @@ public static class StringConverter
         4 when isBigEndian => StringConverter4GC.SetString(destBuffer, value, maxLength, option),
 
         1 or 2 => StringConverter12.SetString(destBuffer, value, maxLength, jp, option),
-        3 => StringConverter3.SetString(destBuffer, value, maxLength, jp, option),
+        3 => StringConverter3.SetString(destBuffer, value, maxLength, language, option),
         4 => StringConverter4.SetString(destBuffer, value, maxLength, option),
         5 => StringConverter5.SetString(destBuffer, value, maxLength, option),
         6 => StringConverter6.SetString(destBuffer, value, maxLength, option),
