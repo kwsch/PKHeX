@@ -301,13 +301,13 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         var trash = StringConverter345.GetTrashBytes(pk4.Language);
         var nickTrash = pk4.NicknameTrash[4..]; // min of 1 char and terminator, ignore first 2.
         trash.CopyTo(nickTrash);
-        pk4.Nickname = IsEgg ? SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
+        pk4.Nickname = IsEgg ? SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : StringConverter345.TransferGlyphs34(NicknameTrash, Language, Japanese ? 5 : 10);
         pk4.IsNicknamed = !IsEgg && IsNicknamed;
 
         // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.
         var destOT = pk4.OriginalTrainerTrash;
         nickTrash[..destOT.Length].CopyTo(destOT);
-        pk4.OriginalTrainerName = OriginalTrainerName;
+        pk4.OriginalTrainerName = StringConverter345.TransferGlyphs34(OriginalTrainerTrash, Language, Japanese ? 5 : 7);
 
         var item = (ushort)HeldItem;
         if (item != 0)

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class StringConverter3
 {
-    private const byte TerminatorByte = 0xFF;
+    public const byte TerminatorByte = 0xFF;
     private const char Terminator = (char)TerminatorByte;
     private const char Apostrophe = '\''; // ’
     private const byte ApostropheByte = 0xB4;

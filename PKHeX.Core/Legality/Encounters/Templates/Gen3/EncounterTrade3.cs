@@ -163,14 +163,22 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        return language != 0 && (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames[language]);
+        return language != 0 && (uint)language < TrainerNames.Length && trainer.SequenceEqual(pk.Context switch
+        {
+            EntityContext.Gen3 => TrainerNames[language],
+            _ => StringConverter345.TransferGlyphs34(TrainerNames[language], language)
+        });
     }
 
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
     {
         if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        return language != 0 && (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames[language]);
+        return language != 0 && (uint)language < Nicknames.Length && nickname.SequenceEqual(pk.Context switch
+        {
+            EntityContext.Gen3 => Nicknames[language],
+            _ => StringConverter345.TransferGlyphs34(Nicknames[language], language)
+        });
     }
 
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];

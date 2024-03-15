@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -22,6 +23,61 @@ public static class StringConverter345
         7 => [0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF],
         _ => [], // No Trash Bytes
     };
+
+    /// <summary>
+    /// Remaps Gen3 Glyphs to Gen4 Glyphs.
+    /// </summary>
+    public static string TransferGlyphs34(ReadOnlySpan<byte> data, int language, int maxLength)
+    {
+        Span<char> result = stackalloc char[data.Length];
+        var i = 0;
+        for (; i < data.Length; i++)
+        {
+            var c = data[i];
+            if (c == StringConverter3.TerminatorByte)
+                break;
+
+            // If the encoded character is in the affected range, treat it as Japanese.
+            var b = StringConverter3.GetG3Char(c, IsJapanese3(c) ? (int)LanguageID.Japanese : language);
+
+            // If an invalid character (0xF7-0xFE) is present, the nickname/OT is replaced with all question marks.
+            // Based on the Gen4 game's language: "？？？？？" in Japanese, "??????????" for nicknames/"???????" for OTs in EFIGS, "?????" in Korean
+            // Since we can't tell the language of the Gen4 game from the PKM alone, use the PKM language instead.
+            if (b == StringConverter3.TerminatorByte)
+                return new string(language == (int)LanguageID.Japanese ? '？' : '?', maxLength);
+
+            result[i] = b;
+        }
+        return new string(result[..i]);
+    }
+
+    /// <summary>
+    /// Remaps Gen3 Glyphs to Gen4 Glyphs.
+    /// </summary>
+    public static string TransferGlyphs34(ReadOnlySpan<char> data, int language)
+    {
+        if (language == (int)LanguageID.Japanese)
+            return new string(data);
+
+        Span<char> result = stackalloc char[data.Length];
+        for (var i = 0; i < data.Length; i++)
+        {
+            var b = data[i];
+
+            // If the encoded character is in the affected range, reinterpret it as Japanese.
+            var c = StringConverter3.SetG3Char(b, language);
+            result[i] = IsJapanese3(c) ? StringConverter3.GetG3Char(c, (int)LanguageID.Japanese) : b;
+        }
+        return new string(result);
+    }
+
+    // Pal Park always uses the Japanese character set for kana and '円' regardless of language.
+    // Only legitimately affects Spanish in-game trades and default player names, where Á/Í/Ú become い/コ/つ in Gen4.
+    private const byte JapaneseStartGlyph = 0x01; // 'あ'
+    private const byte JapaneseEndGlyph = 0xA0; // 'ッ'
+    private const byte JapaneseYenGlyph = 0xB7; // '円'
+
+    private static bool IsJapanese3(byte glyph) => glyph is (>= JapaneseStartGlyph and <= JapaneseEndGlyph) or JapaneseYenGlyph;
 
     /// <summary>
     /// Remaps Gen5 Glyphs to unicode codepoint.
