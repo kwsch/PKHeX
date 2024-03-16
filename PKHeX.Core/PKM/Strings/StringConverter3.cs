@@ -37,7 +37,6 @@ public static class StringConverter3
     /// <param name="data">Encoded data</param>
     /// <param name="result">Decoded character result buffer</param>
     /// <param name="language">Language specific conversion</param>
-    /// 
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, int language)
     {
@@ -71,7 +70,6 @@ public static class StringConverter3
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="language">Language specific conversion</param>
     /// <param name="option">Buffer pre-formatting option</param>
-    /// 
     /// <returns>Encoded data.</returns>
     public static int SetString(Span<byte> buffer, ReadOnlySpan<char> value, int maxLength, int language, StringConverterOption option = StringConverterOption.ClearFF)
     {
@@ -118,7 +116,6 @@ public static class StringConverter3
     /// </summary>
     /// <param name="chr">Generation 4 decoded character.</param>
     /// <param name="language">Language specific conversion</param>
-    /// 
     /// <returns>Generation 3 encoded value.</returns>
     public static char GetG3Char(byte chr, int language)
     {
@@ -136,7 +133,6 @@ public static class StringConverter3
     /// </summary>
     /// <param name="chr">Generation 4 decoded character.</param>
     /// <param name="language">Language specific conversion</param>
-    /// 
     /// <returns>Generation 3 encoded value.</returns>
     public static byte SetG3Char(char chr, int language)
     {

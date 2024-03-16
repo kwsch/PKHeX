@@ -14,6 +14,7 @@ public static class StringConverter
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
+    /// <param name="language">Language specific conversion</param>
     /// <returns>Decoded string.</returns>
     public static string GetString(ReadOnlySpan<byte> data, byte generation, bool jp, bool isBigEndian = false, int language = 0) => generation switch
     {
@@ -39,6 +40,7 @@ public static class StringConverter
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
+    /// <param name="language">Language specific conversion</param>
     /// <returns>Decoded string.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, byte generation, bool jp, bool isBigEndian = false, int language = 0) => generation switch
     {
