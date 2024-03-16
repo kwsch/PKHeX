@@ -96,7 +96,7 @@ public static class StringConverter345
     // These characters are converted to halfwidth question marks upon transfer to Gen5, in addition to the empty/invalid characters in Gen4.
     // None of these are user-enterable. Note that halfwidth '&' transfers properly, despite it not being user-enterable either.
     private static bool IsInvalid45(char c) => c == StringConverter4.Terminator || InvalidSearchVal45.Contains(c);
-    private static readonly SearchValues<char> InvalidSearchVal45 = SearchValues.Create("$_ª°ºÂÃÅÆÊËÎÏÐÔÕØÛÝÞãåæðõøýþÿŒœŞş‣←↑→↓⑧⑨⑩⑪⑫⒅⒆⒇⒈⒉⒊⒋⒌⒍⒎⒏♈♉♊♋♌♍♎♏円＆＿");
+    private static readonly SearchValues<char> InvalidSearchVal45 = SearchValues.Create("$_ª°ºÂÃÅÆÊËÎÏÐÔÕØÛÝÞãåæðõøýþÿŒœŞş←↑→↓⑧⑨⑩⑪⑫⒅⒆⒇⒈⒉⒊⒋⒌⒍⒎⒏►♈♉♊♋♌♍♎♏円＆＿");
 
     /// <summary>
     /// Remaps Gen5 Glyphs to unicode codepoint.
