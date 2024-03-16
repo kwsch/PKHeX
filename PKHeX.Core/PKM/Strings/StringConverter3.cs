@@ -53,6 +53,7 @@ public static class StringConverter3
             }; // Convert to Unicode
             if (c == Terminator) // Stop if Terminator/Invalid
                 break;
+            c = StringConverter.SanitizeChar(c);
             result[i] = c;
         }
         return i;
@@ -86,7 +87,8 @@ public static class StringConverter3
         int i = 0;
         for (; i < value.Length; i++)
         {
-            if (!TryGetIndex(table, value[i], language, out var b))
+            var c = StringConverter.UnSanitizeChar5(value[i]);
+            if (!TryGetIndex(table, c, language, out var b))
                 break;
             buffer[i] = b;
         }
