@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.PIDType;
 using static PKHeX.Core.SlotType3;
 
@@ -76,25 +77,88 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
         if (Species == (int)Core.Species.Unown)
         {
-            do
-            {
-                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1_Unown);
-                var lead = MethodH.GetSeed(this, seed, lvl, false, 2, 3);
-                if (pk.Form != Form && lead.IsValid())
-                    return;
-                ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-            } while (ctr++ < 10_000);
+            if (criteria.IsSpecifiedIVs() && SetUnownFromIVs(pk, criteria))
+                return;
+
+            // Generate a random Unown with the correct form and desired nature.
+            SetUnownRandom(pk, criteria);
+            return;
         }
-        else
+
+        do
         {
-            do
+            var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1);
+            var result = MethodH.GetSeed(this, seed, lvl, pk.E, pk.Gender, 3);
+            if (result.IsValid())
+                return;
+        } while (ctr++ < 10_000);
+    }
+
+    private void SetUnownRandom(PK3 pk, EncounterCriteria criteria)
+    {
+        //bool checkForm = forms.Contains(criteria.Form); // not a property :(
+        var (min, max) = SlotMethodH.GetRangeGrass(SlotNumber);
+        var seed = Util.Rand32() & 0x7FFF_FFFF;
+        // Can't game the seed with % 100 increments as Unown's form calculation is based on the PID.
+
+        while (true)
+        {
+            var esv = LCRNG.Next16(ref seed) % 100;
+            if (esv < min || esv > max)
+                continue;
+            // Skip the level roll, always results in the same level value.
+            var rand = LCRNG.Next2(seed);
+            if (criteria.Nature != Nature.Random && (rand >> 16) % 25 != (byte)criteria.Nature)
+                continue;
+
+            while (true)
             {
-                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1);
-                var result = MethodH.GetSeed(this, seed, lvl, pk.E, pk.Gender, 3);
-                if (result.IsValid())
-                    return;
-            } while (ctr++ < 10_000);
+                var a = LCRNG.Next16(ref rand);
+                var b = LCRNG.Next16(ref rand);
+                var pid = a << 16 | b;
+                var form = EntityPID.GetUnownForm3(pid);
+                if (form != Form)
+                    continue;
+
+                pk.PID = pid;
+                var iv1 = LCRNG.Next16(ref rand);
+                var iv2 = LCRNG.Next16(ref rand);
+                pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+                return;
+            }
         }
+    }
+
+    private bool SetUnownFromIVs(PK3 pk, EncounterCriteria criteria)
+    {
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        var count = LCRNGReversal.GetSeedsIVs(seeds, (byte)criteria.IV_HP, (byte)criteria.IV_ATK, (byte)criteria.IV_DEF, (byte)criteria.IV_SPA, (byte)criteria.IV_SPD, (byte)criteria.IV_SPE);
+        seeds = seeds[..count];
+        foreach (ref var seed in seeds)
+        {
+            seed = LCRNG.Prev2(seed);
+            var s = seed;
+
+            var a = LCRNG.Next16(ref s);
+            var b = LCRNG.Next16(ref s);
+            var pid = a << 16 | b;
+            if (criteria.Nature != Nature.Random && (Nature)(pid % 25) != criteria.Nature)
+                continue;
+            var form = EntityPID.GetUnownForm3(pid);
+            if (form != Form)
+                continue;
+            var lead = MethodH.GetSeed(this, seed, this, false, 2, 3);
+            if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
+                continue;
+
+            pk.PID = pid;
+            var iv1 = LCRNG.Next16(ref s);
+            var iv2 = LCRNG.Next16(ref s);
+            pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+            return true;
+        }
+
+        return false;
     }
 
     protected virtual void SetEncounterMoves(PKM pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
