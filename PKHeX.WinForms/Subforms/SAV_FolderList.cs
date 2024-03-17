@@ -32,13 +32,13 @@ public partial class SAV_FolderList : Form
         dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
 
         var extra = Paths.Select(z => z.Path).Where(z => z != Main.BackupPath).Distinct();
+        var backup = SaveFinder.GetSaveFiles(drives, false, [Main.BackupPath], false);
         var recent = SaveFinder.GetSaveFiles(drives, false, extra, true).ToList();
         var loaded = Main.Settings.Startup.RecentlyLoaded
             .Where(z => recent.All(x => x.Metadata.FilePath != z))
-            .Where(File.Exists).Select(SaveUtil.GetVariantSAV).Where(z => z is not null);
-        recent.InsertRange(0, loaded!);
-        Recent = PopulateData(dgDataRecent, recent);
-        var backup = SaveFinder.GetSaveFiles(drives, false, new [] {Main.BackupPath}, false);
+            .Where(File.Exists).Select(SaveUtil.GetVariantSAV).OfType<SaveFile>();
+
+        Recent = PopulateData(dgDataRecent, loaded.Concat(recent));
         Backup = PopulateData(dgDataBackup, backup);
 
         CB_FilterColumn.Items.Add(MsgAny);
@@ -67,7 +67,7 @@ public partial class SAV_FolderList : Form
             CB_FilterColumn.Items[i+1] = text;
         }
 
-        // Preprogrammed folders
+        // Pre-programmed folders
         foreach (var loc in Paths)
             AddButton(loc.DisplayText, loc.Path);
 
@@ -78,7 +78,7 @@ public partial class SAV_FolderList : Form
     {
         List<INamedFolderPath> locs =
         [
-            new CustomFolderPath(Main.BackupPath, "PKHeX Backups"),
+            new CustomFolderPath(Main.BackupPath, display: "PKHeX Backups"),
             ..GetUserPaths(), ..GetConsolePaths(drives), ..GetSwitchPaths(drives),
         ];
         var filtered = locs
@@ -151,33 +151,26 @@ public partial class SAV_FolderList : Form
         return paths.Select(z => new CustomFolderPath(z));
     }
 
-    private sealed class CustomFolderPath : INamedFolderPath
+    private sealed record CustomFolderPath : INamedFolderPath
     {
         public string Path { get; }
         public string DisplayText { get; }
         public bool Custom { get; }
 
-        public CustomFolderPath(string z, bool custom = false)
-        {
-            var di = new DirectoryInfo(z);
-            var root = di.Root.Name;
-            var folder = di.Parent?.Name ?? di.Name;
-            if (root == folder)
-                folder = di.Name;
-
-            Path = z;
-            DisplayText = folder;
-            Custom = custom;
-        }
-
-        public CustomFolderPath(string path, string display, bool custom = false)
+        public CustomFolderPath(string path, bool custom = false, string? display = null)
         {
             Path = path;
-            DisplayText = display;
             Custom = custom;
+            DisplayText = display ?? ResolveFolderName(path);
         }
 
-        public override string ToString() => $"{DisplayText}\t{Path}";
+        private static string ResolveFolderName(string path)
+        {
+            var di = new DirectoryInfo(path);
+            var root = di.Root.Name;
+            var display = di.Parent?.Name ?? di.Name;
+            return root == display ? di.Name : display;
+        }
     }
 
     private sealed class SaveList<T> : SortableBindingList<T> where T : class;
