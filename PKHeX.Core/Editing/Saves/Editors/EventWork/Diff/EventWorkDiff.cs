@@ -35,6 +35,11 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
             Message = DifferentGameGroup;
             return;
         }
+        if (s1.Version != s2.Version)
+        {
+            Message = DifferentVersion;
+            return;
+        }
 
         Diff(t1, t2);
     }
@@ -52,9 +57,6 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
     {
         if (s1.GetType() != s2.GetType())
             return DifferentGameGroup;
-
-        if (s1 is not IVersion i1 || s2 is not IVersion i2 || i1.Version != i2.Version)
-            return DifferentVersion;
 
         return Valid;
     }
