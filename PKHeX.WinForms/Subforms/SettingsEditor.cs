@@ -11,6 +11,9 @@ public partial class SettingsEditor : Form
 {
     public bool BlankChanged { get; private set; }
 
+    // Remember the last settings tab for the remainder of the session.
+    private static string? Last;
+
     public SettingsEditor(object obj)
     {
         InitializeComponent();
@@ -32,6 +35,13 @@ public partial class SettingsEditor : Form
             B_Reset.Visible = false;
         }
 
+        if (Last is not null && tabControl1.Controls[Last] is TabPage tab)
+            tabControl1.SelectedTab = tab;
+        tabControl1.SelectedIndexChanged += (_, _) =>
+        {
+            Last = tabControl1.SelectedTab?.Name;
+        };
+
         this.CenterToForm(FindForm());
     }
 
@@ -46,7 +56,7 @@ public partial class SettingsEditor : Form
             if (state is null)
                 continue;
 
-            var tab = new TabPage(p);
+            var tab = new TabPage(p) { Name = $"Tab_{p}" };
             var pg = new PropertyGrid { SelectedObject = state, Dock = DockStyle.Fill };
             tab.Controls.Add(pg);
             tabControl1.TabPages.Add(tab);
