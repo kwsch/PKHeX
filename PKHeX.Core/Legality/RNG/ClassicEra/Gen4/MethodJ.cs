@@ -317,7 +317,7 @@ public static class MethodJ
         result = default; return false;
     }
 
-    private static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt();
+    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt();
 
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4

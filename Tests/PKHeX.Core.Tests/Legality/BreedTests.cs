@@ -87,6 +87,6 @@ public class BreedTests
         // fixed order should be different now.
         expected.SequenceEqual(moves).Should().BeFalse();
         // nonzero move count should be same
-        expected.Count((ushort)0).Should().Be(moves.Count((ushort)0));
+        expected.Count<ushort>(0).Should().Be(moves.Count<ushort>(0));
     }
 }
