@@ -219,6 +219,7 @@ public static class FormConverter
                 types[009], // Burn (Fire)
                 types[014], // Chill (Ice)
             ],
+            Whirlipede or Scolipede or Galvantula when generation >= 7 => GetFormsOrre(types, forms),
             _ => EMPTY,
         };
     }
@@ -775,7 +776,7 @@ public static class FormConverter
         362 or 373 or 376 or 384 or 428 or 475 or 531 or 719
 
         //USUMABZB
-        or 12 or 68 or 99 or 131 or 133 or 143 or 330 or 478 or 479
+        or 12 or 68 or 99 or 131 or 133 or 143 or 277 or 330 or 478 or 479 or 483 or 484 or 569
     ;
 
     private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)

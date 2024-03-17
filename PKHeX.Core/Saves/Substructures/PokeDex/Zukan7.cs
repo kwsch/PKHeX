@@ -81,48 +81,8 @@ public class Zukan7 : Zukan<SaveFile>
     {
         // 004AA370 in Moon
         // Simplified in terms of usage -- only overrides to give all the battle forms for a pk
-        switch (species)
-        {
-            case 351: // Castform
-                formStart = 0;
-                formEnd = 3;
-                return true;
-
-            case 421: // Cherrim
-            case 555: // Darmanitan
-            case 648: // Meloetta
-            case 746: // Wishiwashi
-            case 778: // Mimikyu
-            // Alolans
-            case 020: // Raticate
-            case 105: // Marowak
-                formStart = 0;
-                formEnd = 1;
-                return true;
-
-            case 735: // Gumshoos
-            case 758: // Salazzle
-            case 754: // Lurantis
-            case 738: // Vikavolt
-            case 784: // Kommo-o
-            case 752: // Araquanid
-            case 777: // Togedemaru
-            case 743: // Ribombee
-            case 744: // Rockruff
-                break;
-
-            case 774 when formIn <= 6: // Minior
-                break; // don't give meteor forms except the first
-
-            case 718 when formIn > 1:
-                break;
-            default:
-                int count = USUM ? DexFormUtil.GetDexFormCountUSUM(species) : DexFormUtil.GetDexFormCountSM(species);
-                formStart = formEnd = 0;
-                return count < formIn;
-        }
         formStart = 0;
-        formEnd = 0;
+        formEnd = 30;
         return true;
     }
 
@@ -178,7 +138,7 @@ public class Zukan7 : Zukan<SaveFile>
             if (GetSaneFormsToIterate(species, out int s, out int n, j))
             {
                 start = s;
-                end = n;
+                end = 3;
             }
             start = Math.Max(1, start);
             for (int f = start; f <= end; f++)
