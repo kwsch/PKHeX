@@ -141,7 +141,18 @@ public sealed class StartupSettings : IStartupSettings
     public PluginLoadSetting PluginLoadMethod { get; set; } = PluginLoadSetting.LoadFrom;
 
     [Browsable(false)]
-    public List<string> RecentlyLoaded { get; set; } = new(MaxRecentCount);
+    public List<string> RecentlyLoaded { get; set; } = new(DefaultMaxRecent);
+
+    private const int DefaultMaxRecent = 10;
+    private uint MaxRecentCount = DefaultMaxRecent;
+
+    [LocalizedDescription("Amount of recently loaded save files to remember.")]
+    public uint RecentlyLoadedMaxCount
+    {
+        get => MaxRecentCount;
+        // Sanity check to not let the user foot-gun themselves a slow recall time.
+        set => MaxRecentCount = Math.Clamp(value, 1, 1000);
+    }
 
     // Don't let invalid values slip into the startup version.
     private GameVersion _defaultSaveVersion = PKX.Version;
@@ -170,8 +181,6 @@ public sealed class StartupSettings : IStartupSettings
             _defaultSaveVersion = value;
         }
     }
-
-    private const int MaxRecentCount = 10;
 
     public void LoadSaveFile(string path)
     {

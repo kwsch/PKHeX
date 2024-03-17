@@ -130,8 +130,6 @@ public partial class SAV_FolderList : Form
             return [];
 
         var root = Path.GetPathRoot(path3DS);
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        // ReSharper disable once HeuristicUnreachableCode
         if (root == null)
             return [];
 
@@ -146,8 +144,6 @@ public partial class SAV_FolderList : Form
             return [];
 
         var root = Path.GetPathRoot(pathNX);
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        // ReSharper disable once HeuristicUnreachableCode
         if (root == null)
             return [];
 
