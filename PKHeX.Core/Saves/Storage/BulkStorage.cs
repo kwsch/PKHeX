@@ -53,7 +53,7 @@ public abstract class BulkStorage : SaveFile
     public sealed override int GetPartyOffset(int slot) => int.MinValue;
 
     public override string GetString(ReadOnlySpan<byte> data)
-        => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian);
+        => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, Language);
 
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter.SetString(destBuffer, value, maxLength, option: option, generation: Generation, jp: blank.Japanese, isBigEndian: IsBigEndian, language: Language);

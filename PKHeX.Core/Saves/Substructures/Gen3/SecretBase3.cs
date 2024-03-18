@@ -31,8 +31,8 @@ public sealed class SecretBase3(Memory<byte> raw)
 
     public string OriginalTrainerName
     {
-        get => StringConverter3.GetString(Data.Slice(2, 7), Japanese);
-        set => StringConverter3.SetString(Data.Slice(2, 7), value, 7, Japanese, StringConverterOption.ClearFF);
+        get => StringConverter3.GetString(Data.Slice(2, 7), Language);
+        set => StringConverter3.SetString(Data.Slice(2, 7), value, 7, Language, StringConverterOption.ClearFF);
     }
 
     public uint OT_ID
