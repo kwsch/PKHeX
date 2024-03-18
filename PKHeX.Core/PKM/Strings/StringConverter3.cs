@@ -28,6 +28,7 @@ public static class StringConverter3
     }
 
     /// <inheritdoc cref="GetString(ReadOnlySpan{byte},int)"/>
+    /// <param name="data">Byte array containing string data.</param>
     /// <param name="jp">Value source is Japanese font.</param>
     public static string GetString(ReadOnlySpan<byte> data, bool jp) => GetString(data, jp ? (int)LanguageID.Japanese : (int)LanguageID.English);
 
@@ -59,6 +60,8 @@ public static class StringConverter3
     }
 
     /// <inheritdoc cref="LoadString(ReadOnlySpan{byte},Span{char},int)"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
     /// <param name="jp">Value source is Japanese font.</param>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp) => LoadString(data, result, jp ? (int)LanguageID.Japanese : (int)LanguageID.English);
 
@@ -97,8 +100,6 @@ public static class StringConverter3
         return count;
     }
 
-    /// <inheritdoc cref="SetString(Span{byte},ReadOnlySpan{char},int,int,StringConverterOption)"/>
-    /// <param name="jp">Value source is Japanese font.</param>
     public static int SetString(Span<byte> buffer, ReadOnlySpan<char> value, int maxLength, bool jp, StringConverterOption option = StringConverterOption.ClearFF) =>
         SetString(buffer, value, maxLength, jp ? (int)LanguageID.Japanese : (int)LanguageID.English, option);
 
@@ -106,7 +107,7 @@ public static class StringConverter3
     {
         var index = dict.IndexOf(c);
         if (index == -1 || c == '“')
-            return TryGetUserFriendlyRemap(dict, c, language, out result);
+            return TryGetUserFriendlyRemap(c, language, out result);
         result = (byte)index;
         return index != TerminatorByte;
     }
@@ -162,7 +163,7 @@ public static class StringConverter3
     /// <summary>
     /// Tries to remap the user input to a valid character.
     /// </summary>
-    private static bool TryGetUserFriendlyRemap(in ReadOnlySpan<char> dict, char c, int language, out byte result)
+    private static bool TryGetUserFriendlyRemap(char c, int language, out byte result)
     {
         result = c switch
         {
