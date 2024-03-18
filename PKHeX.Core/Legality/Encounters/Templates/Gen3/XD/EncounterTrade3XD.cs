@@ -173,21 +173,34 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     public bool IsCompatible(PIDType val, PKM pk) => val is PIDType.CXD;
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
-    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(pk.Context switch
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
     {
-        EntityContext.Gen3 => TrainerNames[language],
-        _ => StringConverter345.TransferGlyphs34(TrainerNames[language], language)
-    });
+        if ((uint)language >= TrainerNames.Length)
+            return false;
+        if (language == 0 || (uint)language >= TrainerNames.Length)
+            return false;
+        var name = TrainerNames[language];
+        if (pk.Context == EntityContext.Gen3)
+            return trainer.SequenceEqual(name);
+
+        Span<char> tmp = stackalloc char[name.Length];
+        StringConverter345.TransferGlyphs34(name, language, tmp);
+        return trainer.SequenceEqual(tmp);
+    }
 
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
     {
         if (!IsFixedNickname)
             return true;
-        return nickname.SequenceEqual(pk.Context switch
-        {
-            EntityContext.Gen3 => GetNickname(language),
-            _ => StringConverter345.TransferGlyphs34(GetNickname(language), language)
-        });
+        if (language == 0 || (uint)language >= Nicknames.Length)
+            return false;
+        var name = Nicknames[language];
+        if (pk.Context == EntityContext.Gen3)
+            return nickname.SequenceEqual(name);
+
+        Span<char> tmp = stackalloc char[name.Length];
+        StringConverter345.TransferGlyphs34(name, language, tmp);
+        return nickname.SequenceEqual(tmp);
     }
 
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];

@@ -163,22 +163,30 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        return language != 0 && (uint)language < TrainerNames.Length && trainer.SequenceEqual(pk.Context switch
-        {
-            EntityContext.Gen3 => TrainerNames[language],
-            _ => StringConverter345.TransferGlyphs34(TrainerNames[language], language)
-        });
+        if (language == 0 || (uint)language >= TrainerNames.Length)
+            return false;
+        var name = TrainerNames[language];
+        if (pk.Context == EntityContext.Gen3)
+            return trainer.SequenceEqual(name);
+
+        Span<char> tmp = stackalloc char[name.Length];
+        StringConverter345.TransferGlyphs34(name, language, tmp);
+        return trainer.SequenceEqual(tmp);
     }
 
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
     {
         if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        return language != 0 && (uint)language < Nicknames.Length && nickname.SequenceEqual(pk.Context switch
-        {
-            EntityContext.Gen3 => Nicknames[language],
-            _ => StringConverter345.TransferGlyphs34(Nicknames[language], language)
-        });
+        if (language == 0 || (uint)language >= TrainerNames.Length)
+            return false;
+        var name = Nicknames[language];
+        if (pk.Context == EntityContext.Gen3)
+            return nickname.SequenceEqual(name);
+
+        Span<char> tmp = stackalloc char[name.Length];
+        StringConverter345.TransferGlyphs34(name, language, tmp);
+        return nickname.SequenceEqual(tmp);
     }
 
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
