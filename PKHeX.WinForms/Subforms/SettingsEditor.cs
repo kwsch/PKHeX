@@ -37,10 +37,7 @@ public partial class SettingsEditor : Form
 
         if (Last is not null && tabControl1.Controls[Last] is TabPage tab)
             tabControl1.SelectedTab = tab;
-        tabControl1.SelectedIndexChanged += (_, _) =>
-        {
-            Last = tabControl1.SelectedTab?.Name;
-        };
+        tabControl1.SelectedIndexChanged += (_, _) => Last = tabControl1.SelectedTab?.Name;
 
         this.CenterToForm(FindForm());
     }
