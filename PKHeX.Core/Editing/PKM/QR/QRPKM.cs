@@ -35,7 +35,7 @@ public static class QRPKM
 
         return
         [
-            string.Join(" ", header),
+            string.Join(' ', header),
             sb.ToString(),
             IVs + "   " + EVs,
         ];
