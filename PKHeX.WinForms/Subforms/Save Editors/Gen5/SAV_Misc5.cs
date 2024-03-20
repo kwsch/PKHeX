@@ -50,6 +50,7 @@ public partial class SAV_Misc5 : Form
         SaveSubway();
         SaveEntralink();
 
+        Forest.EnsureDecrypted(false);
         Origin.CopyChangesFrom(SAV);
         Close();
     }
