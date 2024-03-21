@@ -504,7 +504,7 @@ public partial class SAV_Misc3 : Form
     public void SetFameTime(uint time)
     {
         NUD_FameH.Value = Math.Min(NUD_FameH.Maximum, time >> 16);
-        NUD_FameM.Value = Math.Min(NUD_FameH.Maximum, (byte)(time >> 8));
-        NUD_FameS.Value = Math.Min(NUD_FameH.Maximum, (byte)time);
+        NUD_FameM.Value = Math.Min(NUD_FameM.Maximum, (byte)(time >> 8));
+        NUD_FameS.Value = Math.Min(NUD_FameS.Maximum, (byte)time);
     }
 }
