@@ -106,6 +106,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         {
             var span = data[ofs..];
             var id = ReadInt16LittleEndian(span[0xFF4..]);
+            if ((uint)id >= COUNT_MAIN)
+                return false; // invalid sector ID
             bitTrack |= (1 << id);
             if (id == 0)
                 sector0 = ofs;
