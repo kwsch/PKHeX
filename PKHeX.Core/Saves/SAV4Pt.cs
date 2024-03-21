@@ -61,7 +61,6 @@ public sealed class SAV4Pt : SAV4Sinnoh
     private const int OFS_VillaFurniture = 0x111F;
 
     private const int PokeDex = 0x1328;
-    public override bool HasPokeDex => true;
 
     private void GetSAVOffsets()
     {

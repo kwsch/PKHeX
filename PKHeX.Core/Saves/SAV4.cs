@@ -34,6 +34,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     protected abstract IReadOnlyList<BlockInfo4> ExtraBlocks { get; }
 
     public abstract Zukan4 Dex { get; }
+    public sealed override bool HasPokeDex => true;
 
     protected abstract int EventFlag { get; }
     protected abstract int EventWork { get; }
@@ -92,7 +93,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public sealed override int BoxCount => 18;
     public sealed override int MaxEV => EffortValues.Max255;
     public sealed override byte Generation => 4;
-    public override EntityContext Context => EntityContext.Gen4;
+    public sealed override EntityContext Context => EntityContext.Gen4;
     public int EventFlagCount => 0xB60; // 2912
     public int EventWorkCount => (EventFlag - EventWork) >> 1;
     public sealed override int MaxStringLengthOT => 7;
