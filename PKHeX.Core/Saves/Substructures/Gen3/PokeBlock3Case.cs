@@ -17,9 +17,14 @@ public sealed class PokeBlock3Case
     public byte[] Write()
     {
         byte[] result = new byte[Count*PokeBlock3.SIZE];
-        for (int i = 0; i < Blocks.Length; i++)
-            Blocks[i].SetBlock(result.AsSpan(i * PokeBlock3.SIZE));
+        Write(result);
         return result;
+    }
+
+    public void Write(Span<byte> result)
+    {
+        for (int i = 0; i < Blocks.Length; i++)
+            Blocks[i].SetBlock(result.Slice(i * PokeBlock3.SIZE, PokeBlock3.SIZE));
     }
 
     public void DeleteAll()

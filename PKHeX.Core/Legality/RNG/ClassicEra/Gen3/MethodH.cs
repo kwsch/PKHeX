@@ -202,7 +202,9 @@ public static class MethodH
         return default;
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
+    public static bool IsEncounterCheckApplicable(SlotType3 type) => type is Rock_Smash; // Fishing can use Sticky/Suction along with Friendship boost.
+
+    public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot3
     {
         if (enc.Type is Rock_Smash)

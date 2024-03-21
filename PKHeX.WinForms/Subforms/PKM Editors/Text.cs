@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -50,8 +51,16 @@ public partial class TrashEditor : Form
 
         editing = false;
         CenterToParent();
+        B_ApplyTrash.MouseHover += (_, _) =>
+        {
+            var text = GetTrashString();
+            var data = SetString(text);
+            var display = $"{text} = {Environment.NewLine}{string.Join(' ', data.Select(z => $"{z:X2}"))}";
+            Tip.Show(display, B_ApplyTrash);
+        };
     }
 
+    private readonly ToolTip Tip = new() { InitialDelay = 200, IsBalloon = false, AutoPopDelay = 32_767 };
     private readonly List<NumericUpDown> Bytes = [];
     public string FinalString;
     public byte[] FinalBytes;
@@ -151,16 +160,9 @@ public partial class TrashEditor : Form
 
     private void B_ApplyTrash_Click(object sender, EventArgs e)
     {
-        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
-        var language = WinFormsUtil.GetIndex(CB_Language);
-        var gen = (byte)NUD_Generation.Value;
-        string speciesName = SpeciesName.GetSpeciesNameGeneration(species, language, gen);
-
-        if (string.IsNullOrEmpty(speciesName)) // no result
-            speciesName = CB_Species.Text;
-
+        string text = GetTrashString();
+        byte[] data = SetString(text);
         byte[] current = SetString(TB_Text.Text);
-        byte[] data = SetString(speciesName);
         if (data.Length <= current.Length)
         {
             WinFormsUtil.Alert("Trash byte layer is hidden by current text.",
@@ -174,6 +176,18 @@ public partial class TrashEditor : Form
         }
         for (int i = current.Length; i < data.Length; i++)
             Bytes[i].Value = data[i];
+    }
+
+    private string GetTrashString()
+    {
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
+        var language = WinFormsUtil.GetIndex(CB_Language);
+        var gen = (byte)NUD_Generation.Value;
+        string text = SpeciesName.GetSpeciesNameGeneration(species, language, gen);
+
+        if (string.IsNullOrEmpty(text)) // no result
+            text = CB_Species.Text;
+        return text;
     }
 
     private void B_ClearTrash_Click(object sender, EventArgs e)

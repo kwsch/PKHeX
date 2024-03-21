@@ -58,6 +58,8 @@ namespace PKHeX.WinForms
             // CB_Species
             // 
             CB_Species.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Species.FormattingEnabled = true;
             CB_Species.Location = new System.Drawing.Point(89, 18);
             CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
