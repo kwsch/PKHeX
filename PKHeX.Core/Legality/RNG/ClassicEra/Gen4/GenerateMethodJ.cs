@@ -23,10 +23,17 @@ public static class GenerateMethodJ
         var ability = criteria.GetAbilityFromNumber(AbilityPermission.Any12);
         var (min, max) = SlotMethodJ.GetRange(enc.Type, enc.SlotNumber);
         bool randLevel = MethodJ.IsLevelRand(enc);
+        bool checkProc = MethodJ.IsEncounterCheckApplicable(enc.Type);
 
         // Generate Method J correlated PID and IVs, no lead (keep things simple).
         while (true)
         {
+            if (checkProc)
+            {
+                var check = new LeadSeed(seed, LeadRequired.None);
+                if (!MethodJ.CheckEncounterActivation(enc, ref check))
+                    continue;
+            }
             var esv = LCRNG.Next16(ref seed) / 656;
             if (esv < min || esv > max)
                 continue;
@@ -55,7 +62,10 @@ public static class GenerateMethodJ
                         : ((lv % (enc.LevelMax - enc.LevelMin + 1)) + enc.LevelMin);
                     pk.MetLevel = pk.CurrentLevel = (byte)lvl;
                 }
-                SetPIDIVSequential(pk, pid, seed);
+                pk.PID = pid;
+                var iv1 = LCRNG.Next16(ref seed);
+                var iv2 = LCRNG.Next16(ref seed);
+                pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
                 pk.Gender = gender;
                 pk.Ability = (pid & 1) == 0 ? pi.Ability1 : pi.Ability2;
                 return LCRNG.Prev4(seed);
@@ -111,14 +121,6 @@ public static class GenerateMethodJ
     }
 
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
-
-    private static void SetPIDIVSequential(PK4 pk, uint pid, uint rand)
-    {
-        pk.PID = pid;
-        var iv1 = LCRNG.Next16(ref rand);
-        var iv2 = LCRNG.Next16(ref rand);
-        pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
-    }
 
     private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
     {

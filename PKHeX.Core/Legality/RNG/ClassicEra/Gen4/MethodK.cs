@@ -90,7 +90,9 @@ public static class MethodK
         }
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
+    public static bool IsEncounterCheckApplicable(SlotType4 type) => type is Rock_Smash or BugContest || type.IsFishingRodType();
+
+    public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot4
     {
         if (enc.Type.IsFishingRodType())

@@ -24,10 +24,17 @@ public static class GenerateMethodK
         var (min, max) = SlotMethodK.GetRange(enc.Type, enc.SlotNumber);
         bool randLevel = MethodK.IsLevelRand(enc);
         var modulo = enc.Type.IsSafari() ? 10 : 100;
+        bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
 
         // Generate Method K correlated PID and IVs, no lead (keep things simple).
         while (true)
         {
+            if (checkProc)
+            {
+                var check = new LeadSeed(seed, LeadRequired.None);
+                if (!MethodK.CheckEncounterActivation(enc, ref check))
+                    continue;
+            }
             var esv = LCRNG.Next16(ref seed) % modulo;
             if (esv < min || esv > max)
                 continue;

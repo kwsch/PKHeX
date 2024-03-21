@@ -13,10 +13,17 @@ public static class GenerateMethodH
         var gr = pi.Gender;
         var ability = criteria.GetAbilityFromNumber(AbilityPermission.Any12);
         var (min, max) = SlotMethodH.GetRange(enc.Type, enc.SlotNumber);
+        bool checkProc = MethodH.IsEncounterCheckApplicable(enc.Type);
 
         // Generate Method H correlated PID and IVs, no lead (keep things simple).
         while (true)
         {
+            if (checkProc)
+            {
+                var check = new LeadSeed(seed, LeadRequired.None);
+                if (!MethodH.CheckEncounterActivation(enc, ref check))
+                    continue;
+            }
             var esv = LCRNG.Next16(ref seed) % 100;
             if (esv < min || esv > max)
                 continue;
@@ -116,6 +123,7 @@ public static class GenerateMethodH
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+            pk.RefreshAbility((int)(pid & 1));
             return true;
         }
 
@@ -142,6 +150,7 @@ public static class GenerateMethodH
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+            pk.RefreshAbility((int)(pid & 1));
             return true;
         }
 
@@ -221,6 +230,7 @@ public static class GenerateMethodH
         var iv1 = LCRNG.Next16(ref rand);
         var iv2 = LCRNG.Next16(ref rand);
         pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+        pk.RefreshAbility((int)(pid & 1));
     }
 
     private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
