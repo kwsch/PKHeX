@@ -506,7 +506,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
     private static byte CountBattleRibbons(ReadOnlySpan<byte> data)
     {
-        var bits1 = data[0x24] & 0b0111_1111u; // Battle Ribbons
+        var bits1 = data[0x24] & 0b0111_1110u; // Battle Ribbons
         var bits2 = data[0x3E] & 0b0110_0000u; // Winning & Victory Ribbons
         return (byte)BitOperations.PopCount(bits1 | (bits2 << 2));
     }
