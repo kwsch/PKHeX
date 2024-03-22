@@ -33,7 +33,10 @@ public static class GenerateMethodK
             {
                 var check = new LeadSeed(seed, LeadRequired.None);
                 if (!MethodK.CheckEncounterActivation(enc, ref check))
+                {
+                    seed = LCRNG.Next(seed);
                     continue;
+                }
             }
             var esv = LCRNG.Next16(ref seed) % modulo;
             if (esv < min || esv > max)
