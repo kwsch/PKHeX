@@ -117,6 +117,17 @@ public static class XDRNG
     }
 
     /// <summary>
+    /// Gets the previous 16 bits of the previous RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Prev16(ref uint seed)
+    {
+        seed = Prev(seed);
+        return seed >> 16;
+    }
+
+    /// <summary>
     /// Advances the RNG seed to the next state value a specified amount of times.
     /// </summary>
     /// <param name="seed">Current seed</param>

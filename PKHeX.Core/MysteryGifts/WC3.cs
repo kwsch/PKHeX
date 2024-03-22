@@ -210,6 +210,7 @@ public sealed class WC3(GameVersion Version, bool Fateful = false)
     {
         PIDType.BACD_R => seed & 0x0000FFFF, // u16
         PIDType.BACD_R_S => seed & 0x000000FF, // u8
+        PIDType.Channel => ChannelJirachi.SkipToPIDIV(seed),
         _ => seed,
     };
 
