@@ -48,6 +48,16 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             }
             if (e is not EncounterSlot3 slot)
             {
+                if (e is WC3 { TID16: 40122 } channel)
+                {
+                    var chk = ChannelJirachi.GetPossible(info.PIDIV.OriginSeed);
+                    if (chk.Pattern is not ChannelJirachiRandomResult.None)
+                        info.PIDIV = info.PIDIV.AsEncounteredVia(new(chk.Seed, LeadRequired.None));
+                    else
+                        info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+                    yield return channel;
+                    yield break;
+                }
                 yield return e;
                 continue;
             }
