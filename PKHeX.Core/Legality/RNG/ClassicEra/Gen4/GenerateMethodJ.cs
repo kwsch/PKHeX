@@ -32,7 +32,10 @@ public static class GenerateMethodJ
             {
                 var check = new LeadSeed(seed, LeadRequired.None);
                 if (!MethodJ.CheckEncounterActivation(enc, ref check))
+                {
+                    seed = LCRNG.Next(seed);
                     continue;
+                }
             }
             var esv = LCRNG.Next16(ref seed) / 656;
             if (esv < min || esv > max)

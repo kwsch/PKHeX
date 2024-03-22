@@ -22,7 +22,10 @@ public static class GenerateMethodH
             {
                 var check = new LeadSeed(seed, LeadRequired.None);
                 if (!MethodH.CheckEncounterActivation(enc, ref check))
+                {
+                    seed = LCRNG.Next(seed);
                     continue;
+                }
             }
             var esv = LCRNG.Next16(ref seed) % 100;
             if (esv < min || esv > max)
