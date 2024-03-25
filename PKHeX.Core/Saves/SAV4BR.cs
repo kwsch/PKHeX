@@ -157,14 +157,14 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
     private string GetOTName(int slot)
     {
-        var ofs = 0x390 + (0x6FF00 * slot);
+        var ofs = 0x390 + (SIZE_SLOT * slot);
         var span = Data.AsSpan(ofs, 16);
         return GetString(span);
     }
 
     private void SetOTName(int slot, ReadOnlySpan<char> name)
     {
-        var ofs = 0x390 + (0x6FF00 * slot);
+        var ofs = 0x390 + (SIZE_SLOT * slot);
         var span = Data.AsSpan(ofs, 16);
         SetString(span, name, 7, StringConverterOption.ClearZero);
     }
@@ -174,6 +174,17 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
+
+    public override uint Money
+    {
+        get => (uint)((Data[(_currentSlot * SIZE_SLOT) + 0x12861] << 16) | (Data[(_currentSlot * SIZE_SLOT) + 0x12862] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12863]);
+        set
+        {
+            Data[(_currentSlot * SIZE_SLOT) + 0x12861] = (byte)((value >> 16) & 0xFF);
+            Data[(_currentSlot * SIZE_SLOT) + 0x12862] = (byte)((value >> 8) & 0xFF);
+            Data[(_currentSlot * SIZE_SLOT) + 0x12863] = (byte)(value & 0xFF);
+        }
+    }
 
     public override ushort TID16
     {

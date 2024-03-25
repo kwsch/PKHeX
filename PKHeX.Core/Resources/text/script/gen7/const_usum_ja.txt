@@ -1,16 +1,16 @@
-148	*	最初のポケモン	00:モクロー,01:ニャビー,02:アシマリ
+148	*	御三家	00:モクロー,01:ニャビー,02:アシマリ
 432	r	カプ・コケコ	03:戦闘前,04:戦闘済み,05:捕獲済み
 433	r	カプ・テテフ	01:戦闘前,02:戦闘済み,03:捕獲済み
 434	r	カプ・ブルル	01:戦闘前,02:戦闘済み,03:捕獲済み
 404	r	カプ・レヒレ	03:戦闘前,04:戦闘済み,05:捕獲済み
 755	r	ジガルデ	01:戦闘前,02:戦闘済み,05:捕獲済み
 867	r	ぬしポケモン	00:受け取り前,01:1匹目 受け取り済み,02:2匹目 受け取り済み,03:3匹目 受け取り済み,04:4匹目 受け取り済み,05:5匹目 受け取り済み,06:全て受け取り済み
-084	s	Pikachu Seen in Pikachu Valley
-078	+	Total Title Defenses
-083	+	Total Important NPC Battles
-750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
-756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
-769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
-783	s	Hano Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
-784	r	Haunted Trainers' School Diary	0:Normal,5:Cursed (Drifloon Appeared)
-790	r	Haunted Trainers' School Gastly	6:Battleable,7:Battled
+084	s	ピカチュウのたにで出会ったピカチュウ
+078	+	チャンピオン防衛した累計
+083	+	重要なNPCとの対戦数
+750	s	ファンイベント（ポケモンリーグ）	0:０回防衛,1:１回防衛した後(ハートスイーツ２個もらえる),2:２回防衛した後(ハートスイーツ２個受け取り済み)
+756	s	スリーパーイベント(ハウリオこうばんイベント)	0:未発生,1:発生,2:完了
+769	s	メタモン５イベント	0:化けた警官出現,1:化けた警官対戦済み(報酬受け取り前),2:化けたかんぽうやく売り出現,3:化けたかんぽうやく売り出現戦闘済み(報酬受け取り前),4:化けたシェフ出現,5:化けたシェフ戦闘済み(報酬受け取り前),6:化けたロミロミマッサージ師出現,7:化けたロミロミマッサージ師戦闘済み(報酬受け取り前),8:化けたライチ出現,9:化けたライチ戦闘済み(報酬受け取り前),10:完了
+783	s	ビッグウェーブビーチの男の子イベント	0:七不思議イベント開始前,1:七不思議イベント開始後,2:すごいキズぐすりをもらえる(七不思議イベント完了),3:すごいキズぐすりイベントもらった後
+784	r	トレーナーズスクールの日記	0:通常,5:フワンテが出現
+790	r	トレーナーズスクールのゴース	6:戦闘可能,7:戦闘後

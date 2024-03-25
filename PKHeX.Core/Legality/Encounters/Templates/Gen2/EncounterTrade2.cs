@@ -12,7 +12,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     public EntityContext Context => EntityContext.Gen2;
     public ushort Location => Locations.LinkTrade2NPC;
     public GameVersion Version => GameVersion.GSC;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
@@ -132,53 +132,41 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         return true;
     }
 
-    private bool IsTrainerNicknameCorrect(PKM pk)
+    // Italian and English share the same OT name for Spearow, but different nicknames.
+
+    private static int DetectOriginalLanguage(ReadOnlySpan<char> text, ReadOnlySpan<string> all)
     {
-        var indexOT = GetIndexTrainer(pk.OriginalTrainerName, pk);
-        if (indexOT == -1)
-            return false;
-        if (pk.Nickname != Nicknames[indexOT])
-            return false;
-        return true;
-    }
-
-    private int GetIndexTrainer(ReadOnlySpan<char> OT, PKM pk)
-    {
-        if (pk.Japanese)
-            return OT.SequenceEqual(TrainerNames[1]) ? 1 : -1;
-        if (pk.Korean)
-            return OT.SequenceEqual(TrainerNames[(int)LanguageID.Korean]) ? 2 : -1;
-
-        var lang = GetInternationalLanguageID(OT);
-        if (pk.Format < 7)
-            return lang;
-
-        if (lang is not (-1 or (int)LanguageID.Spanish))
-            return lang;
-        return SanityCheckTrainerNameIndex(pk, OT, lang);
-    }
-
-    private int SanityCheckTrainerNameIndex(ILangNick pk, ReadOnlySpan<char> OT, int lang) => Species switch
-    {
-        // Can't transfer verbatim with Spanish origin glyphs to French VC.
-        (int)Voltorb when pk.Language == (int)LanguageID.French && OT is "FALCçN" => (int)LanguageID.Spanish, // FALCÁN
-        (int)Shuckle when pk.Language == (int)LanguageID.French && OT is "MANôA"  => (int)LanguageID.Spanish, // MANÍA
-        _ => lang,
-    };
-
-    private int GetInternationalLanguageID(ReadOnlySpan<char> OT)
-    {
-        const int start = (int)LanguageID.English;
-        const int end = (int)LanguageID.Spanish;
-
-        var tr = TrainerNames;
-        for (int i = start; i <= end; i++)
+        for (int i = 1; i < all.Length; i++)
         {
-            if (OT.SequenceEqual(tr[i]))
+            if (text.SequenceEqual(all[i]))
                 return i;
         }
         return -1;
     }
+
+    private bool IsTrainerNicknameCorrect(PKM pk)
+    {
+        var language = DetectOriginalLanguage(pk.Nickname, Nicknames);
+        if (language == -1)
+            return false;
+
+        if ((language == (int)LanguageID.Japanese) != pk.Japanese)
+            return false;
+        if ((language == (int)LanguageID.Korean) != pk.Korean)
+            return false;
+
+        ReadOnlySpan<char> ot = pk.OriginalTrainerName;
+        var expect = pk.Format < 7 ? TrainerNames[language] : GetExpectedOT(Species, language, pk.Language);
+        return ot.SequenceEqual(expect);
+    }
+
+    private string GetExpectedOT(ushort species, int language, int pkLanguage) => species switch
+    {
+        // Can't transfer verbatim with Spanish origin glyphs to French VC.
+        (int)Voltorb when language == (int)LanguageID.Spanish && pkLanguage == (int)LanguageID.French => "FALCçN", // FALCÁN
+        (int)Shuckle when language == (int)LanguageID.Spanish && pkLanguage == (int)LanguageID.French => "MANôA", // MANÍA
+        _ => TrainerNames[language],
+    };
 
     // Already required for encounter matching.
     public EncounterMatchRating GetMatchRating(PKM pk)
@@ -188,14 +176,39 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         return EncounterMatchRating.Match;
     }
 
-    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => GetIndexTrainer(trainer, pk) != -1;
-
-    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int _)
     {
-        var index = GetIndexTrainer(pk.OriginalTrainerName, pk);
-        if (index == -1)
+        var language = DetectOriginalLanguage(pk.Nickname, Nicknames);
+        if (language == -1)
+        {
+            // Be generous and check the trainer name as well. The Nickname will be flagged as incorrect via a separate check.
+            if (DetectOriginalLanguage(trainer, TrainerNames) == -1)
+                return false;
+        }
+
+        if ((language == (int)LanguageID.Japanese) != pk.Japanese)
             return false;
-        return nickname.SequenceEqual(Nicknames[index]);
+        if ((language == (int)LanguageID.Korean) != pk.Korean)
+            return false;
+
+        ReadOnlySpan<char> ot = pk.OriginalTrainerName;
+        var expect = pk.Format < 7 ? TrainerNames[language] : GetExpectedOT(Species, language, pk.Language);
+        return ot.SequenceEqual(expect);
+    }
+
+    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int _)
+    {
+        var language = DetectOriginalLanguage(nickname, Nicknames);
+        if (language == -1)
+            return false;
+
+        if ((language == (int)LanguageID.Japanese) != pk.Japanese)
+            return false;
+        if ((language == (int)LanguageID.Korean) != pk.Korean)
+            return false;
+
+        // Nickname matches an expected nickname via the first called method.
+        return true;
     }
 
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];

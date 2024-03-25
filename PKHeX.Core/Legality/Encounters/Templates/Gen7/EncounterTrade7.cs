@@ -15,7 +15,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
     public byte OriginalTrainerMemoryFeeling => 5;
     public ushort OriginalTrainerMemoryVariable => 40;
     public Shiny Shiny => Shiny.Never;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public ushort EggLocation => 0;

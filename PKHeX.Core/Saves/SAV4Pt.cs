@@ -50,7 +50,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     protected override int EventWork => 0xDAC;
     protected override int EventFlag => 0xFEC;
-    private const int OffsetMystery = 0xB5C0;
+    private const int OffsetMystery = 0xB4C0;
     protected override int DaycareOffset => 0x1654;
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Arcade;
 
@@ -61,7 +61,6 @@ public sealed class SAV4Pt : SAV4Sinnoh
     private const int OFS_VillaFurniture = 0x111F;
 
     private const int PokeDex = 0x1328;
-    public override bool HasPokeDex => true;
 
     private void GetSAVOffsets()
     {

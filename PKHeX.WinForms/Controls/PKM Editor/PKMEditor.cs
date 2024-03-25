@@ -395,7 +395,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UC_OTGender.Gender = (byte)(tr.Gender & 1);
         TID_Trainer.LoadInfo(tr);
 
-        if (tr.Version != 0)
+        if (tr.Version.IsValidSavedVersion())
             CB_GameOrigin.SelectedValue = (int)tr.Version;
 
         var lang = tr.Language;

@@ -10,7 +10,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
 {
     public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;

@@ -11,7 +11,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public byte Generation => 4;
     ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen4;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => GetRequiredBallValue();
     public Shiny Shiny => Shiny.Random;
@@ -84,21 +84,20 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        var lvl = new SingleLevelRange(LevelMin);
         bool hgss = pk.HGSS;
-        int ctr = 0;
-        do
+        uint seed;
+        if (hgss)
         {
-            var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-            if (!LeadFinder.TryGetLeadInfo4(this, lvl, hgss, seed, 4, out _))
-                continue;
-            if (Species == (int)Core.Species.Unown)
-                pk.Form = GetUnownForm(seed, hgss);
-            break;
-        } while (ctr++ < 10_000);
+            if (!criteria.IsSpecifiedIVs() || !this.SetFromIVsK(pk, pi, criteria, out seed))
+                seed = this.SetRandomK(pk, pi, criteria, Util.Rand32());
+        }
+        else
+        {
+            if (!criteria.IsSpecifiedIVs() || !this.SetFromIVsJ(pk, pi, criteria, out seed))
+                seed = this.SetRandomJ(pk, pi, criteria, Util.Rand32());
+        }
+        if (Species == (int)Core.Species.Unown)
+            pk.Form = GetUnownForm(seed, hgss);
     }
 
     /// <summary>

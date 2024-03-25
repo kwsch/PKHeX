@@ -97,7 +97,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         switch (memory)
         {
             case 1 when !IsWildEncounter(pk, enc):
-            case 2 when !enc.EggEncounter:
+            case 2 when !enc.IsEgg:
             case 3 when !IsWildEncounterMeet(pk, enc):
                 return true;
         }

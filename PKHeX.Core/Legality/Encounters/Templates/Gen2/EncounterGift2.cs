@@ -20,7 +20,7 @@ public sealed record EncounterGift2
     public ushort EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
-    public bool EggEncounter => EggCycles != 0;
+    public bool IsEgg => EggCycles != 0;
 
     public Moveset Moves { get; }
     public IndividualValueSet IVs => default; // future?
@@ -127,7 +127,7 @@ public sealed record EncounterGift2
             },
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched on G/S.
         }
@@ -206,7 +206,7 @@ public sealed record EncounterGift2
         if (!IsShinyValid(pk))
             return false;
 
-        if (EggEncounter && !pk.IsEgg)
+        if (IsEgg && !pk.IsEgg)
             return true;
 
         // Check OT Details
@@ -260,7 +260,7 @@ public sealed record EncounterGift2
 
         if (pk.IsEgg)
         {
-            if (!EggEncounter)
+            if (!IsEgg)
                 return false;
             if (c2.MetLocation != 0 && c2.MetLevel != 0)
                 return false;
@@ -287,7 +287,7 @@ public sealed record EncounterGift2
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
         if (pk is not ICaughtData2 c2)
             return true;
@@ -314,7 +314,7 @@ public sealed record EncounterGift2
         if (evo.LevelMax < Level)
             return false;
         if (pk is ICaughtData2 { CaughtData: not 0 })
-            return pk.MetLevel == (EggEncounter ? 1 : Level);
+            return pk.MetLevel == (IsEgg ? 1 : Level);
         return true;
     }
 

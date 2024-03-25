@@ -90,7 +90,9 @@ public static class MethodK
         }
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
+    public static bool IsEncounterCheckApplicable(SlotType4 type) => type is Rock_Smash or BugContest || type.IsFishingRodType();
+
+    public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot4
     {
         if (enc.Type.IsFishingRodType())
@@ -243,8 +245,12 @@ public static class MethodK
         }
     }
 
+    /// <summary>
+    /// Checks if any IV component value is 31.
+    /// </summary>
+    /// <remarks>BCC re-rolls 3x if none are 31.</remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsAny31(uint iv16)
+    public static bool IsAny31(uint iv16)
            => IsLow5Bits31(iv16)
            || IsLow5Bits31(iv16 >> 5)
            || IsLow5Bits31(iv16 >> 10);
@@ -336,7 +342,7 @@ public static class MethodK
         result = default; return false;
     }
 
-    private static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandHGSS();
+    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandHGSS();
 
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4

@@ -139,6 +139,9 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
             3 => Trainer4,
             _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
         };
+
+        var state = IsDecrypted;
+        Decrypt();
         int count = span[2];
         if (count > 6)
             count = 6;
@@ -151,6 +154,7 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
             InflateToPK5(segment, entity.Data);
             result[i] = entity;
         }
+        SetDecryptedState(state);
         return result;
     }
 
@@ -159,7 +163,7 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     {
         VerifySpanSizes(entity, video);
 
-        video[..6].CopyTo(entity[..6]); // PID & Sanity -- skip checksum.
+        video[..4].CopyTo(entity[..6]); // PID & Sanity -- skip checksum.
         video[6..0xA].CopyTo(entity[8..0xC]); // Species & Held Item
         // 10,11 unused alignment
         video[0xC..0x16].CopyTo(entity[0xC..0x16]); // OTID, Experience, Friendship, Ability
@@ -173,6 +177,8 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
         video[0x32..0x48].CopyTo(entity[0x48..0x5E]); // Nickname (0x16)
         // Skip Version and Ribbons
         video[0x48..0x58].CopyTo(entity[0x68..0x78]); // OT Name (0x10)
+        entity[0x41] = (byte)(video[4] >> 3);
+        // other bits are likely flags (N sparkle / pokestar?)
 
         // Ball
         entity[0x83] = video[0x58];
@@ -207,6 +213,8 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
         entity[0x48..0x5E].CopyTo(video[0x32..0x48]); // Nickname (0x16)
         // Skip Version and Ribbons
         entity[0x68..0x78].CopyTo(video[0x48..0x58]); // OT Name (0x10)
+        video[4] |= (byte)(entity[0x41] << 3);
+        // other bits are likely flags (N sparkle / pokestar?)
 
         // Ball
         video[0x58] = entity[0x83];

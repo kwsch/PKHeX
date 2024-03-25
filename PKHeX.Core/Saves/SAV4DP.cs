@@ -23,7 +23,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
-    private const int OffsetMystery = 0xA7FC;
+    private const int OffsetMystery = 0xA6D0;
     private const int PokeDex = 0x12DC;
     public override Zukan4 Dex { get; }
     public override MysteryBlock4DP Mystery { get; }

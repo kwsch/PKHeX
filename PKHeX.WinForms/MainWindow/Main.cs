@@ -736,7 +736,7 @@ public partial class Main : Form
             case GCMemoryCardState.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
             default:
-                WinFormsUtil.Error(!SaveUtil.IsSizeValid(memCard.Data.Length) ? MsgFileGameCubeBad : MsgFileLoadSaveLoadFail, path);
+                WinFormsUtil.Error(!SaveUtil.IsSizeValid(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
                 return false;
         }
         return true;
@@ -916,8 +916,7 @@ public partial class Main : Form
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
             {
-                GameVersion[] g = [GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG];
-                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                var games = GetGameList([GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG]);
                 var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                 dialog.ShowDialog();
@@ -941,8 +940,7 @@ public partial class Main : Form
                 string fr = GameInfo.GetVersionName(GameVersion.FR);
                 string lg = GameInfo.GetVersionName(GameVersion.LG);
                 string dual = "{1}/{2} " + MsgFileLoadVersionDetect;
-                GameVersion[] g = [GameVersion.FR, GameVersion.LG];
-                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                var games = GetGameList([GameVersion.FR, GameVersion.LG]);
                 var msg = string.Format(dual, "3", fr, lg);
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                 dialog.ShowDialog();
@@ -953,6 +951,17 @@ public partial class Main : Form
         }
 
         return true;
+
+        static ComboItem[] GetGameList(ReadOnlySpan<GameVersion> g)
+        {
+            var result = new ComboItem[g.Length];
+            for (int i = 0; i < g.Length; i++)
+            {
+                int id = (int)g[i];
+                result[i] = GameInfo.VersionDataSource.First(v => v.Value == id);
+            }
+            return result;
+        }
     }
 
     public static void SetCountrySubRegion(ComboBox CB, string type)

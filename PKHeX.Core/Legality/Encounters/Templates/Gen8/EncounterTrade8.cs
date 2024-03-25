@@ -21,7 +21,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
     public byte FlawlessIVCount { get; init; }
     public Shiny Shiny { get; }
 
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public ushort EggLocation => 0;

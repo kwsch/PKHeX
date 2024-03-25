@@ -380,6 +380,7 @@ public sealed class PK4 : G4PKM
     {
         Span<char> temp = stackalloc char[13];
         var len = StringConverter4.LoadString(src, temp);
+        StringConverter345.TransferGlyphs45(temp[..len]);
         StringConverter5.SetString(dest, temp[..len], len);
     }
 }

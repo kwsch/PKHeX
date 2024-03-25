@@ -108,8 +108,8 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
     {
         if (result.Ball is >= (int)Ball.LAPoke and <= (int)Ball.LAOrigin)
             return;
-        if (enc is IFixedBall { FixedBall: not Ball.None } f)
-            result.Ball = (byte)f.FixedBall;
+        if (enc is { FixedBall: not Ball.None })
+            result.Ball = (byte)enc.FixedBall;
         else
             result.Ball = result.Species == (int)Species.Unown ? (byte)Ball.LAJet : (byte)Ball.LAPoke;
     }
@@ -131,7 +131,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         if (enc is EncounterInvalid)
             return;
 
-        if (enc is { EggEncounter: true })
+        if (enc is { IsEgg: true })
         {
             result.MetLocation = Locations.HatchLocation8b;
             result.EggLocation = Locations.LinkTrade6NPC;
@@ -154,7 +154,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         if (enc is EncounterInvalid)
             return;
 
-        if (enc is { EggEncounter: true })
+        if (enc is { IsEgg: true })
         {
             result.MetLocation = Locations.HatchLocation9;
             result.EggLocation = Locations.LinkTrade6NPC;

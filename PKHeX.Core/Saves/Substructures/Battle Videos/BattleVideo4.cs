@@ -127,6 +127,9 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
             3 => Trainer4,
             _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
         };
+
+        var state = IsDecrypted;
+        Decrypt();
         int count = span[2];
         if (count > 6)
             count = 6;
@@ -139,6 +142,7 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
             InflateToPK4(segment, entity.Data);
             result[i] = entity;
         }
+        SetDecryptedState(state);
         return result;
     }
 

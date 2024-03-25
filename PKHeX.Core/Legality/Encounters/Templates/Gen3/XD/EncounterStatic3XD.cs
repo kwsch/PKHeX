@@ -21,7 +21,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     public required byte Location { get; init; }
     public byte Form => 0;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Moveset Moves { get; init; }
 
     public string Name => "Static Encounter";

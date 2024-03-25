@@ -15,7 +15,7 @@ public sealed record EncounterOutbreak9
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
     public Shiny Shiny => IsShiny ? Shiny.Always : Shiny.Random;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public ushort EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12;
@@ -217,7 +217,14 @@ public sealed record EncounterOutbreak9
             }
             else if (Ability.IsSingleValue(out int index) && 1 << index != num) // Fixed regular ability
             {
-                if (Ability is AbilityPermission.OnlyFirst or AbilityPermission.OnlySecond && !AbilityVerifier.CanAbilityCapsule(9, PersonalTable.SV.GetFormEntry(Species, Form)))
+                var a = Ability;
+                if (a is AbilityPermission.OnlyHidden)
+                {
+                    if (!AbilityVerifier.CanAbilityPatch(9, PersonalTable.SV.GetFormEntry(Species, Form), pk.Species))
+                        return EncounterMatchRating.DeferredErrors;
+                    a = num == 1 ? AbilityPermission.OnlyFirst : AbilityPermission.OnlySecond;
+                }
+                if (a is AbilityPermission.OnlyFirst or AbilityPermission.OnlySecond && !AbilityVerifier.CanAbilityCapsule(9, PersonalTable.SV.GetFormEntry(Species, Form)))
                     return EncounterMatchRating.DeferredErrors;
             }
         }

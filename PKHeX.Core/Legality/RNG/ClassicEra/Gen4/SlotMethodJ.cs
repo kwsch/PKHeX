@@ -26,6 +26,17 @@ public static class SlotMethodJ
     }
 
     /// <summary>
+    /// Gets the range that a given slot number is allowed to roll for a specific <see cref="SlotType4"/>.
+    /// </summary>
+    public static (byte Min, byte Max) GetRange(SlotType4 type, byte slotNumber) => type switch
+    {
+        Old_Rod or Surf => GetRangeSurf(slotNumber),
+        Good_Rod or Super_Rod => GetRangeSuperRod(slotNumber),
+        HoneyTree => (0, 99), // Fake
+        _ => GetRangeGrass(slotNumber),
+    };
+
+    /// <summary>
     /// Calculates the encounter slot index based on the roll for a Gen4 Wild encounter.
     /// </summary>
     /// <param name="roll">[0,100)</param>
@@ -53,5 +64,29 @@ public static class SlotMethodJ
         < 99 => 3, // 95,98 ( 4%)
           99 => 4, //    99 ( 1%)
            _ => Invalid,
+    };
+
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Grass"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeGrass(byte slotNumber) => SlotMethodH.GetRangeGrass(slotNumber);
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Surf"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeSurf(byte slotNumber) => SlotMethodH.GetRangeSurf(slotNumber);
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Super_Rod"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeSuperRod(byte slotNumber) => slotNumber switch
+    {
+        0 => (00, 39), // (40%)
+        1 => (40, 79), // (40%)
+        2 => (80, 94), // (15%)
+        3 => (95, 98), // ( 4%)
+        4 => (99, 99), // ( 1%)
+        _ => (Invalid, Invalid),
     };
 }

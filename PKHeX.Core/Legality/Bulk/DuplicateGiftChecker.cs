@@ -21,7 +21,7 @@ public sealed class DuplicateGiftChecker : IBulkAnalyzer
 
         var dupes = combined.Where(z =>
                 z.Analysis.Info.Generation >= 3
-                && z.Analysis.EncounterMatch is MysteryGift { EggEncounter: true } && !z.Slot.Entity.WasTradedEgg)
+                && z.Analysis.EncounterMatch is MysteryGift { IsEgg: true } && !z.Slot.Entity.WasTradedEgg)
             .GroupBy(z => ((MysteryGift)z.Analysis.EncounterMatch).CardTitle);
 
         foreach (var dupe in dupes)

@@ -10,7 +10,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
     public string Name => "Egg";
     public string LongName => "Egg";
 
-    public bool EggEncounter => true;
+    public bool IsEgg => true;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public bool IsShiny => false;

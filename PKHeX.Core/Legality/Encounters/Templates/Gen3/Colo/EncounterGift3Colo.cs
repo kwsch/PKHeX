@@ -15,7 +15,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.Never;
     public byte Form => 0;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => Ball.Poke;
     public bool IsFixedTrainer => true;

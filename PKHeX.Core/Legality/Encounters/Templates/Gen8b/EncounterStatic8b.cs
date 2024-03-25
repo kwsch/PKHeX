@@ -13,7 +13,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
     public EntityContext Context => EntityContext.Gen8b;
     ushort ILocation.EggLocation => EggLocation;
     ushort ILocation.Location => Location;
-    public bool EggEncounter => EggLocation != None;
+    public bool IsEgg => EggLocation != None;
     private const ushort None = Locations.Default8bNone;
     public byte Form => 0;
     public bool IsShiny => Shiny == Shiny.Always;
@@ -84,7 +84,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
             pk.MetLocation = Locations.HatchLocation8b;
@@ -149,7 +149,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
     private bool IsMatchLocationExact(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return !pk.IsEgg || pk.MetLocation == Location || pk.MetLocation == Locations.LinkTrade6NPC;
         if (!Roaming)
             return pk.MetLocation == Location;
@@ -159,7 +159,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
     private bool IsMatchEggLocationExact(PKM pk)
     {
         var eggLoc = pk.EggLocation;
-        if (!EggEncounter)
+        if (!IsEgg)
             return eggLoc == EggLocation;
 
         if (!pk.IsEgg) // hatched
@@ -195,7 +195,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
     private bool IsMatchEggLocationRemapped(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
             return pk.EggLocation == 0;
         return LocationsHOME.IsLocationSWSHEgg(pk.Version, pk.MetLocation, pk.EggLocation, EggLocation);
     }

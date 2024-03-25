@@ -13,7 +13,7 @@ public sealed record EncounterTrade4PID
     public Shiny Shiny => Shiny.FixedValue;
     public bool IsFixedNickname => true;
     public GameVersion Version { get; }
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;

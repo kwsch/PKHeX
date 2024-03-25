@@ -274,9 +274,9 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
     /// <param name="e">Args</param>
     /// <param name="badDest">Destination slot disallows eggs/blanks</param>
     /// <returns>True if loaded</returns>
-    private bool TryLoadFiles(IReadOnlyList<string> files, DragEventArgs e, bool badDest)
+    private bool TryLoadFiles(ReadOnlySpan<string> files, DragEventArgs e, bool badDest)
     {
-        if (files.Count == 0)
+        if (files.Length == 0)
             return false;
 
         var sav = Drag.Info.Destination!.View.SAV;

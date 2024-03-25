@@ -5,11 +5,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
 /// </summary>
-public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, IPersonalInfoTutorType
+public sealed class PersonalInfo2(Memory<byte> Raw) : PersonalInfo, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x20;
 
-    public override byte[] Write() => Data;
+    private Span<byte> Data => Raw.Span;
+    public override byte[] Write() => Raw.ToArray();
 
     public int DEX_ID { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int HP { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -69,7 +70,7 @@ public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, 
 
     public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<byte> moves)
     {
-        var span = Data.AsSpan(TMHM, ByteCountTM);
+        var span = Data.Slice(TMHM, ByteCountTM);
         if (result.Length <= Legal.MaxMoveID_1 + 1)
         {
             for (int index = CountTMHM - 1; index >= 0; index--)
@@ -112,7 +113,7 @@ public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, 
 
     public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<byte> moves)
     {
-        var span = Data.AsSpan(TMHM, ByteCountTM);
+        var span = Data.Slice(TMHM, ByteCountTM);
         for (int index = TutorTypeCount - 1; index >= 0; index--)
         {
             var i = index + CountTMHM;

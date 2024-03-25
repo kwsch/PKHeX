@@ -11,7 +11,7 @@ public sealed record EncounterStatic6(GameVersion Version)
     ushort ILocation.Location => Location;
     ushort ILocation.EggLocation => EggLocation;
     public bool IsShiny => false;
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     public Ball FixedBall { get; init; }
     public bool FatefulEncounter { get; init; }
 
@@ -77,7 +77,7 @@ public sealed record EncounterStatic6(GameVersion Version)
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
             pk.MetLocation = version is GameVersion.X or GameVersion.Y ? Locations.HatchLocation6XY : Locations.HatchLocation6AO;
@@ -169,7 +169,7 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
         var met = pk.MetLocation;
         if (met == Location)
@@ -184,7 +184,7 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
             return pk.EggLocation == expect;

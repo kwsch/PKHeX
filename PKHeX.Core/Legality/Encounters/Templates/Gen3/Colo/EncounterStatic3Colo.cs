@@ -14,7 +14,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.Never;
     public byte Form => 0;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
 
     public AbilityPermission Ability => AbilityPermission.Any12;
 

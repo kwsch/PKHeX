@@ -72,6 +72,13 @@ public static class MysteryUtil
                     result.Add($"Bean ID: {w7bean.Bean}");
                     result.Add($"Quantity: {w7bean.Quantity}");
                     break;
+                case PCD pcd:
+                    result.Add($"{pcd.GiftType}");
+                    result.Add($"Collected: {pcd.GiftUsed}");
+                    break;
+                case PGT pgt:
+                    result.Add($"{pgt.GiftType}");
+                    break;
                 default:
                     result.Add(MsgMysteryGiftParseTypeUnknown);
                     break;

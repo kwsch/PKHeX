@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -14,7 +13,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 {
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => Species == (ushort)Core.Species.Haunter ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
@@ -81,9 +80,9 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 
     private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);
 
-    private static int GetIndex(ReadOnlySpan<char> name, IReadOnlyList<string> arr)
+    private static int GetIndex(ReadOnlySpan<char> name, ReadOnlySpan<string> arr)
     {
-        for (int i = 0; i < arr.Count; i++)
+        for (int i = 0; i < arr.Length; i++)
         {
             if (name.SequenceEqual(arr[i]))
                 return i;

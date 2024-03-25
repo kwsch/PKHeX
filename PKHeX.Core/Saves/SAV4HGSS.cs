@@ -53,7 +53,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         GetSAVOffsets();
     }
 
-    private const int OffsetMystery = 0x9E3C;
+    private const int OffsetMystery = 0x9D3C; // Flags and Gifts
     protected override int EventWork => 0xDE4;
     protected override int EventFlag => 0x10C4;
     protected override int DaycareOffset => 0x15FC;

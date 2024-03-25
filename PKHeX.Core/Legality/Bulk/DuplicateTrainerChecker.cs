@@ -93,9 +93,9 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
 
         // Gen3/4 traded eggs do not have an Egg Location, and do not update the Version upon hatch.
         // These eggs can obtain another trainer's TID16/SID16/OT and be valid with a different version ID.
-        if (pa.EncounterMatch.EggEncounter && IsTradedEggVersionNoUpdate(pp, pa))
+        if (pa.EncounterMatch.IsEgg && IsTradedEggVersionNoUpdate(pp, pa))
             return false; // version doesn't update on trade
-        if (ca.EncounterMatch.EggEncounter && IsTradedEggVersionNoUpdate(cp, ca))
+        if (ca.EncounterMatch.IsEgg && IsTradedEggVersionNoUpdate(cp, ca))
             return false; // version doesn't update on trade
 
         static bool IsTradedEggVersionNoUpdate(PKM pk, LegalityAnalysis la) => la.Info.Generation switch

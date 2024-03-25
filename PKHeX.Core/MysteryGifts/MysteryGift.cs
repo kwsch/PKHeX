@@ -164,12 +164,11 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public abstract byte Ball { get; set; }
-    public virtual bool EggEncounter => IsEgg;
     public abstract ushort EggLocation { get; set; }
 
     protected virtual bool IsMatchEggLocation(PKM pk)
     {
-        var expect = EggEncounter ? EggLocation : pk is PB8 ? Locations.Default8bNone : 0;
+        var expect = IsEgg ? EggLocation : pk is PB8 ? Locations.Default8bNone : 0;
         return pk.EggLocation == expect;
     }
 

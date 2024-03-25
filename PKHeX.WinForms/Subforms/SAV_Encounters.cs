@@ -188,7 +188,7 @@ public partial class SAV_Encounters : Form
         var set = new ShowdownSet(editor);
         var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
         if (!isInChain)
-            criteria = criteria with { Gender = FixedGenderUtil.GenderRandom }; // Genderless tabs and a gendered enc -> let's play safe.
+            criteria = criteria with { Gender = default }; // Genderless tabs and a gendered enc -> let's play safe.
         return criteria;
     }
 
@@ -253,7 +253,7 @@ public partial class SAV_Encounters : Form
         var species = settings.Species == 0 ? GetFullRange(SAV.MaxSpeciesID) : [settings.Species];
         var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk, token);
         if (settings.SearchEgg != null)
-            results = results.Where(z => z.EggEncounter == settings.SearchEgg);
+            results = results.Where(z => z.IsEgg == settings.SearchEgg);
         if (settings.SearchShiny != null)
             results = results.Where(z => z.IsShiny == settings.SearchShiny);
 

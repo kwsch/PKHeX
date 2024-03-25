@@ -11,7 +11,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Never;
     public bool IsShiny => false;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public ushort Location => 075;
     public string Name => $"Entree Forest Encounter ({Version})";

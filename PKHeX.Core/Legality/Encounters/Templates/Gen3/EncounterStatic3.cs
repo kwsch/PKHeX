@@ -22,7 +22,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
     public required byte Location { get; init; }
     public byte Form { get; init; }
-    public bool EggEncounter { get; init; }
+    public bool IsEgg { get; init; }
     public Moveset Moves { get; init; }
 
     public string Name => "Static Encounter";
@@ -59,7 +59,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
             pk.MetLevel = EggStateLegality.EggMetLevel34;
@@ -140,7 +140,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     {
         if (pk.Format != 3) // Met Level lost on PK3=>PK4
             return evo.LevelMax >= Level;
-        if (!EggEncounter)
+        if (!IsEgg)
             return pk.MetLevel == Level;
         return pk is { MetLevel: EggStateLegality.EggMetLevel34, CurrentLevel: >= 5 }; // met level 0, origin level 5
     }
@@ -150,7 +150,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (pk.Format != 3)
             return true; // transfer location verified later
 
-        if (EggEncounter)
+        if (IsEgg)
             return !pk.IsEgg || pk.MetLocation == Location;
 
         var met = pk.MetLocation;

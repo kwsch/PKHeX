@@ -12,7 +12,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public byte Generation => 3;
     ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen3;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => GetRequiredBall();
     public byte AreaRate => Parent.Rate;
 
@@ -68,32 +68,17 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
     private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        var lvl = new SingleLevelRange(LevelMin);
-        int ctr = 0;
-
-        if (Species == (int)Core.Species.Unown)
+        if (Species != (int)Core.Species.Unown)
         {
-            do
-            {
-                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1_Unown);
-                var lead = MethodH.GetSeed(this, seed, lvl, false, 2, 3);
-                if (pk.Form != Form && lead.IsValid())
-                    return;
-                ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-            } while (ctr++ < 10_000);
+            if (criteria.IsSpecifiedIVs() && this.SetFromIVs(pk, criteria))
+                return;
+            this.SetRandom(pk, pi, criteria, Util.Rand32());
         }
         else
         {
-            do
-            {
-                var seed = PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, Method_1);
-                var result = MethodH.GetSeed(this, seed, lvl, pk.E, pk.Gender, 3);
-                if (result.IsValid())
-                    return;
-            } while (ctr++ < 10_000);
+            if (criteria.IsSpecifiedIVs() && this.SetFromIVsUnown(pk, criteria))
+                return;
+            this.SetRandomUnown(pk, criteria);
         }
     }
 
