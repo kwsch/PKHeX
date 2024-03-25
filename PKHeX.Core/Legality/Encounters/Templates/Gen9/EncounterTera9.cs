@@ -17,7 +17,7 @@ public sealed record EncounterTera9
     public const ushort Location = Locations.TeraCavern9;
     public bool IsDistribution => Index != 0;
     public Ball FixedBall => Ball.None;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public bool IsShiny => Shiny == Shiny.Always;
     public ushort EggLocation => 0;
 

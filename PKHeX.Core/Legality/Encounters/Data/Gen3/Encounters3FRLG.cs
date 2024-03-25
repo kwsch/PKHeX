@@ -42,7 +42,7 @@ internal static class Encounters3FRLG
         new(129, 05, FRLG) { FixedBall = Ball.Poke, Location = 099 }, // Magikarp @ Route 4
         new(131, 25, FRLG) { FixedBall = Ball.Poke, Location = 134 }, // Lapras @ Silph Co.
         new(133, 25, FRLG) { FixedBall = Ball.Poke, Location = 094 }, // Eevee @ Celadon City
-        new(175, 05, FRLG) { FixedBall = Ball.Poke, Location = 253, EggEncounter = true, Moves = new(045,204,118) }, // Togepi Egg
+        new(175, 05, FRLG) { FixedBall = Ball.Poke, Location = 253, IsEgg = true, Moves = new(045,204,118) }, // Togepi Egg
 
         // Stationary
         new(143, 30, FRLG) { Location = 112 }, // Snorlax @ Route 12

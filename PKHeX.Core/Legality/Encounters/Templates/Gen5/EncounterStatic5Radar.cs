@@ -13,7 +13,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
     public Ball FixedBall => Ball.Dream;
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.Never;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public byte LevelMin => 5;
     public byte LevelMax => 40;

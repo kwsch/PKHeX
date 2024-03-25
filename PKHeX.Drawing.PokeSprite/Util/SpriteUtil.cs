@@ -204,7 +204,7 @@ public static class SpriteUtil
         if (pct is not 0)
             return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
 
-        var encLevel = enc is { EggEncounter: true } ? enc.LevelMin : pk.MetLevel;
+        var encLevel = enc is { IsEgg: true } ? enc.LevelMin : pk.MetLevel;
         var color = level != encLevel && pk.HasOriginalMetLocation ? Color.DarkOrange : Color.Yellow;
         return ImageUtil.WritePixels(img, color, start, start + (SpriteWidth * bpp));
     }
@@ -258,7 +258,7 @@ public static class SpriteUtil
             return GetMysteryGiftPreviewPoke(g);
         var gender = GetDisplayGender(enc);
         var shiny = enc.IsShiny ? Shiny.Always : Shiny.Never;
-        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, shiny, enc.Context);
+        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.IsEgg, shiny, enc.Context);
         if (SpriteBuilder.ShowEncounterBall && enc is {FixedBall: not Ball.None})
         {
             var ballSprite = GetBallSprite((byte)enc.FixedBall);

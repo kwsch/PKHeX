@@ -16,7 +16,7 @@ public sealed record EncounterStatic8a
     public ushort EggLocation => 0;
     ushort ILocation.Location => Location;
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
     public ushort Species { get; }

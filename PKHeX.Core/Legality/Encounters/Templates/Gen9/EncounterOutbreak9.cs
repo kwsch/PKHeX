@@ -15,7 +15,7 @@ public sealed record EncounterOutbreak9
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
     public Shiny Shiny => IsShiny ? Shiny.Always : Shiny.Random;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public ushort EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12;

@@ -196,7 +196,7 @@ public static class EncounterMovesetGenerator
     private readonly record struct NeededEncounter(EntityContext Context, byte Generation, GameVersion Version)
         : IEncounterTemplate
     {
-        public bool EggEncounter => false;
+        public bool IsEgg => false;
         public byte LevelMin => 0;
         public byte LevelMax => 0;
 

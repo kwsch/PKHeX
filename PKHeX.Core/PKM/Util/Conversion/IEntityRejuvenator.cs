@@ -131,7 +131,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         if (enc is EncounterInvalid)
             return;
 
-        if (enc is { EggEncounter: true })
+        if (enc is { IsEgg: true })
         {
             result.MetLocation = Locations.HatchLocation8b;
             result.EggLocation = Locations.LinkTrade6NPC;
@@ -154,7 +154,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         if (enc is EncounterInvalid)
             return;
 
-        if (enc is { EggEncounter: true })
+        if (enc is { IsEgg: true })
         {
             result.MetLocation = Locations.HatchLocation9;
             result.EggLocation = Locations.LinkTrade6NPC;

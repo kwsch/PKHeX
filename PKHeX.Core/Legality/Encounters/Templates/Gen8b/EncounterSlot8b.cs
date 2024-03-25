@@ -11,7 +11,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public ushort EggLocation => 0;

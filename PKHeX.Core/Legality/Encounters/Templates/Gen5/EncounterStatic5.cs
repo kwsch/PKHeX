@@ -12,7 +12,7 @@ public sealed record EncounterStatic5(GameVersion Version)
     ushort ILocation.Location => Location;
     ushort ILocation.EggLocation => EggLocation;
     public bool IsShiny => false;
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     private bool Gift => FixedBall == Ball.Poke;
 
     public Ball FixedBall { get; init; }
@@ -64,7 +64,7 @@ public sealed record EncounterStatic5(GameVersion Version)
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
             pk.MetLocation = Locations.HatchLocation5;
@@ -161,7 +161,7 @@ public sealed record EncounterStatic5(GameVersion Version)
     private bool IsMatchLocation(PKM pk)
     {
         var met = pk.MetLocation;
-        if (EggEncounter)
+        if (IsEgg)
             return true;
         if (!Roaming)
             return met == Location;
@@ -170,7 +170,7 @@ public sealed record EncounterStatic5(GameVersion Version)
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
             return pk.EggLocation == expect;

@@ -15,7 +15,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
     public ushort Location => Locations.PokeWalker4;
     public bool IsShiny => false;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Never;

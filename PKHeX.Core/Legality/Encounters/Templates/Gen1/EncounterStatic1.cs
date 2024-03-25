@@ -8,7 +8,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
 {
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;

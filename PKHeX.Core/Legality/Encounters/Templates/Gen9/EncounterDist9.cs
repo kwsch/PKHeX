@@ -15,7 +15,7 @@ public sealed record EncounterDist9
     public GameVersion Version => GameVersion.SV;
     public bool IsDistribution => Index != 0;
     public Ball FixedBall => Ball.None;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public bool IsShiny => Shiny == Shiny.Always;
     public ushort EggLocation => 0;
 

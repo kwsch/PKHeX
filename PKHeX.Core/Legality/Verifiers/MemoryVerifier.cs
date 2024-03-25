@@ -344,7 +344,7 @@ public sealed class MemoryVerifier : Verifier
                 return;
 
             // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-            case 2 when !enc.EggEncounter:
+            case 2 when !enc.IsEgg:
                 data.AddLine(GetInvalid(string.Format(LMemoryArgBadHatch, L_XOT)));
                 break;
 

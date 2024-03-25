@@ -205,7 +205,6 @@ public sealed class LinkEntity6(Memory<byte> Raw) : IRibbonSetEvent3, IRibbonSet
 
     public byte Generation => 6;
     public bool IsShiny => false;
-    public bool EggEncounter => false;
     public GameVersion Version => GameVersion.Gen6;
     public EntityContext Context => EntityContext.Gen6;
     public AbilityPermission Ability => (AbilityPermission)AbilityType;

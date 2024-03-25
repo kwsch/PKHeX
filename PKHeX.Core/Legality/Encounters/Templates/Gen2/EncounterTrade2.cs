@@ -12,7 +12,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     public EntityContext Context => EntityContext.Gen2;
     public ushort Location => Locations.LinkTrade2NPC;
     public GameVersion Version => GameVersion.GSC;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;

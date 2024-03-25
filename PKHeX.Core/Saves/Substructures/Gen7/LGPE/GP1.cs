@@ -15,7 +15,7 @@ public sealed class GP1(Memory<byte> Raw)
     public Span<byte> Data => Raw.Span;
 
     public GameVersion Version => GameVersion.GO;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public byte Generation => 7;

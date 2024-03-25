@@ -11,7 +11,7 @@ public sealed class QRPK7(Memory<byte> Raw) : IEncounterInfo
     public const int SIZE = 0x30;
     private Span<byte> Data => Raw.Span;
 
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public byte Generation => Version.GetGeneration();

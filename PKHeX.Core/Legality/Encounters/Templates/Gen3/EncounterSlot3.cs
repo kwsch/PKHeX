@@ -12,7 +12,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public byte Generation => 3;
     ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen3;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => GetRequiredBall();
     public byte AreaRate => Parent.Rate;
 

@@ -91,7 +91,6 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool IsHatched => GiftType == Pokémon;
     public override bool IsEgg { get => GiftType == PokémonEgg || IsManaphyEgg; set { if (value) { GiftType = PokémonEgg; PK.IsEgg = true; } } }
     public bool IsManaphyEgg { get => GiftType == ManaphyEgg; set { if (value) GiftType = ManaphyEgg; } }
-    public override bool EggEncounter => IsEgg;
     public override bool IsItem { get => GiftType == Item; set { if (value) GiftType = Item; } }
     public override bool IsEntity { get => GiftType is Pokémon or PokémonEgg or ManaphyEgg; set { } }
 
@@ -145,7 +144,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     private void SetMetData(PK4 pk4, ITrainerInfo trainer)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             pk4.MetLocation = (ushort)(pk4.EggLocation + 3000);
             pk4.EggLocation = 0;

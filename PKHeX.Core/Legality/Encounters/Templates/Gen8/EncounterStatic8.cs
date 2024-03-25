@@ -14,7 +14,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     ushort ILocation.Location => Location;
     public bool Gift => FixedBall != Ball.None;
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     ushort ILocation.EggLocation => 0;
 
     public required ushort Location { get; init; }
