@@ -1,7 +1,18 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-24/03/10 - New Update:
+24/03/26 - New Update:
+ - Legality:
+ - - Fixed: Handled some edge cases with latest release RNG Frame checks for Gen4.
+ - - Added: Verification for Gen3 CHANNEL and MYSTRY seed patterns.
+ - Added: Gen4/5 API now supports reading/writing battle videos to the savefile object.
+ - Fixed: Gen5 Entree Forest in Misc now saves correctly. If broken, open the editor on the previous release and save again.
+ - Fixed: Event Flag diff now works as intended. Pokedex button restored for some save formats (regression from last release).
+ - Changed: Plugin error messages will now more clearly indicate they are an issue with plugins rather than PKHeX's fault.
+ - Fixed: Gen4 Daycare seed set now works as intended, no longer corrupts Daycare slot 2.
+ - Fixed: Gen4 Mystery Gift now reads correctly.
+
+24/03/10 - New Update: (61116) [8537498]
  - Legality: Added Encounter Slot RNG correlation checks for Gen4 (and Gen3). Because Encounter Type PID mismatch wasn't enough!
  - - When hovering over a slot, the program will indicate a possible method to encounter the slot with a lead & initial seed (not Method 1).
  - - Added: Gen8+ RNG seeds that are 64bit correlation (like SW/SH raids) will now indicate the detected RNG seed.
