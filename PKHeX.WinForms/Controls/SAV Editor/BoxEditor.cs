@@ -180,11 +180,11 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
             CurrentBox = box;
     }
 
-    private static bool GetIsSame(IReadOnlyList<string> a, IList b)
+    private static bool GetIsSame(ReadOnlySpan<string> a, IList b)
     {
-        if (a.Count != b.Count)
+        if (a.Length != b.Count)
             return false;
-        for (int i = 0; i < a.Count; i++)
+        for (int i = 0; i < a.Length; i++)
         {
             if (b[i] is not string s || s != a[i])
                 return false;

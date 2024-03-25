@@ -160,8 +160,7 @@ public sealed class WC3(GameVersion Version, bool Fateful = false)
         }
 
         pk.OriginalTrainerGender = sav.Gender;
-        pk.TID16 = sav.TID16;
-        pk.SID16 = sav.SID16;
+        pk.ID32 = sav.ID32;
         pk.MetLocation = pk.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
         pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
         pk.MetLevel = 0; // hatched

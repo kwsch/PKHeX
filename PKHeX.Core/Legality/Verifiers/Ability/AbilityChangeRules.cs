@@ -17,11 +17,8 @@ public static class AbilityChangeRules
     /// <param name="current">Current context</param>
     /// <param name="original">Original context</param>
     /// <returns>True if possible to obtain <see cref="abilityFlag"/></returns>
-    public static bool IsAbilityStateValid(this IEncounterTemplate enc, EvolutionHistory evosAll, int abilityFlag, EntityContext current, EntityContext original) => (enc switch
-    {
-        IFixedAbilityNumber f => f.Ability,
-        _ => Any12,
-    }).IsAbilityStateValid(evosAll, abilityFlag, current, original);
+    public static bool IsAbilityStateValid(this IEncounterTemplate enc, EvolutionHistory evosAll, int abilityFlag, EntityContext current, EntityContext original)
+        => enc.Ability.IsAbilityStateValid(evosAll, abilityFlag, current, original);
 
     /// <summary>
     /// Checks if the current <see cref="abilityFlag"/> value is possible to obtain based on the original <see cref="ability"/> and game visiting.
@@ -51,11 +48,8 @@ public static class AbilityChangeRules
     /// <param name="current">Current context</param>
     /// <param name="original">Original context</param>
     /// <returns>True if the ability can be changed</returns>
-    public static bool IsAbilityChangeAvailable(this IEncounterTemplate enc, EvolutionHistory evosAll, EntityContext current, EntityContext original) => (enc switch
-    {
-        IFixedAbilityNumber f => f.Ability,
-        _ => Any12,
-    }).IsAbilityChangeAvailable(evosAll, current, original);
+    public static bool IsAbilityChangeAvailable(this IEncounterTemplate enc, EvolutionHistory evosAll, EntityContext current, EntityContext original)
+        => enc.Ability.IsAbilityChangeAvailable(evosAll, current, original);
 
     /// <summary>
     /// Checks if the original <see cref="ability"/> value can be changed based on the games visited.

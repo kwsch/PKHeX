@@ -203,6 +203,11 @@ public static class EncounterMovesetGenerator
         public ushort Species => 0;
         public byte Form => 0;
         public bool IsShiny => false;
+        public ushort Location => 0;
+        public ushort EggLocation => 0;
+        public AbilityPermission Ability => 0;
+        public Ball FixedBall => 0;
+        public Shiny Shiny => 0;
     }
 
     private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves, GameVersion version, byte generation, EntityContext context)

@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Represents all details that an entity may be encountered with.
 /// </summary>
-public interface IEncounterTemplate : ISpeciesForm, IVersion, IGeneration, IShiny, ILevelRange
+public interface IEncounterTemplate : ISpeciesForm, IVersion, IGeneration, IShiny, ILevelRange, ILocation, IFixedAbilityNumber, IFixedBall, IShinyPotential
 {
     /// <summary>
     /// Original Context
@@ -27,6 +27,10 @@ public static partial class Extensions
             return level == encounter.LevelMin;
         if (encounter is MysteryGift g)
             return level == g.Level;
-        return level == pk.MetLevel;
+
+        var met = pk.MetLevel;
+        if (met != 0)
+            return level == met;
+        return encounter.IsLevelWithinRange(level);
     }
 }

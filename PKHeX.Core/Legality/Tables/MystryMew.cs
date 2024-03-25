@@ -33,7 +33,6 @@ public static class MystryMew
         0xFE9D,
     ];
 
-  //private const int FramesPerMew = 5;
     private const int MewPerRestrictedSeed = 5;
 
     /// <summary>
@@ -70,9 +69,9 @@ public static class MystryMew
         var seeds = Seeds;
         if (seed <= ushort.MaxValue)
             return seeds.BinarySearch((ushort)seed);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < MewPerRestrictedSeed; i++)
         {
-            seed = LCRNG.Prev5(seed);
+            seed = LCRNG.Prev5(seed); // BACD{?}
             if (seed <= ushort.MaxValue)
                 return seeds.BinarySearch((ushort)seed);
         }
@@ -93,9 +92,9 @@ public static class MystryMew
             var index = seeds.BinarySearch((ushort)seed);
             return (index, -1);
         }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < MewPerRestrictedSeed; i++)
         {
-            seed = LCRNG.Prev5(seed);
+            seed = LCRNG.Prev5(seed); // BACD{?}
             if (seed <= ushort.MaxValue)
             {
                 var index = seeds.BinarySearch((ushort)seed);

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -81,9 +80,9 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 
     private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);
 
-    private static int GetIndex(ReadOnlySpan<char> name, IReadOnlyList<string> arr)
+    private static int GetIndex(ReadOnlySpan<char> name, ReadOnlySpan<string> arr)
     {
-        for (int i = 0; i < arr.Count; i++)
+        for (int i = 0; i < arr.Length; i++)
         {
             if (name.SequenceEqual(arr[i]))
                 return i;

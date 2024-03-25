@@ -259,9 +259,9 @@ public static class SpriteUtil
         var gender = GetDisplayGender(enc);
         var shiny = enc.IsShiny ? Shiny.Always : Shiny.Never;
         var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, shiny, enc.Context);
-        if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
+        if (SpriteBuilder.ShowEncounterBall && enc is {FixedBall: not Ball.None})
         {
-            var ballSprite = GetBallSprite((byte)b.FixedBall);
+            var ballSprite = GetBallSprite((byte)enc.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
         if (enc is IGigantamaxReadOnly {CanGigantamax: true})
@@ -297,9 +297,9 @@ public static class SpriteUtil
         var gender = Math.Max((byte)0, gift.Gender);
         var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny ? Shiny.Always : Shiny.Never, gift.Context);
 
-        if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)
+        if (SpriteBuilder.ShowEncounterBall && gift is { FixedBall: not Ball.None })
         {
-            var ballSprite = GetBallSprite((byte)b.FixedBall);
+            var ballSprite = GetBallSprite((byte)gift.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
 
