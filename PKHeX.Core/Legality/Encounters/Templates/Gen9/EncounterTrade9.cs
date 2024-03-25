@@ -12,7 +12,7 @@ public sealed record EncounterTrade9
     public EntityContext Context => EntityContext.Gen9;
     public ushort Location => Locations.LinkTrade6NPC;
     public Shiny Shiny { get; init; } = Shiny.Never;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall { get; init; }
     public bool IsShiny => false;
     public ushort EggLocation => 0;

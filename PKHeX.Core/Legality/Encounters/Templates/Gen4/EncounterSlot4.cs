@@ -11,7 +11,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public byte Generation => 4;
     ushort ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen4;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => GetRequiredBallValue();
     public Shiny Shiny => Shiny.Random;

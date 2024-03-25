@@ -10,7 +10,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     public EntityContext Context => EntityContext.Gen2;
     public byte Form => 0;
     public byte EggCycles => DizzyPunchEgg ? (byte)20 : (byte)0;
-    public bool DizzyPunchEgg => EggEncounter && Moves.HasMoves;
+    public bool DizzyPunchEgg => IsEgg && Moves.HasMoves;
 
     public Ball FixedBall => Ball.Poke;
     ushort ILocation.Location => Location;
@@ -24,7 +24,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public IndividualValueSet IVs { get; init; }
     public Moveset Moves { get; init; }
-    public bool EggEncounter { get; init; }
+    public bool IsEgg { get; init; }
 
     public string Name => "Static Encounter";
     public string LongName => Name;
@@ -55,7 +55,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             if (DizzyPunchEgg) // Fixed EXP value instead of exactly Level 5
                 pk.EXP = 125;
@@ -92,7 +92,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     {
         if (Shiny == Shiny.Always && !pk.IsShiny)
             return false;
-        if (EggEncounter && Moves.HasMoves) // Odd Egg
+        if (IsEgg && Moves.HasMoves) // Odd Egg
         {
             if (pk.Format > 2)
                 return false; // Can't be transferred to Gen7+
@@ -150,7 +150,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
         if (pk.IsEgg)
         {
-            if (!EggEncounter)
+            if (!IsEgg)
                 return false;
             if (c2.MetLocation != 0 && c2.MetLevel != 0)
                 return false;
@@ -178,7 +178,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
         if (evo.LevelMax < Level)
             return false;
         if (pk is ICaughtData2 { CaughtData: not 0 })
-            return pk.MetLevel == (EggEncounter ? 1 : Level);
+            return pk.MetLevel == (IsEgg ? 1 : Level);
         return true;
     }
 
@@ -189,7 +189,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
         if (pk is not ICaughtData2 c2)
             return true;

@@ -12,13 +12,13 @@ public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<Personal
     private const ushort MaxSpecies = Legal.MaxSpeciesID_8b;
     public ushort MaxSpeciesID => MaxSpecies;
 
-    public PersonalTable8BDSP(ReadOnlySpan<byte> data)
+    public PersonalTable8BDSP(Memory<byte> data)
     {
         Table = new PersonalInfo8BDSP[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
         {
-            var slice = data.Slice(ofs, SIZE).ToArray();
+            var slice = data.Slice(ofs, SIZE);
             Table[i] = new PersonalInfo8BDSP(slice);
         }
     }

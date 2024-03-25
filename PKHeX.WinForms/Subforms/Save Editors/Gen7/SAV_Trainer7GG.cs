@@ -207,7 +207,7 @@ public partial class SAV_Trainer7GG : Form
 
         var folder = fbd.SelectedPath;
         foreach (var gpk in gofiles)
-            File.WriteAllBytes(Path.Combine(folder, Util.CleanFileName(gpk.FileName)), gpk.Data);
+            File.WriteAllBytes(Path.Combine(folder, Util.CleanFileName(gpk.FileName)), gpk.Data.ToArray());
         WinFormsUtil.Alert($"Dumped {gofiles.Length} files to {folder}");
     }
 
@@ -243,7 +243,7 @@ public partial class SAV_Trainer7GG : Form
             return;
         }
         var gp1 = new GP1();
-        data.CopyTo(gp1.Data, 0);
+        data.CopyTo(gp1.Data);
         Park[index] = gp1;
         UpdateGoSummary((int)NUD_GoIndex.Value);
     }
@@ -266,7 +266,7 @@ public partial class SAV_Trainer7GG : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        File.WriteAllBytes(sfd.FileName, data.Data);
+        File.WriteAllBytes(sfd.FileName, data.Data.ToArray());
     }
 
     private void B_ImportGoFiles_Click(object sender, EventArgs e)

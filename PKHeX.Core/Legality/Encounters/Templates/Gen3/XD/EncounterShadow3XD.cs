@@ -19,7 +19,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
     ushort ILocation.EggLocation => 0;
     ushort ILocation.Location => Location;
     public bool IsShiny => false;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Shiny Shiny => Shiny.Never; // Different from Colosseum!
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool FatefulEncounter => true;

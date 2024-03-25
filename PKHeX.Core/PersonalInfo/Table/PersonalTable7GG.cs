@@ -12,13 +12,13 @@ public sealed class PersonalTable7GG : IPersonalTable, IPersonalTable<PersonalIn
     private const ushort MaxSpecies = Legal.MaxSpeciesID_7b;
     public ushort MaxSpeciesID => MaxSpecies;
 
-    public PersonalTable7GG(ReadOnlySpan<byte> data)
+    public PersonalTable7GG(Memory<byte> data)
     {
         Table = new PersonalInfo7GG[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
         {
-            var slice = data.Slice(ofs, SIZE).ToArray();
+            var slice = data.Slice(ofs, SIZE);
             Table[i] = new PersonalInfo7GG(slice);
         }
     }

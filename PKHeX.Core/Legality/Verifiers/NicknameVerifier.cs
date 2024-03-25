@@ -219,7 +219,7 @@ public sealed class NicknameVerifier : Verifier
         System.Diagnostics.Debug.Assert(match is not WC8 {IsHOMEGift:true});
 
         int length = 0;
-        if (origin is (4 or 5 or 6 or 7) && match.EggEncounter && pk.WasTradedEgg)
+        if (origin is (4 or 5 or 6 or 7) && match.IsEgg && pk.WasTradedEgg)
             length = Legal.GetMaxLengthNickname(origin, English);
 
         if (pk.FatefulEncounter)

@@ -11,7 +11,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     public EntityContext Context => EntityContext.Gen3;
     public ushort Location => Locations.LinkTrade3NPC;
     public Shiny Shiny => Shiny.FixedValue;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public ushort EggLocation => 0;

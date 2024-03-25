@@ -33,7 +33,6 @@ public static class MystryMew
         0xFE9D,
     ];
 
-  //private const int FramesPerMew = 5;
     private const int MewPerRestrictedSeed = 5;
 
     /// <summary>
@@ -58,18 +57,50 @@ public static class MystryMew
     /// Checks if the seed is a known seed.
     /// </summary>
     /// <param name="seed">Origin seed (for the PID/IV)</param>
+    /// <returns>True if the seed is known.</returns>
+    public static bool IsValidSeed(uint seed) => GetSeedIndex(seed) != -1;
+
+    /// <summary>
+    /// Checks if the seed is a known seed.
+    /// </summary>
+    /// <param name="seed">Origin seed (for the PID/IV)</param>
     public static int GetSeedIndex(uint seed)
     {
         var seeds = Seeds;
         if (seed <= ushort.MaxValue)
             return seeds.BinarySearch((ushort)seed);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < MewPerRestrictedSeed; i++)
         {
-            seed = LCRNG.Prev5(seed);
+            seed = LCRNG.Prev5(seed); // BACD{?}
             if (seed <= ushort.MaxValue)
                 return seeds.BinarySearch((ushort)seed);
         }
 
         return -1;
+    }
+
+    /// <summary>
+    /// Get the index and subindex of the seed in the known seed list.
+    /// </summary>
+    /// <param name="seed">Origin seed (for the PID/IV)</param>
+    /// <returns>Tuple of indexes; -1 if not found.</returns>
+    public static (int Index, int SubIndex) GetSeedIndexes(uint seed)
+    {
+        var seeds = Seeds;
+        if (seed <= ushort.MaxValue)
+        {
+            var index = seeds.BinarySearch((ushort)seed);
+            return (index, -1);
+        }
+        for (int i = 0; i < MewPerRestrictedSeed; i++)
+        {
+            seed = LCRNG.Prev5(seed); // BACD{?}
+            if (seed <= ushort.MaxValue)
+            {
+                var index = seeds.BinarySearch((ushort)seed);
+                return (index, i);
+            }
+        }
+        return (-1, -1);
     }
 }

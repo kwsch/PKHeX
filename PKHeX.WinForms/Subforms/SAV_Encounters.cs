@@ -253,7 +253,7 @@ public partial class SAV_Encounters : Form
         var species = settings.Species == 0 ? GetFullRange(SAV.MaxSpeciesID) : [settings.Species];
         var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk, token);
         if (settings.SearchEgg != null)
-            results = results.Where(z => z.EggEncounter == settings.SearchEgg);
+            results = results.Where(z => z.IsEgg == settings.SearchEgg);
         if (settings.SearchShiny != null)
             results = results.Where(z => z.IsShiny == settings.SearchShiny);
 

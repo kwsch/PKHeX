@@ -27,7 +27,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     public required byte Location { get; init; }
     public byte Form => 0;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public required Moveset Moves { get; init; }
     public required ushort TID16 { get; init; }
     // SID: Based on player ID

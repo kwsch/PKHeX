@@ -11,7 +11,7 @@ public sealed record EncounterStatic9(GameVersion Version)
     public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     ushort ILocation.Location => Location;
     ushort ILocation.EggLocation => EggLocation;
 
@@ -90,7 +90,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             ID32 = tr.ID32,
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
             pk.MetLocation = Locations.HatchLocation9;
@@ -192,7 +192,7 @@ public sealed record EncounterStatic9(GameVersion Version)
     private bool IsMatchEggLocation(PKM pk)
     {
         var eggLoc = pk.EggLocation;
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
             return eggLoc == expect;
@@ -228,7 +228,7 @@ public sealed record EncounterStatic9(GameVersion Version)
 
     private bool IsMatchLocationExact(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
         return pk.MetLocation == Location;
     }

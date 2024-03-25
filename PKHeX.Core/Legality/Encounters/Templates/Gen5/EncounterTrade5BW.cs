@@ -11,7 +11,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
     public bool IsFixedNickname => true;
     public GameVersion Version { get; }
     public Shiny Shiny => Shiny.Never;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;

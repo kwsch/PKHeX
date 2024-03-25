@@ -21,7 +21,7 @@ public sealed record EncounterTrade4RanchGift
     public ushort Location { get; init; }
     public Shiny Shiny => FatefulEncounter ? Shiny.Never : Shiny.FixedValue;
     public GameVersion Version { get; }
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation { get; init; }
 
     public Ball FixedBall { get; init; } = Ball.Poke;

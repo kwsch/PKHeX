@@ -27,14 +27,14 @@ public static class EncounterVerifier
         EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
         EncounterStatic4 { Roaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(LG4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
-        { EggEncounter: true } when !pk.IsEgg => VerifyEncounterEgg(pk, enc.Generation),
+        { IsEgg: true } when !pk.IsEgg => VerifyEncounterEgg(pk, enc.Generation),
         EncounterInvalid => GetInvalid(LEncInvalid),
         _ => GetValid(string.Empty), // todo: refactor
     };
 
     private static CheckResult VerifyEncounterG12(PKM pk, IEncounterTemplate enc)
     {
-        if (enc.EggEncounter)
+        if (enc.IsEgg)
             return VerifyEncounterEgg(pk, 2);
 
         return enc switch

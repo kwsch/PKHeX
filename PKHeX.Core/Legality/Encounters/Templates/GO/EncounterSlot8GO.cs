@@ -14,7 +14,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public bool IsDateRestricted => true;
     public bool IsShiny => Shiny.IsShiny();
     public Ball FixedBall => Type.GetValidBall();
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public ushort EggLocation => 0;
     public GameVersion Version => GameVersion.GO;
