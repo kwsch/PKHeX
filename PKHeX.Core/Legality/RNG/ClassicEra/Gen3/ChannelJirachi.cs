@@ -68,7 +68,7 @@ public static class ChannelJirachi
         if (acceptPivot == 0) // 8 advances total
         {
             // 2: 25% fails, 33% fails. 2 advances. ~50.25% chance of success.
-            seed = XDRNG.Prev2(seed); // 2
+            seed = XDRNG.Prev(seed); // 2
             if (XDRNG.Prev16(ref seed) <= 0x547A) // 33% should fail
                 return false;
             if (XDRNG.Prev16(ref seed) <= 0x4000) // 25% should fail
@@ -77,20 +77,18 @@ public static class ChannelJirachi
         else if (acceptPivot == 1) // 6 advances total
         {
             // 0: 25% passes, 33% unchecked. 1 advance. 25% chance of success.
-            seed = XDRNG.Prev(seed); // 1
             if (XDRNG.Prev16(ref seed) > 0x4000) // 25% should pass
                 return false;
         }
         else // 7 advances total
         {
             // 25% fails, 33% passes. 1 advance. 24.75% chance of success.
-            seed = XDRNG.Prev(seed); // 1
             if (XDRNG.Prev16(ref seed) > 0x547A) // 33% should pass
                 return false;
             if (XDRNG.Prev16(ref seed) <= 0x4000) // 25% should fail
                 return false;
         }
-        seed = XDRNG.Prev4(seed);
+        seed = XDRNG.Prev5(seed);
         return true;
     }
 

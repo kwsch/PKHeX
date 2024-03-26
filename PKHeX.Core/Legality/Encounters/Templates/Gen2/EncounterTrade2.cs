@@ -156,6 +156,13 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
 
         ReadOnlySpan<char> ot = pk.OriginalTrainerName;
+        if (language == 4 && Species is (ushort)Shuckle)
+        {
+            // Same nickname, different OT name for Italian and Spanish.
+            if (ot is "MANIA")
+                return true;
+            language = 7; // Might be remapped.
+        }
         var expect = pk.Format < 7 ? TrainerNames[language] : GetExpectedOT(Species, language, pk.Language);
         return ot.SequenceEqual(expect);
     }
@@ -192,6 +199,13 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
 
         ReadOnlySpan<char> ot = pk.OriginalTrainerName;
+        if (language == 4 && Species is (ushort)Shuckle)
+        {
+            // Same nickname, different OT name for Italian and Spanish.
+            if (ot is "MANIA")
+                return true;
+            language = 7; // Might be remapped.
+        }
         var expect = pk.Format < 7 ? TrainerNames[language] : GetExpectedOT(Species, language, pk.Language);
         return ot.SequenceEqual(expect);
     }
