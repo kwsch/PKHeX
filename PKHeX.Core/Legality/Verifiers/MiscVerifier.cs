@@ -222,7 +222,7 @@ public sealed class MiscVerifier : Verifier
         else if (enc is EncounterStatic9 { StarterBoxLegend: true })
         {
             // Ride legends cannot be traded or transferred.
-            if (pk9.CurrentHandler != 0 || pk9.Tracker != 0)
+            if (pk9.CurrentHandler != 0 || pk9.Tracker != 0 || !pk9.IsUntraded)
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
