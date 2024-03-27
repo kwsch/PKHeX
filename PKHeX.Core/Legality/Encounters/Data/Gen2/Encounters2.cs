@@ -21,7 +21,7 @@ internal static class Encounters2
         new(155, 05, GSC) { Location = 001 }, // Cyndaquil @ New Bark Town
         new(158, 05, GSC) { Location = 001 }, // Totodile @ New Bark Town
 
-        new(175, 05, GSC) { Location = 000, EggEncounter = true }, // Togepi
+        new(175, 05, GSC) { Location = 000, IsEgg = true }, // Togepi
         new(131, 20, GSC) { Location = 010 }, // Lapras @ Union Cave
         new(133, 20, GSC) { Location = 016 }, // Eevee @ Goldenrod City
 
@@ -95,13 +95,13 @@ internal static class Encounters2
 
     public static readonly EncounterStatic2[] StaticOddEggC =
     [
-        new(172, 05, C) { EggEncounter = true, Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Pichu
-        new(173, 05, C) { EggEncounter = true, Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Cleffa
-        new(174, 05, C) { EggEncounter = true, Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Igglybuff
-        new(236, 05, C) { EggEncounter = true, Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Tyrogue
-        new(238, 05, C) { EggEncounter = true, Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Smoochum
-        new(239, 05, C) { EggEncounter = true, Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Elekid
-        new(240, 05, C) { EggEncounter = true, Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Magby
+        new(172, 05, C) { IsEgg = true, Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Pichu
+        new(173, 05, C) { IsEgg = true, Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Cleffa
+        new(174, 05, C) { IsEgg = true, Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Igglybuff
+        new(236, 05, C) { IsEgg = true, Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Tyrogue
+        new(238, 05, C) { IsEgg = true, Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Smoochum
+        new(239, 05, C) { IsEgg = true, Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Elekid
+        new(240, 05, C) { IsEgg = true, Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Magby
     ];
 
     internal static readonly EncounterStatic2 CelebiVC = new(251, 30, C) { Location = 014 }; // Celebi @ Ilex Forest (VC)

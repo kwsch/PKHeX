@@ -1,4 +1,3 @@
-using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -57,10 +56,10 @@ public sealed class AbilityVerifier : Verifier
                 if (abilities.GetIsAbility12Same() && bitNum != 1)
                 {
                     // Check if any pre-evolution could have it flipped.
-                    var evos = data.Info.EvoChainsAllGens.Gen6;
-                    var pt = GameData.GetPersonal(pk.Context.GetSingleGameVersion());
-                    if (!GetWasDual(evos, pt, pk))
+                    var evos = data.Info.EvoChainsAllGens;
+                    if (!AbilityChangeRules.IsAbilityCapsulePossible(evos))
                         return INVALID;
+                    return GetValid(LAbilityCapsuleUsed);
                 }
             }
         }
@@ -73,12 +72,12 @@ public sealed class AbilityVerifier : Verifier
 
             if (pk.AbilityNumber == 4)
             {
-                if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens, pk.Context, enc.Context))
+                if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens))
                     return GetValid(LAbilityPatchUsed);
             }
             else if (enc.Ability == AbilityPermission.OnlyHidden)
             {
-                if (AbilityChangeRules.IsAbilityPatchRevertPossible(data.Info.EvoChainsAllGens, pk.AbilityNumber, pk.Context, enc.Context))
+                if (AbilityChangeRules.IsAbilityPatchRevertPossible(data.Info.EvoChainsAllGens, pk.AbilityNumber))
                     return GetValid(LAbilityPatchRevertUsed);
             }
         }
@@ -93,21 +92,6 @@ public sealed class AbilityVerifier : Verifier
     }
 
     public static bool IsValidAbilityBits(int bitNum) => bitNum is 1 or 2 or 4;
-
-    private static bool GetWasDual(ReadOnlySpan<EvoCriteria> evos, IPersonalTable pt, ISpeciesForm pk)
-    {
-        foreach (var evo in evos)
-        {
-            if (evo.Species == pk.Species)
-                continue;
-
-            var abilities = (IPersonalAbility12)pt.GetFormEntry(evo.Species, evo.Form);
-            if (CanAbilityCapsule(6, abilities))
-                return true;
-        }
-
-        return false;
-    }
 
     private CheckResult VerifyAbility(LegalityAnalysis data, IPersonalAbility12 abilities, int abilIndex)
     {
@@ -298,12 +282,9 @@ public sealed class AbilityVerifier : Verifier
         // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
         if (pk.Format >= 6)
         {
-            if (CanAbilityCapsule(6, abilities))
-                return GetValid(LAbilityCapsuleUsed);
-
             // Maybe was evolved after using ability capsule.
-            var evos = data.Info.EvoChainsAllGens.Get(pk.Context);
-            if (GetWasDual(evos, PKX.Personal, pk))
+            var evos = data.Info.EvoChainsAllGens;
+            if (AbilityChangeRules.IsAbilityCapsulePossible(evos))
                 return GetValid(LAbilityCapsuleUsed);
         }
 
@@ -448,7 +429,7 @@ public sealed class AbilityVerifier : Verifier
     // Ability Capsule can change between 1/2
     private static bool IsAbilityCapsuleModified(PKM pk, AbilityPermission encounterAbility, EvolutionHistory evos, EntityContext original)
     {
-        if (!AbilityChangeRules.IsAbilityCapsulePossible(evos, pk.Context, original))
+        if (!AbilityChangeRules.IsAbilityCapsulePossible(evos))
             return false; // Not available.
         if (pk.AbilityNumber == 4)
             return false; // Cannot alter to hidden ability.

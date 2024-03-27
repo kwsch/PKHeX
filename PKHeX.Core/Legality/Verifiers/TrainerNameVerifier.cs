@@ -67,7 +67,7 @@ public sealed class TrainerNameVerifier : Verifier
 
     public static bool IsEdgeCaseLength(PKM pk, IEncounterTemplate e, ReadOnlySpan<char> ot)
     {
-        if (e.EggEncounter)
+        if (e.IsEgg)
         {
             if (e is WC3 wc3 && pk.IsEgg && ot.SequenceEqual(wc3.OriginalTrainerName))
                 return true; // Fixed OT Mystery Gift Egg
@@ -94,7 +94,7 @@ public sealed class TrainerNameVerifier : Verifier
         {
             // Transferring from RBY->Gen7 won't have OT Gender in PK1, nor will PK1 originated encounters.
             // GSC Trades already checked for OT Gender matching.
-            if (pk is { Format: > 2, VC1: true } || enc is { Generation: 1 } or EncounterGift2 { EggEncounter: false })
+            if (pk is { Format: > 2, VC1: true } || enc is { Generation: 1 } or EncounterGift2 { IsEgg: false })
                 data.AddLine(GetInvalid(LG1OTGender));
         }
 

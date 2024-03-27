@@ -56,7 +56,7 @@ internal static class Encounters3RSE
         // Gift
         new(351, 25, RSE) { FixedBall = Ball.Poke, Location = 034    }, // Castform @ Weather Institute
         new(374, 05, RSE) { FixedBall = Ball.Poke, Location = 013    }, // Beldum @ Mossdeep City
-        new(360, 05, RSE) { FixedBall = Ball.Poke, Location = 253, EggEncounter = true }, // Wynaut Egg
+        new(360, 05, RSE) { FixedBall = Ball.Poke, Location = 253, IsEgg = true }, // Wynaut Egg
 
         // Stationary
         new(352, 30, RSE) { Location = 034 }, // Kecleon @ Route 119

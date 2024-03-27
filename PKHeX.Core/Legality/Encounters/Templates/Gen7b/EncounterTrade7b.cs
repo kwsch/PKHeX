@@ -11,7 +11,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
     public EntityContext Context => EntityContext.Gen7b;
     public ushort Location => Locations.LinkTrade6NPC;
     public Shiny Shiny => Shiny.Random;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public ushort EggLocation => 0;

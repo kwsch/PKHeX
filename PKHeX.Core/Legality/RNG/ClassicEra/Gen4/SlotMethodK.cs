@@ -28,6 +28,22 @@ public static class SlotMethodK
     };
 
     /// <summary>
+    /// Gets the range that a given slot number is allowed to roll for a specific <see cref="SlotType4"/>.
+    /// </summary>
+    public static (byte Min, byte Max) GetRange(SlotType4 type, byte slotNumber) => type switch
+    {
+        Grass                            => GetRangeGrass(slotNumber),
+        Surf                             => GetRangeSurf(slotNumber),
+        Old_Rod or Good_Rod or Super_Rod => GetRangeSuperRod(slotNumber),
+        Rock_Smash                       => GetRangeRockSmash(slotNumber),
+        Headbutt or HeadbuttSpecial      => GetRangeHeadbutt(slotNumber),
+        BugContest                       => GetRangeBugCatchingContest(slotNumber),
+        Safari_Grass or Safari_Surf or
+        Safari_Old_Rod or Safari_Good_Rod or Safari_Super_Rod => GetRangeSafari(slotNumber),
+        _ => (Invalid, Invalid),
+    };
+
+    /// <summary>
     /// Calculates the encounter slot index based on the roll for a Gen4 Wild encounter.
     /// </summary>
     /// <param name="roll">[0,100)</param>
@@ -106,4 +122,75 @@ public static class SlotMethodK
         <100 => 5, // 95,99 ( 5%)
            _ => Invalid,
     };
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Grass"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeGrass(byte slotNumber) => SlotMethodH.GetRangeGrass(slotNumber);
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Surf"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeSurf(byte slotNumber) => SlotMethodH.GetRangeSurf(slotNumber);
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Super_Rod"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeSuperRod(byte slotNumber) => slotNumber switch
+    {
+        0 => (00, 39), // (40%)
+        1 => (40, 69), // (30%)
+        2 => (70, 84), // (15%)
+        3 => (85, 94), // (10%)
+        4 => (95, 99), // ( 5%)
+        _ => (Invalid, Invalid),
+    };
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Rock_Smash"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeRockSmash(byte slotNumber) => slotNumber switch
+    {
+        0 => (00, 79), // (80%)
+        1 => (80, 99), // (20%)
+        _ => (Invalid, Invalid),
+    };
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Headbutt"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeHeadbutt(byte slotNumber) => slotNumber switch
+    {
+        0 => (00, 49), // (50%)
+        1 => (50, 64), // (15%)
+        2 => (65, 79), // (15%)
+        3 => (80, 89), // (10%)
+        4 => (90, 94), // ( 5%)
+        5 => (95, 99), // ( 5%)
+        _ => (Invalid, Invalid),
+    };
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="BugContest"/> encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeBugCatchingContest(byte slotNumber) => slotNumber switch
+    {
+        9 => (00, 04), // ( 5%)
+        8 => (05, 09), // ( 5%)
+        7 => (10, 14), // ( 5%)
+        6 => (15, 19), // ( 5%)
+        5 => (20, 29), // (10%)
+        4 => (30, 39), // (10%)
+        3 => (40, 49), // (10%)
+        2 => (50, 59), // (10%)
+        1 => (60, 79), // (20%)
+        0 => (80, 99), // (20%)
+        _ => (Invalid, Invalid),
+    };
+
+
+    /// <summary>
+    /// Gets the range a given slot number is allowed to roll in for a <see cref="Safari_Grass"/> (and other Safari Types) encounter.
+    /// </summary>
+    public static (byte Min, byte Max) GetRangeSafari(byte slotNumber) => (slotNumber, slotNumber);
 }

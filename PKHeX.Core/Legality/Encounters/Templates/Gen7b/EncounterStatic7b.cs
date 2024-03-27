@@ -11,7 +11,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     ushort ILocation.Location => Location;
     public ushort EggLocation => 0;
     public bool IsShiny => false;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
 
     public required ushort Species { get; init; }
     public required byte Level { get; init; }

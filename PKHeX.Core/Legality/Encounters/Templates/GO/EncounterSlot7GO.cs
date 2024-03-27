@@ -12,7 +12,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool IsShiny => Shiny.IsShiny();
     public ushort EggLocation => 0;

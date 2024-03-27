@@ -120,7 +120,7 @@ public static class PersonalTable
     /// </summary>
     public static readonly PersonalTable1 Y = new(GetTable("y"));
 
-    private static ReadOnlySpan<byte> GetTable(string game) => Util.GetBinaryResource($"personal_{game}");
+    private static Memory<byte> GetTable(string game) => Util.GetBinaryResource($"personal_{game}");
 
     static PersonalTable() // Finish Setup
     {

@@ -14,7 +14,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
 
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
@@ -116,8 +116,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
 
             CatchRate = Trainer switch
             {
-                Stadium when lang == Japanese && Species == (ushort)Core.Species.Psyduck => 167, // can't give a Gorgeous box
-                Stadium => 168, // be nice and give a Gorgeous Box
+                Stadium => GorgeousBox, // be nice and give a Gorgeous Box
                 _ => pi.CatchRate,
             },
             TID16 = Trainer switch
@@ -266,19 +265,22 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
     {
         if (pk is not PK1 pk1)
             return false;
-        return !IsCatchRateValid(pk1.CatchRate, pk.Japanese);
+        return !IsCatchRateValid(pk1.CatchRate);
     }
 
-    private bool IsCatchRateValid(byte rate, bool jp)
+    private const byte NormalBox = 167;
+    private const byte GorgeousBox = 168;
+
+    private bool IsCatchRateValid(byte rate)
     {
         if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(rate))
             return true;
 
         if (Version == GameVersion.Stadium)
         {
-            if (jp && Species == (ushort)Core.Species.Psyduck)
-                return rate == 167;
-            return rate is 167 or 168;
+            if (Species == (ushort)Core.Species.Psyduck)
+                return rate == GorgeousBox;
+            return rate is NormalBox or GorgeousBox;
         }
 
         var pi = PersonalTable.RB[Species];

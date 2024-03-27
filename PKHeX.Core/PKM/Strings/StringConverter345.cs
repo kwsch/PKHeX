@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -24,15 +25,98 @@ public static class StringConverter345
     };
 
     /// <summary>
+    /// Remaps Gen3 Glyphs to Gen4 Glyphs.
+    /// </summary>
+    public static void TransferGlyphs34(ReadOnlySpan<byte> data, int language, int maxLength, Span<byte> dest)
+    {
+        Span<char> result = stackalloc char[data.Length];
+        int count = TransferGlyphs34(data, result, language, maxLength);
+        StringConverter4.SetString(dest, result[..count], maxLength, StringConverterOption.None);
+    }
+
+    private static int TransferGlyphs34(ReadOnlySpan<byte> data, Span<char> result, int language, int maxLength)
+    {
+        var i = 0;
+        for (; i < data.Length; i++)
+        {
+            var c = data[i];
+            if (c == StringConverter3.TerminatorByte)
+                break;
+
+            // If the encoded character is in the affected range, treat it as Japanese.
+            var lang = IsJapanese3(c) ? (int)LanguageID.Japanese : language;
+            var b = StringConverter3.GetG3Char(c, lang);
+
+            // If an invalid character (0xF7-0xFE) is present, the nickname/OT is replaced with all question marks.
+            // Based on the Gen4 game's language: "？？？？？" in Japanese, "??????????" for nicknames/"???????" for OTs in EFIGS, "?????" in Korean
+            // Since we can't tell the language of the Gen4 game from the PKM alone, use the PKM language instead.
+            if (b == StringConverter3.TerminatorByte)
+            {
+                var question = language == (int)LanguageID.Japanese ? '？' : '?';
+                result[..maxLength].Fill(question);
+                return maxLength;
+            }
+
+            result[i] = b;
+        }
+        return i;
+    }
+
+    /// <summary>
+    /// Remaps Gen3 Glyphs to Gen4 Glyphs.
+    /// </summary>
+    public static void TransferGlyphs34(ReadOnlySpan<char> input, int language, Span<char> result)
+    {
+        if (language == (int)LanguageID.Japanese)
+        {
+            input.CopyTo(result);
+            return;
+        }
+        for (var i = 0; i < input.Length; i++)
+        {
+            var b = input[i];
+
+            // If the encoded character is in the affected range, reinterpret it as Japanese.
+            var c = StringConverter3.SetG3Char(b, language);
+            result[i] = IsJapanese3(c) ? StringConverter3.GetG3Char(c, (int)LanguageID.Japanese) : b;
+        }
+    }
+
+    // Pal Park always uses the Japanese character set for kana and '円' regardless of language.
+    // Only legitimately affects Spanish in-game trades and default player names, where Á/Í/Ú become い/コ/つ in Gen4.
+    private const byte JapaneseStartGlyph = 0x01; // 'あ'
+    private const byte JapaneseEndGlyph = 0xA0; // 'ッ'
+    private const byte JapaneseYenGlyph = 0xB7; // '円'
+
+    private static bool IsJapanese3(byte glyph) => glyph is (>= JapaneseStartGlyph and <= JapaneseEndGlyph) or JapaneseYenGlyph;
+
+    /// <summary>
+    /// Remaps Gen4 Glyphs to Gen5 Glyphs.
+    /// </summary>
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs45(Span<char> input)
+    {
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (IsInvalid45(input[i]))
+                input[i] = '?';
+        }
+    }
+
+    // These characters are converted to halfwidth question marks upon transfer to Gen5, in addition to the empty/invalid characters in Gen4.
+    // None of these are user-enterable. Note that halfwidth '&' transfers properly, despite it not being user-enterable either.
+    private static bool IsInvalid45(char c) => c == StringConverter4.Terminator || InvalidSearchVal45.Contains(c);
+    private static readonly SearchValues<char> InvalidSearchVal45 = SearchValues.Create("$_ª°ºÂÃÅÆÊËÎÏÐÔÕØÛÝÞãåæðõøýþÿŒœŞş←↑→↓⑧⑨⑩⑪⑫⒅⒆⒇⒈⒉⒊⒋⒌⒍⒎⒏►♈♉♊♋♌♍♎♏円＆＿");
+
+    /// <summary>
     /// Remaps Gen5 Glyphs to unicode codepoint.
     /// </summary>
-    /// <param name="buffer">Input characters to transfer in place</param>
-    /// <returns>Remapped string</returns>
-    public static void TransferGlyphs56(Span<byte> buffer)
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs56(Span<byte> input)
     {
-        for (int i = 0; i < buffer.Length; i += 2)
+        for (int i = 0; i < input.Length; i += 2)
         {
-            var span = buffer[i..];
+            var span = input[i..];
             var c = ReadUInt16LittleEndian(span);
             if (IsPrivateUseChar(c))
                 WriteUInt16LittleEndian(span, GetMigratedPrivateChar(c));
@@ -42,13 +126,12 @@ public static class StringConverter345
     /// <summary>
     /// Remaps private use unicode codepoint back to Gen5 private use codepoint.
     /// </summary>
-    /// <param name="buffer">Input characters to transfer in place</param>
-    /// <returns>Remapped string</returns>
-    public static void TransferGlyphs65(Span<byte> buffer)
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs65(Span<byte> input)
     {
-        for (int i = 0; i < buffer.Length; i += 2)
+        for (int i = 0; i < input.Length; i += 2)
         {
-            var span = buffer[i..];
+            var span = input[i..];
             var c = ReadUInt16LittleEndian(span);
             if (IsPrivateUseCharUnicode(c))
                 WriteUInt16LittleEndian(span, GetUnmigratedPrivateChar(c));

@@ -11,7 +11,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
     public EntityContext Context => EntityContext.Gen8b;
     public ushort Location => Locations.LinkTrade6NPC;
     public Shiny Shiny => Shiny.Never;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public ushort EggLocation => Locations.Default8bNone;

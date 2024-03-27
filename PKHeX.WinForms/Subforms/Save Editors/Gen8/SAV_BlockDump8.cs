@@ -80,7 +80,7 @@ public partial class SAV_BlockDump8 : Form
     {
         var block = CurrentBlock;
         L_Detail_R.Text = GetBlockSummary(block);
-        RTB_Hex.Text = string.Join(" ", block.Data.Select(z => $"{z:X2}"));
+        RTB_Hex.Text = string.Join(' ', block.Data.Select(z => $"{z:X2}"));
 
         var blockName = Metadata.GetBlockName(block, out var obj);
         if (blockName != null)

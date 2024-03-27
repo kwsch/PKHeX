@@ -93,7 +93,9 @@ public static class MethodJ
         }
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
+    public static bool IsEncounterCheckApplicable(SlotType4 type) => type is HoneyTree || type.IsFishingRodType();
+
+    public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot4
     {
         if (enc.Type.IsFishingRodType())
@@ -146,7 +148,7 @@ public static class MethodJ
         // This occurs in Mt. Coronet B1F; if passed, check if the player is on a Feebas tile before replacing.
         // 0 - Hook
         // 1 - CheckTiles -- current seed
-        // 2- ESV
+        // 2 - ESV
         if (s4.Species is (int)Species.Feebas && !IsFeebasChance(result >> 16))
             return false;
 
@@ -317,7 +319,7 @@ public static class MethodJ
         result = default; return false;
     }
 
-    private static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt();
+    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt();
 
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4

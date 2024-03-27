@@ -14,7 +14,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
 {
     public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => TransporterLogic.IsHiddenDisallowedVC2(Species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;

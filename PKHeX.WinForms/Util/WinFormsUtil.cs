@@ -241,7 +241,16 @@ public static class WinFormsUtil
         "SaveRAM", // BizHawk
     ];
 
-    public static bool IsFileExtensionSAV(string file) => CustomSaveExtensions.Contains(Path.GetExtension(file));
+    public static bool IsFileExtensionSAV(ReadOnlySpan<char> file)
+    {
+        var ext = Path.GetExtension(file);
+        foreach (var other in CustomSaveExtensions)
+        {
+            if (ext.EndsWith(other))
+                return true;
+        }
+        return false;
+    }
 
     private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
 

@@ -18,7 +18,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     private const ushort Location = SharedNest;
 
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Ball.None;
 

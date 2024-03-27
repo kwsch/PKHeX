@@ -38,7 +38,7 @@ public static class MemoryRules
         if (pk.IsUntraded)
         {
             // Traded eggs in SW/SH set HT memory but not HT Name.
-            if (enc is { Context: EntityContext.Gen8, EggEncounter: true } && pk.Context is EntityContext.Gen8)
+            if (enc is { Context: EntityContext.Gen8, IsEgg: true } && pk.Context is EntityContext.Gen8)
             {
                 var loc = pk.IsEgg ? pk.MetLocation : pk.EggLocation;
                 if (loc == Locations.LinkTrade6)

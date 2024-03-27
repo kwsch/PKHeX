@@ -40,6 +40,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public readonly byte[] Storage = new byte[9 * SIZE_SECTOR_USED]; //  [0x83D0]
 
     private readonly int ActiveSlot;
+    public sealed override int Language { get => Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English; set { } }
 
     protected SAV3(bool japanese) => Japanese = japanese;
 
@@ -105,6 +106,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         {
             var span = data[ofs..];
             var id = ReadInt16LittleEndian(span[0xFF4..]);
+            if ((uint)id >= COUNT_MAIN)
+                return false; // invalid sector ID
             bitTrack |= (1 << id);
             if (id == 0)
                 sector0 = ofs;
@@ -314,13 +317,15 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public abstract uint SecurityKey { get; set; }
 
+    public Span<byte> OriginalTrainerTrash => Small.AsSpan(0, 8);
+
     public sealed override string OT
     {
-        get => GetString(Small.AsSpan(0, 8));
+        get => GetString(OriginalTrainerTrash);
         set
         {
             int len = Japanese ? 5 : MaxStringLengthOT;
-            SetString(Small.AsSpan(0, len), value, len, StringConverterOption.ClearFF);
+            SetString(OriginalTrainerTrash[..len], value, len, StringConverterOption.ClearFF); // match the game-init FF terminating pattern
         }
     }
 

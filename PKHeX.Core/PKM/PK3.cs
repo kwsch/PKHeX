@@ -48,8 +48,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value); }
     public override string Nickname
     {
-        get => StringConverter3.GetString(NicknameTrash, Japanese);
-        set => StringConverter3.SetString(NicknameTrash, IsEgg ? EggNameJapanese : value, 10, Japanese, StringConverterOption.None);
+        get => StringConverter3.GetString(NicknameTrash, Language);
+        set => StringConverter3.SetString(NicknameTrash, IsEgg ? EggNameJapanese : value, 10, Language, StringConverterOption.None);
     }
     public override int Language { get => Data[0x12]; set => Data[0x12] = (byte)value; }
     public bool FlagIsBadEgg   { get => (Data[0x13] & 1) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~1) | (value ? 1 : 0)); }
@@ -57,8 +57,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public bool FlagIsEgg      { get => (Data[0x13] & 4) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~4) | (value ? 4 : 0)); }
     public override string OriginalTrainerName
     {
-        get => StringConverter3.GetString(OriginalTrainerTrash, Japanese);
-        set => StringConverter3.SetString(OriginalTrainerTrash, value, 7, Japanese, StringConverterOption.None);
+        get => StringConverter3.GetString(OriginalTrainerTrash, Language);
+        set => StringConverter3.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.None);
     }
     public override byte MarkingValue { get => (byte)SwapBits(Data[0x1B], 1, 2); set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
     public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
@@ -299,15 +299,19 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         // Yay for reusing string buffers! The game allocates a buffer and reuses it when creating strings.
         // Trash from the {unknown source} is currently in buffer. Set it to the Nickname region.
         var trash = StringConverter345.GetTrashBytes(pk4.Language);
-        var nickTrash = pk4.NicknameTrash[4..]; // min of 1 char and terminator, ignore first 2.
-        trash.CopyTo(nickTrash);
-        pk4.Nickname = IsEgg ? SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
+        var nickTrash = pk4.NicknameTrash;
+        trash.CopyTo(nickTrash[4..]); // min of 1 char and terminator, ignore first 2.
+
+        if (IsEgg)
+            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4);
+        else
+            StringConverter345.TransferGlyphs34(NicknameTrash, Language, Japanese ? 5 : 10, nickTrash);
         pk4.IsNicknamed = !IsEgg && IsNicknamed;
 
         // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.
         var destOT = pk4.OriginalTrainerTrash;
         nickTrash[..destOT.Length].CopyTo(destOT);
-        pk4.OriginalTrainerName = OriginalTrainerName;
+        StringConverter345.TransferGlyphs34(OriginalTrainerTrash, Language, Japanese ? 5 : 7, destOT);
 
         var item = (ushort)HeldItem;
         if (item != 0)

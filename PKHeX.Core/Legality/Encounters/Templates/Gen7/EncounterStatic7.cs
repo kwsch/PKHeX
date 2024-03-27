@@ -12,7 +12,7 @@ public sealed record EncounterStatic7(GameVersion Version)
     ushort ILocation.EggLocation => EggLocation;
     public bool RibbonWishing => Species == (int)Core.Species.Magearna;
 
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     public bool IsShiny => false;
 
     public Moveset Relearn { get; init; }
@@ -85,7 +85,7 @@ public sealed record EncounterStatic7(GameVersion Version)
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
             pk.MetLocation = Locations.HatchLocation7;
@@ -184,7 +184,7 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
 
         return pk.MetLocation == Location;
@@ -192,7 +192,7 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
             return pk.EggLocation == expect;

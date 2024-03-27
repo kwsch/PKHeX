@@ -20,7 +20,7 @@ public sealed record EncounterStatic5N(uint PID)
     ushort ILocation.Location => Location;
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.FixedValue;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Species == (int)Core.Species.Zorua ? Ball.Poke : Ball.None; // Zorua can't be captured; others can.
 

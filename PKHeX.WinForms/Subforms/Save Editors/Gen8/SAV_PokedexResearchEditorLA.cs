@@ -13,12 +13,55 @@ public partial class SAV_PokedexResearchEditorLA : Form
     private readonly PokedexSave8a Dex;
 
     private readonly ushort Species;
-
     private readonly bool WasEmpty;
 
     private readonly NumericUpDown[] TaskNUPs;
-    private readonly PokedexResearchTaskType8a[] TaskTypes;
-    private readonly int[] TaskIndexes;
+
+    private static ReadOnlySpan<PokedexResearchTaskType8a> TaskTypes =>
+    [
+        Catch,
+        CatchAlpha,
+        CatchLarge,
+        CatchSmall,
+        CatchHeavy,
+        CatchLight,
+        CatchAtTime,
+        CatchSleeping,
+        CatchInAir,
+        CatchNotSpotted,
+
+        UseMove,
+        UseMove,
+        UseMove,
+        UseMove,
+        DefeatWithMoveType,
+        DefeatWithMoveType,
+        DefeatWithMoveType,
+        Defeat,
+        UseStrongStyleMove,
+        UseAgileStyleMove,
+
+        Evolve,
+        GiveFood,
+        StunWithItems,
+        ScareWithScatterBang,
+        LureWithPokeshiDoll,
+
+        LeapFromTrees,
+        LeapFromLeaves,
+        LeapFromSnow,
+        LeapFromOre,
+        LeapFromTussocks,
+    ];
+
+    private static ReadOnlySpan<sbyte> TaskIndexes =>
+    [
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        0, 1, 2, 3, 0, 1, 2, -1, -1, -1,
+        -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1,
+    ];
+
     private readonly int[] TaskParameters;
 
     public SAV_PokedexResearchEditorLA(SAV8LA sav, ushort species, int dexIdx, IReadOnlyList<string> tasks, IReadOnlyList<string> timeTasks)
@@ -107,80 +150,6 @@ public partial class SAV_PokedexResearchEditorLA : Form
             NUP_LeapTussocks,
         ];
 
-        TaskTypes =
-        [
-            Catch,
-            CatchAlpha,
-            CatchLarge,
-            CatchSmall,
-            CatchHeavy,
-            CatchLight,
-            CatchAtTime,
-            CatchSleeping,
-            CatchInAir,
-            CatchNotSpotted,
-
-            UseMove,
-            UseMove,
-            UseMove,
-            UseMove,
-            DefeatWithMoveType,
-            DefeatWithMoveType,
-            DefeatWithMoveType,
-            Defeat,
-            UseStrongStyleMove,
-            UseAgileStyleMove,
-
-            Evolve,
-            GiveFood,
-            StunWithItems,
-            ScareWithScatterBang,
-            LureWithPokeshiDoll,
-
-            LeapFromTrees,
-            LeapFromLeaves,
-            LeapFromSnow,
-            LeapFromOre,
-            LeapFromTussocks,
-        ];
-
-        TaskIndexes =
-        [
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-
-            0,
-            1,
-            2,
-            3,
-            0,
-            1,
-            2,
-            -1,
-            -1,
-            -1,
-
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-        ];
-
         TaskParameters = new int[TaskIndexes.Length];
         InitializeTaskParameters(dexIdx);
         #endregion
@@ -253,14 +222,10 @@ public partial class SAV_PokedexResearchEditorLA : Form
             if (nup.Value != 0)
                 return false;
         }
-
         return true;
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
