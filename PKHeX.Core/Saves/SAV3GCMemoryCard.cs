@@ -33,7 +33,7 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
     private const int MBIT_TO_BLOCKS = 0x10;
     private const int DENTRY_STRLEN = 0x20;
     private const int DENTRY_SIZE = 0x40;
-    private const int NumEntries_Directory = BLOCK_SIZE / DENTRY_SIZE;
+    private const int NumEntries_Directory = BLOCK_SIZE / DENTRY_SIZE; // 128
 
     public static bool IsMemoryCardSize(long size)
     {
@@ -201,7 +201,7 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
 
     public GCMemoryCardState GetMemoryCardState()
     {
-        ReadOnlySpan<byte> data = Data;
+        Span<byte> data = Data;
         if (!IsMemoryCardSize(data))
             return GCMemoryCardState.Invalid; // Invalid size
 
@@ -223,22 +223,24 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
         for (int i = 0; i < NumEntries_Directory; i++)
         {
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (i * DENTRY_SIZE);
-            if (ReadUInt32BigEndian(data[offset..]) == uint.MaxValue) // empty entry
+            var slice = data.Slice(offset, DENTRY_SIZE);
+            var dEntry = new DEntry(slice);
+
+            if (dEntry.IsEmpty) // empty entry
                 continue;
 
-            int FirstBlock = ReadUInt16BigEndian(data[0x36..]);
-            if (FirstBlock < 5)
+            int firstBlock = dEntry.FirstBlock;
+            if (firstBlock < 5)
                 continue;
 
-            int BlockCount = ReadUInt16BigEndian(data[0x38..]);
-            var dataEnd = (FirstBlock + BlockCount) * BLOCK_SIZE;
+            int blockCount = dEntry.BlockCount;
+            var dataEnd = (firstBlock + blockCount) * BLOCK_SIZE;
 
             // Memory card directory contains info for deleted files with boundaries beyond memory card size, ignore
             if (dataEnd > data.Length)
                 continue;
 
-            var header = Data.AsSpan(offset, 4);
-            var version = SaveHandlerGCI.GetGameCode(header);
+            var version = SaveHandlerGCI.GetGameCode(dEntry.GameCode);
             if (version == GameVersion.COLO)
             {
                 if (HasCOLO) // another entry already exists
@@ -315,42 +317,45 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
     {
         int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
         var span = Data.AsSpan(offset, DENTRY_SIZE);
-        return GetSaveName(EncodingType, span);
+        var dEntry = new DEntry(span);
+
+        return GetSaveName(EncodingType, dEntry);
     }
 
-    private static string GetSaveName(Encoding encoding, ReadOnlySpan<byte> data)
+    private static string GetSaveName(Encoding encoding, DEntry dEntry)
     {
-        string GameCode = encoding.GetString(data[..4]);
-        string Makercode = encoding.GetString(data.Slice(4, 2));
+        Span<char> result = stackalloc char[4 + 1 + 2 + 1 + DENTRY_STRLEN];
+        encoding.GetChars(dEntry.GameCode, result); // 4 bytes
+        result[4] = '-';
+        encoding.GetChars(dEntry.MakerCode, result[5..]); // 2 bytes
+        result[7] = '-';
+        encoding.GetChars(dEntry.FileName, result[8..]); // 0x20 bytes (max)
 
-        Span<char> FileName = stackalloc char[DENTRY_STRLEN];
-        encoding.GetString(data.Slice(0x08, DENTRY_STRLEN));
-        var zero = FileName.IndexOf('\0');
+        var zero = result.IndexOf('\0');
         if (zero >= 0)
-            FileName = FileName[..zero];
+            result = result[..zero];
 
-        return $"{Makercode}-{GameCode}-{FileName}.gci";
+        return result.ToString();
     }
 
     public ReadOnlyMemory<byte> ReadSaveGameData()
     {
         var entry = EntrySelected;
         if (entry < 0)
-            return ReadOnlyMemory<byte>.Empty; // No entry selected
+            return default; // No entry selected
         return ReadSaveGameData(entry);
     }
 
     private ReadOnlyMemory<byte> ReadSaveGameData(int entry)
     {
         int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (entry * DENTRY_SIZE);
-        var span = Data.AsSpan(offset);
-        int blockFirst = ReadUInt16BigEndian(span[0x36..]);
-        int blockCount = ReadUInt16BigEndian(span[0x38..]);
+        var span = Data.AsSpan(offset, DENTRY_SIZE);
+        var dEntry = new DEntry(span);
 
-        return Data.AsMemory(blockFirst * BLOCK_SIZE, blockCount * BLOCK_SIZE);
+        return Data.AsMemory(dEntry.FirstBlock * BLOCK_SIZE, dEntry.BlockCount * BLOCK_SIZE);
     }
 
-    public void WriteSaveGameData(ReadOnlySpan<byte> data)
+    public void WriteSaveGameData(Span<byte> data)
     {
         var entry = EntrySelected;
         if (entry < 0) // Can't write anywhere
@@ -358,17 +363,65 @@ public sealed class SAV3GCMemoryCard(byte[] Data)
         WriteSaveGameData(data, entry);
     }
 
-    private void WriteSaveGameData(ReadOnlySpan<byte> data, int entry)
+    private static DateTime Epoch => new(2000, 1, 1);
+
+    private void WriteSaveGameData(Span<byte> data, int entry)
     {
         int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (entry * DENTRY_SIZE);
-        var span = Data.AsSpan(offset);
-        int blockFirst = ReadUInt16BigEndian(span[0x36..]);
-        int blockCount = ReadUInt16BigEndian(span[0x38..]);
+        var span = Data.AsSpan(offset, DENTRY_SIZE);
+        var dEntry = new DEntry(span);
+
+        var blockFirst = dEntry.FirstBlock;
+        var blockCount = dEntry.BlockCount;
 
         if (data.Length != blockCount * BLOCK_SIZE) // Invalid File Size
             return;
 
+        var timestamp = (uint)EncounterDate.GetDateTimeGC().Subtract(Epoch).TotalSeconds;
+
         var dest = Data.AsSpan(blockFirst * BLOCK_SIZE);
         data[..(blockCount * BLOCK_SIZE)].CopyTo(dest);
+        dEntry.ModificationTime = timestamp;
+
+        // Revise the DEntry of the injected save data to match that of the main DEntry
+        _ = new DEntry(dest[..DENTRY_SIZE])
+        {
+            ModificationTime = timestamp,
+            FirstBlock = blockFirst,
+            BlockCount = blockCount,
+        };
+    }
+
+    private readonly ref struct DEntry(Span<byte> data)
+    {
+        public const int SIZE = 0x40;
+        private readonly Span<byte> Data = data;
+
+        public Span<byte> GameCode => Data[..4];
+        public Span<byte> MakerCode => Data[4..6];
+        public ref byte Unused6 => ref Data[6];
+        public ref byte BannerAndIconFlags => ref Data[7];
+        public Span<byte> FileName => Data[8..0x28];
+
+        // Seconds since Jan 1, 2000
+        public uint ModificationTime { get => ReadUInt32BigEndian(Data[0x28..]); set => WriteUInt32BigEndian(Data[0x28..], value); }
+        public uint ImageOffset { get => ReadUInt32BigEndian(Data[0x2C..]); set => WriteUInt32BigEndian(Data[0x2C..], value); }
+
+        // 2 bits per icon
+        public ushort IconFormat { get => ReadUInt16BigEndian(Data[0x30..]); set => WriteUInt16BigEndian(Data[0x30..], value); }
+
+        public ushort AnimationSpeed { get => ReadUInt16BigEndian(Data[0x32..]); set => WriteUInt16BigEndian(Data[0x32..], value); }
+
+        public ref byte FilePermissions => ref Data[0x34];
+        public ref byte CopyCounter => ref Data[0x35];
+
+        public ushort FirstBlock { get => ReadUInt16BigEndian(Data[0x36..]); set => WriteUInt16BigEndian(Data[0x36..], value); }
+        public ushort BlockCount { get => ReadUInt16BigEndian(Data[0x38..]); set => WriteUInt16BigEndian(Data[0x38..], value); }
+
+        public ushort Unused3A { get => ReadUInt16BigEndian(Data[0x3A..]); set => WriteUInt16BigEndian(Data[0x3A..], value); }
+        public uint CommentsAddress { get => ReadUInt32BigEndian(Data[0x3C..]); set => WriteUInt32BigEndian(Data[0x3C..], value); }
+
+        public bool IsEmpty => ReadUInt32BigEndian(GameCode) is 0 or uint.MaxValue; // FF is "Uninitialized", but check for 0 to be sure.
+        public DateTime ModificationDate => Epoch.AddSeconds(ModificationTime);
     }
 }
