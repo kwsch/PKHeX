@@ -109,8 +109,8 @@ public static class GenerateMethodH
             var pid = GetPIDRegular(a, b);
             if (criteria.IsSpecifiedNature() && (Nature)(pid % 25) != criteria.Nature)
             {
-                // Try again as Method 2 (BA-DE)
-                var o = s >> 16;
+                // Try again as Method 2 (AB-DE)
+                var o = seed >> 16;
                 pid = GetPIDRegular(o, a);
                 if (criteria.IsSpecifiedNature() && (Nature)(pid % 25) != criteria.Nature)
                     continue;
@@ -130,7 +130,7 @@ public static class GenerateMethodH
             return true;
         }
 
-        // Try again as Method 4 (BAC-E)
+        // Try again as Method 4 (ABC-E)
         count = LCRNGReversalSkip.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         seeds = all[..count];
         foreach (ref var seed in seeds)
@@ -178,7 +178,7 @@ public static class GenerateMethodH
             if ((criteria.IsSpecifiedNature() && (Nature)(pid % 25) != criteria.Nature) || EntityPID.GetUnownForm3(pid) != enc.Form)
             {
                 // Try again as Method 2 (BA-DE)
-                var o = s >> 16;
+                var o = seed >> 16;
                 pid = GetPIDUnown(o, a);
                 if (criteria.IsSpecifiedNature() && (Nature)(pid % 25) != criteria.Nature)
                     continue;
