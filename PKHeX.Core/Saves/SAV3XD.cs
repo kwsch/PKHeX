@@ -148,7 +148,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
             return newFile;
 
         MemoryCard.WriteSaveGameData(newFile);
-        return MemoryCard.Data;
+        return MemoryCard.Data.ToArray();
     }
 
     private byte[] GetInnerData()
