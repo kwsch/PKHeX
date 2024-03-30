@@ -714,26 +714,26 @@ public partial class Main : Form
         var state = memCard.GetMemoryCardState();
         switch (state)
         {
-            case GCMemoryCardState.NoPkmSaveGame:
+            case MemoryCardSaveStatus.NoPkmSaveGame:
                 WinFormsUtil.Error(MsgFileGameCubeNoGames, path);
                 return false;
 
-            case GCMemoryCardState.DuplicateCOLO:
-            case GCMemoryCardState.DuplicateXD:
-            case GCMemoryCardState.DuplicateRSBOX:
+            case MemoryCardSaveStatus.DuplicateCOLO:
+            case MemoryCardSaveStatus.DuplicateXD:
+            case MemoryCardSaveStatus.DuplicateRSBOX:
                 WinFormsUtil.Error(MsgFileGameCubeDuplicate, path);
                 return false;
 
-            case GCMemoryCardState.MultipleSaveGame:
+            case MemoryCardSaveStatus.MultipleSaveGame:
                 var game = SelectMemoryCardSaveGame(memCard);
                 if (game == GameVersion.Invalid) //Cancel
                     return false;
                 memCard.SelectSaveGame(game);
                 break;
 
-            case GCMemoryCardState.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
-            case GCMemoryCardState.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
-            case GCMemoryCardState.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
+            case MemoryCardSaveStatus.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
+            case MemoryCardSaveStatus.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
+            case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
             default:
                 WinFormsUtil.Error(!SaveUtil.IsSizeValid(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);

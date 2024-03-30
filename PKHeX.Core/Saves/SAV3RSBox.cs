@@ -82,7 +82,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
             return newFile;
 
         MemoryCard.WriteSaveGameData(newFile);
-        return MemoryCard.Data;
+        return MemoryCard.Data.ToArray();
     }
 
     private byte[] GetInnerData()
