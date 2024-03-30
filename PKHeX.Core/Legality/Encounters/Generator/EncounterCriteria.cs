@@ -101,7 +101,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     /// <returns>Initialized criteria data to be passed to generators.</returns>
     public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi) => new()
     {
-        Gender = s.Gender,
+        Gender = s.Gender < 2 ? s.Gender : default,
         IV_HP = s.IVs[0],
         IV_ATK = s.IVs[1],
         IV_DEF = s.IVs[2],
