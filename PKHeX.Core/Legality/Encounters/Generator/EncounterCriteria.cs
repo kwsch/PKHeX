@@ -101,7 +101,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     /// <returns>Initialized criteria data to be passed to generators.</returns>
     public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi) => new()
     {
-        Gender = s.Gender < 2 ? s.Gender : default,
+        Gender = GetGenderPermissions(s.Gender, pi),
         IV_HP = s.IVs[0],
         IV_ATK = s.IVs[1],
         IV_DEF = s.IVs[2],
@@ -115,6 +115,16 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
         TeraType = (sbyte)s.TeraType,
     };
+
+    private static byte? GetGenderPermissions(byte? gender, IGenderDetail pi)
+    {
+        if (gender is not <= 1)
+            return default;
+        if (pi.IsDualGender)
+            return gender;
+        var g = pi.FixedGender();
+        return g <= 1 ? g : default;
+    }
 
     private static AbilityPermission GetAbilityPermissions(int ability, IPersonalAbility pi)
     {
