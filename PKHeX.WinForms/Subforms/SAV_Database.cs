@@ -444,7 +444,7 @@ public partial class SAV_Database : Form
     private static void TryAddPKMsFromMemoryCard(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string file)
     {
         var state = mc.GetMemoryCardState();
-        if (state == GCMemoryCardState.Invalid)
+        if (state == MemoryCardSaveStatus.Invalid)
             return;
 
         if (mc.HasCOLO)

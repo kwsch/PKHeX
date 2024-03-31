@@ -88,7 +88,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
             return newFile;
 
         MemoryCard.WriteSaveGameData(newFile);
-        return MemoryCard.Data;
+        return MemoryCard.Data.ToArray();
     }
 
     private byte[] GetInnerData()

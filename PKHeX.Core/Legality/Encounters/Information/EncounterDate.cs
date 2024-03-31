@@ -15,6 +15,11 @@ public static class EncounterDate
     private static DateTime Now => TimeProvider.GetLocalNow().DateTime;
 
     /// <summary>
+    /// Fetches a valid date for the Nintendo GameCube.
+    /// </summary>
+    public static DateTime GetDateTimeGC() => Now;
+
+    /// <summary>
     /// Fetches a valid date for the Nintendo DS.
     /// </summary>
     public static DateOnly GetDateNDS() => DateOnly.FromDateTime(Now);
