@@ -786,7 +786,7 @@ public sealed class GameStrings : IBasicStrings
     public ILocationSet? GetLocations(byte generation, GameVersion version) => generation switch
     {
         2 => Gen2,
-        3 => GameVersion.CXD.Contains(version) ? CXD : Gen3,
+        3 => version is (GameVersion.COLO or GameVersion.XD or GameVersion.CXD) ? CXD : Gen3,
         4 => Gen4,
         5 => Gen5,
         6 => Gen6,
