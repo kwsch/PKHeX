@@ -578,11 +578,12 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     {
         switch (CardID)
         {
+            case 0184 when Species != pk.Species && pk.OriginalTrainerFriendship != PersonalTable.AO[Species].BaseFriendship: // Eevee Evolutions
             case 0525 when IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
             case 0504 when RibbonClassic != ((IRibbonSetEvent4)pk).RibbonClassic: // Magmar with/without classic
                 return true;
         }
-        return Species != pk.Species;
+        return false;
     }
 
     public override GameVersion Version => RestrictVersion switch
