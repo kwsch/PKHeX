@@ -80,7 +80,9 @@ internal static class Encounters2
     [
         new(245, 40, C) { Location = 023 }, // Suicune @ Tin Tower
 
-        new(147, 15, C) { Location = 042, Moves = new((int)Move.ExtremeSpeed, (int)Move.Wrap, (int)Move.ThunderWave, (int)Move.Twister) }, // Dratini ExtremeSpeed
+        // Dragon Master's Quiz Dratini @ Dragon's Den
+        new(147, 15, C) { Location = 042, Moves = new((int)Move.Wrap, (int)Move.ThunderWave, (int)Move.Twister, (int)Move.ExtremeSpeed) }, // Dratini ExtremeSpeed
+        new(147, 15, C) { Location = 042 }, // Dratini with regular moves
 
         new(249, 60, C) { Location = 031 }, // Lugia @ Whirl Islands
         new(250, 60, C) { Location = 023 }, // Ho-Oh @ Tin Tower
