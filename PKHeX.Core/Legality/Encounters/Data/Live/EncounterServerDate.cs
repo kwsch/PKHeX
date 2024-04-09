@@ -198,6 +198,7 @@ public static class EncounterServerDate
         {0048, (new(2024, 02, 22), new(2024, 04, 01))}, // Project Snorlax Campaign Gift
         {1534, (new(2024, 03, 12), new(2025, 03, 01))}, // YOASOBI Pawmot
         {1535, (new(2024, 03, 14), new(2024, 10, 01))}, // Liko's Sprigatito Gift
+        {0509, (new(2024, 04, 04), new(2024, 04, 09))}, // Marco's Iron Hands Gift
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
