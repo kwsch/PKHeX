@@ -191,6 +191,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract WhiteBlack5 Forest { get; }
     public abstract GTS5 GTS { get; }
     public abstract AdventureInfo5 AdventureInfo { get; }
+    public abstract Record5 Records { get; }
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
 
     public abstract Memory<byte> BattleVideoNative { get; }
