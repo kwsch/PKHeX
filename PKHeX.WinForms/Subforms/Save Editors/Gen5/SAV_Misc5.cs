@@ -39,6 +39,7 @@ public partial class SAV_Misc5 : Form
         ReadEntralink();
         ReadMedals();
         ReadMusical();
+        ReadRecord();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -49,11 +50,27 @@ public partial class SAV_Misc5 : Form
         SaveForest();
         SaveSubway();
         SaveEntralink();
+        SaveRecord();
 
         Forest.EnsureDecrypted(false);
         Origin.CopyChangesFrom(SAV);
         Close();
     }
+
+    private void ReadRecord()
+    {
+        var record = SAV.Records;
+        NUD_Record16.Maximum = Record5.Record16;
+        NUD_Record32.Maximum = Record5.Record32;
+        NUD_Record16V.Value = record.GetRecord16(0);
+        NUD_Record32V.Value = record.GetRecord32(0);
+        NUD_Record16V.ValueChanged += (_, _) => record.SetRecord16((int)NUD_Record16.Value, (ushort)NUD_Record16V.Value);
+        NUD_Record32V.ValueChanged += (_, _) => record.SetRecord32((int)NUD_Record32.Value, (uint)NUD_Record32V.Value);
+        NUD_Record16.ValueChanged  += (_, _) => NUD_Record16V.Value = record.GetRecord16((int)NUD_Record16.Value);
+        NUD_Record32.ValueChanged  += (_, _) => NUD_Record32V.Value = record.GetRecord32((int)NUD_Record32.Value);
+    }
+
+    private void SaveRecord() => SAV.Records.EndAccess();
 
     private static ReadOnlySpan<uint> keyKS =>
     [

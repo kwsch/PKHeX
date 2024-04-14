@@ -29,7 +29,7 @@ public sealed class MetDataSource(GameStrings s)
 
     private static List<ComboItem> CreateGen2(GameStrings s)
     {
-        var locations = Util.GetCBList(s.Gen2.Met0.AsSpan(0, 0x5F));
+        var locations = Util.GetCBList(s.Gen2.Met0.AsSpan(0, 0x60));
         Util.AddCBWithOffset(locations, s.Gen2.Met0.AsSpan(0x7E, 2), 0x7E);
         return locations;
     }

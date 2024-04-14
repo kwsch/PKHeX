@@ -82,6 +82,7 @@ internal static class Encounters8a
         new(201,023,25,U) { Location = 007, Method = Fixed }, // Unown X
         new(201,024,25,U) { Location = 097, Method = Fixed }, // Unown Y
         new(201,006,25,U) { Location = 007, Method = Fixed }, // Unown G
+        new(201,013,25,U) { Location = 129, Method = Fixed }, // Unown N (Sand's Reach)
 
         new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                 Moves = new(326,242,087,847) }, // Thundurus (Lunker’s Lair)
         new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                 Moves = new(326,242,087,847) }, // Thundurus (Sand’s Reach)

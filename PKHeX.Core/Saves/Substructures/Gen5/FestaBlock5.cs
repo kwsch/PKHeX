@@ -61,8 +61,8 @@ public sealed class FestaBlock5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5
 
     public Funfest5Score GetMissionRecord(int mission)
     {
-        var raw = ReadUInt32LittleEndian(Data[GetMissionRecordOffset(mission)..]);
-        return new Funfest5Score(raw);
+        var value = ReadUInt32LittleEndian(Data[GetMissionRecordOffset(mission)..]);
+        return new Funfest5Score(value);
     }
 
     public void SetMissionRecord(int mission, Funfest5Score score)

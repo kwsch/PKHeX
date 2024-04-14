@@ -22,4 +22,5 @@ public interface ISaveBlock5BW
     GlobalLink5 GlobalLink { get; }
     GTS5 GTS { get; }
     AdventureInfo5 AdventureInfo { get; }
+    Record5 Records { get; }
 }
