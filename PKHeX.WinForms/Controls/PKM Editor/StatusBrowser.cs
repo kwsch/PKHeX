@@ -12,20 +12,21 @@ public partial class StatusBrowser : Form
     public bool WasChosen { get; private set; }
     public StatusCondition Choice { get; private set; }
 
-    private const int StatusHeight = 24;
-    private const int StatusWidth = StatusHeight * 2;
+    private readonly int StatusHeight;
     private const int StatusCount = 7;
-    private const int StatusBrowserWidth = StatusWidth * 2;
+    private int StatusWidth => StatusHeight;
+    private int StatusBrowserWidth => StatusWidth * 2;
 
     public StatusBrowser()
     {
         InitializeComponent();
+        StatusHeight = Drawing.PokeSprite.Properties.Resources.sicksleep.Height;
         NUD_Sleep = new NumericUpDown
         {
             Minimum = 1,
             Maximum = 7,
             Value = 1,
-            Width = StatusWidth,
+            Width = 40,
             TextAlign = HorizontalAlignment.Center,
             Margin = Padding.Empty,
             Padding = Padding.Empty,
@@ -62,10 +63,12 @@ public partial class StatusBrowser : Form
 
     private SelectablePictureBox GetImage(StatusCondition value, string name)
     {
-        var color = value.GetStatusColor();
+        var img = value == 0
+            ? Drawing.PokeSprite.Properties.Resources.sickfaint
+            : value.GetStatusSprite();
         var pb = new SelectablePictureBox
         {
-            BackColor = color,
+            Image = img,
             Name = name,
             AccessibleDescription = name,
             AccessibleName = name,

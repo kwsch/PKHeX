@@ -2886,11 +2886,11 @@ namespace PKHeX.WinForms.Controls
             // 
             // StatusView
             // 
-            StatusView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            StatusView.Location = new System.Drawing.Point(357, 1);
+            StatusView.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            StatusView.Location = new System.Drawing.Point(-4, 344);
             StatusView.Margin = new System.Windows.Forms.Padding(0);
             StatusView.Name = "StatusView";
-            StatusView.Size = new System.Drawing.Size(40, 24);
+            StatusView.Size = new System.Drawing.Size(64, 64);
             StatusView.TabIndex = 2;
             // 
             // TC_Editor

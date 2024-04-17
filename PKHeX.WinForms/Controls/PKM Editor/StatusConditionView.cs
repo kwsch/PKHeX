@@ -20,7 +20,7 @@ public partial class StatusConditionView : UserControl
     public StatusConditionView()
     {
         InitializeComponent();
-        PB_Status.MouseHover += (s, e) => PB_Status.Cursor = Cursors.Hand;
+        PB_Status.MouseHover += (_, _) => PB_Status.Cursor = Cursors.Hand;
     }
 
     public void LoadPKM(PKM entity)
@@ -41,8 +41,7 @@ public partial class StatusConditionView : UserControl
 
     private void SetStatus(StatusCondition status)
     {
-        var color = status.GetStatusColor();
-        PB_Status.BackColor = color;
+        PB_Status.Image = status.GetStatusSprite();
         Hover.SetToolTip(PB_Status, $"Status Condition: {status}");
     }
 
