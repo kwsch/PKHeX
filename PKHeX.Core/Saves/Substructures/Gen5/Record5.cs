@@ -1,5 +1,5 @@
 using System;
-using System.Buffers.Binary;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -9,8 +9,8 @@ public class Record5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
 
     private uint CryptoSeed // 0x1DC
     {
-        get => BinaryPrimitives.ReadUInt32LittleEndian(Data[^4..]);
-        set => BinaryPrimitives.WriteUInt32LittleEndian(Data[^4..], value);
+        get => ReadUInt32LittleEndian(Data[^4..]);
+        set => WriteUInt32LittleEndian(Data[^4..], value);
     }
 
     private bool IsDecrypted;
@@ -25,8 +25,8 @@ public class Record5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
 
     public uint Revision // 0x00
     {
-        get => BinaryPrimitives.ReadUInt32LittleEndian(Data);
-        set => BinaryPrimitives.WriteUInt32LittleEndian(Data, value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public const int Record32 = 68;
@@ -42,28 +42,28 @@ public class Record5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Record32);
         EnsureDecrypted();
-        return BinaryPrimitives.ReadUInt32LittleEndian(Record32Data[(index * 4)..]);
+        return ReadUInt32LittleEndian(Record32Data[(index * 4)..]);
     }
 
     public void SetRecord32(int index, uint value)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Record32);
         EnsureDecrypted();
-        BinaryPrimitives.WriteUInt32LittleEndian(Record32Data[(index * 4)..], value);
+        WriteUInt32LittleEndian(Record32Data[(index * 4)..], Math.Min(Max32, value));
     }
 
     public ushort GetRecord16(int index)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Record16);
         EnsureDecrypted();
-        return BinaryPrimitives.ReadUInt16LittleEndian(Record16Data[(index * 2)..]);
+        return ReadUInt16LittleEndian(Record16Data[(index * 2)..]);
     }
 
     public void SetRecord16(int index, ushort value)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Record16);
         EnsureDecrypted();
-        BinaryPrimitives.WriteUInt16LittleEndian(Record16Data[(index * 2)..], value);
+        WriteUInt16LittleEndian(Record16Data[(index * 2)..], Math.Min(Max16, value));
     }
 
     public enum Record5Index

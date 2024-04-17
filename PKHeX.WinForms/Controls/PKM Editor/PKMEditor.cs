@@ -1967,7 +1967,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_HeldItem.Visible = format >= 2;
         CHK_IsEgg.Visible = CHK_IsEgg.TabStop = format >= 2;
         FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = format >= 2;
-        UC_Gender.Visible = UC_OTGender.Visible = UC_OTGender.TabStop = format >= 2;
+        UC_OTGender.Visible = UC_OTGender.TabStop = format >= 2;
+        UC_Gender.Visible = format >= 2 || (format == 1 && Main.Settings.EntityEditor.ShowGenderGen1);
         FLP_CatchRate.Visible = format == 1;
 
         // HaX override, needs to be after DEV_Ability enabled assignment.
