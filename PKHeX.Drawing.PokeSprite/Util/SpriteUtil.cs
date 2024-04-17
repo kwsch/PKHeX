@@ -310,4 +310,9 @@ public static class SpriteUtil
         }
         return img;
     }
+
+    public static Image GetStatusSprite(StatusType value)
+    {
+        throw new NotImplementedException();
+    }
 }

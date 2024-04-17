@@ -114,6 +114,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Stats.UpdateStats();
         if (Entity is IScaledSizeAbsolute)
             SizeCP.TryResetStats();
+        StatusView.LoadPKM(Entity);
     }
 
     private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
