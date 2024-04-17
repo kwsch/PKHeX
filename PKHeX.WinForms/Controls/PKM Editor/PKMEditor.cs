@@ -1933,6 +1933,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Contest.ToggleInterface(Entity, Entity.Context);
         if (t is not IFormArgument)
             L_FormArgument.Visible = false;
+        StatusView.Visible = Main.Settings.EntityEditor.ShowStatusCondition;
 
         ToggleInterface(Entity.Format);
     }

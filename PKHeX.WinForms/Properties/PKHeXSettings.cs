@@ -310,6 +310,9 @@ public sealed class EntityEditorSettings
 
     [LocalizedDescription("When showing a Generation 1 format entity, show the gender it would have if transferred to other generations.")]
     public bool ShowGenderGen1 { get; set; }
+
+    [LocalizedDescription("When showing an entity, show any stored Status Condition (Sleep/Burn/etc) it may have.")]
+    public bool ShowStatusCondition { get; set; } = true;
 }
 
 public sealed class EncounterDatabaseSettings
