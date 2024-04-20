@@ -70,7 +70,7 @@ public static class EncounterDate
     /// </summary>
     public static bool IsValidDateSwitch(DateOnly date)
     {
-        if (date.Year is < 2000 or > 2050)
+        if (date.Year is < 2000 or > 2060)
             return false;
         return true;
     }
