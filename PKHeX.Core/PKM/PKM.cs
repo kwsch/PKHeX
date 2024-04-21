@@ -1008,9 +1008,11 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
             var prop = src.GetValue(this);
             if (prop is byte[] or null)
                 continue; // not a valid property transfer
+            if (pi.PropertyType != src.PropertyType)
+                continue; // property type mismatch (not really a 1:1 shared property)
 
             // Write it to the destination.
-            ReflectUtil.SetValue(pi, result, prop);
+            pi.SetValue(result, prop);
         }
 
         // set shared properties for the Gen1/2 base class

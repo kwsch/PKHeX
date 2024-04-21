@@ -38,7 +38,25 @@ public sealed class LearnGroup2 : ILearnGroup
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
-        return MoveResult.AllParsed(result);
+        bool vc1 = pk.VC1;
+        if (!vc1 && MoveResult.AllParsed(result))
+            return true;
+
+        // Uh-oh, not all moves are verified yet.
+        // To visit Gen1, we need to invalidate moves that can't be learned in Gen1 or re-learned in Gen2.
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (current[i] <= Legal.MaxMoveID_1)
+                continue;
+            var move = result[i];
+            if (!move.IsParsed)
+                continue;
+            var method = move.Info.Method;
+            if ((vc1 && move.Generation == 2) || method is LearnMethod.Initial || method.IsEggSource())
+                result[i] = MoveResult.Unobtainable();
+        }
+
+        return false;
     }
 
     private static void CheckEncounterMoves(PKM pk, Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)

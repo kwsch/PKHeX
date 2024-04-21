@@ -32,7 +32,8 @@ internal static class LearnVerifierHistory
                 MarkRelearnMoves(result, current, pk);
 
             // Knock off initial moves if available.
-            MarkSpecialMoves(result, current, enc, pk);
+            if (enc.Generation != 2) // Handle trade-backs in Gen2 separately.
+                MarkSpecialMoves(result, current, enc, pk);
         }
 
         // Iterate games to identify move sources.

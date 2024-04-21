@@ -310,4 +310,23 @@ public static class SpriteUtil
         }
         return img;
     }
+
+    public static Image? GetStatusSprite(this StatusCondition value)
+    {
+        if (value == 0)
+            return null;
+        if (value < StatusCondition.Poison)
+            return Resources.sicksleep;
+        if (value.HasFlag(StatusCondition.PoisonBad))
+            return Resources.sicktoxic;
+        if (value.HasFlag(StatusCondition.Poison))
+            return Resources.sickpoison;
+        if (value.HasFlag(StatusCondition.Burn))
+            return Resources.sickburn;
+        if (value.HasFlag(StatusCondition.Paralysis))
+            return Resources.sickparalyze;
+        if (value.HasFlag(StatusCondition.Freeze))
+            return Resources.sickfrostbite;
+        return null;
+    }
 }

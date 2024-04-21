@@ -56,6 +56,7 @@ public sealed class SAV5BW : SAV5
     public override GTS5 GTS => Blocks.GTS;
     public override WhiteBlack5BW Forest => Blocks.Forest;
     public override AdventureInfo5 AdventureInfo => Blocks.AdventureInfo;
+    public override Record5 Records => Blocks.Records;
 
     public override Memory<byte> BattleVideoNative    => Data.AsMemory(0x4A000, BattleVideo5.SIZE_USED);
     public override Memory<byte> BattleVideoDownload1 => Data.AsMemory(0x4C000, BattleVideo5.SIZE_USED);

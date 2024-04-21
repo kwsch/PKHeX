@@ -17362,6 +17362,27 @@
   <data name="rare_icon_alt_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprite Overlays\rare_icon_alt_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="sickburn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sickburn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sickfaint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sickfaint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sickfrostbite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sickfrostbite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sickparalyze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sickparalyze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sickpoison" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sickpoison.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sicksleep" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sicksleep.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sicktoxic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Status\sicktoxic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="slotDel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\accents\slotDel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
