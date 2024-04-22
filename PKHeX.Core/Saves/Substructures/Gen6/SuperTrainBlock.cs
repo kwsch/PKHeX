@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 
 public sealed class SuperTrainBlock : SaveBlock<SAV6>
 {
-    public SuperTrainBlock(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public SuperTrainBlock(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public SuperTrainBlock(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
+    public SuperTrainBlock(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
     // Structure:
     // 6 bytes stage unlock flags
@@ -37,7 +37,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         if ((uint)index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return SAV.GetFlag(Offset, index);
+        return SAV.GetFlag(Data, 0, index);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         if ((uint)index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        SAV.SetFlag(Offset, index, value);
+        SAV.SetFlag(Data, 0, index, value);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         if ((uint)index >= MAX_DIST)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return SAV.GetFlag(Offset + 6, index);
+        return SAV.GetFlag(Data, 6, index);
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         if ((uint)index >= MAX_DIST)
             throw new ArgumentOutOfRangeException(nameof(index));
-        SAV.SetFlag(Offset + 6, index, value);
+        SAV.SetFlag(Data, 6, index, value);
     }
 
     /// <summary>
@@ -81,8 +81,8 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     /// </summary>
     public byte Counter
     {
-        get => Data[Offset + 7];
-        set => Data[Offset + 7] = Math.Min((byte)10, value);
+        get => Data[7];
+        set => Data[7] = Math.Min((byte)10, value);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
         if ((uint) index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        return ReadSingleLittleEndian(Data.AsSpan(Offset + 0x08 + (4 * index)));
+        return ReadSingleLittleEndian(Data[(0x08 + (4 * index))..]);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
         if ((uint)index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        WriteSingleLittleEndian(Data.AsSpan(Offset + 0x08 + (4 * index)), value);
+        WriteSingleLittleEndian(Data[(0x08 + (4 * index))..], value);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
         if ((uint)index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        return ReadSingleLittleEndian(Data.AsSpan(Offset + 0xC8 + (4 * index)));
+        return ReadSingleLittleEndian(Data[(0xC8 + (4 * index))..]);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
         if ((uint)index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        WriteSingleLittleEndian(Data.AsSpan(Offset + 0xC8 + (4 * index)), value);
+        WriteSingleLittleEndian(Data[(0xC8 + (4 * index))..], value);
     }
 
     /// <summary>
@@ -142,10 +142,9 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     /// <returns>Object that will edit the record data if modified.</returns>
     public SuperTrainingSpeciesRecord GetHolder1(int index)
     {
-        if ((uint)index >= MAX)
-            throw new ArgumentOutOfRangeException(nameof(index));
-
-        return new SuperTrainingSpeciesRecord(Data, Offset + 0x188 + (4 * index));
+        var ofs = GetOffsetHolder1(index);
+        var raw = Raw.Slice(ofs, SuperTrainingSpeciesRecord.SIZE);
+        return new SuperTrainingSpeciesRecord(raw);
     }
 
     /// <summary>
@@ -155,10 +154,23 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     /// <returns>Object that will edit the record data if modified.</returns>
     public SuperTrainingSpeciesRecord GetHolder2(int index)
     {
+        var ofs = GetOffsetHolder2(index);
+        var raw = Raw.Slice(ofs, SuperTrainingSpeciesRecord.SIZE);
+        return new SuperTrainingSpeciesRecord(raw);
+    }
+
+    private static int GetOffsetHolder1(int index)
+    {
         if ((uint)index >= MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
+        return 0x188 + (SuperTrainingSpeciesRecord.SIZE * index);
+    }
 
-        return new SuperTrainingSpeciesRecord(Data, Offset + 0x248 + (4 * index));
+    private static int GetOffsetHolder2(int index)
+    {
+        if ((uint)index >= MAX)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return 0x248 + (SuperTrainingSpeciesRecord.SIZE * index);
     }
 
     /// <summary>
@@ -169,7 +181,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         if ((uint)index >= MAX_BAG)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return Data[Offset + 0x308 + index];
+        return Data[0x308 + index];
     }
 
     /// <summary>
@@ -181,7 +193,7 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         if ((uint)index >= MAX_BAG)
             throw new ArgumentOutOfRangeException(nameof(index));
-        Data[Offset + 0x308 + index] = value;
+        Data[0x308 + index] = value;
     }
 
     /// <summary>
@@ -231,8 +243,8 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
 
     public uint TutorialIndex
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x314));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x314), value);
+        get => ReadUInt32LittleEndian(Data[0x314..]);
+        set => WriteUInt32LittleEndian(Data[0x314..], value);
     }
 
     /// <summary>
@@ -280,18 +292,22 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     /// <summary>
     /// Clears all data in the block.
     /// </summary>
-    public void ClearBlock() => Array.Clear(Data, Offset, 0x318);
+    public void ClearBlock() => Data.Clear();
 }
 
-public sealed class SuperTrainingSpeciesRecord(byte[] Data, int Offset) : ISpeciesForm
+public sealed class SuperTrainingSpeciesRecord(Memory<byte> raw) : ISpeciesForm
 {
+    public const int SIZE = 4;
+
+    private Span<byte> Data => raw.Span;
+
     /// <summary>
     /// <see cref="PKM.Species"/> of the Record Holder.
     /// </summary>
     public ushort Species
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     /// <summary>
@@ -299,8 +315,8 @@ public sealed class SuperTrainingSpeciesRecord(byte[] Data, int Offset) : ISpeci
     /// </summary>
     public byte Form
     {
-        get => Data[Offset + 2];
-        set => Data[Offset + 2] = value;
+        get => Data[2];
+        set => Data[2] = value;
     }
 
     /// <summary>
@@ -309,17 +325,14 @@ public sealed class SuperTrainingSpeciesRecord(byte[] Data, int Offset) : ISpeci
     /// <seealso cref="Core.Gender"/>
     public byte Gender
     {
-        get => Data[Offset + 3];
-        set => Data[Offset + 3] = value;
+        get => Data[3];
+        set => Data[3] = value;
     }
 
     /// <summary>
     /// Wipes the record holder's pk-related data.
     /// </summary>
-    public void Clear()
-    {
-        Species = 0; Form = Gender = 0;
-    }
+    public void Clear() => Data.Clear();
 
     /// <summary>
     /// Sets the data to match what is in the provided reference.
@@ -329,6 +342,6 @@ public sealed class SuperTrainingSpeciesRecord(byte[] Data, int Offset) : ISpeci
     {
         Species = pk.Species;
         Form = pk.Form;
-        Gender = (byte)pk.Gender;
+        Gender = pk.Gender;
     }
 }

@@ -33,7 +33,7 @@ Paratonnerre
 Sérénité
 Glissade
 Chlorophylle
-Lumiattirance
+Luminescence
 Calque
 Coloforce
 Point Poison
@@ -305,3 +305,7 @@ Force Mémorielle
 Force Mémorielle
 Chaîne Toxique
 Nectar Mielleux
+Téramorphose
+Téra-Carapace
+Téraformation 0
+Emprise Toxique

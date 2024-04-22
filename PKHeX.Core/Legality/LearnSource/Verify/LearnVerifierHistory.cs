@@ -32,7 +32,8 @@ internal static class LearnVerifierHistory
                 MarkRelearnMoves(result, current, pk);
 
             // Knock off initial moves if available.
-            MarkSpecialMoves(result, current, enc, pk);
+            if (enc.Generation != 2) // Handle trade-backs in Gen2 separately.
+                MarkSpecialMoves(result, current, enc, pk);
         }
 
         // Iterate games to identify move sources.
@@ -51,13 +52,14 @@ internal static class LearnVerifierHistory
     {
         if (enc is IMoveset { Moves: { HasMoves: true } moves })
         {
-            MarkInitialMoves(result, current, moves);
+            var ls = GameData.GetLearnSource(enc.Version);
+            MarkInitialMoves(result, current, moves, ls.Environment);
         }
         else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g)
         {
             Span<ushort> initial = stackalloc ushort[4];
-            g.GetInitialMoves(pk.Met_Level, initial);
-            MarkInitialMoves(result, current, initial);
+            g.GetInitialMoves(pk.MetLevel, initial);
+            MarkInitialMoves(result, current, initial, g.OriginFormat == PogoImportFormat.PK7 ? LearnEnvironment.USUM : LearnEnvironment.GG);
         }
     }
 
@@ -77,23 +79,23 @@ internal static class LearnVerifierHistory
         }
     }
 
-    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Moveset moves)
+    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Moveset moves, LearnEnvironment game)
     {
         // If the initial move is present in the current moves, mark that current move index as an initial move.
         if (moves.Move1 == 0) return;
-        var index = current.IndexOf(moves.Move1); if (index != -1) result[index] = MoveResult.Initial;
+        var index = current.IndexOf(moves.Move1); if (index != -1) result[index] = MoveResult.Initial(game);
 
         if (moves.Move2 == 0) return;
-        index = current.IndexOf(moves.Move2); if (index != -1) result[index] = MoveResult.Initial;
+        index = current.IndexOf(moves.Move2); if (index != -1) result[index] = MoveResult.Initial(game);
 
         if (moves.Move3 == 0) return;
-        index = current.IndexOf(moves.Move3); if (index != -1) result[index] = MoveResult.Initial;
+        index = current.IndexOf(moves.Move3); if (index != -1) result[index] = MoveResult.Initial(game);
 
         if (moves.Move4 == 0) return;
-        index = current.IndexOf(moves.Move4); if (index != -1) result[index] = MoveResult.Initial;
+        index = current.IndexOf(moves.Move4); if (index != -1) result[index] = MoveResult.Initial(game);
     }
 
-    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> moves)
+    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> moves, LearnEnvironment game)
     {
         // If the initial move is present in the current moves, mark that current move index as an initial move.
         foreach (var move in moves)
@@ -102,7 +104,7 @@ internal static class LearnVerifierHistory
                 break;
             var index = current.IndexOf(move);
             if (index != -1)
-                result[index] = MoveResult.Initial;
+                result[index] = MoveResult.Initial(game);
         }
     }
 

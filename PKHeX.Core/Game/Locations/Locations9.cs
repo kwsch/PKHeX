@@ -2,18 +2,34 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Locations for <see cref="GameVersion.SV"/>.
+/// </summary>
 internal static class Locations9
 {
     /// <summary>
     /// Checks if the location is accessible in Paldea (without DLC).
     /// </summary>
-    public static bool IsAccessiblePreDLC(ushort location) => !IsKitakami(location);
+    public static bool IsAccessiblePreDLC(ushort location) => location <= 131;
 
     /// <summary>
     /// Checks if the location is accessible in Kitakami.
     /// </summary>
     public static bool IsKitakami(ushort location) => location is (>= 132 and <= 170);
 
+    /// <summary>
+    /// Checks if the location is accessible in Blueberry Academy.
+    /// </summary>
+    public static bool IsBlueberry(ushort location) => location is (>= 172 and <= 194);
+
+    /// <summary>
+    /// Checks if the location is accessible in Blueberry Academy.
+    /// </summary>
+    public static bool IsPaldeaDLC(ushort location) => location is 196 or 198; // Area Zero Underdepths
+
+    /// <summary>
+    /// Available location list for the 00000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<byte> Met0 =>
     [
              002, 004, 006, 008,
@@ -36,9 +52,15 @@ internal static class Locations9
         130, 131, 132, 134, 136, 138,
         140, 142, 144, 146, 148, 150,
         152, 154, 156, 158, 160, 162,
-        164, 166, 168, 170,
+        164, 166, 168, 170, 172, 174,
+        176, 178, 180, 182, 184, 186,
+        188, 190, 192, 194, 196, 198,
+        200,
     ];
 
+    /// <summary>
+    /// Available location list for the 30000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met3 =>
     [
                30001,        30003, 30004, 30005, 30006, 30007, 30008, 30009,
@@ -46,6 +68,9 @@ internal static class Locations9
         30020, 30021, 30022, 30023, 30024,
     ];
 
+    /// <summary>
+    /// Available location list for the 40000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met4 =>
     [
                40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
@@ -58,5 +83,8 @@ internal static class Locations9
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078,
     ];
 
+    /// <summary>
+    /// Available location list for the 60000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004, /* S/V */ 60005];
 }

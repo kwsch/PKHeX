@@ -169,3 +169,33 @@ Campos Prístinos de Noroteo
 Paso del Averno
 Monte Ogro
 Cueva Aguafría
+
+Academia Arándano
+
+Área Árida
+
+Área Costera
+
+Área Escarpada
+
+Área Polar
+
+Plaza Cúbica
+
+Plaza Árida
+
+Plaza Costera
+
+Plaza Escarpada
+
+Plaza Polar
+
+Gruta Electrorroca
+
+Laberinto Lumbre
+
+Caverna Abisal Cero
+
+Caverna Abisal Cero
+
+Biodomo

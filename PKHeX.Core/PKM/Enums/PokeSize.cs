@@ -40,7 +40,7 @@ public static class PokeSizeUtil
         AV => (byte)(rnd.Next(0xA0) + 0x30),
         L  => (byte)(rnd.Next(0x20) + 0xD0),
         XL => (byte)(rnd.Next(0x10) + 0xF0),
-        _ => GetRandomScalar(),
+        _ => GetRandomScalar(rnd),
     };
 
     /// <summary>

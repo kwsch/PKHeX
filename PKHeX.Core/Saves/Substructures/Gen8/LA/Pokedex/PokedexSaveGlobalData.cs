@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,13 +6,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Revision details for the <see cref="GameVersion.PLA"/> Pokédex.
 /// </summary>
-public sealed class PokedexSaveGlobalData
+public sealed class PokedexSaveGlobalData(Memory<byte> raw)
 {
-    private readonly byte[] _data;
-    private readonly int Offset;
+    public const int SIZE = 0x10;
 
-    public PokedexSaveGlobalData(byte[] data, int offset) => (_data, Offset) = (data, offset);
-    private Span<byte> Data => _data.AsSpan(Offset);
+    private Span<byte> Data => raw.Span;
 
     public uint Flags      { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
     public byte Field_04   { get => Data[4]; set => Data[4] = value; }

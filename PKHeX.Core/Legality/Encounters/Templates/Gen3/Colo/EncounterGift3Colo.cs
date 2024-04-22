@@ -7,15 +7,15 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IRandomCorrelation, IFixedTrainer, IMoveset
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version { get; }
-    int ILocation.EggLocation => 0;
-    int ILocation.Location => Location;
+    ushort ILocation.EggLocation => 0;
+    ushort ILocation.Location => Location;
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.Never;
     public byte Form => 0;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => Ball.Poke;
     public bool IsFixedTrainer => true;
@@ -27,7 +27,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public required byte Location { get; init; }
     public Moveset Moves { get; init; }
     public required ushort TID16 { get; init; }
-    public required byte OT_Gender { get; init; }
+    public required byte OriginalTrainerGender { get; init; }
 
     public EncounterGift3Colo(ushort species, byte level, string[] trainers, GameVersion game)
     {
@@ -57,16 +57,16 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         {
             Species = Species,
             CurrentLevel = Level,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = Level,
-            Version = (byte)Version,
+            MetLocation = Location,
+            MetLevel = Level,
+            Version = Version,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = TrainerNames[lang],
-            OT_Gender = OT_Gender,
+            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerGender = OriginalTrainerGender,
             ID32 = TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -75,7 +75,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+            EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -90,8 +90,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var gender = criteria.GetGender(pi);
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         do
         {
@@ -127,14 +127,14 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
             return true;
 
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
         if (pk.Format != 3) // Met Level lost on PK3=>PK4
             return evo.LevelMax >= Level;
-        return pk.Met_Level == Level;
+        return pk.MetLevel == Level;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -142,7 +142,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if (pk.Format != 3)
             return true; // transfer location verified later
 
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         return Location == met;
     }
 

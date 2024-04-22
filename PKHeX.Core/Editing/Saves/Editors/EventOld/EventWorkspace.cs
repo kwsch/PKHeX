@@ -10,13 +10,13 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
     public readonly TWork[] Values;
     public readonly EventLabelCollection Labels;
 
-    public EventWorkspace(TSave sav)
+    public EventWorkspace(TSave obj, GameVersion version)
     {
-        SAV = sav;
-        Flags = sav.GetEventFlags();
-        Values = sav.GetAllEventWork();
+        SAV = obj;
+        Flags = obj.GetEventFlags();
+        Values = obj.GetAllEventWork();
 
-        var game = GetResourceSuffix(sav);
+        var game = GetResourceSuffix(version);
         Labels = new EventLabelCollection(game, Flags.Length, Values.Length);
     }
 
@@ -24,11 +24,11 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
     {
         SAV.SetEventFlags(Flags);
         SAV.SetAllEventWork(Values);
-        if (SAV is SAV7SM s7) // Ensure Magearna event flag has magic constant
+        if (SAV is EventWork7SM s7) // Ensure Magearna event flag has magic constant
             s7.UpdateMagearnaConstant();
     }
 
-    private static string GetResourceSuffix(TSave ver) => GetVersion(ver) switch
+    private static string GetResourceSuffix(GameVersion version) => version switch
     {
         X or Y or XY => "xy",
         OR or AS or ORAS => "oras",
@@ -44,13 +44,6 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
         FR or LG or FRLG => "frlg",
         C => "c",
         GD or SI or GS => "gs",
-        _ => throw new ArgumentOutOfRangeException(nameof(GameVersion)),
+        _ => throw new ArgumentOutOfRangeException(nameof(version), version, null),
     };
-
-    private static GameVersion GetVersion(TSave ver)
-    {
-        if (ver is IVersion v)
-            return v.Version;
-        return Invalid;
-    }
 }

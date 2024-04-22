@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.SlotType8b;
 
 namespace PKHeX.Core;
 
@@ -8,12 +9,12 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsUnderground => Locations8b.IsUnderground(Parent.Location);
     public bool IsMarsh => Locations8b.IsMarsh(Parent.Location);
     public Ball FixedBall => GetRequiredBall();
@@ -22,12 +23,12 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public ushort Location => Parent.Location;
+    public SlotType8b Type => Parent.Type;
 
-    public bool CanUseRadar => Type is SlotType.Grass && !IsUnderground && !IsMarsh && CanUseRadarOverworld(Location);
+    public bool CanUseRadar => Type is Grass && !IsUnderground && !IsMarsh && CanUseRadarOverworld(Location);
 
-    private static bool CanUseRadarOverworld(int location) => location switch
+    private static bool CanUseRadarOverworld(ushort location) => location switch
     {
         195 or 196 => false, // Oreburgh Mine
         203 or 204 or 205 or 208 or 209 or 210 or 211 or 212 or 213 or 214 or 215 => false, // Mount Coronet, 206/207 exterior
@@ -71,21 +72,21 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)Version,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         if (IsUnderground && GetBaseEggMove(out var move1, pi))
             pk.RelearnMove1 = move1;
         pk.ResetPartyStats();
@@ -94,10 +95,11 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
 
     private void SetPINGA(PB8 pk, EncounterCriteria criteria, PersonalInfo8BDSP pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
         criteria.SetRandomIVs(pk);
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
     }
@@ -129,7 +131,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
 
         if (Form != evo.Form && Species is not (int)Core.Species.Burmy)
@@ -145,7 +147,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
 
     public bool IsInvalidMunchlaxTree(PKM pk)
     {
-        if (Type is not SlotType.HoneyTree)
+        if (Type is not HoneyTree)
             return false;
         return Species == (int)Core.Species.Munchlax && !Parent.IsMunchlaxTree(pk);
     }

@@ -5,22 +5,22 @@ namespace PKHeX.Core;
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
 /// </summary>
-public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, AreaWeather8 Weather, AreaSlotType8 Type)
+public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, AreaWeather8 Weather, SlotType8 Type)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IOverworldCorrelation8
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} [{Type}] - {Weather.ToString().Replace("_", string.Empty)}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
 
     // Fishing are only from the hidden table (not symbol).
     public bool CanEncounterViaFishing => Type.CanEncounterViaFishing(Weather);
@@ -55,35 +55,35 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             Species = Species,
             Form = form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)Version,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 
         bool symbol = Parent.PermitCrossover;
         if (!symbol && Location is 30 or 54 && (Weather & AreaWeather8.Fishing) == 0)
             pk.RibbonMarkCurry = true;
 
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
-            pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+            pk.MetLevel = pk.CurrentLevel = EncounterArea8.BoostLevel;
         pk.ResetPartyStats();
         return pk;
     }
 
     private byte GetWildForm(byte form)
     {
-        if (form == EncounterUtil1.FormRandom) // flagged as totally random
+        if (form == EncounterUtil.FormRandom) // flagged as totally random
             return (byte)Util.Rand.Next(PersonalTable.SWSH[Species].FormCount);
         return form;
     }
@@ -95,7 +95,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         bool symbol = Parent.PermitCrossover;
         var c = symbol ? EncounterCriteria.Unrestricted : criteria;
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
 
         var req = GetRequirement(pk);
@@ -136,17 +136,17 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
 
     public bool IsOverworldCorrelationCorrect(PKM pk)
     {
-        var flawless = GetFlawlessIVCount(pk.Met_Level);
+        var flawless = GetFlawlessIVCount(pk.MetLevel);
         return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: flawless);
     }
 
-    private int GetFlawlessIVCount(int met)
+    private int GetFlawlessIVCount(int metLevel)
     {
         const int none = 0;
         const int any023 = -1;
 
         // Brilliant encounters are boosted to max level for the slot.
-        if (met < LevelMax)
+        if (metLevel < LevelMax)
             return none;
 
         if (Parent.PermitCrossover)
@@ -163,11 +163,11 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         if (Form != evo.Form && Species is not (int)Core.Species.Rotom)
             return false;
 
-        var metLocation = pk.Met_Location;
+        var metLocation = pk.MetLocation;
         if (Location != metLocation && !EncounterArea8.CanCrossoverTo(Location, metLocation, Type))
             return false;
 
-        var met = pk.Met_Level;
+        var met = pk.MetLevel;
         if (met == EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60(Location))
             return true;
 
@@ -199,7 +199,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
                 return EncounterMatchRating.DeferredErrors;
 
             // Galar Mine hidden encounters can only be found via Curry or Fishing.
-            if (Location is (30 or 54) && Type is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !Type.CanEncounterViaFishing(Weather))
+            if (Location is (30 or 54) && Type is SlotType8.HiddenMain && !m.RibbonMarkCurry && !Type.CanEncounterViaFishing(Weather))
                 return EncounterMatchRating.DeferredErrors;
         }
 
@@ -210,6 +210,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             MustNotHave when IsOverworldCorrelationCorrect(pk) => EncounterMatchRating.DeferredErrors,
             _ => EncounterMatchRating.Match,
         };
-        #endregion
     }
+
+    #endregion
 }

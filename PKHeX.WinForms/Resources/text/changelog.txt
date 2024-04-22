@@ -1,7 +1,76 @@
-﻿PKHeX - By Kaphotics
+PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/10/11 - New Update:
+24/03/26 - New Update:
+ - Legality:
+ - - Fixed: Handled some edge cases with latest release RNG Frame checks for Gen4.
+ - - Added: Verification for Gen3 CHANNEL and MYSTRY seed patterns.
+ - Added: Gen4/5 API now supports reading/writing battle videos to the savefile object.
+ - Fixed: Gen5 Entree Forest in Misc now saves correctly. If broken, open the editor on the previous release and save again.
+ - Fixed: Event Flag diff now works as intended. Pokedex button restored for some save formats (regression from last release).
+ - Changed: Plugin error messages will now more clearly indicate they are an issue with plugins rather than PKHeX's fault.
+ - Fixed: Gen4 Daycare seed set now works as intended, no longer corrupts Daycare slot 2.
+ - Fixed: Gen4 Mystery Gift now reads correctly.
+
+24/03/10 - New Update: (61116) [8537498]
+ - Legality: Added Encounter Slot RNG correlation checks for Gen4 (and Gen3). Because Encounter Type PID mismatch wasn't enough!
+ - - When hovering over a slot, the program will indicate a possible method to encounter the slot with a lead & initial seed (not Method 1).
+ - - Added: Gen8+ RNG seeds that are 64bit correlation (like SW/SH raids) will now indicate the detected RNG seed.
+ - - Added: Gen1/2 Event Gifts are now recognized completely. Thanks @ShadowMario3!
+ - Changed: Save Block handling reworked to better match the real game behavior of managing chunks of memory. Thanks @foohyfooh!
+ - Added: Out-of-bounds text entry characters are now indicated with a [?] next to the Nickname/OT text entry. Thanks @abcboy101!
+ - Added: Batch Editor commands are kept when the window is closed, while the program remains open.
+ - Added: Loading empty save files (all 00 or FF) will now give a more detailed error message indicating failure.
+ - Added: More games indicate Daycare status completely. Maybe editing in the future?
+ - Added: Gen1/2 NSO save files are now able to be loaded, edited, and exported without needing an external tool.
+ - Added: Gen2 player color palette now editable via Block Data editor. Thanks @Bl4ckSh4rk!
+ - Added: Gen4/5 Battle Videos can now be extracted & interacted with via PKHeX.Core API code.
+ - Fixed: Gen3 FR/LG National Dex unlock fixed. Thanks @Bl4ckSh4rk!
+ - Fixed: Gen9 Alcremie formarg handling for Pokédex fixed. Thanks @sora10pls!
+
+24/01/12 - New Update: (390462) [8476382]
+ - Legality: Added Mochi Mayhem Pecharunt, Regulation F, and Blaziken Tera Raid recognition.
+ - - Fixed: Level 100 encounters that were evolved in S/V with level-up methods (Eevee, Magikarp) now recognize correctly.
+ - - Fixed: Gen1/2 transfers to Gen7+ will now recognize filtered OT names as valid. Thanks @abcboy101!
+ - - Fixed: Recognition of Gen8 Hidden Ability patched raids now works as intended.
+ - - Fixed: Recognition of Gen8+ GO encounters that evolve via form arguments now are recognized as intended.
+ - Added: MarkingCircle/Triangle/Square/etc now reimplemented, able to be used in Batch Editor commands.
+ - Added: Gen1/2 transfers to Gen7 can now override the default transfer version via program settings.
+ - Fixed: Gen9 Stellar type can now be set via Batch Editor with its corresponding type value (99).
+ - Fixed: Hover preview custom tooltip shows Hidden Power type correctly (was off by 1).
+ - Changed: Box Dump now uses a GUI to allow changing settings with more flexibility.
+
+23/12/22 - New Update: (156280) [8085920]
+ - Legality: Updates for Scarlet & Violet 3.0.0 behaviors revised to fix inaccuracies.
+ - - Fixed: Recognition of marks, stellar fixed encounters, and underdepths encounters.
+ - - Gold Bottle Cap on flawless IVs in S/V is now flagged; upload to HOME & back to get the official fix.
+ - Fixed: Gen9 S/V 7-Star Raid records now can be edited with the revised raid block editor. Thanks @foohyfooh!
+ - Fixed: Other misc regressions too insignificant to note (but observed & reported by many -- thanks!)
+
+23/12/18 - New Update: (55399) [7929640]
+ - Changed: PKHeX now uses .NET 8 for its runtime (updated from .NET 7)!
+ - - Requires Windows 64bit operating system, with the .NET Desktop Runtime 8.0.x
+ - - https://dotnet.microsoft.com/en-us/download/dotnet/8.0
+ - Added support for Scarlet & Violet 3.0.0 (Indigo Disk)
+ - Legality: Added encounters / changes as per Indigo Disk DLC adjustments. 
+ - - Will still have issues with crossovers, Minior, and encounter locations. Will be addressed next release.
+ - - Fixed: Gen4 Manaphy PID rerolling behavior updated. Thanks @Lincoln-LM!
+ - Added: Hover preview now shows a custom preview tooltip. Old behavior can be reverted to via settings.
+ - Added: Gen6-9 map position/rotation editing. Thanks @abcboy101!
+ - Added: Gen6 XY Roamer editor. Thanks @foohyfooh!
+ - Added: Gen5 Musical Prop editor. Thanks @foohyfooh!
+ - Added: Gen4/5 Chatter editor. Thanks @abcboy101!
+ - Added: Gen4 KOR<->INT/JPN converter for save files. Thanks @abcboy101!
+ - Added: Gen2 Mystery Gift item / unlock flag editing. Thanks @RainingChain!
+ - Fixed: String conversion has been rewritten for easier maintenance. Future updates will handle Farfetch'd and other cases better.
+ - Fixed: Gen6/7 country/region names for the latest 3DS region manifest. Thanks @abcboy101!
+ - Fixed: Gen4 Pokétch Unlock cheat updates the total count of apps now. Thanks @foohyfooh!
+ - Fixed: Gen4 Complete Dex cheat updates female-only bitflags correctly now. Thanks @DeadSkullzJr!
+ - Fixed: Gen3 Colosseum Fateful Encounter flags now read/write correctly based on Japanese/International save file context.
+ - Fixed: Gen3 Mainline saves update party Mail indexes when lacking a mail held item (prevents invalid mail icon).
+ - Fixed: Gen1 RBY saves that have not yet received a starter now differentiate correctly. Thanks @fattard!
+
+23/10/11 - New Update: (294546) [7874241]
  - Added support for Scarlet & Violet 2.0.2 save file sizes.
  - Legality:
  - - Badwords list has been updated to be more strict per latest Nintendo Switch 16.0.0 firmware. Thanks @Bl4ckSh4rk!

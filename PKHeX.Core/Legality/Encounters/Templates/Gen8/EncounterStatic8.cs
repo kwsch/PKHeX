@@ -9,13 +9,13 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, IRelearn,
         IFlawlessIVCount, IFixedIVSet, IFixedGender, IFixedNature, IDynamaxLevelReadOnly, IGigantamaxReadOnly, IOverworldCorrelation8, IFatefulEncounterReadOnly
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
-    int ILocation.Location => Location;
+    ushort ILocation.Location => Location;
     public bool Gift => FixedBall != Ball.None;
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => false;
-    int ILocation.EggLocation => 0;
+    public bool IsEgg => false;
+    ushort ILocation.EggLocation => 0;
 
     public required ushort Location { get; init; }
     public required ushort Species { get; init; }
@@ -72,29 +72,27 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pk = new PK8
         {
             Species = Species,
             Form = Form,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = tr.Gender,
-            OT_Name = tr.OT,
-            OT_Friendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
+            OriginalTrainerGender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerFriendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
 
             DynamaxLevel = DynamaxLevel,
             CanGigantamax = CanGigantamax,
@@ -105,7 +103,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, Level);
+            EncounterUtil.SetEncounterMoves(pk, version, Level);
         pk.ResetPartyStats();
 
         return pk;
@@ -114,11 +112,11 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     private void SetPINGA(PK8 pk, EncounterCriteria criteria)
     {
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
-            pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+            pk.MetLevel = pk.CurrentLevel = EncounterArea8.BoostLevel;
 
         var pi = PersonalTable.SWSH[Species, Form];
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(Gender, pi);
 
         var req = GetRequirement(pk);
@@ -153,7 +151,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             return false;
         if (pk is PK8 d && d.DynamaxLevel < DynamaxLevel)
             return false;
-        if (pk.Met_Level < EncounterArea8.BoostLevel && Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
+        if (pk.MetLevel < EncounterArea8.BoostLevel && Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -169,12 +167,12 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     private static bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
     {
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         if (met == Location)
             return true;
         if ((uint)met > byte.MaxValue)
@@ -184,7 +182,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
     private bool IsMatchLevel(PKM pk)
     {
-        var met = pk.Met_Level;
+        var met = pk.MetLevel;
         var lvl = Level;
         if (met == lvl)
             return true;

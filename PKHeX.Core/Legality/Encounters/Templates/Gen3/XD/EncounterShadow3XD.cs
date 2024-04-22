@@ -13,13 +13,13 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
     : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IShadow3, IFatefulEncounterReadOnly, IMoveset, IRandomCorrelation
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public GameVersion Version => GameVersion.XD;
-    int ILocation.EggLocation => 0;
-    int ILocation.Location => Location;
+    ushort ILocation.EggLocation => 0;
+    ushort ILocation.Location => Location;
     public bool IsShiny => false;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Shiny Shiny => Shiny.Never; // Different from Colosseum!
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool FatefulEncounter => true;
@@ -49,17 +49,17 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)GameVersion.CXD,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = GameVersion.CXD,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = 0,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
@@ -71,7 +71,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+            EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -79,8 +79,8 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var gender = criteria.GetGender(pi);
+        var nature = criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
 
         // Ensure that any generated specimen has valid Shadow Locks
@@ -137,14 +137,14 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
             return true;
 
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
         if (pk.Format != 3) // Met Level lost on PK3=>PK4
             return evo.LevelMax >= Level;
-        return pk.Met_Level == Level;
+        return pk.MetLevel == Level;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -152,7 +152,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         if (pk.Format != 3)
             return true; // transfer location verified later
 
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         if (met == Location)
             return true;
 

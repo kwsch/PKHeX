@@ -30,6 +30,8 @@ public sealed class SaveHandlerBizHawk : ISaveHandler
         var footer = input[realSize..].ToArray();
         var data = input[..realSize].ToArray();
 
-        return new SaveHandlerSplitResult(data, [], footer);
+        return new SaveHandlerSplitResult(data, [], footer, this);
     }
+
+    public void Finalize(Span<byte> data) { }
 }

@@ -97,14 +97,63 @@ public static class LegalityFormatting
         var info = la.Info;
         if (!info.PIDParsed)
             info.PIDIV = MethodFinder.Analyze(la.Entity);
-        AddEncounterInfoPIDIV(lines, info.PIDIV);
+        AddEncounterInfoPIDIV(lines, info);
     }
 
-    private static void AddEncounterInfoPIDIV(List<string> lines, PIDIV pidiv)
+    private static void AddEncounterInfoPIDIV(List<string> lines, LegalInfo info)
     {
+        var pidiv = info.PIDIV;
         lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
-        if (!pidiv.NoSeed)
-            lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
+        if (pidiv.NoSeed)
+            return;
+
+        if (pidiv.IsSeed64())
+        {
+            var seed = pidiv.Seed64;
+            lines.Add(string.Format(L_FOriginSeed_0, seed.ToString("X16")));
+            return;
+        }
+        if (info is { EncounterMatch: IEncounterSlot34 s })
+        {
+            var lead = pidiv.Lead;
+            var seed = !info.FrameMatches || lead == LeadRequired.Invalid ? pidiv.OriginSeed : pidiv.EncounterSeed;
+            var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
+            if (lead != LeadRequired.None)
+            {
+                if (lead is LeadRequired.Static)
+                    line += $" [{s.StaticIndex}/{s.StaticCount}]";
+                else if (lead is LeadRequired.MagnetPull)
+                    line += $" [{s.MagnetPullIndex}/{s.MagnetPullCount}]";
+                else
+                    line += $" [{s.SlotNumber}]";
+
+                line += $" ({lead.Localize()})";
+            }
+            else
+            {
+                line += $" [{s.SlotNumber}]";
+            }
+            lines.Add(line);
+        }
+        else
+        {
+            var seed = pidiv.OriginSeed;
+            var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
+            lines.Add(line);
+        }
+    }
+
+    private static string Localize(this LeadRequired lead)
+    {
+        if (lead is LeadRequired.Invalid)
+            return "❌";
+        var (ability, isFail, condition) = lead.GetDisplayAbility();
+        var abilities = GameInfo.Strings.Ability;
+        var name = abilities[(int)ability];
+        var result = isFail ? string.Format(L_F0_1, name, "❌") : name;
+        if (condition != EncounterTriggerCondition.None)
+            result += $"-{condition}";
+        return result;
     }
 
     public static string GetEncounterName(this IEncounterable enc)
@@ -118,6 +167,6 @@ public static class LegalityFormatting
     {
         if (enc is not ILocation loc)
             return null;
-        return loc.GetEncounterLocation(enc.Generation, (int)enc.Version);
+        return loc.GetEncounterLocation(enc.Generation, enc.Version);
     }
 }

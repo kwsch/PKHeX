@@ -13,7 +13,7 @@ public sealed class RaidSpawnList8(SAV8SWSH sav, SCBlock block, int legal) : Sav
     public const int RaidCountLegal_R1 = 90;
     public const int RaidCountLegal_R2 = 86;
 
-    public RaidSpawnDetail GetRaid(int entry) => new(Data, entry * RaidSpawnDetail.SIZE);
+    public RaidSpawnDetail GetRaid(int entry) => new(Raw.Slice(entry * RaidSpawnDetail.SIZE, RaidSpawnDetail.SIZE));
 
     public RaidSpawnDetail[] GetAllRaids()
     {
@@ -56,9 +56,11 @@ public sealed class RaidSpawnList8(SAV8SWSH sav, SCBlock block, int legal) : Sav
     }
 }
 
-public sealed class RaidSpawnDetail(byte[] Data, int Offset)
+public sealed class RaidSpawnDetail(Memory<byte> raw)
 {
     public const int SIZE = 0x18;
+
+    private Span<byte> Data => raw.Span;
 
     private const string General = nameof(General);
     private const string Derived = nameof(Derived);
@@ -66,38 +68,38 @@ public sealed class RaidSpawnDetail(byte[] Data, int Offset)
     [Category(General), Description("FNV Hash for fetching the Raid data table (64bit)."), TypeConverter(typeof(TypeConverterU64))]
     public ulong Hash
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0), value);
+        get => ReadUInt64LittleEndian(Data);
+        set => WriteUInt64LittleEndian(Data, value);
     }
 
     [Category(General), Description("RNG Seed for generating the Raid's content (64bit)."), TypeConverter(typeof(TypeConverterU64))]
     public ulong Seed
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 8));
-        set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 8), value);
+        get => ReadUInt64LittleEndian(Data[8..]);
+        set => WriteUInt64LittleEndian(Data[8..], value);
     }
 
     [Category(General), Description("Star Count for the Raid's content (0-4).")]
     public byte Stars
     {
-        get => Data[Offset + 0x10];
-        set => Data[Offset + 0x10] = value;
+        get => Data[0x10];
+        set => Data[0x10] = value;
     }
 
     [Category(General), Description("Random value which picks out the encounter from the Raid data table (1-100).")]
     public byte RandRoll
     {
-        get => Data[Offset + 0x11];
-        set => Data[Offset + 0x11] = value;
+        get => Data[0x11];
+        set => Data[0x11] = value;
     }
 
     [Category(General), Description("First set of Den Flags.")]
     public RaidType DenType
     {
-        get => (RaidType)Data[Offset + 0x12];
+        get => (RaidType)Data[0x12];
         set
         {
-            Data[Offset + 0x12] = (byte)value;
+            Data[0x12] = (byte)value;
             if (value == RaidType.Event)
             {
                 IsEvent = true;
@@ -112,8 +114,8 @@ public sealed class RaidSpawnDetail(byte[] Data, int Offset)
     [Category(General), Description("Second set of Den Flags.")]
     public byte Flags
     {
-        get => Data[Offset + 0x13];
-        set => Data[Offset + 0x13] = value;
+        get => Data[0x13];
+        set => Data[0x13] = value;
     }
 
     [Category(Derived), Description("Active Nest")]
@@ -213,4 +215,11 @@ public enum RaidType : byte
     RareWish = 4,
     Event = 5,
     DynamaxCrystal = 6,
+}
+
+public enum MaxRaidOrigin: uint
+{
+    Galar,
+    IsleOfArmor,
+    CrownTundra
 }

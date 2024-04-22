@@ -213,13 +213,13 @@ public sealed class NicknameVerifier : Verifier
         return false;
     }
 
-    private static int GetForeignNicknameLength(PKM pk, IEncounterTemplate match, int origin)
+    private static int GetForeignNicknameLength(PKM pk, IEncounterTemplate match, byte origin)
     {
         // HOME gifts already verified prior to reaching here.
         System.Diagnostics.Debug.Assert(match is not WC8 {IsHOMEGift:true});
 
         int length = 0;
-        if (origin is (4 or 5 or 6 or 7) && match.EggEncounter && pk.WasTradedEgg)
+        if (origin is (4 or 5 or 6 or 7) && match.IsEgg && pk.WasTradedEgg)
             length = Legal.GetMaxLengthNickname(origin, English);
 
         if (pk.FatefulEncounter)
@@ -236,7 +236,7 @@ public sealed class NicknameVerifier : Verifier
     private static bool IsNicknameValid(PKM pk, IEncounterTemplate enc, ReadOnlySpan<char> nickname)
     {
         ushort species = pk.Species;
-        int format = pk.Format;
+        byte format = pk.Format;
         int language = pk.Language;
         var expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
         if (nickname.SequenceEqual(expect))
@@ -348,7 +348,7 @@ public sealed class NicknameVerifier : Verifier
                 return;
             }
 
-            lang = t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OT_Name, lang);
+            lang = t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OriginalTrainerName, lang);
             if (lang == -1) // err
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"{Japanese}/{German}", $"{(LanguageID)pk.Language}"), CheckIdentifier.Language));
         }
@@ -385,7 +385,7 @@ public sealed class NicknameVerifier : Verifier
         if (pk.IsNicknamed && (pk.Format < 8 || pk.FatefulEncounter))
             return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
         int lang = pk.Language;
-        if (!t.IsTrainerMatch(pk, pk.OT_Name, lang))
+        if (!t.IsTrainerMatch(pk, pk.OriginalTrainerName, lang))
             return GetInvalid(LEncTradeIndexBad, CheckIdentifier.Trainer);
         return GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname);
     }
@@ -410,7 +410,7 @@ public sealed class NicknameVerifier : Verifier
     private static void VerifyTrainerName(LegalityAnalysis data, IFixedTrainer ft, int language)
     {
         var pk = data.Entity;
-        if (!ft.IsTrainerMatch(pk, pk.OT_Name, language))
+        if (!ft.IsTrainerMatch(pk, pk.OriginalTrainerName, language))
             data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
     }
 }

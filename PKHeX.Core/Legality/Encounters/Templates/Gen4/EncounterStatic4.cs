@@ -9,12 +9,12 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic4(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IGroundTypeTile, IFatefulEncounterReadOnly, IFixedGender, IRandomCorrelation, IFixedNature
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
-    int ILocation.Location => Location;
-    int ILocation.EggLocation => EggLocation;
+    ushort ILocation.Location => Location;
+    ushort ILocation.EggLocation => EggLocation;
     public bool IsShiny => false;
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     private bool Gift => FixedBall == Ball.Poke;
 
     public Ball FixedBall { get; init; }
@@ -52,36 +52,36 @@ public sealed record EncounterStatic4(GameVersion Version)
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)version,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = version,
             GroundTile = GroundTile.GetIndex(),
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
-            pk.Met_Location = version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
-            pk.Met_Level = EggStateLegality.EggMetLevel34;
-            pk.Egg_Location = EggLocation;
+            pk.MetLocation = version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
+            pk.MetLevel = EggStateLegality.EggMetLevel34;
+            pk.EggLocation = EggLocation;
             pk.EggMetDate = pk.MetDate;
         }
         else if (Species == (int)Core.Species.Giratina && Form == 1)
@@ -93,7 +93,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -110,8 +110,8 @@ public sealed record EncounterStatic4(GameVersion Version)
             return;
         }
 
-        int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature);
+        var gender = criteria.GetGender(Gender, pi);
+        var nature = criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
         if (Shiny == Shiny.Always) // Chain Shiny
         {
@@ -122,7 +122,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
     }
 
-    private static void SetChainShiny(PK4 pk, byte gr, int ability, int gender, int nature)
+    private static void SetChainShiny(PK4 pk, byte gr, int ability, byte gender, Nature nature)
     {
         pk.RefreshAbility(ability);
         pk.Gender = gender;
@@ -131,7 +131,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         while (true)
         {
             var pid = ClassicEraRNG.GetChainShinyPID(ref seed, id32);
-            if (pid % 25 != nature)
+            if ((Nature)(pid % 25) != nature)
                 continue;
             if (EntityGender.GetFromPIDAndRatio(pid, gr) != gender)
                 continue;
@@ -175,8 +175,8 @@ public sealed record EncounterStatic4(GameVersion Version)
         if (pk is not G4PKM pk4)
             return true;
 
-        var met = pk4.Met_Location;
-        if (EggEncounter)
+        var met = pk4.MetLocation;
+        if (IsEgg)
             return true;
         if (!Roaming)
             return met == Location;
@@ -191,34 +191,34 @@ public sealed record EncounterStatic4(GameVersion Version)
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.Egg_Location == expect;
+            return pk.EggLocation == expect;
         }
 
-        var eggloc = pk.Egg_Location;
+        var eggLoc = pk.EggLocation;
         // Transferring 4->5 clears Pt/HG/SS location value and keeps Faraway Place
         if (pk is not G4PKM pk4)
         {
-            if (eggloc == Locations.LinkTrade4)
+            if (eggLoc == Locations.LinkTrade4)
                 return true;
             var cmp = Locations.IsPtHGSSLocationEgg(EggLocation) ? Locations.Faraway4 : EggLocation;
-            return eggloc == cmp;
+            return eggLoc == cmp;
         }
 
         if (!pk4.IsEgg) // hatched
-            return eggloc == EggLocation || eggloc == Locations.LinkTrade4;
+            return eggLoc == EggLocation || eggLoc == Locations.LinkTrade4;
 
         // Unhatched:
-        if (eggloc != EggLocation)
+        if (eggLoc != EggLocation)
             return false;
-        if (pk4.Met_Location is not (0 or Locations.LinkTrade4))
+        if (pk4.MetLocation is not (0 or Locations.LinkTrade4))
             return false;
         return true;
     }
 
-    private static bool IsMatchLocationGrass(int location, int met) => location switch
+    private static bool IsMatchLocationGrass(ushort location, ushort met) => location switch
     {
         FirstS => IsMatchRoamerLocation(PermitGrassS, met, FirstS),
         FirstJ => IsMatchRoamerLocation(PermitGrassJ, met, FirstJ),
@@ -226,7 +226,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         _ => false,
     };
 
-    private static bool IsMatchLocationWater(int location, int met) => location switch
+    private static bool IsMatchLocationWater(ushort location, ushort met) => location switch
     {
         FirstS => IsMatchRoamerLocation(PermitWaterS, met, FirstS),
         FirstJ => IsMatchRoamerLocation(PermitWaterJ, met, FirstJ),
@@ -239,12 +239,12 @@ public sealed record EncounterStatic4(GameVersion Version)
         if (pk.Format != 4) // Met Level lost on PK4=>PK5
             return Level <= evo.LevelMax;
 
-        return pk.Met_Level == (EggEncounter ? 0 : Level);
+        return pk.MetLevel == (IsEgg ? 0 : Level);
     }
 
     private bool IsMatchPartial(PKM pk) => Gift && pk.Ball != (byte)FixedBall;
 
-    public static bool IsMatchRoamerLocation([ConstantExpected] ulong permit, int location, int first)
+    public static bool IsMatchRoamerLocation([ConstantExpected] ulong permit, ushort location, int first)
     {
         var value = location - first;
         if ((uint)value >= 64)
@@ -252,7 +252,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         return (permit & (1ul << value)) != 0;
     }
 
-    public static bool IsMatchRoamerLocation([ConstantExpected] uint permit, int location, int first)
+    public static bool IsMatchRoamerLocation([ConstantExpected] uint permit, ushort location, int first)
     {
         var value = location - first;
         if ((uint)value >= 32)

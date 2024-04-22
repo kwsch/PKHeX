@@ -17,23 +17,47 @@ internal static class EvolutionRestrictions
     /// </summary>
     private static ushort GetSpeciesEvolutionMove(ushort species) => species switch
     {
-        (int)Eevee => EEVEE,
-        (int)MimeJr => (int)Mimic,
-        (int)Bonsly => (int)Mimic,
-        (int)Aipom => (int)DoubleHit,
-        (int)Lickitung => (int)Rollout,
-        (int)Tangela => (int)AncientPower,
-        (int)Yanma => (int)AncientPower,
-        (int)Piloswine => (int)AncientPower,
-        (int)Steenee => (int)Stomp,
-        (int)Clobbopus => (int)Taunt,
-        (int)Stantler => (int)PsyshieldBash,
-        (int)Qwilfish => (int)BarbBarrage,
-        (int)Primeape => (int)RageFist,
-        (int)Girafarig => (int)TwinBeam,
-        (int)Dunsparce => (int)HyperDrill,
+        (int)Sylveon => EEVEE,
+        (int)MrMime => (int)Mimic,
+        (int)Sudowoodo => (int)Mimic,
+        (int)Ambipom => (int)DoubleHit,
+        (int)Lickilicky => (int)Rollout,
+        (int)Tangrowth => (int)AncientPower,
+        (int)Yanmega => (int)AncientPower,
+        (int)Mamoswine => (int)AncientPower,
+        (int)Tsareena => (int)Stomp,
+        (int)Grapploct => (int)Taunt,
+        (int)Wyrdeer => (int)PsyshieldBash,
+        (int)Overqwil => (int)BarbBarrage,
+        (int)Annihilape => (int)RageFist,
+        (int)Farigiraf => (int)TwinBeam,
+        (int)Dudunsparce => (int)HyperDrill,
+        (int)Hydrapple => (int)DragonCheer,
         _ => NONE,
     };
+
+    /// <summary>
+    /// Gets the species-form that it will evolve into.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static (ushort Species, byte Form) GetEvolvedSpeciesFormEC100(ushort species, bool rare) => species switch
+    {
+        (ushort)Tandemaus => ((ushort)Maushold, (byte)(rare ? 0 : 1)),
+        (ushort)Dunsparce => ((ushort)Dudunsparce, (byte)(rare ? 1 : 0)),
+        _ => throw new ArgumentOutOfRangeException(nameof(species), species, "Incorrect EC%100 species."),
+    };
+
+    public static bool GetIsExpectedEvolveFormEC100(ushort species, byte form, bool rare) => species switch
+    {
+        (ushort)Maushold => form == (byte)(rare ? 0 : 1),
+        (ushort)Dudunsparce => form == (byte)(rare ? 1 : 0),
+        _ => throw new ArgumentOutOfRangeException(nameof(species), species, "Incorrect EC%100 species."),
+    };
+
+    public static bool IsFormArgEvolution(ushort species)
+    {
+        return species is (int)Runerigus or (int)Wyrdeer or (int)Annihilape or (int)Basculegion or (int)Kingambit or (int)Overqwil;
+    }
 
     private const ushort NONE = 0;
     private const ushort EEVEE = ushort.MaxValue;
@@ -61,11 +85,11 @@ internal static class EvolutionRestrictions
             return true;
 
         // Exclude evolution paths that did not require a move w/level-up evolution
-        var move = GetSpeciesEvolutionMove(enc.Species);
+        var move = GetSpeciesEvolutionMove(species);
         if (move is NONE)
             return true; // not a move evolution
         if (move is EEVEE)
-            return species != (int)Sylveon || IsValidEvolutionWithMoveSylveon(pk, enc, info);
+            return IsValidEvolutionWithMoveSylveon(pk, enc, info);
         if (!IsMoveSlotAvailable(info.Moves))
             return false;
 

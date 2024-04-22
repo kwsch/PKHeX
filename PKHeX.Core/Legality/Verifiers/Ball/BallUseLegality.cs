@@ -14,14 +14,14 @@ internal static class BallUseLegality
     /// <returns>True if it is impossible to capture in a <see cref="Heavy"/> ball.</returns>
     public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Species.Beldum or (int)Species.TapuKoko or (int)Species.TapuLele or (int)Species.TapuBulu or (int)Species.TapuFini;
 
-    public static bool IsBallPermitted(ulong permit, int ball)
+    public static bool IsBallPermitted(ulong permit, byte ball)
     {
-        if ((uint)ball >= 64)
+        if (ball >= 64)
             return false;
         return (permit & (1ul << ball)) != 0;
     }
 
-    public static ulong GetWildBalls(int generation, GameVersion game) => generation switch
+    public static ulong GetWildBalls(byte generation, GameVersion game) => generation switch
     {
         1 => WildPokeBalls1,
         2 => WildPokeBalls2,
@@ -90,5 +90,6 @@ internal static class BallUseLegality
     public const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
     public const ulong WildPokeballs8g_WithoutRaid = WildPokeRegular & ~(1ul << (int)Master); // Ultra Great Poke, no Premier/Master
 
-    public const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
+    public const ulong WildPokeballs9 = WildPokeballs8;
+    public const ulong WildPokeballs9PreDLC2 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 }

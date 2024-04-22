@@ -86,7 +86,7 @@ public partial class SAV_Database : Form
             {
                 if (sender is not PictureBox pb)
                     return;
-                var index = Array.IndexOf(PKXBOXES, sender);
+                var index = Array.IndexOf(PKXBOXES, pb);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -285,8 +285,7 @@ public partial class SAV_Database : Form
         versions.RemoveAt(versions.Count - 1); // None
         CB_GameOrigin.DataSource = versions;
 
-        string[] hptypes = new string[GameInfo.Strings.types.Length - 2];
-        Array.Copy(GameInfo.Strings.types, 1, hptypes, 0, hptypes.Length);
+        var hptypes = GameInfo.Strings.types.AsSpan(1, HiddenPower.TypeCount);
         var types = Util.GetCBList(hptypes);
         types.Insert(0, comboAny);
         CB_HPType.DataSource = types;
@@ -403,18 +402,9 @@ public partial class SAV_Database : Form
 
         if (Main.Settings.EntityDb.FilterUnavailableSpecies)
         {
-            static bool IsPresentInGameSV(ISpeciesForm pk) => pk is PK9 || PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGamePLA(ISpeciesForm pk) => pk is PA8 || PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
-            if (sav is SAV9SV)
-                result.RemoveAll(z => !IsPresentInGameSV(z.Entity));
-            else if (sav is SAV8SWSH)
-                result.RemoveAll(z => !IsPresentInGameSWSH(z.Entity));
-            else if (sav is SAV8BS)
-                result.RemoveAll(z => !IsPresentInGameBDSP(z.Entity));
-            else if (sav is SAV8LA)
-                result.RemoveAll(z => !IsPresentInGamePLA(z.Entity));
+            var filter = GetFilterForSaveFile(sav);
+            if (filter != null)
+                result.RemoveAll(z => !filter(z.Entity));
         }
 
         var sort = Main.Settings.EntityDb.InitialSortMode;
@@ -426,6 +416,15 @@ public partial class SAV_Database : Form
         // Finalize the Database
         return result;
     }
+
+    private static Func<PKM, bool>? GetFilterForSaveFile(SaveFile sav) => sav switch
+    {
+        SAV8SWSH => static pk => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form),
+        SAV8BS   => static pk => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form),
+        SAV8LA   => static pk => pk is PA8 || PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form),
+        SAV9SV   => static pk => pk is PK9 || PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form),
+        _ => null,
+    };
 
     private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<SlotCache> dbTemp, string file)
     {
@@ -445,7 +444,7 @@ public partial class SAV_Database : Form
     private static void TryAddPKMsFromMemoryCard(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string file)
     {
         var state = mc.GetMemoryCardState();
-        if (state == GCMemoryCardState.Invalid)
+        if (state == MemoryCardSaveStatus.Invalid)
             return;
 
         if (mc.HasCOLO)
@@ -530,16 +529,16 @@ public partial class SAV_Database : Form
     {
         var settings = new SearchSettings
         {
-            Format = MAXFORMAT - CB_Format.SelectedIndex + 1, // 0->(n-1) => 1->n
+            Format = (byte)(MAXFORMAT - CB_Format.SelectedIndex + 1), // 0->(n-1) => 1->n
             SearchFormat = (SearchComparison)CB_FormatComparator.SelectedIndex,
-            Generation = CB_Generation.SelectedIndex,
+            Generation = (byte)CB_Generation.SelectedIndex,
 
-            Version = WinFormsUtil.GetIndex(CB_GameOrigin),
+            Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin),
             HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
 
             Species = GetU16(CB_Species),
             Ability = WinFormsUtil.GetIndex(CB_Ability),
-            Nature = WinFormsUtil.GetIndex(CB_Nature),
+            Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature),
             Item = WinFormsUtil.GetIndex(CB_HeldItem),
 
             BatchInstructions = RTB_Instructions.Text,
@@ -753,9 +752,10 @@ public partial class SAV_Database : Form
 
     private static DateTime GetRevisedTime(SlotCache arg)
     {
+        // This isn't displayed to the user, so just return the quickest -- Utc (not local time).
         var src = arg.Source;
         if (src is not SlotInfoFile f)
-            return DateTime.Now;
+            return DateTime.UtcNow;
         return File.GetLastWriteTimeUtc(f.Path);
     }
 

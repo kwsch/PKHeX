@@ -1,0 +1,30 @@
+namespace PKHeX.Core;
+
+public enum PoketchApp
+{
+    Digital_Watch = 0,
+    Calculator = 1,
+    Memo_Pad = 2,
+    Pedometer = 3,
+    Party = 4,
+    Friendship_Checker = 5,
+    Dowsing_Machine = 6,
+    Berry_Searcher = 7,
+    Daycare = 8,
+    History = 9,
+    Counter = 10,
+    Analog_Watch = 11,
+    Marking_Map = 12,
+    Link_Searcher = 13,
+    Coin_Toss = 14,
+    Move_Tester = 15,
+    Calendar = 16,
+    Dot_Artist = 17,
+    Roulette = 18,
+    Trainer_Counter = 19,
+    Kitchen_Timer = 20,
+    Color_Changer = 21,
+    Matchup_Checker = 22,
+    Stopwatch = 23,
+    Alarm_Clock = 24,
+}

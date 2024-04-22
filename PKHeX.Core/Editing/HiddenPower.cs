@@ -33,6 +33,61 @@ public static class HiddenPower
         return SixBitType[hp];
     }
 
+    /// <summary>
+    /// Gets the current Hidden Power Type of the input IVs for Generations 3+
+    /// </summary>
+    /// <param name="u32">32-bit value of the IVs</param>
+    /// <returns>Hidden Power Type of the IVs</returns>
+    public static int GetType(uint u32)
+    {
+        uint hp = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            hp |= (u32 & 1) << i;
+            u32 >>= 5;
+        }
+        return SixBitType[(int)hp];
+    }
+
+    /// <summary>
+    /// Gets the current Hidden Power Type of the input IVs for Generations 3+
+    /// </summary>
+    /// <param name="u32">32-bit value of the IVs</param>
+    /// <remarks>IVs are stored in reverse order in the 32-bit value</remarks>
+    /// <returns>Hidden Power Type of the IVs</returns>
+    public static int GetTypeBigEndian(uint u32)
+    {
+        uint hp = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            hp |= (u32 & 1) << (5 - i);
+            u32 >>= 5;
+        }
+        return SixBitType[(int)hp];
+    }
+
+    /// <summary>
+    /// Count of unique Hidden Power Types
+    /// </summary>
+    public const int TypeCount = 16;
+
+    /// <summary>
+    /// Gets the Type Name index of the input Hidden Power Type
+    /// </summary>
+    /// <param name="type">Fetched Hidden Power Type</param>
+    /// <param name="index">Type Name index</param>
+    /// <returns>True if the input Hidden Power Type is valid</returns>
+    public static bool TryGetTypeIndex(int type, out byte index)
+    {
+        if ((uint)type >= TypeCount)
+        {
+            index = default;
+            return false;
+        }
+        index = (byte)(type + 1); // Normal type is not a valid Hidden Power type
+        return true;
+    }
+
     private static ReadOnlySpan<byte> SixBitType =>
     [
         // (low-bit mash) * 15 / 63
@@ -59,7 +114,7 @@ public static class HiddenPower
     }
 
     /// <inheritdoc cref="GetTypeGB(ReadOnlySpan{int})"/>
-    public static int GetTypeGB(ushort u16) => ((u16 >> 12) & 0b1100) | ((u16 >> 8) & 0b11);
+    public static int GetTypeGB(ushort u16) => ((u16 >> 10) & 0b1100) | ((u16 >> 8) & 0b11);
 
     /// <summary>
     /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hiddenPowerType"/> for Generations 1 &amp; 2
@@ -78,7 +133,7 @@ public static class HiddenPower
     public static ushort SetTypeGB(int hiddenPowerType, ushort current)
     {
         // Extract bits from ATK and DEF.
-        var u16 = ((hiddenPowerType & 0b1100) << 12) | ((hiddenPowerType & 0b11) << 8);
+        var u16 = ((hiddenPowerType & 0b1100) << 10) | ((hiddenPowerType & 0b11) << 8);
         return (ushort)((current & 0b1100_1100_1111_1111) | u16);
     }
 
@@ -193,6 +248,41 @@ public static class HiddenPower
             ivs[i] = (ivs[i] & 0b11110) | ((bits >> i) & 1);
     }
 
+    /// <inheritdoc cref="SetIVs(int,Span{int},EntityContext)"/>
+    public static uint SetIVs(int type, uint ivs)
+    {
+        var bits = DefaultLowBits[type];
+        for (int i = 0; i < 6; i++)
+        {
+            var bit = (bits >> i) & 1;
+            var bitIndex = i * 5;
+            var mask = (1u << bitIndex);
+            if (bit == 0)
+                ivs &= ~mask;
+            else
+                ivs |= mask;
+        }
+        return ivs;
+    }
+
+    /// <inheritdoc cref="SetIVs(int,uint)"/>
+    /// <remarks>IVs are stored in reverse order in the 32-bit value</remarks>
+    public static uint SetIVsBigEndian(int type, uint ivs)
+    {
+        var bits = DefaultLowBits[type];
+        for (int i = 0; i < 6; i++)
+        {
+            var bit = (bits >> i) & 1;
+            var bitIndex = (5 - i) * 5;
+            var mask = (1u << bitIndex);
+            if (bit == 0)
+                ivs &= ~mask;
+            else
+                ivs |= mask;
+        }
+        return ivs;
+    }
+
     /// <summary>
     /// Hidden Power IV values (even or odd) to achieve a specified Hidden Power Type
     /// </summary>
@@ -220,4 +310,13 @@ public static class HiddenPower
         0b111101, // Dragon
         0b111111, // Dark
     ];
+
+    /// <summary>
+    /// Gets the suggested low-bits for the input Hidden Power Type
+    /// </summary>
+    public static byte GetLowBits(int type)
+    {
+        var arr = DefaultLowBits;
+        return (uint)type < arr.Length ? arr[type] : (byte)0;
+    }
 }

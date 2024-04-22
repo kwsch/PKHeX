@@ -17,12 +17,12 @@ public static class SpriteName
     /// <summary>
     /// Gets the resource name of the <see cref="Ball"/> sprite.
     /// </summary>
-    public static string GetResourceStringBall(int ball) => $"_ball{ball}";
+    public static string GetResourceStringBall(byte ball) => $"_ball{ball}";
 
     /// <summary>
     /// Gets the resource name of the Pokémon sprite.
     /// </summary>
-    public static string GetResourceStringSprite(ushort species, byte form, int gender, uint formarg, EntityContext context = PKX.Context, bool shiny = false)
+    public static string GetResourceStringSprite(ushort species, byte form, byte gender, uint formarg, EntityContext context = PKX.Context, bool shiny = false)
     {
         if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
             form = 0;

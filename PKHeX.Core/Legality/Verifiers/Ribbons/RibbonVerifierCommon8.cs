@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon8
 {
-    public static void Parse(this IRibbonSetCommon8 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon8 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var evos = args.History;
         if (r.RibbonTowerMaster && !RibbonRules.IsRibbonValidTowerMaster(evos))
@@ -34,8 +34,8 @@ public static class RibbonVerifierCommon8
             if (!r.RibbonChampionGalar)
             {
                 const int memChampion = 27;
-                bool hasChampMemory = (enc.Generation == 8 && pk is IMemoryOT { OT_Memory: memChampion })
-                                        || (pk.Format == 8 && pk is IMemoryHT { HT_Memory: memChampion });
+                bool hasChampMemory = (enc.Generation == 8 && pk is IMemoryOT { OriginalTrainerMemory: memChampion })
+                                        || (pk.Format == 8 && pk is IMemoryHT { HandlingTrainerMemory: memChampion });
                 if (hasChampMemory)
                     list.Add(ChampionGalar, true);
             }
@@ -48,7 +48,7 @@ public static class RibbonVerifierCommon8
                 // If the Tower Master ribbon is not present but a memory hint implies it should...
                 // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
                 const int strongest = 30;
-                if (pk is IMemoryOT { OT_Memory: strongest } or IMemoryHT { HT_Memory: strongest })
+                if (pk is IMemoryOT { OriginalTrainerMemory: strongest } or IMemoryHT { HandlingTrainerMemory: strongest })
                 {
                     if (enc.Generation == 8 || !RibbonRules.IsAllowedBattleFrontier(pk.Species) || pk is IRibbonSetCommon6 { RibbonBattlerSkillful: false })
                         list.Add(TowerMaster, true);

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokémon Stadium 2 (Pokémon Stadium GS in Japan)
 /// </summary>
-public sealed class SAV2Stadium : SAV_STADIUM
+public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
 {
     public override int SaveRevision => Japanese ? 0 : 1;
     public override string SaveRevisionString => Japanese ? "J" : "U";
@@ -14,11 +14,11 @@ public sealed class SAV2Stadium : SAV_STADIUM
     public override PersonalTable2 Personal => PersonalTable.C;
     public override int MaxEV => EffortValues.Max12;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GSC;
-    public override GameVersion Version { get; protected set; } = GameVersion.Stadium2;
+    public override GameVersion Version { get => GameVersion.Stadium2; set { } }
 
     protected override SAV2Stadium CloneInternal() => new((byte[])Data.Clone(), Japanese);
 
-    public override int Generation => 2;
+    public override byte Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;
     private const int StringLength = 12;
     public override int MaxStringLengthOT => StringLength;
@@ -143,14 +143,23 @@ public sealed class SAV2Stadium : SAV_STADIUM
         return $"{name} [{id:D5}:{str}]";
     }
 
-    public override string GetBoxName(int box)
+    public string GetBoxName(int box)
     {
         var ofs = GetBoxOffset(box) - 0x10;
         var boxNameSpan = Data.AsSpan(ofs, 0x10);
         var str = GetString(boxNameSpan);
         if (string.IsNullOrWhiteSpace(str))
-            return $"Box {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxName(box);
         return str;
+    }
+
+    public void SetBoxName(int box, ReadOnlySpan<char> name)
+    {
+        if (name.Length > StringLength)
+            throw new ArgumentOutOfRangeException(nameof(name), "Box name is too long.");
+        var ofs = GetBoxOffset(box) - 0x10;
+        var boxNameSpan = Data.AsSpan(ofs, 0x10);
+        SetString(boxNameSpan, name, StringLength, StringConverterOption.None);
     }
 
     public override SlotGroup GetTeam(int team)
@@ -194,10 +203,11 @@ public sealed class SAV2Stadium : SAV_STADIUM
         var teamSwap = StadiumUtil.IsMagicPresentSwap(data, TeamSize, MAGIC_FOOTER, 1);
         if (teamSwap)
             return true;
-        var boxSwap = StadiumUtil.IsMagicPresentSwap(data[BoxStart..], japanese ? BoxSizeJ : BoxSizeU, MAGIC_FOOTER, 1);
-        if (boxSwap)
-            return true;
-        return false;
+
+        var boxSpan = data[BoxStart..];
+        if (japanese)
+            return StadiumUtil.IsMagicPresentSwap(boxSpan, BoxSizeJ, MAGIC_FOOTER, 1);
+        return StadiumUtil.IsMagicPresentSwap(boxSpan, BoxSizeU, MAGIC_FOOTER, 1);
     }
 }
 

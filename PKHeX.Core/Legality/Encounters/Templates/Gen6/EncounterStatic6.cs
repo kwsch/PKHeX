@@ -6,12 +6,12 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic6(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IContestStatsReadOnly, IHatchCycle, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IMoveset, IFixedIVSet
 {
-    public int Generation => 6;
+    public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
-    int ILocation.Location => Location;
-    int ILocation.EggLocation => EggLocation;
+    ushort ILocation.Location => Location;
+    ushort ILocation.EggLocation => EggLocation;
     public bool IsShiny => false;
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     public Ball FixedBall { get; init; }
     public bool FatefulEncounter { get; init; }
 
@@ -29,12 +29,12 @@ public sealed record EncounterStatic6(GameVersion Version)
     public byte LevelMax => Level;
     public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
 
-    public byte CNT_Cool   { get; init; }
-    public byte CNT_Beauty { get; init; }
-    public byte CNT_Cute   { get; init; }
-    public byte CNT_Smart  { get; init; }
-    public byte CNT_Tough  { get; init; }
-    public byte CNT_Sheen  { get; init; }
+    public byte ContestCool   { get; init; }
+    public byte ContestBeauty { get; init; }
+    public byte ContestCute   { get; init; }
+    public byte ContestSmart  { get; init; }
+    public byte ContestTough  { get; init; }
+    public byte ContestSheen  { get; init; }
 
     public byte EggCycles { get; init; }
     public byte FlawlessIVCount { get; init; }
@@ -50,37 +50,39 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.AO[Species];
+        var rnd = Util.Rand;
         var pk = new PK6
         {
-            EncryptionConstant = Util.Rand32(),
+            EncryptionConstant = rnd.Rand32(),
+            PID = rnd.Rand32(),
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDate3DS(),
             Ball = (byte)(FixedBall is Ball.None ? Ball.Poke : FixedBall),
             FatefulEncounter = FatefulEncounter,
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = tr.Gender,
-            OT_Name = tr.OT,
+            OriginalTrainerGender = tr.Gender,
+            OriginalTrainerName = tr.OT,
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
-            pk.Met_Location = version is GameVersion.X or GameVersion.Y ? Locations.HatchLocation6XY : Locations.HatchLocation6AO;
-            pk.Met_Level = EggStateLegality.EggMetLevel;
-            pk.Egg_Location = EggLocation;
+            pk.MetLocation = version is GameVersion.X or GameVersion.Y ? Locations.HatchLocation6XY : Locations.HatchLocation6AO;
+            pk.MetLevel = EggStateLegality.EggMetLevel;
+            pk.EggLocation = EggLocation;
             pk.EggMetDate = pk.MetDate;
         }
 
@@ -92,7 +94,7 @@ public sealed record EncounterStatic6(GameVersion Version)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
         this.CopyContestStatsTo(pk);
 
         pk.SetRandomMemory6();
@@ -104,7 +106,6 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
     {
-        pk.PID = Util.Rand32();
         if (pk.IsShiny)
         {
             if (Shiny == Shiny.Never || (Shiny != Shiny.Always && !criteria.Shiny.IsShiny()))
@@ -122,7 +123,7 @@ public sealed record EncounterStatic6(GameVersion Version)
             criteria.SetRandomIVs(pk, FlawlessIVCount);
 
         var ability = criteria.GetAbilityFromNumber(Ability);
-        pk.Nature = (int)criteria.GetNature(Nature);
+        pk.Nature = criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.AbilityNumber = 1 << ability;
         pk.Ability = pi.GetAbilityAtIndex(ability);
@@ -144,7 +145,7 @@ public sealed record EncounterStatic6(GameVersion Version)
             return false;
         if (!IsMatchLocation(pk))
             return false;
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
@@ -152,7 +153,7 @@ public sealed record EncounterStatic6(GameVersion Version)
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;
-        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+        if (Nature != Nature.Random && pk.Nature != Nature)
             return false;
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
@@ -168,9 +169,9 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         if (met == Location)
             return true;
 
@@ -183,20 +184,20 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.Egg_Location == expect;
+            return pk.EggLocation == expect;
         }
 
-        var eggloc = pk.Egg_Location;
+        var eggLoc = pk.EggLocation;
         if (!pk.IsEgg) // hatched
-            return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+            return eggLoc == EggLocation || eggLoc == Locations.LinkTrade6;
 
         // Unhatched:
-        if (eggloc != EggLocation)
+        if (eggLoc != EggLocation)
             return false;
-        if (pk.Met_Location is not (0 or Locations.LinkTrade6))
+        if (pk.MetLocation is not (0 or Locations.LinkTrade6))
             return false;
         return true;
     }

@@ -7,14 +7,14 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PB8>, IScaledSizeReadOnly, IFixedOTFriendship, IMoveset, IContestStatsReadOnly, IFixedGender, IFixedNature
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
-    public int Location => Locations.LinkTrade6NPC;
+    public ushort Location => Locations.LinkTrade6NPC;
     public Shiny Shiny => Shiny.Never;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public int EggLocation => Locations.Default8bNone;
+    public ushort EggLocation => Locations.Default8bNone;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
     public GameVersion Version { get; }
@@ -36,15 +36,15 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
     public required ushort Species { get; init; }
     public required byte Level { get; init; }
 
-    public byte OT_Friendship => Species == (int)Core.Species.Chatot ? (byte)35 : (byte)50;
+    public byte OriginalTrainerFriendship => Species == (int)Core.Species.Chatot ? (byte)35 : (byte)50;
     private byte BaseContest => Species == (int)Core.Species.Chatot ? (byte)20 : (byte)0;
 
-    public byte CNT_Cool => BaseContest;
-    public byte CNT_Beauty => BaseContest;
-    public byte CNT_Cute => BaseContest;
-    public byte CNT_Smart => BaseContest;
-    public byte CNT_Tough => BaseContest;
-    public byte CNT_Sheen => 0;
+    public byte ContestCool => BaseContest;
+    public byte ContestBeauty => BaseContest;
+    public byte ContestCute => BaseContest;
+    public byte ContestSmart => BaseContest;
+    public byte ContestTough => BaseContest;
+    public byte ContestSheen => 0;
 
     public byte Form => 0;
 
@@ -70,7 +70,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
 
     public PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8
@@ -79,29 +79,29 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
             EncryptionConstant = EncryptionConstant,
             Species = Species,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDateSwitch(),
             Gender = Gender,
-            Nature = (byte)Nature,
-            StatNature = (byte)Nature,
+            Nature = Nature,
+            StatNature = Nature,
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = OTGender,
-            OT_Name = TrainerNames[lang],
+            OriginalTrainerGender = OTGender,
+            OriginalTrainerName = TrainerNames[lang],
 
-            OT_Friendship = OT_Friendship,
+            OriginalTrainerFriendship = OriginalTrainerFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             HeightScalar = HeightScalar,
             WeightScalar = WeightScalar,
-            HT_Name = tr.OT,
-            HT_Language = (byte)tr.Language,
-            HT_Friendship = pi.BaseFriendship,
+            HandlingTrainerName = tr.OT,
+            HandlingTrainerLanguage = (byte)tr.Language,
+            HandlingTrainerFriendship = pi.BaseFriendship,
         };
 
         // Has German Language ID for all except German origin, which is Japanese
@@ -129,7 +129,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (pk.EncryptionConstant != EncryptionConstant)
             return false;
@@ -147,13 +147,13 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
             return false;
         if (pk.Gender != Gender)
             return false;
-        if (pk.Nature != (int)Nature)
+        if (pk.Nature != Nature)
             return false;
         if (pk.ID32 != ID32)
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
-        if (pk.OT_Gender != OTGender)
+        if (pk.OriginalTrainerGender != OTGender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
@@ -170,15 +170,15 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
         return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private bool IsMatchLocationExact(PKM pk) => pk.MetLocation == Location;
 
     private bool IsMatchLocationRemapped(PKM pk)
     {
-        var met = (ushort)pk.Met_Location;
+        var met = pk.MetLocation;
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetBDSP(met, version);
-        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
+        return LocationsHOME.GetMetSWSH(Location, version) == met;
     }
 
     private bool IsMatchEggLocation(PKM pk)
@@ -192,8 +192,8 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
         return IsMatchEggLocationExact(pk) || IsMatchEggLocationRemapped(pk);
     }
 
-    private static bool IsMatchEggLocationRemapped(PKM pk) => pk.Egg_Location == 0;
-    private bool IsMatchEggLocationExact(PKM pk) => pk.Egg_Location == EggLocation;
+    private static bool IsMatchEggLocationRemapped(PKM pk) => pk.EggLocation == 0;
+    private bool IsMatchEggLocationExact(PKM pk) => pk.EggLocation == EggLocation;
 
     public int DetectMeisterMagikarpLanguage(ReadOnlySpan<char> nick, ReadOnlySpan<char> ot, int currentLanguageID)
     {
@@ -225,7 +225,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
     /// <returns>True if matches the pattern of a traded Magikarp.</returns>
     public bool IsMagikarpJapaneseTradedBDSP(PKM pk)
     {
-        return Species is (int)Core.Species.Magikarp && pk is { Language: (int)LanguageID.Japanese, OT_Name: "Diamond." or "Pearl." };
+        return Species is (int)Core.Species.Magikarp && pk is { Language: (int)LanguageID.Japanese, OriginalTrainerName: "Diamond." or "Pearl." };
     }
 
     /// <summary>

@@ -6,23 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9 : ZukanBase<SAV9SV>
+public sealed class Zukan9(SAV9SV sav, SCBlock paldea, SCBlock kitakami) : ZukanBase<SAV9SV>(sav, default)
 {
-    public readonly Zukan9Paldea DexPaldea;
-    public readonly Zukan9Kitakami DexKitakami;
-    private readonly DexBlockMode9 Mode;
+    public readonly Zukan9Paldea DexPaldea = new(sav, paldea);
+    public readonly Zukan9Kitakami DexKitakami = new(sav, kitakami);
+    private readonly DexBlockMode9 Mode = kitakami.Data.Length != 0 ? Kitakami : Paldea;
 
-    public Zukan9(SAV9SV sav, SCBlock paldea, SCBlock kitakami) : base(sav, 0)
-    {
-        DexPaldea = new(sav, paldea);
-        DexKitakami = new(sav, kitakami);
-
-        // Starting in 2.0.1, the developers have dummied out the old Paldea Pokédex block and exclusively use the new Kitakami block.
-        if (kitakami.Data.Length != 0)
-            Mode = Kitakami;
-        else
-            Mode = Paldea;
-    }
+    // Starting in 2.0.1, the developers have dummied out the old Paldea Pokédex block and exclusively use the new Kitakami block.
 
     /// <summary>
     /// Checks how much DLC patches have been installed by detecting if DLC blocks are present.

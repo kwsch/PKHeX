@@ -169,3 +169,33 @@ Kitakami Wilds
 Infernal Pass
 Oni Mountain
 Chilling Waterhead
+
+Blueberry Academy
+
+Savanna Biome
+
+Coastal Biome
+
+Canyon Biome
+
+Polar Biome
+
+Central Plaza
+
+Savanna Plaza
+
+Coastal Plaza
+
+Canyon Plaza
+
+Polar Plaza
+
+Chargestone Cavern
+
+Torchlit Labyrinth
+
+Area Zero Underdepths
+
+Area Zero Underdepths
+
+Terarium

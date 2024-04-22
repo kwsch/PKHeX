@@ -9,14 +9,14 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn, ILevelRang
 
     public ushort Species { get; }
     public byte Form { get; }
-    public int Location { get; }
+    public ushort Location { get; }
 
     public byte LevelMin { get; }
     public byte LevelMax { get; }
 
     public Moveset Relearn => Encounter is IRelearn r ? r.Relearn : default;
 
-    public EncounterSuggestionData(PKM pk, IEncounterable enc, int met)
+    public EncounterSuggestionData(PKM pk, IEncounterable enc, ushort met)
     {
         Encounter = enc;
         Species = pk.Species;
@@ -27,7 +27,7 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn, ILevelRang
         LevelMax = enc.LevelMax;
     }
 
-    public EncounterSuggestionData(PKM pk, int met, byte lvl)
+    public EncounterSuggestionData(PKM pk, ushort met, byte lvl)
     {
         Species = pk.Species;
         Form = pk.Form;
@@ -39,5 +39,5 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn, ILevelRang
 
     public int GetSuggestedMetLevel(PKM pk) => EncounterSuggestion.GetSuggestedMetLevel(pk, LevelMin);
     public GroundTileType GetSuggestedGroundTile() => Encounter is IGroundTypeTile t ? t.GroundTile.GetIndex() : 0;
-    public bool HasGroundTile(int format) => Encounter is IGroundTypeTile t && t.HasGroundTile(format);
+    public bool HasGroundTile(byte format) => Encounter is IGroundTypeTile t && t.HasGroundTile(format);
 }

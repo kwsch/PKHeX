@@ -82,7 +82,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsReminderMove(evo.Species, evo.Form, move))
             return new(Tutor, Game);
 
-        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         // In 2.0.1, the following moves are no longer learned via Level Up.
@@ -122,8 +122,14 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         return false;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move) => evo.Species switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
     {
+        (int)Species.Necrozma => move switch
+        {
+            (int)Move.SunsteelStrike => option.IsPast() || current.Form == 1, // Sun w/ Solgaleo
+            (int)Move.MoongeistBeam => option.IsPast() || current.Form == 2, // Moon w/ Lunala
+            _ => false,
+        },
         (int)Species.Rotom => move switch
         {
             (int)Move.Overheat => current.Form == 1,
@@ -180,6 +186,10 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
             var species = evo.Species;
             if (species is (int)Species.Rotom && pk.Form is not 0)
                 result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
+            else if (species is (int)Species.Necrozma && pk.Form is 1) // Sun
+                result[(int)Move.SunsteelStrike] = true;
+            else if (species is (int)Species.Necrozma && pk.Form is 2) // Moon
+                result[(int)Move.MoongeistBeam] = true;
         }
     }
 

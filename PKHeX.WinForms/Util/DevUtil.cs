@@ -87,7 +87,7 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<Control> GetExtraControls()
         {
-            var slotGroupLabels = Enum.GetNames(typeof(StorageSlotType));
+            var slotGroupLabels = Enum.GetNames<StorageSlotType>();
             foreach (var name in slotGroupLabels)
                 yield return new Label { Name = $"{nameof(Main)}.L_{name}", Text = name };
         }
@@ -116,6 +116,7 @@ namespace PKHeX.WinForms
             $"{nameof(SAV_GameSelect)}.L_Prompt", // prompt text (dynamic)
             $"{nameof(SAV_BlockDump8)}.L_BlockName", // Block name (dynamic)
             $"{nameof(SAV_PokedexResearchEditorLA)}.L_", // Dynamic label
+            $"{nameof(SAV_OPower)}.L_", // Dynamic label
         ];
 
         private static readonly string[] PurgeBanlist =

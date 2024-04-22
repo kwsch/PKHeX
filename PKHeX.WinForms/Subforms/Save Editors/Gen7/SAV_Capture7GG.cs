@@ -15,7 +15,7 @@ public partial class SAV_Capture7GG : Form
     private ushort Index;
     private bool Loading;
 
-    public SAV_Capture7GG(SaveFile sav)
+    public SAV_Capture7GG(SAV7b sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

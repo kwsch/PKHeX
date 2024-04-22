@@ -15,10 +15,12 @@ public sealed class WonderNews3 : Gen3MysteryData
     /// </summary>
     public const int SIZE_JAP = sizeof(uint) + 224;
 
-    public WonderNews3(byte[] data) : base(data)
+    public WonderNews3(byte[] data) : base(data) => AssertLength(data.Length);
+
+    private static void AssertLength(int length)
     {
-        if (data.Length is not SIZE and not SIZE_JAP)
-            throw new ArgumentException("Invalid size.", nameof(data));
+        if (length is not (SIZE or SIZE_JAP))
+            throw new ArgumentOutOfRangeException(nameof(length), length, "Invalid size.");
     }
 
     public bool Japanese => Data.Length is SIZE_JAP;

@@ -13,12 +13,12 @@ public partial class SAV_Trainer7GG : Form
     private readonly SAV7b SAV;
     private readonly GoParkStorage Park;
 
-    public SAV_Trainer7GG(SaveFile sav)
+    public SAV_Trainer7GG(SAV7b sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV7b)(Origin = sav).Clone();
-        Park = new GoParkStorage(SAV);
+        Park = SAV.Park;
         UpdateGoSummary(0);
 
         if (Main.Unicode)
@@ -71,7 +71,7 @@ public partial class SAV_Trainer7GG : Form
         CB_Language.SelectedValue = SAV.Language;
         MT_Money.Text = SAV.Blocks.Misc.Money.ToString();
 
-        CB_Game.SelectedValue = SAV.Game;
+        CB_Game.SelectedValue = (int)SAV.Version;
         CB_Gender.SelectedIndex = SAV.Gender;
         trainerID1.LoadIDValues(SAV, SAV.Generation);
 
@@ -93,6 +93,12 @@ public partial class SAV_Trainer7GG : Form
         MT_Hours.Text = SAV.PlayedHours.ToString();
         MT_Minutes.Text = SAV.PlayedMinutes.ToString();
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
+
+        CAL_AdventureBeginDate.Value = CAL_AdventureBeginTime.Value = SAV.PlayerGeoLocation.AdventureBegin.Timestamp;
+        if (SAV.Played.LastSavedDate is { } d)
+            CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = d;
+        else
+            CAL_LastSavedDate.Enabled = CAL_LastSavedTime.Enabled = false;
     }
 
     private void Save()
@@ -102,7 +108,7 @@ public partial class SAV_Trainer7GG : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = WinFormsUtil.GetIndex(CB_Game);
+        SAV.Version = (GameVersion)WinFormsUtil.GetIndex(CB_Game);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
@@ -132,6 +138,10 @@ public partial class SAV_Trainer7GG : Form
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
         SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
         SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
+
+        SAV.PlayerGeoLocation.AdventureBegin.Timestamp = CAL_AdventureBeginDate.Value.Date.AddSeconds(CAL_AdventureBeginTime.Value.TimeOfDay.TotalSeconds);
+        if (CAL_LastSavedDate.Enabled)
+            SAV.Played.LastSavedDate = CAL_LastSavedDate.Value.Date.AddSeconds(CAL_LastSavedTime.Value.TimeOfDay.TotalSeconds);
     }
 
     private void ClickString(object sender, MouseEventArgs e)
@@ -197,7 +207,7 @@ public partial class SAV_Trainer7GG : Form
 
         var folder = fbd.SelectedPath;
         foreach (var gpk in gofiles)
-            File.WriteAllBytes(Path.Combine(folder, Util.CleanFileName(gpk.FileName)), gpk.Data);
+            File.WriteAllBytes(Path.Combine(folder, Util.CleanFileName(gpk.FileName)), gpk.Data.ToArray());
         WinFormsUtil.Alert($"Dumped {gofiles.Length} files to {folder}");
     }
 
@@ -233,7 +243,7 @@ public partial class SAV_Trainer7GG : Form
             return;
         }
         var gp1 = new GP1();
-        data.CopyTo(gp1.Data, 0);
+        data.CopyTo(gp1.Data);
         Park[index] = gp1;
         UpdateGoSummary((int)NUD_GoIndex.Value);
     }
@@ -256,7 +266,7 @@ public partial class SAV_Trainer7GG : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        File.WriteAllBytes(sfd.FileName, data.Data);
+        File.WriteAllBytes(sfd.FileName, data.Data.ToArray());
     }
 
     private void B_ImportGoFiles_Click(object sender, EventArgs e)

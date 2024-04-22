@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -9,69 +9,56 @@ public partial class SAV_ZygardeCell : Form
     private readonly SaveFile Origin;
     private readonly SAV7 SAV;
 
-    public SAV_ZygardeCell(SaveFile sav)
+    public SAV_ZygardeCell(SAV7 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV7)(Origin = sav).Clone();
-
-        // Constants @ 0x1C00
-        // Cell Data @ 0x1D8C
-        // Use constants 0x18C/2 = 198 thru +95
-        ushort[] constants = SAV.GetAllEventWork();
-        var cells = constants.AsSpan(celloffset, CellCount);
-
-        int cellCount = constants[cellstotal];
-        int cellCollected = constants[cellscollected];
-
-        NUD_Cells.Value = cellCount;
-        NUD_Collected.Value = cellCollected;
+        var ew = sav.EventWork;
+        NUD_CellsTotal.Value = ew.ZygardeCellTotal;
+        NUD_CellsCollected.Value = ew.ZygardeCellCount;
 
         var combo = (DataGridViewComboBoxColumn)dgv.Columns[2];
         combo.Items.AddRange(states); // add only the Names
         dgv.Columns[0].ValueType = typeof(int);
 
         // Populate Grid
-        dgv.Rows.Add(CellCount);
+        dgv.Rows.Add(ew.TotalZygardeCellCount);
         var locations = SAV is SAV7SM ? locationsSM : locationsUSUM;
-        for (int i = 0; i < CellCount; i++)
+        for (int i = 0; i < dgv.RowCount; i++)
         {
-            if (cells[i] > 2)
+            var cell = ew.GetZygardeCell(i);
+            if (cell > 2)
                 throw new IndexOutOfRangeException("Unable to find cell index.");
 
-            dgv.Rows[i].Cells[0].Value = (i + 1);
-            dgv.Rows[i].Cells[1].Value = locations[i];
-            dgv.Rows[i].Cells[2].Value = states[cells[i]];
+            var c = dgv.Rows[i].Cells;
+            c[0].Value = (i + 1);
+            c[1].Value = locations[i];
+            c[2].Value = states[cell];
         }
     }
 
-    private const int cellstotal = 161;
-    private const int cellscollected = 169;
-    private const int celloffset = 0xC6;
-    private int CellCount => SAV is SAV7USUM ? 100 : 95;
     private static readonly string[] states = ["None", "Available", "Received"];
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        ushort[] constants = SAV.GetAllEventWork();
-        for (int i = 0; i < CellCount; i++)
+        var ew = SAV.EventWork;
+        for (int i = 0; i < dgv.RowCount; i++)
         {
             string str = (string)dgv.Rows[i].Cells[2].Value;
             int val = Array.IndexOf(states, str);
             if (val < 0)
                 throw new IndexOutOfRangeException("Unable to find cell index.");
 
-            constants[celloffset + i] = (ushort)val;
+            ew.SetZygardeCell(i, (ushort)val);
         }
 
-        constants[cellstotal] = (ushort)NUD_Cells.Value;
-        constants[cellscollected] = (ushort)NUD_Collected.Value;
+        ew.ZygardeCellTotal = (ushort)NUD_CellsTotal.Value;
+        ew.ZygardeCellCount = (ushort)NUD_CellsCollected.Value;
         if (SAV is SAV7USUM)
-            SAV.SetRecord(72, (int)NUD_Collected.Value);
+            SAV.SetRecord(72, (int)NUD_CellsCollected.Value);
 
-        SAV.SetAllEventWork(constants);
         Origin.CopyChangesFrom(SAV);
-
         Close();
     }
 
@@ -85,14 +72,15 @@ public partial class SAV_ZygardeCell : Form
         int added = 0;
         for (int i = 0; i < dgv.RowCount; i++)
         {
-            if (Array.IndexOf(states, (string)dgv.Rows[i].Cells[2].Value) != 2) // Not Collected
+            var state = dgv.Rows[i].Cells[2];
+            if (Array.IndexOf(states, (string)state.Value) != 2) // Not Collected
                 added++;
-            dgv.Rows[i].Cells[2].Value = states[2];
+            state.Value = states[2];
         }
 
-        NUD_Collected.Value += added;
+        NUD_CellsCollected.Value += added;
         if (SAV is not SAV7USUM)
-            NUD_Cells.Value += added;
+            NUD_CellsTotal.Value += added;
 
         System.Media.SystemSounds.Asterisk.Play();
     }

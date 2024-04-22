@@ -161,3 +161,4 @@ RibbonOnceInALifetime	せんざいいちぐうリボン
 RibbonMarkAlpha	オヤブンのあかし
 RibbonMarkMightiest	さいきょうのあかし
 RibbonMarkTitan	ヌシのあかし
+RibbonPartner	パートナーリボン

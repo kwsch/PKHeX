@@ -13,7 +13,7 @@ public partial class SAV_Misc3 : Form
     private readonly SaveFile Origin;
     private readonly SAV3 SAV;
 
-    public SAV_Misc3(SaveFile sav)
+    public SAV_Misc3(SAV3 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -94,10 +94,10 @@ public partial class SAV_Misc3 : Form
     private void ReadJoyful(IGen3Joyful j)
     {
         TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
-        TB_J2.Text = Math.Min(9999, j.JoyfulJumpScore).ToString();
+        TB_J2.Text = Math.Min(99990, j.JoyfulJumpScore).ToString();
         TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
         TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
-        TB_B2.Text = Math.Min(9999, j.JoyfulBerriesScore).ToString();
+        TB_B2.Text = Math.Min(99990, j.JoyfulBerriesScore).ToString();
         TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
     }
 
@@ -504,7 +504,7 @@ public partial class SAV_Misc3 : Form
     public void SetFameTime(uint time)
     {
         NUD_FameH.Value = Math.Min(NUD_FameH.Maximum, time >> 16);
-        NUD_FameM.Value = Math.Min(NUD_FameH.Maximum, (byte)(time >> 8));
-        NUD_FameS.Value = Math.Min(NUD_FameH.Maximum, (byte)time);
+        NUD_FameM.Value = Math.Min(NUD_FameM.Maximum, (byte)(time >> 8));
+        NUD_FameS.Value = Math.Min(NUD_FameS.Maximum, (byte)time);
     }
 }

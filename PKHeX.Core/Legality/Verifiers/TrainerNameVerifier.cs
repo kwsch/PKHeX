@@ -4,7 +4,7 @@ using static PKHeX.Core.LegalityCheckStrings;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies the <see cref="PKM.OT_Name"/>.
+/// Verifies the <see cref="PKM.OriginalTrainerName"/>.
 /// </summary>
 public sealed class TrainerNameVerifier : Verifier
 {
@@ -23,7 +23,7 @@ public sealed class TrainerNameVerifier : Verifier
         if (!IsPlayerOriginalTrainer(enc))
             return; // already verified
 
-        var ot = pk.OT_Name;
+        var ot = pk.OriginalTrainerName;
         if (ot.Length == 0)
             data.AddLine(GetInvalid(LOTShort));
 
@@ -49,7 +49,7 @@ public sealed class TrainerNameVerifier : Verifier
             if (ContainsTooManyNumbers(ot, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
 
-            if (WordFilter.IsFiltered(pk.HT_Name, out badPattern))
+            if (WordFilter.IsFiltered(pk.HandlingTrainerName, out badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
         }
     }
@@ -67,9 +67,9 @@ public sealed class TrainerNameVerifier : Verifier
 
     public static bool IsEdgeCaseLength(PKM pk, IEncounterTemplate e, ReadOnlySpan<char> ot)
     {
-        if (e.EggEncounter)
+        if (e.IsEgg)
         {
-            if (e is WC3 wc3 && pk.IsEgg && ot.SequenceEqual(wc3.OT_Name))
+            if (e is WC3 wc3 && pk.IsEgg && ot.SequenceEqual(wc3.OriginalTrainerName))
                 return true; // Fixed OT Mystery Gift Egg
             bool eggEdge = pk.IsEgg ? pk.IsTradedEgg || pk.Format == 3 : pk.WasTradedEgg;
             if (!eggEdge)
@@ -81,7 +81,7 @@ public sealed class TrainerNameVerifier : Verifier
         if (e is IFixedTrainer { IsFixedTrainer: true })
             return true; // already verified
 
-        if (e is MysteryGift mg && mg.OT_Name.Length == ot.Length)
+        if (e is MysteryGift mg && mg.OriginalTrainerName.Length == ot.Length)
             return true; // Mattle Ho-Oh
         return false;
     }
@@ -90,18 +90,18 @@ public sealed class TrainerNameVerifier : Verifier
     {
         var pk = data.Entity;
         var enc = data.EncounterOriginal;
-        if (pk.OT_Gender == 1)
+        if (pk.OriginalTrainerGender == 1)
         {
             // Transferring from RBY->Gen7 won't have OT Gender in PK1, nor will PK1 originated encounters.
             // GSC Trades already checked for OT Gender matching.
-            if (pk is { Format: > 2, VC1: true } || enc is { Generation: 1 } or EncounterGift2 { IsGift: true })
+            if (pk is { Format: > 2, VC1: true } || enc is { Generation: 1 } or EncounterGift2 { IsEgg: false })
                 data.AddLine(GetInvalid(LG1OTGender));
         }
 
         if (enc is IFixedTrainer { IsFixedTrainer: true })
             return; // already verified
 
-        string tr = pk.OT_Name;
+        string tr = pk.OriginalTrainerName;
         if (tr.Length == 0)
         {
             if (pk is SK2 {TID16: 0, IsRental: true})
@@ -120,6 +120,16 @@ public sealed class TrainerNameVerifier : Verifier
     private void VerifyGBOTWithinBounds(LegalityAnalysis data, ReadOnlySpan<char> str)
     {
         var pk = data.Entity;
+
+        // Filtered OT names use unavailable characters and can be too long
+        if (pk.Format >= 7)
+        {
+            // Check if it was profanity filtered.
+            var filtered = StringConverter12Transporter.GetFilteredOT(pk.Language, pk.Version);
+            if (str.SequenceEqual(filtered))
+                return;
+        }
+
         if (pk.Japanese)
         {
             if (str.Length > 5)

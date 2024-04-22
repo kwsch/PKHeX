@@ -10,17 +10,17 @@ namespace PKHeX.Core;
 public sealed record EncounterFixed9
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender
 {
-    public int Generation => 9;
-    int ILocation.Location => Location;
+    public byte Generation => 9;
+    ushort ILocation.Location => Location;
     public byte Location => Location0;
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
     public Shiny Shiny => Shiny.Random;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public bool IsShiny => false;
-    public int EggLocation => 0;
-    public AbilityPermission Ability => Any12;
+    public ushort EggLocation => 0;
+    public AbilityPermission Ability { get; init; }
 
     public required ushort Species { get; init; }
     public required byte Form { get; init; }
@@ -54,7 +54,7 @@ public sealed record EncounterFixed9
         FlawlessIVCount = data[0x04],
         TeraType = (GemType)data[0x05],
         Gender = data[0x06],
-        // 1 byte reserved
+        Ability = (AbilityPermission)data[0x07],
         Moves = new Moveset(
             ReadUInt16LittleEndian(data[0x08..]),
             ReadUInt16LittleEndian(data[0x0A..]),
@@ -78,7 +78,7 @@ public sealed record EncounterFixed9
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
@@ -86,34 +86,25 @@ public sealed record EncounterFixed9
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            Obedience_Level = LevelMin,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            ObedienceLevel = LevelMin,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
         };
-
-        var type = Tera9RNG.GetTeraType(Util.Rand.Rand64(), TeraType, Species, Form);
-        pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.TeraType != -1 && type != criteria.TeraType)
-            pk.SetTeraType(type); // sets the override type
-
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk.Scale = TeraType != 0 ? (byte)(MinScaleStrongTera + Util.Rand.Next(byte.MaxValue - MinScaleStrongTera + 1)) : PokeSizeUtil.GetRandomScalar();
 
         SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+            EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -121,20 +112,33 @@ public sealed record EncounterFixed9
 
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
+        pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         criteria.SetRandomIVs(pk, FlawlessIVCount);
+
+        var type = Tera9RNG.GetTeraType(rnd.Rand64(), TeraType, Species, Form);
+        pk.TeraTypeOriginal = (MoveType)type;
+        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
+            pk.SetTeraType(type); // sets the override type
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.Scale = TeraType != 0
+            ? (byte)(MinScaleStrongTera + rnd.Next(byte.MaxValue - MinScaleStrongTera + 1))
+            : PokeSizeUtil.GetRandomScalar(rnd);
+
     }
     #endregion
 
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -177,7 +181,7 @@ public sealed record EncounterFixed9
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -192,7 +196,7 @@ public sealed record EncounterFixed9
 
     private bool IsMatchLocationRemapped(PKM pk)
     {
-        var met = (ushort)pk.Met_Location;
+        var met = pk.MetLocation;
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetSV(met, version);
@@ -201,7 +205,7 @@ public sealed record EncounterFixed9
 
     private bool IsMatchLocationExact(PKM pk)
     {
-        var loc = pk.Met_Location;
+        var loc = pk.MetLocation;
         if (loc == Location0)
             return true;
         if (loc == 0)
@@ -232,7 +236,14 @@ public sealed record EncounterFixed9
             }
             else if (Ability.IsSingleValue(out int index) && 1 << index != num) // Fixed regular ability
             {
-                if (Ability is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(9, PersonalTable.SV.GetFormEntry(Species, Form)))
+                var a = Ability;
+                if (a is OnlyHidden)
+                {
+                    if (!AbilityVerifier.CanAbilityPatch(9, PersonalTable.SV.GetFormEntry(Species, Form), pk.Species))
+                        return EncounterMatchRating.DeferredErrors;
+                    a = num == 1 ? OnlyFirst : OnlySecond;
+                }
+                if (a is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(9, PersonalTable.SV.GetFormEntry(Species, Form)))
                     return EncounterMatchRating.DeferredErrors;
             }
         }

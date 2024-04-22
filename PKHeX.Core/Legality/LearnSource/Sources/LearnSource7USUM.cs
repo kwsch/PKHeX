@@ -19,6 +19,8 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
     private const LearnEnvironment Game = USUM;
     private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
 
+    public LearnEnvironment Environment => Game;
+
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo7? pi)

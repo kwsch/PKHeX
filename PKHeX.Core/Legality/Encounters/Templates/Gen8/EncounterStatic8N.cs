@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Encounters8Nest;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -23,7 +24,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     public override byte LevelMin => LevelCaps[MinRank * 2];
     public override byte LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-    public EncounterStatic8N(byte nestID, byte minRank, byte maxRank, byte val, GameVersion game) : base(game)
+    public EncounterStatic8N(byte nestID, byte minRank, byte maxRank, byte val, [ConstantExpected] GameVersion game) : base(game)
     {
         NestID = nestID;
         MinRank = minRank;
@@ -32,7 +33,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         FlawlessIVCount = val;
     }
 
-    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, GameVersion game) => new(data[6], data[7], data[8], data[9], game)
+    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game) => new(data[6], data[7], data[8], data[9], game)
     {
         Species = ReadUInt16LittleEndian(data),
         Form = data[2],
@@ -52,18 +53,22 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
     protected override bool IsMatchLevel(PKM pk)
     {
-        var met = pk.Met_Level;
-        var metLevel = met - 15;
-        var rank = ((uint)metLevel) / 10;
+        var met = pk.MetLevel;
+        var metLevel = met - 15u;
+        var rank = metLevel / 10;
         if (rank > 4)
             return false;
         if (rank > MaxRank)
             return false;
 
-        if (rank <= 1 && met <= byte.MaxValue)
+        if (rank <= 1)
         {
-            if (IsInaccessibleRank12Nest(NestID, (byte)met))
-                return false;
+            var location = pk.MetLocation;
+            if (location <= byte.MaxValue) // Should always be true, no met locations > 255.
+            {
+                if (IsInaccessibleRank12Nest(NestID, (byte)location))
+                    return false;
+            }
         }
 
         if (rank < MinRank) // down-leveled
@@ -74,18 +79,18 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
     public bool IsDownLeveled(PKM pk)
     {
-        var met = pk.Met_Level;
-        var metLevel = met - 15;
+        var met = pk.MetLevel;
+        var metLevel = met - 15u;
         return met != LevelMax && IsDownLeveled(pk, metLevel, met);
     }
 
-    private bool IsDownLeveled(PKM pk, int metLevel, int met)
+    private bool IsDownLeveled(PKM pk, uint metLevel, int met)
     {
-        if (metLevel % 5 != 0)
+        if (metLevel > int.MaxValue || metLevel % 5 != 0)
             return false;
 
         // shared nests can be down-leveled to any
-        if (pk.Met_Location == SharedNest)
+        if (pk.MetLocation == SharedNest)
             return met >= 20;
 
         // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
@@ -95,7 +100,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        var loc = pk.Met_Location;
+        var loc = pk.MetLocation;
         if (loc == SharedNest)
             return true;
         if (loc > byte.MaxValue)
@@ -107,13 +112,13 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     {
         var rand = new Xoroshiro128Plus(seed);
         var levelDelta = (int)rand.NextInt(6);
-        var met = pk.Met_Level;
+        var met = pk.MetLevel;
         for (int i = MaxRank; i >= MinRank; i--)
         {
             // check for dmax level
             // 5 star uses rand(3), otherwise rand(2)
             // some raids can be 5 star and below, so check for both possibilities
-            if (checkDmax && pk is IDynamaxLevelReadOnly r)
+            if (checkDmax && pk is PK8 r) // (PB8 may store Dynamax Level, but it does not get copied by HOME)
             {
                 var current = r.DynamaxLevel;
                 int expectD = GetInitialDynamaxLevel(rand, i);
@@ -129,7 +134,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             if (met > levelMin)
                 break;
 
-            if (IsDownLeveled(pk, met - 15, met))
+            if (IsDownLeveled(pk, met - 15u, met))
                 return (Possible: true, ForceNoShiny: true);
         }
         return default;
@@ -172,7 +177,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
         var levelMin = LevelCaps[MinRank * 2];
         var level = levelMin + levelDelta;
-        pk.Met_Level = (byte)level;
+        pk.MetLevel = (byte)level;
         pk.CurrentLevel = (byte)level;
         pk.DynamaxLevel = GetInitialDynamaxLevel(xoro, MinRank);
     }

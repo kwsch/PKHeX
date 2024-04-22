@@ -7,10 +7,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon3
 {
-    public static void Parse(this IRibbonSetCommon3 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon3 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var evos = args.History;
-        var pk = args.Entity;
         if (r.RibbonChampionG3 && !evos.HasVisitedGen3)
             list.Add(ChampionG3);
         if (r.RibbonArtist && !evos.HasVisitedGen3)

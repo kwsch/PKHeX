@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -7,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base Class for Save Files
 /// </summary>
-public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpaper, IBoxDetailName, IGeneration, IVersion
+public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVersion
 {
     // General Object Properties
     public byte[] Data;
@@ -22,7 +23,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         Metadata = new SaveFileMetadata(this);
     }
 
-    protected SaveFile(int size = 0) : this(size == 0 ? [] : new byte[size], false) { }
+    protected SaveFile([ConstantExpected] int size = 0) : this(size == 0 ? [] : new byte[size], false) { }
 
     protected internal abstract string ShortSummary { get; }
     public abstract string Extension { get; }
@@ -59,10 +60,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     #region Metadata & Limits
     public virtual string MiscSaveInfo() => string.Empty;
-    public virtual GameVersion Version { get; protected set; }
+    public virtual bool IsVersionValid() => true;
+    public abstract GameVersion Version { get; set; }
     public abstract bool ChecksumsValid { get; }
     public abstract string ChecksumInfo { get; }
-    public abstract int Generation { get; }
+    public abstract byte Generation { get; }
     public abstract EntityContext Context { get; }
     #endregion
 
@@ -92,8 +94,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public abstract int MaxAbilityID { get; }
     public abstract int MaxItemID { get; }
     public abstract int MaxBallID { get; }
-    public abstract int MaxGameID { get; }
-    public virtual int MinGameID => 0;
+    public abstract GameVersion MaxGameID { get; }
+    public virtual GameVersion MinGameID => 0;
     #endregion
 
     /// <summary>
@@ -102,7 +104,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <param name="offset">Offset to read from</param>
     /// <param name="bitIndex">Bit index to read</param>
     /// <returns>Flag is Set (true) or not Set (false)</returns>
-    public virtual bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(Data, offset, bitIndex);
+    public virtual bool GetFlag(int offset, int bitIndex) => GetFlag(Data, offset, bitIndex);
 
     /// <summary>
     /// Sets the <see cref="bool"/> status of the Flag at the specified offset and index.
@@ -111,33 +113,20 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <param name="bitIndex">Bit index to read</param>
     /// <param name="value">Flag status to set</param>
     /// <remarks>Flag is Set (true) or not Set (false)</remarks>
-    public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
+    public virtual void SetFlag(int offset, int bitIndex, bool value) => SetFlag(Data, offset, bitIndex, value);
+
+    public bool GetFlag(Span<byte> data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset, bitIndex);
+    public void SetFlag(Span<byte> data, int offset, int bitIndex, bool value)
+    {
+        FlagUtil.SetFlag(data, offset, bitIndex, value);
+        State.Edited = true;
+    }
 
     public virtual IReadOnlyList<InventoryPouch> Inventory { get => []; set { } }
 
-    #region Mystery Gift
-    protected virtual int GiftCountMax => int.MinValue;
-    protected virtual int GiftFlagMax => 0x800;
-    protected int WondercardData { get; set; } = int.MinValue;
-    public bool HasWondercards => WondercardData > -1;
-    protected virtual bool[] MysteryGiftReceivedFlags { get => []; set { } }
-    protected virtual DataMysteryGift[] MysteryGiftCards { get => []; set { } }
-
-    public virtual MysteryGiftAlbum GiftAlbum
-    {
-        get => new(MysteryGiftCards, MysteryGiftReceivedFlags);
-        set
-        {
-            MysteryGiftReceivedFlags = value.Flags;
-            MysteryGiftCards = value.Gifts;
-        }
-    }
-    #endregion
-
     #region Player Info
-    public virtual int Gender { get; set; }
+    public virtual byte Gender { get; set; }
     public virtual int Language { get => -1; set { } }
-    public virtual int Game { get => (int)GameVersion.Any; set { } }
     public virtual uint ID32 { get; set; }
     public virtual ushort TID16 { get; set; }
     public virtual ushort SID16 { get; set; }
@@ -226,24 +215,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     // Varied Methods
     protected abstract void SetChecksums();
 
-    #region Daycare
-    public bool HasDaycare => DaycareOffset > -1;
-    protected int DaycareOffset { get; set; } = int.MinValue;
-    public virtual int DaycareSeedSize => 0;
-    public int DaycareIndex;
-    public virtual bool HasTwoDaycares => false;
-    public virtual int GetDaycareSlotOffset(int loc, int slot) => -1;
-    public virtual uint? GetDaycareEXP(int loc, int slot) => null;
-    public virtual string GetDaycareRNGSeed(int loc) => string.Empty;
-    public virtual bool? IsDaycareHasEgg(int loc) => null;
-    public virtual bool? IsDaycareOccupied(int loc, int slot) => null;
-
-    public virtual void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public virtual void SetDaycareRNGSeed(int loc, string seed) { }
-    public virtual void SetDaycareHasEgg(int loc, bool hasEgg) { }
-    public virtual void SetDaycareOccupied(int loc, int slot, bool occupied) { }
-    #endregion
-
     private Span<byte> GetPartySpan(int index) => PartyBuffer[GetPartyOffset(index)..];
     public PKM GetPartySlotAtIndex(int index) => GetPartySlot(GetPartySpan(index));
 
@@ -317,6 +288,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Slot Storing
     public static PKMImportSetting SetUpdateDex { protected get; set; } = PKMImportSetting.Update;
     public static PKMImportSetting SetUpdatePKM { protected get; set; } = PKMImportSetting.Update;
+    public static PKMImportSetting SetUpdateRecords { protected get; set; } = PKMImportSetting.Update;
 
     public abstract Type PKMType { get; }
     protected abstract PKM GetPKM(byte[] data);
@@ -393,8 +365,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #endregion
 
     #region Pokédex
-    public int PokeDex { get; protected set; } = int.MinValue;
-    public bool HasPokeDex => PokeDex > -1;
+    public virtual bool HasPokeDex => false;
     public virtual bool GetSeen(ushort species) => false;
     public virtual void SetSeen(ushort species, bool seen) { }
     public virtual bool GetCaught(ushort species) => false;
@@ -451,8 +422,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         }
         set
         {
-            if (value.Count != BoxCount * BoxSlotCount)
-                throw new ArgumentException($"Expected {BoxCount * BoxSlotCount}, got {value.Count}");
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, BoxCount * BoxSlotCount);
 
             for (int b = 0; b < BoxCount; b++)
                 SetBoxData(value, b, b * BoxSlotCount);
@@ -611,16 +581,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
         int len = BoxSlotCount * SIZE_BOXSLOT;
         byte[] boxdata = storage.Slice(GetBoxOffset(0), len * BoxCount).ToArray(); // get all boxes
-        string[] boxNames = Get(GetBoxName, BoxCount);
-        int[] boxWallpapers = Get(GetBoxWallpaper, BoxCount);
 
-        static T[] Get<T>(Func<int, T> act, int count)
-        {
-            T[] result = new T[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = act(i);
-            return result;
-        }
+        if (this is IBoxDetailWallpaper w)
+            w.MoveWallpaper(box, insertBeforeBox);
+        if (this is IBoxDetailName n)
+            n.MoveBoxName(box, insertBeforeBox);
 
         min /= BoxSlotCount;
         max /= BoxSlotCount;
@@ -637,8 +602,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             }
 
             boxdata.AsSpan(len * i, len).CopyTo(storage[GetBoxOffset(b)..]);
-            SetBoxName(b, boxNames[i]);
-            SetBoxWallpaper(b, boxWallpapers[i]);
         }
 
         SlotPointerUtil.UpdateMove(box, insertBeforeBox, BoxSlotCount, SlotPointers);
@@ -669,14 +632,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         b1.CopyTo(boxData[b2o..]);
 
         // Name
-        string b1n = GetBoxName(box1);
-        SetBoxName(box1, GetBoxName(box2));
-        SetBoxName(box2, b1n);
+        if (this is IBoxDetailName n)
+            n.SwapBoxName(box1, box2);
 
         // Wallpaper
-        int b1w = GetBoxWallpaper(box1);
-        SetBoxWallpaper(box1, GetBoxWallpaper(box2));
-        SetBoxWallpaper(box2, b1w);
+        if (this is IBoxDetailWallpaper w)
+            w.SwapWallpaper(box1, box2);
 
         // Pointers
         SlotPointerUtil.UpdateSwap(box1, box2, BoxSlotCount, SlotPointers);
@@ -805,31 +766,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             }
         }
         return modified;
-    }
-    #endregion
-
-    #region Storage Name & Decoration
-    public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
-    public virtual bool HasNamableBoxes => HasBoxWallpapers;
-
-    public abstract string GetBoxName(int box);
-    public abstract void SetBoxName(int box, ReadOnlySpan<char> value);
-    protected virtual int GetBoxWallpaperOffset(int box) => -1;
-
-    public virtual int GetBoxWallpaper(int box)
-    {
-        int offset = GetBoxWallpaperOffset(box);
-        if (offset < 0 || (uint)box > BoxCount)
-            return box;
-        return Data[offset];
-    }
-
-    public virtual void SetBoxWallpaper(int box, int value)
-    {
-        int offset = GetBoxWallpaperOffset(box);
-        if (offset < 0 || (uint)box > BoxCount)
-            return;
-        Data[offset] = (byte)value;
     }
     #endregion
 

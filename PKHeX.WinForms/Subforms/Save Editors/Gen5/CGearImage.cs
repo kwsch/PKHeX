@@ -30,12 +30,9 @@ public static class CGearImage
     /// <exception cref="ArgumentException"></exception>
     public static CGearBackground GetCGearBackground(Bitmap img)
     {
-        if (img.Width != Width)
-            throw new ArgumentException($"Invalid image width. Expected {Width} pixels wide.");
-        if (img.Height != Height)
-            throw new ArgumentException($"Invalid image height. Expected {Height} pixels high.");
-        if (img.PixelFormat is not PixelFormat.Format32bppArgb)
-            throw new ArgumentException($"Invalid image format. Expected {PixelFormat.Format32bppArgb}");
+        ArgumentOutOfRangeException.ThrowIfNotEqual(img.Width, Width);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(img.Height, Height);
+        ArgumentOutOfRangeException.ThrowIfNotEqual((uint)img.PixelFormat, (uint)PixelFormat.Format32bppArgb);
 
         // get raw bytes of image
         byte[] data = ImageUtil.GetPixelData(img);

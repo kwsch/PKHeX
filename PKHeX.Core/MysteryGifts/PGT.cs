@@ -1,5 +1,6 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.GiftType4;
 
 namespace PKHeX.Core;
 
@@ -11,41 +12,24 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public PGT() : this(new byte[Size]) { }
 
     public const int Size = 0x104; // 260
-    public override int Generation => 4;
+    public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => IsManaphyEgg || PK.FatefulEncounter;
-    public override GameVersion Version { get => IsManaphyEgg ? GameVersion.Gen4 : (GameVersion)PK.Version; set => PK.Version = (int)value; }
+    public override GameVersion Version => IsManaphyEgg ? GameVersion.Gen4 : PK.Version;
 
     public override byte Level
     {
-        get => IsManaphyEgg ? (byte)1 : IsEntity ? (byte)PK.Met_Level : (byte)0;
-        set { if (IsEntity) PK.Met_Level = value; }
+        get => IsManaphyEgg ? (byte)1 : IsEntity ? PK.MetLevel : (byte)0;
+        set { if (IsEntity) PK.MetLevel = value; }
     }
 
-    public override int Ball
+    public override byte Ball
     {
-        get => IsManaphyEgg ? 4 : IsEntity ? PK.Ball : 0;
+        get => IsManaphyEgg ? (byte)4 : IsEntity ? PK.Ball : (byte)0;
         set { if (IsEntity) PK.Ball = value; }
     }
 
     public override AbilityPermission Ability => IsManaphyEgg ? AbilityPermission.Any12 : (int)(PK.PID & 1) == 1 ? AbilityPermission.OnlySecond : AbilityPermission.OnlyFirst;
-
-    private enum GiftType
-    {
-        Pokémon = 1,
-        PokémonEgg = 2,
-        Item = 3,
-        Rule = 4,
-        Seal = 5,
-        Accessory = 6,
-        ManaphyEgg = 7,
-        MemberCard = 8,
-        OaksLetter = 9,
-        AzureFlute = 10,
-        PokétchApp = 11,
-        Ribbon = 12,
-        PokéWalkerArea = 14,
-    }
 
     public override string CardTitle { get => "Raw Gift (PGT)"; set { } }
     public override int CardID { get => -1; set { } }
@@ -88,7 +72,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     /// <returns>True if data was encrypted, false if the data was not modified.</returns>
     public bool VerifyPKEncryption()
     {
-        if (PGTGiftType is not (GiftType.Pokémon or GiftType.PokémonEgg))
+        if (GiftType is not (Pokémon or PokémonEgg))
             return false; // not encrypted
         if (ReadUInt32LittleEndian(Data.AsSpan(0x64 + 8)) != 0)
             return false; // already encrypted (unused PK4 field, zero)
@@ -103,26 +87,25 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         ekdata.CopyTo(span);
     }
 
-    private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }
-    public bool IsHatched => PGTGiftType == GiftType.Pokémon;
-    public override bool IsEgg { get => PGTGiftType == GiftType.PokémonEgg || IsManaphyEgg; set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
-    public bool IsManaphyEgg { get => PGTGiftType == GiftType.ManaphyEgg; set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
-    public override bool EggEncounter => IsEgg;
-    public override bool IsItem { get => PGTGiftType == GiftType.Item; set { if (value) PGTGiftType = GiftType.Item; } }
-    public override bool IsEntity { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
+    public GiftType4 GiftType { get => (GiftType4)Data[0]; set => Data[0] = (byte)value; }
+    public bool IsHatched => GiftType == Pokémon;
+    public override bool IsEgg { get => GiftType == PokémonEgg || IsManaphyEgg; set { if (value) { GiftType = PokémonEgg; PK.IsEgg = true; } } }
+    public bool IsManaphyEgg { get => GiftType == ManaphyEgg; set { if (value) GiftType = ManaphyEgg; } }
+    public override bool IsItem { get => GiftType == Item; set { if (value) GiftType = Item; } }
+    public override bool IsEntity { get => GiftType is Pokémon or PokémonEgg or ManaphyEgg; set { } }
 
     public override ushort Species { get => IsManaphyEgg ? (ushort)490 : PK.Species; set => PK.Species = value; }
     public override Moveset Moves { get => new(PK.Move1, PK.Move2, PK.Move3, PK.Move4); set => PK.SetMoves(value); }
     public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
     public override bool IsShiny => PK.IsShiny;
-    public override int Gender { get => PK.Gender; set => PK.Gender = value; }
+    public override byte Gender { get => PK.Gender; set => PK.Gender = value; }
     public override byte Form { get => PK.Form; set => PK.Form = value; }
     public override uint ID32 { get => PK.ID32; set => PK.ID32= value; }
     public override ushort TID16 { get => PK.TID16; set => PK.TID16 = value; }
     public override ushort SID16 { get => PK.SID16; set => PK.SID16 = value; }
-    public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
-    public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
-    public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
+    public override string OriginalTrainerName { get => PK.OriginalTrainerName; set => PK.OriginalTrainerName = value; }
+    public override ushort Location { get => PK.MetLocation; set => PK.MetLocation = value; }
+    public override ushort EggLocation { get => PK.EggLocation; set => PK.EggLocation = value; }
     public override bool HasFixedIVs => (PK.IV32 & 0x3FFF_FFFFu) != 0;
     public override void GetIVs(Span<int> value)
     {
@@ -139,10 +122,10 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         PK4 pk4 = new((byte[])PK.Data.Clone()) { Sanity = 0 };
         if (!IsHatched && Detail == 0)
         {
-            pk4.OT_Name = tr.OT;
+            pk4.OriginalTrainerName = tr.OT;
             pk4.TID16 = tr.TID16;
             pk4.SID16 = tr.SID16;
-            pk4.OT_Gender = tr.Gender;
+            pk4.OriginalTrainerGender = tr.Gender;
             pk4.Language = tr.Language;
         }
 
@@ -161,16 +144,16 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     private void SetMetData(PK4 pk4, ITrainerInfo trainer)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
-            pk4.Met_Location = pk4.Egg_Location + 3000;
-            pk4.Egg_Location = 0;
+            pk4.MetLocation = (ushort)(pk4.EggLocation + 3000);
+            pk4.EggLocation = 0;
             pk4.MetDate = EncounterDate.GetDateNDS();
             pk4.IsEgg = false;
         }
         else
         {
-            pk4.Egg_Location += 3000;
+            pk4.EggLocation += 3000;
             if (trainer.Generation == 4)
                 SetUnhatchedEggDetails(pk4);
             else
@@ -190,12 +173,12 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.Ability = (int)Core.Ability.Hydration;
         pk4.FatefulEncounter = true;
         pk4.Ball = (int)Core.Ball.Poke;
-        pk4.Version = GameVersion.Gen4.Contains(trainer.Game) ? trainer.Game : (int)GameVersion.D;
+        pk4.Version = GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
         var lang = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
         pk4.Language = lang;
-        pk4.Egg_Location = 1; // Ranger (will be +3000 later)
+        pk4.EggLocation = 1; // Ranger (will be +3000 later)
         pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((int)Core.Species.Manaphy, lang, 4);
-        pk4.Met_Location = pk4.Version is (int)GameVersion.HG or (int)GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
+        pk4.MetLocation = pk4.Version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
         pk4.MetDate = EncounterDate.GetDateNDS();
     }
 
@@ -226,7 +209,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
         // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
         // Pre-determine the result values, and generate something.
-        var n = (int)criteria.GetNature();
+        var n = criteria.GetNature();
         // Gender is already pre-determined in the template.
         while (true)
         {
@@ -272,13 +255,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (pk.Language >= (int)LanguageID.Korean) // never korean
             return false;
 
-        var egg = pk.Egg_Location;
+        var egg = pk.EggLocation;
         if (!pk.IsEgg) // Link Trade Egg or Ranger
             return egg is Locations.LinkTrade4 or Locations.Ranger4;
         if (egg != Locations.Ranger4)
             return false;
 
-        var met = pk.Met_Location;
+        var met = pk.MetLocation;
         return met is Locations.LinkTrade4 or 0;
     }
 
@@ -334,4 +317,22 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         // Hatched when the egg was shiny: PID needs to be from the ARNG.
         return val == PIDType.G4MGAntiShiny;
     }
+}
+
+public enum GiftType4 : byte
+{
+    None = 0,
+    Pokémon = 1,
+    PokémonEgg = 2,
+    Item = 3,
+    Rule = 4,
+    Seal = 5,
+    Accessory = 6,
+    ManaphyEgg = 7,
+    MemberCard = 8,
+    OaksLetter = 9,
+    AzureFlute = 10,
+    PokétchApp = 11,
+    Ribbon = 12,
+    PokéWalkerArea = 14,
 }

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Gen4 Extra Block Info
 /// </summary>
-public class BlockInfo4 : BlockInfo
+public sealed class BlockInfo4 : BlockInfo
 {
     private const int SIZE_FOOTER = 0x10;
     private readonly int FooterOffset;
@@ -61,7 +61,7 @@ public class BlockInfo4 : BlockInfo
         WriteUInt16LittleEndian(data[(FooterOffset + 14)..], chk);
     }
 
-    protected void SetMagic(Span<byte> data, uint magic)
+    private void SetMagic(Span<byte> data, uint magic)
     {
         if (!IsInitialized(data))
             return;

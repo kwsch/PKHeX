@@ -21,7 +21,7 @@ public sealed partial class SAV_EventFlags2 : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
-        var editor = Editor = new EventWorkspace<SAV2, byte>(sav);
+        var editor = Editor = new EventWorkspace<SAV2, byte>(sav, sav.Version);
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 

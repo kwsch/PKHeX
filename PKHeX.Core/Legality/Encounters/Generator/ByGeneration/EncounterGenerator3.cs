@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -28,60 +27,90 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             yield break;
 
         info.PIDIV = MethodFinder.Analyze(pk);
-        IEncounterable? partial = null;
-
-        foreach (var z in GetEncountersInner(pk, chain, info))
-        {
-            if (IsTypeCompatible(z, pk, info.PIDIV.Type))
-                yield return z;
-            else
-                partial ??= z;
-        }
-        static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
-        {
-            if (enc is IRandomCorrelation r)
-                return r.IsCompatible(type, pk);
-            return type == PIDType.None;
-        }
-
-        if (partial == null)
-            yield break;
-
-        info.PIDIVMatches = false;
-        yield return partial;
-    }
-
-    private static IEnumerable<IEncounterable> GetEncountersInner(PKM pk, EvoCriteria[] chain, LegalInfo info)
-    {
-        var game = (GameVersion)pk.Version;
+        var game = pk.Version;
         var iterator = new EncounterEnumerator3(pk, chain, game);
+        IEncounterable? deferType = null;
         EncounterSlot3? deferSlot = null;
-        List<Frame>? frames = null;
+        var leadQueue = new LeadEncounterQueue<EncounterSlot3>();
+
+        bool emerald = pk.E;
+        byte gender = pk.Gender;
+        if (pk.Species is (int)Species.Marill or (int)Species.Azumarill)
+            gender = EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, 0x3F);
+
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (e is not EncounterSlot3 s3 || s3 is EncounterSlot3Swarm)
+            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
             {
+                deferType ??= e;
+                continue;
+            }
+            if (e is not EncounterSlot3 slot)
+            {
+                if (e is WC3 wc3)
+                {
+                    if (wc3.TID16 == 40122) // CHANNEL Jirachi
+                    {
+                        var chk = ChannelJirachi.GetPossible(info.PIDIV.OriginSeed);
+                        if (chk.Pattern is not ChannelJirachiRandomResult.None)
+                            info.PIDIV = info.PIDIV.AsEncounteredVia(new(chk.Seed, LeadRequired.None));
+                        else
+                            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+                        yield return wc3;
+                        yield break;
+                    }
+                    if (wc3.TID16 == 06930) // MYSTRY Mew
+                    {
+                        if (!MystryMew.IsValidSeed(info.PIDIV.OriginSeed))
+                            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+                        yield return wc3;
+                        yield break;
+                    }
+                }
                 yield return e;
                 continue;
             }
 
-            var wildFrames = frames ?? AnalyzeFrames(pk, info);
-            var frame = wildFrames.Find(s => s.IsSlotCompatibile(s3, pk));
-            if (frame != null)
-                yield return s3;
-            deferSlot ??= s3;
+            var evo = LeadFinder.GetLevelConstraint(pk, chain, slot, 3);
+            var lead = LeadFinder.GetLeadInfo3(slot, info.PIDIV, evo, emerald, gender, pk.Format);
+            if (!lead.IsValid())
+            {
+                deferSlot ??= slot;
+                continue;
+            }
+            leadQueue.Insert(lead, slot);
         }
+
+        foreach (var cache in leadQueue.List)
+        {
+            info.PIDIV = info.PIDIV.AsEncounteredVia(cache.Lead);
+            yield return cache.Encounter;
+        }
+        if (leadQueue.List.Count != 0)
+            yield break;
+
+        // Error will be flagged later if this is chosen.
         if (deferSlot != null)
+        {
+            info.ManualFlag = EncounterYieldFlag.InvalidFrame;
             yield return deferSlot;
+        }
+        else if (deferType != null)
+        {
+            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+            yield return deferType;
+        }
     }
 
-    private static List<Frame> AnalyzeFrames(PKM pk, LegalInfo info)
+    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
     {
-        return FrameFinder.GetFrames(info.PIDIV, pk).ToList();
+        if (enc is IRandomCorrelation r)
+            return r.IsCompatible(type, pk);
+        return type == PIDType.None;
     }
 
-    private const int Generation = 3;
+    private const byte Generation = 3;
     private const EntityContext Context = EntityContext.Gen3;
     private const byte EggLevel = 5;
 

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierEvent3
 {
-    public static void Parse(this IRibbonSetEvent3 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetEvent3 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var enc = args.Encounter;
         if (enc is IRibbonSetEvent3 e)

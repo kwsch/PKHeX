@@ -16,7 +16,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
-    public static bool IsBattleOnlyForm(ushort species, byte form, int format) => BattleOnly.Contains(species) && species switch
+    public static bool IsBattleOnlyForm(ushort species, byte form, byte format) => BattleOnly.Contains(species) && species switch
     {
         // Only continue checking if the species is in the list of Battle Only forms.
         // Some species have battle only forms as well as out-of-battle forms (other than base form).
@@ -38,7 +38,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>Suggested alt form value.</returns>
-    public static byte GetOutOfBattleForm(ushort species, byte form, int format) => species switch
+    public static byte GetOutOfBattleForm(ushort species, byte form, byte format) => species switch
     {
         (ushort)Darmanitan => (byte)(form & 2),
         (ushort)Zygarde when format > 6 => 3,
@@ -56,7 +56,7 @@ public static class FormInfo
     /// <param name="formArg">Entity form argument</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if trading should be disallowed.</returns>
-    public static bool IsUntradable(ushort species, byte form, uint formArg, int format) => species switch
+    public static bool IsUntradable(ushort species, byte form, uint formArg, byte format) => species switch
     {
         (ushort)Koraidon or (int)Miraidon => formArg == 1, // Ride-able Box Legend
         (ushort)Pikachu => format == 7 && form == 8, // Let's Go Pikachu Starter
@@ -71,7 +71,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it is a fused species-form, false if it is not fused.</returns>
-    public static bool IsFusedForm(ushort species, byte form, int format) => species switch
+    public static bool IsFusedForm(ushort species, byte form, byte format) => species switch
     {
         (ushort)Kyurem => form != 0 && format >= 5,
         (ushort)Necrozma => form != 0 && format >= 7,
@@ -113,7 +113,12 @@ public static class FormInfo
         return false;
     }
 
-    public static bool IsFormChangeEgg(ushort species) => FormChangeEgg.Contains(species);
+    /// <summary>
+    /// Checks if the form can be changed for a given (baby) species into a different-typed form.
+    /// </summary>
+    /// <param name="species">Baby species</param>
+    /// <returns>True if the species can change form to another with a different typing, false if it cannot.</returns>
+    public static bool IsFormChangeEggTypes(ushort species) => FormChangeEgg.Contains(species);
 
     private static ReadOnlySpan<ushort> FormChangeEgg =>
     [
@@ -187,6 +192,7 @@ public static class FormInfo
 
         (int)Palafin,
         (int)Ogerpon,
+        (int)Terapagos,
     ];
 
     /// <summary>
@@ -295,6 +301,13 @@ public static class FormInfo
         return --form;
     }
 
+    /// <summary>
+    /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Lord Form from Legends: Arceus.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    /// <param name="form">Entity form</param>
+    /// <param name="context">Current context</param>
+    /// <returns>True if the form is a Lord Form, false if it is not.</returns>
     public static bool IsLordForm(ushort species, byte form, EntityContext context)
     {
         if (context != EntityContext.Gen8a)
@@ -319,7 +332,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <seealso cref="HasFormValuesNotIndicatedByPersonal"/>
-    public static bool IsValidOutOfBoundsForm(ushort species, byte form, int format) => (Species) species switch
+    public static bool IsValidOutOfBoundsForm(ushort species, byte form, byte format) => (Species) species switch
     {
         Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
         Mothim => form < 3, // Burmy base form is kept
@@ -337,7 +350,7 @@ public static class FormInfo
     /// <param name="species"><see cref="Species"/> ID</param>
     /// <param name="format"><see cref="PKM.Form"/> ID</param>
     /// <returns>True if it has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
-    public static bool HasFormSelection(IPersonalFormInfo pi, ushort species, int format)
+    public static bool HasFormSelection(IPersonalFormInfo pi, ushort species, byte format)
     {
         if (format <= 3 && species != (int)Unown)
             return false;

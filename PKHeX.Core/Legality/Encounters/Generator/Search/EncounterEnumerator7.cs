@@ -16,7 +16,7 @@ public record struct EncounterEnumerator7(PKM Entity, EvoCriteria[] Chain, GameV
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    private int met;
+    private ushort met;
     readonly object IEnumerator.Current => Current;
 
     public readonly void Reset() => throw new NotSupportedException();
@@ -66,7 +66,7 @@ public record struct EncounterEnumerator7(PKM Entity, EvoCriteria[] Chain, GameV
                 if (Chain.Length == 0)
                     break;
 
-                if (Entity.Met_Location == Locations.LinkTrade6NPC)
+                if (Entity.MetLocation == Locations.LinkTrade6NPC)
                     goto case YieldState.TradeStart;
                 if (!Entity.FatefulEncounter)
                     goto case YieldState.Bred;
@@ -84,7 +84,7 @@ public record struct EncounterEnumerator7(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
-                if (!Locations.IsEggLocationBred6(Entity.Egg_Location))
+                if (!Locations.IsEggLocationBred6(Entity.EggLocation))
                     goto case YieldState.StartCaptures;
                 if (!EncounterGenerator7.TryGetEgg(Chain, Version, out var egg))
                     goto case YieldState.StartCaptures;
@@ -92,7 +92,7 @@ public record struct EncounterEnumerator7(PKM Entity, EvoCriteria[] Chain, GameV
                 return SetCurrent(egg);
             case YieldState.BredTrade:
                 State = YieldState.BredSplit;
-                if (Entity.Egg_Location != Locations.LinkTrade6)
+                if (Entity.EggLocation != Locations.LinkTrade6)
                     goto case YieldState.BredSplit;
                 egg = EncounterGenerator7.MutateEggTrade((EncounterEgg)Current.Encounter);
                 return SetCurrent(egg);
@@ -105,7 +105,7 @@ public record struct EncounterEnumerator7(PKM Entity, EvoCriteria[] Chain, GameV
                 return SetCurrent(egg);
             case YieldState.BredSplitTrade:
                 State = YieldState.End;
-                if (Entity.Egg_Location != Locations.LinkTrade6)
+                if (Entity.EggLocation != Locations.LinkTrade6)
                     break;
                 egg = EncounterGenerator7.MutateEggTrade((EncounterEgg)Current.Encounter);
                 return SetCurrent(egg);
@@ -212,7 +212,7 @@ public record struct EncounterEnumerator7(PKM Entity, EvoCriteria[] Chain, GameV
 
     private void InitializeWildLocationInfo()
     {
-        met = Entity.Met_Location;
+        met = Entity.MetLocation;
     }
 
     private bool TryGetNext<TArea, TSlot>(TArea[] areas)

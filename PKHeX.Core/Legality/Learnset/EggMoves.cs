@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -73,10 +74,9 @@ public sealed class EggMoves6 : EggMoves
                 continue;
             }
 
-            var moves = new ushort[count];
-            var span = data[2..];
-            for (int j = 0; j < moves.Length; j++)
-                moves[j] = ReadUInt16LittleEndian(span[(j * 2)..]);
+            var moves = MemoryMarshal.Cast<byte, ushort>(data).Slice(1, count).ToArray();
+            if (!BitConverter.IsLittleEndian)
+                ReverseEndianness(moves, moves);
             result[i] = new EggMoves6(moves);
         }
         return result;
@@ -91,6 +91,7 @@ public sealed class EggMoves7 : EggMoves
     /// <summary>
     /// Points to the index where form data is, within the parent Egg Move object array.
     /// </summary>
+    /// <remarks>This value is the same for all form entries for a given species.</remarks>
     public readonly ushort FormTableIndex;
 
     private EggMoves7(ushort[] moves, ushort formIndex = 0) : base(moves) => FormTableIndex = formIndex;
@@ -114,10 +115,9 @@ public sealed class EggMoves7 : EggMoves
                 continue;
             }
 
-            var moves = new ushort[count];
-            var span = data[4..];
-            for (int j = 0; j < moves.Length; j++)
-                moves[j] = ReadUInt16LittleEndian(span[(j * 2)..]);
+            var moves = MemoryMarshal.Cast<byte, ushort>(data).Slice(2, count).ToArray();
+            if (!BitConverter.IsLittleEndian)
+                ReverseEndianness(moves, moves);
             result[i] = new EggMoves7(moves, formIndex);
         }
         return result;
@@ -130,17 +130,28 @@ internal static class EggMovesExtensions
     {
         if (species >= table.Length)
             return [];
-
         var entry = table[species];
-        if (form == 0 || species >= entry.FormTableIndex)
+
+        // Sanity check species in the event it is out of range.
+        var baseIndex = entry.FormTableIndex;
+        if (species > baseIndex)
+            return [];
+
+        if (form == 0 || baseIndex == species) // no form data if pointing to self
             return entry.Moves;
 
-        // Sanity check form in the event it is out of range.
-        var baseIndex = entry.FormTableIndex;
-        var index = baseIndex + form - 1;
-        if ((uint)index >= table.Length)
+        // Jump to the associated form's entry within the table.
+        return table.GetFormEntry(form, baseIndex);
+    }
+
+    private static ReadOnlySpan<ushort> GetFormEntry(this EggMoves7[] table, byte form, ushort baseIndex)
+    {
+        var index = form - 1u + baseIndex;
+        if (index >= table.Length)
             return [];
-        entry = table[index];
+        var entry = table[index];
+
+        // Double-check that the entry is still associated to the species.
         if (entry.FormTableIndex != baseIndex)
             return [];
 
@@ -165,9 +176,9 @@ public static class EggMoves9
                 result[i] = empty;
                 continue;
             }
-            var moves = new ushort[data.Length >> 1];
-            for (int j = 0; j < data.Length; j+=2)
-                moves[j >> 1] = ReadUInt16LittleEndian(data[j..]);
+            var moves = MemoryMarshal.Cast<byte, ushort>(data).ToArray();
+            if (!BitConverter.IsLittleEndian)
+                ReverseEndianness(moves, moves);
             result[i] = moves;
         }
         return result;

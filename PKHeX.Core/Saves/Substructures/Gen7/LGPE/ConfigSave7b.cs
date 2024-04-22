@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class ConfigSave7b : SaveBlock<SAV7b>
+public sealed class ConfigSave7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
 {
     /* ===First 8 bits===
      * talkSpeed:2
@@ -14,12 +14,10 @@ public sealed class ConfigSave7b : SaveBlock<SAV7b>
      * everything else: unknown
      */
 
-    public ConfigSave7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
-
     public int ConfigValue
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadInt32LittleEndian(Data);
+        set => WriteInt32LittleEndian(Data, value);
     }
 
     public int TalkingSpeed

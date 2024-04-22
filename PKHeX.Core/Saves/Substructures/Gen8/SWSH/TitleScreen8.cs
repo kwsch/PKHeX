@@ -14,9 +14,16 @@ public sealed class TitleScreen8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
     /// </summary>
     public TitleScreen8Poke ViewPoke(int index)
     {
+        int ofs = GetPokeOffset(index);
+        var raw = block.Data.AsMemory(ofs, TitleScreen8Poke.SIZE);
+        return new TitleScreen8Poke(raw);
+    }
+
+    private static int GetPokeOffset(int index)
+    {
         if ((uint)index >= 6)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return new TitleScreen8Poke(Data, Offset + 0x00 + (index * TitleScreen8Poke.SIZE));
+        return index * TitleScreen8Poke.SIZE;
     }
 
     /// <summary>
@@ -33,71 +40,73 @@ public sealed class TitleScreen8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
     }
 }
 
-public sealed class TitleScreen8Poke(byte[] Data, int Offset) : ISpeciesForm
+public sealed class TitleScreen8Poke(Memory<byte> raw) : ISpeciesForm
 {
     public const int SIZE = 0x28;
 
+    private Span<byte> Data => raw.Span;
+
     public ushort Species
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public byte Form
     {
-        get => Data[Offset + 0x04];
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
+        get => Data[0x04];
+        set => WriteInt32LittleEndian(Data[0x04..], value);
     }
 
-    public int Gender
+    public byte Gender
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
+        get => (byte)ReadInt32LittleEndian(Data[0x08..]);
+        set => WriteInt32LittleEndian(Data[0x08..], value);
     }
 
     public bool IsShiny
     {
-        get => Data[Offset + 0xC] != 0;
-        set => Data[Offset + 0xC] = value ? (byte)1 : (byte)0;
+        get => Data[0xC] != 0;
+        set => Data[0xC] = value ? (byte)1 : (byte)0;
     }
 
     public uint EncryptionConstant
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10), value);
+        get => ReadUInt32LittleEndian(Data[0x10..]);
+        set => WriteUInt32LittleEndian(Data[0x10..], value);
     }
 
     public int FormArgument
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x14));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
+        get => ReadInt32LittleEndian(Data[0x14..]);
+        set => WriteInt32LittleEndian(Data[0x14..], value);
     }
 
     public uint Unknown18
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x18));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x18), value);
+        get => ReadUInt32LittleEndian(Data[0x18..]);
+        set => WriteUInt32LittleEndian(Data[0x18..], value);
     }
 
     public uint Unknown1C
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1C));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value);
+        get => ReadUInt32LittleEndian(Data[0x1C..]);
+        set => WriteUInt32LittleEndian(Data[0x1C..], value);
     }
 
     public uint Unknown20
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x20));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x20), value);
+        get => ReadUInt32LittleEndian(Data[0x20..]);
+        set => WriteUInt32LittleEndian(Data[0x20..], value);
     }
 
     public uint Unknown24
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x24));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x24), value);
+        get => ReadUInt32LittleEndian(Data[0x24..]);
+        set => WriteUInt32LittleEndian(Data[0x24..], value);
     }
 
-    public void Clear() => Array.Clear(Data, Offset, SIZE);
+    public void Clear() => Data.Clear();
 
     public void LoadFrom(PKM pk)
     {

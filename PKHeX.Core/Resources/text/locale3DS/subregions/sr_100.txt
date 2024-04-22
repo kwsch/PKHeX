@@ -1,6 +1,6 @@
 ﻿000	—	—	—	—	—	—	—	—	—
 009	モスクワ市	Moscow City	Moscou (ville)	Moskau (Stadt)	Mosca	Ciudad de Moscú	莫斯科市	모스크바	莫斯科市
-010	アディゲ共和国	Adygey	Adyguée	Republik Adygeja	Repubblica di Adigezia	República de Adigueya	阿迪格共和国	아디게야 공화국	阿迪格共和國
+010	アディゲ共和国	Adygey	Adyguée	Republik Adygeja	Repubblica di Adighezia	República de Adigueya	阿迪格共和国	아디게야 공화국	阿迪格共和國
 011	アルタイ共和国	Gorno-Altay	Altaï (république)	Republik Altai	Repubblica dell'Altaj	República de Altái	阿尔泰共和国	고르노알타이 공화국	阿爾泰共和國
 012	アルタイ地方	Altay	Altaï (kraï)	Region Altai	Territorio dell'Altaj	Territorio de Altái	阿尔泰边疆区	알타이 지방	阿爾泰邊疆區
 013	アムール州	Amur	Amour	Oblast Amur	Regione dell'Amur	Región de Amur	阿穆尔州	아무르 주	阿穆爾州

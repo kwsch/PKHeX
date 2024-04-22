@@ -6,23 +6,22 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, INumberedSlot, IFatefulEncounterReadOnly, IRandomCorrelation
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
     public bool FatefulEncounter => true;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public byte Form => 0;
 
     public string Name => $"Wild Encounter ({Version})";
-    public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
+    public string LongName => $"{Name} - Cave Spot";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public ushort Location => Parent.Location;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -37,22 +36,22 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
             FatefulEncounter = FatefulEncounter,
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)GameVersion.CXD,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = 0,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, GameVersion.XD, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, GameVersion.XD, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -60,8 +59,8 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var gender = criteria.GetGender(pi);
+        var nature = criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
     }

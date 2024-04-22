@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierUnique3
 {
-    public static void Parse(this IRibbonSetUnique3 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetUnique3 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var evos = args.History;
         if (evos.HasVisitedGen3)

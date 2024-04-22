@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 1 <see cref="SaveFile"/> object.
 /// </summary>
-public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>
+public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>, IBoxDetailName, IDaycareStorage
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => ".sav";
@@ -108,8 +108,10 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         DaycareOffset = GetPartyOffset(7);
 
         // Enable Pokedex editing
-        PokeDex = 0;
     }
+
+    private int DaycareOffset = -1;
+    public override bool HasPokeDex => true;
 
     private void UnpackBox(int srcOfs, int destOfs, int boxSize, int boxIndex, PokeListType boxCapacity)
     {
@@ -196,9 +198,9 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         partyPL.Write().CopyTo(Data, Offsets.Party);
 
         // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-        Span<byte> rawDC = Data.AsSpan(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
+        Span<byte> rawDC = Data.AsSpan(GetDaycareSlotOffset(index: 0), SIZE_STORED);
         Span<byte> dc = stackalloc byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
-        dc[0] = IsDaycareOccupied(0, 0) == true ? (byte)1 : (byte)0;
+        dc[0] = IsDaycareOccupied(0) ? (byte)1 : (byte)0;
         rawDC.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength).CopyTo(dc[1..]);
         rawDC.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength).CopyTo(dc[(1 + StringLength)..]);
         rawDC.Slice(2 + 1, PokeCrypto.SIZE_1STORED).CopyTo(dc[(1 + (2 * StringLength))..]);
@@ -232,16 +234,15 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
     public override int MaxBallID => 0; // unused
-    public override int MaxGameID => 99; // unused
+    public override GameVersion MaxGameID => GameVersion.RBY; // unused
     public override int MaxMoney => 999999;
     public override int MaxCoins => 9999;
 
     public override int BoxCount => Japanese ? 8 : 12;
     public override int MaxEV => EffortValues.Max12;
     public override int MaxIV => 15;
-    public override int Generation => 1;
+    public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
-    protected override int GiftCountMax => 0;
     public override int MaxStringLengthOT => Japanese ? 5 : 7;
     public override int MaxStringLengthNickname => Japanese ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;
@@ -258,15 +259,15 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     private byte GetRBYChecksum(int start, int end)
     {
-        byte chksum = 0;
-        for (int i = start; i < end; i++)
-            chksum += Data[i];
-        chksum ^= 0xFF;
-        return chksum;
+        var span = Data.AsSpan(start, end - start);
+        byte result = 0;
+        foreach (ref var b in span)
+            result += b;
+        return (byte)~result;
     }
 
     // Trainer Info
-    public override GameVersion Version { get; protected set; }
+    public override GameVersion Version { get; set; }
 
     public override string OT
     {
@@ -274,9 +275,9 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
-    public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
+    public Span<byte> OriginalTrainerTrash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
 
-    public override int Gender
+    public override byte Gender
     {
         get => 0;
         set { }
@@ -304,8 +305,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
 
+    public byte RivalStarter { get => Data[Offsets.Starter - 2]; set => Data[Offsets.Starter - 2] = value; }
     public bool Yellow => Starter == 0x54; // Pikachu
-    public int Starter => Data[Offsets.Starter];
+    public byte Starter { get => Data[Offsets.Starter]; set => Data[Offsets.Starter] = value; }
+
+    public ref byte WramD72E => ref Data[Offsets.Starter + 0x17]; // offset relative to player starter
+
+    // bit0 of d72e
+    public bool IsSilphLaprasReceived { get => (WramD72E & 1) != 0; set => WramD72E = (byte)((WramD72E & 0xFE) | (value ? 1 : 0)); }
 
     public byte PikaFriendship
     {
@@ -433,31 +440,30 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => value.SaveAll(Data);
     }
 
-    public override int GetDaycareSlotOffset(int loc, int slot)
+    public int DaycareSlotCount => 1;
+
+    public Memory<byte> GetDaycareSlot(int index)
     {
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
+        return Data.AsMemory(DaycareOffset, SIZE_STORED);
+    }
+
+    private int GetDaycareSlotOffset(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
         return DaycareOffset;
     }
 
-    public override uint? GetDaycareEXP(int loc, int slot)
+    public bool IsDaycareOccupied(int index)
     {
-        return null;
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
+        return Data[Offsets.Daycare] == 0x01;
     }
 
-    public override bool? IsDaycareOccupied(int loc, int slot)
+    public void SetDaycareOccupied(int index, bool occupied)
     {
-        if (loc == 0 && slot == 0)
-            return Data[Offsets.Daycare] == 0x01;
-        return null;
-    }
-
-    public override void SetDaycareEXP(int loc, int slot, uint EXP)
-    {
-        // todo
-    }
-
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-    {
-        // todo
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
+        Data[Offsets.Daycare] = (byte)(occupied ? 0x01 : 0x00);
     }
 
     // Storage
@@ -467,15 +473,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         protected set => Data[Offsets.Party] = (byte)value;
     }
 
-    public override int GetBoxOffset(int box)
-    {
-        return Data.Length - SIZE_RESERVED + (box * SIZE_BOX);
-    }
-
-    public override int GetPartyOffset(int slot)
-    {
-        return Data.Length - SIZE_RESERVED + (BoxCount * SIZE_BOX) + (slot * SIZE_STORED);
-    }
+    public override int GetBoxOffset(int box) => Data.Length - SIZE_RESERVED + (box * SIZE_BOX);
+    public override int GetPartyOffset(int slot) => Data.Length - SIZE_RESERVED + (BoxCount * SIZE_BOX) + (slot * SIZE_STORED);
 
     public override int CurrentBox
     {
@@ -489,14 +488,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
     }
 
-    public override string GetBoxName(int box)
+    public string GetBoxName(int box)
     {
         if (Japanese)
-            return $"ボックス{box + 1}";
-        return $"BOX {box + 1}";
+            return BoxDetailNameExtensions.GetDefaultBoxNameJapanese(box);
+        return BoxDetailNameExtensions.GetDefaultBoxName(box);
     }
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         // Don't allow for custom box names
     }

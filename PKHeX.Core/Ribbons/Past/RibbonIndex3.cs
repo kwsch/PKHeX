@@ -39,7 +39,7 @@ public enum RibbonIndex3 : byte
 
 public static class RibbonIndex3Extensions
 {
-    public static void Fix(this RibbonIndex3 r, RibbonVerifierArguments args, bool state)
+    public static void Fix(this RibbonIndex3 r, in RibbonVerifierArguments args, bool state)
     {
         var pk = args.Entity;
         if (r is Victory or Winning)

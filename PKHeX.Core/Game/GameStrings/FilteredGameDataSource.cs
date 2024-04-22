@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -82,7 +83,8 @@ public sealed class FilteredGameDataSource
         var legal = source.LegalMoveDataSource;
         return limit switch
         {
-            SAV7b or PB7 => legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)), // LGPE: Not all moves are available
+            // LGPE: Not all moves are available
+            SAV7b or PB7 => legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)),
             _ => legal.Where(m => m.Value <= limit.MaxMoveID),
         };
     }
@@ -111,16 +113,17 @@ public sealed class FilteredGameDataSource
         var list = new ComboItem[pi.AbilityCount];
 
         var alist = Source.Strings.Ability;
-        var suffix = AbilityIndexSuffixes;
+        var suffixes = AbilityIndexSuffixes;
         for (int i = 0; i < list.Length; i++)
         {
             var ability = pi.GetAbilityAtIndex(i);
-            var display = alist[ability] + suffix[i];
+            var suffix = suffixes[i];
+            var display = $"{alist[ability]} ({suffix})";
             list[i] = new ComboItem(display, ability);
         }
 
         return list;
     }
 
-    private static readonly string[] AbilityIndexSuffixes = [" (1)", " (2)", " (H)"];
+    private static ReadOnlySpan<char> AbilityIndexSuffixes => ['1', '2', 'H'];
 }

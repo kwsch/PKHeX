@@ -10,7 +10,8 @@ namespace PKHeX.Core;
 public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IFatefulEncounter, IContestStats, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8,
-    IRibbonSetCommon9, IRibbonSetMark9
+    IRibbonSetCommon9, IRibbonSetMark9,
+    IAppliedMarkings7
 {
     // Internal Attributes set on creation
     private readonly Memory<byte> Buffer; // Raw Storage
@@ -19,9 +20,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public GameDataCore(Memory<byte> buffer)
     {
-        if (buffer.Length != HomeCrypto.SIZE_CORE)
-            throw new ArgumentException("Invalid Core Data Size!");
-
+        ArgumentOutOfRangeException.ThrowIfNotEqual(buffer.Length, HomeCrypto.SIZE_CORE);
         Buffer = buffer;
     }
 
@@ -41,12 +40,12 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public ushort SID16 { get => ReadUInt16LittleEndian(Data[0x11..]); set => WriteUInt16LittleEndian(Data[0x11..], value); }
     public uint EXP { get => ReadUInt32LittleEndian(Data[0x13..]); set => WriteUInt32LittleEndian(Data[0x13..], value); }
     public bool IsFavorite { get => Data[0x17] != 0; set => Data[0x17] = (byte)(value ? 1 : 0); }
-    public int MarkValue { get => ReadUInt16LittleEndian(Data[0x18..]); set => WriteUInt16LittleEndian(Data[0x18..], (ushort)value); }
+    public ushort MarkingValue { get => ReadUInt16LittleEndian(Data[0x18..]); set => WriteUInt16LittleEndian(Data[0x18..], value); }
     public uint PID { get => ReadUInt32LittleEndian(Data[0x1A..]); set => WriteUInt32LittleEndian(Data[0x1A..], value); }
-    public int Nature            { get => Data[0x1E];      set => Data[0x1E] = (byte)value; }
-    public int StatNature        { get => Data[0x1F];      set => Data[0x1F] = (byte)value; }
+    public Nature Nature            { get => (Nature)Data[0x1E];      set => Data[0x1E] = (byte)value; }
+    public Nature StatNature        { get => (Nature)Data[0x1F];      set => Data[0x1F] = (byte)value; }
     public bool FatefulEncounter { get => Data[0x20] != 0; set => Data[0x20] = (byte)(value ? 1 : 0); }
-    public int Gender { get => Data[0x21]; set => Data[0x21] = (byte)value; }
+    public byte Gender { get => Data[0x21]; set => Data[0x21] = value; }
     public byte Form  { get => Data[0x22]; set => WriteUInt16LittleEndian(Data[0x22..], value); }
     public int EV_HP  { get => Data[0x24]; set => Data[0x24] = (byte)value; }
     public int EV_ATK { get => Data[0x25]; set => Data[0x25] = (byte)value; }
@@ -54,12 +53,12 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public int EV_SPE { get => Data[0x27]; set => Data[0x27] = (byte)value; }
     public int EV_SPA { get => Data[0x28]; set => Data[0x28] = (byte)value; }
     public int EV_SPD { get => Data[0x29]; set => Data[0x29] = (byte)value; }
-    public byte CNT_Cool   { get => Data[0x2A]; set => Data[0x2A] = value; }
-    public byte CNT_Beauty { get => Data[0x2B]; set => Data[0x2B] = value; }
-    public byte CNT_Cute   { get => Data[0x2C]; set => Data[0x2C] = value; }
-    public byte CNT_Smart  { get => Data[0x2D]; set => Data[0x2D] = value; }
-    public byte CNT_Tough  { get => Data[0x2E]; set => Data[0x2E] = value; }
-    public byte CNT_Sheen  { get => Data[0x2F]; set => Data[0x2F] = value; }
+    public byte ContestCool   { get => Data[0x2A]; set => Data[0x2A] = value; }
+    public byte ContestBeauty { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public byte ContestCute   { get => Data[0x2C]; set => Data[0x2C] = value; }
+    public byte ContestSmart  { get => Data[0x2D]; set => Data[0x2D] = value; }
+    public byte ContestTough  { get => Data[0x2E]; set => Data[0x2E] = value; }
+    public byte ContestSheen  { get => Data[0x2F]; set => Data[0x2F] = value; }
 
     private bool GetFlag(int offset, int bit) => FlagUtil.GetFlag(Data, offset, bit);
     private void SetFlag(int offset, int bit, bool value) => FlagUtil.SetFlag(Data, offset, bit, value);
@@ -193,7 +192,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool RibbonMarkAlpha        { get => GetFlag(0x3F, 3); set => SetFlag(0x3F, 3, value); }
     public bool RibbonMarkMightiest    { get => GetFlag(0x3F, 4); set => SetFlag(0x3F, 4, value); }
     public bool RibbonMarkTitan        { get => GetFlag(0x3F, 5); set => SetFlag(0x3F, 5, value); }
-    public bool RIB45_6                { get => GetFlag(0x3F, 6); set => SetFlag(0x3F, 6, value); }
+    public bool RibbonPartner          { get => GetFlag(0x3F, 6); set => SetFlag(0x3F, 6, value); }
     public bool RIB45_7                { get => GetFlag(0x3F, 7); set => SetFlag(0x3F, 7, value); }
 
     public bool RIB46_0                { get => GetFlag(0x40, 0); set => SetFlag(0x40, 0, value); }
@@ -228,12 +227,12 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public byte HeightScalar { get => Data[0x42]; set => Data[0x42] = value; }
     public byte WeightScalar { get => Data[0x43]; set => Data[0x43] = value; }
 
-    public Span<byte> Nickname_Trash => Data.Slice(0x44, 26);
+    public Span<byte> NicknameTrash => Data.Slice(0x44, 26);
 
     public string Nickname
     {
-        get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
+        get => StringConverter8.GetString(NicknameTrash);
+        set => StringConverter8.SetString(NicknameTrash, value, 12, StringConverterOption.None);
     }
 
     public int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data[0x5E..]); set => WriteUInt16LittleEndian(Data[0x5E..], (ushort)value); }
@@ -246,48 +245,48 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool IsEgg { get => Data[0x66] != 0; set => Data[0x66] = (byte)(value ? 1 : 0); }
     public bool IsNicknamed { get => Data[0x67] != 0; set => Data[0x67] = (byte)(value ? 1 : 0); }
     public int Status_Condition { get => ReadInt32LittleEndian(Data[0x68..]); set => WriteInt32LittleEndian(Data[0x68..], value); }
-    public Span<byte> HT_Trash => Data.Slice(0x6C, 26);
-    public string HT_Name
+    public Span<byte> HandlingTrainerTrash => Data.Slice(0x6C, 26);
+    public string HandlingTrainerName
     {
-        get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
+        get => StringConverter8.GetString(HandlingTrainerTrash);
+        set => StringConverter8.SetString(HandlingTrainerTrash, value, 12, StringConverterOption.None);
     }
-    public int HT_Gender      { get => Data[0x86]; set => Data[0x86] = (byte)value; }
-    public byte HT_Language   { get => Data[0x87]; set => Data[0x87] = value; }
-    public int CurrentHandler { get => Data[0x88]; set => Data[0x88] = (byte)value; }
-    public int HT_TrainerID   { get => ReadUInt16LittleEndian(Data[0x89..]); set => WriteUInt16LittleEndian(Data[0x89..], (ushort)value); } // unused?
-    public int HT_Friendship  { get => Data[0x8B]; set => Data[0x8B] = (byte)value; }
-    public byte HT_Intensity  { get => Data[0x8C]; set => Data[0x8C] = value; }
-    public byte HT_Memory     { get => Data[0x8D]; set => Data[0x8D] = value; }
-    public byte HT_Feeling    { get => Data[0x8E]; set => Data[0x8E] = value; }
-    public ushort HT_TextVar  { get => ReadUInt16LittleEndian(Data[0x8F..]); set => WriteUInt16LittleEndian(Data[0x8F..], value); }
-    public int Version        { get => Data[0x91]; set => Data[0x91] = (byte)value; }
-    public byte BattleVersion { get => Data[0x92]; set => Data[0x92] = value; }
+    public byte HandlingTrainerGender      { get => Data[0x86]; set => Data[0x86] = value; }
+    public byte HandlingTrainerLanguage   { get => Data[0x87]; set => Data[0x87] = value; }
+    public byte CurrentHandler { get => Data[0x88]; set => Data[0x88] = value; }
+    public ushort HandlingTrainerID   { get => ReadUInt16LittleEndian(Data[0x89..]); set => WriteUInt16LittleEndian(Data[0x89..], value); } // unused?
+    public byte HandlingTrainerFriendship  { get => Data[0x8B]; set => Data[0x8B] = value; }
+    public byte HandlingTrainerMemoryIntensity  { get => Data[0x8C]; set => Data[0x8C] = value; }
+    public byte HandlingTrainerMemory     { get => Data[0x8D]; set => Data[0x8D] = value; }
+    public byte HandlingTrainerMemoryFeeling    { get => Data[0x8E]; set => Data[0x8E] = value; }
+    public ushort HandlingTrainerMemoryVariable  { get => ReadUInt16LittleEndian(Data[0x8F..]); set => WriteUInt16LittleEndian(Data[0x8F..], value); }
+    public GameVersion Version        { get => (GameVersion)Data[0x91]; set => Data[0x91] = (byte)value; }
+    public GameVersion BattleVersion  { get => (GameVersion)Data[0x92]; set => Data[0x92] = (byte)value; }
     public int Language       { get => Data[0x93]; set => Data[0x93] = (byte)value; }
     public uint FormArgument        { get => ReadUInt32LittleEndian(Data[0x94..]); set => WriteUInt32LittleEndian(Data[0x94..], value); }
     public byte FormArgumentRemain  { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
     public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
     public byte FormArgumentMaximum { get => (byte)(FormArgument >> 16); set => FormArgument = (FormArgument & ~0xFF0000u) | (uint)(value << 16); }
     public sbyte AffixedRibbon      { get => (sbyte)Data[0x98]; set => Data[0x98] = (byte)value; } // selected ribbon
-    public Span<byte> OT_Trash => Data.Slice(0x99, 26);
-    public string OT_Name
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0x99, 26);
+    public string OriginalTrainerName
     {
-        get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
+        get => StringConverter8.GetString(OriginalTrainerTrash);
+        set => StringConverter8.SetString(OriginalTrainerTrash, value, 12, StringConverterOption.None);
     }
-    public int OT_Friendship    { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
-    public byte OT_Intensity    { get => Data[0xB4]; set => Data[0xB4] = value; }
-    public byte OT_Memory       { get => Data[0xB5]; set => Data[0xB5] = value; }
-    public ushort OT_TextVar    { get => ReadUInt16LittleEndian(Data[0xB6..]); set => WriteUInt16LittleEndian(Data[0xB6..], value); }
-    public byte OT_Feeling      { get => Data[0xB8]; set => Data[0xB8] = value; }
-    public int Egg_Year         { get => Data[0xB9]; set => Data[0xB9] = (byte)value; }
-    public int Egg_Month        { get => Data[0xBA]; set => Data[0xBA] = (byte)value; }
-    public int Egg_Day          { get => Data[0xBB]; set => Data[0xBB] = (byte)value; }
-    public int Met_Year         { get => Data[0xBC]; set => Data[0xBC] = (byte)value; }
-    public int Met_Month        { get => Data[0xBD]; set => Data[0xBD] = (byte)value; }
-    public int Met_Day          { get => Data[0xBE]; set => Data[0xBE] = (byte)value; }
-    public int Met_Level        { get => Data[0xBF]; set => Data[0xBF] = (byte)value; }
-    public int OT_Gender        { get => Data[0xC0]; set => Data[0xC0] = (byte)value; }
+    public byte OriginalTrainerFriendship    { get => Data[0xB3]; set => Data[0xB3] = value; }
+    public byte OriginalTrainerMemoryIntensity    { get => Data[0xB4]; set => Data[0xB4] = value; }
+    public byte OriginalTrainerMemory       { get => Data[0xB5]; set => Data[0xB5] = value; }
+    public ushort OriginalTrainerMemoryVariable    { get => ReadUInt16LittleEndian(Data[0xB6..]); set => WriteUInt16LittleEndian(Data[0xB6..], value); }
+    public byte OriginalTrainerMemoryFeeling      { get => Data[0xB8]; set => Data[0xB8] = value; }
+    public byte EggYear         { get => Data[0xB9]; set => Data[0xB9] = value; }
+    public byte EggMonth        { get => Data[0xBA]; set => Data[0xBA] = value; }
+    public byte EggDay          { get => Data[0xBB]; set => Data[0xBB] = value; }
+    public byte MetYear         { get => Data[0xBC]; set => Data[0xBC] = value; }
+    public byte MetMonth        { get => Data[0xBD]; set => Data[0xBD] = value; }
+    public byte MetDay          { get => Data[0xBE]; set => Data[0xBE] = value; }
+    public byte MetLevel        { get => Data[0xBF]; set => Data[0xBF] = value; }
+    public byte OriginalTrainerGender        { get => Data[0xC0]; set => Data[0xC0] = value; }
     public byte HyperTrainFlags { get => Data[0xC1]; set => Data[0xC1] = value; }
     public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -298,24 +297,31 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int HeldItem { get => ReadUInt16LittleEndian(Data[0xC2..]); set => WriteUInt16LittleEndian(Data[0xC2..], (ushort)value); }
 
+    public TrainerIDFormat TrainerIDDisplayFormat => (Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
+
     public int MarkingCount => 6;
 
-    public TrainerIDFormat TrainerIDDisplayFormat => ((GameVersion)Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
-
-    public int GetMarking(int index)
+    public MarkingColor GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkValue >> (index * 2)) & 3;
+        return (MarkingColor)((MarkingValue >> (index * 2)) & 3);
     }
 
-    public void SetMarking(int index, int value)
+    public void SetMarking(int index, MarkingColor value)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
         var shift = index * 2;
-        MarkValue = (MarkValue & ~(0b11 << shift)) | ((value & 3) << shift);
+        MarkingValue = (ushort)((MarkingValue & ~(0b11 << shift)) | (((byte)value & 3) << shift));
     }
+
+    public MarkingColor MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public MarkingColor MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public MarkingColor MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public MarkingColor MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public MarkingColor MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public MarkingColor MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     public void CopyFrom(PKM pk)
     {
@@ -327,7 +333,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         TID16 = pk.TID16;
         SID16 = pk.SID16;
         EXP = pk.EXP;
-        MarkValue = pk.MarkValue;
+        MarkingValue = pk is IAppliedMarkings7 m7 ? m7.MarkingValue : (ushort)0;
         Nature = pk.Nature;
         StatNature = pk.StatNature;
         FatefulEncounter = pk.FatefulEncounter;
@@ -347,29 +353,29 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         EV_SPA = pk.EV_SPA;
         EV_SPD = pk.EV_SPD;
 
-        HT_Gender = pk.HT_Gender;
+        HandlingTrainerGender = pk.HandlingTrainerGender;
         CurrentHandler = pk.CurrentHandler;
-        // pk.HT_TrainerID
-        HT_Friendship = pk.HT_Friendship;
+        // pk.HandlingTrainerID
+        HandlingTrainerFriendship = pk.HandlingTrainerFriendship;
 
         Version = pk.Version;
         Language = pk.Language;
 
-        OT_Friendship = pk.OT_Friendship;
-        Egg_Year = pk.Egg_Year;
-        Egg_Month = pk.Egg_Month;
-        Egg_Day = pk.Egg_Day;
-        Met_Year = pk.Met_Year;
-        Met_Month = pk.Met_Month;
-        Met_Day = pk.Met_Day;
-        Met_Level = pk.Met_Level;
-        OT_Gender = pk.OT_Gender;
+        OriginalTrainerFriendship = pk.OriginalTrainerFriendship;
+        EggYear = pk.EggYear;
+        EggMonth = pk.EggMonth;
+        EggDay = pk.EggDay;
+        MetYear = pk.MetYear;
+        MetMonth = pk.MetMonth;
+        MetDay = pk.MetDay;
+        MetLevel = pk.MetLevel;
+        OriginalTrainerGender = pk.OriginalTrainerGender;
 
         CopyConditionalInterfaceFrom(pk);
 
-        pk.OT_Trash.CopyTo(OT_Trash);
-        pk.Nickname_Trash.CopyTo(Nickname_Trash);
-        pk.HT_Trash.CopyTo(HT_Trash);
+        pk.OriginalTrainerTrash.CopyTo(OriginalTrainerTrash);
+        pk.NicknameTrash.CopyTo(NicknameTrash);
+        pk.HandlingTrainerTrash.CopyTo(HandlingTrainerTrash);
 
         CopyConditionalRibbonMarkFrom(pk);
     }
@@ -384,7 +390,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         pk.TID16 = TID16;
         pk.SID16 = SID16;
         pk.EXP = EXP;
-        pk.MarkValue = MarkValue;
+        if (pk is IAppliedMarkings7 m7)
+            m7.MarkingValue = MarkingValue;
         pk.Nature = Nature;
         pk.StatNature = StatNature;
         pk.FatefulEncounter = FatefulEncounter;
@@ -404,29 +411,29 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         pk.EV_SPA = EV_SPA;
         pk.EV_SPD = EV_SPD;
 
-        pk.HT_Gender = HT_Gender;
+        pk.HandlingTrainerGender = HandlingTrainerGender;
         pk.CurrentHandler = CurrentHandler;
-        // pk.HT_TrainerID
-        pk.HT_Friendship = HT_Friendship;
+        // pk.HandlingTrainerID
+        pk.HandlingTrainerFriendship = HandlingTrainerFriendship;
 
         pk.Version = Version;
         pk.Language = Language;
 
-        pk.OT_Friendship = OT_Friendship;
-        pk.Egg_Year = Egg_Year;
-        pk.Egg_Month = Egg_Month;
-        pk.Egg_Day = Egg_Day;
-        pk.Met_Year = Met_Year;
-        pk.Met_Month = Met_Month;
-        pk.Met_Day = Met_Day;
-        pk.Met_Level = Met_Level;
-        pk.OT_Gender = OT_Gender;
+        pk.OriginalTrainerFriendship = OriginalTrainerFriendship;
+        pk.EggYear = EggYear;
+        pk.EggMonth = EggMonth;
+        pk.EggDay = EggDay;
+        pk.MetYear = MetYear;
+        pk.MetMonth = MetMonth;
+        pk.MetDay = MetDay;
+        pk.MetLevel = MetLevel;
+        pk.OriginalTrainerGender = OriginalTrainerGender;
 
         CopyConditionalInterfaceTo(pk);
 
-        OT_Trash.CopyTo(pk.OT_Trash);
-        Nickname_Trash.CopyTo(pk.Nickname_Trash);
-        HT_Trash.CopyTo(pk.HT_Trash);
+        OriginalTrainerTrash.CopyTo(pk.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(pk.NicknameTrash);
+        HandlingTrainerTrash.CopyTo(pk.HandlingTrainerTrash);
 
         CopyConditionalRibbonMarkTo(pk);
     }
@@ -441,20 +448,20 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
         if (pk is IMemoryOT ot)
         {
-            ot.OT_Intensity = OT_Intensity;
-            ot.OT_Memory = OT_Memory;
-            ot.OT_TextVar = OT_TextVar;
-            ot.OT_Feeling = OT_Feeling;
+            ot.OriginalTrainerMemoryIntensity = OriginalTrainerMemoryIntensity;
+            ot.OriginalTrainerMemory = OriginalTrainerMemory;
+            ot.OriginalTrainerMemoryVariable = OriginalTrainerMemoryVariable;
+            ot.OriginalTrainerMemoryFeeling = OriginalTrainerMemoryFeeling;
         }
         if (pk is IMemoryHT hm)
         {
-            hm.HT_Intensity = HT_Intensity;
-            hm.HT_Memory = HT_Memory;
-            hm.HT_Feeling = HT_Feeling;
-            hm.HT_TextVar = HT_TextVar;
+            hm.HandlingTrainerMemoryIntensity = HandlingTrainerMemoryIntensity;
+            hm.HandlingTrainerMemory = HandlingTrainerMemory;
+            hm.HandlingTrainerMemoryFeeling = HandlingTrainerMemoryFeeling;
+            hm.HandlingTrainerMemoryVariable = HandlingTrainerMemoryVariable;
         }
         if (pk is IHandlerLanguage hl)
-            hl.HT_Language = HT_Language;
+            hl.HandlingTrainerLanguage = HandlingTrainerLanguage;
 
         if (pk is IContestStats cm)
             this.CopyContestStatsTo(cm);
@@ -482,20 +489,20 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
         if (pk is IMemoryOT ot)
         {
-            OT_Intensity = ot.OT_Intensity;
-            OT_Memory = ot.OT_Memory;
-            OT_TextVar = ot.OT_TextVar;
-            OT_Feeling = ot.OT_Feeling;
+            OriginalTrainerMemoryIntensity = ot.OriginalTrainerMemoryIntensity;
+            OriginalTrainerMemory = ot.OriginalTrainerMemory;
+            OriginalTrainerMemoryVariable = ot.OriginalTrainerMemoryVariable;
+            OriginalTrainerMemoryFeeling = ot.OriginalTrainerMemoryFeeling;
         }
         if (pk is IMemoryHT ht)
         {
-            HT_Intensity = ht.HT_Intensity;
-            HT_Memory = ht.HT_Memory;
-            HT_Feeling = ht.HT_Feeling;
-            HT_TextVar = ht.HT_TextVar;
+            HandlingTrainerMemoryIntensity = ht.HandlingTrainerMemoryIntensity;
+            HandlingTrainerMemory = ht.HandlingTrainerMemory;
+            HandlingTrainerMemoryFeeling = ht.HandlingTrainerMemoryFeeling;
+            HandlingTrainerMemoryVariable = ht.HandlingTrainerMemoryVariable;
         }
         if (pk is IHandlerLanguage hl)
-            HT_Language = hl.HT_Language;
+            HandlingTrainerLanguage = hl.HandlingTrainerLanguage;
 
         if (pk is IContestStats cm)
             cm.CopyContestStatsTo(this);

@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierUnique4
 {
-    public static void Parse(this IRibbonSetUnique4 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetUnique4 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var evos = args.History;
         if (!RibbonRules.IsAllowedBattleFrontier4(evos))

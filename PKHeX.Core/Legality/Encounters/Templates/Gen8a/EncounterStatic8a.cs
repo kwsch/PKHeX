@@ -6,15 +6,17 @@ namespace PKHeX.Core;
 /// Generation 8 Static Encounter
 /// </summary>
 public sealed record EncounterStatic8a
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IScaledSizeReadOnly, IMoveset, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, ISeedCorrelation64<PKM>,
+        IAlphaReadOnly, IMasteryInitialMoveShop8, IScaledSizeReadOnly,
+        IMoveset, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8a;
     public GameVersion Version => GameVersion.PLA;
-    public int EggLocation => 0;
-    int ILocation.Location => Location;
+    public ushort EggLocation => 0;
+    ushort ILocation.Location => Location;
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
     public ushort Species { get; }
@@ -65,15 +67,15 @@ public sealed record EncounterStatic8a
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
             FatefulEncounter = FatefulEncounter,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)Version,
+            Version = Version,
 
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
 
             IsAlpha = IsAlpha,
@@ -83,7 +85,7 @@ public sealed record EncounterStatic8a
         SetPINGA(pk, criteria);
         pk.ResetHeight();
         pk.ResetWeight();
-        SetEncounterMoves(pk, (byte)pk.Met_Level);
+        SetEncounterMoves(pk, pk.MetLevel);
 
         if (IsAlpha)
             pk.IsAlpha = true;
@@ -98,7 +100,7 @@ public sealed record EncounterStatic8a
         var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, IsAlpha);
         // Phione and Zorua have random levels; follow the correlation instead of giving the lowest level.
         if (LevelMin != LevelMax)
-            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+            pk.MetLevel = pk.CurrentLevel = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
 
         // Disassociate the correlation if it is supposed to use the global 128-bit RNG state instead.
         if (Method == EncounterStatic8aCorrelation.Fixed)
@@ -165,7 +167,7 @@ public sealed record EncounterStatic8a
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -222,20 +224,20 @@ public sealed record EncounterStatic8a
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
     {
         var metState = LocationsHOME.GetRemapState(Context, pk.Context);
         if (metState == LocationRemapState.Original)
-            return pk.Met_Location == Location;
+            return pk.MetLocation == Location;
         if (metState == LocationRemapState.Remapped)
             return IsMetRemappedSWSH(pk);
-        return pk.Met_Location == Location || IsMetRemappedSWSH(pk);
+        return pk.MetLocation == Location || IsMetRemappedSWSH(pk);
     }
 
-    private static bool IsMetRemappedSWSH(PKM pk) => pk.Met_Location == LocationsHOME.SWLA;
+    private static bool IsMetRemappedSWSH(PKM pk) => pk.MetLocation == LocationsHOME.SWLA;
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
@@ -269,7 +271,7 @@ public sealed record EncounterStatic8a
             return true;
 
         const bool allowAlphaPurchaseBug = true; // Everything else Alpha is pre-1.1
-        var level = pk.Met_Level;
+        var level = pk.MetLevel;
         var (learn, mastery) = GetLevelUpInfo();
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
             return false;
@@ -283,4 +285,20 @@ public sealed record EncounterStatic8a
         return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
     }
     #endregion
+
+    public bool TryGetSeed(PKM pk, out ulong seed)
+    {
+        // Check if it matches any single-roll seed.
+        var param = GetParams();
+        var solver = new XoroMachineSkip(pk.EncryptionConstant, pk.PID);
+        foreach (var s in solver)
+        {
+            if (!Overworld8aRNG.Verify(pk, s, param, HasFixedHeight, HasFixedWeight))
+                continue;
+            seed = s;
+            return true;
+        }
+        seed = default;
+        return false;
+    }
 }

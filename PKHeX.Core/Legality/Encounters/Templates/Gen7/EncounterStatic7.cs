@@ -6,13 +6,13 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic7(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IRelearn, IEncounterFormRandom, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IFixedIVSet
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
-    int ILocation.Location => Location;
-    int ILocation.EggLocation => EggLocation;
+    ushort ILocation.Location => Location;
+    ushort ILocation.EggLocation => EggLocation;
     public bool RibbonWishing => Species == (int)Core.Species.Magearna;
 
-    public bool EggEncounter => EggLocation != 0;
+    public bool IsEgg => EggLocation != 0;
     public bool IsShiny => false;
 
     public Moveset Relearn { get; init; }
@@ -53,28 +53,27 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.USUM[Species, Form];
         var pk = new PK7
         {
-            EncryptionConstant = Util.Rand32(),
             Species = Species,
             Form = GetWildForm(Form, tr),
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDate3DS(),
             Ball = (byte)(FixedBall is Ball.None ? Ball.Poke : FixedBall),
             FatefulEncounter = FatefulEncounter,
 
             ID32 = tr.ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = tr.Gender,
-            OT_Name = tr.OT,
+            OriginalTrainerGender = tr.Gender,
+            OriginalTrainerName = tr.OT,
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -86,18 +85,18 @@ public sealed record EncounterStatic7(GameVersion Version)
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        if (EggEncounter)
+        if (IsEgg)
         {
             // Fake as hatched.
-            pk.Met_Location = Locations.HatchLocation7;
-            pk.Met_Level = EggStateLegality.EggMetLevel;
-            pk.Egg_Location = EggLocation;
+            pk.MetLocation = Locations.HatchLocation7;
+            pk.MetLevel = EggStateLegality.EggMetLevel;
+            pk.EggLocation = EggLocation;
             pk.EggMetDate = pk.MetDate;
         }
 
         if (Relearn.HasMoves)
             pk.SetRelearnMoves(Relearn);
-        EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 
@@ -119,7 +118,9 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)
     {
-        pk.PID = Util.Rand32();
+        var rnd = Util.Rand;
+        pk.EncryptionConstant = rnd.Rand32();
+        pk.PID = rnd.Rand32();
         if (pk.IsShiny)
         {
             if (Shiny == Shiny.Never || (Shiny != Shiny.Always && !criteria.Shiny.IsShiny()))
@@ -137,7 +138,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             criteria.SetRandomIVs(pk, FlawlessIVCount);
 
         var ability = criteria.GetAbilityFromNumber(Ability);
-        pk.Nature = (int)criteria.GetNature(Nature);
+        pk.Nature = criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.AbilityNumber = 1 << ability;
         pk.Ability = pi.GetAbilityAtIndex(ability);
@@ -159,7 +160,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             return false;
         if (!IsMatchLocation(pk))
             return false;
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (!IsMatchForm(pk, evo))
             return false;
@@ -167,7 +168,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;
-        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+        if (Nature != Nature.Random && pk.Nature != Nature)
             return false;
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
@@ -183,32 +184,32 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (EggEncounter)
+        if (IsEgg)
             return true;
 
-        return pk.Met_Location == Location;
+        return pk.MetLocation == Location;
     }
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        if (!EggEncounter)
+        if (!IsEgg)
         {
             var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.Egg_Location == expect;
+            return pk.EggLocation == expect;
         }
 
         // Gift Eevee edge case
         if (EggLocation == Locations.Daycare5 && !Relearn.HasMoves && pk.RelearnMove1 != 0)
             return false;
 
-        var eggloc = pk.Egg_Location;
+        var eggLoc = pk.EggLocation;
         if (!pk.IsEgg) // hatched
-            return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+            return eggLoc == EggLocation || eggLoc == Locations.LinkTrade6;
 
         // Unhatched:
-        if (eggloc != EggLocation)
+        if (eggLoc != EggLocation)
             return false;
-        if (pk.Met_Location is not (0 or Locations.LinkTrade6))
+        if (pk.MetLocation is not (0 or Locations.LinkTrade6))
             return false;
         return true;
     }

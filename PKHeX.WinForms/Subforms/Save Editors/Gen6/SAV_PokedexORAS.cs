@@ -11,7 +11,7 @@ public partial class SAV_PokedexORAS : Form
     private readonly SaveFile Origin;
     private readonly SAV6AO SAV;
 
-    public SAV_PokedexORAS(SaveFile sav)
+    public SAV_PokedexORAS(SAV6AO sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -155,7 +155,7 @@ public partial class SAV_PokedexORAS : Form
 
     private void SetEntry()
     {
-        if (species == 0)
+        if ((short)species <= 0)
             return;
 
         Zukan.SetCaught(species, CP[0].Checked);

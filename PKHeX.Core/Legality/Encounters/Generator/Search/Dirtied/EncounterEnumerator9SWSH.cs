@@ -16,7 +16,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    //private int met;
+    //private ushort met;
     private bool mustBeSlot;
     readonly object IEnumerator.Current => Current;
 
@@ -45,6 +45,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
         StaticFixed,
         StaticTeraBase,
         StaticTeraDLC1,
+        StaticTeraDLC2,
         StaticDist,
         StaticOutbreak,
         StaticMight,
@@ -79,7 +80,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
                 goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
-                //if (Entity.Met_Location == Locations.LinkTrade6NPC)
+                //if (Entity.MetLocation == Locations.LinkTrade6NPC)
                 //    goto case YieldState.Trade;
                 goto case YieldState.StartCaptures;
             case YieldState.Trade:
@@ -140,6 +141,10 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
             case YieldState.StaticTeraDLC1:
                 if (TryGetNext(Encounters9.TeraDLC1))
                     return true;
+                Index = 0; State = YieldState.StaticTeraDLC2; goto case YieldState.StaticTeraDLC2;
+            case YieldState.StaticTeraDLC2:
+                if (TryGetNext(Encounters9.TeraDLC2))
+                    return true;
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
@@ -165,18 +170,18 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
         return false;
     }
 
-    private readonly bool WasBredEggSWSH() => Entity.Met_Level == EggStateLegality.EggMetLevel && Entity.Egg_Location switch
+    private readonly bool WasBredEggSWSH() => Entity.MetLevel == EggStateLegality.EggMetLevel && Entity.EggLocation switch
     {
         LocationsHOME.SWSHEgg => true, // Regular hatch location (not link trade)
-        LocationsHOME.SWSL => Entity.Met_Location == LocationsHOME.SWSL, // Link Trade transferred over must match Met Location
-        LocationsHOME.SHVL => Entity.Met_Location == LocationsHOME.SHVL, // Link Trade transferred over must match Met Location
+        LocationsHOME.SWSL => Entity.MetLocation == LocationsHOME.SWSL, // Link Trade transferred over must match Met Location
+        LocationsHOME.SHVL => Entity.MetLocation == LocationsHOME.SHVL, // Link Trade transferred over must match Met Location
         _ => false,
     };
 
     private void InitializeWildLocationInfo()
     {
         mustBeSlot = Entity is IRibbonIndex r && r.HasEncounterMark();
-        //met = Entity.Met_Location;
+        //met = Entity.MetLocation;
     }
 
     private bool TryGetNext<TArea, TSlot>(TArea[] areas)

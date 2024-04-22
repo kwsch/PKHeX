@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class StringConverter4
 {
-    private const ushort Terminator = 0xFFFF;
+    public const ushort Terminator = 0xFFFF;
 
     /// <summary>Converts Generation 4 encoded data to decoded string.</summary>
     /// <param name="data">Encoded data</param>

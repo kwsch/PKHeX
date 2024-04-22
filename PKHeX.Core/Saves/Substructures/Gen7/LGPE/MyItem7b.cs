@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem7b : MyItem
+public sealed class MyItem7b(SAV7b sav, Memory<byte> raw) : MyItem(sav, raw)
 {
     private const int Medicine = 0x0000; // 0
     private const int TM       = 0x00F0; // 1
@@ -11,8 +12,6 @@ public sealed class MyItem7b : MyItem
     private const int Catching = 0x0818; // 4
     private const int Battle   = 0x08E0; // 5
     private const int Key      = 0x0B38; // 6
-
-    public MyItem7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {

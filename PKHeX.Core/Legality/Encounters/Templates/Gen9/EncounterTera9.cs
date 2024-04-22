@@ -8,18 +8,18 @@ namespace PKHeX.Core;
 /// Generation 9 Tera Raid Encounter
 /// </summary>
 public sealed record EncounterTera9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IEncounterFormRandom
 {
-    public int Generation => 9;
+    public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public GameVersion Version => GameVersion.SV;
-    int ILocation.Location => Location;
+    ushort ILocation.Location => Location;
     public const ushort Location = Locations.TeraCavern9;
     public bool IsDistribution => Index != 0;
     public Ball FixedBall => Ball.None;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public bool IsShiny => Shiny == Shiny.Always;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public required ushort Species { get; init; }
     public required byte Form { get; init; }
@@ -39,6 +39,8 @@ public sealed record EncounterTera9
     public bool IsAvailableHostViolet => RandRateMinViolet != -1;
     public required TeraRaidMapParent Map { get; init; }
 
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
+
     public string Name => $"Tera Raid Encounter [{(Index == 0 ? "Base" : Index)}] {Stars}★";
     public string LongName => Name;
     public byte LevelMin => Level;
@@ -56,6 +58,7 @@ public sealed record EncounterTera9
     {
         TeraRaidMapParent.Paldea => GetRateTotalBaseSL(star),
         TeraRaidMapParent.Kitakami => GetRateTotalKitakamiSL(star),
+        TeraRaidMapParent.Blueberry => GetRateTotalBlueberry(star),
         _ => 0,
     };
 
@@ -64,6 +67,7 @@ public sealed record EncounterTera9
     {
         TeraRaidMapParent.Paldea => GetRateTotalBaseVL(star),
         TeraRaidMapParent.Kitakami => GetRateTotalKitakamiVL(star),
+        TeraRaidMapParent.Blueberry => GetRateTotalBlueberry(star),
         _ => 0,
     };
 
@@ -108,6 +112,18 @@ public sealed record EncounterTera9
         4 => 2100,
         5 => 2250,
         6 => 2574, // +99
+        _ => 0,
+    };
+
+    // finally the same for both games
+    public static short GetRateTotalBlueberry(int star) => star switch
+    {
+        1 => 1100,
+        2 => 1100,
+        3 => 2000,
+        4 => 1900,
+        5 => 2100,
+        6 => 2600,
         _ => 0,
     };
 
@@ -162,7 +178,7 @@ public sealed record EncounterTera9
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
@@ -170,20 +186,21 @@ public sealed record EncounterTera9
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (byte)version,
+            Version = version,
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            Obedience_Level = LevelMin,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            ObedienceLevel = LevelMin,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
         };
         SetPINGA(pk, criteria, pi);
+
         pk.SetMoves(Moves);
 
         pk.ResetPartyStats();
@@ -208,7 +225,7 @@ public sealed record EncounterTera9
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
@@ -216,7 +233,7 @@ public sealed record EncounterTera9
             return false;
         if (!IsMatchLocation(pk))
             return false;
-        if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
+        if (Form != evo.Form && !IsRandomUnspecificForm && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
         return true;
@@ -225,7 +242,7 @@ public sealed record EncounterTera9
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -245,11 +262,11 @@ public sealed record EncounterTera9
         return IsMatchDeferred(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private static bool IsMatchLocationExact(PKM pk) => pk.MetLocation == Location;
 
-    private bool IsMatchLocationRemapped(PKM pk)
+    private static bool IsMatchLocationRemapped(PKM pk)
     {
-        var met = (ushort)pk.Met_Location;
+        var met = pk.MetLocation;
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetSV(met, version);
@@ -272,7 +289,14 @@ public sealed record EncounterTera9
             }
             else if (Ability.IsSingleValue(out int index) && 1 << index != num) // Fixed regular ability
             {
-                if (Ability is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(9, PersonalTable.SV.GetFormEntry(Species, Form)))
+                var a = Ability;
+                if (a is OnlyHidden)
+                {
+                    if (!AbilityVerifier.CanAbilityPatch(9, PersonalTable.SV.GetFormEntry(Species, Form), pk.Species))
+                        return EncounterMatchRating.DeferredErrors;
+                    a = num == 1 ? OnlyFirst : OnlySecond;
+                }
+                if (a is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(9, PersonalTable.SV.GetFormEntry(Species, Form)))
                     return EncounterMatchRating.DeferredErrors;
             }
         }
@@ -312,4 +336,5 @@ public enum TeraRaidMapParent : byte
 {
     Paldea,
     Kitakami,
+    Blueberry,
 }

@@ -24,4 +24,4 @@
 024	グアドループ	Guadeloupe	Guadeloupe	Guadeloupe	Guadalupa	Guadalupe	瓜德罗普省	과들루프	瓜德羅普省
 025	マルチニーク	Martinique	Martinique	Martinique	Martinica	Martinica	马提尼克省	마르티니크	馬提尼克省
 026	フランス領ギアナ	French Guiana	Guyane	Französisch-Guayana	Guyana Francese	Guayana Francesa	法属圭亚那省	프랑스령 기아나	法屬圭亞那省
-027	レユニオン	Réunion	Réunion	Réunion	Riunione	La Reunión	留尼汪省	레위니옹	留尼汪省
+027	レユニオン	Réunion	Réunion	Réunion	Riunione	Reunión	留尼汪省	레위니옹	留尼汪省

@@ -46,7 +46,7 @@ public static class MysteryUtil
     public static IEnumerable<string> GetDescription(this MysteryGift gift, IBasicStrings strings)
     {
         if (gift.Empty)
-            return new[] { MsgMysteryGiftSlotEmpty };
+            return [MsgMysteryGiftSlotEmpty];
 
         var result = new List<string> { gift.CardHeader };
         if (gift.IsItem)
@@ -71,6 +71,13 @@ public static class MysteryUtil
                 case WC7 { IsBean: true } w7bean:
                     result.Add($"Bean ID: {w7bean.Bean}");
                     result.Add($"Quantity: {w7bean.Quantity}");
+                    break;
+                case PCD pcd:
+                    result.Add($"{pcd.GiftType}");
+                    result.Add($"Collected: {pcd.GiftUsed}");
+                    break;
+                case PGT pgt:
+                    result.Add($"{pgt.GiftType}");
                     break;
                 default:
                     result.Add(MsgMysteryGiftParseTypeUnknown);
@@ -107,7 +114,7 @@ public static class MysteryUtil
 
         var first =
             $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "
-            + (gift.IsEgg ? strings.EggName : $"{gift.OT_Name} - {id}");
+            + (gift.IsEgg ? strings.EggName : $"{gift.OriginalTrainerName} - {id}");
         result.Add(first);
         result.Add(gift.Moves.GetMovesetLine(strings.Move));
 
@@ -140,13 +147,11 @@ public static class MysteryUtil
             return false;
         }
 
-        if (g is WC6 { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
+        if (g is WC6 { CardID: 2048, ItemID: 726 } && sav is not SAV6AO)
         {
-            if (sav is not SAV6AO)
-            {
-                message = MsgMysteryGiftSlotSpecialReject;
-                return false;
-            }
+            // Eon Ticket (OR/AS)
+            message = MsgMysteryGiftSlotSpecialReject;
+            return false;
         }
 
         message = string.Empty;

@@ -19,7 +19,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public virtual string Position => "???";
     public string Nickname => pk.Nickname;
     public string Species => Get(Strings.specieslist, pk.Species);
-    public string Nature => Get(Strings.natures, pk.StatNature);
+    public string Nature => Get(Strings.natures, (byte)pk.StatNature);
     public string Gender => Get(GenderSymbols, pk.Gender);
     public string ESV => pk.PSV.ToString("0000");
     public string HP_Type => Get(Strings.types, pk.HPType + 1);
@@ -38,45 +38,44 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string MetLoc => pk.GetLocationString(eggmet: false);
     public string EggLoc => pk.GetLocationString(eggmet: true);
     public string Ball => Get(Strings.balllist, pk.Ball);
-    public string OT => pk.OT_Name;
-    public string Version => Get(Strings.gamelist, pk.Version);
+    public string OT => pk.OriginalTrainerName;
+    public string Version => Get(Strings.gamelist, (int)pk.Version);
     public string OTLang => ((LanguageID)pk.Language).ToString();
     public string Legal { get { var la = new LegalityAnalysis(pk); return la.Parsed ? la.Valid.ToString() : "-"; } }
 
     #region Extraneous
     public string EC => pk.EncryptionConstant.ToString("X8");
     public string PID => pk.PID.ToString("X8");
-    public int HP_IV => pk.IV_HP;
-    public int ATK_IV => pk.IV_ATK;
-    public int DEF_IV => pk.IV_DEF;
-    public int SPA_IV => pk.IV_SPA;
-    public int SPD_IV => pk.IV_SPD;
-    public int SPE_IV => pk.IV_SPE;
+    public int IV_HP => pk.IV_HP;
+    public int IV_ATK => pk.IV_ATK;
+    public int IV_DEF => pk.IV_DEF;
+    public int IV_SPA => pk.IV_SPA;
+    public int IV_SPD => pk.IV_SPD;
+    public int IV_SPE => pk.IV_SPE;
     public uint EXP => pk.EXP;
     public int Level => pk.CurrentLevel;
-    public int HP_EV => pk.EV_HP;
-    public int ATK_EV => pk.EV_ATK;
-    public int DEF_EV => pk.EV_DEF;
-    public int SPA_EV => pk.EV_SPA;
-    public int SPD_EV => pk.EV_SPD;
-    public int SPE_EV => pk.EV_SPE;
-    public int Cool => pk is IContestStatsReadOnly s ? s.CNT_Cool : 0;
-    public int Beauty => pk is IContestStatsReadOnly s ? s.CNT_Beauty : 0;
-    public int Cute => pk is IContestStatsReadOnly s ? s.CNT_Cute : 0;
-    public int Smart => pk is IContestStatsReadOnly s ? s.CNT_Smart : 0;
-    public int Tough => pk is IContestStatsReadOnly s ? s.CNT_Tough : 0;
-    public int Sheen => pk is IContestStatsReadOnly s ? s.CNT_Sheen : 0;
-    public int Markings => pk.MarkValue;
+    public int EV_HP => pk.EV_HP;
+    public int EV_ATK => pk.EV_ATK;
+    public int EV_DEF => pk.EV_DEF;
+    public int EV_SPA => pk.EV_SPA;
+    public int EV_SPD => pk.EV_SPD;
+    public int EV_SPE => pk.EV_SPE;
+    public int Cool => pk is IContestStatsReadOnly s ? s.ContestCool : 0;
+    public int Beauty => pk is IContestStatsReadOnly s ? s.ContestBeauty : 0;
+    public int Cute => pk is IContestStatsReadOnly s ? s.ContestCute : 0;
+    public int Smart => pk is IContestStatsReadOnly s ? s.ContestSmart : 0;
+    public int Tough => pk is IContestStatsReadOnly s ? s.ContestTough : 0;
+    public int Sheen => pk is IContestStatsReadOnly s ? s.ContestSheen : 0;
 
-    public string NotOT => pk.Format > 5 ? pk.HT_Name : "N/A";
+    public string NotOT => pk.Format > 5 ? pk.HandlingTrainerName : "N/A";
 
     public int AbilityNum => pk.Format > 5 ? pk.AbilityNumber : -1;
-    public int GenderFlag => pk.Gender;
+    public byte GenderFlag => pk.Gender;
     public byte Form => pk.Form;
-    public int PKRS_Strain => pk.PKRS_Strain;
-    public int PKRS_Days => pk.PKRS_Days;
-    public int MetLevel => pk.Met_Level;
-    public int OT_Gender => pk.OT_Gender;
+    public int PokerusStrain => pk.PokerusStrain;
+    public int PokerusDays => pk.PokerusDays;
+    public int MetLevel => pk.MetLevel;
+    public byte OriginalTrainerGender => pk.OriginalTrainerGender;
 
     public bool FatefulEncounter => pk.FatefulEncounter;
     public bool IsEgg => pk.IsEgg;
@@ -99,13 +98,13 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string Relearn3 => Get(Strings.movelist, pk.RelearnMove3);
     public string Relearn4 => Get(Strings.movelist, pk.RelearnMove4);
     public ushort Checksum => pk is ISanityChecksum s ? s.Checksum : Checksums.CRC16_CCITT(pk.Data.AsSpan(pk.SIZE_STORED));
-    public int Friendship => pk.OT_Friendship;
-    public int Egg_Year => pk.EggMetDate.GetValueOrDefault().Year;
-    public int Egg_Month => pk.EggMetDate.GetValueOrDefault().Month;
-    public int Egg_Day => pk.EggMetDate.GetValueOrDefault().Day;
-    public int Met_Year => pk.MetDate.GetValueOrDefault().Year;
-    public int Met_Month => pk.MetDate.GetValueOrDefault().Month;
-    public int Met_Day => pk.MetDate.GetValueOrDefault().Day;
+    public int Friendship => pk.OriginalTrainerFriendship;
+    public int EggYear => pk.EggMetDate.GetValueOrDefault().Year;
+    public int EggMonth => pk.EggMetDate.GetValueOrDefault().Month;
+    public int EggDay => pk.EggMetDate.GetValueOrDefault().Day;
+    public int MetYear => pk.MetDate.GetValueOrDefault().Year;
+    public int MetMonth => pk.MetDate.GetValueOrDefault().Month;
+    public int MetDay => pk.MetDate.GetValueOrDefault().Day;
 
     #endregion
 

@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9Paldea(SAV9SV sav, SCBlock block) : ZukanBase<SAV9SV>(sav, 0)
+public sealed class Zukan9Paldea(SAV9SV sav, SCBlock block) : ZukanBase<SAV9SV>(sav, block.Data)
 {
     public PokeDexEntry9Paldea Get(ushort species)
     {

@@ -43,7 +43,7 @@ public enum RibbonIndex4 : byte
 
 public static class RibbonIndex4Extensions
 {
-    public static void Fix(this RibbonIndex4 r, RibbonVerifierArguments args, bool state)
+    public static void Fix(this RibbonIndex4 r, in RibbonVerifierArguments args, bool state)
     {
         var pk = args.Entity;
         if (pk is not IRibbonSetUnique4 u4)

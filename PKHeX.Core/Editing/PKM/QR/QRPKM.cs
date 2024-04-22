@@ -35,7 +35,7 @@ public static class QRPKM
 
         return
         [
-            string.Join(" ", header),
+            string.Join(' ', header),
             sb.ToString(),
             IVs + "   " + EVs,
         ];
@@ -68,6 +68,6 @@ public static class QRPKM
         }
 
         if (pk.Format >= 3 && (uint)pk.Nature < s.Natures.Count)
-            yield return s.natures[pk.Nature];
+            yield return s.natures[(byte)pk.Nature];
     }
 }

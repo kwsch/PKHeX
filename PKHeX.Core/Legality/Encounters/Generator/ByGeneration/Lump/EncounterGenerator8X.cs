@@ -21,16 +21,16 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
         return GetEncounters(pk, chain, info);
     }
 
-    public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info) => (GameVersion)pk.Version switch
+    public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info) => pk.Version switch
     {
-        GO => EncounterGenerator8GO.Instance.GetEncounters(pk, chain, info),
+        GO => EncounterGeneratorGO.Instance.GetEncounters(pk, chain, info),
         PLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
         BD or SP => EncounterGenerator8b.Instance.GetEncounters(pk, chain, info),
-        SW when pk.Met_Location == LocationsHOME.SWLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
-        SW when pk.Met_Location == LocationsHOME.SWBD => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, BD),
-        SH when pk.Met_Location == LocationsHOME.SHSP => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, SP),
-        SW when pk.Met_Location == LocationsHOME.SWSL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, SL),
-        SH when pk.Met_Location == LocationsHOME.SHVL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, VL),
+        SW when pk.MetLocation == LocationsHOME.SWLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
+        SW when pk.MetLocation == LocationsHOME.SWBD => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, BD),
+        SH when pk.MetLocation == LocationsHOME.SHSP => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, SP),
+        SW when pk.MetLocation == LocationsHOME.SWSL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, SL),
+        SH when pk.MetLocation == LocationsHOME.SHVL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, VL),
         _ => EncounterGenerator8.Instance.GetEncounters(pk, chain, info),
     };
 }

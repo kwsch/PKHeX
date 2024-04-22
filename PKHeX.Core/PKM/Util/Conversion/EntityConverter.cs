@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using static PKHeX.Core.EntityConverterResult;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -29,13 +30,34 @@ public static class EntityConverter
     /// </summary>
     public static IHomeStorage HOME { get; set; } = new HomeStorageFacade();
 
+    private static GameVersion _vc1 = RD;
+    private static GameVersion _vc2 = SI;
+
+    /// <summary>
+    /// Default source game for trading from PK2 to PK7.
+    /// </summary>
+    public static GameVersion VirtualConsoleSourceGen1
+    {
+        get => _vc1;
+        set => _vc1 = (value is RD or BU or GN or YW) ? value : RD;
+    }
+
+    /// <summary>
+    /// Default source game for trading from PK2 to PK7.
+    /// </summary>
+    public static GameVersion VirtualConsoleSourceGen2
+    {
+        get => _vc2;
+        set => _vc2 = (value is GD or SI or C) ? value : SI;
+    }
+
     /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
     /// </summary>
     /// <param name="pk"></param>
     /// <param name="format"></param>
     /// <returns>True if it can be converted to the requested format value.</returns>
-    public static bool IsConvertibleToFormat(PKM pk, int format)
+    public static bool IsConvertibleToFormat(PKM pk, byte format)
     {
         if (pk.Format >= 3 && pk.Format > format && format < 8)
             return false; // pk3->upward can't go backwards until Gen8+
@@ -174,6 +196,7 @@ public static class EntityConverter
         PB7 { Species: (int)Species.Eevee, Form: not 0 } => IncompatibleForm,
         PB8 { Species: (int)Species.Spinda } => IncompatibleSpecies, // Incorrect arrangement of spots (PID endianness)
         PB8 { Species: (int)Species.Nincada } => IncompatibleSpecies, // Clone paranoia with Shedinja
+        PK9 { Species: (int)Species.Koraidon or (int)Species.Miraidon, FormArgument: not 0 } => IncompatibleForm, // Ride
         _ => Success,
     };
 
@@ -226,8 +249,8 @@ public static class EntityConverter
         if (pk.Nickname.Length > limit.MaxStringLengthNickname)
             pk.Nickname = pk.Nickname[..pk.MaxStringLengthNickname];
 
-        if (pk.OT_Name.Length > limit.MaxStringLengthOT)
-            pk.OT_Name = pk.OT_Name[..pk.MaxStringLengthOT];
+        if (pk.OriginalTrainerName.Length > limit.MaxStringLengthOT)
+            pk.OriginalTrainerName = pk.OriginalTrainerName[..pk.MaxStringLengthOT];
 
         if (pk.Move1 > limit.MaxMoveID || pk.Move2 > limit.MaxMoveID || pk.Move3 > limit.MaxMoveID || pk.Move4 > limit.MaxMoveID)
             pk.ClearInvalidMoves();

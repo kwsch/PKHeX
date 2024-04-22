@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x27A0</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class UgSaveData8b : SaveBlock<SAV8BS>
+public sealed class UgSaveData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     public const int COUNT_DIGPOINTS = 10;
     public const int COUNT_ENCOUNTERS = 15;
@@ -64,46 +64,43 @@ public sealed class UgSaveData8b : SaveBlock<SAV8BS>
     //      int StatueID, int PedestalID, int X, int Y, int Direction (size: 20 bytes)
     //   bool isEnable; // 0x26C
 
-    public UgSaveData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
+    public int ReturnZoneID        { get => ReadInt32LittleEndian(Data); set => WriteInt32LittleEndian(Data, value); }
+    public int ReturnGridPositionX { get => ReadInt32LittleEndian(Data[0x04..]); set => WriteInt32LittleEndian(Data[0x4..], value); }
+    public int ReturnGridPositionY { get => ReadInt32LittleEndian(Data[0x08..]); set => WriteInt32LittleEndian(Data[0x8..], value); }
+    public int ReturnGridPositionZ { get => ReadInt32LittleEndian(Data[0x0C..]); set => WriteInt32LittleEndian(Data[0xC..], value); }
 
-    public int ReturnZoneID        { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x0), value); }
-    public int ReturnGridPositionX { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
-    public int ReturnGridPositionY { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x8), value); }
-    public int ReturnGridPositionZ { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x0C)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0xC), value); }
+    public int ZenmetsuZoneID      { get => ReadInt32LittleEndian(Data[0x10..]); set => WriteInt32LittleEndian(Data[0x10..], value); }
+    public float ZenmetsuPositionX { get => ReadSingleLittleEndian(Data[0x14..]); set => WriteSingleLittleEndian(Data[0x14..], value); }
+    public float ZenmetsuPositionY { get => ReadSingleLittleEndian(Data[0x18..]); set => WriteSingleLittleEndian(Data[0x18..], value); }
+    public float ZenmetsuPositionZ { get => ReadSingleLittleEndian(Data[0x1C..]); set => WriteSingleLittleEndian(Data[0x1C..], value); }
+    public int ZenmetsuDirection   { get => ReadInt32LittleEndian(Data[0x20..]); set => WriteInt32LittleEndian(Data[0x20..], value); }
 
-    public int ZenmetsuZoneID      { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x10), value); }
-    public float ZenmetsuPositionX { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x14), value); }
-    public float ZenmetsuPositionY { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x18), value); }
-    public float ZenmetsuPositionZ { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x1C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x1C), value); }
-    public int ZenmetsuDirection   { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x20)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x20), value); }
-
-    private Span<byte> GetDigPoints() => Data.AsSpan(Offset + 0x24, COUNT_DIGPOINTS);
+    private Span<byte> GetDigPoints() => Data.Slice(0x24, COUNT_DIGPOINTS);
     public void ClearDigPoints() => GetDigPoints().Fill(0xFF);
 
-    public int GetSlotOffset(int slot)
+    public static int GetSlotOffset(int slot)
     {
         if ((uint)slot >= COUNT_ENCOUNTERS)
             throw new ArgumentOutOfRangeException(nameof(slot));
-        return Offset + OFS_ENCOUNTPOKE + (slot * PokeCrypto.SIZE_8PARTY);
+        return OFS_ENCOUNTPOKE + (slot * PokeCrypto.SIZE_8PARTY);
     }
 
-    public  int ReturnUgZoneID   { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_ReturnUgZoneID)); set =>  WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_ReturnUgZoneID), value); }
-    public uint TalkPlayerDataID { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x0), value); }
-    public uint TalkPlayerCount  { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x4), value); }
+    public  int ReturnUgZoneID   { get =>  ReadInt32LittleEndian(Data[OFS_ReturnUgZoneID..]); set =>  WriteInt32LittleEndian(Data[OFS_ReturnUgZoneID..], value); }
+    public uint TalkPlayerDataID { get => ReadUInt32LittleEndian(Data[(OFS_UgRecord + 0x0)..]); set => WriteUInt32LittleEndian(Data[(OFS_UgRecord + 0x0)..], value); }
+    public uint TalkPlayerCount  { get => ReadUInt32LittleEndian(Data[(OFS_UgRecord + 0x4)..]); set => WriteUInt32LittleEndian(Data[(OFS_UgRecord + 0x4)..], value); }
 
     #region Seen NPCs
 
-    public Span<byte> GetTrainers() => Data.AsSpan(Offset + OFS_NPC, COUNT_TRAINERS);
+    public Span<byte> GetTrainers() => Data.Slice(OFS_NPC, COUNT_TRAINERS);
 
     public void SetTrainers(ReadOnlySpan<byte> data)
     {
-        if (Data.Length > COUNT_TRAINERS)
-            throw new ArgumentOutOfRangeException(nameof(data.Length));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(data.Length, COUNT_TRAINERS);
         data.CopyTo(GetTrainers());
     }
 
-    public byte GetNPCSeen(int index) => Data[Offset + OFS_NPC + index];
-    public void SetNPCSeen(int index, byte value) => Data[Offset + OFS_NPC + index] = value;
+    public byte GetNPCSeen(int index) => Data[OFS_NPC + index];
+    public void SetNPCSeen(int index, byte value) => Data[OFS_NPC + index] = value;
 
     public void ClearNPC() => GetTrainers().Clear();
     public void ClearNPC(int start, int count = COUNT_TRAINERS) => FillNPC(0, start, count);
@@ -125,15 +122,17 @@ public sealed class UgSaveData8b : SaveBlock<SAV8BS>
 
     public void FillNPC(byte value, int start = 0, int count = COUNT_TRAINERS)
     {
-        if ((uint)start + (uint)count > COUNT_TRAINERS)
+        if ((uint)start + (uint)count >= COUNT_TRAINERS)
             throw new ArgumentOutOfRangeException(nameof(count));
-        if ((uint)start > COUNT_TRAINERS)
+        if ((uint)start >= COUNT_TRAINERS)
             throw new ArgumentOutOfRangeException(nameof(start));
 
-        var ofs = Offset + OFS_NPC + start;
+        var ofs = OFS_NPC + start;
         for (int i = 0; i < count; i++)
             Data[ofs + i] = value;
     }
 
     #endregion
+
+    public Memory<byte> this[int i] => Raw.Slice(GetSlotOffset(i), PokeCrypto.SIZE_8PARTY);
 }

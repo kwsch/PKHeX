@@ -7,57 +7,33 @@ namespace PKHeX.Core;
 /// <summary>
 /// Information for Accessing individual blocks within a <see cref="SAV8SWSH"/>.
 /// </summary>
-public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
+public sealed class SaveBlockAccessor8SWSH(SAV8SWSH sav) : SCBlockAccessor, ISaveBlock8Main
 {
-    public override IReadOnlyList<SCBlock> BlockInfo { get; }
-    public Box8 BoxInfo { get; }
-    public Party8 PartyInfo { get; }
-    public MyItem8 Items { get; }
-    public Coordinates8 Coordinates { get; }
-    public MyStatus8 MyStatus { get; }
-    public Misc8 Misc { get; }
-    public Zukan8 Zukan { get; }
-    public BoxLayout8 BoxLayout { get; }
-    public PlayTime8 Played { get; }
-    public Fused8 Fused { get; }
-    public Daycare8 Daycare { get; }
-    public Record8 Records { get; }
-    public TrainerCard8 TrainerCard{ get; }
-    public FashionUnlock8 Fashion { get; }
-    public RaidSpawnList8 Raid { get; }
-    public RaidSpawnList8 RaidArmor { get; }
-    public RaidSpawnList8 RaidCrown { get; }
-    public TitleScreen8 TitleScreen { get; }
-    public TeamIndexes8 TeamIndexes { get; }
-    public HallOfFameTime8 FameTime { get; }
-
-    public SaveBlockAccessor8SWSH(SAV8SWSH sav)
-    {
-        BlockInfo = sav.AllBlocks;
-        BoxInfo = new Box8(sav, GetBlock(KBox));
-        PartyInfo = new Party8(sav, GetBlock(KParty));
-        Items = new MyItem8(sav, GetBlock(KItem));
-        Coordinates = new Coordinates8(sav, GetBlock(KCoordinates));
-        Zukan = new Zukan8(sav, GetBlock(KZukan), GetBlockSafe(KZukanR1), GetBlockSafe(KZukanR2));
-        MyStatus = new MyStatus8(sav, GetBlock(KMyStatus));
-        Misc = new Misc8(sav, GetBlock(KMisc));
-        BoxLayout = new BoxLayout8(sav, GetBlock(KBoxLayout));
-        TrainerCard = new TrainerCard8(sav, GetBlock(KTrainerCard));
-        Played = new PlayTime8(sav, GetBlock(KPlayTime));
-        Fused = new Fused8(sav, GetBlock(KFused));
-        Daycare = new Daycare8(sav, GetBlock(KDaycare));
-        Records = new Record8(sav, GetBlock(KRecord));
-        Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
-        Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
-        RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
-        RaidCrown = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR2), RaidSpawnList8.RaidCountLegal_R2);
-        TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
-        TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
-        FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
-    }
+    public override IReadOnlyList<SCBlock> BlockInfo { get; } = sav.AllBlocks;
+    public Box8 BoxInfo { get; } = new(sav, Block(sav, KBox));
+    public Party8 PartyInfo { get; } = new(sav, Block(sav, KParty));
+    public MyItem8 Items { get; } = new(sav, Block(sav, KItem));
+    public Coordinates8 Coordinates { get; } = new(sav, Block(sav, KCoordinates));
+    public MyStatus8 MyStatus { get; } = new(sav, Block(sav, KMyStatus));
+    public Misc8 Misc { get; } = new(sav, Block(sav, KMisc));
+    public Zukan8 Zukan { get; } = new(sav, Block(sav, KZukan), BlockSafe(sav, KZukanR1), BlockSafe(sav, KZukanR2));
+    public BoxLayout8 BoxLayout { get; } = new(sav, Block(sav, KBoxLayout));
+    public PlayTime7b Played { get; } = new(sav, Block(sav, KPlayTime));
+    public Fused8 Fused { get; } = new(sav, Block(sav, KFused));
+    public Daycare8 Daycare { get; } = new(sav, Block(sav, KDaycare));
+    public Record8 Records { get; } = new(sav, Block(sav, KRecord));
+    public TrainerCard8 TrainerCard{ get; } = new(sav, Block(sav, KTrainerCard));
+    public FashionUnlock8 Fashion { get; } = new(sav, Block(sav, KFashionUnlock));
+    public RaidSpawnList8 RaidGalar { get; } = new(sav, Block(sav, KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
+    public RaidSpawnList8 RaidArmor { get; } = new(sav, BlockSafe(sav, KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
+    public RaidSpawnList8 RaidCrown { get; } = new(sav, BlockSafe(sav, KRaidSpawnListR2), RaidSpawnList8.RaidCountLegal_R2);
+    public TitleScreen8 TitleScreen { get; } = new(sav, Block(sav, KTitleScreenTeam));
+    public TeamIndexes8 TeamIndexes { get; } = new(sav, Block(sav, KTeamIndexes), Block(sav, KTeamLocks));
+    public HallOfFameTime8 FameTime { get; } = new(sav, Block(sav, KEnteredHallOfFame));
 
     // Arrays (Blocks)
     private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
+    private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
     private const uint KMenuButtons = 0xB1DDDCA8; // X Menu Button Order
@@ -70,7 +46,6 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     private const uint KMisc = 0x1b882b09; // Money
     private const uint KParty = 0x2985fe5d; // Party Data
     private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
-    private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KRecord = 0x37da95a3;
     private const uint KZukan = 0x4716c404; // ZukanData_Pokemon
     private const uint KZukanR1 = 0x3F936BA9; // ZukanData_PokemonR1 (Armor)
@@ -97,6 +72,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     private const uint KTrainer3EndlessRecordData = 0x7BD78AF1; // Trainer 3's Data of Best Endless Dynamax Adventure Record
     private const uint KTrainer4EndlessRecordData = 0x7AD7895E; // Trainer 4's Data of Best Endless Dynamax Adventure Record
     private const uint KPokeJobStorage = 0xB25C772B; // Pokémon storage while they are doing Jobs
+    private const uint KTeamLocks = 0x605EBC30;
 
     // Rental Teams - Objects (Blocks)
     private const uint KRentalTeam1 = 0x149A1DD0;
@@ -219,6 +195,16 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public const uint KPlayRecordsEevee = 0xC804E4AF; // FSYS_PLAY_LETSGO_EEVEE
     public const uint KPlayRecordsQuest = 0xBF24DDAE; // FSYS_PLAY_POKEMON_QUEST
 
+    // Dojo event flags (bool)
+    public const uint KDojoHairStylistAvailable = 0xE02A722C;
+    public const uint KDojoBrokenRotomiDisappeared = 0x60E04225;
+    public const uint KDojoRotomiDisappeared = 0x82E071A0;
+    public const uint KDojoTableDisappeared = 0x3D83DC85;
+    public const uint KDojoDrinksVendingMachineDisappeared = 0x209CF1DC;
+    public const uint KDojoVitaminsVendingMachineDisappeared = 0x5C3ED669;
+    public const uint KCanBattleHoney = 0xC0423F6D;
+    public const uint KBattledHoneyToday = 0xDDA3F583;
+
     // Values
     public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
     public const uint KBoxesUnlocked = 0x71825204; // U32
@@ -259,13 +245,16 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public const uint KOptionAutoSave = 0xB027F396; // U32 OptOut AutoSave=0
     public const uint KOptionShowNicknames = 0xCA8A8CEE; // U32 OptOut Show=0
     public const uint KOptionShowMoves = 0x9C781AE2; // U32 OptOut Show=0
-    public const uint KDojoWattDonationTotal = 0xC7161487; // U32 Amount of Watts donated to Master Dojo
     public const uint KDiggingPaWattStreak = 0x68BBA8B1; // U32 Most Watts dug up by the Digging Pa
     public const uint KAlolanDiglettFound = 0x4AEA5A7E; // U32 Amount of Alolan Diglett found on Isle of Armor
     public const uint KBikeBoostChargeSteps = 0x57F29628; // U32 Current step counter, fully charged when this value matches KBikeBoostChargeLimit
     public const uint KBikeBoostChargeLimit = 0xF64719D9; // U32 Steps to charge bike boost, starts at 128 -> 64 when fully upgraded
     public const uint KEggHatchCycleSteps = 0x6C99F9A0; // U16 Current step counter for an egg cycle, 0-127
     public const uint KFriendshipWalkSteps = 0xE2798DDE; // U8 Current step counter for party to gain friendship, 0-127
+
+    // Dojo Watt Donations
+    public const uint KDojoWattDonationProgress = 0x0CBEB855; // U32 Progress of Watt Donations 0-15; 15=Completed
+    public const uint KDojoWattDonationTotal = 0xC7161487; // U32 Amount of Watts donated to Master Dojo
 
     // Swords Of Justice
     public const uint KStorySoniaCTQuestStatus = 0x4DBB9B79; // U32 Swords of Justice Quest status. Values are 0=Can't Start, 10=Can Start, 20=Camera Highlights Cobalion Footprints, 30=In Progress

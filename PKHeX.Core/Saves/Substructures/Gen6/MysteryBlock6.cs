@@ -2,57 +2,29 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class MysteryBlock6 : SaveBlock<SAV6>
+public sealed class MysteryBlock6 : SaveBlock<SAV6>, IMysteryGiftFlags, IMysteryGiftStorage
 {
     private const int FlagStart = 0;
     private const int MaxReceivedFlag = 2048;
     private const int MaxCardsPresent = 24;
     // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
     private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
+    public void ClearReceivedFlags() => Data[..(MaxReceivedFlag / 8)].Clear();
 
-    public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public MysteryBlock6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
+    public MysteryBlock6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
-    public bool[] GetReceivedFlags() => FlagUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
-
-    public void SetReceivedFlags(ReadOnlySpan<bool> value)
+    private static int GetGiftOffset(int index)
     {
-        if (value.Length != MaxReceivedFlag)
-            return;
-        FlagUtil.SetBitFlagArray(Data.AsSpan(Offset + FlagStart), value);
-        SAV.State.Edited = true;
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxCardsPresent);
+        return CardStart + (index * WC6.Size);
     }
 
-    public DataMysteryGift[] GetGifts()
-    {
-        var cards = new DataMysteryGift[MaxCardsPresent];
-        for (int i = 0; i < cards.Length; i++)
-            cards[i] = GetGift(i);
-        return cards;
-    }
+    private Span<byte> GetCardSpan(int index) => Data.Slice(GetGiftOffset(index), WC6.Size);
 
-    public void SetGifts(DataMysteryGift[] value)
-    {
-        int count = Math.Min(MaxCardsPresent, value.Length);
-        for (int i = 0; i < count; i++)
-            SetGift(value[i], i);
-        for (int i = value.Length; i < MaxCardsPresent; i++)
-            SetGift(new WC6(), i);
-    }
+    public WC6 GetMysteryGift(int index) => new(GetCardSpan(index).ToArray());
 
-    public DataMysteryGift GetGift(int index)
-    {
-        if ((uint)index > MaxCardsPresent)
-            throw new ArgumentOutOfRangeException(nameof(index));
-
-        var offset = GetGiftOffset(index);
-        var data = SAV.Data.AsSpan(offset, WC6.Size).ToArray();
-        return new WC6(data);
-    }
-
-    private int GetGiftOffset(int index) => Offset + CardStart + (index * WC6.Size);
-
-    public void SetGift(DataMysteryGift wc6, int index)
+    public void SetMysteryGift(int index, WC6 wc6)
     {
         if ((uint)index > MaxCardsPresent)
             throw new ArgumentOutOfRangeException(nameof(index));
@@ -69,6 +41,23 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
             info.EnableSendEon();
         }
 
-        SAV.SetData(wc6.Data, GetGiftOffset(index));
+        SAV.SetData(GetCardSpan(index), wc6.Data);
     }
+
+    public int MysteryGiftReceivedFlagMax => MaxReceivedFlag;
+    public bool GetMysteryGiftReceivedFlag(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        return FlagUtil.GetFlag(Data, index); // offset 0
+    }
+
+    public void SetMysteryGiftReceivedFlag(int index, bool value)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        FlagUtil.SetFlag(Data, index, value); // offset 0
+    }
+
+    public int GiftCountMax => MaxCardsPresent;
+    DataMysteryGift IMysteryGiftStorage.GetMysteryGift(int index) => GetMysteryGift(index);
+    void IMysteryGiftStorage.SetMysteryGift(int index, DataMysteryGift gift) => SetMysteryGift(index, (WC6)gift);
 }

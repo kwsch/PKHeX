@@ -7,7 +7,7 @@
 007	エステリ	Estelí	Estelí	Estelí	Estelí	Estelí	埃斯特利省	에스텔리	埃斯特利省
 008	グラナダ	Granada	Granada	Granada	Granada	Granada	格拉纳达省	그라나다	格拉納達省
 009	ヒノテガ	Jinotega	Jinotega	Jinotega	Jinotega	Jinotega	希诺特加省	히노테가	希諾特加省
-010	レオン	León	León	León	León	León	莱昂省	레온 주	萊昂省
+010	レオン	León	León	León	León	León	莱昂省	레온	萊昂省
 011	マドリス	Madriz	Madriz	Madriz	Madriz	Madriz	马德里斯省	마드리스	馬德裏斯省
 012	マサヤ	Masaya	Masaya	Masaya	Masaya	Masaya	马萨亚省	마사야	馬薩亞省
 013	マタガルパ	Matagalpa	Matagalpa	Matagalpa	Matagalpa	Matagalpa	马塔加尔帕省	마타갈파	馬塔加爾帕省

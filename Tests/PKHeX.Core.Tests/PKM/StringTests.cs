@@ -10,7 +10,7 @@ public class StringTests
     public void EncodesOTNameCorrectly()
     {
         const string name_fabian = "Fabian♂";
-        var pk = new PK7 { OT_Name = name_fabian };
+        var pk = new PK7 { OriginalTrainerName = name_fabian };
         Span<byte> byte_fabian =
         [
             0x46, 0x00, // F
@@ -22,7 +22,7 @@ public class StringTests
             0x8E, 0xE0, // ♂
             0x00, 0x00, // \0 terminator
         ];
-        CheckStringGetSet(nameof(pk.OT_Name), name_fabian, pk.OT_Name, byte_fabian, pk.OT_Trash);
+        CheckStringGetSet(nameof(pk.OriginalTrainerName), name_fabian, pk.OriginalTrainerName, byte_fabian, pk.OriginalTrainerTrash);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class StringTests
             0x40, 0x26, // ♀
             0x00, 0x00, // \0 terminator
         ];
-        CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.Nickname_Trash);
+        CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.NicknameTrash);
     }
 
     private static void CheckStringGetSet(string check, string instr, string outstr, ReadOnlySpan<byte> indata, ReadOnlySpan<byte> outdata)
@@ -82,5 +82,28 @@ public class StringTests
         var len = StringConverter12.SetString(b12, g12, g12.Length, true);
         var result = StringConverter12Transporter.GetString(b12[..len], true);
         result.Should().Be(g7);
+    }
+
+    [Theory]
+    [InlineData(Species.MrMime, "MR․MIME")]
+    public static void ConvertStringG1(Species species, string expect)
+    {
+        const bool jp = false;
+        const int lang = (int)LanguageID.English;
+        // Ensure the API returns the correct Generation 1 name string.
+        var name = SpeciesName.GetSpeciesNameGeneration((ushort)species, lang, 1);
+        name.Should().Be(expect);
+
+        // Ensure the API converts it back and forth correctly.
+        Span<byte> convert = stackalloc byte[expect.Length + 1];
+        var len = StringConverter12.SetString(convert, name, name.Length, jp);
+        len.Should().Be(expect.Length + 1);
+        var gen1Name = StringConverter12.GetString(convert, jp);
+        gen1Name.Should().Be(expect);
+
+        // Truncated name transferred with Virtual Console rules isn't the same as the Generation 7 name.
+        var vcName = StringConverter12Transporter.GetString(convert[..len], jp);
+        var gen7Name = SpeciesName.GetSpeciesNameGeneration((ushort)species, lang, 7);
+        vcName.Should().NotBe(gen7Name);
     }
 }

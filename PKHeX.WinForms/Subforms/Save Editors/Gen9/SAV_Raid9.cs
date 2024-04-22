@@ -12,20 +12,26 @@ public partial class SAV_Raid9 : Form
     private readonly SAV9SV SAV;
     private readonly RaidSpawnList9 Raids;
 
-    public SAV_Raid9(SaveFile sav, RaidSpawnList9 raid)
+    public SAV_Raid9(SAV9SV sav, TeraRaidOrigin raidOrigin)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV9SV)(Origin = sav).Clone();
-        Raids = raid;
-        CB_Raid.Items.AddRange(Enumerable.Range(1, raid.CountUsed).Select(z => (object)$"Raid {z:000}").ToArray());
+        Raids = raidOrigin switch
+        {
+            TeraRaidOrigin.Paldea => SAV.RaidPaldea,
+            TeraRaidOrigin.Kitakami => SAV.RaidKitakami,
+            TeraRaidOrigin.BlueberryAcademy => SAV.RaidBlueberry,
+            _ => throw new ArgumentOutOfRangeException($"Raid Origin {raidOrigin} is not valid for Scarlet and Violet")
+        };
+        CB_Raid.Items.AddRange(Enumerable.Range(1, Raids.CountUsed).Select(z => (object)$"Raid {z:000}").ToArray());
         CB_Raid.SelectedIndex = 0;
-        LoadSeeds(raid);
+        LoadSeeds();
     }
 
-    private void LoadSeeds(RaidSpawnList9 raid)
+    private void LoadSeeds()
     {
-        if (raid.HasSeeds)
+        if (Raids.HasSeeds)
         {
             TB_SeedToday.Text = Raids.CurrentSeed.ToString("X16");
             TB_SeedTomorrow.Text = Raids.TomorrowSeed.ToString("X16");
@@ -44,15 +50,11 @@ public partial class SAV_Raid9 : Form
 
     private void LoadRaid(int index) => PG_Raid.SelectedObject = Raids.GetRaid(index);
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        // We've been editing the original save file blocks. Restore the clone's data.
-        Origin.CopyChangesFrom(SAV);
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
+        Origin.CopyChangesFrom(SAV);
         ValidateChildren();
         Validate();
         Close();

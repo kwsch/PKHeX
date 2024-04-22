@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 2 <see cref="SaveFile"/> object.
 /// </summary>
-public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>
+public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>, IBoxDetailName, IDaycareStorage, IDaycareEggState
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => ".sav";
@@ -115,12 +115,10 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         {
             int offset = Offsets.Daycare;
 
-            DaycareFlags[0] = Data[offset];
             offset++;
             var pk1 = ReadPKMFromOffset(offset); // parent 1
             var daycare1 = new PokeList2(pk1);
             offset += (StringLength * 2) + 0x20; // nick/ot/pk
-            DaycareFlags[1] = Data[offset];
             offset++;
             //byte steps = Data[offset];
             offset++;
@@ -136,12 +134,10 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             daycare1.Write().CopyTo(Data, GetPartyOffset(7 + (0 * 2)));
             daycare2.Write().CopyTo(Data, GetPartyOffset(7 + (1 * 2)));
             daycare3.Write().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
-            DaycareOffset = Offsets.Daycare;
         }
-
-        // Enable Pokedex editing
-        PokeDex = 0;
     }
+
+    public override bool HasPokeDex => true;
 
     private int EventFlag => Offsets.EventFlag;
     private int EventWork => Offsets.EventWork;
@@ -156,8 +152,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
         var nick = span[..stringLength];
         var ot = span.Slice(stringLength, stringLength);
-        nick.CopyTo(pk.Nickname_Trash);
-        ot.CopyTo(pk.OT_Trash);
+        nick.CopyTo(pk.NicknameTrash);
+        ot.CopyTo(pk.OriginalTrainerTrash);
 
         return pk;
     }
@@ -270,7 +266,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxAbilityID => Legal.MaxAbilityID_2;
     public override int MaxItemID => Legal.MaxItemID_2;
     public override int MaxBallID => 0; // unused
-    public override int MaxGameID => 99; // unused
+    public override GameVersion MaxGameID => GameVersion.Gen2; // unused
     public override int MaxMoney => 999999;
     public override int MaxCoins => 9999;
 
@@ -282,15 +278,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int BoxCount => Japanese ? 9 : 14;
     public override int MaxEV => EffortValues.Max12;
     public override int MaxIV => 15;
-    public override int Generation => 2;
+    public override byte Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;
-    protected override int GiftCountMax => 0;
     public override int MaxStringLengthOT => Japanese || Korean ? 5 : 7;
     public override int MaxStringLengthNickname => Japanese || Korean ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
     public override bool HasParty => true;
-    public override bool HasNamableBoxes => true;
     private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
 
     // Checksums
@@ -327,7 +321,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Trainer Info
-    public override GameVersion Version { get; protected set; }
+    public override GameVersion Version { get; set; }
 
     public override string OT
     {
@@ -335,7 +329,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT), value, 8, StringConverterOption.Clear50);
     }
 
-    public Span<byte> OT_Trash
+    public Span<byte> OriginalTrainerTrash
     {
         get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength);
         set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
@@ -353,16 +347,22 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); }
     }
 
-    public override int Gender
+    public override byte Gender
     {
-        get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
+        get => Version == GameVersion.C ? Data[Offsets.Gender] : (byte)0;
         set
         {
             if (Version != GameVersion.C)
                 return;
-            Data[Offsets.Gender] = (byte) value;
-            Data[Offsets.Palette] = (byte) value;
+            Data[Offsets.Gender] = value;
+            Data[Offsets.Palette] = value;
         }
+    }
+
+    public byte Palette
+    {
+        get => Data[Offsets.Palette];
+        set => Data[Offsets.Palette] = value;
     }
 
     public override uint ID32
@@ -529,14 +529,14 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public bool MysteryGiftIsUnlocked
+    public bool IsMysteryGiftUnlocked
     {
         get
         {
             int ofs = Offsets.MysteryGiftIsUnlocked;
             if (ofs == -1)
                 return false;
-            return Data[ofs] == 0x00;
+            return (sbyte)Data[ofs] >= 0x00; // -1 is disabled; [0,5] is unlocked
         }
         set
         {
@@ -567,12 +567,36 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => value.SaveAll(Data);
     }
 
-    private readonly byte[] DaycareFlags = new byte[2];
-    public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + (slot * 2));
-    public override uint? GetDaycareEXP(int loc, int slot) => null;
-    public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlags[slot] & 1) != 0;
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
+    public ref byte DaycareFlagByte(int index)
+    {
+        var offset = GetDaycareOffset(index);
+        return ref Data[offset];
+    }
+
+    private int GetDaycareOffset(int index)
+    {
+        int offset = Offsets.Daycare;
+        if (index != 0)
+            offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED + 1;
+        return offset;
+    }
+
+    public int DaycareSlotCount => 2;
+    private int GetDaycareSlotOffset(int slot) => GetPartyOffset(7 + (slot * 2));
+    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(GetDaycareSlotOffset(slot), SIZE_STORED);
+    public Memory<byte> GetDaycareEgg() => Data.AsMemory(GetDaycareSlotOffset(2), SIZE_STORED);
+    public bool IsDaycareOccupied(int slot) => (DaycareFlagByte(slot) & 1) != 0;
+
+    public void SetDaycareOccupied(int slot, bool occupied)
+    {
+        if (occupied)
+            DaycareFlagByte(slot) |= 1;
+        else
+            DaycareFlagByte(slot) &= 0xFE;
+    }
+
+    // bit 6 of the first flag byte
+    public bool IsEggAvailable { get => (DaycareFlagByte(0) & 0x40) != 0; set => DaycareFlagByte(0) = (byte)((DaycareFlagByte(0) & 0xBF) | (value ? 0x40 : 0)); }
 
     // Storage
     public override int PartyCount
@@ -602,7 +626,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
     }
 
-    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+    public string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
     private Span<byte> GetBoxNameSpan(int box)
     {
@@ -610,7 +634,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return Data.AsSpan(Offsets.BoxNames + (box * len), len);
     }
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = GetBoxNameSpan(box);
         SetString(span, value, 8, StringConverterOption.Clear50);

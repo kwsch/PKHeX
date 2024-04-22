@@ -9,7 +9,7 @@
 009	セント・メリー・ケーヨン	Saint Mary Cayon	Saint Mary Cayon	Saint Mary Cayon	Saint Mary Cayon	Saint Mary Cayon	圣玛丽卡永区	세인트메리케이언	聖瑪麗卡永區
 010	セント・ポール・カピステール	Saint Paul Capesterre	Saint Paul Capesterre	Saint Paul Capisterre	Saint Paul Capisterre	Saint Paul Capesterre	圣保罗卡皮斯特尔区	세인트폴카페스테르	聖保羅卡皮斯特爾區
 011	セント・ポール・チャールズタウン	Saint Paul Charlestown	Saint Paul Charlestown	Saint Paul Charlestown	Saint Paul Charlestown	Saint Paul Charlestown	圣保罗查尔斯敦区	세인트폴찰스타운	聖保羅查爾斯敦區
-012	セント・ピーター・バセテール	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	圣彼得巴斯特尔区	세인트폴바스테르	聖彼得巴斯特爾區
+012	セント・ピーター・バセテール	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	圣彼得巴斯特尔区	세인트피터바스테르	聖彼得巴斯特爾區
 013	セント・トーマス・ロウランド	Saint Thomas Lowland	Saint Thomas Lowland	Saint Thomas Lowland	Saint Thomas Lowland	Saint Thomas Lowland	圣托马斯洛兰区	세인트토머스롤랜드	聖託馬斯洛蘭區
 014	セント・トーマス・ミドルアイランド	Saint Thomas Middle Island	Saint Thomas Middle Island	Saint Thomas Middle Island	Saint Thomas Middle Island	Saint Thomas Middle Island	圣托马斯米德尔艾兰区	세인트토머스미들아일랜드	聖託馬斯米德爾艾蘭區
 015	トリニティ・パルメット・ポイント	Trinity Palmetto Point	Trinity Palmetto Point	Trinity Palmetto Point	Trinity Palmetto Point	Trinity Palmetto Point	特里尼蒂帕尔梅托波因特区	트리니티팰머토포인트	特裏尼蒂帕爾梅託波因特區

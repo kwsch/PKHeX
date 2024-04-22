@@ -23,14 +23,14 @@ public partial class MoveDisplay : UserControl
         var name = moves[move];
         if (move == (int)Core.Move.HiddenPower && pk.Context is not EntityContext.Gen8a)
         {
-            type = (byte)pk.HPType;
-            name = $"{name} ({GameInfo.Strings.types[type]}) [{pk.HPPower}]";
+            if (HiddenPower.TryGetTypeIndex(pk.HPType, out type))
+                name = $"{name} ({GameInfo.Strings.types[type]}) [{pk.HPPower}]";
         }
 
         var size = PokePreview.MeasureSize(name, L_Move.Font);
         var ctrlWidth = PB_Type.Width + PB_Type.Margin.Horizontal + size.Width + L_Move.Margin.Horizontal;
 
-        PB_Type.Image = TypeSpriteUtil.GetTypeSpriteIcon(type);
+        PB_Type.Image = TypeSpriteUtil.GetTypeSpriteIconSmall(type);
         L_Move.Text = name;
         if (valid)
             L_Move.ResetForeColor();

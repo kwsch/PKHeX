@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LearnGroup7 : ILearnGroup
 {
     public static readonly LearnGroup7 Instance = new();
-    private const int Generation = 7;
+    private const byte Generation = 7;
     public ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
@@ -47,11 +47,11 @@ public sealed class LearnGroup7 : ILearnGroup
                 continue;
             var move = current[i];
             if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.EggMove);
+                result[i] = new(LearnMethod.EggMove, inst.Environment);
             else if (levelMoves.Contains(move))
-                result[i] = new(LearnMethod.InheritLevelUp);
+                result[i] = new(LearnMethod.InheritLevelUp, inst.Environment);
             else if (move is (int)Move.VoltTackle && egg.CanHaveVoltTackle)
-                result[i] = new(LearnMethod.SpecialEgg);
+                result[i] = new(LearnMethod.SpecialEgg, inst.Environment);
         }
     }
 

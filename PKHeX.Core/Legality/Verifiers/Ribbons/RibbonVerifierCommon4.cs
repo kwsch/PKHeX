@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon4
 {
-    public static void Parse(this IRibbonSetCommon4 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon4 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         var evos = args.History;

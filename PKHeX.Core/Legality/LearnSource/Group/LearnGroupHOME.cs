@@ -54,6 +54,10 @@ public sealed class LearnGroupHOME : ILearnGroup
             if (CleanPurge(result, current, pk, types, local, evos))
                 return true;
         }
+
+        // Ignore Battle Version generally; can be transferred back to SW/SH and wiped after the moves have been shared from HOME.
+        // Battle Version is only relevant while in PK8 format, as a wiped moveset can no longer harbor external moves for that format.
+        // SW/SH is the only game that can ever harbor external moves, and is the only game that uses Battle Version.
         if (TryAddOriginalMoves(result, current, pk, enc))
         {
             if (CleanPurge(result, current, pk, types, local, evos))
@@ -67,10 +71,9 @@ public sealed class LearnGroupHOME : ILearnGroup
                 return true;
         }
 
-        // Ignore Battle Version; can be transferred back to SW/SH and wiped after the moves have been shared from HOME
-
         if (history.HasVisitedLGPE)
         {
+            // PK8 w/ Battle Version can be ignored, as LGP/E has separate HOME data.
             var instance = LearnGroup7b.Instance;
             instance.Check(result, current, pk, history, enc, types, option);
             if (CleanPurge(result, current, pk, types, local, evos))
@@ -78,6 +81,8 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
         else if (history.HasVisitedGen7)
         {
+            if (IsWipedPK8(pk))
+                return false; // Battle Version wiped Gen7 and below moves.
             ILearnGroup instance = LearnGroup7.Instance;
             while (true)
             {
@@ -92,6 +97,8 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
         return false;
     }
+
+    private static bool IsWipedPK8(PKM pk) => pk is PK8 { BattleVersion: GameVersion.SW or GameVersion.SH };
 
     /// <summary>
     /// Scan the results and remove any that are not valid for the game <see cref="local"/> game.
@@ -127,7 +134,10 @@ public sealed class LearnGroupHOME : ILearnGroup
             // HOME has special handling to allow Volt Tackle outside learnset possibilities.
             // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
             if (!valid && move is not (ushort)Move.VoltTackle)
-                r = default;
+            {
+                if (r.Generation >= 8 || local is not LearnSource8SWSH)
+                    r = default;
+            }
         }
 
         return MoveResult.AllParsed(result);
@@ -175,15 +185,20 @@ public sealed class LearnGroupHOME : ILearnGroup
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
+            if (enc is { Generation: <= 7, Context: not EntityContext.Gen7b } && IsWipedPK8(pk))
+                return false; // Battle Version wiped Gen7 and below moves.
             Span<ushort> moves = stackalloc ushort[4];
             x.CopyTo(moves);
-            return AddOriginalMoves(result, current, moves, enc.Generation);
+            var ls = GameData.GetLearnSource(enc.Version);
+            return AddOriginalMoves(result, current, moves, ls.Environment);
         }
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
+            if (g8.OriginFormat is PogoImportFormat.PK7 && IsWipedPK8(pk))
+                return false; // Battle Version wiped Gen7 and below moves.
             Span<ushort> moves = stackalloc ushort[4];
-            g8.GetInitialMoves(pk.Met_Level, moves);
-            return AddOriginalMoves(result, current, moves, g8.Generation);
+            g8.GetInitialMoves(pk.MetLevel, moves);
+            return AddOriginalMoves(result, current, moves, g8.OriginFormat == PogoImportFormat.PK7 ? LearnEnvironment.USUM : LearnEnvironment.GG);
         }
         return false;
     }
@@ -199,7 +214,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
             Span<ushort> moves = stackalloc ushort[4];
-            g8.GetInitialMoves(pk.Met_Level, moves);
+            g8.GetInitialMoves(pk.MetLevel, moves);
             AddOriginalMoves(result, pk, evos, types, local, moves);
         }
     }
@@ -308,7 +323,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, int generation)
+    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, LearnEnvironment game)
     {
         bool addedAny = false;
         foreach (var move in moves)
@@ -321,7 +336,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             if (result[index].Valid)
                 continue;
 
-            result[index] = MoveResult.Initial with { Generation = (byte)generation };
+            result[index] = MoveResult.Initial(game);
             addedAny = true;
         }
         return addedAny;

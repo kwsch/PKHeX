@@ -17,24 +17,23 @@ public sealed class PokedexSaveData
 
     public const int STATISTICS_ENTRIES_MAX = 1480;
 
-    public PokedexSaveData(byte[] data)
+    public PokedexSaveData(Memory<byte> data)
     {
-        if (data.Length != POKEDEX_SAVE_DATA_SIZE)
-            throw new ArgumentException($"Unexpected {nameof(PokedexSaveData)} block size!");
+        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, POKEDEX_SAVE_DATA_SIZE);
 
-        GlobalData = new PokedexSaveGlobalData(data, 0);
+        GlobalData = new PokedexSaveGlobalData(data[..PokedexSaveGlobalData.SIZE]);
 
         LocalData = new PokedexSaveLocalData[5];
         for (var i = 0; i < LocalData.Length; i++)
-            LocalData[i] = new PokedexSaveLocalData(data, 0x10 + (0x10 * i));
+            LocalData[i] = new PokedexSaveLocalData(data.Slice(0x10 + (PokedexSaveLocalData.SIZE * i), PokedexSaveLocalData.SIZE));
 
         ResearchEntries = new PokedexSaveResearchEntry[PokedexSave8a.MAX_SPECIES];
         for (var i = 0; i < ResearchEntries.Length; i++)
-            ResearchEntries[i] = new PokedexSaveResearchEntry(data, 0x70 + (0x58 * i));
+            ResearchEntries[i] = new PokedexSaveResearchEntry(data.Slice(0x70 + (0x58 * i), PokedexSaveResearchEntry.SIZE));
 
         StatisticsEntries = new PokedexSaveStatisticsEntry[STATISTICS_ENTRIES_MAX];
         for (var i = 0; i < StatisticsEntries.Length; i++)
-            StatisticsEntries[i] = new PokedexSaveStatisticsEntry(data, 0x151A8 + (0x18 * i));
+            StatisticsEntries[i] = new PokedexSaveStatisticsEntry(data.Slice(0x151A8 + (PokedexSaveStatisticsEntry.SIZE * i), PokedexSaveStatisticsEntry.SIZE));
     }
 
     public bool IsPokedexCompleted(PokedexType8a which) => (GlobalData.Flags & (which < PokedexType8a.Count ? (1 << (int)which) : 1)) != 0;

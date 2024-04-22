@@ -47,9 +47,10 @@ public sealed class EvolutionReversePersonal(EvolutionMethod[][] Entries, IPerso
         yield return (s.Species, s.Form);
     }
 
-    public bool TryDevolve<T>(T head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
+    public bool TryDevolve<T>(T head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak, out EvoCriteria result)
+        where T : ISpeciesForm
     {
         ref readonly var node = ref Lineage[head.Species, head.Form];
-        return node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, tweak, out result);
     }
 }

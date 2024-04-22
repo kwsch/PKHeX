@@ -28,6 +28,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
 
     private byte[] Footer = []; // .dsv
     private byte[] Header = []; // .gci
+    private ISaveHandler? Handler;
 
     private string BAKSuffix => $" [{SAV.ShortSummary}].bak";
 
@@ -53,19 +54,22 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     public byte[] Finalize(byte[] data, BinaryExportSetting setting)
     {
         if (Footer.Length > 0 && setting.HasFlag(BinaryExportSetting.IncludeFooter))
-            return [..data, ..Footer];
+            data = [..data, ..Footer];
         if (Header.Length > 0 && setting.HasFlag(BinaryExportSetting.IncludeHeader))
-            return [..Header, ..data];
+            data = [..Header, ..data];
+        if (setting != BinaryExportSetting.None)
+            Handler?.Finalize(data);
         return data;
     }
 
     /// <summary>
     /// Sets the details of any trimmed header and footer arrays to a <see cref="SaveFile"/> object.
     /// </summary>
-    public void SetExtraInfo(byte[] header, byte[] footer)
+    public void SetExtraInfo(byte[] header, byte[] footer, ISaveHandler handler)
     {
         Header = header;
         Footer = footer;
+        Handler = handler;
     }
 
     /// <summary>
@@ -128,7 +132,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
         var flags = BinaryExportSetting.None;
         if (ext == ".dsv")
             flags |= BinaryExportSetting.IncludeFooter;
-        if (ext == ".gci" || SAV is IGCSaveFile {MemoryCard: null})
+        if (ext == ".gci" || SAV is IGCSaveFile {MemoryCard: null} || ext == ".sram")
             flags |= BinaryExportSetting.IncludeHeader;
         return flags;
     }

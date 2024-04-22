@@ -17,7 +17,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        var iterator = new EncounterEnumerator7(pk, chain, (GameVersion)pk.Version);
+        var iterator = new EncounterEnumerator7(pk, chain, pk.Version);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
@@ -25,7 +25,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
     internal static EncounterTransfer7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
     {
         // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
-        var met = (byte)pk.Met_Level;
+        var met = pk.MetLevel;
         if (pk.VC1)
         {
             // Only yield a VC1 template if it could originate in VC1.
@@ -43,7 +43,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
     }
 
     /// <summary>
-    /// Get the most devolved species that matches the <see cref="pk"/> <see cref="PKM.OT_Friendship"/>.
+    /// Get the most devolved species that matches the <see cref="pk"/> <see cref="PKM.OriginalTrainerFriendship"/>.
     /// </summary>
     private static ushort GetVCSpecies(ReadOnlySpan<EvoCriteria> chain, PKM pk, ushort maxSpecies)
     {
@@ -54,14 +54,14 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
                 continue;
             if (evo.Form != 0)
                 continue;
-            if (PersonalTable.SM.GetFormEntry(evo.Species, evo.Form).BaseFriendship != pk.OT_Friendship)
+            if (PersonalTable.SM.GetFormEntry(evo.Species, evo.Form).BaseFriendship != pk.OriginalTrainerFriendship)
                 continue;
             return evo.Species;
         }
         return pk.Species;
     }
 
-    private const int Generation = 7;
+    private const byte Generation = 7;
     private const EntityContext Context = EntityContext.Gen7;
     private const byte EggLevel = EggStateLegality.EggMetLevel;
 
@@ -118,7 +118,9 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         // 32 -> 30 (US -> SN)
         // 33 -> 31 (UM -> MN)
         // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+#pragma warning disable RCS1130 // Bitwise operation on enum without Flags attribute.
         return version ^ (GameVersion)0b111110;
+#pragma warning restore RCS1130 // Bitwise operation on enum without Flags attribute.
     }
 
     private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)

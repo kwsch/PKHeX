@@ -1,4 +1,6 @@
 using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -33,7 +35,7 @@ public static class StringConverter8
             var value = ReadUInt16LittleEndian(data[i..]);
             if (value == TerminatorNull)
                 break;
-            result[i/2] = StringConverter.SanitizeChar((char)value);
+            result[i/2] = (char)value;
         }
         return i/2;
     }
@@ -53,19 +55,86 @@ public static class StringConverter8
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
 
-        bool isFullWidth = StringConverter.GetIsFullWidthString(value);
-        for (int i = 0; i < value.Length; i++)
-        {
-            char c = value[i];
-            if (!isFullWidth)
-                c = StringConverter.UnSanitizeChar(c);
-            WriteUInt16LittleEndian(destBuffer[(i * 2)..], c);
-        }
+        WriteCharacters(destBuffer, value);
 
         int count = value.Length * 2;
         if (count == destBuffer.Length)
             return count;
         WriteUInt16LittleEndian(destBuffer[count..], TerminatorNull);
         return count + 2;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void WriteCharacters(Span<byte> destBuffer, ReadOnlySpan<char> value)
+    {
+        if (BitConverter.IsLittleEndian)
+        {
+            var u16 = MemoryMarshal.Cast<char, byte>(value);
+            u16.CopyTo(destBuffer);
+            return;
+        }
+        for (int i = 0; i < value.Length; i++)
+            WriteUInt16LittleEndian(destBuffer[(i * 2)..], value[i]);
+    }
+
+    /// <summary>
+    /// Applies the under string to the top string, if possible.
+    /// </summary>
+    /// <param name="top">Displayed string</param>
+    /// <param name="under">Previous string</param>
+    /// <returns>Indication of the under string's presence.</returns>
+    public static TrashMatch ApplyTrashBytes(Span<byte> top, ReadOnlySpan<char> under)
+    {
+        var index = TrashBytes.GetStringLength(top);
+        if (index == -1)
+            return TrashMatch.Skipped;
+        index++; // hop over the terminator
+        if (index >= under.Length) // Overlapping
+            return TrashMatch.TooLongToTell;
+
+        var src = under[index..];
+        var dest = top[(index * 2)..];
+        SetString(dest, src, src.Length, StringConverterOption.None);
+        return TrashMatch.Present;
+    }
+
+    /// <summary>
+    /// Checks the displayed top string against the under string to see if the under is present.
+    /// </summary>
+    /// <param name="top">Displayed string</param>
+    /// <param name="under">Previous string</param>
+    /// <returns>Indication of the under string's presence.</returns>
+    public static TrashMatch GetTrashState(ReadOnlySpan<byte> top, ReadOnlySpan<char> under)
+    {
+        if (under.Length == 0)
+            return TrashMatch.Skipped;
+
+        var index = TrashBytes.GetStringLength(top);
+        if ((uint)index >= under.Length)
+            return TrashMatch.TooLongToTell;
+        index++; // hop over the terminator
+
+        return GetTrashState(top, under, index);
+    }
+
+    private static TrashMatch GetTrashState(ReadOnlySpan<byte> top, ReadOnlySpan<char> under, int index)
+    {
+        // Adjust our spans to the relevant sections
+        under = under[index..];
+        var relevantSection = top[(index * 2)..];
+        bool check = IsEqualsEncoded(relevantSection, under);
+        return check ? TrashMatch.Present : TrashMatch.NotPresent;
+    }
+
+    private static bool IsEqualsEncoded(ReadOnlySpan<byte> relevantSection, ReadOnlySpan<char> under)
+    {
+        if (BitConverter.IsLittleEndian)
+        {
+            var u16 = MemoryMarshal.Cast<char, byte>(under);
+            return relevantSection.SequenceEqual(u16);
+        }
+        Span<byte> expect = stackalloc byte[relevantSection.Length];
+        WriteCharacters(expect, under);
+        return relevantSection.SequenceEqual(expect);
     }
 }

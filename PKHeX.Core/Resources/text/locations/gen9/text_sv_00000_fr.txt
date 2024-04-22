@@ -169,3 +169,33 @@ Terres Vierges de Septentria
 Val Infernal
 Mont Strueux
 Grotte Douche Froide
+
+Institut Myrtille
+
+Zone Savane
+
+Zone Côtière
+
+Zone Canyon
+
+Zone Polaire
+
+Poste Central
+
+Poste Savane
+
+Poste Côtier
+
+Poste Canyon
+
+Poste Polaire
+
+Caverne Électrolithe
+
+Dédale des Torches
+
+Abîme Zéro
+
+Abîme Zéro
+
+Terra-Dôme

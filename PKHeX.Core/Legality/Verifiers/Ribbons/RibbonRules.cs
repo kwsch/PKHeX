@@ -50,8 +50,8 @@ public static class RibbonRules
         { HasVisitedBDSP: true } => true, // Max Friendship
         { HasVisitedGen9: true } => true, // Max Friendship
 
-        { HasVisitedGen6: true } when pk is not PK6 { IsUntraded: true, OT_Affection: < 255 } => true,
-        { HasVisitedGen7: true } when pk is not PK7 { IsUntraded: true, OT_Affection: < 255 } => true,
+        { HasVisitedGen6: true } when pk is not PK6 { IsUntraded: true, OriginalTrainerAffection: < 255 } => true,
+        { HasVisitedGen7: true } when pk is not PK7 { IsUntraded: true, OriginalTrainerAffection: < 255 } => true,
         _ => false,
     };
 
@@ -69,7 +69,7 @@ public static class RibbonRules
             return false;
 
         // Gen6/7: Increase level by 30 from original level
-        static bool IsWellTraveled30(PKM pk) => pk.CurrentLevel - pk.Met_Level >= 30;
+        static bool IsWellTraveled30(PKM pk) => pk.CurrentLevel - pk.MetLevel >= 30;
         if ((evos.HasVisitedGen6 || evos.HasVisitedGen7) && IsWellTraveled30(pk))
             return true;
 
@@ -94,7 +94,7 @@ public static class RibbonRules
             return true;
 
         // Legendaries can not compete in ranked yet.
-        if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(pk))
+        if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(enc))
             return true;
 
         return false;
@@ -127,8 +127,6 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
     {
         var species = pk.Species;
-        if (species is (int)WalkingWake or (int)IronLeaves)
-            return false;
         if (species is (int)Greninja)
             return pk.Form == 0; // Disallow Ash-Greninja
         if (SpeciesCategory.IsLegendary(species))
@@ -176,7 +174,7 @@ public static class RibbonRules
 
         // Can only obtain if the current level on receiving the ribbon is <= level 50.
         if (pk.Format == 3) // Stored value is not yet overwritten (G3->G4), check directly.
-            return pk.Met_Level <= 50;
+            return pk.MetLevel <= 50;
 
         // Most encounter types can be below level 50; only Shadow Dragonite & Tyranitar, and select Gen3 Event Gifts.
         // These edge cases can't be obtained below level 50, unlike some wild Pokémon which can be encountered at different locations for lower levels.

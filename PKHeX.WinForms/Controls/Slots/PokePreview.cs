@@ -67,7 +67,7 @@ public partial class PokePreview : Form
 
     private void PopulateBall(PKM pk)
     {
-        int ball = (int)Ball.Poke;
+        var ball = (byte)Ball.Poke;
         if (pk.Format >= 3)
             ball = pk.Ball;
         PB_Ball.Image = Drawing.PokeSprite.SpriteUtil.GetBallSprite(ball);
@@ -82,7 +82,7 @@ public partial class PokePreview : Form
         }
 
         var gender = pk.Gender;
-        if (gender > GenderImages.Length)
+        if (gender >= GenderImages.Length)
             gender = 2;
         PB_Gender.Image = GenderImages[gender];
     }

@@ -1,7 +1,22 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
+
+public enum SlotType6 : byte
+{
+    Standard = 0,
+    Grass = 1,
+    Surf = 2,
+    Old_Rod = 3,
+    Good_Rod = 4,
+    Super_Rod = 5,
+    Rock_Smash = 6,
+
+    Horde = 7,
+    FriendSafari = 8,
+}
 
 /// <summary>
 /// <see cref="GameVersion.XY"/> encounter area
@@ -12,11 +27,11 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     public GameVersion Version { get; }
 
     public readonly ushort Location;
-    public readonly SlotType Type;
+    public readonly SlotType6 Type;
 
-    public bool IsMatchLocation(int location) => Location == location;
+    public bool IsMatchLocation(ushort location) => Location == location;
 
-    public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, GameVersion game, EncounterArea6XY safari)
+    public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game, EncounterArea6XY safari)
     {
         int count = input.Length;
         var result = new EncounterArea6XY[count + 1];
@@ -29,19 +44,19 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     public EncounterArea6XY()
     {
         Location = 148; // Friend Safari
-        Type = SlotType.FriendSafari;
+        Type = SlotType6.FriendSafari;
         Version = GameVersion.XY;
 
         Slots = LoadSafariSlots();
     }
 
-    private EncounterArea6XY(ReadOnlySpan<byte> data, GameVersion game)
+    private EncounterArea6XY(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         Location = ReadUInt16LittleEndian(data);
-        Type = (SlotType)data[2];
+        Type = (SlotType6)data[2];
         Version = game;
 
-        Slots = ReadSlots(data);
+        Slots = ReadSlots(data[4..]);
     }
 
     private EncounterSlot6XY[] LoadSafariSlots()
@@ -50,7 +65,7 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
         const byte Level = 30;
 
         // Single form species
-        var species = AllSpecies;
+        var species = AllFriendSafariSpecies;
         var slots = new EncounterSlot6XY[species.Length + SpeciesFormSlots];
         int i = 0;
         for (; i < species.Length; i++)
@@ -62,11 +77,15 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
         slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 3, Level, Level);
 
         // Region Random Vivillon
-        slots[i] = new EncounterSlot6XY(this, (int)Species.Vivillon, EncounterUtil1.FormVivillon, Level, Level);
+        slots[i] = new EncounterSlot6XY(this, (int)Species.Vivillon, EncounterUtil.FormVivillon, Level, Level);
         return slots;
     }
 
-    private static ReadOnlySpan<ushort> AllSpecies =>
+    /// <summary>
+    /// All species available in the Friend Safari.
+    /// </summary>
+    /// <remarks> Handle Vivillon (666) and Floette (670) separately </remarks>
+    private static ReadOnlySpan<ushort> AllFriendSafariSpecies =>
     [
         002, 005, 008, 012, 014, 016, 021, 025, 027, 035,
         038, 039, 043, 044, 046, 049, 049, 051, 056, 058,
@@ -88,18 +107,16 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
         657, 660, 662, 662, 668, 673, 674, 677, 682, 684,
         686, 689, 694, 701, 702, 702, 705, 707, 708, 710,
         712, 714,
-
-        // Handle Floette (670) and Vivillon (666) separately
     ];
 
     private EncounterSlot6XY[] ReadSlots(ReadOnlySpan<byte> data)
     {
         const int size = 4;
-        int count = (data.Length - 4) / size;
+        int count = data.Length / size;
         var slots = new EncounterSlot6XY[count];
         for (int i = 0; i < slots.Length; i++)
         {
-            int offset = 4 + (size * i);
+            int offset = size * i;
             var entry = data.Slice(offset, size);
             ushort species = ReadUInt16LittleEndian(entry);
             byte form = (byte)(species >> 11);

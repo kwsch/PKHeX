@@ -6,21 +6,21 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public byte Form => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public ushort Location => Parent.Location;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -34,19 +34,16 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)Version,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = Version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
-
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -54,18 +51,22 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
     }
 
     private void SetPINGA(PB7 pk, EncounterCriteria criteria, PersonalInfo7GG pi)
     {
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
+        pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
 
         criteria.SetRandomIVs(pk);
     }
@@ -75,7 +76,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level, 0, CatchComboBonus))
+        if (!this.IsLevelWithinRange(pk.MetLevel, 0, CatchComboBonus))
             return false;
         if (Form != evo.Form)
             return false;

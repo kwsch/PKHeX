@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using static PKHeX.Core.EncountersWC3;
 
 namespace PKHeX.Core;
@@ -106,6 +107,7 @@ public static class EncounterEvent
     /// <param name="paths">External folder(s) to source individual mystery gift template files from.</param>
     public static void RefreshMGDB(params string[] paths)
     {
+        // If no paths are provided, clear the arrays. See the bottom of this method.
         HashSet<PCD>? g4 = null; List<PCD>? lg4 = null;
         HashSet<PGF>? g5 = null; List<PGF>? lg5 = null;
         HashSet<WC6>? g6 = null; List<WC6>? lg6 = null;
@@ -127,25 +129,31 @@ public static class EncounterEvent
             {
                 var added = gift switch
                 {
-                    PCD pcd => AddOrExpand(ref g4, ref lg4, pcd, MGDB_G4),
-                    PGF pgf => AddOrExpand(ref g5, ref lg5, pgf, MGDB_G5),
-                    WC6 wc6 => AddOrExpand(ref g6, ref lg6, wc6, MGDB_G6),
-                    WC7 wc7 => AddOrExpand(ref g7, ref lg7, wc7, MGDB_G7),
-                    WB7 wb7 => AddOrExpand(ref b7, ref lb7, wb7, MGDB_G7GG),
-                    WC8 wc8 => AddOrExpand(ref g8, ref lg8, wc8, MGDB_G8),
-                    WB8 wb8 => AddOrExpand(ref b8, ref lb8, wb8, MGDB_G8B),
-                    WA8 wa8 => AddOrExpand(ref a8, ref la8, wa8, MGDB_G8A),
-                    WC9 wc9 => AddOrExpand(ref g9, ref lg9, wc9, MGDB_G9),
+                    PCD pcd => AddOrExpand(ref g4, ref lg4, pcd),
+                    PGF pgf => AddOrExpand(ref g5, ref lg5, pgf),
+                    WC6 wc6 => AddOrExpand(ref g6, ref lg6, wc6),
+                    WC7 wc7 => AddOrExpand(ref g7, ref lg7, wc7),
+                    WB7 wb7 => AddOrExpand(ref b7, ref lb7, wb7),
+                    WC8 wc8 => AddOrExpand(ref g8, ref lg8, wc8),
+                    WB8 wb8 => AddOrExpand(ref b8, ref lb8, wb8),
+                    WA8 wa8 => AddOrExpand(ref a8, ref la8, wa8),
+                    WC9 wc9 => AddOrExpand(ref g9, ref lg9, wc9),
                     _ => false,
                 };
                 if (!added)
                     Trace.WriteLine($"Failed to add gift in {Path.GetDirectoryName(path)}: {gift.FileName}");
 
-                static bool AddOrExpand<T>(ref HashSet<T>? arr, ref List<T>? extra, T obj, T[] master)
+                static bool AddOrExpand<T>(ref HashSet<T>? arr, ref List<T>? extra, T obj)
                 {
-                    arr ??= [..master];
+                    if (arr is null)
+                    {
+                        // Most users won't be adding more than 1-2 gifts
+                        // Save memory by initializing the HashSet and List minimally.
+                        arr = new HashSet<T>(1);
+                        extra = new List<T>(1);
+                    }
                     if (arr.Add(obj))
-                        (extra ??= []).Add(obj);
+                        extra!.Add(obj);
                     return true;
                 }
             }
@@ -158,12 +166,9 @@ public static class EncounterEvent
             EGDB_G8A = SetArray(la8);
             EGDB_G8B = SetArray(lb8);
             EGDB_G9 = SetArray(lg9);
-            static T[] SetArray<T>(List<T>? arr)
-            {
-                if (arr is null)
-                    return [];
-                return arr.ToArray();
-            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            static T[] SetArray<T>(List<T>? update) => update is null ? [] : update.ToArray();
         }
     }
 

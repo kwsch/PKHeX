@@ -19,10 +19,10 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
     private const int Unlocked = PCFlags + 1;                  // 0x43E;
     private const int LastViewedBoxOffset = Unlocked + 1;      // 0x43F;
 
-    public BoxLayout6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public BoxLayout6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public BoxLayout6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
+    public BoxLayout6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
-    public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
+    public int GetBoxWallpaperOffset(int box) => PCBackgrounds + box;
 
     public int GetBoxWallpaper(int box)
     {
@@ -38,41 +38,41 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
         Data[GetBoxWallpaperOffset(box)] = (byte)value;
     }
 
-    private int GetBoxNameOffset(int box) => Offset + (StringMaxByteCount * box);
+    private static int GetBoxNameOffset(int box) => (StringMaxByteCount * box);
 
-    public string GetBoxName(int box) => SAV.GetString(Data.AsSpan(GetBoxNameOffset(box), StringMaxByteCount));
+    public string GetBoxName(int box) => SAV.GetString(Data.Slice(GetBoxNameOffset(box), StringMaxByteCount));
 
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        var span = Data.AsSpan(GetBoxNameOffset(box) + (StringMaxByteCount * box), StringMaxByteCount);
+        var span = Data.Slice(GetBoxNameOffset(box) + (StringMaxByteCount * box), StringMaxByteCount);
         SAV.SetString(span, value, StringMaxLength, StringConverterOption.ClearZero);
     }
 
     public byte[] BoxFlags
     {
-        get => [ Data[Offset + PCFlags] ]; // 7 bits for wallpaper unlocks, top bit to unlock final box (delta episode)
+        get => [ Data[PCFlags] ]; // 7 bits for wallpaper unlocks, top bit to unlock final box (delta episode)
         set
         {
             if (value.Length != 1)
                 return;
-            Data[Offset + PCFlags] = value[0];
+            Data[PCFlags] = value[0];
         }
     }
 
     public int BoxesUnlocked
     {
-        get => Data[Offset + Unlocked];
+        get => Data[Unlocked];
         set
         {
             if (value > BoxCount)
                 value = BoxCount;
             if (value == BoxCount)
-                Data[Offset + PCFlags] |= 0x80; // set final box unlocked flag
+                Data[PCFlags] |= 0x80; // set final box unlocked flag
             else
-                Data[Offset + PCFlags] &= 0x7F; // clear final box unlocked flag
-            Data[Offset + Unlocked] = (byte)value;
+                Data[PCFlags] &= 0x7F; // clear final box unlocked flag
+            Data[Unlocked] = (byte)value;
         }
     }
 
-    public int CurrentBox { get => Data[Offset + LastViewedBoxOffset]; set => Data[Offset + LastViewedBoxOffset] = (byte)value; }
+    public int CurrentBox { get => Data[LastViewedBoxOffset]; set => Data[LastViewedBoxOffset] = (byte)value; }
 }

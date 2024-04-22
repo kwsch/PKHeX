@@ -17,7 +17,7 @@ public abstract class HomeOptional1
     public const int HeaderSize = 3; // u8 format, u16 length(data[u8])
     protected abstract HomeGameDataFormat Format { get; }
 
-    protected HomeOptional1(ushort size) => Buffer = new byte[size];
+    protected HomeOptional1([ConstantExpected] ushort size) => Buffer = new byte[size];
     protected HomeOptional1(Memory<byte> buffer) => Buffer = buffer;
 
     protected void EnsureSize([ConstantExpected] int size)

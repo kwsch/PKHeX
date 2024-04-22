@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade4RanchGift
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IFatefulEncounterReadOnly, IFixedTrainer, IMoveset, IFixedGender, IFixedNature
 {
-    public int Generation => 4;
+    public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
 
     /// <summary>
@@ -18,12 +18,11 @@ public sealed record EncounterTrade4RanchGift
 
     public Nature Nature => (Nature)(PID % 25);
 
-    public int MetLocation { private get; init; }
-    public int Location => MetLocation;
+    public ushort Location { get; init; }
     public Shiny Shiny => FatefulEncounter ? Shiny.Never : Shiny.FixedValue;
     public GameVersion Version { get; }
-    public bool EggEncounter => false;
-    public int EggLocation { get; init; }
+    public bool IsEgg => false;
+    public ushort EggLocation { get; init; }
 
     public Ball FixedBall { get; init; } = Ball.Poke;
     public bool IsShiny => false;
@@ -64,7 +63,7 @@ public sealed record EncounterTrade4RanchGift
         Species = species;
         Level = level;
         FatefulEncounter = true;
-        MetLocation = 3000;
+        Location = 3000;
     }
 
     #region Generating
@@ -76,7 +75,7 @@ public sealed record EncounterTrade4RanchGift
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var actualLevel = CurrentLevel != default ? CurrentLevel : Level;
         var pi = PersonalTable.DP[Species];
@@ -85,36 +84,36 @@ public sealed record EncounterTrade4RanchGift
             Species = Species,
             Form = Form,
             CurrentLevel = actualLevel,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)FixedBall,
             FatefulEncounter = FatefulEncounter,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = OTGender,
-            OT_Name = TrainerNames[lang],
+            OriginalTrainerGender = OTGender,
+            OriginalTrainerName = TrainerNames[lang],
 
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
-            HT_Name = tr.OT,
-            HT_Gender = tr.Gender,
+            HandlingTrainerName = tr.OT,
+            HandlingTrainerGender = tr.Gender,
         };
 
         if (EggLocation != 0)
         {
-            pk.Egg_Location = EggLocation;
+            pk.EggLocation = EggLocation;
             pk.EggMetDate = pk.MetDate;
         }
 
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, actualLevel);
+            EncounterUtil.SetEncounterMoves(pk, version, actualLevel);
         SetPINGA(pk, criteria);
         pk.ResetPartyStats();
 
@@ -125,7 +124,7 @@ public sealed record EncounterTrade4RanchGift
     {
         var pid = FatefulEncounter ? Util.Rand32() : PID;
         pk.PID = pid;
-        pk.Nature = (int)(pid % 25);
+        pk.Nature = (Nature)(pid % 25);
         pk.Gender = Gender;
         pk.RefreshAbility((int)(pid % 2));
         criteria.SetRandomIVs(pk);
@@ -149,7 +148,7 @@ public sealed record EncounterTrade4RanchGift
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
-        if (pk.OT_Gender != OTGender)
+        if (pk.OriginalTrainerGender != OTGender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
@@ -164,7 +163,7 @@ public sealed record EncounterTrade4RanchGift
         if (pk is not G4PKM pk4)
             return true;
 
-        var met = pk4.Met_Location;
+        var met = pk4.MetLocation;
         return met == Location;
     }
 
@@ -173,9 +172,9 @@ public sealed record EncounterTrade4RanchGift
         if (pk.Format != 4) // Met Level lost on PK4=>PK5
             return evo.LevelMax >= Level;
 
-        if (MetLocation != default)
-            return pk.Met_Level == Level;
-        return pk.Met_Level >= LevelMin;
+        if (Location != default)
+            return pk.MetLevel == Level;
+        return pk.MetLevel >= LevelMin;
     }
 
     private bool IsMatchNatureGenderShiny(PKM pk)
@@ -192,7 +191,7 @@ public sealed record EncounterTrade4RanchGift
         var expect = EggLocation;
         if (pk is PB8)
             expect = Locations.Default8bNone;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

@@ -1,4 +1,3 @@
-using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -20,11 +19,11 @@ public sealed class PIDVerifier : Verifier
         if (enc.Species == (int)Species.Wurmple)
             VerifyECPIDWurmple(data);
         else if (enc.Species is (int)Species.Tandemaus or (int)Species.Dunsparce)
-            VerifyEC100(data);
+            VerifyEC100(data, enc.Species);
 
         if (pk.PID == 0)
             data.AddLine(Get(LPIDZero, Severity.Fishy));
-        if (pk.Nature >= 25) // out of range
+        if (!pk.Nature.IsFixed()) // out of range
             data.AddLine(GetInvalid(LPIDNatureMismatch));
 
         VerifyShiny(data);
@@ -96,25 +95,20 @@ public sealed class PIDVerifier : Verifier
         }
     }
 
-    private static void VerifyEC100(LegalityAnalysis data)
+    private static void VerifyEC100(LegalityAnalysis data, ushort encSpecies)
     {
         var pk = data.Entity;
-        var enc = data.EncounterMatch;
-        if (pk.Species == enc.Species)
-        {
-            uint evoVal = pk.EncryptionConstant % 100;
-            bool rare = evoVal == 0;
-            var (species, form) = enc.Species switch
-            {
-                (int)Species.Tandemaus => ((ushort)Species.Maushold,    rare ? 0 : 1),
-                (int)Species.Dunsparce => ((ushort)Species.Dudunsparce, rare ? 1 : 0),
-                _ => throw new ArgumentOutOfRangeException(nameof(enc.Species), "Incorrect EC%100 species."),
-            };
-            var str = GameInfo.Strings;
-            var forms = FormConverter.GetFormList(species, str.Types, str.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
-            var msg = string.Format(L_XRareFormEvo_0_1, forms[form], rare);
-            data.AddLine(GetValid(msg, CheckIdentifier.EC));
-        }
+        if (pk.Species != encSpecies)
+            return; // Evolved, don't need to calculate the final evolution for the verbose report.
+
+        // Indicate the evolution for the user.
+        uint evoVal = pk.EncryptionConstant % 100;
+        bool rare = evoVal == 0;
+        var (species, form) = EvolutionRestrictions.GetEvolvedSpeciesFormEC100(encSpecies, rare);
+        var str = GameInfo.Strings;
+        var forms = FormConverter.GetFormList(species, str.Types, str.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
+        var msg = string.Format(L_XRareFormEvo_0_1, forms[form], rare);
+        data.AddLine(GetValid(msg, CheckIdentifier.EC));
     }
 
     private static void VerifyEC(LegalityAnalysis data)
@@ -167,8 +161,8 @@ public sealed class PIDVerifier : Verifier
     /// <returns>True if the <see cref="ec"/> is appropriate to use.</returns>
     public static bool GetTransferEC(PKM pk, out uint ec)
     {
-        var ver = pk.Version;
-        if (ver is 0 or >= (int)GameVersion.X) // Gen6+ ignored
+        var version = pk.Version;
+        if (version is 0 or >= GameVersion.X) // Gen6+ ignored
         {
             ec = 0;
             return false;

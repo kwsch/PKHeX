@@ -7,6 +7,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Tera9RNG
 {
+    /// <summary>
+    /// Type max (exclusive) to use when picking a random a Tera Type.
+    /// </summary>
     private const uint TeraTypeCount = 18;
 
     /// <summary>
@@ -84,8 +87,18 @@ public static class Tera9RNG
     /// </summary>
     private static bool IsMatchType(IPersonalType pi, in byte original) => original == pi.Type1 || original == pi.Type2;
 
+    /// <summary>
+    /// Checks if the original Tera Type matches the Personal Info type for the specified form.
+    /// </summary>
+    /// <param name="species">Egg Species</param>
+    /// <param name="form">Egg Form</param>
+    /// <param name="original">Original Tera Type from the Entity</param>
+    /// <returns>True if the Tera Type matches the expected Personal Info type</returns>
+    /// <remarks>
+    /// Special consideration is required as some eggs can change forms that have different Personal Info types.
+    /// </remarks>
     public static bool IsMatchTeraTypePersonalEgg(in ushort species, in byte form, in byte original) =>
-        FormInfo.IsFormChangeEgg(species)
+        FormInfo.IsFormChangeEggTypes(species)
             ? IsMatchTeraTypePersonalAnyForm(species, original)
             : IsMatchTeraTypePersonal(species, form, original);
 

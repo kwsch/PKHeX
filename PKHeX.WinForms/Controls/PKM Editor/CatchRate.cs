@@ -9,13 +9,13 @@ public partial class CatchRate : UserControl
     private PK1? Entity;
     public CatchRate() => InitializeComponent();
 
-    public void LoadPK1(PK1 pk) => NUD_CatchRate.Value = (Entity = pk).Catch_Rate;
+    public void LoadPK1(PK1 pk) => NUD_CatchRate.Value = (Entity = pk).CatchRate;
 
     private void ChangeValue(object sender, EventArgs e)
     {
         if (Entity is null)
             return;
-        Entity.Catch_Rate = (byte)NUD_CatchRate.Value;
+        Entity.CatchRate = (byte)NUD_CatchRate.Value;
     }
 
     private void Clear(object sender, EventArgs e) => NUD_CatchRate.Value = 0;

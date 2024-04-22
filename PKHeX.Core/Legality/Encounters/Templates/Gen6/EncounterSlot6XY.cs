@@ -6,14 +6,14 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom, IFlawlessIVCount
 {
-    public int Generation => 6;
+    public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
+    public ushort EggLocation => 0;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     private PersonalInfo6XY PersonalInfo => PersonalTable.XY[Species];
     public byte FlawlessIVCount => PersonalInfo.EggGroup1 == 15 ? (byte)3 : IsFriendSafari ? (byte)2 : (byte)0;
@@ -21,11 +21,11 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public ushort Location => Parent.Location;
+    public SlotType6 Type => Parent.Type;
 
-    public bool IsFriendSafari => Type == SlotType.FriendSafari;
-    public bool IsHorde => Type == SlotType.Horde;
+    public bool IsFriendSafari => Type == SlotType6.FriendSafari;
+    public bool IsHorde => Type == SlotType6.Horde;
 
     private HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde || IsFriendSafari ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
@@ -50,37 +50,37 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = Version != GameVersion.XY ? Version : GameVersion.XY.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.X;
+        var version = Version != GameVersion.XY ? Version : GameVersion.XY.Contains(tr.Version) ? tr.Version : GameVersion.X;
         var form = GetWildForm(Form);
-        var pi = PersonalInfo;
+        var pi = PersonalTable.XY[Species, form];
         var pk = new PK6
         {
             Species = Species,
             Form = form,
             CurrentLevel = LevelMin,
-            Met_Location = Location,
-            Met_Level = LevelMin,
+            MetLocation = Location,
+            MetLevel = LevelMin,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDate3DS(),
 
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
         };
         if (tr is IRegionOrigin r)
             r.CopyRegionOrigin(pk);
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        if (IsRandomUnspecificForm && Form == EncounterUtil1.FormVivillon)
+        if (IsRandomUnspecificForm && Form == EncounterUtil.FormVivillon)
             pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);
 
-        SetPINGA(pk, criteria);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        SetPINGA(pk, criteria, pi);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.SetRandomMemory6();
         pk.ResetPartyStats();
         return pk;
@@ -88,21 +88,21 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
 
     private byte GetWildForm(byte form)
     {
-        if (form < EncounterUtil1.FormDynamic)
+        if (form < EncounterUtil.FormDynamic)
             return form;
-        if (form == EncounterUtil1.FormVivillon)
+        if (form == EncounterUtil.FormVivillon)
             return 0; // rectify later
 
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.XY[Species].FormCount);
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6XY pi)
     {
-        var pi = PersonalTable.XY.GetFormEntry(Species, Form);
-        pk.PID = Util.Rand32();
-        pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature();
+        var rnd = Util.Rand;
+        pk.PID = rnd.Rand32();
+        pk.EncryptionConstant = rnd.Rand32();
+        pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk, FlawlessIVCount);
@@ -114,14 +114,21 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
 
-        if (Form != evo.Form && !IsRandomUnspecificForm && Species is not ((int)Core.Species.Burmy or (int)Core.Species.Furfrou))
+        if (Form != evo.Form && !IsRandomUnspecificForm && !IsValidOutOfBoundsForm(pk))
             return false;
 
         return true;
     }
+
+    private bool IsValidOutOfBoundsForm(PKM pk) => Species switch
+    {
+        (int)Core.Species.Burmy or (int)Core.Species.Furfrou => true, // Can change forms in-game.
+        (int)Core.Species.Sawsbuck => pk.Format >= 8, // Friend Safari can change between forms if imported to a future Gen8+
+        _ => false,
+    };
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

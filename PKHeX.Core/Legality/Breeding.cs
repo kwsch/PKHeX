@@ -61,7 +61,7 @@ public static class Breeding
     /// <summary>
     /// Species that can yield a different baby species when bred.
     /// </summary>
-    public static bool IsSplitBreedNotBabySpecies(ushort species, int generation)
+    public static bool IsSplitBreedNotBabySpecies(ushort species, byte generation)
     {
         if (generation == 3)
             return IsSplitBreedNotBabySpecies3(species);
@@ -206,6 +206,7 @@ public static class Breeding
         (int)Koraidon or (int)Miraidon => false,
         (int)WalkingWake or (int)IronLeaves => false,
         (int)Okidogi or (int)Munkidori or (int)Fezandipiti or (int)Ogerpon => false,
+        (int)GougingFire or (int)RagingBolt or (int)IronBoulder or (int)IronCrown or (int)Terapagos or (int)Pecharunt => false,
 
         _ => true,
     };

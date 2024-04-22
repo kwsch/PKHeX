@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 <see cref="SaveFile"/> object for <see cref="GameVersion.SV"/> games.
 /// </summary>
-public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision
+public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision, IBoxDetailName, IBoxDetailWallpaper
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.DisplayValue}";
     public override string Extension => string.Empty;
@@ -18,15 +18,15 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = Zukan.GetRevision();
+        SaveRevision = Blocks.HasBlock(SaveBlockAccessor9SV.KBlueberryPoints) ? 2 : RaidKitakami.Data.Length != 0 ? 1 : 0;
         Initialize();
     }
 
     public SAV9SV()
     {
-        AllBlocks = Meta9.GetBlankDataSV();
+        AllBlocks = BlankBlocks9.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = Zukan.GetRevision();
+        SaveRevision = BlankBlocks9.BlankRevision;
         Initialize();
         ClearBoxes();
     }
@@ -74,14 +74,18 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public BoxLayout9 BoxLayout => Blocks.BoxLayout;
     public PlayTime9 Played => Blocks.Played;
     public ConfigSave9 Config => Blocks.Config;
-    public TeamIndexes9 TeamIndexes => Blocks.TeamIndexes;
-    public Epoch1970Value LastSaved => Blocks.LastSaved;
+    public TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
+    public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
+    public Epoch1970Value LastDateCycle => Blocks.LastDateCycle;
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
     public RaidSpawnList9 RaidPaldea => Blocks.RaidPaldea;
     public RaidSpawnList9 RaidKitakami => Blocks.RaidKitakami;
+    public RaidSpawnList9 RaidBlueberry => Blocks.RaidBlueberry;
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
-    public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
+    public Epoch1900DateValue EnrollmentDate => Blocks.EnrollmentDate;
+    public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
+    public BlueberryClubRoom9 BlueberryClubRoom => Blocks.BlueberryClubRoom;
     #endregion
 
     protected override SAV9SV CloneInternal()
@@ -94,17 +98,18 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     private ushort m_spec, m_item, m_move, m_abil;
     public override int MaxBallID => Legal.MaxBallID_9;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
     public override ushort MaxMoveID => m_move;
     public override ushort MaxSpeciesID => m_spec;
     public override int MaxItemID => m_item;
     public override int MaxAbilityID => m_abil;
 
+    public override bool HasPokeDex => true;
+
     private void Initialize()
     {
         Box = 0;
         Party = 0;
-        PokeDex = 0;
         TeamIndexes.LoadBattleTeams();
 
         int rev = SaveRevision;
@@ -121,6 +126,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             m_spec = Legal.MaxSpeciesID_9_T1;
             m_item = Legal.MaxItemID_9_T1;
             m_abil = Legal.MaxAbilityID_9_T1;
+        }
+        else if (rev == 2)
+        {
+            m_move = Legal.MaxMoveID_9_T2;
+            m_spec = Legal.MaxSpeciesID_9_T2;
+            m_item = Legal.MaxItemID_9_T2;
+            m_abil = Legal.MaxAbilityID_9_T2;
         }
         else
         {
@@ -143,19 +155,14 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override int BoxCount => BoxLayout9.BoxCount;
     public override int MaxEV => EffortValues.Max252;
-    public override int Generation => 9;
+    public override byte Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
     protected override PK9 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.SL => GameVersion.SL,
-        (int)GameVersion.VL => GameVersion.VL,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.SL or GameVersion.VL;
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
@@ -165,12 +172,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
-    public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)MyStatus.Game; set => MyStatus.Game = (byte)value; }
+    public override byte Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KMoney, value); }
     public uint LeaguePoints { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KLeaguePoints); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KLeaguePoints, value); }
+    public uint BlueberryPoints { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KBlueberryPoints); set => Blocks.SetBlockValueSafe(SaveBlockAccessor9SV.KBlueberryPoints, value); }
 
     public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
     public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
@@ -182,16 +190,15 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
         PK9 pk9 = (PK9)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateSwitch();
-        pk9.Trade(this, now.Day, now.Month, now.Year);
+        pk9.UpdateHandler(this);
 
         if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk9.Species, pk9.Form))
         {
@@ -200,7 +207,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         pk9.RefreshChecksum();
-        AddCountAcquired(pk9);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk9);
     }
 
     private static uint GetFormArgument(PKM pk)
@@ -247,7 +255,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
     public override PK9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.AsSpan(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     //public int GetRecord(int recordID) => Records.GetRecord(recordID);
     //public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
@@ -270,8 +278,6 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => (byte)Blocks.GetBlockValue(SaveBlockAccessor9SV.KBoxesUnlocked); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KBoxesUnlocked, (byte)value); }
-    public override bool HasBoxWallpapers => true;
-    public override bool HasNamableBoxes => true;
     public Span<byte> Coordinates => Blocks.GetBlock(SaveBlockAccessor9SV.KCoordinates).Data;
     public float X { get => ReadSingleLittleEndian(Coordinates); set => WriteSingleLittleEndian(Coordinates, value); }
     public float Y { get => ReadSingleLittleEndian(Coordinates[4..]); set => WriteSingleLittleEndian(Coordinates[4..], value); }
@@ -305,7 +311,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         RW = rw;
     }
 
-    public override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         if ((uint)box >= BoxCount)
             return box;
@@ -313,7 +319,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         return b.Data[box];
     }
 
-    public override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         if ((uint)box >= BoxCount)
             return;
@@ -325,6 +331,19 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         get => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount];
         set => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount] = value;
+    }
+
+    public ThrowStyle9 ThrowStyle {
+        get {
+            if(Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+                return (ThrowStyle9)throwStyleBlock.Data[0];
+            return ThrowStyle9.OriginalStyle;
+        }
+        set
+        {
+            if (Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+                throwStyleBlock.ChangeData([(byte)value]);
+        }
     }
 
     public void CollectAllStakes()
@@ -367,5 +386,67 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             if (Accessor.TryGetBlock(hash, out var block))
                 block.ChangeBooleanType(SCTypeCode.Bool2);
         }
+    }
+
+    public void ActivateSnacksworthLegendaries()
+    {
+        for (int i = 13; i <= 37; i++)
+        {
+            var flag = $"WEVT_S2_SUB_{i:000}_STATE";
+            var hash = (uint)FnvHash.HashFnv1a_64(flag);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.SetValue(1); // appeared, not captured
+        }
+    }
+
+    public void UnlockAllCoaches()
+    {
+        string[] blocks =
+        [
+            "FSYS_CLUB_HUD_COACH_BOTAN",
+            "FSYS_CLUB_HUD_COACH_CHAMP_HAGANE",
+            "FSYS_CLUB_HUD_COACH_CHAMP_JIMEN",
+            "FSYS_CLUB_HUD_COACH_CHAMP_TOP",
+            "FSYS_CLUB_HUD_COACH_FRIEND",
+            "FSYS_CLUB_HUD_COACH_RIVAL",
+            "FSYS_CLUB_HUD_COACH_TEACHER_ART",
+            "FSYS_CLUB_HUD_COACH_TEACHER_ATHLETIC",
+            "FSYS_CLUB_HUD_COACH_TEACHER_BIOLOGY",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HEAD",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HEALTH",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HISTORY",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HOME",
+            "FSYS_CLUB_HUD_COACH_TEACHER_LANGUAGE",
+            "FSYS_CLUB_HUD_COACH_TEACHER_MATH",
+        ];
+
+        // extra safety
+        foreach (var block in blocks)
+        {
+            var hash = (uint)FnvHash.HashFnv1a_64(block);
+            if (Accessor.TryGetBlock(hash, out var flag))
+                flag.ChangeBooleanType(SCTypeCode.Bool2);
+        }
+    }
+
+    public void UnlockAllThrowStyles()
+    {
+        // Unlock Styles
+        for (int i = 1; i <= 3; i++)
+        {
+            var flag = $"FSYS_CLUB_ROOM_BALL_THROW_FORM_0{i}";
+            var hash = (uint)FnvHash.HashFnv1a_64(flag);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.ChangeBooleanType(SCTypeCode.Bool2);
+        }
+
+        // Update Support Board
+        var board = BlueberryClubRoom.SupportBoard;
+        board.BaseballClub1SmugElegantPurchased = true;
+        board.BaseballClub1SmugElegantUnread = false;
+        board.BaseballClub2TwirlingNinjaPurchased = true;
+        board.BaseballClub2TwirlingNinjaUnread = false;
+        board.BaseballClub3ChampionPurchased = true;
+        board.BaseballClub3ChampionUnread = false;
     }
 }

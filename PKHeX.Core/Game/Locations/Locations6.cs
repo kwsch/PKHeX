@@ -2,8 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
-internal static class Locations6
+/// <summary>
+/// Locations for <see cref="GameVersion.Gen6"/>.
+/// </summary>
+public static class Locations6
 {
+    /// <summary>
+    /// Available location list for the 00000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met0 =>
     [
         /* X/Y */
@@ -47,12 +53,18 @@ internal static class Locations6
         350, 352, 354,
     ];
 
+    /// <summary>
+    /// Available location list for the 30000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met3 =>
     [
                30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009,
         30010, 30011,
     ];
 
+    /// <summary>
+    /// Available location list for the 40000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met4 =>
     [
                40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
@@ -65,5 +77,8 @@ internal static class Locations6
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078, 40079,
     ];
 
+    /// <summary>
+    /// Available location list for the 60000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004];
 }

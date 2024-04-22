@@ -48,7 +48,7 @@ public sealed class RibbonVerifier : Verifier
     /// <param name="index">Ribbon Index to check for</param>
     /// <param name="args">Inputs to analyze</param>
     /// <returns>True if not present in the flagged result span.</returns>
-    public static bool IsValidExtra(RibbonIndex index, RibbonVerifierArguments args)
+    public static bool IsValidExtra(RibbonIndex index, in RibbonVerifierArguments args)
     {
         Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
         int count = GetRibbonResults(args, result);
@@ -70,13 +70,13 @@ public sealed class RibbonVerifier : Verifier
     /// <param name="args">Inputs to analyze</param>
     /// <param name="result">Result storage</param>
     /// <returns>Count of elements filled in the <see cref="result"/> span.</returns>
-    public static int GetRibbonResults(RibbonVerifierArguments args, Span<RibbonResult> result)
+    public static int GetRibbonResults(in RibbonVerifierArguments args, Span<RibbonResult> result)
     {
         var list = new RibbonResultList(result);
         return GetRibbonResults(args, ref list);
     }
 
-    private static int GetRibbonResults(RibbonVerifierArguments args, ref RibbonResultList list)
+    private static int GetRibbonResults(in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (!args.Entity.IsEgg)
             Parse(args, ref list);
@@ -131,7 +131,7 @@ public sealed class RibbonVerifier : Verifier
         }
     }
 
-    private static void Parse(RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void Parse(in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         if (pk is IRibbonSetOnly3 o3)
@@ -160,7 +160,7 @@ public sealed class RibbonVerifier : Verifier
             m9.Parse(args, ref list);
     }
 
-    private static void ParseEgg(RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void ParseEgg(in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         if (pk is IRibbonSetOnly3 o3)

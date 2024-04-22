@@ -9,7 +9,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Calculates differences in the Event Blocks between two <see cref="SaveFile"/>.
 /// </summary>
-public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : class, IEventFlagArray, IEventWorkArray<T2> where T2 : unmanaged, IEquatable<T2>
+public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
+    where TSave : class, IEventFlagArray, IEventWorkArray<TWorkValue>
+    where TWorkValue : unmanaged, IEquatable<TWorkValue>
 {
     public List<int> SetFlags { get; } = [];
     public List<int> ClearedFlags { get; } = [];
@@ -19,7 +21,7 @@ public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : class, IEve
 
     private const int MAX_SAVEFILE_SIZE = 0x10_0000; // 1 MB
 
-    public EventBlockDiff(T s1, T s2) => Diff(s1, s2);
+    public EventBlockDiff(TSave s1, TSave s2) => Diff(s1, s2);
 
     public EventBlockDiff(string f1, string f2)
     {
@@ -28,26 +30,38 @@ public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : class, IEve
             return;
         var s1 = SaveUtil.GetVariantSAV(f1);
         var s2 = SaveUtil.GetVariantSAV(f2);
-        if (s1 == null || s2 == null || s1.GetType() != s2.GetType() || s1 is not T t1 || s2 is not T t2)
+        if (s1 == null || s2 == null || s1.GetType() != s2.GetType() || GetBlock(s1) is not { } t1 || GetBlock(s2) is not { } t2)
         {
             Message = DifferentGameGroup;
             return;
         }
+        if (s1.Version != s2.Version)
+        {
+            Message = DifferentVersion;
+            return;
+        }
+
         Diff(t1, t2);
     }
 
-    private static EventWorkDiffCompatibility SanityCheckSaveInfo(T s1, T s2)
+    private static TSave? GetBlock(SaveFile s1)
+    {
+        if (s1 is TSave t1)
+            return t1;
+        if (s1 is IEventFlagProvider37 p1)
+            return p1.EventWork as TSave;
+        return null;
+    }
+
+    private static EventWorkDiffCompatibility SanityCheckSaveInfo(TSave s1, TSave s2)
     {
         if (s1.GetType() != s2.GetType())
             return DifferentGameGroup;
 
-        if (s1 is not IVersion i1 || s2 is not IVersion i2 || i1.Version != i2.Version)
-            return DifferentVersion;
-
         return Valid;
     }
 
-    private void Diff(T s1, T s2)
+    private void Diff(TSave s1, TSave s2)
     {
         Message = SanityCheckSaveInfo(s1, s2);
         if (Message != Valid)

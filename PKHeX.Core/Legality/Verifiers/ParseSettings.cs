@@ -28,10 +28,11 @@ public static class ParseSettings
 
     public static Severity NicknamedTrade { get; private set; } = Severity.Invalid;
     public static Severity NicknamedMysteryGift { get; private set; } = Severity.Fishy;
-    public static Severity RNGFrameNotFound { get; private set; } = Severity.Fishy;
+    public static Severity RNGFrameNotFound3 { get; private set; } = Severity.Fishy;
+    public static Severity RNGFrameNotFound4 { get; private set; } = Severity.Invalid;
     public static Severity Gen7TransferStarPID { get; private set; } = Severity.Fishy;
     public static Severity Gen8MemoryMissingHT { get; private set; } = Severity.Fishy;
-    public static Severity Gen8TransferTrackerNotPresent { get; private set; } = Severity.Fishy;
+    public static Severity HOMETransferTrackerNotPresent { get; private set; } = Severity.Fishy;
     public static Severity NicknamedAnotherSpecies { get; private set; } = Severity.Fishy;
     public static Severity ZeroHeightWeight { get; private set; } = Severity.Fishy;
     public static Severity CurrentHandlerMismatch { get; private set; } = Severity.Invalid;
@@ -95,7 +96,7 @@ public static class ParseSettings
         };
     }
 
-    internal static bool IgnoreTransferIfNoTracker => Gen8TransferTrackerNotPresent == Severity.Invalid;
+    internal static bool IgnoreTransferIfNoTracker => HOMETransferTrackerNotPresent == Severity.Invalid;
 
     public static void InitFromSettings(IParseSettings settings)
     {
@@ -103,9 +104,10 @@ public static class ParseSettings
         AllowGen1Tradeback = settings.AllowGen1Tradeback;
         NicknamedTrade = settings.NicknamedTrade;
         NicknamedMysteryGift = settings.NicknamedMysteryGift;
-        RNGFrameNotFound = settings.RNGFrameNotFound;
+        RNGFrameNotFound3 = settings.RNGFrameNotFound3;
+        RNGFrameNotFound4 = settings.RNGFrameNotFound4;
         Gen7TransferStarPID = settings.Gen7TransferStarPID;
-        Gen8TransferTrackerNotPresent = settings.Gen8TransferTrackerNotPresent;
+        HOMETransferTrackerNotPresent = settings.HOMETransferTrackerNotPresent;
         Gen8MemoryMissingHT = settings.Gen8MemoryMissingHT;
         NicknamedAnotherSpecies = settings.NicknamedAnotherSpecies;
         ZeroHeightWeight = settings.ZeroHeightWeight;
@@ -122,10 +124,11 @@ public interface IParseSettings
 
     Severity NicknamedTrade { get; }
     Severity NicknamedMysteryGift { get; }
-    Severity RNGFrameNotFound { get; }
+    Severity RNGFrameNotFound3 { get; }
+    Severity RNGFrameNotFound4 { get; }
     Severity Gen7TransferStarPID { get; }
     Severity Gen8MemoryMissingHT { get; }
-    Severity Gen8TransferTrackerNotPresent { get; }
+    Severity HOMETransferTrackerNotPresent { get; }
     Severity NicknamedAnotherSpecies { get; }
     Severity ZeroHeightWeight { get; }
     Severity CurrentHandlerMismatch { get; }

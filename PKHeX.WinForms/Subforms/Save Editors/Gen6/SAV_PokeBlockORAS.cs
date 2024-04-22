@@ -10,7 +10,7 @@ public partial class SAV_PokeBlockORAS : Form
     private readonly SaveFile Origin;
     private readonly SAV6AO SAV;
 
-    public SAV_PokeBlockORAS(SaveFile sav)
+    public SAV_PokeBlockORAS(SAV6AO sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -42,27 +42,13 @@ public partial class SAV_PokeBlockORAS : Form
         Close();
     }
 
-    private static ReadOnlySpan<byte> DefaultBerryTree => [ 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00 ];
-
     private void B_RandomizeBerries_Click(object sender, EventArgs e)
     {
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Repopulate all berry plots with random berries?"))
             return;
 
         // Randomize the trees.
-        ReadOnlySpan<byte> tree = DefaultBerryTree;
-        var plantable = ItemStorage6XY.Pouch_Berry_XY; // 0 index is None, skip with rand
-        var rnd = Util.Rand;
-
-        var plots = SAV.Data.AsSpan(SAV.BerryField);
-        for (int i = 0; i < 90; i++) // amount of plots in the game
-        {
-            var plot = plots[(i * 0x10)..];
-            tree.CopyTo(plot); // put tree into plot
-
-            ushort berry = plantable[rnd.Next(1, plantable.Length)]; // get random berry item ID from list
-            WriteUInt16LittleEndian(plot[6..], berry); // put berry into tree.
-        }
+        SAV.BerryField.ResetAndRandomize(Util.Rand, ItemStorage6XY.Pouch_Berry_XY);
     }
 
     private void B_GiveAllBlocks_Click(object sender, EventArgs e)

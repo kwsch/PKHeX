@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LearnGroup9 : ILearnGroup
 {
     public static readonly LearnGroup9 Instance = new();
-    private const int Generation = 9;
+    private const byte Generation = 9;
     private const EntityContext Context = EntityContext.Gen9;
     public ushort MaxMoveID => Legal.MaxMoveID_9;
 
@@ -53,7 +53,7 @@ public sealed class LearnGroup9 : ILearnGroup
                 continue;
             var move = current[i];
             if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.Shared);
+                result[i] = new(LearnMethod.Shared, game.Environment);
         }
     }
 
@@ -69,11 +69,11 @@ public sealed class LearnGroup9 : ILearnGroup
                 continue;
             var move = current[i];
             if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.EggMove);
+                result[i] = new(LearnMethod.EggMove, game.Environment);
             else if (levelMoves.Contains(move))
-                result[i] = new(LearnMethod.InheritLevelUp);
+                result[i] = new(LearnMethod.InheritLevelUp, game.Environment);
             else if (move is (int)Move.VoltTackle && egg.CanHaveVoltTackle)
-                result[i] = new(LearnMethod.SpecialEgg);
+                result[i] = new(LearnMethod.SpecialEgg, game.Environment);
         }
     }
 

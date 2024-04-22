@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem5B2W2 : MyItem
+public sealed class MyItem5B2W2(SAV5B2W2 SAV, Memory<byte> raw) : MyItem(SAV, raw)
 {
     // offsets/pouch sizes are the same for both B/W and B2/W2, but Key Item permissions are different
     private const int HeldItem = 0x000; // 0
@@ -10,7 +11,6 @@ public sealed class MyItem5B2W2 : MyItem
     private const int TMHM     = 0x624; // 2
     private const int Medicine = 0x7D8; // 3
     private const int Berry    = 0x898; // 4
-    public MyItem5B2W2(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {
@@ -19,11 +19,11 @@ public sealed class MyItem5B2W2 : MyItem
             var info = ItemStorage5B2W2.Instance;
             InventoryPouch4[] pouch =
             [
-                new(InventoryType.Items, info, 999, Offset + HeldItem),
-                new(InventoryType.KeyItems, info, 1, Offset + KeyItem),
-                new(InventoryType.TMHMs, info, 1, Offset + TMHM),
-                new(InventoryType.Medicine, info, 999, Offset + Medicine),
-                new(InventoryType.Berries, info, 999, Offset + Berry),
+                new(InventoryType.Items, info, 999, HeldItem),
+                new(InventoryType.KeyItems, info, 1, KeyItem),
+                new(InventoryType.TMHMs, info, 1, TMHM),
+                new(InventoryType.Medicine, info, 999, Medicine),
+                new(InventoryType.Berries, info, 999, Berry),
             ];
             return pouch.LoadAll(Data);
         }

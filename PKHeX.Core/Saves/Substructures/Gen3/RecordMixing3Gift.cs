@@ -17,9 +17,7 @@ public sealed class RecordMixing3Gift
 
     public RecordMixing3Gift(byte[] data)
     {
-        if (data.Length != SIZE)
-            throw new ArgumentException("Invalid size.", nameof(data));
-
+        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, SIZE);
         Data = data;
     }
 

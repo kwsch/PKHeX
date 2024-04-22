@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class UnityTower5 : SaveBlock<SAV5>
+public sealed class UnityTower5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
 {
     private const int CountryCount = 232;
 
@@ -50,27 +50,24 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
         Red = 3, // own registered location
     }
 
-    public UnityTower5(SAV5BW SAV, int offset) : base(SAV) => Offset = offset;
-    public UnityTower5(SAV5B2W2 SAV, int offset) : base(SAV) => Offset = offset;
-
     private const int UnityTowerOffset = 0x320;
     private const int GeonetGlobalFlagOffset = 0x344;
     private const int UnityTowerFlagOffset = 0x345;
     private const int GeonetOffset = 0x348;
 
-    public bool GlobalFlag { get => Data[Offset + GeonetGlobalFlagOffset] != 0; set => Data[Offset + GeonetGlobalFlagOffset] = (byte)(value ? 1 : 0); }
-    public bool UnityTowerFlag { get => Data[Offset + UnityTowerFlagOffset] != 0; set => Data[Offset + UnityTowerFlagOffset] = (byte)(value ? 1 : 0); }
+    public bool GlobalFlag { get => Data[GeonetGlobalFlagOffset] != 0; set => Data[GeonetGlobalFlagOffset] = (byte)(value ? 1 : 0); }
+    public bool UnityTowerFlag { get => Data[UnityTowerFlagOffset] != 0; set => Data[UnityTowerFlagOffset] = (byte)(value ? 1 : 0); }
 
     public void SetCountrySubregion(byte country, byte subregion, Point point)
     {
-        int index = Offset + GeonetOffset + ((country - 1) * 16) + (subregion / 4);
+        int index = GeonetOffset + ((country - 1) * 16) + (subregion / 4);
         int shift = 2 * (subregion % 4);
         Data[index] = (byte)((Data[index] & ~(0b11 << shift)) | ((int)point << shift));
     }
 
     public void SetUnityTowerFloor(byte country, bool unlocked)
     {
-        int index = Offset + UnityTowerOffset + (country / 8);
+        int index = UnityTowerOffset + (country / 8);
         int shift = country % 8;
         Data[index] = (byte)((Data[index] & ~(0b1 << shift)) | (unlocked ? 0b1 : 0b0) << shift);
     }

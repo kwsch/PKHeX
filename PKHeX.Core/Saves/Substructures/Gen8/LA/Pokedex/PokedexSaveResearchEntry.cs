@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.PokedexResearchTaskType8a;
 
@@ -7,13 +7,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Per-species research logs used for <see cref="GameVersion.PLA"/> Pokédex entries.
 /// </summary>
-public sealed class PokedexSaveResearchEntry
+public sealed class PokedexSaveResearchEntry(Memory<byte> raw)
 {
-    private readonly byte[] _data;
-    private readonly int Offset;
-
-    public PokedexSaveResearchEntry(byte[] data, int offset) => (_data, Offset) = (data, offset);
-    private Span<byte> Data => _data.AsSpan(Offset);
+    private Span<byte> Data => raw.Span;
+    public const int SIZE = 0x58;
 
     public uint Flags              { get => ReadUInt32LittleEndian(Data);  set => WriteUInt32LittleEndian(Data, value); }
     public bool HasEverBeenUpdated { get => (Flags & (1u << 0)) != 0; set => Flags = (Flags & ~(1u << 0)) | ((value ? 1u : 0u) << 0); }

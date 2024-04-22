@@ -2,83 +2,50 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class WB7Records : SaveBlock<SAV7b>
+public sealed class WB7Records(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw), IMysteryGiftStorage, IMysteryGiftFlags
 {
-    public WB7Records(SAV7b sav, int offset) : base(sav) => Offset = offset;
+    private const int CardStart = 0;
+    private const int FlagStart = (MaxCardsPresent * WR7.Size);
 
-    private const int RecordMax = 10; // 0xE90 > (0x140 * 0xA = 0xC80), not sure what final 0x210 bytes are used for
-    private const int FlagCountMax = 0x1C00; // (7168) end of the block?
+    private const int MaxCardsPresent = 10; // 0xE90 > (0x140 * 0xA = 0xC80)
+    private const int MaxReceivedFlag = 0x1080; // (4224) end of the block -- max ever distributed was 2001 (Mew)
 
-    private int FlagStart => Offset + (RecordMax * WR7.Size);
+    public void ClearReceivedFlags() => Data[..(MaxReceivedFlag / 8)].Clear();
 
-    private int GetRecordOffset(int index)
+    private static int GetGiftOffset(int index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, RecordMax);
-
-        return Offset + (index * WR7.Size);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxCardsPresent);
+        return CardStart + (index * WR7.Size);
     }
 
-    private int GetFlagOffset(int flag)
+    private Span<byte> GetCardSpan(int index) => Data.Slice(GetGiftOffset(index), WR7.Size);
+
+    public WR7 GetMysteryGift(int index) => new(GetCardSpan(index).ToArray());
+
+    public void SetMysteryGift(int index, WR7 wr7)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(flag, FlagCountMax);
-        return FlagStart + (flag / 8);
+        if ((uint)index > MaxCardsPresent)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        if (wr7.Data.Length != WR7.Size)
+            throw new InvalidCastException(nameof(wr7));
+
+        SAV.SetData(Data[GetGiftOffset(index)..], wr7.Data);
     }
 
-    public WR7 GetRecord(int index)
+    public int MysteryGiftReceivedFlagMax => MaxReceivedFlag;
+    public bool GetMysteryGiftReceivedFlag(int index)
     {
-        int ofs = GetRecordOffset(index);
-        byte[] data = Data.AsSpan(ofs, WR7.Size).ToArray();
-        return new WR7(data);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        return FlagUtil.GetFlag(Data[FlagStart..], index); // offset 0
     }
 
-    public void SetRecord(WR7 record, int index)
+    public void SetMysteryGiftReceivedFlag(int index, bool value)
     {
-        int ofs = GetRecordOffset(index);
-        record.Data.CopyTo(Data, ofs);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxReceivedFlag);
+        FlagUtil.SetFlag(Data[FlagStart..], index, value); // offset 0
     }
 
-    public WR7[] GetRecords()
-    {
-        var arr = new WR7[RecordMax];
-        for (int i = 0; i < arr.Length; i++)
-            arr[i] = GetRecord(i);
-        return arr;
-    }
-
-    public void SetRecords(WR7[] value)
-    {
-        for (int i = 0; i < value.Length; i++)
-            SetRecord(value[i], i);
-    }
-
-    public bool GetFlag(int flag)
-    {
-        int ofs = GetFlagOffset(flag);
-        var mask = 1 << (flag & 7);
-        return (Data[ofs] & mask) != 0;
-    }
-
-    public void SetFlag(int flag, bool value)
-    {
-        int ofs = GetFlagOffset(flag);
-        var mask = 1 << (flag & 7);
-        if (value)
-            Data[ofs] |= (byte)mask;
-        else
-            Data[ofs] &= (byte)~mask;
-    }
-
-    public bool[] GetFlags()
-    {
-        var value = new bool[FlagCountMax];
-        for (int i = 0; i < value.Length; i++)
-            value[i] = GetFlag(i);
-        return value;
-    }
-
-    public void SetFlags(ReadOnlySpan<bool> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-            SetFlag(i, value[i]);
-    }
+    public int GiftCountMax => MaxCardsPresent;
+    DataMysteryGift IMysteryGiftStorage.GetMysteryGift(int index) => GetMysteryGift(index);
+    void IMysteryGiftStorage.SetMysteryGift(int index, DataMysteryGift gift) => SetMysteryGift(index, (WR7)gift);
 }

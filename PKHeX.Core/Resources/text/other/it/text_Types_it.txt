@@ -16,3 +16,4 @@ Ghiaccio
 Drago
 Buio
 Folletto
+Astrale

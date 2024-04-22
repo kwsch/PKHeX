@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon6
 {
-    public static void Parse(this IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon6 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (r is IRibbonSetMemory6 m)
             GetInvalidRibbons6Memory(m, args, ref list);
@@ -37,7 +37,7 @@ public static class RibbonVerifierCommon6
         {
             // Winning a contest in Gen6 adds 20 to OT affection. Each ribbon, add 20 to our expected minimum.
             if (pk is IAffection a) // False in Gen8+
-                FlagContestAffection(r, ref list, a.OT_Affection);
+                FlagContestAffection(r, ref list, a.OriginalTrainerAffection);
 
             // Winning all contests grants the Contest Star ribbon.
             // If we have all ribbons and the star is not present, flag it as missing.
@@ -89,7 +89,7 @@ public static class RibbonVerifierCommon6
         FlagContest(r, ref list);
     }
 
-    private static void GetInvalidRibbons6Memory(IRibbonSetMemory6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void GetInvalidRibbons6Memory(IRibbonSetMemory6 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var format = args.Entity.Format;
         (byte contest, byte battle) = RibbonRules.GetMaxMemoryCounts(args.History, args.Entity, args.Encounter);
@@ -99,7 +99,7 @@ public static class RibbonVerifierCommon6
             list.Add(CountMemoryBattle);
     }
 
-    private static bool IsCountFlagValid(byte count, bool state, int format, byte max)
+    private static bool IsCountFlagValid(byte count, bool state, byte format, byte max)
     {
         if (count > max)
             return false;
@@ -138,7 +138,7 @@ public static class RibbonVerifierCommon6
             list.Add(MasterToughness);
     }
 
-    private static void CheckChampionMemory(RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void CheckChampionMemory(in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         var enc = args.Encounter;
@@ -150,7 +150,7 @@ public static class RibbonVerifierCommon6
         list.Add(ribbon, true);
     }
 
-    private static void CheckMaisonRibbons(IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void CheckMaisonRibbons(IRibbonSetCommon6 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         if (!RibbonRules.IsAllowedBattleFrontier(pk.Species))
@@ -173,7 +173,7 @@ public static class RibbonVerifierCommon6
 
         // Gen6 can get the memory with any party member when defeating the champion.
         const int memChampion = 27;
-        return (enc.Generation == 6 && m.OT_Memory == memChampion)
-                  || (pk.Format < 8 && m.HT_Memory == memChampion);
+        return (enc.Generation == 6 && m.OriginalTrainerMemory == memChampion)
+                  || (pk.Format < 8 && m.HandlingTrainerMemory == memChampion);
     }
 }

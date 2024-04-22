@@ -24,7 +24,7 @@ PKHeX 所读取存档文件必须是未经主机唯一密钥加密，因此请�
 
 ## 截图
 
-![主介面](https://i.imgur.com/hM8GJ4U.png)
+![主介面](https://i.imgur.com/SfskT2Q.png)
 
 ## 构建
 

@@ -93,8 +93,7 @@ public sealed class StringInstruction(string PropertyName, string PropertyValue)
     public void SetRandomRange(ReadOnlySpan<char> str)
     {
         var index = str.IndexOf(SplitRange);
-        if (index <= 0)
-            throw new ArgumentException($"Invalid Random Range: {str.ToString()}", nameof(str));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(index);
 
         var min = str[..index];
         var max = str[(index + 1)..];

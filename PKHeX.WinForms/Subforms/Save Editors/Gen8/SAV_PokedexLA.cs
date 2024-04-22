@@ -95,7 +95,7 @@ public partial class SAV_PokedexLA : Form
         CB_Species.DataSource = new BindingSource(species, null);
 
         CB_DisplayForm.InitializeBinding();
-        DisplayedForms = new List<ComboItem> { new(GameInfo.Strings.types[0], 0) };
+        DisplayedForms = [new(GameInfo.Strings.types[0], 0)];
         CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, null);
 
         for (var d = 1; d < DexToSpecies.Length; d++)

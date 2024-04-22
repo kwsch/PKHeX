@@ -110,44 +110,41 @@ public static class Locations
     /// Gets the egg location value for a traded unhatched egg.
     /// </summary>
     /// <param name="generation">Generation of the egg</param>
-    /// <param name="ver">Game version of the egg</param>
+    /// <param name="version">Game version of the egg</param>
     /// <returns>Egg Location value</returns>
     /// <remarks>Location will be set to the Met Location until it hatches, then moves to Egg Location.</remarks>
-    public static int TradedEggLocation(int generation, GameVersion ver) => generation switch
+    public static ushort TradedEggLocation(byte generation, GameVersion version) => generation switch
     {
         4 => LinkTrade4,
         5 => LinkTrade5,
-        8 when GameVersion.BDSP.Contains(ver) => LinkTrade6NPC,
+        8 when GameVersion.BDSP.Contains(version) => LinkTrade6NPC,
         _ => LinkTrade6,
     };
 
-    public static bool IsPtHGSSLocation(int location) => location is > 111 and < 2000;
-    public static bool IsPtHGSSLocationEgg(int location) => location is > 2010 and < 3000;
-    public static bool IsEventLocation3(int location) => location is 255;
-    public static bool IsEventLocation4(int location) => location is >= 3000 and <= 3076;
-    public static bool IsEventLocation5(int location) => location is > 40000 and < 50000;
+    public static bool IsPtHGSSLocation(ushort location) => location is > 111 and < 2000;
+    public static bool IsPtHGSSLocationEgg(ushort location) => location is > 2010 and < 3000;
+    public static bool IsEventLocation3(ushort location) => location is 255;
+    public static bool IsEventLocation4(ushort location) => location is >= 3000 and <= 3076;
+    public static bool IsEventLocation5(ushort location) => location is > 40000 and < 50000;
 
     private const int SafariLocation_RSE = 57;
     private const int SafariLocation_FRLG = 136;
-    private const int SafariLocation_HGSS = 202;
-    private const int MarshLocation_DPPt = 52;
-    public static bool IsSafariZoneLocation3(int loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
-    public static bool IsSafariZoneLocation4(int loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
-    public static bool IsSafariZoneLocation8b(int loc) => loc is (>= 219 and <= 224);
+    public static bool IsSafariZoneLocation3(byte loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
+    public static bool IsSafariZoneLocation3RSE(byte loc) => loc == SafariLocation_RSE;
 
-    public static bool IsEggLocationBred4(int loc, GameVersion ver)
+    public static bool IsEggLocationBred4(ushort loc, GameVersion version)
     {
         if (loc is Daycare4 or LinkTrade4)
             return true;
-        return loc == Faraway4 && ver is GameVersion.Pt or GameVersion.HG or GameVersion.SS;
+        return loc == Faraway4 && version is GameVersion.Pt or GameVersion.HG or GameVersion.SS;
     }
 
-    public static bool IsEggLocationBred5(int loc) => loc is Daycare5 or LinkTrade5;
-    public static bool IsEggLocationBred6(int loc) => loc is Daycare5 or LinkTrade6;
-    public static bool IsEggLocationBred8b(int loc) => loc is Daycare8b or LinkTrade6NPC;
-    public static bool IsEggLocationBred9(int loc) => loc is Picnic9 or LinkTrade6;
+    public static bool IsEggLocationBred5(ushort loc) => loc is Daycare5 or LinkTrade5;
+    public static bool IsEggLocationBred6(ushort loc) => loc is Daycare5 or LinkTrade6;
+    public static bool IsEggLocationBred8b(ushort loc) => loc is Daycare8b or LinkTrade6NPC;
+    public static bool IsEggLocationBred9(ushort loc) => loc is Picnic9 or LinkTrade6;
 
-    public static int GetDaycareLocation(int generation, GameVersion version) => generation switch
+    public static ushort GetDaycareLocation(byte generation, GameVersion version) => generation switch
     {
         1 or 2 or 3 => 0,
         4 => Daycare4,
@@ -169,8 +166,8 @@ public static class Locations
     public static bool IsMetLocation7SM(ushort z) => z < 200; // Outer Cape
     public static bool IsMetLocation7USUM(ushort z) => z < 234; // Dividing Peak Tunnel
     public static bool IsMetLocation7GG(ushort z) => z <= 54; // Pokémon League
-    public static bool IsMetLocation8SWSH(ushort z) => z <= 246; // at the Crown Tundra Station
+    public static bool IsMetLocation8SWSH(ushort z) => z <= 246; // Crown Tundra Station
     public static bool IsMetLocation8BDSP(ushort z) => z <= 657; // Ramanas Park (Genome Room)
     public static bool IsMetLocation8LA(ushort z) => z <= 155; // Training Grounds
-    public static bool IsMetLocation9SV(ushort z) => z <= 131; // Uva Academy
+    public static bool IsMetLocation9SV(ushort z) => z <= 200; // Terarium (Entry Tunnel)
 }

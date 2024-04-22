@@ -19,6 +19,8 @@ public class VerticalTabControl : TabControl
     protected override void OnDrawItem(DrawItemEventArgs e)
     {
         var index = e.Index;
+        if ((uint)index >= TabPages.Count)
+            return;
         var bounds = GetTabRect(index);
 
         var graphics = e.Graphics;
@@ -69,6 +71,8 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
     protected override void OnDrawItem(DrawItemEventArgs e)
     {
         var index = e.Index;
+        if ((uint)index >= TabPages.Count)
+            return;
         var bounds = GetTabRect(index);
 
         var graphics = e.Graphics;

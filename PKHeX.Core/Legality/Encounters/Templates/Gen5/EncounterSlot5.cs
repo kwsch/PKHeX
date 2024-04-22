@@ -6,23 +6,23 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>
 {
-    public int Generation => 5;
+    public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => IsHiddenGrotto ? Shiny.Never : Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public ushort Location => Parent.Location;
+    public SlotType5 Type => Parent.Type;
 
-    public bool IsHiddenGrotto => Type == SlotType.HiddenGrotto;
+    public bool IsHiddenGrotto => Type == SlotType5.HiddenGrotto;
 
-    private HiddenAbilityPermission IsHiddenAbilitySlot() => Type == SlotType.HiddenGrotto ? HiddenAbilityPermission.Always : HiddenAbilityPermission.Never;
+    private HiddenAbilityPermission IsHiddenAbilitySlot() => IsHiddenGrotto ? HiddenAbilityPermission.Always : HiddenAbilityPermission.Never;
 
     public AbilityPermission Ability => IsHiddenAbilitySlot() switch
     {
@@ -52,29 +52,29 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
             Species = Species,
             Form = GetWildForm(Form),
             CurrentLevel = LevelMin,
-            OT_Friendship = pi.BaseFriendship,
-            Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)Version,
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            MetLocation = Location,
+            MetLevel = LevelMin,
+            Version = Version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateNDS(),
 
             Language = lang,
-            OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OriginalTrainerName = tr.OT,
+            OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
     }
 
     private byte GetWildForm(byte form)
     {
-        if (form != EncounterUtil1.FormRandom)
+        if (form != EncounterUtil.FormRandom)
             return form;
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.B2W2[Species].FormCount);
@@ -82,8 +82,8 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        int gender = criteria.GetGender(pi);
-        int nature = (int)criteria.GetNature();
+        var gender = criteria.GetGender(pi);
+        var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
         criteria.SetRandomIVs(pk);
@@ -94,7 +94,7 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!this.IsLevelWithinRange(pk.Met_Level))
+        if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
 
         // Deerling and Sawsbuck can change forms when seasons change, thus can be any of the [0,3] form values.

@@ -40,9 +40,9 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
     public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[0x17..]); set => WriteUInt16LittleEndian(Data[0x17..], value); }
     public MoveType TeraTypeOriginal { get => (MoveType)Data[0x19]; set => Data[0x19] = (byte)value; }
     public MoveType TeraTypeOverride { get => (MoveType)Data[0x1A]; set => Data[0x1A] = (byte)value; }
-    public int Ball { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
-    public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], (ushort)value); }
-    public int Met_Location { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], (ushort)value); }
+    public byte Ball { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
+    public ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
+    public ushort MetLocation { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], value); }
 
     private const int RecordStartBase = 0x20;
     internal const int COUNT_RECORD_BASE = PK9.COUNT_RECORD_BASE; // Up to 200 TM flags, but not all are used.
@@ -124,7 +124,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         pk.TeraTypeOverride = TeraTypeOverride;
         RecordFlagsBase.CopyTo(pk.RecordFlagsBase);
         RecordFlagsDLC.CopyTo(pk.RecordFlagsDLC);
-        pk.Obedience_Level = Obedience_Level;
+        pk.ObedienceLevel = Obedience_Level;
         pk.Ability = Ability;
         pk.AbilityNumber = AbilityNumber;
     }
@@ -137,7 +137,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         TeraTypeOverride = pk.TeraTypeOverride;
         pk.RecordFlagsBase.CopyTo(RecordFlagsBase);
         pk.RecordFlagsDLC.CopyTo(RecordFlagsDLC);
-        Obedience_Level = pk.Obedience_Level;
+        Obedience_Level = pk.ObedienceLevel;
         Ability = (ushort)pk.Ability;
         AbilityNumber = (byte)pk.AbilityNumber;
     }
@@ -188,8 +188,8 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
     public void InitializeFrom(IGameDataSide side, PKH pkh)
     {
         Ball = side.Ball;
-        Met_Location = side.Met_Location == Locations.Default8bNone ? 0 : side.Met_Location;
-        Egg_Location = side.Egg_Location == Locations.Default8bNone ? 0 : side.Egg_Location;
+        MetLocation = side.MetLocation != Locations.Default8bNone ? side.MetLocation : (ushort)0;
+        EggLocation = side.EggLocation != Locations.Default8bNone ? side.EggLocation : (ushort)0;
 
         if (side is IScaledSize3 s3)
             Scale = s3.Scale;
@@ -205,7 +205,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
 
     private void PopulateFromCore(PKH pkh)
     {
-        Obedience_Level = (byte)pkh.Met_Level;
+        Obedience_Level = pkh.MetLevel;
 
         var pi = PersonalTable.SV.GetFormEntry(pkh.Species, pkh.Form);
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);

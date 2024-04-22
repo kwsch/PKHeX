@@ -53,6 +53,7 @@ public sealed class G1OverworldSpawner
         }
     }
 
+#pragma warning disable IDE0052 // Remove unread private members
     public const string FlagPropertyPrefix = "Flag"; // reflection
     private FlagPairG1 FlagMewtwo { get; }
     private FlagPairG1 FlagArticuno { get; }
@@ -75,6 +76,7 @@ public sealed class G1OverworldSpawner
     private FlagPairG1? FlagBulbasaur { get; }
     private FlagPairG1? FlagSquirtle { get; }
     private FlagPairG1? FlagCharmander { get; }
+#pragma warning restore IDE0052 // Remove unread private members
 
     public void Save()
     {

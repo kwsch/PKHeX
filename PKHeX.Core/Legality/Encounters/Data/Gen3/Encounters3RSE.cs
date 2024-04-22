@@ -17,9 +17,9 @@ internal static class Encounters3RSE
     internal static readonly EncounterArea3[] SlotsS = GetRegular("s", "sa"u8, S);
     internal static readonly EncounterArea3[] SlotsE = GetRegular("e", "em"u8, E);
 
-    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, GameVersion game)
+    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion game)
         => EncounterArea3.GetAreas(Get(resource, ident), game);
-    private static EncounterArea3[] GetSwarm([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, GameVersion game)
+    private static EncounterArea3[] GetSwarm([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion game)
         => EncounterArea3.GetAreasSwarm(Get(resource, ident), game);
 
     private static readonly string[] TrainersPikachu = [string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO"];
@@ -29,14 +29,14 @@ internal static class Encounters3RSE
     internal static readonly EncounterGift3Colo[] ColoGiftsR =
     [
         // In-Game Bonus Disk (Japan only)
-        new(025, 10, TrainersPikachu, R) { Location = 255, TID16 = 31121, OT_Gender = 0 }, // Colosseum Pikachu bonus gift
-        new(251, 10, TrainersCelebi, R)  { Location = 255, TID16 = 31121, OT_Gender = 1 }, // Ageto Celebi bonus gift
+        new(025, 10, TrainersPikachu, R) { Location = 255, TID16 = 31121, OriginalTrainerGender = 0 }, // Colosseum Pikachu bonus gift
+        new(251, 10, TrainersCelebi, R)  { Location = 255, TID16 = 31121, OriginalTrainerGender = 1 }, // Ageto Celebi bonus gift
     ];
 
     internal static readonly EncounterGift3Colo[] ColoGiftsS =
     [
         // In-Game without Bonus Disk
-        new(250, 70, TrainersMattle, S)  { Location = 255, TID16 = 10048, OT_Gender = 0, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
+        new(250, 70, TrainersMattle, S)  { Location = 255, TID16 = 10048, OriginalTrainerGender = 0, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
     ];
 
     private const string tradeRSE = "traderse";
@@ -56,7 +56,7 @@ internal static class Encounters3RSE
         // Gift
         new(351, 25, RSE) { FixedBall = Ball.Poke, Location = 034    }, // Castform @ Weather Institute
         new(374, 05, RSE) { FixedBall = Ball.Poke, Location = 013    }, // Beldum @ Mossdeep City
-        new(360, 05, RSE) { FixedBall = Ball.Poke, Location = 253, EggEncounter = true }, // Wynaut Egg
+        new(360, 05, RSE) { FixedBall = Ball.Poke, Location = 253, IsEgg = true }, // Wynaut Egg
 
         // Stationary
         new(352, 30, RSE) { Location = 034 }, // Kecleon @ Route 119

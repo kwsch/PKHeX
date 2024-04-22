@@ -1,45 +1,28 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Daycare7 : SaveBlock<SAV7>
+public sealed class Daycare7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw), IDaycareStorage, IDaycareEggState, IDaycareRandomState<UInt128>
 {
-    public const int DaycareSeedSize = 32; // 128 bits
+    private const int SlotSize = PokeCrypto.SIZE_6STORED + 1;
 
-    public Daycare7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-    public Daycare7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+    public int DaycareSlotCount => 2;
 
-    public bool GetIsOccupied(int slot)
+    public bool IsDaycareOccupied(int slot) => Data[SlotSize * slot] != 0;
+    public void SetDaycareOccupied(int slot, bool occupied) => Data[SlotSize * slot] = occupied ? (byte)1 : (byte)0;
+
+    public Memory<byte> GetDaycareSlot(int slot) => Raw.Slice(1 + (slot * SlotSize), PokeCrypto.SIZE_6STORED);
+
+    public bool IsEggAvailable
     {
-        return Data[Offset + ((PokeCrypto.SIZE_6STORED + 1) * slot)] != 0;
+        get => Data[0x1D8] == 1;
+        set => Data[0x1D8] = value ? (byte)1 : (byte)0;
     }
 
-    public void SetOccupied(int slot, bool occupied)
+    public UInt128 Seed
     {
-        Data[Offset + ((PokeCrypto.SIZE_6STORED + 1) * slot)] = occupied ? (byte)1 : (byte)0;
-    }
-
-    public int GetDaycareSlotOffset(int slot)
-    {
-        return Offset + 1 + (slot * (PokeCrypto.SIZE_6STORED + 1));
-    }
-
-    public bool HasEgg
-    {
-        get => Data[Offset + 0x1D8] == 1;
-        set => Data[Offset + 0x1D8] = value ? (byte)1 : (byte)0;
-    }
-
-    public string RNGSeed
-    {
-        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x1DC, DaycareSeedSize / 2));
-        set
-        {
-            if (value.Length != DaycareSeedSize)
-                return;
-
-            var data = Util.GetBytesFromHexString(value);
-            SAV.SetData(data, Offset + 0x1DC);
-        }
+        get => ReadUInt128LittleEndian(Data[0x1DC..]);
+        set => WriteUInt128LittleEndian(Data[0x1DC..], value);
     }
 }

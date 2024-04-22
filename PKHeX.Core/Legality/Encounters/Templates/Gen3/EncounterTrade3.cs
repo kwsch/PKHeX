@@ -7,14 +7,14 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK3>, IContestStatsReadOnly
 {
-    public int Generation => 3;
+    public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
-    public int Location => Locations.LinkTrade3NPC;
+    public ushort Location => Locations.LinkTrade3NPC;
     public Shiny Shiny => Shiny.FixedValue;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
     public Nature Nature => (Nature)(PID % 25);
@@ -45,23 +45,23 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     public required ushort TID16 { get; init; }
     public ushort SID16 { get; init; }
 
-    public byte CNT_Cool   { get; private init; }
-    public byte CNT_Beauty { get; private init; }
-    public byte CNT_Cute   { get; private init; }
-    public byte CNT_Smart  { get; private init; }
-    public byte CNT_Tough  { get; private init; }
-    public byte CNT_Sheen  { get; private init; }
+    public byte ContestCool   { get; private init; }
+    public byte ContestBeauty { get; private init; }
+    public byte ContestCute   { get; private init; }
+    public byte ContestSmart  { get; private init; }
+    public byte ContestTough  { get; private init; }
+    public byte ContestSheen  { get; private init; }
 
     public required ReadOnlySpan<byte> Contest
     {
         init
         {
-            CNT_Cool   = value[0];
-            CNT_Beauty = value[1];
-            CNT_Cute   = value[2];
-            CNT_Smart  = value[3];
-            CNT_Tough  = value[4];
-            CNT_Sheen  = value[5];
+            ContestCool   = value[0];
+            ContestBeauty = value[1];
+            ContestCute   = value[2];
+            ContestSmart  = value[3];
+            ContestTough  = value[4];
+            ContestSheen  = value[5];
         }
     }
 
@@ -84,7 +84,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.E[Species];
         var pk = new PK3
@@ -92,14 +92,14 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
             Species = Species,
             CurrentLevel = Level,
 
-            Met_Location = Location,
-            Met_Level = Level,
-            Version = (byte)version,
+            MetLocation = Location,
+            MetLevel = Level,
+            Version = version,
             Ball = (byte)FixedBall,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             Language = lang,
-            OT_Gender = OTGender,
+            OriginalTrainerGender = OTGender,
             TID16 = TID16,
             SID16 = SID16,
         };
@@ -108,9 +108,9 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         if (Species == (int)Core.Species.Jynx && version == GameVersion.LG && lang == (int)LanguageID.Italian)
             lang = 2;
         pk.Nickname = Nicknames[lang];
-        pk.OT_Name = TrainerNames[lang];
+        pk.OriginalTrainerName = TrainerNames[lang];
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, Version, Level);
         SetPINGA(pk, criteria);
 
         pk.ResetPartyStats();
@@ -147,9 +147,9 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (pk.Gender != Gender)
             return false;
-        if (pk.OT_Gender != OTGender)
+        if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (pk.Egg_Location != 0)
+        if (pk.EggLocation != 0)
             return false;
         if (pk is IContestStatsReadOnly s && s.IsContestBelow(this))
             return false;
@@ -161,16 +161,32 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
     {
-        if (Species == (int)Core.Species.Jynx && pk.Version == (int)GameVersion.LG && language == (int)LanguageID.Italian)
+        if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        return language != 0 && (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames[language]);
+        if (language == 0 || (uint)language >= TrainerNames.Length)
+            return false;
+        var name = TrainerNames[language];
+        if (pk.Context == EntityContext.Gen3)
+            return trainer.SequenceEqual(name);
+
+        Span<char> tmp = stackalloc char[name.Length];
+        StringConverter345.TransferGlyphs34(name, language, tmp);
+        return trainer.SequenceEqual(tmp);
     }
 
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
     {
-        if (Species == (int)Core.Species.Jynx && pk.Version == (int)GameVersion.LG && language == (int)LanguageID.Italian)
+        if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        return language != 0 && (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames[language]);
+        if (language == 0 || (uint)language >= TrainerNames.Length)
+            return false;
+        var name = Nicknames[language];
+        if (pk.Context == EntityContext.Gen3)
+            return nickname.SequenceEqual(name);
+
+        Span<char> tmp = stackalloc char[name.Length];
+        StringConverter345.TransferGlyphs34(name, language, tmp);
+        return nickname.SequenceEqual(tmp);
     }
 
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];

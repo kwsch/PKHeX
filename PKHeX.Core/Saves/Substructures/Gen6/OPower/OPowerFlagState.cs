@@ -1,6 +1,6 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
-internal enum OPowerFlagState : byte
+public enum OPowerFlagState : byte
 {
     Locked = 0,
     Unlocked = 1,

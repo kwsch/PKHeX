@@ -48,6 +48,8 @@ public static class MessageStrings
     #region Main Window
 
     public static string MsgFileLoad { get; set; } = "File Loaded:";
+    public static string MsgFileLoadAllZero { get; set; } = "File is uninitialized (all zero). Please ensure it was properly saved.";
+    public static string MsgFileLoadAllFFFF { get; set; } = "File is uninitialized (all 0xFF). Please ensure it was properly saved.";
     public static string MsgFileLoadFail { get; set; } = "Unable to load file.";
     public static string MsgFileLoadFailAuto { get; set; } = "An error occurred while attempting to auto-load your save file.";
     public static string MsgFileLoadFailAutoAdvise { get; set; } = "It is advised to manually remove bad filenames from the folder.";
@@ -127,6 +129,8 @@ public static class MessageStrings
     public static string MsgPKMSuggestionMetLocation { get; set; } = "Met Location:";
     public static string MsgPKMSuggestionMetLevel { get; set; } = "Met Level:";
     public static string MsgPKMSuggestionLevel { get; set; } = "Current Level:";
+    public static string MsgPKMNicknameWarn { get; set; } = "The nickname \"{0}\" will be displayed as \"{1}\" in-game.";
+    public static string MsgPKMOTNameWarn { get; set; } = "The OT name \"{0}\" will be displayed as \"{1}\" in-game.";
 
     #endregion
 

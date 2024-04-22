@@ -121,12 +121,18 @@ public enum RibbonIndex : byte
     MarkAlpha,
     MarkMightiest,
     MarkTitan,
+    Partner,
 
     MAX_COUNT,
 }
 
 public static class RibbonIndexExtensions
 {
+    public const RibbonIndex MAX_G8 = MarkSlump;
+    public const RibbonIndex MAX_G8A = Hisui;
+    public const RibbonIndex MAX_G8B = TwinklingStar;
+    public const RibbonIndex MAX_G9 = Partner;
+
     public static bool GetRibbonIndex(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
     public static void SetRibbonIndex(this IRibbonIndex x, RibbonIndex r, bool value = true) => x.SetRibbon((int)r, value);
     public static bool IsEncounterMark8(this RibbonIndex r) => r is >= MarkLunchtime and <= MarkSlump;
@@ -253,12 +259,13 @@ public static class RibbonIndexExtensions
             MarkAlpha => RibbonIndexGroup.Common9,
             MarkMightiest => RibbonIndexGroup.Common9,
             MarkTitan => RibbonIndexGroup.Common9,
+            Partner => RibbonIndexGroup.Common9,
 
             _ => RibbonIndexGroup.None,
         };
     }
 
-    public static void Fix(this RibbonIndex r, RibbonVerifierArguments args, bool state)
+    public static void Fix(this RibbonIndex r, in RibbonVerifierArguments args, bool state)
     {
         var pk = args.Entity;
         var group = r.GetGroup();
@@ -362,6 +369,7 @@ public static class RibbonIndexExtensions
                 {
                     if      (r == ChampionPaldea) c9.RibbonChampionPaldea = state;
                     else if (r == OnceInALifetime) c9.RibbonOnceInALifetime = state;
+                    else if (r == Partner) c9.RibbonPartner = state;
                 }
                 if (pk is IRibbonSetMark9 m9)
                 {
@@ -547,6 +555,7 @@ public static class RibbonIndexExtensions
         MarkAlpha => nameof(IRibbonSetMark9.RibbonMarkAlpha),
         MarkMightiest => nameof(IRibbonSetMark9.RibbonMarkMightiest),
         MarkTitan => nameof(IRibbonSetMark9.RibbonMarkTitan),
+        Partner => nameof(IRibbonSetCommon9.RibbonPartner),
         _ => throw new ArgumentOutOfRangeException(nameof(r), r, null),
     };
 }

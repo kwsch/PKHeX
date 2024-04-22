@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -23,35 +24,42 @@ public sealed class SAV5BW : SAV5
     public override PersonalTable5BW Personal => PersonalTable.BW;
     public SaveBlockAccessor5BW Blocks { get; }
     protected override SAV5BW CloneInternal() => new((byte[])Data.Clone());
-    public override int EventWorkCount => 0x13E;
-    public override int EventFlagCount => 0xB60;
-    protected override int EventWorkOffset => 0x20100;
-    protected override int EventFlagOffset => EventWorkOffset + 0x27C;
     public override int MaxItemID => Legal.MaxItemID_5_BW;
+
+    public override bool HasPokeDex => true;
 
     private void Initialize()
     {
-        BattleBoxOffset = 0x20A00;
         CGearInfoOffset = 0x1C000;
         CGearDataOffset = 0x52000;
-        EntreeForestOffset = 0x22C00;
-        PokeDex = Blocks.Zukan.PokeDex;
-        WondercardData = Blocks.Mystery.Offset;
-        DaycareOffset = Blocks.Daycare.Offset;
     }
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
-    public override MyItem Items => Blocks.Items;
+    public override MyItem5BW Items => Blocks.Items;
     public override Zukan5 Zukan => Blocks.Zukan;
-    public override Misc5 Misc => Blocks.Misc;
+    public override Misc5BW Misc => Blocks.Misc;
     public override MysteryBlock5 Mystery => Blocks.Mystery;
+    public override Chatter5 Chatter => Blocks.Chatter;
     public override Daycare5 Daycare => Blocks.Daycare;
     public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
     public override PlayerData5 PlayerData => Blocks.PlayerData;
+    public override PlayerPosition5 PlayerPosition => Blocks.PlayerPosition;
     public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
-    public override Entralink5 Entralink => Blocks.Entralink;
+    public override Entralink5BW Entralink => Blocks.Entralink;
     public override Musical5 Musical => Blocks.Musical;
-    public override Encount5 Encount => Blocks.Encount;
+    public override Encount5BW Encount => Blocks.Encount;
     public override UnityTower5 UnityTower => Blocks.UnityTower;
-    public override int GTS => 0x20500;
+    public override EventWork5BW EventWork => Blocks.EventWork;
+    public override BattleBox5 BattleBox => Blocks.BattleBox;
+    public override EntreeForest EntreeForest => Blocks.EntreeForest;
+    public override GlobalLink5 GlobalLink => Blocks.GlobalLink;
+    public override GTS5 GTS => Blocks.GTS;
+    public override WhiteBlack5BW Forest => Blocks.Forest;
+    public override AdventureInfo5 AdventureInfo => Blocks.AdventureInfo;
+    public override Record5 Records => Blocks.Records;
+
+    public override Memory<byte> BattleVideoNative    => Data.AsMemory(0x4A000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload1 => Data.AsMemory(0x4C000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload2 => Data.AsMemory(0x4E000, BattleVideo5.SIZE_USED);
+    public override Memory<byte> BattleVideoDownload3 => Data.AsMemory(0x50000, BattleVideo5.SIZE_USED);
 }

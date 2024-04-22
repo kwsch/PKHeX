@@ -449,7 +449,7 @@ Supercaña
 Psydugadera
 Pokochera
 Bici
-Llave Suite
+Llave de la Suite
 Carta Prof. Oak
 Pluma Lunar
 Carné de Socio
@@ -2480,3 +2480,79 @@ Polvo de Poltchageist
 Mochi Reinicio
 Paloselfi Rotom
 Amuleto Cristalino
+Metal Compuesto
+Tarjeta Chic Azul
+Hoja de Oddish
+Aguijón de Tentacool
+Plumón de Doduo
+Pelo de Seel
+Cáscara de Exeggcute
+Sudor de Tyrogue
+Colmillo de Rhyhorn
+Tinta de Horsea
+Pelo de Elekid
+Pelo de Magby
+Lágrima de Lapras
+Fragmento de Porygon
+Electricidad de Chinchou
+Pelo de Snubbull
+Pluma de Skarmory
+Pintura de Smeargle
+Pelo de Plusle
+Pelo de Minun
+Coraza de Trapinch
+Garra de Beldum
+Púa de Cranidos
+Garra de Shieldon
+Mechón de Blitzle
+Garra de Drilbur
+Algodón de Cottonee
+Sudor de Scraggy
+Pelo de Minccino
+Gel de Solosis
+Hilo de Joltik
+Fragmento de Golett
+Pelo de Espurr
+Tinta de Inkay
+Pluma de Pikipek
+Hilo de Dewpider
+Flor de Comfey
+Caparazón de Minior
+Nata de Milcery
+Óxido de Duraludon
+Galleta Articuno
+Galleta Zapdos
+Galleta Moltres
+Galleta Raikou
+Galleta Entei
+Galleta Suicune
+Galleta Lugia
+Galleta Ho-Oh
+Galleta Latias
+Galleta Latios
+Galleta Kyogre
+Galleta Groudon
+Galleta Rayquaza
+Galleta Cobalion
+Galleta Terrakion
+Galleta Virizion
+Galleta Reshiram
+Galleta Zekrom
+Galleta Kyurem
+Galleta Solgaleo
+Galleta Lunala
+Galleta Necrozma
+Galleta Kubfu
+Galleta Glastrier
+Galleta Spectrier
+Disco Índigo
+Palillo Ígneo
+Teralito Astral
+Baya Meloc Singular
+Mantel Arándano
+Sillas Arándano
+Sincromisor
+Meteorito
+Libro Escarlata
+Libro Púrpura
+Libro de Brie

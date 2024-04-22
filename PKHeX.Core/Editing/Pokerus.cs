@@ -112,7 +112,7 @@ public static class Pokerus
     /// <remarks>Overwrites all Pokérus values even if already legal.</remarks>
     public static void Vaccinate(this PKM pk)
     {
-        pk.PKRS_Strain = IsObtainable(pk) ? 1 : 0;
-        pk.PKRS_Days = 0;
+        pk.PokerusStrain = IsObtainable(pk) ? 1 : 0;
+        pk.PokerusDays = 0;
     }
 }

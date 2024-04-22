@@ -33,7 +33,14 @@ namespace PKHeX.WinForms
             B_Save = new System.Windows.Forms.Button();
             TC_Misc = new System.Windows.Forms.TabControl();
             TAB_Main = new System.Windows.Forms.TabPage();
-            B_UnlockAllMusicalProps = new System.Windows.Forms.Button();
+            L_Record32V = new System.Windows.Forms.Label();
+            L_Record32 = new System.Windows.Forms.Label();
+            L_Record16V = new System.Windows.Forms.Label();
+            L_Record16 = new System.Windows.Forms.Label();
+            NUD_Record32V = new System.Windows.Forms.NumericUpDown();
+            NUD_Record32 = new System.Windows.Forms.NumericUpDown();
+            NUD_Record16V = new System.Windows.Forms.NumericUpDown();
+            NUD_Record16 = new System.Windows.Forms.NumericUpDown();
             GB_KeySystem = new System.Windows.Forms.GroupBox();
             B_AllKeys = new System.Windows.Forms.Button();
             CLB_KeySystem = new System.Windows.Forms.CheckedListBox();
@@ -164,13 +171,17 @@ namespace PKHeX.WinForms
             CB_MedalState = new System.Windows.Forms.ComboBox();
             CB_CurrentMedal = new System.Windows.Forms.ComboBox();
             TAB_Muscial = new System.Windows.Forms.TabPage();
+            B_UnlockAllProps = new System.Windows.Forms.Button();
             CHK_PropObtained = new System.Windows.Forms.CheckBox();
             CB_Prop = new System.Windows.Forms.ComboBox();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
-            B_UnlockAllProps = new System.Windows.Forms.Button();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32V).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16V).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16).BeginInit();
             GB_KeySystem.SuspendLayout();
             GB_Roamer.SuspendLayout();
             GB_FlyDest.SuspendLayout();
@@ -266,7 +277,14 @@ namespace PKHeX.WinForms
             // 
             // TAB_Main
             // 
-            TAB_Main.Controls.Add(B_UnlockAllMusicalProps);
+            TAB_Main.Controls.Add(L_Record32V);
+            TAB_Main.Controls.Add(L_Record32);
+            TAB_Main.Controls.Add(L_Record16V);
+            TAB_Main.Controls.Add(L_Record16);
+            TAB_Main.Controls.Add(NUD_Record32V);
+            TAB_Main.Controls.Add(NUD_Record32);
+            TAB_Main.Controls.Add(NUD_Record16V);
+            TAB_Main.Controls.Add(NUD_Record16);
             TAB_Main.Controls.Add(GB_KeySystem);
             TAB_Main.Controls.Add(CHK_LibertyPass);
             TAB_Main.Controls.Add(GB_Roamer);
@@ -280,16 +298,75 @@ namespace PKHeX.WinForms
             TAB_Main.Text = "Main";
             TAB_Main.UseVisualStyleBackColor = true;
             // 
-            // B_UnlockAllMusicalProps
+            // L_Record32V
             // 
-            B_UnlockAllMusicalProps.Location = new System.Drawing.Point(204, 280);
-            B_UnlockAllMusicalProps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_UnlockAllMusicalProps.Name = "B_UnlockAllMusicalProps";
-            B_UnlockAllMusicalProps.Size = new System.Drawing.Size(168, 48);
-            B_UnlockAllMusicalProps.TabIndex = 5;
-            B_UnlockAllMusicalProps.Text = "Unlock All Musical Props";
-            B_UnlockAllMusicalProps.UseVisualStyleBackColor = true;
-            B_UnlockAllMusicalProps.Click += B_UnlockAllMusicalProps_Click;
+            L_Record32V.Location = new System.Drawing.Point(178, 279);
+            L_Record32V.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record32V.Name = "L_Record32V";
+            L_Record32V.Size = new System.Drawing.Size(82, 23);
+            L_Record32V.TabIndex = 11;
+            L_Record32V.Text = "Value:";
+            L_Record32V.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Record32
+            // 
+            L_Record32.Location = new System.Drawing.Point(178, 254);
+            L_Record32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record32.Name = "L_Record32";
+            L_Record32.Size = new System.Drawing.Size(82, 23);
+            L_Record32.TabIndex = 10;
+            L_Record32.Text = "Record:";
+            L_Record32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Record16V
+            // 
+            L_Record16V.Location = new System.Drawing.Point(178, 225);
+            L_Record16V.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record16V.Name = "L_Record16V";
+            L_Record16V.Size = new System.Drawing.Size(82, 23);
+            L_Record16V.TabIndex = 9;
+            L_Record16V.Text = "Value:";
+            L_Record16V.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Record16
+            // 
+            L_Record16.Location = new System.Drawing.Point(178, 200);
+            L_Record16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record16.Name = "L_Record16";
+            L_Record16.Size = new System.Drawing.Size(82, 23);
+            L_Record16.TabIndex = 6;
+            L_Record16.Text = "Record:";
+            L_Record16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Record32V
+            // 
+            NUD_Record32V.Location = new System.Drawing.Point(263, 279);
+            NUD_Record32V.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
+            NUD_Record32V.Name = "NUD_Record32V";
+            NUD_Record32V.Size = new System.Drawing.Size(120, 23);
+            NUD_Record32V.TabIndex = 8;
+            // 
+            // NUD_Record32
+            // 
+            NUD_Record32.Location = new System.Drawing.Point(263, 254);
+            NUD_Record32.Name = "NUD_Record32";
+            NUD_Record32.Size = new System.Drawing.Size(120, 23);
+            NUD_Record32.TabIndex = 7;
+            // 
+            // NUD_Record16V
+            // 
+            NUD_Record16V.Location = new System.Drawing.Point(263, 225);
+            NUD_Record16V.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Record16V.Name = "NUD_Record16V";
+            NUD_Record16V.Size = new System.Drawing.Size(120, 23);
+            NUD_Record16V.TabIndex = 6;
+            // 
+            // NUD_Record16
+            // 
+            NUD_Record16.Location = new System.Drawing.Point(263, 200);
+            NUD_Record16.Name = "NUD_Record16";
+            NUD_Record16.Size = new System.Drawing.Size(120, 23);
+            NUD_Record16.TabIndex = 5;
             // 
             // GB_KeySystem
             // 
@@ -1822,6 +1899,16 @@ namespace PKHeX.WinForms
             TAB_Muscial.Text = "Musical";
             TAB_Muscial.UseVisualStyleBackColor = true;
             // 
+            // B_UnlockAllProps
+            // 
+            B_UnlockAllProps.Location = new System.Drawing.Point(6, 261);
+            B_UnlockAllProps.Name = "B_UnlockAllProps";
+            B_UnlockAllProps.Size = new System.Drawing.Size(117, 71);
+            B_UnlockAllProps.TabIndex = 2;
+            B_UnlockAllProps.Text = "Unlock All Props";
+            B_UnlockAllProps.UseVisualStyleBackColor = true;
+            B_UnlockAllProps.Click += B_UnlockAllProps_Click;
+            // 
             // CHK_PropObtained
             // 
             CHK_PropObtained.AutoSize = true;
@@ -1842,16 +1929,6 @@ namespace PKHeX.WinForms
             CB_Prop.TabIndex = 0;
             CB_Prop.SelectedIndexChanged += CB_Prop_SelectedIndexChanged;
             // 
-            // B_UnlockAllProps
-            // 
-            B_UnlockAllProps.Location = new System.Drawing.Point(6, 261);
-            B_UnlockAllProps.Name = "B_UnlockAllProps";
-            B_UnlockAllProps.Size = new System.Drawing.Size(117, 71);
-            B_UnlockAllProps.TabIndex = 2;
-            B_UnlockAllProps.Text = "Unlock All Props";
-            B_UnlockAllProps.UseVisualStyleBackColor = true;
-            B_UnlockAllProps.Click += B_UnlockAllProps_Click;
-            // 
             // SAV_Misc5
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1868,6 +1945,10 @@ namespace PKHeX.WinForms
             TC_Misc.ResumeLayout(false);
             TAB_Main.ResumeLayout(false);
             TAB_Main.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32V).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16V).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16).EndInit();
             GB_KeySystem.ResumeLayout(false);
             GB_Roamer.ResumeLayout(false);
             GB_FlyDest.ResumeLayout(false);
@@ -2045,7 +2126,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_SuperDouble;
         private System.Windows.Forms.CheckBox CHK_SuperSingle;
         private System.Windows.Forms.Panel PAN_MissionMeta;
-        private System.Windows.Forms.Button B_UnlockAllMusicalProps;
         private System.Windows.Forms.CheckBox CHK_Subway7;
         private System.Windows.Forms.CheckBox CHK_Subway3;
         private System.Windows.Forms.CheckBox CHK_Subway2;
@@ -2067,5 +2147,13 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_Prop;
         private System.Windows.Forms.CheckBox CHK_PropObtained;
         private System.Windows.Forms.Button B_UnlockAllProps;
+        private System.Windows.Forms.Label L_Record32V;
+        private System.Windows.Forms.Label L_Record32;
+        private System.Windows.Forms.Label L_Record16V;
+        private System.Windows.Forms.Label L_Record16;
+        private System.Windows.Forms.NumericUpDown NUD_Record32V;
+        private System.Windows.Forms.NumericUpDown NUD_Record32;
+        private System.Windows.Forms.NumericUpDown NUD_Record16V;
+        private System.Windows.Forms.NumericUpDown NUD_Record16;
     }
 }

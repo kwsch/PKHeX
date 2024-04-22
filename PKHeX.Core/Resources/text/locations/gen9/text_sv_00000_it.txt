@@ -169,3 +169,33 @@ Terre Primeve di Nordivia
 Pendio Infernale
 Monte Orco
 Grotta Doccia Fredda
+
+Istituto Mirtillo
+
+Settore Savana
+
+Settore Costa
+
+Settore Canyon
+
+Settore Ghiacciai
+
+Piazza Centrale
+
+Piazza della Savana
+
+Piazza della Costa
+
+Piazza del Canyon
+
+Piazza dei Ghiacciai
+
+Grotta Pietrelettrica
+
+Labirinto dei Lumi
+
+Grande Abisso Zero
+
+Grande Abisso Zero
+
+Bioterarium

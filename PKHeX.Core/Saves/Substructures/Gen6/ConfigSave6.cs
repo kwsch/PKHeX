@@ -19,13 +19,13 @@ public sealed class ConfigSave6 : SaveBlock<SAV6>
      * unknown:14       19..31
      */
 
-    public ConfigSave6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-    public ConfigSave6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+    public ConfigSave6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
+    public ConfigSave6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
     public int ConfigValue
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadInt32LittleEndian(Data);
+        set => WriteInt32LittleEndian(Data, value);
     }
 
     public int TalkingSpeed

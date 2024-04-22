@@ -183,7 +183,7 @@ public static class FileUtil
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetMemoryCard(byte[] data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
-        if (!SAV3GCMemoryCard.IsMemoryCardSize(data))
+        if (!SAV3GCMemoryCard.IsMemoryCardSize(data) || IsNoDataPresent(data))
         {
             memcard = null;
             return false;
@@ -233,7 +233,7 @@ public static class FileUtil
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetPCBoxBin(byte[] data, out IEnumerable<byte[]> pkms, SaveFile? sav)
     {
-        if (sav == null)
+        if (sav == null || IsNoDataPresent(data))
         {
             pkms = [];
             return false;
@@ -248,13 +248,22 @@ public static class FileUtil
         return false;
     }
 
+    private static bool IsNoDataPresent(ReadOnlySpan<byte> data)
+    {
+        if (!data.ContainsAnyExcept<byte>(0xFF))
+            return true;
+        if (!data.ContainsAnyExcept<byte>(0x00))
+            return true;
+        return false;
+    }
+
     /// <summary>
     /// Tries to get a <see cref="BattleVideo"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
     /// <param name="bv">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out BattleVideo? bv)
+    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out IBattleVideo? bv)
     {
         bv = BattleVideo.GetVariantBattleVideo(data);
         return bv != null;

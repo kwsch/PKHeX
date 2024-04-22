@@ -11,27 +11,23 @@ public partial class SAV_RaidSevenStar9 : Form
     private readonly SAV9SV SAV;
     private readonly RaidSevenStar9 Raids;
 
-    public SAV_RaidSevenStar9(SaveFile sav, RaidSevenStar9 raid)
+    public SAV_RaidSevenStar9(SAV9SV sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV9SV)(Origin = sav).Clone();
-        Raids = raid;
-        CB_Raid.Items.AddRange(Enumerable.Range(1, raid.CountAll).Select(z => (object)$"Raid {z:0000}").ToArray());
+        Raids = SAV.RaidSevenStar;
+        CB_Raid.Items.AddRange(Enumerable.Range(1, Raids.CountAll).Select(z => (object)$"Raid {z:0000}").ToArray());
         CB_Raid.SelectedIndex = 0;
     }
 
     private void LoadRaid(int index) => PG_Raid.SelectedObject = Raids.GetRaid(index);
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        // We've been editing the original save file blocks. Restore the clone's data.
-        Origin.CopyChangesFrom(SAV);
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
+        Origin.CopyChangesFrom(SAV);
         ValidateChildren();
         Validate();
         Close();

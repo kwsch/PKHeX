@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierMark9
 {
-    public static void Parse(this IRibbonSetMark9 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetMark9 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (!MarkRules.IsMarkValidAlpha(args.Encounter, args.Entity))
             list.Add(MarkAlpha, !r.RibbonMarkAlpha);
@@ -31,8 +31,9 @@ public static class RibbonVerifierMark9
     {
         if (r.RibbonMarkAlpha)
             list.Add(MarkAlpha);
-        if (r.RibbonMarkGourmand)
-            list.Add(MarkGourmand);
+        // Can apply to eggs if in party. Just can't affix.
+        // if (r.RibbonMarkGourmand)
+        //     list.Add(MarkGourmand);
         if (r.RibbonMarkItemfinder)
             list.Add(MarkItemfinder);
         if (r.RibbonMarkJumbo)

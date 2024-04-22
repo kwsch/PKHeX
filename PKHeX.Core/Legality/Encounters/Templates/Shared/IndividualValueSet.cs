@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <param name="SPE"><see cref="PKM.IV_SPE"/>; -1 indicates "random".</param>
 /// <param name="SPA"><see cref="PKM.IV_SPA"/>; -1 indicates "random".</param>
 /// <param name="SPD"><see cref="PKM.IV_SPD"/>; -1 indicates "random".</param>
-/// <param name="Type">Differentiate between different IV templates, or lack thereof (0).</param>
+/// <param name="Type">Differentiate between different IV templates, or lack thereof.</param>
 public readonly record struct IndividualValueSet(sbyte HP, sbyte ATK, sbyte DEF, sbyte SPE, sbyte SPA, sbyte SPD, IndividualValueSetType Type = IndividualValueSetType.Specified)
 {
     // 8 BYTES MAX STRUCTURE

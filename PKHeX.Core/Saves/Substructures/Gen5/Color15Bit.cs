@@ -31,11 +31,11 @@ public static class Color15Bit
     /// <summary>
     /// Converts a 32-bit color value to a 15-bit color value
     /// </summary>
-    public static ushort GetColorCompress(int v)
+    public static ushort GetColorCompress(int rgb)
     {
-        var R = (byte)(v >> 16);
-        var G = (byte)(v >> 8);
-        var B = (byte)(v >> 0);
+        var R = (byte)(rgb >> 16);
+        var G = (byte)(rgb >> 8);
+        var B = (byte)(rgb >> 0);
 
         int val = 0;
         val |= Convert8to5(R) << 0;
@@ -47,12 +47,12 @@ public static class Color15Bit
     /// <summary>
     /// Converts a color value from 8-bit to 5-bit
     /// </summary>
-    /// <param name="colorval">8-bit color value</param>
+    /// <param name="value">8-bit color value</param>
     /// <returns>5-bit color value</returns>
-    private static byte Convert8to5(int colorval)
+    private static byte Convert8to5(byte value)
     {
         byte i = 0;
-        while (colorval > Convert5To8[i])
+        while (value > Convert5To8[i])
             i++;
         return i;
     }

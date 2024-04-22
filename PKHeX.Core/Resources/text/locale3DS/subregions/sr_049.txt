@@ -50,4 +50,4 @@
 050	ウィスコンシン州	Wisconsin	Wisconsin	Wisconsin	Wisconsin	Wisconsin	威斯康星州	위스콘신 주	威斯康星州
 051	ウェストバージニア州	West Virginia	Virginie Occidentale	West Virginia	Virginia Occidentale	Virginia Occidental	西弗吉尼亚州	웨스트버지니아 주	西弗吉尼亞州
 052	ワイオミング州	Wyoming	Wyoming	Wyoming	Wyoming	Wyoming	怀俄明州	와이오밍 주	懷俄明州
-053	プエルトリコ	Puerto Rico	Porto Rico	Puerto Rico	Porto Rico	Puerto Rico	波多黎各	푸에르토리코 주	波多黎各
+053	プエルトリコ	Puerto Rico	Porto Rico	Puerto Rico	Porto Rico	Puerto Rico	波多黎各	푸에르토리코	波多黎各

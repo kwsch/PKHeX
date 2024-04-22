@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon7
 {
-    public static void Parse(this IRibbonSetCommon7 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon7 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         bool inhabited7 = args.History.HasVisitedGen7;
         bool alolaValid = RibbonRules.IsRibbonValidAlolaChamp(r, args.Encounter, inhabited7);

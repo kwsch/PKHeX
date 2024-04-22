@@ -56,9 +56,9 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Map.Visible = false;
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange(new[] { "Switch", "Set" });
-            CB_SoundType.Items.AddRange(new[] { "Mono", "Stereo", "Left", "Right" });
-            CB_TextSpeed.Items.AddRange(new[] { "0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7" });
+            CB_BattleStyle.Items.AddRange(["Switch", "Set"]);
+            CB_SoundType.Items.AddRange(["Mono", "Stereo", "Left", "Right"]);
+            CB_TextSpeed.Items.AddRange(["0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7"]);
 
             CHK_BattleEffects.Checked = sav1.BattleEffects;
             CB_BattleStyle.SelectedIndex = sav1.BattleStyleSwitch ? 0 : 1;
@@ -84,9 +84,9 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Map.Visible = false;
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange(new[] { "Switch", "Set" });
-            CB_SoundType.Items.AddRange(new[] { "Mono", "Stereo" });
-            CB_TextSpeed.Items.AddRange(new[] { "0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7" });
+            CB_BattleStyle.Items.AddRange(["Switch", "Set"]);
+            CB_SoundType.Items.AddRange(["Mono", "Stereo"]);
+            CB_TextSpeed.Items.AddRange(["0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7"]);
 
             CHK_BattleEffects.Checked = sav2.BattleEffects;
             CB_BattleStyle.SelectedIndex = sav2.BattleStyleSwitch ? 0 : 1;
@@ -146,7 +146,7 @@ public partial class SAV_SimpleTrainer : Form
             L_Coins.Text = "BP"; // no translation boo
             MT_Coins.Text = s.BattleSubway.BP.ToString();
 
-            var pd = s.PlayerData;
+            var pd = s.PlayerPosition;
             NUD_M.Value = pd.M;
             NUD_X.Value = pd.X;
             NUD_Z.Value = pd.Z;
@@ -261,7 +261,7 @@ public partial class SAV_SimpleTrainer : Form
         {
             if (MapUpdated)
             {
-                var pd = s.PlayerData;
+                var pd = s.PlayerPosition;
                 pd.M = (int)NUD_M.Value;
                 pd.X = (int)NUD_X.Value;
                 pd.Z = (int)NUD_Z.Value;

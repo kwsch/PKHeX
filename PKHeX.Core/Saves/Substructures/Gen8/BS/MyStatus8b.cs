@@ -8,85 +8,83 @@ namespace PKHeX.Core;
 /// Player status and info about the trainer
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class MyStatus8b : SaveBlock<SAV8BS>
+public sealed class MyStatus8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
     public const int MAX_MONEY = 999_999;
     public const byte MAX_BADGE = 8;
     // public const byte MAX_RANK = 5; // unused?
 
-    public MyStatus8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
-
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data[..0x1A];
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1C));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value);
+        get => ReadUInt32LittleEndian(Data[0x1C..]);
+        set => WriteUInt32LittleEndian(Data[0x1C..], value);
     }
 
     public ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1C), value);
+        get => ReadUInt16LittleEndian(Data[0x1C..]);
+        set => WriteUInt16LittleEndian(Data[0x1C..], value);
     }
 
     public ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1E), value);
+        get => ReadUInt16LittleEndian(Data[0x1E..]);
+        set => WriteUInt16LittleEndian(Data[0x1E..], value);
     }
 
     public uint Money
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x20));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x20), Math.Min(MAX_MONEY, value));
+        get => ReadUInt32LittleEndian(Data[0x20..]);
+        set => WriteUInt32LittleEndian(Data[0x20..], Math.Min(MAX_MONEY, value));
     }
 
-    public bool Male { get => Data[Offset + 0x24] == 1; set => Data[Offset + 0x24] = (byte)(value ? 1 : 0); }
+    public bool Male { get => Data[0x24] == 1; set => Data[0x24] = (byte)(value ? 1 : 0); }
     // 3byte align
-    public byte RegionCode { get => Data[Offset + 0x28]; set => Data[Offset + 0x28] = value; }
-    public byte BadgeCount { get => Data[Offset + 0x29]; set => Data[Offset + 0x29] = Math.Min(MAX_BADGE, value); }
-    public byte TrainerView { get => Data[Offset + 0x2A]; set => Data[Offset + 0x2A] = value; }
-    public byte ROMCode { get => Data[Offset + 0x2B]; set => Data[Offset + 0x2B] = value; }
-    public bool GameClear { get => Data[Offset + 0x2C] == 1; set => Data[Offset + 0x2C] = (byte)(value ? 1 : 0); }
+    public byte RegionCode { get => Data[0x28]; set => Data[0x28] = value; }
+    public byte BadgeCount { get => Data[0x29]; set => Data[0x29] = Math.Min(MAX_BADGE, value); }
+    public byte TrainerView { get => Data[0x2A]; set => Data[0x2A] = value; }
+    public byte ROMCode { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public bool GameClear { get => Data[0x2C] == 1; set => Data[0x2C] = (byte)(value ? 1 : 0); }
     // 3byte align
-    public byte BodyType { get => Data[Offset + 0x30]; set => Data[Offset + 0x30] = value; }
-    public Fashion FashionID { get => (Fashion)Data[Offset + 0x31]; set => Data[Offset + 0x31] = (byte)value; }
+    public byte BodyType { get => Data[0x30]; set => Data[0x30] = value; }
+    public Fashion FashionID { get => (Fashion)Data[0x31]; set => Data[0x31] = (byte)value; }
     // 2byte align
 
     public MoveType StarterType
     {
-        get => (MoveType)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x34));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x34), (int)value);
+        get => (MoveType)ReadInt32LittleEndian(Data[0x34..]);
+        set => WriteInt32LittleEndian(Data[0x34..], (int)value);
     }
 
-    public bool DSPlayer { get => Data[Offset + 0x38] == 1; set => Data[Offset + 0x38] = (byte)(value ? 1 : 0); }
+    public bool DSPlayer { get => Data[0x38] == 1; set => Data[0x38] = (byte)(value ? 1 : 0); }
     // 3byte align
 
     /// <summary> turewalkMemberIndex </summary>
-    public int FollowIndex { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x3C)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x3C), value); }
-    public int X { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x40), value); }
-    public int Y { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x44)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x44), value); }
-    public float Height { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x48)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x48), value); }
-    public float Rotation { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x4C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x4C), value); }
+    public int FollowIndex { get => ReadInt32LittleEndian(Data[0x3C..]); set => WriteInt32LittleEndian(Data[0x3C..], value); }
+    public int X { get => ReadInt32LittleEndian(Data[0x40..]); set => WriteInt32LittleEndian(Data[0x40..], value); }
+    public int Y { get => ReadInt32LittleEndian(Data[0x44..]); set => WriteInt32LittleEndian(Data[0x44..], value); }
+    public float Height { get => ReadSingleLittleEndian(Data[0x48..]); set => WriteSingleLittleEndian(Data[0x48..], value); }
+    public float Rotation { get => ReadSingleLittleEndian(Data[0x4C..]); set => WriteSingleLittleEndian(Data[0x4C..], value); }
 
     // end structure!
 
-    public int Game
+    public GameVersion Game
     {
         get => ROMCode switch
         {
-            0 => (int)GameVersion.BD,
-            1 => (int)GameVersion.SP,
+            0 => GameVersion.BD,
+            1 => GameVersion.SP,
             _ => throw new ArgumentOutOfRangeException(nameof(Game)),
         };
-        set => ROMCode = (GameVersion)value switch
+        set => ROMCode = value switch
         {
             GameVersion.BD => 0,
             GameVersion.SP => 1,

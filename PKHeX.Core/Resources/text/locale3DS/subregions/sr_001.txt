@@ -2,15 +2,15 @@
 002	東京都	Tokyo	Tokyo	Tokio	Tokyo	Tokio	东京都	도쿄 도	東京都
 003	北海道	Hokkaido	Hokkaido	Hokkaido	Hokkaido	Hokaido	北海道	홋카이도	北海道
 004	青森県	Aomori	Aomori	Aomori	Aomori	Aomori	青森县	아오모리 현	青森縣
-005	岩手県	Iwate	Iwate	Iwate	Iwate	Iwate	岩手县	이와테 현	巖手縣
+005	岩手県	Iwate	Iwate	Iwate	Iwate	Iwate	岩手县	이와테 현	岩手縣
 006	宮城県	Miyagi	Miyagi	Miyagi	Miyagi	Miyagi	宫城县	미야기 현	宮城縣
 007	秋田県	Akita	Akita	Akita	Akita	Akita	秋田县	아키타 현	秋田縣
 008	山形県	Yamagata	Yamagata	Yamagata	Yamagata	Yamagata	山形县	야마가타 현	山形縣
 009	福島県	Fukushima	Fukushima	Fukushima	Fukushima	Fukushima	福岛县	후쿠시마 현	福島縣
 010	茨城県	Ibaraki	Ibaraki	Ibaraki	Ibaraki	Ibaraki	茨城县	이바라키 현	茨城縣
-011	栃木県	Tochigi	Tochigi	Tochigi	Tochigi	Tochigi	枥木县	도치기 현	櫪木縣
-012	群馬県	Gunma	Gunma	Gunma	Gunma	Gunma	群马县	군마 현	羣馬縣
-013	埼玉県	Saitama	Saitama	Saitama	Saitama	Saitama	琦玉县	사이타마 현	琦玉縣
+011	栃木県	Tochigi	Tochigi	Tochigi	Tochigi	Tochigi	枥木县	도치기 현	枋木縣
+012	群馬県	Gunma	Gunma	Gunma	Gunma	Gunma	群马县	군마 현	群馬縣
+013	埼玉県	Saitama	Saitama	Saitama	Saitama	Saitama	琦玉县	사이타마 현	埼玉縣
 014	千葉県	Chiba	Chiba	Chiba	Chiba	Chiba	千叶县	지바 현	千葉縣
 015	神奈川県	Kanagawa	Kanagawa	Kanagawa	Kanagawa	Kanagawa	神奈川县	가나가와 현	神奈川縣
 016	富山県	Toyama	Toyama	Toyama	Toyama	Toyama	富山县	도야마 현	富山縣
@@ -18,8 +18,8 @@
 018	福井県	Fukui	Fukui	Fukui	Fukui	Fukui	福井县	후쿠이 현	福井縣
 019	山梨県	Yamanashi	Yamanashi	Yamanashi	Yamanashi	Yamanashi	山梨县	야마나시 현	山梨縣
 020	長野県	Nagano	Nagano	Nagano	Nagano	Nagano	长野县	나가노 현	長野縣
-021	新潟県	Niigata	Niigata	Niigata	Niigata	Niigata	新泻县	니가타 현	新瀉縣
-022	岐阜県	Gifu	Gifu	Gifu	Gifu	Gifu	歧阜县	기후 현	歧阜縣
+021	新潟県	Niigata	Niigata	Niigata	Niigata	Niigata	新泻县	니가타 현	新潟縣
+022	岐阜県	Gifu	Gifu	Gifu	Gifu	Gifu	歧阜县	기후 현	岐阜縣
 023	静岡県	Shizuoka	Shizuoka	Shizuoka	Shizuoka	Shizuoka	静冈县	시즈오카 현	靜岡縣
 024	愛知県	Aichi	Aichi	Aichi	Aichi	Aichi	爱知县	아이치 현	愛知縣
 025	三重県	Mie	Mie	Mie	Mie	Mie	三重县	미에 현	三重縣
@@ -45,4 +45,4 @@
 045	大分県	Oita	Oita	Oita	Oita	Oita	大分县	오이타 현	大分縣
 046	宮崎県	Miyazaki	Miyazaki	Miyazaki	Miyazaki	Miyazaki	宫崎县	미야자키 현	宮崎縣
 047	鹿児島県	Kagoshima	Kagoshima	Kagoshima	Kagoshima	Kagoshima	鹿儿岛县	가고시마 현	鹿兒島縣
-048	沖縄県	Okinawa	Okinawa	Okinawa	Okinawa	Okinawa	冲绳县	오키나와 현	衝繩縣
+048	沖縄県	Okinawa	Okinawa	Okinawa	Okinawa	Okinawa	冲绳县	오키나와 현	沖繩縣

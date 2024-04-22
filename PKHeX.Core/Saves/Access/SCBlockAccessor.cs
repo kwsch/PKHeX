@@ -9,6 +9,14 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
 {
+    public static SCBlock GetBlock(IReadOnlyList<SCBlock> blocks, uint key) => Find(blocks, key);
+    public static SCBlock GetBlockSafe(IReadOnlyList<SCBlock> blocks, uint key) => FindOrDefault(blocks, key);
+    public static bool TryGetBlock(IReadOnlyList<SCBlock> blocks, uint key, [NotNullWhen(true)] out SCBlock? block) => TryFind(blocks, key, out block);
+
+    protected static SCBlock Block<T>(T sav, uint key) where T : ISCBlockArray => GetBlock(sav.AllBlocks, key);
+    protected static SCBlock BlockSafe<T>(T sav, uint key) where T : ISCBlockArray
+        => GetBlockSafe(sav.AllBlocks, key);
+
     public abstract IReadOnlyList<SCBlock> BlockInfo { get; }
 
     /// <summary> Checks if there is any <see cref="SCBlock"/> with the requested <see cref="key"/>. </summary>
@@ -53,6 +61,9 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     /// <param name="block">Result, if found.</param>
     /// <returns>True if found, false if not found.</returns>
     public bool TryGetBlock(uint key, [NotNullWhen(true)] out SCBlock? block) => TryFind(BlockInfo, key, out block);
+
+    /// <inheritdoc cref="TryGetBlock(uint, out SCBlock)"/>
+    public bool TryGetBlock(ReadOnlySpan<char> name, [NotNullWhen(true)] out SCBlock? block) => TryGetBlock(Hash(name), out block);
 
     /// <summary>
     /// Tries to grab the actual block, and returns a new dummy if the block does not exist.
@@ -105,7 +116,7 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
         var index = FindIndex(array, key);
         if (index != -1)
             return array[index];
-        throw new KeyNotFoundException(nameof(key));
+        throw new KeyNotFoundException($"Key not found: {key:X8}");
     }
 
     private static SCBlock FindOrDefault(IReadOnlyList<SCBlock> array, uint key)
@@ -113,8 +124,10 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
         var index = FindIndex(array, key);
         if (index != -1)
             return array[index];
-        return new SCBlock(0, SCTypeCode.None);
+        return GetFakeBlock();
     }
+
+    protected static SCBlock GetFakeBlock() => new(0, SCTypeCode.None);
 
     /// <summary>
     /// Finds a specified <see cref="key"/> within the <see cref="array"/>.

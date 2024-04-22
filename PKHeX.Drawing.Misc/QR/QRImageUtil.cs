@@ -38,13 +38,19 @@ public static class QRImageUtil
         g.FillRectangle(Brushes.White, 0, 0, newpic.Width, newpic.Height);
         g.DrawImage(pic, 0, 0);
 
-        g.DrawString(GetLine(lines, 0), font, Brushes.Black, new PointF(18, qr.Height - 5));
-        g.DrawString(GetLine(lines, 1), font, Brushes.Black, new PointF(18, qr.Height + 8));
-        g.DrawString(GetLine(lines, 2).Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font,
-            Brushes.Black, new PointF(18, qr.Height + 20));
-        g.DrawString(GetLine(lines, 3) + extraText, font, Brushes.Black, new PointF(18, qr.Height + 32));
+        var black = Brushes.Black;
+        const int indent = 18;
+        g.DrawString(GetLine(lines, 0), font, black, indent, qr.Height - 5);
+        g.DrawString(GetLine(lines, 1), font, black, indent, qr.Height + 8);
+        g.DrawString(GetLine2(lines)  , font, black, indent, qr.Height + 20);
+        g.DrawString(GetLine(lines, 3) + extraText, font, black, indent, qr.Height + 32);
         return newpic;
     }
+
+    private static string GetLine2(ReadOnlySpan<string> lines) => GetLine(lines, 2)
+        .Replace(Environment.NewLine, "/")
+        .Replace("//", "   ")
+        .Replace(":/", ": ");
 
     private static string GetLine(ReadOnlySpan<string> lines, int line) => lines.Length <= line ? string.Empty : lines[line];
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -19,19 +20,20 @@ public static class EvolutionReversal
     /// <param name="levelMax">Maximum the entity may exist as</param>
     /// <param name="stopSpecies">Species ID that should be the last node, if at all. Provide 0 to fully devolve.</param>
     /// <param name="skipChecks">Option to bypass some evolution criteria</param>
+    /// <param name="tweak">Rule tweaks to use when checking evolution criteria</param>
     /// <returns>Reversed evolution lineage, with the lowest index being the current species-form.</returns>
     public static int Devolve(this IEvolutionLookup lineage, Span<EvoCriteria> result, ushort species, byte form,
-        PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks)
+        PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks, EvolutionRuleTweak tweak)
     {
         // Store our results -- trim at the end when we place it on the heap.
         var head = result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = levelMax };
-        int ctr = Devolve(lineage, result, head, pk, levelMax, levelMin, skipChecks, stopSpecies);
+        int ctr = Devolve(lineage, result, head, pk, levelMax, levelMin, skipChecks, stopSpecies, tweak);
         EvolutionUtil.CleanDevolve(result[..ctr], levelMin);
         return ctr;
     }
 
     private static int Devolve(IEvolutionLookup lineage, Span<EvoCriteria> result, EvoCriteria head,
-        PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, ushort stopSpecies)
+        PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, ushort stopSpecies, EvolutionRuleTweak tweak)
     {
         // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
         // There aren't any convergent evolution paths, so only yield the first connection.
@@ -39,7 +41,7 @@ public static class EvolutionReversal
         while (head.Species != stopSpecies)
         {
             ref readonly var node = ref lineage[head.Species, head.Form];
-            if (!node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, out var x))
+            if (!node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, tweak, out var x))
                 return ctr;
 
             result[ctr++] = x;
@@ -48,7 +50,7 @@ public static class EvolutionReversal
         return ctr;
     }
 
-    public static bool TryDevolve(this EvolutionNode node, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
+    public static bool TryDevolve(this EvolutionNode node, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak, out EvoCriteria result)
     {
         // Multiple methods can exist to devolve to the same species-form.
         // The first method is less restrictive (no LevelUp req), if two {level/other} methods exist.
@@ -59,10 +61,10 @@ public static class EvolutionReversal
             return false;
         }
 
-        var chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks);
+        var chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks, tweak);
         if (chk == EvolutionCheckResult.Valid)
         {
-            result = Create(link, currentMaxLevel);
+            result = Create(link, currentMaxLevel, tweak);
             return true;
         }
 
@@ -73,10 +75,10 @@ public static class EvolutionReversal
             return false;
         }
 
-        chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks);
+        chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks, tweak);
         if (chk == EvolutionCheckResult.Valid)
         {
-            result = Create(link, currentMaxLevel);
+            result = Create(link, currentMaxLevel, tweak);
             return true;
         }
 
@@ -84,7 +86,7 @@ public static class EvolutionReversal
         return false;
     }
 
-    private static EvoCriteria Create(in EvolutionLink link, byte currentMaxLevel) => new()
+    private static EvoCriteria Create(in EvolutionLink link, byte currentMaxLevel, EvolutionRuleTweak tweak) => new()
     {
         Species = link.Species,
         Form = link.Form,
@@ -93,6 +95,20 @@ public static class EvolutionReversal
 
         // Temporarily store these and overwrite them when we clean the list.
         LevelMin = link.Method.Level,
-        LevelUpRequired = link.Method.LevelUp,
+        LevelUpRequired = GetLevelUp(link.Method.LevelUp, currentMaxLevel, tweak),
     };
+
+    /// <summary>
+    /// Gets the level up requirement for the evolution.
+    /// </summary>
+    /// <seealso cref="EvolutionForwardPersonal.GetLevelUp"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static byte GetLevelUp(byte flag, byte currentMaxLevel, EvolutionRuleTweak tweak)
+    {
+        if (flag == 0)
+            return 0;
+        if (currentMaxLevel == 100 && tweak.AllowLevelUpEvolution100)
+            return 0;
+        return flag;
+    }
 }

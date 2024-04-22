@@ -4,6 +4,7 @@ using System.Text;
 namespace PKHeX.Core;
 
 #if DEBUG
+// ReSharper disable once UnusedType.Global
 public static class BallContextUtil
 {
     /// <summary>

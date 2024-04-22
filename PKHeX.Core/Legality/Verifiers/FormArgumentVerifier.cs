@@ -61,6 +61,15 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(LFormArgumentHigh),
                 _ => GetValid(LFormArgumentValid),
             },
+            Overqwil => arg switch
+            {
+                > 9_999 => GetInvalid(LFormArgumentHigh),
+                0 when enc.Species == (ushort)Overqwil => GetValid(LFormArgumentValid),
+                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < (pk is IHomeTrack { HasTracker: true } ? 15 : 28) => GetInvalid(LFormArgumentLow),
+                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(LFormArgumentLow),
+                _ when pk is IHomeTrack { HasTracker: false } and PA8 { CurrentLevel: < 25 } => GetInvalid(LEvoInvalid),
+                _ => GetValid(LFormArgumentValid),
+            },
             Stantler => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
@@ -84,13 +93,13 @@ public sealed class FormArgumentVerifier : Verifier
                 // Without being leveled up at least once, it cannot have a form arg value.
                 >= 999 => GetInvalid(LFormArgumentHigh),
                 0 => GetValid(LFormArgumentValid),
-                _ => pk.CurrentLevel != pk.Met_Level ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
+                _ => pk.CurrentLevel != pk.MetLevel ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
             },
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
+            Wyrdeer when enc.Species != (int)Wyrdeer && pk.CurrentLevel < 31 => GetInvalid(LEvoInvalid),
             Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
-            Overqwil    => VerifyFormArgumentRange(enc.Species, Overqwil,    arg,  20, 9999),
             Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),
             Kingambit   => VerifyFormArgumentRange(enc.Species, Kingambit,   arg,   3, 9999),
             Gholdengo   => VerifyFormArgumentRange(enc.Species, Gholdengo,   arg, 999,  999),

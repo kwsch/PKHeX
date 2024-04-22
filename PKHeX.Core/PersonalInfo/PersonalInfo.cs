@@ -22,11 +22,11 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract byte Type2 { get; set; }
     public abstract int EggGroup1 { get; set; }
     public abstract int EggGroup2 { get; set; }
-    public abstract int CatchRate { get; set; }
+    public abstract byte CatchRate { get; set; }
     public virtual int EvoStage { get; set; }
     public abstract byte Gender { get; set; }
-    public abstract int HatchCycles { get; set; }
-    public abstract int BaseFriendship { get; set; }
+    public abstract byte HatchCycles { get; set; }
+    public abstract byte BaseFriendship { get; set; }
     public abstract byte EXPGrowth { get; set; }
     public abstract int GetIndexOfAbility(int abilityID);
     public abstract int GetAbilityAtIndex(int abilityIndex);
@@ -80,22 +80,23 @@ public abstract class PersonalInfo : IPersonalInfo
             return true;
         return form < FormCount;
     }
-}
 
-public interface IPersonalInfoTM
-{
-    bool GetIsLearnTM(int index);
-    void SetIsLearnTM(int index, bool value);
-}
-
-public interface IPersonalInfoTutorType
-{
-    bool GetIsLearnTutorType(int index);
-    void SetIsLearnTutorType(int index, bool value);
-}
-
-public interface IPersonalInfoTR
-{
-    bool GetIsLearnTR(int index);
-    void SetIsLearnTR(int index, bool value);
+    /// <summary>
+    /// Gets the span of values for a given Gender
+    /// </summary>
+    /// <param name="gender">Gender</param>
+    /// <param name="ratio">Gender Ratio</param>
+    /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
+    public static (byte Min, byte Max) GetGenderMinMax(byte gender, byte ratio) => ratio switch
+    {
+        RatioMagicMale => (0, 255),
+        RatioMagicFemale => (0, 255),
+        RatioMagicGenderless => (0, 255),
+        _ => gender switch
+        {
+            0 => (ratio, 255), // male
+            1 => (0, --ratio), // female
+            _ => (0, 255),
+        },
+    };
 }

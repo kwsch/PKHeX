@@ -63,6 +63,7 @@ public static class SaveUtil
     public const int SIZE_G9_DLC1_R = 0x432ECC; // +1
     public const int SIZE_G9_DLC1_8 = 0x432ECD; // +5
     public const int SIZE_G9_DLC1_Y = 0x432ED1; // +1
+    public const int SIZE_G9_DLC1_Z = 0x432ED6; // +5
 
     public const int SIZE_G8LA = 0x136DDE;
     public const int SIZE_G8LA_1 = 0x13AD06;
@@ -140,10 +141,12 @@ public static class SaveUtil
         new SaveHandlerDeSmuME(),
         new SaveHandlerBizHawk(),
         new SaveHandlerARDS(),
+        new SaveHandlerNSO(),
     ];
 #endif
 
     private const int SIZE_G9_202 = 0xC8E; // Add 2 blocks (1 obj 0xC80, 1 bool) = 4{key}1{obj}4{len} + 4{key}1{boolT/boolF}
+    private const int SIZE_G9_300 = 0x83AD;
 
     private static readonly HashSet<long> SizesSV =
     [
@@ -158,32 +161,33 @@ public static class SaveUtil
         SIZE_G9_3G0, SIZE_G9_3G1,
         SIZE_G9_3P0, SIZE_G9_3P1,
 
-        SIZE_G9_DLC1_0, SIZE_G9_DLC1_0 + SIZE_G9_202,
-        SIZE_G9_DLC1_1, SIZE_G9_DLC1_1 + SIZE_G9_202,
-        SIZE_G9_DLC1_2, SIZE_G9_DLC1_2 + SIZE_G9_202,
-        SIZE_G9_DLC1_3, SIZE_G9_DLC1_3 + SIZE_G9_202,
-        SIZE_G9_DLC1_4, SIZE_G9_DLC1_4 + SIZE_G9_202,
-        SIZE_G9_DLC1_5, SIZE_G9_DLC1_5 + SIZE_G9_202,
-        SIZE_G9_DLC1_6, SIZE_G9_DLC1_6 + SIZE_G9_202,
-        SIZE_G9_DLC1_7, SIZE_G9_DLC1_7 + SIZE_G9_202,
-        SIZE_G9_DLC1_8, SIZE_G9_DLC1_8 + SIZE_G9_202,
-        SIZE_G9_DLC1_9, SIZE_G9_DLC1_9 + SIZE_G9_202,
-        SIZE_G9_DLC1_A, SIZE_G9_DLC1_A + SIZE_G9_202,
-        SIZE_G9_DLC1_B, SIZE_G9_DLC1_B + SIZE_G9_202,
-        SIZE_G9_DLC1_C, SIZE_G9_DLC1_C + SIZE_G9_202,
-        SIZE_G9_DLC1_D, SIZE_G9_DLC1_D + SIZE_G9_202,
-        SIZE_G9_DLC1_E, SIZE_G9_DLC1_E + SIZE_G9_202,
-        SIZE_G9_DLC1_F, SIZE_G9_DLC1_F + SIZE_G9_202,
-        SIZE_G9_DLC1_G, SIZE_G9_DLC1_G + SIZE_G9_202,
-        SIZE_G9_DLC1_H, SIZE_G9_DLC1_H + SIZE_G9_202,
-        SIZE_G9_DLC1_I, SIZE_G9_DLC1_I + SIZE_G9_202,
-        SIZE_G9_DLC1_Q, SIZE_G9_DLC1_Q + SIZE_G9_202,
-        SIZE_G9_DLC1_W, SIZE_G9_DLC1_W + SIZE_G9_202,
-        SIZE_G9_DLC1_R, SIZE_G9_DLC1_R + SIZE_G9_202,
-        SIZE_G9_DLC1_T, SIZE_G9_DLC1_T + SIZE_G9_202,
-        SIZE_G9_DLC1_Y, SIZE_G9_DLC1_Y + SIZE_G9_202,
-        SIZE_G9_DLC1_U, SIZE_G9_DLC1_U + SIZE_G9_202,
-        SIZE_G9_DLC1_V, SIZE_G9_DLC1_V + SIZE_G9_202,
+        SIZE_G9_DLC1_0, SIZE_G9_DLC1_0 + SIZE_G9_202, SIZE_G9_DLC1_0 + SIZE_G9_300,
+        SIZE_G9_DLC1_1, SIZE_G9_DLC1_1 + SIZE_G9_202, SIZE_G9_DLC1_1 + SIZE_G9_300,
+        SIZE_G9_DLC1_2, SIZE_G9_DLC1_2 + SIZE_G9_202, SIZE_G9_DLC1_2 + SIZE_G9_300,
+        SIZE_G9_DLC1_3, SIZE_G9_DLC1_3 + SIZE_G9_202, SIZE_G9_DLC1_3 + SIZE_G9_300,
+        SIZE_G9_DLC1_4, SIZE_G9_DLC1_4 + SIZE_G9_202, SIZE_G9_DLC1_4 + SIZE_G9_300,
+        SIZE_G9_DLC1_5, SIZE_G9_DLC1_5 + SIZE_G9_202, SIZE_G9_DLC1_5 + SIZE_G9_300,
+        SIZE_G9_DLC1_6, SIZE_G9_DLC1_6 + SIZE_G9_202, SIZE_G9_DLC1_6 + SIZE_G9_300,
+        SIZE_G9_DLC1_7, SIZE_G9_DLC1_7 + SIZE_G9_202, SIZE_G9_DLC1_7 + SIZE_G9_300,
+        SIZE_G9_DLC1_8, SIZE_G9_DLC1_8 + SIZE_G9_202, SIZE_G9_DLC1_8 + SIZE_G9_300,
+        SIZE_G9_DLC1_9, SIZE_G9_DLC1_9 + SIZE_G9_202, SIZE_G9_DLC1_9 + SIZE_G9_300,
+        SIZE_G9_DLC1_A, SIZE_G9_DLC1_A + SIZE_G9_202, SIZE_G9_DLC1_A + SIZE_G9_300,
+        SIZE_G9_DLC1_B, SIZE_G9_DLC1_B + SIZE_G9_202, SIZE_G9_DLC1_B + SIZE_G9_300,
+        SIZE_G9_DLC1_C, SIZE_G9_DLC1_C + SIZE_G9_202, SIZE_G9_DLC1_C + SIZE_G9_300,
+        SIZE_G9_DLC1_D, SIZE_G9_DLC1_D + SIZE_G9_202, SIZE_G9_DLC1_D + SIZE_G9_300,
+        SIZE_G9_DLC1_E, SIZE_G9_DLC1_E + SIZE_G9_202, SIZE_G9_DLC1_E + SIZE_G9_300,
+        SIZE_G9_DLC1_F, SIZE_G9_DLC1_F + SIZE_G9_202, SIZE_G9_DLC1_F + SIZE_G9_300,
+        SIZE_G9_DLC1_G, SIZE_G9_DLC1_G + SIZE_G9_202, SIZE_G9_DLC1_G + SIZE_G9_300,
+        SIZE_G9_DLC1_H, SIZE_G9_DLC1_H + SIZE_G9_202, SIZE_G9_DLC1_H + SIZE_G9_300,
+        SIZE_G9_DLC1_I, SIZE_G9_DLC1_I + SIZE_G9_202, SIZE_G9_DLC1_I + SIZE_G9_300,
+        SIZE_G9_DLC1_Q, SIZE_G9_DLC1_Q + SIZE_G9_202, SIZE_G9_DLC1_Q + SIZE_G9_300,
+        SIZE_G9_DLC1_W, SIZE_G9_DLC1_W + SIZE_G9_202, SIZE_G9_DLC1_W + SIZE_G9_300,
+        SIZE_G9_DLC1_R, SIZE_G9_DLC1_R + SIZE_G9_202, SIZE_G9_DLC1_R + SIZE_G9_300,
+        SIZE_G9_DLC1_T, SIZE_G9_DLC1_T + SIZE_G9_202, SIZE_G9_DLC1_T + SIZE_G9_300,
+        SIZE_G9_DLC1_Y, SIZE_G9_DLC1_Y + SIZE_G9_202, SIZE_G9_DLC1_Y + SIZE_G9_300,
+        SIZE_G9_DLC1_U, SIZE_G9_DLC1_U + SIZE_G9_202, SIZE_G9_DLC1_U + SIZE_G9_300,
+        SIZE_G9_DLC1_V, SIZE_G9_DLC1_V + SIZE_G9_202, SIZE_G9_DLC1_V + SIZE_G9_300,
+        SIZE_G9_DLC1_Z, SIZE_G9_DLC1_Z + SIZE_G9_202, SIZE_G9_DLC1_Z + SIZE_G9_300,
     ];
 
     private static readonly HashSet<long> SizesSWSH =
@@ -217,21 +221,21 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     private static GameVersion GetSAVType(ReadOnlySpan<byte> data)
     {
-        GameVersion ver;
-        if ((ver = GetIsG1SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG2SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG3SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG4SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG5SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG6SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG7SAV(data)) != Invalid)
-            return ver;
+        GameVersion version;
+        if ((version = GetIsG1SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG2SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG3SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG4SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG5SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG6SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG7SAV(data)) != Invalid)
+            return version;
 
         if (GetIsBelugaSAV(data) != Invalid)
             return GG;
@@ -259,14 +263,14 @@ public static class SaveUtil
         if (SAV1StadiumJ.IsStadium(data))
             return StadiumJ;
 
-        if ((ver = GetIsG8SAV(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG8SAV_BDSP(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG8SAV_LA(data)) != Invalid)
-            return ver;
-        if ((ver = GetIsG9SAV(data)) != Invalid)
-            return ver;
+        if ((version = GetIsG8SAV(data)) != Invalid)
+            return version;
+        if ((version = GetIsG8SAV_BDSP(data)) != Invalid)
+            return version;
+        if ((version = GetIsG8SAV_LA(data)) != Invalid)
+            return version;
+        if ((version = GetIsG9SAV(data)) != Invalid)
+            return version;
 
         return Invalid;
     }
@@ -606,8 +610,8 @@ public static class SaveUtil
         if (data.Length is not (SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3))
             return Invalid;
 
-        var ver = (Gem8Version)ReadUInt32LittleEndian(data);
-        if (ver is not (Gem8Version.V1_0 or Gem8Version.V1_1 or Gem8Version.V1_2 or Gem8Version.V1_3))
+        var version = (Gem8Version)ReadUInt32LittleEndian(data);
+        if (version is not (Gem8Version.V1_0 or Gem8Version.V1_1 or Gem8Version.V1_2 or Gem8Version.V1_3))
             return Invalid;
 
         return BDSP;
@@ -696,7 +700,7 @@ public static class SaveUtil
                 continue;
 
             var meta = sav.Metadata;
-            meta.SetExtraInfo(split.Header, split.Footer);
+            meta.SetExtraInfo(split.Header, split.Footer, split.Handler);
             if (path is not null)
                 meta.SetExtraInfo(path);
             return sav;
@@ -784,7 +788,7 @@ public static class SaveUtil
         }
 
         if (split != null)
-            sav.Metadata.SetExtraInfo(split.Header, split.Footer);
+            sav.Metadata.SetExtraInfo(split.Header, split.Footer, split.Handler);
         return sav;
     }
 
@@ -817,7 +821,7 @@ public static class SaveUtil
     public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
     {
         var sav = GetBlankSAV(game, language);
-        sav.Game = (int)game;
+        sav.Version = game;
         sav.OT = trainerName;
         if (sav.Generation >= 4)
             sav.Language = (int)language;
@@ -892,8 +896,8 @@ public static class SaveUtil
     /// <returns>Save File for that generation.</returns>
     public static SaveFile GetBlankSAV(EntityContext context, string trainerName, LanguageID language = LanguageID.English)
     {
-        var ver = context.GetSingleGameVersion();
-        return GetBlankSAV(ver, trainerName, language);
+        var version = context.GetSingleGameVersion();
+        return GetBlankSAV(version, trainerName, language);
     }
 
     /// <summary>

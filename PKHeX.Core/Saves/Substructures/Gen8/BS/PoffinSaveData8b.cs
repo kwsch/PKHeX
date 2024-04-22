@@ -11,10 +11,8 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size: 0x644</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class PoffinSaveData8b : SaveBlock<SAV8BS>
+public sealed class PoffinSaveData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(sav, raw)
 {
-    public PoffinSaveData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
-
     // structure:
     // PoffinData[] Poffins;
     // int CookingCount;
@@ -22,16 +20,17 @@ public sealed class PoffinSaveData8b : SaveBlock<SAV8BS>
     // 0x640 bytes of data is for poffins
     public const int COUNT_POFFIN = 100;
 
-    private int GetPoffinOffset(int index)
+    private static int GetPoffinOffset(int index)
     {
         if ((uint)index >= COUNT_POFFIN)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return Offset + (index * Poffin8b.SIZE);
+        return (index * Poffin8b.SIZE);
     }
 
-    public Poffin8b GetPoffin(int index) => new(Data, GetPoffinOffset(index));
-    public void SetPoffin(int index, Poffin8b poffin) => poffin.CopyTo(Data, GetPoffinOffset(index));
-    public int CookingCount { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x640)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x640), value); }
+    private Memory<byte> GetPoffinSpan(int index) => Raw.Slice(GetPoffinOffset(index), Poffin8b.SIZE);
+    public Poffin8b GetPoffin(int index) => new(GetPoffinSpan(index));
+    public void SetPoffin(int index, Poffin8b poffin) => poffin.CopyTo(GetPoffinSpan(index).Span);
+    public int CookingCount { get => ReadInt32LittleEndian(Data[0x640..]); set => WriteInt32LittleEndian(Data[0x640..], value); }
 
     public Poffin8b[] GetPoffins()
     {
@@ -43,8 +42,7 @@ public sealed class PoffinSaveData8b : SaveBlock<SAV8BS>
 
     public void SetPoffins(IReadOnlyCollection<Poffin8b> value)
     {
-        if (value.Count != COUNT_POFFIN)
-            throw new ArgumentException($"Expected {COUNT_POFFIN} items, received {value.Count}.", nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_POFFIN);
         var ordered = value.OrderBy(z => z.IsNull).ThenBy(z => z.IsNew);
         int ctr = 0;
         foreach (var p in ordered)
@@ -61,13 +59,10 @@ public sealed class Poffin8b
 
     private readonly byte[] Data = new byte[SIZE];
 
-    public Poffin8b(byte[] data, int offset)
-    {
-        data.AsSpan(offset, SIZE).CopyTo(Data);
-    }
+    public Poffin8b(Memory<byte> raw) => raw.Span.CopyTo(Data);
 
     public void Clear() => Data.AsSpan().Clear();
-    public void CopyTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+    public void CopyTo(Span<byte> dest) => Data.CopyTo(dest);
     public void ToNull() => MstID = 0xFF;
     public bool IsNull => MstID == 0xFF;
 
