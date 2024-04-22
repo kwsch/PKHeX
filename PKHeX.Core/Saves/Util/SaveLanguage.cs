@@ -19,6 +19,12 @@ public static class SaveLanguage
     public static LanguageID OverrideLanguageGen3FRLG { get; set; } = English;
     public static GameVersion OverrideVersionGen3FRLG { get; set; } = FRLG;
 
+    /// <summary>
+    /// Tries to infer the language and version of the save file.
+    /// </summary>
+    /// <param name="sav">Save file to infer from</param>
+    /// <param name="result">Result of the inference. Only use if the result is true.</param>
+    /// <returns>True if the language and version could be inferred, false otherwise</returns>
     public static bool TryGetResult(SaveFile sav, out SaveLanguageResult result) => result = sav switch
     {
         SAV1 s1 => s1.InferFrom(),
@@ -27,6 +33,11 @@ public static class SaveLanguage
         _ => default,
     };
 
+    /// <summary>
+    /// Updates the language and version of the save file if possible.
+    /// </summary>
+    /// <param name="sav">Save file to update</param>
+    /// <returns>True if the language and version were updated, false otherwise</returns>
     public static bool TryRevise(SaveFile sav)
     {
         if (!TryGetResult(sav, out var result))
@@ -44,6 +55,9 @@ public static class SaveLanguage
         return true;
     }
 
+    /// <summary>
+    /// Infer the language and version of the save file based on the file name.
+    /// </summary>
     public static SaveLanguageResult InferFrom(this SAV1 sav)
     {
         if (sav.Metadata.FileName is not { } x)
@@ -56,6 +70,7 @@ public static class SaveLanguage
         return GetFallback(sav);
     }
 
+    /// <inheritdoc cref="InferFrom(SAV1)"/>
     public static SaveLanguageResult InferFrom(this SAV2 sav)
     {
         if (sav.Metadata.FileName is not { } x)
@@ -68,6 +83,7 @@ public static class SaveLanguage
         return GetFallback(sav);
     }
 
+    /// <inheritdoc cref="InferFrom(SAV1)"/>
     public static SaveLanguageResult InferFrom(this SAV3 sav)
     {
         if (sav.Metadata.FileName is not { } x)
@@ -80,6 +96,10 @@ public static class SaveLanguage
         return GetFallback(sav);
     }
 
+    private static bool Contains(ReadOnlySpan<char> span, ReadOnlySpan<char> value)
+        => span.Contains(value, StringComparison.OrdinalIgnoreCase);
+
+    /// <inheritdoc cref="InferFrom(SAV1)"/>
     public static SaveLanguageResult InferFrom1(ReadOnlySpan<char> name)
     {
         // Red
@@ -116,10 +136,9 @@ public static class SaveLanguage
         if (Contains(name, "pika")) return (Japanese, YW);
 
         return default;
-
-        static bool Contains(ReadOnlySpan<char> span, ReadOnlySpan<char> value) => span.Contains(value, StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <inheritdoc cref="InferFrom(SAV1)"/>
     public static SaveLanguageResult InferFrom2(ReadOnlySpan<char> name)
     {
         // Gold
@@ -154,10 +173,9 @@ public static class SaveLanguage
         if (Contains(name, "eun")) return (Korean, SI);
 
         return default;
-
-        static bool Contains(ReadOnlySpan<char> span, ReadOnlySpan<char> value) => span.Contains(value, StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <inheritdoc cref="InferFrom(SAV1)"/>
     public static SaveLanguageResult InferFrom3(ReadOnlySpan<char> name)
     {
         // FireRed
@@ -213,10 +231,11 @@ public static class SaveLanguage
         if (Contains(name, "bpg")) return (OverrideLanguageGen3FRLG, LG);
 
         return default;
-
-        static bool Contains(ReadOnlySpan<char> span, ReadOnlySpan<char> value) => span.Contains(value, StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <summary>
+    /// Gets a safe fallback language and version for the save file.
+    /// </summary>
     private static SaveLanguageResult GetFallback(SAV1 sav)
     {
         bool jp = sav.Japanese;
@@ -226,6 +245,7 @@ public static class SaveLanguage
         return (lang, ver);
     }
 
+    /// <inheritdoc cref="GetFallback(SAV1)"/>"/>
     private static SaveLanguageResult GetFallback(SAV2 sav)
     {
         bool jp = sav.Japanese;
@@ -235,6 +255,7 @@ public static class SaveLanguage
         return (lang, ver);
     }
 
+    /// <inheritdoc cref="GetFallback(SAV1)"/>"/>
     private static SaveLanguageResult GetFallback(SAV3 sav)
     {
         bool jp = sav.Japanese;
@@ -246,6 +267,11 @@ public static class SaveLanguage
     }
 }
 
+/// <summary>
+/// Result of the language and version inference.
+/// </summary>
+/// <param name="Language">Language ID for the save file.</param>
+/// <param name="Version">Version ID for the save file.</param>
 public readonly record struct SaveLanguageResult(LanguageID Language, GameVersion Version)
 {
     public static implicit operator bool(SaveLanguageResult r) => r != default;

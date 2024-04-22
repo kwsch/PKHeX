@@ -259,6 +259,9 @@ public sealed class PK1 : GBPKML, IPersonalType
         return StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
     }
 
+    /// <summary>
+    /// Gets a checksum over all the entity's data using a single list to wrap all components.
+    /// </summary>
     public ushort GetSingleListChecksum()
     {
         Span<byte> tmp = stackalloc byte[PokeList1.GetListLengthSingle(Japanese)];

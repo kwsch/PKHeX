@@ -274,6 +274,9 @@ public sealed class PK2 : GBPKML, ICaughtData2
         return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
     }
 
+    /// <summary>
+    /// Gets a checksum over all the entity's data using a single list to wrap all components.
+    /// </summary>
     public ushort GetSingleListChecksum()
     {
         Span<byte> tmp = stackalloc byte[PokeList2.GetListLengthSingle(Japanese)];
