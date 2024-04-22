@@ -154,11 +154,11 @@ public static class SpeciesName
         // The only Gen1/2 species with a space is Mr. Mime; different period and no space.
         if (species == (int)Species.MrMime)
         {
-            int indexSpace = result.IndexOf(StringConverter12.SPH);
+            int indexSpace = result.IndexOf(StringConverter1.SPH);
             if (indexSpace > 0)
             {
                 // Gen1/2 uses a different period for MR.MIME than user input.
-                result[indexSpace - 1] = StringConverter12.DOT;
+                result[indexSpace - 1] = StringConverter1.DOT;
 
                 // Shift down. Strings have at most 1 occurrence of a space.
                 result[(indexSpace + 1)..].CopyTo(result[indexSpace..]);

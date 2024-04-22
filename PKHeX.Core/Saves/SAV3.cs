@@ -40,7 +40,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public readonly byte[] Storage = new byte[9 * SIZE_SECTOR_USED]; //  [0x83D0]
 
     private readonly int ActiveSlot;
-    public sealed override int Language { get => Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English; set { } }
+    public sealed override int Language { get; set; }
 
     protected SAV3(bool japanese) => Japanese = japanese;
 

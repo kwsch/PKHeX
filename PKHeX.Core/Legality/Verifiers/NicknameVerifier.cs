@@ -305,17 +305,17 @@ public sealed class NicknameVerifier : Verifier
     private void VerifyG1NicknameWithinBounds(LegalityAnalysis data, ReadOnlySpan<char> str)
     {
         var pk = data.Entity;
-        if (StringConverter12.GetIsG1English(str))
+        if (StringConverter1.GetIsEnglish(str))
         {
             if (str.Length > 10)
                 data.AddLine(GetInvalid(LNickLengthLong));
         }
-        else if (StringConverter12.GetIsG1Japanese(str))
+        else if (StringConverter1.GetIsJapanese(str))
         {
             if (str.Length > 5)
                 data.AddLine(GetInvalid(LNickLengthLong));
         }
-        else if (pk.Korean && StringConverter2KOR.GetIsG2Korean(str))
+        else if (pk.Korean && StringConverter2KOR.GetIsKorean(str))
         {
             if (str.Length > 5)
                 data.AddLine(GetInvalid(LNickLengthLong));

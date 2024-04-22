@@ -19,6 +19,14 @@ public sealed class PK1 : GBPKML, IPersonalType
     public PK1(bool jp = false) : base(PokeCrypto.SIZE_1PARTY, jp) { }
     public PK1(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
 
+    public PK1(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
+        : this(ot.Length == StringLengthJapanese)
+    {
+        data.CopyTo(Data);
+        ot.CopyTo(OriginalTrainerTrash);
+        nick.CopyTo(NicknameTrash);
+    }
+
     private static byte[] EnsurePartySize(byte[] data)
     {
         if (data.Length != PokeCrypto.SIZE_1PARTY)
@@ -34,7 +42,7 @@ public sealed class PK1 : GBPKML, IPersonalType
         return clone;
     }
 
-    protected override byte[] Encrypt() => new PokeList1(this).Write();
+    protected override byte[] Encrypt() => PokeList1.WrapSingle(this);
 
     #region Stored Attributes
     public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // raw access
@@ -235,8 +243,29 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     private string GetTransferTrainerName(int lang)
     {
-        if (OriginalTrainerTrash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+        if (OriginalTrainerTrash[0] == StringConverter1.TradeOTCode) // In-game Trade
             return StringConverter12Transporter.GetTradeNameGen1(lang);
         return StringConverter12Transporter.GetString(OriginalTrainerTrash, Japanese);
+    }
+
+    protected override string GetString(ReadOnlySpan<byte> data)
+    {
+        return StringConverter1.GetString(data, Japanese);
+    }
+
+    protected override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
+        StringConverterOption option = StringConverterOption.None)
+    {
+        return StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
+    }
+
+    /// <summary>
+    /// Gets a checksum over all the entity's data using a single list to wrap all components.
+    /// </summary>
+    public ushort GetSingleListChecksum()
+    {
+        Span<byte> tmp = stackalloc byte[PokeList1.GetListLengthSingle(Japanese)];
+        PokeList1.WrapSingle(this, tmp);
+        return Checksums.CRC16_CCITT(tmp);
     }
 }

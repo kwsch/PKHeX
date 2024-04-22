@@ -28,6 +28,7 @@ public sealed class PKHeXSettings
     public SetImportSettings Import { get; set; } = new();
     public SlotWriteSettings SlotWrite { get; set; } = new();
     public PrivacySettings Privacy { get; set; } = new();
+    public SaveLanguageSettings SaveLanguage { get; set; } = new();
 
     // UI Tweaks
     public DisplaySettings Display { get; set; } = new();
@@ -461,6 +462,47 @@ public sealed class PrivacySettings
 
     [LocalizedDescription("Hide Secret Details in Editors")]
     public bool HideSecretDetails { get; set; }
+}
+
+public sealed class SaveLanguageSettings
+{
+    [LocalizedDescription("Gen1: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen1 { get; set; } = new();
+
+    [LocalizedDescription("Gen2: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen2 { get; set; } = new();
+
+    [LocalizedDescription("Gen3 R/S: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen3RS { get; set; } = new();
+
+    [LocalizedDescription("Gen3 FR/LG: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen3FRLG { get; set; } = new();
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public sealed record LangVersion
+    {
+        public LanguageID Language { get; set; } = LanguageID.English;
+        public GameVersion Version { get; set; }
+    }
+
+    public void Apply()
+    {
+        SaveLanguage.OverrideLanguageGen1 = OverrideGen1.Language;
+        if (GameVersion.RBY.Contains(OverrideGen1.Version))
+            SaveLanguage.OverrideVersionGen1 = OverrideGen1.Version;
+
+        SaveLanguage.OverrideLanguageGen2 = OverrideGen2.Language;
+        if (GameVersion.GS.Contains(OverrideGen2.Version))
+            SaveLanguage.OverrideVersionGen2 = OverrideGen2.Version;
+
+        SaveLanguage.OverrideLanguageGen3RS = OverrideGen3RS.Language;
+        if (GameVersion.RS.Contains(OverrideGen3RS.Version))
+            SaveLanguage.OverrideVersionGen3RS = OverrideGen3RS.Version;
+
+        SaveLanguage.OverrideLanguageGen3FRLG = OverrideGen3FRLG.Language;
+        if (GameVersion.FRLG.Contains(OverrideGen3FRLG.Version))
+            SaveLanguage.OverrideVersionGen3FRLG = OverrideGen3FRLG.Version;
+    }
 }
 
 public sealed class BulkAnalysisSettings : IBulkAnalysisSettings

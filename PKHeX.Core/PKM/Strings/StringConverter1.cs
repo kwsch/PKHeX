@@ -3,11 +3,20 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic for converting a <see cref="string"/> for Generation 1 &amp; 2 games.
+/// Logic for converting a <see cref="string"/> for Generation 1.
 /// </summary>
-public static class StringConverter12
+/// <remarks>Slight differences when compared to <seealso cref="StringConverter2"/>.</remarks>
+public static class StringConverter1
 {
-    public static bool GetIsG1Japanese(ReadOnlySpan<char> str) => AllJapanese(str);
+    public const byte TerminatorCode = 0x50;
+    public const byte TerminatorZero = 0x00;
+    public const byte TradeOTCode = 0x5D;
+    public const byte SpaceCode = 0x7F;
+
+    public const char Terminator = '\0';
+    public const char TradeOT = '*';
+
+    public static bool GetIsJapanese(ReadOnlySpan<char> str) => AllJapanese(str);
 
     private static bool AllJapanese(ReadOnlySpan<char> str)
     {
@@ -20,27 +29,20 @@ public static class StringConverter12
         static bool IsJapanese(char c) => c is >= '\u3000' and <= '\u30FC';
     }
 
-    public static bool GetIsG1English(ReadOnlySpan<char> str) => !GetIsG1Japanese(str);
-    public static bool GetIsG1Japanese(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableJP);
-    public static bool GetIsG1English(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableEN);
+    public static bool GetIsEnglish(ReadOnlySpan<char> str) => !GetIsJapanese(str);
+    public static bool GetIsJapanese(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableJP);
+    public static bool GetIsEnglish(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableEN);
 
     private static bool AllCharsInTable(ReadOnlySpan<byte> data, ReadOnlySpan<char> table)
     {
         foreach (var c in data)
         {
             var b = table[c];
-            if (b == G1Terminator && c is not (G1TerminatorCode or G1TerminatorZero))
+            if (b == Terminator && c is not (TerminatorCode or TerminatorZero))
                 return false;
         }
         return true;
     }
-
-    public const byte G1TerminatorCode = 0x50;
-    public const byte G1TerminatorZero = 0x00;
-    public const char G1Terminator = '\0';
-    public const byte G1TradeOTCode = 0x5D;
-    public const char G1TradeOT = '*';
-    public const byte G1SpaceCode = 0x7F;
 
     /// <summary>
     /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
@@ -104,9 +106,9 @@ public static class StringConverter12
     {
         if (data.Length == 0)
             return 0;
-        if (data[0] == G1TradeOTCode) // In-game Trade
+        if (data[0] == TradeOTCode) // In-game Trade
         {
-            result[0] = G1TradeOT;
+            result[0] = TradeOT;
             return 1;
         }
 
@@ -116,7 +118,7 @@ public static class StringConverter12
         {
             var value = data[i];
             var c = dict[value];
-            if (c == G1Terminator) // Stop if Terminator
+            if (c == Terminator) // Stop if Terminator
                 break;
             result[i] = c;
         }
@@ -138,16 +140,16 @@ public static class StringConverter12
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
         else if (option is StringConverterOption.Clear50)
-            destBuffer.Fill(G1TerminatorCode);
+            destBuffer.Fill(TerminatorCode);
         else if (option is StringConverterOption.Clear7F)
-            destBuffer.Fill(G1SpaceCode);
+            destBuffer.Fill(SpaceCode);
 
         if (value.Length == 0)
             return 0;
-        if (value[0] == G1TradeOT) // Handle "[TRAINER]"
+        if (value[0] == TradeOT) // Handle "[TRAINER]"
         {
-            destBuffer[0] = G1TradeOTCode;
-            destBuffer[1] = G1TerminatorCode;
+            destBuffer[0] = TradeOTCode;
+            destBuffer[1] = TerminatorCode;
             return 2;
         }
 
@@ -166,7 +168,7 @@ public static class StringConverter12
         int count = i;
         if (count == destBuffer.Length)
             return count;
-        destBuffer[count] = G1TerminatorCode;
+        destBuffer[count] = TerminatorCode;
         return count + 1;
     }
 
@@ -181,7 +183,7 @@ public static class StringConverter12
     }
 
     // べ (U+3079), ぺ (U+307A), へ (U+3078), and り (U+308A)
-    private const string Hiragana = "べぺへり";
+    internal const string Hiragana = "べぺへり";
 
     /// <summary>
     /// Tries to remap the user input to a valid character.
@@ -198,18 +200,18 @@ public static class StringConverter12
         return false;
     }
 
-    #region Gen 1/2 Character Tables
+    #region Gen 1 Character Tables
 
-    private const char NUL = G1Terminator;
-    private const char TOT = G1TradeOT;
-    private const char LPK = '{'; // Pk
-    private const char LMN = '}'; // Mn
-    private const char MNY = '¥'; // Yen
-    private const char LPO = '@'; // Po
-    private const char LKE = '#'; // Ke
-    private const char LEA = '%'; // é for Box
+    internal const char NUL = Terminator;
+    internal const char TOT = TradeOT;
+    internal const char LPK = '{'; // Pk
+    internal const char LMN = '}'; // Mn
+    internal const char MNY = '¥'; // Yen
+    internal const char LPO = '@'; // Po
+    internal const char LKE = '#'; // Ke
+    internal const char LEA = '%'; // é for Box
     public const char DOT = '․'; // . for MR.MIME (U+2024, not U+002E)
-    private const char SPF = '　'; // Full-width space (U+3000)
+    internal const char SPF = '　'; // Full-width space (U+3000)
     public const char SPH = ' '; // Half-width space
 
     public static ReadOnlySpan<char> TableEN =>
