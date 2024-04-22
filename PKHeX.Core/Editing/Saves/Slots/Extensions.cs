@@ -237,7 +237,7 @@ public static partial class Extensions
 
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KSurpriseTrade, out var surprise))
         {
-            var st = surprise.Data;
+            var st = surprise.Data.AsMemory();
             list.Add(new(st[0x198..], 0) { Type = StorageSlotType.Misc }); // my upload
             list.Add(new(st[0x2C..], 1) { Type = StorageSlotType.Misc }); // received from others
         }

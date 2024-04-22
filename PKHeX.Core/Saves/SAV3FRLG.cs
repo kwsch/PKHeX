@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomState<ushort>
 {
     // Configuration
-    protected override SAV3FRLG CloneInternal() => new(Write());
+    protected override SAV3FRLG CloneInternal() => new(Write()) { Language = Language };
     public override GameVersion Version { get; set; } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
     public override PersonalTable3 Personal => _personal;

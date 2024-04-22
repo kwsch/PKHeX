@@ -8,8 +8,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
 {
     public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
 
-    internal const byte EggSpeciesValue = 0xFD;
-    public override bool Valid => Species is <= Legal.MaxSpeciesID_2 or EggSpeciesValue; // egg
+    public override bool Valid => Species <= Legal.MaxSpeciesID_2;
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
@@ -19,6 +18,14 @@ public sealed class PK2 : GBPKML, ICaughtData2
 
     public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
     public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+    public PK2(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
+        : this(ot.Length == StringLengthJapanese)
+    {
+        data.CopyTo(Data);
+        ot.CopyTo(OriginalTrainerTrash);
+        nick.CopyTo(NicknameTrash);
+    }
 
     private static byte[] EnsurePartySize(byte[] data)
     {
@@ -35,10 +42,11 @@ public sealed class PK2 : GBPKML, ICaughtData2
         return clone;
     }
 
-    protected override byte[] Encrypt() => new PokeList2(this).Write();
+    protected override byte[] Encrypt() => PokeList2.WrapSingle(this);
 
     #region Stored Attributes
     public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
+    public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // Alias with a different type.
     public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
     public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
     public override ushort Move1 { get => Data[2]; set => Data[2] = (byte)value; }
@@ -209,7 +217,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
 
     private string GetTransferTrainerName(int lang)
     {
-        if (OriginalTrainerTrash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+        if (OriginalTrainerTrash[0] == StringConverter1.TradeOTCode) // In-game Trade
             return StringConverter12Transporter.GetTradeNameGen1(lang);
         if (Korean)
             return OriginalTrainerName;
@@ -250,4 +258,26 @@ public sealed class PK2 : GBPKML, ICaughtData2
         Nickname = Nickname,
         OriginalTrainerName = OriginalTrainerName,
     };
+
+    protected override string GetString(ReadOnlySpan<byte> data)
+    {
+        if (Korean)
+            return StringConverter2KOR.GetString(data);
+        return StringConverter2.GetString(data, Language);
+    }
+
+    protected override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
+        StringConverterOption option = StringConverterOption.None)
+    {
+        if (Korean)
+            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+        return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
+    }
+
+    public ushort GetSingleListChecksum()
+    {
+        Span<byte> tmp = stackalloc byte[PokeList2.GetListLengthSingle(Japanese)];
+        PokeList2.WrapSingle(this, tmp);
+        return Checksums.CRC16_CCITT(tmp);
+    }
 }

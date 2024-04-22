@@ -912,6 +912,9 @@ public partial class Main : Form
 
     private static bool SanityCheckSAV(ref SaveFile sav)
     {
+        if (sav.Generation <= 3)
+            SaveLanguage.TryRevise(sav);
+
         if (sav.State.Exportable && sav is SAV3 s3)
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
@@ -935,7 +938,7 @@ public partial class Main : Form
                     s.Metadata.SetExtraInfo(origin);
                 sav = s;
             }
-            else if (s3 is SAV3FRLG frlg) // IndeterminateSubVersion
+            else if (s3 is SAV3FRLG frlg && !frlg.Version.IsValidSavedVersion()) // IndeterminateSubVersion
             {
                 string fr = GameInfo.GetVersionName(GameVersion.FR);
                 string lg = GameInfo.GetVersionName(GameVersion.LG);

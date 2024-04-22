@@ -93,11 +93,11 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
         return result;
     }
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter12.GetString(data, Japanese);
+    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter1.GetString(data, Japanese);
 
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
     {
-        return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
+        return StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
     }
 
     /// <summary>
