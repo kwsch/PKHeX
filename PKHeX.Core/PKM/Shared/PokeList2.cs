@@ -208,7 +208,7 @@ public static class PokeList2
     /// <param name="stringLength">Trainer and Nickname string length</param>
     /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="isParty">List stores party stats for each entity</param>
-    public static void MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty)
+    public static bool MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty)
     {
         // Collect the count of set slots
         var jp = IsJapaneseString(stringLength);
@@ -216,7 +216,7 @@ public static class PokeList2
 
         int count = CountPresent(input, capacity, size);
         if (count == 0 && !output.ContainsAnyExcept<byte>(0))
-            return; // No need to merge if all empty and dest is not initialized.
+            return false; // No need to merge if all empty and dest is not initialized.
 
         output[0] = (byte)count; // ensure written list is valid
         // Put non-zero species first, then empty slots
@@ -253,6 +253,7 @@ public static class PokeList2
         }
 
         output[1 + capacity] = SlotEmpty; // cap off the list
+        return true;
     }
 
     /// <inheritdoc cref="WrapSingle(PK2,Span{byte})"/>

@@ -145,8 +145,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             var dest = Data.AsSpan(ofs, boxListLength);
             var src = BoxBuffer.Slice(i * SIZE_BOX_AS_SINGLES, SIZE_BOX_AS_SINGLES);
 
-            PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false);
-            if (i == CurrentBox)
+            bool written = PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false);
+            if (written && i == CurrentBox)
                 dest.CopyTo(Data.AsSpan(Offsets.CurrentBox));
         }
 
