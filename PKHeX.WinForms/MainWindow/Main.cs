@@ -426,6 +426,7 @@ public partial class Main : Form
         PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
+        settings.SaveLanguage.Apply();
 
         var converter = settings.Converter;
         EntityConverter.AllowIncompatibleConversion = converter.AllowIncompatibleConversion;
