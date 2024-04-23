@@ -580,15 +580,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         get => Data[Offsets.Party]; protected set => Data[Offsets.Party] = (byte)value;
     }
 
-    public override int GetBoxOffset(int box)
-    {
-        return (box * SIZE_BOX_AS_SINGLES);
-    }
-
-    public override int GetPartyOffset(int slot)
-    {
-        return (BoxCount * SIZE_BOX_AS_SINGLES) + (slot * SIZE_STORED);
-    }
+    public override int GetBoxOffset(int box) => box * SIZE_BOX_AS_SINGLES;
+    public override int GetPartyOffset(int slot) => (BoxCount * SIZE_BOX_AS_SINGLES) + (slot * SIZE_STORED);
 
     public override int CurrentBox
     {
@@ -799,6 +792,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         if (Korean)
             return StringConverter2KOR.GetString(data);
         return StringConverter2.GetString(data, Language);
+    }
+
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> text)
+    {
+        if (Korean)
+            return StringConverter2KOR.LoadString(data, text);
+        return StringConverter2.LoadString(data, text, Language);
     }
 
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)

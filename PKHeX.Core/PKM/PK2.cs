@@ -259,15 +259,21 @@ public sealed class PK2 : GBPKML, ICaughtData2
         OriginalTrainerName = OriginalTrainerName,
     };
 
-    protected override string GetString(ReadOnlySpan<byte> data)
+    public override string GetString(ReadOnlySpan<byte> data)
     {
         if (Korean)
             return StringConverter2KOR.GetString(data);
         return StringConverter2.GetString(data, Language);
     }
 
-    protected override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
-        StringConverterOption option = StringConverterOption.None)
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+    {
+        if (Korean)
+            return StringConverter2KOR.LoadString(data, destBuffer);
+        return StringConverter2.LoadString(data, destBuffer, Language);
+    }
+
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
     {
         if (Korean)
             return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);

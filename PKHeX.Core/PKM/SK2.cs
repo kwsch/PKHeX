@@ -212,4 +212,11 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
     public bool IsPossible(bool japanese) => japanese ? IsJapanese(Data) : IsEnglish(Data);
     public void SwapLanguage() => IsEncodingJapanese ^= true;
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter2.GetString(data, Language);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter2.LoadString(data, destBuffer, Language);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
 }

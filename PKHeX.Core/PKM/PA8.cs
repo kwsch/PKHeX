@@ -582,7 +582,6 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return tr.OT == OriginalTrainerName;
     }
 
-
     public void UpdateHandler(ITrainerInfo tr)
     {
         // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
@@ -734,4 +733,11 @@ public sealed class PA8 : PKM, ISanityChecksum,
         if (permit.IsRecordPermitted(flagIndex))
             SetMasteredRecordFlag(flagIndex, true);
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter8.SetString(destBuffer, value, maxLength, option);
 }

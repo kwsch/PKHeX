@@ -600,12 +600,12 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public abstract bool NationalDex { get; set; }
     #endregion
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter3.GetString(data, Japanese);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter3.GetString(data, Japanese);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter3.LoadString(data, destBuffer, Japanese);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter3.SetString(destBuffer, value, maxLength, Japanese, option);
-    }
+        => StringConverter3.SetString(destBuffer, value, maxLength, Japanese, option);
 
     protected abstract int MailOffset { get; }
     public int GetMailOffset(int index) => (index * Mail3.SIZE) + MailOffset;

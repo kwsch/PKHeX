@@ -547,10 +547,10 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter1.GetString(data, Japanese);
-
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter1.GetString(data, Japanese);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter1.LoadString(data, destBuffer, Japanese);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
-    }
+        => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
 }

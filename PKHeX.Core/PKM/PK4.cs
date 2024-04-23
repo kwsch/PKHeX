@@ -383,4 +383,11 @@ public sealed class PK4 : G4PKM
         StringConverter345.TransferGlyphs45(temp[..len]);
         StringConverter5.SetString(dest, temp[..len], len);
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter4.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter4.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter4.SetString(destBuffer, value, maxLength, option);
 }

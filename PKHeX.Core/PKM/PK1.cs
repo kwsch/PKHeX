@@ -248,16 +248,12 @@ public sealed class PK1 : GBPKML, IPersonalType
         return StringConverter12Transporter.GetString(OriginalTrainerTrash, Japanese);
     }
 
-    protected override string GetString(ReadOnlySpan<byte> data)
-    {
-        return StringConverter1.GetString(data, Japanese);
-    }
-
-    protected override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
-        StringConverterOption option = StringConverterOption.None)
-    {
-        return StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
-    }
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter1.GetString(data, Japanese);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter1.LoadString(data, destBuffer, Japanese);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option = StringConverterOption.None)
+        => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
 
     /// <summary>
     /// Gets a checksum over all the entity's data using a single list to wrap all components.

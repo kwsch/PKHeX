@@ -124,12 +124,12 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
         return result;
     }
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
-
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter8.SetString(destBuffer, value, maxLength);
-    }
+        => StringConverter8.SetString(destBuffer, value, maxLength);
 
     public override bool IsVersionValid() => Version is GameVersion.GP or GameVersion.GE;
 

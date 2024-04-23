@@ -93,12 +93,12 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
         return result;
     }
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter1.GetString(data, Japanese);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter1.GetString(data, Japanese);
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter1.LoadString(data, destBuffer, Japanese);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
-    }
+        => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
 
     /// <summary>
     /// Some emulators emit with system architecture endianness (Little Endian) instead of the original Big Endian ordering.

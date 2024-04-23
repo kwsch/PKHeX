@@ -552,4 +552,11 @@ public sealed class PK5 : PKM, ISanityChecksum,
             _ => Locations.Transfer4,
         };
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter5.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter5.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter5.SetString(destBuffer, value, maxLength, option);
 }

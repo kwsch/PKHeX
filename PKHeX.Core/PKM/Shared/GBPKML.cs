@@ -61,11 +61,6 @@ public abstract class GBPKML : GBPKM
         }
     }
 
-    protected abstract string GetString(ReadOnlySpan<byte> data);
-
-    protected abstract int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
-        StringConverterOption option = StringConverterOption.None);
-
     public sealed override string Nickname
     {
         get => GetString(NicknameTrash);

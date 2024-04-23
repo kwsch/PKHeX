@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// Object representing a <see cref="PKM"/>'s data and derived properties.
 /// </summary>
 [DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
-public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter
+public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter, IStringConverter
 {
     /// <summary>
     /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
@@ -147,6 +147,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual byte Enjoyment { get => 0; set { } }
     public virtual byte Fullness { get => 0; set { } }
     public virtual int AbilityNumber { get => 0; set { } }
+
+    public abstract string GetString(ReadOnlySpan<byte> data);
+    public abstract int LoadString(ReadOnlySpan<byte> data, Span<char> text);
+    public abstract int SetString(Span<byte> data, ReadOnlySpan<char> text, int length, StringConverterOption option);
 
     /// <summary>
     /// The date the Pokémon was met.
