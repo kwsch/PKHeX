@@ -93,16 +93,18 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
         }
 
         var boxOfs = bdata - ListHeaderSizeBox;
-        if (Data[boxOfs] == 0)
+        var slice = Data.AsSpan(boxOfs, ListHeaderSizeBox);
+        if (slice[0] == 0)
         {
-            Data[boxOfs] = 1;
-            Data[boxOfs + 1] = (byte)count;
-            Data[boxOfs + 4] = StringConverter12.G1TerminatorCode;
-            StringConverter12.SetString(Data.AsSpan(boxOfs + 0x10, 4), "1234", 4, Japanese, StringConverterOption.None);
+            slice[0] = 1;
+            slice[1] = (byte)count;
+            slice[4] = StringConverter2.TerminatorCode;
+            for (int i = 0; i < 4; i++)
+                slice[0x10 + i] = (byte)(0xF6 + i); // 1234
         }
         else
         {
-            Data[boxOfs + 1] = (byte)count;
+            slice[1] = (byte)count;
         }
     }
 

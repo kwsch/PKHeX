@@ -17,7 +17,14 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public string SaveRevisionString => (Japanese ? "J" : !Korean ? "U" : "K") + (IsVirtualConsole ? "VC" : "GB");
     public bool Japanese { get; }
     public bool Korean { get; }
-    public override int Language => Japanese ? 1 : Korean ? (int)LanguageID.Korean : -1;
+    public override int Language { get; set; }
+
+    private readonly byte[] Reserved = new byte[0x8000];
+
+    protected override Span<byte> BoxBuffer => Reserved;
+    protected override Span<byte> PartyBuffer => Reserved;
+
+    private readonly SAV2Offsets Offsets;
 
     public override PersonalTable2 Personal { get; }
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GSC;
@@ -30,18 +37,22 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return gen is 1 or 2;
     });
 
-    public SAV2(GameVersion version = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
+    public SAV2(GameVersion version = GameVersion.C, LanguageID language = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
     {
         Version = version;
-        switch (lang)
+        switch (language)
         {
             case LanguageID.Japanese:
                 Japanese = true;
+                Language = 1;
                 break;
             case LanguageID.Korean:
                 Korean = true;
+                Language = (int)LanguageID.Korean;
                 break;
-            // otherwise, both false
+            default: // otherwise, both false
+                Language = -1;
+                break;
         }
         Offsets = new SAV2Offsets(this);
         Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
@@ -55,6 +66,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
         if (Version != GameVersion.C && !Japanese)
             Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
+        Language = Japanese ? 1 : Korean ? (int)LanguageID.Korean : -1;
 
         Offsets = new SAV2Offsets(this);
         Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
@@ -64,51 +76,30 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     private void Initialize()
     {
         Box = Data.Length;
-        Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
         Party = GetPartyOffset(0);
 
         // Stash boxes after the save file's end.
         int splitAtIndex = (Japanese ? 6 : 7);
-        int stored = SIZE_STOREDBOX;
-        int baseDest = Data.Length - SIZE_RESERVED;
-        var capacity = Japanese ? PokeListType.StoredJP : PokeListType.Stored;
+        int stored = SIZE_BOX_LIST;
+        var capacity = BoxSlotCount;
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i, splitAtIndex);
-            var box = Data.AsSpan(ofs, stored).ToArray();
-            var boxDest = baseDest + (i * SIZE_BOX);
-            var boxPL = new PokeList2(box, capacity, Japanese);
-            for (int j = 0; j < boxPL.Pokemon.Length; j++)
-            {
-                var dest = boxDest + (j * SIZE_STORED);
-                var pkDat = (j < boxPL.Count)
-                    ? new PokeList2(boxPL[j]).Write()
-                    : new byte[PokeList2.GetDataLength(PokeListType.Single, Japanese)];
-                pkDat.CopyTo(Data, dest);
-            }
+            var src = Data.AsSpan(ofs, stored);
+            var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
+            PokeList2.Unpack(src, dest, StringLength, capacity, false);
         }
 
-        var current = Data.AsSpan(Offsets.CurrentBox, stored).ToArray();
-        var curBoxPL = new PokeList2(current, capacity, Japanese);
-        var curDest = baseDest + (CurrentBox * SIZE_BOX);
-        for (int i = 0; i < curBoxPL.Pokemon.Length; i++)
-        {
-            var dest = curDest + (i * SIZE_STORED);
-            var pkDat = i < curBoxPL.Count
-                ? new PokeList2(curBoxPL[i]).Write()
-                : new byte[PokeList2.GetDataLength(PokeListType.Single, Japanese)];
-            pkDat.CopyTo(Data, dest);
-        }
+        // Don't treat the CurrentBox segment as valid; Stadium ignores it and will de-synchronize it.
+        // The main box data segment is the truth, the CurrentBox copy is not always up-to-date.
+        // When exporting an updated save file in this program, be nice and re-synchronize.
 
-        var party = Data.AsSpan(Offsets.Party, SIZE_STOREDPARTY).ToArray();
-        var partyPL = new PokeList2(party, PokeListType.Party, Japanese);
-        for (int i = 0; i < partyPL.Pokemon.Length; i++)
+        // Stash party immediately after.
         {
-            var dest = GetPartyOffset(i);
-            var pkDat = i < partyPL.Count
-                ? new PokeList2(partyPL[i]).Write()
-                : new byte[PokeList2.GetDataLength(PokeListType.Single, Japanese)];
-            pkDat.CopyTo(Data, dest);
+            var ofs = Offsets.Party;
+            var src = Data.AsSpan(ofs, SIZE_PARTY_LIST);
+            var dest = PartyBuffer[GetPartyOffset(0)..];
+            PokeList2.Unpack(src, dest, StringLength, 6, false);
         }
 
         if (Offsets.Daycare >= 0)
@@ -117,7 +108,6 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
             offset++;
             var pk1 = ReadPKMFromOffset(offset); // parent 1
-            var daycare1 = new PokeList2(pk1);
             offset += (StringLength * 2) + 0x20; // nick/ot/pk
             offset++;
             //byte steps = Data[offset];
@@ -125,15 +115,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             //byte BreedMotherOrNonDitto = Data[offset];
             offset++;
             var pk2 = ReadPKMFromOffset(offset); // parent 2
-            var daycare2 = new PokeList2(pk2);
             offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pk
             var pk3 = ReadPKMFromOffset(offset); // egg!
             pk3.IsEgg = true;
-            var daycare3 = new PokeList2(pk3);
 
-            daycare1.Write().CopyTo(Data, GetPartyOffset(7 + (0 * 2)));
-            daycare2.Write().CopyTo(Data, GetPartyOffset(7 + (1 * 2)));
-            daycare3.Write().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
+            PokeList2.WriteToList(PartyBuffer[GetPartyOffset(6 + (0 * 2))..], pk1, 1, true);
+            PokeList2.WriteToList(PartyBuffer[GetPartyOffset(6 + (1 * 2))..], pk2, 1, true);
+            PokeList2.WriteToList(PartyBuffer[GetPartyOffset(6 + (2 * 2))..], pk3, 1, true);
         }
     }
 
@@ -158,49 +146,37 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return pk;
     }
 
-    private const int SIZE_RESERVED = 0x8000; // unpacked box data
-    private readonly SAV2Offsets Offsets;
-
     private int GetBoxRawDataOffset(int i, int splitAtIndex)
     {
         if (i < splitAtIndex)
-            return 0x4000 + (i * (SIZE_STOREDBOX + 2));
-        return 0x6000 + ((i - splitAtIndex) * (SIZE_STOREDBOX + 2));
+            return 0x4000 + (i * (SIZE_BOX_LIST + 2));
+        return 0x6000 + ((i - splitAtIndex) * (SIZE_BOX_LIST + 2));
     }
 
     protected override byte[] GetFinalData()
     {
         int splitAtIndex = (Japanese ? 6 : 7);
+        int boxListLength = SIZE_BOX_LIST;
+        var boxSlotCount = BoxSlotCount;
         for (int i = 0; i < BoxCount; i++)
         {
-            var boxPL = new PokeList2(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
-            int slot = 0;
-            for (int j = 0; j < boxPL.Pokemon.Length; j++)
-            {
-                var ofs = GetBoxOffset(i) + (j * SIZE_STORED);
-                var data = Data.AsSpan(ofs, SIZE_STORED).ToArray();
-                PK2 boxPK = GetPKM(data);
-                if (boxPK.Species > 0)
-                    boxPL[slot++] = boxPK;
-            }
+            int ofs = GetBoxRawDataOffset(i, splitAtIndex);
+            var dest = Data.AsSpan(ofs, boxListLength);
+            var src = BoxBuffer.Slice(i * SIZE_BOX_AS_SINGLES, SIZE_BOX_AS_SINGLES);
 
-            int src = GetBoxRawDataOffset(i, splitAtIndex);
-            boxPL.Write().CopyTo(Data, src);
-            if (i == CurrentBox)
-                boxPL.Write().CopyTo(Data, Offsets.CurrentBox);
+            bool written = PokeList2.MergeSingles(src, dest, StringLength, boxSlotCount, false);
+            if (written && i == CurrentBox)
+                dest.CopyTo(Data.AsSpan(Offsets.CurrentBox));
         }
 
-        var partyPL = new PokeList2(PokeListType.Party, Japanese);
-        int pSlot = 0;
-        for (int i = 0; i < 6; i++)
+        // Write Party
         {
-            var ofs = GetPartyOffset(i);
-            var data = Data.AsSpan(ofs, SIZE_STORED).ToArray();
-            PK2 partyPK = GetPKM(data);
-            if (partyPK.Species > 0)
-                partyPL[pSlot++] = partyPK;
+            int ofs = Offsets.Party;
+            var dest = Data.AsSpan(ofs, SIZE_PARTY_LIST);
+            var src = PartyBuffer[GetPartyOffset(0)..];
+
+            PokeList2.MergeSingles(src, dest, StringLength, 6, true);
         }
-        partyPL.Write().CopyTo(Data, Offsets.Party);
 
         SetChecksums();
         if (Japanese)
@@ -246,20 +222,20 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
                     break;
             }
         }
-        return Data[..^SIZE_RESERVED];
+        return Data;
     }
 
     // Configuration
-    protected override SAV2 CloneInternal() => new(Write(), Version);
+    protected override SAV2 CloneInternal() => new(Write(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
     protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
     public override PK2 BlankPKM => new(jp: Japanese);
     public override Type PKMType => typeof(PK2);
 
-    private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
-    private int SIZE_STOREDBOX => PokeList2.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
-    private int SIZE_STOREDPARTY => PokeList2.GetDataLength(PokeListType.Party, Japanese);
+    private int SIZE_BOX_AS_SINGLES => BoxSlotCount*SIZE_STORED;
+    private int SIZE_BOX_LIST => (((StringLength * 2) + PokeCrypto.SIZE_2STORED + 1) * BoxSlotCount) + 2;
+    private int SIZE_PARTY_LIST => (((StringLength * 2) + PokeCrypto.SIZE_2PARTY + 1) * 6) + 2;
 
     public override ushort MaxMoveID => Legal.MaxMoveID_2;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_2;
@@ -583,8 +559,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public int DaycareSlotCount => 2;
     private int GetDaycareSlotOffset(int slot) => GetPartyOffset(7 + (slot * 2));
-    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(GetDaycareSlotOffset(slot), SIZE_STORED);
-    public Memory<byte> GetDaycareEgg() => Data.AsMemory(GetDaycareSlotOffset(2), SIZE_STORED);
+    public Memory<byte> GetDaycareSlot(int slot) => Reserved.AsMemory(GetDaycareSlotOffset(slot), SIZE_STORED);
+    public Memory<byte> GetDaycareEgg() => Reserved.AsMemory(GetDaycareSlotOffset(2), SIZE_STORED);
     public bool IsDaycareOccupied(int slot) => (DaycareFlagByte(slot) & 1) != 0;
 
     public void SetDaycareOccupied(int slot, bool occupied)
@@ -604,15 +580,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         get => Data[Offsets.Party]; protected set => Data[Offsets.Party] = (byte)value;
     }
 
-    public override int GetBoxOffset(int box)
-    {
-        return Data.Length - SIZE_RESERVED + (box * SIZE_BOX);
-    }
-
-    public override int GetPartyOffset(int slot)
-    {
-        return Data.Length - SIZE_RESERVED + (BoxCount * SIZE_BOX) + (slot * SIZE_STORED);
-    }
+    public override int GetBoxOffset(int box) => box * SIZE_BOX_AS_SINGLES;
+    public override int GetPartyOffset(int slot) => (BoxCount * SIZE_BOX_AS_SINGLES) + (slot * SIZE_STORED);
 
     public override int CurrentBox
     {
@@ -626,7 +595,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
     }
 
-    public string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+    public string GetBoxName(int box)
+    {
+        var result = GetString(GetBoxNameSpan(box));
+        if (!Korean)
+            result = StringConverter2.InflateLigatures(result, Language);
+        return result;
+    }
 
     private Span<byte> GetBoxNameSpan(int box)
     {
@@ -637,13 +612,16 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = GetBoxNameSpan(box);
-        SetString(span, value, 8, StringConverterOption.Clear50);
+        const int maxLen = 8;
+        Span<char> deflated = stackalloc char[maxLen];
+        int len = StringConverter2.DeflateLigatures(value, deflated, Language);
+        SetString(span, deflated[..len], maxLen, StringConverterOption.Clear50);
     }
 
     protected override PK2 GetPKM(byte[] data)
     {
         if (data.Length == SIZE_STORED)
-            return new PokeList2(data, PokeListType.Single, Japanese)[0];
+            return PokeList2.ReadFromList(data, StringLength);
         return new(data);
     }
 
@@ -790,7 +768,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         foreach (var b in Data.AsSpan(Offsets.Money, 3))
             result += b;
         var tr = Data.AsSpan(Offsets.Trainer1, 7);
-        var end = tr[2..].IndexOf(StringConverter12.G1TerminatorCode);
+        var end = tr[2..].IndexOf(StringConverter1.TerminatorCode);
         if (end >= 0)
             tr = tr[..(end + 2)];
         foreach (var b in tr)
@@ -813,14 +791,21 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     {
         if (Korean)
             return StringConverter2KOR.GetString(data);
-        return StringConverter12.GetString(data, Japanese);
+        return StringConverter2.GetString(data, Language);
+    }
+
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> text)
+    {
+        if (Korean)
+            return StringConverter2KOR.LoadString(data, text);
+        return StringConverter2.LoadString(data, text, Language);
     }
 
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
     {
         if (Korean)
             return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
-        return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
+        return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
     }
 
     public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;

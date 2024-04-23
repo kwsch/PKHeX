@@ -1408,8 +1408,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        var sav = RequestSaveFile;
-        using var d = new TrashEditor(tb, trash, sav);
+        using var d = new TrashEditor(tb, trash, Entity, Entity.Format);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(trash);

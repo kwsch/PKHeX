@@ -109,12 +109,12 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override bool IsVersionValid() =>
         Version is GameVersion.SN or GameVersion.MN or GameVersion.US or GameVersion.UM;
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter7.GetString(data);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter7.GetString(data);
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter7.LoadString(data, destBuffer);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter7.SetString(destBuffer, value, maxLength, Language, option);
-    }
+        => StringConverter7.SetString(destBuffer, value, maxLength, Language, option);
 
     // Player Information
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }

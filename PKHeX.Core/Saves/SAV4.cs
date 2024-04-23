@@ -478,12 +478,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         }
     }
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter4.GetString(data);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter4.GetString(data);
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter4.LoadString(data, destBuffer);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter4.SetString(destBuffer, value, maxLength, option);
-    }
+        => StringConverter4.SetString(destBuffer, value, maxLength, option);
 
     #region Event Flag/Event Work
     public bool GetEventFlag(int flagNumber)

@@ -523,4 +523,11 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
         return pk7; // Done!
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter6.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter6.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter6.SetString(destBuffer, value, maxLength, option);
 }

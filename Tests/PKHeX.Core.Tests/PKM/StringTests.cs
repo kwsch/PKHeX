@@ -79,7 +79,7 @@ public class StringTests
     public static void ConvertStringVC(string g12, string g7)
     {
         Span<byte> b12 = stackalloc byte[g12.Length];
-        var len = StringConverter12.SetString(b12, g12, g12.Length, true);
+        var len = StringConverter1.SetString(b12, g12, g12.Length, true);
         var result = StringConverter12Transporter.GetString(b12[..len], true);
         result.Should().Be(g7);
     }
@@ -96,9 +96,9 @@ public class StringTests
 
         // Ensure the API converts it back and forth correctly.
         Span<byte> convert = stackalloc byte[expect.Length + 1];
-        var len = StringConverter12.SetString(convert, name, name.Length, jp);
+        var len = StringConverter1.SetString(convert, name, name.Length, jp);
         len.Should().Be(expect.Length + 1);
-        var gen1Name = StringConverter12.GetString(convert, jp);
+        var gen1Name = StringConverter1.GetString(convert, jp);
         gen1Name.Should().Be(expect);
 
         // Truncated name transferred with Virtual Console rules isn't the same as the Generation 7 name.

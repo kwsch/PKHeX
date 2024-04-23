@@ -244,12 +244,12 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public override bool IsVersionValid() => Version is GameVersion.BD or GameVersion.SP;
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
-
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter8.SetString(destBuffer, value, maxLength, option);
-    }
+        => StringConverter8.SetString(destBuffer, value, maxLength, option);
 
     // Player Information
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }

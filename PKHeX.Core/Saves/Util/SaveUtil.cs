@@ -653,7 +653,12 @@ public static class SaveUtil
         {
             var data = File.ReadAllBytes(path);
             var sav = GetVariantSAV(data, path);
-            sav?.Metadata.SetExtraInfo(path);
+            if (sav is null)
+                return null;
+
+            sav.Metadata.SetExtraInfo(path);
+            if (sav.Generation <= 3)
+                SaveLanguage.TryRevise(sav);
             return sav;
         }
         catch (Exception ex)
@@ -846,12 +851,12 @@ public static class SaveUtil
     /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
     private static SaveFile GetBlankSAV(GameVersion game, LanguageID language) => game switch
     {
-        RD or BU or GN or YW or RBY => new SAV1(version: game, japanese: language == LanguageID.Japanese || game == BU),
+        RD or BU or GN or YW or RBY => new SAV1(version: game, game == BU ? LanguageID.Japanese : language),
         StadiumJ => new SAV1StadiumJ(),
         Stadium => new SAV1Stadium(language == LanguageID.Japanese),
 
-        GD or SI or GS => new SAV2(version: GS, lang: language),
-        C or GSC => new SAV2(version: C, lang: language),
+        GD or SI or GS => new SAV2(version: GS, language: language),
+        C or GSC => new SAV2(version: C, language: language),
         Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
 
         R or S or RS => new SAV3RS(language == LanguageID.Japanese),
