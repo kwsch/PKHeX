@@ -259,6 +259,9 @@ public sealed class EntityConverterSettings
 
     [LocalizedDescription("Default version to set when transferring from Generation 2 3DS Virtual Console to Generation 7.")]
     public GameVersion VirtualConsoleSourceGen2 { get; set; } = GameVersion.SI;
+
+    [LocalizedDescription("Retain the Met Date when transferring from Generation 4 to Generation 5.")]
+    public bool RetainMetDateTransfer45 { get; set; }
 }
 
 public sealed class AdvancedSettings

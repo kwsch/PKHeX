@@ -316,9 +316,9 @@ public sealed class PK4 : G4PKM
         {
             JunkByte = 0,
             OriginalTrainerFriendship = 70,
-            // Apply new met date
-            MetDate = EncounterDate.GetDateNDS(),
         };
+        if (!EntityConverter.RetainMetDateTransfer45)
+            EncounterDate.GetDateNDS(); // Apply new met date
         pk5.HeldMail.Clear();
 
         // Arceus Type Changing -- Plate forcibly removed.
@@ -327,7 +327,7 @@ public sealed class PK4 : G4PKM
             pk5.Form = 0;
             pk5.HeldItem = 0;
         }
-        else if (Array.IndexOf(Legal.HeldItems_BW, (ushort)HeldItem) == -1)
+        else if (!Legal.HeldItems_BW.AsSpan().Contains((ushort)HeldItem))
         {
             pk5.HeldItem = 0; // if valid, it's already copied
         }
