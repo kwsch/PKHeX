@@ -99,7 +99,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             var ofs = Offsets.Party;
             var src = Data.AsSpan(ofs, SIZE_PARTY_LIST);
             var dest = PartyBuffer[GetPartyOffset(0)..];
-            PokeList2.Unpack(src, dest, StringLength, 6, false);
+            PokeList2.Unpack(src, dest, StringLength, 6, true);
         }
 
         if (Offsets.Daycare >= 0)
@@ -229,11 +229,11 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     protected override SAV2 CloneInternal() => new(Write(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
-    protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
+    protected override int SIZE_PARTY => SIZE_STORED;
     public override PK2 BlankPKM => new(jp: Japanese);
     public override Type PKMType => typeof(PK2);
 
-    private int SIZE_BOX_AS_SINGLES => BoxSlotCount*SIZE_STORED;
+    private int SIZE_BOX_AS_SINGLES => BoxSlotCount * SIZE_STORED;
     private int SIZE_BOX_LIST => (((StringLength * 2) + PokeCrypto.SIZE_2STORED + 1) * BoxSlotCount) + 2;
     private int SIZE_PARTY_LIST => (((StringLength * 2) + PokeCrypto.SIZE_2PARTY + 1) * 6) + 2;
 
@@ -558,7 +558,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     public int DaycareSlotCount => 2;
-    private int GetDaycareSlotOffset(int slot) => GetPartyOffset(7 + (slot * 2));
+    private int GetDaycareSlotOffset(int slot) => GetPartyOffset(6 + slot);
     public Memory<byte> GetDaycareSlot(int slot) => Reserved.AsMemory(GetDaycareSlotOffset(slot), SIZE_STORED);
     public Memory<byte> GetDaycareEgg() => Reserved.AsMemory(GetDaycareSlotOffset(2), SIZE_STORED);
     public bool IsDaycareOccupied(int slot) => (DaycareFlagByte(slot) & 1) != 0;

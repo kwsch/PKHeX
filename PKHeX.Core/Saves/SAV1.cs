@@ -95,7 +95,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             var ofs = Offsets.Party;
             var src = Data.AsSpan(ofs, SIZE_PARTY_LIST);
             var dest = PartyBuffer[GetPartyOffset(0)..];
-            PokeList1.Unpack(src, dest, StringLength, 6, false);
+            PokeList1.Unpack(src, dest, StringLength, 6, true);
         }
 
         ReadOnlySpan<byte> rawDC = Data.AsSpan(Offsets.Daycare, 0x38);
@@ -183,7 +183,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     protected override SAV1 CloneInternal() => new(Write(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
-    protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
+    protected override int SIZE_PARTY => SIZE_STORED;
     private int SIZE_BOX_AS_SINGLES => BoxSlotCount * SIZE_STORED;
     private int SIZE_BOX_LIST => (((StringLength * 2) + PokeCrypto.SIZE_1STORED + 1) * BoxSlotCount) + 2;
     private int SIZE_PARTY_LIST => (((StringLength * 2) + PokeCrypto.SIZE_1PARTY + 1) * 6) + 2;
