@@ -433,6 +433,7 @@ public partial class Main : Form
         EntityConverter.RejuvenateHOME = converter.AllowGuessRejuvenateHOME;
         EntityConverter.VirtualConsoleSourceGen1 = converter.VirtualConsoleSourceGen1;
         EntityConverter.VirtualConsoleSourceGen2 = converter.VirtualConsoleSourceGen2;
+        EntityConverter.RetainMetDateTransfer45 = converter.RetainMetDateTransfer45;
 
         SpriteBuilder.LoadSettings(settings.Sprite);
     }
