@@ -67,9 +67,12 @@ public static class FormConverter
             Slowpoke or Farfetchd when generation >= 8 => GetFormsGalar(types, forms),
             Growlithe or Arcanine or Voltorb or Electrode or Scyther when generation >= 7 => GetFormsHisui(species, generation, types, forms),
             Tauros when generation >= 9 => GetFormsPaldea(species, types, forms),
-            Tentacool or Tentacruel when generation >= 9 => GetFormsPaldea(species, types, forms),
+            Tentacool or Tentacruel when generation >= 7 => GetFormsConvergent(types, forms),
 
             Dragonair or Dragonite when generation >= 7 => GetFormsJudea(types, forms),
+            Onix when generation >= 7 => GetFormsCrystal(types, forms),
+            Wigglytuff when generation >= 7 => GetFormsParadox(species, types, forms),
+
 
             _ => GetFormsAlolan(context, types, forms, species),
         };
@@ -88,6 +91,7 @@ public static class FormConverter
             Quagsire when generation >= 7 => GetFormsPaldea(species, types, forms),
             Wooper when generation >= 9 => GetFormsPaldea(species, types, forms),
             Unown => GetFormsUnown(generation),
+            Donphan or Raikou or Entei or Suicune when generation >= 7 => GetFormsParadox(species, types, forms),
             _ => EMPTY,
         };
     }
@@ -158,6 +162,8 @@ public static class FormConverter
             ],
             Arceus => GetFormsArceus(species, generation, types, forms),
             Weavile when generation >= 7 => GetFormsHisui(species, generation, types, forms),
+            PorygonZ when generation >= 7 => GetFormsJudea(types, forms),
+            Magnezone when generation >= 7 => GetFormsParadox(species, types, forms),
             _ => EMPTY,
         };
     }
@@ -168,7 +174,7 @@ public static class FormConverter
         {
             Serperior or Emboar or Samurott or Zorua or Zoroark or Braviary when generation >= 7 => GetFormsHisui(species, generation, types, forms),
             Lilligant when generation >= 8 => GetFormsHisui(species, generation, types, forms),
-            Chandelure when generation >= 7 => GetFormsJudea(types, forms),
+            Golurk or Chandelure when generation >= 7 => GetFormsJudea(types, forms),
             Basculin when generation >= 8 => [
                 forms[(int)Basculin], // Red
                 forms[942], // Blue
@@ -220,6 +226,7 @@ public static class FormConverter
                 types[014], // Chill (Ice)
             ],
             Whirlipede or Scolipede or Galvantula when generation >= 7 => GetFormsOrre(types, forms),
+            Amoonguss or Hydreigon or Volcarona or Cobalion or Terrakion or Virizion when generation >= 7 => GetFormsParadox(species, types, forms),
             _ => EMPTY,
         };
     }
@@ -776,7 +783,8 @@ public static class FormConverter
         362 or 373 or 376 or 384 or 428 or 475 or 531 or 719
 
         //USUMABZB
-        or 12 or 68 or 99 or 131 or 133 or 143 or 277 or 330 or 478 or 479 or 483 or 484 or 569
+        or 12 or 68 or 83 or 99 or 131 or 133 or 143 or 225 or 277 or 330 or 468 or
+        478 or 479 or 483 or 484 or 569
     ;
 
     private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
@@ -815,6 +823,16 @@ public static class FormConverter
             forms[Judean], // Judean
         ];
     }
+    
+
+    private static string[] GetFormsCrystal(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    {
+        return
+        [
+            types[0], // Normal
+            forms[Crystal], // Crystal
+        ];
+    }
 
     private static string[] GetFormsOrre(IReadOnlyList<string> types, IReadOnlyList<string> forms)
     {
@@ -824,6 +842,31 @@ public static class FormConverter
             forms[Orrean], // Orrean
         ];
     }
+    
+
+    private static string[] GetFormsConvergent(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    {
+        return
+        [
+            types[0], // Normal
+            forms[Convergent], // Convergent
+        ];
+    }
+
+
+    private static string[] GetFormsParadox(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms) => (Species)species switch
+    {
+        Donphan or Volcarona => [
+            types[0], // Normal
+            $"{forms[Paradox]} {forms[ParadoxAncient]}",
+            $"{forms[Paldean]} {forms[ParadoxFuture]}",
+        ],
+        _ =>
+        [
+            types[0], // Normal
+            forms[Paradox],
+        ],
+    };
 
     private static string[] GetFormsHisui(ushort species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms) => generation switch
     {
@@ -956,6 +999,11 @@ public static class FormConverter
 
     private const int Orrean= 1137;
     private const int Judean = 1138;
+    private const int Convergent = 1139;
+    private const int Crystal = 1140;
+    private const int Paradox = 1141;
+    private const int ParadoxAncient = 1142;
+    private const int ParadoxFuture = 1143;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 
