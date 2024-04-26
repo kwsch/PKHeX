@@ -43,7 +43,7 @@ public sealed class NicknameVerifier : Verifier
             if (pk.VC)
                 VerifyG1NicknameWithinBounds(data, nickname);
             else if (enc is MysteryGift {IsEgg: false})
-                data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
+                data.AddLine(Get(LEncGiftNicknamed, ParseSettings.Settings.Nickname.NicknamedMysteryGift(enc.Context)));
         }
 
         if (enc is IFixedTrainer t)
@@ -63,7 +63,7 @@ public sealed class NicknameVerifier : Verifier
             return;
 
         // Non-nicknamed strings have already been checked.
-        if (ParseSettings.CheckWordFilter && pk.IsNicknamed)
+        if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format) && pk.IsNicknamed)
         {
             if (WordFilter.IsFiltered(nickname, out var badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
@@ -163,7 +163,7 @@ public sealed class NicknameVerifier : Verifier
                 if (!SpeciesName.TryGetSpecies(nickname, language, out var species))
                     continue;
                 var msg = species == pk.Species && language != pk.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
-                data.AddLine(Get(msg, ParseSettings.NicknamedAnotherSpecies));
+                data.AddLine(Get(msg, ParseSettings.Settings.Nickname.NicknamedAnotherSpecies));
                 return true;
             }
             if (pk.Format <= 7 && StringConverter.HasEastAsianScriptCharacters(nickname) && pk is not PB7) // East Asian Scripts
@@ -403,7 +403,7 @@ public sealed class NicknameVerifier : Verifier
         var pk = data.Entity;
         var result = fn.IsNicknameMatch(pk, pk.Nickname, language)
             ? GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname)
-            : Get(LEncTradeChangedNickname, ParseSettings.NicknamedTrade, CheckIdentifier.Nickname);
+            : Get(LEncTradeChangedNickname, ParseSettings.Settings.Nickname.NicknamedTrade(data.EncounterOriginal.Context), CheckIdentifier.Nickname);
         data.AddLine(result);
     }
 

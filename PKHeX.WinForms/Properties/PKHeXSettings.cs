@@ -43,7 +43,6 @@ public sealed class PKHeXSettings
     public EntityDatabaseSettings EntityDb { get; set; } = new();
     public EncounterDatabaseSettings EncounterDb { get; set; } = new();
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
-    public BulkAnalysisSettings Bulk { get; set; } = new();
 
     [Browsable(false)]
     public SlotExportSettings SlotExport { get; set; } = new();
@@ -202,48 +201,6 @@ public enum PluginLoadSetting
     LoadFromMerged,
     LoadFileMerged,
     UnsafeMerged,
-}
-
-public sealed class LegalitySettings : IParseSettings
-{
-    [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the 3DS console's regex lists.")]
-    public bool CheckWordFilter { get; set; } = true;
-
-    [LocalizedDescription("Checks the last loaded player save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
-    public bool CheckActiveHandler { get; set; }
-
-    [LocalizedDescription("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
-    public bool AllowGen1Tradeback { get; set; } = true;
-
-    [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed In-Game Trade the player cannot normally nickname.")]
-    public Severity NicknamedTrade { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
-    public Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match for Generation 3 encounters.")]
-    public Severity RNGFrameNotFound3 { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match for Generation 4 encounters.")]
-    public Severity RNGFrameNotFound4 { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
-    public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Memory is missing for the Handling Trainer.")]
-    public Severity Gen8MemoryMissingHT { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
-    public Severity HOMETransferTrackerNotPresent { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
-    public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a zero value for both Height and Weight.")]
-    public Severity ZeroHeightWeight { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon's Current Handler does not match the expected value.")]
-    public Severity CurrentHandlerMismatch { get; set; } = Severity.Invalid;
 }
 
 public sealed class EntityConverterSettings
@@ -506,12 +463,6 @@ public sealed class SaveLanguageSettings
         if (GameVersion.FRLG.Contains(OverrideGen3FRLG.Version))
             SaveLanguage.OverrideVersionGen3FRLG = OverrideGen3FRLG.Version;
     }
-}
-
-public sealed class BulkAnalysisSettings : IBulkAnalysisSettings
-{
-    [LocalizedDescription("Checks the save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
-    public bool CheckActiveHandler { get; set; } = true;
 }
 
 public sealed class SlotExportSettings

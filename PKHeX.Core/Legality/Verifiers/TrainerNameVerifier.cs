@@ -42,7 +42,7 @@ public sealed class TrainerNameVerifier : Verifier
                 data.AddLine(Get(LOTLong, Severity.Invalid));
         }
 
-        if (ParseSettings.CheckWordFilter)
+        if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format))
         {
             if (WordFilter.IsFiltered(ot, out var badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));

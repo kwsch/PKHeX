@@ -179,7 +179,7 @@ public partial class SAV_BoxLayout : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        if (flagArr.Length > 0)
+        if (flagArr.Length != 0)
             SAV.BoxFlags = Array.ConvertAll(flagArr, i => (byte)i.Value);
         if (CB_Unlocked.Visible)
             SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;

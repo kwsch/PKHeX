@@ -68,7 +68,7 @@ public sealed class TransferVerifier : Verifier
         // (15:65536, ~1:4096) odds on a given shiny transfer!
         var xor = data.Entity.ShinyXor;
         if (xor is <= 15 and not 0)
-            data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
+            data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Settings.Game.Gen7.Gen7TransferStarPID, CheckIdentifier.PID));
     }
 
     private static void VerifyVCGeolocation(LegalityAnalysis data)
@@ -190,7 +190,7 @@ public sealed class TransferVerifier : Verifier
         // Can't validate the actual values (we aren't the server), so we can only check against zero.
         if (pk is IHomeTrack { HasTracker: false })
         {
-            data.AddLine(Get(LTransferTrackerMissing, ParseSettings.HOMETransferTrackerNotPresent));
+            data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Settings.HOMETransfer.HOMETransferTrackerNotPresent));
             // To the reader: It seems like the best course of action for setting a tracker is:
             // - Transfer a 0-Tracker pk to HOME to get assigned a valid Tracker
             // - Don't make one up.

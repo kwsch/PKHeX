@@ -686,7 +686,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         byte handler = 0;
         if (sender == GB_OT)
             handler = 0;
-        else if (TB_HT.Text.Length > 0)
+        else if (TB_HT.Text.Length != 0)
             handler = 1;
         UpdateHandlerSelected(handler);
     }

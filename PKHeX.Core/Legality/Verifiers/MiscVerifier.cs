@@ -41,10 +41,6 @@ public sealed class MiscVerifier : Verifier
             if (pk is IHomeTrack { HasTracker: true })
                 data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
         }
-        else
-        {
-            VerifyMiscMovePP(data);
-        }
 
         switch (pk)
         {
@@ -198,8 +194,8 @@ public sealed class MiscVerifier : Verifier
         {
             if (enc.Generation < 8 && !data.Info.EvoChainsAllGens.HasVisitedPLA && enc is not IPogoSlot) // <=Gen8 rerolls height/weight, never zero.
                 data.AddLine(Get(LStatInvalidHeightWeight, Severity.Invalid, Encounter));
-            else if (CheckHeightWeightOdds(enc) && ParseSettings.ZeroHeightWeight != Severity.Valid)
-                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+            else if (CheckHeightWeightOdds(enc) && ParseSettings.Settings.HOMETransfer.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.Settings.HOMETransfer.ZeroHeightWeight, Encounter));
         }
 
         if (enc is EncounterEgg { Context: EntityContext.Gen9 } g)
@@ -443,50 +439,9 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LFatefulInvalid, Fateful));
     }
 
-    private static void VerifyMiscMovePP(LegalityAnalysis data)
-    {
-        var pk = data.Entity;
-
-        if (!Legal.IsPPUpAvailable(pk)) // No PP Ups for format
-        {
-            if (pk.Move1_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 1), CurrentMove));
-            if (pk.Move2_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 2), CurrentMove));
-            if (pk.Move3_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 3), CurrentMove));
-            if (pk.Move4_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 4), CurrentMove));
-        }
-        else // Check specific move indexes
-        {
-            if (!Legal.IsPPUpAvailable(pk.Move1) && pk.Move1_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 1), CurrentMove));
-            if (!Legal.IsPPUpAvailable(pk.Move2) && pk.Move2_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 2), CurrentMove));
-            if (!Legal.IsPPUpAvailable(pk.Move3) && pk.Move3_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 3), CurrentMove));
-            if (!Legal.IsPPUpAvailable(pk.Move4) && pk.Move4_PPUps is not 0)
-                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 4), CurrentMove));
-        }
-
-        if (pk.Move1_PP > pk.GetMovePP(pk.Move1, pk.Move1_PPUps))
-            data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 1), CurrentMove));
-        if (pk.Move2_PP > pk.GetMovePP(pk.Move2, pk.Move2_PPUps))
-            data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 2), CurrentMove));
-        if (pk.Move3_PP > pk.GetMovePP(pk.Move3, pk.Move3_PPUps))
-            data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 3), CurrentMove));
-        if (pk.Move4_PP > pk.GetMovePP(pk.Move4, pk.Move4_PPUps))
-            data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 4), CurrentMove));
-    }
-
     private static void VerifyMiscEggCommon(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.Move1_PPUps != 0 || pk.Move2_PPUps != 0 || pk.Move3_PPUps != 0 || pk.Move4_PPUps != 0)
-            data.AddLine(GetInvalid(LEggPPUp, Egg));
-        if (!IsZeroMovePP(pk))
-            data.AddLine(GetInvalid(LEggPP, Egg));
 
         var enc = data.EncounterMatch;
         if (!EggStateLegality.GetIsEggHatchCyclesValid(pk, enc))
@@ -515,19 +470,6 @@ public sealed class MiscVerifier : Verifier
             if (pk.StatNature != pk.Nature)
                 data.AddLine(GetInvalid(LEggNature, Egg));
         }
-    }
-
-    private static bool IsZeroMovePP(PKM pk)
-    {
-        if (pk.Move1_PP != pk.GetMovePP(pk.Move1, 0))
-            return false;
-        if (pk.Move2_PP != pk.GetMovePP(pk.Move2, 0))
-            return false;
-        if (pk.Move3_PP != pk.GetMovePP(pk.Move3, 0))
-            return false;
-        if (pk.Move4_PP != pk.GetMovePP(pk.Move4, 0))
-            return false;
-        return true;
     }
 
     private static bool MovesMatchRelearn(PKM pk)
@@ -720,8 +662,8 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
         }
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pk8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
-            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pk8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.Settings.HOMETransfer.ZeroHeightWeight != Severity.Valid)
+            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.Settings.HOMETransfer.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pk8);
     }
@@ -748,8 +690,8 @@ public sealed class MiscVerifier : Verifier
         if (pa8.GetMoveRecordFlagAny() && !pa8.IsEgg) // already checked for eggs
             data.AddLine(GetInvalid(LEggRelearnFlags));
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pa8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
-            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pa8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.Settings.HOMETransfer.ZeroHeightWeight != Severity.Valid)
+            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.Settings.HOMETransfer.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pa8);
     }
@@ -781,8 +723,8 @@ public sealed class MiscVerifier : Verifier
         if (pb8.GetMoveRecordFlagAny() && !pb8.IsEgg) // already checked for eggs
             data.AddLine(GetInvalid(LEggRelearnFlags));
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pb8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
-            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pb8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.Settings.HOMETransfer.ZeroHeightWeight != Severity.Valid)
+            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.Settings.HOMETransfer.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pb8);
     }

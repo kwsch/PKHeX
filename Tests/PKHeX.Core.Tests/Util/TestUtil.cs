@@ -22,6 +22,7 @@ internal static class TestUtil
 
     public static void InitializeLegality()
     {
+        ParseSettings.Settings.Handler.CheckActiveHandler = false; // not checking in context of saves
         lock (InitLock)
         {
             if (IsInitialized)

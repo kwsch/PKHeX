@@ -25,7 +25,7 @@ public sealed class SCBlockMetadata
         BlockList = aType.GetAllPropertiesOfType<IDataIndirect>(accessor);
         ValueList = aType.GetAllConstantsOfType<uint>();
         AddExtraKeyNames(ValueList, extraKeyNames);
-        if (exclusions.Length > 0)
+        if (exclusions.Length != 0)
             ValueList = ValueList.Where(z => !exclusions.Any(z.Value.Contains)).ToDictionary();
         Accessor = accessor;
     }

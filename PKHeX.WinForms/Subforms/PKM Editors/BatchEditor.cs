@@ -71,7 +71,7 @@ public partial class BatchEditor : Form
         // If we already have text, add a new line (except if the last line is blank).
         var tb = RTB_Instructions;
         var batchText = tb.Text;
-        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+        if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
         RTB_Instructions.AppendText(s);
     }
@@ -111,7 +111,7 @@ public partial class BatchEditor : Form
         { WinFormsUtil.Error(MsgBEInstructionNone); return; }
 
         var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
-        if (emptyVal.Length > 0)
+        if (emptyVal.Length != 0)
         {
             string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
             string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
