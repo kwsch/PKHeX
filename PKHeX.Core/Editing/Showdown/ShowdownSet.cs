@@ -667,7 +667,7 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             nickname = line[..index].TrimEnd();
             species = line[(index + 1)..];
-            if (species.Length > 0 && species[^1] == ')')
+            if (species.Length != 0 && species[^1] == ')')
                 species = species[..^1];
         }
         else // parenthesis value before: (Species) Nickname, incorrect

@@ -227,7 +227,7 @@ public partial class Main : Form
         showChangelog = false;
 
         // Version Check
-        if (Settings.Startup.Version.Length > 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
+        if (Settings.Startup.Version.Length != 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
         {
             bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
             showChangelog = parsed && lastrev < Program.CurrentVersion;
@@ -422,7 +422,7 @@ public partial class Main : Form
         CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
         C_SAV.FlagIllegal = settings.Display.FlagIllegal;
         C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
-        ParseSettings.InitFromSettings(settings.Legality);
+        ParseSettings.Initialize(settings.Legality);
         PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;

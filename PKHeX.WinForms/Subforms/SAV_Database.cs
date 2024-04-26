@@ -593,11 +593,11 @@ public partial class SAV_Database : Form
         var search = SearchDatabase();
 
         bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
-        bool wordFilter = ParseSettings.CheckWordFilter;
+        bool wordFilter = ParseSettings.Settings.WordFilter.CheckWordFilter;
         if (wordFilter && legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
-            ParseSettings.CheckWordFilter = false;
+            ParseSettings.Settings.WordFilter.CheckWordFilter = false;
         var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
-        ParseSettings.CheckWordFilter = wordFilter;
+        ParseSettings.Settings.WordFilter.CheckWordFilter = wordFilter;
 
         if (results.Count == 0)
         {
@@ -783,7 +783,7 @@ public partial class SAV_Database : Form
         // If we already have text, add a new line (except if the last line is blank).
         var tb = RTB_Instructions;
         var batchText = tb.Text;
-        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+        if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
         tb.AppendText(s);
     }

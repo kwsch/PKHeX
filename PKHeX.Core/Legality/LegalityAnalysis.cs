@@ -191,6 +191,7 @@ public sealed class LegalityAnalysis
         Level.VerifyG1(this);
         Trainer.VerifyOTGB(this);
         MiscValues.VerifyMiscG1(this);
+        MovePP.Verify(this);
         if (Entity.Format == 2)
             Item.Verify(this);
     }
@@ -298,6 +299,7 @@ public sealed class LegalityAnalysis
         BallIndex.Verify(this);
         FormValues.Verify(this);
         MiscValues.Verify(this);
+        MovePP.Verify(this);
         GenderValues.Verify(this);
         Item.Verify(this);
         Contest.Verify(this);

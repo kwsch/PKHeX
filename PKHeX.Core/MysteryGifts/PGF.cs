@@ -172,7 +172,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         value[5] = IV_SPD;
     }
 
-    public bool IsNicknamed => Nickname.Length > 0;
+    public bool IsNicknamed => Nickname.Length != 0;
     public override bool IsShiny => PIDType == 2;
     public override Moveset Moves => new(Move1, Move2, Move3, Move4);
     public override bool IsEntity { get => CardType == 1; set { if (value) CardType = 1; } }

@@ -162,7 +162,7 @@ public partial class SAV_Misc3 : Form
             var sbAdd = new StringBuilder();
             foreach (var item in items)
             {
-                if (sbAdd.Length > 0)
+                if (sbAdd.Length != 0)
                     sbAdd.Append(", ");
                 sbAdd.Append(names[item]);
             }
@@ -170,7 +170,7 @@ public partial class SAV_Misc3 : Form
         }
         var added = Format(missing, itemlist);
         var addmsg = $"Add the following items?{Environment.NewLine}{added}";
-        if (have.Length > 0)
+        if (have.Length != 0)
         {
             string had = Format(have, itemlist);
             var havemsg = $"Already have:{Environment.NewLine}{had}";

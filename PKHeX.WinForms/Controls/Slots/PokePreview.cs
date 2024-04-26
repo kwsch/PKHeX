@@ -153,7 +153,7 @@ public partial class PokePreview : Form
             if (remaining[^1] == ')')
                 remaining = remaining[..^3]; // lop off gender
             var item = remaining.Trim();
-            if (item.Length > 0)
+            if (item.Length != 0)
                 sb.AppendLine($"Held Item: {item}");
         }
 
