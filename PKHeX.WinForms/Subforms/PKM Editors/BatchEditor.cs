@@ -204,22 +204,15 @@ public partial class BatchEditor : Form
     }
 
     // Progress Bar
-    private void SetupProgressBar(int count)
+    private void SetupProgressBar(int count) => PB_Show.BeginInvoke(() =>
     {
-        MethodInvoker mi = () => { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = count; };
-        if (PB_Show.InvokeRequired)
-            PB_Show.Invoke(mi);
-        else
-            mi.Invoke();
-    }
+        PB_Show.Minimum = 0;
+        PB_Show.Step = 1;
+        PB_Show.Value = 0;
+        PB_Show.Maximum = count;
+    });
 
-    private void SetProgressBar(int position)
-    {
-        if (PB_Show.InvokeRequired)
-            PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = position));
-        else
-            PB_Show.Value = position;
-    }
+    private void SetProgressBar(int position) => PB_Show.BeginInvoke(() => PB_Show.Value = position);
 
     private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
     {
@@ -239,7 +232,10 @@ public partial class BatchEditor : Form
 
             var spec = pk.Species;
             if (spec == 0 || spec > max)
+            {
+                b.ReportProgress(i);
                 continue;
+            }
 
             if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                 editor.AddSkipped();

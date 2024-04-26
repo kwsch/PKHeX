@@ -30,6 +30,8 @@ public partial class SAV_FolderList : Form
 
         dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
         dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
+        dgDataRecent.Sorted += (_, _) => GetFilterText(dgDataRecent);
+        dgDataBackup.Sorted += (_, _) => GetFilterText(dgDataBackup);
 
         var extra = Paths.Select(z => z.Path).Where(z => z != Main.BackupPath).Distinct();
         var backup = SaveFinder.GetSaveFiles(drives, false, [Main.BackupPath], false);
@@ -274,16 +276,14 @@ public partial class SAV_FolderList : Form
                 var sav = new SavePreview(next, Paths);
                 void Load() => LoadEntry(dgData, list, sav);
 
-                dgData.Invoke(Load);
+                dgData.BeginInvoke(Load);
                 ctr++;
                 if (ctr < 15 && ctr % 7 == 0)
-                    dgData.Invoke(RefreshResize);
+                    dgData.BeginInvoke(RefreshResize);
             }
-            dgData.Invoke(RefreshResize);
+            dgData.BeginInvoke(RefreshResize);
             enumerator.Dispose();
         });
-
-        dgData.Sorted += (_, _) => GetFilterText(dgData);
 
         return list;
     }

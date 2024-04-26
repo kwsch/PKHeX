@@ -91,6 +91,8 @@ public static class EvolutionChain
             return [];
 
         var chain = result[..count];
+        if (IsMetLost(pk, enc)) // Original met level lost, need to be more permissive on evos.
+            EvolutionUtil.ConditionEncounterNoMet(chain);
         return chain.ToArray();
     }
 
@@ -120,6 +122,13 @@ public static class EvolutionChain
         EvolutionUtil.CleanDevolve(chain, enc.LevelMin);
         return count;
     }
+
+    private static bool IsMetLost(PKM pk, EvolutionOrigin enc) => enc.Generation switch
+    {
+        >= 5 => false,
+        <= 2 => pk is not ICaughtData2 { MetLevel: not 0 },
+           _ => enc.Generation != pk.Format,
+    };
 
     private static int DevolveFrom(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, bool discard)
     {
