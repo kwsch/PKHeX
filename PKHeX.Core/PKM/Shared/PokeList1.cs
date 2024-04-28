@@ -161,8 +161,8 @@ public static class PokeList1
     /// </summary>
     /// <param name="input">Multi-slot list</param>
     /// <param name="output">Destination to write each single-slot list</param>
-    /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="stringLength">Trainer and Nickname string length</param>
+    /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="isParty">List stores party stats for each entity</param>
     public static void Unpack(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty)
     {

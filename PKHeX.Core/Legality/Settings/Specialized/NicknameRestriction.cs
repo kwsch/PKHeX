@@ -2,6 +2,7 @@ using System.ComponentModel;
 
 namespace PKHeX.Core;
 
+[TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed record NicknameSettings
 {
     [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]

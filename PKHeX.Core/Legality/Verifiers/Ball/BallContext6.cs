@@ -54,7 +54,7 @@ public sealed class BallContext6 : IBallContext
     private static bool IsAbilityAllowed(ushort species, byte form, PKM pk, BallType permitBit) => permitBit switch
     {
         BallType.Gen3 => IsNotHidden(pk.AbilityNumber) || !IsBannedHiddenGen3(species, form),
-        BallType.Gen4 => IsNotHidden(pk.AbilityNumber) || !IsBannedHiddenGen4(species),
+        BallType.Gen4 => IsNotHidden(pk.AbilityNumber) || !IsBannedHiddenGen4(species, form),
         BallType.Safari => IsNotHidden(pk.AbilityNumber),
         BallType.Apricorn => IsNotHidden(pk.AbilityNumber),
         BallType.Sport => IsNotHidden(pk.AbilityNumber),
@@ -64,7 +64,7 @@ public sealed class BallContext6 : IBallContext
 
     private static bool IsNotHidden(int pkAbilityNumber) => pkAbilityNumber != 4;
 
-    private static bool IsBannedHiddenGen4(ushort species) => species switch
+    private static bool IsBannedHiddenGen4(ushort species, byte form) => species switch
     {
         (int)Chikorita => true,
         (int)Cyndaquil => true,
@@ -78,6 +78,7 @@ public sealed class BallContext6 : IBallContext
         (int)Snivy => true,
         (int)Tepig => true,
         (int)Oshawott => true,
+        (int)Deerling => form != 0, // not Deerling-Spring
 
         // Fossil Only obtain
         (int)Archen => true,

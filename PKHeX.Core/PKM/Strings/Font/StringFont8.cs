@@ -1,6 +1,4 @@
 using System;
-using static PKHeX.Core.StringFontUtil;
-using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
 
