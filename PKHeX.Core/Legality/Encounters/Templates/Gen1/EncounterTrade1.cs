@@ -72,7 +72,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     private static bool IsTrainerNameValid(PKM pk)
     {
         if (pk.Format <= 2)
-            return pk.OriginalTrainerTrash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, ..];
+            return pk.OriginalTrainerTrash is [StringConverter1.TradeOTCode, StringConverter1.TerminatorCode, ..];
         var lang = pk.Language;
         var expect = StringConverter12Transporter.GetTradeNameGen1(lang);
         return pk.OriginalTrainerName == expect;
@@ -125,7 +125,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
-        pk.OriginalTrainerTrash[0] = StringConverter12.G1TradeOTCode;
+        pk.OriginalTrainerTrash[0] = StringConverter1.TradeOTCode;
 
         EncounterUtil.SetEncounterMoves(pk, Version, level);
         if (EvolveOnTrade)

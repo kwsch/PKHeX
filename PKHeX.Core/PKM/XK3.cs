@@ -232,4 +232,11 @@ public sealed class XK3 : G3PKM, IShadowCapture
         90 or 91 or 92 => true, // Pokespot: Rock / Oasis / Cave
         _ => false,
     };
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter3GC.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter3GC.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter3GC.SetString(destBuffer, value, maxLength, option);
 }

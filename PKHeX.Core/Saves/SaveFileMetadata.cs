@@ -53,9 +53,9 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <returns>Final save file data.</returns>
     public byte[] Finalize(byte[] data, BinaryExportSetting setting)
     {
-        if (Footer.Length > 0 && setting.HasFlag(BinaryExportSetting.IncludeFooter))
+        if (Footer.Length != 0 && setting.HasFlag(BinaryExportSetting.IncludeFooter))
             data = [..data, ..Footer];
-        if (Header.Length > 0 && setting.HasFlag(BinaryExportSetting.IncludeHeader))
+        if (Header.Length != 0 && setting.HasFlag(BinaryExportSetting.IncludeHeader))
             data = [..Header, ..data];
         if (setting != BinaryExportSetting.None)
             Handler?.Finalize(data);

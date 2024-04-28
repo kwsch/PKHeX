@@ -36,7 +36,7 @@ internal static class Program
         new Task(() => splash.ShowDialog()).Start();
         new Task(() => EncounterEvent.RefreshMGDB(WinForms.Main.MGDatabasePath)).Start();
         var main = new Main();
-        splash.Invoke(splash.ForceClose);
+        splash.BeginInvoke(splash.ForceClose);
         Application.Run(main);
     }
 

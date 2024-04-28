@@ -42,7 +42,7 @@ public sealed class TrainerNameVerifier : Verifier
                 data.AddLine(Get(LOTLong, Severity.Invalid));
         }
 
-        if (ParseSettings.CheckWordFilter)
+        if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format))
         {
             if (WordFilter.IsFiltered(ot, out var badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
@@ -134,21 +134,21 @@ public sealed class TrainerNameVerifier : Verifier
         {
             if (str.Length > 5)
                 data.AddLine(GetInvalid(LOTLong));
-            if (!StringConverter12.GetIsG1Japanese(str))
+            if (!StringConverter1.GetIsJapanese(str))
                 data.AddLine(GetInvalid(LG1CharOT));
         }
         else if (pk.Korean)
         {
             if (str.Length > 5)
                 data.AddLine(GetInvalid(LOTLong));
-            if (!StringConverter2KOR.GetIsG2Korean(str))
+            if (!StringConverter2KOR.GetIsKorean(str))
                 data.AddLine(GetInvalid(LG1CharOT));
         }
         else
         {
             if (str.Length > 7)
                 data.AddLine(GetInvalid(LOTLong));
-            if (!StringConverter12.GetIsG1English(str))
+            if (!StringConverter1.GetIsEnglish(str))
                 data.AddLine(GetInvalid(LG1CharOT));
         }
     }

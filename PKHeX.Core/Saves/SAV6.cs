@@ -138,12 +138,12 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
         protected set => Data[Party + (6 * SIZE_PARTY)] = (byte)value;
     }
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter6.GetString(data);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter6.GetString(data);
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter6.LoadString(data, destBuffer);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter6.SetString(destBuffer, value, maxLength, option);
-    }
+        => StringConverter6.SetString(destBuffer, value, maxLength, option);
 
     public int GetRecord(int recordID) => Records.GetRecord(recordID);
     public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);

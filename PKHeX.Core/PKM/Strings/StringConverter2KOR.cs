@@ -1,6 +1,5 @@
 using System;
-
-using static PKHeX.Core.StringConverter12;
+using static PKHeX.Core.StringConverter1;
 
 namespace PKHeX.Core;
 
@@ -12,7 +11,7 @@ public static class StringConverter2KOR
     /// <summary>
     /// Checks if any of the characters inside <see cref="str"/> are from the special Korean codepoint pages.
     /// </summary>
-    public static bool GetIsG2Korean(ReadOnlySpan<char> str)
+    public static bool GetIsKorean(ReadOnlySpan<char> str)
     {
         foreach (var c in str)
         {
@@ -42,9 +41,9 @@ public static class StringConverter2KOR
     {
         if (data.Length == 0)
             return 0;
-        if (data[0] == G1TradeOTCode) // In-game Trade
+        if (data[0] == TradeOTCode) // In-game Trade
         {
-            result[0] = G1TradeOT;
+            result[0] = TradeOT;
             return 1;
         }
 
@@ -70,7 +69,7 @@ public static class StringConverter2KOR
             }
 
             var c = table[value];
-            if (c == G1Terminator) // Stop if Terminator
+            if (c == Terminator) // Stop if Terminator
                 break;
             result[ctr++] = c;
         }
@@ -91,15 +90,15 @@ public static class StringConverter2KOR
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
         else if (option is StringConverterOption.Clear50)
-            destBuffer.Fill(G1TerminatorCode);
+            destBuffer.Fill(TerminatorCode);
 
         if (value.Length == 0)
             return 0;
-        // Can't get Gen1 In-Game trades with this char, but handle it anyway since the game can handle it.
-        if (value[0] == G1TradeOT) // Handle "[TRAINER]"
+        // Korean games can't trade for Gen1 In-Game trades with this char, but handle it anyway since the game can handle it.
+        if (value[0] == TradeOT) // Handle "[TRAINER]"
         {
-            destBuffer[0] = G1TradeOTCode;
-            destBuffer[1] = G1TerminatorCode;
+            destBuffer[0] = TradeOTCode;
+            destBuffer[1] = TerminatorCode;
             return 2;
         }
 
@@ -108,7 +107,7 @@ public static class StringConverter2KOR
 
         int ctr = LoadCharacters(destBuffer, value);
         if (ctr < value.Length)
-            destBuffer[ctr++] = G1TerminatorCode;
+            destBuffer[ctr++] = TerminatorCode;
         return ctr;
     }
 
@@ -128,7 +127,7 @@ public static class StringConverter2KOR
             else
             {
                 var index = Table0.IndexOf(c);
-                if (index is -1 or G1TerminatorCode)
+                if (index is -1 or TerminatorCode)
                     break;
                 if (ctr + 1 > destBuffer.Length)
                     break; // adding 1 character will overflow requested buffer cap
@@ -177,7 +176,7 @@ public static class StringConverter2KOR
     }
 
     #region Gen 2 Korean Character Tables
-    private const char NULL = G1Terminator;
+    private const char NULL = Terminator;
     private const byte TableInvalid = 0;
     private const byte TableMin = 1;
     private const byte TableMax = 11;

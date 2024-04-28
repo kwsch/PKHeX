@@ -15,7 +15,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
     // u8[10] Field Level 2
     // u8[7] Battle Level 1
     // u8[7] Battle Level 2
-    public const int OffsetFlags = 0;
+  //public const int OffsetFlags = 0;
     public const int OffsetPoints = 65;
     public const int OffsetFieldLevel1 = 66;
     public const int OffsetFieldLevel2 = OffsetFieldLevel1 + (int)OPower6FieldType.Count;
@@ -23,7 +23,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
     public const int OffsetBattleLevel2 = OffsetBattleLevel1 + (int)OPower6BattleType.Count;
     public const int Size = OffsetBattleLevel2 + (int)OPower6BattleType.Count; // 100
 
-    private Span<byte> IndexFlags => Data[OffsetFlags..OffsetPoints];
+    private Span<byte> IndexFlags => Data[..OffsetPoints];
     private Span<byte> FieldLevels1 => Data[OffsetFieldLevel1..OffsetFieldLevel2];
     private Span<byte> FieldLevels2 => Data[OffsetFieldLevel2..OffsetBattleLevel1];
     private Span<byte> BattleLevels1 => Data[OffsetBattleLevel1..OffsetBattleLevel2];

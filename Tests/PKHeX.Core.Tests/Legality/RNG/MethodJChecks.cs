@@ -50,7 +50,7 @@ public static class MethodJChecks
         lead.Should().Be(expectLead);
         seed.Should().BeInRange(0, uint.MaxValue);
     }
-    
+
     [Theory]
     [InlineData(TimidFlawless, 6)]
     [InlineData(TimidFlawless, 9)]

@@ -547,6 +547,13 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
                 break;
         }
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter7.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter7.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter7.SetString(destBuffer, value, maxLength, Language);
 }
 
 public enum ResortEventState : byte

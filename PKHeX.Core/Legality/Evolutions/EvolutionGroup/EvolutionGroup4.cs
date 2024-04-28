@@ -18,6 +18,8 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
     {
         if (pk.Format > Generation && !enc.SkipChecks)
         {
+            if (enc.Species is (ushort)Species.Arceus)
+                result[0] = result[0] with { Form = 0 }; // Account for form-shift (9) for all forms, as plate is removed for transfer anyway.
             byte max = pk.MetLevel;
             EvolutionUtil.UpdateCeiling(result, max);
             enc = enc with { LevelMin = 1, LevelMax = max };

@@ -228,4 +228,11 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
         pk.RefreshChecksum();
         return pk;
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter3GC.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter3GC.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter3GC.SetString(destBuffer, value, maxLength, option);
 }

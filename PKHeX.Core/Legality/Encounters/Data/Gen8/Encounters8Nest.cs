@@ -220,7 +220,7 @@ internal static class Encounters8Nest
     internal static bool IsInaccessibleRank12Nest(byte nestID, byte location)
     {
         var noNest = GetInaccessibleRank12Nests(location);
-        return noNest.Length > 0 && noNest.Contains(nestID);
+        return noNest.Length != 0 && noNest.Contains(nestID);
     }
 
     private static ReadOnlySpan<byte> GetInaccessibleRank12Nests(byte location) => location switch

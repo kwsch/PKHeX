@@ -266,7 +266,7 @@ public sealed partial class SAV_EventFlags2 : Form
 
     private void ChangeSAV(object sender, EventArgs e)
     {
-        if (TB_NewSAV.Text.Length > 0 && TB_OldSAV.Text.Length > 0)
+        if (TB_NewSAV.Text.Length != 0 && TB_OldSAV.Text.Length != 0)
             DiffSaves();
     }
 

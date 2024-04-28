@@ -182,7 +182,7 @@ public partial class SAV_Pokedex4 : Form
         }
 
         var forms = SAV.Dex.GetForms(species);
-        if (forms.Length > 0)
+        if (forms.Length != 0)
         {
             var items = LB_Form.Items;
             Span<byte> arr = stackalloc byte[items.Count];

@@ -61,7 +61,7 @@ public partial class SAV_SuperTrain : Form
         {
             foreach (string t in trba)
             {
-                if (t.Length > 0)
+                if (t.Length != 0)
                     dgvBag.Items.Add(t);
             }
 

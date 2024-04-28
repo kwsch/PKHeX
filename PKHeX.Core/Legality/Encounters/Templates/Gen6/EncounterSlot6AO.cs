@@ -87,7 +87,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
         if (CanDexNav)
         {
             var eggMoves = GetDexNavMoves();
-            if (eggMoves.Length > 0)
+            if (eggMoves.Length != 0)
                 pk.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
         }
         pk.SetRandomMemory6();
