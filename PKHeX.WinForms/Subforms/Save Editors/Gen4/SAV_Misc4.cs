@@ -231,7 +231,7 @@ public partial class SAV_Misc4 : Form
     private void SetFlagsFromFileName(string fileName)
     {
         var dest = DotArtistByte;
-        PoketchDotMatrix.TryBuild(fileName, dest);
+        TryBuild(fileName, dest);
     }
 
     private void SetFlagsFromClickPoint(int inpX, int inpY)
