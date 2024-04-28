@@ -55,7 +55,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
                 break;
         }
         Offsets = new SAV2Offsets(this);
-        Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
+        Personal = Version == GameVersion.C ? PersonalTable.C : PersonalTable.GS;
         Initialize();
         ClearBoxes();
     }
@@ -69,7 +69,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         Language = Japanese ? 1 : Korean ? (int)LanguageID.Korean : -1;
 
         Offsets = new SAV2Offsets(this);
-        Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
+        Personal = Version == GameVersion.C ? PersonalTable.C : PersonalTable.GS;
         Initialize();
     }
 
@@ -183,8 +183,10 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         {
             switch (Version)
             {
-                case GameVersion.GS: Data.AsSpan(Offsets.Trainer1, 0xC83).CopyTo(Data.AsSpan(0x7209)); break;
-                case GameVersion.C:  Data.AsSpan(Offsets.Trainer1, 0xADA).CopyTo(Data.AsSpan(0x7209)); break;
+                case GameVersion.C:
+                    Data.AsSpan(Offsets.Trainer1, 0xADA).CopyTo(Data.AsSpan(0x7209)); break;
+                default:
+                    Data.AsSpan(Offsets.Trainer1, 0xC83).CopyTo(Data.AsSpan(0x7209)); break;
             }
         }
         else if (Korean)
@@ -210,15 +212,15 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         {
             switch (Version)
             {
-                case GameVersion.GS:
+                case GameVersion.C:
+                    Array.Copy(Data, 0x2009, Data, 0x1209, 0xB7A);
+                    break;
+                default:
                     Array.Copy(Data, 0x2009, Data, 0x15C7, 0x222F - 0x2009);
                     Array.Copy(Data, 0x222F, Data, 0x3D69, 0x23D9 - 0x222F);
                     Array.Copy(Data, 0x23D9, Data, 0x0C6B, 0x2856 - 0x23D9);
                     Array.Copy(Data, 0x2856, Data, 0x7E39, 0x288A - 0x2856);
                     Array.Copy(Data, 0x288A, Data, 0x10E8, 0x2D69 - 0x288A);
-                    break;
-                case GameVersion.C:
-                    Array.Copy(Data, 0x2009, Data, 0x1209, 0xB7A);
                     break;
             }
         }

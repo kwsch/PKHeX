@@ -13,14 +13,14 @@ public sealed class Roamer3 : IContestStats
     public Roamer3(SAV3 sav)
     {
         var buffer = sav.Large;
-        var offset = sav.Version switch
+        var offset = sav switch
         {
-            GameVersion.RS => 0x3144,
-            GameVersion.E => 0x31DC,
+            SAV3RS => 0x3144,
+            SAV3E => 0x31DC,
             _ => 0x30D0, // FRLG
         };
         Raw = buffer.AsMemory(offset, SIZE);
-        IsGlitched = sav.Version != GameVersion.E;
+        IsGlitched = sav is not SAV3E;
     }
 
     public uint IV32
