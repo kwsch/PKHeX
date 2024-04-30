@@ -26,6 +26,9 @@ public sealed record NicknameSettings
     [LocalizedDescription("Nickname rules for Generation 7.")]
     public NicknameRestriction Nickname7 { get; set; } = new();
 
+    [LocalizedDescription("Nickname rules for Generation 7b.")]
+    public NicknameRestriction Nickname7b { get; set; } = new();
+
     [LocalizedDescription("Nickname rules for Generation 8.")]
     public NicknameRestriction Nickname8 { get; set; } = new();
 
@@ -47,6 +50,7 @@ public sealed record NicknameSettings
         EntityContext.Gen5 => Nickname5.NicknamedMysteryGift,
         EntityContext.Gen6 => Nickname6.NicknamedMysteryGift,
         EntityContext.Gen7 => Nickname7.NicknamedMysteryGift,
+        EntityContext.Gen7b => Nickname7b.NicknamedMysteryGift,
         EntityContext.Gen8 => Nickname8.NicknamedMysteryGift,
         EntityContext.Gen8a => Nickname8a.NicknamedMysteryGift,
         EntityContext.Gen8b => Nickname8b.NicknamedMysteryGift,
@@ -63,7 +67,10 @@ public sealed record NicknameSettings
         EntityContext.Gen5 => Nickname5.NicknamedTrade,
         EntityContext.Gen6 => Nickname6.NicknamedTrade,
         EntityContext.Gen7 => Nickname7.NicknamedTrade,
+        EntityContext.Gen7b => Nickname7b.NicknamedTrade,
         EntityContext.Gen8 => Nickname8.NicknamedTrade,
+        EntityContext.Gen8a => Nickname8a.NicknamedTrade,
+        EntityContext.Gen8b => Nickname8b.NicknamedTrade,
         EntityContext.Gen9 => Nickname9.NicknamedTrade,
         _ => Severity.Valid,
     };

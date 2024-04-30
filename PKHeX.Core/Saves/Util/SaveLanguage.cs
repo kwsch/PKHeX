@@ -172,6 +172,9 @@ public static class SaveLanguage
         if (Contains(name, "geum")) return (Korean, GD);
         if (Contains(name, "eun")) return (Korean, SI);
 
+        // Codes
+        if (Contains(name, "gd")) return (OverrideLanguageGen2, GD);
+        if (Contains(name, "si")) return (OverrideLanguageGen2, SI);
         return default;
     }
 

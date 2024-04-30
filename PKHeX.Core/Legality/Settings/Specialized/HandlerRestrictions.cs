@@ -19,6 +19,7 @@ public sealed record HandlerRestrictions
 {
     public bool AllowHandleOTGen6 { get; set; }
     public bool AllowHandleOTGen7 { get; set; }
+    public bool AllowHandleOTGen7b { get; set; }
     public bool AllowHandleOTGen8 { get; set; }
     public bool AllowHandleOTGen8a { get; set; }
     public bool AllowHandleOTGen8b { get; set; }
@@ -28,6 +29,7 @@ public sealed record HandlerRestrictions
     {
         EntityContext.Gen6 => AllowHandleOTGen6,
         EntityContext.Gen7 => AllowHandleOTGen7,
+        EntityContext.Gen7b => AllowHandleOTGen7b,
         EntityContext.Gen8 => AllowHandleOTGen8,
         EntityContext.Gen8a => AllowHandleOTGen8a,
         EntityContext.Gen8b => AllowHandleOTGen8b,

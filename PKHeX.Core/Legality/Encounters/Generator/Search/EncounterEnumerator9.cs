@@ -110,6 +110,10 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.Slot:
                 if (TryGetNext<EncounterArea9, EncounterSlot9>(Encounters9.Slots))
                     return true;
+                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
+            case YieldState.StaticOutbreak:
+                if (TryGetNext(Encounters9.Outbreak))
+                    return true;
                 Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
                 if (!mustBeSlot)
@@ -155,10 +159,6 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
-                    return true;
-                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
-            case YieldState.StaticOutbreak:
-                if (TryGetNext(Encounters9.Outbreak))
                     return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:
