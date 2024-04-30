@@ -15,7 +15,7 @@ public sealed class BulkAnalysis
     public readonly Dictionary<ulong, SlotCache> Trackers = [];
     public readonly bool Valid;
 
-    public readonly IBulkAnalysisSettings Settings;
+    public readonly BulkAnalysisSettings Settings;
     private readonly bool[] CloneFlags;
 
     /// <summary>
@@ -28,7 +28,7 @@ public sealed class BulkAnalysis
     /// </summary>
     public bool SetIsClone(int entryIndex, bool value = true) => CloneFlags[entryIndex] = value;
 
-    public BulkAnalysis(SaveFile sav, IBulkAnalysisSettings settings)
+    public BulkAnalysis(SaveFile sav, BulkAnalysisSettings settings)
     {
         Trainer = sav;
         Settings = settings;

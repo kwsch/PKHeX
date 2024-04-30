@@ -220,7 +220,7 @@ public sealed partial class SAV_EventWork : Form
 
     private void ChangeSAV()
     {
-        if (TB_NewSAV.Text.Length > 0 && TB_OldSAV.Text.Length > 0)
+        if (TB_NewSAV.Text.Length != 0 && TB_OldSAV.Text.Length != 0)
             DiffSaves();
     }
 

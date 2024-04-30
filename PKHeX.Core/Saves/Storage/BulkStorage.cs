@@ -54,7 +54,8 @@ public abstract class BulkStorage : SaveFile
 
     public override string GetString(ReadOnlySpan<byte> data)
         => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, Language);
-
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter.LoadString(data, destBuffer, Generation, blank.Japanese, IsBigEndian, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter.SetString(destBuffer, value, maxLength, option: option, generation: Generation, jp: blank.Japanese, isBigEndian: IsBigEndian, language: Language);
 }

@@ -84,7 +84,7 @@ public static class EncounterMovesetGenerator
         if (!IsSane(pk, moves.Span))
             yield break;
 
-        if (versions.Length > 0)
+        if (versions.Length != 0)
         {
             foreach (var enc in GenerateEncounters(pk, moves, (IReadOnlyList<GameVersion>)versions))
                 yield return enc;

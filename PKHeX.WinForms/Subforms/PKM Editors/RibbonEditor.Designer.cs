@@ -183,6 +183,7 @@ namespace PKHeX.WinForms
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximizeBox = false;
+            MinimizeBox = false;
             MinimumSize = new System.Drawing.Size(627, 363);
             Name = "RibbonEditor";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

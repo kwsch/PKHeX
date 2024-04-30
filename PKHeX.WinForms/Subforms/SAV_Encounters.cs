@@ -283,7 +283,7 @@ public partial class SAV_Encounters : Form
             return results;
 
         ReadOnlySpan<char> batchText = RTB_Instructions.Text;
-        if (batchText.Length > 0 && !StringInstructionSet.HasEmptyLine(batchText))
+        if (batchText.Length != 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
             BatchEditing.ScreenStrings(filters);
@@ -503,8 +503,8 @@ public partial class SAV_Encounters : Form
         // If we already have text, add a new line (except if the last line is blank).
         var tb = RTB_Instructions;
         var batchText = tb.Text;
-        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+        if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
-        RTB_Instructions.AppendText(s);
+        tb.AppendText(s);
     }
 }

@@ -865,6 +865,7 @@ namespace PKHeX.WinForms
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(452, 354);
             Name = "MemoryAmie";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Memories / Amie Editor";

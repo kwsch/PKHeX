@@ -114,6 +114,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Stats.UpdateStats();
         if (Entity is IScaledSizeAbsolute)
             SizeCP.TryResetStats();
+        StatusView.LoadPKM(Entity);
     }
 
     private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
@@ -685,7 +686,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         byte handler = 0;
         if (sender == GB_OT)
             handler = 0;
-        else if (TB_HT.Text.Length > 0)
+        else if (TB_HT.Text.Length != 0)
             handler = 1;
         UpdateHandlerSelected(handler);
     }
@@ -1407,8 +1408,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        var sav = RequestSaveFile;
-        using var d = new TrashEditor(tb, trash, sav);
+        using var d = new TrashEditor(tb, trash, Entity, Entity.Format);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(trash);
@@ -1932,6 +1932,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Contest.ToggleInterface(Entity, Entity.Context);
         if (t is not IFormArgument)
             L_FormArgument.Visible = false;
+        StatusView.Visible = Main.Settings.EntityEditor.ShowStatusCondition;
 
         ToggleInterface(Entity.Format);
     }
@@ -1967,7 +1968,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_HeldItem.Visible = format >= 2;
         CHK_IsEgg.Visible = CHK_IsEgg.TabStop = format >= 2;
         FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = format >= 2;
-        UC_Gender.Visible = UC_OTGender.Visible = UC_OTGender.TabStop = format >= 2;
+        UC_OTGender.Visible = UC_OTGender.TabStop = format >= 2;
+        UC_Gender.Visible = format >= 2 || (format == 1 && Main.Settings.EntityEditor.ShowGenderGen1);
         FLP_CatchRate.Visible = format == 1;
 
         // HaX override, needs to be after DEV_Ability enabled assignment.

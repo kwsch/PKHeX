@@ -129,4 +129,11 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
     public override bool BDSP => MetLocation is LocationsHOME.SWBD or LocationsHOME.SHSP;
     public override bool LA => MetLocation is LocationsHOME.SWLA;
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter8.SetString(destBuffer, value, maxLength, option);
 }

@@ -40,7 +40,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
     public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[0x17..]); set => WriteUInt16LittleEndian(Data[0x17..], value); }
     public MoveType TeraTypeOriginal { get => (MoveType)Data[0x19]; set => Data[0x19] = (byte)value; }
     public MoveType TeraTypeOverride { get => (MoveType)Data[0x1A]; set => Data[0x1A] = (byte)value; }
-    public byte Ball { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
+    public byte Ball { get => Data[0x1B]; set => Data[0x1B] = value; }
     public ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
     public ushort MetLocation { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], value); }
 

@@ -267,7 +267,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         }
     }
 
-    public bool IsNicknamed => Nickname.Length > 0;
+    public bool IsNicknamed => Nickname.Length != 0;
 
     public override Moveset Moves
     {
@@ -325,11 +325,11 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             ContestTough = ContestTough,
             ContestSheen = ContestSheen,
 
-            OriginalTrainerName = OriginalTrainerName.Length > 0 ? OriginalTrainerName : tr.OT,
+            OriginalTrainerName = OriginalTrainerName.Length != 0 ? OriginalTrainerName : tr.OT,
             OriginalTrainerGender = OTGender != 3 ? (byte)(OTGender % 2) : tr.Gender,
-            HandlingTrainerName = OriginalTrainerName.Length > 0 ? tr.OT : string.Empty,
-            HandlingTrainerGender = OriginalTrainerName.Length > 0 ? tr.Gender : default,
-            CurrentHandler = OriginalTrainerName.Length > 0 ? (byte)1 : (byte)0,
+            HandlingTrainerName = OriginalTrainerName.Length != 0 ? tr.OT : string.Empty,
+            HandlingTrainerGender = OriginalTrainerName.Length != 0 ? tr.Gender : default,
+            CurrentHandler = OriginalTrainerName.Length != 0 ? (byte)1 : (byte)0,
 
             EXP = Experience.GetEXP(Level, pi.EXPGrowth),
 
