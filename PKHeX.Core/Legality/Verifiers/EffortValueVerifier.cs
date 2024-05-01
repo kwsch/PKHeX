@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class EffortValueVerifier : Verifier
 {
     protected override CheckIdentifier Identifier => CheckIdentifier.EVs;
-    
+
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
@@ -32,7 +32,8 @@ public sealed class EffortValueVerifier : Verifier
         var enc = data.EncounterMatch;
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
-        if (format >= 6 && evs.ContainsAny(253, 254, 255))
+
+        if (format >= 6 && IsAnyAboveHardLimit6(evs))
             data.AddLine(GetInvalid(LEffortAbove252));
         else if (format < 5) // 3/4
             VerifyGainedEVs34(data, enc, evs, pk);
@@ -46,9 +47,9 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
     }
 
-    private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, Span<int> evs, PKM pk)
+    private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, ReadOnlySpan<int> evs, PKM pk)
     {
-        bool anyAbove100 = evs.Find(static ev => ev > EffortValues.MaxVitamins34) != default;
+        bool anyAbove100 = IsAnyAboveVitaminLimit(evs);
         if (!anyAbove100)
             return;
 
@@ -65,5 +66,19 @@ public sealed class EffortValueVerifier : Verifier
             if (baseEXP == pk.EXP)
                 data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, EffortValues.MaxVitamins34)));
         }
+    }
+
+    // Hard cap at 252 for Gen6+
+    private static bool IsAnyAboveHardLimit6(ReadOnlySpan<int> evs) => evs.ContainsAny(253, 254, 255);
+
+    // Vitamins can only raise to 100 in Gen3/4
+    private static bool IsAnyAboveVitaminLimit(ReadOnlySpan<int> evs)
+    {
+        foreach (var iv in evs)
+        {
+            if (iv > EffortValues.MaxVitamins34)
+                return true;
+        }
+        return false;
     }
 }

@@ -12,7 +12,7 @@ public static class StringFont8b
     // BD/SP: StreamingAssets/AssetAssistant/Dpr/font
     // S/V: arc/appli/font/bin
     // For KOR/CHS/CHT, BD/SP uses a bundled copy of the Switch system font
-    
+
     public static ReadOnlySpan<char> DefinedLiberationSans =>
     [
         '\u0020', '\u0021', '\u0022', '\u0023', '\u0024', '\u0025', '\u0026', '\u0027', '\u0028', '\u0029', '\u002A', '\u002B', '\u002C', '\u002D', '\u002E', '\u002F',

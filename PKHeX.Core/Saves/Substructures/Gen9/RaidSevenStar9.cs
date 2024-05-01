@@ -56,7 +56,7 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
                 defeated.Defeated = value;
             else
                 captured.Defeated = value;
-        } 
+        }
     }
 }
 

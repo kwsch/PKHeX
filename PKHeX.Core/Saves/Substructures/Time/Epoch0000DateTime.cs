@@ -13,7 +13,7 @@ public sealed class Epoch0000DateTime(Memory<byte> Data): EpochDateTime(Data)
 
     public override int Year { get => RawYear; set => RawYear = value; }
     public override int Month { get => RawMonth; set => RawMonth = value; }
-    
+
     public override DateTime Timestamp
     {
         get => new(Year, Month, Day, Hour, Minute, 0);

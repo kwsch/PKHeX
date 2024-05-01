@@ -618,7 +618,7 @@ public partial class Main : Form
             case SaveFile s: return OpenSAV(s, path);
             case IPokeGroup b: return OpenGroup(b);
             case MysteryGift g: return OpenMysteryGift(g, path);
-            case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
+            case ConcatenatedEntitySet pkms: return OpenPCBoxBin(pkms);
             case IEncounterConvertible enc: return OpenPKM(enc.ConvertToPKM(C_SAV.SAV));
 
             case SAV3GCMemoryCard gc:
@@ -678,10 +678,9 @@ public partial class Main : Form
         return true;
     }
 
-    private bool OpenPCBoxBin(IEnumerable<byte[]> pkms)
+    private bool OpenPCBoxBin(ConcatenatedEntitySet pkms)
     {
-        var data = pkms.SelectMany(z => z).ToArray();
-        if (!C_SAV.OpenPCBoxBin(data, out string c))
+        if (!C_SAV.OpenPCBoxBin(pkms.Data.Span, out string c))
         {
             WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
             return true;
