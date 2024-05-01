@@ -212,16 +212,17 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseLine(ReadOnlySpan<char> line, ref int movectr)
     {
+        var moves = Moves.AsSpan();
         if (line[0] is '-' or '–')
         {
             var moveString = ParseLineMove(line);
             int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
             if (move < 0)
                 InvalidLines.Add($"Unknown Move: {moveString}");
-            else if (Array.IndexOf(Moves, (ushort)move) != -1)
+            else if (moves.Contains((ushort)move))
                 InvalidLines.Add($"Duplicate Move: {moveString}");
             else
-                Moves[movectr++] = (ushort)move;
+                moves[movectr++] = (ushort)move;
 
             return movectr == MaxMoveCount;
         }
@@ -507,7 +508,12 @@ public sealed class ShowdownSet : IBattleTemplate
         Ability = pk.Ability;
         pk.GetEVs(EVs);
         pk.GetIVs(IVs);
-        pk.GetMoves(Moves);
+
+        var moves = Moves.AsSpan();
+        pk.GetMoves(moves);
+        if (moves.Contains((ushort)Move.HiddenPower))
+            HiddenPowerType = HiddenPower.GetType(IVs, Context);
+
         Nature = pk.StatNature;
         Gender = pk.Gender < 2 ? pk.Gender : (byte)2;
         Friendship = pk.CurrentFriendship;
@@ -520,8 +526,6 @@ public sealed class ShowdownSet : IBattleTemplate
             DynamaxLevel = g.DynamaxLevel;
         }
 
-        if (Array.IndexOf(Moves, (ushort)Move.HiddenPower) != -1)
-            HiddenPowerType = HiddenPower.GetType(IVs, Context);
         if (pk is ITeraType t)
             TeraType = t.TeraType;
         if (pk is IHyperTrain h)

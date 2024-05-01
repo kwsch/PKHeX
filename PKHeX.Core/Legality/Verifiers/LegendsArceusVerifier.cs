@@ -159,7 +159,7 @@ public sealed class LegendsArceusVerifier : Verifier
             if (!mustKnow && currentLearn.GetLevelLearnMove(move) != level)
                 continue;
 
-            if (current.IndexOf(move) == -1)
+            if (!current.Contains(move))
                 current[ctr++] = move;
             if (ctr == 4)
                 return 4;
