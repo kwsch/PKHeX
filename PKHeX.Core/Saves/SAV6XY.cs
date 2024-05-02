@@ -43,8 +43,6 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
         JPEG = 0x57200;
     }
 
-    public const int BerryField = 0x1B800;
-
     #region Blocks
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem Items => Blocks.Items;
@@ -71,6 +69,8 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public SubEventLog6 SUBE => Blocks.SUBE;
     public ConfigSave6 Config => Blocks.Config;
     public Encount6 Encount => Blocks.Encount;
+    public BerryField6XY BerryField => Blocks.BerryField;
+    public HallOfFame6 HallOfFame => Blocks.HallOfFame;
 
     IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
     #endregion
