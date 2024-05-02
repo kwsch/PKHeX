@@ -19,4 +19,5 @@ public interface ISaveBlock6Main : ISaveBlock6Core
     MaisonBlock Maison { get; }
     SubEventLog6 SUBE { get; }
     Encount6 Encount { get; }
+    HallOfFame6 HallOfFame { get; }
 }

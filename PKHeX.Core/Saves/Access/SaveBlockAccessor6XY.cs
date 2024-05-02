@@ -89,8 +89,10 @@ public sealed class SaveBlockAccessor6XY(SAV6XY sav) : ISaveBlockAccessor<BlockI
     public OPower6 OPower { get; } = new(sav, Block(sav, 25));
     public GTS6 GTS { get; } = new(sav, Block(sav, 28));
     public Encount6 Encount { get; } = new(sav, Block(sav, 31));
+    public HallOfFame6 HallOfFame { get; } = new(sav, Block(sav, 36));
     public MaisonBlock Maison { get; } = new(sav, Block(sav, 37));
     public Daycare6XY Daycare { get; } = new(sav, Block(sav, 38));
+    public BerryField6XY BerryField { get; } = new(sav, Block(sav, 40));
     public MysteryBlock6 MysteryGift { get; } = new(sav, Block(sav, 41));
     public SubEventLog6XY SUBE { get; } = new(sav, Block(sav, 42));
     public RecordBlock6XY Records { get; } = new(sav, Block(sav, 44));
