@@ -129,8 +129,6 @@ public static class RibbonRules
         var species = pk.Species;
         if (species is (int)Greninja)
             return pk.Form == 0; // Disallow Ash-Greninja
-        if (SpeciesCategory.IsLegendary(species))
-            return false;
         if (SpeciesCategory.IsMythical(species))
             return false;
         return true;
