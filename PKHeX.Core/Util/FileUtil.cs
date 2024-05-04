@@ -289,7 +289,9 @@ public static class FileUtil
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
     {
-        mg = MysteryGift.GetMysteryGift(data, ext);
+        mg = ext.Length == 0
+            ? MysteryGift.GetMysteryGift(data)
+            : MysteryGift.GetMysteryGift(data, ext);
         return mg != null;
     }
 

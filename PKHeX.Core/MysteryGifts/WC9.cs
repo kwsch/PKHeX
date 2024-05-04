@@ -34,10 +34,9 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public bool CanBeReceivedByVersion(PKM pk) => RestrictVersion switch
     {
-        0 when !IsEntity => true, // Whatever, essentially unrestricted for SL/VL receipt. No Entity gifts are 0.
         1 => pk.Version is GameVersion.SL || pk.MetLocation == LocationsHOME.SWSL,
         2 => pk.Version is GameVersion.VL || pk.MetLocation == LocationsHOME.SHVL,
-        3 => pk.Version is GameVersion.SL or GameVersion.VL || pk.MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL,
+        0 or 3 => pk.Version is GameVersion.SL or GameVersion.VL || pk.MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL,
           _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
     };
 
