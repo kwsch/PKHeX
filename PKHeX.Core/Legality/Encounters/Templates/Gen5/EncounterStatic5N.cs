@@ -30,7 +30,7 @@ public sealed record EncounterStatic5N(uint PID)
     public required Nature Nature { get; init; }
     public required AbilityPermission Ability { get; init; }
 
-    public string Name => "Dream Radar Encounter";
+    public string Name => "N's Pokémon";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;

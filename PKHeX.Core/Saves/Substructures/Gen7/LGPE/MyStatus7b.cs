@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class MyStatus7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw)
+public sealed class MyStatus7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw), IGameSync
 {
     // Player Information
 
@@ -40,6 +40,7 @@ public sealed class MyStatus7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
     }
 
     public const int GameSyncIDSize = 16; // 8 bytes
+    int IGameSync.GameSyncIDSize => GameSyncIDSize;
 
     public string GameSyncID
     {
@@ -47,9 +48,9 @@ public sealed class MyStatus7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
         set
         {
             ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, 16);
-
-            var data = Util.GetBytesFromHexString(value);
-            SAV.SetData(Data[0x10..], data);
+            Span<byte> dest = Data.Slice(0x10, GameSyncIDSize / 2);
+            dest.Clear();
+            Util.GetBytesFromHexString(value, dest);
         }
     }
 
