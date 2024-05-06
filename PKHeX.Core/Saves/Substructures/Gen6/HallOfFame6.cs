@@ -20,14 +20,12 @@ public sealed class HallOfFame6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sa
     public uint GetInsertIndex(out uint clear)
     {
         // Check for empty slots (where player hasn't yet registered enough Fame clears)
-        clear = 0;
         for (uint i = 0; i < Entries; i++)
         {
             var entry = GetEntry((int)i);
             var vnd = new HallFame6Index(entry[^4..]);
             if (!vnd.HasData)
                 return clear = i;
-            clear = vnd.ClearIndex;
         }
 
         // No empty slots, return the last slot.

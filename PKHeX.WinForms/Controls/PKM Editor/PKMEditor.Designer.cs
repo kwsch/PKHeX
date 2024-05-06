@@ -2887,7 +2887,7 @@ namespace PKHeX.WinForms.Controls
             // StatusView
             // 
             StatusView.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            StatusView.Location = new System.Drawing.Point(-4, 344);
+            StatusView.Location = new System.Drawing.Point(24, 342);
             StatusView.Margin = new System.Windows.Forms.Padding(0);
             StatusView.Name = "StatusView";
             StatusView.Size = new System.Drawing.Size(64, 64);
@@ -2977,9 +2977,9 @@ namespace PKHeX.WinForms.Controls
             // PKMEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            Controls.Add(Hidden_TC);
             Controls.Add(StatusView);
             Controls.Add(TC_Editor);
-            Controls.Add(Hidden_TC);
             Name = "PKMEditor";
             Size = new System.Drawing.Size(400, 400);
             Hidden_TC.ResumeLayout(false);

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace PKHeX.Core;
 
@@ -10,4 +10,10 @@ public sealed class HOMETransferSettings
 
     [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a zero value for both Height and Weight.")]
     public Severity ZeroHeightWeight { get; set; } = Severity.Fishy;
+
+    public void Disable()
+    {
+        HOMETransferTrackerNotPresent = Severity.Fishy;
+        ZeroHeightWeight = Severity.Fishy;
+    }
 }

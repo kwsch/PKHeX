@@ -41,8 +41,6 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
         JPEG = 0x67C00;
     }
 
-    /// <summary> Offset of the Contest data block. </summary>
-
     #region Blocks
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem6AO Items => Blocks.Items;
