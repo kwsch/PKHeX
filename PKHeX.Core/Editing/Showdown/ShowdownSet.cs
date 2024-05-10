@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class ShowdownSet : IBattleTemplate
 {
-    private static readonly string[] StatNames = ["HP", "Atk", "Def", "Spe", "SpA", "SpD"];
+    private static readonly string[] StatNames = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
     private const string LineSplit = ": ";
     private const string ItemSplit = " @ ";
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
