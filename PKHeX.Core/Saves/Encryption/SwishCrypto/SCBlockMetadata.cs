@@ -95,7 +95,8 @@ public sealed class SCBlockMetadata
         // See if we have a Block object for this block
         if (block.Data.Length != 0)
         {
-            var obj = BlockList.FirstOrDefault(z => z.Key.Equals(block.Data));
+            static bool SameBackingBuffer(IDataIndirect d, ReadOnlyMemory<byte> data) => d.Equals(data);
+            var obj = BlockList.FirstOrDefault(z => SameBackingBuffer(z.Value, block.Data));
             if (obj is not (null, null))
             {
                 saveBlock = obj.Value;

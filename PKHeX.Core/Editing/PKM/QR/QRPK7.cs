@@ -32,20 +32,20 @@ public sealed class QRPK7(Memory<byte> Raw) : IEncounterInfo
     public byte Move2_PPUps => Data[9];
     public byte Move3_PPUps => Data[0xA];
     public byte Move4_PPUps => Data[0xB];
-    public uint IV32 { get => ReadUInt32LittleEndian(Data.Slice(0xC)); set => WriteUInt32LittleEndian(Data.Slice(0xC), value); }
+    public uint IV32 { get => ReadUInt32LittleEndian(Data[0xC..]); set => WriteUInt32LittleEndian(Data[0xC..], value); }
     public int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | (uint)((value > 31 ? 31 : value) << 00); }
     public int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | (uint)((value > 31 ? 31 : value) << 05); }
     public int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | (uint)((value > 31 ? 31 : value) << 10); }
     public int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 15)) | (uint)((value > 31 ? 31 : value) << 15); }
     public int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 20)) | (uint)((value > 31 ? 31 : value) << 20); }
     public int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 25)) | (uint)((value > 31 ? 31 : value) << 25); }
-    public uint PID => ReadUInt32LittleEndian(Data.Slice(0x10));
-    public ushort Species => ReadUInt16LittleEndian(Data.Slice(0x14));
-    public ushort HeldItem => ReadUInt16LittleEndian(Data.Slice(0x16));
-    public ushort Move1 => ReadUInt16LittleEndian(Data.Slice(0x18));
-    public ushort Move2 => ReadUInt16LittleEndian(Data.Slice(0x1A));
-    public ushort Move3 => ReadUInt16LittleEndian(Data.Slice(0x1C));
-    public ushort Move4 => ReadUInt16LittleEndian(Data.Slice(0x1E));
+    public uint PID => ReadUInt32LittleEndian(Data[0x10..]);
+    public ushort Species => ReadUInt16LittleEndian(Data[0x14..]);
+    public ushort HeldItem => ReadUInt16LittleEndian(Data[0x16..]);
+    public ushort Move1 => ReadUInt16LittleEndian(Data[0x18..]);
+    public ushort Move2 => ReadUInt16LittleEndian(Data[0x1A..]);
+    public ushort Move3 => ReadUInt16LittleEndian(Data[0x1C..]);
+    public ushort Move4 => ReadUInt16LittleEndian(Data[0x1E..]);
     public byte Unk_20 => Data[0x20];
     public byte AbilityIndex => Data[0x21];
     public Nature Nature => (Nature)Data[0x22];
