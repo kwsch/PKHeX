@@ -405,4 +405,3 @@ LTransferPIDECEquals = 性格値は暗号化定数と同じにする必要があ
 LTransferPIDECXor = 暗号化定数と色違い性格値が一致します。
 LTransferTrackerMissing = HOME Trackerが見つかりません。
 LTransferTrackerShouldBeZero = HOME Trackerを０にしてください。
-

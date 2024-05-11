@@ -8,27 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ArrayUtil
 {
-    public static T Find<T>(this Span<T> data, Func<T, bool> value) where T : unmanaged
-    {
-        foreach (var x in data)
-        {
-            if (value(x))
-                return x;
-        }
-        return default;
-    }
-
-    /// <summary>
-    /// Checks the range (exclusive max) if the <see cref="value"/> is inside.
-    /// </summary>
-    public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
-
-    public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start = 0)
-    {
-        for (int i = start; i < bin.Length; i += size)
-            yield return bin.AsSpan(i, size).ToArray();
-    }
-
     /// <summary>
     /// Copies a <see cref="T"/> list to the destination list, with an option to copy to a starting point.
     /// </summary>

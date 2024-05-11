@@ -139,7 +139,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         }
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        pk.Nickname = SpeciesName.GetSpeciesNameImportHOME(Species, lang, Generation);
         SetEncounterMoves(pk, LevelMin);
 
         if (pk is IScaledSize s2)

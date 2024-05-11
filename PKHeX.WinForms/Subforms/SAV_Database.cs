@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -344,7 +345,10 @@ public partial class SAV_Database : Form
 
         ReportGrid reportGrid = new();
         reportGrid.Show();
-        reportGrid.PopulateData(Results);
+        var settings = Main.Settings.Report;
+        var extra = CollectionsMarshal.AsSpan(settings.ExtraProperties);
+        var hide = CollectionsMarshal.AsSpan(settings.HiddenProperties);
+        reportGrid.PopulateData(Results, extra, hide);
     }
 
     private sealed class SearchFolderDetail(string path, bool ignoreBackupFiles)

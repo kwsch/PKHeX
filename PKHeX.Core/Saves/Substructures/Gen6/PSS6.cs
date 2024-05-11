@@ -60,6 +60,8 @@ public static class PSS6
         // uint unk4  = ReadUInt16LittleEndian(data[0x54..]);
         byte regionID = data[0x56];
         byte countryID = data[0x57];
+        // byte birthMonth = data[0x58];
+        // byte birthDay = data[0x59];
         var game = (GameVersion)data[0x5A];
         // ulong outfit = ReadUInt64LittleEndian(data.AsSpan(ofs + 0x5C));
         int favpkm = ReadUInt16LittleEndian(data[0x9C..]) & 0x7FF;

@@ -29,6 +29,6 @@ public static class SMTests
         save.ChecksumInfo.Should().BeEquivalentTo(originalChecksumInfo, "because the checksum should have been modified");
         save.ChecksumsValid.Should().BeTrue("because the checksum should be valid after write");
         newSave.ChecksumsValid.Should().BeTrue("because the checksums should be valid after reopening the save");
-        newSave.ChecksumInfo.Should().BeEquivalentTo(save.ChecksumInfo, "because the checksums should be the same since write and open");
+        newSave.ChecksumInfo.Should().BeEquivalentTo(originalChecksumInfo, "because the checksums should be the same since write and open");
     }
 }

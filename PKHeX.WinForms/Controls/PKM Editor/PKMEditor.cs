@@ -188,7 +188,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private readonly PictureBox[] relearnPB;
     public SaveFile RequestSaveFile => SaveFileRequested.Invoke(this, EventArgs.Empty);
-    public bool PKMIsUnsaved => FieldsLoaded && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
+    public bool PKMIsUnsaved => FieldsLoaded && LastData.AsSpan().ContainsAnyExcept<byte>(0) && !LastData.SequenceEqual(CurrentPKM.Data);
 
     private readonly MoveChoice[] Moves;
     private readonly ComboBox[] Relearn;
@@ -1319,12 +1319,13 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!FieldsLoaded)
             return;
 
+        RefreshFontWarningButton();
         Entity.Nickname = TB_Nickname.Text;
         if (CHK_NicknamedFlag.Checked)
             return;
 
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
-        if (species < 1 || species > Entity.MaxSpeciesID)
+        if (species is 0 || species > Entity.MaxSpeciesID)
             return;
 
         if (CHK_IsEgg.Checked)

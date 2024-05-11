@@ -11,7 +11,7 @@ public partial class TrashEditor : Form
 {
     private readonly IStringConverter Converter;
 
-    public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, [], sav, sav.Generation) { }
+    public TrashEditor(TextBoxBase TB_NN, IStringConverter sav, byte generation) : this(TB_NN, [], sav, generation) { }
 
     public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, IStringConverter converter, byte generation)
     {

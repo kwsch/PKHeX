@@ -114,7 +114,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
 
         pkh.MarkingValue &= 0b1111_1111_1111;
         if (!pk.IsNicknamed)
-            pkh.Nickname = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, 8);
+            pkh.Nickname = SpeciesName.GetSpeciesNameImportHOME(pk.Species, pk.Language, 8);
         if (FormInfo.IsTotemForm(pk.Species, pk.Form))
             pkh.Form = FormInfo.GetTotemBaseForm(pk.Species, pk.Form);
     }

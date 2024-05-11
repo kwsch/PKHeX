@@ -47,7 +47,7 @@ public sealed class EventWork7SM(SAV7SM sav, Memory<byte> raw) : EventWork7(sav,
     private const int OffsetWork = 0x0;
     private const int OffsetFlag = OffsetWork + (WorkCount * sizeof(ushort)); // 0x7D0
 
-    // Hallf of Fame
+    // Hall of Fame
     private const int OffsetPostData = OffsetFlag + (FlagCount / 8); // 0x9C4
 
     public override int EventFlagCount => FlagCount;

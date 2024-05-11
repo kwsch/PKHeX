@@ -41,9 +41,6 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
         JPEG = 0x67C00;
     }
 
-    /// <summary> Offset of the Contest data block. </summary>
-    public const int Contest = 0x23600;
-
     #region Blocks
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem6AO Items => Blocks.Items;
@@ -71,6 +68,8 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
     public Zukan6AO Zukan => Blocks.Zukan;
     public SecretBase6Block SecretBase => Blocks.SecretBase;
     public BerryField6AO BerryField => Blocks.BerryField;
+    public Contest6 Contest => Blocks.Contest;
+    public HallOfFame6 HallOfFame => Blocks.HallOfFame;
 
     MyItem ISaveBlock6Core.Items => Items;
     SubEventLog6 ISaveBlock6Main.SUBE => SUBE;

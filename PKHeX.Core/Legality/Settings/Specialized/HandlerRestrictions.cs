@@ -15,7 +15,7 @@ public sealed class HandlerSettings
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed record HandlerRestrictions
+public sealed class HandlerRestrictions
 {
     public bool AllowHandleOTGen6 { get; set; }
     public bool AllowHandleOTGen7 { get; set; }
@@ -24,6 +24,19 @@ public sealed record HandlerRestrictions
     public bool AllowHandleOTGen8a { get; set; }
     public bool AllowHandleOTGen8b { get; set; }
     public bool AllowHandleOTGen9 { get; set; }
+
+    public void Disable() => SetAllTo(true);
+
+    public void SetAllTo(bool value)
+    {
+        AllowHandleOTGen6 = value;
+        AllowHandleOTGen7 = value;
+        AllowHandleOTGen7b = value;
+        AllowHandleOTGen8 = value;
+        AllowHandleOTGen8a = value;
+        AllowHandleOTGen8b = value;
+        AllowHandleOTGen9 = value;
+    }
 
     public bool GetCanOTHandle(EntityContext encContext) => encContext switch
     {

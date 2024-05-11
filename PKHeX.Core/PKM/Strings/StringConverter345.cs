@@ -100,6 +100,8 @@ public static class StringConverter345
         {
             if (IsInvalid45(input[i]))
                 input[i] = '?';
+            if (input[i] == '’') // Farfetch’d and CH’DING nicknames
+                input[i] = '\''; // Wrong apostrophe, nice. Only is corrected when converted to Gen6.
         }
     }
 
@@ -120,6 +122,8 @@ public static class StringConverter345
             var c = ReadUInt16LittleEndian(span);
             if (IsPrivateUseChar(c))
                 WriteUInt16LittleEndian(span, GetMigratedPrivateChar(c));
+            else if (c is '\'') // Fix all apostrophes. ' -> ’
+                WriteUInt16LittleEndian(span, '’');
         }
     }
 

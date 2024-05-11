@@ -32,8 +32,7 @@ public static class EncounterText
             }
         }
 
-        var el = enc as ILocation;
-        var loc = el?.GetEncounterLocation(enc.Generation, enc.Version);
+        var loc = enc.GetEncounterLocation(enc.Generation, enc.Version);
         if (!string.IsNullOrEmpty(loc))
             lines.Add(string.Format(L_F0_1, "Location", loc));
 

@@ -553,6 +553,31 @@ public static class BatchEditing
         }
 
         if (TryGetHasProperty(pk, cmd.PropertyName, out var pi))
-            ReflectUtil.SetValue(pi, pk, Util.Rand.Next(pk.MaxIV + 1));
+        {
+            if (cmd.PropertyName == nameof(PK9.IV32))
+            {
+                var value = (uint)Util.Rand.Next(0x3FFFFFFF + 1);
+                if (pk is BK4 bk) // Big Endian, reverse IV ordering
+                {
+                    value <<= 2; // flags are the lowest bits, and our random value is still fine.
+                    value |= bk.IV32 & 3; // preserve the flags
+                }
+                else
+                {
+                    var exist = ReflectUtil.GetValue(pk, cmd.PropertyName);
+                    value |= exist switch
+                    {
+                        uint iv => iv & (3u << 30), // preserve the flags
+                        _ => 0,
+                    };
+                }
+                ReflectUtil.SetValue(pi, pk, value);
+            }
+            else
+            {
+                var value = Util.Rand.Next(pk.MaxIV + 1);
+                ReflectUtil.SetValue(pi, pk, value);
+            }
+        }
     }
 }

@@ -135,6 +135,9 @@ namespace PKHeX.WinForms.Controls
             tabBoxMulti.DragOver += MultiDragOver;
             tabBoxMulti.MouseClick += ClickBoxSort;
             tabBoxMulti.MouseDoubleClick += ClickBoxDouble;
+            tabBoxMulti.MouseDown += TabMouseDown;
+            tabBoxMulti.MouseMove += TabMouseMove;
+            tabBoxMulti.MouseUp += TabMouseUp;
             // 
             // Tab_Box
             // 

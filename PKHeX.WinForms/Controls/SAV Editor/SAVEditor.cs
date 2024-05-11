@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -677,7 +679,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 OpenDialog(new SAV_Raid8(swsh, MaxRaidOrigin.Galar));
             else if (sender == B_RaidsDLC1)
                 OpenDialog(new SAV_Raid8(swsh, MaxRaidOrigin.IsleOfArmor));
-            else if(sender == B_RaidsDLC2)
+            else if (sender == B_RaidsDLC2)
                 OpenDialog(new SAV_Raid8(swsh, MaxRaidOrigin.CrownTundra));
         }
     }
@@ -1380,4 +1382,75 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     }
 
     private void Menu_ExportBAK_Click(object sender, EventArgs e) => ExportBackup();
+
+    public bool IsBoxDragActive;
+    private Point DragStartPoint;
+
+    private void TabMouseDown(object sender, MouseEventArgs e)
+    {
+        if (!Main.Settings.SlotExport.AllowBoxDataDrop)
+            return;
+        if (e.Button != MouseButtons.Left)
+            return;
+        if (ModifierKeys is Keys.Alt or Keys.Shift)
+            return;
+
+        // If the event was fired from the Box tab rectangle, initiate a box drag drop.
+        var boxIndex = tabBoxMulti.TabPages.IndexOf(Tab_Box);
+        if (!tabBoxMulti.GetTabRect(boxIndex).Contains(e.Location))
+            return;
+
+        IsBoxDragActive = true;
+        DragStartPoint = e.Location;
+    }
+
+    public void TabMouseUp(object sender, MouseEventArgs e)
+    {
+        if (IsBoxDragActive)
+            IsBoxDragActive = false;
+    }
+
+    private async void TabMouseMove(object sender, MouseEventArgs e)
+    {
+        if (!IsBoxDragActive)
+            return;
+
+        if (e.Location == DragStartPoint)
+            return;
+
+        // Gather data
+        var src = SAV.CurrentBox;
+        var bin = SAV.GetBoxBinary(src);
+
+        // Create Temp File to Drag
+        var newFile = Path.Combine(Path.GetTempPath(), $"box_{src}.bin");
+        try
+        {
+            using var img = new Bitmap(Box.Width, Box.Height);
+            Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
+            using var cursor = Cursor = new Cursor(img.GetHicon());
+            await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
+            DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
+        }
+        // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
+        catch (Exception x)
+        { WinFormsUtil.Error("Drag && Drop Error", x); }
+        finally
+        {
+            Cursor = Cursors.Default;
+            await Task.Delay(100).ConfigureAwait(false);
+            IsBoxDragActive = false;
+            await DeleteAsync(newFile, 20_000).ConfigureAwait(false);
+        }
+    }
+
+    private static async Task DeleteAsync(string path, int delay)
+    {
+        await Task.Delay(delay).ConfigureAwait(true);
+        if (!File.Exists(path))
+            return;
+
+        try { File.Delete(path); }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
+    }
 }

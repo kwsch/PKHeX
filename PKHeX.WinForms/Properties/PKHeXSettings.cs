@@ -43,6 +43,7 @@ public sealed class PKHeXSettings
     public EntityDatabaseSettings EntityDb { get; set; } = new();
     public EncounterDatabaseSettings EncounterDb { get; set; } = new();
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
+    public ReportGridSettings Report { get; set; } = new();
 
     [Browsable(false)]
     public SlotExportSettings SlotExport { get; set; } = new();
@@ -297,6 +298,15 @@ public sealed class MysteryGiftDatabaseSettings
     public bool FilterUnavailableSpecies { get; set; } = true;
 }
 
+public sealed class ReportGridSettings
+{
+    [LocalizedDescription("Extra entity properties to try and show in addition to the default properties displayed.")]
+    public List<string> ExtraProperties { get; set; } = [];
+
+    [LocalizedDescription("Properties to hide from the report grid.")]
+    public List<string> HiddenProperties { get; set; } = [];
+}
+
 public sealed class HoverSettings
 {
     [LocalizedDescription("Show PKM Slot Preview on Hover")]
@@ -472,4 +482,7 @@ public sealed class SlotExportSettings
 
     [LocalizedDescription("Selected File namer to use for box exports for the GUI, if multiple are available.")]
     public string DefaultBoxExportNamer { get; set; } = "";
+
+    [LocalizedDescription("Allow drag and drop of boxdata binary files from the GUI via the Box tab.")]
+    public bool AllowBoxDataDrop { get; set; } // default to false, clunky to use
 }

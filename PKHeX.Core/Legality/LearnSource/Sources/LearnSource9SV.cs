@@ -35,7 +35,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (index >= EggMoves.Length)
             return false;
         var moves = EggMoves[index].AsSpan();
-        return moves.IndexOf(move) != -1;
+        return moves.Contains(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
@@ -52,7 +52,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (index >= Reminder.Length)
             return false;
         var moves = Reminder[index].AsSpan();
-        return moves.IndexOf(move) != -1;
+        return moves.Contains(move);
     }
 
     public ReadOnlySpan<ushort> GetReminderMoves(ushort species, byte form)
@@ -146,7 +146,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
     {
         var baseSpecies = pi.HatchSpecies;
         var baseForm = pi.HatchFormIndexEverstone;
-        return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
+        return GetEggMoves(baseSpecies, baseForm).Contains(move);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)

@@ -1,41 +1,41 @@
-0669	r	プラズマ団: ポケモンリーグのポケモンセンター (戦闘済み)
-0661	r	レシラム / ゼクロム: Nのしろ (戦闘済み)
-0766	r	レシラム / ゼクロム: リュウランセンのとう (戦闘済み)
-0801	r	キュレム (戦闘済み)
-0810	r	ウルガモス (戦闘済み)
-0649	r	コバルオン (戦闘済み)
-0650	r	テラキオン (戦闘済み)
-0651	r	ビリジオン (戦闘済み)
-0652	s	チャンピオンロード (試練の室に行ける)
-0653	s	ヤグルマのもり (思索の原に行ける)
-2403	*	Has Running Shoes
-0115	*	Trading Functionality Enabled (Pokecenter)
-2400	s	Defeated Ghetsis (First game clear)
-0145	s	Received Cover/Plume Fossil from Backpacker
-0148	g	Traded for Petilil/Cottonee
-0280	g	Traded for Basculin
-0315	g	Received Larvesta Egg Gift
-0352	t	Battled Youngster Kyle
-0355	t	Battled Lass Dana
-0339	g	Purchased Magikarp
-0347	g	Traded for Emolga
-0360	g	Traded for Rotom
-0663	g	Darmanitan (middle-left) disappeared from Desert Resort
-0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
-0665	g	Darmanitan (top-left) disappeared from Desert Resort
-0666	g	Darmanitan (middle-right) disappeared from Desert Resort
-0667	g	Darmanitan (top-right) disappeared from Desert Resort
-0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
-0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
-0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
-2754	s	Rode Royal Unova (Today)
-2762	s	Received a Fossil from Twist Mountain Worker (Today)
-0683	a	Battle Subway: does not possess super single trophy
-0684	a	Battle Subway: does not possess super double trophy
-0685	a	Battle Subway: does not possess super multi trophy
-0767	r	Route 6	 Capture/Defeat Foongus
-0768	r	Route 6	 Capture/Defeat Foongus
-0769	r	Route 10 Capture/Defeat Amoonguss
-0770	r	Route 10 Capture/Defeat Amoonguss
-0771	r	Route 10 Capture/Defeat Foongus
-0772	r	Route 10 Capture/Defeat Foongus
+0669	r	Nの城のプラズマ団のしたっぱを非表示(ポケモンリーグにワープしてくれる人)
+0661	r	Nの城のレシラム/ゼクロム戦闘済み
+0766	r	リュウランセンの塔のレシラム/ゼクロム戦闘済み
+0801	r	キュレム戦闘済み
+0810	r	ウルガモス戦闘済み
+0649	r	コバルオン戦闘済み
+0650	r	テラキオン戦闘済み
+0651	r	ビリジオン戦闘済み
+0652	s	試練の室に行ける(チャンピオンロード)
+0653	s	思索の原に行ける(ヤグルマの森)
+2403	*	ランニングシューズ所持
+0115	*	ポケモンセンターの通信機能解禁
+2400	s	ゲーチスに勝利(初回クリア)
+0145	s	古代の城でふたのカセキ/はねのカセキをもらった
+0148	g	シッポウシティでチュリネ(B)/モンメン(W)を交換した
+0280	g	ホドモエシティでバスラオを交換した
+0315	g	18番道路でメラルバのタマゴをもらった
+0352	t	たんぱんこぞうのナオキとバトルした
+0355	t	ミニスカートのリカとバトルした
+0339	g	コイキングを買った
+0347	g	7番道路でエモンガを交換した
+0360	g	15番道路でロトムを交換した
+0663	g	ヒヒダルマ(左中)像がリゾートデザートからいなくなった
+0664	g	ヒヒダルマ(左下)像がリゾートデザートからいなくなった
+0665	g	ヒヒダルマ(左上)像がリゾートデザートからいなくなった
+0666	g	ヒヒダルマ(右中)像がリゾートデザートからいなくなった
+0667	g	ヒヒダルマ(右上)像がリゾートデザートからいなくなった
+0729	s	ゲームフリークビル1Fからゾロアの少年がいなくなる(1)(ゾロアイベント)
+0730	s	ゲームフリークビル1Fから少女がいなくなる(1)(ゾロアイベント)
+0731	s	ゲームフリークビル1Fからゾロアがいなくなる(2)(ゾロアイベント)
+2754	s	ロイヤルイッシュ号に乗船した(デイリー)
+2762	s	ネジ山の作業員からカセキをもらった(デイリー)
+0683	a	スーパーシングルトレインのトロフィーを持っていない(バトルサブウェイ)
+0684	a	スーパーダブルトレインのトロフィーを持っていない(バトルサブウェイ)
+0685	a	スーパーマルチトレインのトロフィーを持っていない(バトルサブウェイ)
+0767	r	6番道路のタマゲタケを捕獲した/倒した(1)
+0768	r	6番道路のタマゲタケを捕獲した/倒した(2)
+0769	r	10番道路のモロバレルを捕獲した/倒した(1)
+0770	r	10番道路のモロバレルを捕獲した/倒した(2)
+0771	r	10番道路のタマゲタケを捕獲した/倒した(1)
+0772	r	10番道路のタマゲタケを捕獲した/倒した(2)

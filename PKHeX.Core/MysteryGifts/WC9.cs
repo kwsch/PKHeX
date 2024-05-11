@@ -34,10 +34,9 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public bool CanBeReceivedByVersion(PKM pk) => RestrictVersion switch
     {
-        0 when !IsEntity => true, // Whatever, essentially unrestricted for SL/VL receipt. No Entity gifts are 0.
         1 => pk.Version is GameVersion.SL || pk.MetLocation == LocationsHOME.SWSL,
         2 => pk.Version is GameVersion.VL || pk.MetLocation == LocationsHOME.SHVL,
-        3 => pk.Version is GameVersion.SL or GameVersion.VL || pk.MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL,
+        0 or 3 => pk.Version is GameVersion.SL or GameVersion.VL || pk.MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL,
           _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
     };
 
@@ -643,9 +642,9 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
-        var ivflag = finalIVs.Find(static iv => (byte)(iv - 0xFC) < 3);
+        var ivflag = finalIVs.IndexOfAny(0xFC, 0xFD, 0xFE);
         var rng = Util.Rand;
-        if (ivflag == default) // Random IVs
+        if (ivflag == -1) // Random IVs
         {
             for (int i = 0; i < finalIVs.Length; i++)
             {
@@ -655,7 +654,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         }
         else // 1/2/3 perfect IVs
         {
-            int IVCount = ivflag - 0xFB;
+            int IVCount = finalIVs[ivflag] - 0xFB;
             do { finalIVs[rng.Next(6)] = 31; }
             while (finalIVs.Count(31) < IVCount);
             for (int i = 0; i < finalIVs.Length; i++)

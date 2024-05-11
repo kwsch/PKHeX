@@ -34,9 +34,25 @@ public partial class StatusConditionView : UserControl
         if (pk is null || Loading)
             return;
         Loading = true;
-        var status = pk.Status_Condition;
-        SetStatus((StatusCondition)status);
+        if (!pk.PartyStatsPresent)
+            ClearStatus();
+        else if (pk.Stat_HPCurrent == 0)
+            SetFaint();
+        else
+            SetStatus((StatusCondition)(pk.Status_Condition & 0xFF));
         Loading = false;
+    }
+
+    private void SetFaint()
+    {
+        PB_Status.Image = Drawing.PokeSprite.Properties.Resources.sickfaint;
+        Hover.RemoveAll();
+    }
+
+    private void ClearStatus()
+    {
+        PB_Status.Image = null;
+        Hover.RemoveAll();
     }
 
     private void SetStatus(StatusCondition status)

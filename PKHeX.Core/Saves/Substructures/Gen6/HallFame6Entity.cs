@@ -57,3 +57,26 @@ public readonly ref struct HallFame6Entity
         set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Option);
     }
 }
+
+public readonly ref struct HallFame6Index
+{
+    public const int SIZE = 0x4;
+    private readonly Span<byte> Data;
+    // ReSharper disable once ConvertToPrimaryConstructor
+    public HallFame6Index(Span<byte> data) => Data = data;
+
+    public uint Value { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+
+    // Structure:
+    // u32:14 - Clear Index (how many times Fame has been completed/cleared)
+    // u32:08 - Year (since 2000)
+    // u32:04 - Month
+    // u32:05 - Day
+    // u32:01 - Index has Data bool flag (0 = no data, 1 = has data)
+
+    public uint ClearIndex { get => Value & 0x3FFFu; set => Value = (Value & ~0x3FFFu) | (value & 0x3FFFu); }
+    public uint Year { get => (Value >> 14) & 0xFFu; set => Value = (Value & ~(0xFFu << 14)) | ((value & 0xFFu) << 14); }
+    public uint Month { get => (Value >> 22) & 0xFu; set => Value = (Value & ~(0xFu << 22)) | ((value & 0xFu) << 22); }
+    public uint Day { get => (Value >> 26) & 0x1Fu; set => Value = (Value & ~(0x1Fu << 26)) | ((value & 0x1Fu) << 26); }
+    public bool HasData { get => (Value >> 31) == 1; set => Value = (Value & ~(0x1u << 31)) | ((value ? 1u : 0u) << 31); }
+}

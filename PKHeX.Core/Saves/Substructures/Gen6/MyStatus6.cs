@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 6 savedata object that stores the player's trainer data.
 /// </summary>
-public class MyStatus6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), IRegionOrigin
+public class MyStatus6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), IRegionOrigin, IGameSync
 {
     public uint ID32
     {
@@ -51,17 +51,17 @@ public class MyStatus6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), 
     }
 
     public const int GameSyncIDSize = 16; // 64 bits
+    int IGameSync.GameSyncIDSize => GameSyncIDSize;
 
     public string GameSyncID
     {
         get => Util.GetHexStringFromBytes(Data.Slice(0x08, GameSyncIDSize / 2));
         set
         {
-            if (value.Length != GameSyncIDSize)
-                throw new ArgumentOutOfRangeException(nameof(value));
-
-            var data = Util.GetBytesFromHexString(value);
-            SAV.SetData(Data[0x8..], data);
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, GameSyncIDSize);
+            Span<byte> dest = Data.Slice(8, GameSyncIDSize / 2);
+            dest.Clear();
+            Util.GetBytesFromHexString(value, dest);
         }
     }
 

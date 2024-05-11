@@ -3,7 +3,7 @@ using System.ComponentModel;
 namespace PKHeX.Core;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed record NicknameSettings
+public sealed class NicknameSettings
 {
     [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
     public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
@@ -40,6 +40,28 @@ public sealed record NicknameSettings
 
     [LocalizedDescription("Nickname rules for Generation 9.")]
     public NicknameRestriction Nickname9 { get; set; } = new();
+
+    public void Disable()
+    {
+        var nick = new NicknameRestriction();
+        nick.Disable();
+        SetAllTo(nick);
+    }
+
+    public void SetAllTo(NicknameRestriction all)
+    {
+        Nickname12.CopyFrom(all);
+        Nickname3.CopyFrom(all);
+        Nickname4.CopyFrom(all);
+        Nickname5.CopyFrom(all);
+        Nickname6.CopyFrom(all);
+        Nickname7.CopyFrom(all);
+        Nickname7b.CopyFrom(all);
+        Nickname8.CopyFrom(all);
+        Nickname8a.CopyFrom(all);
+        Nickname8b.CopyFrom(all);
+        Nickname9.CopyFrom(all);
+    }
 
     public Severity NicknamedMysteryGift(EntityContext encContext) => encContext switch
     {
@@ -84,4 +106,16 @@ public sealed record NicknameRestriction
 
     [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
     public Severity NicknamedMysteryGift { get; set; } = Severity.Invalid;
+
+    public void CopyFrom(NicknameRestriction other)
+    {
+        NicknamedTrade = other.NicknamedTrade;
+        NicknamedMysteryGift = other.NicknamedMysteryGift;
+    }
+
+    public void Disable()
+    {
+        NicknamedTrade = Severity.Fishy;
+        NicknamedMysteryGift = Severity.Fishy;
+    }
 }

@@ -226,7 +226,7 @@ public partial class SAV_SecretBase : Form
         CB_Species.SelectedValue = (int)pk.Species;
         CB_HeldItem.SelectedValue = pk.HeldItem;
         CB_Form.SelectedIndex = pk.Form;
-        
+
         CB_Nature.SelectedValue = (int)pk.Nature;
         CB_Ball.SelectedValue = (int)pk.Ball;
 

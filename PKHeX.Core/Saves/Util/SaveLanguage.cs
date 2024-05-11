@@ -229,9 +229,9 @@ public static class SaveLanguage
         if (Contains(name, "bpej")) return (Japanese, E);
         if (Contains(name, "bpe")) return (OverrideLanguageGen3RS, E);
         if (Contains(name, "bprj")) return (Japanese, FR);
-        if (Contains(name, "bpr")) return (OverrideLanguageGen3FRLG, FR);
+        if (Contains(name, "bpr") || Contains(name, "fr") || Contains(name, "fire")) return (OverrideLanguageGen3FRLG, FR);
         if (Contains(name, "bpgj")) return (Japanese, LG);
-        if (Contains(name, "bpg")) return (OverrideLanguageGen3FRLG, LG);
+        if (Contains(name, "bpg") || Contains(name, "lg") || Contains(name, "leaf")) return (OverrideLanguageGen3FRLG, LG);
 
         return default;
     }
