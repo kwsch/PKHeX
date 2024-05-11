@@ -62,10 +62,12 @@ public static class EncounterSuggestion
 
     public static int GetSuggestedEncounterEggMetLevel(PKM pk)
     {
-        if (pk is { IsNative: false, Generation: < 5 })
+        var gen = pk.Generation;
+        var format = pk.Format;
+        if (gen < 5 && gen != format)
             return pk.CurrentLevel; // be generous with transfer conditions
-        if (pk.Format < 5) // and native
-            return pk.Format == 2 && pk.MetLocation != 0 ? 1 : 0;
+        if (format < 5) // and native
+            return format == 2 && pk.MetLocation != 0 ? 1 : 0;
         return 1; // Gen5+
     }
 

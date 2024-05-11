@@ -163,7 +163,7 @@ public sealed class PCD(byte[] Data)
                 return false;
             if (wc.CurrentLevel != pk.MetLevel)
                 return false;
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 4 })
                 return false;
         }
 

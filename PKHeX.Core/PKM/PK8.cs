@@ -28,7 +28,6 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
 
     public override PersonalInfo8SWSH PersonalInfo => PersonalTable.SWSH.GetFormEntry(Species, Form);
     public override IPermitRecord Permit => PersonalInfo;
-    public override bool IsNative => SWSH;
     public override EntityContext Context => EntityContext.Gen8;
 
     public PK8() => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)

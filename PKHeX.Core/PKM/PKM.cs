@@ -553,7 +553,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, Version);
 
     public virtual bool IsUntraded => false;
-    public virtual bool IsNative => Generation == Format;
     public bool IsOriginValid => Species <= MaxSpeciesID;
 
     /// <summary>

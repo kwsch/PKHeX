@@ -664,7 +664,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Context: not EntityContext.Gen8b })
                 return false;
         }
         else

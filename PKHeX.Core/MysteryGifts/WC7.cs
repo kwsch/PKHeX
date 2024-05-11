@@ -593,7 +593,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 return false; // can't be traded away for un-shiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 7 })
                 return false;
         }
         else

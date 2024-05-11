@@ -553,7 +553,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 6 })
                 return false;
         }
         else

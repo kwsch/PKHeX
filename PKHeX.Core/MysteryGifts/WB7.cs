@@ -580,7 +580,7 @@ public sealed class WB7(byte[] Data)
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Context: not EntityContext.Gen7b })
                 return false;
         }
         else

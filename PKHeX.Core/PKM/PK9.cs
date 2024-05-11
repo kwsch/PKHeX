@@ -26,7 +26,6 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
 
     public override PersonalInfo9SV PersonalInfo => PersonalTable.SV.GetFormEntry(Species, Form);
     public IPermitRecord Permit => PersonalInfo;
-    public override bool IsNative => SV;
     public override EntityContext Context => EntityContext.Gen9;
 
     public PK9() : base(PokeCrypto.SIZE_9PARTY)

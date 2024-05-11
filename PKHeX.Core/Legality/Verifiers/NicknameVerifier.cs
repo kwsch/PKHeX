@@ -260,7 +260,7 @@ public sealed class NicknameVerifier : Verifier
                 break;
         }
 
-        if (format == 5 && !pk.IsNative) // transfer
+        if (format == 5 && enc.Generation != 5) // transfer
         {
             if (canHaveAnyLanguage)
                 return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
