@@ -482,4 +482,7 @@ public sealed class SlotExportSettings
 
     [LocalizedDescription("Selected File namer to use for box exports for the GUI, if multiple are available.")]
     public string DefaultBoxExportNamer { get; set; } = "";
+
+    [LocalizedDescription("Allow drag and drop of boxdata binary files from the GUI via the Box tab.")]
+    public bool AllowBoxDataDrop { get; set; } // default to false, clunky to use
 }

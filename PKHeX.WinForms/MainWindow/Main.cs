@@ -685,6 +685,9 @@ public partial class Main : Form
 
     private bool OpenPCBoxBin(ConcatenatedEntitySet pkms)
     {
+        if (C_SAV.IsBoxDragActive)
+            return true;
+        Cursor = Cursors.Default;
         if (!C_SAV.OpenPCBoxBin(pkms.Data.Span, out string c))
         {
             WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
