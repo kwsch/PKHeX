@@ -1319,12 +1319,13 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!FieldsLoaded)
             return;
 
+        RefreshFontWarningButton();
         Entity.Nickname = TB_Nickname.Text;
         if (CHK_NicknamedFlag.Checked)
             return;
 
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
-        if (species < 1 || species > Entity.MaxSpeciesID)
+        if (species is 0 || species > Entity.MaxSpeciesID)
             return;
 
         if (CHK_IsEgg.Checked)

@@ -633,7 +633,7 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.Name = "TB_Nickname";
             TB_Nickname.Size = new System.Drawing.Size(144, 23);
             TB_Nickname.TabIndex = 5;
-            TB_Nickname.TextChanged += RefreshFontWarningButton;
+            TB_Nickname.TextChanged += UpdateIsNicknamed;
             TB_Nickname.MouseDown += UpdateNicknameClick;
             // 
             // BTN_NicknameWarn
