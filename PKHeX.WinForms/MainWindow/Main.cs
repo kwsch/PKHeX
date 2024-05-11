@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -321,7 +322,11 @@ public partial class Main : Form
         report.Show();
         var list = new List<SlotCache>();
         SlotInfoLoader.AddFromSaveFile(C_SAV.SAV, list);
-        report.PopulateData(list);
+
+        var settings = Settings.Report;
+        var extra = CollectionsMarshal.AsSpan(settings.ExtraProperties);
+        var hide = CollectionsMarshal.AsSpan(settings.HiddenProperties);
+        report.PopulateData(list, extra, hide);
     }
 
     private void MainMenuDatabase(object sender, EventArgs e)
