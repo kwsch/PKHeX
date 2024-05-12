@@ -45,7 +45,7 @@ public static class EncounterFinder
 
             // Looks like we might have a good enough match. Check if this is really a good match.
             info.EncounterMatch = enc;
-            if (e.Comment.Length > 0)
+            if (e.Comment.Length != 0)
                 info.Parse.Add(e);
             if (!VerifySecondaryChecks(pk, info, encounter))
                 continue;
@@ -71,7 +71,7 @@ public static class EncounterFinder
         if (manual != EncounterYieldFlag.None)
         {
             if (!info.FrameMatches) // if false, all valid RNG frame matches have already been consumed
-                info.Parse.Add(new CheckResult(info.Generation == 3 ? ParseSettings.RNGFrameNotFound3 : ParseSettings.RNGFrameNotFound4, CheckIdentifier.PID, LEncConditionBadRNGFrame));
+                info.Parse.Add(new CheckResult(ParseSettings.Settings.FramePattern.GetSeverity(info.Generation), CheckIdentifier.PID, LEncConditionBadRNGFrame));
             else if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
                 info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, LPIDTypeMismatch));
         }

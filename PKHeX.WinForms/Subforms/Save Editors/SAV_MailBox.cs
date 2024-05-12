@@ -133,35 +133,15 @@ public partial class SAV_MailBox : Form
                 a.DataSource = new BindingSource(species, null);
             }
 
+            var vers = GameInfo.VersionDataSource
+                .Where(z => ((GameVersion)z.Value).GetGeneration() == Generation);
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
-            CB_AuthorVersion.DataSource = new BindingSource(Generation == 4
-                ? new[] {
-                    new ComboItem("Diamond", (int)GameVersion.D),
-                    new ComboItem("Pearl", (int)GameVersion.P),
-                    new ComboItem("Platinum", (int)GameVersion.Pt),
-                    new ComboItem("HeartGold", (int)GameVersion.HG),
-                    new ComboItem("SoulSilver", (int)GameVersion.SS),
-                }
-                : new[] {
-                    new ComboItem("Black", (int)GameVersion.B),
-                    new ComboItem("White", (int)GameVersion.W),
-                    new ComboItem("Black2", (int)GameVersion.B2),
-                    new ComboItem("White2", (int)GameVersion.W2),
-                }, null);
+            CB_AuthorVersion.DataSource = new BindingSource(vers, null);
 
             CB_AuthorLang.Items.Clear();
             CB_AuthorLang.InitializeBinding();
-            CB_AuthorLang.DataSource = new BindingSource(new[] {
-                // not sure
-                new ComboItem("JPN", 1),
-                new ComboItem("ENG", 2),
-                new ComboItem("FRE", 3),
-                new ComboItem("ITA", 4),
-                new ComboItem("GER", 5),
-                new ComboItem("ESP", 7),
-                new ComboItem("KOR", 8),
-            }, null);
+            CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), null);
         }
 
         var ItemList = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);

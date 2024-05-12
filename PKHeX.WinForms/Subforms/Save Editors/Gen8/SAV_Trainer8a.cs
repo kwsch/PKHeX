@@ -126,7 +126,7 @@ public partial class SAV_Trainer8a : Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV);
+        var d = new TrashEditor(tb, SAV, SAV.Generation);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }

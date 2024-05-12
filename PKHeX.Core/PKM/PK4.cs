@@ -183,7 +183,12 @@ public sealed class PK4 : G4PKM
     public override string Nickname
     {
         get => StringConverter4.GetString(NicknameTrash);
-        set => StringConverter4.SetString(NicknameTrash, value, 10, StringConverterOption.None);
+        set
+        {
+            var language = Language;
+            CheckKoreanNidoranDPPt(value, ref language);
+            StringConverter4.SetString(NicknameTrash, value, 10, language, StringConverterOption.None);
+        }
     }
 
     // 0x5E unused
@@ -231,7 +236,7 @@ public sealed class PK4 : G4PKM
     public override string OriginalTrainerName
     {
         get => StringConverter4.GetString(OriginalTrainerTrash);
-        set => StringConverter4.SetString(OriginalTrainerTrash, value, 7, StringConverterOption.None);
+        set => StringConverter4.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.None);
     }
 
     public override byte EggYear { get => Data[0x78]; set => Data[0x78] = value; }
@@ -316,9 +321,9 @@ public sealed class PK4 : G4PKM
         {
             JunkByte = 0,
             OriginalTrainerFriendship = 70,
-            // Apply new met date
-            MetDate = EncounterDate.GetDateNDS(),
         };
+        if (!EntityConverter.RetainMetDateTransfer45)
+            EncounterDate.GetDateNDS(); // Apply new met date
         pk5.HeldMail.Clear();
 
         // Arceus Type Changing -- Plate forcibly removed.
@@ -327,7 +332,7 @@ public sealed class PK4 : G4PKM
             pk5.Form = 0;
             pk5.HeldItem = 0;
         }
-        else if (Array.IndexOf(Legal.HeldItems_BW, (ushort)HeldItem) == -1)
+        else if (!Legal.HeldItems_BW.AsSpan().Contains((ushort)HeldItem))
         {
             pk5.HeldItem = 0; // if valid, it's already copied
         }
@@ -352,8 +357,8 @@ public sealed class PK4 : G4PKM
         pk5.Ball = Ball;
 
         // Transfer Nickname and OT Name, update encoding
-        TransferTrash(NicknameTrash, pk5.NicknameTrash);
-        TransferTrash(OriginalTrainerTrash, pk5.OriginalTrainerTrash);
+        TransferTrash(NicknameTrash, pk5.NicknameTrash, Language);
+        TransferTrash(OriginalTrainerTrash, pk5.OriginalTrainerTrash, Language);
 
         // Fix Level
         pk5.MetLevel = pk5.CurrentLevel;
@@ -376,11 +381,18 @@ public sealed class PK4 : G4PKM
         return pk5;
     }
 
-    public static void TransferTrash(ReadOnlySpan<byte> src, Span<byte> dest)
+    public static void TransferTrash(ReadOnlySpan<byte> src, Span<byte> dest, int language)
     {
         Span<char> temp = stackalloc char[13];
         var len = StringConverter4.LoadString(src, temp);
         StringConverter345.TransferGlyphs45(temp[..len]);
-        StringConverter5.SetString(dest, temp[..len], len);
+        StringConverter5.SetString(dest, temp[..len], len, language);
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter4.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter4.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter4.SetString(destBuffer, value, maxLength, Language, option);
 }

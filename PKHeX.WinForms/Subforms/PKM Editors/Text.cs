@@ -9,15 +9,15 @@ namespace PKHeX.WinForms;
 
 public partial class TrashEditor : Form
 {
-    private readonly SaveFile SAV;
+    private readonly IStringConverter Converter;
 
-    public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, [], sav) { }
+    public TrashEditor(TextBoxBase TB_NN, IStringConverter sav, byte generation) : this(TB_NN, [], sav, generation) { }
 
-    public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, SaveFile sav)
+    public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, IStringConverter converter, byte generation)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        SAV = sav;
+        Converter = converter;
 
         FinalString = TB_NN.Text;
 
@@ -25,7 +25,7 @@ public partial class TrashEditor : Form
         if (raw.Length != 0)
         {
             Raw = FinalBytes = raw.ToArray();
-            AddTrashEditing(raw.Length);
+            AddTrashEditing(raw.Length, generation);
         }
         else
         {
@@ -33,7 +33,7 @@ public partial class TrashEditor : Form
         }
 
         var f = FontUtil.GetPKXFont();
-        AddCharEditing(f);
+        AddCharEditing(f, generation);
         TB_Text.MaxLength = TB_NN.MaxLength;
         TB_Text.Text = TB_NN.Text;
         TB_Text.Font = f;
@@ -76,9 +76,9 @@ public partial class TrashEditor : Form
         Close();
     }
 
-    private void AddCharEditing(Font f)
+    private void AddCharEditing(Font f, byte generation)
     {
-        var chars = GetChars(SAV.Generation);
+        var chars = GetChars(generation);
         if (chars.Length == 0)
             return;
 
@@ -94,11 +94,11 @@ public partial class TrashEditor : Form
         }
     }
 
-    private void AddTrashEditing(int count)
+    private void AddTrashEditing(int count, byte generation)
     {
         FLP_Hex.Visible = true;
         GB_Trash.Visible = true;
-        NUD_Generation.Value = SAV.Generation;
+        NUD_Generation.Value = generation;
         for (int i = 0; i < count; i++)
         {
             var l = GetLabel($"${i:X2}");
@@ -127,7 +127,7 @@ public partial class TrashEditor : Form
         CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
 
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(generation);
     }
 
     private void UpdateNUD(object sender, EventArgs e)
@@ -200,11 +200,11 @@ public partial class TrashEditor : Form
     private byte[] SetString(ReadOnlySpan<char> text)
     {
         Span<byte> temp = stackalloc byte[Raw.Length];
-        var written = SAV.SetString(temp, text, text.Length, StringConverterOption.None);
+        var written = Converter.SetString(temp, text, text.Length, StringConverterOption.None);
         return temp[..written].ToArray();
     }
 
-    private string GetString() => SAV.GetString(Raw);
+    private string GetString() => Converter.GetString(Raw);
 
     // Helpers
     private static Label GetLabel(string str) => new() { Text = str, AutoSize = false, Size = new Size(40, 24), TextAlign = ContentAlignment.MiddleRight };

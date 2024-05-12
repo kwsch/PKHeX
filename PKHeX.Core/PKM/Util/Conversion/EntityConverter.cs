@@ -52,6 +52,12 @@ public static class EntityConverter
     }
 
     /// <summary>
+    /// Retain the Met Date when transferring from Gen4 to Gen5.
+    /// </summary>
+    /// <remarks>Default behavior is to update it with a new date based on the time of transfer.</remarks>
+    public static bool RetainMetDateTransfer45 { get; set; }
+
+    /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
     /// </summary>
     /// <param name="pk"></param>

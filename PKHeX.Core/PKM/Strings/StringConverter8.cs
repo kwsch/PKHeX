@@ -137,4 +137,33 @@ public static class StringConverter8
         WriteCharacters(expect, under);
         return relevantSection.SequenceEqual(expect);
     }
+
+    /// <summary>
+    /// Used when importing a 3DS string into HOME.
+    /// </summary>
+    public static void NormalizeHalfWidth(Span<byte> str)
+    {
+        if (BitConverter.IsLittleEndian)
+        {
+            var u16 = MemoryMarshal.Cast<byte, char>(str);
+            foreach (ref var c in u16)
+            {
+                if (c == TerminatorNull)
+                    return;
+                c = NormalizeHalfWidth(c);
+            }
+        }
+
+        // Slower path for Big-Endian runtimes.
+        for (int i = 0; i < str.Length; i += 2)
+        {
+            var data = str[i..];
+            var c = ReadUInt16LittleEndian(data);
+            if (c == TerminatorNull)
+                return;
+            WriteUInt16LittleEndian(data, NormalizeHalfWidth((char)c));
+        }
+    }
+
+    private static char NormalizeHalfWidth(char str) => StringConverter.NormalizeGenderSymbol(str);
 }

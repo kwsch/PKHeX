@@ -113,10 +113,17 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Ability = (ushort)pk.Ability;
 
         pkh.MarkingValue &= 0b1111_1111_1111;
-        if (!pk.IsNicknamed)
-            pkh.Nickname = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, 8);
-        if (FormInfo.IsTotemForm(pk.Species, pk.Form))
-            pkh.Form = FormInfo.GetTotemBaseForm(pk.Species, pk.Form);
+        StringConverter8.NormalizeHalfWidth(pkh.OriginalTrainerTrash);
+        if (pk.IsNicknamed)
+        {
+            StringConverter8.NormalizeHalfWidth(pkh.NicknameTrash);
+        }
+        else
+        {
+            pkh.NicknameTrash.Clear();
+            var reset = SpeciesName.GetSpeciesNameImportHOME(pk.Species, pk.Language, 8);
+            pkh.SetString(pkh.NicknameTrash, reset, reset.Length, StringConverterOption.None);
+        }
     }
 
     public PK8 ConvertToPKM(PKH pkh)

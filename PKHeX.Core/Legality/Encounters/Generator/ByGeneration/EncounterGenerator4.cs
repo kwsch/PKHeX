@@ -26,14 +26,35 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             yield return enc;
     }
 
+    private enum DeferralType
+    {
+        None,
+        PIDIV,
+        Tile,
+        Ball,
+        SlotNumber,
+    }
+
+    private struct Deferral
+    {
+        public DeferralType Type;
+        public IEncounterable? Encounter;
+
+        public void Update(DeferralType type, IEncounterable enc)
+        {
+            if (Type >= type)
+                return;
+            Type = type;
+            Encounter = enc;
+        }
+    }
+
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         info.PIDIV = MethodFinder.Analyze(pk);
         var game = pk.Version;
         var iterator = new EncounterEnumerator4(pk, chain, game);
-        EncounterSlot4? deferSlot = null;
-        IEncounterable? deferTile = null;
-        IEncounterable? deferType = null;
+        Deferral defer = default;
         var leadQueue = new LeadEncounterQueue<EncounterSlot4>();
 
         foreach (var enc in iterator)
@@ -41,17 +62,25 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             var e = enc.Encounter;
             if (!IsTileCompatible(e, pk))
             {
-                deferTile ??= e;
+                defer.Update(DeferralType.Tile, e);
                 continue;
             }
             if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
             {
-                deferType ??= e;
+                defer.Update(DeferralType.PIDIV, e);
+                continue;
+            }
+            if (!IsBallCompatible(e, pk))
+            {
+                defer.Update(DeferralType.Ball, e);
                 continue;
             }
             if (e is not EncounterSlot4 slot)
             {
-                yield return e;
+                if (pk.Ball is (byte)Ball.Safari or (byte)Ball.Sport)
+                    defer.Update(DeferralType.Ball, e);
+                else
+                    yield return e;
                 continue;
             }
 
@@ -59,7 +88,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             var lead = LeadFinder.GetLeadInfo4(pk, slot, info.PIDIV, evo);
             if (!lead.IsValid())
             {
-                deferSlot ??= slot;
+                defer.Update(DeferralType.SlotNumber, slot);
                 continue;
             }
             leadQueue.Insert(lead, slot);
@@ -73,22 +102,22 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         if (leadQueue.List.Count != 0)
             yield break;
 
-        // Error will be flagged later if this is chosen.
-        if (deferTile != null)
-        {
-            yield return deferTile;
-        }
-        else if (deferSlot != null)
-        {
-            info.ManualFlag = EncounterYieldFlag.InvalidFrame;
-            yield return deferSlot;
-        }
-        else if (deferType != null)
-        {
+        // Errors will be flagged later for those not manually handled below.
+        if (defer.Encounter is not { } lastResort)
+            yield break;
+        if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-            yield return deferType;
-        }
+        else if (defer.Type is DeferralType.Tile)
+            info.ManualFlag = EncounterYieldFlag.InvalidFrame;
+        yield return lastResort;
     }
+
+    private static bool IsBallCompatible(IFixedBall e, PKM pk) => e.FixedBall switch
+    {
+        Ball.Safari when pk.Ball is (byte)Ball.Safari => true,
+        Ball.Sport when pk.Ball is (byte)Ball.Sport => true,
+        _ => pk.Ball is not ((byte)Ball.Safari or (byte)Ball.Sport),
+    };
 
     private static bool IsTileCompatible(IEncounterTemplate enc, PKM pk)
     {

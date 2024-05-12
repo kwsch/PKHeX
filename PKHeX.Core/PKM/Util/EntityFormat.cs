@@ -117,8 +117,8 @@ public static class EntityFormat
 
     private static PKM? GetFromBytes(byte[] data, EntityFormatDetected format, EntityContext prefer) => format switch
     {
-        FormatPK1 => new PokeList1(data)[0],
-        FormatPK2 => new PokeList2(data)[0],
+        FormatPK1 => PokeList1.ReadFromSingle(data),
+        FormatPK2 => PokeList2.ReadFromSingle(data),
         FormatSK2 => new SK2(data),
         FormatPK3 => new PK3(data),
         FormatCK3 => new CK3(data),

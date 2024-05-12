@@ -49,13 +49,13 @@ public sealed class DefaultEntityNamer : IFileNamer<PKM>
 
     private static string GetGBPKM(GBPKM gb)
     {
-        ReadOnlySpan<byte> raw = gb switch
+        var checksum = gb switch
         {
-            PK1 pk1 => new PokeList1(pk1).Write(),
-            PK2 pk2 => new PokeList2(pk2).Write(),
-            _ => gb.Data,
+            PK1 pk1 => pk1.GetSingleListChecksum(),
+            PK2 pk2 => pk2.GetSingleListChecksum(),
+            _ => Checksums.CRC16_CCITT(gb.Data),
         };
-        var checksum = Checksums.CRC16_CCITT(raw);
+
         var form = gb.Form != 0 ? $"-{gb.Form:00}" : string.Empty;
         var star = gb.IsShiny ? " ★" : string.Empty;
         return $"{gb.Species:0000}{form}{star} - {gb.Nickname} - {checksum:X4}";

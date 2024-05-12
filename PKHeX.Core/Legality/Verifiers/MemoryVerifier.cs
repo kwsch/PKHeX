@@ -297,12 +297,18 @@ public sealed class MemoryVerifier : Verifier
         switch (data.EncounterMatch)
         {
             case WC6 {IsEgg: false} g when g.OTGender != 3:
+                if (g.OriginalTrainerMemory is not 0 && ParseSettings.Settings.Handler.Restrictions.AllowHandleOTGen6)
+                    break;
                 VerifyOTMemoryIs(data, g.OriginalTrainerMemory, g.OriginalTrainerMemoryIntensity, g.OriginalTrainerMemoryVariable, g.OriginalTrainerMemoryFeeling);
                 return;
             case WC7 {IsEgg: false} g when g.OTGender != 3:
+                if (g.OriginalTrainerMemory is not 0 && ParseSettings.Settings.Handler.Restrictions.AllowHandleOTGen7)
+                    break;
                 VerifyOTMemoryIs(data, g.OriginalTrainerMemory, g.OriginalTrainerMemoryIntensity, g.OriginalTrainerMemoryVariable, g.OriginalTrainerMemoryFeeling);
                 return;
             case WC8 {IsEgg: false} g when g.OTGender != 3:
+                if (g.OriginalTrainerMemory is not 0 && ParseSettings.Settings.Handler.Restrictions.AllowHandleOTGen8)
+                    break;
                 VerifyOTMemoryIs(data, g.OriginalTrainerMemory, g.OriginalTrainerMemoryIntensity, g.OriginalTrainerMemoryVariable, g.OriginalTrainerMemoryFeeling);
                 return;
 
@@ -429,7 +435,7 @@ public sealed class MemoryVerifier : Verifier
                 var severity = mc.Context switch
                 {
                     Gen8 when pk is not PK8 && !pk.SWSH => Severity.Valid,
-                    Gen8 => ParseSettings.Gen8MemoryMissingHT,
+                    Gen8 => ParseSettings.Settings.Game.Gen8.Gen8MemoryMissingHT,
                     _ => Severity.Invalid,
                 };
                 if (severity != Severity.Valid)

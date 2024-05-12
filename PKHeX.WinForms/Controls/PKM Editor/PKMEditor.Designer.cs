@@ -239,6 +239,7 @@ namespace PKHeX.WinForms.Controls
             Label_EncryptionConstant = new System.Windows.Forms.Label();
             BTN_RerollEC = new System.Windows.Forms.Button();
             TB_EC = new System.Windows.Forms.TextBox();
+            StatusView = new StatusConditionView();
             TC_Editor = new VerticalTabControlEntityEditor();
             Tab_Main = new System.Windows.Forms.TabPage();
             Tab_Met = new System.Windows.Forms.TabPage();
@@ -510,8 +511,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            UC_Gender.AccessibleDescription = "Entity Gender Pane (0) (0)";
-            UC_Gender.AccessibleName = "Entity Gender Pane (0) (0)";
+            UC_Gender.AccessibleDescription = "Entity Gender Pane";
+            UC_Gender.AccessibleName = "Entity Gender Pane";
             UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_Gender.AllowClick = false;
             UC_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_Gender.BackgroundImage");
@@ -632,7 +633,7 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.Name = "TB_Nickname";
             TB_Nickname.Size = new System.Drawing.Size(144, 23);
             TB_Nickname.TabIndex = 5;
-            TB_Nickname.TextChanged += RefreshFontWarningButton;
+            TB_Nickname.TextChanged += UpdateIsNicknamed;
             TB_Nickname.MouseDown += UpdateNicknameClick;
             // 
             // BTN_NicknameWarn
@@ -2506,8 +2507,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = "Trainer Gender Pane (0) (0)";
-            UC_OTGender.AccessibleName = "Trainer Gender Pane (0) (0)";
+            UC_OTGender.AccessibleDescription = "Trainer Gender Pane";
+            UC_OTGender.AccessibleName = "Trainer Gender Pane";
             UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
@@ -2714,8 +2715,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane (0) (0)";
-            UC_HTGender.AccessibleName = "Handling Trainer Gender Pane (0) (0)";
+            UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane";
+            UC_HTGender.AccessibleName = "Handling Trainer Gender Pane";
             UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_HTGender.AllowClick = true;
             UC_HTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_HTGender.BackgroundImage");
@@ -2883,6 +2884,15 @@ namespace PKHeX.WinForms.Controls
             TB_EC.TabIndex = 33;
             TB_EC.Validated += Update_ID;
             // 
+            // StatusView
+            // 
+            StatusView.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            StatusView.Location = new System.Drawing.Point(24, 342);
+            StatusView.Margin = new System.Windows.Forms.Padding(0);
+            StatusView.Name = "StatusView";
+            StatusView.Size = new System.Drawing.Size(64, 64);
+            StatusView.TabIndex = 2;
+            // 
             // TC_Editor
             // 
             TC_Editor.Alignment = System.Windows.Forms.TabAlignment.Right;
@@ -2967,8 +2977,9 @@ namespace PKHeX.WinForms.Controls
             // PKMEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            Controls.Add(TC_Editor);
             Controls.Add(Hidden_TC);
+            Controls.Add(StatusView);
+            Controls.Add(TC_Editor);
             Name = "PKMEditor";
             Size = new System.Drawing.Size(400, 400);
             Hidden_TC.ResumeLayout(false);
@@ -3306,5 +3317,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button BTN_OTNameWarn;
         private System.Windows.Forms.FlowLayoutPanel FLP_HomeTracker;
         private System.Windows.Forms.FlowLayoutPanel FLP_EncryptionConstant;
+        private StatusConditionView StatusView;
     }
 }

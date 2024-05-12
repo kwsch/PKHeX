@@ -17,7 +17,7 @@ public sealed record EncounterTrade9
     public bool IsShiny => false;
     public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
-    public bool IsFixedNickname => Nicknames.Length > 0;
+    public bool IsFixedNickname => Nicknames.Length != 0;
     public GameVersion Version { get; }
 
     private string[] TrainerNames { get; }

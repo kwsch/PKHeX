@@ -98,7 +98,7 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
     {
         var baseSpecies = pi.HatchSpecies;
         var baseForm = pi.HatchFormIndexEverstone;
-        return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
+        return GetEggMoves(baseSpecies, baseForm).Contains(move);
     }
 
     private static bool GetIsTR(PersonalInfo8SWSH info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)

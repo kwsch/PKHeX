@@ -198,13 +198,13 @@ public sealed class Zukan6AO : Zukan6
     public ushort GetEncounterCount(int index)
     {
         var ofs = 0x686 + (index * 2);
-        return ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs));
+        return ReadUInt16LittleEndian(Data[ofs..]);
     }
 
     public void SetEncounterCount(int index, ushort value)
     {
         var ofs = 0x686 + (index * 2);
-        WriteUInt16LittleEndian(SAV.Data.AsSpan(ofs), value);
+        WriteUInt16LittleEndian(Data[ofs..], value);
     }
 }
 

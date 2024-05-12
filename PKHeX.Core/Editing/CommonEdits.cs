@@ -158,61 +158,66 @@ public static class CommonEdits
     /// Copies <see cref="IBattleTemplate"/> details to the <see cref="PKM"/>.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="Set"><see cref="IBattleTemplate"/> details to copy from.</param>
-    public static void ApplySetDetails(this PKM pk, IBattleTemplate Set)
+    /// <param name="set"><see cref="IBattleTemplate"/> details to copy from.</param>
+    public static void ApplySetDetails(this PKM pk, IBattleTemplate set)
     {
-        pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
-        pk.Form = Set.Form;
-        if (Set.Moves[0] != 0)
-            pk.SetMoves(Set.Moves, true);
-        pk.ApplyHeldItem(Set.HeldItem, Set.Context);
-        pk.CurrentLevel = Set.Level;
-        pk.CurrentFriendship = Set.Friendship;
-        pk.SetIVs(Set.IVs);
+        pk.Species = Math.Min(pk.MaxSpeciesID, set.Species);
+        pk.Form = set.Form;
+
+        ReadOnlySpan<ushort> moves = set.Moves;
+        if (moves[0] != 0)
+            pk.SetMoves(moves, true);
+        if (Legal.IsPPUpAvailable(pk))
+            pk.SetMaximumPPUps(moves);
+
+        pk.ApplyHeldItem(set.HeldItem, set.Context);
+        pk.CurrentLevel = set.Level;
+        pk.CurrentFriendship = set.Friendship;
+
+        ReadOnlySpan<int> ivs = set.IVs;
+        ReadOnlySpan<int> evs = set.EVs;
+        pk.SetIVs(ivs);
 
         if (pk is GBPKM gb)
         {
             // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
             // Under this scenario, just force the Hidden Power type.
-            if (Array.IndexOf(Set.Moves, (ushort)Move.HiddenPower) != -1 && gb.HPType != Set.HiddenPowerType)
+            if (moves.Contains((ushort)Move.HiddenPower) && gb.HPType != set.HiddenPowerType)
             {
-                if (Set.IVs.AsSpan().ContainsAny(30, 31))
-                    gb.SetHiddenPower(Set.HiddenPowerType);
+                if (ivs.ContainsAny(30, 31))
+                    gb.SetHiddenPower(set.HiddenPowerType);
             }
 
             // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
             // Under this scenario, just apply maximum EVs (65535).
-            if (!Set.EVs.AsSpan().ContainsAnyExcept(0))
+            if (!evs.ContainsAnyExcept(0))
                 gb.MaxEVs();
             else
-                gb.SetEVs(Set.EVs);
+                gb.SetEVs(evs);
         }
         else
         {
-            pk.SetEVs(Set.EVs);
+            pk.SetEVs(evs);
         }
 
         // IVs have no side effects such as hidden power type in gen 8
         // therefore all specified IVs are deliberate and should not be Hyper Trained for Pokémon met in gen 8
         if (pk.Generation < 8)
-            pk.SetSuggestedHyperTrainingData(Set.IVs);
+            pk.SetSuggestedHyperTrainingData(ivs);
 
         if (ShowdownSetIVMarkings)
             pk.SetMarkings();
 
-        pk.SetNickname(Set.Nickname);
-        pk.SetSaneGender(Set.Gender);
-
-        if (Legal.IsPPUpAvailable(pk))
-            pk.SetMaximumPPUps(Set.Moves);
+        pk.SetNickname(set.Nickname);
+        pk.SetSaneGender(set.Gender);
 
         if (pk.Format >= 3)
         {
-            pk.SetAbility(Set.Ability);
-            pk.SetNature(Set.Nature);
+            pk.SetAbility(set.Ability);
+            pk.SetNature(set.Nature);
         }
 
-        pk.SetIsShiny(Set.Shiny);
+        pk.SetIsShiny(set.Shiny);
         pk.SetRandomEC();
 
         if (pk is IAwakened a)
@@ -229,17 +234,17 @@ public static class CommonEdits
             g.SetSuggestedGanbaruValues(pk);
 
         if (pk is IGigantamax c)
-            c.CanGigantamax = Set.CanGigantamax;
+            c.CanGigantamax = set.CanGigantamax;
         if (pk is IDynamaxLevel d)
-            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: Set.DynamaxLevel);
+            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: set.DynamaxLevel);
         if (pk is ITeraType tera)
         {
-            var type = Set.TeraType == MoveType.Any ? (MoveType)pk.PersonalInfo.Type1 : Set.TeraType;
+            var type = set.TeraType == MoveType.Any ? (MoveType)pk.PersonalInfo.Type1 : set.TeraType;
             tera.SetTeraType(type);
         }
 
         if (pk is IMoveShop8Mastery s)
-            s.SetMoveShopFlags(Set.Moves, pk);
+            s.SetMoveShopFlags(set.Moves, pk);
 
         if (ShowdownSetBehaviorNature && pk.Format >= 8)
             pk.Nature = pk.StatNature;
@@ -248,7 +253,7 @@ public static class CommonEdits
         if (pk is ITechRecord t)
         {
             t.ClearRecordFlags();
-            t.SetRecordFlags(Set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
+            t.SetRecordFlags(set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
         }
         if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
             pk.SetRelearnMoves(legal);

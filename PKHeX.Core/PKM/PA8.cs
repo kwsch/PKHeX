@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class PA8 : PKM, ISanityChecksum,
     IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery, IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IPokerusStatus,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9,
-    IHandlerUpdate
+    IHandlerUpdate, IAppliedMarkings7
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -33,7 +33,6 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public IPermitRecord Permit => PersonalInfo;
 
     public override EntityContext Context => EntityContext.Gen8a;
-    public override bool IsNative => LA;
     public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
     public PA8(byte[] data) : base(DecryptParty(data)) { }
 
@@ -131,7 +130,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public bool IsAlpha { get => (Data[0x16] & 32) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~32) | ((value ? 1 : 0) << 5)); }
     public bool IsNoble { get => (Data[0x16] & 64) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~64) | ((value ? 1 : 0) << 6)); }
     // 0x17 alignment unused
-    public ushort MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), value); }
+    public ushort MarkingValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), value); }
     // 0x1A alignment unused
     // 0x1B alignment unused
     public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x1C), value); }
@@ -547,7 +546,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkingColor)((MarkValue >> (index * 2)) & 3);
+        return (MarkingColor)((MarkingValue >> (index * 2)) & 3);
     }
 
     public void SetMarking(int index, MarkingColor value)
@@ -555,8 +554,15 @@ public sealed class PA8 : PKM, ISanityChecksum,
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
         var shift = index * 2;
-        MarkValue = (ushort)((MarkValue & ~(0b11 << shift)) | (((byte)value & 3) << shift));
+        MarkingValue = (ushort)((MarkingValue & ~(0b11 << shift)) | (((byte)value & 3) << shift));
     }
+
+    public MarkingColor MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public MarkingColor MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public MarkingColor MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public MarkingColor MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public MarkingColor MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public MarkingColor MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     public bool GetRibbon(int index) => FlagUtil.GetFlag(Data, GetRibbonByte(index), index & 7);
     public void SetRibbon(int index, bool value = true) => FlagUtil.SetFlag(Data, GetRibbonByte(index), index & 7, value);
@@ -581,7 +587,6 @@ public sealed class PA8 : PKM, ISanityChecksum,
             return false;
         return tr.OT == OriginalTrainerName;
     }
-
 
     public void UpdateHandler(ITrainerInfo tr)
     {
@@ -734,4 +739,11 @@ public sealed class PA8 : PKM, ISanityChecksum,
         if (permit.IsRecordPermitted(flagIndex))
             SetMasteredRecordFlag(flagIndex, true);
     }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter8.SetString(destBuffer, value, maxLength, option);
 }

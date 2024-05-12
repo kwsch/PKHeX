@@ -28,6 +28,7 @@ public sealed class PKHeXSettings
     public SetImportSettings Import { get; set; } = new();
     public SlotWriteSettings SlotWrite { get; set; } = new();
     public PrivacySettings Privacy { get; set; } = new();
+    public SaveLanguageSettings SaveLanguage { get; set; } = new();
 
     // UI Tweaks
     public DisplaySettings Display { get; set; } = new();
@@ -42,7 +43,7 @@ public sealed class PKHeXSettings
     public EntityDatabaseSettings EntityDb { get; set; } = new();
     public EncounterDatabaseSettings EncounterDb { get; set; } = new();
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
-    public BulkAnalysisSettings Bulk { get; set; } = new();
+    public ReportGridSettings Report { get; set; } = new();
 
     [Browsable(false)]
     public SlotExportSettings SlotExport { get; set; } = new();
@@ -203,48 +204,6 @@ public enum PluginLoadSetting
     UnsafeMerged,
 }
 
-public sealed class LegalitySettings : IParseSettings
-{
-    [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the 3DS console's regex lists.")]
-    public bool CheckWordFilter { get; set; } = true;
-
-    [LocalizedDescription("Checks the last loaded player save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
-    public bool CheckActiveHandler { get; set; }
-
-    [LocalizedDescription("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
-    public bool AllowGen1Tradeback { get; set; } = true;
-
-    [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed In-Game Trade the player cannot normally nickname.")]
-    public Severity NicknamedTrade { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
-    public Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match for Generation 3 encounters.")]
-    public Severity RNGFrameNotFound3 { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match for Generation 4 encounters.")]
-    public Severity RNGFrameNotFound4 { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
-    public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Memory is missing for the Handling Trainer.")]
-    public Severity Gen8MemoryMissingHT { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
-    public Severity HOMETransferTrackerNotPresent { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
-    public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a zero value for both Height and Weight.")]
-    public Severity ZeroHeightWeight { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon's Current Handler does not match the expected value.")]
-    public Severity CurrentHandlerMismatch { get; set; } = Severity.Invalid;
-}
-
 public sealed class EntityConverterSettings
 {
     [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
@@ -258,6 +217,9 @@ public sealed class EntityConverterSettings
 
     [LocalizedDescription("Default version to set when transferring from Generation 2 3DS Virtual Console to Generation 7.")]
     public GameVersion VirtualConsoleSourceGen2 { get; set; } = GameVersion.SI;
+
+    [LocalizedDescription("Retain the Met Date when transferring from Generation 4 to Generation 5.")]
+    public bool RetainMetDateTransfer45 { get; set; }
 }
 
 public sealed class AdvancedSettings
@@ -307,6 +269,12 @@ public sealed class EntityEditorSettings
 
     [LocalizedDescription("When showing the list of balls to select, show the legal balls before the illegal balls rather than sorting by Ball ID.")]
     public bool ShowLegalBallsFirst { get; set; } = true;
+
+    [LocalizedDescription("When showing a Generation 1 format entity, show the gender it would have if transferred to other generations.")]
+    public bool ShowGenderGen1 { get; set; }
+
+    [LocalizedDescription("When showing an entity, show any stored Status Condition (Sleep/Burn/etc) it may have.")]
+    public bool ShowStatusCondition { get; set; } = true;
 }
 
 public sealed class EncounterDatabaseSettings
@@ -328,6 +296,15 @@ public sealed class MysteryGiftDatabaseSettings
 {
     [LocalizedDescription("Hides gifts if the currently loaded save file cannot (indirectly) receive them.")]
     public bool FilterUnavailableSpecies { get; set; } = true;
+}
+
+public sealed class ReportGridSettings
+{
+    [LocalizedDescription("Extra entity properties to try and show in addition to the default properties displayed.")]
+    public List<string> ExtraProperties { get; set; } = [];
+
+    [LocalizedDescription("Properties to hide from the report grid.")]
+    public List<string> HiddenProperties { get; set; } = [];
 }
 
 public sealed class HoverSettings
@@ -457,10 +434,45 @@ public sealed class PrivacySettings
     public bool HideSecretDetails { get; set; }
 }
 
-public sealed class BulkAnalysisSettings : IBulkAnalysisSettings
+public sealed class SaveLanguageSettings
 {
-    [LocalizedDescription("Checks the save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
-    public bool CheckActiveHandler { get; set; } = true;
+    [LocalizedDescription("Gen1: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen1 { get; set; } = new();
+
+    [LocalizedDescription("Gen2: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen2 { get; set; } = new();
+
+    [LocalizedDescription("Gen3 R/S: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen3RS { get; set; } = new();
+
+    [LocalizedDescription("Gen3 FR/LG: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen3FRLG { get; set; } = new();
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public sealed record LangVersion
+    {
+        public LanguageID Language { get; set; } = LanguageID.English;
+        public GameVersion Version { get; set; }
+    }
+
+    public void Apply()
+    {
+        SaveLanguage.OverrideLanguageGen1 = OverrideGen1.Language;
+        if (GameVersion.RBY.Contains(OverrideGen1.Version))
+            SaveLanguage.OverrideVersionGen1 = OverrideGen1.Version;
+
+        SaveLanguage.OverrideLanguageGen2 = OverrideGen2.Language;
+        if (GameVersion.GS.Contains(OverrideGen2.Version))
+            SaveLanguage.OverrideVersionGen2 = OverrideGen2.Version;
+
+        SaveLanguage.OverrideLanguageGen3RS = OverrideGen3RS.Language;
+        if (GameVersion.RS.Contains(OverrideGen3RS.Version))
+            SaveLanguage.OverrideVersionGen3RS = OverrideGen3RS.Version;
+
+        SaveLanguage.OverrideLanguageGen3FRLG = OverrideGen3FRLG.Language;
+        if (GameVersion.FRLG.Contains(OverrideGen3FRLG.Version))
+            SaveLanguage.OverrideVersionGen3FRLG = OverrideGen3FRLG.Version;
+    }
 }
 
 public sealed class SlotExportSettings
@@ -470,4 +482,7 @@ public sealed class SlotExportSettings
 
     [LocalizedDescription("Selected File namer to use for box exports for the GUI, if multiple are available.")]
     public string DefaultBoxExportNamer { get; set; } = "";
+
+    [LocalizedDescription("Allow drag and drop of boxdata binary files from the GUI via the Box tab.")]
+    public bool AllowBoxDataDrop { get; set; } // default to false, clunky to use
 }

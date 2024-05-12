@@ -288,10 +288,10 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public void SetDaycareEXP(int index, uint value) => WriteUInt32BigEndian(Data[(DaycareOffset + 4)..], value);
     public Memory<byte> GetDaycareSlot(int slot) => Raw.Slice(DaycareOffset + 8, PokeCrypto.SIZE_3CSTORED);
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
-
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter3GC.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter3GC.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter3GC.SetString(destBuffer, value, maxLength, option);
-    }
+        => StringConverter3GC.SetString(destBuffer, value, maxLength, option);
 }

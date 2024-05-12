@@ -19,7 +19,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     public bool FatefulEncounter => true;
 
     public bool IsFixedTrainer => true;
-    public bool IsFixedNickname => Nicknames.Length > 0;
+    public bool IsFixedNickname => Nicknames.Length != 0;
     public ushort Species { get; }
     public byte Level { get; }
 

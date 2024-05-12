@@ -117,12 +117,12 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override bool GetCaught(ushort species) => Zukan.GetCaught(species);
     public override bool GetSeen(ushort species) => Zukan.GetSeen(species);
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter5.GetString(data);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter5.GetString(data);
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> result)
+        => StringConverter5.LoadString(data, result);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter5.SetString(destBuffer, value, maxLength, option);
-    }
+        => StringConverter5.SetString(destBuffer, value, maxLength, Language, option);
 
     // DLC
     private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;
@@ -191,6 +191,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract WhiteBlack5 Forest { get; }
     public abstract GTS5 GTS { get; }
     public abstract AdventureInfo5 AdventureInfo { get; }
+    public abstract Record5 Records { get; }
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
 
     public abstract Memory<byte> BattleVideoNative { get; }

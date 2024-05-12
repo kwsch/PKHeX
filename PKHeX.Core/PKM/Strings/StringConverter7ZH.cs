@@ -12,8 +12,8 @@ namespace PKHeX.Core;
 /// </remarks>
 public static class StringConverter7ZH
 {
-    private static bool IsPrivateChar(ushort glyph) => glyph is >= Start and <= End;
-    private static char GetUnicodeChar(char glyph) => Table[glyph - Start];
+    internal static bool IsPrivateChar(ushort glyph) => glyph is >= Start and <= End;
+    internal static char GetUnicodeChar(char glyph) => Table[glyph - Start];
 
     public static bool IsTraditional(ushort glyph) => glyph is (>= StartTraditional and <= EndTraditional) or (>= StartTraditionalUSUM and <= EndTraditionalUSUM);
     public static bool IsSimplified(ushort glyph) => glyph is (>= StartSimplified and <= EndSimplified) or (>= StartSimplifiedUSUM and <= EndSimplifiedUSUM);
@@ -50,41 +50,26 @@ public static class StringConverter7ZH
         return chr;
     }
 
-    /// <summary>
-    /// Converts a Generation 7 in-game Chinese string to Unicode string.
-    /// </summary>
-    /// <param name="input">In-game Chinese string.</param>
-    /// <returns>Unicode string.</returns>
-    internal static void RemapChineseGlyphsBin2String(Span<char> input)
-    {
-        for (int i = 0; i < input.Length; i++)
-        {
-            var val = input[i];
-            if (IsPrivateChar(val))
-                input[i] = GetUnicodeChar(val);
-        }
-    }
-
     #region Gen 7 Chinese Character Table
     private const ushort Start = 0xE800;
 
     // S/M
-    private const ushort StartTraditional = 0xE800;
-    private const ushort EndTraditional   = 0xEB0E; // 0xE800-0xEB0E
-    private const ushort StartSimplified  = 0xEB0F;
-    private const ushort EndSimplified    = 0xEE1D; // 0xEB0F-0xEE1D
+    private const ushort StartSimplified = 0xE800;
+    private const ushort EndSimplified    = 0xEB0E; // 0xE800-0xEB0E
+    private const ushort StartTraditional = 0xEB0F;
+    private const ushort EndTraditional   = 0xEE1D; // 0xEB0F-0xEE1D
     // US/UM: A few more characters at the end.
-    private const ushort StartTraditionalUSUM = 0xEE1E;
-    private const ushort EndTraditionalUSUM   = 0xEE21; // 0xEE1E-0xEE21
-    private const ushort StartSimplifiedUSUM  = 0xEE22;
-    private const ushort EndSimplifiedUSUM    = 0xEE26; // 0xEE22-0xEE26
+    private const ushort StartSimplifiedUSUM  = 0xEE1E;
+    private const ushort EndSimplifiedUSUM    = 0xEE21; // 0xEE1E-0xEE21
+    private const ushort StartTraditionalUSUM = 0xEE22;
+    private const ushort EndTraditionalUSUM   = 0xEE26; // 0xEE22-0xEE26
 
-    private const int TraditionalCount = EndTraditional - StartTraditional + 1;
     private const int SimplifiedCount  = EndSimplified - StartSimplified + 1;
-    private const int TraditionalCountUSUM = EndTraditionalUSUM - StartTraditionalUSUM + 1;
+    private const int TraditionalCount = EndTraditional - StartTraditional + 1;
     private const int SimplifiedCountUSUM  = EndSimplifiedUSUM - StartSimplifiedUSUM + 1;
+    private const int TraditionalCountUSUM = EndTraditionalUSUM - StartTraditionalUSUM + 1;
 
-    private const ushort End = EndSimplifiedUSUM;
+    private const ushort End = EndTraditionalUSUM;
 
     private static ReadOnlySpan<char> Table =>
     [
@@ -189,9 +174,9 @@ public static class StringConverter7ZH
         '砰', '奥', '壘', '磊', '砰', '丑', '奧', // EE20-EE26
     ];
 
-    private static ReadOnlySpan<char> Traditional => Table[..TraditionalCount];
-    private static ReadOnlySpan<char> Simplified => Table.Slice(TraditionalCount, SimplifiedCount);
-    private static ReadOnlySpan<char> TraditionalUSUM => Table.Slice(TraditionalCount + SimplifiedCount, TraditionalCountUSUM);
-    private static ReadOnlySpan<char> SimplifiedUSUM => Table.Slice(TraditionalCount + SimplifiedCount + TraditionalCountUSUM, SimplifiedCountUSUM);
+    private static ReadOnlySpan<char> Simplified => Table[..SimplifiedCount];
+    private static ReadOnlySpan<char> Traditional => Table.Slice(SimplifiedCount, TraditionalCount);
+    private static ReadOnlySpan<char> SimplifiedUSUM => Table.Slice(SimplifiedCount + TraditionalCount, SimplifiedCountUSUM);
+    private static ReadOnlySpan<char> TraditionalUSUM => Table.Slice(SimplifiedCount + TraditionalCount + SimplifiedCountUSUM, TraditionalCountUSUM);
     #endregion
 }

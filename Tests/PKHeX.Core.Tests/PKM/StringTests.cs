@@ -11,7 +11,7 @@ public class StringTests
     {
         const string name_fabian = "Fabian♂";
         var pk = new PK7 { OriginalTrainerName = name_fabian };
-        Span<byte> byte_fabian =
+        ReadOnlySpan<byte> byte_fabian =
         [
             0x46, 0x00, // F
             0x61, 0x00, // a
@@ -30,7 +30,7 @@ public class StringTests
     {
         const string name_nidoran = "ニドラン♀";
         var pk = new PK7 { Nickname = name_nidoran };
-        Span<byte> byte_nidoran =
+        ReadOnlySpan<byte> byte_nidoran =
         [
             0xCB, 0x30, // ニ
             0xC9, 0x30, // ド
@@ -79,7 +79,7 @@ public class StringTests
     public static void ConvertStringVC(string g12, string g7)
     {
         Span<byte> b12 = stackalloc byte[g12.Length];
-        var len = StringConverter12.SetString(b12, g12, g12.Length, true);
+        var len = StringConverter1.SetString(b12, g12, g12.Length, true);
         var result = StringConverter12Transporter.GetString(b12[..len], true);
         result.Should().Be(g7);
     }
@@ -96,9 +96,9 @@ public class StringTests
 
         // Ensure the API converts it back and forth correctly.
         Span<byte> convert = stackalloc byte[expect.Length + 1];
-        var len = StringConverter12.SetString(convert, name, name.Length, jp);
+        var len = StringConverter1.SetString(convert, name, name.Length, jp);
         len.Should().Be(expect.Length + 1);
-        var gen1Name = StringConverter12.GetString(convert, jp);
+        var gen1Name = StringConverter1.GetString(convert, jp);
         gen1Name.Should().Be(expect);
 
         // Truncated name transferred with Virtual Console rules isn't the same as the Generation 7 name.

@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.StringConverter12;
+using static PKHeX.Core.StringConverter1;
 
 namespace PKHeX.Core;
 
@@ -21,5 +21,5 @@ public static class TrashBytesGB
     /// <param name="buffer">Backing buffer of the string.</param>
     /// <returns>Index of the terminator, or -1 if not found.</returns>
     public static int FindTerminatorIndex(ReadOnlySpan<byte> buffer)
-        => buffer.IndexOfAny(G1TerminatorZero, G1TerminatorCode);
+        => buffer.IndexOfAny(TerminatorZero, TerminatorCode);
 }

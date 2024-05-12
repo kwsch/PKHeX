@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -227,7 +228,7 @@ public partial class Main : Form
         showChangelog = false;
 
         // Version Check
-        if (Settings.Startup.Version.Length > 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
+        if (Settings.Startup.Version.Length != 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
         {
             bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
             showChangelog = parsed && lastrev < Program.CurrentVersion;
@@ -321,7 +322,11 @@ public partial class Main : Form
         report.Show();
         var list = new List<SlotCache>();
         SlotInfoLoader.AddFromSaveFile(C_SAV.SAV, list);
-        report.PopulateData(list);
+
+        var settings = Settings.Report;
+        var extra = CollectionsMarshal.AsSpan(settings.ExtraProperties);
+        var hide = CollectionsMarshal.AsSpan(settings.HiddenProperties);
+        report.PopulateData(list, extra, hide);
     }
 
     private void MainMenuDatabase(object sender, EventArgs e)
@@ -422,16 +427,18 @@ public partial class Main : Form
         CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
         C_SAV.FlagIllegal = settings.Display.FlagIllegal;
         C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
-        ParseSettings.InitFromSettings(settings.Legality);
+        ParseSettings.Initialize(settings.Legality);
         PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
+        settings.SaveLanguage.Apply();
 
         var converter = settings.Converter;
         EntityConverter.AllowIncompatibleConversion = converter.AllowIncompatibleConversion;
         EntityConverter.RejuvenateHOME = converter.AllowGuessRejuvenateHOME;
         EntityConverter.VirtualConsoleSourceGen1 = converter.VirtualConsoleSourceGen1;
         EntityConverter.VirtualConsoleSourceGen2 = converter.VirtualConsoleSourceGen2;
+        EntityConverter.RetainMetDateTransfer45 = converter.RetainMetDateTransfer45;
 
         SpriteBuilder.LoadSettings(settings.Sprite);
     }
@@ -616,7 +623,7 @@ public partial class Main : Form
             case SaveFile s: return OpenSAV(s, path);
             case IPokeGroup b: return OpenGroup(b);
             case MysteryGift g: return OpenMysteryGift(g, path);
-            case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
+            case ConcatenatedEntitySet pkms: return OpenPCBoxBin(pkms);
             case IEncounterConvertible enc: return OpenPKM(enc.ConvertToPKM(C_SAV.SAV));
 
             case SAV3GCMemoryCard gc:
@@ -676,10 +683,12 @@ public partial class Main : Form
         return true;
     }
 
-    private bool OpenPCBoxBin(IEnumerable<byte[]> pkms)
+    private bool OpenPCBoxBin(ConcatenatedEntitySet pkms)
     {
-        var data = pkms.SelectMany(z => z).ToArray();
-        if (!C_SAV.OpenPCBoxBin(data, out string c))
+        if (C_SAV.IsBoxDragActive)
+            return true;
+        Cursor = Cursors.Default;
+        if (!C_SAV.OpenPCBoxBin(pkms.Data.Span, out string c))
         {
             WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
             return true;
@@ -912,6 +921,9 @@ public partial class Main : Form
 
     private static bool SanityCheckSAV(ref SaveFile sav)
     {
+        if (sav.Generation <= 3)
+            SaveLanguage.TryRevise(sav);
+
         if (sav.State.Exportable && sav is SAV3 s3)
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
@@ -935,7 +947,7 @@ public partial class Main : Form
                     s.Metadata.SetExtraInfo(origin);
                 sav = s;
             }
-            else if (s3 is SAV3FRLG frlg) // IndeterminateSubVersion
+            else if (s3 is SAV3FRLG frlg && !frlg.Version.IsValidSavedVersion()) // IndeterminateSubVersion
             {
                 string fr = GameInfo.GetVersionName(GameVersion.FR);
                 string lg = GameInfo.GetVersionName(GameVersion.LG);

@@ -56,7 +56,7 @@ public sealed class HistoryVerifier : Verifier
         var Info = data.Info;
 
         // HT Flag
-        if (ParseSettings.CheckActiveHandler)
+        if (ParseSettings.Settings.Handler.CheckActiveHandler)
         {
             var tr = ParseSettings.ActiveTrainer;
             var withOT = tr.IsFromTrainer(pk);
@@ -214,20 +214,30 @@ public sealed class HistoryVerifier : Verifier
         if (generation < 6)
             return generation >= 3;
 
-        return enc switch
-        {
-            IFixedTrainer { IsFixedTrainer: true } => false,
-            EncounterSlot8GO => false,
-            WC6 { OriginalTrainerName.Length: > 0 } => false,
-            WC7 { OriginalTrainerName.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
-            WB7 wb7 when wb7.GetHasOT(pk.Language) => false,
-            WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
-            WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
-            WA8 wa8 when wa8.GetHasOT(pk.Language) => false,
-            WC8 {IsHOMEGift: true} => false,
-            _ => true,
-        };
+        if (GetCanOTHandle(enc, pk))
+            return true;
+
+        if (ParseSettings.Settings.Handler.Restrictions.GetCanOTHandle(enc.Context))
+            return true;
+
+        return false;
     }
+
+    private static bool GetCanOTHandle(IEncounterTemplate enc, PKM pk) => enc switch
+    {
+        IFixedTrainer { IsFixedTrainer: true } => false,
+        EncounterSlot8GO => false,
+        WC6 { OriginalTrainerName.Length: > 0 } => false,
+        WC7 { OriginalTrainerName.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
+        WB7 wb7 when wb7.GetHasOT(pk.Language) => false,
+        WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
+        WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
+        WA8 wa8 when wa8.GetHasOT(pk.Language) => false,
+        WC9 wc9 when wc9.GetHasOT(pk.Language) => false,
+        WC8 {IsHOMEGift: true} => false,
+        WC9 {IsHOMEGift: true} => false,
+        _ => true,
+    };
 
     private static int GetBaseFriendship(IEncounterTemplate enc) => enc switch
     {

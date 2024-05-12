@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem6XY(SAV6XY SAV, Memory<byte> raw) : MyItem(SAV, raw)   
+public sealed class MyItem6XY(SAV6XY SAV, Memory<byte> raw) : MyItem(SAV, raw)
 {
     private const int HeldItem = 0;     // 0
     private const int KeyItem = 0x640;  // 1

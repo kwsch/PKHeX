@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// Object representing a <see cref="PKM"/>'s data and derived properties.
 /// </summary>
 [DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
-public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter
+public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter, IStringConverter
 {
     /// <summary>
     /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
@@ -147,6 +147,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual byte Enjoyment { get => 0; set { } }
     public virtual byte Fullness { get => 0; set { } }
     public virtual int AbilityNumber { get => 0; set { } }
+
+    public abstract string GetString(ReadOnlySpan<byte> data);
+    public abstract int LoadString(ReadOnlySpan<byte> data, Span<char> text);
+    public abstract int SetString(Span<byte> data, ReadOnlySpan<char> text, int length, StringConverterOption option);
 
     /// <summary>
     /// The date the Pokémon was met.
@@ -549,7 +553,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, Version);
 
     public virtual bool IsUntraded => false;
-    public virtual bool IsNative => Generation == Format;
     public bool IsOriginValid => Species <= MaxSpeciesID;
 
     /// <summary>
@@ -820,7 +823,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     /// <param name="move">Move ID</param>
     /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-    private int GetBasePP(ushort move) => MoveInfo.GetPP(Context, move);
+    public int GetBasePP(ushort move) => MoveInfo.GetPP(Context, move);
 
     /// <summary>
     /// Applies a shiny <see cref="PID"/> to the <see cref="PKM"/>.
@@ -1008,9 +1011,11 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
             var prop = src.GetValue(this);
             if (prop is byte[] or null)
                 continue; // not a valid property transfer
+            if (pi.PropertyType != src.PropertyType)
+                continue; // property type mismatch (not really a 1:1 shared property)
 
             // Write it to the destination.
-            ReflectUtil.SetValue(pi, result, prop);
+            pi.SetValue(result, prop);
         }
 
         // set shared properties for the Gen1/2 base class

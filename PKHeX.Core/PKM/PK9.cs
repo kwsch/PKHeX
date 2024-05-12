@@ -26,7 +26,6 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
 
     public override PersonalInfo9SV PersonalInfo => PersonalTable.SV.GetFormEntry(Species, Form);
     public IPermitRecord Permit => PersonalInfo;
-    public override bool IsNative => SV;
     public override EntityContext Context => EntityContext.Gen9;
 
     public PK9() : base(PokeCrypto.SIZE_9PARTY)
@@ -681,4 +680,11 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     public override int MaxItemID => Legal.MaxItemID_9;
     public override int MaxBallID => Legal.MaxBallID_9;
     public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter8.SetString(destBuffer, value, maxLength, option);
 }

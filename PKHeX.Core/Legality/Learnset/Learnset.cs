@@ -187,7 +187,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
         for (int i = startIndex; i < endIndex; i++)
         {
             var move = Moves[i];
-            if (ignore.IndexOf(move) >= 0)
+            if (ignore.Contains(move))
                 continue;
 
             AddMoveShiftLater(moves, ref ctr, move);
@@ -207,7 +207,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
                 break;
 
             var move = Moves[i];
-            if (ignore.IndexOf(move) >= 0)
+            if (ignore.Contains(move))
                 continue;
 
             AddMoveShiftLater(moves, ref ctr, move);

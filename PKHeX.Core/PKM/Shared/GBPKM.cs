@@ -74,9 +74,12 @@ public abstract class GBPKM : PKM
                 return (int)LanguageID.Japanese;
             if (Korean)
                 return (int)LanguageID.Korean;
-            if (StringConverter12.IsG12German(OriginalTrainerTrash))
+            if (StringConverter1.IsG12German(OriginalTrainerTrash))
                 return (int)LanguageID.German; // german
-            int lang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
+
+            Span<char> nick = stackalloc char[11];
+            int len = StringConverter1.LoadString(NicknameTrash, nick, false);
+            int lang = SpeciesName.GetSpeciesNameLanguage(Species, nick[..len], Format);
             if (lang > 0)
                 return lang;
             return 0;

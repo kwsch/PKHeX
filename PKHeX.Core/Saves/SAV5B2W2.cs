@@ -56,6 +56,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public override GTS5 GTS => Blocks.GTS;
     public override WhiteBlack5B2W2 Forest => Blocks.Forest;
     public override AdventureInfo5 AdventureInfo => Blocks.AdventureInfo;
+    public override Record5 Records => Blocks.Records;
 
     public FestaBlock5 Festa => Blocks.Festa;
     public PWTBlock5 PWT => Blocks.PWT;

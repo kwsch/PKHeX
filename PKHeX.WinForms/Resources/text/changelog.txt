@@ -1,7 +1,21 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-24/03/26 - New Update:
+24/05/05 - New Update:
+ - Legality: Added Regulation G.
+ - Added: Entity editor can now modify battle-Status effects (Burn, Paralyze, etc). Click the bottom right corner of the window for the GUI.
+ - Added: Gen5 trainer records can now be edited via Misc editor. Not documented well, but exposes the values for editing.
+ - Added: Gen1-3 games now detect language/version based on the save file name. If not detected, can be overridden via settings before loading.
+ - Added: Gen1 can now show an Entity's gender if enabled via settings, using Gen2 IV gender determination logic.
+ - Fixed: Gen7 Chinese species names now write correctly.
+ - Fixed: Gen6 OR/AS DexNav count read/write fixed.
+ - Fixed: Gen3 trash bytes now reference the Entity for translating the string, rather than the save file.
+ - Fixed: Gen2 Box Names now read/write ligatures correctly.
+ - Fixed: Gen1/2 box data now retains empty slot data instead of reformatting into empty box lists (glitching friendly).
+ - Changed: Legality settings have been extracted to a more easily customized settings object.
+ - Changed: Translations updated for Chinese & Japanese. Thanks @ppllouf & @902PM !
+
+24/03/26 - New Update: (139375) [8676873]
  - Legality:
  - - Fixed: Handled some edge cases with latest release RNG Frame checks for Gen4.
  - - Added: Verification for Gen3 CHANNEL and MYSTRY seed patterns.

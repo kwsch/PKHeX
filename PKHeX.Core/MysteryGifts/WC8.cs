@@ -616,9 +616,9 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
-        var ivflag = finalIVs.Find(static iv => (byte)(iv - 0xFC) < 3);
+        var ivflag = finalIVs.IndexOfAny(0xFC, 0xFD, 0xFE);
         var rng = Util.Rand;
-        if (ivflag == default) // Random IVs
+        if (ivflag == -1) // Random IVs
         {
             for (int i = 0; i < finalIVs.Length; i++)
             {
@@ -628,7 +628,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         }
         else // 1/2/3 perfect IVs
         {
-            int IVCount = ivflag - 0xFB;
+            int IVCount = finalIVs[ivflag] - 0xFB;
             do { finalIVs[rng.Next(6)] = 31; }
             while (finalIVs.Count(31) < IVCount);
             for (int i = 0; i < finalIVs.Length; i++)
@@ -704,7 +704,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Context: EntityContext.Gen8 })
                 return false;
         }
         else

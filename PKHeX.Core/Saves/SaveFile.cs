@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base Class for Save Files
 /// </summary>
-public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVersion
+public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVersion, IStringConverter
 {
     // General Object Properties
     public byte[] Data;
@@ -78,6 +78,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     }
 
     public abstract string GetString(ReadOnlySpan<byte> data);
+    public abstract int LoadString(ReadOnlySpan<byte> data, Span<char> text);
     public abstract int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option);
     #endregion
 
@@ -497,13 +498,17 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
 
     private bool IsRegionOverwriteProtected(int min, int max)
     {
-        foreach (var arrays in SlotPointers)
+        var ptrs = SlotPointers;
+        if (ptrs.Length == 0)
+            return false;
+
+        foreach (var arrays in ptrs)
         {
             foreach (int slotIndex in arrays)
             {
                 if (!GetSlotFlags(slotIndex).IsOverwriteProtected())
                     continue;
-                if (ArrayUtil.WithinRange(slotIndex, min, max))
+                if (min <= slotIndex && slotIndex < max)
                     return true;
             }
         }
@@ -513,13 +518,20 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
 
     public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)
     {
-        foreach (var arrays in SlotPointers)
+        var ptrs = SlotPointers;
+        if (ptrs.Length == 0)
+            return false;
+
+        var min = BoxStart * BoxSlotCount;
+        var max = (BoxEnd + 1) * BoxSlotCount;
+
+        foreach (var arrays in ptrs)
         {
             foreach (int slotIndex in arrays)
             {
                 if (!GetSlotFlags(slotIndex).HasFlag(StorageSlotSource.Locked))
                     continue;
-                if (ArrayUtil.WithinRange(slotIndex, BoxStart * BoxSlotCount, (BoxEnd + 1) * BoxSlotCount))
+                if (min <= slotIndex && slotIndex < max)
                     return true;
             }
         }

@@ -8,7 +8,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
 {
     public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
 
-    public override bool Valid => Species <= 252;
+    public override bool Valid => Species <= Legal.MaxSpeciesID_2;
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_2STADIUM;
     public override int SIZE_STORED => PokeCrypto.SIZE_2STADIUM;
@@ -94,13 +94,13 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
     public override string Nickname
     {
-        get => StringConverter12.GetString(NicknameTrash, Japanese);
-        set => StringConverter12.SetString(NicknameTrash, value, StringLength, Japanese, StringConverterOption.None);
+        get => StringConverter2.GetString(NicknameTrash, Language);
+        set => StringConverter2.SetString(NicknameTrash, value, StringLength, Language, StringConverterOption.None);
     }
 
     public override string OriginalTrainerName
     {
-        get => StringConverter12.GetString(OriginalTrainerTrash, Japanese);
+        get => StringConverter2.GetString(OriginalTrainerTrash, Language);
         set
         {
             if (IsRental)
@@ -108,7 +108,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
                 OriginalTrainerTrash.Clear();
                 return;
             }
-            StringConverter12.SetString(OriginalTrainerTrash, value, StringLength, Japanese, StringConverterOption.None);
+            StringConverter2.SetString(OriginalTrainerTrash, value, StringLength, Language, StringConverterOption.None);
         }
     }
 
@@ -135,7 +135,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     protected override void GetNonNickname(int language, Span<byte> data)
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
-        StringConverter12.SetString(data, name, data.Length, Japanese, StringConverterOption.Clear50);
+        StringConverter2.SetString(data, name, data.Length, Language, StringConverterOption.Clear50);
     }
 
     public override void SetNotNicknamed(int language) => GetNonNickname(language, NicknameTrash);
@@ -184,18 +184,18 @@ public sealed class SK2 : GBPKM, ICaughtData2
     private static bool IsJapanese(ReadOnlySpan<byte> data)
     {
         const byte empty = 0;
-        const byte terminator = StringConverter12.G1TerminatorCode;
+        const byte terminator = StringConverter2.TerminatorCode;
 
         var ot = data.Slice(0x30, StringLength);
         if (ot[6..].ContainsAnyExcept(empty, terminator))
             return false;
-        if (!StringConverter12.GetIsG1Japanese(ot))
+        if (!StringConverter2.GetIsJapanese(ot))
             return false;
 
         var nick = data.Slice(0x24, StringLength);
         if (nick[6..].ContainsAnyExcept(empty, terminator))
             return false;
-        if (!StringConverter12.GetIsG1Japanese(nick))
+        if (!StringConverter2.GetIsJapanese(nick))
             return false;
 
         return true;
@@ -203,13 +203,20 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
     private static bool IsEnglish(ReadOnlySpan<byte> data)
     {
-        if (!StringConverter12.GetIsG1English(data.Slice(0x30, StringLength)))
+        if (!StringConverter2.GetIsEnglish(data.Slice(0x30, StringLength)))
             return false;
-        if (!StringConverter12.GetIsG1English(data.Slice(0x24, StringLength)))
+        if (!StringConverter2.GetIsEnglish(data.Slice(0x24, StringLength)))
             return false;
         return true;
     }
 
     public bool IsPossible(bool japanese) => japanese ? IsJapanese(Data) : IsEnglish(Data);
     public void SwapLanguage() => IsEncodingJapanese ^= true;
+
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter2.GetString(data, Language);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter2.LoadString(data, destBuffer, Language);
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        => StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
 }

@@ -30,13 +30,13 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
     public string Debug1
     {
         get => StringConverter6.GetString(Data.AsSpan(0x6, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x6, 0x1A), value, 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x6, 0x1A), value, 12, 0, StringConverterOption.ClearZero);
     }
 
     public string Debug2
     {
         get => StringConverter6.GetString(Data.AsSpan(0x50, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x50, 0x1A), value, 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x50, 0x1A), value, 12, 0, StringConverterOption.ClearZero);
     }
 
     public ulong RNGConst1 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A0), value); }
@@ -70,7 +70,7 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
         {
             var span = Data.AsSpan(0xEC + (0x1A * i), 0x1A);
             string tr = value[i] == NPC ? string.Empty : value[i];
-            StringConverter6.SetString(span, tr, 12, StringConverterOption.ClearZero);
+            StringConverter6.SetString(span, tr, 12, 0, StringConverterOption.ClearZero);
         }
     }
 

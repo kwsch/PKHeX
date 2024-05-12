@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Forms;
 using PKHeX.Core;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms;
 
@@ -18,11 +17,11 @@ public partial class SAV_PokeBlockORAS : Form
         nup_spec = [NUP_Red, NUP_Blue, NUP_Pink, NUP_Green, NUP_Yellow, NUP_Rainbow, NUP_RedPlus, NUP_BluePlus, NUP_PinkPlus, NUP_GreenPlus, NUP_YellowPlus, NUP_RainbowPlus];
         Label[] lbl_spec = [L_Red, L_Blue, L_Pink, L_Green, L_Yellow, L_Rainbow, L_RedPlus, L_BluePlus, L_PinkPlus, L_GreenPlus, L_YellowPlus, L_RainbowPlus];
 
-        var span = SAV.Data.AsSpan(SAV6AO.Contest);
+        var contest = SAV.Contest;
         for (int i = 0; i < lbl_spec.Length; i++)
         {
             lbl_spec[i].Text = $"{GameInfo.Strings.pokeblocks[94 + i]}:";
-            nup_spec[i].Value = ReadUInt32LittleEndian(span[(i * 4)..]);
+            nup_spec[i].Value = contest.GetBlockCount(i);
         }
     }
 
@@ -35,9 +34,9 @@ public partial class SAV_PokeBlockORAS : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        var span = SAV.Data.AsSpan(SAV6AO.Contest);
+        var contest = SAV.Contest;
         for (int i = 0; i < nup_spec.Length; i++)
-            WriteUInt32LittleEndian(span[(i * 4)..], (uint)nup_spec[i].Value);
+            contest.SetBlockCount(i, (uint)nup_spec[i].Value);
         Origin.CopyChangesFrom(SAV);
         Close();
     }
