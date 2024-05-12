@@ -18,7 +18,7 @@ public sealed class FieldMenu7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav
     public string RotomOT
     {
         get => SAV.GetString(RotomNameSpan);
-        set => SAV.SetString(RotomNameSpan, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(RotomNameSpan, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     private Span<byte> RotomNameSpan => Data.Slice(0x30, 0x1A);

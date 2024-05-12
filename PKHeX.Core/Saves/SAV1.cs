@@ -205,7 +205,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxIV => 15;
     public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
-    public override int MaxStringLengthOT => Japanese ? 5 : 7;
+    public override int MaxStringLengthTrainer => Japanese ? 5 : 7;
     public override int MaxStringLengthNickname => Japanese ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
@@ -233,8 +233,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override string OT
     {
-        get => GetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT));
-        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => GetString(Data.AsSpan(Offsets.OT, MaxStringLengthTrainer));
+        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthTrainer + 1), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public Span<byte> OriginalTrainerTrash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
@@ -261,8 +261,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public string Rival
     {
-        get => GetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT));
-        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value, MaxStringLengthOT, StringConverterOption.Clear50);
+        get => GetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer));
+        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer), value, MaxStringLengthTrainer, StringConverterOption.Clear50);
     }
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }

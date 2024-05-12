@@ -161,10 +161,10 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override Span<byte> Rival_Trash
     {
         get => RivalSpan;
-        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(RivalSpan); }
+        set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(RivalSpan); }
     }
 
-    private Span<byte> RivalSpan => General.Slice(0x27E8, MaxStringLengthOT * 2);
+    private Span<byte> RivalSpan => General.Slice(0x27E8, MaxStringLengthTrainer * 2);
 
     public override int X2 { get => ReadUInt16LittleEndian(General[0x287E..]); set => WriteUInt16LittleEndian(General[0x287E..], (ushort)value); }
     public override int Y2 { get => ReadUInt16LittleEndian(General[0x2882..]); set => WriteUInt16LittleEndian(General[0x2882..], (ushort)value); }

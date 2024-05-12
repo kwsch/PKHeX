@@ -190,10 +190,10 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     public override Span<byte> Rival_Trash
     {
         get => RivalSpan;
-        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(RivalSpan); }
+        set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(RivalSpan); }
     }
 
-    private Span<byte> RivalSpan => General.Slice(0x22D4, MaxStringLengthOT * 2);
+    private Span<byte> RivalSpan => General.Slice(0x22D4, MaxStringLengthTrainer * 2);
 
     public override int X2 { get => ReadUInt16LittleEndian(General[0x236E..]); set => WriteUInt16LittleEndian(General[0x236E..], (ushort)value); }
     public override int Y2 { get => ReadUInt16LittleEndian(General[0x2372..]); set => WriteUInt16LittleEndian(General[0x2372..], (ushort)value); }

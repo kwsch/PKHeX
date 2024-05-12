@@ -77,9 +77,9 @@ public abstract class GBPKM : PKM
             if (StringConverter1.IsG12German(OriginalTrainerTrash))
                 return (int)LanguageID.German; // german
 
-            Span<char> nick = stackalloc char[11];
-            int len = StringConverter1.LoadString(NicknameTrash, nick, false);
-            int lang = SpeciesName.GetSpeciesNameLanguage(Species, nick[..len], Format);
+            Span<char> nickname = stackalloc char[TrashCharCountNickname];
+            int len = StringConverter1.LoadString(NicknameTrash, nickname, false);
+            int lang = SpeciesName.GetSpeciesNameLanguage(Species, nickname[..len], Format);
             if (lang > 0)
                 return lang;
             return 0;
@@ -255,8 +255,14 @@ public abstract class GBPKM : PKM
 
     internal void ImportFromFuture(PKM pk)
     {
-        Nickname = pk.Nickname;
-        OriginalTrainerName = pk.OriginalTrainerName;
+        Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
+        pk.LoadString(pk.NicknameTrash, nickname);
+        SetString(NicknameTrash, nickname, MaxStringLengthNickname, StringConverterOption.Clear50);
+
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        SetString(OriginalTrainerTrash, nickname, MaxStringLengthTrainer, StringConverterOption.Clear50);
+
         IV_ATK = pk.IV_ATK / 2;
         IV_DEF = pk.IV_DEF / 2;
         IV_SPC = pk.IV_SPA / 2;

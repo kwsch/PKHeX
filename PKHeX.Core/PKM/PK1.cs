@@ -252,7 +252,7 @@ public sealed class PK1 : GBPKML, IPersonalType
         => StringConverter1.GetString(data, Japanese);
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter1.LoadString(data, destBuffer, Japanese);
-    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option = StringConverterOption.None)
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
 
     /// <summary>

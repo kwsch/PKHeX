@@ -11,7 +11,7 @@ public abstract class GBPKML : GBPKM
 {
     internal const int StringLengthJapanese = 6;
     internal const int StringLengthNotJapan = 11;
-    public sealed override int MaxStringLengthOT => Japanese ? 5 : 7;
+    public sealed override int MaxStringLengthTrainer => Japanese ? 5 : 7;
     public sealed override int MaxStringLengthNickname => Japanese ? 5 : 10;
     public sealed override bool Japanese => RawOT.Length == StringLengthJapanese;
 
@@ -21,6 +21,8 @@ public abstract class GBPKML : GBPKM
     // Trash Bytes
     public sealed override Span<byte> NicknameTrash => RawNickname;
     public sealed override Span<byte> OriginalTrainerTrash => RawOT;
+    public override int TrashCharCountTrainer => RawOT.Length;
+    public override int TrashCharCountNickname => RawNickname.Length;
 
     protected GBPKML([ConstantExpected] int size, bool jp = false) : base(size)
     {

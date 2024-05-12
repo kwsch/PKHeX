@@ -1997,8 +1997,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PopulateFields(Entity);
 
         // Save File Specific Limits
-        TB_OT.MaxLength = Entity.MaxStringLengthOT;
-        TB_HT.MaxLength = Entity.MaxStringLengthOT;
+        TB_OT.MaxLength = Entity.MaxStringLengthTrainer;
+        TB_HT.MaxLength = Entity.MaxStringLengthTrainer;
         TB_Nickname.MaxLength = Entity.MaxStringLengthNickname;
 
         // Hide Unused Tabs

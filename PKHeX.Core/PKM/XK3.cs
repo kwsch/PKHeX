@@ -28,6 +28,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x38, 22);
     public override Span<byte> NicknameTrash => Data.AsSpan(0x4E, 22);
     public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x64, 22);
+    public override int TrashCharCountTrainer => 11;
+    public override int TrashCharCountNickname => 11;
 
     public override ushort SpeciesInternal { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
     public override ushort Species { get => SpeciesConverter.GetNational3(SpeciesInternal); set => SpeciesInternal = SpeciesConverter.GetInternal3(value); }

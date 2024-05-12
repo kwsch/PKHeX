@@ -21,7 +21,7 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     public sealed override GameVersion MaxGameID => Legal.MaxGameID_4;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max255;
-    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthTrainer => 7;
     public sealed override int MaxStringLengthNickname => 10;
 
     public sealed override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 3;
@@ -41,6 +41,8 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     // Trash Bytes
     public sealed override Span<byte> NicknameTrash => Data.AsSpan(0x48, 22);
     public sealed override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x68, 16);
+    public override int TrashCharCountNickname => 11;
+    public override int TrashCharCountTrainer => 8;
 
     // Future Attributes
     public sealed override uint EncryptionConstant { get => PID; set { } }

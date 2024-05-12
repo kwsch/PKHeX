@@ -75,7 +75,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override int MaxEV => EffortValues.Max252;
     public override byte Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
 
     public override int MaxBallID => Legal.MaxBallID_7; // 26

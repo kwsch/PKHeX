@@ -224,21 +224,26 @@ public static class EntitySorting
     /// <summary>
     /// Gets if the current handler is the original trainer.
     /// </summary>
-    /// <param name="trainer">The <see cref="ITrainerInfo"/> requesting the check.</param>
+    /// <param name="tr">The <see cref="ITrainerInfo"/> requesting the check.</param>
     /// <param name="pk">Pokémon data</param>
     /// <param name="checkGame">Toggle to check the game's version or not</param>
     /// <returns>True if OT, false if not OT.</returns>
-    public static bool IsOriginalHandler(this ITrainerInfo trainer, PKM pk, bool checkGame)
+    public static bool IsOriginalHandler(this ITrainerInfo tr, PKM pk, bool checkGame)
     {
         if (pk.Format >= 6)
             return pk.CurrentHandler != 1;
-        if (checkGame && trainer.Version != pk.Version)
+        if (checkGame && tr.Version != pk.Version)
             return false;
-        if (trainer.TID16 != pk.TID16 || trainer.SID16 != pk.SID16)
+        if (tr.TID16 != pk.TID16 || tr.SID16 != pk.SID16)
             return false;
-        if (trainer.Gender != pk.OriginalTrainerGender)
+        if (tr.Gender != pk.OriginalTrainerGender)
             return false;
-        return trainer.OT == pk.OriginalTrainerName;
+
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        return trainer.SequenceEqual(tr.OT);
     }
 
     /// <summary>

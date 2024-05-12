@@ -98,9 +98,10 @@ public static class StringConverter345
     {
         for (int i = 0; i < input.Length; i++)
         {
-            if (IsInvalid45(input[i]))
+            var c = input[i];
+            if (IsInvalid45(c))
                 input[i] = '?';
-            if (input[i] == '’') // Farfetch’d and CH’DING nicknames
+            else if (c == '’') // Farfetch’d and CH’DING nicknames
                 input[i] = '\''; // Wrong apostrophe, nice. Only is corrected when converted to Gen6.
         }
     }

@@ -24,7 +24,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
     private int StringLength => Japanese ? StringLengthJ : StringLengthU;
     private const int StringLengthJ = 6;
     private const int StringLengthU = 11;
-    public override int MaxStringLengthOT => StringLength;
+    public override int MaxStringLengthTrainer => StringLength;
     public override int MaxStringLengthNickname => StringLength;
     public override int BoxCount => Japanese ? 8 : 12;
     public override int BoxSlotCount => Japanese ? 30 : 20;

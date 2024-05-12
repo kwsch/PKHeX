@@ -18,7 +18,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     private const int StringLength = 12;
 
     public override EntityContext Context => EntityContext.Gen2;
-    public override int MaxStringLengthOT => StringLength;
+    public override int MaxStringLengthTrainer => StringLength;
     public override int MaxStringLengthNickname => StringLength;
 
     public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM) => IsEncodingJapanese = jp;
@@ -114,6 +114,8 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
     public override Span<byte> NicknameTrash => Data.AsSpan(0x24, StringLength);
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x30, StringLength);
+    public override int TrashCharCountTrainer => StringLength;
+    public override int TrashCharCountNickname => StringLength;
 
     #endregion
 

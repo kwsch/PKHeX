@@ -88,7 +88,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
 
     #region Stored PKM Limits
     public abstract IPersonalTable Personal { get; }
-    public abstract int MaxStringLengthOT { get; }
+    public abstract int MaxStringLengthTrainer { get; }
     public abstract int MaxStringLengthNickname { get; }
     public abstract ushort MaxMoveID { get; }
     public abstract ushort MaxSpeciesID { get; }

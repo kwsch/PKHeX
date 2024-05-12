@@ -26,7 +26,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
-    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthTrainer => 7;
     public override int MaxStringLengthNickname => 10;
 
     public override ushort MaxMoveID => Legal.MaxMoveID_5;

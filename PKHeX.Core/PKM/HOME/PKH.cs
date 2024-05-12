@@ -81,6 +81,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override Span<byte> NicknameTrash => Core.NicknameTrash;
     public override Span<byte> OriginalTrainerTrash => Core.OriginalTrainerTrash;
     public override Span<byte> HandlingTrainerTrash => Core.HandlingTrainerTrash;
+    public override int TrashCharCountTrainer => 13;
+    public override int TrashCharCountNickname => 13;
     public override bool IsUntraded => ReadUInt16LittleEndian(HandlingTrainerTrash) == 0; // immediately terminated HandlingTrainerName data (\0)
 
     #region Core
@@ -233,7 +235,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public override int MaxIV => 31;
     public override int MaxEV => EffortValues.Max252;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
     public override ushort MaxMoveID => Legal.MaxMoveID_8a;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8a;
