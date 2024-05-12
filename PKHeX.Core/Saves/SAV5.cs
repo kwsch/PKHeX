@@ -122,7 +122,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> result)
         => StringConverter5.LoadString(data, result);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter5.SetString(destBuffer, value, maxLength, option);
+        => StringConverter5.SetString(destBuffer, value, maxLength, Language, option);
 
     // DLC
     private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;

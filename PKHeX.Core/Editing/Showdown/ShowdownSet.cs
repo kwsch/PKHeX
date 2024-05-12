@@ -424,7 +424,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private string GetSpeciesNickname(string specForm)
     {
-        if (Nickname.Length == 0)
+        if (Nickname.Length == 0 || Nickname == specForm)
             return specForm;
         bool isNicknamed = SpeciesName.IsNicknamedAnyLanguage(Species, Nickname, Context.Generation());
         if (!isNicknamed)

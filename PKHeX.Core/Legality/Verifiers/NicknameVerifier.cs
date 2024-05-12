@@ -280,7 +280,10 @@ public sealed class NicknameVerifier : Verifier
         if (pk.IsNicknamed != flagState)
             data.AddLine(GetInvalid(flagState ? LNickFlagEggYes : LNickFlagEggNo, CheckIdentifier.Egg));
 
-        ReadOnlySpan<char> nickname = pk.Nickname;
+        Span<char> nickname = stackalloc char[pk.MaxStringLengthNickname];
+        int len = pk.LoadString(pk.NicknameTrash, nickname);
+        nickname = nickname[..len];
+
         if (pk.Format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nickname, 2))
             data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
         else if (!nickname.SequenceEqual(SpeciesName.GetEggName(pk.Language, Info.Generation)))

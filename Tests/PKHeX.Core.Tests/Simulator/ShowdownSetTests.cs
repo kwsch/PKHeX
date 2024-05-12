@@ -7,6 +7,11 @@ namespace PKHeX.Core.Tests.Simulator;
 
 public class ShowdownSetTests
 {
+    static ShowdownSetTests()
+    {
+        ParseSettings.Settings.Handler.CheckActiveHandler = false;
+    }
+
     [Fact]
     public void SimulatorGetParse()
     {

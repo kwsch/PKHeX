@@ -31,7 +31,7 @@ public static class StringConverter345
     {
         Span<char> result = stackalloc char[data.Length];
         int count = TransferGlyphs34(data, result, language, maxLength);
-        StringConverter4.SetString(dest, result[..count], maxLength, StringConverterOption.None);
+        StringConverter4.SetString(dest, result[..count], maxLength, language, StringConverterOption.None);
     }
 
     private static int TransferGlyphs34(ReadOnlySpan<byte> data, Span<char> result, int language, int maxLength)

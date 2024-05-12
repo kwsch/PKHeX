@@ -200,7 +200,18 @@ public sealed class BK4 : G4PKM
     #endregion
 
     #region Block C
-    public override string Nickname { get => StringConverter4GC.GetString(NicknameTrash); set => StringConverter4GC.SetString(NicknameTrash, value, 10, StringConverterOption.None); }
+
+    public override string Nickname
+    {
+        get => StringConverter4GC.GetString(NicknameTrash);
+        set
+        {
+            var language = Language;
+            CheckKoreanNidoranDPPt(value, ref language);
+            StringConverter4GC.SetString(NicknameTrash, value, 10, language, StringConverterOption.None);
+        }
+    }
+
     // 0x5E unused
     public override GameVersion Version { get => (GameVersion)Data[0x5F]; set => Data[0x5F] = (byte)value; }
     private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -243,7 +254,7 @@ public sealed class BK4 : G4PKM
     #endregion
 
     #region Block D
-    public override string OriginalTrainerName { get => StringConverter4GC.GetString(OriginalTrainerTrash); set => StringConverter4GC.SetString(OriginalTrainerTrash, value, 7, StringConverterOption.None); }
+    public override string OriginalTrainerName { get => StringConverter4GC.GetString(OriginalTrainerTrash); set => StringConverter4GC.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.None); }
     public override byte EggYear { get => Data[0x78]; set => Data[0x78] = value; }
     public override byte EggMonth { get => Data[0x79]; set => Data[0x79] = value; }
     public override byte EggDay { get => Data[0x7A]; set => Data[0x7A] = value; }
@@ -307,5 +318,5 @@ public sealed class BK4 : G4PKM
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter4.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter4.SetString(destBuffer, value, maxLength, option);
+        => StringConverter4.SetString(destBuffer, value, maxLength, Language, option);
 }

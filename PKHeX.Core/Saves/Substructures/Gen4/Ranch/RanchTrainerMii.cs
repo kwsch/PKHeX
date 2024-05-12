@@ -23,9 +23,11 @@ public sealed class RanchTrainerMii(byte[] Data)
     // 0x28-29: ??
     // 0x2A-2B: ??
 
+    private static byte Language => 0;
+
     public string TrainerName
     {
         get => StringConverter4.GetString(Trainer_Trash);
-        set => StringConverter4.SetString(Trainer_Trash, value, 7);
+        set => StringConverter4.SetString(Trainer_Trash, value, 7, Language);
     }
 }

@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Dendou4(Memory<byte> raw)
+public sealed class Dendou4(Memory<byte> raw, int language)
 {
     private const int SIZE = 0x2AB0;
     private const int SIZE_FOOTER = 0x10;
@@ -25,7 +25,7 @@ public sealed class Dendou4(Memory<byte> raw)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, MaxRecords);
         var slice = Data.Slice(index * Dendou4Record.SIZE, Dendou4Record.SIZE);
-        return new Dendou4Record(slice);
+        return new Dendou4Record(slice, language);
     }
 
     private const int EndDataOffset = MaxRecords * Dendou4Record.SIZE; // 0x2AA8
@@ -63,9 +63,14 @@ public readonly ref struct Dendou4Record
     // u8 Day
 
     private readonly Span<byte> Data;
+    private readonly int Language;
 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public Dendou4Record(Span<byte> data) => Data = data;
+    public Dendou4Record(Span<byte> data, int language)
+    {
+        Data = data;
+        Language = language;
+    }
 
     public Dendou4Entity this[int index] => GetEntity(index);
 
@@ -78,7 +83,7 @@ public readonly ref struct Dendou4Record
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Count);
         var slice = Data.Slice(index * Dendou4Entity.SIZE, Dendou4Entity.SIZE);
-        return new Dendou4Entity(slice);
+        return new Dendou4Entity(slice, Language);
     }
 }
 
@@ -86,9 +91,15 @@ public readonly ref struct Dendou4Entity
 {
     public const int SIZE = 0x3C;
     private readonly Span<byte> Data;
+    private readonly int Language;
 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public Dendou4Entity(Span<byte> data) => Data = data;
+    public Dendou4Entity(Span<byte> data, int language)
+    {
+        Data = data;
+        Language = language;
+    }
+
     public ushort Species { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public byte Level { get => Data[2]; set => Data[2] = value; }
     public byte Form  { get => Data[3]; set => Data[3] = value; }
@@ -100,12 +111,12 @@ public readonly ref struct Dendou4Entity
     public string Nickname
     {
         get => StringConverter4.GetString(NicknameTrash);
-        set => StringConverter4.SetString(NicknameTrash, value, 10, StringConverterOption.None);
+        set => StringConverter4.SetString(NicknameTrash, value, 10, Language, StringConverterOption.None);
     }
     public string OriginalTrainerName
     {
         get => StringConverter4.GetString(OriginalTrainerTrash);
-        set => StringConverter4.SetString(OriginalTrainerTrash, value, 7, StringConverterOption.None);
+        set => StringConverter4.SetString(OriginalTrainerTrash, value, 7, 0, StringConverterOption.None);
     }
 
     public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x32..]); set => WriteUInt16LittleEndian(Data[0x32..], value); }

@@ -35,7 +35,7 @@ public sealed class PL6(Memory<byte> Raw)
     /// <summary>
     /// Name of data source
     /// </summary>
-    public string Origin { get => StringConverter6.GetString(Source); set => StringConverter6.SetString(Source, value, 54, StringConverterOption.ClearZero); }
+    public string Origin { get => StringConverter6.GetString(Source); set => StringConverter6.SetString(Source, value, 54, 0, StringConverterOption.ClearZero); }
 
     // Pokemon transfer flags?
     public uint Flags1 { get => ReadUInt32LittleEndian(Data[0x099..]); set => WriteUInt32LittleEndian(Data[0x099..], value); }
@@ -109,7 +109,7 @@ public sealed class LinkEntity6(Memory<byte> Raw) : IRibbonSetEvent3, IRibbonSet
     public string Nickname
     {
         get => StringConverter6.GetString(NicknameTrash);
-        set => StringConverter6.SetString(NicknameTrash, value, 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(NicknameTrash, value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public Nature Nature { get => (Nature)Data[0x38]; set => Data[0x38] = (byte)value; }
@@ -141,7 +141,7 @@ public sealed class LinkEntity6(Memory<byte> Raw) : IRibbonSetEvent3, IRibbonSet
     public string OT
     {
         get => StringConverter6.GetString(OriginalTrainerTrash);
-        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }

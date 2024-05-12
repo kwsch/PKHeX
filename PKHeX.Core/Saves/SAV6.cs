@@ -143,7 +143,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter6.LoadString(data, destBuffer);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter6.SetString(destBuffer, value, maxLength, option);
+        => StringConverter6.SetString(destBuffer, value, maxLength, Language, option);
 
     public int GetRecord(int recordID) => Records.GetRecord(recordID);
     public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);

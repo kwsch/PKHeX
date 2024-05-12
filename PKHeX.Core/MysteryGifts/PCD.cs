@@ -76,7 +76,7 @@ public sealed class PCD(byte[] Data)
     public override string CardTitle
     {
         get => StringConverter4.GetString(CardTitleSpan);
-        set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, StringConverterOption.ClearFF);
+        set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, 0, StringConverterOption.ClearFF);
     }
 
     public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about

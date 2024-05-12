@@ -227,7 +227,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string Nickname
     {
         get => StringConverter6.GetString(NicknameTrash);
-        set => StringConverter6.SetString(NicknameTrash, value, 12, StringConverterOption.None);
+        set => StringConverter6.SetString(NicknameTrash, value, 12, Language, StringConverterOption.None);
     }
 
     public override ushort Move1
@@ -304,7 +304,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string HandlingTrainerName
     {
         get => StringConverter6.GetString(HandlingTrainerTrash);
-        set => StringConverter6.SetString(HandlingTrainerTrash, value, 12, StringConverterOption.None);
+        set => StringConverter6.SetString(HandlingTrainerTrash, value, 12, Language, StringConverterOption.None);
     }
     public override byte HandlingTrainerGender { get => Data[0x92]; set => Data[0x92] = value; }
     public override byte CurrentHandler { get => Data[0x93]; set => Data[0x93] = value; }
@@ -340,7 +340,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string OriginalTrainerName
     {
         get => StringConverter6.GetString(OriginalTrainerTrash);
-        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, StringConverterOption.None);
+        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Language, StringConverterOption.None);
     }
     public override byte OriginalTrainerFriendship { get => Data[0xCA]; set => Data[0xCA] = value; }
     public byte OriginalTrainerAffection { get => Data[0xCB]; set => Data[0xCB] = value; }
@@ -529,5 +529,5 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter6.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter6.SetString(destBuffer, value, maxLength, option);
+        => StringConverter6.SetString(destBuffer, value, maxLength, Language, option);
 }
