@@ -89,8 +89,10 @@ public partial class TrashEditor : Form
             l.Font = f;
             l.AutoSize = false;
             l.Size = new Size(20, 20);
-            l.Click += (s, e) => { if (TB_Text.Text.Length < TB_Text.MaxLength) TB_Text.AppendText(l.Text); };
+            l.Click += (_, _) => { if (TB_Text.Text.Length < TB_Text.MaxLength) TB_Text.AppendText(l.Text); };
             FLP_Characters.Controls.Add(l);
+            var tt = new ToolTip();
+            tt.SetToolTip(l, $"Insert {l.Text} (0x{c:X4})");
         }
     }
 
