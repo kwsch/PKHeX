@@ -428,17 +428,18 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (tr.OT != HandlingTrainerName || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-        {
-            if (tr is IRegionOrigin o)
-                this.TradeGeoLocation(o.Country, o.Region);
-        }
+        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        var len = LoadString(HandlingTrainerTrash, ht);
+        ht = ht[..len];
 
-        if (tr.OT != HandlingTrainerName)
+        var other = tr.OT;
+        if (!ht.SequenceEqual(other) || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
         {
+            HandlingTrainerName = other;
             HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
             HandlingTrainerAffection = 0;
-            HandlingTrainerName = tr.OT;
+            if (tr is IRegionOrigin o)
+                this.TradeGeoLocation(o.Country, o.Region);
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;

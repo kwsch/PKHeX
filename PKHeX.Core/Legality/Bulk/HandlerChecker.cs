@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core.Bulk;
@@ -35,7 +36,11 @@ public sealed class HandlerChecker : IBulkAnalyzer
         if (flag != 1)
             return;
 
-        if (pk.HandlingTrainerName != tr.OT)
+        Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+        var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        if (!ht.SequenceEqual(tr.OT))
             input.AddLine(cs, LegalityCheckStrings.LTransferHTMismatchName, Trainer);
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
             input.AddLine(cs, LegalityCheckStrings.LTransferHTMismatchLanguage, Trainer);

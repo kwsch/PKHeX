@@ -70,7 +70,11 @@ public sealed class HistoryVerifier : Verifier
 
             if (flag == 1)
             {
-                if (pk.HandlingTrainerName != tr.OT)
+                Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+                var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
+                ht = ht[..len];
+
+                if (!ht.SequenceEqual(tr.OT))
                     data.AddLine(GetInvalid(LTransferHTMismatchName));
                 if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
                     data.AddLine(Get(LTransferHTMismatchLanguage, Severity.Fishy));

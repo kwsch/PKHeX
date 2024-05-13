@@ -121,18 +121,7 @@ public sealed class PB8 : G8PKM
         return true;
     }
 
-    private void TradeHT(ITrainerInfo tr)
-    {
-        if (HandlingTrainerName != tr.OT)
-        {
-            HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
-            HandlingTrainerName = tr.OT;
-        }
-        CurrentHandler = 1;
-        HandlingTrainerGender = tr.Gender;
-        HandlingTrainerLanguage = (byte)tr.Language;
-        //this.SetTradeMemoryHT8();
-    }
+    private void TradeHT(ITrainerInfo tr) => PKH.UpdateHandler(this, tr);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_8b;

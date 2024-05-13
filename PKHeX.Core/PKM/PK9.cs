@@ -661,19 +661,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         return true;
     }
 
-    private void TradeHT(ITrainerInfo tr)
-    {
-        if (HandlingTrainerName != tr.OT)
-        {
-            HandlingTrainerFriendship = 50;
-            HandlingTrainerName = tr.OT;
-        }
-        CurrentHandler = 1;
-        HandlingTrainerGender = tr.Gender;
-        if (HandlingTrainerLanguage == 0)
-            this.ClearMemoriesHT();
-        HandlingTrainerLanguage = (byte)tr.Language;
-    }
+    private void TradeHT(ITrainerInfo tr) => PKH.UpdateHandler(this, tr);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_9;
