@@ -1031,6 +1031,7 @@ SAV_OPower.B_Cancel=取消
 SAV_OPower.B_ClearAll=清空
 SAV_OPower.B_GiveAll=获得全部
 SAV_OPower.B_Save=保存
+SAV_OPower.L_Points=能量:
 SAV_OPower.GB_Battle=对战内
 SAV_OPower.GB_Field=对战外
 SAV_Poffin8b.B_All=所有
