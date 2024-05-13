@@ -173,7 +173,8 @@ public static class PokeList1
         var ofsStr1 = ofsBody + (capacity * lengthBody);
         var ofsStr2 = ofsStr1 + (capacity * stringLength);
 
-        for (int i = 0; i < capacity; i++)
+        var count = Math.Min(capacity, input[0]);
+        for (int i = 0; i < count; i++)
         {
             var species = input[1 + i];
             var body = input.Slice(ofsBody, lengthBody);
