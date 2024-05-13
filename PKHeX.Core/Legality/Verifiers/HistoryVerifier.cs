@@ -77,7 +77,7 @@ public sealed class HistoryVerifier : Verifier
             data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
     }
 
-    private static bool IsHandlerStateCorrect(IEncounterTemplate enc, PKM pk, byte current, byte expect)
+    public static bool IsHandlerStateCorrect(IEncounterTemplate enc, PKM pk, byte current, byte expect)
     {
         if (current == expect)
             return true;
@@ -87,6 +87,7 @@ public sealed class HistoryVerifier : Verifier
         return false; // HT [1] should be OT [0].
     }
 
+    /// <summary> <see cref="Bulk.HandlerChecker.CheckHandlingTrainerEquals"/> </summary>
     private void CheckHandlingTrainerEquals(LegalityAnalysis data, PKM pk, ITrainerInfo tr)
     {
         Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
