@@ -85,10 +85,12 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
             PokeList1.Unpack(src, dest, StringLength, capacity, false);
         }
-
-        // Don't treat the CurrentBox segment as valid; Stadium ignores it and will de-synchronize it.
-        // The main box data segment is the truth, the CurrentBox copy is not always up-to-date.
-        // When exporting an updated save file in this program, be nice and re-synchronize.
+        if (CurrentBox < BoxCount) // Load Current Box
+        {
+            var src = Data.AsSpan(Offsets.CurrentBox, stored);
+            var dest = BoxBuffer[(CurrentBox * SIZE_BOX_AS_SINGLES)..];
+            PokeList1.Unpack(src, dest, StringLength, capacity, false);
+        }
 
         // Stash party immediately after.
         {
