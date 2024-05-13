@@ -176,6 +176,5 @@ public static class EggStateLegality
     /// Reasonable value for the friendship of an egg when it is hatched.
     /// </summary>
     /// <remarks>Only use if you're trying to generalize a value for hatched eggs without checking context.</remarks>
-
     public const byte EggHatchFriendshipGeneral = 100;
 }

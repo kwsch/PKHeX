@@ -255,7 +255,7 @@ public sealed class NicknameVerifier : Verifier
 
         switch (enc)
         {
-            case WC7 wc7 when wc7.IsAshGreninjaWC7(pk):
+            case WC7 { IsAshGreninja: true }:
                 return true;
             case ILangNick loc:
                 if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))

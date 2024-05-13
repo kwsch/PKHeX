@@ -66,7 +66,6 @@ public static class SlotMethodJ
            _ => Invalid,
     };
 
-
     /// <summary>
     /// Gets the range a given slot number is allowed to roll in for a <see cref="Grass"/> encounter.
     /// </summary>

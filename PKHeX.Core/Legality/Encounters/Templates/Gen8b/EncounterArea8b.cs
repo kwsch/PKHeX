@@ -129,7 +129,6 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
     ];
 }
 
-
 public enum SlotType8b : byte
 {
     // Unused; relic from previous PKHeX codebase and pkl not updated to remove.

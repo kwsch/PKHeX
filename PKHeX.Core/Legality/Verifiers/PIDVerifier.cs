@@ -56,7 +56,7 @@ public sealed class PIDVerifier : Verifier
                     data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                 break;
 
-            case WC7 wc7 when wc7.IsAshGreninjaWC7(pk) && pk.IsShiny:
+            case WC7 { IsAshGreninja: true } when pk.IsShiny:
                 data.AddLine(GetInvalid(LEncGiftShinyMismatch, CheckIdentifier.Shiny));
                 break;
             // Underground Raids are originally anti-shiny on encounter.

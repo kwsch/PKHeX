@@ -131,7 +131,6 @@ public sealed record EncounterFixed9
         pk.Scale = TeraType != 0
             ? (byte)(MinScaleStrongTera + rnd.Next(byte.MaxValue - MinScaleStrongTera + 1))
             : PokeSizeUtil.GetRandomScalar(rnd);
-
     }
     #endregion
 

@@ -64,8 +64,11 @@ public sealed class HistoryVerifier : Verifier
             var expect = withOT ? 0 : 1;
             if (flag != expect)
             {
-                data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
-                return;
+                if (flag == 0 && !IsHandlerOriginalBug(Info.EncounterOriginal, pk))
+                {
+                    data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
+                    return;
+                }
             }
 
             if (flag == 1)
@@ -231,8 +234,8 @@ public sealed class HistoryVerifier : Verifier
     {
         IFixedTrainer { IsFixedTrainer: true } => false,
         EncounterSlot8GO => false,
-        WC6 { OriginalTrainerName.Length: > 0 } => false,
-        WC7 { OriginalTrainerName.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
+        WC6 { IsOriginalTrainerNameSet: true } => false,
+        WC7 { IsOriginalTrainerNameSet: true, IsAshPikachu: false } => false, // Ash Pikachu QR Gift doesn't set Current Handler
         WB7 wb7 when wb7.GetHasOT(pk.Language) => false,
         WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
         WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
@@ -241,6 +244,12 @@ public sealed class HistoryVerifier : Verifier
         WC8 {IsHOMEGift: true} => false,
         WC9 {IsHOMEGift: true} => false,
         _ => true,
+    };
+
+    private static bool IsHandlerOriginalBug(IEncounterTemplate enc, PKM pk) => enc switch
+    {
+        WC7 { IsAshPikachu: true } => pk.Context == EntityContext.Gen7, // Ash Pikachu QR Gift doesn't set Current Handler
+        _ => false,
     };
 
     private static int GetBaseFriendship(IEncounterTemplate enc) => enc switch

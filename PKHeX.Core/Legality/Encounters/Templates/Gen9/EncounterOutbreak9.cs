@@ -129,7 +129,6 @@ public sealed record EncounterOutbreak9
         pk.Scale = !IsForcedScaleRange
             ? PokeSizeUtil.GetRandomScalar(rnd)
             : (byte)rnd.Next(ScaleMin, ScaleMax + 1);
-
     }
     #endregion
 
