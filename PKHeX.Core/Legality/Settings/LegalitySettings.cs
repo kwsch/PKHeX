@@ -25,7 +25,7 @@ public sealed class LegalitySettings
     /// <param name="allowRNG">If true, allows special encounters to be nicknamed.</param>
     public void SetCheckWithoutSaveFile(bool checkHOME = true, bool allowRNG = false)
     {
-        Handler.CheckActiveHandler = false;
+        ParseSettings.ClearActiveTrainer();
         if (!checkHOME)
             HOMETransfer.Disable();
         if (allowRNG)

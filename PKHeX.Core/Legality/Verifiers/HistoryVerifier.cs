@@ -53,41 +53,56 @@ public sealed class HistoryVerifier : Verifier
     private void VerifyHandlerState(LegalityAnalysis data, bool neverOT)
     {
         var pk = data.Entity;
-        var Info = data.Info;
+        var info = data.Info;
+        var enc = info.EncounterOriginal;
+        var current = pk.CurrentHandler;
 
-        // HT Flag
-        if (ParseSettings.Settings.Handler.CheckActiveHandler)
+        if (ParseSettings.Settings.Handler.CheckActiveHandler && ParseSettings.ActiveTrainer is { } tr)
         {
-            var tr = ParseSettings.ActiveTrainer;
-            var withOT = tr.IsFromTrainer(pk);
-            var flag = pk.CurrentHandler;
-            var expect = withOT ? 0 : 1;
-            if (flag != expect)
+            var shouldBe0 = tr.IsFromTrainer(pk);
+            byte expect = shouldBe0 ? (byte)0 : (byte)1;
+            if (!IsHandlerStateCorrect(enc, pk, current, expect))
             {
-                if (flag == 0 && !IsHandlerOriginalBug(Info.EncounterOriginal, pk))
-                {
-                    data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
-                    return;
-                }
+                data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
+                return;
             }
 
-            if (flag == 1)
-            {
-                Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
-                var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
-                ht = ht[..len];
-
-                if (!ht.SequenceEqual(tr.OT))
-                    data.AddLine(GetInvalid(LTransferHTMismatchName));
-                if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-                    data.AddLine(Get(LTransferHTMismatchLanguage, Severity.Fishy));
-            }
+            if (current == 1)
+                CheckHandlingTrainerEquals(data, pk, tr);
         }
 
-        if (!pk.IsUntraded && IsUntradeableEncounter(Info.EncounterMatch)) // Starter, untradeable
-            data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
-        if ((Info.Generation != pk.Format || neverOT) && pk.CurrentHandler != 1)
+        if (current != 1 && (enc.Context != pk.Context || neverOT))
             data.AddLine(GetInvalid(LTransferHTFlagRequired));
+        if (!pk.IsUntraded && IsUntradeableEncounter(enc)) // Starter, untradeable
+            data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
+    }
+
+    private static bool IsHandlerStateCorrect(IEncounterTemplate enc, PKM pk, byte current, byte expect)
+    {
+        if (current == expect)
+            return true;
+
+        if (current == 0)
+            return IsHandlerOriginalBug(enc, pk);
+        return false; // HT [1] should be OT [0].
+    }
+
+    private void CheckHandlingTrainerEquals(LegalityAnalysis data, PKM pk, ITrainerInfo tr)
+    {
+        Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+        var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        if (!ht.SequenceEqual(tr.OT))
+            data.AddLine(GetInvalid(LTransferHTMismatchName));
+        if (pk.HandlingTrainerGender != tr.Gender)
+            data.AddLine(GetInvalid(LTransferHTMismatchGender));
+
+        // If the format exposes a language, check if it matches.
+        // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
+        // Statistically unlikely that players will play in different languages, but it's technically possible.
+        if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
+            data.AddLine(Get(LTransferHTMismatchLanguage, Severity.Fishy));
     }
 
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
