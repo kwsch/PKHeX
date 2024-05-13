@@ -587,14 +587,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override int CurrentBox
     {
-        get => Data[Offsets.CurrentBoxIndex] & 0x7F;
-        set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x80) | (value & 0x7F));
-    }
-
-    public bool CurrentBoxChanged
-    {
-        get => (Data[Offsets.CurrentBoxIndex] & 0x80) != 0;
-        set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
+        get => Data[Offsets.CurrentBoxIndex];
+        set => Data[Offsets.CurrentBoxIndex] = (byte)value;
     }
 
     public string GetBoxName(int box)

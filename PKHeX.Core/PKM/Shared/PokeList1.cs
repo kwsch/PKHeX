@@ -204,14 +204,15 @@ public static class PokeList1
     /// <param name="stringLength">Trainer and Nickname string length</param>
     /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="isParty">List stores party stats for each entity</param>
-    public static bool MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty)
+    /// <param name="isDestInitialized">True if the destination list is initialized</param>
+    public static bool MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty, bool isDestInitialized = true)
     {
         // Collect the count of set slots
         var jp = IsJapaneseString(stringLength);
         var size = GetListLengthSingle(jp);
 
         int count = CountPresent(input, capacity, size);
-        if (count == 0 && !output.ContainsAnyExcept<byte>(0))
+        if (count == 0 && (!isDestInitialized || !output.ContainsAnyExcept<byte>(0)))
             return false; // No need to merge if all empty and dest is not initialized.
 
         output[0] = (byte)count; // ensure written list is valid
