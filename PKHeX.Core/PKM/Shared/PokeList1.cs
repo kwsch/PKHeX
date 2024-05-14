@@ -45,7 +45,7 @@ public static class PokeList1
     /// <param name="input">List header</param>
     /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="lerp">Offset jump between slot indexes; used to parse multi-single lists instead of a multi-list.</param>
-    private static int CountPresent(ReadOnlySpan<byte> input, int capacity, int lerp = 0)
+    public static int CountPresent(ReadOnlySpan<byte> input, int capacity, int lerp = 0)
     {
         var count = 0;
         for (int i = 0; i < capacity; i++)

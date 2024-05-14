@@ -144,23 +144,28 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     protected override byte[] GetFinalData()
     {
-        bool anyBoxPresent = false;
         int boxListLength = SIZE_BOX_LIST;
         var boxSlotCount = BoxSlotCount;
         bool boxInitialized = BoxesInitialized;
+        var current = CurrentBox;
+        if (!boxInitialized)
+        {
+            // Check if any box has content in it.
+            bool newContent = AnyBoxSlotSpeciesPresent(current, boxSlotCount);
+            if (newContent)
+                BoxesInitialized = boxInitialized = true;
+        }
+
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i);
             var dest = Data.AsSpan(ofs, boxListLength);
-            var src = BoxBuffer.Slice(i * SIZE_BOX_AS_SINGLES, SIZE_BOX_AS_SINGLES);
+            var src = GetUnpackedBoxSpan(i);
 
             bool written = PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false, boxInitialized);
             if (written && i == CurrentBox)
                 dest.CopyTo(Data.AsSpan(Offsets.CurrentBox));
-            anyBoxPresent |= written;
         }
-        if (anyBoxPresent)
-            BoxesInitialized = true; // box data has been flushed at least once
 
         // Write Party
         {
@@ -182,6 +187,32 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
         SetChecksums();
         return Data;
+    }
+
+    private Span<byte> GetUnpackedBoxSpan(int box)
+    {
+        var size = SIZE_BOX_AS_SINGLES;
+        return BoxBuffer.Slice(box * size, size);
+    }
+
+    private bool AnyBoxSlotSpeciesPresent(int current, int boxSlotCount)
+    {
+        bool newContent = false;
+        for (int i = 0; i < BoxCount; i++)
+        {
+            if (i == current) // Exclude current box in the check.
+                continue;
+
+            var src = GetUnpackedBoxSpan(i);
+            int count = PokeList1.CountPresent(src, boxSlotCount);
+            if (count == 0)
+                continue;
+
+            newContent = true;
+            break;
+        }
+
+        return newContent;
     }
 
     private int GetBoxRawDataOffset(int box)
