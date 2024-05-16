@@ -101,8 +101,6 @@ public static class StringConverter345
             var c = input[i];
             if (IsInvalid45(c))
                 input[i] = '?';
-            else if (c == '’') // Farfetch’d and CH’DING nicknames
-                input[i] = '\''; // Wrong apostrophe, nice. Only is corrected when converted to Gen6.
         }
     }
 
@@ -129,6 +127,22 @@ public static class StringConverter345
     }
 
     /// <summary>
+    /// Remaps Gen5 Glyphs to unicode codepoint.
+    /// </summary>
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs56(Span<char> input)
+    {
+        for (int i = 0; i < input.Length; i += 2)
+        {
+            var c = input[i];
+            if (IsPrivateUseChar(c))
+                input[i] = (char)GetMigratedPrivateChar(c);
+            else if (c is '\'') // Fix all apostrophes. ' -> ’
+                input[i] = '’';
+        }
+    }
+
+    /// <summary>
     /// Remaps private use unicode codepoint back to Gen5 private use codepoint.
     /// </summary>
     /// <param name="input">Input characters to transfer in place</param>
@@ -140,6 +154,22 @@ public static class StringConverter345
             var c = ReadUInt16LittleEndian(span);
             if (IsPrivateUseCharUnicode(c))
                 WriteUInt16LittleEndian(span, GetUnmigratedPrivateChar(c));
+        }
+    }
+
+    /// <summary>
+    /// Remaps private use unicode codepoint back to Gen5 private use codepoint.
+    /// </summary>
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs65(Span<char> input)
+    {
+        for (int i = 0; i < input.Length; i += 2)
+        {
+            var c = input[i];
+            if (IsPrivateUseCharUnicode(c))
+                input[i] = (char)GetUnmigratedPrivateChar(c);
+            else if (c is '’') // Fix all apostrophes. ’ -> '
+                input[i] = '\'';
         }
     }
 

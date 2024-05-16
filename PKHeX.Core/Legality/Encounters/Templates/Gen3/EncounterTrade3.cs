@@ -186,8 +186,8 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
         Span<char> tmp = stackalloc char[name.Length];
         StringConverter345.TransferGlyphs34(name, language, tmp);
-        if (pk.Context == EntityContext.Gen5)
-            StringConverter345.TransferGlyphs45(tmp); // Apostrophe ' vs ’
+        if (pk.Context >= EntityContext.Gen6)
+            StringConverter345.TransferGlyphs56(tmp); // Apostrophe ' vs ’
         return nickname.SequenceEqual(tmp);
     }
 
