@@ -250,6 +250,8 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         set => StringConverter7.SetString(Data.AsSpan(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
+    public bool IsOriginalTrainerNameSet => Data[0xB6] != 0 || Data[0xB7] != 0;
+
     public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }
     public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
     public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD2), value); }
@@ -390,11 +392,8 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             ContestTough = ContestTough,
             ContestSheen = ContestSheen,
 
-            OriginalTrainerName = OriginalTrainerName.Length != 0 ? OriginalTrainerName : tr.OT,
+            OriginalTrainerName = IsOriginalTrainerNameSet ? OriginalTrainerName : tr.OT,
             OriginalTrainerGender = OTGender != 3 ? (byte)(OTGender % 2) : tr.Gender,
-            HandlingTrainerName = OriginalTrainerName.Length != 0 ? tr.OT : string.Empty,
-            HandlingTrainerGender = OriginalTrainerName.Length != 0 ? tr.Gender : default,
-            CurrentHandler = OriginalTrainerName.Length != 0 ? (byte)1 : (byte)0,
 
             EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
@@ -431,6 +430,14 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             EV_SPA = EV_SPA,
             EV_SPD = EV_SPD,
         };
+
+        if (IsOriginalTrainerNameSet && !IsAshPikachu)
+        {
+            pk.HandlingTrainerName = tr.OT;
+            pk.HandlingTrainerGender = tr.Gender;
+            pk.HandlingTrainerFriendship = pk.OriginalTrainerFriendship;
+            pk.CurrentHandler = 1;
+        }
 
         if (tr is IRegionOrigin o)
         {
@@ -557,10 +564,8 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk.SetIVs(finalIVs);
     }
 
-    public bool IsAshGreninjaWC7(PKM pk)
-    {
-        return CardID == 2046 && ((pk.SID16 << 16) | pk.TID16) == 0x79F57B49;
-    }
+    public bool IsAshPikachu => ID32 == 0x798B469B; // 2039/170715 CardID == 0 (simulated, is in-game gift)
+    public bool IsAshGreninja => ID32 == 0x79F57B49; // 2046/131017 CardID == 2046
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -593,7 +598,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 return false; // can't be traded away for un-shiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 7 })
                 return false;
         }
         else

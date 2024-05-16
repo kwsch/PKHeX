@@ -18,7 +18,7 @@ public sealed class FakeSaveFile : SaveFile
     public override int MaxEV => 0;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     public override int GetBoxOffset(int box) => -1;
-    public override int MaxStringLengthOT => 5;
+    public override int MaxStringLengthTrainer => 5;
     public override int MaxStringLengthNickname => 5;
     public override ushort MaxMoveID => 5;
     public override ushort MaxSpeciesID => 1;

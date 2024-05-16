@@ -177,7 +177,8 @@ public static class PokeList2
         var ofsStr1 = ofsBody + (capacity * lengthBody);
         var ofsStr2 = ofsStr1 + (capacity * stringLength);
 
-        for (int i = 0; i < capacity; i++)
+        var count = Math.Min(capacity, input[0]);
+        for (int i = 0; i < count; i++)
         {
             var species = input[1 + i];
             var body = input.Slice(ofsBody, lengthBody);
@@ -229,6 +230,8 @@ public static class PokeList2
         {
             var single = input.Slice(i * size, size);
             var marker = single[1]; // assume correct, don't look in body data.
+            if (marker is 0) // Ensure deleted (zeroed) slots act as an Empty (FF) slot.
+                marker = SlotEmpty;
 
             var index = IsPresent(marker) ? ctr++ : emptyIndex++;
             output[1 + index] = marker;

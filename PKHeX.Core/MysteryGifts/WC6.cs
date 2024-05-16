@@ -43,7 +43,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     {
         // Max len 36 char, followed by null terminator
         get => StringConverter6.GetString(Data.AsSpan(2, 0x4A));
-        set => StringConverter6.SetString(Data.AsSpan(2, 0x4A), value, 36, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(2, 0x4A), value, 36, Language, StringConverterOption.ClearZero);
     }
 
     internal uint RawDate
@@ -170,7 +170,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public string Nickname
     {
         get => StringConverter6.GetString(Data.AsSpan(0x86, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x86, 0x1A), value, 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x86, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public Nature Nature { get => (Nature)Data[0xA0]; set => Data[0xA0] = (byte)value; }
@@ -199,8 +199,10 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override string OriginalTrainerName
     {
         get => StringConverter6.GetString(Data.AsSpan(0xB6, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0xB6, 0x1A), value, 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
+
+    public bool IsOriginalTrainerNameSet => Data[0xB6] != 0 || Data[0xB7] != 0;
 
     public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }
     public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
@@ -325,11 +327,8 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             ContestTough = ContestTough,
             ContestSheen = ContestSheen,
 
-            OriginalTrainerName = OriginalTrainerName.Length != 0 ? OriginalTrainerName : tr.OT,
+            OriginalTrainerName = IsOriginalTrainerNameSet ? OriginalTrainerName : tr.OT,
             OriginalTrainerGender = OTGender != 3 ? (byte)(OTGender % 2) : tr.Gender,
-            HandlingTrainerName = OriginalTrainerName.Length != 0 ? tr.OT : string.Empty,
-            HandlingTrainerGender = OriginalTrainerName.Length != 0 ? tr.Gender : default,
-            CurrentHandler = OriginalTrainerName.Length != 0 ? (byte)1 : (byte)0,
 
             EXP = Experience.GetEXP(Level, pi.EXPGrowth),
 
@@ -366,6 +365,14 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             EV_SPA = EV_SPA,
             EV_SPD = EV_SPD,
         };
+
+        if (IsOriginalTrainerNameSet)
+        {
+            pk.HandlingTrainerName = tr.OT;
+            pk.HandlingTrainerGender = tr.Gender;
+            pk.HandlingTrainerFriendship = pk.OriginalTrainerFriendship;
+            pk.CurrentHandler = 1;
+        }
 
         if (tr is IRegionOrigin o)
         {
@@ -553,7 +560,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 6 })
                 return false;
         }
         else

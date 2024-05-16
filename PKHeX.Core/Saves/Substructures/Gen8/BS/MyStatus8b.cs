@@ -19,7 +19,7 @@ public sealed class MyStatus8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>
     public string OT
     {
         get => SAV.GetString(OriginalTrainerTrash);
-        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public uint ID32

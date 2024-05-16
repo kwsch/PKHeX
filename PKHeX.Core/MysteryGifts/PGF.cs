@@ -57,7 +57,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public string Nickname
     {
         get => StringConverter5.GetString(Data.AsSpan(0x1E, 11 * 2));
-        set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2), value, 11, StringConverterOption.ClearFF);
+        set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2), value, 11, Language, StringConverterOption.ClearFF);
     }
 
     public Nature Nature { get => (Nature)Data[0x34]; set => Data[0x34] = (byte)value; }
@@ -83,7 +83,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override string OriginalTrainerName
     {
         get => StringConverter5.GetString(Data.AsSpan(0x4A, 8 * 2));
-        set => StringConverter5.SetString(Data.AsSpan(0x4A, 8 * 2), value, 8, StringConverterOption.ClearFF);
+        set => StringConverter5.SetString(Data.AsSpan(0x4A, 8 * 2), value, 8, Language, StringConverterOption.ClearFF);
     }
 
     public byte OTGender { get => Data[0x5A]; set => Data[0x5A] = value; }
@@ -93,7 +93,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override string CardTitle
     {
         get => StringConverter5.GetString(Data.AsSpan(0x60, 37 * 2));
-        set => StringConverter5.SetString(Data.AsSpan(0x60, 37 * 2), value, 36, StringConverterOption.ClearZero);
+        set => StringConverter5.SetString(Data.AsSpan(0x60, 37 * 2), value, 36, Language, StringConverterOption.ClearZero);
     }
 
     // Card Attributes
@@ -413,7 +413,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 return false; // can't be traded away for un-shiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 5 })
                 return false;
         }
 

@@ -96,7 +96,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public sealed override EntityContext Context => EntityContext.Gen4;
     public int EventFlagCount => 0xB60; // 2912
     public int EventWorkCount => (EventFlag - EventWork) >> 1;
-    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthTrainer => 7;
     public sealed override int MaxStringLengthNickname => 10;
     public sealed override int MaxMoney => 999999;
     public sealed override int MaxCoins => 50_000;
@@ -243,7 +243,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public override string OT
     {
         get => GetString(General.Slice(Trainer1, 16));
-        set => SetString(General.Slice(Trainer1, 16), value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(General.Slice(Trainer1, 16), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public override uint ID32
@@ -325,7 +325,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public string Rival
     {
         get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Rival_Trash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public abstract Span<byte> Rival_Trash { get; set; }
@@ -483,7 +483,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter4.LoadString(data, destBuffer);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter4.SetString(destBuffer, value, maxLength, option);
+        => StringConverter4.SetString(destBuffer, value, maxLength, Language, option);
 
     #region Event Flag/Event Work
     public bool GetEventFlag(int flagNumber)

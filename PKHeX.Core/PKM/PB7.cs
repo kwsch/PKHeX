@@ -346,10 +346,15 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (HandlingTrainerName != tr.OT)
+        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        var len = LoadString(HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        var other = tr.OT;
+        if (!ht.SequenceEqual(other))
         {
+            HandlingTrainerName = other;
             HandlingTrainerFriendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
-            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;

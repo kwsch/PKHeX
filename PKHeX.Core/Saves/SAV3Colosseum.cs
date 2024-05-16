@@ -121,7 +121,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
-    public override int MaxStringLengthOT => 10; // as evident by Mattle Ho-Oh
+    public override int MaxStringLengthTrainer => 10; // as evident by Mattle Ho-Oh
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 9999999;
 

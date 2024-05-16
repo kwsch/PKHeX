@@ -255,8 +255,11 @@ public static class EntityConverter
         if (pk.Nickname.Length > limit.MaxStringLengthNickname)
             pk.Nickname = pk.Nickname[..pk.MaxStringLengthNickname];
 
-        if (pk.OriginalTrainerName.Length > limit.MaxStringLengthOT)
-            pk.OriginalTrainerName = pk.OriginalTrainerName[..pk.MaxStringLengthOT];
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        var max = limit.MaxStringLengthTrainer;
+        if (len > max)
+            pk.SetString(pk.OriginalTrainerTrash, trainer[..max], max, StringConverterOption.None);
 
         if (pk.Move1 > limit.MaxMoveID || pk.Move2 > limit.MaxMoveID || pk.Move3 > limit.MaxMoveID || pk.Move4 > limit.MaxMoveID)
             pk.ClearInvalidMoves();

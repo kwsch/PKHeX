@@ -704,7 +704,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Context: EntityContext.Gen8 })
                 return false;
         }
         else

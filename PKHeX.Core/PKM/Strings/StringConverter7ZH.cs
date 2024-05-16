@@ -12,8 +12,8 @@ namespace PKHeX.Core;
 /// </remarks>
 public static class StringConverter7ZH
 {
-    private static bool IsPrivateChar(ushort glyph) => glyph is >= Start and <= End;
-    private static char GetUnicodeChar(char glyph) => Table[glyph - Start];
+    internal static bool IsPrivateChar(ushort glyph) => glyph is >= Start and <= End;
+    internal static char GetUnicodeChar(char glyph) => Table[glyph - Start];
 
     public static bool IsTraditional(ushort glyph) => glyph is (>= StartTraditional and <= EndTraditional) or (>= StartTraditionalUSUM and <= EndTraditionalUSUM);
     public static bool IsSimplified(ushort glyph) => glyph is (>= StartSimplified and <= EndSimplified) or (>= StartSimplifiedUSUM and <= EndSimplifiedUSUM);
@@ -48,21 +48,6 @@ public static class StringConverter7ZH
                 return (char)(StartSimplifiedUSUM + index);
         }
         return chr;
-    }
-
-    /// <summary>
-    /// Converts a Generation 7 in-game Chinese string to Unicode string.
-    /// </summary>
-    /// <param name="input">In-game Chinese string.</param>
-    /// <returns>Unicode string.</returns>
-    internal static void RemapChineseGlyphsBin2String(Span<char> input)
-    {
-        for (int i = 0; i < input.Length; i++)
-        {
-            var val = input[i];
-            if (IsPrivateChar(val))
-                input[i] = GetUnicodeChar(val);
-        }
     }
 
     #region Gen 7 Chinese Character Table

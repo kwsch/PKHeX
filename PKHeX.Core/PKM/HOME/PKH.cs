@@ -81,6 +81,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override Span<byte> NicknameTrash => Core.NicknameTrash;
     public override Span<byte> OriginalTrainerTrash => Core.OriginalTrainerTrash;
     public override Span<byte> HandlingTrainerTrash => Core.HandlingTrainerTrash;
+    public override int TrashCharCountTrainer => 13;
+    public override int TrashCharCountNickname => 13;
     public override bool IsUntraded => ReadUInt16LittleEndian(HandlingTrainerTrash) == 0; // immediately terminated HandlingTrainerName data (\0)
 
     #region Core
@@ -233,7 +235,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public override int MaxIV => 31;
     public override int MaxEV => EffortValues.Max252;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
     public override ushort MaxMoveID => Legal.MaxMoveID_8a;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8a;
@@ -430,4 +432,43 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
+
+    /// <summary>
+    /// Revises the Handler details of a <see cref="PKM"/> to match the current <see cref="ITrainerInfo"/>.
+    /// </summary>
+    /// <remarks>Logic used starting in SW/SH games.</remarks>
+    public static void UpdateHandler<T>(T pk, ITrainerInfo tr)
+        where T : PKM, IHandlerLanguage, IMemoryHT
+    {
+        pk.CurrentHandler = 1;
+
+        var gender = tr.Gender;
+        var other = tr.OT;
+        if (IsHandlerSame(pk, other, gender))
+            return;
+
+        // Clear the old Handler details and write our new ones.
+        pk.ClearMemoriesHT();
+        pk.HandlingTrainerName = other;
+        pk.HandlingTrainerLanguage = (byte)tr.Language;
+        pk.HandlingTrainerGender = gender;
+        pk.HandlingTrainerFriendship = pk.PersonalInfo.BaseFriendship;
+        // Memories are deferred to the game. SW/SH does not immediately set memories.
+    }
+
+    private static bool IsHandlerSame<T>(T pk, ReadOnlySpan<char> newHT, byte newGender)
+        where T : PKM, IHandlerLanguage
+    {
+        if (newGender != pk.HandlingTrainerGender)
+            return false;
+
+        // Does not check Language or Version for equality! Can result in mismatches or empty (0) language value.
+        // Check the trainer string for equality (most expensive of all last).
+
+        Span<char> exist = stackalloc char[pk.TrashCharCountTrainer];
+        var len = pk.LoadString(pk.HandlingTrainerTrash, exist);
+        exist = exist[..len];
+
+        return exist.SequenceEqual(newHT);
+    }
 }

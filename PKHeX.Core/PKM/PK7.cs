@@ -486,17 +486,19 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (tr.OT != HandlingTrainerName || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-        {
-            // No geolocations are set ingame -- except for bank transfers. Don't emulate bank transfers
-            // this.TradeGeoLocation(tr.Country, tr.SubRegion);
-        }
+        // No geolocations are set in-game -- except for bank transfers. Don't emulate bank transfers
+        // this.TradeGeoLocation(tr.Country, tr.SubRegion);
 
-        if (HandlingTrainerName != tr.OT)
+        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        var len = LoadString(HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        var other = tr.OT;
+        if (!ht.SequenceEqual(other))
         {
+            HandlingTrainerName = other;
             HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
             HandlingTrainerAffection = 0;
-            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;

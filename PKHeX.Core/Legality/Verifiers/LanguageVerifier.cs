@@ -23,7 +23,7 @@ public sealed class LanguageVerifier : Verifier
         }
 
         // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-        if (pk.Format == 4 && enc.Generation == 4 && !IsValidG4Korean(currentLanguage)
+        if (pk.Format == 4 && enc.Generation == 4 && !IsValidGen4Korean(currentLanguage)
             && enc is not EncounterTrade4PID {Species: (int)Species.Pikachu or (int)Species.Magikarp} // ger magikarp / eng pikachu
            )
         {
@@ -61,18 +61,24 @@ public sealed class LanguageVerifier : Verifier
     }
 
     /// <summary>
-    /// Check if the <see cref="currentLanguage"/> can exist in the Generation 4 savefile.
+    /// Check if the <see cref="pkmLanguage"/> can exist in the Generation 4 save file.
     /// </summary>
-    /// <param name="currentLanguage"></param>
-    public static bool IsValidG4Korean(int currentLanguage)
+    /// <remarks>
+    /// Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
+    /// Anything with Gen4 origin cannot exist in the other language save file.
+    /// </remarks>
+    public static bool IsValidGen4Korean(int pkmLanguage)
     {
-        var activeTr = ParseSettings.ActiveTrainer;
-        var activeLang = activeTr.Language;
-        bool savKOR = activeLang == (int) LanguageID.Korean;
-        bool pkmKOR = currentLanguage == (int) LanguageID.Korean;
-        if (savKOR == pkmKOR)
-            return true;
+        if (ParseSettings.ActiveTrainer is not SAV4 tr)
+            return true; // ignore
+        return IsValidGen4Korean(pkmLanguage, tr);
+    }
 
-        return activeLang < 0; // check not overriden by Legality settings
+    /// <inheritdoc cref="IsValidGen4Korean(int)"/>
+    public static bool IsValidGen4Korean(int pkmLanguage, SAV4 tr)
+    {
+        bool savKOR = tr.Language == (int)LanguageID.Korean;
+        bool pkmKOR = pkmLanguage == (int)LanguageID.Korean;
+        return savKOR == pkmKOR;
     }
 }

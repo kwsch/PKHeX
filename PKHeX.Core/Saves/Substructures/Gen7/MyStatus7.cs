@@ -98,7 +98,7 @@ public sealed class MyStatus7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav,
     public string OT
     {
         get => SAV.GetString(OriginalTrainerTrash);
-        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public int DressUpSkinColor

@@ -35,8 +35,8 @@ public static class UgItemUtil
     }
 
     #region Table
-    private static readonly IReadOnlyList<UgItemDef> Items = new UgItemDef[]
-    {
+    private static readonly IReadOnlyList<UgItemDef> Items =
+    [
         new(000,000,000,000,000), // None
         new(001, -1,001, -1, -1), // Red Sphere S
         new(002, -1,002, -1, -1), // Blue Sphere S
@@ -994,6 +994,6 @@ public static class UgItemUtil
         new(954, -1, -1, -1, -1), // 
         new(955, -1, -1, -1, -1), // 
         new(956, -1, -1, -1, -1), // 
-    };
+    ];
     #endregion
 }

@@ -119,7 +119,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
     public override PersonalTable8BDSP Personal => PersonalTable.BDSP;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
     public override ushort MaxMoveID => Legal.MaxMoveID_8b;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8b;
@@ -283,7 +283,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public string Rival
     {
         get => GetString(Data.AsSpan(0x55F4, 0x1A));
-        set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public short ZoneID // map

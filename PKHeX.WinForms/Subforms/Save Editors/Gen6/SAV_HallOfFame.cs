@@ -120,7 +120,7 @@ public partial class SAV_HallOfFame : Form
         for (int i = 0; i < 6; i++)
         {
             var slice = data[(i * HallFame6Entity.SIZE)..];
-            var entry = new HallFame6Entity(slice);
+            var entry = new HallFame6Entity(slice, SAV.Language);
             if (entry.Species == 0)
                 continue;
             moncount++;
@@ -156,7 +156,7 @@ public partial class SAV_HallOfFame : Form
         int index = LB_DataEntry.SelectedIndex;
         var member = (Convert.ToInt32(NUP_PartyIndex.Value) - 1);
         var slice = Fame.GetEntity(index, member);
-        var entry = new HallFame6Entity(slice);
+        var entry = new HallFame6Entity(slice, SAV.Language);
         CB_Species.SelectedValue = (int)entry.Species;
         CB_HeldItem.SelectedValue = (int)entry.HeldItem;
         CB_Move1.SelectedValue = (int)entry.Move1;
@@ -196,7 +196,7 @@ public partial class SAV_HallOfFame : Form
         int member = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
 
         var slice = Fame.GetEntity(index, member);
-        var entry = new HallFame6Entity(slice)
+        var entry = new HallFame6Entity(slice, SAV.Language)
         {
             Species = Convert.ToUInt16(CB_Species.SelectedValue),
             HeldItem = Convert.ToUInt16(CB_HeldItem.SelectedValue),

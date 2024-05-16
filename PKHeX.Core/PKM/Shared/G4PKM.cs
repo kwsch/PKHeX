@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -20,7 +21,7 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     public sealed override GameVersion MaxGameID => Legal.MaxGameID_4;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max255;
-    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthTrainer => 7;
     public sealed override int MaxStringLengthNickname => 10;
 
     public sealed override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 3;
@@ -40,6 +41,8 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     // Trash Bytes
     public sealed override Span<byte> NicknameTrash => Data.AsSpan(0x48, 22);
     public sealed override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x68, 16);
+    public override int TrashCharCountNickname => 11;
+    public override int TrashCharCountTrainer => 8;
 
     // Future Attributes
     public sealed override uint EncryptionConstant { get => PID; set { } }
@@ -497,6 +500,27 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
         // Strings need to change between Little Endian and Big Endian
         var s = MemoryMarshal.Cast<byte, ushort>(src);
         var d = MemoryMarshal.Cast<byte, ushort>(dest);
-        System.Buffers.Binary.BinaryPrimitives.ReverseEndianness(s, d);
+        ReverseEndianness(s, d);
+    }
+
+    /// <summary>
+    /// Nidoran originating from Korean D/P/Pt games use the Full-width gender symbols instead of the other Gen4-Gen7 games which use Half-width.
+    /// </summary>
+    /// <seealso cref="PK5.CheckKoreanNidoranDPPt"/>
+    protected void CheckKoreanNidoranDPPt(ReadOnlySpan<char> value, ref int language)
+    {
+        if (language != (int)LanguageID.Korean)
+            return;
+        if (IsNicknamed)
+            return;
+        if (Version is not (GameVersion.D or GameVersion.P or GameVersion.Pt))
+            return;
+        // Full-width gender symbols for not-nicknamed Nidoran in D/P/Pt
+        // Full/Half is technically legal either way as trainers can reset the nickname in HG/SS, or vice versa for origins.
+        // Still try to set whichever it originated with. Default would be half, but if it's a Nidoran species name, set full-width.
+        if (Species == (int)Core.Species.NidoranM && value is "니드런♂")
+            language = 1; // Use Japanese to force full-width encoding of the gender symbol.
+        else if (Species == (int)Core.Species.NidoranF && value is "니드런♀")
+            language = 1;
     }
 }

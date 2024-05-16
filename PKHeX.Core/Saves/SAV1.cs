@@ -75,20 +75,27 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         Box = 0;
         Party = GetPartyOffset(0);
 
-        // Stash boxes after the save file's end.
         int stored = SIZE_BOX_LIST;
         var capacity = BoxSlotCount;
-        for (int i = 0; i < BoxCount; i++)
+        var current = CurrentBox;
+        if (BoxesInitialized) // Current box has flushed to box storage at least once, box contents are trustworthy.
         {
-            int ofs = GetBoxRawDataOffset(i);
-            var src = Data.AsSpan(ofs, stored);
-            var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
+            for (int i = 0; i < BoxCount; i++)
+            {
+                if (i == current)
+                    continue; // Use the current box data instead, loaded a little later.
+                int ofs = GetBoxRawDataOffset(i);
+                var src = Data.AsSpan(ofs, stored);
+                var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
+                PokeList1.Unpack(src, dest, StringLength, capacity, false);
+            }
+        }
+        if (current < BoxCount) // Load Current Box
+        {
+            var src = Data.AsSpan(Offsets.CurrentBox, stored);
+            var dest = BoxBuffer[(current * SIZE_BOX_AS_SINGLES)..];
             PokeList1.Unpack(src, dest, StringLength, capacity, false);
         }
-
-        // Don't treat the CurrentBox segment as valid; Stadium ignores it and will de-synchronize it.
-        // The main box data segment is the truth, the CurrentBox copy is not always up-to-date.
-        // When exporting an updated save file in this program, be nice and re-synchronize.
 
         // Stash party immediately after.
         {
@@ -139,13 +146,23 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     {
         int boxListLength = SIZE_BOX_LIST;
         var boxSlotCount = BoxSlotCount;
+        bool boxInitialized = BoxesInitialized;
+        var current = CurrentBox;
+        if (!boxInitialized)
+        {
+            // Check if any box has content in it.
+            bool newContent = AnyBoxSlotSpeciesPresent(current, boxSlotCount);
+            if (newContent)
+                BoxesInitialized = boxInitialized = true;
+        }
+
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i);
             var dest = Data.AsSpan(ofs, boxListLength);
-            var src = BoxBuffer.Slice(i * SIZE_BOX_AS_SINGLES, SIZE_BOX_AS_SINGLES);
+            var src = GetUnpackedBoxSpan(i);
 
-            bool written = PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false);
+            bool written = PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false, boxInitialized);
             if (written && i == CurrentBox)
                 dest.CopyTo(Data.AsSpan(Offsets.CurrentBox));
         }
@@ -170,6 +187,32 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
         SetChecksums();
         return Data;
+    }
+
+    private Span<byte> GetUnpackedBoxSpan(int box)
+    {
+        var size = SIZE_BOX_AS_SINGLES;
+        return BoxBuffer.Slice(box * size, size);
+    }
+
+    private bool AnyBoxSlotSpeciesPresent(int current, int boxSlotCount)
+    {
+        bool newContent = false;
+        for (int i = 0; i < BoxCount; i++)
+        {
+            if (i == current) // Exclude current box in the check.
+                continue;
+
+            var src = GetUnpackedBoxSpan(i);
+            int count = PokeList1.CountPresent(src, boxSlotCount);
+            if (count == 0)
+                continue;
+
+            newContent = true;
+            break;
+        }
+
+        return newContent;
     }
 
     private int GetBoxRawDataOffset(int box)
@@ -205,7 +248,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxIV => 15;
     public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
-    public override int MaxStringLengthOT => Japanese ? 5 : 7;
+    public override int MaxStringLengthTrainer => Japanese ? 5 : 7;
     public override int MaxStringLengthNickname => Japanese ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
@@ -233,8 +276,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override string OT
     {
-        get => GetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT));
-        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => GetString(Data.AsSpan(Offsets.OT, MaxStringLengthTrainer));
+        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthTrainer + 1), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public Span<byte> OriginalTrainerTrash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
@@ -261,8 +304,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public string Rival
     {
-        get => GetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT));
-        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value, MaxStringLengthOT, StringConverterOption.Clear50);
+        get => GetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer));
+        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer), value, MaxStringLengthTrainer, StringConverterOption.Clear50);
     }
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
@@ -444,7 +487,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x80) | (value & 0x7F));
     }
 
-    public bool CurrentBoxChanged
+    public bool BoxesInitialized
     {
         get => (Data[Offsets.CurrentBoxIndex] & 0x80) != 0;
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));

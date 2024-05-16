@@ -33,7 +33,6 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public IPermitRecord Permit => PersonalInfo;
 
     public override EntityContext Context => EntityContext.Gen8a;
-    public override bool IsNative => LA;
     public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
     public PA8(byte[] data) : base(DecryptParty(data)) { }
 
@@ -66,11 +65,13 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override Span<byte> NicknameTrash => Data.AsSpan(0x60, 26);
     public override Span<byte> HandlingTrainerTrash => Data.AsSpan(0xB8, 26);
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x110, 26);
+    public override int TrashCharCountTrainer => 13;
+    public override int TrashCharCountNickname => 13;
 
     // Maximums
     public override int MaxIV => 31;
     public override int MaxEV => EffortValues.Max252;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
 
     public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
@@ -627,17 +628,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return true;
     }
 
-    private void TradeHT(ITrainerInfo tr)
-    {
-        if (HandlingTrainerName != tr.OT)
-        {
-            HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
-            HandlingTrainerName = tr.OT;
-        }
-        CurrentHandler = 1;
-        HandlingTrainerGender = tr.Gender;
-        HandlingTrainerLanguage = (byte)tr.Language;
-    }
+    private void TradeHT(ITrainerInfo tr) => PKH.UpdateHandler(this, tr);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_8a;

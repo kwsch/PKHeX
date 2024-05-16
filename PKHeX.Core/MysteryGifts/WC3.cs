@@ -278,7 +278,7 @@ public sealed class WC3(GameVersion Version, bool Fateful = false)
         if (FatefulEncounter != pk.FatefulEncounter && !IsEgg)
             return false;
 
-        if (pk.IsNative)
+        if (pk.Format == 3)
         {
             if (hatchedEgg)
                 return true; // defer egg specific checks to later.

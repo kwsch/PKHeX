@@ -191,7 +191,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override int MaxEV => EffortValues.Max255;
     public sealed override byte Generation => 3;
     public sealed override EntityContext Context => EntityContext.Gen3;
-    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthTrainer => 7;
     public sealed override int MaxStringLengthNickname => 10;
     public sealed override int MaxMoney => 999999;
 
@@ -324,7 +324,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         get => GetString(OriginalTrainerTrash);
         set
         {
-            int len = Japanese ? 5 : MaxStringLengthOT;
+            int len = Japanese ? 5 : MaxStringLengthTrainer;
             SetString(OriginalTrainerTrash[..len], value, len, StringConverterOption.ClearFF); // match the game-init FF terminating pattern
         }
     }

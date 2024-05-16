@@ -97,7 +97,7 @@ public static class SpeciesName
         return arr[species];
     }
 
-    private static bool IsApostropheFarfetchdLanguage(int language) => language is 2 or 4 or 7;
+    public static bool IsApostropheFarfetchdLanguage(int language) => language is 2 or 4 or 7;
 
     /// <summary>
     /// Gets a Pokémon's default name for the desired language ID and generation.

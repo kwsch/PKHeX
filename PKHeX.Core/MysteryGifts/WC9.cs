@@ -713,7 +713,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Context: not EntityContext.Gen9 })
                 return false;
         }
         else

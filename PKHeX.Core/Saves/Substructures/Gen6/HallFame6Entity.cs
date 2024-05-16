@@ -7,8 +7,14 @@ public readonly ref struct HallFame6Entity
 {
     public const int SIZE = 0x48;
     private readonly Span<byte> Data;
+    private readonly int Language;
+
     // ReSharper disable once ConvertToPrimaryConstructor
-    public HallFame6Entity(Span<byte> data) => Data = data;
+    public HallFame6Entity(Span<byte> data, int language)
+    {
+        Data = data;
+        Language = language;
+    }
 
     public ushort Species { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public ushort HeldItem { get => ReadUInt16LittleEndian(Data[0x02..]); set => WriteUInt16LittleEndian(Data[0x02..], value); }
@@ -48,13 +54,13 @@ public readonly ref struct HallFame6Entity
     public string Nickname
     {
         get => StringConverter6.GetString(Nick_Trash);
-        set => StringConverter6.SetString(Nick_Trash, value, 12, Option);
+        set => StringConverter6.SetString(Nick_Trash, value, 12, Language, Option);
     }
 
     public string OriginalTrainerName
     {
         get => StringConverter6.GetString(OriginalTrainerTrash);
-        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Option);
+        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Language, Option);
     }
 }
 

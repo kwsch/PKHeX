@@ -43,6 +43,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
     // Trash Bytes
     public override Span<byte> NicknameTrash => Data.AsSpan(0x48, 22);
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x68, 16);
+    public override int TrashCharCountNickname => 11;
+    public override int TrashCharCountTrainer => 8;
 
     // Future Attributes
     public override uint EncryptionConstant { get => PID; set { } }
@@ -191,7 +193,18 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     #region Block C
-    public override string Nickname { get => StringConverter5.GetString(NicknameTrash); set => StringConverter5.SetString(NicknameTrash, value, 10, StringConverterOption.None); }
+
+    public override string Nickname
+    {
+        get => StringConverter5.GetString(NicknameTrash);
+        set
+        {
+            var language = Language;
+            CheckKoreanNidoranDPPt(value, ref language);
+            StringConverter5.SetString(NicknameTrash, value, 10, language, StringConverterOption.None);
+        }
+    }
+
     // 0x5E unused
     public override GameVersion Version { get => (GameVersion)Data[0x5F]; set => Data[0x5F] = (byte)value; }
     private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -234,7 +247,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     #region Block D
-    public override string OriginalTrainerName { get => StringConverter5.GetString(OriginalTrainerTrash); set => StringConverter5.SetString(OriginalTrainerTrash, value, 7, StringConverterOption.None); }
+    public override string OriginalTrainerName { get => StringConverter5.GetString(OriginalTrainerTrash); set => StringConverter5.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.None); }
     public override byte EggYear { get => Data[0x78]; set => Data[0x78] = value; }
     public override byte EggMonth { get => Data[0x79]; set => Data[0x79] = value; }
     public override byte EggDay { get => Data[0x7A]; set => Data[0x7A] = value; }
@@ -286,7 +299,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override GameVersion MaxGameID => Legal.MaxGameID_5; // B2
     public override int MaxIV => 31;
     public override int MaxEV => EffortValues.Max255;
-    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthTrainer => 7;
     public override int MaxStringLengthNickname => 10;
 
     // Methods
@@ -558,5 +571,24 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter5.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter5.SetString(destBuffer, value, maxLength, option);
+        => StringConverter5.SetString(destBuffer, value, maxLength, Language, option);
+
+    /// <inheritdoc cref="G4PKM.CheckKoreanNidoranDPPt"/>
+    /// <remarks> Gen4->Gen5 chars transfer without resetting the name. Still relevant even as PK5. </remarks>
+    private void CheckKoreanNidoranDPPt(ReadOnlySpan<char> value, ref int language)
+    {
+        if (language != (int)LanguageID.Korean)
+            return;
+        if (IsNicknamed)
+            return;
+        if (Version is not (GameVersion.D or GameVersion.P or GameVersion.Pt))
+            return;
+        // Full-width gender symbols for not-nicknamed Nidoran in D/P/Pt
+        // Full/Half is technically legal either way as trainers can reset the nickname in HG/SS, or vice versa for origins.
+        // Still try to set whichever it originated with. Default would be half, but if it's a Nidoran species name, set full-width.
+        if (Species == (int)Core.Species.NidoranM && value is "니드런♂")
+            language = 1; // Use Japanese to force full-width encoding of the gender symbol.
+        else if (Species == (int)Core.Species.NidoranF && value is "니드런♀")
+            language = 1;
+    }
 }

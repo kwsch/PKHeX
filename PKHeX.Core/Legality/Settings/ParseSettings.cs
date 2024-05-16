@@ -8,7 +8,20 @@ namespace PKHeX.Core;
 /// <remarks><see cref="LegalityAnalysis"/></remarks>
 public static class ParseSettings
 {
-    internal static ITrainerInfo ActiveTrainer { get; set; } = new SimpleTrainerInfo(GameVersion.Any) { OT = string.Empty, Language = -1 };
+    /// <summary>
+    /// Current Trainer of the active Save Data.
+    /// </summary>
+    /// <remarks>
+    /// Used for legality checks to determine if the data is from the active save file.
+    /// Defaults to a blank trainer with no data to prevent matching unless another reference (save file) is loaded.
+    /// </remarks>
+    internal static ITrainerInfo? ActiveTrainer { get; private set; }
+
+    /// <summary>
+    /// Resets active trainer to null, disabling any legality checks that compare to a currently loaded trainer.
+    /// </summary>
+    /// <remarks>Shouldn't need to use this unless you want to undo any loading of save data to revert to an uninitialized state.</remarks>
+    public static void ClearActiveTrainer() => ActiveTrainer = null;
 
     /// <summary>
     /// Master settings configuration for legality analysis.
@@ -62,8 +75,6 @@ public static class ParseSettings
     public static bool AllowGBVirtualConsole3DS => !AllowGBCartEra;
     public static bool AllowGBEraEvents => AllowGBCartEra;
     public static bool AllowGBStadium2 => AllowGBCartEra;
-
-    internal static bool IsFromActiveTrainer(PKM pk) => ActiveTrainer.IsFromTrainer(pk);
 
     /// <summary>
     /// Initializes certain settings

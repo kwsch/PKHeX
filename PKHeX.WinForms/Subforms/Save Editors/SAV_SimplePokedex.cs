@@ -6,87 +6,80 @@ namespace PKHeX.WinForms;
 
 public partial class SAV_SimplePokedex : Form
 {
-    private readonly SaveFile Origin;
     private readonly SaveFile SAV;
+    private readonly int MaxSpeciesID;
 
     public SAV_SimplePokedex(SaveFile sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        SAV = (Origin = sav).Clone();
-        seen = new bool[SAV.MaxSpeciesID];
-        caught = new bool[SAV.MaxSpeciesID];
+        SAV = sav;
+        var count = MaxSpeciesID = SAV.MaxSpeciesID;
 
-        var speciesNames = GameInfo.Strings.specieslist;
-        for (int i = 0; i < seen.Length; i++)
-        {
-            ushort species = (ushort)(i + 1);
-            seen[i] = SAV.GetSeen(species);
-            caught[i] = SAV.GetCaught(species);
-            CLB_Seen.Items.Add(speciesNames[species]);
-            CLB_Caught.Items.Add(speciesNames[species]);
-            CLB_Seen.SetItemChecked(i, seen[i]);
-            CLB_Caught.SetItemChecked(i, caught[i]);
-        }
-        initialized = true;
+        var speciesNames = GameInfo.Strings.specieslist.AsSpan(1, count);
+        AddAllSpecies(speciesNames);
+        LoadAllFlags(SAV, count);
     }
 
-    private readonly bool[] seen;
-    private readonly bool[] caught;
-    private readonly bool initialized;
+    private void AddAllSpecies(ReadOnlySpan<string> speciesNames)
+    {
+        for (int i = 0; i < speciesNames.Length; i++)
+        {
+            CLB_Seen.Items.Add(speciesNames[i]);
+            CLB_Caught.Items.Add(speciesNames[i]);
+        }
+    }
+
+    private void LoadAllFlags(SaveFile sav, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            ushort species = (ushort)(i + 1);
+            CLB_Seen.SetItemChecked(i, sav.GetSeen(species));
+            CLB_Caught.SetItemChecked(i, sav.GetCaught(species));
+        }
+    }
+
+    private void SaveAllFlags(SaveFile sav, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            ushort species = (ushort)(i + 1);
+            sav.SetSeen(species, CLB_Seen.GetItemChecked(i));
+            sav.SetCaught(species, CLB_Caught.GetItemChecked(i));
+        }
+    }
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        for (int i = 0; i < seen.Length; i++)
-        {
-            ushort species = (ushort)(i + 1);
-            SAV.SetSeen(species, seen[i]);
-            SAV.SetCaught(species, caught[i]);
-        }
-        Origin.CopyChangesFrom(SAV);
+        SaveAllFlags(SAV, MaxSpeciesID);
+        SAV.State.Edited = true;
         Close();
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_SeenAll_Click(object sender, EventArgs e)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
+        for (int i = 0; i < MaxSpeciesID; i++)
             CLB_Seen.SetItemChecked(i, true);
     }
 
     private void B_SeenNone_Click(object sender, EventArgs e)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
+        for (int i = 0; i < MaxSpeciesID; i++)
             CLB_Seen.SetItemChecked(i, false);
     }
 
     private void B_CaughtAll_Click(object sender, EventArgs e)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
+        for (int i = 0; i < MaxSpeciesID; i++)
             CLB_Caught.SetItemChecked(i, true);
     }
 
     private void B_CaughtNone_Click(object sender, EventArgs e)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
+        for (int i = 0; i < MaxSpeciesID; i++)
             CLB_Caught.SetItemChecked(i, false);
-    }
-
-    private void CLB_Seen_ItemCheck(object sender, ItemCheckEventArgs e)
-    {
-        if (!initialized)
-            return;
-        seen[e.Index] = e.NewValue == CheckState.Checked;
-    }
-
-    private void CLB_Caught_ItemCheck(object sender, ItemCheckEventArgs e)
-    {
-        if (!initialized)
-            return;
-        caught[e.Index] = e.NewValue == CheckState.Checked;
     }
 }

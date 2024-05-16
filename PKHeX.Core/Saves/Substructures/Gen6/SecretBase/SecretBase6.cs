@@ -80,15 +80,17 @@ public class SecretBase6(Memory<byte> raw)
     private const int NameLength = (0x1A / 2) - 1; // + terminator
     private const int MessageLength = (0x22 / 2) - 1; // + terminator
 
+    private static int Language => 0;
+
     public string TrainerName
     {
         get => StringConverter6.GetString(Data.Slice(0x21A, NameLengthBytes));
-        set => StringConverter6.SetString(Data.Slice(0x21A, NameLengthBytes), value, NameLength, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.Slice(0x21A, NameLengthBytes), value, NameLength, Language, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetMessageSpan(int index) => Data.Slice(0x234 + (MessageLengthBytes * index), MessageLengthBytes);
     private string GetMessage(int index) => StringConverter6.GetString(GetMessageSpan(index));
-    private void SetMessage(int index, ReadOnlySpan<char> value) => StringConverter6.SetString(GetMessageSpan(index), value, MessageLength, StringConverterOption.ClearZero);
+    private void SetMessage(int index, ReadOnlySpan<char> value) => StringConverter6.SetString(GetMessageSpan(index), value, MessageLength, Language, StringConverterOption.ClearZero);
 
     public string TeamName { get => GetMessage(0); set => SetMessage(0, value); }
     public string TeamSlogan { get => GetMessage(1); set => SetMessage(1, value); }

@@ -252,8 +252,15 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual GameVersion MinGameID => 0;
     public abstract int MaxIV { get; }
     public abstract int MaxEV { get; }
-    public abstract int MaxStringLengthOT { get; }
+
+    /// <summary> Maximum length a Trainer Name can be represented as. </summary>
+    public abstract int MaxStringLengthTrainer { get; }
+    /// <summary> Maximum length a Nickname can be represented as. </summary>
     public abstract int MaxStringLengthNickname { get; }
+    /// <summary> Total characters allocated for holding a Trainer Name. </summary>
+    public abstract int TrashCharCountTrainer { get; }
+    /// <summary> Total characters allocated for holding a Nickname. </summary>
+    public abstract int TrashCharCountNickname { get; }
 
     // Derived
     public virtual int SpriteItem => HeldItem;
@@ -553,7 +560,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, Version);
 
     public virtual bool IsUntraded => false;
-    public virtual bool IsNative => Generation == Format;
     public bool IsOriginValid => Species <= MaxSpeciesID;
 
     /// <summary>

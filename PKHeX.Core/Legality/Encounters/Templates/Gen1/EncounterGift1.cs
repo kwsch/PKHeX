@@ -202,25 +202,39 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         return true;
     }
 
-    private bool IsTrainerNameValid(PKM pk) => Trainer switch
+    private bool IsTrainerNameValid(PKM pk)
     {
-        Recipient => true,
-        VirtualConsoleMew => pk.OriginalTrainerName == (pk.Language == 1 ? VirtualConsoleMewJPN : VirtualConsoleMewINT),
-        Stadium => pk.Language switch
+        if (Trainer == Recipient)
+            return true;
+
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        if (Trainer == EuropeTour)
+            return IsTourOT(trainer);
+
+        var language = pk.Language;
+        if (Trainer == VirtualConsoleMew)
+            return trainer.SequenceEqual(language == 1 ? VirtualConsoleMewJPN : VirtualConsoleMewINT);
+
+        if (Trainer == Stadium)
         {
-            (int)Japanese => pk.OriginalTrainerName == StadiumJPN,
-            _ => pk.OriginalTrainerName switch
+            return language switch
             {
-                StadiumENG => true,
-                StadiumFRE => true,
-                StadiumITA => true,
-                StadiumSPA => true,
-                _ => false,
-            },
-        },
-        EuropeTour => IsTourOT(pk.OriginalTrainerName),
-        _ => true,
-    };
+                (int)Japanese => trainer.SequenceEqual(StadiumJPN),
+                _ => trainer switch
+                {
+                    StadiumENG => true,
+                    StadiumFRE => true,
+                    StadiumITA => true,
+                    StadiumSPA => true,
+                    _ => false,
+                },
+            };
+        }
+        return true;
+    }
 
     private bool IsTrainerIDValid(PKM pk) => Trainer switch
     {

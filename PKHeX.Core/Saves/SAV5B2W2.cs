@@ -65,13 +65,13 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public string Rival
     {
         get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Rival_Trash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public Span<byte> Rival_Trash
     {
-        get => Data.AsSpan(0x23BA4, MaxStringLengthOT * 2);
-        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
+        get => Data.AsSpan(0x23BA4, MaxStringLengthTrainer * 2);
+        set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
     }
 
     public override Memory<byte> BattleVideoNative    => Data.AsMemory(0x4C000, BattleVideo5.SIZE_USED);

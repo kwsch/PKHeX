@@ -483,6 +483,7 @@ public static class LegalityCheckStrings
     public static string LTransferFlagIllegal { get; set; } = "Flagged as illegal by the game (glitch abuse).";
     public static string LTransferHTFlagRequired { get; set; } = "Current handler cannot be past gen OT for transferred specimen.";
     public static string LTransferHTMismatchName { get; set; } = "Handling trainer does not match the expected trainer name.";
+    public static string LTransferHTMismatchGender { get; set; } = "Handling trainer does not match the expected trainer gender.";
     public static string LTransferHTMismatchLanguage { get; set; } = "Handling trainer does not match the expected trainer language.";
     public static string LTransferMet { get; set; } = "Invalid Met Location, expected Poké Transfer or Crown.";
     public static string LTransferNotPossible { get; set; } = "Unable to transfer into current format from origin format.";

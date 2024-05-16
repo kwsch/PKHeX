@@ -134,7 +134,6 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
     }
 }
 
-
 public enum SlotType3 : byte
 {
     Grass = 0,

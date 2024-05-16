@@ -38,6 +38,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     // Trash Bytes
     public override Span<byte> NicknameTrash => Data.AsSpan(0x08, 10); // no inaccessible terminator
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x14, 7); // no inaccessible terminator
+    public override int TrashCharCountTrainer => 7;
+    public override int TrashCharCountNickname => 10;
 
     // At top for System.Reflection execution order hack
 
