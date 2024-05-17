@@ -171,7 +171,11 @@ public static class StringConverter8
     {
         // If a replacement is made, any leading or trailing halfwidth spaces are trimmed.
         // This allows nicknames/OT names that are the empty string or consist entirely of fullwidth spaces.
-        var region = u16[..u16.IndexOf((char)TerminatorNull)];
+        int length = u16.IndexOf((char)TerminatorNull);
+        if (length == -1)
+            length = u16.Length; // Full buffer (bad input), but still remap.
+
+        var region = u16[..length];
         char seek = ' ';
         if (BitConverter.IsLittleEndian)
             seek = (char)ReverseEndianness(' ');
