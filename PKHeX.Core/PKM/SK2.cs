@@ -221,4 +221,9 @@ public sealed class SK2 : GBPKM, ICaughtData2
         => StringConverter2.LoadString(data, destBuffer, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesGB.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesGB.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
 }

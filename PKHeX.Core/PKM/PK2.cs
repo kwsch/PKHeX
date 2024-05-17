@@ -279,6 +279,11 @@ public sealed class PK2 : GBPKML, ICaughtData2
             return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
         return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
     }
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => Korean ? StringConverter2KOR.GetTerminatorIndex(data) : TrashBytesGB.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => Korean ? StringConverter2KOR.GetStringLength(data) : TrashBytesGB.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
 
     /// <summary>
     /// Gets a checksum over all the entity's data using a single list to wrap all components.

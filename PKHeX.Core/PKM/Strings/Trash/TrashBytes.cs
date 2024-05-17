@@ -16,7 +16,7 @@ public static class TrashBytes
     /// <returns>Decoded index (char) of the terminator, or max length if not found.</returns>
     public static int GetStringLength(ReadOnlySpan<byte> buffer, ushort terminator = 0)
     {
-        int index = FindTerminatorIndex(buffer, terminator);
+        int index = GetTerminatorIndex(buffer, terminator);
         return index == -1 ? buffer.Length / 2 : index;
     }
 
@@ -27,7 +27,7 @@ public static class TrashBytes
     /// <param name="terminator">Terminator character to search for.</param>
     /// <returns>Decoded index (char) of the terminator, or -1 if not found.</returns>
     /// <remarks>When used on a raw string, returns the computed length of the string, assuming a terminator is present.</remarks>
-    public static int FindTerminatorIndex(ReadOnlySpan<byte> buffer, ushort terminator = 0)
+    public static int GetTerminatorIndex(ReadOnlySpan<byte> buffer, ushort terminator = 0)
     {
         var u16 = MemoryMarshal.Cast<byte, ushort>(buffer);
         return u16.IndexOf(terminator);
