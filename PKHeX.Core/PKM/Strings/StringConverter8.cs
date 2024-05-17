@@ -143,64 +143,95 @@ public static class StringConverter8
     /// </summary>
     public static void TransferGlyphs78(Span<byte> str)
     {
-        if (BitConverter.IsLittleEndian)
+        bool modified = false;
+        var u16 = MemoryMarshal.Cast<byte, char>(str);
+        foreach (ref var c in u16)
         {
-            bool modified = false;
-            var u16 = MemoryMarshal.Cast<byte, char>(str);
-            foreach (ref var c in u16)
-            {
-                if (c == TerminatorNull)
-                    break;
-                var t = TransferGlyphs78(c);
-                if (c != t)
-                    modified = true;
-                c = t;
-            }
+            var x = c;
+            if (x == TerminatorNull)
+                break;
+            if (!BitConverter.IsLittleEndian)
+                x = (char)ReverseEndianness(x);
 
-            // If a replacement is made, any leading or trailing halfwidth spaces are trimmed.
-            // This allows nicknames/OT names that are the empty string or consist entirely of fullwidth spaces.
-            if (modified)
-            {
-                var trimmed = u16[..u16.IndexOf((char)TerminatorNull)].Trim(' ').ToString();
-                u16.Clear();
-                trimmed.CopyTo(u16);
-            }
+            var t = TransferGlyphs78(x);
+            if (t == x)
+                continue;
+
+            if (!BitConverter.IsLittleEndian)
+                t = (char)ReverseEndianness(t);
+            c = t;
+            modified = true;
         }
 
-        // Slower path for Big-Endian runtimes.
-        for (int i = 0; i < str.Length; i += 2)
-        {
-            var data = str[i..];
-            var c = ReadUInt16LittleEndian(data);
-            if (c == TerminatorNull)
-                return;
-            WriteUInt16LittleEndian(data, TransferGlyphs78((char)c));
-        }
+        if (modified)
+            TrimHalfSpaces(u16);
     }
 
-    private static char TransferGlyphs78(char chr) => chr switch
+    private static void TrimHalfSpaces(Span<char> u16)
     {
-        _ when (chr is >= '\uE081' and <= '\uE087') => '　', // Full Faces/Arrows/Zz -> Fullwidth space
-        // Skip 88-8C, can't be entered.
-        '\uE08D' => '…',
-        '\uE08E' => '♂',
-        '\uE08F' => '♀',
-        '\uE090' => '♠',
-        '\uE091' => '♣',
-        '\uE092' => '♥',
-        '\uE093' => '♦',
-        '\uE094' => '★',
-        '\uE095' => '◎',
-        '\uE096' => '○',
-        '\uE097' => '□',
-        '\uE098' => '△',
-        '\uE099' => '◇',
-        '\uE09A' => '♪',
-        '\uE09B' => '☀',
-        '\uE09C' => '☁',
-        '\uE09D' => '☂',
-        '\uE09E' => '☃',
-        _ when (chr is >= '\uE09F' and <= '\uE0A5') => ' ', // Half Faces/Arrows/Zz -> Halfwidth space
-        _ => chr,
-    };
+        // If a replacement is made, any leading or trailing halfwidth spaces are trimmed.
+        // This allows nicknames/OT names that are the empty string or consist entirely of fullwidth spaces.
+        var region = u16[..u16.IndexOf((char)TerminatorNull)];
+        char seek = ' ';
+        if (BitConverter.IsLittleEndian)
+            seek = (char)ReverseEndianness(' ');
+
+        var trim = region.Trim(seek);
+        if (region.Length == trim.Length)
+            return;
+
+        trim.CopyTo(u16);
+        u16[trim.Length..].Clear();
+    }
+
+    private static ReadOnlySpan<char> Glyphs78 =>
+    [
+        '　', // '\uE081' -> '\u3000'
+        '　', // '\uE082' -> '\u3000'
+        '　', // '\uE083' -> '\u3000'
+        '　', // '\uE084' -> '\u3000'
+        '　', // '\uE085' -> '\u3000'
+        '　', // '\uE086' -> '\u3000'
+        '　', // '\uE087' -> '\u3000'
+        '', // '\uE088' -> '\uE088'
+        '', // '\uE089' -> '\uE089'
+        '', // '\uE08A' -> '\uE08A'
+        '', // '\uE08B' -> '\uE08B'
+        '', // '\uE08C' -> '\uE08C'
+        '…', // '\uE08D' -> '\u2026'
+        '♂', // '\uE08E' -> '\u2642'
+        '♀', // '\uE08F' -> '\u2640'
+        '♠', // '\uE090' -> '\u2660'
+        '♣', // '\uE091' -> '\u2663'
+        '♥', // '\uE092' -> '\u2665'
+        '♦', // '\uE093' -> '\u2666'
+        '★', // '\uE094' -> '\u2605'
+        '◎', // '\uE095' -> '\u25CE'
+        '○', // '\uE096' -> '\u25CB'
+        '□', // '\uE097' -> '\u25A1'
+        '△', // '\uE098' -> '\u25B3'
+        '◇', // '\uE099' -> '\u25C7'
+        '♪', // '\uE09A' -> '\u266A'
+        '☀', // '\uE09B' -> '\u2600'
+        '☁', // '\uE09C' -> '\u2601'
+        '☂', // '\uE09D' -> '\u2602'
+        '☃', // '\uE09E' -> '\u2603'
+        ' ', // '\uE09F' -> '\u0020'
+        ' ', // '\uE0A0' -> '\u0020'
+        ' ', // '\uE0A1' -> '\u0020'
+        ' ', // '\uE0A2' -> '\u0020'
+        ' ', // '\uE0A3' -> '\u0020'
+        ' ', // '\uE0A4' -> '\u0020'
+        ' ', // '\uE0A5' -> '\u0020'
+    ];
+
+    private const int Glyphs78Start = 0xE081;
+
+    private static char TransferGlyphs78(char chr)
+    {
+        int index = chr - Glyphs78Start;
+        if ((uint)index >= Glyphs78.Length)
+            return chr;
+        return Glyphs78[index];
+    }
 }
