@@ -141,16 +141,29 @@ public static class StringConverter8
     /// <summary>
     /// Used when importing a 3DS string into HOME.
     /// </summary>
-    public static void NormalizeHalfWidth(Span<byte> str)
+    public static void TransferGlyphs78(Span<byte> str)
     {
         if (BitConverter.IsLittleEndian)
         {
+            bool modified = false;
             var u16 = MemoryMarshal.Cast<byte, char>(str);
             foreach (ref var c in u16)
             {
                 if (c == TerminatorNull)
-                    return;
-                c = NormalizeHalfWidth(c);
+                    break;
+                var t = TransferGlyphs78(c);
+                if (c != t)
+                    modified = true;
+                c = t;
+            }
+
+            // If a replacement is made, any leading or trailing halfwidth spaces are trimmed.
+            // This allows nicknames/OT names that are the empty string or consist entirely of fullwidth spaces.
+            if (modified)
+            {
+                var trimmed = u16[..u16.IndexOf((char)TerminatorNull)].Trim(' ').ToString();
+                u16.Clear();
+                trimmed.CopyTo(u16);
             }
         }
 
@@ -161,9 +174,33 @@ public static class StringConverter8
             var c = ReadUInt16LittleEndian(data);
             if (c == TerminatorNull)
                 return;
-            WriteUInt16LittleEndian(data, NormalizeHalfWidth((char)c));
+            WriteUInt16LittleEndian(data, TransferGlyphs78((char)c));
         }
     }
 
-    private static char NormalizeHalfWidth(char str) => StringConverter.NormalizeGenderSymbol(str);
+    private static char TransferGlyphs78(char chr) => chr switch
+    {
+        _ when (chr is >= '\uE081' and <= '\uE087') => '　', // Full Faces/Arrows/Zz -> Fullwidth space
+        // Skip 88-8C, can't be entered.
+        '\uE08D' => '…',
+        '\uE08E' => '♂',
+        '\uE08F' => '♀',
+        '\uE090' => '♠',
+        '\uE091' => '♣',
+        '\uE092' => '♥',
+        '\uE093' => '♦',
+        '\uE094' => '★',
+        '\uE095' => '◎',
+        '\uE096' => '○',
+        '\uE097' => '□',
+        '\uE098' => '△',
+        '\uE099' => '◇',
+        '\uE09A' => '♪',
+        '\uE09B' => '☀',
+        '\uE09C' => '☁',
+        '\uE09D' => '☂',
+        '\uE09E' => '☃',
+        _ when (chr is >= '\uE09F' and <= '\uE0A5') => ' ', // Half Faces/Arrows/Zz -> Halfwidth space
+        _ => chr,
+    };
 }
