@@ -38,7 +38,8 @@ public static class QRMessageUtil
     {
         if (pk is PK7 pk7)
         {
-            byte[] payload = QR7.GenerateQRData(pk7);
+            Span<byte> payload = stackalloc byte[QR7.SIZE];
+            QR7.SetQRData(pk7, payload);
             return GetMessage(payload);
         }
 

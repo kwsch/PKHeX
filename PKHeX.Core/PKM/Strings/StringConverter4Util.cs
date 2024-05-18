@@ -35,6 +35,8 @@ public static class StringConverter4Util
         index = TableKOR.IndexOf(c);
         if (index >= 0)
             return (ushort)(index + TableKORStart);
+        if (c == '’')
+            return Apostrophe; // ’ -> '
         return SaveInvalidAs;
     }
 
@@ -71,6 +73,7 @@ public static class StringConverter4Util
     private const ushort SaveInvalidAs = 0x1AC; // '?'
     private const char NUL = (char)StringConverter4.Terminator;
     private const char EMP = NUL; // Empty, not available on keyboard.
+    private const ushort Apostrophe = 0x1B3;
 
     /// <summary>
     /// Half-width gender 16-bit char representation.
@@ -132,7 +135,7 @@ public static class StringConverter4Util
         'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', // 180-18F
         'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '⑨', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ', 'Œ', // 190-19F
         'œ', 'Ş', 'ş', 'ª', 'º', '⑩', '⑪', '⑫', '$', '¡', '¿', '!', '?', ',', '.', '⑬', // 1A0-1AF
-        '･', '/', '‘', '’', '“', '”', '„', '«', '»', '(', ')', HGM, HGF, '+', '-', '*', // 1B0-1BF
+        '･', '/', '‘', '\'', '“', '”', '„', '«', '»', '(', ')', HGM, HGF, '+', '-', '*', // 1B0-1BF
         '#', '=', '&', '~', ':', ';', '⑯', '⑰', '⑱', '⑲', '⑳', '⑴', '⑵', '⑶', '⑷', '⑸', // 1C0-1CF
         '@', '⑹', '%', '⑺', '⑻', '⑼', '⑽', '⑾', '⑿', '⒀', '⒁', '⒂', '⒃', '⒄', ' ', '⒅', // 1D0-1DF
         '⒆', '⒇', '⒈', '⒉', '⒊', '⒋', '⒌', '⒍', '°', '_', '＿', '⒎', '⒏', // 1E0-1EC*

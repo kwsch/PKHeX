@@ -1,12 +1,10 @@
 using System;
-using System.Runtime.InteropServices;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.Species;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-[StructLayout(LayoutKind.Sequential, Pack = 4, Size = SIZE)]
 public sealed class Swarm3(byte[] Data)
 {
     public const int SIZE = 0x14;

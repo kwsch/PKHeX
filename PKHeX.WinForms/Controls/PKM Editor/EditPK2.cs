@@ -24,7 +24,8 @@ public partial class PKMEditor
         CB_MetTimeOfDay.SelectedIndex = c2.MetTimeOfDay;
 
         // Attempt to detect language
-        CB_Language.SelectedValue = pk2.GuessedLanguage();
+        var language = RequestSaveFile.Language;
+        CB_Language.SelectedValue = pk2.IsSpeciesNameMatch(language) ? language : pk2.GuessedLanguage(language);
 
         LoadPartyStats(pk2);
         UpdateStats();

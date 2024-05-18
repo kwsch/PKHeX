@@ -362,4 +362,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         => StringConverter3.LoadString(data, destBuffer, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter3.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytes8.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytes8.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
 }

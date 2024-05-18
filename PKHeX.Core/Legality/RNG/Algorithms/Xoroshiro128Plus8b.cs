@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
 
@@ -10,14 +11,17 @@ namespace PKHeX.Core;
 /// <remarks>https://en.wikipedia.org/wiki/Xoroshiro128%2B</remarks>
 /// <seealso cref="Xoroshiro128Plus"/>
 /// <remarks>Used by the Brilliant Diamond &amp; Shining Pearl games; differs in how values are yielded by Next calls.</remarks>
+[StructLayout(LayoutKind.Explicit)]
 public ref struct Xoroshiro128Plus8b
 {
-    private ulong s0;
-    private ulong s1;
+    [FieldOffset(0x0)] private ulong s0;
+    [FieldOffset(0x8)] private ulong s1;
+    [FieldOffset(0x0)] public readonly UInt128 State;
 
     public Xoroshiro128Plus8b(ulong s0, ulong s1) => (this.s0, this.s1) = (s0, s1);
+    public Xoroshiro128Plus8b(UInt128 state) => State = state;
     public readonly (ulong s0, ulong s1) GetState() => (s0, s1);
-    public readonly UInt128 FullState() => new(s1, s0);
+    public readonly bool Equals(ulong state0, ulong state1) => s0 == state0 && s1 == state1;
 
     public Xoroshiro128Plus8b(ulong seed)
     {

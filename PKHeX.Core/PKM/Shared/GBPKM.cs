@@ -187,12 +187,20 @@ public abstract class GBPKM : PKM
     public void SetNotNicknamed() => SetNotNicknamed(GuessedLanguage());
     public abstract void SetNotNicknamed(int language);
 
+    public bool IsSpeciesNameMatch(int language)
+    {
+        var expect = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
+        Span<char> current = stackalloc char[TrashCharCountNickname];
+        int len = LoadString(NicknameTrash, current);
+        return current[..len].SequenceEqual(expect);
+    }
+
     public int GuessedLanguage(int fallback = (int)LanguageID.English)
     {
         int lang = Language;
         if (lang > 0)
             return lang;
-        if (fallback is (int)LanguageID.French or (int)LanguageID.German) // only other permitted besides English
+        if (fallback is (int)LanguageID.French or (int)LanguageID.German or (int)LanguageID.Italian or (int)LanguageID.Spanish) // only other permitted besides English
             return fallback;
         return (int)LanguageID.English;
     }
@@ -205,8 +213,7 @@ public abstract class GBPKM : PKM
     protected int TransferLanguage(int destLanguage)
     {
         // if the Species name of the destination language matches the current nickname, transfer with that language.
-        var expect = SpeciesName.GetSpeciesNameGeneration(Species, destLanguage, 2);
-        if (Nickname == expect)
+        if (IsSpeciesNameMatch(destLanguage))
             return destLanguage;
         return GuessedLanguage(destLanguage);
     }

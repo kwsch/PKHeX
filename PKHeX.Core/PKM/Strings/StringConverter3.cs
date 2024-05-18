@@ -9,10 +9,9 @@ public static class StringConverter3
 {
     public const byte TerminatorByte = 0xFF;
     private const char Terminator = (char)TerminatorByte;
-    private const char Apostrophe = '\''; // ’
-    private const byte ApostropheByte = 0xB4;
     private const byte QuoteLeftByte = 0xB1;
     private const byte QuoteRightByte = 0xB2;
+    private const byte ApostropheByte = 0xB4;
 
     private const char FGM = '♂';
     private const char FGF = '♀';
@@ -175,7 +174,7 @@ public static class StringConverter3
     {
         result = c switch
         {
-            Apostrophe => ApostropheByte,
+            '’' => ApostropheByte, // ’ -> '
             '“' => language != (int)LanguageID.German ? QuoteLeftByte : QuoteRightByte,
             '”' => QuoteRightByte,
             '«' => QuoteLeftByte,
@@ -201,7 +200,7 @@ public static class StringConverter3
         'ィ', 'ゥ', 'ェ', 'ォ', 'ャ', 'ュ', 'ョ', 'ガ', 'ギ', 'グ', 'ゲ', 'ゴ', 'ザ', 'ジ', 'ズ', 'ゼ', // 8
         'ゾ', 'ダ', 'ヂ', 'ヅ', 'デ', 'ド', 'バ', 'ビ', 'ブ', 'ベ', 'ボ', 'パ', 'ピ', 'プ', 'ペ', 'ポ', // 9
         'ッ', '0',  '1',  '2', '3',  '4',  '5',  '6',  '7',  '8',  '9',  '!', '?',  '.',  '-',  '･',// A
-        '⑬',  '“',  '”',  '‘', '’',  HGM,  HGF,  '$',  ',',  '⑧',  '/',  'A', 'B',  'C',  'D',  'E', // B
+        '⑬',  '“',  '”', '‘', '\'', HGM,  HGF,  '$',  ',',  '⑧',  '/',  'A', 'B',  'C',  'D',  'E', // B
         'F',  'G',  'H',  'I', 'J',  'K',  'L',  'M',  'N',  'O',  'P',  'Q', 'R',  'S',  'T',  'U', // C
         'V',  'W',  'X',  'Y', 'Z',  'a',  'b',  'c',  'd',  'e',  'f',  'g', 'h',  'i',  'j',  'k', // D
         'l',  'm',  'n',  'o', 'p',  'q',  'r',  's',  't',  'u',  'v',  'w', 'x',  'y',  'z',  '►', // E

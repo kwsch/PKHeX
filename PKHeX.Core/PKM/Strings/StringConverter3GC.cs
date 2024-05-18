@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class StringConverter3GC
 {
-    private const char TerminatorBigEndian = (char)0; // GC
+    public const char TerminatorBigEndian = (char)0; // GC
 
     /// <summary>Converts Big Endian encoded data to decoded string.</summary>
     /// <param name="data">Encoded data</param>

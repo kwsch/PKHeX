@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class StringConverter5
 {
-    private const char TerminatorFFFF = (char)0xFFFF;
+    public const char Terminator = (char)0xFFFF;
 
     /// <summary>Converts Generation 5 encoded data to decoded string.</summary>
     /// <param name="data">Encoded data</param>
@@ -31,7 +31,7 @@ public static class StringConverter5
         for (; i < data.Length; i += 2)
         {
             var value = ReadUInt16LittleEndian(data[i..]);
-            if (value == TerminatorFFFF)
+            if (value == Terminator)
                 break;
             result[ctr++] = (char)value;
         }
@@ -68,7 +68,7 @@ public static class StringConverter5
         int count = value.Length * 2;
         if (count == destBuffer.Length)
             return count;
-        WriteUInt16LittleEndian(destBuffer[count..], TerminatorFFFF);
+        WriteUInt16LittleEndian(destBuffer[count..], Terminator);
         return count + 2;
     }
 }

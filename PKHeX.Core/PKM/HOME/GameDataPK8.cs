@@ -113,10 +113,10 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Ability = (ushort)pk.Ability;
 
         pkh.MarkingValue &= 0b1111_1111_1111;
-        StringConverter8.NormalizeHalfWidth(pkh.OriginalTrainerTrash);
+        StringConverter8.TransferGlyphs78(pkh.OriginalTrainerTrash);
         if (pk.IsNicknamed)
         {
-            StringConverter8.NormalizeHalfWidth(pkh.NicknameTrash);
+            StringConverter8.TransferGlyphs78(pkh.NicknameTrash);
         }
         else
         {

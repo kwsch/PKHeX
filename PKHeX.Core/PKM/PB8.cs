@@ -141,4 +141,9 @@ public sealed class PB8 : G8PKM
         => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytes.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytes.GetStringLength(data);
+    public override int GetBytesPerChar() => 2;
 }
