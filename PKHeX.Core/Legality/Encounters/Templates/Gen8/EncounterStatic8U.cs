@@ -75,7 +75,7 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
         return StringConverter8.GetTrashState(pk.OriginalTrainerTrash, name);
     }
 
-    private static ReadOnlySpan<char> GetScientistName(int language) => language switch
+    public static ReadOnlySpan<char> GetScientistName(int language) => language switch
     {
         (int)LanguageID.Japanese => "けんきゅういん",
         (int)LanguageID.English => "Scientist",

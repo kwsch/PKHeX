@@ -99,10 +99,12 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
         ];
     }
 
+    private Span<byte> PokeBlockData => Large.AsSpan(0x7F8, PokeBlock3Case.SIZE);
+
     public PokeBlock3Case PokeBlocks
     {
-        get => new(Large, 0x7F8);
-        set => SetData(Large.AsSpan(0x7F8), value.Write());
+        get => new(PokeBlockData);
+        set => value.Write(PokeBlockData);
     }
 
     protected override int SeenOffset2 => 0x938;

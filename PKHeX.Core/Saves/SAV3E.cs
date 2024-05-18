@@ -140,10 +140,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
         ];
     }
 
+    private Span<byte> PokeBlockData => Large.AsSpan(0x848, PokeBlock3Case.SIZE);
+
     public PokeBlock3Case PokeBlocks
     {
-        get => new(Large, 0x848);
-        set => SetData(Large.AsSpan(0x848), value.Write());
+        get => new(PokeBlockData);
+        set => value.Write(PokeBlockData);
     }
 
     protected override int SeenOffset2 => 0x988;
