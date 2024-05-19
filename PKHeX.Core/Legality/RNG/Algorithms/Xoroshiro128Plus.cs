@@ -22,7 +22,6 @@ public ref struct Xoroshiro128Plus
     public Xoroshiro128Plus(ulong s0 = XOROSHIRO_CONST0, ulong s1 = XOROSHIRO_CONST) => (this.s0, this.s1) = (s0, s1);
     public Xoroshiro128Plus(UInt128 state) => State = state;
     public readonly (ulong s0, ulong s1) GetState() => (s0, s1);
-    public readonly UInt128 FullState() => new(s1, s0);
     public readonly bool Equals(ulong state0, ulong state1) => s0 == state0 && s1 == state1;
 
     /// <summary>
