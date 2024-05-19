@@ -57,6 +57,7 @@ public static class LegalityCheckStrings
 
     public static string L_XOT { get; set; } = "OT";
     public static string L_XHT { get; set; } = "HT";
+    public static string L_XNickname { get; set; } = "Nickname";
     public static string L_XKorean { get; set; } = "Korean";
     public static string L_XKoreanNon { get; set; } = "Non-Korean";
     public static string L_XEnigmaBerry_0 { get; set; } = "{0} Berry";
@@ -499,6 +500,13 @@ public static class LegalityCheckStrings
     public static string LTransferPIDECXor { get; set; } = "Encryption Constant matches shinyxored PID.";
     public static string LTransferTrackerMissing { get; set; } = "Pokémon HOME Transfer Tracker is missing.";
     public static string LTransferTrackerShouldBeZero { get; set; } = "Pokémon HOME Transfer Tracker should be 0.";
+
+    public static string LTrashBytesShouldBeEmpty { get; set; } = "Trash Bytes should be cleared.";
+    public static string LTrashBytesExpected_0 { get; set; } = "Expected Trash Bytes: {0}";
+    public static string LTrashBytesExpected { get; set; } = "Expected Trash Bytes.";
+    public static string LTrashBytesMissingTerminator { get; set; } = "Final terminator missing.";
+    public static string LTrashBytesUnexpected { get; set; } = "Unexpected Trash Bytes.";
+
     #endregion
 
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -31,5 +32,28 @@ public static class TrashBytes
     {
         var u16 = MemoryMarshal.Cast<byte, ushort>(buffer);
         return u16.IndexOf(terminator);
+    }
+
+    public static TrashMatch IsUnderlayerPresent(ReadOnlySpan<char> under, ReadOnlySpan<byte> data, int charsUsed)
+    {
+        var input = MemoryMarshal.Cast<byte, char>(data);
+        return IsUnderlayerPresent(under, input, charsUsed);
+    }
+
+    public static TrashMatch IsUnderlayerPresent(ReadOnlySpan<char> under, ReadOnlySpan<char> input, int charsUsed)
+    {
+        if (charsUsed >= under.Length)
+            return TrashMatch.TooLongToTell;
+
+        for (int i = charsUsed; i < under.Length; i++)
+        {
+            var c = input[i];
+            if (!BitConverter.IsLittleEndian)
+                c = (char)ReverseEndianness(c);
+            if (c == under[i])
+                continue;
+            return TrashMatch.NotPresent;
+        }
+        return TrashMatch.Present;
     }
 }
