@@ -215,30 +215,33 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         get
         {
+            // Find the first unfilled control, indicate as invalid.
+            TabPage? invalid = GetInvalidParentTab();
+            if (invalid is null)
+                return true; // No issue.
+
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
-
-            // Find the first unfilled control, indicate as invalid.
-            Control? cb = null;
-            foreach (var type in ValidatedControls)
-            {
-                cb = type.IsNotValid(Entity);
-                if (cb is not null)
-                    break;
-            }
-
-            if (cb != null)
-                Hidden_TC.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
-            else if (!Stats.Valid)
-                Hidden_TC.SelectedTab = Hidden_Stats;
-            else if (WinFormsUtil.GetIndex(CB_Species) == 0 && !HaX) // can't set an empty slot...
-                Hidden_TC.SelectedTab = Hidden_Main;
-            else
-                return true;
 
             System.Media.SystemSounds.Exclamation.Play();
             return false;
         }
+    }
+
+    private TabPage? GetInvalidParentTab()
+    {
+        if (!Stats.Valid)
+            return Hidden_Stats;
+        if (WinFormsUtil.GetIndex(CB_Species) == 0 && !HaX) // can't set an empty slot...
+            return Hidden_Main;
+        foreach (var type in ValidatedControls)
+        {
+            var cb = type.IsNotValid(Entity);
+            if (cb is null)
+                continue;
+            return WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
+        }
+        return null;
     }
 
     public void SetPKMFormatMode(PKM pk)

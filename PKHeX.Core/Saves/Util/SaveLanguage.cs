@@ -109,7 +109,10 @@ public static class SaveLanguage
         if (sav.Metadata.FileName is not { } x)
             return GetFallback(sav);
 
-        var result = InferFrom3(x, sav.Version);
+        var ver = sav.Version;
+        if (ver is FR)
+            ver = FRLG; // Reset since the SAV3 impl assumes FR by default
+        var result = InferFrom3(x, ver);
         if (!IsResultValid(result, sav))
             return GetFallback(sav);
 

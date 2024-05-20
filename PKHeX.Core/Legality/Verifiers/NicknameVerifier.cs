@@ -45,7 +45,7 @@ public sealed class NicknameVerifier : Verifier
         {
             if (pk.VC)
                 VerifyG1NicknameWithinBounds(data, nickname);
-            else if (enc is MysteryGift {IsEgg: false})
+            else if (IsMysteryGiftNoNickname(enc))
                 data.AddLine(Get(LEncGiftNicknamed, ParseSettings.Settings.Nickname.NicknamedMysteryGift(enc.Context)));
         }
 
@@ -73,6 +73,20 @@ public sealed class NicknameVerifier : Verifier
             if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
         }
+    }
+
+    private static bool IsMysteryGiftNoNickname(IEncounterable enc)
+    {
+        if (enc is not MysteryGift { IsEgg: false })
+            return false;
+        return enc switch
+        {
+            PCD pcd => !pcd.Gift.PK.IsNicknamed,
+            PGF pgf => !pgf.IsNicknamed,
+            WC6 wc6 => !wc6.IsNicknamed && wc6 is not { IsLinkGift: true, Species: (int)Species.Glalie or (int)Species.Steelix }, // Can nickname the demo gift
+            WC7 wc7 => !wc7.IsNicknamed,
+            _ => true,
+        };
     }
 
     private void VerifyFixedNicknameEncounter(LegalityAnalysis data, ILangNicknamedTemplate n, IEncounterTemplate enc, PKM pk, ReadOnlySpan<char> nickname)
