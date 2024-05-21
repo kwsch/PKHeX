@@ -2212,7 +2212,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void RefreshFontWarningButton(object sender, EventArgs e) => RefreshFontWarningButton();
     private void RefreshFontWarningButton()
     {
-        if (Entity.Generation < 5)
+        if (Entity.Generation < 5 && !(Entity is CK3 or XK3))
         {
             BTN_NicknameWarn.Visible = BTN_OTNameWarn.Visible = false;
             return;
