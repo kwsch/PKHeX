@@ -229,6 +229,7 @@ public partial class TrashEditor : Form
         5 => SpecialCharsGen5,
         6 => SpecialCharsGen67,
         7 => SpecialCharsGen67,
+        >= 8 => SpecialCharsGen8,
         _ => [], // Undocumented
     };
 
@@ -309,5 +310,27 @@ public partial class TrashEditor : Form
         0xE0A3, // Half Right-up arrow
         0xE0A4, // Half Right-down arrow 
         0xE0A5, // Half Zz
+    ];
+
+    private static ReadOnlySpan<ushort> SpecialCharsGen8 =>
+    [
+        '…', // '\uE08D' -> '\u2026'
+        '♂', // '\uE08E' -> '\u2642'
+        '♀', // '\uE08F' -> '\u2640'
+        '♠', // '\uE090' -> '\u2660'
+        '♣', // '\uE091' -> '\u2663'
+        '♥', // '\uE092' -> '\u2665'
+        '♦', // '\uE093' -> '\u2666'
+        '★', // '\uE094' -> '\u2605'
+        '◎', // '\uE095' -> '\u25CE'
+        '○', // '\uE096' -> '\u25CB'
+        '□', // '\uE097' -> '\u25A1'
+        '△', // '\uE098' -> '\u25B3'
+        '◇', // '\uE099' -> '\u25C7'
+        '♪', // '\uE09A' -> '\u266A'
+        '☀', // '\uE09B' -> '\u2600'
+        '☁', // '\uE09C' -> '\u2601'
+        '☂', // '\uE09D' -> '\u2602'
+        '☃', // '\uE09E' -> '\u2603'
     ];
 }
