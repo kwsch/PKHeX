@@ -101,51 +101,19 @@ public static class StringConverter3GC
     }
 
     /// <summary>
-    /// Remaps GBA Glyphs to GC Glyphs.
+    /// Remaps GC Glyphs between regions.
     /// </summary>
     /// <remarks>
-    /// Use JPN table by default, since converting from GBA JPN -> GC INT -> GC JPN is lossy.
+    /// GC games cannot trade with each other directly, only with a GBA game as an intermediary.
     /// </remarks>
-    public static void RemapGlyphs3GC(ReadOnlySpan<byte> data, int language, Span<byte> dest) => RemapGlyphs3GC(data, (int)GCRegion.NTSC_J, language, dest);
-
-    /// <summary>
-    /// Fixes international PKM to use the INT table rather than the JPN table.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="PK3.ConvertToCK3"/> and <see cref="PK3.ConvertToXK3"/> do not have access to the region of the save file they are being converted to.
-    /// <see cref="SAV3Colosseum.SetPKM"/> and <see cref="SAV3XD.SetPKM"/> can call this function after the initial conversion with the region of the save file.
-    /// </remarks>
-    public static void FixGlyphs3GC(Span<byte> data, int region, int language)
+    public static void RemapGlyphsBetweenRegions3GC(Span<byte> data, int oldRegion, int newRegion, int language)
     {
-        if (region == (int)GCRegion.NTSC_J || language == (int)LanguageID.Japanese)
-            return; // No fixes needed.
+        if (oldRegion == newRegion)
+            return; // No changes needed.
 
-        int i = 0;
-        for (; i < data.Length; i += 2)
-        {
-            var c = CharTableJPN.IndexOf(ReadUInt16BigEndian(data[i..]));
-            if (c == -1)
-                continue;
-
-            var value = CharTableINT[c];
-            if (value == TerminatorBigEndian)
-                break;
-
-            // Quotation marks are displayed differently based on the Gen3 game language.
-            // PAL region copies handle them specially only if the PKM language is French/German.
-            if (region == (int)GCRegion.PAL && language is (int)LanguageID.French or (int)LanguageID.German)
-            {
-                value = value switch
-                {
-                    '“' => StringConverter3.GetQuoteLeft(language),
-                    '”' => StringConverter3.GetQuoteRight(language),
-                    _ => value,
-                };
-            }
-
-            WriteUInt16BigEndian(data[i..], value);
-        }
-        data[i..].Clear();
+        Span<byte> temp = stackalloc byte[data.Length / 2];
+        RemapGlyphs3GBA(data, oldRegion, language, temp);
+        RemapGlyphs3GC(temp, newRegion, language, data);
     }
 
     /// <summary>
