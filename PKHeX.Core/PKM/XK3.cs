@@ -26,8 +26,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
 
     // Trash Bytes
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x38, 22);
-    public override Span<byte> NicknameTrash => Data.AsSpan(0x4E, 22);
-    public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x64, 22);
+    public Span<byte> NicknameDisplay_Trash => Data.AsSpan(0x4E, 22);
+    public override Span<byte> NicknameTrash => Data.AsSpan(0x64, 22);
     public override int TrashCharCountTrainer => 11;
     public override int TrashCharCountNickname => 11;
 
@@ -90,8 +90,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
     public override string OriginalTrainerName { get => StringConverter3GC.GetString(OriginalTrainerTrash); set => StringConverter3GC.SetString(OriginalTrainerTrash, value, 10, StringConverterOption.None); }
-    public override string Nickname { get => StringConverter3GC.GetString(NicknameTrash); set { StringConverter3GC.SetString(NicknameTrash, value, 10, StringConverterOption.None); NicknameCopy = value; } }
-    public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value, 10, StringConverterOption.None); }
+    public string NicknameDisplay { get => StringConverter3GC.GetString(NicknameDisplay_Trash); set => StringConverter3GC.SetString(NicknameDisplay_Trash, value, 10, StringConverterOption.None); }
+    public override string Nickname { get => StringConverter3GC.GetString(NicknameTrash); set { StringConverter3GC.SetString(NicknameTrash, value, 10, StringConverterOption.None); NicknameDisplay = (CurrentRegion == (int)GCRegion.NTSC_J && Nickname.Length > 5) ? Nickname[..5] : Nickname; } }
     // 0x7A-0x7B Unknown
     private ushort RIB0 { get => ReadUInt16BigEndian(Data.AsSpan(0x7C)); set => WriteUInt16BigEndian(Data.AsSpan(0x7C), value); }
     public override bool RibbonChampionG3        { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (value ? 1 << 15 : 0)); }

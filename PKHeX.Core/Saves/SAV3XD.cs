@@ -374,6 +374,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
 
         xk3.CurrentRegion = (byte)CurrentRegion;
         xk3.OriginalRegion = (byte)OriginalRegion;
+        xk3.NicknameDisplay = (xk3.CurrentRegion == (int)GCRegion.NTSC_J && xk3.Nickname.Length > 5) ? xk3.Nickname[..5] : xk3.Nickname;
 
         // Set Shadow Data back to save
         var id = xk3.ShadowID;

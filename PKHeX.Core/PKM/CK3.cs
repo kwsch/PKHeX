@@ -26,8 +26,8 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
 
     // Trash Bytes
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x18, 22);
-    public override Span<byte> NicknameTrash => Data.AsSpan(0x2E, 22);
-    public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x44, 22);
+    public Span<byte> NicknameDisplay_Trash => Data.AsSpan(0x2E, 22);
+    public override Span<byte> NicknameTrash => Data.AsSpan(0x44, 22);
     public override int TrashCharCountTrainer => 11;
     public override int TrashCharCountNickname => 11;
 
@@ -48,8 +48,8 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), value); }
     public override string OriginalTrainerName { get => StringConverter3GC.GetString(OriginalTrainerTrash); set => StringConverter3GC.SetString(OriginalTrainerTrash, value, 10, StringConverterOption.None); }
-    public override string Nickname { get => StringConverter3GC.GetString(NicknameTrash); set { StringConverter3GC.SetString(NicknameTrash, value, 10, StringConverterOption.None); NicknameCopy = value; } }
-    public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value, 10, StringConverterOption.None); }
+    public string NicknameDisplay { get => StringConverter3GC.GetString(NicknameDisplay_Trash); set => StringConverter3GC.SetString(NicknameDisplay_Trash, value, 10, StringConverterOption.None); }
+    public override string Nickname { get => StringConverter3GC.GetString(NicknameTrash); set { StringConverter3GC.SetString(NicknameTrash, value, 10, StringConverterOption.None); NicknameDisplay = (CurrentRegion == (int)GCRegion.NTSC_J && Nickname.Length > 5) ? Nickname[..5] : Nickname; } }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x5C)); set => WriteUInt32BigEndian(Data.AsSpan(0x5C), value); }
     public override byte Stat_Level { get => Data[0x60]; set => Data[0x60] = value; }
 

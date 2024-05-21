@@ -183,6 +183,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
 
         ck3.CurrentRegion = (byte)CurrentRegion;
         ck3.OriginalRegion = (byte)OriginalRegion;
+        ck3.NicknameDisplay = (ck3.CurrentRegion == (int)GCRegion.NTSC_J && ck3.Nickname.Length > 5) ? ck3.Nickname[..5] : ck3.Nickname;
 
         ck3.ForceCorrectFatefulState(Japanese, ck3.FatefulEncounter);
     }
