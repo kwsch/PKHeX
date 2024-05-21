@@ -226,6 +226,8 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public PK3 ConvertToPK3()
     {
         var pk = ConvertTo<PK3>();
+        StringConverter3GC.RemapGlyphs3GBA(NicknameTrash, CurrentRegion, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GBA(OriginalTrainerTrash, CurrentRegion, Language, pk.OriginalTrainerTrash);
         pk.FlagHasSpecies = pk.SpeciesInternal != 0; // Update Flag
         pk.RefreshChecksum();
         return pk;

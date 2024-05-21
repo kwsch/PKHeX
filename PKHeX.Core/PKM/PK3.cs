@@ -342,6 +342,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         // Set these even if the settings don't SetPKM
         pk.CurrentRegion = 2; // NTSC-U
         pk.OriginalRegion = 2; // NTSC-U
+        StringConverter3GC.RemapGlyphs3GC(NicknameTrash, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GC(OriginalTrainerTrash, Language, pk.OriginalTrainerTrash);
         pk.ResetPartyStats();
         return pk;
     }
@@ -352,6 +354,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         // Set these even if the settings don't SetPKM
         pk.CurrentRegion = 2; // NTSC-U
         pk.OriginalRegion = 2; // NTSC-U
+        StringConverter3GC.RemapGlyphs3GC(NicknameTrash, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GC(OriginalTrainerTrash, Language, pk.OriginalTrainerTrash);
         pk.ResetPartyStats();
         return pk;
     }

@@ -210,6 +210,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public PK3 ConvertToPK3()
     {
         var pk = ConvertTo<PK3>();
+        StringConverter3GC.RemapGlyphs3GBA(NicknameTrash, CurrentRegion, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GBA(OriginalTrainerTrash, CurrentRegion, Language, pk.OriginalTrainerTrash);
         if (Version == GameVersion.CXD)
         {
             // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
