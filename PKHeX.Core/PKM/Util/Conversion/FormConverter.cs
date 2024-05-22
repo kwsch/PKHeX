@@ -67,7 +67,7 @@ public static class FormConverter
             Slowpoke or Farfetchd when generation >= 8 => GetFormsGalar(types, forms),
             Growlithe or Arcanine or Voltorb or Electrode or Scyther when generation >= 7 => GetFormsHisui(species, generation, types, forms),
             Tauros when generation >= 9 => GetFormsPaldea(species, types, forms),
-            Tentacool or Tentacruel when generation >= 7 => GetFormsConvergent(types, forms),
+            Diglett or Dugtrio or Tentacool or Tentacruel when generation >= 7 => GetFormsConvergent(types, forms),
 
             Dragonair or Dragonite when generation >= 7 => GetFormsJudea(types, forms),
             Onix when generation >= 7 => GetFormsCrystal(types, forms),
@@ -92,6 +92,7 @@ public static class FormConverter
             Wooper when generation >= 9 => GetFormsPaldea(species, types, forms),
             Unown => GetFormsUnown(generation),
             Donphan or Raikou or Entei or Suicune when generation >= 7 => GetFormsParadox(species, types, forms),
+            Crobat when generation >= 7 => GetFormsDeltaHolon(types, forms),
             _ => EMPTY,
         };
     }
@@ -784,7 +785,7 @@ public static class FormConverter
 
         //USUMABZB
         or 12 or 68 or 83 or 99 or 131 or 133 or 143 or 225 or 277 or 330 or 468 or
-        478 or 479 or 483 or 484 or 569
+        478 or 479 or 483 or 484 or 569 or 697 or 699 or 790 or 791
     ;
 
     private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
@@ -850,6 +851,16 @@ public static class FormConverter
         [
             types[0], // Normal
             forms[Convergent], // Convergent
+        ];
+    }
+    
+
+    private static string[] GetFormsDeltaHolon(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    {
+        return
+        [
+            types[0], // Normal
+            forms[DeltaHolon], // Delta
         ];
     }
 
@@ -1004,6 +1015,7 @@ public static class FormConverter
     private const int Paradox = 1141;
     private const int ParadoxAncient = 1142;
     private const int ParadoxFuture = 1143;
+    private const int DeltaHolon = 1144;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 
