@@ -336,12 +336,20 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         return pk4;
     }
 
+    // Use Japanese since the JPN GC/GBA string conversion table is less lossy than INT
+    private const GCRegion GCRegionTemp = GCRegion.NTSC_J;
+
     public XK3 ConvertToXK3()
     {
         var pk = ConvertTo<XK3>();
         // Set these even if the settings don't SetPKM
-        pk.CurrentRegion = 2; // NTSC-U
-        pk.OriginalRegion = 2; // NTSC-U
+        pk.CurrentRegion = GCRegionTemp;
+        pk.OriginalRegion = GCRegionTemp;
+
+        StringConverter3GC.RemapGlyphs3GC(NicknameTrash, GCRegionTemp, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GC(OriginalTrainerTrash, GCRegionTemp, Language, pk.OriginalTrainerTrash);
+        pk.ResetNicknameDisplay();
+
         pk.ResetPartyStats();
         return pk;
     }
@@ -350,8 +358,13 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     {
         var pk = ConvertTo<CK3>();
         // Set these even if the settings don't SetPKM
-        pk.CurrentRegion = 2; // NTSC-U
-        pk.OriginalRegion = 2; // NTSC-U
+        pk.CurrentRegion = GCRegionTemp;
+        pk.OriginalRegion = GCRegionTemp;
+
+        StringConverter3GC.RemapGlyphs3GC(NicknameTrash, GCRegionTemp, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GC(OriginalTrainerTrash, GCRegionTemp, Language, pk.OriginalTrainerTrash);
+        pk.ResetNicknameDisplay();
+
         pk.ResetPartyStats();
         return pk;
     }

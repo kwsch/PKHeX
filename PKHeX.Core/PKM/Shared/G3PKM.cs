@@ -163,8 +163,9 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         Version = Version,
         Ball = Ball,
 
-        Nickname = Nickname,
-        OriginalTrainerName = OriginalTrainerName,
+        // Handle string conversion in derived classes
+        //Nickname = Nickname,
+        //OriginalTrainerName = OriginalTrainerName,
         OriginalTrainerGender = OriginalTrainerGender,
         OriginalTrainerFriendship = OriginalTrainerFriendship,
 
