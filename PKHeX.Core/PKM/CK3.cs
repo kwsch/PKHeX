@@ -37,8 +37,8 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     // 02-04 unused
     public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
     public override GameVersion Version { get => GetGBAVersionID((GCVersion)Data[0x08]); set => Data[0x08] = (byte)GetGCVersionID(value); }
-    public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
-    public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
+    public GCRegion CurrentRegion { get => (GCRegion)Data[0x09]; set => Data[0x09] = (byte)value; }
+    public GCRegion OriginalRegion { get => (GCRegion)Data[0x0A]; set => Data[0x0A] = (byte)value; }
     public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = Core.Language.GetGCLangIDfromMain((byte)value); }
     public override ushort MetLocation { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), value); }
     public override byte MetLevel { get => Data[0x0E]; set => Data[0x0E] = value; }
@@ -47,9 +47,18 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0x14)); set => WriteUInt32BigEndian(Data.AsSpan(0x14), value); }
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), value); }
-    public override string OriginalTrainerName { get => StringConverter3GC.GetString(OriginalTrainerTrash); set => StringConverter3GC.SetString(OriginalTrainerTrash, value, 10, StringConverterOption.None); }
-    public string NicknameDisplay { get => StringConverter3GC.GetString(NicknameDisplay_Trash); set => StringConverter3GC.SetString(NicknameDisplay_Trash, value, 10, StringConverterOption.None); }
-    public override string Nickname { get => StringConverter3GC.GetString(NicknameTrash); set { StringConverter3GC.SetString(NicknameTrash, value, 10, StringConverterOption.None); NicknameDisplay = (CurrentRegion == (int)GCRegion.NTSC_J && Nickname.Length > 5) ? Nickname[..5] : Nickname; } }
+    public override string OriginalTrainerName { get => GetString(OriginalTrainerTrash); set => SetString(OriginalTrainerTrash, value, 10, StringConverterOption.None); }
+    public string NicknameDisplay { get => GetString(NicknameDisplay_Trash); set => SetString(NicknameDisplay_Trash, value, 10, StringConverterOption.None); }
+    public override string Nickname { get => GetString(NicknameTrash); set { SetString(NicknameTrash, value, 10, StringConverterOption.None); ResetNicknameDisplay(); } }
+
+    public void ResetNicknameDisplay()
+    {
+        var current = NicknameDisplay_Trash;
+        NicknameTrash.CopyTo(current);
+        if (CurrentRegion == GCRegion.NTSC_J)
+            current[10..].Clear(); // clamp to 5 chars at most
+    }
+
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x5C)); set => WriteUInt32BigEndian(Data.AsSpan(0x5C), value); }
     public override byte Stat_Level { get => Data[0x60]; set => Data[0x60] = value; }
 

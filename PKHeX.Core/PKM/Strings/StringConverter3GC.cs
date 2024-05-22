@@ -1,5 +1,8 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.StringConverter3;
+using static PKHeX.Core.LanguageID;
+using static PKHeX.Core.GCRegion;
 
 namespace PKHeX.Core;
 
@@ -64,7 +67,6 @@ public static class StringConverter3GC
         return (value.Length * 2) + 2;
     }
 
-
     #region GC/GBA Conversion
 
     private const byte SaveInvalidAs = 0xB7; // '$' (INT), '円' (JP)
@@ -72,9 +74,12 @@ public static class StringConverter3GC
     /// <summary>
     /// Remaps GBA Glyphs to GC Glyphs.
     /// </summary>
-    public static void RemapGlyphs3GC(ReadOnlySpan<byte> data, int region, int language, Span<byte> dest)
+    public static void RemapGlyphs3GC(ReadOnlySpan<byte> data, GCRegion region, int language, Span<byte> dest)
     {
-        var table = (region == (int)GCRegion.NTSC_J || language == (int)LanguageID.Japanese) ? CharTableJPN : CharTableINT;
+        bool jpn = region == NTSC_J || language == (int)Japanese;
+        bool palFG = region == PAL && language is ((int)French or (int)German);
+
+        var table = jpn ? CharTableJPN : CharTableINT;
         int i = 0;
         for (; i < data.Length; i++)
         {
@@ -85,12 +90,12 @@ public static class StringConverter3GC
 
             // Quotation marks are displayed differently based on the Gen3 game language.
             // PAL region copies handle them specially only if the PKM language is French/German.
-            if (region == (int)GCRegion.PAL && language is (int)LanguageID.French or (int)LanguageID.German)
+            if (palFG)
             {
                 value = b switch
                 {
-                    StringConverter3.QuoteLeftByte => StringConverter3.GetQuoteLeft(language),
-                    StringConverter3.QuoteRightByte => StringConverter3.GetQuoteRight(language),
+                    QuoteLeftByte => GetQuoteLeft(language),
+                    QuoteRightByte => GetQuoteRight(language),
                     _ => value,
                 };
             }
@@ -106,11 +111,12 @@ public static class StringConverter3GC
     /// <remarks>
     /// GC games cannot trade with each other directly, only with a GBA game as an intermediary.
     /// </remarks>
-    public static void RemapGlyphsBetweenRegions3GC(Span<byte> data, int oldRegion, int newRegion, int language)
+    public static void RemapGlyphsBetweenRegions3GC(Span<byte> data, GCRegion oldRegion, GCRegion newRegion, int language)
     {
         if (oldRegion == newRegion)
             return; // No changes needed.
 
+        // Transfer to GBA then back to GC.
         Span<byte> temp = stackalloc byte[data.Length / 2];
         RemapGlyphs3GBA(data, oldRegion, language, temp);
         RemapGlyphs3GC(temp, newRegion, language, data);
@@ -119,9 +125,12 @@ public static class StringConverter3GC
     /// <summary>
     /// Remaps GC Glyphs to GBA Glyphs.
     /// </summary>
-    public static void RemapGlyphs3GBA(ReadOnlySpan<byte> data, int region, int language, Span<byte> dest)
+    public static void RemapGlyphs3GBA(ReadOnlySpan<byte> data, GCRegion region, int language, Span<byte> dest)
     {
-        var table = (region == (int)GCRegion.NTSC_J || language == (int)LanguageID.Japanese) ? CharTableJPN : CharTableINT;
+        bool jpn = region == NTSC_J || language == (int)Japanese;
+        bool pfg = region == PAL && language is ((int)French or (int)German);
+
+        var table = jpn ? CharTableJPN : CharTableINT;
         int i = 0;
         for (; i < data.Length; i++)
         {
@@ -135,12 +144,12 @@ public static class StringConverter3GC
 
             // Quotation marks are displayed differently based on the Gen3 game language.
             // PAL region copies handle them specially only if the PKM language is French/German.
-            if (region == (int)GCRegion.PAL && language is (int)LanguageID.French or (int)LanguageID.German)
+            if (pfg)
             {
                 value = c switch
                 {
-                    '«' or '„' => StringConverter3.QuoteLeftByte,
-                    '»' or '“' => StringConverter3.QuoteRightByte,
+                    '«' or '„' => QuoteLeftByte,
+                    '»' or '“' => QuoteRightByte,
                     _ => value,
                 };
             }
@@ -149,7 +158,7 @@ public static class StringConverter3GC
         }
         if (i < dest.Length)
         {
-            dest[i] = StringConverter3.TerminatorByte;
+            dest[i] = TerminatorByte;
             dest[(i+1)..].Clear();
         }
     }

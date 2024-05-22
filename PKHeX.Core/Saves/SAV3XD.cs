@@ -373,12 +373,12 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
             return; // shouldn't ever hit
 
         var oldRegion = xk3.CurrentRegion;
-        xk3.CurrentRegion = (byte)CurrentRegion;
-        xk3.OriginalRegion = (byte)OriginalRegion;
+        xk3.CurrentRegion = CurrentRegion;
+        xk3.OriginalRegion = OriginalRegion;
 
-        StringConverter3GC.RemapGlyphsBetweenRegions3GC(xk3.NicknameTrash, oldRegion, (int)xk3.CurrentRegion, xk3.Language);
-        StringConverter3GC.RemapGlyphsBetweenRegions3GC(xk3.OriginalTrainerTrash, oldRegion, (int)xk3.CurrentRegion, xk3.Language);
-        xk3.NicknameDisplay = (xk3.CurrentRegion == (int)GCRegion.NTSC_J && xk3.Nickname.Length > 5) ? xk3.Nickname[..5] : xk3.Nickname;
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(xk3.NicknameTrash, oldRegion, xk3.CurrentRegion, xk3.Language);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(xk3.OriginalTrainerTrash, oldRegion, xk3.CurrentRegion, xk3.Language);
+        xk3.ResetNicknameDisplay();
 
         // Set Shadow Data back to save
         var id = xk3.ShadowID;
