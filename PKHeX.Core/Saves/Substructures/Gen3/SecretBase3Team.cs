@@ -22,10 +22,10 @@ public sealed class SecretBase3Team
 
     public SecretBase3Team(byte[] data)
     {
+        Data = data;
         Team = new SecretBase3PKM[6];
         for (int i = 0; i < Team.Length; i++)
             Team[i] = GetPKM(i);
-        Data = data;
     }
 
     public byte[] Write()
