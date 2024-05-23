@@ -274,4 +274,46 @@ public static class PokeList2
     /// <param name="pk">Entity to wrap</param>
     /// <param name="output">Destination to write the single-slot list</param>
     public static void WrapSingle(PK2 pk, Span<byte> output) => WriteToList(output, pk);
+
+    public static void UnpackNOB(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, bool isParty = false)
+    {
+        // Nickname, OT, Data
+        var lengthBody = GetBodyLength(isParty);
+        var lengthParty = GetBodyLength(true);
+        var nick = input[..stringLength];
+        var trainer = input.Slice(stringLength, stringLength);
+        var box = input.Slice(stringLength * 2, lengthBody);
+
+        var marker = box[0];
+        if (marker is 0) // Ensure deleted (zeroed) slots act as an Empty (FF) slot.
+            marker = SlotEmpty;
+
+        output[0] = 1;
+        output[1] = marker;
+        output = output[3..];
+
+        // Data, OT, Nickname
+        box.CopyTo(output);
+        output = output[lengthParty..];
+        trainer.CopyTo(output);
+        output = output[stringLength..];
+        nick.CopyTo(output);
+    }
+
+    public static void PackNOB(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, bool isParty = false)
+    {
+        var lengthBody = GetBodyLength(isParty);
+        var lengthParty = GetBodyLength(true);
+
+        input = input[3..]; // Skip header.
+        var box = input[..lengthBody];
+        var trainer = input.Slice(lengthParty, stringLength);
+        var nick = input.Slice(lengthParty + stringLength, stringLength);
+
+        nick.CopyTo(output);
+        output = output[stringLength..];
+        trainer.CopyTo(output);
+        output = output[stringLength..];
+        box.CopyTo(output);
+    }
 }

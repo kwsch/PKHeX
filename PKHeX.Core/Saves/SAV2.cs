@@ -104,47 +104,42 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
         if (Offsets.Daycare >= 0)
         {
-            int offset = Offsets.Daycare;
+            var dc0 = PartyBuffer[GetDaycareSlotOffset(0)..];
+            PokeList2.UnpackNOB(Data.AsSpan(GetRawDaycareSlotOffset(0)), dc0, StringLength);
 
-            offset++;
-            var pk1 = ReadPKMFromOffset(offset); // parent 1
-            offset += (StringLength * 2) + 0x20; // nick/ot/pk
-            offset++;
-            //byte steps = Data[offset];
-            offset++;
-            //byte BreedMotherOrNonDitto = Data[offset];
-            offset++;
-            var pk2 = ReadPKMFromOffset(offset); // parent 2
-            offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pk
-            var pk3 = ReadPKMFromOffset(offset); // egg!
-            pk3.IsEgg = true;
+            var dc1 = PartyBuffer[GetDaycareSlotOffset(1)..];
+            PokeList2.UnpackNOB(Data.AsSpan(GetRawDaycareSlotOffset(1)), dc1, StringLength);
 
-            PokeList2.WriteToList(PartyBuffer[GetPartyOffset(6 + (0 * 2))..], pk1, 1, true);
-            PokeList2.WriteToList(PartyBuffer[GetPartyOffset(6 + (1 * 2))..], pk2, 1, true);
-            PokeList2.WriteToList(PartyBuffer[GetPartyOffset(6 + (2 * 2))..], pk3, 1, true);
+            var egg = PartyBuffer[GetDaycareSlotOffset(2)..];
+            PokeList2.UnpackNOB(Data.AsSpan(GetRawDaycareSlotOffset(2)), egg, StringLength);
+            if (egg[2] != PokeList2.SlotEmpty)
+                egg[1] = PokeList2.SlotEgg;
         }
+    }
+
+    private int GetRawDaycareSlotOffset(int index)
+    {
+        int offset = Offsets.Daycare;
+
+        offset++; // Breeding Status flags
+        if (index == 0)
+            return offset;
+
+        offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pk
+        offset++; // Lady Status flags
+        offset++; // Steps until Egg
+        offset++; // Ditto Parent state
+        if (index == 1)
+            return offset;
+
+        offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pk
+        return offset;
     }
 
     public override bool HasPokeDex => true;
 
     private int EventFlag => Offsets.EventFlag;
     private int EventWork => Offsets.EventWork;
-
-    private PK2 ReadPKMFromOffset(int offset)
-    {
-        var stringLength = StringLength;
-        var span = Data.AsSpan(offset);
-
-        var pkData = span.Slice(stringLength * 2, PokeCrypto.SIZE_2STORED).ToArray();
-        var pk = new PK2(pkData, jp: Japanese);
-
-        var nick = span[..stringLength];
-        var ot = span.Slice(stringLength, stringLength);
-        nick.CopyTo(pk.NicknameTrash);
-        ot.CopyTo(pk.OriginalTrainerTrash);
-
-        return pk;
-    }
 
     private int GetBoxRawDataOffset(int i, int splitAtIndex)
     {
@@ -176,6 +171,20 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             var src = PartyBuffer[GetPartyOffset(0)..];
 
             PokeList2.MergeSingles(src, dest, StringLength, 6, true);
+        }
+
+        // Write Daycare
+
+        if (Offsets.Daycare >= 0)
+        {
+            var dc0 = PartyBuffer[GetDaycareSlotOffset(0)..];
+            PokeList2.PackNOB(dc0, Data.AsSpan(GetRawDaycareSlotOffset(0)), StringLength);
+
+            var dc1 = PartyBuffer[GetDaycareSlotOffset(1)..];
+            PokeList2.PackNOB(dc1, Data.AsSpan(GetRawDaycareSlotOffset(1)), StringLength);
+
+            var egg = PartyBuffer[GetDaycareSlotOffset(2)..];
+            PokeList2.PackNOB(egg, Data.AsSpan(GetRawDaycareSlotOffset(2)), StringLength);
         }
 
         SetChecksums();
