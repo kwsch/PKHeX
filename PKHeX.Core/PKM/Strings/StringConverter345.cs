@@ -43,9 +43,7 @@ public static class StringConverter345
             if (c == StringConverter3.TerminatorByte)
                 break;
 
-            // If the encoded character is in the affected range, treat it as Japanese.
-            var lang = IsJapanese3(c) ? (int)LanguageID.Japanese : language;
-            var b = StringConverter3.GetG3Char(c, lang);
+            var b = RemapJapanese34(c, language);
 
             // If an invalid character (0xF7-0xFE) is present, the nickname/OT is replaced with all question marks.
             // Based on the Gen4 game's language: "？？？？？" in Japanese, "??????????" for nicknames/"???????" for OTs in EFIGS, "?????" in Korean
@@ -77,8 +75,7 @@ public static class StringConverter345
             var b = input[i];
 
             // If the encoded character is in the affected range, reinterpret it as Japanese.
-            var c = StringConverter3.SetG3Char(b, language);
-            result[i] = IsJapanese3(c) ? StringConverter3.GetG3Char(c, (int)LanguageID.Japanese) : b;
+            result[i] = RemapJapanese34(b, language);
         }
     }
 
@@ -89,6 +86,16 @@ public static class StringConverter345
     private const byte JapaneseYenGlyph = 0xB7; // '円'
 
     private static bool IsJapanese3(byte glyph) => glyph is (>= JapaneseStartGlyph and <= JapaneseEndGlyph) or JapaneseYenGlyph;
+    private static char RemapJapanese34(byte glyph, int language)
+    {
+        var lang = IsJapanese3(glyph) ? (int)LanguageID.Japanese : language;
+        return StringConverter3.GetG3Char(glyph, lang);
+    }
+    private static char RemapJapanese34(char c, int language)
+    {
+        var glyph = StringConverter3.SetG3Char(c, language);
+        return IsJapanese3(glyph) ? StringConverter3.GetG3Char(glyph, (int)LanguageID.Japanese) : c;
+    }
 
     /// <summary>
     /// Remaps Gen4 Glyphs to Gen5 Glyphs.

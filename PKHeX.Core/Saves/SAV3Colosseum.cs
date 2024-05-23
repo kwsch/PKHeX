@@ -181,8 +181,13 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
         if (pk is not CK3 ck3)
             return;
 
-        ck3.CurrentRegion = (byte)CurrentRegion;
-        ck3.OriginalRegion = (byte)OriginalRegion;
+        var oldRegion = ck3.CurrentRegion;
+        ck3.CurrentRegion = CurrentRegion;
+        ck3.OriginalRegion = OriginalRegion;
+
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(ck3.NicknameTrash, oldRegion, ck3.CurrentRegion, ck3.Language);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(ck3.OriginalTrainerTrash, oldRegion, ck3.CurrentRegion, ck3.Language);
+        ck3.ResetNicknameDisplay();
 
         ck3.ForceCorrectFatefulState(Japanese, ck3.FatefulEncounter);
     }
