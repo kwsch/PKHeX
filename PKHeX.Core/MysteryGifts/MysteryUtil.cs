@@ -73,11 +73,11 @@ public static class MysteryUtil
                     result.Add($"Quantity: {w7bean.Quantity}");
                     break;
                 case PCD pcd:
-                    result.Add($"{pcd.GiftType}");
+                    AddLinesPGT(pcd.Gift, result);
                     result.Add($"Collected: {pcd.GiftUsed}");
                     break;
                 case PGT pgt:
-                    result.Add($"{pgt.GiftType}");
+                    AddLinesPGT(pgt, result);
                     break;
                 default:
                     result.Add(MsgMysteryGiftParseTypeUnknown);
@@ -124,6 +124,42 @@ public static class MysteryUtil
             if (addItem != 0)
                 result.Add($"+ {strings.Item[addItem]}");
         }
+    }
+
+    private static void AddLinesPGT(PGT gift, List<string> result)
+    {
+        try
+        {
+            switch (gift.GiftType)
+            {
+                case GiftType4.Goods:
+                    result.Add($"Goods: {GameInfo.Strings.uggoods[gift.ItemID]}");
+                    break;
+                case GiftType4.HasSubType:
+                    switch (gift.GiftSubType) {
+                        case GiftSubType4.Seal:
+                            result.Add($"Seal: {gift.Seal}");
+                            break;
+                        case GiftSubType4.Accessory:
+                            result.Add($"Accessory: {gift.Accessory}");
+                            break;
+                        case GiftSubType4.Backdrop:
+                            result.Add($"Backdrop: {gift.Backdrop}");
+                            break;
+                    }
+                    break;
+                case GiftType4.PokétchApp:
+                    result.Add($"Pokétch App: {gift.PoketchApp}");
+                    break;
+                case GiftType4.PokéwalkerCourse:
+                    result.Add($"Route Map: {GameInfo.Strings.walkercourses[gift.PokewalkerCourseID]}");
+                    break;
+                default:
+                    result.Add($"{gift.GiftType}");
+                    break;
+            }
+        }
+        catch { result.Add(MsgMysteryGiftParseFail); }
     }
 
     /// <summary>
