@@ -177,13 +177,12 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
 
         // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-        Span<byte> rawDC = Data.AsSpan(GetDaycareSlotOffset(index: 0), SIZE_STORED);
-        Span<byte> dc = stackalloc byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
-        dc[0] = IsDaycareOccupied(0) ? (byte)1 : (byte)0;
-        rawDC.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength).CopyTo(dc[1..]);
-        rawDC.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength).CopyTo(dc[(1 + StringLength)..]);
-        rawDC.Slice(2 + 1, PokeCrypto.SIZE_1STORED).CopyTo(dc[(1 + (2 * StringLength))..]);
-        dc.CopyTo(Data.AsSpan(Offsets.Daycare));
+        Span<byte> rawDC = Data.AsSpan(Offsets.Daycare, 0x38);
+        var TempDaycare = BoxBuffer[DaycareOffset..];
+        var dcDest = TempDaycare[3..];
+        dcDest.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength).CopyTo(rawDC[1..]);
+        dcDest.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength).CopyTo(rawDC[(1 + StringLength)..]);
+        dcDest.Slice(2 + 1, PokeCrypto.SIZE_1STORED).CopyTo(rawDC[(1 + (2 * StringLength))..]);
 
         SetChecksums();
         return Data;
@@ -450,13 +449,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public Memory<byte> GetDaycareSlot(int index)
     {
         ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
-        return Data.AsMemory(DaycareOffset, SIZE_STORED);
-    }
-
-    private int GetDaycareSlotOffset(int index)
-    {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
-        return DaycareOffset;
+        return Reserved.AsMemory(DaycareOffset, SIZE_STORED);
     }
 
     public bool IsDaycareOccupied(int index)
