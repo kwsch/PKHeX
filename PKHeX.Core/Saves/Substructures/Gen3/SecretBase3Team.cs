@@ -7,10 +7,10 @@ public sealed class SecretBase3Team
 {
     private const int O_PID = 0;
     private const int O_Moves = 0x18;
-    private const int O_Species = 0x24;
-    private const int O_Item = 0x30;
-    private const int O_Level = 0x3C;
-    private const int O_EV = 0x42;
+    private const int O_Species = 0x48;
+    private const int O_Item = 0x54;
+    private const int O_Level = 0x60;
+    private const int O_EV = 0x66;
 
     private static int GetOffsetPID(int index) => O_PID + (index * 4);
     private static int GetOffsetMove(int index, int moveIndex) => O_Moves + (index * 8) + (moveIndex * 2);
