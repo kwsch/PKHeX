@@ -1,10 +1,10 @@
+using PKHeX.Core;
+using PKHeX.Drawing.PokeSprite;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using PKHeX.Core;
-using PKHeX.Drawing.PokeSprite;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms;
@@ -816,6 +816,7 @@ public partial class SAV_Misc5 : Form
     }
 
     private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
+    private readonly string[] MedalTypeNames = Util.GetStringList("medal_types", Main.CurrentLanguage);
 
     private void ReadMedals()
     {
@@ -846,6 +847,7 @@ public partial class SAV_Misc5 : Form
                 CAL_MedalDate.ValueChanged += CAL_MedalDate_ValueChanged;
             }
             CHK_MedalUnread.Checked = medal.IsUnread;
+            TB_MedalType.Text = MedalTypeNames[(int)MedalList5.GetMedalType(CB_CurrentMedal.SelectedIndex)];
         }
     }
 

@@ -29,4 +29,34 @@ public sealed class MedalList5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5B
         for (int i = 0; i < MAX_MEDALS; i++)
             this[i].Obtain(date, unread);
     }
+
+    private static ReadOnlySpan<int> MedalTypeTable =>
+    [
+        007, // Light Walker
+        105, // Battle Learner
+        161, // Beginning Trader
+        236, // Normal-type Champ
+        MAX_MEDALS,
+    ];
+
+    public static MedalType5 GetMedalType(int index)
+    {
+        if ((uint)index >= MAX_MEDALS)
+            throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {MAX_MEDALS - 1}.");
+
+        int i = 0;
+        while (index >= MedalTypeTable[i])
+            ++i;
+        return (MedalType5)i;
+    }
 }
+
+public enum MedalType5
+{
+    Special,
+    Adventure,
+    Battle,
+    Entertainment,
+    Challenge,
+}
+
