@@ -107,12 +107,12 @@ public sealed class GameStrings : IBasicStrings
         trainingstage = Get("supertraining");
         puffs = Get("puff");
 
-        walkercourses = Get("hgss_walkercourses");
+        walkercourses = Get("walkercourses");
 
-        uggoods = Get("dppt_uggoods");
-        ugspheres = Get("dppt_ugspheres");
-        ugtraps = Get("dppt_ugtraps");
-        ugtreasures = Get("dppt_ugtreasures");
+        uggoods = Get("uggoods");
+        ugspheres = Get("ugspheres");
+        ugtraps = Get("ugtraps");
+        ugtreasures = Get("ugtreasures");
 
         EggName = specieslist[0];
         Gen4 = Get4("hgss");
