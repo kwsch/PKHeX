@@ -1763,8 +1763,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         int shiftX = 0;
         if (icon is not null)
         {
-            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             g.DrawImage(icon, e.Bounds with { Width = e.Bounds.Height }); // Left side of the rectangle.
             shiftX += e.Bounds.Height + 1;
         }
