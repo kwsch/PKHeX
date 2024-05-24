@@ -15,7 +15,7 @@ public static class EReaderBerrySettings
     private static string Name { get; set; } = string.Empty;
 
     /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-    public static string DisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(Name));
+    public static string DisplayName => Util.ToTitleCase(string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Name));
 
     private static int Language { get; set; }
 
@@ -65,7 +65,6 @@ public static class EReaderBerrySettings
         "エドマ" or // STRIB
         "ホズ" or // CHILAN
         "ラッカ" or // NUTPEA
-        "クオ" or // KU
         // JP Series 2
         "ギネマ" or // GINEMA
         "クオ" or // KUO
