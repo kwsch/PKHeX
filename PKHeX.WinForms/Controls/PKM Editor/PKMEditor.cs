@@ -1760,16 +1760,28 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var brush = Draw.Brushes.GetBackground(valid, current);
         var textColor = Draw.GetText(current);
 
-        DrawMoveRectangle(e, brush, text, textColor);
+        var type = MoveInfo.GetType((ushort)value, Entity.Context);
+        var moveTypeIcon = TypeSpriteUtil.GetTypeSpriteIconSmall(type, Entity.Format);
+        DrawMoveRectangle(e, brush, text, textColor, moveTypeIcon);
     }
 
-    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush brush, string text, Color textColor)
+    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush brush, string text, Color textColor, Bitmap? icon)
     {
-        var rec = new Rectangle(e.Bounds.X - 1, e.Bounds.Y, e.Bounds.Width + 1, e.Bounds.Height + 0); // 1px left
-        e.Graphics.FillRectangle(brush, rec);
+        var g = e.Graphics;
+        int shiftX = 0;
+        if (icon is not null)
+        {
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            g.DrawImage(icon, e.Bounds with { Width = e.Bounds.Height }); // Left side of the rectangle.
+            shiftX += e.Bounds.Height + 1;
+        }
+
+        var rec = new Rectangle(e.Bounds.X + shiftX - 1, e.Bounds.Y, e.Bounds.Width - shiftX + 1, e.Bounds.Height + 0); // 1px left
+        g.FillRectangle(brush, rec);
 
         const TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis | TextFormatFlags.ExpandTabs | TextFormatFlags.SingleLine;
-        TextRenderer.DrawText(e.Graphics, text, e.Font, rec, textColor, flags);
+        TextRenderer.DrawText(g, text, e.Font, rec, textColor, flags);
     }
 
     private void MeasureDropDownHeight(object? sender, MeasureItemEventArgs e) => e.ItemHeight = CB_RelearnMove1.ItemHeight;
