@@ -1753,25 +1753,29 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var textColor = Draw.GetText(current);
 
         var type = MoveInfo.GetType((ushort)value, Entity.Context);
-        var moveTypeIcon = TypeSpriteUtil.GetTypeSpriteIconSmall(type, Entity.Format);
+        var moveTypeIcon = TypeSpriteUtil.GetTypeSpriteIconSmall(type);
         DrawMoveRectangle(e, brush, text, textColor, moveTypeIcon);
     }
 
-    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush brush, string text, Color textColor, Bitmap? icon)
+    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush backBrush, string foreText, Color textColor, Bitmap? icon)
     {
         var g = e.Graphics;
-        int shiftX = 0;
+        var rec = e.Bounds;
         if (icon is not null)
         {
-            g.DrawImage(icon, e.Bounds with { Width = e.Bounds.Height }); // Left side of the rectangle.
-            shiftX += e.Bounds.Height + 1;
+            var dim = rec.Height;
+            g.DrawImage(icon, rec with { Width = dim }); // Left side of the rectangle.
+            rec = rec with { X = rec.X + dim, Width = rec.Width - dim };
+        }
+        else
+        {
+            rec = rec with { X = rec.X + 1, Width = rec.Width - 1 }; // 1px left
         }
 
-        var rec = new Rectangle(e.Bounds.X + shiftX - 1, e.Bounds.Y, e.Bounds.Width - shiftX + 1, e.Bounds.Height + 0); // 1px left
-        g.FillRectangle(brush, rec);
+        g.FillRectangle(backBrush, rec);
 
         const TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis | TextFormatFlags.ExpandTabs | TextFormatFlags.SingleLine;
-        TextRenderer.DrawText(g, text, e.Font, rec, textColor, flags);
+        TextRenderer.DrawText(g, foreText, e.Font, rec, textColor, flags);
     }
 
     private void MeasureDropDownHeight(object? sender, MeasureItemEventArgs e) => e.ItemHeight = CB_RelearnMove1.ItemHeight;
