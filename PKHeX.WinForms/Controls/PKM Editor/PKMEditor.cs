@@ -875,15 +875,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             Entity.MetLocation = location;
             TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
             CB_MetLocation.SelectedValue = (int)location;
-            var timeIndex = 0;
-            if (encounter.Encounter is { } enc && location is < 253 and not 0)
-            {
-                if (enc is EncounterSlot2 s2)
-                    timeIndex = s2.GetRandomTime();
-                else
-                    timeIndex = Util.Rand.Next(1, 4);
-            }
-            CB_MetTimeOfDay.SelectedIndex = timeIndex;
+            CB_MetTimeOfDay.SelectedIndex = location == 0 ? 0 : encounter.GetSuggestedMetTimeOfDay();
         }
 
         if (Entity.CurrentLevel < minLevel)
