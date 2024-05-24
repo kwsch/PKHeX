@@ -875,15 +875,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             Entity.MetLocation = location;
             TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
             CB_MetLocation.SelectedValue = (int)location;
-            var timeIndex = 0;
-            if (encounter.Encounter is { } enc && location is < 253 and not 0)
-            {
-                if (enc is EncounterSlot2 s2)
-                    timeIndex = s2.GetRandomTime();
-                else
-                    timeIndex = Util.Rand.Next(1, 4);
-            }
-            CB_MetTimeOfDay.SelectedIndex = timeIndex;
+            CB_MetTimeOfDay.SelectedIndex = location == 0 ? 0 : encounter.GetSuggestedMetTimeOfDay();
         }
 
         if (Entity.CurrentLevel < minLevel)
@@ -1760,16 +1752,30 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var brush = Draw.Brushes.GetBackground(valid, current);
         var textColor = Draw.GetText(current);
 
-        DrawMoveRectangle(e, brush, text, textColor);
+        var type = MoveInfo.GetType((ushort)value, Entity.Context);
+        var moveTypeIcon = TypeSpriteUtil.GetTypeSpriteIconSmall(type);
+        DrawMoveRectangle(e, brush, text, textColor, moveTypeIcon);
     }
 
-    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush brush, string text, Color textColor)
+    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush backBrush, string foreText, Color textColor, Bitmap? icon)
     {
-        var rec = new Rectangle(e.Bounds.X - 1, e.Bounds.Y, e.Bounds.Width + 1, e.Bounds.Height + 0); // 1px left
-        e.Graphics.FillRectangle(brush, rec);
+        var g = e.Graphics;
+        var rec = e.Bounds;
+        if (icon is not null)
+        {
+            var dim = rec.Height;
+            g.DrawImage(icon, rec with { Width = dim }); // Left side of the rectangle.
+            rec = rec with { X = rec.X + dim, Width = rec.Width - dim };
+        }
+        else
+        {
+            rec = rec with { X = rec.X + 1, Width = rec.Width - 1 }; // 1px left
+        }
+
+        g.FillRectangle(backBrush, rec);
 
         const TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis | TextFormatFlags.ExpandTabs | TextFormatFlags.SingleLine;
-        TextRenderer.DrawText(e.Graphics, text, e.Font, rec, textColor, flags);
+        TextRenderer.DrawText(g, foreText, e.Font, rec, textColor, flags);
     }
 
     private void MeasureDropDownHeight(object? sender, MeasureItemEventArgs e) => e.ItemHeight = CB_RelearnMove1.ItemHeight;

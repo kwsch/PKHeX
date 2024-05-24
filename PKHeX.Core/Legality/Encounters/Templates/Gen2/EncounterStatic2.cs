@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 2 Static Encounter
 /// </summary>
 public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IHatchCycle, IFixedGender, IMoveset, IFixedIVSet
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IHatchCycle, IFixedGender, IMoveset, IFixedIVSet, IEncounterTime
 {
     public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
@@ -65,7 +65,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             pk.OriginalTrainerGender = tr.Gender;
             pk.MetLevel = LevelMin;
             pk.MetLocation = Location;
-            pk.MetTimeOfDay = EncounterTime.Any.RandomValidTime();
+            pk.MetTimeOfDay = GetRandomTime();
         }
 
         if (Moves.HasMoves)
@@ -213,4 +213,13 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     }
 
     #endregion
+
+    public EncounterTime EncounterTime => EncounterTime.Any;
+
+    public int GetRandomTime()
+    {
+        if (IsEgg)
+            return 0;
+        return EncounterTime.RandomValidTime();
+    }
 }

@@ -40,4 +40,11 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn, ILevelRang
     public int GetSuggestedMetLevel(PKM pk) => EncounterSuggestion.GetSuggestedMetLevel(pk, LevelMin);
     public GroundTileType GetSuggestedGroundTile() => Encounter is IGroundTypeTile t ? t.GroundTile.GetIndex() : 0;
     public bool HasGroundTile(byte format) => Encounter is IGroundTypeTile t && t.HasGroundTile(format);
+
+    public int GetSuggestedMetTimeOfDay()
+    {
+        if (Encounter is IEncounterTime time)
+            return time.GetRandomTime();
+        return 0;
+    }
 }
