@@ -1,11 +1,16 @@
 PKHeX
 =====
+
 <div>
   <span>English</span> / <a href=".github/README-es.md">Español</a> / <a href=".github/README-fr.md">Français</a> / <a href=".github/README-de.md">Deutsch</a> / <a href=".github/README-it.md">Italiano</a> / <a href=".github/README-zhHK.md">繁體中文</a> / <a href=".github/README-zh.md">简体中文</a>
 </div>
 
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
+## Xieon's Gaming Corner Public Archival Fork 
+* This fork is a public archival fork of PkHex - there's been no changes done by Xieon's Gaming Corner other than image compression, and data compression by Github action algorithms - this fork is kept as up to date as possible with the main branch 
+
+# PKHeX
 Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
 Supports the following files:
