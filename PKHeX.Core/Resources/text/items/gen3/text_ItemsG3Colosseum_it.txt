@@ -1,0 +1,48 @@
+Chiave Celle
+Chiave Asc.
+Tavola
+Disco Avanti
+Disco DX
+Disco SX
+Disco Giù
+Disco Su
+Chiave Metro
+Chiave Canc.
+Apriporta
+Chiave Sott.
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Campione DNA
+Scheda Dati
+Dentacciaio
+Ingranaggio
+Pass Rosso
+Pass Verde
+Pass Blu
+Pass Giallo
+Flauto Tempo
+Genus.File O
+Genus.File I
+Genus.File C
+Genus.File P
+Portaolio
+Olio di Pino
+Olio di Rosa
+Olio Sublime
+Espansione
+Genus.File F

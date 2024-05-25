@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// Referenced Area object contains Time data which is used for <see cref="GameVersion.C"/> origin data.
 /// </remarks>
 public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, INumberedSlot, IEncounterFormRandom
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, INumberedSlot, IEncounterFormRandom, IEncounterTime
 {
     public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
@@ -123,6 +123,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     }
 
     public int GetRandomTime() => Parent.Time.RandomValidTime();
+    public EncounterTime EncounterTime => Parent.Time;
 
     #endregion
 
