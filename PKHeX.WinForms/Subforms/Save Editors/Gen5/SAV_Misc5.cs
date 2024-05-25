@@ -816,6 +816,7 @@ public partial class SAV_Misc5 : Form
     }
 
     private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
+    private readonly string[] MedalTypeNames = Util.GetStringList("medal_types", Main.CurrentLanguage);
 
     private void ReadMedals()
     {
@@ -831,7 +832,10 @@ public partial class SAV_Misc5 : Form
     {
         if (SAV is SAV5B2W2 b2w2)
         {
-            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            var index = CB_CurrentMedal.SelectedIndex;
+            var medal = b2w2.Medals[index];
+            var type = MedalList5.GetMedalType(index);
+            TB_MedalType.Text = MedalTypeNames[(int)type];
             CB_MedalState.SelectedIndex = (int)medal.State;
             if (medal.CanHaveDate)
             {

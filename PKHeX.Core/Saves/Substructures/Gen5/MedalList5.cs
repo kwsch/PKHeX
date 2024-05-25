@@ -17,8 +17,7 @@ public sealed class MedalList5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5B
 
     public static Medal5 GetMedal(Memory<byte> memory, int index)
     {
-        if ((uint)index >= MAX_MEDALS)
-            throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {MAX_MEDALS - 1}.");
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, MAX_MEDALS);
         return new Medal5(memory.Slice(index * Medal5.SIZE, Medal5.SIZE));
     }
 
@@ -29,4 +28,23 @@ public sealed class MedalList5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5B
         for (int i = 0; i < MAX_MEDALS; i++)
             this[i].Obtain(date, unread);
     }
+
+    public static MedalType5 GetMedalType(int index) => (uint)index switch
+    {
+        < 007 => MedalType5.Special,
+        < 105 => MedalType5.Adventure,
+        < 161 => MedalType5.Battle,
+        < 236 => MedalType5.Entertainment,
+        < MAX_MEDALS => MedalType5.Challenge,
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+    };
+}
+
+public enum MedalType5
+{
+    Special,
+    Adventure,
+    Battle,
+    Entertainment,
+    Challenge,
 }
