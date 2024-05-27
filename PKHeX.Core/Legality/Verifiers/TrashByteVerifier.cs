@@ -25,16 +25,57 @@ public sealed class TrashByteVerifier : Verifier
     {
         var pk = data.Entity;
         if (pk.Format >= 8 || pk.Context == EntityContext.Gen7b)
+        {
             VerifyTrashBytesHOME(data, pk);
+        }
+        else if (pk.Format == 4)
+        {
+            var enc = data.EncounterMatch;
+            if (enc is PCD pcd)
+                VerifyTrashBytesPCD(data, pk, pcd);
+            else if (enc.Generation == 3)
+                VerifyTrashBytesPalPark(data, pk);
+        }
+    }
+
+    private void VerifyTrashBytesPalPark(LegalityAnalysis data, PKM pk)
+    {
+        if (pk.Japanese)
+        {
+            // Trash bytes should be zero.
+            if (!TrashBytesUTF16.IsTrashEmpty(pk.OriginalTrainerTrash))
+                data.AddLine(GetInvalid(Format(Nickname, LTrashBytesShouldBeEmpty)));
+        }
+        else
+        {
+            // Should have trash bytes from the transfer process.
+            if (TrashBytesUTF16.IsTrashEmpty(pk.OriginalTrainerTrash))
+                data.AddLine(GetInvalid(Format(Nickname, LTrashBytesExpected)));
+        }
+    }
+
+    private void VerifyTrashBytesPCD(LegalityAnalysis data, PKM pk, PCD pcd)
+    {
+        var enc = pcd.Gift.PK;
+        var ot = enc.OriginalTrainerTrash;
+        if (!ot.SequenceEqual(pk.OriginalTrainerTrash))
+            data.AddLine(GetInvalid(Format(OriginalTrainer, LTrashBytesMismatchInitial)));
+
+        if (pcd.Species != pk.Species)
+            return; // Evolved, trash bytes are rewritten.
+
+        var nick = enc.NicknameTrash;
+        if (!nick.SequenceEqual(pk.NicknameTrash))
+            data.AddLine(GetInvalid(Format(Nickname, LTrashBytesMismatchInitial)));
     }
 
     private void VerifyTrashBytesHOME(LegalityAnalysis data, PKM pk)
     {
-        if (!IsFinalTerminatorPresent(pk.NicknameTrash))
+        if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.NicknameTrash))
             data.AddLine(GetInvalid(Format(Nickname, LTrashBytesMissingTerminator)));
-        if (!IsFinalTerminatorPresent(pk.OriginalTrainerTrash))
+        if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.OriginalTrainerTrash))
             data.AddLine(GetInvalid(Format(OriginalTrainer, LTrashBytesMissingTerminator)));
-        if (!IsFinalTerminatorPresent(pk.HandlingTrainerTrash))
+        if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.HandlingTrainerTrash))
             data.AddLine(GetInvalid(Format(HandlingTrainer, LTrashBytesMissingTerminator)));
 
         if (pk.IsEgg)
@@ -87,7 +128,7 @@ public sealed class TrashByteVerifier : Verifier
 
     private void VerifyTrashSingle(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s)
     {
-        var result = IsTrashSingleOrNone(span, data.Entity);
+        var result = TrashBytesUTF16.IsTrashSingleOrNone(span);
         if (result.IsInvalid())
             data.AddLine(GetInvalid(Format(s, LTrashBytesShouldBeEmpty)));
     }
@@ -95,7 +136,7 @@ public sealed class TrashByteVerifier : Verifier
     private void VerifyTrashSpecific(LegalityAnalysis data, ReadOnlySpan<byte> span, ReadOnlySpan<char> under, StringSource s,
         Severity severity = Severity.Invalid)
     {
-        var result = IsTrashSpecific(span, data.Entity, under);
+        var result = TrashBytesUTF16.IsTrashSpecific(span, under);
         if (result.IsInvalid())
             data.AddLine(Get(Format(s, string.Format(LTrashBytesExpected_0, under.ToString())), severity));
     }
@@ -103,79 +144,21 @@ public sealed class TrashByteVerifier : Verifier
     private void VerifyTrashNone(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s,
         Severity severity = Severity.Invalid)
     {
-        var result = IsTrashNone(span, data.Entity);
+        var result = TrashBytesUTF16.IsTrashNone(span);
         if (result.IsInvalid())
             data.AddLine(Get(Format(s, LTrashBytesShouldBeEmpty), severity));
     }
 
     private void VerifyTrashNotEmpty(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s)
     {
-        if (!IsTrashNotEmpty(span))
+        if (!TrashBytesUTF16.IsTrashNotEmpty(span))
             data.AddLine(GetInvalid(Format(s, LTrashBytesExpected)));
     }
 
     private void VerifyTrashEmpty(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s)
     {
-        if (!IsTrashEmpty(span))
+        if (!TrashBytesUTF16.IsTrashEmpty(span))
             data.AddLine(GetInvalid(Format(s, LTrashBytesShouldBeEmpty)));
-    }
-
-    private static bool IsTrashNotEmpty(ReadOnlySpan<byte> span) => span.ContainsAnyExcept<byte>(0) || span.Length == 0;
-    private static bool IsTrashEmpty(ReadOnlySpan<byte> span) => !span.ContainsAnyExcept<byte>(0) || span.Length == 0;
-    private static bool IsFinalTerminatorPresent(ReadOnlySpan<byte> buffer, byte terminator = 0)
-        => buffer[^1] == terminator && buffer[^2] == terminator;
-
-    private static TrashMatch IsTrashNone<T>(ReadOnlySpan<byte> span, T tr)
-        where T : ITrashIntrospection
-    {
-        var bpc = tr.GetBytesPerChar();
-        var charsUsed = tr.GetStringTerminatorIndex(span) + 1;
-        var start = charsUsed * bpc;
-        if ((uint)start >= span.Length)
-            return TrashMatch.TooLongToTell;
-
-        var remain = span[start..];
-        if (!IsTrashEmpty(remain))
-            return TrashMatch.NotEmpty;
-        return TrashMatch.PresentNone;
-    }
-
-    private static TrashMatch IsTrashSingleOrNone<T>(ReadOnlySpan<byte> span, T tr)
-        where T : ITrashIntrospection
-    {
-        var bpc = tr.GetBytesPerChar();
-        var charsUsed = tr.GetStringTerminatorIndex(span) + 1;
-        var start = charsUsed * bpc;
-        if ((uint)start >= span.Length)
-            return TrashMatch.TooLongToTell;
-
-        var remain = span[start..];
-        var end = tr.GetStringTerminatorIndex(remain) + 1;
-        start = end * bpc;
-        if ((uint)start < remain.Length && !IsTrashEmpty(remain[start..]))
-            return TrashMatch.NotEmpty;
-
-        return end == 1 ? TrashMatch.PresentNone : TrashMatch.PresentSingle;
-    }
-
-    private static TrashMatch IsTrashSpecific<T>(ReadOnlySpan<byte> span, T tr, ReadOnlySpan<char> under)
-        where T : ITrashIntrospection
-    {
-        var bpc = tr.GetBytesPerChar();
-        var charsUsed = tr.GetStringTerminatorIndex(span) + 1;
-        var start = charsUsed * bpc;
-        if (start >= span.Length)
-            return TrashMatch.TooLongToTell;
-
-        var check = TrashBytes.IsUnderlayerPresent(under, span, charsUsed);
-        if (check.IsInvalid())
-            return TrashMatch.NotPresent;
-
-        start = Math.Max(start, under.Length * bpc);
-        if ((uint)start < span.Length && !IsTrashEmpty(span[start..]))
-            return TrashMatch.NotEmpty;
-
-        return TrashMatch.Present;
     }
 }
 

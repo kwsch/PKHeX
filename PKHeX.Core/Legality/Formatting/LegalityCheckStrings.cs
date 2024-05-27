@@ -501,10 +501,11 @@ public static class LegalityCheckStrings
     public static string LTransferTrackerMissing { get; set; } = "Pokémon HOME Transfer Tracker is missing.";
     public static string LTransferTrackerShouldBeZero { get; set; } = "Pokémon HOME Transfer Tracker should be 0.";
 
-    public static string LTrashBytesShouldBeEmpty { get; set; } = "Trash Bytes should be cleared.";
     public static string LTrashBytesExpected_0 { get; set; } = "Expected Trash Bytes: {0}";
     public static string LTrashBytesExpected { get; set; } = "Expected Trash Bytes.";
+    public static string LTrashBytesMismatchInitial { get; set; } = "Expected initial trash bytes to match the encounter.";
     public static string LTrashBytesMissingTerminator { get; set; } = "Final terminator missing.";
+    public static string LTrashBytesShouldBeEmpty { get; set; } = "Trash Bytes should be cleared.";
     public static string LTrashBytesUnexpected { get; set; } = "Unexpected Trash Bytes.";
 
     #endregion

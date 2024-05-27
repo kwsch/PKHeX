@@ -62,7 +62,10 @@ public abstract class GBPKM : PKM
         get
         {
             var spName = SpeciesName.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
-            return Nickname != spName;
+
+            Span<char> nickname = stackalloc char[TrashCharCountNickname];
+            int len = LoadString(NicknameTrash, nickname);
+            return !nickname[..len].SequenceEqual(spName);
         }
     }
 

@@ -573,9 +573,9 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter5.SetString(destBuffer, value, maxLength, Language, option);
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
-        => TrashBytes.GetTerminatorIndex(data, StringConverter5.Terminator);
+        => TrashBytesUTF16.GetTerminatorIndex(data, StringConverter5.Terminator);
     public override int GetStringLength(ReadOnlySpan<byte> data)
-        => TrashBytes.GetStringLength(data, StringConverter5.Terminator);
+        => TrashBytesUTF16.GetStringLength(data, StringConverter5.Terminator);
     public override int GetBytesPerChar() => 2;
 
     /// <inheritdoc cref="G4PKM.CheckKoreanNidoranDPPt"/>

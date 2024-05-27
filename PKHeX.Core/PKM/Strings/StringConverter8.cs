@@ -85,7 +85,7 @@ public static class StringConverter8
     /// <returns>Indication of the under string's presence.</returns>
     public static TrashMatch ApplyTrashBytes(Span<byte> top, ReadOnlySpan<char> under)
     {
-        var index = TrashBytes.GetStringLength(top);
+        var index = TrashBytesUTF16.GetStringLength(top);
         if (index == -1)
             return TrashMatch.TooLongToTell;
         index++; // hop over the terminator
@@ -109,7 +109,7 @@ public static class StringConverter8
         if (under.Length == 0)
             return TrashMatch.TooLongToTell;
 
-        var index = TrashBytes.GetStringLength(top);
+        var index = TrashBytesUTF16.GetStringLength(top);
         if ((uint)index >= under.Length)
             return TrashMatch.TooLongToTell;
         index++; // hop over the terminator

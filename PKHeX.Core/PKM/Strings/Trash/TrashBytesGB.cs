@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class TrashBytesGB
 {
-    /// <inheritdoc cref="TrashBytes.GetStringLength"/>
+    /// <inheritdoc cref="TrashBytesUTF16.GetStringLength"/>
     public static int GetStringLength(ReadOnlySpan<byte> buffer)
     {
         int index = GetTerminatorIndex(buffer);

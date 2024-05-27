@@ -242,8 +242,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter3GC.SetString(destBuffer, value, maxLength, option);
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
-        => TrashBytes.GetTerminatorIndex(data, StringConverter3GC.TerminatorBigEndian);
+        => TrashBytesUTF16.GetTerminatorIndex(data, StringConverter3GC.TerminatorBigEndian);
     public override int GetStringLength(ReadOnlySpan<byte> data)
-        => TrashBytes.GetStringLength(data, StringConverter3GC.TerminatorBigEndian);
+        => TrashBytesUTF16.GetStringLength(data, StringConverter3GC.TerminatorBigEndian);
     public override int GetBytesPerChar() => 2;
 }
