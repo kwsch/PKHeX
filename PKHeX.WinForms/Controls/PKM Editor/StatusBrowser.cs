@@ -12,8 +12,8 @@ public partial class StatusBrowser : Form
     public bool WasChosen { get; private set; }
     public StatusCondition Choice { get; private set; }
 
-    private readonly int StatusHeight;
     private const int StatusCount = 7;
+    private int StatusHeight { get; }
     private int StatusWidth => StatusHeight;
     private int StatusBrowserWidth => StatusWidth * 2;
 

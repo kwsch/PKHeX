@@ -1757,7 +1757,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         DrawMoveRectangle(e, brush, text, textColor, moveTypeIcon);
     }
 
-    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush backBrush, string foreText, Color textColor, Bitmap? icon)
+    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush backBrush, ReadOnlySpan<char> foreText, Color textColor, Bitmap? icon)
     {
         var g = e.Graphics;
         var rec = e.Bounds;

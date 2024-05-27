@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -240,7 +241,7 @@ public sealed partial class SAV_EventWork : Form
         ChangeSAV();
     }
 
-    private static string[] GetStringList(GameVersion game, string type)
+    private static string[] GetStringList(GameVersion game, [ConstantExpected] string type)
     {
         var gamePrefix = GetGameFilePrefix(game);
         return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);

@@ -300,7 +300,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         if (badDest && (pk.Species == 0 || pk.IsEgg))
             return false;
 
-        if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
+        if (sav is ILangDeviantSave il && !EntityConverter.IsCompatibleGB(temp, il.Japanese, pk.Japanese))
         {
             var str = EntityConverterResult.IncompatibleLanguageGB.GetIncompatibleGBMessage(pk, il.Japanese);
             WinFormsUtil.Error(str);

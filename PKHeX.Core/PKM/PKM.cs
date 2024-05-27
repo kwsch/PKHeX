@@ -1007,7 +1007,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
         // Transfer properties in the order they are defined in the destination PKM format for best conversion
         var shared = destProperties.Intersect(srcProperties);
-        foreach (string property in shared)
+        foreach (var property in shared)
         {
             // Setter sanity check: a derived type may not implement a setter if its parent type has one.
             if (!BatchEditing.TryGetHasProperty(result, property, out var pi))

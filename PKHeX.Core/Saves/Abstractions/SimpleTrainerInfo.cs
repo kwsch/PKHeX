@@ -25,6 +25,7 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     public SimpleTrainerInfo(GameVersion game = PKX.Version)
     {
         Version = game;
+        Context = Version.GetContext();
         SanityCheckRegionOrigin(game);
     }
 

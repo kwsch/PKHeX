@@ -23,7 +23,7 @@ public sealed class StartupArguments
     /// </summary>
     public void ReadArguments(IEnumerable<string> args)
     {
-        foreach (string path in args)
+        foreach (var path in args)
         {
             var other = FileUtil.GetSupportedFile(path, SAV);
             if (other is SaveFile s)

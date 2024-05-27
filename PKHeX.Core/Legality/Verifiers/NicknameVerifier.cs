@@ -255,7 +255,7 @@ public sealed class NicknameVerifier : Verifier
         ushort species = pk.Species;
         byte format = pk.Format;
         int language = pk.Language;
-        var expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
+        ReadOnlySpan<char> expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
         if (nickname.SequenceEqual(expect))
             return true;
 
@@ -283,7 +283,7 @@ public sealed class NicknameVerifier : Verifier
         return false;
     }
 
-    private static bool IsMatch45(ReadOnlySpan<char> nickname, ushort species, string expect, int language, bool canHaveAnyLanguage)
+    private static bool IsMatch45(ReadOnlySpan<char> nickname, ushort species, ReadOnlySpan<char> expect, int language, bool canHaveAnyLanguage)
     {
         if (species is (int)Species.Farfetchd)
         {
@@ -302,7 +302,7 @@ public sealed class NicknameVerifier : Verifier
         return nickname.SequenceEqual(expect);
     }
 
-    private static bool IsMatchUpper45(ReadOnlySpan<char> nickname, string expect)
+    private static bool IsMatchUpper45(ReadOnlySpan<char> nickname, ReadOnlySpan<char> expect)
     {
         for (int i = 0; i < expect.Length; i++)
         {

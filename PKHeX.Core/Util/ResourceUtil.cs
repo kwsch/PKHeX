@@ -99,7 +99,7 @@ public static partial class Util
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <remarks>Ignores Korean Language.</remarks>
-    public static string[][] GetLanguageStrings7(string fileName) =>
+    public static string[][] GetLanguageStrings7([ConstantExpected] string fileName) =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -115,7 +115,7 @@ public static partial class Util
     /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Korean.
     /// </summary>
     /// <param name="fileName">Base file name</param>
-    public static string[][] GetLanguageStrings8(string fileName) =>
+    public static string[][] GetLanguageStrings8([ConstantExpected] string fileName) =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -133,7 +133,7 @@ public static partial class Util
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <param name="zh2">String to use for the second Chinese localization.</param>
-    public static string[][] GetLanguageStrings10(string fileName, string zh2 = "zh") =>
+    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string zh2 = "zh") =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -180,9 +180,9 @@ public static partial class Util
         return raw;
     }
 
-    public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList(GetFullResourceName(fileName, lang2char, type));
+    public static string[] GetStringList(string fileName, string lang2char, [ConstantExpected] string type = "text") => GetStringList(GetFullResourceName(fileName, lang2char, type));
 
-    private static string GetFullResourceName(string fileName, string lang2char, string type) => $"{type}_{fileName}_{lang2char}";
+    private static string GetFullResourceName(string fileName, string lang2char, [ConstantExpected] string type) => $"{type}_{fileName}_{lang2char}";
 
     public static byte[] GetBinaryResource(string name)
     {
@@ -216,7 +216,7 @@ public static partial class Util
         if (s.Length == 0)
             return [];
 
-        var count = GetCount(s);
+        var count = 1 + s.Count('\n');
         var result = new string[count];
 
         var i = 0;
@@ -232,19 +232,6 @@ public static partial class Util
             if (i == count)
                 return result;
             s = s[(index + 1)..];
-        }
-    }
-
-    private static int GetCount(ReadOnlySpan<char> s)
-    {
-        int count = 1;
-        while (true)
-        {
-            var index = s.IndexOf('\n');
-            if (index == -1)
-                return count;
-            count++;
-            s = s[(index+1)..];
         }
     }
 }
