@@ -538,7 +538,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 }
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
-            if (!string.IsNullOrEmpty(OriginalTrainerName) && OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (IsOriginalTrainerNameSet && OriginalTrainerName != pk.OriginalTrainerName) return false;
             if (PIDType == ShinyType6.FixedValue && pk.PID != PID) return false;
             if (!Shiny.IsValid(pk)) return false;
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;

@@ -85,9 +85,9 @@ public static class StringConverter8
     /// <returns>Indication of the under string's presence.</returns>
     public static TrashMatch ApplyTrashBytes(Span<byte> top, ReadOnlySpan<char> under)
     {
-        var index = TrashBytes.GetStringLength(top);
+        var index = TrashBytesUTF16.GetStringLength(top);
         if (index == -1)
-            return TrashMatch.Skipped;
+            return TrashMatch.TooLongToTell;
         index++; // hop over the terminator
         if (index >= under.Length) // Overlapping
             return TrashMatch.TooLongToTell;
@@ -107,9 +107,9 @@ public static class StringConverter8
     public static TrashMatch GetTrashState(ReadOnlySpan<byte> top, ReadOnlySpan<char> under)
     {
         if (under.Length == 0)
-            return TrashMatch.Skipped;
+            return TrashMatch.TooLongToTell;
 
-        var index = TrashBytes.GetStringLength(top);
+        var index = TrashBytesUTF16.GetStringLength(top);
         if ((uint)index >= under.Length)
             return TrashMatch.TooLongToTell;
         index++; // hop over the terminator
@@ -177,7 +177,7 @@ public static class StringConverter8
 
         var region = u16[..length];
         char seek = ' ';
-        if (BitConverter.IsLittleEndian)
+        if (!BitConverter.IsLittleEndian)
             seek = (char)ReverseEndianness(' ');
 
         var trim = region.Trim(seek);

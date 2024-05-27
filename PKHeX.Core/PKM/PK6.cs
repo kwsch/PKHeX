@@ -532,8 +532,8 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter6.SetString(destBuffer, value, maxLength, Language, option);
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
-        => TrashBytes.GetTerminatorIndex(data);
+        => TrashBytesUTF16.GetTerminatorIndex(data);
     public override int GetStringLength(ReadOnlySpan<byte> data)
-        => TrashBytes.GetStringLength(data);
+        => TrashBytesUTF16.GetStringLength(data);
     public override int GetBytesPerChar() => 2;
 }
