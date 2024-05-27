@@ -31,7 +31,7 @@ public static class SaveFinder
     public static string? GetSwitchLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
         FindConsoleRootFolder(drives, "Nintendo", skipFirstDrive);
 
-    private static string? FindConsoleRootFolder(IEnumerable<string> drives, string path, bool skipFirstDrive)
+    private static string? FindConsoleRootFolder(IEnumerable<string> drives, [ConstantExpected] string path, bool skipFirstDrive)
     {
         if (skipFirstDrive)
             drives = drives.Skip(1);

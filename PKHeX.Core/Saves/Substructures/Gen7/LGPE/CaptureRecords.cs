@@ -25,8 +25,8 @@ public sealed class CaptureRecords(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7
     private const int TotalTransferredOffset = 0x7A8;
 
     // Calling into these directly, you should be sure that you're less than ENTRY_COUNT.
-    private int GetCapturedOffset(int index) => CapturedOffset + (index * 4);
-    private int GetTransferredOffset(int index) => TransferredOffset + (index * 4);
+    private static int GetCapturedOffset(int index) => CapturedOffset + (index * 4);
+    private static int GetTransferredOffset(int index) => TransferredOffset + (index * 4);
     public uint GetCapturedCountIndex(int index) => ReadUInt32LittleEndian(Data[GetCapturedOffset(index)..]);
     public uint GetTransferredCountIndex(int index) => ReadUInt32LittleEndian(Data[GetTransferredOffset(index)..]);
     public void SetCapturedCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data[GetCapturedOffset(index)..], Math.Min(MAX_COUNT_ENTRY_CAPTURE, value));
