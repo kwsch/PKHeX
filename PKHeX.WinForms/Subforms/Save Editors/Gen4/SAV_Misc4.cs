@@ -130,6 +130,7 @@ public partial class SAV_Misc4 : Form
         {
             ReadPoketch(sinnoh);
             NUD_UGFlags.Value = Math.Clamp(sinnoh.UG_Flags, 0, 999_999);
+            L_PokeathlonPoints.Visible = NUD_PokeathlonPoints.Visible = false;
         }
         else if (SAV is SAV4HGSS hgss)
         {
@@ -144,6 +145,10 @@ public partial class SAV_Misc4 : Form
                 CB_UpgradeMap.Items.Add(item);
             CB_UpgradeMap.SelectedIndex = (int)index;
         }
+
+        ReadSeals();
+        ReadAccessories();
+        ReadBackdrops();
     }
 
     private void SaveMain()
@@ -169,6 +174,10 @@ public partial class SAV_Misc4 : Form
             SavePokeathlon(hgss);
             hgss.MapUnlockState = (MapUnlockState4)CB_UpgradeMap.SelectedIndex;
         }
+
+        SaveSeals();
+        SaveAccessories();
+        SaveBackdrops();
     }
 
     private void B_AllFlyDest_Click(object sender, EventArgs e)
@@ -659,6 +668,7 @@ public partial class SAV_Misc4 : Form
     }
     #endregion
 
+    #region Walker
     private void ReadWalker(SAV4HGSS s)
     {
         ReadOnlySpan<string> walkercourses = GameInfo.Sources.Strings.walkercourses;
@@ -698,13 +708,7 @@ public partial class SAV_Misc4 : Form
         s.PokewalkerCoursesUnlockAll();
         ReadWalkerCourseUnlockFlags(s);
     }
-
-    private void OnBAllSealsLegalOnClick(object sender, EventArgs e)
-    {
-        bool setUnreleasedIndexes = sender == B_AllSealsIllegal;
-        SAV.SetAllSeals(SAV4.SealMaxCount, setUnreleasedIndexes);
-        System.Media.SystemSounds.Asterisk.Play();
-    }
+    #endregion
 
     private void ReadPokeathlon(SAV4HGSS s)
     {
@@ -715,6 +719,223 @@ public partial class SAV_Misc4 : Form
     {
         s.PokeathlonPoints = (uint)NUD_PokeathlonPoints.Value;
     }
+
+    #region Seals
+    private void ReadSeals()
+    {
+        DGV_Seals.Rows.Clear();
+        DGV_Seals.Columns.Clear();
+
+        DataGridViewTextBoxColumn dgvSlot = new()
+        {
+            HeaderText = "Slot",
+            DisplayIndex = 0,
+            Width = 145,
+            ReadOnly = true,
+        };
+        DataGridViewTextBoxColumn dgvCount = new()
+        {
+            DisplayIndex = 1,
+            Width = 45,
+            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
+            MaxInputLength = 2, // 0-99
+        };
+        DGV_Seals.Columns.Add(dgvSlot);
+        DGV_Seals.Columns.Add(dgvCount);
+
+        var count = (int)Seal4.MAX;
+        DGV_Seals.Rows.Add(count);
+        for (int i = 0; i < count; i++)
+            DGV_Seals.Rows[i].Cells[0].Value = (Seal4)i;
+        LoadSealsCount();
+    }
+
+    private void LoadSealsCount()
+    {
+        for (int i = 0; i < (int)Seal4.MAX; i++)
+            DGV_Seals.Rows[i].Cells[1].Value = SAV.GetSealCount((Seal4)i).ToString();
+    }
+
+    public void ClearSeals()
+    {
+        for (int i = 0; i < (int)Seal4.MAX; i++)
+            DGV_Seals.Rows[i].Cells[1].Value = "0";
+    }
+
+    public void SetAllSeals(bool unreleased = false)
+    {
+        var sealIndexCount = (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL);
+        for (int i = 0; i < sealIndexCount; i++)
+            DGV_Seals.Rows[i].Cells[1].Value = SAV4.SealMaxCount.ToString();
+    }
+
+    private void SaveSeals()
+    {
+        for (int i = 0; i < (int)Seal4.MAX; i++)
+        {
+            var cells = DGV_Seals.Rows[i].Cells;
+            var count = int.TryParse(cells[1].Value?.ToString() ?? "0", out var val) ? val : 0;
+            SAV.SetSealCount((Seal4)i, (byte)Math.Clamp(count, 0, byte.MaxValue));
+        }
+    }
+
+    private void B_ClearSeals_Click(object sender, EventArgs e) => ClearSeals();
+
+    private void OnBAllSealsLegalOnClick(object sender, EventArgs e)
+    {
+        bool setUnreleasedIndexes = sender == B_AllSealsIllegal;
+        SetAllSeals(setUnreleasedIndexes);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+    #endregion
+
+    #region Accessories
+    private void ReadAccessories()
+    {
+        DGV_Accessories.Rows.Clear();
+        DGV_Accessories.Columns.Clear();
+
+        DataGridViewTextBoxColumn dgvSlot = new()
+        {
+            HeaderText = "Slot",
+            DisplayIndex = 0,
+            Width = 140,
+            ReadOnly = true,
+        };
+        DataGridViewTextBoxColumn dgvCount = new()
+        {
+            DisplayIndex = 1,
+            Width = 50,
+            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
+            MaxInputLength = 1, // 0-9
+        };
+        DGV_Accessories.Columns.Add(dgvSlot);
+        DGV_Accessories.Columns.Add(dgvCount);
+
+        var count = (int)Accessory4.MAX;
+        DGV_Accessories.Rows.Add(count);
+        for (int i = 0; i < count; i++)
+            DGV_Accessories.Rows[i].Cells[0].Value = (Accessory4)i;
+        LoadAccessoriesCount();
+    }
+
+    private void LoadAccessoriesCount()
+    {
+        for (int i = 0; i < (int)Accessory4.MAX; i++)
+            DGV_Accessories.Rows[i].Cells[1].Value = SAV.GetAccessoryOwnedCount((Accessory4)i).ToString();
+    }
+
+    public void ClearAccessories()
+    {
+        for (int i = 0; i < (int)Accessory4.MAX; i++)
+            DGV_Accessories.Rows[i].Cells[1].Value = "0";
+    }
+
+    public void SetAllAccessories(bool unreleased = false)
+    {
+        var accessoryIndexCount = (int)(unreleased ? Accessory4.MAX : Accessory4.MAXLEGAL);
+        int i = 0;
+        for (; i < (int)Accessory4.MAXMULTIPLE; i++)
+            DGV_Accessories.Rows[i].Cells[1].Value = SAV4.AccessoryMaxCount.ToString();
+        for (; i < accessoryIndexCount; i++)
+            DGV_Accessories.Rows[i].Cells[1].Value = "1";
+    }
+
+    private void SaveAccessories()
+    {
+        for (int i = 0; i < (int)Accessory4.MAX; i++)
+        {
+            var cells = DGV_Accessories.Rows[i].Cells;
+            var count = int.TryParse(cells[1].Value?.ToString() ?? "0", out var val) ? val : 0;
+            SAV.SetAccessoryOwnedCount((Accessory4)i, (byte)Math.Clamp(count, 0, byte.MaxValue));
+        }
+    }
+
+    private void B_ClearAccessories_Click(object sender, EventArgs e) => ClearAccessories();
+
+    private void OnBAllAccessoriesLegalOnClick(object sender, EventArgs e)
+    {
+        bool setUnreleasedIndexes = sender == B_AllAccessoriesIllegal;
+        SetAllAccessories(setUnreleasedIndexes);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+    #endregion
+
+    #region Backdrops
+    private void ReadBackdrops()
+    {
+        DGV_Backdrops.Rows.Clear();
+        DGV_Backdrops.Columns.Clear();
+
+        DataGridViewComboBoxColumn dgv = new()
+        {
+            HeaderText = "Slot",
+            DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+            DisplayIndex = 0,
+            Width = 190,
+            FlatStyle = FlatStyle.Flat,
+            ValueType = typeof(Backdrop4),
+            DataSource = Enum.GetValues(typeof(Backdrop4)),
+        };
+        DGV_Backdrops.Columns.Add(dgv);
+
+        var backdroparr = Enum.GetNames<Backdrop4>();
+        var count = (int)Backdrop4.MAX;
+        DGV_Backdrops.Rows.Add(count);
+        LoadBackdropPositions();
+    }
+
+    private void LoadBackdropPositions()
+    {
+        ClearBackdrops();
+
+        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+        {
+            var pos = SAV.GetBackdropPosition((Backdrop4)i);
+            if (pos < (int)Backdrop4.MAX)
+                DGV_Backdrops.Rows[pos].Cells[0].Value = (Backdrop4)i;
+        }
+    }
+
+    private void ClearBackdrops()
+    {
+        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+            DGV_Backdrops.Rows[i].Cells[0].Value = Backdrop4.MAX;
+    }
+
+    public void SetAllBackdrops(bool unreleased = false)
+    {
+        var backdropIndexCount = (int)(unreleased ? Backdrop4.MAX : Backdrop4.MAXLEGAL);
+        for (int i = 0; i < backdropIndexCount; i++)
+            DGV_Backdrops.Rows[i].Cells[0].Value = (Backdrop4)i;
+    }
+
+    private void SaveBackdrops()
+    {
+        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+            SAV.RemoveBackdrop((Backdrop4)i); // clear all slots
+
+        byte ctr = 0;
+        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+        {
+            Backdrop4 bd = (Backdrop4)DGV_Backdrops.Rows[i].Cells[0].Value;
+            if (bd >= Backdrop4.MAX) // skip empty slots
+                continue;
+
+            SAV.SetBackdropPosition(bd, ctr);
+            ctr++;
+        }
+    }
+
+    private void B_ClearBackdrops_Click(object sender, EventArgs e) => ClearBackdrops();
+
+    private void OnBAllBackdropsLegalOnClick(object sender, EventArgs e)
+    {
+        bool setUnreleasedIndexes = sender == B_AllBackdropsIllegal;
+        SetAllBackdrops(setUnreleasedIndexes);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+    #endregion
 }
 
 public static class PoketchDotMatrix

@@ -108,11 +108,15 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public sealed override int MaxBallID => Legal.MaxBallID_4;
     public sealed override GameVersion MaxGameID => Legal.MaxGameID_4; // Colo/XD
 
-    // Checksums
+    #region Checksums
     protected abstract int FooterSize { get; }
     private ushort CalcBlockChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data[..^FooterSize]);
     private static ushort GetBlockChecksumSaved(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[^2..]);
     private bool GetBlockChecksumValid(ReadOnlySpan<byte> data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
+
+    public const uint MAGIC_JAPAN_INTL = 0x20060623;
+    public const uint MAGIC_KOREAN = 0x20070903;
+    public uint Magic { get => ReadUInt32LittleEndian(General[^8..^4]); set => SetMagics(value); }
 
     protected void SetMagics(uint magic)
     {
@@ -196,6 +200,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         var prefer = General[PreferOffset + (index - 1)];
         return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
     }
+    #endregion
 
     public BattleVideo4? GetBattleVideo(int index)
     {
@@ -227,6 +232,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     protected int Trainer1;
     public int GTS { get; protected set; } = int.MinValue;
 
+    protected int FashionCase = int.MinValue;
+    private int OFS_AccessoryMultiCount => FashionCase; // 4 bits each
+    private int OFS_AccessorySingleCount => FashionCase + 0x20; // 1 bit each
+    private int OFS_Backdrop => FashionCase + 0x28;
+
     public int ChatterOffset { get; protected set; } = int.MinValue;
     public Chatter4 Chatter => new(this, Data.AsMemory(ChatterOffset));
 
@@ -239,7 +249,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     public sealed override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
-    // Trainer Info
+    #region Trainer Info
     public override string OT
     {
         get => GetString(General.Slice(Trainer1, 16));
@@ -350,10 +360,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         get => General[Geonet + 2];
         set { if (value < 0) return; General[Geonet + 2] = (byte)value; }
     }
-
-    public const uint MAGIC_JAPAN_INTL = 0x20060623;
-    public const uint MAGIC_KOREAN = 0x20070903;
-    public uint Magic { get => ReadUInt32LittleEndian(General[^8..^4]); set => SetMagics(value); }
+    #endregion
 
     protected sealed override PK4 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -366,7 +373,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         pk.RefreshChecksum();
     }
 
-    // Daycare
+    #region Daycare
     public int DaycareSlotCount => 2;
     private const int DaycareSlotSize = PokeCrypto.SIZE_4PARTY;
     protected abstract int DaycareOffset { get; }
@@ -417,6 +424,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
                 ((IDaycareRandomState<uint>)this).Seed = (uint)Util.Rand.Next(1, int.MaxValue);
         }
     }
+    #endregion
 
     // Mystery Gift
     public bool IsMysteryGiftUnlocked { get => (General[72] & 1) == 1; set => General[72] = (byte)((General[72] & 0xFE) | (value ? 1 : 0)); }
@@ -504,22 +512,98 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(General[EventWork..][(index * 2)..], value);
     #endregion
 
-    // Seals
+    #region Seals
     public const byte SealMaxCount = 99;
 
     public Span<byte> GetSealCase() => General.Slice(Seal, (int)Seal4.MAX);
     public void SetSealCase(ReadOnlySpan<byte> value) => SetData(General.Slice(Seal, (int)Seal4.MAX), value);
 
     public byte GetSealCount(Seal4 id) => General[Seal + (int)id];
-    public byte SetSealCount(Seal4 id, byte count) => General[Seal + (int)id] = Math.Min(SealMaxCount, count);
+    public void SetSealCount(Seal4 id, byte count) => General[Seal + (int)id] = Math.Min(SealMaxCount, count);
+    #endregion
 
-    public void SetAllSeals(byte count, bool unreleased = false)
+    #region Accessories
+    public const byte AccessoryMaxCount = 9;
+
+    public byte GetAccessoryOwnedCount(Accessory4 accessory)
     {
-        var sealIndexCount = (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL);
-        var clamped = Math.Min(count, SealMaxCount);
-        for (int i = 0; i < sealIndexCount; i++)
-            General[Seal + i] = clamped;
+        if (accessory < Accessory4.MAXMULTIPLE)
+        {
+            byte enumIdx = (byte)accessory;
+            byte val = General[OFS_AccessoryMultiCount + (enumIdx / 2)];
+            if (enumIdx % 2 == 0)
+                return (byte)(val & 0x0F);
+            return (byte)(val >> 4);
+        }
+
+        // Otherwise, it's a single-count accessory
+        var flagIdx = accessory - Accessory4.MAXMULTIPLE;
+        if (GetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7))
+            return 1;
+        return 0;
     }
+
+    public void SetAccessoryOwnedCount(Accessory4 accessory, byte count)
+    {
+        if (accessory < Accessory4.MAXMULTIPLE)
+        {
+            if (count > 9)
+                count = 9;
+
+            var enumIdx = (byte)accessory;
+            var addr = OFS_AccessoryMultiCount + (enumIdx / 2);
+
+            if (enumIdx % 2 == 0)
+            {
+                General[addr] &= 0xF0;  // Reset old count to 0
+                General[addr] |= count; // Set new count
+            }
+            else
+            {
+                General[addr] &= 0x0F;  // Reset old count to 0
+                General[addr] |= (byte)(count << 4); // Set new count
+            }
+        }
+        else
+        {
+            var flagIdx = accessory - Accessory4.MAXMULTIPLE;
+            SetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7, count != 0);
+        }
+
+        State.Edited = true;
+    }
+    #endregion
+
+    #region Backdrops
+    public byte GetBackdropPosition(Backdrop4 backdrop)
+    {
+        if (backdrop > Backdrop4.MAX)
+            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
+        return General[OFS_Backdrop + (byte)backdrop];
+    }
+
+    public bool GetBackdropUnlocked(Backdrop4 backdrop)
+    {
+        return GetBackdropPosition(backdrop) != (byte)Backdrop4.MAX;
+    }
+
+    public void RemoveBackdrop(Backdrop4 backdrop) => SetBackdropPosition(backdrop, (byte)Backdrop4.MAX);
+
+    /// <summary>
+    /// Sets the position of a backdrop.
+    /// </summary>
+    /// <remarks>
+    /// Every unlocked backdrop must have a different position.
+    /// Use <see cref="RemoveBackdrop"/> to remove a backdrop.
+    /// </remarks>
+    public void SetBackdropPosition(Backdrop4 backdrop, byte position)
+    {
+        if (backdrop > Backdrop4.MAX)
+            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
+        General[OFS_Backdrop + (byte)backdrop] = Math.Min(position, (byte)Backdrop4.MAX);
+        State.Edited = true;
+    }
+    #endregion
 
     public int GetMailOffset(int index)
     {
