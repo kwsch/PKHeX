@@ -566,7 +566,10 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
             return false;
         if (tr.Language != Language)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
@@ -678,8 +681,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
-        => TrashBytes.GetTerminatorIndex(data);
+        => TrashBytesUTF16.GetTerminatorIndex(data);
     public override int GetStringLength(ReadOnlySpan<byte> data)
-        => TrashBytes.GetStringLength(data);
+        => TrashBytesUTF16.GetStringLength(data);
     public override int GetBytesPerChar() => 2;
 }

@@ -48,6 +48,9 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     public PK8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
 
+    protected virtual void SetTrainerName(ReadOnlySpan<char> name, PK8 pk) =>
+        pk.SetString(pk.OriginalTrainerTrash, name, name.Length, StringConverterOption.None);
+
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var version = this.GetCompatibleVersion(tr.Version);
@@ -67,7 +70,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             Version = version,
             Language = lang,
             OriginalTrainerGender = tr.Gender,
-            OriginalTrainerName = tr.OT,
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -75,6 +77,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             DynamaxLevel = DynamaxLevel,
             CanGigantamax = CanGigantamax,
         };
+        SetTrainerName(tr.OT, pk);
 
         SetPINGA(pk, criteria, pi);
 

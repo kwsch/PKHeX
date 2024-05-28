@@ -358,8 +358,8 @@ public sealed class RK4 : G4PKM
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter4.SetString(destBuffer, value, maxLength, Language, option);
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
-        => TrashBytes.GetTerminatorIndex(data, StringConverter4.Terminator);
+        => TrashBytesUTF16.GetTerminatorIndex(data, StringConverter4.Terminator);
     public override int GetStringLength(ReadOnlySpan<byte> data)
-        => TrashBytes.GetStringLength(data, StringConverter4.Terminator);
+        => TrashBytesUTF16.GetStringLength(data, StringConverter4.Terminator);
     public override int GetBytesPerChar() => 2;
 }

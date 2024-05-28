@@ -288,6 +288,39 @@ public partial class SAV_FolderList : Form
         return list;
     }
 
+    private static void CleanBackups(string path, bool deleteNotSaves)
+    {
+        var files = Directory.GetFiles(path);
+        foreach (var file in files)
+        {
+            var fi = new FileInfo(file);
+            if (!SaveUtil.IsSizeValid(fi.Length) || SaveUtil.GetVariantSAV(file) is not { } sav)
+            {
+                if (deleteNotSaves)
+                    File.Delete(file);
+                continue;
+            }
+
+            var self = sav.Metadata.FilePath;
+            if (self is null)
+                continue; // shouldn't hit
+            var index = self.IndexOf(" [", StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+                continue;
+            var original = self[..index];
+            sav.Metadata.SetExtraInfo(original);
+
+            string backupName = sav.Metadata.GetBackupFileName(Main.BackupPath);
+            if (self == backupName)
+                continue;
+
+            if (File.Exists(backupName))
+                File.Delete(self);
+            else
+                File.Move(self, backupName);
+        }
+    }
+
     private static void Refresh(DataGridView dgData)
     {
         dgData.SuspendLayout();
