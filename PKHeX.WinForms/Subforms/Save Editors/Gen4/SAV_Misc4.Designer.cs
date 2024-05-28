@@ -114,8 +114,6 @@ namespace PKHeX.WinForms
             B_AllSealsIllegal = new System.Windows.Forms.Button();
             B_AllSealsLegal = new System.Windows.Forms.Button();
             Tab_FashionCase = new System.Windows.Forms.TabPage();
-            L_Backdrops = new System.Windows.Forms.Label();
-            L_Accessories = new System.Windows.Forms.Label();
             B_ClearBackdrops = new System.Windows.Forms.Button();
             B_ClearAccessories = new System.Windows.Forms.Button();
             B_AllBackdropsIllegal = new System.Windows.Forms.Button();
@@ -1197,8 +1195,6 @@ namespace PKHeX.WinForms
             // 
             // Tab_FashionCase
             // 
-            Tab_FashionCase.Controls.Add(L_Backdrops);
-            Tab_FashionCase.Controls.Add(L_Accessories);
             Tab_FashionCase.Controls.Add(B_ClearBackdrops);
             Tab_FashionCase.Controls.Add(B_ClearAccessories);
             Tab_FashionCase.Controls.Add(B_AllBackdropsIllegal);
@@ -1215,81 +1211,63 @@ namespace PKHeX.WinForms
             Tab_FashionCase.Text = "Fashion Case";
             Tab_FashionCase.UseVisualStyleBackColor = true;
             // 
-            // L_Backdrops
-            // 
-            L_Backdrops.Location = new System.Drawing.Point(221, 7);
-            L_Backdrops.Name = "L_Backdrops";
-            L_Backdrops.Size = new System.Drawing.Size(102, 29);
-            L_Backdrops.TabIndex = 18;
-            L_Backdrops.Text = "Backdrops:";
-            L_Backdrops.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // L_Accessories
-            // 
-            L_Accessories.Location = new System.Drawing.Point(6, 7);
-            L_Accessories.Name = "L_Accessories";
-            L_Accessories.Size = new System.Drawing.Size(102, 29);
-            L_Accessories.TabIndex = 17;
-            L_Accessories.Text = "Accessories:";
-            L_Accessories.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // B_ClearBackdrops
             // 
-            B_ClearBackdrops.Location = new System.Drawing.Point(329, 7);
+            B_ClearBackdrops.Location = new System.Drawing.Point(221, 7);
             B_ClearBackdrops.Name = "B_ClearBackdrops";
-            B_ClearBackdrops.Size = new System.Drawing.Size(101, 29);
+            B_ClearBackdrops.Size = new System.Drawing.Size(209, 29);
             B_ClearBackdrops.TabIndex = 16;
-            B_ClearBackdrops.Text = "Clear All";
+            B_ClearBackdrops.Text = "Clear All Backdrops";
             B_ClearBackdrops.UseVisualStyleBackColor = true;
             B_ClearBackdrops.Click += B_ClearBackdrops_Click;
             // 
             // B_ClearAccessories
             // 
-            B_ClearAccessories.Location = new System.Drawing.Point(113, 7);
+            B_ClearAccessories.Location = new System.Drawing.Point(6, 7);
             B_ClearAccessories.Name = "B_ClearAccessories";
-            B_ClearAccessories.Size = new System.Drawing.Size(102, 29);
+            B_ClearAccessories.Size = new System.Drawing.Size(209, 29);
             B_ClearAccessories.TabIndex = 15;
-            B_ClearAccessories.Text = "Clear All";
+            B_ClearAccessories.Text = "Clear All Accessories";
             B_ClearAccessories.UseVisualStyleBackColor = true;
             B_ClearAccessories.Click += B_ClearAccessories_Click;
             // 
             // B_AllBackdropsIllegal
             // 
-            B_AllBackdropsIllegal.Location = new System.Drawing.Point(328, 42);
+            B_AllBackdropsIllegal.Location = new System.Drawing.Point(221, 73);
             B_AllBackdropsIllegal.Name = "B_AllBackdropsIllegal";
-            B_AllBackdropsIllegal.Size = new System.Drawing.Size(102, 29);
+            B_AllBackdropsIllegal.Size = new System.Drawing.Size(209, 29);
             B_AllBackdropsIllegal.TabIndex = 13;
-            B_AllBackdropsIllegal.Text = "Give All (Illegal)";
+            B_AllBackdropsIllegal.Text = "Give All Backdrops (Illegal)";
             B_AllBackdropsIllegal.UseVisualStyleBackColor = true;
             B_AllBackdropsIllegal.Click += OnBAllBackdropsLegalOnClick;
             // 
             // B_AllBackdropsLegal
             // 
-            B_AllBackdropsLegal.Location = new System.Drawing.Point(221, 42);
+            B_AllBackdropsLegal.Location = new System.Drawing.Point(221, 40);
             B_AllBackdropsLegal.Name = "B_AllBackdropsLegal";
-            B_AllBackdropsLegal.Size = new System.Drawing.Size(102, 29);
+            B_AllBackdropsLegal.Size = new System.Drawing.Size(209, 29);
             B_AllBackdropsLegal.TabIndex = 12;
-            B_AllBackdropsLegal.Text = "Give All (Legal)";
+            B_AllBackdropsLegal.Text = "Give All Backdrops (Legal)";
             B_AllBackdropsLegal.UseVisualStyleBackColor = true;
             B_AllBackdropsLegal.Click += OnBAllBackdropsLegalOnClick;
             // 
             // B_AllAccessoriesIllegal
             // 
-            B_AllAccessoriesIllegal.Location = new System.Drawing.Point(113, 42);
+            B_AllAccessoriesIllegal.Location = new System.Drawing.Point(6, 73);
             B_AllAccessoriesIllegal.Name = "B_AllAccessoriesIllegal";
-            B_AllAccessoriesIllegal.Size = new System.Drawing.Size(102, 29);
+            B_AllAccessoriesIllegal.Size = new System.Drawing.Size(209, 29);
             B_AllAccessoriesIllegal.TabIndex = 10;
-            B_AllAccessoriesIllegal.Text = "Give All (Illegal)";
+            B_AllAccessoriesIllegal.Text = "Give All Accessories (Illegal)";
             B_AllAccessoriesIllegal.UseVisualStyleBackColor = true;
             B_AllAccessoriesIllegal.Click += OnBAllAccessoriesLegalOnClick;
             // 
             // B_AllAccessoriesLegal
             // 
-            B_AllAccessoriesLegal.Location = new System.Drawing.Point(6, 42);
+            B_AllAccessoriesLegal.Location = new System.Drawing.Point(6, 40);
             B_AllAccessoriesLegal.Name = "B_AllAccessoriesLegal";
-            B_AllAccessoriesLegal.Size = new System.Drawing.Size(102, 29);
+            B_AllAccessoriesLegal.Size = new System.Drawing.Size(209, 29);
             B_AllAccessoriesLegal.TabIndex = 9;
-            B_AllAccessoriesLegal.Text = "Give All (Legal)";
+            B_AllAccessoriesLegal.Text = "Give All Accessories (Legal)";
             B_AllAccessoriesLegal.UseVisualStyleBackColor = true;
             B_AllAccessoriesLegal.Click += OnBAllAccessoriesLegalOnClick;
             // 
@@ -1304,12 +1282,12 @@ namespace PKHeX.WinForms
             DGV_Backdrops.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGV_Backdrops.ColumnHeadersVisible = false;
             DGV_Backdrops.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            DGV_Backdrops.Location = new System.Drawing.Point(221, 77);
+            DGV_Backdrops.Location = new System.Drawing.Point(221, 108);
             DGV_Backdrops.MultiSelect = false;
             DGV_Backdrops.Name = "DGV_Backdrops";
             DGV_Backdrops.RowHeadersVisible = false;
             DGV_Backdrops.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            DGV_Backdrops.Size = new System.Drawing.Size(209, 195);
+            DGV_Backdrops.Size = new System.Drawing.Size(209, 164);
             DGV_Backdrops.TabIndex = 14;
             // 
             // DGV_Accessories
@@ -1323,12 +1301,12 @@ namespace PKHeX.WinForms
             DGV_Accessories.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGV_Accessories.ColumnHeadersVisible = false;
             DGV_Accessories.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            DGV_Accessories.Location = new System.Drawing.Point(6, 77);
+            DGV_Accessories.Location = new System.Drawing.Point(6, 108);
             DGV_Accessories.MultiSelect = false;
             DGV_Accessories.Name = "DGV_Accessories";
             DGV_Accessories.RowHeadersVisible = false;
             DGV_Accessories.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            DGV_Accessories.Size = new System.Drawing.Size(209, 195);
+            DGV_Accessories.Size = new System.Drawing.Size(209, 164);
             DGV_Accessories.TabIndex = 11;
             // 
             // Tab_Poffins
@@ -1539,8 +1517,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_AllAccessoriesLegal;
         private System.Windows.Forms.TabPage Tab_Seals;
         private System.Windows.Forms.TabPage Tab_FashionCase;
-        private System.Windows.Forms.Label L_Backdrops;
-        private System.Windows.Forms.Label L_Accessories;
         private System.Windows.Forms.Button B_ClearBackdrops;
         private System.Windows.Forms.Button B_ClearAccessories;
         private System.Windows.Forms.Button B_ClearSeals;
