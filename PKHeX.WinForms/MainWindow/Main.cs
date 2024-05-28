@@ -886,19 +886,19 @@ public partial class Main : Form
             return false;
 
         var meta = sav.Metadata;
-        string backupName = Path.Combine(dir, Util.CleanFileName(meta.BAKName));
+        var backupName = meta.GetBackupFileName(dir);
         if (File.Exists(backupName))
             return false; // Already backed up.
 
         // Ensure the file we are copying exists.
         var src = meta.FilePath;
-        if (src is not { } x || !File.Exists(x))
+        if (src is null || !File.Exists(src))
             return false;
 
         try
         {
             // Don't need to force overwrite, but on the off-chance it was written externally, we force ours.
-            File.Copy(x, backupName, true);
+            File.Copy(src, backupName, true);
             return true;
         }
         catch (Exception ex)
