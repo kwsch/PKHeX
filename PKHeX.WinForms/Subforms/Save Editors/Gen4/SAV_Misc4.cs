@@ -16,11 +16,20 @@ public partial class SAV_Misc4 : Form
     private readonly SAV4 SAV;
     private readonly Hall4? Hall;
 
+    private readonly string[] seals, accessories, backdrops, poketchapps;
+    private readonly string[] backdropsSorted;
+
     public SAV_Misc4(SAV4 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV4)(Origin = sav).Clone();
+
+        seals = GameInfo.Strings.seals;
+        accessories = GameInfo.Strings.accessories;
+        backdrops = GameInfo.Strings.backdrops;
+        poketchapps = GameInfo.Strings.poketchapps;
+        backdropsSorted = [.. backdrops.OrderBy(z => z)]; // sorted copy
 
         StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
         StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3]; // Current, Trade, Record, Trade
@@ -195,7 +204,7 @@ public partial class SAV_Misc4 : Form
         CLB_Poketch.Items.Clear();
         for (PoketchApp i = 0; i <= PoketchApp.Alarm_Clock; i++)
         {
-            var name = i.ToString();
+            var name = poketchapps[(int)i];
             var title = $"{(int)i:00} - {name}";
             CB_CurrentApp.Items.Add(name);
             var value = s.GetPoketchAppUnlocked(i);
@@ -746,7 +755,7 @@ public partial class SAV_Misc4 : Form
         var count = (int)Seal4.MAX;
         DGV_Seals.Rows.Add(count);
         for (int i = 0; i < count; i++)
-            DGV_Seals.Rows[i].Cells[0].Value = (Seal4)i;
+            DGV_Seals.Rows[i].Cells[0].Value = seals[i];
         LoadSealsCount();
     }
 
@@ -815,7 +824,7 @@ public partial class SAV_Misc4 : Form
         var count = (int)Accessory4.MAX;
         DGV_Accessories.Rows.Add(count);
         for (int i = 0; i < count; i++)
-            DGV_Accessories.Rows[i].Cells[0].Value = (Accessory4)i;
+            DGV_Accessories.Rows[i].Cells[0].Value = accessories[i];
         LoadAccessoriesCount();
     }
 
@@ -874,8 +883,7 @@ public partial class SAV_Misc4 : Form
             DisplayIndex = 0,
             Width = 190,
             FlatStyle = FlatStyle.Flat,
-            ValueType = typeof(Backdrop4),
-            DataSource = Enum.GetValues(typeof(Backdrop4)),
+            DataSource = new BindingSource(backdropsSorted, null),
         };
         DGV_Backdrops.Columns.Add(dgv);
 
@@ -893,21 +901,21 @@ public partial class SAV_Misc4 : Form
         {
             var pos = SAV.GetBackdropPosition((Backdrop4)i);
             if (pos < (int)Backdrop4.MAX)
-                DGV_Backdrops.Rows[pos].Cells[0].Value = (Backdrop4)i;
+                DGV_Backdrops.Rows[pos].Cells[0].Value = backdrops[i];
         }
     }
 
     private void ClearBackdrops()
     {
         for (int i = 0; i < (int)Backdrop4.MAX; i++)
-            DGV_Backdrops.Rows[i].Cells[0].Value = Backdrop4.MAX;
+            DGV_Backdrops.Rows[i].Cells[0].Value = backdrops[(int)Backdrop4.MAX];
     }
 
     public void SetAllBackdrops(bool unreleased = false)
     {
         var backdropIndexCount = (int)(unreleased ? Backdrop4.MAX : Backdrop4.MAXLEGAL);
         for (int i = 0; i < backdropIndexCount; i++)
-            DGV_Backdrops.Rows[i].Cells[0].Value = (Backdrop4)i;
+            DGV_Backdrops.Rows[i].Cells[0].Value = backdrops[i];
     }
 
     private void SaveBackdrops()
@@ -918,7 +926,7 @@ public partial class SAV_Misc4 : Form
         byte ctr = 0;
         for (int i = 0; i < (int)Backdrop4.MAX; i++)
         {
-            Backdrop4 bd = (Backdrop4)DGV_Backdrops.Rows[i].Cells[0].Value;
+            Backdrop4 bd = (Backdrop4)Array.IndexOf(backdrops, DGV_Backdrops.Rows[i].Cells[0].Value);
             if (bd >= Backdrop4.MAX) // skip empty slots
                 continue;
 

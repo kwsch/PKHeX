@@ -138,18 +138,18 @@ public static class MysteryUtil
                 case GiftType4.HasSubType:
                     switch (gift.GiftSubType) {
                         case GiftSubType4.Seal:
-                            result.Add($"Seal: {gift.Seal}");
+                            result.Add($"Seal: {GameInfo.Strings.seals[(int)gift.Seal]}");
                             break;
                         case GiftSubType4.Accessory:
-                            result.Add($"Accessory: {gift.Accessory}");
+                            result.Add($"Accessory: {GameInfo.Strings.accessories[(int)gift.Accessory]}");
                             break;
                         case GiftSubType4.Backdrop:
-                            result.Add($"Backdrop: {gift.Backdrop}");
+                            result.Add($"Backdrop: {GameInfo.Strings.backdrops[(int)gift.Backdrop]}");
                             break;
                     }
                     break;
                 case GiftType4.PokétchApp:
-                    result.Add($"Pokétch App: {gift.PoketchApp}");
+                    result.Add($"Pokétch App: {GameInfo.Strings.poketchapps[(int)gift.PoketchApp]}");
                     break;
                 case GiftType4.PokéwalkerCourse:
                     result.Add($"Route Map: {GameInfo.Strings.walkercourses[gift.PokewalkerCourseID]}");
