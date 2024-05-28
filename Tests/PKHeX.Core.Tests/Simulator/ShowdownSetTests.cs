@@ -24,7 +24,7 @@ public class ShowdownSetTests
         var set = new ShowdownSet(SetGlaceonUSUMTutor);
         var pk7 = new PK7 {Species = set.Species, Form = set.Form, Moves = set.Moves};
         var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-        Assert.True(!encounters.Any());
+        Assert.False(encounters.Any());
         pk7.HandlingTrainerName = "PKHeX";
         encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         var first = encounters.FirstOrDefault();
@@ -153,9 +153,6 @@ public class ShowdownSetTests
         var text = string.Join("\r\n\r\n", Sets);
         var sets = ShowdownParsing.GetShowdownSets(text);
         Assert.True(sets.Count() == Sets.Length);
-
-        sets = ShowdownParsing.GetShowdownSets(string.Empty);
-        Assert.True(!sets.Any());
     }
 
     [Fact]
@@ -163,7 +160,7 @@ public class ShowdownSetTests
     {
         string[] lines = ["", "   ", " "];
         var sets = ShowdownParsing.GetShowdownSets(lines);
-        Assert.True(!sets.Any());
+        Assert.False(sets.Any());
     }
 
     [Theory]
@@ -183,7 +180,7 @@ public class ShowdownSetTests
         var pk7 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves, CurrentLevel = set.Level };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
         var tr3 = encs.First(z => z is EncounterTrade3);
-        var pk3 = tr3.ConvertToPKM(new SAV3FRLG());
+        var pk3 = tr3.ConvertToPKM(new SimpleTrainerInfo(GameVersion.FR));
 
         var la = new LegalityAnalysis(pk3);
         la.Valid.Should().BeTrue(la.Report());

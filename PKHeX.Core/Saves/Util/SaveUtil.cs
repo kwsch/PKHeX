@@ -942,7 +942,7 @@ public static class SaveUtil
 
     private static IEnumerable<string> FilterSaveFiles(bool ignoreBackups, IEnumerable<string> files)
     {
-        foreach (string file in files)
+        foreach (var file in files)
         {
             if (ignoreBackups && IsBackup(file))
                 continue;

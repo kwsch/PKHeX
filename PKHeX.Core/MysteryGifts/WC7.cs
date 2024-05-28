@@ -577,7 +577,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
-            if (!string.IsNullOrEmpty(OriginalTrainerName) && OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (IsOriginalTrainerNameSet && OriginalTrainerName != pk.OriginalTrainerName) return false;
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0 && EncryptionConstant != pk.EncryptionConstant) return false;
             if (Language != 0 && Language != pk.Language) return false;

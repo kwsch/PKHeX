@@ -20,8 +20,6 @@ public static class WinFormsUtil
     /// <summary>
     /// Centers the <see cref="child"/> horizontally and vertically so that its center is the same as the <see cref="parent"/>'s center.
     /// </summary>
-    /// <param name="child"></param>
-    /// <param name="parent"></param>
     internal static void CenterToForm(this Control child, Control? parent)
     {
         if (parent == null)
@@ -230,16 +228,7 @@ public static class WinFormsUtil
         }
     }
 
-    private static readonly List<string> CustomSaveExtensions =
-    [
-        "sav", // standard
-        "dat", // VC data
-        "gci", // Dolphin GameCubeImage
-        "dsv", // DeSmuME
-        "srm", // RetroArch save files
-        "fla", // flash
-        "SaveRAM", // BizHawk
-    ];
+    private static List<string> CustomSaveExtensions => SaveFileMetadata.CustomSaveExtensions;
 
     public static bool IsFileExtensionSAV(ReadOnlySpan<char> file)
     {

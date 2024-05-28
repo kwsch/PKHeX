@@ -301,7 +301,7 @@ public static class EntityConverter
                 return false;
             }
         }
-        if (IsIncompatibleGB(target, target.Japanese, pk.Japanese))
+        if (!IsCompatibleGB(target, target.Japanese, pk.Japanese))
         {
             converted = target;
             result = IncompatibleLanguageGB;
@@ -321,14 +321,14 @@ public static class EntityConverter
     /// <summary>
     /// Checks if a <see cref="GBPKM"/> is incompatible with the Generation 1/2 destination environment.
     /// </summary>
-    public static bool IsIncompatibleGB(PKM pk, bool destJapanese, bool srcJapanese)
+    public static bool IsCompatibleGB(PKM pk, bool destJapanese, bool srcJapanese)
     {
         if (pk.Format > 2)
-            return false;
+            return true;
         if (destJapanese == srcJapanese)
-            return false;
+            return true;
         if (pk is SK2 sk2 && sk2.IsPossible(srcJapanese))
-            return false;
-        return true;
+            return true;
+        return false;
     }
 }

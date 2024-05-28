@@ -290,7 +290,10 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
             return false;
         if (tr.Gender != OriginalTrainerGender)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
