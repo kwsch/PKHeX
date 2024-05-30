@@ -57,8 +57,7 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
 
     public bool IsShinyXorValid(ushort pkShinyXor) => pkShinyXor is > 15 or 1;
 
-    public bool ShouldHaveScientistTrash => !SpeciesCategory.IsLegendary(Species)
-                                         && !SpeciesCategory.IsSubLegendary(Species);
+    public bool ShouldHaveScientistTrash => Level != 70; // Level 65, not legendary/sub-legendary/ultra beast
 
     public static ReadOnlySpan<char> GetScientistName(int language) => language switch
     {

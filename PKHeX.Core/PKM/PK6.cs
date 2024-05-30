@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
 public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetRibbons,
-    IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4
+    IContestStats, IGeoTrack, ISuperTrainRegimen, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
