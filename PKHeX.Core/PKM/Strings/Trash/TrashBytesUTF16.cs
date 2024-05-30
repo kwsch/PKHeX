@@ -86,7 +86,7 @@ public static class TrashBytesUTF16
             return TrashMatch.TooLongToTell;
 
         var remain = span[start..];
-        var end = GetTerminatorIndex(span) + 1;
+        var end = GetTerminatorIndex(remain) + 1;
         start = end * BytesPerChar;
         if ((uint)start < remain.Length && !IsTrashEmpty(remain[start..]))
             return TrashMatch.NotEmpty;
