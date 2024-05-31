@@ -1142,11 +1142,12 @@ namespace PKHeX.WinForms
             // 
             // B_ClearSeals
             // 
+            B_ClearSeals.Anchor = System.Windows.Forms.AnchorStyles.Left;
             B_ClearSeals.Location = new System.Drawing.Point(42, 68);
             B_ClearSeals.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_ClearSeals.Name = "B_ClearSeals";
             B_ClearSeals.Size = new System.Drawing.Size(140, 43);
-            B_ClearSeals.TabIndex = 20;
+            B_ClearSeals.TabIndex = 0;
             B_ClearSeals.Text = "Clear All Seals";
             B_ClearSeals.UseVisualStyleBackColor = true;
             B_ClearSeals.Click += B_ClearSeals_Click;
@@ -1157,6 +1158,7 @@ namespace PKHeX.WinForms
             DGV_Seals.AllowUserToDeleteRows = false;
             DGV_Seals.AllowUserToResizeColumns = false;
             DGV_Seals.AllowUserToResizeRows = false;
+            DGV_Seals.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             DGV_Seals.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Seals.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Seals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1168,27 +1170,29 @@ namespace PKHeX.WinForms
             DGV_Seals.RowHeadersVisible = false;
             DGV_Seals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_Seals.Size = new System.Drawing.Size(209, 266);
-            DGV_Seals.TabIndex = 2;
+            DGV_Seals.StandardTab = true;
+            DGV_Seals.TabIndex = 3;
             // 
             // B_AllSealsIllegal
             // 
+            B_AllSealsIllegal.Anchor = System.Windows.Forms.AnchorStyles.Left;
             B_AllSealsIllegal.Location = new System.Drawing.Point(42, 166);
             B_AllSealsIllegal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_AllSealsIllegal.Name = "B_AllSealsIllegal";
             B_AllSealsIllegal.Size = new System.Drawing.Size(140, 43);
-            B_AllSealsIllegal.TabIndex = 1;
+            B_AllSealsIllegal.TabIndex = 2;
             B_AllSealsIllegal.Text = "Give All Seals (Illegal)";
             B_AllSealsIllegal.UseVisualStyleBackColor = true;
             B_AllSealsIllegal.Click += OnBAllSealsLegalOnClick;
             // 
             // B_AllSealsLegal
             // 
-            B_AllSealsLegal.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            B_AllSealsLegal.Anchor = System.Windows.Forms.AnchorStyles.Left;
             B_AllSealsLegal.Location = new System.Drawing.Point(42, 117);
             B_AllSealsLegal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_AllSealsLegal.Name = "B_AllSealsLegal";
             B_AllSealsLegal.Size = new System.Drawing.Size(140, 43);
-            B_AllSealsLegal.TabIndex = 0;
+            B_AllSealsLegal.TabIndex = 1;
             B_AllSealsLegal.Text = "Give All Seals (Legal)";
             B_AllSealsLegal.UseVisualStyleBackColor = true;
             B_AllSealsLegal.Click += OnBAllSealsLegalOnClick;
@@ -1216,7 +1220,7 @@ namespace PKHeX.WinForms
             B_ClearBackdrops.Location = new System.Drawing.Point(221, 7);
             B_ClearBackdrops.Name = "B_ClearBackdrops";
             B_ClearBackdrops.Size = new System.Drawing.Size(209, 29);
-            B_ClearBackdrops.TabIndex = 16;
+            B_ClearBackdrops.TabIndex = 5;
             B_ClearBackdrops.Text = "Clear All Backdrops";
             B_ClearBackdrops.UseVisualStyleBackColor = true;
             B_ClearBackdrops.Click += B_ClearBackdrops_Click;
@@ -1226,7 +1230,7 @@ namespace PKHeX.WinForms
             B_ClearAccessories.Location = new System.Drawing.Point(6, 7);
             B_ClearAccessories.Name = "B_ClearAccessories";
             B_ClearAccessories.Size = new System.Drawing.Size(209, 29);
-            B_ClearAccessories.TabIndex = 15;
+            B_ClearAccessories.TabIndex = 1;
             B_ClearAccessories.Text = "Clear All Accessories";
             B_ClearAccessories.UseVisualStyleBackColor = true;
             B_ClearAccessories.Click += B_ClearAccessories_Click;
@@ -1236,7 +1240,7 @@ namespace PKHeX.WinForms
             B_AllBackdropsIllegal.Location = new System.Drawing.Point(221, 73);
             B_AllBackdropsIllegal.Name = "B_AllBackdropsIllegal";
             B_AllBackdropsIllegal.Size = new System.Drawing.Size(209, 29);
-            B_AllBackdropsIllegal.TabIndex = 13;
+            B_AllBackdropsIllegal.TabIndex = 7;
             B_AllBackdropsIllegal.Text = "Give All Backdrops (Illegal)";
             B_AllBackdropsIllegal.UseVisualStyleBackColor = true;
             B_AllBackdropsIllegal.Click += OnBAllBackdropsLegalOnClick;
@@ -1246,7 +1250,7 @@ namespace PKHeX.WinForms
             B_AllBackdropsLegal.Location = new System.Drawing.Point(221, 40);
             B_AllBackdropsLegal.Name = "B_AllBackdropsLegal";
             B_AllBackdropsLegal.Size = new System.Drawing.Size(209, 29);
-            B_AllBackdropsLegal.TabIndex = 12;
+            B_AllBackdropsLegal.TabIndex = 6;
             B_AllBackdropsLegal.Text = "Give All Backdrops (Legal)";
             B_AllBackdropsLegal.UseVisualStyleBackColor = true;
             B_AllBackdropsLegal.Click += OnBAllBackdropsLegalOnClick;
@@ -1256,7 +1260,7 @@ namespace PKHeX.WinForms
             B_AllAccessoriesIllegal.Location = new System.Drawing.Point(6, 73);
             B_AllAccessoriesIllegal.Name = "B_AllAccessoriesIllegal";
             B_AllAccessoriesIllegal.Size = new System.Drawing.Size(209, 29);
-            B_AllAccessoriesIllegal.TabIndex = 10;
+            B_AllAccessoriesIllegal.TabIndex = 3;
             B_AllAccessoriesIllegal.Text = "Give All Accessories (Illegal)";
             B_AllAccessoriesIllegal.UseVisualStyleBackColor = true;
             B_AllAccessoriesIllegal.Click += OnBAllAccessoriesLegalOnClick;
@@ -1266,7 +1270,7 @@ namespace PKHeX.WinForms
             B_AllAccessoriesLegal.Location = new System.Drawing.Point(6, 40);
             B_AllAccessoriesLegal.Name = "B_AllAccessoriesLegal";
             B_AllAccessoriesLegal.Size = new System.Drawing.Size(209, 29);
-            B_AllAccessoriesLegal.TabIndex = 9;
+            B_AllAccessoriesLegal.TabIndex = 2;
             B_AllAccessoriesLegal.Text = "Give All Accessories (Legal)";
             B_AllAccessoriesLegal.UseVisualStyleBackColor = true;
             B_AllAccessoriesLegal.Click += OnBAllAccessoriesLegalOnClick;
@@ -1277,6 +1281,7 @@ namespace PKHeX.WinForms
             DGV_Backdrops.AllowUserToDeleteRows = false;
             DGV_Backdrops.AllowUserToResizeColumns = false;
             DGV_Backdrops.AllowUserToResizeRows = false;
+            DGV_Backdrops.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             DGV_Backdrops.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Backdrops.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Backdrops.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1288,7 +1293,8 @@ namespace PKHeX.WinForms
             DGV_Backdrops.RowHeadersVisible = false;
             DGV_Backdrops.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_Backdrops.Size = new System.Drawing.Size(209, 164);
-            DGV_Backdrops.TabIndex = 14;
+            DGV_Backdrops.StandardTab = true;
+            DGV_Backdrops.TabIndex = 8;
             // 
             // DGV_Accessories
             // 
@@ -1296,6 +1302,7 @@ namespace PKHeX.WinForms
             DGV_Accessories.AllowUserToDeleteRows = false;
             DGV_Accessories.AllowUserToResizeColumns = false;
             DGV_Accessories.AllowUserToResizeRows = false;
+            DGV_Accessories.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             DGV_Accessories.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Accessories.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Accessories.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1307,7 +1314,8 @@ namespace PKHeX.WinForms
             DGV_Accessories.RowHeadersVisible = false;
             DGV_Accessories.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_Accessories.Size = new System.Drawing.Size(209, 164);
-            DGV_Accessories.TabIndex = 11;
+            DGV_Accessories.StandardTab = true;
+            DGV_Accessories.TabIndex = 4;
             // 
             // Tab_Poffins
             // 
