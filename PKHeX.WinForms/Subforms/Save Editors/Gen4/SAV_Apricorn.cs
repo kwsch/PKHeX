@@ -19,7 +19,9 @@ public partial class SAV_Apricorn : Form
     private readonly SAV4HGSS SAV;
     private const int Count = 7;
     private const int ItemNameBase = 485; // Red Apricorn
-    private static ReadOnlySpan<byte> ItemNameOffset => [
+
+    private static ReadOnlySpan<byte> ItemNameOffset =>
+    [
         0, // 485: Red
         2, // 487: Yellow - out of order
         1, // 486: Blue - out of order
@@ -51,8 +53,12 @@ public partial class SAV_Apricorn : Form
         dgv.Columns.Add(dgvCount);
 
         dgv.Rows.Add(Count);
+        var itemNames = GameInfo.Strings.itemlist;
         for (int i = 0; i < Count; i++)
-            dgv.Rows[i].Cells[0].Value = GameInfo.Strings.itemlist[ItemNameBase + ItemNameOffset[i]];
+        {
+            var itemId = ItemNameBase + ItemNameOffset[i];
+            dgv.Rows[i].Cells[0].Value = itemNames[itemId];
+        }
         LoadCount();
     }
 

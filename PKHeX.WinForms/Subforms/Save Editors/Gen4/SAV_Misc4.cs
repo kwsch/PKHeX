@@ -821,7 +821,7 @@ public partial class SAV_Misc4 : Form
         DGV_Accessories.Columns.Add(dgvSlot);
         DGV_Accessories.Columns.Add(dgvCount);
 
-        var count = (int)Accessory4.MAX;
+        var count = AccessoryInfo.Count;
         DGV_Accessories.Rows.Add(count);
         for (int i = 0; i < count; i++)
             DGV_Accessories.Rows[i].Cells[0].Value = accessories[i];
@@ -830,29 +830,29 @@ public partial class SAV_Misc4 : Form
 
     private void LoadAccessoriesCount()
     {
-        for (int i = 0; i < (int)Accessory4.MAX; i++)
+        for (int i = 0; i < AccessoryInfo.Count; i++)
             DGV_Accessories.Rows[i].Cells[1].Value = SAV.GetAccessoryOwnedCount((Accessory4)i).ToString();
     }
 
     public void ClearAccessories()
     {
-        for (int i = 0; i < (int)Accessory4.MAX; i++)
+        for (int i = 0; i < AccessoryInfo.Count; i++)
             DGV_Accessories.Rows[i].Cells[1].Value = "0";
     }
 
     public void SetAllAccessories(bool unreleased = false)
     {
-        var accessoryIndexCount = (int)(unreleased ? Accessory4.MAX : Accessory4.MAXLEGAL);
-        int i = 0;
-        for (; i < (int)Accessory4.MAXMULTIPLE; i++)
-            DGV_Accessories.Rows[i].Cells[1].Value = SAV4.AccessoryMaxCount.ToString();
-        for (; i < accessoryIndexCount; i++)
+        for (int i = 0; i <= AccessoryInfo.MaxMulti; i++)
+            DGV_Accessories.Rows[i].Cells[1].Value = AccessoryInfo.AccessoryMaxCount.ToString();
+
+        var count = unreleased ? AccessoryInfo.Count : (AccessoryInfo.MaxLegal + 1);
+        for (int i = AccessoryInfo.MaxMulti + 1; i < count; i++)
             DGV_Accessories.Rows[i].Cells[1].Value = "1";
     }
 
     private void SaveAccessories()
     {
-        for (int i = 0; i < (int)Accessory4.MAX; i++)
+        for (int i = 0; i < AccessoryInfo.Count; i++)
         {
             var cells = DGV_Accessories.Rows[i].Cells;
             var count = int.TryParse(cells[1].Value?.ToString() ?? "0", out var val) ? val : 0;
@@ -887,47 +887,46 @@ public partial class SAV_Misc4 : Form
         };
         DGV_Backdrops.Columns.Add(dgv);
 
-        var backdroparr = Enum.GetNames<Backdrop4>();
-        var count = (int)Backdrop4.MAX;
-        DGV_Backdrops.Rows.Add(count);
         LoadBackdropPositions();
     }
 
     private void LoadBackdropPositions()
     {
+        const int count = BackdropInfo.Count;
+        DGV_Backdrops.Rows.Add(count);
         ClearBackdrops();
 
-        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+        for (int i = 0; i < count; i++)
         {
             var pos = SAV.GetBackdropPosition((Backdrop4)i);
-            if (pos < (int)Backdrop4.MAX)
+            if (pos < BackdropInfo.Count)
                 DGV_Backdrops.Rows[pos].Cells[0].Value = backdrops[i];
         }
     }
 
     private void ClearBackdrops()
     {
-        for (int i = 0; i < (int)Backdrop4.MAX; i++)
-            DGV_Backdrops.Rows[i].Cells[0].Value = backdrops[(int)Backdrop4.MAX];
+        for (int i = 0; i < BackdropInfo.Count; i++)
+            DGV_Backdrops.Rows[i].Cells[0].Value = backdrops[(int)Backdrop4.Unset];
     }
 
     public void SetAllBackdrops(bool unreleased = false)
     {
-        var backdropIndexCount = (int)(unreleased ? Backdrop4.MAX : Backdrop4.MAXLEGAL);
-        for (int i = 0; i < backdropIndexCount; i++)
+        var count = unreleased ? BackdropInfo.Count : ((int)BackdropInfo.MaxLegal + 1);
+        for (int i = 0; i < count; i++)
             DGV_Backdrops.Rows[i].Cells[0].Value = backdrops[i];
     }
 
     private void SaveBackdrops()
     {
-        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+        for (int i = 0; i < BackdropInfo.Count; i++)
             SAV.RemoveBackdrop((Backdrop4)i); // clear all slots
 
         byte ctr = 0;
-        for (int i = 0; i < (int)Backdrop4.MAX; i++)
+        for (int i = 0; i < BackdropInfo.Count; i++)
         {
             Backdrop4 bd = (Backdrop4)Array.IndexOf(backdrops, DGV_Backdrops.Rows[i].Cells[0].Value);
-            if (bd >= Backdrop4.MAX) // skip empty slots
+            if (bd.IsUnset()) // skip empty slots
                 continue;
 
             SAV.SetBackdropPosition(bd, ctr);

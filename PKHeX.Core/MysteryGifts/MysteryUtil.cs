@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -128,31 +129,37 @@ public static class MysteryUtil
 
     private static void AddLinesPGT(PGT gift, List<string> result)
     {
+        static string Get(ReadOnlySpan<string> list, int index)
+        {
+            if ((uint)index >= list.Length)
+                return $"Unknown ({index})";
+            return list[index];
+        }
         try
         {
             switch (gift.GiftType)
             {
                 case GiftType4.Goods:
-                    result.Add($"Goods: {GameInfo.Strings.uggoods[gift.ItemID]}");
+                    result.Add($"Goods: {Get(GameInfo.Strings.uggoods, gift.ItemID)}");
                     break;
                 case GiftType4.HasSubType:
                     switch (gift.GiftSubType) {
                         case GiftSubType4.Seal:
-                            result.Add($"Seal: {GameInfo.Strings.seals[(int)gift.Seal]}");
+                            result.Add($"Seal: {Get(GameInfo.Strings.seals, (int)gift.Seal)}");
                             break;
                         case GiftSubType4.Accessory:
-                            result.Add($"Accessory: {GameInfo.Strings.accessories[(int)gift.Accessory]}");
+                            result.Add($"Accessory: {Get(GameInfo.Strings.accessories, (int)gift.Accessory)}");
                             break;
                         case GiftSubType4.Backdrop:
-                            result.Add($"Backdrop: {GameInfo.Strings.backdrops[(int)gift.Backdrop]}");
+                            result.Add($"Backdrop: {Get(GameInfo.Strings.backdrops, (int)gift.Backdrop)}");
                             break;
                     }
                     break;
                 case GiftType4.PokétchApp:
-                    result.Add($"Pokétch App: {GameInfo.Strings.poketchapps[(int)gift.PoketchApp]}");
+                    result.Add($"Pokétch App: {Get(GameInfo.Strings.poketchapps, (int)gift.PoketchApp)}");
                     break;
                 case GiftType4.PokéwalkerCourse:
-                    result.Add($"Route Map: {GameInfo.Strings.walkercourses[gift.PokewalkerCourseID]}");
+                    result.Add($"Route Map: {Get(GameInfo.Strings.walkercourses, gift.PokewalkerCourseID)}");
                     break;
                 default:
                     result.Add($"{gift.GiftType}");

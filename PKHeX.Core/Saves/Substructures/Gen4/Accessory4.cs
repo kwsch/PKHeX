@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 public enum Accessory4 : byte
@@ -106,8 +108,22 @@ public enum Accessory4 : byte
 
     // Unreleased
     Comet,
+}
 
-    MAX,
-    MAXMULTIPLE = ColoredParasol,
-    MAXLEGAL = Comet,
+public static class AccessoryInfo
+{
+    public const int Count = 100;
+    public const int MaxMulti = (int)Accessory4.Confetti;
+    public const int MaxLegal = (int)Accessory4.Tiara;
+    public const byte AccessoryMaxCount = 9;
+
+    public static bool IsMultiple(this Accessory4 acc) => (uint)acc <= MaxMulti;
+    public static bool IsSingle(this Accessory4 acc) => (uint)acc > MaxMulti;
+
+    public static int GetSingleBitIndex(this Accessory4 acc)
+    {
+        var index = (int)acc - MaxMulti - 1;
+        ArgumentOutOfRangeException.ThrowIfLessThan(index, 0, nameof(acc));
+        return index;
+    }
 }

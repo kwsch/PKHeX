@@ -523,11 +523,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     #endregion
 
     #region Accessories
-    public const byte AccessoryMaxCount = 9;
 
     public byte GetAccessoryOwnedCount(Accessory4 accessory)
     {
-        if (accessory < Accessory4.MAXMULTIPLE)
+        if (accessory.IsMultiple())
         {
             byte enumIdx = (byte)accessory;
             byte val = General[OFS_AccessoryMultiCount + (enumIdx / 2)];
@@ -537,7 +536,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         }
 
         // Otherwise, it's a single-count accessory
-        var flagIdx = accessory - Accessory4.MAXMULTIPLE;
+        var flagIdx = accessory.GetSingleBitIndex();
         if (GetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7))
             return 1;
         return 0;
@@ -545,7 +544,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     public void SetAccessoryOwnedCount(Accessory4 accessory, byte count)
     {
-        if (accessory < Accessory4.MAXMULTIPLE)
+        if (accessory.IsMultiple())
         {
             if (count > 9)
                 count = 9;
@@ -566,7 +565,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         }
         else
         {
-            var flagIdx = accessory - Accessory4.MAXMULTIPLE;
+            var flagIdx = accessory.GetSingleBitIndex();
             SetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7, count != 0);
         }
 
@@ -577,17 +576,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     #region Backdrops
     public byte GetBackdropPosition(Backdrop4 backdrop)
     {
-        if (backdrop > Backdrop4.MAX)
-            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)backdrop, (uint)Backdrop4.Unset);
         return General[OFS_Backdrop + (byte)backdrop];
     }
 
-    public bool GetBackdropUnlocked(Backdrop4 backdrop)
-    {
-        return GetBackdropPosition(backdrop) != (byte)Backdrop4.MAX;
-    }
-
-    public void RemoveBackdrop(Backdrop4 backdrop) => SetBackdropPosition(backdrop, (byte)Backdrop4.MAX);
+    public bool GetBackdropUnlocked(Backdrop4 backdrop) => GetBackdropPosition(backdrop) != (byte)Backdrop4.Unset;
+    public void RemoveBackdrop(Backdrop4 backdrop) => SetBackdropPosition(backdrop, (byte)Backdrop4.Unset);
 
     /// <summary>
     /// Sets the position of a backdrop.
@@ -598,9 +592,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     /// </remarks>
     public void SetBackdropPosition(Backdrop4 backdrop, byte position)
     {
-        if (backdrop > Backdrop4.MAX)
-            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
-        General[OFS_Backdrop + (byte)backdrop] = Math.Min(position, (byte)Backdrop4.MAX);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)backdrop, (uint)Backdrop4.Unset);
+        General[OFS_Backdrop + (byte)backdrop] = Math.Min(position, (byte)Backdrop4.Unset);
         State.Edited = true;
     }
     #endregion
