@@ -58,6 +58,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         AdventureInfo = 0;
         Trainer1 = 0x64;
         Party = 0x98;
+        FashionCase = 0x4BA8;
         ChatterOffset = 0x61CC;
         Geonet = 0x96D8;
         WondercardFlags = 0xA6D0;

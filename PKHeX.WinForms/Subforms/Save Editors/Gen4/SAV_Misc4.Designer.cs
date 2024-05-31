@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Misc4
     {
@@ -36,8 +36,6 @@
             NUD_Coin = new System.Windows.Forms.NumericUpDown();
             L_Coin = new System.Windows.Forms.Label();
             L_CurrentMap = new System.Windows.Forms.Label();
-            L_UGFlags = new System.Windows.Forms.Label();
-            NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
             NUD_BP = new System.Windows.Forms.NumericUpDown();
             L_BP = new System.Windows.Forms.Label();
             CB_UpgradeMap = new System.Windows.Forms.ComboBox();
@@ -50,6 +48,10 @@
             B_AllPoketch = new System.Windows.Forms.Button();
             CLB_Poketch = new System.Windows.Forms.CheckedListBox();
             PB_DotArtist = new System.Windows.Forms.PictureBox();
+            NUD_PokeathlonPoints = new System.Windows.Forms.NumericUpDown();
+            L_PokeathlonPoints = new System.Windows.Forms.Label();
+            L_UGFlags = new System.Windows.Forms.Label();
+            NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
             TAB_BF = new System.Windows.Forms.TabPage();
             GB_Prints = new System.Windows.Forms.GroupBox();
             BTN_PrintTower = new System.Windows.Forms.Button();
@@ -106,25 +108,35 @@
             L_Watts = new System.Windows.Forms.Label();
             NUD_Steps = new System.Windows.Forms.NumericUpDown();
             L_Steps = new System.Windows.Forms.Label();
-            Tab_Misc = new System.Windows.Forms.TabPage();
+            Tab_Seals = new System.Windows.Forms.TabPage();
+            B_ClearSeals = new System.Windows.Forms.Button();
+            DGV_Seals = new System.Windows.Forms.DataGridView();
             B_AllSealsIllegal = new System.Windows.Forms.Button();
             B_AllSealsLegal = new System.Windows.Forms.Button();
+            Tab_FashionCase = new System.Windows.Forms.TabPage();
+            B_ClearBackdrops = new System.Windows.Forms.Button();
+            B_ClearAccessories = new System.Windows.Forms.Button();
+            B_AllBackdropsIllegal = new System.Windows.Forms.Button();
+            B_AllBackdropsLegal = new System.Windows.Forms.Button();
+            B_AllAccessoriesIllegal = new System.Windows.Forms.Button();
+            B_AllAccessoriesLegal = new System.Windows.Forms.Button();
+            DGV_Backdrops = new System.Windows.Forms.DataGridView();
+            DGV_Accessories = new System.Windows.Forms.DataGridView();
             Tab_Poffins = new System.Windows.Forms.TabPage();
             poffinCase4Editor1 = new PoffinCase4Editor();
             Tab_PokeGear = new System.Windows.Forms.TabPage();
             pokeGear4Editor1 = new PokeGear4Editor();
             tip1 = new System.Windows.Forms.ToolTip(components);
             tip2 = new System.Windows.Forms.ToolTip(components);
-            NUD_PokeathlonPoints = new System.Windows.Forms.NumericUpDown();
-            L_PokeathlonPoints = new System.Windows.Forms.Label();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Coin).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_UGFlags).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_BP).BeginInit();
             GB_FlyDest.SuspendLayout();
             GB_Poketch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PB_DotArtist).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_PokeathlonPoints).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_UGFlags).BeginInit();
             TAB_BF.SuspendLayout();
             GB_Prints.SuspendLayout();
             GB_Streaks.SuspendLayout();
@@ -159,10 +171,13 @@
             GB_WalkerCourses.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Watts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Steps).BeginInit();
-            Tab_Misc.SuspendLayout();
+            Tab_Seals.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Seals).BeginInit();
+            Tab_FashionCase.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Backdrops).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DGV_Accessories).BeginInit();
             Tab_Poffins.SuspendLayout();
             Tab_PokeGear.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)NUD_PokeathlonPoints).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -195,7 +210,8 @@
             TC_Misc.Controls.Add(TAB_Main);
             TC_Misc.Controls.Add(TAB_BF);
             TC_Misc.Controls.Add(TAB_Walker);
-            TC_Misc.Controls.Add(Tab_Misc);
+            TC_Misc.Controls.Add(Tab_Seals);
+            TC_Misc.Controls.Add(Tab_FashionCase);
             TC_Misc.Controls.Add(Tab_Poffins);
             TC_Misc.Controls.Add(Tab_PokeGear);
             TC_Misc.Location = new System.Drawing.Point(14, 15);
@@ -210,13 +226,15 @@
             TAB_Main.Controls.Add(NUD_Coin);
             TAB_Main.Controls.Add(L_Coin);
             TAB_Main.Controls.Add(L_CurrentMap);
-            TAB_Main.Controls.Add(L_UGFlags);
-            TAB_Main.Controls.Add(NUD_UGFlags);
             TAB_Main.Controls.Add(NUD_BP);
             TAB_Main.Controls.Add(L_BP);
             TAB_Main.Controls.Add(CB_UpgradeMap);
             TAB_Main.Controls.Add(GB_FlyDest);
             TAB_Main.Controls.Add(GB_Poketch);
+            TAB_Main.Controls.Add(NUD_PokeathlonPoints);
+            TAB_Main.Controls.Add(L_PokeathlonPoints);
+            TAB_Main.Controls.Add(L_UGFlags);
+            TAB_Main.Controls.Add(NUD_UGFlags);
             TAB_Main.Location = new System.Drawing.Point(4, 24);
             TAB_Main.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TAB_Main.Name = "TAB_Main";
@@ -234,7 +252,7 @@
             NUD_Coin.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Coin.Name = "NUD_Coin";
             NUD_Coin.Size = new System.Drawing.Size(59, 23);
-            NUD_Coin.TabIndex = 9;
+            NUD_Coin.TabIndex = 1;
             NUD_Coin.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
             // L_Coin
@@ -256,26 +274,6 @@
             L_CurrentMap.TabIndex = 8;
             L_CurrentMap.Text = "Current Map";
             L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_UGFlags
-            // 
-            L_UGFlags.Location = new System.Drawing.Point(-12, 32);
-            L_UGFlags.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_UGFlags.Name = "L_UGFlags";
-            L_UGFlags.Size = new System.Drawing.Size(117, 29);
-            L_UGFlags.TabIndex = 7;
-            L_UGFlags.Text = "Flags Obtained:";
-            L_UGFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_UGFlags
-            // 
-            NUD_UGFlags.Location = new System.Drawing.Point(106, 36);
-            NUD_UGFlags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_UGFlags.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            NUD_UGFlags.Name = "NUD_UGFlags";
-            NUD_UGFlags.Size = new System.Drawing.Size(71, 23);
-            NUD_UGFlags.TabIndex = 2;
-            NUD_UGFlags.Value = new decimal(new int[] { 999999, 0, 0, 0 });
             // 
             // NUD_BP
             // 
@@ -305,18 +303,18 @@
             CB_UpgradeMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_UpgradeMap.Name = "CB_UpgradeMap";
             CB_UpgradeMap.Size = new System.Drawing.Size(152, 23);
-            CB_UpgradeMap.TabIndex = 3;
+            CB_UpgradeMap.TabIndex = 4;
             // 
             // GB_FlyDest
             // 
             GB_FlyDest.Controls.Add(B_AllFlyDest);
             GB_FlyDest.Controls.Add(CLB_FlyDest);
-            GB_FlyDest.Location = new System.Drawing.Point(4, 117);
+            GB_FlyDest.Location = new System.Drawing.Point(4, 129);
             GB_FlyDest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_FlyDest.Name = "GB_FlyDest";
             GB_FlyDest.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_FlyDest.Size = new System.Drawing.Size(163, 159);
-            GB_FlyDest.TabIndex = 4;
+            GB_FlyDest.Size = new System.Drawing.Size(163, 146);
+            GB_FlyDest.TabIndex = 5;
             GB_FlyDest.TabStop = false;
             GB_FlyDest.Text = "Fly Destination";
             // 
@@ -353,7 +351,7 @@
             GB_Poketch.Name = "GB_Poketch";
             GB_Poketch.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Poketch.Size = new System.Drawing.Size(226, 267);
-            GB_Poketch.TabIndex = 5;
+            GB_Poketch.TabIndex = 6;
             GB_Poketch.TabStop = false;
             GB_Poketch.Text = "Pokétch";
             // 
@@ -408,6 +406,46 @@
             PB_DotArtist.TabIndex = 2;
             PB_DotArtist.TabStop = false;
             PB_DotArtist.MouseClick += PB_DotArtist_MouseClick;
+            // 
+            // NUD_PokeathlonPoints
+            // 
+            NUD_PokeathlonPoints.Location = new System.Drawing.Point(126, 39);
+            NUD_PokeathlonPoints.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_PokeathlonPoints.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            NUD_PokeathlonPoints.Name = "NUD_PokeathlonPoints";
+            NUD_PokeathlonPoints.Size = new System.Drawing.Size(75, 23);
+            NUD_PokeathlonPoints.TabIndex = 3;
+            NUD_PokeathlonPoints.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
+            // 
+            // L_PokeathlonPoints
+            // 
+            L_PokeathlonPoints.Location = new System.Drawing.Point(5, 36);
+            L_PokeathlonPoints.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_PokeathlonPoints.Name = "L_PokeathlonPoints";
+            L_PokeathlonPoints.Size = new System.Drawing.Size(119, 25);
+            L_PokeathlonPoints.TabIndex = 14;
+            L_PokeathlonPoints.Text = "Pokeathlon Points:";
+            L_PokeathlonPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_UGFlags
+            // 
+            L_UGFlags.Location = new System.Drawing.Point(8, 35);
+            L_UGFlags.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_UGFlags.Name = "L_UGFlags";
+            L_UGFlags.Size = new System.Drawing.Size(117, 29);
+            L_UGFlags.TabIndex = 7;
+            L_UGFlags.Text = "Flags Obtained:";
+            L_UGFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_UGFlags
+            // 
+            NUD_UGFlags.Location = new System.Drawing.Point(126, 39);
+            NUD_UGFlags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_UGFlags.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_UGFlags.Name = "NUD_UGFlags";
+            NUD_UGFlags.Size = new System.Drawing.Size(75, 23);
+            NUD_UGFlags.TabIndex = 2;
+            NUD_UGFlags.Value = new decimal(new int[] { 999999, 0, 0, 0 });
             // 
             // TAB_BF
             // 
@@ -1087,24 +1125,54 @@
             L_Steps.Text = "Steps:";
             L_Steps.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // Tab_Misc
+            // Tab_Seals
             // 
-            Tab_Misc.Controls.Add(NUD_PokeathlonPoints);
-            Tab_Misc.Controls.Add(L_PokeathlonPoints);
-            Tab_Misc.Controls.Add(B_AllSealsIllegal);
-            Tab_Misc.Controls.Add(B_AllSealsLegal);
-            Tab_Misc.Location = new System.Drawing.Point(4, 24);
-            Tab_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Misc.Name = "Tab_Misc";
-            Tab_Misc.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Misc.Size = new System.Drawing.Size(436, 278);
-            Tab_Misc.TabIndex = 3;
-            Tab_Misc.Text = "Misc";
-            Tab_Misc.UseVisualStyleBackColor = true;
+            Tab_Seals.Controls.Add(B_ClearSeals);
+            Tab_Seals.Controls.Add(DGV_Seals);
+            Tab_Seals.Controls.Add(B_AllSealsIllegal);
+            Tab_Seals.Controls.Add(B_AllSealsLegal);
+            Tab_Seals.Location = new System.Drawing.Point(4, 24);
+            Tab_Seals.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Seals.Name = "Tab_Seals";
+            Tab_Seals.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Seals.Size = new System.Drawing.Size(436, 278);
+            Tab_Seals.TabIndex = 3;
+            Tab_Seals.Text = "Seals";
+            Tab_Seals.UseVisualStyleBackColor = true;
+            // 
+            // B_ClearSeals
+            // 
+            B_ClearSeals.Location = new System.Drawing.Point(42, 68);
+            B_ClearSeals.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ClearSeals.Name = "B_ClearSeals";
+            B_ClearSeals.Size = new System.Drawing.Size(140, 43);
+            B_ClearSeals.TabIndex = 20;
+            B_ClearSeals.Text = "Clear All Seals";
+            B_ClearSeals.UseVisualStyleBackColor = true;
+            B_ClearSeals.Click += B_ClearSeals_Click;
+            // 
+            // DGV_Seals
+            // 
+            DGV_Seals.AllowUserToAddRows = false;
+            DGV_Seals.AllowUserToDeleteRows = false;
+            DGV_Seals.AllowUserToResizeColumns = false;
+            DGV_Seals.AllowUserToResizeRows = false;
+            DGV_Seals.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Seals.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Seals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Seals.ColumnHeadersVisible = false;
+            DGV_Seals.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Seals.Location = new System.Drawing.Point(220, 6);
+            DGV_Seals.MultiSelect = false;
+            DGV_Seals.Name = "DGV_Seals";
+            DGV_Seals.RowHeadersVisible = false;
+            DGV_Seals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Seals.Size = new System.Drawing.Size(209, 266);
+            DGV_Seals.TabIndex = 2;
             // 
             // B_AllSealsIllegal
             // 
-            B_AllSealsIllegal.Location = new System.Drawing.Point(7, 57);
+            B_AllSealsIllegal.Location = new System.Drawing.Point(42, 166);
             B_AllSealsIllegal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_AllSealsIllegal.Name = "B_AllSealsIllegal";
             B_AllSealsIllegal.Size = new System.Drawing.Size(140, 43);
@@ -1115,7 +1183,8 @@
             // 
             // B_AllSealsLegal
             // 
-            B_AllSealsLegal.Location = new System.Drawing.Point(7, 7);
+            B_AllSealsLegal.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            B_AllSealsLegal.Location = new System.Drawing.Point(42, 117);
             B_AllSealsLegal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_AllSealsLegal.Name = "B_AllSealsLegal";
             B_AllSealsLegal.Size = new System.Drawing.Size(140, 43);
@@ -1123,6 +1192,122 @@
             B_AllSealsLegal.Text = "Give All Seals (Legal)";
             B_AllSealsLegal.UseVisualStyleBackColor = true;
             B_AllSealsLegal.Click += OnBAllSealsLegalOnClick;
+            // 
+            // Tab_FashionCase
+            // 
+            Tab_FashionCase.Controls.Add(B_ClearBackdrops);
+            Tab_FashionCase.Controls.Add(B_ClearAccessories);
+            Tab_FashionCase.Controls.Add(B_AllBackdropsIllegal);
+            Tab_FashionCase.Controls.Add(B_AllBackdropsLegal);
+            Tab_FashionCase.Controls.Add(B_AllAccessoriesIllegal);
+            Tab_FashionCase.Controls.Add(B_AllAccessoriesLegal);
+            Tab_FashionCase.Controls.Add(DGV_Backdrops);
+            Tab_FashionCase.Controls.Add(DGV_Accessories);
+            Tab_FashionCase.Location = new System.Drawing.Point(4, 24);
+            Tab_FashionCase.Name = "Tab_FashionCase";
+            Tab_FashionCase.Padding = new System.Windows.Forms.Padding(3);
+            Tab_FashionCase.Size = new System.Drawing.Size(436, 278);
+            Tab_FashionCase.TabIndex = 6;
+            Tab_FashionCase.Text = "Fashion Case";
+            Tab_FashionCase.UseVisualStyleBackColor = true;
+            // 
+            // B_ClearBackdrops
+            // 
+            B_ClearBackdrops.Location = new System.Drawing.Point(221, 7);
+            B_ClearBackdrops.Name = "B_ClearBackdrops";
+            B_ClearBackdrops.Size = new System.Drawing.Size(209, 29);
+            B_ClearBackdrops.TabIndex = 16;
+            B_ClearBackdrops.Text = "Clear All Backdrops";
+            B_ClearBackdrops.UseVisualStyleBackColor = true;
+            B_ClearBackdrops.Click += B_ClearBackdrops_Click;
+            // 
+            // B_ClearAccessories
+            // 
+            B_ClearAccessories.Location = new System.Drawing.Point(6, 7);
+            B_ClearAccessories.Name = "B_ClearAccessories";
+            B_ClearAccessories.Size = new System.Drawing.Size(209, 29);
+            B_ClearAccessories.TabIndex = 15;
+            B_ClearAccessories.Text = "Clear All Accessories";
+            B_ClearAccessories.UseVisualStyleBackColor = true;
+            B_ClearAccessories.Click += B_ClearAccessories_Click;
+            // 
+            // B_AllBackdropsIllegal
+            // 
+            B_AllBackdropsIllegal.Location = new System.Drawing.Point(221, 73);
+            B_AllBackdropsIllegal.Name = "B_AllBackdropsIllegal";
+            B_AllBackdropsIllegal.Size = new System.Drawing.Size(209, 29);
+            B_AllBackdropsIllegal.TabIndex = 13;
+            B_AllBackdropsIllegal.Text = "Give All Backdrops (Illegal)";
+            B_AllBackdropsIllegal.UseVisualStyleBackColor = true;
+            B_AllBackdropsIllegal.Click += OnBAllBackdropsLegalOnClick;
+            // 
+            // B_AllBackdropsLegal
+            // 
+            B_AllBackdropsLegal.Location = new System.Drawing.Point(221, 40);
+            B_AllBackdropsLegal.Name = "B_AllBackdropsLegal";
+            B_AllBackdropsLegal.Size = new System.Drawing.Size(209, 29);
+            B_AllBackdropsLegal.TabIndex = 12;
+            B_AllBackdropsLegal.Text = "Give All Backdrops (Legal)";
+            B_AllBackdropsLegal.UseVisualStyleBackColor = true;
+            B_AllBackdropsLegal.Click += OnBAllBackdropsLegalOnClick;
+            // 
+            // B_AllAccessoriesIllegal
+            // 
+            B_AllAccessoriesIllegal.Location = new System.Drawing.Point(6, 73);
+            B_AllAccessoriesIllegal.Name = "B_AllAccessoriesIllegal";
+            B_AllAccessoriesIllegal.Size = new System.Drawing.Size(209, 29);
+            B_AllAccessoriesIllegal.TabIndex = 10;
+            B_AllAccessoriesIllegal.Text = "Give All Accessories (Illegal)";
+            B_AllAccessoriesIllegal.UseVisualStyleBackColor = true;
+            B_AllAccessoriesIllegal.Click += OnBAllAccessoriesLegalOnClick;
+            // 
+            // B_AllAccessoriesLegal
+            // 
+            B_AllAccessoriesLegal.Location = new System.Drawing.Point(6, 40);
+            B_AllAccessoriesLegal.Name = "B_AllAccessoriesLegal";
+            B_AllAccessoriesLegal.Size = new System.Drawing.Size(209, 29);
+            B_AllAccessoriesLegal.TabIndex = 9;
+            B_AllAccessoriesLegal.Text = "Give All Accessories (Legal)";
+            B_AllAccessoriesLegal.UseVisualStyleBackColor = true;
+            B_AllAccessoriesLegal.Click += OnBAllAccessoriesLegalOnClick;
+            // 
+            // DGV_Backdrops
+            // 
+            DGV_Backdrops.AllowUserToAddRows = false;
+            DGV_Backdrops.AllowUserToDeleteRows = false;
+            DGV_Backdrops.AllowUserToResizeColumns = false;
+            DGV_Backdrops.AllowUserToResizeRows = false;
+            DGV_Backdrops.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Backdrops.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Backdrops.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Backdrops.ColumnHeadersVisible = false;
+            DGV_Backdrops.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Backdrops.Location = new System.Drawing.Point(221, 108);
+            DGV_Backdrops.MultiSelect = false;
+            DGV_Backdrops.Name = "DGV_Backdrops";
+            DGV_Backdrops.RowHeadersVisible = false;
+            DGV_Backdrops.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Backdrops.Size = new System.Drawing.Size(209, 164);
+            DGV_Backdrops.TabIndex = 14;
+            // 
+            // DGV_Accessories
+            // 
+            DGV_Accessories.AllowUserToAddRows = false;
+            DGV_Accessories.AllowUserToDeleteRows = false;
+            DGV_Accessories.AllowUserToResizeColumns = false;
+            DGV_Accessories.AllowUserToResizeRows = false;
+            DGV_Accessories.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Accessories.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Accessories.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Accessories.ColumnHeadersVisible = false;
+            DGV_Accessories.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Accessories.Location = new System.Drawing.Point(6, 108);
+            DGV_Accessories.MultiSelect = false;
+            DGV_Accessories.Name = "DGV_Accessories";
+            DGV_Accessories.RowHeadersVisible = false;
+            DGV_Accessories.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Accessories.Size = new System.Drawing.Size(209, 164);
+            DGV_Accessories.TabIndex = 11;
             // 
             // Tab_Poffins
             // 
@@ -1166,26 +1351,6 @@
             pokeGear4Editor1.Size = new System.Drawing.Size(428, 272);
             pokeGear4Editor1.TabIndex = 0;
             // 
-            // NUD_PokeathlonPoints
-            // 
-            NUD_PokeathlonPoints.Location = new System.Drawing.Point(149, 131);
-            NUD_PokeathlonPoints.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_PokeathlonPoints.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
-            NUD_PokeathlonPoints.Name = "NUD_PokeathlonPoints";
-            NUD_PokeathlonPoints.Size = new System.Drawing.Size(75, 23);
-            NUD_PokeathlonPoints.TabIndex = 11;
-            NUD_PokeathlonPoints.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
-            // 
-            // L_PokeathlonPoints
-            // 
-            L_PokeathlonPoints.Location = new System.Drawing.Point(28, 128);
-            L_PokeathlonPoints.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_PokeathlonPoints.Name = "L_PokeathlonPoints";
-            L_PokeathlonPoints.Size = new System.Drawing.Size(119, 25);
-            L_PokeathlonPoints.TabIndex = 12;
-            L_PokeathlonPoints.Text = "Pokeathlon Points:";
-            L_PokeathlonPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // SAV_Misc4
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1201,12 +1366,13 @@
             TC_Misc.ResumeLayout(false);
             TAB_Main.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_Coin).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_UGFlags).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_BP).EndInit();
             GB_FlyDest.ResumeLayout(false);
             GB_Poketch.ResumeLayout(false);
             GB_Poketch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PB_DotArtist).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_PokeathlonPoints).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_UGFlags).EndInit();
             TAB_BF.ResumeLayout(false);
             GB_Prints.ResumeLayout(false);
             GB_Streaks.ResumeLayout(false);
@@ -1243,10 +1409,13 @@
             GB_WalkerCourses.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_Watts).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Steps).EndInit();
-            Tab_Misc.ResumeLayout(false);
+            Tab_Seals.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Seals).EndInit();
+            Tab_FashionCase.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Backdrops).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DGV_Accessories).EndInit();
             Tab_Poffins.ResumeLayout(false);
             Tab_PokeGear.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)NUD_PokeathlonPoints).EndInit();
             ResumeLayout(false);
         }
 
@@ -1329,7 +1498,6 @@
         private System.Windows.Forms.Label L_Steps;
         private System.Windows.Forms.NumericUpDown NUD_Coin;
         private System.Windows.Forms.Label L_Coin;
-        private System.Windows.Forms.TabPage Tab_Misc;
         private System.Windows.Forms.Button B_AllSealsIllegal;
         private System.Windows.Forms.Button B_AllSealsLegal;
         private System.Windows.Forms.TabPage Tab_Poffins;
@@ -1340,5 +1508,17 @@
         private System.Windows.Forms.ToolTip tip2;
         private System.Windows.Forms.NumericUpDown NUD_PokeathlonPoints;
         private System.Windows.Forms.Label L_PokeathlonPoints;
+        private System.Windows.Forms.DataGridView DGV_Seals;
+        private System.Windows.Forms.DataGridView DGV_Backdrops;
+        private System.Windows.Forms.DataGridView DGV_Accessories;
+        private System.Windows.Forms.Button B_AllBackdropsIllegal;
+        private System.Windows.Forms.Button B_AllBackdropsLegal;
+        private System.Windows.Forms.Button B_AllAccessoriesIllegal;
+        private System.Windows.Forms.Button B_AllAccessoriesLegal;
+        private System.Windows.Forms.TabPage Tab_Seals;
+        private System.Windows.Forms.TabPage Tab_FashionCase;
+        private System.Windows.Forms.Button B_ClearBackdrops;
+        private System.Windows.Forms.Button B_ClearAccessories;
+        private System.Windows.Forms.Button B_ClearSeals;
     }
 }

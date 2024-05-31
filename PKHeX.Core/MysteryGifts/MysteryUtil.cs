@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -73,11 +74,11 @@ public static class MysteryUtil
                     result.Add($"Quantity: {w7bean.Quantity}");
                     break;
                 case PCD pcd:
-                    result.Add($"{pcd.GiftType}");
+                    AddLinesPGT(pcd.Gift, result);
                     result.Add($"Collected: {pcd.GiftUsed}");
                     break;
                 case PGT pgt:
-                    result.Add($"{pgt.GiftType}");
+                    AddLinesPGT(pgt, result);
                     break;
                 default:
                     result.Add(MsgMysteryGiftParseTypeUnknown);
@@ -124,6 +125,48 @@ public static class MysteryUtil
             if (addItem != 0)
                 result.Add($"+ {strings.Item[addItem]}");
         }
+    }
+
+    private static void AddLinesPGT(PGT gift, List<string> result)
+    {
+        static string Get(ReadOnlySpan<string> list, int index)
+        {
+            if ((uint)index >= list.Length)
+                return $"Unknown ({index})";
+            return list[index];
+        }
+        try
+        {
+            switch (gift.GiftType)
+            {
+                case GiftType4.Goods:
+                    result.Add($"Goods: {Get(GameInfo.Strings.uggoods, gift.ItemID)}");
+                    break;
+                case GiftType4.HasSubType:
+                    switch (gift.GiftSubType) {
+                        case GiftSubType4.Seal:
+                            result.Add($"Seal: {Get(GameInfo.Strings.seals, (int)gift.Seal)}");
+                            break;
+                        case GiftSubType4.Accessory:
+                            result.Add($"Accessory: {Get(GameInfo.Strings.accessories, (int)gift.Accessory)}");
+                            break;
+                        case GiftSubType4.Backdrop:
+                            result.Add($"Backdrop: {Get(GameInfo.Strings.backdrops, (int)gift.Backdrop)}");
+                            break;
+                    }
+                    break;
+                case GiftType4.PokétchApp:
+                    result.Add($"Pokétch App: {Get(GameInfo.Strings.poketchapps, (int)gift.PoketchApp)}");
+                    break;
+                case GiftType4.PokéwalkerCourse:
+                    result.Add($"Route Map: {Get(GameInfo.Strings.walkercourses, gift.PokewalkerCourseID)}");
+                    break;
+                default:
+                    result.Add($"{gift.GiftType}");
+                    break;
+            }
+        }
+        catch { result.Add(MsgMysteryGiftParseFail); }
     }
 
     /// <summary>
