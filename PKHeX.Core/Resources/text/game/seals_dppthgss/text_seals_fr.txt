@@ -1,0 +1,80 @@
+Sc. Cœur A
+Sc. Cœur B
+Sc. Cœur C
+Sc. Cœur D
+Sc. Cœur E
+Sc. Cœur F
+Sc. Etoile A
+Sc. Etoile B
+Sc. Etoile C
+Sc. Etoile D
+Sc. Etoile E
+Sc. Etoile F
+Sc. Trait A
+Sc. Trait B
+Sc. Trait C
+Sc. Trait D
+Sc. Fumée A
+Sc. Fumée B
+Sc. Fumée C
+Sc. Fumée D
+Sc. Eclair A
+Sc. Eclair B
+Sc. Eclair C
+Sc. Eclair D
+Sc. Bulle A
+Sc. Bulle B
+Sc. Bulle C
+Sc. Bulle D
+Sc. Feu A
+Sc. Feu B
+Sc. Feu C
+Sc. Feu D
+Sc. Fête A
+Sc. Fête B
+Sc. Fête C
+Sc. Fête D
+Sc. Fleur A
+Sc. Fleur B
+Sc. Fleur C
+Sc. Fleur D
+Sc. Fleur E
+Sc. Fleur F
+Sc. Chant A
+Sc. Chant B
+Sc. Chant C
+Sc. Chant D
+Sc. Chant E
+Sc. Chant F
+Sc. Chant G
+Sceau A
+Sceau B
+Sceau C
+Sceau D
+Sceau E
+Sceau F
+Sceau G
+Sceau H
+Sceau I
+Sceau J
+Sceau K
+Sceau L
+Sceau M
+Sceau N
+Sceau O
+Sceau P
+Sceau Q
+Sceau R
+Sceau S
+Sceau T
+Sceau U
+Sceau V
+Sceau W
+Sceau X
+Sceau Y
+Sceau Z
+Sceau Choc
+Sc. Mystère
+Sc. Liquide
+Sceau Boom
+Sc. Brille

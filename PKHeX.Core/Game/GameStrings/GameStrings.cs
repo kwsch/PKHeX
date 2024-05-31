@@ -25,6 +25,7 @@ public sealed class GameStrings : IBasicStrings
     // Misc
     public readonly string[] wallpapernames, puffs, walkercourses;
     public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
+    public readonly string[] seals, accessories, backdrops, poketchapps;
     private readonly string lang;
     private readonly int LanguageIndex;
 
@@ -117,6 +118,11 @@ public sealed class GameStrings : IBasicStrings
         ugspheres = Get("ugspheres");
         ugtraps = Get("ugtraps");
         ugtreasures = Get("ugtreasures");
+
+        seals = Get("seals");
+        accessories = Get("accessories");
+        backdrops = Get("backdrops");
+        poketchapps = Get("poketchapps");
 
         EggName = specieslist[0];
         Gen4 = Get4("hgss");
