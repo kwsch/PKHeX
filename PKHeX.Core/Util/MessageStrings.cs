@@ -211,6 +211,11 @@ public static class MessageStrings
     public static string MsgIndexAbilityRange { get; set; } = "Ability Index beyond range:";
     public static string MsgIndexAbilityGame { get; set; } = "Ability Index beyond range:";
 
+    public static string MsgGeonetPointNone { get; set; } = "None";
+    public static string MsgGeonetPointBlue { get; set; } = "Blue";
+    public static string MsgGeonetPointYellow { get; set; } = "Yellow";
+    public static string MsgGeonetPointRed { get; set; } = "Red";
+
     #endregion
 
     #region QR Codes
