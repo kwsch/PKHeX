@@ -29,8 +29,7 @@ public partial class SAV_PokedexSVKitakami : Form
         CB_Species.Items.Clear();
 
         var empty = new string[32];
-        foreach (ref var x in empty.AsSpan())
-            x = string.Empty;
+        empty.AsSpan().Fill(string.Empty);
         CLB_FormSeen.Items.AddRange(empty);
         CLB_FormObtained.Items.AddRange(empty);
         CLB_FormHeard.Items.AddRange(empty);

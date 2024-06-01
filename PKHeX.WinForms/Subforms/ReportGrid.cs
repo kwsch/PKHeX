@@ -215,7 +215,7 @@ public partial class ReportGrid : Form
     private static string[] ConvertTabbedToRedditTable(ReadOnlySpan<string> lines)
     {
         string[] newlines = new string[lines.Length + 1];
-        int tabcount = lines[0].Count(c => c == '\t');
+        int tabcount = lines[0].AsSpan().Count('\t');
 
         newlines[0] = lines[0].Replace('\t', '|');
         newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end

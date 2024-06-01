@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 public sealed class BoxLayout5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
 {
     public int CurrentBox { get => Data[0]; set => Data[0] = (byte)value; }
-    public int GetBoxNameOffset(int box) => (0x28 * box) + 4;
-    public int GetBoxWallpaperOffset(int box) => 0x3C4 + box;
+    private static int GetBoxNameOffset(int box) => (0x28 * box) + 4;
+    private static int GetBoxWallpaperOffset(int box) => 0x3C4 + box;
 
     public int GetBoxWallpaper(int box)
     {

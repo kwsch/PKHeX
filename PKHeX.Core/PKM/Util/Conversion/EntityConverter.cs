@@ -146,8 +146,8 @@ public static class EntityConverter
     private static PKM? IntermediaryConvert(PKM pk, Type destType, ref EntityConverterResult result) => pk switch
     {
         // Non-sequential
-        PK1 pk1 when destType.Name[^1] - '0' > 2 => pk1.ConvertToPK7(),
-        PK2 pk2 when destType.Name[^1] - '0' > 2 => pk2.ConvertToPK7(),
+        PK1 pk1 when destType.Name[^1] - '0' is not (1 or 2) => pk1.ConvertToPK7(),
+        PK2 pk2 when destType.Name[^1] - '0' is not (1 or 2) => pk2.ConvertToPK7(),
         PK2 pk2 when destType == typeof(SK2) => pk2.ConvertToSK2(),
         PK3 pk3 when destType == typeof(CK3) => pk3.ConvertToCK3(),
         PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
@@ -224,7 +224,7 @@ public static class EntityConverter
             };
         }
 
-        if (destType.Name[^1] == '1' && pk.Species > Legal.MaxSpeciesID_1)
+        if (destType.Name.EndsWith('1') && pk.Species > Legal.MaxSpeciesID_1)
             return IncompatibleSpecies;
 
         return Success;

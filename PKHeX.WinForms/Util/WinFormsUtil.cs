@@ -302,7 +302,7 @@ public static class WinFormsUtil
     public static bool SavePKMDialog(PKM pk)
     {
         string pkx = pk.Extension;
-        bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
+        bool allowEncrypted = pk.Format >= 3 && pkx.StartsWith('p');
         var genericFilter = $"Decrypted PKM File|*.{pkx}" +
                             (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
                             "|Binary File|*.bin" +
