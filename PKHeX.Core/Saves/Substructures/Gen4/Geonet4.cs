@@ -2,17 +2,28 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class Geonet4
+public sealed class Geonet4: IGeonet
 {
     private readonly SAV4 SAV;
-
-    /* Lets the globe be panned outside Japan and zoomed out in Japanese games. Has no effect in non-Japanese games.
-     * Set once you register a location outside of Japan, even if it's just your own location in a non-Japanese game. */
-    public bool GlobalFlag { get; set; }
-
     private readonly byte[] Data;
     private readonly int Offset;
-    private const int CountryCount = 233;
+
+    public Geonet4(SAV4 sav)
+    {
+        SAV = sav;
+        Offset = SAV.Geonet + 3;
+        GlobalFlag = SAV.GeonetGlobalFlag;
+        Data = SAV.General.Slice(Offset, CountryCount * 16).ToArray();
+    }
+
+    public void Save()
+    {
+        SAV.GeonetGlobalFlag = GlobalFlag;
+        SAV.SetData(SAV.General.Slice(Offset, CountryCount * 16), Data);
+    }
+
+    public const int CountryCount = 233;
+    private const int Japan = 103;
 
     private static ReadOnlySpan<byte> LegalCountries =>
     [
@@ -29,57 +40,44 @@ public sealed class Geonet4
 
     public static byte GetSubregionCount(byte country) => country switch
     {
-        009 => 24,
-        012 => 7,
-        028 => 27,
-        036 => 13,
-        043 => 31,
-        070 => 6,
-        071 => 22,
-        077 => 16,
-        094 => 35,
-        101 => 20,
-        103 => 50,
-        156 => 20,
-        166 => 16,
-        172 => 7,
-        193 => 17,
-        199 => 24,
-        219 => 12,
-        220 => 51,
+        009 => 24, // Argentina
+        012 =>  7, // Australia
+        028 => 27, // Brazil
+        036 => 13, // Canada
+        043 => 31, // China
+        070 =>  6, // Finland
+        071 => 22, // France
+        077 => 16, // Germany
+        094 => 35, // India
+        101 => 20, // Italy
+        103 => 50, // Japan
+        156 => 20, // Norway
+        166 => 16, // Poland
+        172 =>  7, // Russian Federation
+        193 => 17, // Spain
+        199 => 24, // Sweden
+        219 => 12, // United Kingdom
+        220 => 51, // United States of America
         _ => 0,
     };
 
-    public enum Point
+    public bool GlobalFlag { get => SAV.GeonetGlobalFlag; set => SAV.GeonetGlobalFlag = value; }
+
+    public GeonetPoint GetCountrySubregion(byte country, byte subregion)
     {
-        None = 0, // never communicated with
-        Blue = 1, // first communicated with today
-        Yellow = 2, // already communicated with
-        Red = 3, // own registered location
+        int index = ((country - 1) * 16) + (subregion / 4);
+        int shift = 2 * (subregion % 4);
+        return (GeonetPoint)(((Data[index] & 0b11 << shift) >> shift));
     }
 
-    public Geonet4(SAV4 sav)
-    {
-        SAV = sav;
-        Offset = SAV.Geonet + 3;
-        GlobalFlag = SAV.GeonetGlobalFlag;
-        Data = SAV.General.Slice(Offset, CountryCount * 16).ToArray();
-    }
-
-    public void Save()
-    {
-        SAV.GeonetGlobalFlag = GlobalFlag;
-        SAV.SetData(SAV.General.Slice(Offset, CountryCount * 16), Data);
-    }
-
-    public void SetCountrySubregion(byte country, byte subregion, Point point)
+    public void SetCountrySubregion(byte country, byte subregion, GeonetPoint point)
     {
         int index = ((country - 1) * 16) + (subregion / 4);
         int shift = 2 * (subregion % 4);
         Data[index] = (byte)((Data[index] & ~(0b11 << shift)) | ((int)point << shift));
     }
 
-    private void SetAllSubregions(byte country, Point type)
+    private void SetAllSubregions(byte country, GeonetPoint type)
     {
         var subregionCount = GetSubregionCount(country);
         if (subregionCount == 0)
@@ -95,33 +93,33 @@ public sealed class Geonet4
     public void SetAll()
     {
         for (byte country = 1; country <= CountryCount; country++)
-            SetAllSubregions(country, Point.Yellow);
+            SetAllSubregions(country, GeonetPoint.Yellow);
 
-        if (SAV.Country > 0)
-            SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
-
+        SetSAVCountry();
         GlobalFlag = true;
     }
 
     public void SetAllLegal()
     {
         foreach (var country in LegalCountries)
-            SetAllSubregions(country, Point.Yellow);
+            SetAllSubregions(country, GeonetPoint.Yellow);
 
-        if (SAV.Country > 0)
-            SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
-
+        SetSAVCountry();
         GlobalFlag = true;
     }
 
     public void ClearAll()
     {
         for (byte country = 1; country <= CountryCount; country++)
-            SetAllSubregions(country, Point.None);
+            SetAllSubregions(country, GeonetPoint.None);
 
+        SetSAVCountry();
+        GlobalFlag = (SAV.Country > 0 && SAV.Country != Japan);
+    }
+
+    public void SetSAVCountry()
+    {
         if (SAV.Country > 0)
-            SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
-
-        GlobalFlag = (SAV.Country > 0 && SAV.Country != 103);
+            SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, GeonetPoint.Red);
     }
 }
