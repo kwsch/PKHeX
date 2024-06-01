@@ -1848,9 +1848,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_Affixed.Visible = false;
     }
 
-    private void OpenMedals(object sender, EventArgs e)
+    private void OpenSuperTrainRegimen(object sender, EventArgs e)
     {
-        using var form = new SuperTrainingEditor(Entity);
+        if (Entity is not ISuperTrainRegimen st)
+            return;
+        using var form = new SuperTrainingEditor(st);
         form.ShowDialog();
     }
 

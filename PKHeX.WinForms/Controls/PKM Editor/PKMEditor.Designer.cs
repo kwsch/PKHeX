@@ -2169,7 +2169,7 @@ namespace PKHeX.WinForms.Controls
             BTN_Medals.TabIndex = 29;
             BTN_Medals.Text = "Medals";
             BTN_Medals.UseVisualStyleBackColor = true;
-            BTN_Medals.Click += OpenMedals;
+            BTN_Medals.Click += OpenSuperTrainRegimen;
             // 
             // BTN_History
             // 

@@ -63,7 +63,7 @@ namespace PKHeX.WinForms
             WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage, false);
             WinFormsTranslator.LoadAllForms(types, LoadBanlist);
             WinFormsTranslator.TranslateControls(GetExtraControls());
-            WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
+            WinFormsTranslator.RemoveAll(DefaultLanguage, []); // remove all lines from above generated files that still remain
 
             // Move translated files from the debug exe loc to their project location
             var files = Directory.GetFiles(Application.StartupPath);
@@ -117,13 +117,6 @@ namespace PKHeX.WinForms
             $"{nameof(SAV_BlockDump8)}.L_BlockName", // Block name (dynamic)
             $"{nameof(SAV_PokedexResearchEditorLA)}.L_", // Dynamic label
             $"{nameof(SAV_OPower)}.L_", // Dynamic label
-        ];
-
-        private static readonly string[] PurgeBanlist =
-        [
-            nameof(SuperTrainingEditor),
-            nameof(ErrorWindow),
-            nameof(SettingsEditor),
         ];
 
         private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false, "PKHeX.Core", "Resources", "text", "program");

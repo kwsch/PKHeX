@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -18,7 +18,18 @@ public partial class SAV_Apricorn : Form
     private readonly SAV4HGSS Origin;
     private readonly SAV4HGSS SAV;
     private const int Count = 7;
-    private static readonly string[] itemlist = ["Red", "Yellow", "Blue", "Green", "Pink", "White", "Black"];
+    private const int ItemNameBase = 485; // Red Apricorn
+
+    private static ReadOnlySpan<byte> ItemNameOffset =>
+    [
+        0, // 485: Red
+        2, // 487: Yellow - out of order
+        1, // 486: Blue - out of order
+        3, // 488: Green
+        4, // 489: Pink
+        5, // 490: White
+        6, // 491: Black
+    ];
 
     private void Setup()
     {
@@ -42,8 +53,12 @@ public partial class SAV_Apricorn : Form
         dgv.Columns.Add(dgvCount);
 
         dgv.Rows.Add(Count);
+        var itemNames = GameInfo.Strings.itemlist;
         for (int i = 0; i < Count; i++)
-            dgv.Rows[i].Cells[0].Value = itemlist[i];
+        {
+            var itemId = ItemNameBase + ItemNameOffset[i];
+            dgv.Rows[i].Cells[0].Value = itemNames[itemId];
+        }
         LoadCount();
     }
 
