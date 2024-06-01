@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using static PKHeX.Core.MessageStrings;
+using static PKHeX.Core.GeonetPoint;
 
 namespace PKHeX.Core;
 
@@ -15,11 +17,12 @@ public static partial class Util
         return list;
     }
 
-    public static List<ComboItem> GetGeonetPointList() => [
-        new (MessageStrings.MsgGeonetPointNone,   (int)GeonetPoint.None),
-        new (MessageStrings.MsgGeonetPointBlue,   (int)GeonetPoint.Blue),
-        new (MessageStrings.MsgGeonetPointYellow, (int)GeonetPoint.Yellow),
-        new (MessageStrings.MsgGeonetPointRed,    (int)GeonetPoint.Red),
+    public static List<ComboItem> GetGeonetPointList() =>
+    [
+        new (MsgGeonetPointNone,   (int)None),
+        new (MsgGeonetPointBlue,   (int)Blue),
+        new (MsgGeonetPointYellow, (int)Yellow),
+        new (MsgGeonetPointRed,    (int)Red),
     ];
 
     private static List<ComboItem> GetCBListFromCSV(ReadOnlySpan<string> inputCSV, int index)

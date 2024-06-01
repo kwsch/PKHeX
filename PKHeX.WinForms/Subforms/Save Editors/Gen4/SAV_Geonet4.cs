@@ -35,9 +35,8 @@ public partial class SAV_Geonet4 : Form
     {
         DGV_Geonet.Rows.Clear();
 
+        Item_Point.InitializeBinding();
         Item_Point.DataSource = pointList;
-        Item_Point.DisplayMember = "Text";
-        Item_Point.ValueMember = "Value";
 
         for (int i = 1; i <= Geonet4.CountryCount; i++)
         {

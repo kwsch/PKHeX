@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class Geonet4: IGeonet
+public sealed class Geonet4 : IGeonet
 {
     private readonly SAV4 SAV;
     private readonly byte[] Data;

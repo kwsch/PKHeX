@@ -37,9 +37,8 @@ public partial class SAV_UnityTower : Form
     {
         DGV_Geonet.Rows.Clear();
 
+        Item_Point.InitializeBinding();
         Item_Point.DataSource = pointList;
-        Item_Point.DisplayMember = "Text";
-        Item_Point.ValueMember = "Value";
 
         for (int i = 1; i <= UnityTower5.CountryCount; i++)
         {

@@ -81,11 +81,12 @@ public sealed class UnityTower5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SA
     /// Sets whether the floor is unlocked for the specified country.
     /// </summary>
     /// <param name="country">Country index</param>
-    public void SetUnityTowerFloor(byte country, bool unlocked)
+    /// <param name="isUnlocked">Floor status</param>
+    public void SetUnityTowerFloor(byte country, bool isUnlocked)
     {
         int index = UnityTowerOffset + (country / 8);
         int shift = country % 8;
-        Data[index] = (byte)((Data[index] & ~(0b1 << shift)) | (unlocked ? 0b1 : 0b0) << shift);
+        Data[index] = (byte)((Data[index] & ~(0b1 << shift)) | (isUnlocked ? 0b1 : 0b0) << shift);
     }
 
     private void SetAllSubregions(byte country, GeonetPoint type, bool floor)
