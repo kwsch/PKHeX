@@ -91,6 +91,7 @@ public partial class SAV_Misc8b : Form
     {
         Unlocker.UnlockZones();
         System.Media.SystemSounds.Asterisk.Play();
+        B_Zones.Enabled = false;
     }
 
     private void B_DefeatEyecatch_Click(object sender, EventArgs e)
@@ -113,5 +114,6 @@ public partial class SAV_Misc8b : Form
     {
         Unlocker.UnlockFashion();
         System.Media.SystemSounds.Asterisk.Play();
+        B_Fashion.Enabled = false;
     }
 }

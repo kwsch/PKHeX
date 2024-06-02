@@ -186,6 +186,13 @@ public static class WinFormsUtil
         control.ValueMember = nameof(ComboItem.Value);
     }
 
+    /// <inheritdoc cref="InitializeBinding(ListControl)"/>
+    public static void InitializeBinding(this DataGridViewComboBoxColumn control)
+    {
+        control.DisplayMember = nameof(ComboItem.Text);
+        control.ValueMember = nameof(ComboItem.Value);
+    }
+
     public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
     public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
 
@@ -302,7 +309,7 @@ public static class WinFormsUtil
     public static bool SavePKMDialog(PKM pk)
     {
         string pkx = pk.Extension;
-        bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
+        bool allowEncrypted = pk.Format >= 3 && pkx.StartsWith('p');
         var genericFilter = $"Decrypted PKM File|*.{pkx}" +
                             (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
                             "|Binary File|*.bin" +

@@ -168,7 +168,8 @@ public class ShowdownSetTests
     public void SimulatorParseDuplicate(string text, int moveCount)
     {
         var set = new ShowdownSet(text);
-        var actual = set.Moves.Count(z => z != 0);
+        var result = set.Moves.AsSpan();
+        var actual = result.Length - result.Count<ushort>(0);
         actual.Should().Be(moveCount);
     }
 

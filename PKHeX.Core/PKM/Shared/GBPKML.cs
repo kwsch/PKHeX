@@ -56,11 +56,7 @@ public abstract class GBPKML : GBPKM
             return;
 
         // Decimal point<->period fix
-        foreach (ref var c in data)
-        {
-            if (c == 0xF2)
-                c = 0xE8;
-        }
+        data.Replace<byte>(0xF2, 0xE8);
     }
 
     public sealed override string Nickname

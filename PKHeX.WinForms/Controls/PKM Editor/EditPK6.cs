@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
@@ -39,11 +39,9 @@ public partial class PKMEditor
         // Toss in Party Stats
         SavePartyStats(pk6);
 
-        // Unneeded Party Stats (Status, Flags, Unused)
-        pk6.Data[0xE8] = pk6.Data[0xE9] = pk6.Data[0xEA] = pk6.Data[0xEB] =
-            pk6.Data[0xEF] =
-                pk6.Data[0xFE] = pk6.Data[0xFF] = pk6.Data[0x100] =
-                    pk6.Data[0x101] = pk6.Data[0x102] = pk6.Data[0x103] = 0;
+        // Ensure party stats are essentially clean.
+        pk6.Data.AsSpan(0xFE).Clear();
+        // Status Condition is allowed to be mutated to pre-set conditions like Burn for Guts.
 
         pk6.FixMoves();
         pk6.FixRelearn();

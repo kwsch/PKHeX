@@ -29,6 +29,6 @@ public enum Backdrop4 : byte
 public static class BackdropInfo
 {
     public const int Count = (int)Backdrop4.Unset;
-    public const Backdrop4 MaxLegal = Backdrop4.Theater;
+    public const Backdrop4 MaxLegal = Backdrop4.Sky;
     public static bool IsUnset(this Backdrop4 backdrop) => (uint)backdrop >= (uint)Backdrop4.Unset;
 }

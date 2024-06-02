@@ -181,8 +181,7 @@ public static class MoveBreed
         for (var i = 0; i < notBaseCount; i++)
             result[ctr++] = notBase[i];
         // Then clear the remainder
-        for (int i = ctr; i < result.Length; i++)
-            result[i] = 0;
+        result[ctr..].Clear();
     }
 
     /// <summary>

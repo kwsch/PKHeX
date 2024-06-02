@@ -288,7 +288,7 @@ public partial class SAV_FolderList : Form
         return list;
     }
 
-    private static void CleanBackups(string path, bool deleteNotSaves)
+    public static void CleanBackups(string path, bool deleteNotSaves)
     {
         var files = Directory.GetFiles(path);
         foreach (var file in files)
@@ -371,14 +371,14 @@ public partial class SAV_FolderList : Form
         var cm = (CurrencyManager?)BindingContext?[dg.DataSource];
         cm?.SuspendBinding();
         int column = CB_FilterColumn.SelectedIndex - 1;
-        var text = TB_FilterTextContains.Text;
+        var text = TB_FilterTextContains.Text.AsSpan();
 
         for (int i = 0; i < dg.RowCount; i++)
             ToggleRowVisibility(dg, column, text, i);
         cm?.ResumeBinding();
     }
 
-    private static void ToggleRowVisibility(DataGridView dg, int column, string text, int rowIndex)
+    private static void ToggleRowVisibility(DataGridView dg, int column, ReadOnlySpan<char> text, int rowIndex)
     {
         var row = dg.Rows[rowIndex];
         if (text.Length == 0 || column < 0)
@@ -393,6 +393,6 @@ public partial class SAV_FolderList : Form
             row.Visible = false;
             return;
         }
-        row.Visible = value.Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
+        row.Visible = value.AsSpan().Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
     }
 }

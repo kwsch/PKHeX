@@ -42,7 +42,7 @@ public sealed class BattleTrainerStatus8b(SAV8BS sav, Memory<byte> raw) : SaveBl
         }
     }
 
-    private int GetTrainerOffset(int trainer)
+    private static int GetTrainerOffset(int trainer)
     {
         if ((uint)trainer >= COUNT_TRAINER)
             throw new ArgumentOutOfRangeException(nameof(trainer));

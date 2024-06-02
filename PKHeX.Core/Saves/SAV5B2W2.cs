@@ -61,6 +61,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public FestaBlock5 Festa => Blocks.Festa;
     public PWTBlock5 PWT => Blocks.PWT;
     public MedalList5 Medals => Blocks.Medals;
+    public KeySystem5 Keys => Blocks.Keys;
 
     public string Rival
     {
