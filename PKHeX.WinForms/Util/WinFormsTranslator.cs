@@ -225,7 +225,7 @@ public static class WinFormsTranslator
     {
         foreach (var t in types)
         {
-            if (t.BaseType == typeof(Form) && IsBannedStartsWith(t.Name, banlist))
+            if (!typeof(Form).IsAssignableFrom(t) || IsBannedStartsWith(t.Name, banlist))
                 continue;
 
             var constructors = t.GetConstructors();
@@ -234,7 +234,8 @@ public static class WinFormsTranslator
             var argCount = constructors[0].GetParameters().Length;
             try
             {
-                _ = (Form?)Activator.CreateInstance(t, new object[argCount]);
+                var form = (Form?)Activator.CreateInstance(t, new object[argCount]);
+                form?.Dispose();
             }
             // This is a debug utility method, will always be logging. Shouldn't ever fail.
             catch
