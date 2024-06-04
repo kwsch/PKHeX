@@ -108,21 +108,19 @@ public static class WinFormsTranslator
         }
     }
 
-    private static ReadOnlySpan<string> GetTranslationFile(ReadOnlySpan<char> lang)
+    private static ReadOnlySpan<char> GetTranslationFile(ReadOnlySpan<char> lang)
     {
         var file = GetTranslationFileNameInternal(lang);
         // Check to see if the desired translation file exists in the same folder as the executable
         string externalLangPath = GetTranslationFileNameExternal(file);
         if (File.Exists(externalLangPath))
         {
-            try { return File.ReadAllLines(externalLangPath); }
+            try { return File.ReadAllText(externalLangPath); }
             catch { /* In use? Just return the internal resource. */ }
         }
 
-        if (Util.IsStringListCached(file, out var result))
-            return result;
         var txt = (string?)Properties.Resources.ResourceManager.GetObject(file);
-        return Util.LoadStringList(file, txt);
+        return txt ?? "";
     }
 
     private static IEnumerable<object> GetTranslatableControls(Control f)
@@ -320,9 +318,10 @@ public sealed class TranslationContext
 
     public void Clear() => Translation.Clear();
 
-    public TranslationContext(ReadOnlySpan<string> content, char separator = Separator)
+    public TranslationContext(ReadOnlySpan<char> content, char separator = Separator)
     {
-        foreach (var line in content)
+        var iterator = content.EnumerateLines();
+        foreach (var line in iterator)
             LoadLine(line, separator);
     }
 
@@ -352,18 +351,19 @@ public sealed class TranslationContext
         return Translation.Select(z => $"{z.Key}{separator}{z.Value}").OrderBy(z => z.Contains('.')).ThenBy(z => z);
     }
 
-    public void UpdateFrom(ReadOnlySpan<string> lines)
+    public void UpdateFrom(ReadOnlySpan<char> text)
     {
+        var lines = text.EnumerateLines();
         foreach (var line in lines)
         {
             var split = line.IndexOf(Separator);
             if (split < 0)
                 continue;
-            var key = line[..split];
+            var key = line[..split].ToString();
 
             ref var exist = ref CollectionsMarshal.GetValueRefOrNullRef(Translation, key);
             if (!Unsafe.IsNullRef(ref exist))
-                exist = line[(split + 1)..];
+                exist = line[(split + 1)..].ToString();
         }
     }
 
