@@ -16,6 +16,7 @@ L_XEnigmaBerry_0 = {0}果
 L_XHT = 持有人
 L_XKorean = 韩版
 L_XKoreanNon = 非韩版
+L_XLocation = Location
 L_XMatches0_1 = 匹配： {0} {1}
 L_XNickname = Nickname
 L_XOT = 初训家

@@ -34,7 +34,10 @@ public partial class Main : Form
         FormLoadAddEvents();
 #if DEBUG // translation updater -- all controls are added at this point -- call translate now
         if (DevUtil.IsUpdatingTranslations)
+        {
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
+            return;
+        }
 #endif
         FormInitializeSecond();
         FormLoadCheckForUpdates();
@@ -1009,6 +1012,9 @@ public partial class Main : Form
         LocalizeUtil.InitializeStrings(lang, sav, HaX);
         WinFormsUtil.TranslateInterface(this, lang); // Translate the UI to language.
         LocalizedDescriptionAttribute.Localizer = WinFormsTranslator.GetDictionary(lang);
+
+        SizeCP.ResetSizeLocalizations(lang);
+        PKME_Tabs.SizeCP.TryResetStats();
 
         if (sav is not FakeSaveFile)
         {

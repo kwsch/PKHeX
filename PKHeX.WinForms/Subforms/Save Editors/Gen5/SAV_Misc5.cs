@@ -297,7 +297,7 @@ public partial class SAV_Misc5 : Form
         {
             var pass = (Entralink5B2W2)entree;
             var ppv = Enum.GetValues<PassPower5>();
-            var ppn = Enum.GetNames<PassPower5>();
+            var ppn = WinFormsTranslator.GetEnumTranslation<PassPower5>(Main.CurrentLanguage);
             var PassPowerB = new ComboItem[ppv.Length];
             for (int i = 0; i < ppv.Length; i++)
                 PassPowerB[i] = new ComboItem(ppn[i], (int)ppv[i]);
@@ -321,7 +321,7 @@ public partial class SAV_Misc5 : Form
             NUD_EntreeWhiteEXP.SetValueClamped(block.WhiteEXP);
             NUD_EntreeBlackEXP.SetValueClamped(block.BlackEXP);
 
-            string[] FMTitles = Enum.GetNames<Funfest5Mission>();
+            string[] FMTitles = WinFormsTranslator.GetEnumTranslation<Funfest5Mission>(Main.CurrentLanguage);
             LB_FunfestMissions.Items.Clear();
             LB_FunfestMissions.Items.AddRange(FMTitles);
 

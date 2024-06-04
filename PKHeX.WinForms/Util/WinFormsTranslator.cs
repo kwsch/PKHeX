@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using PKHeX.Core;
@@ -13,6 +16,19 @@ public static class WinFormsTranslator
 {
     private static readonly Dictionary<string, TranslationContext> Context = [];
     internal static void TranslateInterface(this Control form, string lang) => TranslateForm(form, GetContext(lang));
+
+    internal static string TranslateEnum<T>(T value, string lang) where T : Enum =>
+        TranslateEnum(typeof(T).Name, value.ToString(), lang);
+
+    internal static string[] GetEnumTranslation<T>(string lang)
+    {
+        var type = typeof(T);
+        var names = Enum.GetNames(type);
+        var result = new string[names.Length];
+        for (int i = 0; i < names.Length; i++)
+            result[i] = TranslateEnum(type.Name, names[i], lang);
+        return result;
+    }
 
     private static string GetTranslationFileNameInternal(ReadOnlySpan<char> lang) => $"lang_{lang}";
     private static string GetTranslationFileNameExternal(ReadOnlySpan<char> lang) => $"lang_{lang}.txt";
@@ -46,13 +62,11 @@ public static class WinFormsTranslator
         form.ResumeLayout();
     }
 
-    internal static void TranslateControls(IEnumerable<Control> controls)
+    internal static void TranslateControls(IEnumerable<Control> controls, string baseLanguage)
     {
+        var context = GetContext(baseLanguage);
         foreach (var c in controls)
-        {
-            foreach (var context in Context.Values)
-                context.GetTranslatedText(c.Name, c.Text);
-        }
+            context.GetTranslatedText(c.Name, c.Text);
     }
 
     private static string GetSaneFormName(string formName)
@@ -67,6 +81,13 @@ public static class WinFormsTranslator
             nameof(SAV_EventFlags2) => nameof(SAV_EventFlags),
             _ => formName,
         };
+    }
+
+    private static string TranslateEnum(string type, string value, string lang)
+    {
+        var context = GetContext(lang);
+        var key = $"{type}.{value}";
+        return context.GetTranslatedText(key, value);
     }
 
     private static void TranslateControl(object c, TranslationContext context, ReadOnlySpan<char> formname)
@@ -172,43 +193,24 @@ public static class WinFormsTranslator
     }
 
 #if DEBUG
-    public static void UpdateAll(string baseLanguage, IEnumerable<string> others)
+    public static void DumpAll(string baseLang, ReadOnlySpan<string> banlist, string dir)
     {
-        var baseContext = GetContext(baseLanguage);
-        foreach (var lang in others)
-        {
-            var c = GetContext(lang);
-            c.UpdateFrom(baseContext);
-        }
-    }
+        var context = Context[baseLang];
+        context.RemoveBannedEntries(banlist);
 
-    public static void DumpAll(ReadOnlySpan<string> banlist)
-    {
+        // Reload all contexts
         foreach (var (lang, value) in Context)
         {
-            var fn = GetTranslationFileNameExternal(lang);
-            var lines = value.Write();
+            if (lang != baseLang)
+                value.CopyFrom(context);
+            var exist = GetTranslationFile(lang);
+            value.UpdateFrom(exist);
 
             // Write a new file.
-            using var fs = new StreamWriter(fn);
-            foreach (var line in lines)
-            {
-                // Ensure line isn't banned.
-                if (IsBannedContains(line, banlist))
-                    continue;
-                fs.WriteLine(line);
-            }
+            var fn = GetTranslationFileNameExternal(lang);
+            var lines = value.Write();
+            File.WriteAllLines(Path.Combine(dir, fn), lines);
         }
-    }
-
-    private static bool IsBannedContains(ReadOnlySpan<char> line, ReadOnlySpan<string> banlist)
-    {
-        foreach (var banned in banlist)
-        {
-            if (line.Contains(banned, StringComparison.Ordinal))
-                return true;
-        }
-        return false;
     }
 
     private static bool IsBannedStartsWith(ReadOnlySpan<char> line, ReadOnlySpan<string> banlist)
@@ -245,45 +247,14 @@ public static class WinFormsTranslator
         }
     }
 
-    public static void SetRemovalMode(bool status = true)
+    public static void SetUpdateMode(bool status = true)
     {
-        foreach (TranslationContext c in Context.Values)
-        {
-            c.RemoveUsedKeys = status;
-            c.AddNew = !status;
-        }
-    }
-
-    public static void RemoveAll(string defaultLanguage, ReadOnlySpan<string> banlist)
-    {
-        var badKeys = Context[defaultLanguage];
-        var skipExports = GetSkips(banlist, badKeys);
         foreach (var c in Context)
         {
-            var lang = c.Key;
-            var fn = GetTranslationFileNameExternal(lang);
-            var lines = File.ReadAllLines(fn);
-            var result = lines.Where(l => !skipExports.Any(l.StartsWith));
-            File.WriteAllLines(fn, result);
+            if (status)
+                c.Value.Clear();
+            c.Value.AddNew = status;
         }
-    }
-
-    private static string[] GetSkips(ReadOnlySpan<string> banlist, TranslationContext badKeys)
-    {
-        List<string> split = [];
-        foreach (var line in badKeys.Write())
-        {
-            var index = line.IndexOf(TranslationContext.Separator);
-            if (index < 0)
-                continue;
-            var key = line.AsSpan(0, index);
-            if (!IsBannedStartsWith(key, banlist))
-                split.Add(line[..(index+1)]);
-        }
-
-        if (split.Count == 0)
-            return [];
-        return [..split];
     }
 
     public static void LoadSettings<T>(string defaultLanguage, bool add = true)
@@ -323,16 +294,31 @@ public static class WinFormsTranslator
                 LoadSettings<T>(add, t, context);
         }
     }
+
+    public static void LoadEnums(ReadOnlySpan<Type> enumTypesToTranslate, string defaultLanguage)
+    {
+        var context = (Dictionary<string, string>)Context[defaultLanguage].Lookup;
+        foreach (var t in enumTypesToTranslate)
+        {
+            var names = Enum.GetNames(t);
+            foreach (var name in names)
+            {
+                var key = $"{t.Name}.{name}";
+                context.Add(key, name);
+            }
+        }
+    }
 #endif
 }
 
 public sealed class TranslationContext
 {
-    public bool AddNew { private get; set; }
-    public bool RemoveUsedKeys { private get; set; }
     public const char Separator = '=';
     private readonly Dictionary<string, string> Translation = [];
     public IReadOnlyDictionary<string, string> Lookup => Translation;
+    public bool AddNew { get; set; }
+
+    public void Clear() => Translation.Clear();
 
     public TranslationContext(ReadOnlySpan<string> content, char separator = Separator)
     {
@@ -350,11 +336,9 @@ public sealed class TranslationContext
         Translation.TryAdd(key, value);
     }
 
+    [return: NotNullIfNotNull(nameof(fallback))]
     public string? GetTranslatedText(string val, string? fallback)
     {
-        if (RemoveUsedKeys)
-            Translation.Remove(val);
-
         if (Translation.TryGetValue(val, out var translated))
             return translated;
 
@@ -368,12 +352,55 @@ public sealed class TranslationContext
         return Translation.Select(z => $"{z.Key}{separator}{z.Value}").OrderBy(z => z.Contains('.')).ThenBy(z => z);
     }
 
-    public void UpdateFrom(TranslationContext other)
+    public void UpdateFrom(ReadOnlySpan<string> lines)
     {
-        bool oldAdd = AddNew;
-        AddNew = true;
-        foreach (var kvp in other.Translation)
-            GetTranslatedText(kvp.Key, kvp.Value);
-        AddNew = oldAdd;
+        foreach (var line in lines)
+        {
+            var split = line.IndexOf(Separator);
+            if (split < 0)
+                continue;
+            var key = line[..split];
+
+            ref var exist = ref CollectionsMarshal.GetValueRefOrNullRef(Translation, key);
+            if (!Unsafe.IsNullRef(ref exist))
+                exist = line[(split + 1)..];
+        }
+    }
+
+    public void RemoveBannedEntries(ReadOnlySpan<string> banlist)
+    {
+        var badKeys = new List<string>();
+        foreach (var (key, _) in Translation)
+        {
+            if (IsBannedContains(key, banlist))
+                badKeys.Add(key);
+
+            static bool IsBannedContains(ReadOnlySpan<char> key, ReadOnlySpan<string> banlist)
+            {
+                foreach (var line in banlist)
+                {
+                    if (line.EndsWith(Separator))
+                    {
+                        if (key.EndsWith(line.AsSpan()[..^1], StringComparison.Ordinal))
+                            return true;
+                    }
+                    else
+                    {
+                        if (key.Contains(line, StringComparison.Ordinal))
+                            return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        foreach (var key in badKeys)
+            Translation.Remove(key);
+    }
+
+    public void CopyFrom(TranslationContext other)
+    {
+        foreach (var (key, value) in other.Translation)
+            Translation.Add(key, value);
     }
 }

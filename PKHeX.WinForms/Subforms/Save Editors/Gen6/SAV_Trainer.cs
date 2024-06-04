@@ -81,7 +81,7 @@ public partial class SAV_Trainer : Form
         CB_Region.InitializeBinding();
         Main.SetCountrySubRegion(CB_Country, "countries");
 
-        var names = Enum.GetNames<TrainerSprite6>();
+        var names = WinFormsTranslator.GetEnumTranslation<TrainerSprite6>(Main.CurrentLanguage);
         var values = Enum.GetValues<TrainerSprite6>();
         var max = SAV is not SAV6AO ? (int)TrainerSprite6.Trevor : names.Length;
         var data = new ComboItem[max];
