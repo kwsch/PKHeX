@@ -82,7 +82,7 @@ public static class LegalityFormatting
         // Location
         var loc = enc.GetEncounterLocation();
         if (!string.IsNullOrEmpty(loc))
-            lines.Add(string.Format(L_F0_1, "Location", loc));
+            lines.Add(string.Format(L_F0_1, L_XLocation, loc));
 
         // Version
         if (enc.Generation <= 2)

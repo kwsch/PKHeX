@@ -4,6 +4,9 @@ using static PKHeX.Core.HeaderInfoNSO;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Handler for recognizing games saved by the Nintendo Switch Online service.
+/// </summary>
 public sealed class SaveHandlerNSO : ISaveHandler
 {
     private static ReadOnlySpan<byte> Magic => "SRAM"u8;

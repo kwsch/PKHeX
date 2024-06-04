@@ -155,6 +155,8 @@ public static partial class Util
         if (IsStringListCached(fileName, out var result))
             return result;
         var txt = GetStringResource(fileName); // Fetch File, \n to list.
+        if (txt is null)
+            return [];
         return LoadStringList(fileName, txt);
     }
 
@@ -168,10 +170,8 @@ public static partial class Util
     /// Loads a text <see cref="file"/> into the program with a value of <see cref="txt"/>.
     /// </summary>
     /// <remarks>Caches the result array for future fetches.</remarks>
-    public static string[] LoadStringList(string file, string? txt)
+    private static string[] LoadStringList(string file, string txt)
     {
-        if (txt == null)
-            return [];
         string[] raw = FastSplit(txt);
 
         // Make sure only one thread can write to the cache

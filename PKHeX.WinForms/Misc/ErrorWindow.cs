@@ -24,7 +24,7 @@ public sealed partial class ErrorWindow : Form
         catch { return System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName; }
     }
 
-    private ErrorWindow(string? lang = GameLanguage.DefaultLanguage)
+    public ErrorWindow(string? lang = GameLanguage.DefaultLanguage)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, lang ?? GetDisplayLanguage());

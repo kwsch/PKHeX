@@ -31,9 +31,9 @@ public partial class SAV_OPower : Form
         NUDBattle_B = [NUD_B0B, NUD_B1B, NUD_B2B, NUD_B3B, NUD_B4B, NUD_B5B, NUD_B6B];
 
         // get names, without the "Count" enum value at the end.
-        var nameIndex = Enum.GetNames<OPower6Index>().AsSpan()[..^1];
-        var nameField = Enum.GetNames<OPower6FieldType>().AsSpan()[..^1];
-        var nameBattle = Enum.GetNames<OPower6BattleType>().AsSpan()[..^1];
+        var nameIndex = WinFormsTranslator.GetEnumTranslation<OPower6Index>(Main.CurrentLanguage).AsSpan()[..^1];
+        var nameField = WinFormsTranslator.GetEnumTranslation<OPower6FieldType>(Main.CurrentLanguage).AsSpan()[..^1];
+        var nameBattle = WinFormsTranslator.GetEnumTranslation<OPower6BattleType>(Main.CurrentLanguage).AsSpan()[..^1];
         foreach (string index in nameIndex)
             CLB_Unlock.Items.Add(index);
         for (int i = 0; i < nameField.Length; i++)

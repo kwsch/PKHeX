@@ -17,6 +17,7 @@ public partial class SettingsEditor : Form
     public SettingsEditor(object obj)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         LoadSettings(obj);
 
         if (obj is PKHeXSettings s)

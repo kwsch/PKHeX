@@ -16,6 +16,7 @@ L_XEnigmaBerry_0 = {0}열매
 L_XHT = 소유했던 트레이너 (HT)
 L_XKorean = 한국어 버전 포켓몬
 L_XKoreanNon = 한국어 버전이 아닌 포켓몬
+L_XLocation = Location
 L_XMatches0_1 = 일치: {0} {1}
 L_XNickname = Nickname
 L_XOT = 어버이 (OT)

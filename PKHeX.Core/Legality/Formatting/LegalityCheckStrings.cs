@@ -60,6 +60,7 @@ public static class LegalityCheckStrings
     public static string L_XNickname { get; set; } = "Nickname";
     public static string L_XKorean { get; set; } = "Korean";
     public static string L_XKoreanNon { get; set; } = "Non-Korean";
+    public static string L_XLocation { get; set; } = "Location";
     public static string L_XEnigmaBerry_0 { get; set; } = "{0} Berry";
     public static string L_XMatches0_1 { get; set; } = "Matches: {0} {1}";
     public static string L_XWurmpleEvo_0 { get; set; } = "Wurmple Evolution: {0}";

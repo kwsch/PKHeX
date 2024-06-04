@@ -16,6 +16,7 @@ L_XEnigmaBerry_0 = BACCA{0}
 L_XHT = HT
 L_XKorean = Korean
 L_XKoreanNon = Non-Korean
+L_XLocation = Location
 L_XMatches0_1 = Matches: {0} {1}
 L_XNickname = Nickname
 L_XOT = OT

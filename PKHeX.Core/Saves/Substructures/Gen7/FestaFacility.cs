@@ -46,3 +46,19 @@ public sealed class FestaFacility(Memory<byte> raw, int language)
         _ => -1,
     };
 }
+
+public enum FestivalPlazaFacilityColor : byte
+{
+    Red = 0,
+    Blue = 1,
+    Gold = 2,
+    Black = 3,
+    Purple = 4,
+    Yellow = 5,
+    Brown = 6,
+    Green = 7,
+    Orange = 8,
+    NavyBlue = 9,
+    Pink = 10,
+    White = 11,
+}

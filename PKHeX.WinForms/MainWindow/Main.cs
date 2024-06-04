@@ -34,7 +34,10 @@ public partial class Main : Form
         FormLoadAddEvents();
 #if DEBUG // translation updater -- all controls are added at this point -- call translate now
         if (DevUtil.IsUpdatingTranslations)
+        {
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
+            return;
+        }
 #endif
         FormInitializeSecond();
         FormLoadCheckForUpdates();
@@ -749,7 +752,7 @@ public partial class Main : Form
             case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
             default:
-                WinFormsUtil.Error(!SaveUtil.IsSizeValid(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
+                WinFormsUtil.Error(!SAV3GCMemoryCard.IsMemoryCardSize(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
                 return false;
         }
         return true;
@@ -1009,6 +1012,9 @@ public partial class Main : Form
         LocalizeUtil.InitializeStrings(lang, sav, HaX);
         WinFormsUtil.TranslateInterface(this, lang); // Translate the UI to language.
         LocalizedDescriptionAttribute.Localizer = WinFormsTranslator.GetDictionary(lang);
+
+        SizeCP.ResetSizeLocalizations(lang);
+        PKME_Tabs.SizeCP.TryResetStats();
 
         if (sav is not FakeSaveFile)
         {
