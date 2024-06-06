@@ -63,12 +63,12 @@ public sealed partial class ErrorWindow : Form
         }
     }
 
-    public void LoadException(Exception ex, string friendlyMessage, bool allowContinue) => Invoke(() =>
+    public void LoadException(Exception ex, string friendlyMessage, bool allowContinue)
     {
         ShowContinue = allowContinue;
         Message = friendlyMessage;
         Error = ex;
-    });
+    }
 
     private void UpdateExceptionDetailsMessage()
     {
