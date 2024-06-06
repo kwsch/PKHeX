@@ -86,9 +86,17 @@ public sealed class TrashByteVerifier : Verifier
                 VerifyTrashNotEmpty(data, pk.HandlingTrainerTrash, HandlingTrainer);
             VerifyTrashNone(data, pk.OriginalTrainerTrash, OriginalTrainer);
 
-            // Species name is overwritten by "Egg"
-            var origName = SpeciesName.GetSpeciesName(pk.Species, pk.Language);
-            VerifyTrashSpecific(data, pk.NicknameTrash, origName, Nickname);
+            if (IsTrashCleanContext(pk.Context))
+            {
+                VerifyTrashNone(data, pk.NicknameTrash, Nickname);
+                VerifyTrashNone(data, pk.HandlingTrainerTrash, HandlingTrainer);
+            }
+            else
+            {
+                // Species name is overwritten by "Egg"
+                var origName = SpeciesName.GetSpeciesName(pk.Species, pk.Language);
+                VerifyTrashSpecific(data, pk.NicknameTrash, origName, Nickname);
+            }
             return;
         }
 
@@ -110,6 +118,11 @@ public sealed class TrashByteVerifier : Verifier
         {
             VerifyTrashNone(data, pk.OriginalTrainerTrash, OriginalTrainer);
         }
+    }
+
+    private static bool IsTrashCleanContext(EntityContext context)
+    {
+        return context is EntityContext.Gen8b;
     }
 
     private void VerifyTrashNickname(LegalityAnalysis data, ReadOnlySpan<byte> span)
