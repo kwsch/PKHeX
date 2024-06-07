@@ -142,10 +142,11 @@ public sealed class SAV3GCMemoryCard(Memory<byte> Raw)
 
     private int DirectoryBlock_Used;
 
-    private int EntryCOLO = -1;
-    private int EntryXD = -1;
-    private int EntryRSBOX = -1;
-    private int EntrySelected = -1;
+    private const int NotPresent = -1;
+    private int EntryCOLO = NotPresent;
+    private int EntryXD = NotPresent;
+    private int EntryRSBOX = NotPresent;
+    private int EntrySelected = NotPresent;
     public bool HasCOLO => EntryCOLO >= 0;
     public bool HasXD => EntryXD >= 0;
     public bool HasRSBOX => EntryRSBOX >= 0;
@@ -251,10 +252,14 @@ public sealed class SAV3GCMemoryCard(Memory<byte> Raw)
         return MemoryCardSaveStatus.SaveGameRSBOX;
     }
 
+    public bool IsNoGameSelected => SelectedGameVersion == GameVersion.Any;
+
     public GameVersion SelectedGameVersion
     {
         get
         {
+            if (EntrySelected < 0)
+                return GameVersion.Any;
             if (EntrySelected == EntryCOLO)
                 return GameVersion.COLO;
             if (EntrySelected == EntryXD)
