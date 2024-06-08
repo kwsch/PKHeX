@@ -92,17 +92,17 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             pb.ContextMenuStrip = menu.mnuVSD;
         }
 
-        GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
-        Tab_Box.MouseWheel += (s, e) =>
+        GiveFeedback += (_, e) => e.UseDefaultCursors = false;
+        Tab_Box.MouseWheel += (_, e) =>
         {
             if (menu.mnuVSD.Visible)
                 return;
             Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
         };
 
-        GB_Daycare.Click += (o, args) => SwitchDaycare(GB_Daycare, args);
+        GB_Daycare.Click += (_, _) => SwitchDaycare();
         FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
-        SortMenu.Opening += (s, x) => x.Cancel = !tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition));
+        SortMenu.Opening += (_, x) => x.Cancel = !tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition));
     }
 
     private void InitializeDragDrop(Control pb)
@@ -117,7 +117,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         pb.DragEnter += M.DragEnter;
         pb.DragDrop += M.DragDrop;
         pb.QueryContinueDrag += M.QueryContinueDrag;
-        pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+        pb.GiveFeedback += (_, e) => e.UseDefaultCursors = false;
         pb.AllowDrop = true;
         pb.ContextMenuStrip = menu.mnuVSD;
     }
@@ -572,7 +572,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private int DaycareIndex;
 
-    private void SwitchDaycare(object sender, EventArgs e)
+    private void SwitchDaycare()
     {
         if (SAV is not IDaycareMulti m)
             return;

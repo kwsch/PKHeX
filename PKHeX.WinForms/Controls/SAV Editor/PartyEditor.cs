@@ -38,8 +38,8 @@ public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
         BoxSlotCount = SlotPictureBoxes.Count;
         foreach (var pb in SlotPictureBoxes)
         {
-            pb.MouseEnter += (o, args) => BoxSlot_MouseEnter(pb, args);
-            pb.MouseLeave += (o, args) => BoxSlot_MouseLeave(pb, args);
+            pb.MouseEnter += (_, args) => BoxSlot_MouseEnter(pb, args);
+            pb.MouseLeave += (_, args) => BoxSlot_MouseLeave(pb, args);
             pb.MouseClick += BoxSlot_MouseClick;
             pb.MouseMove += BoxSlot_MouseMove;
             pb.MouseDown += BoxSlot_MouseDown;
@@ -48,7 +48,7 @@ public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
             pb.DragEnter += BoxSlot_DragEnter;
             pb.DragDrop += BoxSlot_DragDrop;
             pb.QueryContinueDrag += BoxSlot_QueryContinueDrag;
-            pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+            pb.GiveFeedback += (_, e) => e.UseDefaultCursors = false;
             pb.AllowDrop = true;
         }
     }

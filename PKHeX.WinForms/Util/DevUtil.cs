@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
                 ShortcutKeys = Keys.Control | Keys.Alt | Keys.D,
                 Visible = false,
             };
-            ti.Click += (s, e) => UpdateAll();
+            ti.Click += (_, _) => UpdateAll();
             return ti;
         }
 

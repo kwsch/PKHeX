@@ -29,16 +29,16 @@ public sealed partial class SAV_BoxViewer : Form
         CenterToParent();
 
         AllowDrop = true;
-        GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+        GiveFeedback += (_, e) => e.UseDefaultCursors = false;
         DragEnter += Main_DragEnter;
-        DragDrop += (sender, e) =>
+        DragDrop += (_, _) =>
         {
             Cursor = DefaultCursor;
             System.Media.SystemSounds.Asterisk.Play();
         };
         Owner = p.ParentForm;
 
-        MouseWheel += (s, e) =>
+        MouseWheel += (_, e) =>
         {
             if (parent.menu.mnuVSD.Visible)
                 return;

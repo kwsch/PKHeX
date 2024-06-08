@@ -25,7 +25,7 @@ public partial class ReportGrid : Form
     private void GetContextMenu()
     {
         var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide };
-        mnuHide.Click += (sender, e) =>
+        mnuHide.Click += (_, _) =>
         {
             int c = dgData.SelectedCells.Count;
             if (c == 0)
@@ -35,7 +35,7 @@ public partial class ReportGrid : Form
                 dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
         };
         var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore };
-        mnuRestore.Click += (sender, e) =>
+        mnuRestore.Click += (_, _) =>
         {
             int c = dgData.ColumnCount;
             for (int i = 0; i < c; i++)

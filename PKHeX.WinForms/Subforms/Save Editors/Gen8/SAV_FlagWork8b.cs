@@ -189,7 +189,7 @@ public sealed partial class SAV_FlagWork8b : Form
                     mtb.Text = ((int)mtb.Value).ToString();
                 updating = false;
             }
-            cb.SelectedValueChanged += (o, args) =>
+            cb.SelectedValueChanged += (_, _) =>
             {
                 if (editing || updating)
                     return;

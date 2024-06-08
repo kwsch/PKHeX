@@ -26,7 +26,7 @@ public partial class SAV_Trainer7GG : Form
             TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont();
         }
 
-        B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
+        B_MaxCash.Click += (_, _) => MT_Money.Text = "9,999,999";
 
         GetComboBoxes();
         LoadTrainerInfo();

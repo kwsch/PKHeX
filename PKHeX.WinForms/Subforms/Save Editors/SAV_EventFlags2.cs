@@ -114,7 +114,7 @@ public sealed partial class SAV_EventFlags2 : Form
             cells[0].Value = values[index];
             cells[1].Value = name;
         }
-        dgv.CellValueChanged += (s, e) =>
+        dgv.CellValueChanged += (_, e) =>
         {
             if (e.ColumnIndex != 0 || e.RowIndex == -1)
                 return;
@@ -125,7 +125,7 @@ public sealed partial class SAV_EventFlags2 : Form
             if (NUD_Flag.Value == index)
                 c_CustomFlag.Checked = chk;
         };
-        dgv.CellMouseUp += (s, e) =>
+        dgv.CellMouseUp += (_, e) =>
         {
             if (e.RowIndex == -1)
                 return;
@@ -185,7 +185,7 @@ public sealed partial class SAV_EventFlags2 : Form
             cb.InitializeBinding();
             cb.DataSource = map;
 
-            lbl.Click += (sender, e) => mtb.Value = 0;
+            lbl.Click += (_, _) => mtb.Value = 0;
             bool updating = false;
             mtb.ValueChanged += ChangeConstValue;
             void ChangeConstValue(object? sender, EventArgs e)
@@ -204,7 +204,7 @@ public sealed partial class SAV_EventFlags2 : Form
                     MT_Stat.Text = ((int)mtb.Value).ToString();
                 updating = false;
             }
-            cb.SelectedValueChanged += (o, args) =>
+            cb.SelectedValueChanged += (_, _) =>
             {
                 if (editing || updating)
                     return;
