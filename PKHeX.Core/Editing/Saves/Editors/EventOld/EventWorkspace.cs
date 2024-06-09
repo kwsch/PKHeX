@@ -24,8 +24,8 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
     {
         SAV.SetEventFlags(Flags);
         SAV.SetAllEventWork(Values);
-        if (SAV is EventWork7SM s7) // Ensure Magearna event flag has magic constant
-            s7.UpdateMagearnaConstant();
+        if (SAV is EventWork7 sm) // Ensure QR event flag has magic constant(s)
+            sm.UpdateQrConstants();
     }
 
     private static string GetResourceSuffix(GameVersion version) => version switch

@@ -251,4 +251,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
     IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
+
+    public abstract void UpdateQrConstants();
 }

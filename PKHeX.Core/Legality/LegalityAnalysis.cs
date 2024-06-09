@@ -114,18 +114,14 @@ public sealed class LegalityAnalysis
             Valid = false;
 
             // Moves and Relearn arrays can potentially be empty on error.
-            var moves = Info.Moves;
-            for (var i = 0; i < moves.Length; i++)
+            foreach (ref var p in Info.Moves.AsSpan())
             {
-                ref var p = ref moves[i];
                 if (!p.IsParsed)
                     p = MoveResult.Unobtainable();
             }
 
-            moves = Info.Relearn;
-            for (var i = 0; i < moves.Length; i++)
+            foreach (ref var p in Info.Relearn.AsSpan())
             {
-                ref var p = ref moves[i];
                 if (!p.IsParsed)
                     p = MoveResult.Unobtainable();
             }
@@ -204,9 +200,6 @@ public sealed class LegalityAnalysis
 
         if (Entity.Version == GameVersion.CXD)
             CXD.Verify(this);
-
-        if (Info.EncounterMatch is WC3 {NotDistributed: true})
-            AddLine(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
 
         if (Entity.Format >= 8)
             Transfer.VerifyTransferLegalityG8(this);

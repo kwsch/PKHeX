@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -75,9 +76,10 @@ public sealed class SAV3GCMemoryCard(Memory<byte> Raw)
         ushort csum = 0;
         ushort inv_csum = 0;
 
-        for (int i = 0; i < span.Length; i += 2)
+        var cast = MemoryMarshal.Cast<byte, ushort>(span);
+        foreach (var u16 in cast)
         {
-            var value = ReadUInt16BigEndian(span[i..]);
+            var value = BitConverter.IsLittleEndian ? ReverseEndianness(u16) : u16;
             csum += value;
             inv_csum += (ushort)~value;
         }
@@ -155,6 +157,9 @@ public sealed class SAV3GCMemoryCard(Memory<byte> Raw)
     private bool IsCorruptedMemoryCard()
     {
         var csums = VerifyChecksums();
+        if (csums == MemoryCardChecksumStatus.None)
+            return false; // eager return, true for all correct Memory Cards.
+
         if (csums.HasFlag(MemoryCardChecksumStatus.HeaderBad))
             return true;
 

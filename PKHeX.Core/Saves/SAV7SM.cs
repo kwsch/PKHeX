@@ -69,7 +69,7 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
 
     private const ulong MagearnaConst = 0xCBE05F18356504AC;
 
-    public void UpdateMagearnaConstant()
+    public override void UpdateQrConstants()
     {
         var flag = EventWork.GetEventFlag(EventWork7SM.MagearnaEventFlag); // 3100
         ulong value = flag ? MagearnaConst : 0ul;

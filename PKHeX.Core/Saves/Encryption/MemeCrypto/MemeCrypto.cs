@@ -97,20 +97,6 @@ public static class MemeCrypto
         return hash[..8].SequenceEqual(output[^8..]);
     }
 
-    public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, int offset, int length, MemeKeyIndex keyIndex)
-    {
-        var data = input.Slice(offset, length);
-        if (VerifyMemeData(data, out output, keyIndex))
-        {
-            var newOutput = input.ToArray();
-            output.CopyTo(newOutput, offset);
-            output = newOutput;
-            return true;
-        }
-        output = [];
-        return false;
-    }
-
     public static byte[] SignMemeData(ReadOnlySpan<byte> input, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile)
     {
         var output = input.ToArray();

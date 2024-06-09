@@ -5,6 +5,7 @@ namespace PKHeX.Core;
 
 public abstract class EventWork7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw), IEventFlag37
 {
+    private readonly SAV7 sav7 = sav;
     protected abstract Span<byte> WorkSpan { get; }
     protected abstract Span<byte> FlagSpan { get; }
     protected abstract Memory<byte> FameSpan { get; }
@@ -37,6 +38,8 @@ public abstract class EventWork7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(s
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)TotalZygardeCellCount);
         SetWork(celloffset + index, val);
     }
+
+    public void UpdateQrConstants() => sav7.UpdateQrConstants();
 }
 
 public sealed class EventWork7SM(SAV7SM sav, Memory<byte> raw) : EventWork7(sav, raw)
@@ -58,8 +61,6 @@ public sealed class EventWork7SM(SAV7SM sav, Memory<byte> raw) : EventWork7(sav,
     protected override Memory<byte> FameSpan => Raw.Slice(OffsetPostData, HallOfFame7.SIZE);
 
     public const int MagearnaEventFlag = 3100;
-
-    public void UpdateMagearnaConstant() => ((SAV7SM)SAV).UpdateMagearnaConstant();
 }
 
 public sealed class EventWork7USUM(SAV7USUM sav, Memory<byte> raw) : EventWork7(sav, raw)
@@ -79,6 +80,9 @@ public sealed class EventWork7USUM(SAV7USUM sav, Memory<byte> raw) : EventWork7(
     protected override Span<byte> WorkSpan => Raw.Span[..(EventWorkCount * sizeof(ushort))];
     protected override Span<byte> FlagSpan => Raw.Span.Slice(OffsetFlag, FlagCount / 8);
     protected override Memory<byte> FameSpan => Raw.Slice(OffsetPostData, HallOfFame7.SIZE);
+
+    public const int MagearnaEventFlag = 4060;
+    public const int CapPikachuEventFlag = 4562;
 }
 
 public sealed class HallOfFame7(Memory<byte> raw)

@@ -144,11 +144,11 @@ public readonly ref struct MemeKey
     private byte[] GetAesKey(ReadOnlySpan<byte> data)
     {
         // HashLengthInBytes is 20.
-        Span<byte> hash = stackalloc byte[20];
+        Span<byte> hash = stackalloc byte[SHA1.HashSizeInBytes];
         using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA1);
         h.AppendData(DER);
         h.AppendData(data);
-        h.TryGetCurrentHash(hash, out _);
+        h.GetCurrentHash(hash);
         return hash[..chunk].ToArray(); // need a byte[0x10] (not 0x14) for the AES impl
     }
 
