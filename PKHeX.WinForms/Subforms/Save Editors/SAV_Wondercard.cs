@@ -42,7 +42,7 @@ public partial class SAV_Wondercard : Form
             pb.MouseDown += BoxSlot_MouseDown;
             pb.ContextMenuStrip = mnuVSD;
             pb.MouseHover += (_, _) => Summary.Show(pb, Album[pba.IndexOf(pb)]);
-            pb.Enter += (sender, e) =>
+            pb.Enter += (_, _) =>
             {
                 var index = pba.IndexOf(pb);
                 if (index < 0)

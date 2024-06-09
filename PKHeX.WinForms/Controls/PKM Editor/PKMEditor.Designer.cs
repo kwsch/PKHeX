@@ -3250,7 +3250,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_CatchRate;
         private System.Windows.Forms.Label L_CatchRate;
         private CatchRate CR_PK1;
-        private SizeCP SizeCP;
+        public SizeCP SizeCP;
         private System.Windows.Forms.PictureBox PB_Favorite;
         private System.Windows.Forms.FlowLayoutPanel FLP_OriginalNature;
         private System.Windows.Forms.Label L_OriginalNature;

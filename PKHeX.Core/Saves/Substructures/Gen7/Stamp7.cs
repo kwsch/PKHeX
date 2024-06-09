@@ -1,20 +1,20 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public enum Stamp7
 {
-    Official_Pokemon_Trainer,
-    Melemele_Trial_Completion,
-    Akala_Trial_Completion,
-    Ula_ula_Trial_Completion,
-    Poni_Trial_Completion,
-    Island_Challenge_Completion,
-    Melemele_Pokedex_Completion,
-    Akala_Pokedex_Completion,
-    Ula_ula_Pokedex_Completion,
-    Poni_Pokedex_Completion,
-    Alola_Pokedex_Completion,
-    _50_Consecutive_Single_Battle_Wins,
-    _50_Consecutive_Double_Battle_Wins,
-    _50_Consecutive_Multi_Battle_Wins,
-    Poke_Finder_Pro,
+    OfficialPokemonTrainer = 0,
+    MelemeleTrialCompletion = 1,
+    AkalaTrialCompletion = 2,
+    UlaulaTrialCompletion = 3,
+    PoniTrialCompletion = 4,
+    IslandChallengeCompletion = 5,
+    MelemelePokedexCompletion = 6,
+    AkalaPokedexCompletion = 7,
+    UlaulaPokedexCompletion = 8,
+    PoniPokedexCompletion = 9,
+    AlolaPokedexCompletion = 10,
+    ConsecutiveSingleBattleWins50 = 11,
+    ConsecutiveDoubleBattleWins50 = 12,
+    ConsecutiveMultiBattleWins50 = 13,
+    PokeFinderPro = 14,
 }

@@ -1207,7 +1207,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             bool g4 = Entity.Gen4;
             CB_GroundTile.Visible = Label_GroundTile.Visible = g4 && Entity.Format < 7;
-            if (!g4)
+            if (FieldsLoaded && !g4)
                 CB_GroundTile.SelectedValue = (int)GroundTileType.None;
         }
 

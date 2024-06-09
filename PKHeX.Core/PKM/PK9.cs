@@ -609,6 +609,9 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         HandlingTrainerGender = 0;
         HandlingTrainerLanguage = 0;
 
+        MetDate = null;
+        MetLocation = 0;
+        Nickname = SpeciesName.GetSpeciesNameGeneration(Species, tr.Language, 9);
         Nickname = SpeciesName.GetEggName(tr.Language, 9);
         OriginalTrainerName = tr.OT;
         CurrentHandler = 0;

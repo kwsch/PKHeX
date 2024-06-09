@@ -43,7 +43,6 @@ public sealed class WC3(GameVersion Version, bool Fateful = false)
     public override ushort Species { get; set; }
     public override bool IsEgg { get; set; }
     public override Moveset Moves { get; set; }
-    public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
     public override GameVersion Version { get; } = Version;
     public override bool FatefulEncounter { get; } = Fateful; // Obedience Flag

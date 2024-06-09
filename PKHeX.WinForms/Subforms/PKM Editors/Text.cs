@@ -107,7 +107,7 @@ public partial class TrashEditor : Form
             var l = GetLabel($"${i:X2}");
             l.Font = NUD_Generation.Font;
             var n = GetNUD(min: 0, max: 255, hex: true);
-            n.Click += (s, e) =>
+            n.Click += (_, _) =>
             {
                 switch (ModifierKeys)
                 {
@@ -116,7 +116,7 @@ public partial class TrashEditor : Form
                 }
             };
             n.Value = Raw[i];
-            n.ValueChanged += (o, args) => UpdateNUD(n, args);
+            n.ValueChanged += (_, _) => UpdateNUD(n);
 
             FLP_Hex.Controls.Add(l);
             FLP_Hex.Controls.Add(n);
@@ -124,7 +124,7 @@ public partial class TrashEditor : Form
             if (i % 4 == 3)
                 FLP_Hex.SetFlowBreak(n, true);
         }
-        TB_Text.TextChanged += (o, args) => UpdateString(TB_Text, args);
+        TB_Text.TextChanged += (_, _) => UpdateString(TB_Text);
 
         CB_Species.InitializeBinding();
         CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
@@ -133,14 +133,13 @@ public partial class TrashEditor : Form
         CB_Language.DataSource = GameInfo.LanguageDataSource(generation);
     }
 
-    private void UpdateNUD(object sender, EventArgs e)
+    private void UpdateNUD(NumericUpDown nud)
     {
         if (editing)
             return;
-        editing = true;
+
         // build bytes
-        if (sender is not NumericUpDown nud)
-            throw new Exception();
+        editing = true;
         int index = Bytes.IndexOf(nud);
         Raw[index] = (byte)nud.Value;
 
@@ -148,13 +147,13 @@ public partial class TrashEditor : Form
         editing = false;
     }
 
-    private void UpdateString(object sender, EventArgs e)
+    private void UpdateString(TextBox tb)
     {
         if (editing)
             return;
         editing = true;
         // build bytes
-        ReadOnlySpan<byte> data = SetString(TB_Text.Text);
+        ReadOnlySpan<byte> data = SetString(tb.Text);
         if (data.Length > Raw.Length)
             data = data[..Raw.Length];
         data.CopyTo(Raw);

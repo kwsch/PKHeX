@@ -145,7 +145,7 @@ public partial class BatchEditor : Form
     {
         editor = new Core.BatchEditor();
         bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
-        b.DoWork += (sender, e) =>
+        b.DoWork += (_, _) =>
         {
             if (finished)
                 return;
@@ -157,8 +157,8 @@ public partial class BatchEditor : Form
                 RunBatchEditFolder(sets, source, destination);
             finished = true;
         };
-        b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
-        b.RunWorkerCompleted += (sender, e) =>
+        b.ProgressChanged += (_, e) => SetProgressBar(e.ProgressPercentage);
+        b.RunWorkerCompleted += (_, _) =>
         {
             string result = editor.GetEditorResults(sets);
             if (!displayed) WinFormsUtil.Alert(result);

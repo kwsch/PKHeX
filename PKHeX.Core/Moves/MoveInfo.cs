@@ -68,10 +68,13 @@ public static class MoveInfo
         _ => false,
     };
 
+    private const uint DynamaxMoveCount = (int)MaxSteelspike - (int)MaxFlare + 1;
+    private const uint TorqueMoveCount = (int)MagicalTorque - (int)BlazingTorque + 1;
+
     /// <summary>
     /// Checks if the move is a Dynamax-only move.
     /// </summary>
-    public static bool IsMoveDynamax(ushort move) => move is (>= (int)MaxFlare and <= (int)MaxSteelspike);
+    public static bool IsMoveDynamax(ushort move) => move - (uint)MaxFlare < DynamaxMoveCount;
 
     /// <summary>
     /// Checks if the move can be known by anything in any context.
@@ -82,7 +85,7 @@ public static class MoveInfo
     /// <summary>
     /// Checks if the move is a Starmobile-only move.
     /// </summary>
-    public static bool IsMoveTorque(ushort move) => move - (uint)BlazingTorque <= 4;
+    public static bool IsMoveTorque(ushort move) => move - (uint)BlazingTorque < TorqueMoveCount;
 
     /// <summary>
     /// Checks if the <see cref="move"/> is unable to be used in battle.
@@ -157,6 +160,7 @@ public static class MoveInfo
     /// <summary>
     /// Checks if the move can be sketched in any game.
     /// </summary>
+    /// <param name="move">Sketched move</param>
     private static bool IsSketchPossible(ushort move) => move switch
     {
         // Can't Sketch
@@ -172,8 +176,8 @@ public static class MoveInfo
     /// <summary>
     /// Checks if the move can be sketched in a specific game context. Pre-check with <see cref="IsSketchPossible(ushort)"/>.
     /// </summary>
-    /// <param name="move"></param>
-    /// <param name="context"></param>
+    /// <param name="move">Sketched move</param>
+    /// <param name="context">Context currently present in</param>
     private static bool IsSketchPossible(ushort move, EntityContext context) => context switch
     {
         Gen6 when move is (int)ThousandArrows or (int)ThousandWaves => false,

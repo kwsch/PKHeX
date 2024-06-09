@@ -447,7 +447,7 @@ public partial class SAV_Misc3 : Form
         NUD_RecordValue.Minimum = int.MinValue;
         NUD_RecordValue.Maximum = int.MaxValue;
 
-        CB_Record.SelectedIndexChanged += (s, e) =>
+        CB_Record.SelectedIndexChanged += (_, _) =>
         {
             if (CB_Record.SelectedValue == null)
                 return;
@@ -456,10 +456,10 @@ public partial class SAV_Misc3 : Form
             LoadRecordID(index);
             NUD_FameH.Visible = NUD_FameS.Visible = NUD_FameM.Visible = index == 1;
         };
-        CB_Record.MouseWheel += (s, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
+        CB_Record.MouseWheel += (_, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
         CB_Record.SelectedIndex = 0;
         LoadRecordID(0);
-        NUD_RecordValue.ValueChanged += (s, e) =>
+        NUD_RecordValue.ValueChanged += (_, _) =>
         {
             if (CB_Record.SelectedValue == null)
                 return;
@@ -475,7 +475,7 @@ public partial class SAV_Misc3 : Form
         {
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, em.BP);
             NUD_BPEarned.Value = em.BPEarned;
-            NUD_BPEarned.ValueChanged += (s, e) => em.BPEarned = (uint)NUD_BPEarned.Value;
+            NUD_BPEarned.ValueChanged += (_, _) => em.BPEarned = (uint)NUD_BPEarned.Value;
         }
         else
         {
@@ -483,9 +483,9 @@ public partial class SAV_Misc3 : Form
             NUD_BPEarned.Visible = L_BPEarned.Visible = false;
         }
 
-        NUD_FameH.ValueChanged += (s, e) => ChangeFame(records);
-        NUD_FameM.ValueChanged += (s, e) => ChangeFame(records);
-        NUD_FameS.ValueChanged += (s, e) => ChangeFame(records);
+        NUD_FameH.ValueChanged += (_, _) => ChangeFame(records);
+        NUD_FameM.ValueChanged += (_, _) => ChangeFame(records);
+        NUD_FameS.ValueChanged += (_, _) => ChangeFame(records);
 
         void ChangeFame(Record3 r3) => r3.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
         void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);

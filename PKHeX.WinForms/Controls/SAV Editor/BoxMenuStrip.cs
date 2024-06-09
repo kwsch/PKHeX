@@ -35,7 +35,7 @@ public sealed class BoxMenuStrip : ContextMenuStrip
         var name = item.Type.ToString();
         ManipTypeImage.TryGetValue(item.Type, out var img);
         var tsi = new ToolStripMenuItem { Name = $"mnu_{name}", Text = name, Image = img };
-        tsi.Click += (s, e) => Manipulator.Execute(item, sav.CurrentBox, All, Reverse);
+        tsi.Click += (_, _) => Manipulator.Execute(item, sav.CurrentBox, All, Reverse);
         parent.DropDownItems.Add(tsi);
         CustomItems.Add(new ItemVisibility(tsi, item));
     }

@@ -112,6 +112,7 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     public EntreeForest EntreeForest { get; } = new(sav, Block(sav, 60));
     public PWTBlock5 PWT { get; } = new(sav, Block(sav, 63));
     public MedalList5 Medals { get; } = new(sav, Block(sav, 68));
+    public KeySystem5 Keys { get; } = new(sav, Block(sav, 69));
     public FestaBlock5 Festa { get; } = new(sav, Block(sav, 70));
     EventWork5 ISaveBlock5BW.EventWork => EventWork;
     Encount5 ISaveBlock5BW.Encount => Encount;
