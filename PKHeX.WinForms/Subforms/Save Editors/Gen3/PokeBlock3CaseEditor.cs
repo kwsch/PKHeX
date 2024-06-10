@@ -11,6 +11,8 @@ public partial class Pokeblock3CaseEditor : UserControl
     private int CurrentIndex = -1;
     private bool Updating;
 
+    private readonly string[] ItemNames = Util.GetStringList("pokeblock3", Main.CurrentLanguage);
+
     public void Initialize(IGen3Hoenn sav)
     {
         Case = sav.PokeBlocks;
@@ -30,7 +32,15 @@ public partial class Pokeblock3CaseEditor : UserControl
         Updating = false;
     }
 
-    private string GetPokeblockText(int index) => $"{index + 1:00} - {Case.Blocks[index].Color.ToString().Replace('_', '-')}";
+    private string GetPokeblockName(PokeBlock3Color color)
+    {
+        var index = (uint)color;
+        if (index >= ItemNames.Length)
+            index = 0;
+        return ItemNames[index];
+    }
+
+    private string GetPokeblockText(int index) => $"{index + 1:00} - {GetPokeblockName(Case.Blocks[index].Color)}";
 
     public void Save(IGen3Hoenn sav)
     {
