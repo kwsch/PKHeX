@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
         {
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
-            tabControl1 = new System.Windows.Forms.TabControl();
+            TC_Misc = new System.Windows.Forms.TabControl();
             TAB_Main = new System.Windows.Forms.TabPage();
             L_BPEarned = new System.Windows.Forms.Label();
             NUD_BPEarned = new System.Windows.Forms.NumericUpDown();
@@ -48,6 +48,10 @@ namespace PKHeX.WinForms
             NUD_BP = new System.Windows.Forms.NumericUpDown();
             L_BP = new System.Windows.Forms.Label();
             TAB_Joyful = new System.Windows.Forms.TabPage();
+            TB_BerryPowder = new System.Windows.Forms.MaskedTextBox();
+            L_BerryPowder = new System.Windows.Forms.Label();
+            TB_J4 = new System.Windows.Forms.MaskedTextBox();
+            L_JMaxPlayers = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             TB_B3 = new System.Windows.Forms.MaskedTextBox();
@@ -107,11 +111,9 @@ namespace PKHeX.WinForms
             NUD_FameS = new System.Windows.Forms.NumericUpDown();
             NUD_RecordValue = new System.Windows.Forms.NumericUpDown();
             CB_Record = new System.Windows.Forms.ComboBox();
-            TB_J4 = new System.Windows.Forms.MaskedTextBox();
-            L_JMaxPlayers = new System.Windows.Forms.Label();
-            TB_BerryPowder = new System.Windows.Forms.MaskedTextBox();
-            L_BerryPowder = new System.Windows.Forms.Label();
-            tabControl1.SuspendLayout();
+            Tab_Pokeblocks = new System.Windows.Forms.TabPage();
+            pokeblock3CaseEditor1 = new Pokeblock3CaseEditor();
+            TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).BeginInit();
             GB_TCM.SuspendLayout();
@@ -134,6 +136,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_FameM).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FameS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_RecordValue).BeginInit();
+            Tab_Pokeblocks.SuspendLayout();
             SuspendLayout();
             // 
             // B_Save
@@ -160,20 +163,21 @@ namespace PKHeX.WinForms
             B_Cancel.UseVisualStyleBackColor = true;
             B_Cancel.Click += B_Cancel_Click;
             // 
-            // tabControl1
+            // TC_Misc
             // 
-            tabControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            tabControl1.Controls.Add(TAB_Main);
-            tabControl1.Controls.Add(TAB_Joyful);
-            tabControl1.Controls.Add(TAB_Ferry);
-            tabControl1.Controls.Add(TAB_BF);
-            tabControl1.Controls.Add(Tab_Records);
-            tabControl1.Location = new System.Drawing.Point(14, 14);
-            tabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(365, 282);
-            tabControl1.TabIndex = 74;
+            TC_Misc.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TC_Misc.Controls.Add(TAB_Main);
+            TC_Misc.Controls.Add(TAB_Joyful);
+            TC_Misc.Controls.Add(TAB_Ferry);
+            TC_Misc.Controls.Add(TAB_BF);
+            TC_Misc.Controls.Add(Tab_Records);
+            TC_Misc.Controls.Add(Tab_Pokeblocks);
+            TC_Misc.Location = new System.Drawing.Point(14, 14);
+            TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Misc.Name = "TC_Misc";
+            TC_Misc.SelectedIndex = 0;
+            TC_Misc.Size = new System.Drawing.Size(365, 282);
+            TC_Misc.TabIndex = 74;
             // 
             // TAB_Main
             // 
@@ -382,6 +386,46 @@ namespace PKHeX.WinForms
             TAB_Joyful.TabIndex = 1;
             TAB_Joyful.Text = "Joyful";
             TAB_Joyful.UseVisualStyleBackColor = true;
+            // 
+            // TB_BerryPowder
+            // 
+            TB_BerryPowder.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_BerryPowder.Location = new System.Drawing.Point(90, 154);
+            TB_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_BerryPowder.Mask = "00000";
+            TB_BerryPowder.Name = "TB_BerryPowder";
+            TB_BerryPowder.Size = new System.Drawing.Size(40, 20);
+            TB_BerryPowder.TabIndex = 17;
+            // 
+            // L_BerryPowder
+            // 
+            L_BerryPowder.AutoSize = true;
+            L_BerryPowder.Location = new System.Drawing.Point(10, 157);
+            L_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BerryPowder.Name = "L_BerryPowder";
+            L_BerryPowder.Size = new System.Drawing.Size(80, 15);
+            L_BerryPowder.TabIndex = 16;
+            L_BerryPowder.Text = "Berry Powder:";
+            // 
+            // TB_J4
+            // 
+            TB_J4.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_J4.Location = new System.Drawing.Point(90, 110);
+            TB_J4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_J4.Mask = "0000";
+            TB_J4.Name = "TB_J4";
+            TB_J4.Size = new System.Drawing.Size(40, 20);
+            TB_J4.TabIndex = 8;
+            // 
+            // L_JMaxPlayers
+            // 
+            L_JMaxPlayers.AutoSize = true;
+            L_JMaxPlayers.Location = new System.Drawing.Point(10, 113);
+            L_JMaxPlayers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_JMaxPlayers.Name = "L_JMaxPlayers";
+            L_JMaxPlayers.Size = new System.Drawing.Size(73, 15);
+            L_JMaxPlayers.TabIndex = 7;
+            L_JMaxPlayers.Text = "Max Players:";
             // 
             // label5
             // 
@@ -1067,51 +1111,31 @@ namespace PKHeX.WinForms
             CB_Record.Size = new System.Drawing.Size(219, 23);
             CB_Record.TabIndex = 0;
             // 
-            // TB_J4
+            // Tab_Pokeblocks
             // 
-            TB_J4.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_J4.Location = new System.Drawing.Point(90, 110);
-            TB_J4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_J4.Mask = "0000";
-            TB_J4.Name = "TB_J4";
-            TB_J4.Size = new System.Drawing.Size(40, 20);
-            TB_J4.TabIndex = 8;
+            Tab_Pokeblocks.Controls.Add(pokeblock3CaseEditor1);
+            Tab_Pokeblocks.Location = new System.Drawing.Point(4, 24);
+            Tab_Pokeblocks.Name = "Tab_Pokeblocks";
+            Tab_Pokeblocks.Padding = new System.Windows.Forms.Padding(3);
+            Tab_Pokeblocks.Size = new System.Drawing.Size(357, 254);
+            Tab_Pokeblocks.TabIndex = 5;
+            Tab_Pokeblocks.Text = "Pokéblocks";
+            Tab_Pokeblocks.UseVisualStyleBackColor = true;
             // 
-            // L_JMaxPlayers
+            // pokeblock3CaseEditor1
             // 
-            L_JMaxPlayers.AutoSize = true;
-            L_JMaxPlayers.Location = new System.Drawing.Point(10, 113);
-            L_JMaxPlayers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_JMaxPlayers.Name = "L_JMaxPlayers";
-            L_JMaxPlayers.Size = new System.Drawing.Size(73, 15);
-            L_JMaxPlayers.TabIndex = 7;
-            L_JMaxPlayers.Text = "Max Players:";
-            // 
-            // TB_BerryPowder
-            // 
-            TB_BerryPowder.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_BerryPowder.Location = new System.Drawing.Point(90, 154);
-            TB_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_BerryPowder.Mask = "00000";
-            TB_BerryPowder.Name = "TB_BerryPowder";
-            TB_BerryPowder.Size = new System.Drawing.Size(40, 20);
-            TB_BerryPowder.TabIndex = 17;
-            // 
-            // L_BerryPowder
-            // 
-            L_BerryPowder.AutoSize = true;
-            L_BerryPowder.Location = new System.Drawing.Point(10, 157);
-            L_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_BerryPowder.Name = "L_BerryPowder";
-            L_BerryPowder.Size = new System.Drawing.Size(80, 15);
-            L_BerryPowder.TabIndex = 16;
-            L_BerryPowder.Text = "Berry Powder:";
+            pokeblock3CaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            pokeblock3CaseEditor1.Location = new System.Drawing.Point(3, 3);
+            pokeblock3CaseEditor1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            pokeblock3CaseEditor1.Name = "pokeblock3CaseEditor1";
+            pokeblock3CaseEditor1.Size = new System.Drawing.Size(351, 248);
+            pokeblock3CaseEditor1.TabIndex = 0;
             // 
             // SAV_Misc3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(390, 343);
-            Controls.Add(tabControl1);
+            Controls.Add(TC_Misc);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
             Icon = Properties.Resources.Icon;
@@ -1121,7 +1145,7 @@ namespace PKHeX.WinForms
             Name = "SAV_Misc3";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Misc Editor";
-            tabControl1.ResumeLayout(false);
+            TC_Misc.ResumeLayout(false);
             TAB_Main.ResumeLayout(false);
             TAB_Main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).EndInit();
@@ -1151,13 +1175,14 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_FameM).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FameS).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_RecordValue).EndInit();
+            Tab_Pokeblocks.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl TC_Misc;
         private System.Windows.Forms.TabPage TAB_Main;
         private System.Windows.Forms.TabPage TAB_Joyful;
         private System.Windows.Forms.MaskedTextBox TB_B3;
@@ -1238,5 +1263,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_JMaxPlayers;
         private System.Windows.Forms.MaskedTextBox TB_BerryPowder;
         private System.Windows.Forms.Label L_BerryPowder;
+        private System.Windows.Forms.TabPage Tab_Pokeblocks;
+        private Pokeblock3CaseEditor pokeblock3CaseEditor1;
     }
 }

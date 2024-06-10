@@ -21,10 +21,15 @@ public partial class SAV_Misc3 : Form
 
         LoadRecords();
 
+        if (SAV is IGen3Hoenn h)
+            pokeblock3CaseEditor1.Initialize(h);
+        else
+            TC_Misc.Controls.Remove(Tab_Pokeblocks);
+
         if (SAV is IGen3Joyful j)
             ReadJoyful(j);
         else
-            tabControl1.Controls.Remove(TAB_Joyful);
+            TC_Misc.Controls.Remove(TAB_Joyful);
 
         if (SAV is SAV3E)
         {
@@ -33,8 +38,8 @@ public partial class SAV_Misc3 : Form
         }
         else
         {
-            tabControl1.Controls.Remove(TAB_Ferry);
-            tabControl1.Controls.Remove(TAB_BF);
+            TC_Misc.Controls.Remove(TAB_Ferry);
+            TC_Misc.Controls.Remove(TAB_BF);
         }
 
         if (SAV is SAV3FRLG frlg)
@@ -62,11 +67,13 @@ public partial class SAV_Misc3 : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        if (tabControl1.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
+        if (TC_Misc.Controls.Contains(Tab_Pokeblocks) && SAV is IGen3Hoenn h)
+            pokeblock3CaseEditor1.Save(h);
+        if (TC_Misc.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
             SaveJoyful(j);
-        if (tabControl1.Controls.Contains(TAB_Ferry))
+        if (TC_Misc.Controls.Contains(TAB_Ferry))
             SaveFerry();
-        if (tabControl1.Controls.Contains(TAB_BF))
+        if (TC_Misc.Controls.Contains(TAB_BF))
             SaveBattleFrontier();
         if (SAV is SAV3FRLG frlg)
         {
