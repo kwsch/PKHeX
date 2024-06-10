@@ -15,6 +15,7 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     private const int SIZE_FOOTER = 0x14;
     public const int SIZE_USED = SIZE + SIZE_FOOTER;
     //public const int SIZE_BLOCK = 0x2000;
+    //bw is 0x2000 between each video, b2w2 is 0x1A00
 
     private Span<byte> Data => Raw.Span[..SIZE_USED];
 

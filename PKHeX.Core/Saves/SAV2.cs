@@ -328,7 +328,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
     }
 
-    public Span<byte> Rival_Trash
+    public Span<byte> RivalTrash
     {
         get => Data.AsSpan(Offsets.Rival, StringLength);
         set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); }
