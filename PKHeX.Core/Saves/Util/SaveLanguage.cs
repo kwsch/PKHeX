@@ -145,8 +145,7 @@ public static class SaveLanguage
 
         // Check for underscores too; replace the input w/ spaces to underscore
         Span<char> tmp = stackalloc char[value.Length];
-        value.CopyTo(tmp);
-        tmp.Replace(' ', '_');
+        value.Replace(tmp, ' ', '_');
         return Contains(span, tmp);
     }
 
