@@ -59,7 +59,7 @@ namespace PKHeX.WinForms
             TB_J3 = new System.Windows.Forms.MaskedTextBox();
             TB_J2 = new System.Windows.Forms.MaskedTextBox();
             TB_J1 = new System.Windows.Forms.MaskedTextBox();
-            L_JFlaw = new System.Windows.Forms.Label();
+            L_J5Score = new System.Windows.Forms.Label();
             L_JHigh = new System.Windows.Forms.Label();
             L_JRow = new System.Windows.Forms.Label();
             TAB_Ferry = new System.Windows.Forms.TabPage();
@@ -107,6 +107,10 @@ namespace PKHeX.WinForms
             NUD_FameS = new System.Windows.Forms.NumericUpDown();
             NUD_RecordValue = new System.Windows.Forms.NumericUpDown();
             CB_Record = new System.Windows.Forms.ComboBox();
+            TB_J4 = new System.Windows.Forms.MaskedTextBox();
+            L_JMaxPlayers = new System.Windows.Forms.Label();
+            TB_BerryPowder = new System.Windows.Forms.MaskedTextBox();
+            L_BerryPowder = new System.Windows.Forms.Label();
             tabControl1.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).BeginInit();
@@ -310,7 +314,7 @@ namespace PKHeX.WinForms
             // 
             // TB_RivalName
             // 
-            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_RivalName.Location = new System.Drawing.Point(140, 107);
             TB_RivalName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_RivalName.MaxLength = 7;
@@ -352,6 +356,10 @@ namespace PKHeX.WinForms
             // 
             // TAB_Joyful
             // 
+            TAB_Joyful.Controls.Add(TB_BerryPowder);
+            TAB_Joyful.Controls.Add(L_BerryPowder);
+            TAB_Joyful.Controls.Add(TB_J4);
+            TAB_Joyful.Controls.Add(L_JMaxPlayers);
             TAB_Joyful.Controls.Add(label5);
             TAB_Joyful.Controls.Add(label4);
             TAB_Joyful.Controls.Add(TB_B3);
@@ -363,7 +371,7 @@ namespace PKHeX.WinForms
             TAB_Joyful.Controls.Add(TB_J3);
             TAB_Joyful.Controls.Add(TB_J2);
             TAB_Joyful.Controls.Add(TB_J1);
-            TAB_Joyful.Controls.Add(L_JFlaw);
+            TAB_Joyful.Controls.Add(L_J5Score);
             TAB_Joyful.Controls.Add(L_JHigh);
             TAB_Joyful.Controls.Add(L_JRow);
             TAB_Joyful.Location = new System.Drawing.Point(4, 24);
@@ -381,7 +389,7 @@ namespace PKHeX.WinForms
             label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new System.Drawing.Size(117, 27);
-            label5.TabIndex = 65;
+            label5.TabIndex = 9;
             label5.Text = "Berry Picking";
             label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -391,39 +399,39 @@ namespace PKHeX.WinForms
             label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(117, 27);
-            label4.TabIndex = 64;
+            label4.TabIndex = 0;
             label4.Text = "Pokémon Jump";
             label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TB_B3
             // 
-            TB_B3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_B3.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_B3.Location = new System.Drawing.Point(215, 88);
             TB_B3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_B3.Mask = "0000";
             TB_B3.Name = "TB_B3";
             TB_B3.Size = new System.Drawing.Size(40, 20);
-            TB_B3.TabIndex = 62;
+            TB_B3.TabIndex = 15;
             // 
             // TB_B2
             // 
-            TB_B2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_B2.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_B2.Location = new System.Drawing.Point(215, 66);
             TB_B2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_B2.Mask = "0000";
             TB_B2.Name = "TB_B2";
             TB_B2.Size = new System.Drawing.Size(40, 20);
-            TB_B2.TabIndex = 61;
+            TB_B2.TabIndex = 13;
             // 
             // TB_B1
             // 
-            TB_B1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_B1.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_B1.Location = new System.Drawing.Point(215, 44);
             TB_B1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_B1.Mask = "0000";
             TB_B1.Name = "TB_B1";
             TB_B1.Size = new System.Drawing.Size(40, 20);
-            TB_B1.TabIndex = 60;
+            TB_B1.TabIndex = 11;
             // 
             // L_B5Score
             // 
@@ -432,7 +440,7 @@ namespace PKHeX.WinForms
             L_B5Score.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_B5Score.Name = "L_B5Score";
             L_B5Score.Size = new System.Drawing.Size(64, 15);
-            L_B5Score.TabIndex = 59;
+            L_B5Score.TabIndex = 14;
             L_B5Score.Text = "5 In a Row:";
             // 
             // L_BHigh
@@ -442,7 +450,7 @@ namespace PKHeX.WinForms
             L_BHigh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BHigh.Name = "L_BHigh";
             L_BHigh.Size = new System.Drawing.Size(68, 15);
-            L_BHigh.TabIndex = 58;
+            L_BHigh.TabIndex = 12;
             L_BHigh.Text = "High Score:";
             // 
             // L_BCaught
@@ -452,48 +460,48 @@ namespace PKHeX.WinForms
             L_BCaught.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BCaught.Name = "L_BCaught";
             L_BCaught.Size = new System.Drawing.Size(49, 15);
-            L_BCaught.TabIndex = 57;
+            L_BCaught.TabIndex = 10;
             L_BCaught.Text = "Caught:";
             // 
             // TB_J3
             // 
-            TB_J3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_J3.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_J3.Location = new System.Drawing.Point(90, 88);
             TB_J3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_J3.Mask = "0000";
             TB_J3.Name = "TB_J3";
             TB_J3.Size = new System.Drawing.Size(40, 20);
-            TB_J3.TabIndex = 56;
+            TB_J3.TabIndex = 6;
             // 
             // TB_J2
             // 
-            TB_J2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_J2.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_J2.Location = new System.Drawing.Point(90, 66);
             TB_J2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_J2.Mask = "0000";
             TB_J2.Name = "TB_J2";
             TB_J2.Size = new System.Drawing.Size(40, 20);
-            TB_J2.TabIndex = 55;
+            TB_J2.TabIndex = 4;
             // 
             // TB_J1
             // 
-            TB_J1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_J1.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_J1.Location = new System.Drawing.Point(90, 44);
             TB_J1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_J1.Mask = "0000";
             TB_J1.Name = "TB_J1";
             TB_J1.Size = new System.Drawing.Size(40, 20);
-            TB_J1.TabIndex = 54;
+            TB_J1.TabIndex = 2;
             // 
-            // L_JFlaw
+            // L_J5Score
             // 
-            L_JFlaw.AutoSize = true;
-            L_JFlaw.Location = new System.Drawing.Point(10, 91);
-            L_JFlaw.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_JFlaw.Name = "L_JFlaw";
-            L_JFlaw.Size = new System.Drawing.Size(64, 15);
-            L_JFlaw.TabIndex = 53;
-            L_JFlaw.Text = "5 In a Row:";
+            L_J5Score.AutoSize = true;
+            L_J5Score.Location = new System.Drawing.Point(10, 91);
+            L_J5Score.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_J5Score.Name = "L_J5Score";
+            L_J5Score.Size = new System.Drawing.Size(64, 15);
+            L_J5Score.TabIndex = 5;
+            L_J5Score.Text = "5 In a Row:";
             // 
             // L_JHigh
             // 
@@ -502,7 +510,7 @@ namespace PKHeX.WinForms
             L_JHigh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_JHigh.Name = "L_JHigh";
             L_JHigh.Size = new System.Drawing.Size(68, 15);
-            L_JHigh.TabIndex = 52;
+            L_JHigh.TabIndex = 3;
             L_JHigh.Text = "High Score:";
             // 
             // L_JRow
@@ -512,7 +520,7 @@ namespace PKHeX.WinForms
             L_JRow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_JRow.Name = "L_JRow";
             L_JRow.Size = new System.Drawing.Size(55, 15);
-            L_JRow.TabIndex = 51;
+            L_JRow.TabIndex = 1;
             L_JRow.Text = "In a Row:";
             // 
             // TAB_Ferry
@@ -896,7 +904,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolB
             // 
             BTN_SymbolB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolB.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolB.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolB.Location = new System.Drawing.Point(108, 20);
             BTN_SymbolB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolB.Name = "BTN_SymbolB";
@@ -909,7 +917,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolL
             // 
             BTN_SymbolL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolL.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolL.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolL.Location = new System.Drawing.Point(92, 54);
             BTN_SymbolL.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolL.Name = "BTN_SymbolL";
@@ -922,7 +930,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolK
             // 
             BTN_SymbolK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolK.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolK.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolK.Location = new System.Drawing.Point(75, 20);
             BTN_SymbolK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolK.Name = "BTN_SymbolK";
@@ -935,7 +943,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolG
             // 
             BTN_SymbolG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolG.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolG.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolG.Location = new System.Drawing.Point(58, 54);
             BTN_SymbolG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolG.Name = "BTN_SymbolG";
@@ -948,7 +956,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolS
             // 
             BTN_SymbolS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolS.Location = new System.Drawing.Point(41, 20);
             BTN_SymbolS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolS.Name = "BTN_SymbolS";
@@ -961,7 +969,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolT
             // 
             BTN_SymbolT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolT.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolT.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolT.Location = new System.Drawing.Point(24, 54);
             BTN_SymbolT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolT.Name = "BTN_SymbolT";
@@ -974,7 +982,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolA
             // 
             BTN_SymbolA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolA.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolA.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolA.Location = new System.Drawing.Point(7, 20);
             BTN_SymbolA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolA.Name = "BTN_SymbolA";
@@ -1059,6 +1067,46 @@ namespace PKHeX.WinForms
             CB_Record.Size = new System.Drawing.Size(219, 23);
             CB_Record.TabIndex = 0;
             // 
+            // TB_J4
+            // 
+            TB_J4.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_J4.Location = new System.Drawing.Point(90, 110);
+            TB_J4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_J4.Mask = "0000";
+            TB_J4.Name = "TB_J4";
+            TB_J4.Size = new System.Drawing.Size(40, 20);
+            TB_J4.TabIndex = 8;
+            // 
+            // L_JMaxPlayers
+            // 
+            L_JMaxPlayers.AutoSize = true;
+            L_JMaxPlayers.Location = new System.Drawing.Point(10, 113);
+            L_JMaxPlayers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_JMaxPlayers.Name = "L_JMaxPlayers";
+            L_JMaxPlayers.Size = new System.Drawing.Size(73, 15);
+            L_JMaxPlayers.TabIndex = 7;
+            L_JMaxPlayers.Text = "Max Players:";
+            // 
+            // TB_BerryPowder
+            // 
+            TB_BerryPowder.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_BerryPowder.Location = new System.Drawing.Point(90, 154);
+            TB_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_BerryPowder.Mask = "00000";
+            TB_BerryPowder.Name = "TB_BerryPowder";
+            TB_BerryPowder.Size = new System.Drawing.Size(40, 20);
+            TB_BerryPowder.TabIndex = 17;
+            // 
+            // L_BerryPowder
+            // 
+            L_BerryPowder.AutoSize = true;
+            L_BerryPowder.Location = new System.Drawing.Point(10, 157);
+            L_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BerryPowder.Name = "L_BerryPowder";
+            L_BerryPowder.Size = new System.Drawing.Size(80, 15);
+            L_BerryPowder.TabIndex = 16;
+            L_BerryPowder.Text = "Berry Powder:";
+            // 
             // SAV_Misc3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1120,7 +1168,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.MaskedTextBox TB_J3;
         private System.Windows.Forms.MaskedTextBox TB_J2;
         private System.Windows.Forms.MaskedTextBox TB_J1;
-        private System.Windows.Forms.Label L_JFlaw;
+        private System.Windows.Forms.Label L_J5Score;
         private System.Windows.Forms.Label L_JHigh;
         private System.Windows.Forms.Label L_JRow;
         private System.Windows.Forms.Label L_B5Score;
@@ -1186,5 +1234,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_FameH;
         private System.Windows.Forms.NumericUpDown NUD_FameM;
         private System.Windows.Forms.NumericUpDown NUD_FameS;
+        private System.Windows.Forms.MaskedTextBox TB_J4;
+        private System.Windows.Forms.Label L_JMaxPlayers;
+        private System.Windows.Forms.MaskedTextBox TB_BerryPowder;
+        private System.Windows.Forms.Label L_BerryPowder;
     }
 }

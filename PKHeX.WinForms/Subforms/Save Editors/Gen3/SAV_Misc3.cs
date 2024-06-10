@@ -96,9 +96,11 @@ public partial class SAV_Misc3 : Form
         TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
         TB_J2.Text = Math.Min(99990, j.JoyfulJumpScore).ToString();
         TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
+        TB_J4.Text = Math.Min((ushort)9999, j.JoyfulJumpGamesMaxPlayers).ToString();
         TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
         TB_B2.Text = Math.Min(99990, j.JoyfulBerriesScore).ToString();
         TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
+        TB_BerryPowder.Text = Math.Min((uint)99999, j.BerryPowder).ToString();
     }
 
     private void SaveJoyful(IGen3Joyful j)
@@ -106,9 +108,11 @@ public partial class SAV_Misc3 : Form
         j.JoyfulJumpInRow = (ushort)Util.ToUInt32(TB_J1.Text);
         j.JoyfulJumpScore = (ushort)Util.ToUInt32(TB_J2.Text);
         j.JoyfulJump5InRow = (ushort)Util.ToUInt32(TB_J3.Text);
+        j.JoyfulJumpGamesMaxPlayers = (ushort)Util.ToUInt32(TB_J4.Text);
         j.JoyfulBerriesInRow = (ushort)Util.ToUInt32(TB_B1.Text);
         j.JoyfulBerriesScore = (ushort)Util.ToUInt32(TB_B2.Text);
         j.JoyfulBerries5InRow = (ushort)Util.ToUInt32(TB_B3.Text);
+        j.BerryPowder = Util.ToUInt32(TB_BerryPowder.Text);
     }
     #endregion
 
