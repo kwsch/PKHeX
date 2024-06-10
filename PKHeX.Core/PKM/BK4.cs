@@ -319,4 +319,9 @@ public sealed class BK4 : G4PKM
         => StringConverter4.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter4.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data, StringConverter4.Terminator);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data, StringConverter4.Terminator);
+    public override int GetBytesPerChar() => 2;
 }

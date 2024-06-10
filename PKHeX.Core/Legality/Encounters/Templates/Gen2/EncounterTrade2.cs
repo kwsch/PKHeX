@@ -131,10 +131,19 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         }
         return true;
     }
+
     private bool IsTrainerNicknameCorrect(PKM pk)
     {
         // Italian and English share the same OT name for Spearow, but different nicknames. Others are like this, so we need to check both.
-        var lang = DetectLanguage(pk, pk.OriginalTrainerName, pk.Nickname);
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
+        len = pk.LoadString(pk.NicknameTrash, nickname);
+        nickname = nickname[..len];
+
+        var lang = DetectLanguage(pk, trainer, nickname);
         return lang != -1;
     }
 
@@ -244,7 +253,9 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int _)
     {
         // Match both.
-        ReadOnlySpan<char> trainer = pk.OriginalTrainerName;
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
         var lang = DetectLanguage(pk, trainer, nickname);
         if (lang != -1)
             return true;

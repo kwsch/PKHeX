@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -68,7 +70,11 @@ public static class TrainerInfoExtensions
     {
         if (tr.ID32 != pk.ID32)
             return false;
-        if (tr.OT != pk.OriginalTrainerName)
+
+        Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+        ot = ot[..len];
+        if (!ot.SequenceEqual(tr.OT))
             return false;
 
         if (pk.Format == 3)
@@ -104,7 +110,10 @@ public static class TrainerInfoExtensions
             else { return false; }
         }
 
-        if (tr.OT != pk.OriginalTrainerName)
+        Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+        ot = ot[..len];
+        if (!ot.SequenceEqual(tr.OT))
             return false;
 
         return true;

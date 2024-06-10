@@ -1,3 +1,4 @@
+namespace PKHeX.Core;
 
 /// <summary>
 /// Exposes information about the level the Pokémon was obtained.

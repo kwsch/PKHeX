@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
 public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetRibbons,
-    IContestStats, IHyperTrain, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IPokerusStatus, IAppliedMarkings7
+    IContestStats, IHyperTrain, IGeoTrack, ISuperTrainRegimen, IFormArgument, ITrainerMemories, IAffection, IPokerusStatus, IAppliedMarkings7
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -486,17 +486,19 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (tr.OT != HandlingTrainerName || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-        {
-            // No geolocations are set ingame -- except for bank transfers. Don't emulate bank transfers
-            // this.TradeGeoLocation(tr.Country, tr.SubRegion);
-        }
+        // No geolocations are set in-game -- except for bank transfers. Don't emulate bank transfers
+        // this.TradeGeoLocation(tr.Country, tr.SubRegion);
 
-        if (HandlingTrainerName != tr.OT)
+        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        var len = LoadString(HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        var other = tr.OT;
+        if (!ht.SequenceEqual(other))
         {
+            HandlingTrainerName = other;
             HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
             HandlingTrainerAffection = 0;
-            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;
@@ -554,6 +556,11 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         => StringConverter7.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter7.SetString(destBuffer, value, maxLength, Language);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data);
+    public override int GetBytesPerChar() => 2;
 }
 
 public enum ResortEventState : byte

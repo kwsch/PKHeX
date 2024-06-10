@@ -32,7 +32,7 @@ public static class SaveExtensions
         if (sav.PKMType != pk.GetType())
             return false;
 
-        if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
+        if (sav is ILangDeviantSave il && !EntityConverter.IsCompatibleGB(pk, il.Japanese, pk.Japanese))
             return false;
 
         return true;
@@ -140,7 +140,7 @@ public static class SaveExtensions
                 continue;
             }
 
-            if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
+            if (sav is ILangDeviantSave il && !EntityConverter.IsCompatibleGB(temp, il.Japanese, pk.Japanese))
             {
                 var str = EntityConverterResult.IncompatibleLanguageGB.GetIncompatibleGBMessage(pk, il.Japanese);
                 Debug.WriteLine(str);

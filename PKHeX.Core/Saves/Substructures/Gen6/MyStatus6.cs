@@ -106,7 +106,7 @@ public class MyStatus6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), 
     public string OT
     {
         get => SAV.GetString(OriginalTrainerTrash);
-        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetSayingSpan(int say) => Data.Slice(GetSayingOffset(say), SAV6.LongStringLength);

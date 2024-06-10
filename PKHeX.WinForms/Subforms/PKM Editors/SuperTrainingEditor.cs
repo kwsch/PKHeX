@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -8,22 +7,29 @@ namespace PKHeX.WinForms;
 
 public partial class SuperTrainingEditor : Form
 {
-    public SuperTrainingEditor(PKM pk)
+    private readonly CheckBox[] Regular;
+    private readonly CheckBox[] Distribution;
+
+    public SuperTrainingEditor(ISuperTrainRegimen pk)
     {
-        Entity = (ISuperTrain)pk;
         InitializeComponent();
+        TLP_SuperTrain.SuspendLayout();
+        TLP_DistSuperTrain.SuspendLayout();
+        Regular = CreateRegular();
+        Distribution = CreateDistribution();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
         TLP_SuperTrain.Padding = TLP_DistSuperTrain.Padding = new Padding(0, 0, vertScrollWidth, 0);
 
         // Updating a Control display with auto-sized elements on every row addition is cpu intensive. Disable layout updates while populating.
-        TLP_SuperTrain.SuspendLayout();
-        TLP_DistSuperTrain.SuspendLayout();
         TLP_SuperTrain.Scroll += WinFormsUtil.PanelScroll;
         TLP_DistSuperTrain.Scroll += WinFormsUtil.PanelScroll;
-        PopulateRegimens("SuperTrain", TLP_SuperTrain, reglist);
-        PopulateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+        Entity = pk;
+        LoadRegimens();
+
+        ResizePanel(TLP_SuperTrain);
+        ResizePanel(TLP_DistSuperTrain);
         TLP_SuperTrain.ResumeLayout();
         TLP_DistSuperTrain.ResumeLayout();
 
@@ -50,9 +56,48 @@ public partial class SuperTrainingEditor : Form
         }
     }
 
-    private readonly List<RegimenInfo> reglist = [];
-    private readonly List<RegimenInfo> distlist = [];
-    private readonly ISuperTrain Entity;
+    private CheckBox[] CreateRegular()
+    {
+        var result = new CheckBox[SuperTrainRegimenExtensions.CountRegimen];
+        TLP_SuperTrain.RowCount = result.Length;
+        TLP_SuperTrain.ColumnCount = 1;
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            var name = SuperTrainRegimenExtensions.GetRegimenName(i);
+            var chk = GetCheckbox(name);
+            TLP_SuperTrain.Controls.Add(chk, 0, i);
+            result[i] = chk;
+        }
+        return result;
+    }
+
+    private CheckBox[] CreateDistribution()
+    {
+        var result = new CheckBox[SuperTrainRegimenExtensions.CountRegimenDistribution];
+        TLP_DistSuperTrain.RowCount = result.Length;
+        TLP_DistSuperTrain.ColumnCount = 1;
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            var name = SuperTrainRegimenExtensions.GetRegimenName(i);
+            var chk = GetCheckbox(name);
+            TLP_DistSuperTrain.Controls.Add(chk, 0, i);
+            result[i] = chk;
+        }
+        return result;
+    }
+
+    private static CheckBox GetCheckbox(string name) => new()
+    {
+        Name = PrefixCHK + name,
+        Text = name,
+        AutoSize = true,
+        Margin = new Padding(2),
+        Padding = Padding.Empty,
+    };
+
+    private readonly ISuperTrainRegimen Entity;
     private const string PrefixCHK = "CHK_";
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -63,61 +108,29 @@ public partial class SuperTrainingEditor : Form
         Close();
     }
 
-    private void PopulateRegimens(string propertyPrefix, TableLayoutPanel TLP, List<RegimenInfo> list)
+    private static void ResizePanel(TableLayoutPanel tlp)
     {
-        // Get a list of all Regimen Attregutes in the PKM
-        list.AddRange(GetBooleanRegimenNames(Entity, propertyPrefix));
-        TLP.ColumnCount = 1;
-        TLP.RowCount = 0;
-
-        // Add Regimens
-        foreach (var reg in list)
-            AddRegimenChoice(reg, TLP);
-
         // Force auto-size
-        foreach (var style in TLP.RowStyles.OfType<RowStyle>())
+        foreach (var style in tlp.RowStyles.OfType<RowStyle>())
             style.SizeType = SizeType.AutoSize;
-        foreach (var style in TLP.ColumnStyles.OfType<ColumnStyle>())
+        foreach (var style in tlp.ColumnStyles.OfType<ColumnStyle>())
             style.SizeType = SizeType.AutoSize;
     }
 
-    private static IEnumerable<RegimenInfo> GetBooleanRegimenNames(ISuperTrain pk, string propertyPrefix)
+    private void LoadRegimens()
     {
-        var names = ReflectUtil.GetPropertiesStartWithPrefix(pk.GetType(), propertyPrefix);
-        foreach (var name in names)
-        {
-            var value = ReflectUtil.GetValue(pk, name);
-            if (value is bool state)
-                yield return new RegimenInfo(name, state);
-        }
-    }
-
-    private static void AddRegimenChoice(RegimenInfo reg, TableLayoutPanel TLP)
-    {
-        // Get row we add to
-        int row = TLP.RowCount;
-        TLP.RowCount++;
-
-        var chk = new CheckBox
-        {
-            Anchor = AnchorStyles.Left,
-            Name = PrefixCHK + reg.Name,
-            Margin = new Padding(2),
-            Text = reg.Name,
-            AutoSize = true,
-            Padding = Padding.Empty,
-        };
-        chk.CheckedChanged += (sender, e) => reg.CompletedRegimen = chk.Checked;
-        chk.Checked = reg.CompletedRegimen;
-        TLP.Controls.Add(chk, 0, row);
+        for (int i = 0; i < Regular.Length; i++)
+            Regular[i].Checked = Entity.GetRegimenState(i);
+        for (int i = 0; i < Distribution.Length; i++)
+            Distribution[i].Checked = Entity.GetRegimenStateDistribution(i);
     }
 
     private void Save()
     {
-        foreach (var reg in reglist)
-            ReflectUtil.SetValue(Entity, reg.Name, reg.CompletedRegimen);
-        foreach (var reg in distlist)
-            ReflectUtil.SetValue(Entity, reg.Name, reg.CompletedRegimen);
+        for (int i = 0; i < Regular.Length; i++)
+            Entity.SetRegimenState(i, Regular[i].Checked);
+        for (int i = 0; i < Distribution.Length; i++)
+            Entity.SetRegimenStateDistribution(i, Distribution[i].Checked);
 
         if (Entity is PK6 pk6)
         {
@@ -130,18 +143,6 @@ public partial class SuperTrainingEditor : Form
         {
             Entity.SecretSuperTrainingUnlocked &= CHK_SecretUnlocked.Checked;
             Entity.SecretSuperTrainingComplete &= CHK_SecretComplete.Checked;
-        }
-    }
-
-    private sealed class RegimenInfo
-    {
-        public readonly string Name;
-        public bool CompletedRegimen;
-
-        internal RegimenInfo(string name, bool completedRegimen)
-        {
-            Name = name;
-            CompletedRegimen = completedRegimen;
         }
     }
 

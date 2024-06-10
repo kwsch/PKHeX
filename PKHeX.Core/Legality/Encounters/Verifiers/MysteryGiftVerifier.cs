@@ -74,7 +74,12 @@ public static class MysteryGiftVerifier
             return false; // no data
         if (!val.HasFlag(MysteryGiftRestriction.OTReplacedOnTrade))
             return false;
-        return CurrentOTMatchesReplaced(g.Generation, pk.OriginalTrainerName);
+
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        return CurrentOTMatchesReplaced(g.Generation, trainer);
     }
 
     private static bool CanVersionReceiveGift(byte generation, int version4bit, GameVersion version)

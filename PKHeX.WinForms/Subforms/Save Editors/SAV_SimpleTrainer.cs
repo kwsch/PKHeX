@@ -18,9 +18,9 @@ public partial class SAV_SimpleTrainer : Form
         Loading = true;
 
         cba = [CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8];
-        TB_OTName.MaxLength = SAV.MaxStringLengthOT;
-        B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
-        B_MaxCoins.Click += (sender, e) => MT_Coins.Text = SAV.MaxCoins.ToString();
+        TB_OTName.MaxLength = SAV.MaxStringLengthTrainer;
+        B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
+        B_MaxCoins.Click += (_, _) => MT_Coins.Text = SAV.MaxCoins.ToString();
         MT_Money.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxMoney) + 1), '0');
         MT_Coins.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxCoins) + 1), '0');
 

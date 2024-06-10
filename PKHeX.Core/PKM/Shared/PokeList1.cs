@@ -45,7 +45,7 @@ public static class PokeList1
     /// <param name="input">List header</param>
     /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="lerp">Offset jump between slot indexes; used to parse multi-single lists instead of a multi-list.</param>
-    private static int CountPresent(ReadOnlySpan<byte> input, int capacity, int lerp = 0)
+    public static int CountPresent(ReadOnlySpan<byte> input, int capacity, int lerp = 0)
     {
         var count = 0;
         for (int i = 0; i < capacity; i++)
@@ -173,7 +173,8 @@ public static class PokeList1
         var ofsStr1 = ofsBody + (capacity * lengthBody);
         var ofsStr2 = ofsStr1 + (capacity * stringLength);
 
-        for (int i = 0; i < capacity; i++)
+        var count = Math.Min(capacity, input[0]);
+        for (int i = 0; i < count; i++)
         {
             var species = input[1 + i];
             var body = input.Slice(ofsBody, lengthBody);
@@ -204,14 +205,15 @@ public static class PokeList1
     /// <param name="stringLength">Trainer and Nickname string length</param>
     /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="isParty">List stores party stats for each entity</param>
-    public static bool MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty)
+    /// <param name="isDestInitialized">True if the destination list is initialized</param>
+    public static bool MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty, bool isDestInitialized = true)
     {
         // Collect the count of set slots
         var jp = IsJapaneseString(stringLength);
         var size = GetListLengthSingle(jp);
 
         int count = CountPresent(input, capacity, size);
-        if (count == 0 && !output.ContainsAnyExcept<byte>(0))
+        if (count == 0 && (!isDestInitialized || !output.ContainsAnyExcept<byte>(0)))
             return false; // No need to merge if all empty and dest is not initialized.
 
         output[0] = (byte)count; // ensure written list is valid
@@ -225,6 +227,8 @@ public static class PokeList1
         {
             var single = input.Slice(i * size, size);
             var marker = single[1]; // assume correct, don't look in body data.
+            if (marker is 0) // Ensure deleted (zeroed) slots act as an Empty (FF) slot.
+                marker = SlotEmpty;
 
             var index = IsPresent(marker) ? ctr++ : emptyIndex++;
             output[1 + index] = marker;
@@ -267,4 +271,46 @@ public static class PokeList1
     /// <param name="pk">Entity to wrap</param>
     /// <param name="output">Destination to write the single-slot list</param>
     public static void WrapSingle(PK1 pk, Span<byte> output) => WriteToList(output, pk);
+
+    public static void UnpackNOB(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, bool isParty = false)
+    {
+        // Nickname, OT, Data
+        var lengthBody = GetBodyLength(isParty);
+        var lengthParty = GetBodyLength(true);
+        var nick = input[..stringLength];
+        var trainer = input.Slice(stringLength, stringLength);
+        var box = input.Slice(stringLength * 2, lengthBody);
+
+        var marker = box[0];
+        if (marker is 0) // Ensure deleted (zeroed) slots act as an Empty (FF) slot.
+            marker = SlotEmpty;
+
+        output[0] = 1;
+        output[1] = marker;
+        output = output[3..];
+
+        // Data, OT, Nickname
+        box.CopyTo(output);
+        output = output[lengthParty..];
+        trainer.CopyTo(output);
+        output = output[stringLength..];
+        nick.CopyTo(output);
+    }
+
+    public static void PackNOB(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, bool isParty = false)
+    {
+        var lengthBody = GetBodyLength(isParty);
+        var lengthParty = GetBodyLength(true);
+
+        input = input[3..]; // Skip header.
+        var box = input[..lengthBody];
+        var trainer = input.Slice(lengthParty, stringLength);
+        var nick = input.Slice(lengthParty + stringLength, stringLength);
+
+        nick.CopyTo(output);
+        output = output[stringLength..];
+        trainer.CopyTo(output);
+        output = output[stringLength..];
+        box.CopyTo(output);
+    }
 }

@@ -75,7 +75,12 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             return pk.OriginalTrainerTrash is [StringConverter1.TradeOTCode, StringConverter1.TerminatorCode, ..];
         var lang = pk.Language;
         var expect = StringConverter12Transporter.GetTradeNameGen1(lang);
-        return pk.OriginalTrainerName == expect;
+
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        return trainer.SequenceEqual(expect);
     }
 
     private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);

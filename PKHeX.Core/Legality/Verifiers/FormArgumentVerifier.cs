@@ -107,7 +107,7 @@ public sealed class FormArgumentVerifier : Verifier
             {
                 // Starter Legend has '1' when present in party, to differentiate.
                 // Cannot be traded to other games.
-                EncounterStatic9 { StarterBoxLegend: true } x when !(ParseSettings.ActiveTrainer is SAV9SV sv && sv.Version == x.Version) => GetInvalid(LTradeNotAvailable),
+                EncounterStatic9 { StarterBoxLegend: true } x when ParseSettings.ActiveTrainer is { } tr && (tr is not SAV9SV sv || sv.Version != x.Version) => GetInvalid(LTradeNotAvailable),
                 EncounterStatic9 { StarterBoxLegend: true } => arg switch
                 {
                     < 1 => GetInvalid(LFormArgumentLow),

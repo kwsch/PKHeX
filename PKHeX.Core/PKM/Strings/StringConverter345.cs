@@ -43,9 +43,7 @@ public static class StringConverter345
             if (c == StringConverter3.TerminatorByte)
                 break;
 
-            // If the encoded character is in the affected range, treat it as Japanese.
-            var lang = IsJapanese3(c) ? (int)LanguageID.Japanese : language;
-            var b = StringConverter3.GetG3Char(c, lang);
+            var b = RemapJapanese34(c, language);
 
             // If an invalid character (0xF7-0xFE) is present, the nickname/OT is replaced with all question marks.
             // Based on the Gen4 game's language: "？？？？？" in Japanese, "??????????" for nicknames/"???????" for OTs in EFIGS, "?????" in Korean
@@ -77,8 +75,7 @@ public static class StringConverter345
             var b = input[i];
 
             // If the encoded character is in the affected range, reinterpret it as Japanese.
-            var c = StringConverter3.SetG3Char(b, language);
-            result[i] = IsJapanese3(c) ? StringConverter3.GetG3Char(c, (int)LanguageID.Japanese) : b;
+            result[i] = RemapJapanese34(b, language);
         }
     }
 
@@ -89,6 +86,16 @@ public static class StringConverter345
     private const byte JapaneseYenGlyph = 0xB7; // '円'
 
     private static bool IsJapanese3(byte glyph) => glyph is (>= JapaneseStartGlyph and <= JapaneseEndGlyph) or JapaneseYenGlyph;
+    private static char RemapJapanese34(byte glyph, int language)
+    {
+        var lang = IsJapanese3(glyph) ? (int)LanguageID.Japanese : language;
+        return StringConverter3.GetG3Char(glyph, lang);
+    }
+    private static char RemapJapanese34(char c, int language)
+    {
+        var glyph = StringConverter3.SetG3Char(c, language);
+        return IsJapanese3(glyph) ? StringConverter3.GetG3Char(glyph, (int)LanguageID.Japanese) : c;
+    }
 
     /// <summary>
     /// Remaps Gen4 Glyphs to Gen5 Glyphs.
@@ -98,10 +105,9 @@ public static class StringConverter345
     {
         for (int i = 0; i < input.Length; i++)
         {
-            if (IsInvalid45(input[i]))
+            var c = input[i];
+            if (IsInvalid45(c))
                 input[i] = '?';
-            if (input[i] == '’') // Farfetch’d and CH’DING nicknames
-                input[i] = '\''; // Wrong apostrophe, nice. Only is corrected when converted to Gen6.
         }
     }
 
@@ -128,6 +134,22 @@ public static class StringConverter345
     }
 
     /// <summary>
+    /// Remaps Gen5 Glyphs to unicode codepoint.
+    /// </summary>
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs56(Span<char> input)
+    {
+        for (int i = 0; i < input.Length; i += 2)
+        {
+            var c = input[i];
+            if (IsPrivateUseChar(c))
+                input[i] = (char)GetMigratedPrivateChar(c);
+            else if (c is '\'') // Fix all apostrophes. ' -> ’
+                input[i] = '’';
+        }
+    }
+
+    /// <summary>
     /// Remaps private use unicode codepoint back to Gen5 private use codepoint.
     /// </summary>
     /// <param name="input">Input characters to transfer in place</param>
@@ -139,6 +161,22 @@ public static class StringConverter345
             var c = ReadUInt16LittleEndian(span);
             if (IsPrivateUseCharUnicode(c))
                 WriteUInt16LittleEndian(span, GetUnmigratedPrivateChar(c));
+        }
+    }
+
+    /// <summary>
+    /// Remaps private use unicode codepoint back to Gen5 private use codepoint.
+    /// </summary>
+    /// <param name="input">Input characters to transfer in place</param>
+    public static void TransferGlyphs65(Span<char> input)
+    {
+        for (int i = 0; i < input.Length; i += 2)
+        {
+            var c = input[i];
+            if (IsPrivateUseCharUnicode(c))
+                input[i] = (char)GetUnmigratedPrivateChar(c);
+            else if (c is '’') // Fix all apostrophes. ’ -> '
+                input[i] = '\'';
         }
     }
 

@@ -15,6 +15,8 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     public sealed override Span<byte> NicknameTrash => Data.AsSpan(0x40, 26);
     public sealed override Span<byte> HandlingTrainerTrash => Data.AsSpan(0x78, 26);
     public sealed override Span<byte> OriginalTrainerTrash => Data.AsSpan(0xB0, 26);
+    public override int TrashCharCountTrainer => 13;
+    public override int TrashCharCountNickname => 13;
 
     public abstract ushort Sanity { get; set; }
     public abstract ushort Checksum { get; set; }
@@ -87,7 +89,10 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
             return false;
         if (tr.Gender != OriginalTrainerGender)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
@@ -122,7 +127,7 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     // Maximums
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max252;
-    public sealed override int MaxStringLengthOT => 12;
+    public sealed override int MaxStringLengthTrainer => 12;
     public sealed override int MaxStringLengthNickname => 12;
 }
 

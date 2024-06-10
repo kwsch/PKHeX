@@ -22,7 +22,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override GameVersion MaxGameID => Legal.MaxGameID_3;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => EffortValues.Max255;
-    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthTrainer => 7;
     public sealed override int MaxStringLengthNickname => 10;
 
     // Generated Attributes
@@ -163,8 +163,9 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         Version = Version,
         Ball = Ball,
 
-        Nickname = Nickname,
-        OriginalTrainerName = OriginalTrainerName,
+        // Handle string conversion in derived classes
+        //Nickname = Nickname,
+        //OriginalTrainerName = OriginalTrainerName,
         OriginalTrainerGender = OriginalTrainerGender,
         OriginalTrainerFriendship = OriginalTrainerFriendship,
 

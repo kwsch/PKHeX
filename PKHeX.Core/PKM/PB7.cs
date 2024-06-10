@@ -346,10 +346,15 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (HandlingTrainerName != tr.OT)
+        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        var len = LoadString(HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        var other = tr.OT;
+        if (!ht.SequenceEqual(other))
         {
+            HandlingTrainerName = other;
             HandlingTrainerFriendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
-            HandlingTrainerName = tr.OT;
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;
@@ -588,4 +593,9 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data);
+    public override int GetBytesPerChar() => 2;
 }

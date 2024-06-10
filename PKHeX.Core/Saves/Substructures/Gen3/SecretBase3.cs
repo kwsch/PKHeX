@@ -5,6 +5,8 @@ namespace PKHeX.Core;
 
 public sealed class SecretBase3(Memory<byte> raw)
 {
+    public const int SIZE = 160;
+
     private Span<byte> Data => raw.Span;
 
     private bool Japanese => Language == (int) LanguageID.Japanese;
@@ -59,7 +61,7 @@ public sealed class SecretBase3(Memory<byte> raw)
     public Span<byte> GetDecorationCoordinates() => Data.Slice(0x22, 0x10);
     public void SetDecorationCoordinates(Span<byte> value) => value.CopyTo(GetDecorationCoordinates());
 
-    private Span<byte> TeamData => Data.Slice(50, 72);
+    private Span<byte> TeamData => Data.Slice(0x34, 108);
     public SecretBase3Team Team
     {
         get => new(TeamData.ToArray());

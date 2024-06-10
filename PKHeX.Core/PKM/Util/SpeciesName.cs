@@ -97,7 +97,7 @@ public static class SpeciesName
         return arr[species];
     }
 
-    private static bool IsApostropheFarfetchdLanguage(int language) => language is 2 or 4 or 7;
+    public static bool IsApostropheFarfetchdLanguage(int language) => language is 2 or 4 or 7;
 
     /// <summary>
     /// Gets a Pokémon's default name for the desired language ID and generation.
@@ -167,7 +167,14 @@ public static class SpeciesName
 
         // Gen1/2 species names do not have spaces.
         if (generation >= 3)
+        {
+            // Gen3/4 use straight apostrophe instead of slanted apostrophe.
+            // The only Gen3/4 species with an apostrophe is Farfetch'd.
+            if (species is (int)Species.Farfetchd && IsApostropheFarfetchdLanguage(language))
+                result[^2] = '\'';
+
             return new string(result);
+        }
 
         // The only Gen1/2 species with a space is Mr. Mime; different period and no space.
         if (species == (int)Species.MrMime)

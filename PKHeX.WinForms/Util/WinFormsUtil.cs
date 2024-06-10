@@ -20,8 +20,6 @@ public static class WinFormsUtil
     /// <summary>
     /// Centers the <see cref="child"/> horizontally and vertically so that its center is the same as the <see cref="parent"/>'s center.
     /// </summary>
-    /// <param name="child"></param>
-    /// <param name="parent"></param>
     internal static void CenterToForm(this Control child, Control? parent)
     {
         if (parent == null)
@@ -188,6 +186,13 @@ public static class WinFormsUtil
         control.ValueMember = nameof(ComboItem.Value);
     }
 
+    /// <inheritdoc cref="InitializeBinding(ListControl)"/>
+    public static void InitializeBinding(this DataGridViewComboBoxColumn control)
+    {
+        control.DisplayMember = nameof(ComboItem.Text);
+        control.ValueMember = nameof(ComboItem.Value);
+    }
+
     public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
     public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
 
@@ -230,16 +235,7 @@ public static class WinFormsUtil
         }
     }
 
-    private static readonly List<string> CustomSaveExtensions =
-    [
-        "sav", // standard
-        "dat", // VC data
-        "gci", // Dolphin GameCubeImage
-        "dsv", // DeSmuME
-        "srm", // RetroArch save files
-        "fla", // flash
-        "SaveRAM", // BizHawk
-    ];
+    private static List<string> CustomSaveExtensions => SaveFileMetadata.CustomSaveExtensions;
 
     public static bool IsFileExtensionSAV(ReadOnlySpan<char> file)
     {
@@ -313,7 +309,7 @@ public static class WinFormsUtil
     public static bool SavePKMDialog(PKM pk)
     {
         string pkx = pk.Extension;
-        bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
+        bool allowEncrypted = pk.Format >= 3 && pkx.StartsWith('p');
         var genericFilter = $"Decrypted PKM File|*.{pkx}" +
                             (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
                             "|Binary File|*.bin" +

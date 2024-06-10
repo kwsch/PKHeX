@@ -38,6 +38,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     // Trash Bytes
     public override Span<byte> NicknameTrash => Data.AsSpan(0x08, 10); // no inaccessible terminator
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x14, 7); // no inaccessible terminator
+    public override int TrashCharCountTrainer => 7;
+    public override int TrashCharCountNickname => 10;
 
     // At top for System.Reflection execution order hack
 
@@ -334,12 +336,20 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         return pk4;
     }
 
+    // Use Japanese since the JPN GC/GBA string conversion table is less lossy than INT
+    private const GCRegion GCRegionTemp = GCRegion.NTSC_J;
+
     public XK3 ConvertToXK3()
     {
         var pk = ConvertTo<XK3>();
         // Set these even if the settings don't SetPKM
-        pk.CurrentRegion = 2; // NTSC-U
-        pk.OriginalRegion = 2; // NTSC-U
+        pk.CurrentRegion = GCRegionTemp;
+        pk.OriginalRegion = GCRegionTemp;
+
+        StringConverter3GC.RemapGlyphs3GC(NicknameTrash, GCRegionTemp, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GC(OriginalTrainerTrash, GCRegionTemp, Language, pk.OriginalTrainerTrash);
+        pk.ResetNicknameDisplay();
+
         pk.ResetPartyStats();
         return pk;
     }
@@ -348,8 +358,13 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     {
         var pk = ConvertTo<CK3>();
         // Set these even if the settings don't SetPKM
-        pk.CurrentRegion = 2; // NTSC-U
-        pk.OriginalRegion = 2; // NTSC-U
+        pk.CurrentRegion = GCRegionTemp;
+        pk.OriginalRegion = GCRegionTemp;
+
+        StringConverter3GC.RemapGlyphs3GC(NicknameTrash, GCRegionTemp, Language, pk.NicknameTrash);
+        StringConverter3GC.RemapGlyphs3GC(OriginalTrainerTrash, GCRegionTemp, Language, pk.OriginalTrainerTrash);
+        pk.ResetNicknameDisplay();
+
         pk.ResetPartyStats();
         return pk;
     }
@@ -360,4 +375,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         => StringConverter3.LoadString(data, destBuffer, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter3.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytes8.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytes8.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
 }

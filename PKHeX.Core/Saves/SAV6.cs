@@ -26,7 +26,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public sealed override int MaxEV => EffortValues.Max252;
     public sealed override byte Generation => 6;
     public sealed override EntityContext Context => EntityContext.Gen6;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
 
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_6;

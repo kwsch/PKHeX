@@ -10,11 +10,11 @@ public sealed class RanchMii(byte[] Data)
 
     public uint MiiId { get => ReadUInt32BigEndian(Data); set => WriteUInt32BigEndian(Data, value); }
     public uint SystemId { get => ReadUInt32BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
-    public Span<byte> Name_Trash => Data.AsSpan(0x10, 0x18);
+    public Span<byte> MiiNameTrash => Data.AsSpan(0x10, 0x18);
 
     public string MiiName
     {
-        get => StringConverter4GC.GetStringUnicode(Name_Trash);
-        set => StringConverter4GC.SetStringUnicode(value, Name_Trash, value.Length, StringConverterOption.None);
+        get => StringConverter4GC.GetStringUnicode(MiiNameTrash);
+        set => StringConverter4GC.SetStringUnicode(value, MiiNameTrash, value.Length, StringConverterOption.None);
     }
 }

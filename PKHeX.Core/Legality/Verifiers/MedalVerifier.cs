@@ -1,4 +1,3 @@
-﻿using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -21,7 +20,7 @@ public sealed class MedalVerifier : Verifier
         var pk = data.Entity;
         var train = (ISuperTrain)pk;
         var Info = data.Info;
-        uint value = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(data.Entity.Data.AsSpan(0x2C));
+        uint value = train.SuperTrainBitFlags;
         if ((value & 3) != 0) // 2 unused flags
             data.AddLine(GetInvalid(LSuperUnused));
         int TrainCount = train.SuperTrainingMedalCount();

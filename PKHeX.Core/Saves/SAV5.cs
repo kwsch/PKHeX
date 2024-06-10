@@ -26,7 +26,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
-    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthTrainer => 7;
     public override int MaxStringLengthNickname => 10;
 
     public override ushort MaxMoveID => Legal.MaxMoveID_5;
@@ -57,8 +57,9 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override bool ChecksumsValid => AllBlocks.GetChecksumsValid(Data);
     public override string ChecksumInfo => AllBlocks.GetChecksumInfo(Data);
 
-    protected int CGearInfoOffset;
-    protected int CGearDataOffset;
+    private int CGearInfoOffset => AllBlocks[32].Offset; // 0x1C000 - Options / Skin Info
+    protected abstract int CGearDataOffset { get; } // extdata
+    public sealed override bool HasPokeDex => true;
 
     // Daycare
     public int DaycareSlotCount => 2;

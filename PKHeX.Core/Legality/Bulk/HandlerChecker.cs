@@ -1,4 +1,6 @@
+using System;
 using static PKHeX.Core.CheckIdentifier;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core.Bulk;
 
@@ -15,29 +17,45 @@ public sealed class HandlerChecker : IBulkAnalyzer
     {
         for (var i = 0; i < input.AllData.Count; i++)
         {
-            if (!input.AllAnalysis[i].Valid)
+            var la = input.AllAnalysis[i];
+            if (!la.Valid)
                 continue;
             var cs = input.AllData[i];
-            Verify(input, cs);
+            Verify(input, cs, la);
         }
     }
 
-    private static void Verify(BulkAnalysis input, SlotCache cs)
+    private static void Verify(BulkAnalysis input, SlotCache cs, LegalityAnalysis la)
     {
         var pk = cs.Entity;
         var tr = cs.SAV;
-        var withOT = tr.IsFromTrainer(pk);
-        var flag = pk.CurrentHandler;
-        var expect = withOT ? 0 : 1;
-        if (flag != expect)
-            input.AddLine(cs, LegalityCheckStrings.LTransferCurrentHandlerInvalid, Trainer);
+        var current = pk.CurrentHandler;
 
-        if (flag != 1)
-            return;
+        var shouldBe0 = tr.IsFromTrainer(pk);
+        byte expect = shouldBe0 ? (byte)0 : (byte)1;
+        if (!HistoryVerifier.IsHandlerStateCorrect(la.EncounterOriginal, pk, current, expect))
+            input.AddLine(cs, LTransferCurrentHandlerInvalid, Trainer);
 
-        if (pk.HandlingTrainerName != tr.OT)
-            input.AddLine(cs, LegalityCheckStrings.LTransferHTMismatchName, Trainer);
+        if (current == 1)
+            CheckHandlingTrainerEquals(input, pk, tr, cs);
+    }
+
+    /// <summary> <see cref="HistoryVerifier.CheckHandlingTrainerEquals"/> </summary>
+    private static void CheckHandlingTrainerEquals(BulkAnalysis data, PKM pk, SaveFile tr, SlotCache cs)
+    {
+        Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+        var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
+        ht = ht[..len];
+
+        if (!ht.SequenceEqual(tr.OT))
+            data.AddLine(cs, LTransferHTMismatchName, Trainer);
+        if (pk.HandlingTrainerGender != tr.Gender)
+            data.AddLine(cs, LTransferHTMismatchGender, Trainer);
+
+        // If the format exposes a language, check if it matches.
+        // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
+        // Statistically unlikely that players will play in different languages, but it's technically possible.
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-            input.AddLine(cs, LegalityCheckStrings.LTransferHTMismatchLanguage, Trainer);
+            data.AddLine(cs, LTransferHTMismatchLanguage, Trainer, Severity.Fishy);
     }
 }

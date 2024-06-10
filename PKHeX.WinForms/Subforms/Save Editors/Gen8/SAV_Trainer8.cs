@@ -21,8 +21,8 @@ public partial class SAV_Trainer8 : Form
             TB_OTName.Font = TB_TrainerCardName.Font = FontUtil.GetPKXFont();
         }
 
-        B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
-        B_MaxWatt.Click += (sender, e) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
+        B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
+        B_MaxWatt.Click += (_, _) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
 
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection

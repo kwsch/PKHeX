@@ -77,6 +77,40 @@ public static class StringConverter2KOR
     }
 
     /// <summary>
+    /// Gets the count of characters in the data.
+    /// </summary>
+    public static int GetStringLength(ReadOnlySpan<byte> data)
+    {
+        int length = 0;
+        for (var i = 0; i < data.Length; i++)
+        {
+            byte value = data[i];
+            if (value is TableInvalid or TerminatorCode)
+                break;
+            if (value <= TableMax)
+                i++; // Korean char takes 2 bytes
+            length++;
+        }
+        return length;
+    }
+
+    /// <summary>
+    /// Gets the index of the first terminator in the data.
+    /// </summary>
+    public static int GetTerminatorIndex(ReadOnlySpan<byte> data)
+    {
+        for (var i = 0; i < data.Length; i++)
+        {
+            byte value = data[i];
+            if (value is TableInvalid or TerminatorCode)
+                return i;
+            if (value <= TableMax)
+                i++; // Korean char takes 2 bytes
+        }
+        return -1;
+    }
+
+    /// <summary>
     /// Converts a string to Generation 1 encoded data.
     /// </summary>
     /// <param name="destBuffer">Span of bytes to write encoded string data</param>

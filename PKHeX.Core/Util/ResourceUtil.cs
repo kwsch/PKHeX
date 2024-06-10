@@ -1,40 +1,22 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Reflection;
+using System.Resources;
 
 namespace PKHeX.Core;
 
 public static partial class Util
 {
-    private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
-    private static readonly Dictionary<string, string> resourceNameMap = BuildLookup(thisAssembly.GetManifestResourceNames());
+    public static EmbeddedResourceCache ResourceCache { get; } = new(typeof(Util).Assembly);
 
-    private static Dictionary<string, string> BuildLookup(ReadOnlySpan<string> manifestNames)
-    {
-        var result = new Dictionary<string, string>(manifestNames.Length);
-        foreach (var resName in manifestNames)
-        {
-            var fileName = GetFileName(resName);
-            result.Add(fileName, resName);
-        }
-        return result;
-    }
-
-    private static string GetFileName(string resName)
-    {
-        var period = resName.LastIndexOf('.', resName.Length - 5);
-        var start = period + 1;
-        System.Diagnostics.Debug.Assert(start != 0);
-
-        // text file fetch excludes ".txt" (mixed case...); other extensions are used (all lowercase).
-        return resName.EndsWith(".txt", StringComparison.Ordinal) ? resName[start..^4].ToLowerInvariant() : resName[start..];
-    }
-
-    private static readonly Dictionary<string, string[]> stringListCache = [];
-
-    private static readonly object getStringListLoadLock = new();
+    /// <summary>
+    /// Expose for plugin use/reuse so that plugins can cache their own strings without needing to manage their own cache.
+    /// </summary>
+    /// <remarks>
+    /// Assume the plugins won't wipe/modify, but if they do, that's on them.
+    /// Might enable some tweaks to work like changing species names.
+    /// </remarks>
+    public static ConcurrentDictionary<string, string[]> CachedStrings { get; } = [];
 
     #region String Lists
 
@@ -99,7 +81,7 @@ public static partial class Util
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <remarks>Ignores Korean Language.</remarks>
-    public static string[][] GetLanguageStrings7(string fileName) =>
+    public static string[][] GetLanguageStrings7([ConstantExpected] string fileName) =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -115,7 +97,7 @@ public static partial class Util
     /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Korean.
     /// </summary>
     /// <param name="fileName">Base file name</param>
-    public static string[][] GetLanguageStrings8(string fileName) =>
+    public static string[][] GetLanguageStrings8([ConstantExpected] string fileName) =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -133,7 +115,7 @@ public static partial class Util
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <param name="zh2">String to use for the second Chinese localization.</param>
-    public static string[][] GetLanguageStrings10(string fileName, string zh2 = "zh") =>
+    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string zh2 = "zh") =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -150,64 +132,50 @@ public static partial class Util
 
     #endregion
 
+    /// <inheritdoc cref="GetStringList(string, EmbeddedResourceCache)"/>
     public static string[] GetStringList(string fileName)
     {
-        if (IsStringListCached(fileName, out var result))
+        if (CachedStrings.TryGetValue(fileName, out var result))
             return result;
-        var txt = GetStringResource(fileName); // Fetch File, \n to list.
-        return LoadStringList(fileName, txt);
-    }
-
-    public static bool IsStringListCached(string fileName, [NotNullWhen(true)] out string[]? result)
-    {
-        lock (getStringListLoadLock) // Make sure only one thread can read the cache
-            return stringListCache.TryGetValue(fileName, out result);
+        return LoadAndCache(fileName, ResourceCache);
     }
 
     /// <summary>
-    /// Loads a text <see cref="file"/> into the program with a value of <see cref="txt"/>.
+    /// Gets a string array from an assembly's resources.
     /// </summary>
-    /// <remarks>Caches the result array for future fetches.</remarks>
-    public static string[] LoadStringList(string file, string? txt)
+    /// <remarks>Caches the result array for future fetches of the same resource.</remarks>
+    public static string[] GetStringList(string fileName, EmbeddedResourceCache src)
     {
-        if (txt == null)
-            return [];
-        string[] raw = FastSplit(txt);
-
-        // Make sure only one thread can write to the cache
-        lock (getStringListLoadLock)
-            stringListCache.TryAdd(file, raw);
-        return raw;
+        if (CachedStrings.TryGetValue(fileName, out var result))
+            return result;
+        return LoadAndCache(fileName, src);
     }
 
-    public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList(GetFullResourceName(fileName, lang2char, type));
+    private static string[] LoadAndCache(string fileName, EmbeddedResourceCache src)
+    {
+        if (!src.TryGetStringResource(fileName, out var txt)) // Fetch File, \n to list.
+            return []; // Instead of throwing an exception, return empty.
+        var result = FastSplit(txt); // could just string.Split but we know ours are \n or \r\n
+        CachedStrings.TryAdd(fileName, result);
+        return result;
+    }
 
-    private static string GetFullResourceName(string fileName, string lang2char, string type) => $"{type}_{fileName}_{lang2char}";
+    public static string[] GetStringList(string fileName, string lang2char, [ConstantExpected] string type = "text") => GetStringList(GetFullResourceName(fileName, lang2char, type));
+
+    private static string GetFullResourceName(string fileName, string lang2char, [ConstantExpected] string type) => $"{type}_{fileName}_{lang2char}";
 
     public static byte[] GetBinaryResource(string name)
     {
-        if (!resourceNameMap.TryGetValue(name, out var resName))
-            return [];
-
-        using var resource = thisAssembly.GetManifestResourceStream(resName);
-        if (resource is null)
-            return [];
-
-        var buffer = new byte[resource.Length];
-        resource.ReadExactly(buffer);
-        return buffer;
+        if (!ResourceCache.TryGetBinaryResource(name, out var result))
+            throw new MissingManifestResourceException($"Resource not found: {name}");
+        return result;
     }
 
-    public static string? GetStringResource(string name)
+    public static string GetStringResource(string name)
     {
-        if (!resourceNameMap.TryGetValue(name.ToLowerInvariant(), out var resourceName))
-            return null;
-
-        using var resource = thisAssembly.GetManifestResourceStream(resourceName);
-        if (resource is null)
-            return null;
-        using var reader = new StreamReader(resource);
-        return reader.ReadToEnd();
+        if (!ResourceCache.TryGetStringResource(name, out var result))
+            throw new MissingManifestResourceException($"Resource not found: {name}");
+        return result;
     }
 
     private static string[] FastSplit(ReadOnlySpan<char> s)
@@ -216,7 +184,7 @@ public static partial class Util
         if (s.Length == 0)
             return [];
 
-        var count = GetCount(s);
+        var count = 1 + s.Count('\n');
         var result = new string[count];
 
         var i = 0;
@@ -232,19 +200,6 @@ public static partial class Util
             if (i == count)
                 return result;
             s = s[(index + 1)..];
-        }
-    }
-
-    private static int GetCount(ReadOnlySpan<char> s)
-    {
-        int count = 1;
-        while (true)
-        {
-            var index = s.IndexOf('\n');
-            if (index == -1)
-                return count;
-            count++;
-            s = s[(index+1)..];
         }
     }
 }

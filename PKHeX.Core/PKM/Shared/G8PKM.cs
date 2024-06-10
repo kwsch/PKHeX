@@ -41,11 +41,13 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     public override Span<byte> NicknameTrash => Data.AsSpan(0x58, 26);
     public override Span<byte> HandlingTrainerTrash => Data.AsSpan(0xA8, 26);
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0xF8, 26);
+    public override int TrashCharCountTrainer => 13;
+    public override int TrashCharCountNickname => 13;
 
     // Maximums
     public override int MaxIV => 31;
     public override int MaxEV => EffortValues.Max252;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
 
     public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
 public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetRibbons,
-    IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4
+    IContestStats, IGeoTrack, ISuperTrainRegimen, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -428,17 +428,18 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        if (tr.OT != HandlingTrainerName || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-        {
-            if (tr is IRegionOrigin o)
-                this.TradeGeoLocation(o.Country, o.Region);
-        }
+        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        var len = LoadString(HandlingTrainerTrash, ht);
+        ht = ht[..len];
 
-        if (tr.OT != HandlingTrainerName)
+        var other = tr.OT;
+        if (!ht.SequenceEqual(other) || tr.Gender != HandlingTrainerGender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
         {
+            HandlingTrainerName = other;
             HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
             HandlingTrainerAffection = 0;
-            HandlingTrainerName = tr.OT;
+            if (tr is IRegionOrigin o)
+                this.TradeGeoLocation(o.Country, o.Region);
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;
@@ -530,4 +531,9 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         => StringConverter6.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter6.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data);
+    public override int GetBytesPerChar() => 2;
 }

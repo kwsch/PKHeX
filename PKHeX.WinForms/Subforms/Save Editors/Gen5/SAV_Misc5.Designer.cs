@@ -176,6 +176,7 @@ namespace PKHeX.WinForms
             CB_Prop = new System.Windows.Forms.ComboBox();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
+            TB_MedalType = new System.Windows.Forms.TextBox();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Record32V).BeginInit();
@@ -1827,6 +1828,7 @@ namespace PKHeX.WinForms
             // 
             // TAB_Medals
             // 
+            TAB_Medals.Controls.Add(TB_MedalType);
             TAB_Medals.Controls.Add(B_ObtainAllMedals);
             TAB_Medals.Controls.Add(CAL_MedalDate);
             TAB_Medals.Controls.Add(CHK_MedalUnread);
@@ -1844,7 +1846,7 @@ namespace PKHeX.WinForms
             B_ObtainAllMedals.Location = new System.Drawing.Point(3, 264);
             B_ObtainAllMedals.Name = "B_ObtainAllMedals";
             B_ObtainAllMedals.Size = new System.Drawing.Size(117, 71);
-            B_ObtainAllMedals.TabIndex = 4;
+            B_ObtainAllMedals.TabIndex = 5;
             B_ObtainAllMedals.Text = "Obtain All Medals";
             B_ObtainAllMedals.UseVisualStyleBackColor = true;
             B_ObtainAllMedals.Click += B_ObtainAllMedals_Click;
@@ -1928,6 +1930,15 @@ namespace PKHeX.WinForms
             CB_Prop.Size = new System.Drawing.Size(378, 23);
             CB_Prop.TabIndex = 0;
             CB_Prop.SelectedIndexChanged += CB_Prop_SelectedIndexChanged;
+            // 
+            // TB_MedalType
+            // 
+            TB_MedalType.ReadOnly = true;
+            TB_MedalType.Location = new System.Drawing.Point(212, 103);
+            TB_MedalType.Name = "TB_MedalType";
+            TB_MedalType.Size = new System.Drawing.Size(175, 23);
+            TB_MedalType.TabIndex = 4;
+            TB_MedalType.TabStop = false;
             // 
             // SAV_Misc5
             // 
@@ -2155,5 +2166,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Record32;
         private System.Windows.Forms.NumericUpDown NUD_Record16V;
         private System.Windows.Forms.NumericUpDown NUD_Record16;
+        private System.Windows.Forms.TextBox TB_MedalType;
     }
 }

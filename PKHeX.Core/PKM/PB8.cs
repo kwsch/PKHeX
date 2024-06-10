@@ -52,7 +52,10 @@ public sealed class PB8 : G8PKM
             return false;
         if (tr.Gender != OriginalTrainerGender)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
@@ -121,18 +124,7 @@ public sealed class PB8 : G8PKM
         return true;
     }
 
-    private void TradeHT(ITrainerInfo tr)
-    {
-        if (HandlingTrainerName != tr.OT)
-        {
-            HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
-            HandlingTrainerName = tr.OT;
-        }
-        CurrentHandler = 1;
-        HandlingTrainerGender = tr.Gender;
-        HandlingTrainerLanguage = (byte)tr.Language;
-        //this.SetTradeMemoryHT8();
-    }
+    private void TradeHT(ITrainerInfo tr) => PKH.UpdateHandler(this, tr);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_8b;
@@ -152,4 +144,9 @@ public sealed class PB8 : G8PKM
         => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data);
+    public override int GetBytesPerChar() => 2;
 }

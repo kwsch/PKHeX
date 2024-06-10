@@ -119,7 +119,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
     public override PersonalTable8BDSP Personal => PersonalTable.BDSP;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
     public override ushort MaxMoveID => Legal.MaxMoveID_8b;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8b;
@@ -171,7 +171,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     #region Checksums
 
-    private const int HashLength = 0x10;
+    private const int HashLength = MD5.HashSizeInBytes;
     private const int HashOffset = SaveUtil.SIZE_G8BDSP - HashLength;
     private Span<byte> CurrentHash => Data.AsSpan(HashOffset, HashLength);
     private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> dest)
@@ -181,7 +181,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         Span<byte> zeroes = stackalloc byte[HashLength]; // Hash is zeroed prior to computing over the payload. Treat it as zero.
         h.AppendData(zeroes);
         h.AppendData(data[(HashOffset + HashLength)..]);
-        h.TryGetCurrentHash(dest, out _);
+        h.GetCurrentHash(dest);
     }
 
     protected override void SetChecksums() => ComputeHash(Data, CurrentHash);
@@ -283,7 +283,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public string Rival
     {
         get => GetString(Data.AsSpan(0x55F4, 0x1A));
-        set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public short ZoneID // map

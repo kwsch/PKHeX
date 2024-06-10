@@ -20,11 +20,6 @@ public partial class SAV_Misc5 : Form
     private ComboBox[] cbr = null!;
     private int ofsFly;
     private int[] FlyDestC = null!;
-    private const int ofsLibPass = 0x212BC;
-    private const uint keyLibPass = 2010_04_06; // 0x132B536
-    private uint valLibPass;
-    private bool bLibPass;
-    private const int ofsKS = 0x25828;
 
     public SAV_Misc5(SAV5 sav)
     {
@@ -71,18 +66,6 @@ public partial class SAV_Misc5 : Form
     }
 
     private void SaveRecord() => SAV.Records.EndAccess();
-
-    private static ReadOnlySpan<uint> keyKS =>
-    [
-        // 0x34525, 0x11963,           // Selected City
-        // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
-        // 0x94525, 0x81963, 0x38569,  // Selected Mystery Door
-        0x35691, 0x18256, 0x59389, 0x48292, 0x09892, // Obtained Keys(EasyMode, Challenge, City, Iron, Iceberg)
-        0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818, // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
-    ];
-
-    private uint[] valKS = null!;
-    private bool[] bKS = null!;
 
     private void ReadMain()
     {
@@ -180,30 +163,25 @@ public partial class SAV_Misc5 : Form
             }
 
             // LibertyPass
-            valLibPass = keyLibPass ^ SAV.ID32;
-            bLibPass = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass)) == valLibPass;
-            CHK_LibertyPass.Checked = bLibPass;
+            CHK_LibertyPass.Checked = bw.Misc.IsLibertyTicketActivated;
         }
-        else if (SAV is SAV5B2W2)
+        else if (SAV is SAV5B2W2 b2w2)
         {
             TC_Misc.TabPages.Remove(TAB_BWCityForest);
             GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
+
+            var keys = b2w2.Keys;
             // KeySystem
             string[] KeySystemA =
             [
                 "Obtain EasyKey", "Obtain ChallengeKey", "Obtain CityKey", "Obtain IronKey", "Obtain IcebergKey",
-                "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber",
-                "Unlock IcebergChamber",
+                "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber", "Unlock IcebergChamber",
             ];
-            uint KSID = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + 0x34));
-            valKS = new uint[keyKS.Length];
-            bKS = new bool[keyKS.Length];
             CLB_KeySystem.Items.Clear();
-            for (int i = 0; i < valKS.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                valKS[i] = keyKS[i] ^ KSID;
-                bKS[i] = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + (i << 2))) == valKS[i];
-                CLB_KeySystem.Items.Add(KeySystemA[i], bKS[i]);
+                CLB_KeySystem.Items.Add(KeySystemA[i], keys.GetIsKeyObtained((KeyType5)i));
+                CLB_KeySystem.Items.Add(KeySystemA[i + 5], keys.GetIsKeyUnlocked((KeyType5)i));
             }
         }
         else
@@ -274,19 +252,23 @@ public partial class SAV_Misc5 : Form
             }
 
             // LibertyPass
-            if (CHK_LibertyPass.Checked != bLibPass)
-                WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass), bLibPass ? 0u : valLibPass);
+            if (CHK_LibertyPass.Checked != bw.Misc.IsLibertyTicketActivated)
+                bw.Misc.IsLibertyTicketActivated = CHK_LibertyPass.Checked;
         }
-        else if (SAV is SAV5B2W2)
+        else if (SAV is SAV5B2W2 b2w2)
         {
             // KeySystem
-            for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
+            var keys = b2w2.Keys;
+            for (int i = 0; i < 5; i++)
             {
-                if (CLB_KeySystem.GetItemChecked(i) == bKS[i])
-                    continue;
-                var dest = SAV.Data.AsSpan(ofsKS + (i << 2));
-                var value = bKS[i] ? 0u : valKS[i];
-                WriteUInt32LittleEndian(dest, value);
+                var index = i * 2;
+                var obtain = CLB_KeySystem.GetItemChecked(index);
+                if (obtain != keys.GetIsKeyObtained((KeyType5)i))
+                    keys.SetIsKeyObtained((KeyType5)i, obtain);
+
+                var unlock = CLB_KeySystem.GetItemChecked(index + 1);
+                if (unlock != keys.GetIsKeyUnlocked((KeyType5)i))
+                    keys.SetIsKeyUnlocked((KeyType5)i, unlock);
             }
         }
     }
@@ -315,7 +297,7 @@ public partial class SAV_Misc5 : Form
         {
             var pass = (Entralink5B2W2)entree;
             var ppv = Enum.GetValues<PassPower5>();
-            var ppn = Enum.GetNames<PassPower5>();
+            var ppn = WinFormsTranslator.GetEnumTranslation<PassPower5>(Main.CurrentLanguage);
             var PassPowerB = new ComboItem[ppv.Length];
             for (int i = 0; i < ppv.Length; i++)
                 PassPowerB[i] = new ComboItem(ppn[i], (int)ppv[i]);
@@ -339,7 +321,7 @@ public partial class SAV_Misc5 : Form
             NUD_EntreeWhiteEXP.SetValueClamped(block.WhiteEXP);
             NUD_EntreeBlackEXP.SetValueClamped(block.BlackEXP);
 
-            string[] FMTitles = Enum.GetNames<Funfest5Mission>();
+            string[] FMTitles = WinFormsTranslator.GetEnumTranslation<Funfest5Mission>(Main.CurrentLanguage);
             LB_FunfestMissions.Items.Clear();
             LB_FunfestMissions.Items.AddRange(FMTitles);
 
@@ -816,6 +798,7 @@ public partial class SAV_Misc5 : Form
     }
 
     private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
+    private readonly string[] MedalTypeNames = Util.GetStringList("medal_types", Main.CurrentLanguage);
 
     private void ReadMedals()
     {
@@ -831,7 +814,10 @@ public partial class SAV_Misc5 : Form
     {
         if (SAV is SAV5B2W2 b2w2)
         {
-            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            var index = CB_CurrentMedal.SelectedIndex;
+            var medal = b2w2.Medals[index];
+            var type = MedalList5.GetMedalType(index);
+            TB_MedalType.Text = MedalTypeNames[(int)type];
             CB_MedalState.SelectedIndex = (int)medal.State;
             if (medal.CanHaveDate)
             {

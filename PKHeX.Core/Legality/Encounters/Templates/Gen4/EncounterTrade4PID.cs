@@ -243,15 +243,18 @@ public sealed record EncounterTrade4PID
             return lang;
 
         // Since two locales (JPN/ENG) can have the same LanguageID, check which we should be validating with.
-        ReadOnlySpan<char> ot = pk.OriginalTrainerName;
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        var len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
         var expect = TrainerNames[1];
-        var match = ot.SequenceEqual(expect);
+        var match = trainer.SequenceEqual(expect);
         if (!match)
             return 2; // verify strings with English locale instead.
         return lang;
     }
 
-    private int DetectTradeLanguageG4MeisterMagikarp(PKM pk,int currentLanguageID)
+    private int DetectTradeLanguageG4MeisterMagikarp(PKM pk, int currentLanguageID)
     {
         if (currentLanguageID == (int)LanguageID.English)
             return (int)LanguageID.German;
@@ -259,7 +262,13 @@ public sealed record EncounterTrade4PID
         // All have German, regardless of origin version.
         var lang = DetectTradeLanguage(pk.OriginalTrainerName, currentLanguageID);
         if (lang == (int)LanguageID.English) // possible collision with FR/ES/DE. Check nickname
-            return pk.Nickname == Nicknames[(int)LanguageID.French] ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
+        {
+            Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
+            var len = pk.LoadString(pk.NicknameTrash, nickname);
+            nickname = nickname[..len];
+
+            return nickname.SequenceEqual(Nicknames[(int)LanguageID.French]) ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
+        }
 
         return lang;
     }
@@ -271,8 +280,14 @@ public sealed record EncounterTrade4PID
 
         // All have English, regardless of origin version.
         var lang = DetectTradeLanguage(pk.OriginalTrainerName, currentLanguageID);
-        if (lang == 2) // possible collision with ES/IT. Check nickname
-            return pk.Nickname == Nicknames[(int)LanguageID.Italian] ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
+        if (lang == (int)LanguageID.English) // possible collision with ES/IT. Check nickname
+        {
+            Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
+            var len = pk.LoadString(pk.NicknameTrash, nickname);
+            nickname = nickname[..len];
+
+            return nickname.SequenceEqual(Nicknames[(int)LanguageID.Italian]) ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
+        }
 
         return lang;
     }

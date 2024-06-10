@@ -18,7 +18,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     private const int StringLength = 12;
 
     public override EntityContext Context => EntityContext.Gen2;
-    public override int MaxStringLengthOT => StringLength;
+    public override int MaxStringLengthTrainer => StringLength;
     public override int MaxStringLengthNickname => StringLength;
 
     public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM) => IsEncodingJapanese = jp;
@@ -114,6 +114,8 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
     public override Span<byte> NicknameTrash => Data.AsSpan(0x24, StringLength);
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x30, StringLength);
+    public override int TrashCharCountTrainer => StringLength;
+    public override int TrashCharCountNickname => StringLength;
 
     #endregion
 
@@ -135,7 +137,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     protected override void GetNonNickname(int language, Span<byte> data)
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
-        StringConverter2.SetString(data, name, data.Length, Language, StringConverterOption.Clear50);
+        StringConverter2.SetString(data, name, data.Length, language, StringConverterOption.Clear50);
     }
 
     public override void SetNotNicknamed(int language) => GetNonNickname(language, NicknameTrash);
@@ -219,4 +221,9 @@ public sealed class SK2 : GBPKM, ICaughtData2
         => StringConverter2.LoadString(data, destBuffer, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesGB.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesGB.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
 }

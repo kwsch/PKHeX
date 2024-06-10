@@ -67,7 +67,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override int MaxEV => EffortValues.Max252;
     public override byte Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
 
     public override bool ChecksumsValid => true;

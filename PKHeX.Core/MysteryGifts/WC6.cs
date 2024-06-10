@@ -202,6 +202,8 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         set => StringConverter6.SetString(Data.AsSpan(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
+    public bool IsOriginalTrainerNameSet => Data[0xB6] != 0 || Data[0xB7] != 0;
+
     public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }
     public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
@@ -325,11 +327,8 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             ContestTough = ContestTough,
             ContestSheen = ContestSheen,
 
-            OriginalTrainerName = OriginalTrainerName.Length != 0 ? OriginalTrainerName : tr.OT,
+            OriginalTrainerName = IsOriginalTrainerNameSet ? OriginalTrainerName : tr.OT,
             OriginalTrainerGender = OTGender != 3 ? (byte)(OTGender % 2) : tr.Gender,
-            HandlingTrainerName = OriginalTrainerName.Length != 0 ? tr.OT : string.Empty,
-            HandlingTrainerGender = OriginalTrainerName.Length != 0 ? tr.Gender : default,
-            CurrentHandler = OriginalTrainerName.Length != 0 ? (byte)1 : (byte)0,
 
             EXP = Experience.GetEXP(Level, pi.EXPGrowth),
 
@@ -366,6 +365,14 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             EV_SPA = EV_SPA,
             EV_SPD = EV_SPD,
         };
+
+        if (IsOriginalTrainerNameSet)
+        {
+            pk.HandlingTrainerName = tr.OT;
+            pk.HandlingTrainerGender = tr.Gender;
+            pk.HandlingTrainerFriendship = pk.OriginalTrainerFriendship;
+            pk.CurrentHandler = 1;
+        }
 
         if (tr is IRegionOrigin o)
         {
@@ -531,7 +538,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 }
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
-            if (!string.IsNullOrEmpty(OriginalTrainerName) && OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (IsOriginalTrainerNameSet && OriginalTrainerName != pk.OriginalTrainerName) return false;
             if (PIDType == ShinyType6.FixedValue && pk.PID != PID) return false;
             if (!Shiny.IsValid(pk)) return false;
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;

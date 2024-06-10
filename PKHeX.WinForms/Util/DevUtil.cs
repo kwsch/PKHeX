@@ -17,7 +17,7 @@ namespace PKHeX.WinForms
         }
 
         private static readonly string[] Languages = ["ja", "fr", "it", "de", "es", "ko", "zh", "zh2"];
-        private const string DefaultLanguage = GameLanguage.DefaultLanguage;
+        private static string DefaultLanguage => Main.CurrentLanguage;
 
         public static bool IsUpdatingTranslations { get; private set; }
 
@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
                 ShortcutKeys = Keys.Control | Keys.Alt | Keys.D,
                 Visible = false,
             };
-            ti.Click += (s, e) => UpdateAll();
+            ti.Click += (_, _) => UpdateAll();
             return ti;
         }
 
@@ -50,24 +50,21 @@ namespace PKHeX.WinForms
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var types = assembly.GetTypes();
-            // add mode
-            WinFormsTranslator.SetRemovalMode(false);
-            WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
-            WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
-            WinFormsTranslator.TranslateControls(GetExtraControls());
-            WinFormsTranslator.UpdateAll(DefaultLanguage, Languages); // propagate to others
-            WinFormsTranslator.DumpAll(Banlist); // dump current to file
 
-            // de-populate
-            WinFormsTranslator.SetRemovalMode(); // remove used keys, don't add any
-            WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage, false);
-            WinFormsTranslator.LoadAllForms(types, LoadBanlist);
-            WinFormsTranslator.TranslateControls(GetExtraControls());
-            WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
+            // Trigger a translation then dump all.
+            foreach (var lang in Languages) // get all languages ready to go
+                _ = WinFormsTranslator.GetDictionary(lang);
+            WinFormsTranslator.SetUpdateMode();
+            WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
+            WinFormsTranslator.LoadEnums(EnumTypesToTranslate, DefaultLanguage);
+            WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
+            WinFormsTranslator.TranslateControls(GetExtraControls(), DefaultLanguage);
+            var dir = GetResourcePath("PKHeX.WinForms", "Resources", "text");
+            WinFormsTranslator.DumpAll(DefaultLanguage, Banlist, dir); // dump current to file
+            WinFormsTranslator.SetUpdateMode(false);
 
             // Move translated files from the debug exe loc to their project location
             var files = Directory.GetFiles(Application.StartupPath);
-            var dir = GetResourcePath("PKHeX.WinForms", "Resources", "text");
             foreach (var f in files)
             {
                 var fn = Path.GetFileName(f);
@@ -85,6 +82,23 @@ namespace PKHeX.WinForms
             Application.Exit();
         }
 
+        private static readonly Type[] EnumTypesToTranslate =
+        [
+            typeof(StatusCondition),
+            typeof(PokeSize),
+            typeof(PokeSizeDetailed),
+
+            typeof(PassPower5),
+            typeof(Funfest5Mission),
+            typeof(OPower6Index),
+            typeof(OPower6FieldType),
+            typeof(OPower6BattleType),
+            typeof(PlayerBattleStyle7),
+            typeof(PlayerSkinColor7),
+            typeof(Stamp7),
+            typeof(FestivalPlazaFacilityColor),
+        ];
+
         private static IEnumerable<Control> GetExtraControls()
         {
             var slotGroupLabels = Enum.GetNames<StorageSlotType>();
@@ -100,11 +114,11 @@ namespace PKHeX.WinForms
 
         private static readonly string[] Banlist =
         [
-            ..LoadBanlist,
             "Gender=", // editor gender labels
             "BTN_Shinytize", // ☆
             "Hidden_", // Hidden controls
             "CAL_", // calendar controls now expose Text, don't care.
+            ".Count", // enum count
             $"{nameof(Main)}.L_SizeH", // height rating
             $"{nameof(Main)}.L_SizeW", // weight rating
             $"{nameof(Main)}.L_SizeS", // scale rating
@@ -117,13 +131,6 @@ namespace PKHeX.WinForms
             $"{nameof(SAV_BlockDump8)}.L_BlockName", // Block name (dynamic)
             $"{nameof(SAV_PokedexResearchEditorLA)}.L_", // Dynamic label
             $"{nameof(SAV_OPower)}.L_", // Dynamic label
-        ];
-
-        private static readonly string[] PurgeBanlist =
-        [
-            nameof(SuperTrainingEditor),
-            nameof(ErrorWindow),
-            nameof(SettingsEditor),
         ];
 
         private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false, "PKHeX.Core", "Resources", "text", "program");

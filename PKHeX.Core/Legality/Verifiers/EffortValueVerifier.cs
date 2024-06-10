@@ -69,16 +69,10 @@ public sealed class EffortValueVerifier : Verifier
     }
 
     // Hard cap at 252 for Gen6+
-    private static bool IsAnyAboveHardLimit6(ReadOnlySpan<int> evs) => evs.ContainsAny(253, 254, 255);
+    private static bool IsAnyAboveHardLimit6(ReadOnlySpan<int> evs)
+        => evs.ContainsAnyExceptInRange(0, EffortValues.Max252);
 
     // Vitamins can only raise to 100 in Gen3/4
     private static bool IsAnyAboveVitaminLimit(ReadOnlySpan<int> evs)
-    {
-        foreach (var iv in evs)
-        {
-            if (iv > EffortValues.MaxVitamins34)
-                return true;
-        }
-        return false;
-    }
+        => evs.ContainsAnyExceptInRange(0, EffortValues.MaxVitamins34);
 }

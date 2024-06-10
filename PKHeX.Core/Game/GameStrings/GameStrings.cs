@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -24,6 +25,7 @@ public sealed class GameStrings : IBasicStrings
     // Misc
     public readonly string[] wallpapernames, puffs, walkercourses;
     public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
+    public readonly string[] seals, accessories, backdrops, poketchapps;
     private readonly string lang;
     private readonly int LanguageIndex;
 
@@ -67,7 +69,10 @@ public sealed class GameStrings : IBasicStrings
         Gen2 = new(Get("gsc_00000"));
         Gen3 = new(Get("rsefrlg_00000"));
         CXD = new(Get("cxd_00000"));
-        SanitizeMetStringsCXD(CXD.Met0);
+
+        // Less than 10% of location values are unique.
+        // Just mark them with the ID if they aren't empty.
+        AppendLocationIndex(CXD.Met0.AsSpan(0, 227));
 
         // Current Generation strings
         natures = Util.GetNaturesList(l);
@@ -107,12 +112,17 @@ public sealed class GameStrings : IBasicStrings
         trainingstage = Get("supertraining");
         puffs = Get("puff");
 
-        walkercourses = Get("hgss_walkercourses");
+        walkercourses = Get("walkercourses");
 
-        uggoods = Get("dppt_uggoods");
-        ugspheres = Get("dppt_ugspheres");
-        ugtraps = Get("dppt_ugtraps");
-        ugtreasures = Get("dppt_ugtreasures");
+        uggoods = Get("uggoods");
+        ugspheres = Get("ugspheres");
+        ugtraps = Get("ugtraps");
+        ugtreasures = Get("ugtreasures");
+
+        seals = Get("seals");
+        accessories = Get("accessories");
+        backdrops = Get("backdrops");
+        poketchapps = Get("poketchapps");
 
         EggName = specieslist[0];
         Gen4 = Get4("hgss");
@@ -132,7 +142,7 @@ public sealed class GameStrings : IBasicStrings
         Get("mail4").CopyTo(g4items, 137);
     }
 
-    private LocationSet4 Get4(string ident)
+    private LocationSet4 Get4([ConstantExpected] string ident)
     {
         var met0 = Get($"{ident}_00000");
         var met2 = Get($"{ident}_02000");
@@ -140,7 +150,7 @@ public sealed class GameStrings : IBasicStrings
         return new LocationSet4(met0, met2, met3);
     }
 
-    private LocationSet6 Get6(string ident)
+    private LocationSet6 Get6([ConstantExpected] string ident)
     {
         var met0 = Get($"{ident}_00000");
         var met3 = Get($"{ident}_30000");
@@ -149,34 +159,32 @@ public sealed class GameStrings : IBasicStrings
         return new LocationSet6(met0,met3, met4, met6);
     }
 
-    private LocationSet6 Get6(string ident, string[] met3, string[] met6)
+    private LocationSet6 Get6([ConstantExpected] string ident, string[] met3, string[] met6)
     {
         var met0 = Get($"{ident}_00000");
         var met4 = Get($"{ident}_40000");
         return new LocationSet6(met0, met3, met4, met6);
     }
 
-    private string[] GetG3CXD(string[] arr, string fileName)
+    private string[] GetG3CXD(ReadOnlySpan<string> arr, [ConstantExpected] string fileName)
     {
         // Concatenate the Gen3 Item list with the CXD item array; CXD items starting at index 500.
         var item500 = Get(fileName);
         var result = new string[500 + item500.Length];
         for (int i = arr.Length; i < result.Length; i++)
             result[i] = string.Empty;
-        arr.CopyTo(result, 0);
+        arr.CopyTo(result);
         item500.CopyTo(result, 500);
         return result;
     }
 
-    private static void SanitizeMetStringsCXD(string[] cxd)
+    private static void AppendLocationIndex(Span<string> names)
     {
-        // Less than 10% of location values are unique.
-        // Just mark them with the ID if they aren't empty.
-        for (int i = 0; i < 227; i++)
+        for (int i = 0; i < names.Length; i++)
         {
-            ref var str = ref cxd[i];
+            ref var str = ref names[i];
             if (str.Length != 0)
-                str = $"{str} [{i:000}]";
+                str += $" [{i:000}]";
         }
     }
 
@@ -284,7 +292,7 @@ public sealed class GameStrings : IBasicStrings
         itemlist[1763] += " (LA)"; // Secret Medicine
     }
 
-    private static void SanitizeItemsSV(string[] items)
+    private static void SanitizeItemsSV(Span<string> items)
     {
         items[2313] += " (1)"; // Academy Bottle
         items[2314] += " (2)"; // Academy Bottle
@@ -305,7 +313,7 @@ public sealed class GameStrings : IBasicStrings
         items[2556] += " (2)"; // Violet Book
     }
 
-    private static void SanitizeItemsLA(string[] items)
+    private static void SanitizeItemsLA(Span<string> items)
     {
         // Recipes
         items[1784] += " (~)"; // Gigaton Ball
@@ -639,7 +647,7 @@ public sealed class GameStrings : IBasicStrings
      // set.Met3[18] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
     }
 
-    private static void Deduplicate(string[] arr, int group)
+    private static void Deduplicate(Span<string> arr, int group)
     {
         var counts = new Dictionary<string, int>();
 
@@ -704,18 +712,20 @@ public sealed class GameStrings : IBasicStrings
 
     private string[] GetItemStrings9()
     {
-        // in Generation 9, TMs are padded to 3 digits; format them appropriately here
+        // in Generation 9, TM #'s are padded to 3 digits; format them appropriately here
         var clone = (string[])itemlist.Clone();
+        var span = clone.AsSpan();
         var zero = lang is "ja" or "zh" or "zh2" ? "０" : "0";
-
-        for (int i = 328; i <= 419; i++)
-            clone[i] = clone[i].Insert(clone[i].Length - 2, zero);
-        for (int i = 618; i <= 620; i++)
-            clone[i] = clone[i].Insert(clone[i].Length - 2, zero);
-        for (int i = 690; i <= 693; i++)
-            clone[i] = clone[i].Insert(clone[i].Length - 2, zero);
-
+        InsertZero(span[328..420], zero); // 01-92
+        InsertZero(span[618..621], zero); // 93-95
+        InsertZero(span[690..694], zero); // 96-99
         return clone;
+
+        static void InsertZero(Span<string> arr, string insert)
+        {
+            foreach (ref var str in arr)
+                str = str.Insert(str.Length - 2, insert);
+        }
     }
 
     private string[] GetItemStrings3(GameVersion game)

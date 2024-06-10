@@ -1,6 +1,7 @@
 using System;
 using static PKHeX.Core.EntityContext;
 using static PKHeX.Core.LanguageID;
+using G3GC = PKHeX.Core.StringFont3GC;
 using G5 = PKHeX.Core.StringFont5;
 using G6 = PKHeX.Core.StringFont6;
 using G7 = PKHeX.Core.StringFont7;
@@ -17,6 +18,7 @@ public static class StringFontUtil
 {
     private static char GetUndefinedChar(EntityContext context) => context switch
     {
+        Gen3 => '⬛', // 0x2B1B
         Gen7 => ' ', // 0x0020
         Gen8b => '☐', // 0x2610
         _ => '?', // 0x003F
@@ -90,7 +92,8 @@ public static class StringFontUtil
     public static bool IsDefined(char c, EntityContext context, LanguageID pkLanguage, LanguageID saveLanguage) => context switch
     {
         // Gen5/6/7 display names based on the save language, Gen7b/8/9 display names based on the entity's language
-        Gen5  or Gen3 or Gen4 => HasChar(c, G5.Defined),
+        Gen3                  => HasChar(c, G3GC.Defined),
+        Gen5  or Gen4         => HasChar(c, G5.Defined),
         Gen6                  => HasChar(c, G6.Defined),
         Gen7  or Gen1 or Gen2 => IsDefined7(c, saveLanguage),
         Gen7b or Gen8 or Gen9 => IsDefined8(c, pkLanguage),

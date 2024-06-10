@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -18,12 +19,14 @@ public static class EncounterUtil
     /// <summary>
     /// Gets a raw chunk of data from the specified resource.
     /// </summary>
-    public static ReadOnlySpan<byte> Get([Length(2, 2)] string resource) => Util.GetBinaryResource($"encounter_{resource}.pkl");
+    public static ReadOnlySpan<byte> Get([Length(2, 2), ConstantExpected] string resource)
+        => Util.GetBinaryResource($"encounter_{resource}.pkl");
 
     /// <summary>
     /// Gets an index-able accessor for the specified resource.
     /// </summary>
-    public static BinLinkerAccessor Get([Length(2, 2)] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident) => BinLinkerAccessor.Get(Get(resource), ident);
+    public static BinLinkerAccessor Get([Length(2, 2), ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
+        => BinLinkerAccessor.Get(Get(resource), ident);
 
     /// <summary>
     /// Grabs the localized names for individual templates for all languages from the specified <see cref="index"/> of the <see cref="names"/> list.

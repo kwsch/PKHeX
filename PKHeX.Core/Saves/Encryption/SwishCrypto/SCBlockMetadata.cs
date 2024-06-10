@@ -35,7 +35,7 @@ public sealed class SCBlockMetadata
     /// </summary>
     public IEnumerable<ComboItem> GetSortedBlockKeyList() => Accessor.BlockInfo
         .Select((z, i) => new ComboItem(GetBlockHint(z, i), (int)z.Key))
-        .OrderBy(z => !(z.Text.Length != 0 && z.Text[0] == '*'))
+        .OrderBy(z => !z.Text.StartsWith('*'))
         .ThenBy(z => GetSortKey(z));
 
     /// <summary>
@@ -63,7 +63,7 @@ public sealed class SCBlockMetadata
     private static string GetSortKey(in ComboItem item)
     {
         var text = item.Text;
-        if (text.Length != 0 && text[0] == '*')
+        if (text.StartsWith('*'))
             return text;
         // key:X8, " - ", "####", " ", type
         return text[(8 + 3 + 4 + 1)..];

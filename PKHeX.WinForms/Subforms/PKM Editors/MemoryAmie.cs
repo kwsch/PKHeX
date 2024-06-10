@@ -35,6 +35,8 @@ public partial class MemoryAmie : Form
         {
             tabControl1.TabPages.Remove(Tab_Residence);
         }
+        if (Entity is PK9)
+            tabControl1.TabPages.Remove(Tab_Other); // No Fullness/Enjoyment stored.
 
         GetLangStrings();
         LoadFields();
@@ -275,20 +277,22 @@ public partial class MemoryAmie : Form
 
     private string GetMemoryString(ComboBox m, Control arg, Control q, Control f, string tr)
     {
+        var messages = GameInfo.Strings.memories;
         string result;
         bool enabled;
         int mem = WinFormsUtil.GetIndex(m);
         if (mem == 0)
         {
             string nn = Entity.Nickname;
-            result = string.Format(GameInfo.Strings.memories[0], nn);
+            result = string.Format(messages[0], nn);
             enabled = false;
         }
         else
         {
+            var msg = (uint)mem < messages.Length ? messages[mem] : $"{mem}";
             string nn = Entity.Nickname;
             string a = arg.Text;
-            result = string.Format(GameInfo.Strings.memories[mem], nn, tr, a, f.Text, q.Text);
+            result = string.Format(msg, nn, tr, a, f.Text, q.Text);
             enabled = true;
         }
 
@@ -353,8 +357,12 @@ public partial class MemoryAmie : Form
 
     private void ClickResetLocation(object sender, EventArgs e)
     {
-        Label[] senderarr = [L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4];
-        int index = Array.IndexOf(senderarr, sender);
+        if (sender is not Label l)
+            return;
+        Label[] labels = [L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4];
+        int index = Array.IndexOf(labels, l);
+        if (index < 0)
+            return;
         PrevCountries[index].SelectedValue = 0;
 
         PrevRegions[index].InitializeBinding();

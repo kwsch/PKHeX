@@ -188,7 +188,6 @@ public static class SlotMethodK
         _ => (Invalid, Invalid),
     };
 
-
     /// <summary>
     /// Gets the range a given slot number is allowed to roll in for a <see cref="Safari_Grass"/> (and other Safari Types) encounter.
     /// </summary>

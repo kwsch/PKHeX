@@ -16,12 +16,15 @@ public sealed class NicknameVerifier : Verifier
         var pk = data.Entity;
 
         // If the Pokémon is not nicknamed, it should match one of the language strings.
-        var nickname = pk.Nickname;
-        if (nickname.Length == 0)
+        Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
+        int len = pk.LoadString(pk.NicknameTrash, nickname);
+        if (len == 0)
         {
             data.AddLine(GetInvalid(LNickLengthShort));
             return;
         }
+        nickname = nickname[..len];
+
         if (pk.Species > SpeciesName.MaxSpeciesID)
         {
             data.AddLine(Get(LNickLengthShort, Severity.Invalid));
@@ -42,7 +45,7 @@ public sealed class NicknameVerifier : Verifier
         {
             if (pk.VC)
                 VerifyG1NicknameWithinBounds(data, nickname);
-            else if (enc is MysteryGift {IsEgg: false})
+            else if (IsMysteryGiftNoNickname(enc))
                 data.AddLine(Get(LEncGiftNicknamed, ParseSettings.Settings.Nickname.NicknamedMysteryGift(enc.Context)));
         }
 
@@ -65,11 +68,25 @@ public sealed class NicknameVerifier : Verifier
         // Non-nicknamed strings have already been checked.
         if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format) && pk.IsNicknamed)
         {
-            if (WordFilter.IsFiltered(nickname, out var badPattern))
+            if (WordFilter.IsFiltered(nickname.ToString(), out var badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
             if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
         }
+    }
+
+    private static bool IsMysteryGiftNoNickname(IEncounterable enc)
+    {
+        if (enc is not MysteryGift { IsEgg: false })
+            return false;
+        return enc switch
+        {
+            PCD pcd => !pcd.Gift.PK.IsNicknamed,
+            PGF pgf => !pgf.IsNicknamed,
+            WC6 wc6 => !wc6.IsNicknamed && wc6 is not { IsLinkGift: true, Species: (int)Species.Glalie or (int)Species.Steelix }, // Can nickname the demo gift
+            WC7 wc7 => !wc7.IsNicknamed,
+            _ => true,
+        };
     }
 
     private void VerifyFixedNicknameEncounter(LegalityAnalysis data, ILangNicknamedTemplate n, IEncounterTemplate enc, PKM pk, ReadOnlySpan<char> nickname)
@@ -238,7 +255,7 @@ public sealed class NicknameVerifier : Verifier
         ushort species = pk.Species;
         byte format = pk.Format;
         int language = pk.Language;
-        var expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
+        ReadOnlySpan<char> expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
         if (nickname.SequenceEqual(expect))
             return true;
 
@@ -252,7 +269,7 @@ public sealed class NicknameVerifier : Verifier
 
         switch (enc)
         {
-            case WC7 wc7 when wc7.IsAshGreninjaWC7(pk):
+            case WC7 { IsAshGreninja: true }:
                 return true;
             case ILangNick loc:
                 if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
@@ -261,14 +278,38 @@ public sealed class NicknameVerifier : Verifier
         }
 
         if (format == 5 && enc.Generation != 5) // transfer
-        {
-            if (canHaveAnyLanguage)
-                return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
-            expect = SpeciesName.GetSpeciesNameGeneration(species, language, 4);
-            return nickname.SequenceEqual(expect);
-        }
+            return IsMatch45(nickname, species, expect, language, canHaveAnyLanguage);
 
         return false;
+    }
+
+    private static bool IsMatch45(ReadOnlySpan<char> nickname, ushort species, ReadOnlySpan<char> expect, int language, bool canHaveAnyLanguage)
+    {
+        if (species is (int)Species.Farfetchd)
+        {
+            if (nickname.Length == expect.Length)
+            {
+                // Compare as upper -- different apostrophe than Gen4 encoding.
+                if (IsMatchUpper45(nickname, expect))
+                    return true;
+            }
+            if (SpeciesName.IsApostropheFarfetchdLanguage(language))
+                return false; // must have matched above
+        }
+        if (canHaveAnyLanguage)
+            return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
+        expect = SpeciesName.GetSpeciesNameGeneration(species, language, 4);
+        return nickname.SequenceEqual(expect);
+    }
+
+    private static bool IsMatchUpper45(ReadOnlySpan<char> nickname, ReadOnlySpan<char> expect)
+    {
+        for (int i = 0; i < expect.Length; i++)
+        {
+            if (nickname[i] != char.ToUpperInvariant(expect[i]))
+                return false;
+        }
+        return true;
     }
 
     private static void VerifyNicknameEgg(LegalityAnalysis data)
@@ -280,7 +321,7 @@ public sealed class NicknameVerifier : Verifier
         if (pk.IsNicknamed != flagState)
             data.AddLine(GetInvalid(flagState ? LNickFlagEggYes : LNickFlagEggNo, CheckIdentifier.Egg));
 
-        Span<char> nickname = stackalloc char[pk.MaxStringLengthNickname];
+        Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
         int len = pk.LoadString(pk.NicknameTrash, nickname);
         nickname = nickname[..len];
 
@@ -351,7 +392,15 @@ public sealed class NicknameVerifier : Verifier
                 return;
             }
 
-            lang = t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OriginalTrainerName, lang);
+            Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+            int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+            trainer = trainer[..len];
+
+            Span<char> nickname = stackalloc char[pk.TrashCharCountNickname];
+            len = pk.LoadString(pk.NicknameTrash, nickname);
+            nickname = nickname[..len];
+
+            lang = t.DetectMeisterMagikarpLanguage(nickname, trainer, lang);
             if (lang == -1) // err
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"{Japanese}/{German}", $"{(LanguageID)pk.Language}"), CheckIdentifier.Language));
         }
@@ -388,7 +437,12 @@ public sealed class NicknameVerifier : Verifier
         if (pk.IsNicknamed && (pk.Format < 8 || pk.FatefulEncounter))
             return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
         int lang = pk.Language;
-        if (!t.IsTrainerMatch(pk, pk.OriginalTrainerName, lang))
+
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        if (!t.IsTrainerMatch(pk, trainer, lang))
             return GetInvalid(LEncTradeIndexBad, CheckIdentifier.Trainer);
         return GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname);
     }
@@ -413,7 +467,11 @@ public sealed class NicknameVerifier : Verifier
     private static void VerifyTrainerName(LegalityAnalysis data, IFixedTrainer ft, int language)
     {
         var pk = data.Entity;
-        if (!ft.IsTrainerMatch(pk, pk.OriginalTrainerName, language))
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
+
+        if (!ft.IsTrainerMatch(pk, trainer, language))
             data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
     }
 }

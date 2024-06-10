@@ -53,7 +53,7 @@ public interface IGameValueLimit
     /// <summary>
     /// Maximum length of a string field for a Trainer Name.
     /// </summary>
-    int MaxStringLengthOT { get; }
+    int MaxStringLengthTrainer { get; }
 
     /// <summary>
     /// Maximum length of a string field for a Pokémon Nickname.

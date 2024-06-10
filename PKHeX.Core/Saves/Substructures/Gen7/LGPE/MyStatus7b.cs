@@ -65,7 +65,7 @@ public sealed class MyStatus7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(s
     public string OT
     {
         get => SAV.GetString(OriginalTrainerTrash);
-        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     // The value here corresponds to a Trainer Class string (ranging from 000 to 383, use pkNX to get a full list).

@@ -65,11 +65,13 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override Span<byte> NicknameTrash => Data.AsSpan(0x60, 26);
     public override Span<byte> HandlingTrainerTrash => Data.AsSpan(0xB8, 26);
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x110, 26);
+    public override int TrashCharCountTrainer => 13;
+    public override int TrashCharCountNickname => 13;
 
     // Maximums
     public override int MaxIV => 31;
     public override int MaxEV => EffortValues.Max252;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
 
     public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
@@ -585,7 +587,10 @@ public sealed class PA8 : PKM, ISanityChecksum,
             return false;
         if (tr.Gender != OriginalTrainerGender)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
@@ -626,17 +631,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return true;
     }
 
-    private void TradeHT(ITrainerInfo tr)
-    {
-        if (HandlingTrainerName != tr.OT)
-        {
-            HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
-            HandlingTrainerName = tr.OT;
-        }
-        CurrentHandler = 1;
-        HandlingTrainerGender = tr.Gender;
-        HandlingTrainerLanguage = (byte)tr.Language;
-    }
+    private void TradeHT(ITrainerInfo tr) => PKH.UpdateHandler(this, tr);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_8a;
@@ -746,4 +741,9 @@ public sealed class PA8 : PKM, ISanityChecksum,
         => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => TrashBytesUTF16.GetStringLength(data);
+    public override int GetBytesPerChar() => 2;
 }

@@ -34,7 +34,10 @@ public partial class Main : Form
         FormLoadAddEvents();
 #if DEBUG // translation updater -- all controls are added at this point -- call translate now
         if (DevUtil.IsUpdatingTranslations)
+        {
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
+            return;
+        }
 #endif
         FormInitializeSecond();
         FormLoadCheckForUpdates();
@@ -143,8 +146,8 @@ public partial class Main : Form
     {
         C_SAV.Menu_Redo = Menu_Redo;
         C_SAV.Menu_Undo = Menu_Undo;
-        dragout.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
-        GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+        dragout.GiveFeedback += (_, e) => e.UseDefaultCursors = false;
+        GiveFeedback += (_, e) => e.UseDefaultCursors = false;
         PKME_Tabs.EnableDragDrop(Main_DragEnter, Main_DragDrop);
         C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
 
@@ -156,9 +159,9 @@ public partial class Main : Form
 
         // Add ContextMenus
         var mnu = new ContextMenuPKM();
-        mnu.RequestEditorLegality += (o, args) => ClickLegality(mnu, args);
-        mnu.RequestEditorQR += (o, args) => ClickQR(mnu, args);
-        mnu.RequestEditorSaveAs += (o, args) => MainMenuSave(mnu, args);
+        mnu.RequestEditorLegality += (_, args) => ClickLegality(mnu, args);
+        mnu.RequestEditorQR += (_, args) => ClickQR(mnu, args);
+        mnu.RequestEditorSaveAs += (_, args) => MainMenuSave(mnu, args);
         dragout.ContextMenuStrip = mnu.mnuL;
         C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
     }
@@ -228,12 +231,14 @@ public partial class Main : Form
         showChangelog = false;
 
         // Version Check
-        if (Settings.Startup.Version.Length != 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
+        var ver = Program.CurrentVersion;
+        var startup = Settings.Startup;
+        if (startup.ShowChangelogOnUpdate && startup.Version.Length != 0) // already run on system
         {
-            bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
-            showChangelog = parsed && lastrev < Program.CurrentVersion;
+            bool parsed = Version.TryParse(startup.Version, out var lastrev);
+            showChangelog = parsed && lastrev < ver;
         }
-        Settings.Startup.Version = Program.CurrentVersion.ToString(); // set current version so this doesn't happen until the user updates next time
+        startup.Version = ver.ToString(); // set current version so this doesn't happen until the user updates next time
 
         // BAK Prompt
         if (!Settings.Backup.BAKPrompt)
@@ -261,6 +266,8 @@ public partial class Main : Form
 
     private void FormLoadPlugins()
     {
+        if (Plugins.Count != 0)
+            return; // already loaded
 #if !MERGED // merged should load dlls from within too, folder is no longer required
         if (!Directory.Exists(PluginPath))
             return;
@@ -745,7 +752,7 @@ public partial class Main : Form
             case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
             default:
-                WinFormsUtil.Error(!SaveUtil.IsSizeValid(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
+                WinFormsUtil.Error(!SAV3GCMemoryCard.IsMemoryCardSize(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
                 return false;
         }
         return true;
@@ -886,19 +893,19 @@ public partial class Main : Form
             return false;
 
         var meta = sav.Metadata;
-        string backupName = Path.Combine(dir, Util.CleanFileName(meta.BAKName));
+        var backupName = meta.GetBackupFileName(dir);
         if (File.Exists(backupName))
             return false; // Already backed up.
 
         // Ensure the file we are copying exists.
         var src = meta.FilePath;
-        if (src is not { } x || !File.Exists(x))
+        if (src is null || !File.Exists(src))
             return false;
 
         try
         {
             // Don't need to force overwrite, but on the off-chance it was written externally, we force ours.
-            File.Copy(x, backupName, true);
+            File.Copy(src, backupName, true);
             return true;
         }
         catch (Exception ex)
@@ -1005,6 +1012,9 @@ public partial class Main : Form
         LocalizeUtil.InitializeStrings(lang, sav, HaX);
         WinFormsUtil.TranslateInterface(this, lang); // Translate the UI to language.
         LocalizedDescriptionAttribute.Localizer = WinFormsTranslator.GetDictionary(lang);
+
+        SizeCP.ResetSizeLocalizations(lang);
+        PKME_Tabs.SizeCP.TryResetStats();
 
         if (sav is not FakeSaveFile)
         {
