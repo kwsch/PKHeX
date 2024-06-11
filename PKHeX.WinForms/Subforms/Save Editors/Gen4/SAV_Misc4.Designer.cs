@@ -126,8 +126,17 @@ namespace PKHeX.WinForms
             poffinCase4Editor1 = new PoffinCase4Editor();
             Tab_PokeGear = new System.Windows.Forms.TabPage();
             pokeGear4Editor1 = new PokeGear4Editor();
+            Tab_Records = new System.Windows.Forms.TabPage();
             tip1 = new System.Windows.Forms.ToolTip(components);
             tip2 = new System.Windows.Forms.ToolTip(components);
+            L_Record32V = new System.Windows.Forms.Label();
+            L_Record32 = new System.Windows.Forms.Label();
+            L_Record16V = new System.Windows.Forms.Label();
+            L_Record16 = new System.Windows.Forms.Label();
+            NUD_Record32V = new System.Windows.Forms.NumericUpDown();
+            NUD_Record32 = new System.Windows.Forms.NumericUpDown();
+            NUD_Record16V = new System.Windows.Forms.NumericUpDown();
+            NUD_Record16 = new System.Windows.Forms.NumericUpDown();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Coin).BeginInit();
@@ -178,6 +187,11 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)DGV_Accessories).BeginInit();
             Tab_Poffins.SuspendLayout();
             Tab_PokeGear.SuspendLayout();
+            Tab_Records.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32V).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16V).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -214,6 +228,7 @@ namespace PKHeX.WinForms
             TC_Misc.Controls.Add(Tab_FashionCase);
             TC_Misc.Controls.Add(Tab_Poffins);
             TC_Misc.Controls.Add(Tab_PokeGear);
+            TC_Misc.Controls.Add(Tab_Records);
             TC_Misc.Location = new System.Drawing.Point(14, 15);
             TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_Misc.Name = "TC_Misc";
@@ -1359,6 +1374,94 @@ namespace PKHeX.WinForms
             pokeGear4Editor1.Size = new System.Drawing.Size(428, 272);
             pokeGear4Editor1.TabIndex = 0;
             // 
+            // Tab_Records
+            // 
+            Tab_Records.Controls.Add(L_Record32V);
+            Tab_Records.Controls.Add(L_Record32);
+            Tab_Records.Controls.Add(L_Record16V);
+            Tab_Records.Controls.Add(L_Record16);
+            Tab_Records.Controls.Add(NUD_Record32V);
+            Tab_Records.Controls.Add(NUD_Record32);
+            Tab_Records.Controls.Add(NUD_Record16V);
+            Tab_Records.Controls.Add(NUD_Record16);
+            Tab_Records.Location = new System.Drawing.Point(4, 24);
+            Tab_Records.Name = "Tab_Records";
+            Tab_Records.Padding = new System.Windows.Forms.Padding(3);
+            Tab_Records.Size = new System.Drawing.Size(436, 278);
+            Tab_Records.TabIndex = 7;
+            Tab_Records.Text = "Records";
+            Tab_Records.UseVisualStyleBackColor = true;
+            // 
+            // L_Record32V
+            // 
+            L_Record32V.Location = new System.Drawing.Point(116, 167);
+            L_Record32V.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record32V.Name = "L_Record32V";
+            L_Record32V.Size = new System.Drawing.Size(82, 23);
+            L_Record32V.TabIndex = 19;
+            L_Record32V.Text = "Value:";
+            L_Record32V.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Record32
+            // 
+            L_Record32.Location = new System.Drawing.Point(116, 142);
+            L_Record32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record32.Name = "L_Record32";
+            L_Record32.Size = new System.Drawing.Size(82, 23);
+            L_Record32.TabIndex = 18;
+            L_Record32.Text = "Record:";
+            L_Record32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Record16V
+            // 
+            L_Record16V.Location = new System.Drawing.Point(116, 113);
+            L_Record16V.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record16V.Name = "L_Record16V";
+            L_Record16V.Size = new System.Drawing.Size(82, 23);
+            L_Record16V.TabIndex = 17;
+            L_Record16V.Text = "Value:";
+            L_Record16V.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Record16
+            // 
+            L_Record16.Location = new System.Drawing.Point(116, 88);
+            L_Record16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Record16.Name = "L_Record16";
+            L_Record16.Size = new System.Drawing.Size(82, 23);
+            L_Record16.TabIndex = 13;
+            L_Record16.Text = "Record:";
+            L_Record16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Record32V
+            // 
+            NUD_Record32V.Location = new System.Drawing.Point(201, 167);
+            NUD_Record32V.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
+            NUD_Record32V.Name = "NUD_Record32V";
+            NUD_Record32V.Size = new System.Drawing.Size(120, 23);
+            NUD_Record32V.TabIndex = 16;
+            // 
+            // NUD_Record32
+            // 
+            NUD_Record32.Location = new System.Drawing.Point(201, 142);
+            NUD_Record32.Name = "NUD_Record32";
+            NUD_Record32.Size = new System.Drawing.Size(120, 23);
+            NUD_Record32.TabIndex = 15;
+            // 
+            // NUD_Record16V
+            // 
+            NUD_Record16V.Location = new System.Drawing.Point(201, 113);
+            NUD_Record16V.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Record16V.Name = "NUD_Record16V";
+            NUD_Record16V.Size = new System.Drawing.Size(120, 23);
+            NUD_Record16V.TabIndex = 14;
+            // 
+            // NUD_Record16
+            // 
+            NUD_Record16.Location = new System.Drawing.Point(201, 88);
+            NUD_Record16.Name = "NUD_Record16";
+            NUD_Record16.Size = new System.Drawing.Size(120, 23);
+            NUD_Record16.TabIndex = 12;
+            // 
             // SAV_Misc4
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1424,6 +1527,11 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)DGV_Accessories).EndInit();
             Tab_Poffins.ResumeLayout(false);
             Tab_PokeGear.ResumeLayout(false);
+            Tab_Records.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32V).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record32).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16V).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Record16).EndInit();
             ResumeLayout(false);
         }
 
@@ -1528,5 +1636,14 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_ClearBackdrops;
         private System.Windows.Forms.Button B_ClearAccessories;
         private System.Windows.Forms.Button B_ClearSeals;
+        private System.Windows.Forms.TabPage Tab_Records;
+        private System.Windows.Forms.Label L_Record32V;
+        private System.Windows.Forms.Label L_Record32;
+        private System.Windows.Forms.Label L_Record16V;
+        private System.Windows.Forms.Label L_Record16;
+        private System.Windows.Forms.NumericUpDown NUD_Record32V;
+        private System.Windows.Forms.NumericUpDown NUD_Record32;
+        private System.Windows.Forms.NumericUpDown NUD_Record16V;
+        private System.Windows.Forms.NumericUpDown NUD_Record16;
     }
 }
