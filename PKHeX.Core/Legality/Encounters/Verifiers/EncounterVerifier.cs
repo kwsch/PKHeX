@@ -24,7 +24,7 @@ public static class EncounterVerifier
         EncounterEgg e => VerifyEncounterEgg(pk, e.Generation),
         EncounterShadow3Colo { IsEReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LG3EReader),
         EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LEncUnreleasedEMewJP),
-        EncounterStatic3 { Species: (int)Species.Deoxys } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
+        EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
         EncounterStatic4 { Roaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(LG4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
         { IsEgg: true } when !pk.IsEgg => VerifyEncounterEgg(pk, enc.Generation),

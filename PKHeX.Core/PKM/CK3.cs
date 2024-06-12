@@ -26,7 +26,7 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
 
     // Trash Bytes
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x18, 22);
-    public Span<byte> NicknameDisplay_Trash => Data.AsSpan(0x2E, 22);
+    public Span<byte> NicknameDisplayTrash => Data.AsSpan(0x2E, 22);
     public override Span<byte> NicknameTrash => Data.AsSpan(0x44, 22);
     public override int TrashCharCountTrainer => 11;
     public override int TrashCharCountNickname => 11;
@@ -48,12 +48,12 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), value); }
     public override string OriginalTrainerName { get => GetString(OriginalTrainerTrash); set => SetString(OriginalTrainerTrash, value, 10, StringConverterOption.None); }
-    public string NicknameDisplay { get => GetString(NicknameDisplay_Trash); set => SetString(NicknameDisplay_Trash, value, 10, StringConverterOption.None); }
+    public string NicknameDisplay { get => GetString(NicknameDisplayTrash); set => SetString(NicknameDisplayTrash, value, 10, StringConverterOption.None); }
     public override string Nickname { get => GetString(NicknameTrash); set { SetString(NicknameTrash, value, 10, StringConverterOption.None); ResetNicknameDisplay(); } }
 
     public void ResetNicknameDisplay()
     {
-        var current = NicknameDisplay_Trash;
+        var current = NicknameDisplayTrash;
         NicknameTrash.CopyTo(current);
         if (CurrentRegion == GCRegion.NTSC_J)
             current[10..].Clear(); // clamp to 5 chars at most

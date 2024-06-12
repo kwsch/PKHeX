@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PKHeX.Core;
 
@@ -57,7 +56,6 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
         switch (State)
         {
             case YieldState.Start:
-                Debug.Assert(Entity is not PK8);
                 if (Chain.Length == 0)
                     break;
 

@@ -334,11 +334,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     public string Rival
     {
-        get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => GetString(RivalTrash);
+        set => SetString(RivalTrash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
-    public abstract Span<byte> Rival_Trash { get; set; }
+    public abstract Span<byte> RivalTrash { get; set; }
 
     public abstract int X2 { get; set; }
     public abstract int Y2 { get; set; }
