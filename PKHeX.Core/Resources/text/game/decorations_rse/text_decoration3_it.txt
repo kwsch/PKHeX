@@ -1,0 +1,121 @@
+(Niente)
+Tavolo piccolo
+Tavolo Pokémon
+Tavolo pesante
+Tavolo grezzo
+Tavolo comodo
+Bel tavolo
+Tavolo mattoni
+Tavolo da campo
+Tavolo duro
+Sedia piccola
+Sedia Pokémon
+Sedia pesante
+Bella sedia
+Sedia comoda
+Sedia grezza
+Sedia mattoni
+Sedia da campo
+Sedia dura
+Pianta rossa
+Tropicpianta
+Bei fiori
+Pianta colorata
+Pianta grande
+Pianta chic
+Mattone rosso
+Mattone giallo
+Mattone blu
+Pallone rosso
+Pallone blu
+Pallone giallo
+Tenda rossa
+Tenda blu
+Asse solida
+Scivolo
+Barriera lunga
+Barriera larga
+Cerchione
+Palchetto
+Palla fango
+Porta fragile
+Statua fragile
+Scudo argenteo
+Scudo aureo
+Statua vitrea
+TV
+TV rotonda
+TV carina
+Tapp. brillante
+Tappeto salto
+Tappeto giro
+Tapp. Do basso
+Tappeto Re
+Tappeto Mi
+Tappeto Fa
+Tappeto Sol
+Tappeto La
+Tappeto Si
+Tappeto Do alto
+Tappeto Surf
+Tappeto Tuono
+Tapp.Fuocobomba
+Tapp. Polneve
+Tapp.Attrazione
+Tapp. Abisso
+Tapp. Punte
+Poster Ball
+Poster verde
+Poster rosso
+Poster blu
+Poster carino
+Poster Pika
+Poster lungo
+Poster mare
+Poster cielo
+Poster smack
+Bambola Pichu
+Bambola Pikachu
+Bambola Marill
+Bambola Togepi
+Bamb. Cyndaquil
+Bamb. Chikorita
+Bamb. Totodile
+Bamb.Jigglypuff
+Bamb. Meowth
+Bamb. Clefairy
+Bambola Ditto
+Bamb. Smoochum
+Bambola Treecko
+Bambola Torchic
+Bambola Mudkip
+Bambola Duskull
+Bambola Wynaut
+Bambola Baltoy
+Bambola Kecleon
+Bambola Azurill
+Bambola Skitty
+Bambola Swablu
+Bambola Gulpin
+Bambola Lotad
+Bambola Seedot
+Cuscino Pika
+Cuscino rotondo
+Cuscino smack
+Cuscino zigzag
+Cuscino giro
+Cusc. diamante
+Cuscino Ball
+Cuscino Erba
+Cuscino Fuoco
+Cuscino Acqua
+Bambola Snorlax
+Bambola Rhydon
+Bambola Lapras
+Bamb. Venusaur
+Bamb. Charizard
+Bamb. Blastoise
+Bamb. Wailmer
+Bamb. Regirock
+Bambola Regice
+Bamb. Registeel

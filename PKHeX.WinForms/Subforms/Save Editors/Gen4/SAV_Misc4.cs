@@ -15,6 +15,7 @@ public partial class SAV_Misc4 : Form
     private readonly SAV4 Origin;
     private readonly SAV4 SAV;
     private readonly Hall4? Hall;
+    private readonly Record4 Record;
 
     private readonly string[] seals, accessories, backdrops, poketchapps;
     private readonly string[] backdropsSorted;
@@ -42,6 +43,7 @@ public partial class SAV_Misc4 : Form
         ];
         PrintButtonA = [BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade];
 
+        Record = SAV.Records;
         switch (sav)
         {
             case SAV4DP:
@@ -158,6 +160,7 @@ public partial class SAV_Misc4 : Form
         ReadSeals();
         ReadAccessories();
         ReadBackdrops();
+        ReadRecord();
     }
 
     private void SaveMain()
@@ -187,6 +190,7 @@ public partial class SAV_Misc4 : Form
         SaveSeals();
         SaveAccessories();
         SaveBackdrops();
+        SaveRecord();
     }
 
     private void B_AllFlyDest_Click(object sender, EventArgs e)
@@ -942,6 +946,22 @@ public partial class SAV_Misc4 : Form
         SetAllBackdrops(setUnreleasedIndexes);
         System.Media.SystemSounds.Asterisk.Play();
     }
+    #endregion
+
+    #region Records
+    private void ReadRecord()
+    {
+        NUD_Record16.Maximum = Record4.Record16 - 1;
+        NUD_Record32.Maximum = Record.Record32 - 1;
+        NUD_Record16V.Value = Record.GetRecord16(0);
+        NUD_Record32V.Value = Record.GetRecord32(0);
+        NUD_Record16V.ValueChanged += (_, _) => Record.SetRecord16((int)NUD_Record16.Value, (ushort)NUD_Record16V.Value);
+        NUD_Record32V.ValueChanged += (_, _) => Record.SetRecord32((int)NUD_Record32.Value, (uint)NUD_Record32V.Value);
+        NUD_Record16.ValueChanged += (_, _) => NUD_Record16V.Value = Record.GetRecord16((int)NUD_Record16.Value);
+        NUD_Record32.ValueChanged += (_, _) => NUD_Record32V.Value = Record.GetRecord32((int)NUD_Record32.Value);
+    }
+
+    private void SaveRecord() => Record.EndAccess();
     #endregion
 }
 

@@ -237,8 +237,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     private int OFS_AccessorySingleCount => FashionCase + 0x20; // 1 bit each
     private int OFS_Backdrop => FashionCase + 0x28;
 
-    public int ChatterOffset { get; protected set; } = int.MinValue;
-    public Chatter4 Chatter => new(this, Data.AsMemory(ChatterOffset));
+    protected int OFS_Chatter = int.MinValue;
+    public Chatter4 Chatter => new(this, Data.AsMemory(OFS_Chatter));
+
+    protected int OFS_Record = int.MinValue;
+    public Record4 Records => new(this, Data.AsMemory(OFS_Record, Record4.GetSize(this)));
+
 
     // Storage
     public override int PartyCount

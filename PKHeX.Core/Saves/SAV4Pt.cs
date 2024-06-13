@@ -64,7 +64,8 @@ public sealed class SAV4Pt : SAV4Sinnoh
         Party = 0xA0;
         Extra = 0x2820;
         FashionCase = 0x4E38;
-        ChatterOffset = 0x64EC;
+        OFS_Record = 0x61B0;
+        OFS_Chatter = 0x64EC;
         Geonet = 0xA4C4;
         WondercardFlags = 0xB4C0;
 
