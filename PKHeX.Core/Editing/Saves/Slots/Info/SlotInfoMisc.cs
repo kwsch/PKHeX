@@ -7,10 +7,9 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record SlotInfoMisc(Memory<byte> Data, int Slot, bool PartyFormat = false, bool Mutable = false) : ISlotInfo
 {
-    public SlotOrigin Origin => PartyFormat ? SlotOrigin.Party : SlotOrigin.Box;
+    public required StorageSlotType Type { get; init; }
     public bool CanWriteTo(SaveFile sav) => Mutable;
     public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk) => Mutable ? WriteBlockedMessage.None : WriteBlockedMessage.InvalidDestination;
-    public StorageSlotType Type { get; init; }
 
     public bool WriteTo(SaveFile sav, PKM pk, PKMImportSetting setting = PKMImportSetting.UseDefault)
     {

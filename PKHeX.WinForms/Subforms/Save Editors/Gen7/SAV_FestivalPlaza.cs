@@ -319,7 +319,7 @@ public partial class SAV_FestivalPlaza : Form
     private void LoadPictureBox()
     {
         for (int i = 0; i < 3; i++)
-            PBs[i].Image = p[i].Sprite(SAV, -1, -1, flagIllegal: true);
+            PBs[i].Image = p[i].Sprite(SAV, flagIllegal: true);
     }
 
     private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];

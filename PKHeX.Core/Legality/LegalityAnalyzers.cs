@@ -36,4 +36,5 @@ internal static class LegalityAnalyzers
     public static readonly LegendsArceusVerifier Arceus = new();
     public static readonly AwakenedValueVerifier Awakening = new();
     public static readonly TrashByteVerifier Trash = new();
+    public static readonly SlotTypeVerifier SlotType = new();
 }

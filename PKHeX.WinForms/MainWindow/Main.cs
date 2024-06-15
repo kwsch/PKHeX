@@ -1162,7 +1162,7 @@ public partial class Main : Form
         if (menu != null)
             menu.Enabled = pk.Species != 0 || HaX; // Species
 
-        pb.Image = pk.Sprite(C_SAV.SAV, -1, -1, flagIllegal: false);
+        pb.Image = pk.Sprite(C_SAV.SAV);
         if (pb.BackColor == SlotUtil.BadDataColor)
             pb.BackColor = SlotUtil.GoodDataColor;
     }

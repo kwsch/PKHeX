@@ -101,8 +101,7 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<Control> GetExtraControls()
         {
-            var slotGroupLabels = Enum.GetNames<StorageSlotType>();
-            foreach (var name in slotGroupLabels)
+            foreach (var name in SlotList.GetEnumNames().Distinct())
                 yield return new Label { Name = $"{nameof(Main)}.L_{name}", Text = name };
         }
 

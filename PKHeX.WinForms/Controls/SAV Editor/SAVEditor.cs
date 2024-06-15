@@ -209,7 +209,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         if (GetCurrentDaycare() is not { } s)
             throw new Exception();
-        return new SlotInfoMisc(s.GetDaycareSlot(index), index);
+        return new SlotInfoMisc(s.GetDaycareSlot(index), index) {Type = StorageSlotType.Daycare};
     }
 
     public void SetPKMBoxes()

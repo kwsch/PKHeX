@@ -94,7 +94,7 @@ public static class SpriteUtil
         return img;
     }
 
-    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
+    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
     {
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
@@ -110,7 +110,7 @@ public static class SpriteUtil
             }
             if (flagIllegal)
             {
-                var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
+                var la = new LegalityAnalysis(pk, sav.Personal, storage);
                 if (!la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && MoveInfo.IsDummiedMoveAny(pk))
@@ -286,8 +286,9 @@ public static class SpriteUtil
         _ => 0,
     };
 
-    public static Bitmap Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
-        => GetSprite(pk, sav, box, slot, flagIllegal);
+    public static Bitmap Sprite(this PKM pk, SaveFile sav, int box = -1, int slot = -1,
+        bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
+        => GetSprite(pk, sav, box, slot, flagIllegal, storage);
 
     public static Bitmap GetMysteryGiftPreviewPoke(MysteryGift gift)
     {

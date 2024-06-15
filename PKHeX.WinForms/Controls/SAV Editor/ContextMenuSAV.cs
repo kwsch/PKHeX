@@ -112,28 +112,25 @@ public partial class ContextMenuSAV : UserControl
         var info = GetSenderInfo(sender);
         var sav = info.View.SAV;
         var pk = info.Slot.Read(sav);
-        var type = info.Slot is SlotInfoBox ? SlotOrigin.Box : SlotOrigin.Party;
+        var type = info.Slot.Type;
         var la = new LegalityAnalysis(pk, sav.Personal, type);
         RequestEditorLegality?.Invoke(la);
     }
 
     private void MenuOpening(object sender, CancelEventArgs e)
     {
-        var items = ((ContextMenuStrip)sender).Items;
+        var info = GetSenderInfo(sender);
+        bool canView = !info.IsEmpty() || Main.HaX;
+        bool canSet = info.CanWriteTo();
+        bool canDelete = canSet && canView;
+        bool canLegality = ModifierKeys == Keys.Control && canView && RequestEditorLegality != null;
 
-        object? ctrl = ((ContextMenuStrip)sender).SourceControl;
-        if (ctrl is null)
-            return;
-        var info = GetSenderInfo(ctrl);
-        bool SlotFull = !info.IsEmpty();
-        bool Editable = info.CanWriteTo();
-        bool legality = ModifierKeys == Keys.Control;
-        ToggleItem(items, mnuSet, Editable);
-        ToggleItem(items, mnuDelete, Editable && SlotFull);
-        ToggleItem(items, mnuLegality, legality && SlotFull && RequestEditorLegality != null);
-        ToggleItem(items, mnuView, SlotFull || !Editable, true);
+        ToggleItem(mnuView, canView);
+        ToggleItem(mnuSet, canSet);
+        ToggleItem(mnuDelete, canDelete);
+        ToggleItem(mnuLegality, canLegality);
 
-        if (items.Count == 0)
+        if (!canView && !canSet && !canDelete)
             e.Cancel = true;
     }
 
@@ -147,18 +144,8 @@ public partial class ContextMenuSAV : UserControl
         return new SlotViewInfo<PictureBox>(loc, view);
     }
 
-    private static void ToggleItem(ToolStripItemCollection items, ToolStripItem item, bool visible, bool first = false)
+    private static void ToggleItem(ToolStripItem item, bool visible)
     {
-        if (visible)
-        {
-            if (first)
-                items.Insert(0, item);
-            else
-                items.Add(item);
-        }
-        else if (items.Contains(item))
-        {
-            items.Remove(item);
-        }
+        item.Visible = visible;
     }
 }

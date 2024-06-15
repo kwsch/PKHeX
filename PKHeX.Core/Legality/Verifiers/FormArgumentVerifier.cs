@@ -111,7 +111,7 @@ public sealed class FormArgumentVerifier : Verifier
                 EncounterStatic9 { StarterBoxLegend: true } => arg switch
                 {
                     < 1 => GetInvalid(LFormArgumentLow),
-                    1 => data.SlotOrigin != SlotOrigin.Party ? GetInvalid(LFormParty) : GetValid(LFormArgumentValid),
+                    1 => !data.IsStoredSlot(StorageSlotType.Ride) ? GetInvalid(LFormParty) : GetValid(LFormArgumentValid),
                     > 1 => GetInvalid(LFormArgumentHigh),
                 },
                 _ => arg switch
