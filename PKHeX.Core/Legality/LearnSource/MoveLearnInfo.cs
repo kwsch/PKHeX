@@ -40,7 +40,9 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
         EggMove => LMoveRelearnEgg,
         InheritLevelUp => LMoveEggInherited,
 
-        Special => LMoveSourceSpecial,
+        HOME => LMoveSourceSpecial,
+        Evolution => LMoveSourceSpecial,
+        Encounter => LMoveSourceSpecial,
         SpecialEgg => LMoveSourceSpecial,
         ShedinjaEvo => LMoveSourceSpecial,
 

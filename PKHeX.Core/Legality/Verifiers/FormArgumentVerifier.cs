@@ -110,9 +110,9 @@ public sealed class FormArgumentVerifier : Verifier
                 EncounterStatic9 { StarterBoxLegend: true } x when ParseSettings.ActiveTrainer is { } tr && (tr is not SAV9SV sv || sv.Version != x.Version) => GetInvalid(LTradeNotAvailable),
                 EncounterStatic9 { StarterBoxLegend: true } => arg switch
                 {
-                    < 1 => GetInvalid(LFormArgumentLow),
-                    1 => !data.IsStoredSlot(StorageSlotType.Ride) ? GetInvalid(LFormParty) : GetValid(LFormArgumentValid),
-                    > 1 => GetInvalid(LFormArgumentHigh),
+                  < EncounterStatic9.RideLegendFormArg => GetInvalid(LFormArgumentLow),
+                    EncounterStatic9.RideLegendFormArg => !data.IsStoredSlot(StorageSlotType.Ride) ? GetInvalid(LFormParty) : GetValid(LFormArgumentValid),
+                  > EncounterStatic9.RideLegendFormArg => GetInvalid(LFormArgumentHigh),
                 },
                 _ => arg switch
                 {
@@ -128,8 +128,17 @@ public sealed class FormArgumentVerifier : Verifier
     private static bool HasVisitedPLA(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen8a, species);
     private static bool HasVisitedSV(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen9, species);
 
+    /// <summary>
+    /// Check if the <see cref="value"/> is within the range of the inclusive <see cref="min"/> and inclusive <see cref="max"/>.
+    /// </summary>
+    /// <param name="encSpecies">Original species. If evolved, can have a non-zero value.</param>
+    /// <param name="check">Current Species</param>
+    /// <param name="value">Current Form Argument value</param>
+    /// <param name="min">Minimum value allowed</param>
+    /// <param name="max">Maximum value allowed</param>
     private CheckResult VerifyFormArgumentRange(ushort encSpecies, Species check, uint value, uint min, uint max)
     {
+        // If was never the Form Argument accruing species (never evolved from it), then it must be zero.
         if (encSpecies == (ushort)check)
         {
             if (value == 0)
@@ -137,6 +146,7 @@ public sealed class FormArgumentVerifier : Verifier
             return GetInvalid(LFormArgumentNotAllowed);
         }
 
+        // Evolved, must be within the range.
         if (value < min)
             return GetInvalid(LFormArgumentLow);
         if (value > max)

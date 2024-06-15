@@ -32,7 +32,8 @@ public sealed class SlotTypeVerifier : Verifier
         StorageSlotType.FusedNecrozmaM => pk.Species is (int)Species.Lunala,
         StorageSlotType.FusedCalyrex => pk.Species is (int)Species.Glastrier or (int)Species.Spectrier,
 
-        StorageSlotType.Ride => pk.Species is (int)Species.Koraidon or (int)Species.Miraidon && pk is PK9 {FormArgument: 1},
+        StorageSlotType.Ride => pk.Species is (int)Species.Koraidon or (int)Species.Miraidon
+                                && pk is PK9 {FormArgument: EncounterStatic9.RideLegendFormArg },
         _ => true,
     };
 

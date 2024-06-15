@@ -156,7 +156,7 @@ public sealed class GameStrings : IBasicStrings
         var met3 = Get($"{ident}_30000");
         var met4 = Get($"{ident}_40000");
         var met6 = Get($"{ident}_60000");
-        return new LocationSet6(met0,met3, met4, met6);
+        return new LocationSet6(met0, met3, met4, met6);
     }
 
     private LocationSet6 Get6([ConstantExpected] string ident, string[] met3, string[] met6)
