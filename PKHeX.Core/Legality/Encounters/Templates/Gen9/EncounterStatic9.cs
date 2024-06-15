@@ -99,7 +99,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             pk.EggMetDate = pk.MetDate;
         }
 
-        if (Gift && !ScriptedYungoos)
+        if (GiftWithLanguage)
             pk.HandlingTrainerLanguage = (byte)pk.Language;
         if (StarterBoxLegend)
             pk.FormArgument = 1; // Not Ride Form.
