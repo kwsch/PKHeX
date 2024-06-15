@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
-using static PKHeX.Core.DecorationCategory3;
 
 namespace PKHeX.WinForms;
 
@@ -118,7 +116,7 @@ public partial class SAV_Misc3 : Form
         TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
         TB_B2.Text = Math.Min(99990, j.JoyfulBerriesScore).ToString();
         TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
-        TB_BerryPowder.Text = Math.Min((uint)99999, j.BerryPowder).ToString();
+        TB_BerryPowder.Text = Math.Min(99999u, j.BerryPowder).ToString();
     }
 
     private void SaveJoyful(IGen3Joyful j)

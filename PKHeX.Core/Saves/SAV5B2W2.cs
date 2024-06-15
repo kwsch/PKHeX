@@ -16,7 +16,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public SaveBlockAccessor5B2W2 Blocks { get; }
     protected override SAV5B2W2 CloneInternal() => new((byte[]) Data.Clone());
     public override int MaxItemID => Legal.MaxItemID_5_B2W2;
-    
+
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem Items => Blocks.Items;
     public override Zukan5 Zukan => Blocks.Zukan;

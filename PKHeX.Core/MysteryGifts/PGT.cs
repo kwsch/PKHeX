@@ -352,4 +352,3 @@ public enum GiftSubType4 : byte
     Accessory = 2,
     Backdrop = 3,
 }
-

@@ -52,10 +52,9 @@ public readonly record struct NPCLock
             sb.Append(" (Shadow)");
         if (Seen)
             sb.Append(" [Seen]");
-        sb.Append(" - ");
-        sb.Append("Nature: ").Append((Nature)Nature);
+        sb.Append($" - Nature: {(Nature)Nature}");
         if (Gender != 2)
-            sb.Append(", ").Append("Gender: ").Append(Gender);
+            sb.Append($", Gender: {Gender}");
         return sb.ToString();
     }
 #endif

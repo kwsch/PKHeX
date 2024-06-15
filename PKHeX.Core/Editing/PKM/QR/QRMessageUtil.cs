@@ -1,6 +1,5 @@
 using System;
 using System.Buffers;
-using System.Text;
 
 namespace PKHeX.Core;
 
@@ -55,10 +54,10 @@ public static class QRMessageUtil
     /// <returns>QR Message</returns>
     public static string GetMessage(ReadOnlySpan<byte> payload)
     {
-        var sb = new StringBuilder(payload.Length);
-        foreach (var b in payload)
-            sb.Append((char)b);
-        return sb.ToString();
+        Span<char> result = stackalloc char[payload.Length];
+        for (int i = 0; i < payload.Length; i++)
+            result[i] = (char)payload[i];
+        return new string(result);
     }
 
     /// <summary>

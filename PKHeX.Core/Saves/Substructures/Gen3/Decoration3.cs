@@ -136,7 +136,7 @@ public enum DecorationCategory3 : byte
     Mat,
     Poster,
     Doll,
-    Cushion
+    Cushion,
 }
 
 public static class DecorationInfo

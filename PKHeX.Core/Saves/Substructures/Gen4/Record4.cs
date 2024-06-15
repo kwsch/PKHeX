@@ -17,9 +17,9 @@ public sealed class Record4(SAV4 SAV, Memory<byte> raw) : SaveBlock<SAV4>(SAV, r
 {
     public static int GetSize(SAV4 SAV) => SAV switch
     {
-        SAV4DP =>   Record32DP   * sizeof(uint) + Record16 * sizeof(ushort),
-        SAV4Pt =>   Record32Pt   * sizeof(uint) + Record16 * sizeof(ushort) + 3 * sizeof(ushort),
-        SAV4HGSS => Record32HGSS * sizeof(uint) + Record16 * sizeof(ushort) + 3 * sizeof(ushort),
+        SAV4DP =>   (Record32DP   * sizeof(uint)) +(Record16 * sizeof(ushort)),
+        SAV4Pt =>   (Record32Pt   * sizeof(uint)) +(Record16 * sizeof(ushort)) + (3 * sizeof(ushort)),
+        SAV4HGSS => (Record32HGSS * sizeof(uint)) +(Record16 * sizeof(ushort)) + (3 * sizeof(ushort)),
         _ => throw new ArgumentOutOfRangeException(nameof(SAV)),
     };
 
@@ -70,7 +70,7 @@ public sealed class Record4(SAV4 SAV, Memory<byte> raw) : SaveBlock<SAV4>(SAV, r
     /// </remarks>
     public uint CryptoSeed
     {
-        get => (SAV is SAV4DP) ? (ushort)0 : ReadUInt32LittleEndian(Data[^4..]);
+        get => (SAV is SAV4DP) ? 0 : ReadUInt32LittleEndian(Data[^4..]);
         set { if (SAV is not SAV4DP) WriteUInt32LittleEndian(Data[^4..], value); }
     }
 
@@ -81,7 +81,7 @@ public sealed class Record4(SAV4 SAV, Memory<byte> raw) : SaveBlock<SAV4>(SAV, r
     {
         if (SAV is SAV4DP || IsDecrypted == state) // DP does not encrypt records
             return;
-        if (IsDecrypted && state == false)
+        if (IsDecrypted && !state)
             RefreshChecksum(); // refresh only on encrypt
         PokeCrypto.CryptArray(CryptoData, CryptoSeed);
         IsDecrypted = state;
@@ -175,14 +175,14 @@ public sealed class Record4(SAV4 SAV, Memory<byte> raw) : SaveBlock<SAV4>(SAV, r
 
     public uint GetRecord32(int index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, (uint)Record32);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)Record32);
         EnsureDecrypted();
         return ReadUInt32LittleEndian(Record32Data[(index * 4)..]);
     }
 
     public void SetRecord32(int index, uint value)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, (uint)Record32);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)Record32);
         EnsureDecrypted();
         WriteUInt32LittleEndian(Record32Data[(index * 4)..], Math.Min(GetMax32(index), value));
     }

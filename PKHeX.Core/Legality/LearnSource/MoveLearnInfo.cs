@@ -25,7 +25,7 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
             sb.Append(Environment).Append('-');
         sb.Append(localizedMethod);
         if (Method is LevelUp)
-            sb.Append(" @ lv").Append(Argument);
+            sb.Append($" @ lv{Argument}");
     }
 
     private string GetLocalizedMethod() => Method switch

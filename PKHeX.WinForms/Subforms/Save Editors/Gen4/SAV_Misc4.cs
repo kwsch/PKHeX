@@ -756,7 +756,7 @@ public partial class SAV_Misc4 : Form
         DGV_Seals.Columns.Add(dgvSlot);
         DGV_Seals.Columns.Add(dgvCount);
 
-        var count = (int)Seal4.MAX;
+        const int count = (int)Seal4.MAX;
         DGV_Seals.Rows.Add(count);
         for (int i = 0; i < count; i++)
             DGV_Seals.Rows[i].Cells[0].Value = seals[i];
@@ -825,7 +825,7 @@ public partial class SAV_Misc4 : Form
         DGV_Accessories.Columns.Add(dgvSlot);
         DGV_Accessories.Columns.Add(dgvCount);
 
-        var count = AccessoryInfo.Count;
+        const int count = AccessoryInfo.Count;
         DGV_Accessories.Rows.Add(count);
         for (int i = 0; i < count; i++)
             DGV_Accessories.Rows[i].Cells[0].Value = accessories[i];

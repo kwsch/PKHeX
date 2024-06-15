@@ -45,7 +45,7 @@ public sealed class SecretBase3PKM : ISpeciesForm
     {
         sb.Append($"{Species:000} - {g.Species[Species]}");
         if (HeldItem != 0)
-            sb.Append(" @ ").Append(g.Item[HeldItem]);
+            sb.Append($" @ {g.Item[HeldItem]}");
         sb.AppendLine();
 
         var moveNames = g.Move;

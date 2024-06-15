@@ -54,9 +54,9 @@ public class StringTests
 
     private static string Hex(ReadOnlySpan<byte> outdata)
     {
-        var sb = new System.Text.StringBuilder(outdata.Length);
+        var sb = new System.Text.StringBuilder(outdata.Length*3);
         foreach (var b in outdata)
-            sb.Append(b.ToString("X2")).Append(' ');
+            sb.Append($"{b:X2} ");
         return sb.ToString();
     }
 

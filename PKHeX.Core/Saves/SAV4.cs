@@ -243,7 +243,6 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     protected int OFS_Record = int.MinValue;
     public Record4 Records => new(this, Data.AsMemory(OFS_Record, Record4.GetSize(this)));
 
-
     // Storage
     public override int PartyCount
     {
