@@ -555,7 +555,7 @@ public static class FormConverter
 
         return (Species)species switch
         {
-            Meowth when generation >= 8 => [
+            Meowth or Persian when generation >= 7 => [
                 types[0],
                 forms[810], // Alolan
                 forms[Galarian], // Galarian
@@ -1008,7 +1008,7 @@ public static class FormConverter
     private const int Terastal = 1135;
     private const int Stellar = 1136;
 
-    private const int Orrean= 1137;
+    private const int Orrean = 1137;
     private const int Judean = 1138;
     private const int Convergent = 1139;
     private const int Crystal = 1140;
