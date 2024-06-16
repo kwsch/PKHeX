@@ -14,7 +14,7 @@ public sealed class BoxLayout8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(s
     private const int StringMaxLength = SAV6.LongStringLength / 2; // 0x22 bytes
 
     private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
-    private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
+    private Span<byte> GetBoxNameSpan(int box) => Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
     public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
     public void SetBoxName(int box, ReadOnlySpan<char> value) => SAV.SetString(GetBoxNameSpan(box), value, StringMaxLength, StringConverterOption.ClearZero);
 

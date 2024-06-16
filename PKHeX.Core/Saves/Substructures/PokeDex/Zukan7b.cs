@@ -6,10 +6,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
 /// </summary>>
-public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex, langflag)
+public sealed class Zukan7b(SAV7b sav, Memory<byte> dex, int langflag) : Zukan7(sav, dex, langflag)
 {
     private const int UNSET = 0x007F00FE;
-    private const int BaseOffset = 0x2A00;
     private const int EntryStart = 0xF78; // 0x3978 - 0x2A00
     private const int EntryCount = 186;
     private const int EntrySize = 6;
@@ -25,7 +24,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         base.SetDex(pk);
     }
 
-    protected override void SetDex(ushort species, int bit, byte form, int gender, bool shiny, int lang)
+    protected override void SetDex(ushort species, int bit, byte form, byte gender, bool shiny, int lang)
     {
         if (IsBuddy(species, form))
             form = 0;
@@ -46,7 +45,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
     public bool GetSizeData(DexSizeType group, int index, out byte height, out byte weight, out bool isFlagged)
     {
         var ofs = GetDexSizeOffset(group, index);
-        var entry = SAV.Data.AsSpan(ofs);
+        var entry = Data.Slice(ofs, EntrySize);
         height = entry[0];
         isFlagged = entry[1] == 1;
         weight = entry[2];
@@ -66,7 +65,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         if (pk.HeightAbsolute < pi.Height) // possible minimum height
         {
             int ofs = GetDexSizeOffset(DexSizeType.MinHeight, index);
-            var entry = SAV.Data.AsSpan(ofs, EntrySize);
+            var entry = Data.Slice(ofs, EntrySize);
             var minHeight = entry[0];
             if (pk.HeightScalar < minHeight || IsUnset(entry))
                 SetSizeData(pk, DexSizeType.MinHeight);
@@ -74,7 +73,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         else if (pk.HeightAbsolute > pi.Height) // possible maximum height
         {
             int ofs = GetDexSizeOffset(DexSizeType.MaxHeight, index);
-            var entry = SAV.Data.AsSpan(ofs, EntrySize);
+            var entry = Data.Slice(ofs, EntrySize);
             var maxHeight = entry[0];
             if (pk.HeightScalar > maxHeight || IsUnset(entry))
                 SetSizeData(pk, DexSizeType.MaxHeight);
@@ -83,7 +82,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         if (pk.WeightAbsolute < pi.Weight) // possible minimum weight
         {
             int ofs = GetDexSizeOffset(DexSizeType.MinWeight, index);
-            var entry = SAV.Data.AsSpan(ofs, EntrySize);
+            var entry = Data.Slice(ofs, EntrySize);
             var minHeight = entry[0];
             var minWeight = entry[2];
             var calcWeight = PB7.GetWeightAbsolute(pi, minHeight, minWeight);
@@ -93,7 +92,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         else if (pk.WeightAbsolute > pi.Weight) // possible maximum weight
         {
             int ofs = GetDexSizeOffset(DexSizeType.MaxWeight, index);
-            var entry = SAV.Data.AsSpan(ofs, EntrySize);
+            var entry = Data.Slice(ofs, EntrySize);
             var maxHeight = entry[0];
             var maxWeight = entry[2];
             var calcWeight = PB7.GetWeightAbsolute(pi, maxHeight, maxWeight);
@@ -105,7 +104,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
     private static bool IsUnset(Span<byte> entry) => ReadUInt32LittleEndian(entry) == UNSET;
 
     // blockofs + 0xF78 + ([186*6]*n) + x*6
-    private static int GetDexSizeOffset(DexSizeType group, int index) => BaseOffset + EntryStart + (EntrySize * (index + ((int)group * EntryCount)));
+    private static int GetDexSizeOffset(DexSizeType group, int index) => EntryStart + (EntrySize * (index + ((int)group * EntryCount)));
 
     private void SetSizeData(PB7 pk, DexSizeType group, bool flag = false)
     {
@@ -131,7 +130,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
     public void SetSizeData(DexSizeType group, int index, byte height, byte weight, bool flag = false)
     {
         var ofs = GetDexSizeOffset(group, index);
-        var span = SAV.Data.AsSpan(ofs);
+        var span = Data.Slice(ofs, EntrySize);
         span[0] = height;
         span[1] = flag ? (byte)1 : (byte)0;
         span[2] = weight;
@@ -225,22 +224,6 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
                 formStart = formEnd = 0;
                 return count < formIn;
         }
-    }
-
-    public ushort GetSpecies(ushort species, byte form)
-    {
-        if (form <= 0)
-            return species;
-        var fc = SAV.Personal[species].FormCount;
-        if (fc <= 1)
-            return species;
-
-        // actually has forms
-        int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
-        if (f >= 0) // bit index valid
-            return (ushort)(f + form + 1);
-
-        return species;
     }
 }
 

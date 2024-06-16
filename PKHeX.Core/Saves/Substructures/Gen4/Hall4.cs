@@ -11,8 +11,8 @@ public sealed class Hall4(Memory<byte> Raw)
 {
     private const int SIZE = 0xBA0;
     private const int SIZE_FOOTER = 0x10;
-    private const int SIZE_USED = SIZE + SIZE_FOOTER;
-    public const int SIZE_BLOCK = 0x1000;
+    public const int SIZE_USED = SIZE + SIZE_FOOTER;
+  //public const int SIZE_BLOCK = 0x1000;
 
     private Span<byte> Data => Raw.Span[..SIZE_USED];
 

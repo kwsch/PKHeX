@@ -48,7 +48,7 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
 
     private static void CheckTrackerMissing(BulkAnalysis input, SlotCache cs, LegalityAnalysis ca)
     {
-        if (ca.Info.Generation is (< 8 and not -1))
+        if (ca.Info.Generation is (< 8 and not 0))
             input.AddLine(cs, "Missing tracker.", Encounter);
     }
 

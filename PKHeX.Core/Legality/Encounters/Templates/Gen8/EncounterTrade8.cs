@@ -8,23 +8,23 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK8>, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly, IFlawlessIVCount, IFixedGender, IFixedNature
 {
-    public int Generation => 8;
+    public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
-    public int Location => Locations.LinkTrade6NPC;
+    public ushort Location => Locations.LinkTrade6NPC;
     public Moveset Relearn { get; init; }
 
-    public ushort OT_TextVar { get; }
-    public byte OT_Memory { get; }
-    public byte OT_Feeling { get; }
-    public byte OT_Intensity { get; }
+    public ushort OriginalTrainerMemoryVariable { get; }
+    public byte OriginalTrainerMemory { get; }
+    public byte OriginalTrainerMemoryFeeling { get; }
+    public byte OriginalTrainerMemoryIntensity { get; }
     public byte DynamaxLevel { get; init; }
     public byte FlawlessIVCount { get; init; }
     public Shiny Shiny { get; }
 
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname { get; }
 
@@ -60,10 +60,10 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         Level = level;
         Shiny = Shiny.Never;
 
-        OT_Memory = memory;
-        OT_TextVar = arg;
-        OT_Feeling = feel;
-        OT_Intensity = intensity;
+        OriginalTrainerMemory = memory;
+        OriginalTrainerMemoryVariable = arg;
+        OriginalTrainerMemoryFeeling = feel;
+        OriginalTrainerMemoryIntensity = intensity;
         IsFixedNickname = true;
     }
 
@@ -77,10 +77,10 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         Level = level;
         Shiny = Shiny.Random;
 
-        OT_Memory = memory;
-        OT_TextVar = arg;
-        OT_Feeling = feel;
-        OT_Intensity = intensity;
+        OriginalTrainerMemory = memory;
+        OriginalTrainerMemoryVariable = arg;
+        OriginalTrainerMemoryFeeling = feel;
+        OriginalTrainerMemoryIntensity = intensity;
         IsFixedNickname = false;
         Gender = FixedGenderUtil.GenderRandom;
         Nature = Nature.Random;
@@ -95,42 +95,43 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SWSH[Species, Form];
+        var rnd = Util.Rand;
         var pk = new PK8
         {
-            PID = Util.Rand32(),
-            EncryptionConstant = Util.Rand32(),
+            PID = rnd.Rand32(),
+            EncryptionConstant = rnd.Rand32(),
             Species = Species,
             Form = Form,
             CurrentLevel = Level,
-            Met_Location = Location,
-            Met_Level = Level,
+            MetLocation = Location,
+            MetLevel = Level,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)FixedBall,
             Gender = Gender,
 
             ID32 = ID32,
-            Version = (byte)version,
+            Version = version,
             Language = lang,
-            OT_Gender = OTGender,
-            OT_Name = TrainerNames[lang],
+            OriginalTrainerGender = OTGender,
+            OriginalTrainerName = TrainerNames[lang],
 
-            OT_Memory = OT_Memory,
-            OT_Intensity = OT_Intensity,
-            OT_Feeling = OT_Feeling,
-            OT_TextVar = OT_TextVar,
-            OT_Friendship = pi.BaseFriendship,
+            OriginalTrainerMemory = OriginalTrainerMemory,
+            OriginalTrainerMemoryIntensity = OriginalTrainerMemoryIntensity,
+            OriginalTrainerMemoryFeeling = OriginalTrainerMemoryFeeling,
+            OriginalTrainerMemoryVariable = OriginalTrainerMemoryVariable,
+            OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             DynamaxLevel = DynamaxLevel,
-            HT_Name = tr.OT,
-            HT_Gender = tr.Gender,
-            HT_Language = (byte)tr.Language,
+            HandlingTrainerName = tr.OT,
+            HandlingTrainerGender = tr.Gender,
+            HandlingTrainerLanguage = (byte)tr.Language,
             CurrentHandler = 1,
-            HT_Friendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
         };
         if (Shiny == Shiny.Never && pk.IsShiny)
             pk.PID ^= 0x1000_0000u;
@@ -146,8 +147,8 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
     private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
-        int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature);
+        var gender = criteria.GetGender(Gender, pi);
+        var nature = criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
         pk.Nature = pk.StatNature = nature;
         pk.Gender = gender;
@@ -168,7 +169,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (pk.Met_Level != Level)
+        if (pk.MetLevel != Level)
             return false;
         if (IVs.IsSpecified)
         {
@@ -185,7 +186,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
-        if (pk.OT_Gender != OTGender)
+        if (pk.OriginalTrainerGender != OTGender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
@@ -197,14 +198,14 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         var expect = EggLocation;
         if (pk is PB8)
             expect = Locations.Default8bNone;
-        return pk.Egg_Location == expect;
+        return pk.EggLocation == expect;
     }
 
     private bool IsMatchNatureGenderShiny(PKM pk)
     {
         if (!Shiny.IsValid(pk))
             return false;
-        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+        if (Nature != Nature.Random && pk.Nature != Nature)
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;

@@ -124,7 +124,6 @@ namespace PKHeX.WinForms
             CLB_Caught.Name = "CLB_Caught";
             CLB_Caught.Size = new System.Drawing.Size(139, 220);
             CLB_Caught.TabIndex = 12;
-            CLB_Caught.ItemCheck += CLB_Caught_ItemCheck;
             // 
             // Label_Seen
             // 
@@ -144,7 +143,6 @@ namespace PKHeX.WinForms
             CLB_Seen.Name = "CLB_Seen";
             CLB_Seen.Size = new System.Drawing.Size(139, 220);
             CLB_Seen.TabIndex = 10;
-            CLB_Seen.ItemCheck += CLB_Seen_ItemCheck;
             // 
             // SAV_SimplePokedex
             // 
@@ -160,9 +158,12 @@ namespace PKHeX.WinForms
             Controls.Add(CLB_Caught);
             Controls.Add(Label_Seen);
             Controls.Add(CLB_Seen);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             MaximumSize = new System.Drawing.Size(347, 427);
+            MinimizeBox = false;
             MinimumSize = new System.Drawing.Size(347, 427);
             Name = "SAV_SimplePokedex";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

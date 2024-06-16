@@ -62,11 +62,7 @@ public partial class SAV_Trainer8a : Form
         MT_Minutes.Text = SAV.PlayedMinutes.ToString();
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-        if (SAV.LastSaved.LastSavedDate is { } d)
-            CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = d;
-        else
-            CAL_LastSavedDate.Enabled = CAL_LastSavedTime.Enabled = false;
-
+        CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = SAV.LastSaved.Timestamp;
         CAL_AdventureStartDate.Value = CAL_AdventureStartTime.Value = SAV.AdventureStart.Timestamp;
 
         LoadClamp(NUD_MeritCurrent, SaveBlockAccessor8LA.KMeritCurrent);
@@ -115,8 +111,7 @@ public partial class SAV_Trainer8a : Form
 
         var advDay = CAL_AdventureStartDate.Value.Date;
         SAV.AdventureStart.Timestamp = advDay.AddSeconds(CAL_AdventureStartTime.Value.TimeOfDay.TotalSeconds);
-        if (CAL_LastSavedDate.Enabled)
-            SAV.LastSaved.LastSavedDate = CAL_LastSavedDate.Value.Date.AddSeconds(CAL_LastSavedTime.Value.TimeOfDay.TotalSeconds);
+        SAV.LastSaved.Timestamp = CAL_LastSavedDate.Value.Date.AddSeconds(CAL_LastSavedTime.Value.TimeOfDay.TotalSeconds);
 
         SAV.Blocks.SetBlockValue(SaveBlockAccessor8LA.KMeritCurrent, (uint)NUD_MeritCurrent.Value);
         SAV.Blocks.SetBlockValue(SaveBlockAccessor8LA.KMeritEarnedTotal, (uint)NUD_MeritEarned.Value);
@@ -131,7 +126,7 @@ public partial class SAV_Trainer8a : Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV);
+        var d = new TrashEditor(tb, SAV, SAV.Generation);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }

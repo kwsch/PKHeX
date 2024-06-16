@@ -24,8 +24,8 @@ public class ShowdownSetTests
         var set = new ShowdownSet(SetGlaceonUSUMTutor);
         var pk7 = new PK7 {Species = set.Species, Form = set.Form, Moves = set.Moves};
         var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-        Assert.True(!encounters.Any());
-        pk7.HT_Name = "PKHeX";
+        Assert.False(encounters.Any());
+        pk7.HandlingTrainerName = "PKHeX";
         encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         var first = encounters.FirstOrDefault();
         Assert.NotNull(first);
@@ -38,7 +38,7 @@ public class ShowdownSetTests
         var la = new LegalityAnalysis(pk);
         la.Valid.Should().BeTrue($"Encounter should have generated legally: {egg} {la.Report()}");
 
-        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, pk7.Moves).ToList();
+        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, set.Moves).ToList();
         for (var i = 0; i < test.Count; i++)
         {
             var t = test[i];
@@ -100,7 +100,7 @@ public class ShowdownSetTests
     public void SimulatorGetSplitBreed()
     {
         var set = new ShowdownSet(SetMunchSnorLax);
-        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HT_Name = "PKHeX" }; // !! specify the HT name, we need tutors for this one
+        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = "PKHeX" }; // !! specify the HT name, we need tutors for this one
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.SN).ToList();
         Assert.True(encs.Count > 0);
         Assert.True(encs.All(z => z.Species > 150));
@@ -117,7 +117,7 @@ public class ShowdownSetTests
     public void SimulatorGetVCEgg1()
     {
         var set = new ShowdownSet(SetSlowpoke12);
-        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HT_Name = "PKHeX" };
+        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = "PKHeX" };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
         Assert.True(encs.Count > 0);
 
@@ -153,9 +153,6 @@ public class ShowdownSetTests
         var text = string.Join("\r\n\r\n", Sets);
         var sets = ShowdownParsing.GetShowdownSets(text);
         Assert.True(sets.Count() == Sets.Length);
-
-        sets = ShowdownParsing.GetShowdownSets(string.Empty);
-        Assert.True(!sets.Any());
     }
 
     [Fact]
@@ -163,7 +160,7 @@ public class ShowdownSetTests
     {
         string[] lines = ["", "   ", " "];
         var sets = ShowdownParsing.GetShowdownSets(lines);
-        Assert.True(!sets.Any());
+        Assert.False(sets.Any());
     }
 
     [Theory]
@@ -171,7 +168,8 @@ public class ShowdownSetTests
     public void SimulatorParseDuplicate(string text, int moveCount)
     {
         var set = new ShowdownSet(text);
-        var actual = set.Moves.Count(z => z != 0);
+        var result = set.Moves.AsSpan();
+        var actual = result.Length - result.Count<ushort>(0);
         actual.Should().Be(moveCount);
     }
 
@@ -183,7 +181,7 @@ public class ShowdownSetTests
         var pk7 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves, CurrentLevel = set.Level };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
         var tr3 = encs.First(z => z is EncounterTrade3);
-        var pk3 = tr3.ConvertToPKM(new SAV3FRLG());
+        var pk3 = tr3.ConvertToPKM(new SimpleTrainerInfo(GameVersion.FR));
 
         var la = new LegalityAnalysis(pk3);
         la.Valid.Should().BeTrue(la.Report());
@@ -196,7 +194,7 @@ public class ShowdownSetTests
     {
         string input = $@"Eevee\nFriendship: {value}";
         var set = new ShowdownSet(input);
-        set.Friendship.Should().NotBe(value);
+        value.Should().NotBe(set.Friendship);
     }
 
     [Theory]
@@ -207,7 +205,7 @@ public class ShowdownSetTests
     {
         string input = $@"Eevee\nLevel: {value}";
         var set = new ShowdownSet(input);
-        set.Level.Should().NotBe(value);
+        value.Should().NotBe(set.Level);
     }
 
     private const string LowLevelElectrode =

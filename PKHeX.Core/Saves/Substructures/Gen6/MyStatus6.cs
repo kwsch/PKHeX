@@ -6,113 +6,111 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 6 savedata object that stores the player's trainer data.
 /// </summary>
-public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
+public class MyStatus6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), IRegionOrigin, IGameSync
 {
-    public MyStatus6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-
     public uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     public ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
+        get => ReadUInt16LittleEndian(Data[2..]);
+        set => WriteUInt16LittleEndian(Data[2..], value);
     }
 
-    public int Game
+    public byte Game
     {
-        get => Data[Offset + 4];
-        set => Data[Offset + 4] = (byte)value;
+        get => Data[4];
+        set => Data[4] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
-        get => Data[Offset + 5];
-        set => Data[Offset + 5] = (byte)value;
+        get => Data[5];
+        set => Data[5] = value;
     }
 
     public int MultiplayerSpriteID_1
     {
-        get => Data[Offset + 6];
-        set => Data[Offset + 6] = (byte)value;
+        get => Data[6];
+        set => Data[6] = (byte)value;
     }
 
     public int MultiplayerSpriteID_2
     {
-        get => Data[Offset + 7];
-        set => Data[Offset + 7] = (byte)value;
+        get => Data[7];
+        set => Data[7] = (byte)value;
     }
 
     public const int GameSyncIDSize = 16; // 64 bits
+    int IGameSync.GameSyncIDSize => GameSyncIDSize;
 
     public string GameSyncID
     {
-        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x08, GameSyncIDSize / 2));
+        get => Util.GetHexStringFromBytes(Data.Slice(0x08, GameSyncIDSize / 2));
         set
         {
-            if (value.Length != GameSyncIDSize)
-                throw new ArgumentOutOfRangeException(nameof(value));
-
-            var data = Util.GetBytesFromHexString(value);
-            SAV.SetData(data, Offset + 0x08);
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, GameSyncIDSize);
+            Span<byte> dest = Data.Slice(8, GameSyncIDSize / 2);
+            dest.Clear();
+            Util.GetBytesFromHexString(value, dest);
         }
     }
 
     public byte Region
     {
-        get => Data[Offset + 0x26];
-        set => Data[Offset + 0x26] = value;
+        get => Data[0x26];
+        set => Data[0x26] = value;
     }
 
     public byte Country
     {
-        get => Data[Offset + 0x27];
-        set => Data[Offset + 0x27] = value;
+        get => Data[0x27];
+        set => Data[0x27] = value;
     }
 
     public decimal Latitude // don't use the setters
     {
-        get => (ReadInt16LittleEndian(Data.AsSpan(Offset + 0x28)) * 180m) / 0x8000;
-        set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x28), (short)((value * 0x8000) / 180m));
+        get => (ReadInt16LittleEndian(Data[0x28..]) * 180m) / 0x8000;
+        set => WriteInt16LittleEndian(Data[0x28..], (short)((value * 0x8000) / 180m));
     }
 
     public decimal Longitude // don't use the setters
     {
-        get => (ReadInt16LittleEndian(Data.AsSpan(Offset + 0x2A)) * 180m) / 0x8000;
-        set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x2A), (short)((value * 0x8000) / 180m));
+        get => (ReadInt16LittleEndian(Data[0x2A..]) * 180m) / 0x8000;
+        set => WriteInt16LittleEndian(Data[0x2A..], (short)((value * 0x8000) / 180m));
     }
 
     public byte ConsoleRegion
     {
-        get => Data[Offset + 0x2C];
-        set => Data[Offset + 0x2C] = value;
+        get => Data[0x2C];
+        set => Data[0x2C] = value;
     }
 
     public int Language
     {
-        get => Data[Offset + 0x2D];
-        set => Data[Offset + 0x2D] = (byte)value;
+        get => Data[0x2D];
+        set => Data[0x2D] = (byte)value;
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x48, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.Slice(0x48, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
-    private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);
-    private int GetSayingOffset(int say) => Offset + 0x7C + (SAV6.LongStringLength * say);
+    private Span<byte> GetSayingSpan(int say) => Data.Slice(GetSayingOffset(say), SAV6.LongStringLength);
+    private static int GetSayingOffset(int say) => 0x7C + (SAV6.LongStringLength * say);
     private string GetSaying(int say) => SAV.GetString(GetSayingSpan(say));
     private void SetSaying(int say, ReadOnlySpan<char> value) => SAV.SetString(GetSayingSpan(say), value, SAV6.LongStringLength / 2, StringConverterOption.ClearZero);
 
@@ -124,13 +122,13 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
 
     public bool IsMegaEvolutionUnlocked
     {
-        get => (Data[Offset + 0x14A] & 0x01) != 0;
-        set => Data[Offset + 0x14A] = (byte)((Data[Offset + 0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
+        get => (Data[0x14A] & 0x01) != 0;
+        set => Data[0x14A] = (byte)((Data[0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
     }
 
     public bool IsMegaRayquazaUnlocked
     {
-        get => (Data[Offset + 0x14A] & 0x02) != 0;
-        set => Data[Offset + 0x14A] = (byte)((Data[Offset + 0x14A] & ~2) | (value ? 2 : 0)); // in battle
+        get => (Data[0x14A] & 0x02) != 0;
+        set => Data[0x14A] = (byte)((Data[0x14A] & ~2) | (value ? 2 : 0)); // in battle
     }
 }

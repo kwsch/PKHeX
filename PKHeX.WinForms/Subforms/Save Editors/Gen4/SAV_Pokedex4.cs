@@ -169,7 +169,7 @@ public partial class SAV_Pokedex4 : Form
         if (LB_Gender.Items.Count != 0)
         {
             var femaleFirst = LB_Gender.Items[0].ToString() == FEMALE;
-            var firstGender = femaleFirst ? 1 : 0;
+            var firstGender = femaleFirst ? (byte)1: (byte)0;
             dex.SetSeenGenderNewFlag(species, firstGender);
             if (LB_Gender.Items.Count != 1)
                 dex.SetSeenGenderSecond(species, firstGender ^ 1);
@@ -182,7 +182,7 @@ public partial class SAV_Pokedex4 : Form
         }
 
         var forms = SAV.Dex.GetForms(species);
-        if (forms.Length > 0)
+        if (forms.Length != 0)
         {
             var items = LB_Form.Items;
             Span<byte> arr = stackalloc byte[items.Count];

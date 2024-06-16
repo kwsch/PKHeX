@@ -57,13 +57,8 @@ public static class SlotPointerUtil
 
     public static void UpdateRepointFrom(int newIndex, int oldIndex, Span<int> slotPointers)
     {
-        for (int s = 0; s < slotPointers.Length; s++)
-        {
-            if (slotPointers[s] != oldIndex)
-                continue;
-            slotPointers[s] = newIndex;
-            break;
-        }
+        // Don't return on first match; assume multiple pointers can point to the same slot
+        slotPointers.Replace(oldIndex, newIndex);
     }
 
     public static void UpdateMove(int bMove, int cMove, int slotsPerBox, params IList<int>[] ptrset)

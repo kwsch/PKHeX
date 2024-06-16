@@ -21,8 +21,8 @@ public partial class SAV_Trainer8 : Form
             TB_OTName.Font = TB_TrainerCardName.Font = FontUtil.GetPKXFont();
         }
 
-        B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
-        B_MaxWatt.Click += (sender, e) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
+        B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
+        B_MaxWatt.Click += (_, _) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
 
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -55,7 +55,7 @@ public partial class SAV_Trainer8 : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SW;
+        CB_Game.SelectedIndex = SAV.Version - GameVersion.SW;
         CB_Gender.SelectedIndex = SAV.Gender;
 
         // Display Data
@@ -88,15 +88,10 @@ public partial class SAV_Trainer8 : Form
         MT_Minutes.Text = SAV.PlayedMinutes.ToString();
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-        //if (SAV.Played.LastSavedDate.HasValue)
-        //{
-        //    CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
-        //    CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
-        //}
-        //else
-        //{
-        L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
-        //}
+        if (SAV.Played.LastSavedDate.HasValue)
+            CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
+        else
+            L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
 
         CAL_AdventureStartTime.Visible = false;
         CAL_AdventureStartDate.Value = new DateTime(SAV.TrainerCard.StartedYear, SAV.TrainerCard.StartedMonth, SAV.TrainerCard.StartedDay);
@@ -136,7 +131,7 @@ public partial class SAV_Trainer8 : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = (byte)(CB_Game.SelectedIndex + (int)GameVersion.SW);
+        SAV.Version = (GameVersion)(CB_Game.SelectedIndex + (int)GameVersion.SW);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
@@ -181,9 +176,9 @@ public partial class SAV_Trainer8 : Form
         SAV.TrainerCard.StartedDay = (byte)CAL_AdventureStartDate.Value.Day;
 
         //SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
-        //
-        //if (SAV.Played.LastSavedDate.HasValue)
-        //    SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+
+        if (SAV.Played.LastSavedDate.HasValue)
+            SAV.Played.LastSavedDate = CAL_LastSavedDate.Value.Date.AddMinutes(CAL_LastSavedTime.Value.TimeOfDay.TotalMinutes);
     }
 
     private void ClickOT(object sender, MouseEventArgs e)
@@ -193,7 +188,7 @@ public partial class SAV_Trainer8 : Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV);
+        var d = new TrashEditor(tb, SAV, SAV.Generation);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }

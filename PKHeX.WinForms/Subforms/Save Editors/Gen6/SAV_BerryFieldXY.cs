@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -22,15 +22,15 @@ public partial class SAV_BerryFieldXY : Form
         // Change Berry Field
 
         // Gather Data
-        int ofs = SAV.BerryField + 0xC + (listBox1.SelectedIndex * 0x18);
-        int berry = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 0)));
-        int u1 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 1)));
-        int u2 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 2)));
-        int u3 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 3)));
-        int u4 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 4)));
-        int u5 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 5)));
-        int u6 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 6)));
-        int u7 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 7)));
+        var span = SAV.BerryField.GetPlot(listBox1.SelectedIndex);
+        int berry = ReadUInt16LittleEndian(span);
+        int u1 = ReadUInt16LittleEndian(span[(2 * 1)..]);
+        int u2 = ReadUInt16LittleEndian(span[(2 * 2)..]);
+        int u3 = ReadUInt16LittleEndian(span[(2 * 3)..]);
+        int u4 = ReadUInt16LittleEndian(span[(2 * 4)..]);
+        int u5 = ReadUInt16LittleEndian(span[(2 * 5)..]);
+        int u6 = ReadUInt16LittleEndian(span[(2 * 6)..]);
+        int u7 = ReadUInt16LittleEndian(span[(2 * 7)..]);
 
         // Display Data
         TB_Berry.Text = berry.ToString();
@@ -43,8 +43,5 @@ public partial class SAV_BerryFieldXY : Form
         TB_u7.Text = u7.ToString();
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 }

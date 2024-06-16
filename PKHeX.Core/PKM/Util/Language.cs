@@ -34,7 +34,7 @@ public static class Language
     /// </summary>
     /// <param name="generation">Generation to check.</param>
     /// <returns>Available languages for the given generation.</returns>
-    public static ReadOnlySpan<byte> GetAvailableGameLanguages(int generation = PKX.Generation) => generation switch
+    public static ReadOnlySpan<byte> GetAvailableGameLanguages(byte generation = PKX.Generation) => generation switch
     {
         1           => Languages_3, // No KOR
         2           => Languages_GB,
@@ -52,7 +52,7 @@ public static class Language
     /// <param name="prefer">Preferred language.</param>
     /// <param name="game">Game version to check.</param>
     /// <returns>Language that is safe to use for the given generation.</returns>
-    public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
+    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
     {
         1 when game == GameVersion.BU => Japanese,
         1           => HasLanguage(Languages_3,  (byte)prefer) ? prefer : SafeLanguage,
@@ -75,7 +75,8 @@ public static class Language
         German => "de",
         Spanish => "es",
         Korean => "ko",
-        ChineseS or ChineseT => "zh",
+        ChineseS => "zh",
+        ChineseT => "zh2",
         _ => GameLanguage.DefaultLanguage,
     };
 

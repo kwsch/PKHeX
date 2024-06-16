@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base Class for Save Files
 /// </summary>
-public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpaper, IBoxDetailName, IGeneration, IVersion
+public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVersion, IStringConverter
 {
     // General Object Properties
     public byte[] Data;
@@ -60,10 +60,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     #region Metadata & Limits
     public virtual string MiscSaveInfo() => string.Empty;
-    public virtual GameVersion Version { get; protected set; }
+    public virtual bool IsVersionValid() => true;
+    public abstract GameVersion Version { get; set; }
     public abstract bool ChecksumsValid { get; }
     public abstract string ChecksumInfo { get; }
-    public abstract int Generation { get; }
+    public abstract byte Generation { get; }
     public abstract EntityContext Context { get; }
     #endregion
 
@@ -77,6 +78,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     }
 
     public abstract string GetString(ReadOnlySpan<byte> data);
+    public abstract int LoadString(ReadOnlySpan<byte> data, Span<char> text);
     public abstract int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option);
     #endregion
 
@@ -86,15 +88,15 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     #region Stored PKM Limits
     public abstract IPersonalTable Personal { get; }
-    public abstract int MaxStringLengthOT { get; }
+    public abstract int MaxStringLengthTrainer { get; }
     public abstract int MaxStringLengthNickname { get; }
     public abstract ushort MaxMoveID { get; }
     public abstract ushort MaxSpeciesID { get; }
     public abstract int MaxAbilityID { get; }
     public abstract int MaxItemID { get; }
     public abstract int MaxBallID { get; }
-    public abstract int MaxGameID { get; }
-    public virtual int MinGameID => 0;
+    public abstract GameVersion MaxGameID { get; }
+    public virtual GameVersion MinGameID => 0;
     #endregion
 
     /// <summary>
@@ -103,7 +105,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <param name="offset">Offset to read from</param>
     /// <param name="bitIndex">Bit index to read</param>
     /// <returns>Flag is Set (true) or not Set (false)</returns>
-    public virtual bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(Data, offset, bitIndex);
+    public virtual bool GetFlag(int offset, int bitIndex) => GetFlag(Data, offset, bitIndex);
 
     /// <summary>
     /// Sets the <see cref="bool"/> status of the Flag at the specified offset and index.
@@ -112,33 +114,20 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <param name="bitIndex">Bit index to read</param>
     /// <param name="value">Flag status to set</param>
     /// <remarks>Flag is Set (true) or not Set (false)</remarks>
-    public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
+    public virtual void SetFlag(int offset, int bitIndex, bool value) => SetFlag(Data, offset, bitIndex, value);
+
+    public bool GetFlag(Span<byte> data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset, bitIndex);
+    public void SetFlag(Span<byte> data, int offset, int bitIndex, bool value)
+    {
+        FlagUtil.SetFlag(data, offset, bitIndex, value);
+        State.Edited = true;
+    }
 
     public virtual IReadOnlyList<InventoryPouch> Inventory { get => []; set { } }
 
-    #region Mystery Gift
-    protected virtual int GiftCountMax => int.MinValue;
-    protected virtual int GiftFlagMax => 0x800;
-    protected int WondercardData { get; set; } = int.MinValue;
-    public bool HasWondercards => WondercardData > -1;
-    protected virtual bool[] MysteryGiftReceivedFlags { get => []; set { } }
-    protected virtual DataMysteryGift[] MysteryGiftCards { get => []; set { } }
-
-    public virtual MysteryGiftAlbum GiftAlbum
-    {
-        get => new(MysteryGiftCards, MysteryGiftReceivedFlags);
-        set
-        {
-            MysteryGiftReceivedFlags = value.Flags;
-            MysteryGiftCards = value.Gifts;
-        }
-    }
-    #endregion
-
     #region Player Info
-    public virtual int Gender { get; set; }
+    public virtual byte Gender { get; set; }
     public virtual int Language { get => -1; set { } }
-    public virtual int Game { get => (int)GameVersion.Any; set { } }
     public virtual uint ID32 { get; set; }
     public virtual ushort TID16 { get; set; }
     public virtual ushort SID16 { get; set; }
@@ -227,24 +216,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     // Varied Methods
     protected abstract void SetChecksums();
 
-    #region Daycare
-    public bool HasDaycare => DaycareOffset > -1;
-    protected int DaycareOffset { get; set; } = int.MinValue;
-    public virtual int DaycareSeedSize => 0;
-    public int DaycareIndex;
-    public virtual bool HasTwoDaycares => false;
-    public virtual int GetDaycareSlotOffset(int loc, int slot) => -1;
-    public virtual uint? GetDaycareEXP(int loc, int slot) => null;
-    public virtual string GetDaycareRNGSeed(int loc) => string.Empty;
-    public virtual bool? IsDaycareHasEgg(int loc) => null;
-    public virtual bool? IsDaycareOccupied(int loc, int slot) => null;
-
-    public virtual void SetDaycareEXP(int loc, int slot, uint EXP) { }
-    public virtual void SetDaycareRNGSeed(int loc, string seed) { }
-    public virtual void SetDaycareHasEgg(int loc, bool hasEgg) { }
-    public virtual void SetDaycareOccupied(int loc, int slot, bool occupied) { }
-    #endregion
-
     private Span<byte> GetPartySpan(int index) => PartyBuffer[GetPartyOffset(index)..];
     public PKM GetPartySlotAtIndex(int index) => GetPartySlot(GetPartySpan(index));
 
@@ -318,6 +289,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Slot Storing
     public static PKMImportSetting SetUpdateDex { protected get; set; } = PKMImportSetting.Update;
     public static PKMImportSetting SetUpdatePKM { protected get; set; } = PKMImportSetting.Update;
+    public static PKMImportSetting SetUpdateRecords { protected get; set; } = PKMImportSetting.Update;
 
     public abstract Type PKMType { get; }
     protected abstract PKM GetPKM(byte[] data);
@@ -394,8 +366,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #endregion
 
     #region Pokédex
-    public int PokeDex { get; protected set; } = int.MinValue;
-    public bool HasPokeDex => PokeDex > -1;
+    public virtual bool HasPokeDex => false;
     public virtual bool GetSeen(ushort species) => false;
     public virtual void SetSeen(ushort species, bool seen) { }
     public virtual bool GetCaught(ushort species) => false;
@@ -527,13 +498,17 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     private bool IsRegionOverwriteProtected(int min, int max)
     {
-        foreach (var arrays in SlotPointers)
+        var ptrs = SlotPointers;
+        if (ptrs.Length == 0)
+            return false;
+
+        foreach (var arrays in ptrs)
         {
             foreach (int slotIndex in arrays)
             {
                 if (!GetSlotFlags(slotIndex).IsOverwriteProtected())
                     continue;
-                if (ArrayUtil.WithinRange(slotIndex, min, max))
+                if (min <= slotIndex && slotIndex < max)
                     return true;
             }
         }
@@ -543,13 +518,20 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
     public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)
     {
-        foreach (var arrays in SlotPointers)
+        var ptrs = SlotPointers;
+        if (ptrs.Length == 0)
+            return false;
+
+        var min = BoxStart * BoxSlotCount;
+        var max = (BoxEnd + 1) * BoxSlotCount;
+
+        foreach (var arrays in ptrs)
         {
             foreach (int slotIndex in arrays)
             {
                 if (!GetSlotFlags(slotIndex).HasFlag(StorageSlotSource.Locked))
                     continue;
-                if (ArrayUtil.WithinRange(slotIndex, BoxStart * BoxSlotCount, (BoxEnd + 1) * BoxSlotCount))
+                if (min <= slotIndex && slotIndex < max)
                     return true;
             }
         }
@@ -611,16 +593,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
         int len = BoxSlotCount * SIZE_BOXSLOT;
         byte[] boxdata = storage.Slice(GetBoxOffset(0), len * BoxCount).ToArray(); // get all boxes
-        string[] boxNames = Get(GetBoxName, BoxCount);
-        int[] boxWallpapers = Get(GetBoxWallpaper, BoxCount);
 
-        static T[] Get<T>(Func<int, T> act, int count)
-        {
-            T[] result = new T[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = act(i);
-            return result;
-        }
+        if (this is IBoxDetailWallpaper w)
+            w.MoveWallpaper(box, insertBeforeBox);
+        if (this is IBoxDetailName n)
+            n.MoveBoxName(box, insertBeforeBox);
 
         min /= BoxSlotCount;
         max /= BoxSlotCount;
@@ -637,8 +614,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             }
 
             boxdata.AsSpan(len * i, len).CopyTo(storage[GetBoxOffset(b)..]);
-            SetBoxName(b, boxNames[i]);
-            SetBoxWallpaper(b, boxWallpapers[i]);
         }
 
         SlotPointerUtil.UpdateMove(box, insertBeforeBox, BoxSlotCount, SlotPointers);
@@ -669,14 +644,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         b1.CopyTo(boxData[b2o..]);
 
         // Name
-        string b1n = GetBoxName(box1);
-        SetBoxName(box1, GetBoxName(box2));
-        SetBoxName(box2, b1n);
+        if (this is IBoxDetailName n)
+            n.SwapBoxName(box1, box2);
 
         // Wallpaper
-        int b1w = GetBoxWallpaper(box1);
-        SetBoxWallpaper(box1, GetBoxWallpaper(box2));
-        SetBoxWallpaper(box2, b1w);
+        if (this is IBoxDetailWallpaper w)
+            w.SwapWallpaper(box1, box2);
 
         // Pointers
         SlotPointerUtil.UpdateSwap(box1, box2, BoxSlotCount, SlotPointers);
@@ -808,31 +781,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     }
     #endregion
 
-    #region Storage Name & Decoration
-    public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
-    public virtual bool HasNamableBoxes => HasBoxWallpapers;
-
-    public abstract string GetBoxName(int box);
-    public abstract void SetBoxName(int box, ReadOnlySpan<char> value);
-    protected virtual int GetBoxWallpaperOffset(int box) => -1;
-
-    public virtual int GetBoxWallpaper(int box)
-    {
-        int offset = GetBoxWallpaperOffset(box);
-        if (offset < 0 || (uint)box > BoxCount)
-            return box;
-        return Data[offset];
-    }
-
-    public virtual void SetBoxWallpaper(int box, int value)
-    {
-        int offset = GetBoxWallpaperOffset(box);
-        if (offset < 0 || (uint)box > BoxCount)
-            return;
-        Data[offset] = (byte)value;
-    }
-    #endregion
-
     #region Box Binaries
     public byte[] GetPCBinary() => BoxData.SelectMany(GetDataForBox).ToArray();
     public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(GetDataForBox).ToArray();
@@ -876,64 +824,4 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         return true;
     }
     #endregion
-}
-
-public static class StorageUtil
-{
-    public static bool CompressStorage(this SaveFile sav, Span<byte> storage, out int storedCount, Span<int> slotPointers)
-    {
-        // keep track of empty slots, and only write them at the end if slots were shifted (no need otherwise).
-        var empty = new List<byte[]>();
-        bool shiftedSlots = false;
-
-        ushort ctr = 0;
-        int size = sav.SIZE_BOXSLOT;
-        int count = sav.BoxSlotCount * sav.BoxCount;
-        for (int i = 0; i < count; i++)
-        {
-            int offset = sav.GetBoxSlotOffset(i);
-            if (sav.IsPKMPresent(storage[offset..]))
-            {
-                if (ctr != i) // copy required
-                {
-                    shiftedSlots = true; // appending empty slots afterward is now required since a rewrite was done
-                    int destOfs = sav.GetBoxSlotOffset(ctr);
-                    storage[offset..(offset + size)].CopyTo(storage[destOfs..(destOfs + size)]);
-                    SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);
-                }
-
-                ctr++;
-                continue;
-            }
-
-            // pop out an empty slot; save all unused data & preserve order
-            var data = storage.Slice(offset, size).ToArray();
-            empty.Add(data);
-        }
-
-        storedCount = ctr;
-
-        if (!shiftedSlots)
-            return false;
-
-        for (int i = ctr; i < count; i++)
-        {
-            var data = empty[i - ctr];
-            int offset = sav.GetBoxSlotOffset(i);
-            data.CopyTo(storage[offset..]);
-        }
-
-        return true;
-    }
-
-    public static int FindSlotIndex(this SaveFile sav, Func<PKM, bool> method, int maxCount)
-    {
-        for (int i = 0; i < maxCount; i++)
-        {
-            var pk = sav.GetBoxSlotAtIndex(i);
-            if (method(pk))
-                return i;
-        }
-        return -1;
-    }
 }

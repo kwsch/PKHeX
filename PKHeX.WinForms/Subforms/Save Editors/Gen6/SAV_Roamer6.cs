@@ -33,7 +33,7 @@ public partial class SAV_Roamer6 : Form
         if (roamer.Species != 0)
             return roamer.Species - SpeciesOffset;
         // Roamer Species is not set if the player hasn't beaten the league so derive the species from the starter choice
-        return sav.GetWork(StarterChoiceIndex);
+        return sav.EventWork.GetWork(StarterChoiceIndex);
     }
 
     private void CB_Species_SelectedIndexChanged(object sender, EventArgs e) => roamer.Species = (ushort)(SpeciesOffset + CB_Species.SelectedIndex);

@@ -16,7 +16,6 @@ namespace PKHeX.WinForms;
 [JsonSerializable(typeof(PKHeXSettings))]
 public sealed partial class PKHeXSettingsContext : JsonSerializerContext;
 
-[Serializable]
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed class PKHeXSettings
 {
@@ -29,6 +28,7 @@ public sealed class PKHeXSettings
     public SetImportSettings Import { get; set; } = new();
     public SlotWriteSettings SlotWrite { get; set; } = new();
     public PrivacySettings Privacy { get; set; } = new();
+    public SaveLanguageSettings SaveLanguage { get; set; } = new();
 
     // UI Tweaks
     public DisplaySettings Display { get; set; } = new();
@@ -43,7 +43,7 @@ public sealed class PKHeXSettings
     public EntityDatabaseSettings EntityDb { get; set; } = new();
     public EncounterDatabaseSettings EncounterDb { get; set; } = new();
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
-    public BulkAnalysisSettings Bulk { get; set; } = new();
+    public ReportGridSettings Report { get; set; } = new();
 
     [Browsable(false)]
     public SlotExportSettings SlotExport { get; set; } = new();
@@ -105,7 +105,6 @@ public sealed class PKHeXSettings
     }
 }
 
-[Serializable]
 public sealed class BackupSettings
 {
     [LocalizedDescription("Automatic Backups of Save Files are copied to the backup folder when true.")]
@@ -121,7 +120,6 @@ public sealed class BackupSettings
     public List<string> OtherSaveFileExtensions { get; set; } = [];
 }
 
-[Serializable]
 public sealed class StartupSettings : IStartupSettings
 {
     [Browsable(false)]
@@ -144,7 +142,18 @@ public sealed class StartupSettings : IStartupSettings
     public PluginLoadSetting PluginLoadMethod { get; set; } = PluginLoadSetting.LoadFrom;
 
     [Browsable(false)]
-    public List<string> RecentlyLoaded { get; set; } = new(MaxRecentCount);
+    public List<string> RecentlyLoaded { get; set; } = new(DefaultMaxRecent);
+
+    private const int DefaultMaxRecent = 10;
+    private uint MaxRecentCount = DefaultMaxRecent;
+
+    [LocalizedDescription("Amount of recently loaded save files to remember.")]
+    public uint RecentlyLoadedMaxCount
+    {
+        get => MaxRecentCount;
+        // Sanity check to not let the user foot-gun themselves a slow recall time.
+        set => MaxRecentCount = Math.Clamp(value, 1, 1000);
+    }
 
     // Don't let invalid values slip into the startup version.
     private GameVersion _defaultSaveVersion = PKX.Version;
@@ -174,8 +183,6 @@ public sealed class StartupSettings : IStartupSettings
         }
     }
 
-    private const int MaxRecentCount = 10;
-
     public void LoadSaveFile(string path)
     {
         var recent = RecentlyLoaded;
@@ -197,47 +204,6 @@ public enum PluginLoadSetting
     UnsafeMerged,
 }
 
-[Serializable]
-public sealed class LegalitySettings : IParseSettings
-{
-    [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the 3DS console's regex lists.")]
-    public bool CheckWordFilter { get; set; } = true;
-
-    [LocalizedDescription("Checks the last loaded player save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
-    public bool CheckActiveHandler { get; set; }
-
-    [LocalizedDescription("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
-    public bool AllowGen1Tradeback { get; set; } = true;
-
-    [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed In-Game Trade the player cannot normally nickname.")]
-    public Severity NicknamedTrade { get; set; } = Severity.Invalid;
-
-    [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
-    public Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match.")]
-    public Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
-    public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Memory is missing for the Handling Trainer.")]
-    public Severity Gen8MemoryMissingHT { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
-    public Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
-    public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a zero value for both Height and Weight.")]
-    public Severity ZeroHeightWeight { get; set; } = Severity.Fishy;
-
-    [LocalizedDescription("Severity to flag a Legality Check if Pokémon's Current Handler does not match the expected value.")]
-    public Severity CurrentHandlerMismatch { get; set; } = Severity.Invalid;
-}
-
-[Serializable]
 public sealed class EntityConverterSettings
 {
     [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
@@ -251,9 +217,11 @@ public sealed class EntityConverterSettings
 
     [LocalizedDescription("Default version to set when transferring from Generation 2 3DS Virtual Console to Generation 7.")]
     public GameVersion VirtualConsoleSourceGen2 { get; set; } = GameVersion.SI;
+
+    [LocalizedDescription("Retain the Met Date when transferring from Generation 4 to Generation 5.")]
+    public bool RetainMetDateTransfer45 { get; set; }
 }
 
-[Serializable]
 public sealed class AdvancedSettings
 {
     [LocalizedDescription("Folder path that contains dump(s) of block hash-names. If a specific dump file does not exist, only names defined within the program's code will be loaded.")]
@@ -269,7 +237,6 @@ public sealed class AdvancedSettings
     public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(',', StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
 }
 
-[Serializable]
 public sealed class EntityDatabaseSettings
 {
     [LocalizedDescription("When loading content for the PKM Database, search within backup save files.")]
@@ -295,7 +262,6 @@ public enum DatabaseSortMode
     SlotIdentity,
 }
 
-[Serializable]
 public sealed class EntityEditorSettings
 {
     [LocalizedDescription("When changing the Hidden Power type, automatically maximize the IVs to ensure the highest Base Power result. Otherwise, keep the IVs as close as possible to the original.")]
@@ -303,9 +269,14 @@ public sealed class EntityEditorSettings
 
     [LocalizedDescription("When showing the list of balls to select, show the legal balls before the illegal balls rather than sorting by Ball ID.")]
     public bool ShowLegalBallsFirst { get; set; } = true;
+
+    [LocalizedDescription("When showing a Generation 1 format entity, show the gender it would have if transferred to other generations.")]
+    public bool ShowGenderGen1 { get; set; }
+
+    [LocalizedDescription("When showing an entity, show any stored Status Condition (Sleep/Burn/etc) it may have.")]
+    public bool ShowStatusCondition { get; set; } = true;
 }
 
-[Serializable]
 public sealed class EncounterDatabaseSettings
 {
     [LocalizedDescription("Skips searching if the user forgot to enter Species / Move(s) into the search criteria.")]
@@ -321,14 +292,21 @@ public sealed class EncounterDatabaseSettings
     public bool UseTabsAsCriteriaAnySpecies { get; set; } = true;
 }
 
-[Serializable]
 public sealed class MysteryGiftDatabaseSettings
 {
     [LocalizedDescription("Hides gifts if the currently loaded save file cannot (indirectly) receive them.")]
     public bool FilterUnavailableSpecies { get; set; } = true;
 }
 
-[Serializable]
+public sealed class ReportGridSettings
+{
+    [LocalizedDescription("Extra entity properties to try and show in addition to the default properties displayed.")]
+    public List<string> ExtraProperties { get; set; } = [];
+
+    [LocalizedDescription("Properties to hide from the report grid.")]
+    public List<string> HiddenProperties { get; set; } = [];
+}
+
 public sealed class HoverSettings
 {
     [LocalizedDescription("Show PKM Slot Preview on Hover")]
@@ -353,7 +331,6 @@ public sealed class HoverSettings
     public Point PreviewCursorShift { get; set; } = new(16, 8);
 }
 
-[Serializable]
 public sealed class SoundSettings
 {
     [LocalizedDescription("Play Sound when loading a new Save File")]
@@ -362,7 +339,6 @@ public sealed class SoundSettings
     public bool PlaySoundLegalityCheck { get; set; } = true;
 }
 
-[Serializable]
 public sealed class SetImportSettings
 {
     [LocalizedDescription("Apply StatNature to Nature on Import")]
@@ -371,7 +347,6 @@ public sealed class SetImportSettings
     public bool ApplyMarkings { get; set; } = true;
 }
 
-[Serializable]
 public sealed class SlotWriteSettings
 {
     [LocalizedDescription("Automatically modify the Save File's Pokédex when injecting a PKM.")]
@@ -380,11 +355,13 @@ public sealed class SlotWriteSettings
     [LocalizedDescription("Automatically adapt the PKM Info to the Save File (Handler, Format)")]
     public bool SetUpdatePKM { get; set; } = true;
 
+    [LocalizedDescription("Automatically increment the Save File's counters for obtained Pokémon (eggs/captures) when injecting a PKM.")]
+    public bool SetUpdateRecords { get; set; } = true;
+
     [LocalizedDescription("When enabled and closing/loading a save file, the program will alert if the current save file has been modified without saving.")]
     public bool ModifyUnset { get; set; } = true;
 }
 
-[Serializable]
 public sealed class DisplaySettings
 {
     [LocalizedDescription("Show Unicode gender symbol characters, or ASCII when disabled.")]
@@ -403,7 +380,6 @@ public sealed class DisplaySettings
     public bool DisableScalingDpi { get; set; }
 }
 
-[Serializable]
 public sealed class SpriteSettings : ISpriteSettings
 {
     [LocalizedDescription("Choice for which sprite building mode to use.")]
@@ -449,7 +425,6 @@ public sealed class SpriteSettings : ISpriteSettings
     public byte ShowTeraOpacityStripe { get; set; } = 0xAF; // 0xFF opaque
 }
 
-[Serializable]
 public sealed class PrivacySettings
 {
     [LocalizedDescription("Hide Save File Details in Program Title")]
@@ -459,14 +434,47 @@ public sealed class PrivacySettings
     public bool HideSecretDetails { get; set; }
 }
 
-[Serializable]
-public sealed class BulkAnalysisSettings : IBulkAnalysisSettings
+public sealed class SaveLanguageSettings
 {
-    [LocalizedDescription("Checks the save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
-    public bool CheckActiveHandler { get; set; } = true;
+    [LocalizedDescription("Gen1: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen1 { get; set; } = new();
+
+    [LocalizedDescription("Gen2: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen2 { get; set; } = new();
+
+    [LocalizedDescription("Gen3 R/S: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen3RS { get; set; } = new();
+
+    [LocalizedDescription("Gen3 FR/LG: If unable to detect a language or version for a save file, use these instead.")]
+    public LangVersion OverrideGen3FRLG { get; set; } = new();
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public sealed record LangVersion
+    {
+        public LanguageID Language { get; set; } = LanguageID.English;
+        public GameVersion Version { get; set; }
+    }
+
+    public void Apply()
+    {
+        SaveLanguage.OverrideLanguageGen1 = OverrideGen1.Language;
+        if (GameVersion.RBY.Contains(OverrideGen1.Version))
+            SaveLanguage.OverrideVersionGen1 = OverrideGen1.Version;
+
+        SaveLanguage.OverrideLanguageGen2 = OverrideGen2.Language;
+        if (GameVersion.GS.Contains(OverrideGen2.Version))
+            SaveLanguage.OverrideVersionGen2 = OverrideGen2.Version;
+
+        SaveLanguage.OverrideLanguageGen3RS = OverrideGen3RS.Language;
+        if (GameVersion.RS.Contains(OverrideGen3RS.Version))
+            SaveLanguage.OverrideVersionGen3RS = OverrideGen3RS.Version;
+
+        SaveLanguage.OverrideLanguageGen3FRLG = OverrideGen3FRLG.Language;
+        if (GameVersion.FRLG.Contains(OverrideGen3FRLG.Version))
+            SaveLanguage.OverrideVersionGen3FRLG = OverrideGen3FRLG.Version;
+    }
 }
 
-[Serializable]
 public sealed class SlotExportSettings
 {
     [LocalizedDescription("Settings to use for box exports.")]
@@ -474,4 +482,7 @@ public sealed class SlotExportSettings
 
     [LocalizedDescription("Selected File namer to use for box exports for the GUI, if multiple are available.")]
     public string DefaultBoxExportNamer { get; set; } = "";
+
+    [LocalizedDescription("Allow drag and drop of boxdata binary files from the GUI via the Box tab.")]
+    public bool AllowBoxDataDrop { get; set; } // default to false, clunky to use
 }

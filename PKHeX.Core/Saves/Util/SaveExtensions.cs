@@ -32,7 +32,7 @@ public static class SaveExtensions
         if (sav.PKMType != pk.GetType())
             return false;
 
-        if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
+        if (sav is ILangDeviantSave il && !EntityConverter.IsCompatibleGB(pk, il.Japanese, pk.Japanese))
             return false;
 
         return true;
@@ -51,12 +51,12 @@ public static class SaveExtensions
                 msg = MsgIndexItemHeld;
             if (msg != null)
             {
-                var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, (GameVersion)pk.Version);
+                var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, pk.Version);
                 errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
             }
         }
 
-        if (pk.Species > strings.Species.Count)
+        if (pk.Species >= strings.Species.Count)
             errata.Add($"{MsgIndexSpeciesRange} {pk.Species}");
         else if (sav.MaxSpeciesID < pk.Species)
             errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pk.Species]}");
@@ -68,7 +68,7 @@ public static class SaveExtensions
         for (int i = 0; i < 4; i++)
         {
             var move = pk.GetMove(i);
-            if ((uint)move > movestr.Count)
+            if ((uint)move >= movestr.Count)
                 errata.Add($"{MsgIndexMoveRange} {move}");
             else if (move > sav.MaxMoveID)
                 errata.Add($"{MsgIndexMoveGame} {movestr[move]}");
@@ -140,7 +140,7 @@ public static class SaveExtensions
                 continue;
             }
 
-            if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
+            if (sav is ILangDeviantSave il && !EntityConverter.IsCompatibleGB(temp, il.Japanese, pk.Japanese))
             {
                 var str = EntityConverterResult.IncompatibleLanguageGB.GetIncompatibleGBMessage(pk, il.Japanese);
                 Debug.WriteLine(str);

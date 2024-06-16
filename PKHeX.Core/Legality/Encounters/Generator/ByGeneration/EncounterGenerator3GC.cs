@@ -56,11 +56,11 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 partial ??= z;
         }
 
-        if (partial == null)
-            yield break;
-
-        info.PIDIVMatches = false;
-        yield return partial;
+        if (partial != null)
+        {
+            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
+            yield return partial;
+        }
     }
 
     private static IEnumerable<IEncounterable> IterateInner(PKM pk, EvoCriteria[] chain)

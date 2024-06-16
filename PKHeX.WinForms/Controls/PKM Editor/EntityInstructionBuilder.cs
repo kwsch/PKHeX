@@ -36,7 +36,7 @@ public partial class EntityInstructionBuilder : UserControl
         if (currentFormat == CB_Format.SelectedIndex)
             return;
 
-        int format = CB_Format.SelectedIndex;
+        byte format = (byte)CB_Format.SelectedIndex;
         CB_Property.Items.Clear();
         CB_Property.Items.AddRange(BatchEditing.Properties[format]);
         CB_Property.SelectedIndex = 0;
@@ -67,10 +67,13 @@ public partial class EntityInstructionBuilder : UserControl
     private static bool GetPropertyDisplayText(PropertyInfo pi, PKM pk, out string display)
     {
         var type = pi.PropertyType;
-        if (type.IsGenericType && typeof(Span<>) == type.GetGenericTypeDefinition())
+        if (type.IsGenericType)
         {
-            display = pi.PropertyType.ToString();
-            return false;
+            if (type.GetGenericTypeDefinition().IsByRefLike) // Span, ReadOnlySpan
+            {
+                display = pi.PropertyType.ToString();
+                return false;
+            }
         }
 
         var value = pi.GetValue(pk);

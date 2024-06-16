@@ -8,29 +8,33 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="SaveFile"/> format for <see cref="GameVersion.HGSS"/>
 /// </summary>
-public sealed class SAV4HGSS : SAV4
+public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
 {
     public SAV4HGSS() : base(GeneralSize, StorageSize)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Mystery = new MysteryBlock4HGSS(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4HGSS.Size));
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public SAV4HGSS(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
     {
         Initialize();
-        Dex = new Zukan4(this, PokeDex);
+        Mystery = new MysteryBlock4HGSS(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4HGSS.Size));
+        Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
 
+    public override GameVersion Version { get => GameVersion.HGSS; set { } }
     public override PersonalTable4 Personal => PersonalTable.HGSS;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_HGSS;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public const int GeneralSize = 0xF628;
     private const int StorageSize = 0x12310; // Start 0xF700, +0 starts box data
     private const int GeneralGap = 0xD8;
+    private const int PokeDex = 0x12B8;
     protected override int FooterSize => 0x10;
 
     protected override BlockInfo4[] ExtraBlocks =>
@@ -49,8 +53,11 @@ public sealed class SAV4HGSS : SAV4
         GetSAVOffsets();
     }
 
+    private const int OffsetMystery = 0x9D3C; // Flags and Gifts
     protected override int EventWork => 0xDE4;
     protected override int EventFlag => 0x10C4;
+    protected override int DaycareOffset => 0x15FC;
+    public override MysteryBlock4HGSS Mystery { get; }
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Arcade;
 
     private void GetSAVOffsets()
@@ -58,14 +65,12 @@ public sealed class SAV4HGSS : SAV4
         AdventureInfo = 0;
         Trainer1 = 0x64;
         Party = 0x98;
-        PokeDex = 0x12B8;
         Extra = 0x230C;
-        ChatterOffset = 0x4E74;
+        FashionCase = 0x3F64;
+        OFS_Record = 0x4B3C;
+        OFS_Chatter = 0x4E74;
         Geonet = 0x8D44;
         WondercardFlags = 0x9D3C;
-        WondercardData = 0x9E3C;
-
-        DaycareOffset = 0x15FC;
         Seal = 0x4E20;
 
         Box = 0;
@@ -105,7 +110,7 @@ public sealed class SAV4HGSS : SAV4
 
     public override int GetBoxOffset(int box) => box * 0x1000;
     private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
-    protected override int GetBoxWallpaperOffset(int box) => BOX_WP + box;
+    private static int GetBoxWallpaperOffset(int box) => BOX_WP + box;
 
     // 8 bytes current box (align 32) & (stored count?)
     public override int CurrentBox
@@ -127,9 +132,9 @@ public sealed class SAV4HGSS : SAV4
     }
 
     private Span<byte> GetBoxNameSpan(int box) => Storage.Slice(GetBoxNameOffset(box), BOX_NAME_LEN);
-    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+    public string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
         var span = GetBoxNameSpan(box);
@@ -145,14 +150,14 @@ public sealed class SAV4HGSS : SAV4
         return value;
     }
 
-    public override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         int offset = GetBoxWallpaperOffset(box);
         int value = Storage[offset];
         return AdjustWallpaper(value, -0x10);
     }
 
-    public override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         value = AdjustWallpaper(value, 0x10);
         Storage[GetBoxWallpaperOffset(box)] = (byte)value;
@@ -184,13 +189,13 @@ public sealed class SAV4HGSS : SAV4
     public override int X { get => ReadUInt16LittleEndian(General[0x123C..]); set => WriteUInt16LittleEndian(General[0x123C..], (ushort)(X2 = value)); }
     public override int Y { get => ReadUInt16LittleEndian(General[0x1240..]); set => WriteUInt16LittleEndian(General[0x1240..], (ushort)(Y2 = value)); }
 
-    public override Span<byte> Rival_Trash
+    public override Span<byte> RivalTrash
     {
         get => RivalSpan;
-        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(RivalSpan); }
+        set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(RivalSpan); }
     }
 
-    private Span<byte> RivalSpan => General.Slice(0x22D4, MaxStringLengthOT * 2);
+    private Span<byte> RivalSpan => General.Slice(0x22D4, MaxStringLengthTrainer * 2);
 
     public override int X2 { get => ReadUInt16LittleEndian(General[0x236E..]); set => WriteUInt16LittleEndian(General[0x236E..], (ushort)value); }
     public override int Y2 { get => ReadUInt16LittleEndian(General[0x2372..]); set => WriteUInt16LittleEndian(General[0x2372..], (ushort)value); }

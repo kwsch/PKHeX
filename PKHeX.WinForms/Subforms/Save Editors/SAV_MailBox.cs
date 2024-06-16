@@ -11,12 +11,27 @@ public partial class SAV_MailBox : Form
     private readonly SaveFile Origin;
     private readonly SaveFile SAV;
 
+    private readonly MailDetail[] m = null!;
+    private bool editing;
+    private int entry;
+    private readonly NumericUpDown[][] Messages;
+    private readonly NumericUpDown[] PKMNUDs, Miscs;
+    private readonly Label[] PKMLabels, PKMHeldItems;
+    private readonly ComboBox[] AppearPKMs;
+    private readonly byte Generation;
+    private readonly byte ResetVer, ResetLang;
+    private readonly int PartyBoxCount;
+    private string loadedLBItemLabel = null!;
+    private bool LabelValue_GenderF;
+    private readonly int[] MailItemID = null!;
+    private readonly IList<PKM> p;
+
     public SAV_MailBox(SaveFile sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        Gen = SAV.Generation;
+        Generation = SAV.Generation;
         p = SAV.PartyData;
         editing = true;
 
@@ -32,20 +47,20 @@ public partial class SAV_MailBox : Form
         AppearPKMs = [CB_AppearPKM1, CB_AppearPKM2, CB_AppearPKM3];
         Miscs = [NUD_Misc1, NUD_Misc2, NUD_Misc3];
 
-        NUD_BoxSize.Visible = L_BoxSize.Visible = Gen == 2;
-        GB_MessageTB.Visible = Gen == 2;
-        GB_MessageNUD.Visible = Gen != 2;
-        Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen is 4 or 5;
-        NUD_AuthorSID.Visible = Gen != 2;
-        Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Gen is 4 or 5;
-        L_AppearPKM.Visible = AppearPKMs[0].Visible = Gen != 5;
-        AppearPKMs[1].Visible = AppearPKMs[2].Visible = Gen == 4;
-        NUD_MessageEnding.Visible = Gen == 5;
-        L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Gen == 5;
+        NUD_BoxSize.Visible = L_BoxSize.Visible = Generation == 2;
+        GB_MessageTB.Visible = Generation == 2;
+        GB_MessageNUD.Visible = Generation != 2;
+        Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Generation is 4 or 5;
+        NUD_AuthorSID.Visible = Generation != 2;
+        Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
+        L_AppearPKM.Visible = AppearPKMs[0].Visible = Generation != 5;
+        AppearPKMs[1].Visible = AppearPKMs[2].Visible = Generation == 4;
+        NUD_MessageEnding.Visible = Generation == 5;
+        L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Generation == 5;
 
         for (int i = p.Count; i < 6; i++)
             PKMNUDs[i].Visible = PKMLabels[i].Visible = PKMHeldItems[i].Visible = false;
-        if (Gen != 3)
+        if (Generation != 3)
         {
             for (int i = 0; i < PKMNUDs.Length; i++)
             {
@@ -101,14 +116,14 @@ public partial class SAV_MailBox : Form
         MakePartyList();
         MakePCList();
 
-        if (Gen is 2 or 3)
+        if (Generation is 2 or 3)
         {
             CB_AppearPKM1.Items.Clear();
             CB_AppearPKM1.InitializeBinding();
             CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
             B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
         }
-        else if (Gen is 4 or 5)
+        else if (Generation is 4 or 5)
         {
             var species = GameInfo.FilteredSources.Species.ToList();
             foreach (ComboBox a in AppearPKMs)
@@ -118,35 +133,15 @@ public partial class SAV_MailBox : Form
                 a.DataSource = new BindingSource(species, null);
             }
 
+            var vers = GameInfo.VersionDataSource
+                .Where(z => ((GameVersion)z.Value).GetGeneration() == Generation);
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
-            CB_AuthorVersion.DataSource = new BindingSource(Gen == 4
-                ? new[] {
-                    new ComboItem("Diamond", (int)GameVersion.D),
-                    new ComboItem("Pearl", (int)GameVersion.P),
-                    new ComboItem("Platinum", (int)GameVersion.Pt),
-                    new ComboItem("HeartGold", (int)GameVersion.HG),
-                    new ComboItem("SoulSilver", (int)GameVersion.SS),
-                }
-                : new[] {
-                    new ComboItem("Black", (int)GameVersion.B),
-                    new ComboItem("White", (int)GameVersion.W),
-                    new ComboItem("Black2", (int)GameVersion.B2),
-                    new ComboItem("White2", (int)GameVersion.W2),
-                }, null);
+            CB_AuthorVersion.DataSource = new BindingSource(vers, null);
 
             CB_AuthorLang.Items.Clear();
             CB_AuthorLang.InitializeBinding();
-            CB_AuthorLang.DataSource = new BindingSource(new[] {
-                // not sure
-                new ComboItem("JPN", 1),
-                new ComboItem("ENG", 2),
-                new ComboItem("FRE", 3),
-                new ComboItem("ITA", 4),
-                new ComboItem("GER", 5),
-                new ComboItem("ESP", 7),
-                new ComboItem("KOR", 8),
-            }, null);
+            CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), null);
         }
 
         var ItemList = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
@@ -183,7 +178,7 @@ public partial class SAV_MailBox : Form
     {
         LB_PCBOX.BeginUpdate();
         LB_PCBOX.Items.Clear();
-        if (Gen == 2)
+        if (Generation == 2)
         {
             for (int i = PartyBoxCount, j = 0, boxsize = (int)NUD_BoxSize.Value; i < m.Length; i++, j++)
             {
@@ -208,7 +203,7 @@ public partial class SAV_MailBox : Form
                 PKMLabels[i].Text = GetSpeciesNameFromCB(p[i].Species);
             int j = Array.IndexOf(MailItemID, p[i].HeldItem);
             PKMHeldItems[i].Text = j >= 0 ? CB_MailType.Items[j + 1]!.ToString() : "(not Mail)";
-            if (Gen != 3)
+            if (Generation != 3)
                 continue;
             int k = ((PK3)p[i]).HeldMailID;
             PKMNUDs[i].Value = k is >= -1 and <= 5 ? k : -1;
@@ -216,24 +211,9 @@ public partial class SAV_MailBox : Form
         editing = false;
     }
 
-    private readonly MailDetail[] m = null!;
-    private bool editing;
-    private int entry;
-    private readonly NumericUpDown[][] Messages;
-    private readonly NumericUpDown[] PKMNUDs, Miscs;
-    private readonly Label[] PKMLabels, PKMHeldItems;
-    private readonly ComboBox[] AppearPKMs;
-    private readonly int Gen;
-    private readonly byte ResetVer, ResetLang;
-    private readonly int PartyBoxCount;
-    private string loadedLBItemLabel = null!;
-    private bool LabelValue_GenderF;
-    private readonly int[] MailItemID = null!;
-    private readonly IList<PKM> p;
-
     private void Save()
     {
-        switch (Gen)
+        switch (Generation)
         {
             case 2:
                 foreach (var n in m) n.CopyTo(SAV);
@@ -274,19 +254,19 @@ public partial class SAV_MailBox : Form
         mail.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
         // ReSharper disable once ConstantNullCoalescingCondition
         var species = (ushort)WinFormsUtil.GetIndex(CB_AppearPKM1);
-        if (Gen == 2)
+        if (Generation == 2)
         {
             mail.AppearPKM = species;
             mail.SetMessage(TB_MessageBody21.Text, TB_MessageBody22.Text);
             return;
         }
         mail.AuthorSID = (ushort)NUD_AuthorSID.Value;
-        for (int y = 0, xc = Gen == 3 ? 3 : 4; y < 3; y++)
+        for (int y = 0, xc = Generation == 3 ? 3 : 4; y < 3; y++)
         {
             for (int x = 0; x < xc; x++)
                 mail.SetMessage(y, x, (ushort)Messages[y][x].Value);
         }
-        if (Gen == 3)
+        if (Generation == 3)
         {
             mail.AppearPKM = SpeciesConverter.GetInternal3(species);
             return;
@@ -330,7 +310,7 @@ public partial class SAV_MailBox : Form
         // C: held item is not mail, but heldMailID is not -1. it should be -1, or held mail and mail not empty.
         // D: other pk have same heldMailID. it should be different.
         // E: mail is not empty, but no pk refer to the mail. it should be empty, or someone refer to the mail.
-        if (Gen == 3)
+        if (Generation == 3)
         {
             Span<int> heldMailIDs = stackalloc int[p.Count];
             for (int i = 0; i < p.Count; i++)
@@ -361,7 +341,7 @@ public partial class SAV_MailBox : Form
         // Gen2, Gen4
         // P: held item is mail, but mail is empty(invalid mail type. g2:not 181 to 189, g4:12 to 255). it should be not empty or held not mail.
         // Q: held item is not mail, but mail is not empty. it should be empty or held mail.
-        else if (Gen is 2 or 4)
+        else if (Generation is 2 or 4)
         {
             for (int i = 0; i < p.Count; i++)
             {
@@ -379,7 +359,7 @@ public partial class SAV_MailBox : Form
         // Gen5
         // P
         // Gen5, move mail to pc will not erase mail data, still remains, duplicates.
-        else if (Gen == 5)
+        else if (Generation == 5)
         {
             for (int i = 0; i < p.Count; i++)
             {
@@ -416,8 +396,8 @@ public partial class SAV_MailBox : Form
 
     private string GetLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
     private bool ItemIsMail(int itemID) => Array.IndexOf(MailItemID, itemID) >= 0;
-    private int MailTypeToCBIndex(MailDetail mail) => Gen <= 3 ? 1 + Array.IndexOf(MailItemID, mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
-    private int CBIndexToMailType(int cbindex) => Gen <= 3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
+    private int MailTypeToCBIndex(MailDetail mail) => Generation <= 3 ? 1 + Array.IndexOf(MailItemID, mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
+    private int CBIndexToMailType(int cbindex) => Generation <= 3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
 
     private string GetSpeciesNameFromCB(int index)
     {
@@ -442,7 +422,7 @@ public partial class SAV_MailBox : Form
                 continue;
 
             pk.HeldItem = 0;
-            if (Gen == 3)
+            if (Generation == 3)
                 ((PK3)pk).HeldMailID = -1;
         }
         LoadPKM(false);
@@ -513,7 +493,7 @@ public partial class SAV_MailBox : Form
         NUD_AuthorTID.Value = mail.AuthorTID;
         CB_MailType.SelectedIndex = MailTypeToCBIndex(mail);
         var species = mail.AppearPKM;
-        if (Gen == 2)
+        if (Generation == 2)
         {
             AppearPKMs[0].SelectedValue = (int)species;
             TB_MessageBody21.Text = mail.GetMessage(false);
@@ -522,12 +502,12 @@ public partial class SAV_MailBox : Form
             return;
         }
         NUD_AuthorSID.Value = mail.AuthorSID;
-        for (int y = 0, xc = Gen == 3 ? 3 : 4; y < 3; y++)
+        for (int y = 0, xc = Generation == 3 ? 3 : 4; y < 3; y++)
         {
             for (int x = 0; x < xc; x++)
                 Messages[y][x].Value = mail.GetMessage(y, x);
         }
-        if (Gen == 3)
+        if (Generation == 3)
         {
             AppearPKMs[0].SelectedValue = (int)SpeciesConverter.GetNational3(species);
             editing = false;
@@ -557,7 +537,7 @@ public partial class SAV_MailBox : Form
     private void LoadOTlabel()
     {
         Label_OTGender.Text = gendersymbols[LabelValue_GenderF ? 1 : 0];
-        Label_OTGender.ForeColor = Main.Draw.GetGenderColor(LabelValue_GenderF ? 1 : 0);
+        Label_OTGender.ForeColor = Main.Draw.GetGenderColor((byte)(LabelValue_GenderF ? 1 : 0));
     }
 
     private void Label_OTGender_Click(object sender, EventArgs e)
@@ -570,7 +550,7 @@ public partial class SAV_MailBox : Form
 
     private void NUD_MailIDn_ValueChanged(object sender, EventArgs e)
     {
-        if (editing || Gen != 3)
+        if (editing || Generation != 3)
             return;
         int index = Array.IndexOf(PKMNUDs, (NumericUpDown)sender);
         if (index < 0 || index >= p.Count)

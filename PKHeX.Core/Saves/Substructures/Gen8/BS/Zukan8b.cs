@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Pokédex structure used for Brilliant Diamond &amp; Shining Pearl.
 /// </summary>
 /// <remarks>size 0x30B8, struct_name ZUKAN_WORK</remarks>
-public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
+public sealed class Zukan8b(SAV8BS sav, Memory<byte> dex) : ZukanBase<SAV8BS>(sav, dex)
 {
     /* Structure Notes:
         u32 [493] state: None/HeardOf/Seen/Captured
@@ -140,7 +140,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 
         var index = species - 1;
         var offset = OFS_STATE + (sizeof(int) * index);
-        return (ZukanState8b)ReadInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset));
+        return (ZukanState8b)ReadInt32LittleEndian(Data[offset..]);
     }
 
     public void SetState(ushort species, ZukanState8b state)
@@ -150,7 +150,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 
         var index = species - 1;
         var offset = OFS_STATE + (sizeof(int) * index);
-        WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), (int)state);
+        WriteInt32LittleEndian(Data[offset..], (int)state);
     }
 
     private bool GetBoolean(int index, int baseOffset)
@@ -159,7 +159,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = baseOffset + (ALIGN_BOOLARRAY * index);
-        return ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset)) == 1;
+        return ReadUInt32LittleEndian(Data[offset..]) == 1;
     }
 
     private void SetBoolean(int index, int baseOffset, bool value)
@@ -168,7 +168,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = baseOffset + (ALIGN_BOOLARRAY * index);
-        WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), value ? 1u : 0u);
+        WriteUInt32LittleEndian(Data[offset..], value ? 1u : 0u);
     }
 
     public void GetGenderFlags(ushort species, out bool m, out bool f, out bool ms, out bool fs)
@@ -197,7 +197,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 
         var index = species - 1;
         var offset = OFS_LANGUAGE + (sizeof(int) * index);
-        var current = ReadInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset));
+        var current = ReadInt32LittleEndian(Data[offset..]);
         return (current & (1 << languageBit)) != 0;
     }
 
@@ -211,10 +211,10 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 
         var index = species - 1;
         var offset = OFS_LANGUAGE + (sizeof(int) * index);
-        var current = ReadInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset));
+        var current = ReadInt32LittleEndian(Data[offset..]);
         var mask = (1 << languageBit);
         var update = value ? current | mask : current & ~(mask);
-        WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), update);
+        WriteInt32LittleEndian(Data[offset..], update);
     }
 
     public void SetLanguageFlags(ushort species, int value)
@@ -224,7 +224,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 
         var index = species - 1;
         var offset = OFS_LANGUAGE + (sizeof(int) * index);
-        WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), value);
+        WriteInt32LittleEndian(Data[offset..], value);
     }
 
     private static int GetLanguageBit(int language)
@@ -238,14 +238,14 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 
     public bool HasRegionalDex
     {
-        get => ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + OFS_FLAG_REGIONAL)) == 1;
-        set => WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + OFS_FLAG_REGIONAL), value ? 1u : 0u);
+        get => ReadUInt32LittleEndian(Data[OFS_FLAG_REGIONAL..]) == 1;
+        set => WriteUInt32LittleEndian(Data[OFS_FLAG_REGIONAL..], value ? 1u : 0u);
     }
 
     public bool HasNationalDex
     {
-        get => ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + OFS_FLAG_NATIONAL)) == 1;
-        set => WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + OFS_FLAG_NATIONAL), value ? 1u : 0u);
+        get => ReadUInt32LittleEndian(Data[OFS_FLAG_NATIONAL..]) == 1;
+        set => WriteUInt32LittleEndian(Data[OFS_FLAG_NATIONAL..], value ? 1u : 0u);
     }
 
     public bool GetHasFormFlag(ushort species, byte form, bool shiny)
@@ -257,7 +257,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
         var baseOffset = GetFormOffset(species);
         var sizeShift = shiny ? GetFormSize(species) : 0;
         var offset = baseOffset + sizeShift + (ALIGN_BOOLARRAY * form);
-        return ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset)) == 1;
+        return ReadUInt32LittleEndian(Data[offset..]) == 1;
     }
 
     public void SetHasFormFlag(ushort species, byte form, bool shiny, bool value)
@@ -269,7 +269,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
         var baseOffset = GetFormOffset(species);
         var sizeShift = shiny ? GetFormSize(species) : 0;
         var offset = baseOffset + sizeShift + (ALIGN_BOOLARRAY * form);
-        WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), value ? 1u : 0u);
+        WriteUInt32LittleEndian(Data[offset..], value ? 1u : 0u);
     }
 
     public static int GetFormCount(ushort species) => species switch
@@ -348,7 +348,7 @@ public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
             SAV.ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
     }
 
-    private void SetGenderFlag(ushort species, int gender, bool shiny)
+    private void SetGenderFlag(ushort species, byte gender, bool shiny)
     {
         switch (gender)
         {

@@ -8,5 +8,5 @@ public interface IHandlerLanguage
     /// <summary>
     /// Trainer game language of the latest handler (not OT).
     /// </summary>
-    byte HT_Language { get; set; }
+    byte HandlingTrainerLanguage { get; set; }
 }

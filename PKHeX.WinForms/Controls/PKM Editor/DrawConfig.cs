@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -10,7 +9,6 @@ namespace PKHeX.WinForms;
 /// <summary>
 /// Drawing Configuration for painting and updating controls
 /// </summary>
-[Serializable]
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed class DrawConfig : IDisposable
 {
@@ -23,6 +21,12 @@ public sealed class DrawConfig : IDisposable
 
     [Category(Hovering), LocalizedDescription("Hovering over a PKM color 2.")]
     public Color GlowFinal { get; set; } = Color.LightSkyBlue;
+
+    [Category(PKM), LocalizedDescription("Vertical tab selected primary color.")]
+    public Color VerticalSelectPrimary { get; set; } = Color.White;
+
+    [Category(PKM), LocalizedDescription("Vertical tab selected secondary color.")]
+    public Color VerticalSelectSecondary { get; set; } = Color.LightGray;
 
     #region PKM
 
@@ -73,7 +77,7 @@ public sealed class DrawConfig : IDisposable
 
     public DrawConfig() => LoadBrushes();
 
-    public Color GetGenderColor(int gender) => gender switch
+    public Color GetGenderColor(byte gender) => gender switch
     {
         0 => Male,
         1 => Female,
@@ -106,22 +110,6 @@ public sealed class DrawConfig : IDisposable
     }
 
     public void Dispose() => Brushes.Dispose();
-
-    public override string ToString()
-    {
-        var props = ReflectUtil.GetAllPropertyInfoCanWritePublic(typeof(DrawConfig));
-        var lines = new List<string>();
-        foreach (var p in props)
-        {
-            if (p.PropertyType == typeof(BrushSet))
-                continue;
-
-            var name = p.Name;
-            var value = p.PropertyType == typeof(Color) ? ((Color)p.GetValue(this)!).ToArgb() : p.GetValue(this);
-            lines.Add($"{name}\t{value}");
-        }
-        return string.Join("\n", lines);
-    }
 }
 
 public sealed class BrushSet : IDisposable

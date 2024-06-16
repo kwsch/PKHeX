@@ -12,9 +12,9 @@ public sealed class Record8(SAV8SWSH sav, SCBlock block) : RecordBlock<SAV8SWSH>
 
     public override int GetRecord(int recordID)
     {
-        int ofs = Records.GetOffset(Offset, recordID);
+        int ofs = Records.GetOffset(recordID);
         if (recordID < RecordCount)
-            return ReadInt32LittleEndian(Data.AsSpan(ofs));
+            return ReadInt32LittleEndian(Data[ofs..]);
         Trace.Fail(nameof(recordID));
         return 0;
     }
@@ -28,7 +28,7 @@ public sealed class Record8(SAV8SWSH sav, SCBlock block) : RecordBlock<SAV8SWSH>
         if (value > max)
             value = max;
         if (recordID < RecordCount)
-            WriteInt32LittleEndian(Data.AsSpan(ofs), value);
+            WriteInt32LittleEndian(Data[ofs..], value);
         else
             Trace.Fail(nameof(recordID));
     }

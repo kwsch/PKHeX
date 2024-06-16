@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Drawing;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite.Properties;
@@ -51,7 +52,7 @@ public static class SpriteUtil
         Spriter.Initialize(sav);
     }
 
-    public static Bitmap GetBallSprite(int ball)
+    public static Bitmap GetBallSprite(byte ball)
     {
         string resource = SpriteName.GetResourceStringBall(ball);
         return (Bitmap?)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
@@ -59,7 +60,7 @@ public static class SpriteUtil
 
     public static Bitmap? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Bitmap;
 
-    public static Bitmap GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
+    public static Bitmap GetSprite(ushort species, byte form, byte gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
     {
         return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, context);
     }
@@ -93,7 +94,7 @@ public static class SpriteUtil
         return img;
     }
 
-    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
+    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
     {
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
@@ -109,7 +110,7 @@ public static class SpriteUtil
             }
             if (flagIllegal)
             {
-                var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
+                var la = new LegalityAnalysis(pk, sav.Personal, storage);
                 if (!la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && MoveInfo.IsDummiedMoveAny(pk))
@@ -203,7 +204,7 @@ public static class SpriteUtil
         if (pct is not 0)
             return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
 
-        var encLevel = enc is { EggEncounter: true } ? enc.LevelMin : pk.Met_Level;
+        var encLevel = enc is { IsEgg: true } ? enc.LevelMin : pk.MetLevel;
         var color = level != encLevel && pk.HasOriginalMetLocation ? Color.DarkOrange : Color.Yellow;
         return ImageUtil.WritePixels(img, color, start, start + (SpriteWidth * bpp));
     }
@@ -234,10 +235,16 @@ public static class SpriteUtil
         // If the image has any transparency, any derived background will bleed into it.
         // Need to undo any transparency values if any present.
         // Remove opaque pixels from original image, leaving only the glow effect pixels.
-        var original = (byte[])pixels.Clone();
+        var temp = ArrayPool<byte>.Shared.Rent(pixels.Length);
+        var original = temp.AsSpan(0, pixels.Length);
+        pixels.CopyTo(original);
+
         ImageUtil.SetAllUsedPixelsOpaque(pixels);
         ImageUtil.GlowEdges(pixels, blue, green, red, baseSprite.Width);
         ImageUtil.RemovePixels(pixels, original);
+
+        original.Clear();
+        ArrayPool<byte>.Shared.Return(temp);
     }
 
     public static Bitmap GetLegalIndicator(bool valid) => valid ? Resources.valid : Resources.warn;
@@ -250,10 +257,11 @@ public static class SpriteUtil
         if (enc is MysteryGift g)
             return GetMysteryGiftPreviewPoke(g);
         var gender = GetDisplayGender(enc);
-        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny ? Shiny.Always : Shiny.Never, enc.Context);
-        if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
+        var shiny = enc.IsShiny ? Shiny.Always : Shiny.Never;
+        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.IsEgg, shiny, enc.Context);
+        if (SpriteBuilder.ShowEncounterBall && enc is {FixedBall: not Ball.None})
         {
-            var ballSprite = GetBallSprite((int)b.FixedBall);
+            var ballSprite = GetBallSprite((byte)enc.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
         if (enc is IGigantamaxReadOnly {CanGigantamax: true})
@@ -271,27 +279,28 @@ public static class SpriteUtil
         return img;
     }
 
-    public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
+    public static byte GetDisplayGender(IEncounterTemplate enc) => enc switch
     {
-        IFixedGender { IsFixedGender: true } s => Math.Max(0, (int)s.Gender),
-        IPogoSlot g => (int)g.Gender & 1,
+        IFixedGender { IsFixedGender: true } s => Math.Max((byte)0, s.Gender),
+        IPogoSlot g => (byte)((int)g.Gender & 1),
         _ => 0,
     };
 
-    public static Bitmap Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
-        => GetSprite(pk, sav, box, slot, flagIllegal);
+    public static Bitmap Sprite(this PKM pk, SaveFile sav, int box = -1, int slot = -1,
+        bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
+        => GetSprite(pk, sav, box, slot, flagIllegal, storage);
 
     public static Bitmap GetMysteryGiftPreviewPoke(MysteryGift gift)
     {
         if (gift is { IsEgg: true, Species: (int)Species.Manaphy }) // Manaphy Egg
             return GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, Shiny.Never, gift.Context);
 
-        var gender = Math.Max(0, gift.Gender);
+        var gender = Math.Max((byte)0, gift.Gender);
         var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny ? Shiny.Always : Shiny.Never, gift.Context);
 
-        if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)
+        if (SpriteBuilder.ShowEncounterBall && gift is { FixedBall: not Ball.None })
         {
-            var ballSprite = GetBallSprite((int)b.FixedBall);
+            var ballSprite = GetBallSprite((byte)gift.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
 
@@ -301,5 +310,24 @@ public static class SpriteUtil
             img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
         }
         return img;
+    }
+
+    public static Image? GetStatusSprite(this StatusCondition value)
+    {
+        if (value == 0)
+            return null;
+        if (value < StatusCondition.Poison)
+            return Resources.sicksleep;
+        if (value.HasFlag(StatusCondition.PoisonBad))
+            return Resources.sicktoxic;
+        if (value.HasFlag(StatusCondition.Poison))
+            return Resources.sickpoison;
+        if (value.HasFlag(StatusCondition.Burn))
+            return Resources.sickburn;
+        if (value.HasFlag(StatusCondition.Paralysis))
+            return Resources.sickparalyze;
+        if (value.HasFlag(StatusCondition.Freeze))
+            return Resources.sickfrostbite;
+        return null;
     }
 }

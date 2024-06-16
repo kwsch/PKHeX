@@ -14,7 +14,7 @@ public static class MoveBreed6
     private const int level = 1;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
-    public static bool Validate(int generation, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
+    public static bool Validate(byte generation, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
     {
         var count = moves.IndexOf((ushort)0);
         if (count == 0)
@@ -149,7 +149,7 @@ public static class MoveBreed6
         {
             var move = moves[i];
 
-            if (baseEgg.IndexOf(move) != -1)
+            if (baseEgg.Contains(move))
                 possible[i] |= 1 << (int)Base;
 
             if (inheritLevelUp && learn.GetIsLearn(move))

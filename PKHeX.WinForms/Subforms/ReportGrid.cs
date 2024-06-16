@@ -1,7 +1,10 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -22,7 +25,7 @@ public partial class ReportGrid : Form
     private void GetContextMenu()
     {
         var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide };
-        mnuHide.Click += (sender, e) =>
+        mnuHide.Click += (_, _) =>
         {
             int c = dgData.SelectedCells.Count;
             if (c == 0)
@@ -32,7 +35,7 @@ public partial class ReportGrid : Form
                 dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
         };
         var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore };
-        mnuRestore.Click += (sender, e) =>
+        mnuRestore.Click += (_, _) =>
         {
             int c = dgData.ColumnCount;
             for (int i = 0; i < c; i++)
@@ -50,12 +53,14 @@ public partial class ReportGrid : Form
 
     private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
 
-    public void PopulateData(IList<SlotCache> Data)
+    public void PopulateData(IReadOnlyList<SlotCache> data) => PopulateData(data, [], []);
+
+    public void PopulateData(IReadOnlyList<SlotCache> data, ReadOnlySpan<string> extra, ReadOnlySpan<string> hide)
     {
         SuspendLayout();
         var PL = new PokemonList<EntitySummaryImage>();
         var strings = GameInfo.Strings;
-        foreach (var entry in Data)
+        foreach (var entry in data)
         {
             var pk = entry.Entity;
             if (pk.Species - 1u >= pk.MaxSpeciesID)
@@ -68,6 +73,12 @@ public partial class ReportGrid : Form
 
         dgData.DataSource = PL;
         dgData.AutoGenerateColumns = true;
+
+        if (hide.Length != 0)
+            HideSpecifiedColumns(hide);
+        if (extra.Length != 0)
+            AddExtraColumns(PL, extra);
+
         for (int i = 0; i < dgData.Columns.Count; i++)
         {
             var col = dgData.Columns[i];
@@ -88,6 +99,57 @@ public partial class ReportGrid : Form
         Data_Sorted(this, EventArgs.Empty); // trigger row resizing
 
         ResumeLayout();
+    }
+
+    private void HideSpecifiedColumns(ReadOnlySpan<string> hide)
+    {
+        foreach (var prop in hide)
+        {
+            if (prop.Length == 0)
+                continue;
+            var col = dgData.Columns[prop];
+            if (col != null)
+                col.Visible = false;
+        }
+    }
+
+    private void AddExtraColumns(PokemonList<EntitySummaryImage> data, ReadOnlySpan<string> extra)
+    {
+        var rent = ArrayPool<string>.Shared.Rent(data.Count);
+        var span = rent.AsSpan(0, data.Count);
+        foreach (var prop in extra)
+        {
+            if (prop.Length == 0)
+                continue;
+            span.Clear();
+            bool any = false;
+            for (int i = 0; i < data.Count; i++)
+            {
+                var pk = data[i].Entity;
+                if (!TryGetCustomCell(pk, prop, out var str))
+                    continue;
+                span[i] = str;
+                any = true;
+            }
+
+            if (!any)
+                continue;
+
+            var col = new DataGridViewTextBoxColumn { Name = prop, HeaderText = prop };
+            var c = dgData.Columns.Add(col);
+            for (int i = 0; i < data.Count; i++)
+                dgData.Rows[i].Cells[c].Value = span[i];
+        }
+        ArrayPool<string>.Shared.Return(rent, true);
+    }
+
+    public IPropertyProvider PropertyProvider { get; init; } = DefaultPropertyProvider.Instance;
+
+    private bool TryGetCustomCell(PKM pk, string prop, [NotNullWhen(true)] out string? result)
+    {
+        if (PropertyProvider.TryGetProperty(pk, prop, out result))
+            return true;
+        return false;
     }
 
     private void Data_Sorted(object sender, EventArgs e)
@@ -116,7 +178,7 @@ public partial class ReportGrid : Form
     private async Task Export_CSV(string path)
     {
         await using var fs = new FileStream(path, FileMode.Create);
-        await using var s = new StreamWriter(fs, System.Text.Encoding.Unicode);
+        await using var s = new StreamWriter(fs, new UTF8Encoding(false));
 
         var headers = dgData.Columns.Cast<DataGridViewColumn>();
         await s.WriteLineAsync(string.Join(",", headers.Skip(1).Select(column => $"\"{column.HeaderText}\""))).ConfigureAwait(false);
@@ -153,7 +215,7 @@ public partial class ReportGrid : Form
     private static string[] ConvertTabbedToRedditTable(ReadOnlySpan<string> lines)
     {
         string[] newlines = new string[lines.Length + 1];
-        int tabcount = lines[0].Count(c => c == '\t');
+        int tabcount = lines[0].AsSpan().Count('\t');
 
         newlines[0] = lines[0].Replace('\t', '|');
         newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end

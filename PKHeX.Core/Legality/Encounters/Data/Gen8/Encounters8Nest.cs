@@ -220,7 +220,7 @@ internal static class Encounters8Nest
     internal static bool IsInaccessibleRank12Nest(byte nestID, byte location)
     {
         var noNest = GetInaccessibleRank12Nests(location);
-        return noNest.Length > 0 && noNest.Contains(nestID);
+        return noNest.Length != 0 && noNest.Contains(nestID);
     }
 
     private static ReadOnlySpan<byte> GetInaccessibleRank12Nests(byte location) => location switch
@@ -268,11 +268,11 @@ internal static class Encounters8Nest
     internal const int Watchtower = 126;
     internal const int MaxLair = 244;
 
-    internal static readonly EncounterStatic8N[] Nest_SW = GetBase("sw", SW);
-    internal static readonly EncounterStatic8N[] Nest_SH = GetBase("sh", SH);
+    internal static readonly EncounterStatic8N[] Nest_SW = GetBase("sw_nest", SW);
+    internal static readonly EncounterStatic8N[] Nest_SH = GetBase("sh_nest", SH);
 
-    internal static readonly EncounterStatic8ND[] Dist_SW = GetDist("sw", SW);
-    internal static readonly EncounterStatic8ND[] Dist_SH = GetDist("sh", SH);
+    internal static readonly EncounterStatic8ND[] Dist_SW = GetDist("sw_dist", SW);
+    internal static readonly EncounterStatic8ND[] Dist_SH = GetDist("sh_dist", SH);
 
     internal static readonly EncounterStatic8U[] DynAdv_SWSH = GetUnderground();
 
@@ -293,9 +293,9 @@ internal static class Encounters8Nest
         new(SWSH) { Species = 133, Level = 25, Ability = A2, IVs = new(31,31,31,-1,-1,-1), DynamaxLevel = 5, Moves = new(606,273,038,129), CanGigantamax = true }, // ★Sgr7194 Gigantamax Eevee
     ];
 
-    private static EncounterStatic8N[] GetBase([Length(2, 2)] string name, [ConstantExpected] GameVersion game)
+    private static EncounterStatic8N[] GetBase([Length(2, 2), ConstantExpected] string name, [ConstantExpected] GameVersion game)
     {
-        var data = EncounterUtil.Get($"{name}_nest");
+        var data = EncounterUtil.Get(name);
         const int size = 10;
         var result = new EncounterStatic8N[data.Length / size];
 
@@ -308,9 +308,9 @@ internal static class Encounters8Nest
         return result;
     }
 
-    private static EncounterStatic8ND[] GetDist([Length(2, 2)] string name, [ConstantExpected] GameVersion game)
+    private static EncounterStatic8ND[] GetDist([Length(2, 2), ConstantExpected] string name, [ConstantExpected] GameVersion game)
     {
-        var data = EncounterUtil.Get($"{name}_dist");
+        var data = EncounterUtil.Get(name);
         const int size = 0x10;
         var result = new EncounterStatic8ND[data.Length / size];
 

@@ -9,8 +9,8 @@ namespace PKHeX.WinForms;
 /// Bind-able summary object that can fetch sprite and strings that summarize a <see cref="PKM"/>.
 /// </summary>
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
-public sealed class EntitySummaryImage(PKM p, GameStrings strings, string Position) : EntitySummary(p, strings)
+public sealed class EntitySummaryImage(PKM pk, GameStrings strings, string Position) : EntitySummary(pk, strings)
 {
-    public Image Sprite => pk.Sprite();
+    public Image Sprite => Entity.Sprite();
     public override string Position { get; } = Position;
 }

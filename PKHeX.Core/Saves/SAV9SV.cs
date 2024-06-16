@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 <see cref="SaveFile"/> object for <see cref="GameVersion.SV"/> games.
 /// </summary>
-public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision
+public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision, IBoxDetailName, IBoxDetailWallpaper
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.DisplayValue}";
     public override string Extension => string.Empty;
@@ -24,9 +24,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public SAV9SV()
     {
-        AllBlocks = Meta9.GetBlankDataSV();
+        AllBlocks = BlankBlocks9.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = Meta9.BlankRevision;
+        SaveRevision = BlankBlocks9.BlankRevision;
         Initialize();
         ClearBoxes();
     }
@@ -74,15 +74,16 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public BoxLayout9 BoxLayout => Blocks.BoxLayout;
     public PlayTime9 Played => Blocks.Played;
     public ConfigSave9 Config => Blocks.Config;
-    public TeamIndexes9 TeamIndexes => Blocks.TeamIndexes;
-    public Epoch1970Value LastSaved => Blocks.LastSaved;
+    public TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
+    public Epoch1900DateTimeValue LastSaved => Blocks.LastSaved;
+    public Epoch1970Value LastDateCycle => Blocks.LastDateCycle;
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
     public RaidSpawnList9 RaidPaldea => Blocks.RaidPaldea;
     public RaidSpawnList9 RaidKitakami => Blocks.RaidKitakami;
     public RaidSpawnList9 RaidBlueberry => Blocks.RaidBlueberry;
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
-    public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
+    public Epoch1900DateValue EnrollmentDate => Blocks.EnrollmentDate;
     public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
     public BlueberryClubRoom9 BlueberryClubRoom => Blocks.BlueberryClubRoom;
     #endregion
@@ -97,17 +98,18 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     private ushort m_spec, m_item, m_move, m_abil;
     public override int MaxBallID => Legal.MaxBallID_9;
-    public override int MaxGameID => Legal.MaxGameID_HOME;
+    public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
     public override ushort MaxMoveID => m_move;
     public override ushort MaxSpeciesID => m_spec;
     public override int MaxItemID => m_item;
     public override int MaxAbilityID => m_abil;
 
+    public override bool HasPokeDex => true;
+
     private void Initialize()
     {
         Box = 0;
         Party = 0;
-        PokeDex = 0;
         TeamIndexes.LoadBattleTeams();
 
         int rev = SaveRevision;
@@ -153,21 +155,19 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override int BoxCount => BoxLayout9.BoxCount;
     public override int MaxEV => EffortValues.Max252;
-    public override int Generation => 9;
+    public override byte Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
-    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
     protected override PK9 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
 
-    public override GameVersion Version => Game switch
-    {
-        (int)GameVersion.SL => GameVersion.SL,
-        (int)GameVersion.VL => GameVersion.VL,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.SL or GameVersion.VL;
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter8.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter8.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
 
@@ -175,8 +175,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
-    public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
+    public override GameVersion Version { get => (GameVersion)MyStatus.Game; set => MyStatus.Game = (byte)value; }
+    public override byte Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KMoney, value); }
@@ -193,16 +193,15 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
-    public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
+    public string GetBoxName(int box) => BoxLayout[box];
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
         PK9 pk9 = (PK9)pk;
         // Apply to this Save File
-        var now = EncounterDate.GetDateSwitch();
-        pk9.Trade(this, now.Day, now.Month, now.Year);
+        pk9.UpdateHandler(this);
 
         if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk9.Species, pk9.Form))
         {
@@ -211,7 +210,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         pk9.RefreshChecksum();
-        AddCountAcquired(pk9);
+        if (SetUpdateRecords != PKMImportSetting.Skip)
+            AddCountAcquired(pk9);
     }
 
     private static uint GetFormArgument(PKM pk)
@@ -258,7 +258,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
     public override PK9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.AsSpan(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     //public int GetRecord(int recordID) => Records.GetRecord(recordID);
     //public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
@@ -281,8 +281,6 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => (byte)Blocks.GetBlockValue(SaveBlockAccessor9SV.KBoxesUnlocked); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KBoxesUnlocked, (byte)value); }
-    public override bool HasBoxWallpapers => true;
-    public override bool HasNamableBoxes => true;
     public Span<byte> Coordinates => Blocks.GetBlock(SaveBlockAccessor9SV.KCoordinates).Data;
     public float X { get => ReadSingleLittleEndian(Coordinates); set => WriteSingleLittleEndian(Coordinates, value); }
     public float Y { get => ReadSingleLittleEndian(Coordinates[4..]); set => WriteSingleLittleEndian(Coordinates[4..], value); }
@@ -316,7 +314,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         RW = rw;
     }
 
-    public override int GetBoxWallpaper(int box)
+    public int GetBoxWallpaper(int box)
     {
         if ((uint)box >= BoxCount)
             return box;
@@ -324,7 +322,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         return b.Data[box];
     }
 
-    public override void SetBoxWallpaper(int box, int value)
+    public void SetBoxWallpaper(int box, int value)
     {
         if ((uint)box >= BoxCount)
             return;

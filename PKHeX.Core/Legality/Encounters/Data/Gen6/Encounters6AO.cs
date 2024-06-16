@@ -25,11 +25,11 @@ internal static class Encounters6AO
         Gender = 1,
         Ability = OnlyHidden,
         FlawlessIVCount = 3,
-        CNT_Cool = 70,
-        CNT_Beauty = 70,
-        CNT_Cute = 70,
-        CNT_Tough = 70,
-        CNT_Smart = 70,
+        ContestCool = 70,
+        ContestBeauty = 70,
+        ContestCute = 70,
+        ContestTough = 70,
+        ContestSmart = 70,
         FixedBall = Ball.Poke,
         Shiny = Shiny.Never,
     };
@@ -72,7 +72,7 @@ internal static class Encounters6AO
 
         // Gift
         new(ORAS) { Species = 374, Level = 01, Location = 196, Ability = OnlyFirst, FixedBall = Ball.Poke, IVs = new(-1,-1,31,-1,-1,31) }, // Beldum
-        new(ORAS) { Species = 351, Level = 30, Location = 240, Ability = OnlyFirst, FixedBall = Ball.Poke, IVs = new(-1,-1,-1,-1,31,-1), CNT_Beauty = 100, Gender = 1, Nature = Nature.Lax }, // Castform
+        new(ORAS) { Species = 351, Level = 30, Location = 240, Ability = OnlyFirst, FixedBall = Ball.Poke, IVs = new(-1,-1,-1,-1,31,-1), ContestBeauty = 100, Gender = 1, Nature = Nature.Lax }, // Castform
         new(ORAS) { Species = 319, Level = 40, Location = 318, Ability = OnlyFirst, FixedBall = Ball.Poke, Gender = 1, Nature = Nature.Adamant }, // Sharpedo
         new(ORAS) { Species = 323, Level = 40, Location = 318, Ability = OnlyFirst, FixedBall = Ball.Poke, Gender = 1, Nature = Nature.Quiet }, // Camerupt
 

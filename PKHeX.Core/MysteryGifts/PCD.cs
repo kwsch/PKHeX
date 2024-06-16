@@ -18,10 +18,10 @@ public sealed class PCD(byte[] Data)
     public PCD() : this(new byte[Size]) { }
 
     public const int Size = 0x358; // 856
-    public override int Generation => 4;
+    public override byte Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => Gift.PK.FatefulEncounter;
-    public override GameVersion Version { get=> Gift.Version; set => Gift.Version = value; }
+    public override GameVersion Version => Gift.Version;
 
     public override byte Level
     {
@@ -29,7 +29,7 @@ public sealed class PCD(byte[] Data)
         set => Gift.Level = value;
     }
 
-    public override int Ball
+    public override byte Ball
     {
         get => Gift.Ball;
         set => Gift.Ball = value;
@@ -51,6 +51,7 @@ public sealed class PCD(byte[] Data)
     }
 
     private PGT? _gift;
+    public GiftType4 GiftType => Gift.GiftType;
 
     public Span<byte> GetMetadata() => Data.AsSpan(PGT.Size);
     public void SetMetadata(ReadOnlySpan<byte> data) => data.CopyTo(Data.AsSpan(PGT.Size));
@@ -75,7 +76,7 @@ public sealed class PCD(byte[] Data)
     public override string CardTitle
     {
         get => StringConverter4.GetString(CardTitleSpan);
-        set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, StringConverterOption.ClearFF);
+        set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, 0, StringConverterOption.ClearFF);
     }
 
     public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
@@ -86,19 +87,19 @@ public sealed class PCD(byte[] Data)
     public override bool IsShiny => Gift.IsShiny;
     public override Shiny Shiny => Gift.Shiny;
     public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
-    public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
+    public override byte Gender { get => Gift.Gender; set => Gift.Gender = value; }
     public override byte Form { get => Gift.Form; set => Gift.Form = value; }
     public override uint ID32 { get => Gift.ID32; set => Gift.ID32 = value; }
     public override ushort TID16 { get => Gift.TID16; set => Gift.TID16 = value; }
     public override ushort SID16 { get => Gift.SID16; set => Gift.SID16 = value; }
-    public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
+    public override string OriginalTrainerName { get => Gift.OriginalTrainerName; set => Gift.OriginalTrainerName = value; }
     public override AbilityPermission Ability => Gift.Ability;
     public override bool HasFixedIVs => Gift.HasFixedIVs;
     public override void GetIVs(Span<int> value) => Gift.GetIVs(value);
 
     // ILocation overrides
-    public override int Location { get => IsEgg ? 0 : Gift.EggLocation + 3000; set { } }
-    public override int EggLocation { get => IsEgg ? Gift.EggLocation + 3000 : 0; set { } }
+    public override ushort Location { get => (ushort)(IsEgg ? 0 : Gift.EggLocation + 3000); set { } }
+    public override ushort EggLocation { get => (ushort)(IsEgg ? Gift.EggLocation + 3000 : 0); set { } }
 
     public bool IsCompatible(PIDType val, PKM pk) => Gift.IsCompatible(val, pk);
     public PIDType GetSuggestedCorrelation() => Gift.GetSuggestedCorrelation();
@@ -130,7 +131,7 @@ public sealed class PCD(byte[] Data)
         return Gift.ConvertToPKM(tr, criteria);
     }
 
-    public bool CanBeReceivedByVersion(int pkmVersion) => (byte)Version == pkmVersion;
+    public bool CanBeReceivedByVersion(GameVersion version) => Version == version;
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -139,30 +140,30 @@ public sealed class PCD(byte[] Data)
         {
             if (wc.TID16 != pk.TID16) return false;
             if (wc.SID16 != pk.SID16) return false;
-            if (wc.OT_Name != pk.OT_Name) return false;
-            if (wc.OT_Gender != pk.OT_Gender) return false;
+            if (wc.OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (wc.OriginalTrainerGender != pk.OriginalTrainerGender) return false;
             if (wc.Language != 0 && wc.Language != pk.Language) return false;
 
             if (pk.Format != 4) // transferred
             {
                 // met location: deferred to general transfer check
-                if (wc.CurrentLevel > pk.Met_Level) return false;
+                if (wc.CurrentLevel > pk.MetLevel) return false;
                 if (!IsMatchEggLocation(pk))
                     return false;
             }
             else
             {
-                if (wc.Egg_Location + 3000 != pk.Met_Location) return false;
-                if (wc.CurrentLevel != pk.Met_Level) return false;
+                if (wc.EggLocation + 3000 != pk.MetLocation) return false;
+                if (wc.CurrentLevel != pk.MetLevel) return false;
             }
         }
         else // Egg
         {
-            if (wc.Egg_Location + 3000 != pk.Egg_Location && pk.Egg_Location != Locations.LinkTrade4) // traded
+            if (wc.EggLocation + 3000 != pk.EggLocation && pk.EggLocation != Locations.LinkTrade4) // traded
                 return false;
-            if (wc.CurrentLevel != pk.Met_Level)
+            if (wc.CurrentLevel != pk.MetLevel)
                 return false;
-            if (pk is { IsEgg: true, IsNative: false })
+            if (pk is { IsEgg: true, Format: not 4 })
                 return false;
         }
 
@@ -170,7 +171,7 @@ public sealed class PCD(byte[] Data)
             return false;
 
         if (wc.Ball != pk.Ball) return false;
-        if (wc.OT_Gender < 3 && wc.OT_Gender != pk.OT_Gender) return false;
+        if (wc.OriginalTrainerGender < 3 && wc.OriginalTrainerGender != pk.OriginalTrainerGender) return false;
 
         // Milotic is the only gift to come with Contest stats.
         if (wc.Species == (int)Core.Species.Milotic && pk is IContestStatsReadOnly s && s.IsContestBelow(wc))

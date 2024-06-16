@@ -9,10 +9,10 @@ public sealed class Mail5 : MailDetail
 
     public Mail5(byte[] data, int ofs = -1) : base(data, ofs) { }
 
-    public Mail5(byte? lang, byte? ver) : base(new byte[SIZE])
+    public Mail5(byte? lang, byte? version) : base(new byte[SIZE])
     {
         if (lang != null) AuthorLanguage = (byte)lang;
-        if (ver != null) AuthorVersion = (byte)ver;
+        if (version != null) AuthorVersion = (byte)version;
         ResetData();
     }
 
@@ -40,7 +40,7 @@ public sealed class Mail5 : MailDetail
     public override byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
     public override byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
     public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
-    public override string AuthorName { get => StringConverter5.GetString(Data.AsSpan(8, 0x10)); set => StringConverter5.SetString(Data.AsSpan(8, 0x10), value, 7, StringConverterOption.ClearZero); }
+    public override string AuthorName { get => StringConverter5.GetString(Data.AsSpan(8, 0x10)); set => StringConverter5.SetString(Data.AsSpan(8, 0x10), value, 7, AuthorLanguage, StringConverterOption.ClearZero); }
     public int GetMisc(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)));
     public void SetMisc(int index, int value) => WriteUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)), (ushort)value);
     public ushort MessageEnding { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
@@ -55,5 +55,5 @@ public sealed class Mail5 : MailDetail
     };
 
     public override void SetBlank() => SetBlank(null, null);
-    public void SetBlank(byte? lang, byte? ver) => new Mail5(lang: lang, ver: ver).Data.CopyTo(Data, 0);
+    public void SetBlank(byte? lang, byte? version) => new Mail5(lang: lang, version: version).Data.CopyTo(Data, 0);
 }

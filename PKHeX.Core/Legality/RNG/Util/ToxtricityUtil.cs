@@ -18,10 +18,10 @@ public static class ToxtricityUtil
     /// <param name="rand">Random number generator</param>
     /// <param name="form">Desired Toxtricity form</param>
     /// <returns>0 for Amped, 1 for Low Key</returns>
-    public static byte GetRandomNature(ref Xoroshiro128Plus rand, byte form)
+    public static Nature GetRandomNature(ref Xoroshiro128Plus rand, byte form)
     {
         var table = form == 0 ? Nature0 : Nature1;
-        return table[(int)rand.NextInt((uint)table.Length)];
+        return (Nature)table[(int)rand.NextInt((uint)table.Length)];
     }
 
     /// <summary>
@@ -29,11 +29,11 @@ public static class ToxtricityUtil
     /// </summary>
     /// <param name="nature">Entity nature</param>
     /// <returns>0 for Amped, 1 for Low Key</returns>
-    public static int GetAmpLowKeyResult(int nature)
+    public static int GetAmpLowKeyResult(Nature nature)
     {
         var index = nature - 1;
         if ((uint)index > 22)
             return 0;
-        return (0b_0101_1011_1100_1010_0101_0001 >> index) & 1;
+        return (0b_0101_1011_1100_1010_0101_0001 >> (int)index) & 1;
     }
 }

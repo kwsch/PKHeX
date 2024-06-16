@@ -12,13 +12,13 @@ public sealed class PersonalTable1 : IPersonalTable, IPersonalTable<PersonalInfo
     private const ushort MaxSpecies = Legal.MaxSpeciesID_1;
     public ushort MaxSpeciesID => MaxSpecies;
 
-    public PersonalTable1(ReadOnlySpan<byte> data)
+    public PersonalTable1(Memory<byte> data)
     {
         Table = new PersonalInfo1[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
         {
-            var slice = data.Slice(ofs, SIZE).ToArray();
+            var slice = data.Slice(ofs, SIZE);
             Table[i] = new PersonalInfo1(slice);
         }
     }

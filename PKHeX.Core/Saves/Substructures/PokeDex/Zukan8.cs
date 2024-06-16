@@ -20,7 +20,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     /// </summary>
     public readonly IReadOnlyDictionary<ushort, Zukan8Index> DexLookup;
 
-    public Zukan8(SAV8SWSH sav, SCBlock galar, SCBlock rigel1, SCBlock rigel2) : base(sav, 0)
+    public Zukan8(SAV8SWSH sav, SCBlock galar, SCBlock rigel1, SCBlock rigel2) : base(sav, default)
     {
         Galar = galar;
         Rigel1 = rigel1;
@@ -610,7 +610,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
             if (shinyToo)
                 SetDisplayShiny(species);
 
-            SetGenderDisplayed(species, (uint)pi.RandomGender());
+            SetGenderDisplayed(species, pi.RandomGender());
         }
         else
         {

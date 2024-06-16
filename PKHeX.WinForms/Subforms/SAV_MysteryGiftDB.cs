@@ -22,6 +22,9 @@ public partial class SAV_MysteryGiftDB : Form
     private readonly SummaryPreviewer ShowSet = new();
     private readonly EntityInstructionBuilder UC_Builder;
 
+    private const int GridWidth = 6;
+    private const int GridHeight = 11;
+
     public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
     {
         InitializeComponent();
@@ -46,16 +49,16 @@ public partial class SAV_MysteryGiftDB : Form
         var grid = MysteryPokeGrid;
         var smallWidth = grid.Width;
         var smallHeight = grid.Height;
-        grid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+        grid.InitializeGrid(GridWidth, GridHeight, SpriteUtil.Spriter);
         grid.SetBackground(Resources.box_wp_clean);
         var newWidth = grid.Width;
         var newHeight = grid.Height;
-        var wdelta = newWidth - smallWidth;
-        if (wdelta != 0)
-            Width += wdelta;
-        var hdelta = newHeight - smallHeight;
-        if (hdelta != 0)
-            Height += hdelta;
+        var wDelta = newWidth - smallWidth;
+        if (wDelta != 0)
+            Width += wDelta;
+        var hDelta = newHeight - smallHeight;
+        if (hDelta != 0)
+            Height += hDelta;
 
         PKXBOXES = [.. grid.Entries];
 
@@ -63,19 +66,17 @@ public partial class SAV_MysteryGiftDB : Form
         foreach (var slot in PKXBOXES)
         {
             // Enable Click
-            slot.MouseClick += (sender, e) =>
+            slot.MouseClick += (_, e) =>
             {
                 if (ModifierKeys == Keys.Control)
-                    ClickView(sender!, e);
+                    ClickView(slot, e);
             };
 
             slot.ContextMenuStrip = mnu;
-            slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
-            slot.Enter += (sender, e) =>
+            slot.MouseEnter += (_, _) => ShowHoverTextForSlot(slot);
+            slot.Enter += (_, _) =>
             {
-                if (sender is not PictureBox pb)
-                    return;
-                var index = Array.IndexOf(PKXBOXES, sender);
+                var index = Array.IndexOf(PKXBOXES, slot);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -83,14 +84,14 @@ public partial class SAV_MysteryGiftDB : Form
                     return;
 
                 var enc = Results[index];
-                pb.AccessibleDescription = string.Join(Environment.NewLine, enc.GetTextLines());
+                slot.AccessibleDescription = string.Join(Environment.NewLine, enc.GetTextLines());
             };
         }
 
         Counter = L_Count.Text;
         Viewed = L_Viewed.Text;
         L_Viewed.Text = string.Empty; // invis for now
-        L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
+        L_Viewed.MouseEnter += (_, _) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
         // Load Data
         B_Search.Enabled = false;
@@ -107,8 +108,8 @@ public partial class SAV_MysteryGiftDB : Form
     private List<MysteryGift> RawDB = [];
     private int slotSelected = -1; // = null;
     private Image? slotColor;
-    private const int RES_MAX = 66;
-    private const int RES_MIN = 6;
+    private const int RES_MIN = GridWidth * 1;
+    private const int RES_MAX = GridWidth * GridHeight;
     private readonly string Counter;
     private readonly string Viewed;
     private const int MAXFORMAT = PKX.Generation;
@@ -305,7 +306,7 @@ public partial class SAV_MysteryGiftDB : Form
         // Populate Search Query Result
         IEnumerable<MysteryGift> res = RawDB;
 
-        int format = MAXFORMAT + 1 - CB_Format.SelectedIndex;
+        byte format = (byte)(MAXFORMAT + 1 - CB_Format.SelectedIndex);
 
         switch (CB_FormatComparator.SelectedIndex)
         {
@@ -342,7 +343,7 @@ public partial class SAV_MysteryGiftDB : Form
         slotSelected = -1; // reset the slot last viewed
 
         ReadOnlySpan<char> batchText = RTB_Instructions.Text;
-        if (batchText.Length > 0 && !StringInstructionSet.HasEmptyLine(batchText))
+        if (batchText.Length != 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
             BatchEditing.ScreenStrings(filters);
@@ -429,11 +430,11 @@ public partial class SAV_MysteryGiftDB : Form
     {
         if (!MysteryPokeGrid.RectangleToScreen(MysteryPokeGrid.ClientRectangle).Contains(MousePosition))
             return;
-        int oldval = SCR_Box.Value;
-        int newval = oldval + (e.Delta < 0 ? 1 : -1);
-        if (newval < SCR_Box.Minimum || SCR_Box.Maximum < newval)
+        int oldVal = SCR_Box.Value;
+        int newVal = oldVal + (e.Delta < 0 ? 1 : -1);
+        if (newVal < SCR_Box.Minimum || SCR_Box.Maximum < newVal)
             return;
-        FillPKXBoxes(SCR_Box.Value = newval);
+        FillPKXBoxes(SCR_Box.Value = newVal);
         ShowSet.Clear();
     }
 
@@ -452,9 +453,8 @@ public partial class SAV_MysteryGiftDB : Form
         }
     }
 
-    private void ShowHoverTextForSlot(object sender, EventArgs e)
+    private void ShowHoverTextForSlot(PictureBox pb)
     {
-        var pb = (PictureBox)sender;
         int index = Array.IndexOf(PKXBOXES, pb);
         if (!GetShiftedIndex(ref index))
             return;
@@ -471,8 +471,8 @@ public partial class SAV_MysteryGiftDB : Form
         // If we already have text, add a new line (except if the last line is blank).
         var tb = RTB_Instructions;
         var batchText = tb.Text;
-        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+        if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
-        RTB_Instructions.AppendText(s);
+        tb.AppendText(s);
     }
 }

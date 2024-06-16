@@ -11,37 +11,37 @@ public partial class ContestStat : UserControl, IContestStats
         InitializeComponent();
     }
 
-    public byte CNT_Cool
+    public byte ContestCool
     {
         get => (byte)Util.ToInt32(TB_Cool.Text);
         set => TB_Cool.Text = value.ToString();
     }
 
-    public byte CNT_Beauty
+    public byte ContestBeauty
     {
         get => (byte)Util.ToInt32(TB_Beauty.Text);
         set => TB_Beauty.Text = value.ToString();
     }
 
-    public byte CNT_Cute
+    public byte ContestCute
     {
         get => (byte)Util.ToInt32(TB_Cute.Text);
         set => TB_Cute.Text = value.ToString();
     }
 
-    public byte CNT_Smart
+    public byte ContestSmart
     {
         get => (byte)Util.ToInt32(TB_Smart.Text);
         set => TB_Smart.Text = value.ToString();
     }
 
-    public byte CNT_Tough
+    public byte ContestTough
     {
         get => (byte)Util.ToInt32(TB_Tough.Text);
         set => TB_Tough.Text = value.ToString();
     }
 
-    public byte CNT_Sheen
+    public byte ContestSheen
     {
         get => (byte)Util.ToInt32(TB_Sheen.Text);
         set => TB_Sheen.Text = value.ToString();

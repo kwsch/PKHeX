@@ -24,7 +24,7 @@ public sealed class GameDataSource
     /// <summary>
     /// List of <see cref="LanguageID"/> values to display.
     /// </summary>
-    private static readonly List<ComboItem> LanguageList =
+    private static readonly ComboItem[] LanguageList =
     [
         new ComboItem("JPN (日本語)",   (int)LanguageID.Japanese),
         new ComboItem("ENG (English)",  (int)LanguageID.English),
@@ -36,6 +36,18 @@ public sealed class GameDataSource
         new ComboItem("CHS (简体中文)",  (int)LanguageID.ChineseS),
         new ComboItem("CHT (繁體中文)",  (int)LanguageID.ChineseT),
     ];
+
+    /// <summary>
+    /// Gets a list of languages to display based on the generation.
+    /// </summary>
+    /// <param name="generation">Generation to get the language list for.</param>
+    /// <returns>List of languages to display.</returns>
+    public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation) => generation switch
+    {
+          3 => LanguageList[..6], // No Korean+
+        < 7 => LanguageList[..7], // No Chinese+
+          _ => [.. LanguageList],
+    };
 
     public GameDataSource(GameStrings s)
     {
@@ -129,15 +141,5 @@ public sealed class GameDataSource
     {
         var items = Strings.GetItemStrings(context, game);
         return HaX ? Util.GetCBList(items) : Util.GetCBList(items, allowed);
-    }
-
-    public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)
-    {
-        var languages = new List<ComboItem>(LanguageList);
-        if (gen == 3)
-            languages.RemoveAll(static l => l.Value >= (int)LanguageID.Korean);
-        else if (gen < 7)
-            languages.RemoveAll(static l => l.Value > (int)LanguageID.Korean);
-        return languages;
     }
 }

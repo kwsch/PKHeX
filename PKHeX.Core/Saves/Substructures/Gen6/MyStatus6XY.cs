@@ -7,25 +7,27 @@ namespace PKHeX.Core;
 /// XY specific features for <see cref="MyStatus6"/>
 /// </summary>
 /// <remarks>These properties are technically included in OR/AS, but they are unused; assumed backwards compatibility for communications with XY</remarks>
-public sealed class MyStatus6XY(SAV6XY sav, int offset) : MyStatus6(sav, offset)
+public sealed class MyStatus6XY(SAV6XY sav, Memory<byte> raw) : MyStatus6(sav, raw)
 {
     public TrainerFashion6 Fashion
     {
-        get => TrainerFashion6.GetFashion(SAV.Data, Offset + 0x30, SAV.Gender);
-        set => value.Write(Data, Offset + 0x30);
+        get => TrainerFashion6.GetFashion(FashionSpan, SAV.Gender);
+        set => value.Write(FashionSpan);
     }
 
-    private Span<byte> Nickname_Trash => Data.AsSpan(Offset + 0x62, SAV6.ShortStringLength);
+    private Span<byte> FashionSpan => Data.Slice(0x30, TrainerFashion6.SIZE);
 
-    public string OT_Nick
+    private Span<byte> NicknameTrash => Data.Slice(0x62, SAV6.ShortStringLength);
+
+    public string Nickname
     {
-        get => SAV.GetString(Nickname_Trash);
-        set => SAV.SetString(Nickname_Trash, value, 12, StringConverterOption.ClearZero);
+        get => SAV.GetString(NicknameTrash);
+        set => SAV.SetString(NicknameTrash, value, 12, StringConverterOption.ClearZero);
     }
 
     public short EyeColor
     {
-        get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0x148));
-        set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x148), value);
+        get => ReadInt16LittleEndian(Data[0x148..]);
+        set => WriteInt16LittleEndian(Data[0x148..], value);
     }
 }

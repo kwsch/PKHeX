@@ -6,7 +6,7 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
 {
     public static readonly EvolutionGroup4 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves4;
-    private const int Generation = 4;
+    private const byte Generation = 4;
     private static PersonalTable4 Personal => PersonalTable.HGSS;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
@@ -18,7 +18,9 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
     {
         if (pk.Format > Generation && !enc.SkipChecks)
         {
-            byte max = (byte)pk.Met_Level;
+            if (enc.Species is (ushort)Species.Arceus)
+                result[0] = result[0] with { Form = 0 }; // Account for form-shift (9) for all forms, as plate is removed for transfer anyway.
+            byte max = pk.MetLevel;
             EvolutionUtil.UpdateCeiling(result, max);
             enc = enc with { LevelMin = 1, LevelMax = max };
         }
@@ -46,9 +48,9 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         if (pk.Format > Generation)
-            enc = enc with { LevelMax = (byte)pk.Met_Level };
+            enc = enc with { LevelMax = pk.MetLevel };
         else if (enc.Generation < Generation)
-            EvolutionUtil.UpdateFloor(result, (byte)pk.Met_Level, enc.LevelMax);
+            EvolutionUtil.UpdateFloor(result, pk.MetLevel, enc.LevelMax);
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

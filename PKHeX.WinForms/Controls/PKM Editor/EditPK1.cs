@@ -15,7 +15,8 @@ public partial class PKMEditor
         CR_PK1.LoadPK1(pk1);
 
         // Attempt to detect language
-        CB_Language.SelectedValue = pk1.GuessedLanguage();
+        var language = RequestSaveFile.Language;
+        CB_Language.SelectedValue = pk1.IsSpeciesNameMatch(language) ? language : pk1.GuessedLanguage(language);
 
         LoadPartyStats(pk1);
         UpdateStats();

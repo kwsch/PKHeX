@@ -71,7 +71,7 @@ public partial class BatchEditor : Form
         // If we already have text, add a new line (except if the last line is blank).
         var tb = RTB_Instructions;
         var batchText = tb.Text;
-        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+        if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
         RTB_Instructions.AppendText(s);
     }
@@ -111,7 +111,7 @@ public partial class BatchEditor : Form
         { WinFormsUtil.Error(MsgBEInstructionNone); return; }
 
         var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
-        if (emptyVal.Length > 0)
+        if (emptyVal.Length != 0)
         {
             string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
             string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
@@ -145,7 +145,7 @@ public partial class BatchEditor : Form
     {
         editor = new Core.BatchEditor();
         bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
-        b.DoWork += (sender, e) =>
+        b.DoWork += (_, _) =>
         {
             if (finished)
                 return;
@@ -157,8 +157,8 @@ public partial class BatchEditor : Form
                 RunBatchEditFolder(sets, source, destination);
             finished = true;
         };
-        b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
-        b.RunWorkerCompleted += (sender, e) =>
+        b.ProgressChanged += (_, e) => SetProgressBar(e.ProgressPercentage);
+        b.RunWorkerCompleted += (_, _) =>
         {
             string result = editor.GetEditorResults(sets);
             if (!displayed) WinFormsUtil.Alert(result);
@@ -204,22 +204,15 @@ public partial class BatchEditor : Form
     }
 
     // Progress Bar
-    private void SetupProgressBar(int count)
+    private void SetupProgressBar(int count) => PB_Show.BeginInvoke(() =>
     {
-        MethodInvoker mi = () => { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = count; };
-        if (PB_Show.InvokeRequired)
-            PB_Show.Invoke(mi);
-        else
-            mi.Invoke();
-    }
+        PB_Show.Minimum = 0;
+        PB_Show.Step = 1;
+        PB_Show.Value = 0;
+        PB_Show.Maximum = count;
+    });
 
-    private void SetProgressBar(int position)
-    {
-        if (PB_Show.InvokeRequired)
-            PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = position));
-        else
-            PB_Show.Value = position;
-    }
+    private void SetProgressBar(int position) => PB_Show.BeginInvoke(() => PB_Show.Value = position);
 
     private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
     {
@@ -239,7 +232,10 @@ public partial class BatchEditor : Form
 
             var spec = pk.Species;
             if (spec == 0 || spec > max)
+            {
+                b.ReportProgress(i);
                 continue;
+            }
 
             if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                 editor.AddSkipped();

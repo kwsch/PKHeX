@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -81,8 +82,8 @@ public sealed partial class SAV_EventWork : Form
                     Checked = f.Flag,
                     AutoSize = true,
                 };
-                lbl.Click += (sender, e) => chk.Checked ^= true;
-                chk.CheckedChanged += (s, e) => f.Flag = chk.Checked;
+                lbl.Click += (_, _) => chk.Checked ^= true;
+                chk.CheckedChanged += (_, _) => f.Flag = chk.Checked;
                 tlp.Controls.Add(chk, 0, i);
                 tlp.Controls.Add(lbl, 1, i);
                 i++;
@@ -138,7 +139,7 @@ public sealed partial class SAV_EventWork : Form
                 if (cb.SelectedIndex < 0)
                     cb.SelectedIndex = 0;
 
-                cb.SelectedValueChanged += (s, e) =>
+                cb.SelectedValueChanged += (_, _) =>
                 {
                     if (editing)
                         return;
@@ -153,7 +154,7 @@ public sealed partial class SAV_EventWork : Form
                     }
                     editing = false;
                 };
-                nud.ValueChanged += (s, e) =>
+                nud.ValueChanged += (_, _) =>
                 {
                     if (editing)
                         return;
@@ -220,7 +221,7 @@ public sealed partial class SAV_EventWork : Form
 
     private void ChangeSAV()
     {
-        if (TB_NewSAV.Text.Length > 0 && TB_OldSAV.Text.Length > 0)
+        if (TB_NewSAV.Text.Length != 0 && TB_OldSAV.Text.Length != 0)
             DiffSaves();
     }
 
@@ -240,7 +241,7 @@ public sealed partial class SAV_EventWork : Form
         ChangeSAV();
     }
 
-    private static string[] GetStringList(GameVersion game, string type)
+    private static string[] GetStringList(GameVersion game, [ConstantExpected] string type)
     {
         var gamePrefix = GetGameFilePrefix(game);
         return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);

@@ -47,11 +47,11 @@ public static class EntityContextExtensions
     /// <summary>
     /// Get the generation number of the context.
     /// </summary>
-    public static int Generation(this EntityContext value) => value < SplitInvalid ? (int)value : value switch
+    public static byte Generation(this EntityContext value) => value < SplitInvalid ? (byte)value : value switch
     {
-        Gen7b => 7,
-        Gen8a => 8,
-        Gen8b => 8,
+        Gen7b => (byte)7,
+        Gen8a => (byte)8,
+        Gen8b => (byte)8,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
@@ -131,7 +131,7 @@ public static class EntityContextExtensions
     /// </summary>
     public static EntityContext GetContext(this GameVersion version) => version switch
     {
-        GameVersion.GP or GameVersion.GE or GameVersion.GO => Gen7b,
+        GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
         GameVersion.PLA => Gen8a,
         GameVersion.BD or GameVersion.SP => Gen8b,
         _ => (EntityContext)version.GetGeneration(),

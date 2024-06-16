@@ -179,9 +179,9 @@ public partial class SAV_Inventory : Form
             var outOfBounds = Array.FindAll(invalid, item => item.Index >= itemlist.Length);
             var incorrectPouch = Array.FindAll(invalid, item => item.Index < itemlist.Length);
 
-            if (outOfBounds.Length > 0)
+            if (outOfBounds.Length != 0)
                 WinFormsUtil.Error(MsgItemPouchUnknown, $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");
-            if (!Main.HaX && incorrectPouch.Length > 0)
+            if (!Main.HaX && incorrectPouch.Length != 0)
                 WinFormsUtil.Alert(string.Format(MsgItemPouchRemoved, pouch.Type), string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])), MsgItemPouchWarning);
 
             pouch.Sanitize(itemlist.Length - 1, Main.HaX);
@@ -398,7 +398,7 @@ file static class InventoryTypeImageUtil
             ImageSize = Properties.Resources.bag_items.Size, // Match the size of the resources.
         };
         var images = result.Images;
-        var types = (InventoryType[])Enum.GetValues(typeof(InventoryType));
+        var types = Enum.GetValues<InventoryType>();
         foreach (var type in types)
         {
             if (type is InventoryType.None)

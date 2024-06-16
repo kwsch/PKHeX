@@ -12,14 +12,14 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
     private const int SIZE = PersonalInfo7.SIZE;
     public ushort MaxSpeciesID { get; }
 
-    public PersonalTable7(ReadOnlySpan<byte> data, ushort maxSpecies)
+    public PersonalTable7(Memory<byte> data, ushort maxSpecies)
     {
         MaxSpeciesID = maxSpecies;
         Table = new PersonalInfo7[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
         {
-            var slice = data.Slice(ofs, SIZE).ToArray();
+            var slice = data.Slice(ofs, SIZE);
             Table[i] = new PersonalInfo7(slice);
         }
     }

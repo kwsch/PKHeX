@@ -6,11 +6,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 4 games.
 /// </summary>
-public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility12, IPersonalInfoTM, IPersonalInfoTutorType
+public sealed class PersonalInfo4(Memory<byte> Raw) : PersonalInfo, IPersonalAbility12, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x2C;
 
-    public override byte[] Write() => Data;
+    private Span<byte> Data => Raw.Span;
+    public override byte[] Write() => Raw.ToArray();
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -22,18 +23,18 @@ public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility1
     public override byte Type2 { get => Data[0x07]; set => Data[0x07] = value; }
     public override byte CatchRate { get => Data[0x08]; set => Data[0x08] = value; }
     public override int BaseEXP { get => Data[0x09]; set => Data[0x09] = (byte)value; }
-    private int EVYield { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
+    private int EVYield { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], (ushort)value); }
     public override int EV_HP { get => (EVYield >> 0) & 0x3; set => EVYield = (EVYield & ~(0x3 << 0)) | ((value & 0x3) << 0); }
     public override int EV_ATK { get => (EVYield >> 2) & 0x3; set => EVYield = (EVYield & ~(0x3 << 2)) | ((value & 0x3) << 2); }
     public override int EV_DEF { get => (EVYield >> 4) & 0x3; set => EVYield = (EVYield & ~(0x3 << 4)) | ((value & 0x3) << 4); }
     public override int EV_SPE { get => (EVYield >> 6) & 0x3; set => EVYield = (EVYield & ~(0x3 << 6)) | ((value & 0x3) << 6); }
     public override int EV_SPA { get => (EVYield >> 8) & 0x3; set => EVYield = (EVYield & ~(0x3 << 8)) | ((value & 0x3) << 8); }
     public override int EV_SPD { get => (EVYield >> 10) & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | ((value & 0x3) << 10); }
-    public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0xC)); set => WriteInt16LittleEndian(Data.AsSpan(0xC), (short)value); }
-    public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0xE)); set => WriteInt16LittleEndian(Data.AsSpan(0xE), (short)value); }
+    public int Item1 { get => ReadInt16LittleEndian(Data[0xC..]); set => WriteInt16LittleEndian(Data[0xC..], (short)value); }
+    public int Item2 { get => ReadInt16LittleEndian(Data[0xE..]); set => WriteInt16LittleEndian(Data[0xE..], (short)value); }
     public override byte Gender { get => Data[0x10]; set => Data[0x10] = value; }
-    public override int HatchCycles { get => Data[0x11]; set => Data[0x11] = (byte)value; }
-    public override int BaseFriendship { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public override byte HatchCycles { get => Data[0x11]; set => Data[0x11] = value; }
+    public override byte BaseFriendship { get => Data[0x12]; set => Data[0x12] = value; }
     public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }
     public override int EggGroup1 { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int EggGroup2 { get => Data[0x15]; set => Data[0x15] = (byte)value; }
@@ -57,7 +58,7 @@ public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility1
 
     // Manually added attributes
     public override byte FormCount { get => Data[0x29]; set {} }
-    public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x2A)); set {} }
+    public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data[0x2A..]); set {} }
 
     public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GetBitFlagArray(data);
     public void CopyTypeTutors(PersonalInfo4 other) => TypeTutors = other.TypeTutors;
@@ -93,7 +94,7 @@ public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility1
 
     public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
     {
-        var span = Data.AsSpan(TMHM, ByteCountTM);
+        var span = Data.Slice(TMHM, ByteCountTM);
         for (int index = CountTM - 1; index >= 0; index--)
         {
             if ((span[index >> 3] & (1 << (index & 7))) != 0)
@@ -134,7 +135,7 @@ public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility1
 
     public void SetAllLearnHM(Span<bool> result, ReadOnlySpan<ushort> moves)
     {
-        var span = Data.AsSpan(TMHM, ByteCountTM);
+        var span = Data.Slice(TMHM, ByteCountTM);
         for (int index = CountTM + CountHM - 1; index >= CountTM; index--)
         {
             if ((span[index >> 3] & (1 << (index & 7))) != 0)

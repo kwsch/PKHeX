@@ -62,8 +62,8 @@ public static class SpeciesName
         var result = new Dictionary<int, ushort>[names.Count];
         for (int i = 0; i < result.Length; i++)
         {
-            var dict = new Dictionary<int, ushort>();
             var speciesList = names[i];
+            var dict = new Dictionary<int, ushort>(speciesList.Count - 1);
             for (ushort species = 1; species < speciesList.Count; species++)
             {
                 var name = speciesList[species];
@@ -97,6 +97,8 @@ public static class SpeciesName
         return arr[species];
     }
 
+    public static bool IsApostropheFarfetchdLanguage(int language) => language is 2 or 4 or 7;
+
     /// <summary>
     /// Gets a Pokémon's default name for the desired language ID and generation.
     /// </summary>
@@ -104,25 +106,41 @@ public static class SpeciesName
     /// <param name="language">Language ID of the Pokémon</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Generation specific default species name</returns>
-    public static string GetSpeciesNameGeneration(ushort species, int language, int generation) => generation switch
+    public static string GetSpeciesNameGeneration(ushort species, int language, byte generation) => generation switch
     {
         <= 4 => GetSpeciesName1234(species, language, generation),
+        5 when species is (int)Species.Farfetchd && IsApostropheFarfetchdLanguage(language) => "Farfetch'd", // Gen5 does not have slanted apostrophes.
         7 when language == (int) LanguageID.ChineseS => GetSpeciesName7ZH(species, language),
         _ => GetSpeciesName(species, language),
     };
+
+    /// <inheritdoc cref="GetSpeciesNameGeneration"/>
+    /// <summary>
+    /// Gets the initial Species name for HOME imports.
+    /// </summary>
+    public static string GetSpeciesNameImportHOME(ushort species, int language, byte generation)
+    {
+        // Default fetched names have the wrong apostrophes.
+        var result = GetSpeciesNameGeneration(species, language, generation);
+        if (species is (int)Species.Farfetchd && IsApostropheFarfetchdLanguage(language))
+            return "Farfetch'd";
+        if (species is (int)Species.Sirfetchd && IsApostropheFarfetchdLanguage(language))
+            return "Sirfetch'd";
+        return result;
+    }
 
     /// <summary>
     /// Gets a Pokémon's egg name for the desired language ID and generation.
     /// </summary>
     /// <param name="language">Language ID of the Pokémon</param>
     /// <param name="generation">Generation specific formatting option</param>
-    public static string GetEggName(int language, int generation = LatestGeneration) => generation switch
+    public static string GetEggName(int language, byte generation = LatestGeneration) => generation switch
     {
         <= 4 => GetEggName1234(0, language, generation),
         _ => (uint)language >= EggNames.Length ? string.Empty : EggNames[language],
     };
 
-    private static string GetSpeciesName1234(ushort species, int language, int generation)
+    private static string GetSpeciesName1234(ushort species, int language, byte generation)
     {
         if (species == 0)
             return GetEggName1234(species, language, generation);
@@ -149,16 +167,23 @@ public static class SpeciesName
 
         // Gen1/2 species names do not have spaces.
         if (generation >= 3)
+        {
+            // Gen3/4 use straight apostrophe instead of slanted apostrophe.
+            // The only Gen3/4 species with an apostrophe is Farfetch'd.
+            if (species is (int)Species.Farfetchd && IsApostropheFarfetchdLanguage(language))
+                result[^2] = '\'';
+
             return new string(result);
+        }
 
         // The only Gen1/2 species with a space is Mr. Mime; different period and no space.
         if (species == (int)Species.MrMime)
         {
-            int indexSpace = result.IndexOf(StringConverter12.SPH);
+            int indexSpace = result.IndexOf(StringConverter1.SPH);
             if (indexSpace > 0)
             {
                 // Gen1/2 uses a different period for MR.MIME than user input.
-                result[indexSpace - 1] = StringConverter12.DOT;
+                result[indexSpace - 1] = StringConverter1.DOT;
 
                 // Shift down. Strings have at most 1 occurrence of a space.
                 result[(indexSpace + 1)..].CopyTo(result[indexSpace..]);
@@ -169,7 +194,7 @@ public static class SpeciesName
         return new string(result);
     }
 
-    private static string GetEggName1234(ushort species, int language, int generation)
+    private static string GetEggName1234(ushort species, int language, byte generation)
     {
         if (generation == 3)
             return "タマゴ"; // All Gen3 eggs are treated as JPN eggs.
@@ -225,7 +250,7 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-    public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, int generation = LatestGeneration)
+    public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation = LatestGeneration)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         foreach (var language in langs)
@@ -244,7 +269,7 @@ public static class SpeciesName
     /// <param name="language">Language ID of the Pokémon</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>True if it does not match the language name, False if not nicknamed (matches).</returns>
-    public static bool IsNicknamed(ushort species, ReadOnlySpan<char> nickname, int language, int generation = LatestGeneration)
+    public static bool IsNicknamed(ushort species, ReadOnlySpan<char> nickname, int language, byte generation = LatestGeneration)
     {
         var expect = GetSpeciesNameGeneration(species, language, generation);
         return !nickname.SequenceEqual(expect);
@@ -258,7 +283,7 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-    public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, int generation = LatestGeneration)
+    public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, byte generation = LatestGeneration)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         var priorityIndex = langs.IndexOf((byte)priorityLanguage);
@@ -279,13 +304,13 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-    public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, int generation = LatestGeneration)
+    public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation = LatestGeneration)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         return GetSpeciesNameLanguage(species, nickname, generation, langs);
     }
 
-    private static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, int generation, ReadOnlySpan<byte> langs)
+    private static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation, ReadOnlySpan<byte> langs)
     {
         foreach (var lang in langs)
         {

@@ -9,73 +9,60 @@ namespace PKHeX.Core;
 /// <summary>
 /// Information for Accessing individual blocks within a <see cref="SAV9SV"/>.
 /// </summary>
-public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
+public sealed class SaveBlockAccessor9SV(SAV9SV sav) : SCBlockAccessor, ISaveBlock9Main
 {
-    public override IReadOnlyList<SCBlock> BlockInfo { get; }
-    public Box8 BoxInfo { get; }
-    public Party9 PartyInfo { get; }
-    public MyItem9 Items { get; }
-    public MyStatus9 MyStatus { get; }
-    public BoxLayout9 BoxLayout { get; }
-    public PlayTime9 Played { get; }
-    public Zukan9 Zukan { get; }
-    public ConfigSave9 Config { get; }
-    public ConfigCamera9 ConfigCamera { get; }
-    public TeamIndexes9 TeamIndexes { get; }
-    public Epoch1970Value LastSaved { get; }
-    public PlayerFashion9 PlayerFashion { get; }
-    public PlayerAppearance9 PlayerAppearance { get; }
-    public RaidSpawnList9 RaidPaldea { get; }
-    public RaidSpawnList9 RaidKitakami { get; }
-    public RaidSpawnList9 RaidBlueberry { get; }
-    public RaidSevenStar9 RaidSevenStar { get; }
-    public Epoch1900Value EnrollmentDate { get; }
-    public BlueberryQuestRecord9 BlueberryQuestRecord { get; }
-    public BlueberryClubRoom9 BlueberryClubRoom { get; }
+    public override IReadOnlyList<SCBlock> BlockInfo { get; } = sav.AllBlocks;
+    public Box8 BoxInfo { get; } = new(sav, Block(sav, KBox));
+    public Party9 PartyInfo { get; } = new(sav, Block(sav, KParty));
+    public MyItem9 Items { get; } = new(sav, Block(sav, KItem));
+    public MyStatus9 MyStatus { get; } = new(sav, Block(sav, KMyStatus));
+    public BoxLayout9 BoxLayout { get; } = new(sav, Block(sav, KBoxLayout));
+    public PlayTime9 Played { get; } = new(sav, Block(sav, KPlayTime));
+    public Zukan9 Zukan { get; } = new(sav, Block(sav, KZukan), BlockSafe(sav, KZukanT1));
+    public ConfigSave9 Config { get; } = new(sav, Block(sav, KConfig));
+    public ConfigCamera9 ConfigCamera { get; } = new(sav, BlockSafe(sav, KConfigCamera));
+    public TeamIndexes8 TeamIndexes { get; } = new(sav, Block(sav, KTeamIndexes), Block(sav, KTeamLocks));
+    public Epoch1900DateTimeValue LastSaved { get; } = new(Block(sav, KLastSaved));
+    public Epoch1970Value LastDateCycle { get; } = new(Block(sav, KLastDateCycle));
+    public PlayerFashion9 PlayerFashion { get; } = new(sav, Block(sav, KCurrentClothing));
+    public PlayerAppearance9 PlayerAppearance { get; } = new(sav, Block(sav, KCurrentAppearance));
+    public RaidSpawnList9 RaidPaldea => Raid.Paldea;
+    public RaidSpawnList9 RaidKitakami => Raid.Kitakami;
+    public RaidSpawnList9 RaidBlueberry => Raid.Blueberry;
+    public RaidSevenStar9 RaidSevenStar { get; } = new(sav, Block(sav, KSevenStarRaidsCapture), BlockSafe(sav, KSevenStarRaidsDefeat));
+    public Epoch1900DateValue EnrollmentDate { get; } = new(Block(sav, KEnrollmentDate));
+    public BlueberryQuestRecord9 BlueberryQuestRecord { get; } = new(sav, BlockSafe(sav, KBlueberryQuestRecords));
+    public BlueberryClubRoom9 BlueberryClubRoom { get; } = new(sav, BlockSafe(sav, KBlueberryClubRoom));
 
-    public SaveBlockAccessor9SV(SAV9SV sav)
+    private Raid9 Raid { get; } = new(sav);
+
+    private class Raid9
     {
-        BlockInfo = sav.AllBlocks;
-        BoxInfo = new Box8(sav, GetBlock(KBox));
-        PartyInfo = new Party9(sav, GetBlock(KParty));
-        Items = new MyItem9(sav, GetBlock(KItem));
-        BoxLayout = new BoxLayout9(sav, GetBlock(KBoxLayout));
-        MyStatus = new MyStatus9(sav, GetBlock(KMyStatus));
-        Played = new PlayTime9(sav, GetBlock(KPlayTime));
-        Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
-        Config = new ConfigSave9(sav, GetBlock(KConfig));
-        ConfigCamera = new ConfigCamera9(sav, GetBlockSafe(KConfigCamera));
-        TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes));
-        LastSaved = new Epoch1970Value(GetBlock(KLastSaved));
-        PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
-        PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
+        public RaidSpawnList9 Paldea { get; }
+        public RaidSpawnList9 Kitakami { get; }
+        public RaidSpawnList9 Blueberry { get; }
 
-        var raidPaldea = GetBlock(KTeraRaidPaldea);
-        RaidPaldea = new RaidSpawnList9(sav, raidPaldea, raidPaldea.Data, RaidSpawnList9.RaidCountLegal_T0, true);
-        if (TryGetBlock(KTeraRaidDLC, out var raidDLC))
+        public Raid9(SAV9SV sav)
         {
-            var buffer = raidDLC.Data;
-            const int size = 0xC80;
-            var memKita = buffer.AsMemory(0, size);
-            var memBlue = buffer.AsMemory(size, size);
-            RaidKitakami = new RaidSpawnList9(sav, raidDLC, memKita, RaidSpawnList9.RaidCountLegal_T1, false);
-            RaidBlueberry = new RaidSpawnList9(sav, raidDLC, memBlue, RaidSpawnList9.RaidCountLegal_T2, false);
-        }
-        else
-        {
-            var fake = GetFakeBlock();
-            RaidKitakami = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T1, false);
-            RaidBlueberry = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T2, false);
-        }
+            var paldea = GetBlock(sav.AllBlocks, KTeraRaidPaldea);
+            Paldea = new RaidSpawnList9(sav, paldea, paldea.Data, RaidSpawnList9.RaidCountLegal_T0, true);
 
-        if (TryGetBlock(KSevenStarRaidsDefeat, out var kSevenStarDefeated))
-            RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), kSevenStarDefeated);
-        else
-            RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), GetFakeBlock());
-
-        EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
-        BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
-        BlueberryClubRoom = new BlueberryClubRoom9(sav, GetBlockSafe(KBlueberryClubRoom));
+            if (TryGetBlock(sav.AllBlocks, KTeraRaidDLC, out var raidDLC))
+            {
+                var buffer = raidDLC.Data;
+                const int size = 0xC80;
+                var memKita = buffer.AsMemory(0, size);
+                var memBlue = buffer.AsMemory(size, size);
+                Kitakami = new RaidSpawnList9(sav, raidDLC, memKita, RaidSpawnList9.RaidCountLegal_T1, false);
+                Blueberry = new RaidSpawnList9(sav, raidDLC, memBlue, RaidSpawnList9.RaidCountLegal_T2, false);
+            }
+            else
+            {
+                var fake = GetFakeBlock();
+                Kitakami = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T1, false);
+                Blueberry = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T2, false);
+            }
+        }
     }
 
     // Arrays (Blocks)
@@ -105,7 +92,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KConfigCamera = 0x998844C9; // u32 bits
     private const uint KItem = 0x21C9BD44; // Items
     private const uint KPlayTime = 0xEDAFF794; // Time Played
-    private const uint KSessionLength = 0x1522C79C; // Milliseconds(?) elapsed
+    private const uint KLastDateCycle = 0x7495969E; // u64 time_t
+    private const uint KLastSaved = 0x1522C79C; // Epoch 1900 DateTime
     private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld Pokémon
     private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
     private const uint KTeraRaidPaldea = 0xCAAC8800;
@@ -116,12 +104,12 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KFusedNecrozmaS = 0x203FF693;
     public const uint KFusedNecrozmaM = 0x5369FC39;
     public const uint KFusedCalyrex = 0x916BCA9E;
+    public const uint KSurpriseTrade = 0xB2FDF384;
     private const uint KZukan = 0x0DEAAEBD;
     private const uint KZukanT1 = 0xF5D7C0E2;
     private const uint KMysteryGift = 0x99E1625E;
     private const uint KDLCGifts = 0xA4B7A814; // Unix timestamp, 1 byte type of gift (0 = Pokémon, 1 = Item, 2 = Apparel)
-    private const uint KLastSaved = 0x7495969E; // u64 time_t
-    private const uint KEnrollmentDate = 0xC7409C89;
+    private const uint KEnrollmentDate = 0xC7409C89; // Epoch 1900 Date
     private const uint KPlayRecords = 0x549B6033; // 0x18 per entry, first 8 bytes always 01, u64 fnv hash of entry, last 8 bytes value
     private const uint KBlueberryQuestRecords = 0x7BF02DBE;
     private const uint KSandwiches = 0x29B4AED2; // [0xC][151] index, unlocked, times made
@@ -135,6 +123,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KFieldItems = 0x2482AD60; // Stores grabbed status for each existing field item
     private const uint KDefeatedTrainers01 = 0xF018C4AC; // Stores history of up to 300 regular trainers defeated
     private const uint KDefeatedTrainers02 = 0x28E475DE; // 2.0.2+ Expansion with additional 100 slots
+    private const uint KTeamLocks = 0x605EBC30;
 
     // BCAT (Tera Raid Battles)
     private const uint KBCATRaidFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array

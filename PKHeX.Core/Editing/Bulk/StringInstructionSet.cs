@@ -153,7 +153,7 @@ public sealed class StringInstructionSet
         while (start < lines.Length)
         {
             var line = lines[start++];
-            if (line.Length != 0 && line[0] == SetSeparatorChar)
+            if (line.StartsWith(SetSeparatorChar))
                 return start;
         }
         return start;

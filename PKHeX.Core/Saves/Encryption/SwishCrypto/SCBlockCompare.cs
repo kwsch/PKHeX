@@ -101,12 +101,12 @@ public sealed class SCBlockCompare
         // Replace all const name labels with explicit block property names if they exist.
         // Since our Block classes do not retain the u32 key they originated from, we need to compare the buffers to see if they match.
         // Could have just checked ContainsKey then indexed in, but I wanted to play with the higher performance API method to get the bucket and mutate directly.
-        void ReplaceLabels(Dictionary<IDataIndirect, string> list, IEnumerable<SCBlock> blocks)
+        void ReplaceLabels(Dictionary<string, IDataIndirect> list, IEnumerable<SCBlock> blocks)
         {
             foreach (var b in blocks)
             {
-                var match = list.FirstOrDefault(z => ReferenceEquals(z.Key.Data, b.Data));
-                if (match.Value is not { } x)
+                var match = list.FirstOrDefault(z => z.Value.Equals(b.Data));
+                if (match.Key is not { } x)
                     continue;
                 ref var exist = ref CollectionsMarshal.GetValueRefOrNullRef(names, b.Key);
                 if (!Unsafe.IsNullRef(ref exist))

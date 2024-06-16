@@ -10,8 +10,8 @@ public class StringTests
     public void EncodesOTNameCorrectly()
     {
         const string name_fabian = "Fabian♂";
-        var pk = new PK7 { OT_Name = name_fabian };
-        Span<byte> byte_fabian =
+        var pk = new PK7 { OriginalTrainerName = name_fabian };
+        ReadOnlySpan<byte> byte_fabian =
         [
             0x46, 0x00, // F
             0x61, 0x00, // a
@@ -22,7 +22,7 @@ public class StringTests
             0x8E, 0xE0, // ♂
             0x00, 0x00, // \0 terminator
         ];
-        CheckStringGetSet(nameof(pk.OT_Name), name_fabian, pk.OT_Name, byte_fabian, pk.OT_Trash);
+        CheckStringGetSet(nameof(pk.OriginalTrainerName), name_fabian, pk.OriginalTrainerName, byte_fabian, pk.OriginalTrainerTrash);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class StringTests
     {
         const string name_nidoran = "ニドラン♀";
         var pk = new PK7 { Nickname = name_nidoran };
-        Span<byte> byte_nidoran =
+        ReadOnlySpan<byte> byte_nidoran =
         [
             0xCB, 0x30, // ニ
             0xC9, 0x30, // ド
@@ -39,7 +39,7 @@ public class StringTests
             0x40, 0x26, // ♀
             0x00, 0x00, // \0 terminator
         ];
-        CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.Nickname_Trash);
+        CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.NicknameTrash);
     }
 
     private static void CheckStringGetSet(string check, string instr, string outstr, ReadOnlySpan<byte> indata, ReadOnlySpan<byte> outdata)
@@ -54,9 +54,9 @@ public class StringTests
 
     private static string Hex(ReadOnlySpan<byte> outdata)
     {
-        var sb = new System.Text.StringBuilder(outdata.Length);
+        var sb = new System.Text.StringBuilder(outdata.Length*3);
         foreach (var b in outdata)
-            sb.Append(b.ToString("X2")).Append(' ');
+            sb.Append($"{b:X2} ");
         return sb.ToString();
     }
 
@@ -79,7 +79,7 @@ public class StringTests
     public static void ConvertStringVC(string g12, string g7)
     {
         Span<byte> b12 = stackalloc byte[g12.Length];
-        var len = StringConverter12.SetString(b12, g12, g12.Length, true);
+        var len = StringConverter1.SetString(b12, g12, g12.Length, true);
         var result = StringConverter12Transporter.GetString(b12[..len], true);
         result.Should().Be(g7);
     }
@@ -96,9 +96,9 @@ public class StringTests
 
         // Ensure the API converts it back and forth correctly.
         Span<byte> convert = stackalloc byte[expect.Length + 1];
-        var len = StringConverter12.SetString(convert, name, name.Length, jp);
+        var len = StringConverter1.SetString(convert, name, name.Length, jp);
         len.Should().Be(expect.Length + 1);
-        var gen1Name = StringConverter12.GetString(convert, jp);
+        var gen1Name = StringConverter1.GetString(convert, jp);
         gen1Name.Should().Be(expect);
 
         // Truncated name transferred with Virtual Console rules isn't the same as the Generation 7 name.

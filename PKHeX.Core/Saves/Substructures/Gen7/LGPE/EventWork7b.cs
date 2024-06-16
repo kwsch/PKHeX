@@ -3,21 +3,17 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class EventWork7b : SaveBlock<SAV7b>, IEventVar<int>
+public sealed class EventWork7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw), IEventVar<int>
 {
-    public EventWork7b(SAV7b sav, int offset) : base(sav)
-    {
-        Offset = offset;
-        // Zone @ 0x21A0 - 0x21AF (128 flags)
-        // System @ 0x21B0 - 0x21EF (512 flags) -- is this really 256 instead, with another 256 region after for the small vanish?
-        // Vanish @ 0x21F0 - 0x22AF (1536 flags)
-        // Event @ 0x22B0 - 0x23A7 (rest of the flags) (512) -- I think trainer flags are afterward.... For now, this is a catch-all
+    // Zone @ 0x21A0 - 0x21AF (128 flags)
+    // System @ 0x21B0 - 0x21EF (512 flags) -- is this really 256 instead, with another 256 region after for the small vanish?
+    // Vanish @ 0x21F0 - 0x22AF (1536 flags)
+    // Event @ 0x22B0 - 0x23A7 (rest of the flags) (512) -- I think trainer flags are afterward.... For now, this is a catch-all
 
-        // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
-        // trainer flags (???) = 0x22F6 - end?
+    // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
+    // trainer flags (???) = 0x22F6 - end?
 
-        // Title flags @ 0x2498 - 0x24AB (160 flags): unlocked Master Trainer Titles (last 4 unused)
-    }
+    // Title flags @ 0x2498 - 0x24AB (160 flags): unlocked Master Trainer Titles (last 4 unused)
 
     // Overall Layout
     private const int WorkCount = 1000;
@@ -55,8 +51,8 @@ public sealed class EventWork7b : SaveBlock<SAV7b>, IEventVar<int>
     public int CountFlag => FlagCount;
     public int CountWork => WorkCount;
 
-    public int GetWork(int index) => ReadInt32LittleEndian(Data.AsSpan(Offset + (index * WorkSize)));
-    public void SetWork(int index, int value) => WriteInt32LittleEndian(Data.AsSpan(Offset + (index * WorkSize)), value);
+    public int GetWork(int index) => ReadInt32LittleEndian(Data[(index * WorkSize)..]);
+    public void SetWork(int index, int value) => WriteInt32LittleEndian(Data[(index * WorkSize)..], value);
     public int GetWork(EventVarType type, int index) => GetWork(GetWorkRawIndex(type, index));
     public void SetWork(EventVarType type, int index, int value) => SetWork(GetWorkRawIndex(type, index), value);
     public bool GetFlag(EventVarType type, int index) => GetFlag(GetFlagRawIndex(type, index));
@@ -82,13 +78,13 @@ public sealed class EventWork7b : SaveBlock<SAV7b>, IEventVar<int>
 
     public bool GetFlag(int index)
     {
-        var offset = Offset + FlagStart + (index >> 3);
+        var offset = FlagStart + (index >> 3);
         return FlagUtil.GetFlag(Data, offset, index);
     }
 
     public void SetFlag(int index, bool value = true)
     {
-        var offset = Offset + FlagStart + (index >> 3);
+        var offset = FlagStart + (index >> 3);
         FlagUtil.SetFlag(Data, offset, index, value);
     }
 
@@ -174,14 +170,14 @@ public sealed class EventWork7b : SaveBlock<SAV7b>, IEventVar<int>
     {
         if ((uint)index >= MaxTitleFlag)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return FlagUtil.GetFlag(Data, Offset + TitleFlagStart + (index >> 3), index);
+        return FlagUtil.GetFlag(Data, TitleFlagStart + (index >> 3), index);
     }
 
     public void SetTitleFlag(int index, bool value = true)
     {
         if ((uint)index >= MaxTitleFlag)
             throw new ArgumentOutOfRangeException(nameof(index));
-        FlagUtil.SetFlag(Data, Offset + TitleFlagStart + (index >> 3), index, value);
+        FlagUtil.SetFlag(Data, TitleFlagStart + (index >> 3), index, value);
     }
 
     public void UnlockAllTitleFlags()

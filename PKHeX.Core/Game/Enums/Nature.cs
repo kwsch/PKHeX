@@ -43,10 +43,10 @@ public static class NatureUtil
     /// Gets the <see cref="Nature"/> value that corresponds to the provided <see cref="value"/>.
     /// </summary>
     /// <remarks>Actual nature values will be unchanged; only out-of-bounds values re-map to <see cref="Nature.Random"/>.</remarks>
-    public static Nature GetNature(int value) => value switch
+    public static Nature GetNature(Nature value) => value switch
     {
-        < 0 or >= (int)Nature.Random => Nature.Random,
-        _ => (Nature)value,
+        >= Nature.Random => Nature.Random,
+        _ => value,
     };
 
     /// <summary>

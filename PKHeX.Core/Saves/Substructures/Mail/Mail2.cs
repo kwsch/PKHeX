@@ -6,9 +6,9 @@ namespace PKHeX.Core;
 // warning: international only
 public sealed class Mail2 : MailDetail
 {
-    private readonly bool US;
-    private bool Japanese => !US;
-    private bool Korean => !US && !Japanese;
+    private readonly int Language;
+    private bool Japanese => Language == 1;
+    private bool Korean => Language == (int)LanguageID.Korean;
 
     // structure:
     private const int LINE_LENGTH = 0x10;
@@ -27,7 +27,7 @@ public sealed class Mail2 : MailDetail
 
     public Mail2(SAV2 sav, int index) : base(sav.Data.AsSpan(GetMailOffset(index), 0x2F).ToArray(), GetMailOffset(index))
     {
-        US = sav is { Japanese: false, Korean: false };
+        Language = sav.Language;
     }
 
     private static int GetMailOffset(int index)
@@ -51,19 +51,26 @@ public sealed class Mail2 : MailDetail
         return (index * SIZE) + 0x835;
     }
 
-    private string GetString(Span<byte> asSpan)
+    private string GetString(Span<byte> span)
     {
         if (Korean)
-            return StringConverter2KOR.GetString(asSpan);
-        return StringConverter12.GetString(asSpan, Japanese);
+            return StringConverter2KOR.GetString(span);
+        var result = StringConverter2.GetString(span, Language);
+        if (!Korean)
+            result = StringConverter2.InflateLigatures(result, Language);
+        return result;
     }
 
-    private void SetString(Span<byte> asSpan, ReadOnlySpan<char> value, int maxLength)
+    private void SetString(Span<byte> span, ReadOnlySpan<char> value, int maxLength)
     {
         if (Korean)
-            StringConverter2KOR.SetString(asSpan, value, maxLength);
-        else
-            StringConverter12.SetString(asSpan, value, maxLength, Japanese);
+        {
+            StringConverter2KOR.SetString(span, value, maxLength);
+            return;
+        }
+        Span<char> deflated = stackalloc char[maxLength];
+        int len = StringConverter2.DeflateLigatures(value, deflated, Language);
+        StringConverter2.SetString(span, deflated[..len], maxLength, Language);
     }
 
     public string Line1

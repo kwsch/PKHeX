@@ -40,16 +40,16 @@ public static class CatchRateApplicator
         }
     }
 
-    private static PersonalTable1 GetPersonalTable(SaveFile sav, GameVersion ver)
+    private static PersonalTable1 GetPersonalTable(SaveFile sav, GameVersion version)
     {
         if (sav.Personal is PersonalTable1 pt)
         {
             var other = sav.Version;
-            if (other.Contains(ver) || ver.Contains(other))
+            if (other.Contains(version) || version.Contains(other))
                 return pt;
         }
 
-        if (!GameVersion.RB.Contains(ver))
+        if (!GameVersion.RB.Contains(version))
             return PersonalTable.Y;
         return PersonalTable.RB;
     }

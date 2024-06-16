@@ -18,7 +18,9 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const LearnEnvironment Game = C;
 
-    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
+    public LearnEnvironment Environment => Game;
+
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species < Learnsets.Length ? species : 0];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo2? pi)
     {
@@ -118,7 +120,7 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         var learn = Learnsets[species];
         var level = enc.LevelMin;
         if (pk is ICaughtData2 { CaughtData: not 0 })
-            level = Math.Max(level, (byte)pk.Met_Level); // ensure the met level is somewhat accurate
+            level = Math.Max(level, pk.MetLevel); // ensure the met level is somewhat accurate
         learn.SetEncounterMoves(level, init);
     }
 }

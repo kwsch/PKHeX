@@ -8,7 +8,7 @@ public interface ISlotInfo
     /// <summary>
     /// Indicates the type of format the slot originates. Useful for legality purposes.
     /// </summary>
-    SlotOrigin Origin { get; }
+    StorageSlotType Type { get; }
 
     /// <summary>
     /// Differentiating slot number from other infos of the same type.

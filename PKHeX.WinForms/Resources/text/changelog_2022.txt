@@ -345,7 +345,7 @@ http://projectpokemon.org/pkhex/
  - Fixed: BDSP Batch editor now works for the PB8 format.
  - Fixed: BDSP encounter database now yields Shining Pearl egg encounters.
  - Fixed: Toggling egg state in the PKM Editor GUI now sets the correct met location values.
- - Changed: Editing the HT_Friendship value for eggs in the Memories editor is now possible if it is a HT-handled egg, rather than being greyed out.
+ - Changed: Editing the HandlingTrainerFriendship value for eggs in the Memories editor is now possible if it is a HT-handled egg, rather than being greyed out.
 
 21/11/19 - New Update: (41229) [4140044]
  - Introducing Brilliant Diamond & Shining Pearl Support! Thanks @SciresM, @sora10pls, @Lusamine, @architdate, @ReignOfComputer for troubleshooting!

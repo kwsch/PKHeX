@@ -2,9 +2,15 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Hatch Location validity for <see cref="GameVersion.SWSH"/>.
+/// </summary>
 public static class EggHatchLocation8
 {
-    public static bool IsValidMet8SWSH(int location)
+    /// <summary>
+    /// Returns true if the hatch location is valid for Sword and Shield.
+    /// </summary>
+    public static bool IsValidMet8SWSH(ushort location)
     {
         if (location % 2 != 0)
             return false;

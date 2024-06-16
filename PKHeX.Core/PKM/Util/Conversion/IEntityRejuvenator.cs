@@ -31,12 +31,12 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
 
     private static void ResetOutboundSWSH(PKM result, PK8 pk8)
     {
-        var ver = result.Version;
-        if (ver is (int)GameVersion.BD or (int)GameVersion.SP)
+        var version = result.Version;
+        if (version is GameVersion.BD or GameVersion.SP)
             RejuvenateBDSP(result, pk8);
-        else if (ver is (int)GameVersion.PLA)
+        else if (version is GameVersion.PLA)
             RejuvenatePLA(result, pk8);
-        else if (ver is (int)GameVersion.SL or (int)GameVersion.VL)
+        else if (version is GameVersion.SL or GameVersion.VL)
             RejuvenateSV(result, pk8);
     }
 
@@ -65,7 +65,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             // Try to restore original Tera type / override instead of HOME's double override to current Type1.
             TeraTypeUtil.ResetTeraType(pk9, la.EncounterMatch);
         }
-        else if (pk is PK8 pk8 && !LocationsHOME.IsLocationSWSH(pk8.Met_Location))
+        else if (pk is PK8 pk8 && !LocationsHOME.IsLocationSWSH(pk8.MetLocation))
         {
             // Gen8 and below (Gen6/7) need their original relearn moves
             // We can always set a Battle Version for non Gen8 origins, but most users won't be making stuff battle ready after.
@@ -91,8 +91,8 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
 
         // No egg encounters. Always not-egg.
         {
-            result.Met_Location = enc.Location;
-            result.Egg_Location = 0;
+            result.MetLocation = enc.Location;
+            result.EggLocation = 0;
         }
 
         // Try again with rectified locations.
@@ -108,10 +108,10 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
     {
         if (result.Ball is >= (int)Ball.LAPoke and <= (int)Ball.LAOrigin)
             return;
-        if (enc is IFixedBall { FixedBall: not Ball.None } f)
-            result.Ball = (int)f.FixedBall;
+        if (enc is { FixedBall: not Ball.None })
+            result.Ball = (byte)enc.FixedBall;
         else
-            result.Ball = result.Species == (int)Species.Unown ? (int)Ball.LAJet : (int)Ball.LAPoke;
+            result.Ball = result.Species == (int)Species.Unown ? (byte)Ball.LAJet : (byte)Ball.LAPoke;
     }
 
     private static void ResetDataPLA(LegalityAnalysis la, IEncounterable enc, PA8 pa8)
@@ -131,15 +131,15 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         if (enc is EncounterInvalid)
             return;
 
-        if (enc is { EggEncounter: true })
+        if (enc is { IsEgg: true })
         {
-            result.Met_Location = Locations.HatchLocation8b;
-            result.Egg_Location = Locations.LinkTrade6NPC;
+            result.MetLocation = Locations.HatchLocation8b;
+            result.EggLocation = Locations.LinkTrade6NPC;
         }
         else
         {
-            result.Met_Location = enc.Location;
-            result.Egg_Location = Locations.Default8bNone;
+            result.MetLocation = enc.Location;
+            result.EggLocation = Locations.Default8bNone;
         }
 
         // Try again with rectified locations.
@@ -154,15 +154,15 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         if (enc is EncounterInvalid)
             return;
 
-        if (enc is { EggEncounter: true })
+        if (enc is { IsEgg: true })
         {
-            result.Met_Location = Locations.HatchLocation9;
-            result.Egg_Location = Locations.LinkTrade6NPC;
+            result.MetLocation = Locations.HatchLocation9;
+            result.EggLocation = Locations.LinkTrade6NPC;
         }
         else
         {
-            result.Met_Location = enc.Location;
-            result.Egg_Location = 0;
+            result.MetLocation = enc.Location;
+            result.EggLocation = 0;
         }
 
         // Try again with rectified locations.

@@ -30,15 +30,17 @@ public partial class SAV_FolderList : Form
 
         dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
         dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
+        dgDataRecent.Sorted += (_, _) => GetFilterText(dgDataRecent);
+        dgDataBackup.Sorted += (_, _) => GetFilterText(dgDataBackup);
 
         var extra = Paths.Select(z => z.Path).Where(z => z != Main.BackupPath).Distinct();
+        var backup = SaveFinder.GetSaveFiles(drives, false, [Main.BackupPath], false);
         var recent = SaveFinder.GetSaveFiles(drives, false, extra, true).ToList();
         var loaded = Main.Settings.Startup.RecentlyLoaded
             .Where(z => recent.All(x => x.Metadata.FilePath != z))
-            .Where(File.Exists).Select(SaveUtil.GetVariantSAV).Where(z => z is not null);
-        recent.InsertRange(0, loaded!);
-        Recent = PopulateData(dgDataRecent, recent);
-        var backup = SaveFinder.GetSaveFiles(drives, false, new [] {Main.BackupPath}, false);
+            .Where(File.Exists).Select(SaveUtil.GetVariantSAV).OfType<SaveFile>();
+
+        Recent = PopulateData(dgDataRecent, loaded.Concat(recent));
         Backup = PopulateData(dgDataBackup, backup);
 
         CB_FilterColumn.Items.Add(MsgAny);
@@ -67,7 +69,7 @@ public partial class SAV_FolderList : Form
             CB_FilterColumn.Items[i+1] = text;
         }
 
-        // Preprogrammed folders
+        // Pre-programmed folders
         foreach (var loc in Paths)
             AddButton(loc.DisplayText, loc.Path);
 
@@ -78,7 +80,7 @@ public partial class SAV_FolderList : Form
     {
         List<INamedFolderPath> locs =
         [
-            new CustomFolderPath(Main.BackupPath, "PKHeX Backups"),
+            new CustomFolderPath(Main.BackupPath, display: "PKHeX Backups"),
             ..GetUserPaths(), ..GetConsolePaths(drives), ..GetSwitchPaths(drives),
         ];
         var filtered = locs
@@ -130,8 +132,6 @@ public partial class SAV_FolderList : Form
             return [];
 
         var root = Path.GetPathRoot(path3DS);
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        // ReSharper disable once HeuristicUnreachableCode
         if (root == null)
             return [];
 
@@ -146,8 +146,6 @@ public partial class SAV_FolderList : Form
             return [];
 
         var root = Path.GetPathRoot(pathNX);
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        // ReSharper disable once HeuristicUnreachableCode
         if (root == null)
             return [];
 
@@ -155,33 +153,26 @@ public partial class SAV_FolderList : Form
         return paths.Select(z => new CustomFolderPath(z));
     }
 
-    private sealed class CustomFolderPath : INamedFolderPath
+    private sealed record CustomFolderPath : INamedFolderPath
     {
         public string Path { get; }
         public string DisplayText { get; }
         public bool Custom { get; }
 
-        public CustomFolderPath(string z, bool custom = false)
-        {
-            var di = new DirectoryInfo(z);
-            var root = di.Root.Name;
-            var folder = di.Parent?.Name ?? di.Name;
-            if (root == folder)
-                folder = di.Name;
-
-            Path = z;
-            DisplayText = folder;
-            Custom = custom;
-        }
-
-        public CustomFolderPath(string path, string display, bool custom = false)
+        public CustomFolderPath(string path, bool custom = false, string? display = null)
         {
             Path = path;
-            DisplayText = display;
             Custom = custom;
+            DisplayText = display ?? ResolveFolderName(path);
         }
 
-        public override string ToString() => $"{DisplayText}\t{Path}";
+        private static string ResolveFolderName(string path)
+        {
+            var di = new DirectoryInfo(path);
+            var root = di.Root.Name;
+            var display = di.Parent?.Name ?? di.Name;
+            return root == display ? di.Name : display;
+        }
     }
 
     private sealed class SaveList<T> : SortableBindingList<T> where T : class;
@@ -285,18 +276,49 @@ public partial class SAV_FolderList : Form
                 var sav = new SavePreview(next, Paths);
                 void Load() => LoadEntry(dgData, list, sav);
 
-                dgData.Invoke(Load);
+                dgData.BeginInvoke(Load);
                 ctr++;
                 if (ctr < 15 && ctr % 7 == 0)
-                    dgData.Invoke(RefreshResize);
+                    dgData.BeginInvoke(RefreshResize);
             }
-            dgData.Invoke(RefreshResize);
+            dgData.BeginInvoke(RefreshResize);
             enumerator.Dispose();
         });
 
-        dgData.Sorted += (_, _) => GetFilterText(dgData);
-
         return list;
+    }
+
+    public static void CleanBackups(string path, bool deleteNotSaves)
+    {
+        var files = Directory.GetFiles(path);
+        foreach (var file in files)
+        {
+            var fi = new FileInfo(file);
+            if (!SaveUtil.IsSizeValid(fi.Length) || SaveUtil.GetVariantSAV(file) is not { } sav)
+            {
+                if (deleteNotSaves)
+                    File.Delete(file);
+                continue;
+            }
+
+            var self = sav.Metadata.FilePath;
+            if (self is null)
+                continue; // shouldn't hit
+            var index = self.IndexOf(" [", StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+                continue;
+            var original = self[..index];
+            sav.Metadata.SetExtraInfo(original);
+
+            string backupName = sav.Metadata.GetBackupFileName(Main.BackupPath);
+            if (self == backupName)
+                continue;
+
+            if (File.Exists(backupName))
+                File.Delete(self);
+            else
+                File.Move(self, backupName);
+        }
     }
 
     private static void Refresh(DataGridView dgData)
@@ -349,14 +371,14 @@ public partial class SAV_FolderList : Form
         var cm = (CurrencyManager?)BindingContext?[dg.DataSource];
         cm?.SuspendBinding();
         int column = CB_FilterColumn.SelectedIndex - 1;
-        var text = TB_FilterTextContains.Text;
+        var text = TB_FilterTextContains.Text.AsSpan();
 
         for (int i = 0; i < dg.RowCount; i++)
             ToggleRowVisibility(dg, column, text, i);
         cm?.ResumeBinding();
     }
 
-    private static void ToggleRowVisibility(DataGridView dg, int column, string text, int rowIndex)
+    private static void ToggleRowVisibility(DataGridView dg, int column, ReadOnlySpan<char> text, int rowIndex)
     {
         var row = dg.Rows[rowIndex];
         if (text.Length == 0 || column < 0)
@@ -371,6 +393,6 @@ public partial class SAV_FolderList : Form
             row.Visible = false;
             return;
         }
-        row.Visible = value.Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
+        row.Visible = value.AsSpan().Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
     }
 }

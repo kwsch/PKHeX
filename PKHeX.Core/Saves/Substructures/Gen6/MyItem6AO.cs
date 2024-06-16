@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -10,8 +11,8 @@ public sealed class MyItem6AO : MyItem
     private const int Medicine = 0x970; // 3, +2 items shift because 2 HMs added
     private const int Berry = 0xA70; // 4
 
-    public MyItem6AO(SAV6AO SAV, int offset) : base(SAV) => Offset = offset;
-    public MyItem6AO(SAV6AODemo SAV, int offset) : base(SAV) => Offset = offset;
+    public MyItem6AO(SAV6AO SAV,     Memory<byte> raw) : base(SAV, raw) { }
+    public MyItem6AO(SAV6AODemo SAV, Memory<byte> raw) : base(SAV, raw) { }
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {
@@ -20,11 +21,11 @@ public sealed class MyItem6AO : MyItem
             var info = ItemStorage6AO.Instance;
             InventoryPouch4[] pouch =
             [
-                new(InventoryType.Items, info, 999, Offset + HeldItem),
-                new(InventoryType.KeyItems, info, 1, Offset + KeyItem),
-                new(InventoryType.TMHMs, info, 1, Offset + TMHM),
-                new(InventoryType.Medicine, info, 999, Offset + Medicine),
-                new(InventoryType.Berries, info, 999, Offset + Berry),
+                new(InventoryType.Items, info, 999, HeldItem),
+                new(InventoryType.KeyItems, info, 1, KeyItem),
+                new(InventoryType.TMHMs, info, 1, TMHM),
+                new(InventoryType.Medicine, info, 999, Medicine),
+                new(InventoryType.Berries, info, 999, Berry),
             ];
             return pouch.LoadAll(Data);
         }

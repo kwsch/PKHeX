@@ -5,11 +5,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 1 games.
 /// </summary>
-public sealed class PersonalInfo1(byte[] Data) : PersonalInfo, IPersonalInfoTM
+public sealed class PersonalInfo1(Memory<byte> Raw) : PersonalInfo, IPersonalInfoTM
 {
     public const int SIZE = 0x1C;
 
-    public override byte[] Write() => Data;
+    private Span<byte> Data => Raw.Span;
+    public override byte[] Write() => Raw.ToArray();
 
     public override byte Gender { get => Data[0x00]; set => Data[0x00] = value; }
     public override int HP { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -44,8 +45,8 @@ public sealed class PersonalInfo1(byte[] Data) : PersonalInfo, IPersonalInfoTM
     public override int GetIndexOfAbility(int abilityID) => -1;
     public override int GetAbilityAtIndex(int abilityIndex) => -1;
     public override int AbilityCount => 0;
-    public override int HatchCycles { get => 0; set { } }
-    public override int BaseFriendship { get => 0; set { } }
+    public override byte HatchCycles { get => 0; set { } }
+    public override byte BaseFriendship { get => 0; set { } }
     public override int EscapeRate { get => 0; set { } }
     public override int Color { get => 0; set { } }
 
@@ -80,7 +81,7 @@ public sealed class PersonalInfo1(byte[] Data) : PersonalInfo, IPersonalInfoTM
 
     public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<byte> moves)
     {
-        var span = Data.AsSpan(TMHM, ByteCountTM);
+        var span = Data.Slice(TMHM, ByteCountTM);
         for (int index = CountTMHM - 1; index >= 0; index--)
         {
             if ((span[index >> 3] & (1 << (index & 7))) != 0)

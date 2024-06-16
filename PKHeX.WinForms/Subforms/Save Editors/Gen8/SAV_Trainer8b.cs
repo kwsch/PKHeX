@@ -46,7 +46,7 @@ public partial class SAV_Trainer8b : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = Math.Clamp(SAV.Game - (int)GameVersion.BD, 0, 1);
+        CB_Game.SelectedIndex = Math.Clamp((byte)SAV.Version - (byte)GameVersion.BD, 0, 1);
         CB_Gender.SelectedIndex = SAV.Gender;
 
         NUD_BP.Value = SAV.BattleTower.BP;
@@ -103,7 +103,7 @@ public partial class SAV_Trainer8b : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = (byte)(CB_Game.SelectedIndex + (int)GameVersion.BD);
+        SAV.Version = (GameVersion)(CB_Game.SelectedIndex + (int)GameVersion.BD);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
@@ -157,7 +157,7 @@ public partial class SAV_Trainer8b : Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV);
+        var d = new TrashEditor(tb, SAV, SAV.Generation);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }

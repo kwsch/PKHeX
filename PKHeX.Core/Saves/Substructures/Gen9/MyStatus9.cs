@@ -13,37 +13,37 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
 
     public ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     public ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x02));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value);
+        get => ReadUInt16LittleEndian(Data[0x02..]);
+        set => WriteUInt16LittleEndian(Data[0x02..], value);
     }
 
-    public int Game
+    public byte Game
     {
         get => Data[0x04];
-        set => Data[0x04] = (byte)value;
+        set => Data[0x04] = value;
     }
 
-    public int Gender
+    public byte Gender
     {
         get => Data[0x05];
-        set => Data[0x05] = (byte)value;
+        set => Data[0x05] = value;
     }
 
     // A6
     public int Language
     {
-        get => Data[Offset + 0x07];
+        get => Data[0x07];
         set
         {
             if (value == Language)
                 return;
-            Data[Offset + 0x07] = (byte)value;
+            Data[0x07] = (byte)value;
 
             // For runtime language, the game has different indexes (not even shifted like previous games, just different)
             var runtimeLanguage = GetRuntimeLanguage((LanguageID)value);
@@ -78,12 +78,12 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
         ChineseT = 8,
     }
 
-    private Span<byte> OT_Trash => Data.AsSpan(0x10, 0x1A);
+    private Span<byte> OriginalTrainerTrash => Data.Slice(0x10, 0x1A);
 
     public string OT
     {
-        get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        get => SAV.GetString(OriginalTrainerTrash);
+        set => SAV.SetString(OriginalTrainerTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public byte BirthMonth { get => Data[0x5A]; set => Data[0x5A] = value; }

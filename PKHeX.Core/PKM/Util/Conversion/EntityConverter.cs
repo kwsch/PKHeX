@@ -52,12 +52,18 @@ public static class EntityConverter
     }
 
     /// <summary>
+    /// Retain the Met Date when transferring from Gen4 to Gen5.
+    /// </summary>
+    /// <remarks>Default behavior is to update it with a new date based on the time of transfer.</remarks>
+    public static bool RetainMetDateTransfer45 { get; set; }
+
+    /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
     /// </summary>
     /// <param name="pk"></param>
     /// <param name="format"></param>
     /// <returns>True if it can be converted to the requested format value.</returns>
-    public static bool IsConvertibleToFormat(PKM pk, int format)
+    public static bool IsConvertibleToFormat(PKM pk, byte format)
     {
         if (pk.Format >= 3 && pk.Format > format && format < 8)
             return false; // pk3->upward can't go backwards until Gen8+
@@ -140,8 +146,8 @@ public static class EntityConverter
     private static PKM? IntermediaryConvert(PKM pk, Type destType, ref EntityConverterResult result) => pk switch
     {
         // Non-sequential
-        PK1 pk1 when destType.Name[^1] - '0' > 2 => pk1.ConvertToPK7(),
-        PK2 pk2 when destType.Name[^1] - '0' > 2 => pk2.ConvertToPK7(),
+        PK1 pk1 when destType.Name[^1] - '0' is not (1 or 2) => pk1.ConvertToPK7(),
+        PK2 pk2 when destType.Name[^1] - '0' is not (1 or 2) => pk2.ConvertToPK7(),
         PK2 pk2 when destType == typeof(SK2) => pk2.ConvertToSK2(),
         PK3 pk3 when destType == typeof(CK3) => pk3.ConvertToCK3(),
         PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
@@ -218,7 +224,7 @@ public static class EntityConverter
             };
         }
 
-        if (destType.Name[^1] == '1' && pk.Species > Legal.MaxSpeciesID_1)
+        if (destType.Name.EndsWith('1') && pk.Species > Legal.MaxSpeciesID_1)
             return IncompatibleSpecies;
 
         return Success;
@@ -249,8 +255,11 @@ public static class EntityConverter
         if (pk.Nickname.Length > limit.MaxStringLengthNickname)
             pk.Nickname = pk.Nickname[..pk.MaxStringLengthNickname];
 
-        if (pk.OT_Name.Length > limit.MaxStringLengthOT)
-            pk.OT_Name = pk.OT_Name[..pk.MaxStringLengthOT];
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        var max = limit.MaxStringLengthTrainer;
+        if (len > max)
+            pk.SetString(pk.OriginalTrainerTrash, trainer[..max], max, StringConverterOption.None);
 
         if (pk.Move1 > limit.MaxMoveID || pk.Move2 > limit.MaxMoveID || pk.Move3 > limit.MaxMoveID || pk.Move4 > limit.MaxMoveID)
             pk.ClearInvalidMoves();
@@ -292,7 +301,7 @@ public static class EntityConverter
                 return false;
             }
         }
-        if (IsIncompatibleGB(target, target.Japanese, pk.Japanese))
+        if (!IsCompatibleGB(target, target.Japanese, pk.Japanese))
         {
             converted = target;
             result = IncompatibleLanguageGB;
@@ -312,14 +321,14 @@ public static class EntityConverter
     /// <summary>
     /// Checks if a <see cref="GBPKM"/> is incompatible with the Generation 1/2 destination environment.
     /// </summary>
-    public static bool IsIncompatibleGB(PKM pk, bool destJapanese, bool srcJapanese)
+    public static bool IsCompatibleGB(PKM pk, bool destJapanese, bool srcJapanese)
     {
         if (pk.Format > 2)
-            return false;
+            return true;
         if (destJapanese == srcJapanese)
-            return false;
+            return true;
         if (pk is SK2 sk2 && sk2.IsPossible(srcJapanese))
-            return false;
-        return true;
+            return true;
+        return false;
     }
 }

@@ -6,22 +6,22 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber)
     : IEncounterConvertible<PK1>, IEncounterable, IEncounterMatch, INumberedSlot
 {
-    public int Generation => 1;
+    public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
-    public bool EggEncounter => false;
+    public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => TransporterLogic.IsHiddenDisallowedVC1(Species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public int EggLocation => 0;
+    public ushort EggLocation => 0;
 
     public byte Form => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
-    public SlotType Type => Parent.Type;
+    public ushort Location => Parent.Location;
+    public SlotType1 Type => Parent.Type;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -41,7 +41,7 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
             CatchRate = pi.CatchRate,
             DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
-            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
+            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,

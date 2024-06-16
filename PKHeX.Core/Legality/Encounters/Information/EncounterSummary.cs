@@ -19,18 +19,18 @@ public sealed record EncounterSummary
 
     private static string GetLocationName(IEncounterTemplate z)
     {
-        var gen = z.Generation;
+        var generation = z.Generation;
         var version = z.Version;
-        if (gen < 0 && version > 0)
-            gen = version.GetGeneration();
+        if (generation == 0 && version > 0)
+            generation = version.GetGeneration();
 
         if (z is not ILocation l)
-            return $"[Gen{gen}]\t";
-        var loc = l.GetEncounterLocation(gen, (int)version);
+            return $"[Gen{generation}]\t";
+        var loc = l.GetEncounterLocation(generation, version);
 
         if (string.IsNullOrWhiteSpace(loc))
-            return $"[Gen{gen}]\t";
-        return $"[Gen{gen}]\t{loc}: ";
+            return $"[Gen{generation}]\t";
+        return $"[Gen{generation}]\t{loc}: ";
     }
 
     public static IEnumerable<string> SummarizeGroup(IEnumerable<IEncounterTemplate> items, string header = "", bool advanced = false)

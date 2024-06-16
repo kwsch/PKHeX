@@ -8,17 +8,24 @@ public sealed class PK2 : GBPKML, ICaughtData2
 {
     public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
 
-    internal const byte EggSpeciesValue = 0xFD;
-    public override bool Valid => Species is <= Legal.MaxSpeciesID_2 or EggSpeciesValue; // egg
+    public override bool Valid => Species <= Legal.MaxSpeciesID_2;
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
-    public override bool Korean => !Japanese && OT_Trash[0] <= 0xB;
+    public override bool Korean => !Japanese && OriginalTrainerTrash[0] <= 0xB;
 
     public override EntityContext Context => EntityContext.Gen2;
 
     public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
     public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+    public PK2(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
+        : this(ot.Length == StringLengthJapanese)
+    {
+        data.CopyTo(Data);
+        ot.CopyTo(OriginalTrainerTrash);
+        nick.CopyTo(NicknameTrash);
+    }
 
     private static byte[] EnsurePartySize(byte[] data)
     {
@@ -30,15 +37,16 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override PK2 Clone()
     {
         PK2 clone = new((byte[])Data.Clone(), Japanese) { IsEgg = IsEgg };
-        OT_Trash.CopyTo(clone.OT_Trash);
-        Nickname_Trash.CopyTo(clone.Nickname_Trash);
+        OriginalTrainerTrash.CopyTo(clone.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(clone.NicknameTrash);
         return clone;
     }
 
-    protected override byte[] Encrypt() => new PokeList2(this).Write();
+    protected override byte[] Encrypt() => PokeList2.WrapSingle(this);
 
     #region Stored Attributes
     public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
+    public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // Alias with a different type.
     public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
     public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
     public override ushort Move1 { get => Data[2]; set => Data[2] = (byte)value; }
@@ -61,21 +69,21 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override int Move2_PPUps { get => (Data[0x18] & 0xC0) >> 6; set => Data[0x18] = (byte)((Data[0x18] & 0x3F) | ((value & 0x3) << 6)); }
     public override int Move3_PPUps { get => (Data[0x19] & 0xC0) >> 6; set => Data[0x19] = (byte)((Data[0x19] & 0x3F) | ((value & 0x3) << 6)); }
     public override int Move4_PPUps { get => (Data[0x1A] & 0xC0) >> 6; set => Data[0x1A] = (byte)((Data[0x1A] & 0x3F) | ((value & 0x3) << 6)); }
-    public override int CurrentFriendship { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
-    private byte PKRS { get => Data[0x1C]; set => Data[0x1C] = value; }
-    public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
+    public override byte CurrentFriendship { get => Data[0x1B]; set => Data[0x1B] = value; }
+    public byte PokerusState { get => Data[0x1C]; set => Data[0x1C] = value; }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
     // Crystal only Caught Data
     public ushort CaughtData { get => ReadUInt16BigEndian(Data.AsSpan(0x1D)); set => WriteUInt16BigEndian(Data.AsSpan(0x1D), value); }
-    public int Met_TimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
-    public override int Met_Level    { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
-    public override int OT_Gender    { get => (CaughtData >> 7) & 1;    set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
-    public override int Met_Location { get => CaughtData & 0x7F;        set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
+    public int MetTimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
+    public override byte MetLevel    { get => (byte)((CaughtData >> 8) & 0x3F); set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
+    public override byte OriginalTrainerGender    { get => (byte)((CaughtData >> 7) & 1); set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
+    public override ushort MetLocation { get => (byte)(CaughtData & 0x7F); set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
 
-    public override int Stat_Level
+    public override byte Stat_Level
     {
         get => Data[0x1F];
-        set => Data[0x1F] = (byte)value;
+        set => Data[0x1F] = value;
     }
 
     #endregion
@@ -93,9 +101,9 @@ public sealed class PK2 : GBPKML, ICaughtData2
     #endregion
 
     public override bool IsEgg { get; set; }
-    public override int OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
+    public override byte OriginalTrainerFriendship { get => CurrentFriendship; set => CurrentFriendship = value; }
     public override bool HasOriginalMetLocation => CaughtData != 0;
-    public override int Version { get => (int)GameVersion.GSC; set { } }
+    public override GameVersion Version { get => GameVersion.GSC; set { } }
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_2;
@@ -121,8 +129,8 @@ public sealed class PK2 : GBPKML, ICaughtData2
             pk1.Stat_Level = Stat_Level;
         }
         // Status = 0
-        OT_Trash.CopyTo(pk1.OT_Trash);
-        Nickname_Trash.CopyTo(pk1.Nickname_Trash);
+        OriginalTrainerTrash.CopyTo(pk1.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(pk1.NicknameTrash);
 
         pk1.ClearInvalidMoves();
 
@@ -136,7 +144,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
         if ((lang == 1) != Japanese)
             lang = Japanese ? 1 : 2;
         var pi = PersonalTable.SM[Species];
-        int abil = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
+        int ability = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
         {
             EncryptionConstant = rnd.Rand32(),
@@ -144,12 +152,12 @@ public sealed class PK2 : GBPKML, ICaughtData2
             TID16 = TID16,
             CurrentLevel = CurrentLevel,
             EXP = EXP,
-            Met_Level = CurrentLevel,
+            MetLevel = CurrentLevel,
             Nature = Experience.GetNatureVC(EXP),
             PID = rnd.Rand32(),
             Ball = 4,
             MetDate = EncounterDate.GetDate3DS(),
-            Version = HasOriginalMetLocation ? (byte)GameVersion.C : (byte)EntityConverter.VirtualConsoleSourceGen2,
+            Version = HasOriginalMetLocation ? GameVersion.C : EntityConverter.VirtualConsoleSourceGen2,
             Move1 = Move1,
             Move2 = Move2,
             Move3 = Move3,
@@ -158,24 +166,24 @@ public sealed class PK2 : GBPKML, ICaughtData2
             Move2_PPUps = Move2_PPUps,
             Move3_PPUps = Move3_PPUps,
             Move4_PPUps = Move4_PPUps,
-            Met_Location = Locations.Transfer2, // "Johto region", hardcoded.
+            MetLocation = Locations.Transfer2, // "Johto region", hardcoded.
             Gender = Gender,
             IsNicknamed = false,
             Form = Form,
 
             CurrentHandler = 1,
-            HT_Name = RecentTrainerCache.OT_Name,
-            HT_Gender = RecentTrainerCache.OT_Gender,
+            HandlingTrainerName = RecentTrainerCache.OriginalTrainerName,
+            HandlingTrainerGender = RecentTrainerCache.OriginalTrainerGender,
 
             Language = lang,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, 7),
-            OT_Name = GetTransferTrainerName(lang),
-            OT_Gender = OT_Gender, // Crystal
-            OT_Friendship = pi.BaseFriendship,
-            HT_Friendship = pi.BaseFriendship,
+            OriginalTrainerName = GetTransferTrainerName(lang),
+            OriginalTrainerGender = OriginalTrainerGender, // Crystal
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
 
-            Ability = pi.GetAbilityAtIndex(abil),
-            AbilityNumber = 1 << abil,
+            Ability = pi.GetAbilityAtIndex(ability),
+            AbilityNumber = 1 << ability,
         };
 
         var special = Species is 151 or 251;
@@ -191,7 +199,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
         else if (IsNicknamedBank)
         {
             pk7.IsNicknamed = true;
-            pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(Nickname_Trash, Japanese);
+            pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(NicknameTrash, Japanese);
         }
 
         // Dizzy Punch cannot be transferred
@@ -209,11 +217,11 @@ public sealed class PK2 : GBPKML, ICaughtData2
 
     private string GetTransferTrainerName(int lang)
     {
-        if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+        if (OriginalTrainerTrash[0] == StringConverter1.TradeOTCode) // In-game Trade
             return StringConverter12Transporter.GetTradeNameGen1(lang);
         if (Korean)
-            return OT_Name;
-        return StringConverter12Transporter.GetString(OT_Trash, Japanese);
+            return OriginalTrainerName;
+        return StringConverter12Transporter.GetString(OriginalTrainerTrash, Japanese);
     }
 
     public SK2 ConvertToSK2() => new(Japanese)
@@ -243,12 +251,47 @@ public sealed class PK2 : GBPKML, ICaughtData2
         CurrentFriendship = CurrentFriendship,
         IsEgg = IsEgg,
         Stat_Level = Stat_Level,
-        PKRS_Days = PKRS_Days,
-        PKRS_Strain = PKRS_Strain,
+        PokerusState = PokerusState,
         CaughtData = CaughtData,
 
         // Only copies until first 0x50 terminator, but just copy everything
         Nickname = Nickname,
-        OT_Name = OT_Name,
+        OriginalTrainerName = OriginalTrainerName,
     };
+
+    public override string GetString(ReadOnlySpan<byte> data)
+    {
+        if (Korean)
+            return StringConverter2KOR.GetString(data);
+        return StringConverter2.GetString(data, Language);
+    }
+
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+    {
+        if (Korean)
+            return StringConverter2KOR.LoadString(data, destBuffer);
+        return StringConverter2.LoadString(data, destBuffer, Language);
+    }
+
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+    {
+        if (Korean)
+            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+        return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
+    }
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => Korean ? StringConverter2KOR.GetTerminatorIndex(data) : TrashBytesGB.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => Korean ? StringConverter2KOR.GetStringLength(data) : TrashBytesGB.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
+
+    /// <summary>
+    /// Gets a checksum over all the entity's data using a single list to wrap all components.
+    /// </summary>
+    public ushort GetSingleListChecksum()
+    {
+        Span<byte> tmp = stackalloc byte[PokeList2.GetListLengthSingle(Japanese)];
+        PokeList2.WrapSingle(this, tmp);
+        return Checksums.CRC16_CCITT(tmp);
+    }
 }

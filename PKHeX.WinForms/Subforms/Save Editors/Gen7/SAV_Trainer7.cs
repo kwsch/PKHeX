@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -15,6 +14,11 @@ public partial class SAV_Trainer7 : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+        BattleStyles = WinFormsTranslator.GetEnumTranslation<PlayerBattleStyle7>(Main.CurrentLanguage);
+        if (SAV is not SAV7USUM)
+            BattleStyles = BattleStyles[..^1]; // remove Nihilist
+
         SAV = (SAV7)(Origin = sav).Clone();
         Loading = true;
         if (Main.Unicode)
@@ -22,7 +26,7 @@ public partial class SAV_Trainer7 : Form
             TB_OTName.Font = FontUtil.GetPKXFont();
         }
 
-        B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
+        B_MaxCash.Click += (_, _) => MT_Money.Text = "9,999,999";
 
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -45,8 +49,7 @@ public partial class SAV_Trainer7 : Form
     private readonly bool Loading;
     private bool MapUpdated;
 
-    private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
-    private readonly List<string> BattleStyles = [..AllStyles];
+    private readonly string[] BattleStyles;
 
     private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
     private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768
@@ -65,14 +68,13 @@ public partial class SAV_Trainer7 : Form
         Main.SetCountrySubRegion(CB_Country, "countries");
 
         CB_SkinColor.Items.Clear();
-        CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(PlayerSkinColor7)));
+        CB_SkinColor.Items.AddRange(WinFormsTranslator.GetEnumTranslation<PlayerSkinColor7>(Main.CurrentLanguage));
 
+        var strings = GameInfo.Strings;
         L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
         CB_Vivillon.InitializeBinding();
-        CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
+        CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, strings.types, strings.forms, Main.GenderSymbols, SAV.Context);
 
-        if (SAV is not SAV7USUM)
-            BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
         foreach (string t in BattleStyles)
         {
             CB_BallThrowType.Items.Add(t);
@@ -80,9 +82,7 @@ public partial class SAV_Trainer7 : Form
             LB_BallThrowTypeLearned.Items.Add(t);
         }
 
-        var stamps = Enum.GetNames(typeof(Stamp7)).Select(z => z.Replace("_", " "));
-        foreach (string t in stamps)
-            LB_Stamps.Items.Add(t);
+        LB_Stamps.Items.AddRange(WinFormsTranslator.GetEnumTranslation<Stamp7>(Main.CurrentLanguage));
     }
 
     private static ComboItem[] GetAlolaTimeList()
@@ -98,7 +98,7 @@ public partial class SAV_Trainer7 : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SN;
+        CB_Game.SelectedIndex = SAV.Version - GameVersion.SN;
         CB_Gender.SelectedIndex = SAV.Gender;
 
         // Display Data
@@ -189,7 +189,7 @@ public partial class SAV_Trainer7 : Form
         CB_Vivillon.SelectedIndex = (SAV.Misc.Vivillon < CB_Vivillon.Items.Count) ? SAV.Misc.Vivillon : -1;
         NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.Misc.DaysFromRefreshed);
 
-        if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
+        if ((sbyte)SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
             CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
 
         if (SAV is SAV7SM)
@@ -201,9 +201,9 @@ public partial class SAV_Trainer7 : Form
         for (int i = 0; i < LB_Stamps.Items.Count; i++)
             LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
-        CHK_UnlockSuperSingles.Checked = SAV.GetEventFlag(333);
-        CHK_UnlockSuperDoubles.Checked = SAV.GetEventFlag(334);
-        CHK_UnlockSuperMulti.Checked = SAV.GetEventFlag(335);
+        CHK_UnlockSuperSingles.Checked = SAV.EventWork.GetEventFlag(333);
+        CHK_UnlockSuperDoubles.Checked = SAV.EventWork.GetEventFlag(334);
+        CHK_UnlockSuperMulti.Checked = SAV.EventWork.GetEventFlag(335);
 
         CHK_UnlockMega.Checked = SAV.MyStatus.MegaUnlocked;
         CHK_UnlockZMove.Checked = SAV.MyStatus.ZMoveUnlocked;
@@ -217,12 +217,12 @@ public partial class SAV_Trainer7 : Form
         const int learnedStart = 3479;
         LB_BallThrowTypeUnlocked.SetSelected(0, true);
         LB_BallThrowTypeUnlocked.SetSelected(1, true);
-        for (int i = 2; i < BattleStyles.Count; i++)
-            LB_BallThrowTypeUnlocked.SetSelected(i, SAV.GetEventFlag(unlockStart + i));
+        for (int i = 2; i < BattleStyles.Length; i++)
+            LB_BallThrowTypeUnlocked.SetSelected(i, SAV.EventWork.GetEventFlag(unlockStart + i));
 
         LB_BallThrowTypeLearned.SetSelected(0, true);
-        for (int i = 1; i < BattleStyles.Count; i++)
-            LB_BallThrowTypeLearned.SetSelected(i, SAV.GetEventFlag(learnedStart + i));
+        for (int i = 1; i < BattleStyles.Length; i++)
+            LB_BallThrowTypeLearned.SetSelected(i, SAV.EventWork.GetEventFlag(learnedStart + i));
 
         CB_BallThrowTypeListMode.SelectedIndex = 0;
     }
@@ -257,7 +257,7 @@ public partial class SAV_Trainer7 : Form
         {
             var dest = FlyDestNameIndex[i];
             var name = dest < 0 ? FlyDestAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
-            var state = SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
+            var state = SAV.EventWork.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
             CLB_FlyDest.Items.Add(name, state);
         }
         int[] MapUnmaskNameIndex = [
@@ -282,7 +282,7 @@ public partial class SAV_Trainer7 : Form
         {
             var dest = MapUnmaskNameIndex[i];
             var name = dest < 0 ? MapUnmaskAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
-            var state = SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i]);
+            var state = SAV.EventWork.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i]);
             CLB_MapUnmask.Items.Add(name, state);
         }
     }
@@ -322,7 +322,7 @@ public partial class SAV_Trainer7 : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
+        SAV.Version = (GameVersion)(CB_Game.SelectedIndex + 30);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
@@ -396,7 +396,7 @@ public partial class SAV_Trainer7 : Form
     private void SaveTrainerAppearance()
     {
         // Skin changed && (gender matches || override)
-        int gender = CB_Gender.SelectedIndex & 1;
+        byte gender = (byte)(CB_Gender.SelectedIndex & 1);
         int skin = CB_SkinColor.SelectedIndex & 1;
         var gStr = CB_Gender.Items[gender]!.ToString();
         var sStr = CB_Gender.Items[skin]!.ToString();
@@ -411,34 +411,34 @@ public partial class SAV_Trainer7 : Form
     private void SaveThrowType()
     {
         if (CB_BallThrowType.SelectedIndex >= 0)
-            SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
+            SAV.MyStatus.BallThrowType = (byte)CB_BallThrowType.SelectedIndex;
 
         if (SAV is not SAV7SM) // unlock flags are in flag editor instead
             return;
 
         const int unlockStart = 292;
         const int learnedStart = 3479;
-        for (int i = 2; i < BattleStyles.Count; i++)
-            SAV.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
-        for (int i = 1; i < BattleStyles.Count; i++)
-            SAV.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
+        for (int i = 2; i < BattleStyles.Length; i++)
+            SAV.EventWork.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
+        for (int i = 1; i < BattleStyles.Length; i++)
+            SAV.EventWork.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
     }
 
     private void SaveFlags()
     {
         SAV.Misc.Stamps = GetBits(LB_Stamps);
 
-        SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
-        SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
-        SAV.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
+        SAV.EventWork.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
+        SAV.EventWork.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
+        SAV.EventWork.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
 
         SAV.MyStatus.MegaUnlocked = CHK_UnlockMega.Checked;
         SAV.MyStatus.ZMoveUnlocked = CHK_UnlockZMove.Checked;
 
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
-            SAV.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
+            SAV.EventWork.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
         for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
-            SAV.SetEventFlag(SkipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
+            SAV.EventWork.SetEventFlag(SkipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
     }
 
     private void SaveUltraData()
@@ -483,7 +483,7 @@ public partial class SAV_Trainer7 : Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV);
+        var d = new TrashEditor(tb, SAV, SAV.Generation);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }
@@ -539,16 +539,16 @@ public partial class SAV_Trainer7 : Form
                     break;
                 }
             case 1: // Full Legal
-                byte[] data1 = SAV is SAV7USUM
+                ReadOnlySpan<byte> data1 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                     : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                SAV.SetData(data1, SAV.Fashion.Offset);
+                SAV.Fashion.ImportPayload(data1);
                 break;
             case 2: // Everything
-                byte[] data2 = SAV is SAV7USUM
+                ReadOnlySpan<byte> data2 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                     : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                SAV.SetData(data2, SAV.Fashion.Offset);
+                SAV.Fashion.ImportPayload(data2);
                 break;
             default:
                 return;

@@ -42,6 +42,7 @@ public static class ReflectUtil
             return pi.GetValue(obj, null);
         return default;
     }
+
     public static bool SetValue(object obj, string name, object value)
     {
         if (!TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
@@ -192,10 +193,21 @@ public static class ReflectUtil
         return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
     }
 
-    public static Dictionary<T, string> GetAllPropertiesOfType<T>(this Type type, object obj) where T : class
+    public static Dictionary<string, T> GetAllPropertiesOfType<T>(this Type type, object obj) where T : class
     {
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        var ofType = props.Where(fi => typeof(T).IsAssignableFrom(fi.PropertyType));
-        return ofType.ToDictionary(x => (T)(x.GetValue(obj) ?? throw new NullReferenceException(nameof(x.Name))), z => z.Name);
+        var result = new Dictionary<string, T>(props.Length);
+        foreach (var pi in props)
+        {
+            if (!typeof(T).IsAssignableFrom(pi.PropertyType))
+                continue;
+
+            var name = pi.Name;
+            var value = pi.GetValue(obj);
+            if (value is not T t)
+                continue;
+            result.TryAdd(name, t);
+        }
+        return result;
     }
 }

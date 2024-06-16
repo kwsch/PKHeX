@@ -6,7 +6,7 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
 {
     public static readonly EvolutionGroup2 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves2;
-    private const int Generation = 2;
+    private const byte Generation = 2;
     private static PersonalTable2 Personal => PersonalTable.C;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
@@ -24,7 +24,7 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
     {
         if (pk.Format > Generation && !enc.SkipChecks)
         {
-            byte max = (byte)pk.Met_Level;
+            byte max = pk.MetLevel;
             EvolutionUtil.UpdateCeiling(result, max);
             enc = enc with { LevelMin = 2, LevelMax = max };
         }
@@ -52,7 +52,7 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         if (pk.Format > Generation)
-            enc = enc with { LevelMax = (byte)pk.Met_Level };
+            enc = enc with { LevelMax = pk.MetLevel };
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

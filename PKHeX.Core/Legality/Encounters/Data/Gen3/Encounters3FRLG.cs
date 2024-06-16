@@ -15,7 +15,7 @@ internal static class Encounters3FRLG
     internal static readonly EncounterArea3[] SlotsFR = GetRegular("fr", "fr"u8, FR);
     internal static readonly EncounterArea3[] SlotsLG = GetRegular("lg", "lg"u8, LG);
 
-    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
+    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
 
     private const string tradeFRLG = "tradefrlg";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeFRLG);
@@ -42,7 +42,7 @@ internal static class Encounters3FRLG
         new(129, 05, FRLG) { FixedBall = Ball.Poke, Location = 099 }, // Magikarp @ Route 4
         new(131, 25, FRLG) { FixedBall = Ball.Poke, Location = 134 }, // Lapras @ Silph Co.
         new(133, 25, FRLG) { FixedBall = Ball.Poke, Location = 094 }, // Eevee @ Celadon City
-        new(175, 05, FRLG) { FixedBall = Ball.Poke, Location = 253, EggEncounter = true, Moves = new(045,204,118) }, // Togepi Egg
+        new(175, 05, FRLG) { FixedBall = Ball.Poke, Location = 253, IsEgg = true, Moves = new(045,204,118) }, // Togepi Egg
 
         // Stationary
         new(143, 30, FRLG) { Location = 112 }, // Snorlax @ Route 12

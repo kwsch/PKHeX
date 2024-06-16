@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV>(sav, 0)
+public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV>(sav, default)
 {
     public PokeDexEntry9Kitakami Get(ushort species)
     {
@@ -146,7 +146,7 @@ public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV
         }
         else
         {
-            var displayGender = (byte)pi.FixedGender();
+            var displayGender = pi.FixedGender();
             entry.SetIsGenderSeen(displayGender, true);
         }
 
@@ -194,7 +194,7 @@ public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV
                     continue;
                 SetSeen(entry, pi, form, true, shinyToo);
                 entry.SetObtainedForm(form, true);
-                entry.SetLocalStates(pi, form, (byte)pi.RandomGender(), shinyToo);
+                entry.SetLocalStates(pi, form, pi.RandomGender(), shinyToo);
             }
             entry.SetAllLanguageFlags();
         }
@@ -244,7 +244,7 @@ public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV
 
         SetSeen(entry, pi, form, true, isShiny);
         entry.SetObtainedForm(form, true);
-        entry.SetLocalStates(pi, form, (byte)pi.RandomGender(), isShiny);
+        entry.SetLocalStates(pi, form, pi.RandomGender(), isShiny);
         if (isShiny)
             entry.SetIsModelSeen(true, true);
         entry.SetLanguageFlag(pk.Language, true);

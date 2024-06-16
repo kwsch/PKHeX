@@ -36,7 +36,7 @@ internal static class Program
         new Task(() => splash.ShowDialog()).Start();
         new Task(() => EncounterEvent.RefreshMGDB(WinForms.Main.MGDatabasePath)).Start();
         var main = new Main();
-        splash.Invoke(splash.ForceClose);
+        splash.BeginInvoke(splash.ForceClose);
         Application.Run(main);
     }
 
@@ -67,7 +67,9 @@ internal static class Program
         DialogResult result = DialogResult.Cancel;
         try
         {
-            result = ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
+            var e = t.Exception;
+            string errorMessage = GetErrorMessage(e);
+            result = ErrorWindow.ShowErrorDialog(errorMessage, e, true);
         }
         catch (Exception reportingException)
         {
@@ -77,6 +79,13 @@ internal static class Program
         // Exits the program when the user clicks Abort.
         if (result == DialogResult.Abort)
             Application.Exit();
+    }
+
+    private static string GetErrorMessage(Exception e)
+    {
+        return IsPluginError<IPlugin>(e, out var pluginName)
+            ? $"An error occurred in a PKHeX plugin. Please report this error to the plugin author/maintainer.\n{pluginName}"
+            : "An error occurred in PKHeX. Please report this error to the PKHeX author.";
     }
 
     // Handle the UI exceptions by showing a dialog box, and asking the user if they wish to abort execution.
@@ -93,7 +102,8 @@ internal static class Program
             }
             else if (ex != null)
             {
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
+                var msg = GetErrorMessage(ex);
+                ErrorWindow.ShowErrorDialog($"{msg}\nPKHeX must now close.", ex, false);
             }
             else
             {
@@ -106,13 +116,30 @@ internal static class Program
         }
     }
 
+    private static bool IsPluginError<T>(Exception exception, out string pluginName)
+    {
+        // Check the stacktrace to see if the namespace is a type that derives from IPlugin
+        pluginName = string.Empty;
+        var stackTrace = new System.Diagnostics.StackTrace(exception);
+        foreach (var frame in stackTrace.GetFrames())
+        {
+            var method = frame.GetMethod();
+            var type = method?.DeclaringType;
+            if (!typeof(T).IsAssignableFrom(type))
+                continue;
+            pluginName = type.Namespace ?? string.Empty;
+            return true;
+        }
+        return false;
+    }
+
     private static void HandleReportingException(Exception? ex, Exception reportingException)
     {
         try
         {
             EmergencyErrorLog(ex, reportingException);
         }
-        catch (Exception)
+        catch
         {
             // We've failed to even save the error details to a file. There's nothing else we can do.
         }

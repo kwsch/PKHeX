@@ -10,14 +10,14 @@ namespace PKHeX.Core;
 /// <param name="Level">Level transferred at.</param>
 public sealed record EncounterTransfer7(GameVersion Version, ushort Species, byte Level) : IEncounterable, IFlawlessIVCount, IFatefulEncounterReadOnly
 {
-    public int Generation => 7;
+    public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
     public Ball FixedBall => Ball.Poke;
-    public bool EggEncounter => false;
-    public int EggLocation => 0;
+    public bool IsEgg => false;
+    public ushort EggLocation => 0;
 
     public byte Form => 0;
-    public int Location { get; private init; }
+    public ushort Location { get; private init; }
     public Shiny Shiny { get; private init; }
     public AbilityPermission Ability { get; private init; }
     public bool FatefulEncounter { get; private init; }

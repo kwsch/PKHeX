@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -5,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Information for Accessing individual blocks within a <see cref="SAV6AO"/>.
 /// </summary>
-public sealed class SaveBlockAccessor6AO : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6Main
+public sealed class SaveBlockAccessor6AO(SAV6AO sav) : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6Main
 {
     public const int BlockMetadataOffset = SaveUtil.SIZE_G6ORAS - 0x200;
     private const int boAO = BlockMetadataOffset;
@@ -73,53 +74,44 @@ public sealed class SaveBlockAccessor6AO : ISaveBlockAccessor<BlockInfo6>, ISave
     ];
 
     public IReadOnlyList<BlockInfo6> BlockInfo => BlocksAO;
-    public MyItem Items { get; }
-    public ItemInfo6 ItemInfo { get; }
-    public GameTime6 GameTime { get; }
-    public Situation6 Situation { get; }
-    public PlayTime6 Played { get; }
-    public MyStatus6 Status { get; }
-    public RecordBlock6 Records { get; }
+    public Puff6 Puff { get; } = new(sav, Block(sav, 0));
+    public MyItem6AO Items { get; } = new(sav, Block(sav, 1));
+    public ItemInfo6 ItemInfo { get; } = new(sav, Block(sav, 2));
+    public GameTime6 GameTime { get; } = new(sav, Block(sav, 3));
+    public Situation6 Situation { get; } = new(sav, Block(sav, 4));
+    public PlayTime6 Played { get; } = new(sav, Block(sav, 6));
+    public Misc6AO Misc { get; } = new(sav, Block(sav, 11));
+    public BoxLayout6 BoxLayout { get; } = new(sav, Block(sav, 12));
+    public BattleBox6 BattleBox { get; } = new(sav, Block(sav, 13));
+    public MyStatus6 Status { get; } = new(sav, Block(sav, 17));
+    public EventWork6 EventWork { get; } = new(sav, Block(sav, 19));
+    public Zukan6AO Zukan { get; } = new(sav, Block(sav, 20), 0x400);
+    public UnionPokemon6 Fused { get; } = new(sav, Block(sav, 22));
+    public ConfigSave6 Config { get; } = new(sav, Block(sav, 23));
+    public OPower6 OPower { get; } = new(sav, Block(sav, 25));
+    public GTS6 GTS { get; } = new(sav, Block(sav, 28));
+    public Encount6 Encount { get; } = new(sav, Block(sav, 31));
+    public HallOfFame6 HallOfFame { get; } = new(sav, Block(sav, 36));
+    public MaisonBlock Maison { get; } = new(sav, Block(sav, 37));
+    public Daycare6AO Daycare { get; } = new(sav, Block(sav, 38));
+    public BerryField6AO BerryField { get; } = new(sav, Block(sav, 40));
+    public MysteryBlock6 MysteryGift { get; } = new(sav, Block(sav, 41));
+    public SubEventLog6AO SUBE { get; } = new(sav, Block(sav, 42));
+    public RecordBlock6AO Records { get; } = new(sav, Block(sav, 44));
+    public SuperTrainBlock SuperTrain { get; } = new(sav, Block(sav, 46));
+    public LinkBlock6 Link { get; } = new(sav, Block(sav, 48));
+    public Contest6 Contest { get; } = new(sav, Block(sav, 53));
+    public SecretBase6Block SecretBase { get; } = new(sav, Block(sav, 54));
+    public SangoInfoBlock Sango { get; } = new(sav, Block(sav, 55));
 
-    public Zukan6AO Zukan { get; }
-    public Puff6 Puff { get; }
-    public BoxLayout6 BoxLayout { get; }
-    public BattleBox6 BattleBox { get; }
-    public OPower6 OPower { get; }
-    public MysteryBlock6 MysteryGift { get; }
-    public SangoInfoBlock Sango { get; }
-    public LinkBlock6 Link { get; }
-    public Misc6AO Misc { get; }
-    public SuperTrainBlock SuperTrain { get; }
-    public MaisonBlock Maison { get; }
-    public SubEventLog6 SUBE { get; }
-    public ConfigSave6 Config { get; }
-    public Encount6 Encount { get; }
-    public SecretBase6Block SecretBase { get; }
+    MyItem ISaveBlock6Core.Items => Items;
+    SubEventLog6 ISaveBlock6Main.SUBE => SUBE;
+    RecordBlock6 ISaveBlock6Core.Records=> Records;
 
-    public SaveBlockAccessor6AO(SAV6AO sav)
+    private static Memory<byte> Block(SAV6AO sav, int index)
     {
-        Puff = new Puff6(sav, 0x0000);
-        Items = new MyItem6AO(sav, 0x00400);
-        ItemInfo = new ItemInfo6(sav, 0x1000);
-        GameTime = new GameTime6(sav, 0x01200);
-        Situation = new Situation6(sav, 0x01400);
-        Played = new PlayTime6(sav, 0x01800);
-        Misc = new Misc6AO(sav, 0x04200);
-        BoxLayout = new BoxLayout6(sav, 0x04400);
-        BattleBox = new BattleBox6(sav, 0x04A00);
-        Status = new MyStatus6(sav, 0x14000);
-        Zukan = new Zukan6AO(sav, 0x15000, 0x400);
-        Config = new ConfigSave6(sav, 0x16C00);
-        OPower = new OPower6(sav, 0x17400);
-        Encount = new Encount6(sav, 0x18800);
-        Maison = new MaisonBlock(sav, 0x1BA00);
-        MysteryGift = new MysteryBlock6(sav, 0x1CC00);
-        SUBE = new SubEventLog6AO(sav, 0x1E800);
-        Records = new RecordBlock6AO(sav, 0x1F400);
-        SuperTrain = new SuperTrainBlock(sav, 0x20200);
-        Link = new LinkBlock6(sav, 0x20E00);
-        SecretBase = new SecretBase6Block(sav, 0x23A00);
-        Sango = new SangoInfoBlock(sav, 0x2B600);
+        var data = sav.Data;
+        var block = BlocksAO[index];
+        return data.AsMemory(block.Offset, block.Length);
     }
 }

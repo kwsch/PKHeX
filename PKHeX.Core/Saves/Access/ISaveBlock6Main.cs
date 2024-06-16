@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface for Accessing named blocks within a Generation 6 save file.
@@ -8,6 +8,8 @@ public interface ISaveBlock6Main : ISaveBlock6Core
 {
     Puff6 Puff { get; }
     OPower6 OPower { get; }
+    GTS6 GTS { get; }
+    UnionPokemon6 Fused { get; }
     LinkBlock6 Link { get; }
     BoxLayout6 BoxLayout { get; }
     BattleBox6 BattleBox { get; }
@@ -17,4 +19,5 @@ public interface ISaveBlock6Main : ISaveBlock6Core
     MaisonBlock Maison { get; }
     SubEventLog6 SUBE { get; }
     Encount6 Encount { get; }
+    HallOfFame6 HallOfFame { get; }
 }

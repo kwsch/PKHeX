@@ -189,7 +189,7 @@ public sealed partial class SAV_FlagWork8b : Form
                     mtb.Text = ((int)mtb.Value).ToString();
                 updating = false;
             }
-            cb.SelectedValueChanged += (o, args) =>
+            cb.SelectedValueChanged += (_, _) =>
             {
                 if (editing || updating)
                     return;
@@ -229,7 +229,7 @@ public sealed partial class SAV_FlagWork8b : Form
 
     private void ChangeSAV()
     {
-        if (TB_NewSAV.Text.Length > 0 && TB_OldSAV.Text.Length > 0)
+        if (TB_NewSAV.Text.Length != 0 && TB_OldSAV.Text.Length != 0)
             DiffSaves();
     }
 

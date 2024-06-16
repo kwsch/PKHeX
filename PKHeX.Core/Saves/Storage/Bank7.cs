@@ -7,10 +7,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object that reads from Pokémon Bank savedata (stored on AWS).
 /// </summary>
-public sealed class Bank7 : BulkStorage
+public sealed class Bank7 : BulkStorage, IBoxDetailNameRead
 {
     public Bank7(byte[] data, Type t, [ConstantExpected] int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox) => Version = GameVersion.USUM;
 
+    public override GameVersion Version { get => GameVersion.USUM; set { } }
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SM;
     protected override Bank7 CloneInternal() => new((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
@@ -46,7 +47,7 @@ public sealed class Bank7 : BulkStorage
 
     private int BoxDataSize => (SlotsPerBox * SIZE_STORED) + BankNameSpacing;
     public override int GetBoxOffset(int box) => Box + (BoxDataSize * box);
-    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxNameOffset(box), BankNameSize / 2));
+    public string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxNameOffset(box), BankNameSize / 2));
     public int GetBoxNameOffset(int box) => GetBoxOffset(box) + (SlotsPerBox * SIZE_STORED);
     public int GetBoxIndex(int box) => ReadUInt16LittleEndian(Data.AsSpan(GetBoxNameOffset(box) + BankNameSize));
 

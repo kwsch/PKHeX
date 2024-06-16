@@ -203,7 +203,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_OTName.Location = new System.Drawing.Point(115, 8);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -808,7 +808,7 @@ namespace PKHeX.WinForms
             // 
             // TB_TrainerCardNumber
             // 
-            TB_TrainerCardNumber.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_TrainerCardNumber.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_TrainerCardNumber.Location = new System.Drawing.Point(386, 38);
             TB_TrainerCardNumber.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_TrainerCardNumber.MaxLength = 12;
@@ -830,7 +830,7 @@ namespace PKHeX.WinForms
             // 
             // TB_TrainerCardName
             // 
-            TB_TrainerCardName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_TrainerCardName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_TrainerCardName.Location = new System.Drawing.Point(386, 8);
             TB_TrainerCardName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_TrainerCardName.MaxLength = 12;
@@ -1001,7 +1001,7 @@ namespace PKHeX.WinForms
             // 
             // CAL_LastSavedTime
             // 
-            CAL_LastSavedTime.CustomFormat = "HH:mm:ss";
+            CAL_LastSavedTime.CustomFormat = "HH:mm";
             CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             CAL_LastSavedTime.Location = new System.Drawing.Point(134, 149);
             CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

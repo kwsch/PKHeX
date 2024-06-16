@@ -6,16 +6,16 @@ namespace PKHeX.Core;
 /// <summary>
 /// SUBE block that stores in-game event results.
 /// </summary>
-public abstract class SubEventLog6 : SaveBlock<SAV6>, IGymTeamInfo
+public abstract class SubEventLog6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), IGymTeamInfo
 {
-    protected SubEventLog6(SAV6 sav, int offset) : base(sav) => Offset = offset;
-
     protected abstract int BadgeVictoryOffset { get; }
 
     /// <summary>
     /// Absolute offset of the <see cref="PK6"/> that the player has given an NPC.
     /// </summary>
     public abstract int Give { get; }
+
+    public Memory<byte> GiveSlot => Raw.Slice(Give, PokeCrypto.SIZE_6STORED);
 
     /// <summary>
     /// Absolute offset of the <see cref="PK6"/> that is unreferenced?
@@ -26,23 +26,23 @@ public abstract class SubEventLog6 : SaveBlock<SAV6>, IGymTeamInfo
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>(badge, 8);
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>(slot, 6);
-        return Offset + BadgeVictoryOffset + (int)(((6 * badge) + slot) * sizeof(ushort));
+        return BadgeVictoryOffset + (int)(((6 * badge) + slot) * sizeof(ushort));
     }
 
     public ushort GetBadgeVictorySpecies(uint badge, uint slot)
     {
         var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-        return ReadUInt16LittleEndian(Data.AsSpan(ofs));
+        return ReadUInt16LittleEndian(Data[ofs..]);
     }
 
     public void SetBadgeVictorySpecies(uint badge, uint slot, ushort species)
     {
         var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-        WriteUInt16LittleEndian(Data.AsSpan(ofs), species);
+        WriteUInt16LittleEndian(Data[ofs..], species);
     }
 }
 
-public sealed class SubEventLog6XY(SAV6XY sav, int offset) : SubEventLog6(sav, offset)
+public sealed class SubEventLog6XY(SAV6XY sav, Memory<byte> raw) : SubEventLog6(sav, raw)
 {
     // Structure:
 
@@ -50,8 +50,8 @@ public sealed class SubEventLog6XY(SAV6XY sav, int offset) : SubEventLog6(sav, o
     // u8[0x28] chateau data
     private ushort ChateauValue
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     public ushort ChateauRank
@@ -75,19 +75,19 @@ public sealed class SubEventLog6XY(SAV6XY sav, int offset) : SubEventLog6(sav, o
 
     // 0x90
     // u8[0xE8] pk?
-    public override int Give => 0x90 + Offset;
+    public override int Give => 0x90;
     // u32 SUBE @ 0x178
 
     // 0x17C
     // u8[0xE8] pk?
-    public override int UnusedPKM => 0x17C + Offset;
+    public override int UnusedPKM => 0x17C;
     // u32 SUBE @ 0x264
 
     // 0x268
     // u8[0xA0] unused?
 }
 
-public sealed class SubEventLog6AO(SAV6AO sav, int offset) : SubEventLog6(sav, offset)
+public sealed class SubEventLog6AO(SAV6AO sav, Memory<byte> raw) : SubEventLog6(sav, raw)
 {
     // Structure:
 
@@ -103,26 +103,26 @@ public sealed class SubEventLog6AO(SAV6AO sav, int offset) : SubEventLog6(sav, o
 
     // 0xC4
     // u8[0xE8] pk?
-    public override int Give => 0xC4 + Offset;
+    public override int Give => 0xC4;
     // u32 SUBE @ 0x1AC
 
     // 0x1B0
     // u8[0xE8] pk?
-    public override int UnusedPKM => 0x1B0 + Offset;
+    public override int UnusedPKM => 0x1B0;
     // u32 SUBE @ 0x298
 
     // 0x29C
     // u16 SeasideCyclingRoadTimeMilliseconds 29C
     public ushort SeasideCyclingRoadTimeMilliseconds
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x29C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x29C), value);
+        get => ReadUInt16LittleEndian(Data[0x29C..]);
+        set => WriteUInt16LittleEndian(Data[0x29C..], value);
     }
     // u16 SeasideCyclingRoadCollisions 29E
     public ushort SeasideCyclingRoadCollisions
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x29E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x29E), value);
+        get => ReadUInt16LittleEndian(Data[0x29E..]);
+        set => WriteUInt16LittleEndian(Data[0x29E..], value);
     }
     // u16[7] 2A0
     // u16[7] 2AE

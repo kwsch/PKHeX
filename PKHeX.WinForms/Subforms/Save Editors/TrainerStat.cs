@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,7 +11,7 @@ public partial class TrainerStat : UserControl
     public TrainerStat()
     {
         InitializeComponent();
-        CB_Stats.MouseWheel += (s, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
+        CB_Stats.MouseWheel += (_, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
     }
 
     private bool Editing;

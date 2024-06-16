@@ -14,14 +14,16 @@ public static class StringConverter
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
+    /// <param name="language">Language specific conversion</param>
     /// <returns>Decoded string.</returns>
-    public static string GetString(ReadOnlySpan<byte> data, int generation, bool jp, bool isBigEndian = false) => generation switch
+    public static string GetString(ReadOnlySpan<byte> data, byte generation, bool jp, bool isBigEndian = false, int language = 0) => generation switch
     {
         3 when isBigEndian => StringConverter3GC.GetString(data),
         4 when isBigEndian => StringConverter4GC.GetString(data),
 
-        1 or 2 => StringConverter12.GetString(data, jp),
-        3 => StringConverter3.GetString(data, jp),
+        1 => StringConverter1.GetString(data, jp),
+        2 => StringConverter2.GetString(data, language),
+        3 => StringConverter3.GetString(data, language),
         4 => StringConverter4.GetString(data),
         5 => StringConverter5.GetString(data),
         6 => StringConverter6.GetString(data),
@@ -39,14 +41,16 @@ public static class StringConverter
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
+    /// <param name="language">Language specific conversion</param>
     /// <returns>Decoded string.</returns>
-    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, int generation, bool jp, bool isBigEndian = false) => generation switch
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, byte generation, bool jp, bool isBigEndian = false, int language = 0) => generation switch
     {
         3 when isBigEndian => StringConverter3GC.LoadString(data, result),
         4 when isBigEndian => StringConverter4GC.LoadString(data, result),
 
-        1 or 2 => StringConverter12.LoadString(data, result, jp),
-        3 => StringConverter3.LoadString(data, result, jp),
+        1 => StringConverter1.LoadString(data, result, jp),
+        2 => StringConverter2.LoadString(data, result, language),
+        3 => StringConverter3.LoadString(data, result, language),
         4 => StringConverter4.LoadString(data, result),
         5 => StringConverter5.LoadString(data, result),
         6 => StringConverter6.LoadString(data, result),
@@ -66,19 +70,20 @@ public static class StringConverter
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
-    /// <param name="language">Language specific conversion (Chinese)</param>
+    /// <param name="language">Language specific conversion</param>
     /// <returns>Count of bytes written to the <see cref="destBuffer"/>.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option,
-        int generation, bool jp, bool isBigEndian, int language = 0) => generation switch
+        byte generation, bool jp, bool isBigEndian, int language = 0) => generation switch
     {
         3 when isBigEndian => StringConverter3GC.SetString(destBuffer, value, maxLength, option),
-        4 when isBigEndian => StringConverter4GC.SetString(destBuffer, value, maxLength, option),
+        4 when isBigEndian => StringConverter4GC.SetString(destBuffer, value, maxLength, language, option),
 
-        1 or 2 => StringConverter12.SetString(destBuffer, value, maxLength, jp, option),
-        3 => StringConverter3.SetString(destBuffer, value, maxLength, jp, option),
-        4 => StringConverter4.SetString(destBuffer, value, maxLength, option),
-        5 => StringConverter5.SetString(destBuffer, value, maxLength, option),
-        6 => StringConverter6.SetString(destBuffer, value, maxLength, option),
+        1 => StringConverter1.SetString(destBuffer, value, maxLength, jp, option),
+        2 => StringConverter2.SetString(destBuffer, value, maxLength, language, option),
+        3 => StringConverter3.SetString(destBuffer, value, maxLength, language, option),
+        4 => StringConverter4.SetString(destBuffer, value, maxLength, language, option),
+        5 => StringConverter5.SetString(destBuffer, value, maxLength, language, option),
+        6 => StringConverter6.SetString(destBuffer, value, maxLength, language, option),
         7 => StringConverter7.SetString(destBuffer, value, maxLength, language, option),
         8 => StringConverter8.SetString(destBuffer, value, maxLength, option),
         9 => StringConverter8.SetString(destBuffer, value, maxLength, option),
@@ -86,15 +91,31 @@ public static class StringConverter
     };
 
     /// <summary>
+    /// Full-width gender 16-bit char representation.
+    /// </summary>
+    public const char FGF = '\u2640'; // '♀'
+    /// <inheritdoc cref="FGM"/>
+    public const char FGM = '\u2642'; // '♂'
+
+    /// <summary>
+    /// Half-width gender 16-bit char representation.
+    /// </summary>
+    /// <remarks>
+    /// Exact value is the value when converted to Generation 6 &amp; 7 encoding.
+    /// Once transferred to the Nintendo Switch era, the value is converted to full-width.
+    /// </remarks>
+    public const char HGM = '\uE08E'; // '♂'
+    /// <inheritdoc cref="HGM"/>
+    public const char HGF = '\uE08F'; // '♀'
+
+    /// <summary>
     /// Converts full width to single width
     /// </summary>
     /// <param name="chr">Input character to sanitize.</param>
-    internal static char SanitizeChar(char chr) => chr switch
+    public static char NormalizeGenderSymbol(char chr) => chr switch
     {
-        '\uE08F' => '♀',
-        '\uE08E' => '♂',
-        '\u246E' => '♀',
-        '\u246D' => '♂',
+        HGM => FGM, // '♂'
+        HGF => FGF, // '♀'
         _ => chr,
     };
 
@@ -103,27 +124,10 @@ public static class StringConverter
     /// </summary>
     /// <param name="chr">Input character to set back to data</param>
     /// <param name="fullWidth">Checks if the overall string is full-width</param>
-    internal static char UnSanitizeChar(char chr, bool fullWidth = false)
+    public static char UnNormalizeGenderSymbol(char chr, bool fullWidth = false) => fullWidth ? chr : chr switch
     {
-        if (fullWidth) // jp/ko/zh strings
-            return chr; // keep as full width
-
-        return chr switch
-        {
-            '\u2640' => '\uE08F',
-            '\u2642' => '\uE08E',
-            _ => chr,
-        };
-    }
-
-    /// <summary>
-    /// Converts full width to half width when appropriate, for Gen5 and prior.
-    /// </summary>
-    /// <param name="chr">Input character to set back to data</param>
-    internal static char UnSanitizeChar5(char chr) => chr switch
-    {
-        '\u2640' => '\u246E',
-        '\u2642' => '\u246D',
+        FGM => HGM, // '♂'
+        FGF => HGF, // '♀'
         _ => chr,
     };
 
@@ -138,7 +142,7 @@ public static class StringConverter
         {
             if (c >> 12 is (0 or 0xE))
                 continue;
-            if (c is '\u2640' or '\u2642') // ♀♂
+            if (c is FGF or FGM) // ♀♂
                 continue;
             return true;
         }

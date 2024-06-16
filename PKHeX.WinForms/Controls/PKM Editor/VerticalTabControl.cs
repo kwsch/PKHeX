@@ -19,6 +19,8 @@ public class VerticalTabControl : TabControl
     protected override void OnDrawItem(DrawItemEventArgs e)
     {
         var index = e.Index;
+        if ((uint)index >= TabPages.Count)
+            return;
         var bounds = GetTabRect(index);
 
         var graphics = e.Graphics;
@@ -69,12 +71,16 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
     protected override void OnDrawItem(DrawItemEventArgs e)
     {
         var index = e.Index;
+        if ((uint)index >= TabPages.Count)
+            return;
         var bounds = GetTabRect(index);
 
         var graphics = e.Graphics;
         if (e.State == DrawItemState.Selected)
         {
-            using var brush = new LinearGradientBrush(bounds, Color.White, Color.LightGray, 90f);
+            var settings = Main.Settings.Draw;
+            var (c1, c2) = (settings.VerticalSelectPrimary, settings.VerticalSelectSecondary);
+            using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
             graphics.FillRectangle(brush, bounds);
 
             using var pipBrush = new SolidBrush(SelectedTags[index]);

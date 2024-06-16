@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -72,6 +73,13 @@ public static class MysteryUtil
                     result.Add($"Bean ID: {w7bean.Bean}");
                     result.Add($"Quantity: {w7bean.Quantity}");
                     break;
+                case PCD pcd:
+                    AddLinesPGT(pcd.Gift, result);
+                    result.Add($"Collected: {pcd.GiftUsed}");
+                    break;
+                case PGT pgt:
+                    AddLinesPGT(pgt, result);
+                    break;
                 default:
                     result.Add(MsgMysteryGiftParseTypeUnknown);
                     break;
@@ -107,7 +115,7 @@ public static class MysteryUtil
 
         var first =
             $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "
-            + (gift.IsEgg ? strings.EggName : $"{gift.OT_Name} - {id}");
+            + (gift.IsEgg ? strings.EggName : $"{gift.OriginalTrainerName} - {id}");
         result.Add(first);
         result.Add(gift.Moves.GetMovesetLine(strings.Move));
 
@@ -117,6 +125,48 @@ public static class MysteryUtil
             if (addItem != 0)
                 result.Add($"+ {strings.Item[addItem]}");
         }
+    }
+
+    private static void AddLinesPGT(PGT gift, List<string> result)
+    {
+        static string Get(ReadOnlySpan<string> list, int index)
+        {
+            if ((uint)index >= list.Length)
+                return $"Unknown ({index})";
+            return list[index];
+        }
+        try
+        {
+            switch (gift.GiftType)
+            {
+                case GiftType4.Goods:
+                    result.Add($"Goods: {Get(GameInfo.Strings.uggoods, gift.ItemID)}");
+                    break;
+                case GiftType4.HasSubType:
+                    switch (gift.GiftSubType) {
+                        case GiftSubType4.Seal:
+                            result.Add($"Seal: {Get(GameInfo.Strings.seals, (int)gift.Seal)}");
+                            break;
+                        case GiftSubType4.Accessory:
+                            result.Add($"Accessory: {Get(GameInfo.Strings.accessories, (int)gift.Accessory)}");
+                            break;
+                        case GiftSubType4.Backdrop:
+                            result.Add($"Backdrop: {Get(GameInfo.Strings.backdrops, (int)gift.Backdrop)}");
+                            break;
+                    }
+                    break;
+                case GiftType4.PokétchApp:
+                    result.Add($"Pokétch App: {Get(GameInfo.Strings.poketchapps, (int)gift.PoketchApp)}");
+                    break;
+                case GiftType4.PokéwalkerCourse:
+                    result.Add($"Route Map: {Get(GameInfo.Strings.walkercourses, gift.PokewalkerCourseID)}");
+                    break;
+                default:
+                    result.Add($"{gift.GiftType}");
+                    break;
+            }
+        }
+        catch { result.Add(MsgMysteryGiftParseFail); }
     }
 
     /// <summary>
@@ -140,13 +190,11 @@ public static class MysteryUtil
             return false;
         }
 
-        if (g is WC6 { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
+        if (g is WC6 { CardID: 2048, ItemID: 726 } && sav is not SAV6AO)
         {
-            if (sav is not SAV6AO)
-            {
-                message = MsgMysteryGiftSlotSpecialReject;
-                return false;
-            }
+            // Eon Ticket (OR/AS)
+            message = MsgMysteryGiftSlotSpecialReject;
+            return false;
         }
 
         message = string.Empty;

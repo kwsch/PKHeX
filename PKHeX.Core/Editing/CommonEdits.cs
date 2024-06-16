@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public static class CommonEdits
 {
     /// <summary>
-    /// Setting which enables/disables automatic manipulation of <see cref="PKM.MarkValue"/> when importing from a <see cref="IBattleTemplate"/>.
+    /// Setting which enables/disables automatic manipulation of <see cref="IAppliedMarkings"/> when importing from a <see cref="IBattleTemplate"/>.
     /// </summary>
     public static bool ShowdownSetIVMarkings { get; set; } = true;
 
@@ -51,12 +51,12 @@ public static class CommonEdits
     /// Sets the <see cref="PKM.Ability"/> value by sanity checking the provided <see cref="PKM.Ability"/> against the possible pool of abilities.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="abil">Desired <see cref="Ability"/> value to set.</param>
-    public static void SetAbility(this PKM pk, int abil)
+    /// <param name="abilityID">Desired <see cref="Ability"/> value to set.</param>
+    public static void SetAbility(this PKM pk, int abilityID)
     {
-        if (abil < 0)
+        if (abilityID < 0)
             return;
-        var index = pk.PersonalInfo.GetIndexOfAbility(abil);
+        var index = pk.PersonalInfo.GetIndexOfAbility(abilityID);
         index = Math.Max(0, index);
         pk.SetAbilityIndex(index);
     }
@@ -82,7 +82,7 @@ public static class CommonEdits
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetRandomEC(this PKM pk)
     {
-        int gen = pk.Generation;
+        var gen = pk.Generation;
         if (gen is 3 or 4 or 5)
         {
             pk.EncryptionConstant = pk.PID;
@@ -109,7 +109,7 @@ public static class CommonEdits
         if (pk.IsShiny && type.IsValid(pk))
             return false;
 
-        if (type == Shiny.Random || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO || pk.Format <= 2)
+        if (type == Shiny.Random || pk.FatefulEncounter || pk.Version == GameVersion.GO || pk.Format <= 2)
         {
             pk.SetShiny();
             return true;
@@ -140,77 +140,84 @@ public static class CommonEdits
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
-    public static void SetNature(this PKM pk, int nature)
+    public static void SetNature(this PKM pk, Nature nature)
     {
-        var value = Math.Clamp(nature, (int)Nature.Hardy, (int)Nature.Quirky);
+        if (!nature.IsFixed())
+            nature = 0; // default valid
+
         var format = pk.Format;
         if (format >= 8)
-            pk.StatNature = value;
+            pk.StatNature = nature;
         else if (format is 3 or 4)
-            pk.SetPIDNature(value);
+            pk.SetPIDNature(nature);
         else
-            pk.Nature = value;
+            pk.Nature = nature;
     }
 
     /// <summary>
     /// Copies <see cref="IBattleTemplate"/> details to the <see cref="PKM"/>.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="Set"><see cref="IBattleTemplate"/> details to copy from.</param>
-    public static void ApplySetDetails(this PKM pk, IBattleTemplate Set)
+    /// <param name="set"><see cref="IBattleTemplate"/> details to copy from.</param>
+    public static void ApplySetDetails(this PKM pk, IBattleTemplate set)
     {
-        pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
-        pk.Form = Set.Form;
-        if (Set.Moves[0] != 0)
-            pk.SetMoves(Set.Moves, true);
-        pk.ApplyHeldItem(Set.HeldItem, Set.Context);
-        pk.CurrentLevel = Set.Level;
-        pk.CurrentFriendship = Set.Friendship;
-        pk.SetIVs(Set.IVs);
+        pk.Species = Math.Min(pk.MaxSpeciesID, set.Species);
+        pk.Form = set.Form;
+
+        ReadOnlySpan<ushort> moves = set.Moves;
+        if (moves[0] != 0)
+            pk.SetMoves(moves, true);
+        if (Legal.IsPPUpAvailable(pk))
+            pk.SetMaximumPPUps(moves);
+
+        pk.ApplyHeldItem(set.HeldItem, set.Context);
+        pk.CurrentLevel = set.Level;
+        pk.CurrentFriendship = set.Friendship;
+
+        ReadOnlySpan<int> ivs = set.IVs;
+        ReadOnlySpan<int> evs = set.EVs;
+        pk.SetIVs(ivs);
 
         if (pk is GBPKM gb)
         {
             // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
             // Under this scenario, just force the Hidden Power type.
-            if (Array.IndexOf(Set.Moves, (ushort)Move.HiddenPower) != -1 && gb.HPType != Set.HiddenPowerType)
+            if (moves.Contains((ushort)Move.HiddenPower) && gb.HPType != set.HiddenPowerType)
             {
-                if (Set.IVs.AsSpan().ContainsAny(30, 31))
-                    gb.SetHiddenPower(Set.HiddenPowerType);
+                if (ivs.ContainsAny(30, 31))
+                    gb.SetHiddenPower(set.HiddenPowerType);
             }
 
             // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
             // Under this scenario, just apply maximum EVs (65535).
-            if (!Set.EVs.AsSpan().ContainsAnyExcept(0))
+            if (!evs.ContainsAnyExcept(0))
                 gb.MaxEVs();
             else
-                gb.SetEVs(Set.EVs);
+                gb.SetEVs(evs);
         }
         else
         {
-            pk.SetEVs(Set.EVs);
+            pk.SetEVs(evs);
         }
 
         // IVs have no side effects such as hidden power type in gen 8
         // therefore all specified IVs are deliberate and should not be Hyper Trained for Pokémon met in gen 8
         if (pk.Generation < 8)
-            pk.SetSuggestedHyperTrainingData(Set.IVs);
+            pk.SetSuggestedHyperTrainingData(ivs);
 
         if (ShowdownSetIVMarkings)
             pk.SetMarkings();
 
-        pk.SetNickname(Set.Nickname);
-        pk.SetSaneGender(Set.Gender);
-
-        if (Legal.IsPPUpAvailable(pk))
-            pk.SetMaximumPPUps(Set.Moves);
+        pk.SetNickname(set.Nickname);
+        pk.SetSaneGender(set.Gender);
 
         if (pk.Format >= 3)
         {
-            pk.SetAbility(Set.Ability);
-            pk.SetNature(Set.Nature);
+            pk.SetAbility(set.Ability);
+            pk.SetNature(set.Nature);
         }
 
-        pk.SetIsShiny(Set.Shiny);
+        pk.SetIsShiny(set.Shiny);
         pk.SetRandomEC();
 
         if (pk is IAwakened a)
@@ -227,17 +234,17 @@ public static class CommonEdits
             g.SetSuggestedGanbaruValues(pk);
 
         if (pk is IGigantamax c)
-            c.CanGigantamax = Set.CanGigantamax;
+            c.CanGigantamax = set.CanGigantamax;
         if (pk is IDynamaxLevel d)
-            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: Set.DynamaxLevel);
+            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: set.DynamaxLevel);
         if (pk is ITeraType tera)
         {
-            var type = Set.TeraType == MoveType.Any ? (MoveType)pk.PersonalInfo.Type1 : Set.TeraType;
+            var type = set.TeraType == MoveType.Any ? (MoveType)pk.PersonalInfo.Type1 : set.TeraType;
             tera.SetTeraType(type);
         }
 
         if (pk is IMoveShop8Mastery s)
-            s.SetMoveShopFlags(Set.Moves, pk);
+            s.SetMoveShopFlags(set.Moves, pk);
 
         if (ShowdownSetBehaviorNature && pk.Format >= 8)
             pk.Nature = pk.StatNature;
@@ -246,7 +253,7 @@ public static class CommonEdits
         if (pk is ITechRecord t)
         {
             t.ClearRecordFlags();
-            t.SetRecordFlags(Set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
+            t.SetRecordFlags(set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
         }
         if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
             pk.SetRelearnMoves(legal);
@@ -342,14 +349,14 @@ public static class CommonEdits
             return;
         pk.IsEgg = false;
         pk.ClearNickname();
-        pk.CurrentFriendship = pk.PersonalInfo.BaseFriendship;
+        pk.OriginalTrainerFriendship = Math.Min(pk.OriginalTrainerFriendship, EggStateLegality.GetEggHatchFriendship(pk.Context));
         if (pk.IsTradedEgg)
-            pk.Egg_Location = pk.Met_Location;
+            pk.EggLocation = pk.MetLocation;
         if (pk.Version == 0)
-            pk.Version = (int)EggStateLegality.GetEggHatchVersion(pk, (GameVersion)(tr?.Game ?? RecentTrainerCache.Game));
+            pk.Version = EggStateLegality.GetEggHatchVersion(pk, tr?.Version ?? RecentTrainerCache.Version);
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
-        if (loc >= 0)
-            pk.Met_Location = loc;
+        if (loc != EncounterSuggestion.LocationNone)
+            pk.MetLocation = loc;
         if (pk.Format >= 4)
             pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
         if (pk.Gen6)
@@ -371,7 +378,7 @@ public static class CommonEdits
         var date = EncounterDate.GetDate(console);
         var today = pk.MetDate = date;
         bool traded = origin != dest;
-        pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
+        pk.EggLocation = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
         pk.EggMetDate = today;
     }
 
@@ -382,7 +389,7 @@ public static class CommonEdits
     public static void MaximizeFriendship(this PKM pk)
     {
         if (pk.IsEgg)
-            pk.OT_Friendship = 1;
+            pk.OriginalTrainerFriendship = 1;
         else
             pk.CurrentFriendship = byte.MaxValue;
         if (pk is ICombatPower pb)
@@ -433,8 +440,8 @@ public static class CommonEdits
         if (pk.Format < 2)
             return string.Empty;
 
-        int location = eggmet ? pk.Egg_Location : pk.Met_Location;
-        return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, (GameVersion)pk.Version);
+        ushort location = eggmet ? pk.EggLocation : pk.MetLocation;
+        return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, pk.Version);
     }
 
     /// <summary>

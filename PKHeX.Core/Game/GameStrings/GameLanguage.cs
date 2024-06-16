@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -9,7 +10,7 @@ public static class GameLanguage
 {
     public const string DefaultLanguage = "en"; // English
     public static int DefaultLanguageIndex => Array.IndexOf(LanguageCodes, DefaultLanguage);
-    public static string Language2Char(int lang) => lang > LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
+    public static string Language2Char(int lang) => (uint)lang >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
 
     public static int LanguageCount => LanguageCodes.Length;
 
@@ -53,7 +54,7 @@ public static class GameLanguage
     /// <summary>
     /// Gets a list of strings for the specified language and file type.
     /// </summary>
-    public static string[] GetStrings(string ident, string lang, string type = "text")
+    public static string[] GetStrings(string ident, string lang, [ConstantExpected] string type = "text")
     {
         string[] data = Util.GetStringList(ident, lang, type);
         if (data.Length == 0)

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Encounters8Nest;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -16,7 +17,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
     public byte Index { get; }
     public override string Name => $"Distribution Raid Den Encounter - {Index:000}";
 
-    public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, GameVersion game) : base(game)
+    public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, [ConstantExpected] GameVersion game) : base(game)
     {
         Level = lvl;
         DynamaxLevel = dyna;
@@ -24,7 +25,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
         Index = index;
     }
 
-    public static EncounterStatic8ND Read(ReadOnlySpan<byte> data, GameVersion game)
+    public static EncounterStatic8ND Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
     {
         var d = data[13];
         var dlvl = (byte)(d & 0x7F);
@@ -57,11 +58,11 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
     protected override bool IsMatchLevel(PKM pk)
     {
-        var lvl = pk.Met_Level;
+        var lvl = pk.MetLevel;
 
         if (lvl <= 25) // 1 or 2 stars
         {
-            var met = pk.Met_Location;
+            var met = pk.MetLocation;
             if (met <= byte.MaxValue && InaccessibleRank12DistributionLocations.Contains((byte)met))
                 return false;
         }
@@ -79,7 +80,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
             return false;
 
         // shared nests can be down-leveled to any
-        if (pk.Met_Location == SharedNest)
+        if (pk.MetLocation == SharedNest)
             return true;
 
         // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
@@ -92,7 +93,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        var loc = pk.Met_Location;
+        var loc = pk.MetLocation;
         return loc is SharedNest || Index switch
         {
             >= IndexMinDLC2 => EncounterArea8.IsWildArea(loc),
@@ -103,7 +104,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
     protected override bool IsMatchSeed(PKM pk, ulong seed)
     {
-        bool IsDownleveled = pk.Met_Level < Level;
+        bool IsDownleveled = pk.MetLevel < Level;
         return Verify(pk, seed, IsDownleveled);
     }
 }

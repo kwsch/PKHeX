@@ -13,7 +13,6 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     protected override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
     public int MaxToyID => (int) ((SaveRevision == 0) ? RanchToyType.Poke_Ball : RanchToyType.Water);
-
     public int SaveRevision => Version == GameVersion.DP ? 0 : 1;
     public string SaveRevisionString => Version == GameVersion.DP ? "-DP" : "-Pt";
 
@@ -46,9 +45,11 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     protected override bool IsSlotSwapProtected(int box, int slot) => IsSlotOverwriteProtected(box, slot);
     public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentSAV4Ranch(data);
 
+    private readonly GameVersion _version;
+    public override GameVersion Version { get => _version; set { } }
     public SAV4Ranch(byte[] data) : base(data, typeof(RK4), 0)
     {
-        Version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
+        _version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
 
         OT = GetString(Data.AsSpan(0x770, 0x12));
 
@@ -187,9 +188,9 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     {
         RK4 rk = (RK4)this.GetCompatiblePKM(pk);
         rk.OwnershipType = type;
-        rk.HT_TID = htTID;
-        rk.HT_SID = htSID;
-        rk.HT_Name = htName;
+        rk.HandlingTrainerTID = htTID;
+        rk.HandlingTrainerSID = htSID;
+        rk.HandlingTrainerName = htName;
 
         WriteBoxSlot(rk, data);
     }
@@ -249,10 +250,10 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
     }
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
-
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter4GC.GetStringUnicode(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter4GC.LoadStringUnicode(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
-    }
+        => StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
 }

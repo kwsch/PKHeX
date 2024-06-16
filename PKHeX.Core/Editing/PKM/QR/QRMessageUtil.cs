@@ -1,6 +1,5 @@
 using System;
 using System.Buffers;
-using System.Text;
 
 namespace PKHeX.Core;
 
@@ -12,8 +11,8 @@ public static class QRMessageUtil
     private const string QR6PathBad = "null/#";
     private const string QR6Path = "http://lunarcookies.github.io/b1s1.html#";
     private const string QR6PathWC = "http://lunarcookies.github.io/wc.html#";
-    private static string GetExploitURLPrefixPKM(int format) => format == 6 ? QR6Path : QR6PathBad;
-    private static string GetExploitURLPrefixWC(int format) => format == 6 ? QR6PathWC : QR6PathBad;
+    private static string GetExploitURLPrefixPKM(byte format) => format == 6 ? QR6Path : QR6PathBad;
+    private static string GetExploitURLPrefixWC(byte format) => format == 6 ? QR6PathWC : QR6PathBad;
 
     /// <summary>
     /// Gets the <see cref="PKM"/> data from the message that is encoded in a QR.
@@ -38,7 +37,8 @@ public static class QRMessageUtil
     {
         if (pk is PK7 pk7)
         {
-            byte[] payload = QR7.GenerateQRData(pk7);
+            Span<byte> payload = stackalloc byte[QR7.SIZE];
+            QR7.SetQRData(pk7, payload);
             return GetMessage(payload);
         }
 
@@ -54,10 +54,10 @@ public static class QRMessageUtil
     /// <returns>QR Message</returns>
     public static string GetMessage(ReadOnlySpan<byte> payload)
     {
-        var sb = new StringBuilder(payload.Length);
-        foreach (var b in payload)
-            sb.Append((char)b);
-        return sb.ToString();
+        Span<char> result = stackalloc char[payload.Length];
+        for (int i = 0; i < payload.Length; i++)
+            result[i] = (char)payload[i];
+        return new string(result);
     }
 
     /// <summary>

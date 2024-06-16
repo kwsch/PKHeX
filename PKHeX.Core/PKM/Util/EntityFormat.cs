@@ -69,7 +69,7 @@ public static class EntityFormat
         if (data[0x5F] < 0x10 && ReadUInt16LittleEndian(data[0x80..]) < 0x3333)
             return FormatPK4; // Gen3/4 version origin, not Transporter
         if (ReadUInt16LittleEndian(data[0x46..]) != 0)
-            return FormatPK4; // PK4.Met_LocationExtended (unused in PK5)
+            return FormatPK4; // PK4.MetLocationExtended (unused in PK5)
         return FormatPK5;
     }
 
@@ -117,8 +117,8 @@ public static class EntityFormat
 
     private static PKM? GetFromBytes(byte[] data, EntityFormatDetected format, EntityContext prefer) => format switch
     {
-        FormatPK1 => new PokeList1(data)[0],
-        FormatPK2 => new PokeList2(data)[0],
+        FormatPK1 => PokeList1.ReadFromSingle(data),
+        FormatPK2 => PokeList2.ReadFromSingle(data),
         FormatSK2 => new SK2(data),
         FormatPK3 => new PK3(data),
         FormatCK3 => new CK3(data),
@@ -148,7 +148,7 @@ public static class EntityFormat
     {
         if (pk.Version > Legal.MaxGameID_6)
         {
-            if (pk.Version is ((int)GameVersion.GP or (int)GameVersion.GE or (int)GameVersion.GO))
+            if (pk.Version is (GameVersion.GP or GameVersion.GE or GameVersion.GO))
                 return FormatPB7;
             return FormatPK7;
         }

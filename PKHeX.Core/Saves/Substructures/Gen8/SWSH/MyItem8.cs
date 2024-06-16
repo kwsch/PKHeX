@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class MyItem8(SaveFile SAV, SCBlock block) : MyItem(SAV, block.Data)
+public sealed class MyItem8(SAV8SWSH SAV, SCBlock block) : MyItem(SAV, block.Data)
 {
     public const int Medicine = 0;
     public const int Balls = Medicine + (4 * PouchSize8.Medicine);

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
 /// </summary>
-public sealed class SAV3XD : SaveFile, IGCSaveFile
+public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) {PlayTimeString}";
     public override string Extension => this.GCExtension();
@@ -29,6 +29,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
     private readonly int[] subOffsets = new int[16];
     private readonly byte[] BAK;
+    private int DaycareOffset;
 
     public SAV3XD() : base(SaveUtil.SIZE_G3XD)
     {
@@ -147,7 +148,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
             return newFile;
 
         MemoryCard.WriteSaveGameData(newFile);
-        return MemoryCard.Data;
+        return MemoryCard.Data.ToArray();
     }
 
     private byte[] GetInnerData()
@@ -186,13 +187,12 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int MaxAbilityID => Legal.MaxAbilityID_3;
     public override int MaxBallID => Legal.MaxBallID_3;
     public override int MaxItemID => Legal.MaxItemID_3_XD;
-    public override int MaxGameID => Legal.MaxGameID_3;
+    public override GameVersion MaxGameID => Legal.MaxGameID_3;
 
     public override int MaxEV => EffortValues.Max255;
-    public override int Generation => 3;
+    public override byte Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
-    protected override int GiftCountMax => 1;
-    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthTrainer => 7;
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 9999999;
 
@@ -320,13 +320,13 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     }
 
     // Trainer Info
-    public override GameVersion Version { get => GameVersion.XD; protected set { } }
+    public override GameVersion Version { get => GameVersion.XD; set { } }
     public override string OT { get => GetString(Data.AsSpan(Trainer1 + 0x00, 20)); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value, 10, StringConverterOption.ClearZero); }
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), value); }
 
-    public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
+    public override byte Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = value; }
     public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4), value); }
     public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E8)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E8), value); }
 
@@ -334,9 +334,9 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int GetPartyOffset(int slot) => Party + (SIZE_STORED * slot);
     private int GetBoxInfoOffset(int box) => Box + (((30 * SIZE_STORED) + 0x14) * box);
     public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
-    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxInfoOffset(box), 16));
+    public string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxInfoOffset(box), 16));
 
-    public override void SetBoxName(int box, ReadOnlySpan<char> value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value, 8, StringConverterOption.ClearZero);
     }
@@ -372,8 +372,13 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         if (pk is not XK3 xk3)
             return; // shouldn't ever hit
 
-        xk3.CurrentRegion = (byte)CurrentRegion;
-        xk3.OriginalRegion = (byte)OriginalRegion;
+        var oldRegion = xk3.CurrentRegion;
+        xk3.CurrentRegion = CurrentRegion;
+        xk3.OriginalRegion = OriginalRegion;
+
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(xk3.NicknameTrash, oldRegion, xk3.CurrentRegion, xk3.Language);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(xk3.OriginalTrainerTrash, oldRegion, xk3.CurrentRegion, xk3.Language);
+        xk3.ResetNicknameDisplay();
 
         // Set Shadow Data back to save
         var id = xk3.ShadowID;
@@ -444,16 +449,18 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     // 0x01 -- Deposited Level
     // 0x02-0x03 -- unused?
     // 0x04-0x07 -- Initial EXP
-    public override int GetDaycareSlotOffset(int loc, int slot) { return DaycareOffset + 8; }
-    public override uint? GetDaycareEXP(int loc, int slot) { return null; }
-    public override bool? IsDaycareOccupied(int loc, int slot) { return null; }
-    public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }
-    public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
+    public int DaycareSlotCount => 1;
+    public bool IsDaycareOccupied(int slot) => Data[DaycareOffset] != 0;
+    public void SetDaycareOccupied(int slot, bool occupied) => Data[DaycareOffset] = (byte)(occupied ? 1 : 0);
+    public byte DaycareDepositLevel { get => Data[DaycareOffset + 1]; set => Data[DaycareOffset + 1] = value; }
+    public uint GetDaycareEXP(int index) => ReadUInt32BigEndian(Data.AsSpan(DaycareOffset + 4));
+    public void SetDaycareEXP(int index, uint value) => WriteUInt32BigEndian(Data.AsSpan(DaycareOffset + 4), value);
+    public Memory<byte> GetDaycareSlot(int slot) => Data.AsMemory(DaycareOffset + 8, PokeCrypto.SIZE_3XSTORED);
 
-    public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
-
+    public override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter3GC.GetString(data);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter3GC.LoadString(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter3GC.SetString(destBuffer, value, maxLength, option);
-    }
+        => StringConverter3GC.SetString(destBuffer, value, maxLength, option);
 }

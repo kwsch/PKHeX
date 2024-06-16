@@ -4,11 +4,9 @@ namespace PKHeX.Core;
 
 public sealed class BlueberryClubRoom9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
-    private Span<byte> Span => Data.AsSpan();
-
     public BlueberrySupportBoard9 SupportBoard => new(block.Data.AsMemory(0, 0x38));
 
-    public BlueberryClubRoomStyle9 CurrentStyle { get => (BlueberryClubRoomStyle9)Span[0xE6C]; set => Span[0xE6C] = (byte)value; }
+    public BlueberryClubRoomStyle9 CurrentStyle { get => (BlueberryClubRoomStyle9)Data[0xE6C]; set => Data[0xE6C] = (byte)value; }
 }
 
 public sealed class BlueberrySupportBoard9(Memory<byte> Data)

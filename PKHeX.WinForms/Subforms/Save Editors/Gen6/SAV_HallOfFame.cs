@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms;
 
@@ -12,23 +11,19 @@ public partial class SAV_HallOfFame : Form
 {
     private readonly SAV6 Origin;
     private readonly SAV6 SAV;
+    private readonly HallOfFame6 Fame;
 
     private bool editing;
 
     private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
-    private readonly byte[] data;
-
-    private const int Count = 16;
-    private const int StructureSize = 0x1B4;
-    private const int StructureTotal = Count * StructureSize;
 
     public SAV_HallOfFame(SAV6 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV6)(Origin = sav).Clone();
+        Fame = ((ISaveBlock6Main)SAV).HallOfFame;
 
-        data = SAV.Data.AsSpan(SAV.HoF, StructureTotal).ToArray(); // Copy HoF section of save into Data
         Setup();
         LB_DataEntry.SelectedIndex = 0;
         NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
@@ -68,7 +63,7 @@ public partial class SAV_HallOfFame : Form
 
     private void B_Close_Click(object sender, EventArgs e)
     {
-        Origin.SetData(data, SAV.HoF);
+        Origin.CopyChangesFrom(SAV);
         Close();
     }
 
@@ -78,17 +73,12 @@ public partial class SAV_HallOfFame : Form
         RTB.Font = new Font("Courier New", 8);
         RTB.LanguageOption = RichTextBoxLanguageOptions.DualFont;
         int index = LB_DataEntry.SelectedIndex;
-        int offset = index * StructureSize;
 
-        uint vnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
-        uint vn = vnd & 0xFF;
-        TB_VN.Text = vn.ToString("000");
-        var s = new List<string> { $"Entry #{vn}" };
-        uint date = (vnd >> 14) & 0x1FFFF;
-        uint month = (date >> 8) & 0xF;
-        uint year = (date & 0xFF) + 2000;
-        uint day = date >> 12;
-        if (day == 0)
+        var span = Fame.GetEntry(index);
+        var vnd = new HallFame6Index(span[^4..]);
+        TB_VN.Text = vnd.ClearIndex.ToString("000");
+        var s = new List<string> { $"Entry #{vnd.ClearIndex}" };
+        if (!vnd.HasData)
         {
             s.Add("No records in this slot.");
             groupBox1.Enabled = false;
@@ -99,7 +89,7 @@ public partial class SAV_HallOfFame : Form
         else
         {
             groupBox1.Enabled = true;
-            var moncount = AddEntries(offset, s, year, month, day);
+            var moncount = AddEntries(span, s, vnd);
 
             if (sender != this)
             {
@@ -117,24 +107,25 @@ public partial class SAV_HallOfFame : Form
         RTB.Font = new Font("Courier New", 8);
     }
 
-    private int AddEntries(int offset, List<string> s, uint year, uint month, uint day)
+    private int AddEntries(Span<byte> data, List<string> s, HallFame6Index vnd)
     {
+        var year = vnd.Year + 2000;
+        var month = vnd.Month;
+        var day = vnd.Day;
+
         s.Add($"Date: {year}/{month:00}/{day:00}");
         s.Add(string.Empty);
         CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
         int moncount = 0;
         for (int i = 0; i < 6; i++)
         {
-            var entry = new HallFame6Entity(data.AsSpan(offset, HallFame6Entity.SIZE));
+            var slice = data[(i * HallFame6Entity.SIZE)..];
+            var entry = new HallFame6Entity(slice, SAV.Language);
             if (entry.Species == 0)
                 continue;
-
             moncount++;
             AddEntryDescription(s, entry);
-
-            offset += HallFame6Entity.SIZE;
         }
-
         return moncount;
     }
 
@@ -154,8 +145,8 @@ public partial class SAV_HallOfFame : Form
         s.Add($"Move 3: {str.Move[entry.Move3]}");
         s.Add($"Move 4: {str.Move[entry.Move4]}");
 
-        string OTGender = gendersymbols[(int)entry.OT_Gender];
-        s.Add($"OT: {entry.OT_Name} ({OTGender}) ({entry.TID16}/{entry.SID16})");
+        string OTGender = gendersymbols[(int)entry.OriginalTrainerGender];
+        s.Add($"OT: {entry.OriginalTrainerName} ({OTGender}) ({entry.TID16}/{entry.SID16})");
         s.Add(string.Empty);
     }
 
@@ -163,12 +154,9 @@ public partial class SAV_HallOfFame : Form
     {
         editing = false;
         int index = LB_DataEntry.SelectedIndex;
-        int offset = (index * StructureSize) + ((Convert.ToInt32(NUP_PartyIndex.Value) - 1) * HallFame6Entity.SIZE);
-
-        if (offset < 0)
-            return;
-
-        var entry = new HallFame6Entity(data.AsSpan(offset, HallFame6Entity.SIZE));
+        var member = (Convert.ToInt32(NUP_PartyIndex.Value) - 1);
+        var slice = Fame.GetEntity(index, member);
+        var entry = new HallFame6Entity(slice, SAV.Language);
         CB_Species.SelectedValue = (int)entry.Species;
         CB_HeldItem.SelectedValue = (int)entry.HeldItem;
         CB_Move1.SelectedValue = (int)entry.Move1;
@@ -182,18 +170,18 @@ public partial class SAV_HallOfFame : Form
         TB_SID.Text = entry.SID16.ToString("00000");
 
         TB_Nickname.Text = entry.Nickname;
-        TB_OT.Text = entry.OT_Name;
+        TB_OT.Text = entry.OriginalTrainerName;
         CHK_Shiny.Checked = entry.IsShiny;
         TB_Level.Text = entry.Level.ToString("000");
         CHK_Nicknamed.Checked = entry.IsNicknamed;
 
         SetForms();
         CB_Form.SelectedIndex = entry.Form;
-        SetGenderLabel((int)entry.Gender);
-        Label_OTGender.Text = gendersymbols[(int)entry.OT_Gender];
+        SetGenderLabel((byte)entry.Gender);
+        Label_OTGender.Text = gendersymbols[(int)entry.OriginalTrainerGender];
         UpdateNickname(sender, e);
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
         editing = true;
     }
 
@@ -205,10 +193,10 @@ public partial class SAV_HallOfFame : Form
         Validate_TextBoxes();
 
         int index = LB_DataEntry.SelectedIndex;
-        int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
-        int offset = (index * StructureSize) + (partymember * HallFame6Entity.SIZE);
-        var span = data.AsSpan(offset, HallFame6Entity.SIZE);
-        var entry = new HallFame6Entity(span)
+        int member = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
+
+        var slice = Fame.GetEntity(index, member);
+        var entry = new HallFame6Entity(slice, SAV.Language)
         {
             Species = Convert.ToUInt16(CB_Species.SelectedValue),
             HeldItem = Convert.ToUInt16(CB_HeldItem.SelectedValue),
@@ -225,26 +213,22 @@ public partial class SAV_HallOfFame : Form
             IsShiny = CHK_Shiny.Checked,
             IsNicknamed = CHK_Nicknamed.Checked,
             Nickname = TB_Nickname.Text,
-            OT_Name = TB_OT.Text,
-            OT_Gender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
+            OriginalTrainerName = TB_OT.Text,
+            OriginalTrainerGender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
         };
 
-        offset = index * StructureSize;
-
-        uint vnd = 0;
-        uint date = 0;
-        vnd |= Convert.ToUInt32(TB_VN.Text) & 0xFF;
-        date |= (uint)((CAL_MetDate.Value.Year - 2000) & 0xFF);
-        date |= (uint)((CAL_MetDate.Value.Month & 0xF) << 8);
-        date |= (uint)((CAL_MetDate.Value.Day & 0x1F) << 12);
-        vnd |= (date & 0x1FFFF) << 14;
-        //Fix for top bit
-        uint rawvnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
-        vnd |= rawvnd & 0x80000000;
-        WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
+        var span = Fame.GetEntry(index);
+        _ = new HallFame6Index(span[^4..])
+        {
+            ClearIndex = Convert.ToUInt16(TB_VN.Text),
+            Year = (uint)CAL_MetDate.Value.Year - 2000,
+            Month = (uint)CAL_MetDate.Value.Month,
+            Day = (uint)CAL_MetDate.Value.Day,
+            HasData = true,
+        };
 
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (byte)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
         DisplayEntry(this, EventArgs.Empty); // refresh text view
     }
 
@@ -318,7 +302,8 @@ public partial class SAV_HallOfFame : Form
         if (pi.IsDualGender)
         {
             var fg = EntityGender.GetFromString(Label_Gender.Text);
-            fg = (fg ^ 1) & 1;
+            fg ^= 1;
+            fg &= 1;
             Label_Gender.Text = gendersymbols[fg];
         }
         else
@@ -340,7 +325,7 @@ public partial class SAV_HallOfFame : Form
         Write_Entry(this, EventArgs.Empty);
     }
 
-    private void SetGenderLabel(int gender)
+    private void SetGenderLabel(byte gender)
     {
         Label_Gender.Text = gender switch
         {
@@ -370,12 +355,7 @@ public partial class SAV_HallOfFame : Form
         if (prompt != DialogResult.Yes)
             return;
 
-        int offset = index * StructureSize;
-        if (index != 15)
-            Array.Copy(data, offset + StructureSize, data, offset, StructureSize * (Count - 1 - index));
-
-        // Ensure Last Entry is Cleared
-        data.AsSpan(StructureSize * (Count - 1), StructureSize).Clear();
+        Fame.ClearEntry(index);
         DisplayEntry(LB_DataEntry, EventArgs.Empty);
     }
 
@@ -388,11 +368,11 @@ public partial class SAV_HallOfFame : Form
 
         var team = LB_DataEntry.SelectedIndex;
         var member = (int)NUP_PartyIndex.Value - 1;
-        int offset = (team * (4 + (6 * HallFame6Entity.SIZE))) + (member * HallFame6Entity.SIZE);
-        var nicktrash = data.AsSpan(offset + 0x18, 26);
+        var data = Fame.GetEntity(team, member);
+        var nicktrash = data.Slice(0x18, 26);
         var text = tb.Text;
         SAV.SetString(nicktrash, text, 12, StringConverterOption.ClearZero);
-        var d = new TrashEditor(tb, nicktrash, SAV);
+        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(nicktrash);

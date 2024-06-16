@@ -6,15 +6,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// Secret base format for <see cref="GameVersion.ORAS"/>
 /// </summary>
-public class SecretBase6(byte[] Data, int Offset = 0)
+public class SecretBase6(Memory<byte> raw)
 {
     public const int SIZE = 0x310;
     public const int COUNT_GOODS = 28;
     public const int MinLocationID = -1;
     public const int MaxLocationID = 85;
 
-    protected readonly byte[] Data = Data;
-    protected readonly int Offset = Offset;
+    protected Span<byte> Data => raw.Span;
 
     // structure: (first at 23D24 in sav)
     // [000-001] u8 IsNew
@@ -39,14 +38,14 @@ public class SecretBase6(byte[] Data, int Offset = 0)
 
     public bool IsNew
     {
-        get => Data[Offset] == 1;
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)(value ? 1 : 0));
+        get => Data[0] == 1;
+        set => WriteUInt16LittleEndian(Data, (ushort)(value ? 1 : 0));
     }
 
     private int RawLocation
     {
-        get => ReadInt16LittleEndian(Data.AsSpan(Offset + 2));
-        set => WriteInt16LittleEndian(Data.AsSpan(Offset + 2), (short)value);
+        get => ReadInt16LittleEndian(Data[2..]);
+        set => WriteInt16LittleEndian(Data[2..], (short)value);
     }
 
     public int BaseLocation
@@ -61,7 +60,7 @@ public class SecretBase6(byte[] Data, int Offset = 0)
         };
     }
 
-    public SecretBase6GoodPlacement GetPlacement(int index) => new(Data, Offset + GetPlacementOffset(index));
+    public SecretBase6GoodPlacement GetPlacement(int index) => new(raw.Slice(GetPlacementOffset(index), SecretBase6GoodPlacement.SIZE));
 
     private static int GetPlacementOffset(int index)
     {
@@ -72,8 +71,8 @@ public class SecretBase6(byte[] Data, int Offset = 0)
 
     public byte BoppoyamaScore
     {
-        get => Data[Offset + 0x174];
-        set => Data[Offset + 0x174] = value;
+        get => Data[0x174];
+        set => Data[0x174] = value;
     }
 
     private const int NameLengthBytes = 0x1A;
@@ -81,15 +80,17 @@ public class SecretBase6(byte[] Data, int Offset = 0)
     private const int NameLength = (0x1A / 2) - 1; // + terminator
     private const int MessageLength = (0x22 / 2) - 1; // + terminator
 
+    private static int Language => 0;
+
     public string TrainerName
     {
-        get => StringConverter6.GetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes));
-        set => StringConverter6.SetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes), value, NameLength, StringConverterOption.ClearZero);
+        get => StringConverter6.GetString(Data.Slice(0x21A, NameLengthBytes));
+        set => StringConverter6.SetString(Data.Slice(0x21A, NameLengthBytes), value, NameLength, Language, StringConverterOption.ClearZero);
     }
 
-    private Span<byte> GetMessageSpan(int index) => Data.AsSpan(Offset + 0x234 + (MessageLengthBytes * index), MessageLengthBytes);
+    private Span<byte> GetMessageSpan(int index) => Data.Slice(0x234 + (MessageLengthBytes * index), MessageLengthBytes);
     private string GetMessage(int index) => StringConverter6.GetString(GetMessageSpan(index));
-    private void SetMessage(int index, ReadOnlySpan<char> value) => StringConverter6.SetString(GetMessageSpan(index), value, MessageLength, StringConverterOption.ClearZero);
+    private void SetMessage(int index, ReadOnlySpan<char> value) => StringConverter6.SetString(GetMessageSpan(index), value, MessageLength, Language, StringConverterOption.ClearZero);
 
     public string TeamName { get => GetMessage(0); set => SetMessage(0, value); }
     public string TeamSlogan { get => GetMessage(1); set => SetMessage(1, value); }
@@ -100,24 +101,24 @@ public class SecretBase6(byte[] Data, int Offset = 0)
 
     public SecretBase6Rank Rank
     {
-        get => (SecretBase6Rank) ReadInt32LittleEndian(Data.AsSpan(Offset + 0x300));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x300), (int)value);
+        get => (SecretBase6Rank) ReadInt32LittleEndian(Data[0x300..]);
+        set => WriteInt32LittleEndian(Data[0x300..], (int)value);
     }
 
     public uint TotalFlagsFromFriends
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x304));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x304), value);
+        get => ReadUInt32LittleEndian(Data[0x304..]);
+        set => WriteUInt32LittleEndian(Data[0x304..], value);
     }
 
     public uint TotalFlagsFromOther
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x308));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x308), value);
+        get => ReadUInt32LittleEndian(Data[0x308..]);
+        set => WriteUInt32LittleEndian(Data[0x308..], value);
     }
 
-    public byte CollectedFlagsToday { get => Data[Offset + 0x30C]; set => Data[Offset + 0x30C] = value; }
-    public byte CollectedFlagsYesterday { get => Data[Offset + 0x30D]; set => Data[Offset + 0x30D] = value; }
+    public byte CollectedFlagsToday { get => Data[0x30C]; set => Data[0x30C] = value; }
+    public byte CollectedFlagsYesterday { get => Data[0x30D]; set => Data[0x30D] = value; }
 
     // Derived Values
 
@@ -125,7 +126,7 @@ public class SecretBase6(byte[] Data, int Offset = 0)
     public bool IsEmpty => BaseLocation <= 0;
 
     protected virtual void LoadOther(SecretBase6Other other) => LoadSelf(other);
-    private void LoadSelf(SecretBase6 other) => other.Data.AsSpan(other.Offset, SIZE).CopyTo(Data.AsSpan(Offset));
+    private void LoadSelf(SecretBase6 other) => other.Data[..SIZE].CopyTo(Data); // ensure input is truncated to correct size (other has extra fields)
 
     public void Load(SecretBase6 other)
     {
@@ -135,7 +136,7 @@ public class SecretBase6(byte[] Data, int Offset = 0)
             LoadSelf(other);
     }
 
-    public virtual byte[] Write() => Data.AsSpan(Offset, SIZE).ToArray();
+    public virtual byte[] Write() => Data.ToArray();
 
     public static SecretBase6? Read(byte[] data)
     {
@@ -151,7 +152,7 @@ public class SecretBase6(byte[] Data, int Offset = 0)
 /// <summary>
 /// An expanded structure of <see cref="SecretBase6"/> containing extra fields to describe another trainer's base.
 /// </summary>
-public sealed class SecretBase6Other(byte[] Data, int Offset = 0) : SecretBase6(Data, Offset)
+public sealed class SecretBase6Other(Memory<byte> raw) : SecretBase6(raw)
 {
     public new const int SIZE = 0x3E0;
 
@@ -177,27 +178,27 @@ public sealed class SecretBase6Other(byte[] Data, int Offset = 0) : SecretBase6(
 
     public byte Language
     {
-        get => Data[Offset + 0x320];
-        set => Data[Offset + 0x320] = value;
+        get => Data[0x320];
+        set => Data[0x320] = value;
     }
 
     public byte Gender
     {
-        get => Data[Offset + 0x321];
-        set => Data[Offset + 0x321] = value;
+        get => Data[0x321];
+        set => Data[0x321] = value;
     }
 
     public const int COUNT_TEAM = 3;
 
-    private Span<byte> GetParticipantData(int index) => Data.AsSpan(GetParticipantOffset(index), SecretBase6PKM.SIZE);
+    private Span<byte> GetParticipantData(int index) => Data.Slice(GetParticipantOffset(index), SecretBase6PKM.SIZE);
     public SecretBase6PKM GetParticipant(int index) => new(GetParticipantData(index).ToArray());
     public void SetParticipant(int index, SecretBase6PKM pk) => pk.Data.CopyTo(GetParticipantData(index));
 
-    public int GetParticipantOffset(int index)
+    public static int GetParticipantOffset(int index)
     {
         if ((uint) index >= COUNT_TEAM)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return Offset + 0x330 + (index * SecretBase6PKM.SIZE);
+        return 0x330 + (index * SecretBase6PKM.SIZE);
     }
 
     public SecretBase6PKM[] GetTeam()
@@ -222,7 +223,7 @@ public sealed class SecretBase6Other(byte[] Data, int Offset = 0) : SecretBase6(
             SetParticipant(i, arr[i]);
     }
 
-    protected override void LoadOther(SecretBase6Other other) => other.Data.AsSpan(other.Offset, SIZE).CopyTo(Data.AsSpan(Offset));
+    protected override void LoadOther(SecretBase6Other other) => other.Data.CopyTo(Data);
 
-    public override byte[] Write() => Data.AsSpan(Offset, SIZE).ToArray();
+    public override byte[] Write() => Data.ToArray();
 }

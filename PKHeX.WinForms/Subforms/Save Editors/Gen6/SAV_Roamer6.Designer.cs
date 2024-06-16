@@ -115,8 +115,7 @@ namespace PKHeX.WinForms
             // 
             // SAV_Roamer6
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(414, 101);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
@@ -126,11 +125,13 @@ namespace PKHeX.WinForms
             Controls.Add(L_TimesEncountered);
             Controls.Add(CB_Species);
             Controls.Add(L_Species);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "SAV_Roamer6";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Roamer Editor";
             ((System.ComponentModel.ISupportInitialize)NUD_TimesEncountered).EndInit();
             ResumeLayout(false);

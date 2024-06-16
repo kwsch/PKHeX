@@ -88,9 +88,9 @@ public sealed class LegendsArceusVerifier : Verifier
         var ls = LearnSource8LA.Instance;
         var moveset = ls.GetLearnset(enc.Species, enc.Form);
         if (enc is IMasteryInitialMoveShop8 ms)
-            ms.LoadInitialMoveset(pa, moves, moveset, pa.Met_Level);
+            ms.LoadInitialMoveset(pa, moves, moveset, pa.MetLevel);
         else
-            moveset.SetEncounterMoves(pa.Met_Level, moves);
+            moveset.SetEncounterMoves(pa.MetLevel, moves);
         var count = moves.IndexOf((ushort)0);
         if ((uint)count >= 4)
             return 4;
@@ -105,7 +105,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
         // Level up to current level
         var level = pa.CurrentLevel;
-        moveset.SetLevelUpMoves(pa.Met_Level, level, moves, purchased, count);
+        moveset.SetLevelUpMoves(pa.MetLevel, level, moves, purchased, count);
         count = moves.IndexOf((ushort)0);
         if ((uint)count >= 4)
             return 4;
@@ -155,11 +155,11 @@ public sealed class LegendsArceusVerifier : Verifier
             // Check if we can swap it into the moveset after it evolves.
             var move = purchased[i];
             var baseLevel = baseLearn.GetLevelLearnMove(move);
-            var mustKnow = baseLevel is not -1 && baseLevel <= pa.Met_Level;
+            var mustKnow = baseLevel is not -1 && baseLevel <= pa.MetLevel;
             if (!mustKnow && currentLearn.GetLevelLearnMove(move) != level)
                 continue;
 
-            if (current.IndexOf(move) == -1)
+            if (!current.Contains(move))
                 current[ctr++] = move;
             if (ctr == 4)
                 return 4;
@@ -239,7 +239,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
     private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, ushort alphaMove, IPermitRecord permit)
     {
-        if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType.Landmark })
+        if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType8a.Landmark })
         {
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeZero));
             return;
@@ -263,7 +263,7 @@ public sealed class LegendsArceusVerifier : Verifier
         if (enc is not IAlpha { IsAlpha: true })
             return; // okay
 
-        if (enc is EncounterSlot8a { Type: SlotType.Landmark })
+        if (enc is EncounterSlot8a { Type: SlotType8a.Landmark })
             return; // okay
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);

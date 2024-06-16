@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
 {
-    protected internal sealed override string ShortSummary => $"{OT} ({Version})";
+    protected internal sealed override string ShortSummary => $"{OT} ({Version}) {Checksums.CRC16_CCITT(Data):X4}";
     public sealed override string Extension => ".sav";
 
     public abstract int SaveRevision { get; }
@@ -19,7 +19,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     public bool Korean => false;
 
     public sealed override int MaxBallID => 0; // unused
-    public sealed override int MaxGameID => 99; // unused
+    public sealed override GameVersion MaxGameID => GameVersion.Gen1; // unused
     public sealed override int MaxMoney => 999999;
     public sealed override int MaxCoins => 9999;
 
@@ -49,8 +49,6 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
 
     protected sealed override byte[] DecryptPKM(byte[] data) => data;
     public sealed override int GetPartyOffset(int slot) => -1;
-    public override string GetBoxName(int box) => $"Box {box + 1}";
-    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value) { }
     public sealed override bool ChecksumsValid => GetBoxChecksumsValid();
     public sealed override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
     protected abstract void SetBoxChecksum(int box);
@@ -81,7 +79,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     {
         var result = base.GetFinalData();
         if (IsPairSwapped)
-            ReverseEndianness(result = (byte[])result.Clone());
+            ReverseEndianness(result = [..result]);
         return result;
     }
 
@@ -95,12 +93,12 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
         return result;
     }
 
-    public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter12.GetString(data, Japanese);
-
+    public sealed override string GetString(ReadOnlySpan<byte> data)
+        => StringConverter1.GetString(data, Japanese);
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter1.LoadString(data, destBuffer, Japanese);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
-    }
+        => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
 
     /// <summary>
     /// Some emulators emit with system architecture endianness (Little Endian) instead of the original Big Endian ordering.

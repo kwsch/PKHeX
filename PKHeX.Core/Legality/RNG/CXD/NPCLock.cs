@@ -14,7 +14,7 @@ public readonly record struct NPCLock
     public int FramesConsumed => Seen ? 5 : 7;
     public bool Seen => State > 1;
     public bool Shadow => State != 0;
-    public (byte Nature, byte Gender) GetLock => (Nature, Gender);
+    public (Nature Nature, byte Gender) GetLock => ((Nature)Nature, Gender);
 
     // Not-Shadow
     public NPCLock(ushort s, byte n, byte g, byte r)
@@ -52,10 +52,9 @@ public readonly record struct NPCLock
             sb.Append(" (Shadow)");
         if (Seen)
             sb.Append(" [Seen]");
-        sb.Append(" - ");
-        sb.Append("Nature: ").Append((Nature)Nature);
+        sb.Append($" - Nature: {(Nature)Nature}");
         if (Gender != 2)
-            sb.Append(", ").Append("Gender: ").Append(Gender);
+            sb.Append($", Gender: {Gender}");
         return sb.ToString();
     }
 #endif

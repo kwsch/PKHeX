@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LearnGroup8b : ILearnGroup
 {
     public static readonly LearnGroup8b Instance = new();
-    private const int Generation = 8;
+    private const byte Generation = 8;
     private const EntityContext Context = EntityContext.Gen8b;
     public ushort MaxMoveID => Legal.MaxMoveID_8b;
 
@@ -50,7 +50,7 @@ public sealed class LearnGroup8b : ILearnGroup
                 continue;
             var move = current[i];
             if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.Shared);
+                result[i] = new(LearnMethod.Shared, game.Environment);
         }
     }
 

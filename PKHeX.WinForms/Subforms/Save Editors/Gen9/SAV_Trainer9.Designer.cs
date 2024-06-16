@@ -91,7 +91,10 @@ namespace PKHeX.WinForms
             L_SinglesC = new System.Windows.Forms.Label();
             TC_Editor = new System.Windows.Forms.TabControl();
             Tab_Overview = new System.Windows.Forms.TabPage();
+            CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
+            L_LastSaved = new System.Windows.Forms.Label();
             trainerID1 = new Controls.TrainerID();
+            CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             L_Started = new System.Windows.Forms.Label();
             CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
             MT_LP = new System.Windows.Forms.MaskedTextBox();
@@ -151,7 +154,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(281, 274);
+            B_Cancel.Location = new System.Drawing.Point(281, 312);
             B_Cancel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(100, 32);
@@ -163,7 +166,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(391, 274);
+            B_Save.Location = new System.Drawing.Point(391, 312);
             B_Save.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(100, 32);
@@ -649,12 +652,15 @@ namespace PKHeX.WinForms
             TC_Editor.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             TC_Editor.Name = "TC_Editor";
             TC_Editor.SelectedIndex = 0;
-            TC_Editor.Size = new System.Drawing.Size(496, 269);
+            TC_Editor.Size = new System.Drawing.Size(496, 307);
             TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
             // 
+            Tab_Overview.Controls.Add(CAL_LastSavedDate);
+            Tab_Overview.Controls.Add(L_LastSaved);
             Tab_Overview.Controls.Add(trainerID1);
+            Tab_Overview.Controls.Add(CAL_LastSavedTime);
             Tab_Overview.Controls.Add(L_Started);
             Tab_Overview.Controls.Add(CAL_AdventureStartDate);
             Tab_Overview.Controls.Add(MT_LP);
@@ -679,10 +685,31 @@ namespace PKHeX.WinForms
             Tab_Overview.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_Overview.Name = "Tab_Overview";
             Tab_Overview.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_Overview.Size = new System.Drawing.Size(488, 241);
+            Tab_Overview.Size = new System.Drawing.Size(488, 279);
             Tab_Overview.TabIndex = 0;
             Tab_Overview.Text = "Overview";
             Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // CAL_LastSavedDate
+            // 
+            CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_LastSavedDate.Location = new System.Drawing.Point(170, 232);
+            CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedDate.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedDate.Name = "CAL_LastSavedDate";
+            CAL_LastSavedDate.Size = new System.Drawing.Size(120, 23);
+            CAL_LastSavedDate.TabIndex = 55;
+            CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // L_LastSaved
+            // 
+            L_LastSaved.Location = new System.Drawing.Point(75, 232);
+            L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_LastSaved.Name = "L_LastSaved";
+            L_LastSaved.Size = new System.Drawing.Size(93, 23);
+            L_LastSaved.TabIndex = 56;
+            L_LastSaved.Text = "Last Saved:";
+            L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // trainerID1
             // 
@@ -691,6 +718,20 @@ namespace PKHeX.WinForms
             trainerID1.Name = "trainerID1";
             trainerID1.Size = new System.Drawing.Size(246, 23);
             trainerID1.TabIndex = 66;
+            // 
+            // CAL_LastSavedTime
+            // 
+            CAL_LastSavedTime.CustomFormat = "HH:mm:ss";
+            CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_LastSavedTime.Location = new System.Drawing.Point(205, 254);
+            CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedTime.MaxDate = new System.DateTime(2060, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedTime.Name = "CAL_LastSavedTime";
+            CAL_LastSavedTime.ShowUpDown = true;
+            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 23);
+            CAL_LastSavedTime.TabIndex = 57;
+            CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // L_Started
             // 
@@ -756,7 +797,7 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_MiscValues.Name = "Tab_MiscValues";
             Tab_MiscValues.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_MiscValues.Size = new System.Drawing.Size(488, 241);
+            Tab_MiscValues.Size = new System.Drawing.Size(488, 279);
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
@@ -937,7 +978,7 @@ namespace PKHeX.WinForms
             Tab_Images.Controls.Add(P_CurrPhoto);
             Tab_Images.Location = new System.Drawing.Point(4, 24);
             Tab_Images.Name = "Tab_Images";
-            Tab_Images.Size = new System.Drawing.Size(488, 241);
+            Tab_Images.Size = new System.Drawing.Size(488, 279);
             Tab_Images.TabIndex = 5;
             Tab_Images.Text = "Images";
             Tab_Images.UseVisualStyleBackColor = true;
@@ -989,7 +1030,7 @@ namespace PKHeX.WinForms
             Tab_Blueberry.Location = new System.Drawing.Point(4, 24);
             Tab_Blueberry.Name = "Tab_Blueberry";
             Tab_Blueberry.Padding = new System.Windows.Forms.Padding(3);
-            Tab_Blueberry.Size = new System.Drawing.Size(488, 241);
+            Tab_Blueberry.Size = new System.Drawing.Size(488, 279);
             Tab_Blueberry.TabIndex = 6;
             Tab_Blueberry.Text = "Blueberry";
             Tab_Blueberry.UseVisualStyleBackColor = true;
@@ -1128,7 +1169,7 @@ namespace PKHeX.WinForms
             // SAV_Trainer9
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(496, 315);
+            ClientSize = new System.Drawing.Size(496, 353);
             Controls.Add(TC_Editor);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
@@ -1266,5 +1307,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_ThrowStyle;
         private System.Windows.Forms.Label L_ThrowStyle;
         private System.Windows.Forms.GroupBox GB_BBQ;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedDate;
+        private System.Windows.Forms.Label L_LastSaved;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedTime;
     }
 }

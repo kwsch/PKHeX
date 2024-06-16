@@ -66,8 +66,11 @@ public partial class QR : Form
     {
         SuspendLayout();
         ResumeLayout();
-        Font font = !Main.Unicode ? Font : FontUtil.GetPKXFont(8.25f);
-        var img = QRImageUtil.GetQRImageExtended(font, qr, icon, Math.Max(qr.Width, 370), qr.Height + 50, Lines, extraText);
+        var font = !Main.Unicode ? Font : FontUtil.GetPKXFont(8.25f);
+
+        var width = Math.Max(qr.Width, 370);
+        var height = qr.Height + 50;
+        var img = QRImageUtil.GetQRImageExtended(font, qr, icon, width, height, Lines, extraText);
         PB_QR.Image = img;
     }
 

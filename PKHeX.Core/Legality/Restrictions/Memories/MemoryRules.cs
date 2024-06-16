@@ -38,9 +38,9 @@ public static class MemoryRules
         if (pk.IsUntraded)
         {
             // Traded eggs in SW/SH set HT memory but not HT Name.
-            if (enc is { Context: EntityContext.Gen8, EggEncounter: true } && pk.Context is EntityContext.Gen8)
+            if (enc is { Context: EntityContext.Gen8, IsEgg: true } && pk.Context is EntityContext.Gen8)
             {
-                var loc = pk.IsEgg ? pk.Met_Location : pk.Egg_Location;
+                var loc = pk.IsEgg ? pk.MetLocation : pk.EggLocation;
                 if (loc == Locations.LinkTrade6)
                     return sources; // OK
             }
@@ -49,7 +49,7 @@ public static class MemoryRules
         }
 
         // Any Gen6 or Bank specific memory on Switch must have no HT language or else it would be replaced/erased.
-        if (pk is IHandlerLanguage { HT_Language: not 0 }) // Gen8+ Memory Required
+        if (pk is IHandlerLanguage { HandlingTrainerLanguage: not 0 }) // Gen8+ Memory Required
             sources &= ~(MemorySource.Gen6 | MemorySource.Bank);
 
         return sources;

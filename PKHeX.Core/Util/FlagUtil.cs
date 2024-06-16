@@ -19,6 +19,8 @@ public static class FlagUtil
         return ((arr[offset] >> bitIndex) & 1) != 0;
     }
 
+    public static bool GetFlag(ReadOnlySpan<byte> arr, int index) => GetFlag(arr, index >> 3, index);
+
     /// <summary>
     /// Sets the requested <see cref="bitIndex"/> value to the byte at <see cref="offset"/>.
     /// </summary>
@@ -33,6 +35,8 @@ public static class FlagUtil
         var newValue = current | ((value ? 1 : 0) << bitIndex);
         arr[offset] = (byte)newValue;
     }
+
+    public static void SetFlag(Span<byte> arr, int index, bool value) => SetFlag(arr, index >> 3, index, value);
 
     public static bool[] GetBitFlagArray(ReadOnlySpan<byte> data, int count)
     {

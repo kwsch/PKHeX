@@ -34,15 +34,15 @@ public abstract class BulkStorage : SaveFile
     protected override int SIZE_STORED => blank.SIZE_STORED;
     protected override int SIZE_PARTY => blank.SIZE_PARTY;
     public sealed override int MaxEV => blank.MaxEV;
-    public sealed override int Generation => blank.Format;
+    public sealed override byte Generation => blank.Format;
     public sealed override EntityContext Context => blank.Context;
     public sealed override ushort MaxMoveID => blank.MaxMoveID;
     public sealed override ushort MaxSpeciesID => blank.MaxSpeciesID;
     public sealed override int MaxAbilityID => blank.MaxAbilityID;
     public sealed override int MaxItemID => blank.MaxItemID;
     public sealed override int MaxBallID => blank.MaxBallID;
-    public sealed override int MaxGameID => blank.MaxGameID;
-    public sealed override int MaxStringLengthOT => blank.MaxStringLengthOT;
+    public sealed override GameVersion MaxGameID => blank.MaxGameID;
+    public sealed override int MaxStringLengthTrainer => blank.MaxStringLengthTrainer;
     public sealed override int MaxStringLengthNickname => blank.MaxStringLengthNickname;
     public bool IsBigEndian => blank is BK4 or XK3 or CK3;
 
@@ -50,13 +50,12 @@ public abstract class BulkStorage : SaveFile
     protected override void SetChecksums() { }
 
     public override int GetBoxOffset(int box) => Box + (box * (SlotsPerBox * SIZE_STORED));
-    public override string GetBoxName(int box) => $"Box {box + 1:d2}";
-    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value) { }
     public sealed override int GetPartyOffset(int slot) => int.MinValue;
 
     public override string GetString(ReadOnlySpan<byte> data)
-        => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian);
-
+        => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, Language);
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+        => StringConverter.LoadString(data, destBuffer, Generation, blank.Japanese, IsBigEndian, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter.SetString(destBuffer, value, maxLength, option: option, generation: Generation, jp: blank.Japanese, isBigEndian: IsBigEndian, language: Language);
 }

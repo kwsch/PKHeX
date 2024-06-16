@@ -17,18 +17,17 @@ public partial class SAV_BoxLayout : Form
         SAV = (Origin = sav).Clone();
         editing = true;
 
-        if (!SAV.HasBoxWallpapers)
-            CB_BG.Visible = PAN_BG.Visible = false;
-        else if (!LoadWallpaperNames()) // Repopulate Wallpaper names
+        bool any = LoadWallpapers(SAV);
+        any |= LoadBoxNames(SAV);
+        if (!any)
             WinFormsUtil.Error("Box layout is not supported for this game.", "Please close the window.");
-
-        LoadBoxNames();
         LoadFlags();
         LoadUnlockedCount();
 
         LB_BoxSelect.SelectedIndex = box;
         TB_BoxName.MaxLength = SAV.Generation switch
         {
+            2 when SAV is SAV2 { Japanese: false, Korean: false } => 8 * 2,
             6 or 7 => 14,
             >= 8 => 16,
             _ => 8,
@@ -36,8 +35,15 @@ public partial class SAV_BoxLayout : Form
         editing = false;
     }
 
-    private bool LoadWallpaperNames()
+    private bool LoadWallpapers(SaveFile sav)
     {
+        if (sav is not IBoxDetailWallpaper)
+        {
+            Controls.Remove(CB_BG);
+            Controls.Remove(PAN_BG);
+            return false;
+        }
+
         CB_BG.Items.Clear();
 
         static void AddRange(ComboBox cb, ReadOnlySpan<string> names)
@@ -78,11 +84,19 @@ public partial class SAV_BoxLayout : Form
         }
     }
 
-    private void LoadBoxNames()
+    private bool LoadBoxNames(SaveFile sav)
     {
+        if (sav is not IBoxDetailNameRead r)
+        {
+            Controls.Remove(TB_BoxName);
+            return false;
+        }
+        if (sav is not IBoxDetailName)
+            TB_BoxName.Enabled = false;
         LB_BoxSelect.Items.Clear();
         for (int i = 0; i < SAV.BoxCount; i++)
-            LB_BoxSelect.Items.Add(SAV.GetBoxName(i));
+            LB_BoxSelect.Items.Add(r.GetBoxName(i));
+        return true;
     }
 
     private void LoadUnlockedCount()
@@ -133,8 +147,16 @@ public partial class SAV_BoxLayout : Form
             return;
         editing = true;
 
-        CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.GetBoxWallpaper(LB_BoxSelect.SelectedIndex));
-        TB_BoxName.Text = SAV.GetBoxName(LB_BoxSelect.SelectedIndex);
+        var box = LB_BoxSelect.SelectedIndex;
+        if (SAV is IBoxDetailWallpaper wp)
+        {
+            var choice = wp.GetBoxWallpaper(box);
+            var maxWallpaper = CB_BG.Items.Count - 1;
+            CB_BG.SelectedIndex = Math.Clamp(choice, 0, maxWallpaper);
+        }
+
+        if (SAV is IBoxDetailNameRead r)
+            TB_BoxName.Text = r.GetBoxName(LB_BoxSelect.SelectedIndex);
 
         editing = false;
     }
@@ -145,19 +167,19 @@ public partial class SAV_BoxLayout : Form
             return;
 
         renamingBox = true;
-        SAV.SetBoxName(LB_BoxSelect.SelectedIndex, TB_BoxName.Text);
-        LB_BoxSelect.Items[LB_BoxSelect.SelectedIndex] = TB_BoxName.Text;
+        if (SAV is IBoxDetailName name)
+        {
+            name.SetBoxName(LB_BoxSelect.SelectedIndex, TB_BoxName.Text);
+            LB_BoxSelect.Items[LB_BoxSelect.SelectedIndex] = TB_BoxName.Text;
+        }
         renamingBox = false;
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        if (flagArr.Length > 0)
+        if (flagArr.Length != 0)
             SAV.BoxFlags = Array.ConvertAll(flagArr, i => (byte)i.Value);
         if (CB_Unlocked.Visible)
             SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
@@ -169,7 +191,10 @@ public partial class SAV_BoxLayout : Form
     private void ChangeBoxBackground(object sender, EventArgs e)
     {
         if (!editing)
-            SAV.SetBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
+        {
+            if (SAV is IBoxDetailWallpaper wp)
+                wp.SetBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
+        }
 
         PAN_BG.BackgroundImage = SAV.WallpaperImage(LB_BoxSelect.SelectedIndex);
     }

@@ -54,7 +54,7 @@ public enum CheckIdentifier : byte
     Nickname,
 
     /// <summary>
-    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.OT_Name"/>, <see cref="PKM.TID16"/>, or <see cref="PKM.SID16"/>.
+    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.OriginalTrainerName"/>, <see cref="PKM.TID16"/>, or <see cref="PKM.SID16"/>.
     /// </summary>
     Trainer,
 
@@ -64,7 +64,7 @@ public enum CheckIdentifier : byte
     IVs,
 
     /// <summary>
-    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.Met_Level"/> or <see cref="PKM.CurrentLevel"/>.
+    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.MetLevel"/> or <see cref="PKM.CurrentLevel"/>.
     /// </summary>
     Level,
 
@@ -150,7 +150,7 @@ public enum CheckIdentifier : byte
     GVs,
 
     /// <summary>
-    /// The <see cref="CheckResult"/> pertains to <see cref="PKM.MarkValue"/> values.
+    /// The <see cref="CheckResult"/> pertains to <see cref="IAppliedMarkings"/>.
     /// </summary>
     Marking,
 
@@ -158,4 +158,14 @@ public enum CheckIdentifier : byte
     /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="IAwakened"/> values.
     /// </summary>
     AVs,
+
+    /// <summary>
+    /// The <see cref="CheckResult"/> pertains to string <see cref="TrashBytes"/>.
+    /// </summary>
+    TrashBytes,
+
+    /// <summary>
+    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="StorageSlotType"/>.
+    /// </summary>
+    SlotType,
 }

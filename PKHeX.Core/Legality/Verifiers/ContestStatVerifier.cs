@@ -35,7 +35,7 @@ public sealed class ContestStatVerifier : Verifier
         {
             // We can get contest stat values, but we can't get any for Sheen.
             // Any combination of non-sheen is ok, but nonzero sheen is illegal.
-            if (s.CNT_Sheen != 0)
+            if (s.ContestSheen != 0)
                 data.AddLine(GetInvalid(LContestZeroSheen));
         }
         else if (correlation == CorrelateSheen)
@@ -49,12 +49,12 @@ public sealed class ContestStatVerifier : Verifier
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
             var minSheen = CalculateMinimumSheen(s, initial, pk, method);
 
-            if (s.CNT_Sheen < minSheen)
+            if (s.ContestSheen < minSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooLow_0, minSheen)));
 
             // Check for sheen values that are too high.
             var maxSheen = CalculateMaximumSheen(s, pk.Nature, initial, gen3);
-            if (s.CNT_Sheen > maxSheen)
+            if (s.ContestSheen > maxSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooHigh_0, maxSheen)));
         }
         else if (correlation == Mixed)
@@ -64,7 +64,7 @@ public sealed class ContestStatVerifier : Verifier
             // Check for sheen values that are too high.
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
             var maxSheen = CalculateMaximumSheen(s, pk.Nature, initial, gen3);
-            if (s.CNT_Sheen > maxSheen)
+            if (s.ContestSheen > maxSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooHigh_0, maxSheen)));
         }
     }

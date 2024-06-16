@@ -20,15 +20,6 @@ public partial class SAV_Misc5 : Form
     private ComboBox[] cbr = null!;
     private int ofsFly;
     private int[] FlyDestC = null!;
-    private const int WorkRoamer = 192;
-    private const int ofsRoamer = 0x21B00;
-    private const int ofsLibPass = 0x212BC;
-    private const int ofsForestCity = 0x1FA00;
-    private const int ofsForestCitySize = 0x1E8;
-    private const uint keyLibPass = 2010_04_06; // 0x132B536
-    private uint valLibPass;
-    private bool bLibPass;
-    private const int ofsKS = 0x25828;
 
     public SAV_Misc5(SAV5 sav)
     {
@@ -43,6 +34,7 @@ public partial class SAV_Misc5 : Form
         ReadEntralink();
         ReadMedals();
         ReadMusical();
+        ReadRecord();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -53,22 +45,27 @@ public partial class SAV_Misc5 : Form
         SaveForest();
         SaveSubway();
         SaveEntralink();
+        SaveRecord();
 
+        Forest.EnsureDecrypted(false);
         Origin.CopyChangesFrom(SAV);
         Close();
     }
 
-    private static ReadOnlySpan<uint> keyKS =>
-    [
-        // 0x34525, 0x11963,           // Selected City
-        // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
-        // 0x94525, 0x81963, 0x38569,  // Selected Mystery Door
-        0x35691, 0x18256, 0x59389, 0x48292, 0x09892, // Obtained Keys(EasyMode, Challenge, City, Iron, Iceberg)
-        0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818, // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
-    ];
+    private void ReadRecord()
+    {
+        var record = SAV.Records;
+        NUD_Record16.Maximum = Record5.Record16;
+        NUD_Record32.Maximum = Record5.Record32;
+        NUD_Record16V.Value = record.GetRecord16(0);
+        NUD_Record32V.Value = record.GetRecord32(0);
+        NUD_Record16V.ValueChanged += (_, _) => record.SetRecord16((int)NUD_Record16.Value, (ushort)NUD_Record16V.Value);
+        NUD_Record32V.ValueChanged += (_, _) => record.SetRecord32((int)NUD_Record32.Value, (uint)NUD_Record32V.Value);
+        NUD_Record16.ValueChanged  += (_, _) => NUD_Record16V.Value = record.GetRecord16((int)NUD_Record16.Value);
+        NUD_Record32.ValueChanged  += (_, _) => NUD_Record32V.Value = record.GetRecord32((int)NUD_Record32.Value);
+    }
 
-    private uint[] valKS = null!;
-    private bool[] bKS = null!;
+    private void SaveRecord() => SAV.Records.EndAccess();
 
     private void ReadMain()
     {
@@ -125,7 +122,7 @@ public partial class SAV_Misc5 : Form
                 CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & (1 << (FlyDestC[i] & 7))) != 0);
         }
 
-        if (SAV is SAV5BW)
+        if (SAV is SAV5BW bw)
         {
             TC_Misc.TabPages.Remove(TAB_Medals);
             GB_KeySystem.Visible = false;
@@ -139,7 +136,7 @@ public partial class SAV_Misc5 : Form
             // Top 2 bit acts as flags of some sorts
             for (int i = 0; i < cbr.Length; i++)
             {
-                int c = SAV.Data[ofsRoamer + 0x2E + i];
+                byte c = bw.Encount.GetRoamerState(i);
                 var states = GetStates();
                 if (states.All(z => z.Value != c))
                     states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
@@ -155,7 +152,7 @@ public partial class SAV_Misc5 : Form
             // to the cabin in where old grandpa and grandma live
             // located at route 7.
             {
-                var current = SAV.GetWork(WorkRoamer);
+                var current = bw.EventWork.GetWorkRoamer();
                 var states = GetRoamStatusStates();
                 if (states.All(z => z.Value != current))
                     states.Add(new ComboItem($"Unknown (0x{current:X2})", current));
@@ -166,30 +163,25 @@ public partial class SAV_Misc5 : Form
             }
 
             // LibertyPass
-            valLibPass = keyLibPass ^ SAV.ID32;
-            bLibPass = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass)) == valLibPass;
-            CHK_LibertyPass.Checked = bLibPass;
+            CHK_LibertyPass.Checked = bw.Misc.IsLibertyTicketActivated;
         }
-        else if (SAV is SAV5B2W2)
+        else if (SAV is SAV5B2W2 b2w2)
         {
             TC_Misc.TabPages.Remove(TAB_BWCityForest);
             GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
+
+            var keys = b2w2.Keys;
             // KeySystem
             string[] KeySystemA =
             [
                 "Obtain EasyKey", "Obtain ChallengeKey", "Obtain CityKey", "Obtain IronKey", "Obtain IcebergKey",
-                "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber",
-                "Unlock IcebergChamber",
+                "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber", "Unlock IcebergChamber",
             ];
-            uint KSID = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + 0x34));
-            valKS = new uint[keyKS.Length];
-            bKS = new bool[keyKS.Length];
             CLB_KeySystem.Items.Clear();
-            for (int i = 0; i < valKS.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                valKS[i] = keyKS[i] ^ KSID;
-                bKS[i] = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + (i << 2))) == valKS[i];
-                CLB_KeySystem.Items.Add(KeySystemA[i], bKS[i]);
+                CLB_KeySystem.Items.Add(KeySystemA[i], keys.GetIsKeyObtained((KeyType5)i));
+                CLB_KeySystem.Items.Add(KeySystemA[i + 5], keys.GetIsKeyUnlocked((KeyType5)i));
             }
         }
         else
@@ -234,45 +226,49 @@ public partial class SAV_Misc5 : Form
         }
         WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsFly), valFly);
 
-        if (SAV is SAV5BW)
+        if (SAV is SAV5BW bw)
         {
             // Roamer
+            var encount = bw.Encount;
             for (int i = 0; i < cbr.Length; i++)
             {
-                int c = SAV.Data[ofsRoamer + 0x2E + i];
-                var d = (ushort)WinFormsUtil.GetIndex(cbr[i]);
+                int c = bw.Encount.GetRoamerState(i);
+                var d = (byte)WinFormsUtil.GetIndex(cbr[i]);
 
                 if (c == d)
                     continue;
-                SAV.Data[ofsRoamer + 0x2E + i] = (byte)d;
+                encount.SetRoamerState(i, d);
                 if (c != 1)
                     continue;
-                SAV.Data.AsSpan(ofsRoamer + 4 + (i * 0x14), 14).Clear();
-                SAV.Data[ofsRoamer + 0x2C + i] = 0;
+                var roamer = i == 0 ? encount.Roamer1 : encount.Roamer2;
+                roamer.Clear();
+                encount.SetRoamerState2C(i, 0);
             }
 
             // RoamStatus
             {
-                int current = SAV.GetWork(192);
                 var desired = (ushort)WinFormsUtil.GetIndex(CB_RoamStatus);
-                if (current != desired)
-                    SAV.SetWork(WorkRoamer, desired);
+                bw.EventWork.SetWorkRoamer(desired);
             }
 
             // LibertyPass
-            if (CHK_LibertyPass.Checked != bLibPass)
-                WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass), bLibPass ? 0u : valLibPass);
+            if (CHK_LibertyPass.Checked != bw.Misc.IsLibertyTicketActivated)
+                bw.Misc.IsLibertyTicketActivated = CHK_LibertyPass.Checked;
         }
-        else if (SAV is SAV5B2W2)
+        else if (SAV is SAV5B2W2 b2w2)
         {
             // KeySystem
-            for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
+            var keys = b2w2.Keys;
+            for (int i = 0; i < 5; i++)
             {
-                if (CLB_KeySystem.GetItemChecked(i) == bKS[i])
-                    continue;
-                var dest = SAV.Data.AsSpan(ofsKS + (i << 2));
-                var value = bKS[i] ? 0u : valKS[i];
-                WriteUInt32LittleEndian(dest, value);
+                var index = i * 2;
+                var obtain = CLB_KeySystem.GetItemChecked(index);
+                if (obtain != keys.GetIsKeyObtained((KeyType5)i))
+                    keys.SetIsKeyObtained((KeyType5)i, obtain);
+
+                var unlock = CLB_KeySystem.GetItemChecked(index + 1);
+                if (unlock != keys.GetIsKeyUnlocked((KeyType5)i))
+                    keys.SetIsKeyUnlocked((KeyType5)i, unlock);
             }
         }
     }
@@ -300,11 +296,12 @@ public partial class SAV_Misc5 : Form
         if (SAV is SAV5B2W2 b2w2)
         {
             var pass = (Entralink5B2W2)entree;
-            var ppv = (PassPower5[])Enum.GetValues(typeof(PassPower5));
-            var ppn = Enum.GetNames(typeof(PassPower5));
-            ComboItem[] PassPowerB = [.. ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text)];
-            var cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
-            foreach (var cb in cba)
+            var ppv = Enum.GetValues<PassPower5>();
+            var ppn = WinFormsTranslator.GetEnumTranslation<PassPower5>(Main.CurrentLanguage);
+            var PassPowerB = new ComboItem[ppv.Length];
+            for (int i = 0; i < ppv.Length; i++)
+                PassPowerB[i] = new ComboItem(ppn[i], (int)ppv[i]);
+            foreach (var cb in (ComboBox[])[CB_PassPower1, CB_PassPower2, CB_PassPower3])
             {
                 cb.Items.Clear();
                 cb.InitializeBinding();
@@ -324,7 +321,7 @@ public partial class SAV_Misc5 : Form
             NUD_EntreeWhiteEXP.SetValueClamped(block.WhiteEXP);
             NUD_EntreeBlackEXP.SetValueClamped(block.BlackEXP);
 
-            string[] FMTitles = Enum.GetNames(typeof(Funfest5Mission));
+            string[] FMTitles = WinFormsTranslator.GetEnumTranslation<Funfest5Mission>(Main.CurrentLanguage);
             LB_FunfestMissions.Items.Clear();
             LB_FunfestMissions.Items.AddRange(FMTitles);
 
@@ -498,7 +495,8 @@ public partial class SAV_Misc5 : Form
 
     private void LoadForest()
     {
-        Forest = SAV.EntreeData;
+        Forest = SAV.EntreeForest;
+        Forest.EnsureDecrypted();
         AllSlots = Forest.Slots;
         NUD_Unlocked.SetValueClamped(Forest.Unlock38Areas + 2);
         CHK_Area9.Checked = Forest.Unlock9thArea;
@@ -522,7 +520,6 @@ public partial class SAV_Misc5 : Form
     {
         Forest.Unlock38Areas = (int)NUD_Unlocked.Value - 2;
         Forest.Unlock9thArea = CHK_Area9.Checked;
-        SAV.EntreeData = Forest;
     }
 
     private IList<EntreeSlot> CurrentSlots = null!;
@@ -583,7 +580,7 @@ public partial class SAV_Misc5 : Form
         }
         else if (sender == CB_Gender)
         {
-            CurrentSlot.Gender = WinFormsUtil.GetIndex(CB_Gender);
+            CurrentSlot.Gender = (byte)WinFormsUtil.GetIndex(CB_Gender);
         }
         else if (sender == CB_Form)
         {
@@ -624,10 +621,10 @@ public partial class SAV_Misc5 : Form
             source.Remove(slot);
             s.Species = slot.Species;
             s.Form = slot.Form;
-            s.Gender = slot.Gender == FixedGenderUtil.GenderRandom ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
+            s.Gender = !((IFixedGender)slot).IsFixedGender ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
 
             slot.Moves.CopyTo(moves);
-            var count = moves.Length - moves.Count((ushort)0);
+            var count = moves.Length - moves.Count<ushort>(0);
             s.Move = count == 0 ? (ushort)0 : moves[rnd.Next(count)];
         }
         ChangeArea(this, EventArgs.Empty); // refresh
@@ -766,18 +763,23 @@ public partial class SAV_Misc5 : Form
 
     private void B_DumpFC_Click(object sender, EventArgs e)
     {
+        if (SAV is not SAV5BW bw)
+            return;
         using var sfd = new SaveFileDialog();
         sfd.Filter = ForestCityBinFilter;
         sfd.FileName = string.Format(ForestCityBinPath, SAV.Version);
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        var data = SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize).ToArray();
+        var data = bw.Forest.ForestCity.ToArray();
         File.WriteAllBytes(sfd.FileName, data);
     }
 
     private void B_ImportFC_Click(object sender, EventArgs e)
     {
+        if (SAV is not SAV5BW bw)
+            return;
+
         using var ofd = new OpenFileDialog();
         ofd.Filter = ForestCityBinFilter;
         ofd.FileName = string.Format(ForestCityBinPath, SAV.Version);
@@ -785,17 +787,18 @@ public partial class SAV_Misc5 : Form
             return;
 
         var fi = new FileInfo(ofd.FileName);
-        if (fi.Length != ofsForestCitySize)
+        if (fi.Length != WhiteBlack5BW.ForestCitySize)
         {
-            WinFormsUtil.Alert(string.Format(MessageStrings.MsgFileSizeIncorrect, fi.Length, ofsForestCitySize));
+            WinFormsUtil.Alert(string.Format(MessageStrings.MsgFileSizeIncorrect, fi.Length, WhiteBlack5BW.ForestCitySize));
             return;
         }
 
         var data = File.ReadAllBytes(ofd.FileName);
-        SAV.SetData(data, ofsForestCity);
+        bw.SetData(bw.Forest.ForestCity.Span, data);
     }
 
     private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
+    private readonly string[] MedalTypeNames = Util.GetStringList("medal_types", Main.CurrentLanguage);
 
     private void ReadMedals()
     {
@@ -811,7 +814,10 @@ public partial class SAV_Misc5 : Form
     {
         if (SAV is SAV5B2W2 b2w2)
         {
-            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            var index = CB_CurrentMedal.SelectedIndex;
+            var medal = b2w2.Medals[index];
+            var type = MedalList5.GetMedalType(index);
+            TB_MedalType.Text = MedalTypeNames[(int)type];
             CB_MedalState.SelectedIndex = (int)medal.State;
             if (medal.CanHaveDate)
             {

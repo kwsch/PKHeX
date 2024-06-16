@@ -14,7 +14,7 @@ public sealed class RanchTrainerMii(byte[] Data)
     public ushort TrainerId { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
     public ushort SecretId  { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
 
-    private Span<byte> Trainer_Trash => Data.AsSpan(0x10, 0x10);
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(0x10, 0x10);
 
     // 0x20-23: ??
     // 0x24:    ??
@@ -23,9 +23,11 @@ public sealed class RanchTrainerMii(byte[] Data)
     // 0x28-29: ??
     // 0x2A-2B: ??
 
+    private static byte Language => 0;
+
     public string TrainerName
     {
-        get => StringConverter4.GetString(Trainer_Trash);
-        set => StringConverter4.SetString(Trainer_Trash, value, 7);
+        get => StringConverter4.GetString(OriginalTrainerTrash);
+        set => StringConverter4.SetString(OriginalTrainerTrash, value, 7, Language);
     }
 }

@@ -37,7 +37,7 @@ public static class RibbonVerifierCommon6
         {
             // Winning a contest in Gen6 adds 20 to OT affection. Each ribbon, add 20 to our expected minimum.
             if (pk is IAffection a) // False in Gen8+
-                FlagContestAffection(r, ref list, a.OT_Affection);
+                FlagContestAffection(r, ref list, a.OriginalTrainerAffection);
 
             // Winning all contests grants the Contest Star ribbon.
             // If we have all ribbons and the star is not present, flag it as missing.
@@ -99,7 +99,7 @@ public static class RibbonVerifierCommon6
             list.Add(CountMemoryBattle);
     }
 
-    private static bool IsCountFlagValid(byte count, bool state, int format, byte max)
+    private static bool IsCountFlagValid(byte count, bool state, byte format, byte max)
     {
         if (count > max)
             return false;
@@ -173,7 +173,7 @@ public static class RibbonVerifierCommon6
 
         // Gen6 can get the memory with any party member when defeating the champion.
         const int memChampion = 27;
-        return (enc.Generation == 6 && m.OT_Memory == memChampion)
-                  || (pk.Format < 8 && m.HT_Memory == memChampion);
+        return (enc.Generation == 6 && m.OriginalTrainerMemory == memChampion)
+                  || (pk.Format < 8 && m.HandlingTrainerMemory == memChampion);
     }
 }

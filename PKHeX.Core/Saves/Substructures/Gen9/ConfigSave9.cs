@@ -1,5 +1,4 @@
-using System;
-using System.Buffers.Binary;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -29,8 +28,8 @@ public sealed class ConfigSave9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(s
 
     public int ConfigValue
     {
-        get => BinaryPrimitives.ReadInt32LittleEndian(Data.AsSpan(Offset));
-        set => BinaryPrimitives.WriteInt32LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadInt32LittleEndian(Data);
+        set => WriteInt32LittleEndian(Data, value);
     }
 
     private const int DefaultValue = 0x002AAA05;

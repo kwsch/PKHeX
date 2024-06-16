@@ -21,10 +21,21 @@ public partial class SAV_Misc3 : Form
 
         LoadRecords();
 
+        if (SAV is IGen3Hoenn h)
+        {
+            pokeblock3CaseEditor1.Initialize(h);
+            ReadDecorations(h);
+        }
+        else
+        {
+            TC_Misc.Controls.Remove(Tab_Pokeblocks);
+            TC_Misc.Controls.Remove(Tab_Decorations);
+        }
+
         if (SAV is IGen3Joyful j)
             ReadJoyful(j);
         else
-            tabControl1.Controls.Remove(TAB_Joyful);
+            TC_Misc.Controls.Remove(TAB_Joyful);
 
         if (SAV is SAV3E)
         {
@@ -33,8 +44,8 @@ public partial class SAV_Misc3 : Form
         }
         else
         {
-            tabControl1.Controls.Remove(TAB_Ferry);
-            tabControl1.Controls.Remove(TAB_BF);
+            TC_Misc.Controls.Remove(TAB_Ferry);
+            TC_Misc.Controls.Remove(TAB_BF);
         }
 
         if (SAV is SAV3FRLG frlg)
@@ -62,11 +73,16 @@ public partial class SAV_Misc3 : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        if (tabControl1.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
+        if (SAV is IGen3Hoenn h)
+        {
+            pokeblock3CaseEditor1.Save(h);
+            SaveDecorations(h);
+        }
+        if (TC_Misc.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
             SaveJoyful(j);
-        if (tabControl1.Controls.Contains(TAB_Ferry))
+        if (TC_Misc.Controls.Contains(TAB_Ferry))
             SaveFerry();
-        if (tabControl1.Controls.Contains(TAB_BF))
+        if (TC_Misc.Controls.Contains(TAB_BF))
             SaveBattleFrontier();
         if (SAV is SAV3FRLG frlg)
         {
@@ -94,11 +110,13 @@ public partial class SAV_Misc3 : Form
     private void ReadJoyful(IGen3Joyful j)
     {
         TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
-        TB_J2.Text = Math.Min(9999, j.JoyfulJumpScore).ToString();
+        TB_J2.Text = Math.Min(99990, j.JoyfulJumpScore).ToString();
         TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
+        TB_J4.Text = Math.Min((ushort)9999, j.JoyfulJumpGamesMaxPlayers).ToString();
         TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
-        TB_B2.Text = Math.Min(9999, j.JoyfulBerriesScore).ToString();
+        TB_B2.Text = Math.Min(99990, j.JoyfulBerriesScore).ToString();
         TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
+        TB_BerryPowder.Text = Math.Min(99999u, j.BerryPowder).ToString();
     }
 
     private void SaveJoyful(IGen3Joyful j)
@@ -106,9 +124,11 @@ public partial class SAV_Misc3 : Form
         j.JoyfulJumpInRow = (ushort)Util.ToUInt32(TB_J1.Text);
         j.JoyfulJumpScore = (ushort)Util.ToUInt32(TB_J2.Text);
         j.JoyfulJump5InRow = (ushort)Util.ToUInt32(TB_J3.Text);
+        j.JoyfulJumpGamesMaxPlayers = (ushort)Util.ToUInt32(TB_J4.Text);
         j.JoyfulBerriesInRow = (ushort)Util.ToUInt32(TB_B1.Text);
         j.JoyfulBerriesScore = (ushort)Util.ToUInt32(TB_B2.Text);
         j.JoyfulBerries5InRow = (ushort)Util.ToUInt32(TB_B3.Text);
+        j.BerryPowder = Util.ToUInt32(TB_BerryPowder.Text);
     }
     #endregion
 
@@ -162,7 +182,7 @@ public partial class SAV_Misc3 : Form
             var sbAdd = new StringBuilder();
             foreach (var item in items)
             {
-                if (sbAdd.Length > 0)
+                if (sbAdd.Length != 0)
                     sbAdd.Append(", ");
                 sbAdd.Append(names[item]);
             }
@@ -170,7 +190,7 @@ public partial class SAV_Misc3 : Form
         }
         var added = Format(missing, itemlist);
         var addmsg = $"Add the following items?{Environment.NewLine}{added}";
-        if (have.Length > 0)
+        if (have.Length != 0)
         {
             string had = Format(have, itemlist);
             var havemsg = $"Already have:{Environment.NewLine}{had}";
@@ -447,7 +467,7 @@ public partial class SAV_Misc3 : Form
         NUD_RecordValue.Minimum = int.MinValue;
         NUD_RecordValue.Maximum = int.MaxValue;
 
-        CB_Record.SelectedIndexChanged += (s, e) =>
+        CB_Record.SelectedIndexChanged += (_, _) =>
         {
             if (CB_Record.SelectedValue == null)
                 return;
@@ -456,10 +476,10 @@ public partial class SAV_Misc3 : Form
             LoadRecordID(index);
             NUD_FameH.Visible = NUD_FameS.Visible = NUD_FameM.Visible = index == 1;
         };
-        CB_Record.MouseWheel += (s, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
+        CB_Record.MouseWheel += (_, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
         CB_Record.SelectedIndex = 0;
         LoadRecordID(0);
-        NUD_RecordValue.ValueChanged += (s, e) =>
+        NUD_RecordValue.ValueChanged += (_, _) =>
         {
             if (CB_Record.SelectedValue == null)
                 return;
@@ -475,7 +495,7 @@ public partial class SAV_Misc3 : Form
         {
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, em.BP);
             NUD_BPEarned.Value = em.BPEarned;
-            NUD_BPEarned.ValueChanged += (s, e) => em.BPEarned = (uint)NUD_BPEarned.Value;
+            NUD_BPEarned.ValueChanged += (_, _) => em.BPEarned = (uint)NUD_BPEarned.Value;
         }
         else
         {
@@ -483,9 +503,9 @@ public partial class SAV_Misc3 : Form
             NUD_BPEarned.Visible = L_BPEarned.Visible = false;
         }
 
-        NUD_FameH.ValueChanged += (s, e) => ChangeFame(records);
-        NUD_FameM.ValueChanged += (s, e) => ChangeFame(records);
-        NUD_FameS.ValueChanged += (s, e) => ChangeFame(records);
+        NUD_FameH.ValueChanged += (_, _) => ChangeFame(records);
+        NUD_FameM.ValueChanged += (_, _) => ChangeFame(records);
+        NUD_FameS.ValueChanged += (_, _) => ChangeFame(records);
 
         void ChangeFame(Record3 r3) => r3.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
         void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);
@@ -504,7 +524,89 @@ public partial class SAV_Misc3 : Form
     public void SetFameTime(uint time)
     {
         NUD_FameH.Value = Math.Min(NUD_FameH.Maximum, time >> 16);
-        NUD_FameM.Value = Math.Min(NUD_FameH.Maximum, (byte)(time >> 8));
-        NUD_FameS.Value = Math.Min(NUD_FameH.Maximum, (byte)time);
+        NUD_FameM.Value = Math.Min(NUD_FameM.Maximum, (byte)(time >> 8));
+        NUD_FameS.Value = Math.Min(NUD_FameS.Maximum, (byte)time);
     }
+
+    #region Decorations
+    private void ReadDecorations(IGen3Hoenn h)
+    {
+        DataGridViewComboBoxColumn[] columns =
+        [
+            Item_Desk,
+            Item_Chair,
+            Item_Plant,
+            Item_Ornament,
+            Item_Mat,
+            Item_Poster,
+            Item_Doll,
+            Item_Cushion,
+        ];
+
+        var decorations = Util.GetStringList("decoration3", Main.CurrentLanguage);
+        var list = Util.GetCBList(decorations);
+
+        foreach (var col in columns)
+        {
+            col.Items.Clear();
+            col.InitializeBinding();
+        }
+        foreach (var cb in list)
+        {
+            var cat = ((Decoration3)cb.Value).GetCategory();
+            if (cb.Value == (int)Decoration3.NONE)
+            {
+                foreach (var col in columns) // all categories can have empty slots
+                    col.Items.Add(cb);
+                continue;
+            }
+            columns[(int)cat].Items.Add(cb);
+        }
+
+        ReadDecorationCategory(h.Decorations.Desk, DGV_Desk);
+        ReadDecorationCategory(h.Decorations.Chair, DGV_Chair);
+        ReadDecorationCategory(h.Decorations.Plant, DGV_Plant);
+        ReadDecorationCategory(h.Decorations.Ornament, DGV_Ornament);
+        ReadDecorationCategory(h.Decorations.Mat, DGV_Mat);
+        ReadDecorationCategory(h.Decorations.Poster, DGV_Poster);
+        ReadDecorationCategory(h.Decorations.Doll, DGV_Doll);
+        ReadDecorationCategory(h.Decorations.Cushion, DGV_Cushion);
+    }
+
+    private static void ReadDecorationCategory(ReadOnlySpan<Decoration3> data, DataGridView dgv)
+    {
+        dgv.Rows.Clear();
+        dgv.Rows.Add(data.Length);
+        for (int i = 0; i < data.Length; i++)
+            dgv.Rows[i].Cells[0].Value = (int)data[i];
+    }
+
+    private void SaveDecorations(IGen3Hoenn h)
+    {
+        SaveDecorationCategory(h.Decorations.Desk, DGV_Desk);
+        SaveDecorationCategory(h.Decorations.Chair, DGV_Chair);
+        SaveDecorationCategory(h.Decorations.Plant, DGV_Plant);
+        SaveDecorationCategory(h.Decorations.Ornament, DGV_Ornament);
+        SaveDecorationCategory(h.Decorations.Mat, DGV_Mat);
+        SaveDecorationCategory(h.Decorations.Poster, DGV_Poster);
+        SaveDecorationCategory(h.Decorations.Doll, DGV_Doll);
+        SaveDecorationCategory(h.Decorations.Cushion, DGV_Cushion);
+    }
+
+    private static void SaveDecorationCategory(Span<Decoration3> data, DataGridView dgv)
+    {
+        int ctr = 0;
+        for (int i = 0; i < data.Length; i++)
+        {
+            var deco = (Decoration3)(int)dgv.Rows[i].Cells[0].Value;
+            if (deco == Decoration3.NONE) // Compression of Empty Slots
+                continue;
+
+            data[ctr] = deco;
+            ctr++;
+        }
+        for (int i = ctr; i < data.Length; i++)
+            data[i] = Decoration3.NONE; // Empty Slots at the end
+    }
+    #endregion
 }

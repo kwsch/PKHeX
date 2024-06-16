@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.ORASDEMO"/>.
 /// </summary>
 /// <inheritdoc cref="SAV6" />
-public sealed class SAV6AODemo : SAV6
+public sealed class SAV6AODemo : SAV6, ISaveBlock6Core
 {
     public SAV6AODemo(byte[] data) : base(data, SaveBlockAccessor6AODemo.BlockMetadataOffset)
     {
@@ -27,8 +27,6 @@ public sealed class SAV6AODemo : SAV6
     public override ushort MaxMoveID => Legal.MaxMoveID_6_AO;
     public override int MaxItemID => Legal.MaxItemID_6_AO;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
-    protected override int EventWork => 0x04600;
-    protected override int EventFlag => EventWork + 0x2F0;
     public SaveBlockAccessor6AODemo Blocks { get; }
 
     private void Initialize()
@@ -36,23 +34,22 @@ public sealed class SAV6AODemo : SAV6
         Party            = 0x03E00;
     }
 
-    public override GameVersion Version => Game switch
-    {
-        (int) GameVersion.AS => GameVersion.AS,
-        (int) GameVersion.OR => GameVersion.OR,
-        _ => GameVersion.Invalid,
-    };
+    public override bool IsVersionValid() => Version is GameVersion.AS or GameVersion.OR;
 
     public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }
     public override int Vivillon { get => Blocks.Misc.Vivillon; set => Blocks.Misc.Vivillon = value; } // unused
     public override int Badges { get => Blocks.Misc.Badges; set => Blocks.Misc.Badges = value; } // unused
     public override int BP { get => Blocks.Misc.BP; set => Blocks.Misc.BP = value; } // unused
-    public override MyItem Items => Blocks.Items;
+    public override MyItem6AO Items => Blocks.Items;
     public override ItemInfo6 ItemInfo => Blocks.ItemInfo;
     public override GameTime6 GameTime => Blocks.GameTime;
     public override Situation6 Situation => Blocks.Situation;
     public override PlayTime6 Played => Blocks.Played;
     public override MyStatus6 Status => Blocks.Status;
     public override RecordBlock6 Records => Blocks.Records;
+    public override EventWork6 EventWork => Blocks.EventWork;
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
+
+    MyItem ISaveBlock6Core.Items => Items;
+    RecordBlock6 ISaveBlock6Core.Records => Records;
 }

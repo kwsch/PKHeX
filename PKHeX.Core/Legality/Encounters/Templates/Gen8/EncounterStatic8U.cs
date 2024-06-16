@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
 public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>, ILocation
 {
-    int ILocation.Location => MaxLair;
+    ushort ILocation.Location => MaxLair;
     private const ushort Location = MaxLair;
     public override string Name => "Max Lair Encounter";
 
@@ -41,41 +41,25 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
     }
     protected override ushort GetLocation() => Location;
 
+    protected override void SetTrainerName(ReadOnlySpan<char> name, PK8 pk)
+    {
+        if (ShouldHaveScientistTrash)
+        {
+            var scientist = GetScientistName(pk.Language);
+            pk.SetString(pk.OriginalTrainerTrash, scientist, scientist.Length, StringConverterOption.None);
+        }
+        base.SetTrainerName(name, pk);
+    }
+
     // no downleveling, unlike all other raids
-    protected override bool IsMatchLevel(PKM pk) => pk.Met_Level == Level;
-    protected override bool IsMatchLocation(PKM pk) => Location == pk.Met_Location;
+    protected override bool IsMatchLevel(PKM pk) => pk.MetLevel == Level;
+    protected override bool IsMatchLocation(PKM pk) => Location == pk.MetLocation;
 
     public bool IsShinyXorValid(ushort pkShinyXor) => pkShinyXor is > 15 or 1;
 
-    public bool ShouldHaveScientistTrash => !SpeciesCategory.IsLegendary(Species)
-                                         && !SpeciesCategory.IsSubLegendary(Species);
+    public bool ShouldHaveScientistTrash => Level != 70; // Level 65, not legendary/sub-legendary/ultra beast
 
-    protected override void FinishCorrelation(PK8 pk, ulong seed)
-    {
-        if (!ShouldHaveScientistTrash)
-            return;
-
-        ApplyTrashBytes(pk);
-    }
-
-    public void ApplyTrashBytes(PKM pk)
-    {
-        // Normally we would apply the trash before applying the OT, but we already did.
-        // Just add in the expected trash after the OT.
-        var ot = pk.OT_Trash;
-        var language = pk.Language;
-        var scientist = GetScientistName(language);
-        StringConverter8.ApplyTrashBytes(ot, scientist);
-    }
-
-    public static TrashMatch HasScientistTrash(PKM pk)
-    {
-        var language = pk.Language;
-        var name = GetScientistName(language);
-        return StringConverter8.GetTrashState(pk.OT_Trash, name);
-    }
-
-    private static ReadOnlySpan<char> GetScientistName(int language) => language switch
+    public static ReadOnlySpan<char> GetScientistName(int language) => language switch
     {
         (int)LanguageID.Japanese => "けんきゅういん",
         (int)LanguageID.English => "Scientist",

@@ -11,14 +11,19 @@ public sealed class SecretBase3PKM : ISpeciesForm
     public ushort Move2 { get; set; }
     public ushort Move3 { get; set; }
     public ushort Move4 { get; set; }
-    public ushort Species { get; set; }
+    public ushort SpeciesInternal { get; set; }
+    public ushort Species
+    {
+        get => SpeciesConverter.GetNational3(SpeciesInternal);
+        set => SpeciesInternal = SpeciesConverter.GetInternal3(value);
+    }
     public ushort HeldItem { get; set; }
     public byte Level { get; set; }
     public byte EVAll { get; set; }
 
     private PersonalInfo3 PersonalInfo => PersonalTable.E.GetFormEntry(Species, Form);
     public byte Form => Species == (int)Core.Species.Unown ? EntityPID.GetUnownForm3(PID) : (byte)0;
-    public int Gender => EntityGender.GetFromPIDAndRatio(PID, PersonalInfo.Gender);
+    public byte Gender => EntityGender.GetFromPIDAndRatio(PID, PersonalInfo.Gender);
 
     public void GetMoves(Span<ushort> moves)
     {
@@ -40,7 +45,7 @@ public sealed class SecretBase3PKM : ISpeciesForm
     {
         sb.Append($"{Species:000} - {g.Species[Species]}");
         if (HeldItem != 0)
-            sb.Append(" @ ").Append(g.Item[HeldItem]);
+            sb.Append($" @ {g.Item[HeldItem]}");
         sb.AppendLine();
 
         var moveNames = g.Move;

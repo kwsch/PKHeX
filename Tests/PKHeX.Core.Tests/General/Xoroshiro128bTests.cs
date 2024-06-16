@@ -27,7 +27,7 @@ public static class Xoroshiro128bTests
         for (int i = 0; i < loop; i++)
         {
             _ = rand.Prev();
-            if (rand.GetState() == (s0, s1))
+            if (rand.Equals(s0, s1))
                 return i;
         }
         return -1;
@@ -39,7 +39,7 @@ public static class Xoroshiro128bTests
         for (int i = 0; i < loop; i++)
         {
             _ = rand.Next();
-            if (rand.GetState() == (n0, n1))
+            if (rand.Equals(n0, n1))
                 return i;
         }
         return -1;

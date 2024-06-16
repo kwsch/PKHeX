@@ -31,9 +31,11 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
     public uint Identifier
     {
         get => captured.Identifier;
-        set {
+        set
+        {
             captured.Identifier = value;
-            if (defeated != null) defeated.Identifier = value;
+            if (defeated != null)
+                defeated.Identifier = value;
         }
     }
 
@@ -47,13 +49,14 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
     [Category(General), Description("Indicates if this Tera Raid Boss has been defeated at least once by the player.")]
     public bool Defeated
     {
-        get => defeated != null ? defeated.Defeated : captured.Defeated;
-        set {
+        get => defeated?.Defeated ?? captured.Defeated;
+        set
+        {
             if (defeated != null)
                 defeated.Defeated = value;
             else
                 captured.Defeated = value;
-        } 
+        }
     }
 }
 
@@ -61,7 +64,7 @@ public sealed class RaidSevenStarCaptured9(SAV9SV sav, SCBlock block) : SaveBloc
 {
     public readonly int CountAll = block.Data.Length / SevenStarRaidCapturedDetail.SIZE;
 
-    public SevenStarRaidCapturedDetail GetRaid(int entry) => new(Data, 0x00 + (entry * SevenStarRaidCapturedDetail.SIZE));
+    public SevenStarRaidCapturedDetail GetRaid(int entry) => new(Raw.Slice((entry * SevenStarRaidCapturedDetail.SIZE), SevenStarRaidCapturedDetail.SIZE));
 
     public SevenStarRaidCapturedDetail[] GetAllRaids()
     {
@@ -72,26 +75,28 @@ public sealed class RaidSevenStarCaptured9(SAV9SV sav, SCBlock block) : SaveBloc
     }
 }
 
-public sealed class SevenStarRaidCapturedDetail(byte[] Data, int Offset)
+public sealed class SevenStarRaidCapturedDetail(Memory<byte> raw)
 {
     public const int SIZE = 0x08;
 
+    private Span<byte> Data => raw.Span;
+
     public uint Identifier
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public bool Captured
     {
-        get => Data[Offset + 0x04] == 1;
-        set => Data[Offset + 0x04] = (byte)(value ? 1 : 0);
+        get => Data[0x04] == 1;
+        set => Data[0x04] = (byte)(value ? 1 : 0);
     }
 
     public bool Defeated
     {
-        get => Data[Offset + 0x05] == 1;
-        set => Data[Offset + 0x05] = (byte)(value ? 1 : 0);
+        get => Data[0x05] == 1;
+        set => Data[0x05] = (byte)(value ? 1 : 0);
     }
 
     // 0x06 - 0x07 padding
@@ -101,8 +106,9 @@ public sealed class RaidSevenStarDefeated9(SAV9SV sav, SCBlock block) : SaveBloc
 {
     // Structure matches the RaidSevenStarCapture9 but there are 4 bytes at the front to indicate if the copy of previous defeated flags happened when updating save
     public readonly int CountAll = (block.Data.Length - 0x04) / SevenStarRaidDefeatedDetail.SIZE;
-
-    public SevenStarRaidDefeatedDetail? GetRaid(int entry) => block.Type != SCTypeCode.None ? new(Data, 0x04 + (entry * SevenStarRaidDefeatedDetail.SIZE)) : null;
+    public SevenStarRaidDefeatedDetail? GetRaid(int entry) => block.Type != SCTypeCode.None
+        ? new(Raw[4..].Slice(entry * SevenStarRaidDefeatedDetail.SIZE, SevenStarRaidDefeatedDetail.SIZE))
+        : null;
 
     public SevenStarRaidDefeatedDetail?[] GetAllRaids()
     {
@@ -113,20 +119,22 @@ public sealed class RaidSevenStarDefeated9(SAV9SV sav, SCBlock block) : SaveBloc
     }
 }
 
-public sealed class SevenStarRaidDefeatedDetail(byte[] Data, int Offset)
+public sealed class SevenStarRaidDefeatedDetail(Memory<byte> raw)
 {
     public const int SIZE = 0x08;
 
+    private Span<byte> Data => raw.Span;
+
     public uint Identifier
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public bool Defeated
     {
-        get => Data[Offset + 0x04] == 1;
-        set => Data[Offset + 0x04] = (byte)(value ? 1 : 0);
+        get => Data[0x04] == 1;
+        set => Data[0x04] = (byte)(value ? 1 : 0);
     }
 
     // 0x05 - 0x07 padding

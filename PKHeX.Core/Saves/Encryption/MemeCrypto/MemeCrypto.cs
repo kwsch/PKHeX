@@ -52,7 +52,7 @@ public static class MemeCrypto
 
     public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output)
     {
-        foreach (MemeKeyIndex keyIndex in Enum.GetValues(typeof(MemeKeyIndex)))
+        foreach (MemeKeyIndex keyIndex in Enum.GetValues<MemeKeyIndex>())
         {
             if (VerifyMemeData(input, out output, keyIndex))
                 return true;
@@ -95,20 +95,6 @@ public static class MemeCrypto
         Span<byte> hash = stackalloc byte[SHA1.HashSizeInBytes];
         SHA1.HashData(output[..^8], hash);
         return hash[..8].SequenceEqual(output[^8..]);
-    }
-
-    public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, int offset, int length, MemeKeyIndex keyIndex)
-    {
-        var data = input.Slice(offset, length);
-        if (VerifyMemeData(data, out output, keyIndex))
-        {
-            var newOutput = input.ToArray();
-            output.CopyTo(newOutput, offset);
-            output = newOutput;
-            return true;
-        }
-        output = [];
-        return false;
     }
 
     public static byte[] SignMemeData(ReadOnlySpan<byte> input, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile)

@@ -21,7 +21,7 @@ public static class EncounterGenerator
     {
         1 => EncounterGenerator12.Instance.GetEncounters(pk, info),
         2 => EncounterGenerator12.Instance.GetEncounters(pk, info),
-        3 => pk.Version == (int)GameVersion.CXD
+        3 => pk.Version == GameVersion.CXD
             ? EncounterGenerator3GC.Instance.GetEncounters(pk, info)
             : EncounterGenerator3.Instance.GetEncounters(pk, info),
         4 => EncounterGenerator4.Instance.GetEncounters(pk, info),
@@ -44,7 +44,7 @@ public static class EncounterGenerator
     /// </summary>
     /// <param name="version">Original encounter version</param>
     /// <param name="generation">Generation group</param>
-    public static IEncounterGenerator GetGeneration(GameVersion version, int generation) => generation switch
+    public static IEncounterGenerator GetGeneration(GameVersion version, byte generation) => generation switch
     {
         1 => EncounterGenerator1.Instance,
         2 => EncounterGenerator2.Instance,

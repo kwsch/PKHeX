@@ -16,7 +16,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
     private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
-    private int met;
+    private ushort met;
     private bool mustBeSlot;
     readonly object IEnumerator.Current => Current;
 
@@ -80,14 +80,14 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
 
             case YieldState.Bred:
                 State = Entity.IsEgg ? YieldState.StaticShared : YieldState.TradeStart;
-                if (Locations.IsEggLocationBred9(Entity.Egg_Location) && EncounterGenerator9.TryGetEgg(Entity, Chain, Version, out var egg))
+                if (Locations.IsEggLocationBred9(Entity.EggLocation) && EncounterGenerator9.TryGetEgg(Entity, Chain, Version, out var egg))
                     return SetCurrent(egg);
                 if (Entity.IsEgg)
                     goto case YieldState.StaticShared;
                 goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
-                if (Entity.Met_Location != Locations.LinkTrade6NPC)
+                if (Entity.MetLocation != Locations.LinkTrade6NPC)
                     goto case YieldState.StartCaptures;
                 State = YieldState.Trade; goto case YieldState.Trade;
             case YieldState.Trade:
@@ -109,6 +109,10 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
                 State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
                 if (TryGetNext<EncounterArea9, EncounterSlot9>(Encounters9.Slots))
+                    return true;
+                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
+            case YieldState.StaticOutbreak:
+                if (TryGetNext(Encounters9.Outbreak))
                     return true;
                 Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
@@ -156,10 +160,6 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
                     return true;
-                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
-            case YieldState.StaticOutbreak:
-                if (TryGetNext(Encounters9.Outbreak))
-                    return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:
                 if (TryGetNext(Encounters9.Might))
@@ -180,7 +180,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
     private void InitializeWildLocationInfo()
     {
         mustBeSlot = Entity is IRibbonIndex r && r.HasEncounterMark();
-        met = Entity.Met_Location;
+        met = Entity.MetLocation;
     }
 
     private bool TryGetNext<TArea, TSlot>(TArea[] areas)

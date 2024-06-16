@@ -54,8 +54,8 @@ public static class FileUtil
             return mc;
         if (TryGetPKM(data, out var pk, ext))
             return pk;
-        if (TryGetPCBoxBin(data, out IEnumerable<byte[]> pks, reference))
-            return pks;
+        if (TryGetPCBoxBin(data, out var concat, reference))
+            return concat;
         if (TryGetBattleVideo(data, out var bv))
             return bv;
         if (TryGetMysteryGift(data, out var g, ext))
@@ -183,7 +183,7 @@ public static class FileUtil
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetMemoryCard(byte[] data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
-        if (!SAV3GCMemoryCard.IsMemoryCardSize(data))
+        if (!SAV3GCMemoryCard.IsMemoryCardSize(data) || IsNoDataPresent(data))
         {
             memcard = null;
             return false;
@@ -210,11 +210,11 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="pk">Output result</param>
     /// <param name="ext">Format hint</param>
-    /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
+    /// <param name="sav">Reference save file used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
     {
-        if (ext == ".pgt") // size collision with pk6
+        if (ext.EndsWith("pgt")) // size collision with pk6
         {
             pk = null;
             return false;
@@ -228,23 +228,43 @@ public static class FileUtil
     /// Tries to get a <see cref="IEnumerable{T}"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
-    /// <param name="pkms">Output result</param>
+    /// <param name="result">Output result</param>
     /// <param name="sav">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetPCBoxBin(byte[] data, out IEnumerable<byte[]> pkms, SaveFile? sav)
+    public static bool TryGetPCBoxBin(byte[] data, [NotNullWhen(true)] out ConcatenatedEntitySet? result, SaveFile? sav)
     {
-        if (sav == null)
-        {
-            pkms = [];
+        result = null;
+        if (sav is null || IsNoDataPresent(data))
             return false;
-        }
-        var length = data.Length;
-        if (EntityDetection.IsSizePlausible(length / sav.SlotCount) || EntityDetection.IsSizePlausible(length / sav.BoxSlotCount))
+
+        // Only return if the size is one of the save file's data chunk formats.
+        var expect = sav.SIZE_BOXSLOT;
+
+        // Check if it's the entire PC data.
+        var countPC = sav.SlotCount;
+        if (expect * countPC == data.Length)
         {
-            pkms = ArrayUtil.EnumerateSplit(data, length);
+            result = new(data, countPC);
             return true;
         }
-        pkms = [];
+
+        // Check if it's a single box data.
+        var countBox = sav.BoxSlotCount;
+        if (expect * countBox == data.Length)
+        {
+            result = new(data, countBox);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsNoDataPresent(ReadOnlySpan<byte> data)
+    {
+        if (!data.ContainsAnyExcept<byte>(0xFF))
+            return true;
+        if (!data.ContainsAnyExcept<byte>(0x00))
+            return true;
         return false;
     }
 
@@ -254,7 +274,7 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="bv">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out BattleVideo? bv)
+    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out IBattleVideo? bv)
     {
         bv = BattleVideo.GetVariantBattleVideo(data);
         return bv != null;
@@ -269,7 +289,9 @@ public static class FileUtil
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
     {
-        mg = MysteryGift.GetMysteryGift(data, ext);
+        mg = ext.Length == 0
+            ? MysteryGift.GetMysteryGift(data)
+            : MysteryGift.GetMysteryGift(data, ext);
         return mg != null;
     }
 
@@ -310,5 +332,24 @@ public static class FileUtil
             return gift;
         _ = TryGetPKM(data, out var pk, ext, sav);
         return pk;
+    }
+}
+
+/// <summary>
+/// Represents a set of concatenated <see cref="PKM"/> data.
+/// </summary>
+/// <param name="Data">Object data</param>
+/// <param name="Count">Count of objects</param>
+public sealed record ConcatenatedEntitySet(Memory<byte> Data, int Count)
+{
+    public int SlotSize => Data.Length / Count;
+
+    public Span<byte> GetSlot(int index)
+    {
+        var size = SlotSize;
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)size);
+
+        var offset = index * size;
+        return Data.Span.Slice(offset, size);
     }
 }

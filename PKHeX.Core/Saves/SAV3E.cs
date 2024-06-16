@@ -8,17 +8,16 @@ namespace PKHeX.Core;
 /// Generation 3 <see cref="SaveFile"/> object for <see cref="GameVersion.E"/>.
 /// </summary>
 /// <inheritdoc cref="SAV3" />
-public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
+public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycareRandomState<uint>
 {
     // Configuration
-    protected override SAV3E CloneInternal() => new(Write());
-    public override GameVersion Version { get => GameVersion.E; protected set { } }
+    protected override SAV3E CloneInternal() => new(Write()) { Language = Language };
+    public override GameVersion Version { get => GameVersion.E; set { } }
     public override PersonalTable3 Personal => PersonalTable.E;
 
     public override int EventFlagCount => 8 * 300;
     public override int EventWorkCount => 0x100;
     protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
-    public override int DaycareSeedSize => 8; // 32bit
     protected override int EggEventFlag => 0x86;
     protected override int BadgeFlagStart => 0x867;
 
@@ -29,17 +28,11 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     protected override int EventWork => 0x139C;
     public override int MaxItemID => Legal.MaxItemID_3_E;
 
-    private void Initialize()
-    {
-        // small
-        PokeDex = 0x18;
+    protected override int PokeDex => 0x18; // small
+    protected override int DaycareOffset => 0x3030; // large
 
-        // large
-        DaycareOffset = 0x3030;
-
-        // storage
-        Box = 0;
-    }
+    // storage
+    private void Initialize() => Box = 0;
 
     #region Small
     public override bool NationalDex
@@ -72,14 +65,20 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
         set => SetData(Small.AsSpan(0xA0), value.Data);
     }
 
+    public uint BerryPowder
+    {
+        get => ReadUInt32LittleEndian(Small.AsSpan(0x1F4)) ^ SecurityKey;
+        set => WriteUInt32LittleEndian(Small.AsSpan(0x1F4), value ^ SecurityKey);
+    }
+
     public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0x1FC)); set => WriteUInt16LittleEndian(Small.AsSpan(0x1FC), Math.Min((ushort)9999, value)); }
     // u16 field2;
     public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0x200)); set => WriteUInt16LittleEndian(Small.AsSpan(0x200), Math.Min((ushort)9999, value)); }
     public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0x202)); set => WriteUInt16LittleEndian(Small.AsSpan(0x202), Math.Min((ushort)9999, value)); }
     // u32 field8;
-    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0x208)); set => WriteUInt32LittleEndian(Small.AsSpan(0x208), Math.Min(9999, value)); }
+    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0x208)); set => WriteUInt32LittleEndian(Small.AsSpan(0x208), Math.Min(99990, value)); }
 
-    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0x20C)); set => WriteUInt32LittleEndian(Small.AsSpan(0x20C), Math.Min(9999, value)); }
+    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0x20C)); set => WriteUInt32LittleEndian(Small.AsSpan(0x20C), Math.Min(99990, value)); }
     public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0x210)); set => WriteUInt16LittleEndian(Small.AsSpan(0x210), Math.Min((ushort)9999, value)); }
     public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0x212)); set => WriteUInt16LittleEndian(Small.AsSpan(0x212), Math.Min((ushort)9999, value)); }
 
@@ -147,23 +146,26 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
         ];
     }
 
+    private Span<byte> PokeBlockData => Large.AsSpan(0x848, PokeBlock3Case.SIZE);
+
     public PokeBlock3Case PokeBlocks
     {
-        get => new(Large, 0x848);
-        set => SetData(Large.AsSpan(0x848), value.Write());
+        get => new(PokeBlockData);
+        set => value.Write(PokeBlockData);
     }
 
     protected override int SeenOffset2 => 0x988;
 
     public DecorationInventory3 Decorations => new(Large.AsSpan(0x2734, DecorationInventory3.SIZE));
 
+    private Span<byte> SwarmSpan => Large.AsSpan(0x2B90, Swarm3.SIZE);
     public Swarm3 Swarm
     {
-        get => new(Large.AsSpan(0x2B90, Swarm3.SIZE).ToArray());
-        set => SetData(Large.AsSpan(0x2B90), value.Data);
+        get => new(SwarmSpan.ToArray());
+        set => SetData(SwarmSpan, value.Data);
     }
 
-    private void ClearSwarm() => Large.AsSpan(0x2B90, Swarm3.SIZE).Clear();
+    private void ClearSwarm() => SwarmSpan.Clear();
 
     public IReadOnlyList<Swarm3> DefaultSwarms => Swarm3Details.Swarms_E;
 
@@ -182,9 +184,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     protected override int MailOffset => 0x2BE0;
 
-    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pk slot
-    public override string GetDaycareRNGSeed(int loc) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareSlotOffset(0, 2))).ToString("X8");  // after the 2 slots, before the step counter
-    public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), Util.GetHexValue(seed));
+    protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
+    uint IDaycareRandomState<uint>.Seed // after the 2 slots, before the step counter
+    {
+        get => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)));
+        set => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), value);
+    }
 
     protected override int ExternalEventData => 0x31B3;
 
@@ -223,12 +228,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     /** Each value unit represents 1/60th of a second. Value 0 if no record. */
     public uint GetTrainerHillRecord(TrainerHillMode3E mode)
     {
-        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4));
+        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + ((byte)mode * 4)));
     }
 
     public void SetTrainerHillRecord(TrainerHillMode3E mode, uint value)
     {
-        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4), value);
+        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + ((byte)mode * 4)), value);
         State.Edited = true;
     }
 
@@ -282,11 +287,13 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     private const uint EXTRADATA_SENTINEL = 0x0000B39D;
     private const int OFS_BV = 31 * 0x1000; // last sector of the save
     public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(Data.AsSpan(OFS_BV)) == EXTRADATA_SENTINEL;
+    public void SetExtraDataSentinelBattleVideo() => WriteUInt32LittleEndian(Data.AsSpan(OFS_BV), EXTRADATA_SENTINEL);
 
-    private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BV3.SIZE);
-    public BV3 BattleVideo
+    public Memory<byte> BattleVideoData => Data.AsMemory(OFS_BV + 4, BattleVideo3.SIZE);
+    public BattleVideo3 BattleVideo
     {
-        get => HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
-        set => SetData(BattleVideoData, value.Data);
+        // decouple from the save file object on get, as the consumer might not be aware that mutations will touch the save.
+        get => HasBattleVideo ? new BattleVideo3(BattleVideoData.ToArray()) : new BattleVideo3();
+        set => SetData(BattleVideoData.Span, value.Data);
     }
 }

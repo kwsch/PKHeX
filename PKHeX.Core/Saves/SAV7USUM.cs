@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -18,15 +19,13 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
         Initialize();
     }
 
+    public override bool HasPokeDex => true;
+
     private void Initialize()
     {
         Party = Blocks.BlockInfo[04].Offset;
-        PokeDex = Blocks.BlockInfo[06].Offset;
-
         TeamSlots = Blocks.BoxLayout.TeamSlots;
         Box = Blocks.BlockInfo[14].Offset;
-        WondercardData = Blocks.MysteryGift.Offset;
-        DaycareOffset = Blocks.Daycare.Offset;
 
         ReloadBattleTeams();
     }
@@ -34,7 +33,6 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_USUM;
     protected override SAV7USUM CloneInternal() => new((byte[])Data.Clone());
-    public override int EventFlagCount => 4960;
     public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
@@ -45,12 +43,12 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     #region Blocks
     public SaveBlockAccessor7USUM Blocks { get; }
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
-    public override MyItem Items => Blocks.Items;
+    public override MyItem7USUM Items => Blocks.Items;
     public override MysteryBlock7 MysteryGift => Blocks.MysteryGift;
     public override PokeFinder7 PokeFinder => Blocks.PokeFinder;
     public override JoinFesta7 Festa => Blocks.Festa;
     public override Daycare7 Daycare => Blocks.Daycare;
-    public override RecordBlock6 Records => Blocks.Records;
+    public override RecordBlock7USUM Records => Blocks.Records;
     public override PlayTime6 Played => Blocks.Played;
     public override MyStatus7 MyStatus => Blocks.MyStatus;
     public override FieldMoveModelSave7 Overworld => Blocks.Overworld;
@@ -64,7 +62,24 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override ResortSave7 ResortSave => Blocks.ResortSave;
     public override FieldMenu7 FieldMenu => Blocks.FieldMenu;
     public override FashionBlock7 Fashion => Blocks.Fashion;
-    public override HallOfFame7 Fame => Blocks.Fame;
+    public override EventWork7USUM EventWork => Blocks.EventWork;
+    public override UnionPokemon7 Fused => Blocks.Fused;
+    public override GTS7 GTS => Blocks.GTS;
     public BattleAgency7 BattleAgency => Blocks.BattleAgency;
     #endregion
+
+    private const ulong MagearnaConst = 0xCBE05F18356504AC;
+    private const ulong CapPikachuConst = 0xF44E94EA7D19A8D6;
+
+    public override void UpdateQrConstants()
+    {
+        var qr = Blocks.BlockInfo[35];
+        var flag = EventWork.GetEventFlag(EventWork7USUM.MagearnaEventFlag); // 4060
+        ulong value = flag ? MagearnaConst : 0ul;
+        WriteUInt64LittleEndian(Data.AsSpan(qr.Offset + 0x168), value);
+
+        flag = EventWork.GetEventFlag(EventWork7USUM.CapPikachuEventFlag); // 4060
+        value = flag ? CapPikachuConst : 0ul;
+        WriteUInt64LittleEndian(Data.AsSpan(qr.Offset + 0x16C), value);
+    }
 }
