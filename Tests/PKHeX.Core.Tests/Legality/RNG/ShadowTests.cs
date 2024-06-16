@@ -128,7 +128,7 @@ public static class PIDTests
                 [0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076],
                 [0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C],
             },
-            Delcatty
+            Delcatty,
         ];
         yield return
         [
@@ -145,7 +145,7 @@ public static class PIDTests
                 [0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A],
                 [0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325],
             },
-            Butterfree
+            Butterfree,
         ];
     }
 

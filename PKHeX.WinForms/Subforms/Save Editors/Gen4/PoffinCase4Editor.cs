@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -10,6 +10,8 @@ public partial class PoffinCase4Editor : UserControl
     private PoffinCase4 Case = null!; // initialized on load
     private int CurrentIndex = -1;
     private bool Updating;
+
+    private readonly string[] ItemNames = Util.GetStringList("poffin4", Main.CurrentLanguage);
 
     public void Initialize(SAV4Sinnoh sav)
     {
@@ -30,7 +32,15 @@ public partial class PoffinCase4Editor : UserControl
         Updating = false;
     }
 
-    private string GetPoffinText(int index) => $"{index + 1:000} - {Case.Poffins[index].Type.ToString().Replace('_', '-')}";
+    private string GetPoffinName(PoffinFlavor4 flavor)
+    {
+        var index = (uint)flavor;
+        if (index >= ItemNames.Length)
+            index = 0;
+        return ItemNames[index];
+    }
+
+    private string GetPoffinText(int index) => $"{index + 1:000} - {GetPoffinName(Case.Poffins[index].Type)}";
 
     public void Save()
     {

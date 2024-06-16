@@ -136,7 +136,7 @@ public sealed record EncounterGift2
         {
             pk.MetLevel = LevelMin;
             pk.MetLocation = Location;
-            pk.MetTimeOfDay = EncounterTime.Any.RandomValidTime();
+            //pk.MetTimeOfDay = 0;
         }
 
         if (Shiny == Shiny.Always)

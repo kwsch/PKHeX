@@ -230,7 +230,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             ref var exist = ref result[index];
             if (exist.Valid)
                 return false;
-            exist = new MoveResult(new MoveLearnInfo(LearnMethod.Special, LearnEnvironment.HOME));
+            exist = new MoveResult(new MoveLearnInfo(LearnMethod.HOME, LearnEnvironment.HOME));
             return true;
         }
         // Kyurem as Fused cannot move into HOME and trigger move sharing.

@@ -43,7 +43,7 @@ public sealed class LegalityAnalysis
     /// <summary>
     /// Indicates where the <see cref="Entity"/> originated.
     /// </summary>
-    public readonly SlotOrigin SlotOrigin;
+    public readonly StorageSlotType SlotOrigin;
 
     /// <summary>
     /// Indicates if all checks ran to completion.
@@ -61,20 +61,24 @@ public sealed class LegalityAnalysis
     /// </summary>
     public readonly LegalInfo Info;
 
+    private const StorageSlotType Ignore = StorageSlotType.None;
+
+    internal bool IsStoredSlot(StorageSlotType type) => SlotOrigin == type || SlotOrigin is Ignore;
+
     /// <summary>
     /// Checks the input <see cref="PKM"/> data for legality. This is the best method for checking with context, as some games do not have all Alternate Form data available.
     /// </summary>
     /// <param name="pk">Input data to check</param>
     /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, IPersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
+    public LegalityAnalysis(PKM pk, IPersonalTable table, StorageSlotType source = Ignore) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
 
     /// <summary>
     /// Checks the input <see cref="PKM"/> data for legality.
     /// </summary>
     /// <param name="pk">Input data to check</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, SlotOrigin source = SlotOrigin.Party) : this(pk, pk.PersonalInfo, source) { }
+    public LegalityAnalysis(PKM pk, StorageSlotType source = Ignore) : this(pk, pk.PersonalInfo, source) { }
 
     /// <summary>
     /// Checks the input <see cref="PKM"/> data for legality.
@@ -82,7 +86,7 @@ public sealed class LegalityAnalysis
     /// <param name="pk">Input data to check</param>
     /// <param name="pi">Personal info to parse with</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, IPersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
+    public LegalityAnalysis(PKM pk, IPersonalInfo pi, StorageSlotType source = Ignore)
     {
         Entity = pk;
         PersonalInfo = pi;
@@ -302,6 +306,7 @@ public sealed class LegalityAnalysis
         if (format is 4 or 5 or 6) // Gen 6->7 transfer removes this property.
             Gen4GroundTile.Verify(this);
 
+        SlotType.Verify(this);
         if (format < 6)
             return;
 

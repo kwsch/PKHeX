@@ -172,7 +172,7 @@ public sealed class FormVerifier : Verifier
             case Shaymin:
             case Furfrou:
             case Hoopa:
-                if (form != 0 && data.SlotOrigin is not SlotOrigin.Party && pk.Format <= 6) // has form but stored in box
+                if (form != 0 && !data.IsStoredSlot(StorageSlotType.Party) && pk.Format <= 6) // has form but stored in box
                     return GetInvalid(LFormParty);
                 break;
         }

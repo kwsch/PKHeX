@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record SlotInfoBox(int Box, int Slot) : ISlotInfo
 {
-    public SlotOrigin Origin => SlotOrigin.Box;
+    public StorageSlotType Type => StorageSlotType.Box;
     public bool CanWriteTo(SaveFile sav) => sav.HasBox && !sav.IsSlotLocked(Box, Slot);
     public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk) => WriteBlockedMessage.None;
 

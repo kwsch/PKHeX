@@ -163,4 +163,9 @@ public enum CheckIdentifier : byte
     /// The <see cref="CheckResult"/> pertains to string <see cref="TrashBytes"/>.
     /// </summary>
     TrashBytes,
+
+    /// <summary>
+    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="StorageSlotType"/>.
+    /// </summary>
+    SlotType,
 }

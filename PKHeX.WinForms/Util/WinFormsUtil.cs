@@ -262,7 +262,7 @@ public static class WinFormsUtil
     {
         var sb = new StringBuilder(128);
         foreach (var type in extensions)
-            sb.Append("*.").Append(type).Append(';');
+            sb.Append($"*.{type};");
         sb.Append("*.pk");
 
         string supported = sb.ToString();

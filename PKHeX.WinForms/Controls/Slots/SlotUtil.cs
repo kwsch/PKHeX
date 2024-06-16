@@ -59,9 +59,9 @@ public static class SlotUtil
 
         var img = c switch
         {
-            SlotInfoBox b => p.Sprite(s, b.Box, b.Slot, flagIllegal),
-            SlotInfoParty ps => p.Sprite(s, -1, ps.Slot, flagIllegal),
-            _ => p.Sprite(s, -1, -1, flagIllegal),
+            SlotInfoBox b => p.Sprite(s, b.Box, b.Slot, flagIllegal, b.Type),
+            SlotInfoParty ps => p.Sprite(s, -1, ps.Slot, flagIllegal, ps.Type),
+            _ => p.Sprite(s, -1, -1, flagIllegal, c.Type),
         };
 
         pb.BackColor = Color.Transparent;

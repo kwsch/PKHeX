@@ -7,31 +7,64 @@ using static LearnMethod;
 public enum LearnMethod : byte
 {
     // Invalid
+
+    #region Invalid
+    /// <summary> Unable to detect a valid method of learning the move. </summary>
     None,
+    /// <summary> Move is a duplicate of another move in the set. </summary>
     Duplicate,
+    /// <summary> Move is empty but should be present. </summary>
+    /// <remarks> Usually uses <see cref="UnobtainableExpect"/> to indicate what it was expecting instead. </remarks>
     EmptyInvalid,
 
+    /// <summary> Move is unobtainable. </summary>
     Unobtainable,
+    /// <summary> Expected a specific move instead of the one present. </summary>
     UnobtainableExpect,
+    #endregion
 
     // Valid
+    /// <summary> Nothing present in the slot. </summary>
     Empty,
+    /// <summary> Initial Move from the species' level-up table. </summary>
     Initial,
+    /// <summary> Learned via level-up. </summary>
     LevelUp,
+    /// <summary> Learned via instructional machine (TM, HM, TR). </summary>
     TMHM,
+    /// <summary> Learned via Move Tutor. </summary>
     Tutor,
+    /// <summary> Learned by the move <see cref="Move.Sketch"/>. </summary>
     Sketch,
-    Special,
+    /// <summary> Learned from another game's side-data via HOME. </summary>
+    HOME,
+
+    /// <summary> Added special for the Encounter. </summary>
+    Encounter,
+    /// <summary> Learned upon Evolution </summary>
+    /// <remarks> Special case for Generation 2 where no move reminder exists. </remarks>
+    Evolution,
+    /// <summary> Shared from another species at a Daycare/Picnic. </summary>
     Shared,
+
+    /// <summary> Evolution split happened immediately after leveling up and learning the move. </summary>
+    /// <remarks>Only possible for Gen3 and Gen4.</remarks>
     ShedinjaEvo,
 
-    // Relearn
+    #region Relearn
+    /// <summary> Remembered from its special Relearn Move set. </summary>
     Relearn,
+    #endregion
 
-    // Egg
+    #region Egg
+    /// <summary> Inherited from the species' Egg table (not level-up). </summary>
     EggMove,
+    /// <summary> Inherited from the species' level-up table. </summary>
     InheritLevelUp,
+    /// <summary> Inserted under certain conditions </summary>
+    /// <remarks><see cref="Move.VoltTackle"/></remarks>
     SpecialEgg,
+    #endregion
 }
 
 /// <summary>

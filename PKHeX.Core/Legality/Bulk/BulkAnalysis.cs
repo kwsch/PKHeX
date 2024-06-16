@@ -103,5 +103,5 @@ public sealed class BulkAnalysis
         return results;
     }
 
-    private static LegalityAnalysis Get(SlotCache cache) => new(cache.Entity, cache.SAV.Personal, cache.Source.Origin);
+    private static LegalityAnalysis Get(SlotCache cache) => new(cache.Entity, cache.SAV.Personal, cache.Source.Type);
 }

@@ -64,7 +64,7 @@ public sealed class LearnGroup6 : ILearnGroup
             var move = current[i];
             if (!dexnav.CanBeDexNavMove(move))
                 continue;
-            result[i] = new(new(LearnMethod.Special, LearnEnvironment.ORAS), Generation);
+            result[i] = new(new(LearnMethod.Encounter, LearnEnvironment.ORAS), Generation);
             break;
         }
     }

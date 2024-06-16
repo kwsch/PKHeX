@@ -43,12 +43,12 @@ public partial class PKMEditor
         pk5.NSparkle = CHK_NSparkle.Checked;
         if (!HaX)
         {
-            pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
+            pk5.HiddenAbility = CB_Ability.SelectedIndex is not (0 or 1);
         }
         else
         {
-            var pi = (IPersonalAbility12H)pk5.PersonalInfo;
-            pk5.HiddenAbility = pk5.Ability == pi.AbilityH;
+            var pi = pk5.PersonalInfo;
+            pk5.HiddenAbility = pi.HasHiddenAbility && pk5.Ability == pi.AbilityH;
         }
 
         SavePartyStats(pk5);
