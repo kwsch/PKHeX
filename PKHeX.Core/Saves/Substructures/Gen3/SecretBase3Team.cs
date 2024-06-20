@@ -37,22 +37,22 @@ public sealed class SecretBase3Team
 
     private SecretBase3PKM GetPKM(int index) => new()
     {
-        PID      = ReadUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index))),
-        Species  = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index))),
+        PID = ReadUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index))),
+        SpeciesInternal = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index))),
         HeldItem = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index))),
-        Move1    = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0))),
-        Move2    = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1))),
-        Move3    = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 2))),
-        Move4    = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 3))),
-        Level    = Data[O_Level + index],
-        EVAll    = Data[O_EV + index],
+        Move1 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0))),
+        Move2 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1))),
+        Move3 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 2))),
+        Move4 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 3))),
+        Level = Data[O_Level + index],
+        EVAll = Data[O_EV + index],
     };
 
     private void SetPKM(int index)
     {
         var pk = Team[index];
         WriteUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index)), pk.PID);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index)), pk.Species);
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index)), pk.SpeciesInternal);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index)), pk.HeldItem);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0)), pk.Move1);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1)), pk.Move2);

@@ -18,6 +18,7 @@ public sealed class SecretBase3PKM : ISpeciesForm
         set => SpeciesInternal = SpeciesConverter.GetInternal3(value);
     }
     public ushort HeldItem { get; set; }
+    public int SpriteItem => ItemConverter.GetItemFuture3(HeldItem);
     public byte Level { get; set; }
     public byte EVAll { get; set; }
 
@@ -45,7 +46,7 @@ public sealed class SecretBase3PKM : ISpeciesForm
     {
         sb.Append($"{Species:000} - {g.Species[Species]}");
         if (HeldItem != 0)
-            sb.Append(" @ ").Append(g.Item[HeldItem]);
+            sb.Append(" @ ").Append(g.Item[SpriteItem]);
         sb.AppendLine();
 
         var moveNames = g.Move;

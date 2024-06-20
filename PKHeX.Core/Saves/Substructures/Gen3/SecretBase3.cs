@@ -76,7 +76,7 @@ public sealed class SecretBase3(Memory<byte> raw)
 
     public int SID16
     {
-        get => (ushort)OT_ID >> 8;
-        set => OT_ID = (ushort)(((ushort)value << 16) | TID16);
+        get => (ushort)(OT_ID >> 16);
+        set => OT_ID = (ushort)(((ushort)(value << 16)) | TID16);
     }
 }
