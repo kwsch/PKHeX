@@ -156,5 +156,5 @@ public enum TeraRaidOrigin : uint
 {
     Paldea,
     Kitakami,
-    BlueberryAcademy
+    BlueberryAcademy,
 }

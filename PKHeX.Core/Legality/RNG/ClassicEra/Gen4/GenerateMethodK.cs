@@ -124,10 +124,6 @@ public static class GenerateMethodK
 
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
 
-    private static void SetPIDIVSequential(PK4 pk, uint pid, uint rand)
-    {
-    }
-
     private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
     {
         uint iv1 = (uint)criteria.IV_HP | (uint)criteria.IV_ATK << 5 | (uint)criteria.IV_DEF << 10;

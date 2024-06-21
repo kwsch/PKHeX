@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LanguageID;
 using static PKHeX.Core.EncounterGift2.TrainerType;
 
@@ -135,7 +136,7 @@ public sealed record EncounterGift2
         {
             pk.MetLevel = LevelMin;
             pk.MetLocation = Location;
-            pk.MetTimeOfDay = EncounterTime.Any.RandomValidTime();
+            //pk.MetTimeOfDay = 0;
         }
 
         if (Shiny == Shiny.Always)
@@ -227,8 +228,6 @@ public sealed record EncounterGift2
     private bool IsTrainerNameValid(PKM pk) => Trainer switch
     {
         Recipient => true,
-        GiftStadiumJPN => pk.OriginalTrainerName == StadiumJPN,
-        GiftStadiumENG => pk.OriginalTrainerName == StadiumENG,
         GiftStadiumINT => pk.OriginalTrainerName switch
         {
             StadiumGER => true,
@@ -237,9 +236,25 @@ public sealed record EncounterGift2
             StadiumSPA => true,
             _ => false,
         },
-        PokemonCenterNewYork => IsTrainerPCNY(pk.OriginalTrainerName),
+        GiftStadiumJPN => IsTrainerName(pk, StadiumJPN),
+        GiftStadiumENG => IsTrainerName(pk, StadiumENG),
+        PokemonCenterNewYork => IsTrainerPCNY(pk),
         _ => true,
     };
+
+    private static bool IsTrainerPCNY(PKM pk)
+    {
+        Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+        return IsTrainerPCNY(ot[..len]);
+    }
+
+    private static bool IsTrainerName(PKM pk, [ConstantExpected] string name)
+    {
+        Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(name);
+    }
 
     private bool IsTrainerIDValid(ITrainerID16 pk) => Trainer switch
     {

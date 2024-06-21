@@ -86,7 +86,7 @@ public sealed class TrainerNameVerifier : Verifier
         if (e is IFixedTrainer { IsFixedTrainer: true })
             return true; // already verified
 
-        if (e is MysteryGift mg && mg.OriginalTrainerName.Length == ot.Length)
+        if (e is WC3 { Species: (int)Species.HoOh } mattle && pk is CK3 && mattle.OriginalTrainerName.Length == ot.Length)
             return true; // Mattle Ho-Oh
         return false;
     }

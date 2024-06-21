@@ -37,9 +37,9 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
         set => WriteUInt16LittleEndian(Data.AsSpan(OFS_META + 0x00), value);
     }
 
-    private Span<byte> Player_Trash => Data.AsSpan(OFS_META + 0x02, LEN_OT * sizeof(char));
+    private Span<byte> OriginalTrainerTrash => Data.AsSpan(OFS_META + 0x02, LEN_OT * sizeof(char));
 
-    private Span<byte> TeamName_Trash => Data.AsSpan(OFS_META + 0x18, LEN_TEAMNAME * sizeof(char));
+    private Span<byte> TeamNameTrash => Data.AsSpan(OFS_META + 0x18, LEN_TEAMNAME * sizeof(char));
 
     public uint Language
     {
@@ -49,14 +49,14 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
 
     public string PlayerName
     {
-        get => StringConverter8.GetString(Player_Trash);
-        set => StringConverter8.SetString(Player_Trash, value, 10);
+        get => StringConverter8.GetString(OriginalTrainerTrash);
+        set => StringConverter8.SetString(OriginalTrainerTrash, value, 10);
     }
 
     public string TeamName
     {
-        get => StringConverter8.GetString(TeamName_Trash);
-        set => StringConverter8.SetString(TeamName_Trash, value, LEN_TEAMNAME);
+        get => StringConverter8.GetString(TeamNameTrash);
+        set => StringConverter8.SetString(TeamNameTrash, value, LEN_TEAMNAME);
     }
 
     public uint EntityCount

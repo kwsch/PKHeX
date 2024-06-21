@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Windows.Forms;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms;
 
@@ -8,25 +9,25 @@ public sealed partial class ErrorWindow : Form
 {
     public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
     {
-        var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+        string lang = GetDisplayLanguage();
         using var dialog = new ErrorWindow(lang);
-        dialog.ShowContinue = allowContinue;
-        dialog.Message = friendlyMessage;
-        dialog.Error = ex;
+        dialog.LoadException(ex, friendlyMessage, allowContinue);
         var dialogResult = dialog.ShowDialog();
         if (dialogResult == DialogResult.Abort)
             Environment.Exit(1);
         return dialogResult;
     }
 
-    private ErrorWindow()
+    private static string GetDisplayLanguage()
     {
-        InitializeComponent();
+        try { return Main.CurrentLanguage; }
+        catch { return System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName; }
     }
 
-    private ErrorWindow(string lang) : this()
+    public ErrorWindow(string? lang = GameLanguage.DefaultLanguage)
     {
-        WinFormsUtil.TranslateInterface(this, lang);
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, lang ?? GetDisplayLanguage());
     }
 
     /// <summary>
@@ -60,6 +61,13 @@ public sealed partial class ErrorWindow : Form
             _error = value;
             UpdateExceptionDetailsMessage();
         }
+    }
+
+    public void LoadException(Exception ex, string friendlyMessage, bool allowContinue)
+    {
+        ShowContinue = allowContinue;
+        Message = friendlyMessage;
+        Error = ex;
     }
 
     private void UpdateExceptionDetailsMessage()

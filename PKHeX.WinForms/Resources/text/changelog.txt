@@ -1,7 +1,24 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-24/05/05 - New Update:
+24/06/03 - New Update:
+ - Legality: Added automatic (basic) Trash Byte checks for Switch-era (Gen7b+) files. Further refinement & expansion in the future.
+ - - Fixed: Mystery gifts distributed with nicknames no longer flag IsNicknamed as invalid.
+ - Added: Entity editor move dropdown now displays the move's type on the left side.
+ - Added: Entire boxes can be dragged & dropped. Must enable via setting as it is not intuitive. Drag from the Box tab rectangle.
+ - Added: Report grid can now specify extra properties to show, as well as properties to hide. Change via settings.
+ - Added: Gen1-3 save file language/version detection updated for more edge cases.
+ - Added: Gen2-5 localization text files added for less popular languages. Thanks @abcboy101 !
+ - Added: Gen3 GBA<->GC string conversion logic to handle special text entry. Thanks @abcboy101 !
+ - Added: Gen4 Seal/Accessory/Backdrop editors. Thanks @abcboy101 !
+ - Added: Gen5 Geonet/Unity Tower can now edit country/region data. Thanks @abcboy101 !
+ - Fixed: Gen6/7 entities now save the volatile status effect rather than wiping it (see previous release notes).
+ - Fixed: Gen3-7 Nidoran/Farfetch'd text char quirks updated to better align with GameFreak's mess.
+ - Fixed: Gen1/2 quirks with box data have been rewritten and resolved.
+ - Changed: Gen1-3 emulator save formats that store RTC data are now detected more reliably.
+ - Changed: More performance improvements as always! Additionally, translations can now handle Enum localization.
+
+24/05/05 - New Update: (101440) [8778313]
  - Legality: Added Regulation G.
  - Added: Entity editor can now modify battle-Status effects (Burn, Paralyze, etc). Click the bottom right corner of the window for the GUI.
  - Added: Gen5 trainer records can now be edited via Misc editor. Not documented well, but exposes the values for editing.

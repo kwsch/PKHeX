@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
         {
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
-            tabControl1 = new System.Windows.Forms.TabControl();
+            TC_Misc = new System.Windows.Forms.TabControl();
             TAB_Main = new System.Windows.Forms.TabPage();
             L_BPEarned = new System.Windows.Forms.Label();
             NUD_BPEarned = new System.Windows.Forms.NumericUpDown();
@@ -48,6 +48,10 @@ namespace PKHeX.WinForms
             NUD_BP = new System.Windows.Forms.NumericUpDown();
             L_BP = new System.Windows.Forms.Label();
             TAB_Joyful = new System.Windows.Forms.TabPage();
+            TB_BerryPowder = new System.Windows.Forms.MaskedTextBox();
+            L_BerryPowder = new System.Windows.Forms.Label();
+            TB_J4 = new System.Windows.Forms.MaskedTextBox();
+            L_JMaxPlayers = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             TB_B3 = new System.Windows.Forms.MaskedTextBox();
@@ -59,7 +63,7 @@ namespace PKHeX.WinForms
             TB_J3 = new System.Windows.Forms.MaskedTextBox();
             TB_J2 = new System.Windows.Forms.MaskedTextBox();
             TB_J1 = new System.Windows.Forms.MaskedTextBox();
-            L_JFlaw = new System.Windows.Forms.Label();
+            L_J5Score = new System.Windows.Forms.Label();
             L_JHigh = new System.Windows.Forms.Label();
             L_JRow = new System.Windows.Forms.Label();
             TAB_Ferry = new System.Windows.Forms.TabPage();
@@ -107,7 +111,35 @@ namespace PKHeX.WinForms
             NUD_FameS = new System.Windows.Forms.NumericUpDown();
             NUD_RecordValue = new System.Windows.Forms.NumericUpDown();
             CB_Record = new System.Windows.Forms.ComboBox();
-            tabControl1.SuspendLayout();
+            Tab_Pokeblocks = new System.Windows.Forms.TabPage();
+            pokeblock3CaseEditor1 = new Pokeblock3CaseEditor();
+            Tab_Decorations = new System.Windows.Forms.TabPage();
+            TC_Decorations = new System.Windows.Forms.TabControl();
+            TB_Desk = new System.Windows.Forms.TabPage();
+            DGV_Desk = new System.Windows.Forms.DataGridView();
+            TB_Chair = new System.Windows.Forms.TabPage();
+            DGV_Chair = new System.Windows.Forms.DataGridView();
+            TB_Plant = new System.Windows.Forms.TabPage();
+            DGV_Plant = new System.Windows.Forms.DataGridView();
+            TB_Ornament = new System.Windows.Forms.TabPage();
+            DGV_Ornament = new System.Windows.Forms.DataGridView();
+            TB_Mat = new System.Windows.Forms.TabPage();
+            DGV_Mat = new System.Windows.Forms.DataGridView();
+            TB_Poster = new System.Windows.Forms.TabPage();
+            DGV_Poster = new System.Windows.Forms.DataGridView();
+            TB_Doll = new System.Windows.Forms.TabPage();
+            DGV_Doll = new System.Windows.Forms.DataGridView();
+            TB_Cushion = new System.Windows.Forms.TabPage();
+            DGV_Cushion = new System.Windows.Forms.DataGridView();
+            Item_Desk = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Chair = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Plant = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Ornament = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Mat = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Poster = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Doll = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Item_Cushion = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).BeginInit();
             GB_TCM.SuspendLayout();
@@ -130,6 +162,25 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_FameM).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FameS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_RecordValue).BeginInit();
+            Tab_Pokeblocks.SuspendLayout();
+            Tab_Decorations.SuspendLayout();
+            TC_Decorations.SuspendLayout();
+            TB_Desk.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Desk).BeginInit();
+            TB_Chair.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Chair).BeginInit();
+            TB_Plant.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Plant).BeginInit();
+            TB_Ornament.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Ornament).BeginInit();
+            TB_Mat.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Mat).BeginInit();
+            TB_Poster.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Poster).BeginInit();
+            TB_Doll.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Doll).BeginInit();
+            TB_Cushion.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGV_Cushion).BeginInit();
             SuspendLayout();
             // 
             // B_Save
@@ -156,20 +207,22 @@ namespace PKHeX.WinForms
             B_Cancel.UseVisualStyleBackColor = true;
             B_Cancel.Click += B_Cancel_Click;
             // 
-            // tabControl1
+            // TC_Misc
             // 
-            tabControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            tabControl1.Controls.Add(TAB_Main);
-            tabControl1.Controls.Add(TAB_Joyful);
-            tabControl1.Controls.Add(TAB_Ferry);
-            tabControl1.Controls.Add(TAB_BF);
-            tabControl1.Controls.Add(Tab_Records);
-            tabControl1.Location = new System.Drawing.Point(14, 14);
-            tabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(365, 282);
-            tabControl1.TabIndex = 74;
+            TC_Misc.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TC_Misc.Controls.Add(TAB_Main);
+            TC_Misc.Controls.Add(TAB_Joyful);
+            TC_Misc.Controls.Add(TAB_Ferry);
+            TC_Misc.Controls.Add(TAB_BF);
+            TC_Misc.Controls.Add(Tab_Records);
+            TC_Misc.Controls.Add(Tab_Pokeblocks);
+            TC_Misc.Controls.Add(Tab_Decorations);
+            TC_Misc.Location = new System.Drawing.Point(14, 14);
+            TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Misc.Name = "TC_Misc";
+            TC_Misc.SelectedIndex = 0;
+            TC_Misc.Size = new System.Drawing.Size(365, 282);
+            TC_Misc.TabIndex = 74;
             // 
             // TAB_Main
             // 
@@ -310,7 +363,7 @@ namespace PKHeX.WinForms
             // 
             // TB_RivalName
             // 
-            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_RivalName.Location = new System.Drawing.Point(140, 107);
             TB_RivalName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_RivalName.MaxLength = 7;
@@ -352,6 +405,10 @@ namespace PKHeX.WinForms
             // 
             // TAB_Joyful
             // 
+            TAB_Joyful.Controls.Add(TB_BerryPowder);
+            TAB_Joyful.Controls.Add(L_BerryPowder);
+            TAB_Joyful.Controls.Add(TB_J4);
+            TAB_Joyful.Controls.Add(L_JMaxPlayers);
             TAB_Joyful.Controls.Add(label5);
             TAB_Joyful.Controls.Add(label4);
             TAB_Joyful.Controls.Add(TB_B3);
@@ -363,7 +420,7 @@ namespace PKHeX.WinForms
             TAB_Joyful.Controls.Add(TB_J3);
             TAB_Joyful.Controls.Add(TB_J2);
             TAB_Joyful.Controls.Add(TB_J1);
-            TAB_Joyful.Controls.Add(L_JFlaw);
+            TAB_Joyful.Controls.Add(L_J5Score);
             TAB_Joyful.Controls.Add(L_JHigh);
             TAB_Joyful.Controls.Add(L_JRow);
             TAB_Joyful.Location = new System.Drawing.Point(4, 24);
@@ -375,13 +432,53 @@ namespace PKHeX.WinForms
             TAB_Joyful.Text = "Joyful";
             TAB_Joyful.UseVisualStyleBackColor = true;
             // 
+            // TB_BerryPowder
+            // 
+            TB_BerryPowder.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_BerryPowder.Location = new System.Drawing.Point(90, 154);
+            TB_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_BerryPowder.Mask = "00000";
+            TB_BerryPowder.Name = "TB_BerryPowder";
+            TB_BerryPowder.Size = new System.Drawing.Size(40, 20);
+            TB_BerryPowder.TabIndex = 17;
+            // 
+            // L_BerryPowder
+            // 
+            L_BerryPowder.AutoSize = true;
+            L_BerryPowder.Location = new System.Drawing.Point(10, 157);
+            L_BerryPowder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BerryPowder.Name = "L_BerryPowder";
+            L_BerryPowder.Size = new System.Drawing.Size(80, 15);
+            L_BerryPowder.TabIndex = 16;
+            L_BerryPowder.Text = "Berry Powder:";
+            // 
+            // TB_J4
+            // 
+            TB_J4.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_J4.Location = new System.Drawing.Point(90, 110);
+            TB_J4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_J4.Mask = "0000";
+            TB_J4.Name = "TB_J4";
+            TB_J4.Size = new System.Drawing.Size(40, 20);
+            TB_J4.TabIndex = 8;
+            // 
+            // L_JMaxPlayers
+            // 
+            L_JMaxPlayers.AutoSize = true;
+            L_JMaxPlayers.Location = new System.Drawing.Point(10, 113);
+            L_JMaxPlayers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_JMaxPlayers.Name = "L_JMaxPlayers";
+            L_JMaxPlayers.Size = new System.Drawing.Size(73, 15);
+            L_JMaxPlayers.TabIndex = 7;
+            L_JMaxPlayers.Text = "Max Players:";
+            // 
             // label5
             // 
             label5.Location = new System.Drawing.Point(138, 3);
             label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new System.Drawing.Size(117, 27);
-            label5.TabIndex = 65;
+            label5.TabIndex = 9;
             label5.Text = "Berry Picking";
             label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -391,39 +488,39 @@ namespace PKHeX.WinForms
             label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(117, 27);
-            label4.TabIndex = 64;
+            label4.TabIndex = 0;
             label4.Text = "Pokémon Jump";
             label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TB_B3
             // 
-            TB_B3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_B3.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_B3.Location = new System.Drawing.Point(215, 88);
             TB_B3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_B3.Mask = "0000";
             TB_B3.Name = "TB_B3";
             TB_B3.Size = new System.Drawing.Size(40, 20);
-            TB_B3.TabIndex = 62;
+            TB_B3.TabIndex = 15;
             // 
             // TB_B2
             // 
-            TB_B2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_B2.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_B2.Location = new System.Drawing.Point(215, 66);
             TB_B2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_B2.Mask = "0000";
             TB_B2.Name = "TB_B2";
             TB_B2.Size = new System.Drawing.Size(40, 20);
-            TB_B2.TabIndex = 61;
+            TB_B2.TabIndex = 13;
             // 
             // TB_B1
             // 
-            TB_B1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_B1.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_B1.Location = new System.Drawing.Point(215, 44);
             TB_B1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_B1.Mask = "0000";
             TB_B1.Name = "TB_B1";
             TB_B1.Size = new System.Drawing.Size(40, 20);
-            TB_B1.TabIndex = 60;
+            TB_B1.TabIndex = 11;
             // 
             // L_B5Score
             // 
@@ -432,7 +529,7 @@ namespace PKHeX.WinForms
             L_B5Score.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_B5Score.Name = "L_B5Score";
             L_B5Score.Size = new System.Drawing.Size(64, 15);
-            L_B5Score.TabIndex = 59;
+            L_B5Score.TabIndex = 14;
             L_B5Score.Text = "5 In a Row:";
             // 
             // L_BHigh
@@ -442,7 +539,7 @@ namespace PKHeX.WinForms
             L_BHigh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BHigh.Name = "L_BHigh";
             L_BHigh.Size = new System.Drawing.Size(68, 15);
-            L_BHigh.TabIndex = 58;
+            L_BHigh.TabIndex = 12;
             L_BHigh.Text = "High Score:";
             // 
             // L_BCaught
@@ -452,48 +549,48 @@ namespace PKHeX.WinForms
             L_BCaught.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BCaught.Name = "L_BCaught";
             L_BCaught.Size = new System.Drawing.Size(49, 15);
-            L_BCaught.TabIndex = 57;
+            L_BCaught.TabIndex = 10;
             L_BCaught.Text = "Caught:";
             // 
             // TB_J3
             // 
-            TB_J3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_J3.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_J3.Location = new System.Drawing.Point(90, 88);
             TB_J3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_J3.Mask = "0000";
             TB_J3.Name = "TB_J3";
             TB_J3.Size = new System.Drawing.Size(40, 20);
-            TB_J3.TabIndex = 56;
+            TB_J3.TabIndex = 6;
             // 
             // TB_J2
             // 
-            TB_J2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_J2.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_J2.Location = new System.Drawing.Point(90, 66);
             TB_J2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_J2.Mask = "0000";
             TB_J2.Name = "TB_J2";
             TB_J2.Size = new System.Drawing.Size(40, 20);
-            TB_J2.TabIndex = 55;
+            TB_J2.TabIndex = 4;
             // 
             // TB_J1
             // 
-            TB_J1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_J1.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_J1.Location = new System.Drawing.Point(90, 44);
             TB_J1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_J1.Mask = "0000";
             TB_J1.Name = "TB_J1";
             TB_J1.Size = new System.Drawing.Size(40, 20);
-            TB_J1.TabIndex = 54;
+            TB_J1.TabIndex = 2;
             // 
-            // L_JFlaw
+            // L_J5Score
             // 
-            L_JFlaw.AutoSize = true;
-            L_JFlaw.Location = new System.Drawing.Point(10, 91);
-            L_JFlaw.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_JFlaw.Name = "L_JFlaw";
-            L_JFlaw.Size = new System.Drawing.Size(64, 15);
-            L_JFlaw.TabIndex = 53;
-            L_JFlaw.Text = "5 In a Row:";
+            L_J5Score.AutoSize = true;
+            L_J5Score.Location = new System.Drawing.Point(10, 91);
+            L_J5Score.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_J5Score.Name = "L_J5Score";
+            L_J5Score.Size = new System.Drawing.Size(64, 15);
+            L_J5Score.TabIndex = 5;
+            L_J5Score.Text = "5 In a Row:";
             // 
             // L_JHigh
             // 
@@ -502,7 +599,7 @@ namespace PKHeX.WinForms
             L_JHigh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_JHigh.Name = "L_JHigh";
             L_JHigh.Size = new System.Drawing.Size(68, 15);
-            L_JHigh.TabIndex = 52;
+            L_JHigh.TabIndex = 3;
             L_JHigh.Text = "High Score:";
             // 
             // L_JRow
@@ -512,7 +609,7 @@ namespace PKHeX.WinForms
             L_JRow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_JRow.Name = "L_JRow";
             L_JRow.Size = new System.Drawing.Size(55, 15);
-            L_JRow.TabIndex = 51;
+            L_JRow.TabIndex = 1;
             L_JRow.Text = "In a Row:";
             // 
             // TAB_Ferry
@@ -896,7 +993,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolB
             // 
             BTN_SymbolB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolB.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolB.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolB.Location = new System.Drawing.Point(108, 20);
             BTN_SymbolB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolB.Name = "BTN_SymbolB";
@@ -909,7 +1006,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolL
             // 
             BTN_SymbolL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolL.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolL.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolL.Location = new System.Drawing.Point(92, 54);
             BTN_SymbolL.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolL.Name = "BTN_SymbolL";
@@ -922,7 +1019,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolK
             // 
             BTN_SymbolK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolK.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolK.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolK.Location = new System.Drawing.Point(75, 20);
             BTN_SymbolK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolK.Name = "BTN_SymbolK";
@@ -935,7 +1032,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolG
             // 
             BTN_SymbolG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolG.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolG.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolG.Location = new System.Drawing.Point(58, 54);
             BTN_SymbolG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolG.Name = "BTN_SymbolG";
@@ -948,7 +1045,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolS
             // 
             BTN_SymbolS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolS.Location = new System.Drawing.Point(41, 20);
             BTN_SymbolS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolS.Name = "BTN_SymbolS";
@@ -961,7 +1058,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolT
             // 
             BTN_SymbolT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolT.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolT.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolT.Location = new System.Drawing.Point(24, 54);
             BTN_SymbolT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolT.Name = "BTN_SymbolT";
@@ -974,7 +1071,7 @@ namespace PKHeX.WinForms
             // BTN_SymbolA
             // 
             BTN_SymbolA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BTN_SymbolA.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BTN_SymbolA.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
             BTN_SymbolA.Location = new System.Drawing.Point(7, 20);
             BTN_SymbolA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BTN_SymbolA.Name = "BTN_SymbolA";
@@ -1059,11 +1156,387 @@ namespace PKHeX.WinForms
             CB_Record.Size = new System.Drawing.Size(219, 23);
             CB_Record.TabIndex = 0;
             // 
+            // Tab_Pokeblocks
+            // 
+            Tab_Pokeblocks.Controls.Add(pokeblock3CaseEditor1);
+            Tab_Pokeblocks.Location = new System.Drawing.Point(4, 24);
+            Tab_Pokeblocks.Name = "Tab_Pokeblocks";
+            Tab_Pokeblocks.Padding = new System.Windows.Forms.Padding(3);
+            Tab_Pokeblocks.Size = new System.Drawing.Size(357, 254);
+            Tab_Pokeblocks.TabIndex = 5;
+            Tab_Pokeblocks.Text = "Pokéblocks";
+            Tab_Pokeblocks.UseVisualStyleBackColor = true;
+            // 
+            // pokeblock3CaseEditor1
+            // 
+            pokeblock3CaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            pokeblock3CaseEditor1.Location = new System.Drawing.Point(3, 3);
+            pokeblock3CaseEditor1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            pokeblock3CaseEditor1.Name = "pokeblock3CaseEditor1";
+            pokeblock3CaseEditor1.Size = new System.Drawing.Size(351, 248);
+            pokeblock3CaseEditor1.TabIndex = 0;
+            // 
+            // Tab_Decorations
+            // 
+            Tab_Decorations.Controls.Add(TC_Decorations);
+            Tab_Decorations.Location = new System.Drawing.Point(4, 24);
+            Tab_Decorations.Name = "Tab_Decorations";
+            Tab_Decorations.Padding = new System.Windows.Forms.Padding(3);
+            Tab_Decorations.Size = new System.Drawing.Size(357, 254);
+            Tab_Decorations.TabIndex = 6;
+            Tab_Decorations.Text = "Decorations";
+            Tab_Decorations.UseVisualStyleBackColor = true;
+            // 
+            // TC_Decorations
+            // 
+            TC_Decorations.Controls.Add(TB_Desk);
+            TC_Decorations.Controls.Add(TB_Chair);
+            TC_Decorations.Controls.Add(TB_Plant);
+            TC_Decorations.Controls.Add(TB_Ornament);
+            TC_Decorations.Controls.Add(TB_Mat);
+            TC_Decorations.Controls.Add(TB_Poster);
+            TC_Decorations.Controls.Add(TB_Doll);
+            TC_Decorations.Controls.Add(TB_Cushion);
+            TC_Decorations.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_Decorations.Location = new System.Drawing.Point(3, 3);
+            TC_Decorations.Name = "TC_Decorations";
+            TC_Decorations.SelectedIndex = 0;
+            TC_Decorations.Size = new System.Drawing.Size(351, 248);
+            TC_Decorations.TabIndex = 0;
+            // 
+            // TB_Desk
+            // 
+            TB_Desk.Controls.Add(DGV_Desk);
+            TB_Desk.Location = new System.Drawing.Point(4, 24);
+            TB_Desk.Name = "TB_Desk";
+            TB_Desk.Padding = new System.Windows.Forms.Padding(3);
+            TB_Desk.Size = new System.Drawing.Size(343, 220);
+            TB_Desk.TabIndex = 0;
+            TB_Desk.Text = "Desk";
+            TB_Desk.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Desk
+            // 
+            DGV_Desk.AllowUserToAddRows = false;
+            DGV_Desk.AllowUserToDeleteRows = false;
+            DGV_Desk.AllowUserToResizeColumns = false;
+            DGV_Desk.AllowUserToResizeRows = false;
+            DGV_Desk.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Desk.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Desk.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Desk.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Desk });
+            DGV_Desk.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Desk.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Desk.Location = new System.Drawing.Point(3, 3);
+            DGV_Desk.MultiSelect = false;
+            DGV_Desk.Name = "DGV_Desk";
+            DGV_Desk.RowHeadersVisible = false;
+            DGV_Desk.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Desk.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Desk.ShowEditingIcon = false;
+            DGV_Desk.Size = new System.Drawing.Size(337, 214);
+            DGV_Desk.TabIndex = 0;
+            // 
+            // TB_Chair
+            // 
+            TB_Chair.Controls.Add(DGV_Chair);
+            TB_Chair.Location = new System.Drawing.Point(4, 24);
+            TB_Chair.Name = "TB_Chair";
+            TB_Chair.Padding = new System.Windows.Forms.Padding(3);
+            TB_Chair.Size = new System.Drawing.Size(343, 220);
+            TB_Chair.TabIndex = 1;
+            TB_Chair.Text = "Chair";
+            TB_Chair.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Chair
+            // 
+            DGV_Chair.AllowUserToAddRows = false;
+            DGV_Chair.AllowUserToDeleteRows = false;
+            DGV_Chair.AllowUserToResizeColumns = false;
+            DGV_Chair.AllowUserToResizeRows = false;
+            DGV_Chair.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Chair.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Chair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Chair.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Chair });
+            DGV_Chair.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Chair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Chair.Location = new System.Drawing.Point(3, 3);
+            DGV_Chair.MultiSelect = false;
+            DGV_Chair.Name = "DGV_Chair";
+            DGV_Chair.RowHeadersVisible = false;
+            DGV_Chair.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Chair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Chair.ShowEditingIcon = false;
+            DGV_Chair.Size = new System.Drawing.Size(337, 214);
+            DGV_Chair.TabIndex = 0;
+            // 
+            // TB_Plant
+            // 
+            TB_Plant.Controls.Add(DGV_Plant);
+            TB_Plant.Location = new System.Drawing.Point(4, 24);
+            TB_Plant.Name = "TB_Plant";
+            TB_Plant.Padding = new System.Windows.Forms.Padding(3);
+            TB_Plant.Size = new System.Drawing.Size(343, 220);
+            TB_Plant.TabIndex = 2;
+            TB_Plant.Text = "Plant";
+            TB_Plant.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Plant
+            // 
+            DGV_Plant.AllowUserToAddRows = false;
+            DGV_Plant.AllowUserToDeleteRows = false;
+            DGV_Plant.AllowUserToResizeColumns = false;
+            DGV_Plant.AllowUserToResizeRows = false;
+            DGV_Plant.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Plant.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Plant.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Plant.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Plant });
+            DGV_Plant.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Plant.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Plant.Location = new System.Drawing.Point(3, 3);
+            DGV_Plant.MultiSelect = false;
+            DGV_Plant.Name = "DGV_Plant";
+            DGV_Plant.RowHeadersVisible = false;
+            DGV_Plant.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Plant.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Plant.ShowEditingIcon = false;
+            DGV_Plant.Size = new System.Drawing.Size(337, 214);
+            DGV_Plant.TabIndex = 0;
+            // 
+            // TB_Ornament
+            // 
+            TB_Ornament.Controls.Add(DGV_Ornament);
+            TB_Ornament.Location = new System.Drawing.Point(4, 24);
+            TB_Ornament.Name = "TB_Ornament";
+            TB_Ornament.Padding = new System.Windows.Forms.Padding(3);
+            TB_Ornament.Size = new System.Drawing.Size(343, 220);
+            TB_Ornament.TabIndex = 3;
+            TB_Ornament.Text = "Ornament";
+            TB_Ornament.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Ornament
+            // 
+            DGV_Ornament.AllowUserToAddRows = false;
+            DGV_Ornament.AllowUserToDeleteRows = false;
+            DGV_Ornament.AllowUserToResizeColumns = false;
+            DGV_Ornament.AllowUserToResizeRows = false;
+            DGV_Ornament.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Ornament.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Ornament.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Ornament.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Ornament });
+            DGV_Ornament.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Ornament.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Ornament.Location = new System.Drawing.Point(3, 3);
+            DGV_Ornament.MultiSelect = false;
+            DGV_Ornament.Name = "DGV_Ornament";
+            DGV_Ornament.RowHeadersVisible = false;
+            DGV_Ornament.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Ornament.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Ornament.ShowEditingIcon = false;
+            DGV_Ornament.Size = new System.Drawing.Size(337, 214);
+            DGV_Ornament.TabIndex = 0;
+            // 
+            // TB_Mat
+            // 
+            TB_Mat.Controls.Add(DGV_Mat);
+            TB_Mat.Location = new System.Drawing.Point(4, 24);
+            TB_Mat.Name = "TB_Mat";
+            TB_Mat.Padding = new System.Windows.Forms.Padding(3);
+            TB_Mat.Size = new System.Drawing.Size(343, 220);
+            TB_Mat.TabIndex = 4;
+            TB_Mat.Text = "Mat";
+            TB_Mat.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Mat
+            // 
+            DGV_Mat.AllowUserToAddRows = false;
+            DGV_Mat.AllowUserToDeleteRows = false;
+            DGV_Mat.AllowUserToResizeColumns = false;
+            DGV_Mat.AllowUserToResizeRows = false;
+            DGV_Mat.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Mat.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Mat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Mat.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Mat });
+            DGV_Mat.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Mat.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Mat.Location = new System.Drawing.Point(3, 3);
+            DGV_Mat.MultiSelect = false;
+            DGV_Mat.Name = "DGV_Mat";
+            DGV_Mat.RowHeadersVisible = false;
+            DGV_Mat.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Mat.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Mat.ShowEditingIcon = false;
+            DGV_Mat.Size = new System.Drawing.Size(337, 214);
+            DGV_Mat.TabIndex = 0;
+            // 
+            // TB_Poster
+            // 
+            TB_Poster.Controls.Add(DGV_Poster);
+            TB_Poster.Location = new System.Drawing.Point(4, 24);
+            TB_Poster.Name = "TB_Poster";
+            TB_Poster.Padding = new System.Windows.Forms.Padding(3);
+            TB_Poster.Size = new System.Drawing.Size(343, 220);
+            TB_Poster.TabIndex = 5;
+            TB_Poster.Text = "Poster";
+            TB_Poster.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Poster
+            // 
+            DGV_Poster.AllowUserToAddRows = false;
+            DGV_Poster.AllowUserToDeleteRows = false;
+            DGV_Poster.AllowUserToResizeColumns = false;
+            DGV_Poster.AllowUserToResizeRows = false;
+            DGV_Poster.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Poster.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Poster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Poster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Poster });
+            DGV_Poster.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Poster.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Poster.Location = new System.Drawing.Point(3, 3);
+            DGV_Poster.MultiSelect = false;
+            DGV_Poster.Name = "DGV_Poster";
+            DGV_Poster.RowHeadersVisible = false;
+            DGV_Poster.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Poster.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Poster.ShowEditingIcon = false;
+            DGV_Poster.Size = new System.Drawing.Size(337, 214);
+            DGV_Poster.TabIndex = 0;
+            // 
+            // TB_Doll
+            // 
+            TB_Doll.Controls.Add(DGV_Doll);
+            TB_Doll.Location = new System.Drawing.Point(4, 24);
+            TB_Doll.Name = "TB_Doll";
+            TB_Doll.Padding = new System.Windows.Forms.Padding(3);
+            TB_Doll.Size = new System.Drawing.Size(343, 220);
+            TB_Doll.TabIndex = 6;
+            TB_Doll.Text = "Doll";
+            TB_Doll.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Doll
+            // 
+            DGV_Doll.AllowUserToAddRows = false;
+            DGV_Doll.AllowUserToDeleteRows = false;
+            DGV_Doll.AllowUserToResizeColumns = false;
+            DGV_Doll.AllowUserToResizeRows = false;
+            DGV_Doll.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Doll.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Doll.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Doll.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Doll });
+            DGV_Doll.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Doll.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Doll.Location = new System.Drawing.Point(3, 3);
+            DGV_Doll.MultiSelect = false;
+            DGV_Doll.Name = "DGV_Doll";
+            DGV_Doll.RowHeadersVisible = false;
+            DGV_Doll.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Doll.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Doll.ShowEditingIcon = false;
+            DGV_Doll.Size = new System.Drawing.Size(337, 214);
+            DGV_Doll.TabIndex = 0;
+            // 
+            // TB_Cushion
+            // 
+            TB_Cushion.Controls.Add(DGV_Cushion);
+            TB_Cushion.Location = new System.Drawing.Point(4, 24);
+            TB_Cushion.Name = "TB_Cushion";
+            TB_Cushion.Padding = new System.Windows.Forms.Padding(3);
+            TB_Cushion.Size = new System.Drawing.Size(343, 220);
+            TB_Cushion.TabIndex = 7;
+            TB_Cushion.Text = "Cushion";
+            TB_Cushion.UseVisualStyleBackColor = true;
+            // 
+            // DGV_Cushion
+            // 
+            DGV_Cushion.AllowUserToAddRows = false;
+            DGV_Cushion.AllowUserToDeleteRows = false;
+            DGV_Cushion.AllowUserToResizeColumns = false;
+            DGV_Cushion.AllowUserToResizeRows = false;
+            DGV_Cushion.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            DGV_Cushion.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            DGV_Cushion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Cushion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Item_Cushion });
+            DGV_Cushion.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV_Cushion.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            DGV_Cushion.Location = new System.Drawing.Point(3, 3);
+            DGV_Cushion.MultiSelect = false;
+            DGV_Cushion.Name = "DGV_Cushion";
+            DGV_Cushion.RowHeadersVisible = false;
+            DGV_Cushion.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV_Cushion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            DGV_Cushion.ShowEditingIcon = false;
+            DGV_Cushion.Size = new System.Drawing.Size(337, 214);
+            DGV_Cushion.TabIndex = 0;
+            // 
+            // Item_Desk
+            // 
+            Item_Desk.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Desk.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Desk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Desk.HeaderText = "Item";
+            Item_Desk.Name = "Item_Desk";
+            // 
+            // Item_Chair
+            // 
+            Item_Chair.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Chair.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Chair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Chair.HeaderText = "Item";
+            Item_Chair.Name = "Item_Chair";
+            // 
+            // Item_Plant
+            // 
+            Item_Plant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Plant.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Plant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Plant.HeaderText = "Item";
+            Item_Plant.Name = "Item_Plant";
+            // 
+            // Item_Ornament
+            // 
+            Item_Ornament.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Ornament.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Ornament.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Ornament.HeaderText = "Item";
+            Item_Ornament.Name = "Item_Ornament";
+            // 
+            // Item_Mat
+            // 
+            Item_Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Mat.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Mat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Mat.HeaderText = "Item";
+            Item_Mat.Name = "Item_Mat";
+            // 
+            // Item_Poster
+            // 
+            Item_Poster.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Poster.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Poster.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Poster.HeaderText = "Item";
+            Item_Poster.Name = "Item_Poster";
+            // 
+            // Item_Doll
+            // 
+            Item_Doll.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Doll.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Doll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Doll.HeaderText = "Item";
+            Item_Doll.Name = "Item_Doll";
+            // 
+            // Item_Cushion
+            // 
+            Item_Cushion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Cushion.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Cushion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Cushion.HeaderText = "Item";
+            Item_Cushion.Name = "Item_Cushion";
+            // 
             // SAV_Misc3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(390, 343);
-            Controls.Add(tabControl1);
+            Controls.Add(TC_Misc);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
             Icon = Properties.Resources.Icon;
@@ -1073,7 +1546,7 @@ namespace PKHeX.WinForms
             Name = "SAV_Misc3";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Misc Editor";
-            tabControl1.ResumeLayout(false);
+            TC_Misc.ResumeLayout(false);
             TAB_Main.ResumeLayout(false);
             TAB_Main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).EndInit();
@@ -1103,13 +1576,32 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_FameM).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FameS).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_RecordValue).EndInit();
+            Tab_Pokeblocks.ResumeLayout(false);
+            Tab_Decorations.ResumeLayout(false);
+            TC_Decorations.ResumeLayout(false);
+            TB_Desk.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Desk).EndInit();
+            TB_Chair.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Chair).EndInit();
+            TB_Plant.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Plant).EndInit();
+            TB_Ornament.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Ornament).EndInit();
+            TB_Mat.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Mat).EndInit();
+            TB_Poster.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Poster).EndInit();
+            TB_Doll.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Doll).EndInit();
+            TB_Cushion.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DGV_Cushion).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl TC_Misc;
         private System.Windows.Forms.TabPage TAB_Main;
         private System.Windows.Forms.TabPage TAB_Joyful;
         private System.Windows.Forms.MaskedTextBox TB_B3;
@@ -1120,7 +1612,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.MaskedTextBox TB_J3;
         private System.Windows.Forms.MaskedTextBox TB_J2;
         private System.Windows.Forms.MaskedTextBox TB_J1;
-        private System.Windows.Forms.Label L_JFlaw;
+        private System.Windows.Forms.Label L_J5Score;
         private System.Windows.Forms.Label L_JHigh;
         private System.Windows.Forms.Label L_JRow;
         private System.Windows.Forms.Label L_B5Score;
@@ -1186,5 +1678,37 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_FameH;
         private System.Windows.Forms.NumericUpDown NUD_FameM;
         private System.Windows.Forms.NumericUpDown NUD_FameS;
+        private System.Windows.Forms.MaskedTextBox TB_J4;
+        private System.Windows.Forms.Label L_JMaxPlayers;
+        private System.Windows.Forms.MaskedTextBox TB_BerryPowder;
+        private System.Windows.Forms.Label L_BerryPowder;
+        private System.Windows.Forms.TabPage Tab_Pokeblocks;
+        private Pokeblock3CaseEditor pokeblock3CaseEditor1;
+        private System.Windows.Forms.TabPage Tab_Decorations;
+        private System.Windows.Forms.TabControl TC_Decorations;
+        private System.Windows.Forms.TabPage TB_Desk;
+        private System.Windows.Forms.TabPage TB_Chair;
+        private System.Windows.Forms.TabPage TB_Plant;
+        private System.Windows.Forms.TabPage TB_Ornament;
+        private System.Windows.Forms.TabPage TB_Mat;
+        private System.Windows.Forms.TabPage TB_Poster;
+        private System.Windows.Forms.TabPage TB_Doll;
+        private System.Windows.Forms.TabPage TB_Cushion;
+        private System.Windows.Forms.DataGridView DGV_Desk;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Desk;
+        private System.Windows.Forms.DataGridView DGV_Chair;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Chair;
+        private System.Windows.Forms.DataGridView DGV_Plant;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Plant;
+        private System.Windows.Forms.DataGridView DGV_Ornament;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Ornament;
+        private System.Windows.Forms.DataGridView DGV_Mat;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Mat;
+        private System.Windows.Forms.DataGridView DGV_Poster;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Poster;
+        private System.Windows.Forms.DataGridView DGV_Doll;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Doll;
+        private System.Windows.Forms.DataGridView DGV_Cushion;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Item_Cushion;
     }
 }

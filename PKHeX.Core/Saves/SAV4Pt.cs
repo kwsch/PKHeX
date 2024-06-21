@@ -34,8 +34,6 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
 
-    public const byte BACKDROP_POSITION_IF_NOT_UNLOCKED = 0x12;
-
     protected override BlockInfo4[] ExtraBlocks =>
     [
         new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame
@@ -54,9 +52,6 @@ public sealed class SAV4Pt : SAV4Sinnoh
     protected override int DaycareOffset => 0x1654;
     public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Arcade;
 
-    private const int OFS_AccessoryMultiCount = 0x4E38; // 4 bits each
-    private const int OFS_AccessorySingleCount = 0x4E58; // 1 bit each
-    private const int OFS_Backdrop = 0x4E60;
     private const int OFS_ToughWord = 0xCEB4;
     private const int OFS_VillaFurniture = 0x111F;
 
@@ -68,7 +63,9 @@ public sealed class SAV4Pt : SAV4Sinnoh
         Trainer1 = 0x68;
         Party = 0xA0;
         Extra = 0x2820;
-        ChatterOffset = 0x64EC;
+        FashionCase = 0x4E38;
+        OFS_Record = 0x61B0;
+        OFS_Chatter = 0x64EC;
         Geonet = 0xA4C4;
         WondercardFlags = 0xB4C0;
 
@@ -158,7 +155,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override int X { get => ReadUInt16LittleEndian(General[0x1288..]); set => WriteUInt16LittleEndian(General[0x1288..], (ushort)(X2 = value)); }
     public override int Y { get => ReadUInt16LittleEndian(General[0x128C..]); set => WriteUInt16LittleEndian(General[0x128C..], (ushort)(Y2 = value)); }
 
-    public override Span<byte> Rival_Trash
+    public override Span<byte> RivalTrash
     {
         get => RivalSpan;
         set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(RivalSpan); }
@@ -196,85 +193,6 @@ public sealed class SAV4Pt : SAV4Sinnoh
         var ofs = 0x7FF4 + (index * size);
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
-    }
-
-    public byte GetAccessoryOwnedCount(Accessory4 accessory)
-    {
-        if (accessory < Accessory4.ColoredParasol)
-        {
-            byte enumIdx = (byte)accessory;
-            byte val = General[OFS_AccessoryMultiCount + (enumIdx / 2)];
-            if (enumIdx % 2 == 0)
-                return (byte)(val & 0x0F);
-            return (byte)(val >> 4);
-        }
-
-        // Otherwise, it's a single-count accessory
-        var flagIdx = accessory - Accessory4.ColoredParasol;
-        if (GetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7))
-            return 1;
-        return 0;
-    }
-
-    public void SetAccessoryOwnedCount(Accessory4 accessory, byte count)
-    {
-        if (accessory < Accessory4.ColoredParasol)
-        {
-            if (count > 9)
-                count = 9;
-
-            var enumIdx = (byte)accessory;
-            var addr = OFS_AccessoryMultiCount + (enumIdx / 2);
-
-            if (enumIdx % 2 == 0)
-            {
-                General[addr] &= 0xF0;  // Reset old count to 0
-                General[addr] |= count; // Set new count
-            }
-            else
-            {
-                General[addr] &= 0x0F;  // Reset old count to 0
-                General[addr] |= (byte)(count << 4); // Set new count
-            }
-        }
-        else
-        {
-            var flagIdx = accessory - Accessory4.ColoredParasol;
-            SetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7, count != 0);
-        }
-
-        State.Edited = true;
-    }
-
-    public byte GetBackdropPosition(Backdrop4 backdrop)
-    {
-        if (backdrop > Backdrop4.Theater)
-            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
-        return General[OFS_Backdrop + (byte)backdrop];
-    }
-
-    public bool GetBackdropUnlocked(Backdrop4 backdrop)
-    {
-        return GetBackdropPosition(backdrop) != BACKDROP_POSITION_IF_NOT_UNLOCKED;
-    }
-
-    public void RemoveBackdrop(Backdrop4 backdrop) => SetBackdropPosition(backdrop, BACKDROP_POSITION_IF_NOT_UNLOCKED);
-
-    /// <summary>
-    /// Sets the position of a backdrop.
-    /// </summary>
-    /// <remarks>
-    /// Every unlocked backdrop must have a different position.
-    /// Use <see cref="RemoveBackdrop"/> to remove a backdrop.
-    /// </remarks>
-    public void SetBackdropPosition(Backdrop4 backdrop, byte position)
-    {
-        if (backdrop > Backdrop4.Theater)
-            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
-        if (position > BACKDROP_POSITION_IF_NOT_UNLOCKED)
-            position = BACKDROP_POSITION_IF_NOT_UNLOCKED;
-        General[OFS_Backdrop + (byte)backdrop] = position;
-        State.Edited = true;
     }
 
     public bool GetToughWordUnlocked(ToughWord4 word)

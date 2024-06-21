@@ -57,8 +57,10 @@ public static class LegalityCheckStrings
 
     public static string L_XOT { get; set; } = "OT";
     public static string L_XHT { get; set; } = "HT";
+    public static string L_XNickname { get; set; } = "Nickname";
     public static string L_XKorean { get; set; } = "Korean";
     public static string L_XKoreanNon { get; set; } = "Non-Korean";
+    public static string L_XLocation { get; set; } = "Location";
     public static string L_XEnigmaBerry_0 { get; set; } = "{0} Berry";
     public static string L_XMatches0_1 { get; set; } = "Matches: {0} {1}";
     public static string L_XWurmpleEvo_0 { get; set; } = "Wurmple Evolution: {0}";
@@ -461,6 +463,9 @@ public static class LegalityCheckStrings
     public static string LStatNobleInvalid { get; set; } = "Noble Flag mismatch.";
     public static string LStatAlphaInvalid { get; set; } = "Alpha Flag mismatch.";
 
+    public static string LStoredSourceEgg { get; set; } = "Egg must be in Box or Party.";
+    public static string LStoredSourceInvalid_0 { get; set; } = "Invalid Stored Source: {0}";
+
     public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
     public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";
     public static string LSuperEgg { get; set; } = "Can't Super Train an Egg.";
@@ -499,6 +504,14 @@ public static class LegalityCheckStrings
     public static string LTransferPIDECXor { get; set; } = "Encryption Constant matches shinyxored PID.";
     public static string LTransferTrackerMissing { get; set; } = "Pokémon HOME Transfer Tracker is missing.";
     public static string LTransferTrackerShouldBeZero { get; set; } = "Pokémon HOME Transfer Tracker should be 0.";
+
+    public static string LTrashBytesExpected_0 { get; set; } = "Expected Trash Bytes: {0}";
+    public static string LTrashBytesExpected { get; set; } = "Expected Trash Bytes.";
+    public static string LTrashBytesMismatchInitial { get; set; } = "Expected initial trash bytes to match the encounter.";
+    public static string LTrashBytesMissingTerminator { get; set; } = "Final terminator missing.";
+    public static string LTrashBytesShouldBeEmpty { get; set; } = "Trash Bytes should be cleared.";
+    public static string LTrashBytesUnexpected { get; set; } = "Unexpected Trash Bytes.";
+
     #endregion
 
 }

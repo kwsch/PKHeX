@@ -50,6 +50,8 @@ public sealed class FashionBlock7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(
     private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_F => [ 0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8 ];
 
     public void ImportPayload(ReadOnlySpan<byte> data) => SAV.SetData(Data[..FashionLength], data);
+
+    public void GiveAgentSunglasses() => Data[0xD0] = 3;
 }
 
 // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)

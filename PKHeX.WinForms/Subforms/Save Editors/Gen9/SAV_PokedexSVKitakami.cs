@@ -29,8 +29,7 @@ public partial class SAV_PokedexSVKitakami : Form
         CB_Species.Items.Clear();
 
         var empty = new string[32];
-        foreach (ref var x in empty.AsSpan())
-            x = string.Empty;
+        empty.AsSpan().Fill(string.Empty);
         CLB_FormSeen.Items.AddRange(empty);
         CLB_FormObtained.Items.AddRange(empty);
         CLB_FormHeard.Items.AddRange(empty);
@@ -157,7 +156,6 @@ public partial class SAV_PokedexSVKitakami : Form
         if (forms[0].Length == 0)
             forms[0] = GameInfo.Strings.Types[0];
 
-        this.SuspendLayout();
         // Clear all CheckedListBoxes
         var seen = CLB_FormSeen.Items;
         var obtained = CLB_FormObtained.Items;

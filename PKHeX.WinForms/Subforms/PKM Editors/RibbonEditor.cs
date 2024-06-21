@@ -157,7 +157,7 @@ public partial class RibbonEditor : Form
         pb.BackgroundImage = img;
 
         var display = RibbonStrings.GetName(name);
-        pb.MouseEnter += (s, e) => tipName.SetToolTip(pb, display);
+        pb.MouseEnter += (_, _) => tipName.SetToolTip(pb, display);
         if (Entity is IRibbonSetAffixed)
             pb.Click += (_, _) => CB_Affixed.Text = RibbonStrings.GetName(name);
         FLP_Ribbons.Controls.Add(pb);
@@ -201,7 +201,7 @@ public partial class RibbonEditor : Form
             Maximum = rib.MaxCount,
         };
 
-        nud.ValueChanged += (sender, e) =>
+        nud.ValueChanged += (_, _) =>
         {
             var controlName = PrefixPB + rib.Name;
             var pb = FLP_Ribbons.Controls[controlName] ?? throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
@@ -215,7 +215,7 @@ public partial class RibbonEditor : Form
         nud.Value = Math.Min(rib.MaxCount, rib.RibbonCount);
         TLP_Ribbons.Controls.Add(nud, 0, row);
 
-        label.Click += (s, e) => nud.Value = (nud.Value == 0) ? nud.Maximum : 0;
+        label.Click += (_, _) => nud.Value = (nud.Value == 0) ? nud.Maximum : 0;
     }
 
     private void AddRibbonCheckBox(RibbonInfo rib, int row, Control label)
@@ -228,7 +228,7 @@ public partial class RibbonEditor : Form
             Padding = Padding.Empty,
             Margin = Padding.Empty,
         };
-        chk.CheckedChanged += (sender, e) =>
+        chk.CheckedChanged += (_, _) =>
         {
             rib.HasRibbon = chk.Checked;
             var controlName = PrefixPB + rib.Name;
@@ -243,7 +243,7 @@ public partial class RibbonEditor : Form
         chk.Checked = rib.HasRibbon;
         TLP_Ribbons.Controls.Add(chk, 0, row);
 
-        label.Click += (s, e) => chk.Checked ^= true;
+        label.Click += (_, _) => chk.Checked ^= true;
     }
 
     private void ToggleNewRibbon(RibbonInfo rib, Control pb)

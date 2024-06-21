@@ -36,11 +36,12 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override bool GiftUsed { get => false; set { } }
     public override Shiny Shiny => IsEgg ? Shiny.Random : PK.PID == 1 ? Shiny.Never : IsShiny ? Shiny.Always : Shiny.Never;
 
-    public byte CardType { get => Data[0]; set => Data[0] = value; }
-    // Unused 0x01
+    public ushort CardType { get => ReadUInt16LittleEndian(Data.AsSpan(0x0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0), value); }
     public byte Slot { get => Data[2]; set => Data[2] = value; }
     public byte Detail { get => Data[3]; set => Data[3] = value; }
-    public override int ItemID { get => ReadUInt16LittleEndian(Data.AsSpan(0x4)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4), (ushort)value); }
+    public override int ItemID { get => ReadInt32LittleEndian(Data.AsSpan(0x4)); set => WriteInt32LittleEndian(Data.AsSpan(0x4), value); }
+    public int ItemSubID { get => ReadInt32LittleEndian(Data.AsSpan(0x8)); set => WriteInt32LittleEndian(Data.AsSpan(0x8), value); }
+    public int PokewalkerCourseID { get => Data[0x4]; set => Data[0x4] = (byte)value; }
 
     public PK4 PK
     {
@@ -87,12 +88,18 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         ekdata.CopyTo(span);
     }
 
-    public GiftType4 GiftType { get => (GiftType4)Data[0]; set => Data[0] = (byte)value; }
-    public bool IsHatched => GiftType == Pokémon;
+    public GiftType4 GiftType { get => (GiftType4)CardType; set => CardType = (byte)value; }
+    public GiftSubType4 GiftSubType { get => (GiftSubType4)ItemID; set => ItemID = (int)value; }
+    public PoketchApp PoketchApp { get => (PoketchApp)ItemID; set => ItemID = (int)value; }
+    public Seal4 Seal { get => (Seal4)(ItemSubID - 1); set => ItemSubID = (int)(value + 1); }
+    public Accessory4 Accessory { get => (Accessory4)ItemSubID; set => ItemSubID = (int)value; }
+    public Backdrop4 Backdrop { get => (Backdrop4)ItemSubID; set => ItemSubID = (int)value; }
+
+    public bool IsHatched => GiftType is Pokémon or PokémonMovie;
     public override bool IsEgg { get => GiftType == PokémonEgg || IsManaphyEgg; set { if (value) { GiftType = PokémonEgg; PK.IsEgg = true; } } }
     public bool IsManaphyEgg { get => GiftType == ManaphyEgg; set { if (value) GiftType = ManaphyEgg; } }
     public override bool IsItem { get => GiftType == Item; set { if (value) GiftType = Item; } }
-    public override bool IsEntity { get => GiftType is Pokémon or PokémonEgg or ManaphyEgg; set { } }
+    public override bool IsEntity { get => GiftType is Pokémon or PokémonEgg or ManaphyEgg or PokémonMovie; set { } }
 
     public override ushort Species { get => IsManaphyEgg ? (ushort)490 : PK.Species; set => PK.Species = value; }
     public override Moveset Moves { get => new(PK.Move1, PK.Move2, PK.Move3, PK.Move4); set => PK.SetMoves(value); }
@@ -326,13 +333,22 @@ public enum GiftType4 : byte
     PokémonEgg = 2,
     Item = 3,
     Rule = 4,
-    Seal = 5,
-    Accessory = 6,
+    Goods = 5,
+    HasSubType = 6,
     ManaphyEgg = 7,
     MemberCard = 8,
     OaksLetter = 9,
     AzureFlute = 10,
     PokétchApp = 11,
-    Ribbon = 12,
-    PokéWalkerArea = 14,
+    SecretKey = 12,
+    PokémonMovie = 13,
+    PokéwalkerCourse = 14,
+    MemorialPhoto = 15,
+}
+
+public enum GiftSubType4 : byte
+{
+    Seal = 1,
+    Accessory = 2,
+    Backdrop = 3,
 }

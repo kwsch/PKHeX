@@ -42,8 +42,6 @@ public record struct EncounterEnumerator8a(PKM Entity, EvoCriteria[] Chain) : IE
             case YieldState.Start:
                 if (Chain.Length == 0)
                     break;
-                if (Entity is PK8 { SWSH: false })
-                    break;
                 if (Entity.IsEgg)
                     break;
 

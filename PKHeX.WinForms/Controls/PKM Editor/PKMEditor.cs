@@ -1207,7 +1207,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             bool g4 = Entity.Gen4;
             CB_GroundTile.Visible = Label_GroundTile.Visible = g4 && Entity.Format < 7;
-            if (!g4)
+            if (FieldsLoaded && !g4)
                 CB_GroundTile.SelectedValue = (int)GroundTileType.None;
         }
 
@@ -1757,7 +1757,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         DrawMoveRectangle(e, brush, text, textColor, moveTypeIcon);
     }
 
-    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush backBrush, string foreText, Color textColor, Bitmap? icon)
+    private static void DrawMoveRectangle(DrawItemEventArgs e, Brush backBrush, ReadOnlySpan<char> foreText, Color textColor, Bitmap? icon)
     {
         var g = e.Graphics;
         var rec = e.Bounds;
@@ -1848,9 +1848,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_Affixed.Visible = false;
     }
 
-    private void OpenMedals(object sender, EventArgs e)
+    private void OpenSuperTrainRegimen(object sender, EventArgs e)
     {
-        using var form = new SuperTrainingEditor(Entity);
+        if (Entity is not ISuperTrainRegimen st)
+            return;
+        using var form = new SuperTrainingEditor(st);
         form.ShowDialog();
     }
 

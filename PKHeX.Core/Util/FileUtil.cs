@@ -210,11 +210,11 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="pk">Output result</param>
     /// <param name="ext">Format hint</param>
-    /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
+    /// <param name="sav">Reference save file used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
     {
-        if (ext == ".pgt") // size collision with pk6
+        if (ext.EndsWith("pgt")) // size collision with pk6
         {
             pk = null;
             return false;

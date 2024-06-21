@@ -60,6 +60,8 @@ public sealed record EncounterStatic9(GameVersion Version)
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
+    public const byte RideLegendFormArg = 1;
+
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -99,10 +101,10 @@ public sealed record EncounterStatic9(GameVersion Version)
             pk.EggMetDate = pk.MetDate;
         }
 
-        if (Gift && !ScriptedYungoos)
+        if (GiftWithLanguage)
             pk.HandlingTrainerLanguage = (byte)pk.Language;
         if (StarterBoxLegend)
-            pk.FormArgument = 1; // Not Ride Form.
+            pk.FormArgument = RideLegendFormArg; // Not Ride Form.
         if (IsTitan)
         {
             pk.RibbonMarkTitan = true;

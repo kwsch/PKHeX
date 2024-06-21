@@ -931,10 +931,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         var rnd = Util.Rand;
         for (int i = 0; i < ivs.Length; i++)
         {
-            if (template[i] == -1)
-                ivs[i] = rnd.Next(MaxIV + 1);
-            else
-                ivs[i] = template[i];
+            var spec = template[i];
+            ivs[i] = spec != -1 ? spec : rnd.Next(MaxIV + 1);
         }
         SetIVs(ivs);
     }
@@ -1007,7 +1005,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
         // Transfer properties in the order they are defined in the destination PKM format for best conversion
         var shared = destProperties.Intersect(srcProperties);
-        foreach (string property in shared)
+        foreach (var property in shared)
         {
             // Setter sanity check: a derived type may not implement a setter if its parent type has one.
             if (!BatchEditing.TryGetHasProperty(result, property, out var pi))

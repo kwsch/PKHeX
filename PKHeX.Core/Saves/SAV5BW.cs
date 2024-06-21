@@ -9,30 +9,13 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="SAV5" />
 public sealed class SAV5BW : SAV5
 {
-    public SAV5BW() : base(SaveUtil.SIZE_G5RAW)
-    {
-        Blocks = new SaveBlockAccessor5BW(this);
-        Initialize();
-    }
-
-    public SAV5BW(byte[] data) : base(data)
-    {
-        Blocks = new SaveBlockAccessor5BW(this);
-        Initialize();
-    }
+    public SAV5BW() : base(SaveUtil.SIZE_G5RAW) => Blocks = new SaveBlockAccessor5BW(this);
+    public SAV5BW(byte[] data) : base(data) => Blocks = new SaveBlockAccessor5BW(this);
 
     public override PersonalTable5BW Personal => PersonalTable.BW;
     public SaveBlockAccessor5BW Blocks { get; }
     protected override SAV5BW CloneInternal() => new((byte[])Data.Clone());
     public override int MaxItemID => Legal.MaxItemID_5_BW;
-
-    public override bool HasPokeDex => true;
-
-    private void Initialize()
-    {
-        CGearInfoOffset = 0x1C000;
-        CGearDataOffset = 0x52000;
-    }
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem5BW Items => Blocks.Items;
@@ -62,4 +45,5 @@ public sealed class SAV5BW : SAV5
     public override Memory<byte> BattleVideoDownload1 => Data.AsMemory(0x4C000, BattleVideo5.SIZE_USED);
     public override Memory<byte> BattleVideoDownload2 => Data.AsMemory(0x4E000, BattleVideo5.SIZE_USED);
     public override Memory<byte> BattleVideoDownload3 => Data.AsMemory(0x50000, BattleVideo5.SIZE_USED);
+    protected override int CGearDataOffset => 0x52000; // ^ + 0x2000 spacing
 }

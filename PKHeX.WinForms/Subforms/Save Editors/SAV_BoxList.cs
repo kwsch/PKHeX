@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -29,7 +29,7 @@ public sealed partial class SAV_BoxList : Form
         Owner = p.ParentForm;
         foreach (var b in Boxes)
             m.Env.Slots.Publisher.Subscribers.Add(b);
-        FormClosing += (sender, e) =>
+        FormClosing += (_, _) =>
         {
             foreach (var b in Boxes)
             {
@@ -41,9 +41,9 @@ public sealed partial class SAV_BoxList : Form
 
     private void AddEvents()
     {
-        GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+        GiveFeedback += (_, e) => e.UseDefaultCursors = false;
         DragEnter += Main_DragEnter;
-        DragDrop += (sender, e) =>
+        DragDrop += (_, _) =>
         {
             Cursor = DefaultCursor;
             System.Media.SystemSounds.Asterisk.Play();
@@ -75,19 +75,15 @@ public sealed partial class SAV_BoxList : Form
         foreach (var box in Boxes)
         {
             box.ClearEvents();
-            box.B_BoxLeft.Click += (s, e) =>
+            box.B_BoxLeft.Click += (_, _) =>
             {
-                if (s == null)
-                    return;
-                int index = Array.IndexOf(Boxes, ((Button)s).Parent);
+                int index = Array.IndexOf(Boxes, box);
                 int other = (index + Boxes.Length - 1) % Boxes.Length;
                 m.SwapBoxes(index, other, p.SAV);
             };
-            box.B_BoxRight.Click += (s, e) =>
+            box.B_BoxRight.Click += (_, _) =>
             {
-                if (s == null)
-                    return;
-                int index = Array.IndexOf(Boxes, ((Button)s).Parent);
+                int index = Array.IndexOf(Boxes, box);
                 int other = (index + 1) % Boxes.Length;
                 m.SwapBoxes(index, other, p.SAV);
             };

@@ -190,7 +190,7 @@ public sealed class LearnGroup2 : ILearnGroup
         else
         {
             Span<ushort> moves = stackalloc ushort[4];
-            GetEncounterMoves(pk,enc, moves);
+            GetEncounterMoves(pk, enc, moves);
             foreach (var move in moves)
                 result[move] = true;
         }

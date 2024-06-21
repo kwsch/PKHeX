@@ -96,6 +96,7 @@ internal static class EvolutionRestrictions
         if (pk.HasMove(move))
             return true;
 
+        // Check the entire chain to see if it could have learnt it at any point.
         var head = LearnGroupUtil.GetCurrentGroup(pk);
         return MemoryPermissions.GetCanKnowMove(enc, move, info.EvoChainsAllGens, pk, head);
     }

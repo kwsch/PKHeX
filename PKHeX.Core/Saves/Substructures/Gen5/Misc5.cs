@@ -51,6 +51,22 @@ public sealed class Misc5BW(SAV5BW sav, Memory<byte> raw) : Misc5(sav, raw)
 {
     protected override int TransferMinigameScoreOffset => 0x14;
     protected override int BadgeVictoryOffset => 0x58; // thru 0xB7
+
+    public const uint LibertyTicketMagic = 2010_04_06; // 0x132B536
+
+    public uint LibertyTicketState
+    {
+        get => ReadUInt32LittleEndian(Data[0xBC..]);
+        set => WriteUInt32LittleEndian(Data[0xBC..], value);
+    }
+
+    public uint LibertyTicketExpectValue => LibertyTicketMagic ^ sav.ID32;
+
+    public bool IsLibertyTicketActivated
+    {
+        get => LibertyTicketState == LibertyTicketExpectValue;
+        set => LibertyTicketState = value ? LibertyTicketExpectValue : 0;
+    }
 }
 
 public sealed class Misc5B2W2(SAV5B2W2 sav, Memory<byte> raw) : Misc5(sav, raw)

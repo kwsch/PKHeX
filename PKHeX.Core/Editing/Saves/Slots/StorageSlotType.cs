@@ -3,8 +3,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Extra Slot enumeration to indicate a general type of slot source.
 /// </summary>
-public enum StorageSlotType
+public enum StorageSlotType : byte
 {
+    None = 0,
+
     Box,
     Party,
 
@@ -14,10 +16,17 @@ public enum StorageSlotType
     Daycare,
     /// <summary> Global Trade Station (GTS) </summary>
     GTS,
+
     /// <summary> Fused Legendary Storage </summary>
-    Fused,
+    FusedKyurem,
+    FusedNecrozmaS,
+    FusedNecrozmaM,
+    FusedCalyrex,
+
     /// <summary> Miscellaneous </summary>
     Misc,
     /// <summary> Poké Pelago (Gen7) </summary>
     Resort,
+    /// <summary> Ride Legendary Slot (S/V) </summary>
+    Ride,
 }

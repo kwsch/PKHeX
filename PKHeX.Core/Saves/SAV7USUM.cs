@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -66,4 +67,19 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override GTS7 GTS => Blocks.GTS;
     public BattleAgency7 BattleAgency => Blocks.BattleAgency;
     #endregion
+
+    private const ulong MagearnaConst = 0xCBE05F18356504AC;
+    private const ulong CapPikachuConst = 0xF44E94EA7D19A8D6;
+
+    public override void UpdateQrConstants()
+    {
+        var qr = Blocks.BlockInfo[35];
+        var flag = EventWork.GetEventFlag(EventWork7USUM.MagearnaEventFlag); // 4060
+        ulong value = flag ? MagearnaConst : 0ul;
+        WriteUInt64LittleEndian(Data.AsSpan(qr.Offset + 0x168), value);
+
+        flag = EventWork.GetEventFlag(EventWork7USUM.CapPikachuEventFlag); // 4060
+        value = flag ? CapPikachuConst : 0ul;
+        WriteUInt64LittleEndian(Data.AsSpan(qr.Offset + 0x16C), value);
+    }
 }

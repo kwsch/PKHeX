@@ -97,23 +97,15 @@ public static class SaveUtil
     public const int SIZE_G3COLO = 0x60000;
     public const int SIZE_G3XD = 0x56000;
     public const int SIZE_G3RAW = 0x20000;
-    public const int SIZE_G3EMU = 0x20010;
     public const int SIZE_G3RAWHALF = 0x10000;
     public const int SIZE_G2STAD = 0x20000; // same as G3RAW
     public const int SIZE_G2STADF = 0x1FF00;
     public const int SIZE_G2RAW_U = 0x8000;
-    public const int SIZE_G2VC_U = 0x8010;
-    public const int SIZE_G2BAT_U = 0x802C;
-    public const int SIZE_G2EMU_U = 0x8030;
     public const int SIZE_G2RAW_J = 0x10000;
-    public const int SIZE_G2VC_J = 0x10010;
-    public const int SIZE_G2BAT_J = 0x1002C;
-    public const int SIZE_G2EMU_J = 0x10030;
     public const int SIZE_G1STAD = 0x20000; // same as G3RAW
     public const int SIZE_G1STADF = 0x1FF00;
     public const int SIZE_G1STADJ = 0x8000; // same as G1RAW
     public const int SIZE_G1RAW = 0x8000;
-    public const int SIZE_G1BAT = 0x802C;
 
     // Bank Binaries
     public const int SIZE_G7BANK = 0xACA48;
@@ -137,9 +129,9 @@ public static class SaveUtil
     /// </summary>
     public static readonly List<ISaveHandler> Handlers =
     [
+        new SaveHandlerFooterRTC(),
         DolphinHandler,
         new SaveHandlerDeSmuME(),
-        new SaveHandlerBizHawk(),
         new SaveHandlerARDS(),
         new SaveHandlerNSO(),
     ];
@@ -197,7 +189,7 @@ public static class SaveUtil
 
     private static readonly HashSet<long> SizesGen2 =
     [
-        SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
+        SIZE_G2RAW_U, SIZE_G2RAW_J,
     ];
 
     private static readonly HashSet<long> Sizes =
@@ -209,9 +201,9 @@ public static class SaveUtil
         SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
         SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
         SIZE_G4BR, SIZE_G4RAW,
-        SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3EMU, SIZE_G3RAWHALF,
+        SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3RAWHALF,
         // SizesGen2 covers Gen2 sizes since there's so many
-        SIZE_G1RAW, SIZE_G1BAT,
+        SIZE_G1RAW,
 
         SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
     ];
@@ -293,7 +285,7 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     internal static GameVersion GetIsG1SAV(ReadOnlySpan<byte> data)
     {
-        if (data.Length is not (SIZE_G1RAW or SIZE_G1BAT))
+        if (data.Length is not SIZE_G1RAW)
             return Invalid;
 
         // Check if it's not an american save or a japanese save
@@ -380,7 +372,7 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     private static GameVersion GetIsG3SAV(ReadOnlySpan<byte> data)
     {
-        if (data.Length is not (SIZE_G3RAW or SIZE_G3EMU or SIZE_G3RAWHALF))
+        if (data.Length is not SIZE_G3RAW)
             return Invalid;
 
         // check the save file(s)
@@ -773,6 +765,8 @@ public static class SaveUtil
     public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
     {
         // Pre-check for header/footer signatures
+        if (memCard.IsNoGameSelected)
+            memCard.GetMemoryCardState();
         var memory = memCard.ReadSaveGameData();
         if (memory.Length == 0)
             return null;
@@ -942,7 +936,7 @@ public static class SaveUtil
 
     private static IEnumerable<string> FilterSaveFiles(bool ignoreBackups, IEnumerable<string> files)
     {
-        foreach (string file in files)
+        foreach (var file in files)
         {
             if (ignoreBackups && IsBackup(file))
                 continue;

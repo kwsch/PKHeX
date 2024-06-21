@@ -43,7 +43,10 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
             return false;
         if (tr.Gender != OriginalTrainerGender)
             return false;
-        return tr.OT == OriginalTrainerName;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
     }
 
     public void UpdateHandler(ITrainerInfo tr)
@@ -116,7 +119,7 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
     public override bool SV => MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL;
     public override bool BDSP => MetLocation is LocationsHOME.SWBD or LocationsHOME.SHSP;
     public override bool LA => MetLocation is LocationsHOME.SWLA;
-    public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
+    public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !IsSideTransfer;
 
     public override string GetString(ReadOnlySpan<byte> data)
         => StringConverter8.GetString(data);
@@ -125,8 +128,8 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
-        => TrashBytes.GetTerminatorIndex(data);
+        => TrashBytesUTF16.GetTerminatorIndex(data);
     public override int GetStringLength(ReadOnlySpan<byte> data)
-        => TrashBytes.GetStringLength(data);
+        => TrashBytesUTF16.GetStringLength(data);
     public override int GetBytesPerChar() => 2;
 }

@@ -107,7 +107,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             yield break;
         if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-        else if (defer.Type is DeferralType.Tile)
+        else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
         yield return lastResort;
     }

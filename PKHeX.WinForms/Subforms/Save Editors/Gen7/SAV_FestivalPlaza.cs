@@ -177,12 +177,7 @@ public partial class SAV_FestivalPlaza : Form
     private static ReadOnlySpan<byte> RewardState => [ 0, 2, 1 ]; // CheckState.Indeterminate <-> CheckState.Checked
     private readonly int typeMAX;
     private readonly FestaFacility[] f = new FestaFacility[JoinFesta7.FestaFacilityCount];
-    private readonly string[] RES_Color = Enum.GetNames<FestivalPlazaFacilityColor>();
-
-    public enum FestivalPlazaFacilityColor : byte
-    {
-        Red, Blue, Gold, Black, Purple, Yellow, Brown, Green, Orange, NavyBlue, Pink, White,
-    }
+    private readonly string[] RES_Color = WinFormsTranslator.GetEnumTranslation<FestivalPlazaFacilityColor>(Main.CurrentLanguage);
 
     private readonly byte[][] RES_FacilityColor = //facility appearance
     [
@@ -324,7 +319,7 @@ public partial class SAV_FestivalPlaza : Form
     private void LoadPictureBox()
     {
         for (int i = 0; i < 3; i++)
-            PBs[i].Image = p[i].Sprite(SAV, -1, -1, flagIllegal: true);
+            PBs[i].Image = p[i].Sprite(SAV, flagIllegal: true);
     }
 
     private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];
@@ -756,7 +751,7 @@ public partial class SAV_FestivalPlaza : Form
     {
         if (NUD_Grade.Value < 30 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Agent Sunglasses is reward of Grade 30.", "Continue?"))
             return;
-        SAV.Fashion.Data[0xD0] = 3;
+        SAV.Fashion.GiveAgentSunglasses();
         B_AgentGlass.Enabled = false;
         System.Media.SystemSounds.Asterisk.Play();
     }

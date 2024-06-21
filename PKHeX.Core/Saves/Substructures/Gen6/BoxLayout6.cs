@@ -22,7 +22,7 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
     public BoxLayout6(SAV6XY sav, Memory<byte> raw) : base(sav, raw) { }
     public BoxLayout6(SAV6AO sav, Memory<byte> raw) : base(sav, raw) { }
 
-    public int GetBoxWallpaperOffset(int box) => PCBackgrounds + box;
+    private static int GetBoxWallpaperOffset(int box) => PCBackgrounds + box;
 
     public int GetBoxWallpaper(int box)
     {

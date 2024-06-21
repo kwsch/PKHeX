@@ -951,8 +951,6 @@ public static class FormConverter
         SetDecorations(result, 7, forms[CaramelSwirl]);
         SetDecorations(result, 8, forms[RainbowSwirl]);
 
-        return;
-
         static void SetDecorations(Span<string> result, [ConstantExpected] byte f, string baseName)
         {
             int start = f * AlcremieCountDecoration;

@@ -31,6 +31,8 @@ public sealed class Poffin4(byte[] Data)
     public byte Smoothness  { get => Data[6]; set => Data[6] = value; }
     // public byte Unused   { get => Data[7]; set => Data[7] = value; }
 
+    public byte Level => Math.Max(Math.Max(Math.Max(Math.Max(BoostSpicy, BoostDry), BoostSweet), BoostBitter), BoostSour);
+
     public bool IsManyStat => Type >= PoffinFlavor4.Rich;
     public PoffinFlavor4 StatPrimary => IsManyStat ? PoffinFlavor4.None : (PoffinFlavor4)(((byte) Type / 5) * 6);
     public PoffinFlavor4 StatSecondary => IsManyStat ? PoffinFlavor4.None : (PoffinFlavor4)(((byte)Type % 5) * 6);

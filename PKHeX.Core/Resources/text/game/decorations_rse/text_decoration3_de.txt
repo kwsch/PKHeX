@@ -1,0 +1,121 @@
+(Kein)
+Kleiner Tisch
+Pokémontisch
+Schwerer Tisch
+Intarsientisch
+Naturtisch
+Edler Tisch
+Backsteintisch
+Campingtisch
+Massiver Tisch
+Kleiner Stuhl
+Pokémon Stuhl
+Schwerer Stuhl
+Edler Stuhl
+Naturstuhl
+Intarsienstuhl
+Backsteinstuhl
+Campingstuhl
+Massiver Stuhl
+Rote Pflanze
+Tropenpflanze
+Hübsche Blumen
+Bunte Pflanze
+Große Pflanze
+Zierpflanze
+Roter Stein
+Gelber Stein
+Blauer Stein
+Roter Ballon
+Blauer Ballon
+Gelber Ballon
+Rotes Zelt
+Blaues Zelt
+Solides Brett
+Rutsche
+Zaun Vertikal
+Zaun Horizontal
+Reifen
+Podest
+Lehmball
+Brechbare Tür
+Sandornament
+Silberschild
+Goldschild
+Glasornament
+Fernseher
+Runder TV
+Hübscher TV
+Glitzer-Matte
+Sprung-Matte
+Dreh-Matte
+Tiefes C-Matte
+D-Matte
+E-Matte
+F-Matte
+G-Matte
+A-Matte
+H-Matte
+Hohes C-Matte
+Surfer-Matte
+Donner-Matte
+Feuer-Matte
+Schnee-Matte
+Anziehung-Mat.
+Geofissur-Mat.
+Stachler-Matte
+Ballposter
+Grünes Poster
+Rotes Poster
+Blaues Poster
+Hübsches Poster
+Pichuka-Poster
+Schlang-Poster
+Meer-Poster
+Himmel-Poster
+Kuss-Poster
+Pichu-Puppe
+Pikachu-Puppe
+Marill-Puppe
+Togepi-Puppe
+Feurigel-Puppe
+Endivie-Puppe
+Karnimanipuppe
+Pummeluffpuppe
+Mauzi-Puppe
+Piepi-Puppe
+Ditto-Puppe
+Kussilla-Puppe
+Geckarbor-Pupp.
+Flemmli-Puppe
+Hydropi-Puppe
+Zwirrlichtpup.
+Isso-Puppe
+Puppance-Puppe
+Kecleon-Puppe
+Azurill-Puppe
+Eneco-Puppe
+Wablu-Puppe
+Schluppuckpup.
+Loturzel-Puppe
+Samurzel-Puppe
+Pika-Kissen
+Rundes Kissen
+Kuss-Kissen
+Zigzachs-Kiss.
+Kreisel-Kissen
+Diamant-Kissen
+Ball-Kissen
+Pflanzen-Kiss.
+Feuer-Kissen
+Wasser-Kissen
+Relaxo-Puppe
+Rizeros-Puppe
+Lapras-Puppe
+Bisaflor-Puppe
+Glurak-Puppe
+Turtok-Puppe
+Wailmer-Puppe
+Regirock-Puppe
+Regice-Puppe
+Registeel-Pupp.

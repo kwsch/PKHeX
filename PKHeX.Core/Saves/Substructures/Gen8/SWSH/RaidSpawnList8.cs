@@ -221,5 +221,5 @@ public enum MaxRaidOrigin: uint
 {
     Galar,
     IsleOfArmor,
-    CrownTundra
+    CrownTundra,
 }

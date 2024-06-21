@@ -1,0 +1,31 @@
+Poffin Epicé
+Poffin Epicé Sec
+Poffin Epicé Sucré
+Poffin Epicé Amer
+Poffin Epicé Acide
+Poffin Sec Epicé
+Poffin Sec
+Poffin Sec Sucré
+Poffin Sec Amer
+Poffin Sec Acide
+Poffin Sucré Epicé
+Poffin Sucré Sec
+Poffin Sucré
+Poffin Sucré Amer
+Poffin Sucré Acide
+Poffin Amer Epicé
+Poffin Amer Sec
+Poffin Amer Sucré
+Poffin Amer
+Poffin Amer Acide
+Poffin Acide Epicé
+Poffin Acide Sec
+Poffin Acide Sucré
+Poffin Acide Amer
+Poffin Acide
+Poffin Succulent
+Poffin Bourratif
+Poffin Infect
+Poffin Doux
+
+Aucun

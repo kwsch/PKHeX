@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
 {
-    protected internal sealed override string ShortSummary => $"{OT} ({Version})";
+    protected internal sealed override string ShortSummary => $"{OT} ({Version}) {Checksums.CRC16_CCITT(Data):X4}";
     public sealed override string Extension => ".sav";
 
     public abstract int SaveRevision { get; }

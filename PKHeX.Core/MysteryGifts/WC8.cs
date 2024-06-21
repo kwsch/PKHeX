@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 8 Mystery Gift Template File
 /// </summary>
 public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate, IRelearn, IEncounterServerDate, IRestrictVersion,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, ITrashUnderlaySpecies
 {
     public WC8() : this(new byte[Size]) { }
 
@@ -391,6 +391,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public bool IsHOMEGift => CardID >= 9000;
 
     public bool CanHandleOT(int language) => !GetHasOT(language);
+    public bool IsTrashUnderlaySpecies(PKM pk) => GetIsNicknamed(pk.Language);
 
     public override GameVersion Version => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.SWSH;
 
@@ -403,9 +404,9 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         var metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
-        var language = tr.Language;
-        bool hasOT = GetHasOT(language);
         var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
+        var language = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        bool hasOT = GetHasOT(language);
 
         var pk = new PK8
         {
@@ -494,8 +495,9 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
-        pk.IsNicknamed = GetIsNicknamed(language);
-        pk.Nickname = pk.IsNicknamed ? GetNickname(language) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
+        if (GetIsNicknamed(language))
+            pk.Nickname = GetNickname(language);
 
         for (var i = 0; i < RibbonBytesCount; i++)
         {

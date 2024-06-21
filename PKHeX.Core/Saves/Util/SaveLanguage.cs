@@ -138,6 +138,17 @@ public static class SaveLanguage
     private static bool Contains(ReadOnlySpan<char> span, ReadOnlySpan<char> value)
         => span.Contains(value, StringComparison.OrdinalIgnoreCase);
 
+    private static bool ContainsSpU(ReadOnlySpan<char> span, ReadOnlySpan<char> value)
+    {
+        if (Contains(span, value))
+            return true;
+
+        // Check for underscores too; replace the input w/ spaces to underscore
+        Span<char> tmp = stackalloc char[value.Length];
+        value.Replace(tmp, ' ', '_');
+        return Contains(span, tmp);
+    }
+
     /// <inheritdoc cref="InferFrom(SAV1)"/>
     public static SaveLanguageResult InferFrom1(ReadOnlySpan<char> name, GameVersion hint = Any)
     {
@@ -191,9 +202,9 @@ public static class SaveLanguage
         if (MaybeGD(hint)) {
             if (Contains(name, "golde")) return (German, GD);
             if (Contains(name, "gold")) return (English, GD);
-            if (Contains(name, "e oro")) return (Italian, GD);
+            if (ContainsSpU(name, "e oro")) return (Italian, GD);
             if (Contains(name, "oro")) return (Spanish, GD);
-            if (Contains(name, "n or")) return (French, GD);
+            if (ContainsSpU(name, "n or")) return (French, GD);
             if (Contains(name, "金")) return (Japanese, GD);
             if (Contains(name, "금")) return (Korean, GD);
 
@@ -204,7 +215,7 @@ public static class SaveLanguage
             if (Contains(name, "silv")) return (English, SI);
             if (Contains(name, "silb")) return (German, SI);
             if (Contains(name, "plat")) return (Spanish, SI);
-            if (Contains(name, "e arg")) return (Italian, SI);
+            if (ContainsSpU(name, "e arg")) return (Italian, SI);
             if (Contains(name, "arge")) return (French, SI);
             if (Contains(name, "銀")) return (Japanese, SI);
             if (Contains(name, "은")) return (Korean, SI);
@@ -216,8 +227,8 @@ public static class SaveLanguage
             if (Contains(name, "cry")) return (English, C);
             if (Contains(name, "kri")) return (German, C);
             if (Contains(name, "cristall")) return (Italian, C);
-            if (Contains(name, "on cri")) return (French, C);
-            if (Contains(name, "ón crist")) return (Spanish, C);
+            if (ContainsSpU(name, "on cri")) return (French, C);
+            if (ContainsSpU(name, "ón crist")) return (Spanish, C);
             if (Contains(name, "クリ")) return (Japanese, C);
         }
 
@@ -270,7 +281,7 @@ public static class SaveLanguage
             if (Contains(name, "esm")) return (Spanish, E);
             if (Contains(name, "smar")) return (German, E);
             if (Contains(name, "smer")) return (Italian, E);
-            if (Contains(name, "éme") || Contains(name, "n eme")) return (French, E);
+            if (Contains(name, "merau") || ContainsSpU(name, "ion emerald de")) return (French, E);
             if (Contains(name, "emer")) return (English, E);
             if (Contains(name, "エメ")) return (Japanese, E);
         }

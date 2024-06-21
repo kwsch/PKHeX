@@ -77,7 +77,7 @@ public static class SwishCrypto
         h.AppendData(IntroHashBytes);
         h.AppendData(data);
         h.AppendData(OutroHashBytes);
-        h.TryGetCurrentHash(hash, out _);
+        h.GetCurrentHash(hash);
     }
 
     /// <summary>

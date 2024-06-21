@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -15,6 +14,11 @@ public partial class SAV_Trainer7 : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+        BattleStyles = WinFormsTranslator.GetEnumTranslation<PlayerBattleStyle7>(Main.CurrentLanguage);
+        if (SAV is not SAV7USUM)
+            BattleStyles = BattleStyles[..^1]; // remove Nihilist
+
         SAV = (SAV7)(Origin = sav).Clone();
         Loading = true;
         if (Main.Unicode)
@@ -22,7 +26,7 @@ public partial class SAV_Trainer7 : Form
             TB_OTName.Font = FontUtil.GetPKXFont();
         }
 
-        B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
+        B_MaxCash.Click += (_, _) => MT_Money.Text = "9,999,999";
 
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -45,8 +49,7 @@ public partial class SAV_Trainer7 : Form
     private readonly bool Loading;
     private bool MapUpdated;
 
-    private static readonly string[] AllStyles = Enum.GetNames<PlayerBattleStyle7>();
-    private readonly List<string> BattleStyles = [..AllStyles];
+    private readonly string[] BattleStyles;
 
     private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
     private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768
@@ -65,14 +68,13 @@ public partial class SAV_Trainer7 : Form
         Main.SetCountrySubRegion(CB_Country, "countries");
 
         CB_SkinColor.Items.Clear();
-        CB_SkinColor.Items.AddRange(Enum.GetNames<PlayerSkinColor7>());
+        CB_SkinColor.Items.AddRange(WinFormsTranslator.GetEnumTranslation<PlayerSkinColor7>(Main.CurrentLanguage));
 
+        var strings = GameInfo.Strings;
         L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
         CB_Vivillon.InitializeBinding();
-        CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
+        CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, strings.types, strings.forms, Main.GenderSymbols, SAV.Context);
 
-        if (SAV is not SAV7USUM)
-            BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
         foreach (string t in BattleStyles)
         {
             CB_BallThrowType.Items.Add(t);
@@ -80,9 +82,7 @@ public partial class SAV_Trainer7 : Form
             LB_BallThrowTypeLearned.Items.Add(t);
         }
 
-        var stamps = Enum.GetNames<Stamp7>().Select(z => z.Replace("_", " "));
-        foreach (string t in stamps)
-            LB_Stamps.Items.Add(t);
+        LB_Stamps.Items.AddRange(WinFormsTranslator.GetEnumTranslation<Stamp7>(Main.CurrentLanguage));
     }
 
     private static ComboItem[] GetAlolaTimeList()
@@ -217,11 +217,11 @@ public partial class SAV_Trainer7 : Form
         const int learnedStart = 3479;
         LB_BallThrowTypeUnlocked.SetSelected(0, true);
         LB_BallThrowTypeUnlocked.SetSelected(1, true);
-        for (int i = 2; i < BattleStyles.Count; i++)
+        for (int i = 2; i < BattleStyles.Length; i++)
             LB_BallThrowTypeUnlocked.SetSelected(i, SAV.EventWork.GetEventFlag(unlockStart + i));
 
         LB_BallThrowTypeLearned.SetSelected(0, true);
-        for (int i = 1; i < BattleStyles.Count; i++)
+        for (int i = 1; i < BattleStyles.Length; i++)
             LB_BallThrowTypeLearned.SetSelected(i, SAV.EventWork.GetEventFlag(learnedStart + i));
 
         CB_BallThrowTypeListMode.SelectedIndex = 0;
@@ -418,9 +418,9 @@ public partial class SAV_Trainer7 : Form
 
         const int unlockStart = 292;
         const int learnedStart = 3479;
-        for (int i = 2; i < BattleStyles.Count; i++)
+        for (int i = 2; i < BattleStyles.Length; i++)
             SAV.EventWork.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
-        for (int i = 1; i < BattleStyles.Count; i++)
+        for (int i = 1; i < BattleStyles.Length; i++)
             SAV.EventWork.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
     }
 

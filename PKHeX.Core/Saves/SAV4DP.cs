@@ -58,7 +58,9 @@ public sealed class SAV4DP : SAV4Sinnoh
         AdventureInfo = 0;
         Trainer1 = 0x64;
         Party = 0x98;
-        ChatterOffset = 0x61CC;
+        FashionCase = 0x4BA8;
+        OFS_Record = 0x5F08;
+        OFS_Chatter = 0x61CC;
         Geonet = 0x96D8;
         WondercardFlags = 0xA6D0;
         OFS_HONEY = 0x72E4;
@@ -114,7 +116,7 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override int X { get => ReadUInt16LittleEndian(General[0x1240..]); set => WriteUInt16LittleEndian(General[0x1240..], (ushort)(X2 = value)); }
     public override int Y { get => ReadUInt16LittleEndian(General[0x1244..]); set => WriteUInt16LittleEndian(General[0x1244..], (ushort)(Y2 = value)); }
 
-    public override Span<byte> Rival_Trash
+    public override Span<byte> RivalTrash
     {
         get => General.Slice(0x25A8, MaxStringLengthTrainer * 2);
         set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(General[0x25A8..]); }

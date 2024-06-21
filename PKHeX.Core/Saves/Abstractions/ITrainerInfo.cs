@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -68,7 +70,11 @@ public static class TrainerInfoExtensions
     {
         if (tr.ID32 != pk.ID32)
             return false;
-        if (tr.OT != pk.OriginalTrainerName)
+
+        Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+        ot = ot[..len];
+        if (!ot.SequenceEqual(tr.OT))
             return false;
 
         if (pk.Format == 3)
@@ -99,15 +105,25 @@ public static class TrainerInfoExtensions
 
         if (tr.Version != pk.Version)
         {
-            // PK9 does not store version for Picnic eggs.
-            if (pk is PK9 { Version: 0 }) { }
-            else { return false; }
+            if (!IsVersionlessState(pk))
+                return false;
         }
 
-        if (tr.OT != pk.OriginalTrainerName)
+        Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+        ot = ot[..len];
+        if (!ot.SequenceEqual(tr.OT))
             return false;
 
         return true;
+    }
+
+    private static bool IsVersionlessState(PKM pk)
+    {
+        // PK9 does not store version for Picnic eggs.
+        if (pk is PK9 { Version: 0 }) // IsEgg is already true for all calls
+            return true;
+        return false;
     }
 
     private static bool IsMatchVersion(ITrainerInfo tr, PKM pk)

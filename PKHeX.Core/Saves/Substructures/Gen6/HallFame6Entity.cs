@@ -39,7 +39,7 @@ public readonly ref struct HallFame6Entity
     public bool IsNicknamed { get => Nick == 1; set => Nick = value ? 1u : 0u; }
     public bool IsShiny { get => Shiny == 1; set => Shiny = value ? 1u : 0u; }
 
-    private Span<byte> Nick_Trash => Data.Slice(0x18, 24);
+    private Span<byte> NicknameTrash => Data.Slice(0x18, 24);
     private Span<byte> OriginalTrainerTrash => Data.Slice(0x30, 24);
 
     // Don't mimic in-game behavior of not clearing strings. First entry should always have clean trash.
@@ -47,14 +47,14 @@ public readonly ref struct HallFame6Entity
 
     public void ClearTrash()
     {
-        Nick_Trash.Clear();
+        NicknameTrash.Clear();
         OriginalTrainerTrash.Clear();
     }
 
     public string Nickname
     {
-        get => StringConverter6.GetString(Nick_Trash);
-        set => StringConverter6.SetString(Nick_Trash, value, 12, Language, Option);
+        get => StringConverter6.GetString(NicknameTrash);
+        set => StringConverter6.SetString(NicknameTrash, value, 12, Language, Option);
     }
 
     public string OriginalTrainerName

@@ -1,0 +1,121 @@
+(Ninguno)
+Mesa Pequeña
+Mesa Pokémon
+Mesa Pesada
+Mesa Rústica
+Mesa Cómoda
+Mesa Bonita
+Mesa Ladrillo
+Mesa de Campo
+Mesa Fuerte
+Silla Pequeña
+Silla Pokémon
+Silla Pesada
+Silla Bonita
+Silla Cómoda
+Silla Rústica
+Silla Ladrillo
+Silla de Campo
+Silla Fuerte
+Planta Roja
+Pl. Tropical
+Flores Bonitas
+Pl. Colorida
+Planta Grande
+Planta Enorme
+Ladrillo Rojo
+Ladr. Amarillo
+Ladrillo Azul
+Globo Rojo
+Globo Azul
+Globo Amarillo
+Tienda Roja
+Tienda Azul
+Tabla
+Tobogán
+Valla Larga
+Valla Ancha
+Neumático
+Podio
+Bola de Lodo
+Puerta Rara
+Adorno Arena
+Escudo Plata
+Escudo de Oro
+Adorno Cristal
+Televisión
+Tele Redonda
+Tele Bonita
+Tapete Brillo
+Tapete Muelle
+Tapete Giro
+Tap. Do Menor
+Tapete Nota Re
+Tapete Nota Mi
+Tapete Nota Fa
+Tap. Nota Sol
+Tapete Nota La
+Tapete Nota Si
+Tap. Do Mayor
+Tapete Surf
+Tapete Trueno
+Tap. Llamarada
+T. Nieve Polvo
+Tap. Atracción
+Tapete Fisura
+Tapete Púas
+P. Poké Ball
+Póster Verde
+Póster Rojo
+Póster Azul
+Póster Bonito
+Póster Pika
+Póster Grande
+Póster Mar
+Póster Cielo
+Póster Beso
+Muñeco Pichu
+Muñeco Pikachu
+Muñeco Marill
+Muñeco Togepi
+Muñ. Cyndaquil
+Muñ. Chikorita
+Muñ. Totodile
+Muñ. Jigglypuff
+Muñeco Meowth
+Muñeco Clefairy
+Muñeco Ditto
+Muñeco Smoochum
+Muñeco Treecko
+Muñeco Torchic
+Muñeco Mudkip
+Muñeco Duskull
+Muñeco Wynaut
+Muñeco Baltoy
+Muñeco Kecleon
+Muñeco Azurill
+Muñeco Skitty
+Muñeco Swablu
+Muñeco Gulpin
+Muñeco Lotad
+Muñeco Seedot
+Cojín Pika
+Cojín Redondo
+Cojín Beso
+Cojín Zigzagoon
+Cojín Spinda
+Cojín Diamante
+Cojín Ball
+Cojín Planta
+Cojín Fuego
+Cojín Agua
+Muñeco Snorlax
+Muñeco Rhydon
+Muñeco Lapras
+Muñeco Venusaur
+Muñeco Charizar
+Muñ. Blastoise
+Muñeco Wailmer
+Muñeco Regirock
+Muñeco Regice
+Muñ. Registeel
