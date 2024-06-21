@@ -18,7 +18,7 @@ public sealed class SecretBase3PKM : ISpeciesForm
         set => SpeciesInternal = SpeciesConverter.GetInternal3(value);
     }
     public ushort HeldItem { get; set; }
-    public int SpriteItem => ItemConverter.GetItemFuture3(HeldItem);
+    public ushort SpriteItem { get => ItemConverter.GetItemFuture3(HeldItem); set => HeldItem = ItemConverter.GetItemOld3(value); }
     public byte Level { get; set; }
     public byte EVAll { get; set; }
 
