@@ -68,15 +68,15 @@ public sealed class SecretBase3(Memory<byte> raw)
         set => value.Write().CopyTo(TeamData);
     }
 
-    public int TID16
+    public ushort TID16
     {
         get => (ushort)OT_ID;
-        set => OT_ID = (ushort)(SID16 | (ushort)value);
+        set => OT_ID = (ushort)(SID16 | value);
     }
 
-    public int SID16
+    public ushort SID16
     {
-        get => (ushort)OT_ID >> 8;
-        set => OT_ID = (ushort)(((ushort)value << 16) | TID16);
+        get => (ushort)(OT_ID >> 16);
+        set => OT_ID = (ushort)((value << 16) | TID16);
     }
 }
