@@ -55,11 +55,11 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <returns>Final save file data.</returns>
     public byte[] Finalize(byte[] data, BinaryExportSetting setting)
     {
-        if (Footer.Length != 0 && setting.HasFlag(BinaryExportSetting.IncludeFooter))
+        if (HasFooter && !setting.HasFlag(BinaryExportSetting.ExcludeFooter))
             data = [..data, ..Footer];
-        if (Header.Length != 0 && setting.HasFlag(BinaryExportSetting.IncludeHeader))
+        if (HasHeader && !setting.HasFlag(BinaryExportSetting.ExcludeHeader))
             data = [..Header, ..data];
-        if (setting != BinaryExportSetting.None)
+        if (!setting.HasFlag(BinaryExportSetting.ExcludeFinalize))
             Handler?.Finalize(data);
         return data;
     }
@@ -189,11 +189,17 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <param name="ext">Selected export extension</param>
     public BinaryExportSetting GetSuggestedFlags(string? ext = null)
     {
+        // Do everything as default
         var flags = BinaryExportSetting.None;
-        if (ext == ".dsv")
-            flags |= BinaryExportSetting.IncludeFooter;
-        if (ext == ".gci" || SAV is IGCSaveFile {MemoryCard: null} || ext == ".sram")
-            flags |= BinaryExportSetting.IncludeHeader;
+
+        if (FileName is not null)
+        {
+            // Try to support a couple formats changes that the user wants to remove from the file
+            if (FileName.EndsWith(".dsv") && ext is not ".dsv")
+                flags |= BinaryExportSetting.ExcludeFooter;
+            else if (FileName.EndsWith(".gci") && ext is not ".gci")
+                flags |= BinaryExportSetting.ExcludeHeader;
+        }
         return flags;
     }
 }
