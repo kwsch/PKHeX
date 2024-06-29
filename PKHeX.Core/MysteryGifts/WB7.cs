@@ -9,11 +9,10 @@ namespace PKHeX.Core;
 public sealed class WB7(byte[] Data)
     : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, INature, ILangNicknamedTemplate, IRestrictVersion
 {
-    public WB7() : this(new byte[SizeFull]) { }
+    public WB7() : this(new byte[Size]) { }
 
-    public const int Size = 0x108;
-    public const int SizeFull = 0x310;
-    private const int CardStart = SizeFull - Size;
+    public const int Size = 0x310;
+    private const int CardStart = 0x208;
     public override bool FatefulEncounter => true;
 
     public override byte Generation => 7;
