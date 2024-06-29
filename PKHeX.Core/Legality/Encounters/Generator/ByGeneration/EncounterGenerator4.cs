@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed class EncounterGenerator4 : IEncounterGenerator
 {
     public static readonly EncounterGenerator4 Instance = new();
+    public bool CanGenerateEggs => true;
 
     // Utility
     internal static readonly PGT RangerManaphy = new() { Data = { [0] = 7, [8] = 1 } };
