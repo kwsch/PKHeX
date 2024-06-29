@@ -36,7 +36,7 @@ public static class CommonEdits
     /// <summary>
     /// Clears the <see cref="PKM.Nickname"/> to the default value.
     /// </summary>
-    /// <param name="pk"></param>
+    /// <param name="pk">Pokémon to modify.</param>
     public static string ClearNickname(this PKM pk)
     {
         pk.IsNicknamed = false;

@@ -55,7 +55,6 @@ public static class GenderApplicator
     /// <summary>
     /// Sanity checks the provided <see cref="PKM.Gender"/> value, and returns a sane value.
     /// </summary>
-    /// <param name="pk"></param>
     /// <returns>Most-legal <see cref="PKM.Gender"/> value</returns>
     public static byte GetSaneGender(this PKM pk)
     {
