@@ -165,6 +165,8 @@ public sealed class TransferVerifier : Verifier
         var pt = PersonalTable.SV;
         if (!pt.IsPresentInGame(pk.Species, pk.Form))
             data.AddLine(GetInvalid(LTransferBad));
+        if (HomeTrackerUtil.IsRequired(data.EncounterMatch, pk))
+            VerifyHOMETracker(data, pk);
     }
 
     private void VerifyHOMETransfer(LegalityAnalysis data, PKM pk)
