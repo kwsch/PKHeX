@@ -83,8 +83,9 @@ public sealed class NicknameVerifier : Verifier
         {
             PCD pcd => !pcd.Gift.PK.IsNicknamed,
             PGF pgf => !pgf.IsNicknamed,
-            WC6 wc6 => !wc6.IsNicknamed && wc6 is not { IsLinkGift: true, Species: (int)Species.Glalie or (int)Species.Steelix }, // Can nickname the demo gift
-            WC7 wc7 => !wc7.IsNicknamed,
+            WC6 wc6 => !wc6.IsNicknamed && wc6 is not ({ IsOriginalTrainerNameSet: false }
+                                                         or { IsLinkGift: true, Species: (int)Species.Glalie or (int)Species.Steelix }), // Can nickname the demo gift
+            WC7 wc7 => !wc7.IsNicknamed && wc7 is not { IsOriginalTrainerNameSet: false },
             _ => true,
         };
     }
