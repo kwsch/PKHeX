@@ -125,7 +125,7 @@ public static class SpriteUtil
         }
         if (inBox) // in box
         {
-            var flags = sav.GetSlotFlags(box, slot);
+            var flags = sav.GetBoxSlotFlags(box, slot);
 
             // Indicate any battle box teams & according locked state.
             int team = flags.IsBattleTeam();

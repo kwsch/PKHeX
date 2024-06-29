@@ -237,7 +237,7 @@ public partial class BatchEditor : Form
                 continue;
             }
 
-            if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
+            if (entry.Source is SlotInfoBox info && SAV.GetBoxSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                 editor.AddSkipped();
             else if (!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
                 editor.AddSkipped();

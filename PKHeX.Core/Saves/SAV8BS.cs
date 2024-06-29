@@ -156,7 +156,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
             BoxLayout.LoadBattleTeams();
     }
 
-    public override StorageSlotSource GetSlotFlags(int index)
+    public override StorageSlotSource GetBoxSlotFlags(int index)
     {
         int team = Array.IndexOf(TeamSlots, index);
         if (team < 0)
