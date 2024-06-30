@@ -261,17 +261,16 @@ public sealed class NicknameVerifier : Verifier
             return true;
 
         // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
+        // Ash Greninja can be transferred from one demo language to another recipient language, while retaining the demo's name string.
         // Starting in Generation 8, hatched language-traded eggs will take the Language from the trainer that hatched it.
         // Also in Generation 8, evolving in a foreign language game will retain the original language as the source for the newly evolved species name.
         // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
-        bool canHaveAnyLanguage = format <= 7 && (enc.Species != species || pk.WasTradedEgg) && !pk.GG;
+        bool canHaveAnyLanguage = format <= 7 && (enc.Species != species || pk.WasTradedEgg || enc is WC7 {IsAshGreninja: true}) && !pk.GG;
         if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
             return true;
 
         switch (enc)
         {
-            case WC7 { IsAshGreninja: true }:
-                return true;
             case ILangNick loc:
                 if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                     return true; // fixed language without nickname, nice job event maker!
@@ -280,6 +279,15 @@ public sealed class NicknameVerifier : Verifier
 
         if (format == 5 && enc.Generation != 5) // transfer
             return IsMatch45(nickname, species, expect, language, canHaveAnyLanguage);
+
+        if (format >= 8 && enc is { Generation: < 8 } or IPogoSlot) // HOME weirdness
+        {
+            // HOME doesn't use the right apostrophe. ' vs ’
+            if (pk.Species == (int)Species.Farfetchd)
+                return nickname is "Farfetch'd";
+            if (pk.Species == (int)Species.Sirfetchd)
+                return nickname is "Sirfetch'd";
+        }
 
         return false;
     }
