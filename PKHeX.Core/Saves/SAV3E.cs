@@ -285,11 +285,10 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     #endregion
 
     private const uint EXTRADATA_SENTINEL = 0x0000B39D;
-    private const int OFS_BV = 31 * 0x1000; // last sector of the save
-    public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(Data.AsSpan(OFS_BV)) == EXTRADATA_SENTINEL;
-    public void SetExtraDataSentinelBattleVideo() => WriteUInt32LittleEndian(Data.AsSpan(OFS_BV), EXTRADATA_SENTINEL);
+    public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(GetFinalExternalData().Span) == EXTRADATA_SENTINEL;
+    public void SetExtraDataSentinelBattleVideo() => WriteUInt32LittleEndian(GetFinalExternalData().Span, EXTRADATA_SENTINEL);
 
-    public Memory<byte> BattleVideoData => Data.AsMemory(OFS_BV + 4, BattleVideo3.SIZE);
+    public Memory<byte> BattleVideoData => GetFinalExternalData().Slice(4, BattleVideo3.SIZE);
     public BattleVideo3 BattleVideo
     {
         // decouple from the save file object on get, as the consumer might not be aware that mutations will touch the save.

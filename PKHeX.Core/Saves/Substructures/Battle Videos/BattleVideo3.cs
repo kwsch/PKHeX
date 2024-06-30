@@ -10,7 +10,7 @@ public sealed class BattleVideo3(Memory<byte> Raw) : IBattleVideo
     public BattleVideo3() : this(new byte[SIZE]) { }
 
     public Span<byte> Data => Raw.Span;
-    internal const int SIZE = 0xF80;
+    internal const int SIZE = SAV3.SIZE_SECTOR_USED - 4; // Skip sentinel
     public byte Generation => 3;
 
     public IEnumerable<PKM> Contents => PlayerTeams.SelectMany(z => z);
