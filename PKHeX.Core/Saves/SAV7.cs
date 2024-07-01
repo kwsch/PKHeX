@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using PKHeX.Core.Saves.Encryption.Providers;
 
 namespace PKHeX.Core;
 
@@ -19,12 +20,16 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         return gen <= 7 && f[1] != 'b'; // ignore PB7
     });
 
-    protected SAV7(byte[] data, [ConstantExpected] int biOffset) : base(data, biOffset)
+    protected IAesCryptographyProvider AesProvider { get; }
+
+    protected SAV7(byte[] data, [ConstantExpected] int biOffset, IAesCryptographyProvider? aesProvider = null) : base(data, biOffset)
     {
+        AesProvider = aesProvider ?? IAesCryptographyProvider.Default;
     }
 
-    protected SAV7([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size, biOffset)
+    protected SAV7([ConstantExpected] int size, [ConstantExpected] int biOffset, IAesCryptographyProvider? aesProvider = null) : base(size, biOffset)
     {
+        AesProvider = aesProvider ?? IAesCryptographyProvider.Default;
     }
 
     protected void ReloadBattleTeams()
@@ -102,7 +107,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         // Applying the MemeCrypto signature will invalidate the checksum for that block.
         // This logic is not set up to revert that block after returning, so just return a copy of our data.
         var result = (byte[])Data.Clone();
-        MemeCrypto.SignInPlace(result);
+        MemeCrypto.SignInPlace(result, AesProvider);
         return result;
     }
 

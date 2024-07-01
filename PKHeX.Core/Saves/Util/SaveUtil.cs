@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.MessageStrings;
 using static PKHeX.Core.GameVersion;
@@ -663,9 +664,13 @@ public static class SaveUtil
     /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
     /// <param name="data">Save data from which to create a SaveFile.</param>
     /// <param name="path">Optional save file path, may help initialize a non-standard save file format.</param>
+    /// <param name="configureLoad">Optional callback that can be used to determine parameters of loading a save file</param>
     /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
-    public static SaveFile? GetVariantSAV(byte[] data, string? path = null)
+    public static SaveFile? GetVariantSAV(byte[] data, string? path = null, Action<LoadSaveOptions>? configureLoad = null)
     {
+        var options = new LoadSaveOptions();
+        configureLoad?.Invoke(options);
+
 #if !EXCLUDE_HACKS
         foreach (var h in CustomSaveReaders)
         {
@@ -678,7 +683,7 @@ public static class SaveUtil
         }
 #endif
 
-        var sav = GetVariantSAVInternal(data);
+        var sav = GetVariantSAVInternal(data, options);
         if (sav != null)
             return sav;
 
@@ -692,7 +697,7 @@ public static class SaveUtil
             if (split == null)
                 continue;
 
-            sav = GetVariantSAVInternal(split.Data);
+            sav = GetVariantSAVInternal(split.Data, options);
             if (sav == null)
                 continue;
 
@@ -708,7 +713,7 @@ public static class SaveUtil
         return null;
     }
 
-    private static SaveFile? GetVariantSAVInternal(byte[] data)
+    private static SaveFile? GetVariantSAVInternal(byte[] data, LoadSaveOptions options)
     {
         var type = GetSAVType(data);
         return type switch
@@ -732,8 +737,8 @@ public static class SaveUtil
             ORAS => new SAV6AO(data),
             ORASDEMO => new SAV6AODemo(data),
 
-            SM => new SAV7SM(data),
-            USUM => new SAV7USUM(data),
+            SM => new SAV7SM(data, options.AesProvider),
+            USUM => new SAV7USUM(data, options.AesProvider),
             GG => new SAV7b(data),
 
             SWSH => new SAV8SWSH(data),
@@ -816,10 +821,14 @@ public static class SaveUtil
     /// <param name="game">Version to create the save file for.</param>
     /// <param name="trainerName">Trainer Name</param>
     /// <param name="language">Language to initialize with</param>
+    /// <param name="configureLoad">Optional callback that can be used to determine parameters of loading a save file</param>
     /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-    public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
+    public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English, Action<LoadSaveOptions>? configureLoad = null)
     {
-        var sav = GetBlankSAV(game, language);
+        var options = new LoadSaveOptions();
+        configureLoad?.Invoke(options);
+
+        var sav = GetBlankSAV(game, language, options);
         sav.Version = game;
         sav.OT = trainerName;
         if (sav.Generation >= 4)
@@ -843,7 +852,7 @@ public static class SaveUtil
     /// <param name="game">Version to create the save file for.</param>
     /// <param name="language">Save file language to initialize for</param>
     /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-    private static SaveFile GetBlankSAV(GameVersion game, LanguageID language) => game switch
+    private static SaveFile GetBlankSAV(GameVersion game, LanguageID language, LoadSaveOptions options) => game switch
     {
         RD or BU or GN or YW or RBY => new SAV1(version: game, game == BU ? LanguageID.Japanese : language),
         StadiumJ => new SAV1StadiumJ(),
@@ -873,8 +882,8 @@ public static class SaveUtil
         ORASDEMO => new SAV6AODemo(),
         OR or AS or ORAS => new SAV6AO(),
 
-        SN or MN or SM => new SAV7SM(),
-        US or UM or USUM => new SAV7USUM(),
+        SN or MN or SM => new SAV7SM(options.AesProvider),
+        US or UM or USUM => new SAV7USUM(options.AesProvider),
         GP or GE or GG or GO => new SAV7b(),
 
         SW or SH or SWSH => new SAV8SWSH(),
@@ -977,4 +986,14 @@ public static class SaveUtil
     /// </summary>
     /// <remarks>Does not check the <see cref="Handlers"/> list.</remarks>
     public static bool IsSizeValidNoHandler(long size) => Sizes.Contains(size);
+
+    public class LoadSaveOptions
+    {
+        /// <summary>
+        /// Some save files are encrypted using an AES algorithm
+        ///
+        /// Use this property to customise the Aes algorithm provider
+        /// </summary>
+        public IAesCryptographyProvider? AesProvider { get; set; } = null;
+    }
 }

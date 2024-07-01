@@ -1,5 +1,6 @@
 using System;
 using System.Security.Cryptography;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -61,14 +62,15 @@ public static class MemeCrypto
         return false;
     }
 
-    public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, MemeKeyIndex keyIndex)
+    public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, MemeKeyIndex keyIndex,
+        IAesCryptographyProvider? aesProvider = null)
     {
         if (input.Length < MemeKey.SignatureLength)
         {
             output = [];
             return false;
         }
-        var key = new MemeKey(keyIndex);
+        var key = new MemeKey(keyIndex, aesProvider);
         Span<byte> sigBuffer = stackalloc byte[MemeKey.SignatureLength];
         var inputSig = input[^MemeKey.SignatureLength..];
         key.RsaPublic(inputSig, sigBuffer);
@@ -97,18 +99,20 @@ public static class MemeCrypto
         return hash[..8].SequenceEqual(output[^8..]);
     }
 
-    public static byte[] SignMemeData(ReadOnlySpan<byte> input, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile)
+    public static byte[] SignMemeData(ReadOnlySpan<byte> input, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile,
+        IAesCryptographyProvider? aesProvider = null)
     {
         var output = input.ToArray();
-        SignMemeDataInPlace(output, keyIndex);
+        SignMemeDataInPlace(output, keyIndex, aesProvider);
         return output;
     }
 
-    private static void SignMemeDataInPlace(Span<byte> data, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile)
+    private static void SignMemeDataInPlace(Span<byte> data, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile,
+        IAesCryptographyProvider? aesProvider = null)
     {
         // Validate Input
         ArgumentOutOfRangeException.ThrowIfLessThan(data.Length, MemeKey.SignatureLength);
-        var key = new MemeKey(keyIndex);
+        var key = new MemeKey(keyIndex, aesProvider);
         if (!key.CanResign)
             throw new ArgumentException("Cannot sign with the specified key!");
 
@@ -135,8 +139,9 @@ public static class MemeCrypto
     /// Resigns save data.
     /// </summary>
     /// <param name="span">Save file data to resign</param>
+    /// <param name="aesProvider">Optional implementation of an AES cryptography algorithm. If omitted, the default .NET implementation will be resolved</param>
     /// <returns>The resigned save data. Invalid input returns null.</returns>
-    public static void SignInPlace(Span<byte> span)
+    public static void SignInPlace(Span<byte> span, IAesCryptographyProvider? aesProvider = null)
     {
         if (span.Length is not (SaveUtil.SIZE_G7SM or SaveUtil.SIZE_G7USUM))
             throw new ArgumentException("Should not be using this for unsupported saves.");
@@ -152,12 +157,13 @@ public static class MemeCrypto
         var sigSpan = span.Slice(MemeCryptoOffset, SaveFileSignatureLength);
         var chkBlockSpan = span.Slice(ChecksumTableOffset, ChecksumSignatureLength);
 
-        SignInPlace(sigSpan, chkBlockSpan);
+        SignInPlace(sigSpan, chkBlockSpan, aesProvider);
     }
 
-    public static void SignInPlace(Span<byte> sigSpan, ReadOnlySpan<byte> chkBlockSpan)
+    public static void SignInPlace(Span<byte> sigSpan, ReadOnlySpan<byte> chkBlockSpan,
+        IAesCryptographyProvider? aesProvider = null)
     {
         SHA256.HashData(chkBlockSpan, sigSpan);
-        SignMemeDataInPlace(sigSpan);
+        SignMemeDataInPlace(sigSpan, aesProvider: aesProvider);
     }
 }

@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 public sealed class SAV7SM : SAV7, ISaveBlock7SM
 {
-    public SAV7SM(byte[] data) : base(data, SaveBlockAccessor7SM.BlockMetadataOffset)
+    public SAV7SM(byte[] data, IAesCryptographyProvider? aesProvider = null) : base(data, SaveBlockAccessor7SM.BlockMetadataOffset, aesProvider)
     {
         Blocks = new SaveBlockAccessor7SM(this);
         Initialize();
         ClearMemeCrypto();
     }
 
-    public SAV7SM() : base(SaveUtil.SIZE_G7SM, SaveBlockAccessor7SM.BlockMetadataOffset)
+    public SAV7SM(IAesCryptographyProvider? aesProvider = null) : base(SaveUtil.SIZE_G7SM, SaveBlockAccessor7SM.BlockMetadataOffset, aesProvider)
     {
         Blocks = new SaveBlockAccessor7SM(this);
         Initialize();
@@ -33,7 +34,7 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
 
     public override PersonalTable7 Personal => PersonalTable.SM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SM;
-    protected override SAV7SM CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV7SM CloneInternal() => new((byte[])Data.Clone(), AesProvider);
 
     #region Blocks
     public SaveBlockAccessor7SM Blocks { get; }

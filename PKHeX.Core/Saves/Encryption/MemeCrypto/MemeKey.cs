@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Numerics;
 using System.Security.Cryptography;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static PKHeX.Core.MemeKeyIndex;
 
 namespace PKHeX.Core;
@@ -22,9 +23,13 @@ public readonly ref struct MemeKey
     /// <summary> Modulus, BigInteger </summary>
     private readonly BigInteger N;
 
+    private readonly IAesCryptographyProvider _aesProvider;
+
     // Constructor
-    public MemeKey(MemeKeyIndex key)
+    public MemeKey(MemeKeyIndex key, IAesCryptographyProvider? aesProvider = null)
     {
+        _aesProvider = aesProvider ?? IAesCryptographyProvider.Default;
+
         DER = GetMemeDataVerify(key);
         var all = DER;
         N = new BigInteger(all.Slice(0x18, 0x61), isUnsigned: true, isBigEndian: true);
@@ -74,7 +79,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             Xor(temp, slice);
-            aes.DecryptEcb(temp, temp, PaddingMode.None);
+            aes.DecryptEcb(temp, temp);
             temp.CopyTo(slice);
         }
 
@@ -88,7 +93,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             slice.CopyTo(temp);
-            aes.DecryptEcb(slice, slice, PaddingMode.None);
+            aes.DecryptEcb(slice, slice);
             Xor(slice, nextXor);
             temp.CopyTo(nextXor);
         }
@@ -104,7 +109,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             Xor(slice, temp);
-            aes.EncryptEcb(slice, slice, PaddingMode.None);
+            aes.EncryptEcb(slice, slice);
             slice.CopyTo(temp);
         }
 
@@ -118,24 +123,20 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             slice.CopyTo(nextXor);
-            aes.EncryptEcb(slice, slice, PaddingMode.None);
+            aes.EncryptEcb(slice, slice);
             Xor(slice, temp);
             nextXor.CopyTo(temp);
         }
     }
 
-    private Aes GetAesImpl(ReadOnlySpan<byte> payload)
+    private IAesCryptographyProvider.IAes GetAesImpl(ReadOnlySpan<byte> payload)
     {
         // The C# implementation of AES isn't fully allocation-free, so some allocation on key & implementation is needed.
         var key = GetAesKey(payload);
 
         // Don't dispose in this method, let the consumer dispose.
-        var aes = Aes.Create();
-        aes.Mode = CipherMode.ECB;
-        aes.Padding = PaddingMode.None;
-        aes.Key = key;
         // no IV -- all zero.
-        return aes;
+        return _aesProvider.Create(key);
     }
 
     /// <summary>

@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
 {
-    public SAV7USUM(byte[] data) : base(data, SaveBlockAccessor7USUM.BlockMetadataOffset)
+    public SAV7USUM(byte[] data, IAesCryptographyProvider? aesProvider = null) : base(data, SaveBlockAccessor7USUM.BlockMetadataOffset, aesProvider)
     {
         Blocks = new SaveBlockAccessor7USUM(this);
         Initialize();
         ClearMemeCrypto();
     }
 
-    public SAV7USUM() : base(SaveUtil.SIZE_G7USUM, boUU)
+    public SAV7USUM(IAesCryptographyProvider? aesProvider = null) : base(SaveUtil.SIZE_G7USUM, boUU, aesProvider)
     {
         Blocks = new SaveBlockAccessor7USUM(this);
         Initialize();
