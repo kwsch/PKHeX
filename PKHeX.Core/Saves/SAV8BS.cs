@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -59,7 +60,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         // 0x96340 - _DENDOU_SAVEDATA; DENDOU_RECORD[30], POKEMON_DATA_INSIDE[6], ushort[4] ?
         // BadgeSaveData; byte[8]
         // BoukenNote; byte[24]
-        // TV_DATA (int[48], TV_STR_DATA[42]), (int[37], bool[37])*2, (int[8], int[8]), TV_STR_DATA[10]; 144 128bit zeroed (900 bytes?)? 
+        // TV_DATA (int[48], TV_STR_DATA[42]), (int[37], bool[37])*2, (int[8], int[8]), TV_STR_DATA[10]; 144 128bit zeroed (900 bytes?)?
         UgSaveData = new UgSaveData8b(this, Raw.Slice(0x9A89C, 0x27A0));
         // 0x9D03C - GMS_DATA // size: 0x31304, (GMS_POINT_DATA[650], ushort, ushort, byte)?; substructure GMS_POINT_HISTORY_DATA[5]
         // 0xCE340 - PLAYER_NETWORK_DATA; bcatFlagArray byte[1300]
@@ -176,7 +177,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     private Span<byte> CurrentHash => Data.AsSpan(HashOffset, HashLength);
     private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> dest)
     {
-        using var h = IncrementalHash.CreateHash(HashAlgorithmName.MD5);
+        using var h = RuntimeCryptographyProvider.Md5.Create();
         h.AppendData(data[..HashOffset]);
         Span<byte> zeroes = stackalloc byte[HashLength]; // Hash is zeroed prior to computing over the payload. Treat it as zero.
         h.AppendData(zeroes);

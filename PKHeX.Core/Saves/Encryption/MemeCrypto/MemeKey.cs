@@ -132,7 +132,7 @@ public readonly ref struct MemeKey
 
         // Don't dispose in this method, let the consumer dispose.
         // no IV -- all zero.
-        return RuntimeAesCryptographyProvider.Aes.Create(key,
+        return RuntimeCryptographyProvider.Aes.Create(key,
             new IAesCryptographyProvider.Options(CipherMode.ECB, PaddingMode.None));
     }
 

@@ -86,7 +86,7 @@ public static class HomeCrypto
 
     private static void Crypt(ReadOnlySpan<byte> data, byte[] key, byte[] iv, byte[] result, ushort dataSize, bool decrypt)
     {
-        using var aes = RuntimeAesCryptographyProvider.Aes.Create(key,
+        using var aes = RuntimeCryptographyProvider.Aes.Create(key,
             new IAesCryptographyProvider.Options(CipherMode.CBC, PaddingMode.None)); // Handle PKCS7 manually.
 
         var tmp = data[SIZE_1HEADER..].ToArray();
