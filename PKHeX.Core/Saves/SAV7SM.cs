@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;

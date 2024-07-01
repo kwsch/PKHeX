@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using PKHeX.Core.Saves.Encryption.Providers;
 
 namespace PKHeX.Core;
 
