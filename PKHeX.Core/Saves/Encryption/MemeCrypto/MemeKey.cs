@@ -23,13 +23,9 @@ public readonly ref struct MemeKey
     /// <summary> Modulus, BigInteger </summary>
     private readonly BigInteger N;
 
-    private readonly IAesCryptographyProvider _aesProvider;
-
     // Constructor
-    public MemeKey(MemeKeyIndex key, IAesCryptographyProvider? aesProvider = null)
+    public MemeKey(MemeKeyIndex key)
     {
-        _aesProvider = aesProvider ?? IAesCryptographyProvider.Default;
-
         DER = GetMemeDataVerify(key);
         var all = DER;
         N = new BigInteger(all.Slice(0x18, 0x61), isUnsigned: true, isBigEndian: true);
@@ -136,7 +132,8 @@ public readonly ref struct MemeKey
 
         // Don't dispose in this method, let the consumer dispose.
         // no IV -- all zero.
-        return _aesProvider.Create(key);
+        return RuntimeAesCryptographyProvider.Aes.Create(key,
+            new IAesCryptographyProvider.Options(CipherMode.ECB, PaddingMode.None));
     }
 
     /// <summary>

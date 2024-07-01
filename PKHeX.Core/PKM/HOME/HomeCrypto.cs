@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -85,9 +86,8 @@ public static class HomeCrypto
 
     private static void Crypt(ReadOnlySpan<byte> data, byte[] key, byte[] iv, byte[] result, ushort dataSize, bool decrypt)
     {
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.None; // Handle PKCS7 manually.
+        using var aes = RuntimeAesCryptographyProvider.Aes.Create(key,
+            new IAesCryptographyProvider.Options(CipherMode.CBC, PaddingMode.None)); // Handle PKCS7 manually.
 
         var tmp = data[SIZE_1HEADER..].ToArray();
         using var ms = new MemoryStream(tmp);

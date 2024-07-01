@@ -15,28 +15,32 @@ namespace PKHeX.Core.Saves.Encryption.Providers;
 /// </summary>
 public interface IAesCryptographyProvider
 {
-    IAes Create(byte[] key);
+    IAes Create(byte[] key, Options options);
 
     public static readonly IAesCryptographyProvider Default = new DefaultAes();
+
+    public record Options(CipherMode Mode, PaddingMode Padding);
 
     public interface IAes : IDisposable
     {
         void EncryptEcb(ReadOnlySpan<byte> origin, Span<byte> destination);
         void DecryptEcb(ReadOnlySpan<byte> origin, Span<byte> destination);
+        ICryptoTransform CreateDecryptor(byte[] key, byte[] iv);
+        ICryptoTransform CreateEncryptor(byte[] key, byte[] iv);
     }
 
     private class DefaultAes : IAesCryptographyProvider
     {
-        public IAes Create(byte[] key) => new AesSession(key);
+        public IAes Create(byte[] key, Options options) => new AesSession(key, options);
 
         private class AesSession : IAes
         {
             private readonly Aes _aes = Aes.Create();
 
-            public AesSession(byte[] key)
+            public AesSession(byte[] key, Options options)
             {
-                _aes.Mode = CipherMode.ECB;
-                _aes.Padding = PaddingMode.None;
+                _aes.Mode = options.Mode;
+                _aes.Padding = options.Padding;
                 _aes.Key = key;
             }
 
@@ -54,6 +58,10 @@ public interface IAesCryptographyProvider
             {
                 _aes.DecryptEcb(origin, destination, _aes.Padding);
             }
+
+            public ICryptoTransform CreateDecryptor(byte[] key, byte[] iv) => _aes.CreateDecryptor(key, iv);
+
+            public ICryptoTransform CreateEncryptor(byte[] key, byte[] iv) => _aes.CreateEncryptor(key, iv);
         }
     }
 }
