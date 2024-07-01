@@ -256,6 +256,21 @@ public sealed class NicknameVerifier : Verifier
         ushort species = pk.Species;
         byte format = pk.Format;
         int language = pk.Language;
+
+        // Farfetch’d and Sirfetch’d have different apostrophes in HOME, only if transferred from 3DS or GO => HOME.
+        // HOME doesn't use the right apostrophe. ' vs ’
+        if (format >= 8 && species is (int)Species.Farfetchd or (int)Species.Sirfetchd)
+        {
+            // Evolving in-game fixes it. Check only un-evolved and affected languages.
+            if (species == enc.Species && SpeciesName.IsApostropheFarfetchdLanguage(language))
+            {
+                if (enc is { Generation: < 8, Context: not EntityContext.Gen7b }) // 3DS -> HOME
+                    return nickname is "Farfetch'd";
+                if (enc is EncounterSlot8GO) // GO -> HOME
+                    return species is (int)Species.Farfetchd ? nickname is "Farfetch'd" : nickname is "Sirfetch'd";
+            }
+        }
+
         ReadOnlySpan<char> expect = SpeciesName.GetSpeciesNameGeneration(species, language, format);
         if (nickname.SequenceEqual(expect))
             return true;
@@ -269,25 +284,11 @@ public sealed class NicknameVerifier : Verifier
         if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
             return true;
 
-        switch (enc)
-        {
-            case ILangNick loc:
-                if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
-                    return true; // fixed language without nickname, nice job event maker!
-                break;
-        }
+        if (enc is ILangNick loc && loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
+            return true; // fixed language without nickname, nice job event maker!
 
         if (format == 5 && enc.Generation != 5) // transfer
             return IsMatch45(nickname, species, expect, language, canHaveAnyLanguage);
-
-        if (format >= 8 && enc is { Generation: < 8 } or IPogoSlot) // HOME weirdness
-        {
-            // HOME doesn't use the right apostrophe. ' vs ’
-            if (pk.Species == (int)Species.Farfetchd)
-                return nickname is "Farfetch'd";
-            if (pk.Species == (int)Species.Sirfetchd)
-                return nickname is "Sirfetch'd";
-        }
 
         return false;
     }

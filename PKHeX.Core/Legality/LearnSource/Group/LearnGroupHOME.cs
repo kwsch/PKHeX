@@ -106,7 +106,7 @@ public sealed class LearnGroupHOME : ILearnGroup
     /// <returns>True if all results are valid.</returns>
     private static bool CleanPurge(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos)
     {
-        // The logic used to update the results did not check if the move was could be learned in the local game.
+        // The logic used to update the results did not check if the move could be learned in the local game.
         // Double-check the results and remove any that are not valid for the local game.
         // SW/SH will continue to iterate downwards to previous groups after HOME is checked, so we can exactly check via Environment.
         for (int i = 0; i < result.Length; i++)
