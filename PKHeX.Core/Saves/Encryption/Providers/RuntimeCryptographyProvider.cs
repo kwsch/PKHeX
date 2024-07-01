@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core.Saves.Encryption.Providers;
 
 /// <summary>

@@ -664,7 +664,6 @@ public static class SaveUtil
     /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
     /// <param name="data">Save data from which to create a SaveFile.</param>
     /// <param name="path">Optional save file path, may help initialize a non-standard save file format.</param>
-    /// <param name="configureLoad">Optional callback that can be used to determine parameters of loading a save file</param>
     /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
     public static SaveFile? GetVariantSAV(byte[] data, string? path = null)
     {
@@ -818,7 +817,6 @@ public static class SaveUtil
     /// <param name="game">Version to create the save file for.</param>
     /// <param name="trainerName">Trainer Name</param>
     /// <param name="language">Language to initialize with</param>
-    /// <param name="configureLoad">Optional callback that can be used to determine parameters of loading a save file</param>
     /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
     public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
     {
