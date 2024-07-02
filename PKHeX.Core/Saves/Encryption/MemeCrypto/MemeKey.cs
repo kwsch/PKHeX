@@ -74,7 +74,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             Xor(temp, slice);
-            aes.DecryptEcb(temp, temp, PaddingMode.None);
+            aes.DecryptEcb(temp, temp);
             temp.CopyTo(slice);
         }
 
@@ -88,7 +88,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             slice.CopyTo(temp);
-            aes.DecryptEcb(slice, slice, PaddingMode.None);
+            aes.DecryptEcb(slice, slice);
             Xor(slice, nextXor);
             temp.CopyTo(nextXor);
         }
@@ -104,7 +104,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             Xor(slice, temp);
-            aes.EncryptEcb(slice, slice, PaddingMode.None);
+            aes.EncryptEcb(slice, slice);
             slice.CopyTo(temp);
         }
 
@@ -118,24 +118,20 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             slice.CopyTo(nextXor);
-            aes.EncryptEcb(slice, slice, PaddingMode.None);
+            aes.EncryptEcb(slice, slice);
             Xor(slice, temp);
             nextXor.CopyTo(temp);
         }
     }
 
-    private Aes GetAesImpl(ReadOnlySpan<byte> payload)
+    private IAesCryptographyProvider.IAes GetAesImpl(ReadOnlySpan<byte> payload)
     {
         // The C# implementation of AES isn't fully allocation-free, so some allocation on key & implementation is needed.
         var key = GetAesKey(payload);
 
         // Don't dispose in this method, let the consumer dispose.
-        var aes = Aes.Create();
-        aes.Mode = CipherMode.ECB;
-        aes.Padding = PaddingMode.None;
-        aes.Key = key;
         // no IV -- all zero.
-        return aes;
+        return RuntimeCryptographyProvider.Aes.Create(key, CipherMode.ECB, PaddingMode.None);
     }
 
     /// <summary>

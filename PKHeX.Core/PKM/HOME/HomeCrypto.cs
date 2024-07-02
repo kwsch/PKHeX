@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -78,24 +77,22 @@ public static class HomeCrypto
         var dataSize = ReadUInt16LittleEndian(data[0xE..0x10]);
         var result = new byte[SIZE_1HEADER + dataSize];
         data[..SIZE_1HEADER].CopyTo(result); // header
-        Crypt(data, key, iv, result, dataSize, decrypt);
+
+        var input = data.Slice(SIZE_1HEADER, dataSize);
+        var output = result.AsSpan(SIZE_1HEADER, dataSize);
+        Crypt(input, output, key, iv, decrypt);
 
         return result;
     }
 
-    private static void Crypt(ReadOnlySpan<byte> data, byte[] key, byte[] iv, byte[] result, ushort dataSize, bool decrypt)
+    private static void Crypt(ReadOnlySpan<byte> data, Span<byte> result, byte[] key, byte[] iv, bool decrypt)
     {
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.None; // Handle PKCS7 manually.
-
-        var tmp = data[SIZE_1HEADER..].ToArray();
-        using var ms = new MemoryStream(tmp);
-        using var transform = decrypt ? aes.CreateDecryptor(key, iv) : aes.CreateEncryptor(key, iv);
-        using var cs = new CryptoStream(ms, transform, CryptoStreamMode.Read);
-
-        var size = cs.Read(result, SIZE_1HEADER, dataSize);
-        System.Diagnostics.Debug.Assert(SIZE_1HEADER + size == data.Length);
+        // Handle PKCS7 manually.
+        using var aes = RuntimeCryptographyProvider.Aes.Create(key, CipherMode.CBC, PaddingMode.None, iv);
+        if (decrypt)
+            aes.DecryptCbc(data, result);
+        else
+            aes.EncryptCbc(data, result);
     }
 
     /// <summary>
