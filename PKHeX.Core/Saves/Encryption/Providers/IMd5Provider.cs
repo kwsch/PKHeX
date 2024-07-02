@@ -9,7 +9,7 @@ public interface IMd5Provider
 
     internal static readonly IMd5Provider Default = new DefaultMd5();
 
-    private class DefaultMd5 : IMd5Provider
+    private sealed class DefaultMd5 : IMd5Provider
     {
         public void HashData(ReadOnlySpan<byte> source, Span<byte> destination) => MD5.HashData(source, destination);
     }

@@ -25,7 +25,7 @@ public interface IAesCryptographyProvider
         void DecryptCbc(ReadOnlySpan<byte> ciphertext, Span<byte> destination);
     }
 
-    private class DefaultAes : IAesCryptographyProvider
+    private sealed class DefaultAes : IAesCryptographyProvider
     {
         public IAes Create(byte[] key, CipherMode mode, PaddingMode padding, byte[]? iv = null) => new AesSession(key, mode, padding, iv);
 
