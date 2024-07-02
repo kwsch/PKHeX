@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using PKHeX.Core.Saves.Encryption.Providers;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -175,26 +174,32 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     private const int HashLength = MD5.HashSizeInBytes;
     private const int HashOffset = SaveUtil.SIZE_G8BDSP - HashLength;
     private Span<byte> CurrentHash => Data.AsSpan(HashOffset, HashLength);
-    private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> dest)
+
+    // Checksum is stored in the middle of the save file, and is zeroed before computing.
+    protected override void SetChecksums()
     {
-        using var h = RuntimeCryptographyProvider.Md5.Create();
-        h.AppendData(data[..HashOffset]);
-        Span<byte> zeroes = stackalloc byte[HashLength]; // Hash is zeroed prior to computing over the payload. Treat it as zero.
-        h.AppendData(zeroes);
-        h.AppendData(data[(HashOffset + HashLength)..]);
-        h.GetCurrentHash(dest);
+        var current = CurrentHash;
+        current.Clear();
+        RuntimeCryptographyProvider.Md5.HashData(Data, current);
     }
 
-    protected override void SetChecksums() => ComputeHash(Data, CurrentHash);
-    public override bool ChecksumsValid => GetIsHashValid(Data, CurrentHash);
+    public override bool ChecksumsValid
+    {
+        get
+        {
+            // Cache existing checksum as computing will update it.
+            var current = CurrentHash;
+            Span<byte> exist = stackalloc byte[HashLength];
+            current.CopyTo(exist);
+            SetChecksums();
+            var result = current.SequenceEqual(exist);
+            if (!result)
+                exist.CopyTo(current); // restore original bad checksum
+            return result;
+        }
+    }
+
     public override string ChecksumInfo => !ChecksumsValid ? "MD5 Hash Invalid" : string.Empty;
-
-    public static bool GetIsHashValid(ReadOnlySpan<byte> data, ReadOnlySpan<byte> currentHash)
-    {
-        Span<byte> computed = stackalloc byte[HashLength];
-        ComputeHash(data, computed);
-        return computed.SequenceEqual(currentHash);
-    }
 
     #endregion
 

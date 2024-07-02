@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Numerics;
 using System.Security.Cryptography;
-using PKHeX.Core.Saves.Encryption.Providers;
 using static PKHeX.Core.MemeKeyIndex;
 
 namespace PKHeX.Core;
@@ -132,8 +131,7 @@ public readonly ref struct MemeKey
 
         // Don't dispose in this method, let the consumer dispose.
         // no IV -- all zero.
-        return RuntimeCryptographyProvider.Aes.Create(key,
-            new IAesCryptographyProvider.Options(CipherMode.ECB, PaddingMode.None));
+        return RuntimeCryptographyProvider.Aes.Create(key, CipherMode.ECB, PaddingMode.None);
     }
 
     /// <summary>
