@@ -18,7 +18,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     private string RankString=> MinRank == MaxRank ? $"{MinRank+1}" : $"{MinRank+1}-{MaxRank+1}";
     public override string Name => $"Stock Raid Den Encounter [{NestID:000}] {RankString}★";
 
-    private byte[] NestLocations => Encounters8Nest.NestLocations[NestID];
+    private bool IsNestLocation(byte loc) => GetNestLocations(NestID).Contains(loc);
 
     public override byte Level { get => LevelMin; init { } }
     public override byte LevelMin => LevelCaps[MinRank * 2];
@@ -105,7 +105,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             return true;
         if (loc > byte.MaxValue)
             return false;
-        return Array.IndexOf(NestLocations, (byte)loc) >= 0;
+        return IsNestLocation((byte)loc);
     }
 
     public (bool Possible, bool ForceNoShiny) IsPossibleSeed<T>(T pk, ulong seed, bool checkDmax) where T : PKM

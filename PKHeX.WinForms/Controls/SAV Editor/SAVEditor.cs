@@ -1018,7 +1018,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         foreach (var x in data)
         {
             var i = index++;
-            if (sav.IsSlotOverwriteProtected(box, i))
+            if (sav.IsBoxSlotOverwriteProtected(box, i))
             {
                 slotSkipped++;
                 continue;

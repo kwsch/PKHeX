@@ -6,6 +6,7 @@ namespace PKHeX.Core;
 public sealed class EncounterGenerator8X : IEncounterGenerator
 {
     public static readonly EncounterGenerator8X Instance = new();
+    public bool CanGenerateEggs => false;
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups) => game switch
     {

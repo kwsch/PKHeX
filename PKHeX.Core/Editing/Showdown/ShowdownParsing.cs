@@ -14,8 +14,8 @@ public static class ShowdownParsing
     /// <summary>
     /// Gets the Form ID from the input <see cref="name"/>.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="strings"></param>
+    /// <param name="name">Form name to find the form index of</param>
+    /// <param name="strings">Localized string source to fetch with</param>
     /// <param name="species">Species ID the form belongs to</param>
     /// <param name="context">Format the form name should appear in</param>
     /// <returns>Zero (base form) if no form matches the input string.</returns>
@@ -61,10 +61,10 @@ public static class ShowdownParsing
     /// <summary>
     /// Converts a Form ID to string.
     /// </summary>
-    /// <param name="form"></param>
-    /// <param name="strings"></param>
-    /// <param name="species"></param>
-    /// <param name="context"></param>
+    /// <param name="form">Form to get the form name of</param>
+    /// <param name="strings">Localized string source to fetch with</param>
+    /// <param name="species">Species ID the form belongs to</param>
+    /// <param name="context">Format the form name should appear in</param>
     public static string GetStringFromForm(byte form, GameStrings strings, ushort species, EntityContext context)
     {
         if (form == 0)

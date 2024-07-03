@@ -435,7 +435,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         int skipped = 0;
         for (int slot = 0; slot < BoxSlotCount; slot++)
         {
-            var flags = GetSlotFlags(box, slot);
+            var flags = GetBoxSlotFlags(box, slot);
             if (!flags.IsOverwriteProtected())
                 SetBoxSlotAtIndex(value[index + slot], box, slot);
             else
@@ -469,12 +469,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     /// Slot indexes that are protected from overwriting.
     /// </summary>
     protected virtual IList<int>[] SlotPointers => [ TeamSlots ];
-    public virtual StorageSlotSource GetSlotFlags(int index) => StorageSlotSource.None;
-    public StorageSlotSource GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
-    public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlag(StorageSlotSource.Locked);
-    public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlag(StorageSlotSource.Locked);
-    public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
-    public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
+    public virtual StorageSlotSource GetBoxSlotFlags(int index) => StorageSlotSource.None;
+    public StorageSlotSource GetBoxSlotFlags(int box, int slot) => GetBoxSlotFlags((box * BoxSlotCount) + slot);
+    public bool IsBoxSlotLocked(int box, int slot) => GetBoxSlotFlags(box, slot).HasFlag(StorageSlotSource.Locked);
+    public bool IsBoxSlotLocked(int index) => GetBoxSlotFlags(index).HasFlag(StorageSlotSource.Locked);
+    public bool IsBoxSlotOverwriteProtected(int box, int slot) => GetBoxSlotFlags(box, slot).IsOverwriteProtected();
+    public bool IsBoxSlotOverwriteProtected(int index) => GetBoxSlotFlags(index).IsOverwriteProtected();
 
     private const int StorageFullValue = -1;
     public bool IsStorageFull => NextOpenBoxSlot() == StorageFullValue;
@@ -506,7 +506,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         {
             foreach (int slotIndex in arrays)
             {
-                if (!GetSlotFlags(slotIndex).IsOverwriteProtected())
+                if (!GetBoxSlotFlags(slotIndex).IsOverwriteProtected())
                     continue;
                 if (min <= slotIndex && slotIndex < max)
                     return true;
@@ -529,7 +529,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         {
             foreach (int slotIndex in arrays)
             {
-                if (!GetSlotFlags(slotIndex).HasFlag(StorageSlotSource.Locked))
+                if (!GetBoxSlotFlags(slotIndex).HasFlag(StorageSlotSource.Locked))
                     continue;
                 if (min <= slotIndex && slotIndex < max)
                     return true;
@@ -678,7 +678,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         if (BoxEnd >= BoxStart)
             Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
-        Func<int, bool> skip = IsSlotOverwriteProtected;
+        Func<int, bool> skip = IsBoxSlotOverwriteProtected;
         Section = Section.Where((_, i) => !skip(start + i));
         var method = sortMethod ?? ((z, _) => z.OrderBySpecies());
         var Sorted = method(Section, start);
@@ -728,7 +728,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         {
             for (int p = 0; p < BoxSlotCount; p++)
             {
-                if (IsSlotOverwriteProtected(i, p))
+                if (IsBoxSlotOverwriteProtected(i, p))
                     continue;
                 var ofs = GetBoxSlotOffset(i, p);
                 if (!IsPKMPresent(storage[ofs..]))
@@ -765,7 +765,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         {
             for (int s = 0; s < BoxSlotCount; s++)
             {
-                if (IsSlotOverwriteProtected(b, s))
+                if (IsBoxSlotOverwriteProtected(b, s))
                     continue;
                 var ofs = GetBoxSlotOffset(b, s);
                 var dest = storage[ofs..];
@@ -814,7 +814,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         var entryLength = SIZE_BOXSLOT;
         for (int i = 0, ctr = start; i < data.Length; i += entryLength)
         {
-            if (IsSlotOverwriteProtected(ctr))
+            if (IsBoxSlotOverwriteProtected(ctr))
                 continue;
             var src = data.Slice(i, entryLength);
             var arr = src.ToArray();

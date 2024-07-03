@@ -30,13 +30,13 @@ public interface ISlotViewer<T>
     /// <summary>
     /// Gets the information for the requested slot's view picture.
     /// </summary>
-    /// <param name="view"></param>
+    /// <param name="view">Object displaying the entity slot.</param>
     ISlotInfo GetSlotData(T view);
 
     /// <summary>
     /// Gets the index of the <see cref="T"/> view within the <see cref="ISlotViewer{T}"/>'s list of slots.
     /// </summary>
-    /// <param name="slot"></param>
+    /// <param name="slot">Entity slot to find index of</param>
     int GetViewIndex(ISlotInfo slot);
 
     /// <summary>

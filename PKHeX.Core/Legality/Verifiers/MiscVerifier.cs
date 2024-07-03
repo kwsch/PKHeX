@@ -515,6 +515,9 @@ public sealed class MiscVerifier : Verifier
             case WA8 wa8 when !wa8.CanBeReceivedByVersion(pk.Version, pk):
                 data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                 return;
+            case PGF pgf when pgf.RestrictLanguage != 0 && pk.Language != pgf.RestrictLanguage:
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, pgf.RestrictLanguage, pk.Language), CheckIdentifier.Language));
+                return;
             case WC6 wc6 when wc6.RestrictLanguage != 0 && pk.Language != wc6.RestrictLanguage:
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pk.Language), CheckIdentifier.Language));
                 return;

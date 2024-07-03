@@ -23,7 +23,6 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Clears all the "mastered" move shop flags.
     /// </summary>
-    /// <param name="shop"></param>
     public static void ClearMoveShopFlagsMastered(this IMoveShop8Mastery shop)
     {
         var bits = shop.Permit;

@@ -228,7 +228,7 @@ public static class GameUtil
     /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
     /// </summary>
     /// <param name="generation">Generation to look within</param>
-    /// <param name="version"></param>
+    /// <param name="version">Entity version</param>
     public static GameVersion[] GetVersionsInGeneration(byte generation, GameVersion version)
     {
         if (Gen7b.Contains(version))

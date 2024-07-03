@@ -259,11 +259,11 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for. Necessary for retrieving possible Egg Moves.</param>
-    /// <param name="generator"></param>
+    /// <param name="generator">Encounter generator to use.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<IEncounterable> GetEggs(PKM pk, ReadOnlyMemory<ushort> needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
-        if (!Breeding.CanGameGenerateEggs(version))
+        if (!generator.CanGenerateEggs)
             yield break; // no eggs from these games
 
         var eggs = generator.GetPossible(pk, chain, version, Egg);
@@ -303,7 +303,7 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
-    /// <param name="generator"></param>
+    /// <param name="generator">Encounter generator to use.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<IEncounterable> GetStatic(PKM pk, ReadOnlyMemory<ushort> needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
@@ -325,7 +325,7 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
-    /// <param name="generator"></param>
+    /// <param name="generator">Encounter generator to use.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<IEncounterable> GetTrades(PKM pk, ReadOnlyMemory<ushort> needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
@@ -347,7 +347,7 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Origin version</param>
-    /// <param name="generator"></param>
+    /// <param name="generator">Encounter generator to use.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<IEncounterable> GetSlots(PKM pk, ReadOnlyMemory<ushort> needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {

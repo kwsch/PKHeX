@@ -133,7 +133,7 @@ public static class EntitySorting
         var ctr = start;
         foreach (var x in list)
         {
-            while (sav.IsSlotOverwriteProtected(ctr))
+            while (sav.IsBoxSlotOverwriteProtected(ctr))
                 ctr++;
             bool isMatch = check(ctr);
             var arr = isMatch ? matches : failures;

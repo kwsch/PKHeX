@@ -21,7 +21,7 @@ public static class LocationsHOME
     /// <summary>
     /// Gets the external entity version needs to be remapped into a location for SW/SH.
     /// </summary>
-    /// <param name="version"></param>
+    /// <param name="version">Origin Game ID to be stored directly/indirectly in the PK8.</param>
     /// <returns>True if a known remap exists.</returns>
     public static bool IsVersionRemapNeeded(GameVersion version) => GetRemapIndex(version) < RemapCount;
 

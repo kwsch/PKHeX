@@ -6,6 +6,7 @@ namespace PKHeX.Core;
 public enum BinaryExportSetting
 {
     None,
-    IncludeFooter = 1 << 0,
-    IncludeHeader = 1 << 1,
+    ExcludeFooter = 1 << 0,
+    ExcludeHeader = 1 << 1,
+    ExcludeFinalize = 1 << 2,
 }
