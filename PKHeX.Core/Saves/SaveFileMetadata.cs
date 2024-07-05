@@ -202,4 +202,15 @@ public sealed record SaveFileMetadata(SaveFile SAV)
         }
         return flags;
     }
+
+    internal SaveFileMetadata CloneInternal(SaveFile sav)
+    {
+        var clone = this with { SAV = sav };
+        // Disassociate any mutable references from this object
+        if (HasFooter)
+            clone.Footer = [..Footer];
+        if (HasHeader)
+            clone.Header = [..Header];
+        return clone;
+    }
 }

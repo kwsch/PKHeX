@@ -33,7 +33,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     public SaveFile Clone()
     {
         var sav = CloneInternal();
-        sav.Metadata = Metadata with {SAV = sav};
+        sav.Metadata = Metadata.CloneInternal(sav);
         return sav;
     }
 
