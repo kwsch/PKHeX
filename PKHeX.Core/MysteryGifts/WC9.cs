@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 9 Mystery Gift Template File
 /// </summary>
 public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature, ITeraType, IRibbonIndex, IMemoryOT,
-    ILangNicknamedTemplate, IEncounterServerDate, IRelearn,
+    ILangNicknamedTemplate, IEncounterServerDate, IRelearn, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9, IEncounterMarkExtra
 {
