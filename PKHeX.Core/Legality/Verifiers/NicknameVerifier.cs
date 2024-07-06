@@ -25,12 +25,6 @@ public sealed class NicknameVerifier : Verifier
         }
         nickname = nickname[..len];
 
-        if (pk.Species > SpeciesName.MaxSpeciesID)
-        {
-            data.AddLine(Get(LNickLengthShort, Severity.Invalid));
-            return;
-        }
-
         var enc = data.EncounterOriginal;
         if (enc is ILangNicknamedTemplate n)
         {
@@ -104,17 +98,6 @@ public sealed class NicknameVerifier : Verifier
 
             if (n.CanHandleOT(pk.Language))
                 return;
-
-            if (n is WC3 && pk.Format != 3)
-            {
-                // Gen3 gifts transferred to Generation 4 from another language can set the nickname flag.
-                var evos = data.Info.EvoChainsAllGens.Gen3;
-                foreach (var evo in evos)
-                {
-                    if (!SpeciesName.IsNicknamedAnyLanguage(evo.Species, nickname, 3))
-                        return;
-                }
-            }
 
             if (pk.IsNicknamed)
                 data.AddLine(Get(LEncGiftNicknamed, Severity.Invalid));

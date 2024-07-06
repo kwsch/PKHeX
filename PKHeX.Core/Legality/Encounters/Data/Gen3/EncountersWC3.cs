@@ -14,226 +14,229 @@ namespace PKHeX.Core;
 /// </remarks>
 internal static class EncountersWC3
 {
-    internal static readonly WC3[] Encounter_Event3_Special =
+    private static readonly WC3[] Common =
     [
-        new(R) { Species = 385, Level = 05, ID32 = 20043, OriginalTrainerGender = 0, Method = BACD_R, OriginalTrainerName = "WISHMKR", CardTitle = "Wishmaker Jirachi", Language = (int)English },
+        new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_U, ID32 = 06930, Shiny = Never, OriginalTrainerName = "MYSTRY", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Mew
+        new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 06930, Shiny = Never, OriginalTrainerName = "MYSTRY", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Mew
+        new(385, 05, R) { Moves = new(273,093,156,000), Method = BACD_R, ID32 = 20043, Shiny = Random, OriginalTrainerName = "WISHMKR", OriginalTrainerGender = 0, Language = (int)English,  },
+        new(385, 05, RS, false, met: 0) { Moves = new(273,093,156,000), Method = Channel, TID16 = 40122, Shiny = Random, OriginalTrainerName = "CHANNEL", OriginalTrainerGender = 3 },
     ];
 
-    internal static readonly WC3[] Encounter_Event3 = Encounter_Event3_Special;
-
-    internal static readonly WC3[] Encounter_Event3_FRLG =
+    private static readonly WC3[] Japan =
     [
-        // PCJP - Egg Pokémon Present Eggs (March 21 to April 4, 2004)
-        new(FRLG, true) { Species = 043, IsEgg = true, Level = 05, Moves = new(071,073,000,000), Method = Method_2 }, // Oddish with Leech Seed
-        new(FRLG, true) { Species = 052, IsEgg = true, Level = 05, Moves = new(010,045,080,000), Method = Method_2 }, // Meowth with Petal Dance
-        new(FRLG, true) { Species = 060, IsEgg = true, Level = 05, Moves = new(145,186,000,000), Method = Method_2 }, // Poliwag with Sweet Kiss
-        new(FRLG, true) { Species = 069, IsEgg = true, Level = 05, Moves = new(022,298,000,000), Method = Method_2 }, // Bellsprout with Teeter Dance
-
-        // PCNY - Wish Eggs (December 16, 2004, to January 2, 2005)
-        new(FRLG, true) { Species = 083, IsEgg = true, Level = 05, Moves = new(281,273,000,000), Method = Method_2 }, // Farfetch'd with Wish & Yawn
-        new(FRLG, true) { Species = 096, IsEgg = true, Level = 05, Moves = new(187,273,000,000), Method = Method_2 }, // Drowzee with Wish & Belly Drum
-        new(FRLG, true) { Species = 102, IsEgg = true, Level = 05, Moves = new(230,273,000,000), Method = Method_2 }, // Exeggcute with Wish & Sweet Scent
-        new(FRLG, true) { Species = 108, IsEgg = true, Level = 05, Moves = new(215,273,000,000), Method = Method_2 }, // Lickitung with Wish & Heal Bell
-        new(FRLG, true) { Species = 113, IsEgg = true, Level = 05, Moves = new(230,273,000,000), Method = Method_2 }, // Chansey with Wish & Sweet Scent
-        new(FRLG, true) { Species = 115, IsEgg = true, Level = 05, Moves = new(281,273,000,000), Method = Method_2 }, // Kangaskhan with Wish & Yawn
-
-        // PokePark Eggs - Wondercard
-        new(FRLG, true) { Species = 054, IsEgg = true, Level = 05, Moves = new(346,010,039,300), Method = Method_2 }, // Psyduck with Mud Sport
-        new(FRLG, true) { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,266,000), Method = Method_2 }, // Pichu with Follow me
-        new(FRLG, true) { Species = 174, IsEgg = true, Level = 05, Moves = new(047,204,111,321), Method = Method_2 }, // Igglybuff with Tickle
-        new(FRLG, true) { Species = 222, IsEgg = true, Level = 05, Moves = new(033,300,000,000), Method = Method_2 }, // Corsola with Mud Sport
-        new(FRLG, true) { Species = 276, IsEgg = true, Level = 05, Moves = new(064,045,116,297), Method = Method_2 }, // Taillow with Feather Dance
-        new(FRLG, true) { Species = 283, IsEgg = true, Level = 05, Moves = new(145,300,000,000), Method = Method_2 }, // Surskit with Mud Sport
-        new(FRLG, true) { Species = 293, IsEgg = true, Level = 05, Moves = new(001,253,298,000), Method = Method_2 }, // Whismur with Teeter Dance
-        new(FRLG, true) { Species = 300, IsEgg = true, Level = 05, Moves = new(045,033,039,205), Method = Method_2 }, // Skitty with Rollout
-        new(FRLG, true) { Species = 311, IsEgg = true, Level = 05, Moves = new(045,086,346,000), Method = Method_2 }, // Plusle with Water Sport
-        new(FRLG, true) { Species = 312, IsEgg = true, Level = 05, Moves = new(045,086,300,000), Method = Method_2 }, // Minun with Mud Sport
-        new(FRLG, true) { Species = 325, IsEgg = true, Level = 05, Moves = new(150,253,000,000), Method = Method_2 }, // Spoink with Uproar
-        new(FRLG, true) { Species = 327, IsEgg = true, Level = 05, Moves = new(033,253,047,000), Method = Method_2 }, // Spinda with Sing
-        new(FRLG, true) { Species = 331, IsEgg = true, Level = 05, Moves = new(040,043,071,227), Method = Method_2 }, // Cacnea with Encore
-        new(FRLG, true) { Species = 341, IsEgg = true, Level = 05, Moves = new(145,346,000,000), Method = Method_2 }, // Corphish with Water Sport
-        new(FRLG, true) { Species = 360, IsEgg = true, Level = 05, Moves = new(150,204,227,321), Method = Method_2 }, // Wynaut with Tickle
+        new(385, 05, R) { Moves = new(001,144,000,000), Method = BACD_R,    ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = 0, Language = (int)Japanese }, // Negai Boshi Jirachi
+        new(385, 05, RS){ Moves = new(001,144,000,000), Method = BACD_U_AX, ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = 3, Language = (int)Japanese }, // Negai Boshi Jirachi (Match Recipient)
+        new(263, 05, S) { Moves = new(033,045,039,000), Method = BACD_R_S, ID32 = 21121, Shiny = Always, OriginalTrainerName = "ルビー",     OriginalTrainerGender = 1, Language = (int)Japanese }, // Berry Fix Ruby
+        new(263, 05, S) { Moves = new(033,045,039,000), Method = BACD_R_S, ID32 = 21121, Shiny = Always, OriginalTrainerName = "サファイア", OriginalTrainerGender = 0, Language = (int)Japanese }, // Berry Fix Sapphire
+        new(385, 05, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 40707, Shiny = Never, OriginalTrainerName = "タナバタ",   OriginalTrainerGender = 1, Language = (int)Japanese }, // Tanabata Jirachi (2004)
+        new(025, 10, R) { Moves = new(019,084,039,086), Method = BACD_R, ID32 = 41205, Shiny = Never, OriginalTrainerName = "ＡＮＡ",     OriginalTrainerGender = 0, Language = (int)Japanese }, // ANA Pikachu
+        new(052, 05, R) { Moves = new(010,045,000,000), Method = BACD_R, ID32 = 50318, Shiny = Never, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, Language = (int)Japanese }, // PokéPark Meowth
+        new(025, 10, R) { Moves = new(084,045,086,057), Method = BACD_R, ID32 = 50319, Shiny = Never, OriginalTrainerName = "ヨコハマ",  OriginalTrainerGender = 0, Language = (int)Japanese }, // Yokohama Pikachu
+        new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 50716, Shiny = Never, OriginalTrainerName = "ハドウ",    OriginalTrainerGender = 3, Language = (int)Japanese, FatefulEncounter = true }, // Hadou Mew
+        new(025, 10, R) { Moves = new(045,039,086,019), Method = BACD_R, ID32 = 50425, Shiny = Never, OriginalTrainerName = "ＧＷ",      OriginalTrainerGender = 3, Language = (int)Japanese }, // GW Pikachu
+        new(025, 10, R) { Moves = new(045,039,086,019), Method = BACD_R, ID32 = 50701, Shiny = Never, OriginalTrainerName = "サッポロ",  OriginalTrainerGender = 0, Language = (int)Japanese }, // Sapporo Pikachu
+        new(385, 05, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 50707, Shiny = Never, OriginalTrainerName = "タナバタ",  OriginalTrainerGender = 1, Language = (int)Japanese }, // Tanabata Jirachi (2005)
+        new(375, 30, R) { Moves = new(036,093,232,287), Method = BACD_R, ID32 = 02005, Shiny = Never, OriginalTrainerName = "フェスタ",  OriginalTrainerGender = 0, Language = (int)Japanese, RibbonNational = true }, // Festa Metang
+        new(202, 05, R) { Moves = new(068,243,219,194), Method = BACD_R, ID32 = 50701, Shiny = Never, OriginalTrainerName = "サンデー",  OriginalTrainerGender = 3, Language = (int)Japanese }, // Sunday Wobbuffet
+        new(377, 40, R) { Moves = new(174,276,246,063), Method = BACD_R, ID32 = 50901, Shiny = Never, OriginalTrainerName = "ハドウ",    OriginalTrainerGender = 3, Language = (int)Japanese }, // Regirock
+        new(378, 40, R) { Moves = new(174,276,246,063), Method = BACD_R, ID32 = 50901, Shiny = Never, OriginalTrainerName = "ハドウ",    OriginalTrainerGender = 3, Language = (int)Japanese }, // Regice
+        new(379, 40, R) { Moves = new(174,276,246,063), Method = BACD_R, ID32 = 50901, Shiny = Never, OriginalTrainerName = "ハドウ",    OriginalTrainerGender = 3, Language = (int)Japanese }, // Registeel
+        new(151, 30, R) { Moves = new(001,144,005,118), Method = BACD_R, ID32 = 60510, Shiny = Never, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 3, Language = (int)Japanese, FatefulEncounter = true }, // PokéPark Mew
+        new(251, 30, R) { Moves = new(215,219,246,248), Method = BACD_R, ID32 = 60623, Shiny = Never, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 3, Language = (int)Japanese }, // PokéPark Celebi
+        new(385, 05, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 60707, Shiny = Never, OriginalTrainerName = "タナバタ",   OriginalTrainerGender = 3, Language = (int)Japanese }, // Tanabata Jirachi (2006)
+        new(251, 10, R) { Moves = new(073,105,215,219), Method = BACD_R, ID32 = 60720, Shiny = Never, OriginalTrainerName = "ミツリン",   OriginalTrainerGender = 3, Language = (int)Japanese }, // Mitsurin Celebi (2006)
+        new(385, 30, R) { Moves = new(273,094,270,156), Method = BACD_R, ID32 = 60731, Shiny = Never, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, Language = (int)Japanese }, // PokéPark Jirachi (2006)
+        new(385, 30, R) { Moves = new(273,094,270,156), Method = BACD_R, ID32 = 60830, Shiny = Never, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, Language = (int)Japanese }, // PokéPark Jirachi (2006)
     ];
 
-    internal static readonly WC3[] Encounter_Event3_RS =
+    private static readonly WC3[] International =
     [
-        // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
-        new(R) { Species = 172, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(084,204,298,000), Method = BACD_R }, // Pichu with Teeter Dance
-        new(R) { Species = 172, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(084,204,273,000), Method = BACD_R }, // Pichu with Wish
-        new(R) { Species = 172, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(084,204,298,000), Method = BACD_R_S }, // Pichu with Teeter Dance
-        new(R) { Species = 172, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(084,204,273,000), Method = BACD_R_S }, // Pichu with Wish
-        new(R) { Species = 280, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(045,204,000,000), Method = BACD_R }, // Ralts with Charm
-        new(R) { Species = 280, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(045,273,000,000), Method = BACD_R }, // Ralts with Wish
-        new(R) { Species = 359, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(010,043,180,000), Method = BACD_R }, // Absol with Spite
-        new(R) { Species = 359, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(010,043,273,000), Method = BACD_R }, // Absol with Wish
-        new(R) { Species = 371, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(099,044,334,000), Method = BACD_R }, // Bagon with Iron Defense
-        new(R) { Species = 371, IsEgg = true, Level = 05, OriginalTrainerName = "オヤＮＡＭＥ", Moves = new(099,044,273,000), Method = BACD_R }, // Bagon with Wish
-
-        // Negai Boshi Jirachi
-        new(R) { Species = 385, Level = 05, ID32 = 30719, OriginalTrainerGender = 0, OriginalTrainerName = "ネガイボシ", Method = BACD_R, Language = (int)Japanese, Shiny = Never },
-        new(RS) { Species = 385, Level = 05, ID32 = 30719, OriginalTrainerName = "ネガイボシ", Method = BACD_U_AX, Language = (int)Japanese, Shiny = Never },
-
-        // Berry Glitch Fix
-        // PCJP - (December 29, 2003, to March 31, 2004)
-        new(S) { Species = 263, Level = 5, Language = (int)Japanese, Method = BACD_R_S, ID32 = 21121, OriginalTrainerName = "ルビー", OriginalTrainerGender = 1, Shiny = Always },
-        new(S) { Species = 263, Level = 5, Language = (int)Japanese, Method = BACD_R_S, ID32 = 21121, OriginalTrainerName = "サファイア", OriginalTrainerGender = 0, Shiny = Always },
-
         // EBGames/GameStop (March 1, 2004, to April 22, 2007), also via multi-game discs
-        new(S) { Species = 263, Level = 5, Language = (int)English, Method = BACD_R_S, ID32 = 30317, OriginalTrainerName = "RUBY", OriginalTrainerGender = 1 },
-        new(S) { Species = 263, Level = 5, Language = (int)English, Method = BACD_R_S, ID32 = 30317, OriginalTrainerName = "SAPHIRE", OriginalTrainerGender = 0 },
+        new(263, 5, S) { Moves = new(033,045,039,000), Method = BACD_R_S, ID32 = 30317, Shiny = Always, OriginalTrainerName = "RUBY",    OriginalTrainerGender = 1, Language = (int)English },
+        new(263, 5, S) { Moves = new(033,045,039,000), Method = BACD_R_S, ID32 = 30317, Shiny = Always, OriginalTrainerName = "SAPHIRE", OriginalTrainerGender = 0, Language = (int)English },
 
-        // Channel Jirachi
-        new(RS) { Species = 385, Level = 5, Method = Channel, TID16 = 40122, OriginalTrainerGender = 3, OriginalTrainerName = "CHANNEL", CardTitle = "Channel Jirachi", MetLevel = 0 },
-
-        // Aura Mew
-        new(R, true) { Species = 151, Level = 10, Language = (int)English, Method = BACD_R, ID32 = 20078, OriginalTrainerName = "Aura", Shiny = Never }, // Mew
-        new(R, true) { Species = 151, Level = 10, Language = (int)French,  Method = BACD_R, ID32 = 20078, OriginalTrainerName = "Aura", Shiny = Never }, // Mew
-        new(R, true) { Species = 151, Level = 10, Language = (int)Italian, Method = BACD_R, ID32 = 20078, OriginalTrainerName = "Aura", Shiny = Never }, // Mew
-        new(R, true) { Species = 151, Level = 10, Language = (int)German,  Method = BACD_R, ID32 = 20078, OriginalTrainerName = "Aura", Shiny = Never }, // Mew
-        new(R, true) { Species = 151, Level = 10, Language = (int)Spanish, Method = BACD_R, ID32 = 20078, OriginalTrainerName = "Aura", Shiny = Never }, // Mew
-
-        // English Events
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Charizard
-        new(R) { Species = 025, Level = 70, Moves = new(085,097,087,113), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Pikachu
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Articuno
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Suicune
-        new(R) { Species = 249, Level = 70, Moves = new(105,056,240,129), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Lugia
-        new(R) { Species = 250, Level = 70, Moves = new(105,126,241,129), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Ho-Oh
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)English, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Latios
+        // English
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Charizard
+        new(025, 70, R) { Moves = new(085,097,087,113), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Pikachu
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Articuno
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Suicune
+        new(249, 70, R) { Moves = new(105,056,240,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Lugia
+        new(250, 70, R) { Moves = new(105,126,241,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Ho-Oh
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)English }, // Latios
 
         // French
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Charizard
-        new(R) { Species = 025, Level = 70, Moves = new(085,097,087,113), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Pikachu
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Articuno
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Suicune
-        new(R) { Species = 249, Level = 70, Moves = new(105,056,240,129), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Lugia
-        new(R) { Species = 250, Level = 70, Moves = new(105,126,241,129), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Ho-Oh
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)French, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNIV", Shiny = Never }, // Latios
-
-        // Italian
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Charizard
-        new(R) { Species = 025, Level = 70, Moves = new(085,097,087,113), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Pikachu
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Articuno
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Suicune
-        new(R) { Species = 249, Level = 70, Moves = new(105,056,240,129), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Lugia
-        new(R) { Species = 250, Level = 70, Moves = new(105,126,241,129), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Ho-Oh
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)Italian, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANNI", Shiny = Never }, // Latios
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Charizard
+        new(025, 70, R) { Moves = new(085,097,087,113), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Pikachu
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Articuno
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Suicune
+        new(249, 70, R) { Moves = new(105,056,240,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Lugia
+        new(250, 70, R) { Moves = new(105,126,241,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Ho-Oh
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNIV", OriginalTrainerGender = 3, Language = (int)French }, // Latios
 
         // German
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Charizard
-        new(R) { Species = 025, Level = 70, Moves = new(085,097,087,113), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Pikachu
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Articuno
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Suicune
-        new(R) { Species = 249, Level = 70, Moves = new(105,056,240,129), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Lugia
-        new(R) { Species = 250, Level = 70, Moves = new(105,126,241,129), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Ho-Oh
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)German, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10JAHRE", Shiny = Never }, // Latios
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Charizard
+        new(025, 70, R) { Moves = new(085,097,087,113), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Pikachu
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Articuno
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Suicune
+        new(249, 70, R) { Moves = new(105,056,240,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Lugia
+        new(250, 70, R) { Moves = new(105,126,241,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Ho-Oh
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10JAHRE", OriginalTrainerGender = 3, Language = (int)German }, // Latios
+
+        // Italian
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Charizard
+        new(025, 70, R) { Moves = new(085,097,087,113), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Pikachu
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Articuno
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Suicune
+        new(249, 70, R) { Moves = new(105,056,240,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Lugia
+        new(250, 70, R) { Moves = new(105,126,241,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Ho-Oh
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANNI", OriginalTrainerGender = 3, Language = (int)Italian }, // Latios
 
         // Spanish
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Charizard
-        new(R) { Species = 025, Level = 70, Moves = new(085,097,087,113), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Pikachu
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Articuno
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Suicune
-        new(R) { Species = 249, Level = 70, Moves = new(105,056,240,129), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Lugia
-        new(R) { Species = 250, Level = 70, Moves = new(105,126,241,129), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Ho-Oh
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)Spanish, Method = BACD_R, ID32 = 06227, OriginalTrainerName = "10ANIV", Shiny = Never }, // Latios
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Charizard
+        new(025, 70, R) { Moves = new(085,097,087,113), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Pikachu
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Articuno
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Suicune
+        new(249, 70, R) { Moves = new(105,056,240,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Lugia
+        new(250, 70, R) { Moves = new(105,126,241,129), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Ho-Oh
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 06227, Shiny = Never, OriginalTrainerName = "10ANIV", OriginalTrainerGender = 3, Language = (int)Spanish }, // Latios
 
-        new(R) { Species = 375, Level = 30, Moves = new(036,093,232,287), Language = (int)English, Method = BACD_R, ID32 = 02005, OriginalTrainerName = "ROCKS", OriginalTrainerGender = 0, RibbonNational = true, Shiny = Never }, // Metang
-        new(R, true) { Species = 386, Level = 70,  Moves = new(322,105,354,063), Language = (int)English, Method = BACD_R, ID32 = 28606, OriginalTrainerName = "DOEL", Shiny = Never }, // Deoxys
-        new(R, true) { Species = 386, Level = 70,  Moves = new(322,105,354,063), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "SPACE C", Shiny = Never }, // Deoxys
-        new(R, true) { Species = 151, Level = 10,  Language = (int)English, Method = BACD_U, ID32 = 06930, OriginalTrainerName = "MYSTRY", Shiny = Never }, // Mew
-        new(R, true) { Species = 151, Level = 10,  Language = (int)English, Method = BACD_R, ID32 = 06930, OriginalTrainerName = "MYSTRY", Shiny = Never }, // Mew
+        // Aura Mew
+        new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 20078, Shiny = Never, OriginalTrainerName = "Aura", OriginalTrainerGender = 3, FatefulEncounter = true }, // Mew
+
+        // English Events
+        new(375, 30, R) { Moves = new(036,093,232,287), Method = BACD_R, ID32 = 02005, Shiny = Never, OriginalTrainerName = "ROCKS",   OriginalTrainerGender = 0, Language = (int)English, RibbonNational = true }, // Metang
+        new(386, 70, R) { Moves = new(322,105,354,063), Method = BACD_R, ID32 = 28606, Shiny = Never, OriginalTrainerName = "DOEL",    OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Deoxys
+        new(386, 70, R) { Moves = new(322,105,354,063), Method = BACD_R, ID32 = 00010, Shiny = Never, OriginalTrainerName = "SPACE C", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Deoxys
 
         // Party of the Decade
-        new(R) { Species = 001, Level = 70, Moves = new(230,074,076,235), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Bulbasaur
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Charizard
-        new(R) { Species = 009, Level = 70, Moves = new(182,240,130,056), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Blastoise
-        new(R) { Species = 025, Level = 70, Moves = new(085,087,113,019), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", HeldItem = 202, Shiny = Never }, // Pikachu (Fly)
-        new(R) { Species = 065, Level = 70, Moves = new(248,347,094,271), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Alakazam
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Articuno
-        new(R) { Species = 145, Level = 70, Moves = new(097,197,065,268), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Zapdos
-        new(R) { Species = 146, Level = 70, Moves = new(097,203,053,219), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Moltres
-        new(R) { Species = 149, Level = 70, Moves = new(097,219,017,200), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Dragonite
-        new(R) { Species = 157, Level = 70, Moves = new(098,172,129,053), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Typhlosion
-        new(R) { Species = 196, Level = 70, Moves = new(060,244,094,234), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Espeon
-        new(R) { Species = 197, Level = 70, Moves = new(185,212,103,236), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Umbreon
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Suicune
-        new(R) { Species = 248, Level = 70, Moves = new(037,184,242,089), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Tyranitar
-        new(R) { Species = 257, Level = 70, Moves = new(299,163,119,327), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Blaziken
-        new(R) { Species = 359, Level = 70, Moves = new(104,163,248,195), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Absol
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", HeldItem = 191, Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)English, Method = BACD_R, ID32 = 06808, OriginalTrainerName = "10 ANIV", HeldItem = 191, Shiny = Never }, // Latios
+        new(001, 70, R) { Moves = new(230,074,076,235), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Bulbasaur
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Charizard
+        new(009, 70, R) { Moves = new(182,240,130,056), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Blastoise
+        new(025, 70, R) { Moves = new(085,087,113,019), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Pikachu (Fly)
+        new(065, 70, R) { Moves = new(248,347,094,271), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Alakazam
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Articuno
+        new(145, 70, R) { Moves = new(097,197,065,268), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Zapdos
+        new(146, 70, R) { Moves = new(097,203,053,219), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Moltres
+        new(149, 70, R) { Moves = new(097,219,017,200), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Dragonite
+        new(157, 70, R) { Moves = new(098,172,129,053), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Typhlosion
+        new(196, 70, R) { Moves = new(060,244,094,234), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Espeon
+        new(197, 70, R) { Moves = new(185,212,103,236), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Umbreon
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Suicune
+        new(248, 70, R) { Moves = new(037,184,242,089), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Tyranitar
+        new(257, 70, R) { Moves = new(299,163,119,327), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Blaziken
+        new(359, 70, R) { Moves = new(104,163,248,195), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Absol
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 06808, Shiny = Never, OriginalTrainerName = "10 ANIV", OriginalTrainerGender = 3, Language = (int)English }, // Latios
 
         // Journey Across America
-        new(R) { Species = 001, Level = 70, Moves = new(230,074,076,235), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Bulbasaur
-        new(R) { Species = 006, Level = 70, Moves = new(017,163,082,083), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Charizard
-        new(R) { Species = 009, Level = 70, Moves = new(182,240,130,056), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Blastoise
-        new(R) { Species = 025, Level = 70, Moves = new(085,097,087,113), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", HeldItem = 202, Shiny = Never }, // Pikachu (No Fly)
-        new(R) { Species = 065, Level = 70, Moves = new(248,347,094,271), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Alakazam
-        new(R) { Species = 144, Level = 70, Moves = new(097,170,058,115), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Articuno
-        new(R) { Species = 145, Level = 70, Moves = new(097,197,065,268), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Zapdos
-        new(R) { Species = 146, Level = 70, Moves = new(097,203,053,219), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Moltres
-        new(R) { Species = 149, Level = 70, Moves = new(097,219,017,200), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Dragonite
-        new(R) { Species = 157, Level = 70, Moves = new(098,172,129,053), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Typhlosion
-        new(R) { Species = 196, Level = 70, Moves = new(060,244,094,234), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Espeon
-        new(R) { Species = 197, Level = 70, Moves = new(185,212,103,236), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Umbreon
-        new(R) { Species = 243, Level = 70, Moves = new(098,209,115,242), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Raikou
-        new(R) { Species = 244, Level = 70, Moves = new(083,023,053,207), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Entei
-        new(R) { Species = 245, Level = 70, Moves = new(016,062,054,243), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Suicune
-        new(R) { Species = 248, Level = 70, Moves = new(037,184,242,089), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Tyranitar
-        new(R) { Species = 251, Level = 70, Moves = new(246,248,226,195), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Celebi
-        new(R) { Species = 257, Level = 70, Moves = new(299,163,119,327), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Blaziken
-        new(R) { Species = 359, Level = 70, Moves = new(104,163,248,195), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never }, // Absol
-        new(R) { Species = 380, Level = 70, Moves = new(296,094,105,204), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", HeldItem = 191, Shiny = Never }, // Latias
-        new(R) { Species = 381, Level = 70, Moves = new(295,094,105,349), Language = (int)English, Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", HeldItem = 191, Shiny = Never }, // Latios
+        new(001, 70, R) { Moves = new(230,074,076,235), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Bulbasaur
+        new(006, 70, R) { Moves = new(017,163,082,083), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Charizard
+        new(009, 70, R) { Moves = new(182,240,130,056), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Blastoise
+        new(025, 70, R) { Moves = new(085,097,087,113), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Pikachu (No Fly)
+        new(065, 70, R) { Moves = new(248,347,094,271), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Alakazam
+        new(144, 70, R) { Moves = new(097,170,058,115), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Articuno
+        new(145, 70, R) { Moves = new(097,197,065,268), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Zapdos
+        new(146, 70, R) { Moves = new(097,203,053,219), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Moltres
+        new(149, 70, R) { Moves = new(097,219,017,200), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Dragonite
+        new(157, 70, R) { Moves = new(098,172,129,053), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Typhlosion
+        new(196, 70, R) { Moves = new(060,244,094,234), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Espeon
+        new(197, 70, R) { Moves = new(185,212,103,236), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Umbreon
+        new(243, 70, R) { Moves = new(098,209,115,242), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Raikou
+        new(244, 70, R) { Moves = new(083,023,053,207), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Entei
+        new(245, 70, R) { Moves = new(016,062,054,243), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Suicune
+        new(248, 70, R) { Moves = new(037,184,242,089), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Tyranitar
+        new(251, 70, R) { Moves = new(246,248,226,195), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Celebi
+        new(257, 70, R) { Moves = new(299,163,119,327), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Blaziken
+        new(359, 70, R) { Moves = new(104,163,248,195), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Absol
+        new(380, 70, R) { Moves = new(296,094,105,204), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Latias
+        new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Latios
     ];
 
-    internal static readonly WC3[] Encounter_Event3_Common =
+    private static readonly WC3[] Eggs =
     [
-        // Pokémon Box -- RSE Recipient
-        new(RSE) { Species = 333, IsEgg = true, Level = 05, Moves = new(064,045,206,000), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Swablu Egg with False Swipe
-        new(RSE) { Species = 263, IsEgg = true, Level = 05, Moves = new(033,045,039,245), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Zigzagoon Egg with Extreme Speed
-        new(RSE) { Species = 300, IsEgg = true, Level = 05, Moves = new(045,033,039,006), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Skitty Egg with Pay Day
-        new(RSE) { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,057,000), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Pichu Egg with Surf
-        // Pokémon Box -- FRLG Recipient
-        new(FRLG) { Species = 333, IsEgg = true, Level = 05, Moves = new(064,045,206,000), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Swablu Egg with False Swipe
-        new(FRLG) { Species = 263, IsEgg = true, Level = 05, Moves = new(033,045,039,245), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Zigzagoon Egg with Extreme Speed
-        new(FRLG) { Species = 300, IsEgg = true, Level = 05, Moves = new(045,033,039,006), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Skitty Egg with Pay Day
-        new(FRLG) { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,057,000), Method = BACD_U, OriginalTrainerGender = 1, OriginalTrainerName = "ＡＺＵＳＡ" }, // Pichu Egg with Surf
+        // Pokémon Box -- Recipient
+        new(333, 5, Gen3, true) { Moves = new(064,045,206,000), Method = BACD_U, OriginalTrainerName = "ＡＺＵＳＡ", OriginalTrainerGender = 1 }, // Swablu Egg with False Swipe
+        new(263, 5, Gen3, true) { Moves = new(033,045,039,245), Method = BACD_U, OriginalTrainerName = "ＡＺＵＳＡ", OriginalTrainerGender = 1 }, // Zigzagoon Egg with Extreme Speed
+        new(300, 5, Gen3, true) { Moves = new(045,033,039,006), Method = BACD_U, OriginalTrainerName = "ＡＺＵＳＡ", OriginalTrainerGender = 1 }, // Skitty Egg with Pay Day
+        new(172, 5, Gen3, true) { Moves = new(084,204,057,000), Method = BACD_U, OriginalTrainerName = "ＡＺＵＳＡ", OriginalTrainerGender = 1 }, // Pichu Egg with Surf
 
-        // PokePark Eggs - DS Download Play
-        new(R) { Species = 054, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(300), Method = BACD_R }, // Psyduck with Mud Sport
-        new(R) { Species = 172, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(266), Method = BACD_R }, // Pichu with Follow Me
-        new(R) { Species = 174, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(321), Method = BACD_R }, // Igglybuff with Tickle
-        new(R) { Species = 222, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(300), Method = BACD_R }, // Corsola with Mud Sport
-        new(R) { Species = 276, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(297), Method = BACD_R }, // Taillow with Feather Dance
-        new(R) { Species = 283, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(300), Method = BACD_R }, // Surskit with Mud Sport
-        new(R) { Species = 293, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(298), Method = BACD_R }, // Whismur with Teeter Dance
-        new(R) { Species = 300, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(205), Method = BACD_R }, // Skitty with Rollout
-        new(R) { Species = 311, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(346), Method = BACD_R }, // Plusle with Water Sport
-        new(R) { Species = 312, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(300), Method = BACD_R }, // Minun with Mud Sport
-        new(R) { Species = 325, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(253), Method = BACD_R }, // Spoink with Uproar
-        new(R) { Species = 327, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(047), Method = BACD_R }, // Spinda with Sing
-        new(R) { Species = 331, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(227), Method = BACD_R }, // Cacnea with Encore
-        new(R) { Species = 341, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(346), Method = BACD_R }, // Corphish with Water Sport
-        new(R) { Species = 360, IsEgg = true, Level = 05, MetLevel = 05, TID16 = 50318, OriginalTrainerGender = 0, OriginalTrainerName = "ポケパーク", Moves = new(321), Method = BACD_R }, // Wynaut with Tickle
+        // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
+        new(172, 5, R, true) { Moves = new(084,204,298,000), Method = BACD_R_S, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Pichu with Teeter Dance
+        new(172, 5, R, true) { Moves = new(084,204,273,000), Method = BACD_R_S, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Pichu with Wish
+        new(172, 5, R, true) { Moves = new(084,204,298,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Pichu with Teeter Dance
+        new(172, 5, R, true) { Moves = new(084,204,273,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Pichu with Wish
+        new(280, 5, R, true) { Moves = new(045,204,000,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Ralts with Charm
+        new(280, 5, R, true) { Moves = new(045,273,000,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Ralts with Wish
+        new(359, 5, R, true) { Moves = new(010,043,180,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Absol with Spite
+        new(359, 5, R, true) { Moves = new(010,043,273,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Absol with Wish
+        new(371, 5, R, true) { Moves = new(099,044,334,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Bagon with Iron Defense
+        new(371, 5, R, true) { Moves = new(099,044,273,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Bagon with Wish
+
+        // PCJP Egg Pokémon Present Eggs - Wondercard (March 21 to April 4, 2004)
+        new(043, 5, FRLG, true) { Moves = new(071,073,000,000), Method = Method_2, FatefulEncounter = true }, // Oddish with Leech Seed
+        new(052, 5, FRLG, true) { Moves = new(010,045,080,000), Method = Method_2, FatefulEncounter = true }, // Meowth with Petal Dance
+        new(060, 5, FRLG, true) { Moves = new(145,186,000,000), Method = Method_2, FatefulEncounter = true }, // Poliwag with Sweet Kiss
+        new(069, 5, FRLG, true) { Moves = new(022,298,000,000), Method = Method_2, FatefulEncounter = true }, // Bellsprout with Teeter Dance
+
+        // PCNY Wish Eggs - Wondercard (December 16, 2004, to January 2, 2005)
+        new(083, 5, FRLG, true) { Moves = new(281,273,000,000), Method = Method_2, FatefulEncounter = true }, // Farfetch'd with Wish & Yawn
+        new(096, 5, FRLG, true) { Moves = new(187,273,000,000), Method = Method_2, FatefulEncounter = true }, // Drowzee with Wish & Belly Drum
+        new(102, 5, FRLG, true) { Moves = new(230,273,000,000), Method = Method_2, FatefulEncounter = true }, // Exeggcute with Wish & Sweet Scent
+        new(108, 5, FRLG, true) { Moves = new(215,273,000,000), Method = Method_2, FatefulEncounter = true }, // Lickitung with Wish & Heal Bell
+        new(113, 5, FRLG, true) { Moves = new(230,273,000,000), Method = Method_2, FatefulEncounter = true }, // Chansey with Wish & Sweet Scent
+        new(115, 5, FRLG, true) { Moves = new(281,273,000,000), Method = Method_2, FatefulEncounter = true }, // Kangaskhan with Wish & Yawn
+
+        // PokéPark Eggs - Wondercard (March 12 to May 8, 2005)
+        new(054, 5, FRLG, true) { Moves = new(346,010,039,300), Method = Method_2, FatefulEncounter = true }, // Psyduck with Mud Sport
+        new(172, 5, FRLG, true) { Moves = new(084,204,266,000), Method = Method_2, FatefulEncounter = true }, // Pichu with Follow me
+        new(174, 5, FRLG, true) { Moves = new(047,204,111,321), Method = Method_2, FatefulEncounter = true }, // Igglybuff with Tickle
+        new(222, 5, FRLG, true) { Moves = new(033,300,000,000), Method = Method_2, FatefulEncounter = true }, // Corsola with Mud Sport
+        new(276, 5, FRLG, true) { Moves = new(064,045,116,297), Method = Method_2, FatefulEncounter = true }, // Taillow with Feather Dance
+        new(283, 5, FRLG, true) { Moves = new(145,300,000,000), Method = Method_2, FatefulEncounter = true }, // Surskit with Mud Sport
+        new(293, 5, FRLG, true) { Moves = new(001,253,298,000), Method = Method_2, FatefulEncounter = true }, // Whismur with Teeter Dance
+        new(300, 5, FRLG, true) { Moves = new(045,033,039,205), Method = Method_2, FatefulEncounter = true }, // Skitty with Rollout
+        new(311, 5, FRLG, true) { Moves = new(045,086,346,000), Method = Method_2, FatefulEncounter = true }, // Plusle with Water Sport
+        new(312, 5, FRLG, true) { Moves = new(045,086,300,000), Method = Method_2, FatefulEncounter = true }, // Minun with Mud Sport
+        new(325, 5, FRLG, true) { Moves = new(150,253,000,000), Method = Method_2, FatefulEncounter = true }, // Spoink with Uproar
+        new(327, 5, FRLG, true) { Moves = new(033,253,047,000), Method = Method_2, FatefulEncounter = true }, // Spinda with Sing
+        new(331, 5, FRLG, true) { Moves = new(040,043,071,227), Method = Method_2, FatefulEncounter = true }, // Cacnea with Encore
+        new(341, 5, FRLG, true) { Moves = new(145,346,000,000), Method = Method_2, FatefulEncounter = true }, // Corphish with Water Sport
+        new(360, 5, FRLG, true) { Moves = new(150,204,227,321), Method = Method_2, FatefulEncounter = true }, // Wynaut with Tickle
+
+        // PokéPark  Eggs - DS Download Play (March 12 to May 8, 2005)
+        new(054, 5, R, true, 5) { Moves = new(346,010,039,300), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Psyduck with Mud Sport
+        new(172, 5, R, true, 5) { Moves = new(084,204,266,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Pichu with Follow Me
+        new(174, 5, R, true, 5) { Moves = new(047,204,111,321), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Igglybuff with Tickle
+        new(222, 5, R, true, 5) { Moves = new(033,300,000,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Corsola with Mud Sport
+        new(276, 5, R, true, 5) { Moves = new(064,045,116,297), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Taillow with Feather Dance
+        new(283, 5, R, true, 5) { Moves = new(145,300,000,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Surskit with Mud Sport
+        new(293, 5, R, true, 5) { Moves = new(001,253,298,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Whismur with Teeter Dance
+        new(300, 5, R, true, 5) { Moves = new(045,033,039,205), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Skitty with Rollout
+        new(311, 5, R, true, 5) { Moves = new(045,086,346,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Plusle with Water Sport
+        new(312, 5, R, true, 5) { Moves = new(045,086,300,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Minun with Mud Sport
+        new(325, 5, R, true, 5) { Moves = new(150,253,000,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Spoink with Uproar
+        new(327, 5, R, true, 5) { Moves = new(033,253,047,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Spinda with Sing
+        new(331, 5, R, true, 5) { Moves = new(040,043,071,227), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Cacnea with Encore
+        new(341, 5, R, true, 5) { Moves = new(145,346,000,000), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Corphish with Water Sport
+        new(360, 5, R, true, 5) { Moves = new(150,204,227,321), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Wynaut with Tickle
     ];
 
-    internal static readonly WC3[] Encounter_WC3 = [..Encounter_Event3, ..Encounter_Event3_RS, ..Encounter_Event3_FRLG, ..Encounter_Event3_Common];
+    internal static readonly WC3[] Encounter_WC3 = [..Common, ..International, .. Japan, ..Eggs];
 }
