@@ -182,7 +182,7 @@ public static class EncounterVerifier
             return GetValid(LEggLocation);
 
         // Version isn't updated when hatching on a different game. Check any game.
-        if (EggHatchLocation4.IsValidMet4Any(met))
+        if (pk.EggLocation == Locations.LinkTrade4 && EggHatchLocation4.IsValidMet4Any(met))
             return GetValid(LEggLocationTrade);
         return GetInvalid(LEggLocationInvalid);
     }
