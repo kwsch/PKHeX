@@ -132,7 +132,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
             pk.OriginalTrainerName = tr.OT;
             pk.ID32 = tr.ID32;
             pk.OriginalTrainerGender = tr.Gender;
-            pk.HandlingTrainerName = "PKHeX";
+            pk.HandlingTrainerName = TrainerName.ProgramINT;
             pk.CurrentHandler = 1;
             if (pk is IHandlerLanguage l)
                 l.HandlingTrainerLanguage = 2;

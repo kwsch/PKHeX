@@ -68,8 +68,8 @@ public static class EncounterUtil
     /// <param name="lang">Language to apply the name in</param>
     public static string GetTrainerName(ITrainerInfo tr, int lang) => lang switch
     {
-        (int)LanguageID.Japanese => tr.Language == 1 ? tr.OT : "ゲーフリ",
-        _ => tr.Language == 1 ? "GF" : tr.OT,
+        (int)LanguageID.Japanese => tr.Language == 1 ? tr.OT : TrainerName.GameFreakJPN,
+        _ => tr.Language == 1 ? TrainerName.GameFreakINT : tr.OT,
     };
 
     /// <summary>

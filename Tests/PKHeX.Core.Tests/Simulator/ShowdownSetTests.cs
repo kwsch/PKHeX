@@ -25,7 +25,7 @@ public class ShowdownSetTests
         var pk7 = new PK7 {Species = set.Species, Form = set.Form, Moves = set.Moves};
         var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         Assert.False(encounters.Any());
-        pk7.HandlingTrainerName = "PKHeX";
+        pk7.HandlingTrainerName = TrainerName.ProgramINT;
         encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         var first = encounters.FirstOrDefault();
         Assert.NotNull(first);
@@ -100,7 +100,7 @@ public class ShowdownSetTests
     public void SimulatorGetSplitBreed()
     {
         var set = new ShowdownSet(SetMunchSnorLax);
-        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = "PKHeX" }; // !! specify the HT name, we need tutors for this one
+        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = TrainerName.ProgramINT }; // !! specify the HT name, we need tutors for this one
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.SN).ToList();
         Assert.True(encs.Count > 0);
         Assert.True(encs.All(z => z.Species > 150));
@@ -117,7 +117,7 @@ public class ShowdownSetTests
     public void SimulatorGetVCEgg1()
     {
         var set = new ShowdownSet(SetSlowpoke12);
-        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = "PKHeX" };
+        var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HandlingTrainerName = TrainerName.ProgramINT };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
         Assert.True(encs.Count > 0);
 
@@ -209,100 +209,118 @@ public class ShowdownSetTests
     }
 
     private const string LowLevelElectrode =
-        @"BOLICHI (Electrode)
-IVs: 19 HP / 16 Atk / 18 Def / 25 SpA / 19 SpD / 25 Spe
-Ability: Static
-Level: 3
-Hasty Nature
-- Charge
-- Tackle
-- Screech
-- Sonic Boom";
+        """
+        BOLICHI (Electrode)
+        IVs: 19 HP / 16 Atk / 18 Def / 25 SpA / 19 SpD / 25 Spe
+        Ability: Static
+        Level: 3
+        Hasty Nature
+        - Charge
+        - Tackle
+        - Screech
+        - Sonic Boom
+        """;
 
     private const string SetDuplicateMoves =
-        @"Kingler-Gmax @ Master Ball
-Ability: Sheer Force
-Shiny: Yes
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Crabhammer
-- Rock Slide
-- Rock Slide
-- X-Scissor";
+        """
+        Kingler-Gmax @ Master Ball
+        Ability: Sheer Force
+        Shiny: Yes
+        EVs: 252 Atk / 4 SpD / 252 Spe
+        Jolly Nature
+        - Crabhammer
+        - Rock Slide
+        - Rock Slide
+        - X-Scissor
+        """;
 
     private const string SetROCKSMetang =
-        @"Metang
-IVs: 20 HP / 3 Atk / 26 Def / 1 SpA / 6 SpD / 8 Spe
-Ability: Clear Body
-Level: 30
-Adamant Nature
-- Take Down
-- Confusion
-- Metal Claw
-- Refresh";
+        """
+        Metang
+        IVs: 20 HP / 3 Atk / 26 Def / 1 SpA / 6 SpD / 8 Spe
+        Ability: Clear Body
+        Level: 30
+        Adamant Nature
+        - Take Down
+        - Confusion
+        - Metal Claw
+        - Refresh
+        """;
 
     private const string SetGlaceonUSUMTutor =
-        @"Glaceon (F) @ Assault Vest
-IVs: 0 Atk
-EVs: 252 HP / 252 SpA / 4 SpD
-Ability: Ice Body
-Shiny: Yes
-Modest Nature
-- Blizzard
-- Water Pulse
-- Shadow Ball
-- Hyper Voice";
+        """
+        Glaceon (F) @ Assault Vest
+        IVs: 0 Atk
+        EVs: 252 HP / 252 SpA / 4 SpD
+        Ability: Ice Body
+        Shiny: Yes
+        Modest Nature
+        - Blizzard
+        - Water Pulse
+        - Shadow Ball
+        - Hyper Voice
+        """;
 
     private const string SetSmeargle =
-        @"Smeargle @ Focus Sash
-Ability: Own Tempo
-EVs: 248 HP / 8 Def / 252 Spe
-Jolly Nature
-- Sticky Web
-- Nuzzle
-- Taunt
-- Whirlwind";
+        """
+        Smeargle @ Focus Sash
+        Ability: Own Tempo
+        EVs: 248 HP / 8 Def / 252 Spe
+        Jolly Nature
+        - Sticky Web
+        - Nuzzle
+        - Taunt
+        - Whirlwind
+        """;
 
     private const string SetCelebi =
-        @"Celebi @ Toxic Orb
-Ability: Natural Cure
-Jolly Nature
-- Recover
-- Heal Bell
-- Safeguard
-- Hold Back";
+        """
+        Celebi @ Toxic Orb
+        Ability: Natural Cure
+        Jolly Nature
+        - Recover
+        - Heal Bell
+        - Safeguard
+        - Hold Back
+        """;
 
     private const string SetNicknamedTypeNull =
-        @"Reliance (Type: Null) @ Eviolite
-EVs: 252 HP / 4 Def / 252 SpD
-Ability: Battle Armor
-Careful Nature
-- Facade
-- Swords Dance
-- Sleep Talk
-- Rest";
+        """
+        Reliance (Type: Null) @ Eviolite
+        EVs: 252 HP / 4 Def / 252 SpD
+        Ability: Battle Armor
+        Careful Nature
+        - Facade
+        - Swords Dance
+        - Sleep Talk
+        - Rest
+        """;
 
     private const string SetMunchSnorLax =
-        @"Snorlax @ Choice Band
-Ability: Thick Fat
-Level: 50
-EVs: 84 HP / 228 Atk / 180 Def / 12 SpD / 4 Spe
-Adamant Nature
-- Double-Edge
-- High Horsepower
-- Self-Destruct
-- Fire Punch";
+        """
+        Snorlax @ Choice Band
+        Ability: Thick Fat
+        Level: 50
+        EVs: 84 HP / 228 Atk / 180 Def / 12 SpD / 4 Spe
+        Adamant Nature
+        - Double-Edge
+        - High Horsepower
+        - Self-Destruct
+        - Fire Punch
+        """;
 
     private const string SetSlowpoke12 =
-        @"Threat (Slowpoke) @ Eviolite
-Ability: Regenerator
-Shiny: Yes
-EVs: 248 HP / 252 Atk / 8 SpD
-Adamant Nature
-- Body Slam
-- Earthquake
-- Belly Drum
-- Iron Tail";
+        """
+        Threat (Slowpoke) @ Eviolite
+        Ability: Regenerator
+        Shiny: Yes
+        EVs: 248 HP / 252 Atk / 8 SpD
+        Adamant Nature
+        - Body Slam
+        - Earthquake
+        - Belly Drum
+        - Iron Tail
+        """;
 
     private static readonly string[] Sets =
     [
@@ -310,13 +328,15 @@ Adamant Nature
         SetNicknamedTypeNull,
         SetMunchSnorLax,
 
-        @"Greninja @ Choice Specs
-Ability: Battle Bond
-EVs: 252 SpA / 4 SpD / 252 Spe
-Timid Nature
-- Hydro Pump
-- Spikes
-- Water Shuriken
-- Dark Pulse",
+        """
+        Greninja @ Choice Specs
+        Ability: Battle Bond
+        EVs: 252 SpA / 4 SpD / 252 Spe
+        Timid Nature
+        - Hydro Pump
+        - Spikes
+        - Water Shuriken
+        - Dark Pulse
+        """,
     ];
 }
