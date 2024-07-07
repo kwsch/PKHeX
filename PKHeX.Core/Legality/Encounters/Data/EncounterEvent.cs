@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using static PKHeX.Core.EncountersWC3;
 
 namespace PKHeX.Core;
 
@@ -14,9 +13,6 @@ namespace PKHeX.Core;
 public static class EncounterEvent
 {
     #region Pickle Data
-    /// <summary>Event Database for Generation 3</summary>
-    public static WC3[] MGDB_G3 => Encounter_WC3;
-
     /// <summary>Event Database for Generation 4</summary>
     public static readonly PCD[] MGDB_G4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
 

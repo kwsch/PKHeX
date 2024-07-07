@@ -60,7 +60,7 @@ public class ShowdownSetTests
     }
 
     [Fact]
-    public void SimulatorGetWC3()
+    public void SimulatorGetGift3()
     {
         var set = new ShowdownSet(SetROCKSMetang);
         var pk3 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves };
@@ -70,9 +70,9 @@ public class ShowdownSetTests
         var first = encs.FirstOrDefault();
         Assert.NotNull(first);
 
-        var wc3 = (WC3)first;
+        var gift = (EncounterGift3)first;
         var info = new SimpleTrainerInfo(GameVersion.R);
-        var pk = wc3.ConvertToPKM(info);
+        var pk = gift.ConvertToPKM(info);
 
         var la = new LegalityAnalysis(pk);
         Assert.True(la.Valid);

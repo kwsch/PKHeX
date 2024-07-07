@@ -3,14 +3,10 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 3 Mystery Gift Template File
+/// Generation 3 Event Gift
 /// </summary>
-/// <remarks>
-/// This is fabricated data built to emulate the future generation Mystery Gift objects.
-/// Data here is not stored in any save file and cannot be naturally exported.
-/// </remarks>
-public sealed class WC3
-    : IEncounterable, IMoveset, IFatefulEncounterReadOnly, IEncounterMatch, IRibbonSetEvent3, IRandomCorrelation, IFixedTrainer, IMetLevel
+public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, IFatefulEncounterReadOnly,
+    IRibbonSetEvent3, IRandomCorrelation, IFixedTrainer, IMetLevel
 {
     public ushort Species { get; }
     public byte Form => 0;
@@ -60,9 +56,9 @@ public sealed class WC3
     public bool RibbonChampionRegional { get => false; set { } }
     public bool RibbonChampionNational { get => false; set { } }
 
-    public WC3(ushort species, byte level, GameVersion version) : this(species, level, version, false, level) { }
+    public EncounterGift3(ushort species, byte level, GameVersion version) : this(species, level, version, false, level) { }
 
-    public WC3(ushort species, byte level, GameVersion version, bool egg, byte met = 0)
+    public EncounterGift3(ushort species, byte level, GameVersion version, bool egg, byte met = 0)
     {
         Species = species;
         Level = level;
@@ -109,7 +105,8 @@ public sealed class WC3
             Version = GetVersion(tr),
             EXP = Experience.GetEXP(Level, pi.EXPGrowth),
         };
-        SetMoves(pk);
+        pk.SetMoves(Moves);
+        pk.SetMaximumPPCurrent(Moves);
 
         bool hatchedEgg = IsEgg && tr.Generation != 3;
         if (hatchedEgg)
@@ -160,18 +157,11 @@ public sealed class WC3
         pk.MetLevel = 0; // hatched
     }
 
-    private GameVersion GetVersion(ITrainerInfo sav)
+    private GameVersion GetVersion(ITrainerInfo tr)
     {
-        if (Version != GameVersion.Gen3)
-            return GetRandomVersion(Version);
-        bool gen3 = sav.Version < GameVersion.CXD && GameVersion.Gen3.Contains(sav.Version);
-        return gen3 ? sav.Version : GameVersion.R;
-    }
-
-    private void SetMoves(PK3 pk)
-    {
-        pk.SetMoves(Moves);
-        pk.SetMaximumPPCurrent(Moves);
+        if (Version == GameVersion.Gen3 && tr.Version.IsValidSavedVersion())
+            return GameVersion.Gen3.Contains(tr.Version) ? tr.Version : GameVersion.R;
+        return GetRandomVersion(Version);
     }
 
     private void SetPINGA(PK3 pk, EncounterCriteria _)
@@ -235,18 +225,8 @@ public sealed class WC3
             if (TID16 != UnspecifiedID && TID16 != pk.TID16) return false;
             if (OriginalTrainerGender < 3 && OriginalTrainerGender != pk.OriginalTrainerGender) return false;
             var wcOT = OriginalTrainerName;
-            if (!string.IsNullOrEmpty(wcOT))
-            {
-                if (wcOT.Length > 7) // Colosseum MATTLE Ho-Oh
-                {
-                    if (!GetIsValidOTMattleHoOh(wcOT, pk.OriginalTrainerName, pk is CK3))
-                        return false;
-                }
-                else if (wcOT != pk.OriginalTrainerName)
-                {
-                    return false;
-                }
-            }
+            if (!string.IsNullOrEmpty(wcOT) && wcOT != pk.OriginalTrainerName)
+                return false;
         }
 
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
@@ -288,13 +268,6 @@ public sealed class WC3
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
-
-    private static bool GetIsValidOTMattleHoOh(ReadOnlySpan<char> wc, ReadOnlySpan<char> ot, bool ck3)
-    {
-        if (ck3) // match original if still ck3, otherwise must be truncated 7char
-            return wc.SequenceEqual(ot);
-        return ot.Length == 7 && wc.StartsWith(ot, StringComparison.Ordinal);
-    }
 
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => true; // checked in explicit match
 }

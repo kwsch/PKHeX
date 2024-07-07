@@ -76,23 +76,23 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             }
             if (e is not EncounterSlot3 slot)
             {
-                if (e is WC3 wc3)
+                if (e is EncounterGift3 gift)
                 {
-                    if (wc3.TID16 == 40122) // CHANNEL Jirachi
+                    if (gift.TID16 == 40122) // CHANNEL Jirachi
                     {
                         var chk = ChannelJirachi.GetPossible(info.PIDIV.OriginSeed);
                         if (chk.Pattern is not ChannelJirachiRandomResult.None)
                             info.PIDIV = info.PIDIV.AsEncounteredVia(new(chk.Seed, LeadRequired.None));
                         else
                             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-                        yield return wc3;
+                        yield return gift;
                         yield break;
                     }
-                    if (wc3.TID16 == 06930) // MYSTRY Mew
+                    if (gift.TID16 == 06930) // MYSTRY Mew
                     {
                         if (!MystryMew.IsValidSeed(info.PIDIV.OriginSeed))
                             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-                        yield return wc3;
+                        yield return gift;
                         yield break;
                     }
                 }

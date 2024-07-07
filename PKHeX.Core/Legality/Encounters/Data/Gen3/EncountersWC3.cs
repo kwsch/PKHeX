@@ -6,7 +6,7 @@ using static PKHeX.Core.LanguageID;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 3 <see cref="WC3"/> Gifts
+/// Generation 3 <see cref="EncounterGift3"/> Gifts
 /// </summary>
 /// <remarks>
 /// Generation 3 has a wide range of PIDIV types and other restrictions, and was never consistently stored in raw bytes.
@@ -14,7 +14,7 @@ namespace PKHeX.Core;
 /// </remarks>
 internal static class EncountersWC3
 {
-    private static readonly WC3[] Common =
+    private static readonly EncounterGift3[] Common =
     [
         new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_U, ID32 = 06930, Shiny = Never, OriginalTrainerName = "MYSTRY", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Mew
         new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 06930, Shiny = Never, OriginalTrainerName = "MYSTRY", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Mew
@@ -22,7 +22,7 @@ internal static class EncountersWC3
         new(385, 05, RS, false, met: 0) { Moves = new(273,093,156,000), Method = Channel, TID16 = 40122, Shiny = Random, OriginalTrainerName = "CHANNEL", OriginalTrainerGender = 3 },
     ];
 
-    private static readonly WC3[] Japan =
+    private static readonly EncounterGift3[] Japan =
     [
         new(385, 05, R) { Moves = new(001,144,000,000), Method = BACD_R,    ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = 0, Language = (int)Japanese }, // Negai Boshi Jirachi
         new(385, 05, RS){ Moves = new(001,144,000,000), Method = BACD_U_AX, ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = 3, Language = (int)Japanese }, // Negai Boshi Jirachi (Match Recipient)
@@ -49,7 +49,7 @@ internal static class EncountersWC3
         new(385, 30, R) { Moves = new(273,094,270,156), Method = BACD_R, ID32 = 60830, Shiny = Never, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, Language = (int)Japanese }, // PokéPark Jirachi (2006)
     ];
 
-    private static readonly WC3[] International =
+    private static readonly EncounterGift3[] International =
     [
         // EBGames/GameStop (March 1, 2004, to April 22, 2007), also via multi-game discs
         new(263, 5, S) { Moves = new(033,045,039,000), Method = BACD_R_S, ID32 = 30317, Shiny = Always, OriginalTrainerName = "RUBY",    OriginalTrainerGender = 1, Language = (int)English },
@@ -169,7 +169,7 @@ internal static class EncountersWC3
         new(381, 70, R) { Moves = new(295,094,105,349), Method = BACD_R, ID32 = 00010, OriginalTrainerName = "10 ANIV", Shiny = Never, OriginalTrainerGender = 3, Language = (int)English }, // Latios
     ];
 
-    private static readonly WC3[] Eggs =
+    private static readonly EncounterGift3[] Eggs =
     [
         // Pokémon Box -- Recipient
         new(333, 5, Gen3, true) { Moves = new(064,045,206,000), Method = BACD_U, OriginalTrainerName = "ＡＺＵＳＡ", OriginalTrainerGender = 1 }, // Swablu Egg with False Swipe
@@ -238,5 +238,9 @@ internal static class EncountersWC3
         new(360, 5, R, true, 5) { Moves = new(150,204,227,321), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Wynaut with Tickle
     ];
 
-    internal static readonly WC3[] Encounter_WC3 = [..Common, ..International, .. Japan, ..Eggs];
+    internal static readonly EncounterGift3[] Encounter_WC3 = [..Common, ..International, .. Japan, ..Eggs];
+
+    internal static readonly EncounterGift3NY[] PCNY = EncounterGift3NY.GetArray(EncounterUtil.Get("pcny"));
+
+    internal static readonly EncounterGift3JPN[] PCJP = [];
 }

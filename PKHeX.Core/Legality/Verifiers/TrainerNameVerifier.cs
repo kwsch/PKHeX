@@ -74,7 +74,7 @@ public sealed class TrainerNameVerifier : Verifier
     {
         if (e.IsEgg)
         {
-            if (e is WC3 wc3 && pk.IsEgg && ot.SequenceEqual(wc3.OriginalTrainerName))
+            if (e is EncounterGift3 wc3 && pk.IsEgg && ot.SequenceEqual(wc3.OriginalTrainerName))
                 return true; // Fixed OT Mystery Gift Egg
             bool eggEdge = pk.IsEgg ? pk.IsTradedEgg || pk.Format == 3 : pk.WasTradedEgg;
             if (!eggEdge)
@@ -85,9 +85,6 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (e is IFixedTrainer { IsFixedTrainer: true })
             return true; // already verified
-
-        if (e is WC3 { Species: (int)Species.HoOh } mattle && pk is CK3 && mattle.OriginalTrainerName.Length == ot.Length)
-            return true; // Mattle Ho-Oh
         return false;
     }
 
