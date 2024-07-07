@@ -33,7 +33,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     public SaveFile Clone()
     {
         var sav = CloneInternal();
-        sav.Metadata = Metadata with {SAV = sav};
+        sav.Metadata = Metadata.CloneInternal(sav);
         return sav;
     }
 
@@ -131,7 +131,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     public virtual uint ID32 { get; set; }
     public virtual ushort TID16 { get; set; }
     public virtual ushort SID16 { get; set; }
-    public virtual string OT { get; set; } = "PKHeX";
+    public virtual string OT { get; set; } = TrainerName.ProgramINT;
     public virtual int PlayedHours { get; set; }
     public virtual int PlayedMinutes { get; set; }
     public virtual int PlayedSeconds { get; set; }

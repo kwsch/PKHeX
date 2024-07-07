@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 {
     // Configuration
-    protected override SAV3RS CloneInternal() => new(Write()) { Language = Language };
+    protected override SAV3RS CloneInternal() => new(GetFinalData()) { Language = Language };
     public override GameVersion Version { get; set; } = GameVersion.RS; // allow mutation
     public override PersonalTable3 Personal => PersonalTable.RS;
 

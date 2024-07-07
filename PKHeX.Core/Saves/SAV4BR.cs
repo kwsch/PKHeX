@@ -71,7 +71,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     }
 
     // Configuration
-    protected override SAV4BR CloneInternal() => new(Write());
+    protected override SAV4BR CloneInternal() => new(GetFinalData());
 
     public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 

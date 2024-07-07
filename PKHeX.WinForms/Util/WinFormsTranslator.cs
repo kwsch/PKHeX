@@ -262,7 +262,7 @@ public static class WinFormsTranslator
         LoadSettings<T>(add, t, context);
     }
 
-    private static void LoadSettings<T>(bool add, IReflect type, Dictionary<string, string> context)
+    private static void LoadSettings<T>(bool add, Type type, Dictionary<string, string> context)
     {
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in props)

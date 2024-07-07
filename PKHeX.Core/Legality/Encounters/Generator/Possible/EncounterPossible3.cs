@@ -30,6 +30,8 @@ public record struct EncounterPossible3(EvoCriteria[] Chain, EncounterTypeGroup 
         EventColoR,
         EventColoS,
         Event,
+        EventPCNY,
+        EventPCJP,
 
         TradeStart,
         TradeRS,
@@ -95,6 +97,14 @@ public record struct EncounterPossible3(EvoCriteria[] Chain, EncounterTypeGroup 
                 Index = 0; State = YieldState.Event; goto case YieldState.Event;
             case YieldState.Event:
                 if (TryGetNextEvent(EncountersWC3.Encounter_WC3))
+                    return true;
+                Index = 0; State = YieldState.EventPCNY; goto case YieldState.EventPCNY;
+            case YieldState.EventPCNY:
+                if (TryGetNextEvent(EncountersWC3.PCNY))
+                    return true;
+                Index = 0; State = YieldState.EventPCJP; goto case YieldState.EventPCJP;
+            case YieldState.EventPCJP:
+                if (TryGetNextEvent(EncountersWC3.PCJP))
                     return true;
                 Index = 0; goto case YieldState.TradeStart;
 
@@ -250,7 +260,7 @@ public record struct EncounterPossible3(EvoCriteria[] Chain, EncounterTypeGroup 
         return false;
     }
 
-    private bool TryGetNextEvent(WC3[] db)
+    private bool TryGetNextEvent<T>(T[] db) where T : IEncounterable, IEncounterMatch
     {
         for (; Index < db.Length;)
         {

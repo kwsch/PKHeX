@@ -806,8 +806,8 @@ public static class SaveUtil
     /// </summary>
     public static string GetSafeTrainerName(SaveFile? sav, LanguageID lang) => lang switch
     {
-        LanguageID.Japanese => sav?.Generation >= 3 ? "ＰＫＨｅＸ" : "1337",
-        _ => "PKHeX",
+        LanguageID.Japanese => sav?.Generation >= 3 ? TrainerName.ProgramJPN : TrainerName.GameFreakJPN,
+        _ => TrainerName.ProgramINT,
     };
 
     /// <summary>

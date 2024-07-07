@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
 public sealed class WB7(byte[] Data)
-    : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, INature, ILangNicknamedTemplate, IRestrictVersion
+    : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, INature, ILangNicknamedTemplate, IMetLevel, IRestrictVersion
 {
     public WB7() : this(new byte[Size]) { }
 

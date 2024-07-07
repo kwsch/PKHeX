@@ -210,7 +210,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV1 CloneInternal() => new(Write(), Version) { Language = Language };
+    protected override SAV1 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;

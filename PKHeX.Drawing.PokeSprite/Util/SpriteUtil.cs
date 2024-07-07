@@ -110,7 +110,10 @@ public static class SpriteUtil
             }
             if (flagIllegal)
             {
-                var la = new LegalityAnalysis(pk, sav.Personal, storage);
+                var la = pk.GetType() == sav.PKMType // quick sanity check
+                    ? new LegalityAnalysis(pk, sav.Personal, storage)
+                    : new LegalityAnalysis(pk, pk.PersonalInfo, storage);
+
                 if (!la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && MoveInfo.IsDummiedMoveAny(pk))

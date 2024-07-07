@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using static PKHeX.Core.EncountersWC3;
 
 namespace PKHeX.Core;
 
@@ -14,9 +13,6 @@ namespace PKHeX.Core;
 public static class EncounterEvent
 {
     #region Pickle Data
-    /// <summary>Event Database for Generation 3</summary>
-    public static WC3[] MGDB_G3 => Encounter_WC3;
-
     /// <summary>Event Database for Generation 4</summary>
     public static readonly PCD[] MGDB_G4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
 
@@ -166,6 +162,7 @@ public static class EncounterEvent
             EGDB_G8A = SetArray(la8);
             EGDB_G8B = SetArray(lb8);
             EGDB_G9 = SetArray(lg9);
+            continue;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             static T[] SetArray<T>(List<T>? update) => update is null ? [] : update.ToArray();
@@ -180,7 +177,6 @@ public static class EncounterEvent
     {
         var regular = new IReadOnlyList<MysteryGift>[]
         {
-            MGDB_G3,
             MGDB_G4,       EGDB_G4,
             MGDB_G5,       EGDB_G5,
             MGDB_G6,       EGDB_G6,

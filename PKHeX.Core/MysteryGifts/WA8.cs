@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature, IGigantamax, IDynamaxLevel,
     IRibbonIndex, IMemoryOT, IRelearn, IEncounterServerDate,
-    ILangNicknamedTemplate, IGanbaru, IAlpha,
+    ILangNicknamedTemplate, IGanbaru, IAlpha, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8
 {

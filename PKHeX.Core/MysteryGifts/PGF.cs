@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 5 Mystery Gift Template File
 /// </summary>
 public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, ILangNick,
-    IContestStats, INature, IRestrictVersion
+    IContestStats, INature, IMetLevel, IRestrictVersion
 {
     public PGF() : this(new byte[Size]) { }
     public int RestrictLanguage { get; set; } // None

@@ -408,7 +408,7 @@ public sealed class MiscVerifier : Verifier
         var pk = data.Entity;
         switch (data.EncounterMatch)
         {
-            case WC3 {FatefulEncounter: true} w:
+            case EncounterGift3 {FatefulEncounter: true} w:
                 if (w.IsEgg)
                 {
                     // Eggs hatched in RS clear the obedience flag!
@@ -420,12 +420,10 @@ public sealed class MiscVerifier : Verifier
                     // else, ensure fateful is active (via below)
                 }
                 VerifyFatefulIngameActive(data);
-                VerifyWC3Shiny(data, w);
+                VerifyGift3Shiny(data, w);
                 return;
-            case WC3 w:
-                if (w.Version == GameVersion.XD)
-                    return; // Can have either state
-                VerifyWC3Shiny(data, w);
+            case EncounterGift3 w:
+                VerifyGift3Shiny(data, w);
                 break;
             case MysteryGift g: // WC3 handled above
                 VerifyReceivability(data, g);
@@ -527,7 +525,7 @@ public sealed class MiscVerifier : Verifier
         }
     }
 
-    private static void VerifyWC3Shiny(LegalityAnalysis data, WC3 g3)
+    private static void VerifyGift3Shiny(LegalityAnalysis data, EncounterGift3 g3)
     {
         // check for shiny locked gifts
         if (!g3.Shiny.IsValid(data.Entity))
