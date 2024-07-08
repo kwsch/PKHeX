@@ -189,6 +189,9 @@ internal static class EncountersWC3
         new(371, 5, R, true) { Moves = new(099,044,334,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Bagon with Iron Defense
         new(371, 5, R, true) { Moves = new(099,044,273,000), Method = BACD_R, OriginalTrainerName = "オヤＮＡＭＥ", OriginalTrainerGender = 0 }, // Bagon with Wish
 
+        // Wondercard gifts call the same give egg script as the Hot Springs Wynaut, but the game has a vblank interrupt between PID and IVs (potentially because the script does not lock when starting).
+        // Removing the vblank interrupt via ROM patch results in the scripts yielding a Method 1 PID/IV, so hopefully it's consistent enough to assume all are just Method 2 and no splits.
+
         // PCJP Egg Pokémon Present Eggs - Wondercard (March 21 to April 4, 2004)
         new(043, 5, FRLG, true) { Moves = new(071,073,000,000), Method = Method_2, FatefulEncounter = true }, // Oddish with Leech Seed
         new(052, 5, FRLG, true) { Moves = new(010,045,080,000), Method = Method_2, FatefulEncounter = true }, // Meowth with Petal Dance
@@ -204,21 +207,21 @@ internal static class EncountersWC3
         new(115, 5, FRLG, true) { Moves = new(281,273,000,000), Method = Method_2, FatefulEncounter = true }, // Kangaskhan with Wish & Yawn
 
         // PokéPark Eggs - Wondercard (March 12 to May 8, 2005)
-        new(054, 5, FRLG, true) { Moves = new(346,010,039,300), Method = Method_2, FatefulEncounter = true }, // Psyduck with Mud Sport
-        new(172, 5, FRLG, true) { Moves = new(084,204,266,000), Method = Method_2, FatefulEncounter = true }, // Pichu with Follow me
-        new(174, 5, FRLG, true) { Moves = new(047,204,111,321), Method = Method_2, FatefulEncounter = true }, // Igglybuff with Tickle
-        new(222, 5, FRLG, true) { Moves = new(033,300,000,000), Method = Method_2, FatefulEncounter = true }, // Corsola with Mud Sport
-        new(276, 5, FRLG, true) { Moves = new(064,045,116,297), Method = Method_2, FatefulEncounter = true }, // Taillow with Feather Dance
-        new(283, 5, FRLG, true) { Moves = new(145,300,000,000), Method = Method_2, FatefulEncounter = true }, // Surskit with Mud Sport
-        new(293, 5, FRLG, true) { Moves = new(001,253,298,000), Method = Method_2, FatefulEncounter = true }, // Whismur with Teeter Dance
-        new(300, 5, FRLG, true) { Moves = new(045,033,039,205), Method = Method_2, FatefulEncounter = true }, // Skitty with Rollout
-        new(311, 5, FRLG, true) { Moves = new(045,086,346,000), Method = Method_2, FatefulEncounter = true }, // Plusle with Water Sport
-        new(312, 5, FRLG, true) { Moves = new(045,086,300,000), Method = Method_2, FatefulEncounter = true }, // Minun with Mud Sport
-        new(325, 5, FRLG, true) { Moves = new(150,253,000,000), Method = Method_2, FatefulEncounter = true }, // Spoink with Uproar
-        new(327, 5, FRLG, true) { Moves = new(033,253,047,000), Method = Method_2, FatefulEncounter = true }, // Spinda with Sing
-        new(331, 5, FRLG, true) { Moves = new(040,043,071,227), Method = Method_2, FatefulEncounter = true }, // Cacnea with Encore
-        new(341, 5, FRLG, true) { Moves = new(145,346,000,000), Method = Method_2, FatefulEncounter = true }, // Corphish with Water Sport
-        new(360, 5, FRLG, true) { Moves = new(150,204,227,321), Method = Method_2, FatefulEncounter = true }, // Wynaut with Tickle
+        new(054, 5, EFL, true) { Moves = new(346,010,039,300), Method = Method_2, FatefulEncounter = true }, // Psyduck with Mud Sport
+        new(172, 5, EFL, true) { Moves = new(084,204,266,000), Method = Method_2, FatefulEncounter = true }, // Pichu with Follow me
+        new(174, 5, EFL, true) { Moves = new(047,204,111,321), Method = Method_2, FatefulEncounter = true }, // Igglybuff with Tickle
+        new(222, 5, EFL, true) { Moves = new(033,300,000,000), Method = Method_2, FatefulEncounter = true }, // Corsola with Mud Sport
+        new(276, 5, EFL, true) { Moves = new(064,045,116,297), Method = Method_2, FatefulEncounter = true }, // Taillow with Feather Dance
+        new(283, 5, EFL, true) { Moves = new(145,300,000,000), Method = Method_2, FatefulEncounter = true }, // Surskit with Mud Sport
+        new(293, 5, EFL, true) { Moves = new(001,253,298,000), Method = Method_2, FatefulEncounter = true }, // Whismur with Teeter Dance
+        new(300, 5, EFL, true) { Moves = new(045,033,039,205), Method = Method_2, FatefulEncounter = true }, // Skitty with Rollout
+        new(311, 5, EFL, true) { Moves = new(045,086,346,000), Method = Method_2, FatefulEncounter = true }, // Plusle with Water Sport
+        new(312, 5, EFL, true) { Moves = new(045,086,300,000), Method = Method_2, FatefulEncounter = true }, // Minun with Mud Sport
+        new(325, 5, EFL, true) { Moves = new(150,253,000,000), Method = Method_2, FatefulEncounter = true }, // Spoink with Uproar
+        new(327, 5, EFL, true) { Moves = new(033,253,047,000), Method = Method_2, FatefulEncounter = true }, // Spinda with Sing
+        new(331, 5, EFL, true) { Moves = new(040,043,071,227), Method = Method_2, FatefulEncounter = true }, // Cacnea with Encore
+        new(341, 5, EFL, true) { Moves = new(145,346,000,000), Method = Method_2, FatefulEncounter = true }, // Corphish with Water Sport
+        new(360, 5, EFL, true) { Moves = new(150,204,227,321), Method = Method_2, FatefulEncounter = true }, // Wynaut with Tickle
 
         // PokéPark  Eggs - DS Download Play (March 12 to May 8, 2005)
         new(054, 5, R, true, 5) { Moves = new(346,010,039,300), Method = BACD_R, OriginalTrainerName = "ポケパーク", OriginalTrainerGender = 0, ID32 = 50318 }, // Psyduck with Mud Sport

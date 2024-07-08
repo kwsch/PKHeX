@@ -503,5 +503,10 @@ public enum GameVersion : byte
     /// Pokémon Stadium 2 data origin identifier
     /// </summary>
     Stadium2,
+
+    /// <summary>
+    /// Emerald &amp; FireRed &amp; LeafGreen version group.
+    /// </summary>
+    EFL,
     #endregion
 }
