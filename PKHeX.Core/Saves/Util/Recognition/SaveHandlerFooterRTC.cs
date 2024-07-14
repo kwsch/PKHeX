@@ -23,6 +23,8 @@ public sealed class SaveHandlerFooterRTC : ISaveHandler
 
     private static bool IsPlausibleFooterSize(long size)
     {
+        if (size == 0x07) // exception for lesserkuma/FlashGBX >v2.0
+            return true;
         if ((size & 1) != 0) // must be even
             return false;
         return size is not (> MaxFooter or < MinFooter);
