@@ -33,12 +33,14 @@ public enum PogoType : byte
     ResearchMP,
     /// <summary> Ultra Beasts captured after completing Field Research. Only Beast Balls can be used. </summary>
     ResearchUB,
+
     /// <summary> Mythical Pokémon captured after completing Field Research. No HUD is visible during these encounters. </summary>
     /// <remarks>
     /// Under normal circumstances, only Poké Balls can be used, but Great Balls and Ultra Balls can be used with the Remember Last-Used Poké Ball setting.
     /// This was rendered unusable as of version 0.277.3.
     /// </remarks>
     ResearchMH,
+
     /// <summary> Pokémon captured after completing Field Research. No HUD is visible during these encounters. </summary>
     /// <remarks>
     /// The encounter defaults to the player's stock of Poké Balls. If they have none, it falls back to Great Balls, and then to Ultra Balls.
@@ -46,8 +48,16 @@ public enum PogoType : byte
     /// </remarks>
     ResearchNH,
 
+    /// <summary> Pokémon captured after completing Field Research. </summary>
+    /// <remarks> Unlike standard Field Research encounters, these are boosted to Level 20. </remarks>
+    Research20,
+
+    /// <summary> Pokémon captured after completing Field Research. Only Beast Balls can be used. </summary>
+    /// <remarks> Unlike standard Field Research encounters, these are boosted to Level 20. </remarks>
+    ResearchUB20,
+
     /// <summary> Pokémon captured from the GO Battle League. </summary>
-    GBL = 30,
+    GBL = 40,
     /// <summary> Mythical Pokémon captured from the GO Battle League. </summary>
     GBLM,
     /// <summary> Pokémon captured from the GO Battle League during GO Battle Day events. Excludes Legendary Pokémon, Mythical Pokémon, and Ultra Beasts. </summary>
@@ -55,7 +65,7 @@ public enum PogoType : byte
 
     /// <summary> Pokémon captured after defeating members of Team GO Rocket. Must be Purified before transferring to Pokémon HOME. </summary>
     /// <remarks> Pokémon with this <see cref="PogoType"/> can not be moved to <see cref="GameVersion.GG"/>. </remarks>
-    Shadow = 40,
+    Shadow = 50,
 
     /// <summary> Pokémon captured from Special Research or Timed Research with a Premier Ball. </summary>
     /// <remarks>
@@ -91,6 +101,8 @@ public static class PogoTypeExtensions
         PogoType.ResearchUB => 15,
         PogoType.ResearchMH => 15,
         PogoType.ResearchNH => 15,
+        PogoType.Research20 => 20,
+        PogoType.ResearchUB20 => 20,
         PogoType.GBL => 20,
         PogoType.GBLM => 20,
         PogoType.GBLD => 20,
@@ -140,7 +152,7 @@ public static class PogoTypeExtensions
     public static bool IsMasterBallUsable(this PogoType encounterType) => encounterType switch
     {
         PogoType.Egg or PogoType.EggS  => false,
-        PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH  => false,
+        PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH or PogoType.ResearchUB20 => false,
         _ => true,
     };
 
@@ -159,6 +171,7 @@ public static class PogoTypeExtensions
         PogoType.RaidS => Ball.Premier,
         PogoType.ResearchMP => Ball.Poke,
         PogoType.ResearchUB => Ball.Beast,
+        PogoType.ResearchUB20 => Ball.Beast,
         PogoType.Shadow => Ball.Premier,
         PogoType.Research269 => Ball.Premier,
         PogoType.Research269M => Ball.Premier,
