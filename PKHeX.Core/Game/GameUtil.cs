@@ -188,6 +188,7 @@ public static class GameUtil
         RS     => version is R or S,
         RSE    => version is R or S or E or RS,
         FRLG   => version is FR or LG,
+        EFL    => version is E or FR or LG,
         RSBOX  => version is R or S or E or FR or LG,
         Gen3   => version is R or S or E or FR or LG or CXD or RSBOX or RS or RSE or FRLG,
         COLO   => version is CXD,

@@ -159,8 +159,12 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
 
     private GameVersion GetVersion(ITrainerInfo tr)
     {
+        if (Version.IsValidSavedVersion())
+            return Version;
         if (Version == GameVersion.Gen3 && tr.Version.IsValidSavedVersion())
             return GameVersion.Gen3.Contains(tr.Version) ? tr.Version : GameVersion.R;
+        if (Version == GameVersion.EFL && tr.Version.IsValidSavedVersion())
+            return GameVersion.EFL.Contains(tr.Version) ? tr.Version : GameVersion.FR;
         return GetRandomVersion(Version);
     }
 
@@ -215,7 +219,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         // Gen3 Version MUST match.
-        if (Version != 0 && !Version.Contains(pk.Version))
+        if (!Version.Contains(pk.Version))
             return false;
 
         bool hatchedEgg = IsEgg && !pk.IsEgg;

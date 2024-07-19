@@ -38,13 +38,14 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
         Data[GetBoxWallpaperOffset(box)] = (byte)value;
     }
 
-    private static int GetBoxNameOffset(int box) => (StringMaxByteCount * box);
+    private static int GetBoxNameOffset(int box) => StringMaxByteCount * box;
+    private Span<byte> GetBoxNameSpan(int box) => Data.Slice(GetBoxNameOffset(box), StringMaxByteCount);
 
-    public string GetBoxName(int box) => SAV.GetString(Data.Slice(GetBoxNameOffset(box), StringMaxByteCount));
+    public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
 
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        var span = Data.Slice(GetBoxNameOffset(box) + (StringMaxByteCount * box), StringMaxByteCount);
+        var span = GetBoxNameSpan(box);
         SAV.SetString(span, value, StringMaxLength, StringConverterOption.ClearZero);
     }
 

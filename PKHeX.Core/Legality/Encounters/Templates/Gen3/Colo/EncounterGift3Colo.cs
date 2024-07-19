@@ -170,14 +170,19 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if ((uint)language >= TrainerNames.Length)
             return false;
 
-        var max = language == 1 ? 5 : 7;
         var expect = TrainerNames[language].AsSpan();
-
         if (pk is CK3 && expect.SequenceEqual(trainer))
             return true; // not yet transferred to mainline Gen3
 
+        var max = language == 1 ? 5 : 7;
         if (expect.Length > max)
             expect = expect[..max];
-        return expect.SequenceEqual(trainer);
+        if (pk.Context == EntityContext.Gen3)
+            return trainer.SequenceEqual(expect);
+        if (IsSpanishDuking(language)) // Gen4+
+            return trainer is Encounters3Colo.TrainerNameDukingSpanish4;
+        return trainer.SequenceEqual(expect);
     }
+
+    private bool IsSpanishDuking(int language) => language is (int)LanguageID.Spanish && Species is (int)Core.Species.Plusle;
 }
