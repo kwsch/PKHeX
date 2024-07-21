@@ -42,6 +42,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
         Japanese = japanese;
 
         Raw = new byte[ColoCrypto.SLOT_SIZE];
+        CurrentRegion = OriginalRegion = japanese ? GCRegion.NTSC_J : GCRegion.NTSC_U;
         StrategyMemo = Initialize();
         ClearBoxes();
     }
