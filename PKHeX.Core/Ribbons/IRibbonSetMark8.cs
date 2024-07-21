@@ -163,6 +163,12 @@ public static partial class RibbonExtensions
         RibbonIndex.MarkFlustered => set.RibbonMarkFlustered,
         RibbonIndex.MarkPumpedUp => set.RibbonMarkPumpedUp,
         RibbonIndex.MarkZeroEnergy => set.RibbonMarkZeroEnergy,
+        RibbonIndex.MarkPrideful => set.RibbonMarkPrideful,
+        RibbonIndex.MarkUnsure => set.RibbonMarkUnsure,
+        RibbonIndex.MarkHumble => set.RibbonMarkHumble,
+        RibbonIndex.MarkThorny => set.RibbonMarkThorny,
+        RibbonIndex.MarkVigor => set.RibbonMarkVigor,
+        RibbonIndex.MarkSlump => set.RibbonMarkSlump,
         _ => throw new ArgumentOutOfRangeException(nameof(index), index, null),
     };
 }
