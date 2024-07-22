@@ -146,7 +146,7 @@ public static class LeadFinder
         foreach (var evo in chain)
         {
             if (evo.Species == enc.Species)
-                return evo;
+                return evo with { LevelMin = Math.Max(evo.LevelMin, enc.LevelMin), LevelMax = Math.Min(evo.LevelMax, enc.LevelMax) };
         }
         throw new ArgumentException("No matching species found in the evolution chain.");
     }
