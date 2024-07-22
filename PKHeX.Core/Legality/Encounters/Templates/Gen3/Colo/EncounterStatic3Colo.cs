@@ -71,6 +71,9 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
+        if (MethodCXD.SetFromTrainerIDStarter(pk, criteria, pi, pk.TID16, pk.SID16))
+            return;
+
         var gender = criteria.GetGender(Gender, pi);
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);

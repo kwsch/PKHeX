@@ -42,8 +42,6 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
-    public bool IsColoStarter => Species is (ushort)Core.Species.Espeon or (ushort)Core.Species.Umbreon;
-
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -90,6 +88,9 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
+        if (criteria.IsSpecifiedIVs() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, Shiny == Shiny.Never))
+            return;
+
         var gender = criteria.GetGender(pi);
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
@@ -156,12 +157,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     }
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
-    {
-        if (IsColoStarter)
-            return val is PIDType.CXD_ColoStarter;
-        return val is PIDType.CXD;
-    }
+    public bool IsCompatible(PIDType val, PKM pk) => val is PIDType.CXD;
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
 
