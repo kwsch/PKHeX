@@ -219,7 +219,7 @@ public static class RecordLists
         {161, "Roller Skate Count: 360 right"},
         {162, "Roller Skate Count: 360 left"},
         {163, "Roller Skate Count: Flips"},
-        {164, "Roller Skate Count: Cosmic Flips"}
+        {164, "Roller Skate Count: Cosmic Flips"},
         {165, "Roller Skate Count: Grind"},
         {166, "Roller Skate Count: Combos"},
 
