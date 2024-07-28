@@ -1,7 +1,14 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-24/07/03 - New Update:
+24/07/27 - New Update:
+ - Legality:
+ - - Added: Most Gen3 events from Japan are now recognized.
+ - Fixed: Gen6 box name editing now edits the right offset. Thanks @javierhimura !
+ - Fixed: Other small regressions/oddities reported have been resolved.
+ - Fixed: Save files with uncommon appended footer types no longer cause issue when saving/closing subforms.
+
+24/07/03 - New Update: (82341) [8957452]
  - Legality:
  - - Added: Slot source legality checks for miscellaneous slots like Daycare. Shouldn't flag anyone ;)
  - Added: Gen4 trainer stat record editor. Thanks @abcboy101 !
