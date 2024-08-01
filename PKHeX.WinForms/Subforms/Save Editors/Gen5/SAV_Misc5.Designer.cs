@@ -110,14 +110,30 @@ namespace PKHeX.WinForms
             LB_Slots = new System.Windows.Forms.ListBox();
             TAB_Subway = new System.Windows.Forms.TabPage();
             GB_SubwayChecks = new System.Windows.Forms.GroupBox();
-            CHK_Subway7 = new System.Windows.Forms.CheckBox();
-            CHK_Subway3 = new System.Windows.Forms.CheckBox();
-            CHK_Subway2 = new System.Windows.Forms.CheckBox();
-            CHK_Subway1 = new System.Windows.Forms.CheckBox();
             CHK_Subway0 = new System.Windows.Forms.CheckBox();
+            CHK_Subway1 = new System.Windows.Forms.CheckBox();
+            CHK_Subway2 = new System.Windows.Forms.CheckBox();
+            CHK_Subway3 = new System.Windows.Forms.CheckBox();
+            CHK_SuperSingle = new System.Windows.Forms.CheckBox();
             CHK_SuperMulti = new System.Windows.Forms.CheckBox();
             CHK_SuperDouble = new System.Windows.Forms.CheckBox();
-            CHK_SuperSingle = new System.Windows.Forms.CheckBox();
+            CHK_Subway7 = new System.Windows.Forms.CheckBox();
+            GB_CurrentData = new System.Windows.Forms.GroupBox();
+            L_CurrentType = new System.Windows.Forms.Label();
+            L_CurrentBattle = new System.Windows.Forms.Label();
+            NUD_CurrentType = new System.Windows.Forms.NumericUpDown();
+            NUD_CurrentBattle = new System.Windows.Forms.NumericUpDown();
+            GB_SubwaySets = new System.Windows.Forms.GroupBox();
+            L_NormalSets = new System.Windows.Forms.Label();
+            L_SuperSets = new System.Windows.Forms.Label();
+            CHK_SingleSet = new System.Windows.Forms.CheckBox();
+            CHK_DoubleSet = new System.Windows.Forms.CheckBox();
+            CHK_MultiNPCSet = new System.Windows.Forms.CheckBox();
+            CHK_MultiFriendsSet = new System.Windows.Forms.CheckBox();
+            CHK_SuperSingleSet = new System.Windows.Forms.CheckBox();
+            CHK_SuperDoubleSet = new System.Windows.Forms.CheckBox();
+            CHK_SuperMultiNPCSet = new System.Windows.Forms.CheckBox();
+            CHK_SuperMultiFriendsSet = new System.Windows.Forms.CheckBox();
             GB_SuperMulti = new System.Windows.Forms.GroupBox();
             L_SMultiNPC = new System.Windows.Forms.Label();
             L_SMultiFriends = new System.Windows.Forms.Label();
@@ -165,6 +181,7 @@ namespace PKHeX.WinForms
             B_ImportFC = new System.Windows.Forms.Button();
             B_DumpFC = new System.Windows.Forms.Button();
             TAB_Medals = new System.Windows.Forms.TabPage();
+            TB_MedalType = new System.Windows.Forms.TextBox();
             B_ObtainAllMedals = new System.Windows.Forms.Button();
             CAL_MedalDate = new System.Windows.Forms.DateTimePicker();
             CHK_MedalUnread = new System.Windows.Forms.CheckBox();
@@ -176,7 +193,6 @@ namespace PKHeX.WinForms
             CB_Prop = new System.Windows.Forms.ComboBox();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
-            TB_MedalType = new System.Windows.Forms.TextBox();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Record32V).BeginInit();
@@ -208,6 +224,10 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_Animation).BeginInit();
             TAB_Subway.SuspendLayout();
             GB_SubwayChecks.SuspendLayout();
+            GB_CurrentData.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_CurrentType).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CurrentBattle).BeginInit();
+            GB_SubwaySets.SuspendLayout();
             GB_SuperMulti.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_SMultiFriendsRecord).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SMultiFriendsPast).BeginInit();
@@ -1177,6 +1197,8 @@ namespace PKHeX.WinForms
             // TAB_Subway
             // 
             TAB_Subway.Controls.Add(GB_SubwayChecks);
+            TAB_Subway.Controls.Add(GB_CurrentData);
+            TAB_Subway.Controls.Add(GB_SubwaySets);
             TAB_Subway.Controls.Add(GB_SuperMulti);
             TAB_Subway.Controls.Add(GB_SuperDoubles);
             TAB_Subway.Controls.Add(GB_SuperSingles);
@@ -1194,66 +1216,22 @@ namespace PKHeX.WinForms
             // 
             // GB_SubwayChecks
             // 
-            GB_SubwayChecks.Controls.Add(CHK_Subway7);
-            GB_SubwayChecks.Controls.Add(CHK_Subway3);
-            GB_SubwayChecks.Controls.Add(CHK_Subway2);
-            GB_SubwayChecks.Controls.Add(CHK_Subway1);
             GB_SubwayChecks.Controls.Add(CHK_Subway0);
+            GB_SubwayChecks.Controls.Add(CHK_Subway1);
+            GB_SubwayChecks.Controls.Add(CHK_Subway2);
+            GB_SubwayChecks.Controls.Add(CHK_Subway3);
+            GB_SubwayChecks.Controls.Add(CHK_SuperSingle);
             GB_SubwayChecks.Controls.Add(CHK_SuperMulti);
             GB_SubwayChecks.Controls.Add(CHK_SuperDouble);
-            GB_SubwayChecks.Controls.Add(CHK_SuperSingle);
+            GB_SubwayChecks.Controls.Add(CHK_Subway7);
             GB_SubwayChecks.Location = new System.Drawing.Point(247, 7);
             GB_SubwayChecks.Margin = new System.Windows.Forms.Padding(2);
             GB_SubwayChecks.Name = "GB_SubwayChecks";
             GB_SubwayChecks.Padding = new System.Windows.Forms.Padding(2);
-            GB_SubwayChecks.Size = new System.Drawing.Size(138, 174);
+            GB_SubwayChecks.Size = new System.Drawing.Size(138, 130);
             GB_SubwayChecks.TabIndex = 3;
             GB_SubwayChecks.TabStop = false;
             GB_SubwayChecks.Text = "Subway Flags";
-            // 
-            // CHK_Subway7
-            // 
-            CHK_Subway7.AutoSize = true;
-            CHK_Subway7.Location = new System.Drawing.Point(10, 147);
-            CHK_Subway7.Margin = new System.Windows.Forms.Padding(2);
-            CHK_Subway7.Name = "CHK_Subway7";
-            CHK_Subway7.Size = new System.Drawing.Size(54, 19);
-            CHK_Subway7.TabIndex = 8;
-            CHK_Subway7.Text = "Flag7";
-            CHK_Subway7.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Subway3
-            // 
-            CHK_Subway3.AutoSize = true;
-            CHK_Subway3.Location = new System.Drawing.Point(10, 72);
-            CHK_Subway3.Margin = new System.Windows.Forms.Padding(2);
-            CHK_Subway3.Name = "CHK_Subway3";
-            CHK_Subway3.Size = new System.Drawing.Size(54, 19);
-            CHK_Subway3.TabIndex = 4;
-            CHK_Subway3.Text = "Flag3";
-            CHK_Subway3.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Subway2
-            // 
-            CHK_Subway2.AutoSize = true;
-            CHK_Subway2.Location = new System.Drawing.Point(10, 54);
-            CHK_Subway2.Margin = new System.Windows.Forms.Padding(2);
-            CHK_Subway2.Name = "CHK_Subway2";
-            CHK_Subway2.Size = new System.Drawing.Size(54, 19);
-            CHK_Subway2.TabIndex = 3;
-            CHK_Subway2.Text = "Flag2";
-            CHK_Subway2.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Subway1
-            // 
-            CHK_Subway1.AutoSize = true;
-            CHK_Subway1.Location = new System.Drawing.Point(10, 37);
-            CHK_Subway1.Margin = new System.Windows.Forms.Padding(2);
-            CHK_Subway1.Name = "CHK_Subway1";
-            CHK_Subway1.Size = new System.Drawing.Size(54, 19);
-            CHK_Subway1.TabIndex = 2;
-            CHK_Subway1.Text = "Flag1";
-            CHK_Subway1.UseVisualStyleBackColor = true;
             // 
             // CHK_Subway0
             // 
@@ -1266,10 +1244,54 @@ namespace PKHeX.WinForms
             CHK_Subway0.Text = "Flag0";
             CHK_Subway0.UseVisualStyleBackColor = true;
             // 
+            // CHK_Subway1
+            // 
+            CHK_Subway1.AutoSize = true;
+            CHK_Subway1.Location = new System.Drawing.Point(77, 20);
+            CHK_Subway1.Margin = new System.Windows.Forms.Padding(2);
+            CHK_Subway1.Name = "CHK_Subway1";
+            CHK_Subway1.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway1.TabIndex = 2;
+            CHK_Subway1.Text = "Flag1";
+            CHK_Subway1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Subway2
+            // 
+            CHK_Subway2.AutoSize = true;
+            CHK_Subway2.Location = new System.Drawing.Point(10, 38);
+            CHK_Subway2.Margin = new System.Windows.Forms.Padding(2);
+            CHK_Subway2.Name = "CHK_Subway2";
+            CHK_Subway2.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway2.TabIndex = 3;
+            CHK_Subway2.Text = "Flag2";
+            CHK_Subway2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Subway3
+            // 
+            CHK_Subway3.AutoSize = true;
+            CHK_Subway3.Location = new System.Drawing.Point(77, 38);
+            CHK_Subway3.Margin = new System.Windows.Forms.Padding(2);
+            CHK_Subway3.Name = "CHK_Subway3";
+            CHK_Subway3.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway3.TabIndex = 4;
+            CHK_Subway3.Text = "Flag3";
+            CHK_Subway3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_SuperSingle
+            // 
+            CHK_SuperSingle.AutoSize = true;
+            CHK_SuperSingle.Location = new System.Drawing.Point(10, 56);
+            CHK_SuperSingle.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SuperSingle.Name = "CHK_SuperSingle";
+            CHK_SuperSingle.Size = new System.Drawing.Size(101, 19);
+            CHK_SuperSingle.TabIndex = 5;
+            CHK_SuperSingle.Text = "Super Singles?";
+            CHK_SuperSingle.UseVisualStyleBackColor = true;
+            // 
             // CHK_SuperMulti
             // 
             CHK_SuperMulti.AutoSize = true;
-            CHK_SuperMulti.Location = new System.Drawing.Point(10, 129);
+            CHK_SuperMulti.Location = new System.Drawing.Point(10, 74);
             CHK_SuperMulti.Margin = new System.Windows.Forms.Padding(2);
             CHK_SuperMulti.Name = "CHK_SuperMulti";
             CHK_SuperMulti.Size = new System.Drawing.Size(92, 19);
@@ -1280,7 +1302,7 @@ namespace PKHeX.WinForms
             // CHK_SuperDouble
             // 
             CHK_SuperDouble.AutoSize = true;
-            CHK_SuperDouble.Location = new System.Drawing.Point(10, 112);
+            CHK_SuperDouble.Location = new System.Drawing.Point(10, 92);
             CHK_SuperDouble.Margin = new System.Windows.Forms.Padding(2);
             CHK_SuperDouble.Name = "CHK_SuperDouble";
             CHK_SuperDouble.Size = new System.Drawing.Size(107, 19);
@@ -1288,16 +1310,218 @@ namespace PKHeX.WinForms
             CHK_SuperDouble.Text = "Super Doubles?";
             CHK_SuperDouble.UseVisualStyleBackColor = true;
             // 
-            // CHK_SuperSingle
+            // CHK_Subway7
             // 
-            CHK_SuperSingle.AutoSize = true;
-            CHK_SuperSingle.Location = new System.Drawing.Point(10, 95);
-            CHK_SuperSingle.Margin = new System.Windows.Forms.Padding(2);
-            CHK_SuperSingle.Name = "CHK_SuperSingle";
-            CHK_SuperSingle.Size = new System.Drawing.Size(101, 19);
-            CHK_SuperSingle.TabIndex = 5;
-            CHK_SuperSingle.Text = "Super Singles?";
-            CHK_SuperSingle.UseVisualStyleBackColor = true;
+            CHK_Subway7.AutoSize = true;
+            CHK_Subway7.Location = new System.Drawing.Point(10, 110);
+            CHK_Subway7.Margin = new System.Windows.Forms.Padding(2);
+            CHK_Subway7.Name = "CHK_Subway7";
+            CHK_Subway7.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway7.TabIndex = 8;
+            CHK_Subway7.Text = "Flag7";
+            CHK_Subway7.UseVisualStyleBackColor = true;
+            // 
+            // GB_CurrentData
+            // 
+            GB_CurrentData.Controls.Add(L_CurrentType);
+            GB_CurrentData.Controls.Add(L_CurrentBattle);
+            GB_CurrentData.Controls.Add(NUD_CurrentType);
+            GB_CurrentData.Controls.Add(NUD_CurrentBattle);
+            GB_CurrentData.Location = new System.Drawing.Point(248, 140);
+            GB_CurrentData.Margin = new System.Windows.Forms.Padding(2);
+            GB_CurrentData.Name = "GB_CurrentData";
+            GB_CurrentData.Padding = new System.Windows.Forms.Padding(2);
+            GB_CurrentData.Size = new System.Drawing.Size(138, 73);
+            GB_CurrentData.TabIndex = 3;
+            GB_CurrentData.TabStop = false;
+            GB_CurrentData.Text = "Current run data";
+            // 
+            // L_CurrentType
+            // 
+            L_CurrentType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_CurrentType.AutoSize = true;
+            L_CurrentType.Location = new System.Drawing.Point(45, 23);
+            L_CurrentType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_CurrentType.Name = "L_CurrentType";
+            L_CurrentType.Size = new System.Drawing.Size(31, 15);
+            L_CurrentType.TabIndex = 0;
+            L_CurrentType.Text = "Type";
+            L_CurrentType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // L_CurrentBattle
+            // 
+            L_CurrentBattle.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_CurrentBattle.AutoSize = true;
+            L_CurrentBattle.Location = new System.Drawing.Point(17, 47);
+            L_CurrentBattle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_CurrentBattle.Name = "L_CurrentBattle";
+            L_CurrentBattle.Size = new System.Drawing.Size(59, 15);
+            L_CurrentBattle.TabIndex = 0;
+            L_CurrentBattle.Text = "Battle No.";
+            L_CurrentBattle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // NUD_CurrentType
+            // 
+            NUD_CurrentType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            NUD_CurrentType.Location = new System.Drawing.Point(82, 21);
+            NUD_CurrentType.Margin = new System.Windows.Forms.Padding(2);
+            NUD_CurrentType.Minimum = 0;
+            NUD_CurrentType.Maximum = 255;
+            NUD_CurrentType.Name = "NUD_CurrentType";
+            NUD_CurrentType.Size = new System.Drawing.Size(48, 23);
+            NUD_CurrentType.TabIndex = 1;
+            // 
+            // NUD_CurrentBattle
+            // 
+            NUD_CurrentBattle.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            NUD_CurrentBattle.Location = new System.Drawing.Point(82, 45);
+            NUD_CurrentBattle.Margin = new System.Windows.Forms.Padding(2);
+            NUD_CurrentBattle.Minimum = 0;
+            NUD_CurrentBattle.Maximum = 255;
+            NUD_CurrentBattle.Name = "NUD_CurrentBattle";
+            NUD_CurrentBattle.Size = new System.Drawing.Size(48, 23);
+            NUD_CurrentBattle.TabIndex = 1;
+            // 
+            // GB_SubwaySets
+            // 
+            GB_SubwaySets.Controls.Add(L_NormalSets);
+            GB_SubwaySets.Controls.Add(L_SuperSets);
+            GB_SubwaySets.Controls.Add(CHK_SingleSet);
+            GB_SubwaySets.Controls.Add(CHK_DoubleSet);
+            GB_SubwaySets.Controls.Add(CHK_MultiNPCSet);
+            GB_SubwaySets.Controls.Add(CHK_MultiFriendsSet);
+            GB_SubwaySets.Controls.Add(CHK_SuperSingleSet);
+            GB_SubwaySets.Controls.Add(CHK_SuperDoubleSet);
+            GB_SubwaySets.Controls.Add(CHK_SuperMultiNPCSet);
+            GB_SubwaySets.Controls.Add(CHK_SuperMultiFriendsSet);
+            GB_SubwaySets.Location = new System.Drawing.Point(247, 216);
+            GB_SubwaySets.Margin = new System.Windows.Forms.Padding(2);
+            GB_SubwaySets.Name = "GB_SubwaySets";
+            GB_SubwaySets.Padding = new System.Windows.Forms.Padding(2);
+            GB_SubwaySets.Size = new System.Drawing.Size(138, 107);
+            GB_SubwaySets.TabIndex = 3;
+            GB_SubwaySets.TabStop = false;
+            GB_SubwaySets.Text = "Is run active?";
+            // 
+            // L_NormalSets
+            // 
+            L_NormalSets.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_NormalSets.AutoSize = true;
+            L_NormalSets.Location = new System.Drawing.Point(42, 19);
+            L_NormalSets.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_NormalSets.Name = "L_NormalSets";
+            L_NormalSets.Size = new System.Drawing.Size(47, 15);
+            L_NormalSets.TabIndex = 0;
+            L_NormalSets.Text = "Normal";
+            L_NormalSets.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // L_SuperSets
+            // 
+            L_SuperSets.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_SuperSets.AutoSize = true;
+            L_SuperSets.Location = new System.Drawing.Point(90, 19);
+            L_SuperSets.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SuperSets.Name = "L_SuperSets";
+            L_SuperSets.Size = new System.Drawing.Size(37, 15);
+            L_SuperSets.TabIndex = 1;
+            L_SuperSets.Text = "Super";
+            L_SuperSets.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CHK_SingleSet
+            // 
+            CHK_SingleSet.AutoSize = true;
+            CHK_SingleSet.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_SingleSet.Location = new System.Drawing.Point(16, 36);
+            CHK_SingleSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SingleSet.Name = "CHK_SingleSet";
+            CHK_SingleSet.Size = new System.Drawing.Size(58, 19);
+            CHK_SingleSet.TabIndex = 2;
+            CHK_SingleSet.Text = "Single";
+            CHK_SingleSet.UseVisualStyleBackColor = true;
+            CHK_SingleSet.CheckedChanged += CHK_SingleSet_CheckedChanged;
+            // 
+            // CHK_DoubleSet
+            // 
+            CHK_DoubleSet.AutoSize = true;
+            CHK_DoubleSet.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_DoubleSet.Location = new System.Drawing.Point(10, 53);
+            CHK_DoubleSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_DoubleSet.Name = "CHK_DoubleSet";
+            CHK_DoubleSet.Size = new System.Drawing.Size(64, 19);
+            CHK_DoubleSet.TabIndex = 3;
+            CHK_DoubleSet.Text = "Double";
+            CHK_DoubleSet.UseVisualStyleBackColor = true;
+            CHK_DoubleSet.CheckedChanged += CHK_DoubleSet_CheckedChanged;
+            // 
+            // CHK_MultiNPCSet
+            // 
+            CHK_MultiNPCSet.AutoSize = true;
+            CHK_MultiNPCSet.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_MultiNPCSet.Location = new System.Drawing.Point(24, 70);
+            CHK_MultiNPCSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_MultiNPCSet.Name = "CHK_MultiNPCSet";
+            CHK_MultiNPCSet.Size = new System.Drawing.Size(50, 19);
+            CHK_MultiNPCSet.TabIndex = 4;
+            CHK_MultiNPCSet.Text = "NPC";
+            CHK_MultiNPCSet.UseVisualStyleBackColor = true;
+            CHK_MultiNPCSet.CheckedChanged += CHK_MultiNPCSet_CheckedChanged;
+            // 
+            // CHK_MultiFriendsSet
+            // 
+            CHK_MultiFriendsSet.AutoSize = true;
+            CHK_MultiFriendsSet.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_MultiFriendsSet.Location = new System.Drawing.Point(10, 87);
+            CHK_MultiFriendsSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_MultiFriendsSet.Name = "CHK_MultiFriendsSet";
+            CHK_MultiFriendsSet.Size = new System.Drawing.Size(64, 19);
+            CHK_MultiFriendsSet.TabIndex = 5;
+            CHK_MultiFriendsSet.Text = "Friends";
+            CHK_MultiFriendsSet.UseVisualStyleBackColor = true;
+            CHK_MultiFriendsSet.CheckedChanged += CHK_MultiFriendsSet_CheckedChanged;
+            // 
+            // CHK_SuperSingleSet
+            // 
+            CHK_SuperSingleSet.AutoSize = true;
+            CHK_SuperSingleSet.Location = new System.Drawing.Point(102, 38);
+            CHK_SuperSingleSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SuperSingleSet.Name = "CHK_SuperSingleSet";
+            CHK_SuperSingleSet.Size = new System.Drawing.Size(15, 14);
+            CHK_SuperSingleSet.TabIndex = 6;
+            CHK_SuperSingleSet.UseVisualStyleBackColor = true;
+            CHK_SuperSingleSet.CheckedChanged += CHK_SuperSingleSet_CheckedChanged;
+            // 
+            // CHK_SuperDoubleSet
+            // 
+            CHK_SuperDoubleSet.AutoSize = true;
+            CHK_SuperDoubleSet.Location = new System.Drawing.Point(102, 55);
+            CHK_SuperDoubleSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SuperDoubleSet.Name = "CHK_SuperDoubleSet";
+            CHK_SuperDoubleSet.Size = new System.Drawing.Size(15, 14);
+            CHK_SuperDoubleSet.TabIndex = 7;
+            CHK_SuperDoubleSet.UseVisualStyleBackColor = true;
+            CHK_SuperDoubleSet.CheckedChanged += CHK_SuperDoubleSet_CheckedChanged;
+            // 
+            // CHK_SuperMultiNPCSet
+            // 
+            CHK_SuperMultiNPCSet.AutoSize = true;
+            CHK_SuperMultiNPCSet.Location = new System.Drawing.Point(102, 72);
+            CHK_SuperMultiNPCSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SuperMultiNPCSet.Name = "CHK_SuperMultiNPCSet";
+            CHK_SuperMultiNPCSet.Size = new System.Drawing.Size(15, 14);
+            CHK_SuperMultiNPCSet.TabIndex = 8;
+            CHK_SuperMultiNPCSet.UseVisualStyleBackColor = true;
+            CHK_SuperMultiNPCSet.CheckedChanged += CHK_SuperMultiNPCSet_CheckedChanged;
+            // 
+            // CHK_SuperMultiFriendsSet
+            // 
+            CHK_SuperMultiFriendsSet.AutoSize = true;
+            CHK_SuperMultiFriendsSet.Location = new System.Drawing.Point(102, 89);
+            CHK_SuperMultiFriendsSet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SuperMultiFriendsSet.Name = "CHK_SuperMultiFriendsSet";
+            CHK_SuperMultiFriendsSet.Size = new System.Drawing.Size(15, 14);
+            CHK_SuperMultiFriendsSet.TabIndex = 9;
+            CHK_SuperMultiFriendsSet.UseVisualStyleBackColor = true;
+            CHK_SuperMultiFriendsSet.CheckedChanged += CHK_SuperMultiFriendsSet_CheckedChanged;
             // 
             // GB_SuperMulti
             // 
@@ -1841,6 +2065,15 @@ namespace PKHeX.WinForms
             TAB_Medals.Text = "Medals";
             TAB_Medals.UseVisualStyleBackColor = true;
             // 
+            // TB_MedalType
+            // 
+            TB_MedalType.Location = new System.Drawing.Point(212, 103);
+            TB_MedalType.Name = "TB_MedalType";
+            TB_MedalType.ReadOnly = true;
+            TB_MedalType.Size = new System.Drawing.Size(175, 23);
+            TB_MedalType.TabIndex = 4;
+            TB_MedalType.TabStop = false;
+            // 
             // B_ObtainAllMedals
             // 
             B_ObtainAllMedals.Location = new System.Drawing.Point(3, 264);
@@ -1931,15 +2164,6 @@ namespace PKHeX.WinForms
             CB_Prop.TabIndex = 0;
             CB_Prop.SelectedIndexChanged += CB_Prop_SelectedIndexChanged;
             // 
-            // TB_MedalType
-            // 
-            TB_MedalType.ReadOnly = true;
-            TB_MedalType.Location = new System.Drawing.Point(212, 103);
-            TB_MedalType.Name = "TB_MedalType";
-            TB_MedalType.Size = new System.Drawing.Size(175, 23);
-            TB_MedalType.TabIndex = 4;
-            TB_MedalType.TabStop = false;
-            // 
             // SAV_Misc5
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1987,6 +2211,12 @@ namespace PKHeX.WinForms
             TAB_Subway.ResumeLayout(false);
             GB_SubwayChecks.ResumeLayout(false);
             GB_SubwayChecks.PerformLayout();
+            GB_CurrentData.ResumeLayout(false);
+            GB_CurrentData.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_CurrentType).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CurrentBattle).EndInit();
+            GB_SubwaySets.ResumeLayout(false);
+            GB_SubwaySets.PerformLayout();
             GB_SuperMulti.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_SMultiFriendsRecord).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SMultiFriendsPast).EndInit();
@@ -2142,6 +2372,22 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_Subway2;
         private System.Windows.Forms.CheckBox CHK_Subway1;
         private System.Windows.Forms.CheckBox CHK_Subway0;
+        private System.Windows.Forms.GroupBox GB_CurrentData;
+        private System.Windows.Forms.Label L_CurrentType;
+        private System.Windows.Forms.Label L_CurrentBattle;
+        private System.Windows.Forms.NumericUpDown NUD_CurrentType;
+        private System.Windows.Forms.NumericUpDown NUD_CurrentBattle;
+        private System.Windows.Forms.GroupBox GB_SubwaySets;
+        private System.Windows.Forms.Label L_NormalSets;
+        private System.Windows.Forms.Label L_SuperSets;
+        private System.Windows.Forms.CheckBox CHK_SingleSet;
+        private System.Windows.Forms.CheckBox CHK_DoubleSet;
+        private System.Windows.Forms.CheckBox CHK_MultiNPCSet;
+        private System.Windows.Forms.CheckBox CHK_MultiFriendsSet;
+        private System.Windows.Forms.CheckBox CHK_SuperSingleSet;
+        private System.Windows.Forms.CheckBox CHK_SuperDoubleSet;
+        private System.Windows.Forms.CheckBox CHK_SuperMultiNPCSet;
+        private System.Windows.Forms.CheckBox CHK_SuperMultiFriendsSet;
         private System.Windows.Forms.ComboBox CB_RoamStatus;
         private System.Windows.Forms.Label L_RoamStatus;
         private System.Windows.Forms.TabPage TAB_BWCityForest;
