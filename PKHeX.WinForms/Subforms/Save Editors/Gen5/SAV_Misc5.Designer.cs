@@ -118,6 +118,7 @@ namespace PKHeX.WinForms
             CHK_SuperMulti = new System.Windows.Forms.CheckBox();
             CHK_SuperDouble = new System.Windows.Forms.CheckBox();
             CHK_Subway7 = new System.Windows.Forms.CheckBox();
+            CHK_SWNPCMet = new System.Windows.Forms.CheckBox();
             GB_CurrentData = new System.Windows.Forms.GroupBox();
             L_CurrentType = new System.Windows.Forms.Label();
             L_CurrentBattle = new System.Windows.Forms.Label();
@@ -1224,6 +1225,7 @@ namespace PKHeX.WinForms
             GB_SubwayChecks.Controls.Add(CHK_SuperMulti);
             GB_SubwayChecks.Controls.Add(CHK_SuperDouble);
             GB_SubwayChecks.Controls.Add(CHK_Subway7);
+            GB_SubwayChecks.Controls.Add(CHK_SWNPCMet);
             GB_SubwayChecks.Location = new System.Drawing.Point(247, 7);
             GB_SubwayChecks.Margin = new System.Windows.Forms.Padding(2);
             GB_SubwayChecks.Name = "GB_SubwayChecks";
@@ -1321,6 +1323,17 @@ namespace PKHeX.WinForms
             CHK_Subway7.Text = "Flag7";
             CHK_Subway7.UseVisualStyleBackColor = true;
             // 
+            // CHK_SWNPCMet
+            // 
+            CHK_SWNPCMet.AutoSize = true;
+            CHK_SWNPCMet.Location = new System.Drawing.Point(64, 110);
+            CHK_SWNPCMet.Margin = new System.Windows.Forms.Padding(2);
+            CHK_SWNPCMet.Name = "CHK_SWNPCMet";
+            CHK_SWNPCMet.Size = new System.Drawing.Size(74, 19);
+            CHK_SWNPCMet.TabIndex = 8;
+            CHK_SWNPCMet.Text = "NPC met";
+            CHK_SWNPCMet.UseVisualStyleBackColor = true;
+            // 
             // GB_CurrentData
             // 
             GB_CurrentData.Controls.Add(L_CurrentType);
@@ -1365,8 +1378,7 @@ namespace PKHeX.WinForms
             NUD_CurrentType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             NUD_CurrentType.Location = new System.Drawing.Point(82, 21);
             NUD_CurrentType.Margin = new System.Windows.Forms.Padding(2);
-            NUD_CurrentType.Minimum = 0;
-            NUD_CurrentType.Maximum = 255;
+            NUD_CurrentType.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_CurrentType.Name = "NUD_CurrentType";
             NUD_CurrentType.Size = new System.Drawing.Size(48, 23);
             NUD_CurrentType.TabIndex = 1;
@@ -1376,8 +1388,7 @@ namespace PKHeX.WinForms
             NUD_CurrentBattle.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             NUD_CurrentBattle.Location = new System.Drawing.Point(82, 45);
             NUD_CurrentBattle.Margin = new System.Windows.Forms.Padding(2);
-            NUD_CurrentBattle.Minimum = 0;
-            NUD_CurrentBattle.Maximum = 255;
+            NUD_CurrentBattle.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_CurrentBattle.Name = "NUD_CurrentBattle";
             NUD_CurrentBattle.Size = new System.Drawing.Size(48, 23);
             NUD_CurrentBattle.TabIndex = 1;
@@ -2367,11 +2378,12 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_SuperDouble;
         private System.Windows.Forms.CheckBox CHK_SuperSingle;
         private System.Windows.Forms.Panel PAN_MissionMeta;
-        private System.Windows.Forms.CheckBox CHK_Subway7;
-        private System.Windows.Forms.CheckBox CHK_Subway3;
-        private System.Windows.Forms.CheckBox CHK_Subway2;
-        private System.Windows.Forms.CheckBox CHK_Subway1;
         private System.Windows.Forms.CheckBox CHK_Subway0;
+        private System.Windows.Forms.CheckBox CHK_Subway1;
+        private System.Windows.Forms.CheckBox CHK_Subway2;
+        private System.Windows.Forms.CheckBox CHK_Subway3;
+        private System.Windows.Forms.CheckBox CHK_Subway7;
+        private System.Windows.Forms.CheckBox CHK_SWNPCMet;
         private System.Windows.Forms.GroupBox GB_CurrentData;
         private System.Windows.Forms.Label L_CurrentType;
         private System.Windows.Forms.Label L_CurrentBattle;

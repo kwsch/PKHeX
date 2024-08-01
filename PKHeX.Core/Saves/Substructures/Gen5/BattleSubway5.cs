@@ -15,6 +15,8 @@ public sealed class BattleSubway5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
     public bool SuperDouble { get => ((Flags >> 5) & 1) != 0; set => Flags = (Flags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
     public bool SuperMulti  { get => ((Flags >> 6) & 1) != 0; set => Flags = (Flags & ~(1 << 6)) | ((value ? 1 : 0) << 6); }
     public bool Flag7       { get => ((Flags >> 7) & 1) != 0; set => Flags = (Flags & ~(1 << 7)) | ((value ? 1 : 0) << 7); }
+    public int Flags2 { get => Data[0x05]; set => Data[0x05] = (byte)value; }
+    public bool NPCMet { get => ((Flags2 >> 2) & 1) != 0; set => Flags2 = (Flags2 & ~(1 << 2)) | ((value ? 1 : 0) << 2); }
 
     public int SinglePast              { get => ReadUInt16LittleEndian(Data[0x08..]); set => WriteUInt16LittleEndian(Data[0x08..], (ushort)value); }
     public int DoublePast              { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], (ushort)value); }

@@ -680,6 +680,9 @@ public partial class SAV_Misc5 : Form
         CHK_SuperMulti.Checked = sw.SuperMulti;
         CHK_Subway7.Checked = sw.Flag7;
 
+        // NPC Met Flag
+        CHK_SWNPCMet.Checked = sw.NPCMet;
+
         // Current Run Checks
         CHK_SingleSet.Checked = sw.SingleSet == (sw.SinglePast / 7 + 1);
         L_SinglePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
@@ -751,6 +754,9 @@ public partial class SAV_Misc5 : Form
         sw.SuperMulti = CHK_SuperMulti.Checked;
         sw.Flag7 = CHK_Subway7.Checked;
 
+        // NPC Met Flag
+        sw.NPCMet = CHK_SWNPCMet.Checked;
+
         // Normal
         // Single
         sw.SinglePast = (int)NUD_SinglePast.Value;
@@ -786,14 +792,14 @@ public partial class SAV_Misc5 : Form
         sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
 
         // Current Run Checks
-        sw.SingleSet = (CHK_SingleSet.Checked ? sw.SinglePast / 7 : 0) + 1;
-        sw.DoubleSet = (CHK_DoubleSet.Checked ? sw.DoublePast / 7 : 0) + 1;
-        sw.MultiNPCSet = (CHK_MultiNPCSet.Checked ? sw.MultiNPCPast / 7 : 0) + 1;
-        sw.MultiFriendsSet = (CHK_MultiFriendsSet.Checked ? sw.MultiFriendsPast / 7 : 0) + 1;
-        sw.SuperSingleSet = (CHK_SuperSingleSet.Checked ? sw.SuperSinglePast / 7 : 0) + 1;
-        sw.SuperDoubleSet = (CHK_SuperDoubleSet.Checked ? sw.SuperDoublePast / 7 : 0) + 1;
-        sw.SuperMultiNPCSet = (CHK_SuperMultiNPCSet.Checked ? sw.SuperMultiNPCPast / 7 : 0) + 1;
-        sw.SuperMultiFriendsSet = (CHK_SuperMultiFriendsSet.Checked ? sw.SuperMultiFriendsPast / 7 : 0) + 1;
+        sw.SingleSet = (CHK_SingleSet.Checked ? sw.SinglePast / 7 + 1 : 0);
+        sw.DoubleSet = (CHK_DoubleSet.Checked ? sw.DoublePast / 7 + 1 : 0);
+        sw.MultiNPCSet = (CHK_MultiNPCSet.Checked ? sw.MultiNPCPast / 7 + 1 : 0);
+        sw.MultiFriendsSet = (CHK_MultiFriendsSet.Checked ? sw.MultiFriendsPast / 7 + 1 : 0);
+        sw.SuperSingleSet = (CHK_SuperSingleSet.Checked ? sw.SuperSinglePast / 7 + 1 : 0);
+        sw.SuperDoubleSet = (CHK_SuperDoubleSet.Checked ? sw.SuperDoublePast / 7 + 1 : 0);
+        sw.SuperMultiNPCSet = (CHK_SuperMultiNPCSet.Checked ? sw.SuperMultiNPCPast / 7 + 1 : 0);
+        sw.SuperMultiFriendsSet = (CHK_SuperMultiFriendsSet.Checked ? sw.SuperMultiFriendsPast / 7 + 1 : 0);
     }
 
     private const string ForestCityBinFilter = "Forest City Bin|*.fc5";
