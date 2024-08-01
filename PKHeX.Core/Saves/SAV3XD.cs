@@ -31,12 +31,13 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     private readonly byte[] BAK;
     private int DaycareOffset;
 
-    public SAV3XD() : base(SaveUtil.SIZE_G3XD)
+    public SAV3XD(bool japanese = false) : base(SaveUtil.SIZE_G3XD)
     {
         BAK = [];
+        CurrentRegion = OriginalRegion = japanese ? GCRegion.NTSC_J : GCRegion.NTSC_U;
         // create fake objects
         StrategyMemo = new StrategyMemo();
-        ShadowInfo = new ShadowInfoTableXD(false);
+        ShadowInfo = new ShadowInfoTableXD(japanese);
         Config = 0xA8;
         Trainer1 = 0xCCD8;
         Party = 0xCD08;

@@ -79,6 +79,9 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
+        if (criteria.IsSpecifiedIVs() && this.SetFromIVs(pk, criteria, pi, noShiny: true))
+            return;
+
         var gender = criteria.GetGender(pi);
         var nature = criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);

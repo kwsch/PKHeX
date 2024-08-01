@@ -29,8 +29,6 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
-    public bool IsColoStarter => Species is (ushort)Core.Species.Espeon or (ushort)Core.Species.Umbreon;
-
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -71,6 +69,16 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
+        if (Species == (int)Core.Species.Eevee)
+        {
+            if (MethodCXD.SetFromTrainerIDStarter(pk, criteria, pi, pk.TID16, pk.SID16))
+                return;
+        }
+        else
+        {
+            if (criteria.IsSpecifiedIVs() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: true))
+                return;
+        }
         var gender = criteria.GetGender(pi);
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
@@ -137,8 +145,6 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     public bool IsCompatible(PIDType val, PKM pk)
     {
-        if (IsColoStarter)
-            return val is PIDType.CXD_ColoStarter;
         if (val is PIDType.CXD)
             return true;
         return val is PIDType.CXDAnti && FatefulEncounter;

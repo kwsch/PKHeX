@@ -181,6 +181,8 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             evo = evo with { Form = 0 }; // Normal
         else if (evo is { Species: (ushort)Species.Palkia, Form: not 0 })
             evo = evo with { Form = 0 }; // Normal
+        else if (evo is { Species: (ushort)Species.Arceus, Form: not 0 })
+            evo = evo with { Form = 0 }; // Normal
         else if (evo is { Species: (ushort)Species.Silvally, Form: not 0 })
             evo = evo with { Form = 0 }; // Normal
     }
