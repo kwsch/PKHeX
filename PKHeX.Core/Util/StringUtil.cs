@@ -65,19 +65,9 @@ public static class StringUtil
     }
 
     /// <summary>
-    /// Converts an all-caps hex string to a byte array. Expects no separation between byte tuples.
-    /// </summary>
-    public static byte[] ToByteArray(this string toTransform)
-    {
-        var result = new byte[toTransform.Length / 2];
-        LoadHexBytesTo(toTransform, result, 2);
-        return result;
-    }
-
-    /// <summary>
     /// Converts an all-caps encoded ASCII-Text hex string to a byte array.
     /// </summary>
-    public static void LoadHexBytesTo(Span<byte> dest, ReadOnlySpan<byte> str, int tupleSize)
+    public static void LoadHexBytesTo(ReadOnlySpan<byte> str, Span<byte> dest, int tupleSize)
     {
         // The input string is 2-char hex values optionally separated.
         // The destination array should always be larger or equal than the bytes written. Let the runtime bounds check us.

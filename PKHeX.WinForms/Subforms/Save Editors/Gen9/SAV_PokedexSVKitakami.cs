@@ -156,7 +156,6 @@ public partial class SAV_PokedexSVKitakami : Form
         if (forms[0].Length == 0)
             forms[0] = GameInfo.Strings.Types[0];
 
-        this.SuspendLayout();
         // Clear all CheckedListBoxes
         var seen = CLB_FormSeen.Items;
         var obtained = CLB_FormObtained.Items;

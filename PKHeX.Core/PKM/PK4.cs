@@ -303,9 +303,9 @@ public sealed class PK4 : G4PKM
 
     public RK4 ConvertToRK4()
     {
-        var data = new byte[PokeCrypto.SIZE_4STORED];
-        Data.AsSpan(0, PokeCrypto.SIZE_4RSTORED).CopyTo(data);
-        var rk4 = new RK4(data) { OwnershipType = RanchOwnershipType.Hayley };
+        var rk4 = new RK4 { OwnershipType = RanchOwnershipType.Hayley };
+        var stored = Data.AsSpan(0, PokeCrypto.SIZE_4STORED);
+        stored.CopyTo(rk4.Data);
 
         rk4.RefreshChecksum();
         return rk4;
@@ -313,15 +313,15 @@ public sealed class PK4 : G4PKM
 
     public PK5 ConvertToPK5()
     {
-        // Double Check Location Data to see if we're already a PK5
+        var pk5 = new PK5();
+        var stored = Data.AsSpan(0, PokeCrypto.SIZE_5PARTY);
+        stored.CopyTo(pk5.Data);
+        // Double Check Location Data to see if we were originally a PK5, no need to adjust.
         if (Version <= GameVersion.CXD && MetLocationDP > 0x4000)
-            return new PK5(Data);
+            return pk5;
 
-        PK5 pk5 = new(Data.AsSpan(0, PokeCrypto.SIZE_5PARTY).ToArray()) // Convert away!
-        {
-            JunkByte = 0,
-            OriginalTrainerFriendship = 70,
-        };
+        pk5.JunkByte = 0;
+        pk5.OriginalTrainerFriendship = 70;
         if (!EntityConverter.RetainMetDateTransfer45)
             EncounterDate.GetDateNDS(); // Apply new met date
         pk5.HeldMail.Clear();
@@ -385,8 +385,9 @@ public sealed class PK4 : G4PKM
     {
         Span<char> temp = stackalloc char[13];
         var len = StringConverter4.LoadString(src, temp);
-        StringConverter345.TransferGlyphs45(temp[..len]);
-        StringConverter5.SetString(dest, temp[..len], len, language);
+        temp = temp[..len];
+        StringConverter345.TransferGlyphs45(temp);
+        StringConverter5.SetString(dest, temp, len, language);
     }
 
     public override string GetString(ReadOnlySpan<byte> data)

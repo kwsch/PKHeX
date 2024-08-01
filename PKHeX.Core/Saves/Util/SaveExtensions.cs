@@ -102,7 +102,7 @@ public static class SaveExtensions
         {
             if (overwrite)
             {
-                while (sav.IsSlotOverwriteProtected(index))
+                while (sav.IsBoxSlotOverwriteProtected(index))
                     ++index;
 
                 // The above will return false if out of range. We need to double-check.

@@ -271,6 +271,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #region Battle Stats
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0x88)); set => WriteInt32LittleEndian(Data.AsSpan(0x88), value); }
     public override byte Stat_Level { get => Data[0x8C]; set => Data[0x8C] = value; }
+    /// <summary> <see cref="PK4.BallCapsuleIndex"/>, now unused. </summary>
     public byte JunkByte { get => Data[0x8D]; set => Data[0x8D] = value; }
     public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), (ushort)value); }
     public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0x90)); set => WriteUInt16LittleEndian(Data.AsSpan(0x90), (ushort)value); }

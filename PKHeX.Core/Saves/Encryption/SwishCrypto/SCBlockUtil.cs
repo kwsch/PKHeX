@@ -119,15 +119,15 @@ public static class SCBlockUtil
     public static string GetBlockSummary(SCBlock b)
     {
         var sb = new StringBuilder(64);
-        sb.Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine();
-        sb.Append("Type: ").Append(b.Type).AppendLine();
+        sb.AppendLine($"Key: {b.Key:X8}");
+        sb.AppendLine($"Type: {b.Type}");
         if (b.Data.Length != 0)
-            sb.Append("Length: ").AppendFormat("{0:X8}", b.Data.Length).AppendLine();
+            sb.AppendLine($"Length: {b.Data.Length:X8}");
 
         if (b.SubType != 0)
-            sb.Append("SubType: ").Append(b.SubType).AppendLine();
+            sb.AppendLine($"SubType: {b.SubType}");
         else if (b.HasValue())
-            sb.Append("Value: ").Append(b.GetValue()).AppendLine();
+            sb.AppendLine($"Value: {b.GetValue()}");
 
         return sb.ToString();
     }

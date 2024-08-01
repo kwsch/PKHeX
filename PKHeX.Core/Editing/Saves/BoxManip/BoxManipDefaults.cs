@@ -73,8 +73,8 @@ public static class BoxManipDefaults
         new BoxManipModify(ModifyMaxLevel, pk => pk.MaximizeLevel()),
         new BoxManipModify(ModifyResetMoves, pk => pk.SetMoveset(), s => s.Generation >= 3),
         new BoxManipModify(ModifyRandomMoves, pk => pk.SetMoveset(true)),
-        new BoxManipModify(ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7 && s is not SAV8LA),
-        new BoxManipModify(ModifyGanbaru,pk => ((IGanbaru)pk).SetSuggestedGanbaruValues(pk), s => s is SAV8LA),
+        new BoxManipModify(ModifyHyperTrain, pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7 && s is not SAV8LA),
+        new BoxManipModify(ModifyGanbaru, pk => ((IGanbaru)pk).SetSuggestedGanbaruValues(pk), s => s is SAV8LA),
         new BoxManipModify(ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
         new BoxManipModify(ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
         new BoxManipModify(ModifyHeal, pk => pk.Heal(), s => s.Generation >= 6), // HP stored in box, or official code has bugged transfer PP the user would like to rectify.

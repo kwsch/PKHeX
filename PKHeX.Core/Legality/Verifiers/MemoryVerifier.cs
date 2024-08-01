@@ -36,6 +36,7 @@ public sealed class MemoryVerifier : Verifier
         if (sources == MemorySource.None)
         {
             VerifyHTMemoryNone(data, (ITrainerMemories)pk);
+            VerifyHTLanguage(data, MemorySource.None);
             return;
         }
         VerifyHTMemoryContextVisited(data, sources);

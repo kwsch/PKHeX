@@ -142,27 +142,14 @@ public sealed class TransferVerifier : Verifier
             }
         }
 
-        if (pk.Format >= 9)
-        {
-            VerifyTransferLegalityG9(data);
-            return;
-        }
-
         // Starting in Generation 8, games have a selective amount of species/forms from prior games.
         IPersonalTable pt = pk switch
         {
             PA8 => PersonalTable.LA,
             PB8 => PersonalTable.BDSP,
+            PK9 => PersonalTable.SV,
             _ => PersonalTable.SWSH,
         };
-        if (!pt.IsPresentInGame(pk.Species, pk.Form))
-            data.AddLine(GetInvalid(LTransferBad));
-    }
-
-    public void VerifyTransferLegalityG9(LegalityAnalysis data)
-    {
-        var pk = data.Entity;
-        var pt = PersonalTable.SV;
         if (!pt.IsPresentInGame(pk.Species, pk.Form))
             data.AddLine(GetInvalid(LTransferBad));
     }

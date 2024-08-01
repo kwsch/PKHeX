@@ -243,7 +243,7 @@ public static class FormInfo
     /// <summary>
     /// Species has a Totem form in Gen7 (S/M &amp; US/UM) that can be captured and owned.
     /// </summary>
-    /// <param name="species"></param>
+    /// <param name="species">Entity species</param>
     /// <returns>True if the species exists as a Totem.</returns>
     /// <remarks>Excludes <see cref="Wishiwashi"/> because it cannot be captured.</remarks>
     public static bool HasTotemForm(ushort species) => species switch

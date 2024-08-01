@@ -102,6 +102,9 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
     }
 
     public bool GetBaseEggMove(out ushort move) => GetBaseEggMove(out move, PersonalTable.BDSP[Species, Form]);

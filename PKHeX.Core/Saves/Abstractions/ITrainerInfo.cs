@@ -105,9 +105,8 @@ public static class TrainerInfoExtensions
 
         if (tr.Version != pk.Version)
         {
-            // PK9 does not store version for Picnic eggs.
-            if (pk is PK9 { Version: 0 }) { }
-            else { return false; }
+            if (!IsVersionlessState(pk))
+                return false;
         }
 
         Span<char> ot = stackalloc char[pk.MaxStringLengthTrainer];
@@ -117,6 +116,14 @@ public static class TrainerInfoExtensions
             return false;
 
         return true;
+    }
+
+    private static bool IsVersionlessState(PKM pk)
+    {
+        // PK9 does not store version for Picnic eggs.
+        if (pk is PK9 { Version: 0 }) // IsEgg is already true for all calls
+            return true;
+        return false;
     }
 
     private static bool IsMatchVersion(ITrainerInfo tr, PKM pk)

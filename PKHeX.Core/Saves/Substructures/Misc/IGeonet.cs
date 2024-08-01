@@ -31,6 +31,7 @@ public interface IGeonet
     /// </summary>
     /// <param name="country">Country index</param>
     /// <param name="subregion">Subregion index</param>
+    /// <param name="point">Point status</param>
     void SetCountrySubregion(byte country, byte subregion, GeonetPoint point);
 
     /// <summary>

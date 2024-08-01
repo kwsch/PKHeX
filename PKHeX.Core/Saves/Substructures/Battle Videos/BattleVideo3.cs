@@ -5,13 +5,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BattleVideo3(byte[] Data) : IBattleVideo
+public sealed class BattleVideo3(Memory<byte> Raw) : IBattleVideo
 {
     public BattleVideo3() : this(new byte[SIZE]) { }
 
-    public readonly byte[] Data = (byte[])Data.Clone();
-
-    internal const int SIZE = 0xF80;
+    public Span<byte> Data => Raw.Span;
+    internal const int SIZE = SAV3.SIZE_SECTOR_USED - 4; // Skip sentinel
     public byte Generation => 3;
 
     public IEnumerable<PKM> Contents => PlayerTeams.SelectMany(z => z);
@@ -49,7 +48,7 @@ public sealed class BattleVideo3(byte[] Data) : IBattleVideo
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_3PARTY * p);
-            var span = Data.AsSpan(offset, PokeCrypto.SIZE_3PARTY);
+            var span = Data.Slice(offset, PokeCrypto.SIZE_3PARTY);
             team[p] = new PK3(span.ToArray());
         }
 
@@ -62,7 +61,7 @@ public sealed class BattleVideo3(byte[] Data) : IBattleVideo
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_3PARTY * p);
-            team[p].EncryptedPartyData.CopyTo(Data, offset);
+            team[p].EncryptedPartyData.CopyTo(Data[offset..]);
         }
     }
 
@@ -73,25 +72,25 @@ public sealed class BattleVideo3(byte[] Data) : IBattleVideo
 
     public uint Seed
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x4E8));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x4E8), value);
+        get => ReadUInt32LittleEndian(Data[0x4E8..]);
+        set => WriteUInt32LittleEndian(Data[0x4E8..], value);
     }
 
     public uint Mode
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x4EC));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x4EC), value);
+        get => ReadUInt32LittleEndian(Data[0x4EC..]);
+        set => WriteUInt32LittleEndian(Data[0x4EC..], value);
     }
 
     // ...
 
     public uint Checksum
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(SIZE - 4));
-        set => WriteUInt32LittleEndian(Data.AsSpan(SIZE - 4), value);
+        get => ReadUInt32LittleEndian(Data[^4..]);
+        set => WriteUInt32LittleEndian(Data[^4..], value);
     }
 
-    public bool IsChecksumValid() => Checksum == GetByteSum(Data.AsSpan()[..^4]);
+    public bool IsChecksumValid() => Checksum == GetByteSum(Data[..^4]);
 
     public static uint GetByteSum(ReadOnlySpan<byte> data)
     {

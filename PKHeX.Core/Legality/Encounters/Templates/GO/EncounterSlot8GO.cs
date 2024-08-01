@@ -132,7 +132,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
             pk.OriginalTrainerName = tr.OT;
             pk.ID32 = tr.ID32;
             pk.OriginalTrainerGender = tr.Gender;
-            pk.HandlingTrainerName = "PKHeX";
+            pk.HandlingTrainerName = TrainerName.ProgramINT;
             pk.CurrentHandler = 1;
             if (pk is IHandlerLanguage l)
                 l.HandlingTrainerLanguage = 2;
@@ -229,9 +229,29 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     {
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
+        if (Species is (int)Farfetchd && IsReallySirfetchd(pk))
+            return EncounterMatchRating.DeferredErrors;
         if (!this.GetIVsValid(pk))
             return EncounterMatchRating.Deferred;
         return EncounterMatchRating.Match;
+    }
+
+    /// <summary>
+    /// Checks if a Farfetch'd was originally a Sirfetch'd.
+    /// </summary>
+    /// <remarks>Only basis we can check with is if it has the bad HOME apostrophe.</remarks>
+    private static bool IsReallySirfetchd(PKM pk)
+    {
+        if (pk.Species != (int)Sirfetchd)
+            return false;
+
+        // Check for the "wrong" apostrophe. If it matches the species name, then it was originally Farfetch'd.
+        if (pk.IsNicknamed || !SpeciesName.IsApostropheFarfetchdLanguage(pk.Language))
+            return false; // can't tell if it was originally Farfetch'd
+
+        Span<char> name = stackalloc char[pk.TrashCharCountNickname];
+        pk.LoadString(pk.NicknameTrash, name);
+        return name is "Sirfetch'd"; // only way to get the bad apostrophe is to originate in HOME with it.
     }
 
     public byte OriginalTrainerFriendship => Species switch

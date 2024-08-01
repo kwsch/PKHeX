@@ -64,7 +64,7 @@ public sealed class KeySystem5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5B
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)key, (uint)KeyType5.Iceberg);
         var offset = OffsetKeysUnlocked + (sizeof(uint) * (int)key);
-        var expect = MagicKeyUnlocked[(int)key + 5] ^ Crypto;
+        var expect = MagicKeyUnlocked[(int)key] ^ Crypto;
         var value = ReadUInt32LittleEndian(Data[offset..]);
         return value == expect;
     }
@@ -73,7 +73,7 @@ public sealed class KeySystem5(SAV5B2W2 SAV, Memory<byte> raw) : SaveBlock<SAV5B
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)key, (uint)KeyType5.Iceberg);
         var offset = OffsetKeysUnlocked + (sizeof(uint) * (int)key);
-        var expect = MagicKeyUnlocked[(int)key + 5] ^ Crypto;
+        var expect = MagicKeyUnlocked[(int)key] ^ Crypto;
         WriteUInt32LittleEndian(Data[offset..], value ? expect : 0);
     }
 

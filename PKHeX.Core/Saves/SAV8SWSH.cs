@@ -257,7 +257,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
     public int RecordCount => Record8.RecordCount;
 
-    public override StorageSlotSource GetSlotFlags(int index)
+    public override StorageSlotSource GetBoxSlotFlags(int index)
     {
         int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
         if (team < 0)

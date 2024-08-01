@@ -127,7 +127,7 @@ public sealed class LegendsArceusVerifier : Verifier
         return AddMasteredMissing(pa, moves, count, moveset, currentLearn, level);
     }
 
-    private static void LoadPurchasedMoves(IMoveShop8 pa, Span<ushort> result)
+    private static void LoadPurchasedMoves(PA8 pa, Span<ushort> result)
     {
         int ctr = 0;
         var purchased = pa.Permit.RecordPermitIndexes;

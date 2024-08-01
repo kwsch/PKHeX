@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     ILangNick, INature, IRibbonIndex, IContestStatsReadOnly, IRelearn,
-    ILangNicknamedTemplate, IEncounterServerDate,
+    ILangNicknamedTemplate, IEncounterServerDate, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8
 {
@@ -705,7 +705,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.MetLocation == this.Location;
+    private bool IsMatchLocationExact(PKM pk) => pk.MetLocation == Location;
 
     private bool IsMatchLocationRemapped(PKM pk)
     {
@@ -713,7 +713,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         var version = pk.Version;
         if (pk.Context == EntityContext.Gen8)
             return LocationsHOME.IsValidMetBDSP(met, version);
-        return LocationsHOME.GetMetSWSH(this.Location, version) == met;
+        return LocationsHOME.GetMetSWSH(Location, version) == met;
     }
 
     protected override bool IsMatchDeferred(PKM pk) => false;

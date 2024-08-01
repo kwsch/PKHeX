@@ -67,7 +67,8 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         Party = 0x98;
         Extra = 0x230C;
         FashionCase = 0x3F64;
-        ChatterOffset = 0x4E74;
+        OFS_Record = 0x4B3C;
+        OFS_Chatter = 0x4E74;
         Geonet = 0x8D44;
         WondercardFlags = 0x9D3C;
         Seal = 0x4E20;
@@ -188,7 +189,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     public override int X { get => ReadUInt16LittleEndian(General[0x123C..]); set => WriteUInt16LittleEndian(General[0x123C..], (ushort)(X2 = value)); }
     public override int Y { get => ReadUInt16LittleEndian(General[0x1240..]); set => WriteUInt16LittleEndian(General[0x1240..], (ushort)(Y2 = value)); }
 
-    public override Span<byte> Rival_Trash
+    public override Span<byte> RivalTrash
     {
         get => RivalSpan;
         set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(RivalSpan); }

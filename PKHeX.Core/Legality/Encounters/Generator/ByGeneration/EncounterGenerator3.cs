@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed class EncounterGenerator3 : IEncounterGenerator
 {
     public static readonly EncounterGenerator3 Instance = new();
+    public bool CanGenerateEggs => true;
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
@@ -75,23 +76,23 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             }
             if (e is not EncounterSlot3 slot)
             {
-                if (e is WC3 wc3)
+                if (e is EncounterGift3 gift)
                 {
-                    if (wc3.TID16 == 40122) // CHANNEL Jirachi
+                    if (gift.TID16 == 40122) // CHANNEL Jirachi
                     {
                         var chk = ChannelJirachi.GetPossible(info.PIDIV.OriginSeed);
                         if (chk.Pattern is not ChannelJirachiRandomResult.None)
                             info.PIDIV = info.PIDIV.AsEncounteredVia(new(chk.Seed, LeadRequired.None));
                         else
                             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-                        yield return wc3;
+                        yield return gift;
                         yield break;
                     }
-                    if (wc3.TID16 == 06930) // MYSTRY Mew
+                    if (gift.TID16 == 06930) // MYSTRY Mew
                     {
                         if (!MystryMew.IsValidSeed(info.PIDIV.OriginSeed))
                             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-                        yield return wc3;
+                        yield return gift;
                         yield break;
                     }
                 }
@@ -122,7 +123,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             yield break;
         if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-        else if (defer.Type is DeferralType.Tile)
+        else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
         yield return lastResort;
     }

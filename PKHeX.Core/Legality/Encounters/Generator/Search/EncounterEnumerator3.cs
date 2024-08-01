@@ -33,6 +33,8 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
         EventColoR,
         EventColoS,
         Event,
+        EventPCNY,
+        EventPCJP,
 
         Bred,
         BredSplit,
@@ -91,6 +93,17 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; State = YieldState.Event; goto case YieldState.Event;
             case YieldState.Event:
                 if (TryGetNext(EncountersWC3.Encounter_WC3))
+                    return true;
+                Index = 0;
+                if (Entity.Language == (int)LanguageID.English) { State = YieldState.EventPCNY; goto case YieldState.EventPCNY; }
+                if (Entity.Language == (int)LanguageID.Japanese) { State = YieldState.EventPCJP; goto case YieldState.EventPCJP; }
+                State = YieldState.TradeStart; goto case YieldState.TradeStart;
+            case YieldState.EventPCNY:
+                if (TryGetNext(EncountersWC3.PCNY))
+                    return true;
+                Index = 0; goto case YieldState.TradeStart;
+            case YieldState.EventPCJP:
+                if (TryGetNext(EncountersWC3.PCJP))
                     return true;
                 Index = 0; goto case YieldState.TradeStart;
 

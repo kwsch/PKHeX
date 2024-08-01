@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed class EncounterGenerator4 : IEncounterGenerator
 {
     public static readonly EncounterGenerator4 Instance = new();
+    public bool CanGenerateEggs => true;
 
     // Utility
     internal static readonly PGT RangerManaphy = new() { Data = { [0] = 7, [8] = 1 } };
@@ -107,7 +108,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             yield break;
         if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-        else if (defer.Type is DeferralType.Tile)
+        else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
         yield return lastResort;
     }

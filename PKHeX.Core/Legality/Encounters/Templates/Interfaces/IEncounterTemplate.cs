@@ -25,9 +25,8 @@ public static partial class Extensions
             return encounter.IsLevelWithinRange(level);
         if (encounter.IsEgg)
             return level == encounter.LevelMin;
-        if (encounter is MysteryGift g)
-            return level == g.Level;
-
+        if (encounter is IMetLevel)
+            return encounter.IsLevelWithinRange(level);
         var met = pk.MetLevel;
         if (met != 0)
             return level == met;

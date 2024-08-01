@@ -191,13 +191,13 @@ public static class StringFont8b
         '\uFB30', '\uFB31', '\uFB32', '\uFB33', '\uFB34', '\uFB35', '\uFB36', '\uFB38', '\uFB39', '\uFB3A', '\uFB3B', '\uFB3C', '\uFB3E',
         '\uFB40', '\uFB41', '\uFB43', '\uFB44', '\uFB46', '\uFB47', '\uFB48', '\uFB49', '\uFB4A', '\uFB4B', '\uFB4C', '\uFB4D', '\uFB4E', '\uFB4F',
         '\uFE20', '\uFE21', '\uFE22', '\uFE23',
-        '\uFFFC'
+        '\uFFFC',
     ];
 
     public static ReadOnlySpan<char> DefinedCHSExt => [
         '\u0020', '\u002D', '\u003F', '\u0067', '\u00AA', '\u00B7', '\u00E9',
         '\u2013', '\u2018', '\u2019', '\u201C', '\u201D', '\u201E', '\u2026', '\u20BD', '\u21D2', '\u21D4', '\u2200', '\u2282', '\u2283',
         '\u25A0', '\u25BC', '\u25BD', '\u25CF', '\u2605', '\u2661', '\u2665', '\u266A', '\u266D',
-        '\u300A', '\u300B', '\u300C', '\u300D', '\u300E', '\u300F', '\u3010', '\u3011', '\u30FB', '\uFF08', '\uFF09', '\uFF65'
+        '\u300A', '\u300B', '\u300C', '\u300D', '\u300E', '\u300F', '\u3010', '\u3011', '\u30FB', '\uFF08', '\uFF09', '\uFF65',
     ];
 }

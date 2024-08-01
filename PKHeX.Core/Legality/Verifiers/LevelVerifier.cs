@@ -68,7 +68,6 @@ public sealed class LevelVerifier : Verifier
 
         return gift switch
         {
-            WC3 wc3 when wc3.MetLevel == pk.MetLevel || wc3.IsEgg => true,
             WC7 wc7 when wc7.MetLevel == pk.MetLevel => true,
             PGT { IsManaphyEgg: true } when pk.MetLevel == 0 => true,
             _ => false,

@@ -7,15 +7,26 @@ namespace PKHeX.Core;
 /// Generation 5 Mystery Gift Template File
 /// </summary>
 public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, ILangNick,
-    IContestStats, INature, IRestrictVersion
+    IContestStats, INature, IMetLevel, IRestrictVersion
 {
     public PGF() : this(new byte[Size]) { }
+    public int RestrictLanguage { get; set; } // None
+    public byte RestrictVersion { get; set; } // Permit All
 
     public const int Size = 0xCC;
-    public const int SizeFull = 0x2D0;
     public override byte Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
-    public override GameVersion Version => OriginGame == 0 ? GameVersion.Gen5 : (GameVersion)OriginGame;
+    public override GameVersion Version => OriginGame != 0 ? (GameVersion)OriginGame : RestrictVersion switch
+    {
+        1 => GameVersion.W,
+        2 => GameVersion.B,
+        3 => GameVersion.BW,
+        4 => GameVersion.W2,
+        8 => GameVersion.B2,
+        12 => GameVersion.B2W2,
+        _ => GameVersion.Gen5,
+    };
+
     public override bool FatefulEncounter => true;
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
@@ -433,7 +444,24 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     }
 
     protected override bool IsMatchDeferred(PKM pk) => false;
-    protected override bool IsMatchPartial(PKM pk) => !CanBeReceivedByVersion(pk.Version);
 
-    public bool CanBeReceivedByVersion(GameVersion game) => OriginGame == 0 || (GameVersion)OriginGame == game;
+    protected override bool IsMatchPartial(PKM pk)
+    {
+        if (RestrictLanguage != 0 && RestrictLanguage != pk.Language)
+            return true;
+        return !CanBeReceivedByVersion(pk.Version);
+    }
+
+    public bool CanBeReceivedByVersion(GameVersion version)
+    {
+        if (OriginGame != 0)
+            return version == (GameVersion)OriginGame;
+        if (version is < GameVersion.W or > GameVersion.B2)
+            return false;
+        if (RestrictVersion == 0)
+            return true; // no data
+        var bitIndex = (int)(version - GameVersion.W);
+        var bit = 1 << bitIndex;
+        return (RestrictVersion & bit) != 0;
+    }
 }

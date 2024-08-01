@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
 {
-    public string OT { get; set; } = "PKHeX";
+    public string OT { get; set; } = TrainerName.ProgramINT;
     public ushort TID16 { get; set; } = 12345;
     public ushort SID16 { get; set; } = 54321;
     public byte Gender { get; set; }

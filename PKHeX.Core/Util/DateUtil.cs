@@ -60,7 +60,7 @@ public static class DateUtil
         value %= SecondsPerDay;
         sb.Append(new TimeOnly(ticks: value * TimeSpan.TicksPerSecond).ToString("HH:mm:ss"));
         if (secondsBias >= 0)
-            sb.Append(Environment.NewLine).Append("Date: ").Append(Epoch2000.AddSeconds(value + secondsBias));
+            sb.Append(Environment.NewLine).Append($"Date: {Epoch2000.AddSeconds(value + secondsBias)}");
         return sb.ToString();
     }
 

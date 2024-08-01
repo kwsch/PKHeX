@@ -21,7 +21,7 @@ public static class LocationsHOME
     /// <summary>
     /// Gets the external entity version needs to be remapped into a location for SW/SH.
     /// </summary>
-    /// <param name="version"></param>
+    /// <param name="version">Origin Game ID to be stored directly/indirectly in the PK8.</param>
     /// <returns>True if a known remap exists.</returns>
     public static bool IsVersionRemapNeeded(GameVersion version) => GetRemapIndex(version) < RemapCount;
 
@@ -67,11 +67,11 @@ public static class LocationsHOME
     /// </summary>
     public static GameVersion GetVersionSWSH(GameVersion version) => version switch
     {
-        GameVersion.PLA => GameVersion.SW,
-        GameVersion.BD  => GameVersion.SW,
-        GameVersion.SP  => GameVersion.SH,
-        GameVersion.SL  => GameVersion.SW,
-        GameVersion.VL  => GameVersion.SH,
+        PLA => SW,
+        BD  => SW,
+        SP  => SH,
+        SL  => SW,
+        VL  => SH,
         _ => version,
     };
 
@@ -80,22 +80,22 @@ public static class LocationsHOME
     /// </summary>
     public static ushort GetMetSWSH(ushort loc, GameVersion version) => version switch
     {
-        GameVersion.PLA => SWLA,
-        GameVersion.BD => SWBD,
-        GameVersion.SP => SHSP,
-        GameVersion.SL => SWSL,
-        GameVersion.VL => SHVL,
+        PLA => SWLA,
+        BD => SWBD,
+        SP => SHSP,
+        SL => SWSL,
+        VL => SHVL,
         _ => loc,
     };
 
     public static GameVersion GetVersionSWSHOriginal(ushort loc) => loc switch
     {
-        SWLA => GameVersion.PLA,
-        SWBD => GameVersion.BD,
-        SHSP => GameVersion.SP,
-        SWSL => GameVersion.SL,
-        SHVL => GameVersion.VL,
-        _ => GameVersion.SW,
+        SWLA => PLA,
+        SWBD => BD,
+        SHSP => SP,
+        SWSL => SL,
+        SHVL => VL,
+        _ => SW,
     };
 
     /// <summary>

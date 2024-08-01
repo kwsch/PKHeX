@@ -237,8 +237,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     private int OFS_AccessorySingleCount => FashionCase + 0x20; // 1 bit each
     private int OFS_Backdrop => FashionCase + 0x28;
 
-    public int ChatterOffset { get; protected set; } = int.MinValue;
-    public Chatter4 Chatter => new(this, Data.AsMemory(ChatterOffset));
+    protected int OFS_Chatter = int.MinValue;
+    public Chatter4 Chatter => new(this, Data.AsMemory(OFS_Chatter));
+
+    protected int OFS_Record = int.MinValue;
+    public Record4 Records => new(this, Data.AsMemory(OFS_Record, Record4.GetSize(this)));
 
     // Storage
     public override int PartyCount
@@ -334,11 +337,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     public string Rival
     {
-        get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => GetString(RivalTrash);
+        set => SetString(RivalTrash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
-    public abstract Span<byte> Rival_Trash { get; set; }
+    public abstract Span<byte> RivalTrash { get; set; }
 
     public abstract int X2 { get; set; }
     public abstract int Y2 { get; set; }

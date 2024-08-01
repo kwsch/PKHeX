@@ -266,7 +266,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     //public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
     //public int RecordCount => Record9.RecordCount;
 
-    public override StorageSlotSource GetSlotFlags(int index)
+    public override StorageSlotSource GetBoxSlotFlags(int index)
     {
         int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
         if (team < 0)

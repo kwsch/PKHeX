@@ -8,8 +8,20 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 {
-    private static readonly string[] names = Enum.GetNames<StorageSlotType>();
-    private readonly Label[] Labels = new Label[names.Length];
+    private static readonly string[] names = GetEnumNames();
+
+    public static string[] GetEnumNames()
+    {
+        var list = Enum.GetNames<StorageSlotType>();
+        foreach (ref var item in list.AsSpan())
+        {
+            if (item.StartsWith("Fused"))
+                item = "Fused";
+        }
+        return list;
+    }
+
+    public readonly Label[] Labels = new Label[names.Length];
     private readonly List<PictureBox> slots = [];
     private List<SlotInfoMisc> SlotOffsets = [];
     public int SlotCount { get; private set; }
@@ -99,16 +111,16 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 
     private void AddControls(int countTotal)
     {
-        var type = (StorageSlotType)(-1);
+        var type = string.Empty;
         int added = -1;
         for (int i = 0; i < countTotal; i++)
         {
             var info = SlotOffsets[i];
-            if (type != info.Type)
+            var label = Labels[(int)info.Type];
+            if (label.Text != type)
             {
                 added++;
-                type = info.Type;
-                var label = Labels[(int)type];
+                type = label.Text;
                 FLP_Slots.Controls.Add(label, 0, added++);
             }
 

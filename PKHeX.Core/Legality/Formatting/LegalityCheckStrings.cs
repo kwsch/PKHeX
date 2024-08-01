@@ -463,6 +463,9 @@ public static class LegalityCheckStrings
     public static string LStatNobleInvalid { get; set; } = "Noble Flag mismatch.";
     public static string LStatAlphaInvalid { get; set; } = "Alpha Flag mismatch.";
 
+    public static string LStoredSourceEgg { get; set; } = "Egg must be in Box or Party.";
+    public static string LStoredSourceInvalid_0 { get; set; } = "Invalid Stored Source: {0}";
+
     public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
     public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";
     public static string LSuperEgg { get; set; } = "Can't Super Train an Egg.";

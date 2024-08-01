@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycareRandomState<uint>
 {
     // Configuration
-    protected override SAV3E CloneInternal() => new(Write()) { Language = Language };
+    protected override SAV3E CloneInternal() => new(GetFinalData()) { Language = Language };
     public override GameVersion Version { get => GameVersion.E; set { } }
     public override PersonalTable3 Personal => PersonalTable.E;
 
@@ -63,6 +63,12 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     {
         get => new(Small.AsSpan(0xA0, RTC3.Size).ToArray());
         set => SetData(Small.AsSpan(0xA0), value.Data);
+    }
+
+    public uint BerryPowder
+    {
+        get => ReadUInt32LittleEndian(Small.AsSpan(0x1F4)) ^ SecurityKey;
+        set => WriteUInt32LittleEndian(Small.AsSpan(0x1F4), value ^ SecurityKey);
     }
 
     public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0x1FC)); set => WriteUInt16LittleEndian(Small.AsSpan(0x1FC), Math.Min((ushort)9999, value)); }
@@ -279,13 +285,14 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     #endregion
 
     private const uint EXTRADATA_SENTINEL = 0x0000B39D;
-    private const int OFS_BV = 31 * 0x1000; // last sector of the save
-    public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(Data.AsSpan(OFS_BV)) == EXTRADATA_SENTINEL;
+    public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && ReadUInt32LittleEndian(GetFinalExternalData().Span) == EXTRADATA_SENTINEL;
+    public void SetExtraDataSentinelBattleVideo() => WriteUInt32LittleEndian(GetFinalExternalData().Span, EXTRADATA_SENTINEL);
 
-    private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BattleVideo3.SIZE);
+    public Memory<byte> BattleVideoData => GetFinalExternalData().Slice(4, BattleVideo3.SIZE);
     public BattleVideo3 BattleVideo
     {
+        // decouple from the save file object on get, as the consumer might not be aware that mutations will touch the save.
         get => HasBattleVideo ? new BattleVideo3(BattleVideoData.ToArray()) : new BattleVideo3();
-        set => SetData(BattleVideoData, value.Data);
+        set => SetData(BattleVideoData.Span, value.Data);
     }
 }

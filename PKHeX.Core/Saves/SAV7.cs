@@ -209,7 +209,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         protected set => Data[Party + (6 * SIZE_PARTY)] = (byte)value;
     }
 
-    public override StorageSlotSource GetSlotFlags(int index)
+    public override StorageSlotSource GetBoxSlotFlags(int index)
     {
         int team = Array.IndexOf(TeamSlots, index);
         if (team < 0)
@@ -251,4 +251,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
     IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
+
+    public abstract void UpdateQrConstants();
 }

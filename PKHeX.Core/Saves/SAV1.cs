@@ -145,6 +145,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             bool newContent = AnyBoxSlotSpeciesPresent(current, boxSlotCount);
             if (newContent)
                 BoxesInitialized = boxInitialized = true;
+            else
+                current = CurrentBox = 0; // No content, reset to box 1.
         }
 
         for (int i = 0; i < BoxCount; i++)
@@ -154,7 +156,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             var src = GetUnpackedBoxSpan(i);
 
             bool written = PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false, boxInitialized);
-            if (written && i == CurrentBox)
+            if (written && i == current) // Ensure the current box is mirrored in the box buffer; easier than having dest be CurrentBox.
                 dest.CopyTo(Data.AsSpan(Offsets.CurrentBox));
         }
 
@@ -208,7 +210,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV1 CloneInternal() => new(Write(), Version) { Language = Language };
+    protected override SAV1 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;
@@ -293,7 +295,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer), value, MaxStringLengthTrainer, StringConverterOption.Clear50);
     }
 
-    public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
+    public Span<byte> RivalTrash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
 
     public byte RivalStarter { get => Data[Offsets.Starter - 2]; set => Data[Offsets.Starter - 2] = value; }
     public bool Yellow => Starter == 0x54; // Pikachu
@@ -310,10 +312,10 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.PikaFriendship] = value;
     }
 
-    public int PikaBeachScore
+    public uint PikaBeachScore
     {
-        get => BinaryCodedDecimal.ToInt32LE(Data.AsSpan(Offsets.PikaBeachScore, 2));
-        set => BinaryCodedDecimal.WriteBytesLE(Data.AsSpan(Offsets.PikaBeachScore, 2), Math.Min(9999, value));
+        get => BinaryCodedDecimal.ReadUInt32LittleEndian(Data.AsSpan(Offsets.PikaBeachScore, 2));
+        set => BinaryCodedDecimal.WriteUInt32LittleEndian(Data.AsSpan(Offsets.PikaBeachScore, 2), Math.Min(9999, value));
     }
 
     public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
@@ -398,21 +400,21 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override uint Money
     {
-        get => (uint)BinaryCodedDecimal.ToInt32BE(Data.AsSpan(Offsets.Money, 3));
+        get => BinaryCodedDecimal.ReadUInt32BigEndian(Data.AsSpan(Offsets.Money, 3));
         set
         {
             value = (uint)Math.Min(value, MaxMoney);
-            BinaryCodedDecimal.WriteBytesBE(Data.AsSpan(Offsets.Money, 3), (int)value);
+            BinaryCodedDecimal.WriteUInt32BigEndian(Data.AsSpan(Offsets.Money, 3), value);
         }
     }
 
     public uint Coin
     {
-        get => (uint)BinaryCodedDecimal.ToInt32BE(Data.AsSpan(Offsets.Coin, 2));
+        get => BinaryCodedDecimal.ReadUInt32BigEndian(Data.AsSpan(Offsets.Coin, 2));
         set
         {
             value = (ushort)Math.Min(value, MaxCoins);
-            BinaryCodedDecimal.WriteBytesBE(Data.AsSpan(Offsets.Coin, 2), (int)value);
+            BinaryCodedDecimal.WriteUInt32BigEndian(Data.AsSpan(Offsets.Coin, 2), value);
         }
     }
 

@@ -21,7 +21,7 @@ public partial class SAV_Raid8 : Form
             MaxRaidOrigin.Galar => SAV.RaidGalar,
             MaxRaidOrigin.IsleOfArmor => SAV.RaidArmor,
             MaxRaidOrigin.CrownTundra => SAV.RaidCrown,
-            _ => throw new ArgumentOutOfRangeException($"Raid Origin {raidOrigin} is not valid for Sword and Shield")
+            _ => throw new ArgumentOutOfRangeException($"Raid Origin {raidOrigin} is not valid for Sword and Shield"),
         };
         CB_Den.Items.AddRange(Enumerable.Range(1, Raids.CountUsed).Select(z => (object)$"Den {z:000}").ToArray());
         CB_Den.SelectedIndex = 0;

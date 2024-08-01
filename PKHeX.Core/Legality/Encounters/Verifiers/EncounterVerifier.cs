@@ -23,7 +23,7 @@ public static class EncounterVerifier
     {
         EncounterEgg e => VerifyEncounterEgg(pk, e.Generation),
         EncounterShadow3Colo { IsEReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LG3EReader),
-        EncounterStatic3 { Species: (int)Species.Mew, Location: 201 } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LEncUnreleasedEMewJP),
+        EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LEncUnreleasedEMewJP),
         EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
         EncounterStatic4 { Roaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(LG4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
@@ -182,7 +182,7 @@ public static class EncounterVerifier
             return GetValid(LEggLocation);
 
         // Version isn't updated when hatching on a different game. Check any game.
-        if (EggHatchLocation4.IsValidMet4Any(met))
+        if (pk.EggLocation == Locations.LinkTrade4 && EggHatchLocation4.IsValidMet4Any(met))
             return GetValid(LEggLocationTrade);
         return GetInvalid(LEggLocationInvalid);
     }
@@ -315,6 +315,7 @@ public static class EncounterVerifier
         {
             // Pokémon that evolve on trade can not be in the phase evolution after the trade
             // If the trade holds an Everstone, EvolveOnTrade will be false for the encounter
+            // No need to range check the species, as it matched to a valid encounter species.
             var names = ParseSettings.SpeciesStrings;
             var evolved = names[species + 1];
             var unevolved = names[species];

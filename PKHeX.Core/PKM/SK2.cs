@@ -180,7 +180,8 @@ public sealed class SK2 : GBPKM, ICaughtData2
 
         // Only copies until first 0x50 terminator, but just copy everything
         Nickname = Nickname,
-        OriginalTrainerName = IsRental ? Japanese ? "1337" : "PKHeX" : OriginalTrainerName,
+        OriginalTrainerName = !IsRental ? OriginalTrainerName
+            : Japanese ? TrainerName.GameFreakJPN : TrainerName.ProgramINT,
     };
 
     private static bool IsJapanese(ReadOnlySpan<byte> data)

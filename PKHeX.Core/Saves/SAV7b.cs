@@ -112,7 +112,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public override int PartyCount { get => Blocks.Storage.PartyCount; protected set => Blocks.Storage.PartyCount = value; }
     protected override void SetPartyValues(PKM pk, bool isParty) => base.SetPartyValues(pk, true);
 
-    public override StorageSlotSource GetSlotFlags(int index)
+    public override StorageSlotSource GetBoxSlotFlags(int index)
     {
         var result = StorageSlotSource.None;
         var header = Blocks.Storage.PokeListInfo;

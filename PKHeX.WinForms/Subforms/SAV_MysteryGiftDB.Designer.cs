@@ -489,7 +489,7 @@ namespace PKHeX.WinForms
             CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Format.DropDownWidth = 100;
             CB_Format.FormattingEnabled = true;
-            CB_Format.Items.AddRange(new object[] { "Any", ".wc9", ".wc8", ".wc7", ".wc6", ".pgf", ".pcd/pgt/.wc4", ".wc3" });
+            CB_Format.Items.AddRange(new object[] { "Any", ".wc9", ".wc8", ".wc7", ".wc6", ".pgf", ".pcd/pgt/.wc4" });
             CB_Format.Location = new System.Drawing.Point(62, 0);
             CB_Format.Margin = new System.Windows.Forms.Padding(0);
             CB_Format.Name = "CB_Format";

@@ -19,13 +19,13 @@ public static class EncounterUtil
     /// <summary>
     /// Gets a raw chunk of data from the specified resource.
     /// </summary>
-    public static ReadOnlySpan<byte> Get([Length(2, 2), ConstantExpected] string resource)
+    public static ReadOnlySpan<byte> Get([ConstantExpected] string resource)
         => Util.GetBinaryResource($"encounter_{resource}.pkl");
 
     /// <summary>
     /// Gets an index-able accessor for the specified resource.
     /// </summary>
-    public static BinLinkerAccessor Get([Length(2, 2), ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
+    public static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
         => BinLinkerAccessor.Get(Get(resource), ident);
 
     /// <summary>
@@ -54,8 +54,15 @@ public static class EncounterUtil
     /// <param name="level">Level to apply the moves at</param>
     public static void SetEncounterMoves<T>(T pk, GameVersion version, byte level) where T : PKM
     {
-        Span<ushort> moves = stackalloc ushort[4];
         var source = GameData.GetLearnSource(version);
+        SetEncounterMoves(pk, source, level);
+    }
+
+    private static void SetEncounterMoves<TEntity, TSource>(TEntity pk, TSource source, byte level)
+        where TEntity : PKM
+        where TSource : ILearnSource
+    {
+        Span<ushort> moves = stackalloc ushort[4];
         source.SetEncounterMoves(pk.Species, pk.Form, level, moves);
         pk.SetMoves(moves);
     }
@@ -68,8 +75,8 @@ public static class EncounterUtil
     /// <param name="lang">Language to apply the name in</param>
     public static string GetTrainerName(ITrainerInfo tr, int lang) => lang switch
     {
-        (int)LanguageID.Japanese => tr.Language == 1 ? tr.OT : "ゲーフリ",
-        _ => tr.Language == 1 ? "GF" : tr.OT,
+        (int)LanguageID.Japanese => tr.Language == 1 ? tr.OT : TrainerName.GameFreakJPN,
+        _ => tr.Language == 1 ? TrainerName.GameFreakINT : tr.OT,
     };
 
     /// <summary>

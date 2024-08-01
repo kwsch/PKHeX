@@ -38,22 +38,22 @@ public sealed class Misc7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw
         }
     }
 
+    public int DaysFromRefreshed
+    {
+        get => Data[0x123];
+        set => Data[0x123] = (byte)value;
+    }
+
     public int Vivillon
     {
         get => Data[0x130] & 0x1F;
         set => Data[0x130] = (byte)((Data[0x130] & ~0x1F) | (value & 0x1F));
     }
 
-    public uint StarterEncryptionConstant
+    public bool IsWormholeShiny
     {
-        get => ReadUInt32LittleEndian(Data[0x148..]);
-        set => WriteUInt32LittleEndian(Data[0x148..], value);
-    }
-
-    public int DaysFromRefreshed
-    {
-        get => Data[0x123];
-        set => Data[0x123] = (byte)value;
+        get => Data[0x136] == 1;
+        set => Data[0x136] = (byte)(value ? 1 : 0);
     }
 
     public int GetSurfScore(int recordID)
@@ -68,5 +68,11 @@ public sealed class Misc7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav, raw
         if ((uint)recordID >= 4)
             recordID = 0;
         WriteInt32LittleEndian(Data[(0x138 + (4 * recordID))..], score);
+    }
+
+    public uint StarterEncryptionConstant
+    {
+        get => ReadUInt32LittleEndian(Data[0x148..]);
+        set => WriteUInt32LittleEndian(Data[0x148..], value);
     }
 }

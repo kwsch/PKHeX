@@ -91,7 +91,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
                 if (evo.InsideLevelRange(level))
                     return new(LevelUp, Game, (byte)level);
                 if (level == 1 && types.HasFlag(MoveSourceType.Evolve)) // Evolution
-                    return new(Special, Game, (byte)level);
+                    return new(Evolution, Game, (byte)level);
             }
         }
 

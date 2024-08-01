@@ -21,12 +21,12 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
     public XK3(byte[] data) : base(data) { }
     public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
-    public override XK3 Clone() => new((byte[])Data.Clone()) { Purification = Purification };
+    public override XK3 Clone() => new((byte[])Data.Clone()) { Purification = Purification, IsShadow = IsShadow };
     public override void RefreshChecksum() => Valid = true;
 
     // Trash Bytes
     public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x38, 22);
-    public Span<byte> NicknameDisplay_Trash => Data.AsSpan(0x4E, 22);
+    public Span<byte> NicknameDisplayTrash => Data.AsSpan(0x4E, 22);
     public override Span<byte> NicknameTrash => Data.AsSpan(0x64, 22);
     public override int TrashCharCountTrainer => 11;
     public override int TrashCharCountNickname => 11;
@@ -90,12 +90,12 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public GCRegion OriginalRegion { get => (GCRegion)Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
     public override string OriginalTrainerName { get => GetString(OriginalTrainerTrash); set => SetString(OriginalTrainerTrash, value, 10, StringConverterOption.None); }
-    public string NicknameDisplay { get => GetString(NicknameDisplay_Trash); set => SetString(NicknameDisplay_Trash, value, 10, StringConverterOption.None); }
+    public string NicknameDisplay { get => GetString(NicknameDisplayTrash); set => SetString(NicknameDisplayTrash, value, 10, StringConverterOption.None); }
     public override string Nickname { get => GetString(NicknameTrash); set { SetString(NicknameTrash, value, 10, StringConverterOption.None); ResetNicknameDisplay(); } }
 
     public void ResetNicknameDisplay()
     {
-        var current = NicknameDisplay_Trash;
+        var current = NicknameDisplayTrash;
         NicknameTrash.CopyTo(current);
         if (CurrentRegion == GCRegion.NTSC_J)
             current[10..].Clear(); // clamp to 5 chars at most

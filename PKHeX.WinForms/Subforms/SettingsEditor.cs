@@ -28,7 +28,7 @@ public partial class SettingsEditor : Form
             CB_Blank.SelectedValue = (int)s.Startup.DefaultSaveVersion;
             CB_Blank.SelectedValueChanged += (_, _) => s.Startup.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
             CB_Blank.SelectedIndexChanged += (_, _) => BlankChanged = true;
-            B_Reset.Click += (x, e) => DeleteSettings();
+            B_Reset.Click += (_, _) => DeleteSettings();
         }
         else
         {

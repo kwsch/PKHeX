@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed class EncounterGenerator12 : IEncounterGenerator
 {
     public static readonly EncounterGenerator12 Instance = new();
+    public bool CanGenerateEggs => false;
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
