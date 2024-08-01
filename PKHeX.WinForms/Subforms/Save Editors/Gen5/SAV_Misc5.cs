@@ -945,37 +945,37 @@ public partial class SAV_Misc5 : Form
 
     private void CHK_DoubleSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_DoublePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_DoublePast.Text = CHK_DoubleSet.Checked ? "Current" : "Past";
     }
 
     private void CHK_MultiNPCSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_MultiNpcPast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_MultiNpcPast.Text = CHK_MultiNPCSet.Checked ? "Current" : "Past";
     }
 
     private void CHK_MultiFriendsSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_MultiFriendsPast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_MultiFriendsPast.Text = CHK_MultiFriendsSet.Checked ? "Current" : "Past";
     }
 
     private void CHK_SuperSingleSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_SSinglePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_SSinglePast.Text = CHK_SuperSingleSet.Checked ? "Current" : "Past";
     }
 
     private void CHK_SuperDoubleSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_SDoublePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_SDoublePast.Text = CHK_SuperDoubleSet.Checked ? "Current" : "Past";
     }
 
     private void CHK_SuperMultiNPCSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_SMultiNpcPast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_SMultiNpcPast.Text = CHK_SuperMultiNPCSet.Checked ? "Current" : "Past";
     }
 
     private void CHK_SuperMultiFriendsSet_CheckedChanged(object sender, EventArgs e)
     {
-        L_SMultiFriendsPast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        L_SMultiFriendsPast.Text = CHK_SuperMultiFriendsSet.Checked ? "Current" : "Past";
     }
 
     private void B_UnlockAllProps_Click(object sender, EventArgs e)
