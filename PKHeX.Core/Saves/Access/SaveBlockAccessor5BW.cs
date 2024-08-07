@@ -103,6 +103,7 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
     public Entralink5BW Entralink { get; } = new(sav, Block(sav, 53));
     public Zukan5 Zukan { get; } = new(sav, Block(sav, 55), 0x320);
     public Encount5BW Encount { get; } = new(sav, Block(sav, 56));
+    public BattleSubwayPlay5 BattleSubwayPlay { get; } = new(sav, Block(sav, 57));
     public BattleSubway5 BattleSubway { get; } = new(sav, Block(sav, 58));
     public EntreeForest EntreeForest { get; } = new(sav, Block(sav, 61));
     EventWork5 ISaveBlock5BW.EventWork => EventWork;

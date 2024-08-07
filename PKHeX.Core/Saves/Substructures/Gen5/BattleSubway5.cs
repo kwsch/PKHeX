@@ -15,6 +15,8 @@ public sealed class BattleSubway5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
     public bool SuperDouble { get => ((Flags >> 5) & 1) != 0; set => Flags = (Flags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
     public bool SuperMulti  { get => ((Flags >> 6) & 1) != 0; set => Flags = (Flags & ~(1 << 6)) | ((value ? 1 : 0) << 6); }
     public bool Flag7       { get => ((Flags >> 7) & 1) != 0; set => Flags = (Flags & ~(1 << 7)) | ((value ? 1 : 0) << 7); }
+    public int Flags2 { get => Data[0x05]; set => Data[0x05] = (byte)value; }
+    public bool NPCMet { get => ((Flags2 >> 2) & 1) != 0; set => Flags2 = (Flags2 & ~(1 << 2)) | ((value ? 1 : 0) << 2); }
 
     public int SinglePast              { get => ReadUInt16LittleEndian(Data[0x08..]); set => WriteUInt16LittleEndian(Data[0x08..], (ushort)value); }
     public int DoublePast              { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], (ushort)value); }
@@ -32,4 +34,12 @@ public sealed class BattleSubway5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
     public int SuperDoubleRecord       { get => ReadUInt16LittleEndian(Data[0x26..]); set => WriteUInt16LittleEndian(Data[0x26..], (ushort)value); }
     public int SuperMultiNPCRecord     { get => ReadUInt16LittleEndian(Data[0x28..]); set => WriteUInt16LittleEndian(Data[0x28..], (ushort)value); }
     public int SuperMultiFriendsRecord { get => ReadUInt16LittleEndian(Data[0x2A..]); set => WriteUInt16LittleEndian(Data[0x2A..], (ushort)value); }
+    public int SingleSet               { get => ReadUInt16LittleEndian(Data[0x2C..]); set => WriteUInt16LittleEndian(Data[0x2C..], (ushort)value); }
+    public int DoubleSet               { get => ReadUInt16LittleEndian(Data[0x2E..]); set => WriteUInt16LittleEndian(Data[0x2E..], (ushort)value); }
+    public int MultiNPCSet             { get => ReadUInt16LittleEndian(Data[0x30..]); set => WriteUInt16LittleEndian(Data[0x30..], (ushort)value); }
+    public int MultiFriendsSet         { get => ReadUInt16LittleEndian(Data[0x32..]); set => WriteUInt16LittleEndian(Data[0x32..], (ushort)value); }
+    public int SuperSingleSet          { get => ReadUInt16LittleEndian(Data[0x36..]); set => WriteUInt16LittleEndian(Data[0x36..], (ushort)value); }
+    public int SuperDoubleSet          { get => ReadUInt16LittleEndian(Data[0x38..]); set => WriteUInt16LittleEndian(Data[0x38..], (ushort)value); }
+    public int SuperMultiNPCSet        { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], (ushort)value); }
+    public int SuperMultiFriendsSet    { get => ReadUInt16LittleEndian(Data[0x3C..]); set => WriteUInt16LittleEndian(Data[0x3C..], (ushort)value); }
 }

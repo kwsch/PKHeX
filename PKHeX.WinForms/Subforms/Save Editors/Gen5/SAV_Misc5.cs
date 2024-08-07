@@ -13,6 +13,7 @@ public partial class SAV_Misc5 : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV5 SAV;
+    private readonly BattleSubwayPlay5 swp;
     private readonly BattleSubway5 sw;
 
     private bool editing;
@@ -27,6 +28,7 @@ public partial class SAV_Misc5 : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV5)(Origin = sav).Clone();
 
+        swp = SAV.BattleSubwayPlay;
         sw = SAV.BattleSubway;
         ReadMain();
         LoadForest();
@@ -662,6 +664,10 @@ public partial class SAV_Misc5 : Form
 
     private void ReadSubway()
     {
+        // Running Battle Subway Data
+        NUD_CurrentType.SetValueClamped(swp.CurrentType);
+        NUD_CurrentBattle.SetValueClamped(swp.CurrentBattle);
+
         // Save Normal Checks
         CHK_Subway0.Checked = sw.Flag0;
         CHK_Subway1.Checked = sw.Flag1;
@@ -673,6 +679,27 @@ public partial class SAV_Misc5 : Form
         CHK_SuperDouble.Checked = sw.SuperDouble;
         CHK_SuperMulti.Checked = sw.SuperMulti;
         CHK_Subway7.Checked = sw.Flag7;
+
+        // NPC Met Flag
+        CHK_SWNPCMet.Checked = sw.NPCMet;
+
+        // Current Run Checks
+        CHK_SingleSet.Checked = sw.SingleSet == (sw.SinglePast / 7 + 1);
+        L_SinglePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+        CHK_DoubleSet.Checked = sw.DoubleSet == (sw.DoublePast / 7 + 1);
+        L_DoublePast.Text = CHK_DoubleSet.Checked ? "Current" : "Past";
+        CHK_MultiNPCSet.Checked = sw.MultiNPCSet == (sw.MultiNPCPast / 7 + 1);
+        L_MultiNpcPast.Text = CHK_MultiNPCSet.Checked ? "Current" : "Past";
+        CHK_MultiFriendsSet.Checked = sw.MultiFriendsSet == (sw.MultiFriendsPast / 7 + 1);
+        L_MultiFriendsPast.Text = CHK_MultiFriendsSet.Checked ? "Current" : "Past";
+        CHK_SuperSingleSet.Checked = sw.SuperSingleSet == (sw.SuperSinglePast / 7 + 1);
+        L_SSinglePast.Text = CHK_SuperSingleSet.Checked ? "Current" : "Past";
+        CHK_SuperDoubleSet.Checked = sw.SuperDoubleSet == (sw.SuperDoublePast / 7 + 1);
+        L_SDoublePast.Text = CHK_SuperDoubleSet.Checked ? "Current" : "Past";
+        CHK_SuperMultiNPCSet.Checked = sw.SuperMultiNPCSet == (sw.SuperMultiNPCPast / 7 + 1);
+        L_SMultiNpcPast.Text = CHK_SuperMultiNPCSet.Checked ? "Current" : "Past";
+        CHK_SuperMultiFriendsSet.Checked = sw.SuperMultiFriendsSet == (sw.SuperMultiFriendsPast / 7 + 1);
+        L_SMultiFriendsPast.Text = CHK_SuperMultiFriendsSet.Checked ? "Current" : "Past";
 
         // Normal
         // Single
@@ -711,6 +738,10 @@ public partial class SAV_Misc5 : Form
 
     private void SaveSubway()
     {
+        // Running Battle Subway Data
+        swp.CurrentType = (int)NUD_CurrentType.Value;
+        swp.CurrentBattle = (int)NUD_CurrentBattle.Value;
+
         // Save Normal Checks
         sw.Flag0 = CHK_Subway0.Checked;
         sw.Flag1 = CHK_Subway1.Checked;
@@ -722,6 +753,9 @@ public partial class SAV_Misc5 : Form
         sw.SuperDouble = CHK_SuperDouble.Checked;
         sw.SuperMulti = CHK_SuperMulti.Checked;
         sw.Flag7 = CHK_Subway7.Checked;
+
+        // NPC Met Flag
+        sw.NPCMet = CHK_SWNPCMet.Checked;
 
         // Normal
         // Single
@@ -756,6 +790,16 @@ public partial class SAV_Misc5 : Form
         // Multi Friends
         sw.SuperMultiFriendsPast = (int)NUD_SMultiFriendsPast.Value;
         sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
+
+        // Current Run Checks
+        sw.SingleSet = (CHK_SingleSet.Checked ? sw.SinglePast / 7 + 1 : 0);
+        sw.DoubleSet = (CHK_DoubleSet.Checked ? sw.DoublePast / 7 + 1 : 0);
+        sw.MultiNPCSet = (CHK_MultiNPCSet.Checked ? sw.MultiNPCPast / 7 + 1 : 0);
+        sw.MultiFriendsSet = (CHK_MultiFriendsSet.Checked ? sw.MultiFriendsPast / 7 + 1 : 0);
+        sw.SuperSingleSet = (CHK_SuperSingleSet.Checked ? sw.SuperSinglePast / 7 + 1 : 0);
+        sw.SuperDoubleSet = (CHK_SuperDoubleSet.Checked ? sw.SuperDoublePast / 7 + 1 : 0);
+        sw.SuperMultiNPCSet = (CHK_SuperMultiNPCSet.Checked ? sw.SuperMultiNPCPast / 7 + 1 : 0);
+        sw.SuperMultiFriendsSet = (CHK_SuperMultiFriendsSet.Checked ? sw.SuperMultiFriendsPast / 7 + 1 : 0);
     }
 
     private const string ForestCityBinFilter = "Forest City Bin|*.fc5";
@@ -898,6 +942,46 @@ public partial class SAV_Misc5 : Form
     private void CHK_PropObtained_CheckedChanged(object sender, EventArgs e)
     {
         SAV.Musical.SetHasProp(CB_Prop.SelectedIndex, CHK_PropObtained.Checked);
+    }
+
+    private void CHK_SingleSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_SinglePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_DoubleSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_DoublePast.Text = CHK_DoubleSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_MultiNPCSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_MultiNpcPast.Text = CHK_MultiNPCSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_MultiFriendsSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_MultiFriendsPast.Text = CHK_MultiFriendsSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_SuperSingleSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_SSinglePast.Text = CHK_SuperSingleSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_SuperDoubleSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_SDoublePast.Text = CHK_SuperDoubleSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_SuperMultiNPCSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_SMultiNpcPast.Text = CHK_SuperMultiNPCSet.Checked ? "Current" : "Past";
+    }
+
+    private void CHK_SuperMultiFriendsSet_CheckedChanged(object sender, EventArgs e)
+    {
+        L_SMultiFriendsPast.Text = CHK_SuperMultiFriendsSet.Checked ? "Current" : "Past";
     }
 
     private void B_UnlockAllProps_Click(object sender, EventArgs e)

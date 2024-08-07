@@ -108,6 +108,7 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     public Entralink5B2W2 Entralink { get; } = new(sav, Block(sav, 53));
     public Zukan5 Zukan { get; } = new(sav, Block(sav, 54), 0x328); // form flags size is + 8 from B/W with new forms (Therians)
     public Encount5B2W2 Encount { get; } = new(sav, Block(sav, 55));
+    public BattleSubwayPlay5 BattleSubwayPlay { get; } = new(sav, Block(sav, 56));
     public BattleSubway5 BattleSubway { get; } = new(sav, Block(sav, 57));
     public EntreeForest EntreeForest { get; } = new(sav, Block(sav, 60));
     public PWTBlock5 PWT { get; } = new(sav, Block(sav, 63));

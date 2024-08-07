@@ -27,6 +27,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
     public override PlayerData5 PlayerData => Blocks.PlayerData;
     public override PlayerPosition5 PlayerPosition => Blocks.PlayerPosition;
+    public override BattleSubwayPlay5 BattleSubwayPlay => Blocks.BattleSubwayPlay;
     public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
     public override Entralink5 Entralink => Blocks.Entralink;
     public override Musical5 Musical => Blocks.Musical;
