@@ -66,10 +66,10 @@ public static class EntityPID
     }
 
     /// <summary>
-    /// Gets the Unown Forme ID from PID.
+    /// Gets the Unown Form ID from PID.
     /// </summary>
     /// <param name="pid">Personality ID</param>
-    /// <remarks>Should only be used for 3rd Generation origin specimens.</remarks>
+    /// <remarks>Should only be used for FireRed/LeafGreen origin Unown.</remarks>
     public static byte GetUnownForm3(uint pid)
     {
         var value = ((pid & 0x3000000) >> 18) | ((pid & 0x30000) >> 12) | ((pid & 0x300) >> 6) | (pid & 0x3);

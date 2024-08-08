@@ -825,6 +825,25 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             Data[0x9000] = (byte)(0xFF - value);
         }
     }
+
+    private const byte GS_BALL_AVAILABLE = 0x0B;
+
+    /// <summary>
+    /// Triggered on Virtual Console by adding Hall of Fame entry, enabling the event.
+    /// </summary>
+    public void EnableGSBallMobileEvent()
+    {
+        if (Version is not GameVersion.C)
+            return;
+
+        // Write to the Crystal region of savedata
+        var primary = Japanese ? 0xA000 : 0x3E3C;
+        var backup = Japanese ? 0xA083 : 0x3E44;
+
+        Data[primary] = Data[backup] = GS_BALL_AVAILABLE;
+    }
+
+    public bool IsEnabledGSBallMobileEvent => Data[Japanese ? 0xA000 : 0x3E3C] == GS_BALL_AVAILABLE;
 }
 
 public enum GBMobileCableColor : byte

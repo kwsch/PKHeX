@@ -69,21 +69,21 @@ public static class GenerateMethodH
             if (esv < min || esv > max)
                 continue;
             // Skip the level roll, always results in the same level value.
-            seed = LCRNG.Next2(seed);
-            var nature = (seed >> 16) % 25;
-            if (criteria.IsSpecifiedNature() && nature != (byte)criteria.Nature)
-                continue;
+            seed = LCRNG.Next(seed);
+            // Nature is not used in the loop.
 
             while (true)
             {
                 var a = LCRNG.Next16(ref seed);
                 var b = LCRNG.Next16(ref seed);
                 var pid = a << 16 | b;
-                if (pid % 25 != nature)
-                    continue;
                 var form = EntityPID.GetUnownForm3(pid);
                 if (form != enc.Form)
                     continue;
+
+                // Check the nature is what the user requested.
+                if (criteria.IsSpecifiedNature() && pid % 25 != (byte)criteria.Nature)
+                    break;
 
                 SetPIDIVSequential(pk, pid, seed);
                 return;
@@ -188,7 +188,7 @@ public static class GenerateMethodH
                 seed = LCRNG.Prev(seed);
             }
             var lead = MethodH.GetSeed(enc, seed, enc, false, 2, 3);
-            if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
+            if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
                 continue;
 
             pk.PID = pid;
@@ -213,7 +213,7 @@ public static class GenerateMethodH
             if (form != enc.Form)
                 continue;
             var lead = MethodH.GetSeed(enc, seed, enc, false, 2, 3);
-            if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
+            if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
                 continue;
 
             pk.PID = pid;

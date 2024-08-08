@@ -63,7 +63,6 @@ public static class MethodH
     private static bool IsSafariBlockProc(uint seed) => (seed >> 16) % 100 < 80;
 
     private static uint GetNature(uint rand) => rand % 25;
-    private static bool IsMatchUnown(uint pid, byte nature, byte form) => pid % 25 == nature && EntityPID.GetUnownForm3(pid) == form;
 
     private static bool IsMatchGender(uint pid, byte genderMin, byte genderMax)
     {
@@ -102,7 +101,7 @@ public static class MethodH
         }
         if (enc.Species == (int)Species.Unown) // Never Emerald
         {
-            var result = GetReversalWindow(seed, nature, enc.Form);
+            var result = GetReversalWindowUnown(seed, enc.Form);
             return new((ushort)result, Unown);
         }
         // Otherwise...
@@ -248,10 +247,9 @@ public static class MethodH
 
     /// <inheritdoc cref="MethodJ.GetReversalWindow"/>
     /// <param name="seed">Seed that generates the expected resulting PID.</param>
-    /// <param name="nature">Nature of the resulting PID.</param>
     /// <param name="form">Form of the resulting PID.</param>
-    /// <remarks>Only used for FR/LG <see cref="Species.Unown"/>.</remarks>
-    private static int GetReversalWindow(uint seed, byte nature, byte form)
+    /// <remarks>Only used for FR/LG <see cref="Species.Unown"/>. Loop does not calculate nature!</remarks>
+    private static int GetReversalWindowUnown(uint seed, byte form)
     {
         // Reverses the PID calls, and ensures the form matches.
         int ctr = 0;
@@ -260,7 +258,7 @@ public static class MethodH
         {
             var a = LCRNG.Prev16(ref seed);
             var pid = a << 16 | b;
-            if (IsMatchUnown(pid, nature, form))
+            if (EntityPID.GetUnownForm3(pid) == form)
                 break; // Correct Nature and Form.
             b = LCRNG.Prev16(ref seed);
             ctr++;
@@ -288,15 +286,22 @@ public static class MethodH
                 { result = new(origin, None); return true; }
             }
         }
-        var reg = GetNature(p0) == nature;
-        if (reg)
+        if (enc.Species is (ushort)Species.Unown) // No Nature in loop
+        {
+            // Consumers of the seed will assume nature is used; shift the frames so the values line up with their uses.
+            var noNatureCallUsed = LCRNG.Next(seed);
+            var ctx = new FrameCheckDetails<T>(enc, noNatureCallUsed, levelMin, levelMax, format);
+            if (IsSlotValidRegular(ctx, out uint origin))
+            { result = new(origin, None); return true; }
+        }
+        else if (GetNature(p0) == nature)
         {
             // Still consumes a dummy call between nature and prior.
             // Assume no Safari Block was placed, so that the nature rolls are used.
             if (rseSafari)
                 seed = LCRNG.Prev(seed);
 
-            var ctx = new FrameCheckDetails<IEncounterSlot3>(enc, seed, levelMin, levelMax, format);
+            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out uint origin))
             { result = new(origin, None); return true; }
         }
@@ -317,7 +322,7 @@ public static class MethodH
             var safariBlockSeed = (0xC048C851u * seed) + 0x196302B4u;
             if (IsSafariBlockProc(safariBlockSeed))
             {
-                var ctx = new FrameCheckDetails<IEncounterSlot3>(enc, safariBlockSeed, levelMin, levelMax, format);
+                var ctx = new FrameCheckDetails<T>(enc, safariBlockSeed, levelMin, levelMax, format);
                 if (TryGetMatchNoSync(ctx, out result))
                     return true;
             }
@@ -331,7 +336,7 @@ public static class MethodH
         var syncProc = IsSyncPass(p0);
         if (syncProc)
         {
-            var ctx = new FrameCheckDetails<IEncounterSlot3>(enc, seed, levelMin, levelMax, format);
+            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (IsSlotValidRegular(ctx, out seed))
             {
                 result = new(seed, Synchronize);
@@ -341,14 +346,15 @@ public static class MethodH
         var reg = GetNature(p0) == nature;
         if (reg)
         {
-            var ctx = new FrameCheckDetails<IEncounterSlot3>(enc, seed, levelMin, levelMax, format);
+            var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
             if (TryGetMatchNoSync(ctx, out result))
                 return true;
         }
         result = default; return false;
     }
 
-    private static bool TryGetMatchCuteCharm(in FrameCheckDetails<IEncounterSlot3> ctx, out uint result)
+    private static bool TryGetMatchCuteCharm<T>(in FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
     {
         // Cute Charm
         // -3 ESV
@@ -361,7 +367,8 @@ public static class MethodH
         return IsSlotValidFrom1Skip(ctx, out result);
     }
 
-    private static bool IsSlotValidCuteCharmFail(in FrameCheckDetails<IEncounterSlot3> ctx, out uint result)
+    private static bool IsSlotValidCuteCharmFail<T>(in FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
     {
         // Cute Charm
         // -3 ESV
@@ -374,7 +381,8 @@ public static class MethodH
         return IsSlotValidFrom1Skip(ctx, out result);
     }
 
-    private static bool IsSlotValidSyncFail(in FrameCheckDetails<IEncounterSlot3> ctx, out uint result)
+    private static bool IsSlotValidSyncFail<T>(in FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
     {
         // Keen Eye, Intimidate (Not compatible with Sweet Scent)
         // -3 ESV
@@ -387,7 +395,8 @@ public static class MethodH
         return IsSlotValidFrom1Skip(ctx, out result);
     }
 
-    private static bool IsSlotValidIntimidate(in FrameCheckDetails<IEncounterSlot3> ctx, out uint result)
+    private static bool IsSlotValidIntimidate<T>(in FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
     {
         // Keen Eye, Intimidate (Not compatible with Sweet Scent)
         // -3 ESV
@@ -401,7 +410,8 @@ public static class MethodH
         return IsSlotValidFrom1Skip(ctx, out result);
     }
 
-    private static bool IsSlotValidHustleVitalFail(in FrameCheckDetails<IEncounterSlot3> ctx, out uint result)
+    private static bool IsSlotValidHustleVitalFail<T>(in FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
     {
         // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
         // -3 ESV
@@ -414,7 +424,8 @@ public static class MethodH
         return IsSlotValidFrom1Skip(ctx, out result);
     }
 
-    private static bool TryGetMatchNoSync(in FrameCheckDetails<IEncounterSlot3> ctx, out LeadSeed result)
+    private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
+        where T : IEncounterSlot3
     {
         if (IsSlotValidRegular(ctx, out uint seed))
         { result = new(seed, None); return true; }
@@ -441,7 +452,8 @@ public static class MethodH
         result = default; return false;
     }
 
-    private static bool IsSlotValidFrom1Skip(FrameCheckDetails<IEncounterSlot3> ctx, out uint result)
+    private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
     {
         // -3 ESV
         // -2 Level
