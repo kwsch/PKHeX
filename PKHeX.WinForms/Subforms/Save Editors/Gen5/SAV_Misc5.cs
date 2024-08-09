@@ -57,8 +57,8 @@ public partial class SAV_Misc5 : Form
     private void ReadRecord()
     {
         var record = SAV.Records;
-        NUD_Record16.Maximum = Record5.Record16;
-        NUD_Record32.Maximum = Record5.Record32;
+        NUD_Record16.Maximum = Record5.Record16 - 1;
+        NUD_Record32.Maximum = Record5.Record32 - 1;
         NUD_Record16V.Value = record.GetRecord16(0);
         NUD_Record32V.Value = record.GetRecord32(0);
         NUD_Record16V.ValueChanged += (_, _) => record.SetRecord16((int)NUD_Record16.Value, (ushort)NUD_Record16V.Value);
@@ -145,7 +145,7 @@ public partial class SAV_Misc5 : Form
                 cbr[i].Items.Clear();
                 cbr[i].InitializeBinding();
                 cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), null);
-                cbr[i].SelectedValue = c;
+                cbr[i].SelectedValue = (int)c;
             }
 
             // Roamer status
@@ -509,6 +509,7 @@ public partial class SAV_Misc5 : Form
         CB_Species.InitializeBinding();
         CB_Move.InitializeBinding();
         CB_Areas.InitializeBinding();
+        CB_Gender.InitializeBinding();
 
         var filtered = GameInfo.FilteredSources;
         CB_Species.DataSource = new BindingSource(filtered.Species, null);
@@ -547,7 +548,7 @@ public partial class SAV_Misc5 : Form
         SetForms(current);
         SetGenders(current);
         CB_Move.SelectedValue = (int)current.Move;
-        CB_Gender.SelectedValue = current.Gender;
+        CB_Gender.SelectedValue = (int)current.Gender;
         CB_Form.SelectedIndex = CB_Form.Items.Count <= current.Form ? 0 : current.Form;
         NUD_Animation.SetValueClamped(current.Animation);
         CurrentSlot = current;
@@ -607,7 +608,6 @@ public partial class SAV_Misc5 : Form
 
     private void SetGenders(EntreeSlot slot)
     {
-        CB_Gender.InitializeBinding();
         CB_Gender.DataSource = new BindingSource(GetGenderChoices(slot.Species), null);
     }
 
@@ -637,6 +637,8 @@ public partial class SAV_Misc5 : Form
 
     private static List<ComboItem> GetGenderChoices(ushort species)
     {
+        if (species == 0)
+            return [new("-", 0)];
         var pi = PersonalTable.B2W2[species];
         var list = new List<ComboItem>();
         if (pi.Genderless)
@@ -657,7 +659,6 @@ public partial class SAV_Misc5 : Form
         bool hasForms = PersonalTable.B2W2[slot.Species].HasForms || slot.Species == (int)Species.Mothim;
         L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-        CB_Form.InitializeBinding();
         var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         CB_Form.DataSource = new BindingSource(list, null);
     }
