@@ -118,7 +118,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public bool RIB3_6 { get => (RIB3 & (1 << 6)) == 1 << 6; set => RIB3 = (byte)((RIB3 & ~(1 << 6)) | (value ? 1 << 6 : 0)); } // Unused
     public bool RIB3_7 { get => (RIB3 & (1 << 7)) == 1 << 7; set => RIB3 = (byte)((RIB3 & ~(1 << 7)) | (value ? 1 << 7 : 0)); } // Unused
 
-    public int RibbonCount => BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x30)) & 0b00001111_11111111__11111111_11111111)
+    public int RibbonCount => BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x24)) & 0b00001111_11111111__11111111_11111111)
                             + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x3C)))
                             + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x60)) & 0b00000000_00001111__11111111_11111111);
     #endregion
