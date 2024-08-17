@@ -161,7 +161,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
         // XD can re-battle with Miror B
         // Realgam Tower, Rock, Oasis, Cave, Pyrite Town
-        return Version == GameVersion.XD && met is (59 or 90 or 91 or 92 or 113);
+        return met is (59 or 90 or 91 or 92 or 113);
     }
 
     #endregion

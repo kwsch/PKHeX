@@ -23,10 +23,10 @@ public partial class SAV_SimplePokedex : Form
 
     private void AddAllSpecies(ReadOnlySpan<string> speciesNames)
     {
-        for (int i = 0; i < speciesNames.Length; i++)
+        foreach (var species in speciesNames)
         {
-            CLB_Seen.Items.Add(speciesNames[i]);
-            CLB_Caught.Items.Add(speciesNames[i]);
+            CLB_Seen.Items.Add(species);
+            CLB_Caught.Items.Add(species);
         }
     }
 

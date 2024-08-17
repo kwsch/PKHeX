@@ -16,13 +16,14 @@ public static class LockFinder
     /// <returns>True if all valid.</returns>
     public static bool IsAllShadowLockValid(IShadow3 s, PIDIV pv, PKM pk)
     {
-        if (s.Version == GameVersion.XD && pk.IsShiny)
+        bool xd = s is EncounterShadow3XD;
+        if (xd && pk.IsShiny)
             return false; // no xd shiny shadow mons
         var teams = s.PartyPrior;
         if (teams.Length == 0)
             return true;
 
-        var tsv = s.Version == GameVersion.XD ? (uint)(pk.TID16 ^ pk.SID16) >> 3 : uint.MaxValue; // no xd shiny shadow mons
+        var tsv = xd ? (uint)(pk.TID16 ^ pk.SID16) >> 3 : uint.MaxValue; // no xd shiny shadow mons
         return IsAllShadowLockValid(pv, teams.Span, tsv);
     }
 
