@@ -20,8 +20,7 @@ public static class EntityDetection
         SIZE_5PARTY or
         SIZE_6STORED or SIZE_6PARTY or
         SIZE_8STORED or SIZE_8PARTY or
-        SIZE_8ASTORED or SIZE_8APARTY or
-        SIZE_9STORED or SIZE_9PARTY
+        SIZE_8ASTORED or SIZE_8APARTY
         ;
 
     public static bool IsPresentGB(ReadOnlySpan<byte> data) => data[0] != 0; // Species non-zero
