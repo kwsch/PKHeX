@@ -49,6 +49,10 @@ public enum PogoType : byte
     ResearchNH,
 
     /// <summary> Pokémon captured after completing Field Research. </summary>
+    /// <remarks> Unlike standard Field Research encounters, these are lowered to Level 10. </remarks>
+    Research10,
+
+    /// <summary> Pokémon captured after completing Field Research. </summary>
     /// <remarks> Unlike standard Field Research encounters, these are boosted to Level 20. </remarks>
     Research20,
 
@@ -101,6 +105,7 @@ public static class PogoTypeExtensions
         PogoType.ResearchUB => 15,
         PogoType.ResearchMH => 15,
         PogoType.ResearchNH => 15,
+        PogoType.Research10 => 10,
         PogoType.Research20 => 20,
         PogoType.ResearchUB20 => 20,
         PogoType.GBL => 20,
@@ -151,7 +156,7 @@ public static class PogoTypeExtensions
     /// <returns>True if valid, false if invalid.</returns>
     public static bool IsMasterBallUsable(this PogoType encounterType) => encounterType switch
     {
-        PogoType.Egg or PogoType.EggS  => false,
+        PogoType.Egg or PogoType.EggS => false,
         PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH or PogoType.ResearchUB20 => false,
         _ => true,
     };
