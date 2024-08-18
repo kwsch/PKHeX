@@ -361,6 +361,8 @@ public sealed class Zukan8b(SAV8BS sav, Memory<byte> dex) : ZukanBase<SAV8BS>(sa
         }
     }
 
+    private bool GetGenderFlagMale(ushort species, bool shiny) => GetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE);
+    private bool GetGenderFlagFemale(ushort species, bool shiny) => GetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE);
     private void SetGenderFlagMale(ushort species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE, true);
     private void SetGenderFlagFemale(ushort species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE, true);
 
@@ -383,14 +385,16 @@ public sealed class Zukan8b(SAV8BS sav, Memory<byte> dex) : ZukanBase<SAV8BS>(sa
     public override void SeenAll(bool shinyToo = false)
     {
         var pt = Personal;
-        for (ushort i = 1; i <= Legal.MaxSpeciesID_4; i++)
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_4; species++)
         {
-            if (!GetSeen(i))
-                SetState(i, ZukanState8b.Seen);
-            var pi = pt[i];
+            if (!GetSeen(species))
+                SetState(species, ZukanState8b.Seen);
+            var pi = pt[species];
             var m = !pi.OnlyFemale;
             var f = !pi.OnlyMale;
-            SetGenderFlags(i, m, f, m && shinyToo, f && shinyToo);
+            var ms = m && (shinyToo || GetGenderFlagMale(species, true));
+            var fs = f && (shinyToo || GetGenderFlagFemale(species, true));
+            SetGenderFlags(species, m, f, ms, fs);
         }
     }
 
@@ -426,7 +430,9 @@ public sealed class Zukan8b(SAV8BS sav, Memory<byte> dex) : ZukanBase<SAV8BS>(sa
                 var pi = pt[species];
                 var m = !pi.OnlyFemale;
                 var f = !pi.OnlyMale;
-                SetGenderFlags(species, m, f, m && shinyToo, f && shinyToo);
+                var ms = m && (shinyToo || GetGenderFlagMale(species, true));
+                var fs = f && (shinyToo || GetGenderFlagFemale(species, true));
+                SetGenderFlags(species, m, f, ms, fs);
             }
             else
             {
@@ -443,7 +449,9 @@ public sealed class Zukan8b(SAV8BS sav, Memory<byte> dex) : ZukanBase<SAV8BS>(sa
         var pi = pt[species];
         var m = !pi.OnlyFemale;
         var f = !pi.OnlyMale;
-        SetGenderFlags(species, m, f, m && shinyToo, f && shinyToo);
+        var ms = m && (shinyToo || GetGenderFlagMale(species, true));
+        var fs = f && (shinyToo || GetGenderFlagFemale(species, true));
+        SetGenderFlags(species, m, f, ms, fs);
 
         var formCount = GetFormCount(species);
         if (formCount is not 0)

@@ -118,7 +118,9 @@ public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV
         // Wipe existing gender flags.
         var entry = Get(species);
         entry.FlagsGenderSeen = 0;
-        entry.FlagsShinySeen = (byte)(value ? shinyToo ? 3 : 1 : 0);
+        entry.SetIsModelSeen(false, true); // should always be bit0=1
+        if (!value || shinyToo)
+            entry.SetIsModelSeen(true, value);
 
         var pt = SAV.Personal;
         for (byte form = 0; form < formCount; form++)
