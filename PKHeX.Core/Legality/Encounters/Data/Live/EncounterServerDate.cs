@@ -206,6 +206,8 @@ public static class EncounterServerDate
         {0510, (new(2024, 06, 07), new(2024, 06, 11))}, // Nils's Porygon2
         {0050, (new(2024, 07, 13), new(2024, 10, 01))}, // Japan's Pokéss Summer Festival Eevee
         {1537, (new(2024, 07, 24), new(2025, 02, 01))}, // Roy's Fuecoco
+        {0511, (new(2024, 08, 15), new(2024, 08, 31))}, // WCS 2024 Steenee
+        {0512, (new(2024, 08, 16), new(2024, 08, 20))}, // Tomoya's Sylveon
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco

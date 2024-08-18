@@ -182,6 +182,7 @@ public partial class SAV_PokedexBDSP : Form
             Zukan.CompleteDex(ModifierKeys == Keys.Control);
 
         GetEntry();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void ModifyAllForms(object sender, EventArgs e)

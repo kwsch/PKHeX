@@ -51,7 +51,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         };
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil.SetEncounterMoves(pk, GameVersion.XD, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, GameVersion.E, LevelMin);
 
         pk.ResetPartyStats();
         return pk;

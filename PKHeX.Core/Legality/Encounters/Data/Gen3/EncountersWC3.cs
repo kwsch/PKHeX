@@ -18,7 +18,7 @@ internal static class EncountersWC3
     [
         new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_U, ID32 = 06930, Shiny = Never, OriginalTrainerName = "MYSTRY", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Mew
         new(151, 10, R) { Moves = new(001,144,000,000), Method = BACD_R, ID32 = 06930, Shiny = Never, OriginalTrainerName = "MYSTRY", OriginalTrainerGender = 3, Language = (int)English, FatefulEncounter = true }, // Mew
-        new(385, 05, R) { Moves = new(273,093,156,000), Method = BACD_R, ID32 = 20043, Shiny = Random, OriginalTrainerName = "WISHMKR", OriginalTrainerGender = 0, Language = (int)English,  },
+        new(385, 05, R) { Moves = new(273,093,156,000), Method = BACD_R, ID32 = 20043, Shiny = Random, OriginalTrainerName = "WISHMKR", OriginalTrainerGender = 0, Language = (int)English },
         new(385, 05, RS, false, met: 0) { Moves = new(273,093,156,000), Method = Channel, TID16 = 40122, Shiny = Random, OriginalTrainerName = "CHANNEL", OriginalTrainerGender = 3 },
     ];
 

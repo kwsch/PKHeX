@@ -16,51 +16,77 @@ public static class Pokerus
     /// Checks if any Pokérus values are possible to have on the input entity.
     /// </summary>
     /// <param name="pk">Entity to check</param>
+    /// <param name="enc">Encounter template matched to</param>
     /// <returns>True if Pokérus exists in the game format, or can be transmitted to the entity via another game.</returns>
-    public static bool IsObtainable(PKM pk) => pk switch
+    public static bool IsObtainable(PKM pk, ISpeciesForm enc) => pk switch
     {
-        PA8 pa8 => HasVisitedAnother(pa8),
-        PB7 => false,
-        PK9 => false,
+        PA8 pa8 => HasVisitedAnother(pa8, enc),
+        PB7 => false, // Does not exist in game.
+        PK9 => false, // Does not exist in game, does not get copied over via HOME.
         _ => true,
     };
 
-    private static bool HasVisitedAnother(PA8 pk)
+    private static bool HasVisitedAnother(PA8 pk, ISpeciesForm enc)
     {
         if (pk.IsUntraded)
             return false;
         if (pk.Tracker == 0)
             return false;
-        if (PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form))
+
+        // Ideally we can just check an evolution history to see if it has visited an infectious game, but this method has limited input.
+        // Use encounter as the lowest evolved species, as Hisuian forms/evolutions are not available on BD/SP or SW/SH.
+        if (PersonalTable.BDSP.IsPresentInGame(enc.Species, enc.Form))
             return true;
-        if (PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))
+        if (PersonalTable.SWSH.IsPresentInGame(enc.Species, enc.Form))
             return true;
+        // S/V, BD/SP, and SW/SH have the ability to receive every Pokémon
+        // However, S/V does not have Pokérus!
+
+        // Species that cannot originate from PLA/SV and have Pokérus.
+        // Any Hisuian form
+        // Oshawott, Dewott, Samurott, Enamorus
+        // Species that cannot originate as-species (can via pre-evo!!!):
+        // Wyrdeer, Kleavor, Ursaluna, Sneasler, Overqwil, Basculegion
+
         return pk.Generation is (< 8 and >= 1); // Transferred from prior game
     }
+
+    /// <summary>
+    /// Indicates if the original <see cref="context"/> can randomly infect with Pokérus.
+    /// </summary>
+    public static bool CanOriginatePokerus(this EntityContext context) => context switch
+    {
+        EntityContext.Gen1 => false,
+        EntityContext.Gen7b => false,
+        EntityContext.Gen8a => false,
+        EntityContext.Gen9 => false,
+        _ => true,
+    };
 
     /// <summary>
     /// Checks if the Pokérus value for Strain is possible to have on the input entity.
     /// </summary>
     /// <param name="pk">Entity to check</param>
+    /// <param name="enc">Encounter template matched to</param>
     /// <param name="strain">Strain number</param>
     /// <param name="days">Duration remaining</param>
     /// <returns>True if valid</returns>
-    public static bool IsStrainValid(PKM pk, int strain, int days)
+    public static bool IsStrainValid(PKM pk, ISpeciesForm enc, int strain, int days)
     {
-        if (!IsObtainable(pk))
+        if (!IsObtainable(pk, enc))
             return IsSusceptible(strain, days);
         if (pk.Format <= 2)
             return IsStrainValid2(strain);
         return IsStrainValid(strain);
     }
 
-    /// <inheritdoc cref="IsStrainValid(PKM,int,int)"/>
+    /// <inheritdoc cref="IsStrainValid(PKM,ISpeciesForm,int,int)"/>
     /// <remarks>
     /// Strains 9+ are not obtainable due to game programming error (jmp label too early).
     /// </remarks>
     public static bool IsStrainValid2(int strain) => strain <= 8;
 
-    /// <inheritdoc cref="IsStrainValid(PKM,int,int)"/>
+    /// <inheritdoc cref="IsStrainValid(PKM,ISpeciesForm,int,int)"/>
     /// <remarks>
     /// Gen3 R/S have a 30/255 chance of giving strain 0, and a 1/255 chance of giving strain 8.
     /// Transfers will retain strain 0/8, and they're still able to infect others.
@@ -109,10 +135,11 @@ public static class Pokerus
     /// Vaccinates the Pokémon, so it will never be infectious in the format it exists in.
     /// </summary>
     /// <param name="pk">Entity to modify.</param>
+    /// <param name="enc">Encounter template matched to</param>
     /// <remarks>Overwrites all Pokérus values even if already legal.</remarks>
-    public static void Vaccinate(this PKM pk)
+    public static void Vaccinate(this PKM pk, ISpeciesForm enc)
     {
-        pk.PokerusStrain = IsObtainable(pk) ? 1 : 0;
+        pk.PokerusStrain = IsObtainable(pk, enc) ? 1 : 0;
         pk.PokerusDays = 0;
     }
 }

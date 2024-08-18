@@ -464,8 +464,8 @@ public partial class SAV_Misc3 : Form
         var items = Record3.GetItems(SAV);
         CB_Record.InitializeBinding();
         CB_Record.DataSource = items;
-        NUD_RecordValue.Minimum = int.MinValue;
-        NUD_RecordValue.Maximum = int.MaxValue;
+        NUD_RecordValue.Minimum = 0;
+        NUD_RecordValue.Maximum = uint.MaxValue;
 
         CB_Record.SelectedIndexChanged += (_, _) =>
         {

@@ -295,7 +295,7 @@ public sealed class MiscVerifier : Verifier
 
         var strain = pk.PokerusStrain;
         var days = pk.PokerusDays;
-        bool strainValid = Pokerus.IsStrainValid(pk, strain, days);
+        bool strainValid = Pokerus.IsStrainValid(pk, data.Info.EncounterMatch, strain, days);
         if (!strainValid)
             data.AddLine(GetInvalid(string.Format(LPokerusStrainUnobtainable_0, strain)));
 

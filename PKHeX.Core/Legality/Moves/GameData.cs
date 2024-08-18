@@ -28,7 +28,7 @@ public static class GameData
         C or GSC => LearnSource2C.Instance,
 
         R or S or RS or RSE => LearnSource3RS.Instance,
-        E or COLO or XD or FRLG or CXD => LearnSource3E.Instance,
+        E or COLO or XD or FRLG or CXD or EFL => LearnSource3E.Instance,
         FR => LearnSource3FR.Instance,
         LG => LearnSource3LG.Instance,
 
@@ -82,7 +82,7 @@ public static class GameData
         C or GSC => PersonalTable.C,
 
         R or S or RS or RSE => PersonalTable.RS,
-        E or COLO or XD or FRLG or CXD => PersonalTable.E,
+        E or COLO or XD or FRLG or CXD or EFL => PersonalTable.E,
         FR => PersonalTable.FR,
         LG => PersonalTable.LG,
 
