@@ -30,9 +30,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
 
     public PK9() : base(PokeCrypto.SIZE_9PARTY)
     {
-        // 00 would make it show Kalos Champion :)
-        AffixedRibbon = -1;
-        TeraTypeOverride = (MoveType)19;
+        AffixedRibbon = PKHeX.Core.AffixedRibbon.None;
+        TeraTypeOverride = (MoveType)TeraTypeUtil.OverrideNone;
     }
 
     public PK9(byte[] data) : base(DecryptParty(data)) { }

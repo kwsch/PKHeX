@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Specifies that a single ribbon index is prominently selected.
@@ -9,4 +9,10 @@
 public interface IRibbonSetAffixed
 {
     sbyte AffixedRibbon { get; set; }
+}
+
+public static class AffixedRibbon
+{
+    public const sbyte None = -1;
+    public const sbyte Max = (sbyte)RibbonIndex.MAX_COUNT - 1;
 }

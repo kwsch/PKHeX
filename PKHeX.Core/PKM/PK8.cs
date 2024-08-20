@@ -30,7 +30,7 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
     public override IPermitRecord Permit => PersonalInfo;
     public override EntityContext Context => EntityContext.Gen8;
 
-    public PK8() => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
+    public PK8() => AffixedRibbon = Core.AffixedRibbon.None;
     public PK8(byte[] data) : base(data) { }
     public override PK8 Clone() => new((byte[])Data.Clone());
 

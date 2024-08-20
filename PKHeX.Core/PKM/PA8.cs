@@ -33,7 +33,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public IPermitRecord Permit => PersonalInfo;
 
     public override EntityContext Context => EntityContext.Gen8a;
-    public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
+    public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = Core.AffixedRibbon.None;
     public PA8(byte[] data) : base(DecryptParty(data)) { }
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;

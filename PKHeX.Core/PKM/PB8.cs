@@ -32,7 +32,7 @@ public sealed class PB8 : G8PKM
     public PB8()
     {
         EggLocation = MetLocation = Locations.Default8bNone;
-        AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
+        AffixedRibbon = Core.AffixedRibbon.None;
     }
 
     public PB8(byte[] data) : base(data) { }
