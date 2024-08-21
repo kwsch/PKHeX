@@ -19,8 +19,6 @@ public partial class RibbonEditor : Form
     private const string PrefixCHK = "CHK_";
     private const string PrefixPB = "PB_";
 
-    private const int AffixedNone = -1;
-
     private bool EnableBackgroundChange;
     private Control? LastToggledOn;
 
@@ -52,12 +50,12 @@ public partial class RibbonEditor : Form
             return;
         }
 
-        const int count = (int)RibbonIndex.MAX_COUNT;
+        const int count = AffixedRibbon.Max;
         static string GetRibbonPropertyName(int z) => RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}");
         static ComboItem GetComboItem(int ribbonIndex) => new(GetRibbonPropertyName(ribbonIndex), ribbonIndex);
 
         var none = GameInfo.GetStrings(Main.CurrentLanguage).Move[0];
-        var ds = new List<ComboItem>(1 + count) { new(none, AffixedNone) };
+        var ds = new List<ComboItem>(1 + count) { new(none, AffixedRibbon.None) };
         var list = Enumerable.Range(0, count).Select(GetComboItem).OrderBy(z => z.Text);
         ds.AddRange(list);
 
@@ -292,12 +290,12 @@ public partial class RibbonEditor : Form
         {
             RibbonApplicator.RemoveAllValidRibbons(Entity);
             if (Entity is IRibbonSetAffixed affixed)
-                affixed.AffixedRibbon = AffixedNone;
+                affixed.AffixedRibbon = AffixedRibbon.None;
             Close();
             return;
         }
 
-        CB_Affixed.SelectedValue = AffixedNone;
+        CB_Affixed.SelectedValue = (int)AffixedRibbon.None;
         foreach (var c in TLP_Ribbons.Controls)
         {
             if (c is CheckBox chk)

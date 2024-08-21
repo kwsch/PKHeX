@@ -84,9 +84,11 @@ internal static class Encounters8a
         new(201,006,25,U) { Location = 007, Method = Fixed }, // Unown G
         new(201,013,25,U) { Location = 129, Method = Fixed }, // Unown N (Sand's Reach)
 
-        new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                 Moves = new(326,242,087,847) }, // Thundurus (Lunker’s Lair)
-        new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                 Moves = new(326,242,087,847) }, // Thundurus (Sand’s Reach)
-        new(488,000,70,M,M) { Location = 010, FlawlessIVCount = 3,                 Moves = new(427,094,585,849) }, // Cresselia (Coronet Highlands)
+        new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                          Moves = new(326,242,087,847) }, // Thundurus (Lunker’s Lair)
+        new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                          Moves = new(326,242,087,847) }, // Thundurus (Sand’s Reach)
+        new(905,000,70,M,M) { Location = 008, FlawlessIVCount = 3,                          Moves = new(326,242,585,831) }, // Enamorus (Crimson Mirelands)
+        new(905,000,70,M,M) { Location = 039, FlawlessIVCount = 3,                          Moves = new(326,242,585,831) }, // Enamorus (Bolderoll Slope)
+        new(488,000,70,M,M) { Location = 010, FlawlessIVCount = 3,                          Moves = new(427,094,585,849) }, // Cresselia (Coronet Highlands)
         new(491,000,70,M,M) { Location = 074, FlawlessIVCount = 3, FatefulEncounter = true, Moves = new(506,399,094,464) }, // Darkrai (Lonely Spring)
 
         // Static Encounters
