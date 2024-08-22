@@ -1,69 +1,69 @@
-1059	r	Mewtwo Derrotado
-0211	r	Mewtwo Capturado
-0210	r	Zygarde Capturado
-0886	r	Zygarde Derrotado
-0631	r	Snorlax Desaparecido
-0321	r	Snorlax Capturado
+1059	r	Mewtwo derrotado
+0211	r	Mewtwo capturado
+0210	r	Zygarde capturado
+0886	r	Zygarde derrotado
+0631	r	Snorlax desaparecido
+0321	r	Snorlax capturado
 0381	+	Indiv. Statuette
 0382	+	Dobles Statuette
 0383	+	Triples Statuette
 0384	+	Rotación Statuette
 0385	+	Multi Statuette
-0386	+	Super Indiv. Desbloqueado
-0387	+	Super Dobles Desbloqueado
-0388	+	Super Triples Desbloqueado
-0389	+	Super Rotación Desbloqueado
-0390	+	Super Multi Desbloqueado
+0386	+	Super Indiv. desbloqueado
+0387	+	Super Dobles desbloqueado
+0388	+	Super Triples desbloqueado
+0389	+	Super Rotación desbloqueado
+0390	+	Super Multi desbloqueado
 0771	+	Racha de 50: Derrota Dama del Combate
-2642	s	PokéDex Obtenida
-2640	s	Entered Hall of Fame/Zygarde Chamber Accessible
-2645	*	Roller Skates Enabled
-0162	s	Chose blue button in Lysandre Labs B3
-0185	g	Traded for Bisharp in Snowbelle City
-0190	g	Traded with Shauna
-0191	g	Traded for Steelix in Cyllage City
-0320	g	Traded with Diantha
-0426	g	Traded for Farfetch'd in Santalune City
-0319	g	Claimed Kanto Starter from Sycamore
-0949	g	Received Lucario Gift
-1060	s	Unknown Dungeon Accessible
-0299	g	Claimed Diancie via Mystery Gift (PokéCenter Event Completed)
-2666	*	Unlocked Cassius's PC
-2670	+	Useable Roller Skate Trick: parallel swizzle
-2671	+	Learned Roller Skate Trick: the backflip
-2672	+	Useable Roller Skate Trick: the backfilp
-2673	+	Useable Roller Skate Trick: the 360
-2674	+	Learned Roller Skate Trick: the 360
-2675	+	Useable Roller Stake Trick: cosmic flip
-2720	f	Can Fly to Vaniville Town
-2721	f	Can Fly to Aquacorde Town
-2722	f	Can Fly to Santalune City
-2724	f	Can Fly to Cyllage City
-2725	f	Can Fly to Shalour City
-2726	f	Can Fly to Coumarine City
-2727	f	Can Fly to Laverre City
-2728	f	Can Fly to Anistar City
-2729	f	Can Fly to Snowbelle City
-2730	f	Can Fly to Camphrier Town
-2731	f	Can Fly to Geosenge Town
-2732	f	Can Fly to Dendemille Town
-2733	f	Can Fly to Couriway Town
-2734	f	Can Fly to Ambrette Town
-2735	f	Can Fly to Pokémon League
-2736	f	Can Fly to Kiloude City
-2737	f	Can Fly to Lumiose City (South Boulevard)
-2738	f	Can Fly to Lumiose City (North Boulevard)
-2739	f	Can Fly to Lumiose City (Center)
-0487	+	Perfect Clear: Restaurant Le Nah Double Battle
-0488	+	Perfect Clear: Restaurant Le Yeah Triple Battle
-0489	+	Perfect Clear: Restaurant Le Yeah Rotation Battle
-0490	+	Perfect Clear: Restaurant Le Wow Double Battle
-0491	+	Perfect Clear: Restaurant Le Wow Triple Battle
-0492	+	Perfect Clear: Restaurant Le Wow Rotation Battle
-0493	+	Perfect Clear: Sushi High Roller Double Battle
-0494	+	Perfect Clear: Sushi High Roller Triple Battle
-0495	+	Perfect Clear: Sushi High Roller Rotation Battle
-0184	+	Perfect Clear: Making Beds Task on 5th Floor
-2984	m	Finished Room Service Task (Today)
-2985	m	Finished Making Beds Task (Today)
-2986	m	Finished Lost and Found Task (Today)
+2642	s	PokéDex obtenida
+2640	s	Entrado al Hall de la Fama/Cámara de Zygarde accesible
+2645	*	Patines activos
+0162	s	Escogido el botón azul en el sótano 3 de Laboratorios Lysson
+0185	g	Intercambio por Bisharp en Ciudad Fractal
+0190	g	Intercambio con Xana
+0191	g	Intercambio por Steelix en Ciudad Relieve
+0320	g	Intercambio con Dianta
+0426	g	Intercambio por Farfetch'd en Ciudad Novarte
+0319	g	Inicial de Kanto recibido de Ciprés
+0949	g	Lucario de regalo recibido
+1060	s	Mazmorra rara accesible
+0299	g	Diancie conseguido via Regalo misterioso (Evento del Centro Pokémon completado)
+2666	*	Desbloqueado el PC de Olivier
+2670	+	Puede usar la piruleta: marcha en paralelo
+2671	+	Piruleta aprendida: salto mortal invertido
+2672	+	Puede usar la piruleta: salto mortal invertido
+2673	+	Puede usar la piruleta: giro de 360º
+2674	+	Piruleta aprendida: giro de 360º
+2675	+	Puede usar la piruleta: cosmosalto
+2720	f	Puede volar a Pueblo Boceto
+2721	f	Puede volar a Pueblo Acuarela
+2722	f	Puede volar a Ciudad Novarte
+2724	f	Puede volar a Ciudad Relieve
+2725	f	Puede volar a Ciudad Yantra
+2726	f	Puede volar a Ciudad Témpera
+2727	f	Puede volar a Ciudad Romantis
+2728	f	Puede volar a Ciudad Fluxus
+2729	f	Puede volar a Ciudad Fractal
+2730	f	Puede volar a Pueblo Vánitas
+2731	f	Puede volar a Pueblo Crómlech
+2732	f	Puede volar a Pueblo Fresco
+2733	f	Puede volar a Pueblo Mosaico
+2734	f	Puede volar a Pueblo Petroglifo
+2735	f	Puede volar a Liga Pokémon
+2736	f	Puede volar a Ciudad Batik
+2737	f	Puede volar a Ciudad Luminalia (Bulevar Sud)
+2738	f	Puede volar a Ciudad Luminalia (Bulevar Norte)
+2739	f	Puede volar a Ciudad Luminalia (Centro)
+0487	+	Combates perfectos: Combate doble en Restaurante Le Mindundi 
+0488	+	Combates perfectos: Combate triple en Restaurante Nifú Nifá
+0489	+	Combates perfectos: Combate rotatorio en Restaurante Nifú Nifá
+0490	+	Combates perfectos: Combate doble en Restaurante Le Postín 
+0491	+	Combates perfectos: Combate triple en Restaurante Le Postín
+0492	+	Combates perfectos: Combate rotatorio en Restaurante Le Postín
+0493	+	Combates perfectos: Combate doble en Sushi Tres Delícias 
+0494	+	Combates perfectos: Combate triple en Sushi Tres Delícias
+0495	+	Combates perfectos: Combate rotatorio en Sushi Tres Delícias
+0184	+	Combates perfectos: Hacer las camas en el 5to piso del Gran Hotel Ricachilton
+2984	m	Gran Hotel Ricachilton: Tarea Servicio de habitaciones terminada (hoy)
+2985	m	Gran Hotel Ricachilton: Tarea Hacer las camas terminada (hoy)
+2986	m	Gran Hotel Ricachilton: Tarea Objetos perdidos terminada (hoy)
