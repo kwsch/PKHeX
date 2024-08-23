@@ -1,18 +1,18 @@
-0x237	s	Recibida MO01 Corte
-0x238	s	Recibida MO02 Vuelo
-0x239	s	Recibida MO03 Surf
-0x23A	s	Recibida MO04 Fuerza
-0x23B	s	Recibida MO05 Destello
-0x2EF	s	Recibida MO06 Rompe Roca
+0x237	s	MO01 Corte recibida
+0x238	s	MO02 Vuelo recibida
+0x239	s	MO03 Surf recibida
+0x23A	s	MO04 Fuerza recibida
+0x23B	s	MO05 Destello recibida
+0x2EF	s	MO06 Rompe Roca recibida
 
-0x820	*	Recibida Medalla Roca
-0x821	*	Recibida Medalla Cascada
-0x822	*	Recibida Medalla Trueno
-0x823	*	Recibida Medalla Arcoiris
-0x824	*	Recibida Medalla Alma
-0x825	*	Recibida Medalla Pantano
-0x826	*	Recibida Medalla Volcán
-0x827	*	Recibida Medalla Tierra
+0x820	*	Medalla Roca recibida
+0x821	*	Medalla Cascada recibida
+0x822	*	Medalla Trueno recibida
+0x823	*	Medalla Arcoiris recibida
+0x824	*	Medalla Alma recibida
+0x825	*	Medalla Pantano recibida
+0x826	*	Medalla Volcán recibida
+0x827	*	Medalla Tierra recibida
 
 0x24B	g	Intercambiado en Túner Subterráneo
 0x24D	g	Intercambiado en Ciudad Carmín
@@ -20,18 +20,18 @@
 0x257	g	Intercambiado en Ruta 18
 0x274	g	Intercambiado en Laboratorio Canela
 
-0x249	g	Magikarp Comprado 
-0x232	g	Recibido Fósil Hélix/Domo
-0x057	g	Recibido Eevee
-0x246	g	Recibido Lapras
-0x278	g	Recibido Hitmonchan/Hitmonlee
-0x2DA	g	Recibido Huevo Togepi
+0x249	g	Magikarp comprado 
+0x232	g	Fósil Hélix/Domo recibido
+0x057	g	Eevee recibido
+0x246	g	Lapras recibido
+0x278	g	Hitmonchan/Hitmonlee recibido
+0x2DA	g	Huevo Togepi recibido
 
-0x2A7	e	Recibido Ori-Ticket desde Regalo Misterioso
-0x2A8	e	Recibido Misti-Ticket desde Regalo Misterioso
+0x2A7	e	Ori-Ticket recibido mediante Regalo Misterioso
+0x2A8	e	Misti-Ticket recibido mediante Regalo Misterioso
 
-0x2F0	e	Muestra Misti-Ticket
-0x2F1	e	Muestra Ori-Ticket
+0x2F0	e	Misti-Ticket enseñado
+0x2F1	e	Ori-Ticket enseñado
 
 0x84A	e	Puede viajar a Roca Ombligo 
 0x84B	e	Puede viajar a Isla Origen
@@ -61,7 +61,7 @@
 0x09B	r	Escondido en el mundo (Lugia)
 0x09C	r	Escondido en el mundo (Ho-Oh)
 0x09A	r	Escondido en el mundo (Deoxys)
-0x054	r	Escondido en el mundo(Snorlax, Ruta 12)
+0x054	r	Escondido en el mundo (Snorlax, Ruta 12)
 0x080	r	Escondido en el mundo (Snorlax, Ruta 16)
 
 0x2C0	*	Usado Tutor de Movimientos en Calle Victoria (Doble Filo)
@@ -84,10 +84,10 @@
 0x2E0	*	Used Move Tutor at Cape Brink (Hydro Cannon)
 0x2E1	*	Cape Brink Move Tutor taught all 3 Moves
 
-0x829	s	Recibida PokéDex
-0x82F	s	Recibidas Deportivas
-0x834	s	Debloqueada PC de Bill
-0x839	s	Enabled Mystery Gift
+0x829	s	PokéDex recibida
+0x82F	s	Deportivas recibidas
+0x834	s	PC de Bill desbloqueado
+0x839	s	Regalo Misterioso habilitado
 0x840	s	Received National Pokedex
 0x2A1	s	Restaurada Conectividad con Kanto
 0x844	s	Restaurada Conectividad con Hoenn
@@ -160,12 +160,12 @@
 1901	t	Had Picnicker Kelsey 1st Rematch
 1902	t	Had Picnicker Kelsey 2nd Rematch
 1903	t	Had Picnicker Kelsey 3rd Rematch
-1904	t	Had Camper Ricky 1st Rematch
-1905	t	Had Camper Ricky 2nd Rematch
-1906	t	Had Camper Ricky 3rd Rematch
-1907	t	Had Camper Jeff 1st Rematch
-1908	t	Had Camper Jeff 2nd Rematch
-1909	t	Had Camper Jeff 3rd Rematch
+1904	t	Had Campista Ricky 1st Rematch
+1905	t	Had Campista Ricky 2nd Rematch
+1906	t	Had Campista Ricky 3rd Rematch
+1907	t	Had Campista Jeff 1st Rematch
+1908	t	Had Campista Jeff 2nd Rematch
+1909	t	Had Campista Jeff 3rd Rematch
 1910	t	Had Picnicker Isabelle 1st Rematch
 1911	t	Had Picnicker Isabelle 2nd Rematch
 1912	t	Had Picnicker Isabelle 3rd Rematch
@@ -173,9 +173,9 @@
 1914	t	Had Youngster Yasu 2nd Rematch
 1915	t	Had Engineer Bernie Rematch
 1916	t	Had Gamer Darian Rematch
-1917	t	Had Camper Chris 1st Rematch
-1918	t	Had Camper Chris 2nd Rematch
-1919	t	Had Camper Chris 3rd Rematch
+1917	t	Had Campista Chris 1st Rematch
+1918	t	Had Campista Chris 2nd Rematch
+1919	t	Had Campista Chris 3rd Rematch
 1920	t	Had Picnicker Alicia 1st Rematch
 1921	t	Had Picnicker Alicia 2nd Rematch
 1922	t	Had Picnicker Alicia 3rd Rematch
@@ -191,19 +191,19 @@
 1933	t	Had Fisherman Elliot Rematch
 1934	t	Had Rocker Luca Rematch
 1935	t	Had Beauty Sheila Rematch
-1936	t	Had Bird Keeper Robert 1st Rematch
-1937	t	Had Bird Keeper Robert 2nd Rematch
+1936	t	Had Ornitólogo Robert 1st Rematch
+1937	t	Had Ornitólogo Robert 2nd Rematch
 1938	t	Had Picnicker Susie 1st Rematch
 1939	t	Had Picnicker Susie 2nd Rematch
 1940	t	Had Picnicker Susie 3rd Rematch
 1941	t	Had Biker Lukas Rematch
-1942	t	Had Bird Keeper Benny 1st Rematch
-1943	t	Had Bird Keeper Benny 2nd Rematch
-1944	t	Had Bird Keeper Marlon 1st Rematch
-1945	t	Had Bird Keeper Marlon 2nd Rematch
+1942	t	Had Ornitólogo Benny 1st Rematch
+1943	t	Had Ornitólogo Benny 2nd Rematch
+1944	t	Had Ornitólogo Marlon 1st Rematch
+1945	t	Had Ornitólogo Marlon 2nd Rematch
 1946	t	Had Beauty Grace Rematch
-1947	t	Had Bird Keeper Chester 1st Rematch
-1948	t	Had Bird Keeper Chester 2nd Rematch
+1947	t	Had Ornitólogo Chester 1st Rematch
+1948	t	Had Ornitólogo Chester 2nd Rematch
 1949	t	Had Picnicker Becky 1st Rematch
 1950	t	Had Picnicker Becky 2nd Rematch
 1951	t	Had Picnicker Becky 3rd Rematch
@@ -215,8 +215,8 @@
 1957	t	Had Biker Jaxon Rematch
 1958	t	Had Cue Ball Isaiah Rematch
 1959	t	Had Cue Ball Corey Rematch
-1960	t	Had Bird Keeper Jacob 1st Rematch
-1961	t	Had Bird Keeper Jacob 2nd Rematch
+1960	t	Had Ornitólogo Jacob 1st Rematch
+1961	t	Had Ornitólogo Jacob 2nd Rematch
 1962	t	Had Swimmer Alice Rematch
 1963	t	Had Swimmer Darrin Rematch
 1964	t	Had Picnicker Missy 1st Rematch
@@ -243,17 +243,17 @@
 1985	t	Had Pokémon Breeder Alize Rematch
 1986	t	Had Young Couple Gia and Jes 1st Rematch
 1987	t	Had Young Couple Gia and Jes 2nd Rematch
-1988	t	Had Bird Keeper Milo Rematch
-1989	t	Had Bird Keeper Chaz Rematch
-1990	t	Had Bird Keeper Harold Rematch
+1988	t	Had Ornitólogo Milo Rematch
+1989	t	Had Ornitólogo Chaz Rematch
+1990	t	Had Ornitólogo Harold Rematch
 1991	t	Had Swimmer Nicole Rematch
-1992	t	Had Psychic Jaclyn Rematch
+1992	t	Had Médium Jaclyn Rematch
 1993	t	Had Swimmer Samir Rematch
 1994	t	Had Hiker Earl Rematch
 1995	t	Had Ruin Maniac Larry Rematch
 1996	t	Had PokéManiac Hector Rematch
-1997	t	Had Psychic Dario Rematch
-1998	t	Had Psychic Rodette Rematch
+1997	t	Had Médium Dario Rematch
+1998	t	Had Médium Rodette Rematch
 1999	t	Had Juggler Mason Rematch
 2000	t	Had Pokémon Ranger Nicolas Rematch
 2001	t	Had Pokémon Ranger Madeline Rematch

@@ -8,8 +8,8 @@ v0603	t004d0103_pm0150_mewtwo (Mewtwo)
 v1114	t011r0501_pm0106_sawamular (Hitmonlee)
 v1113	t011r0501_pm0107_ebiwalar (Hitmonchan)
 
-e0116	FE_MASTER_RED_BATTLE_TALKED (Spoken to Red)
-e0000	FE_EV0905_BTL_RED (Defeated Red)
+e0116	FE_MASTER_RED_BATTLE_TALKED (Hablado con Rojo)
+e0000	FE_EV0905_BTL_RED (Rojo derrotado)
 e0107	FE_WAZA_OMOIDASHI
 e0108	FE_FIELD_TRADE_FIRST_01 (Primer intercambio de Rattata Alola)
 e0109	FE_FIELD_TRADE_FIRST_02 (Primer intercambio de Sandshrew/Vulpix Alola)
@@ -22,39 +22,39 @@ e0191	FE_FIELD_TRADE_FIRST_08 (Primer intercambio de Geodude Alola)
 e0192	FE_CAPTURE_KABIGON_ROAD012 (Capturado Snorlax de la Ruta 12)
 e0193	FE_CAPTURE_KABIGON_ROAD016 (Capturado Snorlax de la Ruta 16)
 
-e0029	FE_SUB_23_BTLAFTER (Defeated Karate Master)
-e0030	FE_SUB_23_CLEAR (Received Hitmonlee/Hitmonchan)
+e0029	FE_SUB_23_BTLAFTER (Maestro Karateka derrotado)
+e0030	FE_SUB_23_CLEAR (Hitmonlee/Hitmonchan recibido)
 
-s0001	FSYS_HIDEN_OPEN_IAIGIRI (Unlocked Secret Technique: Chop Down)
-s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (Unlocked Secret Technique: Sky Dash)
-s0003	FSYS_HIDEN_OPEN_KAIRIKI (Unlocked Secret Technique: Strong Push)
-s0004	FSYS_HIDEN_OPEN_NAMINORI (Unlocked Secret Technique: Sea Skim)
-s0005	FSYS_HIDEN_OPEN_HURASSYU (Unlocked Secret Technique: Light Up)
+s0001	FSYS_HIDEN_OPEN_IAIGIRI (Técnica Secreta desbloqueada: Tala)
+s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (Técnica Secreta desbloqueada: Surcacielos)
+s0003	FSYS_HIDEN_OPEN_KAIRIKI (Técnica Secreta desbloqueada: Empuje)
+s0004	FSYS_HIDEN_OPEN_NAMINORI (Técnica Secreta desbloqueada: Surcaaguas)
+s0005	FSYS_HIDEN_OPEN_HURASSYU (Técnica Secreta desbloqueada: Fulgor)
 
-s0021	FSYS_JUDGE_OPEN (Unlocked IV Judge)
+s0021	FSYS_JUDGE_OPEN (Juez de IV desbloqueado)
 s0023	FSYS_FLAG_WILD_SPAWN (Wild Spawns Enabled)
 s0024	FSYS_FLAG_BIG_WILD_SPAWN (Tiny/Huge Wild Spawns Enabled)
 
 s0000	FSYS_GAME_CLEAR (Completada Historia Principal)
-s0012	FSYS_GYM_CLEAR_ROCK (Derrotado Líder de Gimnasio Brock)
-s0013	FSYS_GYM_CLEAR_WATAER (Derrotada Líder de Gimnasio Misty)
-s0014	FSYS_GYM_CLEAR_VOLT (Derrotado Líder de Gimnasio Lt. Surge)
-s0015	FSYS_GYM_CLEAR_GRASS (Derrotada Líder de Gimnasio Erika)
-s0016	FSYS_GYM_CLEAR_POISON (Derrotado Líder de Gimnasio Koga)
-s0017	FSYS_GYM_CLEAR_ESPER (Derrotada Líder de Gimnasio Sabrina)
-s0018	FSYS_GYM_CLEAR_FIRE (Derrotado Líder de Gimnasio Blaine)
-s0019	FSYS_GYM_CLEAR_GROUND (Derrotado Líder de Gimnasior Giovanni)
-s0020	FSYS_ZUKAN_COMPLETE (Completed Pokedex)
+s0012	FSYS_GYM_CLEAR_ROCK (Líder de Gimnasio Brock derrotado)
+s0013	FSYS_GYM_CLEAR_WATAER (Líder de Gimnasio Misty derrotada)
+s0014	FSYS_GYM_CLEAR_VOLT (Líder de Gimnasio Lt. Surge derrotado)
+s0015	FSYS_GYM_CLEAR_GRASS (Líder de Gimnasio Erika derrotada)
+s0016	FSYS_GYM_CLEAR_POISON (Líder de Gimnasio Koga derrotado)
+s0017	FSYS_GYM_CLEAR_ESPER (Líder de Gimnasio Sabrina derrotada)
+s0018	FSYS_GYM_CLEAR_FIRE (Líder de Gimnasio Blaine derrotado)
+s0019	FSYS_GYM_CLEAR_GROUND (Líder de Gimnasio Giovanni derrotado)
+s0020	FSYS_ZUKAN_COMPLETE (Pokedex completada)
 
 s0022	FSYS_FLAG_CAN_NOT_FLY (Surcacielos deshabilitado)
-s0077	FSYS_FLAG_CAN_USE_CAIRIKI (Can use Strong Push)
+s0077	FSYS_FLAG_CAN_USE_CAIRIKI (Se puede usar Empuje)
 s0091	FSYS_BUDDY_MODE_TSUREARUKI
 s0092	FSYS_CAPTURE_FOLLOW
 s0099	FSYS_FIELD_FLYHIGH_ENABLE
 s0107	FSYS_BUDDY_POKEMON_ENABLE
 
 s0108	FSYS_SPECIAL_BGM_SIRUHU (Silph S.A. BGM)
-s0109	FSYS_SPECIAL_BGM_SILENT (Silph Co. No BGM)
+s0109	FSYS_SPECIAL_BGM_SILENT (Silph S.A. No BGM)
 
 s0026	FSYS_ARRIVE_ROAD001 (Ruta 1 visitada)
 s0027	FSYS_ARRIVE_ROAD002 (Ruta 2 visitada)
@@ -81,28 +81,28 @@ s0047	FSYS_ARRIVE_ROAD022 (Ruta 22 visitada)
 s0048	FSYS_ARRIVE_ROAD023 (Ruta 23 visitada)
 s0049	FSYS_ARRIVE_ROAD024 (Ruta 24 visitada)
 s0050	FSYS_ARRIVE_ROAD025 (Ruta 25 visitada)
-s0051	FSYS_ARRIVE_TOWN001 (Visitado Pueblo Paleta)
-s0052	FSYS_ARRIVE_TOWN002 (Visitada Ciudad Verde)
-s0053	FSYS_ARRIVE_TOWN003 (Visitada Ciudad Plateada)
-s0054	FSYS_ARRIVE_TOWN004 (Visitada Ciudad Celeste)
-s0055	FSYS_ARRIVE_TOWN005 (Visitado Pueblo Lavanda)
-s0056	FSYS_ARRIVE_TOWN006 (Visitada Ciudad Carmín)
-s0057	FSYS_ARRIVE_TOWN007 (VVisitada Ciudad Azulona)
-s0058	FSYS_ARRIVE_TOWN008 (Visitada Ciudad Fucsia)
-s0059	FSYS_ARRIVE_TOWN009 (Visitada Isla Canela)
-s0060	FSYS_ARRIVE_TOWN010 (Visitada Meseta Añil)
-s0061	FSYS_ARRIVE_TOWN011 (Visitada Ciudad Azafrán)
-s0062	FSYS_ARRIVE_R002_DUN01 (Visited Viridian Forest)
-s0063	FSYS_ARRIVE_R004_DUN01 (Visited Mt. Moon)
-s0064	FSYS_ARRIVE_R010_DUN01 (Visited Rock Tunnel)
-s0065	FSYS_ARRIVE_R010_DUN02 (Visited Power Plant)
-s0066	FSYS_ARRIVE_R011_DUN01 (Visited Diglett's Cave)
-s0067	FSYS_ARRIVE_R020_DUN01 (Visited Seafoam Islands)
-s0068	FSYS_ARRIVE_R023_DUN01 (Visited Victory Road)
+s0051	FSYS_ARRIVE_TOWN001 (Pueblo Paleta visitado)
+s0052	FSYS_ARRIVE_TOWN002 (Ciudad Verde visitada)
+s0053	FSYS_ARRIVE_TOWN003 (Ciudad Plateada visitada)
+s0054	FSYS_ARRIVE_TOWN004 (Ciudad Celeste visitada)
+s0055	FSYS_ARRIVE_TOWN005 (Pueblo Lavanda visitado)
+s0056	FSYS_ARRIVE_TOWN006 (Ciudad Carmín visitada)
+s0057	FSYS_ARRIVE_TOWN007 (Ciudad Azulona visitada)
+s0058	FSYS_ARRIVE_TOWN008 (Ciudad Fucsia visitada)
+s0059	FSYS_ARRIVE_TOWN009 (Isla Canela visitada)
+s0060	FSYS_ARRIVE_TOWN010 (Meseta Añil visitada)
+s0061	FSYS_ARRIVE_TOWN011 (Ciudad Azafrán visitada)
+s0062	FSYS_ARRIVE_R002_DUN01 (Bosque Verde visitado)
+s0063	FSYS_ARRIVE_R004_DUN01 (Monte Moon visitado)
+s0064	FSYS_ARRIVE_R010_DUN01 (Túnel Roca visitado)
+s0065	FSYS_ARRIVE_R010_DUN02 (Central de Energía visitada)
+s0066	FSYS_ARRIVE_R011_DUN01 (Cueva Diglett visitada)
+s0067	FSYS_ARRIVE_R020_DUN01 (Islas Espuma visitadas)
+s0068	FSYS_ARRIVE_R023_DUN01 (Calle Victoria visitada)
 
-s0270	Helix Fossil Claimed at Mt. Moon
-s0271	Dome Fossil Claimed at Mt. Moon
-s0298	Dome Fossil in Fuchsia City
-s0299	Helix Fossil in Fuchsia City
-s0357	Received Fighting Dojo Hitmonchan
-s0358	Received Fighting Dojo Hitmonlee
+s0270	Fósil Hélix conseguido en Monte Moon
+s0271	Fósil Domo conseguido en Monte Moon
+s0298	Fósil Domo en Ciudad Fucsia
+s0299	Fósil Hélix en Ciudad Fucsia
+s0357	Recibido Hitmonchan del Dojo Karate
+s0358	Recibido Hitmonlee del Dojo Karate

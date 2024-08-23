@@ -1,23 +1,23 @@
 0048	*	Inicial	0:Snivy,1:Tepig,2:Oshawott
-0077	s	Zona Nexo	6:Tutorial Terminado
-0143	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
-0268	r	Latios/Latias	5:Luchable,6:Desaparecido/a
-0291	s	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
-0294	e	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated
-0295	e	Yancy/Curtis Call (Driftveil City)	0:Inactive,1:Active,2:Activated
-0296	e	Yancy/Curtis Call (Mistralton City)	0:Inactive,1:Active,2:Activated
-0297	e	Yancy/Curtis Call (Lacunosa Town)	0:Inactive,1:Active,2:Activated
-0298	e	Yancy/Curtis Call (Undella Town)	0:Inactive,1:Active,2:Activated
-0299	e	Yancy/Curtis Call (Lentimas Town)	0:Inactive,1:Active,2:Activated
-0300	e	Yancy/Curtis Call (Route 5)	0:Inactive,1:Active,2:Activated
-0301	e	Yancy/Curtis Call (Route 6)	0:Inactive,1:Active,2:Activated
-0302	e	Yancy/Curtis Call (Route 7)	0:Inactive,1:Active,2:Activated
-0303	e	Yancy/Curtis Call (Route 9)	0:Inactive,1:Active,2:Activated
-0304	e	Yancy/Curtis Call (Route 11)	0:Inactive,1:Active,2:Activated
-0305	e	Yancy/Curtis Call (Route 12)	0:Inactive,1:Active,2:Activated
-0306	e	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
-0307	e	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
-0308	e	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
-0392	e	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
-0396	t	Shadow Triad (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
-0378	g	Fossil Available to Claim	99:Root Fossil (Lileep),100:Claw Fossil (Anorith),101:Helix Fossil (Omanyte),102:Dome Fossil (Kabuto),103:Old Amber (Aerodactyl),104:Armor Fossil (Shieldon),105:Skull Fossil (Cranidos),572:Cover Fossil (Tirtouga),573:Plume Fossil (Archen)
+0077	s	Zona Nexo	6:Tutorial terminado
+0143	r	Evento 2do piso del Laboratorio P+P	0:Sin activar,1:Activado,2:Batalla contra Científico Chema pendiente,3:Cartuchos de Genesect recibidos
+0268	r	Lati@s	5:Luchable,6:Desaparecid@
+0291	s	Zoroark de N (Calle Victoria)	0:Prohibe el paso (pre-campeón),1:Quiere que le sigas (post-campeón),2:En el acantilado,3:Delante del Castillo de N,4:Dentro del Castillo de N
+0294	e	Llamada con Belinda/Julián (Ciudad Mayólica)	0:Desactivado,1:Activo,2:Activado
+0295	e	Llamada con Belinda/Julián (Ciudad Fayenza)	0:Desactivado,1:Activo,2:Activado
+0296	e	Llamada con Belinda/Julián (Ciudad Loza)	0:Desactivado,1:Activo,2:Activado
+0297	e	Llamada con Belinda/Julián (Pueblo Ladrillo)	0:Desactivado,1:Activo,2:Activado
+0298	e	Llamada con Belinda/Julián (Pueblo Arenisca)	0:Desactivado,1:Activo,2:Activado
+0299	e	Llamada con Belinda/Julián (Pueblo Chamota)	0:Desactivado,1:Activo,2:Activado
+0300	e	Llamada con Belinda/Julián (Ruta 5)	0:Desactivado,1:Activo,2:Activado
+0301	e	Llamada con Belinda/Julián (Ruta 6)	0:Desactivado,1:Activo,2:Activado
+0302	e	Llamada con Belinda/Julián (Ruta 7)	0:Desactivado,1:Activo,2:Activado
+0303	e	Llamada con Belinda/Julián (Ruta 9)	0:Desactivado,1:Activo,2:Activado
+0304	e	Llamada con Belinda/Julián (Ruta 11)	0:Desactivado,1:Activo,2:Activado
+0305	e	Llamada con Belinda/Julián (Ruta 12)	0:Desactivado,1:Activo,2:Activado
+0306	e	Llamada con Belinda/Julián (Ruta 13)	0:Desactivado,1:Activo,2:Activado
+0307	e	Llamada con Belinda/Julián (Ruta 14)	0:Desactivado,1:Activo,2:Activado
+0308	e	Llamada con Belinda/Julián (Ruta 16)	0:Desactivado,1:Activo,2:Activado
+0392	e	Belinda/Julián	0:Sin conocer,1:Llamada mediante Objeto perdido,2:Quedada en persona tras 10 llamadas
+0396	t	Trío Sombrío (Ciudad Teja)	0:Luchable (estación actual),1:Luchado en primavera,2:Luchado en verano,3:Luchado en otoño,4:Luchado en invierno
+0378	g	Fósil disponible para conseguir	99:Fósil Raíz (Lileep),100:Fósil Garra (Anorith),101:Fósil Hélix (Omanyte),102:Fósil Domo (Kabuto),103:Ámbar Viejo (Aerodactyl),104:Fósil Coraza (Shieldon),105:Fósil Cráneo (Cranidos),572:Fósil Tapa (Tirtouga),573:Fósil Pluma (Archen)

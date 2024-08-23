@@ -1,548 +1,548 @@
-0744	r	(OR) Groudon Derrotado
-2935	r	(OR) Groudon Capturado
-0743	r	(AS) Kyogre Derrotado
-2936	r	(AS) Kyogre Capturado
-0304	r	(OR) Ho-Oh Derrotado
-2911	r	(OR) Ho-Oh Capturado
-0305	r	(AS) Lugia Derrotado
-2910	r	(AS) Lugia Capturado
-2915	r	(AS) Dialga Capturado
-2916	r	(OR) Palkia Capturado
-2924	r	(OR) Tornadus Capturado
-2925	r	(AS) Thundurus Capturado
-2928	r	Landorus Capturado
-0278	r	(OR) Reshiram Derrotado
-2926	r	(OR) Reshiram Capturado
-0279	r	(AS) Zekrom Derrotado
-2927	r	(AS) Zekrom Capturado
-0515	r	Latias Desaparecida
-2930	r	Latias Capturada
-0516	r	Latios Desaparecido
-2931	r	Latios Capturado
-3010	e	Recibido Ticket Eón
-3011	e	Completado Evento del Ticket Eón
-1041	r	Deoxys Desaparecido (Pilar Celeste)
-2938	r	Deoxys Capturado (Pilar Celeste)
-0269	r	Raikou Derrotado
-2907	r	Raikou Capturado
-0270	r	Entei Derrotado
-2908	r	Entei Capturado
-0271	r	Suicune Derrotado
-2909	r	Suicune Capturado
-0272	r	Cobalion Derrotado
-2921	r	Cobalion Capturado
-0273	r	Terrakion Derrotado
-2922	r	Terrakion Capturado
-0274	r	Virizion Derrotado
-2923	r	Virizion Capturado
-0280	r	Kyurem Derrotado
-2929	r	Kyurem Capturado
-0275	r	Uxie Derrotado
-2912	r	Uxie Capturado
-0276	r	Mesprit Derrotado
-2913	r	Mesprit Capturado
-0277	r	Azelf Derrotado
-2914	r	Azelf Capturado
-0268	r	Cresselia Derrotada
-2920	r	Cresselia Capturada
-2919	r	Giratina Capturado
-0356	r	Heatran Derrotado
-2917	r	Heatran Capturado
-1052	r	Regirock Derrotado
-2932	r	Regirock Capturado
-1053	r	Regice Derrotado
-2933	r	Regice Capturado
-1054	r	Registeel Derrotado
-2934	r	Registeel Capturado
-0348	r	Regigigas Derrotado
-2918	r	Regigigas Capturado
+0744	r	(RO) Groudon derrotado
+2935	r	(RO) Groudon capturado
+0743	r	(ZA) Kyogre derrotado
+2936	r	(ZA) Kyogre capturado
+0304	r	(RO) Ho-Oh derrotado
+2911	r	(RO) Ho-Oh capturado
+0305	r	(ZA) Lugia derrotado
+2910	r	(ZA) Lugia capturado
+2915	r	(ZA) Dialga capturado
+2916	r	(RO) Palkia capturado
+2924	r	(RO) Tornadus capturado
+2925	r	(ZA) Thundurus capturado
+2928	r	Landorus capturado
+0278	r	(RO) Reshiram derrotado
+2926	r	(RO) Reshiram capturado
+0279	r	(ZA) Zekrom derrotado
+2927	r	(ZA) Zekrom capturado
+0515	r	Latias desaparecida
+2930	r	Latias capturada
+0516	r	Latios desaparecido
+2931	r	Latios capturado
+3010	e	Ticket Eón recibido
+3011	e	Evento del Ticket Eón completado
+1041	r	Deoxys desaparecido (Pilar Celeste)
+2938	r	Deoxys capturado (Pilar Celeste)
+0269	r	Raikou derrotado
+2907	r	Raikou capturado
+0270	r	Entei derrotado
+2908	r	Entei capturado
+0271	r	Suicune derrotado
+2909	r	Suicune capturado
+0272	r	Cobalion derrotado
+2921	r	Cobalion capturado
+0273	r	Terrakion derrotado
+2922	r	Terrakion capturado
+0274	r	Virizion derrotado
+2923	r	Virizion capturado
+0280	r	Kyurem derrotado
+2929	r	Kyurem capturado
+0275	r	Uxie derrotado
+2912	r	Uxie capturado
+0276	r	Mesprit derrotado
+2913	r	Mesprit capturado
+0277	r	Azelf derrotado
+2914	r	Azelf capturado
+0268	r	Cresselia derrotada
+2920	r	Cresselia capturada
+2919	r	Giratina capturado
+0356	r	Heatran derrotado
+2917	r	Heatran capturado
+1052	r	Regirock derrotado
+2932	r	Regirock capturado
+1053	r	Regice derrotado
+2933	r	Regice capturado
+1054	r	Registeel derrotado
+2934	r	Registeel capturado
+0348	r	Regigigas derrotado
+2918	r	Regigigas capturado
 0380	a	Indiv. Statuette
 0381	a	Dobles Statuette
 0382	a	Triples Statuette
 0383	a	Rotación Statuette
 0384	a	Multi Statuette
-0385	*	Super Indiv. Desbloqueado
-0386	*	Super Dobles Desbloqueado
-0387	*	Super Triples Desbloqueado
-0388	*	Super Rotación Desbloqueado
-0389	*	Super Multi Desbloqueado
+0385	*	Super Indiv. desbloqueado
+0386	*	Super Dobles desbloqueado
+0387	*	Super Triples desbloqueado
+0388	*	Super Rotación desbloqueado
+0389	*	Super Multi desbloqueado
 2738	*	Encuentros extranjeros de DexNav desbloqueados
-0301	s	Defeated Primal Groudon/Kyogre (Story Event)
-2720	s	Entered Hall of Fame
-0361	s	Rematched Elite Four
-3023	s	Can Give Red Orb and Blue Orb
-0148	s	Met old hot-springs visitor
-0147	g	Received Wynaut Egg Gift
-0187	g	Received Togepi Egg Gift
-0119	g	Received Castform Gift
-0249	g	Received Beldum Gift
-0264	g	Received Camerupt Gift
-0265	g	Received Sharpedo Gift
-0298	s	Received Diancite
-0308	s	Received Prison Bottle
-0310	g	Received Johto Starter
-0349	g	Received Sinnoh Starter
-0311	g	Received Unova Starter
-0166	g	Traded for Makuhita in Rustboro City
-0167	g	Traded for Skitty in Fortree City
-0168	g	Traded for Corsola in Pacifidlog Town
-0692	s	Defeated Winstrate Family
-0806	s	Steven Disappeared from Route 120 Bridge
-0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
-0699	s	Steven and Lati@s Disappeared from Route 118
-0789	s	Root Fossil Disappeared from Route 111
-0790	s	Claw Fossil Disappeared from Route 111
-0927	r	Voltorb 1 Disappeared from New Mauville
-0928	r	Voltorb 2 Disappeared from New Mauville
-0929	r	Voltorb 3 Disappeared from New Mauville
-0930	r	Voltorb 4 Disappeared from New Mauville
-1044	r	(OR) Electrode 1 Disappeared from Team Magma Hideout
-1045	r	(OR) Electrode 2 Disappeared from Team Magma Hideout
-1042	r	(AS) Electrode 1 Disappeared from Team Aqua Hideout
-1043	r	(AS) Electrode 2 Disappeared from Team Aqua Hideout
-0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
-0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
-0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
-0506	r	Invisible Kecleon Disappeared (Route 120, Stairs)
-0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
-0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
-0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
-0302	r	Spiritomb Defeated
-0303	r	Spiritomb Captured
-0500	s	Sealed Chamber Puzzle Braille Text Disappeared
-3007	s	Sealed Chamber Puzzle Completed
-3008	r	Regi Caves Unlocked
-0501	s	Desert Ruins Puzzle Braille Text Disappeared
-3004	s	Desert Ruins Puzzle Completed
-0502	s	Island Cave Puzzle Braille Text Disappeared
-3005	s	Island Cave Puzzle Completed
-0503	s	Ancient Tomb Puzzle Braille Text Disappeared
-3006	s	Ancient Tomb Puzzle Completed
-1034	s	Cave of Origin B5F Pathway Cleared
-2746	*	Unlocked Lanette's PC
-3009	*	Organize Boxes at top of PC menu
-2758	f	Visited Littleroot Town
-2833	f	Can Fly to Littleroot Town
-2759	f	Visited Oldale Town
-2834	f	Can Fly to Oldale Town
-2760	f	Visited Dewford Town
-2835	f	Can Fly to Dewford Town
-2761	f	Visited Lavaridge Town
-2836	f	Can Fly to Lavaridge Town
-2762	f	Visited Fallarbor Town
-2837	f	Can Fly to Fallabor Town
-2763	f	Visited Vendanturf Town
-2838	f	Can Fly to Verdanturf Town
-2764	f	Visited Pacifidlog Town
-2839	f	Can Fly to Pacifidlog Town
-2765	f	Visited Petalburg City
-2840	f	Can Fly to Petalburg City
-2766	f	Visited Slateport City
-2841	f	Can Fly to Slateport City
-2767	f	Visited Mauville City
-2842	f	Can Fly to Mauville City
-2768	f	Visited Rustboro City
-2843	f	Can Fly to Rustboro City
-2769	f	Visited Fortree City
-2844	f	Can Fly to Fortree City
-2770	f	Visited Lilycove City
-2845	f	Can Fly to Lilycove City
-2771	f	Visited Mossdeep City
-2846	f	Can Fly to Mossdeep City
-2772	f	Visited Sootopolis City
-2847	f	Can Fly to Sootopolis City
-2773	f	Visited Ever Grande City
-2848	f	Can Fly to Ever Grande City
-2774	f	Visited Route 101
-2849	f	Can Fly to Route 101
-2775	f	Visited Route 102
-2850	f	Can Fly to Route 102
-2776	f	Visited Route 103
-2851	f	Can Fly to Route 103
-2777	f	Visited Route 104
-2852	f	Can Fly to Route 104
-2778	f	Visited Route 105
-2853	f	Can Fly to Route 105
-2779	f	Visited Route 106
-2854	f	Can Fly to Route 106
-2780	f	Visited Route 107
-2855	f	Can Fly to Route 107
-2781	f	Visited Route 108
-2856	f	Can Fly to Route 108
-2782	f	Visited Route 109
-2857	f	Can Fly to Route 109
-2783	f	Visited Route 110
-2858	f	Can Fly to Route 110
-2784	f	Visited Route 111
-2859	f	Can Fly to Route 111
-2785	f	Visited Route 112
-2860	f	Can Fly to Route 112
-2786	f	Visited Route 113
-2861	f	Can Fly to Route 113
-2787	f	Visited Route 114
-2862	f	Can Fly to Route 114
-2788	f	Visited Route 115
-2863	f	Can Fly to Route 115
-2789	f	Visited Route 116
-2864	f	Can Fly to Route 116
-2790	f	Visited Route 117
-2865	f	Can Fly to Route 117
-2791	f	Visited Route 118
-2866	f	Can Fly to Route 118
-2792	f	Visited Route 119
-2867	f	Can Fly to Route 119
-2793	f	Visited Route 120
-2868	f	Can Fly to Route 120
-2794	f	Visited Route 121
-2869	f	Can Fly to Route 121
-2795	f	Visited Route 122
-2870	f	Can Fly to Route 122
-2796	f	Visited Route 123
-2871	f	Can Fly to Route 123
-2797	f	Visited Route 124
-2872	f	Can Fly to Route 124
-2798	f	Visited Route 125
-2873	f	Can Fly to Route 125
-2799	f	Visited Route 126
-2874	f	Can Fly to Route 126
-2800	f	Visited Route 127
-2875	f	Can Fly to Route 127
-2801	f	Visited Route 128
-2876	f	Can Fly to Route 128
-2802	f	Visited Route 129
-2877	f	Can Fly to Route 129
-2803	f	Visited Route 130
-2878	f	Can Fly to Route 130
-2804	f	Visited Route 131
-2879	f	Can Fly to Route 131
-2805	f	Visited Route 132
-2880	f	Can Fly to Route 132
-2806	f	Visited Route 133
-2881	f	Can Fly to Route 133
-2807	f	Visited Route 134
-2882	f	Can Fly to Route 134
-2808	f	Visited Meteor Falls
-2883	f	Can Fly to Meteor Falls
-2809	f	Visited Rusturf Tunnel
-2884	f	Can Fly to Rusturf Tunnel
-2812	f	Visited Granite Cave
-2885	f	Can Fly to Granite Cave
-2813	f	Visited Petalburg Woods
-2886	f	Can Fly to Petalburg Woods
-2814	f	Visited Mt. Chimney
-2887	f	Can Fly to Mt. Chimney
-2815	f	Visited Jagged Pass
-2888	f	Can Fly to Jagged Pass
-2816	f	Visited Fiery Path
-2889	f	Can Fly to Fiery Path
-2817	f	Visited Mt. Pyre
-2890	f	Can Fly to Mt. Pyre
-2819	f	Visited Seafloor Cavern
-2820	f	Visited Cave of Origin
-2821	f	Visited Victory Road
-2891	f	Can Fly to Victory Road
-2822	f	Visited Shoal Cave
-2892	f	Can Fly to Shoal Cave
-2823	f	Visited New Mauville
-2893	f	Can Fly to New Mauville
-2824	f	Visited Sea Mauville
-2894	f	Can Fly to Sea Mauville
-2831	f	Visited Sky Pillar
-2895	f	Can Fly to Sky Pillar
-2984	f	Sky Pillar on the Map
-2897	f	Visited Pokémon League
-2901	f	Can Fly to Pokémon League
-2898	f	Visited Safari Zone
-2902	f	Can Fly to Safari Zone
-2899	f	Visited Southern Island
-2903	f	Discovered Southern Island (Story Event)
-2985	f	Southern Island on the Map
-2900	f	Visited Battle Resort
-3019	f	Can Fly to Battle Resort
-2986	f	Battle Resort on the Map
-2976	f	Visited Secret Islet
-2977	f	Visited Secret Shore
-2978	f	Visited Secret Meadow
-2979	f	Can Fly to Secret Islet
-2987	f	Discovered Secret Islet
-2980	f	Can Fly to Secret Shore
-2988	f	Discovered Secret Shore
-2981	f	Can Fly to Secret Meadow
-2989	f	Discovered Secret Meadow
-2982	f	(OR) Visited Team Magma Hideout
-2983	f	(AS) Visited Team Aqua Hideout
-2905	*	Extremely Harsh Sunlight in Eastern Hoenn
-2906	*	Heavy Rain in Eastern Hoenn
-3063	s	Had Village Sub Combo (Today)
-3064	s	Had Magnemite Croquette (Today)
-3065	s	Had Mauville Ramen Bowl (Today)
-3077	m	Current Battle Resort BGM: Victory Road
-3078	m	Current Battle Resort BGM: Secret Super Training
-3079	m	Current Battle Resort BGM: Hurry Along
-3080	m	Current Battle Resort BGM: Vs. Wally
-0443	s	Found Big Nugget in Trick House Prize Room
-1167	s	Found Flame Plate Underwater (Route 107)
-1168	s	Found Heart Scale (1) Underwater (Route 124)
-1170	s	Found Pearl Underwater (Route 124)
-1169	s	Found Heart Scale (2) Underwater (Route 124)
-1175	s	Found Sky Plate Underwater (Route 124)
-1171	s	Found Big Pearl Underwater (Route 124)
-1172	s	Found Calcium Underwater (Route 124)
-1173	s	Found Carbos Underwater (Route 124)
-1177	s	Found Ultra Ball Underwater (Route 126)
-1176	s	Found Heart Scale Underwater (Route 126)
-1184	s	Found Mind Plate Underwater (Route 126)
-1178	s	Found Big Pearl Underwater (Route 126)
-1179	s	Found Blue Shard Underwater (Route 126)
-1180	s	Found Pearl Underwater (Route 126)
-1183	s	Found Yellow Shard Underwater (Route 126)
-1181	s	Found Stardust Underwater (Route 126)
-1182	s	Found Iron Underwater (Route 126)
-1188	s	Found Heart Scale Underwater (Route 127)
-1191	s	Found Dread Plate Underwater (Route 127)
-1190	s	Found Spooky Plate Underwater (Route 127)
-1185	s	Found HP Up Underwater (Route 127)
-1186	s	Found Star Piece Underwater (Route 127)
-1189	s	Found Insect Plate Underwater (Route 127)
-1194	s	Found Stone Plate Underwater (Route 128)
-1195	s	Found Draco Plate Underwater (Route 128)
-1196	s	Found Pixie Plate Underwater (Route 128)
-1197	s	Found Adamant Orb Underwater (Route 128)
-1192	s	Found Protein Underwater (Route 128)
-1193	s	Found Pearl Underwater (Route 128)
-1202	s	Found Lustrous Orb Underwater (Route 129)
-1199	s	Found Splash Plate Underwater (Route 129)
-1200	s	Found Zap Plate Underwater (Route 129)
-1201	s	Found Toxic Plate Underwater (Route 129)
-1206	s	Found Fist Plate Underwater (Route 130)
-1205	s	Found Icicle Plate Underwater (Route 130)
-1207	s	Found Earth Plate Underwater (Route 130)
-1204	s	Found Meadow Plate Underwater (Route 130)
-1208	s	Found Griseous Orb Underwater (Route 130)
-1935	t	Had Calvin 1st Rematch
-1936	t	Had Calvin 2nd Rematch
-1937	t	Had Calvin 3rd Rematch
-1938	t	Had Calvin 4th Rematch
-2391	t	Had Miguel 1st Rematch
-2392	t	Had Miguel 2nd Rematch
-2393	t	Had Miguel 3rd Rematch
-2394	t	Had Miguel 4th Rematch
-1795	t	Had Amy and Liv 1st Rematch
-2108	t	Had Amy and Liv 2nd Rematch
-2336	t	Had Amy and Liv 3rd Rematch
-2337	t	Had Amy and Liv 4th Rematch
-1939	t	Had Haley 1st Rematch
-1940	t	Had Haley 2nd Rematch
-1941	t	Had Haley 3rd Rematch
-1942	t	Had Haley 4th Rematch
-2395	t	Had Cindy 1st Rematch
-2396	t	Had Cindy 2nd Rematch
-2397	t	Had Cindy 3rd Rematch
-2299	t	Had Cindy 4th Rematch
-2398	t	Had Winston 1st Rematch
-2399	t	Had Winston 2nd Rematch
-2400	t	Had Winston 3rd Rematch
-2300	t	Had Winston 4th Rematch
-2217	t	Had James 1st Rematch
-2218	t	Had James 2nd Rematch
-2219	t	Had James 3rd Rematch
-2220	t	Had James 4th Rematch
-2465	t	Had Graeme 1st Rematch
-2466	t	Had Graeme 2nd Rematch
-2467	t	Had Graeme 3rd Rematch
-2468	t	Had Graeme 4th Rematch
-2109	t	Had Elliot 1st Rematch
-2110	t	Had Elliot 2nd Rematch
-2111	t	Had Elliot 3rd Rematch
-2112	t	Had Elliot 4th Rematch
-2251	t	Had Tony 1st Rematch
-2252	t	Had Tony 2nd Rematch
-2253	t	Had Tony 3rd Rematch
-2254	t	Had Tony 4th Rematch
-2550	t	Had Neville 1st Rematch
-2551	t	Had Neville 2nd Rematch
-2552	t	Had Neville 3rd Rematch
-2553	t	Had Neville 4th Rematch
-2522	t	Had Scall and Ion 1st Rematch (Illegal)
-2523	t	Had Scall and Ion 2nd Rematch
-2524	t	Had Scall and Ion 3rd Rematch
-2525	t	Had Scall and Ion 4th Rematch
-2205	t	Had Lois and Hal 1st Rematch
-2206	t	Had Lois and Hal 2nd Rematch
-2207	t	Had Lois and Hal 3rd Rematch
-2208	t	Had Lois and Hal 4th Rematch
-2559	t	Had Portia 1st Rematch
-2560	t	Had Portia 2nd Rematch
-2561	t	Had Portia 3rd Rematch
-2562	t	Had Portia 4th Rematch
-2338	t	Had Ricky 1st Rematch
-2339	t	Had Ricky 2nd Rematch
-2340	t	Had Ricky 3rd Rematch
-2341	t	Had Ricky 4th Rematch
-2113	t	Had Lola 1st Rematch
-2114	t	Had Lola 2nd Rematch
-2115	t	Had Lola 3rd Rematch
-2116	t	Had Lola 4th Rematch
-2125	t	Had Edwin 1st Rematch
-2126	t	Had Edwin 2nd Rematch
-2127	t	Had Edwin 3rd Rematch
-2128	t	Had Edwin 4th Rematch
-2401	t	Had Isabel 1st Rematch
-2402	t	Had Isabel 2nd Rematch
-2403	t	Had Isabel 3rd Rematch
-2404	t	Had Isabel 4th Rematch
-2117	t	Had Benjamin 1st Rematch
-2118	t	Had Benjamin 2nd Rematch
-2119	t	Had Benjamin 3rd Rematch
-2120	t	Had Benjamin 4th Rematch
-2342	t	Had Dusty 1st Rematch
-2343	t	Had Dusty 2nd Rematch
-2344	t	Had Dusty 3rd Rematch
-2345	t	Had Dusty 4th Rematch
-2129	t	Had Wilton 1st Rematch
-2130	t	Had Wilton 2nd Rematch
-2131	t	Had Wilton 3rd Rematch
-2132	t	Had Wilton 4th Rematch
-2133	t	Had Brooke 1st Rematch
-2134	t	Had Brooke 2nd Rematch
-2135	t	Had Brooke 3rd Rematch
-2136	t	Had Brooke 4th Rematch
-2137	t	Had Trent 1st Rematch
-2138	t	Had Trent 2nd Rematch
-2139	t	Had Trent 3rd Rematch
-2140	t	Had Trent 4th Rematch
-2209	t	Had Ethan 1st Rematch
-2210	t	Had Ethan 2nd Rematch
-2211	t	Had Ethan 3rd Rematch
-2212	t	Had Ethan 4th Rematch
-2197	t	Had Shelby 1st Rematch
-2198	t	Had Shelby 2nd Rematch
-2199	t	Had Shelby 3rd Rematch
-2200	t	Had Shelby 4th Rematch
-2213	t	Had Diana 1st Rematch
-2214	t	Had Diana 2nd Rematch
-2215	t	Had Diana 3rd Rematch
-2216	t	Had Diana 4th Rematch
-2359	t	Had Madeline 1st Rematch
-2360	t	Had Madeline 2nd Rematch
-2361	t	Had Madeline 3rd Rematch
-2362	t	Had Madeline 4th Rematch
-2654	t	Had Lao 1st Rematch
-2655	t	Had Lao 2nd Rematch
-2656	t	Had Lao 3rd Rematch
-2657	t	Had Lao 4th Rematch
-2145	t	Had Bernie 1st Rematch
-2146	t	Had Bernie 2nd Rematch
-2147	t	Had Bernie 3rd Rematch
-2148	t	Had Bernie 4th Rematch
-2141	t	Had Steve 1st Rematch
-2142	t	Had Steve 2nd Rematch
-2143	t	Had Steve 3rd Rematch
-2144	t	Had Steve 4th Rematch
-2221	t	Had Nicolas Rematch
-2375	t	Had John and Jay Rematch
-2149	t	Had Cyndy 1st Rematch
-2150	t	Had Cyndy 2nd Rematch
-2151	t	Had Cyndy 3rd Rematch
-2152	t	Had Cyndy 4th Rematch
-2346	t	Had Timothy 1st Rematch
-2347	t	Had Timothy 2nd Rematch
-2348	t	Had Timothy 3rd Rematch
-2349	t	Had Timothy 4th Rematch
-1943	t	Had Nob 1st Rematch
-1944	t	Had Nob 2nd Rematch
-1945	t	Had Nob 3rd Rematch
-1983	t	Had Nob 4th Rematch
-2153	t	Had Jerry 1st Rematch
-2154	t	Had Jerry 2nd Rematch
-2155	t	Had Jerry 3rd Rematch
-2156	t	Had Jerry 4th Rematch
-2157	t	Had Karen 1st Rematch
-2158	t	Had Karen 2nd Rematch
-2159	t	Had Karen 3rd Rematch
-2160	t	Had Karen 4th Rematch
-2234	t	Had Dylan 1st Rematch
-2235	t	Had Dylan 2nd Rematch
-2236	t	Had Dylan 3rd Rematch
-2237	t	Had Dylan 4th Rematch
-2263	t	Had Isaac 1st Rematch
-2264	t	Had Isaac 2nd Rematch
-2265	t	Had Isaac 3rd Rematch
-2266	t	Had Isaac 4th Rematch
-2259	t	Had Lydia 1st Rematch
-2260	t	Had Lydia 2nd Rematch
-2261	t	Had Lydia 3rd Rematch
-2262	t	Had Lydia 4th Rematch
-2363	t	Had Anna and Meg 1st Rematch
-2364	t	Had Anna and Meg 2nd Rematch
-2365	t	Had Anna and Meg 3rd Rematch
-2366	t	Had Anna and Meg 4th Rematch
-2161	t	Had Rose 1st Rematch
-2162	t	Had Rose 2nd Rematch
-2163	t	Had Rose 3rd Rematch
-2164	t	Had Rose 4th Rematch
-2165	t	Had Dalton 1st Rematch
-2166	t	Had Dalton 2nd Rematch
-2167	t	Had Dalton 3rd Rematch
-2168	t	Had Dalton 4th Rematch
-2473	t	Had Jael and Kael 1st Rematch
-2474	t	Had Jael and Kael 2nd Rematch
-2475	t	Had Jael and Kael 3rd Rematch
-2476	t	Had Jael and Kael 4th Rematch
-2169	t	Had Jackson 1st Rematch
-2170	t	Had Jackson 2nd Rematch
-2171	t	Had Jackson 3rd Rematch
-2172	t	Had Jackson 4th Rematch
-2173	t	Had Catherine 1st Rematch
-2174	t	Had Catherine 2nd Rematch
-2175	t	Had Catherine 3rd Rematch
-2176	t	Had Catherine 4th Rematch
-2177	t	Had Robert 1st Rematch
-2178	t	Had Robert 2nd Rematch
-2179	t	Had Robert 3rd Rematch
-2181	t	Had Brandon 1st Rematch
-2182	t	Had Brandon 2nd Rematch
-2183	t	Had Brandon 3rd Rematch
-2534	t	Had Gomez 1st Rematch
-2535	t	Had Gomez 2nd Rematch
-2536	t	Had Gomez 3rd Rematch
-2542	t	Had Sharlene 1st Rematch
-2543	t	Had Sharlene 2nd Rematch
-2544	t	Had Sharlene 3rd Rematch
-2184	t	Had Walter 1st Rematch
-2350	t	Had Walter 2nd Rematch
-2351	t	Had Walter 3rd Rematch
-2367	t	Had Jessica 1st Rematch
-2368	t	Had Jessica 2nd Rematch
-2369	t	Had Jessica 3rd Rematch
-2510	t	Had Momo 1st Rematch
-2511	t	Had Momo 2nd Rematch
-2512	t	Had Momo 3rd Rematch
-2201	t	Had Valerie 1st Rematch
-2202	t	Had Valerie 2nd Rematch
-2203	t	Had Valerie 3rd Rematch
-2185	t	Had Cameron 1st Rematch
-2186	t	Had Cameron 2nd Rematch
-2187	t	Had Cameron 3rd Rematch
-2286	t	Had Rita and Sam 1st Rematch
-2287	t	Had Rita and Sam 2nd Rematch
-2288	t	Had Rita and Sam 3rd Rematch
-2247	t	Had Jenny 1st Rematch
-2248	t	Had Jenny 2nd Rematch
-2486	t	Had Kylan 1st Rematch
-2487	t	Had Kylan 2nd Rematch
-2499	t	Had Arzu 1st Rematch
-2500	t	Had Arzu 2nd Rematch
-2193	t	Had Ernest 1st Rematch
-2194	t	Had Ernest 2nd Rematch
-2224	t	Had Isaiah 1st Rematch
-2225	t	Had Isaiah 2nd Rematch
-2226	t	Had Isaiah 3rd Rematch
-2571	t	Had Jude and Rory Rematch
-1914	t	Had Gabby and Ty 1st Rematch
-1915	t	Had Gabby and Ty 2nd Rematch
-1916	t	Had Gabby and Ty 3rd Rematch
-1917	t	Had Gabby and Ty 4th Rematch
-2322	t	Had Gabby and Ty 5th Rematch
-2684	t	Had Wally 1st Rematch
-2686	t	Had Wally 2nd Rematch
+0301	s	Groudon/Kyogre primigenio derrotado (Evento de la historia)
+2720	s	Entrado al Hall de la Fama
+0361	s	Revancha contra Alto Mando
+3023	s	Puede dar Orbe rojo y Orbe azul
+0148	s	Conocida persona mayor de los baños termales
+0147	g	Huevo de Wynaut de regalo recibido
+0187	g	Huevo de Togepi de regalo recibido
+0119	g	Castform de regalo recibido
+0249	g	Beldum de regalo recibido
+0264	g	Camerupt de regalo recibido
+0265	g	Sharpedo de regalo recibido
+0298	s	Diancita recibida
+0308	s	Vasija castigo recibida
+0310	g	Inicial de Johto recibido
+0349	g	Inicial de Sinnoh recibido
+0311	g	Inicial de Unova recibido
+0166	g	Intercambio por Makuhita en Ciudad Férrica
+0167	g	Intercambio por Skitty en Ciudad Arborada
+0168	g	Intercambio por Corsola en Pueblo Oromar
+0692	s	Família Estratega derrotada
+0806	s	Máximo desaparecido del puente de la Ruta 120
+0808	g	Criapokémon (cambio de Pikachu coqueta) desaparecida
+0699	s	Steven and Lati@s desaparecido from Ruta 118
+0789	s	Fósil raíz desaparecido de la Ruta 111
+0790	s	Fósil garra desaparecido de la Ruta 111
+0927	r	Voltorb 1 desaparecido de Nueva Malvalanova
+0928	r	Voltorb 2 desaparecido de Nueva Malvalanova
+0929	r	Voltorb 3 desaparecido de Nueva Malvalanova
+0930	r	Voltorb 4 desaparecido de Nueva Malvalanova
+1044	r	(RO) Electrode 1 desaparecido de la Guarida Magma
+1045	r	(RO) Electrode 2 desaparecido de la Guarida Magma
+1042	r	(ZA) Electrode 1 desaparecido de la Guarida Aqua
+1043	r	(ZA) Electrode 2 desaparecido de la Guarida Aqua
+0697	r	Keckleon invisible desaparecido (Bloqueando Gimnasio Arborada)
+0702	r	Keckleon invisible desaparecido (Ruta 120, puente)
+0504	r	Keckleon invisible desaparecido (Ruta 119, encima de la cascada)
+0506	r	Keckleon invisible desaparecido (Ruta 120, escaleras)
+0508	r	Keckleon invisible desaparecido (Ruta 120, izquierda de las hierbas)
+0510	r	Keckleon invisible desaparecido (Pueblo Lavacalda)
+0512	r	Keckleon invisible desaparecido (Centro espacial de Algaria)
+0302	r	Spiritomb derrotado
+0303	r	Spiritomb capturado
+0500	s	Texto Braille del puzzle de la Cámara Sellada desaparecido
+3007	s	Puzzle de la Cámara Sellada completado
+3008	r	Cuevas de los Regi desbloqueadas
+0501	s	Texto Braille del puzzle de Ruinas del Desierto desaparecido
+3004	s	Puzzle de Ruinas del Desierto completado
+0502	s	Texto Braille del puzzle de Cueva Insular desaparecido
+3005	s	Puzzle de Cueva Insular completado
+0503	s	Texto Braille del puzzle de Tumba Antigua desaparecido
+3006	s	Puzzle de Tumba Antigua completado
+1034	s	Pasillo del sótano 5 de la Cueva Ancestral limpio
+2746	*	Desbloqueado el PC de Aredia
+3009	*	Organizar Pokémon en primer lugar en el menú del PC
+2758	f	Villa Raíz visitada
+2833	f	Puede volar a Villa Raíz
+2759	f	Pueblo Escaso visitado
+2834	f	Puede volar a Pueblo Escaso
+2760	f	Pueblo Azuliza visitado
+2835	f	Puede volar a Pueblo Azuliza
+2761	f	Pueblo Lavacalda visitado
+2836	f	Puede volar a Pueblo Lavacalda
+2762	f	Pueblo Pardal visitado
+2837	f	Puede volar a Pueblo Pardal
+2763	f	Pueblo Verdegal visitado
+2838	f	Puede volar a Pueblo Verdegal
+2764	f	Pueblo Oromar visitado
+2839	f	Puede volar a Pueblo Oromar
+2765	f	Ciudad Petalia visitada
+2840	f	Puede volar a Ciudad Petalia
+2766	f	Ciudad Portual visitada
+2841	f	Puede volar a Ciudad Portual
+2767	f	Ciudad Malvalona visitada
+2842	f	Puede volar a Ciudad Malvalona
+2768	f	Ciudad Férrica visitada
+2843	f	Puede volar a Ciudad Férrica
+2769	f	Ciudad Arborada visitada
+2844	f	Puede volar a Ciudad Arborada
+2770	f	Ciudad Calagua visitada
+2845	f	Puede volar a Ciudad Calagua
+2771	f	Ciudad Algaria visitada
+2846	f	Puede volar a Ciudad Algaria
+2772	f	Arrecípolis visitada
+2847	f	Puede volar a Arrecípolis
+2773	f	Ciudad Colosalia visitada
+2848	f	Puede volar a Ciudad Colosalia
+2774	f	Ruta 101 visitada
+2849	f	Puede volar a Ruta 101
+2775	f	Ruta 102 visitada
+2850	f	Puede volar a Ruta 102
+2776	f	Ruta 103 visitada
+2851	f	Puede volar a Ruta 103
+2777	f	Ruta 104 visitada
+2852	f	Puede volar a Ruta 104
+2778	f	Ruta 105 visitada
+2853	f	Puede volar a Ruta 105
+2779	f	Ruta 106 visitada
+2854	f	Puede volar a Ruta 106
+2780	f	Ruta 107 visitada
+2855	f	Puede volar a Ruta 107
+2781	f	Ruta 108 visitada
+2856	f	Puede volar a Ruta 108
+2782	f	Ruta 109 visitada
+2857	f	Puede volar a Ruta 109
+2783	f	Ruta 110 visitada
+2858	f	Puede volar a Ruta 110
+2784	f	Ruta 111 visitada
+2859	f	Puede volar a Ruta 111
+2785	f	Ruta 112 visitada
+2860	f	Puede volar a Ruta 112
+2786	f	Ruta 113 visitada
+2861	f	Puede volar a Ruta 113
+2787	f	Ruta 114 visitada
+2862	f	Puede volar a Ruta 114
+2788	f	Ruta 115 visitada
+2863	f	Puede volar a Ruta 115
+2789	f	Ruta 116 visitada
+2864	f	Puede volar a Ruta 116
+2790	f	Ruta 117 visitada
+2865	f	Puede volar a Ruta 117
+2791	f	Ruta 118 visitada
+2866	f	Puede volar a Ruta 118
+2792	f	Ruta 119 visitada
+2867	f	Puede volar a Ruta 119
+2793	f	Ruta 120 visitada
+2868	f	Puede volar a Ruta 120
+2794	f	Ruta 121 visitada
+2869	f	Puede volar a Ruta 121
+2795	f	Ruta 122 visitada
+2870	f	Puede volar a Ruta 122
+2796	f	Ruta 123 visitada
+2871	f	Puede volar a Ruta 123
+2797	f	Ruta 124 visitada
+2872	f	Puede volar a Ruta 124
+2798	f	Ruta 125 visitada
+2873	f	Puede volar a Ruta 125
+2799	f	Ruta 126 visitada
+2874	f	Puede volar a Ruta 126
+2800	f	Ruta 127 visitada
+2875	f	Puede volar a Ruta 127
+2801	f	Ruta 128 visitada
+2876	f	Puede volar a Ruta 128
+2802	f	Ruta 129 visitada
+2877	f	Puede volar a Ruta 129
+2803	f	Ruta 130 visitada
+2878	f	Puede volar a Ruta 130
+2804	f	Ruta 131 visitada
+2879	f	Puede volar a Ruta 131
+2805	f	Ruta 132 visitada
+2880	f	Puede volar a Ruta 132
+2806	f	Ruta 133 visitada
+2881	f	Puede volar a Ruta 133
+2807	f	Ruta 134 visitada
+2882	f	Puede volar a Ruta 134
+2808	f	Cascada Meteoro visitada
+2883	f	Puede volar a Cascada Meteoro
+2809	f	Túnel Fervergal visitado
+2884	f	Puede volar a Túnel Fervergal
+2812	f	Cueva Granito visitada
+2885	f	Puede volar a Cueva Granito
+2813	f	Bosque Petalia visitado
+2886	f	Puede volar a Bosque Petalia
+2814	f	Monte Cenizo visitado
+2887	f	Puede volar a Monte Cenizo
+2815	f	Desfiladero visitado
+2888	f	Puede volar a Desfiladero
+2816	f	Senda Ígnea visitada
+2889	f	Puede volar a Senda Ígnea
+2817	f	Monte Pírico visitado
+2890	f	Puede volar a Monte Pírico
+2819	f	Caverna Abisal visitada
+2820	f	Cueva Ancestral visitada
+2821	f	Calle Victoria visitada
+2891	f	Puede volar a Calle Victoria
+2822	f	Cueva Cardumen visitada
+2892	f	Puede volar a Cueva Cardumen
+2823	f	Malvalanova visitada
+2893	f	Puede volar a Malvalanova
+2824	f	Malvamar visitada
+2894	f	Puede volar a Malvamar
+2831	f	Pilar Celeste visitado
+2895	f	Puede volar a Pilar Celeste
+2984	f	Pilar Celeste en el mapa
+2897	f	Liga Pokémon visitada
+2901	f	Puede volar a Liga Pokémon
+2898	f	Zona Safari visitada
+2902	f	Puede volar a Zona Safari
+2899	f	Isla del Sur visitada
+2903	f	Isla del Sur descubierta (Evento)
+2985	f	Isla del Sur en el mapa
+2900	f	Resort Batalla visitado
+3019	f	Puede volar a Resort Batalla
+2986	f	Resort Batalla en el mapa
+2976	f	Islote Secreto visitado
+2977	f	Costa Secreta visitada
+2978	f	Prado Secreto visitado
+2979	f	Puede volar a Islote Secreto
+2987	f	Islote Secreto descubierto
+2980	f	Puede volar a Costa Secreta
+2988	f	Costa Secreta descubierta
+2981	f	Puede volar a Prado Secreto
+2989	f	Prado Secreto descubierto
+2982	f	(RO) Guarida Magma visitada
+2983	f	(ZA) Guarida Aqua visitada
+2905	*	Sol abrasador en Hoenn oriental
+2906	*	Diluvio en Hoenn oriental
+3063	s	Comido Menú Sandwich Villa (Hoy)
+3064	s	Comido Magnebóndigas (Hoy)
+3065	s	Comido Malvaguetis (Hoy)
+3077	m	BGM actual en el Resort Batalla: Calle Victoria
+3078	m	BGM actual en el Resort Batalla: Superentrenamiento secreto
+3079	m	BGM actual en el Resort Batalla: Sígueme
+3080	m	BGM actual en el Resort Batalla: Contra Blasco
+0443	s	Encontrada Maxipepita en la Sala de premios de la Casa Treta
+1167	s	Encontrada Tabla llama bajo el agua (Ruta 107)
+1168	s	Encontrada Escama corazón (1) bajo el agua (Ruta 124)
+1170	s	Encontrada Perla bajo el agua (Ruta 124)
+1169	s	Encontrada Escama corazón (2) bajo el agua (Ruta 124)
+1175	s	Encontrada Tabla cielo bajo el agua (Ruta 124)
+1171	s	Encontrada Perla grande bajo el agua (Ruta 124)
+1172	s	Encontrada Calcio bajo el agua (Ruta 124)
+1173	s	Encontrada Carburante bajo el agua (Ruta 124)
+1177	s	Encontrada Ultra Ball bajo el agua (Ruta 126)
+1176	s	Encontrada Escama corazón bajo el agua (Ruta 126)
+1184	s	Encontrada Tabla mental bajo el agua (Ruta 126)
+1178	s	Encontrada Perla grande bajo el agua (Ruta 126)
+1179	s	Encontrada Parte azul bajo el agua (Ruta 126)
+1180	s	Encontrada Perla bajo el agua (Ruta 126)
+1183	s	Encontrada Parte amarilla bajo el agua (Ruta 126)
+1181	s	Encontrada Polvo estelar bajo el agua (Ruta 126)
+1182	s	Encontrada Hierro bajo el agua (Ruta 126)
+1188	s	Encontrada Escama corazón bajo el agua (Ruta 127)
+1191	s	Encontrada Tabla oscura bajo el agua (Ruta 127)
+1190	s	Encontrada Tabla terror bajo el agua (Ruta 127)
+1185	s	Encontrada Más PS bajo el agua (Ruta 127)
+1186	s	Encontrada Trozo estrella bajo el agua (Ruta 127)
+1189	s	Encontrada Tabla bicho bajo el agua (Ruta 127)
+1194	s	Encontrada Tabla pétrea bajo el agua (Ruta 128)
+1195	s	Encontrada Tabla draco bajo el agua (Ruta 128)
+1196	s	Encontrada Tabla duende bajo el agua (Ruta 128)
+1197	s	Encontrada Diamansfera bajo el agua (Ruta 128)
+1192	s	Encontrada Proteína bajo el agua (Ruta 128)
+1193	s	Encontrada Perla bajo el agua (Ruta 128)
+1202	s	Encontrada Lustresfera bajo el agua (Ruta 129)
+1199	s	Encontrada Tabla linfa bajo el agua (Ruta 129)
+1200	s	Encontrada Tabla trueno bajo el agua (Ruta 129)
+1201	s	Encontrada Tabla tóxica bajo el agua (Ruta 129)
+1206	s	Encontrada Tabla fuerte bajo el agua (Ruta 130)
+1205	s	Encontrada Tabla helada bajo el agua (Ruta 130)
+1207	s	Encontrada Tabla terrax bajo el agua (Ruta 130)
+1204	s	Encontrada Tabla pradal bajo el agua (Ruta 130)
+1208	s	Encontrada Griseosfera bajo el agua (Ruta 130)
+1935	t	1ra revancha contra Calixto 
+1936	t	2da revancha contra Calixto 
+1937	t	3ra revancha contra Calixto
+1938	t	4ta revancha contra Calixto
+2391	t	1ra revancha contra Miguel 
+2392	t	2da revancha contra Miguel 
+2393	t	3ra revancha contra Miguel
+2394	t	4ta revancha contra Miguel
+1795	t	1ra revancha contra Ali y Lia 
+2108	t	2da revancha contra Ali y Lia 
+2336	t	3ra revancha contra Ali y Lia
+2337	t	4ta revancha contra Ali y Lia
+1939	t	1ra revancha contra Herminia 
+1940	t	2da revancha contra Herminia 
+1941	t	3ra revancha contra Herminia
+1942	t	4ta revancha contra Herminia
+2395	t	1ra revancha contra Verónica 
+2396	t	2da revancha contra Verónica 
+2397	t	3ra revancha contra Verónica
+2299	t	4ta revancha contra Verónica
+2398	t	1ra revancha contra Gustavo 
+2399	t	2da revancha contra Gustavo 
+2400	t	3ra revancha contra Gustavo
+2300	t	4ta revancha contra Gustavo
+2217	t	1ra revancha contra Jaime 
+2218	t	2da revancha contra Jaime 
+2219	t	3ra revancha contra Jaime
+2220	t	4ta revancha contra Jaime
+2465	t	1ra revancha contra Ralf 
+2466	t	2da revancha contra Ralf 
+2467	t	3ra revancha contra Ralf
+2468	t	4ta revancha contra Ralf
+2109	t	1ra revancha contra Eloy 
+2110	t	2da revancha contra Eloy 
+2111	t	3ra revancha contra Eloy
+2112	t	4ta revancha contra Eloy
+2251	t	1ra revancha contra Toni 
+2252	t	2da revancha contra Toni 
+2253	t	3ra revancha contra Toni
+2254	t	4ta revancha contra Toni
+2550	t	1ra revancha contra Roy 
+2551	t	2da revancha contra Roy 
+2552	t	3ra revancha contra Roy
+2553	t	4ta revancha contra Roy
+2522	t	1ra revancha contra Luci y Fito (ilegal)
+2523	t	2da revancha contra Luci y Fito 
+2524	t	3ra revancha contra Luci y Fito
+2525	t	4ta revancha contra Luci y Fito
+2205	t	1ra revancha contra Lisa y Nerea 
+2206	t	2da revancha contra Lisa y Nerea 
+2207	t	3ra revancha contra Lisa y Nerea
+2208	t	4ta revancha contra Lisa y Nerea
+2559	t	1ra revancha contra Mariana 
+2560	t	2da revancha contra Mariana 
+2561	t	3ra revancha contra Mariana
+2562	t	4ta revancha contra Mariana
+2338	t	1ra revancha contra Richi 
+2339	t	2da revancha contra Richi 
+2340	t	3ra revancha contra Richi
+2341	t	4ta revancha contra Richi
+2113	t	1ra revancha contra Lola 
+2114	t	2da revancha contra Lola 
+2115	t	3ra revancha contra Lola
+2116	t	4ta revancha contra Lola
+2125	t	1ra revancha contra Edgardo 
+2126	t	2da revancha contra Edgardo 
+2127	t	3ra revancha contra Edgardo
+2128	t	4ta revancha contra Edgardo
+2401	t	1ra revancha contra Isabel 
+2402	t	2da revancha contra Isabel 
+2403	t	3ra revancha contra Isabel
+2404	t	4ta revancha contra Isabel
+2117	t	1ra revancha contra Benjamin 
+2118	t	2da revancha contra Benjamin 
+2119	t	3ra revancha contra Benjamin
+2120	t	4ta revancha contra Benjamin
+2342	t	1ra revancha contra Dacio 
+2343	t	2da revancha contra Dacio 
+2344	t	3ra revancha contra Dacio
+2345	t	4ta revancha contra Dacio
+2129	t	1ra revancha contra Valentín 
+2130	t	2da revancha contra Valentín 
+2131	t	3ra revancha contra Valentín
+2132	t	4ta revancha contra Valentín
+2133	t	1ra revancha contra Berta 
+2134	t	2da revancha contra Berta 
+2135	t	3ra revancha contra Berta
+2136	t	4ta revancha contra Berta
+2137	t	1ra revancha contra Tarsi 
+2138	t	2da revancha contra Tarsi 
+2139	t	3ra revancha contra Tarsi
+2140	t	4ta revancha contra Tarsi
+2209	t	1ra revancha contra Ezequiel 
+2210	t	2da revancha contra Ezequiel 
+2211	t	3ra revancha contra Ezequiel
+2212	t	4ta revancha contra Ezequiel
+2197	t	1ra revancha contra Serafina 
+2198	t	2da revancha contra Serafina 
+2199	t	3ra revancha contra Serafina
+2200	t	4ta revancha contra Serafina
+2213	t	1ra revancha contra Diana 
+2214	t	2da revancha contra Diana 
+2215	t	3ra revancha contra Diana
+2216	t	4ta revancha contra Diana
+2359	t	1ra revancha contra Miranda 
+2360	t	2da revancha contra Miranda 
+2361	t	3ra revancha contra Miranda
+2362	t	4ta revancha contra Miranda
+2654	t	1ra revancha contra Lao 
+2655	t	2da revancha contra Lao 
+2656	t	3ra revancha contra Lao
+2657	t	4ta revancha contra Lao
+2145	t	1ra revancha contra Lope 
+2146	t	2da revancha contra Lope 
+2147	t	3ra revancha contra Lope
+2148	t	4ta revancha contra Lope
+2141	t	1ra revancha contra Esteban 
+2142	t	2da revancha contra Esteban 
+2143	t	3ra revancha contra Esteban
+2144	t	4ta revancha contra Esteban
+2221	t	Revancha contra Nicolás
+2375	t	Revancha contra Juli-Nela
+2149	t	1ra revancha contra Cecilia 
+2150	t	2da revancha contra Cecilia 
+2151	t	3ra revancha contra Cecilia
+2152	t	4ta revancha contra Cecilia
+2346	t	1ra revancha contra Timoteo 
+2347	t	2da revancha contra Timoteo 
+2348	t	3ra revancha contra Timoteo
+2349	t	4ta revancha contra Timoteo
+1943	t	1ra revancha contra Noboru 
+1944	t	2da revancha contra Noboru 
+1945	t	3ra revancha contra Noboru
+1983	t	4ta revancha contra Noboru
+2153	t	1ra revancha contra Jerónimo 
+2154	t	2da revancha contra Jerónimo 
+2155	t	3ra revancha contra Jerónimo
+2156	t	4ta revancha contra Jerónimo
+2157	t	1ra revancha contra Corina 
+2158	t	2da revancha contra Corina 
+2159	t	3ra revancha contra Corina
+2160	t	4ta revancha contra Corina
+2234	t	1ra revancha contra Dan 
+2235	t	2da revancha contra Dan 
+2236	t	3ra revancha contra Dan
+2237	t	4ta revancha contra Dan
+2263	t	1ra revancha contra Isaac 
+2264	t	2da revancha contra Isaac 
+2265	t	3ra revancha contra Isaac
+2266	t	4ta revancha contra Isaac
+2259	t	1ra revancha contra Lidia 
+2260	t	2da revancha contra Lidia 
+2261	t	3ra revancha contra Lidia
+2262	t	4ta revancha contra Lidia
+2363	t	1ra revancha contra Ani y Mati 
+2364	t	2da revancha contra Ani y Mati 
+2365	t	3ra revancha contra Ani y Mati
+2366	t	4ta revancha contra Ani y Mati
+2161	t	1ra revancha contra Rosa 
+2162	t	2da revancha contra Rosa 
+2163	t	3ra revancha contra Rosa
+2164	t	4ta revancha contra Rosa
+2165	t	1ra revancha contra Mike 
+2166	t	2da revancha contra Mike 
+2167	t	3ra revancha contra Mike
+2168	t	4ta revancha contra Mike
+2473	t	1ra revancha contra Manu y Pío 
+2474	t	2da revancha contra Manu y Pío 
+2475	t	3ra revancha contra Manu y Pío
+2476	t	4ta revancha contra Manu y Pío
+2169	t	1ra revancha contra Joaquín 
+2170	t	2da revancha contra Joaquín 
+2171	t	3ra revancha contra Joaquín
+2172	t	4ta revancha contra Joaquín
+2173	t	1ra revancha contra Cristina 
+2174	t	2da revancha contra Cristina 
+2175	t	3ra revancha contra Cristina
+2176	t	4ta revancha contra Cristina
+2177	t	1ra revancha contra Roberto 
+2178	t	2da revancha contra Roberto 
+2179	t	3ra revancha contra Roberto
+2181	t	1ra revancha contra Bartolo 
+2182	t	2da revancha contra Bartolo 
+2183	t	3ra revancha contra Bartolo
+2534	t	1ra revancha contra Christian 
+2535	t	2da revancha contra Christian 
+2536	t	3ra revancha contra Christian
+2542	t	1ra revancha contra Lore 
+2543	t	2da revancha contra Lore 
+2544	t	3ra revancha contra Lore
+2184	t	1ra revancha contra Federico 
+2350	t	2da revancha contra Federico 
+2351	t	3ra revancha contra Federico
+2367	t	1ra revancha contra Gloria 
+2368	t	2da revancha contra Gloria 
+2369	t	3ra revancha contra Gloria
+2510	t	1ra revancha contra Alice 
+2511	t	2da revancha contra Alice 
+2512	t	3ra revancha contra Alice
+2201	t	1ra revancha contra Valeria 
+2202	t	2da revancha contra Valeria 
+2203	t	3ra revancha contra Valeria
+2185	t	1ra revancha contra Silvio 
+2186	t	2da revancha contra Silvio 
+2187	t	3ra revancha contra Silvio
+2286	t	1ra revancha contra Saúl y Rita 
+2287	t	2da revancha contra Saúl y Rita 
+2288	t	3ra revancha contra Saúl y Rita
+2247	t	1ra revancha contra Geno 
+2248	t	2da revancha contra Geno 
+2486	t	1ra revancha contra Gus 
+2487	t	2da revancha contra Gus 
+2499	t	1ra revancha contra Elisa 
+2500	t	2da revancha contra Elisa 
+2193	t	1ra revancha contra Ernesto 
+2194	t	2da revancha contra Ernesto
+2224	t	1ra revancha contra Isaias 
+2225	t	2da revancha contra Isaias 
+2226	t	3ra revancha contra Isaias
+2571	t	Revancha contra Tara y Nico
+1914	t	1ra revancha contra Gabi y Teo 
+1915	t	2da revancha contra Gabi y Teo 
+1916	t	3ra revancha contra Gabi y Teo
+1917	t	4ta revancha contra Gabi y Teo
+2322	t	5ta revancha contra Gabi y Teo
+2684	t	1ra revancha contra Blasco 
+2686	t	2da revancha contra Blasco 

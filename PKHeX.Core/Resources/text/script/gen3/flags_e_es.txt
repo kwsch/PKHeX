@@ -1,58 +1,63 @@
-0x089	s	Recibido MO01 Corte
-0x06E	s	Recibido MO02 Vuelo
-0x07A	s	Recibido MO03 Surf
-0x06A	s	Recibido MO04 Fuerza
-0x06D	s	Recibido MO05 Restello
-0x06B	s	Recibido MO06 Rompe Roca
-0x138	s	Recibido MO07 Cascada
-0x07B	s	Recibido MO08 Buceo
-0x05A	s	Recibida Bici Carrera/Acrobática
+0137	s	MO01 Corte recibida
+0110	s	MO02 Vuelo recibida
+0122	s	MO03 Surf recibida
+0106	s	MO04 Fuerza recibida
+0109	s	MO05 Restello recibida
+0107	s	MO06 Rompe Roca recibida
+0312	s	MO07 Cascada recibida
+0123	s	MO08 Buceo recibida
+0090	s	Bici Carrera/Acrobática recibida
 
-0x867	*	Recibida Medalla Piedra
-0x868	*	Recibida Medalla Puño 
-0x869	*	Recibida Medalla Dinamo 
-0x86A	*	Recibida Medalla Calor 
-0x86B	*	Recibida Medalla Equilibrio 
-0x86C	*	Recibida Medalla Pluma
-0x86D	*	Recibida Medalla Mente
-0x86E	*	Recibida Medalla Lluvia
+2151	*	Medalla Piedra recibida
+2152	*	Medalla Puño recibida
+2153	*	Medalla Dinamo recibida
+2154	*	Medalla Calor recibida
+2155	*	Medalla Equilibrio recibida
+2156	*	Medalla Pluma recibida
+2157	*	Medalla Mente recibida
+2158	*	Medalla Lluvia recibida
 
-0x099	g	Intercambio en Ciudad Férrica
-0x09A	g	Intercambio en Pueblo Oromar
-0x09B	g	Intercambio en Ciudad Arborada
-0x09C	g	Intercambio en Frontera Batalla
+0153	g	Intercambio en Ciudad Férrica
+0154	g	Intercambio en Pueblo Oromar
+0155	g	Intercambio en Ciudad Arborada
+0156	g	Intercambio en Frontera Batalla
 
-0x097	g	Recibido Castform
-0x10A	g	Recibido Huevo de Wynaut
-0x12A	g	Recibido Beldum
+0151	g	Castform recibido
+0266	g	Huevo de Wynaut recibido
+0298	g	Beldum recibido
 
-0x13A	e	Recibido Ori-Ticket desde Regalo Misterioso
-0x13B	e	Recibido Misti-Ticket desde Regalo Misterioso
-0x13C	e	Recibido Mapa Viejo desde Regalo Misterioso
+0314	e	Ori-Ticket recibido mediante Regalo Misterioso
+0315	e	Misti-Ticket recibido mediante Regalo Misterioso
+0316	e	Mapa Viejo recibido mediante Regalo Misterioso
 
-0x1AE	e	Mostrado Ticket Eón
-0x1AF	e	Mostrado Ori-Ticket
-0x1B0	e	Mostrado Mapa Viejo
-0x1DB	e	Mostrado Misti-Ticket
+0430	e	Ticket Eón enseñado
+0431	e	Ori-Ticket enseñado
+0432	e	Mapa Viejo enseñado
+0475	e	Misti-Ticket enseñado
 
-0x8B3	e	Puede ir a Isla del Sur
-0x8D5	e	Puede ir a Isla Origen
-0x8D6	e	Puede ir a Isla Suprema
-0x8E0	e	Puede ir a Roca Ombligo
+2227	e	Puede ir a Isla del Sur
+2261	e	Puede ir a Isla Origen
+2262	e	Puede ir a Isla Suprema
+2272	e	Puede ir a Roca Ombligo
 
-0x0FF	r	Latios/Latias Errante
+0255	r	Lati@s errante
 
-0x1CA	r	Capturado/Derrotado Mew
-0x091	r	Capturado/Derrotado Lugia
-0x092	r	Capturado/Derrotado Ho-Oh
-0x1BB	r	Capturado/Derrotado Regirock
-0x1BC	r	Capturado/Derrotado Regice
-0x1BD	r	Capturado/Derrotado Registeel
-0x1C9	r	Capturado/Derrotado Lati@s
-0x1BE	r	Capturado/Derrotado Kyogre
-0x1BF	r	Capturado/Derrotado Groudon
-0x1C0	r	Capturado/Derrotado Rayquaza
-0x1AD	r	Capturado/Derrotado Deoxys
+0455	r	Mew derrotado
+0458	r	Mew capturado
+0145	r	Lugia capturado
+0146	r	Ho-Oh capturado
+0476	r	Ho-Oh derrotado
+0477	r	Lugia derrotado
+0443	r	Regirock capturado/derrotado
+0444	r	Regice capturado/derrotado
+0445	r	Registeel capturado/derrotado
+0456	r	Lati@s en Isla del Sur derrotado
+0457	r	Lati@s en Isla del Sur capturado
+0446	r	Kyogre capturado/derrotado
+0447	r	Groudon capturado/derrotado
+0448	r	Rayquaza capturado/derrotado
+0428	r	Deoxys derrotado
+0429	r	Deoxys capturado
 
 0x2CE	r	Oculto en el mundo (Mew)
 0x320	r	Oculto en el mundo (Lugia)
@@ -85,57 +90,60 @@
 0x3D1	r	Oculto en el mundo (Electrode 1 en Guarida Aqua)
 0x3D2	r	Oculto en el mundo (Electrode 2 en Guarida Aqua)
 
-0x1B1	*	Usado el Tutor de Movimientos en Ciudad Portual (Contoneo)
-0x1B2	*	Usado el Tutor de Movimientos en Ciudad Malvalona (Desenrollar)
-0x1B3	*	Usado el Tutor de Movimientos en Pueblo Verdegal (Corte Furia)
-0x1B4	*	Usado el Tutor de Movimientos en Pueblo Lavacalda (Mimético)
-0x1B5	*	Usado el Tutor de Movimientos en Pueblo Pardal (Metrónomo)
-0x1B6	*	Usado el Tutor de Movimientos en Ciudad Arborada (Sonámbulo)
-0x1B7	*	Usado el Tutor de Movimientos en Ciudad Calagua (Sustituto)
-0x1B8	*	Usado el Tutor de Movimientos en Ciudad Algaria (Puño dinámico)
-0x1B9	*	Usado el Tutor de Movimientos en Ciudad Arrecípolis (Doble Filo)
-0x1BA	*	Usado el Tutor de Movimientos en Pueblo Oromar (Explosión)
+0433	*	Usado el Tutor de Movimientos en Ciudad Portual (Contoneo)
+0434	*	Usado el Tutor de Movimientos en Ciudad Malvalona (Desenrollar)
+0435	*	Usado el Tutor de Movimientos en Pueblo Verdegal (Corte Furia)
+0436	*	Usado el Tutor de Movimientos en Pueblo Lavacalda (Mimético)
+0437	*	Usado el Tutor de Movimientos en Pueblo Pardal (Metrónomo)
+0438	*	Usado el Tutor de Movimientos en Ciudad Arborada (Sonámbulo)
+0439	*	Usado el Tutor de Movimientos en Ciudad Calagua (Sustituto)
+0440	*	Usado el Tutor de Movimientos en Ciudad Algaria (Puño dinámico)
+0441	*	Usado el Tutor de Movimientos en Ciudad Arrecípolis (Doble Filo)
+0442	*	Usado el Tutor de Movimientos en Pueblo Oromar (Explosión)
 
-0x860	s	Recibido Pokémon Inicial
-0x861	s	Recibida PokéDex
-0x862	s	Recibido PokeNav
-0x864	s	Entrada al Hall de la Fama
-0x866	s	Encontrar al Fardón
-0x890	s	Vista TV en Casa
-0x894	s	Mixed Records
-0x895	s	Poner Reloj
-0x896	s	Recibida PokéDex Nacional
-0x89A	s	Marea de Cueva Cardumen
-0x89B	s	Recibido un Listón
-0x8AB	s	Debloqueada PC de Aredia
-0x8AD	s	Usada Flauta Blanca
-0x8AE	s	Usada Flauta Negra
-0x8AF	s	Completado Puzzle de la Camara Sellada (1)
-0x0E4	s	Completado Puzzle de la Camara Sellada (2)
-0x8B0	s	Completado Puzzle de Regirock
-0x8B1	s	Completado Puzzle de Regice
-0x8B2	s	Completado Puzzle de Registeel
-0x8BF	s	Puede Recibir Camp. Concha
-0x8C0	*	Recibidas Deportivas
-0x8C2	*	Reinicio de RTR Habilitado
-0x8DB	*	Regalo Misterioso Habilitado
-0x8E4	s	Recibida PokéDex
+2144	s	Recibido Pokémon Inicial
+2145	s	Recibida PokéDex
+2146	s	Recibido PokeNav
+2148	s	Entrada al Hall de la Fama
+2150	s	Encontrar al Fardón
+2192	s	Vista TV en Casa
+2196	s	Mixed Records
+2197	s	Poner Reloj
+2198	s	Recibida PokéDex Nacional
+2202	s	Marea de Cueva Cardumen
+2203	s	Recibido un Listón
+2219	s	Debloqueada PC de Aredia
+2221	s	Usada Flauta Blanca
+2222	s	Usada Flauta Negra
+2223	s	Completado Puzzle de la Camara Sellada (1)
+0228	s	Completado Puzzle de la Camara Sellada (2)
+2224	s	Completado Puzzle de Regirock
+2225	s	Completado Puzzle de Regice
+2226	s	Completado Puzzle de Registeel
+2239	s	Puede Recibir Camp. Concha
+2240	*	Recibidas Deportivas
+2242	*	Reinicio de RTR Habilitado
+2267	*	Regalo Misterioso Habilitado
+2276	s	Recibida PokéDex
 
-0x8C4	a	Recibido Símbolo de Plata de Destreza (Torre Batalla)
-0x8C5	a	Recibido Símbolo de Oro de Destreza (Torre Batalla)
-0x8C6	a	Recibido Símbolo de Plata de Táctica  (Cúpula Batalla)
-0x8C7	a	Recibido Símbolo de Oro de Táctica  (Cúpula Batalla)
-0x8C8	a	Recibido Símbolo de Plata del Ánimo (Palacio Batalla)
-0x8C9	a	Recibido Símbolo de Oro del Ánimo (Palacio Batalla)
-0x8CA	a	Recibido Símbolo de Plata de Coraje (Dojo Batalla)
-0x8CB	a	Recibido Símbolo de Oro de Coraje (Dojo Batalla)
-0x8CC	a	Recibido Símbolo de Plata del Saber (Fábrica Batalla)
-0x8CD	a	Recibido Símbolo de Oro del Saber (Fábrica Batalla)
-0x8CE	a	Recibido Símbolo de Plata de la Fortuna (Sierpe Batalla)
-0x8CF	a	Recibido Símbolo de Oro de la Fortuna (Sierpe Batalla)
-0x8D0	a	Recibido Símbolo de Plata de Valentía (Pirámide Batalla)
-0x8D1	a	Recibido Símbolo de Oro de Valentía (Pirámide Batalla)
-0x8D2	*	Recibido Pase Frontera
+2244	a	Recibido Símbolo de Plata de Destreza (Torre Batalla)
+2245	a	Recibido Símbolo de Oro de Destreza (Torre Batalla)
+2246	a	Recibido Símbolo de Plata de Táctica  (Cúpula Batalla)
+2247	a	Recibido Símbolo de Oro de Táctica  (Cúpula Batalla)
+2248	a	Recibido Símbolo de Plata del Ánimo (Palacio Batalla)
+2249	a	Recibido Símbolo de Oro del Ánimo (Palacio Batalla)
+2250	a	Recibido Símbolo de Plata de Coraje (Dojo Batalla)
+2251	a	Recibido Símbolo de Oro de Coraje (Dojo Batalla)
+2252	a	Recibido Símbolo de Plata del Saber (Fábrica Batalla)
+2253	a	Recibido Símbolo de Oro del Saber (Fábrica Batalla)
+2254	a	Recibido Símbolo de Plata de la Fortuna (Sierpe Batalla)
+2255	a	Recibido Símbolo de Oro de la Fortuna (Sierpe Batalla)
+2256	a	Recibido Símbolo de Plata de Valentía (Pirámide Batalla)
+2257	a	Recibido Símbolo de Oro de Valentía (Pirámide Batalla)
+2258	*	Recibido Pase Frontera
+
+0335	s	Fósil Raíz elegido en Torre Espejismo (Fósil Garra en Gruta Desértica)
+0336	s	Fósil Garra elegido en Torre Espejismo (Fósil Raíz en Gruta Desértica)
 
 2186	m	Rain and Harsh Sunlight in Eastern Hoenn
 2159	f	Can Fly to Littleroot Town
@@ -183,15 +191,14 @@
 2269	m	Visited Altering Cave
 2270	m	Visited Desert Underpass
 2274	m	Visited Trainer Hill
-0335	s	Chose Root Fossil in Mirage Tower (Claw Fossil in Desert Underpass)
-0336	s	Chose Claw Fossil in Mirage Tower (Root Fossil in Desert Underpass)
-0874	r	Desert Underpass Fossil Disappeared
-0768	s	Defeated The Winstrate Family
-1272	s	Defeated Steven in Meteor Falls
-1320	t	Had Aroma Lady Rose 1st Rematch
-1321	t	Had Aroma Lady Rose 2nd Rematch
-1322	t	Had Aroma Lady Rose 3rd Rematch
-1323	t	Had Aroma Lady Rose 4th Rematch
+
+0874	r	Fósil de la Gruta Desértica desaparecido
+0768	s	Família Estratega derrotada
+1272	s	Máximo derrotado en Cascada Meteoro
+1320	t	Had Srta. Aroma Rose 1st Rematch
+1321	t	Had Srta. Aroma Rose 2nd Rematch
+1322	t	Had Srta. Aroma Rose 3rd Rematch
+1323	t	Had Srta. Aroma Rose 4th Rematch
 1327	t	Had Ruin Maniac Dusty 1st Rematch
 1328	t	Had Ruin Maniac Dusty 2nd Rematch
 1329	t	Had Ruin Maniac Dusty 3rd Rematch
@@ -248,22 +255,22 @@
 1488	t	Had Kindler Bernie 2nd Rematch
 1489	t	Had Kindler Bernie 3rd Rematch
 1490	t	Had Kindler Bernie 4th Rematch
-1499	t	Had Camper Ethan 1st Rematch
-1500	t	Had Camper Ethan 2nd Rematch
-1501	t	Had Camper Ethan 3rd Rematch
-1502	t	Had Camper Ethan 4th Rematch
+1499	t	Had Campista Ethan 1st Rematch
+1500	t	Had Campista Ethan 2nd Rematch
+1501	t	Had Campista Ethan 3rd Rematch
+1502	t	Had Campista Ethan 4th Rematch
 1508	t	Had Bug Maniac Jeffrey 1st Rematch
 1509	t	Had Bug Maniac Jeffrey 2nd Rematch
 1510	t	Had Bug Maniac Jeffrey 3rd Rematch
 1511	t	Had Bug Maniac Jeffrey 4th Rematch
-1519	t	Had Psychic Cameron 1st Rematch
-1520	t	Had Psychic Cameron 2nd Rematch
-1521	t	Had Psychic Cameron 3rd Rematch
-1522	t	Had Psychic Cameron 4th Rematch
-1530	t	Had Psychic Jacki 1st Rematch
-1531	t	Had Psychic Jacki 2nd Rematch
-1532	t	Had Psychic Jacki 3rd Rematch
-1533	t	Had Psychic Jacki 4th Rematch
+1519	t	Had Médium Cameron 1st Rematch
+1520	t	Had Médium Cameron 2nd Rematch
+1521	t	Had Médium Cameron 3rd Rematch
+1522	t	Had Médium Cameron 4th Rematch
+1530	t	Had Médium Jacki 1st Rematch
+1531	t	Had Médium Jacki 2nd Rematch
+1532	t	Had Médium Jacki 3rd Rematch
+1533	t	Had Médium Jacki 4th Rematch
 1537	t	Had Gentleman Walter 1st Rematch
 1538	t	Had Gentleman Walter 2nd Rematch
 1539	t	Had Gentleman Walter 3rd Rematch
@@ -328,22 +335,22 @@
 1669	t	Had Triathlete Katelyn 2nd Rematch
 1670	t	Had Triathlete Katelyn 3rd Rematch
 1671	t	Had Triathlete Katelyn 4th Rematch
-1673	t	Had Dragon Tamer Nicolas 1st Rematch
-1674	t	Had Dragon Tamer Nicolas 2nd Rematch
-1675	t	Had Dragon Tamer Nicolas 3rd Rematch
-1676	t	Had Dragon Tamer Nicolas 4th Rematch
-1689	t	Had Bird Keeper Robert 1st Rematch
-1690	t	Had Bird Keeper Robert 2nd Rematch
-1691	t	Had Bird Keeper Robert 3rd Rematch
-1692	t	Had Bird Keeper Robert 4th Rematch
+1673	t	Had Domadragón Nicolas 1st Rematch
+1674	t	Had Domadragón Nicolas 2nd Rematch
+1675	t	Had Domadragón Nicolas 3rd Rematch
+1676	t	Had Domadragón Nicolas 4th Rematch
+1689	t	Had Ornitólogo Robert 1st Rematch
+1690	t	Had Ornitólogo Robert 2nd Rematch
+1691	t	Had Ornitólogo Robert 3rd Rematch
+1692	t	Had Ornitólogo Robert 4th Rematch
 1701	t	Had Ninja Boy Lao 1st Rematch
 1702	t	Had Ninja Boy Lao 2nd Rematch
 1703	t	Had Ninja Boy Lao 3rd Rematch
 1704	t	Had Ninja Boy Lao 4th Rematch
-1710	t	Had Battle Girl Cyndy 1st Rematch
-1711	t	Had Battle Girl Cyndy 2nd Rematch
-1712	t	Had Battle Girl Cyndy 3rd Rematch
-1713	t	Had Battle Girl Cyndy 4th Rematch
+1710	t	Had Luchadora Cyndy 1st Rematch
+1711	t	Had Luchadora Cyndy 2nd Rematch
+1712	t	Had Luchadora Cyndy 3rd Rematch
+1713	t	Had Luchadora Cyndy 4th Rematch
 1717	t	Had Parasol Lady Madeline 1st Rematch
 1718	t	Had Parasol Lady Madeline 2nd Rematch
 1719	t	Had Parasol Lady Madeline 3rd Rematch
