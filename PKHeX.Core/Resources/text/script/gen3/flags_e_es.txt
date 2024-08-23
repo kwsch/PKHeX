@@ -191,8 +191,7 @@
 2269	m	Visited Altering Cave
 2270	m	Visited Desert Underpass
 2274	m	Visited Trainer Hill
-0335	s	Chose Root Fossil in Mirage Tower (Claw Fossil in Desert Underpass)
-0336	s	Chose Claw Fossil in Mirage Tower (Root Fossil in Desert Underpass)
+
 0874	r	Fósil de la Gruta Desértica desaparecido
 0768	s	Família Estratega derrotada
 1272	s	Máximo derrotado en Cascada Meteoro
