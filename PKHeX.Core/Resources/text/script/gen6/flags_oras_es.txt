@@ -43,8 +43,8 @@
 2913	r	Mesprit capturado
 0277	r	Azelf derrotado
 2914	r	Azelf capturado
-0268	r	Cresselia Derrotada
-2920	r	Cresselia Capturada
+0268	r	Cresselia derrotada
+2920	r	Cresselia capturada
 2919	r	Giratina capturado
 0356	r	Heatran derrotado
 2917	r	Heatran capturado
@@ -252,8 +252,8 @@
 2984	f	Pilar Celeste en el mapa
 2897	f	Liga Pokémon visitada
 2901	f	Puede volar a Liga Pokémon
-2898	f	Safari Zone visitada
-2902	f	Puede volar a Safari Zone
+2898	f	Zona Safari visitada
+2902	f	Puede volar a Zona Safari
 2899	f	Isla del Sur visitada
 2903	f	Isla del Sur descubierta (Evento)
 2985	f	Isla del Sur en el mapa
