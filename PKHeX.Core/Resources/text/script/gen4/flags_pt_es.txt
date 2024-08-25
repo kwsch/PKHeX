@@ -1,36 +1,36 @@
-0481	r	Uxie Desaparecido
-0479	r	Mesprit Desaparecido (Caverna Veraz)
-0480	r	Azelf Desaparecido
-0208	r	Dialga Capturado
-0209	r	Palkia Capturado
-0591	r	Cresselia Desaparecida (Isla Plenilunio)
-0476	r	Plutón Desaparecido (Montaña Dura)
+0481	r	Uxie desaparecido
+0479	r	Mesprit desaparecido (Caverna Veraz)
+0480	r	Azelf desaparecido
+0208	r	Dialga capturado
+0209	r	Palkia capturado
+0591	r	Cresselia desaparecida (Isla Plenilunio)
+0476	r	Plutón desaparecido (Montaña Dura)
 0293	r	Heatran Luchable
-0288	r	Heatran Desaparecido
-0579	r	Regigigas Desaparecido
+0288	r	Heatran desaparecido
+0579	r	Regigigas desaparecido
 0306	r	Sala del Origen Aparecida (Columna Lanza)
-0461	r	Cynthia Aparecida (Columna Lanza)
-0672	r	Cynthia Desaparecida (Fuente Despedida)
-0592	r	Giratina Desaparecido
-0344	r	Darkrai Desaparecido
-0301	r	Professor Oak #1 Desaparecido (Ruta 224)
-0594	r	Professor Oak #2 Desaparecido (Ruta 224)
-0714	r	Sémola Desaparecida (Ruta 224)
+0461	r	Cynthia desaparecida (Columna Lanza)
+0672	r	Cynthia desaparecida (Fuente Despedida)
+0592	r	Giratina desaparecido
+0344	r	Darkrai desaparecido
+0301	r	Professor Oak #1 desaparecido (Ruta 224)
+0594	r	Professor Oak #2 desaparecido (Ruta 224)
+0714	r	Sémola desaparecida (Ruta 224)
 0604	r	Vía Costera Aparecida
-0291	r	Shaymin Desaparecido (Paraiso Floral)
-0286	r	Arceus Desaparecido
-0307	r	Ferry a Isla Plenilunio Accesible
-0316	r	Ferry a Isla Lunanueva Accesible
-0578	r	Professor Oak Desaparecido (Ciudad Vetusta)
+0291	r	Shaymin desaparecido (Paraiso Floral)
+0286	r	Arceus desaparecido
+0307	r	Ferry a Isla Plenilunio accesible
+0316	r	Ferry a Isla Lunanueva accesible
+0578	r	Professor Oak desaparecido (Ciudad Vetusta)
 0281	r	Articuno/Zapdos/Moltres Errante (1)
 0153	r	Articuno/Zapdos/Moltres Errante (2)
-2404	a	Entrada al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
 2408	a	Maestro de Concurso Carisma
 2409	a	Maestro de Concurso de Belleza
 2410	a	Maestro de Concurso de Dulzura
 2411	a	Maestro de Concurso de Ingenio
 2412	a	Maestro de Concurso de Dureza
-0329	r	Rotom Capturado
+0329	r	Rotom capturado
 0635	s	Encontrado Mayordomo Fantasma en la Vieja Mansión
 0636	s	Encontrada Niña Fantasma en la Vieja Mansión
 0897	s	Encontrada Miel (escondida) en la Vieja Mansión
@@ -42,204 +42,204 @@
 1337	s	Encontrado Revestimiento Metálico en Ruinas Hierro
 1338	s	Encontrado Antiderretir en Ruinas Iceberg
 1339	s	Encontrada Roca Dura Ruinas Pico Roca
-0151	g	Received Porygon
-0305	g	Received Eevee
-2430	*	Unlocked Bebe's PC
-2728	r	Friday Drifloon Disappeared
-2722	r	Today's Trophy Garden Pokémon Known
-0710	*	Unlocked Rotom's Room
-0119	*	Changed Rotom Form Once
-0699	e	Microwave Oven Appliance Disappeared
-0700	e	Washing Machine Appliance Disappeared
-0701	e	Refrigerator Appliance Disappeared
-0702	e	Rotary Fan Appliance Disappeared
-0703	e	Lawn Mower Appliance Disappeared
-0133	g	Traded in Oreburgh City
-0134	g	Traded in Eterna City
-0244	g	Traded in Snowpoint City
-0245	g	Traded on Route 226
-0325	r	Dialga/Pakia rifts spawnable
-1051	s	Found Adamant Orb on Mt. Coronet
-1053	s	Found Lustrous Orb on Mt. Coronet
-2507	s	Entered Pal Park Catching Show
-1409	t	Defeated Jogger Richard (Morning)
-1448	t	Defeated Policeman Bobby (Night)
-1449	t	Defeated Policeman Alex (Night)
-1450	t	Defeated Policeman Dylan (Night)
-1462	t	Defeated Policeman Caleb (Night)
-1490	t	Defeated Jogger Scott (Morning)
-1666	t	Defeated Jogger Wyatt (Morning)
-1667	t	Defeated Jogger Craig (Morning)
-1668	t	Defeated Jogger Raul (Morning)
-1692	t	Defeated Policeman Danny (Night)
-1693	t	Defeated Policeman Thomas (Night)
-1987	t	Had Aroma Lady Elizabeth 1st Rematch
-1988	t	Had Aroma Lady Elizabeth 2nd Rematch
-1989	t	Had Aroma Lady Elizabeth 3rd Rematch
-1990	t	Had Artist William 1st Rematch
-1991	t	Had Artist William 2nd Rematch
-1992	t	Had Artist William 3rd Rematch
-1993	t	Had Battle Girl Helen 1st Rematch
-1994	t	Had Battle Girl Helen 2nd Rematch
-1995	t	Had Battle Girl Helen 3rd Rematch
-1996	t	Had Bird Keeper Brianna 1st Rematch
-1997	t	Had Bird Keeper Brianna 2nd Rematch
-1998	t	Had Bird Keeper Audrey Rematch
-1999	t	Had Pokémon Breeder Albert 1st Rematch
-2000	t	Had Pokémon Breeder Albert 2nd Rematch
-2001	t	Had Pokémon Breeder Albert 3rd Rematch
-2002	t	Had Pokémon Breeder Jennifer 1st Rematch
-2003	t	Had Pokémon Breeder Jennifer 2nd Rematch
-2004	t	Had Pokémon Breeder Jennifer 3rd Rematch
-2005	t	Had Camper Zackary 1st Rematch
-2006	t	Had Camper Zackary 2nd Rematch
-2007	t	Had Camper Zackary 3rd Rematch
-2008	t	Had Ace Trainer Dalton Rematch
-2009	t	Had Ace Trainer Olivia Rematch
-2010	t	Had Collector Ivan Rematch
-2013	t	Had Cyclist John 1st Rematch
-2014	t	Had Cyclist John 2nd Rematch
-2015	t	Had Cyclist John 3rd Rematch
-2016	t	Had Cyclist Kayla 1st Rematch
-2017	t	Had Cyclist Kayla 2nd Rematch
-2018	t	Had Cyclist Kayla 3rd Rematch
-2019	t	Had Dragon Tamer Patrick 1st Rematch
-2020	t	Had Dragon Tamer Patrick 2nd Rematch
-2021	t	Had Dragon Tamer Hayden Rematch
-2022	t	Had Dragon Tamer Geoffrey Rematch
-2023	t	Had Ace Trainer Jake Rematch
-2024	t	Had Ace Trainer Dennis 1st Rematch
-2025	t	Had Ace Trainer Dennis 2nd Rematch
-2026	t	Had Ace Trainer Rodolfo Rematch
-2027	t	Had Ace Trainer Saul Rematch
-2028	t	Had Ace Trainer Shannon Rematch
-2029	t	Had Ace Trainer Maya 1st Rematch
-2030	t	Had Ace Trainer Maya 2nd Rematch
-2031	t	Had Ace Trainer Deanna Rematch
-2032	t	Had Ace Trainer Moira Rematch
-2033	t	Had Psychic Mitchell 1st Rematch
-2034	t	Had Psychic Mitchell 2nd Rematch
-2035	t	Had Psychic Maxwell Rematch
-2036	t	Had Psychic Corbin Rematch
-2037	t	Had Psychic Abigail 1st Rematch
-2038	t	Had Psychic Abigail 2nd Rematch
-2039	t	Had Psychic Brittney Rematch
-2040	t	Had Psychic Daisy Rematch
-2041	t	Had Rancher Marco 1st Rematch
-2042	t	Had Rancher Marco 2nd Rematch
-2043	t	Had Fisherman Joseph 1st Rematch
-2044	t	Had Fisherman Joseph 2nd Rematch
-2045	t	Had Fisherman Miguel Rematch
-2046	t	Had Fisherman Alec Rematch
-2047	t	Had Twins Teri and Tia 1st Rematch
-2048	t	Had Twins Teri and Tia 2nd Rematch
-2049	t	Had PI Carlos 1st Rematch
-2050	t	Had PI Carlos 2nd Rematch
-2051	t	Had Gentleman Jeremy 1st Rematch
-2052	t	Had Gentleman Jeremy 2nd Rematch
-2053	t	Had Gentleman Jeremy 3rd Rematch
-2054	t	Had Guitarist Tony Rematch
-2055	t	Had Ruin Maniac Harry 1st Rematch
-2056	t	Had Ruin Maniac Harry 2nd Rematch
-2057	t	Had Jogger Craig 1st Rematch
-2058	t	Had Jogger Craig 2nd Rematch
-2059	t	Had Black Belt Philip Rematch
-2060	t	Had Black Belt Davon Rematch
-2061	t	Had Socialite Reina 1st Rematch
-2062	t	Had Socialite Reina 2nd Rematch
-2063	t	Had Lass Samantha 1st Rematch
-2064	t	Had Lass Samantha 2nd Rematch
-2065	t	Had Lass Samantha 3rd Rematch
-2066	t	Had Lass Madeline 1st Rematch
-2067	t	Had Lass Madeline 2nd Rematch
-2068	t	Had Lass Madeline 3rd Rematch
-2069	t	Had Hiker Theodore 1st Rematch
-2070	t	Had Hiker Theodore 2nd Rematch
-2071	t	Had Hiker Theodore 3rd Rematch
-2072	t	Had Bug Catcher Brandon 1st Rematch
-2073	t	Had Bug Catcher Brandon 2nd Rematch
-2074	t	Had Bug Catcher Brandon 3rd Rematch
-2075	t	Had Parasol Lady Alexa 1st Rematch
-2076	t	Had Parasol Lady Alexa 2nd Rematch
-2077	t	Had Parasol Lady Alexa 3rd Rematch
-2078	t	Had Picnicker Karina 1st Rematch
-2079	t	Had Picnicker Karina 2nd Rematch
-2080	t	Had Picnicker Karina 3rd Rematch
-2081	t	Had Poké Kid Danielle 1st Rematch
-2082	t	Had Poké Kid Danielle 2nd Rematch
-2083	t	Had Poké Kid Danielle 3rd Rematch
-2084	t	Had Policeman Danny 1st Rematch
-2085	t	Had Policeman Danny 2nd Rematch
-2086	t	Had Policeman Danny 3rd Rematch
-2087	t	Had Rich Boy Trey 1st Rematch
-2088	t	Had Rich Boy Trey 2nd Rematch
-2089	t	Had Lady Melissa 1st Rematch
-2090	t	Had Lady Melissa 2nd Rematch
-2091	t	Had Lady Melissa 3rd Rematch
-2092	t	Had Pokémon Ranger Taylor 1st Rematch
-2093	t	Had Pokémon Ranger Taylor 2nd Rematch
-2094	t	Had Pokémon Ranger Taylor 3rd Rematch
-2095	t	Had Pokémon Ranger Kyler Rematch
-2096	t	Had Pokémon Ranger Allison 1st Rematch
-2097	t	Had Pokémon Ranger Allison 2nd Rematch
-2098	t	Had Pokémon Ranger Allison 3rd Rematch
-2099	t	Had Pokémon Ranger Ashlee Rematch
-2100	t	Had Sailor Marc 1st Rematch
-2101	t	Had Sailor Marc 2nd Rematch
-2102	t	Had Sailor Zachariah Rematch
-2103	t	Had Scientist Shaun 1st Rematch
-2104	t	Had Scientist Shaun 2nd Rematch
-2105	t	Had Scientist Shaun 3rd Rematch
-2106	t	Had Ninja Boy Zach 1st Rematch
-2107	t	Had Ninja Boy Zach 2nd Rematch
-2108	t	Had Ninja Boy Zach 3rd Rematch
-2109	t	Had Beauty Cyndy 1st Rematch
-2110	t	Had Beauty Cyndy 2nd Rematch
-2111	t	Had Skier Edward 1st Rematch
-2112	t	Had Skier Edward 2nd Rematch
-2113	t	Had Skier Bjorn 1st Rematch
-2114	t	Had Skier Bjorn 2nd Rematch
-2115	t	Had Skier Andrea 1st Rematch
-2116	t	Had Skier Andrea 2nd Rematch
-2117	t	Had Skier Madison 1st Rematch
-2118	t	Had Skier Madison 2nd Rematch
-2119	t	Had Swimmer Wesley Rematch
-2120	t	Had Swimmer Francisco Rematch
-2121	t	Had Swimmer Glenn Rematch
-2122	t	Had Swimmer Miranda Rematch
-2123	t	Had Swimmer Crystal Rematch
-2124	t	Had Swimmer Joanna Rematch
-2125	t	Had Youngster Tristan 1st Rematch
-2126	t	Had Youngster Tristan 2nd Rematch
-2127	t	Had Youngster Tristan 3rd Rematch
-2128	t	Had Youngster Dallas 1st Rematch
-2129	t	Had Youngster Dallas 2nd Rematch
-2130	t	Had Youngster Dallas 3rd Rematch
-2131	t	Had Tuber Jared 1st Rematch
-2132	t	Had Tuber Jared 2nd Rematch
-2133	t	Had Tuber Chelsea 1st Rematch
-2135	t	Had Tuber Chelsea 2nd Rematch
-2134	t	Had Veteran Brian 1st Rematch
-2136	t	Had Veteran Brian 2nd Rematch
-2137	t	Had Veteran Armando Rematch
-2738	t	Defeated Rival in Survival Area (Current Saturday/Sunday)
-2744	t	Defeated Leader Roark in Battleground (Today)
-2745	t	Defeated Leader Gardenia in Battleground (Today)
-2746	t	Defeated Leader Wake in Battleground (Today)
-2747	t	Defeated Leader Maylene in Battleground (Today)
-2748	t	Defeated Idol Grace in PokéCenter (Today;non-Wednesday)
-2749	t	Defeated Reporter Kinsey in PokéCenter (Today)
-2750	t	Defeated Cameraman Tevin in PokéCenter (Today)
-2751	t	Defeated Clown Lee in PokéCenter (Today)
-2752	t	Defeated Interviewers Roxy and Oli in PokéCenter (Today)
-2753	t	Defeated Poké Kid Ariel in PokéCenter (Today)
-2754	t	Defeated Guitarist Artuno in PokéCenter (Today)
-2757	t	Defeated Leader Fantina in Battleground (Today)
-2758	t	Defeated Leader Candice in Battleground (Today)
-2759	t	Defeated Leader Byron in Battleground (Today)
-2760	t	Defeated Leader Volkner in Battleground (Today)
-2761	t	Defeated Pokémon Trainer Cheryl in Battleground (Today)
-2762	t	Defeated Pokémon Trainer Riley in Battleground (Today)
-2763	t	Defeated Pokémon Trainer Marley in Battleground (Today)
-2764	t	Defeated Pokémon Trainer Buck in Battleground (Today)
-2765	t	Defeated Pokémon Trainer Mira in Battleground (Today)
+0151	g	Porygon recibido
+0305	g	Eevee recibido
+2430	*	PC de Tecla desbloqueado
+2728	r	Drifloon de los viernes desaparecido
+2722	r	Pokémon de hoy en el Jardín Trofeo
+0710	*	Habitación de Rotom desbloqueada
+0119	*	Cambiada la forma de Rotom una vez
+0699	e	Horno microondas desaparecido
+0700	e	Lavadora desaparecida
+0701	e	Frigorífico desaparecido
+0702	e	Ventilador desaparecido
+0703	e	Cortacésped desaparecido
+0133	g	Intercambio en Ciudad Pirita
+0134	g	Intercambio en Ciudad Vetusta
+0244	g	Intercambio en Ciudad Puntaneva
+0245	g	Intercambio en Ruta 226
+0325	r	Grieta de Dialga/Pakia visible 
+1051	s	Diamansfera encontrada en Monte Corona
+1053	s	Lustresfera encontrada en Monte Corona
+2507	s	Participado en las capturas del Parque Compi
+1409	t	Corredor Romén derrotado (Mañana)
+1448	t	Policía Iñaki derrotado (Noche)
+1449	t	Policía Alex derrotado (Noche)
+1450	t	Policía Ildefonso derrotado (Noche)
+1462	t	Policía Clemente derrotado (Noche)
+1490	t	Corredor Deandre derrotado (Mañana)
+1666	t	Corredor Wilson derrotado (Mañana)
+1667	t	Corredor Christian derrotado (Mañana)
+1668	t	Corredor Raúl derrotado (Mañana)
+1692	t	Policía Dani derrotado (Noche)
+1693	t	Policía Tomás derrotado (Noche)
+1987	t	1ra revancha contra Srta. Aroma Azuzena
+1988	t	2da revancha contra Srta. Aroma Azuzena
+1989	t	3ra revancha contra Srta. Aroma Azuzena
+1990	t	1ra revancha contra Artista Gil
+1991	t	2da revancha contra Artista Gil
+1992	t	3ra revancha contra Artista Gil
+1993	t	1ra revancha contra Luchadora Elena
+1994	t	2da revancha contra Luchadora Elena
+1995	t	3ra revancha contra Luchadora Elena
+1996	t	1ra revancha contra Ornitóloga Alondra
+1997	t	2da revancha contra Ornitóloga Alondra
+1998	t	Revancha contra Ornitóloga Rocío
+1999	t	1ra revancha contra Criapokémon Álvaro
+2000	t	2da revancha contra Criapokémon Álvaro
+2001	t	3ra revancha contra Criapokémon Álvaro
+2002	t	1ra revancha contra Criapokémon Jimena
+2003	t	2da revancha contra Criapokémon Jimena
+2004	t	3ra revancha contra Criapokémon Jimena
+2005	t	1ra revancha contra Campista Floriñán
+2006	t	2da revancha contra Campista Floriñán
+2007	t	3ra revancha contra Campista Floriñán
+2008	t	Revancha contra Entre. guay Lao
+2009	t	Revancha contra Entre. guay Olivia
+2010	t	Revancha contra Pokécolector Iván
+2013	t	1ra revancha contra Ciclista Joan
+2014	t	2da revancha contra Ciclista Joan
+2015	t	3ra revancha contra Ciclista Joan
+2016	t	1ra revancha contra Ciclista Amelia
+2017	t	2da revancha contra Ciclista Amelia
+2018	t	3ra revancha contra Ciclista Amelia
+2019	t	1ra revancha contra Domadragón Patrick
+2020	t	2da revancha contra Domadragón Patrick
+2021	t	Revancha contra Domadragón Dero
+2022	t	Revancha contra Domadragón Walia
+2023	t	Revancha contra Entre. guay Camilo
+2024	t	1ra revancha contra Entre. guay Bosco
+2025	t	2da revancha contra Entre. guay Bosco
+2026	t	Revancha contra Entre. guay Rodolfo
+2027	t	Revancha contra Entre. guay Cadel
+2028	t	Revancha contra Entre. guay Marian
+2029	t	1ra revancha contra Entre. guay Iziar
+2030	t	2da revancha contra Entre. guay Iziar
+2031	t	Revancha contra Entre. guay Adela
+2032	t	Revancha contra Entre. guay Nerea
+2033	t	1ra revancha contra Médium Juacu
+2034	t	2da revancha contra Médium Juacu
+2035	t	Revancha contra Médium Maxwell
+2036	t	Revancha contra Médium Adán
+2037	t	1ra revancha contra Médium Abigail
+2038	t	2da revancha contra Médium Abigail
+2039	t	Revancha contra Médium Jano
+2040	t	Revancha contra Médium Daisy
+2041	t	1ra revancha contra Rancher Marco
+2042	t	2da revancha contra Rancher Marco
+2043	t	1ra revancha contra Fisherman Joseph
+2044	t	2da revancha contra Fisherman Joseph
+2045	t	Revancha contra Fisherman Miguel
+2046	t	Revancha contra Fisherman Alec
+2047	t	1ra revancha contra Twins Teri and Tia
+2048	t	2da revancha contra Twins Teri and Tia
+2049	t	1ra revancha contra PI Carlos
+2050	t	2da revancha contra PI Carlos
+2051	t	1ra revancha contra Gentleman Jeremy
+2052	t	2da revancha contra Gentleman Jeremy
+2053	t	3ra revancha contra Gentleman Jeremy
+2054	t	Revancha contra Guitarist Tony
+2055	t	1ra revancha contra Ruin Maniac Harry
+2056	t	2da revancha contra Ruin Maniac Harry
+2057	t	1ra revancha contra Corredor Christian
+2058	t	2da revancha contra Corredor Christian
+2059	t	Revancha contra Black Belt Philip
+2060	t	Revancha contra Black Belt Davon
+2061	t	1ra revancha contra Socialite Reina
+2062	t	2da revancha contra Socialite Reina
+2063	t	1ra revancha contra Lass Samantha
+2064	t	2da revancha contra Lass Samantha
+2065	t	3ra revancha contra Lass Samantha
+2066	t	1ra revancha contra Lass Madeline
+2067	t	2da revancha contra Lass Madeline
+2068	t	3ra revancha contra Lass Madeline
+2069	t	1ra revancha contra Hiker Theodore
+2070	t	2da revancha contra Hiker Theodore
+2071	t	3ra revancha contra Hiker Theodore
+2072	t	1ra revancha contra Bug Catcher Brandon
+2073	t	2da revancha contra Bug Catcher Brandon
+2074	t	3ra revancha contra Bug Catcher Brandon
+2075	t	1ra revancha contra Parasol Lady Alexa
+2076	t	2da revancha contra Parasol Lady Alexa
+2077	t	3ra revancha contra Parasol Lady Alexa
+2078	t	1ra revancha contra Picnicker Karina
+2079	t	2da revancha contra Picnicker Karina
+2080	t	3ra revancha contra Picnicker Karina
+2081	t	1ra revancha contra Poké Kid Danielle
+2082	t	2da revancha contra Poké Kid Danielle
+2083	t	3ra revancha contra Poké Kid Danielle
+2084	t	1ra revancha contra Policía Dani
+2085	t	2da revancha contra Policía Dani
+2086	t	3ra revancha contra Policía Dani
+2087	t	1ra revancha contra Rich Boy Trey
+2088	t	2da revancha contra Rich Boy Trey
+2089	t	1ra revancha contra Lady Melissa
+2090	t	2da revancha contra Lady Melissa
+2091	t	3ra revancha contra Lady Melissa
+2092	t	1ra revancha contra Pokémon Ranger Taylor
+2093	t	2da revancha contra Pokémon Ranger Taylor
+2094	t	3ra revancha contra Pokémon Ranger Taylor
+2095	t	Revancha contra Pokémon Ranger Kyler
+2096	t	1ra revancha contra Pokémon Ranger Allison
+2097	t	2da revancha contra Pokémon Ranger Allison
+2098	t	3ra revancha contra Pokémon Ranger Allison
+2099	t	Revancha contra Pokémon Ranger Ashlee
+2100	t	1ra revancha contra Sailor Marc
+2101	t	2da revancha contra Sailor Marc
+2102	t	Revancha contra Sailor Zachariah
+2103	t	1ra revancha contra Scientist Shaun
+2104	t	2da revancha contra Scientist Shaun
+2105	t	3ra revancha contra Scientist Shaun
+2106	t	1ra revancha contra Ninja Boy Zach
+2107	t	2da revancha contra Ninja Boy Zach
+2108	t	3ra revancha contra Ninja Boy Zach
+2109	t	1ra revancha contra Beauty Cyndy
+2110	t	2da revancha contra Beauty Cyndy
+2111	t	1ra revancha contra Skier Edward
+2112	t	2da revancha contra Skier Edward
+2113	t	1ra revancha contra Skier Bjorn
+2114	t	2da revancha contra Skier Bjorn
+2115	t	1ra revancha contra Skier Andrea
+2116	t	2da revancha contra Skier Andrea
+2117	t	1ra revancha contra Skier Madison
+2118	t	2da revancha contra Skier Madison
+2119	t	Revancha contra Swimmer Wesley
+2120	t	Revancha contra Swimmer Francisco
+2121	t	Revancha contra Swimmer Glenn
+2122	t	Revancha contra Swimmer Miranda
+2123	t	Revancha contra Swimmer Crystal
+2124	t	Revancha contra Swimmer Joanna
+2125	t	1ra revancha contra Youngster Tristan
+2126	t	2da revancha contra Youngster Tristan
+2127	t	3ra revancha contra Youngster Tristan
+2128	t	1ra revancha contra Youngster Dallas
+2129	t	2da revancha contra Youngster Dallas
+2130	t	3ra revancha contra Youngster Dallas
+2131	t	1ra revancha contra Tuber Jared
+2132	t	2da revancha contra Tuber Jared
+2133	t	1ra revancha contra Tuber Chelsea
+2135	t	2da revancha contra Tuber Chelsea
+2134	t	1ra revancha contra Veteran Brian
+2136	t	2da revancha contra Veteran Brian
+2137	t	Revancha contra Veteran Armando
+2738	t	Rival derrotado en Zona Sobrevivir (Sábado/Domingo actual)
+2744	t	Líder de Gimnasio Roco derrotado en Café Revancha (Hoy)
+2745	t	Líder de Gimnasio Gardenia derrotado en Café Revancha (Hoy)
+2746	t	Líder de Gimnasio Mananti derrotado en Café Revancha (Hoy)
+2747	t	Líder de Gimnasio Brega derrotado en Café Revancha (Hoy)
+2748	t	Idol Grace derrotado en Centro Pokémon (Hoy;menos Miércoles)
+2749	t	Reporter Kinsey derrotado en Centro Pokémon (Hoy)
+2750	t	Cameraman Tevin derrotado en Centro Pokémon (Hoy)
+2751	t	Clown Lee derrotado en Centro Pokémon (Hoy)
+2752	t	Interviewers Roxy and Oli derrotado en Centro Pokémon (Hoy)
+2753	t	Poké Kid Ariel derrotado en Centro Pokémon (Hoy)
+2754	t	Guitarist Artuno derrotado en Centro Pokémon (Hoy)
+2757	t	Líder de Gimnasio Fantina derrotado en Café Revancha (Hoy)
+2758	t	Líder de Gimnasio Inverna derrotado en Café Revancha (Hoy)
+2759	t	Líder de Gimnasio Acerón derrotado en Café Revancha (Hoy)
+2760	t	Líder de Gimnasio Lectro derrotado en Café Revancha (Hoy)
+2761	t	Entrenador Cheryl derrotado en Café Revancha (Hoy)
+2762	t	Entrenador Riley derrotado en Café Revancha (Hoy)
+2763	t	Entrenador Marley derrotado en Café Revancha (Hoy)
+2764	t	Entrenador Buck derrotado en Café Revancha (Hoy)
+2765	t	Entrenador Mira derrotado en Café Revancha (Hoy)

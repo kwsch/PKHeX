@@ -1,54 +1,54 @@
 3100	*	Es Campeón de Alola + Evento de Magearna Activo
-3487	g	Recibido Magearna de Regalo
-0443	g	Received Gift Eevee Egg
-0493	g	Recibido Porygon de Regalo
-0504	g	Recibido Aerodactyl de Regalo
-1216	g	Recibido Cosmog de Regalo
-0499	g	Recibido Código Cero de Regalo
-0160	*	Moone [0] / Sunne Portal [1]
-3155	*	Desbloqueado Juez de IV
-3113	s	Received Ride Pager
-3114	s	Desbloqueado Carga Tauros
-3115	s	Desbloqueado Olfateo Stoutland
-3116	s	Desbloqueado Empuje Machamp
-3117	s	Desbloqueado Todoterreno Mudsdale
-3118	s	Desbloqueado Nado Lapras
-3119	s	Desbloqueado Propulsión Sharpedo
-3120	s	Desbloqueado Vuelo Charizard
-0168	g	Traded for Machop on Route 2
-0169	g	Traded for Bounsweet on Route 5
-0170	g	Traded for Poliwhirl in Konikoni City
-0171	g	Traded for Happiny in Malie City
-0172	g	Traded for Graveler in Tapu Village
-0173	g	Traded for Steene in Seafolk Village
-0174	g	Traded for Talonflame on Poni Gauntlet
-0789	s	Lillie Disappeared from Altar
-0790	s	Solgaleo Disappeared from Altar
-0791	s	Lunala Disappeared from Altar
-0185	s	Had First Title Defense Battle
-0186	t	Encountered Hapu (Title Defense)
-2435	t	Defeated Hapu (Title Defense)
-0187	t	Encountered Gladion (Title Defense)
-2493	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
-2494	t	Defeated Gladion (Title Defense;Litten is Player Starter)
-2495	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
-0188	t	Encountered Ryuki (Title Defense)
-2485	t	Defeated Ryuki (Title Defense)
-0189	t	Encountered Faba (Title Defense)
-2436	t	Defeated Faba (Title Defense)
-0190	t	Encountered Hau (Title Defense)
-2432	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
-2433	t	Defeated Hau (Title Defense;Litten is Player Starter)
-2434	t	Defeated Hau (Title Defense;Popplio is Player Starter)
-0191	t	Encountered Sophocles (Title Defense)
-2481	t	Defeated Sophocles (Title Defense)
-0192	t	Encountered Molayne (Title Defense)
-2557	t	Defeated Molayne (Title Defense)
-0193	t	Encountered Kukui (Title Defense)
-2553	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
-2554	t	Defeated Kukui (Title Defense;Litten is Player Starter)
-2555	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
-0194	t	Encountered Plumeria (Title Defense)
-2477	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Youngster Tristan (Title Defense)
-2556	t	Defeated Youngster Tristan (Title Defense)
+3487	g	Magearna de Regalo recibido
+0443	g	Huevo de Eeeve de Regalo recibido
+0493	g	Porygon de Regalo recibido
+0504	g	Aerodactyl de Regalo recibido
+1216	g	Cosmog de Regalo recibido
+0499	g	Código Cero de Regalo recibido
+0160	*	Portal Luna [0] / Sol [1]
+3155	*	Juez de IV desbloqueado
+3113	s	Buscamontura recibida
+3114	s	Carga Tauros desbloqueada
+3115	s	Olfateo Stoutland desbloqueado
+3116	s	Empuje Machamp desbloqueado
+3117	s	Todoterreno Mudsdale desbloqueado
+3118	s	Nado Lapras desbloqueado
+3119	s	Propulsión Sharpedo desbloqueada
+3120	s	Vuelo Charizard desbloqueado
+0168	g	Intercambio por Machop en la Ruta 2
+0169	g	Intercambio por Bounsweet en la Ruta 5
+0170	g	Intercambio por Poliwhirl en Ciudad Konikoni
+0171	g	Intercambio por Happiny en Ciudad Malíe
+0172	g	Intercambio por Graveler en Aldea Tapu
+0173	g	Intercambio por Steene en Aldea Marina
+0174	g	Intercambio por Talonflame en Pendiente de Poni
+0789	s	Lylia desaparecida del Altar
+0790	s	Solgaleo desaparecido del Altar
+0791	s	Lunala desaparecido del Altar
+0185	s	Primera batalla por la Defensa del Título realizada
+0186	t	Hela encontrada (Defensa del Título)
+2435	t	Hela derrotada (Defensa del Título)
+0187	t	Gladio encontrado (Defensa del Título)
+2493	t	Gladio derrotado (Defensa del Título;Rowlet como Pokémon inicial)
+2494	t	Gladio derrotado (Defensa del Título;Litten como Pokémon inicial)
+2495	t	Gladio derrotado (Defensa del Título;Popplio como Pokémon inicial)
+0188	t	Olano encontrado (Defensa del Título)
+2485	t	Olano derrotado (Defensa del Título)
+0189	t	Fabio encontrado (Defensa del Título)
+2436	t	Fabio derrotado (Defensa del Título)
+0190	t	Tilo encontrado (Defensa del Título)
+2432	t	Tilo derrotado (Defensa del Título;Rowlet como Pokémon inicial)
+2433	t	Tilo derrotado (Defensa del Título;Litten como Pokémon inicial)
+2434	t	Tilo derrotado (Defensa del Título;Popplio como Pokémon inicial)
+0191	t	Chris encontrado (Defensa del Título)
+2481	t	Chris derrotado (Defensa del Título)
+0192	t	Lario encontrado (Defensa del Título)
+2557	t	Lario derrotado (Defensa del Título)
+0193	t	Kukui encontrado (Defensa del Título)
+2553	t	Kukui derrotado (Defensa del Título;Rowlet como Pokémon inicial)
+2554	t	Kukui derrotado (Defensa del Título;Litten como Pokémon inicial)
+2555	t	Kukui derrotado (Defensa del Título;Popplio como Pokémon inicial)
+0194	t	Francine encontrada (Defensa del Título)
+2477	t	Francine derrotada (Defensa del Título)
+0195	t	Joven José encontrado (Defensa del Título)
+2556	t	Joven José derrotado (Defensa del Título)

@@ -1,44 +1,44 @@
-0802	r	Cobalion Desaparecido
+0802	r	Cobalion desaparecido
 0302	r	Cobalion (Revancha, Nivel +20)
-0810	r	Terrakion Desaparecido
+0810	r	Terrakion desaparecido
 0329	r	Terrakion (Revancha, Nivel +20)
-0801	r	Virizion Desaparecido
+0801	r	Virizion desaparecido
 0300	r	Virizion (Revancha, Nivel +20)
-0928	r	Volcarona Disappeared
-0403	r	Volcarona Captured (Level 35/65)
-0404	r	Volcarona Defeated (Level 35)
-0667	r	Reshiram/Zekrom Desaparecido
-1004	r	Kyurem Desaparecido
-0922	r	Regirock Desaparecido
-0921	r	Regice Desaparecido
-0923	r	Registeel Desaparecido
-0918	r	Uxie Desaparecido
-0919	r	Mesprit Desaparecido
-0920	r	Azelf Desaparecido
-0900	r	Heatran Desaparecido
-0924	r	Regigigas Desaparecido
-0897	r	Cresselia Desaparecida
-0106	*	Funcionalidad de Intercambio Habilitada (Centro Pokémon)
+0928	r	Volcarona desaparecido
+0403	r	Volcarona capturado (Nivel 35/65)
+0404	r	Volcarona derrotado (Nivel 35)
+0667	r	Reshiram/Zekrom desaparecido
+1004	r	Kyurem desaparecido
+0922	r	Regirock desaparecido
+0921	r	Regice desaparecido
+0923	r	Registeel desaparecido
+0918	r	Uxie desaparecido
+0919	r	Mesprit desaparecido
+0920	r	Azelf desaparecido
+0900	r	Heatran desaparecido
+0924	r	Regigigas desaparecido
+0897	r	Cresselia desaparecida
+0106	*	Funcionalidad de intercambio habilitada (Centro Pokémon)
 2403	*	Tiene las Deportivas
-2400	s	Entered Hall of Fame
-0250	g	Purchased Magikarp
-0256	g	Traded for Gigalith on Route 7
-0259	g	Traded for Rotom on Route 15
-0289	g	Received N's Zorua
-0394	g	Received Eevee Gift
-0405	g	Traded for Tangrowth in Humilau City
-0412	g	Traded for Petilil/Cottonee on Route 4
-0426	g	Received Deerling Gift
-0431	g	Traded for Ambipom in Accumula Town
-0432	g	Traded for Alakazam in Accumula Town
-0433	g	Battled Lass Diana 1st Time (Can Trade for Alakazam)
-0434	s	Battled Lass Diana 2nd Time
-0437	g	Received Happiny Egg Gift
-0445	g	Chose Cover/Plume Fossil from Lenora
-0946	r	Shiny Haxorus in Nature Preserve disappeared
-0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
-2744	s	Rode Royal Unova (Today)
-2747	s	Received a Fossil from Twist Mountain Worker (Today)
-2774	r	Weekly Mandibuzz/Braviary on Route 4 disappeared
-2775	r	Weekly Jellicent in Undella Bay disappeared
-2442	r	N's Pokémon in the Wild
+2400	s	Entrado en el Hall de la Fama
+0250	g	Magikarp comprado
+0256	g	Intercambio por Gigalith en Ruta 7
+0259	g	Intercambio por Rotom en Ruta 15
+0289	g	Zorua de N recibido
+0394	g	Eevee de regalo recibido
+0405	g	Intercambio por Tangrowth in Humilau City
+0412	g	Intercambio por Petilil/Cottonee on Ruta 4
+0426	g	Deerling de regalo recibido
+0431	g	Intercambio por Ambipom in Pueblo Terracota
+0432	g	Intercambio por Alakazam in Pueblo Terracota
+0433	g	Luchado con Chica Corina por primera vez (Puede intercambiar por Alakazam)
+0434	s	Luchado con Chica Corina por segunda vez
+0437	g	Huevo Happiny de regalo recibido
+0445	g	Elegido el Fósil Tapa/Pluma de Aloe
+0946	r	Haxorus variocolor en la Reserva Natural desaparecido
+0996	g	Guayo con el Gible/Dratini variocolor de regalo desaparecido de la casa de Mirto
+2744	s	Embarcado en el Real Teselia (hoy)
+2747	s	Fósil recibido de Operario del Monte Tuerca (hoy)
+2774	r	Mandibuzz/Braviary semanal en Ruta 4 desaparecido
+2775	r	Jellicent semanal en Bahía Arenisca desaparecido
+2442	r	Los Pokémon de N se encuentran salvajes
