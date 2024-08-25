@@ -690,9 +690,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             var form = WinFormsUtil.FirstFormOfType<SAV_GroupViewer>();
             if (form != null)
+            {
                 form.CenterToForm(ParentForm);
+            }
             else
-                form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g) { TopMost = true };
+            {
+                form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g);
+                form.Owner = ParentForm;
+            }
             form.BringToFront();
             form.Show();
         }
