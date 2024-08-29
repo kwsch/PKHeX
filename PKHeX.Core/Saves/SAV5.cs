@@ -136,38 +136,31 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
 
     private static ReadOnlySpan<byte> DLCFooter => [ 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 ];
 
-    public byte[] CGearSkinData
+    public Memory<byte> CGearSkinData => Data.AsMemory(CGearDataOffset, CGearBackground.SIZE);
+
+    public void SetCGearSkin(ReadOnlySpan<byte> value)
     {
-        get
-        {
-            if (CGearSkinPresent)
-                return Data.AsSpan(CGearDataOffset, CGearBackground.SIZE_CGB).ToArray();
-            return new byte[CGearBackground.SIZE_CGB];
-        }
-        set
-        {
-            SetData(value, CGearDataOffset);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, CGearBackground.SIZE);
+        SetData(value, CGearDataOffset);
 
-            ushort chk = Checksums.CRC16_CCITT(value);
-            var footer = Data.AsSpan(CGearDataOffset + value.Length);
+        ushort chk = Checksums.CRC16_CCITT(value);
+        var footer = Data.AsSpan(CGearDataOffset + value.Length);
 
-            WriteUInt16LittleEndian(footer, 1); // block updated once
-            WriteUInt16LittleEndian(footer[2..], chk); // checksum
-            WriteUInt16LittleEndian(footer[0x100..], chk);  // second checksum
+        WriteUInt16LittleEndian(footer, 1); // block updated once
+        WriteUInt16LittleEndian(footer[2..], chk); // checksum
+        WriteUInt16LittleEndian(footer[0x100..], chk);  // second checksum
 
-            DLCFooter.CopyTo(footer[0x102..]);
+        DLCFooter.CopyTo(footer[0x102..]);
 
-            ushort skinchkval = Checksums.CRC16_CCITT(footer[0x100..0x104]);
-            WriteUInt16LittleEndian(footer[0x112..], skinchkval);
+        ushort skinchkval = Checksums.CRC16_CCITT(footer[0x100..0x104]);
+        WriteUInt16LittleEndian(footer[0x112..], skinchkval);
 
-            // Indicate in the save file that data is present
-            WriteUInt16LittleEndian(Data.AsSpan(0x19438), 0xC21E);
+        // Indicate in the save file that data is present
+        WriteUInt16LittleEndian(Data.AsSpan(0x19438), 0xC21E);
 
-            WriteUInt16LittleEndian(Data.AsSpan(CGearSkinInfoOffset), chk);
-            CGearSkinPresent = true;
-
-            State.Edited = true;
-        }
+        WriteUInt16LittleEndian(Data.AsSpan(CGearSkinInfoOffset), chk);
+        CGearSkinPresent = true;
+        State.Edited = true;
     }
 
     public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
