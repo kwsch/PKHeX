@@ -260,6 +260,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public override byte Gender { get => Data[0xAF8]; set => Data[0xAF8] = value; }
     public override uint Money { get => ReadUInt32BigEndian(Data[0xAFC..]); set => WriteUInt32BigEndian(Data[0xAFC..], value); }
     public uint Coupons { get => ReadUInt32BigEndian(Data[0xB00..]); set => WriteUInt32BigEndian(Data[0xB00..], value); }
+    public uint CouponsTotal { get => ReadUInt32BigEndian(Data[0xB04..]); set => WriteUInt32BigEndian(Data[0xB04..], value); }
     public string RUI_Name { get => GetString(Data.Slice(0xB3A, 20)); set => SetString(Data.Slice(0xB3A, 20), value, 10, StringConverterOption.ClearZero); }
 
     public override IReadOnlyList<InventoryPouch> Inventory
@@ -293,6 +294,23 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public uint GetDaycareEXP(int index) => ReadUInt32BigEndian(Data[(DaycareOffset + 4)..]);
     public void SetDaycareEXP(int index, uint value) => WriteUInt32BigEndian(Data[(DaycareOffset + 4)..], value);
     public Memory<byte> GetDaycareSlot(int slot) => Raw.Slice(DaycareOffset + 8, PokeCrypto.SIZE_3CSTORED);
+
+    // Japanese Bonus Disc Gift Flags
+    /// <summary> Received Master Ball from JP Colosseum Bonus Disc; for reaching 30,000 <see cref="CouponsTotal"/> </summary>
+    public bool PokeCouponTitleGold { get => GetFlag(Data, 0x1C118, 0); set => SetFlag(Data, 0x1C118, 0, value); }
+
+    /// <summary> Received Light Ball Pikachu from JP Colosseum Bonus Disc; for reaching 5,000 <see cref="CouponsTotal"/> </summary>
+    public bool PokeCouponTitleSilver { get => GetFlag(Data, 0x1C118, 1); set => SetFlag(Data, 0x1C118, 1, value); }
+
+    /// <summary> Received PP Max from JP Colosseum Bonus Disc; for reaching 2,500 <see cref="CouponsTotal"/> </summary>
+    public bool PokeCouponTitleBronze { get => GetFlag(Data, 0x1C118, 2); set => SetFlag(Data, 0x1C118, 2, value); }
+
+    /// <summary> Used by the JP Colosseum Bonus Disc. Records how many Celebi have been sent to a GBA game. </summary>
+    /// <remarks> Celebi cannot be sent using this save if this value >= 48. </remarks>
+    public byte ReceivedAgetoGBA { get => Data[0x1C119]; set => Data[0x1C119] = value; }
+
+    /// <summary> Received Celebi Gift from JP Colosseum Bonus Disc </summary>
+    public bool ReceivedAgeto { get => GetFlag(Data, 0x1C11A, 7); set => SetFlag(Data, 0x1C11A, 7, value); }
 
     public override string GetString(ReadOnlySpan<byte> data)
         => StringConverter3GC.GetString(data);
