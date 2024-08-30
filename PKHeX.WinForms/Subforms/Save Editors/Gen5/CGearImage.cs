@@ -28,7 +28,7 @@ public static class CGearImage
     /// Converts a <see cref="Bitmap"/> to a <see cref="CGearBackground"/>.
     /// </summary>
     /// <exception cref="ArgumentException"></exception>
-    public static CGearBackground GetCGearBackground(Bitmap img)
+    public static TiledImageStat GetCGearBackground(Bitmap img, CGearBackground bg)
     {
         ArgumentOutOfRangeException.ThrowIfNotEqual(img.Width, Width);
         ArgumentOutOfRangeException.ThrowIfNotEqual(img.Height, Height);
@@ -39,6 +39,6 @@ public static class CGearImage
         const int bpp = 4;
         Debug.Assert(data.Length == Width * Height * bpp);
 
-        return CGearBackground.GetBackground(data);
+        return bg.SetImageData(data);
     }
 }
