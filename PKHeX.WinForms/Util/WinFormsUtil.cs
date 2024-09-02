@@ -2,10 +2,12 @@ using PKHeX.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 using static PKHeX.Core.MessageStrings;
@@ -440,4 +442,45 @@ public static class WinFormsUtil
     };
 
     private const string all = "|All Files|*.*";
+
+    /// <summary>
+    /// Gets the language code for a supported <see cref="GameLanguage"/> based on the current UI culture.
+    /// </summary>
+    /// <remarks>
+    /// Initially, CurrentUICulture is set based on the user's language preferences in Windows.
+    /// Once <see cref="SetCultureLanguage"/> is called, it becomes the current display language instead.
+    /// </remarks>
+    /// <returns>A supported language code.</returns>
+    public static string GetCultureLanguage()
+    {
+        var ci = Thread.CurrentThread.CurrentUICulture;
+        var name = ci.Name;
+        var code = ci.TwoLetterISOLanguageName;
+        return code switch
+        {
+            // For languages with multiple supported variants, map the language tag to one of the supported ones
+            // https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
+            "zh" => name switch
+            {
+                "zh-Hant" or "zh-HK" or "zh-MO" or "zh-TW"   => "zh-Hant", // Traditional Chinese (Hong Kong/Macau/Taiwan)
+                "zh-Hans" or "zh-CN" or "zh-SG" or "zh" or _ => "zh-Hans", // Simplified Chinese (China/Singapore)
+            },
+
+            // Use this language code if we support it, otherwise default to English
+            _ => GameLanguage.IsLanguageValid(code) ? code : GameLanguage.DefaultLanguage,
+        };
+    }
+
+    /// <summary>
+    /// Sets the culture.
+    /// </summary>
+    /// <param name="lang">Language code</param>
+    /// <remarks>
+    /// Makes it easy to pass language to other forms.
+    /// </remarks>
+    public static void SetCultureLanguage(string lang)
+    {
+        var ci = new CultureInfo(lang);
+        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = ci;
+    }
 }

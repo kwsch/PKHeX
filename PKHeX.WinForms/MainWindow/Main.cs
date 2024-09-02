@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -1000,11 +999,9 @@ public partial class Main : Form
         if ((uint)index < CB_MainLanguage.Items.Count)
             CurrentLanguage = GameLanguage.LanguageCode(index);
 
-        // Set the culture (makes it easy to pass language to other forms)
         var lang = CurrentLanguage;
         Settings.Startup.Language = lang;
-        var ci = new CultureInfo(lang[..2]);
-        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = ci;
+        WinFormsUtil.SetCultureLanguage(lang);
 
         Menu_Options.DropDown.Close();
 
