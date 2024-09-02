@@ -157,7 +157,7 @@ public sealed class StartupSettings : IStartupSettings
 
     // Don't let invalid values slip into the startup version.
     private GameVersion _defaultSaveVersion = PKX.Version;
-    private string _language = GameLanguage.DefaultLanguage;
+    private string _language = WinFormsUtil.GetCultureLanguage();
 
     [Browsable(false)]
     public string Language
