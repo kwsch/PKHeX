@@ -115,7 +115,7 @@ public static partial class Util
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <param name="zh2">String to use for the second Chinese localization.</param>
-    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string zh2 = "zh") =>
+    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string zh2 = "zh-Hant") =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -126,7 +126,7 @@ public static partial class Util
         [], // 6 - None
         GetStringList(fileName, "es"), // 7
         GetStringList(fileName, "ko"), // 8
-        GetStringList(fileName, "zh"), // 9
+        GetStringList(fileName, "zh-Hans"), // 9
         GetStringList(fileName, zh2), // 10
     ];
 

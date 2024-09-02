@@ -75,8 +75,8 @@ public static class Language
         German => "de",
         Spanish => "es",
         Korean => "ko",
-        ChineseS => "zh",
-        ChineseT => "zh2",
+        ChineseS => "zh-Hans",
+        ChineseT => "zh-Hant",
         _ => GameLanguage.DefaultLanguage,
     };
 

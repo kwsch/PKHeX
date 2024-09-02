@@ -936,9 +936,9 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_HallOfFame7=名人堂
         ///SAV [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string lang_zh {
+        public static string lang_zh_Hans {
             get {
-                return ResourceManager.GetString("lang_zh", resourceCulture);
+                return ResourceManager.GetString("lang_zh-Hans", resourceCulture);
             }
         }
         
@@ -971,9 +971,9 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_HallOfFame7=名人堂
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string lang_zh2 {
+        public static string lang_zh_Hant {
             get {
-                return ResourceManager.GetString("lang_zh2", resourceCulture);
+                return ResourceManager.GetString("lang_zh-Hant", resourceCulture);
             }
         }
         

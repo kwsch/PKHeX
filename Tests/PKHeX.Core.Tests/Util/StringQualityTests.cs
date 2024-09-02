@@ -15,8 +15,8 @@ public class StringQualityTests
     [InlineData("fr")]
     [InlineData("es")]
     [InlineData("ko")]
-    [InlineData("zh")]
-    [InlineData("zh2")]
+    [InlineData("zh-Hans")]
+    [InlineData("zh-Hant")]
     public void HasNoDuplicates(string language)
     {
         CheckMetLocations(language);

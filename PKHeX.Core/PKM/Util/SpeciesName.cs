@@ -24,8 +24,8 @@ public static class SpeciesName
         Util.GetSpeciesList("es"), // 6 (reserved for Gen3 KO?, unused)
         Util.GetSpeciesList("es"), // 7
         Util.GetSpeciesList("ko"), // 8
-        Util.GetSpeciesList("zh"), // 9 Simplified
-        Util.GetSpeciesList("zh2"), // 10 Traditional
+        Util.GetSpeciesList("zh-Hans"), // 9 Simplified
+        Util.GetSpeciesList("zh-Hant"), // 10 Traditional
     ];
 
     /// <summary>

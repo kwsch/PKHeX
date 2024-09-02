@@ -29,7 +29,7 @@ public static class GameLanguage
     /// Language codes supported for loading string resources
     /// </summary>
     /// <see cref="ProgramLanguage"/>
-    private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2"];
+    private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant"];
 
     /// <summary>
     /// Pokétransporter location names, ordered per index of <see cref="LanguageCodes"/>
