@@ -25,6 +25,13 @@ public static class GameLanguage
     }
 
     /// <summary>
+    /// Checks whether the language code is supported.
+    /// </summary>
+    /// <param name="lang">Language code</param>
+    /// <returns>True if valid, False otherwise</returns>
+    public static bool IsLanguageValid(string lang) => Array.IndexOf(LanguageCodes, lang) != -1;
+
+    /// <summary>
     /// Language codes supported for loading string resources
     /// </summary>
     /// <see cref="ProgramLanguage"/>
