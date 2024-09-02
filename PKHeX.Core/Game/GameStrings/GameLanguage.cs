@@ -10,14 +10,13 @@ public static class GameLanguage
 {
     public const string DefaultLanguage = "en"; // English
     public static int DefaultLanguageIndex => Array.IndexOf(LanguageCodes, DefaultLanguage);
-    public static string Language2Char(int lang) => (uint)lang >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
-
+    public static string LanguageCode(int lang) => (uint)lang >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
     public static int LanguageCount => LanguageCodes.Length;
 
     /// <summary>
-    /// Gets the language from the requested 2-char <see cref="lang"/> code.
+    /// Gets the language from the requested language code.
     /// </summary>
-    /// <param name="lang">2 character language code</param>
+    /// <param name="lang">Language code</param>
     /// <returns>Index of the language code; if not a valid language code, returns the <see cref="DefaultLanguageIndex"/>.</returns>
     public static int GetLanguageIndex(string lang)
     {

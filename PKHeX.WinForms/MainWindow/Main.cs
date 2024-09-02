@@ -998,7 +998,7 @@ public partial class Main : Form
     {
         var index = CB_MainLanguage.SelectedIndex;
         if ((uint)index < CB_MainLanguage.Items.Count)
-            CurrentLanguage = GameLanguage.Language2Char(index);
+            CurrentLanguage = GameLanguage.LanguageCode(index);
 
         // Set the culture (makes it easy to pass language to other forms)
         var lang = CurrentLanguage;
