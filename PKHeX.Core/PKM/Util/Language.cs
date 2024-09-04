@@ -63,11 +63,11 @@ public static class Language
     };
 
     /// <summary>
-    /// Gets the 2-character language name for the given <see cref="LanguageID"/>.
+    /// Gets the language code for the given <see cref="LanguageID"/>.
     /// </summary>
-    /// <param name="language">Language ID to get the 2-character name for.</param>
-    /// <returns>2-character language name.</returns>
-    public static string GetLanguage2CharName(this LanguageID language) => language switch
+    /// <param name="language">Language ID to get the language code for.</param>
+    /// <returns>Language code.</returns>
+    public static string GetLanguageCode(this LanguageID language) => language switch
     {
         Japanese => "ja",
         French => "fr",
@@ -75,8 +75,8 @@ public static class Language
         German => "de",
         Spanish => "es",
         Korean => "ko",
-        ChineseS => "zh",
-        ChineseT => "zh2",
+        ChineseS => "zh-Hans",
+        ChineseT => "zh-Hant",
         _ => GameLanguage.DefaultLanguage,
     };
 

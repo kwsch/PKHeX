@@ -22,7 +22,7 @@ public static class GameInfo
 
     public static GameStrings GetStrings(int index)
     {
-        return Languages[index] ??= new GameStrings(GameLanguage.Language2Char(index));
+        return Languages[index] ??= new GameStrings(GameLanguage.LanguageCode(index));
     }
 
     public static GameStrings Strings

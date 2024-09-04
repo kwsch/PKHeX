@@ -24,8 +24,8 @@ public static class SpeciesName
         Util.GetSpeciesList("es"), // 6 (reserved for Gen3 KO?, unused)
         Util.GetSpeciesList("es"), // 7
         Util.GetSpeciesList("ko"), // 8
-        Util.GetSpeciesList("zh"), // 9 Simplified
-        Util.GetSpeciesList("zh2"), // 10 Traditional
+        Util.GetSpeciesList("zh-Hans"), // 9 Simplified
+        Util.GetSpeciesList("zh-Hant"), // 10 Traditional
     ];
 
     /// <summary>
@@ -221,7 +221,7 @@ public static class SpeciesName
     /// For a Gen7 species name request, return the old species name (hardcoded... yay).
     /// In an updated Gen8 game, the species nickname will automatically reset to the correct localization (on save/load ?), fixing existing entries.
     /// We don't differentiate patch revisions, just generation; Gen8 will return the latest localization.
-    /// Gen8 did revise CHT species names, but only for Barraskewda, Urshifu, and Zarude. These species are new (Gen8); we can just use the latest.
+    /// Gen8 did revise CHS species names, but only for Barraskewda, Urshifu, and Zarude. These species are new (Gen8); we can just use the latest.
     /// </remarks>
     private static string GetSpeciesName7ZH(ushort species, int language) => species switch
     {

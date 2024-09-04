@@ -16,7 +16,7 @@ public static class DevUtil
         t.DropDownItems.Add(GetTranslationUpdater());
     }
 
-    private static readonly string[] Languages = ["ja", "fr", "it", "de", "es", "ko", "zh", "zh2"];
+    private static readonly string[] Languages = ["ja", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant"];
     private static string DefaultLanguage => Main.CurrentLanguage;
 
     public static bool IsUpdatingTranslations { get; private set; }

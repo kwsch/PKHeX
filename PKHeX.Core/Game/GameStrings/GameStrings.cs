@@ -715,7 +715,7 @@ public sealed class GameStrings : IBasicStrings
         // in Generation 9, TM #'s are padded to 3 digits; format them appropriately here
         var clone = (string[])itemlist.Clone();
         var span = clone.AsSpan();
-        var zero = lang is "ja" or "zh" or "zh2" ? "０" : "0";
+        var zero = lang is "ja" or "zh-Hans" or "zh-Hant" ? "０" : "0";
         InsertZero(span[328..420], zero); // 01-92
         InsertZero(span[618..621], zero); // 93-95
         InsertZero(span[690..694], zero); // 96-99

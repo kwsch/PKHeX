@@ -9,7 +9,7 @@ public sealed partial class ErrorWindow : Form
 {
     public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
     {
-        string lang = GetDisplayLanguage();
+        string lang = WinFormsUtil.GetCultureLanguage();
         using var dialog = new ErrorWindow(lang);
         dialog.LoadException(ex, friendlyMessage, allowContinue);
         var dialogResult = dialog.ShowDialog();
@@ -18,16 +18,10 @@ public sealed partial class ErrorWindow : Form
         return dialogResult;
     }
 
-    private static string GetDisplayLanguage()
-    {
-        try { return Main.CurrentLanguage; }
-        catch { return System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName; }
-    }
-
     public ErrorWindow(string? lang = GameLanguage.DefaultLanguage)
     {
         InitializeComponent();
-        WinFormsUtil.TranslateInterface(this, lang ?? GetDisplayLanguage());
+        WinFormsUtil.TranslateInterface(this, lang ?? WinFormsUtil.GetCultureLanguage());
     }
 
     /// <summary>
