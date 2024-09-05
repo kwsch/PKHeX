@@ -126,6 +126,11 @@ public sealed class PIDVerifier : Verifier
         // Gen3-5 => Gen6 have PID==EC with an edge case exception.
         if (Info.Generation is 3 or 4 or 5)
         {
+            if (Info.Generation is 3 or 4 && Info.EncounterMatch is EncounterEgg egg && Breeding.IsGenderSpeciesDetermination(egg.Species))
+            {
+                if (!Breeding.IsValidSpeciesBit34(pk.EncryptionConstant, pk.Gender))
+                    data.AddLine(GetInvalid(LPIDGenderMismatch, CheckIdentifier.EC));
+            }
             VerifyTransferEC(data);
             return;
         }

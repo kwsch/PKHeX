@@ -134,6 +134,15 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
             pk.SetPIDGender(gender);
             pk.Gender = gender;
             pk.SetPIDNature(nature);
+            if (pk.Format is 3 or 4 && Breeding.IsGenderSpeciesDetermination(pk.Species))
+            {
+                while (!Breeding.IsValidSpeciesBit34(pk.EncryptionConstant, gender))
+                {
+                    // Try again.
+                    pk.SetPIDGender(gender);
+                    pk.SetPIDNature(nature);
+                }
+            }
             pk.Nature = nature;
             pk.RefreshAbility(pk.PIDAbility);
         }
