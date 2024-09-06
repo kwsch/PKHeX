@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// String Buffer pre-formatting option
@@ -19,4 +19,11 @@ public enum StringConverterOption
 
     /// <summary> Fills the entire buffer with 0xFF; used by Generation 3-5 which use 0xFF/0xFFFF as their terminator. </summary>
     ClearFF,
+
+    /// <summary> Sets the final character of the buffer to the string terminator even if the buffer is not full. </summary>
+    /// <remarks>
+    /// Used by Generation 5 to ensure the string is null terminated.
+    /// Behaves the same as <see cref="ClearZero"/> by clearing the buffer first, along with this additional step.
+    /// </remarks>
+    ClearZeroSafeTerminate,
 }
