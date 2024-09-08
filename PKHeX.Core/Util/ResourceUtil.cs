@@ -114,8 +114,8 @@ public static partial class Util
     /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Chinese.
     /// </summary>
     /// <param name="fileName">Base file name</param>
-    /// <param name="zh2">String to use for the second Chinese localization.</param>
-    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string zh2 = "zh") =>
+    /// <param name="zh">Language code to use for both Chinese localizations.</param>
+    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string? zh = null) =>
     [
         [], // 0 - None
         GetStringList(fileName, "ja"), // 1
@@ -126,8 +126,8 @@ public static partial class Util
         [], // 6 - None
         GetStringList(fileName, "es"), // 7
         GetStringList(fileName, "ko"), // 8
-        GetStringList(fileName, "zh"), // 9
-        GetStringList(fileName, zh2), // 10
+        GetStringList(fileName, zh ?? "zh-Hans"), // 9
+        GetStringList(fileName, zh ?? "zh-Hant"), // 10
     ];
 
     #endregion

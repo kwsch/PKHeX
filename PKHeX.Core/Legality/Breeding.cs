@@ -18,10 +18,32 @@ public static class Breeding
         (int)Volbeat => true,
         (int)Illumise => true,
 
-        (int)Indeedee => true, // male/female
+        (int)Indeedee => true, // male/female form
 
         _ => false,
     };
+
+    /// <summary>
+    /// Species that are determined when the egg is received.
+    /// </summary>
+    public static bool IsGenderSpeciesDetermination(ushort species) => species switch
+    {
+        (int)NidoranF => true,
+        (int)NidoranM => true,
+
+        (int)Volbeat => true,
+        (int)Illumise => true,
+
+        _ => false,
+    };
+
+    /// <summary>
+    /// Checks if the species <see cref="ec"/> is valid for the <see cref="gender"/> if originated from Gen3/4 daycare eggs.
+    /// </summary>
+    /// <param name="ec">Encryption Constant</param>
+    /// <param name="gender">Gender</param>
+    /// <returns>True if valid</returns>
+    public static bool IsValidSpeciesBit34(uint ec, byte gender) => gender != (ec & 0x8000) >> 15; // 1 = Male, 0 = Female, valid if different from Gender value.
 
     /// <summary>
     /// Checks if the <see cref="species"/> can be born with inherited moves from the parents.

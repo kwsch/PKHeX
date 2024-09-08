@@ -93,7 +93,7 @@ internal static class Encounters8b
     ];
 
     private const string tradeBDSP = "tradebdsp";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeBDSP, "zh2");
+    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeBDSP);
 
     internal static readonly EncounterTrade8b[] TradeGift_BDSP =
     [

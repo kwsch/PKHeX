@@ -51,7 +51,7 @@ public static class StringConverter5
         if (value.Length > maxLength)
             value = value[..maxLength]; // Hard cap
 
-        if (option is StringConverterOption.ClearZero)
+        if (option is StringConverterOption.ClearZero or StringConverterOption.ClearZeroSafeTerminate)
             destBuffer.Clear();
         else if (option is StringConverterOption.ClearFF)
             destBuffer.Fill(0xFF);
@@ -69,6 +69,9 @@ public static class StringConverter5
         if (count == destBuffer.Length)
             return count;
         WriteUInt16LittleEndian(destBuffer[count..], Terminator);
+
+        if (option is StringConverterOption.ClearZeroSafeTerminate)
+            WriteUInt16LittleEndian(destBuffer[^2..], Terminator);
         return count + 2;
     }
 }

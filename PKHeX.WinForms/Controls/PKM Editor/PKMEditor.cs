@@ -2232,7 +2232,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var context = Entity.Context;
         var langPk = (LanguageID)WinFormsUtil.GetIndex(CB_Language);
         var langSav = (LanguageID)RequestSaveFile.Language;
-        BTN_NicknameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, context, langPk, langSav);
+
+        // Gen 7 unnicknamed Chinese Pokémon will always be valid after remapping
+        var isUnnicknamedChinese = Entity is PK7 && (SpeciesName.GetSpeciesNameLanguage(Entity.Species, (int)langPk, TB_Nickname.Text, 7) is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT);
+
+        BTN_NicknameWarn.Visible = !isUnnicknamedChinese && StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, context, langPk, langSav);
         BTN_OTNameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_OT.Text, context, langPk, langSav);
 
         static bool IsFontDocumented(PKM pk)

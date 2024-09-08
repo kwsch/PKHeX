@@ -758,7 +758,7 @@ internal static class Encounters8
     ];
 
     private const string tradeSWSH = "tradeswsh";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSWSH, "zh2");
+    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSWSH);
     private static readonly string[] TradeOT_R1 = [string.Empty, "チホコ", "Regina", "Régiona", "Regionalia", "Regine", string.Empty, "Tatiana", "지민", "易蒂", "易蒂"];
     private static readonly IndividualValueSet TradeIVs = new(15, 15, 15, 15, 15, 15);
 

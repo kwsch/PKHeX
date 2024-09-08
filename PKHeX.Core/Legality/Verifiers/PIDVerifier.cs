@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -25,8 +26,32 @@ public sealed class PIDVerifier : Verifier
             data.AddLine(Get(LPIDZero, Severity.Fishy));
         if (!pk.Nature.IsFixed()) // out of range
             data.AddLine(GetInvalid(LPIDNatureMismatch));
+        if (data.Info.EncounterMatch is EncounterEgg egg)
+            VerifyEggPID(data, pk, egg);
 
         VerifyShiny(data);
+    }
+
+    private static void VerifyEggPID(LegalityAnalysis data, PKM pk, EncounterEgg egg)
+    {
+        if (egg.Generation is 4 && pk.EncryptionConstant == 0)
+        {
+            // Gen4 Eggs are "egg available" based on the stored PID value in the save file.
+            // If this value is 0 or is generated as 0 (possible), the game will see "false" and no egg is available.
+            // Only a non-zero value is possible to obtain.
+            data.AddLine(GetInvalid(LPIDEncryptZero, CheckIdentifier.EC));
+            return;
+        }
+
+        if (egg.Generation is 3 or 4 && Breeding.IsGenderSpeciesDetermination(egg.Species))
+        {
+            var gender = pk.Gender;
+            if (!Breeding.IsValidSpeciesBit34(pk.EncryptionConstant, gender)) // 50/50 chance!
+            {
+                if (gender == 1 || IsEggBitRequiredMale34(data.Info.Moves))
+                    data.AddLine(GetInvalid(LPIDGenderMismatch, CheckIdentifier.EC));
+            }
+        }
     }
 
     private void VerifyShiny(LegalityAnalysis data)
@@ -208,5 +233,20 @@ public sealed class PIDVerifier : Verifier
         bool xorPID = (xor & 0xFFF8u) == 8;
         expect = (xorPID ? (ec ^ 0x80000000) : ec);
         return xorPID;
+    }
+
+    private static bool IsEggBitRequiredMale34(ReadOnlySpan<MoveResult> moves)
+    {
+        // If female, it must match the correlation.
+        // If Ditto was used with a Male Nidoran / Volbeat, it'll always be that gender.
+        // If Ditto was not used and a Male was obtained, it must match the correlation.
+        // This not-Ditto scenario is detectable if the entity has any Inherited level up moves.
+        foreach (var move in moves)
+        {
+            // Egg Moves (passed via Male) are allowed. Check only for inherited level up moves.
+            if (move.Info.Method is LearnMethod.InheritLevelUp)
+                return true;
+        }
+        return false;
     }
 }

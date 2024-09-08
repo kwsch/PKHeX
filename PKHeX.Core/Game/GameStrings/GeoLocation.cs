@@ -8,14 +8,14 @@ namespace PKHeX.Core;
 public static class GeoLocation
 {
     private static readonly string[]?[] CountryList = GetCountryList();
-    private static readonly string[] lang_geo = ["ja", "en", "fr", "de", "it", "es", "zh", "ko", "zh2"];
+    private static readonly string[] lang_geo = ["ja", "en", "fr", "de", "it", "es", "zh-Hans", "ko", "zh-Hant"];
     private static readonly string[]?[]?[] RegionList = new string[CountryList.Length][][];
 
     /// <summary>
     /// Returns the index of which the <see cref="language"/> is in the country/region list.
     /// </summary>
     public static int GetLanguageIndex(string language) => Array.IndexOf(lang_geo, language);
-    private static int GetLanguageIndex(LanguageID language) => GetLanguageIndex(language.GetLanguage2CharName());
+    private static int GetLanguageIndex(LanguageID language) => GetLanguageIndex(language.GetLanguageCode());
 
     private const string INVALID = nameof(INVALID);
 

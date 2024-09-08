@@ -323,7 +323,7 @@ public sealed class ShowdownSet : IBattleTemplate
     /// <summary>
     /// Gets the localized Text representation of the set details.
     /// </summary>
-    /// <param name="lang">2 character language code</param>
+    /// <param name="lang">Language code</param>
     public string LocalizedText(string lang = DefaultLanguage) => LocalizedText(GameLanguage.GetLanguageIndex(lang));
 
     /// <summary>

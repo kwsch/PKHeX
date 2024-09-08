@@ -152,7 +152,7 @@ internal static class Encounters9
     ];
 
     private const string tradeSV = "tradesv";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSV, "zh2");
+    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSV);
 
     internal static readonly EncounterTrade9[] TradeGift_SV =
     [
