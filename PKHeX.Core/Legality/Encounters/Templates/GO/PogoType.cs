@@ -71,6 +71,11 @@ public enum PogoType : byte
     /// <remarks> Pokémon with this <see cref="PogoType"/> can not be moved to <see cref="GameVersion.GG"/>. </remarks>
     Shadow = 50,
 
+    /// <summary> Pokémon captured after completing Max Battles. </summary>
+    MaxBattle = 60,
+    /// <summary> Mythical Pokémon captured after completing Max Battles. </summary>
+    MaxBattleM,
+
     /// <summary> Pokémon captured from Special Research or Timed Research with a Premier Ball. </summary>
     /// <remarks>
     /// Niantic released version 0.269.0 on April 22, 2023, which contained an issue with the Remember Last-Used Poké Ball setting.
@@ -112,6 +117,8 @@ public static class PogoTypeExtensions
         PogoType.GBLM => 20,
         PogoType.GBLD => 20,
         PogoType.Shadow => 8,
+        PogoType.MaxBattle => 20,
+        PogoType.MaxBattleM => 20,
         PogoType.Research269 => 15,
         PogoType.Research269M => 15,
         _ => 1, // Wild, Egg
@@ -131,6 +138,7 @@ public static class PogoTypeExtensions
         PogoType.ResearchMH => 10,
         PogoType.GBLM => 10,
         PogoType.GBLD => 0,
+        PogoType.MaxBattleM => 10,
         PogoType.Research269M => 10,
         _ => 1,
     };
@@ -158,6 +166,7 @@ public static class PogoTypeExtensions
     {
         PogoType.Egg or PogoType.EggS => false,
         PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH or PogoType.ResearchUB20 => false,
+        PogoType.MaxBattle or PogoType.MaxBattleM => false,
         _ => true,
     };
 
@@ -178,6 +187,8 @@ public static class PogoTypeExtensions
         PogoType.ResearchUB => Ball.Beast,
         PogoType.ResearchUB20 => Ball.Beast,
         PogoType.Shadow => Ball.Premier,
+        PogoType.MaxBattle => Ball.Premier,
+        PogoType.MaxBattleM => Ball.Premier,
         PogoType.Research269 => Ball.Premier,
         PogoType.Research269M => Ball.Premier,
         _ => Ball.None, // Poke, Great, Ultra
