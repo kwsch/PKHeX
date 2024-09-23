@@ -324,8 +324,11 @@ public sealed class HoverSettings
     [LocalizedDescription("Show PKM Slot Preview on Hover")]
     public bool HoverSlotShowPreview { get; set; } = true;
 
-    [LocalizedDescription("Show Encounter Info in on Hover")]
+    [LocalizedDescription("Show Encounter Info on Hover")]
     public bool HoverSlotShowEncounter { get; set; } = true;
+
+    [LocalizedDescription("Show all Encounter Info properties on Hover")]
+    public bool HoverSlotShowEncounterVerbose { get; set; }
 
     [LocalizedDescription("Show PKM Slot ToolTip on Hover")]
     public bool HoverSlotShowText { get; set; } = true;
@@ -381,6 +384,9 @@ public sealed class DisplaySettings
 
     [LocalizedDescription("Don't show the Legality popup if Legal!")]
     public bool IgnoreLegalPopup { get; set; }
+
+    [LocalizedDescription("Display all properties of the encounter (auto-generated) when exporting a verbose report.")]
+    public bool ExportLegalityVerboseProperties { get; set; }
 
     [LocalizedDescription("Flag Illegal Slots in Save File")]
     public bool FlagIllegal { get; set; } = true;
