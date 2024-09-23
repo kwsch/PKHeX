@@ -9,9 +9,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EncounterText
 {
-    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc) => GetTextLines(enc, GameInfo.Strings);
+    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, bool verbose = false) => GetTextLines(enc, GameInfo.Strings, verbose);
 
-    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, GameStrings strings)
+    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, GameStrings strings, bool verbose = false)
     {
         var lines = new List<string>();
         var str = strings.Species;
@@ -42,7 +42,9 @@ public static class EncounterText
             ? $"Level: {enc.LevelMin}"
             : $"Level: {enc.LevelMin}-{enc.LevelMax}");
 
-#if DEBUG
+        if (!verbose)
+            return lines;
+
         // Record types! Can get a nice summary.
         // Won't work neatly for Mystery Gift types since those aren't record types.
         if (enc is not MysteryGift)
@@ -51,7 +53,6 @@ public static class EncounterText
             var raw = enc.ToString() ?? throw new ArgumentNullException(nameof(enc));
             lines.AddRange(raw.Split(',', '}', '{'));
         }
-#endif
         return lines;
     }
 }
