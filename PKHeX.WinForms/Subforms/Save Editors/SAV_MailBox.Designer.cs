@@ -58,6 +58,7 @@ namespace PKHeX.WinForms
             NUD_Message01 = new System.Windows.Forms.NumericUpDown();
             NUD_Message00 = new System.Windows.Forms.NumericUpDown();
             GB_Author = new System.Windows.Forms.GroupBox();
+            CHK_UserEntered = new System.Windows.Forms.CheckBox();
             CB_AuthorVersion = new System.Windows.Forms.ComboBox();
             CB_AuthorLang = new System.Windows.Forms.ComboBox();
             Label_OTGender = new System.Windows.Forms.Label();
@@ -200,21 +201,21 @@ namespace PKHeX.WinForms
             // 
             TB_MessageBody21.Location = new System.Drawing.Point(10, 27);
             TB_MessageBody21.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_MessageBody21.MaxLength = 16;
+            TB_MessageBody21.MaxLength = 32;
             TB_MessageBody21.Name = "TB_MessageBody21";
-            TB_MessageBody21.Size = new System.Drawing.Size(186, 23);
+            TB_MessageBody21.Size = new System.Drawing.Size(216, 23);
             TB_MessageBody21.TabIndex = 7;
-            TB_MessageBody21.Text = "MMMMMMMMMMMMMMMM";
+            TB_MessageBody21.Text = "０１２３４５６７８９ＡＢＣＤＥＦ";
             // 
             // TB_MessageBody22
             // 
             TB_MessageBody22.Location = new System.Drawing.Point(10, 61);
             TB_MessageBody22.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_MessageBody22.MaxLength = 16;
+            TB_MessageBody22.MaxLength = 32;
             TB_MessageBody22.Name = "TB_MessageBody22";
-            TB_MessageBody22.Size = new System.Drawing.Size(186, 23);
+            TB_MessageBody22.Size = new System.Drawing.Size(216, 23);
             TB_MessageBody22.TabIndex = 8;
-            TB_MessageBody22.Text = "MMMMMMMMMMMMMMMM";
+            TB_MessageBody22.Text = "０１２３４５６７８９ＡＢＣＤＥＦ";
             // 
             // TB_AuthorName
             // 
@@ -286,7 +287,7 @@ namespace PKHeX.WinForms
             GB_MessageTB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_MessageTB.Name = "GB_MessageTB";
             GB_MessageTB.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_MessageTB.Size = new System.Drawing.Size(208, 96);
+            GB_MessageTB.Size = new System.Drawing.Size(238, 96);
             GB_MessageTB.TabIndex = 15;
             GB_MessageTB.TabStop = false;
             GB_MessageTB.Text = "Message";
@@ -447,6 +448,7 @@ namespace PKHeX.WinForms
             // 
             // GB_Author
             // 
+            GB_Author.Controls.Add(CHK_UserEntered);
             GB_Author.Controls.Add(CB_AuthorVersion);
             GB_Author.Controls.Add(CB_AuthorLang);
             GB_Author.Controls.Add(Label_OTGender);
@@ -461,6 +463,16 @@ namespace PKHeX.WinForms
             GB_Author.TabIndex = 17;
             GB_Author.TabStop = false;
             GB_Author.Text = "Author";
+            // 
+            // CHK_UserEntered
+            // 
+            CHK_UserEntered.AutoSize = true;
+            CHK_UserEntered.Location = new System.Drawing.Point(159, 62);
+            CHK_UserEntered.Name = "CHK_UserEntered";
+            CHK_UserEntered.Size = new System.Drawing.Size(94, 19);
+            CHK_UserEntered.TabIndex = 61;
+            CHK_UserEntered.Text = "User-Entered";
+            CHK_UserEntered.UseVisualStyleBackColor = true;
             // 
             // CB_AuthorVersion
             // 
@@ -1002,5 +1014,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_PartyDown;
         private System.Windows.Forms.Button B_BoxDown;
         private System.Windows.Forms.Button B_BoxUp;
+        private System.Windows.Forms.CheckBox CHK_UserEntered;
     }
 }

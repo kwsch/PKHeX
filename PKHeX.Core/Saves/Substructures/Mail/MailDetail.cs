@@ -16,7 +16,7 @@ public abstract class MailDetail
     public virtual void CopyTo(PK5 pk5) { }
     public virtual string GetMessage(bool isLastLine) => string.Empty;
     public virtual ushort GetMessage(int index1, int index2) => 0;
-    public virtual void SetMessage(string line1, string line2) { }
+    public virtual void SetMessage(string line1, string line2, bool userEntered) { }
     public virtual void SetMessage(int index1, int index2, ushort value) { }
     public virtual string AuthorName { get; set; } = string.Empty;
     public virtual ushort AuthorTID { get; set; }
@@ -27,5 +27,6 @@ public abstract class MailDetail
     public virtual ushort AppearPKM { get; set; }
     public virtual int MailType { get; set; }
     public abstract bool? IsEmpty { get; } // true: empty, false: legal mail, null: illegal mail
+    public virtual bool UserEntered { get; }
     public virtual void SetBlank() { }
 }
