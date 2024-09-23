@@ -119,11 +119,11 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     private static byte? GetGenderPermissions(byte? gender, IGenderDetail pi)
     {
         if (gender is not <= 1)
-            return default;
+            return null;
         if (pi.IsDualGender)
             return gender;
         var g = pi.FixedGender();
-        return g <= 1 ? g : default;
+        return g <= 1 ? g : null;
     }
 
     private static AbilityPermission GetAbilityPermissions(int ability, IPersonalAbility pi)
