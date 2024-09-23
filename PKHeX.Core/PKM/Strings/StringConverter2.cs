@@ -429,7 +429,7 @@ public static class StringConverter2
             if (b == 0xD4)
                 data[i] = 0xDC; // 's
             else if (b is >= 0xCD and <= 0xCF)
-                data[i] -= 0xD4 - 0xCD; // c' d' j' (shift down)
+                data[i] += 0xD4 - 0xCD; // c' d' j' (shift up)
         }
     }
 
@@ -441,7 +441,7 @@ public static class StringConverter2
             if (b == 0xDC)
                 data[i] = 0xD4; // 's
             else if (b is >= 0xD4 and <= 0xD6)
-                data[i] += 0xD4 - 0xCD; // c' d' j' (shift up)
+                data[i] -= 0xD4 - 0xCD; // c' d' j' (shift down)
         }
     }
 
