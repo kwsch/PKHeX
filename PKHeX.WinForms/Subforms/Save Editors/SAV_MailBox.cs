@@ -53,7 +53,6 @@ public partial class SAV_MailBox : Form
         Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Generation is 4 or 5;
         NUD_AuthorSID.Visible = Generation != 2;
         Label_OTGender.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
-        CB_AuthorLang.Visible = Generation is 2 or 4 or 5;
         L_AppearPKM.Visible = AppearPKMs[0].Visible = Generation != 5;
         AppearPKMs[1].Visible = AppearPKMs[2].Visible = Generation == 4;
         NUD_MessageEnding.Visible = Generation == 5;
@@ -153,12 +152,9 @@ public partial class SAV_MailBox : Form
             CB_AuthorVersion.DataSource = new BindingSource(vers, null);
         }
 
-        if (Generation is 2 or 4 or 5)
-        {
-            CB_AuthorLang.Items.Clear();
-            CB_AuthorLang.InitializeBinding();
-            CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), null);
-        }
+        CB_AuthorLang.Items.Clear();
+        CB_AuthorLang.InitializeBinding();
+        CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), null);
 
         var ItemList = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
         CB_MailType.Items.Clear();
@@ -275,6 +271,8 @@ public partial class SAV_MailBox : Form
         MailDetail mail = m[entry];
         mail.AuthorName = TB_AuthorName.Text;
         mail.AuthorTID = (ushort)NUD_AuthorTID.Value;
+        // ReSharper disable once ConstantNullCoalescingCondition
+        mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? (int)LanguageID.English);
         mail.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
         // ReSharper disable once ConstantNullCoalescingCondition
         var species = (ushort)WinFormsUtil.GetIndex(CB_AppearPKM1);
@@ -282,8 +280,6 @@ public partial class SAV_MailBox : Form
         {
             mail.AppearPKM = species;
             mail.SetMessage(TB_MessageBody21.Text, TB_MessageBody22.Text, CHK_UserEntered.Checked);
-            // ReSharper disable once ConstantNullCoalescingCondition
-            mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? (int)LanguageID.English);
             return;
         }
         mail.AuthorSID = (ushort)NUD_AuthorSID.Value;
@@ -300,9 +296,6 @@ public partial class SAV_MailBox : Form
 
         // ReSharper disable once ConstantNullCoalescingCondition
         mail.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
-
-        // ReSharper disable once ConstantNullCoalescingCondition
-        mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
 
         mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (LabelValue_GenderF ? 1 : 0));
         switch (mail)
@@ -517,6 +510,7 @@ public partial class SAV_MailBox : Form
         MailDetail mail = m[entry];
         TB_AuthorName.Text = mail.AuthorName;
         NUD_AuthorTID.Value = mail.AuthorTID;
+        CB_AuthorLang.SelectedValue = (int)mail.AuthorLanguage;
         CB_MailType.SelectedIndex = MailTypeToCBIndex(mail);
         var species = mail.AppearPKM;
         if (Generation == 2)
@@ -524,7 +518,6 @@ public partial class SAV_MailBox : Form
             AppearPKMs[0].SelectedValue = (int)species;
             TB_MessageBody21.Text = mail.GetMessage(false);
             TB_MessageBody22.Text = mail.GetMessage(true);
-            CB_AuthorLang.SelectedValue = (int)mail.AuthorLanguage;
             CB_AuthorLang.Enabled = CB_AuthorLang.SelectedValue is not (int)LanguageID.Japanese and not (int)LanguageID.Korean;
             CHK_UserEntered.Checked = mail.UserEntered;
             editing = false;
@@ -543,7 +536,6 @@ public partial class SAV_MailBox : Form
             return;
         }
         CB_AuthorVersion.SelectedValue = (int)mail.AuthorVersion;
-        CB_AuthorLang.SelectedValue = (int)mail.AuthorLanguage;
         LabelValue_GenderF = (mail.AuthorGender & 1) != 0;
         LoadOTlabel();
         switch (mail)
