@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public class Record5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
+public static class Record5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
 {
     private Span<byte> DataRegion => Data[4..^4]; // 0..0x1DC
 
@@ -29,12 +29,32 @@ public class Record5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, raw)
         set => WriteUInt32LittleEndian(Data, value);
     }
 
-    public const int Record32 = 68;
-    public const int Record16 = 100;
-    private const byte Count = Record32 + Record16;
-    private const int Partition2 = Record32 * sizeof(uint);
-    private Span<byte> Record32Data => DataRegion[..Partition2];
-    private Span<byte> Record16Data => DataRegion[Partition2..];
+    public static class Records
+{
+    private const byte LargeRecordCount = 68; // int32
+    private const byte SmallRecordCount = 100; // int16
+    private const byte Count = LargeRecordCount + SmallRecordCount;
+
+    /// <summary>
+    /// Gets the maximum value for the specified record using the provided maximum list.
+    /// </summary>
+    /// <param name="recordID">Record ID to retrieve the maximum for</param>
+    /// <param name="maxes">Maximum enum values for each record</param>
+    /// <returns>Maximum the record can be</returns>
+    public static int GetMax(int recordID, ReadOnlySpan<byte> maxes)
+    {
+        if ((byte)recordID >= Count)
+            return 0;
+        return MaxByType[maxes[recordID]];
+        
+    }
+
+    public static int GetOffset(int recordID) => recordID switch
+    {
+        < LargeRecordCount => (recordID * sizeof(int)),
+        < Count => (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)),
+        _ => -1,
+    };
 
     private const uint Max32 = 999_999_999;
     private const ushort Max16 = 65535;
