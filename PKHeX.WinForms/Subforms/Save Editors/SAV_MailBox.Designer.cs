@@ -272,11 +272,11 @@ namespace PKHeX.WinForms
             NUD_BoxSize.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             NUD_BoxSize.Location = new System.Drawing.Point(105, 464);
             NUD_BoxSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_BoxSize.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_BoxSize.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             NUD_BoxSize.Name = "NUD_BoxSize";
             NUD_BoxSize.Size = new System.Drawing.Size(43, 23);
             NUD_BoxSize.TabIndex = 14;
-            NUD_BoxSize.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_BoxSize.Value = new decimal(new int[] { 50, 0, 0, 0 });
             NUD_BoxSize.ValueChanged += NUD_BoxSize_ValueChanged;
             // 
             // GB_MessageTB

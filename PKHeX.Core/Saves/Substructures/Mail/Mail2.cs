@@ -25,6 +25,8 @@ public sealed class Mail2 : MailDetail
 
     private const int COUNT_PARTY = 6;
     private const int COUNT_MAILBOX = 10;
+    private const int COUNT_MAILBOX_STADIUM2 = SAV2Stadium.MailboxMailCount; // 50
+    private const int COUNT_PARTY_STADIUM2 = SAV2Stadium.MailboxHeldMailCount; // 30
 
     private int AUTHOR_LENGTH => Japanese ? 5 : (Korean ? 10 : 8);
 
@@ -38,6 +40,13 @@ public sealed class Mail2 : MailDetail
         Korean = sav.Korean;
     }
 
+    public Mail2(SAV2Stadium sav, int index) : base(sav.Data.AsSpan(GetMailOffsetStadium2(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffsetStadium2(index, GetMailSize(sav.Language)))
+    {
+        EnglishGS = false;
+        Japanese = sav.Japanese;
+        Korean = sav.Korean;
+    }
+
     public static int GetMailSize(int language) => language switch
     {
         (int)LanguageID.Japanese => SIZE_J,
@@ -45,6 +54,7 @@ public sealed class Mail2 : MailDetail
         _ => SIZE_U,
     };
 
+    #region Offsets
     public static int GetMailboxOffset(int language) => 0x600 + (COUNT_PARTY * 2) * GetMailSize(language);
 
     private static int GetMailOffset(int index, int size)
@@ -67,6 +77,30 @@ public sealed class Mail2 : MailDetail
             throw new ArgumentOutOfRangeException(nameof(index));
         return (index * size) + (0x600 + (COUNT_PARTY * 2) * size + 1);
     }
+
+    public static int GetMailboxOffsetStadium2(int language) => SAV2Stadium.MailboxBlockOffset(language) + 1;
+
+    private static int GetMailOffsetStadium2(int index, int size)
+    {
+        if (index < COUNT_PARTY_STADIUM2)
+            return GetHeldMailOffsetStadium2(index, size);
+        return GetMailboxMailOffsetStadium2(index - COUNT_PARTY_STADIUM2, size);
+    }
+
+    private static int GetMailboxMailOffsetStadium2(int index, int size)
+    {
+        if ((uint)index >= COUNT_MAILBOX_STADIUM2)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (index * size) + SAV2Stadium.MailboxBlockOffset(size == SIZE_J ? (int)LanguageID.Japanese : (int)LanguageID.English) + 2;
+    }
+
+    private static int GetHeldMailOffsetStadium2(int index, int size)
+    {
+        if ((uint)index >= COUNT_PARTY_STADIUM2)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (index * size) + SAV2Stadium.MailboxHeldBlockOffset(size == SIZE_J ? (int)LanguageID.Japanese : (int)LanguageID.English) + 2;
+    }
+    #endregion
 
     private string GetString(Span<byte> span)
     {

@@ -53,7 +53,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     public sealed override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
     protected abstract void SetBoxChecksum(int box);
     protected abstract bool GetIsBoxChecksumValid(int box);
-    protected sealed override void SetChecksums() => SetBoxChecksums();
+    protected override void SetChecksums() => SetBoxChecksums();
     protected abstract void SetBoxMetadata(int box);
 
     protected void SetBoxChecksums()

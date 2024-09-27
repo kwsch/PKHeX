@@ -58,6 +58,7 @@ public partial class SAV_MailBox : Form
         AppearPKMs[1].Visible = AppearPKMs[2].Visible = Generation == 4;
         NUD_MessageEnding.Visible = Generation == 5;
         L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Generation == 5;
+        GB_PKM.Visible = B_PartyUp.Enabled = B_PartyDown.Enabled = SAV is not SAV2Stadium;
 
         for (int i = p.Count; i < 6; i++)
             PKMNUDs[i].Visible = PKMLabels[i].Visible = PKMHeldItems[i].Visible = false;
@@ -80,6 +81,17 @@ public partial class SAV_MailBox : Form
                 NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffset(SAV.Language)];
                 MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = 6;
+                NUD_BoxSize.Maximum = 10;
+                break;
+            case SAV2Stadium sav2Stadium:
+                m = new Mail2[SAV2Stadium.MailboxHeldMailCount + SAV2Stadium.MailboxMailCount];
+                for (int i = 0; i < m.Length; i++)
+                    m[i] = new Mail2(sav2Stadium, i);
+
+                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffsetStadium2(SAV.Language)];
+                MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
+                PartyBoxCount = SAV2Stadium.MailboxHeldMailCount;
+                NUD_BoxSize.Maximum = SAV2Stadium.MailboxMailCount;
                 break;
             case SAV3 sav3:
                 m = new Mail3[6 + 10];
@@ -221,14 +233,22 @@ public partial class SAV_MailBox : Form
         {
             case 2:
                 foreach (var n in m) n.CopyTo(SAV);
-                // duplicate
-                int ofs = 0x600;
-                int len = Mail2.GetMailSize(SAV.Language) * 6;
-                Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
-                ofs += len << 1;
-                SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
-                len = (Mail2.GetMailSize(SAV.Language) * 10) + 1;
-                Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                if (SAV is SAV2)
+                {
+                    // duplicate
+                    int ofs = 0x600;
+                    int len = Mail2.GetMailSize(SAV.Language) * 6;
+                    Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                    ofs += len << 1;
+                    SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
+                    len = (Mail2.GetMailSize(SAV.Language) * 10) + 1;
+                    Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                }
+                else if (SAV is SAV2Stadium)
+                {
+                    int ofs = Mail2.GetMailboxOffsetStadium2(SAV.Language);
+                    SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
+                }
                 break;
             case 3:
                 foreach (var n in m) n.CopyTo(SAV);
