@@ -1126,10 +1126,8 @@ public partial class Main : Form
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
             if (dr != DialogResult.Yes)
                 return;
-#if DEBUG
-            var enc = la.EncounterOriginal.GetTextLines();
+            var enc = la.EncounterOriginal.GetTextLines(Settings.Display.ExportLegalityVerboseProperties);
             report += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, enc);
-#endif
             WinFormsUtil.SetClipboardText(report);
         }
         else if (Settings.Display.IgnoreLegalPopup && la.Valid)

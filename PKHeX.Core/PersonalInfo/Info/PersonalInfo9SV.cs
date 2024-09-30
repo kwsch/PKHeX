@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PersonalInfo9SV(Memory<byte> Raw) : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPermitRecord
 {
-    public const int SIZE = 0x4C;
+    public const int SIZE = 0x50;
 
     private Span<byte> Data => Raw.Span;
     public override byte[] Write() => Raw.ToArray();
@@ -54,7 +54,6 @@ public sealed class PersonalInfo9SV(Memory<byte> Raw) : PersonalInfo, IPersonalA
     public ushort RegionalFormIndex { get => (byte)ReadUInt16LittleEndian(Data[0x2A..]); set => WriteUInt16LittleEndian(Data[0x2A..], value); }
 
     public override int EscapeRate { get => 0; set { } }
-    public override int BaseEXP { get => 0; set { } }
 
     /// <summary>
     /// Gets the Form that any offspring will hatch with, assuming it is holding an Everstone.
@@ -145,4 +144,5 @@ public sealed class PersonalInfo9SV(Memory<byte> Raw) : PersonalInfo, IPersonalA
 
     public byte DexKitakami { get => Data[0x4A]; set => Data[0x4A] = value; }
     public byte DexBlueberry { get => Data[0x4B]; set => Data[0x4B] = value; }
+    public override int BaseEXP { get => ReadUInt16LittleEndian(Data[0x4C..]); set => WriteUInt16LittleEndian(Data[0x4C..], (ushort)value); }
 }

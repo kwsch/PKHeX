@@ -211,8 +211,8 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
         return version switch
         {
             GameVersion.FRLG => Util.Rand.Next(2) == 0 ? GameVersion.FR : GameVersion.LG,
-            GameVersion.RS or GameVersion.RSE => Util.Rand.Next(2) == 0 ? GameVersion.R : GameVersion.S,
-            _ => throw new Exception($"Unknown GameVersion: {version}"),
+            GameVersion.EFL => GameVersion.E,
+            _ => Util.Rand.Next(2) == 0 ? GameVersion.R : GameVersion.S,
         };
     }
 

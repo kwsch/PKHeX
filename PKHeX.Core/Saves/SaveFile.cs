@@ -197,12 +197,9 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         }
         set
         {
-            if (value.Count is 0 or > MaxPartyCount)
-                throw new ArgumentOutOfRangeException(nameof(value), $"Expected 1-6, got {value.Count}");
-#if DEBUG
-            if (value[0].Species == 0)
-                System.Diagnostics.Debug.WriteLine($"Empty first slot, received {value.Count}.");
-#endif
+            if (value.Count > MaxPartyCount)
+                throw new ArgumentOutOfRangeException(nameof(value), $"Expected 0-6, got {value.Count}");
+
             int ctr = 0;
             foreach (var exist in value.Where(pk => pk.Species != 0))
                 SetPartySlotAtIndex(exist, ctr++);
