@@ -89,7 +89,7 @@ public static class GenerateMethodJ
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
         var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -124,11 +124,4 @@ public static class GenerateMethodJ
     }
 
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
-
-    private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
-    {
-        uint iv1 = (uint)criteria.IV_HP | (uint)criteria.IV_ATK << 5 | (uint)criteria.IV_DEF << 10;
-        uint iv2 = (uint)criteria.IV_SPE | (uint)criteria.IV_SPA << 5 | (uint)criteria.IV_SPD << 10;
-        return (iv1, iv2);
-    }
 }

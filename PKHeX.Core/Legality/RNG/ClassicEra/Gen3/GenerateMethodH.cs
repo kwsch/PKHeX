@@ -95,7 +95,7 @@ public static class GenerateMethodH
         where T : IEncounterSlot3
     {
         var gr = pk.PersonalInfo.Gender;
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
         var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -163,7 +163,7 @@ public static class GenerateMethodH
     public static bool SetFromIVsUnown<T>(this T enc, PK3 pk, EncounterCriteria criteria)
         where T : IEncounterSlot3
     {
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
         var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -234,12 +234,5 @@ public static class GenerateMethodH
         var iv2 = LCRNG.Next16(ref rand);
         pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
         pk.RefreshAbility((int)(pid & 1));
-    }
-
-    private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
-    {
-        uint iv1 = (uint)criteria.IV_HP | (uint)criteria.IV_ATK << 5 | (uint)criteria.IV_DEF << 10;
-        uint iv2 = (uint)criteria.IV_SPE | (uint)criteria.IV_SPA << 5 | (uint)criteria.IV_SPD << 10;
-        return (iv1, iv2);
     }
 }

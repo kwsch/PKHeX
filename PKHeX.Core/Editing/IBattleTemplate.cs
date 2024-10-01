@@ -53,7 +53,7 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamaxReadOnly, IDynamaxLe
     /// <summary>
     /// <see cref="PKM.HPType"/> of the Set entity.
     /// </summary>
-    int HiddenPowerType { get; }
+    sbyte HiddenPowerType { get; }
 
     /// <summary>
     /// <see cref="EffortValues"/> of the Set entity.

@@ -14,7 +14,7 @@ public static class MethodCXD
     public static bool SetFromIVs<T>(this T enc, G3PKM pk, EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny = false) where T : IShadow3
     {
         var gr = pi.Gender;
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[XDRNG.MaxCountSeedsIV];
         var count = XDRNG.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -52,7 +52,7 @@ public static class MethodCXD
     public static bool SetFromIVsCXD(G3PKM pk, EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny = true)
     {
         var gr = pi.Gender;
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[XDRNG.MaxCountSeedsIV];
         var count = XDRNG.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -173,13 +173,6 @@ public static class MethodCXD
     }
 
     private static uint GetPIDRegular(uint a, uint b) => a << 16 | b;
-
-    private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
-    {
-        uint iv1 = (uint)criteria.IV_HP | (uint)criteria.IV_ATK << 5 | (uint)criteria.IV_DEF << 10;
-        uint iv2 = (uint)criteria.IV_SPE | (uint)criteria.IV_SPA << 5 | (uint)criteria.IV_SPD << 10;
-        return (iv1, iv2);
-    }
 
     private static void SetIVs(G3PKM pk, uint iv1, uint iv2)
     {

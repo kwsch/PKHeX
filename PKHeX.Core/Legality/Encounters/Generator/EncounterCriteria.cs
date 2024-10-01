@@ -14,8 +14,8 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     public static readonly EncounterCriteria Unrestricted = new();
 
     /// <summary> End result's gender. </summary>
-    /// <remarks> Leave as null to not restrict gender. </remarks>
-    public byte? Gender { get; init; }
+    /// <remarks> Leave as <see cref="Gender.Random"/> to not restrict gender. </remarks>
+    public Gender Gender { get; init; } = Gender.Random;
 
     /// <summary> End result's ability numbers permitted. </summary>
     /// <remarks> Leave as <see cref="Any12H"/> to not restrict ability. </remarks>
@@ -29,12 +29,12 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     /// <remarks> Leave as <see cref="Shiny.Random"/> to not restrict shininess. </remarks>
     public Shiny Shiny { get; init; }
 
-    public int IV_HP  { get; init; } = RandomIV;
-    public int IV_ATK { get; init; } = RandomIV;
-    public int IV_DEF { get; init; } = RandomIV;
-    public int IV_SPA { get; init; } = RandomIV;
-    public int IV_SPD { get; init; } = RandomIV;
-    public int IV_SPE { get; init; } = RandomIV;
+    public sbyte IV_HP  { get; init; } = RandomIV;
+    public sbyte IV_ATK { get; init; } = RandomIV;
+    public sbyte IV_DEF { get; init; } = RandomIV;
+    public sbyte IV_SPA { get; init; } = RandomIV;
+    public sbyte IV_SPD { get; init; } = RandomIV;
+    public sbyte IV_SPE { get; init; } = RandomIV;
 
     /// <summary>
     /// If the Encounter yields variable level ranges (e.g. RNG correlation), force the minimum level instead of yielding first match.
@@ -44,7 +44,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     public sbyte TeraType { get; init; } = -1;
 
     // unused
-    public int HPType { get; init; } = -1;
+    public sbyte HPType { get; init; } = -1;
 
     private const int RandomIV = -1;
 
@@ -102,12 +102,12 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi) => new()
     {
         Gender = GetGenderPermissions(s.Gender, pi),
-        IV_HP = s.IVs[0],
-        IV_ATK = s.IVs[1],
-        IV_DEF = s.IVs[2],
-        IV_SPE = s.IVs[3],
-        IV_SPA = s.IVs[4],
-        IV_SPD = s.IVs[5],
+        IV_HP  = (sbyte)s.IVs[0],
+        IV_ATK = (sbyte)s.IVs[1],
+        IV_DEF = (sbyte)s.IVs[2],
+        IV_SPE = (sbyte)s.IVs[3],
+        IV_SPA = (sbyte)s.IVs[4],
+        IV_SPD = (sbyte)s.IVs[5],
         HPType = s.HiddenPowerType,
 
         Ability = GetAbilityPermissions(s.Ability, pi),
@@ -116,14 +116,14 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         TeraType = (sbyte)s.TeraType,
     };
 
-    private static byte? GetGenderPermissions(byte? gender, IGenderDetail pi)
+    private static Gender GetGenderPermissions(byte? gender, IGenderDetail pi)
     {
         if (gender is not <= 1)
-            return null;
+            return Gender.Random;
         if (pi.IsDualGender)
-            return gender;
+            return (Gender)gender;
         var g = pi.FixedGender();
-        return g <= 1 ? g : null;
+        return g <= 1 ? (Gender)g : Gender.Random;
     }
 
     private static AbilityPermission GetAbilityPermissions(int ability, IPersonalAbility pi)
@@ -169,12 +169,12 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     /// <summary>
     /// Indicates if the <see cref="Gender"/> is specified.
     /// </summary>
-    public bool IsGenderSpecified => Gender != null;
+    public bool IsGenderSpecified => Gender != Gender.Random;
 
     /// <summary>
     /// Indicates if the requested gender matches the criteria.
     /// </summary>
-    public bool IsGenderSatisfied(byte gender) => !IsGenderSpecified || gender == Gender;
+    public bool IsGenderSatisfied(byte gender) => !IsGenderSpecified || (Gender)gender == Gender;
 
     /// <summary>
     /// Gets the gender to generate, random if unspecified by the template or criteria.
@@ -189,7 +189,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     /// <inheritdoc cref="GetGender(byte, IGenderDetail)"/>
     public byte GetGender(Gender gender, IGenderDetail pkPersonalInfo)
     {
-        if (gender == Core.Gender.Random)
+        if (gender == Gender.Random)
             return GetGender(pkPersonalInfo);
         return (byte)gender;
     }
@@ -203,8 +203,8 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
             return pkPersonalInfo.FixedGender();
         if (pkPersonalInfo.Genderless)
             return 2;
-        if (Gender is {  } request and (0 or 1))
-            return request;
+        if (Gender is not Gender.Random)
+            return (byte)Gender;
         return pkPersonalInfo.RandomGender();
     }
 
@@ -355,5 +355,11 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         if (IV_SPD != RandomIV && IV_SPD != ivs[5])
             return false;
         return true;
+    }
+
+    public void GetCombinedIVs(out uint iv1, out uint iv2)
+    {
+        iv1 = (byte)IV_HP | (uint)IV_ATK << 5 | (uint)IV_DEF << 10;
+        iv2 = (byte)IV_SPE | (uint)IV_SPA << 5 | (uint)IV_SPD << 10;
     }
 }

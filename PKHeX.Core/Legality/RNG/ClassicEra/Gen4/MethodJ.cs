@@ -456,10 +456,11 @@ public static class MethodJ
         return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
     }
 
-    private static uint GetExpectedLevel(ILevelRange enc, uint u16LevelRand)
+    private static uint GetExpectedLevel<T>(T enc, uint u16LevelRand) where T : ILevelRange
     {
-        uint mod = 1u + enc.LevelMax - enc.LevelMin;
-        return (u16LevelRand % mod) + enc.LevelMin;
+        var min = enc.LevelMin;
+        uint mod = 1u + enc.LevelMax - min;
+        return (u16LevelRand % mod) + min;
     }
 
     /// <summary>
