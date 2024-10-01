@@ -50,7 +50,6 @@ public readonly struct PIDIV
 #if DEBUG
     public override string ToString() => NoSeed ? Type.ToString() : $"{Type} - 0x{OriginSeed:X8}";
 #endif
-    public bool IsClassicMethod() => Type.IsClassicMethod();
 
     public bool IsSeed64() => Type is PIDType.Xoroshiro;
 

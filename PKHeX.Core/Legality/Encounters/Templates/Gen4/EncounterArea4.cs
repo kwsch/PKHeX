@@ -34,7 +34,7 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
         Type = (SlotType4)data[2];
         Rate = data[3];
         Version = game;
-        // although GroundTilePermission flags are 32bit, none have values > 16bit.
+        // although flags are 32bit, none have values > 16bit.
         GroundTile = (GroundTileAllowed)ReadUInt16LittleEndian(data[4..]);
 
         Slots = ReadRegularSlots(data[6..]);

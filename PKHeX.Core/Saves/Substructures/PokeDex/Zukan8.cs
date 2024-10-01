@@ -130,20 +130,6 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
         _ => lang - 1,
     };
 
-#if DEBUG
-    public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
-    {
-        var dex = new List<string>();
-        foreach (var (species, entry) in DexLookup)
-        {
-            var name = entry.GetEntryName(speciesNames, species);
-            dex.Add(name);
-        }
-        dex.Sort();
-        return dex;
-    }
-#endif
-
     #region Structure
 
     internal const int EntrySize = 0x30;
@@ -718,30 +704,6 @@ public readonly record struct Zukan8Index(Zukan8Type DexType, ushort Index)
     private const int Rigel1Count = 211; // Count within Armor dex
     private const int Rigel2Count = 210; // Count within Crown dex
     public const int TotalCount = GalarCount + Rigel1Count + Rigel2Count;
-#if DEBUG
-    /// <summary>
-    /// Gets the <see cref="Zukan8Index"/> from the absolute (overall) dex index. Don't use this method unless you're analyzing things.
-    /// </summary>
-    /// <param name="index">Unique Pokédex index (incremental). Should be 0-indexed.</param>
-    public static Zukan8Index GetFromAbsoluteIndex(ushort index)
-    {
-        if (index > TotalCount)
-            return new Zukan8Index();
-
-        if (index < GalarCount)
-            return new Zukan8Index(Zukan8Type.Galar, ++index);
-        index -= GalarCount;
-
-        if (index < Rigel1Count)
-            return new Zukan8Index(Zukan8Type.Armor, ++index);
-        index -= Rigel1Count;
-
-        if (index < Rigel2Count)
-            return new Zukan8Index(Zukan8Type.Crown, ++index);
-
-        throw new ArgumentOutOfRangeException(nameof(index));
-    }
-#endif
 
     public string DexPrefix => DexType.GetZukanTypeInternalPrefix();
 

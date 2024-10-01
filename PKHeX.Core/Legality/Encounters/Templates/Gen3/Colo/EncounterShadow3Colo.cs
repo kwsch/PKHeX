@@ -139,10 +139,6 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
                 break;
         }
         while (++ctr <= max);
-
-#if DEBUG
-        System.Diagnostics.Debug.Assert(ctr < max);
-#endif
     }
 
     #endregion
