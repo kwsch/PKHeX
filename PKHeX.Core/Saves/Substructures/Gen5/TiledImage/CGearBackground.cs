@@ -41,6 +41,7 @@ public abstract class CGearBackground(Memory<byte> Raw) : ITiledImage
     /* 0x0000 - 0x1FDF*/ public Span<byte> Tiles => Data[..LengthTilePool];
     /* 0x1FE0 - 0x1FFF*/ public Span<byte> Colors => Data.Slice(LengthTilePool, LengthColorData);
     /* 0x2000 - 0x25FF*/ public Span<byte> Arrange => Data.Slice(OffsetTileMap, LengthTileMap);
+    public bool IsUninitialized => !Data.ContainsAnyExcept<byte>(0xFF, 0);
 
     public Span<byte> GetTileData(int tile) => Tiles.Slice(tile * PaletteTile.SIZE, PaletteTile.SIZE);
     public Span<byte> GetColorData(int color) => Colors.Slice(color * sizeof(ushort), sizeof(ushort));
