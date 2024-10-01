@@ -118,7 +118,8 @@ public static class TiledImageConverter
 
         // Read tile data from the image; for each new tile, add it to the list.
         // Store temporary tile list as color choices, and expand the window as we add new tiles.
-        int tileCount = 0;
+        int usedTiles = 0;
+        int totalUniqueTiles = 0;
         Span<byte> tileColors = stackalloc byte[T.TileSize * T.TileSize];
         var maxTiles = bg.Tiles.Length / (tileColors.Length / 2);
         Span<byte> rawTiles = stackalloc byte[tileColors.Length * maxTiles];
@@ -127,20 +128,21 @@ public static class TiledImageConverter
             ReadTile<T>(data, tileIndex, tileColors, palette);
 
             // Search the existing tiles for a match
-            var allTiles = rawTiles[..(tileCount * tileColors.Length)];
+            var usedTileLength = usedTiles * tileColors.Length;
+            var allTiles = rawTiles[..usedTileLength];
             bool match = TryFindRotation(tileColors, allTiles, out var index, out var rot);
             if (!match)
             {
                 // Add the new tile to the list
-                if (tileCount < maxTiles)
+                if (usedTiles < maxTiles)
                 {
-                    tileColors.CopyTo(rawTiles[(tileCount * tileColors.Length)..]);
-                    index = tileCount++;
+                    tileColors.CopyTo(rawTiles[usedTileLength..]);
+                    index = totalUniqueTiles = usedTiles++;
                 }
                 else
                 {
                     // Impossible to store, so just keep default values and increment the total count of the image.
-                    tileCount++;
+                    totalUniqueTiles++;
                 }
             }
 
@@ -158,7 +160,7 @@ public static class TiledImageConverter
         if (bg is CGearBackgroundBW)
             PaletteTileSelection.ConvertToShiftFormat<CGearBackgroundBW>(bg.Arrange);
 
-        return new TiledImageStat { TileCount = tileCount, ColorCount = colorCount };
+        return new TiledImageStat { TileCount = totalUniqueTiles, ColorCount = colorCount };
     }
 
     private static bool TryFindRotation(ReadOnlySpan<byte> tileColors, ReadOnlySpan<byte> allTiles, out int index, out PaletteTileRotation rot)
