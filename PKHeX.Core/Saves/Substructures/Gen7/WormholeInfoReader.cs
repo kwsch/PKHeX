@@ -10,10 +10,11 @@ public sealed class WormholeInfoReader(SAV7 SAV)
     // https://projectpokemon.org/home/forums/topic/39433-gen-7-save-research-thread/?page=3&tab=comments#comment-239090
     public bool WormholeShininess // 0x4535 = Misc (0x4400 in US/UM) + 0x0135
     {
-        get => SAV.Misc.Data[0x0135] == 1;
-        set => SAV.Misc.Data[0x0135] = value ? (byte)1 : (byte)0;
+        get => SAV.Misc.IsWormholeShiny;
+        set => SAV.Misc.IsWormholeShiny = value;
     }
 
+    /// <summary> Inclusive maximum </summary>
     public const int WormholeSlotMax = 15;
 
     // Slots currently use digits 1 through 15 inclusively.
@@ -128,7 +129,7 @@ public sealed class WormholeInfoReader(SAV7 SAV)
 
     public static ushort WormholeSlotToPokemon(int mapid, int slot)
     {
-        if (slot is < 1 or > WormholeSlotMax)
+        if ((uint)slot > WormholeSlotMax)
             return 0;
 
         return mapid switch
