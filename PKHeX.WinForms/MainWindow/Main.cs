@@ -280,8 +280,20 @@ public partial class Main : Form
             WinFormsUtil.Error(MsgPluginFailLoad, c);
             return;
         }
-        foreach (var p in Plugins.OrderBy(z => z.Priority))
-            p.Initialize(C_SAV, PKME_Tabs, menuStrip1, Program.CurrentVersion);
+
+        var list = Plugins.OrderBy(z => z.Priority).ToList();
+        foreach (var p in list)
+        {
+            try
+            {
+                p.Initialize(C_SAV, PKME_Tabs, menuStrip1, Program.CurrentVersion);
+            }
+            catch (Exception ex)
+            {
+                WinFormsUtil.Error(MsgPluginFailLoad, ex);
+                Plugins.Remove(p);
+            }
+        }
     }
 
     // Main Menu Strip UI Functions

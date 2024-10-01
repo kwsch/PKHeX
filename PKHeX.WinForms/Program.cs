@@ -83,9 +83,13 @@ internal static class Program
 
     private static string GetErrorMessage(Exception e)
     {
-        return IsPluginError<IPlugin>(e, out var pluginName)
-            ? $"An error occurred in a PKHeX plugin. Please report this error to the plugin author/maintainer.\n{pluginName}"
-            : "An error occurred in PKHeX. Please report this error to the PKHeX author.";
+        try
+        {
+            if (IsPluginError<IPlugin>(e, out var pluginName))
+                return $"An error occurred in a PKHeX plugin. Please report this error to the plugin author/maintainer.\n{pluginName}";
+        }
+        catch { }
+        return "An error occurred in PKHeX. Please report this error to the PKHeX author.";
     }
 
     // Handle the UI exceptions by showing a dialog box, and asking the user if they wish to abort execution.
@@ -99,6 +103,10 @@ internal static class Program
             if (IsOldPkhexCorePresent(ex))
             {
                 Error("You have upgraded PKHeX incorrectly. Please delete PKHeX.Core.dll.");
+            }
+            else if (IsPkhexCoreMissing(ex))
+            {
+                Error("You have installed PKHeX incorrectly. Please ensure you have unzipped all files before running.");
             }
             else if (ex != null)
             {
@@ -184,6 +192,11 @@ internal static class Program
         return ex is MissingMethodException or TypeLoadException or TypeInitializationException
             && File.Exists("PKHeX.Core.dll")
             && AssemblyName.GetAssemblyName("PKHeX.Core.dll").Version < CurrentVersion;
+    }
+
+    private static bool IsPkhexCoreMissing(Exception? ex)
+    {
+        return ex is FileNotFoundException { FileName: {} n } && n.Contains("PKHeX.Core");
     }
 #endif
 }
