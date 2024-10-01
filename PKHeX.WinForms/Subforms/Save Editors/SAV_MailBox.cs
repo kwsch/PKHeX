@@ -47,16 +47,18 @@ public partial class SAV_MailBox : Form
         AppearPKMs = [CB_AppearPKM1, CB_AppearPKM2, CB_AppearPKM3];
         Miscs = [NUD_Misc1, NUD_Misc2, NUD_Misc3];
 
-        NUD_BoxSize.Visible = L_BoxSize.Visible = Generation == 2;
+        NUD_BoxSize.Visible = L_BoxSize.Visible = CHK_UserEntered.Visible = Generation == 2;
         GB_MessageTB.Visible = Generation == 2;
         GB_MessageNUD.Visible = Generation != 2;
         Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Generation is 4 or 5;
         NUD_AuthorSID.Visible = Generation != 2;
-        Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
+        Label_OTGender.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
+        CB_AuthorLang.Visible = Generation is 2 or 4 or 5;
         L_AppearPKM.Visible = AppearPKMs[0].Visible = Generation != 5;
         AppearPKMs[1].Visible = AppearPKMs[2].Visible = Generation == 4;
         NUD_MessageEnding.Visible = Generation == 5;
         L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Generation == 5;
+        GB_PKM.Visible = B_PartyUp.Enabled = B_PartyDown.Enabled = SAV is not SAV2Stadium;
 
         for (int i = p.Count; i < 6; i++)
             PKMNUDs[i].Visible = PKMLabels[i].Visible = PKMHeldItems[i].Visible = false;
@@ -76,9 +78,20 @@ public partial class SAV_MailBox : Form
                 for (int i = 0; i < m.Length; i++)
                     m[i] = new Mail2(sav2, i);
 
-                NUD_BoxSize.Value = SAV.Data[0x834];
+                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffset(SAV.Language)];
                 MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = 6;
+                NUD_BoxSize.Maximum = 10;
+                break;
+            case SAV2Stadium sav2Stadium:
+                m = new Mail2[SAV2Stadium.MailboxHeldMailCount + SAV2Stadium.MailboxMailCount];
+                for (int i = 0; i < m.Length; i++)
+                    m[i] = new Mail2(sav2Stadium, i);
+
+                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffsetStadium2(SAV.Language)];
+                MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
+                PartyBoxCount = SAV2Stadium.MailboxHeldMailCount;
+                NUD_BoxSize.Maximum = SAV2Stadium.MailboxMailCount;
                 break;
             case SAV3 sav3:
                 m = new Mail3[6 + 10];
@@ -138,7 +151,10 @@ public partial class SAV_MailBox : Form
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
             CB_AuthorVersion.DataSource = new BindingSource(vers, null);
+        }
 
+        if (Generation is 2 or 4 or 5)
+        {
             CB_AuthorLang.Items.Clear();
             CB_AuthorLang.InitializeBinding();
             CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), null);
@@ -217,14 +233,22 @@ public partial class SAV_MailBox : Form
         {
             case 2:
                 foreach (var n in m) n.CopyTo(SAV);
-                // duplicate
-                int ofs = 0x600;
-                int len = 0x2F * 6;
-                Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
-                ofs += len << 1;
-                SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
-                len = (0x2F * 10) + 1;
-                Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                if (SAV is SAV2)
+                {
+                    // duplicate
+                    int ofs = 0x600;
+                    int len = Mail2.GetMailSize(SAV.Language) * 6;
+                    Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                    ofs += len << 1;
+                    SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
+                    len = (Mail2.GetMailSize(SAV.Language) * 10) + 1;
+                    Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                }
+                else if (SAV is SAV2Stadium)
+                {
+                    int ofs = Mail2.GetMailboxOffsetStadium2(SAV.Language);
+                    SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
+                }
                 break;
             case 3:
                 foreach (var n in m) n.CopyTo(SAV);
@@ -257,7 +281,9 @@ public partial class SAV_MailBox : Form
         if (Generation == 2)
         {
             mail.AppearPKM = species;
-            mail.SetMessage(TB_MessageBody21.Text, TB_MessageBody22.Text);
+            mail.SetMessage(TB_MessageBody21.Text, TB_MessageBody22.Text, CHK_UserEntered.Checked);
+            // ReSharper disable once ConstantNullCoalescingCondition
+            mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? (int)LanguageID.English);
             return;
         }
         mail.AuthorSID = (ushort)NUD_AuthorSID.Value;
@@ -498,6 +524,9 @@ public partial class SAV_MailBox : Form
             AppearPKMs[0].SelectedValue = (int)species;
             TB_MessageBody21.Text = mail.GetMessage(false);
             TB_MessageBody22.Text = mail.GetMessage(true);
+            CB_AuthorLang.SelectedValue = (int)mail.AuthorLanguage;
+            CB_AuthorLang.Enabled = CB_AuthorLang.SelectedValue is not (int)LanguageID.Japanese and not (int)LanguageID.Korean;
+            CHK_UserEntered.Checked = mail.UserEntered;
             editing = false;
             return;
         }

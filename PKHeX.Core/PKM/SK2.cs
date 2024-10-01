@@ -78,7 +78,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
         }
     }
 
-    // 0x1F
+    public byte HeldMailID { get => Data[0x1F]; set => Data[0x1F] = value; }
 
     public byte PokerusState { get => Data[0x20]; set => Data[0x20] = value; }
     // Crystal only Caught Data

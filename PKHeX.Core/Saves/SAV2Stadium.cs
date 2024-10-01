@@ -70,6 +70,12 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
         ClearBoxes();
     }
 
+    protected sealed override void SetChecksums()
+    {
+        base.SetChecksums();
+        SetMailChecksums();
+    }
+
     protected override bool GetIsBoxChecksumValid(int box)
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSizeBox;
@@ -199,6 +205,27 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
     // Check Box 1's footer magic.
     private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER) != StadiumSaveType.None;
     private static bool IsStadiumU(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeU - ListFooterSize, MAGIC_FOOTER) != StadiumSaveType.None;
+
+    #region Mail Box
+    public static int MailboxBlockOffset(int language) => language == (int)LanguageID.Japanese ? 0x6530 : 0x62D8;
+    public static int MailboxHeldBlockOffset(int language) => language == (int)LanguageID.Japanese ? 0x6D6C : 0x6C0E;
+    public int MailboxBlockSize => 2 + (MailboxMailCount * Mail2.GetMailSize(Language)) + ListFooterSize;
+    public int MailboxHeldBlockSize => 2 + (MailboxHeldMailCount * Mail2.GetMailSize(Language)) + ListFooterSize;
+    public const int MailboxMailCount = 50;
+    public const int MailboxHeldMailCount = 30;
+    private void SetMailChecksums()
+    {
+        var ofs = MailboxBlockOffset(Language);
+        var size = MailboxBlockSize - 2;
+        var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, ofs, size));
+        WriteUInt16BigEndian(Data.AsSpan(ofs + size), chk);
+
+        var ofsHeld = MailboxHeldBlockOffset(Language);
+        var sizeHeld = MailboxHeldBlockSize - 2;
+        var chkHeld = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, ofsHeld, sizeHeld));
+        WriteUInt16BigEndian(Data.AsSpan(ofsHeld + sizeHeld), chkHeld);
+    }
+    #endregion
 
     private static bool GetIsSwap(ReadOnlySpan<byte> data, bool japanese)
     {

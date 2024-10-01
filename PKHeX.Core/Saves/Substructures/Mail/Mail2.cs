@@ -3,120 +3,221 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-// warning: international only
 public sealed class Mail2 : MailDetail
 {
-    private readonly int Language;
-    private bool Japanese => Language == 1;
-    private bool Korean => Language == (int)LanguageID.Korean;
+    private readonly bool EnglishGS;
+    private readonly bool Japanese;
+    private readonly bool Korean;
 
     // structure:
-    private const int LINE_LENGTH = 0x10;
-    private const int MESSAGE_LENGTH = LINE_LENGTH + LINE_LENGTH + 1; // each line has a single char at end
-    private const int OFS_AUTHOR = MESSAGE_LENGTH;
-    private const int OFS_AUTHOR_NATION = OFS_AUTHOR + AUTHOR_LENGTH + 1;
-    private const int OFS_AUTHOR_ID = OFS_AUTHOR_NATION + 2;
-    private const int OFS_APPEAR = OFS_AUTHOR_ID + 2;
-    private const int OFS_TYPE = OFS_APPEAR + 1;
-    private const int SIZE = OFS_TYPE + 1;
+    private int LINE_LENGTH => Korean ? 0x20 : 0x10;
+    private int MESSAGE_LENGTH => LINE_LENGTH + 1 + LINE_LENGTH; // line break in the middle
+    private int OFS_AUTHOR => MESSAGE_LENGTH;
+    private int OFS_AUTHOR_NATION => OFS_AUTHOR + AUTHOR_LENGTH; // not in Japanese/Korean
+    private int OFS_AUTHOR_ID => OFS_AUTHOR_NATION + ((Japanese || Korean) ? 0 : 2);
+    private int OFS_APPEAR => OFS_AUTHOR_ID + 2;
+    private int OFS_TYPE => OFS_APPEAR + 1;
+    private int SIZE => OFS_TYPE + 1;
+
+    private const int SIZE_J = 0x2A;
+    private const int SIZE_U = 0x2F;
+    private const int SIZE_K = 0x4F;
 
     private const int COUNT_PARTY = 6;
     private const int COUNT_MAILBOX = 10;
+    private const int COUNT_MAILBOX_STADIUM2 = SAV2Stadium.MailboxMailCount; // 50
+    private const int COUNT_PARTY_STADIUM2 = SAV2Stadium.MailboxHeldMailCount; // 30
 
-    private const int AUTHOR_LENGTH = 7;
+    private int AUTHOR_LENGTH => Japanese ? 5 : (Korean ? 10 : 8);
 
-    public Mail2(SAV2 sav, int index) : base(sav.Data.AsSpan(GetMailOffset(index), 0x2F).ToArray(), GetMailOffset(index))
+    private byte LineBreakCode => Korean ? StringConverter2KOR.LineBreakCode : StringConverter2.LineBreakCode;
+    private char LineBreak => Korean ? StringConverter2KOR.LineBreak : StringConverter2.LineBreak;
+
+    public Mail2(SAV2 sav, int index) : base(sav.Data.AsSpan(GetMailOffset(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffset(index, GetMailSize(sav.Language)))
     {
-        Language = sav.Language;
+        EnglishGS = sav.Version != GameVersion.C && sav.Language == (int)LanguageID.English;
+        Japanese = sav.Japanese;
+        Korean = sav.Korean;
     }
 
-    private static int GetMailOffset(int index)
+    public Mail2(SAV2Stadium sav, int index) : base(sav.Data.AsSpan(GetMailOffsetStadium2(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffsetStadium2(index, GetMailSize(sav.Language)))
+    {
+        EnglishGS = false;
+        Japanese = sav.Japanese;
+        Korean = sav.Korean;
+    }
+
+    public static int GetMailSize(int language) => language switch
+    {
+        (int)LanguageID.Japanese => SIZE_J,
+        (int)LanguageID.Korean => SIZE_K,
+        _ => SIZE_U,
+    };
+
+    #region Offsets
+    public static int GetMailboxOffset(int language) => 0x600 + (COUNT_PARTY * 2) * GetMailSize(language);
+
+    private static int GetMailOffset(int index, int size)
     {
         if (index < COUNT_PARTY)
-            return GetPartyMailOffset(index);
-        return GetMailboxMailOffset(index - COUNT_PARTY);
+            return GetPartyMailOffset(index, size);
+        return GetMailboxMailOffset(index - COUNT_PARTY, size);
     }
 
-    private static int GetPartyMailOffset(int index)
+    private static int GetPartyMailOffset(int index, int size)
     {
         if ((uint)index >= COUNT_PARTY)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (index * SIZE) + 0x600;
+        return (index * size) + 0x600;
     }
 
-    private static int GetMailboxMailOffset(int index)
+    private static int GetMailboxMailOffset(int index, int size)
     {
         if ((uint)index >= COUNT_MAILBOX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (index * SIZE) + 0x835;
+        return (index * size) + (0x600 + (COUNT_PARTY * 2) * size + 1);
     }
+
+    public static int GetMailboxOffsetStadium2(int language) => SAV2Stadium.MailboxBlockOffset(language) + 1;
+
+    private static int GetMailOffsetStadium2(int index, int size)
+    {
+        if (index < COUNT_PARTY_STADIUM2)
+            return GetHeldMailOffsetStadium2(index, size);
+        return GetMailboxMailOffsetStadium2(index - COUNT_PARTY_STADIUM2, size);
+    }
+
+    private static int GetMailboxMailOffsetStadium2(int index, int size)
+    {
+        if ((uint)index >= COUNT_MAILBOX_STADIUM2)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (index * size) + SAV2Stadium.MailboxBlockOffset(size == SIZE_J ? (int)LanguageID.Japanese : (int)LanguageID.English) + 2;
+    }
+
+    private static int GetHeldMailOffsetStadium2(int index, int size)
+    {
+        if ((uint)index >= COUNT_PARTY_STADIUM2)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (index * size) + SAV2Stadium.MailboxHeldBlockOffset(size == SIZE_J ? (int)LanguageID.Japanese : (int)LanguageID.English) + 2;
+    }
+    #endregion
 
     private string GetString(Span<byte> span)
     {
         if (Korean)
             return StringConverter2KOR.GetString(span);
-        var result = StringConverter2.GetString(span, Language);
+        if (EnglishGS)
+            StringConverter2.DecodeMailEnglishGS(span, AuthorLanguage);
+        var result = StringConverter2.GetString(span, AuthorLanguage);
         if (!Korean)
-            result = StringConverter2.InflateLigatures(result, Language);
+            result = StringConverter2.InflateLigatures(result, AuthorLanguage);
         return result;
     }
 
-    private void SetString(Span<byte> span, ReadOnlySpan<char> value, int maxLength)
+    private void SetString(Span<byte> span, ReadOnlySpan<char> value, int maxLength, StringConverterOption option = StringConverterOption.Clear50)
     {
         if (Korean)
         {
-            StringConverter2KOR.SetString(span, value, maxLength);
+            StringConverter2KOR.SetString(span, value, maxLength, option);
             return;
         }
         Span<char> deflated = stackalloc char[maxLength];
-        int len = StringConverter2.DeflateLigatures(value, deflated, Language);
-        StringConverter2.SetString(span, deflated[..len], maxLength, Language);
+        int len = StringConverter2.DeflateLigatures(value, deflated, AuthorLanguage);
+        StringConverter2.SetString(span, deflated[..len], maxLength, AuthorLanguage, option);
+        if (EnglishGS)
+            StringConverter2.EncodeMailEnglishGS(span, AuthorLanguage);
     }
 
-    public string Line1
+    public override string GetMessage(bool isLastLine)
     {
-        get => GetString(Data.AsSpan(0, LINE_LENGTH - 1));
-        set
-        {
-            var span = Data.AsSpan(0, LINE_LENGTH);
-            SetString(span[..^1], value, LINE_LENGTH - 1);
-            span[^1] = 0x4E;
-        }
+        var span = Data.AsSpan(0, MESSAGE_LENGTH);
+        var index = span.IndexOf(LineBreakCode);
+        return index == -1 ? string.Empty : GetString(isLastLine ? span[(index + 1)..] : span[..index]);
     }
 
-    public string Line2
+    public override void SetMessage(string line1, string line2, bool userEntered)
     {
-        get => GetString(Data.AsSpan(LINE_LENGTH, LINE_LENGTH - 1));
-        set
+        if (IsEmpty == true && line1 == string.Empty && line2 == string.Empty)
         {
-            var span = Data.AsSpan(LINE_LENGTH, LINE_LENGTH);
-            SetString(span[..^1], value, LINE_LENGTH - 1);
-            span[^1] = 0x4E;
+            Data.AsSpan(0, MESSAGE_LENGTH).Clear();
+            return;
         }
-    }
 
-    public override string GetMessage(bool isLastLine) => isLastLine ? Line2 : Line1;
-    public override void SetMessage(string line1, string line2) => (Line1, Line2) = (line1, line2);
+        if (Korean || !userEntered)
+        {
+            // Japanese/international Randy's mail has a line break in different place.
+            // Korean always puts a line break after the first line, even if it's not full.
+            var span = Data.AsSpan(0, MESSAGE_LENGTH);
+            var message = string.Join(LineBreak, line1, line2);
+            SetString(span, message, MESSAGE_LENGTH,
+                // Randy's mail can have trash bytes after the end of the message, so don't clear it.
+                userEntered ? StringConverterOption.Clear50 : StringConverterOption.None);
+            return;
+        }
+
+        // Japanese/international user-entered mail always has a line break at index 0x10
+        var span1 = Data.AsSpan(0, LINE_LENGTH);
+        SetString(span1, line1, LINE_LENGTH);
+        if (line2 != string.Empty) // Pad the first line with spaces if needed
+            span1.Replace<byte>(0x50, 0x7F);
+        Data[LINE_LENGTH] = LineBreakCode;
+        var span2 = Data.AsSpan(LINE_LENGTH + 1, LINE_LENGTH);
+        SetString(span2, line2, LINE_LENGTH);
+    }
 
     public override string AuthorName
     {
-        get => GetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH + 1));
+        get => GetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH));
+        set => SetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH), value,
+            // Japanese/Korean don't have an extra byte for the terminator.
+            AUTHOR_LENGTH - ((Japanese || Korean) ? 0 : 1),
+            // Randy's mail can have trash bytes after the end of the OT, so don't clear it.
+            UserEntered ? StringConverterOption.Clear50 : StringConverterOption.None);
+    }
+
+    public override byte AuthorLanguage
+    {
+        get
+        {
+            if (Japanese)
+                return (byte)LanguageID.Japanese;
+            if (Korean)
+                return (byte)LanguageID.Korean;
+            return (byte)(Nationality switch
+            {
+                0x0000 => LanguageID.English,
+                0x8485 => LanguageID.French,  // "EF"
+                0x8486 => LanguageID.German,  // "EG"
+                0x8488 => LanguageID.Italian, // "EI"
+                0x8492 => LanguageID.Spanish, // "ES"
+                _ => LanguageID.English,
+            });
+        }
         set
         {
-            SetString(Data.AsSpan(OFS_AUTHOR, 8), value, AUTHOR_LENGTH);
-            Nationality = 0; // ??
+            if (Japanese || Korean)
+                return;
+            Nationality = (LanguageID)value switch
+            {
+                LanguageID.English => 0x0000,
+                LanguageID.French  => 0x8485, // "EF"
+                LanguageID.German  => 0x8486, // "EG"
+                LanguageID.Italian => 0x8488, // "EI"
+                LanguageID.Spanish => 0x8492, // "ES"
+                _ => Nationality, // Invalid, don't change.
+            };
         }
     }
 
     public ushort Nationality
     {
         get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2), value);
+        set => WriteUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2), value);
     }
 
     public override ushort AuthorTID
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID + 2));
+        get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID, 2));
         set => WriteUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID, 2), value);
     }
 
@@ -130,6 +231,28 @@ public sealed class Mail2 : MailDetail
         >= 0xB5 and <= 0xBD => false,
         _ => null,
     };
+
+    public override bool UserEntered
+    {
+        get
+        {
+            // Blank mail, prepare for writing
+            if (MailType == 0)
+                return true;
+
+            // Japanese/international user-entered mail always has a line break at index 0x10
+            // Randy's mail instead has it at index 0x0D (Japanese) or 0x0F (international)
+            if (!Korean)
+                return Data[LINE_LENGTH] == LineBreakCode;
+
+            // Korean mail can have a line break anywhere, so look at trash bytes instead
+            // User-entered mail always fills the message buffer with 0x50
+            // Randy's mail has trash bytes after the terminator, so check for any trash bytes
+            var span = Data.AsSpan(0, MESSAGE_LENGTH);
+            var terminator = span.IndexOf<byte>(0x50);
+            return terminator == -1 || !span[terminator..].ContainsAnyExcept<byte>(0x50);
+        }
+    }
 
     public override void SetBlank() => Data.AsSpan(0, SIZE).Clear();
 }

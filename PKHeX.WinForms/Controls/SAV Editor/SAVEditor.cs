@@ -1233,8 +1233,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenChatterEditor.Visible = sav is SAV4 or SAV5;
         B_OpenSealStickers.Visible = B_Poffins.Visible = sav is SAV8BS;
         B_OpenApricorn.Visible = sav is SAV4HGSS;
-        B_OpenRTCEditor.Visible = sav.Generation == 2 || sav is IGen3Hoenn;
-        B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
+        B_OpenRTCEditor.Visible = (sav.Generation == 2 && sav is not SAV2Stadium) || sav is IGen3Hoenn;
+        B_MailBox.Visible = sav is SAV2 or SAV2Stadium or SAV3 or SAV4 or SAV5;
 
         B_Raids.Visible = sav is SAV8SWSH or SAV9SV;
         B_RaidsSevenStar.Visible = sav is SAV9SV;
