@@ -132,7 +132,7 @@ public static class StringConverter3GC
 
         var table = jpn ? CharTableJPN : CharTableINT;
         int i = 0;
-        for (; i < data.Length; i++)
+        for (; i < dest.Length; i++)
         {
             var c = (char)ReadUInt16BigEndian(data[(i * 2)..]);
             if (c == TerminatorBigEndian)
