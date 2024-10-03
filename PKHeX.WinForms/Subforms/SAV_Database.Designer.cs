@@ -515,7 +515,7 @@ namespace PKHeX.WinForms
             // B_Search
             // 
             B_Search.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Search.Location = new System.Drawing.Point(388, 464);
+            B_Search.Location = new System.Drawing.Point(384, 416);
             B_Search.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Search.Name = "B_Search";
             B_Search.Size = new System.Drawing.Size(240, 35);
@@ -815,7 +815,7 @@ namespace PKHeX.WinForms
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.Size = new System.Drawing.Size(292, 414);
+            TLP_Filters.Size = new System.Drawing.Size(292, 374);
             TLP_Filters.TabIndex = 118;
             // 
             // FLP_Format
@@ -910,7 +910,7 @@ namespace PKHeX.WinForms
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_SearchSettings.Name = "TC_SearchSettings";
             TC_SearchSettings.SelectedIndex = 0;
-            TC_SearchSettings.Size = new System.Drawing.Size(308, 448);
+            TC_SearchSettings.Size = new System.Drawing.Size(308, 408);
             TC_SearchSettings.TabIndex = 120;
             // 
             // Tab_General
@@ -920,7 +920,7 @@ namespace PKHeX.WinForms
             Tab_General.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_General.Name = "Tab_General";
             Tab_General.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_General.Size = new System.Drawing.Size(300, 420);
+            Tab_General.Size = new System.Drawing.Size(300, 380);
             Tab_General.TabIndex = 0;
             Tab_General.Text = "General";
             Tab_General.UseVisualStyleBackColor = true;
