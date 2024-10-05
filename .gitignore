@@ -232,3 +232,5 @@ pingme.txt
 #################
 
 *.userprefs
+
+.fake
