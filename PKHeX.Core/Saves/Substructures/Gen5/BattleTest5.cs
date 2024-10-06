@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -9,4 +10,37 @@ public class BattleTest5(Memory<byte> Raw)
 
     private Span<byte> Data => Raw.Span;
     public bool IsUninitialized => !Data.ContainsAnyExcept<byte>(0xFF, 0);
+
+    public const ushort Sentinel = 0x0D68;
+
+    // Should be equal to Sentinel otherwise the data is not valid.
+    public ushort Magic { get => ReadUInt16LittleEndian(Data[0x5C2..]); set => WriteUInt16LittleEndian(Data[0x5C2..], value); }
+    public ushort Flags { get => ReadUInt16LittleEndian(Data[0x5C4..]); set => WriteUInt16LittleEndian(Data[0x5C4..], value); }
+    public ushort Checksum { get => ReadUInt16LittleEndian(Data[0x5C6..]); set => WriteUInt16LittleEndian(Data[0x5C6..], value); }
+
+    public bool IsDoubles
+    {
+        get => (Flags & 0x8000) != 0;
+        set
+        {
+            if (value)
+                Flags |= 0x8000;
+            else
+                Flags &= 0x7FFF;
+        }
+    }
+
+    public ushort CalculateChecksum() => Checksums.CRC16_CCITT(Data[..0x5C6]);
+    public void RefreshChecksums() => Checksum = CalculateChecksum();
+
+    // Script command 0x1F2 in B2/W2
+    public ushort GetScriptResultIsValid()
+    {
+        var chk = CalculateChecksum();
+        if (chk != Checksum)
+            return 0;
+        if (Magic != Sentinel)
+            return 0;
+        return IsDoubles ? (ushort)2 : (ushort)1;
+    }
 }

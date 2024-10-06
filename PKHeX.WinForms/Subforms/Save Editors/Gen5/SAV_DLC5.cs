@@ -141,7 +141,7 @@ public partial class SAV_DLC5 : Form
         LB_PWT.SelectedIndex = 0;
     }
 
-    private string? LastImportedFile = null;
+    private string? LastImportedFile;
 
     private bool ImportFile(string extension, string name, int expectSize, out byte[] data, string? initialName = null, int otherSize = -1)
     {
@@ -349,9 +349,11 @@ public partial class SAV_DLC5 : Form
         const int pporg = 0x17D78;
         if (!ImportFile(MusicalShow5.Extension, MusicalShowFileName, size, out var data, otherSize: pporg))
             return;
+
+        var musical = new MusicalShow5(data);
         SAV.SetMusical(data);
         if (LastImportedFile is { } name)
-            SAV.Musical.MusicalName = Path.GetFileNameWithoutExtension(name).Trim();
+            SAV.Musical.MusicalName = musical.IsUninitialized ? "" : Path.GetFileNameWithoutExtension(name).Trim();
     }
 
     private void B_MusicalExport_Click(object sender, EventArgs e)
@@ -367,7 +369,8 @@ public partial class SAV_DLC5 : Form
         bool decrypted = BattleVideo5.GetIsDecrypted(data);
         var bvid = new BattleVideo5(data) { IsDecrypted = decrypted };
         bvid.Encrypt();
-        bvid.RefreshChecksums();
+        if (!bvid.IsUninitialized)
+            bvid.RefreshChecksums();
 
         var index = LB_BattleVideo.SelectedIndex;
         SAV.SetBattleVideo(index, data);
@@ -454,6 +457,14 @@ public partial class SAV_DLC5 : Form
     {
         if (!ImportFile(BattleTest5.Extension, BattleTestFileName, BattleTest5.SIZE, out var data))
             return;
+
+        // Ensure checksums are valid for user-fuzzed data.
+        var test = new BattleTest5(data);
+        if (!test.IsUninitialized)
+        {
+            test.Magic = BattleTest5.Sentinel;
+            test.RefreshChecksums();
+        }
         SAV.SetBattleTest(data);
     }
 }

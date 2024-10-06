@@ -10,6 +10,7 @@ public sealed class MusicalShow5(Memory<byte> Raw)
     public const string Extension = "pms";
 
     public Span<byte> Data => Raw.Span;
+    public bool IsUninitialized => !Data.ContainsAnyExcept<byte>(0xFF, 0);
 
     public int Length
     {
