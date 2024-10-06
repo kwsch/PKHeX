@@ -55,7 +55,7 @@ public sealed class UnityTower5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SA
     {
         int index = GeonetOffset + ((country - 1) * 16) + (subregion / 4);
         int shift = 2 * (subregion % 4);
-        return (GeonetPoint)(((Data[index] & 0b11 << shift) >> shift));
+        return (GeonetPoint)((Data[index] & 0b11 << shift) >> shift);
     }
 
     public void SetCountrySubregion(byte country, byte subregion, GeonetPoint point)

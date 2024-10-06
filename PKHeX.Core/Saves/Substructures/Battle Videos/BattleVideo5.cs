@@ -11,25 +11,21 @@ namespace PKHeX.Core;
 /// <param name="Raw">Chunk of memory storing the structure.</param>
 public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
 {
-    private const int SIZE = 0x1900;
-    private const int SIZE_FOOTER = 0x14;
-    public const int SIZE_USED = SIZE + SIZE_FOOTER;
-    //public const int SIZE_BLOCK = 0x2000;
-    //bw is 0x2000 between each video, b2w2 is 0x1A00
+    public const int SIZE = 0x18A4;
+    public const string Extension = "bv5";
 
-    private Span<byte> Data => Raw.Span[..SIZE_USED];
+    private Span<byte> Data => Raw.Span;
+    public bool IsUninitialized => !Data.ContainsAnyExcept<byte>(0xFF, 0);
 
-    public bool IsDecrypted;
+    public bool IsDecrypted { get; set; }
     private Span<byte> CryptoData => Data[0xC4..0x18A0];
-    private Span<byte> Footer => Data.Slice(SIZE, SIZE_FOOTER);
 
     public Span<byte> DecryptedChecksumRegion => CryptoData; // ccitt16 -> 0x18A0
-    public Span<byte> EncryptedChecksumRegion => Data[..0x18A4]; // ccitt16 -> 0x18A6
-    public Span<byte> FooterChecksumRegion => Footer[..4]; // ccitt16 -> 0x12
 
     public byte Generation => 5;
     public IEnumerable<PKM> Contents => GetTeam(0).Concat(GetTeam(1)); // don't bother with multi-battles
-    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE_USED && ReadUInt32LittleEndian(data[0x1908..]) == SIZE_USED;
+    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE
+                                            && ReadUInt32LittleEndian(data[^2..]) == Checksums.CRC16_CCITT(data[..^4]);
 
     // Structure:
     // 0xC4 - 0x18A0: encrypted region
@@ -42,26 +38,88 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     // 0x0FA0: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
     // 0x1244: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
     // 0x14E8: u16 count Max, u16 count Present, (6 * sizeof(0x70)) pokemon -- 0x2A4
+
+    // Assuming participant are "real" humans, and not NPCs:
     // 0x178C: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
     // 0x17D0: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
     // 0x1814: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
     // 0x1858: 0x44 trainer data (u32 flag, char[8] OT, remainder idc)
+    // If a participant is an NPC, the flag is `2` and Trainer name is +0x10 from where it normally is.
+
     // 0x189C: 0xC bytes ???
 
     public const int SizeVideoPoke = 0x70;
 
-    public uint Key { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public string VideoName
+    {
+        get => StringConverter5.GetString(Data[..0x10]);
+        set => StringConverter5.SetString(Data[..0x10], value, 8, 0, StringConverterOption.ClearZeroSafeTerminate);
+    }
+
+    // Other Data?
+
+    public byte TrainerBirthMonth { get => Data[0x15]; set => Data[0x15] = value; }
+    public byte TrainerAvatar { get => Data[0x16]; set => Data[0x16] = value; }
+    public byte TrainerNation { get => Data[0x17]; set => Data[0x17] = value; }
+    public byte TrainerRegion { get => Data[0x18]; set => Data[0x18] = value; }
+    public ushort TrainerSpecies { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
+
+    public ushort Team1Species1 { get => ReadUInt16LittleEndian(Data[0x80..]); set => WriteUInt16LittleEndian(Data[0x80..], value); }
+    public ushort Team1Species2 { get => ReadUInt16LittleEndian(Data[0x82..]); set => WriteUInt16LittleEndian(Data[0x82..], value); }
+    public ushort Team1Species3 { get => ReadUInt16LittleEndian(Data[0x84..]); set => WriteUInt16LittleEndian(Data[0x84..], value); }
+    public ushort Team1Species4 { get => ReadUInt16LittleEndian(Data[0x86..]); set => WriteUInt16LittleEndian(Data[0x86..], value); }
+    public ushort Team1Species5 { get => ReadUInt16LittleEndian(Data[0x88..]); set => WriteUInt16LittleEndian(Data[0x88..], value); }
+    public ushort Team1Species6 { get => ReadUInt16LittleEndian(Data[0x8A..]); set => WriteUInt16LittleEndian(Data[0x8A..], value); }
+
+    public ushort Team2Species1 { get => ReadUInt16LittleEndian(Data[0x8C..]); set => WriteUInt16LittleEndian(Data[0x8C..], value); }
+    public ushort Team2Species2 { get => ReadUInt16LittleEndian(Data[0x8E..]); set => WriteUInt16LittleEndian(Data[0x8E..], value); }
+    public ushort Team2Species3 { get => ReadUInt16LittleEndian(Data[0x90..]); set => WriteUInt16LittleEndian(Data[0x90..], value); }
+    public ushort Team2Species4 { get => ReadUInt16LittleEndian(Data[0x92..]); set => WriteUInt16LittleEndian(Data[0x92..], value); }
+    public ushort Team2Species5 { get => ReadUInt16LittleEndian(Data[0x94..]); set => WriteUInt16LittleEndian(Data[0x94..], value); }
+    public ushort Team2Species6 { get => ReadUInt16LittleEndian(Data[0x96..]); set => WriteUInt16LittleEndian(Data[0x96..], value); }
+
+    public ushort BattleNumber { get => ReadUInt16LittleEndian(Data[0xA4..]); set => WriteUInt16LittleEndian(Data[0xA4..], value); }
+    public byte BattleMode { get => Data[0xA6]; set => Data[0xA6] = value; }
+    public byte BattleType { get => Data[0xA7]; set => Data[0xA7] = value; } // Launcher
+    public ushort StartSentinel { get => ReadUInt16LittleEndian(Data[0xA8..]); set => WriteUInt16LittleEndian(Data[0xA8..], value); }
+    public byte Boolean { get => Data[0xAA]; set => Data[0xAA] = value; } // 0 or 1
+    public byte OneHundred { get => Data[0xAB]; set => Data[0xAB] = value; } // 100
+
+    public ulong BattleVideoUploadId { get => ReadUInt64LittleEndian(Data[0xB8..]); set => WriteUInt64LittleEndian(Data[0xB8..], value); }
+
+    // Encrypted Section
+    public ulong RandomSeed { get => ReadUInt64LittleEndian(Data[0xC4..]); set => WriteUInt64LittleEndian(Data[0xC4..], value); }
+    public ulong RandomMult { get => ReadUInt64LittleEndian(Data[0xCC..]); set => WriteUInt64LittleEndian(Data[0xCC..], value); }
+    public ulong RandomAdd { get => ReadUInt64LittleEndian(Data[0xD4..]); set => WriteUInt64LittleEndian(Data[0xD4..], value); }
+    public uint BattlePad1 { get => ReadUInt32LittleEndian(Data[0xDC..]); set => WriteUInt32LittleEndian(Data[0xDC..], value); }
+    public uint BattlePad2 { get => ReadUInt32LittleEndian(Data[0xE0..]); set => WriteUInt32LittleEndian(Data[0xE0..], value); }
+
+    private const int TeamCount = 4;
+    private const int TeamLength = 0x2A4;
+    public Span<byte> Team1 => Data.Slice(0x0CFC, TeamLength);
+    public Span<byte> Team2 => Data.Slice(0x0FA0, TeamLength);
+    public Span<byte> Team3 => Data.Slice(0x1244, TeamLength);
+    public Span<byte> Team4 => Data.Slice(0x14E8, TeamLength);
+
+    private const int TrainerLength = 0x44;
+    public Span<byte> Trainer1 => Data.Slice(0x178C, TrainerLength); // + 0x10 something else
+    public Span<byte> Trainer2 => Data.Slice(0x17D0, TrainerLength);
+    public Span<byte> Trainer3 => Data.Slice(0x1814, TrainerLength);
+    public Span<byte> Trainer4 => Data.Slice(0x1858, TrainerLength);
+
+    // should always be 0xE281
+    public ushort EndSentinel { get => ReadUInt16LittleEndian(Data[0x189C..]); set => WriteUInt16LittleEndian(Data[0x189C..], value); }
+    public ushort Unused { get => ReadUInt16LittleEndian(Data[0x189E..]); set => WriteUInt16LittleEndian(Data[0x189E..], value); }
 
     /// <summary> <see cref="CalculateDecryptedChecksum"/> </summary>
     public ushort Seed { get => ReadUInt16LittleEndian(Data[0x18A0..]); set => WriteUInt16LittleEndian(Data[0x18A0..], value); }
     // 0000: ^ seed is truncated to u16.
-    public ushort EncryptedCount { get => ReadUInt16LittleEndian(Data[0x18A4..]); set => WriteUInt16LittleEndian(Data[0x18A4..], value); }
-    public ushort EncryptedChecksum { get => ReadUInt16LittleEndian(Data[0x18A6..]); set => WriteUInt16LittleEndian(Data[0x18A6..], value); }
-    // 0xFF padding(?) to 0x1900
 
+    /// <summary> Decrypts the object. If already decrypted, does nothing. </summary>
     public void Decrypt() => SetDecryptedState(true);
+    /// <summary> Encrypts the object. If already encrypted, does nothing. </summary>
     public void Encrypt() => SetDecryptedState(false);
-    public void SetDecryptedState(bool state)
+    private void SetDecryptedState(bool state)
     {
         if (state == IsDecrypted)
             return;
@@ -72,30 +130,10 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     /// <summary>
     /// Same as Gen4!
     /// </summary>
-    /// <returns></returns>
     public uint GetEncryptionSeed()
     {
         uint seed = Seed;
         return seed | (~seed << 16);
-    }
-
-    #region Footer
-    public bool SizeValid => BlockSize == SIZE;
-    public bool ChecksumValid => FooterChecksum == CalculateFooterChecksum();
-
-    public ushort EncryptedChecksumCopy { get => ReadUInt16LittleEndian(Footer); set => WriteUInt16LittleEndian(Footer, value); }
-    // 0000
-    public uint FooterCount { get => ReadUInt32LittleEndian(Footer[0x4..]); set => WriteUInt32LittleEndian(Footer[0x4..], value); }
-    public int BlockSize { get => ReadInt32LittleEndian(Footer[0x8..]); set => WriteInt32LittleEndian(Footer[0x8..], value); }
-    public uint BlockID { get => ReadUInt32LittleEndian(Footer[0xC..]); set => WriteUInt32LittleEndian(Footer[0xC..], value); }
-    // 0000
-    public ushort FooterChecksum { get => ReadUInt16LittleEndian(Footer[0x12..]); set => WriteUInt16LittleEndian(Footer[0x12..], value); }
-
-    private ushort CalculateEncryptedChecksum()
-    {
-        if (IsDecrypted)
-            throw new InvalidOperationException("Cannot calculate checksum when decrypted.");
-        return Checksums.CRC16_CCITT(EncryptedChecksumRegion);
     }
 
     private ushort CalculateDecryptedChecksum()
@@ -105,41 +143,21 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
         return Checksums.CRC16_CCITT(DecryptedChecksumRegion);
     }
 
-    private ushort CalculateFooterChecksum() => Checksums.CRC16_CCITT(FooterChecksumRegion);
-
     public void RefreshChecksums()
     {
         var state = IsDecrypted;
         Decrypt();
         Seed = CalculateDecryptedChecksum();
         Encrypt();
-        EncryptedChecksum = CalculateEncryptedChecksum();
-        FooterChecksum = CalculateFooterChecksum();
         SetDecryptedState(state);
     }
 
-    #endregion
-
     #region Conversion
-
-    private const int TrainerCount = 4;
-    private const int TrainerLength = 0x2A4;
-    public Span<byte> Trainer1 => Data.Slice(0x0CFC, TrainerLength);
-    public Span<byte> Trainer2 => Data.Slice(0x0FA0, TrainerLength);
-    public Span<byte> Trainer3 => Data.Slice(0x1244, TrainerLength);
-    public Span<byte> Trainer4 => Data.Slice(0x14E8, TrainerLength);
 
     public PK5[] GetTeam(int trainer)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)trainer, TrainerCount);
-        var span = trainer switch
-        {
-            0 => Trainer1,
-            1 => Trainer2,
-            2 => Trainer3,
-            3 => Trainer4,
-            _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
-        };
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)trainer, TeamLength);
+        var span = GetTrainer(trainer);
 
         var state = IsDecrypted;
         Decrypt();
@@ -155,6 +173,30 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
             InflateToPK5(segment, entity.Data);
             result[i] = entity;
         }
+        SetDecryptedState(state);
+        return result;
+    }
+
+    private Span<byte> GetTrainer(int trainer) => trainer switch
+    {
+        0 => Trainer1,
+        1 => Trainer2,
+        2 => Trainer3,
+        3 => Trainer4,
+        _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
+    };
+
+    public string GetTrainerName(int trainer)
+    {
+        var state = IsDecrypted;
+        Decrypt();
+        var data = GetTrainer(trainer);
+        uint flag = ReadUInt32LittleEndian(data);
+        data = data[4..];
+        if (flag != 1) // not human?
+            data = data[0x10..];
+        var buffer = data[..(7 * 2)];
+        var result = !buffer.ContainsAnyExcept<byte>(0) ? string.Empty : StringConverter5.GetString(buffer);
         SetDecryptedState(state);
         return result;
     }
@@ -235,4 +277,31 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
             throw new ArgumentOutOfRangeException(nameof(entity), "Entity size is too small.");
     }
     #endregion
+
+    public const ulong BWRNG_M = 0x5D588B656C078965ul;
+    public const ulong BWRNG_A = 0x0000000000269EC3ul;
+
+    public static bool GetIsDecrypted(ReadOnlySpan<byte> data)
+    {
+        if (data.Length < SIZE)
+            return false;
+        if (ReadUInt64LittleEndian(data[0xCC..]) != BWRNG_M) // mul
+            return false;
+        if (ReadUInt64LittleEndian(data[0xD4..]) != BWRNG_A) // add
+            return false;
+        return true;
+    }
+
+    public string GetTrainerNames()
+    {
+        var state = IsDecrypted;
+        var tr1 = GetTrainerName(0);
+        var tr2 = GetTrainerName(1);
+        var tr3 = GetTrainerName(2);
+        var tr4 = GetTrainerName(3);
+        SetDecryptedState(state);
+        if (string.IsNullOrWhiteSpace(tr3))
+            return $"{tr1} vs {tr2}";
+        return $"{tr1} & {tr2} vs {tr3} & {tr4}";
+    }
 }

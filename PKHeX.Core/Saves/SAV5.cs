@@ -57,8 +57,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override bool ChecksumsValid => AllBlocks.GetChecksumsValid(Data);
     public override string ChecksumInfo => AllBlocks.GetChecksumInfo(Data);
 
-    private int CGearInfoOffset => AllBlocks[32].Offset; // 0x1C000 - Options / Skin Info
-    protected abstract int CGearDataOffset { get; } // extdata
     public sealed override bool HasPokeDex => true;
 
     // Daycare
@@ -125,44 +123,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter5.SetString(destBuffer, value, maxLength, Language, option);
 
-    // DLC
-    private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;
-
-    private bool CGearSkinPresent
-    {
-        get => Data[CGearSkinInfoOffset + 2] == 1;
-        set => Data[CGearSkinInfoOffset + 2] = PlayerData.Data[this is SAV5B2W2 ? 0x6C : 0x54] = value ? (byte)1 : (byte)0;
-    }
-
-    private static ReadOnlySpan<byte> DLCFooter => [ 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 ];
-
-    public Memory<byte> CGearSkinData => Data.AsMemory(CGearDataOffset, CGearBackground.SIZE);
-
-    public void SetCGearSkin(ReadOnlySpan<byte> value)
-    {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, CGearBackground.SIZE);
-        SetData(value, CGearDataOffset);
-
-        ushort chk = Checksums.CRC16_CCITT(value);
-        var footer = Data.AsSpan(CGearDataOffset + value.Length);
-
-        WriteUInt16LittleEndian(footer, 1); // block updated once
-        WriteUInt16LittleEndian(footer[2..], chk); // checksum
-        WriteUInt16LittleEndian(footer[0x100..], chk);  // second checksum
-
-        DLCFooter.CopyTo(footer[0x102..]);
-
-        ushort skinchkval = Checksums.CRC16_CCITT(footer[0x100..0x104]);
-        WriteUInt16LittleEndian(footer[0x112..], skinchkval);
-
-        // Indicate in the save file that data is present
-        WriteUInt16LittleEndian(Data.AsSpan(0x19438), 0xC21E);
-
-        WriteUInt16LittleEndian(Data.AsSpan(CGearSkinInfoOffset), chk);
-        CGearSkinPresent = true;
-        State.Edited = true;
-    }
-
     public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
     public abstract MyItem Items { get; }
     public abstract Zukan5 Zukan { get; }
@@ -179,6 +139,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract Musical5 Musical { get; }
     public abstract Encount5 Encount { get; }
     public abstract UnityTower5 UnityTower { get; }
+    public abstract SkinInfo5 SkinInfo { get; }
     public abstract EventWork5 EventWork { get; }
     public abstract BattleBox5 BattleBox { get; }
     public abstract EntreeForest EntreeForest { get; }
@@ -188,11 +149,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract AdventureInfo5 AdventureInfo { get; }
     public abstract Record5 Records { get; }
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
-
-    public abstract Memory<byte> BattleVideoNative { get; }
-    public abstract Memory<byte> BattleVideoDownload1 { get; }
-    public abstract Memory<byte> BattleVideoDownload2 { get; }
-    public abstract Memory<byte> BattleVideoDownload3 { get; }
 
     protected override byte[] GetFinalData()
     {
@@ -212,4 +168,143 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     }
 
     IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => Mystery;
+    protected abstract int ExtBattleVideoNativeOffset { get; }
+    protected abstract int ExtBattleVideoDownload1Offset { get; }
+    protected abstract int ExtBattleVideoDownload2Offset { get; }
+    protected abstract int ExtBattleVideoDownload3Offset { get; }
+    protected abstract int ExtCGearOffset { get; }
+    protected abstract int ExtBattleTestOffset { get; }
+    protected abstract int ExtMusicalDownloadOffset { get; }
+    protected abstract int ExtPokeDexSkinOffset { get; }
+    protected abstract int ExtHallOfFame1Offset { get; }
+    protected abstract int ExtHallOfFame2Offset { get; }
+    protected abstract int ExtLink1Offset { get; }
+    protected abstract int ExtLink2Offset { get; }
+
+    /// <summary> Variable sized NARC download depending on the game (B/W vs B2/W2). </summary>
+    public abstract int MusicalDownloadSize { get; }
+    public const int HallOfFameSize = 0x155C;
+    private const int Link3DSDataSize = 0x400;
+
+    public Memory<byte> BattleVideoNative => Data.AsMemory(ExtBattleVideoNativeOffset, BattleVideo5.SIZE);
+    public Memory<byte> BattleVideoDownload1 => Data.AsMemory(ExtBattleVideoDownload1Offset, BattleVideo5.SIZE);
+    public Memory<byte> BattleVideoDownload2 => Data.AsMemory(ExtBattleVideoDownload2Offset, BattleVideo5.SIZE);
+    public Memory<byte> BattleVideoDownload3 => Data.AsMemory(ExtBattleVideoDownload3Offset, BattleVideo5.SIZE);
+    public Memory<byte> CGearSkinData => Data.AsMemory(ExtCGearOffset, CGearBackground.SIZE);
+    public Memory<byte> BattleTest => Data.AsMemory(ExtBattleTestOffset, BattleTest5.SIZE);
+    public Memory<byte> MusicalDownloadData => Data.AsMemory(ExtMusicalDownloadOffset, MusicalDownloadSize);
+    public Memory<byte> PokedexSkinData => Data.AsMemory(ExtPokeDexSkinOffset, PokeDexSkin5.SIZE);
+    public Memory<byte> HallOfFame1 => Data.AsMemory(ExtHallOfFame1Offset, HallOfFameSize);
+    public Memory<byte> HallOfFame2 => Data.AsMemory(ExtHallOfFame2Offset, HallOfFameSize);
+    public Memory<byte> Link1Data => Data.AsMemory(ExtLink1Offset, Link3DSDataSize);
+    public Memory<byte> Link2Data => Data.AsMemory(ExtLink2Offset, Link3DSDataSize);
+
+    private const int ExtFooterLength = 0x14;
+
+    /// <summary>
+    /// Writes an extdata section
+    /// </summary>
+    /// <param name="data">Section of data to write</param>
+    /// <param name="offset">Offset within the save file to write to</param>
+    /// <param name="size">Expected size of the data</param>
+    /// <param name="count">Update count</param>
+    /// <returns>Checksum of the <see cref="data"/></returns>
+    protected ushort WriteExtSection(ReadOnlySpan<byte> data, int offset, int size, ushort count)
+    {
+        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, size);
+        SetData(data, offset);
+
+        // Update Tail Section
+        ushort chk = Checksums.CRC16_CCITT(data);
+        var tail = Data.AsSpan(offset + size);
+        WriteUInt16LittleEndian(tail, count); // block updated counter
+        WriteUInt16LittleEndian(tail[2..], chk); // checksum
+
+        // Update Footer
+        int lengthInner = size + 0x100 - (size % 0x100); // wasting 0x100 bytes, nice!
+        var footer = Data.AsSpan(offset + lengthInner, ExtFooterLength);
+        WriteFooterDLC(footer, chk, lengthInner + ExtFooterLength, count);
+        return chk;
+    }
+
+    private static void WriteFooterDLC(Span<byte> data, ushort chk, int length, ushort count)
+    {
+        WriteInt32LittleEndian(data, chk);
+        chk = Checksums.CRC16_CCITT(data[..4]); // checksum of a checksum
+        WriteFooter51(data[4..], chk, length, count);
+    }
+
+    private static void WriteFooter51(Span<byte> data, ushort chk, int length, ushort count)
+    {
+        WriteInt32LittleEndian(data, count);
+        WriteInt32LittleEndian(data[0x04..], length);
+        WriteInt32LittleEndian(data[0x08..], 0x31053527); // '5.1 magic prime 822424871
+
+        WriteUInt16LittleEndian(data[0x0C..], 0);
+        WriteUInt16LittleEndian(data[0x0E..], chk);
+    }
+
+    public void SetBattleVideo(int index, ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        PlayerData.UpdateExtData(ExtDataSectionNote5.BattleVideo0 + index, count);
+        var offset = index switch
+        {
+            0 => ExtBattleVideoNativeOffset,
+            1 => ExtBattleVideoDownload1Offset,
+            2 => ExtBattleVideoDownload2Offset,
+            3 => ExtBattleVideoDownload3Offset,
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        };
+        WriteExtSection(data, offset, BattleVideo5.SIZE, count);
+    }
+
+    public Memory<byte> GetBattleVideo(int index) => index switch
+    {
+        0 => BattleVideoNative,
+        1 => BattleVideoDownload1,
+        2 => BattleVideoDownload2,
+        3 => BattleVideoDownload3,
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+    };
+
+    public void SetCGearSkin(ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        var chk = WriteExtSection(data, ExtCGearOffset, CGearBackground.SIZE, count);
+
+        // Indicate in the save file that data is present
+        SkinInfo.CGearSkinChecksum = chk;
+        SkinInfo.HasCGearSkin = true;
+        PlayerData.UpdateExtData(ExtDataSectionNote5.CGearSkin, count);
+    }
+
+    public void SetBattleTest(ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        WriteExtSection(data, ExtBattleTestOffset, BattleTest5.SIZE, count);
+        PlayerData.UpdateExtData(ExtDataSectionNote5.BattleTest, count);
+    }
+
+    public void SetMusical(ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        WriteExtSection(data, ExtMusicalDownloadOffset, MusicalDownloadSize, count);
+        PlayerData.UpdateExtData(ExtDataSectionNote5.Musical, count);
+        Musical.IsAvailableMusicalDLC = true;
+    }
+
+    public void SetPokeDexSkin(ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        WriteExtSection(data, ExtPokeDexSkinOffset, PokeDexSkin5.SIZE, count);
+        PlayerData.UpdateExtData(ExtDataSectionNote5.PokedexSkin, count);
+    }
+
+    public void SetHallOfFame(ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        WriteExtSection(data, ExtHallOfFame1Offset, HallOfFameSize, count);
+        PlayerData.UpdateExtData(ExtDataSectionNote5.HallOfFame, count);
+    }
+
+    public void SetLink1Data(ReadOnlySpan<byte> data, ushort count = 1)
+        => WriteExtSection(data, ExtLink1Offset, Link3DSDataSize, count);
+
+    public void SetLink2Data(ReadOnlySpan<byte> data, ushort count = 1)
+        => WriteExtSection(data, ExtLink2Offset, Link3DSDataSize, count);
 }
