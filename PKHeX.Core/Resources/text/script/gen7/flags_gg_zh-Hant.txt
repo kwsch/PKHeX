@@ -1,4 +1,4 @@
-﻿v0277	road012_pm0143_kabigon (12號道路卡比獸)
+v0277	road012_pm0143_kabigon (12號道路卡比獸)
 v0225	road016_2_pm0143_kabigon (16號道路卡比獸)
 v0500	r020d0105_2_pm0144_freezer (急凍鳥)
 v0441	r010r0101_pm0145_thunder (閃電鳥)
@@ -7,6 +7,8 @@ v0603	t004d0103_pm0150_mewtwo (超夢)
 
 v1114	t011r0501_pm0106_sawamular (Hitmonlee)
 v1113	t011r0501_pm0107_ebiwalar (Hitmonchan)
+
+v0255	Porygon in Saffron City
 
 e0116	FE_MASTER_RED_BATTLE_TALKED (Spoken to Red)
 e0000	FE_EV0905_BTL_RED (Defeated Red)
@@ -24,6 +26,9 @@ e0193	FE_CAPTURE_KABIGON_ROAD016 (捕獲16號道路卡比獸)
 
 e0029	FE_SUB_23_BTLAFTER (Defeated Karate Master)
 e0030	FE_SUB_23_CLEAR (Received Hitmonlee/Hitmonchan)
+
+e0011	Received Silph Co. Lapras
+e0081	Received Saffron City Porygon
 
 s0001	FSYS_HIDEN_OPEN_IAIGIRI (Unlocked Secret Technique: Chop Down)
 s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (Unlocked Secret Technique: Sky Dash)
