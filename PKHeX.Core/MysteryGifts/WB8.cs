@@ -519,6 +519,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     {
         pk.IsEgg = true;
         pk.EggMetDate = EncounterDate.GetDateSwitch();
+        pk.NicknameTrash.Clear();
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = false;
     }
