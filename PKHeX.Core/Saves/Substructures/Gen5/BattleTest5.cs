@@ -11,7 +11,12 @@ public class BattleTest5(Memory<byte> Raw)
     private Span<byte> Data => Raw.Span;
     public bool IsUninitialized => !Data.ContainsAnyExcept<byte>(0xFF, 0);
 
-    public const ushort Sentinel = 0x0D68;
+    public const ushort Sentinel = 0x0D68; // 3432
+
+    /// <summary>
+    /// The game will validate the CRC, then update the magic and reapply the CRC.
+    /// </summary>
+    public const ushort SentinelPost = 0x07DA; // 2010
 
     // Should be equal to Sentinel otherwise the data is not valid.
     public ushort Magic { get => ReadUInt16LittleEndian(Data[0x5C2..]); set => WriteUInt16LittleEndian(Data[0x5C2..], value); }
@@ -32,6 +37,15 @@ public class BattleTest5(Memory<byte> Raw)
 
     public ushort CalculateChecksum() => Checksums.CRC16_CCITT(Data[..0x5C6]);
     public void RefreshChecksums() => Checksum = CalculateChecksum();
+
+    public void SetAsUnplayable()
+    {
+        // The game verifies the checksums first (clears it if fails & aborts).
+        // If valid, updates the magic and re-applies the checksum.
+        // It is assumed that this is the after-test state that prevents replaying.
+        Magic = SentinelPost;
+        RefreshChecksums();
+    }
 
     // Script command 0x1F2 in B2/W2
     public ushort GetScriptResultIsValid()

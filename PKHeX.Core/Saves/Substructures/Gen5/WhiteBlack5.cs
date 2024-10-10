@@ -1,11 +1,11 @@
 using System;
-using System.Buffers.Binary;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 public abstract class WhiteBlack5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
 {
-    public uint Unknown { get => BinaryPrimitives.ReadUInt32LittleEndian(Data); set => BinaryPrimitives.WriteUInt32LittleEndian(Data, value); }
+    public uint Unknown { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
 }
 
 public sealed class WhiteBlack5BW(SAV5BW sav, Memory<byte> raw) : WhiteBlack5(sav, raw)

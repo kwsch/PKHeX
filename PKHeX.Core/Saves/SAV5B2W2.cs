@@ -75,7 +75,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public const int PokestarOffset = 0x77000; // 0x600 * 8
     public const int PWTOffset = 0x7A000; // 0x1400 * 3
 
-    public const int DreamRadarOffset = 0x7DC00; // 0x400, size 0xC8 ?
+    public const int KeyDataOffset = 0x7DC00; // 0x400, size 0xC8
 
     protected override int ExtLink1Offset => 0x7E000; // 0x400
     protected override int ExtLink2Offset => 0x7E400; // 0x400
@@ -121,5 +121,13 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
         var offset = GetPWTOffset(index);
         WriteExtSection(data, offset, PWTLength, count);
         PlayerData.UpdateExtData(ExtDataSectionNote5.PWT1 + index, count);
+    }
+
+    public Memory<byte> GetKeyData() => Data.AsMemory(KeyDataOffset, 0xC8);
+
+    public void SetKeyData(ReadOnlySpan<byte> data, ushort count = 1)
+    {
+        PlayerData.UpdateExtData(ExtDataSectionNote5.KeyData, count);
+        WriteExtSection(data, KeyDataOffset, PWTLength, count);
     }
 }

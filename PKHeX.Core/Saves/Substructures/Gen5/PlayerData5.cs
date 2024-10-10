@@ -182,7 +182,7 @@ public sealed class PlayerData5B2W2(SAV5B2W2 sav, Memory<byte> raw) : PlayerData
 
     public override void UpdateExtData(ExtDataSectionNote5 section, uint count)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)section, (uint)ExtDataSectionNote5.Unused, nameof(section));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)section, (uint)ExtDataSectionNote5.KeyData, nameof(section));
         ushort value = count == 0 ? (ushort)0 : C21E;
         WriteUInt16LittleEndian(Data[(0x30 + ((int)section * 2))..], value);
         WriteUInt32LittleEndian(Data[(0x5C + ((int)section * 4))..], count);
@@ -199,27 +199,27 @@ public sealed class PlayerData5B2W2(SAV5B2W2 sav, Memory<byte> raw) : PlayerData
 
 public enum ExtDataSectionNote5
 {
-    BattleVideo0,
-    BattleVideo1,
-    BattleVideo2,
-    BattleVideo3,
-    CGearSkin,
-    BattleTest,
-    Musical,
-    PokedexSkin,
-    HallOfFame,
+    BattleVideo0 = 0,
+    BattleVideo1 = 1,
+    BattleVideo2 = 2,
+    BattleVideo3 = 3,
+    CGearSkin = 4,
+    BattleTest = 5,
+    Musical = 6,
+    PokedexSkin = 7,
+    HallOfFame = 8,
 
     // B2/W2 additions
-    Movie1,
-    Movie2,
-    Movie3,
-    Movie4,
-    Movie5,
-    Movie6,
-    Movie7,
-    Movie8,
-    PWT1,
-    PWT2,
-    PWT3,
-    Unused,
+    Movie1 = 9,
+    Movie2 = 10,
+    Movie3 = 11,
+    Movie4 = 12,
+    Movie5 = 13,
+    Movie6 = 14,
+    Movie7 = 15,
+    Movie8 = 16,
+    PWT1 = 17,
+    PWT2 = 18,
+    PWT3 = 19,
+    KeyData = 20,
 }

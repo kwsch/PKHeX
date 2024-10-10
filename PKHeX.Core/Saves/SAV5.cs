@@ -302,9 +302,6 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
         PlayerData.UpdateExtData(ExtDataSectionNote5.HallOfFame, count);
     }
 
-    public void SetLink1Data(ReadOnlySpan<byte> data, ushort count = 1)
-        => WriteExtSection(data, ExtLink1Offset, Link3DSDataSize, count);
-
-    public void SetLink2Data(ReadOnlySpan<byte> data, ushort count = 1)
-        => WriteExtSection(data, ExtLink2Offset, Link3DSDataSize, count);
+    public void SetLink1Data(ReadOnlySpan<byte> data) => SetData(data, ExtLink1Offset);
+    public void SetLink2Data(ReadOnlySpan<byte> data) => SetData(data, ExtLink2Offset);
 }
