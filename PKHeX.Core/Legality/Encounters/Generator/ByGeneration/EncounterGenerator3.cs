@@ -64,7 +64,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
+            if (!IsTypeCompatible(e, pk, ref info.GetPIDIVRef()))
             {
                 defer.Update(DeferralType.PIDIV, e);
                 continue;
@@ -76,26 +76,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             }
             if (e is not EncounterSlot3 slot)
             {
-                if (e is EncounterGift3 gift)
-                {
-                    if (gift.TID16 == 40122) // CHANNEL Jirachi
-                    {
-                        var chk = ChannelJirachi.GetPossible(info.PIDIV.OriginSeed);
-                        if (chk.Pattern is not ChannelJirachiRandomResult.None)
-                            info.PIDIV = info.PIDIV.AsEncounteredVia(new(chk.Seed, LeadRequired.None));
-                        else
-                            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-                        yield return gift;
-                        yield break;
-                    }
-                    if (gift.TID16 == 06930) // MYSTRY Mew
-                    {
-                        if (!MystryMew.IsValidSeed(info.PIDIV.OriginSeed))
-                            info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
-                        yield return gift;
-                        yield break;
-                    }
-                }
                 yield return e;
                 continue;
             }
@@ -134,8 +114,11 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         _ => pk.Ball is not (byte)Ball.Safari,
     };
 
-    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, ref PIDIV pidiv)
     {
+        if (enc is IRandomCorrelationEvent3 revise)
+            return revise.IsCompatibleReviseReset(ref pidiv, pk);
+        var type = pidiv.Type;
         if (enc is IRandomCorrelation r)
             return r.IsCompatible(type, pk);
         return type == PIDType.None;

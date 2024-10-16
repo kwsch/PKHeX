@@ -176,15 +176,15 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     }
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
         var version = pk.Version;
         if (version is GameVersion.E)
-            return val is PIDType.Method_1;
+            return type is PIDType.Method_1;
         if (version is GameVersion.FR or GameVersion.LG)
-            return Roaming ? IsRoamerPIDIV(val, pk) : val is PIDType.Method_1;
+            return Roaming ? IsRoamerPIDIV(type, pk) : type is PIDType.Method_1;
         // RS, roamer glitch && RSBox s/w emulation => method 4 available
-        return Roaming ? IsRoamerPIDIV(val, pk) : val is (PIDType.Method_1 or PIDType.Method_4);
+        return Roaming ? IsRoamerPIDIV(type, pk) : type is (PIDType.Method_1 or PIDType.Method_4);
     }
 
     private static bool IsRoamerPIDIV(PIDType val, PKM pk)

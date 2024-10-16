@@ -86,32 +86,42 @@ public static class MethodFinder
 
     public static bool GetLCRNGMethod1Match(PKM pk, out uint result)
     {
-        var pid = pk.EncryptionConstant;
-
-        var top = pid & 0xFFFF0000;
-        var bot = pid << 16;
-
         Span<uint> temp = stackalloc uint[6];
         for (int i = 0; i < 6; i++)
             temp[i] = (uint)pk.GetIV(i);
-        ReadOnlySpan<uint> IVs = temp;
+        return GetLCRNGMethod1Match(pk.EncryptionConstant, temp, out result);
+    }
 
-        const int maxResults = LCRNG.MaxCountSeedsIV;
-        Span<uint> seeds = stackalloc uint[maxResults];
-        var count = LCRNGReversal.GetSeeds(seeds, bot, top);
-        var reg = seeds[..count];
+    public static bool GetLCRNGMethod1Match(uint pid, ReadOnlySpan<uint> IVs, out uint result)
+    {
         var iv1 = GetIVChunk(IVs[..3]);
         var iv2 = GetIVChunk(IVs[3..]);
+        return GetLCRNGMethod1Match(pid, iv1, iv2, out result);
+    }
+
+    public static bool GetLCRNGMethod1Match(uint pid, uint iv1, uint iv2, out uint result)
+    {
+        var bot = pid << 16;
+        var top = pid & 0xFFFF0000;
+        return GetLCRNGMethod1Match(bot, top, iv1, iv2, out result);
+    }
+
+    public static bool GetLCRNGMethod1Match(uint a, uint b, uint c, uint d, out uint result)
+    {
+        const int maxResults = LCRNG.MaxCountSeedsIV;
+        Span<uint> seeds = stackalloc uint[maxResults];
+        var count = LCRNGReversal.GetSeeds(seeds, a, b);
+        var reg = seeds[..count];
 
         foreach (var seed in reg)
         {
             var C = LCRNG.Next3(seed);
             var ivC = C >> 16 & 0x7FFF;
-            if (iv1 != ivC)
+            if (c != ivC)
                 continue;
             var D = LCRNG.Next(C);
             var ivD = D >> 16 & 0x7FFF;
-            if (iv2 != ivD)
+            if (d != ivD)
                 continue;
             // ABCD
             result = seed;
@@ -521,75 +531,71 @@ public static class MethodFinder
         return true;
     }
 
-    private static bool GetBACDMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetBACDMatch<T>(Span<uint> seeds, T pk, uint actualPID, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+        where T : ITrainerID32
     {
         var bot = GetIVChunk(IVs[..3]) << 16;
         var top = GetIVChunk(IVs[3..]) << 16;
 
         var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
-        PIDType type = BACD_U;
-        foreach (var seed in reg)
+        PIDType type = BACD;
+        uint idXor = (uint)(pk.TID16 ^ pk.SID16);
+        foreach (var x in reg)
         {
-            var B = seed;
-            var A = LCRNG.Prev(B);
-            var low = B >> 16;
+            // Check for the expected BA(CD) pattern -- the expected PID.
+            var seed = x;
+            var b16 = seed >> 16;
+            var a16 = LCRNG.Prev16(ref seed);
 
-            var PID = (A & 0xFFFF0000) | low;
-            if (PID != pid)
+            var expectPID = CommonEvent3.GetRegular(a16, b16);
+            if (expectPID != actualPID)
             {
-                uint idxor = (uint)(pk.TID16 ^ pk.SID16);
-                bool isShiny = (idxor ^ PID >> 16 ^ (PID & 0xFFFF)) < 8;
-                if (!isShiny)
+                // Check for the alternate event types that force shiny state.
+                bool isShiny = ShinyUtil.GetIsShiny(idXor, actualPID, 8);
+                if (!isShiny) // most likely, branch prediction!
                 {
-                    if (!pk.IsShiny) // check for nyx antishiny
-                    {
-                        if (!IsBACD_U_AX(idxor, pid, low, A, ref type))
-                            continue;
-                    }
-                    else // check for force shiny pk
-                    {
-                        if (!IsBACD_U_S(idxor, pid, low, ref A, ref type))
-                            continue;
-                    }
-                }
-                else if (!IsBACD_U_AX(idxor, pid, low, A, ref type))
-                {
-                    if ((PID + 8 & 0xFFFFFFF8) != pid)
+                    if (CommonEvent3.IsRegularAntishiny(actualPID, expectPID))
+                        type = BACD_A;
+                    else if (CommonEvent3.IsForceAntishiny(actualPID, a16, b16, idXor))
+                        type = BACD_AX;
+                    else if (CommonEvent3.IsForceShinyDifferentOT(actualPID, LCRNG.Prev16(ref seed), b16, idXor))
+                        type = BACD_ES; // was shiny, hatched by different OT.
+                    else
                         continue;
-                    type = BACD_U_A;
+                }
+                else // Shiny
+                {
+                    if (CommonEvent3.IsRegularAntishinyDifferentOT(actualPID, expectPID))
+                        type = BACD_EA; // was not-shiny, hatched by different OT.
+                    else if (CommonEvent3.IsForceAntishinyDifferentOT(actualPID, a16, b16, idXor))
+                        type = BACD_EAX; // was not-shiny, hatched by different OT.
+                    else if (CommonEvent3.IsForceShiny(actualPID, LCRNG.Prev16(ref seed), b16, idXor))
+                        type = BACD_S;
+                    else
+                        continue;
                 }
             }
-            var s = LCRNG.Prev(A);
 
-            // Check for prior Restricted seed
-            var sn = s;
-            for (int i = 0; i < 3; i++, sn = LCRNG.Prev(sn))
-            {
-                if ((sn & 0xFFFF0000) != 0)
-                    continue;
-                // shift from unrestricted enum val to restricted enum val
-                pidiv = new PIDIV(--type, sn);
-                return true;
-            }
-            // no restricted seed found, thus unrestricted
-            pidiv = new PIDIV(type, s);
+            // Unroll one final time to get the origin seed.
+            var origin = LCRNG.Prev(seed);
+            pidiv = new PIDIV(type, origin);
             return true;
         }
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetPokewalkerMatch(PKM pk, uint pid, out PIDIV pidiv)
+    private static bool GetPokewalkerMatch(PKM pk, uint actualPID, out PIDIV pidiv)
     {
         // check surface compatibility
         // Bits 8-24 must all be zero or all be one.
         const uint midMask = 0x00FFFF00;
-        var mid = pid & midMask;
+        var mid = actualPID & midMask;
         if (mid is not (0 or midMask))
             return GetNonMatch(out pidiv);
 
         // Quirky Nature is not possible with the algorithm.
-        var nature = pid % 25;
+        var nature = actualPID % 25;
         if (nature == 24)
             return GetNonMatch(out pidiv);
 
@@ -599,10 +605,10 @@ public static class MethodFinder
         var gr = pk.PersonalInfo.Gender;
         if (pk.Species == (int)Species.Froslass)
             gr = 0x7F; // Snorunt
-        var expect = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, gender, gr);
-        if (expect != pid)
+        var expectPID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, gender, gr);
+        if (expectPID != actualPID)
         {
-            if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, pid)))
+            if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, actualPID)))
                 return GetNonMatch(out pidiv);
         }
         pidiv = PIDIV.Pokewalker;
@@ -610,7 +616,7 @@ public static class MethodFinder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint oldpid)
+    private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint actualPID)
     {
         // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a Female->Male bend?
         ushort species = pk.Species;
@@ -618,12 +624,12 @@ public static class MethodFinder
             return false;
 
         const byte AzurillGenderRatio = 0xBF;
-        var gender = EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, AzurillGenderRatio);
+        var gender = EntityGender.GetFromPIDAndRatio(actualPID, AzurillGenderRatio);
         if (gender != 1)
             return false;
 
         var pid = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, 1, AzurillGenderRatio);
-        return pid == oldpid;
+        return pid == actualPID;
     }
 
     private static bool GetColoStarterMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
@@ -665,67 +671,8 @@ public static class MethodFinder
         pidiv = PIDIV.None;
         return false;
     }
-
-    /// <summary>
-    /// Checks if the PID is a <see cref="PIDType.BACD_U_S"></see> match.
-    /// </summary>
-    /// <param name="idXor"><see cref="PKM.TID16"/> ^ <see cref="PKM.SID16"/></param>
-    /// <param name="pid">Full actual PID</param>
-    /// <param name="low">Low portion of PID (B)</param>
-    /// <param name="A">First RNG call</param>
-    /// <param name="type">PID Type is updated if successful</param>
-    /// <returns>True/False if the PID matches</returns>
-    /// <remarks>First RNG call is unrolled once if the PID is valid with this correlation</remarks>
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsBACD_U_S(uint idXor, uint pid, uint low, ref uint A, ref PIDType type)
-    {
-        // 0-Origin
-        // 1-PIDH
-        // 2-PIDL (ends up unused)
-        // 3-FORCEBITS
-        // PID = PIDH << 16 | (SID16 ^ TID16 ^ PIDH)
-
-        var X = LCRNG.Prev(A); // unroll once as there's 3 calls instead of 2
-        uint PID = (X & 0xFFFF0000) | (idXor ^ X >> 16);
-        PID &= 0xFFFFFFF8;
-        PID |= low & 0x7; // lowest 3 bits
-
-        if (PID != pid)
-            return false;
-        A = X; // keep the unrolled seed
-        type = BACD_U_S;
-        return true;
-    }
-
-    /// <summary>
-    /// Checks if the PID is a <see cref="PIDType.BACD_U_AX"></see> match.
-    /// </summary>
-    /// <param name="idxor"><see cref="PKM.TID16"/> ^ <see cref="PKM.SID16"/></param>
-    /// <param name="pid">Full actual PID</param>
-    /// <param name="low">Low portion of PID (B)</param>
-    /// <param name="A">First RNG call</param>
-    /// <param name="type">PID Type is updated if successful</param>
-    /// <returns>True/False if the PID matches</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsBACD_U_AX(uint idxor, uint pid, uint low, uint A, ref PIDType type)
-    {
-        if ((pid & 0xFFFF) != low)
-            return false;
-
-        // 0-Origin
-        // 1-ushort rnd, do until >8
-        // 2-PIDL
-
-        uint rnd = A >> 16;
-        if (rnd < 8)
-            return false;
-        uint PID = ((rnd ^ idxor ^ low) << 16) | low;
-        if (PID != pid)
-            return false;
-        type = BACD_U_AX;
-        return true;
-    }
-
     private static PIDIV AnalyzeGB(PKM _)
     {
         // not implemented; correlation between IVs and RNG hasn't been converted to code.

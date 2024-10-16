@@ -171,7 +171,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     }
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk) => val is PIDType.CXD;
+    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD;
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
     {

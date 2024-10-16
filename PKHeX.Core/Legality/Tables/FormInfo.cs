@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -16,11 +15,19 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
-    public static bool IsBattleOnlyForm(ushort species, byte form, byte format) => BattleOnly.Contains(species) && species switch
+    public static bool IsBattleOnlyForm(ushort species, byte form, byte format)
+    {
+        if (BattleMegas.Contains(species))
+            return IsBattleMegaForm(species, form);
+        if (BattleForms.Contains(species))
+            return IsBattleForm(species, form);
+        return false;
+    }
+
+    private static bool IsBattleForm(ushort species, byte form) => species switch
     {
         // Only continue checking if the species is in the list of Battle Only forms.
         // Some species have battle only forms as well as out-of-battle forms (other than base form).
-        (ushort)Slowbro => form == 1, // Mega
         (ushort)Darmanitan => (form & 1) == 1, // Zen
         (ushort)Zygarde => form == 4, // Zygarde Complete
         (ushort)Minior => form < 7, // Minior Shields-Down
@@ -29,6 +36,13 @@ public static class FormInfo
         (ushort)Ogerpon => form >= 4, // Embody Aspect
         _ => form != 0,
     };
+
+    private static bool IsBattleMegaForm(ushort species, byte form)
+    {
+        if (species is (ushort)Slowbro)
+            return form == 1; // Mega
+        return form != 0;
+    }
 
     /// <summary>
     /// Reverts the Battle Form to the form it would have outside of Battle.
@@ -131,7 +145,7 @@ public static class FormInfo
     /// Species that can change between their forms, regardless of origin.
     /// </summary>
     /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-    private static readonly HashSet<ushort> FormChange =
+    private static ReadOnlySpan<ushort> FormChange =>
     [
         (int)Burmy,
         (int)Furfrou,
@@ -224,21 +238,6 @@ public static class FormInfo
         (int)Lopunny, (int)Gallade,
         (int)Audino, (int)Diancie,
     ];
-
-    private static readonly HashSet<ushort> BattleOnly = GetBattleFormSet();
-
-    private static HashSet<ushort> GetBattleFormSet()
-    {
-        var reg = BattleForms;
-        var mega = BattleMegas;
-        var count = reg.Length + mega.Length + 2;
-        var hs = new HashSet<ushort>(count);
-        foreach (var species in reg)
-            hs.Add(species);
-        foreach (var species in mega)
-            hs.Add(species);
-        return hs;
-    }
 
     /// <summary>
     /// Species has a Totem form in Gen7 (S/M &amp; US/UM) that can be captured and owned.

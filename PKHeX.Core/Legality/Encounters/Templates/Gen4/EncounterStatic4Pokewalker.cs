@@ -183,13 +183,13 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     private bool IsMatchPartial(PKM pk) => pk.Ball != (byte)Ball.Poke || !IsMatchSeed(pk);
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
-        if (val is PIDType.Pokewalker)
+        if (type is PIDType.Pokewalker)
             return true;
 
         // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
-        if (val is PIDType.CuteCharm)
+        if (type is PIDType.CuteCharm)
             return MethodFinder.IsCuteCharm(pk, pk.EncryptionConstant) && MethodFinder.IsCuteCharm4Valid(this, pk);
         return false;
     }

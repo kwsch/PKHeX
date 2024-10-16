@@ -13,23 +13,18 @@ public readonly struct PIDIV
     internal static readonly PIDIV Pokewalker = new(PIDType.Pokewalker);
     internal static readonly PIDIV G5MGShiny = new(PIDType.G5MGShiny);
 
-    /// <summary>The RNG seed which immediately generates the PIDIV (starting with PID or IVs, whichever comes first)</summary>
-    [field: FieldOffset(0)]
-    public uint OriginSeed { get; }
+    /// <summary>The RNG seed which immediately generates the PID/IV (starting with PID or IVs, whichever comes first)</summary>
+    [field: FieldOffset(0)] public uint OriginSeed { get; }
     /// <summary>The RNG seed which starts the encounter generation routine.</summary>
-    [field: FieldOffset(4)]
-    public uint EncounterSeed { get; init; }
+    [field: FieldOffset(4)] public uint EncounterSeed { get; init; }
 
-    /// <summary>The RNG seed which immediately generates the PIDIV (starting with PID or IVs, whichever comes first)</summary>
-    [field: FieldOffset(0)]
-    public ulong Seed64 { get; }
+    /// <summary>The RNG seed which immediately generates the PID/IV (starting with PID or IVs, whichever comes first)</summary>
+    [field: FieldOffset(0)] public ulong Seed64 { get; }
 
     /// <summary>Type of PIDIV correlation</summary>
-    [field: FieldOffset(8)]
-    public PIDType Type { get; }
-
-    [field: FieldOffset(9)]
-    public LeadRequired Lead { get; init; }
+    [field: FieldOffset(8)] public PIDType Type { get; }
+    [field: FieldOffset(9)] public LeadRequired Lead { get; init; }
+    [field: FieldOffset(9)] public PIDType Mutated { get; init; }
 
     public PIDIV(PIDType type, uint seed = 0)
     {
@@ -43,7 +38,7 @@ public readonly struct PIDIV
         Seed64 = seed;
     }
 
-    /// <remarks> Some PIDIVs may be generated without a single seed, but may follow a traceable pattern. </remarks>
+    /// <remarks> Some PID/IVs may be generated without a single seed, but may follow a traceable pattern. </remarks>
     /// <summary> Indicates that there is no <see cref="OriginSeed"/> to refer to. </summary>
     public bool NoSeed => Type is PIDType.None or PIDType.Pokewalker or PIDType.G5MGShiny;
 
@@ -54,4 +49,6 @@ public readonly struct PIDIV
     public bool IsSeed64() => Type is PIDType.Xoroshiro;
 
     public PIDIV AsEncounteredVia(LeadSeed condition) => this with { Lead = condition.Lead, EncounterSeed = condition.Seed };
+    public PIDIV AsMutated(PIDType type, uint Origin) => this with { Mutated = type, EncounterSeed = Origin };
+    public PIDIV AsMutated(PIDType type) => this with { Mutated = type, EncounterSeed = OriginSeed };
 }

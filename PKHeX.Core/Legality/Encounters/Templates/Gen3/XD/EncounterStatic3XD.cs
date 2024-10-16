@@ -143,11 +143,11 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
-        if (val is PIDType.CXD)
+        if (type is PIDType.CXD)
             return true;
-        return val is PIDType.CXDAnti && FatefulEncounter;
+        return type is PIDType.CXDAnti && FatefulEncounter;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
