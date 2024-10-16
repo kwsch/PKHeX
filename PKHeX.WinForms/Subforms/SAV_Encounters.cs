@@ -94,6 +94,10 @@ public partial class SAV_Encounters : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         GetTypeFilters();
 
+        var settings = new TabPage { Text = "Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        TC_SearchOptions.Controls.Add(settings);
+
         // Load Data
         L_Count.Text = "Ready...";
 
