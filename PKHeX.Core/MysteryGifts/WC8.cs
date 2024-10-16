@@ -881,9 +881,9 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         {
             if (GetRibbon(index))
                 return;
-            var openIndex = Array.IndexOf(Data, RibbonByteNone, RibbonBytesOffset, RibbonBytesCount);
+            var openIndex = Array.IndexOf(Data, (byte)RibbonByteNone, RibbonBytesOffset, RibbonBytesCount);
             ArgumentOutOfRangeException.ThrowIfNegative(openIndex, nameof(openIndex)); // Full?
-            SetRibbonAtIndex(openIndex, (byte)index);
+            SetRibbonAtIndex(RibbonBytesOffset - openIndex, (byte)index);
         }
         else
         {
