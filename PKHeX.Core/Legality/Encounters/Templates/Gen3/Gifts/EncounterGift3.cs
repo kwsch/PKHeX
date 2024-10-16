@@ -209,9 +209,9 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
         BACD_RBCD => Math.Clamp(seed, 3, 213), // BCD digit sum
         Channel => ChannelJirachi.SkipToPIDIV(seed),
         BACD_T2 when Species is not (ushort)Core.Species.Jirachi
-            => PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed),
+            => LCRNG.Next2(PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed)),
         BACD_T3
-            => PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed),
+            => LCRNG.Next2(PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed)),
 
         BACD_M => MystryMew.GetSeed(seed),
         _ when OriginalTrainerGender is GiftGender3.RandD3_0 => GetRandomRestrictedGenderBit0(seed, 0),
@@ -334,6 +334,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             BACD_RBCD => IsBerryFixShiny(ref value, type),
             BACD_M => IsMystryMew(ref value, type),
             Channel => IsChannelJirachi(ref value, type),
+            Method_2 => true,
             _ => false,
         };
     }
