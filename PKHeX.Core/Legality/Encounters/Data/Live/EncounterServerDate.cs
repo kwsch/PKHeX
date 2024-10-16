@@ -212,5 +212,7 @@ public static class EncounterServerDate
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
         {9023, HOME3_ML}, // Hidden Ability Quaxly
+        {9024, (new(2024, 10, 16), Never)}, // Shiny Meloetta
+        {9025, (new(2024, 11, 01), new(2025, 11, 01))}, // Birthday Tandemaus
     };
 }
