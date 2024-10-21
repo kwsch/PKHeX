@@ -78,6 +78,7 @@ public sealed class SaveBlockAccessor6XY(SAV6XY sav) : ISaveBlockAccessor<BlockI
     public Situation6 Situation { get; } = new(sav, Block(sav, 4));
     public PlayTime6 Played { get; } = new(sav, Block(sav, 6));
     public Fashion6XY Fashion { get; } = new(sav, Block(sav, 7));
+    public FieldMoveModelSave6 Overworld { get; } = new(sav, Block(sav, 10));
     public Misc6XY Misc { get; } = new(sav, Block(sav, 11));
     public BoxLayout6 BoxLayout { get; } = new(sav, Block(sav, 12));
     public BattleBox6 BattleBox { get; } = new(sav, Block(sav, 13));

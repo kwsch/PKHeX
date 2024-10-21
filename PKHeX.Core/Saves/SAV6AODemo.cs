@@ -45,6 +45,7 @@ public sealed class SAV6AODemo : SAV6, ISaveBlock6Core
     public override GameTime6 GameTime => Blocks.GameTime;
     public override Situation6 Situation => Blocks.Situation;
     public override PlayTime6 Played => Blocks.Played;
+    public override FieldMoveModelSave6 Overworld => Blocks.Overworld;
     public override MyStatus6 Status => Blocks.Status;
     public override RecordBlock6 Records => Blocks.Records;
     public override EventWork6 EventWork => Blocks.EventWork;
