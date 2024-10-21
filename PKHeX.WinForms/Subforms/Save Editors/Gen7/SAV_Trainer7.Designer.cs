@@ -573,7 +573,6 @@ namespace PKHeX.WinForms
             // CB_Gender
             // 
             CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Gender.Enabled = false;
             CB_Gender.FormattingEnabled = true;
             CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
             CB_Gender.Location = new System.Drawing.Point(115, 59);
@@ -581,6 +580,7 @@ namespace PKHeX.WinForms
             CB_Gender.Name = "CB_Gender";
             CB_Gender.Size = new System.Drawing.Size(46, 23);
             CB_Gender.TabIndex = 22;
+            CB_Gender.SelectedIndexChanged += UpdateSkinColor;
             // 
             // TB_MBMS
             // 
