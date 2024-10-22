@@ -601,6 +601,13 @@ public partial class SAV_Trainer7 : Form
         }
     }
 
+    private void UpdateSkinColor(object sender, EventArgs e)
+    {
+        if (Loading)
+            return;
+        CB_SkinColor.SelectedIndex = (CB_SkinColor.SelectedIndex & ~0x1) | (CB_Gender.SelectedIndex & 1);
+    }
+
     private void B_AllFlyDest_Click(object sender, EventArgs e)
     {
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)

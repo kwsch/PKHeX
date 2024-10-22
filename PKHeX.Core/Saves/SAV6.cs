@@ -155,6 +155,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public abstract GameTime6 GameTime { get; }
     public abstract Situation6 Situation { get; }
     public abstract PlayTime6 Played { get; }
+    public abstract FieldMoveModelSave6 Overworld { get; }
     public abstract MyStatus6 Status { get; }
     public abstract RecordBlock6 Records { get; }
     public abstract EventWork6 EventWork { get; }
