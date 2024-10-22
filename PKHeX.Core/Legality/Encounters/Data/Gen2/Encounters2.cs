@@ -33,7 +33,7 @@ internal static class Encounters2
         new(109, 21, GSC) { Location = 036 }, // Koffing @ Rocket Hideout (Mahogany Town)
         new(100, 23, GSC) { Location = 036 }, // Voltorb @ Rocket Hideout (Mahogany Town)
         new(101, 23, GSC) { Location = 036 }, // Electrode @ Rocket Hideout (Mahogany Town)
-        new(143, 50, GSC) { Location = 061 }, // Snorlax @ Vermillion City
+        new(143, 50, GSC) { Location = 061 }, // Snorlax @ Vermilion City
 
         new(211, 05, GSC) { Location = 008 }, // Qwilfish Swarm @ Route 32 (Old Rod)
         new(211, 20, GSC) { Location = 008 }, // Qwilfish Swarm @ Route 32 (Good Rod)

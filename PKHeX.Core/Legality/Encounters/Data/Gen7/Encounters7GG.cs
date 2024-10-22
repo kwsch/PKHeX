@@ -32,20 +32,20 @@ internal static class Encounters7GG
         new(GG) { Species = 142, Level = 44, Location = 36, FixedBall = Ball.Poke, FlawlessIVCount = 3 }, // Aerodactyl @ Cinnabar Island (Cinnabar Pokémon Lab)
         new(GG) { Species = 001, Level = 12, Location = 31, FixedBall = Ball.Poke, IVs = new(31,25,30,25,25,30) }, // Bulbasaur @ Cerulean City
         new(GG) { Species = 004, Level = 14, Location = 26, FixedBall = Ball.Poke, IVs = new(25,30,25,31,30,25) }, // Charmander @ Route 24
-        new(GG) { Species = 007, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(25,25,30,25,31,30) }, // Squirtle @ Vermillion City
+        new(GG) { Species = 007, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(25,25,30,25,31,30) }, // Squirtle @ Vermilion City
         new(GG) { Species = 137, Level = 34, Location = 38, FixedBall = Ball.Poke, IVs = new(25,25,30,25,31,30) }, // Porygon @ Saffron City (Silph Co. Employee, outside)
     ];
 
     internal static readonly EncounterStatic7b[] StaticGP =
     [
         new(GP) { Species = 025, Level = 05, Location = 28, FixedBall = Ball.Poke, IVs = new(31,31,31,31,31,31), Shiny = Shiny.Never, Form = 8 }, // Pikachu @ Pallet Town
-        new(GP) { Species = 053, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(30,30,25,31,25,25) }, // Persian @ Vermillion City (Outside Fan Club)
+        new(GP) { Species = 053, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(30,30,25,31,25,25) }, // Persian @ Vermilion City (Outside Fan Club)
     ];
 
     internal static readonly EncounterStatic7b[] StaticGE =
     [
         new(GE) { Species = 133, Level = 05, Location = 28, FixedBall = Ball.Poke, IVs = new(31,31,31,31,31,31), Shiny = Shiny.Never, Form = 1 }, // Eevee @ Pallet Town
-        new(GE) { Species = 059, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(25,30,25,31,30,25) }, // Arcanine @ Vermillion City (Outside Fan Club)
+        new(GE) { Species = 059, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(25,30,25,31,30,25) }, // Arcanine @ Vermilion City (Outside Fan Club)
     ];
 
     private static readonly string[] T1 = [string.Empty, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", string.Empty, "Tatiana", "미니꼬", "小幂妮", "小幂妮"];
