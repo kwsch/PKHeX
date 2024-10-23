@@ -16,7 +16,7 @@
 0280	g	Traded for Basculin
 0315	g	Received Larvesta Egg Gift
 0352	t	Battled Youngster Kyle
-0355	t	Battled Lass Dana
+0355	t	Can Battle Lass Dye
 0339	g	Purchased Magikarp
 0347	g	Traded for Emolga
 0360	g	Traded for Rotom
