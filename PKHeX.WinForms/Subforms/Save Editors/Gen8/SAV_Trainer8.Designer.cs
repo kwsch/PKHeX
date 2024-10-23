@@ -136,6 +136,10 @@ namespace PKHeX.WinForms
             L_Z = new System.Windows.Forms.Label();
             L_X = new System.Windows.Forms.Label();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
+            CB_Fashion = new System.Windows.Forms.ComboBox();
+            L_SkinColor = new System.Windows.Forms.Label();
+            CB_SkinColor = new System.Windows.Forms.ComboBox();
+            B_Fashion = new System.Windows.Forms.Button();
             B_CollectDiglett = new System.Windows.Forms.Button();
             GB_BattleTower = new System.Windows.Forms.GroupBox();
             MT_BattleTowerDoublesStreak = new System.Windows.Forms.MaskedTextBox();
@@ -155,6 +159,7 @@ namespace PKHeX.WinForms
             NUD_ShowTitleScreen = new System.Windows.Forms.NumericUpDown();
             L_ShowTitleScreen = new System.Windows.Forms.Label();
             PG_ShowTitleScreen = new System.Windows.Forms.PropertyGrid();
+            B_ResetAppearance = new System.Windows.Forms.Button();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             GB_Stats.SuspendLayout();
@@ -441,7 +446,6 @@ namespace PKHeX.WinForms
             // CB_Gender
             // 
             CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Gender.Enabled = false;
             CB_Gender.FormattingEnabled = true;
             CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
             CB_Gender.Location = new System.Drawing.Point(115, 89);
@@ -449,6 +453,7 @@ namespace PKHeX.WinForms
             CB_Gender.Name = "CB_Gender";
             CB_Gender.Size = new System.Drawing.Size(46, 23);
             CB_Gender.TabIndex = 22;
+            CB_Gender.SelectedIndexChanged += CB_Gender_SelectedIndexChanged;
             // 
             // TB_MBMS
             // 
@@ -1234,6 +1239,11 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
+            Tab_MiscValues.Controls.Add(B_ResetAppearance);
+            Tab_MiscValues.Controls.Add(CB_Fashion);
+            Tab_MiscValues.Controls.Add(L_SkinColor);
+            Tab_MiscValues.Controls.Add(CB_SkinColor);
+            Tab_MiscValues.Controls.Add(B_Fashion);
             Tab_MiscValues.Controls.Add(B_CollectDiglett);
             Tab_MiscValues.Controls.Add(GB_BattleTower);
             Tab_MiscValues.Location = new System.Drawing.Point(4, 24);
@@ -1245,13 +1255,55 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
             // 
+            // CB_Fashion
+            // 
+            CB_Fashion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Fashion.FormattingEnabled = true;
+            CB_Fashion.Items.AddRange(new object[] { "New Game", "All Legal", "Everything" });
+            CB_Fashion.Location = new System.Drawing.Point(36, 88);
+            CB_Fashion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Fashion.Name = "CB_Fashion";
+            CB_Fashion.Size = new System.Drawing.Size(124, 23);
+            CB_Fashion.TabIndex = 1;
+            // 
+            // L_SkinColor
+            // 
+            L_SkinColor.Location = new System.Drawing.Point(168, 87);
+            L_SkinColor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SkinColor.Name = "L_SkinColor";
+            L_SkinColor.Size = new System.Drawing.Size(136, 23);
+            L_SkinColor.TabIndex = 4;
+            L_SkinColor.Text = "Skin Color:";
+            L_SkinColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_SkinColor
+            // 
+            CB_SkinColor.FormattingEnabled = true;
+            CB_SkinColor.Location = new System.Drawing.Point(312, 88);
+            CB_SkinColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_SkinColor.Name = "CB_SkinColor";
+            CB_SkinColor.Size = new System.Drawing.Size(126, 23);
+            CB_SkinColor.TabIndex = 3;
+            CB_SkinColor.SelectedIndexChanged += CB_SkinColor_SelectedIndexChanged;
+            // 
+            // B_Fashion
+            // 
+            B_Fashion.Location = new System.Drawing.Point(7, 7);
+            B_Fashion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Fashion.Name = "B_Fashion";
+            B_Fashion.Size = new System.Drawing.Size(154, 78);
+            B_Fashion.TabIndex = 0;
+            B_Fashion.Text = "Give all Fashion Items";
+            B_Fashion.UseVisualStyleBackColor = true;
+            B_Fashion.Click += B_Fashion_Click;
+            // 
             // B_CollectDiglett
             // 
-            B_CollectDiglett.Location = new System.Drawing.Point(271, 30);
+            B_CollectDiglett.Location = new System.Drawing.Point(285, 129);
             B_CollectDiglett.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_CollectDiglett.Name = "B_CollectDiglett";
-            B_CollectDiglett.Size = new System.Drawing.Size(141, 69);
-            B_CollectDiglett.TabIndex = 1;
+            B_CollectDiglett.Size = new System.Drawing.Size(154, 78);
+            B_CollectDiglett.TabIndex = 6;
             B_CollectDiglett.Text = "Collect All Diglett";
             B_CollectDiglett.UseVisualStyleBackColor = true;
             B_CollectDiglett.Click += B_GetAllDiglett_Click;
@@ -1266,12 +1318,12 @@ namespace PKHeX.WinForms
             GB_BattleTower.Controls.Add(L_BattleTowerWins);
             GB_BattleTower.Controls.Add(L_Singles);
             GB_BattleTower.Controls.Add(MT_BattleTowerSinglesWin);
-            GB_BattleTower.Location = new System.Drawing.Point(7, 7);
+            GB_BattleTower.Location = new System.Drawing.Point(4, 114);
             GB_BattleTower.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_BattleTower.Name = "GB_BattleTower";
             GB_BattleTower.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_BattleTower.Size = new System.Drawing.Size(227, 108);
-            GB_BattleTower.TabIndex = 0;
+            GB_BattleTower.TabIndex = 5;
             GB_BattleTower.TabStop = false;
             GB_BattleTower.Text = "Battle Tower";
             // 
@@ -1460,6 +1512,17 @@ namespace PKHeX.WinForms
             PG_ShowTitleScreen.TabIndex = 7;
             PG_ShowTitleScreen.ToolbarVisible = false;
             // 
+            // B_ResetAppearance
+            // 
+            B_ResetAppearance.Location = new System.Drawing.Point(285, 7);
+            B_ResetAppearance.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ResetAppearance.Name = "B_ResetAppearance";
+            B_ResetAppearance.Size = new System.Drawing.Size(154, 78);
+            B_ResetAppearance.TabIndex = 2;
+            B_ResetAppearance.Text = "Reset Appearance";
+            B_ResetAppearance.UseVisualStyleBackColor = true;
+            B_ResetAppearance.Click += B_ResetAppearance_Click;
+            // 
             // SAV_Trainer8
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1631,5 +1694,10 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_SY;
         private System.Windows.Forms.Label L_SZ;
         private System.Windows.Forms.Label L_SX;
+        private System.Windows.Forms.ComboBox CB_Fashion;
+        private System.Windows.Forms.Label L_SkinColor;
+        private System.Windows.Forms.ComboBox CB_SkinColor;
+        private System.Windows.Forms.Button B_Fashion;
+        private System.Windows.Forms.Button B_ResetAppearance;
     }
 }
