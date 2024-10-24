@@ -69,7 +69,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenSuperTraining = new System.Windows.Forms.Button();
             B_OpenHallofFame = new System.Windows.Forms.Button();
             B_OUTPasserby = new System.Windows.Forms.Button();
-            B_CGearSkin = new System.Windows.Forms.Button();
+            B_DLC = new System.Windows.Forms.Button();
             B_OpenPokeBeans = new System.Windows.Forms.Button();
             B_CellsStickers = new System.Windows.Forms.Button();
             B_OpenMiscEditor = new System.Windows.Forms.Button();
@@ -382,7 +382,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenSuperTraining);
             FLP_SAVtools.Controls.Add(B_OpenHallofFame);
             FLP_SAVtools.Controls.Add(B_OUTPasserby);
-            FLP_SAVtools.Controls.Add(B_CGearSkin);
+            FLP_SAVtools.Controls.Add(B_DLC);
             FLP_SAVtools.Controls.Add(B_OpenPokeBeans);
             FLP_SAVtools.Controls.Add(B_CellsStickers);
             FLP_SAVtools.Controls.Add(B_OpenMiscEditor);
@@ -580,16 +580,16 @@ namespace PKHeX.WinForms.Controls
             B_OUTPasserby.UseVisualStyleBackColor = true;
             B_OUTPasserby.Click += B_OUTPasserby_Click;
             // 
-            // B_CGearSkin
+            // B_DLC
             // 
-            B_CGearSkin.Location = new System.Drawing.Point(316, 124);
-            B_CGearSkin.Margin = new System.Windows.Forms.Padding(4);
-            B_CGearSkin.Name = "B_CGearSkin";
-            B_CGearSkin.Size = new System.Drawing.Size(96, 32);
-            B_CGearSkin.TabIndex = 1;
-            B_CGearSkin.Text = "C-Gear Skin";
-            B_CGearSkin.UseVisualStyleBackColor = true;
-            B_CGearSkin.Click += B_CGearSkin_Click;
+            B_DLC.Location = new System.Drawing.Point(316, 124);
+            B_DLC.Margin = new System.Windows.Forms.Padding(4);
+            B_DLC.Name = "B_DLC";
+            B_DLC.Size = new System.Drawing.Size(96, 32);
+            B_DLC.TabIndex = 1;
+            B_DLC.Text = "DLC I/O";
+            B_DLC.UseVisualStyleBackColor = true;
+            B_DLC.Click += B_DLC_Click;
             // 
             // B_OpenPokeBeans
             // 
@@ -1069,7 +1069,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenSuperTraining;
         private System.Windows.Forms.Button B_OpenHallofFame;
         private System.Windows.Forms.Button B_OUTPasserby;
-        private System.Windows.Forms.Button B_CGearSkin;
+        private System.Windows.Forms.Button B_DLC;
         private System.Windows.Forms.Button B_OpenPokeBeans;
         private System.Windows.Forms.Button B_CellsStickers;
         private System.Windows.Forms.Button B_OpenMiscEditor;
