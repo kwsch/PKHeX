@@ -8,6 +8,12 @@ public sealed class MyStatus8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
 {
     public const uint MaxWatt = 9999999;
 
+    public byte GenderAppearance // corresponds to model and clothing
+    {
+        get => Data[0x00];
+        set => Data[0x00] = value;
+    }
+
     public string Number
     {
         get => Encoding.ASCII.GetString(Data.Slice(1, 3));
@@ -109,7 +115,11 @@ public sealed class MyStatus8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
         set => WriteUInt64LittleEndian(Data[0x78..], value);
     }
 
-    // 80 - 87
+    public ulong Unknown80
+    {
+        get => ReadUInt64LittleEndian(Data[0x80..]);
+        set => WriteUInt64LittleEndian(Data[0x80..], value);
+    }
 
     public ulong MomSkin // aka the base model
     {
@@ -182,6 +192,58 @@ public sealed class MyStatus8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
             if (value > MaxWatt)
                 value = MaxWatt;
             WriteUInt32LittleEndian(Data[0xD0..], value);
+        }
+    }
+
+    public void SetSkinColor(PlayerSkinColor8 color)
+    {
+        Skin = color.Skin();
+        MomSkin = color.MomSkin();
+    }
+
+    public void ResetAppearance(PlayerSkinColor8 color)
+    {
+        GenderAppearance = Gender;
+        if (GenderAppearance == 0)
+        {
+            Skin = color.Skin();
+            Hair = color.Hair();
+            Brow = color.Brow();
+            Lashes = 0xAE652FB65C121B9B;
+            Contacts = color.Contacts();
+            Lips = color.Lips();
+            Lips = 0x74D1BDA4ABD8145C;
+            Glasses = 0xAE652FB65C121B9B;
+            Hat = 0x93EDF53CABE65261;
+            Jacket = 0xAE652FB65C121B9B;
+            Top = 0x85CD5D2526062223;
+            Bag = 0xD744BB05DF64A39F;
+            Gloves = 0xFFE18782A51A631D;
+            BottomOrDress = 0xC2DB60B287AF5E1D;
+            Sock = 0x7AA590BF436CFF91;
+            Shoe = 0x892819EA957F37AA;
+            Unknown80 = 0x69D7E1F13D6D0E1D;
+            MomSkin = color.MomSkin();
+        }
+        else
+        {
+            Skin = color.Skin();
+            Hair = color.Hair();
+            Brow = color.Brow();
+            Lashes = 0x2F5744FCD893768A;
+            Contacts = color.Contacts();
+            Lips = color.Lips();
+            Glasses = 0xAE652FB65C121B9B;
+            Hat = 0x28EC4BCDA649F0B9;
+            Jacket = 0x15A03AD2B91B5C5E;
+            Top = 0xAE652FB65C121B9B;
+            Bag = 0x4936CEF81C4767C0;
+            Gloves = 0x8C9FB80B7F3A4C70;
+            BottomOrDress = 0x630D24543DDF2F1E;
+            Sock = 0x327842EEFF93BAD0;
+            Shoe = 0xC2B8DBB355E33F89;
+            Unknown80 = 0x52EE659BC04A0292;
+            MomSkin = color.MomSkin();
         }
     }
 }

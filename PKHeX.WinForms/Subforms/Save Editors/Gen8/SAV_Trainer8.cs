@@ -36,6 +36,7 @@ public partial class SAV_Trainer8 : Form
 
         ChangeTitleScreenIndex(this, EventArgs.Empty);
         ChangeTrainerCardIndex(this, EventArgs.Empty);
+        CB_Fashion.SelectedIndex = 1;
 
         if (SAV.SaveRevision == 0)
             B_CollectDiglett.Visible = false;
@@ -50,6 +51,10 @@ public partial class SAV_Trainer8 : Form
     {
         CB_Language.InitializeBinding();
         CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+
+        CB_SkinColor.Items.Clear();
+        CB_SkinColor.Items.AddRange(WinFormsTranslator.GetEnumTranslation<PlayerSkinColor8>(Main.CurrentLanguage));
+        CB_SkinColor.SelectedIndex = (int)PlayerSkinColor8Extensions.GetSkinColorFromSkin(SAV.MyStatus.Skin);
     }
 
     private void GetTextBoxes()
@@ -242,6 +247,60 @@ public partial class SAV_Trainer8 : Form
         SAV.Blocks.TitleScreen.SetPartyData();
         System.Media.SystemSounds.Asterisk.Play();
         ChangeTitleScreenIndex(this, EventArgs.Empty);
+    }
+
+    private void CB_Gender_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (SAV.Gender != (byte)CB_Gender.SelectedIndex)
+        {
+            SAV.Gender = SAV.MyStatus.GenderAppearance = (byte)CB_Gender.SelectedIndex;
+            ResetAppearance();
+        }
+    }
+
+    private void CB_SkinColor_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SAV.MyStatus.SetSkinColor((PlayerSkinColor8)CB_SkinColor.SelectedIndex);
+    }
+
+    private void B_Fashion_Click(object sender, EventArgs e)
+    {
+        var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing fashion unlock data.", "Continue?");
+        if (DialogResult.Yes != prompt)
+            return;
+
+        // Clear Block
+        SAV.Fashion.Clear();
+
+        // Write Payload
+        switch (CB_Fashion.SelectedIndex)
+        {
+            case 0: // Base Fashion
+                SAV.Fashion.Reset();
+                break;
+            case 1: // Full Legal
+                SAV.Fashion.UnlockAllLegal();
+                break;
+            case 2: // Everything
+                SAV.Fashion.UnlockAll();
+                break;
+            default:
+                return;
+        }
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void ResetAppearance()
+    {
+        var index = (CB_SkinColor.SelectedIndex & ~0x1) | (CB_Gender.SelectedIndex & 1);
+        CB_SkinColor.SelectedIndex = index;
+        SAV.MyStatus.ResetAppearance((PlayerSkinColor8)index);
+        WinFormsUtil.Alert("Trainer appearance has been reset.");
+    }
+
+    private void B_ResetAppearance_Click(object sender, EventArgs e)
+    {
+        ResetAppearance();
     }
 
     private void B_GetAllDiglett_Click(object sender, EventArgs e)
