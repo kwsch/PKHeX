@@ -61,4 +61,99 @@ public sealed class FashionUnlock8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8
         }
         return max;
     }
+
+    public void Clear()
+    {
+        Data[(REGION_EYEWEAR * SIZE_ENTRY)..(REGIONS * SIZE_ENTRY)].Clear();
+        Data[((REGION_EYEWEAR + REGIONS) * SIZE_ENTRY)..(REGIONS * 2 * SIZE_ENTRY)].Clear();
+    }
+
+    /// <summary>
+    /// Unlocks all fashion items.
+    /// </summary>
+    public void UnlockAll()
+    {
+        var countList = SAV.MyStatus.GenderAppearance == 0 ? CountM : CountF;
+        for (int region = 6; region < REGIONS; region++)
+        {
+            var ownedRegion = GetOwnedRegion(region);
+            var newRegion = GetNewRegion(region);
+            var count = countList[region - 6];
+            for (int i = 0; i < count; i++)
+            {
+                FlagUtil.SetFlag(ownedRegion, i, true); // owned
+                FlagUtil.SetFlag(newRegion, i, true); // not new
+            }
+        }
+
+        // Exclude invalid items.
+        var invalidOffsetList = SAV.MyStatus.GenderAppearance == 0 ? InvalidFashionOffset_M : InvalidFashionOffset_F;
+        foreach (var ofs in invalidOffsetList)
+        {
+            FlagUtil.SetFlag(GetOwnedRegion(ofs >> 8), ofs & 0xFF, false);
+            FlagUtil.SetFlag(GetNewRegion(ofs >> 8), ofs & 0xFF, false);
+        }
+    }
+
+    /// <summary>
+    /// Unlocks all legal fashion items.
+    /// </summary>
+    public void UnlockAllLegal()
+    {
+        UnlockAll();
+
+        // Exclude unobtainable items.
+        var illegalOffsetList = SAV.MyStatus.GenderAppearance == 0 ? IllegalFashionOffset_M : IllegalFashionOffset_F;
+        foreach (var ofs in illegalOffsetList)
+        {
+            FlagUtil.SetFlag(GetOwnedRegion(ofs >> 8), ofs & 0xFF, false);
+            FlagUtil.SetFlag(GetNewRegion(ofs >> 8), ofs & 0xFF, false);
+        }
+
+        // Exclude the Klara/Avery 4-ever Casual Tee for the opposite version.
+        var versionOffset = GetIllegalCasualTee(SAV);
+        FlagUtil.SetFlag(GetOwnedRegion(versionOffset >> 8), versionOffset & 0xFF, false);
+        FlagUtil.SetFlag(GetNewRegion(versionOffset >> 8), versionOffset & 0xFF, false);
+    }
+
+    /// <summary>
+    /// Resets the fashion unlocks to default values.
+    /// </summary>
+    public void Reset()
+    {
+        var offsetList = SAV.MyStatus.GenderAppearance == 0 ? DefaultFashionOffset_M : DefaultFashionOffset_F;
+        foreach (var ofs in offsetList)
+            FlagUtil.SetFlag(GetOwnedRegion(ofs >> 8), ofs & 0xFF, true);
+    }
+
+    private static ReadOnlySpan<byte> CountM => [097, 093, 070, 146, 057, 072, 094, 093, 070];
+    private static ReadOnlySpan<byte> CountF => [097, 093, 087, 122, 065, 072, 162, 130, 080];
+
+    private static ReadOnlySpan<ushort> DefaultFashionOffset_M => [0x616, 0x619, 0x72A, 0x919, 0x92A, 0x92D, 0x936, 0xA19, 0xB1C, 0xB1F, 0xC2D, 0xC3A, 0xD1C, 0xD29, 0xD2A, 0xE1D];
+    private static ReadOnlySpan<ushort> DefaultFashionOffset_F => [0x616, 0x619, 0x724, 0x835, 0x918, 0x929, 0x92C, 0xA19, 0xB1C, 0xB1F, 0xC2D, 0xC7B, 0xD2A, 0xD2B, 0xD5A, 0xE1D];
+
+    private static ushort GetIllegalCasualTee(SAV8SWSH sav) => sav switch
+    {
+        { Version: GameVersion.SW, MyStatus.GenderAppearance: 0 } => 0x976, // Casual Tee (Avery 4-ever)
+        { Version: GameVersion.SH, MyStatus.GenderAppearance: 0 } => 0x975, // Casual Tee (Klara 4-ever)
+        { Version: GameVersion.SW, MyStatus.GenderAppearance: 1 } => 0x96A, // Casual Tee (Avery 4-ever)
+        { Version: GameVersion.SH, MyStatus.GenderAppearance: 1 } => 0x969, // Casual Tee (Klara 4-ever)
+        _ => throw new ArgumentOutOfRangeException(nameof(sav)),
+    };
+
+    private static ReadOnlySpan<ushort> IllegalFashionOffset_M => [
+        0x824, // Satin Varsity Jacket (Shocking Berry)
+        0x95B, // Casual Tee (Chosen Design)
+    ];
+    private static ReadOnlySpan<ushort> IllegalFashionOffset_F => [
+        0x827, // Satin Varsity Jacket (Shocking Berry)
+        0x94F, // Casual Tee (Chosen Design)
+    ];
+
+    private static ReadOnlySpan<ushort> InvalidFashionOffset_M => [
+        0x969, 0xB00, 0xC48, 0xC49, 0xC4A, 0xD57, 0xE37, 0xE38, 0xE39
+    ];
+    private static ReadOnlySpan<ushort> InvalidFashionOffset_F => [
+        0x95D, 0xB00, 0xD76, 0xD77, 0xE41, 0xE47
+    ];
 }

@@ -97,6 +97,7 @@ public static class DevUtil
         typeof(PlayerSkinColor7),
         typeof(Stamp7),
         typeof(FestivalPlazaFacilityColor),
+        typeof(PlayerSkinColor8),
     ];
 
     private static IEnumerable<Control> GetExtraControls()
