@@ -586,7 +586,8 @@ public partial class SAV_MailBox : Form
 
     private void SwapSlots(ListBox lb, bool down)
     {
-        if(lb.SelectedIndex == -1) return;
+        if (lb.SelectedIndex == -1)
+            return;
         int index = lb.SelectedIndex;
         var otherIndex = index + (down ? 1 : -1);
         if ((uint)otherIndex >= lb.Items.Count)
