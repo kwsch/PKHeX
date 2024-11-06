@@ -8,10 +8,10 @@ v0603	t004d0103_pm0150_mewtwo (超梦)
 v1114	t011r0501_pm0106_sawamular (飞腿郎)
 v1113	t011r0501_pm0107_ebiwalar (快拳郎)
 
-v0627	Bulbasaur in Cerulean City
-v0157	Charmander on Route 24
-v0322	Squirtle in Vermilion City
-v0255	Porygon in Saffron City
+v0627	Bulbasaur in Cerulean City（妙蛙种子）
+v0157	Charmander on Route 24（小火龙）
+v0322	Squirtle in Vermilion Cit（杰尼龟）
+v0255	Porygon in Saffron City（多边兽）
 
 e0116	FE_MASTER_RED_BATTLE_TALKED(与赤红对话)
 e0000	FE_EV0905_BTL_RED (打败赤红)
