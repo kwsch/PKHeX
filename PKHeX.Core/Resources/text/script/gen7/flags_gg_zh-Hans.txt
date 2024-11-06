@@ -30,14 +30,14 @@ e0193	FE_CAPTURE_KABIGON_ROAD016 (捕获16号道路卡比兽)
 e0029	FE_SUB_23_BTLAFTER (打败空手道大王)
 e0030	FE_SUB_23_CLEAR (已领取 飞腿郎/快拳郎)
 
-e0006	Received Pewter City Old Amber
-e0004	Purchased Route 4 Magikarp
-e0046	Received Cerulean City Bulbasaur
-e0047	Received Route 24 Charmander
-e0048	Received Vermilion City Squirtle
-e0011	Received Silph Co. Lapras
-e0081	Received Saffron City Porygon
-e0154	Received Vermilion City Persian/Arcanine
+e0006	在深灰市收到了秘密琥珀
+e0004	在4号道路购买了鲤鱼王
+e0046	在华蓝市收到了妙蛙种子
+e0047	在24号道路收到了小火龙
+e0048	在枯叶市收到了杰尼龟
+e0011	在西尔佛公司收到了拉普拉斯
+e0081	在金黄市收到了多边兽
+e0154	在枯叶市收到了猫老大/风速狗
 
 s0001	FSYS_HIDEN_OPEN_IAIGIRI (已解锁秘术：袈裟斩)
 s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (已解锁秘术：凌空渡)
@@ -59,7 +59,7 @@ s0017	FSYS_GYM_CLEAR_ESPER (打败道馆馆主娜姿)
 s0018	FSYS_GYM_CLEAR_FIRE (打败道馆馆主夏伯)
 s0019	FSYS_GYM_CLEAR_GROUND (打败道馆馆主坂木)
 s0020	FSYS_ZUKAN_COMPLETE (完成图鉴)
-s0106	FSYS_GOKIGEN_GAME_CLEAR (Can receive Small Bouquett)
+s0106	FSYS_GOKIGEN_GAME_CLEAR (可收到搭档宝可梦的小花束)
 
 s0022	FSYS_FLAG_CAN_NOT_FLY (高空飞行已禁用)
 s0077	FSYS_FLAG_CAN_USE_CAIRIKI (怪力可使用)
@@ -121,4 +121,4 @@ s0298	Dome Fossil in Fuchsia City(浅红市出现化石盔)
 s0299	Helix Fossil in Fuchsia City(浅红市出现菊石兽)
 s0357	Received Fighting Dojo Hitmonchan(获得格斗道馆的快拳郎)
 s0358	Received Fighting Dojo Hitmonlee(获得格斗道馆的飞腿郎)
-s0359	Old Amber Claimed in Pewter City
+s0359	Old Amber Claimed in Pewter City(深灰市的秘密琥珀被领取)
