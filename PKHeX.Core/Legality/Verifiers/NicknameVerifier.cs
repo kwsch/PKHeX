@@ -24,6 +24,11 @@ public sealed class NicknameVerifier : Verifier
             return;
         }
         nickname = nickname[..len];
+        if (nickname.Contains('\uffff') && pk is { Format: 4 })
+        {
+            data.AddLine(GetInvalid(LNickInvalidChar));
+            return;
+        }
 
         var enc = data.EncounterOriginal;
         if (enc is ILangNicknamedTemplate n)
