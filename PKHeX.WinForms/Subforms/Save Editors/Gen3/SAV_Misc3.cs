@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -13,6 +15,9 @@ public partial class SAV_Misc3 : Form
     private readonly SaveFile Origin;
     private readonly SAV3 SAV;
 
+    //paintings
+    private Dictionary<string, Paintings3> PaintingsByCategory;
+
     public SAV_Misc3(SAV3 sav)
     {
         InitializeComponent();
@@ -23,13 +28,24 @@ public partial class SAV_Misc3 : Form
 
         if (SAV is IGen3Hoenn h)
         {
-            pokeblock3CaseEditor1.Initialize(h);
+            //caseEditor seems broken, so we'll just remove it for now
+            try
+            {
+                pokeblock3CaseEditor1.Initialize(h);
+
+            }
+            catch (Exception ex)
+            {
+                TC_Misc.Controls.Remove(Tab_Pokeblocks);
+            }
             ReadDecorations(h);
+            LoadPaintings(h);
         }
         else
         {
             TC_Misc.Controls.Remove(Tab_Pokeblocks);
             TC_Misc.Controls.Remove(Tab_Decorations);
+            TC_Misc.Controls.Remove(Tab_Paintings);
         }
 
         if (SAV is IGen3Joyful j)
@@ -75,8 +91,15 @@ public partial class SAV_Misc3 : Form
     {
         if (SAV is IGen3Hoenn h)
         {
-            pokeblock3CaseEditor1.Save(h);
+            try
+            {
+                pokeblock3CaseEditor1.Save(h);
+            }
+            catch (Exception ex)
+            {
+            }
             SaveDecorations(h);
+            SavePaintings(h);
         }
         if (TC_Misc.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
             SaveJoyful(j);
@@ -133,7 +156,7 @@ public partial class SAV_Misc3 : Form
     #endregion
 
     private const ushort ItemIDOldSeaMap = 0x178;
-    private static ReadOnlySpan<ushort> TicketItemIDs => [ 0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap ]; // item IDs
+    private static ReadOnlySpan<ushort> TicketItemIDs => [0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap]; // item IDs
 
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
@@ -607,6 +630,198 @@ public partial class SAV_Misc3 : Form
         }
         for (int i = ctr; i < data.Length; i++)
             data[i] = Decoration3.NONE; // Empty Slots at the end
+    }
+    #endregion
+
+    #region Paintings
+    private void LoadPaintings(IGen3Hoenn h)
+    {
+        TB_PID.MaxLength = 8;
+        TB_PID.CharacterCasing = CharacterCasing.Upper;
+        TB_TID.MaxLength = 5;
+        TB_SID.MaxLength = 5;
+        TB_Nickname.MaxLength = 10;
+        TB_OT.MaxLength = 7;
+
+        TB_TID.KeyPress += (_, e) =>
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        };
+
+        TB_SID.KeyPress += (_, e) =>
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        };
+
+        List<string> pokemap = new();
+        for (int i = 0; i < 387; i++)
+            pokemap.Add(SpeciesName.GetSpeciesNameGeneration((ushort)i, SAV.Language, 3));
+        CB_Species.InitializeBinding();
+        CB_Species.DataSource = pokemap;
+
+        var paintings = h.Paintings;
+        PaintingsByCategory = new Dictionary<string, Paintings3>
+        {
+            ["Coolness"] = new Paintings3(SAV.Language),
+            ["Beauty"] = new Paintings3(SAV.Language),
+            ["Cuteness"] = new Paintings3(SAV.Language),
+            ["Cleverness"] = new Paintings3(SAV.Language),
+            ["Toughness"] = new Paintings3(SAV.Language)
+        };
+        for (int i = 0; i < paintings.Length; i++)
+        {
+            if (paintings[i].Species != 0)
+                PaintingsByCategory[paintings[i].Category] = paintings[i];
+        }
+        CB_Paintings.InitializeBinding();
+        CB_Paintings.DataSource = PaintingsByCategory.Keys.ToList();
+
+        CB_Paintings.SelectedIndexChanged += (_, _) =>
+        {
+            if (CB_Paintings.SelectedValue == null)
+                return;
+            SelectPainting(PaintingsByCategory[CB_Paintings.SelectedValue.ToString()]);
+        };
+
+        CHK_EnablePaint.CheckedChanged += (_, _) =>
+        {
+            if (CB_Paintings.SelectedValue == null)
+                return;
+            EnableEditPainting(CHK_EnablePaint.Checked);
+        };
+
+        CB_Paintings.SelectedIndex = 0;
+        SelectPainting(PaintingsByCategory[CB_Paintings.SelectedValue.ToString()]);
+
+        void SelectPainting(Paintings3 painting)
+        {
+            TB_PID.Text = painting.PID.ToString("X8");
+            TB_TID.Text = painting.TID.ToString("00000");
+            TB_SID.Text = painting.SID.ToString("00000");
+            CB_Species.SelectedIndex = painting.Species;
+            TB_Nickname.Text = painting.Nickname;
+            TB_OT.Text = painting.OT;
+            CHK_EnablePaint.Checked = painting.Enabled;
+        }
+
+        void EnableEditPainting(bool enabled)
+        {
+            if (enabled)
+            {
+                TB_PID.Enabled = true;
+                TB_TID.Enabled = true;
+                TB_SID.Enabled = true;
+                CB_Species.Enabled = true;
+                TB_Nickname.Enabled = true;
+                TB_OT.Enabled = true;
+                PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Enabled = true;
+            }
+            else
+            {
+                TB_PID.Text = "00000000";
+                TB_PID.Enabled = false;
+                TB_TID.Text = "00000";
+                TB_TID.Enabled = false;
+                TB_SID.Text = "00000";
+                TB_SID.Enabled = false;
+                CB_Species.SelectedIndex = 0;
+                CB_Species.Enabled = false;
+                TB_Nickname.Text = "";
+                TB_Nickname.Enabled = false;
+                TB_OT.Text = "";
+                TB_OT.Enabled = false;
+                PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Enabled = false;
+            }
+        }
+    }
+
+    private void SavePaintings(IGen3Hoenn h)
+    {
+        Paintings3[] paintings = new Paintings3[5];
+        for (int i = 0; i < 5; i++)
+            paintings[i] = new Paintings3(SAV.Language);
+        foreach (Paintings3 p in PaintingsByCategory.Values.ToArray())
+        {
+            if (p.Species != 0 && p.Enabled)
+            {
+                switch (p.Category)
+                {
+                    case "Coolness":
+                        paintings[0] = p;
+                        break;
+                    case "Beauty":
+                        paintings[1] = p;
+                        break;
+                    case "Cuteness":
+                        paintings[2] = p;
+                        break;
+                    case "Cleverness":
+                        paintings[3] = p;
+                        break;
+                    case "Toughness":
+                        paintings[4] = p;
+                        break;
+                }
+
+            }
+        }
+        h.Paintings = paintings.ToArray();
+        byte[] res = new byte[160];
+        for (int i = 0; i < 5; i++)
+        {
+            var p = paintings[i];
+            p.Data.CopyTo(res, i * 32);
+        }
+        File.WriteAllBytes("C:\\Users\\pasqu\\Desktop\\paintdump.bin", res);
+    }
+
+    private void B_UpdatePaintings_Click(object sender, EventArgs e)
+    {
+        MultipleChecks();
+        UpdatePaintings();
+        System.Media.SystemSounds.Asterisk.Play();
+
+        void MultipleChecks()
+        {
+            if (string.IsNullOrEmpty(TB_PID.Text))
+                TB_PID.Text = "00000000";
+            if (string.IsNullOrEmpty(TB_TID.Text))
+                TB_TID.Text = "00000";
+            if (string.IsNullOrEmpty(TB_SID.Text))
+                TB_SID.Text = "00000";
+            foreach (char c in TB_PID.Text.ToCharArray())
+            {
+                if (!char.IsDigit(c) && (!char.IsLetter(c) || (c != 'A' && c != 'B' && c != 'C' && c != 'D' && c != 'E' && c != 'F')))
+                {
+                    {
+                        TB_PID.Text = "00000000";
+                        break;
+                    }
+                }
+            }
+            if (TB_TID.Text.CompareTo("65535") > 0)
+                TB_TID.Text = "65535";
+            if (TB_SID.Text.CompareTo("65535") > 0)
+                TB_SID.Text = "65535";
+        }
+
+        void UpdatePaintings()
+        {
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].PID = uint.Parse(TB_PID.Text, System.Globalization.NumberStyles.HexNumber);
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].TID = ushort.Parse(TB_TID.Text);
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].SID = ushort.Parse(TB_SID.Text);
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Species = (ushort)CB_Species.SelectedIndex;
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Nickname = TB_Nickname.Text;
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].OT = TB_OT.Text;
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Enabled = CHK_EnablePaint.Checked;
+            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Category = CB_Paintings.SelectedValue.ToString();
+        }
     }
     #endregion
 }

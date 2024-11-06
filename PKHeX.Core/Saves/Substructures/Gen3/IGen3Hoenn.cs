@@ -12,9 +12,8 @@ public interface IGen3Hoenn
     PokeBlock3Case PokeBlocks { get; set; }
     DecorationInventory3 Decorations { get; }
     Swarm3 Swarm { get; set; }
-
     IReadOnlyList<Swarm3> DefaultSwarms { get; }
     int SwarmIndex { get; set; }
-
     RecordMixing3Gift RecordMixingGift { get; set; }
+    Paintings3[] Paintings { get; set; }
 }

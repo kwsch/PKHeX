@@ -112,33 +112,48 @@ namespace PKHeX.WinForms
             NUD_RecordValue = new System.Windows.Forms.NumericUpDown();
             CB_Record = new System.Windows.Forms.ComboBox();
             Tab_Pokeblocks = new System.Windows.Forms.TabPage();
-            pokeblock3CaseEditor1 = new Pokeblock3CaseEditor();
             Tab_Decorations = new System.Windows.Forms.TabPage();
             TC_Decorations = new System.Windows.Forms.TabControl();
             TB_Desk = new System.Windows.Forms.TabPage();
             DGV_Desk = new System.Windows.Forms.DataGridView();
+            Item_Desk = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Chair = new System.Windows.Forms.TabPage();
             DGV_Chair = new System.Windows.Forms.DataGridView();
+            Item_Chair = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Plant = new System.Windows.Forms.TabPage();
             DGV_Plant = new System.Windows.Forms.DataGridView();
+            Item_Plant = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Ornament = new System.Windows.Forms.TabPage();
             DGV_Ornament = new System.Windows.Forms.DataGridView();
+            Item_Ornament = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Mat = new System.Windows.Forms.TabPage();
             DGV_Mat = new System.Windows.Forms.DataGridView();
+            Item_Mat = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Poster = new System.Windows.Forms.TabPage();
             DGV_Poster = new System.Windows.Forms.DataGridView();
+            Item_Poster = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Doll = new System.Windows.Forms.TabPage();
             DGV_Doll = new System.Windows.Forms.DataGridView();
+            Item_Doll = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Cushion = new System.Windows.Forms.TabPage();
             DGV_Cushion = new System.Windows.Forms.DataGridView();
-            Item_Desk = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            Item_Chair = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            Item_Plant = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            Item_Ornament = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            Item_Mat = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            Item_Poster = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            Item_Doll = new System.Windows.Forms.DataGridViewComboBoxColumn();
             Item_Cushion = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            Tab_Paintings = new System.Windows.Forms.TabPage();
+            B_UpdatePaintings = new System.Windows.Forms.Button();
+            CB_Species = new System.Windows.Forms.ComboBox();
+            CHK_EnablePaint = new System.Windows.Forms.CheckBox();
+            TB_Nickname = new System.Windows.Forms.TextBox();
+            TB_OT = new System.Windows.Forms.TextBox();
+            TB_SID = new System.Windows.Forms.TextBox();
+            TB_TID = new System.Windows.Forms.TextBox();
+            TB_PID = new System.Windows.Forms.TextBox();
+            CB_Paintings = new System.Windows.Forms.ComboBox();
+            L_OT = new System.Windows.Forms.Label();
+            L_Nickname = new System.Windows.Forms.Label();
+            L_Species = new System.Windows.Forms.Label();
+            L_SID = new System.Windows.Forms.Label();
+            L_TID = new System.Windows.Forms.Label();
+            L_PID = new System.Windows.Forms.Label();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).BeginInit();
@@ -162,7 +177,6 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_FameM).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FameS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_RecordValue).BeginInit();
-            Tab_Pokeblocks.SuspendLayout();
             Tab_Decorations.SuspendLayout();
             TC_Decorations.SuspendLayout();
             TB_Desk.SuspendLayout();
@@ -181,6 +195,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)DGV_Doll).BeginInit();
             TB_Cushion.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGV_Cushion).BeginInit();
+            Tab_Paintings.SuspendLayout();
             SuspendLayout();
             // 
             // B_Save
@@ -217,6 +232,7 @@ namespace PKHeX.WinForms
             TC_Misc.Controls.Add(Tab_Records);
             TC_Misc.Controls.Add(Tab_Pokeblocks);
             TC_Misc.Controls.Add(Tab_Decorations);
+            TC_Misc.Controls.Add(Tab_Paintings);
             TC_Misc.Location = new System.Drawing.Point(14, 14);
             TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_Misc.Name = "TC_Misc";
@@ -1158,7 +1174,6 @@ namespace PKHeX.WinForms
             // 
             // Tab_Pokeblocks
             // 
-            Tab_Pokeblocks.Controls.Add(pokeblock3CaseEditor1);
             Tab_Pokeblocks.Location = new System.Drawing.Point(4, 24);
             Tab_Pokeblocks.Name = "Tab_Pokeblocks";
             Tab_Pokeblocks.Padding = new System.Windows.Forms.Padding(3);
@@ -1166,15 +1181,6 @@ namespace PKHeX.WinForms
             Tab_Pokeblocks.TabIndex = 5;
             Tab_Pokeblocks.Text = "Pokéblocks";
             Tab_Pokeblocks.UseVisualStyleBackColor = true;
-            // 
-            // pokeblock3CaseEditor1
-            // 
-            pokeblock3CaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            pokeblock3CaseEditor1.Location = new System.Drawing.Point(3, 3);
-            pokeblock3CaseEditor1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            pokeblock3CaseEditor1.Name = "pokeblock3CaseEditor1";
-            pokeblock3CaseEditor1.Size = new System.Drawing.Size(351, 248);
-            pokeblock3CaseEditor1.TabIndex = 0;
             // 
             // Tab_Decorations
             // 
@@ -1237,6 +1243,14 @@ namespace PKHeX.WinForms
             DGV_Desk.Size = new System.Drawing.Size(337, 214);
             DGV_Desk.TabIndex = 0;
             // 
+            // Item_Desk
+            // 
+            Item_Desk.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Desk.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Desk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Desk.HeaderText = "Item";
+            Item_Desk.Name = "Item_Desk";
+            // 
             // TB_Chair
             // 
             TB_Chair.Controls.Add(DGV_Chair);
@@ -1269,6 +1283,14 @@ namespace PKHeX.WinForms
             DGV_Chair.ShowEditingIcon = false;
             DGV_Chair.Size = new System.Drawing.Size(337, 214);
             DGV_Chair.TabIndex = 0;
+            // 
+            // Item_Chair
+            // 
+            Item_Chair.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Chair.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Chair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Chair.HeaderText = "Item";
+            Item_Chair.Name = "Item_Chair";
             // 
             // TB_Plant
             // 
@@ -1303,6 +1325,14 @@ namespace PKHeX.WinForms
             DGV_Plant.Size = new System.Drawing.Size(337, 214);
             DGV_Plant.TabIndex = 0;
             // 
+            // Item_Plant
+            // 
+            Item_Plant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Plant.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Plant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Plant.HeaderText = "Item";
+            Item_Plant.Name = "Item_Plant";
+            // 
             // TB_Ornament
             // 
             TB_Ornament.Controls.Add(DGV_Ornament);
@@ -1335,6 +1365,14 @@ namespace PKHeX.WinForms
             DGV_Ornament.ShowEditingIcon = false;
             DGV_Ornament.Size = new System.Drawing.Size(337, 214);
             DGV_Ornament.TabIndex = 0;
+            // 
+            // Item_Ornament
+            // 
+            Item_Ornament.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Ornament.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Ornament.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Ornament.HeaderText = "Item";
+            Item_Ornament.Name = "Item_Ornament";
             // 
             // TB_Mat
             // 
@@ -1369,6 +1407,14 @@ namespace PKHeX.WinForms
             DGV_Mat.Size = new System.Drawing.Size(337, 214);
             DGV_Mat.TabIndex = 0;
             // 
+            // Item_Mat
+            // 
+            Item_Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Mat.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Mat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Mat.HeaderText = "Item";
+            Item_Mat.Name = "Item_Mat";
+            // 
             // TB_Poster
             // 
             TB_Poster.Controls.Add(DGV_Poster);
@@ -1401,6 +1447,14 @@ namespace PKHeX.WinForms
             DGV_Poster.ShowEditingIcon = false;
             DGV_Poster.Size = new System.Drawing.Size(337, 214);
             DGV_Poster.TabIndex = 0;
+            // 
+            // Item_Poster
+            // 
+            Item_Poster.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Poster.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Poster.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Poster.HeaderText = "Item";
+            Item_Poster.Name = "Item_Poster";
             // 
             // TB_Doll
             // 
@@ -1435,6 +1489,14 @@ namespace PKHeX.WinForms
             DGV_Doll.Size = new System.Drawing.Size(337, 214);
             DGV_Doll.TabIndex = 0;
             // 
+            // Item_Doll
+            // 
+            Item_Doll.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            Item_Doll.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            Item_Doll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            Item_Doll.HeaderText = "Item";
+            Item_Doll.Name = "Item_Doll";
+            // 
             // TB_Cushion
             // 
             TB_Cushion.Controls.Add(DGV_Cushion);
@@ -1468,62 +1530,6 @@ namespace PKHeX.WinForms
             DGV_Cushion.Size = new System.Drawing.Size(337, 214);
             DGV_Cushion.TabIndex = 0;
             // 
-            // Item_Desk
-            // 
-            Item_Desk.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Desk.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Desk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Desk.HeaderText = "Item";
-            Item_Desk.Name = "Item_Desk";
-            // 
-            // Item_Chair
-            // 
-            Item_Chair.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Chair.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Chair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Chair.HeaderText = "Item";
-            Item_Chair.Name = "Item_Chair";
-            // 
-            // Item_Plant
-            // 
-            Item_Plant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Plant.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Plant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Plant.HeaderText = "Item";
-            Item_Plant.Name = "Item_Plant";
-            // 
-            // Item_Ornament
-            // 
-            Item_Ornament.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Ornament.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Ornament.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Ornament.HeaderText = "Item";
-            Item_Ornament.Name = "Item_Ornament";
-            // 
-            // Item_Mat
-            // 
-            Item_Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Mat.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Mat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Mat.HeaderText = "Item";
-            Item_Mat.Name = "Item_Mat";
-            // 
-            // Item_Poster
-            // 
-            Item_Poster.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Poster.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Poster.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Poster.HeaderText = "Item";
-            Item_Poster.Name = "Item_Poster";
-            // 
-            // Item_Doll
-            // 
-            Item_Doll.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            Item_Doll.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            Item_Doll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Item_Doll.HeaderText = "Item";
-            Item_Doll.Name = "Item_Doll";
-            // 
             // Item_Cushion
             // 
             Item_Cushion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1531,6 +1537,163 @@ namespace PKHeX.WinForms
             Item_Cushion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             Item_Cushion.HeaderText = "Item";
             Item_Cushion.Name = "Item_Cushion";
+            // 
+            // Tab_Paintings
+            // 
+            Tab_Paintings.Controls.Add(B_UpdatePaintings);
+            Tab_Paintings.Controls.Add(CB_Species);
+            Tab_Paintings.Controls.Add(CHK_EnablePaint);
+            Tab_Paintings.Controls.Add(TB_Nickname);
+            Tab_Paintings.Controls.Add(TB_OT);
+            Tab_Paintings.Controls.Add(TB_SID);
+            Tab_Paintings.Controls.Add(TB_TID);
+            Tab_Paintings.Controls.Add(TB_PID);
+            Tab_Paintings.Controls.Add(CB_Paintings);
+            Tab_Paintings.Controls.Add(L_OT);
+            Tab_Paintings.Controls.Add(L_Nickname);
+            Tab_Paintings.Controls.Add(L_Species);
+            Tab_Paintings.Controls.Add(L_SID);
+            Tab_Paintings.Controls.Add(L_TID);
+            Tab_Paintings.Controls.Add(L_PID);
+            Tab_Paintings.Location = new System.Drawing.Point(4, 24);
+            Tab_Paintings.Name = "Tab_Paintings";
+            Tab_Paintings.Size = new System.Drawing.Size(357, 254);
+            Tab_Paintings.TabIndex = 7;
+            Tab_Paintings.Text = "Paintings";
+            Tab_Paintings.UseVisualStyleBackColor = true;
+            // 
+            // B_UpdatePaintings
+            // 
+            B_UpdatePaintings.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_UpdatePaintings.Location = new System.Drawing.Point(285, 20);
+            B_UpdatePaintings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_UpdatePaintings.Name = "B_UpdatePaintings";
+            B_UpdatePaintings.Size = new System.Drawing.Size(60, 27);
+            B_UpdatePaintings.TabIndex = 73;
+            B_UpdatePaintings.Text = "Update";
+            B_UpdatePaintings.UseVisualStyleBackColor = true;
+            B_UpdatePaintings.Click += B_UpdatePaintings_Click;
+            // 
+            // CB_Species
+            // 
+            CB_Species.Enabled = false;
+            CB_Species.FormattingEnabled = true;
+            CB_Species.Location = new System.Drawing.Point(101, 66);
+            CB_Species.Name = "CB_Species";
+            CB_Species.Size = new System.Drawing.Size(169, 23);
+            CB_Species.TabIndex = 15;
+            // 
+            // CHK_EnablePaint
+            // 
+            CHK_EnablePaint.AutoSize = true;
+            CHK_EnablePaint.Location = new System.Drawing.Point(13, 25);
+            CHK_EnablePaint.Name = "CHK_EnablePaint";
+            CHK_EnablePaint.Size = new System.Drawing.Size(68, 19);
+            CHK_EnablePaint.TabIndex = 14;
+            CHK_EnablePaint.Text = "Enabled";
+            CHK_EnablePaint.UseVisualStyleBackColor = true;
+            // 
+            // TB_Nickname
+            // 
+            TB_Nickname.Enabled = false;
+            TB_Nickname.Location = new System.Drawing.Point(101, 206);
+            TB_Nickname.Name = "TB_Nickname";
+            TB_Nickname.Size = new System.Drawing.Size(169, 23);
+            TB_Nickname.TabIndex = 12;
+            // 
+            // TB_OT
+            // 
+            TB_OT.Enabled = false;
+            TB_OT.Location = new System.Drawing.Point(101, 182);
+            TB_OT.Name = "TB_OT";
+            TB_OT.Size = new System.Drawing.Size(169, 23);
+            TB_OT.TabIndex = 11;
+            // 
+            // TB_SID
+            // 
+            TB_SID.Enabled = false;
+            TB_SID.Location = new System.Drawing.Point(101, 158);
+            TB_SID.Name = "TB_SID";
+            TB_SID.Size = new System.Drawing.Size(169, 23);
+            TB_SID.TabIndex = 9;
+            // 
+            // TB_TID
+            // 
+            TB_TID.Enabled = false;
+            TB_TID.Location = new System.Drawing.Point(101, 134);
+            TB_TID.Name = "TB_TID";
+            TB_TID.Size = new System.Drawing.Size(169, 23);
+            TB_TID.TabIndex = 8;
+            // 
+            // TB_PID
+            // 
+            TB_PID.Enabled = false;
+            TB_PID.Location = new System.Drawing.Point(101, 110);
+            TB_PID.Name = "TB_PID";
+            TB_PID.Size = new System.Drawing.Size(169, 23);
+            TB_PID.TabIndex = 7;
+            // 
+            // CB_Paintings
+            // 
+            CB_Paintings.FormattingEnabled = true;
+            CB_Paintings.Location = new System.Drawing.Point(101, 23);
+            CB_Paintings.Name = "CB_Paintings";
+            CB_Paintings.Size = new System.Drawing.Size(169, 23);
+            CB_Paintings.TabIndex = 6;
+            // 
+            // L_OT
+            // 
+            L_OT.AutoSize = true;
+            L_OT.Location = new System.Drawing.Point(33, 185);
+            L_OT.Name = "L_OT";
+            L_OT.Size = new System.Drawing.Size(24, 15);
+            L_OT.TabIndex = 5;
+            L_OT.Text = "OT:";
+            // 
+            // L_Nickname
+            // 
+            L_Nickname.AutoSize = true;
+            L_Nickname.Location = new System.Drawing.Point(13, 209);
+            L_Nickname.Name = "L_Nickname";
+            L_Nickname.Size = new System.Drawing.Size(64, 15);
+            L_Nickname.TabIndex = 4;
+            L_Nickname.Text = "Nickname:";
+            // 
+            // L_Species
+            // 
+            L_Species.AutoSize = true;
+            L_Species.Location = new System.Drawing.Point(28, 69);
+            L_Species.Name = "L_Species";
+            L_Species.Size = new System.Drawing.Size(49, 15);
+            L_Species.TabIndex = 3;
+            L_Species.Text = "Species:";
+            // 
+            // L_SID
+            // 
+            L_SID.AutoSize = true;
+            L_SID.Location = new System.Drawing.Point(33, 161);
+            L_SID.Name = "L_SID";
+            L_SID.Size = new System.Drawing.Size(27, 15);
+            L_SID.TabIndex = 2;
+            L_SID.Text = "SID:";
+            // 
+            // L_TID
+            // 
+            L_TID.AutoSize = true;
+            L_TID.Location = new System.Drawing.Point(33, 137);
+            L_TID.Name = "L_TID";
+            L_TID.Size = new System.Drawing.Size(27, 15);
+            L_TID.TabIndex = 1;
+            L_TID.Text = "TID:";
+            // 
+            // L_PID
+            // 
+            L_PID.AutoSize = true;
+            L_PID.Location = new System.Drawing.Point(33, 113);
+            L_PID.Name = "L_PID";
+            L_PID.Size = new System.Drawing.Size(28, 15);
+            L_PID.TabIndex = 0;
+            L_PID.Text = "PID:";
             // 
             // SAV_Misc3
             // 
@@ -1576,7 +1739,6 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_FameM).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FameS).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_RecordValue).EndInit();
-            Tab_Pokeblocks.ResumeLayout(false);
             Tab_Decorations.ResumeLayout(false);
             TC_Decorations.ResumeLayout(false);
             TB_Desk.ResumeLayout(false);
@@ -1595,6 +1757,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)DGV_Doll).EndInit();
             TB_Cushion.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DGV_Cushion).EndInit();
+            Tab_Paintings.ResumeLayout(false);
+            Tab_Paintings.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1710,5 +1874,21 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Doll;
         private System.Windows.Forms.DataGridView DGV_Cushion;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Cushion;
+        private System.Windows.Forms.TabPage Tab_Paintings;
+        private System.Windows.Forms.Label L_PID;
+        private System.Windows.Forms.ComboBox CB_Paintings;
+        private System.Windows.Forms.Label L_OT;
+        private System.Windows.Forms.Label L_Nickname;
+        private System.Windows.Forms.Label L_Species;
+        private System.Windows.Forms.Label L_SID;
+        private System.Windows.Forms.Label L_TID;
+        private System.Windows.Forms.TextBox TB_PID;
+        private System.Windows.Forms.TextBox TB_Nickname;
+        private System.Windows.Forms.TextBox TB_OT;
+        private System.Windows.Forms.TextBox TB_SID;
+        private System.Windows.Forms.TextBox TB_TID;
+        private System.Windows.Forms.CheckBox CHK_EnablePaint;
+        private System.Windows.Forms.ComboBox CB_Species;
+        private System.Windows.Forms.Button B_UpdatePaintings;
     }
 }
