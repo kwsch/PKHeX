@@ -115,10 +115,10 @@ s0066	FSYS_ARRIVE_R011_DUN01 (到达地鼠洞穴)
 s0067	FSYS_ARRIVE_R020_DUN01 (到达双子岛)
 s0068	FSYS_ARRIVE_R023_DUN01 (到达冠军之路)
 
-s0270	Helix Fossil Claimed at Mt. Moon(月见山上发现贝壳化石)
-s0271	Dome Fossil Claimed at Mt. Moon(月见山上发现甲壳化石)
-s0298	Dome Fossil in Fuchsia City(浅红市出现化石盔)
-s0299	Helix Fossil in Fuchsia City(浅红市出现菊石兽)
-s0357	Received Fighting Dojo Hitmonchan(获得格斗道馆的快拳郎)
-s0358	Received Fighting Dojo Hitmonlee(获得格斗道馆的飞腿郎)
-s0359	Old Amber Claimed in Pewter City(深灰市的秘密琥珀被领取)
+s0270	月见山上发现贝壳化石
+s0271	月见山上发现甲壳化石
+s0298	浅红市出现化石盔
+s0299	浅红市出现菊石兽
+s0357	获得格斗道馆的快拳郎
+s0358	获得格斗道馆的飞腿郎
+s0359	深灰市的秘密琥珀被领取
