@@ -10,7 +10,7 @@ v1113	t011r0501_pm0107_ebiwalar (快拳郎)
 
 v0627	Bulbasaur in Cerulean City（妙蛙种子）
 v0157	Charmander on Route 24（小火龙）
-v0322	Squirtle in Vermilion Cit（杰尼龟）
+v0322	Squirtle in Vermilion City（杰尼龟）
 v0255	Porygon in Saffron City（多边兽）
 
 e0116	FE_MASTER_RED_BATTLE_TALKED(与赤红对话)
