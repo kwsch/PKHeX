@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -166,30 +165,15 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 
     protected override int SeenOffset3 => 0x3A8C;
 
-    public Paintings3[] Paintings
+    public PaintingsCollection3 Paintings
     {
         get
         {
-            Paintings3[] paintings = new Paintings3[5];
-            byte[] sector = Large.AsSpan().Slice(3 * 0xF80, 0xF80).Slice(0x7C, 160).ToArray();
-            for (int i = 0; i < 5; i++)
-            {
-                paintings[i] = new Paintings3(sector.AsSpan().Slice(i * 32, 32).ToArray(), Language);
-                paintings[i].Enabled = this.GetEventFlag(paintings[i].Address);
-                System.Diagnostics.Debug.WriteLine($"Read Painting {i}: {this.GetEventFlag(paintings[i].Address)}");
-            }
-            return paintings;
+            return new PaintingsCollection3(3 * 0xF80, 0xF80, 0x7C, 160, this.Language, this);
         }
         set
         {
-            byte[] sector = new byte[160];
-            for (int i = 0; i < 5; i++)
-            {
-                Array.Copy(value[i].Data, 0, sector, i * 32, 32);
-                this.SetEventFlag(value[i].Address, value[i].Enabled);
-                System.Diagnostics.Debug.WriteLine($"Written Painting {i}: {this.GetEventFlag(value[i].Address)}");
-            }
-            sector.AsSpan().CopyTo(Large.AsSpan().Slice(3 * 0xF80, 0xF80).Slice(0x7C, 160));
+            value.SaveCollection3(3 * 0xF80, 0xF80, 0x7C, 160, this.Language, this);
         }
     }
     #endregion

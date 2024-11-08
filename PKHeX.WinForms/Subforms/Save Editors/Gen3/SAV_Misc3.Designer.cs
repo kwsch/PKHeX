@@ -154,6 +154,7 @@ namespace PKHeX.WinForms
             L_SID = new System.Windows.Forms.Label();
             L_TID = new System.Windows.Forms.Label();
             L_PID = new System.Windows.Forms.Label();
+            CHK_Shiny = new System.Windows.Forms.CheckBox();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).BeginInit();
@@ -1540,6 +1541,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Paintings
             // 
+            Tab_Paintings.Controls.Add(CHK_Shiny);
             Tab_Paintings.Controls.Add(B_UpdatePaintings);
             Tab_Paintings.Controls.Add(CB_Species);
             Tab_Paintings.Controls.Add(CHK_EnablePaint);
@@ -1565,10 +1567,10 @@ namespace PKHeX.WinForms
             // B_UpdatePaintings
             // 
             B_UpdatePaintings.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_UpdatePaintings.Location = new System.Drawing.Point(285, 20);
+            B_UpdatePaintings.Location = new System.Drawing.Point(253, 20);
             B_UpdatePaintings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_UpdatePaintings.Name = "B_UpdatePaintings";
-            B_UpdatePaintings.Size = new System.Drawing.Size(60, 27);
+            B_UpdatePaintings.Size = new System.Drawing.Size(88, 27);
             B_UpdatePaintings.TabIndex = 73;
             B_UpdatePaintings.Text = "Update";
             B_UpdatePaintings.UseVisualStyleBackColor = true;
@@ -1578,9 +1580,9 @@ namespace PKHeX.WinForms
             // 
             CB_Species.Enabled = false;
             CB_Species.FormattingEnabled = true;
-            CB_Species.Location = new System.Drawing.Point(101, 66);
+            CB_Species.Location = new System.Drawing.Point(87, 66);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(169, 23);
+            CB_Species.Size = new System.Drawing.Size(159, 23);
             CB_Species.TabIndex = 15;
             // 
             // CHK_EnablePaint
@@ -1596,49 +1598,49 @@ namespace PKHeX.WinForms
             // TB_Nickname
             // 
             TB_Nickname.Enabled = false;
-            TB_Nickname.Location = new System.Drawing.Point(101, 206);
+            TB_Nickname.Location = new System.Drawing.Point(87, 206);
             TB_Nickname.Name = "TB_Nickname";
-            TB_Nickname.Size = new System.Drawing.Size(169, 23);
+            TB_Nickname.Size = new System.Drawing.Size(159, 23);
             TB_Nickname.TabIndex = 12;
             // 
             // TB_OT
             // 
             TB_OT.Enabled = false;
-            TB_OT.Location = new System.Drawing.Point(101, 182);
+            TB_OT.Location = new System.Drawing.Point(87, 182);
             TB_OT.Name = "TB_OT";
-            TB_OT.Size = new System.Drawing.Size(169, 23);
+            TB_OT.Size = new System.Drawing.Size(159, 23);
             TB_OT.TabIndex = 11;
             // 
             // TB_SID
             // 
             TB_SID.Enabled = false;
-            TB_SID.Location = new System.Drawing.Point(101, 158);
+            TB_SID.Location = new System.Drawing.Point(87, 158);
             TB_SID.Name = "TB_SID";
-            TB_SID.Size = new System.Drawing.Size(169, 23);
+            TB_SID.Size = new System.Drawing.Size(159, 23);
             TB_SID.TabIndex = 9;
             // 
             // TB_TID
             // 
             TB_TID.Enabled = false;
-            TB_TID.Location = new System.Drawing.Point(101, 134);
+            TB_TID.Location = new System.Drawing.Point(87, 134);
             TB_TID.Name = "TB_TID";
-            TB_TID.Size = new System.Drawing.Size(169, 23);
+            TB_TID.Size = new System.Drawing.Size(159, 23);
             TB_TID.TabIndex = 8;
             // 
             // TB_PID
             // 
             TB_PID.Enabled = false;
-            TB_PID.Location = new System.Drawing.Point(101, 110);
+            TB_PID.Location = new System.Drawing.Point(87, 110);
             TB_PID.Name = "TB_PID";
-            TB_PID.Size = new System.Drawing.Size(169, 23);
+            TB_PID.Size = new System.Drawing.Size(159, 23);
             TB_PID.TabIndex = 7;
             // 
             // CB_Paintings
             // 
             CB_Paintings.FormattingEnabled = true;
-            CB_Paintings.Location = new System.Drawing.Point(101, 23);
+            CB_Paintings.Location = new System.Drawing.Point(87, 23);
             CB_Paintings.Name = "CB_Paintings";
-            CB_Paintings.Size = new System.Drawing.Size(169, 23);
+            CB_Paintings.Size = new System.Drawing.Size(159, 23);
             CB_Paintings.TabIndex = 6;
             // 
             // L_OT
@@ -1694,6 +1696,17 @@ namespace PKHeX.WinForms
             L_PID.Size = new System.Drawing.Size(28, 15);
             L_PID.TabIndex = 0;
             L_PID.Text = "PID:";
+            // 
+            // CHK_Shiny
+            // 
+            CHK_Shiny.AutoSize = true;
+            CHK_Shiny.Enabled = false;
+            CHK_Shiny.Location = new System.Drawing.Point(267, 68);
+            CHK_Shiny.Name = "CHK_Shiny";
+            CHK_Shiny.Size = new System.Drawing.Size(55, 19);
+            CHK_Shiny.TabIndex = 74;
+            CHK_Shiny.Text = "Shiny";
+            CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // SAV_Misc3
             // 
@@ -1890,5 +1903,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_EnablePaint;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Button B_UpdatePaintings;
+        private System.Windows.Forms.CheckBox CHK_Shiny;
     }
 }

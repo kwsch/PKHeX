@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -14,9 +13,6 @@ public partial class SAV_Misc3 : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV3 SAV;
-
-    //paintings
-    private Dictionary<string, Paintings3> PaintingsByCategory;
 
     public SAV_Misc3(SAV3 sav)
     {
@@ -666,38 +662,23 @@ public partial class SAV_Misc3 : Form
         CB_Species.DataSource = pokemap;
 
         var paintings = h.Paintings;
-        PaintingsByCategory = new Dictionary<string, Paintings3>
-        {
-            ["Coolness"] = new Paintings3(SAV.Language),
-            ["Beauty"] = new Paintings3(SAV.Language),
-            ["Cuteness"] = new Paintings3(SAV.Language),
-            ["Cleverness"] = new Paintings3(SAV.Language),
-            ["Toughness"] = new Paintings3(SAV.Language)
-        };
-        for (int i = 0; i < paintings.Length; i++)
-        {
-            if (paintings[i].Species != 0)
-                PaintingsByCategory[paintings[i].Category] = paintings[i];
-        }
         CB_Paintings.InitializeBinding();
-        CB_Paintings.DataSource = PaintingsByCategory.Keys.ToList();
+        CB_Paintings.DataSource = paintings.Paintings;
 
         CB_Paintings.SelectedIndexChanged += (_, _) =>
         {
             if (CB_Paintings.SelectedValue == null)
                 return;
-            SelectPainting(PaintingsByCategory[CB_Paintings.SelectedValue.ToString()]);
+            SelectPainting((Paintings3)CB_Paintings.SelectedItem);
         };
 
         CHK_EnablePaint.CheckedChanged += (_, _) =>
         {
-            if (CB_Paintings.SelectedValue == null)
-                return;
             EnableEditPainting(CHK_EnablePaint.Checked);
         };
 
         CB_Paintings.SelectedIndex = 0;
-        SelectPainting(PaintingsByCategory[CB_Paintings.SelectedValue.ToString()]);
+        SelectPainting((Paintings3)CB_Paintings.SelectedItem);
 
         void SelectPainting(Paintings3 painting)
         {
@@ -708,6 +689,7 @@ public partial class SAV_Misc3 : Form
             TB_Nickname.Text = painting.Nickname;
             TB_OT.Text = painting.OT;
             CHK_EnablePaint.Checked = painting.Enabled;
+            CHK_Shiny.Checked = painting.XORShiny;
         }
 
         void EnableEditPainting(bool enabled)
@@ -720,7 +702,6 @@ public partial class SAV_Misc3 : Form
                 CB_Species.Enabled = true;
                 TB_Nickname.Enabled = true;
                 TB_OT.Enabled = true;
-                PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Enabled = true;
             }
             else
             {
@@ -736,49 +717,18 @@ public partial class SAV_Misc3 : Form
                 TB_Nickname.Enabled = false;
                 TB_OT.Text = "";
                 TB_OT.Enabled = false;
-                PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Enabled = false;
             }
         }
     }
 
     private void SavePaintings(IGen3Hoenn h)
     {
-        Paintings3[] paintings = new Paintings3[5];
-        for (int i = 0; i < 5; i++)
-            paintings[i] = new Paintings3(SAV.Language);
-        foreach (Paintings3 p in PaintingsByCategory.Values.ToArray())
-        {
-            if (p.Species != 0 && p.Enabled)
-            {
-                switch (p.Category)
-                {
-                    case "Coolness":
-                        paintings[0] = p;
-                        break;
-                    case "Beauty":
-                        paintings[1] = p;
-                        break;
-                    case "Cuteness":
-                        paintings[2] = p;
-                        break;
-                    case "Cleverness":
-                        paintings[3] = p;
-                        break;
-                    case "Toughness":
-                        paintings[4] = p;
-                        break;
-                }
-
-            }
-        }
-        h.Paintings = paintings.ToArray();
-        byte[] res = new byte[160];
-        for (int i = 0; i < 5; i++)
-        {
-            var p = paintings[i];
-            p.Data.CopyTo(res, i * 32);
-        }
-        File.WriteAllBytes("C:\\Users\\pasqu\\Desktop\\paintdump.bin", res);
+        List<Paintings3> paintings = new();
+        foreach (var painting in CB_Paintings.Items)
+            paintings.Add((Paintings3)painting);
+        PaintingsCollection3 collection = new PaintingsCollection3(paintings);
+        collection.FixPaintings();
+        h.Paintings = collection;
     }
 
     private void B_UpdatePaintings_Click(object sender, EventArgs e)
@@ -813,14 +763,15 @@ public partial class SAV_Misc3 : Form
 
         void UpdatePaintings()
         {
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].PID = uint.Parse(TB_PID.Text, System.Globalization.NumberStyles.HexNumber);
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].TID = ushort.Parse(TB_TID.Text);
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].SID = ushort.Parse(TB_SID.Text);
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Species = (ushort)CB_Species.SelectedIndex;
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Nickname = TB_Nickname.Text;
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].OT = TB_OT.Text;
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Enabled = CHK_EnablePaint.Checked;
-            PaintingsByCategory[CB_Paintings.SelectedValue.ToString()].Category = CB_Paintings.SelectedValue.ToString();
+            ((Paintings3)CB_Paintings.SelectedItem).PID = uint.Parse(TB_PID.Text, System.Globalization.NumberStyles.HexNumber);
+            ((Paintings3)CB_Paintings.SelectedItem).TID = ushort.Parse(TB_TID.Text);
+            ((Paintings3)CB_Paintings.SelectedItem).SID = ushort.Parse(TB_SID.Text);
+            ((Paintings3)CB_Paintings.SelectedItem).Species = (ushort)CB_Species.SelectedIndex;
+            ((Paintings3)CB_Paintings.SelectedItem).Nickname = TB_Nickname.Text;
+            ((Paintings3)CB_Paintings.SelectedItem).OT = TB_OT.Text;
+            ((Paintings3)CB_Paintings.SelectedItem).Enabled = CHK_EnablePaint.Checked;
+            ((Paintings3)CB_Paintings.SelectedItem).Category = CB_Paintings.SelectedValue.ToString();
+            CHK_Shiny.Checked = ((Paintings3)CB_Paintings.SelectedItem).XORShiny;
         }
     }
     #endregion

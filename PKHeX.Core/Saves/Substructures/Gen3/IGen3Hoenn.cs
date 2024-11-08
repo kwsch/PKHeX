@@ -15,5 +15,5 @@ public interface IGen3Hoenn
     IReadOnlyList<Swarm3> DefaultSwarms { get; }
     int SwarmIndex { get; set; }
     RecordMixing3Gift RecordMixingGift { get; set; }
-    Paintings3[] Paintings { get; set; }
+    PaintingsCollection3 Paintings { get; set; }
 }

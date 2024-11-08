@@ -282,28 +282,15 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public byte WaldaIconID { get => Large[Walda + 0x14]; set => Large[Walda + 0x14] = value; }
     public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
     public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }
-    public Paintings3[] Paintings
+    public PaintingsCollection3 Paintings
     {
         get
         {
-            Paintings3[] paintings = new Paintings3[5];
-            byte[] sector = Large.AsSpan().Slice(3 * 0xF80, 0xF80).Slice(0x7C, 160).ToArray();
-            for (int i = 0; i < 5; i++)
-            {
-                paintings[i] = new Paintings3(sector.AsSpan().Slice(i * 32, 32).ToArray(), Language);
-                paintings[i].Enabled = this.GetEventFlag(paintings[i].Address);
-            }
-            return paintings;
+            return new PaintingsCollection3(3 * 0xF80, 0xF80, 0x110, 160, this.Language, this);
         }
         set
         {
-            byte[] sector = new byte[160];
-            for (int i = 0; i < 5; i++)
-            {
-                Array.Copy(value[i].Data, 0, sector, i * 32, 32);
-                this.SetEventFlag(value[i].Address, value[i].Enabled);
-            }
-            sector.AsSpan().CopyTo(Large.AsSpan().Slice(3 * 0xF80, 0xF80).Slice(0x7C, 160));
+            value.SaveCollection3(3 * 0xF80, 0xF80, 0x110, 160, this.Language, this);
         }
     }
     #endregion
