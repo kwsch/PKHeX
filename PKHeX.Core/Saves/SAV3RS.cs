@@ -164,5 +164,24 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
     public RecordMixing3Gift RecordMixingGift { get => new(RecordSpan.ToArray()); set => SetData(RecordSpan, value.Data); }
 
     protected override int SeenOffset3 => 0x3A8C;
+
+    public SecretBaseManager3 SecretBases
+    {
+        get
+        {
+            Span<byte> data1 = Large.AsSpan(0xF80 + 0xA88, 0xF80 - 0xA88);
+            Span<byte> data2 = Large.AsSpan(0xF80 * 2, 0x787);
+            byte[] data = new byte[20 * SecretBase3.SIZE];
+            data1.CopyTo(data);
+            data2.CopyTo(data.AsSpan().Slice(data1.Length));
+            return new SecretBaseManager3(data);
+        }
+        set
+        {
+            byte[] data = value.Write();
+            data.AsSpan().Slice(0, 0xF80 - 0xA88).CopyTo(Large.AsSpan(0x780 + 0xA88));
+            data.AsSpan().Slice(0xF80 - 0xA88).CopyTo(Large.AsSpan(0xF80 * 2));
+        }
+    }
     #endregion
 }

@@ -79,4 +79,7 @@ public sealed class SecretBase3(Memory<byte> raw)
         get => (ushort)(OT_ID >> 16);
         set => OT_ID = (ushort)((value << 16) | TID16);
     }
+
+    public byte[] BaseData { get => Data.ToArray(); }
+
 }

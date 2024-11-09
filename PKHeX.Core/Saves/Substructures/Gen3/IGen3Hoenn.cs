@@ -17,4 +17,5 @@ public interface IGen3Hoenn
     int SwarmIndex { get; set; }
 
     RecordMixing3Gift RecordMixingGift { get; set; }
+    SecretBaseManager3 SecretBases { get; set; }
 }
