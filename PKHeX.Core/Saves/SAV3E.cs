@@ -300,6 +300,15 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
             data.AsSpan().Slice(0xF80 - 0xB1C).CopyTo(Large.AsSpan(0xF80));
         }
     }
+    private const int Painting = 0x2F90;
+    private const int CountPaintings = 5;
+    private Span<byte> GetPaintingSpan(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, CountPaintings, nameof(index));
+        return Large.AsSpan(Painting + (Paintings3.SIZE * index), Paintings3.SIZE * CountPaintings);
+    }
+    public Paintings3 GetPainting(int index) => new(GetPaintingSpan(index).ToArray(), Japanese);
+    public void SetPainting(int index, Paintings3 value) => value.Data.CopyTo(GetPaintingSpan(index));
     #endregion
 
     private const uint EXTRADATA_SENTINEL = 0x0000B39D;

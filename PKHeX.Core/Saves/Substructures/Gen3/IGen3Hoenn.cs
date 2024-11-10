@@ -18,4 +18,7 @@ public interface IGen3Hoenn
 
     RecordMixing3Gift RecordMixingGift { get; set; }
     SecretBaseManager3 SecretBases { get; set; }
+
+    Paintings3 GetPainting(int index);
+    void SetPainting(int index, Paintings3 value);
 }

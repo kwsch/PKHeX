@@ -1354,25 +1354,24 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        string nick;
+        string nickname;
+        int language = WinFormsUtil.GetIndex(CB_Language);
         if (CHK_IsEgg.Checked)
         {
             // Get the egg name.
-            int language = WinFormsUtil.GetIndex(CB_Language);
-            nick = SpeciesName.GetEggName(language, Entity.Format);
+            nickname = SpeciesName.GetEggName(language, Entity.Format);
         }
         else
         {
             // If name is that of another language, don't replace the nickname
             if (sender != CB_Language && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
                 return;
-            int lang = WinFormsUtil.GetIndex(CB_Language);
-            nick = SpeciesName.GetSpeciesNameGeneration(species, lang, Entity.Format);
+            nickname = SpeciesName.GetSpeciesNameGeneration(species, language, Entity.Format);
         }
 
-        TB_Nickname.Text = nick;
+        TB_Nickname.Text = nickname;
         if (Entity is GBPKM pk)
-            pk.SetNotNicknamed();
+            pk.SetNotNicknamed(language);
     }
 
     private void UpdateNicknameClick(object sender, MouseEventArgs e)

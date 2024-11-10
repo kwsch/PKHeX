@@ -51,9 +51,8 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             OriginalTrainerName = tr.OT,
 
             OriginalTrainerFriendship = pi.BaseFriendship,
-
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
+        pk.SetNotNicknamed(lang);
 
         if (IsEgg)
         {
