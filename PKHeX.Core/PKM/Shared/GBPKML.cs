@@ -46,17 +46,19 @@ public abstract class GBPKML : GBPKM
         NicknameTrash.Fill(StringConverter1.TerminatorCode);
     }
 
-    public override void SetNotNicknamed(int language) => GetNonNickname(language, RawNickname);
+    public override void SetNotNicknamed(int language)
+    {
+        GetNonNickname(language, RawNickname);
+        _isnicknamed = false;
+    }
 
-    protected override void GetNonNickname(int language, Span<byte> data)
+    protected override int GetNonNickname(int language, Span<byte> data)
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
-        SetString(data, name, data.Length, StringConverterOption.Clear50);
-        if (Korean)
-            return;
-
-        // Decimal point<->period fix
-        data.Replace<byte>(0xF2, 0xE8);
+        int length = SetString(data, name, data.Length, StringConverterOption.Clear50);
+        if (!Korean) // Decimal point<->period fix
+            data.Replace<byte>(0xF2, 0xE8);
+        return length;
     }
 
     public sealed override string Nickname
