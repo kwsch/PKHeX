@@ -195,6 +195,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
                 Shiny.Never when Method is BACD_U_AX => GetAntishiny(ref seed, idXor),
                 Shiny.Never => GetRegularAntishiny(ref seed, idXor),
                 Shiny.Always => GetForceShiny(ref seed, idXor),
+                _ when Method is Method_2 => GetMethod2(ref seed),
                 _ => GetRegular(ref seed),
             };
             if (criteria.IsSpecifiedNature() && criteria.Nature != (Nature)(pid % 25))
@@ -208,6 +209,15 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             pk.RefreshAbility((int)(pk.PID & 1));
             return seed;
         }
+    }
+
+    private static uint GetMethod2(ref uint seed)
+    {
+        var a = LCRNG.Next16(ref seed);
+        var b = LCRNG.Next16(ref seed);
+        var pid = GenerateMethodH.GetPIDRegular(a, b);
+        seed = LCRNG.Next(seed); // VBlank
+        return pid;
     }
 
     private static uint SetPINGAChannel(PK3 pk, EncounterCriteria criteria)
@@ -330,7 +340,12 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
         return true;
     }
 
-    public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        if (IsEgg && pk.IsEgg && FatefulEncounter != pk.FatefulEncounter)
+            return EncounterMatchRating.DeferredErrors;
+        return EncounterMatchRating.Match;
+    }
 
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => true; // checked in explicit match
 
@@ -349,7 +364,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
 
         return Method switch
         {
-            BACD_U => true,
+            BACD_U => type is BACD_U,
             BACD_R => IsRestrictedSimple(ref value, type),
             BACD_R_A => IsRestrictedAnti(ref value, type),
             BACD_U_AX =>  IsUnrestrictedAntiX(ref value, type),
@@ -359,7 +374,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             BACD_RBCD => IsBerryFixShiny(ref value, type),
             BACD_M => IsMystryMew(ref value, type),
             Channel => IsChannelJirachi(ref value, type),
-            Method_2 => true,
+            Method_2 => type is Method_2,
             _ => false,
         };
     }
