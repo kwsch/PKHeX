@@ -165,16 +165,14 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 
     protected override int SeenOffset3 => 0x3A8C;
 
-    public PaintingsCollection3 Paintings
+    private const int Painting = 0x2EFC;
+    private const int CountPaintings = 5;
+    private Span<byte> GetPaintingSpan(int index)
     {
-        get
-        {
-            return new PaintingsCollection3(3 * 0xF80, 0xF80, 0x7C, 160, this.Language, this);
-        }
-        set
-        {
-            value.SaveCollection3(3 * 0xF80, 0xF80, 0x7C, 160, this.Language, this);
-        }
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, CountPaintings, nameof(index));
+        return Large.AsSpan(Painting + (Paintings3.SIZE * index), Paintings3.SIZE * CountPaintings);
     }
+    public Paintings3 GetPainting(int index) => new(GetPaintingSpan(index).ToArray(), Japanese);
+    public void SetPainting(int index, Paintings3 value) => value.Data.CopyTo(GetPaintingSpan(index));
     #endregion
 }

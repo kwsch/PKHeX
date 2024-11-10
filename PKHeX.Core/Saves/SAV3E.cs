@@ -282,17 +282,16 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public byte WaldaIconID { get => Large[Walda + 0x14]; set => Large[Walda + 0x14] = value; }
     public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
     public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }
-    public PaintingsCollection3 Paintings
+
+    private const int Painting = 0x2F90;
+    private const int CountPaintings = 5;
+    private Span<byte> GetPaintingSpan(int index)
     {
-        get
-        {
-            return new PaintingsCollection3(3 * 0xF80, 0xF80, 0x110, 160, this.Language, this);
-        }
-        set
-        {
-            value.SaveCollection3(3 * 0xF80, 0xF80, 0x110, 160, this.Language, this);
-        }
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, CountPaintings, nameof(index));
+        return Large.AsSpan(Painting + (Paintings3.SIZE * index), Paintings3.SIZE * CountPaintings);
     }
+    public Paintings3 GetPainting(int index) => new(GetPaintingSpan(index).ToArray(), Japanese);
+    public void SetPainting(int index, Paintings3 value) => value.Data.CopyTo(GetPaintingSpan(index));
     #endregion
 
     private const uint EXTRADATA_SENTINEL = 0x0000B39D;

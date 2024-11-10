@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -24,18 +23,12 @@ public partial class SAV_Misc3 : Form
 
         if (SAV is IGen3Hoenn h)
         {
-            //caseEditor seems broken, so we'll just remove it for now
-            try
-            {
-                pokeblock3CaseEditor1.Initialize(h);
-
-            }
-            catch (Exception ex)
-            {
-                TC_Misc.Controls.Remove(Tab_Pokeblocks);
-            }
+            pokeblock3CaseEditor1.Initialize(h);
             ReadDecorations(h);
-            LoadPaintings(h);
+
+            CB_Species.InitializeBinding();
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
+            LoadPaintings();
         }
         else
         {
@@ -87,15 +80,9 @@ public partial class SAV_Misc3 : Form
     {
         if (SAV is IGen3Hoenn h)
         {
-            try
-            {
-                pokeblock3CaseEditor1.Save(h);
-            }
-            catch (Exception ex)
-            {
-            }
+            pokeblock3CaseEditor1.Save(h);
             SaveDecorations(h);
-            SavePaintings(h);
+            SavePaintings();
         }
         if (TC_Misc.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
             SaveJoyful(j);
@@ -152,7 +139,7 @@ public partial class SAV_Misc3 : Form
     #endregion
 
     private const ushort ItemIDOldSeaMap = 0x178;
-    private static ReadOnlySpan<ushort> TicketItemIDs => [0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap]; // item IDs
+    private static ReadOnlySpan<ushort> TicketItemIDs => [ 0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap ]; // item IDs
 
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
@@ -630,149 +617,106 @@ public partial class SAV_Misc3 : Form
     #endregion
 
     #region Paintings
-    private void LoadPaintings(IGen3Hoenn h)
+
+    private int PaintingIndex = -1;
+
+    private void LoadPaintings() => LoadPainting((int)NUD_Painting.Value);
+    private void SavePaintings() => SavePainting((int)NUD_Painting.Value);
+
+    private void ChangePainting(object sender, EventArgs e)
     {
-        TB_PID.MaxLength = 8;
-        TB_PID.CharacterCasing = CharacterCasing.Upper;
-        TB_TID.MaxLength = 5;
-        TB_SID.MaxLength = 5;
-        TB_Nickname.MaxLength = 10;
-        TB_OT.MaxLength = 7;
-
-        TB_TID.KeyPress += (_, e) =>
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        };
-
-        TB_SID.KeyPress += (_, e) =>
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        };
-
-        List<string> pokemap = new();
-        for (int i = 0; i < 387; i++)
-            pokemap.Add(SpeciesName.GetSpeciesNameGeneration((ushort)i, SAV.Language, 3));
-        CB_Species.InitializeBinding();
-        CB_Species.DataSource = pokemap;
-
-        var paintings = h.Paintings;
-        CB_Paintings.InitializeBinding();
-        CB_Paintings.DataSource = paintings.Paintings;
-
-        CB_Paintings.SelectedIndexChanged += (_, _) =>
-        {
-            if (CB_Paintings.SelectedValue == null)
-                return;
-            SelectPainting((Paintings3)CB_Paintings.SelectedItem);
-        };
-
-        CHK_EnablePaint.CheckedChanged += (_, _) =>
-        {
-            EnableEditPainting(CHK_EnablePaint.Checked);
-        };
-
-        CB_Paintings.SelectedIndex = 0;
-        SelectPainting((Paintings3)CB_Paintings.SelectedItem);
-
-        void SelectPainting(Paintings3 painting)
-        {
-            TB_PID.Text = painting.PID.ToString("X8");
-            TB_TID.Text = painting.TID.ToString("00000");
-            TB_SID.Text = painting.SID.ToString("00000");
-            CB_Species.SelectedIndex = painting.Species;
-            TB_Nickname.Text = painting.Nickname;
-            TB_OT.Text = painting.OT;
-            CHK_EnablePaint.Checked = painting.Enabled;
-            CHK_Shiny.Checked = painting.XORShiny;
-        }
-
-        void EnableEditPainting(bool enabled)
-        {
-            if (enabled)
-            {
-                TB_PID.Enabled = true;
-                TB_TID.Enabled = true;
-                TB_SID.Enabled = true;
-                CB_Species.Enabled = true;
-                TB_Nickname.Enabled = true;
-                TB_OT.Enabled = true;
-            }
-            else
-            {
-                TB_PID.Text = "00000000";
-                TB_PID.Enabled = false;
-                TB_TID.Text = "00000";
-                TB_TID.Enabled = false;
-                TB_SID.Text = "00000";
-                TB_SID.Enabled = false;
-                CB_Species.SelectedIndex = 0;
-                CB_Species.Enabled = false;
-                TB_Nickname.Text = "";
-                TB_Nickname.Enabled = false;
-                TB_OT.Text = "";
-                TB_OT.Enabled = false;
-            }
-        }
+        var index = (int)NUD_Painting.Value;
+        if (PaintingIndex == index)
+            return;
+        SavePainting(PaintingIndex);
+        LoadPainting(index);
     }
 
-    private void SavePaintings(IGen3Hoenn h)
+    private void LoadPainting(int index)
     {
-        List<Paintings3> paintings = new();
-        foreach (var painting in CB_Paintings.Items)
-            paintings.Add((Paintings3)painting);
-        PaintingsCollection3 collection = new PaintingsCollection3(paintings);
-        collection.FixPaintings();
-        h.Paintings = collection;
+        if ((uint)index >= 5)
+            return;
+        var gallery = (IGen3Hoenn)SAV;
+        var painting = gallery.GetPainting(index);
+
+        GB_Painting.Visible = CHK_EnablePaint.Checked = SAV.GetEventFlag(Paintings3.GetFlagIndexContestStat(index));
+
+        CB_Species.SelectedValue = (int)painting.Species;
+        NUD_Caption.Value = painting.GetCaptionRelative(index);
+        TB_TID.Text = painting.TID.ToString();
+        TB_SID.Text = painting.SID.ToString();
+        TB_PID.Text = painting.PID.ToString("X8");
+        TB_Nickname.Text = painting.Nickname;
+        TB_OT.Text = painting.OT;
+
+        PaintingIndex = index;
+
+        NUD_Painting.BackColor = index switch
+        {
+            0 => Color.FromArgb(248, 152, 096),
+            1 => Color.FromArgb(128, 152, 248),
+            2 => Color.FromArgb(248, 168, 208),
+            3 => Color.FromArgb(112, 224, 112),
+            _ => Color.FromArgb(248, 240, 056),
+        };
     }
 
-    private void B_UpdatePaintings_Click(object sender, EventArgs e)
+    private void SavePainting(int index)
     {
-        MultipleChecks();
-        UpdatePaintings();
-        System.Media.SystemSounds.Asterisk.Play();
+        if ((uint)index >= 5)
+            return;
+        var gallery = (IGen3Hoenn)SAV;
+        var painting = gallery.GetPainting(index);
 
-        void MultipleChecks()
+        var enabled = CHK_EnablePaint.Checked;
+        SAV.SetEventFlag(Paintings3.GetFlagIndexContestStat(index), enabled);
+        if (!enabled)
         {
-            if (string.IsNullOrEmpty(TB_PID.Text))
-                TB_PID.Text = "00000000";
-            if (string.IsNullOrEmpty(TB_TID.Text))
-                TB_TID.Text = "00000";
-            if (string.IsNullOrEmpty(TB_SID.Text))
-                TB_SID.Text = "00000";
-            foreach (char c in TB_PID.Text.ToCharArray())
-            {
-                if (!char.IsDigit(c) && (!char.IsLetter(c) || (c != 'A' && c != 'B' && c != 'C' && c != 'D' && c != 'E' && c != 'F')))
-                {
-                    {
-                        TB_PID.Text = "00000000";
-                        break;
-                    }
-                }
-            }
-            if (TB_TID.Text.CompareTo("65535") > 0)
-                TB_TID.Text = "65535";
-            if (TB_SID.Text.CompareTo("65535") > 0)
-                TB_SID.Text = "65535";
+            painting.Clear();
+            gallery.SetPainting(index, painting);
+            return;
         }
 
-        void UpdatePaintings()
-        {
-            ((Paintings3)CB_Paintings.SelectedItem).PID = uint.Parse(TB_PID.Text, System.Globalization.NumberStyles.HexNumber);
-            ((Paintings3)CB_Paintings.SelectedItem).TID = ushort.Parse(TB_TID.Text);
-            ((Paintings3)CB_Paintings.SelectedItem).SID = ushort.Parse(TB_SID.Text);
-            ((Paintings3)CB_Paintings.SelectedItem).Species = (ushort)CB_Species.SelectedIndex;
-            ((Paintings3)CB_Paintings.SelectedItem).Nickname = TB_Nickname.Text;
-            ((Paintings3)CB_Paintings.SelectedItem).OT = TB_OT.Text;
-            ((Paintings3)CB_Paintings.SelectedItem).Enabled = CHK_EnablePaint.Checked;
-            ((Paintings3)CB_Paintings.SelectedItem).Category = CB_Paintings.SelectedValue.ToString();
-            CHK_Shiny.Checked = ((Paintings3)CB_Paintings.SelectedItem).XORShiny;
-        }
+        painting.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
+        painting.SetCaptionRelative(index, (byte)NUD_Caption.Value);
+        painting.TID = (ushort)Util.ToUInt32(TB_TID.Text);
+        painting.SID = (ushort)Util.ToUInt32(TB_SID.Text);
+        painting.PID = Util.GetHexValue(TB_PID.Text);
+        painting.Nickname = TB_Nickname.Text;
+        painting.OT = TB_OT.Text;
+
+        gallery.SetPainting(index, painting);
+    }
+
+    private void CHK_EnablePaint_CheckedChanged(object sender, EventArgs e) => GB_Painting.Visible = CHK_EnablePaint.Checked;
+
+    private void TB_PaintingIDChanged(object sender, EventArgs e)
+    {
+        ValidatePaintingIDs();
+
+        var pid = Util.GetHexValue(TB_PID.Text);
+        var tid = Util.ToUInt32(TB_TID.Text);
+        var sid = Util.ToUInt32(TB_SID.Text);
+        CHK_Shiny.Checked = ShinyUtil.GetIsShiny((sid << 16) | tid, pid, 8);
+    }
+
+    private void ValidatePaintingIDs()
+    {
+        var pid = Util.GetHexValue(TB_PID.Text);
+        if (pid.ToString("X") != TB_PID.Text)
+            TB_PID.Text = pid.ToString();
+
+        var tid = Util.ToUInt32(TB_TID.Text);
+        if (tid > ushort.MaxValue)
+            tid = ushort.MaxValue;
+        if (tid.ToString() != TB_TID.Text)
+            TB_TID.Text = tid.ToString();
+
+        var sid = Util.ToUInt32(TB_SID.Text);
+        if (sid > ushort.MaxValue)
+            sid = ushort.MaxValue;
+        if (sid.ToString() != TB_SID.Text)
+            TB_SID.Text = sid.ToString();
     }
     #endregion
 }
