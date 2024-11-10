@@ -39,12 +39,16 @@ namespace PKHeX.Core
             for (int i = 0; i < 20; i++)
             {
                 if (slots[i])
-                    bases[i].BaseData.CopyTo(data.AsSpan(i * SecretBase3.SIZE));
+                {
+                    SecretBase3 tmpbase = tmp[0];
+                    tmpbase.BaseData.CopyTo(data.AsSpan(i * SecretBase3.SIZE));
+                    tmp.RemoveAt(0);
+                }
             }
             return data;
         }
 
-        public List<SecretBase3> Bases { get => bases; }
+        public List<SecretBase3> Bases { get => bases; set => bases = value; }
 
         public int Count { get => bases.Count; }
     }
