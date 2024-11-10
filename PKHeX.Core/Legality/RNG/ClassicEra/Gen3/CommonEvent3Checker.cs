@@ -121,8 +121,6 @@ public static class CommonEvent3Checker
     {
         if (observed is not (BACD or BACD_A or BACD_EA))
             return false;
-        if (value.OriginSeed > ushort.MaxValue)
-            return false;
         value = value.AsMutated(BACD_U);
         return true;
     }
@@ -136,6 +134,16 @@ public static class CommonEvent3Checker
         if (value.OriginSeed > ushort.MaxValue)
             return false;
         value = value.AsMutated(BACD_R);
+        return true;
+    }
+
+    /// <remarks>Regular Antishiny without seed restriction constraint.</remarks>
+    /// <inheritdoc cref="IsRestrictedTable2"/>
+    public static bool IsUnrestrictedAntiX(ref PIDIV value, PIDType observed)
+    {
+        if (observed is not (BACD_AX))
+            return false;
+        value = value.AsMutated(BACD_AX);
         return true;
     }
 

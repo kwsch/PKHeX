@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class PIDGenerator
 {
-    private static void SetValuesFromSeedLCRNG(PKM pk, PIDType type, uint seed)
+    private static uint SetValuesFromSeedLCRNG(PKM pk, PIDType type, uint seed)
     {
         var A = LCRNG.Next(seed);
         var B = LCRNG.Next(A);
@@ -41,14 +41,16 @@ public static class PIDGenerator
             IVs[2..].Clear();
         }
         pk.SetIVs(IVs);
+        return D;
     }
 
-    private static void SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
+    private static uint SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
     {
         uint idxor = pk.TID16 ^ (uint)pk.SID16;
         pk.PID = GetPIDFromSeedBACD(ref seed, type, idxor);
         SetIVsFromSeedSequentialLCRNG(ref seed, pk);
         pk.RefreshAbility((int)(pk.PID & 1));
+        return seed;
     }
 
     private static uint GetPIDFromSeedBACD(ref uint seed, PIDType type, uint idXor) => type switch
@@ -59,6 +61,13 @@ public static class PIDGenerator
         _ => CommonEvent3.GetRegularAntishiny(ref seed, idXor),
     };
 
+    public static uint SetIVsFromSeedSequentialLCRNG(ref uint seed)
+    {
+        var c16 = LCRNG.Next16(ref seed) & 0x7FFF;
+        var d16 = LCRNG.Next16(ref seed) & 0x7FFF;
+        return (d16 << 15) | c16;
+    }
+
     public static void SetIVsFromSeedSequentialLCRNG(ref uint seed, PKM pk)
     {
         var c16 = LCRNG.Next16(ref seed);
@@ -68,7 +77,7 @@ public static class PIDGenerator
         pk.SetIVs(IVs);
     }
 
-    private static void SetValuesFromSeedXDRNG(PKM pk, uint seed)
+    private static uint SetValuesFromSeedXDRNG(PKM pk, uint seed)
     {
         var species = pk.Species;
         switch (species)
@@ -106,17 +115,19 @@ public static class PIDGenerator
             var e16 = XDRNG.Next16(ref seed); // PID
             pk.PID = (d16 << 16) | e16;
         }
+        return seed;
     }
 
-    public static void SetValuesFromSeedXDRNG_EReader(PKM pk, uint seed)
+    public static uint SetValuesFromSeedXDRNG_EReader(PKM pk, uint seed)
     {
         var D = XDRNG.Prev3(seed); // PID
         var E = XDRNG.Next(D); // PID
 
         pk.PID = (D & 0xFFFF0000) | (E >> 16);
+        return seed;
     }
 
-    private static void SetValuesFromSeedChannel(PKM pk, uint seed)
+    public static uint SetValuesFromSeedChannel(PKM pk, uint seed)
     {
         const ushort TID16 = 40122;
         var sid = XDRNG.Next16(ref seed);
@@ -134,6 +145,7 @@ public static class PIDGenerator
         Span<int> ivs = stackalloc int[6];
         XDRNG.GetSequentialIVsInt32(seed, ivs);
         pk.SetIVs(ivs);
+        return seed;
     }
 
     public static void SetValuesFromSeed(PKM pk, PIDType type, uint seed)
@@ -142,7 +154,7 @@ public static class PIDGenerator
         method(pk, seed);
     }
 
-    private static Action<PKM, uint> GetGeneratorMethod(PIDType t)
+    private static Func<PKM, uint, uint> GetGeneratorMethod(PIDType t)
     {
         switch (t)
         {
@@ -173,6 +185,7 @@ public static class PIDGenerator
                 {
                     var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, seed % 24, pk.Gender, pk.PersonalInfo.Gender);
                     pk.RefreshAbility((int)(pid & 1));
+                    return seed;
                 };
 
             // others: unimplemented
@@ -183,20 +196,22 @@ public static class PIDGenerator
             case G4MGAntiShiny:
                 break;
         }
-        return (_, _) => { };
+        return (_, seed) => seed;
     }
 
-    public static void SetRandomChainShinyPID(PKM pk, uint seed)
+    public static uint SetRandomChainShinyPID(PKM pk, uint seed)
     {
         pk.PID = ClassicEraRNG.GetChainShinyPID(ref seed, pk.ID32);
         SetIVsFromSeedSequentialLCRNG(ref seed, pk);
+        return seed;
     }
 
-    private static void SetRandomPokeSpotPID(PKM pk, uint seed)
+    private static uint SetRandomPokeSpotPID(PKM pk, uint seed)
     {
         var D = XDRNG.Next(seed); // PID
         var E = XDRNG.Next(D); // PID
         pk.PID = (D & 0xFFFF0000) | (E >> 16);
+        return E;
     }
 
     public static void SetRandomPokeSpotPID(PKM pk, Nature nature, byte gender, int ability, int slot)
@@ -226,12 +241,13 @@ public static class PIDGenerator
         return PID;
     }
 
-    public static void SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
+    public static uint SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
     {
         var gv = seed >> 24;
         var av = seed & 1; // arbitrary choice
         pk.PID = GetMG5ShinyPID(gv, av, pk.TID16, pk.SID16);
         SetRandomIVs(pk);
+        return seed; // meh
     }
 
     public static uint SetRandomWildPID4(PKM pk, Nature nature, int ability, byte gender, PIDType type)

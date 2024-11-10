@@ -96,6 +96,11 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             Version = GetVersion(tr),
             EXP = Experience.GetEXP(Level, pi.EXPGrowth),
         };
+        if (TID16 is not UnspecifiedID)
+            pk.TID16 = TID16;
+        if (SID16 is not UnspecifiedID)
+            pk.SID16 = SID16;
+
         pk.SetMoves(Moves);
         pk.SetMaximumPPCurrent(Moves);
 
@@ -108,11 +113,10 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
         }
         else
         {
-            pk.ID32 = TID16;
-            pk.SID16 = SID16;
             pk.Language = (int)GetSafeLanguage((LanguageID)tr.Language);
             pk.OriginalTrainerName = !string.IsNullOrWhiteSpace(OriginalTrainerName) ? OriginalTrainerName : tr.OT;
-            pk.OriginalTrainerGender = OriginalTrainerGender == GiftGender3.Recipient ? tr.Gender : (byte)GetGender(seed);
+            if (OriginalTrainerGender is not GiftGender3.RandAlgo)
+                pk.OriginalTrainerGender = OriginalTrainerGender == GiftGender3.Recipient ? tr.Gender : (byte)GetGender(seed);
 
             if (IsEgg)
             {
@@ -180,6 +184,8 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
     {
         var gr = pi.Gender;
         uint idXor = pk.TID16 ^ (uint)pk.SID16;
+        if (Method is Channel)
+            return SetPINGAChannel(pk, criteria);
         while (true)
         {
             uint seed = Util.Rand32();
@@ -198,7 +204,21 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
                 continue;
 
             pk.PID = pid;
-            PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed, pk);
+            pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.RefreshAbility((int)(pk.PID & 1));
+            return seed;
+        }
+    }
+
+    private static uint SetPINGAChannel(PK3 pk, EncounterCriteria criteria)
+    {
+        while (true)
+        {
+            uint seed = Util.Rand32();
+            seed = ChannelJirachi.SkipToPIDIV(seed);
+            PIDGenerator.SetValuesFromSeedChannel(pk, seed);
+            if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature)
+                continue; // try again
             pk.RefreshAbility((int)(pk.PID & 1));
             return seed;
         }
@@ -207,8 +227,9 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
     private uint GetSaneSeed(uint seed) => Method switch
     {
         BACD_RBCD => Math.Clamp(seed, 3, 213), // BCD digit sum
-        Channel => ChannelJirachi.SkipToPIDIV(seed),
-        BACD_T2 when Species is not (ushort)Core.Species.Jirachi
+        BACD_T2 when Species is (ushort)Core.Species.Jirachi
+            => LCRNG.Next2(seed & 0xFFFF),
+        BACD_T2
             => LCRNG.Next2(PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed)),
         BACD_T3
             => LCRNG.Next2(PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed)),
@@ -255,6 +276,9 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
     {
         // Gen3 Version MUST match.
         if (!Version.Contains(pk.Version))
+            return false;
+
+        if (pk.IsEgg && !IsEgg)
             return false;
 
         bool hatchedEgg = IsEgg && !pk.IsEgg;
@@ -320,7 +344,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
         if (type is BACD_EA or BACD_ES && !IsEgg)
             return false;
 
-        if (OriginalTrainerGender is not GiftGender3.Recipient && (!IsEgg || pk.IsEgg) && !IsMatchGender(pk, value.OriginSeed))
+        if (OriginalTrainerGender is not (GiftGender3.RandAlgo or GiftGender3.Recipient) && (!IsEgg || pk.IsEgg) && !IsMatchGender(pk, value.OriginSeed))
             return false;
 
         return Method switch
@@ -328,8 +352,9 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             BACD_U => true,
             BACD_R => IsRestrictedSimple(ref value, type),
             BACD_R_A => IsRestrictedAnti(ref value, type),
+            BACD_U_AX =>  IsUnrestrictedAntiX(ref value, type),
 
-            BACD_T2  => IsRestrictedTable2(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
+            BACD_T2 => IsRestrictedTable2(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
             BACD_T3  => IsRestrictedTable3(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
             BACD_RBCD => IsBerryFixShiny(ref value, type),
             BACD_M => IsMystryMew(ref value, type),
@@ -341,9 +366,11 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
 
     private bool IsMatchGender(PKM pk, uint seed)
     {
-        var expect = OriginalTrainerGender is GiftGender3.RandD3_0 or GiftGender3.RandD3_1
-            ? GetGenderBit0(LCRNG.Next6(seed) >> 16)
-            : GetGender(LCRNG.Next4(seed)); // another implicit advance inside the method
+        var expect = OriginalTrainerGender switch
+        {
+            GiftGender3.RandD3_0 or GiftGender3.RandD3_1 => GetGenderBit0(LCRNG.Next6(seed) >> 16),
+            _ => GetGender(LCRNG.Next4(seed)),
+        }; // another implicit advance inside the method
         return pk.OriginalTrainerGender == expect;
     }
 }

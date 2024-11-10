@@ -24,8 +24,10 @@ public sealed class BallVerifier : Verifier
         PK8 when enc.Version == GameVersion.PLA => (int)Poke,
 
         // No replacement done.
-        _ => (int)None,
+        _ => NoBallReplace,
     };
+
+    private const int NoBallReplace = (int)None;
 
     private CheckResult VerifyBall(LegalityAnalysis data)
     {
@@ -34,7 +36,7 @@ public sealed class BallVerifier : Verifier
         var pk = data.Entity;
 
         var ball = IsReplacedBall(enc, pk);
-        if (ball != 0)
+        if (ball != NoBallReplace)
             return VerifyBallEquals(pk, ball);
 
         // Capture / Inherit cases -- can be one of many balls
@@ -118,7 +120,7 @@ public sealed class BallVerifier : Verifier
         if (species is (int)Species.Spinda) // Can't transfer via HOME.
             return VerifyBallEquals(ball, BallUseLegality.WildPokeBalls4_HGSS);
 
-        var result = BallContextHOME.Instance.CanBreedWithBall(species, enc.Form, ball, pk);
+        var result = BallContextHOME.Instance.CanBreedWithBall(species, enc.Form, ball);
         return GetResult(result);
     }
 
@@ -128,7 +130,7 @@ public sealed class BallVerifier : Verifier
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
 
-        var result = BallContextHOME.Instance.CanBreedWithBall(enc.Species, enc.Form, ball, pk);
+        var result = BallContextHOME.Instance.CanBreedWithBall(enc.Species, enc.Form, ball);
         return GetResult(result);
     }
 
@@ -143,7 +145,7 @@ public sealed class BallVerifier : Verifier
         if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval)
             return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithoutRaid);
 
-        var result = BallContextHOME.Instance.CanBreedWithBall(enc.Species, enc.Form, ball, pk);
+        var result = BallContextHOME.Instance.CanBreedWithBall(species, enc.Form, ball);
         return GetResult(result);
     }
 
