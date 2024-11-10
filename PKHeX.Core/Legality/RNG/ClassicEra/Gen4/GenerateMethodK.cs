@@ -23,7 +23,7 @@ public static class GenerateMethodK
         var ability = criteria.GetAbilityFromNumber(AbilityPermission.Any12);
         var (min, max) = SlotMethodK.GetRange(enc.Type, enc.SlotNumber);
         bool randLevel = MethodK.IsLevelRand(enc);
-        var modulo = enc.Type.IsSafari() ? 10 : 100;
+        var modulo = enc.Type.IsSafari() ? 10u : 100u;
         bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
 
         // Generate Method K correlated PID and IVs, no lead (keep things simple).
@@ -42,7 +42,7 @@ public static class GenerateMethodK
             if (esv < min || esv > max)
                 continue;
             var lv = randLevel ? LCRNG.Next16(ref seed) : 0;
-            var nature = LCRNG.Next16(ref seed) % 25;
+            var nature = MethodK.GetNature(LCRNG.Next16(ref seed));
             if (criteria.IsSpecifiedNature() && nature != (byte)criteria.Nature)
                 continue;
 

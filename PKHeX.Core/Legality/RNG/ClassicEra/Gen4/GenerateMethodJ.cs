@@ -37,11 +37,11 @@ public static class GenerateMethodJ
                     continue;
                 }
             }
-            var esv = LCRNG.Next16(ref seed) / 656;
+            var esv = LCRNG.Next16(ref seed) / 656u;
             if (esv < min || esv > max)
                 continue;
             var lv = randLevel ? LCRNG.Next16(ref seed) : 0;
-            var nature = LCRNG.Next16(ref seed) % 25;
+            var nature = MethodJ.GetNature(LCRNG.Next16(ref seed));
             if (criteria.IsSpecifiedNature() && nature != (byte)criteria.Nature)
                 continue;
 

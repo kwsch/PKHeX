@@ -65,7 +65,7 @@ public static class MethodK
   //private static bool IsIntimidateKeenEyeFail(uint rand) => (rand & 1) != 1;
     private static bool IsIntimidateKeenEyePass(uint rand) => (rand & 1) == 1;
 
-    private static uint GetNature(uint rand) => rand % 25;
+    public static uint GetNature(uint rand) => rand % 25;
 
     /// <summary>
     /// Gets the first possible origin seed and lead for the input encounter &amp; constraints.
