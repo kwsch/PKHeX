@@ -628,10 +628,13 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         {
             // HT_Language is set for eggs
             this.ClearMemoriesOT();
-            this.ClearMemoriesHT();
-            HandlingTrainerGender = 0;
-            HandlingTrainerFriendship = 0;
-            HandlingTrainerTrash.Clear();
+            if (IsUntraded)
+            {
+                this.ClearMemoriesHT();
+                HandlingTrainerGender = 0;
+                HandlingTrainerFriendship = 0;
+                HandlingTrainerTrash.Clear();
+            }
             return;
         }
 

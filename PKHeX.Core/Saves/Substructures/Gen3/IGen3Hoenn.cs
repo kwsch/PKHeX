@@ -17,4 +17,7 @@ public interface IGen3Hoenn
     int SwarmIndex { get; set; }
 
     RecordMixing3Gift RecordMixingGift { get; set; }
+
+    Paintings3 GetPainting(int index);
+    void SetPainting(int index, Paintings3 value);
 }

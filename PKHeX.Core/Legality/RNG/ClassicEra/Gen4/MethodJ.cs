@@ -64,7 +64,7 @@ public static class MethodJ
 
     private static bool IsFeebasChance(uint rand) => (rand >> 15) == 1;
 
-    private static uint GetNature(uint rand) => rand / 0xA3Eu;
+    public static uint GetNature(uint rand) => rand / 0xA3Eu;
     public static uint GetHoneyTreeLevel(uint rand) => 5 + (rand / 0x1745); // 5957; rand(11) using the pre-compiled rand function.
 
     /// <summary>
