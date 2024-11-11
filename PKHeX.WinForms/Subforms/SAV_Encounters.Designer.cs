@@ -35,28 +35,10 @@ namespace PKHeX.WinForms
             Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             P_Results = new System.Windows.Forms.Panel();
             EncounterPokeGrid = new Controls.PokeGrid();
-            CB_Species = new System.Windows.Forms.ComboBox();
-            CB_Move4 = new System.Windows.Forms.ComboBox();
-            CB_Move3 = new System.Windows.Forms.ComboBox();
-            CB_Move2 = new System.Windows.Forms.ComboBox();
-            CB_Move1 = new System.Windows.Forms.ComboBox();
-            Label_Species = new System.Windows.Forms.Label();
             B_Search = new System.Windows.Forms.Button();
-            L_Move1 = new System.Windows.Forms.Label();
-            L_Move2 = new System.Windows.Forms.Label();
-            L_Move3 = new System.Windows.Forms.Label();
-            L_Move4 = new System.Windows.Forms.Label();
             B_Reset = new System.Windows.Forms.Button();
             L_Count = new System.Windows.Forms.Label();
             L_Viewed = new System.Windows.Forms.Label();
-            FLP_Egg = new System.Windows.Forms.FlowLayoutPanel();
-            TLP_Filters = new System.Windows.Forms.TableLayoutPanel();
-            FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
-            CB_GameOrigin = new System.Windows.Forms.ComboBox();
-            L_Version = new System.Windows.Forms.Label();
-            TypeFilters = new System.Windows.Forms.FlowLayoutPanel();
-            CHK_IsEgg = new System.Windows.Forms.CheckBox();
-            CHK_Shiny = new System.Windows.Forms.CheckBox();
             RTB_Instructions = new System.Windows.Forms.RichTextBox();
             hover = new System.Windows.Forms.ToolTip(components);
             mnu = new System.Windows.Forms.ContextMenuStrip(components);
@@ -65,13 +47,31 @@ namespace PKHeX.WinForms
             Tab_General = new System.Windows.Forms.TabPage();
             Tab_Advanced = new System.Windows.Forms.TabPage();
             B_Add = new System.Windows.Forms.Button();
+            TLP_Filters = new System.Windows.Forms.TableLayoutPanel();
+            Label_Species = new System.Windows.Forms.Label();
+            CB_Species = new System.Windows.Forms.ComboBox();
+            FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
+            L_Move1 = new System.Windows.Forms.Label();
+            CB_Move1 = new System.Windows.Forms.ComboBox();
+            L_Move2 = new System.Windows.Forms.Label();
+            CB_Move2 = new System.Windows.Forms.ComboBox();
+            L_Move3 = new System.Windows.Forms.Label();
+            CB_Move3 = new System.Windows.Forms.ComboBox();
+            L_Move4 = new System.Windows.Forms.Label();
+            CB_Move4 = new System.Windows.Forms.ComboBox();
+            CB_GameOrigin = new System.Windows.Forms.ComboBox();
+            L_Version = new System.Windows.Forms.Label();
+            TypeFilters = new System.Windows.Forms.FlowLayoutPanel();
+            CHK_IsEgg = new System.Windows.Forms.CheckBox();
+            FLP_Egg = new System.Windows.Forms.FlowLayoutPanel();
+            CHK_Shiny = new System.Windows.Forms.CheckBox();
             menuStrip1.SuspendLayout();
             P_Results.SuspendLayout();
-            TLP_Filters.SuspendLayout();
             mnu.SuspendLayout();
             TC_SearchOptions.SuspendLayout();
             Tab_General.SuspendLayout();
             Tab_Advanced.SuspendLayout();
+            TLP_Filters.SuspendLayout();
             SuspendLayout();
             // 
             // SCR_Box
@@ -134,78 +134,6 @@ namespace PKHeX.WinForms
             EncounterPokeGrid.Size = new System.Drawing.Size(293, 399);
             EncounterPokeGrid.TabIndex = 2;
             // 
-            // CB_Species
-            // 
-            CB_Species.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_Species.FormattingEnabled = true;
-            CB_Species.Location = new System.Drawing.Point(73, 19);
-            CB_Species.Margin = new System.Windows.Forms.Padding(0);
-            CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(142, 23);
-            CB_Species.TabIndex = 67;
-            // 
-            // CB_Move4
-            // 
-            CB_Move4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_Move4.FormattingEnabled = true;
-            CB_Move4.Location = new System.Drawing.Point(73, 111);
-            CB_Move4.Margin = new System.Windows.Forms.Padding(0);
-            CB_Move4.Name = "CB_Move4";
-            CB_Move4.Size = new System.Drawing.Size(142, 23);
-            CB_Move4.TabIndex = 74;
-            // 
-            // CB_Move3
-            // 
-            CB_Move3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_Move3.FormattingEnabled = true;
-            CB_Move3.Location = new System.Drawing.Point(73, 88);
-            CB_Move3.Margin = new System.Windows.Forms.Padding(0);
-            CB_Move3.Name = "CB_Move3";
-            CB_Move3.Size = new System.Drawing.Size(142, 23);
-            CB_Move3.TabIndex = 73;
-            // 
-            // CB_Move2
-            // 
-            CB_Move2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_Move2.FormattingEnabled = true;
-            CB_Move2.Location = new System.Drawing.Point(73, 65);
-            CB_Move2.Margin = new System.Windows.Forms.Padding(0);
-            CB_Move2.Name = "CB_Move2";
-            CB_Move2.Size = new System.Drawing.Size(142, 23);
-            CB_Move2.TabIndex = 72;
-            // 
-            // CB_Move1
-            // 
-            CB_Move1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_Move1.FormattingEnabled = true;
-            CB_Move1.Location = new System.Drawing.Point(73, 42);
-            CB_Move1.Margin = new System.Windows.Forms.Padding(0);
-            CB_Move1.Name = "CB_Move1";
-            CB_Move1.Size = new System.Drawing.Size(142, 23);
-            CB_Move1.TabIndex = 71;
-            // 
-            // Label_Species
-            // 
-            Label_Species.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            Label_Species.AutoSize = true;
-            Label_Species.Location = new System.Drawing.Point(20, 23);
-            Label_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Label_Species.Name = "Label_Species";
-            Label_Species.Size = new System.Drawing.Size(49, 15);
-            Label_Species.TabIndex = 90;
-            Label_Species.Text = "Species:";
-            Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // B_Search
             // 
             B_Search.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
@@ -217,54 +145,6 @@ namespace PKHeX.WinForms
             B_Search.Text = "Search!";
             B_Search.UseVisualStyleBackColor = true;
             B_Search.Click += B_Search_Click;
-            // 
-            // L_Move1
-            // 
-            L_Move1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_Move1.AutoSize = true;
-            L_Move1.Location = new System.Drawing.Point(20, 46);
-            L_Move1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            L_Move1.Name = "L_Move1";
-            L_Move1.Size = new System.Drawing.Size(49, 15);
-            L_Move1.TabIndex = 105;
-            L_Move1.Text = "Move 1:";
-            L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Move2
-            // 
-            L_Move2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_Move2.AutoSize = true;
-            L_Move2.Location = new System.Drawing.Point(20, 69);
-            L_Move2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            L_Move2.Name = "L_Move2";
-            L_Move2.Size = new System.Drawing.Size(49, 15);
-            L_Move2.TabIndex = 106;
-            L_Move2.Text = "Move 2:";
-            L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Move3
-            // 
-            L_Move3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_Move3.AutoSize = true;
-            L_Move3.Location = new System.Drawing.Point(20, 92);
-            L_Move3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            L_Move3.Name = "L_Move3";
-            L_Move3.Size = new System.Drawing.Size(49, 15);
-            L_Move3.TabIndex = 107;
-            L_Move3.Text = "Move 3:";
-            L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Move4
-            // 
-            L_Move4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_Move4.AutoSize = true;
-            L_Move4.Location = new System.Drawing.Point(20, 115);
-            L_Move4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            L_Move4.Name = "L_Move4";
-            L_Move4.Size = new System.Drawing.Size(49, 15);
-            L_Move4.TabIndex = 108;
-            L_Move4.Text = "Move 4:";
-            L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_Reset
             // 
@@ -299,142 +179,6 @@ namespace PKHeX.WinForms
             L_Viewed.TabIndex = 117;
             L_Viewed.Text = "Last Viewed: {0}";
             L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // FLP_Egg
-            // 
-            FLP_Egg.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            FLP_Egg.AutoSize = true;
-            FLP_Egg.Location = new System.Drawing.Point(0, 249);
-            FLP_Egg.Margin = new System.Windows.Forms.Padding(0);
-            FLP_Egg.Name = "FLP_Egg";
-            FLP_Egg.Size = new System.Drawing.Size(0, 0);
-            FLP_Egg.TabIndex = 120;
-            // 
-            // TLP_Filters
-            // 
-            TLP_Filters.AutoScroll = true;
-            TLP_Filters.AutoScrollMargin = new System.Drawing.Size(3, 3);
-            TLP_Filters.AutoSize = true;
-            TLP_Filters.ColumnCount = 2;
-            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Filters.Controls.Add(Label_Species, 0, 1);
-            TLP_Filters.Controls.Add(CB_Species, 1, 1);
-            TLP_Filters.Controls.Add(FLP_Level, 1, 5);
-            TLP_Filters.Controls.Add(L_Move1, 0, 9);
-            TLP_Filters.Controls.Add(CB_Move1, 1, 9);
-            TLP_Filters.Controls.Add(L_Move2, 0, 10);
-            TLP_Filters.Controls.Add(CB_Move2, 1, 10);
-            TLP_Filters.Controls.Add(L_Move3, 0, 11);
-            TLP_Filters.Controls.Add(CB_Move3, 1, 11);
-            TLP_Filters.Controls.Add(L_Move4, 0, 12);
-            TLP_Filters.Controls.Add(CB_Move4, 1, 12);
-            TLP_Filters.Controls.Add(CB_GameOrigin, 1, 16);
-            TLP_Filters.Controls.Add(L_Version, 0, 16);
-            TLP_Filters.Controls.Add(TypeFilters, 1, 17);
-            TLP_Filters.Controls.Add(CHK_IsEgg, 1, 0);
-            TLP_Filters.Controls.Add(FLP_Egg, 0, 17);
-            TLP_Filters.Controls.Add(CHK_Shiny, 0, 0);
-            TLP_Filters.Dock = System.Windows.Forms.DockStyle.Fill;
-            TLP_Filters.Location = new System.Drawing.Point(4, 3);
-            TLP_Filters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TLP_Filters.Name = "TLP_Filters";
-            TLP_Filters.RowCount = 18;
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            TLP_Filters.Size = new System.Drawing.Size(292, 358);
-            TLP_Filters.TabIndex = 118;
-            // 
-            // FLP_Level
-            // 
-            FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            FLP_Level.AutoSize = true;
-            FLP_Level.Location = new System.Drawing.Point(73, 42);
-            FLP_Level.Margin = new System.Windows.Forms.Padding(0);
-            FLP_Level.Name = "FLP_Level";
-            FLP_Level.Size = new System.Drawing.Size(0, 0);
-            FLP_Level.TabIndex = 119;
-            // 
-            // CB_GameOrigin
-            // 
-            CB_GameOrigin.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CB_GameOrigin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_GameOrigin.FormattingEnabled = true;
-            CB_GameOrigin.Location = new System.Drawing.Point(73, 134);
-            CB_GameOrigin.Margin = new System.Windows.Forms.Padding(0);
-            CB_GameOrigin.Name = "CB_GameOrigin";
-            CB_GameOrigin.Size = new System.Drawing.Size(142, 23);
-            CB_GameOrigin.TabIndex = 121;
-            // 
-            // L_Version
-            // 
-            L_Version.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_Version.AutoSize = true;
-            L_Version.Location = new System.Drawing.Point(4, 138);
-            L_Version.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            L_Version.Name = "L_Version";
-            L_Version.Size = new System.Drawing.Size(65, 15);
-            L_Version.TabIndex = 122;
-            L_Version.Text = "OT Version:";
-            L_Version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TypeFilters
-            // 
-            TypeFilters.Dock = System.Windows.Forms.DockStyle.Fill;
-            TypeFilters.Location = new System.Drawing.Point(77, 160);
-            TypeFilters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TypeFilters.Name = "TypeFilters";
-            TypeFilters.Size = new System.Drawing.Size(266, 178);
-            TypeFilters.TabIndex = 123;
-            // 
-            // CHK_IsEgg
-            // 
-            CHK_IsEgg.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CHK_IsEgg.AutoSize = true;
-            CHK_IsEgg.Checked = true;
-            CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            CHK_IsEgg.Location = new System.Drawing.Point(73, 0);
-            CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
-            CHK_IsEgg.Name = "CHK_IsEgg";
-            CHK_IsEgg.Size = new System.Drawing.Size(46, 19);
-            CHK_IsEgg.TabIndex = 125;
-            CHK_IsEgg.Text = "Egg";
-            CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            CHK_IsEgg.ThreeState = true;
-            CHK_IsEgg.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Shiny
-            // 
-            CHK_Shiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            CHK_Shiny.AutoSize = true;
-            CHK_Shiny.Checked = true;
-            CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            CHK_Shiny.Location = new System.Drawing.Point(18, 0);
-            CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
-            CHK_Shiny.Name = "CHK_Shiny";
-            CHK_Shiny.Size = new System.Drawing.Size(55, 19);
-            CHK_Shiny.TabIndex = 126;
-            CHK_Shiny.Text = "Shiny";
-            CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            CHK_Shiny.ThreeState = true;
-            CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // RTB_Instructions
             // 
@@ -508,6 +252,261 @@ namespace PKHeX.WinForms
             B_Add.UseVisualStyleBackColor = true;
             B_Add.Click += B_Add_Click;
             // 
+            // TLP_Filters
+            // 
+            TLP_Filters.AutoScroll = true;
+            TLP_Filters.AutoScrollMargin = new System.Drawing.Size(3, 3);
+            TLP_Filters.AutoSize = true;
+            TLP_Filters.ColumnCount = 2;
+            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            TLP_Filters.Controls.Add(Label_Species, 0, 1);
+            TLP_Filters.Controls.Add(CB_Species, 1, 1);
+            TLP_Filters.Controls.Add(FLP_Level, 1, 5);
+            TLP_Filters.Controls.Add(L_Move1, 0, 9);
+            TLP_Filters.Controls.Add(CB_Move1, 1, 9);
+            TLP_Filters.Controls.Add(L_Move2, 0, 10);
+            TLP_Filters.Controls.Add(CB_Move2, 1, 10);
+            TLP_Filters.Controls.Add(L_Move3, 0, 11);
+            TLP_Filters.Controls.Add(CB_Move3, 1, 11);
+            TLP_Filters.Controls.Add(L_Move4, 0, 12);
+            TLP_Filters.Controls.Add(CB_Move4, 1, 12);
+            TLP_Filters.Controls.Add(CB_GameOrigin, 1, 16);
+            TLP_Filters.Controls.Add(L_Version, 0, 16);
+            TLP_Filters.Controls.Add(TypeFilters, 1, 17);
+            TLP_Filters.Controls.Add(CHK_IsEgg, 1, 0);
+            TLP_Filters.Controls.Add(FLP_Egg, 0, 17);
+            TLP_Filters.Controls.Add(CHK_Shiny, 0, 0);
+            TLP_Filters.Dock = System.Windows.Forms.DockStyle.Fill;
+            TLP_Filters.Location = new System.Drawing.Point(4, 3);
+            TLP_Filters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TLP_Filters.Name = "TLP_Filters";
+            TLP_Filters.RowCount = 18;
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            TLP_Filters.Size = new System.Drawing.Size(292, 358);
+            TLP_Filters.TabIndex = 120;
+            // 
+            // Label_Species
+            // 
+            Label_Species.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            Label_Species.AutoSize = true;
+            Label_Species.Location = new System.Drawing.Point(27, 23);
+            Label_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Label_Species.Name = "Label_Species";
+            Label_Species.Size = new System.Drawing.Size(49, 15);
+            Label_Species.TabIndex = 90;
+            Label_Species.Text = "Species:";
+            Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Species
+            // 
+            CB_Species.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Species.FormattingEnabled = true;
+            CB_Species.Location = new System.Drawing.Point(80, 19);
+            CB_Species.Margin = new System.Windows.Forms.Padding(0);
+            CB_Species.Name = "CB_Species";
+            CB_Species.Size = new System.Drawing.Size(142, 23);
+            CB_Species.TabIndex = 67;
+            // 
+            // FLP_Level
+            // 
+            FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            FLP_Level.AutoSize = true;
+            FLP_Level.Location = new System.Drawing.Point(80, 42);
+            FLP_Level.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Level.Name = "FLP_Level";
+            FLP_Level.Size = new System.Drawing.Size(0, 0);
+            FLP_Level.TabIndex = 119;
+            // 
+            // L_Move1
+            // 
+            L_Move1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move1.AutoSize = true;
+            L_Move1.Location = new System.Drawing.Point(27, 46);
+            L_Move1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move1.Name = "L_Move1";
+            L_Move1.Size = new System.Drawing.Size(49, 15);
+            L_Move1.TabIndex = 105;
+            L_Move1.Text = "Move 1:";
+            L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Move1
+            // 
+            CB_Move1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move1.FormattingEnabled = true;
+            CB_Move1.Location = new System.Drawing.Point(80, 42);
+            CB_Move1.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move1.Name = "CB_Move1";
+            CB_Move1.Size = new System.Drawing.Size(142, 23);
+            CB_Move1.TabIndex = 71;
+            // 
+            // L_Move2
+            // 
+            L_Move2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move2.AutoSize = true;
+            L_Move2.Location = new System.Drawing.Point(27, 69);
+            L_Move2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move2.Name = "L_Move2";
+            L_Move2.Size = new System.Drawing.Size(49, 15);
+            L_Move2.TabIndex = 106;
+            L_Move2.Text = "Move 2:";
+            L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Move2
+            // 
+            CB_Move2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move2.FormattingEnabled = true;
+            CB_Move2.Location = new System.Drawing.Point(80, 65);
+            CB_Move2.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move2.Name = "CB_Move2";
+            CB_Move2.Size = new System.Drawing.Size(142, 23);
+            CB_Move2.TabIndex = 72;
+            // 
+            // L_Move3
+            // 
+            L_Move3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move3.AutoSize = true;
+            L_Move3.Location = new System.Drawing.Point(27, 92);
+            L_Move3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move3.Name = "L_Move3";
+            L_Move3.Size = new System.Drawing.Size(49, 15);
+            L_Move3.TabIndex = 107;
+            L_Move3.Text = "Move 3:";
+            L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Move3
+            // 
+            CB_Move3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move3.FormattingEnabled = true;
+            CB_Move3.Location = new System.Drawing.Point(80, 88);
+            CB_Move3.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move3.Name = "CB_Move3";
+            CB_Move3.Size = new System.Drawing.Size(142, 23);
+            CB_Move3.TabIndex = 73;
+            // 
+            // L_Move4
+            // 
+            L_Move4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move4.AutoSize = true;
+            L_Move4.Location = new System.Drawing.Point(27, 115);
+            L_Move4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move4.Name = "L_Move4";
+            L_Move4.Size = new System.Drawing.Size(49, 15);
+            L_Move4.TabIndex = 108;
+            L_Move4.Text = "Move 4:";
+            L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Move4
+            // 
+            CB_Move4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move4.FormattingEnabled = true;
+            CB_Move4.Location = new System.Drawing.Point(80, 111);
+            CB_Move4.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move4.Name = "CB_Move4";
+            CB_Move4.Size = new System.Drawing.Size(142, 23);
+            CB_Move4.TabIndex = 74;
+            // 
+            // CB_GameOrigin
+            // 
+            CB_GameOrigin.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_GameOrigin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_GameOrigin.FormattingEnabled = true;
+            CB_GameOrigin.Location = new System.Drawing.Point(80, 134);
+            CB_GameOrigin.Margin = new System.Windows.Forms.Padding(0);
+            CB_GameOrigin.Name = "CB_GameOrigin";
+            CB_GameOrigin.Size = new System.Drawing.Size(142, 23);
+            CB_GameOrigin.TabIndex = 121;
+            // 
+            // L_Version
+            // 
+            L_Version.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Version.AutoSize = true;
+            L_Version.Location = new System.Drawing.Point(11, 138);
+            L_Version.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Version.Name = "L_Version";
+            L_Version.Size = new System.Drawing.Size(65, 15);
+            L_Version.TabIndex = 122;
+            L_Version.Text = "OT Version:";
+            L_Version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TypeFilters
+            // 
+            TypeFilters.Dock = System.Windows.Forms.DockStyle.Fill;
+            TypeFilters.Location = new System.Drawing.Point(84, 160);
+            TypeFilters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TypeFilters.Name = "TypeFilters";
+            TypeFilters.Size = new System.Drawing.Size(204, 195);
+            TypeFilters.TabIndex = 123;
+            // 
+            // CHK_IsEgg
+            // 
+            CHK_IsEgg.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CHK_IsEgg.AutoSize = true;
+            CHK_IsEgg.Checked = true;
+            CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            CHK_IsEgg.Location = new System.Drawing.Point(80, 0);
+            CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
+            CHK_IsEgg.Name = "CHK_IsEgg";
+            CHK_IsEgg.Size = new System.Drawing.Size(46, 19);
+            CHK_IsEgg.TabIndex = 125;
+            CHK_IsEgg.Text = "Egg";
+            CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_IsEgg.ThreeState = true;
+            CHK_IsEgg.UseVisualStyleBackColor = true;
+            // 
+            // FLP_Egg
+            // 
+            FLP_Egg.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            FLP_Egg.AutoSize = true;
+            FLP_Egg.Location = new System.Drawing.Point(0, 257);
+            FLP_Egg.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Egg.Name = "FLP_Egg";
+            FLP_Egg.Size = new System.Drawing.Size(0, 0);
+            FLP_Egg.TabIndex = 120;
+            // 
+            // CHK_Shiny
+            // 
+            CHK_Shiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            CHK_Shiny.AutoSize = true;
+            CHK_Shiny.Checked = true;
+            CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            CHK_Shiny.Location = new System.Drawing.Point(25, 0);
+            CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
+            CHK_Shiny.Name = "CHK_Shiny";
+            CHK_Shiny.Size = new System.Drawing.Size(55, 19);
+            CHK_Shiny.TabIndex = 126;
+            CHK_Shiny.Text = "Shiny";
+            CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_Shiny.ThreeState = true;
+            CHK_Shiny.UseVisualStyleBackColor = true;
+            // 
             // SAV_Encounters
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -531,13 +530,13 @@ namespace PKHeX.WinForms
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             P_Results.ResumeLayout(false);
-            TLP_Filters.ResumeLayout(false);
-            TLP_Filters.PerformLayout();
             mnu.ResumeLayout(false);
             TC_SearchOptions.ResumeLayout(false);
             Tab_General.ResumeLayout(false);
             Tab_General.PerformLayout();
             Tab_Advanced.ResumeLayout(false);
+            TLP_Filters.ResumeLayout(false);
+            TLP_Filters.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -549,36 +548,36 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolStripMenuItem Menu_Close;
         private System.Windows.Forms.ToolStripMenuItem Menu_Exit;
         private System.Windows.Forms.Panel P_Results;
-        public System.Windows.Forms.ComboBox CB_Species;
-        private System.Windows.Forms.ComboBox CB_Move4;
-        private System.Windows.Forms.ComboBox CB_Move3;
-        private System.Windows.Forms.ComboBox CB_Move2;
-        private System.Windows.Forms.ComboBox CB_Move1;
-        private System.Windows.Forms.Label Label_Species;
         private System.Windows.Forms.Button B_Search;
-        private System.Windows.Forms.Label L_Move1;
-        private System.Windows.Forms.Label L_Move2;
-        private System.Windows.Forms.Label L_Move3;
-        private System.Windows.Forms.Label L_Move4;
         private System.Windows.Forms.Button B_Reset;
         private System.Windows.Forms.Label L_Count;
         private System.Windows.Forms.Label L_Viewed;
-        private System.Windows.Forms.TableLayoutPanel TLP_Filters;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Egg;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Level;
         private System.Windows.Forms.RichTextBox RTB_Instructions;
-        private System.Windows.Forms.ComboBox CB_GameOrigin;
-        private System.Windows.Forms.Label L_Version;
         private Controls.PokeGrid EncounterPokeGrid;
-        private System.Windows.Forms.FlowLayoutPanel TypeFilters;
         private System.Windows.Forms.ToolTip hover;
         private System.Windows.Forms.ContextMenuStrip mnu;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.TabControl TC_SearchOptions;
         private System.Windows.Forms.TabPage Tab_General;
         private System.Windows.Forms.TabPage Tab_Advanced;
-        public System.Windows.Forms.CheckBox CHK_IsEgg;
-        public System.Windows.Forms.CheckBox CHK_Shiny;
         private System.Windows.Forms.Button B_Add;
+        private System.Windows.Forms.TableLayoutPanel TLP_Filters;
+        private System.Windows.Forms.Label Label_Species;
+        public System.Windows.Forms.ComboBox CB_Species;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Level;
+        private System.Windows.Forms.Label L_Move1;
+        private System.Windows.Forms.ComboBox CB_Move1;
+        private System.Windows.Forms.Label L_Move2;
+        private System.Windows.Forms.ComboBox CB_Move2;
+        private System.Windows.Forms.Label L_Move3;
+        private System.Windows.Forms.ComboBox CB_Move3;
+        private System.Windows.Forms.Label L_Move4;
+        private System.Windows.Forms.ComboBox CB_Move4;
+        private System.Windows.Forms.ComboBox CB_GameOrigin;
+        private System.Windows.Forms.Label L_Version;
+        private System.Windows.Forms.FlowLayoutPanel TypeFilters;
+        public System.Windows.Forms.CheckBox CHK_IsEgg;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Egg;
+        public System.Windows.Forms.CheckBox CHK_Shiny;
     }
 }
