@@ -104,7 +104,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             CB_AlphaMastered,
         ];
         foreach (var cb in cbs.Concat(Relearn))
+        {
+            cb.BindingContext = BindingContext;
             cb.InitializeBinding();
+        }
 
         IsInitialized = true;
     }
