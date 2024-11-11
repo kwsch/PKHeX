@@ -43,10 +43,10 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
 
             OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
+        pk.SetNotNicknamed(lang);
 
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 

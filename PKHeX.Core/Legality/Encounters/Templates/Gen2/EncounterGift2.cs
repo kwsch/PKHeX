@@ -100,7 +100,6 @@ public sealed record EncounterGift2
             Species = Species,
             CurrentLevel = CurrentLevel == 0 ? LevelMin : CurrentLevel,
             OriginalTrainerFriendship = pi.BaseFriendship,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, (int)lang, Generation),
 
             TID16 = Trainer switch
             {
@@ -127,6 +126,7 @@ public sealed record EncounterGift2
                 _ => EncounterUtil.GetTrainerName(tr, 1),
             },
         };
+        pk.SetNotNicknamed((int)lang);
 
         if (IsEgg)
         {

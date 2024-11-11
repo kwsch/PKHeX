@@ -31,8 +31,8 @@ public abstract class GBPKM : PKM
     public override bool Valid { get => true; set { } }
     public sealed override void RefreshChecksum() { }
 
-    private bool? _isnicknamed;
-    protected abstract void GetNonNickname(int language, Span<byte> data);
+    private protected bool? _isnicknamed;
+    protected abstract int GetNonNickname(int language, Span<byte> data);
 
     public sealed override bool IsNicknamed
     {
@@ -41,11 +41,8 @@ public abstract class GBPKM : PKM
             if (_isnicknamed is {} actual)
                 return actual;
 
-            var current = NicknameTrash;
-            Span<byte> expect = stackalloc byte[current.Length];
             var language = GuessedLanguage();
-            GetNonNickname(language, expect);
-            var result = !current.SequenceEqual(expect);
+            bool result = GetIsNicknamedTrash(language);
             _isnicknamed = result;
             return result;
         }
@@ -57,17 +54,25 @@ public abstract class GBPKM : PKM
         }
     }
 
-    protected bool IsNicknamedBank
+    private bool GetIsNicknamedTrash(int language)
     {
-        get
-        {
-            var spName = SpeciesName.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
-
-            Span<char> nickname = stackalloc char[TrashCharCountNickname];
-            int len = LoadString(NicknameTrash, nickname);
-            return !nickname[..len].SequenceEqual(spName);
-        }
+        // Verify that all trash bytes match the expected nickname.
+        var current = NicknameTrash;
+        Span<byte> expect = stackalloc byte[current.Length];
+        GetNonNickname(language, expect);
+        return !current.SequenceEqual(expect);
     }
+
+    private bool GetIsNicknamedLength(int language)
+    {
+        // Verify that only the displayed nickname bytes match the expected nickname.
+        var current = NicknameTrash;
+        Span<byte> expect = stackalloc byte[current.Length];
+        int length = GetNonNickname(language, expect);
+        return !current[..length].SequenceEqual(expect[..length]);
+    }
+
+    protected bool IsNicknamedBank => GetIsNicknamedLength(GuessedLanguage());
 
     public sealed override int Language
     {

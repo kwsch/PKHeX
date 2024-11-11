@@ -337,9 +337,9 @@ public static class MethodH
         if (syncProc)
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (IsSlotValidRegular(ctx, out seed))
+            if (IsSlotValidRegular(ctx, out var regular))
             {
-                result = new(seed, Synchronize);
+                result = new(regular, Synchronize);
                 return true;
             }
         }
@@ -421,7 +421,9 @@ public static class MethodH
         if (IsHustleVitalPass(ctx.Prev1)) // should have triggered
         { result = default; return false; }
 
-        return IsSlotValidFrom1Skip(ctx, out result);
+        // When it fails, level range is reduced by 1 so that it is not the maximum level, if possible.
+
+        return IsSlotValidFrom1SkipMinus1(ctx, out result);
     }
 
     private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
@@ -460,6 +462,21 @@ public static class MethodH
         // -1 (Proc Already Checked)
         //  0 Nature
         if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
+        {
+            if (IsSlotValid(ctx.Encounter, ctx.Prev3))
+            { result = ctx.Seed4; return true; }
+        }
+        result = default; return false;
+    }
+
+    private static bool IsSlotValidFrom1SkipMinus1<T>(FrameCheckDetails<T> ctx, out uint result)
+        where T : IEncounterSlot3
+    {
+        // -3 ESV
+        // -2 Level (range biased down by 1)
+        // -1 (Proc Already Checked)
+        //  0 Nature
+        if (IsLevelValidMinus1(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
         {
             if (IsSlotValid(ctx.Encounter, ctx.Prev3))
             { result = ctx.Seed4; return true; }
@@ -569,6 +586,22 @@ public static class MethodH
         var min = enc.LevelMin;
         uint mod = 1u + enc.LevelMax - min;
         return (u16LevelRand % mod) + min;
+    }
+
+    private static bool IsLevelValidMinus1<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
+    {
+        var level = GetExpectedLevelMinus1(enc, u16LevelRand);
+        return IsOriginalLevelValid(min, max, format, level);
+    }
+
+    private static uint GetExpectedLevelMinus1<T>(T enc, uint u16LevelRand) where T : ILevelRange
+    {
+        var min = enc.LevelMin;
+        uint mod = 1u + enc.LevelMax - min;
+        var bias = (u16LevelRand % mod);
+        if (bias != 0)
+            bias--;
+        return min + bias;
     }
 
     private static bool IsRockSmashPossible(byte areaRate, ref uint seed)

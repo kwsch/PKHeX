@@ -94,8 +94,8 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             Language = lang,
             OriginalTrainerName = tr.OT,
             TID16 = tr.TID16,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
+        pk.SetNotNicknamed(lang);
 
         if (Version == GameVersion.C)
         {

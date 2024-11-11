@@ -83,9 +83,8 @@ public sealed class EncounterGift3JPN(ushort Species, Distribution3JPN Distribut
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
 
-            PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed, pk);
-
             pk.PID = pid;
+            pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
             pk.RefreshAbility((int)(pid & 1));
             pk.OriginalTrainerGender = (byte)GetGender(LCRNG.Next16(ref seed));
             return;
@@ -99,6 +98,9 @@ public sealed class EncounterGift3JPN(ushort Species, Distribution3JPN Distribut
     {
         // Gen3 Version MUST match.
         if (Version != 0 && !Version.Contains(pk.Version))
+            return false;
+
+        if (pk.IsEgg)
             return false;
 
         if (pk.SID16 != 0)
