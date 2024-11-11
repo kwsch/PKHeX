@@ -364,7 +364,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
 
         return Method switch
         {
-            BACD_U => type is BACD_U,
+            BACD_U => type is BACD,
             BACD_R => IsRestrictedSimple(ref value, type),
             BACD_R_A => IsRestrictedAnti(ref value, type),
             BACD_U_AX =>  IsUnrestrictedAntiX(ref value, type),

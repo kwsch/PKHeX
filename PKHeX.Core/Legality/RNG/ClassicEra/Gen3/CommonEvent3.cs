@@ -214,7 +214,7 @@ public static class CommonEvent3
 
     public static uint GetGenderBit0(uint rand16) => (rand16 / 3) & 1;
     public static uint GetGenderBit3(uint rand16) => (rand16 >> 3) & 1;
-    public static uint GetGenderBit7(uint rand16) => (rand16 >> 7) & 1;
+    public static uint GetGenderBit7(uint rand16) => ((rand16 >> 7) & 1) ^ 1; // Returns Female (1) when calc is 0
     public static uint GetGenderBit15(uint rand16) => (rand16 >> 15) & 1;
     public static uint GetGenderBit0(ref uint seed) => GetGenderBit0(LCRNG.Next16(ref seed));
     public static uint GetGenderBit3(ref uint seed) => GetGenderBit3(LCRNG.Next16(ref seed));
