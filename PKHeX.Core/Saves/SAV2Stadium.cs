@@ -70,7 +70,7 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
         ClearBoxes();
     }
 
-    protected sealed override void SetChecksums()
+    protected override void SetChecksums()
     {
         base.SetChecksums();
         SetMailChecksums();
