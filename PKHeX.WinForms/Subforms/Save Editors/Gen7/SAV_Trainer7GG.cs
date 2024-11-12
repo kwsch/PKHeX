@@ -60,7 +60,7 @@ public partial class SAV_Trainer7GG : Form
         CB_Language.InitializeBinding();
         CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
         CB_Game.InitializeBinding();
-        CB_Game.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(z => GameVersion.Gen7b.Contains(z.Value)).ToList(), null);
+        CB_Game.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(z => GameVersion.Gen7b.Contains(z.Value)).ToList(), string.Empty);
     }
 
     private void LoadTrainerInfo()

@@ -92,11 +92,11 @@ public partial class SAV_PokedexLA : Form
         // Fill List
         CB_Species.InitializeBinding();
         var species = GameInfo.FilteredSources.Species.Where(z => PokedexSave8a.GetDexIndex(PokedexType8a.Hisui, (ushort)z.Value) != 0).ToArray();
-        CB_Species.DataSource = new BindingSource(species, null);
+        CB_Species.DataSource = new BindingSource(species, string.Empty);
 
         CB_DisplayForm.InitializeBinding();
         DisplayedForms = [new(GameInfo.Strings.types[0], 0)];
-        CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, null);
+        CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, string.Empty);
 
         for (var d = 1; d < DexToSpecies.Length; d++)
             LB_Species.Items.Add($"{d:000} - {speciesNames[DexToSpecies[d]]}");
@@ -157,7 +157,7 @@ public partial class SAV_PokedexLA : Form
 
         DisplayedForms.Clear();
         DisplayedForms.Add(new ComboItem(GameInfo.Strings.types[0], 0));
-        CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, null);
+        CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, string.Empty);
 
         lastForm = 0;
 
@@ -188,7 +188,7 @@ public partial class SAV_PokedexLA : Form
             DisplayedForms.Add(new ComboItem(ds[form], form));
         }
 
-        CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, null);
+        CB_DisplayForm.DataSource = new BindingSource(DisplayedForms, string.Empty);
         LB_Forms.DataSource = sanitized;
         LB_Forms.SelectedIndex = 0;
 

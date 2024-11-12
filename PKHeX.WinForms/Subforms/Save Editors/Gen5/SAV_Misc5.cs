@@ -144,7 +144,7 @@ public partial class SAV_Misc5 : Form
                     states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
                 cbr[i].Items.Clear();
                 cbr[i].InitializeBinding();
-                cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), null);
+                cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), string.Empty);
                 cbr[i].SelectedValue = (int)c;
             }
 
@@ -160,7 +160,7 @@ public partial class SAV_Misc5 : Form
                     states.Add(new ComboItem($"Unknown (0x{current:X2})", current));
                 CB_RoamStatus.Items.Clear();
                 CB_RoamStatus.InitializeBinding();
-                CB_RoamStatus.DataSource = new BindingSource(states, null);
+                CB_RoamStatus.DataSource = new BindingSource(states, string.Empty);
                 CB_RoamStatus.SelectedValue = (int)current;
             }
 
@@ -307,7 +307,7 @@ public partial class SAV_Misc5 : Form
             {
                 cb.Items.Clear();
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(PassPowerB, null);
+                cb.DataSource = new BindingSource(PassPowerB, string.Empty);
             }
 
             CB_PassPower1.SelectedValue = (int)pass.PassPower1;
@@ -512,9 +512,9 @@ public partial class SAV_Misc5 : Form
         CB_Gender.InitializeBinding();
 
         var filtered = GameInfo.FilteredSources;
-        CB_Species.DataSource = new BindingSource(filtered.Species, null);
-        CB_Move.DataSource = new BindingSource(filtered.Moves, null);
-        CB_Areas.DataSource = new BindingSource(areas, null);
+        CB_Species.DataSource = new BindingSource(filtered.Species, string.Empty);
+        CB_Move.DataSource = new BindingSource(filtered.Moves, string.Empty);
+        CB_Areas.DataSource = new BindingSource(areas, string.Empty);
 
         CB_Areas.SelectedIndex = 0;
     }
@@ -608,7 +608,7 @@ public partial class SAV_Misc5 : Form
 
     private void SetGenders(EntreeSlot slot)
     {
-        CB_Gender.DataSource = new BindingSource(GetGenderChoices(slot.Species), null);
+        CB_Gender.DataSource = new BindingSource(GetGenderChoices(slot.Species), string.Empty);
     }
 
     private void B_RandForest_Click(object sender, EventArgs e)
@@ -660,7 +660,7 @@ public partial class SAV_Misc5 : Form
         L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
         var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
-        CB_Form.DataSource = new BindingSource(list, null);
+        CB_Form.DataSource = new BindingSource(list, string.Empty);
     }
 
     private void ReadSubway()

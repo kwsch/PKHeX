@@ -170,12 +170,19 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
 
     private async void DeleteAsync(string path, int delay)
     {
-        await Task.Delay(delay).ConfigureAwait(true);
-        if (!File.Exists(path) || Drag.Info.CurrentPath == path)
-            return;
+        try
+        {
+            await Task.Delay(delay).ConfigureAwait(true);
+            if (!File.Exists(path) || Drag.Info.CurrentPath == path)
+                return;
 
-        try { File.Delete(path); }
-        catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            try { File.Delete(path); }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+        }
+        catch
+        {
+            // Ignore.
+        }
     }
 
     private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
@@ -201,7 +208,8 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
     private bool TryMakeDragDropPKM(PictureBox pb, byte[] data, string newfile)
     {
         File.WriteAllBytes(newfile, data);
-        var img = (Bitmap)pb.Image;
+        if (pb.Image is not Bitmap img)
+            return false;
         Drag.SetCursor(pb.FindForm(), new Cursor(img.GetHicon()));
         Hover.Stop();
         pb.Image = null;

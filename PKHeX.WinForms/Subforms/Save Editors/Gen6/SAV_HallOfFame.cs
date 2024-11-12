@@ -42,7 +42,7 @@ public partial class SAV_HallOfFame : Form
 
         var filtered = GameInfo.FilteredSources;
         CB_Species.InitializeBinding();
-        CB_Species.DataSource = new BindingSource(filtered.Species, null);
+        CB_Species.DataSource = new BindingSource(filtered.Species, string.Empty);
 
         CB_Move1.InitializeBinding();
         CB_Move2.InitializeBinding();
@@ -50,13 +50,13 @@ public partial class SAV_HallOfFame : Form
         CB_Move4.InitializeBinding();
 
         var MoveList = filtered.Moves;
-        CB_Move1.DataSource = new BindingSource(MoveList, null);
-        CB_Move2.DataSource = new BindingSource(MoveList, null);
-        CB_Move3.DataSource = new BindingSource(MoveList, null);
-        CB_Move4.DataSource = new BindingSource(MoveList, null);
+        CB_Move1.DataSource = new BindingSource(MoveList, string.Empty);
+        CB_Move2.DataSource = new BindingSource(MoveList, string.Empty);
+        CB_Move3.DataSource = new BindingSource(MoveList, string.Empty);
+        CB_Move4.DataSource = new BindingSource(MoveList, string.Empty);
 
         CB_HeldItem.InitializeBinding();
-        CB_HeldItem.DataSource = new BindingSource(filtered.Items, null);
+        CB_HeldItem.DataSource = new BindingSource(filtered.Items, string.Empty);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();

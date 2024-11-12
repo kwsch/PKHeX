@@ -48,10 +48,10 @@ public partial class SAV_SecretBase : Form
         CB_Form.InitializeBinding();
 
         var filtered = GameInfo.FilteredSources;
-        CB_Ball.DataSource = new BindingSource(filtered.Balls, null);
-        CB_HeldItem.DataSource = new BindingSource(filtered.Items, null);
-        CB_Species.DataSource = new BindingSource(filtered.Species, null);
-        CB_Nature.DataSource = new BindingSource(filtered.Natures, null);
+        CB_Ball.DataSource = new BindingSource(filtered.Balls, string.Empty);
+        CB_HeldItem.DataSource = new BindingSource(filtered.Items, string.Empty);
+        CB_Species.DataSource = new BindingSource(filtered.Species, string.Empty);
+        CB_Nature.DataSource = new BindingSource(filtered.Natures, string.Empty);
 
         CB_Move1.InitializeBinding();
         CB_Move2.InitializeBinding();
@@ -59,10 +59,10 @@ public partial class SAV_SecretBase : Form
         CB_Move4.InitializeBinding();
 
         var moves = filtered.Moves;
-        CB_Move1.DataSource = new BindingSource(moves, null);
-        CB_Move2.DataSource = new BindingSource(moves, null);
-        CB_Move3.DataSource = new BindingSource(moves, null);
-        CB_Move4.DataSource = new BindingSource(moves, null);
+        CB_Move1.DataSource = new BindingSource(moves, string.Empty);
+        CB_Move2.DataSource = new BindingSource(moves,      string.Empty);
+        CB_Move3.DataSource = new BindingSource(moves, string.Empty);
+        CB_Move4.DataSource = new BindingSource(moves,      string.Empty);
     }
 
     private void ReloadSecretBaseList()
@@ -321,7 +321,7 @@ public partial class SAV_SecretBase : Form
     {
         var abilities = PersonalTable.AO.GetFormEntry(species, form);
         var list = GameInfo.FilteredSources.GetAbilityList(abilities);
-        CB_Ability.DataSource = new BindingSource(list, null);
+        CB_Ability.DataSource = new BindingSource(list, string.Empty);
         CB_Ability.SelectedIndex = abilityIndex < 3 ? abilityIndex : 0;
     }
 
@@ -332,7 +332,7 @@ public partial class SAV_SecretBase : Form
         CB_Form.Enabled = CB_Form.Visible = hasForms;
 
         var list = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
-        CB_Form.DataSource = new BindingSource(list, null);
+        CB_Form.DataSource = new BindingSource(list, string.Empty);
     }
 
     private void UpdateSpecies(object sender, EventArgs e)
