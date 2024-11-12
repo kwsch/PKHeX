@@ -31,6 +31,11 @@ public sealed class TrainerNameVerifier : Verifier
             return;
         }
         trainer = trainer[..len];
+        if (trainer.Contains('\uffff') && pk is { Format: 4 })
+        {
+            data.AddLine(GetInvalid("Trainer Name: Unkown Character"));
+            return;
+        }
 
         if (IsOTNameSuspicious(trainer))
         {
