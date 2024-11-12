@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
@@ -109,9 +109,9 @@ public partial class SAV_SealStickers8b : Form
             var index = int.Parse(cells[0].Value?.ToString() ?? "0");
             var item = items[index];
 
-            item.Count = int.TryParse(cells[2].Value.ToString(), out var count) ? count : 0;
-            item.TotalCount = int.TryParse(cells[3].Value.ToString(), out var total) ? total : 0;
-            item.IsGet = (bool)cells[4].Value;
+            item.Count = int.TryParse(cells[2].Value!.ToString(), out var count) ? count : 0;
+            item.TotalCount = int.TryParse(cells[3].Value!.ToString(), out var total) ? total : 0;
+            item.IsGet = (bool)cells[4].Value!;
         }
     }
 

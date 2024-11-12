@@ -409,9 +409,9 @@ public partial class SAV_Trainer9 : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image, "current_photo");
-    private void P_CurrIcon_Click(object sender, EventArgs e) => IMG_Save(P_CurrIcon.Image, "current_icon");
-    private void P_InitialIcon_Click(object sender, EventArgs e) => IMG_Save(P_InitialIcon.Image, "initial_icon");
+    private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image!, "current_photo");
+    private void P_CurrIcon_Click(object sender, EventArgs e) => IMG_Save(P_CurrIcon.Image!, "current_icon");
+    private void P_InitialIcon_Click(object sender, EventArgs e) => IMG_Save(P_InitialIcon.Image!, "initial_icon");
 
     private void B_UnlockClothing_Click(object sender, EventArgs e)
     {
