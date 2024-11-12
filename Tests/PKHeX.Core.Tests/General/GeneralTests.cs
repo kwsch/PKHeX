@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Xunit;
+#pragma warning disable RCS1257
 
 namespace PKHeX.Core.Tests.General;
 
