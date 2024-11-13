@@ -91,7 +91,7 @@ public sealed partial class MemoryContext6 : MemoryContext
         return false; // todo
     }
 
-    public override bool IsInvalidMiscMemory(byte memory, ushort variable)
+    public override bool IsInvalidMiscMemory(byte memory, ushort variable, Species species, GameVersion version, int handler)
     {
         return false; // todo
     }
