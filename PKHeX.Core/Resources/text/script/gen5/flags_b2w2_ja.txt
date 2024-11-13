@@ -47,4 +47,5 @@
 0931	r	6番道路のタマゲタケを捕獲した/倒した(3)
 0932	r	7番道路のタマゲタケを捕獲した/倒した(1)
 0933	r	7番道路のタマゲタケを捕獲した/倒した(2)
-
+0868	r	Defeated Seaside Cave Crustle
+2793	t	Rematched Colress (Today)
