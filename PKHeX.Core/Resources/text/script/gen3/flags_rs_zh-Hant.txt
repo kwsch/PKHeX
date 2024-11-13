@@ -6,6 +6,7 @@
 0x06B	s	獲得秘傳學習器06碎岩
 0x423	s	獲得秘傳學習器07攀瀑
 0x07B	s	獲得秘傳學習器08潛水
+0302	s	Received HM08 during story
 0x05A	s	獲得音速自行車/越野自行車
 
 0x807	*	獲得岩石徽章
@@ -39,6 +40,7 @@
 0x3A9	r	隱藏地區 (雷吉斯奇魯)
 0x3C3	r	隱藏地區 (根狀化石)
 0x3C4	r	隱藏地區 (爪子化石)
+1133	r	Overworld Hidden (Missed HM08 ball in Steven's House)
 0x3C9	r	未發現的變隱龍 (茵鬱市)
 0x3CA	r	未發現的變隱龍 (120號道路, 橋)
 0x3D5	r	未發現的變隱龍 (120號道路, 橋)
