@@ -47,4 +47,5 @@
 0931	r	Captura/Derrota al Foongus de la Ruta 6 (3)
 0932	r	Captura/Derrota al Foongus de la Ruta 7 (1)
 0933	r	Captura/Derrota al Foongus de la Ruta 7 (2)
-
+0868	r	Defeated Seaside Cave Crustle
+2793	t	Rematched Colress (Today)
