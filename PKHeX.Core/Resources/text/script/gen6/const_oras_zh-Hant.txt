@@ -1,7 +1,7 @@
 0048	*	初始夥伴	0:木守宮,1:火稚鷄,2:水躍魚
-0074	g	Johto Starter	0:無,28:菊草葉,29:火球鼠,30:小鋸鱷
-0075	g	Sinnoh Starter	0:無,31:草苗龜,32:小火焰猴,33:波加曼
-0076	g	Unova Starter	0:無,34:藤藤蛇,35:暖暖豬,36:水水獺
+0074	g	Johto Starter	0:未選擇,28:菊草葉,29:火球鼠,30:小鋸鱷
+0075	g	Sinnoh Starter	0:未選擇,31:草苗龜,32:小火焰猴,33:波加曼
+0076	g	Unova Starter	0:未選擇,34:藤藤蛇,35:暖暖豬,36:水水獺
 0247	g	Regional Starters	0:Johto Starter Pending,3:Unova Starter Pending/Johto Starter Received,6:Sinnoh Starter Pending/Unova Starter Received,9:Sinnoh Starter Received (All Received)
 0060	*	Volcanic Ash Gathered	60000:Maximum
 0073	s	Route 101 Static Poochyena	0:Pending,1:Approached,2:Failed to Approach
