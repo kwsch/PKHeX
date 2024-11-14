@@ -48,6 +48,11 @@
 0375	g	Got Hoenn Starter from Steven
 0762	s	Steven Disappeared from Silph Co.
 0791	s	Steven Disappeared from Pewter Museum
+0643	e	Microwave Oven Appliance Disappeared
+0644	e	Washing Machine Appliance Disappeared
+0645	e	Refrigerator Appliance Disappeared
+0646	e	Rotary Fan Appliance Disappeared
+0647	e	Lawn Mower Appliance Disappeared
 0215	s	Met Monica/Got Sharp Beak
 0216	s	Met Tuscany/Got TwistedSpoon
 0213	s	Met Wesley/Got Black Belt
