@@ -48,6 +48,11 @@
 0375	g	Inicial de Hoenn recibido por parte de Máximo
 0762	s	Máximo desaparecido de Silph S.A.
 0791	s	Máximo desaparecido de Museo de Plateada
+0643	e	Horno microondas desaparecido
+0644	e	Lavadora desaparecida
+0645	e	Frigorífico desaparecido
+0646	e	Ventilador desaparecido
+0647	e	Cortacésped desaparecido
 0215	s	Luna conocida/Pico afilado conseguido
 0216	s	Marta conocida/Cuchara torcida conseguido
 0213	s	Miguel conocido/Cinturón negro conseguido
