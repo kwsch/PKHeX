@@ -14,7 +14,7 @@
 0x4045	s	Objeto de Recompensa del Pokelot
 0x4046	*	Dex Nacional Habilitado
 0x4047	+	Récord del Tamaño de Shroomish
-0x4048	*	Ceniza volcánica Recolectada
+0x4048	*	Ceniza volcánica Recolectada	9999:Máximo
 0x4049	m	Estado del Profesor Abedul
 0x404A	s	Contador de Pasos del S.S. Marea
 0x404B	*	Pokelot RND (Alto)
