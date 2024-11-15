@@ -36,7 +36,7 @@ public sealed class Mail3 : MailDetail
         set
         {
             var span = Data.AsSpan(0x12, 8);
-            if (value == string.Empty)
+            if (value.Length == 0)
             {
                 span.Fill(0xFF);
                 return;

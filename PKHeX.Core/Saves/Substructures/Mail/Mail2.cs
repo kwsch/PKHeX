@@ -55,7 +55,7 @@ public sealed class Mail2 : MailDetail
     };
 
     #region Offsets
-    public static int GetMailboxOffset(int language) => 0x600 + (COUNT_PARTY * 2) * GetMailSize(language);
+    public static int GetMailboxOffset(int language) => 0x600 + ((COUNT_PARTY * 2) * GetMailSize(language));
 
     private static int GetMailOffset(int index, int size)
     {
@@ -75,7 +75,7 @@ public sealed class Mail2 : MailDetail
     {
         if ((uint)index >= COUNT_MAILBOX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (index * size) + (0x600 + (COUNT_PARTY * 2) * size + 1);
+        return (index * size) + (0x600 + ((COUNT_PARTY * 2) * size) + 1);
     }
 
     public static int GetMailboxOffsetStadium2(int language) => SAV2Stadium.MailboxBlockOffset(language) + 1;
@@ -137,7 +137,7 @@ public sealed class Mail2 : MailDetail
 
     public override void SetMessage(string line1, string line2, bool userEntered)
     {
-        if (IsEmpty == true && line1 == string.Empty && line2 == string.Empty)
+        if (IsEmpty == true && line1.Length == 0 && line2.Length == 0)
         {
             Data.AsSpan(0, MESSAGE_LENGTH).Clear();
             return;
@@ -158,7 +158,7 @@ public sealed class Mail2 : MailDetail
         // Japanese/international user-entered mail always has a line break at index 0x10
         var span1 = Data.AsSpan(0, LINE_LENGTH);
         SetString(span1, line1, LINE_LENGTH);
-        if (line2 != string.Empty) // Pad the first line with spaces if needed
+        if (line2.Length != 0) // Pad the first line with spaces if needed
             span1.Replace<byte>(0x50, 0x7F);
         Data[LINE_LENGTH] = LineBreakCode;
         var span2 = Data.AsSpan(LINE_LENGTH + 1, LINE_LENGTH);

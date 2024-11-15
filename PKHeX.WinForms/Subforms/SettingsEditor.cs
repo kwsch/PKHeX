@@ -47,7 +47,7 @@ public partial class SettingsEditor : Form
     {
         var type = obj.GetType();
         var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type)
-            .OrderBy(z => z);
+            .Order();
         foreach (var p in props)
         {
             var state = ReflectUtil.GetValue(obj, p);

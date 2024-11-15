@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -387,7 +386,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         LastSlot.CurrentBackground?.Dispose();
     }
 
-    private void UpdateBoxViewAtBoxIndexes(params int[] boxIndexes)
+    private void UpdateBoxViewAtBoxIndexes(params ReadOnlySpan<int> boxIndexes)
     {
         foreach (var box in Boxes)
         {

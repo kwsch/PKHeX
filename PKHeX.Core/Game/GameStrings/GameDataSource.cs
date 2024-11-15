@@ -11,30 +11,30 @@ public sealed class GameDataSource
     /// <summary>
     /// List of <see cref="Region3DSIndex"/> values to display.
     /// </summary>
-    public static readonly IReadOnlyList<ComboItem> Regions = new List<ComboItem>
-    {
+    public static readonly IReadOnlyList<ComboItem> Regions =
+    [
         new ("Japan (日本)",      0),
         new ("Americas (NA/SA)",  1),
         new ("Europe (EU/AU)",    2),
         new ("China (中国大陆)",   4),
         new ("Korea (한국)",       5),
         new ("Taiwan (香港/台灣)", 6),
-    };
+    ];
 
     /// <summary>
     /// List of <see cref="LanguageID"/> values to display.
     /// </summary>
     private static readonly ComboItem[] LanguageList =
     [
-        new ComboItem("JPN (日本語)",   (int)LanguageID.Japanese),
-        new ComboItem("ENG (English)",  (int)LanguageID.English),
-        new ComboItem("FRE (Français)", (int)LanguageID.French),
-        new ComboItem("ITA (Italiano)", (int)LanguageID.Italian),
-        new ComboItem("GER (Deutsch)",  (int)LanguageID.German),
-        new ComboItem("ESP (Español)",  (int)LanguageID.Spanish),
-        new ComboItem("KOR (한국어)",    (int)LanguageID.Korean),
-        new ComboItem("CHS (简体中文)",  (int)LanguageID.ChineseS),
-        new ComboItem("CHT (繁體中文)",  (int)LanguageID.ChineseT),
+        new ("JPN (日本語)",   (int)LanguageID.Japanese),
+        new ("ENG (English)",  (int)LanguageID.English),
+        new ("FRE (Français)", (int)LanguageID.French),
+        new ("ITA (Italiano)", (int)LanguageID.Italian),
+        new ("GER (Deutsch)",  (int)LanguageID.German),
+        new ("ESP (Español)",  (int)LanguageID.Spanish),
+        new ("KOR (한국어)",    (int)LanguageID.Korean),
+        new ("CHS (简体中文)",  (int)LanguageID.ChineseS),
+        new ("CHT (繁體中文)",  (int)LanguageID.ChineseT),
     ];
 
     /// <summary>

@@ -126,7 +126,7 @@ public partial class SAV_Encounters : Form
     private EncounterTypeGroup[] GetTypes()
     {
         return TypeFilters.Controls.OfType<CheckBox>().Where(z => z.Checked).Select(z => z.Name)
-            .Select(z => (EncounterTypeGroup)Enum.Parse(typeof(EncounterTypeGroup), z)).ToArray();
+            .Select(Enum.Parse<EncounterTypeGroup>).ToArray();
     }
 
     private readonly PictureBox[] PKXBOXES;

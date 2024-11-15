@@ -30,7 +30,7 @@ public partial class SAV_Misc4 : Form
         accessories = GameInfo.Strings.accessories;
         backdrops = GameInfo.Strings.backdrops;
         poketchapps = GameInfo.Strings.poketchapps;
-        backdropsSorted = [.. backdrops.OrderBy(z => z)]; // sorted copy
+        backdropsSorted = [.. backdrops.Order()]; // sorted copy
 
         StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
         StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3]; // Current, Trade, Record, Trade
