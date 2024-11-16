@@ -37,73 +37,83 @@ public sealed class BallVerifier : Verifier
         var enc = info.EncounterOriginal;
         var pk = data.Entity;
 
-        // Capture / Inherit cases -- can be one of many balls
-        if (pk.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For Gen3, copy the ball from Nincada
-        {
-            // Only a Gen3 origin Shedinja can copy the wild ball.
-            // Evolution chains will indicate if it could have existed as Shedinja in Gen3.
-            // The special move verifier has a similar check!
-            if (enc is { Version: GameVersion.HG or GameVersion.SS, IsEgg: false } && pk is { Ball: (int)Sport }) // Can evolve in D/P to retain the HG/SS ball (separate byte) -- not able to be captured in any other ball
-                return GetResult(true);
-            if (enc.Generation != 3 || info.EvoChainsAllGens.Gen3.Length != 2) // not evolved in Gen3 Nincada->Shedinja
-                return VerifyBallEquals(pk, (int)Poke); // Poké Ball Only
-        }
+        Ball current = (Ball)pk.Ball;
+        if (enc.Species == (int)Species.Nincada && pk.Species == (int)Species.Shedinja)
+            return VerifyEvolvedShedinja(enc, current, pk, info);
 
-        return VerifyBall(pk, enc);
+        return VerifyBall(enc, current, pk);
+    }
+
+    private static BallVerificationResult VerifyEvolvedShedinja(IEncounterable enc, Ball current, PKM pk, LegalInfo info)
+    {
+        // Nincada evolving into Shedinja normally reverts to Poké Ball.
+
+        // Gen3 Evolution: Copy current ball.
+        if (enc is EncounterSlot3 && info.EvoChainsAllGens.Gen3.Length != 2)
+            return VerifyBall(enc, current, pk);
+
+        // Gen4 D/P/Pt: Retain the HG/SS ball (stored in a separate byte) -- can only be caught in BCC with Sport Ball.
+        if (enc is EncounterSlot4 { Type: SlotType4.BugContest } && info.EvoChainsAllGens.Gen4.Length != 2)
+            return GetResult(current is Sport or Poke);
+
+        return VerifyBallEquals(current, (int)Poke); // Poké Ball Only
     }
 
     /// <summary>
     /// Verifies the currently set ball for the <see cref="PKM"/>.
     /// </summary>
+    /// <param name="enc">Encounter template</param>
+    /// <param name="current">Current ball</param>
+    /// <param name="pk">Misc details like Version and Ability</param>
     /// <remarks>Call this directly instead of the <see cref="LegalityAnalysis"/> overload if you've already ruled out the above cases needing Evolution chains.</remarks>
-    public static BallVerificationResult VerifyBall(PKM pk, IEncounterTemplate enc)
+    public static BallVerificationResult VerifyBall(IEncounterTemplate enc, Ball current, PKM pk)
     {
+        // Capture / Inherit cases -- can be one of many balls
         var ball = IsReplacedBall(enc, pk);
         if (ball != NoBallReplace)
-            return VerifyBallEquals(pk, ball);
+            return VerifyBallEquals(current, ball);
 
         // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.
-        if (pk is { Ball: (int)Heavy, SM: true } && enc is not EncounterEgg && BallUseLegality.IsAlolanCaptureNoHeavyBall(enc.Species))
+        if (current is Heavy && enc is not EncounterEgg && pk is { SM: true } && BallUseLegality.IsAlolanCaptureNoHeavyBall(enc.Species))
             return BadCaptureHeavy; // Heavy Ball, can inherit if from egg (US/UM fixed catch rate calc)
 
         return enc switch
         {
             EncounterSlot8GO => GetResult(true), // Already a strict match
             EncounterInvalid => GetResult(true), // ignore ball, pass whatever
-            IFixedBall { FixedBall: not None } s => VerifyBallEquals(pk, (byte)s.FixedBall),
+            IFixedBall { FixedBall: not None } s => VerifyBallEquals(current, (byte)s.FixedBall),
 
-            EncounterEgg => VerifyBallEgg(pk, enc), // Inheritance rules can vary.
-            EncounterStatic5Entree => VerifyBallEquals((Ball)pk.Ball, BallUseLegality.DreamWorldBalls),
-            _ => VerifyBallEquals((Ball)pk.Ball, BallUseLegality.GetWildBalls(enc.Generation, enc.Version)),
+            EncounterEgg => VerifyBallEgg(enc, current, pk), // Inheritance rules can vary.
+            EncounterStatic5Entree => VerifyBallEquals(current, BallUseLegality.DreamWorldBalls),
+            _ => VerifyBallEquals(current, BallUseLegality.GetWildBalls(enc.Generation, enc.Version)),
         };
     }
 
-    private static BallVerificationResult VerifyBallEgg(PKM pk, IEncounterTemplate enc)
+    private static BallVerificationResult VerifyBallEgg(IEncounterTemplate enc, Ball ball, PKM pk)
     {
         if (enc.Generation < 6) // No inheriting Balls
-            return VerifyBallEquals(pk, (int)Poke); // Must be Poké Ball -- no ball inheritance.
+            return VerifyBallEquals(ball, (int)Poke); // Must be Poké Ball -- no ball inheritance.
 
-        return pk.Ball switch
+        return ball switch
         {
-            (int)Master => BadInheritMaster,
-            (int)Cherish => BadInheritCherish,
-            _ => VerifyBallInherited(pk, enc),
+            Master => BadInheritMaster,
+            Cherish => BadInheritCherish,
+            _ => VerifyBallInherited(enc, ball, pk),
         };
     }
 
-    private static BallVerificationResult VerifyBallInherited(PKM pk, IEncounterTemplate enc) => enc.Context switch
+    private static BallVerificationResult VerifyBallInherited(IEncounterTemplate enc, Ball ball, PKM pk) => enc.Context switch
     {
-        EntityContext.Gen6 => VerifyBallEggGen6(pk, enc), // Gen6 Inheritance Rules
-        EntityContext.Gen7 => VerifyBallEggGen7(pk, enc), // Gen7 Inheritance Rules
-        EntityContext.Gen8 => VerifyBallEggGen8(pk, enc),
-        EntityContext.Gen8b => VerifyBallEggGen8BDSP(pk, enc),
-        EntityContext.Gen9 => VerifyBallEggGen9(pk, enc),
+        EntityContext.Gen6 => VerifyBallEggGen6(enc, ball, pk), // Gen6 Inheritance Rules
+        EntityContext.Gen7 => VerifyBallEggGen7(enc, ball, pk), // Gen7 Inheritance Rules
+        EntityContext.Gen8 => VerifyBallEggGen8(enc, ball),
+        EntityContext.Gen8b => VerifyBallEggGen8BDSP(enc, ball),
+        EntityContext.Gen9 => VerifyBallEggGen9(enc, ball),
         _ => BadEncounter,
     };
 
-    private static BallVerificationResult VerifyBallEggGen6(PKM pk, IEncounterTemplate enc)
+    private static BallVerificationResult VerifyBallEggGen6(IEncounterTemplate enc, Ball ball, PKM pk)
     {
-        var ball = (Ball)pk.Ball;
         if (ball > Dream)
             return BadOutOfRange;
 
@@ -111,9 +121,8 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen7(PKM pk, IEncounterTemplate enc)
+    private static BallVerificationResult VerifyBallEggGen7(IEncounterTemplate enc, Ball ball, PKM pk)
     {
-        var ball = (Ball)pk.Ball;
         if (ball > Beast)
             return BadOutOfRange;
 
@@ -121,9 +130,8 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen8BDSP(PKM pk, IEncounterTemplate enc)
+    private static BallVerificationResult VerifyBallEggGen8BDSP(IEncounterTemplate enc, Ball ball)
     {
-        var ball = (Ball)pk.Ball;
         if (ball > Beast)
             return BadOutOfRange;
 
@@ -135,9 +143,8 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen8(PKM pk, IEncounterTemplate enc)
+    private static BallVerificationResult VerifyBallEggGen8(IEncounterTemplate enc, Ball ball)
     {
-        var ball = (Ball)pk.Ball;
         if (ball > Beast)
             return BadOutOfRange;
 
@@ -145,9 +152,8 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen9(PKM pk, IEncounterTemplate enc)
+    private static BallVerificationResult VerifyBallEggGen9(IEncounterTemplate enc, Ball ball)
     {
-        var ball = (Ball)pk.Ball;
         if (ball > Beast)
             return BadOutOfRange;
 
