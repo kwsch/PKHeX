@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -68,14 +69,41 @@ public sealed partial class MemoryContext8 : MemoryContext
         return IsInvalidGenLoc8Other(memory, variable);
     }
 
-    public override bool IsInvalidMiscMemory(byte memory, ushort variable)
+    public override bool IsInvalidMiscMemory(byte memory, ushort variable, Species species, GameVersion version, int handler)
     {
         return memory switch
         {
             // {0} encountered {2} when it was with {1}. {4} that {3}.
-            29 when variable is not (888 or 889 or 890 or 898) => true, // Zacian, Zamazenta, Eternatus, Calyrex
+            29 when !IsValidMemory29((Species)variable, species, version, handler) => true,
             _ => false,
         };
+    }
+
+    private static bool IsValidMemory29(Species encountered, Species species, GameVersion version, int handler)
+    {
+        // {0} encountered {2} when it was with {1}. {4} that {3}.
+        // Restrictions for this memory are based on game progress and version.
+        // These Pokémon are allowed to meet themselves if caught to an empty party slot.
+
+        // Only these 4 species can appear in this memory.
+        if (encountered is not (Zacian or Zamazenta or Eternatus or Calyrex))
+            return false;
+
+        // If this is HT memory, it's possible to meet them in another game, so story progress doesn't matter.
+        if (handler == 1)
+            return true;
+
+        // OT Memory checks from here on.
+        // Zacian and Zamazenta being in an OT memory need to match the Pokemon's version.
+        if (version == GameVersion.SW && encountered == Zamazenta)
+            return false;
+        if (version == GameVersion.SH && encountered == Zacian)
+            return false;
+
+        // These legends can't meet Eternatus as OT memory since they require Eternatus to be caught.
+        if (species is (Zacian or Zamazenta or Glastrier or Spectrier or Calyrex))
+            return encountered != Eternatus;
+        return true;
     }
 
     private static bool CanObtainMemorySWSH(byte memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
@@ -131,7 +159,7 @@ public sealed partial class MemoryContext8 : MemoryContext
             return false;
         if (pk is IRibbonSetMark8 { RibbonMarkCurry: true })
             return false;
-        if (pk.Species == (int)Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: (int)RibbonIndex.MarkCurry })
+        if (pk.Species == (int)Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: (int)RibbonIndex.MarkCurry })
             return false;
         return true;
     }
@@ -140,7 +168,7 @@ public sealed partial class MemoryContext8 : MemoryContext
     {
         if (enc is not EncounterSlot8)
             return false;
-        return pk is IRibbonSetMark8 { RibbonMarkCurry: true } || pk.Species == (int)Species.Shedinja;
+        return pk is IRibbonSetMark8 { RibbonMarkCurry: true } || pk.Species == (int)Shedinja;
     }
 
     private static bool IsInvalidGenLoc8Other(byte memory, ushort variable)

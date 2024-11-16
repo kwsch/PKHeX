@@ -209,7 +209,8 @@ public static class EncounterServerDate
         {0511, (new(2024, 08, 15), new(2024, 08, 31))}, // WCS 2024 Steenee
         {0512, (new(2024, 08, 16), new(2024, 08, 20))}, // Tomoya's Sylveon
         {0062, (new(2024, 10, 31), new(2026, 02, 01))}, // PokéCenter Birthday Tandemaus
-
+        {0513, (new(2024, 11, 15), new(2024, 11, 23))}, // Patrick's Pelipper
+        
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
         {9023, HOME3_ML}, // Hidden Ability Quaxly

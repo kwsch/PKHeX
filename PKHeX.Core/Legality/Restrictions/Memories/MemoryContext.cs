@@ -21,7 +21,7 @@ public abstract class MemoryContext
 
     public abstract bool HasPokeCenter(GameVersion version, ushort location);
     public abstract bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk);
-    public abstract bool IsInvalidMiscMemory(byte memory, ushort variable);
+    public abstract bool IsInvalidMiscMemory(byte memory, ushort variable, Species species, GameVersion version, int handler);
 
     public abstract bool CanHaveIntensity(byte memory, byte intensity);
     public abstract bool CanHaveFeeling(byte memory, byte feeling, ushort argument);
