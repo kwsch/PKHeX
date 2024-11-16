@@ -100,14 +100,10 @@ public sealed partial class MemoryContext8 : MemoryContext
         if (version == GameVersion.SH && encountered == Zacian)
             return false;
 
-        return species switch
-        {
-            // Zacian and Zamazenta can't meet Eternatus as OT memory.
-            Zacian or Zamazenta => encountered != Eternatus,
-            // Calyrex, Spectrier, Glastrier can't meet Eternatus, Zacian, Zamazenta as OT memory.
-            Calyrex or Spectrier or Glastrier => encountered is not (Eternatus or Zacian or Zamazenta),
-            _ => true,
-        };
+        // These legends can't meet Eternatus as OT memory since they require Eternatus to be caught.
+        if (species is (Zacian or Zamazenta or Glastrier or Spectrier or Calyrex))
+            return encountered != Eternatus;
+        return true;
     }
 
     private static bool CanObtainMemorySWSH(byte memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
