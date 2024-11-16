@@ -20,16 +20,16 @@ public sealed class BallVerifier : Verifier
         data.AddLine(Localize(result));
     }
 
-    private static byte IsReplacedBall(IVersion enc, PKM pk) => pk switch
+    private static Ball IsReplacedBall(IVersion enc, PKM pk) => pk switch
     {
         // Trading from PLA origin -> SW/SH will replace the Legends: Arceus ball with a regular Poké Ball
-        PK8 when enc.Version == GameVersion.PLA => (int)Poke,
+        PK8 when enc.Version == GameVersion.PLA => Poke,
 
         // No replacement done.
         _ => NoBallReplace,
     };
 
-    private const int NoBallReplace = (int)None;
+    private const Ball NoBallReplace = None;
 
     public static BallVerificationResult VerifyBall(LegalityAnalysis data)
     {
@@ -56,7 +56,7 @@ public sealed class BallVerifier : Verifier
         if (enc is EncounterSlot4 { Type: SlotType4.BugContest } && info.EvoChainsAllGens.Gen4.Length != 2)
             return GetResult(current is Sport or Poke);
 
-        return VerifyBallEquals(current, (int)Poke); // Poké Ball Only
+        return VerifyBallEquals(current, Poke); // Poké Ball Only
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public sealed class BallVerifier : Verifier
         {
             EncounterSlot8GO => GetResult(true), // Already a strict match
             EncounterInvalid => GetResult(true), // ignore ball, pass whatever
-            IFixedBall { FixedBall: not None } s => VerifyBallEquals(current, (byte)s.FixedBall),
+            IFixedBall { FixedBall: not None } s => VerifyBallEquals(current, s.FixedBall),
 
             EncounterEgg => VerifyBallEgg(enc, current, pk), // Inheritance rules can vary.
             EncounterStatic5Entree => VerifyBallEquals(current, BallUseLegality.DreamWorldBalls),
@@ -92,7 +92,7 @@ public sealed class BallVerifier : Verifier
     private static BallVerificationResult VerifyBallEgg(IEncounterTemplate enc, Ball ball, PKM pk)
     {
         if (enc.Generation < 6) // No inheriting Balls
-            return VerifyBallEquals(ball, (int)Poke); // Must be Poké Ball -- no ball inheritance.
+            return VerifyBallEquals(ball, Poke); // Must be Poké Ball -- no ball inheritance.
 
         return ball switch
         {
@@ -166,7 +166,7 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEquals(PKM pk, byte ball) => GetResult(ball == pk.Ball);
+    private static BallVerificationResult VerifyBallEquals(Ball ball, Ball permit) => GetResult(ball == permit);
     private static BallVerificationResult VerifyBallEquals(Ball ball, ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (byte)ball));
 
     private static BallVerificationResult GetResult(bool valid) => valid ? ValidEncounter : BadEncounter;
