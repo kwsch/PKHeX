@@ -88,8 +88,11 @@ public static class BallApplicator
         return ApplyFirstLegalBall(pk, balls, []);
     }
 
+    /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
     public static byte ApplyBallLegalByColor(PKM pk) => ApplyBallLegalByColor(pk, PersonalColorUtil.GetColor(pk));
+    /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
     public static byte ApplyBallLegalByColor(PKM pk, PersonalColor color) => ApplyBallLegalByColor(pk, new LegalityAnalysis(pk), color);
+    /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
     public static byte ApplyBallLegalByColor(PKM pk, LegalityAnalysis la, PersonalColor color) => ApplyBallLegalByColor(pk, la.EncounterOriginal, color);
 
     /// <summary>
@@ -98,7 +101,7 @@ public static class BallApplicator
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="enc">Encounter matched to.</param>
     /// <param name="color">Color preference to order by.</param>
-    private static byte ApplyBallLegalByColor(PKM pk, IEncounterTemplate enc, PersonalColor color)
+    public static byte ApplyBallLegalByColor(PKM pk, IEncounterTemplate enc, PersonalColor color)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
         var count = GetLegalBalls(balls, pk, enc);
