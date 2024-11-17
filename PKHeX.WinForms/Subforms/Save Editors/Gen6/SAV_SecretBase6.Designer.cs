@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.WinForms
 {
-    partial class SAV_SecretBase
+    partial class SAV_SecretBase6
     {
         /// <summary>
         /// Required designer variable.

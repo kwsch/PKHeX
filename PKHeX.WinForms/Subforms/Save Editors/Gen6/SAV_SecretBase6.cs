@@ -6,7 +6,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
 
-public partial class SAV_SecretBase : Form
+public partial class SAV_SecretBase6 : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV6AO SAV;
@@ -20,7 +20,7 @@ public partial class SAV_SecretBase : Form
 
     private bool loading = true;
 
-    public SAV_SecretBase(SAV6AO sav)
+    public SAV_SecretBase6(SAV6AO sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
