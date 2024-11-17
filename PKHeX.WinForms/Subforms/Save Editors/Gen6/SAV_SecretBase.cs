@@ -60,9 +60,9 @@ public partial class SAV_SecretBase : Form
 
         var moves = filtered.Moves;
         CB_Move1.DataSource = new BindingSource(moves, string.Empty);
-        CB_Move2.DataSource = new BindingSource(moves,      string.Empty);
+        CB_Move2.DataSource = new BindingSource(moves, string.Empty);
         CB_Move3.DataSource = new BindingSource(moves, string.Empty);
-        CB_Move4.DataSource = new BindingSource(moves,      string.Empty);
+        CB_Move4.DataSource = new BindingSource(moves, string.Empty);
     }
 
     private void ReloadSecretBaseList()

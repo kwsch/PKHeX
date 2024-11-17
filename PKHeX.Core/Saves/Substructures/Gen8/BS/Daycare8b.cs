@@ -14,7 +14,7 @@ public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(
     // BLOCK STRUCTURE
     // PB8[2] Parents;
     // bool32 eggExist;
-    // ulong eggSeed; -- setter puts only 32 bits!
+    // ulong eggSeed; -- setter does sign extension from signed 32 bit value!
     // int32 eggStepCount;
 
     private const int SlotCount = 2;
@@ -62,9 +62,15 @@ public sealed class Daycare8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(
         set => WriteUInt64LittleEndian(ExtraData[4..], value);
     }
 
+    /// <summary>
+    /// Sign extension when setting a 32-bit integer seed to a 64-bit value.
+    /// </summary>
+    /// <remarks>If the top bit is set in the 32-bit unsigned representation, bits 32-63 will be set as well.</remarks>
+    public void SetSeed(int seed) => Seed = (ulong)seed;
+
     public int EggStepCount
     {
-        get => ReadInt32LittleEndian(ExtraData[8..]);
-        set => WriteInt32LittleEndian(ExtraData[8..], value);
+        get => ReadInt32LittleEndian(ExtraData[12..]);
+        set => WriteInt32LittleEndian(ExtraData[12..], value);
     }
 }
