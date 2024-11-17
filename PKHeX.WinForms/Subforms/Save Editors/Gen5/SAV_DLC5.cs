@@ -248,13 +248,15 @@ public partial class SAV_DLC5 : Form
 
     private void B_ExportPNGCGear_Click(object sender, EventArgs e)
     {
+        if (PB_CGearBackground.Image is not { } img)
+            return;
         using var sfd = new SaveFileDialog();
         sfd.Filter = "PNG File|*.png";
         sfd.FileName = "Background.png";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        PB_CGearBackground.Image.Save(sfd.FileName, ImageFormat.Png);
+        img.Save(sfd.FileName, ImageFormat.Png);
     }
 
     private void B_ImportCGB_Click(object sender, EventArgs e)

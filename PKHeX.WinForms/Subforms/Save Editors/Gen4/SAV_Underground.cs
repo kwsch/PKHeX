@@ -42,28 +42,28 @@ public partial class SAV_Underground : Form
         // Goods
         DGV_UGGoods.Rows.Add(SAV4Sinnoh.UG_POUCH_SIZE);
 
-        Item_Goods.DataSource = new BindingSource(ugGoodsSorted, null);
+        Item_Goods.DataSource = new BindingSource(ugGoodsSorted, string.Empty);
         Item_Goods.DisplayIndex = 0;
         DGV_UGGoods.CancelEdit();
 
         // Spheres
         DGV_UGSpheres.Rows.Add(MAX_SIZE);
 
-        Item_Spheres.DataSource = new BindingSource(ugSpheres, null);
+        Item_Spheres.DataSource = new BindingSource(ugSpheres, string.Empty);
         Item_Spheres.DisplayIndex = 0;
         DGV_UGSpheres.CancelEdit();
 
         // Traps
         DGV_UGTraps.Rows.Add(MAX_SIZE);
 
-        Item_Traps.DataSource = new BindingSource(ugTrapsSorted, null);
+        Item_Traps.DataSource = new BindingSource(ugTrapsSorted, string.Empty);
         Item_Traps.DisplayIndex = 0;
         DGV_UGTraps.CancelEdit();
 
         // Treasures
         DGV_UGTreasures.Rows.Add(MAX_SIZE);
 
-        Item_Treasures.DataSource = new BindingSource(ugTreasuresSorted, null);
+        Item_Treasures.DataSource = new BindingSource(ugTreasuresSorted, string.Empty);
         Item_Treasures.DisplayIndex = 0;
         DGV_UGTreasures.CancelEdit();
     }
@@ -139,7 +139,7 @@ public partial class SAV_Underground : Form
         int ctr = 0;
         for (int i = 0; i < DGV_UGGoods.Rows.Count; i++)
         {
-            var str = DGV_UGGoods.Rows[i].Cells[0].Value.ToString();
+            var str = DGV_UGGoods.Rows[i].Cells[0].Value!.ToString();
             var itemindex = Array.IndexOf(ugGoods, str);
 
             if (itemindex <= 0)
@@ -154,7 +154,7 @@ public partial class SAV_Underground : Form
         for (int i = 0; i < DGV_UGSpheres.Rows.Count; i++)
         {
             var row = DGV_UGSpheres.Rows[i];
-            var str = row.Cells[0].Value.ToString();
+            var str = row.Cells[0].Value!.ToString();
             var itemindex = Array.IndexOf(ugSpheres, str);
 
             bool success = int.TryParse(row.Cells[1].Value?.ToString(), out var itemcnt);
@@ -170,7 +170,7 @@ public partial class SAV_Underground : Form
         ctr = 0;
         for (int i = 0; i < DGV_UGTraps.Rows.Count; i++)
         {
-            var str = DGV_UGTraps.Rows[i].Cells[0].Value.ToString();
+            var str = DGV_UGTraps.Rows[i].Cells[0].Value!.ToString();
             var itemindex = Array.IndexOf(ugTraps, str);
 
             if (itemindex <= 0)
@@ -184,7 +184,7 @@ public partial class SAV_Underground : Form
         ctr = 0;
         for (int i = 0; i < DGV_UGTreasures.Rows.Count; i++)
         {
-            var str = DGV_UGTreasures.Rows[i].Cells[0].Value.ToString();
+            var str = DGV_UGTreasures.Rows[i].Cells[0].Value!.ToString();
             var itemindex = Array.IndexOf(ugTreasures, str);
 
             if (itemindex <= 0)

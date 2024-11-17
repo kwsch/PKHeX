@@ -168,15 +168,12 @@ public sealed class StartupSettings : IStartupSettings
             if (!GameLanguage.IsLanguageValid(value))
             {
                 // Migrate old language codes set in earlier versions.
-                switch (value)
+                _language = value switch
                 {
-                    case "zh":
-                        _language = "zh-Hans";
-                        break;
-                    case "zh2":
-                        _language = "zh-Hant";
-                        break;
-                }
+                    "zh" => "zh-Hans",
+                    "zh2" => "zh-Hant",
+                    _ => _language,
+                };
                 return;
             }
             _language = value;

@@ -38,7 +38,7 @@ public partial class SAV_PokedexSVKitakami : Form
         // Fill List
         CB_Species.InitializeBinding();
         var species = GameInfo.SpeciesDataSource.Where(z => SAV.Personal.IsSpeciesInGame((ushort)z.Value)).ToArray();
-        CB_Species.DataSource = new BindingSource(species, null);
+        CB_Species.DataSource = new BindingSource(species, string.Empty);
 
         var list = species
             .Select(z => new DexMap(z))

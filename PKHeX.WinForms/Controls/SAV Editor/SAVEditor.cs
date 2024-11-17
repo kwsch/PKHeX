@@ -695,8 +695,10 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             }
             else
             {
-                form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g);
-                form.Owner = ParentForm;
+                form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g)
+                {
+                    Owner = ParentForm,
+                };
             }
             form.BringToFront();
             form.Show();
@@ -1263,7 +1265,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             var current = br.CurrentSlot;
             var list = br.SaveNames.Select((z, i) => new ComboItem(z, i)).ToList();
             CB_SaveSlot.InitializeBinding();
-            CB_SaveSlot.DataSource = new BindingSource(list, null);
+            CB_SaveSlot.DataSource = new BindingSource(list, string.Empty);
             CB_SaveSlot.SelectedValue = current;
         }
         else
@@ -1418,35 +1420,42 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private async void TabMouseMove(object sender, MouseEventArgs e)
     {
-        if (!IsBoxDragActive)
-            return;
-
-        if (e.Location == DragStartPoint)
-            return;
-
-        // Gather data
-        var src = SAV.CurrentBox;
-        var bin = SAV.GetBoxBinary(src);
-
-        // Create Temp File to Drag
-        var newFile = Path.Combine(Path.GetTempPath(), $"box_{src}.bin");
         try
         {
-            using var img = new Bitmap(Box.Width, Box.Height);
-            Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
-            using var cursor = Cursor = new Cursor(img.GetHicon());
-            await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
-            DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
+            if (!IsBoxDragActive)
+                return;
+
+            if (e.Location == DragStartPoint)
+                return;
+
+            // Gather data
+            var src = SAV.CurrentBox;
+            var bin = SAV.GetBoxBinary(src);
+
+            // Create Temp File to Drag
+            var newFile = Path.Combine(Path.GetTempPath(), $"box_{src}.bin");
+            try
+            {
+                using var img = new Bitmap(Box.Width, Box.Height);
+                Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
+                using var cursor = Cursor = new Cursor(img.GetHicon());
+                await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
+            }
+            // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
+            catch (Exception x)
+            { WinFormsUtil.Error("Drag && Drop Error", x); }
+            finally
+            {
+                Cursor = Cursors.Default;
+                await Task.Delay(100).ConfigureAwait(false);
+                IsBoxDragActive = false;
+                await DeleteAsync(newFile, 20_000).ConfigureAwait(false);
+            }
         }
-        // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
-        catch (Exception x)
-        { WinFormsUtil.Error("Drag && Drop Error", x); }
-        finally
+        catch
         {
-            Cursor = Cursors.Default;
-            await Task.Delay(100).ConfigureAwait(false);
-            IsBoxDragActive = false;
-            await DeleteAsync(newFile, 20_000).ConfigureAwait(false);
+            // Ignore.
         }
     }
 

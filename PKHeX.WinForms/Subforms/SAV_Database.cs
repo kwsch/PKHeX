@@ -302,7 +302,7 @@ public partial class SAV_Database : Form
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
             {
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(moves, null);
+                cb.DataSource = new BindingSource(moves, string.Empty);
             }
         }
 
@@ -594,6 +594,7 @@ public partial class SAV_Database : Form
         return settings;
     }
 
+    // ReSharper disable once AsyncVoidMethod
     private async void B_Search_Click(object sender, EventArgs e)
     {
         B_Search.Enabled = false;

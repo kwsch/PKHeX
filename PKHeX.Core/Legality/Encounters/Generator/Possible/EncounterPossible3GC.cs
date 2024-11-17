@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public record struct EncounterPossible3GC(EvoCriteria[] Chain, EncounterTypeGroup Flags) : IEnumerator<IEncounterable>
 {
-    public IEncounterable Current { get; private set; }
+    public IEncounterable Current { get; private set; } = null!;
 
     private int Index;
     private int SubIndex;

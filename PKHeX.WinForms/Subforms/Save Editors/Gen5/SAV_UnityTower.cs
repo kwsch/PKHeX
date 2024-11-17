@@ -94,17 +94,17 @@ public partial class SAV_UnityTower : Form
         for (int i = 0; i < DGV_Geonet.Rows.Count; i++)
         {
             var row = DGV_Geonet.Rows[i];
-            var country = (int)row.Cells[0].Value;
-            var subregion = (int)row.Cells[2].Value;
-            var point = (GeonetPoint)row.Cells[4].Value;
+            var country = (int)row.Cells[0].Value!;
+            var subregion = (int)row.Cells[2].Value!;
+            var point = (GeonetPoint)row.Cells[4].Value!;
             if (country > 0)
                 UnityTower.SetCountrySubregion((byte)country, (byte)subregion, point);
         }
         for (int i = 0; i < DGV_UnityTower.Rows.Count; i++)
         {
             var row = DGV_UnityTower.Rows[i];
-            var unlocked = (bool)row.Cells[0].Value;
-            var country = (int)row.Cells[1].Value;
+            var unlocked = (bool)row.Cells[0].Value!;
+            var country = (int)row.Cells[1].Value!;
             UnityTower.SetUnityTowerFloor((byte)country, unlocked);
         }
         UnityTower.SetSAVCountry();

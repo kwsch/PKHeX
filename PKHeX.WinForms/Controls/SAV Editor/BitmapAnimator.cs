@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.Drawing;
+using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using PKHeX.Drawing;
@@ -20,7 +21,7 @@ public sealed class BitmapAnimator : IDisposable
     private Image? ExtraLayer;
     private Image?[]? GlowCache;
     private Image? OriginalBackground;
-    private readonly object Lock = new();
+    private readonly Lock Lock = new();
 
     private PictureBox? pb;
     private int GlowInterval;

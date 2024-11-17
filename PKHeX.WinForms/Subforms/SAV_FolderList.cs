@@ -368,7 +368,7 @@ public partial class SAV_FolderList : Form
     {
         if (dg.RowCount == 0)
             return;
-        var cm = (CurrencyManager?)BindingContext?[dg.DataSource];
+        var cm = (CurrencyManager?)BindingContext?[dg.DataSource!];
         cm?.SuspendBinding();
         int column = CB_FilterColumn.SelectedIndex - 1;
         var text = TB_FilterTextContains.Text.AsSpan();

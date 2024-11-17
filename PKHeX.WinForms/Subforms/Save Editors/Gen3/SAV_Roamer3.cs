@@ -17,7 +17,7 @@ public partial class SAV_Roamer3 : Form
         SAV = sav;
 
         CB_Species.InitializeBinding();
-        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
+        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species, string.Empty);
 
         LoadData();
     }

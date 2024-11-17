@@ -19,7 +19,7 @@ public sealed class SaveBlockMetadata<T>
 
     public IEnumerable<string> GetSortedBlockList()
     {
-        return BlockList.Select(z => z.Key).OrderBy(z => z);
+        return BlockList.Select(z => z.Key).Order();
     }
 
     public IDataIndirect GetBlock(string name) => BlockList.First(z => z.Key == name).Value;

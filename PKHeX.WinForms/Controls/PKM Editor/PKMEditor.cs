@@ -84,13 +84,13 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FlickerInterface();
     }
 
-    private sealed class ValidationRequiredSet(Control[] Controls, Func<PKM, bool> ShouldCheck, Func<Control, bool> State)
+    private sealed class ValidationRequiredSet(Control[] controls, Func<PKM, bool> shouldCheck, Func<Control, bool> isState)
     {
         public Control? IsNotValid(PKM pk)
         {
-            if (!ShouldCheck(pk))
+            if (!shouldCheck(pk))
                 return null;
-            return Array.Find(Controls, z => State(z));
+            return Array.Find(controls, z => isState(z));
         }
     }
 
@@ -392,7 +392,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     }
 
     // General Use Functions //
-    private void SetDetailsOT(ITrainerInfo tr)
+    private void SetDetailsOT<T>(T tr) where T : ITrainerInfo
     {
         if (string.IsNullOrWhiteSpace(tr.OT))
             return;
@@ -423,7 +423,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UpdateNickname(this, EventArgs.Empty);
     }
 
-    private void SetDetailsHT(ITrainerInfo tr)
+    private void SetDetailsHT<T>(T tr) where T : ITrainerInfo
     {
         var trainer = tr.OT;
         if (trainer.Length == 0)
@@ -998,8 +998,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (FieldsLoaded && sender == CB_Form)
         {
             Entity.Form = (byte)CB_Form.SelectedIndex;
-            uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
-            TB_EXP.Text = EXP.ToString();
+            uint exp = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
+            TB_EXP.Text = exp.ToString();
         }
 
         UpdateStats();
@@ -1182,8 +1182,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         // Recalculate EXP for Given Level
-        uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
-        TB_EXP.Text = EXP.ToString();
+        uint exp = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
+        TB_EXP.Text = exp.ToString();
 
         // Check for Gender Changes
         UC_Gender.Gender = Entity.GetSaneGender();
@@ -1242,11 +1242,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ReloadMetLocations(GameVersion version, EntityContext context)
     {
         var metList = GameInfo.GetLocationList(version, context, egg: false);
-        CB_MetLocation.DataSource = new BindingSource(metList, null);
+        CB_MetLocation.DataSource = new BindingSource(metList, string.Empty);
         CB_MetLocation.DropDownWidth = GetWidth(metList, CB_MetLocation.Font);
 
         var eggList = GameInfo.GetLocationList(version, context, egg: true);
-        CB_EggLocation.DataSource = new BindingSource(eggList, null);
+        CB_EggLocation.DataSource = new BindingSource(eggList, string.Empty);
         CB_EggLocation.DropDownWidth = GetWidth(eggList, CB_EggLocation.Font);
 
         static int GetWidth(IReadOnlyCollection<ComboItem> items, Font f)
@@ -1800,7 +1800,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         FieldsLoaded = false;
         var index = WinFormsUtil.GetIndex(c);
-        c.DataSource = new BindingSource(LegalMoveSource.Display.DataSource, null);
+        c.DataSource = new BindingSource(LegalMoveSource.Display.DataSource, string.Empty);
         c.SelectedValue = index;
         FieldsLoaded = true;
     }
@@ -2008,7 +2008,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         FieldsLoaded = false;
 
-        bool TranslationRequired = false;
+        bool isTranslationRequired = false;
         PopulateFilteredDataSources(sav);
         PopulateFields(Entity);
 
@@ -2027,7 +2027,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             Hidden_TC.TabPages.Insert(1, Hidden_Met);
             TC_Editor.TabPages.Insert(1, Tab_Met);
-            TranslationRequired = true;
+            isTranslationRequired = true;
         }
 
         if (Entity.Format <= 2 && Hidden_TC.TabPages.Contains(Hidden_Cosmetic))
@@ -2039,7 +2039,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             Hidden_TC.TabPages.Insert(4, Hidden_Cosmetic);
             TC_Editor.TabPages.Insert(4, Tab_Cosmetic);
-            TranslationRequired = true;
+            isTranslationRequired = true;
         }
 
         if (!HaX && sav is SAV7b)
@@ -2058,7 +2058,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
         if (Entity.Format == 2)
             CheckMetLocationChange(GameVersion.C, Entity.Context);
-        return TranslationRequired;
+        return isTranslationRequired;
     }
 
     private void CenterSubEditors()
@@ -2082,13 +2082,12 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
     }
 
-    // ReSharper disable once FieldCanBeMadeReadOnly.Global
-    public Action<IBattleTemplate> LoadShowdownSet;
+    public Action<IBattleTemplate> LoadShowdownSet { get; set; }
 
-    private void LoadShowdownSetDefault(IBattleTemplate Set)
+    private void LoadShowdownSetDefault(IBattleTemplate set)
     {
         var pk = PreparePKM();
-        pk.ApplySetDetails(Set);
+        pk.ApplySetDetails(set);
         PopulateFields(pk);
     }
 
@@ -2152,9 +2151,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         SetCountrySubRegion(CB_Country, "countries");
         CB_3DSReg.DataSource = source.ConsoleRegions;
 
-        CB_GroundTile.DataSource = new BindingSource(source.G4GroundTiles, null);
-        CB_Nature.DataSource = new BindingSource(source.Natures, null);
-        CB_StatNature.DataSource = new BindingSource(source.Natures, null);
+        CB_GroundTile.DataSource = new BindingSource(source.G4GroundTiles, string.Empty);
+        CB_Nature.DataSource = new BindingSource(source.Natures, string.Empty);
+        CB_StatNature.DataSource = new BindingSource(source.Natures, string.Empty);
 
         // Sub-editors
         Stats.InitializeDataSources();
@@ -2166,7 +2165,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         if (!force && exist.DataSource is BindingSource b && b.Count == update.Count)
             return;
-        exist.DataSource = new BindingSource(update, null);
+        exist.DataSource = new BindingSource(update, string.Empty);
     }
 
     private void PopulateFilteredDataSources(ITrainerInfo sav, bool force = false)

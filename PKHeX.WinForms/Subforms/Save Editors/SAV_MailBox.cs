@@ -132,7 +132,7 @@ public partial class SAV_MailBox : Form
         {
             CB_AppearPKM1.Items.Clear();
             CB_AppearPKM1.InitializeBinding();
-            CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
+            CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), string.Empty);
             B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
         }
         else if (Generation is 4 or 5)
@@ -142,19 +142,19 @@ public partial class SAV_MailBox : Form
             {
                 a.Items.Clear();
                 a.InitializeBinding();
-                a.DataSource = new BindingSource(species, null);
+                a.DataSource = new BindingSource(species, string.Empty);
             }
 
             var vers = GameInfo.VersionDataSource
                 .Where(z => ((GameVersion)z.Value).GetGeneration() == Generation);
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
-            CB_AuthorVersion.DataSource = new BindingSource(vers, null);
+            CB_AuthorVersion.DataSource = new BindingSource(vers, string.Empty);
         }
 
         CB_AuthorLang.Items.Clear();
         CB_AuthorLang.InitializeBinding();
-        CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), null);
+        CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), string.Empty);
 
         var ItemList = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
         CB_MailType.Items.Clear();

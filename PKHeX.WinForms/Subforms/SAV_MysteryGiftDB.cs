@@ -214,7 +214,7 @@ public partial class SAV_MysteryGiftDB : Form
             foreach (var cb in arr)
             {
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(moves, null);
+                cb.DataSource = new BindingSource(moves, string.Empty);
             }
         }
 

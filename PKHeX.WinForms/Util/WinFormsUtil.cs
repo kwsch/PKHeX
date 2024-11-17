@@ -463,7 +463,7 @@ public static class WinFormsUtil
             "zh" => name switch
             {
                 "zh-Hant" or "zh-HK" or "zh-MO" or "zh-TW"   => "zh-Hant", // Traditional Chinese (Hong Kong/Macau/Taiwan)
-                "zh-Hans" or "zh-CN" or "zh-SG" or "zh" or _ => "zh-Hans", // Simplified Chinese (China/Singapore)
+                                                           _ => "zh-Hans", // Simplified Chinese (China/Singapore)
             },
 
             // Use this language code if we support it, otherwise default to English
