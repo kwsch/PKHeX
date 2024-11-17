@@ -447,7 +447,8 @@ public partial class SAV_DLC5 : Form
 
     private void B_PokeDexSkinLoad_Click(object sender, EventArgs e)
     {
-        if (!ImportFile(PokeDexSkin5.Extension, PokeDexFileName, SAV.PokedexSkinData.Length, out var data))
+        const int pporg = 0x6200; // missing 4 bytes, flag
+        if (!ImportFile(PokeDexSkin5.Extension, PokeDexFileName, SAV.PokedexSkinData.Length, out var data, otherSize: pporg))
             return;
         SAV.SetPokeDexSkin(data);
         LoadPokedexSkin(data);

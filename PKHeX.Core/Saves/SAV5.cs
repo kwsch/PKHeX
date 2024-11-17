@@ -294,6 +294,15 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     {
         WriteExtSection(data, ExtPokeDexSkinOffset, PokeDexSkin5.SIZE, count);
         PlayerData.UpdateExtData(ExtDataSectionNote5.PokedexSkin, count);
+        IsAvailablePokedexSkin = true;
+    }
+
+    private Span<byte> DexSkinFooter => Data.AsSpan((ExtPokeDexSkinOffset + PokeDexSkin5.SIZE - 4)..);
+
+    public bool IsAvailablePokedexSkin
+    {
+        get => ReadUInt32LittleEndian(DexSkinFooter) == 1;
+        set => WriteUInt32LittleEndian(DexSkinFooter, value ? 1u : 0u);
     }
 
     public void SetHallOfFame(ReadOnlySpan<byte> data, ushort count = 1)
