@@ -49,11 +49,11 @@ public sealed class BallVerifier : Verifier
         // Nincada evolving into Shedinja normally reverts to Poké Ball.
 
         // Gen3 Evolution: Copy current ball.
-        if (enc is EncounterSlot3 && info.EvoChainsAllGens.Gen3.Length != 2)
+        if (enc is EncounterSlot3 && info.EvoChainsAllGens.Gen3.Length == 2)
             return VerifyBall(enc, current, pk);
 
         // Gen4 D/P/Pt: Retain the HG/SS ball (stored in a separate byte) -- can only be caught in BCC with Sport Ball.
-        if (enc is EncounterSlot4 { Type: SlotType4.BugContest } && info.EvoChainsAllGens.Gen4.Length != 2)
+        if (enc is EncounterSlot4 { Type: SlotType4.BugContest } && info.EvoChainsAllGens.Gen4.Length == 2)
             return GetResult(current is Sport or Poke);
 
         return VerifyBallEquals(current, Poke); // Poké Ball Only
