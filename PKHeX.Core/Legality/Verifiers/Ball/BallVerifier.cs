@@ -79,9 +79,11 @@ public sealed class BallVerifier : Verifier
 
         return enc switch
         {
-            EncounterSlot8GO => GetResult(true), // Already a strict match
             EncounterInvalid => GetResult(true), // ignore ball, pass whatever
+            EncounterSlot8GO g => GetResult(g.IsBallValid(current, pk.Species, pk)),
             IFixedBall { FixedBall: not None } s => VerifyBallEquals(current, s.FixedBall),
+            EncounterSlot8 when pk is IRibbonSetMark8 { RibbonMarkCurry: true } or IRibbonSetAffixed { AffixedRibbon: (sbyte)RibbonIndex.MarkCurry }
+                => GetResult(current is Poke or Great or Ultra),
 
             EncounterEgg => VerifyBallEgg(enc, current, pk), // Inheritance rules can vary.
             EncounterStatic5Entree => VerifyBallEquals(current, BallUseLegality.DreamWorldBalls),
