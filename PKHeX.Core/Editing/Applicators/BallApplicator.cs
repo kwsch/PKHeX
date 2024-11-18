@@ -29,6 +29,8 @@ public static class BallApplicator
     /// <returns>Count of <see cref="Ball"/> values that the <see cref="PKM"/> is legal with.</returns>
     public static int GetLegalBalls(Span<Ball> result, PKM pk, IEncounterTemplate enc)
     {
+        if (enc is EncounterInvalid)
+            return 0;
         if (enc.Species is (ushort)Species.Nincada && pk.Species is (ushort)Species.Shedinja)
             return GetLegalBallsEvolvedShedinja(result, pk, enc);
         return LoadLegalBalls(result, pk, enc);
