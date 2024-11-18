@@ -484,10 +484,10 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WB8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : EncounterDate.GetDateSwitch();
-        // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
-        if (CardID is 9015 or 9016 or 9017)
-            pk.MetDay = 20;
+        var date = IsDateRestricted && EncounterServerDate.WB8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : EncounterDate.GetDateSwitch();
+        if (IsDateLockJapanese && language != (int)LanguageID.Japanese && date < new DateOnly(2022, 5, 20)) // 2022/05/18
+            date = new DateOnly(2022, 5, 20); // Pick a better Start date that can be the language we're generating for.
+        pk.MetDate = date;
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -514,6 +514,11 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         pk.RefreshChecksum();
         return pk;
     }
+
+    /// <summary>
+    /// HOME Gifts for Sinnoh starters were forced JPN until May 20, 2022 (UTC).
+    /// </summary>
+    public bool IsDateLockJapanese => CardID is 9015 or 9016 or 9017;
 
     private void SetEggMetData(PB8 pk)
     {

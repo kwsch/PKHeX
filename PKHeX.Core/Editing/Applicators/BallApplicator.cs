@@ -9,7 +9,13 @@ namespace PKHeX.Core;
 public static class BallApplicator
 {
     private static readonly Ball[] BallList = Enum.GetValues<Ball>();
+
+    /// <summary>
+    /// Maximum number of <see cref="Ball"/> values that can be returned in a span.
+    /// </summary>
     public const byte MaxBallSpanAlloc = (byte)LAOrigin + 1;
+
+    private static IEncounterTemplate Get(LegalityAnalysis la) => la.EncounterOriginal;
 
     /// <remarks>
     /// Requires checking the <see cref="LegalityAnalysis"/>.
@@ -18,7 +24,7 @@ public static class BallApplicator
     public static int GetLegalBalls(Span<Ball> result, PKM pk) => GetLegalBalls(result, pk, new LegalityAnalysis(pk));
 
     /// <inheritdoc cref="GetLegalBalls(Span{Ball}, PKM, IEncounterTemplate)"/>
-    public static int GetLegalBalls(Span<Ball> result, PKM pk, LegalityAnalysis la) => GetLegalBalls(result, pk, la.EncounterOriginal);
+    public static int GetLegalBalls(Span<Ball> result, PKM pk, LegalityAnalysis la) => GetLegalBalls(result, pk, Get(la));
 
     /// <summary>
     /// Gets all balls that are legal for the input <see cref="PKM"/>.
@@ -74,28 +80,38 @@ public static class BallApplicator
         return ctr;
     }
 
-    /// <summary>
-    /// Applies a random legal ball value if any exist.
-    /// </summary>
     /// <remarks>
     /// Requires checking the <see cref="LegalityAnalysis"/>.
     /// </remarks>
+    /// <inheritdoc cref="ApplyBallLegalRandom(PKM, IEncounterTemplate)"/>
+    public static byte ApplyBallLegalRandom(PKM pk) => ApplyBallLegalRandom(pk, new LegalityAnalysis(pk));
+
+    /// <inheritdoc cref="ApplyBallLegalRandom(PKM, IEncounterTemplate)"/>
+    public static byte ApplyBallLegalRandom(PKM pk, LegalityAnalysis la) => ApplyBallLegalRandom(pk, Get(la));
+
+    /// <summary>
+    /// Applies a random legal ball value if any exist.
+    /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    public static byte ApplyBallLegalRandom(PKM pk)
+    /// <param name="enc">Encounter matched to.</param>
+    public static byte ApplyBallLegalRandom(PKM pk, IEncounterTemplate enc)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
-        var count = GetLegalBalls(balls, pk);
+        var count = GetLegalBalls(balls, pk, enc);
         balls = balls[..count];
         Util.Rand.Shuffle(balls);
         return ApplyFirstLegalBall(pk, balls, []);
     }
 
+    /// <remarks>
+    /// Requires checking the <see cref="LegalityAnalysis"/>.
+    /// </remarks>
     /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
     public static byte ApplyBallLegalByColor(PKM pk) => ApplyBallLegalByColor(pk, PersonalColorUtil.GetColor(pk));
     /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
     public static byte ApplyBallLegalByColor(PKM pk, PersonalColor color) => ApplyBallLegalByColor(pk, new LegalityAnalysis(pk), color);
     /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
-    public static byte ApplyBallLegalByColor(PKM pk, LegalityAnalysis la, PersonalColor color) => ApplyBallLegalByColor(pk, la.EncounterOriginal, color);
+    public static byte ApplyBallLegalByColor(PKM pk, LegalityAnalysis la, PersonalColor color) => ApplyBallLegalByColor(pk, Get(la), color);
 
     /// <summary>
     /// Applies a legal ball value if any exist, ordered by color.

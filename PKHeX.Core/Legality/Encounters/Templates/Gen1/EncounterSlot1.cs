@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.Gen1"/>.
 /// </summary>
 public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber)
-    : IEncounterConvertible<PK1>, IEncounterable, IEncounterMatch, INumberedSlot
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>, INumberedSlot
 {
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
