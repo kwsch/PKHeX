@@ -5,7 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK3>, IContestStatsReadOnly
+public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname,
+    IFixedGender, IFixedNature, IFixedIVSet, IEncounterConvertible<PK3>, IContestStatsReadOnly
 {
     public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
