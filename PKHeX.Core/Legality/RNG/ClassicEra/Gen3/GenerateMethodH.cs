@@ -48,7 +48,12 @@ public static class GenerateMethodH
                 if (!criteria.IsGenderSatisfied(gender))
                     break; // try again
 
-                pk.MetLevel = pk.CurrentLevel = (byte)MethodH.GetRandomLevel(enc, lv, LeadRequired.None);
+                {
+                    var level = (byte)MethodH.GetRandomLevel(enc, lv, LeadRequired.None);
+                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsLevelRangeSatisfied(level))
+                        break; // try again
+                    pk.MetLevel = pk.CurrentLevel = level;
+                }
                 SetPIDIVSequential(pk, pid, seed);
                 return;
             }
@@ -128,10 +133,10 @@ public static class GenerateMethodH
 
             // always level rand
             {
-                var lv = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
-                var actual = MethodH.GetRandomLevel(enc, lv, lead.Lead);
-                if (pk.MetLevel != actual)
-                    pk.MetLevel = pk.CurrentLevel = (byte)actual;
+                var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
+                var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
             }
 
             pk.PID = pid;
@@ -165,10 +170,10 @@ public static class GenerateMethodH
 
             // always level rand
             {
-                var lv = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
-                var actual = MethodH.GetRandomLevel(enc, lv, lead.Lead);
-                if (pk.MetLevel != actual)
-                    pk.MetLevel = pk.CurrentLevel = (byte)actual;
+                var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
+                var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
             }
 
             pk.PID = pid;

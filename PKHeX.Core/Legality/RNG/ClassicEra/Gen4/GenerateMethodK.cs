@@ -60,7 +60,12 @@ public static class GenerateMethodK
                     break; // try again
 
                 if (randLevel)
-                    pk.MetLevel = pk.CurrentLevel = (byte)MethodK.GetRandomLevel(enc, lv, LeadRequired.None);
+                {
+                    var level = (byte)MethodK.GetRandomLevel(enc, lv, LeadRequired.None);
+                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsLevelRangeSatisfied(level))
+                        break; // try again
+                    pk.MetLevel = pk.CurrentLevel = level;
+                }
                 pk.PID = pid;
                 var iv1 = LCRNG.Next16(ref seed);
                 var iv2 = LCRNG.Next16(ref seed);
@@ -114,10 +119,10 @@ public static class GenerateMethodK
 
             if (MethodK.IsLevelRand(enc))
             {
-                var lv = MethodK.SkipToLevelRand(enc, lead.Seed, lead.Lead) >> 16;
-                var actual = MethodK.GetRandomLevel(enc, lv, lead.Lead);
-                if (pk.MetLevel != actual)
-                    pk.MetLevel = pk.CurrentLevel = (byte)actual;
+                var rand16 = MethodK.SkipToLevelRand(enc, lead.Seed, lead.Lead) >> 16;
+                var level = MethodK.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
             }
 
             pk.PID = pid;
