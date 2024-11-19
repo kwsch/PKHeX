@@ -59,12 +59,7 @@ public static class GenerateMethodJ
                     break; // try again
 
                 if (randLevel)
-                {
-                    var lvl = enc.Type is SlotType4.HoneyTree
-                        ? MethodJ.GetHoneyTreeLevel(lv)
-                        : ((lv % (enc.LevelMax - enc.LevelMin + 1)) + enc.LevelMin);
-                    pk.MetLevel = pk.CurrentLevel = (byte)lvl;
-                }
+                    pk.MetLevel = pk.CurrentLevel = (byte)MethodJ.GetRandomLevel(enc, lv, LeadRequired.None);
                 pk.PID = pid;
                 var iv1 = LCRNG.Next16(ref seed);
                 var iv2 = LCRNG.Next16(ref seed);
@@ -107,9 +102,17 @@ public static class GenerateMethodJ
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodJ.GetSeed(enc, seed, enc, 4);
+            var lead = MethodJ.GetSeed(enc, seed, criteria.ForceMinLevelRange);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
+
+            if (MethodJ.IsLevelRand(enc))
+            {
+                var lv = MethodJ.SkipToLevelRand(enc, lead.Seed) >> 16;
+                var actual = MethodJ.GetRandomLevel(enc, lv, lead.Lead);
+                if (pk.MetLevel != actual)
+                    pk.MetLevel = pk.CurrentLevel = (byte)actual;
+            }
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);

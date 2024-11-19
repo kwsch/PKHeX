@@ -60,7 +60,7 @@ public static class GenerateMethodK
                     break; // try again
 
                 if (randLevel)
-                    pk.MetLevel = pk.CurrentLevel = (byte)((lv % (enc.LevelMax - enc.LevelMin + 1)) + enc.LevelMin);
+                    pk.MetLevel = pk.CurrentLevel = (byte)MethodK.GetRandomLevel(enc, lv, LeadRequired.None);
                 pk.PID = pid;
                 var iv1 = LCRNG.Next16(ref seed);
                 var iv2 = LCRNG.Next16(ref seed);
@@ -106,9 +106,17 @@ public static class GenerateMethodK
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodK.GetSeed(enc, seed, enc, 4);
+            var lead = MethodK.GetSeed(enc, seed, criteria.ForceMinLevelRange);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
+
+            if (MethodK.IsLevelRand(enc))
+            {
+                var lv = MethodK.SkipToLevelRand(enc, lead.Seed, lead.Lead) >> 16;
+                var actual = MethodK.GetRandomLevel(enc, lv, lead.Lead);
+                if (pk.MetLevel != actual)
+                    pk.MetLevel = pk.CurrentLevel = (byte)actual;
+            }
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);

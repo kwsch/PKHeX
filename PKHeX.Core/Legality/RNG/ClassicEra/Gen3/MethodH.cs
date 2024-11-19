@@ -18,7 +18,7 @@ public static class MethodH
     /// <param name="evo">Level range constraints for the capture, if known.</param>
     /// <param name="emerald">Version encountered in (either Emerald or not)</param>
     /// <param name="gender">Gender encountered as</param>
-    /// <param name="format">Current format (different from 3)</param>
+    /// <param name="format">Current format (different from 3 will use level range instead of exact)</param>
     public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, bool emerald, byte gender, byte format)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
@@ -32,9 +32,10 @@ public static class MethodH
         return GetOriginSeed(info, enc, seed, nature, evo.LevelMin, evo.LevelMax, format);
     }
 
+    /// <remarks>Used when generating or ignoring level ranges.</remarks>
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, byte gender, byte format)
-        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender, format);
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, byte gender, bool minLevel = false)
+        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender, minLevel ? (byte)3 : (byte)0);
 
     // Summary of Random Determinations:
     // Nature:                       rand() % 25 == nature
@@ -202,6 +203,18 @@ public static class MethodH
     }
 
     public static bool IsEncounterCheckApplicable(SlotType3 type) => type is Rock_Smash; // Fishing can use Sticky/Suction along with Friendship boost.
+
+    /// <inheritdoc cref="MethodK.SkipToLevelRand{T}"/>
+    public static uint SkipToLevelRand<T>(T enc, uint seed)
+        where T : IEncounterSlot3
+    {
+        if (enc.Type is Rock_Smash)
+            return LCRNG.Next3(seed); // Proc, ESV, level.
+        if (enc.Type.IsFishingRodType())
+            return LCRNG.Next2(seed); // ESV, level.
+        // Can sweet scent trigger.
+        return LCRNG.Next2(seed); // ESV, level.
+    }
 
     public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot3
@@ -570,7 +583,13 @@ public static class MethodH
 
     private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
     {
-        var level = GetExpectedLevel(enc, u16LevelRand);
+        var level = GetRandomLevel(enc, u16LevelRand);
+        return IsOriginalLevelValid(min, max, format, level);
+    }
+
+    private static bool IsLevelValidMinus1<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
+    {
+        var level = GetRandomLevelMinus1(enc, u16LevelRand);
         return IsOriginalLevelValid(min, max, format, level);
     }
 
@@ -581,20 +600,21 @@ public static class MethodH
         return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
     }
 
-    private static uint GetExpectedLevel<T>(T enc, uint u16LevelRand) where T : ILevelRange
+    public static uint GetRandomLevel<T>(T enc, uint u16LevelRand, LeadRequired lead) where T : ILevelRange => lead switch
+    {
+        PressureHustleSpiritFail => GetRandomLevelMinus1(enc, u16LevelRand),
+        PressureHustleSpirit => enc.LevelMax,
+        _ => GetRandomLevel(enc, u16LevelRand),
+    };
+
+    private static uint GetRandomLevel<T>(T enc, uint u16LevelRand) where T : ILevelRange
     {
         var min = enc.LevelMin;
         uint mod = 1u + enc.LevelMax - min;
         return (u16LevelRand % mod) + min;
     }
 
-    private static bool IsLevelValidMinus1<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : ILevelRange
-    {
-        var level = GetExpectedLevelMinus1(enc, u16LevelRand);
-        return IsOriginalLevelValid(min, max, format, level);
-    }
-
-    private static uint GetExpectedLevelMinus1<T>(T enc, uint u16LevelRand) where T : ILevelRange
+    private static uint GetRandomLevelMinus1<T>(T enc, uint u16LevelRand) where T : ILevelRange
     {
         var min = enc.LevelMin;
         uint mod = 1u + enc.LevelMax - min;
