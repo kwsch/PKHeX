@@ -486,7 +486,7 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             pk.SID16 = tr.SID16;
         }
 
-        var date = IsDateRestricted && EncounterServerDate.WB8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : EncounterDate.GetDateSwitch();
+        var date = IsDateRestricted && EncounterServerDate.WA8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : EncounterDate.GetDateSwitch();
         if (IsDateLockJapanese && language != (int)LanguageID.Japanese && date < new DateOnly(2022, 5, 20)) // 2022/05/18
             date = new DateOnly(2022, 5, 20); // Pick a better Start date that can be the language we're generating for.
         pk.MetDate = date;
