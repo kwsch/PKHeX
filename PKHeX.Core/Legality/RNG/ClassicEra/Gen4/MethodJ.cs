@@ -30,9 +30,16 @@ public static class MethodJ
     }
 
     /// <remarks>Used when generating or ignoring level ranges.</remarks>
-    /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool minLevel = false) where TEnc : IEncounterSlot4
-        => GetSeed(enc, seed, enc, minLevel ? (byte)4 : (byte)0);
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed) where TEnc : IEncounterSlot4
+        => GetSeed(enc, seed, enc, 0);
+
+    /// <remarks>Used when generating with specific level ranges.</remarks>
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo)
+        where TEnc : IEncounterSlot4
+        where TEvo : ILevelRange
+        => GetSeed(enc, seed, evo, 4);
 
     // Summary of Random Determinations:
     // For constant-value rand choices, the games avoid using modulo via:

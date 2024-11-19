@@ -121,9 +121,16 @@ public static class Encounter9RNG
         var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (Nature)rand.NextInt(25);
-        if (criteria.Nature != Nature.Random && nature != criteria.Nature)
-            return false;
         pk.Nature = pk.StatNature = nature;
+
+        // Compromise on Nature -- some are fixed, some are random. If the request wants a specific nature, just mint it.
+        var requestNature = criteria.Nature;
+        if (criteria.Nature != Nature.Random && nature != requestNature)
+        {
+            if (!requestNature.IsMint())
+                return false;
+            pk.StatNature = requestNature;
+        }
 
         pk.HeightScalar = enc.Height != 0 ? enc.Height : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
         pk.WeightScalar = enc.Weight != 0 ? enc.Weight : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));

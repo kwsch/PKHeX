@@ -134,15 +134,26 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
     }
 }
 
+/// <summary>
+/// Wild Encounter data <see cref="IEncounterTemplate"/> Type
+/// </summary>
 public enum SlotType3 : byte
 {
+    /// <summary> Grass tiles </summary>
     Grass = 0,
+    /// <summary> Water tiles </summary>
     Surf = 1,
+    /// <summary> Fishing with Old Rod </summary>
     Old_Rod = 2,
+    /// <summary> Fishing with Good Rod </summary>
     Good_Rod = 3,
+    /// <summary> Fishing with Super Rod </summary>
     Super_Rod = 4,
+    /// <summary> Using Rock Smash move </summary>
     Rock_Smash = 5,
 
+    /// <summary> Swarm in grass tiles </summary>
     SwarmGrass50 = 6,
+    /// <summary> Swarm in water tiles </summary>
     SwarmFish50 = 7,
 }

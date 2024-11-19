@@ -106,7 +106,9 @@ public static class GenerateMethodK
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodK.GetSeed(enc, seed, criteria.ForceMinLevelRange);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodK.GetSeed(enc, seed, criteria)
+                : MethodK.GetSeed(enc, seed);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
 

@@ -120,7 +120,9 @@ public static class GenerateMethodH
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodH.GetSeed(enc, seed, pk.E, gender, criteria.ForceMinLevelRange);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
+                : MethodH.GetSeed(enc, seed, pk.E, gender);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
 
@@ -155,7 +157,9 @@ public static class GenerateMethodH
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodH.GetSeed(enc, seed, pk.E, gender, criteria.ForceMinLevelRange);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
+                : MethodH.GetSeed(enc, seed, pk.E, gender);
             if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
                 continue;
 
@@ -203,7 +207,7 @@ public static class GenerateMethodH
                     continue;
                 seed = LCRNG.Prev(seed);
             }
-            var lead = MethodH.GetSeed(enc, seed, false, 2, criteria.ForceMinLevelRange);
+            var lead = MethodH.GetSeed(enc, seed, false, 2);
             if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
                 continue;
 
@@ -229,7 +233,7 @@ public static class GenerateMethodH
             var form = EntityPID.GetUnownForm3(pid);
             if (form != enc.Form)
                 continue;
-            var lead = MethodH.GetSeed(enc, seed, false, 2, criteria.ForceMinLevelRange);
+            var lead = MethodH.GetSeed(enc, seed, false, 2);
             if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
                 continue;
 

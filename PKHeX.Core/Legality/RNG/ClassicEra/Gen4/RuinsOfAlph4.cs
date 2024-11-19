@@ -5,25 +5,35 @@ namespace PKHeX.Core;
 public static class RuinsOfAlph4
 {
     /// <summary>
-    /// Checks if the requested <see cref="form"/> is valid for the given seed.
+    /// Checks if the requested <see cref="form"/> is valid for the given result.
     /// </summary>
-    public static bool IsUnownFormValid(PKM pk, byte form)
+    public static bool IsFormValid(PKM pk, byte form)
     {
         if (!MethodFinder.GetLCRNGMethod1Match(pk, out var seed))
             return true; // invalid anyway, don't care.
-
-        // ABCD|E(Item)|F(Form) determination
-        var f = LCRNG.Next6(seed);
-        return IsFormValid(form, f);
+        return IsFormValid(seed, form);
     }
 
     /// <summary>
     /// Checks if the requested <see cref="form"/> is valid for the given seed.
     /// </summary>
+    /// <param name="seed">Seed that originated the PID/IV.</param>
     /// <param name="form">Form to validate</param>
+    /// <returns>True if the form is valid</returns>
+    public static bool IsFormValid(uint seed, byte form)
+    {
+        // ABCD|E(Item)|F(Form) determination
+        var f = LCRNG.Next6(seed);
+        return IsFormValidFrame(f, form);
+    }
+
+    /// <summary>
+    /// Checks if the requested <see cref="form"/> is valid for the given frame seed that calculates form.
+    /// </summary>
     /// <param name="seed">RNG state that determines the form</param>
-    /// <returns></returns>
-    public static bool IsFormValid(byte form, uint seed)
+    /// <param name="form">Form to validate</param>
+    /// <returns>True if the form is valid</returns>
+    public static bool IsFormValidFrame(uint seed, byte form)
     {
         if (form >= 26) // Entrance
             return form == GetEntranceForm(seed);

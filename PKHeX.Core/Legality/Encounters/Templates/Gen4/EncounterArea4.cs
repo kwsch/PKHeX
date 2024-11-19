@@ -128,11 +128,14 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
         58, // 20 Floaroma Meadow
     ];
 
+    /// <summary>
+    /// Checks if the Unown form is valid for the given <see cref="PKM"/>.
+    /// </summary>
     public static bool IsUnownFormValid(PKM pk, byte form)
     {
         return pk.HGSS
-            ?   RuinsOfAlph4.IsUnownFormValid(pk, form)
-            : SolaceonRuins4.IsUnownFormValid(pk, form);
+            ?   RuinsOfAlph4.IsFormValid(pk, form)
+            : SolaceonRuins4.IsFormValid(pk, form);
     }
 }
 
@@ -143,28 +146,54 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
 /// Different from <see cref="GroundTileAllowed"/>, this corresponds to the method that the <see cref="IEncounterTemplate"/> may be encountered.</remarks>
 public enum SlotType4 : byte
 {
+    /// <summary> Grass tiles </summary>
     Grass = 0,
+    /// <summary> Water tiles </summary>
     Surf = 1,
+    /// <summary> Fishing with Old Rod </summary>
     Old_Rod = 2,
+    /// <summary> Fishing with Good Rod </summary>
     Good_Rod = 3,
+    /// <summary> Fishing with Super Rod </summary>
     Super_Rod = 4,
+    /// <summary> Using Rock Smash move </summary>
     Rock_Smash = 5,
 
+    /// <summary> Using Headbutt on capable trees </summary>
     Headbutt = 6,
+    /// <summary> Using Headbutt on special trees </summary>
     HeadbuttSpecial = 7,
+    /// <summary> Grass tiles during a Bug Catching Contest </summary>
     BugContest = 8,
+    /// <summary> Shaking Honey Trees </summary>
     HoneyTree = 9,
 
+    /// <summary> Grass tiles in the Safari Zone </summary>
     Safari_Grass = 10,
+    /// <summary> Water tiles in the Safari Zone </summary>
     Safari_Surf = 11,
+    /// <summary> Fishing with Old Rod in the Safari Zone </summary>
     Safari_Old_Rod = 12,
+    /// <summary> Fishing with Good Rod in the Safari Zone </summary>
     Safari_Good_Rod = 13,
+    /// <summary> Fishing with Super Rod in the Safari Zone </summary>
     Safari_Super_Rod = 14,
 }
 
 public static class SlotType4Extensions
 {
+    /// <summary>
+    /// Checks if the <see cref="type"/> is an encounter within the Safari Zone.
+    /// </summary>
     public static bool IsSafari(this SlotType4 type) => type >= SlotType4.Safari_Grass;
+
+    /// <summary>
+    /// Checks if the <see cref="type"/> has a level range that is random. For D/P/Pt; this is all types except Grass.
+    /// </summary>
     public static bool IsLevelRandDPPt(this SlotType4 type) => type != SlotType4.Grass;
+
+    /// <summary>
+    /// Checks if the <see cref="type"/> has a level range that is random. For HG/SS; this is all types except Grass and Safari.
+    /// </summary>
     public static bool IsLevelRandHGSS(this SlotType4 type) => type != SlotType4.Grass && !type.IsSafari();
 }

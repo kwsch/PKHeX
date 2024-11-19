@@ -75,7 +75,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             {
                 // Give a random level according to the RNG correlation.
                 var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
-                if (criteria.ForceMinLevelRange && lvl != LevelMin)
+                if (criteria.IsSpecifiedLevelRange() && !criteria.IsLevelRangeSatisfied(lvl))
                     continue;
                 pk.MetLevel = pk.CurrentLevel = lvl;
             }

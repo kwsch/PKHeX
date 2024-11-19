@@ -33,9 +33,17 @@ public static class MethodH
     }
 
     /// <remarks>Used when generating or ignoring level ranges.</remarks>
-    /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, byte gender, bool minLevel = false)
-        where TEnc : IEncounterSlot3 => GetSeed(enc, seed, enc, emerald, gender, minLevel ? (byte)3 : (byte)0);
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, bool, byte, byte)"/>
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, byte gender)
+        where TEnc : IEncounterSlot3
+        => GetSeed(enc, seed, enc, emerald, gender, 0);
+
+    /// <remarks>Used when generating with specific level ranges.</remarks>
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, bool, byte, byte)"/>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, bool emerald, byte gender, TEvo evo)
+        where TEnc : IEncounterSlot3
+        where TEvo : ILevelRange
+        => GetSeed(enc, seed, evo, emerald, gender, 3);
 
     // Summary of Random Determinations:
     // Nature:                       rand() % 25 == nature

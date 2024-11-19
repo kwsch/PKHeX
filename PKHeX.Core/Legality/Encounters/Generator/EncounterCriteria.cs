@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Object that can be fed to a <see cref="IEncounterConvertible"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
 /// </summary>
-public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShinyPotential
+public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShinyPotential, ILevelRange
 {
     /// <summary>
     /// Default criteria with no restrictions (random) for all fields.
@@ -36,10 +36,8 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     public sbyte IV_SPD { get; init; } = RandomIV;
     public sbyte IV_SPE { get; init; } = RandomIV;
 
-    /// <summary>
-    /// If the Encounter yields variable level ranges (e.g. RNG correlation), force the minimum level instead of yielding first match.
-    /// </summary>
-    public bool ForceMinLevelRange { get; set; }
+    public byte LevelMin { get; set; }
+    public byte LevelMax { get; set; }
 
     public sbyte TeraType { get; init; } = -1;
 
@@ -49,6 +47,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     private const int RandomIV = -1;
 
     public bool IsSpecifiedNature() => Nature != Nature.Random;
+    public bool IsSpecifiedLevelRange() => LevelMin != 0;
     public bool IsSpecifiedTeraType() => TeraType != -1;
 
     public bool IsSpecifiedIVs() => IV_HP != RandomIV
@@ -57,6 +56,8 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
                                 && IV_SPA != RandomIV
                                 && IV_SPD != RandomIV
                                 && IV_SPE != RandomIV;
+
+    public bool IsLevelRangeSatisfied(byte level) => LevelMin <= level && level <= LevelMax;
 
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
