@@ -47,7 +47,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     private const int RandomIV = -1;
 
     public bool IsSpecifiedNature() => Nature != Nature.Random;
-    public bool IsSpecifiedLevelRange() => LevelMin != 0;
+    public bool IsSpecifiedLevelRange() => LevelMax != 0;
     public bool IsSpecifiedTeraType() => TeraType != -1;
 
     public bool IsSpecifiedIVs() => IV_HP != RandomIV
