@@ -64,6 +64,7 @@
 0541	*	Solved Ruins of Alph Flash wall puzzle
 0543	*	Solved Ruins of Alph Water Stone wall puzzle
 0545	*	Solved Ruins of Alph Ho-Oh wall puzzle
+0376	s	Lost to Giovanni once (Celebi Event)
 1366	t	Defeated Policeman Keith (Night)
 1440	t	Defeated Policeman Dirk (Night)
 0693	t	Had Whitney Rematch
