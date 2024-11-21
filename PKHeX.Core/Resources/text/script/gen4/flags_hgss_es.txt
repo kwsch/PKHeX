@@ -64,6 +64,7 @@
 0541	*	Puzle de Destello en la pared de las Ruinas Alfa resuelto
 0543	*	Puzle de Piedra agua en la pared de las Ruinas Alfa resuelto
 0545	*	Puzle de Ho-Oh en la pared de las Ruinas Alfa resuelto
+0376	s	Lost to Giovanni once (Celebi Event)
 1366	t	Policía Alejo derrotado (Noche)
 1440	t	Policía Donato derrotado (Noche)
 0693	t	Revancha contra Whitney
