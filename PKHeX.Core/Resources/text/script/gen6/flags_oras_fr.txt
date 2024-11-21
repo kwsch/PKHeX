@@ -86,7 +86,7 @@
 0166	g	Traded for Makuhita in Rustboro City
 0167	g	Traded for Skitty in Fortree City
 0168	g	Traded for Corsola in Pacifidlog Town
-0692	s	Defeated Winstrate Family
+0692	s	Famille Stratège Vaincu
 0806	s	Steven Disappeared from Route 120 Bridge
 0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
 0699	s	Steven and Lati@s Disappeared from Route 118
