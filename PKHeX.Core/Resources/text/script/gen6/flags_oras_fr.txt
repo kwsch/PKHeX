@@ -20,7 +20,7 @@
 0516	r	Latios Disparu
 2931	r	Latios Capturé
 3010	e	Reçu Passe Éon
-3011	e	Évt. Ticket Éon Complété
+3011	e	Évt. Passe Éon Complété
 1041	r	Deoxys Disparu @ Pilier Céleste
 2938	r	Deoxys Capturé @ Pilier Céleste
 0269	r	Raikou Vaincu
