@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,7 +16,7 @@ public partial class SAV_GameSelect : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         L_Prompt.Text = string.Join(Environment.NewLine + Environment.NewLine, lines);
         CB_Game.InitializeBinding();
-        CB_Game.DataSource = new BindingSource(items.ToList(), null);
+        CB_Game.DataSource = new BindingSource(items.ToList(), string.Empty);
         CB_Game.SelectedIndex = 0;
         CB_Game.Focus();
     }

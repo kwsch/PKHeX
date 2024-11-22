@@ -47,6 +47,8 @@ public sealed class MovePPVerifier : Verifier
         ReadOnlySpan<ushort> moves = [pk.Move1, pk.Move2, pk.Move3, pk.Move4];
         ReadOnlySpan<int> pp = [pk.Move1_PP, pk.Move2_PP, pk.Move3_PP, pk.Move4_PP];
 
+        bool expectHeal = !data.IsStoredSlot(StorageSlotType.Party) && GetIsStoredHealed(pk);
+
         if (!Legal.IsPPUpAvailable(pk)) // No PP Ups for format
         {
             for (int i = 0; i < ups.Length; i++)
@@ -66,8 +68,22 @@ public sealed class MovePPVerifier : Verifier
 
         for (int i = 0; i < pp.Length; i++)
         {
-            if (pp[i] > pk.GetMovePP(moves[i], ups[i]))
+            var expect = pk.GetMovePP(moves[i], ups[i]);
+            if (pp[i] > expect)
                 data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, i + 1)));
+            else if (expectHeal && pp[i] != expect)
+                data.AddLine(GetInvalid(string.Format(LMovePPExpectHealed_0, i + 1)));
         }
     }
+
+    /// <summary>
+    /// Checks if the format is expected to have the Pokémon healed to full PP.
+    /// </summary>
+    private static bool GetIsStoredHealed(PKM pk) => pk switch
+    {
+        PB7 => false,
+        PK8 or PA8 or PB8 => false,
+        PK9 => false,
+        _ => true,
+    };
 }

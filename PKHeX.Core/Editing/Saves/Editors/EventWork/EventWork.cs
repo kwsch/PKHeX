@@ -14,7 +14,7 @@ public sealed class EventWork<T> : EventVar where T : struct
     /// <summary>
     /// Values with known behavior. They are labeled with a humanized string.
     /// </summary>
-    public readonly IList<EventWorkVal> Options = new List<EventWorkVal> { new() };
+    public readonly List<EventWorkVal> Options = [new()];
 
     public EventWork(int index, EventVarType t, IReadOnlyList<string> pieces) : base(index, t, pieces[1])
     {

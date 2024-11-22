@@ -1100,7 +1100,8 @@ public partial class Main : Form
 
         var qr = QREncode.GenerateQRCode(pk);
 
-        var sprite = dragout.Image;
+        if (dragout.Image is not Bitmap sprite)
+            return;
         var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
         if (la.Parsed && pk.Species != 0)
         {
@@ -1214,6 +1215,7 @@ public partial class Main : Form
         e.Effect = DragDropEffects.Copy;
     }
 
+    // ReSharper disable once AsyncVoidMethod
     private async void Dragout_MouseDown(object sender, MouseEventArgs e)
     {
         if (e.Button != MouseButtons.Left)
@@ -1292,17 +1294,24 @@ public partial class Main : Form
 
     private async void Main_FormClosing(object sender, FormClosingEventArgs e)
     {
-        if (C_SAV.SAV.State.Edited || PKME_Tabs.PKMIsUnsaved)
+        try
         {
-            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramCloseUnsaved, MsgProgramCloseConfirm);
-            if (prompt != DialogResult.Yes)
+            if (C_SAV.SAV.State.Edited || PKME_Tabs.PKMIsUnsaved)
             {
-                e.Cancel = true;
-                return;
+                var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramCloseUnsaved, MsgProgramCloseConfirm);
+                if (prompt != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
             }
-        }
 
-        await PKHeXSettings.SaveSettings(ConfigPath, Settings).ConfigureAwait(false);
+            await PKHeXSettings.SaveSettings(ConfigPath, Settings).ConfigureAwait(false);
+        }
+        catch
+        {
+            // Ignore; program is shutting down.
+        }
     }
 
     #endregion

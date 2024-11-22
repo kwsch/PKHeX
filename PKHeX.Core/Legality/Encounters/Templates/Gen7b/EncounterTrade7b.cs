@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 LGP/E Trade Encounter
 /// </summary>
-public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEncounterMatch, IFixedTrainer, IEncounterConvertible<PB7>
+public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedIVSet, IEncounterConvertible<PB7>
 {
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;

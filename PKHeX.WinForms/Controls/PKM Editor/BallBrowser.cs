@@ -17,20 +17,21 @@ public partial class BallBrowser : Form
 
     public void LoadBalls(PKM pk)
     {
-        var legal = BallApplicator.GetLegalBalls(pk);
-        LoadBalls(legal, pk.MaxBallID + 1);
+        Span<Ball> valid = stackalloc Ball[BallApplicator.MaxBallSpanAlloc];
+        var legal = BallApplicator.GetLegalBalls(valid, pk);
+        LoadBalls(valid[..legal], pk.MaxBallID);
     }
 
-    private void LoadBalls(IEnumerable<Ball> legal, int max)
+    private void LoadBalls(ReadOnlySpan<Ball> legal, int max)
     {
-        Span<bool> flags = stackalloc bool[max];
+        Span<bool> flags = stackalloc bool[BallApplicator.MaxBallSpanAlloc];
         foreach (var ball in legal)
             flags[(int)ball] = true;
 
         int countLegal = 0;
         List<PictureBox> controls = [];
         var names = GameInfo.BallDataSource;
-        for (byte ballID = 1; ballID < flags.Length; ballID++)
+        for (byte ballID = 1; ballID <= max; ballID++)
         {
             var name = GetBallName(ballID, names);
             var pb = GetBallView(ballID, name, flags[ballID]);

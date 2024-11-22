@@ -47,7 +47,7 @@ public partial class SAV_PokedexSWSH : Form
         // Fill List
         CB_Species.InitializeBinding();
         var species = GameInfo.FilteredSources.Species.Where(z => Dex.DexLookup.ContainsKey((ushort)z.Value)).ToArray();
-        CB_Species.DataSource = new BindingSource(species, null);
+        CB_Species.DataSource = new BindingSource(species, string.Empty);
 
         var names = Indexes.Select(z => z.GetEntryName(speciesNames) + (Dex.DexLookup[z.Species].DexType == z.Entry.DexType ? string.Empty : "***"));
         foreach (var n in names)

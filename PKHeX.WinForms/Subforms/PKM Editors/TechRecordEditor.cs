@@ -93,7 +93,7 @@ public partial class TechRecordEditor : Form
         {
             var row = dgv.Rows[i];
             var index = int.Parse(row.Cells[ColumnIndex].Value?.ToString() ?? "");
-            Record.SetMoveRecordFlag(index, (bool)row.Cells[ColumnHasFlag].Value);
+            Record.SetMoveRecordFlag(index, (bool)row.Cells[ColumnHasFlag].Value!);
         }
     }
 
@@ -137,7 +137,7 @@ public partial class TechRecordEditor : Form
 
         // Toggle the checkbox of cell 0
         var cell = row.Cells[ColumnHasFlag];
-        cell.Value = !(bool)cell.Value;
+        cell.Value = !(bool)cell.Value!;
     }
 
     private void PressKeyCell(object sender, KeyEventArgs e)
@@ -151,7 +151,7 @@ public partial class TechRecordEditor : Form
 
         // Toggle the checkbox of cell 0
         var cell = row.Cells[ColumnHasFlag];
-        cell.Value = !(bool)cell.Value;
+        cell.Value = !(bool)cell.Value!;
     }
 
     private void SortColumn(object sender, DataGridViewCellMouseEventArgs e)

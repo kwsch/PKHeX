@@ -119,7 +119,7 @@ public sealed partial class SAV_EventFlags2 : Form
             if (e.ColumnIndex != 0 || e.RowIndex == -1)
                 return;
 
-            bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
+            bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value!;
             var index = labels[e.RowIndex].Index;
             values[index] = chk;
             if (NUD_Flag.Value == index)
@@ -139,7 +139,7 @@ public sealed partial class SAV_EventFlags2 : Form
             if (e.ColumnIndex != 1)
                 return;
 
-            bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
+            bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value!;
             dgv.Rows[e.RowIndex].Cells[0].Value = !chk;
             var index = labels[e.RowIndex].Index;
             values[index] = !chk;

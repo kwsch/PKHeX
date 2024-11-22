@@ -17,7 +17,7 @@ public static class MethodJ
     /// <param name="enc">Encounter template.</param>
     /// <param name="seed">Seed that immediately generates the PID.</param>
     /// <param name="evo">Level range constraints for the capture, if known.</param>
-    /// <param name="format">Current format (different from 4)</param>
+    /// <param name="format">Current format (different from 4 will use level range instead of exact)</param>
     public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, byte format)
         where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
@@ -29,9 +29,17 @@ public static class MethodJ
         return GetOriginSeed(enc, seed, nature, frames, evo.LevelMin, evo.LevelMax, format);
     }
 
-    /// <inheritdoc cref="GetSeed{TEnc,TEvo}"/>
-    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, byte format)
-        where TEnc : IEncounterSlot4 => GetSeed(enc, seed, enc, format);
+    /// <remarks>Used when generating or ignoring level ranges.</remarks>
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
+    public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed) where TEnc : IEncounterSlot4
+        => GetSeed(enc, seed, enc, 0);
+
+    /// <remarks>Used when generating with specific level ranges.</remarks>
+    /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo)
+        where TEnc : IEncounterSlot4
+        where TEvo : ILevelRange
+        => GetSeed(enc, seed, evo, 4);
 
     // Summary of Random Determinations:
     // For constant-value rand choices, the games avoid using modulo via:
@@ -95,6 +103,19 @@ public static class MethodJ
 
     public static bool IsEncounterCheckApplicable(SlotType4 type) => type is HoneyTree || type.IsFishingRodType();
 
+    /// <inheritdoc cref="MethodK.SkipToLevelRand{T}"/>
+    public static uint SkipToLevelRand<T>(T enc, uint seed)
+        where T : IEncounterSlot4
+    {
+        if (enc.Type is HoneyTree)
+            return LCRNG.Next(seed); // Honey Tree: No ESV, just the level.
+        if (!enc.Type.IsFishingRodType())
+            return LCRNG.Next2(seed); // ESV, level.
+        if (enc is EncounterSlot4 { Parent.IsCoronetFeebasArea: true })
+            return LCRNG.Next4(seed); // Proc, Tile, ESV, level.
+        return LCRNG.Next3(seed); // Proc, ESV, level.
+    }
+
     public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
         where T : IEncounterSlot4
     {
@@ -142,7 +163,7 @@ public static class MethodJ
         return true;
     }
 
-    private static bool IsValidCoronetB1F(ISpeciesForm s4, ref uint result)
+    private static bool IsValidCoronetB1F<T>(T s4, ref uint result) where T : ISpeciesForm
     {
         // The game rolls to check if it might need to replace the slots with Feebas.
         // This occurs in Mt. Coronet B1F; if passed, check if the player is on a Feebas tile before replacing.
@@ -445,7 +466,7 @@ public static class MethodJ
 
     private static bool IsLevelValid<T>(T enc, byte min, byte max, byte format, uint u16LevelRand) where T : IEncounterSlot4
     {
-        var level = enc.Type is HoneyTree ? GetHoneyTreeLevel(u16LevelRand) : GetExpectedLevel(enc, u16LevelRand);
+        var level = GetRandomLevel(enc, u16LevelRand);
         return IsOriginalLevelValid(min, max, format, level);
     }
 
@@ -456,8 +477,17 @@ public static class MethodJ
         return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
     }
 
-    private static uint GetExpectedLevel<T>(T enc, uint u16LevelRand) where T : ILevelRange
+    public static uint GetRandomLevel<T>(T enc, uint seed, LeadRequired lead) where T : IEncounterSlot4
     {
+        if (lead is PressureHustleSpirit)
+            return enc.PressureLevel;
+        return GetRandomLevel(enc, seed);
+    }
+
+    private static uint GetRandomLevel<T>(T enc, uint u16LevelRand) where T : IEncounterSlot4
+    {
+        if (enc.Type is HoneyTree)
+            return GetHoneyTreeLevel(u16LevelRand);
         var min = enc.LevelMin;
         uint mod = 1u + enc.LevelMax - min;
         return (u16LevelRand % mod) + min;

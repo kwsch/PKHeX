@@ -671,7 +671,7 @@ public static class MethodFinder
         pidiv = PIDIV.None;
         return false;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static PIDIV AnalyzeGB(PKM _)
     {

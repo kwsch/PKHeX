@@ -87,7 +87,6 @@ public sealed class EncounterGift3NY(ushort Species, Distribution3NY Distributio
             pk.PID = pid;
             pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
             pk.RefreshAbility((int)(pid & 1));
-            pk.OriginalTrainerGender = (byte)GetGender(LCRNG.Next16(ref seed));
             return;
         }
     }
@@ -96,7 +95,7 @@ public sealed class EncounterGift3NY(ushort Species, Distribution3NY Distributio
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         // Gen3 Version MUST match.
-        if (Version != 0 && !Version.Contains(pk.Version))
+        if (pk.Version is not (GameVersion.R or GameVersion.S))
             return false;
 
         if (pk.IsEgg)
@@ -168,14 +167,6 @@ public sealed class EncounterGift3NY(ushort Species, Distribution3NY Distributio
         if (type is not PIDType.BACD_AX)
             return false;
 
-        var seed = value.OriginSeed;
-        var rand5 = LCRNG.Next5(seed) >> 16;
-        var expect = GetGender(rand5);
-        if (pk.OriginalTrainerGender != expect)
-            return false;
-
         return true; // Table weight -> gift selection is a separate RNG, nothing to check!
     }
-
-    private static uint GetGender(uint rand16) => CommonEvent3.GetGenderBit7(rand16);
 }

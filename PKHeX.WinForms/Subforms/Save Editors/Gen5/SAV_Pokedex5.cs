@@ -26,7 +26,7 @@ public partial class SAV_Pokedex5 : Form
 
         // Fill List
         CB_Species.InitializeBinding();
-        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
+        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), string.Empty);
 
         for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
             LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.Species[i]}");

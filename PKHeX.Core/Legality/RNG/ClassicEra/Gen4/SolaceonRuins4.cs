@@ -7,7 +7,7 @@ public static class SolaceonRuins4
     /// <summary>
     /// Checks if the requested <see cref="form"/> is valid for the given seed.
     /// </summary>
-    public static bool IsUnownFormValid(PKM pk, byte form)
+    public static bool IsFormValid(PKM pk, byte form)
     {
         if (IsSingleFormRoomUnown(form))
             return true; // FRIEND: Specific rooms with only one form.
@@ -17,6 +17,7 @@ public static class SolaceonRuins4
         if (!MethodFinder.GetLCRNGMethod1Match(pk, out var seed))
             return true; // invalid anyway, don't care.
 
+        // ABCD|E(Item)|F(Form) determination
         var f = LCRNG.Next6(seed) >> 16;
         var expect = GetUnownForm(f, form);
         return expect == form;

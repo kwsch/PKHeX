@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.Ball;
 
 namespace PKHeX.Core;
@@ -9,194 +8,148 @@ namespace PKHeX.Core;
 /// </summary>
 public static class BallApplicator
 {
+    private static readonly Ball[] BallList = Enum.GetValues<Ball>();
+
+    /// <summary>
+    /// Maximum number of <see cref="Ball"/> values that can be returned in a span.
+    /// </summary>
+    public const byte MaxBallSpanAlloc = (byte)LAOrigin + 1;
+
+    private static IEncounterTemplate Get(LegalityAnalysis la) => la.EncounterOriginal;
+
+    /// <remarks>
+    /// Requires checking the <see cref="LegalityAnalysis"/>.
+    /// </remarks>
+    /// <inheritdoc cref="GetLegalBalls(Span{Ball}, PKM, IEncounterTemplate)"/>
+    public static int GetLegalBalls(Span<Ball> result, PKM pk) => GetLegalBalls(result, pk, new LegalityAnalysis(pk));
+
+    /// <inheritdoc cref="GetLegalBalls(Span{Ball}, PKM, IEncounterTemplate)"/>
+    public static int GetLegalBalls(Span<Ball> result, PKM pk, LegalityAnalysis la) => GetLegalBalls(result, pk, Get(la));
+
     /// <summary>
     /// Gets all balls that are legal for the input <see cref="PKM"/>.
     /// </summary>
-    /// <remarks>
-    /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
-    /// </remarks>
+    /// <param name="result">Result storage.</param>
     /// <param name="pk">Pokémon to retrieve a list of valid balls for.</param>
-    /// <returns>Enumerable list of <see cref="Ball"/> values that the <see cref="PKM"/> is legal with.</returns>
-    public static IEnumerable<Ball> GetLegalBalls(PKM pk)
+    /// <param name="enc">Encounter matched to.</param>
+    /// <returns>Count of <see cref="Ball"/> values that the <see cref="PKM"/> is legal with.</returns>
+    public static int GetLegalBalls(Span<Ball> result, PKM pk, IEncounterTemplate enc)
     {
-        var clone = pk.Clone();
+        if (enc is EncounterInvalid)
+            return 0;
+        if (enc.Species is (ushort)Species.Nincada && pk.Species is (ushort)Species.Shedinja)
+            return GetLegalBallsEvolvedShedinja(result, pk, enc);
+        return LoadLegalBalls(result, pk, enc);
+    }
+
+    private static ReadOnlySpan<Ball> ShedinjaEvolve4 => [Sport, Poke];
+
+    private static int GetLegalBallsEvolvedShedinja(Span<Ball> result, PKM pk, IEncounterTemplate enc)
+    {
+        switch (enc)
+        {
+            case EncounterSlot4 when IsNincadaEvolveInOrigin(pk, enc):
+                ShedinjaEvolve4.CopyTo(result);
+                return ShedinjaEvolve4.Length;
+            case EncounterSlot3 when IsNincadaEvolveInOrigin(pk, enc):
+                return LoadLegalBalls(result, pk, enc);
+        }
+        result[0] = Poke;
+        return 1;
+    }
+
+    private static bool IsNincadaEvolveInOrigin(PKM pk, IEncounterTemplate enc)
+    {
+        // Rough check to see if Nincada evolved in the origin context (Gen3/4).
+        // Does not do PID/IV checks to know the original met level.
+        var current = pk.CurrentLevel;
+        var met = pk.MetLevel;
+        if (pk.Format == enc.Generation)
+            return current > met;
+        return enc.LevelMin != met && current > enc.LevelMin;
+    }
+
+    private static int LoadLegalBalls(Span<Ball> result, PKM pk, IEncounterTemplate enc)
+    {
+        int ctr = 0;
         foreach (var b in BallList)
         {
-            var ball = (byte)b;
-            clone.Ball = ball;
-            if (clone.Ball != ball)
-                continue; // Some setters guard against out of bounds values.
-            if (new LegalityAnalysis(clone).Valid)
-                yield return b;
+            if (BallVerifier.VerifyBall(enc, b, pk).IsValid())
+                result[ctr++] = b;
         }
+        return ctr;
     }
+
+    /// <remarks>
+    /// Requires checking the <see cref="LegalityAnalysis"/>.
+    /// </remarks>
+    /// <inheritdoc cref="ApplyBallLegalRandom(PKM, IEncounterTemplate)"/>
+    public static byte ApplyBallLegalRandom(PKM pk) => ApplyBallLegalRandom(pk, new LegalityAnalysis(pk));
+
+    /// <inheritdoc cref="ApplyBallLegalRandom(PKM, IEncounterTemplate)"/>
+    public static byte ApplyBallLegalRandom(PKM pk, LegalityAnalysis la) => ApplyBallLegalRandom(pk, Get(la));
 
     /// <summary>
     /// Applies a random legal ball value if any exist.
     /// </summary>
-    /// <remarks>
-    /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
-    /// </remarks>
     /// <param name="pk">Pokémon to modify.</param>
-    public static byte ApplyBallLegalRandom(PKM pk)
+    /// <param name="enc">Encounter matched to.</param>
+    public static byte ApplyBallLegalRandom(PKM pk, IEncounterTemplate enc)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
-        var count = GetBallListFromColor(pk, balls);
+        var count = GetLegalBalls(balls, pk, enc);
         balls = balls[..count];
         Util.Rand.Shuffle(balls);
-        return ApplyFirstLegalBall(pk, balls);
+        return ApplyFirstLegalBall(pk, balls, []);
     }
+
+    /// <remarks>
+    /// Requires checking the <see cref="LegalityAnalysis"/>.
+    /// </remarks>
+    /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
+    public static byte ApplyBallLegalByColor(PKM pk) => ApplyBallLegalByColor(pk, PersonalColorUtil.GetColor(pk));
+    /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
+    public static byte ApplyBallLegalByColor(PKM pk, PersonalColor color) => ApplyBallLegalByColor(pk, new LegalityAnalysis(pk), color);
+    /// <inheritdoc cref="ApplyBallLegalByColor(PKM, IEncounterTemplate, PersonalColor)"/>
+    public static byte ApplyBallLegalByColor(PKM pk, LegalityAnalysis la, PersonalColor color) => ApplyBallLegalByColor(pk, Get(la), color);
 
     /// <summary>
     /// Applies a legal ball value if any exist, ordered by color.
     /// </summary>
-    /// <remarks>
-    /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
-    /// </remarks>
     /// <param name="pk">Pokémon to modify.</param>
-    public static byte ApplyBallLegalByColor(PKM pk)
+    /// <param name="enc">Encounter matched to.</param>
+    /// <param name="color">Color preference to order by.</param>
+    public static byte ApplyBallLegalByColor(PKM pk, IEncounterTemplate enc, PersonalColor color)
     {
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
-        GetBallListFromColor(pk, balls);
-        return ApplyFirstLegalBall(pk, balls);
+        var count = GetLegalBalls(balls, pk, enc);
+        balls = balls[..count];
+        var prefer = PersonalColorUtil.GetPreferredByColor(enc, color);
+        return ApplyFirstLegalBall(pk, balls, prefer);
     }
 
-    /// <summary>
-    /// Applies a random ball value in a cyclical manner.
-    /// </summary>
-    /// <param name="pk">Pokémon to modify.</param>
-    public static byte ApplyBallNext(PKM pk)
+    private static byte ApplyFirstLegalBall(PKM pk, Span<Ball> legal, ReadOnlySpan<Ball> prefer)
     {
-        Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
-        GetBallList(pk.Ball, balls);
-        var next = balls[0];
-        return pk.Ball = (byte)next;
-    }
-
-    private static byte ApplyFirstLegalBall(PKM pk, ReadOnlySpan<Ball> balls)
-    {
-        var initial = pk.Ball;
-        foreach (var b in balls)
+        foreach (var ball in prefer)
         {
-            var test = (byte)b;
-            pk.Ball = test;
-            if (new LegalityAnalysis(pk).Valid)
-                return test;
+            if (Contains(legal, ball))
+                return pk.Ball = (byte)ball;
         }
-        return initial; // fail, revert
-    }
-
-    private static int GetBallList(byte ball, Span<Ball> result)
-    {
-        var balls = BallList;
-        var currentBall = (Ball)ball;
-        return GetCircularOnce(balls, currentBall, result);
-    }
-
-    private static int GetBallListFromColor(PKM pk, Span<Ball> result)
-    {
-        // Gen1/2 don't store color in personal info
-        var pi = pk.Format >= 3 ? pk.PersonalInfo : PersonalTable.USUM.GetFormEntry(pk.Species, 0);
-        var color = (PersonalColor)pi.Color;
-        var balls = BallColors[(int)color];
-        var currentBall = (Ball)pk.Ball;
-        return GetCircularOnce(balls, currentBall, result);
-    }
-
-    private static int GetCircularOnce<T>(T[] items, T current, Span<T> result)
-    {
-        var currentIndex = Array.IndexOf(items, current);
-        if (currentIndex < 0)
-            currentIndex = items.Length - 2;
-        return GetCircularOnce(items, currentIndex, result);
-    }
-
-    private static int GetCircularOnce<T>(ReadOnlySpan<T> items, int startIndex, Span<T> result)
-    {
-        var tail = items[(startIndex + 1)..];
-        tail.CopyTo(result);
-        items[..startIndex].CopyTo(result[tail.Length..]);
-        return items.Length;
-    }
-
-    private static readonly Ball[] BallList = Enum.GetValues<Ball>();
-    private static int MaxBallSpanAlloc => BallList.Length;
-
-    static BallApplicator()
-    {
-        ReadOnlySpan<Ball> exclude = [None, Poke];
-        ReadOnlySpan<Ball> end = [Poke];
-        Span<Ball> all = stackalloc Ball[BallList.Length - exclude.Length];
-        all = all[..FillExcept(all, exclude, BallList)];
-
-        var colors = Enum.GetValues<PersonalColor>();
-        foreach (var color in colors)
+        foreach (var ball in legal)
         {
-            int c = (int)color;
-            // Replace the array reference with a new array that appends non-matching values, followed by the end values.
-            var defined = BallColors[c];
-            Span<Ball> match = (BallColors[c] = new Ball[all.Length + end.Length]);
-            defined.CopyTo(match);
-            FillExcept(match[defined.Length..], defined, all);
-            end.CopyTo(match[^end.Length..]);
+            if (!Contains(prefer, ball))
+                return pk.Ball = (byte)ball;
         }
+        return pk.Ball; // fail
 
-        static int FillExcept(Span<Ball> result, ReadOnlySpan<Ball> exclude, ReadOnlySpan<Ball> all)
+        static bool Contains(ReadOnlySpan<Ball> balls, Ball ball)
         {
-            int ctr = 0;
-            foreach (var b in all)
+            foreach (var b in balls)
             {
-                if (Contains(exclude, b))
-                    continue;
-                result[ctr++] = b;
+                if (b == ball)
+                    return true;
             }
-            return ctr;
-
-            static bool Contains(ReadOnlySpan<Ball> arr, Ball b)
-            {
-                foreach (var a in arr)
-                {
-                    if (a == b)
-                        return true;
-                }
-                return false;
-            }
+            return false;
         }
-    }
-
-    /// <summary>
-    /// Priority Match ball IDs that match the color ID in descending order
-    /// </summary>
-    private static readonly Ball[][] BallColors =
-    [
-        /* Red */    [Cherish, Repeat, Fast, Heal, Great, Dream, Lure],
-        /* Blue */   [Dive, Net, Great, Beast, Lure],
-        /* Yellow */ [Level, Ultra, Repeat, Quick, Moon],
-        /* Green */  [Safari, Friend, Nest, Dusk],
-        /* Black */  [Luxury, Heavy, Ultra, Moon, Net, Beast],
-
-        /* Brown */  [Level, Heavy],
-        /* Purple */ [Master, Love, Dream, Heal],
-        /* Gray */   [Heavy, Premier, Luxury],
-        /* White */  [Premier, Timer, Luxury, Ultra],
-        /* Pink */   [Love, Dream, Heal],
-    ];
-
-    /// <summary>
-    /// Personal Data color IDs
-    /// </summary>
-    private enum PersonalColor : byte
-    {
-        Red,
-        Blue,
-        Yellow,
-        Green,
-        Black,
-
-        Brown,
-        Purple,
-        Gray,
-        White,
-        Pink,
     }
 }

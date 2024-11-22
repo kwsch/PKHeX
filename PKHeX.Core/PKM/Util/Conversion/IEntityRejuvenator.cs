@@ -104,7 +104,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         ResetBallPLA(result, enc);
     }
 
-    private static void ResetBallPLA(PKM result, IEncounterable enc)
+    private static void ResetBallPLA(PKM result, IEncounterTemplate enc)
     {
         if (result.Ball is >= (int)Ball.LAPoke and <= (int)Ball.LAOrigin)
             return;
@@ -114,7 +114,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             result.Ball = result.Species == (int)Species.Unown ? (byte)Ball.LAJet : (byte)Ball.LAPoke;
     }
 
-    private static void ResetDataPLA(LegalityAnalysis la, IEncounterable enc, PA8 pa8)
+    private static void ResetDataPLA(LegalityAnalysis la, IEncounterTemplate enc, PA8 pa8)
     {
         ResetRelearn(pa8, la);
 

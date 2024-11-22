@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
@@ -120,9 +120,9 @@ public partial class SAV_Underground8b : Form
             var index = int.Parse(cells[0].Value?.ToString() ?? "0");
             var item = items[index];
 
-            item.Count = int.TryParse(cells[3].Value.ToString(), out var count) ? count : 0;
-            item.HideNewFlag = !(bool)cells[4].Value;
-            item.IsFavoriteFlag = (bool)cells[5].Value;
+            item.Count = int.TryParse(cells[3].Value!.ToString(), out var count) ? count : 0;
+            item.HideNewFlag = !(bool)cells[4].Value!;
+            item.IsFavoriteFlag = (bool)cells[5].Value!;
         }
     }
 

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 4 Trade Encounter with a fixed PID value.
 /// </summary>
 public sealed record EncounterTrade4PID
-    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK4>, IContestStatsReadOnly, IMoveset, IFixedGender, IFixedNature
+    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedIVSet, IEncounterConvertible<PK4>, IContestStatsReadOnly, IMoveset, IFixedGender, IFixedNature
 {
     public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;

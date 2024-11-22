@@ -42,7 +42,7 @@ public class ConvertUtilTests
     public void CheckConvertHexString(string v, uint result)
     {
         var convert = Core.Util.GetBytesFromHexString(v);
-        var u32 = ReadUInt32LittleEndian(convert);
+        var u32 = ReadUInt32BigEndian(convert);
         u32.Should().Be(result);
 
         var remake = Core.Util.GetHexStringFromBytes(convert);

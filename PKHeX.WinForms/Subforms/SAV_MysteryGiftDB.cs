@@ -93,6 +93,10 @@ public partial class SAV_MysteryGiftDB : Form
         L_Viewed.Text = string.Empty; // invis for now
         L_Viewed.MouseEnter += (_, _) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
+        var settings = new TabPage { Text = "Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        TC_SearchSettings.Controls.Add(settings);
+
         // Load Data
         B_Search.Enabled = false;
         L_Count.Text = "Loading...";
@@ -210,7 +214,7 @@ public partial class SAV_MysteryGiftDB : Form
             foreach (var cb in arr)
             {
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(moves, null);
+                cb.DataSource = new BindingSource(moves, string.Empty);
             }
         }
 

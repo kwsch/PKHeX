@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.ORAS"/>.
 /// </summary>
 public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom, IEncounterDownlevel
 {
     public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
@@ -120,6 +120,8 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     private const int FluteBoostMin = 4; // White Flute decreases levels.
     private const int FluteBoostMax = 4; // Black Flute increases levels.
     private const int DexNavBoost = 29 + FluteBoostMax; // Maximum DexNav chain (95) and Flute.
+
+    public byte GetDownleveledMin() => (byte)(LevelMin - FluteBoostMin);
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {

@@ -27,7 +27,7 @@ public partial class SAV_Misc3 : Form
             ReadDecorations(h);
 
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), string.Empty);
             LoadPaintings();
         }
         else
@@ -64,7 +64,7 @@ public partial class SAV_Misc3 : Form
             {
                 cba[i].Items.Clear();
                 cba[i].InitializeBinding();
-                cba[i].DataSource = new BindingSource(legal, null);
+                cba[i].DataSource = new BindingSource(legal, string.Empty);
                 var g3Species = SAV.GetWork(0x43 + i);
                 var species = SpeciesConverter.GetNational3(g3Species);
                 cba[i].SelectedValue = (int)species;
@@ -604,7 +604,7 @@ public partial class SAV_Misc3 : Form
         int ctr = 0;
         for (int i = 0; i < data.Length; i++)
         {
-            var deco = (Decoration3)(int)dgv.Rows[i].Cells[0].Value;
+            var deco = (Decoration3)(int)dgv.Rows[i].Cells[0].Value!;
             if (deco == Decoration3.NONE) // Compression of Empty Slots
                 continue;
 

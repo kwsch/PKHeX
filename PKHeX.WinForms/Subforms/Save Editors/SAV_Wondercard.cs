@@ -435,7 +435,7 @@ public partial class SAV_Wondercard : Form
 
         string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 
-        using var form = new QR(qr, PB_Preview.Image, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org");
+        using var form = new QR(qr, PB_Preview.Image!, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org");
         form.ShowDialog();
     }
 
@@ -468,6 +468,7 @@ public partial class SAV_Wondercard : Form
             ViewGiftData(gift);
     }
 
+    // ReSharper disable once AsyncVoidMethod
     private async void BoxSlot_MouseDown(object? sender, MouseEventArgs e)
     {
         if (sender == null)

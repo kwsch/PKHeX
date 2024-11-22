@@ -255,7 +255,7 @@ public partial class SAV_Trainer : Form
         if (SAV is SAV6XY xy)
         {
             var xystat = (MyStatus6XY)xy.Status;
-            xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject;
+            xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject!;
             xystat.Nickname = TB_TRNick.Text;
         }
 

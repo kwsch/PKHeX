@@ -224,8 +224,8 @@ public partial class MemoryAmie : Form
         var strings = MemStrings;
         CB_OTMemory.InitializeBinding();
         CB_CTMemory.InitializeBinding();
-        CB_OTMemory.DataSource = new BindingSource(strings.Memory, null);
-        CB_CTMemory.DataSource = new BindingSource(strings.Memory, null);
+        CB_OTMemory.DataSource = new BindingSource(strings.Memory, string.Empty);
+        CB_CTMemory.DataSource = new BindingSource(strings.Memory, string.Empty);
 
         // Quality Chooser
         AddIntensity(this, strings.Species[0].Text); // None
@@ -258,7 +258,7 @@ public partial class MemoryAmie : Form
             var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
             var args = MemStrings.GetArgumentStrings(memIndex, memoryGen);
             CB_OTVar.InitializeBinding();
-            CB_OTVar.DataSource = new BindingSource(args, null);
+            CB_OTVar.DataSource = new BindingSource(args, string.Empty);
             LOTV.Text = TextArgs.GetMemoryCategory(memIndex, memoryGen);
             LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = args.Count > 1;
         }
@@ -269,7 +269,7 @@ public partial class MemoryAmie : Form
             var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
             var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
             CB_CTVar.InitializeBinding();
-            CB_CTVar.DataSource = new BindingSource(argvals, null);
+            CB_CTVar.DataSource = new BindingSource(argvals, string.Empty);
             LCTV.Text = TextArgs.GetMemoryCategory(memIndex, memoryGen);
             LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
         }

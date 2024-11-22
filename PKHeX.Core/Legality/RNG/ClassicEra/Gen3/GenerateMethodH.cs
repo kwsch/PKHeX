@@ -48,7 +48,12 @@ public static class GenerateMethodH
                 if (!criteria.IsGenderSatisfied(gender))
                     break; // try again
 
-                pk.MetLevel = pk.CurrentLevel = (byte)((lv % (enc.LevelMax - enc.LevelMin + 1)) + enc.LevelMin);
+                {
+                    var level = (byte)MethodH.GetRandomLevel(enc, lv, LeadRequired.None);
+                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsLevelRangeSatisfied(level))
+                        break; // try again
+                    pk.MetLevel = pk.CurrentLevel = level;
+                }
                 SetPIDIVSequential(pk, pid, seed);
                 return;
             }
@@ -120,9 +125,19 @@ public static class GenerateMethodH
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodH.GetSeed(enc, seed, enc, pk.E, gender, 3);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
+                : MethodH.GetSeed(enc, seed, pk.E, gender);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
+
+            // always level rand
+            {
+                var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
+                var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
+            }
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
@@ -147,9 +162,19 @@ public static class GenerateMethodH
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodH.GetSeed(enc, seed, enc, pk.E, gender, 3);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
+                : MethodH.GetSeed(enc, seed, pk.E, gender);
             if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
                 continue;
+
+            // always level rand
+            {
+                var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
+                var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
+            }
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
@@ -187,10 +212,11 @@ public static class GenerateMethodH
                     continue;
                 seed = LCRNG.Prev(seed);
             }
-            var lead = MethodH.GetSeed(enc, seed, enc, false, 2, 3);
+            var lead = MethodH.GetSeed(enc, seed, false, 2);
             if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
                 continue;
 
+            // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
             return true;
@@ -212,10 +238,11 @@ public static class GenerateMethodH
             var form = EntityPID.GetUnownForm3(pid);
             if (form != enc.Form)
                 continue;
-            var lead = MethodH.GetSeed(enc, seed, enc, false, 2, 3);
+            var lead = MethodH.GetSeed(enc, seed, false, 2);
             if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
                 continue;
 
+            // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
             return true;

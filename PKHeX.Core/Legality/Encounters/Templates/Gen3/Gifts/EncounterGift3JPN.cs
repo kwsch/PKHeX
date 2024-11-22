@@ -97,7 +97,7 @@ public sealed class EncounterGift3JPN(ushort Species, Distribution3JPN Distribut
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         // Gen3 Version MUST match.
-        if (Version != 0 && !Version.Contains(pk.Version))
+        if (pk.Version is not GameVersion.R)
             return false;
 
         if (pk.IsEgg)

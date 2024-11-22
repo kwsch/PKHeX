@@ -174,7 +174,7 @@ public partial class PokePreview : Form
                 }
                 break;
             }
-            sb.AppendLine(line.ToString());
+            sb.Append(line).AppendLine();
         }
 
         var detail = sb.ToString();
@@ -182,7 +182,7 @@ public partial class PokePreview : Form
         while (lines.MoveNext())
         {
             var line = lines.Current;
-            sb.AppendLine(line.ToString());
+            sb.Append(line).AppendLine();
         }
         var enc = sb.ToString();
         return (detail.TrimEnd(), enc.TrimEnd());

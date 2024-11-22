@@ -127,7 +127,7 @@ public partial class TrashEditor : Form
         TB_Text.TextChanged += (_, _) => UpdateString(TB_Text);
 
         CB_Species.InitializeBinding();
-        CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
+        CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, string.Empty);
 
         CB_Language.InitializeBinding();
         CB_Language.DataSource = GameInfo.LanguageDataSource(generation);

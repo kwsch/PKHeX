@@ -35,10 +35,10 @@ public partial class SAV_SuperTrain : Form
         dataGridView1.Columns.Clear();
         {
             CB_Species1.InitializeBinding();
-            CB_Species1.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
+            CB_Species1.DataSource = new BindingSource(GameInfo.FilteredSources.Species, string.Empty);
 
             CB_Species2.InitializeBinding();
-            CB_Species2.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
+            CB_Species2.DataSource = new BindingSource(GameInfo.FilteredSources.Species, string.Empty);
         }
         listBox1.SelectedIndex = 0;
         FillTrainingBags();
@@ -86,8 +86,9 @@ public partial class SAV_SuperTrain : Form
         {
             if (e.ColumnIndex != 1)
                 return;
-            ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
-            comboBox.DroppedDown = true;
+            if (sender is not DataGridView { EditingControl: ComboBox cb })
+                return;
+            cb.DroppedDown = true;
         }
         catch { System.Diagnostics.Debug.WriteLine("Failed to modify item."); }
     }
@@ -120,7 +121,7 @@ public partial class SAV_SuperTrain : Form
         int emptyslots = 0;
         for (int i = 0; i < 12; i++)
         {
-            var bag = dataGridView1.Rows[i].Cells[1].Value.ToString();
+            var bag = dataGridView1.Rows[i].Cells[1].Value!.ToString();
             if (Array.IndexOf(trba, bag) == 0)
             {
                 emptyslots++;

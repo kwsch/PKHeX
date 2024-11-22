@@ -28,7 +28,7 @@ public partial class SAV_PokedexSM : Form
 
         // Fill List
         CB_Species.InitializeBinding();
-        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
+        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), string.Empty);
 
         var Species = GameInfo.Strings.Species;
         var names = Dex.GetEntryNames(Species);

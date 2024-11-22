@@ -31,6 +31,11 @@ public sealed class TrainerNameVerifier : Verifier
             return;
         }
         trainer = trainer[..len];
+        if (trainer.Contains('\uffff') && pk is { Format: 4 })
+        {
+            data.AddLine(GetInvalid("Trainer Name: Unkown Character"));
+            return;
+        }
 
         if (IsOTNameSuspicious(trainer))
         {
@@ -49,12 +54,14 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format))
         {
-            if (WordFilter.IsFiltered(trainer.ToString(), out var badPattern))
+            if (WordFilter.IsFiltered(trainer, out var badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
             if (ContainsTooManyNumbers(trainer, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
 
-            if (WordFilter.IsFiltered(pk.HandlingTrainerName, out badPattern))
+            Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+            int nameLen = pk.LoadString(pk.HandlingTrainerTrash, ht);
+            if (WordFilter.IsFiltered(ht[..nameLen], out badPattern))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
         }
     }

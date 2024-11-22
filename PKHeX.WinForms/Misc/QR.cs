@@ -49,6 +49,8 @@ public partial class QR : Form
     private void ResizeWindow()
     {
         var img = PB_QR.Image;
+        if (img == null)
+            return;
         splitContainer1.Height = splitContainer1.Panel1.Height + img.Height;
         splitContainer1.Width = img.Width;
     }
@@ -76,9 +78,11 @@ public partial class QR : Form
 
     private void PB_QR_Click(object sender, EventArgs e)
     {
+        if (PB_QR.Image is not { } img)
+            return;
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage))
             return;
-        try { Clipboard.SetImage(PB_QR.Image); }
+        try { Clipboard.SetImage(img); }
         // Clipboard can be locked periodically, just notify on failure.
         catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
     }
