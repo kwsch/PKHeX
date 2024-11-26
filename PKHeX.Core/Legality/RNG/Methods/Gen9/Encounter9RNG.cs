@@ -60,6 +60,9 @@ public static class Encounter9RNG
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
         pk.PID = GetAdaptedPID(ref rand, pk, enc);
 
+        if (criteria.Shiny.IsShiny() != pk.IsShiny)
+            return false;
+
         const int UNSET = -1;
         const int MAX = 31;
         Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];

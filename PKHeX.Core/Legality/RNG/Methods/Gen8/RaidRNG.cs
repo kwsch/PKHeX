@@ -158,19 +158,17 @@ public static class RaidRNG
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();
 
-        uint pid;
-        bool isShiny;
+        var trID = (uint)rng.NextInt();
+        var pid = (uint)rng.NextInt();
+        var xor = GetShinyXor(pid, trID);
+        bool isShiny = xor < 16;
+        if (isShiny && param.Shiny == Shiny.Never)
         {
-            var trID = (uint)rng.NextInt();
-            pid = (uint)rng.NextInt();
-            var xor = GetShinyXor(pid, trID);
-            isShiny = xor < 16;
-            if (isShiny && param.Shiny == Shiny.Never)
-            {
-                ForceShinyState(false, ref pid, trID, 0);
-                isShiny = false;
-            }
+            ForceShinyState(false, ref pid, trID, 0);
+            isShiny = false;
         }
+        if (isShiny != criteria.Shiny.IsShiny())
+            return false;
 
         if (isShiny)
         {
