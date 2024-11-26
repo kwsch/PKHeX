@@ -38,7 +38,7 @@ public static class MethodFinder
             return pidiv;
         if (pk.Species == (int)Species.Unown && GetLCRNGUnownMatch(seeds, top, bot, IVs, out pidiv)) // frlg only
             return pidiv;
-        if (GetColoStarterMatch(seeds, pk, top, bot, IVs, out pidiv))
+        if (GetColoStarterMatch(pk, IVs, out pidiv))
             return pidiv;
         if (GetXDRNGMatch(seeds, pk, top, bot, IVs, out pidiv))
             return pidiv;
@@ -500,7 +500,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    public static bool IsChainShinyValid(ITrainerID32 pk, uint pid, uint seed, out uint s)
+    public static bool IsChainShinyValid<T>(T pk, uint pid, uint seed, out uint s) where T : ITrainerID32
     {
         // check the individual bits
         s = seed;
@@ -632,9 +632,10 @@ public static class MethodFinder
         return pid == actualPID;
     }
 
-    private static bool GetColoStarterMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetColoStarterMatch(PKM pk, ReadOnlySpan<uint> ivs, out PIDIV pidiv)
     {
-        bool starter = pk.Version == GameVersion.CXD && pk.Species switch
+        var species = pk.Species;
+        bool starter = pk.Version == GameVersion.CXD && species switch
         {
             (int)Species.Espeon when pk.MetLevel >= 25 => true,
             (int)Species.Umbreon when pk.MetLevel >= 26 => true,
@@ -643,21 +644,11 @@ public static class MethodFinder
         if (!starter)
             return GetNonMatch(out pidiv);
 
-        var iv1 = GetIVChunk(IVs[..3]);
-        var iv2 = GetIVChunk(IVs[3..]);
+        if (!MethodCXD.TryGetOriginSeedStarterColo(ivs, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
+            return GetNonMatch(out pidiv);
 
-        var count = XDRNG.GetSeeds(seeds, top, bot);
-        var xdc = seeds[..count];
-        foreach (var seed in xdc)
-        {
-            uint origin = seed;
-            if (!LockFinder.IsColoStarterValid(pk.Species, ref origin, pk.TID16, pk.SID16, pk.PID, iv1, iv2))
-                continue;
-
-            pidiv = new PIDIV(CXD_ColoStarter, origin);
-            return true;
-        }
-        return GetNonMatch(out pidiv);
+        pidiv = new PIDIV(CXD_ColoStarter, result);
+        return true;
     }
 
     /// <summary>
@@ -687,7 +678,7 @@ public static class MethodFinder
     /// <param name="IVs">IVs that should be the result</param>
     /// <returns>IVs match random number IVs</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IVsMatch(uint r1, uint r2, ReadOnlySpan<uint> IVs)
+    public static bool IVsMatch(uint r1, uint r2, ReadOnlySpan<uint> IVs)
     {
         if (IVs[0] != (r1 & 31))
             return false;
@@ -720,6 +711,8 @@ public static class MethodFinder
         result[1] = (int)r1 >> 5 & 31;
         result[0] = (int)r1 & 31;
     }
+
+    internal static uint GetCombinedIVs(uint iv1, uint iv2) => ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
 
     private static uint GetIVChunk(ReadOnlySpan<uint> arr)
     {

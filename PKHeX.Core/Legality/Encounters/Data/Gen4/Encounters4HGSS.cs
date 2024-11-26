@@ -100,8 +100,8 @@ internal static class Encounters4HGSS
         new(HGSS) { Species = 487, Level = 01, Location = 231, FixedBall = Ball.Poke, GroundTile = Max_Pt, Form = 1, HeldItem = 112 }, // Giratina @ Sinjoh Ruins
 
         // Johto Roamers
-        new(HGSS) { Roaming = true, Species = 243, Location = 177, Level = 40, GroundTile = Grass | Water }, // Raikou
-        new(HGSS) { Roaming = true, Species = 244, Location = 177, Level = 40, GroundTile = Grass | Water }, // Entei
+        new(HGSS) { IsRoaming = true, Species = 243, Location = 177, Level = 40, GroundTile = Grass | Water }, // Raikou
+        new(HGSS) { IsRoaming = true, Species = 244, Location = 177, Level = 40, GroundTile = Grass | Water }, // Entei
     ];
 
     internal static readonly EncounterStatic4[] StaticHG =
@@ -111,7 +111,7 @@ internal static class Encounters4HGSS
         new(HG  ) { Species = 250, Level = 45, Location = 205, GroundTile = Building }, // Ho-Oh @ Bell Tower
         new(HG  ) { Species = 381, Level = 40, Location = 140, GroundTile = Building }, // Latios @ Pewter City
         new(HG  ) { Species = 382, Level = 50, Location = 232, GroundTile = Cave }, // Kyogre @ Embedded Tower
-        new(HG  ) { Roaming = true, Species = 380, Location = 149, Level = 35, GroundTile = Grass | Water }, // Latias
+        new(HG  ) { IsRoaming = true, Species = 380, Location = 149, Level = 35, GroundTile = Grass | Water }, // Latias
     ];
 
     internal static readonly EncounterStatic4[] StaticSS =
@@ -121,7 +121,7 @@ internal static class Encounters4HGSS
         new(  SS) { Species = 250, Level = 70, Location = 205, GroundTile = Building }, // Ho-Oh @ Bell Tower
         new(  SS) { Species = 380, Level = 40, Location = 140, GroundTile = Building }, // Latias @ Pewter City
         new(  SS) { Species = 383, Level = 50, Location = 232, GroundTile = Cave }, // Groudon @ Embedded Tower
-        new(  SS) { Roaming = true, Species = 381, Location = 149, Level = 35, GroundTile = Grass | Water }, // Latios
+        new(  SS) { IsRoaming = true, Species = 381, Location = 149, Level = 35, GroundTile = Grass | Water }, // Latios
     ];
 
     #endregion

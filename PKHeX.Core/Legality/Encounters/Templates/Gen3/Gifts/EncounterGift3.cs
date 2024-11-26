@@ -182,10 +182,13 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
 
     private uint SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var gr = pi.Gender;
-        uint idXor = pk.TID16 ^ (uint)pk.SID16;
         if (Method is Channel)
             return SetPINGAChannel(pk, criteria);
+        if (ID32 is Wishmkr.TrainerID && criteria.Shiny.IsShiny() && TrySetWishmkrShiny(pk, criteria))
+            return 0;
+
+        var gr = pi.Gender;
+        uint idXor = pk.TID16 ^ (uint)pk.SID16;
         while (true)
         {
             uint seed = Util.Rand32();
@@ -198,10 +201,9 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
                 _ when Method is Method_2 => GetMethod2(ref seed),
                 _ => GetRegular(ref seed),
             };
-            if (criteria.IsSpecifiedNature() && criteria.Nature != (Nature)(pid % 25))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (!criteria.IsGenderSatisfied(gender))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
 
             pk.PID = pid;
@@ -209,6 +211,28 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             pk.RefreshAbility((int)(pk.PID & 1));
             return seed;
         }
+    }
+
+    private static bool TrySetWishmkrShiny(PK3 pk, EncounterCriteria criteria)
+    {
+        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterNature = criteria.IsSpecifiedNature();
+        foreach (var s in Wishmkr.All9)
+        {
+            uint seed = s;
+            var pid = GetRegular(ref seed);
+            if (filterNature && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                continue; // try again
+
+            var iv32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue; // try again
+            if (filterIVs && !criteria.IsCompatibleIVs(iv32))
+                continue; // try again
+            pk.PID = pid;
+            pk.IV32 = iv32;
+        }
+        return false;
     }
 
     private static uint GetMethod2(ref uint seed)
@@ -227,9 +251,15 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             uint seed = Util.Rand32();
             seed = ChannelJirachi.SkipToPIDIV(seed);
             PIDGenerator.SetValuesFromSeedChannel(pk, seed);
-            if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature)
+
+            var pid = pk.EncryptionConstant;
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
-            pk.RefreshAbility((int)(pk.PID & 1));
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+                continue; // try again
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(pk.IV32))
+                continue; // try again
+
             return seed;
         }
     }

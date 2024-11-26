@@ -86,18 +86,11 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
-    private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.IsSpecifiedIVs() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, Shiny == Shiny.Never))
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: true))
             return;
-
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        do
-        {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-        } while (Shiny == Shiny.Never && pk.IsShiny);
+        MethodCXD.SetRandom(pk, criteria, pi.Gender);
     }
     #endregion
 

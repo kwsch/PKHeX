@@ -64,4 +64,9 @@ public static class NatureUtil
     /// Checks if the provided <see cref="value"/> is a neutral nature which has no stat amps applied.
     /// </summary>
     public static bool IsNeutral(this Nature value) => value.IsFixed() && (byte)value % 6 == 0;
+
+    /// <summary>
+    /// Converts the provided <see cref="value"/> to a neutral nature.
+    /// </summary>
+    public static Nature ToNeutral(this Nature value) => (Nature)(value - (Nature)((byte)value % 6));
 }

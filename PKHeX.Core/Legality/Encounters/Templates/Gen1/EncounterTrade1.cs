@@ -123,7 +123,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             Species = Species,
             CurrentLevel = level,
             CatchRate = pi.CatchRate,
-            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
+            DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
             Nickname = Nicknames[lang],
             TID16 = tr.TID16,

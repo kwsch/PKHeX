@@ -101,6 +101,10 @@ public sealed record EncounterGift2
             CurrentLevel = CurrentLevel == 0 ? LevelMin : CurrentLevel,
             OriginalTrainerFriendship = pi.BaseFriendship,
 
+            DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs)
+                : criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
+
             TID16 = Trainer switch
             {
                 Recipient => tr.TID16,
@@ -126,27 +130,23 @@ public sealed record EncounterGift2
                 _ => EncounterUtil.GetTrainerName(tr, 1),
             },
         };
-        pk.SetNotNicknamed((int)lang);
 
         if (IsEgg)
         {
             // Fake as hatched on G/S.
+            // All zero values.
         }
-        else
+        else if (Version == GameVersion.C)
         {
             pk.MetLevel = LevelMin;
             pk.MetLocation = Location;
             //pk.MetTimeOfDay = 0;
         }
 
+        pk.SetNotNicknamed((int)lang);
         if (Shiny == Shiny.Always)
             pk.SetShiny();
         pk.SetMoves(Moves);
-        if (IVs.IsSpecified)
-            criteria.SetRandomIVs(pk, IVs);
-        else
-            criteria.SetRandomIVs(pk);
-
         pk.ResetPartyStats();
         return pk;
     }

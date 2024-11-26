@@ -17,7 +17,7 @@ public static class MethodK
     /// <param name="seed">Seed that immediately generates the PID.</param>
     /// <param name="evo">Level range constraints for the capture, if known.</param>
     /// <param name="format">Current format (different from 4 will use level range instead of exact)</param>
-    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, byte format = Format)
+    public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo, byte format)
         where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
         => GetSeed(enc, seed, evo.LevelMin, evo.LevelMax, format);

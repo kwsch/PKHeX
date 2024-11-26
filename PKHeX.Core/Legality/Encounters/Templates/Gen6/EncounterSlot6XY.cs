@@ -105,7 +105,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        criteria.SetRandomIVs(pk, FlawlessIVCount);
+        criteria.SetRandomIVs(pk, FlawlessIVCount, rnd);
     }
 
     #endregion

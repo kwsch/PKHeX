@@ -91,27 +91,11 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        if (Species == (int)Core.Species.Unown)
-        {
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
-                ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-            } while (pk.Form != Form);
-        }
-        else
-        {
-            const PIDType type = PIDType.CXD;
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
-            } while (Shiny == Shiny.Never && pk.IsShiny);
-        }
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: false))
+            return;
+        MethodCXD.SetRandom(pk, criteria, pi.Gender);
     }
     #endregion
 

@@ -28,8 +28,8 @@ internal static class Encounters4DPPt
         new(DPPt) { Species = 482, Level = 50, Location = 088, GroundTile = Cave }, // Azelf @ Valor Cavern
 
         // Roamers
-        new(DPPt) { Roaming = true, Location = 16, Species = 481, Level = 50, GroundTile = Grass | Water }, // Mesprit
-        new(DPPt) { Roaming = true, Location = 16, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
+        new(DPPt) { IsRoaming = true, Location = 16, Species = 481, Level = 50, GroundTile = Grass | Water }, // Mesprit
+        new(DPPt) { IsRoaming = true, Location = 16, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
     ];
 
     public static readonly EncounterStatic4[] StaticDP =
@@ -92,9 +92,9 @@ internal static class Encounters4DPPt
 
         new(Pt) { Species = 491, Level = 50, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island
         new(Pt) { Species = 492, Form = 0, Level = 30, Location = 063, FatefulEncounter = true }, // Shaymin @ Flower Paradise
-        new(Pt)   { Roaming = true, Location = 16, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
-        new(Pt)   { Roaming = true, Location = 16, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
-        new(Pt)   { Roaming = true, Location = 16, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
+        new(Pt)   { IsRoaming = true, Location = 16, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
+        new(Pt)   { IsRoaming = true, Location = 16, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
+        new(Pt)   { IsRoaming = true, Location = 16, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
     ];
 
     public static readonly EncounterStatic4[] StaticD =

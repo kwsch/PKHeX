@@ -136,20 +136,125 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             pk4.Language = tr.Language;
         }
 
-        if (IsManaphyEgg)
-            SetDefaultManaphyEggDetails(pk4, tr);
-
-        SetPINGA(pk4, criteria);
-        SetMetData(pk4, tr);
-
         var pi = pk4.PersonalInfo;
-        pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+        pk4.OriginalTrainerFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+        if (IsManaphyEgg)
+        {
+            SetDefaultManaphyEggDetails(pk4, tr);
+            SetPINGAManaphy(pk4, criteria, tr);
+        }
+        else
+        {
+            SetPINGA(pk4, pi, criteria);
+            SetMetData(pk4, tr, criteria);
+        }
 
         pk4.RefreshChecksum();
         return pk4;
     }
 
-    private void SetMetData(PK4 pk4, ITrainerInfo trainer)
+    private static void SetPINGAManaphy(PK4 pk4, EncounterCriteria criteria, ITrainerInfo tr)
+    {
+        if (criteria.IsSpecifiedIVsAll() && TrySetManaphyFromIVs(pk4, criteria, tr))
+            return;
+
+        var seed = Util.Rand32();
+        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        while (true)
+        {
+            // Generate PID
+            var a = LCRNG.Next16(ref seed);
+            var b = LCRNG.Next16(ref seed);
+            var pid = (b << 16) | a;
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                continue;
+            var c = LCRNG.Next15(ref seed);
+            var d = LCRNG.Next15(ref seed);
+            var iv32 = d << 15 | c;
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
+
+            var xor = (a ^ b) >> 3;
+            var trXor = (tr.TID16 ^ tr.SID16) >> 3;
+            bool shiny = xor == trXor;
+            if (criteria.Shiny.IsShiny() != shiny)
+                continue;
+
+            if (shiny)
+                SetAsTradedManaphy(pk4, shiny);
+            pk4.PID = pid;
+            pk4.IV32 |= iv32;
+            break;
+        }
+    }
+
+    private static bool TrySetManaphyFromIVs(PK4 pk4, EncounterCriteria criteria, ITrainerInfo tr)
+    {
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
+        int count = LCRNGReversal.GetSeedsIVs(seeds, iv1 << 16, iv2 << 16);
+        foreach (var seed in seeds[..count])
+        {
+            var b = seed >> 16;
+            var a = LCRNG.Prev(seed) >> 16;
+            var pid = (b << 16) | a;
+
+            // Check for anti-shiny.
+            var xor = (a ^ b) >> 3;
+            bool arng = false;
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            {
+                while (true)
+                {
+                    pid = ARNG.Next(pid);
+                    var newXor = (pid >> 16 ^ pid) >> 3;
+                    if (newXor == xor)
+                        continue;
+                    xor = newXor;
+                    arng = true;
+                    break;
+                }
+                if (!criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                    continue;
+            }
+
+            var trXor = (tr.TID16 ^ tr.SID16) >> 3;
+            bool shiny = xor == trXor;
+            if (criteria.Shiny.IsShiny() != shiny)
+                continue;
+
+            if (shiny || arng)
+                SetAsTradedManaphy(pk4, shiny);
+            pk4.PID = pid;
+            pk4.IV32 |= iv2 << 15 | iv1;
+            return true;
+        }
+        return false;
+    }
+
+    private static void SetAsTradedManaphy(PK4 pk4, bool shiny)
+    {
+        // Must be traded; can't be shiny as an egg.
+        if (pk4.IsEgg)
+        {
+            if (!shiny)
+            {
+                pk4.MetLocation = Locations.LinkTrade4;
+                pk4.EggLocation = Locations.Ranger4;
+                return;
+            }
+
+            pk4.IsNicknamed = false;
+            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((ushort)Core.Species.Manaphy, pk4.Language, 4);
+        }
+        pk4.MetLocation = pk4.Version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
+        pk4.EggLocation = Locations.LinkTrade4;
+    }
+
+    private void SetMetData(PK4 pk4, ITrainerInfo trainer, EncounterCriteria criteria)
     {
         if (!IsEgg)
         {
@@ -160,7 +265,11 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         }
         else
         {
-            pk4.EggLocation += 3000;
+            if (criteria.Shiny.IsShiny())
+                pk4.EggLocation = Locations.LinkTrade4;
+            else
+                pk4.EggLocation += 3000;
+
             if (trainer.Generation == 4)
                 SetUnhatchedEggDetails(pk4);
             else
@@ -181,49 +290,75 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.FatefulEncounter = true;
         pk4.Ball = (int)Core.Ball.Poke;
         pk4.Version = GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
-        var lang = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
+        var lang = trainer.Language is < (int)LanguageID.Korean and not (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
         pk4.Language = lang;
-        pk4.EggLocation = 1; // Ranger (will be +3000 later)
-        pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((int)Core.Species.Manaphy, lang, 4);
-        pk4.MetLocation = pk4.Version is GameVersion.HG or GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
-        pk4.MetDate = EncounterDate.GetDateNDS();
+
+        pk4.IsEgg = true;
+        pk4.Nickname = SpeciesName.GetEggName(lang, 4);
+        pk4.EggLocation = Locations.Ranger4;
+        pk4.EggMetDate = pk4.MetDate = EncounterDate.GetDateNDS();
     }
 
-    private void SetPINGA(PK4 pk4, EncounterCriteria criteria)
+    private static void SetPINGA(PK4 pk4, PersonalInfo4 pi, EncounterCriteria criteria)
     {
         // Ability is forced already, can't force anything
 
         // Generate PID
-        var seed = SetPID(pk4, criteria);
+        pk4.PID = GetPID(pk4, pi, criteria);
 
-        if (!IsManaphyEgg)
-            seed = Util.Rand32(); // reseed, do not have method 1 correlation
+        // Ignore Nickname/Egg flag bits
+        if ((pk4.IV32 & 0x3FFF_FFFFu) != 0)
+            return; // IVs are already set
 
         // Generate IVs
-        if ((pk4.IV32 & 0x3FFF_FFFFu) == 0) // Ignore Nickname/Egg flag bits
+        if (criteria.IsSpecifiedIVsAll())
         {
-            uint iv1 = ((seed = LCRNG.Next(seed)) >> 16) & 0x7FFF;
-            uint iv2 = (LCRNG.Next(seed) >> 16) & 0x7FFF;
-            pk4.IV32 |= iv1 | (iv2 << 15);
+            pk4.IV32 |= criteria.GetCombinedIVs();
+            return;
         }
-    }
-
-    private uint SetPID(PK4 pk4, EncounterCriteria criteria)
-    {
-        uint seed = Util.Rand32();
-        if (pk4.PID != 1 && !IsManaphyEgg)
-            return seed; // PID is already set.
-
-        // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
-        // Pre-determine the result values, and generate something.
-        var n = criteria.GetNature();
-        // Gender is already pre-determined in the template.
+        if (criteria.IsSpecifiedIVsAny(out _))
+        {
+            criteria.SetRandomIVs(pk4);
+            return;
+        }
+        var seed = Util.Rand32(); // reseed, do not have method 1 correlation
+        uint iv32;
         while (true)
         {
-            seed = GeneratePID(seed, pk4);
-            if (pk4.Nature != n)
+            iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue;
-            return seed;
+            break;
+        }
+        pk4.IV32 |= iv32;
+    }
+
+    private static uint GetPID(PK4 pk4, PersonalInfo4 pi, EncounterCriteria criteria)
+    {
+        uint seed = Util.Rand32();
+        if (pk4.PID != 1)
+            return pk4.PID; // PID is already set.
+
+        // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
+        // Gender is already pre-determined in the template.
+        var gender = pk4.Gender;
+        var gr = pi.Gender;
+        var trXor = (pk4.TID16 ^ pk4.SID16) >> 3;
+        while (true)
+        {
+            var pid = seed = LCRNG.Next(seed);
+            while (true)
+            {
+                var xor = (pid >> 16 ^ pid) >> 3;
+                if (xor != trXor)
+                    break;
+                pid = ARNG.Next(pid);
+            }
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                continue;
+            if (EntityGender.GetFromPIDAndRatio(pid, gr) != gender)
+                continue;
+            return pid;
         }
     }
 
@@ -240,21 +375,6 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.IsNicknamed = false;
         pk4.Nickname = SpeciesName.GetEggName(pk4.Language, Generation);
         pk4.EggMetDate = EncounterDate.GetDateNDS();
-    }
-
-    private static uint GeneratePID(uint seed, PK4 pk4)
-    {
-        do
-        {
-            uint pid1 = (seed = LCRNG.Next(seed)) >> 16; // low
-            uint pid2 = (seed = LCRNG.Next(seed)) & 0xFFFF0000; // hi
-            pk4.PID = pid2 | pid1;
-            while (pk4.IsShiny) // Call the ARNG to change the PID
-                pk4.PID = ARNG.Next(pk4.PID);
-            // sanity check gender for non-genderless PID cases
-        } while (!pk4.IsGenderValid());
-
-        return seed;
     }
 
     public static bool IsRangerManaphy(PKM pk)

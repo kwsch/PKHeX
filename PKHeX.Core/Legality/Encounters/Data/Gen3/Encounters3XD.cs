@@ -6,10 +6,10 @@ internal static class Encounters3XD
 {
     internal static readonly EncounterStatic3XD[] Gifts =
     [
-        new(133, 10) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 000, Moves = new(033,039,044,028) }, // Eevee (Bite)
-        new(152, 05) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(246,033,045,338) }, // Chikorita
-        new(155, 05) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(179,033,043,307) }, // Cyndaquil
-        new(158, 05) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(242,010,043,308) }, // Totodile
+        new(133, 10) { Location = 000, Moves = new(033,039,044,028) }, // Eevee (Bite)
+        new(152, 05) { Location = 016, Moves = new(246,033,045,338) }, // Chikorita
+        new(155, 05) { Location = 016, Moves = new(179,033,043,307) }, // Cyndaquil
+        new(158, 05) { Location = 016, Moves = new(242,010,043,308) }, // Totodile
     ];
 
     private static readonly string[] Hordel = [string.Empty, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", string.Empty, "HORDEL"];

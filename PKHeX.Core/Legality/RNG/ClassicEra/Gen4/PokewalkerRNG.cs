@@ -88,6 +88,10 @@ public static class PokewalkerRNG
 
     /// <inheritdoc cref="GetFirstSeed(ushort, PokewalkerCourse4, Span{int})"/>
     public static PokewalkerSeedResult GetFirstSeed(ushort species, PokewalkerCourse4 course,
+        uint first, uint second) => GetFirstSeed(species, course, stackalloc uint[LCRNG.MaxCountSeedsIV], first, second);
+
+    /// <inheritdoc cref="GetFirstSeed(ushort, PokewalkerCourse4, Span{int})"/>
+    public static PokewalkerSeedResult GetFirstSeed(ushort species, PokewalkerCourse4 course,
         Span<uint> result, uint first, uint second)
     {
         // When generating a set of Pokéwalker Pokémon (and their IVs), the game does the following logic:
@@ -226,11 +230,11 @@ public static class PokewalkerRNG
     }
 
     /// <summary>
-    /// Sets the IVs to a valid Pokewalker IV spread.
+    /// Gets the IVs to a valid Pokewalker IV spread.
     /// </summary>
-    /// <param name="ivs">IVs to set.</param>
     /// <param name="criteria">Criteria to set IVs with.</param>
-    public static bool SetRandomIVs(Span<int> ivs, EncounterCriteria criteria)
+    /// <param name="iv32">Result IVs</param>
+    public static bool GetRandomIVs(EncounterCriteria criteria, out uint iv32)
     {
         // Try to find a seed that works for the given criteria.
         // Don't waste too much time iterating, try around 100k.
@@ -245,7 +249,7 @@ public static class PokewalkerRNG
                     var iterSeed = seed;
                     for (int p = 0; p < 10; p++)
                     {
-                        if (TryApply(ref iterSeed, ivs, criteria))
+                        if (TryApply(ref iterSeed, out iv32, criteria))
                             return true;
                     }
                     seed += 0x01_000000;
@@ -255,17 +259,15 @@ public static class PokewalkerRNG
         }
 
         var randByte = (uint)Util.Rand.Next(256) << 24;
-        TryApply(ref randByte, ivs, EncounterCriteria.Unrestricted);
+        TryApply(ref randByte, out iv32, EncounterCriteria.Unrestricted);
         return false;
     }
 
-    private static bool TryApply(ref uint seed, Span<int> ivs, EncounterCriteria criteria)
+    private static bool TryApply(ref uint seed, out uint iv32, in EncounterCriteria criteria)
     {
         // Act like a Non-Stroll encounter, generate IV rand() results immediately.
-        uint iv1 = LCRNG.Next(seed);
-        uint iv2 = seed = LCRNG.Next(iv1);
-        MethodFinder.GetIVsInt32(ivs, iv1 >> 16, iv2 >> 16);
-        return criteria.IsCompatibleIVs(ivs);
+        iv32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+        return criteria.IsCompatibleIVs(iv32);
     }
 }
 

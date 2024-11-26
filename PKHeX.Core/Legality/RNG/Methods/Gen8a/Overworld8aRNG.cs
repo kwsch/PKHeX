@@ -149,7 +149,7 @@ public static class Overworld8aRNG
                 ivs[i] = (int)rand.NextInt(MAX + 1);
         }
 
-        if (!criteria.IsIVsCompatibleSpeedLast(ivs, 8))
+        if (!criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
         pk.IV_HP = ivs[0];
@@ -168,7 +168,7 @@ public static class Overworld8aRNG
             PersonalInfo.RatioMagicMale => 0,
             _ => rand.NextInt(252) + 1 < para.GenderRatio ? (byte)1 : (byte)0,
         };
-        if (!criteria.IsGenderSatisfied(gender))
+        if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
             return false;
         pk.Gender = gender;
 

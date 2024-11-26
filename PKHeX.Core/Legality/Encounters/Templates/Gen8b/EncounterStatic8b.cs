@@ -26,7 +26,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
     public required byte Level { get; init; }
     public Ball FixedBall { get; init; }
     public byte FlawlessIVCount { get; init; }
-    public bool Roaming { get; init; }
+    public bool IsRoaming { get; init; }
     public AbilityPermission Ability { get; init; }
     public Shiny Shiny { get; init; }
     public bool FatefulEncounter { get; init; }
@@ -34,7 +34,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
     public string Name => "Static Encounter";
     public string LongName => Name;
 
-    public StaticCorrelation8bRequirement GetRequirement(PKM pk) => Roaming
+    public StaticCorrelation8bRequirement GetRequirement(PKM pk) => IsRoaming
         ? MustHave
         : MustNotHave;
 
@@ -151,7 +151,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
     {
         if (IsEgg)
             return !pk.IsEgg || pk.MetLocation == Location || pk.MetLocation == Locations.LinkTrade6NPC;
-        if (!Roaming)
+        if (!IsRoaming)
             return pk.MetLocation == Location;
         return IsRoamingLocation(pk);
     }

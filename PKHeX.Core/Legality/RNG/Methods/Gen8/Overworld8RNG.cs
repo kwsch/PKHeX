@@ -76,7 +76,7 @@ public static class Overworld8RNG
                 ivs[i] = (int)xoro.NextInt(MAX + 1);
         }
 
-        if (!criteria.IsIVsCompatibleSpeedLast(ivs, 8))
+        if (!criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
         pk.IV_HP = ivs[0];

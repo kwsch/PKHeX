@@ -79,7 +79,9 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         }
         else
         {
-            pk.DV16 = EncounterUtil.GetRandomDVs(Util.Rand);
+            pk.DV16 = criteria.IsSpecifiedIVsAll()
+                ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType);
             pk.TID16 = tr.TID16;
         }
 

@@ -63,8 +63,8 @@ public static class PIDGenerator
 
     public static uint SetIVsFromSeedSequentialLCRNG(ref uint seed)
     {
-        var c16 = LCRNG.Next16(ref seed) & 0x7FFF;
-        var d16 = LCRNG.Next16(ref seed) & 0x7FFF;
+        var c16 = LCRNG.Next15(ref seed);
+        var d16 = LCRNG.Next15(ref seed);
         return (d16 << 15) | c16;
     }
 
@@ -90,7 +90,9 @@ public static class PIDGenerator
             case (int)Species.Espeon: // Colo Espeon
                 var tid = pk.TID16 = (ushort)XDRNG.Next16(ref seed);
                 var sid = pk.SID16 = (ushort)XDRNG.Next16(ref seed);
-                LockFinder.SkipValidColoStarter(ref seed, tid, sid);
+
+                seed = XDRNG.Next5(seed); // skip fakePID, IVs, ability
+                MethodCXD.GetColoStarterPID(ref seed, tid, sid);
                 seed = XDRNG.Next2(seed); // fake PID
                 break;
         }
@@ -105,8 +107,8 @@ public static class PIDGenerator
 
         if (species is (int)Species.Umbreon or (int)Species.Espeon)
         {
-            // Reuse existing logic.
-            pk.PID = LockFinder.GenerateStarterPID(ref seed, pk.TID16, pk.SID16);
+            // Reuse existing logic. Forced-male, never shiny.
+            pk.PID = MethodCXD.GetColoStarterPID(ref seed, pk.TID16, pk.SID16);
         }
         else
         {
@@ -139,7 +141,7 @@ public static class PIDGenerator
         if ((pid2 > 7 ? 0 : 1) != (pid1 ^ sid ^ TID16))
             pid ^= 0x80000000;
         pk.PID = pid;
-        pk.HeldItem = (ushort)(XDRNG.Next16(ref seed) >> 15) + 169; // 0-Ganlon, 1-Salac
+        pk.HeldItem = (ushort)((XDRNG.Next16(ref seed) >> 15) + 169u); // 0-Ganlon, 1-Salac
         pk.Version = GameVersion.S + (byte)(XDRNG.Next16(ref seed) >> 15); // 0-Sapphire, 1-Ruby
         pk.OriginalTrainerGender = (byte)(XDRNG.Next16(ref seed) >> 15);
         Span<int> ivs = stackalloc int[6];
@@ -235,10 +237,10 @@ public static class PIDGenerator
 
     public static uint GetMG5ShinyPID(uint gval, uint av, ushort TID16, ushort SID16)
     {
-        uint PID = ((gval ^ TID16 ^ SID16) << 16) | gval;
-        if ((PID & 0x10000) != av << 16)
-            PID ^= 0x10000;
-        return PID;
+        uint pid = ((gval ^ TID16 ^ SID16) << 16) | gval;
+        if ((pid & 0x10000) != av << 16)
+            pid ^= 0x10000;
+        return pid;
     }
 
     public static uint SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
@@ -246,7 +248,7 @@ public static class PIDGenerator
         var gv = seed >> 24;
         var av = seed & 1; // arbitrary choice
         pk.PID = GetMG5ShinyPID(gv, av, pk.TID16, pk.SID16);
-        SetRandomIVs(pk);
+        pk.SetRandomIVs();
         return seed; // meh
     }
 
@@ -315,10 +317,5 @@ public static class PIDGenerator
                 continue;
             return;
         }
-    }
-
-    private static void SetRandomIVs(PKM pk)
-    {
-        pk.SetRandomIVs();
     }
 }
