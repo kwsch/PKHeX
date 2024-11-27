@@ -36,7 +36,7 @@ public static class StatusConditionUtil
         if (value == StatusCondition.None)
             return StatusType.None;
         if (value <= StatusCondition.Sleep7)
-            return (StatusType)value;
+            return StatusType.Sleep;
 
         if ((value & StatusCondition.Paralysis) != 0)
             return StatusType.Paralysis;
