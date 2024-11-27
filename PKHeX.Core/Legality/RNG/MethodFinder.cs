@@ -19,51 +19,49 @@ public static class MethodFinder
     {
         if (pk.Format < 3)
             return AnalyzeGB(pk);
-        var pid = pk.EncryptionConstant;
 
+        var pid = pk.EncryptionConstant;
         var top = pid & 0xFFFF0000;
         var bot = pid << 16;
 
-        Span<uint> temp = stackalloc uint[6];
-        for (int i = 0; i < 6; i++)
-            temp[i] = (uint)pk.GetIV(i);
-        ReadOnlySpan<uint> IVs = temp;
+        uint iv32 = pk.GetIVs();
+        uint iv1 = iv32 & 0x7FFF;
+        uint iv2 = iv32 >> 15;
 
         // Between XDRNG and LCRNG, the LCRNG will have the most results.
         // Reuse our temp buffer across all methods.
-        const int maxResults = LCRNG.MaxCountSeedsIV;
-        Span<uint> seeds = stackalloc uint[maxResults];
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
 
-        if (GetLCRNGMatch(seeds, top, bot, IVs, out PIDIV pidiv))
-            return pidiv;
-        if (pk.Species == (int)Species.Unown && GetLCRNGUnownMatch(seeds, top, bot, IVs, out pidiv)) // frlg only
-            return pidiv;
-        if (GetColoStarterMatch(pk, IVs, out pidiv))
-            return pidiv;
-        if (GetXDRNGMatch(seeds, pk, top, bot, IVs, out pidiv))
-            return pidiv;
+        if (GetLCRNGMatch(seeds, top, bot, iv1, iv2, out var result))
+            return result;
+        if (pk.Species == (int)Species.Unown && GetLCRNGUnownMatch(seeds, top, bot, iv1, iv2, out result)) // frlg only
+            return result;
+        if (GetColoStarterMatch(pk, iv1, iv2, out result))
+            return result;
+        if (GetXDRNGMatch(seeds, pk, top, bot, iv1, iv2, out result))
+            return result;
 
         // Special cases
-        if (GetLCRNGRoamerMatch(seeds, top, bot, IVs, out pidiv))
-            return pidiv;
-        if (GetChannelMatch(seeds, top, bot, IVs, out pidiv, pk))
-            return pidiv;
-        if (GetMG4Match(seeds, pid, IVs, out pidiv))
-            return pidiv;
+        if (GetLCRNGRoamerMatch(seeds, top, bot, iv32, out result))
+            return result;
+        if (GetChannelMatch(seeds, pk, top, bot, iv32, out result))
+            return result;
+        if (GetMG4Match(seeds, pid, iv1, iv2, out result))
+            return result;
 
-        if (GetBACDMatch(seeds, pk, pid, IVs, out pidiv))
-            return pidiv;
-        if (GetModifiedPIDMatch(seeds, pk, pid, IVs, out pidiv))
-            return pidiv;
+        if (GetBACDMatch(seeds, pk, pid, iv1, iv2, out result))
+            return result;
+        if (GetModifiedPIDMatch(seeds, pk, pid, iv1, iv2, out result))
+            return result;
 
         return PIDIV.None; // no match
     }
 
-    private static bool GetModifiedPIDMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetModifiedPIDMatch(Span<uint> seeds, PKM pk, uint pid, uint iv1, uint iv2, out PIDIV pidiv)
     {
         if (pk.IsShiny)
         {
-            if (GetChainShinyMatch(seeds, pk, pid, IVs, out pidiv))
+            if (GetChainShinyMatch(seeds, pk, pid, iv1, iv2, out pidiv))
                 return true;
             if (GetModified8BitMatch(pk, pid, out pidiv))
                 return true;
@@ -86,16 +84,15 @@ public static class MethodFinder
 
     public static bool GetLCRNGMethod1Match(PKM pk, out uint result)
     {
-        Span<uint> temp = stackalloc uint[6];
-        for (int i = 0; i < 6; i++)
-            temp[i] = (uint)pk.GetIV(i);
-        return GetLCRNGMethod1Match(pk.EncryptionConstant, temp, out result);
+        var iv32 = pk.GetIVs();
+        var pid = pk.EncryptionConstant;
+        return GetLCRNGMethod1Match(pid, iv32, out result);
     }
 
-    public static bool GetLCRNGMethod1Match(uint pid, ReadOnlySpan<uint> IVs, out uint result)
+    public static bool GetLCRNGMethod1Match(uint pid, uint iv32, out uint result)
     {
-        var iv1 = GetIVChunk(IVs[..3]);
-        var iv2 = GetIVChunk(IVs[3..]);
+        var iv1 = iv32 & 0x7FFF;
+        var iv2 = iv32 >> 15;
         return GetLCRNGMethod1Match(pid, iv1, iv2, out result);
     }
 
@@ -103,25 +100,22 @@ public static class MethodFinder
     {
         var bot = pid << 16;
         var top = pid & 0xFFFF0000;
-        return GetLCRNGMethod1Match(bot, top, iv1, iv2, out result);
+        return GetLCRNGMethod1Match(top, bot, iv1, iv2, out result);
     }
 
-    public static bool GetLCRNGMethod1Match(uint a, uint b, uint c, uint d, out uint result)
+    private static bool GetLCRNGMethod1Match(uint top, uint bot, uint iv1, uint iv2, out uint result)
     {
         const int maxResults = LCRNG.MaxCountSeedsIV;
         Span<uint> seeds = stackalloc uint[maxResults];
-        var count = LCRNGReversal.GetSeeds(seeds, a, b);
+        var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
 
         foreach (var seed in reg)
         {
-            var C = LCRNG.Next3(seed);
-            var ivC = C >> 16 & 0x7FFF;
-            if (c != ivC)
+            var s = LCRNG.Next2(seed);
+            if (iv1 != LCRNG.Next15(ref s))
                 continue;
-            var D = LCRNG.Next(C);
-            var ivD = D >> 16 & 0x7FFF;
-            if (d != ivD)
+            if (iv2 != LCRNG.Next15(ref s))
                 continue;
             // ABCD
             result = seed;
@@ -132,33 +126,24 @@ public static class MethodFinder
         return false;
     }
 
-    private static bool GetLCRNGMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetLCRNGMatch(Span<uint> seeds, uint top, uint bot, uint iv1, uint iv2, out PIDIV pidiv)
     {
         var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
-        var iv1 = GetIVChunk(IVs[..3]);
-        var iv2 = GetIVChunk(IVs[3..]);
         foreach (var seed in reg)
         {
             // A and B are already used by PID
-            var B = LCRNG.Next2(seed);
+            var s = LCRNG.Next2(seed);
 
             // Method 1/2/4 can use 3 different RNG frames
-            var C = LCRNG.Next(B);
-            var ivC = C >> 16 & 0x7FFF;
-            if (iv1 == ivC)
+            if (iv1 == LCRNG.Next15(ref s))
             {
-                var D = LCRNG.Next(C);
-                var ivD = D >> 16 & 0x7FFF;
-                if (iv2 == ivD) // ABCD
+                if (iv2 == LCRNG.Next15(ref s)) // ABCD
                 {
                     pidiv = new PIDIV(Method_1, seed);
                     return true;
                 }
-
-                var E = LCRNG.Next(D);
-                var ivE = E >> 16 & 0x7FFF;
-                if (iv2 == ivE) // ABCE
+                if (iv2 == LCRNG.Next15(ref s)) // ABC_E
                 {
                     pidiv = new PIDIV(Method_4, seed);
                     return true;
@@ -166,35 +151,27 @@ public static class MethodFinder
             }
             else
             {
-                var D = LCRNG.Next(C);
-                var ivD = D >> 16 & 0x7FFF;
-                if (iv1 != ivD)
+                if (iv1 != LCRNG.Next15(ref s))
                     continue;
-
-                var E = LCRNG.Next(D);
-                var ivE = E >> 16 & 0x7FFF;
-                if (iv2 == ivE) // ABDE
+                if (iv2 == LCRNG.Next15(ref s)) // AB_DE
                 {
                     pidiv = new PIDIV(Method_2, seed);
                     return true;
                 }
             }
         }
+
+        // Method 3 (A_CDE)
         count = LCRNGReversalSkip.GetSeeds(seeds, bot, top);
         reg = seeds[..count];
         foreach (var seed in reg)
         {
-            // A and B are already used by PID
-            var C = LCRNG.Next3(seed);
+            // 3 frames are already used by PID; 2 + 1 frame from vblank
+            var s = LCRNG.Next3(seed);
 
-            // Method 3
-            var D = LCRNG.Next(C);
-            var ivD = D >> 16 & 0x7FFF;
-            if (iv1 != ivD)
+            if (iv1 != LCRNG.Next15(ref s))
                 continue;
-            var E = LCRNG.Next(D);
-            var ivE = E >> 16 & 0x7FFF;
-            if (iv2 != ivE)
+            if (iv2 != LCRNG.Next15(ref s))
                 continue;
             pidiv = new PIDIV(Method_3, seed);
             return true;
@@ -202,34 +179,23 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetLCRNGUnownMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetLCRNGUnownMatch(Span<uint> seeds, uint top, uint bot, uint iv1, uint iv2, out PIDIV pidiv)
     {
         // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
         var count = LCRNGReversal.GetSeeds(seeds, top, bot); // reversed!
         var reg = seeds[..count];
-        var iv1 = GetIVChunk(IVs[..3]);
-        var iv2 = GetIVChunk(IVs[3..]);
         foreach (var seed in reg)
         {
             // A and B are already used by PID
-            var B = LCRNG.Next2(seed);
-
-            // Method 1/2/4 can use 3 different RNG frames
-            var C = LCRNG.Next(B);
-            var ivC = C >> 16 & 0x7FFF;
-            if (iv1 == ivC)
+            var s = LCRNG.Next2(seed);
+            if (iv1 == LCRNG.Next15(ref s))
             {
-                var D = LCRNG.Next(C);
-                var ivD = D >> 16 & 0x7FFF;
-                if (iv2 == ivD) // BACD
+                if (iv2 == LCRNG.Next15(ref s)) // BACD
                 {
                     pidiv = new PIDIV(Method_1_Unown, seed);
                     return true;
                 }
-
-                var E = LCRNG.Next(D);
-                var ivE = E >> 16 & 0x7FFF;
-                if (iv2 == ivE) // BACE
+                if (iv2 == LCRNG.Next15(ref s)) // BAC_E
                 {
                     pidiv = new PIDIV(Method_4_Unown, seed);
                     return true;
@@ -237,35 +203,27 @@ public static class MethodFinder
             }
             else
             {
-                var D = LCRNG.Next(C);
-                var ivD = D >> 16 & 0x7FFF;
-                if (iv1 != ivD)
+                if (iv1 != LCRNG.Next15(ref s))
                     continue;
-
-                var E = LCRNG.Next(D);
-                var ivE = E >> 16 & 0x7FFF;
-                if (iv2 == ivE) // BADE
+                if (iv2 == LCRNG.Next15(ref s)) // BA_DE
                 {
                     pidiv = new PIDIV(Method_2_Unown, seed);
                     return true;
                 }
             }
         }
+
+        // Method 3 (C_ADE)
         count = LCRNGReversalSkip.GetSeeds(seeds, top, bot); // reversed!
         reg = seeds[..count];
         foreach (var seed in reg)
         {
-            // A and B are already used by PID
-            var C = LCRNG.Next3(seed);
+            // 3 frames are already used by PID; 2 + 1 frame from vblank
+            var s = LCRNG.Next3(seed);
 
-            // Method 3
-            var D = LCRNG.Next(C);
-            var ivD = D >> 16 & 0x7FFF;
-            if (iv1 != ivD)
+            if (iv1 != LCRNG.Next15(ref s))
                 continue;
-            var E = LCRNG.Next(D);
-            var ivE = E >> 16 & 0x7FFF;
-            if (iv2 != ivE)
+            if (iv2 != LCRNG.Next15(ref s))
                 continue;
             pidiv = new PIDIV(Method_3_Unown, seed);
             return true;
@@ -273,19 +231,18 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetLCRNGRoamerMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetLCRNGRoamerMatch(Span<uint> seeds, uint top, uint bot, uint iv32, out PIDIV pidiv)
     {
-        if (IVs is not [_, <= 7, 0, 0, 0, 0])
+        if (iv32 > 0xFF)
             return GetNonMatch(out pidiv);
 
-        var iv1 = GetIVChunk(IVs[..3]);
         var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
             // Only the first 8 bits are kept
             var ivC = LCRNG.Next3(seed) >> 16 & 0x00FF;
-            if (iv1 != ivC)
+            if (iv32 != ivC)
                 continue;
 
             pidiv = new PIDIV(Method_1_Roamer, seed);
@@ -294,7 +251,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetXDRNGMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetXDRNGMatch(Span<uint> seeds, PKM pk, uint top, uint bot, uint iv1, uint iv2, out PIDIV pidiv)
     {
         var count = XDRNG.GetSeeds(seeds, top, bot);
         var xdc = seeds[..count];
@@ -303,9 +260,9 @@ public static class MethodFinder
             var B = XDRNG.Prev(seed);
             var A = XDRNG.Prev(B);
 
-            var hi = A >> 16;
-            var lo = B >> 16;
-            if (IVsMatch(hi, lo, IVs))
+            var hi = (A >> 16) & 0x7FFF;
+            var lo = (B >> 16) & 0x7FFF;
+            if (hi == iv1 && lo == iv2)
             {
                 pidiv = new PIDIV(PIDType.CXD, XDRNG.Prev(A));
                 return true;
@@ -313,7 +270,7 @@ public static class MethodFinder
 
             // Check for anti-shiny against player TSV
             var tsv = (uint)(pk.TID16 ^ pk.SID16) >> 3;
-            var psv = (top ^ bot) >> 3;
+            var psv = (top ^ bot) >> (16 + 3); // inputs are << 16, account for that
             if (psv == tsv) // Already shiny, wouldn't be made anti-shiny
                 continue;
 
@@ -327,9 +284,9 @@ public static class MethodFinder
             {
                 B = XDRNG.Prev(A);
                 A = XDRNG.Prev(B);
-                hi = A >> 16;
-                lo = B >> 16;
-                if (IVsMatch(hi, lo, IVs))
+                hi = (A >> 16) & 0x7FFF;
+                lo = (B >> 16) & 0x7FFF;
+                if (hi == iv1 && lo == iv2)
                 {
                     pidiv = new PIDIV(CXDAnti, XDRNG.Prev(A));
                     return true;
@@ -344,7 +301,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetChannelMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv, PKM pk)
+    private static bool GetChannelMatch(Span<uint> seeds, PKM pk, uint top, uint bot, uint iv32, out PIDIV pidiv)
     {
         var version = pk.Version;
         if (version is not (R or S))
@@ -369,7 +326,8 @@ public static class MethodFinder
             if (E >> 31 != pk.OriginalTrainerGender)
                 continue;
 
-            if (!XDRNG.GetSequentialIVsUInt32(E, IVs))
+            var ivs = XDRNG.GetSequentialIV32(E);
+            if (ivs != iv32)
                 continue;
 
             if (seed >> 16 != pk.SID16)
@@ -381,7 +339,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetMG4Match(Span<uint> seeds, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetMG4Match(Span<uint> seeds, uint pid, uint iv1, uint iv2, out PIDIV pidiv)
     {
         var currentPSV = getPSV(pid);
         pid = ARNG.Prev(pid);
@@ -398,9 +356,10 @@ public static class MethodFinder
             var mg4 = seeds[..count];
             foreach (var seed in mg4)
             {
-                var C = LCRNG.Next3(seed);
-                var D = LCRNG.Next(C);
-                if (!IVsMatch(C >> 16, D >> 16, IVs))
+                var s = LCRNG.Next2(seed);
+                if (iv1 != LCRNG.Next15(ref s))
+                    continue;
+                if (iv2 != LCRNG.Next15(ref s))
                     continue;
 
                 pidiv = new PIDIV(G4MGAntiShiny, seed);
@@ -479,16 +438,13 @@ public static class MethodFinder
         return false;
     }
 
-    private static bool GetChainShinyMatch(Span<uint> seeds, ITrainerID32 pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetChainShinyMatch(Span<uint> seeds, ITrainerID32 pk, uint pid, uint iv1, uint iv2, out PIDIV pidiv)
     {
         // 13 shiny bits
         // PIDH & 7
         // PIDL & 7
         // IVs
-        var bot = GetIVChunk(IVs[..3]) << 16;
-        var top = GetIVChunk(IVs[3..]) << 16;
-
-        var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
+        var count = LCRNGReversal.GetSeedsIVs(seeds, iv1 << 16, iv2 << 16);
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -531,11 +487,11 @@ public static class MethodFinder
         return true;
     }
 
-    private static bool GetBACDMatch<T>(Span<uint> seeds, T pk, uint actualPID, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetBACDMatch<T>(Span<uint> seeds, T pk, uint actualPID, uint iv1, uint iv2, out PIDIV pidiv)
         where T : ITrainerID32
     {
-        var bot = GetIVChunk(IVs[..3]) << 16;
-        var top = GetIVChunk(IVs[3..]) << 16;
+        var bot = iv1 << 16;
+        var top = iv2 << 16;
 
         var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
@@ -632,7 +588,7 @@ public static class MethodFinder
         return pid == actualPID;
     }
 
-    private static bool GetColoStarterMatch(PKM pk, ReadOnlySpan<uint> ivs, out PIDIV pidiv)
+    private static bool GetColoStarterMatch(PKM pk, uint iv1, uint iv2, out PIDIV pidiv)
     {
         var species = pk.Species;
         bool starter = pk.Version == GameVersion.CXD && species switch
@@ -644,7 +600,7 @@ public static class MethodFinder
         if (!starter)
             return GetNonMatch(out pidiv);
 
-        if (!MethodCXD.TryGetOriginSeedStarterColo(ivs, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
+        if (!MethodCXD.TryGetOriginSeedStarterColo(iv1, iv2, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
             return GetNonMatch(out pidiv);
 
         pidiv = new PIDIV(CXD_ColoStarter, result);
@@ -668,58 +624,6 @@ public static class MethodFinder
     {
         // not implemented; correlation between IVs and RNG hasn't been converted to code.
         return PIDIV.None;
-    }
-
-    /// <summary>
-    /// Generates IVs from 2 RNG calls using 15 bits of each to generate 6 IVs (5bits each).
-    /// </summary>
-    /// <param name="r1">First rand frame</param>
-    /// <param name="r2">Second rand frame</param>
-    /// <param name="IVs">IVs that should be the result</param>
-    /// <returns>IVs match random number IVs</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IVsMatch(uint r1, uint r2, ReadOnlySpan<uint> IVs)
-    {
-        if (IVs[0] != (r1 & 31))
-            return false;
-        if (IVs[1] != (r1 >> 5 & 31))
-            return false;
-        if (IVs[2] != (r1 >> 10 & 31))
-            return false;
-        if (IVs[3] != (r2 & 31))
-            return false;
-        if (IVs[4] != (r2 >> 5 & 31))
-            return false;
-        if (IVs[5] != (r2 >> 10 & 31))
-            return false;
-        return true;
-    }
-
-    /// <summary>
-    /// Generates IVs from 2 RNG calls using 15 bits of each to generate 6 IVs (5bits each).
-    /// </summary>
-    /// <param name="result">Result storage</param>
-    /// <param name="r1">First rand frame</param>
-    /// <param name="r2">Second rand frame</param>
-    /// <returns>Array of 6 IVs</returns>
-    internal static void GetIVsInt32(Span<int> result, uint r1, uint r2)
-    {
-        result[5] = (int)r2 >> 10 & 31;
-        result[4] = (int)r2 >> 5 & 31;
-        result[3] = (int)r2 & 31;
-        result[2] = (int)r1 >> 10 & 31;
-        result[1] = (int)r1 >> 5 & 31;
-        result[0] = (int)r1 & 31;
-    }
-
-    internal static uint GetCombinedIVs(uint iv1, uint iv2) => ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
-
-    private static uint GetIVChunk(ReadOnlySpan<uint> arr)
-    {
-        uint result = 0;
-        for (int i = 0; i < arr.Length; i++)
-            result |= arr[i] << (5*i);
-        return result;
     }
 
     public static bool IsPokeSpotActivation(int slot, uint seed, out uint s)

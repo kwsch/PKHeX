@@ -191,7 +191,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     private bool IsMatchLocation(PKM pk)
     {
         if (IsEgg)
-            return true;
+            return true; // already checked by Egg Location check
         if (pk is not ICaughtData2 c2)
             return true;
         if (c2.CaughtData is 0 && Version != C)
@@ -207,7 +207,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
         {
             if (c2.CaughtData is not 0)
                 return Location == pk.MetLocation;
-            if (pk.Species == (int)Celebi)
+            if (Species == (int)Celebi)
                 return false; // Cannot reset the Met data
         }
         return true;

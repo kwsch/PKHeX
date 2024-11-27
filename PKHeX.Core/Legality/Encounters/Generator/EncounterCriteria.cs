@@ -124,29 +124,19 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
 
     private bool IsSatisfiedIV(int request, int check)
     {
-        if (request >= 30 && Mutations.HasFlag(CanApplyBottleCaps))
+        if (request >= 30 && Mutations.HasFlag(CanMaxIndividualStat))
             return true; // hyper training possible
         return check == RandomIV || request == RandomIV || request == check;
     }
 
-    /// <inheritdoc cref="GetCriteria(IBattleTemplate, IPersonalInfo, EncounterMutation)"/>
-    /// <param name="s">Template data (end result).</param>
-    /// <param name="t">Personal table the end result will exist with.</param>
-    /// <param name="allowed">Allowed mutations for the encounter.</param>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalTable t, EncounterMutation allowed = 0)
-    {
-        var pi = t.GetFormEntry(s.Species, s.Form);
-        return GetCriteria(s, pi, allowed);
-    }
-
     /// <summary>
-    /// Creates a new <see cref="EncounterCriteria"/> by loading parameters from the provided <see cref="IBattleTemplate"/>.
+    /// Creates a new <see cref="EncounterCriteria"/> from the provided end result parameters.
     /// </summary>
     /// <param name="s">Template data (end result).</param>
     /// <param name="pi">Personal info the end result will exist with.</param>
-    /// <param name="allowed">Allowed mutations for the encounter.</param>
+    /// <param name="allowed">Allowed mutations for the end result.</param>
     /// <returns>Initialized criteria data to be passed to generators.</returns>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi, EncounterMutation allowed = 0) => new()
+    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi, EncounterMutation allowed) => new()
     {
         Gender = GetGenderPermissions(s.Gender, pi),
         IV_HP  = (sbyte)s.IVs[0],
@@ -452,22 +442,4 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         if (!IsSatisfiedIV(IV_SPD, (int)((iv32 >> 25) & 0x1F))) return false;
         return true;
     }
-}
-
-[Flags]
-public enum EncounterMutation : byte
-{
-    None = 0,
-    CanMintNature = 1 << 0,
-    CanApplyBottleCaps = 1 << 1,
-
-    CanAbilityCapsule = 1 << 2,
-    CanAbilityPatch = 1 << 3,
-
-    AllowOnlyNeutralNature = 1 << 4,
-}
-
-public static class EncounterMutationUtil
-{
-    public static bool IsComplexNature(this EncounterMutation m) => m.HasFlag(EncounterMutation.AllowOnlyNeutralNature);
 }

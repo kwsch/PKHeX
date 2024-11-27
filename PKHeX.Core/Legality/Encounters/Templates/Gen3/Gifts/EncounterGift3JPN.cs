@@ -83,7 +83,7 @@ public sealed class EncounterGift3JPN(ushort Species, Distribution3JPN Distribut
                 continue;
 
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
             pk.RefreshAbility((int)(pid & 1));
             pk.OriginalTrainerGender = (byte)GetGender(LCRNG.Next16(ref seed));
             return;

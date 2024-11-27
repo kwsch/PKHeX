@@ -266,7 +266,7 @@ public static class PokewalkerRNG
     private static bool TryApply(ref uint seed, out uint iv32, in EncounterCriteria criteria)
     {
         // Act like a Non-Stroll encounter, generate IV rand() results immediately.
-        iv32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+        iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
         return criteria.IsCompatibleIVs(iv32);
     }
 }

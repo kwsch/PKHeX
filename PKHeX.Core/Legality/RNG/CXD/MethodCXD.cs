@@ -463,11 +463,13 @@ public static class MethodCXD
     private static bool IsValidStarterColo(uint id32, uint pid)
         => IsMaleEevee(pid) && !ShinyUtil.GetIsShiny(id32, pid, 8);
 
-    private static bool IsMatchIVs(ReadOnlySpan<uint> ivs, uint seed)
+    private static bool IsMatchIVs(uint iv1, uint iv2, uint seed)
     {
-        var iv1 = XDRNG.Next15(ref seed);
-        var iv2 = XDRNG.Next15(ref seed);
-        return MethodFinder.IVsMatch(iv1, iv2, ivs);
+        if (iv1 != XDRNG.Next15(ref seed))
+            return false;
+        if (iv2 != XDRNG.Next15(ref seed))
+            return false;
+        return true;
     }
 
     public static uint GetColoStarterPID(ref uint seed, ushort tid, ushort sid)
@@ -487,30 +489,36 @@ public static class MethodCXD
 
     private static void SetIVs<TEntity>(TEntity pk, uint iv1, uint iv2)
         where TEntity : G3PKM
+        => pk.SetIVs(iv2 << 15 | iv1);
+
+    private static (uint iv1, uint iv2) GetIVs(PKM pk)
     {
-        Span<int> ivs = stackalloc int[6];
-        MethodFinder.GetIVsInt32(ivs, iv1, iv2);
-        pk.SetIVs(ivs);
+        uint iv32 = pk.GetIVs();
+        var iv1 = iv32 & 0x7FFF;
+        var iv2 = iv32 >> 15;
+        return (iv1, iv2);
     }
 
-    public static bool TryGetOriginSeedStarterColo(PKM pk, ReadOnlySpan<uint> ivs, out uint result)
+    public static bool TryGetOriginSeedStarterColo(PKM pk, out uint result)
     {
+        (uint iv1, uint iv2) = GetIVs(pk);
         var tid = pk.TID16;
         var sid = pk.SID16;
         var species = pk.Species;
         var expectPID = pk.EncryptionConstant;
-        return TryGetOriginSeedStarterColo(ivs, expectPID, tid, sid, species, out result);
+        return TryGetOriginSeedStarterColo(iv1, iv2, expectPID, tid, sid, species, out result);
     }
 
-    public static bool TryGetOriginSeedStarterXD(PKM pk, ReadOnlySpan<uint> ivs, out uint result)
+    public static bool TryGetOriginSeedStarterXD(PKM pk, out uint result)
     {
+        (uint iv1, uint iv2) = GetIVs(pk);
         var tid = pk.TID16;
         var sid = pk.SID16;
         var expectPID = pk.EncryptionConstant;
-        return TryGetOriginSeedStarterXD(ivs, expectPID, tid, sid, out result);
+        return TryGetOriginSeedStarterXD(iv1, iv2, expectPID, tid, sid, out result);
     }
 
-    public static bool TryGetOriginSeedStarterColo(ReadOnlySpan<uint> ivs,
+    public static bool TryGetOriginSeedStarterColo(uint iv1, uint iv2,
         uint expectPID,
         ushort tid, ushort sid,
         ushort species, out uint result)
@@ -525,7 +533,7 @@ public static class MethodCXD
             {
                 // Check IVs
                 var ivSeed = XDRNG.Next4(seed);
-                if (!IsMatchIVs(ivs, ivSeed))
+                if (!IsMatchIVs(iv1, iv2, ivSeed))
                     continue;
             }
             var pidSeed = XDRNG.Next7(seed);
@@ -539,7 +547,7 @@ public static class MethodCXD
             }
 
             // Espeon
-            if (!IsMatchIVs(ivs, pidSeed))
+            if (!IsMatchIVs(iv1, iv2, pidSeed))
                 continue;
             pidSeed = XDRNG.Next3(pidSeed);
             pid = GetColoStarterPID(ref pidSeed, id32);
@@ -552,7 +560,7 @@ public static class MethodCXD
         return false;
     }
 
-    public static bool TryGetOriginSeedStarterXD(ReadOnlySpan<uint> ivs,
+    public static bool TryGetOriginSeedStarterXD(uint iv1, uint iv2,
         uint expectPID, ushort tid, ushort sid,
         out uint result)
     {
@@ -563,7 +571,7 @@ public static class MethodCXD
         {
             // Check IVs
             var ivSeed = XDRNG.Next4(seed);
-            if (!IsMatchIVs(ivs, ivSeed))
+            if (!IsMatchIVs(iv1, iv2, ivSeed))
                 continue;
             var pidSeed = XDRNG.Next7(seed);
             var pid = GetPID(pidSeed);

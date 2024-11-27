@@ -207,7 +207,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
                 continue;
 
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
             pk.RefreshAbility((int)(pk.PID & 1));
             return seed;
         }
@@ -224,7 +224,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             if (filterNature && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
 
-            var iv32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            var iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue; // try again
             if (filterIVs && !criteria.IsCompatibleIVs(iv32))

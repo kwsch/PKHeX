@@ -170,51 +170,16 @@ public static class XDRNG
     /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
     /// </summary>
     /// <param name="seed">RNG seed</param>
-    /// <param name="IVs">Expected IVs</param>
     /// <returns>True if all match.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool GetSequentialIVsUInt32(uint seed, ReadOnlySpan<uint> IVs)
+    public static uint GetSequentialIV32(uint seed)
     {
-        foreach (var iv in IVs)
-        {
-            seed = Next(seed);
-            var expect = seed >> 27;
-            if (iv != expect)
-                return false;
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
-    /// </summary>
-    /// <param name="seed">RNG seed</param>
-    /// <param name="ivs">Buffer to store generated values</param>
-    /// <returns>Array of 6 IVs as <see cref="int"/>.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void GetSequentialIVsInt32(uint seed, Span<int> ivs)
-    {
-        for (int i = 0; i < ivs.Length; i++)
-        {
-            seed = Next(seed);
-            ivs[i] = (int)(seed >> 27);
-        }
-    }
-
-    /// <summary>
-    /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
-    /// </summary>
-    /// <param name="seed">RNG seed</param>
-    /// <returns>Combined IVs as <see cref="uint"/>.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static uint GetSequentialIVsInt32(uint seed)
-    {
-        var result = 0u;
+        uint result = 0;
         for (int i = 0; i < 6; i++)
         {
             seed = Next(seed);
-            var shift = 27 - (i * 5);
-            result |= (seed >> shift);
+            var value = seed >> 27; // extract top 5 bits
+            result |= value << (i * 5);
         }
         return result;
     }

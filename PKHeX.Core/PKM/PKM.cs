@@ -406,6 +406,22 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         IV_SPD = value[5];
     }
 
+    /// <inheritdoc cref="SetIVs(ReadOnlySpan{int})"/>
+    public void SetIVs(uint iv32)
+    {
+        for (int i = 0; i < 6; i++)
+            this.SetIV(i, (int)(iv32 >> (5 * i)) & 0x1F);
+    }
+
+    /// <inheritdoc cref="GetIVs(Span{int})"/>
+    public uint GetIVs()
+    {
+        uint iv32 = 0;
+        for (int i = 0; i < 6; i++)
+            iv32 |= (uint)GetIV(i) << (5 * i);
+        return iv32;
+    }
+
     /// <summary>
     /// Retrieves the EVs of the PKM in the order HP, ATK, DEF, SPE, SPA, SPD
     /// </summary>
@@ -547,12 +563,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         set
         {
             var bits = HiddenPower.GetLowBits(value);
-            IV_HP = (IV_HP & ~1)   + ((bits >> 0) & 1);
-            IV_ATK = (IV_ATK & ~1) + ((bits >> 1) & 1);
-            IV_DEF = (IV_DEF & ~1) + ((bits >> 2) & 1);
-            IV_SPE = (IV_SPE & ~1) + ((bits >> 3) & 1);
-            IV_SPA = (IV_SPA & ~1) + ((bits >> 4) & 1);
-            IV_SPD = (IV_SPD & ~1) + ((bits >> 5) & 1);
+            IV_HP  = (IV_HP  & ~1) | ((bits >> 0) & 1);
+            IV_ATK = (IV_ATK & ~1) | ((bits >> 1) & 1);
+            IV_DEF = (IV_DEF & ~1) | ((bits >> 2) & 1);
+            IV_SPE = (IV_SPE & ~1) | ((bits >> 3) & 1);
+            IV_SPA = (IV_SPA & ~1) | ((bits >> 4) & 1);
+            IV_SPD = (IV_SPD & ~1) | ((bits >> 5) & 1);
         }
     }
 

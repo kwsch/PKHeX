@@ -1,5 +1,3 @@
-using System;
-using System.Runtime.InteropServices;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -29,11 +27,8 @@ public sealed class CXDVerifier : Verifier
 
         // Ensure the TID/SID match the expected result, as this isn't hard-checked earlier.
         var pk = data.Entity;
-        Span<int> ivs = stackalloc int[6];
-        pk.GetIVs(ivs);
 
-        var u32 = MemoryMarshal.Cast<int, uint>(ivs);
-        bool valid = MethodCXD.TryGetOriginSeedStarterXD(pk, u32, out var seed);
+        bool valid = MethodCXD.TryGetOriginSeedStarterXD(pk, out var seed);
         if (!valid)
             data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
         else

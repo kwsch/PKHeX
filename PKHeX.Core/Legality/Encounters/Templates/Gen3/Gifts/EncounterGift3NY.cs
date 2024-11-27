@@ -85,7 +85,7 @@ public sealed class EncounterGift3NY(ushort Species, Distribution3NY Distributio
                 continue;
 
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
             pk.RefreshAbility((int)(pid & 1));
             return;
         }

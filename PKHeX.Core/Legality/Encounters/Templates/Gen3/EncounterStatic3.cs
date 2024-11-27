@@ -196,7 +196,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return EncounterMatchRating.Match;
     }
 
-    private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
+    private bool IsDeferredSafari3(bool isSafariBall) => isSafariBall != Locations.IsSafariZoneLocation3(Location);
 
     private static bool IsMatchEggLocation(PKM pk)
     {
@@ -268,8 +268,9 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             return false;
 
         // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
-        // return pk.IV32 <= 0xFF;
-        return pk is { IV_DEF: 0, IV_SPE: 0, IV_SPA: 0, IV_SPD: 0, IV_ATK: <= 7 };
+        // return pk.IV32 <= 0xFF; -- not always in right order, and can have nickname flagged.
+        var ivs = pk.GetIVs();
+        return ivs <= 0xFF;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;

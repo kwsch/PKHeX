@@ -203,4 +203,6 @@ public static class PIDTypeExtensions
         or Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
 
     public static bool IsRestricted(this PIDType type) => type is >= BACD_R and <= BACD_M;
+
+    public static bool IsUnown(this PIDType type) => type is Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
 }
