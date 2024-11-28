@@ -213,7 +213,10 @@ public static class EncounterServerDate
         {0054, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's JPN Keldeo
         {0055, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's JPN Zarude
         {0056, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's JPN Deoxys
-       
+        {1011, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's KOR Keldeo
+        {1012, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's KOR Zarude
+        {1013, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's KOR Deoxys
+
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
         {9023, HOME3_ML}, // Hidden Ability Quaxly
