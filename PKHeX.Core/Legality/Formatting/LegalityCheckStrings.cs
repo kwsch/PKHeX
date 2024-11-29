@@ -368,6 +368,7 @@ public static class LegalityCheckStrings
     public static string LMoveNincada { get; set; } = "Only one Ninjask move allowed.";
     public static string LMoveNincadaEvo { get; set; } = "Learned by evolving Nincada into Ninjask.";
     public static string LMoveNincadaEvoF_0 { get; set; } = "Learned by evolving Nincada into Ninjask in Generation {0}.";
+    public static string LMovePPExpectHealed_0 { get; set; } = "Move {0} PP is below the amount expected.";
     public static string LMovePPTooHigh_0 { get; set; } = "Move {0} PP is above the amount allowed.";
     public static string LMovePPUpsTooHigh_0 { get; set; } = "Move {0} PP Ups is above the amount allowed.";
     public static string LMoveSourceShared { get; set; } = "Shared Non-Relearn Move.";

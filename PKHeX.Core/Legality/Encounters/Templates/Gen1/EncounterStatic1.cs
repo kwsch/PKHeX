@@ -46,10 +46,10 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
 
             OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
+        pk.SetNotNicknamed(lang);
 
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 

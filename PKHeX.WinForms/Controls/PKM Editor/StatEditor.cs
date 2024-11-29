@@ -739,8 +739,8 @@ public partial class StatEditor : UserControl
         var tera = Util.GetCBList(types[..TeraDisplayIndex]);
         tera.Insert(0, new(TeraOverrideNone, TeraOverrideNoneValue));
         tera.Add(new(types[TeraDisplayIndex], TeraStellarValue));
-        CB_TeraTypeOriginal.DataSource = new BindingSource(tera, null);
-        CB_TeraTypeOverride.DataSource = new BindingSource(tera, null);
+        CB_TeraTypeOriginal.DataSource = new BindingSource(tera, string.Empty);
+        CB_TeraTypeOverride.DataSource = new BindingSource(tera, string.Empty);
 
         ChangingFields = false;
     }
@@ -757,7 +757,7 @@ public partial class StatEditor : UserControl
             MainEditor.UpdateSprite();
     }
 
-    private void L_TeraTypeOverride_Click(object sender, EventArgs e) => CB_TeraTypeOverride.SelectedValue = Entity.SV ? (int)TeraOverrideNoneValue : CB_TeraTypeOriginal.SelectedValue;
+    private void L_TeraTypeOverride_Click(object sender, EventArgs e) => CB_TeraTypeOverride.SelectedValue = Entity.SV ? (int)TeraOverrideNoneValue : CB_TeraTypeOriginal.SelectedValue!;
 
     private void ChangeTeraType(object sender, EventArgs e)
     {

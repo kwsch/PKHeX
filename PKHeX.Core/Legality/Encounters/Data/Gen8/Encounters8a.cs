@@ -76,13 +76,13 @@ internal static class Encounters8a
 
         // Future updates will handle crossovers better.
         new(201,002,25,U) { Location = 010, Method = Fixed }, // Unown C (Coronet Highlands)
+        new(201,006,25,U) { Location = 007, Method = Fixed }, // Unown G (Obsidian Fieldlands)
+        new(201,013,25,U) { Location = 129, Method = Fixed }, // Unown N (Sand's Reach)
+        new(201,014,25,U) { Location = 011, Method = Fixed }, // Unown O (Alabaster Icelands)
         new(201,017,25,U) { Location = 009, Method = Fixed }, // Unown R (Cobalt Coastlands)
+        new(201,023,25,U) { Location = 007, Method = Fixed }, // Unown X (Obsidian Fieldlands)
         new(201,026,25,U) { Location = 099, Method = Fixed }, // Unown ! (Arena’s Approach)
         new(201,026,25,U) { Location = 141, Method = Fixed }, // Unown ! (Icepeak Arena)
-        new(201,023,25,U) { Location = 007, Method = Fixed }, // Unown X
-        new(201,024,25,U) { Location = 097, Method = Fixed }, // Unown Y
-        new(201,006,25,U) { Location = 007, Method = Fixed }, // Unown G
-        new(201,013,25,U) { Location = 129, Method = Fixed }, // Unown N (Sand's Reach)
 
         new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                          Moves = new(326,242,087,847) }, // Thundurus (Lunker’s Lair)
         new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                          Moves = new(326,242,087,847) }, // Thundurus (Sand’s Reach)

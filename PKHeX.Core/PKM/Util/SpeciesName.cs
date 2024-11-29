@@ -157,11 +157,9 @@ public static class SpeciesName
         }
 
         Span<char> result = stackalloc char[nick.Length];
-        nick.CopyTo(result);
 
         // All names are uppercase.
-        foreach (ref var c in result)
-            c = char.ToUpperInvariant(c);
+        nick.AsSpan().ToUpperInvariant(result);
         if (language == (int)LanguageID.French)
             StringConverter4Util.StripDiacriticsFR4(result); // strips accents on E and I
 

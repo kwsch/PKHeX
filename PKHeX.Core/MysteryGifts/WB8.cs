@@ -197,9 +197,9 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     // Ribbons 0x292-0x2B2
     private const int RibbonBytesOffset = 0x292;
     private const int RibbonBytesCount = 0x20;
-    private const int RibbonByteNone = 0xFF; // signed -1
+    private const byte RibbonByteNone = 0xFF; // signed -1
 
-    private ReadOnlySpan<byte> RibbonSpan => Data.AsSpan(RibbonBytesOffset, RibbonBytesCount);
+    private Span<byte> RibbonSpan => Data.AsSpan(RibbonBytesOffset, RibbonBytesCount);
 
     public bool HasMarkEncounter8
     {
@@ -219,13 +219,13 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     public byte GetRibbonAtIndex(int byteIndex)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)byteIndex, RibbonBytesCount);
-        return Data[RibbonBytesOffset + byteIndex];
+        return RibbonSpan[byteIndex];
     }
 
     public void SetRibbonAtIndex(int byteIndex, byte ribbonIndex)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)byteIndex, RibbonBytesCount);
-        Data[RibbonBytesOffset + byteIndex] = ribbonIndex;
+        RibbonSpan[byteIndex] = ribbonIndex;
     }
 
     public int IV_HP  { get => Data[CardStart + 0x2B2]; set => Data[CardStart + 0x2B2] = (byte)value; }
@@ -484,10 +484,10 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WB8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : EncounterDate.GetDateSwitch();
-        // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
-        if (CardID is 9015 or 9016 or 9017)
-            pk.MetDay = 20;
+        var date = IsDateRestricted && EncounterServerDate.WB8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : EncounterDate.GetDateSwitch();
+        if (IsDateLockJapanese && language != (int)LanguageID.Japanese && date < new DateOnly(2022, 5, 20)) // 2022/05/18
+            date = new DateOnly(2022, 5, 20); // Pick a better Start date that can be the language we're generating for.
+        pk.MetDate = date;
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -515,10 +515,16 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         return pk;
     }
 
+    /// <summary>
+    /// HOME Gifts for Sinnoh starters were forced JPN until May 20, 2022 (UTC).
+    /// </summary>
+    public bool IsDateLockJapanese => CardID is 9015 or 9016 or 9017;
+
     private void SetEggMetData(PB8 pk)
     {
         pk.IsEgg = true;
         pk.EggMetDate = EncounterDate.GetDateSwitch();
+        pk.NicknameTrash.Clear();
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = false;
     }
@@ -820,7 +826,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     public bool RibbonTwinklingStar { get => this.GetRibbonIndex(TwinklingStar); set => this.SetRibbonIndex(TwinklingStar, value); }
     public bool RibbonHisui { get => this.GetRibbonIndex(Hisui); set => this.SetRibbonIndex(Hisui, value); }
 
-    public int GetRibbonByte(int index) => Array.IndexOf(Data, (byte)index, RibbonBytesOffset, RibbonBytesCount);
+    public int GetRibbonByte(int index) => RibbonSpan.IndexOf((byte)index);
     public bool GetRibbon(int index) => RibbonSpan.Contains((byte)index);
 
     public void SetRibbon(int index, bool value = true)
@@ -830,7 +836,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         {
             if (GetRibbon(index))
                 return;
-            var openIndex = Array.IndexOf(Data, RibbonByteNone, RibbonBytesOffset, RibbonBytesCount);
+            var openIndex = RibbonSpan.IndexOf(RibbonByteNone);
             ArgumentOutOfRangeException.ThrowIfNegative(openIndex, nameof(openIndex)); // Full?
             SetRibbonAtIndex(openIndex, (byte)index);
         }

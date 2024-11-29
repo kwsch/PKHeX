@@ -144,7 +144,7 @@ public sealed class MemoryVerifier : Verifier
         if (mem.IsInvalidGeneralLocationMemoryValue(memory.MemoryID, memory.Variable, info.EncounterMatch, pk))
             return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
-        if (mem.IsInvalidMiscMemory(memory.MemoryID, memory.Variable))
+        if (mem.IsInvalidMiscMemory(memory.MemoryID, memory.Variable, (Species)pk.Species, pk.Version, handler))
             return GetInvalid(string.Format(LMemoryArgBadID, memory.Handler));
 
         switch (memory.MemoryID)

@@ -228,7 +228,7 @@ public partial class SAV_Inventory : Form
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var cells = dgv.Rows[i].Cells;
-            var str = cells[ColumnItem].Value.ToString();
+            var str = cells[ColumnItem].Value!.ToString();
             var itemindex = Array.IndexOf(itemlist, str);
 
             if (itemindex <= 0 && !HasNew) // Compression of Empty Slots
@@ -243,13 +243,13 @@ public partial class SAV_Inventory : Form
             // create clean item data when saving
             var item = pouch.GetEmpty(itemindex, itemcnt);
             if (item is IItemFreeSpace f)
-                f.IsFreeSpace = (bool)cells[ColumnFreeSpace].Value;
+                f.IsFreeSpace = (bool)cells[ColumnFreeSpace].Value!;
             if (item is IItemFreeSpaceIndex fi)
                 fi.FreeSpaceIndex = uint.TryParse(cells[ColumnFreeSpaceIndex].Value?.ToString(), out var fsi) ? fsi : 0;
             if (item is IItemFavorite v)
-                v.IsFavorite = (bool)cells[ColumnFavorite].Value;
+                v.IsFavorite = (bool)cells[ColumnFavorite].Value!;
             if (item is IItemNewFlag n)
-                n.IsNew = (bool)cells[ColumnNEW].Value;
+                n.IsNew = (bool)cells[ColumnNEW].Value!;
 
             pouch.Items[ctr] = item;
             ctr++;

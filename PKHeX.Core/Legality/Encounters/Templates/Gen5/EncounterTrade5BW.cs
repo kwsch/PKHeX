@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>Generation 5 Trade with Fixed PID</summary>
-public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK5>
+public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IFixedIVSet, IEncounterConvertible<PK5>
 {
     public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;

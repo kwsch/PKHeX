@@ -51,6 +51,10 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     /// <inheritdoc cref="GetBlock(ReadOnlySpan{char})"/>
     public SCBlock GetBlock(ReadOnlySpan<byte> name) => GetBlock(Hash(name));
     private static uint Hash(ReadOnlySpan<byte> name) => (uint)FnvHash.HashFnv1a_64(name);
+
+    /// <inheritdoc cref="GetBlock(ReadOnlySpan{char})"/>
+    public SCBlock GetBlock32(ReadOnlySpan<byte> name) => GetBlock(Hash32(name));
+    private static uint Hash32(ReadOnlySpan<byte> name) => (uint)FnvHash.HashFnv1a_32(name);
     #endregion
 
     #region Safe Block Operations (no exceptions thrown)

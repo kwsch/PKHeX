@@ -95,7 +95,7 @@ public static class XDRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev12(uint seed) => (seed * rMult12) + rAdd12;
 
     /// <summary>
-    /// Gets the next 16 bits of the next RNG seed.
+    /// Gets the upper 16 bits of the next RNG seed.
     /// </summary>
     /// <param name="seed">Seed to advance one step.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -106,7 +106,7 @@ public static class XDRNG
     }
 
     /// <summary>
-    /// Gets the next 16 bits of the next RNG seed.
+    /// Gets the upper 0x7FFF bits of the next RNG seed.
     /// </summary>
     /// <param name="seed">Seed to advance one step.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -117,9 +117,9 @@ public static class XDRNG
     }
 
     /// <summary>
-    /// Gets the previous 16 bits of the previous RNG seed.
+    /// Gets the upper 16 bits of the previous RNG seed.
     /// </summary>
-    /// <param name="seed">Seed to advance one step.</param>
+    /// <param name="seed">Seed to reverse one step.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint Prev16(ref uint seed)
     {

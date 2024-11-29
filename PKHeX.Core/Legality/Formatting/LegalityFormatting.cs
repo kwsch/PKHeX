@@ -103,7 +103,19 @@ public static class LegalityFormatting
     private static void AddEncounterInfoPIDIV(List<string> lines, LegalInfo info)
     {
         var pidiv = info.PIDIV;
-        lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
+        var type = string.Format(L_FPIDType_0, pidiv.Type);
+        if (info is { EncounterMatch: IRandomCorrelationEvent3 enc})
+        {
+            var mainType = enc.GetSuggestedCorrelation();
+            if (mainType != pidiv.Type)
+                type += $" [{mainType}]";
+            if (enc is EncounterGift3 { Method: PIDType.BACD_M } && info.PIDIVMatches) // mystry
+            {
+                var detail = MystryMew.GetSeedIndexes(pidiv.OriginSeed);
+                type += $" ({detail.Index}-{detail.SubIndex})";
+            }
+        }
+        lines.Add(type);
         if (pidiv.NoSeed)
             return;
 
@@ -139,6 +151,8 @@ public static class LegalityFormatting
         {
             var seed = pidiv.OriginSeed;
             var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
+            if (info is { EncounterMatch: IRandomCorrelationEvent3 } && pidiv.Mutated is not 0 && pidiv.OriginSeed != pidiv.EncounterSeed)
+                line += $" [{pidiv.EncounterSeed:X8}]";
             lines.Add(line);
         }
     }

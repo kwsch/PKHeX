@@ -34,6 +34,22 @@ public static class MystryMew
     ];
 
     private const int MewPerRestrictedSeed = 5;
+    private const int RestrictedIndex = 0;
+
+    /// <summary> 01_34 of this set were released by the event organizer. </summary>
+    private const ushort ReleasedSeed = 0x6065;
+    private const byte ReleasedSeedKeptIndex = 2; // 2nd sibling is the only valid one.
+    private const uint ReleasedSeedKeptSeed = 0xE8D1A0BF; // Next5(Next5(ReleasedSeed))
+
+    /// <summary>
+    /// Checks if the seed was unreleased.
+    /// </summary>
+    public static bool IsUnreleased(uint seed, int subIndex) => seed is ReleasedSeed && subIndex is not ReleasedSeedKeptIndex;
+
+    /// <summary>
+    /// Checks if the seed index (of the returned tuple) is referring to the oldest (first) sibling of the 5-per-seed.
+    /// </summary>
+    public static bool IsRestrictedIndex0th(int index) => index == RestrictedIndex;
 
     /// <summary>
     /// Gets a random valid seed based on the input <see cref="random"/> value.
@@ -43,6 +59,8 @@ public static class MystryMew
         var seeds = Seeds;
         uint restricted = random % (uint)seeds.Length;
         var seed = (uint)seeds[(int)restricted];
+        if (seed is ReleasedSeed)
+            return ReleasedSeedKeptSeed;
         if (type == PIDType.BACD_R)
             return seed;
 
@@ -54,11 +72,20 @@ public static class MystryMew
     }
 
     /// <summary>
+    /// Gets the seed at (sorted) <see cref="index"/>.
+    /// </summary>
+    public static uint GetSeed(int index) => Seeds[(uint)index >= Seeds.Length ? 0 : index];
+
+    /// <summary>
     /// Checks if the seed is a known seed.
     /// </summary>
-    /// <param name="seed">Origin seed (for the PID/IV)</param>
     /// <returns>True if the seed is known.</returns>
     public static bool IsValidSeed(uint seed) => GetSeedIndex(seed) != -1;
+
+    /// <param name="seed">Origin seed (for the PID/IV)</param>
+    /// <param name="subIndex">Sub-index (if not a restricted seed).</param>
+    /// <inheritdoc cref="IsValidSeed(uint)"/>
+    public static bool IsValidSeed(uint seed, int subIndex) => !IsUnreleased(seed, subIndex);
 
     /// <summary>
     /// Checks if the seed is a known seed.
@@ -80,7 +107,7 @@ public static class MystryMew
     }
 
     /// <summary>
-    /// Get the index and subindex of the seed in the known seed list.
+    /// Get the index and sub-index of the seed in the known seed list.
     /// </summary>
     /// <param name="seed">Origin seed (for the PID/IV)</param>
     /// <returns>Tuple of indexes; -1 if not found.</returns>
@@ -90,9 +117,9 @@ public static class MystryMew
         if (seed <= ushort.MaxValue)
         {
             var index = seeds.BinarySearch((ushort)seed);
-            return (index, -1);
+            return (index, RestrictedIndex);
         }
-        for (int i = 0; i < MewPerRestrictedSeed; i++)
+        for (int i = RestrictedIndex + 1; i < RestrictedIndex + MewPerRestrictedSeed; i++)
         {
             seed = LCRNG.Prev5(seed); // BACD{?}
             if (seed <= ushort.MaxValue)

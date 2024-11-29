@@ -309,8 +309,19 @@ public sealed class WB7(byte[] Data)
     public bool IsNicknamed => false;
     public int Language => 2;
 
+    /// <summary>
+    /// Can only be received by the Mainland China release of the game, which can only select a game-language of Simplified Chinese.
+    /// </summary>
+    /// <remarks>
+    /// Gifts received can be locally traded to the international release, so there is no need to consider residence or transferability.
+    /// </remarks>
+    public bool IsMainlandChinaGift => CardID is (1501);
+
     public int GetLanguage(int redeemLanguage)
     {
+        if (IsMainlandChinaGift)
+            return (int)LanguageID.ChineseS;
+
         var languageOffset = GetLanguageIndex(redeemLanguage);
         var value = Data[0x1D8 + languageOffset];
         if (value != 0) // Fixed receiving language
@@ -362,7 +373,6 @@ public sealed class WB7(byte[] Data)
         var pk = new PB7
         {
             Species = Species,
-            HeldItem = HeldItem,
             TID16 = TID16,
             SID16 = SID16,
             MetLevel = metLevel,
@@ -526,6 +536,9 @@ public sealed class WB7(byte[] Data)
         if (language is < (int) LanguageID.Japanese or > (int) LanguageID.ChineseT)
             return false;
 
+        if (IsMainlandChinaGift)
+            return language == (int)LanguageID.ChineseS;
+
         if (CanBeAnyLanguage())
             return true;
 
@@ -539,7 +552,8 @@ public sealed class WB7(byte[] Data)
             if (Data[0x1D8 + i] != 0)
                 return false;
         }
-        return true;
+
+        return !IsMainlandChinaGift;
     }
 
     public bool CanHandleOT(int language) => string.IsNullOrEmpty(GetOT(language));

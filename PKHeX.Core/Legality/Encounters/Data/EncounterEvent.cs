@@ -101,7 +101,7 @@ public static class EncounterEvent
     /// Reloads the locally stored event templates.
     /// </summary>
     /// <param name="paths">External folder(s) to source individual mystery gift template files from.</param>
-    public static void RefreshMGDB(params string[] paths)
+    public static void RefreshMGDB(params ReadOnlySpan<string> paths)
     {
         // If no paths are provided, clear the arrays. See the bottom of this method.
         HashSet<PCD>? g4 = null; List<PCD>? lg4 = null;

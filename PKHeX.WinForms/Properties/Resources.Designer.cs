@@ -733,7 +733,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=Box Layout Editor
         ///SAV_BoxList=PC Ansicht
         ///SAV_Capture7GG=Fang Statistik Editor
-        ///SAV_CGearSkin=C-Gear Skin
         ///SAV_Database=Datenbank
         ///SAV_Encounters=Begegnungen
         ///SAV_EventFlags=Event Flag Editor
@@ -760,7 +759,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=Box Layout Editor
         ///SAV_BoxList=Storage Viewer
         ///SAV_Capture7GG=Capture Record Editor
-        ///SAV_CGearSkin=C-Gear Skin
         ///SAV_Database=Database
         ///SAV_Encounters=Database
         ///SAV_EventFlags=Event Flag Editor
@@ -787,7 +785,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=Editor de fondos de Cajas
         ///SAV_BoxList=Visor de Almacenamiento
         ///SAV_Capture7GG=Editor de Récord de Captura
-        ///SAV_CGearSkin=Editor de la apariencia C-Gear
         ///SAV_Database= [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_es {
@@ -811,7 +808,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=Fonds de Boîtes
         ///SAV_BoxList=Visualiseur de stockage
         ///SAV_Capture7GG=Capture Éditeur d&apos;enregistrement
-        ///SAV_CGearSkin=Fonds C-Gear
         ///SAV_Database=Base de Données
         ///SAV_Encounters=Base de données
         ///SAV_EventFlags=É [rest of string was truncated]&quot;;.
@@ -837,7 +833,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=Editor Disposizione Box
         ///SAV_BoxList=Visualizzatore Storage
         ///SAV_Capture7GG=Editor Record di Catture
-        ///SAV_CGearSkin=C-Gear Skin
         ///SAV_Database=Database
         ///SAV_Encounters=Database
         ///SAV_ [rest of string was truncated]&quot;;.
@@ -863,7 +858,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=ボックスレイアウト
         ///SAV_BoxList=ボックスリスト
         ///SAV_Capture7GG=Capture Record Editor
-        ///SAV_CGearSkin=Cギア スキン
         ///SAV_Database=データベース
         ///SAV_Encounters=Database
         ///SAV_EventFlags=イベントフラグ
@@ -893,7 +887,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=박스 레이아웃 편집 도구
         ///SAV_BoxList=소지 공간 뷰어
         ///SAV_Capture7GG=Capture Record Editor
-        ///SAV_CGearSkin=C기어 스킨
         ///SAV_Database=데이터베이스
         ///SAV_Encounters=데이터베이스
         ///SAV_EventFlags=이벤트 플래그 편집 도구
@@ -922,7 +915,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=盒子外观
         ///SAV_BoxList=寄放系统
         ///SAV_Capture7GG=捕获记录编辑
-        ///SAV_CGearSkin=C装置皮肤
         ///SAV_Database=数据库
         ///SAV_Encounters=数据库
         ///SAV_EventFlags=事件旗标编辑
@@ -957,7 +949,6 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BoxLayout=盒子外觀
         ///SAV_BoxList=寄放系統
         ///SAV_Capture7GG=捕獲記錄編輯
-        ///SAV_CGearSkin=C裝置皮膚
         ///SAV_Database=資料庫
         ///SAV_Encounters=遇見資料庫
         ///SAV_EventFlags=事件旗標編輯

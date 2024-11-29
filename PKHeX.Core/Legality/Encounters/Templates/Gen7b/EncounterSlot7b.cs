@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.GG"/>.
 /// </summary>
-public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byte LevelMin, byte LevelMax)
+public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byte LevelMin, byte LevelMax, byte CrossoverFlags)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>
 {
     public byte Generation => 7;
@@ -16,6 +16,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     public ushort EggLocation => 0;
 
     public byte Form => 0;
+    public byte CrossoverFlags = CrossoverFlags;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name}";
@@ -80,7 +81,15 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
             return false;
         if (Form != evo.Form)
             return false;
+        if (pk.MetLocation != Parent.Location && !IsCrossoverAllowed(pk.MetLocation))
+            return false;
         return true;
+    }
+
+    private bool IsCrossoverAllowed(ushort metloc)
+    {
+        var bit = metloc == Parent.ToArea1 ? 0b01 : 0b10; // at most 2 locations, we already matched one
+        return (CrossoverFlags & bit) != 0;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

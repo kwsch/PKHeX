@@ -78,7 +78,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
         }
     }
 
-    // 0x1F
+    public byte HeldMailID { get => Data[0x1F]; set => Data[0x1F] = value; }
 
     public byte PokerusState { get => Data[0x20]; set => Data[0x20] = value; }
     // Crystal only Caught Data
@@ -134,10 +134,10 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override bool HasOriginalMetLocation => CaughtData != 0;
     public override GameVersion Version { get => GameVersion.GSC; set { } }
 
-    protected override void GetNonNickname(int language, Span<byte> data)
+    protected override int GetNonNickname(int language, Span<byte> data)
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
-        StringConverter2.SetString(data, name, data.Length, language, StringConverterOption.Clear50);
+        return StringConverter2.SetString(data, name, data.Length, language, StringConverterOption.Clear50);
     }
 
     public override void SetNotNicknamed(int language) => GetNonNickname(language, NicknameTrash);

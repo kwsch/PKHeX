@@ -8,6 +8,11 @@ v0603	t004d0103_pm0150_mewtwo (뮤츠)
 v1114	t011r0501_pm0106_sawamular (Hitmonlee)
 v1113	t011r0501_pm0107_ebiwalar (Hitmonchan)
 
+v0627	Bulbasaur in Cerulean City
+v0157	Charmander on Route 24
+v0322	Squirtle in Vermilion City
+v0255	Porygon in Saffron City
+
 e0116	FE_MASTER_RED_BATTLE_TALKED (Spoken to Red)
 e0000	FE_EV0905_BTL_RED (Defeated Red)
 e0107	FE_WAZA_OMOIDASHI
@@ -24,6 +29,15 @@ e0193	FE_CAPTURE_KABIGON_ROAD016 (16번도로 잠만보 잡음)
 
 e0029	FE_SUB_23_BTLAFTER (Defeated Karate Master)
 e0030	FE_SUB_23_CLEAR (Received Hitmonlee/Hitmonchan)
+
+e0006	Received Pewter City Old Amber
+e0004	Purchased Route 4 Magikarp
+e0046	Received Cerulean City Bulbasaur
+e0047	Received Route 24 Charmander
+e0048	Received Vermilion City Squirtle
+e0011	Received Silph Co. Lapras
+e0081	Received Saffron City Porygon
+e0154	Received Vermilion City Persian/Arcanine
 
 s0001	FSYS_HIDEN_OPEN_IAIGIRI (Unlocked Secret Technique: Chop Down)
 s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (Unlocked Secret Technique: Sky Dash)
@@ -45,6 +59,7 @@ s0017	FSYS_GYM_CLEAR_ESPER (체육관 관장 초련 이김)
 s0018	FSYS_GYM_CLEAR_FIRE (체육관 관장 강연 이김)
 s0019	FSYS_GYM_CLEAR_GROUND (체육관 관장 비주기 이김)
 s0020	FSYS_ZUKAN_COMPLETE (Completed Pokedex)
+s0106	FSYS_GOKIGEN_GAME_CLEAR (Can receive Small Bouquet)
 
 s0022	FSYS_FLAG_CAN_NOT_FLY (하늘날기 비활성화됨)
 s0077	FSYS_FLAG_CAN_USE_CAIRIKI (Can use Strong Push)
@@ -106,3 +121,4 @@ s0298	Dome Fossil in Fuchsia City
 s0299	Helix Fossil in Fuchsia City
 s0357	Received Fighting Dojo Hitmonchan
 s0358	Received Fighting Dojo Hitmonlee
+s0359	Old Amber Claimed in Pewter City

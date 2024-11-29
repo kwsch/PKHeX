@@ -515,10 +515,10 @@ namespace PKHeX.WinForms
             // B_Search
             // 
             B_Search.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Search.Location = new System.Drawing.Point(388, 464);
+            B_Search.Location = new System.Drawing.Point(384, 412);
             B_Search.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Search.Name = "B_Search";
-            B_Search.Size = new System.Drawing.Size(240, 35);
+            B_Search.Size = new System.Drawing.Size(240, 32);
             B_Search.TabIndex = 102;
             B_Search.Text = "Search!";
             B_Search.UseVisualStyleBackColor = true;
@@ -673,7 +673,7 @@ namespace PKHeX.WinForms
             // 
             L_Viewed.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             L_Viewed.AutoSize = true;
-            L_Viewed.Location = new System.Drawing.Point(10, 495);
+            L_Viewed.Location = new System.Drawing.Point(10, 446);
             L_Viewed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Viewed.Name = "L_Viewed";
             L_Viewed.Size = new System.Drawing.Size(89, 15);
@@ -815,7 +815,7 @@ namespace PKHeX.WinForms
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.Size = new System.Drawing.Size(292, 414);
+            TLP_Filters.Size = new System.Drawing.Size(292, 369);
             TLP_Filters.TabIndex = 118;
             // 
             // FLP_Format
@@ -910,7 +910,7 @@ namespace PKHeX.WinForms
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_SearchSettings.Name = "TC_SearchSettings";
             TC_SearchSettings.SelectedIndex = 0;
-            TC_SearchSettings.Size = new System.Drawing.Size(308, 448);
+            TC_SearchSettings.Size = new System.Drawing.Size(308, 403);
             TC_SearchSettings.TabIndex = 120;
             // 
             // Tab_General
@@ -920,7 +920,7 @@ namespace PKHeX.WinForms
             Tab_General.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_General.Name = "Tab_General";
             Tab_General.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_General.Size = new System.Drawing.Size(300, 420);
+            Tab_General.Size = new System.Drawing.Size(300, 375);
             Tab_General.TabIndex = 0;
             Tab_General.Text = "General";
             Tab_General.UseVisualStyleBackColor = true;
@@ -932,7 +932,7 @@ namespace PKHeX.WinForms
             Tab_Advanced.Location = new System.Drawing.Point(4, 24);
             Tab_Advanced.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Advanced.Name = "Tab_Advanced";
-            Tab_Advanced.Size = new System.Drawing.Size(300, 420);
+            Tab_Advanced.Size = new System.Drawing.Size(300, 380);
             Tab_Advanced.TabIndex = 1;
             Tab_Advanced.Text = "Advanced";
             Tab_Advanced.UseVisualStyleBackColor = true;
@@ -955,14 +955,14 @@ namespace PKHeX.WinForms
             RTB_Instructions.Location = new System.Drawing.Point(0, 48);
             RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(298, 369);
+            RTB_Instructions.Size = new System.Drawing.Size(298, 329);
             RTB_Instructions.TabIndex = 120;
             RTB_Instructions.Text = "";
             // 
             // SAV_Database
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(670, 512);
+            ClientSize = new System.Drawing.Size(670, 463);
             Controls.Add(B_Reset);
             Controls.Add(TC_SearchSettings);
             Controls.Add(B_Search);

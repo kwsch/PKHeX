@@ -27,7 +27,7 @@ public partial class SAV_PokedexGG : Form
 
         // Fill List
         CB_Species.InitializeBinding();
-        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
+        CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), string.Empty);
 
         Dex = SAV.Blocks.Zukan;
 

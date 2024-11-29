@@ -74,7 +74,7 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
         new(0x22A00, 0x0850, 0x23252, 0x25F78), // 60 Entralink Forest pokémon data
         new(0x23300, 0x0284, 0x23586, 0x25F7A), // 61 Answered Questions
         new(0x23600, 0x0010, 0x23612, 0x25F7C), // 62 Unity Tower
-        new(0x23700, 0x00a8, 0x237AA, 0x25F7E), // 63 PWT related data
+        new(0x23700, 0x00a8, 0x237AA, 0x25F7E), // 63 Battle Institute & PWT related data
         new(0x23800, 0x016c, 0x2396E, 0x25F80), // 64 ???
         new(0x23A00, 0x0080, 0x23A82, 0x25F82), // 65 ???
         new(0x23B00, 0x00fc, 0x23BFE, 0x25F84), // 66 Hollow/Rival Block
@@ -90,9 +90,10 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksB2W2;
     public BoxLayout5 BoxLayout { get; } = new(sav, Block(sav, 0));
     public MyItem5B2W2 Items { get; } = new(sav, Block(sav, 25));
-    public PlayerData5 PlayerData { get; } = new(sav, Block(sav, 27));
+    public PlayerData5B2W2 PlayerData { get; } = new(sav, Block(sav, 27));
     public PlayerPosition5 PlayerPosition { get; } = new(sav, Block(sav, 28));
     public UnityTower5 UnityTower { get; } = new(sav, Block(sav, 29));
+    public SkinInfo5B2W2 SkinInfo { get; } = new(sav, Block(sav, 32));
     public MysteryBlock5 Mystery { get; } = new(sav, Block(sav, 34));
     public GlobalLink5 GlobalLink { get; } = new(sav, Block(sav, 35));
     public Chatter5 Chatter { get; } = new(sav, Block(sav, 36));
@@ -120,6 +121,8 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     MyItem ISaveBlock5BW.Items => Items;
     Entralink5 ISaveBlock5BW.Entralink => Entralink;
     Misc5 ISaveBlock5BW.Misc => Misc;
+    SkinInfo5 ISaveBlock5BW.SkinInfo => SkinInfo;
+    PlayerData5 ISaveBlock5BW.PlayerData => PlayerData;
 
     public static Memory<byte> Block(SAV5B2W2 sav, int index)
     {

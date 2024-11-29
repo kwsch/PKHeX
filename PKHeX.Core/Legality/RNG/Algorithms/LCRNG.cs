@@ -70,7 +70,7 @@ public static class LCRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next (uint seed) => (seed * Mult ) + Add ;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next2(uint seed) => (seed * Mult2) + Add2;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next3(uint seed) => (seed * Mult3) + Add3;
-    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next4(uint seed) => (seed * Mult4) + Add5;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next4(uint seed) => (seed * Mult4) + Add4;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next5(uint seed) => (seed * Mult5) + Add5;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next6(uint seed) => (seed * Mult6) + Add6;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next7(uint seed) => (seed * Mult7) + Add7;
@@ -88,7 +88,7 @@ public static class LCRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev9(uint seed) => (seed * rMult9) + rAdd9;
 
     /// <summary>
-    /// Gets the next 16 bits of the next RNG seed.
+    /// Gets the upper 16 bits of the next RNG seed.
     /// </summary>
     /// <param name="seed">Seed to advance one step.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -99,9 +99,9 @@ public static class LCRNG
     }
 
     /// <summary>
-    /// Gets the previous 16 bits of the previous RNG seed.
+    /// Gets the upper 16 bits of the previous RNG seed.
     /// </summary>
-    /// <param name="seed">Seed to advance one step.</param>
+    /// <param name="seed">Seed to reverse one step.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint Prev16(ref uint seed)
     {

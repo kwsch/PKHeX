@@ -609,7 +609,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_CellsStickers_Click(object sender, EventArgs e) => OpenDialog(new SAV_ZygardeCell((SAV7)SAV));
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
-    private void B_CGearSkin_Click(object sender, EventArgs e) => OpenDialog(new SAV_CGearSkin((SAV5)SAV));
+    private void B_DLC_Click(object sender, EventArgs e) => OpenDialog(new SAV_DLC5((SAV5)SAV));
     private void B_OpenTrainerInfo_Click(object sender, EventArgs e) => OpenDialog(GetTrainerEditor(SAV));
     private void B_OpenOPowers_Click(object sender, EventArgs e) => OpenDialog(new SAV_OPower((ISaveBlock6Main)SAV));
     private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_HoneyTree((SAV4Sinnoh)SAV));
@@ -695,8 +695,10 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             }
             else
             {
-                form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g);
-                form.Owner = ParentForm;
+                form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g)
+                {
+                    Owner = ParentForm,
+                };
             }
             form.BringToFront();
             form.Show();
@@ -1218,7 +1220,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
         B_OpenFriendSafari.Visible = sav is SAV6XY;
         B_OpenEventFlags.Visible = sav is IEventFlag37 or IEventFlagProvider37 or SAV1 or SAV2 or SAV8BS or SAV7b;
-        B_CGearSkin.Visible = sav.Generation == 5;
+        B_DLC.Visible = sav.Generation == 5;
         B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 
         B_OtherSlots.Visible = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
@@ -1233,8 +1235,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenChatterEditor.Visible = sav is SAV4 or SAV5;
         B_OpenSealStickers.Visible = B_Poffins.Visible = sav is SAV8BS;
         B_OpenApricorn.Visible = sav is SAV4HGSS;
-        B_OpenRTCEditor.Visible = sav.Generation == 2 || sav is IGen3Hoenn;
-        B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
+        B_OpenRTCEditor.Visible = (sav.Generation == 2 && sav is not SAV2Stadium) || sav is IGen3Hoenn;
+        B_MailBox.Visible = sav is SAV2 or SAV2Stadium or SAV3 or SAV4 or SAV5;
 
         B_Raids.Visible = sav is SAV8SWSH or SAV9SV;
         B_RaidsSevenStar.Visible = sav is SAV9SV;
@@ -1263,7 +1265,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             var current = br.CurrentSlot;
             var list = br.SaveNames.Select((z, i) => new ComboItem(z, i)).ToList();
             CB_SaveSlot.InitializeBinding();
-            CB_SaveSlot.DataSource = new BindingSource(list, null);
+            CB_SaveSlot.DataSource = new BindingSource(list, string.Empty);
             CB_SaveSlot.SelectedValue = current;
         }
         else
@@ -1418,35 +1420,42 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private async void TabMouseMove(object sender, MouseEventArgs e)
     {
-        if (!IsBoxDragActive)
-            return;
-
-        if (e.Location == DragStartPoint)
-            return;
-
-        // Gather data
-        var src = SAV.CurrentBox;
-        var bin = SAV.GetBoxBinary(src);
-
-        // Create Temp File to Drag
-        var newFile = Path.Combine(Path.GetTempPath(), $"box_{src}.bin");
         try
         {
-            using var img = new Bitmap(Box.Width, Box.Height);
-            Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
-            using var cursor = Cursor = new Cursor(img.GetHicon());
-            await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
-            DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
+            if (!IsBoxDragActive)
+                return;
+
+            if (e.Location == DragStartPoint)
+                return;
+
+            // Gather data
+            var src = SAV.CurrentBox;
+            var bin = SAV.GetBoxBinary(src);
+
+            // Create Temp File to Drag
+            var newFile = Path.Combine(Path.GetTempPath(), $"box_{src}.bin");
+            try
+            {
+                using var img = new Bitmap(Box.Width, Box.Height);
+                Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
+                using var cursor = Cursor = new Cursor(img.GetHicon());
+                await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
+            }
+            // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
+            catch (Exception x)
+            { WinFormsUtil.Error("Drag && Drop Error", x); }
+            finally
+            {
+                Cursor = Cursors.Default;
+                await Task.Delay(100).ConfigureAwait(false);
+                IsBoxDragActive = false;
+                await DeleteAsync(newFile, 20_000).ConfigureAwait(false);
+            }
         }
-        // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
-        catch (Exception x)
-        { WinFormsUtil.Error("Drag && Drop Error", x); }
-        finally
+        catch
         {
-            Cursor = Cursors.Default;
-            await Task.Delay(100).ConfigureAwait(false);
-            IsBoxDragActive = false;
-            await DeleteAsync(newFile, 20_000).ConfigureAwait(false);
+            // Ignore.
         }
     }
 

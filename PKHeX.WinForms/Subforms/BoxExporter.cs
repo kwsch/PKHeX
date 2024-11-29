@@ -10,11 +10,7 @@ public partial class BoxExporter : Form
     private readonly SaveFile SAV;
     private readonly IFileNamer<PKM>[] Namers = [.. EntityFileNamer.AvailableNamers];
 
-    private BoxExportSettings Settings
-    {
-        get => (BoxExportSettings)PG_Settings.SelectedObject;
-        init => PG_Settings.SelectedObject = value;
-    }
+    private readonly BoxExportSettings Settings;
 
     public BoxExporter(SaveFile sav, ExportOverride eo = ExportOverride.None)
     {
@@ -26,7 +22,7 @@ public partial class BoxExporter : Form
         var settings = obj.BoxExport;
         if (eo != 0)
             settings = settings with { Scope = eo == ExportOverride.All ? BoxExportScope.All : BoxExportScope.Current };
-        Settings = settings;
+        PG_Settings.SelectedObject = Settings = settings;
 
         int index = 0;
         for (var i = 0; i < Namers.Length; i++)

@@ -37,6 +37,7 @@ public sealed class SaveBlockAccessor6AODemo(SAV6AODemo sav) : ISaveBlockAccesso
     public GameTime6 GameTime { get; } = new(sav, Block(sav, 2));
     public Situation6 Situation { get; } = new(sav, Block(sav, 3));
     public PlayTime6 Played { get; } = new(sav, Block(sav, 5));
+    public FieldMoveModelSave6 Overworld { get; } = new(sav, Block(sav, 7));
     public Misc6AO Misc { get; } = new(sav, Block(sav, 8));
     public MyStatus6 Status { get; } = new(sav, Block(sav, 9));
     public EventWork6 EventWork { get; } = new(sav, Block(sav, 11));

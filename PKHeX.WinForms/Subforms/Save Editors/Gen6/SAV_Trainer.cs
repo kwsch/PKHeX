@@ -192,6 +192,7 @@ public partial class SAV_Trainer : Form
     {
         SAV.Version = (GameVersion)(CB_Game.SelectedIndex + 0x18);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
+        SAV.Overworld.ResetPlayerModel();
 
         SAV.TID16 = (ushort)Util.ToUInt32(MT_TID.Text);
         SAV.SID16 = (ushort)Util.ToUInt32(MT_SID.Text);
@@ -254,7 +255,7 @@ public partial class SAV_Trainer : Form
         if (SAV is SAV6XY xy)
         {
             var xystat = (MyStatus6XY)xy.Status;
-            xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject;
+            xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject!;
             xystat.Nickname = TB_TRNick.Text;
         }
 

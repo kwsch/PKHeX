@@ -117,7 +117,7 @@ public sealed class AbilityVerifier : Verifier
         };
     }
 
-    private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterable enc, IPersonalAbility12 abilities, int abilIndex)
+    private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterTemplate enc, IPersonalAbility12 abilities, int abilIndex)
     {
         var pk = data.Entity;
         byte format = pk.Format;
@@ -353,7 +353,7 @@ public sealed class AbilityVerifier : Verifier
         };
     }
 
-    private CheckResult VerifyAbility8BDSP(LegalityAnalysis data, IEncounterable enc)
+    private CheckResult VerifyAbility8BDSP(LegalityAnalysis data, IEncounterTemplate enc)
     {
         var pk = data.Entity;
         if (pk.AbilityNumber != 4)

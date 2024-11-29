@@ -31,7 +31,7 @@ public static class StringConverter5
         for (; i < data.Length; i += 2)
         {
             var value = ReadUInt16LittleEndian(data[i..]);
-            if (value == Terminator)
+            if (value is Terminator or 0)
                 break;
             result[ctr++] = StringConverter4Util.NormalizeGenderSymbol((char)value);
         }

@@ -23,7 +23,7 @@ public static class GenerateMethodK
         var ability = criteria.GetAbilityFromNumber(AbilityPermission.Any12);
         var (min, max) = SlotMethodK.GetRange(enc.Type, enc.SlotNumber);
         bool randLevel = MethodK.IsLevelRand(enc);
-        var modulo = enc.Type.IsSafari() ? 10 : 100;
+        var modulo = enc.Type.IsSafari() ? 10u : 100u;
         bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
 
         // Generate Method K correlated PID and IVs, no lead (keep things simple).
@@ -42,7 +42,7 @@ public static class GenerateMethodK
             if (esv < min || esv > max)
                 continue;
             var lv = randLevel ? LCRNG.Next16(ref seed) : 0;
-            var nature = LCRNG.Next16(ref seed) % 25;
+            var nature = MethodK.GetNature(LCRNG.Next16(ref seed));
             if (criteria.IsSpecifiedNature() && nature != (byte)criteria.Nature)
                 continue;
 
@@ -60,7 +60,12 @@ public static class GenerateMethodK
                     break; // try again
 
                 if (randLevel)
-                    pk.MetLevel = pk.CurrentLevel = (byte)((lv % (enc.LevelMax - enc.LevelMin + 1)) + enc.LevelMin);
+                {
+                    var level = (byte)MethodK.GetRandomLevel(enc, lv, LeadRequired.None);
+                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsLevelRangeSatisfied(level))
+                        break; // try again
+                    pk.MetLevel = pk.CurrentLevel = level;
+                }
                 pk.PID = pid;
                 var iv1 = LCRNG.Next16(ref seed);
                 var iv2 = LCRNG.Next16(ref seed);
@@ -88,7 +93,7 @@ public static class GenerateMethodK
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
         var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -106,9 +111,19 @@ public static class GenerateMethodK
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodK.GetSeed(enc, seed, enc, 4);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodK.GetSeed(enc, seed, criteria)
+                : MethodK.GetSeed(enc, seed);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
+
+            if (MethodK.IsLevelRand(enc))
+            {
+                var rand16 = MethodK.SkipToLevelRand(enc, lead.Seed, lead.Lead) >> 16;
+                var level = MethodK.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
+            }
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
@@ -123,11 +138,4 @@ public static class GenerateMethodK
     }
 
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
-
-    private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
-    {
-        uint iv1 = (uint)criteria.IV_HP | (uint)criteria.IV_ATK << 5 | (uint)criteria.IV_DEF << 10;
-        uint iv2 = (uint)criteria.IV_SPE | (uint)criteria.IV_SPA << 5 | (uint)criteria.IV_SPD << 10;
-        return (iv1, iv2);
-    }
 }

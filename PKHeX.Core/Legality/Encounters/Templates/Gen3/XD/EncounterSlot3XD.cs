@@ -72,6 +72,6 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk) => val == PIDType.PokeSpot;
+    public bool IsCompatible(PIDType type, PKM pk) => type == PIDType.PokeSpot;
     public PIDType GetSuggestedCorrelation() => PIDType.PokeSpot;
 }

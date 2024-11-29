@@ -37,11 +37,11 @@ public static class GenerateMethodJ
                     continue;
                 }
             }
-            var esv = LCRNG.Next16(ref seed) / 656;
+            var esv = LCRNG.Next16(ref seed) / 656u;
             if (esv < min || esv > max)
                 continue;
             var lv = randLevel ? LCRNG.Next16(ref seed) : 0;
-            var nature = LCRNG.Next16(ref seed) % 25;
+            var nature = MethodJ.GetNature(LCRNG.Next16(ref seed));
             if (criteria.IsSpecifiedNature() && nature != (byte)criteria.Nature)
                 continue;
 
@@ -60,10 +60,10 @@ public static class GenerateMethodJ
 
                 if (randLevel)
                 {
-                    var lvl = enc.Type is SlotType4.HoneyTree
-                        ? MethodJ.GetHoneyTreeLevel(lv)
-                        : ((lv % (enc.LevelMax - enc.LevelMin + 1)) + enc.LevelMin);
-                    pk.MetLevel = pk.CurrentLevel = (byte)lvl;
+                    var level = (byte)MethodJ.GetRandomLevel(enc, lv, LeadRequired.None);
+                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsLevelRangeSatisfied(level))
+                        break; // try again
+                    pk.MetLevel = pk.CurrentLevel = level;
                 }
                 pk.PID = pid;
                 var iv1 = LCRNG.Next16(ref seed);
@@ -89,7 +89,7 @@ public static class GenerateMethodJ
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;
-        (uint iv1, uint iv2) = GetCombinedIVs(criteria);
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
         Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
         var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
         var seeds = all[..count];
@@ -107,9 +107,19 @@ public static class GenerateMethodJ
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (!criteria.IsGenderSatisfied(gender))
                 continue;
-            var lead = MethodJ.GetSeed(enc, seed, enc, 4);
+            var lead = criteria.IsSpecifiedLevelRange()
+                ? MethodJ.GetSeed(enc, seed, criteria)
+                : MethodJ.GetSeed(enc, seed);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
+
+            if (MethodJ.IsLevelRand(enc))
+            {
+                var rand16 = MethodJ.SkipToLevelRand(enc, lead.Seed) >> 16;
+                var level = MethodJ.GetRandomLevel(enc, rand16, lead.Lead);
+                if (pk.MetLevel != level)
+                    pk.MetLevel = pk.CurrentLevel = (byte)level;
+            }
 
             pk.PID = pid;
             pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
@@ -124,11 +134,4 @@ public static class GenerateMethodJ
     }
 
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
-
-    private static (uint iv1, uint iv2) GetCombinedIVs(EncounterCriteria criteria)
-    {
-        uint iv1 = (uint)criteria.IV_HP | (uint)criteria.IV_ATK << 5 | (uint)criteria.IV_DEF << 10;
-        uint iv2 = (uint)criteria.IV_SPE | (uint)criteria.IV_SPA << 5 | (uint)criteria.IV_SPD << 10;
-        return (iv1, iv2);
-    }
 }

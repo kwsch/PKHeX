@@ -120,11 +120,11 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
         if (Species != (int)Core.Species.Unown)
-            return val is (Method_1 or Method_2 or Method_3 or Method_4);
-        return val is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown);
+            return type is (Method_1 or Method_2 or Method_3 or Method_4);
+        return type is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown);
     }
 
     public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? Method_1_Unown : Method_1;

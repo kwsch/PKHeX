@@ -46,6 +46,9 @@ public sealed class TrainerDatabase
     private ITrainerInfo? GetTrainerFromGroup(GameVersion version, LanguageID? lang = null)
     {
         var possible = Database.Where(z => version.Contains(z.Key)).ToList();
+        if (possible.Count == 0)
+            return null;
+
         if (lang != null)
         {
             possible = possible.Select(z =>
@@ -66,6 +69,9 @@ public sealed class TrainerDatabase
     public ITrainerInfo? GetTrainerFromGen(byte generation, LanguageID? lang = null)
     {
         var possible = Database.Where(z => z.Key.GetGeneration() == generation).ToList();
+        if (possible.Count == 0)
+            return null;
+
         if (lang != null)
         {
             possible = possible.Select(z =>

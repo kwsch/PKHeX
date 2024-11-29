@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -186,14 +186,14 @@ public partial class SAV_Poffin8b : Form
             item.MstID = SetPoffinName(cells[1].Value?.ToString() ?? "");
             item.Level = Parse(cells[2]);
             item.Taste = Parse(cells[3]);
-            item.IsNew = (bool)cells[4].Value;
+            item.IsNew = (bool)cells[4].Value!;
             item.FlavorSpicy = Parse(cells[5]);
             item.FlavorDry = Parse(cells[6]);
             item.FlavorSweet = Parse(cells[7]);
             item.FlavorBitter = Parse(cells[8]);
             item.FlavorSour = Parse(cells[9]);
 
-            static byte Parse(DataGridViewCell c) => (byte)(byte.TryParse(c.Value.ToString(), out var p) ? p : 0);
+            static byte Parse(DataGridViewCell c) => (byte)(byte.TryParse(c.Value!.ToString(), out var p) ? p : 0);
         }
     }
 

@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.Gen1"/>.
 /// </summary>
 public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber)
-    : IEncounterConvertible<PK1>, IEncounterable, IEncounterMatch, INumberedSlot
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK1>, INumberedSlot
 {
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
@@ -43,10 +43,10 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
 
             OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
+        pk.SetNotNicknamed(lang);
 
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 

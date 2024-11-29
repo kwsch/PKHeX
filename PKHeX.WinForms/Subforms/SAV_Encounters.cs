@@ -94,6 +94,10 @@ public partial class SAV_Encounters : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         GetTypeFilters();
 
+        var settings = new TabPage { Text = "Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        TC_SearchOptions.Controls.Add(settings);
+
         // Load Data
         L_Count.Text = "Ready...";
 
@@ -122,7 +126,7 @@ public partial class SAV_Encounters : Form
     private EncounterTypeGroup[] GetTypes()
     {
         return TypeFilters.Controls.OfType<CheckBox>().Where(z => z.Checked).Select(z => z.Name)
-            .Select(z => (EncounterTypeGroup)Enum.Parse(typeof(EncounterTypeGroup), z)).ToArray();
+            .Select(Enum.Parse<EncounterTypeGroup>).ToArray();
     }
 
     private readonly PictureBox[] PKXBOXES;
@@ -187,7 +191,7 @@ public partial class SAV_Encounters : Form
         var set = new ShowdownSet(editor);
         var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
         if (!isInChain)
-            criteria = criteria with { Gender = default }; // Genderless tabs and a gendered enc -> let's play safe.
+            criteria = criteria with { Gender = Gender.Random }; // Genderless tabs and a gendered enc -> let's play safe.
         return criteria;
     }
 
@@ -209,7 +213,7 @@ public partial class SAV_Encounters : Form
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
             {
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(DS_Move, null);
+                cb.DataSource = new BindingSource(DS_Move, string.Empty);
             }
         }
 
@@ -382,6 +386,7 @@ public partial class SAV_Encounters : Form
         return settings;
     }
 
+    // ReSharper disable once AsyncVoidMethod
     private async void B_Search_Click(object sender, EventArgs e)
     {
         B_Search.Enabled = false;

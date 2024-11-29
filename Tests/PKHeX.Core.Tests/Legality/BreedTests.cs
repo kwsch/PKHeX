@@ -46,7 +46,7 @@ public class BreedTests
         var x = origins;
 
         if (gen != 2)
-            x.SequenceEqual(x.OrderBy(z => z)).Should().BeTrue();
+            x.SequenceEqual(x.Order()).Should().BeTrue();
         else
             x.SequenceEqual(x.OrderBy(z => z != (byte)EggSource2.Base)).Should().BeTrue();
     }

@@ -61,6 +61,7 @@ public sealed class LegalInfo : IGeneration
 
     public bool PIDParsed { get; private set; }
     private PIDIV _pidiv;
+    internal ref PIDIV GetPIDIVRef() => ref _pidiv;
 
     public EncounterYieldFlag ManualFlag { get; internal set; }
     public bool FrameMatches => ManualFlag != EncounterYieldFlag.InvalidFrame;

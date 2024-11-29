@@ -275,15 +275,15 @@ public sealed record EncounterStatic4(GameVersion Version)
 
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
         if (Species == (int)Core.Species.Pichu)
-            return val == PIDType.Pokewalker;
+            return type == PIDType.Pokewalker;
         if (Shiny == Shiny.Always)
-            return val == PIDType.ChainShiny;
-        if (val is PIDType.Method_1)
+            return type == PIDType.ChainShiny;
+        if (type is PIDType.Method_1)
             return true;
-        if (val is PIDType.CuteCharm)
+        if (type is PIDType.CuteCharm)
             return MethodFinder.IsCuteCharm4Valid(this, pk);
         return false;
     }

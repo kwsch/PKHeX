@@ -22,7 +22,7 @@ public partial class SAV_Link6 : Form
         foreach (var cb in (ComboBox[])[CB_Item1, CB_Item2, CB_Item3, CB_Item4, CB_Item5, CB_Item6])
         {
             cb.InitializeBinding();
-            cb.DataSource = new BindingSource(filtered.Items, null);
+            cb.DataSource = new BindingSource(filtered.Items, string.Empty);
         }
         Gifts = SAV.Link.Gifts;
         LoadLinkData();

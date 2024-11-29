@@ -30,7 +30,7 @@ public partial class SAV_Misc4 : Form
         accessories = GameInfo.Strings.accessories;
         backdrops = GameInfo.Strings.backdrops;
         poketchapps = GameInfo.Strings.poketchapps;
-        backdropsSorted = [.. backdrops.OrderBy(z => z)]; // sorted copy
+        backdropsSorted = [.. backdrops.Order()]; // sorted copy
 
         StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
         StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3]; // Current, Trade, Record, Trade
@@ -360,7 +360,7 @@ public partial class SAV_Misc4 : Form
         CB_Species.InitializeBinding();
 
         var speciesList = GameInfo.FilteredSources.Species.Skip(1).ToList();
-        CB_Species.DataSource = new BindingSource(speciesList, null);
+        CB_Species.DataSource = new BindingSource(speciesList, string.Empty);
 
         editing = false;
         CB_Stats1.SelectedIndex = 0;
@@ -887,7 +887,7 @@ public partial class SAV_Misc4 : Form
             DisplayIndex = 0,
             Width = 190,
             FlatStyle = FlatStyle.Flat,
-            DataSource = new BindingSource(backdropsSorted, null),
+            DataSource = new BindingSource(backdropsSorted, string.Empty),
         };
         DGV_Backdrops.Columns.Add(dgv);
 

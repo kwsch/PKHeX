@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// Generation 8 Nest Encounter (Distributed Data)
 /// </summary>
 /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
-public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8ND>
+public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8ND>, IEncounterDownlevel
 {
     /// <summary>
     /// Distribution raid index for <see cref="GameVersion.SWSH"/>
@@ -56,6 +56,10 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
         };
     }
 
+    private const byte SharedNestMinLevel = 20;
+
+    public byte GetDownleveledMin() => SharedNestMinLevel;
+
     protected override bool IsMatchLevel(PKM pk)
     {
         var lvl = pk.MetLevel;
@@ -73,7 +77,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
         // Check downleveled (20-55)
         if (lvl > Level)
             return false;
-        if (lvl is < 20 or > 55)
+        if (lvl is < SharedNestMinLevel or > 55)
             return false;
 
         if (lvl % 5 != 0)

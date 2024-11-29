@@ -50,7 +50,7 @@ public partial class RibbonEditor : Form
             return;
         }
 
-        const int count = AffixedRibbon.Max;
+        const int count = AffixedRibbon.Max + 1; // 0 is a valid index, and max is inclusive with that index.
         static string GetRibbonPropertyName(int z) => RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}");
         static ComboItem GetComboItem(int ribbonIndex) => new(GetRibbonPropertyName(ribbonIndex), ribbonIndex);
 

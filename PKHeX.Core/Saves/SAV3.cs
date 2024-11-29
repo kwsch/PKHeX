@@ -628,7 +628,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         var ofs = GetMailOffset(mailIndex);
         var data = Large.AsSpan(ofs, Mail3.SIZE).ToArray();
-        return new Mail3(data, ofs, Japanese);
+        return new Mail3(data, ofs);
     }
 
     #region eBerry

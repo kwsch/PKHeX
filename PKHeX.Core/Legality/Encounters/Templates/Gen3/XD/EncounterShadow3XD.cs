@@ -166,6 +166,6 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk) => val is PIDType.CXD or PIDType.CXDAnti;
+    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD or PIDType.CXDAnti;
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
 }

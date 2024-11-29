@@ -11,6 +11,7 @@ public interface ISaveBlock6Core
     GameTime6 GameTime { get; }
     Situation6 Situation { get; }
     PlayTime6 Played { get; }
+    FieldMoveModelSave6 Overworld { get; }
     MyStatus6 Status { get; }
     RecordBlock6 Records { get; }
 }

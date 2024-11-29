@@ -125,8 +125,10 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         //    continue;
         if (!Shiny.IsValid(pk))
             return false;
-        //if (slot.Gender != Gender.Random && (int) slot.Gender != pk.Gender)
-        //    continue;
+
+        // At least one encounter is a single gender (Pikachu 24-11-04 yay...) so check.
+        if (Gender != Gender.Random && (int)Gender != pk.Gender)
+            return false;
 
         return true;
     }

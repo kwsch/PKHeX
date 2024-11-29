@@ -142,11 +142,11 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
         if (IsColoStarter)
-            return val is PIDType.CXD_ColoStarter;
-        return val is PIDType.CXD;
+            return type is PIDType.CXD_ColoStarter;
+        return type is PIDType.CXD;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;

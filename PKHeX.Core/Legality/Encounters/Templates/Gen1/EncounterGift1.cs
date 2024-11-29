@@ -109,7 +109,6 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, (int)lang, Generation),
             Type1 = pi.Type1,
             Type2 = pi.Type2,
             DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) : EncounterUtil.GetRandomDVs(rand),
@@ -144,6 +143,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
                 _ => EncounterUtil.GetTrainerName(tr, (int)lang),
             },
         };
+        pk.SetNotNicknamed((int)lang);
 
         pk.SetMoves(Moves);
         pk.ResetPartyStats();

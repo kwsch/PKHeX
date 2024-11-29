@@ -13,6 +13,8 @@ public interface ISaveBlock5BW
     Daycare5 Daycare { get; }
     BoxLayout5 BoxLayout { get; }
     PlayerData5 PlayerData { get; }
+    UnityTower5 UnityTower { get; }
+    SkinInfo5 SkinInfo { get; }
     BattleSubwayPlay5 BattleSubwayPlay { get; }
     BattleSubway5 BattleSubway { get; }
     Entralink5 Entralink { get; }

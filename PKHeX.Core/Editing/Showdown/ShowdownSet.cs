@@ -68,7 +68,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public int[] IVs { get; } = [31, 31, 31, 31, 31, 31];
 
     /// <inheritdoc/>
-    public int HiddenPowerType { get; private set; } = -1;
+    public sbyte HiddenPowerType { get; private set; } = -1;
 
     public MoveType TeraType { get; private set; } = MoveType.Any;
 
@@ -512,7 +512,7 @@ public sealed class ShowdownSet : IBattleTemplate
         var moves = Moves.AsSpan();
         pk.GetMoves(moves);
         if (moves.Contains((ushort)Move.HiddenPower))
-            HiddenPowerType = HiddenPower.GetType(IVs, Context);
+            HiddenPowerType = (sbyte)HiddenPower.GetType(IVs, Context);
 
         Nature = pk.StatNature;
         Gender = pk.Gender < 2 ? pk.Gender : (byte)2;
@@ -719,7 +719,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (hpVal == -1)
             return hiddenPowerName;
 
-        HiddenPowerType = hpVal;
+        HiddenPowerType = (sbyte)hpVal;
         if (!Array.TrueForAll(IVs, z => z == 31))
         {
             if (!HiddenPower.SetIVsForType(hpVal, IVs, Context))

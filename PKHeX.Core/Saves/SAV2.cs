@@ -814,7 +814,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;
-    public bool IsGBMobileEnabled => Japanese && Enum.IsDefined(typeof(GBMobileCableColor), GBMobileCable);
+    public bool IsGBMobileEnabled => Japanese && Enum.IsDefined(GBMobileCable);
 
     public GBMobileCableColor GBMobileCable
     {

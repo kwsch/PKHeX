@@ -64,7 +64,7 @@ internal static class Encounters1
         // Yellow Only -- duplicate encounters with a higher level
         // new(001, 10, YW), // Bulbasaur (Cerulean City)
         // new(004, 10, YW), // Charmander (Route 24)
-        // new(007, 10, YW), // Squirtle (Vermillion City)
+        // new(007, 10, YW), // Squirtle (Vermilion City)
     ];
 
     internal static readonly EncounterStatic1[] StaticRB =

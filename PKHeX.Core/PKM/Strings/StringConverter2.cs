@@ -8,9 +8,11 @@ public static class StringConverter2
     public const byte TerminatorZero = StringConverter1.TerminatorZero;
     public const byte TradeOTCode = StringConverter1.TradeOTCode;
     public const byte SpaceCode = StringConverter1.SpaceCode;
+    public const byte LineBreakCode = 0x4E; // Mail
 
     public const char Terminator = StringConverter1.Terminator;
     public const char TradeOT = StringConverter1.TradeOT;
+    public const char LineBreak = '⏎'; // Mail
 
     public static bool GetIsJapanese(ReadOnlySpan<char> str) => AllJapanese(str);
 
@@ -175,10 +177,11 @@ public static class StringConverter2
     private const char MNY = StringConverter1.MNY; // Yen
     private const char LPO = StringConverter1.LPO; // Po
     private const char LKE = StringConverter1.LKE; // Ke
-    private const char LEA = StringConverter1.LEA; // é for Box
+    private const char LEA = StringConverter1.LEA; // é for Box/Mail
     private const char DOT = StringConverter1.DOT; // . for MR.MIME (U+2024, not U+002E)
     private const char SPF = StringConverter1.SPF; // Full-width space (U+3000)
     private const char SPH = StringConverter1.SPH; // Half-width space
+    private const char RET = LineBreak; // Line break for Mail
 
     private const char LAP = '’'; // Apostrophe
 
@@ -197,11 +200,11 @@ public static class StringConverter2
     private const char LI4 = '４'; // 's
     private const char LI5 = '５'; // 't
     private const char LI6 = '６'; // 'v	
-    private const char LI7 = '７'; // 'd
-    private const char LI8 = '８'; // 'l
-    private const char LI9 = '９'; // 'm
-    private const char LIA = 'Ａ'; // 'r
-    private const char LIB = 'Ｂ'; // 's
+    private const char LI7 = '７';
+    private const char LI8 = '８';
+    private const char LI9 = '９';
+    private const char LIA = 'Ａ';
+    private const char LIB = 'Ｂ';
 
     /// <summary>
     /// English encoding table with unused indexes merged in from other languages that use them.
@@ -213,7 +216,7 @@ public static class StringConverter2
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 10-1F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 20-2F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 30-3F
-        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 40-4F
+        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, RET, NUL, // 40-4F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, TOT, NUL, NUL, // 50-5F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 60-6F
         LPO, LKE, '“', '”', NUL, '…', NUL, NUL, NUL, '┌', '─', '┐', '│', '└', '┘', SPH, // 70-7F
@@ -233,7 +236,7 @@ public static class StringConverter2
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 10-1F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 20-2F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 30-3F
-        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 40-4F
+        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, RET, NUL, // 40-4F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, TOT, NUL, NUL, // 50-5F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 60-6F
         LPO, LKE, '“', '”', NUL, '…', NUL, NUL, NUL, '┌', '─', '┐', '│', '└', '┘', SPH, // 70-7F
@@ -241,7 +244,7 @@ public static class StringConverter2
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '(', ')', ':', ';', '[', ']', // 90-9F
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', // A0-AF
         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'à', 'è', 'é', 'ù', 'ß', 'ç', // B0-BF
-        'Ä', 'Ö', 'Ü', 'ä', 'ö', 'ü', 'È', 'É', 'Ì', 'Í', 'Ñ', 'Ò', 'Ó', 'Ù', 'Ú', 'á', // C0-CF
+        'Ä', 'Ö', 'Ü', 'ä', 'ö', 'ü', 'ë', 'ï', 'â', 'ô', 'û', 'ê', 'î', 'Ù', 'Ú', 'á', // C0-CF
         NUL, NUL, NUL, NUL, LI0, LI1, LI2, LI3, LI4, LI5, LI6, LI7, LI8, LI9, LIA, LIB, // D0-DF
         LAP, LPK, LMN, '-', '+', NUL, '?', '!', DOT, '&', LEA, '→', '▷', '▶', '▼', '♂', // E0-EF
         MNY, '×', '.', '/', ',', '♀', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // F0-FF
@@ -253,7 +256,7 @@ public static class StringConverter2
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 10-1F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 20-2F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 30-3F
-        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 40-4F
+        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, RET, NUL, // 40-4F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, TOT, NUL, NUL, // 50-5F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 60-6F
         LPO, LKE, '“', '”', NUL, '…', NUL, NUL, NUL, '┌', '─', '┐', '│', '└', '┘', SPH, // 70-7F
@@ -262,7 +265,7 @@ public static class StringConverter2
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', // A0-AF
         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'à', 'è', 'é', 'ù', 'À', 'Á', // B0-BF
         'Ä', 'Ö', 'Ü', 'ä', 'ö', 'ü', 'È', 'É', 'Ì', 'Í', 'Ñ', 'Ò', 'Ó', 'Ù', 'Ú', 'á', // C0-CF
-        'ì', 'í', 'ñ', 'ò', 'ó', 'ú', NUL, NUL, LI0, LI1, LI2, LI3, LI4, LI5, LI6, NUL, // D0-DF
+        'ì', 'í', 'ñ', 'ò', 'ó', 'ú', 'º', NUL, LI0, LI1, LI2, LI3, LI4, LI5, LI6, NUL, // D0-DF
         LAP, LPK, LMN, '-', '¿', '¡', '?', '!', DOT, '&', LEA, '→', '▷', '▶', '▼', '♂', // E0-EF
         MNY, '×', '.', '/', ',', '♀', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // F0-FF
     ];
@@ -281,16 +284,20 @@ public static class StringConverter2
         }
     }
 
+    // Control codes used in Randy's mail
+    private const char NIS = '㋥'; // "に　" (particle ni)
+    private const char NOS = '㋨'; // "の　" (particle no)
+
     public static ReadOnlySpan<char> TableJP =>
     [
         NUL, NUL, NUL, NUL, NUL, 'ガ', 'ギ', 'グ', 'ゲ', 'ゴ', 'ザ', 'ジ', 'ズ', 'ゼ', 'ゾ', 'ダ', // 00-0F
-        'ヂ', 'ヅ', 'デ', 'ド', NUL, NUL, NUL, NUL, NUL, 'バ', 'ビ', 'ブ', 'ボ', NUL,  NUL, NUL, // 10-1F
-        NUL, NUL, NUL, NUL, NUL, NUL, 'が', 'ぎ', 'ぐ', 'げ', 'ご', 'ざ', 'じ', 'ず', 'ぜ', 'ぞ', // 20-2F
+        'ヂ', 'ヅ', 'デ', 'ド', NUL, NUL, NUL, NUL, NUL, 'バ', 'ビ', 'ブ', 'ボ', NIS,  NUL, NUL, // 10-1F
+        NUL, NUL, NUL, NUL, NUL, NOS, 'が', 'ぎ', 'ぐ', 'げ', 'ご', 'ざ', 'じ', 'ず', 'ぜ', 'ぞ', // 20-2F
         'だ', 'ぢ', 'づ', 'で', 'ど', NUL, NUL, NUL, NUL,  NUL, 'ば', 'び', 'ぶ', 'ベ', 'ぼ', NUL, // 30-3F
-        'パ', 'ピ', 'プ', 'ポ', 'ぱ', 'ぴ', 'ぷ', 'ペ', 'ぽ', NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 40-4F
+        'パ', 'ピ', 'プ', 'ポ', 'ぱ', 'ぴ', 'ぷ', 'ペ', 'ぽ', NUL, NUL, NUL, NUL, NUL, RET, NUL, // 40-4F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, TOT, NUL, NUL, // 50-5F
-        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 60-6F
-        '「', '」', '『', '』', '・', '⋯', NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, SPF, // 70-7F
+        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, 'ぃ', 'ぅ', // 60-6F
+        '「', '」', '『', '』', '・', '⋯', 'ぁ', 'ぇ', 'ぉ', NUL, NUL, NUL, NUL, NUL, NUL, SPF, // 70-7F
         'ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', 'ク', 'ケ', 'コ', 'サ', 'シ', 'ス', 'セ', 'ソ', 'タ', // 80-8F
         'チ', 'ツ', 'テ', 'ト', 'ナ', 'ニ', 'ヌ', 'ネ', 'ノ', 'ハ', 'ヒ', 'フ', 'ホ', 'マ', 'ミ', 'ム', // 90-9F
         'メ', 'モ', 'ヤ', 'ユ', 'ヨ', 'ラ', 'ル', 'レ', 'ロ', 'ワ', 'ヲ', 'ン', 'ッ', 'ャ', 'ュ', 'ョ', // A0-AF
@@ -298,7 +305,7 @@ public static class StringConverter2
         'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'ヘ', 'ほ', 'ま', // C0-CF
         'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'リ', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'っ', // D0-DF
         'ゃ', 'ゅ', 'ょ', 'ー', 'ﾟ', 'ﾞ', '？', '！', '。', 'ァ', 'ゥ', 'ェ', NUL, NUL, NUL, '♂', // E0-EF
-        MNY, NUL, '．', '／', 'ォ', '♀', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', // F0-FF
+        MNY, '×', '．', '／', 'ォ', '♀', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', // F0-FF
     ];
 
     #endregion
@@ -330,7 +337,7 @@ public static class StringConverter2
     }
 
     private static bool TryGetLigatureIndex(char c, out int index) => -1 != (index = LigatureList.IndexOf(c));
-    private static ReadOnlySpan<char> LigatureList => [LI0, LI1, LI2, LI3, LI4, LI5, LI6, LI7, LI8, LI8, LI9, LIA, LIB];
+    private static ReadOnlySpan<char> LigatureList => [LI0, LI1, LI2, LI3, LI4, LI5, LI6, LI7, LI8, LI9, LIA, LIB];
     private static char GetLigature(int ligatureIndex) => LigatureList[ligatureIndex];
 
     public static int DeflateLigatures(ReadOnlySpan<char> value, Span<char> result, int language)
@@ -383,5 +390,70 @@ public static class StringConverter2
             result[index++] = c;
         }
         return index;
+    }
+
+    /// <summary>
+    /// Converts foreign Mail from the language-unaware encoding used for English Gold/Silver back to its original, language-aware encoding.
+    /// </summary>
+    /// <param name="data">Encoded data.</param>
+    /// <param name="language">Mail language.</param>
+    public static void DecodeMailEnglishGS(Span<byte> data, int language)
+    {
+        if (language is (int)LanguageID.French or (int)LanguageID.German)
+            DecodeMailFG(data);
+        else if (language is (int)LanguageID.Italian or (int)LanguageID.Spanish)
+            RemapMailIS(data);
+    }
+
+    /// <summary>
+    /// Converts foreign Mail from its original, language-aware encoding to the language-unaware encoding used for English Gold/Silver.
+    /// </summary>
+    /// <param name="data">Decoded data.</param>
+    /// <param name="language">Mail language.</param>
+    public static void EncodeMailEnglishGS(Span<byte> data, int language)
+    {
+        if (language is (int)LanguageID.French or (int)LanguageID.German)
+            EncodeMailFG(data);
+        else if (language is (int)LanguageID.Italian or (int)LanguageID.Spanish)
+            RemapMailIS(data);
+    }
+
+    // Remap 's, swap c' d' j' with unused spaces
+    // - English: 0xCD-CF (unused spaces), 0xD4-D6 ('s 't 'v), 0xDC (unused space)
+    // - French/German: 0xCD-CF (unused spaces), 0xD4-D6 (c' d' j'), 0xDC ('s)
+    private static void DecodeMailFG(Span<byte> data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            var b = data[i];
+            if (b == 0xD4)
+                data[i] = 0xDC; // 's
+            else if (b is >= 0xCD and <= 0xCF)
+                data[i] += 0xD4 - 0xCD; // c' d' j' (shift up)
+        }
+    }
+
+    private static void EncodeMailFG(Span<byte> data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            var b = data[i];
+            if (b == 0xDC)
+                data[i] = 0xD4; // 's
+            else if (b is >= 0xD4 and <= 0xD6)
+                data[i] -= 0xD4 - 0xCD; // c' d' j' (shift down)
+        }
+    }
+
+    // Swap upper/lower halves of 0xD0-DF
+    // - English: 0xD0-D7 (ligatures), 0xD8-DF (unused spaces)
+    // - Italian/Spanish: 0xD0-D7 (accented letters), 0xD8-DF (ligatures)
+    private static void RemapMailIS(Span<byte> data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            if ((data[i] & 0xF0) == 0xD0)
+                data[i] ^= 0x08;
+        }
     }
 }

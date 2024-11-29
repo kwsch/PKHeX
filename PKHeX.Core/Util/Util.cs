@@ -117,55 +117,23 @@ public static partial class Util
         return result;
     }
 
-#if NET9_0_OR_GREATER
-    REPLACE WITH TryFromHexString / TryToHexString
-#endif
-
     /// <summary>
-    /// Parses a variable length hex string (non-spaced, bytes in reverse order).
+    /// Parses a variable length hex string (non-spaced, bytes in order).
     /// </summary>
     public static byte[] GetBytesFromHexString(ReadOnlySpan<char> input)
-    {
-        byte[] result = new byte[input.Length / 2];
-        GetBytesFromHexString(input, result);
-        return result;
-    }
+        => Convert.FromHexString(input);
 
     /// <inheritdoc cref="GetBytesFromHexString(ReadOnlySpan{char})"/>
     public static void GetBytesFromHexString(ReadOnlySpan<char> input, Span<byte> result)
-    {
-        for (int i = 0; i < result.Length; i++)
-        {
-            var slice = input.Slice(i * 2, 2);
-            result[^(i + 1)] = (byte)GetHexValue(slice);
-        }
-    }
-
-    private const string HexChars = "0123456789ABCDEF";
+        => Convert.FromHexString(input, result, out _, out _);
 
     /// <summary>
-    /// Converts the byte array into a hex string (non-spaced, bytes in reverse order).
+    /// Converts the byte array into a hex string (non-spaced, bytes in order).
     /// </summary>
     public static string GetHexStringFromBytes(ReadOnlySpan<byte> data)
     {
         System.Diagnostics.Debug.Assert(data.Length is (4 or 8 or 12 or 16));
-        Span<char> result = stackalloc char[data.Length * 2];
-        GetHexStringFromBytes(data, result);
-        return new string(result);
-    }
-
-    /// <inheritdoc cref="GetHexStringFromBytes(ReadOnlySpan{byte})"/>
-    public static void GetHexStringFromBytes(ReadOnlySpan<byte> data, Span<char> result)
-    {
-        if (result.Length != data.Length * 2)
-            throw new ArgumentException("Result buffer must be twice the size of the input buffer.");
-        for (int i = 0; i < data.Length; i++)
-        {
-            // Write tuples from the opposite side of the result buffer.
-            var offset = (data.Length - i - 1) * 2;
-            result[offset + 0] = HexChars[data[i] >> 4];
-            result[offset + 1] = HexChars[data[i] & 0xF];
-        }
+        return Convert.ToHexString(data);
     }
 
     /// <summary>

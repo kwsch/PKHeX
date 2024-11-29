@@ -139,10 +139,6 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
                 break;
         }
         while (++ctr <= max);
-
-#if DEBUG
-        System.Diagnostics.Debug.Assert(ctr < max);
-#endif
     }
 
     #endregion
@@ -200,11 +196,11 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     #endregion
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
         if (IsEReader)
             return true;
-        return val is PIDType.CXD;
+        return type is PIDType.CXD;
     }
 
     public PIDType GetSuggestedCorrelation()

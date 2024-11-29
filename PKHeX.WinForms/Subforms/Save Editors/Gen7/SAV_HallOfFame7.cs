@@ -27,7 +27,7 @@ public partial class SAV_HallOfFame7 : Form
             var cb = entries[i];
             cb.Items.Clear();
             cb.InitializeBinding();
-            cb.DataSource = new BindingSource(specList, null);
+            cb.DataSource = new BindingSource(specList, string.Empty);
             cb.SelectedValue = (int)block.GetEntry(i);
         }
 

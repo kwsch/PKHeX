@@ -293,13 +293,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool RibbonChampionWorld { get => PK.RibbonChampionWorld; set => PK.RibbonChampionWorld = value; }
     public bool RibbonSouvenir { get => PK.RibbonSouvenir; set => PK.RibbonSouvenir = value; }
 
-    public bool IsCompatible(PIDType val, PKM pk)
+    public bool IsCompatible(PIDType type, PKM pk)
     {
         if (IsManaphyEgg)
-            return IsG4ManaphyPIDValid(val, pk);
-        if (PK.PID != 1 && val == PIDType.G5MGShiny)
+            return IsG4ManaphyPIDValid(type, pk);
+        if (PK.PID != 1 && type == PIDType.G5MGShiny)
             return true;
-        return val == PIDType.None;
+        return type == PIDType.None;
     }
 
     public PIDType GetSuggestedCorrelation()

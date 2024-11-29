@@ -83,35 +83,39 @@ public class PIDIVTest
     {
         // Restricted: TID16/SID16 are zero.
         var pkR = new PK3 {PID = 0x0000E97E, IVs = [17, 19, 20, 16, 13, 12]};
-        MethodFinder.Analyze(pkR).Type.Should().Be(PIDType.BACD_R);
+        var result = MethodFinder.Analyze(pkR);
+        (result is { Type: PIDType.BACD, OriginSeed: <= ushort.MaxValue }).Should().BeTrue();
 
         // Restricted Antishiny: PID is incremented 2 times to lose shininess.
         var pkRA = new PK3 {PID = 0x0000E980, IVs = [17, 19, 20, 16, 13, 12], TID16 = 01337, SID16 = 60486};
-        MethodFinder.Analyze(pkRA).Type.Should().Be(PIDType.BACD_R_A);
+        result = MethodFinder.Analyze(pkRA);
+        (result is { Type: PIDType.BACD_A, OriginSeed: <= ushort.MaxValue }).Should().BeTrue();
 
         // Unrestricted: TID16/SID16 are zero.
         var pkU = new PK3 {PID = 0x67DBFC33, IVs = [12, 25, 27, 30, 02, 31]};
-        MethodFinder.Analyze(pkU).Type.Should().Be(PIDType.BACD_U);
+        result = MethodFinder.Analyze(pkU);
+        (result is { Type: PIDType.BACD }).Should().BeTrue();
 
         // Unrestricted Antishiny: PID is incremented 5 times to lose shininess.
         var pkUA = new PK3 {PID = 0x67DBFC38, IVs = [12, 25, 27, 30, 02, 31], TID16 = 01337, SID16 = 40657};
-        MethodFinder.Analyze(pkUA).Type.Should().Be(PIDType.BACD_U_A);
+        result = MethodFinder.Analyze(pkUA);
+        (result is { Type: PIDType.BACD_A }).Should().BeTrue();
 
         // berry fix zigzagoon: seed 0x0020
+        const ushort bfix = 0x20;
         var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = [00, 20, 28, 11, 19, 00], TID16 = 30317, SID16 = 00000};
-        var a_pkRS = MethodFinder.Analyze(pkRS);
-        a_pkRS.Type.Should().Be(PIDType.BACD_R_S);
-        a_pkRS.OriginSeed.Should().Be(0x0020);
+        result = MethodFinder.Analyze(pkRS);
+        (result is { Type: PIDType.BACD_S, OriginSeed: bfix }).Should().BeTrue();
 
         var gkRS = new PK3 { TID16 = 30317, SID16 = 00000 };
-        PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);
+        PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_S, bfix);
         gkRS.PID.Should().Be(pkRS.PID);
         gkRS.IVs.SequenceEqual(pkRS.IVs).Should().BeTrue();
 
         // Unrestricted Antishiny nyx
-        var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = [00, 15, 05, 04, 21, 05], TID16 = 80, SID16 = 0};
-        var nyx_pkUA = MethodFinder.Analyze(nyxUA);
-        nyx_pkUA.Type.Should().Be(PIDType.BACD_U_AX);
+        var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = [00, 15, 05, 04, 21, 05], TID16 = 00080, SID16 = 00000};
+        result = MethodFinder.Analyze(nyxUA);
+        (result is { Type: PIDType.BACD_AX }).Should().BeTrue();
     }
 
     [Fact]

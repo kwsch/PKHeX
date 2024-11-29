@@ -8,6 +8,10 @@ namespace PKHeX.Core;
 /// </summary>
 public static class StringConverter2KOR
 {
+    // Mail
+    public const byte LineBreakCode = 0x59;
+    public const char LineBreak = StringConverter2.LineBreak;
+
     /// <summary>
     /// Checks if any of the characters inside <see cref="str"/> are from the special Korean codepoint pages.
     /// </summary>
@@ -453,6 +457,7 @@ public static class StringConverter2KOR
 
     // In transporter's code, none of these glyphs are legitimately accessible via keyboard.
     private const char NUL = NULL;
+    private const char RET = LineBreak; // Mail, NUL in Transporter
     private static ReadOnlySpan<char> Table0 =>
     [
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL,
@@ -460,7 +465,7 @@ public static class StringConverter2KOR
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL,
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL,
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL,
-        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL,
+        NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, RET, NUL, NUL, NUL, NUL, NUL, NUL,
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL,
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, ' ',
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',

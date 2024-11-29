@@ -76,7 +76,7 @@ public sealed class MiscVerifier : Verifier
             var date = new DateOnly(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
 
             // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
-            if (enc is WB8 { CardID: 9015 or 9016 or 9017 } or WA8 { CardID: 9018 or 9019 or 9020 })
+            if (enc is WB8 { IsDateLockJapanese: true } or WA8 { IsDateLockJapanese: true })
             {
                 if (date < new DateOnly(2022, 5, 20) && pk.Language != (int)LanguageID.Japanese)
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
@@ -623,7 +623,7 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
     }
 
-    private static bool IsStarterLGPE(ISpeciesForm pk) => pk switch
+    private static bool IsStarterLGPE<T>(T pk) where T : ISpeciesForm => pk switch
     {
         { Species: (int)Species.Pikachu, Form: 8 } => true,
         { Species: (int)Species.Eevee, Form: 1 } => true,

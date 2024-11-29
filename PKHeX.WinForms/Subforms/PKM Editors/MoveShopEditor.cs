@@ -177,7 +177,7 @@ public partial class MoveShopEditor : Form
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var row = dgv.Rows[i];
-            var index = int.Parse((string)row.Cells[ColumnIndex].Value) - Bias;
+            var index = int.Parse((string)row.Cells[ColumnIndex].Value!) - Bias;
             var purchased = row.Cells[ColumnPurchased];
             var mastered = row.Cells[ColumnMastered];
             purchased.Value = Shop.GetPurchasedRecordFlag(index);
@@ -190,11 +190,11 @@ public partial class MoveShopEditor : Form
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var row = dgv.Rows[i];
-            var index = int.Parse((string)row.Cells[ColumnIndex].Value) - Bias;
+            var index = int.Parse((string)row.Cells[ColumnIndex].Value!) - Bias;
             var purchased = row.Cells[ColumnPurchased];
             var mastered = row.Cells[ColumnMastered];
-            Shop.SetPurchasedRecordFlag(index, (bool)purchased.Value);
-            Master.SetMasteredRecordFlag(index, (bool)mastered.Value);
+            Shop.SetPurchasedRecordFlag(index, (bool)purchased.Value!);
+            Master.SetMasteredRecordFlag(index, (bool)mastered.Value!);
         }
     }
 
