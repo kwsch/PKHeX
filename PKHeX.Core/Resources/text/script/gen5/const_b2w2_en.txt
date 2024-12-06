@@ -18,6 +18,7 @@
 0306	e	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
 0307	e	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
 0308	e	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
+0312	e	Liberty Garden Event	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
 0392	e	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
 0396	t	Shadow Triad (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
 0378	g	Fossil Available to Claim	99:Root Fossil (Lileep),100:Claw Fossil (Anorith),101:Helix Fossil (Omanyte),102:Dome Fossil (Kabuto),103:Old Amber (Aerodactyl),104:Armor Fossil (Shieldon),105:Skull Fossil (Cranidos),572:Cover Fossil (Tirtouga),573:Plume Fossil (Archen)

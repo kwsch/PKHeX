@@ -6,6 +6,7 @@
 0x06B	s	Received HM06 Rock Smash
 0x423	s	Received HM07 Waterfall
 0x07B	s	Received HM08 Dive
+0302	s	Received HM08 during story
 0x05A	s	Received Mach Bike/Acro Bike
 
 0x807	*	Received Stone Badge
@@ -39,6 +40,7 @@
 0x3A9	r	Overworld Hidden (Registeel)
 0x3C3	r	Overworld Hidden (Root Fossil)
 0x3C4	r	Overworld Hidden (Claw Fossil)
+1133	r	Overworld Hidden (Missed HM08 ball in Steven's House)
 0x3C9	r	Uncovered Kecleon (Fortree City)
 0x3CA	r	Uncovered Kecleon (Route 120, Bridge)
 0x3D5	r	Uncovered Kecleon (Route 120, Bridge)

@@ -20,7 +20,7 @@
 0516	r	Latios Disparu
 2931	r	Latios Capturé
 3010	e	Reçu Passe Éon
-3011	e	Évt. Ticket Éon Complété
+3011	e	Évt. Passe Éon Complété
 1041	r	Deoxys Disparu @ Pilier Céleste
 2938	r	Deoxys Capturé @ Pilier Céleste
 0269	r	Raikou Vaincu
@@ -86,7 +86,7 @@
 0166	g	Traded for Makuhita in Rustboro City
 0167	g	Traded for Skitty in Fortree City
 0168	g	Traded for Corsola in Pacifidlog Town
-0692	s	Defeated Winstrate Family
+0692	s	Famille Stratège Vaincu
 0806	s	Steven Disappeared from Route 120 Bridge
 0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
 0699	s	Steven and Lati@s Disappeared from Route 118
@@ -107,8 +107,8 @@
 0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
 0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
 0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
-0302	r	Spiritomb Defeated
-0303	r	Spiritomb Captured
+0302	r	Spiritomb Vaincu
+0303	r	Spiritomb Capturé
 0500	s	Sealed Chamber Puzzle Braille Text Disappeared
 3007	s	Sealed Chamber Puzzle Completed
 3008	r	Regi Caves Unlocked

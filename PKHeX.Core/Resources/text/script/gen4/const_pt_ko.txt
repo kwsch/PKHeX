@@ -15,14 +15,14 @@
 0086	e	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
 0087	e	미정 이벤트 (224번도로)	0:활성화되지 않음,1:활성화 가능,2:활성화됨
 0133	s	미정 (224번도로)	0:활성화되지 않음,1:활성화됨,2:나타남
-0105	r	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
-0106	r	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
-0107	r	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
-0062	r	화강돌	0:사라짐,32:나타남
+0105	r	Iron Ruins Statue (레지스틸)	0:Inactive,270:Activated,280:Defeated,290:Caught
+0106	r	Iceberg Ruins Statue (레지아이스)	0:Inactive,270:Activated,280:Defeated,290:Caught
+0107	r	Rock Peak Ruins Statue (레지락) 	0:Inactive,270:Activated,280:Defeated,290:Caught
+0062	r	Current Players Interacted Underground	32:화강돌 나타남
 0138	r	신령탑	0:활성화되지 않음,1:활성화됨
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0095	r	Zapdos Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0094	r	Moltres Status	0:Pending,1:Caught,2:Fainted/Can Respawn
-0224	+	Catching Show Best Score
+0224	+	Catching Show Best Score (팔파크)

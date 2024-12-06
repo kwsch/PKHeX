@@ -17,7 +17,7 @@
 0x4045	s	Premio Pokelot
 0x4046	*	Nacional Dex Habilitado
 0x4047	+	Registro del tamaño de Seedot
-0x4048	*	Ceniza volcánica recogida
+0x4048	*	Ceniza volcánica recogida	9999:Máximo
 0x4049	m	Profesor Birch State
 0x404A	s	Contador de pasos de marea S.S.
 0x404B	*	Pokelot RND (Alto)
