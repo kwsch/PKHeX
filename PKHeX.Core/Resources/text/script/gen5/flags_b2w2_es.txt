@@ -42,3 +42,10 @@
 2774	r	Mandibuzz/Braviary semanal en Ruta 4 desaparecido
 2775	r	Jellicent semanal en Bahía Arenisca desaparecido
 2442	r	Los Pokémon de N se encuentran salvajes
+0929	r	Captura/Derrota al Foongus de la Ruta 6 (1)
+0930	r	Captura/Derrota al Foongus de la Ruta 6 (2)
+0931	r	Captura/Derrota al Foongus de la Ruta 6 (3)
+0932	r	Captura/Derrota al Foongus de la Ruta 7 (1)
+0933	r	Captura/Derrota al Foongus de la Ruta 7 (2)
+0868	r	Defeated Seaside Cave Crustle
+2793	t	Rematched Colress (Today)

@@ -17,6 +17,7 @@
 0315	g	Received Larvesta Egg Gift
 0352	t	Battled Youngster Kyle
 0355	t	Can battle Lass Anémone
+1937	t	Battled Lass Anémone
 0339	g	Purchased Magikarp
 0347	g	Traded for Emolga
 0360	g	Traded for Rotom

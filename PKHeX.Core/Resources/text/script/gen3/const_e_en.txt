@@ -17,7 +17,7 @@
 0x4045	s	Pokelot Prize Item
 0x4046	*	National Dex Enabled
 0x4047	+	Seedot Size Record
-0x4048	*	Volcanic Ash Gathered
+0x4048	*	Volcanic Ash Gathered	9999:Maximum
 0x4049	m	Professor Birch State
 0x404A	s	S.S. Tidal Step Counter
 0x404B	*	Pokelot RND (High)

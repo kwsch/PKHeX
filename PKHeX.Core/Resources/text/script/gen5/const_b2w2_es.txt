@@ -18,6 +18,7 @@
 0306	e	Llamada con Belinda/Julián (Ruta 13)	0:Desactivado,1:Activo,2:Activado
 0307	e	Llamada con Belinda/Julián (Ruta 14)	0:Desactivado,1:Activo,2:Activado
 0308	e	Llamada con Belinda/Julián (Ruta 16)	0:Desactivado,1:Activo,2:Activado
+0312	e	Liberty Garden Event	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
 0392	e	Belinda/Julián	0:Sin conocer,1:Llamada mediante Objeto perdido,2:Quedada en persona tras 10 llamadas
 0396	t	Trío Sombrío (Ciudad Teja)	0:Luchable (estación actual),1:Luchado en primavera,2:Luchado en verano,3:Luchado en otoño,4:Luchado en invierno
 0378	g	Fósil disponible para conseguir	99:Fósil Raíz (Lileep),100:Fósil Garra (Anorith),101:Fósil Hélix (Omanyte),102:Fósil Domo (Kabuto),103:Ámbar Viejo (Aerodactyl),104:Fósil Coraza (Shieldon),105:Fósil Cráneo (Cranidos),572:Fósil Tapa (Tirtouga),573:Fósil Pluma (Archen)
