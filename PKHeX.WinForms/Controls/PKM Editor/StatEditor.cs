@@ -658,11 +658,7 @@ public partial class StatEditor : UserControl
 
         switch (format)
         {
-            case 1:
-                TB_IVHP.Enabled = false;
-                SetEVMaskSize(Stat_HP.Size, "00000", MT_EVs);
-                break;
-            case 2:
+            case 1 or 2:
                 TB_IVHP.Enabled = false;
                 SetEVMaskSize(Stat_HP.Size, "00000", MT_EVs);
                 break;

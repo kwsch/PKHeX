@@ -48,7 +48,7 @@ public sealed class FieldObject8b
 
     public byte Count // cnt
     {
-        get => Data[0] ;
+        get => Data[0];
         set => Data[0] = value;
     }
 
