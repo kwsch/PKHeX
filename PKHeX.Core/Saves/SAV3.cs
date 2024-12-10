@@ -65,12 +65,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         {
             // Get the sector ID for the serialized savedata block, and copy the chunk into the corresponding object.
             var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
-            switch (id)
-            {
-                case >= 5: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Storage.AsSpan((id - 5) * SIZE_SECTOR_USED)); break;
-                case >= 1: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Large.AsSpan((id - 1) * SIZE_SECTOR_USED)); break;
-                default: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Small.AsSpan(0)); break;
-            }
+            var src = data.Slice(ofs, SIZE_SECTOR_USED);
+            var dest = GetStructureChunk(id);
+            src.CopyTo(dest);
         }
     }
 
@@ -82,14 +79,18 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         {
             // Get the sector ID for the serialized savedata block, and copy the corresponding chunk of object data into it.
             var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
-            switch (id)
-            {
-                case >= 5: Storage.AsSpan((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
-                case >= 1: Large.AsSpan((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
-                default: Small.AsSpan(0, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
-            }
+            var src = data.Slice(ofs, SIZE_SECTOR_USED);
+            var dest = GetStructureChunk(id);
+            dest.CopyTo(src);
         }
     }
+
+    private Span<byte> GetStructureChunk(short id) => id switch
+    {
+        >= 5 => Storage.AsSpan((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED),
+        >= 1 => Large  .AsSpan((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED),
+        _ => Small.AsSpan(0, SIZE_SECTOR_USED),
+    };
 
     /// <summary>
     /// Checks the input data to see if all required sectors for the main save data are present for the <see cref="slot"/>.
@@ -335,7 +336,11 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public sealed override string OT
     {
-        get => GetString(OriginalTrainerTrash);
+        get
+        {
+            int len = Japanese ? 5 : MaxStringLengthTrainer;
+            return GetString(OriginalTrainerTrash[..len]);
+        }
         set
         {
             int len = Japanese ? 5 : MaxStringLengthTrainer;

@@ -109,7 +109,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
     public override uint Money { get => Misc.Money; set => Misc.Money = value; }
     public override uint SecondsToStart { get => AdventureInfo.SecondsToStart; set => AdventureInfo.SecondsToStart = value; }
-    public override uint SecondsToFame  { get => AdventureInfo.SecondsToFame ; set => AdventureInfo.SecondsToFame  = value; }
+    public override uint SecondsToFame  { get => AdventureInfo.SecondsToFame; set => AdventureInfo.SecondsToFame  = value; }
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
