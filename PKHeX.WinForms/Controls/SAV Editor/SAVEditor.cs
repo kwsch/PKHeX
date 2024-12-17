@@ -824,6 +824,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         using var form = SAV switch
         {
+            SAV1 s1 => new SAV_HallOfFame1(s1),
             SAV6 s6 => new SAV_HallOfFame(s6),
             SAV7 s7 => new SAV_HallOfFame7(s7),
             _ => (Form?)null,
@@ -1214,7 +1215,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
         B_OpenBoxLayout.Visible = sav is IBoxDetailName;
         B_OpenWondercards.Visible = sav is IMysteryGiftStorageProvider;
-        B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
+        B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7 or SAV1;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;
         B_OpenPokedex.Visible = sav.HasPokeDex;
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
