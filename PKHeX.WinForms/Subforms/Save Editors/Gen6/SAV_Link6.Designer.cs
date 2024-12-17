@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Link6
     {
@@ -200,6 +200,7 @@
             B_Export.TabIndex = 4;
             B_Export.Text = "Export";
             B_Export.UseVisualStyleBackColor = true;
+            B_Export.Enabled = false;
             B_Export.Click += B_Export_Click;
             // 
             // B_Import
@@ -303,7 +304,7 @@
             NUD_BP.Enabled = false;
             NUD_BP.Location = new System.Drawing.Point(99, 74);
             NUD_BP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_BP.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_BP.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_BP.Name = "NUD_BP";
             NUD_BP.Size = new System.Drawing.Size(68, 23);
             NUD_BP.TabIndex = 144;
