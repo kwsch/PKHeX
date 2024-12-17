@@ -1,20 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms;
 
 public partial class SAV_HallOfFame3 : Form
 {
-    private SAV3 Origin;
-    private SAV3 SAV;
-    private HallFame3Entry[] Fame;
-    private int prevEntry = 0;
-    private int prevMember = 0;
+    private readonly SAV3 Origin;
+    private readonly SAV3 SAV;
+    private readonly HallFame3Entry[] Fame;
+    private int prevEntry;
+    private int prevMember;
 
     public SAV_HallOfFame3(SAV3 sav)
     {
@@ -28,19 +25,19 @@ public partial class SAV_HallOfFame3 : Form
         TB_Nickname.MaxLength = 10;
         TB_PID.CharacterCasing = CharacterCasing.Upper;
 
-        TB_TID.KeyPress += (s, e) => { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true; };
-        TB_TID.TextChanged += (s, e) =>
+        TB_TID.KeyPress += (_, e) => { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true; };
+        TB_TID.TextChanged += (_, _) =>
         {
-            if (TB_TID.Text == string.Empty) TB_TID.Text = "00000";
+            if (TB_TID.Text.Length == 0) TB_TID.Text = "00000";
             if (Convert.ToInt32(TB_TID.Text) > 65535) TB_TID.Text = "65535";
         };
-        TB_SID.KeyPress += (s, e) => { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true; };
-        TB_SID.TextChanged += (s, e) =>
+        TB_SID.KeyPress += (_, e) => { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true; };
+        TB_SID.TextChanged += (_, _) =>
         {
-            if (TB_SID.Text == string.Empty) TB_SID.Text = "00000";
+            if (TB_SID.Text.Length == 0) TB_SID.Text = "00000";
             if (Convert.ToInt32(TB_SID.Text) > 65535) TB_SID.Text = "65535";
         };
-        TB_PID.KeyPress += (s, e) => { if (!char.IsControl(e.KeyChar) && !Uri.IsHexDigit(e.KeyChar)) e.Handled = true; };
+        TB_PID.KeyPress += (_, e) => { if (!char.IsControl(e.KeyChar) && !Uri.IsHexDigit(e.KeyChar)) e.Handled = true; };
 
         LB_Entries.InitializeBinding();
         LB_Entries.DataSource = Enumerable.Range(0, 50).ToList();
@@ -48,7 +45,7 @@ public partial class SAV_HallOfFame3 : Form
         CB_Species.InitializeBinding();
         CB_Species.DataSource = new BindingSource(filtered.Species.ToList(), string.Empty);
 
-        NUD_Members.ValueChanged += (s, e) =>
+        NUD_Members.ValueChanged += (_, _) =>
         {
             UpdatePKM(Fame[prevEntry].Team[prevMember]);
             var pkm = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
@@ -57,7 +54,7 @@ public partial class SAV_HallOfFame3 : Form
             prevEntry = LB_Entries.SelectedIndex;
         };
 
-        LB_Entries.SelectedIndexChanged += (s, e) =>
+        LB_Entries.SelectedIndexChanged += (_, _) =>
         {
             UpdatePKM(Fame[prevEntry].Team[prevMember]);
             NUD_Members.Value = 0;
@@ -69,8 +66,8 @@ public partial class SAV_HallOfFame3 : Form
 
         LB_Entries.SelectedIndex = 0;
         NUD_Members.Value = 0;
-        var pkm = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
-        SetField(pkm);
+        var pk = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
+        SetField(pk);
     }
 
     private void ClearFields()
@@ -82,35 +79,32 @@ public partial class SAV_HallOfFame3 : Form
         CB_Species.SelectedIndex = 0;
     }
 
-    private void SetField(HallFame3PKM pkm)
+    private void SetField(HallFame3PKM pk)
     {
-        if (pkm.Species == 0)
+        if (pk.Species == 0)
         {
             ClearFields();
             return;
         }
-        TB_TID.Text = pkm.TID16.ToString("00000");
-        TB_SID.Text = pkm.SID16.ToString("00000");
-        TB_PID.Text = pkm.PID.ToString("X8");
-        TB_Nickname.Text = pkm.Nickname;
-        NUD_Level.Value = pkm.Level;
-        CB_Species.SelectedValue = (int)(pkm.Species);
+        TB_TID.Text = pk.TID16.ToString("00000");
+        TB_SID.Text = pk.SID16.ToString("00000");
+        TB_PID.Text = pk.PID.ToString("X8");
+        TB_Nickname.Text = pk.Nickname;
+        NUD_Level.Value = pk.Level;
+        CB_Species.SelectedValue = (int)(pk.Species);
     }
 
-    private void UpdatePKM(HallFame3PKM pkm)
+    private void UpdatePKM(HallFame3PKM pk)
     {
-        pkm.TID16 = Convert.ToInt32(TB_TID.Text);
-        pkm.SID16 = Convert.ToInt32(TB_SID.Text);
-        pkm.PID = Convert.ToUInt32(TB_PID.Text, 16);
-        pkm.Nickname = TB_Nickname.Text;
-        pkm.Level = (int)NUD_Level.Value;
-        pkm.Species = Convert.ToUInt16(CB_Species.SelectedValue);
+        pk.TID16 = Convert.ToInt32(TB_TID.Text);
+        pk.SID16 = Convert.ToInt32(TB_SID.Text);
+        pk.PID = Convert.ToUInt32(TB_PID.Text, 16);
+        pk.Nickname = TB_Nickname.Text;
+        pk.Level = (int)NUD_Level.Value;
+        pk.Species = Convert.ToUInt16(CB_Species.SelectedValue);
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
@@ -121,4 +115,3 @@ public partial class SAV_HallOfFame3 : Form
         Close();
     }
 }
-
