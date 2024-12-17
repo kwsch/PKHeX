@@ -165,24 +165,9 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 
     protected override int SeenOffset3 => 0x3A8C;
 
-    public SecretBaseManager3 SecretBases
-    {
-        get
-        {
-            Span<byte> data1 = Large.AsSpan(0xF80 + 0xA88, 0xF80 - 0xA88);
-            Span<byte> data2 = Large.AsSpan(0xF80 * 2, 0x787);
-            byte[] data = new byte[20 * SecretBase3.SIZE];
-            data1.CopyTo(data);
-            data2.CopyTo(data.AsSpan().Slice(data1.Length));
-            return new SecretBaseManager3(data);
-        }
-        set
-        {
-            byte[] data = value.Write();
-            data.AsSpan().Slice(0, 0xF80 - 0xA88).CopyTo(Large.AsSpan(0x780 + 0xA88));
-            data.AsSpan().Slice(0xF80 - 0xA88).CopyTo(Large.AsSpan(0xF80 * 2));
-        }
-    }
+    private Memory<byte> SecretBaseData => Large.AsMemory(0x1A08, SecretBaseManager3.BaseCount * SecretBase3.SIZE);
+    public SecretBaseManager3 SecretBases => new(SecretBaseData);
+
     private const int Painting = 0x2EFC;
     private const int CountPaintings = 5;
     private Span<byte> GetPaintingSpan(int index)

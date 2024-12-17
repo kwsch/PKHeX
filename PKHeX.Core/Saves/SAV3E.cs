@@ -282,24 +282,10 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public byte WaldaIconID { get => Large[Walda + 0x14]; set => Large[Walda + 0x14] = value; }
     public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
     public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }
-    public SecretBaseManager3 SecretBases
-    {
-        get
-        {
-            Span<byte> data1 = Large.AsSpan(0xB1C, 0xF80 - 0xB1C);
-            Span<byte> data2 = Large.AsSpan(0xF80, 0x81B);
-            byte[] data = new byte[20 * SecretBase3.SIZE];
-            data1.CopyTo(data);
-            data2.CopyTo(data.AsSpan().Slice(data1.Length));
-            return new SecretBaseManager3(data);
-        }
-        set
-        {
-            byte[] data = value.Write();
-            data.AsSpan().Slice(0, 0xF80 - 0xB1C).CopyTo(Large.AsSpan(0xB1C));
-            data.AsSpan().Slice(0xF80 - 0xB1C).CopyTo(Large.AsSpan(0xF80));
-        }
-    }
+
+    private Memory<byte> SecretBaseData => Large.AsMemory(0x1A9C, SecretBaseManager3.BaseCount * SecretBase3.SIZE);
+    public SecretBaseManager3 SecretBases => new(SecretBaseData);
+
     private const int Painting = 0x2F90;
     private const int CountPaintings = 5;
     private Span<byte> GetPaintingSpan(int index)

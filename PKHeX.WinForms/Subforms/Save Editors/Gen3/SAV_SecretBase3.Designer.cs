@@ -28,7 +28,6 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SecretBase3));
             LB_Bases = new System.Windows.Forms.ListBox();
             L_Trainers = new System.Windows.Forms.Label();
             T_TrainerGender = new Controls.GenderToggle();
@@ -92,11 +91,7 @@ namespace PKHeX.WinForms
             // 
             // T_TrainerGender
             // 
-            T_TrainerGender.AccessibleDescription = " (2) (2) (2) (2) (2) (2) (2) (2) (2) (2) (2)";
-            T_TrainerGender.AccessibleName = " (2) (2) (2) (2) (2) (2) (2) (2) (2) (2) (2)";
             T_TrainerGender.AllowClick = true;
-            T_TrainerGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("T_TrainerGender.BackgroundImage");
-            T_TrainerGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             T_TrainerGender.Gender = 2;
             T_TrainerGender.Location = new System.Drawing.Point(282, 31);
             T_TrainerGender.Name = "T_TrainerGender";
@@ -449,9 +444,13 @@ namespace PKHeX.WinForms
             Controls.Add(T_TrainerGender);
             Controls.Add(L_Trainers);
             Controls.Add(LB_Bases);
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "SAV_SecretBase3";
-            Text = "SAV_SecretBase3";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Secret Base Editor";
             ((System.ComponentModel.ISupportInitialize)NUD_TeamMember).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Level).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_EVs).EndInit();

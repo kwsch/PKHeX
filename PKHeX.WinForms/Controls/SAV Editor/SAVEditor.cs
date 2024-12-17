@@ -605,12 +605,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenBerryField_Click(object sender, EventArgs e) => OpenDialog(new SAV_BerryFieldXY((SAV6XY)SAV));
     private void B_OpenPokeblocks_Click(object sender, EventArgs e) => OpenDialog(new SAV_PokeBlockORAS((SAV6AO)SAV));
     private void B_OpenSuperTraining_Click(object sender, EventArgs e) => OpenDialog(new SAV_SuperTrain((SAV6)SAV));
-    private void B_OpenSecretBase_Click(object sender, EventArgs e) {
-        if (SAV is SAV3 s3)
-            OpenDialog(new SAV_SecretBase3(s3));
-        else if (SAV is SAV6AO)
-            OpenDialog(new SAV_SecretBase6((SAV6AO) SAV));
-        }
     private void B_CellsStickers_Click(object sender, EventArgs e) => OpenDialog(new SAV_ZygardeCell((SAV7)SAV));
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
@@ -621,6 +615,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenGeonetEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Geonet4((SAV4)SAV));
     private void B_OpenUnityTowerEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_UnityTower((SAV5)SAV));
     private void B_OpenChatterEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Chatter(SAV));
+
+    private void B_OpenSecretBase_Click(object sender, EventArgs e)
+    {
+        if (SAV is SAV3 s3)
+            OpenDialog(new SAV_SecretBase3(s3));
+        else if (SAV is SAV6AO ao)
+            OpenDialog(new SAV_SecretBase(ao));
+    }
 
     private void B_Roamer_Click(object sender, EventArgs e)
     {
