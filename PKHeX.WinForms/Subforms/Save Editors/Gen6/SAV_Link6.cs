@@ -31,7 +31,6 @@ public partial class SAV_Link6 : Form
     private void B_Save_Click(object sender, EventArgs e)
     {
         SaveLinkData();
-        SAV.Link.SetGiftsData(Gifts);
         SAV.Link.RefreshChecksum();
         Origin.CopyChangesFrom((SaveFile)SAV);
         Close();
@@ -72,7 +71,6 @@ public partial class SAV_Link6 : Form
     private void LoadLinkData()
     {
         RTB_LinkSource.Text = Gifts.Origin;
-        CHK_LinkAvailable.Checked = Gifts.Enabled;
 
         NUD_BP.Value = Gifts.BattlePoints;
         NUD_Pokemiles.Value = Gifts.Pokemiles;
@@ -99,12 +97,13 @@ public partial class SAV_Link6 : Form
         TB_PKM5.Text = GetSpecies(Gifts.Entity5.Species);
         TB_PKM6.Text = GetSpecies(Gifts.Entity6.Species);
 
-        if (CHK_LinkAvailable.Checked)
+        if (Gifts.Enabled)
         {
             NUD_BP.Enabled = true;
             NUD_Pokemiles.Enabled = true;
             B_Export.Enabled = true;
         }
+        CHK_LinkAvailable.Checked = Gifts.Enabled;
     }
 
     private static string GetSpecies(ushort species)

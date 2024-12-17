@@ -17,11 +17,7 @@ public sealed class PL6(Memory<byte> Raw)
 
     public PL6() : this(new byte[Size]) { }
 
-    public Span<byte> Data
-    {
-        get => Raw.Span;
-        set => value.CopyTo(Raw.Span);
-    }
+    public Span<byte> Data => Raw.Span;
 
     /// <summary>
     /// Pokémon Link Flag

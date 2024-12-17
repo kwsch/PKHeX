@@ -12,8 +12,6 @@ public sealed class LinkBlock6 : SaveBlock<SAV6>
 
     public PL6 Gifts => new(PL6);
 
-    public void SetGiftsData(PL6 source) => Gifts.Data = source.Data;
-
     public void RefreshChecksum() => Checksum = GetCalculatedChecksum(); // [app,chk)
 
     private ushort GetCalculatedChecksum() => Checksums.CRC16_CCITT(Data[0x200..^4]); // [app,chk)
