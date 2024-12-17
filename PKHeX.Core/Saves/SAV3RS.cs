@@ -165,6 +165,9 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 
     protected override int SeenOffset3 => 0x3A8C;
 
+    private Memory<byte> SecretBaseData => Large.AsMemory(0x1A08, SecretBaseManager3.BaseCount * SecretBase3.SIZE);
+    public SecretBaseManager3 SecretBases => new(SecretBaseData);
+
     private const int Painting = 0x2EFC;
     private const int CountPaintings = 5;
     private Span<byte> GetPaintingSpan(int index)

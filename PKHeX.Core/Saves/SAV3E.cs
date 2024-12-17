@@ -283,6 +283,9 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
     public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }
 
+    private Memory<byte> SecretBaseData => Large.AsMemory(0x1A9C, SecretBaseManager3.BaseCount * SecretBase3.SIZE);
+    public SecretBaseManager3 SecretBases => new(SecretBaseData);
+
     private const int Painting = 0x2F90;
     private const int CountPaintings = 5;
     private Span<byte> GetPaintingSpan(int index)
