@@ -5,13 +5,18 @@ namespace PKHeX.Core;
 
 public sealed class EventWork7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, raw), IEventVar<int>
 {
-    // Zone @ 0x21A0 - 0x21AF (128 flags)
-    // System @ 0x21B0 - 0x21EF (512 flags) -- is this really 256 instead, with another 256 region after for the small vanish?
-    // Vanish @ 0x21F0 - 0x22AF (1536 flags)
-    // Event @ 0x22B0 - 0x23A7 (rest of the flags) (512) -- I think trainer flags are afterward.... For now, this is a catch-all
+    // Absolute offsets within the save file (block located at 0x1200, for relative offsets):
+    // 0x21A0 - 0x21AF (128 flags) Zone
+    // 0x21B0 - 0x21CF (256 flags) System
+    // 0x21D0 - 0x21EF (256 flags) Vanish (small) -- we lump this into System (512 flags)
+    // 0x21F0 - 0x22AF (1536 flags) Vanish Auto
+    // 0x22B0 - 0x22EF (512 flags) Event
+    // 0x22F0 - 0x236F (1024 flags) Trainers
+    // 0x2370 - 0x247F (128 flags) Time Flags
+    // 0x2380 - 0x238F (128 flags) Real Time Flags
+    // 0x2390 - 0x239F (128 flags) Unused
 
-    // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
-    // trainer flags (???) = 0x22F6 - end?
+    // 0x23A0 - 0x2497 (0xF8, 248 bytes) Unknown
 
     // Title flags @ 0x2498 - 0x24AB (160 flags): unlocked Master Trainer Titles (last 4 unused)
 
@@ -36,7 +41,7 @@ public sealed class EventWork7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(
     private const int ZoneFlagCount = 0x80; // 128
     private const int SystemFlagCount = 0x200; // 512
     private const int VanishFlagCount = 0x600; // 1536
-    private const int EventFlagCount = 0x7C0; // 1984
+    private const int EventFlagCount = 0x780; // 1920
 
     private const int ZoneFlagStart = 0;
     private const int SystemFlagStart = ZoneFlagStart + ZoneFlagCount;

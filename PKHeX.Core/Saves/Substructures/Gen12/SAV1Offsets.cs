@@ -20,6 +20,7 @@ internal sealed class SAV1Offsets
         PrinterBrightness = 0x2744,
         PCItems = 0x27E6,
         CurrentBoxIndex = 0x284C,
+        HallOfFameCount = 0x284E,
         Coin = 0x2850,
         ObjectSpawnFlags = 0x2852, // 2 bytes after Coin
         EventWork = 0x289C,
@@ -47,6 +48,7 @@ internal sealed class SAV1Offsets
         PrinterBrightness = 0x273A,
         PCItems = 0x27DC,
         CurrentBoxIndex = 0x2842,
+        HallOfFameCount = 0x2844,
         Coin = 0x2846,
         ObjectSpawnFlags = 0x2848, // 2 bytes after Coin
         EventWork = 0x2892,
@@ -83,4 +85,5 @@ internal sealed class SAV1Offsets
     public int Party { get; private init; }
     public int CurrentBox { get; private init; }
     public int ChecksumOfs { get; private init; }
+    public int HallOfFameCount { get; private init; }
 }

@@ -6,6 +6,9 @@
 1601	s	Totodile ball at Elm's disappeared
 1602	s	Chikorita ball at Elm's disappeared
 1784	r	Captured Sudowoodo
+1760	r	Electrode (top corners) disappeared from Hideout B2F
+1761	r	Electrode (middle corners) disappeared from Hideout B2F
+1762	r	Electrode (bottom corners) disappeared from Hideout B2F
 0079	g	Received Eevee
 1867	*	Legendary Beasts Disappeared from Burned Tower
 0672	*	SOLVED_HO_OH_PUZZLE

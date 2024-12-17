@@ -6,6 +6,9 @@
 1601	s	ウツギ博士の研究所のワニノコのモンスターボールを非表示
 1602	s	ウツギ博士の研究所のチコリータのモンスターボールを非表示
 1784	r	ウソッキー捕獲
+1760	r	Electrode (top corners) disappeared from Hideout B2F
+1761	r	Electrode (middle corners) disappeared from Hideout B2F
+1762	r	Electrode (bottom corners) disappeared from Hideout B2F
 0079	g	イーブイをもらった
 1867	*	やけた塔の３犬を非表示
 0190	*	ＧＳボールイベント(ガンテツ確認中)

@@ -7,11 +7,24 @@ public sealed class SecretBase3(Memory<byte> raw)
 {
     public const int SIZE = 160;
 
-    private Span<byte> Data => raw.Span;
+    public static string GetTrainerClass(int value) => value switch
+    {
+        0 => "Rich Boy/Lady",
+        1 => "Youngster/Lass",
+        2 => "Bug Catcher/Schoolkid",
+        3 => "Camper/Picnicker",
+        4 => "Ace Trainer",
+        5 => "Rich Boy/Lady",
+        6 => "Youngster/Lass",
+        7 => "Bug Catcher/Schoolkid",
+        8 => "Camper/Picnicker",
+        9 => "Ace Trainer",
+        _ => "???",
+    };
 
-    private bool Japanese => Language == (int) LanguageID.Japanese;
+    public Span<byte> Data => raw.Span;
 
-    public int SecretBaseLocation { get => Data[0]; set => Data[0] = (byte) value; }
+    public int SecretBaseLocation { get => Data[0]; set => Data[0] = (byte)value; }
 
     public byte OriginalTrainerGender
     {
@@ -31,19 +44,18 @@ public sealed class SecretBase3(Memory<byte> raw)
         set => Data[1] = (byte)((Data[1] & 0x3F) | ((value & 3) << 6));
     }
 
+    public Span<byte> OriginalTrainerTrash => Data.Slice(2, 7);
+
+    public bool IsTrainerPresent => OriginalTrainerTrash[0] != StringConverter3.TerminatorByte;
+
     public string OriginalTrainerName
     {
-        get => StringConverter3.GetString(Data.Slice(2, 7), Language);
-        set => StringConverter3.SetString(Data.Slice(2, 7), value, 7, Language, StringConverterOption.ClearFF);
+        get => StringConverter3.GetString(OriginalTrainerTrash, Language);
+        set => StringConverter3.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.ClearFF);
     }
 
-    public uint OT_ID
-    {
-        get => ReadUInt32LittleEndian(Data[9..]);
-        set => WriteUInt32LittleEndian(Data[9..], value);
-    }
-
-    public int OT_Class => Data[9] % 5;
+    public int OriginalTrainerClass => Data[9] % 5;
+    public string OriginalTrainerClassName => GetTrainerClass(OriginalTrainerClass);
     public int Language { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
 
     public ushort SecretBasesReceived
@@ -53,7 +65,7 @@ public sealed class SecretBase3(Memory<byte> raw)
     }
 
     public byte TimesEntered { get => Data[0x10]; set => Data[0x10] = value; }
-    public int Unused11  { get => Data[0x11]; set => Data[0x11] = (byte)value; } // alignment padding
+    public int Unused11 { get => Data[0x11]; set => Data[0x11] = (byte)value; } // alignment padding
 
     public Span<byte> GetDecorations() => Data.Slice(0x12, 0x10);
     public void SetDecorations(Span<byte> value) => value.CopyTo(GetDecorations());
@@ -70,13 +82,13 @@ public sealed class SecretBase3(Memory<byte> raw)
 
     public ushort TID16
     {
-        get => (ushort)OT_ID;
-        set => OT_ID = (ushort)(SID16 | value);
+        get => ReadUInt16LittleEndian(Data[0x9..]);
+        set => WriteUInt16LittleEndian(Data[0x9..], value);
     }
 
     public ushort SID16
     {
-        get => (ushort)(OT_ID >> 16);
-        set => OT_ID = (ushort)((value << 16) | TID16);
+        get => ReadUInt16LittleEndian(Data[0xB..]);
+        set => WriteUInt16LittleEndian(Data[0xB..], value);
     }
 }

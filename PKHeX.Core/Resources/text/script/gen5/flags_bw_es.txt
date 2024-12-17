@@ -17,6 +17,7 @@
 0315	g	Huevo Larvesta de regalo recibido
 0352	t	Luchado contra Joven Bertín
 0355	t	Puede luchar contra Chica Geles
+1937	t	Luchado Chica Geles
 0339	g	Magikarp comprado
 0347	g	Intercambio por Emolga
 0360	g	Intercambio por Rotom
