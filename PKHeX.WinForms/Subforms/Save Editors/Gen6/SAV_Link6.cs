@@ -10,7 +10,7 @@ public partial class SAV_Link6 : Form
     private readonly SaveFile Origin;
     private readonly ISaveBlock6Main SAV;
 
-    private PL6 Gifts;
+    private readonly PL6 Gifts;
 
     public SAV_Link6(SaveFile sav)
     {
@@ -52,7 +52,7 @@ public partial class SAV_Link6 : Form
         { WinFormsUtil.Alert("Invalid file length"); return; }
 
         byte[] data = File.ReadAllBytes(ofd.FileName);
-        Gifts = new PL6(data);
+        data.AsSpan().CopyTo(Gifts.Data);
 
         LoadLinkData();
     }
