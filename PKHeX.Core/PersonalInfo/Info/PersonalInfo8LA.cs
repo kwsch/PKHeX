@@ -192,7 +192,7 @@ public sealed class PersonalInfo8LA(Memory<byte> Raw) : PersonalInfo, IPersonalA
     {
         var moves = MoveShopMoves;
         var bits = MoveShopBits;
-        for (int index = 0 ; index < MoveShopCount; index++)
+        for (int index = 0; index < MoveShopCount; index++)
         {
             if ((bits & 1) == 1)
                 result[moves[index]] = true;

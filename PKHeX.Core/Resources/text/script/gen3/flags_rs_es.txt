@@ -6,6 +6,7 @@
 0x06B	s	Recibido MO06 Rompe Roca
 0x423	s	Recibido MO07 Cascada
 0x07B	s	Recibido MO08 Buceo
+0302	s	Received HM08 during story
 0x05A	s	Recibida Bici Carrera/Acrobática
 
 0x807	*	Recibida Medalla Piedra
@@ -39,6 +40,7 @@
 0x3A9	r	Oculto en el mundo (Registeel)
 0x3C3	r	Oculto en el mundo (Fósil Raíz)
 0x3C4	r	Oculto en el mundo (Fósil Garra)
+1133	r	Overworld Hidden (Missed HM08 ball in Steven's House)
 0x3C9	r	Descubierto Kecleon (Ciudad Arborada)
 0x3CA	r	Descubierto Kecleon (Ruta 120, Puente)
 0x3D5	r	Descubierto Kecleon (Ruta 120, Puente)

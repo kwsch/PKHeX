@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 {
     // Configuration
-    protected override SAV3RS CloneInternal() => new(GetFinalData()) { Language = Language };
+    protected override SAV3RS CloneInternal() => new(GetFinalData()[..]) { Language = Language };
     public override GameVersion Version { get; set; } = GameVersion.RS; // allow mutation
     public override PersonalTable3 Personal => PersonalTable.RS;
 
@@ -164,6 +164,9 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
     public RecordMixing3Gift RecordMixingGift { get => new(RecordSpan.ToArray()); set => SetData(RecordSpan, value.Data); }
 
     protected override int SeenOffset3 => 0x3A8C;
+
+    private Memory<byte> SecretBaseData => Large.AsMemory(0x1A08, SecretBaseManager3.BaseCount * SecretBase3.SIZE);
+    public SecretBaseManager3 SecretBases => new(SecretBaseData);
 
     private const int Painting = 0x2EFC;
     private const int CountPaintings = 5;

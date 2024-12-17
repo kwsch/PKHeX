@@ -3,7 +3,7 @@
 0075	g	Sinnoh Starter	0:Not Chosen,31:Turtwig,32:Chimchar,33:Piplup
 0076	g	Unova Starter	0:Not Chosen,34:Snivy,35:Tepig,36:Oshawott
 0247	g	Regional Starters	0:Johto Starter Pending,3:Unova Starter Pending/Johto Starter Received,6:Sinnoh Starter Pending/Unova Starter Received,9:Sinnoh Starter Received (All Received)
-0060	*	Ash
+0060	*	Volcanic Ash Gathered	60000:Maximum
 0073	s	Route 101 Static Poochyena	0:Pending,1:Approached,2:Failed to Approach
 0118	s	Route 101 Event	0:Start of game,1:Birch under attack (Can Choose Starter),2:Asked to choose Starter (Can't Leave),3:Saved Birch,4:Rival will give DexNav,5:Static Poochyena Appeared,6:Static Poochyena Battled/Disappeared
 0215	+	Contest Spectacular Progress	0:Not Met Lisia,1:Met Lisia,2:Lisia in Contest Hall,3:Contest Costume Pending (Green Room),4:Contest Receptionist Explains Rules,5:Contest Receptionist Explained Rules,6:Green Room Event 1 Pending,7:Won 1st Normal Rank Contest,8:Green Room Event 2 Pending,9:Won 1st Super Rank Contest,10:Green Room Event 3 Pending,11:Won 1st Hyper Rank Contest,12:Green Room Event 4 Pending,13:Won 1st Master Rank Contest,14:Green Room Event 5 Pending,15:Cleared 4 Master Ranks,16:Green Room Event 6 Pending,17:Cleared All 5 Master Ranks,18:Green Room Event 7 Pending,19:Defeated Lisia,20:Green Room Event 8 Pending,21:Defeated Wallace and Lisia (All Completed)

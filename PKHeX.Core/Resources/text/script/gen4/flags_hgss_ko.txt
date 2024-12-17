@@ -48,6 +48,11 @@
 0375	g	Got Hoenn Starter from Steven
 0762	s	Steven Disappeared from Silph Co.
 0791	s	Steven Disappeared from Pewter Museum
+0643	e	Microwave Oven Appliance Disappeared
+0644	e	Washing Machine Appliance Disappeared
+0645	e	Refrigerator Appliance Disappeared
+0646	e	Rotary Fan Appliance Disappeared
+0647	e	Lawn Mower Appliance Disappeared
 0215	s	Met Monica/Got Sharp Beak
 0216	s	Met Tuscany/Got TwistedSpoon
 0213	s	Met Wesley/Got Black Belt
@@ -59,6 +64,7 @@
 0541	*	Solved Ruins of Alph Flash wall puzzle
 0543	*	Solved Ruins of Alph Water Stone wall puzzle
 0545	*	Solved Ruins of Alph Ho-Oh wall puzzle
+0376	s	Lost to Giovanni once (Celebi Event)
 1366	t	Defeated Policeman Keith (Night)
 1440	t	Defeated Policeman Dirk (Night)
 0693	t	Had Whitney Rematch
