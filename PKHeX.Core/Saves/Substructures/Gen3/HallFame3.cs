@@ -34,7 +34,7 @@ public sealed class HallFame3Entry(byte[] Data, int Offset, bool Japanese)
 
         var entries = new HallFame3Entry[MaxEntries];
         for (int i = 0; i < entries.Length; i++)
-            entries[i] = new HallFame3Entry(data, SIZE, Japanese);
+            entries[i] = new HallFame3Entry(data, i * SIZE, Japanese);
         return entries;
     }
 
@@ -59,7 +59,7 @@ public sealed class HallFame3PKM(byte[] Data, int Offset, bool Japanese) : ISpec
     private Span<byte> NicknameTrash => Data.AsSpan(10 + Offset, 10);
     public string Nickname { get => StringConverter3.GetString(NicknameTrash, Japanese); set => StringConverter3.SetString(NicknameTrash, value, 10, Japanese, StringConverterOption.ClearZero); }
 
-    public ushort Species { get => (ushort)(SpecLevel & 0x1FF); set => SpecLevel = (SpecLevel & 0xFE00) | value; }
+    public ushort Species { get => SpeciesConverter.GetNational3((ushort)(SpecLevel & 0x1FF)); set => SpecLevel = (SpecLevel & 0xFE00) | SpeciesConverter.GetInternal3(value); }
     public byte Form => 0; // no forms; derive Unown's from PID else use the Version for Deoxys.
     public int Level { get => SpecLevel >> 9; set => SpecLevel = (SpecLevel & 0x1FF) | (value << 9); }
 }
