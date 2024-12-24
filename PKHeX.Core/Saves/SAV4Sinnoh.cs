@@ -135,13 +135,29 @@ public abstract class SAV4Sinnoh : SAV4, IBoxDetailName, IBoxDetailWallpaper
     #region Underground
     //Underground Scores
     protected int OFS_UG_Stats;
-    public uint UG_PlayersMet     { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x00)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x00)..], value); }
-    public uint UG_Gifts          { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x04)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x04)..], value); }
-    public uint UG_Spheres        { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x0C)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x0C)..], value); }
-    public uint UG_Fossils        { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x10)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x10)..], value); }
-    public uint UG_TrapsAvoided   { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x18)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x18)..], value); }
-    public uint UG_TrapsTriggered { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x1C)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x1C)..], value); }
-    public uint UG_Flags          { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x34)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x34)..], value); }
+    public const uint UG_MAX = 999_999;
+    private Span<byte> UndergroundStats => General.Slice(OFS_UG_Stats, 0x38); // Length?
+    public uint UG_PeopleMet      { get => ReadUInt32LittleEndian(UndergroundStats[0x00..]); set => WriteUInt32LittleEndian(UndergroundStats[0x00..], value); }
+    public uint UG_GiftsGiven     { get => ReadUInt32LittleEndian(UndergroundStats[0x04..]); set => WriteUInt32LittleEndian(UndergroundStats[0x04..], value); }
+    public uint UG_FlagsTaken     { get => ReadUInt32LittleEndian(UndergroundStats[0x08..]); set => WriteUInt32LittleEndian(UndergroundStats[0x08..], value); }
+    public uint UG_Spheres        { get => ReadUInt32LittleEndian(UndergroundStats[0x0C..]); set => WriteUInt32LittleEndian(UndergroundStats[0x0C..], value); }
+    public uint UG_Fossils        { get => ReadUInt32LittleEndian(UndergroundStats[0x10..]); set => WriteUInt32LittleEndian(UndergroundStats[0x10..], value); }
+    public uint UG_TrapPlayers    { get => ReadUInt32LittleEndian(UndergroundStats[0x18..]); set => WriteUInt32LittleEndian(UndergroundStats[0x18..], value); }
+    public uint UG_TrapSelf       { get => ReadUInt32LittleEndian(UndergroundStats[0x1C..]); set => WriteUInt32LittleEndian(UndergroundStats[0x1C..], value); }
+    public uint UG_HelpedOthers   { get => ReadUInt32LittleEndian(UndergroundStats[0x20..]); set => WriteUInt32LittleEndian(UndergroundStats[0x20..], value); }
+    public uint UG_GiftsReceived  { get => ReadUInt32LittleEndian(UndergroundStats[0x24..]); set => WriteUInt32LittleEndian(UndergroundStats[0x24..], value); }
+
+    // taken from my base
+    public uint UG_FlagsFromMe    { get => ReadUInt32LittleEndian(UndergroundStats[0x28..]); set => WriteUInt32LittleEndian(UndergroundStats[0x28..], value); }
+
+    // recovered mine from others
+    public uint UG_FlagsRecovered { get => ReadUInt32LittleEndian(UndergroundStats[0x2C..]); set => WriteUInt32LittleEndian(UndergroundStats[0x2C..], value); }
+
+    // number of times the secret base was moved
+    public uint UG_MyBaseMoved    { get => ReadUInt32LittleEndian(UndergroundStats[0x30..]); set => WriteUInt32LittleEndian(UndergroundStats[0x30..], value); }
+
+    // number of captured flags registered on the PC
+    public uint UG_FlagsCaptured  { get => ReadUInt32LittleEndian(UndergroundStats[0x34..]); set => WriteUInt32LittleEndian(UndergroundStats[0x34..], value); }
 
     //Underground Items
     protected int OFS_UG_Items;

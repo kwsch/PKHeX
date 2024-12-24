@@ -140,7 +140,7 @@ public partial class SAV_Misc4 : Form
         if (SAV is SAV4Sinnoh sinnoh)
         {
             ReadPoketch(sinnoh);
-            NUD_UGFlags.Value = Math.Clamp(sinnoh.UG_Flags, 0, 999_999);
+            NUD_UGFlags.Value = Math.Clamp(sinnoh.UG_FlagsCaptured, 0, SAV4Sinnoh.UG_MAX);
             L_PokeathlonPoints.Visible = NUD_PokeathlonPoints.Visible = false;
         }
         else if (SAV is SAV4HGSS hgss)
@@ -178,7 +178,7 @@ public partial class SAV_Misc4 : Form
         if (SAV is SAV4Sinnoh sinnoh)
         {
             SavePoketch(sinnoh);
-            sinnoh.UG_Flags = (uint)NUD_UGFlags.Value;
+            sinnoh.UG_FlagsCaptured = (uint)NUD_UGFlags.Value;
         }
         else if (SAV is SAV4HGSS hgss)
         {
