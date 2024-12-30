@@ -10,7 +10,7 @@
 1761	r	Electrode (middle corners) disappeared from Hideout B2F
 1762	r	Electrode (bottom corners) disappeared from Hideout B2F
 0079	g	Received Eevee
-1867	*	Legendary Beasts Disappeared from Burned Tower
+1867	*	Legendary Beasts disappeared from Burned Tower
 0672	*	SOLVED_HO_OH_PUZZLE
 0673	*	SOLVED_KABUTO_PUZZLE
 0674	*	SOLVED_OMANYTE_PUZZLE
