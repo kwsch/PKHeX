@@ -94,7 +94,7 @@ public sealed class TrashByteVerifier : Verifier
             else
             {
                 // Species name is overwritten by "Egg"
-                var origName = SpeciesName.GetSpeciesName(pk.Species, pk.Language);
+                var origName = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
                 VerifyTrashSpecific(data, pk.NicknameTrash, origName, Nickname);
             }
             return;
@@ -130,7 +130,7 @@ public sealed class TrashByteVerifier : Verifier
         var pk = data.Entity;
         if (pk.IsNicknamed)
         {
-            var origName = SpeciesName.GetSpeciesName(pk.Species, pk.Language);
+            var origName = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
             VerifyTrashSpecific(data, span, origName, Nickname, Severity.Fishy);
         }
         else

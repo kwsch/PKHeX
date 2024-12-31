@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.EntityConverterResult;
 
 namespace PKHeX.Core;
@@ -30,7 +30,7 @@ public static class EntityConverterResultExtensions
         SuccessIncompatibleManual => "Converted manually -- similar data.",
         IncompatibleForm  => MessageStrings.MsgPKMConvertFailForm,
         NoTransferRoute => MessageStrings.MsgPKMConvertFailNoMethod,
-        IncompatibleSpecies => string.Format(MessageStrings.MsgPKMConvertFailFormat, SpeciesName.GetSpeciesName(src.Species, src.Language), dest.Name),
+        IncompatibleSpecies => string.Format(MessageStrings.MsgPKMConvertFailFormat, SpeciesName.GetSpeciesNameGeneration(src.Species, src.Language, src.Format), dest.Name),
         IncompatibleLanguageGB => GetIncompatibleGBMessage(result, src, !src.Japanese),
         _ => throw new ArgumentOutOfRangeException(nameof(result)),
     };
