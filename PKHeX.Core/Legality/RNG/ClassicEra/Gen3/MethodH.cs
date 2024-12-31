@@ -43,7 +43,7 @@ public static class MethodH
     public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, bool emerald, byte gender, TEvo evo)
         where TEnc : IEncounterSlot3
         where TEvo : ILevelRange
-        => GetSeed(enc, seed, evo, emerald, gender, 3);
+        => GetSeed(enc, seed, evo, emerald, gender, Format);
 
     // Summary of Random Determinations:
     // Nature:                       rand() % 25 == nature
@@ -383,7 +383,7 @@ public static class MethodH
         // -1 CC Proc (Random() % 3 != 0)
         //  0 Nature
         if (IsCuteCharmFail(ctx.Prev1))
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -397,7 +397,7 @@ public static class MethodH
         // -1 CC Proc (Random() % 3 == 0)
         //  0 Nature
         if (IsCuteCharmPass(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -411,7 +411,7 @@ public static class MethodH
         // -1 Sync Proc (Random() % 2) FAIL
         //  0 Nature
         if (IsSyncPass(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -426,7 +426,7 @@ public static class MethodH
         //  0 Nature
         // Note: if this check fails, the encounter generation routine is aborted.
         if (IsIntimidateKeenEyePass(ctx.Prev1)) // encounter routine aborted
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -440,7 +440,7 @@ public static class MethodH
         // -1 LevelMax proc (Random() & 1) FAIL
         //  0 Nature
         if (IsHustleVitalPass(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         // When it fails, level range is reduced by 1 so that it is not the maximum level, if possible.
 
@@ -487,7 +487,7 @@ public static class MethodH
             if (IsSlotValid(ctx.Encounter, ctx.Prev3))
             { result = ctx.Seed4; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidFrom1SkipMinus1<T>(FrameCheckDetails<T> ctx, out uint result)
@@ -502,7 +502,7 @@ public static class MethodH
             if (IsSlotValid(ctx.Encounter, ctx.Prev3))
             { result = ctx.Seed4; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
@@ -516,7 +516,7 @@ public static class MethodH
             if (IsSlotValid(ctx.Encounter, ctx.Prev2))
             { result = ctx.Seed3; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidHustleVital<T>(in FrameCheckDetails<T> ctx, out uint result)
@@ -528,11 +528,11 @@ public static class MethodH
         // -1 LevelMax proc (Random() & 1)
         //  0 Nature
         if (IsHustleVitalFail(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         var expectLevel = ctx.Encounter.PressureLevel;
         if (!IsOriginalLevelValid(ctx.LevelMin, ctx.LevelMax, ctx.Format, expectLevel))
-        { result = default; return false; }
+        { result = 0; return false; }
 
         // Level is always rand(), but...
         {
@@ -540,7 +540,7 @@ public static class MethodH
             if (IsSlotValid(ctx.Encounter, ctx.Prev3))
             { result = ctx.Seed4; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result, out LeadRequired lead)
@@ -553,14 +553,14 @@ public static class MethodH
         //  0 Nature
         lead = None;
         if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
         {
             if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
             { result = ctx.Seed4; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidStaticMagnetFail<T>(in FrameCheckDetails<T> ctx, out uint result)
@@ -572,14 +572,14 @@ public static class MethodH
         // -1 Level
         //  0 Nature
         if (IsStaticMagnetPass(ctx.Prev3)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
         {
             if (IsSlotValid(ctx.Encounter, ctx.Prev2))
             { result = ctx.Seed4; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValid<T>(T enc, uint u16SlotRand)

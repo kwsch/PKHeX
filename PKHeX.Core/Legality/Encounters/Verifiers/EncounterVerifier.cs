@@ -76,8 +76,8 @@ public static class EncounterVerifier
         if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
             return GetValid(LEggLocation);
 
-        if (c2.MetLevel != 1)
-            return GetInvalid(string.Format(LEggFMetLevel_0, 1));
+        if (c2.MetLevel != EggStateLegality.EggMetLevel)
+            return GetInvalid(string.Format(LEggFMetLevel_0, EggStateLegality.EggMetLevel));
 
         if (pk.MetLocation > 95)
             return GetInvalid(LEggMetLocationFail);
@@ -90,8 +90,8 @@ public static class EncounterVerifier
         if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
             return new CheckResult(CheckIdentifier.Encounter);
 
-        if (c2.MetLevel != 1)
-            return GetInvalid(string.Format(LEggFMetLevel_0, 1));
+        if (c2.MetLevel != EggStateLegality.EggMetLevel)
+            return GetInvalid(string.Format(LEggFMetLevel_0, EggStateLegality.EggMetLevel));
         if (c2.MetLocation != 0)
             return GetInvalid(LEggLocationInvalid);
         return GetValid(LEggLocation);
@@ -99,8 +99,8 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyUnhatchedEgg3(PKM pk)
     {
-        if (pk.MetLevel != 0)
-            return GetInvalid(string.Format(LEggFMetLevel_0, 0));
+        if (pk.MetLevel != EggStateLegality.EggMetLevel34)
+            return GetInvalid(string.Format(LEggFMetLevel_0, EggStateLegality.EggMetLevel34));
 
         // Only EncounterEgg should reach here.
         var loc = pk.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
@@ -115,8 +115,8 @@ public static class EncounterVerifier
         if (pk.Format != 3)
             return VerifyEncounterEgg3Transfer(pk);
 
-        if (pk.MetLevel != 0)
-            return GetInvalid(string.Format(LEggFMetLevel_0, 0));
+        if (pk.MetLevel != EggStateLegality.EggMetLevel34)
+            return GetInvalid(string.Format(LEggFMetLevel_0, EggStateLegality.EggMetLevel34));
 
         // Check the origin game list.
         var met = (byte)pk.MetLocation;
@@ -137,7 +137,7 @@ public static class EncounterVerifier
     {
         if (pk.IsEgg)
             return GetInvalid(LTransferEgg);
-        if (pk.MetLevel < 5)
+        if (pk.MetLevel < EggStateLegality.EggLevel23)
             return GetInvalid(LTransferEggMetLevel);
 
         var expectEgg = pk is PB8 ? Locations.Default8bNone : 0;
@@ -164,7 +164,7 @@ public static class EncounterVerifier
         {
             if (pk.IsEgg)
                 return GetInvalid(LTransferEgg);
-            if (pk.MetLevel < 1)
+            if (pk.MetLevel < EggStateLegality.EggLevel)
                 return GetInvalid(LTransferEggMetLevel);
             if (pk.MetLocation != Locations.Transfer4)
                 return GetInvalid(LTransferEggLocationTransporter);

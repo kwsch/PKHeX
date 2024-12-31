@@ -39,7 +39,7 @@ public static class MethodJ
     public static LeadSeed GetSeed<TEnc, TEvo>(TEnc enc, uint seed, TEvo evo)
         where TEnc : IEncounterSlot4
         where TEvo : ILevelRange
-        => GetSeed(enc, seed, evo, 4);
+        => GetSeed(enc, seed, evo, Format);
 
     // Summary of Random Determinations:
     // For constant-value rand choices, the games avoid using modulo via:
@@ -256,7 +256,7 @@ public static class MethodJ
         where T : IEncounterSlot4
     {
         if (IsCuteCharmFail(ctx.Prev1))
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -265,7 +265,7 @@ public static class MethodJ
         where T : IEncounterSlot4
     {
         if (IsCuteCharmPass(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -274,7 +274,7 @@ public static class MethodJ
         where T : IEncounterSlot4
     {
         if (IsSyncPass(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -284,7 +284,7 @@ public static class MethodJ
     {
         // Requires lead with level 5+ above the encounter's level. Always possible.
         if (IsIntimidateKeenEyePass(ctx.Prev1)) // encounter routine aborted
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -293,7 +293,7 @@ public static class MethodJ
         where T : IEncounterSlot4
     {
         if (IsHustleVitalPass(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         return IsSlotValidFrom1Skip(ctx, out result);
     }
@@ -358,7 +358,7 @@ public static class MethodJ
             if (IsSlotValid(ctx.Encounter, ctx.Prev2))
             { result = ctx.Seed3; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
@@ -377,18 +377,18 @@ public static class MethodJ
             if (IsSlotValid(ctx.Encounter, ctx.Prev1))
             { result = ctx.Seed2; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidHustleVital<T>(in FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
         if (IsHustleVitalFail(ctx.Prev1)) // should have triggered
-        { result = default; return false; }
+        { result = 0; return false; }
 
         var expectLevel = ctx.Encounter.PressureLevel;
         if (!IsOriginalLevelValid(ctx.LevelMin, ctx.LevelMax, ctx.Format, expectLevel))
-        { result = default; return false; }
+        { result = 0; return false; }
 
         if (IsLevelRand(ctx.Encounter))
         {
@@ -401,7 +401,7 @@ public static class MethodJ
             if (IsSlotValid(ctx.Encounter, ctx.Prev2))
             { result = ctx.Seed3; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidStaticMagnet<T>(in FrameCheckDetails<T> ctx, out uint result, out LeadRequired lead)
@@ -411,7 +411,7 @@ public static class MethodJ
         if (IsLevelRand(ctx.Encounter))
         {
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
-            { result = default; return false; }
+            { result = 0; return false; }
 
             if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
@@ -422,12 +422,12 @@ public static class MethodJ
         else // Not random level
         {
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
-            { result = default; return false; }
+            { result = 0; return false; }
 
             if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev1, out lead))
             { result = ctx.Seed3; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValidStaticMagnetFail<T>(in FrameCheckDetails<T> ctx, out uint result)
@@ -436,7 +436,7 @@ public static class MethodJ
         if (IsLevelRand(ctx.Encounter))
         {
             if (IsStaticMagnetPass(ctx.Prev3)) // should have triggered
-            { result = default; return false; }
+            { result = 0; return false; }
 
             if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
@@ -447,12 +447,12 @@ public static class MethodJ
         else // Not random level
         {
             if (IsStaticMagnetPass(ctx.Prev2)) // should have triggered
-            { result = default; return false; }
+            { result = 0; return false; }
 
             if (IsSlotValid(ctx.Encounter, ctx.Prev1))
             { result = ctx.Seed3; return true; }
         }
-        result = default; return false;
+        result = 0; return false;
     }
 
     private static bool IsSlotValid<T>(T enc, uint u16SlotRand)

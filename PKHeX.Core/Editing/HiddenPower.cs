@@ -81,7 +81,7 @@ public static class HiddenPower
     {
         if ((uint)type >= TypeCount)
         {
-            index = default;
+            index = 0;
             return false;
         }
         index = (byte)(type + 1); // Normal type is not a valid Hidden Power type

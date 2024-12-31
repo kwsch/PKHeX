@@ -247,7 +247,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             seed = s;
             return true;
         }
-        seed = default;
+        seed = 0;
         return false;
     }
 }

@@ -177,9 +177,9 @@ public static class StringConverter1
         var index = dict.IndexOf(c);
         if (index == -1)
             return TryGetUserFriendlyRemap(dict, c, out result);
-        // \0 shouldn't really be user-entered, but just in case
+        // \0 at index 0 shouldn't really be user-entered, check just in case
         result = (byte)index;
-        return index != default;
+        return index != 0;
     }
 
     // べ (U+3079), ぺ (U+307A), へ (U+3078), and り (U+308A)
@@ -196,7 +196,7 @@ public static class StringConverter1
             result = (byte)index;
             return true; // Valid Hiragana will always be found if it's in the table
         }
-        result = default;
+        result = 0;
         return false;
     }
 

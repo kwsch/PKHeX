@@ -128,7 +128,7 @@ public static class MethodFinder
             return true;
         }
 
-        result = default;
+        result = 0;
         return false;
     }
 

@@ -369,5 +369,5 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public int EventWorkCount => FlagWork8b.COUNT_WORK;
     public int GetWork(int index) => FlagWork.GetWork(index);
-    public void SetWork(int index, int value = default) => FlagWork.SetWork(index, value);
+    public void SetWork(int index, int value = 0) => FlagWork.SetWork(index, value);
 }

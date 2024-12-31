@@ -34,7 +34,7 @@ internal static class BallUseLegality
         8 when GameVersion.PLA == game => WildPokeBalls8a,
         8 => GameVersion.GO == game ? WildPokeballs8g_WithRaid : WildPokeballs8,
         9 => WildPokeballs9,
-        _ => default,
+        _ => 0,
     };
 
     private const ulong WildPokeRegular = (1 << (int)Master)

@@ -34,7 +34,7 @@ public sealed record EncounterStatic6(GameVersion Version)
     public byte ContestCute   { get; init; }
     public byte ContestSmart  { get; init; }
     public byte ContestTough  { get; init; }
-    public byte ContestSheen  { get; init; }
+    public byte ContestSheen => 0;
 
     public byte EggCycles { get; init; }
     public byte FlawlessIVCount { get; init; }

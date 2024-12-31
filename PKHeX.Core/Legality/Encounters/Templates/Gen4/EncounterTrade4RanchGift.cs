@@ -19,7 +19,7 @@ public sealed record EncounterTrade4RanchGift
 
     public Nature Nature => FatefulEncounter ? Nature.Random : (Nature)(PID % 25);
 
-    public ushort Location { get; init; }
+    public required ushort Location { get; init; }
     public Shiny Shiny => FatefulEncounter ? Shiny.Never : Shiny.FixedValue;
     public GameVersion Version { get; }
     public bool IsEgg => false;
@@ -75,7 +75,6 @@ public sealed record EncounterTrade4RanchGift
         MetLevel = met;
         Level = level;
         FatefulEncounter = true;
-        Location = 3000;
     }
 
     #region Generating
@@ -182,10 +181,7 @@ public sealed record EncounterTrade4RanchGift
     {
         if (pk.Format != 4) // Met Level lost on PK4=>PK5
             return evo.LevelMax >= Level;
-
-        if (Location != default)
-            return pk.MetLevel == MetLevel;
-        return pk.MetLevel >= LevelMin;
+        return pk.MetLevel == MetLevel;
     }
 
     private bool IsMatchNatureGenderShiny(PKM pk)

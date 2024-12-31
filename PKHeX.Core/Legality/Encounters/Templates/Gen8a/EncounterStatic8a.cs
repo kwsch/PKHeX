@@ -298,7 +298,7 @@ public sealed record EncounterStatic8a
             seed = s;
             return true;
         }
-        seed = default;
+        seed = 0;
         return false;
     }
 }

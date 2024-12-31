@@ -147,9 +147,9 @@ public static class StringConverter2
         var index = dict.IndexOf(c);
         if (index == -1)
             return TryGetUserFriendlyRemap(dict, c, out result);
-        // \0 shouldn't really be user-entered, but just in case
+        // \0 at index 0 shouldn't really be user-entered, check just in case
         result = (byte)index;
-        return index != default;
+        return index != 0;
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public static class StringConverter2
             result = (byte)index;
             return true; // Valid Hiragana will always be found if it's in the table
         }
-        result = default;
+        result = 0;
         return false;
     }
 

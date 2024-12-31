@@ -12,34 +12,35 @@ public sealed record EncounterTrade4PID
     public EntityContext Context => EntityContext.Gen4;
     public Shiny Shiny => Shiny.FixedValue;
     public bool IsFixedNickname => true;
-    public GameVersion Version { get; }
     public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public bool IsFixedTrainer => true;
     public byte LevelMin => Level;
-    public byte LevelMax => MetLocation == default ? Level : (byte)100;
+    public byte LevelMax => IsMetUnset ? Level : (byte)100;
+    public ushort Location => IsMetUnset ? Locations.LinkTrade4NPC : MetLocation;
 
     private readonly string[] TrainerNames;
     private readonly string[] Nicknames;
 
     public ushort Species { get; }
     public byte Level { get; }
+    public GameVersion Version { get; }
     public required AbilityPermission Ability { get; init; }
     public required byte OTGender { get; init; }
     public required ushort TID16 { get; init; }
     public required ushort SID16 { get; init; }
     public required byte Gender { get; init; }
     public required IndividualValueSet IVs { get; init; }
+    public Moveset Moves { get; init; }
+    public byte MetLocation { get; init; } // only set by Shuckle and Spearow in HG/SS
+    public byte Contest { get; init; }
+
     public Nature Nature => (Nature)(PID % 25);
     public byte Form => 0;
     private uint ID32 => (uint)(TID16 | (SID16 << 16));
-
-    public Moveset Moves { get; init; }
-
-    public byte MetLocation { get; init; }
-    public ushort Location => MetLocation == default ? Locations.LinkTrade4NPC : MetLocation;
+    private bool IsMetUnset => MetLocation == 0;
 
     /// <summary>
     /// Fixed <see cref="PKM.PID"/> value the encounter must have.
@@ -50,25 +51,12 @@ public sealed record EncounterTrade4PID
     public string Name => _name;
     public string LongName => _name;
 
-    public byte ContestCool { get; private init; }
-    public byte ContestBeauty { get; private init; }
-    public byte ContestCute { get; private init; }
-    public byte ContestSmart { get; private init; }
-    public byte ContestTough { get; private init; }
+    public byte ContestCool => Contest;
+    public byte ContestBeauty => Contest;
+    public byte ContestCute => Contest;
+    public byte ContestSmart => Contest;
+    public byte ContestTough => Contest;
     public byte ContestSheen => 0;
-
-    public byte Contest
-    {
-        init
-        {
-            ContestCool = value;
-            ContestBeauty = value;
-            ContestCute = value;
-            ContestSmart = value;
-            ContestTough = value;
-            //ContestSheen = value;
-        }
-    }
 
     public EncounterTrade4PID(ReadOnlySpan<string[]> names, byte index, GameVersion game, uint pid, ushort species, byte level)
     {
@@ -202,7 +190,7 @@ public sealed record EncounterTrade4PID
         if (pk.Format != 4) // Met Level lost on PK4=>PK5
             return evo.LevelMax >= Level;
 
-        if (MetLocation != default)
+        if (!IsMetUnset)
             return pk.MetLevel == Level;
         return pk.MetLevel >= LevelMin;
     }
@@ -291,13 +279,14 @@ public sealed record EncounterTrade4PID
 
         return lang;
     }
-    private int DetectTradeLanguage(ReadOnlySpan<char> OT, int currentLanguageID)
+
+    private int DetectTradeLanguage(ReadOnlySpan<char> actual, int currentLanguageID)
     {
         var names = TrainerNames;
         for (int lang = 1; lang < names.Length; lang++)
         {
             var expect = names[lang];
-            var match = OT.SequenceEqual(expect);
+            var match = actual.SequenceEqual(expect);
             if (match)
                 return lang;
         }
