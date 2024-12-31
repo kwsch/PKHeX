@@ -97,7 +97,7 @@
 0107	s	Received Black Belt from Wesley
 0108	s	Met Santos
 0109	s	Received Spell Tag from Santos
-0110	s	Met to Monica
+0110	s	Met Monica
 0111	s	Received Sharp Beak from Monica
 0189	g	Received Dratini
 0193	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
