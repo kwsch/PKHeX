@@ -330,6 +330,5 @@ public sealed class LegalityAnalysis
             return;
 
         Mark.Verify(this);
-        Arceus.Verify(this);
     }
 }
