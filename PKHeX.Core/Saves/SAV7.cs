@@ -13,11 +13,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
     public override string Extension => string.Empty;
 
-    public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
-    {
-        int gen = f[^1] - 0x30;
-        return gen <= 7 && f[1] != 'b'; // ignore PB7
-    });
+    public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsAtOrBelow(7, "pb7");
 
     protected SAV7(byte[] data, [ConstantExpected] int biOffset) : base(data, biOffset)
     {

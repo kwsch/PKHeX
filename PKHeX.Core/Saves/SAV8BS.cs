@@ -13,12 +13,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
     public override string Extension => string.Empty;
-
-    public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
-    {
-        int gen = f[^1] - 0x30;
-        return gen <= 8;
-    });
+    public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsHOME();
 
     public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
 
