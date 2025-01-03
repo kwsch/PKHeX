@@ -44,6 +44,11 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     private readonly int ActiveSlot;
     public sealed override int Language { get; set; }
 
+    /// <summary>
+    /// Indicates if the save file was a misconfigured (smaller) size, and thus not all extra blocks may be present.
+    /// </summary>
+    public bool IsMisconfiguredSize => Data.Length < SaveUtil.SIZE_G3RAW;
+
     protected SAV3(bool japanese) => Japanese = japanese;
 
     protected SAV3(byte[] data) : base(data)
@@ -151,7 +156,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         WriteSectors(data, 0);
         SetSlotChecksums(data, 0);
 
-        if (data.Length < SaveUtil.SIZE_G3RAW) // don't update second half if it doesn't exist
+        if (IsMisconfiguredSize) // don't update second half if it doesn't exist
             return;
 
         WriteSectors(data, 1);
@@ -227,7 +232,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         SetSlotChecksums(Data, ActiveSlot);
 
-        if (Data.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
+        if (IsMisconfiguredSize) // don't update HoF for half-sizes
             return;
 
         for (int i = 0; i < COUNT_EXTRA; i++)
@@ -244,7 +249,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
                     return false;
             }
 
-            if (Data.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+            if (IsMisconfiguredSize) // don't check HoF for half-sizes
                 return true;
 
             for (int i = 0; i < COUNT_EXTRA; i++)
@@ -300,7 +305,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
                     list.Add($"Sector {i} @ {i * SIZE_SECTOR:X5} invalid.");
             }
 
-            if (Data.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+            if (!IsMisconfiguredSize) // don't check HoF for half-sizes
             {
                 if (!IsSectorValidExtra(0x1C000))
                     list.Add("HoF first sector invalid.");
