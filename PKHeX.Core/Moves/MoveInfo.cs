@@ -110,7 +110,10 @@ public static class MoveInfo
         return IsDummiedMove(hashSet, move);
     }
 
-    private static bool IsDummiedMove(ReadOnlySpan<byte> bitSet, ushort move)
+    /// <inheritdoc cref="IsDummiedMove(PKM, int)"/>
+    /// <param name="bitSet">BitSet to check against</param>
+    /// <param name="move">Move index to check</param>
+    public static bool IsDummiedMove(ReadOnlySpan<byte> bitSet, ushort move)
     {
         var offset = move >> 3;
         if (offset >= bitSet.Length)
@@ -180,7 +183,8 @@ public static class MoveInfo
     /// <param name="context">Context currently present in</param>
     private static bool IsSketchPossible(ushort move, EntityContext context) => context switch
     {
-        Gen6 when move is (int)ThousandArrows or (int)ThousandWaves => false,
+        Gen6 when move is (int)ThousandArrows or (int)ThousandWaves or (int)LightofRuin => false,
+        Gen7 when move is (int)LightofRuin => false,
         Gen8b when IsDummiedMove(MoveInfo8b.DummiedMoves, move) => false,
         Gen9 when IsDummiedMove(MoveInfo9.DummiedMoves, move) || DisallowSketch9.Contains(move) => false,
         _ => true,
