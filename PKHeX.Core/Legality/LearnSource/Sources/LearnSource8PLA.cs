@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="PLA"/>.
 /// </summary>
-public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource
+public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource, ILearnSourceBonus
 {
     public static readonly LearnSource8LA Instance = new();
     private static readonly PersonalTable8LA Personal = PersonalTable.LA;
@@ -24,6 +24,9 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource
         var index = Personal.GetFormIndex(species, form);
         return (Learnsets[index], Mastery[index]);
     }
+
+    public (Learnset Learn, Learnset Other) GetLearnsetAndOther(ushort species, byte form)
+        => GetLearnsetAndMastery(species, form);
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8LA? pi)
     {

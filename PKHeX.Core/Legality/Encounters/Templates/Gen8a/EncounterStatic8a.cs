@@ -12,7 +12,8 @@ public sealed record EncounterStatic8a
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8a;
-    public GameVersion Version => GameVersion.PLA;
+    private const GameVersion Version = GameVersion.PLA;
+    GameVersion IVersion.Version => GameVersion.PLA;
     public ushort EggLocation => 0;
     ushort ILocation.Location => Location;
     public bool IsShiny => Shiny == Shiny.Always;
@@ -171,7 +172,7 @@ public sealed record EncounterStatic8a
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
-        if (pk is IAlpha a && a.IsAlpha != IsAlpha)
+        if (pk is IAlphaReadOnly a && a.IsAlpha != IsAlpha)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;

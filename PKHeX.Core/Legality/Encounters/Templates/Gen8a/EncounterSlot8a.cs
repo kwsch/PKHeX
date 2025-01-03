@@ -23,7 +23,8 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
-    public GameVersion Version => Parent.Version;
+    private const GameVersion Version = GameVersion.PLA;
+    GameVersion IVersion.Version => GameVersion.PLA;
     public ushort Location => Parent.Location;
     public SlotType8a Type => Parent.Type;
 

@@ -72,3 +72,16 @@ public interface ILearnSource<T> : ILearnSource where T : PersonalInfo
     /// <returns>True if the <see cref="T"/> reference is a valid entity reference.</returns>
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out T? pi);
 }
+
+/// <summary>
+/// Interface for learnsets with paired learn behavior.
+/// </summary>
+public interface ILearnSourceBonus
+{
+    /// <summary>
+    /// Gets the levelup learnset and other learnset for the given <see cref="species"/> and <see cref="form"/>.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    /// <param name="form">Entity form</param>
+    (Learnset Learn, Learnset Other) GetLearnsetAndOther(ushort species, byte form);
+}

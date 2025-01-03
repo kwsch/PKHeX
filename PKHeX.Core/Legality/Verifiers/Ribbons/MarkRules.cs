@@ -143,15 +143,23 @@ public static class MarkRules
     /// </summary>
     public static bool IsMarkValidAlpha(PKM pk, bool wasAlpha)
     {
-        if (pk is IAlpha a && a.IsAlpha != wasAlpha)
-            return false;
         if (pk is not IRibbonSetMark9 m)
             return true;
-        if (m.RibbonMarkAlpha == wasAlpha)
-            return true;
+        if (!wasAlpha || !HasEnteredHOME300(pk))
+            return !m.RibbonMarkAlpha; // Shouldn't have the flag.
+        return m.RibbonMarkAlpha; // Should have the flag.
+    }
 
+    private static bool HasEnteredHOME300(PKM pk)
+    {
+        // Mark is only set by HOME ingesting the data for the first time.
         // Before HOME 3.0.0, this mark was never set.
-        return wasAlpha && pk is PK8 or PB8 or PA8; // Not yet touched HOME 3.0.0
+        // Could be okay as Gen8 format -- don't bother checking for "must have visited HOME 3.0.0+".
+        if (pk is IHomeTrack { HasTracker: false })
+            return false; // Hasn't been transferred to HOME yet.
+        if (pk.LA && pk is PK8 or PB8 or PA8)
+            return false; // Could have been moved prior to the HOME 3.0.0 update.
+        return true;
     }
 
     /// <summary>
@@ -251,7 +259,7 @@ public static class MarkRules
             return RibbonIndexExtensions.MAX_G9;
         if (evos.HasVisitedSWSH)
             return RibbonIndexExtensions.MAX_G8; // Pioneer and Twinkling Star cannot be selected in SW/SH.
-        return unchecked((RibbonIndex)(-1));
+        return unchecked((RibbonIndex)AffixedRibbon.None);
     }
 }
 
