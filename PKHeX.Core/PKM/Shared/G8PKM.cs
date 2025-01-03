@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public abstract class G8PKM : PKM, ISanityChecksum,
-    ITechRecord, ISociability, IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IPokerusStatus, IAppliedMarkings7,
+    ITechRecord, ISociability, IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IPokerusStatus, IAppliedMarkings7, IFullnessEnjoyment,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8,  IRibbonSetCommon9, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetMark9
 {
     protected G8PKM() : base(PokeCrypto.SIZE_8PARTY) { }
@@ -382,8 +382,8 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     public bool GetPokeJobFlagAny() => PokeJob.ContainsAnyExcept<byte>(0);
     public void ClearPokeJobFlags() => PokeJob.Clear();
 
-    public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
-    public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
+    public byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
+    public byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
     public override GameVersion Version { get => (GameVersion)Data[0xDE]; set => Data[0xDE] = (byte)value; }
     public GameVersion BattleVersion { get => (GameVersion)Data[0xDF]; set => Data[0xDF] = (byte)value; }
     // public override byte Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }

@@ -35,8 +35,6 @@ public partial class MemoryAmie : Form
         {
             tabControl1.TabPages.Remove(Tab_Residence);
         }
-        if (Entity is PK9)
-            tabControl1.TabPages.Remove(Tab_Other); // No Fullness/Enjoyment stored.
 
         GetLangStrings();
         LoadFields();
@@ -66,8 +64,15 @@ public partial class MemoryAmie : Form
         }
 
         // Load the Fullness, and Enjoyment
-        M_Fullness.Text = Entity.Fullness.ToString();
-        M_Enjoyment.Text = Entity.Enjoyment.ToString();
+        if (Entity is IFullnessEnjoyment f)
+        {
+            M_Fullness.Text = f.Fullness.ToString();
+            M_Enjoyment.Text = f.Enjoyment.ToString();
+        }
+        else
+        {
+            tabControl1.TabPages.Remove(Tab_Other); // No Fullness/Enjoyment stored.
+        }
 
         M_OT_Friendship.Text = Entity.OriginalTrainerFriendship.ToString();
         M_CT_Friendship.Text = Entity.HandlingTrainerFriendship.ToString();
@@ -186,8 +191,11 @@ public partial class MemoryAmie : Form
             a.OriginalTrainerAffection = (byte)Util.ToInt32(M_OT_Affection.Text);
             a.HandlingTrainerAffection = (byte)Util.ToInt32(M_CT_Affection.Text);
         }
-        Entity.Fullness = (byte)Util.ToInt32(M_Fullness.Text);
-        Entity.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);
+        if (Entity is IFullnessEnjoyment f)
+        {
+            f.Fullness = (byte)Util.ToInt32(M_Fullness.Text);
+            f.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);
+        }
 
         // Save Memories
         if (Entity is ITrainerMemories m)
