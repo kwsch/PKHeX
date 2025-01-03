@@ -46,36 +46,14 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
             Data[0x07] = (byte)value;
 
             // For runtime language, the game has different indexes (not even shifted like previous games, just different)
-            var runtimeLanguage = GetRuntimeLanguage((LanguageID)value);
-            SAV.SetValue(SaveBlockAccessor9SV.KGameLanguage, (int)runtimeLanguage); // Int32
+            RuntimeLanguageId = RuntimeLanguageExtensions.GetRuntimeLanguage((LanguageID)value);
         }
     }
 
-    private static RuntimeLanguage GetRuntimeLanguage(LanguageID value) => value switch
+    public RuntimeLanguage RuntimeLanguageId
     {
-        LanguageID.Japanese => RuntimeLanguage.Japanese,
-        LanguageID.English => RuntimeLanguage.English,
-        LanguageID.Spanish => RuntimeLanguage.Spanish,
-        LanguageID.German => RuntimeLanguage.German,
-        LanguageID.French => RuntimeLanguage.French,
-        LanguageID.Italian => RuntimeLanguage.Italian,
-        LanguageID.Korean => RuntimeLanguage.Korean,
-        LanguageID.ChineseS => RuntimeLanguage.ChineseS,
-        LanguageID.ChineseT => RuntimeLanguage.ChineseT,
-        _ => RuntimeLanguage.English, // Default to English
-    };
-
-    private enum RuntimeLanguage
-    {
-        Japanese = 0,
-        English = 1,
-        Spanish = 2,
-        German = 3,
-        French = 4,
-        Italian = 5,
-        Korean = 6,
-        ChineseS = 7,
-        ChineseT = 8,
+        get => (RuntimeLanguage)SAV.GetValue<int>(SaveBlockAccessor9SV.KGameLanguage);
+        set => SAV.SetValue(SaveBlockAccessor9SV.KGameLanguage, (int)value);
     }
 
     private Span<byte> OriginalTrainerTrash => Data.Slice(0x10, 0x1A);
