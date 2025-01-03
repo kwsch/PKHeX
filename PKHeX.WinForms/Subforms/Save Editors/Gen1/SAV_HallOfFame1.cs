@@ -207,7 +207,7 @@ public partial class SAV_HallOfFame1 : Form
         data.Nickname = tb.Text;
 
         var nicktrash = data.NicknameTrash;
-        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation);
+        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(nicktrash);

@@ -1406,7 +1406,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        using var d = new TrashEditor(tb, trash, Entity, Entity.Format);
+        using var d = new TrashEditor(tb, trash, Entity, Entity.Format, Entity.Context);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(trash);
@@ -1475,7 +1475,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             if (Entity.Format >= 6 && ModifyPKM)
                 Entity.ClearMemories();
 
-            if (Entity is PK9)
+            if (Entity is PK9) // Eggs in S/V have a Version value of 0 until hatched.
                 CB_GameOrigin.SelectedValue = 0;
         }
         else // Not Egg
@@ -1880,10 +1880,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (ModifierKeys == Keys.Shift)
         {
-            Span<ushort> moves = stackalloc ushort[4];
-            Entity.GetMoves(moves);
-            var la = new LegalityAnalysis(Entity);
-            t.SetRecordFlags(moves, la.Info.EvoChainsAllGens.Get(Entity.Context));
+            t.SetRecordFlags(Entity, TechnicalRecordApplicatorOption.LegalCurrent);
             UpdateLegality();
             return;
         }
