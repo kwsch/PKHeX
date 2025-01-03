@@ -453,7 +453,7 @@ public static class MethodFinder
         {
             return species <= Legal.MaxSpeciesID_4
                 ? PersonalTable.HGSS[species].Gender
-                : PKX.Personal[species].Gender;
+                : PKX.GetGenderRatio(species);
         }
 
         const uint n = 25;

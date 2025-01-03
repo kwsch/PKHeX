@@ -52,7 +52,7 @@ public static class Breeding
     /// <returns>True if it can inherit moves, false if cannot.</returns>
     internal static bool GetCanInheritMoves(ushort species)
     {
-        var pi = PKX.Personal[species];
+        var pi = PKX.GetGenderDetail(species);
         if (pi is { Genderless: false, OnlyMale: false })
             return true;
         if (IsMixedGenderBreed(species))
