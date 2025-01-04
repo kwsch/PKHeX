@@ -62,9 +62,11 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
 
 public sealed class RaidSevenStarCaptured9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
-    public readonly int CountAll = block.Data.Length / SevenStarRaidCapturedDetail.SIZE;
+    public readonly int CountAll = block.Data.Length / DetailSize;
+    private const int DetailSize = SevenStarRaidCapturedDetail.SIZE;
 
-    public SevenStarRaidCapturedDetail GetRaid(int entry) => new(Raw.Slice((entry * SevenStarRaidCapturedDetail.SIZE), SevenStarRaidCapturedDetail.SIZE));
+    private Memory<byte> GetRaidSpan(int entry) => Raw.Slice(entry * DetailSize, DetailSize);
+    public SevenStarRaidCapturedDetail GetRaid(int entry) => new(GetRaidSpan(entry));
 
     public SevenStarRaidCapturedDetail[] GetAllRaids()
     {

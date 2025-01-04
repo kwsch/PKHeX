@@ -24,7 +24,7 @@ public sealed class FieldObjectSave8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<
     {
         var result = new FieldObject8b[COUNT_OBJECTS];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new FieldObject8b(Data.Slice((i * FieldObject8b.SIZE), FieldObject8b.SIZE));
+            result[i] = new FieldObject8b(Data.Slice(i * FieldObject8b.SIZE, FieldObject8b.SIZE));
         return result;
     }
 

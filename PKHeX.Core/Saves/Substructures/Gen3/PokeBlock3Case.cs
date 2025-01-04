@@ -12,7 +12,7 @@ public sealed class PokeBlock3Case
     {
         Blocks = new PokeBlock3[Count];
         for (int i = 0; i < Blocks.Length; i++)
-            Blocks[i] = PokeBlock3.GetBlock(data, (i * PokeBlock3.SIZE));
+            Blocks[i] = PokeBlock3.GetBlock(data, i * PokeBlock3.SIZE);
     }
 
     public byte[] Write()

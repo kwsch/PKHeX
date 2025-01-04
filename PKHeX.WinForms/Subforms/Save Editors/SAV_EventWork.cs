@@ -134,7 +134,7 @@ public sealed partial class SAV_EventWork : Form
                     DropDownWidth = Width + 100,
                 };
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(f.Options.Select(z => new ComboItem(z.Text, z.Value)).ToList(), string.Empty);
+                cb.DataSource = new BindingSource(f.Options.ConvertAll(z => new ComboItem(z.Text, z.Value)), string.Empty);
                 cb.SelectedValue = f.Value;
                 if (cb.SelectedIndex < 0)
                     cb.SelectedIndex = 0;
