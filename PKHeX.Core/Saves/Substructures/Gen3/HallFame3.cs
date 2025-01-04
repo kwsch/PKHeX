@@ -70,7 +70,7 @@ public sealed class HallFame3PKM(Memory<byte> Raw, bool Japanese) : ISpeciesForm
     public ushort SID16      { get => ReadUInt16LittleEndian(Data[2..]); set => WriteUInt16LittleEndian(Data[2..], value); }
     public uint PID          { get => ReadUInt32LittleEndian(Data[4..]); set => WriteUInt32LittleEndian(Data[4..], value); }
     private ushort SpecLevel { get => ReadUInt16LittleEndian(Data[8..]); set => WriteUInt16LittleEndian(Data[8..], (ushort)value); }
-    private Span<byte> NicknameTrash => Data.Slice(10, 10);
+    public Span<byte> NicknameTrash => Data.Slice(10, 10);
 
     public string Nickname
     {

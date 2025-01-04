@@ -36,6 +36,7 @@ public partial class SAV_HallOfFame3 : Form
         TB_TID.TextChanged += (_, _) => ValidateIDs();
         TB_SID.TextChanged += (_, _) => ValidateIDs();
         TB_PID.TextChanged += (_, _) => ValidateIDs();
+        TB_Nickname.Click += ClickNickname;
         CB_Species.SelectedValueChanged += (_, _) => UpdateSprite();
         NUD_Members.ValueChanged += (_, _) =>
         {
@@ -85,7 +86,8 @@ public partial class SAV_HallOfFame3 : Form
         pk.TID16 = Convert.ToUInt16(TB_TID.Text);
         pk.SID16 = Convert.ToUInt16(TB_SID.Text);
         pk.PID = Util.GetHexValue(TB_PID.Text);
-        pk.Nickname = TB_Nickname.Text;
+        if (pk.Nickname != TB_Nickname.Text) // preserve trash
+            pk.Nickname = TB_Nickname.Text;
         pk.Level = (int)NUD_Level.Value;
         pk.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
     }
@@ -135,4 +137,27 @@ public partial class SAV_HallOfFame3 : Form
     }
 
     private void B_Clear_Click(object sender, EventArgs e) => ClearFields();
+
+    private void ClickNickname(object? sender, EventArgs e)
+    {
+        if (sender is not TextBox tb)
+            return;
+
+        // Special Character Form
+        if (ModifierKeys != Keys.Control)
+            return;
+
+        var pk = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
+        if (tb.Text != pk.Nickname) // preserve trash
+            pk.Nickname = tb.Text;
+
+        var nicktrash = pk.NicknameTrash;
+        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
+        d.ShowDialog();
+        tb.Text = d.FinalString;
+        d.FinalBytes.CopyTo(nicktrash);
+
+        if (tb.Text != pk.Nickname) // preserve trash
+            tb.Text = pk.Nickname;
+    }
 }

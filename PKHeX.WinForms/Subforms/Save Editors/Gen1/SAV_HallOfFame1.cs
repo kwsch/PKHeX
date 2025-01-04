@@ -171,7 +171,9 @@ public partial class SAV_HallOfFame1 : Form
 
         pk.Species = species;
         pk.Level = (byte)NUD_Level.Value;
-        pk.Nickname = TB_Nickname.Text;
+
+        if (pk.Nickname != TB_Nickname.Text) // preserve trash
+            pk.Nickname = TB_Nickname.Text;
     }
 
     private void UpdateNickname(object sender, EventArgs e)
@@ -186,8 +188,9 @@ public partial class SAV_HallOfFame1 : Form
             bool isNone = species is 0 or > (int)Species.Mew;
             var pk = Fame.GetEntity(Team, Slot);
             var name = isNone ? string.Empty : SpeciesName.GetSpeciesNameGeneration(species, SAV.Language, 1);
-            pk.Nickname = name;
             TB_Nickname.Text = name;
+            if (pk.Nickname != name) // preserve trash
+                pk.Nickname = name;
         }
         TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
     }
@@ -203,16 +206,18 @@ public partial class SAV_HallOfFame1 : Form
 
         var team = LB_DataEntry.SelectedIndex;
         var member = (int)NUP_PartyIndex.Value - 1;
-        var data = Fame.GetEntity(team, member);
-        data.Nickname = tb.Text;
+        var pk = Fame.GetEntity(team, member);
+        if (tb.Text != pk.Nickname) // preserve trash
+            pk.Nickname = tb.Text;
 
-        var nicktrash = data.NicknameTrash;
+        var nicktrash = pk.NicknameTrash;
         var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(nicktrash);
 
-        TB_Nickname.Text = data.Nickname;
+        if (tb.Text != pk.Nickname) // preserve trash
+            tb.Text = pk.Nickname;
     }
 
     private void B_Delete_Click(object sender, EventArgs e)
@@ -236,10 +241,12 @@ public partial class SAV_HallOfFame1 : Form
 
     private void B_SetParty_Click(object sender, EventArgs e)
     {
+        LoadingFields = true;
         var count = Fame.RegisterParty(SAV, SAV.HallOfFameCount);
         ResetListBox();
         NUD_Clears.Value = SAV.HallOfFameCount = count;
         Team = -1;
+        LoadingFields = false;
 
         var index = count - 1;
         ResetListBox(index);
@@ -278,6 +285,7 @@ public partial class SAV_HallOfFame1 : Form
     private void B_ClearAll_Click(object sender, EventArgs e)
     {
         Fame.Clear();
+        NUD_Clears.Value = 0;
         SaveAndClose(entity: false);
     }
 }
