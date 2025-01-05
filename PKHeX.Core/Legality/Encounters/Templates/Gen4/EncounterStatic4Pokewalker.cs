@@ -108,9 +108,20 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, pk.Gender = gender, pi.Gender);
         // Cannot force an ability; nature-gender-trainerID only yield fixed PIDs.
         pk.RefreshAbility((int)(pid & 1));
-        Span<int> ivs = stackalloc int[6];
-        PokewalkerRNG.SetRandomIVs(ivs, criteria);
-        pk.SetIVs(ivs);
+        pk.IV32 = GetIV32(criteria);
+    }
+
+    private uint GetIV32(EncounterCriteria criteria)
+    {
+        if (criteria.IsSpecifiedIVsAll()) // Don't trust that the requirements are valid
+        {
+            criteria.GetCombinedIVs(out var iv1, out var iv2);
+            var seed = PokewalkerRNG.GetFirstSeed(Species, Course, iv1, iv2);
+            if (seed.Type != PokewalkerSeedType.None)
+                return criteria.GetCombinedIVs();
+        }
+        PokewalkerRNG.GetRandomIVs(criteria, out var iv32);
+        return iv32;
     }
 
     #endregion

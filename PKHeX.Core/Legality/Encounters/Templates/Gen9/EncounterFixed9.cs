@@ -123,8 +123,6 @@ public sealed record EncounterFixed9
 
         var type = Tera9RNG.GetTeraType(rnd.Rand64(), TeraType, Species, Form);
         pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
-            pk.SetTeraType(type); // sets the override type
 
         pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
         pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);

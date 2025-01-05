@@ -86,7 +86,7 @@ public static class Wild8bRNG
                 ivs[i] = xors.NextInt(0, MAX + 1);
         }
 
-        if (!criteria.IsIVsCompatibleSpeedLast(ivs, 8))
+        if (!criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
         pk.IV_HP = ivs[0];
@@ -122,16 +122,17 @@ public static class Wild8bRNG
         else
         {
             byte gender = xors.NextUInt(253) + 1 < genderRatio ? (byte)1 : (byte)0;
-            if (!criteria.IsGenderSatisfied(gender))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 return false;
             pk.Gender = gender;
         }
 
-        if (!criteria.IsSpecifiedNature())
-            pk.Nature = (Nature)xors.NextUInt(25);
-        else // Skip nature, assuming Synchronize
-            pk.Nature = criteria.Nature;
-        pk.StatNature = pk.Nature;
+        // If nature is specified, assume it is generated with a Synchronize lead (forcing Nature to specified value).
+        var nature = criteria.IsSpecifiedNature() ? criteria.GetNature() : (Nature)xors.NextUInt(25);
+        if (!criteria.IsSatisfiedNature(nature))
+            return false;
+
+        pk.StatNature = pk.Nature = nature;
 
         // Remainder
         var scale = (IScaledSize)pk;

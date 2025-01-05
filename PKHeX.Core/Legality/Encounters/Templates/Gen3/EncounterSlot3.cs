@@ -70,13 +70,13 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     {
         if (Species != (int)Core.Species.Unown)
         {
-            if (criteria.IsSpecifiedIVs() && this.SetFromIVs(pk, criteria))
+            if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria))
                 return;
             this.SetRandom(pk, pi, criteria, Util.Rand32());
         }
         else
         {
-            if (criteria.IsSpecifiedIVs() && this.SetFromIVsUnown(pk, criteria))
+            if (criteria.IsSpecifiedIVsAll() && this.SetFromIVsUnown(pk, criteria))
                 return;
             this.SetRandomUnown(pk, criteria);
         }

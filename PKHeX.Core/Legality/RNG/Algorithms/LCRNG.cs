@@ -99,6 +99,17 @@ public static class LCRNG
     }
 
     /// <summary>
+    /// Gets the upper 0x7FFF bits of the next RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Next15(ref uint seed)
+    {
+        seed = Next(seed);
+        return (seed >> 16) & 0x7FFF;
+    }
+
+    /// <summary>
     /// Gets the upper 16 bits of the previous RNG seed.
     /// </summary>
     /// <param name="seed">Seed to reverse one step.</param>

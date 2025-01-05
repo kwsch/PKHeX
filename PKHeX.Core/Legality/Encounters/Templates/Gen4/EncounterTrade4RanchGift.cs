@@ -137,7 +137,11 @@ public sealed record EncounterTrade4RanchGift
         pk.Nature = (Nature)(pid % 25);
         pk.Gender = Gender;
         pk.RefreshAbility((int)(pid % 2));
-        criteria.SetRandomIVs(pk);
+
+        if (criteria.IsSpecifiedIVsAll())
+            pk.IV32 = criteria.GetCombinedIVs();
+        else
+            criteria.SetRandomIVs(pk);
     }
 
     #endregion

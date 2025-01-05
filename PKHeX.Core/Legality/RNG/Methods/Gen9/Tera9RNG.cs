@@ -81,8 +81,7 @@ public static class Tera9RNG
     /// <summary>
     /// Checks if the original Tera Type matches either of the Personal Info types.
     /// </summary>
-    private static bool IsMatchType<T>(T pi, in byte original) where T : IPersonalType
-        => original == pi.Type1 || original == pi.Type2;
+    private static bool IsMatchType<T>(T pi, in byte original) where T : IPersonalType => original == pi.Type1 || original == pi.Type2;
 
     /// <summary>
     /// Checks if the original Tera Type matches the Personal Info type for the specified form.

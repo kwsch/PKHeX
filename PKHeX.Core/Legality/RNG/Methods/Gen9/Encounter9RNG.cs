@@ -27,8 +27,6 @@ public static class Encounter9RNG
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
-            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
-                pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
         return false;
@@ -47,8 +45,6 @@ public static class Encounter9RNG
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
-            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType && TeraTypeUtil.CanChangeTeraType(enc.Species))
-                pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
         return false;
@@ -63,6 +59,9 @@ public static class Encounter9RNG
         var rand = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
         pk.PID = GetAdaptedPID(ref rand, pk, enc);
+
+        if (criteria.Shiny.IsShiny() != pk.IsShiny)
+            return false;
 
         const int UNSET = -1;
         const int MAX = 31;
@@ -88,7 +87,7 @@ public static class Encounter9RNG
                 ivs[i] = (int)rand.NextInt(MAX + 1);
         }
 
-        if (!ignoreIVs && !criteria.IsIVsCompatibleSpeedLast(ivs, 9))
+        if (!ignoreIVs && !criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
         pk.IV_HP = ivs[0];
@@ -114,7 +113,7 @@ public static class Encounter9RNG
             PersonalInfo.RatioMagicMale => 0,
             _ => GetGender(gender_ratio, rand.NextInt(100)),
         };
-        if (!criteria.IsGenderSatisfied(gender))
+        if (!criteria.IsSatisfiedGender(gender))
             return false;
         pk.Gender = gender;
 
@@ -124,7 +123,7 @@ public static class Encounter9RNG
         pk.Nature = pk.StatNature = nature;
 
         // Compromise on Nature -- some are fixed, some are random. If the request wants a specific nature, just mint it.
-        var requestNature = criteria.Nature;
+        var requestNature = criteria.GetNature();
         if (criteria.Nature != Nature.Random && nature != requestNature)
         {
             if (!requestNature.IsMint())

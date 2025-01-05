@@ -42,7 +42,8 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
             Species = Species,
             CurrentLevel = LevelMin,
             CatchRate = IsStarterPikachu ? LightBallPikachuCatchRate : pi.CatchRate,
-            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
+            DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
             OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
@@ -50,6 +51,8 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
             Type2 = pi.Type2,
         };
         pk.SetNotNicknamed(lang);
+        if (criteria.Shiny.IsShiny())
+            pk.SetShiny();
 
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 

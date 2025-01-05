@@ -12,17 +12,15 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     ushort ILocation.EggLocation => 0;
     ushort ILocation.Location => Location;
     public bool IsShiny => false;
-    private bool Gift => FixedBall == Ball.Poke;
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12;
-
-    public Ball FixedBall { get; init; }
-    public bool FatefulEncounter { get; init; }
+    public Ball FixedBall => Ball.Poke;
+    public bool FatefulEncounter => true;
+    public bool IsEgg => false;
+    public byte Form => 0;
 
     public required byte Location { get; init; }
-    public byte Form => 0;
-    public bool IsEgg => false;
-    public Moveset Moves { get; init; }
+    public required Moveset Moves { get; init; }
 
     public string Name => "Static Encounter";
     public string LongName => Name;
@@ -71,21 +69,20 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     {
         if (Species == (int)Core.Species.Eevee)
         {
-            if (MethodCXD.SetFromTrainerIDStarter(pk, criteria, pi, pk.TID16, pk.SID16))
+            // Prefer IVs if requested, rather than Trainer Matching.
+            if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetStarterFromIVs(pk, criteria))
                 return;
-        }
-        else
-        {
-            if (criteria.IsSpecifiedIVs() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: true))
+            // Fall back to Trainer ID matching.
+            if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
                 return;
+            // Fall back to generating a random PID.
+            MethodCXD.SetRandomStarter(pk, criteria);
+            return;
         }
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        do
-        {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-        } while (Shiny == Shiny.Never && pk.IsShiny);
+
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: false))
+            return;
+        MethodCXD.SetRandom(pk, criteria, pi.Gender);
     }
     #endregion
 
@@ -137,9 +134,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     private bool IsMatchPartial(PKM pk)
     {
-        if (Gift && pk.Ball != (byte)FixedBall)
-            return true;
-        return false;
+        return pk.Ball != (byte)FixedBall;
     }
     #endregion
 

@@ -189,7 +189,8 @@ public partial class SAV_Encounters : Form
         }
 
         var set = new ShowdownSet(editor);
-        var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
+        var mutations = EncounterMutationUtil.GetSuggested(editor.Context, set.Level);
+        var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo, mutations);
         if (!isInChain)
             criteria = criteria with { Gender = Gender.Random }; // Genderless tabs and a gendered enc -> let's play safe.
         return criteria;

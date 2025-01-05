@@ -158,19 +158,17 @@ public static class RaidRNG
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();
 
-        uint pid;
-        bool isShiny;
+        var trID = (uint)rng.NextInt();
+        var pid = (uint)rng.NextInt();
+        var xor = GetShinyXor(pid, trID);
+        bool isShiny = xor < 16;
+        if (isShiny && param.Shiny == Shiny.Never)
         {
-            var trID = (uint)rng.NextInt();
-            pid = (uint)rng.NextInt();
-            var xor = GetShinyXor(pid, trID);
-            isShiny = xor < 16;
-            if (isShiny && param.Shiny == Shiny.Never)
-            {
-                ForceShinyState(false, ref pid, trID, 0);
-                isShiny = false;
-            }
+            ForceShinyState(false, ref pid, trID, 0);
+            isShiny = false;
         }
+        if (isShiny != criteria.Shiny.IsShiny())
+            return false;
 
         if (isShiny)
         {
@@ -209,7 +207,7 @@ public static class RaidRNG
                 ivs[i] = (int)rng.NextInt(MAX + 1);
         }
 
-        if (!param.IVs.IsSpecified && !criteria.IsIVsCompatibleSpeedLast(ivs, 8))
+        if (!param.IVs.IsSpecified && !criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
         pk.IV_HP = ivs[0];
@@ -234,7 +232,7 @@ public static class RaidRNG
             PersonalInfo.RatioMagicMale => 0,
             _ => rng.NextInt(253) + 1 < param.GenderRatio ? (byte)1 : (byte)0,
         };
-        if (!criteria.IsGenderSatisfied(gender))
+        if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
             return false;
         pk.Gender = gender;
 
@@ -242,6 +240,8 @@ public static class RaidRNG
             : param.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (Nature)rng.NextInt(25);
+        if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(nature))
+            return false;
 
         pk.Nature = pk.StatNature = nature;
 

@@ -77,14 +77,13 @@ public sealed class EncounterGift3JPN(ushort Species, Distribution3JPN Distribut
         while (true)
         {
             var pid = CommonEvent3.GetAntishiny(ref seed, idXor);
-            if (criteria.IsSpecifiedNature() && criteria.Nature != (Nature)(pid % 25))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (!criteria.IsGenderSatisfied(gender))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
 
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.SetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
             pk.RefreshAbility((int)(pid & 1));
             pk.OriginalTrainerGender = (byte)GetGender(LCRNG.Next16(ref seed));
             return;

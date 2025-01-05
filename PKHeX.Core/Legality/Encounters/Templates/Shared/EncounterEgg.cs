@@ -98,8 +98,6 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         {
             var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rnd.Rand64());
             tera.TeraTypeOriginal = (MoveType)type;
-            if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
-                tera.SetTeraType(type); // sets the override type
         }
 
         return pk;
@@ -122,9 +120,17 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
     private static void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
-        criteria.SetRandomIVs(pk, 3);
-        if (pk.Format <= 2)
+        if (pk is PK2 pk2)
+        {
+            pk2.DV16 = criteria.IsSpecifiedIVsAll()
+                ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType);
             return;
+        }
+        if (criteria.IsSpecifiedIVsAny(out _))
+            criteria.SetRandomIVs(pk);
+        else
+            criteria.SetRandomIVs(pk, 3);
 
         var gender = criteria.GetGender(pk.PersonalInfo);
         var nature = criteria.GetNature();
@@ -143,7 +149,6 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
                     pk.SetPIDNature(nature);
                 }
             }
-            pk.Nature = nature;
             pk.RefreshAbility(pk.PIDAbility);
         }
         else

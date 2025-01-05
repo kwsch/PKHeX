@@ -39,7 +39,7 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
             Species = Species,
             CurrentLevel = LevelMin,
             CatchRate = pi.CatchRate,
-            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
+            DV16 = EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
             OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
@@ -47,6 +47,8 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
             Type2 = pi.Type2,
         };
         pk.SetNotNicknamed(lang);
+        if (criteria.Shiny.IsShiny())
+            pk.SetShiny();
 
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 

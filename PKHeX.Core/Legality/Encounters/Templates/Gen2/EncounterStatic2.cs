@@ -1,3 +1,6 @@
+using static PKHeX.Core.Species;
+using static PKHeX.Core.GameVersion;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -16,8 +19,8 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     ushort ILocation.Location => Location;
     public ushort EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
-    public AbilityPermission Ability => Species != (int)Core.Species.Koffing ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
-    public bool Roaming => Species is (int)Core.Species.Entei or (int)Core.Species.Raikou or (int)Core.Species.Suicune && Location != 23;
+    public AbilityPermission Ability => Species != (int)Koffing ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
+    public bool IsRoaming => Species is (int)Entei or (int)Raikou or (int)Suicune && Location != 23;
 
     public Shiny Shiny { get; init; } = Shiny.Random;
     public byte Location { get; init; }
@@ -54,12 +57,16 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
         };
         pk.SetNotNicknamed(lang);
 
+        pk.DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) :
+            criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs() :
+            EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType);
+
         if (IsEgg)
         {
             if (DizzyPunchEgg) // Fixed EXP value instead of exactly Level 5
                 pk.EXP = 125;
         }
-        else if (Version == GameVersion.C || (Version == GameVersion.GSC && tr.Version == GameVersion.C))
+        else if (Version == C || (Version == GSC && tr.Version == C))
         {
             pk.OriginalTrainerGender = tr.Gender;
             pk.MetLevel = LevelMin;
@@ -71,11 +78,6 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             pk.SetMoves(Moves);
         else
             EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
-
-        if (IVs.IsSpecified)
-            criteria.SetRandomIVs(pk, IVs);
-        else
-            criteria.SetRandomIVs(pk);
 
         pk.ResetPartyStats();
 
@@ -189,23 +191,23 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     private bool IsMatchLocation(PKM pk)
     {
         if (IsEgg)
-            return true;
+            return true; // already checked by Egg Location check
         if (pk is not ICaughtData2 c2)
             return true;
-        if (c2.CaughtData is 0 && Version != GameVersion.C)
+        if (c2.CaughtData is 0 && Version != C)
             return true; // GS
 
-        if (Roaming)
+        if (IsRoaming)
         {
             // Gen2 met location is always u8
             var loc = c2.MetLocation;
             return loc <= 45 && ((RoamLocations & (1UL << loc)) != 0);
         }
-        if (Version is GameVersion.C or GameVersion.GSC)
+        if (Version is C or GSC)
         {
             if (c2.CaughtData is not 0)
                 return Location == pk.MetLocation;
-            if (pk.Species == (int)Core.Species.Celebi)
+            if (Species == (int)Celebi)
                 return false; // Cannot reset the Met data
         }
         return true;

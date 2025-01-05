@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -8,7 +10,8 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 {
     public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
-    public bool Roaming { get; init; }
+    public bool IsRoaming { get; init; }
+    public bool IsRoamingTruncatedIVs => IsRoaming && Version != GameVersion.E;
     ushort ILocation.EggLocation => 0;
     ushort ILocation.Location => Location;
     public bool IsShiny => false;
@@ -93,15 +96,83 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
     private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        var type = Roaming && Version != GameVersion.E ? PIDType.Method_1_Roamer : PIDType.Method_1;
-        do
+        var gr = pi.Gender;
+        bool truncate = IsRoamingTruncatedIVs;
+        if (criteria.IsSpecifiedIVsAll() && !truncate)
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
-        } while (Shiny == Shiny.Never && pk.IsShiny);
+            if (TrySetMethod1(pk, criteria, gr))
+                return;
+        }
+        SetMethod1(pk, criteria, gr);
+        if (truncate) // Never happens for eggs or dual-ability encounters.
+            pk.IV32 &= 0xFF;
     }
+
+    private static bool TrySetMethod1(PK3 pk, EncounterCriteria criteria, byte gr)
+    {
+        criteria.GetCombinedIVs(out var iv1, out var iv2);
+
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        var count = LCRNGReversal.GetSeedsIVs(seeds, iv1 << 16, iv2 << 16);
+        foreach (var s in seeds[..count])
+        {
+            var seed = LCRNG.Prev2(s); // Unwind the RNG to get the real origin seed for the PID/IV
+            var pid = ClassicEraRNG.GetSequentialPID(seed);
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                continue;
+
+            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+                continue;
+
+            var abit = (int)(pid & 1);
+            if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility(abit))
+                continue;
+
+            pk.PID = pid;
+            pk.IV32 |= iv2 << 15 | iv1;
+            pk.Gender = gender;
+            pk.RefreshAbility(abit);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static void SetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr)
+    {
+        var seed = Util.Rand32();
+        var id32 = pk.ID32;
+        while (true)
+        {
+            var pid = ClassicEraRNG.GetSequentialPID(ref seed);
+            var shiny = ShinyUtil.GetIsShiny(id32, pid, 8);
+            if (criteria.Shiny.IsShiny() != shiny)
+                continue;
+
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                continue;
+
+            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+                continue;
+
+            var abit = (int)(pid & 1);
+            if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility(abit))
+                continue;
+
+            var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+
+            pk.PID = pid;
+            pk.IV32 |= iv32;
+            pk.Gender = gender;
+            pk.RefreshAbility(abit);
+            break;
+        }
+    }
+
     #endregion
 
     #region Matching
@@ -125,7 +196,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return EncounterMatchRating.Match;
     }
 
-    private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
+    private bool IsDeferredSafari3(bool isSafariBall) => isSafariBall != Locations.IsSafariZoneLocation3(Location);
 
     private static bool IsMatchEggLocation(PKM pk)
     {
@@ -154,7 +225,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             return !pk.IsEgg || pk.MetLocation == Location;
 
         var met = pk.MetLocation;
-        if (!Roaming)
+        if (!IsRoaming)
             return Location == met;
 
         // Route 101-138
@@ -182,7 +253,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (version is GameVersion.E)
             return type is PIDType.Method_1;
 
-        if (Roaming) // Glitched IVs
+        if (IsRoaming) // Glitched IVs
             return IsRoamerPIDIV(type, pk);
 
         if (type is PIDType.Method_1)
@@ -204,8 +275,9 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             return false;
 
         // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
-        // return pk.IV32 <= 0xFF;
-        return pk is { IV_DEF: 0, IV_SPE: 0, IV_SPA: 0, IV_SPD: 0, IV_ATK: <= 7 };
+        // return pk.IV32 <= 0xFF; -- not always in right order, and can have nickname flagged.
+        var ivs = pk.GetIVs();
+        return ivs <= 0xFF;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
