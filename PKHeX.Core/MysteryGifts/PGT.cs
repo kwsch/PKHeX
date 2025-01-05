@@ -335,12 +335,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     private static uint GetPID(PK4 pk4, PersonalInfo4 pi, EncounterCriteria criteria)
     {
-        uint seed = Util.Rand32();
-        if (pk4.PID != 1)
-            return pk4.PID; // PID is already set.
+        var template = pk4.PID;
+        if (template > 1) // 0=Random, 1=Random (Anti-Shiny). 0 was never used in any Gen4 gift (all non-shiny).
+            return template; // PID is already set.
 
         // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
         // Gender is already pre-determined in the template.
+        uint seed = Util.Rand32();
         var gender = pk4.Gender;
         var gr = pi.Gender;
         var trXor = (pk4.TID16 ^ pk4.SID16) >> 3;

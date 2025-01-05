@@ -253,7 +253,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (version is GameVersion.E)
             return type is PIDType.Method_1;
 
-        if (Roaming) // Glitched IVs
+        if (IsRoaming) // Glitched IVs
             return IsRoamerPIDIV(type, pk);
 
         if (type is PIDType.Method_1)

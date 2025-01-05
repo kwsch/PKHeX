@@ -50,10 +50,8 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         Gender = Gender.Random;
         Ability = Any12H;
         Nature = Nature.Random;
-        Shiny = Shiny.Random;
 
         IV_HP = IV_ATK = IV_DEF = IV_SPA = IV_SPD = IV_SPE = RandomIV;
-        LevelMin = LevelMax = 0;
         HiddenPowerType = -1;
     }
 
