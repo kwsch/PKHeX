@@ -18,7 +18,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
     public bool IsFixedTrainer => true;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
-    public required string[] TrainerNames { get; init; }
+    public required ReadOnlyMemory<string> TrainerNames { get; init; }
 
     public required uint ID32 { get; init; }
     public required byte OTGender { get; init; }
@@ -60,7 +60,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             Version = version,
             Language = lang,
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
@@ -100,7 +100,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
 
     #region Matching
 
-    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames[language]);
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames.Span[language]);
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {

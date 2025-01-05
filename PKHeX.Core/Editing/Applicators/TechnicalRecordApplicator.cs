@@ -124,10 +124,12 @@ public static class TechnicalRecordApplicator
         _ => false,
     };
 
+    /// <inheritdoc cref="SetRecordFlags(ITechRecord, PKM, TechnicalRecordApplicatorOption, LegalityAnalysis)"/>
     public static void SetRecordFlags<T>(this T pk, TechnicalRecordApplicatorOption option)
         where T : PKM, ITechRecord
         => SetRecordFlags(pk, pk, option);
 
+    /// <inheritdoc cref="SetRecordFlags(ITechRecord, PKM, TechnicalRecordApplicatorOption, LegalityAnalysis)"/>
     public static void SetRecordFlags(this ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option)
     {
         record.ClearRecordFlags();
@@ -142,6 +144,13 @@ public static class TechnicalRecordApplicator
         SetRecordFlagsInternal(record, pk, option, la);
     }
 
+    /// <summary>
+    /// Applies the Technical Record flags based on the <see cref="option"/>.
+    /// </summary>
+    /// <param name="record">Object to apply to.</param>
+    /// <param name="pk">Object to apply to, but base type for other logic.</param>
+    /// <param name="option">Option to apply.</param>
+    /// <param name="la">Legality analysis to use for the option.</param>
     public static void SetRecordFlags(this ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option, LegalityAnalysis la)
     {
         record.ClearRecordFlags();
@@ -172,10 +181,28 @@ public static class TechnicalRecordApplicator
     }
 }
 
+/// <summary>
+/// Options for applying Technical Record flags.
+/// </summary>
 public enum TechnicalRecordApplicatorOption
 {
+    /// <summary>
+    /// Do not apply any flags. Clear all flags.
+    /// </summary>
     None,
+
+    /// <summary>
+    /// Apply all flags, regardless of legality.
+    /// </summary>
     ForceAll,
+
+    /// <summary>
+    /// Apply legal flags based on the current moves.
+    /// </summary>
     LegalCurrent,
+
+    /// <summary>
+    /// Apply legal flags based on all moves able to learn in the game it resides in.
+    /// </summary>
     LegalAll,
 }

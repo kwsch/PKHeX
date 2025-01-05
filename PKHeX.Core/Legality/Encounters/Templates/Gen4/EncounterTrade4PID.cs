@@ -21,8 +21,8 @@ public sealed record EncounterTrade4PID
     public byte LevelMax => IsMetUnset ? Level : (byte)100;
     public ushort Location => IsMetUnset ? Locations.LinkTrade4NPC : MetLocation;
 
-    private readonly string[] TrainerNames;
-    private readonly string[] Nicknames;
+    private readonly ReadOnlyMemory<string> TrainerNames;
+    private readonly ReadOnlyMemory<string> Nicknames;
 
     public ushort Species { get; }
     public byte Level { get; }
@@ -96,12 +96,12 @@ public sealed record EncounterTrade4PID
             Version = version,
             Language = GetReceivedLanguage(lang, version),
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = true,
-            Nickname = Nicknames[lang],
+            Nickname = Nicknames.Span[lang],
 
             HandlingTrainerName = tr.OT,
             HandlingTrainerGender = tr.Gender,
@@ -148,9 +148,9 @@ public sealed record EncounterTrade4PID
 
     #region Matching
 
-    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames[language]);
-    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames[language]);
-    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames.Span[language]);
+    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames.Span[language]);
+    public string GetNickname(int language) => Nicknames.Span[(uint)language < Nicknames.Length ? language : 0];
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -235,7 +235,7 @@ public sealed record EncounterTrade4PID
         var len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
         trainer = trainer[..len];
 
-        var expect = TrainerNames[1];
+        var expect = TrainerNames.Span[(int)LanguageID.Japanese];
         var match = trainer.SequenceEqual(expect);
         if (!match)
             return 2; // verify strings with English locale instead.
@@ -255,7 +255,8 @@ public sealed record EncounterTrade4PID
             var len = pk.LoadString(pk.NicknameTrash, nickname);
             nickname = nickname[..len];
 
-            return nickname.SequenceEqual(Nicknames[(int)LanguageID.French]) ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
+            var french = Nicknames.Span[(int)LanguageID.French];
+            return nickname.SequenceEqual(french) ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
         }
 
         return lang;
@@ -274,7 +275,8 @@ public sealed record EncounterTrade4PID
             var len = pk.LoadString(pk.NicknameTrash, nickname);
             nickname = nickname[..len];
 
-            return nickname.SequenceEqual(Nicknames[(int)LanguageID.Italian]) ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
+            var italian = Nicknames.Span[(int)LanguageID.Italian];
+            return nickname.SequenceEqual(italian) ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
         }
 
         return lang;
@@ -282,7 +284,7 @@ public sealed record EncounterTrade4PID
 
     private int DetectTradeLanguage(ReadOnlySpan<char> actual, int currentLanguageID)
     {
-        var names = TrainerNames;
+        var names = TrainerNames.Span;
         for (int lang = 1; lang < names.Length; lang++)
         {
             var expect = names[lang];

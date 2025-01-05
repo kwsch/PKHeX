@@ -88,7 +88,7 @@ public static class LegalityFormatting
         if (enc.Generation <= 2)
             lines.Add(string.Format(L_F0_1, nameof(GameVersion), enc.Version));
 
-        // PIDIV
+        // PID/IV
         AddEncounterInfoPIDIV(la, lines);
     }
 

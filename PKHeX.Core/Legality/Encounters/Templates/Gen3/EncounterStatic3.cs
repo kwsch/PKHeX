@@ -196,8 +196,8 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
     private static bool IsRoamerPIDIV(PIDType val, PKM pk)
     {
-        // Roamer PIDIV is always Method 1.
-        // M1 is checked before M1R. A M1R PIDIV can also be a M1 PIDIV, so check that collision.
+        // Roamer PID/IV is always Method 1.
+        // M1 is checked before M1R. A M1R PID/IV can also be a M1 PID/IV, so check that collision.
         if (PIDType.Method_1_Roamer == val)
             return true;
         if (PIDType.Method_1 != val)

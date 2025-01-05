@@ -23,7 +23,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
 
-    private string[] Nicknames { get; }
+    private readonly ReadOnlyMemory<string> Nicknames;
     public ushort Species { get; }
     public byte Form => 0;
     public bool EvolveOnTrade { get; init; }
@@ -61,7 +61,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             // Special consideration for Hiragana strings that are transferred
             if (Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
                 return nick is "ぐりお";
-            return nick.SequenceEqual(Nicknames[1]);
+            return nick.SequenceEqual(Nicknames.Span[(int)LanguageID.Japanese]);
         }
 
         return GetNicknameIndex(nick) >= 2;
@@ -83,7 +83,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         return trainer.SequenceEqual(expect);
     }
 
-    private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);
+    private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames.Span);
 
     private static int GetIndex(ReadOnlySpan<char> name, ReadOnlySpan<string> arr)
     {
@@ -125,7 +125,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             CatchRate = pi.CatchRate,
             DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
-            Nickname = Nicknames[lang],
+            Nickname = Nicknames.Span[lang],
             TID16 = tr.TID16,
             Type1 = pi.Type1,
             Type2 = pi.Type2,
@@ -145,7 +145,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     #region Matching
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => IsTrainerNameValid(pk);
     public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => IsNicknameValid(pk, nickname);
-    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+    public string GetNickname(int language) => Nicknames.Span[(uint)language < Nicknames.Length ? language : 0];
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

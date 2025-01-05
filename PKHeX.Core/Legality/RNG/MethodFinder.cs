@@ -6,12 +6,12 @@ using static PKHeX.Core.PIDType;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Class containing logic to obtain a PKM's PIDIV method.
+/// Class containing logic to obtain a PKM's PID/IV method.
 /// </summary>
 public static class MethodFinder
 {
     /// <summary>
-    /// Analyzes a <see cref="PKM"/> to find a matching PIDIV method.
+    /// Analyzes a <see cref="PKM"/> to find a matching PID/IV method.
     /// </summary>
     /// <param name="pk">Input <see cref="PKM"/>.</param>
     /// <returns><see cref="PIDIV"/> object containing seed and method info.</returns>

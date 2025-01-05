@@ -142,7 +142,7 @@ public static class Wild8bRNG
         return true;
     }
 
-    private static uint GetRevisedPID(uint fakeTID, uint pid, ITrainerID32 tr)
+    private static uint GetRevisedPID<T>(uint fakeTID, uint pid, T tr) where T : ITrainerID32
     {
         var xor = GetShinyXor(pid, fakeTID);
         var newXor = GetShinyXor(pid, tr.ID32);

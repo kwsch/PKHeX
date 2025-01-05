@@ -20,8 +20,8 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     public bool IsFixedNickname => true;
     public Nature Nature => (Nature)(PID % 25);
 
-    private string[] TrainerNames { get; }
-    private string[] Nicknames { get; }
+    private readonly ReadOnlyMemory<string> TrainerNames;
+    private readonly ReadOnlyMemory<string> Nicknames;
 
     public required AbilityPermission Ability { get; init; }
     public required byte Gender { get; init; }
@@ -108,8 +108,8 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         // Italian LG Jynx untranslated from English name
         if (Species == (int)Core.Species.Jynx && version == GameVersion.LG && lang == (int)LanguageID.Italian)
             lang = 2;
-        pk.Nickname = Nicknames[lang];
-        pk.OriginalTrainerName = TrainerNames[lang];
+        pk.Nickname = Nicknames.Span[lang];
+        pk.OriginalTrainerName = TrainerNames.Span[lang];
 
         EncounterUtil.SetEncounterMoves(pk, Version, Level);
         SetPINGA(pk, criteria);
@@ -164,9 +164,11 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        if (language == 0 || (uint)language >= TrainerNames.Length)
+
+        var names = TrainerNames.Span;
+        if (language == 0 || (uint)language >= names.Length)
             return false;
-        var name = TrainerNames[language];
+        var name = names[language];
         if (pk.Context == EntityContext.Gen3)
             return trainer.SequenceEqual(name);
 
@@ -179,9 +181,11 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (Species == (int)Core.Species.Jynx && pk.Version == GameVersion.LG && language == (int)LanguageID.Italian)
             language = 2;
-        if (language == 0 || (uint)language >= TrainerNames.Length)
+
+        var names = Nicknames.Span;
+        if (language == 0 || (uint)language >= names.Length)
             return false;
-        var name = Nicknames[language];
+        var name = names[language];
         if (pk.Context == EntityContext.Gen3)
             return nickname.SequenceEqual(name);
 
@@ -192,7 +196,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         return nickname.SequenceEqual(tmp);
     }
 
-    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+    public string GetNickname(int language) => Nicknames.Span[(uint)language < Nicknames.Length ? language : 0];
 
     #endregion
 }
