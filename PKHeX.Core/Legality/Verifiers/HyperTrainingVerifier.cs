@@ -18,7 +18,7 @@ public sealed class HyperTrainingVerifier : Verifier
         if (!t.IsHyperTrained())
             return;
 
-        if (!t.IsHyperTrainingAvailable(data.Info.EvoChainsAllGens))
+        if (!t.IsHyperTrainingAvailable())
         {
             data.AddLine(GetInvalid(LHyperPerfectUnavailable));
             return;

@@ -35,7 +35,7 @@ public static class EntityGender
     /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
     public static byte GetFromPID(ushort species, uint pid)
     {
-        var gt = PKX.Personal[species].Gender;
+        var gt = PKX.GetGenderRatio(species);
         return GetFromPIDAndRatio(pid, gt);
     }
 

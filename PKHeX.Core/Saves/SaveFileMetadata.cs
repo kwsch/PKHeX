@@ -28,8 +28,8 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// </summary>
     public string? FileFolder { get; private set; }
 
-    private byte[] Footer = []; // .dsv
-    private byte[] Header = []; // .gci
+    private Memory<byte> Footer = Memory<byte>.Empty; // .dsv
+    private Memory<byte> Header = Memory<byte>.Empty; // .gci
     private ISaveHandler? Handler;
 
     private string BAKSuffix => $" [{SAV.ShortSummary}].bak";
@@ -56,9 +56,9 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     public byte[] Finalize(byte[] data, BinaryExportSetting setting)
     {
         if (HasFooter && !setting.HasFlag(BinaryExportSetting.ExcludeFooter))
-            data = [..data, ..Footer];
+            data = [..data, ..Footer.Span];
         if (HasHeader && !setting.HasFlag(BinaryExportSetting.ExcludeHeader))
-            data = [..Header, ..data];
+            data = [..Header.Span, ..data];
         if (!setting.HasFlag(BinaryExportSetting.ExcludeFinalize))
             Handler?.Finalize(data);
         return data;
@@ -67,7 +67,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <summary>
     /// Sets the details of any trimmed header and footer arrays to a <see cref="SaveFile"/> object.
     /// </summary>
-    public void SetExtraInfo(byte[] header, byte[] footer, ISaveHandler handler)
+    public void SetExtraInfo(Memory<byte> header, Memory<byte> footer, ISaveHandler handler)
     {
         Header = header;
         Footer = footer;
@@ -208,9 +208,9 @@ public sealed record SaveFileMetadata(SaveFile SAV)
         var clone = this with { SAV = sav };
         // Disassociate any mutable references from this object
         if (HasFooter)
-            clone.Footer = [..Footer];
+            clone.Footer = Footer.ToArray();
         if (HasHeader)
-            clone.Header = [..Header];
+            clone.Header = Header.ToArray();
         return clone;
     }
 }

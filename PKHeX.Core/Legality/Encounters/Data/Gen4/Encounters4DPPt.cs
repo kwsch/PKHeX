@@ -132,8 +132,8 @@ internal static class Encounters4DPPt
         new(323975579, 453, 22, 31) { Moves = new(310,207,426,389), SID16 = 41342, OTGender = 1, Location = 0052, Gender = 0, Ability = OnlySecond, FixedBall = Ball.Safari }, // Croagunk
         new(323977566, 456, 15, 35) { Moves = new(213,352,219,392), SID16 = 48348, OTGender = 1, Location = 0020, Gender = 1, Ability = OnlyFirst  }, // Finneon
         new(323975582, 459, 32, 41) { Moves = new(452,420,275,059), SID16 = 23360, OTGender = 1, Location = 0031, Gender = 0, Ability = OnlyFirst  }, // Snover
-        new(151, 50, 50) { Moves = new(235,216,095,100), SID16 = 59228, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12 }, // Mew
-        new(489, 01, 50) { Moves = new(447,240,156,057), SID16 = 09248, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, EggLocation = 3000 }, // Phione
+        new(151, 50, 50) { Moves = new(235,216,095,100), SID16 = 59228, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, Location = 3000 }, // Mew
+        new(489, 01, 50) { Moves = new(447,240,156,057), SID16 = 09248, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, Location = 3000, EggLocation = 3000 }, // Phione
     ];
 
     internal static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =

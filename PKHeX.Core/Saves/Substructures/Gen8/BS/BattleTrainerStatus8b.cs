@@ -46,7 +46,7 @@ public sealed class BattleTrainerStatus8b(SAV8BS sav, Memory<byte> raw) : SaveBl
     {
         if ((uint)trainer >= COUNT_TRAINER)
             throw new ArgumentOutOfRangeException(nameof(trainer));
-        return (trainer * SIZE_TRAINER);
+        return trainer * SIZE_TRAINER;
     }
 
     public bool GetIsWin(int trainer) => ReadUInt32LittleEndian(Data[GetTrainerOffset(trainer)..]) == 1;

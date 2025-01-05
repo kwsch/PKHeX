@@ -252,16 +252,23 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         var version = pk.Version;
         if (version is GameVersion.E)
             return type is PIDType.Method_1;
-        if (version is GameVersion.FR or GameVersion.LG)
-            return IsRoaming ? IsRoamerPIDIV(type, pk) : type is PIDType.Method_1;
-        // RS, roamer glitch && RSBox s/w emulation => method 4 available
-        return IsRoaming ? IsRoamerPIDIV(type, pk) : type is (PIDType.Method_1 or PIDType.Method_4);
+
+        if (Roaming) // Glitched IVs
+            return IsRoamerPIDIV(type, pk);
+
+        if (type is PIDType.Method_1)
+            return true;
+        // RS: Only Method 1, but RSBox s/w emulation can yield Method 4.
+        if (version is GameVersion.R or GameVersion.S)
+            return type is PIDType.Method_4;
+        // FR/LG: Only Method 1, but Togepi gift can be Method 4 via PID modulo VBlank abuse
+        return type is PIDType.Method_4 && Species is (ushort)Core.Species.Togepi;
     }
 
     private static bool IsRoamerPIDIV(PIDType val, PKM pk)
     {
-        // Roamer PIDIV is always Method 1.
-        // M1 is checked before M1R. A M1R PIDIV can also be a M1 PIDIV, so check that collision.
+        // Roamer PID/IV is always Method 1.
+        // M1 is checked before M1R. A M1R PID/IV can also be a M1 PID/IV, so check that collision.
         if (PIDType.Method_1_Roamer == val)
             return true;
         if (PIDType.Method_1 != val)

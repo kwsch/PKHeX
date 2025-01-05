@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycareRandomState<uint>
 {
     // Configuration
-    protected override SAV3E CloneInternal() => new(GetFinalData()) { Language = Language };
+    protected override SAV3E CloneInternal() => new(GetFinalData()[..]) { Language = Language };
     public override GameVersion Version { get => GameVersion.E; set { } }
     public override PersonalTable3 Personal => PersonalTable.E;
 
@@ -282,6 +282,9 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public byte WaldaIconID { get => Large[Walda + 0x14]; set => Large[Walda + 0x14] = value; }
     public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
     public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }
+
+    private Memory<byte> SecretBaseData => Large.AsMemory(0x1A9C, SecretBaseManager3.BaseCount * SecretBase3.SIZE);
+    public SecretBaseManager3 SecretBases => new(SecretBaseData);
 
     private const int Painting = 0x2F90;
     private const int CountPaintings = 5;

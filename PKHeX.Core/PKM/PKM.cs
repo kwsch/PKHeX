@@ -13,10 +13,6 @@ namespace PKHeX.Core;
 [DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
 public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter, IStringConverter, ITrashIntrospection
 {
-    /// <summary>
-    /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
-    /// </summary>
-    public static readonly string[] Extensions = EntityFileExtension.GetExtensions();
     public abstract int SIZE_PARTY { get; }
     public abstract int SIZE_STORED { get; }
     public string Extension => GetType().Name.ToLowerInvariant();
@@ -144,8 +140,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual string HandlingTrainerName { get => string.Empty; set { } }
     public virtual byte HandlingTrainerGender { get => 0; set { } }
     public virtual byte HandlingTrainerFriendship { get => 0; set { } }
-    public virtual byte Enjoyment { get => 0; set { } }
-    public virtual byte Fullness { get => 0; set { } }
     public virtual int AbilityNumber { get => 0; set { } }
 
     public abstract string GetString(ReadOnlySpan<byte> data);

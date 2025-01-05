@@ -372,7 +372,7 @@ public partial class SAV_HallOfFame : Form
         var nicktrash = data.Slice(0x18, 26);
         var text = tb.Text;
         SAV.SetString(nicktrash, text, 12, StringConverterOption.ClearZero);
-        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation);
+        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
         d.ShowDialog();
         tb.Text = d.FinalString;
         d.FinalBytes.CopyTo(nicktrash);

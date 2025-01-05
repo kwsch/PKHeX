@@ -59,8 +59,8 @@ public static class BatchMods
         new ComplexSet(nameof(PKM.EggMetDate), (pk, cmd) => pk.EggMetDate = ParseDate(cmd.PropertyValue)),
 
         // Realign to Derived Value
-        new ComplexSet(nameof(PKM.Ability), value => value.Length == 2 && value.StartsWith(CONST_SPECIAL), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
-        new ComplexSet(nameof(PKM.AbilityNumber), value => value.Length == 2 && value.StartsWith(CONST_SPECIAL), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
+        new ComplexSet(nameof(PKM.Ability), value => value.Length == 2 && value.StartsWith(CONST_SPECIAL), (pk, cmd) => pk.RefreshAbility(cmd.PropertyValue[1] - 0x30)),
+        new ComplexSet(nameof(PKM.AbilityNumber), value => value.Length == 2 && value.StartsWith(CONST_SPECIAL), (pk, cmd) => pk.RefreshAbility(cmd.PropertyValue[1] - 0x30)),
 
         // Random
         new ComplexSet(nameof(PKM.PID), value => value == CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
@@ -70,15 +70,18 @@ public static class BatchMods
 
         // Shiny
         new ComplexSet(nameof(PKM.PID),
-            value => value.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture),
+            value => value.StartsWith(CONST_SHINY),
             (pk, cmd) => CommonEdits.SetShiny(pk, GetRequestedShinyState(cmd.PropertyValue))),
 
-        new ComplexSet(nameof(PKM.Species), value => value == "0", (pk, _) => Array.Clear(pk.Data, 0, pk.Data.Length)),
-        new ComplexSet(nameof(PKM.IsNicknamed), value => string.Equals(value, "false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
+        new ComplexSet(nameof(PKM.Species), value => value is "0", (pk, _) => pk.Data.AsSpan().Clear()),
+        new ComplexSet(nameof(PKM.IsNicknamed), value => value.Equals("false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
 
         // Complicated
-        new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => pk.EncryptionConstant = CommonEdits.GetComplicatedEC(pk, option: (cmd.PropertyValue.Length == CONST_RAND.Length ? default : cmd.PropertyValue[^1]))),
+        new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => pk.EncryptionConstant = CommonEdits.GetComplicatedEC(pk, option: GetOptionSuffix(cmd.PropertyValue, CONST_RAND))),
     ];
+
+    private static char GetOptionSuffix(ReadOnlySpan<char> str, ReadOnlySpan<char> prefix)
+        => str.Length == prefix.Length ? default : str[^1];
 
     private static void SetRandomTeraType(PKM pk)
     {

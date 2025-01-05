@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class PA8 : PKM, ISanityChecksum,
     IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery, IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IPokerusStatus,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9,
-    IHandlerUpdate, IAppliedMarkings7
+    IHandlerUpdate, IAppliedMarkings7, IFullnessEnjoyment
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -413,8 +413,8 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     // 0xDE-0xEB unused
 
-    public override byte Fullness { get => Data[0xEC]; set => Data[0xEC] = value; }
-    public override byte Enjoyment { get => Data[0xED]; set => Data[0xED] = value; }
+    public byte Fullness { get => Data[0xEC]; set => Data[0xEC] = value; }
+    public byte Enjoyment { get => Data[0xED]; set => Data[0xED] = value; }
     public override GameVersion Version { get => (GameVersion)Data[0xEE]; set => Data[0xEE] = (byte)value; }
     public GameVersion BattleVersion { get => (GameVersion)Data[0xEF]; set => Data[0xEF] = (byte)value; }
     // public override byte Region { get => Data[0xF0]; set => Data[0xF0] = (byte)value; }

@@ -122,7 +122,10 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         return false;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
+    private static bool GetIsEnhancedTutor<T1, T2>(T1 evo, T2 current, ushort move, LearnOption option)
+        where T1 : ISpeciesForm
+        where T2 : ISpeciesForm
+        => evo.Species switch
     {
         (int)Species.Necrozma => move switch
         {
@@ -149,7 +152,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         return GetEggMoves(baseSpecies, baseForm).Contains(move);
     }
 
-    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM _, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
@@ -184,11 +187,11 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
-            if (species is (int)Species.Rotom && pk.Form is not 0)
+            if (species is (int)Species.Rotom && evo.Form is not 0)
                 result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
-            else if (species is (int)Species.Necrozma && pk.Form is 1) // Sun
+            else if (species is (int)Species.Necrozma && evo.Form is 1) // Sun
                 result[(int)Move.SunsteelStrike] = true;
-            else if (species is (int)Species.Necrozma && pk.Form is 2) // Moon
+            else if (species is (int)Species.Necrozma && evo.Form is 2) // Moon
                 result[(int)Move.MoongeistBeam] = true;
         }
     }

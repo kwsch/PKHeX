@@ -13,19 +13,19 @@ public enum PIDType : byte
 
     #region LCRNG
 
-    /// <summary> Method 1 Variants (H1/J/K) </summary>
+    /// <summary> Method 1 Variants (along with parent methods H1/J/K) </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_1,
 
-    /// <summary> Method H2 </summary>
+    /// <summary> Method 2 </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_2,
 
-    /// <summary> Method H3 </summary>
+    /// <summary> Method 3 </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_3,
 
-    /// <summary> Method H4 </summary>
+    /// <summary> Method 4 </summary>
     /// <remarks><see cref="LCRNG"/></remarks>
     Method_4,
 

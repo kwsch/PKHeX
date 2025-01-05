@@ -392,7 +392,7 @@ public partial class SAV_FestivalPlaza : Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV, SAV.Generation);
+        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }
@@ -680,7 +680,7 @@ public partial class SAV_FestivalPlaza : Form
         LoadFacility();
     }
 
-    private string GetSpeciesNameFromPKM(PKM pk) => SpeciesName.GetSpeciesName(pk.Species, SAV.Language);
+    private string GetSpeciesNameFromPKM(PKM pk) => SpeciesName.GetSpeciesNameGeneration(pk.Species, SAV.Language, 7);
 
     private void B_ImportParty_Click(object sender, EventArgs e)
     {

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Underground
     {
@@ -31,20 +31,20 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
-            LU_PlayersMet = new System.Windows.Forms.Label();
-            U_PlayersMet = new System.Windows.Forms.NumericUpDown();
-            LU_Gifts = new System.Windows.Forms.Label();
-            U_Gifts = new System.Windows.Forms.NumericUpDown();
-            LU_Spheres = new System.Windows.Forms.Label();
-            U_Spheres = new System.Windows.Forms.NumericUpDown();
-            LU_Fossils = new System.Windows.Forms.Label();
-            U_Fossils = new System.Windows.Forms.NumericUpDown();
-            LU_TrapsA = new System.Windows.Forms.Label();
-            U_TrapsA = new System.Windows.Forms.NumericUpDown();
-            LU_TrapsT = new System.Windows.Forms.Label();
-            U_TrapsT = new System.Windows.Forms.NumericUpDown();
-            LU_Flags = new System.Windows.Forms.Label();
-            U_Flags = new System.Windows.Forms.NumericUpDown();
+            L_PeopleMet = new System.Windows.Forms.Label();
+            NUD_PlayersMet = new System.Windows.Forms.NumericUpDown();
+            L_Gifts = new System.Windows.Forms.Label();
+            NUD_GiftsGiven = new System.Windows.Forms.NumericUpDown();
+            L_Spheres = new System.Windows.Forms.Label();
+            NUD_Spheres = new System.Windows.Forms.NumericUpDown();
+            L_Fossils = new System.Windows.Forms.Label();
+            NUD_Fossils = new System.Windows.Forms.NumericUpDown();
+            L_TrapOthers = new System.Windows.Forms.Label();
+            NUD_TrapPlayers = new System.Windows.Forms.NumericUpDown();
+            L_TrapSelf = new System.Windows.Forms.Label();
+            NUD_TrapSelf = new System.Windows.Forms.NumericUpDown();
+            L_FlagsObtained = new System.Windows.Forms.Label();
+            NUD_FlagsObtained = new System.Windows.Forms.NumericUpDown();
             GB_UScores = new System.Windows.Forms.GroupBox();
             TC_UGItems = new System.Windows.Forms.TabControl();
             TB_UGGoods = new System.Windows.Forms.TabPage();
@@ -60,13 +60,25 @@
             TB_UGTreasures = new System.Windows.Forms.TabPage();
             DGV_UGTreasures = new System.Windows.Forms.DataGridView();
             Item_Treasures = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)U_PlayersMet).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)U_Gifts).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)U_Spheres).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)U_Fossils).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)U_TrapsA).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)U_TrapsT).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)U_Flags).BeginInit();
+            NUD_MyFlagRecovered = new System.Windows.Forms.NumericUpDown();
+            L_MyFlagRecovered = new System.Windows.Forms.Label();
+            NUD_MyBaseMoved = new System.Windows.Forms.NumericUpDown();
+            L_MyBaseMoved = new System.Windows.Forms.Label();
+            NUD_FlagsCaptured = new System.Windows.Forms.NumericUpDown();
+            L_FlagsCaptured = new System.Windows.Forms.Label();
+            NUD_MyFlagTaken = new System.Windows.Forms.NumericUpDown();
+            L_MyFlagTaken = new System.Windows.Forms.Label();
+            NUD_GiftsReceived = new System.Windows.Forms.NumericUpDown();
+            L_GiftsReceived = new System.Windows.Forms.Label();
+            NUD_HelpedOthers = new System.Windows.Forms.NumericUpDown();
+            L_OthersHelped = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)NUD_PlayersMet).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_GiftsGiven).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Spheres).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Fossils).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_TrapPlayers).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_TrapSelf).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_FlagsObtained).BeginInit();
             GB_UScores.SuspendLayout();
             TC_UGItems.SuspendLayout();
             TB_UGGoods.SuspendLayout();
@@ -77,12 +89,18 @@
             ((System.ComponentModel.ISupportInitialize)DGV_UGTraps).BeginInit();
             TB_UGTreasures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGV_UGTreasures).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MyFlagRecovered).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MyBaseMoved).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_FlagsCaptured).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MyFlagTaken).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_GiftsReceived).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HelpedOthers).BeginInit();
             SuspendLayout();
             // 
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(411, 232);
+            B_Save.Location = new System.Drawing.Point(411, 339);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(88, 27);
@@ -94,7 +112,7 @@
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(316, 232);
+            B_Cancel.Location = new System.Drawing.Point(316, 339);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(88, 27);
@@ -103,161 +121,173 @@
             B_Cancel.UseVisualStyleBackColor = true;
             B_Cancel.Click += B_Cancel_Click;
             // 
-            // LU_PlayersMet
+            // L_PeopleMet
             // 
-            LU_PlayersMet.Location = new System.Drawing.Point(9, 23);
-            LU_PlayersMet.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_PlayersMet.Name = "LU_PlayersMet";
-            LU_PlayersMet.Size = new System.Drawing.Size(124, 21);
-            LU_PlayersMet.TabIndex = 3;
-            LU_PlayersMet.Text = "Players Met";
-            LU_PlayersMet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_PeopleMet.Location = new System.Drawing.Point(9, 17);
+            L_PeopleMet.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_PeopleMet.Name = "L_PeopleMet";
+            L_PeopleMet.Size = new System.Drawing.Size(124, 21);
+            L_PeopleMet.TabIndex = 1;
+            L_PeopleMet.Text = "People Met:";
+            L_PeopleMet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // U_PlayersMet
+            // NUD_PlayersMet
             // 
-            U_PlayersMet.Location = new System.Drawing.Point(138, 23);
-            U_PlayersMet.Margin = new System.Windows.Forms.Padding(2);
-            U_PlayersMet.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_PlayersMet.Name = "U_PlayersMet";
-            U_PlayersMet.Size = new System.Drawing.Size(83, 23);
-            U_PlayersMet.TabIndex = 1;
+            NUD_PlayersMet.Location = new System.Drawing.Point(138, 17);
+            NUD_PlayersMet.Margin = new System.Windows.Forms.Padding(2);
+            NUD_PlayersMet.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_PlayersMet.Name = "NUD_PlayersMet";
+            NUD_PlayersMet.Size = new System.Drawing.Size(83, 23);
+            NUD_PlayersMet.TabIndex = 2;
             // 
-            // LU_Gifts
+            // L_Gifts
             // 
-            LU_Gifts.Location = new System.Drawing.Point(9, 48);
-            LU_Gifts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_Gifts.Name = "LU_Gifts";
-            LU_Gifts.Size = new System.Drawing.Size(124, 21);
-            LU_Gifts.TabIndex = 5;
-            LU_Gifts.Text = "Gifts Given";
-            LU_Gifts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Gifts.Location = new System.Drawing.Point(9, 42);
+            L_Gifts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_Gifts.Name = "L_Gifts";
+            L_Gifts.Size = new System.Drawing.Size(124, 21);
+            L_Gifts.TabIndex = 3;
+            L_Gifts.Text = "Gifts Given:";
+            L_Gifts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // U_Gifts
+            // NUD_GiftsGiven
             // 
-            U_Gifts.Location = new System.Drawing.Point(138, 48);
-            U_Gifts.Margin = new System.Windows.Forms.Padding(2);
-            U_Gifts.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_Gifts.Name = "U_Gifts";
-            U_Gifts.Size = new System.Drawing.Size(83, 23);
-            U_Gifts.TabIndex = 2;
+            NUD_GiftsGiven.Location = new System.Drawing.Point(138, 42);
+            NUD_GiftsGiven.Margin = new System.Windows.Forms.Padding(2);
+            NUD_GiftsGiven.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_GiftsGiven.Name = "NUD_GiftsGiven";
+            NUD_GiftsGiven.Size = new System.Drawing.Size(83, 23);
+            NUD_GiftsGiven.TabIndex = 4;
             // 
-            // LU_Spheres
+            // L_Spheres
             // 
-            LU_Spheres.Location = new System.Drawing.Point(9, 75);
-            LU_Spheres.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_Spheres.Name = "LU_Spheres";
-            LU_Spheres.Size = new System.Drawing.Size(124, 21);
-            LU_Spheres.TabIndex = 7;
-            LU_Spheres.Text = "Spheres Obtained";
-            LU_Spheres.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Spheres.Location = new System.Drawing.Point(9, 92);
+            L_Spheres.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_Spheres.Name = "L_Spheres";
+            L_Spheres.Size = new System.Drawing.Size(124, 21);
+            L_Spheres.TabIndex = 7;
+            L_Spheres.Text = "Spheres Dug:";
+            L_Spheres.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // U_Spheres
+            // NUD_Spheres
             // 
-            U_Spheres.Location = new System.Drawing.Point(138, 75);
-            U_Spheres.Margin = new System.Windows.Forms.Padding(2);
-            U_Spheres.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_Spheres.Name = "U_Spheres";
-            U_Spheres.Size = new System.Drawing.Size(83, 23);
-            U_Spheres.TabIndex = 3;
+            NUD_Spheres.Location = new System.Drawing.Point(138, 92);
+            NUD_Spheres.Margin = new System.Windows.Forms.Padding(2);
+            NUD_Spheres.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_Spheres.Name = "NUD_Spheres";
+            NUD_Spheres.Size = new System.Drawing.Size(83, 23);
+            NUD_Spheres.TabIndex = 8;
             // 
-            // LU_Fossils
+            // L_Fossils
             // 
-            LU_Fossils.Location = new System.Drawing.Point(9, 102);
-            LU_Fossils.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_Fossils.Name = "LU_Fossils";
-            LU_Fossils.Size = new System.Drawing.Size(124, 21);
-            LU_Fossils.TabIndex = 9;
-            LU_Fossils.Text = "Fossils Obtained";
-            LU_Fossils.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Fossils.Location = new System.Drawing.Point(9, 117);
+            L_Fossils.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_Fossils.Name = "L_Fossils";
+            L_Fossils.Size = new System.Drawing.Size(124, 21);
+            L_Fossils.TabIndex = 9;
+            L_Fossils.Text = "Fossils Dug:";
+            L_Fossils.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Fossils
             // 
-            U_Fossils.Location = new System.Drawing.Point(138, 102);
-            U_Fossils.Margin = new System.Windows.Forms.Padding(2);
-            U_Fossils.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_Fossils.Name = "U_Fossils";
-            U_Fossils.Size = new System.Drawing.Size(83, 23);
-            U_Fossils.TabIndex = 4;
+            NUD_Fossils.Location = new System.Drawing.Point(138, 117);
+            NUD_Fossils.Margin = new System.Windows.Forms.Padding(2);
+            NUD_Fossils.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_Fossils.Name = "U_Fossils";
+            NUD_Fossils.Size = new System.Drawing.Size(83, 23);
+            NUD_Fossils.TabIndex = 10;
             // 
-            // LU_TrapsA
+            // L_TrapOthers
             // 
-            LU_TrapsA.Location = new System.Drawing.Point(9, 127);
-            LU_TrapsA.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_TrapsA.Name = "LU_TrapsA";
-            LU_TrapsA.Size = new System.Drawing.Size(124, 21);
-            LU_TrapsA.TabIndex = 11;
-            LU_TrapsA.Text = "Traps Avoided";
-            LU_TrapsA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_TrapOthers.Location = new System.Drawing.Point(9, 142);
+            L_TrapOthers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_TrapOthers.Name = "L_TrapOthers";
+            L_TrapOthers.Size = new System.Drawing.Size(124, 21);
+            L_TrapOthers.TabIndex = 11;
+            L_TrapOthers.Text = "Trap Hits (Players):";
+            L_TrapOthers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // U_TrapsA
+            // NUD_TrapPlayers
             // 
-            U_TrapsA.Location = new System.Drawing.Point(138, 127);
-            U_TrapsA.Margin = new System.Windows.Forms.Padding(2);
-            U_TrapsA.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_TrapsA.Name = "U_TrapsA";
-            U_TrapsA.Size = new System.Drawing.Size(83, 23);
-            U_TrapsA.TabIndex = 5;
+            NUD_TrapPlayers.Location = new System.Drawing.Point(138, 142);
+            NUD_TrapPlayers.Margin = new System.Windows.Forms.Padding(2);
+            NUD_TrapPlayers.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_TrapPlayers.Name = "NUD_TrapPlayers";
+            NUD_TrapPlayers.Size = new System.Drawing.Size(83, 23);
+            NUD_TrapPlayers.TabIndex = 12;
             // 
-            // LU_TrapsT
+            // L_TrapSelf
             // 
-            LU_TrapsT.Location = new System.Drawing.Point(9, 153);
-            LU_TrapsT.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_TrapsT.Name = "LU_TrapsT";
-            LU_TrapsT.Size = new System.Drawing.Size(124, 21);
-            LU_TrapsT.TabIndex = 13;
-            LU_TrapsT.Text = "Traps Triggered";
-            LU_TrapsT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_TrapSelf.Location = new System.Drawing.Point(9, 167);
+            L_TrapSelf.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_TrapSelf.Name = "L_TrapSelf";
+            L_TrapSelf.Size = new System.Drawing.Size(124, 21);
+            L_TrapSelf.TabIndex = 13;
+            L_TrapSelf.Text = "Trap Hits (Self):";
+            L_TrapSelf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // U_TrapsT
+            // NUD_TrapSelf
             // 
-            U_TrapsT.Location = new System.Drawing.Point(138, 153);
-            U_TrapsT.Margin = new System.Windows.Forms.Padding(2);
-            U_TrapsT.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_TrapsT.Name = "U_TrapsT";
-            U_TrapsT.Size = new System.Drawing.Size(83, 23);
-            U_TrapsT.TabIndex = 6;
+            NUD_TrapSelf.Location = new System.Drawing.Point(138, 167);
+            NUD_TrapSelf.Margin = new System.Windows.Forms.Padding(2);
+            NUD_TrapSelf.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_TrapSelf.Name = "NUD_TrapSelf";
+            NUD_TrapSelf.Size = new System.Drawing.Size(83, 23);
+            NUD_TrapSelf.TabIndex = 14;
             // 
-            // LU_Flags
+            // L_FlagsObtained
             // 
-            LU_Flags.Location = new System.Drawing.Point(9, 179);
-            LU_Flags.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LU_Flags.Name = "LU_Flags";
-            LU_Flags.Size = new System.Drawing.Size(124, 21);
-            LU_Flags.TabIndex = 15;
-            LU_Flags.Text = "Flags Captured";
-            LU_Flags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_FlagsObtained.Location = new System.Drawing.Point(9, 67);
+            L_FlagsObtained.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_FlagsObtained.Name = "L_FlagsObtained";
+            L_FlagsObtained.Size = new System.Drawing.Size(124, 21);
+            L_FlagsObtained.TabIndex = 5;
+            L_FlagsObtained.Text = "Flags Obtained:";
+            L_FlagsObtained.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // U_Flags
+            // NUD_FlagsObtained
             // 
-            U_Flags.Location = new System.Drawing.Point(138, 179);
-            U_Flags.Margin = new System.Windows.Forms.Padding(2);
-            U_Flags.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            U_Flags.Name = "U_Flags";
-            U_Flags.Size = new System.Drawing.Size(83, 23);
-            U_Flags.TabIndex = 7;
+            NUD_FlagsObtained.Location = new System.Drawing.Point(138, 67);
+            NUD_FlagsObtained.Margin = new System.Windows.Forms.Padding(2);
+            NUD_FlagsObtained.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_FlagsObtained.Name = "NUD_FlagsObtained";
+            NUD_FlagsObtained.Size = new System.Drawing.Size(83, 23);
+            NUD_FlagsObtained.TabIndex = 6;
             // 
             // GB_UScores
             // 
             GB_UScores.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            GB_UScores.Controls.Add(U_Flags);
-            GB_UScores.Controls.Add(LU_Flags);
-            GB_UScores.Controls.Add(U_TrapsT);
-            GB_UScores.Controls.Add(LU_TrapsT);
-            GB_UScores.Controls.Add(U_TrapsA);
-            GB_UScores.Controls.Add(LU_TrapsA);
-            GB_UScores.Controls.Add(U_Fossils);
-            GB_UScores.Controls.Add(LU_Fossils);
-            GB_UScores.Controls.Add(U_Spheres);
-            GB_UScores.Controls.Add(LU_Spheres);
-            GB_UScores.Controls.Add(U_Gifts);
-            GB_UScores.Controls.Add(LU_Gifts);
-            GB_UScores.Controls.Add(U_PlayersMet);
-            GB_UScores.Controls.Add(LU_PlayersMet);
+            GB_UScores.Controls.Add(NUD_HelpedOthers);
+            GB_UScores.Controls.Add(L_OthersHelped);
+            GB_UScores.Controls.Add(NUD_GiftsReceived);
+            GB_UScores.Controls.Add(L_GiftsReceived);
+            GB_UScores.Controls.Add(NUD_MyFlagTaken);
+            GB_UScores.Controls.Add(L_MyFlagTaken);
+            GB_UScores.Controls.Add(NUD_FlagsCaptured);
+            GB_UScores.Controls.Add(L_FlagsCaptured);
+            GB_UScores.Controls.Add(NUD_MyBaseMoved);
+            GB_UScores.Controls.Add(L_MyBaseMoved);
+            GB_UScores.Controls.Add(NUD_MyFlagRecovered);
+            GB_UScores.Controls.Add(L_MyFlagRecovered);
+            GB_UScores.Controls.Add(NUD_FlagsObtained);
+            GB_UScores.Controls.Add(L_FlagsObtained);
+            GB_UScores.Controls.Add(NUD_TrapSelf);
+            GB_UScores.Controls.Add(L_TrapSelf);
+            GB_UScores.Controls.Add(NUD_TrapPlayers);
+            GB_UScores.Controls.Add(L_TrapOthers);
+            GB_UScores.Controls.Add(NUD_Fossils);
+            GB_UScores.Controls.Add(L_Fossils);
+            GB_UScores.Controls.Add(NUD_Spheres);
+            GB_UScores.Controls.Add(L_Spheres);
+            GB_UScores.Controls.Add(NUD_GiftsGiven);
+            GB_UScores.Controls.Add(L_Gifts);
+            GB_UScores.Controls.Add(NUD_PlayersMet);
+            GB_UScores.Controls.Add(L_PeopleMet);
             GB_UScores.Location = new System.Drawing.Point(12, 13);
             GB_UScores.Margin = new System.Windows.Forms.Padding(2);
             GB_UScores.Name = "GB_UScores";
             GB_UScores.Padding = new System.Windows.Forms.Padding(2);
-            GB_UScores.Size = new System.Drawing.Size(231, 209);
+            GB_UScores.Size = new System.Drawing.Size(231, 350);
             GB_UScores.TabIndex = 27;
             GB_UScores.TabStop = false;
             GB_UScores.Text = "Scores";
@@ -273,7 +303,7 @@
             TC_UGItems.Margin = new System.Windows.Forms.Padding(2);
             TC_UGItems.Name = "TC_UGItems";
             TC_UGItems.SelectedIndex = 0;
-            TC_UGItems.Size = new System.Drawing.Size(248, 209);
+            TC_UGItems.Size = new System.Drawing.Size(248, 316);
             TC_UGItems.TabIndex = 28;
             // 
             // TB_UGGoods
@@ -283,7 +313,7 @@
             TB_UGGoods.Margin = new System.Windows.Forms.Padding(2);
             TB_UGGoods.Name = "TB_UGGoods";
             TB_UGGoods.Padding = new System.Windows.Forms.Padding(2);
-            TB_UGGoods.Size = new System.Drawing.Size(240, 181);
+            TB_UGGoods.Size = new System.Drawing.Size(240, 288);
             TB_UGGoods.TabIndex = 0;
             TB_UGGoods.Text = "Goods";
             TB_UGGoods.UseVisualStyleBackColor = true;
@@ -310,7 +340,7 @@
             DGV_UGGoods.RowTemplate.Height = 24;
             DGV_UGGoods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_UGGoods.ShowEditingIcon = false;
-            DGV_UGGoods.Size = new System.Drawing.Size(236, 177);
+            DGV_UGGoods.Size = new System.Drawing.Size(236, 284);
             DGV_UGGoods.TabIndex = 0;
             // 
             // Item_Goods
@@ -331,7 +361,7 @@
             TB_UGSpheres.Margin = new System.Windows.Forms.Padding(2);
             TB_UGSpheres.Name = "TB_UGSpheres";
             TB_UGSpheres.Padding = new System.Windows.Forms.Padding(2);
-            TB_UGSpheres.Size = new System.Drawing.Size(240, 181);
+            TB_UGSpheres.Size = new System.Drawing.Size(240, 288);
             TB_UGSpheres.TabIndex = 1;
             TB_UGSpheres.Text = "Spheres";
             TB_UGSpheres.UseVisualStyleBackColor = true;
@@ -358,7 +388,7 @@
             DGV_UGSpheres.RowTemplate.Height = 24;
             DGV_UGSpheres.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_UGSpheres.ShowEditingIcon = false;
-            DGV_UGSpheres.Size = new System.Drawing.Size(236, 177);
+            DGV_UGSpheres.Size = new System.Drawing.Size(236, 284);
             DGV_UGSpheres.TabIndex = 1;
             // 
             // Item_Spheres
@@ -392,7 +422,7 @@
             TB_UGTraps.Margin = new System.Windows.Forms.Padding(2);
             TB_UGTraps.Name = "TB_UGTraps";
             TB_UGTraps.Padding = new System.Windows.Forms.Padding(2);
-            TB_UGTraps.Size = new System.Drawing.Size(240, 181);
+            TB_UGTraps.Size = new System.Drawing.Size(240, 288);
             TB_UGTraps.TabIndex = 2;
             TB_UGTraps.Text = "Traps";
             TB_UGTraps.UseVisualStyleBackColor = true;
@@ -419,7 +449,7 @@
             DGV_UGTraps.RowTemplate.Height = 24;
             DGV_UGTraps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_UGTraps.ShowEditingIcon = false;
-            DGV_UGTraps.Size = new System.Drawing.Size(236, 177);
+            DGV_UGTraps.Size = new System.Drawing.Size(236, 284);
             DGV_UGTraps.TabIndex = 1;
             // 
             // Item_Traps
@@ -440,7 +470,7 @@
             TB_UGTreasures.Margin = new System.Windows.Forms.Padding(2);
             TB_UGTreasures.Name = "TB_UGTreasures";
             TB_UGTreasures.Padding = new System.Windows.Forms.Padding(2);
-            TB_UGTreasures.Size = new System.Drawing.Size(240, 181);
+            TB_UGTreasures.Size = new System.Drawing.Size(240, 288);
             TB_UGTreasures.TabIndex = 3;
             TB_UGTreasures.Text = "Treasures";
             TB_UGTreasures.UseVisualStyleBackColor = true;
@@ -467,7 +497,7 @@
             DGV_UGTreasures.RowTemplate.Height = 24;
             DGV_UGTreasures.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             DGV_UGTreasures.ShowEditingIcon = false;
-            DGV_UGTreasures.Size = new System.Drawing.Size(236, 177);
+            DGV_UGTreasures.Size = new System.Drawing.Size(236, 284);
             DGV_UGTreasures.TabIndex = 1;
             // 
             // Item_Treasures
@@ -481,10 +511,124 @@
             Item_Treasures.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             Item_Treasures.Width = 175;
             // 
+            // NUD_MyFlagRecovered
+            // 
+            NUD_MyFlagRecovered.Location = new System.Drawing.Point(138, 267);
+            NUD_MyFlagRecovered.Margin = new System.Windows.Forms.Padding(2);
+            NUD_MyFlagRecovered.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_MyFlagRecovered.Name = "NUD_MyFlagRecovered";
+            NUD_MyFlagRecovered.Size = new System.Drawing.Size(83, 23);
+            NUD_MyFlagRecovered.TabIndex = 22;
+            // 
+            // L_MyFlagRecovered
+            // 
+            L_MyFlagRecovered.Location = new System.Drawing.Point(9, 267);
+            L_MyFlagRecovered.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_MyFlagRecovered.Name = "L_MyFlagRecovered";
+            L_MyFlagRecovered.Size = new System.Drawing.Size(124, 21);
+            L_MyFlagRecovered.TabIndex = 21;
+            L_MyFlagRecovered.Text = "Recovered Flags:";
+            L_MyFlagRecovered.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_MyBaseMoved
+            // 
+            NUD_MyBaseMoved.Location = new System.Drawing.Point(138, 292);
+            NUD_MyBaseMoved.Margin = new System.Windows.Forms.Padding(2);
+            NUD_MyBaseMoved.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_MyBaseMoved.Name = "NUD_MyBaseMoved";
+            NUD_MyBaseMoved.Size = new System.Drawing.Size(83, 23);
+            NUD_MyBaseMoved.TabIndex = 24;
+            // 
+            // L_MyBaseMoved
+            // 
+            L_MyBaseMoved.Location = new System.Drawing.Point(9, 292);
+            L_MyBaseMoved.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_MyBaseMoved.Name = "L_MyBaseMoved";
+            L_MyBaseMoved.Size = new System.Drawing.Size(124, 21);
+            L_MyBaseMoved.TabIndex = 23;
+            L_MyBaseMoved.Text = "Moved My Base:";
+            L_MyBaseMoved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_FlagsCaptured
+            // 
+            NUD_FlagsCaptured.Location = new System.Drawing.Point(138, 317);
+            NUD_FlagsCaptured.Margin = new System.Windows.Forms.Padding(2);
+            NUD_FlagsCaptured.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_FlagsCaptured.Name = "NUD_FlagsCaptured";
+            NUD_FlagsCaptured.Size = new System.Drawing.Size(83, 23);
+            NUD_FlagsCaptured.TabIndex = 26;
+            // 
+            // L_FlagsCaptured
+            // 
+            L_FlagsCaptured.Location = new System.Drawing.Point(9, 317);
+            L_FlagsCaptured.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_FlagsCaptured.Name = "L_FlagsCaptured";
+            L_FlagsCaptured.Size = new System.Drawing.Size(124, 21);
+            L_FlagsCaptured.TabIndex = 25;
+            L_FlagsCaptured.Text = "Captured Flags:";
+            L_FlagsCaptured.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_MyFlagTaken
+            // 
+            NUD_MyFlagTaken.Location = new System.Drawing.Point(138, 242);
+            NUD_MyFlagTaken.Margin = new System.Windows.Forms.Padding(2);
+            NUD_MyFlagTaken.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_MyFlagTaken.Name = "NUD_MyFlagTaken";
+            NUD_MyFlagTaken.Size = new System.Drawing.Size(83, 23);
+            NUD_MyFlagTaken.TabIndex = 20;
+            // 
+            // L_MyFlagTaken
+            // 
+            L_MyFlagTaken.Location = new System.Drawing.Point(9, 242);
+            L_MyFlagTaken.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_MyFlagTaken.Name = "L_MyFlagTaken";
+            L_MyFlagTaken.Size = new System.Drawing.Size(124, 21);
+            L_MyFlagTaken.TabIndex = 19;
+            L_MyFlagTaken.Text = "My Flag Taken:";
+            L_MyFlagTaken.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_GiftsReceived
+            // 
+            NUD_GiftsReceived.Location = new System.Drawing.Point(138, 217);
+            NUD_GiftsReceived.Margin = new System.Windows.Forms.Padding(2);
+            NUD_GiftsReceived.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_GiftsReceived.Name = "NUD_GiftsReceived";
+            NUD_GiftsReceived.Size = new System.Drawing.Size(83, 23);
+            NUD_GiftsReceived.TabIndex = 18;
+            // 
+            // L_GiftsReceived
+            // 
+            L_GiftsReceived.Location = new System.Drawing.Point(9, 217);
+            L_GiftsReceived.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_GiftsReceived.Name = "L_GiftsReceived";
+            L_GiftsReceived.Size = new System.Drawing.Size(124, 21);
+            L_GiftsReceived.TabIndex = 17;
+            L_GiftsReceived.Text = "Gifts Received:";
+            L_GiftsReceived.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_HelpedOthers
+            // 
+            NUD_HelpedOthers.Location = new System.Drawing.Point(138, 192);
+            NUD_HelpedOthers.Margin = new System.Windows.Forms.Padding(2);
+            NUD_HelpedOthers.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_HelpedOthers.Name = "NUD_HelpedOthers";
+            NUD_HelpedOthers.Size = new System.Drawing.Size(83, 23);
+            NUD_HelpedOthers.TabIndex = 16;
+            // 
+            // L_OthersHelped
+            // 
+            L_OthersHelped.Location = new System.Drawing.Point(9, 192);
+            L_OthersHelped.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            L_OthersHelped.Name = "L_OthersHelped";
+            L_OthersHelped.Size = new System.Drawing.Size(124, 21);
+            L_OthersHelped.TabIndex = 15;
+            L_OthersHelped.Text = "Others Helped:";
+            L_OthersHelped.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Underground
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(506, 267);
+            ClientSize = new System.Drawing.Size(506, 374);
             Controls.Add(TC_UGItems);
             Controls.Add(GB_UScores);
             Controls.Add(B_Cancel);
@@ -496,13 +640,13 @@
             Name = "SAV_Underground";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Underground Editor";
-            ((System.ComponentModel.ISupportInitialize)U_PlayersMet).EndInit();
-            ((System.ComponentModel.ISupportInitialize)U_Gifts).EndInit();
-            ((System.ComponentModel.ISupportInitialize)U_Spheres).EndInit();
-            ((System.ComponentModel.ISupportInitialize)U_Fossils).EndInit();
-            ((System.ComponentModel.ISupportInitialize)U_TrapsA).EndInit();
-            ((System.ComponentModel.ISupportInitialize)U_TrapsT).EndInit();
-            ((System.ComponentModel.ISupportInitialize)U_Flags).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_PlayersMet).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_GiftsGiven).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Spheres).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Fossils).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_TrapPlayers).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_TrapSelf).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_FlagsObtained).EndInit();
             GB_UScores.ResumeLayout(false);
             TC_UGItems.ResumeLayout(false);
             TB_UGGoods.ResumeLayout(false);
@@ -513,26 +657,32 @@
             ((System.ComponentModel.ISupportInitialize)DGV_UGTraps).EndInit();
             TB_UGTreasures.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DGV_UGTreasures).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MyFlagRecovered).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MyBaseMoved).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_FlagsCaptured).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MyFlagTaken).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_GiftsReceived).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HelpedOthers).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.Label LU_PlayersMet;
-        private System.Windows.Forms.NumericUpDown U_PlayersMet;
-        private System.Windows.Forms.Label LU_Gifts;
-        private System.Windows.Forms.NumericUpDown U_Gifts;
-        private System.Windows.Forms.Label LU_Spheres;
-        private System.Windows.Forms.NumericUpDown U_Spheres;
-        private System.Windows.Forms.Label LU_Fossils;
-        private System.Windows.Forms.NumericUpDown U_Fossils;
-        private System.Windows.Forms.Label LU_TrapsA;
-        private System.Windows.Forms.NumericUpDown U_TrapsA;
-        private System.Windows.Forms.Label LU_TrapsT;
-        private System.Windows.Forms.NumericUpDown U_TrapsT;
-        private System.Windows.Forms.Label LU_Flags;
-        private System.Windows.Forms.NumericUpDown U_Flags;
+        private System.Windows.Forms.Label L_PeopleMet;
+        private System.Windows.Forms.NumericUpDown NUD_PlayersMet;
+        private System.Windows.Forms.Label L_Gifts;
+        private System.Windows.Forms.NumericUpDown NUD_GiftsGiven;
+        private System.Windows.Forms.Label L_Spheres;
+        private System.Windows.Forms.NumericUpDown NUD_Spheres;
+        private System.Windows.Forms.Label L_Fossils;
+        private System.Windows.Forms.NumericUpDown NUD_Fossils;
+        private System.Windows.Forms.Label L_TrapOthers;
+        private System.Windows.Forms.NumericUpDown NUD_TrapPlayers;
+        private System.Windows.Forms.Label L_TrapSelf;
+        private System.Windows.Forms.NumericUpDown NUD_TrapSelf;
+        private System.Windows.Forms.Label L_FlagsObtained;
+        private System.Windows.Forms.NumericUpDown NUD_FlagsObtained;
         private System.Windows.Forms.GroupBox GB_UScores;
         private System.Windows.Forms.TabControl TC_UGItems;
         private System.Windows.Forms.TabPage TB_UGGoods;
@@ -548,5 +698,17 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Treasures;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Spheres;
         private System.Windows.Forms.DataGridViewTextBoxColumn Size_Spheres;
+        private System.Windows.Forms.NumericUpDown NUD_FlagsCaptured;
+        private System.Windows.Forms.Label L_FlagsCaptured;
+        private System.Windows.Forms.NumericUpDown NUD_MyBaseMoved;
+        private System.Windows.Forms.Label L_MyBaseMoved;
+        private System.Windows.Forms.NumericUpDown NUD_MyFlagRecovered;
+        private System.Windows.Forms.Label L_MyFlagRecovered;
+        private System.Windows.Forms.NumericUpDown NUD_MyFlagTaken;
+        private System.Windows.Forms.Label L_MyFlagTaken;
+        private System.Windows.Forms.NumericUpDown NUD_HelpedOthers;
+        private System.Windows.Forms.Label L_OthersHelped;
+        private System.Windows.Forms.NumericUpDown NUD_GiftsReceived;
+        private System.Windows.Forms.Label L_GiftsReceived;
     }
 }

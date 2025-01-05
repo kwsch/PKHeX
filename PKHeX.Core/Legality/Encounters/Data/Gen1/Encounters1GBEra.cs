@@ -8,13 +8,13 @@ internal static class Encounters1GBEra
 
     private static EncounterGift1[] GetGifts(ReadOnlySpan<byte> bin)
     {
-        const int Size = EncounterGift1.SerializedSize;
-        var result = new EncounterGift1[bin.Length / Size];
+        const int size = EncounterGift1.SerializedSize;
+        var result = new EncounterGift1[bin.Length / size];
         for (int i = 0; i < result.Length; i++)
         {
-            var data = bin[..Size];
+            var data = bin[..size];
             result[i] = new EncounterGift1(data);
-            bin = bin[Size..];
+            bin = bin[size..];
         }
         return result;
     }

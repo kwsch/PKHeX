@@ -10,7 +10,7 @@ public partial class SAV_Link6 : Form
     private readonly SaveFile Origin;
     private readonly ISaveBlock6Main SAV;
 
-    private PL6 Gifts;
+    private readonly PL6 Gifts;
 
     public SAV_Link6(SaveFile sav)
     {
@@ -52,10 +52,9 @@ public partial class SAV_Link6 : Form
         { WinFormsUtil.Alert("Invalid file length"); return; }
 
         byte[] data = File.ReadAllBytes(ofd.FileName);
-        Gifts = new PL6(data);
+        data.AsSpan().CopyTo(Gifts.Data);
 
         LoadLinkData();
-        B_Export.Enabled = true;
     }
 
     private void B_Export_Click(object sender, EventArgs e)
@@ -72,7 +71,6 @@ public partial class SAV_Link6 : Form
     private void LoadLinkData()
     {
         RTB_LinkSource.Text = Gifts.Origin;
-        CHK_LinkAvailable.Checked = Gifts.Enabled;
 
         NUD_BP.Value = Gifts.BattlePoints;
         NUD_Pokemiles.Value = Gifts.Pokemiles;
@@ -98,6 +96,14 @@ public partial class SAV_Link6 : Form
         TB_PKM4.Text = GetSpecies(Gifts.Entity4.Species);
         TB_PKM5.Text = GetSpecies(Gifts.Entity5.Species);
         TB_PKM6.Text = GetSpecies(Gifts.Entity6.Species);
+
+        if (Gifts.Enabled)
+        {
+            NUD_BP.Enabled = true;
+            NUD_Pokemiles.Enabled = true;
+            B_Export.Enabled = true;
+        }
+        CHK_LinkAvailable.Checked = Gifts.Enabled;
     }
 
     private static string GetSpecies(ushort species)

@@ -389,7 +389,7 @@ public partial class SAV_Database : Form
     private static List<SlotCache> LoadPKMSaves(string pkmdb, SaveFile sav, List<SearchFolderDetail> otherPaths, bool otherDeep)
     {
         var dbTemp = new ConcurrentBag<SlotCache>();
-        var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
+        var extensions = new HashSet<string>(EntityFileExtension.GetExtensionsAll().Select(z => $".{z}"));
 
         var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
         Parallel.ForEach(files, file => SlotInfoLoader.AddFromLocalFile(file, dbTemp, sav, extensions));

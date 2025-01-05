@@ -500,9 +500,9 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
 
     public override void SeenNone()
     {
-        Array.Clear(Galar.Data, 0, Galar.Data.Length);
-        Array.Clear(Rigel1.Data, 0, Rigel1.Data.Length);
-        Array.Clear(Rigel2.Data, 0, Rigel2.Data.Length);
+        Galar .Data.AsSpan().Clear();
+        Rigel1.Data.AsSpan().Clear();
+        Rigel2.Data.AsSpan().Clear();
     }
 
     public override void CaughtNone()

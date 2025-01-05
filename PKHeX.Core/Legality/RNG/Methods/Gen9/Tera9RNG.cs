@@ -70,16 +70,12 @@ public static class Tera9RNG
             return type;
 
         var rand = new Xoroshiro128Plus(seed);
-        if (gem == GemType.Default)
-        {
-            var pivot = rand.NextInt(2);
-            return GetTeraTypeFromPersonal(species, form, pivot);
-        }
         if (gem == GemType.Random)
-        {
             return (byte)rand.NextInt(TeraTypeCount);
-        }
-        throw new ArgumentOutOfRangeException(nameof(gem), gem, null);
+        if (gem != GemType.Default)
+            throw new ArgumentOutOfRangeException(nameof(gem), gem, null);
+        var pivot = rand.NextInt(2);
+        return GetTeraTypeFromPersonal(species, form, pivot);
     }
 
     /// <summary>

@@ -3,7 +3,7 @@
 0075	g	Inicial de Sinnoh	0:Sin elegir,31:Turtwig,32:Chimchar,33:Piplup
 0076	g	Inicial de Unova	0:Sin elegir,34:Snivy,35:Tepig,36:Oshawott
 0247	g	Iniciales Regionales	0:Inicial de Johto pendiente,3:Inicial de Unova pendiente/Inicial de Johto recibido,6:Inicial de Sinnoh pendiente/Inicial de Unova recibido,9:Inicial de Sinnoh recibido (Todos recibido)
-0060	*	Ceniza
+0060	*	Ceniza volcánica recogida	60000:Máximo
 0073	s	Poochyena estático de la Ruta 101	0:Pendiente,1:Acercado,2:Fallo al acercarse
 0118	s	Evento de la Ruta 101	0:Inicio del juego,1:Abedul en peligro (puede elegir inicial),2:Elegir inicial (no puedes salir),3:Abedul rescatado,4:Rival entrega la DexNav,5:Aparece el Poochyena estático,6:Poochyena estático peleado/desaparecido
 0215	+	Progreso en Gran Concurso	0:No conocido a Ariana,1:Conocido a Ariana,2:Ariana en el Auditorio,3:Traje/vestido de gala pendiente (Sala de espera),4:Recepcionista explica las reglas,5:Recepcionista explicó las reglas,6:Evento 1 en la sala de espera pendiente,7:Primer concurso de nivel Normal ganado,8:Evento 2 en la sala de espera pendiente,9:Primer concurso de nivel Alto ganado,10:Evento 3 en la sala de espera pendiente,11:Primer concurso de nivel Avanzado ganado,12:Evento 4 en la sala de espera pendiente,13:Primer concurso de nivel Maestro ganado,14:Evento 5 en la sala de espera pendiente,15:Completados 4 niveles Maestro,16:Evento 6 en la sala de espera pendiente,17:Completados los 5 niveles Maestro,18:Evento 7 en la sala de espera pendiente,19:Ariana derrotada,20:Evento 8 en la sala de espera pendiente,21:Plubio y Ariana derrotados (Todo completado)

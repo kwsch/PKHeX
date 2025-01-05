@@ -152,7 +152,7 @@ public partial class SAV_Trainer7GG : Form
         TextBox tb = sender as TextBox ?? TB_OTName;
 
         // Special Character Form
-        var d = new TrashEditor(tb, SAV, SAV.Generation);
+        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
         d.ShowDialog();
         tb.Text = d.FinalString;
     }

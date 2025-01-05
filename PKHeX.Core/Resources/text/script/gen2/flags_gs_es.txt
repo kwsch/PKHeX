@@ -6,6 +6,9 @@
 1601	s	La bola de Totodile de Elm ha desaparecido 
 1602	s	La bola de Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Capturado
+1760	r	Electrode (top corners) disappeared from Hideout B2F
+1761	r	Electrode (middle corners) disappeared from Hideout B2F
+1762	r	Electrode (bottom corners) disappeared from Hideout B2F
 0079	g	Eevee Recibido
 1867	*	Las bestias legendarias desaparecieron de la torre incendiada
 0672	*	SOLVED_HO_OH_PUZZLE

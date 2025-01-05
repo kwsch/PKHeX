@@ -77,7 +77,10 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    private static bool GetIsEnhancedTutor<T1, T2>(T1 evo, T2 current, ushort move, LearnOption option)
+        where T1 : ISpeciesForm
+        where T2 : ISpeciesForm
+        => evo.Species is (int)Species.Rotom && move switch
     {
         (int)Move.Overheat  => option.IsPast() || current.Form == 1,
         (int)Move.HydroPump => option.IsPast() || current.Form == 2,

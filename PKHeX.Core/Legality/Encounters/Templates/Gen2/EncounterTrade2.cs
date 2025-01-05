@@ -29,8 +29,8 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     public byte LevelMin => Level;
     public byte LevelMax => 100;
 
-    private string[] TrainerNames { get; }
-    private string[] Nicknames { get; }
+    private readonly ReadOnlyMemory<string> TrainerNames;
+    private readonly ReadOnlyMemory<string> Nicknames;
 
     public byte Gender { get; init; }
     public byte OTGender { get; init; }
@@ -66,8 +66,8 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
             MetLocation = Location,
 
-            Nickname = Nicknames[lang],
-            OriginalTrainerName = TrainerNames[lang],
+            Nickname = Nicknames.Span[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
             OriginalTrainerFriendship = pi.BaseFriendship,
         };
 
@@ -153,17 +153,17 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (pk.Japanese)
         {
-            if (!nickname.SequenceEqual(Nicknames[(int)LanguageID.Japanese]))
+            if (!nickname.SequenceEqual(Nicknames.Span[(int)LanguageID.Japanese]))
                 return -1;
-            if (!trainer.SequenceEqual(TrainerNames[(int)LanguageID.Japanese]))
+            if (!trainer.SequenceEqual(TrainerNames.Span[(int)LanguageID.Japanese]))
                 return -1;
             return (int)LanguageID.Japanese;
         }
         if (pk.Korean)
         {
-            if (!nickname.SequenceEqual(Nicknames[(int)LanguageID.Korean]))
+            if (!nickname.SequenceEqual(Nicknames.Span[(int)LanguageID.Korean]))
                 return -1;
-            if (!trainer.SequenceEqual(TrainerNames[(int)LanguageID.Korean]))
+            if (!trainer.SequenceEqual(TrainerNames.Span[(int)LanguageID.Korean]))
                 return -1;
             return (int)LanguageID.Korean;
         }
@@ -172,7 +172,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         {
             if (i == (int)LanguageID.UNUSED_6)
                 continue;
-            if (!nickname.SequenceEqual(Nicknames[i]))
+            if (!nickname.SequenceEqual(Nicknames.Span[i]))
                 continue;
             if (IsTrainerMatchExact(pk, trainer, i))
                 return i;
@@ -182,24 +182,25 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
     private int DetectLanguageNickname(PKM pk, ReadOnlySpan<char> nickname)
     {
+        var names = Nicknames.Span;
         if (pk.Japanese)
         {
-            if (!nickname.SequenceEqual(Nicknames[(int)LanguageID.Japanese]))
+            if (!nickname.SequenceEqual(names[(int)LanguageID.Japanese]))
                 return -1;
             return (int)LanguageID.Japanese;
         }
         if (pk.Korean)
         {
-            if (!nickname.SequenceEqual(Nicknames[(int)LanguageID.Korean]))
+            if (!nickname.SequenceEqual(names[(int)LanguageID.Korean]))
                 return -1;
             return (int)LanguageID.Korean;
         }
 
-        for (int i = 2; i < Nicknames.Length; i++)
+        for (int i = 2; i < names.Length; i++)
         {
             if (i == (int)LanguageID.UNUSED_6)
                 continue;
-            if (nickname.SequenceEqual(Nicknames[i]))
+            if (nickname.SequenceEqual(names[i]))
                 return i;
         }
         return -1;
@@ -207,20 +208,21 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
     private int DetectLanguageTrainer(PKM pk, ReadOnlySpan<char> trainer)
     {
+        var names = TrainerNames.Span;
         if (pk.Japanese)
         {
-            if (!trainer.SequenceEqual(TrainerNames[(int)LanguageID.Japanese]))
+            if (!trainer.SequenceEqual(names[(int)LanguageID.Japanese]))
                 return -1;
             return (int)LanguageID.Japanese;
         }
         if (pk.Korean)
         {
-            if (!trainer.SequenceEqual(TrainerNames[(int)LanguageID.Korean]))
+            if (!trainer.SequenceEqual(names[(int)LanguageID.Korean]))
                 return -1;
             return (int)LanguageID.Korean;
         }
 
-        for (int i = 2; i < TrainerNames.Length; i++)
+        for (int i = 2; i < names.Length; i++)
         {
             if (i == (int)LanguageID.UNUSED_6)
                 continue;
@@ -232,7 +234,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
     private bool IsTrainerMatchExact(PKM pk, ReadOnlySpan<char> trainer, int language)
     {
-        var expect = pk.Format < 7 ? TrainerNames[language] : GetExpectedOT(Species, language, pk.Language);
+        var expect = pk.Format < 7 ? TrainerNames.Span[language] : GetExpectedOT(Species, language, pk.Language);
         return trainer.SequenceEqual(expect);
     }
 
@@ -241,7 +243,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         // Can't transfer verbatim with Spanish origin glyphs to French VC.
         (int)Voltorb when language == (int)LanguageID.Spanish && pkLanguage == (int)LanguageID.French => "FALCçN", // FALCÁN
         (int)Shuckle when language == (int)LanguageID.Spanish && pkLanguage == (int)LanguageID.French => "MANôA", // MANÍA
-        _ => TrainerNames[language],
+        _ => TrainerNames.Span[language],
     };
 
     // Already required for encounter matching.
@@ -277,7 +279,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         return lang != -1;
     }
 
-    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+    public string GetNickname(int language) => Nicknames.Span[(uint)language < Nicknames.Length ? language : 0];
 
     #endregion
 }

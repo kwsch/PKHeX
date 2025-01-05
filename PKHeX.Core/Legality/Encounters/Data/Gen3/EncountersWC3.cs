@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// Generation 3 <see cref="EncounterGift3"/> Gifts
 /// </summary>
 /// <remarks>
-/// Generation 3 has a wide range of PIDIV types and other restrictions, and was never consistently stored in raw bytes.
+/// Generation 3 has a wide range of PID/IV types and other restrictions, and was never consistently stored in raw bytes.
 /// Normally we'd just load the data from a binary, but without raw data... hard-code everything by hand.
 /// </remarks>
 internal static class EncountersWC3
@@ -194,8 +194,10 @@ internal static class EncountersWC3
         new(371, 5, R, true) { Moves = new(099,044,334,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Bagon with Iron Defense
         new(371, 5, R, true) { Moves = new(099,044,273,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Bagon with Wish
 
-        // Wondercard gifts call the same give egg script as the Hot Springs Wynaut, but the game has a vblank interrupt between PID and IVs (potentially because the script does not lock when starting).
-        // Removing the vblank interrupt via ROM patch results in the scripts yielding a Method 1 PID/IV, so hopefully it's consistent enough to assume all are just Method 2 and no splits.
+        // Distributed event gifts for receipt in the Pokémon Center 2F call the same give egg script as the Hot Springs Wynaut.
+        // Most often, the game has a VBlank interrupt between PID and IVs (potentially because the script does not lock when starting).
+        // Removing the VBlank interrupt via ROM patch results in the scripts yielding a Method 1 PID/IV.
+        // Specific setups & seeds can yield Method 1 or Method 4. Check method compatibility separately (based on resulting PID value and correlation type).
 
         // PCJP Egg Pokémon Present Eggs - Wondercard (March 21 to April 4, 2004)
         new(043, 5, FRLG, true) { Moves = new(071,073,000,000), Method = Method_2, FatefulEncounter = true, OriginalTrainerName = M2WishEggOT }, // Oddish with Leech Seed

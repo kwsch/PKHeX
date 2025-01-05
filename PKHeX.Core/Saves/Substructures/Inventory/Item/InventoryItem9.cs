@@ -65,10 +65,8 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
         WriteUInt32LittleEndian(data[12..], Padding);
     }
 
-    public static void Clear(Span<byte> data, int offset) {
-        data.Slice(offset, SIZE).Clear();
-        WriteUInt32LittleEndian(data[offset..], PouchNone);
-    }
+    public static void Clear(Span<byte> data) => WriteUInt128LittleEndian(data, PouchNone);
+    public static uint GetItemCount(Span<byte> data) => ReadUInt32LittleEndian(data[4..]);
 
     public override void SetNewDetails(int count)
     {

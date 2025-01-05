@@ -4,13 +4,22 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class HallFame3Entry(byte[] Data, int Offset, bool Japanese)
+public sealed class HallFame3Entry(Memory<byte> Raw, bool Japanese)
 {
     private const int Count = 6;
     public const int SIZE = Count * HallFame3PKM.SIZE;
 
-    private int GetMemberOffset(int index) => Offset + (index * HallFame3PKM.SIZE);
-    private HallFame3PKM GetMember(int index) => new(Data, GetMemberOffset(index), Japanese);
+    public Span<byte> Data => Raw.Span;
+
+    private static int GetMemberOffset(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Count, nameof(index));
+        return index * HallFame3PKM.SIZE;
+    }
+
+    private Memory<byte> GetMemberSlice(int index)
+        => Raw.Slice(GetMemberOffset(index), HallFame3PKM.SIZE);
+    private HallFame3PKM GetMember(int index) => new(GetMemberSlice(index), Japanese);
 
     public HallFame3PKM[] Team
     {
@@ -29,37 +38,70 @@ public sealed class HallFame3Entry(byte[] Data, int Offset, bool Japanese)
     public static HallFame3Entry[] GetEntries(SAV3 sav)
     {
         byte[] data = sav.GetHallOfFameData();
-        Debug.Assert(data.Length > MaxLength);
-        bool Japanese = sav.Japanese;
+        Debug.Assert(data.Length >= MaxLength);
+        bool jp = sav.Japanese;
 
-        var entries = new HallFame3Entry[MaxEntries];
-        for (int i = 0; i < entries.Length; i++)
-            entries[i] = new HallFame3Entry(data, SIZE, Japanese);
-        return entries;
+        var result = new HallFame3Entry[MaxEntries];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = new HallFame3Entry(data.AsMemory(i * SIZE), jp);
+        return result;
     }
 
     public static void SetEntries(SAV3 sav, HallFame3Entry[] entries)
     {
-        byte[] data = entries[0].Team[0].Data;
+        byte[] data = sav.GetHallOfFameData();
+        Debug.Assert(data.Length >= MaxLength);
+
+        for (int i = 0; i < entries.Length; i++)
+            entries[i].Data.CopyTo(data.AsSpan(i * SIZE));
         sav.SetHallOfFameData(data);
     }
 }
 
-public sealed class HallFame3PKM(byte[] Data, int Offset, bool Japanese) : ISpeciesForm
+public sealed class HallFame3PKM(Memory<byte> Raw, bool Japanese) : ISpeciesForm
 {
-    public const int SIZE = 20;
+    public const int SIZE = 0x14;
 
-    public readonly byte[] Data = Data;
-
-    public int TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(0 + Offset), (ushort)value); }
-    public int SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
-    public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(4 + Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(4 + Offset), value); }
-    private int SpecLevel { get => ReadUInt16LittleEndian(Data.AsSpan(8 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(8 + Offset), (ushort)value); }
-
-    private Span<byte> NicknameTrash => Data.AsSpan(10 + Offset, 10);
-    public string Nickname { get => StringConverter3.GetString(NicknameTrash, Japanese); set => StringConverter3.SetString(NicknameTrash, value, 10, Japanese, StringConverterOption.ClearZero); }
-
-    public ushort Species { get => (ushort)(SpecLevel & 0x1FF); set => SpecLevel = (SpecLevel & 0xFE00) | value; }
+    public Span<byte> Data => Raw.Span;
     public byte Form => 0; // no forms; derive Unown's from PID else use the Version for Deoxys.
-    public int Level { get => SpecLevel >> 9; set => SpecLevel = (SpecLevel & 0x1FF) | (value << 9); }
+
+    public uint ID32         { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public ushort TID16      { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
+    public ushort SID16      { get => ReadUInt16LittleEndian(Data[2..]); set => WriteUInt16LittleEndian(Data[2..], value); }
+    public uint PID          { get => ReadUInt32LittleEndian(Data[4..]); set => WriteUInt32LittleEndian(Data[4..], value); }
+    private ushort SpecLevel { get => ReadUInt16LittleEndian(Data[8..]); set => WriteUInt16LittleEndian(Data[8..], (ushort)value); }
+    public Span<byte> NicknameTrash => Data.Slice(10, 10);
+
+    public string Nickname
+    {
+        get => StringConverter3.GetString(NicknameTrash, Japanese);
+        set => StringConverter3.SetString(NicknameTrash, value, 10, Japanese, StringConverterOption.ClearZero);
+    }
+
+    public int Level
+    {
+        get => SpecLevel >> 9;
+        set => SpecLevel = (ushort)((SpecLevel & 0x1FF) | (Math.Min(100, value) << 9));
+    }
+
+    public ushort Species
+    {
+        get => SpeciesConverter.GetNational3((ushort)(SpecLevel & 0x1FF));
+        set => SpecLevel = (ushort)((SpecLevel & 0xFE00) | SpeciesConverter.GetInternal3(value));
+    }
+
+    public byte DisplayForm(GameVersion version) => Species switch
+    {
+        (ushort)Core.Species.Unown => EntityPID.GetUnownForm3(PID),
+        (ushort)Core.Species.Deoxys => version switch
+        {
+            GameVersion.FR => 1, // Attack
+            GameVersion.LG => 2, // Defense
+            GameVersion.E => 3, // Speed
+            _ => 0,
+        },
+        _ => Form,
+    };
+
+    public bool IsShiny => ShinyUtil.GetIsShiny(ID32, PID, 8);
 }

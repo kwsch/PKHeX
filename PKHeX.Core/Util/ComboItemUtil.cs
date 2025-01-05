@@ -9,7 +9,7 @@ public static partial class Util
 {
     public static List<ComboItem> GetCountryRegionList(string textFile, string lang)
     {
-        string[] inputCSV = GetStringList(textFile);
+        var inputCSV = GetStringList(textFile);
         int index = GeoLocation.GetLanguageIndex(lang);
         var list = GetCBListFromCSV(inputCSV, index);
         if (list.Count > 1)

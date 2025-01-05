@@ -209,7 +209,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         if (GetCurrentDaycare() is not { } s)
             throw new Exception();
-        return new SlotInfoMisc(s.GetDaycareSlot(index), index) {Type = StorageSlotType.Daycare};
+        return new SlotInfoMisc(s.GetDaycareSlot(index), index) { Type = StorageSlotType.Daycare };
     }
 
     public void SetPKMBoxes()
@@ -605,7 +605,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenBerryField_Click(object sender, EventArgs e) => OpenDialog(new SAV_BerryFieldXY((SAV6XY)SAV));
     private void B_OpenPokeblocks_Click(object sender, EventArgs e) => OpenDialog(new SAV_PokeBlockORAS((SAV6AO)SAV));
     private void B_OpenSuperTraining_Click(object sender, EventArgs e) => OpenDialog(new SAV_SuperTrain((SAV6)SAV));
-    private void B_OpenSecretBase_Click(object sender, EventArgs e) => OpenDialog(new SAV_SecretBase((SAV6AO)SAV));
     private void B_CellsStickers_Click(object sender, EventArgs e) => OpenDialog(new SAV_ZygardeCell((SAV7)SAV));
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
@@ -616,6 +615,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenGeonetEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Geonet4((SAV4)SAV));
     private void B_OpenUnityTowerEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_UnityTower((SAV5)SAV));
     private void B_OpenChatterEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Chatter(SAV));
+
+    private void B_OpenSecretBase_Click(object sender, EventArgs e)
+    {
+        if (SAV is SAV3 s3)
+            OpenDialog(new SAV_SecretBase3(s3));
+        else if (SAV is SAV6AO ao)
+            OpenDialog(new SAV_SecretBase(ao));
+    }
 
     private void B_Roamer_Click(object sender, EventArgs e)
     {
@@ -824,6 +831,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         using var form = SAV switch
         {
+            SAV1 s1 => new SAV_HallOfFame1(s1),
+            SAV3 s3 => new SAV_HallOfFame3(s3),
             SAV6 s6 => new SAV_HallOfFame(s6),
             SAV7 s7 => new SAV_HallOfFame7(s7),
             _ => (Form?)null,
@@ -1209,12 +1218,12 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         GB_Daycare.Visible = sav is IDaycareStorage or IDaycareMulti;
         B_ConvertKorean.Visible = sav is SAV4;
         B_OpenPokeblocks.Visible = sav is SAV6AO;
-        B_OpenSecretBase.Visible = sav is SAV6AO;
+        B_OpenSecretBase.Visible = sav is SAV6AO or IGen3Hoenn;
         B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
         B_OpenBoxLayout.Visible = sav is IBoxDetailName;
         B_OpenWondercards.Visible = sav is IMysteryGiftStorageProvider;
-        B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
+        B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7 or SAV3 { IsMisconfiguredSize: false } or SAV1;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;
         B_OpenPokedex.Visible = sav.HasPokeDex;
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented

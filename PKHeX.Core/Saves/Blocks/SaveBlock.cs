@@ -6,6 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base class for a savegame data reader.
 /// </summary>
+[TypeConverter(typeof(ExpandableObjectConverter))]
 public abstract class SaveBlock<T>(T sav, Memory<byte> raw) : IDataIndirect where T : SaveFile
 {
     protected readonly T SAV = sav;

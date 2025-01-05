@@ -256,7 +256,7 @@ public sealed record EncounterGift2
         return ot[..len].SequenceEqual(name);
     }
 
-    private bool IsTrainerIDValid(ITrainerID16 pk) => Trainer switch
+    private bool IsTrainerIDValid<T>(T pk) where T : ITrainerID16 => Trainer switch
     {
         Recipient => true,
         GiftStadiumJPN => pk.TID16 == TrainerIDStadiumJPN,

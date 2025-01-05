@@ -197,24 +197,39 @@ public partial class SAV_Underground : Form
 
     private void GetUGScores()
     {
-        U_PlayersMet.Value = Math.Clamp(SAV.UG_PlayersMet, 0, U_PlayersMet.Maximum);
-        U_Gifts.Value = Math.Clamp(SAV.UG_Gifts, 0, U_Gifts.Maximum);
-        U_Spheres.Value = Math.Clamp(SAV.UG_Spheres, 0, U_Spheres.Maximum);
-        U_Fossils.Value = Math.Clamp(SAV.UG_Fossils, 0, U_Fossils.Maximum);
-        U_TrapsA.Value = Math.Clamp(SAV.UG_TrapsAvoided, 0, U_TrapsA.Maximum);
-        U_TrapsT.Value = Math.Clamp(SAV.UG_TrapsTriggered, 0, U_TrapsT.Maximum);
-        U_Flags.Value = Math.Clamp(SAV.UG_Flags, 0, U_Flags.Maximum);
+        LoadValue(NUD_PlayersMet, SAV.UG_PeopleMet);
+        LoadValue(NUD_GiftsGiven, SAV.UG_GiftsGiven);
+        LoadValue(NUD_GiftsReceived, SAV.UG_GiftsReceived);
+        LoadValue(NUD_Spheres, SAV.UG_Spheres);
+        LoadValue(NUD_Fossils, SAV.UG_Fossils);
+        LoadValue(NUD_TrapPlayers, SAV.UG_TrapPlayers);
+        LoadValue(NUD_TrapSelf, SAV.UG_TrapSelf);
+        LoadValue(NUD_MyBaseMoved, SAV.UG_MyBaseMoved);
+        LoadValue(NUD_FlagsObtained, SAV.UG_FlagsTaken);
+        LoadValue(NUD_MyFlagTaken, SAV.UG_FlagsFromMe);
+        LoadValue(NUD_MyFlagRecovered, SAV.UG_FlagsRecovered);
+        LoadValue(NUD_FlagsCaptured, SAV.UG_FlagsCaptured);
+        LoadValue(NUD_HelpedOthers, SAV.UG_HelpedOthers);
+
+        static void LoadValue(NumericUpDown box, uint value)
+            => box.Value = Math.Clamp(value, 0, SAV4Sinnoh.UG_MAX);
     }
 
     private void SetUGScores()
     {
-        SAV.UG_PlayersMet = (uint)U_PlayersMet.Value;
-        SAV.UG_Gifts = (uint)U_Gifts.Value;
-        SAV.UG_Spheres = (uint)U_Spheres.Value;
-        SAV.UG_Fossils = (uint)U_Fossils.Value;
-        SAV.UG_TrapsAvoided = (uint)U_TrapsA.Value;
-        SAV.UG_TrapsTriggered = (uint)U_TrapsT.Value;
-        SAV.UG_Flags = (uint)U_Flags.Value;
+        SAV.UG_PeopleMet = (uint)NUD_PlayersMet.Value;
+        SAV.UG_GiftsGiven = (uint)NUD_GiftsGiven.Value;
+        SAV.UG_GiftsReceived = (uint)NUD_GiftsReceived.Value;
+        SAV.UG_Spheres = (uint)NUD_Spheres.Value;
+        SAV.UG_Fossils = (uint)NUD_Fossils.Value;
+        SAV.UG_TrapPlayers = (uint)NUD_TrapPlayers.Value;
+        SAV.UG_TrapSelf = (uint)NUD_TrapSelf.Value;
+        SAV.UG_MyBaseMoved = (uint)NUD_MyBaseMoved.Value;
+        SAV.UG_FlagsTaken = (uint)NUD_FlagsObtained.Value;
+        SAV.UG_FlagsFromMe = (uint)NUD_MyFlagTaken.Value;
+        SAV.UG_FlagsRecovered = (uint)NUD_MyFlagRecovered.Value;
+        SAV.UG_FlagsCaptured = (uint)NUD_FlagsCaptured.Value;
+        SAV.UG_HelpedOthers = (uint)NUD_HelpedOthers.Value;
     }
 
     private static string[] SanitizeList(string[] inputlist)

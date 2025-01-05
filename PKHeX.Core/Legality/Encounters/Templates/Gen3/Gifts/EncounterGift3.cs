@@ -404,7 +404,7 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             BACD_RBCD => IsBerryFixShiny(ref value, type),
             BACD_M => IsMystryMew(ref value, type),
             Channel => IsChannelJirachi(ref value, type),
-            Method_2 => type is Method_2,
+            Method_2 => type is Method_2 or (Method_1 or Method_4), // via PID modulo VBlank abuse
             _ => false,
         };
     }

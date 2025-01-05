@@ -30,11 +30,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override ReadOnlySpan<ushort> HeldItems => [];
 
-    public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
-    {
-        int gen = f[^1] - 0x30;
-        return gen is 1 or 2;
-    });
+    public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsAtOrBelow(2);
 
     public SAV1(GameVersion version = GameVersion.RBY, LanguageID language = LanguageID.English) : base(SaveUtil.SIZE_G1RAW)
     {
@@ -210,7 +206,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV1 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
+    protected override SAV1 CloneInternal() => new(GetFinalData()[..], Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;
@@ -569,6 +565,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             for (int i = 0; i < value.Length; i++)
                 SetFlag(Offsets.ObjectSpawnFlags + (i >> 3), i & 7, value[i]);
         }
+    }
+
+    public HallOfFameReader1 HallOfFame => new(Data.AsMemory(0x0598, HallOfFameReader1.SIZE), Japanese);
+
+    public byte HallOfFameCount
+    {
+        get => Data[Offsets.HallOfFameCount];
+        set => Data[Offsets.HallOfFameCount] = value;
     }
 
     public override string GetString(ReadOnlySpan<byte> data)

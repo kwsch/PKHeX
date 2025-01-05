@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
 public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetRibbons,
-    IContestStats, IGeoTrack, ISuperTrainRegimen, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4
+    IContestStats, IGeoTrack, ISuperTrainRegimen, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4, IFullnessEnjoyment
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -333,8 +333,8 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     // 0xAB Unused
     // 0xAC Unused
     // 0xAD Unused
-    public override byte Fullness { get => Data[0xAE]; set => Data[0xAE] = value; }
-    public override byte Enjoyment { get => Data[0xAF]; set => Data[0xAF] = value; }
+    public byte Fullness { get => Data[0xAE]; set => Data[0xAE] = value; }
+    public byte Enjoyment { get => Data[0xAF]; set => Data[0xAF] = value; }
     #endregion
     #region Block D
     public override string OriginalTrainerName

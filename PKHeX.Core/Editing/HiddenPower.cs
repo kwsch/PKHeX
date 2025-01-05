@@ -83,7 +83,7 @@ public static class HiddenPower
     {
         if (IsInvalidType(type))
         {
-            index = default;
+            index = 0;
             return false;
         }
         index = (byte)(type + 1); // Normal type is not a valid Hidden Power type

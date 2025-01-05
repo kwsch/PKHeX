@@ -21,7 +21,7 @@ public readonly struct PIDIV
     /// <summary>The RNG seed which immediately generates the PID/IV (starting with PID or IVs, whichever comes first)</summary>
     [field: FieldOffset(0)] public ulong Seed64 { get; }
 
-    /// <summary>Type of PIDIV correlation</summary>
+    /// <summary>Type of PID/IV correlation</summary>
     [field: FieldOffset(8)] public PIDType Type { get; }
     [field: FieldOffset(9)] public LeadRequired Lead { get; init; }
     [field: FieldOffset(9)] public PIDType Mutated { get; init; }

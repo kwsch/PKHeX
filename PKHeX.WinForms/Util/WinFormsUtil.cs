@@ -1,4 +1,3 @@
-using PKHeX.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,9 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using PKHeX.Core;
 
 using static PKHeX.Core.MessageStrings;
-using Exception = System.Exception;
 
 namespace PKHeX.WinForms;
 
@@ -28,7 +27,7 @@ public static class WinFormsUtil
             return;
         int x = parent.Location.X + ((parent.Width - child.Width) / 2);
         int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
-        child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
+        child.Location = new Point(x, y);
     }
 
     /// <summary>
@@ -41,7 +40,7 @@ public static class WinFormsUtil
             child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
     }
 
-    public static T? FirstFormOfType<T>() where T : Form => (T?)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
+    public static T? FirstFormOfType<T>() where T : Form => Application.OpenForms.OfType<T>().FirstOrDefault();
 
     public static T? FindFirstControlOfType<T>(Control aParent) where T : class
     {
@@ -72,7 +71,7 @@ public static class WinFormsUtil
                     sender = s;
                     continue;
                 default:
-                    return default;
+                    return null;
             }
         }
     }
@@ -265,7 +264,6 @@ public static class WinFormsUtil
         var sb = new StringBuilder(128);
         foreach (var type in extensions)
             sb.Append($"*.{type};");
-        sb.Append("*.pk");
 
         string supported = sb.ToString();
         using var ofd = new OpenFileDialog();
@@ -276,23 +274,7 @@ public static class WinFormsUtil
                      "|Binary File|*.bin" +
                      "|Backup File|*.bak";
 
-        // Detect main
-        SaveFile? sav = null;
-        if (DetectSaveFileOnFileOpen)
-        {
-            try
-            {
-                sav = SaveFinder.FindMostRecentSaveFile();
-            }
-            catch (Exception ex)
-            {
-                Error(ex.Message);
-            }
-        }
-
-        if (sav != null)
-            ofd.FileName = sav.Metadata.FileName;
-
+        ofd.FileName = SuggestInitialFileName();
         if (ofd.ShowDialog() != DialogResult.OK)
         {
             path = null;
@@ -301,6 +283,23 @@ public static class WinFormsUtil
 
         path = ofd.FileName;
         return true;
+    }
+
+    private static string? SuggestInitialFileName()
+    {
+        if (DetectSaveFileOnFileOpen)
+        {
+            try
+            {
+                var sav = SaveFinder.FindMostRecentSaveFile();
+                return sav?.Metadata.FilePath;
+            }
+            catch (Exception ex)
+            {
+                Error(ex.Message);
+            }
+        }
+        return null;
     }
 
     /// <summary>
@@ -313,7 +312,7 @@ public static class WinFormsUtil
         string pkx = pk.Extension;
         bool allowEncrypted = pk.Format >= 3 && pkx.StartsWith('p');
         var genericFilter = $"Decrypted PKM File|*.{pkx}" +
-                            (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
+                            (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.AsSpan(1)}" : string.Empty) +
                             "|Binary File|*.bin" +
                             "|All Files|*.*";
         using var sfd = new SaveFileDialog();
@@ -327,11 +326,11 @@ public static class WinFormsUtil
         return true;
     }
 
-    private static void SavePKM(PKM pk, string path, string pkx)
+    private static void SavePKM(PKM pk, string path, ReadOnlySpan<char> pkx)
     {
         SaveBackup(path);
-        string ext = Path.GetExtension(path);
-        var data = $".{pkx}" == ext ? pk.DecryptedPartyData : pk.EncryptedPartyData;
+        var ext = Path.GetExtension(path);
+        var data = ext == $".{pkx}" ? pk.DecryptedPartyData : pk.EncryptedPartyData;
         File.WriteAllBytes(path, data);
     }
 

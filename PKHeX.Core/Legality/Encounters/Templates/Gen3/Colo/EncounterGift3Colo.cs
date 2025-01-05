@@ -21,7 +21,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public bool IsFixedTrainer => true;
     public bool IsJapaneseBonusDisk => Version == GameVersion.R;
 
-    private readonly string[] TrainerNames;
+    private readonly ReadOnlyMemory<string> TrainerNames;
     public ushort Species { get; }
     public byte Level { get; }
     public required byte Location { get; init; }
@@ -29,7 +29,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public required ushort TID16 { get; init; }
     public required byte OriginalTrainerGender { get; init; }
 
-    public EncounterGift3Colo(ushort species, byte level, string[] trainers, GameVersion game)
+    public EncounterGift3Colo(ushort species, byte level, ReadOnlyMemory<string> trainers, GameVersion game)
     {
         Species = species;
         Level = level;
@@ -63,7 +63,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
             OriginalTrainerGender = OriginalTrainerGender,
             ID32 = TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -159,7 +159,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if ((uint)language >= TrainerNames.Length)
             return false;
 
-        var expect = TrainerNames[language].AsSpan();
+        var expect = TrainerNames.Span[language].AsSpan();
         if (pk is CK3 && expect.SequenceEqual(trainer))
             return true; // not yet transferred to mainline Gen3
 

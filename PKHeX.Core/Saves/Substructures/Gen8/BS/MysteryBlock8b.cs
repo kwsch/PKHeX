@@ -113,10 +113,11 @@ public sealed class MysteryBlock8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV
             result[i] = GetFlag(i);
         return result;
     }
-    private void SetFlags(IReadOnlyList<bool> value)
+
+    private void SetFlags(ReadOnlySpan<bool> value)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, FlagSize);
-        for (int i = 0; i < value.Count; i++)
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, FlagSize);
+        for (int i = 0; i < value.Length; i++)
             SetFlag(i, value[i]);
     }
     #endregion

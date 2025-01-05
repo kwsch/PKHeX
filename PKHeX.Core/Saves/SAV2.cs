@@ -29,13 +29,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override PersonalTable2 Personal { get; }
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GSC;
 
-    public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
-    {
-        int gen = f[^1] - 0x30;
-        if (Korean)
-            return gen == 2;
-        return gen is 1 or 2;
-    });
+    public override IReadOnlyList<string> PKMExtensions => Korean ? ["pk2"]
+        : EntityFileExtension.GetExtensionsAtOrBelow(2);
 
     public SAV2(GameVersion version = GameVersion.C, LanguageID language = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
     {
@@ -237,7 +232,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV2 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
+    protected override SAV2 CloneInternal() => new(GetFinalData()[..], Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;
