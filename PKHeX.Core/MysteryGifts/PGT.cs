@@ -289,7 +289,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.Ability = (int)Core.Ability.Hydration;
         pk4.FatefulEncounter = true;
         pk4.Ball = (int)Core.Ball.Poke;
-        pk4.Version = GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
+        pk4.Version = trainer.Version.IsValidSavedVersion() && GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
         var lang = trainer.Language is < (int)LanguageID.Korean and not (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
         pk4.Language = lang;
 
@@ -432,18 +432,29 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     private static bool IsG4ManaphyPIDValid(PIDType val, PKM pk)
     {
-        // Unhatched: Can't trigger ARNG, so it must always be Method 1
-        if (pk.IsEgg)
-            return val == PIDType.Method_1;
-
-        // Hatching: Code checks if the TID/SID yield a shiny, and re-roll until not shiny.
-        // However, the TID/SID reference is stale (original OT, not hatching OT), so it's fallible.
-        // Hatched: Can't be shiny for an un-traded egg.
-        if (val == PIDType.Method_1)
+        // Can trigger ARNG immediately on receipt, but only if it was shiny.
+        // Can trigger ARNG on hatch, but only if it was un-traded.
+        if (val is PIDType.Method_1)
+        {
+            if (pk.IsEgg)
+                return !pk.IsShiny;
             return pk.WasTradedEgg || !pk.IsShiny;
+        }
 
-        // Hatched when the egg was shiny: PID needs to be from the ARNG.
-        return val == PIDType.G4MGAntiShiny;
+        if (val is not PIDType.G4MGAntiShiny)
+            return false;
+
+        // Un-hatched Traded eggs will retain the recipient OT data, and must still match.
+        // Hatched Traded eggs can be disassociated from the original trainer data.
+        if (pk is { IsEgg: false, WasTradedEgg: true })
+            return true; // don't bother checking if it is shiny or not; game doesn't re-roll if it was traded.
+
+        // To be anti-shiny, it must be shiny for the current OT, or a traded egg.
+        var pid = pk.PID;
+        pid = ARNG.Prev(pid);
+        var tsv = (pk.TID16 ^ pk.SID16) >> 3;
+        var psv = ((pid & 0xFFFF) ^ (pid >> 16)) >> 3;
+        return tsv == psv;
     }
 }
 
