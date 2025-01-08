@@ -217,7 +217,7 @@ public sealed record EncounterTera9
 
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk, init, param, criteria);
-        if (!success)
+        if (!success && !this.TryApply32(pk, init, param, criteria.WithoutIVs()))
             this.TryApply32(pk, init, param, EncounterCriteria.Unrestricted);
     }
     #endregion

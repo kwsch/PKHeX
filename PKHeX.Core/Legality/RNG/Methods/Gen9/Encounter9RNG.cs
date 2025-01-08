@@ -32,7 +32,7 @@ public static class Encounter9RNG
         return false;
     }
 
-    public static bool TryApply64<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria, bool ignoreIVs)
+    public static bool TryApply64<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
         where TEnc : ISpeciesForm, IGemType
     {
         var rand = new Xoroshiro128Plus(init);
@@ -40,7 +40,7 @@ public static class Encounter9RNG
         for (int ctr = 0; ctr < maxCtr; ctr++)
         {
             ulong seed = rand.Next(); // fake cryptosecure
-            if (!GenerateData(pk, param, criteria, seed, ignoreIVs))
+            if (!GenerateData(pk, param, criteria, seed))
                 continue;
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);

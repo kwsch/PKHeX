@@ -55,6 +55,16 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         HiddenPowerType = -1;
     }
 
+    public EncounterCriteria WithoutIVs() => this with
+    {
+        IV_HP = RandomIV,
+        IV_ATK = RandomIV,
+        IV_DEF = RandomIV,
+        IV_SPA = RandomIV,
+        IV_SPD = RandomIV,
+        IV_SPE = RandomIV,
+    };
+
     public bool IsSatisfiedHiddenPower(uint iv32) => HiddenPower.GetType(iv32) == HiddenPowerType;
 
     private const sbyte RandomIV = -1;
