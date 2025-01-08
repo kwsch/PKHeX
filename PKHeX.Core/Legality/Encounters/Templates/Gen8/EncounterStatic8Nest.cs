@@ -113,7 +113,10 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         } while (++ctr < max);
 
         if (ctr == max) // fail
-            while (!TryApply(pk, seed = rand.Next(), iv, param, EncounterCriteria.Unrestricted)) { }
+        {
+            if (!TryApply(pk, seed = rand.Next(), iv, param, criteria.WithoutIVs()))
+                while (!TryApply(pk, seed = rand.Next(), iv, param, EncounterCriteria.Unrestricted)) { }
+        }
 
         FinishCorrelation(pk, seed);
         if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature && criteria.Nature.IsMint())

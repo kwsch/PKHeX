@@ -146,9 +146,9 @@ public sealed record EncounterStatic9(GameVersion Version)
             Ability, Shiny);
 
         ulong init = Util.Rand.Rand64();
-        var success = this.TryApply64(pk, init, param, criteria, IVs.IsSpecified);
-        if (!success)
-            this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted, IVs.IsSpecified);
+        var success = this.TryApply64(pk, init, param, criteria);
+        if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
+            this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
         if (IVs.IsSpecified)
         {
             pk.IV_HP = IVs.HP;

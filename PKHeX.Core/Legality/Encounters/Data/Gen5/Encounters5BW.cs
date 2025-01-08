@@ -170,13 +170,13 @@ public static class Encounters5BW
     [
         new(B) { Species = 643, Level = 50, Location = 045, Shiny = Shiny.Never }, // Reshiram @ N's Castle
         new(B) { Species = 643, Level = 50, Location = 039, Shiny = Shiny.Never }, // Reshiram @ Dragonspiral Tower
-        new(B) { Roaming = true, Species = 641, Level = 40, Location = 25 }, // Tornadus
+        new(B) { IsRoaming = true, Species = 641, Level = 40, Location = 25 }, // Tornadus
     ];
     public static readonly EncounterStatic5[] StaticW =
     [
         new( W) { Species = 644, Level = 50, Location = 045, Shiny = Shiny.Never }, // Zekrom @ N's Castle
         new( W) { Species = 644, Level = 50, Location = 039, Shiny = Shiny.Never }, // Zekrom @ Dragonspiral Tower
-        new( W) { Roaming = true, Species = 642, Level = 40, Location = 25 }, // Thundurus
+        new( W) { IsRoaming = true, Species = 642, Level = 40, Location = 25 }, // Thundurus
     ];
 
     #endregion

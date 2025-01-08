@@ -300,7 +300,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         return this.IsWithinStartEnd(stamp);
     }
 
-    private bool IsFormArgIncorrect(ISpeciesForm pk) => Species switch
+    private bool IsFormArgIncorrect<T>(T pk) where T : ISpeciesForm => Species switch
     {
         // Evolved without Form Argument changing from default
         (int)Yamask     when pk.Species != Species && Form == 1 => pk is IFormArgument { FormArgument: 0 },

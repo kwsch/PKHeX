@@ -22,9 +22,9 @@ internal static class Encounters3FRLG
 
     public static readonly EncounterStatic3[] StaticFRLG =
     [
-        new(243, 50, FRLG) { Roaming = true, Location = 101 }, // Raikou
-        new(244, 50, FRLG) { Roaming = true, Location = 101 }, // Entei
-        new(245, 50, FRLG) { Roaming = true, Location = 101 }, // Suicune
+        new(243, 50, FRLG) { IsRoaming = true, Location = 101 }, // Raikou
+        new(244, 50, FRLG) { IsRoaming = true, Location = 101 }, // Entei
+        new(245, 50, FRLG) { IsRoaming = true, Location = 101 }, // Suicune
 
         // Starters @ Pallet Town
         new(001, 05, FRLG) { FixedBall = Ball.Poke, Location = 088 }, // Bulbasaur

@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Static Encounter
 /// </summary>
-public sealed record EncounterStatic3Colo(ushort Species, byte Level)
+public sealed record EncounterStarter3Colo(ushort Species, byte Level)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IFixedGender, IRandomCorrelation, IMoveset
 {
     public byte Generation => 3;
@@ -27,8 +27,6 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-
-    public bool IsColoStarter => Species is (ushort)Core.Species.Espeon or (ushort)Core.Species.Umbreon;
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -57,7 +55,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        SetPINGA(pk, criteria, pi);
+        SetPINGA(pk, criteria);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
@@ -69,19 +67,24 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
 
     private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(CK3 pk, EncounterCriteria criteria)
     {
-        if (MethodCXD.SetFromTrainerIDStarter(pk, criteria, pi, pk.TID16, pk.SID16))
-            return;
-
-        var gender = criteria.GetGender(Gender, pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        do
+        // Prefer IVs if requested, rather than Trainer Matching.
+        if (criteria.IsSpecifiedIVsAll())
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-        } while (Shiny == Shiny.Never && pk.IsShiny);
+            bool valid = Species is (ushort)Core.Species.Umbreon
+                ? MethodCXD.SetStarterFirstFromIVs(pk, criteria)
+                : MethodCXD.SetStarterSecondFromIVs(pk, criteria);
+            if (valid)
+                return;
+        }
+        // Fall back to Trainer ID matching.
+        if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
+            return;
+        // Fall back to generating a random PID.
+        MethodCXD.SetStarterFromTrainerID(pk, EncounterCriteria.Unrestricted, pk.TID16, pk.SID16);
     }
+
     #endregion
 
     #region Matching
@@ -142,12 +145,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
-    {
-        if (IsColoStarter)
-            return type is PIDType.CXD_ColoStarter;
-        return type is PIDType.CXD;
-    }
+    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD_ColoStarter;
 
-    public PIDType GetSuggestedCorrelation() => PIDType.CXD;
+    public PIDType GetSuggestedCorrelation() => PIDType.CXD_ColoStarter;
 }

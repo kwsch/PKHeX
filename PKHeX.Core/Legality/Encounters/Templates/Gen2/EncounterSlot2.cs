@@ -89,13 +89,16 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             // Form is only Unown and is derived from IVs.
             CurrentLevel = LevelMin,
             OriginalTrainerFriendship = pi.BaseFriendship,
-            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
+            DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
             Language = lang,
             OriginalTrainerName = tr.OT,
             TID16 = tr.TID16,
         };
         pk.SetNotNicknamed(lang);
+        if (criteria.Shiny.IsShiny())
+            pk.SetShiny();
 
         if (Version == GameVersion.C)
         {

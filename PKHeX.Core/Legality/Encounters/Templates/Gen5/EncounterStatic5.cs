@@ -8,7 +8,7 @@ public sealed record EncounterStatic5(GameVersion Version)
 {
     public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
-    public bool Roaming { get; init; }
+    public bool IsRoaming { get; init; }
     ushort ILocation.Location => Location;
     ushort ILocation.EggLocation => EggLocation;
     public bool IsShiny => false;
@@ -30,7 +30,7 @@ public sealed record EncounterStatic5(GameVersion Version)
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public bool IsWildCorrelationPID => !Roaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle && !Gift && Ability != AbilityPermission.OnlyHidden;
+    public bool IsWildCorrelationPID => !IsRoaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle && !Gift && Ability != AbilityPermission.OnlyHidden;
 
     #region Generating
 
@@ -163,7 +163,7 @@ public sealed record EncounterStatic5(GameVersion Version)
         var met = pk.MetLocation;
         if (IsEgg)
             return true;
-        if (!Roaming)
+        if (!IsRoaming)
             return met == Location;
         return IsRoamerMet(met);
     }

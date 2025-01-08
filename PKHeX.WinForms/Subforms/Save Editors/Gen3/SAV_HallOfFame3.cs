@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms;
 
@@ -12,6 +13,7 @@ public partial class SAV_HallOfFame3 : Form
     private readonly HallFame3Entry[] Fame;
     private int prevEntry;
     private int prevMember;
+    private bool Loading;
 
     public SAV_HallOfFame3(SAV3 sav)
     {
@@ -20,31 +22,22 @@ public partial class SAV_HallOfFame3 : Form
         SAV = (SAV3)(Origin = sav).Clone();
         Fame = HallFame3Entry.GetEntries(SAV);
 
-        TB_PID.MaxLength = 8;
-        TB_TID.MaxLength = TB_SID.MaxLength = 5;
-        TB_Nickname.MaxLength = 10;
-        TB_PID.CharacterCasing = CharacterCasing.Upper;
-
-        TB_TID.KeyPress += (_, e) => { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true; };
-        TB_TID.TextChanged += (_, _) =>
-        {
-            if (TB_TID.Text.Length == 0) TB_TID.Text = "00000";
-            if (Convert.ToInt32(TB_TID.Text) > 65535) TB_TID.Text = "65535";
-        };
-        TB_SID.KeyPress += (_, e) => { if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true; };
-        TB_SID.TextChanged += (_, _) =>
-        {
-            if (TB_SID.Text.Length == 0) TB_SID.Text = "00000";
-            if (Convert.ToInt32(TB_SID.Text) > 65535) TB_SID.Text = "65535";
-        };
-        TB_PID.KeyPress += (_, e) => { if (!char.IsControl(e.KeyChar) && !Uri.IsHexDigit(e.KeyChar)) e.Handled = true; };
-
-        LB_Entries.InitializeBinding();
         LB_Entries.DataSource = Enumerable.Range(0, 50).ToList();
         var filtered = GameInfo.FilteredSources;
         CB_Species.InitializeBinding();
         CB_Species.DataSource = new BindingSource(filtered.Species.ToList(), string.Empty);
 
+        LB_Entries.SelectedIndex = 0;
+        NUD_Members.Value = 0;
+        var pk = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
+        SetField(pk);
+        UpdateSprite();
+
+        TB_TID.TextChanged += (_, _) => ValidateIDs();
+        TB_SID.TextChanged += (_, _) => ValidateIDs();
+        TB_PID.TextChanged += (_, _) => ValidateIDs();
+        TB_Nickname.Click += ClickNickname;
+        CB_Species.SelectedValueChanged += (_, _) => UpdateSprite();
         NUD_Members.ValueChanged += (_, _) =>
         {
             UpdatePKM(Fame[prevEntry].Team[prevMember]);
@@ -52,6 +45,7 @@ public partial class SAV_HallOfFame3 : Form
             SetField(pkm);
             prevMember = (int)NUD_Members.Value;
             prevEntry = LB_Entries.SelectedIndex;
+            UpdateSprite();
         };
 
         LB_Entries.SelectedIndexChanged += (_, _) =>
@@ -62,18 +56,14 @@ public partial class SAV_HallOfFame3 : Form
             SetField(pkm);
             prevMember = (int)NUD_Members.Value;
             prevEntry = LB_Entries.SelectedIndex;
+            UpdateSprite();
         };
-
-        LB_Entries.SelectedIndex = 0;
-        NUD_Members.Value = 0;
-        var pk = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
-        SetField(pk);
     }
 
     private void ClearFields()
     {
-        TB_TID.Text = TB_SID.Text = "00000";
-        TB_PID.Text = "00000000";
+        TB_TID.Text = TB_SID.Text = "0";
+        TB_PID.Text = "0";
         TB_Nickname.Text = string.Empty;
         NUD_Level.Value = 0;
         CB_Species.SelectedIndex = 0;
@@ -81,27 +71,25 @@ public partial class SAV_HallOfFame3 : Form
 
     private void SetField(HallFame3PKM pk)
     {
-        if (pk.Species == 0)
-        {
-            ClearFields();
-            return;
-        }
+        Loading = true;
         TB_TID.Text = pk.TID16.ToString("00000");
         TB_SID.Text = pk.SID16.ToString("00000");
         TB_PID.Text = pk.PID.ToString("X8");
         TB_Nickname.Text = pk.Nickname;
         NUD_Level.Value = pk.Level;
-        CB_Species.SelectedValue = (int)(pk.Species);
+        CB_Species.SelectedValue = (int)pk.Species;
+        Loading = false;
     }
 
     private void UpdatePKM(HallFame3PKM pk)
     {
-        pk.TID16 = Convert.ToInt32(TB_TID.Text);
-        pk.SID16 = Convert.ToInt32(TB_SID.Text);
-        pk.PID = Convert.ToUInt32(TB_PID.Text, 16);
-        pk.Nickname = TB_Nickname.Text;
+        pk.TID16 = Convert.ToUInt16(TB_TID.Text);
+        pk.SID16 = Convert.ToUInt16(TB_SID.Text);
+        pk.PID = Util.GetHexValue(TB_PID.Text);
+        if (pk.Nickname != TB_Nickname.Text) // preserve trash
+            pk.Nickname = TB_Nickname.Text;
         pk.Level = (int)NUD_Level.Value;
-        pk.Species = Convert.ToUInt16(CB_Species.SelectedValue);
+        pk.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -113,5 +101,63 @@ public partial class SAV_HallOfFame3 : Form
         HallFame3Entry.SetEntries(SAV, Fame);
         Origin.CopyChangesFrom(SAV);
         Close();
+    }
+
+    private void ValidateIDs()
+    {
+        var pid = Util.GetHexValue(TB_PID.Text);
+        if (pid.ToString("X") != TB_PID.Text && pid.ToString("X8") != TB_PID.Text)
+            TB_PID.Text = pid.ToString("X8");
+
+        var tid = Util.ToUInt32(TB_TID.Text);
+        if (tid > ushort.MaxValue)
+            tid = ushort.MaxValue;
+        if (tid.ToString() != TB_TID.Text)
+            TB_TID.Text = tid.ToString();
+
+        var sid = Util.ToUInt32(TB_SID.Text);
+        if (sid > ushort.MaxValue)
+            sid = ushort.MaxValue;
+        if (sid.ToString() != TB_SID.Text)
+            TB_SID.Text = sid.ToString();
+
+        CHK_Shiny.Checked = ShinyUtil.GetIsShiny((sid << 16) | tid, pid, 8);
+        UpdateSprite();
+    }
+
+    private void UpdateSprite()
+    {
+        if (Loading)
+            return;
+
+        var entry = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
+        SetField(entry);
+        var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
+        PB_Sprite.Image = SpriteUtil.GetSprite(entry.Species, entry.DisplayForm(SAV.Version), 0, 0, 0, false, shiny, EntityContext.Gen3);
+    }
+
+    private void B_Clear_Click(object sender, EventArgs e) => ClearFields();
+
+    private void ClickNickname(object? sender, EventArgs e)
+    {
+        if (sender is not TextBox tb)
+            return;
+
+        // Special Character Form
+        if (ModifierKeys != Keys.Control)
+            return;
+
+        var pk = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
+        if (tb.Text != pk.Nickname) // preserve trash
+            pk.Nickname = tb.Text;
+
+        var nicktrash = pk.NicknameTrash;
+        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
+        d.ShowDialog();
+        tb.Text = d.FinalString;
+        d.FinalBytes.CopyTo(nicktrash);
+
+        if (tb.Text != pk.Nickname) // preserve trash
+            tb.Text = pk.Nickname;
     }
 }

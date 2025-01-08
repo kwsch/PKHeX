@@ -55,7 +55,7 @@ public sealed class Mail2 : MailDetail
     };
 
     #region Offsets
-    public static int GetMailboxOffset(int language) => 0x600 + ((COUNT_PARTY * 2) * GetMailSize(language));
+    public static int GetMailboxOffset(int language) => 0x600 + (COUNT_PARTY * 2 * GetMailSize(language));
 
     private static int GetMailOffset(int index, int size)
     {
@@ -75,7 +75,7 @@ public sealed class Mail2 : MailDetail
     {
         if ((uint)index >= COUNT_MAILBOX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (index * size) + (0x600 + ((COUNT_PARTY * 2) * size) + 1);
+        return (index * size) + (0x600 + (COUNT_PARTY * 2 * size) + 1);
     }
 
     public static int GetMailboxOffsetStadium2(int language) => SAV2Stadium.MailboxBlockOffset(language) + 1;

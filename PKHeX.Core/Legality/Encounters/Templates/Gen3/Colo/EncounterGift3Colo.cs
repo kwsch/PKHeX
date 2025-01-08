@@ -21,7 +21,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public bool IsFixedTrainer => true;
     public bool IsJapaneseBonusDisk => Version == GameVersion.R;
 
-    private readonly string[] TrainerNames;
+    private readonly ReadOnlyMemory<string> TrainerNames;
     public ushort Species { get; }
     public byte Level { get; }
     public required byte Location { get; init; }
@@ -29,7 +29,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public required ushort TID16 { get; init; }
     public required byte OriginalTrainerGender { get; init; }
 
-    public EncounterGift3Colo(ushort species, byte level, string[] trainers, GameVersion game)
+    public EncounterGift3Colo(ushort species, byte level, ReadOnlyMemory<string> trainers, GameVersion game)
     {
         Species = species;
         Level = level;
@@ -63,7 +63,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
             OriginalTrainerGender = OriginalTrainerGender,
             ID32 = TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -86,18 +86,11 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
-    private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.IsSpecifiedIVs() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, Shiny == Shiny.Never))
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: true))
             return;
-
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        do
-        {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-        } while (Shiny == Shiny.Never && pk.IsShiny);
+        MethodCXD.SetRandom(pk, criteria, pi.Gender);
     }
     #endregion
 
@@ -166,7 +159,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if ((uint)language >= TrainerNames.Length)
             return false;
 
-        var expect = TrainerNames[language].AsSpan();
+        var expect = TrainerNames.Span[language].AsSpan();
         if (pk is CK3 && expect.SequenceEqual(trainer))
             return true; // not yet transferred to mainline Gen3
 

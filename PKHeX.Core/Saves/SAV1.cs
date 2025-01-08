@@ -30,11 +30,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override ReadOnlySpan<ushort> HeldItems => [];
 
-    public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
-    {
-        int gen = f[^1] - 0x30;
-        return gen is 1 or 2;
-    });
+    public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsAtOrBelow(2);
 
     public SAV1(GameVersion version = GameVersion.RBY, LanguageID language = LanguageID.English) : base(SaveUtil.SIZE_G1RAW)
     {

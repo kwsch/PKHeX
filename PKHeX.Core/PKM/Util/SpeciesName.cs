@@ -13,15 +13,15 @@ public static class SpeciesName
     /// <summary>
     /// Species name lists indexed by the <see cref="LanguageID"/> value.
     /// </summary>
-    private static readonly IReadOnlyList<IReadOnlyList<string>> SpeciesLang =
+    private static readonly string[][] SpeciesLang =
     [
-        Util.GetSpeciesList("ja"), // 0 (unused, invalid)
+        [], // 0 (unused, invalid)
         Util.GetSpeciesList("ja"), // 1
         Util.GetSpeciesList("en"), // 2
         Util.GetSpeciesList("fr"), // 3
         Util.GetSpeciesList("it"), // 4
         Util.GetSpeciesList("de"), // 5
-        Util.GetSpeciesList("es"), // 6 (reserved for Gen3 KO?, unused)
+        [], // 6 (reserved for Gen3 KO?, unused)
         Util.GetSpeciesList("es"), // 7
         Util.GetSpeciesList("ko"), // 8
         Util.GetSpeciesList("zh-Hans"), // 9 Simplified
@@ -29,48 +29,40 @@ public static class SpeciesName
     ];
 
     /// <summary>
-    /// Gets the maximum valid species ID stored in the <see cref="SpeciesLang"/> list.
-    /// </summary>
-    public static readonly ushort MaxSpeciesID = (ushort)(SpeciesLang[0].Count - 1);
-
-    /// <summary>
     /// Egg name list indexed by the <see cref="LanguageID"/> value.
     /// </summary>
     /// <remarks>Indexing matches <see cref="SpeciesLang"/>.</remarks>
-    private static readonly string[] EggNames =
-    [
-        "タマゴ",
-        "タマゴ",
-        "Egg",
-        "Œuf",
-        "Uovo",
-        "Ei",
-        "Huevo",
-        "Huevo",
-        "알",
-        "蛋",
-        "蛋",
-    ];
+    private static string GetEggName(int language) => language switch
+    {
+        1 => "タマゴ",
+        2 => "Egg",
+        3 => "Œuf",
+        4 => "Uovo",
+        5 => "Ei",
+
+        7 => "Huevo",
+        8 => "알",
+        9 => "蛋",
+        10 => "蛋",
+        _ => string.Empty,
+    };
 
     /// <summary>
     /// <see cref="PKM.Nickname"/> to <see cref="Species"/> table for all <see cref="LanguageID"/> values.
     /// </summary>
-    private static readonly Dictionary<int, ushort>[] SpeciesDict = GetDictionary(SpeciesLang);
+    private static readonly Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[] SpeciesDict = GetDictionary(SpeciesLang);
 
-    private static Dictionary<int, ushort>[] GetDictionary(IReadOnlyList<IReadOnlyList<string>> names)
+    private static Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[] GetDictionary(string[][] names)
     {
-        var result = new Dictionary<int, ushort>[names.Count];
+        var result = new Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[names.Length];
         for (int i = 0; i < result.Length; i++)
         {
             var speciesList = names[i];
-            var dict = new Dictionary<int, ushort>(speciesList.Count - 1);
-            for (ushort species = 1; species < speciesList.Count; species++)
-            {
-                var name = speciesList[species];
-                var hash = string.GetHashCode(name);
-                dict.Add(hash, species);
-            }
-            result[i] = dict;
+            var capacity = Math.Max(speciesList.Length - 1, 0);
+            var dict = new Dictionary<string, ushort>(capacity);
+            for (ushort species = 1; species < speciesList.Length; species++)
+                dict[speciesList[species]] = species;
+            result[i] = dict.GetAlternateLookup<ReadOnlySpan<char>>();
         }
         return result;
     }
@@ -84,14 +76,14 @@ public static class SpeciesName
     /// <remarks>Should only be used externally for message displays; for accurate in-game names use <see cref="GetSpeciesNameGeneration"/>.</remarks>
     public static string GetSpeciesName(ushort species, int language)
     {
-        if ((uint)language >= SpeciesLang.Count)
+        if ((uint)language >= SpeciesLang.Length)
             return string.Empty;
 
         if (species == 0)
-            return EggNames[language];
+            return GetEggName(language);
 
         var arr = SpeciesLang[language];
-        if (species >= arr.Count)
+        if (species >= arr.Length)
             return string.Empty;
 
         return arr[species];
@@ -134,10 +126,10 @@ public static class SpeciesName
     /// </summary>
     /// <param name="language">Language ID of the Pokémon</param>
     /// <param name="generation">Generation specific formatting option</param>
-    public static string GetEggName(int language, byte generation = LatestGeneration) => generation switch
+    public static string GetEggName(int language, byte generation) => generation switch
     {
         <= 4 => GetEggName1234(0, language, generation),
-        _ => (uint)language >= EggNames.Length ? string.Empty : EggNames[language],
+        _ => GetEggName(language),
     };
 
     private static string GetSpeciesName1234(ushort species, int language, byte generation)
@@ -328,14 +320,12 @@ public static class SpeciesName
     /// <returns>True if the species was found, False if not</returns>
     public static bool TryGetSpecies(ReadOnlySpan<char> speciesName, int language, out ushort species)
     {
-        // Eventually we'll refactor this once Dictionary<string, ushort> supports ReadOnlySpan<char> fetching in NET 9 runtime/#27229
-        var hash = string.GetHashCode(speciesName);
-        var dict = SpeciesDict[language];
-        if (!dict.TryGetValue(hash, out species))
-            return false;
-        // Double-check the species name
-        var arr = SpeciesLang[language];
-        var expect = arr[species];
-        return speciesName.SequenceEqual(expect);
+        return SpeciesDict[language].TryGetValue(speciesName, out species);
+    }
+
+    /// <inheritdoc cref="TryGetSpecies(ReadOnlySpan{char}, int, out ushort)"/>
+    public static bool TryGetSpecies(string speciesName, int language, out ushort species)
+    {
+        return SpeciesDict[language].TryGetValue(speciesName, out species);
     }
 }

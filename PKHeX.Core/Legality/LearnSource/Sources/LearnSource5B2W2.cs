@@ -69,7 +69,10 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
+    private static bool GetIsEnhancedTutor<T1, T2>(T1 evo, T2 current, ushort move, LearnOption option)
+        where T1 : ISpeciesForm
+        where T2 : ISpeciesForm
+        => evo.Species switch
     {
         (int)Species.Keldeo => move is (int)Move.SecretSword,
         (int)Species.Meloetta => move is (int)Move.RelicSong,
@@ -101,7 +104,7 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
         return info.GetIsLearnTM(index);
     }
 
-    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM _, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;

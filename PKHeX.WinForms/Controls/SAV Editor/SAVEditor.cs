@@ -1223,7 +1223,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
         B_OpenBoxLayout.Visible = sav is IBoxDetailName;
         B_OpenWondercards.Visible = sav is IMysteryGiftStorageProvider;
-        B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7 or SAV3 or SAV1;
+        B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7 or SAV3 { IsMisconfiguredSize: false } or SAV1;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;
         B_OpenPokedex.Visible = sav.HasPokeDex;
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented

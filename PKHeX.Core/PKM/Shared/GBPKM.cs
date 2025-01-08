@@ -139,7 +139,7 @@ public abstract class GBPKM : PKM
     public sealed override ushort SID16 { get => 0; set { } }
     #endregion
 
-    public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
+    public sealed override bool IsShiny => ShinyUtil.GetIsShinyGB(DV16);
     private int HPBitValPower => ((IV_ATK & 8) >> 0) | ((IV_DEF & 8) >> 1) | ((IV_SPE & 8) >> 2) | ((IV_SPC & 8) >> 3);
     public sealed override int HPPower => (((5 * HPBitValPower) + (IV_SPC & 3)) >> 1) + 31;
 

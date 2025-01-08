@@ -25,7 +25,7 @@ public static class FormConverter
         byte generation = context.Generation();
 
         // Mega List
-        if (context.IsMegaGeneration() && IsFormListSingleMega(species))
+        if (context.IsMegaContext() && IsFormListSingleMega(species))
             return GetMegaSingle(types, forms);
 
         if (context is Gen7 && FormInfo.HasTotemForm(species))
@@ -45,7 +45,7 @@ public static class FormConverter
         };
     }
 
-    private static bool IsMegaGeneration(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
+    private static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
 
     private static readonly string[] EMPTY = [string.Empty];
     private const string Starter = nameof(Starter);
@@ -55,7 +55,7 @@ public static class FormConverter
         byte generation = context.Generation();
         return (Species)species switch
         {
-            Charizard or Mewtwo when context.IsMegaGeneration() => GetMegaXY(types, forms),
+            Charizard or Mewtwo when context.IsMegaContext() => GetMegaXY(types, forms),
             Eevee when context is Gen7b =>
             [
                 types[0], // Normal
@@ -535,7 +535,7 @@ public static class FormConverter
         {
             Meowth when generation >= 8 => [
                 types[0],
-                forms[810], // Alolan
+                forms[Alolan], // Alolan
                 forms[Galarian], // Galarian
             ],
 
@@ -551,7 +551,7 @@ public static class FormConverter
                 or Exeggutor
                 or Marowak => [
                     types[0],
-                    forms[810], // Alolan
+                    forms[Alolan], // Alolan
                 ],
             _ => EMPTY,
         };
@@ -717,7 +717,7 @@ public static class FormConverter
         (int)Raticate or (int)Marowak =>
         [
             types[0], // Normal
-            forms[810], // Alolan
+            forms[Alolan], // Alolan
             forms[1007], // Large
         ],
         _ =>
@@ -767,7 +767,7 @@ public static class FormConverter
         return
         [
             types[0], // Normal
-            forms[804], // Mega
+            forms[Mega], // Mega
         ];
     }
 
@@ -776,8 +776,8 @@ public static class FormConverter
         return
         [
             types[0], // Normal
-            forms[805], // Mega X
-            forms[806], // Mega Y
+            forms[MegaX], // Mega X
+            forms[MegaY], // Mega Y
         ];
     }
 
@@ -839,10 +839,16 @@ public static class FormConverter
         return
         [
             types[0], // Normal
-            forms[804], // Mega
+            forms[Mega], // Mega
             forms[Galarian], // Galarian
         ];
     }
+
+    private const int Mega = 804;
+    private const int MegaX = 805;
+    private const int MegaY = 806;
+
+    private const int Alolan = 810;
 
     private const int Galarian = 1068;
     private const int Gigantamax = 1069;

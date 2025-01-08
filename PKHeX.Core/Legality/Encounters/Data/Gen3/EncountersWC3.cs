@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// Generation 3 <see cref="EncounterGift3"/> Gifts
 /// </summary>
 /// <remarks>
-/// Generation 3 has a wide range of PIDIV types and other restrictions, and was never consistently stored in raw bytes.
+/// Generation 3 has a wide range of PID/IV types and other restrictions, and was never consistently stored in raw bytes.
 /// Normally we'd just load the data from a binary, but without raw data... hard-code everything by hand.
 /// </remarks>
 internal static class EncountersWC3

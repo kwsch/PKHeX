@@ -72,7 +72,7 @@ public static class EncounterFinder
         {
             if (!info.FrameMatches) // if false, all valid RNG frame matches have already been consumed
                 info.Parse.Add(new CheckResult(ParseSettings.Settings.FramePattern.GetSeverity(info.Generation), CheckIdentifier.PID, LEncConditionBadRNGFrame));
-            else if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
+            else if (!info.PIDIVMatches) // if false, all valid PID/IV matches have already been consumed
                 info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, LPIDTypeMismatch));
         }
     }

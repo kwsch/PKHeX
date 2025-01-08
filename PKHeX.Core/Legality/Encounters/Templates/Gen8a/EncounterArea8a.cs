@@ -18,7 +18,6 @@ public enum SlotType8a : byte
 public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLocation
 {
     public EncounterSlot8a[] Slots { get; }
-    public GameVersion Version => GameVersion.PLA;
 
     private readonly byte[] Locations;
     public readonly SlotType8a Type;

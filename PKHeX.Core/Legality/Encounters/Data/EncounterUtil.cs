@@ -83,8 +83,32 @@ public static class EncounterUtil
     /// Gets a random DV16 value.
     /// </summary>
     /// <param name="rand">Random number generator to use</param>
+    /// <param name="isShiny">Optional Shiny flag to match</param>
+    /// <param name="type">Optional Hidden Power type to match</param>
     /// <returns>Value between 0 and 65535 (inclusive)</returns>
-    public static ushort GetRandomDVs(Random rand) => (ushort)rand.Next(ushort.MaxValue + 1);
+    public static ushort GetRandomDVs(Random rand, bool isShiny, sbyte type)
+    {
+        if (isShiny)
+        {
+            // If the DVs can be Shiny as well as match the Hidden Power type, return the Shiny DVs.
+            const ushort dv16 = 0x2AAA;
+            var modified = HiddenPower.SetTypeGB(type, dv16);
+            if (ShinyUtil.GetIsShinyGB(modified))
+                return modified;
+            // Fallback to a random DV if the Shiny DVs don't match the Hidden Power type.
+            // Requesting Hidden Power is more relevant for battle legality.
+        }
+        var result = (ushort)rand.Next(ushort.MaxValue + 1);
+        if (HiddenPower.IsInvalidType(type))
+            return result;
+
+        while (true)
+        {
+            if (HiddenPower.GetTypeGB(result) == type)
+                return result;
+            result = (ushort)rand.Next(ushort.MaxValue + 1);
+        }
+    }
 
     /// <summary>
     /// Mashes the IVs into a DV16 value.

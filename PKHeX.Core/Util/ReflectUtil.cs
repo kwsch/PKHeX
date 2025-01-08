@@ -40,7 +40,7 @@ public static class ReflectUtil
     {
         if (TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
             return pi.GetValue(obj, null);
-        return default;
+        return null;
     }
 
     public static bool SetValue(object obj, string name, object value)
@@ -197,9 +197,10 @@ public static class ReflectUtil
     {
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         var result = new Dictionary<string, T>(props.Length);
+        var requestType = typeof(T);
         foreach (var pi in props)
         {
-            if (!typeof(T).IsAssignableFrom(pi.PropertyType))
+            if (!requestType.IsAssignableFrom(pi.PropertyType))
                 continue;
 
             var name = pi.Name;

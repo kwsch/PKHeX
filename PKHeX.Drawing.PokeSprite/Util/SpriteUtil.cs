@@ -71,22 +71,22 @@ public static class SpriteUtil
         var shiny = ShinyExtensions.GetType(pk);
 
         var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Context);
-        if (pk is IShadowCapture {IsShadow: true})
+        if (pk is IShadowCapture { IsShadow: true })
         {
-            const int Lugia = (int)Species.Lugia;
-            if (pk.Species == Lugia) // show XD shadow sprite
+            const ushort Lugia = (int)Species.Lugia;
+            if (pk.Species is Lugia) // show XD shadow sprite
                 img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.SpriteItem, pk.IsEgg, shiny, pk.Context);
 
             GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
             var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
             return ImageUtil.LayerImage(glowImg, img, 0, 0);
         }
-        if (pk is IGigantamaxReadOnly { CanGigantamax: true})
+        if (pk is IGigantamaxReadOnly { CanGigantamax: true })
         {
             var gm = Resources.dyna;
             return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
         }
-        if (pk is IAlpha {IsAlpha: true})
+        if (pk is IAlphaReadOnly { IsAlpha: true })
         {
             var alpha = Resources.alpha_alt;
             return ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);

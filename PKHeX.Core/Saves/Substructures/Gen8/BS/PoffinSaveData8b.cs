@@ -24,7 +24,7 @@ public sealed class PoffinSaveData8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<S
     {
         if ((uint)index >= COUNT_POFFIN)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (index * Poffin8b.SIZE);
+        return index * Poffin8b.SIZE;
     }
 
     private Memory<byte> GetPoffinSpan(int index) => Raw.Slice(GetPoffinOffset(index), Poffin8b.SIZE);

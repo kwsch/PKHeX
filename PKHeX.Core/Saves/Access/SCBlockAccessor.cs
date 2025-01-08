@@ -111,7 +111,7 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
             block = array[index];
             return true;
         }
-        block = default;
+        block = null;
         return false;
     }
 

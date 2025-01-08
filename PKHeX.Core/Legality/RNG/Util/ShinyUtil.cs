@@ -34,4 +34,6 @@ public static class ShinyUtil
                 pid ^= 0x1000_0000;
         }
     }
+
+    public static bool GetIsShinyGB(ushort dv16) => ((dv16 & 0xFFF) == 0xAAA) && (((dv16 >> 12) & 2) != 0);
 }

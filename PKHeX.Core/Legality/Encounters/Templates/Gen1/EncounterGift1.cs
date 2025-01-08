@@ -111,7 +111,9 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
             CurrentLevel = LevelMin,
             Type1 = pi.Type1,
             Type2 = pi.Type2,
-            DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) : EncounterUtil.GetRandomDVs(rand),
+            DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs)
+                : criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
+                : EncounterUtil.GetRandomDVs(rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
             CatchRate = Trainer switch
             {
@@ -144,7 +146,6 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
             },
         };
         pk.SetNotNicknamed((int)lang);
-
         pk.SetMoves(Moves);
         pk.ResetPartyStats();
         return pk;

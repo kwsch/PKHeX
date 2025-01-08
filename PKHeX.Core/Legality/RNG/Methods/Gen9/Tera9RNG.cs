@@ -70,22 +70,18 @@ public static class Tera9RNG
             return type;
 
         var rand = new Xoroshiro128Plus(seed);
-        if (gem == GemType.Default)
-        {
-            var pivot = rand.NextInt(2);
-            return GetTeraTypeFromPersonal(species, form, pivot);
-        }
         if (gem == GemType.Random)
-        {
             return (byte)rand.NextInt(TeraTypeCount);
-        }
-        throw new ArgumentOutOfRangeException(nameof(gem), gem, null);
+        if (gem != GemType.Default)
+            throw new ArgumentOutOfRangeException(nameof(gem), gem, null);
+        var pivot = rand.NextInt(2);
+        return GetTeraTypeFromPersonal(species, form, pivot);
     }
 
     /// <summary>
     /// Checks if the original Tera Type matches either of the Personal Info types.
     /// </summary>
-    private static bool IsMatchType(IPersonalType pi, in byte original) => original == pi.Type1 || original == pi.Type2;
+    private static bool IsMatchType<T>(T pi, in byte original) where T : IPersonalType => original == pi.Type1 || original == pi.Type2;
 
     /// <summary>
     /// Checks if the original Tera Type matches the Personal Info type for the specified form.
@@ -102,7 +98,7 @@ public static class Tera9RNG
             ? IsMatchTeraTypePersonalAnyForm(species, original)
             : IsMatchTeraTypePersonal(species, form, original);
 
-    /// <inheritdoc cref="IsMatchType"/>
+    /// <inheritdoc cref="IsMatchType{T}"/>
     public static bool IsMatchTeraTypePersonal(in ushort species, in byte form, in byte original) => IsMatchType(PersonalTable.SV[species, form], original);
 
     /// <summary>

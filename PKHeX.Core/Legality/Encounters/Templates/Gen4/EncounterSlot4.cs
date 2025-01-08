@@ -88,12 +88,12 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         uint seed;
         if (hgss)
         {
-            if (!criteria.IsSpecifiedIVs() || !this.SetFromIVsK(pk, pi, criteria, out seed))
+            if (!criteria.IsSpecifiedIVsAll() || !this.SetFromIVsK(pk, pi, criteria, out seed))
                 seed = this.SetRandomK(pk, pi, criteria, Util.Rand32());
         }
         else
         {
-            if (!criteria.IsSpecifiedIVs() || !this.SetFromIVsJ(pk, pi, criteria, out seed))
+            if (!criteria.IsSpecifiedIVsAll() || !this.SetFromIVsJ(pk, pi, criteria, out seed))
                 seed = this.SetRandomJ(pk, pi, criteria, Util.Rand32());
         }
         if (Species == (int)Core.Species.Unown)

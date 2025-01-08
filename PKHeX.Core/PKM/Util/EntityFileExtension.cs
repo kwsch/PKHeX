@@ -16,7 +16,10 @@ public static class EntityFileExtension
     private const string ExtensionPA8 = "pa8";
     private const int CountExtra = 8;
 
-    public static IReadOnlyList<string> Extensions7b => [ExtensionPB7];
+    /// <summary>
+    /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
+    /// </summary>
+    private static string[] Extensions => GetExtensions();
 
     /// <summary>
     /// Gets an array of valid <see cref="PKM"/> file extensions.
@@ -89,4 +92,15 @@ public static class EntityFileExtension
             return 6;
         return (int)prefer;
     }
+
+    public static IReadOnlyList<string> Extensions7b => [ExtensionPB7];
+    public static IReadOnlyList<string> GetExtensionsAll() => Extensions;
+    public static IReadOnlyList<string> GetExtensionsHOME() => Extensions;
+    public static IReadOnlyList<string> GetExtensionsAtOrBelow(int specific)
+        => Array.FindAll(Extensions, f => IsAtOrBelow(f, specific));
+    public static IReadOnlyList<string> GetExtensionsAtOrBelow(int specific, string exclude)
+        => Array.FindAll(Extensions, f => IsAtOrBelow(f, specific) && !exclude.Contains(f));
+    private static bool IsAtOrBelow(ReadOnlySpan<char> ext, int specific)
+        => IsAtOrBelow(specific, ext[^1] - 0x30);
+    private static bool IsAtOrBelow(int specific, int gen) => gen <= specific;
 }

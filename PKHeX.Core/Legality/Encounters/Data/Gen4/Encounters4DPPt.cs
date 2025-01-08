@@ -28,8 +28,8 @@ internal static class Encounters4DPPt
         new(DPPt) { Species = 482, Level = 50, Location = 088, GroundTile = Cave }, // Azelf @ Valor Cavern
 
         // Roamers
-        new(DPPt) { Roaming = true, Location = 16, Species = 481, Level = 50, GroundTile = Grass | Water }, // Mesprit
-        new(DPPt) { Roaming = true, Location = 16, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
+        new(DPPt) { IsRoaming = true, Location = 16, Species = 481, Level = 50, GroundTile = Grass | Water }, // Mesprit
+        new(DPPt) { IsRoaming = true, Location = 16, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
     ];
 
     public static readonly EncounterStatic4[] StaticDP =
@@ -92,9 +92,9 @@ internal static class Encounters4DPPt
 
         new(Pt) { Species = 491, Level = 50, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island
         new(Pt) { Species = 492, Form = 0, Level = 30, Location = 063, FatefulEncounter = true }, // Shaymin @ Flower Paradise
-        new(Pt)   { Roaming = true, Location = 16, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
-        new(Pt)   { Roaming = true, Location = 16, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
-        new(Pt)   { Roaming = true, Location = 16, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
+        new(Pt) { IsRoaming = true, Location = 16, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
+        new(Pt) { IsRoaming = true, Location = 16, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
+        new(Pt) { IsRoaming = true, Location = 16, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
     ];
 
     public static readonly EncounterStatic4[] StaticD =
@@ -132,8 +132,8 @@ internal static class Encounters4DPPt
         new(323975579, 453, 22, 31) { Moves = new(310,207,426,389), SID16 = 41342, OTGender = 1, Location = 0052, Gender = 0, Ability = OnlySecond, FixedBall = Ball.Safari }, // Croagunk
         new(323977566, 456, 15, 35) { Moves = new(213,352,219,392), SID16 = 48348, OTGender = 1, Location = 0020, Gender = 1, Ability = OnlyFirst  }, // Finneon
         new(323975582, 459, 32, 41) { Moves = new(452,420,275,059), SID16 = 23360, OTGender = 1, Location = 0031, Gender = 0, Ability = OnlyFirst  }, // Snover
-        new(151, 50, 50) { Moves = new(235,216,095,100), SID16 = 59228, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12 }, // Mew
-        new(489, 01, 50) { Moves = new(447,240,156,057), SID16 = 09248, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, EggLocation = 3000 }, // Phione
+        new(151, 50, 50) { Moves = new(235,216,095,100), SID16 = 59228, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, Location = 3000 }, // Mew
+        new(489, 01, 50) { Moves = new(447,240,156,057), SID16 = 09248, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, Location = 3000, EggLocation = 3000 }, // Phione
     ];
 
     internal static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =

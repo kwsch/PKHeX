@@ -85,8 +85,8 @@ public static class ClassicEraRNG
     /// <returns>32-bit value containing the IVs (HABSCD, low->high).</returns>
     public static uint GetSequentialIVs(ref uint seed)
     {
-        var rand1 = LCRNG.Next16(ref seed);
-        var rand2 = LCRNG.Next16(ref seed);
+        var rand1 = LCRNG.Next15(ref seed);
+        var rand2 = LCRNG.Next15(ref seed);
         return (rand2 << 15) | rand1;
     }
 }

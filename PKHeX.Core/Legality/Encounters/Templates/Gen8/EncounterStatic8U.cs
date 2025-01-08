@@ -70,6 +70,6 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
         (int)LanguageID.Korean => "연구원",
         (int)LanguageID.ChineseS => "研究员",
         (int)LanguageID.ChineseT => "研究員",
-        _ => ReadOnlySpan<char>.Empty,
+        _ => [],
     };
 }

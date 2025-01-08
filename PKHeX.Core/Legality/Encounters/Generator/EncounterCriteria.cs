@@ -1,12 +1,13 @@
 using System;
 using static PKHeX.Core.AbilityPermission;
+using static PKHeX.Core.EncounterMutation;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Object that can be fed to a <see cref="IEncounterConvertible"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
+/// Settings that can be fed to a <see cref="IEncounterConvertible"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
 /// </summary>
-public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShinyPotential, ILevelRange
+public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShinyPotential, ILevelRange
 {
     /// <summary>
     /// Default criteria with no restrictions (random) for all fields.
@@ -15,92 +16,135 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
 
     /// <summary> End result's gender. </summary>
     /// <remarks> Leave as <see cref="Gender.Random"/> to not restrict gender. </remarks>
-    public Gender Gender { get; init; } = Gender.Random;
+    public Gender Gender { get; init; }
 
     /// <summary> End result's ability numbers permitted. </summary>
     /// <remarks> Leave as <see cref="Any12H"/> to not restrict ability. </remarks>
-    public AbilityPermission Ability { get; init; } = Any12H;
+    public AbilityPermission Ability { get; init; }
 
     /// <summary> End result's nature. </summary>
     /// <remarks> Leave as <see cref="Nature.Random"/> to not restrict nature. </remarks>
-    public Nature Nature { get; init; } = Nature.Random;
+    public Nature Nature { get; init; }
 
     /// <summary> End result's shininess. </summary>
     /// <remarks> Leave as <see cref="Shiny.Random"/> to not restrict shininess. </remarks>
     public Shiny Shiny { get; init; }
 
-    public sbyte IV_HP  { get; init; } = RandomIV;
-    public sbyte IV_ATK { get; init; } = RandomIV;
-    public sbyte IV_DEF { get; init; } = RandomIV;
-    public sbyte IV_SPA { get; init; } = RandomIV;
-    public sbyte IV_SPD { get; init; } = RandomIV;
-    public sbyte IV_SPE { get; init; } = RandomIV;
+    public sbyte IV_HP  { get; init; }
+    public sbyte IV_ATK { get; init; }
+    public sbyte IV_DEF { get; init; }
+    public sbyte IV_SPA { get; init; }
+    public sbyte IV_SPD { get; init; }
+    public sbyte IV_SPE { get; init; }
 
-    public byte LevelMin { get; set; }
-    public byte LevelMax { get; set; }
+    public byte LevelMin { get; init; }
+    public byte LevelMax { get; init; }
 
-    public sbyte TeraType { get; init; } = -1;
+    public sbyte HiddenPowerType { get; init; }
 
-    // unused
-    public sbyte HPType { get; init; } = -1;
+    /// <summary> Flexibility for the satisfaction of the criteria. </summary>
+    public EncounterMutation Mutations { get; init; }
 
-    private const int RandomIV = -1;
+    public EncounterCriteria()
+    {
+        Gender = Gender.Random;
+        Ability = Any12H;
+        Nature = Nature.Random;
 
-    public bool IsSpecifiedNature() => Nature != Nature.Random;
+        IV_HP = IV_ATK = IV_DEF = IV_SPA = IV_SPD = IV_SPE = RandomIV;
+        HiddenPowerType = -1;
+    }
+
+    public EncounterCriteria WithoutIVs() => this with
+    {
+        IV_HP = RandomIV,
+        IV_ATK = RandomIV,
+        IV_DEF = RandomIV,
+        IV_SPA = RandomIV,
+        IV_SPD = RandomIV,
+        IV_SPE = RandomIV,
+    };
+
+    public bool IsSatisfiedHiddenPower(uint iv32) => HiddenPower.GetType(iv32) == HiddenPowerType;
+
+    private const sbyte RandomIV = -1;
+
+    public bool IsSpecifiedHiddenPower() => HiddenPowerType != -1;
+    public bool IsSpecifiedNature() => Nature != Nature.Random || Mutations.IsComplexNature();
     public bool IsSpecifiedLevelRange() => LevelMax != 0;
-    public bool IsSpecifiedTeraType() => TeraType != -1;
 
-    public bool IsSpecifiedIVs() => IV_HP != RandomIV
-                                && IV_ATK != RandomIV
-                                && IV_DEF != RandomIV
-                                && IV_SPA != RandomIV
-                                && IV_SPD != RandomIV
-                                && IV_SPE != RandomIV;
+    public bool IsSpecifiedAbility() => Ability != Any12H;
 
-    public bool IsLevelRangeSatisfied(byte level) => LevelMin <= level && level <= LevelMax;
+    public bool IsSpecifiedIVsAll() => IV_HP != RandomIV
+                                   && IV_ATK != RandomIV
+                                   && IV_DEF != RandomIV
+                                   && IV_SPA != RandomIV
+                                   && IV_SPD != RandomIV
+                                   && IV_SPE != RandomIV;
+
+    public bool IsSpecifiedIVsAny(out int count) => (count = Convert.ToInt32(IV_HP  != RandomIV)
+                                                           + Convert.ToInt32(IV_ATK != RandomIV)
+                                                           + Convert.ToInt32(IV_DEF != RandomIV)
+                                                           + Convert.ToInt32(IV_SPA != RandomIV)
+                                                           + Convert.ToInt32(IV_SPD != RandomIV)
+                                                           + Convert.ToInt32(IV_SPE != RandomIV)) != 0;
+
+    public bool IsSatisfiedAbility(int index) => IsSatisfiedAbility(index, Ability);
+
+    private bool IsSatisfiedAbility(int index, AbilityPermission ability) => ability switch
+    {
+        Any12H     => true,
+        Any12      => index < 2  || Mutations.HasFlag(CanAbilityCapsule),
+        OnlyFirst  => index == 0 || Mutations.HasFlag(CanAbilityCapsule),
+        OnlySecond => index == 1 || Mutations.HasFlag(CanAbilityCapsule),
+        OnlyHidden => index == 2 || Mutations.HasFlag(CanAbilityPatch),
+        _ => throw new ArgumentOutOfRangeException(nameof(ability), ability, null),
+    };
+
+    public bool IsSatisfiedNature(Nature nature)
+    {
+        if (Mutations.HasFlag(AllowOnlyNeutralNature))
+            return nature.IsNeutral();
+        if (Nature == Nature.Random)
+            return true;
+        return nature == Nature || Mutations.HasFlag(CanMintNature);
+    }
+
+    public bool IsSatisfiedLevelRange(byte level) => LevelMin <= level && level <= LevelMax;
 
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
     /// </summary>
     /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is last!</param>
-    /// <param name="generation">Destination generation</param>
     /// <returns>True if compatible, false if incompatible.</returns>
-    public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs, byte generation)
+    public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs)
     {
         var IVs = encounterIVs;
-        if (!ivCanMatch(IV_HP , IVs[0])) return false;
-        if (!ivCanMatch(IV_ATK, IVs[1])) return false;
-        if (!ivCanMatch(IV_DEF, IVs[2])) return false;
-        if (!ivCanMatch(IV_SPA, IVs[3])) return false;
-        if (!ivCanMatch(IV_SPD, IVs[4])) return false;
-        if (!ivCanMatch(IV_SPE, IVs[5])) return false;
+        if (!IsSatisfiedIV(IV_HP , IVs[0])) return false;
+        if (!IsSatisfiedIV(IV_ATK, IVs[1])) return false;
+        if (!IsSatisfiedIV(IV_DEF, IVs[2])) return false;
+        if (!IsSatisfiedIV(IV_SPA, IVs[3])) return false;
+        if (!IsSatisfiedIV(IV_SPD, IVs[4])) return false;
+        if (!IsSatisfiedIV(IV_SPE, IVs[5])) return false;
 
         return true;
-
-        bool ivCanMatch(int requestedIV, int encounterIV)
-        {
-            if (requestedIV >= 30 && generation >= 6) // hyper training possible
-                return true;
-            return encounterIV == RandomIV || requestedIV == RandomIV || requestedIV == encounterIV;
-        }
     }
 
-    /// <inheritdoc cref="GetCriteria(IBattleTemplate, IPersonalInfo)"/>
-    /// <param name="s">Template data (end result).</param>
-    /// <param name="t">Personal table the end result will exist with.</param>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalTable t)
+    private bool IsSatisfiedIV(int request, int check)
     {
-        var pi = t.GetFormEntry(s.Species, s.Form);
-        return GetCriteria(s, pi);
+        if (request >= 30 && Mutations.HasFlag(CanMaxIndividualStat))
+            return true; // hyper training possible
+        return check == RandomIV || request == RandomIV || request == check;
     }
 
     /// <summary>
-    /// Creates a new <see cref="EncounterCriteria"/> by loading parameters from the provided <see cref="IBattleTemplate"/>.
+    /// Creates a new <see cref="EncounterCriteria"/> from the provided end result parameters.
     /// </summary>
     /// <param name="s">Template data (end result).</param>
     /// <param name="pi">Personal info the end result will exist with.</param>
+    /// <param name="allowed">Allowed mutations for the end result.</param>
     /// <returns>Initialized criteria data to be passed to generators.</returns>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi) => new()
+    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi, EncounterMutation allowed) => new()
     {
         Gender = GetGenderPermissions(s.Gender, pi),
         IV_HP  = (sbyte)s.IVs[0],
@@ -109,12 +153,13 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         IV_SPE = (sbyte)s.IVs[3],
         IV_SPA = (sbyte)s.IVs[4],
         IV_SPD = (sbyte)s.IVs[5],
-        HPType = s.HiddenPowerType,
+        HiddenPowerType = s.HiddenPowerType,
+        Mutations = allowed,
+        LevelMax = s.Level,
 
         Ability = GetAbilityPermissions(s.Ability, pi),
         Nature = NatureUtil.GetNature(s.Nature),
         Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
-        TeraType = (sbyte)s.TeraType,
     };
 
     private static Gender GetGenderPermissions(byte? gender, IGenderDetail pi)
@@ -164,18 +209,21 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     {
         if (Nature != Nature.Random)
             return Nature;
-        return (Nature)Util.Rand.Next(25);
+        var result = (Nature)Util.Rand.Next(25);
+        if (Mutations.HasFlag(AllowOnlyNeutralNature))
+            return result.ToNeutral();
+        return result;
     }
 
     /// <summary>
     /// Indicates if the <see cref="Gender"/> is specified.
     /// </summary>
-    public bool IsGenderSpecified => Gender != Gender.Random;
+    public bool IsSpecifiedGender() => Gender != Gender.Random;
 
     /// <summary>
     /// Indicates if the requested gender matches the criteria.
     /// </summary>
-    public bool IsGenderSatisfied(byte gender) => !IsGenderSpecified || (Gender)gender == Gender;
+    public bool IsSatisfiedGender(byte gender) => (Gender)gender == Gender;
 
     /// <summary>
     /// Gets the gender to generate, random if unspecified by the template or criteria.
@@ -247,7 +295,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
     }
 
     /// <summary>
-    /// Applies random IVs with a minimum and maximum (bitshifted >> 1)
+    /// Applies random IVs with a minimum and maximum (bit-shifted >> 1)
     /// </summary>
     /// <param name="pk">Entity to mutate.</param>
     /// <param name="minIV">Minimum IV from GO</param>
@@ -272,7 +320,9 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
             : rnd.Next(32); // speed
     }
 
-    public void SetRandomIVs(PKM pk, int flawless)
+    public void SetRandomIVs(PKM pk, int flawless) => SetRandomIVs(pk, flawless, Util.Rand);
+
+    public void SetRandomIVs(PKM pk, int flawless, Random rand)
     {
         Span<int> ivs = [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         flawless -= ivs.Count(31);
@@ -282,7 +332,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
             // Overwrite specified IVs until we have enough remaining slots.
             while (flawless > remain)
             {
-                int index = Util.Rand.Next(6);
+                int index = rand.Next(6);
                 if (ivs[index] is RandomIV or 31)
                     continue;
                 ivs[index] = RandomIV;
@@ -293,7 +343,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         // Sprinkle in remaining flawless IVs
         while (flawless > 0)
         {
-            int index = Util.Rand.Next(6);
+            int index = rand.Next(6);
             if (ivs[index] != RandomIV)
                 continue;
             ivs[index] = 31;
@@ -303,7 +353,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         for (int i = 0; i < ivs.Length; i++)
         {
             if (ivs[i] == RandomIV)
-                ivs[i] = Util.Rand.Next(32);
+                ivs[i] = rand.Next(32);
         }
         // Done.
         pk.SetIVs(ivs);
@@ -358,9 +408,46 @@ public sealed record EncounterCriteria : IFixedNature, IFixedAbilityNumber, IShi
         return true;
     }
 
+    public bool IsCompatibleIVs(uint iv32)
+    {
+        if ( IV_HP != RandomIV &&  IV_HP != ((iv32 >> (0 * 5)) & 0x1F))
+            return false;
+        if (IV_ATK != RandomIV && IV_ATK != ((iv32 >> (1 * 5)) & 0x1F))
+            return false;
+        if (IV_DEF != RandomIV && IV_DEF != ((iv32 >> (2 * 5)) & 0x1F))
+            return false;
+        if (IV_SPE != RandomIV && IV_SPE != ((iv32 >> (3 * 5)) & 0x1F))
+            return false;
+        if (IV_SPA != RandomIV && IV_SPA != ((iv32 >> (4 * 5)) & 0x1F))
+            return false;
+        if (IV_SPD != RandomIV && IV_SPD != ((iv32 >> (5 * 5)) & 0x1F))
+            return false;
+        return true;
+    }
+
     public void GetCombinedIVs(out uint iv1, out uint iv2)
     {
         iv1 = (byte)IV_HP | (uint)IV_ATK << 5 | (uint)IV_DEF << 10;
         iv2 = (byte)IV_SPE | (uint)IV_SPA << 5 | (uint)IV_SPD << 10;
+    }
+
+    public uint GetCombinedIVs() => (byte)IV_HP
+                                  | (uint)IV_ATK << 5
+                                  | (uint)IV_DEF << 10
+                                  | (uint)IV_SPE << 15
+                                  | (uint)IV_SPA << 20
+                                  | (uint)IV_SPD << 25;
+
+    public ushort GetCombinedDVs() => (ushort)((byte)IV_SPA | (byte)IV_SPE << 4 | (byte)IV_DEF << 8 | (byte)IV_ATK << 12);
+
+    public bool IsSatisfiedIVs(uint iv32)
+    {
+        if (!IsSatisfiedIV(IV_HP, (int)((iv32 >> 00) & 0x1F))) return false;
+        if (!IsSatisfiedIV(IV_ATK, (int)((iv32 >> 05) & 0x1F))) return false;
+        if (!IsSatisfiedIV(IV_DEF, (int)((iv32 >> 10) & 0x1F))) return false;
+        if (!IsSatisfiedIV(IV_SPE, (int)((iv32 >> 15) & 0x1F))) return false;
+        if (!IsSatisfiedIV(IV_SPA, (int)((iv32 >> 20) & 0x1F))) return false;
+        if (!IsSatisfiedIV(IV_SPD, (int)((iv32 >> 25) & 0x1F))) return false;
+        return true;
     }
 }

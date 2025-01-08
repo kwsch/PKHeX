@@ -139,74 +139,56 @@ public static class SaveUtil
 
     private const int SIZE_G9_202 = 0xC8E; // Add 2 blocks (1 obj 0xC80, 1 bool) = 4{key}1{obj}4{len} + 4{key}1{boolT/boolF}
     private const int SIZE_G9_300 = 0x83AD;
+    private static bool IsSizeGen9SV(int length) => length is
+        SIZE_G9_0 or SIZE_G9_0a or
+        SIZE_G9_1 or SIZE_G9_1a or SIZE_G9_1A or SIZE_G9_1Aa or SIZE_G9_1Ba or SIZE_G9_1Ab or
+        SIZE_G9_2 or
+        SIZE_G9_3 or
+        SIZE_G9_3A0 or SIZE_G9_3A1 or SIZE_G9_3B0 or SIZE_G9_3B1 or
+        SIZE_G9_3G0 or SIZE_G9_3G1 or SIZE_G9_3P0 or SIZE_G9_3P1 or
+        SIZE_G9_DLC1_0 or (SIZE_G9_DLC1_0 + SIZE_G9_202) or (SIZE_G9_DLC1_0 + SIZE_G9_300) or
+        SIZE_G9_DLC1_1 or (SIZE_G9_DLC1_1 + SIZE_G9_202) or (SIZE_G9_DLC1_1 + SIZE_G9_300) or
+        SIZE_G9_DLC1_2 or (SIZE_G9_DLC1_2 + SIZE_G9_202) or (SIZE_G9_DLC1_2 + SIZE_G9_300) or
+        SIZE_G9_DLC1_3 or (SIZE_G9_DLC1_3 + SIZE_G9_202) or (SIZE_G9_DLC1_3 + SIZE_G9_300) or
+        SIZE_G9_DLC1_4 or (SIZE_G9_DLC1_4 + SIZE_G9_202) or (SIZE_G9_DLC1_4 + SIZE_G9_300) or
+        SIZE_G9_DLC1_5 or (SIZE_G9_DLC1_5 + SIZE_G9_202) or (SIZE_G9_DLC1_5 + SIZE_G9_300) or
+        SIZE_G9_DLC1_6 or (SIZE_G9_DLC1_6 + SIZE_G9_202) or (SIZE_G9_DLC1_6 + SIZE_G9_300) or
+        SIZE_G9_DLC1_7 or (SIZE_G9_DLC1_7 + SIZE_G9_202) or (SIZE_G9_DLC1_7 + SIZE_G9_300) or
+        SIZE_G9_DLC1_8 or (SIZE_G9_DLC1_8 + SIZE_G9_202) or (SIZE_G9_DLC1_8 + SIZE_G9_300) or
+        SIZE_G9_DLC1_9 or (SIZE_G9_DLC1_9 + SIZE_G9_202) or (SIZE_G9_DLC1_9 + SIZE_G9_300) or
+        SIZE_G9_DLC1_A or (SIZE_G9_DLC1_A + SIZE_G9_202) or (SIZE_G9_DLC1_A + SIZE_G9_300) or
+        SIZE_G9_DLC1_B or (SIZE_G9_DLC1_B + SIZE_G9_202) or (SIZE_G9_DLC1_B + SIZE_G9_300) or
+        SIZE_G9_DLC1_C or (SIZE_G9_DLC1_C + SIZE_G9_202) or (SIZE_G9_DLC1_C + SIZE_G9_300) or
+        SIZE_G9_DLC1_D or (SIZE_G9_DLC1_D + SIZE_G9_202) or (SIZE_G9_DLC1_D + SIZE_G9_300) or
+        SIZE_G9_DLC1_E or (SIZE_G9_DLC1_E + SIZE_G9_202) or (SIZE_G9_DLC1_E + SIZE_G9_300) or
+        SIZE_G9_DLC1_F or (SIZE_G9_DLC1_F + SIZE_G9_202) or (SIZE_G9_DLC1_F + SIZE_G9_300) or
+        SIZE_G9_DLC1_G or (SIZE_G9_DLC1_G + SIZE_G9_202) or (SIZE_G9_DLC1_G + SIZE_G9_300) or
+        SIZE_G9_DLC1_H or (SIZE_G9_DLC1_H + SIZE_G9_202) or (SIZE_G9_DLC1_H + SIZE_G9_300) or
+        SIZE_G9_DLC1_I or (SIZE_G9_DLC1_I + SIZE_G9_202) or (SIZE_G9_DLC1_I + SIZE_G9_300) or
+        SIZE_G9_DLC1_Q or (SIZE_G9_DLC1_Q + SIZE_G9_202) or (SIZE_G9_DLC1_Q + SIZE_G9_300) or
+        SIZE_G9_DLC1_W or (SIZE_G9_DLC1_W + SIZE_G9_202) or (SIZE_G9_DLC1_W + SIZE_G9_300) or
+        SIZE_G9_DLC1_R or (SIZE_G9_DLC1_R + SIZE_G9_202) or (SIZE_G9_DLC1_R + SIZE_G9_300) or
+        SIZE_G9_DLC1_T or (SIZE_G9_DLC1_T + SIZE_G9_202) or (SIZE_G9_DLC1_T + SIZE_G9_300) or
+        SIZE_G9_DLC1_Y or (SIZE_G9_DLC1_Y + SIZE_G9_202) or (SIZE_G9_DLC1_Y + SIZE_G9_300) or
+        SIZE_G9_DLC1_U or (SIZE_G9_DLC1_U + SIZE_G9_202) or (SIZE_G9_DLC1_U + SIZE_G9_300) or
+        SIZE_G9_DLC1_V or (SIZE_G9_DLC1_V + SIZE_G9_202) or (SIZE_G9_DLC1_V + SIZE_G9_300) or
+        SIZE_G9_DLC1_Z or (SIZE_G9_DLC1_Z + SIZE_G9_202) or (SIZE_G9_DLC1_Z + SIZE_G9_300);
 
-    private static readonly HashSet<long> SizesSV =
-    [
-        SIZE_G9_0, SIZE_G9_0a,
-        SIZE_G9_1, SIZE_G9_1a,
-        SIZE_G9_1A, SIZE_G9_1Aa,
-        SIZE_G9_1Ba, SIZE_G9_1Ab,
-        SIZE_G9_2, SIZE_G9_3,
+    private static bool IsSizeGen8SWSH(int length) => length is SIZE_G8SWSH
+        or SIZE_G8SWSH_1
+        or SIZE_G8SWSH_2 or SIZE_G8SWSH_2B
+        or SIZE_G8SWSH_3 or SIZE_G8SWSH_3A or SIZE_G8SWSH_3B or SIZE_G8SWSH_3C;
 
-        SIZE_G9_3A0, SIZE_G9_3A1,
-        SIZE_G9_3B0, SIZE_G9_3B1,
-        SIZE_G9_3G0, SIZE_G9_3G1,
-        SIZE_G9_3P0, SIZE_G9_3P1,
+    private static bool IsSizeGen2(int length) => length is SIZE_G2RAW_U or SIZE_G2RAW_J;
 
-        SIZE_G9_DLC1_0, SIZE_G9_DLC1_0 + SIZE_G9_202, SIZE_G9_DLC1_0 + SIZE_G9_300,
-        SIZE_G9_DLC1_1, SIZE_G9_DLC1_1 + SIZE_G9_202, SIZE_G9_DLC1_1 + SIZE_G9_300,
-        SIZE_G9_DLC1_2, SIZE_G9_DLC1_2 + SIZE_G9_202, SIZE_G9_DLC1_2 + SIZE_G9_300,
-        SIZE_G9_DLC1_3, SIZE_G9_DLC1_3 + SIZE_G9_202, SIZE_G9_DLC1_3 + SIZE_G9_300,
-        SIZE_G9_DLC1_4, SIZE_G9_DLC1_4 + SIZE_G9_202, SIZE_G9_DLC1_4 + SIZE_G9_300,
-        SIZE_G9_DLC1_5, SIZE_G9_DLC1_5 + SIZE_G9_202, SIZE_G9_DLC1_5 + SIZE_G9_300,
-        SIZE_G9_DLC1_6, SIZE_G9_DLC1_6 + SIZE_G9_202, SIZE_G9_DLC1_6 + SIZE_G9_300,
-        SIZE_G9_DLC1_7, SIZE_G9_DLC1_7 + SIZE_G9_202, SIZE_G9_DLC1_7 + SIZE_G9_300,
-        SIZE_G9_DLC1_8, SIZE_G9_DLC1_8 + SIZE_G9_202, SIZE_G9_DLC1_8 + SIZE_G9_300,
-        SIZE_G9_DLC1_9, SIZE_G9_DLC1_9 + SIZE_G9_202, SIZE_G9_DLC1_9 + SIZE_G9_300,
-        SIZE_G9_DLC1_A, SIZE_G9_DLC1_A + SIZE_G9_202, SIZE_G9_DLC1_A + SIZE_G9_300,
-        SIZE_G9_DLC1_B, SIZE_G9_DLC1_B + SIZE_G9_202, SIZE_G9_DLC1_B + SIZE_G9_300,
-        SIZE_G9_DLC1_C, SIZE_G9_DLC1_C + SIZE_G9_202, SIZE_G9_DLC1_C + SIZE_G9_300,
-        SIZE_G9_DLC1_D, SIZE_G9_DLC1_D + SIZE_G9_202, SIZE_G9_DLC1_D + SIZE_G9_300,
-        SIZE_G9_DLC1_E, SIZE_G9_DLC1_E + SIZE_G9_202, SIZE_G9_DLC1_E + SIZE_G9_300,
-        SIZE_G9_DLC1_F, SIZE_G9_DLC1_F + SIZE_G9_202, SIZE_G9_DLC1_F + SIZE_G9_300,
-        SIZE_G9_DLC1_G, SIZE_G9_DLC1_G + SIZE_G9_202, SIZE_G9_DLC1_G + SIZE_G9_300,
-        SIZE_G9_DLC1_H, SIZE_G9_DLC1_H + SIZE_G9_202, SIZE_G9_DLC1_H + SIZE_G9_300,
-        SIZE_G9_DLC1_I, SIZE_G9_DLC1_I + SIZE_G9_202, SIZE_G9_DLC1_I + SIZE_G9_300,
-        SIZE_G9_DLC1_Q, SIZE_G9_DLC1_Q + SIZE_G9_202, SIZE_G9_DLC1_Q + SIZE_G9_300,
-        SIZE_G9_DLC1_W, SIZE_G9_DLC1_W + SIZE_G9_202, SIZE_G9_DLC1_W + SIZE_G9_300,
-        SIZE_G9_DLC1_R, SIZE_G9_DLC1_R + SIZE_G9_202, SIZE_G9_DLC1_R + SIZE_G9_300,
-        SIZE_G9_DLC1_T, SIZE_G9_DLC1_T + SIZE_G9_202, SIZE_G9_DLC1_T + SIZE_G9_300,
-        SIZE_G9_DLC1_Y, SIZE_G9_DLC1_Y + SIZE_G9_202, SIZE_G9_DLC1_Y + SIZE_G9_300,
-        SIZE_G9_DLC1_U, SIZE_G9_DLC1_U + SIZE_G9_202, SIZE_G9_DLC1_U + SIZE_G9_300,
-        SIZE_G9_DLC1_V, SIZE_G9_DLC1_V + SIZE_G9_202, SIZE_G9_DLC1_V + SIZE_G9_300,
-        SIZE_G9_DLC1_Z, SIZE_G9_DLC1_Z + SIZE_G9_202, SIZE_G9_DLC1_Z + SIZE_G9_300,
-    ];
-
-    private static readonly HashSet<long> SizesSWSH =
-    [
-        SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3A, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
-    ];
-
-    private static readonly HashSet<long> SizesGen2 =
-    [
-        SIZE_G2RAW_U, SIZE_G2RAW_J,
-    ];
-
-    private static readonly HashSet<long> Sizes =
-    [
-        ..SizesGen2, ..SizesSWSH, ..SizesSV,
-        SIZE_G8LA, SIZE_G8LA_1, SIZE_G8BDSP, SIZE_G8BDSP_1, SIZE_G8BDSP_2, SIZE_G8BDSP_3,
-        // SizesSWSH covers Gen8 sizes since there's so many
-        SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
-        SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
-        SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
-        SIZE_G4BR, SIZE_G4RAW,
-        SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3RAWHALF,
-        // SizesGen2 covers Gen2 sizes since there's so many
-        SIZE_G1RAW,
-
-        SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
-    ];
+    private static bool IsSizeCommonFixed(int length) => length is
+        SIZE_G7SM or SIZE_G7USUM or SIZE_G7GG
+        or SIZE_G6XY or SIZE_G6ORAS or SIZE_G6ORASDEMO
+        or SIZE_G5RAW or SIZE_G5BW or SIZE_G5B2W2
+        or SIZE_G4BR
+        or SIZE_G3COLO or SIZE_G3XD or SIZE_G3RAW or SIZE_G3RAWHALF
+        or SIZE_G2RAW_U
+        or SIZE_G7BANK or SIZE_G4BANK or SIZE_G4RANCH or SIZE_G4RANCH_PLAT;
 
     /// <summary>Determines the type of the provided save data.</summary>
     /// <param name="data">Save data of which to determine the origins of</param>
@@ -317,7 +299,7 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     internal static GameVersion GetIsG2SAV(ReadOnlySpan<byte> data)
     {
-        if (!SizesGen2.Contains(data.Length))
+        if (!IsSizeGen2(data.Length))
             return Invalid;
 
         // Check if it's not an International, Japanese, or Korean save file
@@ -591,7 +573,7 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     private static GameVersion GetIsG8SAV(ReadOnlySpan<byte> data)
     {
-        if (!SizesSWSH.Contains(data.Length))
+        if (!IsSizeGen8SWSH(data.Length))
             return Invalid;
 
         return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;
@@ -622,7 +604,7 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     private static GameVersion GetIsG9SAV(ReadOnlySpan<byte> data)
     {
-        if (!SizesSV.Contains(data.Length))
+        if (!IsSizeGen9SV(data.Length))
             return Invalid;
 
         return SwishCrypto.GetIsHashValid(data) ? SV : Invalid;
@@ -976,5 +958,17 @@ public static class SaveUtil
     /// Determines whether the save data size is valid for automatically detecting saves.
     /// </summary>
     /// <remarks>Does not check the <see cref="Handlers"/> list.</remarks>
-    public static bool IsSizeValidNoHandler(long size) => Sizes.Contains(size);
+    public static bool IsSizeValidNoHandler(long size)
+    {
+        if ((uint)size > int.MaxValue)
+            return false;
+        int length = (int)size;
+        if (IsSizeGen9SV(length))
+            return true;
+        if (IsSizeGen8SWSH(length))
+            return true;
+        if (IsSizeCommonFixed(length))
+            return true;
+        return false;
+    }
 }

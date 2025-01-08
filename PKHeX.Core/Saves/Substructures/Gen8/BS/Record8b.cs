@@ -26,7 +26,7 @@ public sealed class Record8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>(s
     {
         if ((uint)recordID >= RecordCount)
             throw new ArgumentOutOfRangeException(nameof(recordID));
-        return (sizeof(int) * recordID);
+        return sizeof(int) * recordID;
     }
 
     public int GetRecord(int recordID)

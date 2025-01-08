@@ -18,9 +18,10 @@ public partial class TrashEditor : Form
     private readonly byte[] Raw;
     private bool editing;
 
-    public TrashEditor(TextBoxBase TB_NN, IStringConverter sav, byte generation) : this(TB_NN, [], sav, generation) { }
+    public TrashEditor(TextBoxBase TB_NN, IStringConverter sav, byte generation, EntityContext context)
+        : this(TB_NN, [], sav, generation, context) { }
 
-    public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, IStringConverter converter, byte generation)
+    public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, IStringConverter converter, byte generation, EntityContext context)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -40,7 +41,7 @@ public partial class TrashEditor : Form
         }
 
         var f = FontUtil.GetPKXFont();
-        AddCharEditing(f, generation);
+        AddCharEditing(f, context);
         TB_Text.MaxLength = TB_NN.MaxLength;
         TB_Text.Text = TB_NN.Text;
         TB_Text.Font = f;
@@ -77,9 +78,9 @@ public partial class TrashEditor : Form
         Close();
     }
 
-    private void AddCharEditing(Font f, byte generation)
+    private void AddCharEditing(Font f, EntityContext context)
     {
-        var chars = GetChars(generation);
+        var chars = GetChars(context);
         if (chars.Length == 0)
             return;
 
@@ -223,12 +224,11 @@ public partial class TrashEditor : Form
         Margin = new Padding(0),
     };
 
-    private static ReadOnlySpan<ushort> GetChars(byte generation) => generation switch
+    private static ReadOnlySpan<ushort> GetChars(EntityContext context) => context switch
     {
-        5 => SpecialCharsGen5,
-        6 => SpecialCharsGen67,
-        7 => SpecialCharsGen67,
-        >= 8 => SpecialCharsGen8,
+        EntityContext.Gen5 => SpecialCharsGen5,
+        EntityContext.Gen6 or EntityContext.Gen7 or EntityContext.Gen7b => SpecialCharsGen67,
+        _ when context.Generation() >= 8 => SpecialCharsGen8,
         _ => [], // Undocumented
     };
 

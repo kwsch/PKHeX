@@ -685,21 +685,21 @@ public partial class SAV_Misc5 : Form
         CHK_SWNPCMet.Checked = sw.NPCMet;
 
         // Current Run Checks
-        CHK_SingleSet.Checked = sw.SingleSet == (sw.SinglePast / 7 + 1);
+        CHK_SingleSet.Checked = sw.SingleSet == ((sw.SinglePast / 7) + 1);
         L_SinglePast.Text = CHK_SingleSet.Checked ? "Current" : "Past";
-        CHK_DoubleSet.Checked = sw.DoubleSet == (sw.DoublePast / 7 + 1);
+        CHK_DoubleSet.Checked = sw.DoubleSet == ((sw.DoublePast / 7) + 1);
         L_DoublePast.Text = CHK_DoubleSet.Checked ? "Current" : "Past";
-        CHK_MultiNPCSet.Checked = sw.MultiNPCSet == (sw.MultiNPCPast / 7 + 1);
+        CHK_MultiNPCSet.Checked = sw.MultiNPCSet == ((sw.MultiNPCPast / 7) + 1);
         L_MultiNpcPast.Text = CHK_MultiNPCSet.Checked ? "Current" : "Past";
-        CHK_MultiFriendsSet.Checked = sw.MultiFriendsSet == (sw.MultiFriendsPast / 7 + 1);
+        CHK_MultiFriendsSet.Checked = sw.MultiFriendsSet == ((sw.MultiFriendsPast / 7) + 1);
         L_MultiFriendsPast.Text = CHK_MultiFriendsSet.Checked ? "Current" : "Past";
-        CHK_SuperSingleSet.Checked = sw.SuperSingleSet == (sw.SuperSinglePast / 7 + 1);
+        CHK_SuperSingleSet.Checked = sw.SuperSingleSet == ((sw.SuperSinglePast / 7) + 1);
         L_SSinglePast.Text = CHK_SuperSingleSet.Checked ? "Current" : "Past";
-        CHK_SuperDoubleSet.Checked = sw.SuperDoubleSet == (sw.SuperDoublePast / 7 + 1);
+        CHK_SuperDoubleSet.Checked = sw.SuperDoubleSet == ((sw.SuperDoublePast / 7) + 1);
         L_SDoublePast.Text = CHK_SuperDoubleSet.Checked ? "Current" : "Past";
-        CHK_SuperMultiNPCSet.Checked = sw.SuperMultiNPCSet == (sw.SuperMultiNPCPast / 7 + 1);
+        CHK_SuperMultiNPCSet.Checked = sw.SuperMultiNPCSet == ((sw.SuperMultiNPCPast / 7) + 1);
         L_SMultiNpcPast.Text = CHK_SuperMultiNPCSet.Checked ? "Current" : "Past";
-        CHK_SuperMultiFriendsSet.Checked = sw.SuperMultiFriendsSet == (sw.SuperMultiFriendsPast / 7 + 1);
+        CHK_SuperMultiFriendsSet.Checked = sw.SuperMultiFriendsSet == ((sw.SuperMultiFriendsPast / 7) + 1);
         L_SMultiFriendsPast.Text = CHK_SuperMultiFriendsSet.Checked ? "Current" : "Past";
 
         // Normal
@@ -793,14 +793,14 @@ public partial class SAV_Misc5 : Form
         sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
 
         // Current Run Checks
-        sw.SingleSet = (CHK_SingleSet.Checked ? sw.SinglePast / 7 + 1 : 0);
-        sw.DoubleSet = (CHK_DoubleSet.Checked ? sw.DoublePast / 7 + 1 : 0);
-        sw.MultiNPCSet = (CHK_MultiNPCSet.Checked ? sw.MultiNPCPast / 7 + 1 : 0);
-        sw.MultiFriendsSet = (CHK_MultiFriendsSet.Checked ? sw.MultiFriendsPast / 7 + 1 : 0);
-        sw.SuperSingleSet = (CHK_SuperSingleSet.Checked ? sw.SuperSinglePast / 7 + 1 : 0);
-        sw.SuperDoubleSet = (CHK_SuperDoubleSet.Checked ? sw.SuperDoublePast / 7 + 1 : 0);
-        sw.SuperMultiNPCSet = (CHK_SuperMultiNPCSet.Checked ? sw.SuperMultiNPCPast / 7 + 1 : 0);
-        sw.SuperMultiFriendsSet = (CHK_SuperMultiFriendsSet.Checked ? sw.SuperMultiFriendsPast / 7 + 1 : 0);
+        sw.SingleSet = (CHK_SingleSet.Checked ? (sw.SinglePast / 7) + 1 : 0);
+        sw.DoubleSet = (CHK_DoubleSet.Checked ? (sw.DoublePast / 7) + 1 : 0);
+        sw.MultiNPCSet = (CHK_MultiNPCSet.Checked ? (sw.MultiNPCPast / 7) + 1 : 0);
+        sw.MultiFriendsSet = (CHK_MultiFriendsSet.Checked ? (sw.MultiFriendsPast / 7) + 1 : 0);
+        sw.SuperSingleSet = (CHK_SuperSingleSet.Checked ? (sw.SuperSinglePast / 7) + 1 : 0);
+        sw.SuperDoubleSet = (CHK_SuperDoubleSet.Checked ? (sw.SuperDoublePast / 7) + 1 : 0);
+        sw.SuperMultiNPCSet = (CHK_SuperMultiNPCSet.Checked ? (sw.SuperMultiNPCPast / 7) + 1 : 0);
+        sw.SuperMultiFriendsSet = (CHK_SuperMultiFriendsSet.Checked ? (sw.SuperMultiFriendsPast / 7) + 1 : 0);
     }
 
     private const string ForestCityBinFilter = "Forest City Bin|*.fc5";

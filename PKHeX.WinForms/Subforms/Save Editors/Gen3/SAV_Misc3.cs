@@ -703,7 +703,7 @@ public partial class SAV_Misc3 : Form
     private void ValidatePaintingIDs()
     {
         var pid = Util.GetHexValue(TB_PID.Text);
-        if (pid.ToString("X") != TB_PID.Text)
+        if (pid.ToString("X") != TB_PID.Text && pid.ToString("X8") != TB_PID.Text)
             TB_PID.Text = pid.ToString();
 
         var tid = Util.ToUInt32(TB_TID.Text);

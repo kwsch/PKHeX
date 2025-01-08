@@ -10,38 +10,29 @@ public static class PIDGenerator
 {
     private static uint SetValuesFromSeedLCRNG(PKM pk, PIDType type, uint seed)
     {
-        var A = LCRNG.Next(seed);
-        var B = LCRNG.Next(A);
-        var skipBetweenPID = type is Method_3 or Method_3_Unown;
-        if (skipBetweenPID) // VBlank skip between PID rand() [RARE]
-            B = LCRNG.Next(B);
+        var a16 = LCRNG.Next16(ref seed);
+        var b16 = LCRNG.Next16(ref seed);
+        if (type is Method_3 or Method_3_Unown) // VBlank skip between PID rand() [RARE]
+            b16 = LCRNG.Next16(ref seed);
 
-        var swappedPIDHalves = type is >= Method_1_Unown and <= Method_4_Unown;
-        if (swappedPIDHalves) // switched order of PID halves, "BA**"
-            pk.PID = (A & 0xFFFF0000) | (B >> 16);
-        else
-            pk.PID = (B & 0xFFFF0000) | (A >> 16);
+        // Unown has switched order of PID halves, "BA**"
+        pk.PID = type.IsUnown() ? (a16 << 16) | b16 : (b16 << 16) | a16;
 
-        var C = LCRNG.Next(B);
-        var skipIV1Frame = type is Method_2 or Method_2_Unown;
-        if (skipIV1Frame) // VBlank skip after PID
-            C = LCRNG.Next(C);
+        var c16 = LCRNG.Next15(ref seed);
+        if (type is Method_2 or Method_2_Unown) // VBlank skip after PID
+            c16 = LCRNG.Next15(ref seed);
 
-        var D = LCRNG.Next(C);
-        var skipIV2Frame = type is Method_4 or Method_4_Unown;
-        if (skipIV2Frame) // VBlank skip between IVs
-            D = LCRNG.Next(D);
+        var d16 = LCRNG.Next15(ref seed);
+        if (type is Method_4 or Method_4_Unown) // VBlank skip between IVs
+            d16 = LCRNG.Next15(ref seed);
 
-        Span<int> IVs = stackalloc int[6];
-        MethodFinder.GetIVsInt32(IVs, C >> 16, D >> 16);
+        uint iv32 = (d16 << 15) | c16;
+        // Roamers only store lowest 8 bits of IV data; zero out the other bits.
         if (type == Method_1_Roamer)
-        {
-            // Only store lowest 8 bits of IV data; zero out the other bits.
-            IVs[1] &= 7;
-            IVs[2..].Clear();
-        }
-        pk.SetIVs(IVs);
-        return D;
+            iv32 &= 0xFF;
+
+        pk.SetIVs(iv32);
+        return d16;
     }
 
     private static uint SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
@@ -61,20 +52,17 @@ public static class PIDGenerator
         _ => CommonEvent3.GetRegularAntishiny(ref seed, idXor),
     };
 
-    public static uint SetIVsFromSeedSequentialLCRNG(ref uint seed)
+    public static uint GetIVsFromSeedSequentialLCRNG(ref uint seed)
     {
-        var c16 = LCRNG.Next16(ref seed) & 0x7FFF;
-        var d16 = LCRNG.Next16(ref seed) & 0x7FFF;
+        var c16 = LCRNG.Next15(ref seed);
+        var d16 = LCRNG.Next15(ref seed);
         return (d16 << 15) | c16;
     }
 
     public static void SetIVsFromSeedSequentialLCRNG(ref uint seed, PKM pk)
     {
-        var c16 = LCRNG.Next16(ref seed);
-        var d16 = LCRNG.Next16(ref seed);
-        Span<int> IVs = stackalloc int[6];
-        MethodFinder.GetIVsInt32(IVs, c16, d16);
-        pk.SetIVs(IVs);
+        var iv32 = GetIVsFromSeedSequentialLCRNG(ref seed);
+        pk.SetIVs(iv32);
     }
 
     private static uint SetValuesFromSeedXDRNG(PKM pk, uint seed)
@@ -90,23 +78,24 @@ public static class PIDGenerator
             case (int)Species.Espeon: // Colo Espeon
                 var tid = pk.TID16 = (ushort)XDRNG.Next16(ref seed);
                 var sid = pk.SID16 = (ushort)XDRNG.Next16(ref seed);
-                LockFinder.SkipValidColoStarter(ref seed, tid, sid);
+
+                seed = XDRNG.Next5(seed); // skip fakePID, IVs, ability
+                MethodCXD.GetColoStarterPID(ref seed, tid, sid);
                 seed = XDRNG.Next2(seed); // fake PID
                 break;
         }
-        var a16 = XDRNG.Next15(ref seed); // IV1
-        var b16 = XDRNG.Next15(ref seed); // IV2
+        var iv1 = XDRNG.Next15(ref seed); // IV1
+        var iv2 = XDRNG.Next15(ref seed); // IV2
 
-        Span<int> IVs = stackalloc int[6];
-        MethodFinder.GetIVsInt32(IVs, a16, b16);
-        pk.SetIVs(IVs);
+        var iv32 = (iv2 << 15) | iv1;
+        pk.SetIVs(iv32);
 
         _ = XDRNG.Next16(ref seed); // Ability
 
         if (species is (int)Species.Umbreon or (int)Species.Espeon)
         {
-            // Reuse existing logic.
-            pk.PID = LockFinder.GenerateStarterPID(ref seed, pk.TID16, pk.SID16);
+            // Reuse existing logic. Forced-male, never shiny.
+            pk.PID = MethodCXD.GetColoStarterPID(ref seed, pk.TID16, pk.SID16);
         }
         else
         {
@@ -139,12 +128,14 @@ public static class PIDGenerator
         if ((pid2 > 7 ? 0 : 1) != (pid1 ^ sid ^ TID16))
             pid ^= 0x80000000;
         pk.PID = pid;
-        pk.HeldItem = (ushort)(XDRNG.Next16(ref seed) >> 15) + 169; // 0-Ganlon, 1-Salac
+
+        pk.HeldItem = (ushort)((XDRNG.Next16(ref seed) >> 15) + 169u); // 0-Ganlon, 1-Salac
         pk.Version = GameVersion.S + (byte)(XDRNG.Next16(ref seed) >> 15); // 0-Sapphire, 1-Ruby
         pk.OriginalTrainerGender = (byte)(XDRNG.Next16(ref seed) >> 15);
-        Span<int> ivs = stackalloc int[6];
-        XDRNG.GetSequentialIVsInt32(seed, ivs);
-        pk.SetIVs(ivs);
+
+        var iv32 = XDRNG.GetSequentialIV32(seed);
+        pk.SetIVs(iv32);
+
         return seed;
     }
 
@@ -235,10 +226,10 @@ public static class PIDGenerator
 
     public static uint GetMG5ShinyPID(uint gval, uint av, ushort TID16, ushort SID16)
     {
-        uint PID = ((gval ^ TID16 ^ SID16) << 16) | gval;
-        if ((PID & 0x10000) != av << 16)
-            PID ^= 0x10000;
-        return PID;
+        uint pid = ((gval ^ TID16 ^ SID16) << 16) | gval;
+        if ((pid & 0x10000) != av << 16)
+            pid ^= 0x10000;
+        return pid;
     }
 
     public static uint SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
@@ -246,7 +237,7 @@ public static class PIDGenerator
         var gv = seed >> 24;
         var av = seed & 1; // arbitrary choice
         pk.PID = GetMG5ShinyPID(gv, av, pk.TID16, pk.SID16);
-        SetRandomIVs(pk);
+        pk.SetRandomIVs();
         return seed; // meh
     }
 
@@ -315,10 +306,5 @@ public static class PIDGenerator
                 continue;
             return;
         }
-    }
-
-    private static void SetRandomIVs(PKM pk)
-    {
-        pk.SetRandomIVs();
     }
 }

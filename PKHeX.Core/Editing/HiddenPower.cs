@@ -71,6 +71,8 @@ public static class HiddenPower
     /// </summary>
     public const int TypeCount = 16;
 
+    public static bool IsInvalidType(int type) => (uint)type >= TypeCount;
+
     /// <summary>
     /// Gets the Type Name index of the input Hidden Power Type
     /// </summary>
@@ -79,9 +81,9 @@ public static class HiddenPower
     /// <returns>True if the input Hidden Power Type is valid</returns>
     public static bool TryGetTypeIndex(int type, out byte index)
     {
-        if ((uint)type >= TypeCount)
+        if (IsInvalidType(type))
         {
-            index = default;
+            index = 0;
             return false;
         }
         index = (byte)(type + 1); // Normal type is not a valid Hidden Power type

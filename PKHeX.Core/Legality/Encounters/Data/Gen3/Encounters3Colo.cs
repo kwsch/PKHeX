@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 internal static class Encounters3Colo
 {
-    internal static readonly EncounterStatic3Colo[] Starters =
+    internal static readonly EncounterStarter3Colo[] Starters =
     [
         // Colosseum Starters: Gender locked to male
         new(196, 25) { Moves = new(093, 216, 115, 270) }, // Espeon

@@ -20,8 +20,8 @@ public sealed record EncounterTrade9
     public bool IsFixedNickname => Nicknames.Length != 0;
     public GameVersion Version { get; }
 
-    private string[] TrainerNames { get; }
-    private string[] Nicknames { get; }
+    private readonly ReadOnlyMemory<string> TrainerNames;
+    private readonly ReadOnlyMemory<string> Nicknames;
 
     public required Nature Nature { get; init; }
     public required uint ID32 { get; init; }
@@ -89,12 +89,12 @@ public sealed record EncounterTrade9
             Version = version,
             Language = lang,
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
-            Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = IsFixedNickname ? Nicknames.Span[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
             HeightScalar = PokeSizeUtil.GetRandomScalar(rnd),
             WeightScalar = Weight.GetSizeValue(Weight != SizeType9.RANDOM ? FixedValueScale : default, ref xoro),
@@ -147,9 +147,9 @@ public sealed record EncounterTrade9
 
     #region Matching
 
-    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames[language]);
-    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames[language]);
-    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => (uint)language < TrainerNames.Length && trainer.SequenceEqual(TrainerNames.Span[language]);
+    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => (uint)language < Nicknames.Length && nickname.SequenceEqual(Nicknames.Span[language]);
+    public string GetNickname(int language) => Nicknames.Span[(uint)language < Nicknames.Length ? language : 0];
 
     private bool IsMatchNatureGenderShiny(PKM pk)
     {

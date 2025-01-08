@@ -13,8 +13,10 @@ public sealed class FilteredGameDataSource
     {
         Source = source;
         Species = GetFilteredSpecies(sav, source, HaX).ToList();
-        Moves = GetFilteredMoves(sav, source, HaX).ToList();
-        Relearn = GetFilteredMoves(sav.BlankPKM, source, HaX).ToList(); // allow for US/UM relearn move limits on S/M
+        Moves = GetFilteredMoves(sav, sav.Context, source, HaX);
+        Relearn = sav is SAV7SM sm
+            ? GetFilteredMoves(sm.Context, source, HaX, Legal.MaxMoveID_7_USUM) // allow for US/UM relearn move limits on S/M
+            : Moves.ToList();
         if (sav.Generation > 1)
         {
             var items = Source.GetItemDataSource(sav.Version, sav.Context, sav.HeldItems, HaX);
@@ -62,18 +64,41 @@ public sealed class FilteredGameDataSource
             => source.Where(s => table.IsSpeciesInGame((ushort)s.Value));
     }
 
-    private static IEnumerable<ComboItem> GetFilteredMoves(IGameValueLimit limit, GameDataSource source, bool HaX = false)
+    private static List<ComboItem> GetFilteredMoves(IGameValueLimit limit, EntityContext context, GameDataSource source, bool HaX = false)
+    {
+        return GetFilteredMoves(context, source, HaX, limit.MaxMoveID);
+    }
+
+    // return a new list every time
+    private static List<ComboItem> GetFilteredMoves(EntityContext context, GameDataSource source, bool HaX, ushort max)
     {
         if (HaX)
-            return source.HaXMoveDataSource.Where(m => m.Value <= limit.MaxMoveID);
+            return source.HaXMoveDataSource.Where(m => m.Value <= max).ToList();
 
         var legal = source.LegalMoveDataSource;
-        return limit switch
+        if (context is EntityContext.Gen7b)
+            return legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)).ToList();
+
+        var dummied = MoveInfo.GetDummiedMovesHashSet(context);
+        if (dummied.Length == 0 || context is EntityContext.Gen8) // Gen8 indicates dummied via Yellow Triangle
+            return legal.Where(m => m.Value <= max).ToList();
+
+        return GetMovesWithoutDummy(legal, max, dummied);
+    }
+
+    private static List<ComboItem> GetMovesWithoutDummy(IReadOnlyList<ComboItem> legal, ushort max, ReadOnlySpan<byte> dummied)
+    {
+        var result = new List<ComboItem>(legal.Count);
+        foreach (var item in legal)
         {
-            // LGPE: Not all moves are available
-            SAV7b or PB7 => legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)),
-            _ => legal.Where(m => m.Value <= limit.MaxMoveID),
-        };
+            var value = item.Value;
+            if (value > max)
+                continue;
+            if (MoveInfo.IsDummiedMove(dummied, (ushort)value))
+                continue;
+            result.Add(item);
+        }
+        return result;
     }
 
     public readonly GameDataSource Source;

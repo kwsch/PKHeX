@@ -44,8 +44,8 @@ internal static class Encounters8b
         new(BDSP) { Species = 479, Level = 15, Location = 311                      }, // Rotom
 
         // Roamers
-        new(BDSP) { Species = 481, Level = 50, Location = 197, FlawlessIVCount = 3, Roaming = true }, // Mesprit
-        new(BDSP) { Species = 488, Level = 50, Location = 197, FlawlessIVCount = 3, Roaming = true }, // Cresselia
+        new(BDSP) { Species = 481, Level = 50, Location = 197, FlawlessIVCount = 3, IsRoaming = true }, // Mesprit
+        new(BDSP) { Species = 488, Level = 50, Location = 197, FlawlessIVCount = 3, IsRoaming = true }, // Cresselia
 
         // Legendary
         new(BDSP) { Species = 480, Level = 50, Location = 331, FlawlessIVCount = 3 }, // Uxie

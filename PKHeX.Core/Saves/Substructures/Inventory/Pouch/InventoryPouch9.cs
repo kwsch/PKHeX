@@ -82,8 +82,8 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
     }
 
     public static int GetItemOffset(ushort index) => InventoryItem9.SIZE * index;
-
-    public static void ClearItem(Span<byte> data, ushort index) => InventoryItem9.Clear(data, GetItemOffset(index));
+    public static Span<byte> GetItemSpan(Span<byte> data, ushort index) => data[GetItemOffset(index)..];
+    public static void ClearItem(Span<byte> data, ushort index) => InventoryItem9.Clear(GetItemSpan(data, index));
 
     public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
     {

@@ -28,7 +28,7 @@ public static class BatchEditing
     /// <summary>
     /// Extra properties to show in the list of selectable properties (GUI)
     /// </summary>
-    public static readonly List<string> CustomProperties =
+    private static readonly string[] CustomProperties =
     [
         PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY,
         PROP_TYPE1, PROP_TYPE2, PROP_TYPEEITHER,
@@ -40,15 +40,14 @@ public static class BatchEditing
     /// </summary>
     public static string[][] Properties => GetProperties.Value;
 
-    private static readonly Lazy<string[][]> GetProperties = new(() => GetPropArray(Types, CustomProperties));
+    private static readonly Dictionary<string,PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] Props = GetPropertyDictionaries(Types);
+    private static readonly Lazy<string[][]> GetProperties = new(() => GetPropArray(Props, CustomProperties));
 
-    private static readonly Dictionary<string, PropertyInfo>[] Props = GetPropertyDictionaries(Types);
-
-    private static Dictionary<string, PropertyInfo>[] GetPropertyDictionaries(IReadOnlyList<Type> types)
+    private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] GetPropertyDictionaries(IReadOnlyList<Type> types)
     {
-        var result = new Dictionary<string, PropertyInfo>[types.Count];
+        var result = new Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[types.Count];
         for (int i = 0; i < types.Count; i++)
-            result[i] = GetPropertyDictionary(types[i], ReflectUtil.GetAllPropertyInfoPublic);
+            result[i] = GetPropertyDictionary(types[i], ReflectUtil.GetAllPropertyInfoPublic).GetAlternateLookup<ReadOnlySpan<char>>();
         return result;
     }
 
@@ -80,16 +79,15 @@ public static class BatchEditing
     internal const string PROP_MOVEMASTERY = "MoveMastery";
     internal const string IdentifierContains = nameof(IdentifierContains);
 
-    private static string[][] GetPropArray(IReadOnlyList<Type> types, IReadOnlyList<string> extra)
+    private static string[][] GetPropArray(Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] types, ReadOnlySpan<string> extra)
     {
-        var result = new string[types.Count + 2][];
-        var p = result.AsSpan(1, types.Count);
+        var result = new string[types.Length + 2][];
+        var p = result.AsSpan(1, types.Length);
 
         for (int i = 0; i < p.Length; i++)
         {
-            var type = types[i];
-            var props = ReflectUtil.GetPropertiesPublic(type);
-            var combine = props.Concat(extra).ToArray();
+            var type = types[i].Dictionary;
+            string[] combine = [..type.Keys, ..extra];
             Array.Sort(combine);
             p[i] = combine;
         }
@@ -123,7 +121,7 @@ public static class BatchEditing
     /// <param name="name">Property Name to check</param>
     /// <param name="pi">Property Info retrieved (if any).</param>
     /// <returns>True if it has property, false if it does not.</returns>
-    public static bool TryGetHasProperty(PKM pk, string name, [NotNullWhen(true)] out PropertyInfo? pi)
+    public static bool TryGetHasProperty(PKM pk, ReadOnlySpan<char> name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
         var type = pk.GetType();
         return TryGetHasProperty(type, name, out pi);
@@ -136,7 +134,7 @@ public static class BatchEditing
     /// <param name="name">Property Name to check</param>
     /// <param name="pi">Property Info retrieved (if any).</param>
     /// <returns>True if it has property, false if it does not.</returns>
-    public static bool TryGetHasProperty(Type type, string name, [NotNullWhen(true)] out PropertyInfo? pi)
+    public static bool TryGetHasProperty(Type type, ReadOnlySpan<char> name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
         var index = Array.IndexOf(Types, type);
         if (index < 0)
@@ -239,7 +237,7 @@ public static class BatchEditing
         }
     }
 
-    private static Dictionary<string, PropertyInfo> GetProps(PKM pk)
+    private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> GetProps(PKM pk)
     {
         var type = pk.GetType();
         var typeIndex = Array.IndexOf(Types, type);
@@ -392,7 +390,7 @@ public static class BatchEditing
     /// <param name="info">Pokémon to check.</param>
     /// <param name="props">PropertyInfo cache (optional)</param>
     /// <returns>True if filtered, else false.</returns>
-    private static ModifyResult SetPKMProperty(StringInstruction cmd, BatchInfo info, Dictionary<string, PropertyInfo> props)
+    private static ModifyResult SetPKMProperty(StringInstruction cmd, BatchInfo info, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         var pk = info.Entity;
         if (cmd.PropertyValue.StartsWith(CONST_BYTES, StringComparison.Ordinal))
@@ -415,7 +413,7 @@ public static class BatchEditing
         object val;
         if (cmd.Random)
             val = cmd.RandomValue;
-        else if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(cmd.PropertyValue[1..], out var opi))
+        else if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(cmd.PropertyValue.AsSpan(1), out var opi))
             val = opi.GetValue(pk) ?? throw new NullReferenceException();
         else
             val = cmd.PropertyValue;
@@ -431,7 +429,7 @@ public static class BatchEditing
     /// <param name="info">Pokémon to check.</param>
     /// <param name="props">PropertyInfo cache (optional)</param>
     /// <returns>True if filter matches, else false.</returns>
-    private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
+    private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         var match = BatchFilters.FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
         if (match != null)
@@ -446,7 +444,7 @@ public static class BatchEditing
     /// <param name="pk">Pokémon to check.</param>
     /// <param name="props">PropertyInfo cache (optional)</param>
     /// <returns>True if filter matches, else false.</returns>
-    private static bool IsFilterMatch(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
+    private static bool IsFilterMatch(StringInstruction cmd, PKM pk, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         var match = BatchFilters.FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
         if (match != null)
@@ -461,15 +459,15 @@ public static class BatchEditing
     /// <param name="pk">Pokémon to check.</param>
     /// <param name="props">PropertyInfo cache</param>
     /// <returns>True if filtered, else false.</returns>
-    private static bool IsPropertyFiltered(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
+    private static bool IsPropertyFiltered(StringInstruction cmd, PKM pk, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         if (!props.TryGetValue(cmd.PropertyName, out var pi))
             return false;
         if (!pi.CanRead)
             return false;
 
-        string val = cmd.PropertyValue;
-        if (val.StartsWith(CONST_POINTER) && props.TryGetValue(val[1..], out var opi))
+        var val = cmd.PropertyValue;
+        if (val.StartsWith(CONST_POINTER) && props.TryGetValue(val.AsSpan(1), out var opi))
         {
             var result = opi.GetValue(pk) ?? throw new NullReferenceException();
             return cmd.Comparer.IsCompareOperator(pi.CompareTo(pk, result));
@@ -483,11 +481,13 @@ public static class BatchEditing
     /// <param name="name">Property to modify.</param>
     /// <param name="info">Cached info storing Legal data.</param>
     /// <param name="propValue">Suggestion string which starts with <see cref="CONST_SUGGEST"/></param>
-    private static ModifyResult SetSuggestedPKMProperty(string name, BatchInfo info, string propValue)
+    private static ModifyResult SetSuggestedPKMProperty(ReadOnlySpan<char> name, BatchInfo info, ReadOnlySpan<char> propValue)
     {
-        var first = BatchMods.SuggestionMods.Find(z => z.IsMatch(name, propValue, info));
-        if (first != null)
-            return first.Modify(name, propValue, info);
+        foreach (var mod in BatchMods.SuggestionMods)
+        {
+            if (mod.IsMatch(name, propValue, info))
+                return mod.Modify(name, propValue, info);
+        }
         return ModifyResult.Error;
     }
 
@@ -516,28 +516,33 @@ public static class BatchEditing
     /// <returns>True if modified, false if no modifications done.</returns>
     private static bool SetComplexProperty(PKM pk, StringInstruction cmd)
     {
-        if (cmd.PropertyName.StartsWith("IV", StringComparison.Ordinal) && cmd.PropertyValue == CONST_RAND)
+        ReadOnlySpan<char> name = cmd.PropertyName;
+        ReadOnlySpan<char> value = cmd.PropertyValue;
+
+        if (name.StartsWith("IV") && value is CONST_RAND)
         {
-            SetRandomIVs(pk, cmd);
+            SetRandomIVs(pk, name);
             return true;
         }
 
-        var match = BatchMods.ComplexMods.Find(z => z.IsMatch(cmd.PropertyName, cmd.PropertyValue));
-        if (match == null)
-            return false;
-
-        match.Modify(pk, cmd);
-        return true;
+        foreach (var mod in BatchMods.ComplexMods)
+        {
+            if (!mod.IsMatch(name, value))
+                continue;
+            mod.Modify(pk, cmd);
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
     /// Sets the <see cref="PKM"/> IV(s) to a random value.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="cmd">Modification</param>
-    private static void SetRandomIVs(PKM pk, StringInstruction cmd)
+    /// <param name="propertyName">Property to modify</param>
+    private static void SetRandomIVs(PKM pk, ReadOnlySpan<char> propertyName)
     {
-        if (cmd.PropertyName == nameof(PKM.IVs))
+        if (propertyName is nameof(PKM.IVs))
         {
             var la = new LegalityAnalysis(pk);
             var enc = la.EncounterMatch;
@@ -552,9 +557,10 @@ public static class BatchEditing
             return;
         }
 
-        if (TryGetHasProperty(pk, cmd.PropertyName, out var pi))
+        if (TryGetHasProperty(pk, propertyName, out var pi))
         {
-            if (cmd.PropertyName == nameof(PK9.IV32))
+            const string IV32 = nameof(PK9.IV32);
+            if (propertyName is IV32)
             {
                 var value = (uint)Util.Rand.Next(0x3FFFFFFF + 1);
                 if (pk is BK4 bk) // Big Endian, reverse IV ordering
@@ -564,7 +570,7 @@ public static class BatchEditing
                 }
                 else
                 {
-                    var exist = ReflectUtil.GetValue(pk, cmd.PropertyName);
+                    var exist = ReflectUtil.GetValue(pk, IV32);
                     value |= exist switch
                     {
                         uint iv => iv & (3u << 30), // preserve the flags

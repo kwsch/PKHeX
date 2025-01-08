@@ -1,4 +1,5 @@
 using static PKHeX.Core.Ball;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -12,7 +13,8 @@ internal static class BallUseLegality
     /// Catch rate for these species is 3. Due to the heavy ball modifier adding [-20], the catch rate becomes 0.
     /// </remarks>
     /// <returns>True if it is impossible to capture in a <see cref="Heavy"/> ball.</returns>
-    public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Species.Beldum or (int)Species.TapuKoko or (int)Species.TapuLele or (int)Species.TapuBulu or (int)Species.TapuFini;
+    public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Beldum
+        or (int)TapuKoko or (int)TapuLele or (int)TapuBulu or (int)TapuFini;
 
     public static bool IsBallPermitted(ulong permit, byte ball)
     {
@@ -34,7 +36,7 @@ internal static class BallUseLegality
         8 when GameVersion.PLA == game => WildPokeBalls8a,
         8 => GameVersion.GO == game ? WildPokeballs8g_WithRaid : WildPokeballs8,
         9 => WildPokeballs9,
-        _ => default,
+        _ => 0,
     };
 
     private const ulong WildPokeRegular = (1 << (int)Master)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+using System;
 
 namespace PKHeX.Core;
 
@@ -30,7 +29,14 @@ public sealed class ShadowInfoTableXD
         return jp ? new ShadowInfoEntry3J(slice) : new ShadowInfoEntry3U(slice);
     }
 
-    public byte[] Write() => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();
+    public byte[] Write()
+    {
+        int count = Math.Min(Entries.Length, MaxLength / SIZE_ENTRY);
+        byte[] result = new byte[count * SIZE_ENTRY];
+        for (int i = 0; i < count; i++)
+            Entries[i].Data.CopyTo(result.AsSpan(i * SIZE_ENTRY));
+        return result;
+    }
 
     public ShadowInfoEntryXD this[int index] { get => Entries[index]; set => Entries[index] = value; }
     public int Count => Entries.Length;

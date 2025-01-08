@@ -723,6 +723,7 @@ public sealed class GameStrings : IBasicStrings
 
         static void InsertZero(Span<string> arr, string insert)
         {
+            // TM #'s are always ending with ##, so insert before the last 2 characters
             foreach (ref var str in arr)
                 str = str.Insert(str.Length - 2, insert);
         }

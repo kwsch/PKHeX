@@ -31,7 +31,7 @@ public sealed class SCBlockCompare
         LoadChanged(s1, s2, hs1);
     }
 
-    private void LoadAddRemove(SCBlockAccessor s1, SCBlockAccessor s2, ICollection<uint> hs1, IEnumerable<uint> hs2)
+    private void LoadAddRemove(SCBlockAccessor s1, SCBlockAccessor s2, HashSet<uint> hs1, HashSet<uint> hs2)
     {
         var unique = new HashSet<uint>(hs1);
         unique.SymmetricExceptWith(hs2);
@@ -51,7 +51,7 @@ public sealed class SCBlockCompare
         }
     }
 
-    private void LoadChanged(SCBlockAccessor s1, SCBlockAccessor s2, IEnumerable<uint> shared)
+    private void LoadChanged(SCBlockAccessor s1, SCBlockAccessor s2, IReadOnlySet<uint> shared)
     {
         foreach (var k in shared)
         {

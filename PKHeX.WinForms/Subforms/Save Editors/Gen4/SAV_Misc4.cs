@@ -628,7 +628,7 @@ public partial class SAV_Misc4 : Form
         bool c = curspe == species;
         CHK_HallCurrent.Checked = c;
         CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID
-            ? $"Current: {SpeciesName.GetSpeciesName(curspe, GameLanguage.GetLanguageIndex(Main.CurrentLanguage))}"
+            ? $"Current: {SpeciesName.GetSpeciesNameGeneration(curspe, GameLanguage.GetLanguageIndex(Main.CurrentLanguage), 4)}"
             : "Current: (None)";
 
         int s = 0;

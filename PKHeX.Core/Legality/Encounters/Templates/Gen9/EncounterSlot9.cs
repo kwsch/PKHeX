@@ -182,8 +182,6 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         var rand = new Xoroshiro128Plus(rnd.Rand64());
         var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rand.Next());
         pk.TeraTypeOriginal = (MoveType)type;
-        if (criteria.IsSpecifiedTeraType() && type != criteria.TeraType)
-            pk.SetTeraType(type); // sets the override type
         if (Species == (int)Core.Species.Toxtricity)
             pk.Nature = ToxtricityUtil.GetRandomNature(ref rand, Form);
 

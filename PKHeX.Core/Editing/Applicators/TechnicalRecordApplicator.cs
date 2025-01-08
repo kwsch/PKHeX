@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic for modifying the Technical Record flags of a <see cref="PK8"/>.
+/// Logic for modifying the Technical Record flags of a <see cref="ITechRecord"/>.
 /// </summary>
 public static class TechnicalRecordApplicator
 {
@@ -123,4 +123,86 @@ public static class TechnicalRecordApplicator
         PK8 => IsRecordPermitted<PersonalTable8SWSH, PersonalInfo8SWSH>(evos, PersonalTable.SWSH, index),
         _ => false,
     };
+
+    /// <inheritdoc cref="SetRecordFlags(ITechRecord, PKM, TechnicalRecordApplicatorOption, LegalityAnalysis)"/>
+    public static void SetRecordFlags<T>(this T pk, TechnicalRecordApplicatorOption option)
+        where T : PKM, ITechRecord
+        => SetRecordFlags(pk, pk, option);
+
+    /// <inheritdoc cref="SetRecordFlags(ITechRecord, PKM, TechnicalRecordApplicatorOption, LegalityAnalysis)"/>
+    public static void SetRecordFlags(this ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option)
+    {
+        record.ClearRecordFlags();
+        if (option is TechnicalRecordApplicatorOption.None)
+            return;
+        if (option is TechnicalRecordApplicatorOption.ForceAll)
+        {
+            record.SetRecordFlagsAll(true, record.Permit.RecordCountUsed);
+            return;
+        }
+        var la = new LegalityAnalysis(pk);
+        SetRecordFlagsInternal(record, pk, option, la);
+    }
+
+    /// <summary>
+    /// Applies the Technical Record flags based on the <see cref="option"/>.
+    /// </summary>
+    /// <param name="record">Object to apply to.</param>
+    /// <param name="pk">Object to apply to, but base type for other logic.</param>
+    /// <param name="option">Option to apply.</param>
+    /// <param name="la">Legality analysis to use for the option.</param>
+    public static void SetRecordFlags(this ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option, LegalityAnalysis la)
+    {
+        record.ClearRecordFlags();
+        if (option is TechnicalRecordApplicatorOption.None)
+            return;
+        if (option is TechnicalRecordApplicatorOption.ForceAll)
+        {
+            record.SetRecordFlagsAll(true, record.Permit.RecordCountUsed);
+            return;
+        }
+        SetRecordFlagsInternal(record, pk, option, la);
+    }
+
+    private static void SetRecordFlagsInternal(ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option, LegalityAnalysis la)
+    {
+        if (option is TechnicalRecordApplicatorOption.LegalCurrent)
+        {
+            Span<ushort> moves = stackalloc ushort[4];
+            pk.GetMoves(moves);
+            var evos = la.Info.EvoChainsAllGens.Get(pk.Context);
+            record.SetRecordFlags(moves, evos);
+        }
+        else if (option is TechnicalRecordApplicatorOption.LegalAll)
+        {
+            var evos = la.Info.EvoChainsAllGens.Get(pk.Context);
+            record.SetRecordFlagsAll(evos);
+        }
+    }
+}
+
+/// <summary>
+/// Options for applying Technical Record flags.
+/// </summary>
+public enum TechnicalRecordApplicatorOption
+{
+    /// <summary>
+    /// Do not apply any flags. Clear all flags.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Apply all flags, regardless of legality.
+    /// </summary>
+    ForceAll,
+
+    /// <summary>
+    /// Apply legal flags based on the current moves.
+    /// </summary>
+    LegalCurrent,
+
+    /// <summary>
+    /// Apply legal flags based on all moves able to learn in the game it resides in.
+    /// </summary>
+    LegalAll,
 }

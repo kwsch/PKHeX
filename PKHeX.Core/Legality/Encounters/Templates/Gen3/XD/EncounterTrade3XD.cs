@@ -32,13 +32,13 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     public required ushort TID16 { get; init; }
     // SID: Based on player ID
 
-    private readonly string[] TrainerNames;
+    private readonly ReadOnlyMemory<string> TrainerNames;
 
-    private readonly string[] Nicknames;
+    private readonly ReadOnlyMemory<string> Nicknames;
 
-    public EncounterTrade3XD(ushort species, byte level, string[] trainer) : this(species, level, trainer, []) { }
+    public EncounterTrade3XD(ushort species, byte level, ReadOnlyMemory<string> trainer) : this(species, level, trainer, ReadOnlyMemory<string>.Empty) { }
 
-    public EncounterTrade3XD(ushort species, byte level, string[] trainer, string[] nicknames)
+    public EncounterTrade3XD(ushort species, byte level, ReadOnlyMemory<string> trainer, ReadOnlyMemory<string> nicknames)
     {
         Species = species;
         Level = level;
@@ -72,7 +72,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             Ball = (byte)Ball.Poke,
             FatefulEncounter = FatefulEncounter,
             Language = lang,
-            OriginalTrainerName = TrainerNames[lang],
+            OriginalTrainerName = TrainerNames.Span[lang],
             OriginalTrainerGender = 0,
             TID16 = TID16,
             SID16 = tr.SID16,
@@ -91,27 +91,11 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        if (Species == (int)Core.Species.Unown)
-        {
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
-                ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-            } while (pk.Form != Form);
-        }
-        else
-        {
-            const PIDType type = PIDType.CXD;
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
-            } while (Shiny == Shiny.Never && pk.IsShiny);
-        }
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: false))
+            return;
+        MethodCXD.SetRandom(pk, criteria, pi.Gender);
     }
     #endregion
 
@@ -179,7 +163,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             return false;
         if (language == 0 || (uint)language >= TrainerNames.Length)
             return false;
-        var name = TrainerNames[language];
+        var name = TrainerNames.Span[language];
         if (pk.Context == EntityContext.Gen3)
             return trainer.SequenceEqual(name);
         if (IsSpanishDuking(language)) // Gen4+
@@ -195,7 +179,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             return true;
         if (language == 0 || (uint)language >= Nicknames.Length)
             return false;
-        var name = Nicknames[language];
+        var name = Nicknames.Span[language];
         if (pk.Context == EntityContext.Gen3)
             return nickname.SequenceEqual(name);
 
@@ -204,5 +188,5 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
         return nickname.SequenceEqual(tmp);
     }
 
-    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+    public string GetNickname(int language) => Nicknames.Span[(uint)language < Nicknames.Length ? language : 0];
 }
