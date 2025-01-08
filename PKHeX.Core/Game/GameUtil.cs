@@ -172,6 +172,9 @@ public static class GameUtil
         return g1.ContainsFromLumped(g2);
     }
 
+    /// <summary>
+    /// Checks if the <see cref="lump"/> version is the lump of the requested saved <see cref="version"/>.
+    /// </summary>
     public static bool ContainsFromLumped(this GameVersion lump, GameVersion version) => lump switch
     {
         RB       => version is RD or BU or GN,

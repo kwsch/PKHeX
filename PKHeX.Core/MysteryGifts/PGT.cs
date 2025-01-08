@@ -95,7 +95,6 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public Accessory4 Accessory { get => (Accessory4)ItemSubID; set => ItemSubID = (int)value; }
     public Backdrop4 Backdrop { get => (Backdrop4)ItemSubID; set => ItemSubID = (int)value; }
 
-    public bool IsHatched => GiftType is Pokémon or PokémonMovie;
     public override bool IsEgg { get => GiftType == PokémonEgg || IsManaphyEgg; set { if (value) { GiftType = PokémonEgg; PK.IsEgg = true; } } }
     public bool IsManaphyEgg { get => GiftType == ManaphyEgg; set { if (value) GiftType = ManaphyEgg; } }
     public override bool IsItem { get => GiftType == Item; set { if (value) GiftType = Item; } }
@@ -125,19 +124,27 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
-        // template is already filled out, only minor mutations required
-        PK4 pk4 = new((byte[])PK.Data.Clone()) { Sanity = 0 };
-        if (!IsHatched && Detail == 0)
+        // Template is already filled out, only minor mutations required
+        byte[] clone = [.. PK.Data]; // disassociate from gift template
+        PK4 pk4 = new(clone) { Sanity = 0 }; // clear for the bad WORLD08 Lucario (0x0100)
+        var pi = pk4.PersonalInfo;
+
+        if (IsEgg)
         {
+            // Only hits here for the Manaphy gift. No gift eggs (type 2) were officially distributed.
             pk4.OriginalTrainerName = tr.OT;
             pk4.TID16 = tr.TID16;
             pk4.SID16 = tr.SID16;
             pk4.OriginalTrainerGender = tr.Gender;
-            pk4.Language = tr.Language;
-        }
+            // Set Language and Version later for Manaphy, as we need to sanity check the input Trainer info.
+            // No need to worry about regular egg gifts, because again, none exist.
 
-        var pi = pk4.PersonalInfo;
-        pk4.OriginalTrainerFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+            pk4.OriginalTrainerFriendship = pi.HatchCycles;
+        }
+        else
+        {
+            pk4.OriginalTrainerFriendship = pi.BaseFriendship;
+        }
 
         if (IsManaphyEgg)
         {
@@ -226,7 +233,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
 
-            if (shiny || arng)
+            if (shiny || arng) // set even for ARNG to ensure was shiny for the original recipient
                 SetAsTradedManaphy(pk4, shiny);
             pk4.PID = pid;
             pk4.IV32 |= iv2 << 15 | iv1;
@@ -247,6 +254,8 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
                 return;
             }
 
+            // Force hatch, we want to retain the trainer IDs from the request rather than leave the egg unhatched.
+            pk4.IsEgg = false;
             pk4.IsNicknamed = false;
             pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((ushort)Core.Species.Manaphy, pk4.Language, 4);
         }
@@ -265,6 +274,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         }
         else
         {
+            // Never reaches here because no egg PGTs were distributed besides Manaphy.
             if (criteria.Shiny.IsShiny())
                 pk4.EggLocation = Locations.LinkTrade4;
             else
@@ -289,8 +299,16 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.Ability = (int)Core.Ability.Hydration;
         pk4.FatefulEncounter = true;
         pk4.Ball = (int)Core.Ball.Poke;
-        pk4.Version = trainer.Version.IsValidSavedVersion() && GameVersion.Gen4.Contains(trainer.Version) ? trainer.Version : GameVersion.D;
-        var lang = trainer.Language is < (int)LanguageID.Korean and not (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
+
+        // Manaphy is the only PGT gift egg! (and the only gift that needs a version to be set)
+        var version = trainer.Version;
+        if (!version.IsValidSavedVersion() || !GameVersion.Gen4.ContainsFromLumped(version))
+            version = GameVersion.D;
+        pk4.Version = version;
+
+        var lang = trainer.Language;
+        if ((uint)lang is >= (uint)LanguageID.Korean or (0 or (int)LanguageID.UNUSED_6))
+            lang = (int)LanguageID.English; // Don't allow Korean or unused languages
         pk4.Language = lang;
 
         pk4.IsEgg = true;
@@ -378,22 +396,39 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.EggMetDate = EncounterDate.GetDateNDS();
     }
 
+    /// <summary>
+    /// Rough check to see if the <see cref="pk"/> matches the expected Ranger Manaphy details.
+    /// </summary>
     public static bool IsRangerManaphy(PKM pk)
     {
-        if (pk.Language >= (int)LanguageID.Korean) // never korean
+        if (pk.Species is not (ushort)Core.Species.Manaphy)
+            return false;
+
+        // Never Korean or future language values; others (0, 6) will get flagged by other checks.
+        if (pk.Language >= (int)LanguageID.Korean)
             return false;
 
         var egg = pk.EggLocation;
-        if (!pk.IsEgg) // Link Trade Egg or Ranger
+        if (!pk.IsEgg) // Link Trade Egg or Ranger must be present in the Egg Met field. Met location is hatch location or Transfer (Gen5+).
             return egg is Locations.LinkTrade4 or Locations.Ranger4;
+
+        if (pk.Format != 4)
+            return false; // Can't be an Egg if it must be transferred.
+
+        // Logic below only applies to Eggs.
+        // While an egg, Egg Location must still be Ranger.
+        // If traded while an egg, the Met Location will be updated from 0 => Link Trade.
+        // When hatched, the Met Location will move to Egg Location, if non-zero (aka, Traded).
         if (egg != Locations.Ranger4)
             return false;
-
         var met = pk.MetLocation;
         return met is Locations.LinkTrade4 or 0;
     }
 
-    // Nothing is stored as a PGT besides Ranger Manaphy. Nothing should trigger these.
+    /// <summary>
+    /// Nothing should call these methods. Should be checked via the static method <see cref="IsRangerManaphy"/> prior to yielding the match.
+    /// </summary>
+    /// <remarks><see cref="PCD"/> objects will instead call their respective methods.</remarks>
     public override bool IsMatchExact(PKM pk, EvoCriteria evo) => false;
     protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false;
