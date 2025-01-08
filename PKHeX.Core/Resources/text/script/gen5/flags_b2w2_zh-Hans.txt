@@ -47,5 +47,5 @@
 0931	r	6号道路 捕获/击败 哎呀球菇 (3)
 0932	r	7号道路 捕获/击败 哎呀球菇 (1)
 0933	r	7号道路 捕获/击败 哎呀球菇 (2)
-0868	r	Defeated Seaside Cave Crustle
-2793	t	Rematched Colress (Today)
+0868	r	海边洞窟的岩殿居蟹 已击败
+2793	t	阿克罗玛 可再战 (当天)
