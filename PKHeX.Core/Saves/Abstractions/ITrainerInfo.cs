@@ -78,7 +78,7 @@ public static class TrainerInfoExtensions
             return false;
 
         if (pk.Format == 3)
-            return true; // Generation 3 does not check ot gender nor pokemon version
+            return true; // Generation 3 does not check ot gender nor version
 
         if (tr.Gender != pk.OriginalTrainerGender)
         {
@@ -132,6 +132,8 @@ public static class TrainerInfoExtensions
             return true;
         if (pk.GO_LGPE)
             return tr.Version is GameVersion.GP or GameVersion.GE;
+        if (pk.Format <= 2)
+            return true; // No version stored.
         return false;
     }
 }
