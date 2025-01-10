@@ -16,7 +16,7 @@
 0087	e	Evento de Sémola (Ruta 224)	0:Sin activar,1:Puede ser activado,2:Activado
 0133	s	Sémola (Ruta 224)	0:Sin activar,1:Activado,2:Aparecido
 0105	r	Estatua de Ruinas Hierro (Registeel)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
-0106	r	Estatua de Ruinas Iceberg (Regice) 0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0106	r	Estatua de Ruinas Iceberg (Regice)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0107	r	Estatua de Ruinas Pico Roca (Regirock)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0062	r	Current Players Interacted Underground	32:Spiritomb Aparecido
 0138	r	Torre Sagrada	0:Sin activar,1:Activado
