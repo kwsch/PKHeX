@@ -92,14 +92,14 @@
 0699	s	Steven and Lati@s Disappeared from Route 118
 0789	s	Root Fossil Disappeared from Route 111
 0790	s	Claw Fossil Disappeared from Route 111
-0927	r	Voltorb 1 Disappeared from New Mauville
-0928	r	Voltorb 2 Disappeared from New Mauville
-0929	r	Voltorb 3 Disappeared from New Mauville
-0930	r	Voltorb 4 Disappeared from New Mauville
-1044	r	(OR) Electrode 1 Disappeared from Team Magma Hideout
-1045	r	(OR) Electrode 2 Disappeared from Team Magma Hideout
-1042	r	(AS) Electrode 1 Disappeared from Team Aqua Hideout
-1043	r	(AS) Electrode 2 Disappeared from Team Aqua Hideout
+0927	r	Voltorb (1) Disappeared from New Mauville
+0928	r	Voltorb (2) Disappeared from New Mauville
+0929	r	Voltorb (3) Disappeared from New Mauville
+0930	r	Voltorb (4) Disappeared from New Mauville
+1044	r	(OR) Electrode (1) Disappeared from Team Magma Hideout
+1045	r	(OR) Electrode (2) Disappeared from Team Magma Hideout
+1042	r	(AS) Electrode (1) Disappeared from Team Aqua Hideout
+1043	r	(AS) Electrode (2) Disappeared from Team Aqua Hideout
 0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
 0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
 0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
