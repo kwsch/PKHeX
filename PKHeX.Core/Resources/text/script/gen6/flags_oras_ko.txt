@@ -86,20 +86,20 @@
 0166	g	Traded for Makuhita in Rustboro City
 0167	g	Traded for Skitty in Fortree City
 0168	g	Traded for Corsola in Pacifidlog Town
-0692	s	Defeated Winstrate Family
+0692	s	쓰러뜨림 연승가족
 0806	s	Steven Disappeared from Route 120 Bridge
 0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
 0699	s	Steven and Lati@s Disappeared from Route 118
 0789	s	Root Fossil Disappeared from Route 111
 0790	s	Claw Fossil Disappeared from Route 111
-0927	r	Voltorb 1 Disappeared from New Mauville
-0928	r	Voltorb 2 Disappeared from New Mauville
-0929	r	Voltorb 3 Disappeared from New Mauville
-0930	r	Voltorb 4 Disappeared from New Mauville
-1044	r	(OR) Electrode 1 Disappeared from Team Magma Hideout
-1045	r	(OR) Electrode 2 Disappeared from Team Magma Hideout
-1042	r	(AS) Electrode 1 Disappeared from Team Aqua Hideout
-1043	r	(AS) Electrode 2 Disappeared from Team Aqua Hideout
+0927	r	Voltorb (1) Disappeared from New Mauville
+0928	r	Voltorb (2) Disappeared from New Mauville
+0929	r	Voltorb (3) Disappeared from New Mauville
+0930	r	Voltorb (4) Disappeared from New Mauville
+1044	r	(OR) Electrode (1) Disappeared from Team Magma Hideout
+1045	r	(OR) Electrode (2) Disappeared from Team Magma Hideout
+1042	r	(AS) Electrode (1) Disappeared from Team Aqua Hideout
+1043	r	(AS) Electrode (2) Disappeared from Team Aqua Hideout
 0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
 0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
 0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
@@ -107,8 +107,8 @@
 0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
 0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
 0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
-0302	r	Spiritomb Defeated
-0303	r	Spiritomb Captured
+0302	r	화강돌 쓰러뜨림
+0303	r	화강돌 잡음
 0500	s	Sealed Chamber Puzzle Braille Text Disappeared
 3007	s	Sealed Chamber Puzzle Completed
 3008	r	Regi Caves Unlocked
