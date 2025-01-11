@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 9 Fixed Spawn Encounter
 /// </summary>
 public sealed record EncounterFixed9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender, IEncounterFormRandom
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender
 {
     public byte Generation => 9;
     ushort ILocation.Location => Location;
@@ -20,7 +20,7 @@ public sealed record EncounterFixed9
     public Ball FixedBall => Ball.None;
     public bool IsShiny => false;
     public ushort EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic; // Minior
+    public AbilityPermission Ability { get; init; }
 
     public required ushort Species { get; init; }
     public required byte Form { get; init; }
@@ -28,7 +28,6 @@ public sealed record EncounterFixed9
     public required byte FlawlessIVCount { get; init; }
     public required GemType TeraType { get; init; }
     public required byte Gender { get; init; }
-    public required AbilityPermission Ability { get; init; }
     public required Moveset Moves { get; init; }
     private byte Location0 { get; init; }
     private byte Location1 { get; init; }
@@ -173,8 +172,6 @@ public sealed record EncounterFixed9
             return true;
         if (Species is (int)Core.Species.Deerling or (int)Core.Species.Sawsbuck)
             return pk.Form <= 3;
-        if (IsRandomUnspecificForm)
-            return true; // Minior
         return false;
     }
 
