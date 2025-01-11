@@ -92,14 +92,14 @@
 0699	s	Steven and Lati@s desaparecido from Ruta 118
 0789	s	Fósil raíz desaparecido de la Ruta 111
 0790	s	Fósil garra desaparecido de la Ruta 111
-0927	r	Voltorb 1 desaparecido de Nueva Malvalanova
-0928	r	Voltorb 2 desaparecido de Nueva Malvalanova
-0929	r	Voltorb 3 desaparecido de Nueva Malvalanova
-0930	r	Voltorb 4 desaparecido de Nueva Malvalanova
-1044	r	(RO) Electrode 1 desaparecido de la Guarida Magma
-1045	r	(RO) Electrode 2 desaparecido de la Guarida Magma
-1042	r	(ZA) Electrode 1 desaparecido de la Guarida Aqua
-1043	r	(ZA) Electrode 2 desaparecido de la Guarida Aqua
+0927	r	Voltorb (1) desaparecido de Nueva Malvalanova
+0928	r	Voltorb (2) desaparecido de Nueva Malvalanova
+0929	r	Voltorb (3) desaparecido de Nueva Malvalanova
+0930	r	Voltorb (4) desaparecido de Nueva Malvalanova
+1044	r	(RO) Electrode (1) desaparecido de la Guarida Magma
+1045	r	(RO) Electrode (2) desaparecido de la Guarida Magma
+1042	r	(ZA) Electrode (1) desaparecido de la Guarida Aqua
+1043	r	(ZA) Electrode (2) desaparecido de la Guarida Aqua
 0697	r	Keckleon invisible desaparecido (Bloqueando Gimnasio Arborada)
 0702	r	Keckleon invisible desaparecido (Ruta 120, puente)
 0504	r	Keckleon invisible desaparecido (Ruta 119, encima de la cascada)
