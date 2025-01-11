@@ -1132,10 +1132,15 @@ public partial class Main : Form
 
     private static void DisplayLegalityReport(LegalityAnalysis la)
     {
-        bool verbose = ModifierKeys == Keys.Control;
+        bool verbose = ModifierKeys == Keys.Control ^ Settings.Display.ExportLegalityAlwaysVerbose;
         var report = la.Report(verbose);
         if (verbose)
         {
+            if (Settings.Display.ExportLegalityNeverClipboard)
+            {
+                WinFormsUtil.Alert(report);
+                return;
+            }
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
             if (dr != DialogResult.Yes)
                 return;
