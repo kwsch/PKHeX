@@ -1,5 +1,5 @@
 0048	*	스타팅 포켓몬	0:도치마론,1:푸호꼬,2:개구마르
-0059	g	관동 스타팅	0:보류 중,3:이상해씨,4:파이리,5:꼬부기
+0059	g	관동 스타팅	0:없음,3:이상해씨,4:파이리,5:꼬부기
 0117	s	Route 2 Event	0:Will Battle Static Wild Pidgey,1:Battled Static Wild Pidgey,2:Tutorial Complete
 0138	s	Cycle Shop	0:Bicycle Pending,1:Received Bicycle
 0204	g	Route 12 Breeder	0:Blocking further access,1:Has Lapras Gift,2:Gave Lapras
