@@ -1,7 +1,7 @@
 0048	*	스타팅 포켓몬	0:나무지기,1:아차모,2:물짱이
-0074	g	Johto Starter	0:없음,28:치코리타,29:브케인,30:리아코
-0075	g	Sinnoh Starter	0:없음,31:모부기,32:불꽃숭이,33:팽도리
-0076	g	Unova Starter	0:없음,34:주리비얀,35:뚜꾸리,36:수댕이
+0074	g	성도 스타팅		0:없음,28:치코리타,29:브케인,30:리아코
+0075	g	신오 스타팅		0:없음,31:모부기,32:불꽃숭이,33:팽도리
+0076	g	하나 스타팅		0:없음,34:주리비얀,35:뚜꾸리,36:수댕이
 0247	g	Regional Starters	0:Johto Starter Pending,3:Unova Starter Pending/Johto Starter Received,6:Sinnoh Starter Pending/Unova Starter Received,9:Sinnoh Starter Received (All Received)
 0060	*	수집된 화산재	60000:최고
 0073	s	Route 101 Static Poochyena	0:Pending,1:Approached,2:Failed to Approach
