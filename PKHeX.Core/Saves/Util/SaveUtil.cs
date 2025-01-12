@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -182,7 +183,9 @@ public static class SaveUtil
     private static bool IsSizeGen2(int length) => length is SIZE_G2RAW_U or SIZE_G2RAW_J;
 
     private static bool IsSizeCommonFixed(int length) => length is
-        SIZE_G7SM or SIZE_G7USUM or SIZE_G7GG
+        SIZE_G8LA or SIZE_G8LA_1
+        or SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3
+        or SIZE_G7SM or SIZE_G7USUM or SIZE_G7GG
         or SIZE_G6XY or SIZE_G6ORAS or SIZE_G6ORASDEMO
         or SIZE_G5RAW or SIZE_G5BW or SIZE_G5B2W2
         or SIZE_G4BR
@@ -254,12 +257,12 @@ public static class SaveUtil
     /// </summary>
     /// <param name="data">Save data</param>
     /// <param name="offset">Offset the list starts at</param>
-    /// <param name="listCount">Max count of Pokémon in the list</param>
+    /// <param name="maxCount">Max count of Pokémon in the list</param>
     /// <returns>True if a valid list, False otherwise</returns>
-    private static bool IsG12ListValid(ReadOnlySpan<byte> data, int offset, int listCount)
+    private static bool IsG12ListValid(ReadOnlySpan<byte> data, int offset, [ConstantExpected] byte maxCount)
     {
-        byte num_entries = data[offset];
-        return num_entries <= listCount && data[offset + 1 + num_entries] == 0xFF;
+        byte count = data[offset];
+        return count <= maxCount && data[offset + 1 + count] == 0xFF;
     }
 
     /// <summary>Checks to see if the data belongs to a Gen1 save</summary>

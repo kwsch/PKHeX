@@ -81,7 +81,7 @@ public sealed class EncounterGift3NY(ushort Species, Distribution3NY Distributio
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (!criteria.IsSatisfiedGender(gender))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 continue;
 
             pk.PID = pid;
