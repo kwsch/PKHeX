@@ -236,6 +236,15 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
                 return EncounterMatchRating.DeferredErrors;
             if (m.RibbonMarkDawn && !CanSpawnAtTime(RibbonIndex.MarkDawn))
                 return EncounterMatchRating.DeferredErrors;
+
+            // Some encounters can cross over into non-snow, and their encounter match might not cross back over to snow.
+            // Imagine a venn diagram, one circle is Desert, the other is Snow. The met location is in the middle, so both satisfy.
+            // But if we pick the Desert circle, it's wrong, and we need to defer to the other.
+            // Might need to add other deferral cases or maybe defer everything with a crossover location.
+            if (m.RibbonMarkSnowy && !CanSpawnInWeather(RibbonIndex.MarkSnowy))
+                return EncounterMatchRating.DeferredErrors;
+            if (m.RibbonMarkBlizzard && !CanSpawnInWeather(RibbonIndex.MarkBlizzard))
+                return EncounterMatchRating.DeferredErrors;
         }
 
         if (IsFormArgDeferralRelevant(pk.Species) && pk is IFormArgument f)
