@@ -113,7 +113,7 @@ public static class Encounter9RNG
             PersonalInfo.RatioMagicMale => 0,
             _ => GetGender(gender_ratio, rand.NextInt(100)),
         };
-        if (!criteria.IsSatisfiedGender(gender))
+        if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
             return false;
         pk.Gender = gender;
 

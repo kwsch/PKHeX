@@ -522,18 +522,21 @@ public partial class Main : Form
         { WinFormsUtil.Alert(MsgClipboardFailRead); return; }
 
         // Get Simulator Data
-        var Set = new ShowdownSet(Clipboard.GetText());
+        var text = Clipboard.GetText();
+        var set = new ShowdownSet(text);
 
-        if (Set.Species == 0)
+        if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))
+        var reformatted = set.Text;
+        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, reformatted))
             return;
 
-        if (Set.InvalidLines.Count > 0)
-            WinFormsUtil.Alert(MsgSimulatorInvalid, string.Join(Environment.NewLine, Set.InvalidLines));
+        var invalid = set.InvalidLines;
+        if (invalid.Count != 0)
+            WinFormsUtil.Alert(MsgSimulatorInvalid, string.Join(Environment.NewLine, invalid));
 
-        PKME_Tabs.LoadShowdownSet(Set);
+        PKME_Tabs.LoadShowdownSet(set);
     }
 
     private void ClickShowdownExportPKM(object sender, EventArgs e)
@@ -1132,10 +1135,15 @@ public partial class Main : Form
 
     private static void DisplayLegalityReport(LegalityAnalysis la)
     {
-        bool verbose = ModifierKeys == Keys.Control;
+        bool verbose = ModifierKeys == Keys.Control ^ Settings.Display.ExportLegalityAlwaysVerbose;
         var report = la.Report(verbose);
         if (verbose)
         {
+            if (Settings.Display.ExportLegalityNeverClipboard)
+            {
+                WinFormsUtil.Alert(report);
+                return;
+            }
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
             if (dr != DialogResult.Yes)
                 return;

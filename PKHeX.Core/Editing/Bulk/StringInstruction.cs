@@ -16,16 +16,12 @@ namespace PKHeX.Core;
 /// <see cref="FilterNotEqual"/>
 /// <see cref="FilterEqual"/>
 /// <see cref="Apply"/>
-public sealed class StringInstruction(string PropertyName, string PropertyValue)
+/// <param name="PropertyName">Property to modify.</param>
+/// <param name="PropertyValue">Value to set to the property.</param>
+/// <param name="Comparer">Filter Comparison Type</param>
+public sealed record StringInstruction(string PropertyName, string PropertyValue, InstructionComparer Comparer)
 {
-    /// <summary> Property to modify. </summary>
-    public string PropertyName { get; } = PropertyName;
-
-    /// <summary> Value to set to the property. </summary>
     public string PropertyValue { get; private set; } = PropertyValue;
-
-    /// <summary> Filter Comparison Type </summary>
-    public InstructionComparer Comparer { get; private init; }
 
     public void SetScreenedValue(ReadOnlySpan<string> arr)
     {
@@ -265,7 +261,7 @@ public sealed class StringInstruction(string PropertyName, string PropertyValue)
     {
         if (!TryParseSplitTuple(tuple, out var name, out var value))
             return false;
-        entry = new StringInstruction(name.ToString(), value.ToString()) { Comparer = eval };
+        entry = new StringInstruction(name.ToString(), value.ToString(), eval);
         return true;
     }
 
