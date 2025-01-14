@@ -161,7 +161,7 @@ public class PIDIVTest
     public void PokewalkerIVTest(uint hp, uint atk, uint def, uint spA, uint spD, uint spE, uint seed, ushort expect, ushort species, PokewalkerCourse4 course, PokewalkerSeedType type)
     {
         Span<uint> tmp = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        var result = PokewalkerRNG.GetFirstSeed(species, course, tmp, hp, atk, def, spA, spD, spE);
+        var result = PokewalkerRNG.GetFirstSeed(tmp, hp, atk, def, spA, spD, spE);
         result.Type.Should().Be(type);
         result.PriorPoke.Should().Be(expect);
         result.Seed.Should().Be(seed);

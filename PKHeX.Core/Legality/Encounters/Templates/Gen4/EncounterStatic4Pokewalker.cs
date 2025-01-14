@@ -116,7 +116,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         if (criteria.IsSpecifiedIVsAll()) // Don't trust that the requirements are valid
         {
             criteria.GetCombinedIVs(out var iv1, out var iv2);
-            var seed = PokewalkerRNG.GetFirstSeed(Species, Course, iv1, iv2);
+            var seed = PokewalkerRNG.GetFirstSeed(iv1, iv2);
             if (seed.Type != PokewalkerSeedType.None)
                 return criteria.GetCombinedIVs();
         }
@@ -146,7 +146,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     {
         Span<int> ivs = stackalloc int[6];
         pk.GetIVs(ivs);
-        var seed = PokewalkerRNG.GetFirstSeed(Species, Course, ivs);
+        var seed = PokewalkerRNG.GetFirstSeed(ivs);
         return seed.Type != PokewalkerSeedType.None;
     }
 

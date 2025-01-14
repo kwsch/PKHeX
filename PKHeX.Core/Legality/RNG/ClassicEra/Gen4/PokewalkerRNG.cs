@@ -16,17 +16,43 @@ public static class PokewalkerRNG
     private const int maxYears = 100;
     private const int secondsPerDay = 60 * 60 * 24;
 
-    /// <summary>
-    /// Get the 32-bit RNG seed for a stroll generation instance.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint GetStrollSeed(uint hour, uint minute, uint second) => (3600 * hour) + (60 * minute) + second;
+    // seeding for [stroll]: 3600 * hour + 60 * minute + second
+    // seeding for [no-stroll]: (((month*day + minute + second) & 0xff) << 24) | (hour << 16) | (year)
 
     /// <summary>
-    /// Get the 32-bit RNG seed for a no-stroll generation instance.
+    /// Get the 32-bit RNG seed for a Stroll seeding.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint GetNoStrollSeed(uint year, uint month, uint day, uint hour, uint minute, uint second) => ((((month * day) + minute + second) & 0xff) << 24) | (hour << 16) | year;
+    public static uint GetSeedStroll(uint hour, uint minute, uint second) => (3600 * hour) + (60 * minute) + second;
+
+    /// <summary>
+    /// Get the 32-bit RNG seed for a No-Stroll seeding.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint GetSeedNoStroll(uint year, uint month, uint day, uint hour, uint minute, uint second) => ((((month * day) + minute + second) & 0xff) << 24) | (hour << 16) | year;
+
+    /// <summary>
+    /// Check if the seed is from a Stroll seeding.
+    /// </summary>
+    public static bool IsSeedFormatStroll(uint seed)
+    {
+        // XXXS_SSSS
+        return seed < secondsPerDay;
+    }
+
+    /// <summary>
+    /// Check if the seed is from a No-Stroll seeding.
+    /// </summary>
+    public static bool IsSeedFormatNoStroll(uint seed)
+    {
+        // the top byte of no-stroll can be any value, so we can skip checking that byte.
+        // XX_HH_YYYY
+        if ((ushort)seed >= maxYears)
+            return false;
+        if ((byte)(seed >> 16) >= maxHours)
+            return false;
+        return true;
+    }
 
     /// <summary> Species slots per course. </summary>
     public const int SlotsPerCourse = 6;
@@ -36,7 +62,11 @@ public static class PokewalkerRNG
     /// <summary>
     /// All species for all Pokéwalker courses.
     /// </summary>
-    /// <remarks>6 species per course; each course has 3 groups (A/B/C) of 2 species (0/1).</remarks>
+    /// <remarks>
+    /// 6 species per course; each course has 3 groups (A/B/C) of 2 species (0/1).
+    /// Data is ripped from Overlay 112's route data, distilled down to just a list of species.
+    /// When selecting a slot, the game uses the result of the rand() & 1 == 0, so invert the index.
+    /// </remarks>
     private static ReadOnlySpan<ushort> CourseSpecies =>
     [
         115, 084, 029, 032, 016, 161, // 00 Refreshing Field 
@@ -71,41 +101,36 @@ public static class PokewalkerRNG
     /// <summary>
     /// Gets the first valid seed for the given Pokéwalker IVs.
     /// </summary>
-    public static PokewalkerSeedResult GetFirstSeed(ushort species, PokewalkerCourse4 course, Span<int> ivs)
+    public static PokewalkerSeedResult GetFirstSeed(Span<int> ivs)
     {
         var tmp = MemoryMarshal.Cast<int, uint>(ivs);
-        return GetFirstSeed(species, course, tmp, tmp[0], tmp[1], tmp[2], tmp[4], tmp[5], spe: tmp[3]);
+        return GetFirstSeed(tmp, tmp[0], tmp[1], tmp[2], tmp[4], tmp[5], spe: tmp[3]);
     }
 
-    /// <inheritdoc cref="GetFirstSeed(ushort, PokewalkerCourse4, Span{int})"/>
-    public static PokewalkerSeedResult GetFirstSeed(ushort species, PokewalkerCourse4 course,
-        Span<uint> tmpIVs, uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
+    /// <inheritdoc cref="GetFirstSeed(Span{int})"/>
+    public static PokewalkerSeedResult GetFirstSeed(Span<uint> tmpIVs,
+        uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
     {
         uint first = (hp | (atk << 5) | (def << 10)) << 16;
         uint second = (spe | (spa << 5) | (spd << 10)) << 16;
-        return GetFirstSeed(species, course, tmpIVs, first, second);
+        return GetFirstSeed(tmpIVs, first, second);
     }
 
-    /// <inheritdoc cref="GetFirstSeed(ushort, PokewalkerCourse4, Span{int})"/>
-    public static PokewalkerSeedResult GetFirstSeed(ushort species, PokewalkerCourse4 course,
-        uint first, uint second) => GetFirstSeed(species, course, stackalloc uint[LCRNG.MaxCountSeedsIV], first, second);
+    /// <inheritdoc cref="GetFirstSeed(Span{int})"/>
+    public static PokewalkerSeedResult GetFirstSeed(uint first, uint second)
+        => GetFirstSeed(stackalloc uint[LCRNG.MaxCountSeedsIV], first, second);
 
-    /// <inheritdoc cref="GetFirstSeed(ushort, PokewalkerCourse4, Span{int})"/>
-    public static PokewalkerSeedResult GetFirstSeed(ushort species, PokewalkerCourse4 course,
-        Span<uint> result, uint first, uint second)
+    /// <inheritdoc cref="GetFirstSeed(Span{int})"/>
+    public static PokewalkerSeedResult GetFirstSeed(Span<uint> result, uint first, uint second)
     {
         // When generating a set of Pokéwalker Pokémon (and their IVs), the game does the following logic:
-        // If the player does not begin a stroll, generate an initial seed based on seconds elapsed in the day (< 86400).
+        // If the player begins a stroll, generate an initial seed based on seconds elapsed in the day (< 86400) and 3 slots.
         // Otherwise, generate an initial seed based on the elapsed time and date (similar to Gen4 initial seeding).
 
         // If the player begins a stroll, the game generates a set of 3 Pokémon to see, with results untraceable to the correlation.
         // Then, the game generates each Pokémon's IVs by calling rand() twice.
         // Since stroll causes 3 RNG advancements, an initial seed [stroll] can be advanced 3+(2*n) times, or [no-stroll] advanced 0+(2*n) times.
         // To determine the first valid initial seed, take advantage of the even-odd nature of the RNG frames (different initial seeding algorithm).
-
-        // seeding for [stroll]: 3600 * hour + 60 * minute + second
-        // seeding for [no-stroll]: (((month*day + minute + second) & 0xff) << 24) | (hour << 16) | (year)
-        // the top byte of no-stroll can be any value, so we can skip checking that byte.
 
         int ctr = LCRNGReversal.GetSeedsIVs(result, first, second);
         if (ctr == 0)
@@ -116,16 +141,17 @@ public static class PokewalkerRNG
         {
             foreach (ref var seed in result)
             {
-                var s = seed; // already unrolled once
+                var s = seed; // first loop is already unrolled once (immediately generates IVs)
 
                 // Check the [no-stroll] case.
-                if ((byte)(s >> 16) < maxHours && (ushort)s < maxYears)
+                if (IsSeedFormatNoStroll(s))
                     return new(s, priorPoke, PokewalkerSeedType.NoStroll);
                 s = seed = LCRNG.Prev(seed);
 
                 // Check the [stroll] case.
-                if (priorPoke != 0 && s < secondsPerDay && IsValidStrollSeed(s, species, course)) // seed can't be hit due to the 3 advances from stroll
-                    return new(s, priorPoke, PokewalkerSeedType.Stroll);
+                // Due to this backtracking algorithm, the first time we check won't be a valid (needs 3 advancements)
+                if (priorPoke != 0 && IsSeedFormatStroll(s)) // don't check species; can be disassociated from slots.
+                    return new(s, --priorPoke, PokewalkerSeedType.Stroll); // decrement priorPoke back to 0-indexed
                 seed = LCRNG.Prev(seed); // prep for next loop
             }
         }
@@ -139,24 +165,44 @@ public static class PokewalkerRNG
     /// <param name="species">Species expected to be encountered.</param>
     /// <param name="course">Course the Stroll is taking place on.</param>
     /// <returns>True if the seed is valid, false otherwise.</returns>
-    public static bool IsValidStrollSeed(uint seed, ushort species, PokewalkerCourse4 course)
+    /// <remarks>
+    /// By immediately cancelling a Stroll, the next frames are not used to generate IVs, which makes these results irrelevant for checking IVs->Slot.
+    /// </remarks>
+    public static bool IsValidSeedStrollSlots(uint seed, ushort species, PokewalkerCourse4 course)
     {
         // initial seed
         // rand() & 1 => slot A
         // rand() & 1 => slot B
         // rand() & 1 => slot C
-        // generate IVs
+        // To pick the actual index, it is the result of the rand() & 1 == 0, so invert the index.
         var span = GetSpecies(course);
-        var slotA = (int)(LCRNG.Next16(ref seed) & 1);
+        var slotA = (int)(LCRNG.Next16(ref seed) & 1) ^ 1;
         if (span[slotA] == species)
             return true;
-        var slotB = (int)(LCRNG.Next16(ref seed) & 1);
+        var slotB = (int)(LCRNG.Next16(ref seed) & 1) ^ 1;
         if (span[slotB + 2] == species)
             return true;
-        var slotC = (int)(LCRNG.Next16(ref seed) & 1);
+        var slotC = (int)(LCRNG.Next16(ref seed) & 1) ^ 1;
         if (span[slotC + 4] == species)
             return true;
         return false;
+    }
+
+    /// <summary>
+    /// Gets the slot indexes for referencing the overlay data.
+    /// </summary>
+    public static (int A, int B, int C) GetSlotsStroll(ref uint seed)
+    {
+        // initial seed
+        // rand() & 1 => slot A
+        // rand() & 1 => slot B
+        // rand() & 1 => slot C
+        // To pick the actual index, it is the result of the rand() & 1 == 0, so invert the index.
+
+        var slotA = (int)(LCRNG.Next16(ref seed) & 1) ^ 1;
+        var slotB = (int)(LCRNG.Next16(ref seed) & 1) ^ 1;
+        var slotC = (int)(LCRNG.Next16(ref seed) & 1) ^ 1;
+        return (slotA, slotB, slotC);
     }
 
     /// <summary>
