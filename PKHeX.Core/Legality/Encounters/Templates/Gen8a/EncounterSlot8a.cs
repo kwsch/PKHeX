@@ -155,7 +155,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             return EncounterMatchRating.PartialMatch;
         if (IsDeferredWurmple(pk))
             return EncounterMatchRating.PartialMatch;
-        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
+        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha) || (pk is IAlphaReadOnly a && a.IsAlpha != IsAlpha))
             return EncounterMatchRating.DeferredErrors;
         if (FlawlessIVCount is not 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return EncounterMatchRating.DeferredErrors;
