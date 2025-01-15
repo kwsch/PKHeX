@@ -99,29 +99,32 @@ public static class PokewalkerRNG
     ];
 
     /// <summary>
-    /// Gets the first valid seed for the given Pokéwalker IVs.
+    /// Finds an initial seed for the Pokéwalker IVs with the least amount of capture-IVs advances needed.
     /// </summary>
-    public static PokewalkerSeedResult GetFirstSeed(Span<int> ivs)
+    /// <param name="ivs">IVs in order (speed last).</param>
+    public static PokewalkerSeedResult GetLeastEffortSeed(Span<int> ivs)
     {
         var tmp = MemoryMarshal.Cast<int, uint>(ivs);
-        return GetFirstSeed(tmp, tmp[0], tmp[1], tmp[2], tmp[4], tmp[5], spe: tmp[3]);
+        return GetLeastEffortSeed(tmp[0], tmp[1], tmp[2], tmp[4], tmp[5], spe: tmp[3]);
     }
 
-    /// <inheritdoc cref="GetFirstSeed(Span{int})"/>
-    public static PokewalkerSeedResult GetFirstSeed(Span<uint> tmpIVs,
-        uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
+    /// <inheritdoc cref="LCRNGReversal.GetSeedsIVs(Span{uint},uint, uint)"/>
+    public static PokewalkerSeedResult GetLeastEffortSeed(uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
     {
+        Span<uint> result = stackalloc uint[LCRNG.MaxCountSeedsIV];
         uint first = (hp | (atk << 5) | (def << 10)) << 16;
         uint second = (spe | (spa << 5) | (spd << 10)) << 16;
-        return GetFirstSeed(tmpIVs, first, second);
+        return GetLeastEffortSeed(result, first, second);
     }
 
-    /// <inheritdoc cref="GetFirstSeed(Span{int})"/>
-    public static PokewalkerSeedResult GetFirstSeed(uint first, uint second)
-        => GetFirstSeed(stackalloc uint[LCRNG.MaxCountSeedsIV], first, second);
+    /// <inheritdoc cref="GetLeastEffortSeed(Span{int})"/>
+    /// <inheritdoc cref="LCRNGReversal.GetSeedsIVs(Span{uint},uint, uint)"/>
+    public static PokewalkerSeedResult GetLeastEffortSeed(uint first, uint second)
+        => GetLeastEffortSeed(stackalloc uint[LCRNG.MaxCountSeedsIV], first, second);
 
-    /// <inheritdoc cref="GetFirstSeed(Span{int})"/>
-    public static PokewalkerSeedResult GetFirstSeed(Span<uint> result, uint first, uint second)
+    /// <inheritdoc cref="GetLeastEffortSeed(Span{int})"/>
+    /// <inheritdoc cref="LCRNGReversal.GetSeedsIVs(Span{uint},uint, uint)"/>
+    public static PokewalkerSeedResult GetLeastEffortSeed(Span<uint> result, uint first, uint second)
     {
         // When generating a set of Pokéwalker Pokémon (and their IVs), the game does the following logic:
         // If the player begins a stroll, generate an initial seed based on seconds elapsed in the day (< 86400) and 3 slots.
@@ -146,14 +149,24 @@ public static class PokewalkerRNG
                 // Check the [no-stroll] case.
                 if (IsSeedFormatNoStroll(s))
                     return new(s, priorPoke, PokewalkerSeedType.NoStroll);
-                s = seed = LCRNG.Prev(seed);
+                s = LCRNG.Prev(s);
 
                 // Check the [stroll] case.
                 // Due to this backtracking algorithm, the first time we check won't be a valid (needs 3 advancements)
                 if (priorPoke != 0 && IsSeedFormatStroll(s)) // don't check species; can be disassociated from slots.
                     return new(s, --priorPoke, PokewalkerSeedType.Stroll); // decrement priorPoke back to 0-indexed
-                seed = LCRNG.Prev(seed); // prep for next loop
+                seed = LCRNG.Prev(s); // prep for next loop
             }
+        }
+
+        // The above logic for Stroll checks for [0,n-1) due to the backtracking nature of the algorithm.
+        // Check the last-empty-slot for the Stroll case.
+        // That's catching 540 'mons... quite unlikely! But still possible, as not all spreads are obtainable.
+        foreach (ref var seed in result)
+        {
+            var s = LCRNG.Prev(seed);
+            if (IsSeedFormatStroll(s)) // don't check species; can be disassociated from slots.
+                return new(s, boxCapacity - 1, PokewalkerSeedType.Stroll); // decrement priorPoke back to 0-indexed
         }
         return default;
     }

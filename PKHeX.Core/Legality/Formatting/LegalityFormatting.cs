@@ -117,7 +117,17 @@ public static class LegalityFormatting
         }
         lines.Add(type);
         if (pidiv.NoSeed)
+        {
+            if (pidiv.Type is PIDType.Pokewalker)
+            {
+                var pk = info.Entity;
+                var result = PokewalkerRNG.GetLeastEffortSeed((uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
+                var line = string.Format(L_FOriginSeed_0, result.Seed.ToString("X8"));
+                line += $" [{result.Type} @ {result.PriorPoke}]";
+                lines.Add(line);
+            }
             return;
+        }
 
         if (pidiv.IsSeed64())
         {
