@@ -6,7 +6,7 @@
 0x06B	s	ひでんマシン06『いわくだき』入手済
 0x423	s	ひでんマシン07『たきのぼり』入手済
 0x07B	s	ひでんマシン08『ダイビング』入手済
-0302	s	Received HM08 during story
+0302	s	Received HM08 Before Groudon/Kyogre Awakening
 0x05A	s	「マッハじてんしゃ/ダートじてんしゃ」受け取り済み
 
 0x807	*	ストーンバッジ獲得
