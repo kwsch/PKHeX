@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace PKHeX.Drawing;
@@ -27,11 +28,8 @@ public static class ImageUtil
     public static Bitmap ChangeOpacity(Image img, double trans)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
-
-        Marshal.Copy(ptr, data, 0, data.Length);
+        GetBitmapData(bmp, out var bmpData, out var data);
         SetAllTransparencyTo(data, trans);
-        Marshal.Copy(data, 0, ptr, data.Length);
         bmp.UnlockBits(bmpData);
 
         return bmp;
@@ -40,11 +38,8 @@ public static class ImageUtil
     public static Bitmap ChangeAllColorTo(Image img, Color c)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
-
-        Marshal.Copy(ptr, data, 0, data.Length);
+        GetBitmapData(bmp, out var bmpData, out var data);
         ChangeAllColorTo(data, c);
-        Marshal.Copy(data, 0, ptr, data.Length);
         bmp.UnlockBits(bmpData);
 
         return bmp;
@@ -53,77 +48,61 @@ public static class ImageUtil
     public static Bitmap ChangeTransparentTo(Image img, Color c, byte trans, int start = 0, int end = -1)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
-
-        Marshal.Copy(ptr, data, 0, data.Length);
+        GetBitmapData(bmp, out var bmpData, out var data);
         if (end == -1)
             end = data.Length - 4;
         SetAllTransparencyTo(data, c, trans, start, end);
-        Marshal.Copy(data, 0, ptr, data.Length);
         bmp.UnlockBits(bmpData);
-
         return bmp;
     }
 
     public static Bitmap BlendTransparentTo(Image img, Color c, byte trans, int start = 0, int end = -1)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
-
-        Marshal.Copy(ptr, data, 0, data.Length);
+        GetBitmapData(bmp, out var bmpData, out var data);
         if (end == -1)
             end = data.Length - 4;
         BlendAllTransparencyTo(data, c, trans, start, end);
-        Marshal.Copy(data, 0, ptr, data.Length);
         bmp.UnlockBits(bmpData);
-
         return bmp;
     }
 
     public static Bitmap WritePixels(Image img, Color c, int start, int end)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
-
-        Marshal.Copy(ptr, data, 0, data.Length);
+        GetBitmapData(bmp, out var bmpData, out var data);
         ChangeAllTo(data, c, start, end);
-        Marshal.Copy(data, 0, ptr, data.Length);
         bmp.UnlockBits(bmpData);
-
         return bmp;
     }
 
     public static Bitmap ToGrayscale(Image img)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
-
-        Marshal.Copy(ptr, data, 0, data.Length);
+        GetBitmapData(bmp, out var bmpData, out var data);
         SetAllColorToGrayScale(data);
-        Marshal.Copy(data, 0, ptr, data.Length);
         bmp.UnlockBits(bmpData);
-
         return bmp;
     }
 
-    private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out nint ptr, out byte[] data)
+    private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out Span<byte> data)
     {
         bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-        ptr = bmpData.Scan0;
-        data = new byte[bmp.Width * bmp.Height * 4];
+        var length = bmp.Width * bmp.Height * 4;
+        data = MemoryMarshal.CreateSpan(ref Unsafe.AddByteOffset(ref Unsafe.NullRef<byte>(), bmpData.Scan0), length);
     }
 
-    public static Bitmap GetBitmap(byte[] data, int width, int height, int length, PixelFormat format = PixelFormat.Format32bppArgb)
+    public static Bitmap GetBitmap(ReadOnlySpan<byte> data, int width, int height, int length, PixelFormat format = PixelFormat.Format32bppArgb)
     {
         var bmp = new Bitmap(width, height, format);
         var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, format);
-        var ptr = bmpData.Scan0;
-        Marshal.Copy(data, 0, ptr, length);
+        var span = MemoryMarshal.CreateSpan(ref Unsafe.AddByteOffset(ref Unsafe.NullRef<byte>(), bmpData.Scan0), length);
+        data[..length].CopyTo(span);
         bmp.UnlockBits(bmpData);
         return bmp;
     }
 
-    public static Bitmap GetBitmap(byte[] data, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
+    public static Bitmap GetBitmap(ReadOnlySpan<byte> data, int width, int height, PixelFormat format = PixelFormat.Format32bppArgb)
     {
         return GetBitmap(data, width, height, data.Length, format);
     }
