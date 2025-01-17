@@ -6,7 +6,7 @@
 0x06B	s	Recibido MO06 Rompe Roca
 0x423	s	Recibido MO07 Cascada
 0x07B	s	Recibido MO08 Buceo
-0302	s	Received HM08 during story
+0302	s	Received HM08 Before Groudon/Kyogre Awakening
 0x05A	s	Recibida Bici Carrera/Acrobática
 
 0x807	*	Recibida Medalla Piedra
