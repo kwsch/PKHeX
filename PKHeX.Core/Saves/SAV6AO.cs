@@ -100,7 +100,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
     // Daycare
 
     public override string JPEGTitle => !HasJPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
-    public override byte[] GetJPEGData() => !HasJPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004).ToArray();
+    public override Span<byte> GetJPEGData() => !HasJPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004);
     private bool HasJPEGData => Data[JPEG + 0x54] == 0xFF;
 
     public override int CurrentBox { get => Blocks.BoxLayout.CurrentBox; set => Blocks.BoxLayout.CurrentBox = value; }

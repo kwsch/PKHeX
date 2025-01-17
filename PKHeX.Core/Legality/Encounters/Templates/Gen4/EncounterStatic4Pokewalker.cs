@@ -111,7 +111,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         pk.IV32 = GetIV32(criteria);
     }
 
-    private uint GetIV32(EncounterCriteria criteria)
+    private static uint GetIV32(EncounterCriteria criteria)
     {
         if (criteria.IsSpecifiedIVsAll()) // Don't trust that the requirements are valid
         {

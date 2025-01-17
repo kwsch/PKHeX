@@ -424,8 +424,7 @@ public partial class SAV_SecretBase : Form
             return;
 
         var path = sfd.FileName;
-        var data = sb.Write();
-        File.WriteAllBytes(path, data);
+        File.WriteAllBytes(path, sb.Data);
     }
     #endregion
 

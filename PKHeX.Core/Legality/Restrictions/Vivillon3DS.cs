@@ -126,7 +126,7 @@ public static class Vivillon3DS
     ];
 
     // (country:X2_region:X2)
-    // do it this way instead of region_country so that the byte[] form is better ordered for better file compression :)
+    // do it this way instead of region_country so that the buffer is better ordered for better file compression :)
     // 777 entries, so we can use a binary search to find the form. Worst case is log2(777) = 10 comparisons.
     private static ReadOnlySpan<ushort> DiffCountryRegion =>
     [

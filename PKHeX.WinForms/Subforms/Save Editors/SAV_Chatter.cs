@@ -61,7 +61,7 @@ public partial class SAV_Chatter : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        File.WriteAllBytes(sfd.FileName, Chatter.Recording.ToArray());
+        File.WriteAllBytes(sfd.FileName, Chatter.Recording);
     }
 
     private void B_ExportWAV_Click(object sender, EventArgs e)

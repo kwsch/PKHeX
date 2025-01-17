@@ -41,7 +41,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public int HoF { get; protected set; } = int.MinValue;
 
     public virtual string JPEGTitle => string.Empty;
-    public virtual byte[] GetJPEGData() => [];
+    public virtual Span<byte> GetJPEGData() => [];
 
     protected internal const int LongStringLength = 0x22; // bytes, not characters
     protected internal const int ShortStringLength = 0x1A; // bytes, not characters
