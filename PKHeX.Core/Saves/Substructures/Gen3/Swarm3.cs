@@ -5,26 +5,25 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Swarm3(byte[] Data)
+public sealed class Swarm3(Memory<byte> Raw)
 {
     public const int SIZE = 0x14;
-    public readonly byte[] Data = Data;
 
-    private Span<byte> Raw => Data.AsSpan();
+    public Span<byte> Data => Raw.Span;
 
-    public ushort Gen3Species { get => ReadUInt16LittleEndian(Raw); set => WriteUInt16LittleEndian(Raw, value); }
-    public byte MapNum    { get => Raw[2]; set => Raw[2] = value; }
-    public byte MapGroup  { get => Raw[3]; set => Raw[3] = value; }
-    public byte Level     { get => Raw[4]; set => Raw[4] = value; }
-    public byte Unused1   { get => Raw[5]; set => Raw[5] = value; }
-    public ushort Unused2 { get => ReadUInt16LittleEndian(Raw[0x6..]); set => WriteUInt16LittleEndian(Raw[0x6..], value); }
-    public ushort Move1   { get => ReadUInt16LittleEndian(Raw[0x8..]); set => WriteUInt16LittleEndian(Raw[0x8..], value); }
-    public ushort Move2   { get => ReadUInt16LittleEndian(Raw[0xA..]); set => WriteUInt16LittleEndian(Raw[0xA..], value); }
-    public ushort Move3   { get => ReadUInt16LittleEndian(Raw[0xC..]); set => WriteUInt16LittleEndian(Raw[0xC..], value); }
-    public ushort Move4   { get => ReadUInt16LittleEndian(Raw[0xE..]); set => WriteUInt16LittleEndian(Raw[0xE..], value); }
-    public byte Unused3 { get => Raw[0x10]; set => Raw[0x10] = value; }
-    public byte EncounterProbability { get => Raw[0x11]; set => Raw[0x11] = value; }
-    public ushort DaysLeft { get => ReadUInt16LittleEndian(Raw[0x12..]); set => WriteUInt16LittleEndian(Raw[0x12..], value); }
+    public ushort Gen3Species { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
+    public byte MapNum    { get => Data[2]; set => Data[2] = value; }
+    public byte MapGroup  { get => Data[3]; set => Data[3] = value; }
+    public byte Level     { get => Data[4]; set => Data[4] = value; }
+    public byte Unused1   { get => Data[5]; set => Data[5] = value; }
+    public ushort Unused2 { get => ReadUInt16LittleEndian(Data[0x6..]); set => WriteUInt16LittleEndian(Data[0x6..], value); }
+    public ushort Move1   { get => ReadUInt16LittleEndian(Data[0x8..]); set => WriteUInt16LittleEndian(Data[0x8..], value); }
+    public ushort Move2   { get => ReadUInt16LittleEndian(Data[0xA..]); set => WriteUInt16LittleEndian(Data[0xA..], value); }
+    public ushort Move3   { get => ReadUInt16LittleEndian(Data[0xC..]); set => WriteUInt16LittleEndian(Data[0xC..], value); }
+    public ushort Move4   { get => ReadUInt16LittleEndian(Data[0xE..]); set => WriteUInt16LittleEndian(Data[0xE..], value); }
+    public byte Unused3 { get => Data[0x10]; set => Data[0x10] = value; }
+    public byte EncounterProbability { get => Data[0x11]; set => Data[0x11] = value; }
+    public ushort DaysLeft { get => ReadUInt16LittleEndian(Data[0x12..]); set => WriteUInt16LittleEndian(Data[0x12..], value); }
 
     public Swarm3(Species species, byte level, byte map, Move m1, Move m2 = 0, Move m3 = 0, Move m4 = 0) : this(new byte[SIZE])
     {

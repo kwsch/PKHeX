@@ -12,7 +12,7 @@ public sealed class Epoch1970Value(Memory<byte> Data)
 {
     private Span<byte> Span => Data.Span;
 
-    public Epoch1970Value(SCBlock block) : this(block.Data) { }
+    public Epoch1970Value(SCBlock block) : this(block.Raw) { }
 
     /// <summary>
     /// time_t (seconds since 1970 Epoch)

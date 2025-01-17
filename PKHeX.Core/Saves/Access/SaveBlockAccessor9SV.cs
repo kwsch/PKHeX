@@ -45,14 +45,14 @@ public sealed class SaveBlockAccessor9SV(SAV9SV sav) : SCBlockAccessor, ISaveBlo
         public Raid9(SAV9SV sav)
         {
             var paldea = GetBlock(sav.AllBlocks, KTeraRaidPaldea);
-            Paldea = new RaidSpawnList9(sav, paldea, paldea.Data, RaidSpawnList9.RaidCountLegal_T0, true);
+            Paldea = new RaidSpawnList9(sav, paldea, paldea.Raw, RaidSpawnList9.RaidCountLegal_T0, true);
 
             if (TryGetBlock(sav.AllBlocks, KTeraRaidDLC, out var raidDLC))
             {
-                var buffer = raidDLC.Data;
+                var buffer = raidDLC.Raw;
                 const int size = 0xC80;
-                var memKita = buffer.AsMemory(0, size);
-                var memBlue = buffer.AsMemory(size, size);
+                var memKita = buffer[..size];
+                var memBlue = buffer.Slice(size, size);
                 Kitakami = new RaidSpawnList9(sav, raidDLC, memKita, RaidSpawnList9.RaidCountLegal_T1, false);
                 Blueberry = new RaidSpawnList9(sav, raidDLC, memBlue, RaidSpawnList9.RaidCountLegal_T2, false);
             }

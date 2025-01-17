@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Stores the position of the player.
 /// </summary>
-public sealed class Coordinates8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
+public sealed class Coordinates8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Raw)
 {
     // Position
     public float X { get => ReadSingleLittleEndian(Data[0x10..]); set => WriteSingleLittleEndian(Data[0x10..], value); }

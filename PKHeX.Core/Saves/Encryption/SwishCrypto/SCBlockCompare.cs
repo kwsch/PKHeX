@@ -105,7 +105,7 @@ public sealed class SCBlockCompare
         {
             foreach (var b in blocks)
             {
-                var match = list.FirstOrDefault(z => z.Value.Equals(b.Data));
+                var match = list.FirstOrDefault(z => z.Value.Equals(b.Raw));
                 if (match.Key is not { } x)
                     continue;
                 ref var exist = ref CollectionsMarshal.GetValueRefOrNullRef(names, b.Key);

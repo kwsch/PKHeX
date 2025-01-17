@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
+public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Raw)
 {
     private Span<byte> OriginalTrainerTrash => Data[..0x1A];
 
@@ -230,7 +230,7 @@ public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SW
     public TrainerCard8Poke ViewPoke(int index)
     {
         var ofs = GetPokeOffset(index);
-        var raw = block.Data.AsMemory(ofs, TrainerCard8Poke.SIZE);
+        var raw = block.Raw.Slice(ofs, TrainerCard8Poke.SIZE);
         return new TrainerCard8Poke(raw);
     }
 

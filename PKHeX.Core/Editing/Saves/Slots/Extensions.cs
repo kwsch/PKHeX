@@ -188,7 +188,7 @@ public static partial class Extensions
         if (sav is SAV8SWSH {SaveRevision: >= 2} s8)
         {
             var block = s8.Blocks.GetBlockSafe(SaveBlockAccessor8SWSH.KFusedCalyrex);
-            var c = new SlotInfoMisc(block.Data, 3, true) {Type = StorageSlotType.FusedCalyrex};
+            var c = new SlotInfoMisc(block.Raw, 3, true) {Type = StorageSlotType.FusedCalyrex};
             list.Insert(3, c);
         }
 
@@ -226,20 +226,19 @@ public static partial class Extensions
         };
 
         var block = sav.Blocks.GetBlock(SaveBlockAccessor9SV.KFusedCalyrex);
-        list.Add(new(block.Data, 0, true) { Type = StorageSlotType.FusedCalyrex });
+        list.Add(new(block.Raw, 0, true) { Type = StorageSlotType.FusedCalyrex });
 
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedKyurem, out var kyurem))
-            list.Add(new(kyurem.Data, 1, true) { Type = StorageSlotType.FusedKyurem });
+            list.Add(new(kyurem.Raw, 1, true) { Type = StorageSlotType.FusedKyurem });
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedNecrozmaS, out var solgaleo))
-            list.Add(new(solgaleo.Data, 2, true) { Type = StorageSlotType.FusedNecrozmaS });
+            list.Add(new(solgaleo.Raw, 2, true) { Type = StorageSlotType.FusedNecrozmaS });
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedNecrozmaM, out var lunala))
-            list.Add(new(lunala.Data, 3, true) { Type = StorageSlotType.FusedNecrozmaM });
+            list.Add(new(lunala.Raw, 3, true) { Type = StorageSlotType.FusedNecrozmaM });
 
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KSurpriseTrade, out var surprise))
         {
-            var st = surprise.Data.AsMemory();
-            list.Add(new(st[0x198..], 0) { Type = StorageSlotType.Misc }); // my upload
-            list.Add(new(st[0x2C..], 1) { Type = StorageSlotType.Misc }); // received from others
+            list.Add(new(surprise.Raw[0x198..], 0) { Type = StorageSlotType.Misc }); // my upload
+            list.Add(new(surprise.Raw[0x02C..], 1) { Type = StorageSlotType.Misc }); // received from others
         }
         return list;
     }

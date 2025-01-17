@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class FixedSpawnList9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
+public sealed class FixedSpawnList9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Raw)
 {
     public readonly int CountAll = block.Data.Length / FixedSpawnDetail.SIZE;
 

@@ -10,5 +10,5 @@ namespace PKHeX.Core;
 public sealed class PlayTime8b : PlayTime<SaveFile>
 {
     public PlayTime8b(SAV8BS sav, Memory<byte> raw) : base(sav, raw) { }
-    public PlayTime8b(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
+    public PlayTime8b(SAV8LA sav, SCBlock block) : base(sav, block.Raw) { }
 }

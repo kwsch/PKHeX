@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Reads four separate pouch blobs: Items, Key Items, Storage, and Recipes.
 /// </remarks>
-public sealed class MyItem8a(SAV8LA sav, SCBlock block) : MyItem(sav, block.Data)
+public sealed class MyItem8a(SAV8LA sav, SCBlock block) : MyItem(sav, block.Raw)
 {
     public override IReadOnlyList<InventoryPouch> Inventory
     {
@@ -49,14 +49,14 @@ public sealed class MyItem8a(SAV8LA sav, SCBlock block) : MyItem(sav, block.Data
 
     private static void LoadFavorites(ReadOnlySpan<InventoryPouch8a> pouches, SCBlockAccessor access)
     {
-        var favorites = access.GetBlock(SaveBlockAccessor8LA.KItemFavorite).Data.AsSpan();
+        var favorites = access.GetBlock(SaveBlockAccessor8LA.KItemFavorite).Data;
         foreach (var arr in pouches)
             LoadFavorites(arr.Items, favorites);
     }
 
     private static void SaveFavorites(ReadOnlySpan<InventoryPouch8a> pouches, SCBlockAccessor access)
     {
-        var favorites = access.GetBlock(SaveBlockAccessor8LA.KItemFavorite).Data.AsSpan();
+        var favorites = access.GetBlock(SaveBlockAccessor8LA.KItemFavorite).Data;
         favorites.Clear();
         foreach (var arr in pouches)
             SaveFavorites(arr.Items, favorites);

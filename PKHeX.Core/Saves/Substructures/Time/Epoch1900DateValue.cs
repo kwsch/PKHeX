@@ -14,7 +14,7 @@ public sealed class Epoch1900DateValue(Memory<byte> Data)
     // First 12 bits are year from 1900, next 6 bits are 0 indexed month, next 6 are days
     private Span<byte> Span => Data.Span;
 
-    public Epoch1900DateValue(SCBlock block) : this(block.Data) { }
+    public Epoch1900DateValue(SCBlock block) : this(block.Raw) { }
 
     private static DateTime Epoch => new(1900, 1, 1);
 

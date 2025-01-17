@@ -28,7 +28,10 @@ public sealed class SCBlock
     /// <summary>
     /// Decrypted data for this block.
     /// </summary>
-    public readonly byte[] Data;
+    public readonly Memory<byte> Raw;
+
+    /// <inheritdoc cref="Data"/>
+    public Span<byte> Data => Raw.Span;
 
     /// <summary>
     /// Changes the block's Boolean type. Will throw if the old / new <see cref="Type"/> is not boolean.
@@ -59,7 +62,7 @@ public sealed class SCBlock
     /// </summary>
     /// <param name="key">Hash key</param>
     /// <param name="type">Value the block has</param>
-    internal SCBlock(uint key, SCTypeCode type) : this(key, type, [])
+    internal SCBlock(uint key, SCTypeCode type) : this(key, type, Memory<byte>.Empty)
     {
     }
 
@@ -69,11 +72,11 @@ public sealed class SCBlock
     /// <param name="key">Hash key</param>
     /// <param name="type">Type of data that can be read</param>
     /// <param name="arr">Backing byte array to interpret as a typed value</param>
-    internal SCBlock(uint key, SCTypeCode type, byte[] arr)
+    internal SCBlock(uint key, SCTypeCode type, Memory<byte> arr)
     {
         Key = key;
         Type = type;
-        Data = arr;
+        Raw = arr;
     }
 
     /// <summary>
@@ -82,11 +85,11 @@ public sealed class SCBlock
     /// <param name="key">Hash key</param>
     /// <param name="arr">Backing byte array to read primitives from</param>
     /// <param name="subType">Primitive value type</param>
-    internal SCBlock(uint key, byte[] arr, SCTypeCode subType)
+    internal SCBlock(uint key, Memory<byte> arr, SCTypeCode subType)
     {
         Key = key;
         Type = SCTypeCode.Array;
-        Data = arr;
+        Raw = arr;
         SubType = subType;
     }
 
@@ -109,7 +112,7 @@ public sealed class SCBlock
     {
         if (Data.Length == 0)
             return new SCBlock(Key, Type);
-        var clone = Data.AsSpan().ToArray();
+        var clone = Data.ToArray();
         if (SubType == 0)
             return new SCBlock(Key, Type, clone);
         return new SCBlock(Key, clone, SubType);

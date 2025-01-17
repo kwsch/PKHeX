@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class FashionUnlock8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
+public sealed class FashionUnlock8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Raw)
 {
     private const int SIZE_ENTRY = 0x80;
     private const int REGIONS = 15;

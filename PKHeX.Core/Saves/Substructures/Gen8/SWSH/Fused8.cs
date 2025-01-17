@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Storage for the species that was fused into <see cref="Species.Kyurem"/> and <see cref="Species.Necrozma"/>.
 /// </summary>
-public sealed class Fused8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
+public sealed class Fused8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Raw)
 {
     private const int SizeStored = PokeCrypto.SIZE_8PARTY;
 

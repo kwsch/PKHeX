@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class BoxLayout9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data), IBoxDetailName
+public sealed class BoxLayout9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Raw), IBoxDetailName
 {
     public const int BoxCount = 32;
 

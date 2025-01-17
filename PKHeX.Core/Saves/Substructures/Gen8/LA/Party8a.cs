@@ -1,6 +1,6 @@
 namespace PKHeX.Core;
 
-public sealed class Party8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
+public sealed class Party8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Raw)
 {
     public int PartyCount
     {

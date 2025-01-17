@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </summary>>
 public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
 {
-    private readonly PokedexSaveData SaveData = new(block.Data);
+    private readonly PokedexSaveData SaveData = new(block.Raw);
 
     public const int MAX_SPECIES = 981;
     public const int MAX_FORM = 120;
