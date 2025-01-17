@@ -61,7 +61,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();
-        SetEncounterMoves(pk, LevelMin);
+        SetEncounterMoves(pk, pk.CurrentLevel);
         pk.ResetPartyStats();
         return pk;
     }
