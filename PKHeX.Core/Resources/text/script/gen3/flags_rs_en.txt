@@ -6,7 +6,7 @@
 0x06B	s	Received HM06 Rock Smash
 0x423	s	Received HM07 Waterfall
 0x07B	s	Received HM08 Dive
-0302	s	Received HM08 during story
+0302	s	Received HM08 Before Groudon/Kyogre Awakening
 0x05A	s	Received Mach Bike/Acro Bike
 
 0x807	*	Received Stone Badge
