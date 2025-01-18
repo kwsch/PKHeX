@@ -8,7 +8,8 @@ namespace PKHeX.Core;
 /// Generation 9 Tera Raid Encounter
 /// </summary>
 public sealed record EncounterTera9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IEncounterFormRandom
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IGenerateSeed32,
+        ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IEncounterFormRandom
 {
     public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -179,7 +180,7 @@ public sealed record EncounterTera9
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        var pi = PersonalTable.SV[Species, Form];
+        var pi = GetPersonal();
         var pk = new PK9
         {
             Language = lang,
@@ -207,22 +208,37 @@ public sealed record EncounterTera9
         return pk;
     }
 
+    private PersonalInfo9SV GetPersonal() => PersonalTable.SV[Species, Form];
+
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        const byte rollCount = 1;
-        const byte undefinedSize = 0;
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
-            undefinedSize, undefinedSize, undefinedSize, undefinedSize,
-            Ability, Shiny);
-
+        var param = GetParam(pi);
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk, init, param, criteria);
         if (!success && !this.TryApply32(pk, init, param, criteria.WithoutIVs()))
             this.TryApply32(pk, init, param, EncounterCriteria.Unrestricted);
     }
+
+    private GenerateParam9 GetParam(PersonalInfo9SV pi)
+    {
+        const byte rollCount = 1;
+        const byte undefinedSize = 0;
+        return new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
+            undefinedSize, undefinedSize, undefinedSize, undefinedSize,
+            Ability, Shiny);
+    }
+
+    public bool GenerateSeed32(PKM pk, uint seed)
+    {
+        var pk9 = (PK9)pk;
+        var param = GetParam(GetPersonal());
+        Encounter9RNG.GenerateData(pk9, param, EncounterCriteria.Unrestricted, seed);
+        return true;
+    }
+
     #endregion
 
-    #region Matching
+        #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (!this.IsLevelWithinRange(pk.MetLevel))

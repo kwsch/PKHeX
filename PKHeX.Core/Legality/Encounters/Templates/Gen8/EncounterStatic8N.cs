@@ -160,6 +160,18 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         return (byte)(baseValue + boost);
     }
 
+    public override void GenerateSeed64(PKM pk, ulong seed)
+    {
+        var (_, noShiny) = IsPossibleSeed(pk, seed, false);
+        var param = GetParam();
+        if (noShiny) // Should never be hit via ctor as we don't generate downleveled.
+            param = param with { Shiny = Shiny.Never };
+        var criteria = EncounterCriteria.Unrestricted;
+        var pk8 = (PK8)pk;
+        Span<int> iv = stackalloc int[6];
+        RaidRNG.TryApply(pk8, seed, iv, param, criteria);
+    }
+
     protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
     {
         var (possible, noShiny) = IsPossibleSeed(pk, seed, false);

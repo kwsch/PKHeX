@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 8 Nest Encounter (Raid)
 /// </summary>
 public abstract record EncounterStatic8Nest<T>(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, ISeedCorrelation64<PKM>,
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, ISeedCorrelation64<PKM>, IGenerateSeed64,
         IFlawlessIVCount, IFixedIVSet, IFixedGender, IDynamaxLevelReadOnly, IGigantamaxReadOnly where T : EncounterStatic8Nest<T>
 {
     public byte Generation => 8;
@@ -123,7 +123,9 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             pk.StatNature = criteria.Nature;
     }
 
-    private GenerateParam8 GetParam(PersonalInfo8SWSH pi)
+    protected GenerateParam8 GetParam() => GetParam(Info);
+
+    protected GenerateParam8 GetParam(PersonalInfo8SWSH pi)
     {
         var ratio = RemapGenderToParam(Gender, pi);
         return new GenerateParam8(Species, ratio, FlawlessIVCount, Ability, Shiny, Nature.Random, IVs);
@@ -250,9 +252,18 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     /// <returns>True if the seed is valid for the criteria.</returns>
     public bool Verify(PKM pk, ulong seed, bool forceNoShiny = false)
     {
-        var param = GetParam(PersonalTable.SWSH.GetFormEntry(Species, Form));
+        var param = GetParam();
         Span<int> iv = stackalloc int[6];
         return RaidRNG.Verify(pk, seed, iv, param, forceNoShiny: forceNoShiny);
+    }
+
+    public virtual void GenerateSeed64(PKM pk, ulong seed)
+    {
+        var criteria = EncounterCriteria.Unrestricted;
+        var pk8 = (PK8)pk;
+        var param = GetParam();
+        Span<int> iv = stackalloc int[6];
+        RaidRNG.TryApply(pk8, seed, iv, param, criteria);
     }
 
     protected virtual bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)

@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// Generation 3 Event Gift
 /// </summary>
 public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, IFatefulEncounterReadOnly,
-    IRibbonSetEvent3, IRandomCorrelationEvent3, IFixedTrainer, IMetLevel
+    IRibbonSetEvent3, IRandomCorrelationEvent3, IFixedTrainer, IMetLevel, IGenerateSeed32
 {
     public ushort Species { get; }
     public byte Form => 0;
@@ -211,6 +211,29 @@ public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, 
             pk.RefreshAbility((int)(pk.PID & 1));
             return seed;
         }
+    }
+
+    public bool GenerateSeed32(PKM pk, uint seed)
+    {
+        var pk3 = (PK3)pk;
+        if (Method is Channel)
+        {
+            seed = ChannelJirachi.SkipToPIDIV(seed);
+            PIDGenerator.SetValuesFromSeedChannel(pk3, seed);
+            return true;
+        }
+
+        uint idXor = pk.TID16 ^ (uint)pk.SID16;
+        pk3.PID = Shiny switch
+        {
+            Shiny.Never when Method is BACD_U_AX => GetAntishiny(ref seed, idXor),
+            Shiny.Never => GetRegularAntishiny(ref seed, idXor),
+            Shiny.Always => GetForceShiny(ref seed, idXor),
+            _ when Method is Method_2 => GetMethod2(ref seed),
+            _ => GetRegular(ref seed),
+        };
+        pk3.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
+        return true;
     }
 
     private static bool TrySetWishmkrShiny(PK3 pk, EncounterCriteria criteria)

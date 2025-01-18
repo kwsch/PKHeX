@@ -7,7 +7,8 @@ namespace PKHeX.Core;
 /// Generation 8 Static Encounter
 /// </summary>
 public sealed record EncounterStatic8b(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>, IFlawlessIVCount, IFatefulEncounterReadOnly, IStaticCorrelation8b
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>,
+        IFlawlessIVCount, IFatefulEncounterReadOnly, IStaticCorrelation8b, IGenerateSeed32
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
@@ -114,6 +115,16 @@ public sealed record EncounterStatic8b(GameVersion Version)
             var shiny = Shiny == Shiny.Never ? Shiny.Never : Shiny.Random;
             Wild8bRNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount, Ability);
         }
+    }
+
+    public bool GenerateSeed32(PKM pk, uint seed)
+    {
+        var criteria = EncounterCriteria.Unrestricted;
+        if (!IsRoaming)
+            return false;
+        var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
+        Roaming8bRNG.TryApplyFromSeed(pk, criteria, shiny, FlawlessIVCount, seed);
+        return true;
     }
 
     #endregion
