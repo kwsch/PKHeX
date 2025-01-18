@@ -58,9 +58,14 @@ internal static class BatchModifications
         if (e is IMasteryInitialMoveShop8 enc)
             enc.SetInitialMastery(pk);
         if (IsAll(propValue))
+        {
+            t.SetPurchasedFlagsAll();
             t.SetMoveShopFlagsAll(pk);
+        }
         else
+        {
             t.SetMoveShopFlags(pk);
+        }
         return ModifyResult.Modified;
     }
 
