@@ -64,6 +64,14 @@ public static class GenerateMethodJ
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
 
+                if (criteria.IsSpecifiedForm() && pk.Species is (ushort)Species.Unown)
+                {
+                    var form = (byte)criteria.Form;
+                    if (!SolaceonRuins4.IsFormValid(LCRNG.Prev4(seed), form))
+                        break; // try again
+                    pk.Form = form;
+                }
+
                 if (randLevel)
                 {
                     var level = (byte)MethodJ.GetRandomLevel(enc, lv, LeadRequired.None);
@@ -121,6 +129,14 @@ public static class GenerateMethodJ
                 : MethodJ.GetSeed(enc, seed);
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
+
+            if (criteria.IsSpecifiedForm() && pk.Species is (ushort)Species.Unown)
+            {
+                var form = (byte)criteria.Form;
+                if (!SolaceonRuins4.IsFormValid(seed, form))
+                    continue;
+                pk.Form = form;
+            }
 
             if (MethodJ.IsLevelRand(enc))
             {

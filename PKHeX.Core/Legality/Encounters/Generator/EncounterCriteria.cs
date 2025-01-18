@@ -42,6 +42,12 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
 
     public sbyte HiddenPowerType { get; init; }
 
+    /// <summary>
+    /// Form to generate, when the form is random.
+    /// </summary>
+    /// <remarks>Currently only used for Unown in Generation 4.</remarks>
+    public sbyte Form { get; init; }
+
     /// <summary> Flexibility for the satisfaction of the criteria. </summary>
     public EncounterMutation Mutations { get; init; }
 
@@ -52,6 +58,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         Nature = Nature.Random;
 
         IV_HP = IV_ATK = IV_DEF = IV_SPA = IV_SPD = IV_SPE = RandomIV;
+        Form = -1;
         HiddenPowerType = -1;
     }
 
@@ -156,6 +163,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         HiddenPowerType = s.HiddenPowerType,
         Mutations = allowed,
         LevelMax = s.Level,
+        Form = (sbyte)s.Form,
 
         Ability = GetAbilityPermissions(s.Ability, pi),
         Nature = NatureUtil.GetNature(s.Nature),
@@ -214,6 +222,8 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
             return result.ToNeutral();
         return result;
     }
+
+    public bool IsSpecifiedForm() => Form != -1;
 
     /// <summary>
     /// Indicates if the <see cref="Gender"/> is specified.

@@ -7,6 +7,17 @@ public static class SolaceonRuins4
     /// <summary>
     /// Checks if the requested <see cref="form"/> is valid for the given seed.
     /// </summary>
+    public static bool IsFormValid(uint seed, byte form)
+    {
+        if (IsSingleFormRoomUnown(form))
+            return true; // FRIEND: Specific rooms with only one form.
+
+        var f = LCRNG.Next6(seed) >> 16;
+        var expect = GetUnownForm(f, form);
+        return expect == form;
+    }
+
+    /// <inheritdoc cref="IsFormValid(uint,byte)"/>
     public static bool IsFormValid(PKM pk, byte form)
     {
         if (IsSingleFormRoomUnown(form))
