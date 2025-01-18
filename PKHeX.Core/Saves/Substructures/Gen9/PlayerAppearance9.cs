@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Stores the selected facial appearances of the player.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class PlayerAppearance9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
+public sealed class PlayerAppearance9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Raw)
 {
     public ulong SkinColor     { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
     public ulong LipColor      { get => ReadUInt64LittleEndian(Data[0x08..]); set => WriteUInt64LittleEndian(Data[0x08..], value); }

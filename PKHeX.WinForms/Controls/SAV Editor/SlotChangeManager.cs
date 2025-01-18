@@ -204,7 +204,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         return newfile;
     }
 
-    private bool TryMakeDragDropPKM(PictureBox pb, byte[] data, string newfile)
+    private bool TryMakeDragDropPKM(PictureBox pb, ReadOnlySpan<byte> data, string newfile)
     {
         File.WriteAllBytes(newfile, data);
         if (pb.Image is not Bitmap img)

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Exposes information about Box Names and which box is the first box to show when the UI is opened.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class BoxLayout8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data), IBoxDetailName
+public sealed class BoxLayout8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Raw), IBoxDetailName
 {
     public const int BoxCount = 32;
 

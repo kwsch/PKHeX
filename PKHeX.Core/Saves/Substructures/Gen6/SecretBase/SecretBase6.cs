@@ -13,7 +13,7 @@ public class SecretBase6(Memory<byte> raw)
     public const int MinLocationID = -1;
     public const int MaxLocationID = 85;
 
-    protected Span<byte> Data => raw.Span;
+    public Span<byte> Data => raw.Span;
 
     // structure: (first at 23D24 in sav)
     // [000-001] u8 IsNew
@@ -136,8 +136,6 @@ public class SecretBase6(Memory<byte> raw)
             LoadSelf(other);
     }
 
-    public virtual byte[] Write() => Data.ToArray();
-
     public static SecretBase6? Read(byte[] data)
     {
         return data.Length switch
@@ -224,6 +222,4 @@ public sealed class SecretBase6Other(Memory<byte> raw) : SecretBase6(raw)
     }
 
     protected override void LoadOther(SecretBase6Other other) => other.Data.CopyTo(Data);
-
-    public override byte[] Write() => Data.ToArray();
 }

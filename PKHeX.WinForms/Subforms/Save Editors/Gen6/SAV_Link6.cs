@@ -64,7 +64,7 @@ public partial class SAV_Link6 : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        File.WriteAllBytes(sfd.FileName, Gifts.Data.ToArray());
+        File.WriteAllBytes(sfd.FileName, Gifts.Data);
         WinFormsUtil.Alert("Pokémon Link data saved to:" + Environment.NewLine + sfd.FileName);
     }
 

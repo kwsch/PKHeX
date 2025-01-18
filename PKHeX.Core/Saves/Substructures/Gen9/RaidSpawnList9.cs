@@ -17,7 +17,7 @@ public sealed class RaidSpawnList9 : SaveBlock<SAV9SV>
     private readonly Memory<byte> Memory;
     private Span<byte> Span => Memory.Span;
 
-    public RaidSpawnList9(SAV9SV sav, SCBlock block, Memory<byte> memory, int countUsed, bool hasSeeds) : base(sav, block.Data)
+    public RaidSpawnList9(SAV9SV sav, SCBlock block, Memory<byte> memory, int countUsed, bool hasSeeds) : base(sav, block.Raw)
     {
         Memory = memory;
         var length = memory.Length;

@@ -99,7 +99,7 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     }
 
     public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
-    public override byte[] GetJPEGData() => !HasJPPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004).ToArray();
+    public override Span<byte> GetJPEGData() => !HasJPPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004);
     private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
     public void UnlockAllFriendSafariSlots()

@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// List of Pokewalker Courses for HeartGold/SoulSilver
+/// </summary>
 public enum PokewalkerCourse4 : byte
 {
     RefreshingField = 0,
@@ -25,9 +28,13 @@ public enum PokewalkerCourse4 : byte
     BeyondTheSea = 20,
     NightSkysEdge = 21,
     YellowForest = 22,
+
+    // A Pokéwalker can send Pokémon to a copy of HG/SS it is not paired with.
+    // The captured Pokémon are not locked to the mentioned language, but the course unlock flag is.
     Rally = 23, // JPN Exclusive
     Sightseeing = 24, // JPN/KOR Exclusive
     WinnersPath = 25,
     AmityMeadow = 26, // JPN Exclusive
+
     MAX_COUNT = 27,
 }

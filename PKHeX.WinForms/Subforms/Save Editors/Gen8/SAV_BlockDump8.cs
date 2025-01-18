@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static PKHeX.Core.SCBlockUtil;
@@ -80,7 +81,11 @@ public partial class SAV_BlockDump8 : Form
     {
         var block = CurrentBlock;
         L_Detail_R.Text = GetBlockSummary(block);
-        RTB_Hex.Text = string.Join(' ', block.Data.Select(z => $"{z:X2}"));
+
+        var sb = new StringBuilder();
+        foreach (var b in block.Data)
+            sb.Append($"{b:X2} ");
+        RTB_Hex.Text = sb.ToString();
 
         var blockName = Metadata.GetBlockName(block, out var obj);
         if (blockName != null)

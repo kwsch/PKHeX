@@ -136,4 +136,20 @@ public static class MoveShopRecordApplicator
                 shop.SetMasteredRecordFlag(index, true);
         }
     }
+
+    /// <summary>
+    /// Sets the "purchased" move shop flag for all possible moves.
+    /// </summary>
+    public static void SetPurchasedFlagsAll(this IMoveShop8Mastery shop)
+    {
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
+        for (int index = 0; index < permit.RecordCountUsed; index++)
+        {
+            var allowed = permit.IsRecordPermitted(index);
+            if (!allowed)
+                continue;
+            shop.SetPurchasedRecordFlag(index, true);
+        }
+    }
 }

@@ -843,7 +843,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_JPEG_Click(object sender, EventArgs e)
     {
         var s6 = (SAV6)SAV;
-        byte[] jpeg = s6.GetJPEGData();
+        var jpeg = s6.GetJPEGData();
         if (jpeg.Length == 0)
         {
             WinFormsUtil.Alert(MsgSaveJPEGExportFail);

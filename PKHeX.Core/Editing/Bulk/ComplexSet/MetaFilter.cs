@@ -9,6 +9,6 @@ public sealed class MetaFilter(
     Func<object, StringInstruction, bool> FilterPKM)
     : IComplexFilterMeta
 {
-    public bool IsMatch(ReadOnlySpan<char> prop) => prop == Property;
+    public bool IsMatch(ReadOnlySpan<char> prop) => prop.SequenceEqual(Property);
     public bool IsFiltered(object pk, StringInstruction value) => FilterPKM(pk, value);
 }

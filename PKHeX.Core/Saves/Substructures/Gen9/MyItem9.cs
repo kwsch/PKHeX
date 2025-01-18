@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Player item pouches storage
 /// </summary>
 /// <remarks>size=0xBB80 (<see cref="ItemSaveSize"/> items)</remarks>
-public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Data)
+public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
 {
     public const int ItemSaveSize = 3000;
 

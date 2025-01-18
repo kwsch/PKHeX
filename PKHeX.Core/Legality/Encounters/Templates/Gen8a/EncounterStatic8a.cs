@@ -250,7 +250,7 @@ public sealed record EncounterStatic8a
         if (!IsForcedMasteryCorrect(pk))
             return EncounterMatchRating.DeferredErrors;
 
-        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
+        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha) || (pk is IAlphaReadOnly a && a.IsAlpha != IsAlpha))
             return EncounterMatchRating.DeferredErrors;
 
         if (IsAlpha && pk is PA8 { AlphaMove: 0 })

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 
 public sealed class HallOfFameTime8 : SaveBlock<SAV8SWSH>
 {
-    public HallOfFameTime8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data)
+    public HallOfFameTime8(SAV8SWSH sav, SCBlock block) : base(sav, block.Raw)
     {
         Debug.Assert(Data.Length == 8);
     }

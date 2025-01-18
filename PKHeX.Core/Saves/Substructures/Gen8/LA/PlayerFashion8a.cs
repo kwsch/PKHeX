@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Stores the selected appearance choices of the player.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class PlayerFashion8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
+public sealed class PlayerFashion8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Raw)
 {
     public ulong Hair     { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
     public ulong Contacts { get => ReadUInt64LittleEndian(Data[0x08..]); set => WriteUInt64LittleEndian(Data[0x08..], value); }

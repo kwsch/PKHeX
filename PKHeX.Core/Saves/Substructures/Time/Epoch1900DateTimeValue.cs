@@ -12,7 +12,7 @@ public sealed class Epoch1900DateTimeValue(Memory<byte> Data) : EpochDateTime(Da
     // Data should be 4 or 8 bytes where we only care about the first 4 or 4.5 bytes i.e. 32 or 36 bits
     // First 12 bits are year from 1900, next 4 bits are 0 indexed month, next 5 are days, next 5 are hours, next 6 bits are minutes, (optional) last 4 bits are seconds
 
-    public Epoch1900DateTimeValue(SCBlock block) : this(block.Data) { }
+    public Epoch1900DateTimeValue(SCBlock block) : this(block.Raw) { }
 
     private static DateTime Epoch => new(1900, 1, 1);
 

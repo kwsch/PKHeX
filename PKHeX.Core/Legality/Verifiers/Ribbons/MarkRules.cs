@@ -145,8 +145,10 @@ public static class MarkRules
     {
         if (pk is not IRibbonSetMark9 m)
             return true;
-        if (!wasAlpha || !HasEnteredHOME300(pk))
+        if (!wasAlpha)
             return !m.RibbonMarkAlpha; // Shouldn't have the flag.
+        if (!HasEnteredHOME300(pk))
+            return true; // Can be either state -- only HOME sets the flag.
         return m.RibbonMarkAlpha; // Should have the flag.
     }
 

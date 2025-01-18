@@ -41,7 +41,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
         return 2;
     }
 
-    private byte[] GetDexBlock(Zukan8Type infoDexType) => infoDexType switch
+    private Span<byte> GetDexBlock(Zukan8Type infoDexType) => infoDexType switch
     {
         Zukan8Type.Galar => Galar.Data,
         Zukan8Type.Armor => Rigel1.Data,
@@ -49,8 +49,8 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
         _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null),
     };
 
-    private static bool GetFlag(byte[] data, int baseOffset, int bitIndex) => FlagUtil.GetFlag(data, baseOffset + (bitIndex >> 3), bitIndex);
-    private static void SetFlag(byte[] data, int baseOffset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, baseOffset + (bitIndex >> 3), bitIndex, value);
+    private static bool GetFlag(ReadOnlySpan<byte> data, int baseOffset, int bitIndex) => FlagUtil.GetFlag(data, baseOffset + (bitIndex >> 3), bitIndex);
+    private static void SetFlag(Span<byte> data, int baseOffset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, baseOffset + (bitIndex >> 3), bitIndex, value);
 
     private static Dictionary<ushort, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision, int count)
     {
@@ -177,12 +177,12 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
 
     public bool GetSeen(Zukan8Index entry)
     {
-        byte[] data = GetDexBlock(entry.DexType);
+        var data = GetDexBlock(entry.DexType);
         int offset = entry.Offset;
         for (int i = 0; i < SeenRegionCount; i++)
         {
             var ofs = offset + (SeenRegionSize * i);
-            if (ReadUInt64LittleEndian(data.AsSpan(ofs)) != 0)
+            if (ReadUInt64LittleEndian(data[ofs..]) != 0)
                 return true;
         }
 
@@ -304,7 +304,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     {
         var data = GetDexBlock(entry.DexType);
         var index = entry.Offset;
-        var value = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
+        var value = ReadUInt32LittleEndian(data[(index + OFS_CAUGHT)..]);
         return (value >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
     }
 
@@ -320,7 +320,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     {
         var data = GetDexBlock(entry.DexType);
         var index = entry.Offset;
-        var span = data.AsSpan(index + OFS_CAUGHT);
+        var span = data[(index + OFS_CAUGHT)..];
         var current = ReadUInt32LittleEndian(span);
         uint update = (current & ~(0x1FFFu << 15)) | ((value & 0x1FFF) << 15);
         WriteUInt32LittleEndian(span, update);
@@ -338,7 +338,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     {
         var data = GetDexBlock(entry.DexType);
         var index = entry.Offset;
-        var value = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
+        var value = ReadUInt32LittleEndian(data[(index + OFS_CAUGHT)..]);
         return (value >> 29) & 3;
     }
 
@@ -354,7 +354,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     {
         var data = GetDexBlock(entry.DexType);
         var index = entry.Offset;
-        var span = data.AsSpan(index + OFS_CAUGHT);
+        var span = data[(index + OFS_CAUGHT)..];
         var current = ReadUInt32LittleEndian(span);
         uint update = (current & ~(3u << 29)) | ((value & 3) << 29);
         WriteUInt32LittleEndian(span, update);
@@ -432,7 +432,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
         var dex = entry.DexType;
         var index = entry.Offset;
         var data = GetDexBlock(dex);
-        return ReadUInt32LittleEndian(data.AsSpan(index + ofs));
+        return ReadUInt32LittleEndian(data[(index + ofs)..]);
     }
 
     private void SetU32(ushort species, uint value, int ofs)
@@ -448,7 +448,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
         var dex = entry.DexType;
         var index = entry.Offset;
         var data = GetDexBlock(dex);
-        WriteUInt32LittleEndian(data.AsSpan(index + ofs), value);
+        WriteUInt32LittleEndian(data[(index + ofs)..], value);
     }
 
     #endregion
@@ -500,9 +500,9 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
 
     public override void SeenNone()
     {
-        Galar .Data.AsSpan().Clear();
-        Rigel1.Data.AsSpan().Clear();
-        Rigel2.Data.AsSpan().Clear();
+        Galar .Data.Clear();
+        Rigel1.Data.Clear();
+        Rigel2.Data.Clear();
     }
 
     public override void CaughtNone()
@@ -661,7 +661,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     private void ClearDexEntryAll(Zukan8Index entry)
     {
         var data = GetDexBlock(entry.DexType);
-        Array.Clear(data, entry.Offset, EntrySize);
+        data.Slice(entry.Offset, EntrySize).Clear();
     }
 
     public void SetAllBattledCount(uint count = 500)

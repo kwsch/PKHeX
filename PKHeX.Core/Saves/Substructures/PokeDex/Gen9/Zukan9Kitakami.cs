@@ -14,7 +14,7 @@ public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV
 
         const int size = PokeDexEntry9Kitakami.SIZE;
         var internalSpecies = SpeciesConverter.GetInternal9(species);
-        var span = Block.Data.AsSpan(internalSpecies * size, size);
+        var span = Block.Data.Slice(internalSpecies * size, size);
         return new PokeDexEntry9Kitakami(span);
     }
 
@@ -94,10 +94,7 @@ public sealed class Zukan9Kitakami(SAV9SV sav, SCBlock Block) : ZukanBase<SAV9SV
         return (0, 0);
     }
 
-    public override void SeenNone()
-    {
-        Array.Clear(Block.Data, 0, Block.Data.Length);
-    }
+    public override void SeenNone() => Block.Data.Clear();
 
     public override void CaughtNone()
     {

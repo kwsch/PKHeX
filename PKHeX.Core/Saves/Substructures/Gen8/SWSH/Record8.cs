@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Record8(SAV8SWSH sav, SCBlock block) : RecordBlock<SAV8SWSH>(sav, block.Data)
+public sealed class Record8(SAV8SWSH sav, SCBlock block) : RecordBlock<SAV8SWSH>(sav, block.Raw)
 {
     public const int RecordCount = 50;
     public const int WattTotal = 22;

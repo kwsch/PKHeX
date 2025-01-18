@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Storage for the two in-game daycare structures.
 /// </summary>
-public sealed class Daycare8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
+public sealed class Daycare8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Raw)
 {
     // BLOCK STRUCTURE:
     // bool8 present

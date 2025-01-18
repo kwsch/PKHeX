@@ -816,7 +816,7 @@ public partial class SAV_Misc5 : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        var data = bw.Forest.ForestCity.ToArray();
+        var data = bw.Forest.ForestCity.Span;
         File.WriteAllBytes(sfd.FileName, data);
     }
 

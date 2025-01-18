@@ -14,6 +14,7 @@ public sealed class CXDVerifier : Verifier
         var pk = data.Entity;
         if (data.EncounterMatch is EncounterStatic3XD { Species: (ushort)Species.Eevee })
             VerifyStarterXD(data);
+        // Colo starters are already hard-verified. No need to check them here.
 
         if (pk.OriginalTrainerGender == 1)
             data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));

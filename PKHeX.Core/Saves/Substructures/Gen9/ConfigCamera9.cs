@@ -2,7 +2,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class ConfigCamera9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
+public sealed class ConfigCamera9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Raw)
 {
     // Structure: u32
     /* CameraSupport:1 | On = 0, Off = 1

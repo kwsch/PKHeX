@@ -536,8 +536,8 @@ public static class MethodCXD
                 if (!IsMatchIVs(iv1, iv2, ivSeed))
                     continue;
             }
-            var pidSeed = XDRNG.Next7(seed);
-            var pid = GetColoStarterPID(ref pidSeed, id32);
+            var pidSeedU = XDRNG.Next7(seed);
+            var pid = GetColoStarterPID(ref pidSeedU, id32);
             if (species is (ushort)Species.Umbreon)
             {
                 if (pid != expectPID)
@@ -547,10 +547,11 @@ public static class MethodCXD
             }
 
             // Espeon
-            if (!IsMatchIVs(iv1, iv2, pidSeed))
+            var afterFake = XDRNG.Next2(pidSeedU);
+            if (!IsMatchIVs(iv1, iv2, afterFake))
                 continue;
-            pidSeed = XDRNG.Next3(pidSeed);
-            pid = GetColoStarterPID(ref pidSeed, id32);
+            var pidSeedE = XDRNG.Next3(afterFake);
+            pid = GetColoStarterPID(ref pidSeedE, id32);
             if (pid != expectPID)
                 continue;
             result = seed;

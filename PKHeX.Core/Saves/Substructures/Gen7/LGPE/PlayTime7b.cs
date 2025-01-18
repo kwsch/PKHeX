@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class PlayTime7b : PlayTimeLastSaved<SaveFile, Epoch1900DateTimeValue>
 {
     public PlayTime7b(SAV7b sav, Memory<byte> raw) : base(sav, raw) { }
-    public PlayTime7b(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
+    public PlayTime7b(SAV8SWSH sav, SCBlock block) : base(sav, block.Raw) { }
 
     protected override Epoch1900DateTimeValue LastSaved => new(Raw.Slice(0x4, 4));
 }
