@@ -104,8 +104,8 @@ public static class LegalityFormatting
     private static void AddEncounterInfoPIDIV(List<string> lines, LegalInfo info)
     {
         var pidiv = info.PIDIV;
-        var type = string.Format(L_FPIDType_0, pidiv.Type);
         var enc = info.EncounterOriginal;
+        var type = string.Format(L_FPIDType_0, pidiv.Type);
         if (enc is IRandomCorrelationEvent3 r3)
         {
             var mainType = r3.GetSuggestedCorrelation();
@@ -122,10 +122,7 @@ public static class LegalityFormatting
         {
             if (pidiv.Type is PIDType.Pokewalker)
             {
-                var pk = info.Entity;
-                var result = PokewalkerRNG.GetLeastEffortSeed((uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
-                var line = string.Format(L_FOriginSeed_0, result.Seed.ToString("X8"));
-                line += $" [{result.Type} @ {result.PriorPoke}]";
+                var line = GetLinePokewalkerSeed(info);
                 lines.Add(line);
             }
             return;
@@ -133,30 +130,13 @@ public static class LegalityFormatting
 
         if (pidiv.IsSeed64())
         {
-            var seed = pidiv.Seed64;
-            lines.Add(string.Format(L_FOriginSeed_0, seed.ToString("X16")));
+            var line = string.Format(L_FOriginSeed_0, pidiv.Seed64.ToString("X16"));
+            lines.Add(line);
             return;
         }
         if (enc is IEncounterSlot34 s)
         {
-            var lead = pidiv.Lead;
-            var seed = !info.FrameMatches || lead == LeadRequired.Invalid ? pidiv.OriginSeed : pidiv.EncounterSeed;
-            var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
-            if (lead != LeadRequired.None)
-            {
-                if (lead is LeadRequired.Static)
-                    line += $" [{s.StaticIndex}/{s.StaticCount}]";
-                else if (lead is LeadRequired.MagnetPull)
-                    line += $" [{s.MagnetPullIndex}/{s.MagnetPullCount}]";
-                else
-                    line += $" [{s.SlotNumber}]";
-
-                line += $" ({lead.Localize()})";
-            }
-            else
-            {
-                line += $" [{s.SlotNumber}]";
-            }
+            var line = GetLineSlot34(info, pidiv, s);
             lines.Add(line);
         }
         else
@@ -168,15 +148,67 @@ public static class LegalityFormatting
             lines.Add(line);
         }
         if (enc is EncounterSlot3 or EncounterStatic3)
-        {
-            var seed = enc is EncounterSlot3 && info.FrameMatches ? pidiv.EncounterSeed : pidiv.OriginSeed;
-            var (initialSeed, frame) = GetInitialSeed(seed, info.Entity.Version);
-            lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {frame + 1}"); // frames are 1-indexed
+            AppendDetailsFrame3(info, lines);
+    }
 
-            var sb = new StringBuilder();
-            AppendFrameTimeStamp(frame, sb);
-            lines.Add($"Time: {sb}");
+    private static string GetLinePokewalkerSeed(LegalInfo info)
+    {
+        var pk = info.Entity;
+        var result = PokewalkerRNG.GetLeastEffortSeed((uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
+        var line = string.Format(L_FOriginSeed_0, result.Seed.ToString("X8"));
+        line += $" [{result.Type} @ {result.PriorPoke}]";
+        return line;
+    }
+
+    private static string GetLineSlot34(LegalInfo info, PIDIV pidiv, IEncounterSlot34 s)
+    {
+        var lead = pidiv.Lead;
+        var seed = !info.FrameMatches || lead == LeadRequired.Invalid ? pidiv.OriginSeed : pidiv.EncounterSeed;
+        var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
+        if (lead != LeadRequired.None)
+        {
+            if (lead is LeadRequired.Static)
+                line += $" [{s.StaticIndex}/{s.StaticCount}]";
+            else if (lead is LeadRequired.MagnetPull)
+                line += $" [{s.MagnetPullIndex}/{s.MagnetPullCount}]";
+            else
+                line += $" [{s.SlotNumber}]";
+
+            line += $" ({lead.Localize()})";
         }
+        else
+        {
+            line += $" [{s.SlotNumber}]";
+        }
+
+        return line;
+    }
+
+    private static void AppendDetailsFrame3(LegalInfo info, List<string> lines)
+    {
+        var pidiv = info.PIDIV;
+        var pk = info.Entity;
+        var enc = info.EncounterOriginal;
+        var seed = enc is EncounterSlot3 && info.FrameMatches ? pidiv.EncounterSeed : pidiv.OriginSeed;
+        var (initialSeed, frame) = GetInitialSeed(seed, pk.Version);
+        lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {frame + 1}"); // frames are 1-indexed
+
+        var sb = new StringBuilder();
+        AppendFrameTimeStamp(frame, sb);
+        lines.Add($"Time: {sb}");
+
+        // Try appending the TID frame if it originates from Emerald.
+        if (pk.Version is not GameVersion.E)
+            return;
+        // don't bother ignoring postgame-only. E4 resets the seed, but it's annoying to check.
+        var tidSeed = pk.TID16; // start of game
+        var tidFrame = LCRNG.GetDistance(tidSeed, seed);
+        if (tidFrame >= frame)
+            return; // only show if it makes sense to
+        lines.Add($"New Game: 0x{tidSeed:X8}, Frame: {tidFrame + 1}"); // frames are 1-indexed
+        sb.Clear();
+        AppendFrameTimeStamp(tidFrame, sb);
+        lines.Add($"Time: {sb}");
     }
 
     private static void AppendFrameTimeStamp(uint frame, StringBuilder sb)
