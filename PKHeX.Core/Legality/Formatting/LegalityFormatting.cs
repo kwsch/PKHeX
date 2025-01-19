@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -104,9 +105,10 @@ public static class LegalityFormatting
     {
         var pidiv = info.PIDIV;
         var type = string.Format(L_FPIDType_0, pidiv.Type);
-        if (info is { EncounterMatch: IRandomCorrelationEvent3 enc})
+        var enc = info.EncounterOriginal;
+        if (enc is IRandomCorrelationEvent3 r3)
         {
-            var mainType = enc.GetSuggestedCorrelation();
+            var mainType = r3.GetSuggestedCorrelation();
             if (mainType != pidiv.Type)
                 type += $" [{mainType}]";
             if (enc is EncounterGift3 { Method: PIDType.BACD_M } && info.PIDIVMatches) // mystry
@@ -135,7 +137,7 @@ public static class LegalityFormatting
             lines.Add(string.Format(L_FOriginSeed_0, seed.ToString("X16")));
             return;
         }
-        if (info is { EncounterMatch: IEncounterSlot34 s })
+        if (enc is IEncounterSlot34 s)
         {
             var lead = pidiv.Lead;
             var seed = !info.FrameMatches || lead == LeadRequired.Invalid ? pidiv.OriginSeed : pidiv.EncounterSeed;
@@ -165,6 +167,52 @@ public static class LegalityFormatting
                 line += $" [{pidiv.EncounterSeed:X8}]";
             lines.Add(line);
         }
+        if (enc is EncounterSlot3 or EncounterStatic3)
+        {
+            var seed = enc is EncounterSlot3 && info.FrameMatches ? pidiv.EncounterSeed : pidiv.OriginSeed;
+            var (initialSeed, frame) = GetInitialSeed(seed, info.Entity.Version);
+            lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {frame + 1}"); // frames are 1-indexed
+
+            var sb = new StringBuilder();
+            AppendFrameTimeStamp(frame, sb);
+            lines.Add($"Time: {sb}");
+        }
+    }
+
+    private static void AppendFrameTimeStamp(uint frame, StringBuilder sb)
+    {
+        var time = TimeSpan.FromSeconds((double)frame / 60);
+        if (time.TotalHours >= 1)
+            sb.Append($"{(int)time.TotalHours}:");
+        if (time.TotalMinutes >= 1 || sb.Length != 0)
+            sb.Append($"{time.Minutes:00}:");
+        sb.Append($"{time.Seconds:00}.");
+        sb.Append($"{time.Milliseconds / 10:00}");
+
+        if (time.TotalDays >= 1)
+            sb.Append($" (days: {(int)time.TotalDays})");
+    }
+
+    private static (uint Seed, uint Frame) GetInitialSeed(uint seed, GameVersion game)
+    {
+        if (game is GameVersion.E) // Always 0 seed.
+            return (0, LCRNG.GetDistance(0, seed));
+
+        var nearest16 = seed;
+        uint ctr = 0;
+        while (nearest16 > ushort.MaxValue || ctr < 360) // 6 seconds to boot->encounter?
+        {
+            nearest16 = LCRNG.Prev(nearest16);
+            ctr++;
+        }
+        if (game is GameVersion.R or GameVersion.S)
+        {
+            const uint drySeed = 0x05A0;
+            var dryFrame = LCRNG.GetDistance(drySeed, seed);
+            if (dryFrame < ushort.MaxValue << 2)
+                return (drySeed, dryFrame);
+        }
+        return (nearest16, ctr);
     }
 
     private static string Localize(this LeadRequired lead)
