@@ -166,7 +166,6 @@ public static class PogoTypeExtensions
     {
         PogoType.Egg or PogoType.EggS => false,
         PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH or PogoType.ResearchUB20 => false,
-        PogoType.MaxBattle or PogoType.MaxBattleM => false,
         _ => true,
     };
 
