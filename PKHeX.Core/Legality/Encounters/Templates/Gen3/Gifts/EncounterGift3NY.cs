@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 3 Event Gift
 /// </summary>
 /// <remarks>Specialized for the PCNY gift distribution machines.</remarks>
-public sealed class EncounterGift3NY(ushort Species, Distribution3NY Distribution, byte Level, Moveset Moves)
+public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distribution, byte Level, Moveset Moves)
     : IEncounterable, IEncounterMatch, IRandomCorrelationEvent3, IFixedTrainer, IMoveset
 {
     public ushort Species { get; } = Species;

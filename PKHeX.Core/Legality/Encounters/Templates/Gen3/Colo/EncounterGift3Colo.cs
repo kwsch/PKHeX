@@ -150,7 +150,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD;
+    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD or PIDType.CXDAnti;
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
 

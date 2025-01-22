@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Event Gift
 /// </summary>
-public sealed class EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, IFatefulEncounterReadOnly,
+public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset, IFatefulEncounterReadOnly,
     IRibbonSetEvent3, IRandomCorrelationEvent3, IFixedTrainer, IMetLevel
 {
     public ushort Species { get; }
