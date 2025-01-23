@@ -271,8 +271,8 @@
 2989	f	Discovered Secret Meadow
 2982	f	(OR) Visited Team Magma Hideout
 2983	f	(AS) Visited Team Aqua Hideout
-2905	*	Extremely Harsh Sunlight in Eastern Hoenn
-2906	*	Heavy Rain in Eastern Hoenn
+2905	*	Extremely Harsh Sunlight in eastern Hoenn
+2906	*	Heavy Rain in eastern Hoenn
 3063	s	Had Village Sub Combo (Today)
 3064	s	Had Magnemite Croquette (Today)
 3065	s	Had Mauville Ramen Bowl (Today)
