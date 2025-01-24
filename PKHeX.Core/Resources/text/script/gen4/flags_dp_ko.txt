@@ -198,4 +198,5 @@
 2134	t	Had Veteran Brian 1st Rematch
 2136	t	Had Veteran Brian 2nd Rematch
 2137	t	Had Veteran Armando Rematch
+2733	s	Learned trendy phrase (Today)
 2738	t	Defeated Rival in Fight Area (Current Saturday/Sunday)
