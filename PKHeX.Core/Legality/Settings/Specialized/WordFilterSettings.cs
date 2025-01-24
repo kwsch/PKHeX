@@ -5,11 +5,11 @@ namespace PKHeX.Core;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class WordFilterSettings
 {
-    [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the 3DS console's regex lists.")]
+    [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the appropriate console's lists.")]
     public bool CheckWordFilter { get; set; } = true;
 
-    [LocalizedDescription("Disables the Word Filter check for formats prior to 3DS-era.")]
+    [LocalizedDescription("Disables retroactive Word Filter checks for earlier formats.")]
     public bool DisableWordFilterPastGen { get; set; }
 
-    public bool IsEnabled(int gen) => CheckWordFilter && (!DisableWordFilterPastGen || gen >= 6);
+    public bool IsEnabled(int gen) => CheckWordFilter && (!DisableWordFilterPastGen || gen >= 5);
 }

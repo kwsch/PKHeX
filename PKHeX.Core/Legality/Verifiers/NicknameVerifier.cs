@@ -67,7 +67,7 @@ public sealed class NicknameVerifier : Verifier
         // Non-nicknamed strings have already been checked.
         if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format) && pk.IsNicknamed)
         {
-            if (WordFilter.IsFiltered(nickname, out var badPattern))
+            if (WordFilter.IsFiltered(nickname, out var badPattern, pk.Context))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
             if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
@@ -164,11 +164,9 @@ public sealed class NicknameVerifier : Verifier
                     return true;
                 }
             }
-            foreach (var language in Language.GetAvailableGameLanguages(pk.Format))
+            if (SpeciesName.TryGetSpeciesAnyLanguage(nickname, out var species, pk.Format))
             {
-                if (!SpeciesName.TryGetSpecies(nickname, language, out var species))
-                    continue;
-                var msg = species == pk.Species && language != pk.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
+                var msg = species == pk.Species ? LNickMatchLanguageFlag : LNickMatchNoOthersFail;
                 data.AddLine(Get(msg, ParseSettings.Settings.Nickname.NicknamedAnotherSpecies));
                 return true;
             }

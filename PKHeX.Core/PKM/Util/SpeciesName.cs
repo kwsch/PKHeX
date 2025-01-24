@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -52,7 +53,10 @@ public static class SpeciesName
     /// </summary>
     private static readonly Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[] SpeciesDict = GetDictionary(SpeciesLang);
 
-    private static Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[] GetDictionary(string[][] names)
+    /// <inheritdoc cref="SpeciesDict"/>
+    private static readonly Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[] SpeciesDictLower = GetDictionary(SpeciesLang, true);
+
+    private static Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[] GetDictionary(string[][] names, bool lower = false)
     {
         var result = new Dictionary<string, ushort>.AlternateLookup<ReadOnlySpan<char>>[names.Length];
         for (int i = 0; i < result.Length; i++)
@@ -61,7 +65,10 @@ public static class SpeciesName
             var capacity = Math.Max(speciesList.Length - 1, 0);
             var dict = new Dictionary<string, ushort>(capacity);
             for (ushort species = 1; species < speciesList.Length; species++)
-                dict[speciesList[species]] = species;
+            {
+                var key = speciesList[species];
+                dict[lower ? key.ToLowerInvariant() : key] = species;
+            }
             result[i] = dict.GetAlternateLookup<ReadOnlySpan<char>>();
         }
         return result;
@@ -318,14 +325,33 @@ public static class SpeciesName
     /// <param name="language">Language the name is from</param>
     /// <param name="species">Species ID</param>
     /// <returns>True if the species was found, False if not</returns>
-    public static bool TryGetSpecies(ReadOnlySpan<char> speciesName, int language, out ushort species)
+    public static bool TryGetSpecies(string speciesName, int language, out ushort species)
     {
         return SpeciesDict[language].TryGetValue(speciesName, out species);
     }
 
-    /// <inheritdoc cref="TryGetSpecies(ReadOnlySpan{char}, int, out ushort)"/>
-    public static bool TryGetSpecies(string speciesName, int language, out ushort species)
+    public static bool TryGetSpeciesAnyLanguage(ReadOnlySpan<char> speciesName, out ushort species, byte generation = LatestGeneration)
     {
-        return SpeciesDict[language].TryGetValue(speciesName, out species);
+        foreach (var language in Language.GetAvailableGameLanguages(generation))
+        {
+            if (SpeciesDict[language].TryGetValue(speciesName, out species))
+                return true;
+        }
+        species = 0;
+        return false;
+    }
+
+    public static bool TryGetSpeciesAnyLanguageCaseInsensitive(ReadOnlySpan<char> speciesName, out ushort species, byte generation = LatestGeneration)
+    {
+        Span<char> lowercase = stackalloc char[speciesName.Length];
+        speciesName.ToLowerInvariant(lowercase);
+
+        foreach (var language in Language.GetAvailableGameLanguages(generation))
+        {
+            if (SpeciesDictLower[language].TryGetValue(lowercase, out species))
+                return true;
+        }
+        species = 0;
+        return false;
     }
 }
