@@ -218,7 +218,6 @@ public static class EncounterServerDate
         {1013, (new(2024, 11, 21), new(2025, 06, 01))}, // Operation Get Mythical's KOR Deoxys
         {1010, (new(2025, 01, 21), new(2025, 04, 01))}, // Pokémon Lucario & The Mystery of Mew Movie Gift KOR 아론's Lucario
 
-
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
         {9023, HOME3_ML}, // Hidden Ability Quaxly
