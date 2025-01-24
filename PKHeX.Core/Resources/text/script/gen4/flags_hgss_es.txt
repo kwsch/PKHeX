@@ -215,3 +215,4 @@
 1663	t	1ra revancha contra Ornitólogo Jose
 1806	t	2da revancha contra Ornitólogo Jose
 1962	t	3ra revancha contra Ornitólogo Jose
+2746	s	Learned trendy phrase (Today)
