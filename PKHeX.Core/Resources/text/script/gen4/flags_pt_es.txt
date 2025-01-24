@@ -222,6 +222,7 @@
 2134	t	1ra revancha contra Veteran Brian
 2136	t	2da revancha contra Veteran Brian
 2137	t	Revancha contra Veteran Armando
+2733	s	Learned trendy phrase (Today)
 2738	t	Rival derrotado en Zona Sobrevivir (Sábado/Domingo actual)
 2744	t	Líder de Gimnasio Roco derrotado en Café Revancha (Hoy)
 2745	t	Líder de Gimnasio Gardenia derrotado en Café Revancha (Hoy)
