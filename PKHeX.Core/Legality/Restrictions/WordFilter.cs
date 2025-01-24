@@ -54,7 +54,7 @@ public static class WordFilter
     {
         // Clean the string
         Span<char> clean = stackalloc char[message.Length];
-        NormalizeString(message.ToString(), clean);
+        NormalizeString(message, clean);
 
         foreach (var regex in regexes)
         {
@@ -68,34 +68,53 @@ public static class WordFilter
         return false;
     }
 
-    private const string SmallKana = "ァィゥェォッャュョヮヵヶ";
-    private const string NormalKana = "アイウエオツヤユヨワカケ";
+    private const string Dakuten = "ｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾊﾋﾌﾍﾎ"; // 'ｳ' handled separately
+    private const string Handakuten = "ﾊﾋﾌﾍﾎ";
+    private const string FullwidthKana = "ヲァィゥェォャュョッーアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン";
+    private const string SmallKana = "ァィゥェォッャュョヮ"; // 'ヵ', 'ヶ' handled separately
 
-    private static void NormalizeString(string message, Span<char> clean)
+    private static void NormalizeString(ReadOnlySpan<char> message, Span<char> clean)
     {
-        // Convert halfwidth/fullwidth forms using Unicode normalization
-        var normalized = message.Normalize(System.Text.NormalizationForm.FormKC);
-        for (int i = 0, j = 0; i < normalized.Length; i++)
+        for (int i = 0, j = 0; i < message.Length; i++)
         {
-            var c = normalized[i];
+            var c = message[i];
 
-            // Skip spaces
-            if (c is ' ' or '\u3000')
+            // Skip spaces and halfwidth dakuten/handakuten
+            if (c is ' ' or '\u3000' or 'ﾞ' or 'ﾟ')
                 continue;
 
-            // Make it lowercase invariant
-            c = Char.ToLowerInvariant(c);
+            // Handle combining halfwidth dakuten/handakuten
+            ushort ofs = 0;
+            if (c is >= 'ｦ' and <= 'ﾝ' && i + 1 < message.Length)
+            {
+                var d = message[i + 1];
+                if (d == 'ﾞ' && Dakuten.Contains(c))
+                    ofs = 1;
+                else if (d == 'ﾟ' && Handakuten.Contains(c))
+                    ofs = 2;
+                else if (d == 'ﾞ' && c == 'ｳ')
+                    ofs = 'ヴ' - 'ウ';
+            }
 
-            // Convert hiragana to katakana
-            if (c is >= 'ぁ' and <= 'ゖ')
-                c += (char)0x60;
+            // Fold characters treated identically
+            c = Char.ToLowerInvariant(c); // fold to lowercase
+            c = (char)(c switch
+            {
+                >= 'ぁ' and <= 'ゖ' => c + 0x60, // shift hiragana to katakana
+                >= '０' and <= '９' or >= 'ａ' and <= 'ｚ' => c - 0xFEE0, // shift fullwidth numbers/letters to halfwidth
+                >= 'ｦ' and <= 'ﾝ' => FullwidthKana[c - 'ｦ'] + ofs, // shift halfwidth katakana to fullwidth
+                _ => c,
+            });
 
             // Shift small kana to normal kana
             if (c is >= 'ァ' and <= 'ヶ')
             {
-                int index = SmallKana.IndexOf(c);
-                if (index > -1)
-                    c = NormalKana[index];
+                if (SmallKana.Contains(c))
+                    c += (char)1;
+                else if (c == 'ヵ')
+                    c = 'カ';
+                else if (c == 'ヶ')
+                    c = 'ケ';
             }
 
             clean[j] = c;
@@ -108,18 +127,13 @@ public static class WordFilter
         for (int i = 0; i < message.Length; i++)
         {
             var c = message[i];
-
-            // Make it uppercase invariant
-            c = Char.ToUpperInvariant(c);
-
-            // Convert katakana to hiragana
-            if (c is >= 'ァ' and <= 'ヶ')
-                c -= (char)0x60;
-
-            // Convert fullwidth letters to halfwidth
-            if (c is >= 'Ａ' and <= 'Ｚ' || c is >= 'ａ' and <= 'ｚ')
-                c -= (char)0xFEE0;
-
+            c = Char.ToUpperInvariant(c); // fold to uppercase
+            c = (char)(c switch
+            {
+                >= 'ァ' and <= 'ヶ' => c - 0x60, // shift katakana to hiragana
+                >= 'Ａ' and <= 'Ｚ' => c - 0xFEE0, // shift fullwidth letters to halfwidth
+                _ => c,
+            });
             clean[i] = c;
         }
     }
