@@ -33,7 +33,7 @@ public sealed class TrainerNameVerifier : Verifier
         trainer = trainer[..len];
         if (trainer.Contains('\uffff') && pk is { Format: 4 })
         {
-            data.AddLine(GetInvalid("Trainer Name: Unkown Character"));
+            data.AddLine(GetInvalid("Trainer Name: Unknown Character"));
             return;
         }
 
@@ -54,14 +54,14 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format))
         {
-            if (WordFilter.IsFiltered(trainer, out var badPattern, pk.Context))
+            if (WordFilter.IsFiltered(trainer, out var badPattern, pk.Context, enc.Context))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
             if (ContainsTooManyNumbers(trainer, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
 
             Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
             int nameLen = pk.LoadString(pk.HandlingTrainerTrash, ht);
-            if (WordFilter.IsFiltered(ht[..nameLen], out badPattern, pk.Context))
+            if (WordFilter.IsFiltered(ht[..nameLen], out badPattern, pk.Context)) // HT context is always the current context
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
         }
     }

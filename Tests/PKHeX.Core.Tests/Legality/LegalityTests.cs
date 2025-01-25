@@ -32,7 +32,8 @@ public class LegalityTest
     [InlineData("cofagrigus", false)]
     public void CensorsBadWordsGen5(string badword, bool value = true)
     {
-        WordFilter.IsFiltered(badword, out _, EntityContext.Gen5, true).Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+        var result = WordFilter5.IsFiltered(badword, out _);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
     }
 
     [Theory]
@@ -41,7 +42,8 @@ public class LegalityTest
     [InlineData("Cofagrigus", false)]
     public void CensorsBadWordsGen6(string badword, bool value = true)
     {
-        WordFilter.IsFiltered(badword, out _, EntityContext.Gen6, true).Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+        var result = WordFilter3DS.IsFilteredGen6(badword, out _);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
     }
 
     [Theory]
@@ -58,7 +60,8 @@ public class LegalityTest
     [InlineData("inoffensive", false)]
     public void CensorsBadWordsGen7(string badword, bool value = true)
     {
-        WordFilter.IsFiltered(badword, out _, EntityContext.Gen7, true).Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+        var result = WordFilter3DS.IsFilteredGen7(badword, out _);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
     }
 
     [Theory]
@@ -80,7 +83,8 @@ public class LegalityTest
     [InlineData("inoffensive", false)]
     public void CensorsBadWordsSwitch(string badword, bool value = true)
     {
-        WordFilter.IsFiltered(badword, out _).Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+        var result = WordFilterNX.IsFiltered(badword, out _, EntityContext.Gen9);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
     }
 
     [Theory]
