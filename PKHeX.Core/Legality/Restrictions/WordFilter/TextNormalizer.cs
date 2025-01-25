@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Simplistic normalization of a string used by the Nintendo 3DS and Nintendo Switch games.
+/// </summary>
 public static class TextNormalizer
 {
     private const string Dakuten = "ｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾊﾋﾌﾍﾎ"; // 'ｳ' handled separately
@@ -9,11 +12,17 @@ public static class TextNormalizer
     private const string FullwidthKana = "ヲァィゥェォャュョッーアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン";
     private const string SmallKana = "ァィゥェォッャュョヮ"; // 'ヵ', 'ヶ' handled separately
 
-    public static void NormalizeString(ReadOnlySpan<char> message, Span<char> clean)
+    /// <summary>
+    /// Normalize a string to a simplified form for checking against a bad-word list.
+    /// </summary>
+    /// <param name="input">Input string to normalize</param>
+    /// <param name="output">Output buffer to write the normalized string</param>
+    public static int Normalize(ReadOnlySpan<char> input, Span<char> output)
     {
-        for (int i = 0, j = 0; i < message.Length; i++)
+        int ctr = 0;
+        for (int i = 0; i < input.Length; i++)
         {
-            var c = message[i];
+            var c = input[i];
 
             // Skip spaces and halfwidth dakuten/handakuten
             if (c is ' ' or '\u3000' or 'ﾞ' or 'ﾟ')
@@ -21,9 +30,9 @@ public static class TextNormalizer
 
             // Handle combining halfwidth dakuten/handakuten
             ushort ofs = 0;
-            if (c is >= 'ｦ' and <= 'ﾝ' && i + 1 < message.Length)
+            if (c is >= 'ｦ' and <= 'ﾝ' && i + 1 < input.Length)
             {
-                var d = message[i + 1];
+                var d = input[i + 1];
                 if (d == 'ﾞ' && Dakuten.Contains(c))
                     ofs = 1;
                 else if (d == 'ﾟ' && Handakuten.Contains(c))
@@ -53,8 +62,9 @@ public static class TextNormalizer
                     c = 'ケ';
             }
 
-            clean[j] = c;
-            j++;
+            output[ctr] = c;
+            ctr++;
         }
+        return ctr;
     }
 }

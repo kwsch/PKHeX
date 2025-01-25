@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Word filter for Switch games.
+/// </summary>
 public static class WordFilterNX
 {
     /// <summary>
@@ -21,10 +24,17 @@ public static class WordFilterNX
 
     private const int MAX_COUNT = (1 << 17) - 1; // arbitrary cap for max dictionary size
 
-    public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch, EntityContext origin)
+    /// <summary>
+    /// Checks to see if a phrase contains filtered content.
+    /// </summary>
+    /// <param name="message">Phrase to check</param>
+    /// <param name="regMatch">Matching regex that filters the phrase.</param>
+    /// <param name="original">Earliest context to check.</param>
+    /// <returns>Boolean result if the message is filtered or not.</returns>
+    public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch, EntityContext original)
     {
         regMatch = null;
-        if (IsSpeciesName(message, origin))
+        if (IsSpeciesName(message, original))
             return false;
 
         // Check dictionary

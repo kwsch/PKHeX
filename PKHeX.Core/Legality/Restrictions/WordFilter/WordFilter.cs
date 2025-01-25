@@ -29,7 +29,7 @@ public static class WordFilter
     /// <summary>
     /// Checks to see if a phrase contains filtered content.
     /// </summary>
-    /// <param name="message">Phrase to check for</param>
+    /// <param name="message">Phrase to check</param>
     /// <param name="regexes">Console regex set to check against.</param>
     /// <param name="regMatch">Matching regex that filters the phrase.</param>
     /// <returns>Boolean result if the message is filtered or not.</returns>
@@ -37,7 +37,9 @@ public static class WordFilter
     {
         // Clean the string
         Span<char> clean = stackalloc char[message.Length];
-        TextNormalizer.NormalizeString(message, clean);
+        int ctr = TextNormalizer.Normalize(message, clean);
+        if (ctr != clean.Length)
+            clean = clean[..ctr];
 
         foreach (var regex in regexes)
         {
@@ -51,6 +53,7 @@ public static class WordFilter
         return false;
     }
 
+    /// <inheritdoc cref="IsFiltered(ReadOnlySpan{char}, out string?, EntityContext, EntityContext)"/>
     public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch,
         EntityContext current)
         => IsFiltered(message, out regMatch, current, current);

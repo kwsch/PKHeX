@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Word filter for 3DS games.
+/// </summary>
 public static class WordFilter3DS
 {
     private static readonly Regex[] Regexes = WordFilter.LoadPatterns(Util.GetStringResource("badwords_3ds"));
@@ -18,12 +21,23 @@ public static class WordFilter3DS
 
     private const int MAX_COUNT = (1 << 17) - 1; // arbitrary cap for max dictionary size
 
+    /// <inheritdoc cref="IsFiltered"/>
+    /// <remarks>Generation 6 is case-sensitive.</remarks>
     public static bool IsFilteredGen6(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch)
         => IsFiltered(message, out regMatch, EntityContext.Gen6);
 
+    /// <inheritdoc cref="IsFiltered"/>
+    /// <remarks>Generation 7 is case-insensitive.</remarks>
     public static bool IsFilteredGen7(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch)
         => IsFiltered(message, out regMatch, EntityContext.Gen7);
 
+    /// <summary>
+    /// Checks to see if a phrase contains filtered content.
+    /// </summary>
+    /// <param name="message">Phrase to check</param>
+    /// <param name="regMatch">Matching regex that filters the phrase.</param>
+    /// <param name="original">Earliest context to check.</param>
+    /// <returns>Boolean result if the message is filtered or not.</returns>
     public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch, EntityContext original)
     {
         regMatch = null;
@@ -48,6 +62,11 @@ public static class WordFilter3DS
         return false;
     }
 
+    /// <summary>
+    /// Check if the message is a species name
+    /// </summary>
+    /// <param name="message">Phrase to check</param>
+    /// <param name="original">Earliest context to check.</param>
     public static bool IsSpeciesName(ReadOnlySpan<char> message, EntityContext original)
     {
         // Gen6 is case-sensitive, Gen7 is case-insensitive.
