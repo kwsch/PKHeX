@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -325,7 +324,7 @@ public static class SpeciesName
     /// <param name="language">Language the name is from</param>
     /// <param name="species">Species ID</param>
     /// <returns>True if the species was found, False if not</returns>
-    public static bool TryGetSpecies(string speciesName, int language, out ushort species)
+    public static bool TryGetSpecies(ReadOnlySpan<char> speciesName, int language, out ushort species)
     {
         return SpeciesDict[language].TryGetValue(speciesName, out species);
     }
