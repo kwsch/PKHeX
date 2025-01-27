@@ -30,7 +30,7 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
             return;
         var s1 = SaveUtil.GetVariantSAV(f1);
         var s2 = SaveUtil.GetVariantSAV(f2);
-        if (s1 == null || s2 == null || s1.GetType() != s2.GetType() || GetBlock(s1) is not { } t1 || GetBlock(s2) is not { } t2)
+        if (s1 is null || s2 is null || s1.GetType() != s2.GetType() || GetBlock(s1) is not { } t1 || GetBlock(s2) is not { } t2)
         {
             Message = DifferentGameGroup;
             return;

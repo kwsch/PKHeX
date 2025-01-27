@@ -49,7 +49,7 @@ public static class SaveExtensions
                 msg = MsgIndexItemGame;
             else if (!pk.CanHoldItem(sav.HeldItems))
                 msg = MsgIndexItemHeld;
-            if (msg != null)
+            if (msg is not null)
             {
                 var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, pk.Version);
                 errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
@@ -134,7 +134,7 @@ public static class SaveExtensions
         foreach (var temp in pks)
         {
             var pk = EntityConverter.ConvertToType(temp, savtype, out var c);
-            if (pk == null)
+            if (pk is null)
             {
                 Debug.WriteLine(c.GetDisplayString(temp, savtype));
                 continue;

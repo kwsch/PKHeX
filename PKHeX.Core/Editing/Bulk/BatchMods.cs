@@ -81,7 +81,7 @@ public static class BatchMods
     ];
 
     private static char GetOptionSuffix(ReadOnlySpan<char> str, ReadOnlySpan<char> prefix)
-        => str.Length == prefix.Length ? default : str[^1];
+        => str.Length == prefix.Length ? CommonEdits.OptionNone : str[^1];
 
     private static void SetRandomTeraType(PKM pk)
     {

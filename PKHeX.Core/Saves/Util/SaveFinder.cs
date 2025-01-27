@@ -119,7 +119,7 @@ public static class SaveFinder
         foreach (var s in byMostRecent)
         {
             var sav = SaveUtil.GetVariantSAV(s);
-            if (sav != null)
+            if (sav is not null)
                 yield return sav;
         }
     }

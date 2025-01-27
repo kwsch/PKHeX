@@ -119,7 +119,7 @@ public partial class SAV_Trainer7 : Form
             CB_AlolaTime.SelectedValue = (int)timeA;
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        if (CB_AlolaTime.SelectedValue == null)
+        if (CB_AlolaTime.SelectedValue is null)
             CB_AlolaTime.Enabled = false;
 
         NUD_M.Value = SAV.Situation.M;

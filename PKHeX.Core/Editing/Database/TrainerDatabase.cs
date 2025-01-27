@@ -46,7 +46,7 @@ public sealed class TrainerDatabase
         if (possible.Count == 0)
             return null;
 
-        if (lang != null)
+        if (lang is not null)
         {
             possible = possible.Select(z =>
             {
@@ -70,7 +70,7 @@ public sealed class TrainerDatabase
         if (possible.Count == 0)
             return null;
 
-        if (lang != null)
+        if (lang is not null)
         {
             possible = possible.Select(z =>
             {

@@ -65,7 +65,7 @@ public partial class SAV_Wondercard : Form
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 
-        if (g == null)
+        if (g is null)
             ClickView(pba[0], EventArgs.Empty);
         else
             ViewGiftData(g);
@@ -177,7 +177,7 @@ public partial class SAV_Wondercard : Form
         var data = File.ReadAllBytes(path);
         var ext = Path.GetExtension(path.AsSpan());
         var gift = MysteryGift.GetMysteryGift(data, ext);
-        if (gift == null)
+        if (gift is null)
         {
             WinFormsUtil.Error(MsgMysteryGiftInvalid, path);
             return;
@@ -187,7 +187,7 @@ public partial class SAV_Wondercard : Form
 
     private void B_Output_Click(object sender, EventArgs e)
     {
-        if (mg == null)
+        if (mg is null)
             return;
         WinFormsUtil.ExportMGDialog(mg);
     }
@@ -210,7 +210,7 @@ public partial class SAV_Wondercard : Form
     private void ClickView(object sender, EventArgs e)
     {
         var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (pb == null)
+        if (pb is null)
             return;
         int index = pba.IndexOf(pb);
 
@@ -230,7 +230,7 @@ public partial class SAV_Wondercard : Form
         }
 
         var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (pb == null)
+        if (pb is null)
             return;
         int index = pba.IndexOf(pb);
 
@@ -266,7 +266,7 @@ public partial class SAV_Wondercard : Form
     private void ClickDelete(object sender, EventArgs e)
     {
         var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (pb == null)
+        if (pb is null)
             return;
         int index = pba.IndexOf(pb);
 
@@ -391,7 +391,7 @@ public partial class SAV_Wondercard : Form
                 return;
             }
             var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(path), Path.GetExtension(path));
-            if (gift == null)
+            if (gift is null)
             {
                 WinFormsUtil.Error(MsgMysteryGiftInvalid, path);
                 return;
@@ -418,7 +418,7 @@ public partial class SAV_Wondercard : Form
 
     private void ExportQRFromView()
     {
-        if (mg == null)
+        if (mg is null)
             return;
         if (mg.Empty)
         {
@@ -453,7 +453,7 @@ public partial class SAV_Wondercard : Form
 
         string[] types = Album.Select(g => g.Type).Distinct().ToArray();
         var gift = MysteryGift.GetMysteryGift(data);
-        if (gift == null)
+        if (gift is null)
             return;
 
         string giftType = gift.Type;
@@ -471,7 +471,7 @@ public partial class SAV_Wondercard : Form
     // ReSharper disable once AsyncVoidMethod
     private async void BoxSlot_MouseDown(object? sender, MouseEventArgs e)
     {
-        if (sender == null)
+        if (sender is null)
             return;
         switch (ModifierKeys)
         {
@@ -480,7 +480,7 @@ public partial class SAV_Wondercard : Form
             case Keys.Alt: ClickDelete(sender, e); return;
         }
         var pb = sender as PictureBox;
-        if (pb?.Image == null)
+        if (pb?.Image is null)
             return;
 
         if (e.Button != MouseButtons.Left || e.Clicks != 1)
@@ -519,7 +519,7 @@ public partial class SAV_Wondercard : Form
 
     private void BoxSlot_DragDrop(object? sender, DragEventArgs? e)
     {
-        if (mg == null || sender is not PictureBox pb)
+        if (mg is null || sender is not PictureBox pb)
             return;
 
         int index = pba.IndexOf(pb);
@@ -543,7 +543,7 @@ public partial class SAV_Wondercard : Form
 
             byte[] data = File.ReadAllBytes(first);
             var gift = MysteryGift.GetMysteryGift(data, fi.Extension);
-            if (gift == null)
+            if (gift is null)
             { WinFormsUtil.Alert(MsgFileUnsupported, first); return; }
 
             ref var dest = ref Album[index];
@@ -628,7 +628,7 @@ public partial class SAV_Wondercard : Form
     {
         if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
             e.Effect = DragDropEffects.Copy;
-        else if (e.Data != null) // within
+        else if (e.Data is not null) // within
             e.Effect = DragDropEffects.Move;
         Debug.WriteLine(e.Effect);
     }

@@ -280,7 +280,7 @@ public partial class SAV_Pokedex4 : Form
         if (editing)
             return;
         var lb = sender == B_GLeft ? LB_NGender : LB_Gender;
-        if (lb == null || lb.SelectedIndex < 0)
+        if (lb is null || lb.SelectedIndex < 0)
         {
             WinFormsUtil.Alert("No Gender selected.");
             return;
@@ -299,7 +299,7 @@ public partial class SAV_Pokedex4 : Form
         if (editing)
             return;
         var lb = LB_Gender;
-        if (lb == null || lb.SelectedIndex < 0)
+        if (lb is null || lb.SelectedIndex < 0)
         {
             WinFormsUtil.Alert("No Gender selected.");
             return;
@@ -329,7 +329,7 @@ public partial class SAV_Pokedex4 : Form
         if (editing)
             return;
         var lb = sender == B_FLeft ? LB_NForm : LB_Form;
-        if (lb == null || lb.SelectedIndex < 0)
+        if (lb is null || lb.SelectedIndex < 0)
         {
             WinFormsUtil.Alert("No Form selected.");
             return;
@@ -348,7 +348,7 @@ public partial class SAV_Pokedex4 : Form
         if (editing)
             return;
         var lb = LB_Form;
-        if (lb == null || lb.SelectedIndex < 0)
+        if (lb is null || lb.SelectedIndex < 0)
         {
             WinFormsUtil.Alert("No Form selected.");
             return;

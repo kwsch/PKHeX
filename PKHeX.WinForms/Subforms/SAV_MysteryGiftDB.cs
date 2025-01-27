@@ -134,7 +134,7 @@ public partial class SAV_MysteryGiftDB : Form
             return;
         var temp = Results[index].ConvertToPKM(SAV);
         var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out var c);
-        if (pk == null)
+        if (pk is null)
         {
             WinFormsUtil.Error(c.GetDisplayString(temp, SAV.PKMType));
             return;

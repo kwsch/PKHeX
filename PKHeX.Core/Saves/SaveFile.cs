@@ -726,7 +726,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
                 var ofs = GetBoxSlotOffset(i, p);
                 if (!IsPKMPresent(storage[ofs..]))
                     continue;
-                if (deleteCriteria != null)
+                if (deleteCriteria is not null)
                 {
                     var pk = GetBoxSlotAtIndex(i, p);
                     if (!deleteCriteria(pk))

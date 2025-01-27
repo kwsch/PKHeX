@@ -172,7 +172,7 @@ public static class FileUtil
     public static bool TryGetSAV(byte[] data, [NotNullWhen(true)] out SaveFile? sav)
     {
         sav = SaveUtil.GetVariantSAV(data);
-        return sav != null;
+        return sav is not null;
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ public static class FileUtil
         }
         var format = EntityFileExtension.GetContextFromExtension(ext, sav?.Context ?? EntityContext.Gen6);
         pk = EntityFormat.GetFromBytes(data, prefer: format);
-        return pk != null;
+        return pk is not null;
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public static class FileUtil
     public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out IBattleVideo? bv)
     {
         bv = BattleVideo.GetVariantBattleVideo(data);
-        return bv != null;
+        return bv is not null;
     }
 
     /// <summary>
@@ -292,7 +292,7 @@ public static class FileUtil
         mg = ext.Length == 0
             ? MysteryGift.GetMysteryGift(data)
             : MysteryGift.GetMysteryGift(data, ext);
-        return mg != null;
+        return mg is not null;
     }
 
     /// <summary>
@@ -328,7 +328,7 @@ public static class FileUtil
         var ext = fi.Extension;
         var mg = MysteryGift.GetMysteryGift(data, ext);
         var gift = mg?.ConvertToPKM(sav);
-        if (gift != null)
+        if (gift is not null)
             return gift;
         _ = TryGetPKM(data, out var pk, ext, sav);
         return pk;

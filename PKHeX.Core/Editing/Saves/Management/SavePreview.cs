@@ -24,7 +24,7 @@ public sealed class SavePreview
         var meta = sav.Metadata;
         var dir = meta.FileFolder;
         const string notFound = "???";
-        var parent = dir == null ? notFound : paths.Find(z => dir.StartsWith(z.Path, StringComparison.Ordinal))?.DisplayText ?? new DirectoryInfo(dir).Name;
+        var parent = dir is null ? notFound : paths.Find(z => dir.StartsWith(z.Path, StringComparison.Ordinal))?.DisplayText ?? new DirectoryInfo(dir).Name;
 
         Save = sav;
         Folder = parent;

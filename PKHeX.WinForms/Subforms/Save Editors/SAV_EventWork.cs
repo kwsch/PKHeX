@@ -171,7 +171,7 @@ public sealed partial class SAV_EventWork : Form
                 tlp.Controls.Add(nud, 2, i);
                 {
                     var match = f.Options.FirstOrDefault(z => z.Value == f.Value);
-                    if (match != null)
+                    if (match is not null)
                     {
                         cb.SelectedValue = match.Value;
                         nud.Enabled = false;

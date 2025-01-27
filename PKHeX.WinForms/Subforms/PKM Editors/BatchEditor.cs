@@ -153,7 +153,7 @@ public partial class BatchEditor : Form
                 RunBatchEditSaveFile(sets, boxes: true);
             else if (RB_Party.Checked)
                 RunBatchEditSaveFile(sets, party: true);
-            else if (destination != null)
+            else if (destination is not null)
                 RunBatchEditFolder(sets, source, destination);
             finished = true;
         };
@@ -269,7 +269,7 @@ public partial class BatchEditor : Form
 
         byte[] data = File.ReadAllBytes(source);
         _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, SAV);
-        if (pk == null)
+        if (pk is null)
             return;
 
         var info = new SlotInfoFile(source);

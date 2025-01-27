@@ -74,7 +74,7 @@ public sealed class SCBlockMetadata
         var blockName = GetBlockName(z, out _);
         var isBool = z.Type.IsBoolean();
         var type = (isBool ? "Bool" : z.Type.ToString());
-        if (blockName != null)
+        if (blockName is not null)
             return $"*{type} {blockName}";
         var result = $"{z.Key:X8} - {index:0000} {type}";
         if (z.Type is SCTypeCode.Object or SCTypeCode.Array)

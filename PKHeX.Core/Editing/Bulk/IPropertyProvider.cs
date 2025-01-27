@@ -20,7 +20,7 @@ public sealed class DefaultPropertyProvider : IPropertyProvider
         {
             var value = pi.GetValue(pk);
             result = value?.ToString();
-            return result != null;
+            return result is not null;
         }
         catch
         {

@@ -116,7 +116,7 @@ public partial class SAV_Database : Form
             if (!z.IsFaulted)
                 return;
             Invoke((MethodInvoker)(() => L_Count.Text = "Failed."));
-            if (z.Exception == null)
+            if (z.Exception is null)
                 return;
             WinFormsUtil.Error("Loading database failed.", z.Exception.InnerException ?? new Exception(z.Exception.Message));
         });
@@ -410,7 +410,7 @@ public partial class SAV_Database : Form
         if (Main.Settings.EntityDb.FilterUnavailableSpecies)
         {
             var filter = GetFilterForSaveFile(sav);
-            if (filter != null)
+            if (filter is not null)
                 result.RemoveAll(z => !filter(z.Entity));
         }
 
@@ -436,7 +436,7 @@ public partial class SAV_Database : Form
     private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<SlotCache> dbTemp, string file)
     {
         var sav = SaveUtil.GetVariantSAV(file);
-        if (sav == null)
+        if (sav is null)
         {
             if (FileUtil.TryGetMemoryCard(file, out var mc))
                 TryAddPKMsFromMemoryCard(dbTemp, mc, file);

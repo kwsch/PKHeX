@@ -432,7 +432,7 @@ public static class BatchEditing
     private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         var match = BatchFilters.FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
-        if (match != null)
+        if (match is not null)
             return match.IsFiltered(info, cmd);
         return IsPropertyFiltered(cmd, info.Entity, props);
     }
@@ -447,7 +447,7 @@ public static class BatchEditing
     private static bool IsFilterMatch(StringInstruction cmd, PKM pk, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         var match = BatchFilters.FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
-        if (match != null)
+        if (match is not null)
             return match.IsFiltered(pk, cmd);
         return IsPropertyFiltered(cmd, pk, props);
     }

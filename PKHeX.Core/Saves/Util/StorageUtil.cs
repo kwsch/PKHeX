@@ -94,7 +94,7 @@ public static class StorageUtil
             if ((uint)ctr >= dest.Length)
                 return -1;
             var exist = dest[ctr];
-            if (exist == null || !skip(ctr))
+            if (exist is null || !skip(ctr))
                 return ctr;
             ctr++;
         }

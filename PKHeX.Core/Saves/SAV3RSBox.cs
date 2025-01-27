@@ -171,7 +171,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public string GetBoxName(int box)
     {
         // Tweaked for the 1-30/31-60 box showing
-        var dir = box % 2 == 0 ? "◖" : "◗";
+        var dir = box % 2 == 0 ? "◖ " : " ◗";
         string boxName = $"[{dir}] ";
         box /= 2;
 
@@ -187,7 +187,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = GetBoxNameSpan(box);
-        if (value == BoxDetailNameExtensions.GetDefaultBoxNameCaps(box))
+        if (value.SequenceEqual(BoxDetailNameExtensions.GetDefaultBoxNameCaps(box)))
         {
             span.Clear();
             return;

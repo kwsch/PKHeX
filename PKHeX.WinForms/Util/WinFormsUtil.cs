@@ -23,7 +23,7 @@ public static class WinFormsUtil
     /// </summary>
     internal static void CenterToForm(this Control child, Control? parent)
     {
-        if (parent == null)
+        if (parent is null)
             return;
         int x = parent.Location.X + ((parent.Width - child.Width) / 2);
         int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
@@ -49,7 +49,7 @@ public static class WinFormsUtil
             if (aParent is T t)
                 return t;
 
-            if (aParent.Parent != null)
+            if (aParent.Parent is not null)
                 aParent = aParent.Parent;
             else
                 return null;
@@ -79,7 +79,7 @@ public static class WinFormsUtil
     public static bool OpenWindowExists<T>(this Form parent) where T : Form
     {
         var form = FirstFormOfType<T>();
-        if (form == null)
+        if (form is null)
             return false;
 
         form.CenterToForm(parent);
@@ -199,7 +199,7 @@ public static class WinFormsUtil
 
     public static void RemoveDropCB(object? sender, KeyEventArgs e)
     {
-        if (sender == null)
+        if (sender is null)
             return;
         ((ComboBox)sender).DroppedDown = false;
     }

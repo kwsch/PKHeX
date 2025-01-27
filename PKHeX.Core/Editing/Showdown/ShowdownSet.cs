@@ -341,7 +341,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (Species is 0 or > MAX_SPECIES)
             return string.Empty;
 
-        if (strings != null)
+        if (strings is not null)
             Strings = strings;
 
         var result = GetSetLines();

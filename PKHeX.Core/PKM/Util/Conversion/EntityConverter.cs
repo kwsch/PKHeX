@@ -136,7 +136,7 @@ public static class EntityConverter
         while (true)
         {
             entity = IntermediaryConvert(entity, destType, ref result);
-            if (entity == null) // fail convert
+            if (entity is null) // fail convert
                 return null;
             if (entity.GetType() == destType) // finish convert
                 return entity;
@@ -308,7 +308,7 @@ public static class EntityConverter
             return false;
         }
         var convert = ConvertToType(pk, target.GetType(), out result);
-        if (convert == null)
+        if (convert is null)
         {
             converted = target;
             return false;

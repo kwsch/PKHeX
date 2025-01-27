@@ -827,7 +827,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private bool SetSuggestedMetLocation(bool silent = false)
     {
         var encounter = EncounterSuggestion.GetSuggestedMetInfo(Entity);
-        if (encounter == null || (Entity.Format >= 3 && encounter.Location == 0))
+        if (encounter is null || (Entity.Format >= 3 && encounter.Location == 0))
         {
             if (!silent)
                 WinFormsUtil.Alert(MsgPKMSuggestionNone);
@@ -1660,7 +1660,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         if (cb.Text.Length == 0 && cb.Items.Count > 0)
             cb.SelectedIndex = 0;
-        else if (cb.SelectedValue == null)
+        else if (cb.SelectedValue is null)
             cb.BackColor = Draw.InvalidSelection;
         else
             cb.ResetBackColor();

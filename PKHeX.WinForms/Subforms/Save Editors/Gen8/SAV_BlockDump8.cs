@@ -88,7 +88,7 @@ public partial class SAV_BlockDump8 : Form
         RTB_Hex.Text = sb.ToString();
 
         var blockName = Metadata.GetBlockName(block, out var obj);
-        if (blockName != null)
+        if (blockName is not null)
         {
             L_BlockName.Visible = true;
             L_BlockName.Text = blockName;
@@ -101,7 +101,7 @@ public partial class SAV_BlockDump8 : Form
         if (ModifierKeys != Keys.Control)
         {
             // Show a PropertyGrid to edit
-            if (obj != null)
+            if (obj is not null)
             {
                 var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(obj.GetType());
                 if (props.Count() > 1 || ModifierKeys == Keys.Shift)
@@ -113,7 +113,7 @@ public partial class SAV_BlockDump8 : Form
             }
 
             var o = SCBlockMetadata.GetEditableBlockObject(block);
-            if (o != null)
+            if (o is not null)
             {
                 PG_BlockView.Visible = true;
                 PG_BlockView.SelectedObject = o;
@@ -312,7 +312,7 @@ public partial class SAV_BlockDump8 : Form
             }
         }
 
-        if (CB_Key.SelectedItem != null && text.Equals(CB_Key.SelectedText))
+        if (CB_Key.SelectedItem is not null && text.Equals(CB_Key.SelectedText))
             return; // User press enter on selected item
 
         if (Filter.Equals(text, StringComparison.InvariantCultureIgnoreCase))

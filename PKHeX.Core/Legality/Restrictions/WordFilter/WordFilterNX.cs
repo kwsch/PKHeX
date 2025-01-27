@@ -39,7 +39,7 @@ public static class WordFilterNX
 
         // Check dictionary
         if (Lookup.TryGetValue(message, out regMatch))
-            return regMatch != null;
+            return regMatch is not null;
 
         // not in dictionary, check patterns
         if (WordFilter.TryMatch(message, Regexes, out regMatch))

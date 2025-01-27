@@ -49,7 +49,7 @@ public partial class QR : Form
     private void ResizeWindow()
     {
         var img = PB_QR.Image;
-        if (img == null)
+        if (img is null)
             return;
         splitContainer1.Height = splitContainer1.Panel1.Height + img.Height;
         splitContainer1.Width = img.Width;
