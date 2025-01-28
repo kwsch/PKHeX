@@ -123,7 +123,7 @@ public partial class ContextMenuSAV : UserControl
         bool canView = !info.IsEmpty() || Main.HaX;
         bool canSet = info.CanWriteTo();
         bool canDelete = canSet && canView;
-        bool canLegality = (ModifierKeys == Keys.Control || Main.Settings.Display.SlotLegalityAlwaysVisible) && canView && RequestEditorLegality != null;
+        bool canLegality = (ModifierKeys == Keys.Control || Main.Settings.Display.SlotLegalityAlwaysVisible) && canView && RequestEditorLegality is not null;
 
         ToggleItem(mnuView, canView);
         ToggleItem(mnuSet, canSet);

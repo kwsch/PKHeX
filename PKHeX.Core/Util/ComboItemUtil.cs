@@ -140,9 +140,9 @@ public static partial class Util
     {
         public int Compare(T? x, T? y)
         {
-            if (x == null)
-                return y == null ? 0 : -1;
-            return y == null ? 1 : Comparison(x, y);
+            if (x is null)
+                return y is null ? 0 : -1;
+            return y is null ? 1 : Comparison(x, y);
         }
     }
 }

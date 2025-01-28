@@ -86,7 +86,7 @@ public partial class SAV_HoneyTree : Form
 
     private void SaveTree()
     {
-        if (Tree == null)
+        if (Tree is null)
             return;
 
         Tree.Time = (uint)NUD_Time.Value;

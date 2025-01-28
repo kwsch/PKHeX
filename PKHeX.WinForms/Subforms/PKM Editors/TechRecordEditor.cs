@@ -135,7 +135,7 @@ public partial class TechRecordEditor : Form
             return;
 
         var row = dgv.CurrentRow;
-        if (row == null)
+        if (row is null)
             return;
 
         // Toggle the checkbox of cell 0

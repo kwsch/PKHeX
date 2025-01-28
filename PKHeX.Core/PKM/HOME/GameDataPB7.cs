@@ -158,7 +158,7 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         // There isn't an actual preference since this format cannot naturally backwards transfer.
         // Just pick out the first one.
         var result = CreateInternal(pkh);
-        if (result == null)
+        if (result is null)
             return null;
 
         result.PopulateFromCore(pkh);
@@ -168,7 +168,7 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
     private static GameDataPB7? CreateInternal(PKH pkh)
     {
         var side = GetNearestNeighbor(pkh);
-        if (side == null)
+        if (side is null)
             return null;
 
         var ball = side.Ball;

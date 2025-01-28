@@ -13,7 +13,7 @@ public static class LocalizeUtil
     public static void InitializeStrings(string lang, SaveFile? sav = null, bool hax = false)
     {
         var str = GameInfo.Strings = GameInfo.GetStrings(lang);
-        if (sav != null)
+        if (sav is not null)
             GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, hax);
 
         // Update Legality Analysis strings

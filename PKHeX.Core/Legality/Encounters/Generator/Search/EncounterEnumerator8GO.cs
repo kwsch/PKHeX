@@ -75,7 +75,7 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
 
             case YieldState.Fallback:
                 State = YieldState.End;
-                if (Deferred != null)
+                if (Deferred is not null)
                     return SetCurrent(Deferred, Rating);
                 break;
         }

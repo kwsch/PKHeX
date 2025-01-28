@@ -177,7 +177,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
 
             case YieldState.Fallback:
                 State = YieldState.End;
-                if (Deferred != null)
+                if (Deferred is not null)
                     return SetCurrent(Deferred, Rating);
                 break;
         }

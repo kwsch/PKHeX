@@ -26,7 +26,7 @@ public static class MysteryUtil
 
             var data = File.ReadAllBytes(file);
             var gift = MysteryGift.GetMysteryGift(data, fi.Extension);
-            if (gift != null)
+            if (gift is not null)
                 yield return gift;
         }
     }

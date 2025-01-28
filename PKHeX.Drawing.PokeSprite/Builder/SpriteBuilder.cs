@@ -170,13 +170,13 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         if (shiny) // try again without shiny
         {
             var img = GetBaseImageDefault(species, form, gender, formarg, false, context);
-            if (img != null)
+            if (img is not null)
                 return img;
         }
 
         // try again without form
         var baseImage = (Bitmap?)Resources.ResourceManager.GetObject(GetSpriteStringSpeciesOnly(species));
-        if (baseImage == null) // failed again
+        if (baseImage is null) // failed again
             return Unknown;
         return ImageUtil.LayerImage(baseImage, Unknown, 0, 0, UnknownFormTransparency);
     }

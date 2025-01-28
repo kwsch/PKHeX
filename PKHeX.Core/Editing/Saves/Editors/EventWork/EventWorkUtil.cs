@@ -57,7 +57,7 @@ public static class EventWorkUtil
                 continue;
 
             var group = list.Find(z => z.Type == type);
-            if (group == null)
+            if (group is null)
             {
                 group = new EventVarGroup(type);
                 list.Add(group);

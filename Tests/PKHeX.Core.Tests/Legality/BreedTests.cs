@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using Xunit;
 using static PKHeX.Core.Move;
@@ -12,11 +13,8 @@ public class BreedTests
 {
     private const int MovesetCount = 4; // Four moves; zeroed empty slots.
 
-    private static void GetMoves(Span<Move> moves, Span<ushort> result)
-    {
-        for (int i = 0; i < moves.Length; i++)
-            result[i] = (ushort) moves[i];
-    }
+    private static void GetMoves(ReadOnlySpan<Move> moves, Span<ushort> result)
+        => MemoryMarshal.Cast<Move, ushort>(moves).CopyTo(result);
 
     [Theory]
     [InlineData(GD, Bulbasaur, 0, Tackle, Growl)]
@@ -43,12 +41,10 @@ public class BreedTests
         var valid = MoveBreed.Validate(gen, (ushort) species, form, game, moves, origins);
         valid.Should().BeTrue();
 
-        var x = origins;
-
         if (gen != 2)
-            x.SequenceEqual(x.Order()).Should().BeTrue();
+            origins.SequenceEqual(origins.Order()).Should().BeTrue();
         else
-            x.SequenceEqual(x.OrderBy(z => z != (byte)EggSource2.Base)).Should().BeTrue();
+            origins.SequenceEqual(origins.OrderBy(z => z != (byte)EggSource2.Base)).Should().BeTrue();
     }
 
     [Theory]

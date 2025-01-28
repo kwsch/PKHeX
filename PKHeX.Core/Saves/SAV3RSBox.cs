@@ -134,6 +134,18 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     // Storage
     public override int GetPartyOffset(int slot) => -1;
     public override int GetBoxOffset(int box) => Box + 8 + (SIZE_STORED * box * 30);
+    public override int GetBoxSlotOffset(int box, int slot)
+    {
+        // Boxes are a 12x5 grid instead of the usual 6x5
+        // Without some swizzling, a box is the first 30 slots of the box data.
+        // Convert the box/slot back to a 0,59 number
+        int row = slot / 6;
+        int col = slot % 6;
+        if (box % 2 == 1) // right side
+            col += 6;
+        int boxSlot = (row * 12) + col;
+        return GetBoxOffset(box &~1) + (boxSlot * SIZE_STORED);
+    }
 
     public override int CurrentBox
     {
@@ -159,9 +171,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public string GetBoxName(int box)
     {
         // Tweaked for the 1-30/31-60 box showing
-        int lo = (30 *(box%2)) + 1;
-        int hi = 30*((box % 2) + 1);
-        string boxName = $"[{lo:00}-{hi:00}] ";
+        var dir = box % 2 == 0 ? "◖ " : " ◗";
+        string boxName = $"[{dir}] ";
         box /= 2;
 
         var span = GetBoxNameSpan(box);
@@ -176,7 +187,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = GetBoxNameSpan(box);
-        if (value == BoxDetailNameExtensions.GetDefaultBoxNameCaps(box))
+        if (value.SequenceEqual(BoxDetailNameExtensions.GetDefaultBoxNameCaps(box)))
         {
             span.Clear();
             return;

@@ -34,7 +34,7 @@ public sealed class BitmapAnimator : IDisposable
 
     public void Stop()
     {
-        if (pb == null || !Enabled)
+        if (pb is null || !Enabled)
             return;
 
         lock (Lock)
@@ -81,7 +81,7 @@ public sealed class BitmapAnimator : IDisposable
             if (!Enabled)
                 return;
 
-            if (pb == null)
+            if (pb is null)
                 return;
             try { pb.BackgroundImage = GetFrame(frameIndex); } // drawing GDI can be silly sometimes #2072
             catch (AccessViolationException ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
@@ -93,7 +93,7 @@ public sealed class BitmapAnimator : IDisposable
         var cache = GlowCache;
         ArgumentNullException.ThrowIfNull(cache);
         var frame = cache[frameIndex];
-        if (frame != null)
+        if (frame is not null)
             return frame;
 
         var elapsedFraction = (double)frameIndex / GlowInterval;
@@ -109,9 +109,9 @@ public sealed class BitmapAnimator : IDisposable
         frameSpan.Clear();
         ArrayPool<byte>.Shared.Return(frameData);
 
-        if (ExtraLayer != null)
+        if (ExtraLayer is not null)
             frame = ImageUtil.LayerImage(frame, ExtraLayer, 0, 0);
-        if (OriginalBackground != null)
+        if (OriginalBackground is not null)
             frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0);
         return cache[frameIndex] = frame;
     }

@@ -658,13 +658,13 @@ public static class SaveUtil
                 continue;
 
             var custom = h.ReadSaveFile(data, path);
-            if (custom != null)
+            if (custom is not null)
                 return custom;
         }
 #endif
 
         var sav = GetVariantSAVInternal(data);
-        if (sav != null)
+        if (sav is not null)
             return sav;
 
 #if !EXCLUDE_EMULATOR_FORMATS
@@ -674,11 +674,11 @@ public static class SaveUtil
                 continue;
 
             var split = h.TrySplit(data);
-            if (split == null)
+            if (split is null)
                 continue;
 
             sav = GetVariantSAVInternal(split.Data);
-            if (sav == null)
+            if (sav is null)
                 continue;
 
             var meta = sav.Metadata;
@@ -757,7 +757,7 @@ public static class SaveUtil
             return null;
 
         var split = DolphinHandler.TrySplit(memory.Span);
-        var data = split != null ? split.Data : memory.ToArray();
+        var data = split is not null ? split.Data : memory.ToArray();
 
         SaveFile sav;
         switch (memCard.SelectedGameVersion)
@@ -771,7 +771,7 @@ public static class SaveUtil
             default: return null;
         }
 
-        if (split != null)
+        if (split is not null)
             sav.Metadata.SetExtraInfo(split.Header, split.Footer, split.Handler);
         return sav;
     }

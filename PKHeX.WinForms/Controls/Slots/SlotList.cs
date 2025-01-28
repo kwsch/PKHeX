@@ -88,7 +88,7 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
     public int GetSlot(PictureBox sender)
     {
         var view = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (view == null)
+        if (view is null)
             return -1;
         return slots.IndexOf(view);
     }

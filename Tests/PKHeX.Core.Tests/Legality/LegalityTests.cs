@@ -134,7 +134,7 @@ public class LegalityTest
             ParseSettings.Settings.Tradeback.AllowGen1Tradeback = dn.Contains("1 Tradeback");
             var pk = EntityFormat.GetFromBytes(data, prefer);
             pk.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
-            if (pk == null)
+            if (pk is null)
                 continue;
             var legality = new LegalityAnalysis(pk);
             if (legality.Valid == isValid)

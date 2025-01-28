@@ -116,7 +116,7 @@ internal static class Program
             {
                 Error("You have installed PKHeX incorrectly. Please ensure you have unzipped all files before running.");
             }
-            else if (ex != null)
+            else if (ex is not null)
             {
                 var msg = GetErrorMessage(ex);
                 ErrorWindow.ShowErrorDialog($"{msg}\nPKHeX must now close.", ex, false);

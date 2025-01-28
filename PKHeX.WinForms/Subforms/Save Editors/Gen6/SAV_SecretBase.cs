@@ -270,7 +270,7 @@ public partial class SAV_SecretBase : Form
             return;
 
         var bdata = CurrentBase;
-        if (bdata != null)
+        if (bdata is not null)
             SaveCurrent(bdata);
 
         ResetLoadNew();
@@ -466,7 +466,7 @@ public partial class SAV_SecretBase : Form
         SAV.Records.SetRecord(080, (int)flags);
 
         var bdata = CurrentBase;
-        if (bdata != null)
+        if (bdata is not null)
             SaveCurrent(bdata);
 
         Origin.CopyChangesFrom(SAV);

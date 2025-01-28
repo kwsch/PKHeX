@@ -38,7 +38,7 @@ public interface IAesCryptographyProvider
                 _aes.Mode = mode;
                 _aes.Padding = padding;
                 _aes.Key = key;
-                if (iv != null)
+                if (iv is not null)
                     _aes.IV = iv;
             }
 

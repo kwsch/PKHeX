@@ -11,7 +11,7 @@ public sealed class DragManager
 
     public void SetCursor(Form? f, Cursor? z)
     {
-        if (f != null)
+        if (f is not null)
             f.Cursor = z;
         Info.Cursor = z;
     }

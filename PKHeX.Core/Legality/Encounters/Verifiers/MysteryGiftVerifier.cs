@@ -61,7 +61,7 @@ public static class MysteryGiftVerifier
     private static bool TryGetRestriction(MysteryGift g, out MysteryGiftRestriction val)
     {
         var restrict = RestrictionSet[g.Generation];
-        if (restrict != null)
+        if (restrict is not null)
             return restrict.TryGetValue(g.GetHashCode(), out val);
         val = MysteryGiftRestriction.None;
         return false;

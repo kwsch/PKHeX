@@ -188,17 +188,10 @@ public sealed class TrainerNameVerifier : Verifier
 
     private static int GetNumberCount(ReadOnlySpan<char> str)
     {
-        static bool IsNumber(char c)
-        {
-            if (c >= '０')
-                return c <= '９';
-            return (uint)(c - '0') <= 9;
-        }
-
         int ctr = 0;
         foreach (var c in str)
         {
-            if (IsNumber(c))
+            if (char.IsNumber(c))
                 ++ctr;
         }
         return ctr;

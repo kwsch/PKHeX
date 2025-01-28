@@ -534,7 +534,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
 
     #region Storage Offsets and Indexing
     public abstract int GetBoxOffset(int box);
-    public int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_BOXSLOT);
+    public virtual int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_BOXSLOT);
     public PKM GetBoxSlotAtIndex(int box, int slot) => GetBoxSlot(GetBoxSlotOffset(box, slot));
 
     public void GetBoxSlotFromIndex(int index, out int box, out int slot)
@@ -726,7 +726,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
                 var ofs = GetBoxSlotOffset(i, p);
                 if (!IsPKMPresent(storage[ofs..]))
                     continue;
-                if (deleteCriteria != null)
+                if (deleteCriteria is not null)
                 {
                     var pk = GetBoxSlotAtIndex(i, p);
                     if (!deleteCriteria(pk))

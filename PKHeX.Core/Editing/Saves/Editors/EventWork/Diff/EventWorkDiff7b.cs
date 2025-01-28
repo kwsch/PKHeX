@@ -51,7 +51,7 @@ public sealed class EventWorkDiff7b : IEventWorkDiff
 
     public IReadOnlyList<string> Summarize()
     {
-        if (S1 == null)
+        if (S1 is null)
             return [];
         var ew = S1.Blocks.EventWork;
 
