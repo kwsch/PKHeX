@@ -77,20 +77,20 @@ public partial class SAV_MailBox : Form
                 for (int i = 0; i < m.Length; i++)
                     m[i] = new Mail2(sav2, i);
 
-                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffset(SAV.Language)];
+                NUD_BoxSize.Maximum = 10;
+                NUD_BoxSize.Value = Math.Min(NUD_BoxSize.Maximum, SAV.Data[Mail2.GetMailboxOffset(SAV.Language)]);
                 MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = 6;
-                NUD_BoxSize.Maximum = 10;
                 break;
             case SAV2Stadium sav2Stadium:
                 m = new Mail2[SAV2Stadium.MailboxHeldMailCount + SAV2Stadium.MailboxMailCount];
                 for (int i = 0; i < m.Length; i++)
                     m[i] = new Mail2(sav2Stadium, i);
 
-                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffsetStadium2(SAV.Language)];
+                NUD_BoxSize.Maximum = SAV2Stadium.MailboxMailCount;
+                NUD_BoxSize.Value = Math.Min(NUD_BoxSize.Maximum, SAV.Data[Mail2.GetMailboxOffsetStadium2(SAV.Language)]);
                 MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = SAV2Stadium.MailboxHeldMailCount;
-                NUD_BoxSize.Maximum = SAV2Stadium.MailboxMailCount;
                 break;
             case SAV3 sav3:
                 m = new Mail3[6 + 10];
