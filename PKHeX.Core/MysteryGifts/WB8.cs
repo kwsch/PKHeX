@@ -507,8 +507,8 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.HeightScalar = GetScalar(rnd);
+        pk.WeightScalar = GetScalar(rnd);
 
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -622,6 +622,14 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         pk.SetIVs(finalIVs);
     }
 
+    private byte GetScalar(Random rnd)
+    {
+        if (CardID is 9026) // HOME Manaphy is a special case where height/weight is fixed.
+            return 180;
+
+        return PokeSizeUtil.GetRandomScalar(rnd);
+    }
+
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (!IsEgg)
@@ -685,6 +693,15 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         if (OTGender < 2 && OTGender != pk.OriginalTrainerGender) return false;
         if ((sbyte)Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
+
+        // HOME Manaphy has fixed Height/Weight/Scale.
+        if (CardID is 9026)
+        {
+            if (pk is IScaledSize ht && (ht.HeightScalar != 128 || ht.WeightScalar != 128))
+                return false;
+            if (pk is IScaledSize3 s && s.Scale != 128)
+                return false;
+        }
 
         // PID Types 0 and 1 do not use the fixed PID value.
         // Values 2,3 are specific shiny states, and 4 is fixed value.
