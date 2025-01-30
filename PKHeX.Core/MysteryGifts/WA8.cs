@@ -682,7 +682,7 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
         const int poke = (int)Core.Ball.LAPoke;
         var expectedBall = Ball == 0 ? poke : Ball;
-        if (expectedBall < poke) // Not even Cherish balls are safe! They get set to the proto-Poké ball.
+        if (expectedBall < poke && !IsHOMEGift) // Not even Cherish balls are safe! They get set to the proto-Poké ball. HOME gifts may still use Cherish.
             expectedBall = poke;
         if (pk is PK8)
             expectedBall = (int)Core.Ball.Poke; // Transferred to SW/SH -> Regular Poké ball
