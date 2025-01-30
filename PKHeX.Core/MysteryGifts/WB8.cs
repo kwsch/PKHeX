@@ -507,8 +507,8 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = GetScalar(rnd);
-        pk.WeightScalar = GetScalar(rnd);
+        pk.HeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
 
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -519,6 +519,11 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     /// HOME Gifts for Sinnoh starters were forced JPN until May 20, 2022 (UTC).
     /// </summary>
     public bool IsDateLockJapanese => CardID is 9015 or 9016 or 9017;
+
+    /// <summary>
+    ///  HOME Gift Manaphy is a special case where height/weight is fixed.
+    /// </summary>
+    public bool IsScalarFixed => CardID is 9026;
 
     private void SetEggMetData(PB8 pk)
     {
@@ -622,13 +627,11 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         pk.SetIVs(finalIVs);
     }
 
-    private byte GetScalar(Random rnd)
+    private byte GetHomeScalar() => CardID switch
     {
-        if (CardID is 9026) // HOME Manaphy is a special case where height/weight is fixed.
-            return 180;
-
-        return PokeSizeUtil.GetRandomScalar(rnd);
-    }
+        9026 => 128,
+        _ => throw new ArgumentException(),
+    };
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -694,12 +697,12 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         if ((sbyte)Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
 
-        // HOME Manaphy has fixed Height/Weight/Scale.
-        if (CardID is 9026)
+        if (IsScalarFixed)
         {
-            if (pk is IScaledSize ht && (ht.HeightScalar != 128 || ht.WeightScalar != 128))
+            var scalar = GetHomeScalar();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
                 return false;
-            if (pk is IScaledSize3 s && s.Scale != 128)
+            if (pk is IScaledSize3 s && s.Scale != scalar)
                 return false;
         }
 

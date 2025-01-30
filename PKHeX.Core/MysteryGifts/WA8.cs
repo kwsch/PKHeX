@@ -509,8 +509,8 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = GetScalar(rnd);
-        pk.WeightScalar = GetScalar(rnd);
+        pk.HeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
+        pk.WeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
         pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();
@@ -524,6 +524,11 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     /// HOME Gifts for Hisui starters were forced JPN until May 20, 2022 (UTC).
     /// </summary>
     public bool IsDateLockJapanese => CardID is 9018 or 9019 or 9020;
+
+    /// <summary>
+    ///  HOME Gift Enamorus is a special case where height/weight is fixed.
+    /// </summary>
+    public bool IsScalarFixed => CardID is 9027;
 
     private void SetEggMetData(PA8 pk)
     {
@@ -626,13 +631,11 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         pk.SetIVs(finalIVs);
     }
 
-    private byte GetScalar(Random rnd)
+    private byte GetHomeScalar() => CardID switch
     {
-        if (CardID is 9027) // HOME Enamorus is a special case where height/weight is fixed.
-            return 127;
-
-        return PokeSizeUtil.GetRandomScalar(rnd);
-    }
+        9027 => 127,
+        _ => throw new ArgumentException(),
+    };
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -703,12 +706,12 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         if (pk is IGanbaru b && b.IsGanbaruValuesBelow(this))
             return false;
 
-        // HOME Enamorus has fixed Height/Weight/Scale.
-        if (CardID is 9027)
+        if (IsScalarFixed)
         {
-            if (pk is IScaledSize ht && (ht.HeightScalar != 127 || ht.WeightScalar != 127))
+            var scalar = GetHomeScalar();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
                 return false;
-            if (pk is IScaledSize3 s && s.Scale != 127)
+            if (pk is IScaledSize3 s && s.Scale != scalar)
                 return false;
         }
 
