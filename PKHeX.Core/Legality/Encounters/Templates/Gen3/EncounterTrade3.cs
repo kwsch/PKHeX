@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 3 Trade Encounter
 /// </summary>
 public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname,
-    IFixedGender, IFixedNature, IFixedIVSet, IEncounterConvertible<PK3>, IContestStatsReadOnly
+    IFixedGender, IFixedNature, IFixedIVSet, IEncounterConvertible<PK3>, IContestStatsReadOnly, ITrainerID32ReadOnly
 {
     public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -45,6 +45,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
     public required ushort TID16 { get; init; }
     public ushort SID16 { get; init; }
+    public uint ID32 => TID16 | (uint)(SID16 << 16);
 
     public byte ContestCool   { get; private init; }
     public byte ContestBeauty { get; private init; }

@@ -19,7 +19,7 @@ public sealed class TrainerNameVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var enc = data.EncounterMatch;
+        var enc = data.EncounterOriginal;
         if (!IsPlayerOriginalTrainer(enc))
             return; // already verified
 
@@ -46,9 +46,9 @@ public sealed class TrainerNameVerifier : Verifier
         {
             VerifyOTGB(data);
         }
-        else if (trainer.Length > Legal.GetMaxLengthOT(data.Info.Generation, (LanguageID)pk.Language))
+        else if (trainer.Length > Legal.GetMaxLengthOT(enc.Generation, (LanguageID)pk.Language))
         {
-            if (!IsEdgeCaseLength(pk, data.EncounterOriginal, trainer))
+            if (!IsEdgeCaseLength(pk, enc, trainer))
                 data.AddLine(Get(LOTLong, Severity.Invalid));
         }
 
@@ -56,7 +56,7 @@ public sealed class TrainerNameVerifier : Verifier
         {
             if (WordFilter.IsFiltered(trainer, out var badPattern, pk.Context, enc.Context))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
-            if (ContainsTooManyNumbers(trainer, data.Info.Generation))
+            if (ContainsTooManyNumbers(trainer, enc.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
 
             Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
@@ -175,7 +175,7 @@ public sealed class TrainerNameVerifier : Verifier
         return false;
     }
 
-    public static bool ContainsTooManyNumbers(ReadOnlySpan<char> str, int originalGeneration)
+    public static bool ContainsTooManyNumbers(ReadOnlySpan<char> str, byte originalGeneration)
     {
         if (originalGeneration <= 3)
             return false; // no limit from these generations

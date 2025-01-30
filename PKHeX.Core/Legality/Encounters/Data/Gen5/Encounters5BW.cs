@@ -183,21 +183,21 @@ public static class Encounters5BW
     #region Trade Tables
     internal static readonly EncounterTrade5BW[] TradeGift_BW =
     [
-        new(TradeNames, 04, BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  ID32 = 11195, OTGender = 0, Gender = 0, IVs = new(20,20,31,20,20,20), Nature = Nature.Lax }, // Emolga
-        new(TradeNames, 05, BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  ID32 = 54673, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Gentle }, // Rotom
-        new(TradeNames, 06, BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, ID32 = 40217, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Serious }, // Munchlax
+        new(TradeNames, 04, BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  TID16 = 11195, OTGender = 0, Gender = 0, IVs = new(20,20,31,20,20,20), Nature = Nature.Lax }, // Emolga
+        new(TradeNames, 05, BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  TID16 = 54673, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Gentle }, // Rotom
+        new(TradeNames, 06, BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, TID16 = 40217, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Serious }, // Munchlax
     ];
 
     internal static readonly EncounterTrade5BW[] TradeGift_B =
     [
-        new(TradeNames, 00, B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  ID32 = 39922, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Petilil
-        new(TradeNames, 02, B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  ID32 = 27646, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
+        new(TradeNames, 00, B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  TID16 = 39922, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Petilil
+        new(TradeNames, 02, B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID16 = 27646, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
     ];
 
     internal static readonly EncounterTrade5BW[] TradeGift_W =
     [
-        new(TradeNames, 01,  W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  ID32 = 39922, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
-        new(TradeNames, 03,  W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  ID32 = 27646, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
+        new(TradeNames, 01,  W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  TID16 = 39922, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
+        new(TradeNames, 03,  W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID16 = 27646, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
     ];
     #endregion
 }

@@ -3,7 +3,8 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>Generation 5 Trade with Fixed PID</summary>
-public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IFixedIVSet, IEncounterConvertible<PK5>
+public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>,
+    IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IFixedIVSet, ITrainerID32ReadOnly
 {
     public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
@@ -26,7 +27,9 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
     public required byte Level { get; init; }
     public required AbilityPermission Ability { get; init; }
     public required byte OTGender { get; init; }
-    public required ushort ID32 { get; init; }
+    public required ushort TID16 { get; init; }
+    public ushort SID16 => 0;
+    public uint ID32 => TID16;
     public required byte Gender { get; init; }
     public required IndividualValueSet IVs { get; init; }
     public required Nature Nature { get; init; }
@@ -82,7 +85,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
             Nature = Nature,
             Ball = (byte)FixedBall,
 
-            ID32 = ID32,
+            TID16 = TID16,
             Version = version,
             Language = lang == 1 ? 0 : lang, // Trades for JPN games have language ID of 0, not 1.
             OriginalTrainerGender = OTGender,

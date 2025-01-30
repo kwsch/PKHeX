@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using static PKHeX.Core.MethodHCondition;
 using static PKHeX.Core.LeadRequired;
 using static PKHeX.Core.SlotType3;
+using System;
 
 namespace PKHeX.Core;
 
@@ -675,4 +676,25 @@ public static class MethodH
         or Good_Rod
         or Super_Rod
         or SwarmFish50;
+
+    /// <summary>
+    /// Get the first possible starting seed that generates the given trainer ID and secret ID.
+    /// </summary>
+    /// <param name="tid">Generation 3 Trainer ID</param>
+    /// <param name="sid">Generation 3 Secret ID</param>
+    /// <param name="seed">Possible starting seed</param>
+    /// <returns>True if a seed was found, false if no seed was found</returns>
+    public static bool TryGetSeedTrainerID(ushort tid, ushort sid, out uint seed)
+    {
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsPID];
+        var count = LCRNGReversal.GetSeeds(seeds, (uint)sid << 16, (uint)tid << 16);
+
+        if (count == 0)
+        {
+            seed = 0;
+            return false;
+        }
+        seed = seeds[0];
+        return true;
+    }
 }
