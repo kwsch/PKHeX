@@ -509,8 +509,8 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        pk.HeightScalar = GetScalar(rnd);
+        pk.WeightScalar = GetScalar(rnd);
         pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();
@@ -626,6 +626,14 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         pk.SetIVs(finalIVs);
     }
 
+    private byte GetScalar(Random rnd)
+    {
+        if (CardID is 9027) // HOME Enamorus is a special case where height/weight is fixed.
+            return 127;
+
+        return PokeSizeUtil.GetRandomScalar(rnd);
+    }
+
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (!IsEgg)
@@ -694,6 +702,15 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
         if (pk is IGanbaru b && b.IsGanbaruValuesBelow(this))
             return false;
+
+        // HOME Enamorus has fixed Height/Weight/Scale.
+        if (CardID is 9027)
+        {
+            if (pk is IScaledSize ht && (ht.HeightScalar != 127 || ht.WeightScalar != 127))
+                return false;
+            if (pk is IScaledSize3 s && s.Scale != 127)
+                return false;
+        }
 
         // PID Types 0 and 1 do not use the fixed PID value.
         // Values 2,3 are specific shiny states, and 4 is fixed value.
