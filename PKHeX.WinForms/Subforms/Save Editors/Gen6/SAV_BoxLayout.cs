@@ -202,7 +202,7 @@ public partial class SAV_BoxLayout : Form
     private bool MoveItem(int direction)
     {
         // Checking selected item
-        if (LB_BoxSelect.SelectedItem == null || LB_BoxSelect.SelectedIndex < 0)
+        if (LB_BoxSelect.SelectedItem is null || LB_BoxSelect.SelectedIndex < 0)
             return false; // No selected item - nothing to do
 
         // Calculate new index using move direction

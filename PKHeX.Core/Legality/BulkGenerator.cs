@@ -45,7 +45,7 @@ public static class BulkGenerator
             for (byte f = 0; f < pi.FormCount; f++)
             {
                 var entry = tr.GetLivingEntry(pk, s, f, destType);
-                if (entry == null)
+                if (entry is null)
                     continue;
                 result.Add(entry);
             }
@@ -67,12 +67,12 @@ public static class BulkGenerator
         var first = EncounterMovesetGenerator.GenerateEncounters(template, tr, memory).FirstOrDefault();
         span.Clear();
         ArrayPool<ushort>.Shared.Return(moves);
-        if (first == null)
+        if (first is null)
             return null;
 
         var pk = first.ConvertToPKM(tr);
         var result = EntityConverter.ConvertToType(pk, destType, out _);
-        if (result == null)
+        if (result is null)
             return null;
 
         result.Species = species;

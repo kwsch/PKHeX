@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade9
-    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK9>, IGemType, IFixedGender, IFixedNature, IRibbonPartner, IMoveset, IFixedIVSet
+public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>,
+    IFixedTrainer, IFixedNickname, IGemType, IFixedGender, IFixedNature, IRibbonPartner, IMoveset, IFixedIVSet, ITrainerID32ReadOnly
 {
     public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -25,6 +25,8 @@ public sealed record EncounterTrade9
 
     public required Nature Nature { get; init; }
     public required uint ID32 { get; init; }
+    public ushort TID16 => (ushort)ID32;
+    public ushort SID16 => (ushort)(ID32 >> 16);
     public required AbilityPermission Ability { get; init; }
     public byte Gender { get; init; }
     public required byte OTGender { get; init; }

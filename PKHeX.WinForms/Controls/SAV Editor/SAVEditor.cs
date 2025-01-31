@@ -287,7 +287,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 L_SlotOccupied[i].Text = $"{i + 1}: ✘";
                 var pb = UpdateSlot(i);
                 var current = pb.Image;
-                if (current != null)
+                if (current is not null)
                     pb.Image = ImageUtil.ChangeOpacity(current, 0.6);
             }
         }
@@ -474,7 +474,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         if (M.Boxes.Count > 1) // subview open
         {
             var z = M.Boxes[1].ParentForm;
-            if (z == null)
+            if (z is null)
                 return;
             z.CenterToForm(ParentForm);
             z.BringToFront();
@@ -696,7 +696,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         void TryOpen(SaveFile sav, IReadOnlyList<SlotGroup> g)
         {
             var form = WinFormsUtil.FirstFormOfType<SAV_GroupViewer>();
-            if (form != null)
+            if (form is not null)
             {
                 form.CenterToForm(ParentForm);
             }
@@ -1059,7 +1059,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         if (!SAV.HasBox)
             return false;
 
-        if (path == null && !IsFolderPath(out path))
+        if (path is null && !IsFolderPath(out path))
         {
             result = path;
             return false;
@@ -1121,7 +1121,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 if (height > allowed)
                 {
                     var form = FindForm();
-                    if (form != null)
+                    if (form is not null)
                         form.Height += height - allowed;
                 }
             }

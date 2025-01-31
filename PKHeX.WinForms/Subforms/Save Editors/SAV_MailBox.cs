@@ -77,20 +77,20 @@ public partial class SAV_MailBox : Form
                 for (int i = 0; i < m.Length; i++)
                     m[i] = new Mail2(sav2, i);
 
-                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffset(SAV.Language)];
+                NUD_BoxSize.Maximum = 10;
+                NUD_BoxSize.Value = Math.Min(NUD_BoxSize.Maximum, SAV.Data[Mail2.GetMailboxOffset(SAV.Language)]);
                 MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = 6;
-                NUD_BoxSize.Maximum = 10;
                 break;
             case SAV2Stadium sav2Stadium:
                 m = new Mail2[SAV2Stadium.MailboxHeldMailCount + SAV2Stadium.MailboxMailCount];
                 for (int i = 0; i < m.Length; i++)
                     m[i] = new Mail2(sav2Stadium, i);
 
-                NUD_BoxSize.Value = SAV.Data[Mail2.GetMailboxOffsetStadium2(SAV.Language)];
+                NUD_BoxSize.Maximum = SAV2Stadium.MailboxMailCount;
+                NUD_BoxSize.Value = Math.Min(NUD_BoxSize.Maximum, SAV.Data[Mail2.GetMailboxOffsetStadium2(SAV.Language)]);
                 MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = SAV2Stadium.MailboxHeldMailCount;
-                NUD_BoxSize.Maximum = SAV2Stadium.MailboxMailCount;
                 break;
             case SAV3 sav3:
                 m = new Mail3[6 + 10];
@@ -393,7 +393,7 @@ public partial class SAV_MailBox : Form
         // Z: mail type is illegal
         for (int i = 0; i < m.Length; i++)
         {
-            if (m[i].IsEmpty == null) // Z
+            if (m[i].IsEmpty is null) // Z
                 ret.Add($"MailID{i} MailType mismatch");
         }
 
@@ -421,23 +421,23 @@ public partial class SAV_MailBox : Form
     private string GetSpeciesNameFromCB(int index)
     {
         var result = CB_AppearPKM1.Items.OfType<ComboItem>().FirstOrDefault(z => z.Value == index);
-        return result != null ? result.Text : "PKM";
+        return result is not null ? result.Text : "PKM";
     }
 
     private DialogResult ModifyHeldItem()
     {
         DialogResult ret = DialogResult.Abort;
         var s = p.Select((pk, i) => ((sbyte)PKMNUDs[i].Value == entry) && ItemIsMail(pk.HeldItem) ? pk : null).ToArray();
-        if (s.All(v => v == null))
+        if (s.All(v => v is null))
             return ret;
         System.Media.SystemSounds.Question.Play();
-        var msg = $"{s.Select((v, i) => v == null ? string.Empty : $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}").Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail";
+        var msg = $"{s.Select((v, i) => v is null ? string.Empty : $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}").Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail";
         ret = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, msg);
         if (ret != DialogResult.Yes)
             return ret;
         foreach (var pk in s)
         {
-            if (pk == null)
+            if (pk is null)
                 continue;
 
             pk.HeldItem = 0;

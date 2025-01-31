@@ -57,7 +57,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 partial ??= z;
         }
 
-        if (partial != null)
+        if (partial is not null)
         {
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
             yield return partial;

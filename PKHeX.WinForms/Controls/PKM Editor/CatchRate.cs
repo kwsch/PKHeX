@@ -25,7 +25,7 @@ public partial class CatchRate : UserControl
         if (Entity is null)
             return;
         var sav = WinFormsUtil.FindFirstControlOfType<IMainEditor>(this)?.RequestSaveFile;
-        if (sav == null)
+        if (sav is null)
             return;
         NUD_CatchRate.Value = CatchRateApplicator.GetSuggestedCatchRate(Entity, sav);
     }

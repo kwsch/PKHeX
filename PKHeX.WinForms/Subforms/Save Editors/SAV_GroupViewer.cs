@@ -145,7 +145,7 @@ public sealed partial class SAV_GroupViewer : Form
     private void ClickView(object sender, EventArgs e)
     {
         var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (pb == null)
+        if (pb is null)
             return;
         int index = Box.Entries.IndexOf(pb);
 

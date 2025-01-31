@@ -444,10 +444,12 @@ public static class CommonEdits
         return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, pk.Version);
     }
 
+    public const char OptionNone = '\0';
+
     /// <summary>
     /// Gets a <see cref="PKM.EncryptionConstant"/> to match the requested option.
     /// </summary>
-    public static uint GetComplicatedEC(ISpeciesForm pk, char option = default)
+    public static uint GetComplicatedEC(ISpeciesForm pk, char option = OptionNone)
     {
         var species = pk.Species;
         var form = pk.Form;
@@ -455,7 +457,7 @@ public static class CommonEdits
     }
 
     /// <inheritdoc cref="GetComplicatedEC(ISpeciesForm,char)"/>
-    public static uint GetComplicatedEC(ushort species, byte form, char option = default)
+    public static uint GetComplicatedEC(ushort species, byte form, char option = OptionNone)
     {
         var rng = Util.Rand;
         uint rand = rng.Rand32();

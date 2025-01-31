@@ -59,7 +59,7 @@ public partial class TrainerStat : UserControl
 
     private void UpdateTip(int index, bool updateStats)
     {
-        if (GetToolTipText != null)
+        if (GetToolTipText is not null)
             UpdateToolTipSpecial(index, updateStats);
         else
             UpdateToolTipDefault(index, updateStats);
@@ -68,7 +68,7 @@ public partial class TrainerStat : UserControl
     private void UpdateToolTipSpecial(int index, bool updateStats)
     {
         var str = GetToolTipText?.Invoke(index);
-        if (str != null)
+        if (str is not null)
         {
             Tip.SetToolTip(NUD_Stat, str);
             return;

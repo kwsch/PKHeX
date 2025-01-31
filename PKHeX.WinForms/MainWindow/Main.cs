@@ -608,7 +608,7 @@ public partial class Main : Form
     private void OpenFile(byte[] input, string path, string ext)
     {
         var obj = FileUtil.GetSupportedFile(input, ext, C_SAV.SAV);
-        if (obj != null && LoadFile(obj, path))
+        if (obj is not null && LoadFile(obj, path))
             return;
 
         WinFormsUtil.Error(GetHintInvalidFile(input, path),
@@ -635,7 +635,7 @@ public partial class Main : Form
 
     private bool LoadFile(object? input, string path)
     {
-        if (input == null)
+        if (input is null)
             return false;
 
         switch (input)
@@ -664,7 +664,7 @@ public partial class Main : Form
         var destType = C_SAV.SAV.PKMType;
         var tmp = EntityConverter.ConvertToType(pk, destType, out var c);
         Debug.WriteLine(c.GetDisplayString(pk, destType));
-        if (tmp == null)
+        if (tmp is null)
             return false;
         C_SAV.SAV.AdaptPKM(tmp);
         PKME_Tabs.PopulateFields(tmp);
@@ -692,7 +692,7 @@ public partial class Main : Form
         var destType = C_SAV.SAV.PKMType;
         var pk = EntityConverter.ConvertToType(temp, destType, out var c);
 
-        if (pk == null)
+        if (pk is null)
         {
             WinFormsUtil.Alert(c.GetDisplayString(temp, destType));
             return true;
@@ -1175,7 +1175,7 @@ public partial class Main : Form
         pk ??= PreparePKM(false); // don't perform control loss click
 
         var menu = dragout.ContextMenuStrip;
-        if (menu != null)
+        if (menu is not null)
             menu.Enabled = pk.Species != 0 || HaX; // Species
 
         pb.Image = pk.Sprite(C_SAV.SAV);
@@ -1211,7 +1211,7 @@ public partial class Main : Form
             return;
         if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
             e.Effect = DragDropEffects.Copy;
-        else if (e.Data != null) // within
+        else if (e.Data is not null) // within
             e.Effect = DragDropEffects.Copy;
     }
 

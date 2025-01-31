@@ -26,7 +26,7 @@ public sealed class SlotHoverHandler : IDisposable
     public void Start(PictureBox pb, SlotTrackerImage lastSlot)
     {
         var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-        if (view == null)
+        if (view is null)
             throw new InvalidCastException(nameof(view));
         var data = view.GetSlotData(pb);
         var pk = data.Read(view.SAV);
@@ -52,7 +52,7 @@ public sealed class SlotHoverHandler : IDisposable
             bg = Hover;
         }
 
-        if (orig != null)
+        if (orig is not null)
             bg = ImageUtil.LayerImage(orig, bg, 0, 0);
         pb.BackgroundImage = LastSlot.CurrentBackground = bg;
 
@@ -61,7 +61,7 @@ public sealed class SlotHoverHandler : IDisposable
 
     public void Stop()
     {
-        if (Slot != null)
+        if (Slot is not null)
         {
             if (HoverWorker.Enabled)
                 HoverWorker.Stop();

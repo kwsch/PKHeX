@@ -11,8 +11,8 @@ public sealed class Mail5 : MailDetail
 
     public Mail5(byte? lang, byte? version) : base(new byte[SIZE])
     {
-        if (lang != null) AuthorLanguage = (byte)lang;
-        if (version != null) AuthorVersion = (byte)version;
+        if (lang is not null) AuthorLanguage = (byte)lang;
+        if (version is not null) AuthorVersion = (byte)version;
         ResetData();
     }
 

@@ -163,7 +163,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
 
             case YieldState.Fallback:
                 State = YieldState.End;
-                if (Deferred != null)
+                if (Deferred is not null)
                     return SetCurrent(Deferred, Rating);
                 break;
         }

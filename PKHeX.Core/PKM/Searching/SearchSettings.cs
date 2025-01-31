@@ -170,7 +170,7 @@ public sealed class SearchSettings
             return false;
         if (HiddenPowerType > -1 && pk.HPType != HiddenPowerType)
             return false;
-        if (SearchShiny != null && pk.IsShiny != SearchShiny)
+        if (SearchShiny is not null && pk.IsShiny != SearchShiny)
             return false;
 
         if (IVType > 0 && !SearchUtil.SatisfiesFilterIVs(pk, IVType))
@@ -183,11 +183,11 @@ public sealed class SearchSettings
 
     private bool SearchComplex(PKM pk)
     {
-        if (SearchEgg != null && !FilterResultEgg(pk))
+        if (SearchEgg is not null && !FilterResultEgg(pk))
             return false;
         if (Level is { } x and not 0 && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, x))
             return false;
-        if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal)
+        if (SearchLegal is not null && new LegalityAnalysis(pk).Valid != SearchLegal)
             return false;
         if (BatchFilters.Count != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters))
             return false;
@@ -199,7 +199,7 @@ public sealed class SearchSettings
     {
         if (SearchEgg == false)
             return !pk.IsEgg;
-        if (ESV != null)
+        if (ESV is not null)
             return pk.IsEgg && pk.PSV == ESV;
         return pk.IsEgg;
     }

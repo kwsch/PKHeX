@@ -128,11 +128,11 @@ public partial class SAV_FolderList : Form
     private static IEnumerable<CustomFolderPath> GetConsolePaths(IEnumerable<string> drives)
     {
         var path3DS = SaveFinder.Get3DSLocation(drives);
-        if (path3DS == null)
+        if (path3DS is null)
             return [];
 
         var root = Path.GetPathRoot(path3DS);
-        if (root == null)
+        if (root is null)
             return [];
 
         var paths = SaveFinder.Get3DSBackupPaths(root);
@@ -142,11 +142,11 @@ public partial class SAV_FolderList : Form
     private static IEnumerable<CustomFolderPath> GetSwitchPaths(IEnumerable<string> drives)
     {
         var pathNX = SaveFinder.GetSwitchLocation(drives);
-        if (pathNX == null)
+        if (pathNX is null)
             return [];
 
         var root = Path.GetPathRoot(pathNX);
-        if (root == null)
+        if (root is null)
             return [];
 
         var paths = SaveFinder.GetSwitchBackupPaths(root);
@@ -204,7 +204,7 @@ public partial class SAV_FolderList : Form
     private void ClickOpenFile(DataGridView dgv)
     {
         var sav = GetSaveFile(dgv);
-        if (sav == null || !File.Exists(sav.FilePath))
+        if (sav is null || !File.Exists(sav.FilePath))
         {
             WinFormsUtil.Alert(MsgFileLoadFail);
             return;
@@ -216,7 +216,7 @@ public partial class SAV_FolderList : Form
     private void ClickOpenFolder(DataGridView dgv)
     {
         var sav = GetSaveFile(dgv);
-        if (sav == null || !File.Exists(sav.FilePath))
+        if (sav is null || !File.Exists(sav.FilePath))
         {
             WinFormsUtil.Alert(MsgFileLoadFail);
             return;
@@ -388,7 +388,7 @@ public partial class SAV_FolderList : Form
         }
         var cell = row.Cells[column];
         var value = cell.Value?.ToString();
-        if (value == null)
+        if (value is null)
         {
             row.Visible = false;
             return;

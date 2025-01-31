@@ -5,7 +5,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 BD/SP Trade Encounter
 /// </summary>
-public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PB8>, IScaledSizeReadOnly, IFixedOTFriendship, IMoveset, IContestStatsReadOnly, IFixedGender, IFixedNature, IFixedIVSet
+public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>,
+    IFixedTrainer, IFixedNickname, IScaledSizeReadOnly, IFixedOTFriendship, IMoveset,
+    IContestStatsReadOnly, IFixedGender, IFixedNature, IFixedIVSet, ITrainerID32ReadOnly
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;
@@ -23,7 +25,9 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
     private readonly ReadOnlyMemory<string> Nicknames;
 
     public required Nature Nature { get; init; }
-    public required ushort ID32 { get; init; }
+    public required ushort TID16 { get; init; }
+    public ushort SID16 => 0;
+    public uint ID32 => TID16 | (uint)(SID16 << 16);
     public required AbilityPermission Ability { get; init; }
     public required byte Gender { get; init; }
     public required byte OTGender { get; init; }

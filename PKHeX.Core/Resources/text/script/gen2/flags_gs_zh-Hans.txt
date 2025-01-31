@@ -6,9 +6,9 @@
 1601	s	空木博士研究所的小锯鳄精灵球消失了
 1602	s	空木博士研究所的菊草叶精灵球消失了
 1784	r	已捕获 树才怪
-1760	r	Electrode (top corners) disappeared from Hideout B2F
-1761	r	Electrode (middle corners) disappeared from Hideout B2F
-1762	r	Electrode (bottom corners) disappeared from Hideout B2F
+1760	r	火箭队基地B2F 顽皮雷弹 (上) 已消失
+1761	r	火箭队基地B2F 顽皮雷弹 (中) 已消失
+1762	r	火箭队基地B2F 顽皮雷弹 (下) 已消失
 0079	g	已接收 伊布
 1867	*	神兽已从烧焦塔消失
 0672	*	已解决 阿露福遗迹凤王拼图谜题

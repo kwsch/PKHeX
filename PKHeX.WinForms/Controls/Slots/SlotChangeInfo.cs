@@ -22,7 +22,7 @@ public sealed class SlotChangeInfo<TCursor, TImageSource>
         Cursor = null;
     }
 
-    public bool SameLocation => (Destination != null) && (Source?.Equals(Destination) ?? false);
+    public bool SameLocation => (Destination is not null) && (Source?.Equals(Destination) ?? false);
 
     private bool SourceIsParty => Source?.Slot is SlotInfoParty;
     private bool DestinationIsParty => Destination?.Slot is SlotInfoParty;

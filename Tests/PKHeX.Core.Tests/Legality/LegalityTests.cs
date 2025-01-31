@@ -13,13 +13,78 @@ public class LegalityTest
     static LegalityTest() => TestUtil.InitializeLegality();
 
     [Theory]
-    [InlineData("censor")]
-    [InlineData("buttnugget")]
-    [InlineData("18넘")]
-    [InlineData("inoffensive", false)]
-    public void CensorsBadWords(string badword, bool value = true)
+    [InlineData("Ass")]
+    [InlineData("Ａｓｓ")]
+    [InlineData("9/11")]
+    [InlineData("９／１１", false)]
+    [InlineData("baise")]
+    [InlineData("baisé", false)]
+    [InlineData("BAISÉ", false)]
+    [InlineData("scheiße")]
+    [InlineData("SCHEISSE", false)]
+    [InlineData("RICCHIONE ")]
+    [InlineData("RICCHIONE", false)]
+    [InlineData("せっくす")]
+    [InlineData("セックス")]
+    [InlineData("ふぁっく", false)]
+    [InlineData("ファック", false)]
+    [InlineData("kofagrigus", false)]
+    [InlineData("cofagrigus", false)]
+    public void CensorsBadWordsGen5(string badword, bool value = true)
     {
-        WordFilter.TryMatch(badword, out _).Should().Be(value, "the word should have been identified as a bad word");
+        var result = WordFilter5.IsFiltered(badword, out _);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+    }
+
+    [Theory]
+    [InlineData("kofagrigus")]
+    [InlineData("cofagrigus")]
+    [InlineData("Cofagrigus", false)]
+    public void CensorsBadWordsGen6(string badword, bool value = true)
+    {
+        var result = WordFilter3DS.IsFilteredGen6(badword, out _);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+    }
+
+    [Theory]
+    [InlineData("badword")]
+    [InlineData("butt nuggets")]
+    [InlineData("18년")]
+    [InlineData("ふぁっく")]
+    [InlineData("ｇｃｄ")]
+    [InlineData("Ｐ０ＲＮ")]
+    [InlineData("gmail.com")]
+    [InlineData("kofagrigus")]
+    [InlineData("cofagrigus", false)]
+    [InlineData("Cofagrigus", false)]
+    [InlineData("inoffensive", false)]
+    public void CensorsBadWordsGen7(string badword, bool value = true)
+    {
+        var result = WordFilter3DS.IsFilteredGen7(badword, out _);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
+    }
+
+    [Theory]
+    [InlineData("badword")]
+    [InlineData("butt nuggets")]
+    [InlineData("18넘")]
+    [InlineData("ふぁっく")]
+    [InlineData("ｳﾞｧｷﾞﾅ")]
+    [InlineData("ｵｯﾊﾟｲ")]
+    [InlineData("ﾌｧｯﾞｸ")]
+    [InlineData("ﾌｧﾂﾞｸ", false)]
+    [InlineData("ﾌｧｯｸﾞ", false)]
+    [InlineData("sh!t")]
+    [InlineData("sh！t", false)]
+    [InlineData("abu$e")]
+    [InlineData("kofagrigus")]
+    [InlineData("cofagrigus", false)]
+    [InlineData("Cofagrigus", false)]
+    [InlineData("inoffensive", false)]
+    public void CensorsBadWordsSwitch(string badword, bool value = true)
+    {
+        var result = WordFilterNX.IsFiltered(badword, out _, EntityContext.Gen9);
+        result.Should().Be(value, $"the word {(value ? "should" : "should not")} have been identified as a bad word");
     }
 
     [Theory]
@@ -69,7 +134,7 @@ public class LegalityTest
             ParseSettings.Settings.Tradeback.AllowGen1Tradeback = dn.Contains("1 Tradeback");
             var pk = EntityFormat.GetFromBytes(data, prefer);
             pk.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
-            if (pk == null)
+            if (pk is null)
                 continue;
             var legality = new LegalityAnalysis(pk);
             if (legality.Valid == isValid)

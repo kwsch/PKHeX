@@ -5,7 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Static Encounter
 /// </summary>
-public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IRandomCorrelation, IFixedTrainer, IMoveset
+public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>,
+    IRandomCorrelation, IFixedTrainer, IMoveset, ITrainerID16ReadOnly
 {
     public byte Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -150,7 +151,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD;
+    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD or PIDType.CXDAnti;
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
 

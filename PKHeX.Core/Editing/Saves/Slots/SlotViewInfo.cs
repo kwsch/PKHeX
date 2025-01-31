@@ -30,5 +30,5 @@ public sealed class SlotViewInfo<T>(ISlotInfo Slot, ISlotViewer<T> View) : IEqua
 
     public override bool Equals(object? obj) => ReferenceEquals(this, obj) || (obj is SlotViewInfo<T> other && Equals(other));
     public override int GetHashCode() => (Slot.GetHashCode() * 397) ^ View.GetHashCode();
-    bool IEquatable<T>.Equals(T? other) => other != null && Equals(other);
+    bool IEquatable<T>.Equals(T? other) => other is not null && Equals(other);
 }

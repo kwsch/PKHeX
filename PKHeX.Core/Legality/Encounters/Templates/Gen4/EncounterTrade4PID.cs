@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Trade Encounter with a fixed PID value.
 /// </summary>
-public sealed record EncounterTrade4PID
-    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedIVSet, IEncounterConvertible<PK4>, IContestStatsReadOnly, IMoveset, IFixedGender, IFixedNature
+public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>,
+    IFixedTrainer, IFixedNickname, IFixedIVSet, IContestStatsReadOnly, IMoveset, IFixedGender, IFixedNature, ITrainerID32ReadOnly
 {
     public byte Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
@@ -39,7 +39,7 @@ public sealed record EncounterTrade4PID
 
     public Nature Nature => (Nature)(PID % 25);
     public byte Form => 0;
-    private uint ID32 => (uint)(TID16 | (SID16 << 16));
+    public uint ID32 => (uint)(TID16 | (SID16 << 16));
     private bool IsMetUnset => MetLocation == 0;
 
     /// <summary>

@@ -89,7 +89,7 @@ internal static class BatchModifications
     {
         var pk = info.Entity;
         var encounter = EncounterSuggestion.GetSuggestedMetInfo(pk);
-        if (encounter == null)
+        if (encounter is null)
             return ModifyResult.Error;
 
         var location = encounter.Location;

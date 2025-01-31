@@ -567,7 +567,7 @@ public partial class SAV_Misc5 : Form
 
     private void UpdateSlotValue(object sender, EventArgs e)
     {
-        if (CurrentSlot == null)
+        if (CurrentSlot is null)
             return;
 
         if (sender == CB_Species)

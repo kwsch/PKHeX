@@ -53,7 +53,7 @@ public sealed class EventWorkDiff8b : IEventWorkDiff
 
     public IReadOnlyList<string> Summarize()
     {
-        if (S1 == null)
+        if (S1 is null)
             return [];
 
         var fOn = SetFlags.Select(z => new FlagSummary(z).ToString());

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 3 Event Gift
 /// </summary>
 /// <remarks>Specialized for the PCJP gift distribution machines.</remarks>
-public sealed class EncounterGift3JPN(ushort Species, Distribution3JPN Distribution)
+public sealed record EncounterGift3JPN(ushort Species, Distribution3JPN Distribution)
     : IEncounterable, IEncounterMatch, IRandomCorrelationEvent3, IFixedTrainer
 {
     public ushort Species { get; } = Species;

@@ -175,7 +175,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     {
         var sav = SAV;
         var fn = sav.Metadata.FileName;
-        if (fn != null)
+        if (fn is not null)
             return Path.GetExtension(fn);
 
         if ((sav.Generation is 4 or 5) && sav.Metadata.HasFooter)

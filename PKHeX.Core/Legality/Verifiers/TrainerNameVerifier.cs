@@ -19,7 +19,7 @@ public sealed class TrainerNameVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var enc = data.EncounterMatch;
+        var enc = data.EncounterOriginal;
         if (!IsPlayerOriginalTrainer(enc))
             return; // already verified
 
@@ -33,7 +33,7 @@ public sealed class TrainerNameVerifier : Verifier
         trainer = trainer[..len];
         if (trainer.Contains('\uffff') && pk is { Format: 4 })
         {
-            data.AddLine(GetInvalid("Trainer Name: Unkown Character"));
+            data.AddLine(GetInvalid("Trainer Name: Unknown Character"));
             return;
         }
 
@@ -46,22 +46,22 @@ public sealed class TrainerNameVerifier : Verifier
         {
             VerifyOTGB(data);
         }
-        else if (trainer.Length > Legal.GetMaxLengthOT(data.Info.Generation, (LanguageID)pk.Language))
+        else if (trainer.Length > Legal.GetMaxLengthOT(enc.Generation, (LanguageID)pk.Language))
         {
-            if (!IsEdgeCaseLength(pk, data.EncounterOriginal, trainer))
+            if (!IsEdgeCaseLength(pk, enc, trainer))
                 data.AddLine(Get(LOTLong, Severity.Invalid));
         }
 
         if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format))
         {
-            if (WordFilter.IsFiltered(trainer, out var badPattern))
+            if (WordFilter.IsFiltered(trainer, out var badPattern, pk.Context, enc.Context))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
-            if (ContainsTooManyNumbers(trainer, data.Info.Generation))
+            if (ContainsTooManyNumbers(trainer, enc.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
 
             Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
             int nameLen = pk.LoadString(pk.HandlingTrainerTrash, ht);
-            if (WordFilter.IsFiltered(ht[..nameLen], out badPattern))
+            if (WordFilter.IsFiltered(ht[..nameLen], out badPattern, pk.Context)) // HT context is always the current context
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
         }
     }
@@ -175,7 +175,7 @@ public sealed class TrainerNameVerifier : Verifier
         return false;
     }
 
-    public static bool ContainsTooManyNumbers(ReadOnlySpan<char> str, int originalGeneration)
+    public static bool ContainsTooManyNumbers(ReadOnlySpan<char> str, byte originalGeneration)
     {
         if (originalGeneration <= 3)
             return false; // no limit from these generations
@@ -188,17 +188,10 @@ public sealed class TrainerNameVerifier : Verifier
 
     private static int GetNumberCount(ReadOnlySpan<char> str)
     {
-        static bool IsNumber(char c)
-        {
-            if (c >= '０')
-                return c <= '９';
-            return (uint)(c - '0') <= 9;
-        }
-
         int ctr = 0;
         foreach (var c in str)
         {
-            if (IsNumber(c))
+            if (char.IsNumber(c))
                 ++ctr;
         }
         return ctr;

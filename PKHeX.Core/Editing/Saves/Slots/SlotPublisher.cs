@@ -33,7 +33,7 @@ public sealed class SlotPublisher<T>
 
     private void ResetView(ISlotViewer<T> sub, ISlotInfo slot, SlotTouchType type, PKM pk)
     {
-        if (Previous != null)
+        if (Previous is not null)
             sub.NotifySlotOld(Previous);
 
         if (slot is not SlotInfoBox b || sub.ViewIndex == b.Box)
@@ -42,7 +42,7 @@ public sealed class SlotPublisher<T>
 
     public void ResetView(ISlotViewer<T> sub)
     {
-        if (Previous == null || PreviousEntity == null)
+        if (Previous is null || PreviousEntity is null)
             return;
         ResetView(sub, Previous, PreviousType, PreviousEntity);
     }

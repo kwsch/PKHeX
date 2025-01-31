@@ -275,7 +275,7 @@ public partial class SAV_Misc3 : Form
             rb.Checked = false;
 
         var bft = BFT[BFF[facility][1]];
-        if (bft == null)
+        if (bft is null)
         {
             CB_Stats2.Visible = false;
         }
@@ -308,7 +308,7 @@ public partial class SAV_Misc3 : Form
 
         int BattleType = CB_Stats2.SelectedIndex;
         var bft = BFT[BFF[Facility][1]];
-        if (bft == null)
+        if (bft is null)
             BattleType = 0;
         else if (BattleType < 0)
             return;
@@ -455,7 +455,7 @@ public partial class SAV_Misc3 : Form
     private void BTN_Symbol_Click(object sender, EventArgs e)
     {
         var match = Array.Find(SymbolButtonA, z => z == sender);
-        if (match == null)
+        if (match is null)
             return;
 
         var color = match.BackColor;
@@ -475,7 +475,7 @@ public partial class SAV_Misc3 : Form
 
         CB_Record.SelectedIndexChanged += (_, _) =>
         {
-            if (CB_Record.SelectedValue == null)
+            if (CB_Record.SelectedValue is null)
                 return;
 
             var index = WinFormsUtil.GetIndex(CB_Record);
@@ -487,7 +487,7 @@ public partial class SAV_Misc3 : Form
         LoadRecordID(0);
         NUD_RecordValue.ValueChanged += (_, _) =>
         {
-            if (CB_Record.SelectedValue == null)
+            if (CB_Record.SelectedValue is null)
                 return;
 
             var index = WinFormsUtil.GetIndex(CB_Record);

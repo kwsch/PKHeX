@@ -256,9 +256,9 @@ public partial class SAV_Encounters : Form
         var versions = settings.GetVersions(SAV);
         var species = settings.Species == 0 ? GetFullRange(SAV.MaxSpeciesID) : [settings.Species];
         var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk, token);
-        if (settings.SearchEgg != null)
+        if (settings.SearchEgg is not null)
             results = results.Where(z => z.IsEgg == settings.SearchEgg);
-        if (settings.SearchShiny != null)
+        if (settings.SearchShiny is not null)
             results = results.Where(z => z.IsShiny == settings.SearchShiny);
 
         // return filtered results
@@ -333,9 +333,9 @@ public partial class SAV_Encounters : Form
     {
         public bool Equals(T? x, T? y)
         {
-            if (x == null)
+            if (x is null)
                 return false;
-            if (y == null)
+            if (y is null)
                 return false;
             return RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
         }

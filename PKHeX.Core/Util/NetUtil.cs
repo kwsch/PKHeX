@@ -12,7 +12,7 @@ public static class NetUtil
         try
         {
             var stream = GetStreamFromURL(url);
-            if (stream == null)
+            if (stream is null)
                 return null;
 
             using var reader = new StreamReader(stream);

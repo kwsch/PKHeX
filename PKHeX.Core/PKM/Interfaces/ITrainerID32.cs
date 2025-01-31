@@ -5,25 +5,46 @@ namespace PKHeX.Core;
 /// <summary>
 /// Object stores a numerical trainer ID.
 /// </summary>
-public interface ITrainerID32 : ITrainerID16
+public interface ITrainerID32 : ITrainerID16, ITrainerID32ReadOnly
 {
     /// <summary>
     /// 32-bit Trainer ID (0-4294967295)
     /// </summary>
-    uint ID32 { get; set; }
+    new uint ID32 { get; set; }
 
     /// <summary>
     /// 16-bit Secret ID (0-65535)
     /// </summary>
-    ushort SID16 { get; set; }
+    new ushort SID16 { get; set; }
 }
 
-public interface ITrainerID16 : ITrainerID
+public interface ITrainerID16 : ITrainerID, ITrainerID16ReadOnly
 {
     /// <summary>
     /// 16-bit Trainer ID (0-65535)
     /// </summary>
-    ushort TID16 { get; set; }
+    new ushort TID16 { get; set; }
+}
+
+public interface ITrainerID16ReadOnly
+{
+    /// <summary>
+    /// 16-bit Trainer ID (0-65535)
+    /// </summary>
+    ushort TID16 { get; }
+}
+
+public interface ITrainerID32ReadOnly : ITrainerID16ReadOnly
+{
+    /// <summary>
+    /// 32-bit Trainer ID (0-4294967295)
+    /// </summary>
+    uint ID32 { get; }
+
+    /// <summary>
+    /// 16-bit Secret ID (0-65535)
+    /// </summary>
+    ushort SID16 { get; }
 }
 
 public static class ITrainerID32Extensions

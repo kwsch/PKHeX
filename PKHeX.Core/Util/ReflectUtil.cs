@@ -143,7 +143,7 @@ public static class ReflectUtil
 
     public static IEnumerable<TypeInfo> GetAllTypeInfo(this TypeInfo? typeInfo)
     {
-        while (typeInfo != null)
+        while (typeInfo is not null)
         {
             yield return typeInfo;
             typeInfo = typeInfo.BaseType?.GetTypeInfo();
@@ -168,12 +168,12 @@ public static class ReflectUtil
         foreach (var t in typeInfo.GetAllTypeInfo())
         {
             pi = t.GetDeclaredProperty(name);
-            if (pi != null)
+            if (pi is not null)
                 return true;
             foreach (var i in t.ImplementedInterfaces)
             {
                 pi = i.GetTypeInfo().GetDeclaredProperty(name);
-                if (pi != null)
+                if (pi is not null)
                     return true;
             }
         }
