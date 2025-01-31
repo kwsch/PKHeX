@@ -61,12 +61,19 @@ public static class GenerateMethodK
                 if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                     break; // try again
 
-                if (criteria.IsSpecifiedForm() && pk.Species is (ushort)Species.Unown)
+                if (enc.Species is (ushort)Species.Unown)
                 {
-                    var form = (byte)criteria.Form;
-                    if (!RuinsOfAlph4.IsFormValid(LCRNG.Prev4(seed), form))
-                        break; // try again
-                    pk.Form = form;
+                    if (criteria.IsSpecifiedForm())
+                    {
+                        var form = (byte)criteria.Form;
+                        if (!RuinsOfAlph4.IsFormValid(LCRNG.Prev4(seed), form))
+                            break; // try again
+                        pk.Form = form;
+                    }
+                    else
+                    {
+                        pk.Form = RuinsOfAlph4.GetEntranceForm(LCRNG.Next2(seed));
+                    }
                 }
 
                 if (randLevel)
@@ -130,12 +137,19 @@ public static class GenerateMethodK
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
 
-            if (criteria.IsSpecifiedForm() && pk.Species is (ushort)Species.Unown)
+            if (enc.Species is (ushort)Species.Unown)
             {
-                var form = (byte)criteria.Form;
-                if (!RuinsOfAlph4.IsFormValid(seed, form))
-                    continue;
-                pk.Form = form;
+                if (criteria.IsSpecifiedForm())
+                {
+                    var form = (byte)criteria.Form;
+                    if (!RuinsOfAlph4.IsFormValid(seed, form))
+                        continue;
+                    pk.Form = form;
+                }
+                else
+                {
+                    pk.Form = RuinsOfAlph4.GetEntranceForm(LCRNG.Next6(seed)); // ABCD|E(Item)|F(Form) determination
+                }
             }
 
             if (MethodK.IsLevelRand(enc))

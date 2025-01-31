@@ -119,9 +119,9 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
     public bool GenerateSeed32(PKM pk, uint seed)
     {
-        var criteria = EncounterCriteria.Unrestricted;
         if (!IsRoaming)
             return false;
+        var criteria = EncounterCriteria.Unrestricted;
         var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
         Roaming8bRNG.TryApplyFromSeed(pk, criteria, shiny, FlawlessIVCount, seed);
         return true;

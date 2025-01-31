@@ -64,12 +64,19 @@ public static class GenerateMethodJ
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
 
-                if (criteria.IsSpecifiedForm() && pk.Species is (ushort)Species.Unown)
+                if (enc.Species is (ushort)Species.Unown)
                 {
-                    var form = (byte)criteria.Form;
-                    if (!SolaceonRuins4.IsFormValid(LCRNG.Prev4(seed), form))
-                        break; // try again
-                    pk.Form = form;
+                    if (criteria.IsSpecifiedForm())
+                    {
+                        var form = (byte)criteria.Form;
+                        if (!SolaceonRuins4.IsFormValid(LCRNG.Prev4(seed), form))
+                            break; // try again
+                        pk.Form = form;
+                    }
+                    else
+                    {
+                        pk.Form = 8; // Always 100% form as 'I' in one of the rooms. Don't need to check rand(1) choice.
+                    }
                 }
 
                 if (randLevel)
@@ -130,12 +137,19 @@ public static class GenerateMethodJ
             if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                 continue;
 
-            if (criteria.IsSpecifiedForm() && pk.Species is (ushort)Species.Unown)
+            if (enc.Species is (ushort)Species.Unown)
             {
-                var form = (byte)criteria.Form;
-                if (!SolaceonRuins4.IsFormValid(seed, form))
-                    continue;
-                pk.Form = form;
+                if (criteria.IsSpecifiedForm())
+                {
+                    var form = (byte)criteria.Form;
+                    if (!SolaceonRuins4.IsFormValid(seed, form))
+                        continue;
+                    pk.Form = form;
+                }
+                else
+                {
+                    pk.Form = 8; // Always 100% form as 'I' in one of the rooms. Don't need to check rand(1) choice.
+                }
             }
 
             if (MethodJ.IsLevelRand(enc))

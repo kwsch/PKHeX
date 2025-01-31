@@ -83,8 +83,6 @@ public sealed record EncounterStatic8a
             Ball = (byte)(FixedBall == Ball.None ? Ball.LAPoke : FixedBall),
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
-        if (IsAlpha)
-            pk.IsAlpha = true;
 
         SetPINGA(pk, criteria);
 

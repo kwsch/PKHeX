@@ -235,10 +235,9 @@ public sealed record EncounterTera9
         Encounter9RNG.GenerateData(pk9, param, EncounterCriteria.Unrestricted, seed);
         return true;
     }
-
     #endregion
 
-        #region Matching
+    #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (!this.IsLevelWithinRange(pk.MetLevel))
