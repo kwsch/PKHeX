@@ -6,7 +6,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK8>, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly, IFlawlessIVCount, IFixedGender, IFixedNature, IFixedIVSet
+public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>,
+    IFixedTrainer, IFixedNickname, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly, IFlawlessIVCount,
+    IFixedGender, IFixedNature, IFixedIVSet, ITrainerID32ReadOnly
 {
     public byte Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
@@ -33,6 +35,8 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
     public Nature Nature { get; init; } // always set by either constructor or initializer
     public required uint ID32 { get; init; }
+    public ushort TID16 => (ushort)ID32;
+    public ushort SID16 => (ushort)(ID32 >> 16);
     public required AbilityPermission Ability { get; init; }
     public required byte Gender { get; init; }
     public required byte OTGender { get; init; }

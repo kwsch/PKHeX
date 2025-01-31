@@ -156,9 +156,9 @@ internal static class Encounters6AO
     #region Trade Tables
     internal static readonly EncounterTrade6[] TradeGift_AO =
     [
-        new(TradeNames, 00, ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, ID32 = 30724, Gender = 0, OTGender = 0, IVs = new(-1,31,-1,-1,-1,-1), Nature = Nature.Brave }, // Makuhita
-        new(TradeNames, 01, ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  ID32 = 03239, Gender = 1, OTGender = 1, IVs = new(-1,-1,-1,31,-1,-1), Nature = Nature.Naughty }, // Skitty
-        new(TradeNames, 02, ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, ID32 = 00325, Gender = 1, OTGender = 1, IVs = new(31,-1,-1,-1,-1,31), Nature = Nature.Calm }, // Corsola
+        new(TradeNames, 00, ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, TID16 = 30724, Gender = 0, OTGender = 0, IVs = new(-1,31,-1,-1,-1,-1), Nature = Nature.Brave }, // Makuhita
+        new(TradeNames, 01, ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  TID16 = 03239, Gender = 1, OTGender = 1, IVs = new(-1,-1,-1,31,-1,-1), Nature = Nature.Naughty }, // Skitty
+        new(TradeNames, 02, ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, TID16 = 00325, Gender = 1, OTGender = 1, IVs = new(31,-1,-1,-1,-1,31), Nature = Nature.Calm }, // Corsola
     ];
     #endregion
 }

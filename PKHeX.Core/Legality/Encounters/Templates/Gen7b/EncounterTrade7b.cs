@@ -5,7 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 LGP/E Trade Encounter
 /// </summary>
-public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedIVSet, IEncounterConvertible<PB7>
+public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>,
+    IFixedTrainer, IFixedIVSet, ITrainerID32ReadOnly
 {
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
@@ -21,6 +22,8 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
     public required ReadOnlyMemory<string> TrainerNames { get; init; }
 
     public required uint ID32 { get; init; }
+    public ushort SID16 => (ushort)(ID32 >> 16);
+    public ushort TID16 => (ushort)ID32;
     public required byte OTGender { get; init; }
     public required ushort Species { get; init; }
     public required byte Form { get; init; }

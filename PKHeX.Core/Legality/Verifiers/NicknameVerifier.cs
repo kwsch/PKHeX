@@ -61,7 +61,7 @@ public sealed class NicknameVerifier : Verifier
             return;
         }
 
-        if (VerifyUnNicknamedEncounter(data, pk, nickname))
+        if (VerifyUnNicknamedEncounter(data, pk, nickname, enc))
             return;
 
         // Non-nicknamed strings have already been checked.
@@ -70,7 +70,7 @@ public sealed class NicknameVerifier : Verifier
             var mostRecentNicknameContext = pk.Format >= 8 ? pk.Context : enc.Context;
             if (WordFilter.IsFiltered(nickname, out var badPattern, pk.Context, mostRecentNicknameContext))
                 data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
-            if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
+            if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, enc.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
         }
     }
@@ -151,11 +151,11 @@ public sealed class NicknameVerifier : Verifier
             data.AddLine(GetInvalid(LNickMatchLanguageFlag));
     }
 
-    private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pk, ReadOnlySpan<char> nickname)
+    private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pk, ReadOnlySpan<char> nickname, IEncounterTemplate enc)
     {
         if (pk.IsNicknamed)
         {
-            if (data.Info.Generation >= 8 && CanNicknameForeign8Plus(data, pk))
+            if (enc.Generation >= 8 && CanNicknameForeign8Plus(data, pk))
             {
                 // Can only nickname if it matches your language.
                 // Setting the nickname to the same as the species name does not set the Nickname flag (equals unmodified, no flag)
@@ -176,9 +176,9 @@ public sealed class NicknameVerifier : Verifier
                 data.AddLine(GetInvalid(LNickInvalidChar));
                 return true;
             }
-            if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pk.Language))
+            if (nickname.Length > Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pk.Language))
             {
-                int length = GetForeignNicknameLength(pk, data.Info.EncounterOriginal, data.Info.Generation);
+                int length = GetForeignNicknameLength(pk, enc, enc.Generation);
                 var severe = (length != 0 && nickname.Length <= length) ? Severity.Fishy : Severity.Invalid;
                 data.AddLine(Get(LNickLengthLong, severe));
                 return true;

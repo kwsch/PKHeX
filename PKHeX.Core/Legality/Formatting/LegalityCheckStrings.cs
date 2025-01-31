@@ -480,6 +480,8 @@ public static class LegalityCheckStrings
 
     public static string LTradeNotAvailable { get; set; } = "Encounter cannot be traded to the active trainer.";
 
+    public static string LTrainerIDNoSeed { get; set; } = "Trainer ID is not obtainable from any RNG seed.";
+
     public static string LTransferBad { get; set; } = "Incorrectly transferred from previous generation.";
 
     public static string LTransferCurrentHandlerInvalid { get; set; } = "Invalid Current handler value, trainer details for save file expected another value.";

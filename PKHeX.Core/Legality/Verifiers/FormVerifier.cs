@@ -38,12 +38,12 @@ public sealed class FormVerifier : Verifier
         var enc = data.EncounterMatch;
         var Info = data.Info;
 
-        if (!pi.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, Info.Generation))
+        if (!pi.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, enc.Generation))
             return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
         switch ((Species)species)
         {
-            case Pikachu when Info.Generation == 6: // Cosplay
+            case Pikachu when enc.Generation == 6: // Cosplay
                 if (enc is not EncounterStatic6 s6)
                 {
                     if (form == 0)
@@ -61,7 +61,7 @@ public sealed class FormVerifier : Verifier
             case Eevee when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GP}:
                 return GetInvalid(LFormBattle);
 
-            case Pikachu when Info.Generation >= 7: // Cap
+            case Pikachu when enc.Generation >= 7: // Cap
                 var expectForm = enc is EncounterInvalid or EncounterEgg ? 0 : enc.Form;
                 if (form != expectForm)
                 {
@@ -70,9 +70,9 @@ public sealed class FormVerifier : Verifier
                     return GetInvalid(msg);
                 }
                 break;
-            case Unown when Info.Generation == 2 && form >= 26:
+            case Unown when enc.Generation == 2 && form >= 26:
                 return GetInvalid(string.Format(LFormInvalidRange, "Z", form == 26 ? "!" : "?"));
-            case Unown when Info.Generation == 3 && form != EntityPID.GetUnownForm3(pk.EncryptionConstant):
+            case Unown when enc.Generation == 3 && form != EntityPID.GetUnownForm3(pk.EncryptionConstant):
                 return GetInvalid(string.Format(LFormInvalidExpect_0, EntityPID.GetUnownForm3(pk.EncryptionConstant)));
             case Dialga or Palkia or Giratina or Arceus when form > 0 && pk is PA8: // can change forms with key items
                 break;
