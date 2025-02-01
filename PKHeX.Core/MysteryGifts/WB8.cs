@@ -507,8 +507,15 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
-        pk.WeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
+        if (IsScalarFixed)
+        {
+            pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+        }
+        else
+        {
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        }
 
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -524,6 +531,12 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     ///  HOME Gift Manaphy is a special case where height/weight is fixed.
     /// </summary>
     public bool IsScalarFixed => CardID is 9026;
+
+    private byte GetHomeScalar() => CardID switch
+    {
+        9026 => 128,
+        _ => throw new ArgumentException(),
+    };
 
     private void SetEggMetData(PB8 pk)
     {
@@ -626,12 +639,6 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         }
         pk.SetIVs(finalIVs);
     }
-
-    private byte GetHomeScalar() => CardID switch
-    {
-        9026 => 128,
-        _ => throw new ArgumentException(),
-    };
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {

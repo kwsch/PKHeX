@@ -509,9 +509,15 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
-        pk.WeightScalar = IsScalarFixed ? GetHomeScalar() : PokeSizeUtil.GetRandomScalar(rnd);
-        pk.Scale = pk.HeightScalar;
+        if (IsScalarFixed)
+        {
+            pk.Scale = pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+        }
+        else
+        {
+            pk.Scale = pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        }
         pk.ResetHeight();
         pk.ResetWeight();
 
@@ -529,6 +535,12 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     ///  HOME Gift Enamorus is a special case where height/weight is fixed.
     /// </summary>
     public bool IsScalarFixed => CardID is 9027;
+
+    private byte GetHomeScalar() => CardID switch
+    {
+        9027 => 127,
+        _ => throw new ArgumentException(),
+    };
 
     private void SetEggMetData(PA8 pk)
     {
@@ -631,12 +643,6 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         pk.SetIVs(finalIVs);
     }
 
-    private byte GetHomeScalar() => CardID switch
-    {
-        9027 => 127,
-        _ => throw new ArgumentException(),
-    };
-
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (!IsEgg)
@@ -695,7 +701,7 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         var expectedBall = Ball == 0 ? poke : Ball;
         if (expectedBall < poke && !IsHOMEGift) // Not even Cherish balls are safe! They get set to the proto-Poké ball. HOME gifts may still use Cherish.
             expectedBall = poke;
-        if (pk is PK8)
+        if (pk is PK8 && expectedBall >= (int)Core.Ball.Strange)
             expectedBall = (int)Core.Ball.Poke; // Transferred to SW/SH -> Regular Poké ball
         if (expectedBall != pk.Ball)
             return false;
