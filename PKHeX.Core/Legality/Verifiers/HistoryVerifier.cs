@@ -125,12 +125,12 @@ public sealed class HistoryVerifier : Verifier
         VerifyOTFriendship(data, neverOT, Info.Generation, pk);
     }
 
-    private void VerifyOTFriendship(LegalityAnalysis data, bool neverOT, int origin, PKM pk)
+    private void VerifyOTFriendship(LegalityAnalysis data, bool neverOT, byte generation, PKM pk)
     {
-        if (origin < 0)
+        if (generation == 0) // other things are invalid, don't bother checking
             return;
 
-        if (origin <= 2)
+        if (generation <= 2)
         {
             VerifyOTFriendshipVC12(data, pk);
             return;

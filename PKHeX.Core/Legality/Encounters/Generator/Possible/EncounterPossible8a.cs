@@ -54,7 +54,7 @@ public record struct EncounterPossible8a(EvoCriteria[] Chain, EncounterTypeGroup
             case YieldState.EventLocal:
                 if (TryGetNext(EncounterEvent.EGDB_G8A))
                     return true;
-                Index = 0; State = YieldState.Static; goto case YieldState.Static;
+                Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))

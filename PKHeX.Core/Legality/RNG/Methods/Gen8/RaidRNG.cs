@@ -167,7 +167,7 @@ public static class RaidRNG
             ForceShinyState(false, ref pid, trID, 0);
             isShiny = false;
         }
-        if (isShiny != criteria.Shiny.IsShiny())
+        if (param.Shiny is Shiny.Random && isShiny != criteria.Shiny.IsShiny())
             return false;
 
         if (isShiny)
