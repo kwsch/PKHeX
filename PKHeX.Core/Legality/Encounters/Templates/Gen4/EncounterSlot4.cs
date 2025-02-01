@@ -85,25 +85,22 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
         bool hgss = pk.HGSS;
-        uint seed;
         if (hgss)
         {
-            if (!criteria.IsSpecifiedIVsAll() || !this.SetFromIVsK(pk, pi, criteria, out seed))
-                seed = this.SetRandomK(pk, pi, criteria, Util.Rand32());
+            if (!criteria.IsSpecifiedIVsAll() || !this.SetFromIVsK(pk, pi, criteria, out _))
+                this.SetRandomK(pk, pi, criteria, Util.Rand32());
         }
         else
         {
-            if (!criteria.IsSpecifiedIVsAll() || !this.SetFromIVsJ(pk, pi, criteria, out seed))
-                seed = this.SetRandomJ(pk, pi, criteria, Util.Rand32());
+            if (!criteria.IsSpecifiedIVsAll() || !this.SetFromIVsJ(pk, pi, criteria, out _))
+                this.SetRandomJ(pk, pi, criteria, Util.Rand32());
         }
-        if (Species == (int)Core.Species.Unown)
-            pk.Form = GetUnownForm(seed, hgss);
     }
 
     /// <summary>
     /// Gets a legal Unown form based on the game version and seed that generated the Method 1 spread.
     /// </summary>
-    private static byte GetUnownForm(uint seed, bool hgss)
+    public static byte GetLegalUnownForm(uint seed, bool hgss)
     {
         // ABCD|E(Item)|F(Form) determination
         if (!hgss)

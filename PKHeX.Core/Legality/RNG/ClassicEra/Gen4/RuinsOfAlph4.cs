@@ -5,16 +5,6 @@ namespace PKHeX.Core;
 public static class RuinsOfAlph4
 {
     /// <summary>
-    /// Checks if the requested <see cref="form"/> is valid for the given result.
-    /// </summary>
-    public static bool IsFormValid(PKM pk, byte form)
-    {
-        if (!MethodFinder.GetLCRNGMethod1Match(pk, out var seed))
-            return true; // invalid anyway, don't care.
-        return IsFormValid(seed, form);
-    }
-
-    /// <summary>
     /// Checks if the requested <see cref="form"/> is valid for the given seed.
     /// </summary>
     /// <param name="seed">Seed that originated the PID/IV.</param>
@@ -25,6 +15,14 @@ public static class RuinsOfAlph4
         // ABCD|E(Item)|F(Form) determination
         var f = LCRNG.Next6(seed);
         return IsFormValidFrame(f, form);
+    }
+
+    /// <inheritdoc cref="IsFormValid(uint,byte)"/>
+    public static bool IsFormValid(PKM pk, byte form)
+    {
+        if (!MethodFinder.GetLCRNGMethod1Match(pk, out var seed))
+            return true; // invalid anyway, don't care.
+        return IsFormValid(seed, form);
     }
 
     /// <summary>

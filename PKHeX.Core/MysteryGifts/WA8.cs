@@ -509,9 +509,15 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
-        pk.Scale = pk.HeightScalar;
+        if (IsScalarFixed)
+        {
+            pk.Scale = pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+        }
+        else
+        {
+            pk.Scale = pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        }
         pk.ResetHeight();
         pk.ResetWeight();
 
@@ -524,6 +530,17 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     /// HOME Gifts for Hisui starters were forced JPN until May 20, 2022 (UTC).
     /// </summary>
     public bool IsDateLockJapanese => CardID is 9018 or 9019 or 9020;
+
+    /// <summary>
+    ///  HOME Gift Enamorus is a special case where height/weight is fixed.
+    /// </summary>
+    public bool IsScalarFixed => CardID is 9027;
+
+    private byte GetHomeScalar() => CardID switch
+    {
+        9027 => 127,
+        _ => throw new ArgumentException(),
+    };
 
     private void SetEggMetData(PA8 pk)
     {
@@ -682,9 +699,9 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
         const int poke = (int)Core.Ball.LAPoke;
         var expectedBall = Ball == 0 ? poke : Ball;
-        if (expectedBall < poke) // Not even Cherish balls are safe! They get set to the proto-Poké ball.
+        if (expectedBall < poke && !IsHOMEGift) // Not even Cherish balls are safe! They get set to the proto-Poké ball. HOME gifts may still use Cherish.
             expectedBall = poke;
-        if (pk is PK8)
+        if (pk is PK8 && expectedBall >= (int)Core.Ball.Strange)
             expectedBall = (int)Core.Ball.Poke; // Transferred to SW/SH -> Regular Poké ball
         if (expectedBall != pk.Ball)
             return false;
@@ -694,6 +711,15 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
         if (pk is IGanbaru b && b.IsGanbaruValuesBelow(this))
             return false;
+
+        if (IsScalarFixed)
+        {
+            var scalar = GetHomeScalar();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
+                return false;
+            if (pk is IScaledSize3 s && s.Scale != scalar)
+                return false;
+        }
 
         // PID Types 0 and 1 do not use the fixed PID value.
         // Values 2,3 are specific shiny states, and 4 is fixed value.

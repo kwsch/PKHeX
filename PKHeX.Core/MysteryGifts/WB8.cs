@@ -507,8 +507,15 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
-        pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        if (IsScalarFixed)
+        {
+            pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+        }
+        else
+        {
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
+        }
 
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -519,6 +526,17 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
     /// HOME Gifts for Sinnoh starters were forced JPN until May 20, 2022 (UTC).
     /// </summary>
     public bool IsDateLockJapanese => CardID is 9015 or 9016 or 9017;
+
+    /// <summary>
+    ///  HOME Gift Manaphy is a special case where height/weight is fixed.
+    /// </summary>
+    public bool IsScalarFixed => CardID is 9026;
+
+    private byte GetHomeScalar() => CardID switch
+    {
+        9026 => 128,
+        _ => throw new ArgumentException(),
+    };
 
     private void SetEggMetData(PB8 pk)
     {
@@ -685,6 +703,15 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         if (OTGender < 2 && OTGender != pk.OriginalTrainerGender) return false;
         if ((sbyte)Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
+
+        if (IsScalarFixed)
+        {
+            var scalar = GetHomeScalar();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
+                return false;
+            if (pk is IScaledSize3 s && s.Scale != scalar)
+                return false;
+        }
 
         // PID Types 0 and 1 do not use the fixed PID value.
         // Values 2,3 are specific shiny states, and 4 is fixed value.
