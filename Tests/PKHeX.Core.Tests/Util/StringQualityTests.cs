@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -95,10 +96,10 @@ public class StringQualityTests
             var group = setField.GetValue(strings) as ILocationSet;
             Assert.NotNull(group);
 
+            var dict = new Dictionary<string, (int Bank, int Index)>();
             foreach (var (bank, mem) in group.GetAll())
             {
                 var arr = mem.Span;
-                var hs = new HashSet<string>(arr.Length);
                 bool sm0 = bank == 0 && name == nameof(GameStrings.Gen7);
                 for (int index = 0; index < arr.Length; index++)
                 {
@@ -108,14 +109,22 @@ public class StringQualityTests
                     if (sm0 && index % 2 != 0)
                         continue;
 
-                    if (hs.Contains(line))
-                        duplicates.Add($"{name}\t{index}\t{line}");
-                    hs.Add(line);
+                    if (line is "----------" or "－－－－－－－－－－" or "——————" or "")
+                        continue; // don't care
+                    if (dict.TryGetValue(line, out var other))
+                        duplicates.Add($"{name}\t{other.Bank}-{other.Index}\t{bank}-{index}\t{line}");
+                    else
+                        dict.Add(line, (bank, index));
                 }
             }
 
-            if (duplicates.Count != 0)
-                Assert.Fail($"Found duplicates for {name}. Debug this test to inspect the list of duplicate location IDs.");
+            if (duplicates.Count == 0)
+                continue;
+
+            // None of the location names displayed to the user should be exactly the same.
+            // This prevents a location list selection from being ambiguous/not what the user intended.
+            var result = string.Join(Environment.NewLine, duplicates);
+            Assert.Fail($"Disallowed - duplicate locations for {name}:{Environment.NewLine}{result}");
         }
 
         iterated.Should().BeTrue();
