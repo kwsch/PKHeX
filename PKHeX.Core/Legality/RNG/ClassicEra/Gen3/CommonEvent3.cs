@@ -231,7 +231,7 @@ public static class CommonEvent3
         while (true)
         {
             var u16 = seed & 0xFFFF;
-            var rand5 = LCRNG.Next5(seed) >> 16;
+            var rand5 = LCRNG.Next5(u16) >> 16;
             if (GetGenderBit0(rand5) == gender5)
                 return u16;
             seed = LCRNG.Next(seed);

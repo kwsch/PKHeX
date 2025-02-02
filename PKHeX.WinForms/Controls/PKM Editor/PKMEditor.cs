@@ -2134,8 +2134,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         if (Entity is not IObedienceLevel l)
             return;
+
         var met = Util.ToInt32(TB_MetLevel.Text);
-        var suggest = l.GetSuggestedObedienceLevel(Entity, met);
+        var metLevel = (byte)Math.Clamp(0, 100, met);
+        var suggest = l.GetSuggestedObedienceLevel(Entity, metLevel);
+
         var current = Util.ToInt32(TB_ObedienceLevel.Text);
         if (suggest != current)
             TB_ObedienceLevel.Text = suggest.ToString();

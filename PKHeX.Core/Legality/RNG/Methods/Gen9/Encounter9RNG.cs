@@ -40,7 +40,7 @@ public static class Encounter9RNG
         for (int ctr = 0; ctr < maxCtr; ctr++)
         {
             ulong seed = rand.Next(); // fake cryptosecure
-            if (!GenerateData(pk, param, criteria, seed))
+            if (!GenerateData(pk, param, criteria, seed, param.IVs.IsSpecified))
                 continue;
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
@@ -60,7 +60,7 @@ public static class Encounter9RNG
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
         pk.PID = GetAdaptedPID(ref rand, pk, enc);
 
-        if (criteria.Shiny.IsShiny() != pk.IsShiny)
+        if (enc.Shiny is Shiny.Random && criteria.Shiny.IsShiny() != pk.IsShiny)
             return false;
 
         const int UNSET = -1;
@@ -120,16 +120,11 @@ public static class Encounter9RNG
         var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (Nature)rand.NextInt(25);
-        pk.Nature = pk.StatNature = nature;
 
         // Compromise on Nature -- some are fixed, some are random. If the request wants a specific nature, just mint it.
-        var requestNature = criteria.GetNature();
-        if (criteria.Nature != Nature.Random && nature != requestNature)
-        {
-            if (!requestNature.IsMint())
-                return false;
-            pk.StatNature = requestNature;
-        }
+        if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(nature))
+            return false;
+        pk.Nature = pk.StatNature = nature;
 
         pk.HeightScalar = enc.Height != 0 ? enc.Height : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
         pk.WeightScalar = enc.Weight != 0 ? enc.Weight : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
@@ -302,7 +297,7 @@ public static class Encounter9RNG
         return pid;
     }
 
-    public static byte GetGender(in int ratio, in ulong rand100) => ratio switch
+    public static byte GetGender(in byte ratio, in ulong rand100) => ratio switch
     {
         0x1F => rand100 < 12 ? (byte)1 : (byte)0, // 12.5%
         0x3F => rand100 < 25 ? (byte)1 : (byte)0, // 25%

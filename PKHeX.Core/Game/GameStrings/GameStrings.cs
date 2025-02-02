@@ -424,16 +424,21 @@ public sealed class GameStrings : IBasicStrings
 
     private void SanitizeMetGen5(LocationSet6 set)
     {
+        const string bw = " (B/W)";
         set.Met0[36] = $"{set.Met0[84]}/{set.Met0[36]}"; // Cold Storage in B/W = PWT in B2/W2
-        set.Met0[40] += " (B/W)"; // Victory Road in B/W
+        set.Met0[40] += bw; // Victory Road in B/W
         set.Met0[134] += " (B2/W2)"; // Victory Road in B2/W2
         // B2/W2 Entries from 76 to 105 are for Entralink in B/W
         for (int i = 76; i < 106; i++)
-            set.Met0[i] += "●";
+            set.Met0[i] += bw;
 
         // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
         if (set.Met0[2] == set.Met4[2])
-            set.Met0[2] += " (2)";
+            set.Met0[2] += " (-)";
+
+        // Collision between 00069 (legal) and 30014 (illegal) "Entralink"
+        if (set.Met3[14] == set.Met0[69])
+            set.Met3[14] += " (-)";
 
         for (int i = 97; i < 109; i++)
             set.Met4[i] += $" ({i - 97})";
@@ -471,6 +476,10 @@ public sealed class GameStrings : IBasicStrings
         set.Met3[1] += $" ({NPC})";     // Anything from an NPC
         set.Met3[2] += $" ({EggName})"; // Egg From Link Trade
 
+        // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
+        if (set.Met0[4] == set.Met4[2])
+            set.Met0[4] += " (-)";
+
         for (int i = 63; i <= 69; i++)
             set.Met4[i] += $" ({i - 62})";
     }
@@ -491,6 +500,14 @@ public sealed class GameStrings : IBasicStrings
         set.Met0[32] += " (2)";
         set.Met0[102] += " (2)";
 
+        // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
+        if (set.Met0[4] == set.Met4[2])
+            set.Met0[4] += " (-)";
+
+        // Collision between 30012 (legal, in Gen8+) and 40084 (illegal) "Pokémon GO"
+        if (set.Met3[12] == set.Met4[84])
+            set.Met4[84] += " (-)";
+
         set.Met3[1] += $" ({NPC})";      // Anything from an NPC
         set.Met3[2] += $" ({EggName})";  // Egg From Link Trade
         for (int i = 3; i <= 6; i++) // distinguish first set of regions (unused) from second (used)
@@ -504,6 +521,12 @@ public sealed class GameStrings : IBasicStrings
     {
         for (int i = 48; i < 55; i++) // distinguish Event year duplicates
             set.Met4[i] += " (-)";
+
+        // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
+        if (set.Met0[2] == set.Met4[2])
+            set.Met0[2] += " (-)";
+        set.Met4[73] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
+     // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
     }
 
     private void SanitizeMetGen8(LocationSet6 set)
@@ -529,6 +552,9 @@ public sealed class GameStrings : IBasicStrings
         set.Met4[30] += " (-)"; // a Video game Event (in spanish etc.) -- duplicate with line 39
         set.Met4[53] += " (-)"; // a Pokémon event -- duplicate with line 37
 
+        // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
+        if (set.Met0[4] == set.Met4[2])
+            set.Met0[4] += " (-)";
         set.Met4[81] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
         set.Met4[86] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
      // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
@@ -544,6 +570,11 @@ public sealed class GameStrings : IBasicStrings
         Deduplicate(set.Met3, 30000);
         Deduplicate(set.Met4, 40000);
         Deduplicate(set.Met6, 60000);
+
+        set.Met4[81] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
+        set.Met4[86] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
+     // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
+     // set.Met3[18] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
     }
 
     private void SanitizeMetGen8a(LocationSet6 set)
@@ -563,6 +594,9 @@ public sealed class GameStrings : IBasicStrings
      // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
      // set.Met3[18] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
 
+        // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
+        if (set.Met0[4] == set.Met4[2])
+            set.Met0[4] += " (-)";
         for (int i = 55; i <= 60; i++) // distinguish second set of YYYY Event from the first
             set.Met4[i] += " (-)";
 
@@ -641,6 +675,9 @@ public sealed class GameStrings : IBasicStrings
         set.Met4[27] += " (-)"; // a Video game Event (in spanish etc.) -- duplicate with line 36
         set.Met4[48] += " (-)"; // a Pokémon event -- duplicate with line 34
 
+        // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
+        if (set.Met0[4] == set.Met4[2])
+            set.Met0[4] += " (-)";
         set.Met4[73] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
         set.Met4[78] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
      // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
@@ -653,6 +690,8 @@ public sealed class GameStrings : IBasicStrings
 
         foreach (var s in arr)
         {
+            if (s.Length == 0)
+                continue;
             counts.TryGetValue(s, out var value);
             counts[s] = value + 1;
         }
@@ -666,6 +705,8 @@ public sealed class GameStrings : IBasicStrings
             arr[i] += $" ({group + i:00000})";
 #else
             var s = arr[i];
+            if (s.Length == 0)
+                continue;
             var count = counts[s]--;
             if (count == 1)
                 continue;
