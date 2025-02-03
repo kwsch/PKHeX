@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 /// Generation 2-3 specific met location name holder.
 /// </summary>
 /// <remarks>Single segment, no shift bias.</remarks>
+/// <param name="Met0">List of location names for bank 0.</param>
 public sealed record LocationSet0(string[] Met0) : ILocationSet
 {
     public ReadOnlySpan<string> GetLocationNames(int bankID) => bankID switch

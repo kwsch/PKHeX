@@ -25,6 +25,7 @@ public static class GenerateMethodK
         bool randLevel = MethodK.IsLevelRand(enc);
         var modulo = enc.Type.IsSafari() ? 10u : 100u;
         bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
+        bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
 
         // Generate Method K correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -79,7 +80,7 @@ public static class GenerateMethodK
                 if (randLevel)
                 {
                     var level = (byte)MethodK.GetRandomLevel(enc, lv, LeadRequired.None);
-                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsSatisfiedLevelRange(level))
+                    if (checkLevel && !criteria.IsSatisfiedLevelRange(level))
                         break; // try again
                     pk.MetLevel = pk.CurrentLevel = level;
                 }

@@ -42,6 +42,9 @@ public static class LevelRangeExtensions
     /// <inheritdoc cref="IsLevelWithinRange(ILevelRange,int)"/>
     public static bool IsLevelWithinRange(int level, int min, int max) => min <= level && level <= max;
 
+    /// <inheritdoc cref="IsLevelWithinRange(ILevelRange,int)"/>
+    public static bool IsLevelWithinRange<T>(this ILevelRange r, T other) where T : ILevelRange => IsLevelWithinRange(r, other.LevelMin, other.LevelMax);
+
     /// <summary>
     /// Gets if the specified level inputs are within range of the <see cref="ILevelRange.LevelMin"/> and <see cref="ILevelRange.LevelMax"/>
     /// </summary>
