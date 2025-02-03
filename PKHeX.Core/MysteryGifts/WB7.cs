@@ -319,9 +319,6 @@ public sealed class WB7(byte[] Data)
 
     public int GetLanguage(int redeemLanguage)
     {
-        if (IsMainlandChinaGift)
-            return (int)LanguageID.ChineseS;
-
         var languageOffset = GetLanguageIndex(redeemLanguage);
         var value = Data[0x1D8 + languageOffset];
         if (value != 0) // Fixed receiving language
@@ -366,7 +363,7 @@ public sealed class WB7(byte[] Data)
         var metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.GG.GetFormEntry(Species, Form);
 
-        var redeemLanguage = tr.Language;
+        var redeemLanguage = IsMainlandChinaGift ? (int)LanguageID.ChineseS : tr.Language;
         var language = GetLanguage(redeemLanguage);
         bool hasOT = GetHasOT(redeemLanguage);
 
