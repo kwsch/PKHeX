@@ -31,12 +31,16 @@ internal static class LearnVerifier
         if (pk.IsEgg)
         {
             LearnVerifierEgg.Verify(result, current, enc, pk);
+            // Check invalid Egg Move combinations.
+            EggMoveVerifier.FlagEggMoveCombination(result, current, enc);
             return;
         }
 
         LearnVerifierHistory.Verify(result, current, enc, pk, history);
         // Check for form exclusive interlocked moves.
         FlagFormExclusiveMoves(result, current, pk);
+        // Check invalid Egg Move combinations.
+        EggMoveVerifier.FlagEggMoveCombination(result, current, enc);
     }
 
     private static void Finalize(Span<MoveResult> result, ReadOnlySpan<ushort> current)

@@ -21,6 +21,8 @@ public enum LearnMethod : byte
     Unobtainable,
     /// <summary> Expected a specific move instead of the one present. </summary>
     UnobtainableExpect,
+    /// <summary> Egg Move combination is impossible. </summary>
+    UnobtainableEgg,
     #endregion
 
     // Valid

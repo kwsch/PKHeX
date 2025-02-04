@@ -51,6 +51,7 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
         // Invalid
         None => LMoveSourceInvalid,
         Unobtainable or UnobtainableExpect => LMoveSourceInvalid,
+        UnobtainableEgg => LMoveSourceInvalidEgg,
         Duplicate => LMoveSourceDuplicate,
         EmptyInvalid => LMoveSourceEmpty,
 
