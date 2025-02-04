@@ -315,13 +315,10 @@ public sealed class WB7(byte[] Data)
     /// <remarks>
     /// Gifts received can be locally traded to the international release, so there is no need to consider residence or transferability.
     /// </remarks>
-    public bool IsMainlandChinaGift => CardID is (1501);
+    public bool IsMainlandChinaGift => CardID is (1501 or 1503);
 
     public int GetLanguage(int redeemLanguage)
     {
-        if (IsMainlandChinaGift)
-            return (int)LanguageID.ChineseS;
-
         var languageOffset = GetLanguageIndex(redeemLanguage);
         var value = Data[0x1D8 + languageOffset];
         if (value != 0) // Fixed receiving language
@@ -366,7 +363,7 @@ public sealed class WB7(byte[] Data)
         var metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.GG.GetFormEntry(Species, Form);
 
-        var redeemLanguage = tr.Language;
+        var redeemLanguage = IsMainlandChinaGift ? (int)LanguageID.ChineseS : tr.Language;
         var language = GetLanguage(redeemLanguage);
         bool hasOT = GetHasOT(redeemLanguage);
 
