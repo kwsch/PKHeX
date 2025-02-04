@@ -26,14 +26,16 @@ public static class EggMoveVerifier
         if (enc.Generation >= 6)
             return; // Can inherit Egg Moves from either parent, so all possible combinations are legal
         
-        ushort[] moves = ArrayPool<ushort>.Shared.Rent(4);
+        ushort[] rent = ArrayPool<ushort>.Shared.Rent(4);
+        var moves = rent.AsSpan(0, 4);
         int ctr = 0;
         for (var i = 0; i < result.Length; i++)
         {
             if (result[i].Info.Method == LearnMethod.EggMove)
                 moves[ctr++] = current[i];
         }
-        moves.AsSpan(0, ctr).Sort(); // Treat different orderings identically when caching
+        moves[..ctr].Sort(); // Treat different orderings identically when caching
+        moves[ctr..].Clear();
 
         if (ctr > 0 && !IsPossible(moves, egg.Species, egg.Form, egg.Version))
         {
@@ -44,7 +46,7 @@ public static class EggMoveVerifier
                     result[i] = MoveResult.UnobtainableEgg();
             }
         }
-        ArrayPool<ushort>.Shared.Return(moves);
+        ArrayPool<ushort>.Shared.Return(rent);
     }
 
     /// <summary>
@@ -61,17 +63,19 @@ public static class EggMoveVerifier
             return true; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
         var eggMoves = GameData.GetLearnSource(version).GetEggMoves(species, form);
-        ushort[] moves = ArrayPool<ushort>.Shared.Rent(4);
+        ushort[] rent = ArrayPool<ushort>.Shared.Rent(4);
+        var moves = rent.AsSpan(0, 4);
         int ctr = 0;
         foreach (var move in needs)
         {
             if (eggMoves.Contains(move))
                 moves[ctr++] = move;
         }
-        moves.AsSpan(0, needs.Length).Sort(); // Treat different orderings identically when caching
+        moves[..ctr].Sort(); // Treat different orderings identically when caching
+        moves[ctr..].Clear();
 
         var result = (ctr == 0) || IsPossible(moves, species, form, version);
-        ArrayPool<ushort>.Shared.Return(moves);
+        ArrayPool<ushort>.Shared.Return(rent);
         return result;
     }
 
@@ -233,7 +237,7 @@ public static class EggMoveVerifier
             5 => new PK5() { Gender = 0 },
             _ => throw new ArgumentOutOfRangeException(nameof(version)),
         };
-        var needs = ArrayPool<ushort>.Shared.Rent(4);
+        ushort[] needs = moves.ToArray();
         foreach (var (species, form, father) in Iterate(nodes))
         {
             if (nodes[species][form].Distance == 0)
@@ -241,7 +245,7 @@ public static class EggMoveVerifier
 
             // This species could be the father if there's another way to get the needed Egg Moves besides breeding.
             // Look for any encounter that can learn this move.
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < moves.Length; i++)
                 needs[i] = ((nodes[species][form].Moves >> (i + 4)) & 1) == 1 ? moves[i] : (ushort)0;
 
             template.Species = species;
@@ -249,12 +253,10 @@ public static class EggMoveVerifier
             var enc = EncounterMovesetGenerator.GenerateEncountersNonEgg(template, needs).FirstOrDefault();
             if (enc is not null)
             {
-                ArrayPool<ushort>.Shared.Return(needs);
                 MakeChain(nodes, species, form, out chain); // start of chain found
                 return true;
             }
         }
-        ArrayPool<ushort>.Shared.Return(needs);
         chain = null;
         return false;
     }
