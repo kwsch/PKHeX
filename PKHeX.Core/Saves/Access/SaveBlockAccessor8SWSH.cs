@@ -175,9 +175,9 @@ public sealed class SaveBlockAccessor8SWSH(SAV8SWSH sav) : SCBlockAccessor, ISav
     public const uint KCapturedBlacephalon = 0xF769AFDF;
 
     // Gift event flags (bool)
-    public const uint KReceivedGiftBulbasaur = 0x4F240749;
+    public const uint KReceivedGiftChoiceBulbasaur = 0x4F240749;
     public const uint KReceivedGiftCharmander = 0x178159E5;
-    public const uint KReceivedGiftSquirtle = 0x08F829F8;
+    public const uint KReceivedGiftChoiceSquirtle = 0x08F829F8;
     public const uint KReceivedGiftPikachu = 0x9D95E9CA;
     public const uint KReceivedGiftEevee = 0x855235FF;
     public const uint KReceivedGiftTypeNull = 0x2AB6CECC;

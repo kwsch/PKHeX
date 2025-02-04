@@ -35,6 +35,7 @@
 0434	s	Battled Lass Diana 2nd Time
 0437	g	Received Happiny Egg Gift
 0445	g	Chose Cover/Plume Fossil from Lenora
+0420	r	Shiny Haxorus in Nature Preserve captured
 0946	r	Shiny Haxorus in Nature Preserve disappeared
 0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
 2744	s	Rode Royal Unova (Today)

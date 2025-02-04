@@ -19,4 +19,4 @@
 0151	s	Ace Trainer Sisters (Route 34)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
 0253	r	Hoenn Starters	0:Not Activated,1:Activated
 0276	s	Mail Quest	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
-0291	+	Catching Show Best Score
+0291	+	Catching Show Best Score (Pal Park)

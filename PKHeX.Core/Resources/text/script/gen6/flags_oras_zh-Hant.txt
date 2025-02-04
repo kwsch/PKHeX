@@ -92,14 +92,14 @@
 0699	s	Steven and Lati@s Disappeared from Route 118
 0789	s	Root Fossil Disappeared from Route 111
 0790	s	Claw Fossil Disappeared from Route 111
-0927	r	Voltorb 1 Disappeared from New Mauville
-0928	r	Voltorb 2 Disappeared from New Mauville
-0929	r	Voltorb 3 Disappeared from New Mauville
-0930	r	Voltorb 4 Disappeared from New Mauville
-1044	r	(OR) Electrode 1 Disappeared from Team Magma Hideout
-1045	r	(OR) Electrode 2 Disappeared from Team Magma Hideout
-1042	r	(AS) Electrode 1 Disappeared from Team Aqua Hideout
-1043	r	(AS) Electrode 2 Disappeared from Team Aqua Hideout
+0927	r	Voltorb (1) Disappeared from New Mauville
+0928	r	Voltorb (2) Disappeared from New Mauville
+0929	r	Voltorb (3) Disappeared from New Mauville
+0930	r	Voltorb (4) Disappeared from New Mauville
+1044	r	(OR) Electrode (1) Disappeared from Team Magma Hideout
+1045	r	(OR) Electrode (2) Disappeared from Team Magma Hideout
+1042	r	(AS) Electrode (1) Disappeared from Team Aqua Hideout
+1043	r	(AS) Electrode (2) Disappeared from Team Aqua Hideout
 0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
 0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
 0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
@@ -107,8 +107,8 @@
 0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
 0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
 0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
-0302	r	Spiritomb Defeated
-0303	r	Spiritomb Captured
+0302	r	已擊倒 花岩怪
+0303	r	已捕獲 花岩怪
 0500	s	Sealed Chamber Puzzle Braille Text Disappeared
 3007	s	Sealed Chamber Puzzle Completed
 3008	r	Regi Caves Unlocked
@@ -281,10 +281,12 @@
 3079	m	Current Battle Resort BGM: Hurry Along
 3080	m	Current Battle Resort BGM: Vs. Wally
 0443	s	Found Big Nugget in Trick House Prize Room
+1166	s	Found Yellow Shard Underwater (Route 107)
 1167	s	Found Flame Plate Underwater (Route 107)
 1168	s	Found Heart Scale (1) Underwater (Route 124)
 1170	s	Found Pearl Underwater (Route 124)
 1169	s	Found Heart Scale (2) Underwater (Route 124)
+1174	s	Found Green Shard Underwater (Route 124)
 1175	s	Found Sky Plate Underwater (Route 124)
 1171	s	Found Big Pearl Underwater (Route 124)
 1172	s	Found Calcium Underwater (Route 124)
@@ -298,6 +300,7 @@
 1183	s	Found Yellow Shard Underwater (Route 126)
 1181	s	Found Stardust Underwater (Route 126)
 1182	s	Found Iron Underwater (Route 126)
+1187	s	Found Red Shard Underwater (Route 126)
 1188	s	Found Heart Scale Underwater (Route 127)
 1191	s	Found Dread Plate Underwater (Route 127)
 1190	s	Found Spooky Plate Underwater (Route 127)
@@ -308,12 +311,14 @@
 1195	s	Found Draco Plate Underwater (Route 128)
 1196	s	Found Pixie Plate Underwater (Route 128)
 1197	s	Found Adamant Orb Underwater (Route 128)
+1198	s	Found Blue Shard Underwater (Route 129)
 1192	s	Found Protein Underwater (Route 128)
 1193	s	Found Pearl Underwater (Route 128)
 1202	s	Found Lustrous Orb Underwater (Route 129)
 1199	s	Found Splash Plate Underwater (Route 129)
 1200	s	Found Zap Plate Underwater (Route 129)
 1201	s	Found Toxic Plate Underwater (Route 129)
+1203	s	Found Green Shard Underwater (Route 130)
 1206	s	Found Fist Plate Underwater (Route 130)
 1205	s	Found Icicle Plate Underwater (Route 130)
 1207	s	Found Earth Plate Underwater (Route 130)

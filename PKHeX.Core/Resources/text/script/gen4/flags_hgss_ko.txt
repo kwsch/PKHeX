@@ -215,3 +215,4 @@
 1663	t	Had Bird Keeper Jose 1st Rematch
 1806	t	Had Bird Keeper Jose 2nd Rematch
 1962	t	Had Bird Keeper Jose 3rd Rematch
+2746	s	Learned trendy phrase (Today)
