@@ -12,7 +12,7 @@
 
 0x4043	m	Piso del Centro Comercial	04:1P,05:2P,06:3P,07:4P,08:5P,15:Techo
 0x4045	s	Objeto de Recompensa del Pokelot
-0x4046	*	Dex Nacional Habilitado
+0x4046	*	Dex Nacional Habilitado    	0:No,770:Sí
 0x4047	+	Récord del Tamaño de Shroomish
 0x4048	*	Ceniza volcánica Recolectada	9999:Máximo
 0x4049	m	Estado del Profesor Abedul

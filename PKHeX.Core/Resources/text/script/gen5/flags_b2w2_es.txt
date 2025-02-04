@@ -35,6 +35,7 @@
 0434	s	Luchado con Chica Corina por segunda vez
 0437	g	Huevo Happiny de regalo recibido
 0445	g	Elegido el Fósil Tapa/Pluma de Aloe
+0420	r	Haxorus variocolor en la Reserva Natural capturado
 0946	r	Haxorus variocolor en la Reserva Natural desaparecido
 0996	g	Guayo con el Gible/Dratini variocolor de regalo desaparecido de la casa de Mirto
 2744	s	Embarcado en el Real Teselia (hoy)

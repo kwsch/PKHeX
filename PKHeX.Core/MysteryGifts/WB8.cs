@@ -361,7 +361,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
         get => GetOT(Language);
         set
         {
-            for (int i = 1; i < (int)LanguageID.ChineseT; i++)
+            for (int i = 1; i <= (int)LanguageID.ChineseT; i++)
                 SetOT(i, value);
         }
     }

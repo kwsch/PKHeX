@@ -360,7 +360,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         get => GetOT(Language);
         set
         {
-            for (int i = 1; i < (int)LanguageID.ChineseT; i++)
+            for (int i = 1; i <= (int)LanguageID.ChineseT; i++)
                 SetOT(i, value);
         }
     }

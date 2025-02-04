@@ -2,15 +2,15 @@
 0027	*	Starter is Cyndaquil
 0028	*	Starter is Totodile
 0029	*	Starter is Chikorita
-1600	s	Cyndaquil ball at Elm's disappeared
-1601	s	Totodile ball at Elm's disappeared
-1602	s	Chikorita ball at Elm's disappeared
+1600	s	Cyndaquil ball at Elm's Lab disappeared
+1601	s	Totodile ball at Elm's Lab disappeared
+1602	s	Chikorita ball at Elm's Lab disappeared
 1784	r	Captured Sudowoodo
 1760	r	Electrode (top corners) disappeared from Hideout B2F
 1761	r	Electrode (middle corners) disappeared from Hideout B2F
 1762	r	Electrode (bottom corners) disappeared from Hideout B2F
 0079	g	Received Eevee
-1867	*	Legendary Beasts Disappeared from Burned Tower
+1867	*	Legendary Beasts disappeared from Burned Tower
 0190	*	Kurt can check GS Ball
 0191	*	Kurt ready to return GS Ball (combine with above Flag)
 0192	*	GS Ball can be inserted into Ilex Forest Shrine
@@ -97,7 +97,7 @@
 0107	s	Received Black Belt from Wesley
 0108	s	Met Santos
 0109	s	Received Spell Tag from Santos
-0110	s	Met to Monica
+0110	s	Met Monica
 0111	s	Received Sharp Beak from Monica
 0189	g	Received Dratini
 0193	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)

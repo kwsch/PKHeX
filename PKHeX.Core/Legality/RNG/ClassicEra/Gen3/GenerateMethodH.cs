@@ -14,6 +14,7 @@ public static class GenerateMethodH
         var gr = pi.Gender;
         var (min, max) = SlotMethodH.GetRange(enc.Type, enc.SlotNumber);
         bool checkProc = MethodH.IsEncounterCheckApplicable(enc.Type);
+        bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
 
         // Generate Method H correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -57,7 +58,7 @@ public static class GenerateMethodH
 
                 {
                     var level = (byte)MethodH.GetRandomLevel(enc, lv, LeadRequired.None);
-                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsSatisfiedLevelRange(level))
+                    if (checkLevel && !criteria.IsSatisfiedLevelRange(level))
                         break; // try again
                     pk.MetLevel = pk.CurrentLevel = level;
                 }

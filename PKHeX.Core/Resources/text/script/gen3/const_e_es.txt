@@ -15,7 +15,7 @@
 
 0x4043	m	Piso de los grandes almacenes	04:1F,05:2F,06:3F,07:4F,08:5F,15:Rooftop
 0x4045	s	Premio Pokelot
-0x4046	*	Nacional Dex Habilitado
+0x4046	*	Nacional Dex Habilitado    	0:No,770:Sí
 0x4047	+	Registro del tamaño de Seedot
 0x4048	*	Ceniza volcánica recogida	9999:Máximo
 0x4049	m	Profesor Birch State

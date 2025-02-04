@@ -92,14 +92,14 @@
 0699	s	Steven and Lati@s desaparecido from Ruta 118
 0789	s	Fósil raíz desaparecido de la Ruta 111
 0790	s	Fósil garra desaparecido de la Ruta 111
-0927	r	Voltorb 1 desaparecido de Nueva Malvalanova
-0928	r	Voltorb 2 desaparecido de Nueva Malvalanova
-0929	r	Voltorb 3 desaparecido de Nueva Malvalanova
-0930	r	Voltorb 4 desaparecido de Nueva Malvalanova
-1044	r	(RO) Electrode 1 desaparecido de la Guarida Magma
-1045	r	(RO) Electrode 2 desaparecido de la Guarida Magma
-1042	r	(ZA) Electrode 1 desaparecido de la Guarida Aqua
-1043	r	(ZA) Electrode 2 desaparecido de la Guarida Aqua
+0927	r	Voltorb (1) desaparecido de Nueva Malvalanova
+0928	r	Voltorb (2) desaparecido de Nueva Malvalanova
+0929	r	Voltorb (3) desaparecido de Nueva Malvalanova
+0930	r	Voltorb (4) desaparecido de Nueva Malvalanova
+1044	r	(RO) Electrode (1) desaparecido de la Guarida Magma
+1045	r	(RO) Electrode (2) desaparecido de la Guarida Magma
+1042	r	(ZA) Electrode (1) desaparecido de la Guarida Aqua
+1043	r	(ZA) Electrode (2) desaparecido de la Guarida Aqua
 0697	r	Keckleon invisible desaparecido (Bloqueando Gimnasio Arborada)
 0702	r	Keckleon invisible desaparecido (Ruta 120, puente)
 0504	r	Keckleon invisible desaparecido (Ruta 119, encima de la cascada)
@@ -281,6 +281,7 @@
 3079	m	BGM actual en el Resort Batalla: Sígueme
 3080	m	BGM actual en el Resort Batalla: Contra Blasco
 0443	s	Encontrada Maxipepita en la Sala de premios de la Casa Treta
+1166	s	Encontrada Parte Amarilla bajo el agua (Route 107)
 1167	s	Encontrada Tabla llama bajo el agua (Ruta 107)
 1168	s	Encontrada Escama corazón (1) bajo el agua (Ruta 124)
 1170	s	Encontrada Perla bajo el agua (Ruta 124)
@@ -289,6 +290,7 @@
 1171	s	Encontrada Perla grande bajo el agua (Ruta 124)
 1172	s	Encontrada Calcio bajo el agua (Ruta 124)
 1173	s	Encontrada Carburante bajo el agua (Ruta 124)
+1174	s	Encontrada Parte Verde bajo el agua (Route 124)
 1177	s	Encontrada Ultra Ball bajo el agua (Ruta 126)
 1176	s	Encontrada Escama corazón bajo el agua (Ruta 126)
 1184	s	Encontrada Tabla mental bajo el agua (Ruta 126)
@@ -298,6 +300,7 @@
 1183	s	Encontrada Parte amarilla bajo el agua (Ruta 126)
 1181	s	Encontrada Polvo estelar bajo el agua (Ruta 126)
 1182	s	Encontrada Hierro bajo el agua (Ruta 126)
+1187	s	Encontrada Parte Roja bajo el agua (Route 126)
 1188	s	Encontrada Escama corazón bajo el agua (Ruta 127)
 1191	s	Encontrada Tabla oscura bajo el agua (Ruta 127)
 1190	s	Encontrada Tabla terror bajo el agua (Ruta 127)
@@ -308,12 +311,14 @@
 1195	s	Encontrada Tabla draco bajo el agua (Ruta 128)
 1196	s	Encontrada Tabla duende bajo el agua (Ruta 128)
 1197	s	Encontrada Diamansfera bajo el agua (Ruta 128)
+1198	s	Encontrada Parte Azul bajo el agua (Route 129)
 1192	s	Encontrada Proteína bajo el agua (Ruta 128)
 1193	s	Encontrada Perla bajo el agua (Ruta 128)
 1202	s	Encontrada Lustresfera bajo el agua (Ruta 129)
 1199	s	Encontrada Tabla linfa bajo el agua (Ruta 129)
 1200	s	Encontrada Tabla trueno bajo el agua (Ruta 129)
 1201	s	Encontrada Tabla tóxica bajo el agua (Ruta 129)
+1203	s	Encontrada Parte Verde bajo el agua (Route 130)
 1206	s	Encontrada Tabla fuerte bajo el agua (Ruta 130)
 1205	s	Encontrada Tabla helada bajo el agua (Ruta 130)
 1207	s	Encontrada Tabla terrax bajo el agua (Ruta 130)

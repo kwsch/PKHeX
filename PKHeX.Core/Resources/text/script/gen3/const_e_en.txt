@@ -15,7 +15,7 @@
 
 0x4043	m	Department Store Floor	04:1F,05:2F,06:3F,07:4F,08:5F,15:Rooftop
 0x4045	s	Pokelot Prize Item
-0x4046	*	National Dex Enabled
+0x4046	*	National Dex Enabled	0:No,770:Yes
 0x4047	+	Seedot Size Record
 0x4048	*	Volcanic Ash Gathered	9999:Maximum
 0x4049	m	Professor Birch State

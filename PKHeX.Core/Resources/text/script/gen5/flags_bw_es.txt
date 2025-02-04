@@ -34,9 +34,9 @@
 0683	a	Battle Subway: does not possess super single trophy
 0684	a	Battle Subway: does not possess super double trophy
 0685	a	Battle Subway: does not possess super multi trophy
-0767	r	Captura/Derrota al Foongus de la Ruta 6
-0768	r	Captura/Derrota al Foongus de la Ruta 6
-0769	r	Captura/Derrota al Amoonguss de la Ruta 10
-0770	r	Captura/Derrota al Amoonguss de la Ruta 10 
-0771	r	Captura/Derrota al Foongus de la Ruta 10
-0772	r	Captura/Derrota al Foongus de la Ruta 10
+0767	r	Captura/Derrota al Foongus de la Ruta 6 (1)
+0768	r	Captura/Derrota al Foongus de la Ruta 6 (2)
+0769	r	Captura/Derrota al Amoonguss de la Ruta 10 (1)
+0770	r	Captura/Derrota al Amoonguss de la Ruta 10 (2)
+0771	r	Captura/Derrota al Foongus de la Ruta 10 (1)
+0772	r	Captura/Derrota al Foongus de la Ruta 10 (2)

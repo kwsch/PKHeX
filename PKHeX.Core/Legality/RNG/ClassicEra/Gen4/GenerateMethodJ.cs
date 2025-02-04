@@ -24,6 +24,7 @@ public static class GenerateMethodJ
         var (min, max) = SlotMethodJ.GetRange(enc.Type, enc.SlotNumber);
         bool randLevel = MethodJ.IsLevelRand(enc);
         bool checkProc = MethodJ.IsEncounterCheckApplicable(enc.Type);
+        bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
 
         // Generate Method J correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -82,7 +83,7 @@ public static class GenerateMethodJ
                 if (randLevel)
                 {
                     var level = (byte)MethodJ.GetRandomLevel(enc, lv, LeadRequired.None);
-                    if (criteria.IsSpecifiedLevelRange() && !criteria.IsSatisfiedLevelRange(level))
+                    if (checkLevel && !criteria.IsSatisfiedLevelRange(level))
                         break; // try again
                     pk.MetLevel = pk.CurrentLevel = level;
                 }

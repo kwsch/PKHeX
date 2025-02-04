@@ -69,16 +69,17 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     private void SetPINGA(PA8 pk, EncounterCriteria criteria, PersonalInfo8LA pi)
     {
         var para = GetParams(pi);
+        bool checkLevel = criteria.IsSpecifiedLevelRange() && this.IsLevelWithinRange(criteria);
         while (true)
         {
             var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
             if (this.IsRandomLevel())
             {
                 // Give a random level according to the RNG correlation.
-                var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
-                if (criteria.IsSpecifiedLevelRange() && !criteria.IsSatisfiedLevelRange(lvl))
+                var level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+                if (checkLevel && !criteria.IsSatisfiedLevelRange(level))
                     continue;
-                pk.MetLevel = pk.CurrentLevel = lvl;
+                pk.MetLevel = pk.CurrentLevel = level;
             }
             break;
         }
