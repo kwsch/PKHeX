@@ -147,6 +147,32 @@ public static class EggMoveVerifier
         }
 
         // Evolutions
+        var reverse = EvolutionTree.GetEvolutionTree(context).Reverse;
+        foreach (var (species, form, evo) in Iterate(nodes))
+        {
+            foreach (var (preSpecies, preForm) in reverse.GetPreEvolutions(species, form))
+            {
+                if (preForm >= nodes[preSpecies].Length)
+                    continue;
+                var pre = nodes[preSpecies][preForm];
+
+                // Can evolve to get a level up move, and pass it down as an Egg Move to make a father of the same species
+                var flags = (pre.Moves >> 4) & (evo.Moves & 0x0F);
+                if (flags != 0)
+                {
+                    pre.Moves |= (byte)flags; // add to level up moves
+                    pre.Moves &= (byte)(~(flags << 4)); // remove from Egg Moves
+                }
+
+                // Egg Group compatibility for baby Pokémon is determined by their evolved form
+                if (pre.EggGroup1 == EggGroup.Undiscovered && evo.EggGroup1 != EggGroup.Undiscovered)
+                {
+                    pre.EggGroup1 = evo.EggGroup1;
+                    pre.EggGroup2 = evo.EggGroup2;
+                }
+            }
+        }
+
         var forward = EvolutionTree.GetEvolutionTree(context).Forward;
         foreach (var (species, form, pre) in Iterate(nodes))
         {
@@ -158,13 +184,6 @@ public static class EggMoveVerifier
 
                 // Evolved form can have all moves the pre-evolved form can learn
                 evo.Moves |= pre.Moves;
-
-                // Egg Group compatibility for baby Pokémon is determined by their evolved form
-                if (pre.EggGroup1 == EggGroup.Undiscovered && evo.EggGroup1 != EggGroup.Undiscovered)
-                {
-                    pre.EggGroup1 = evo.EggGroup1;
-                    pre.EggGroup2 = evo.EggGroup2;
-                }
             }
         }
         return nodes;
@@ -190,6 +209,11 @@ public static class EggMoveVerifier
         {
             var child = q.Dequeue();
             var childNode = nodes[child.Species][child.Form];
+            if (child.Flags == 0)
+            {
+                MakeChain(nodes, child.Species, child.Form, out chain);
+                return true;
+            }
             foreach (var (species, form, father) in Iterate(nodes))
             {
                 if (father.Distance == 0 && father.CanFather(childNode))
@@ -200,8 +224,7 @@ public static class EggMoveVerifier
                         // Can learn all needed moves for the child through level-up, start of chain found
                         father.Distance = (byte)(childNode.Distance + 1);
                         father.Child = child;
-                        MakeChain(nodes, species, form, out chain);
-                        return true;
+                        q.Enqueue(new LearnEdge(species, form, (byte)0));
                     }
                     var eggFlags = father.Moves >> 4;
                     if ((child.Flags & (eggFlags | levelFlags)) == child.Flags)
@@ -270,7 +293,7 @@ public static class EggMoveVerifier
     /// <param name="chain">Chain of fathers</param>
     private static void MakeChain(LearnNode[][] nodes, ushort species, byte form, out (ushort Species, byte Form)[] chain)
     {
-        chain = new (ushort Species, byte Form)[nodes[species][form].Distance + 1];
+        chain = new (ushort Species, byte Form)[nodes[species][form].Distance];
         var cnt = 0;
         var node = nodes[species][form];
         while (node.Child is not null)
@@ -280,7 +303,6 @@ public static class EggMoveVerifier
             node = nodes[species][form];
         }
         chain[cnt] = (species, form);
-
     }
 
     private record LearnNode
