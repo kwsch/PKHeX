@@ -143,6 +143,7 @@ public static class BoxExport
         BoxExportIndexPrefix.None => string.Empty,
         BoxExportIndexPrefix.InAll => $"{(box * boxSlotCount) + slot:0000} - ",
         BoxExportIndexPrefix.InBox => $"{slot:00} - ",
+        BoxExportIndexPrefix.InBoxAndSlot => $"{box + 1:00}-{slot:00} - ",
         _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
     };
 

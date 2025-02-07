@@ -146,9 +146,14 @@ public enum BoxExportIndexPrefix : byte
     InBox = 1,
 
     /// <summary>
-    /// The file name will be prefixed with the box index and slot index
+    /// The file name will be prefixed with the total storage index
     /// </summary>
     InAll = 2,
+
+    /// <summary>
+    /// The file name will be prefixed with the box index and slot index
+    /// </summary>
+    InBoxAndSlot = 3,
 }
 
 /// <summary>
