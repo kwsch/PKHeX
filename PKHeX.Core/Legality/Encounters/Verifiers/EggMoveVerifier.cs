@@ -25,7 +25,7 @@ public static class EggMoveVerifier
             return; // Did not hatch from an Egg
         if (enc.Generation >= 6)
             return; // Can inherit Egg Moves from either parent, so all possible combinations are legal
-        
+
         ushort[] rent = ArrayPool<ushort>.Shared.Rent(4);
         var moves = rent.AsSpan(0, 4);
         int ctr = 0;
@@ -83,234 +83,335 @@ public static class EggMoveVerifier
     {
         if (Lookup.TryGetValue((species, form, version, moves[0], moves[1], moves[2], moves[3]), out bool found))
             return found;
-        found = FindChain(moves, species, form, version, out _);
+        var graph = new LearnGraph(moves, version);
+        found = graph.FindChain(moves, species, form, version, out var chain, out var enc);
+#if DEBUG
+        PrintChain(moves, species, form, version, chain, enc);
+#endif
         Lookup.TryAdd((species, form, version, moves[0], moves[1], moves[2], moves[3]), found);
         return found;
     }
 
-    private static bool FindChain(ReadOnlySpan<ushort> moves, ushort eggSpecies, byte eggForm, GameVersion version, out (ushort Species, byte Form)[]? chain)
+#if DEBUG
+    private static void PrintChain(ReadOnlySpan<ushort> moves, ushort species, byte form, GameVersion version, (ushort Species, byte Form)[]? chain, IEncounterable? enc)
     {
-        chain = null;
-
-        if (GameData.GetPersonal(version).GetFormEntry(eggSpecies, eggForm).Genderless)
-            return false; // cannot inherit Egg Moves
-
-        var nodes = CreateNodes(moves, version);
-        if (MarkFathersAndCheckLevelUp(nodes, eggSpecies, eggForm, out chain))
-            return true;
-        if (CheckEncounters(nodes, moves, version, out chain))
-            return true;
-        return false;
+        if (chain is null)
+            System.Diagnostics.Debug.WriteLine($"Could not find a breeding chain for {(Species)species}-{form} in {version} with moves {string.Join(", ", Array.ConvertAll(moves.ToArray(), m => (Move)m))}");
+        else
+            System.Diagnostics.Debug.WriteLine($"Found a breeding chain: ({(enc is null ? "Encounter" : "LevelUp")}) {string.Join(", ", Array.ConvertAll(chain, p => $"{(Species)p.Species}-{p.Form}"))}");
     }
+#endif
 
     /// <summary>
-    /// Generates a null graph consisting of a <see cref="LearnNode"/> for each species and form.
+    /// Graph to check whether a particular combination of Egg Moves is possible.
     /// </summary>
-    /// <param name="moves">Moves to check</param>
-    /// <param name="version">Version to check</param>
-    /// <returns>Generated graph</returns>
-    private static LearnNode[][] CreateNodes(ReadOnlySpan<ushort> moves, GameVersion version)
+    private class LearnGraph
     {
-        var context = version.GetContext();
-        var maxSpecies = GameUtil.GetMaxSpeciesID(version);
-        var nodes = new LearnNode[maxSpecies + 1][];
+        private readonly LearnNode[] Nodes;
+        private readonly LearnEdge[,] Edges; // adjacency matrix
+        private readonly ushort MaxSpeciesID;
+        private const int UNDISCOVERED = 1 << (int)EggGroup.Undiscovered;
 
-        // Populate graph for every species/form
-        var pt = GameData.GetPersonal(version);
-        var source = GameData.GetLearnSource(version);
-        for (ushort species = 1; species <= maxSpecies; species++)
+        public LearnGraph(ReadOnlySpan<ushort> moves, GameVersion version)
         {
-            byte formCount = pt.GetFormEntry(species, 0).FormCount;
-            nodes[species] = new LearnNode[formCount];
-            for (byte form = 0; form < formCount; form++)
+            // Count how many forms need to be in the graph
+            MaxSpeciesID = GameUtil.GetMaxSpeciesID(version);
+            var pt = GameData.GetPersonal(version);
+            int count = 1; // reserved for species 0
+            for (ushort species = 1; species <= MaxSpeciesID; species++)
+                count += pt.GetFormEntry(species, 0).FormCount;
+            Nodes = new LearnNode[count];
+            Edges = new LearnEdge[count, count];
+
+            // Initialize nodes, putting alternate forms at the end
+            var source = GameData.GetLearnSource(version);
+            var formIndex = MaxSpeciesID + 1;
+            for (ushort species = 1; species <= MaxSpeciesID; species++)
             {
-                var entry = pt.GetFormEntry(species, form);
-                var levelUpMoves = source.GetLearnset(species, form).GetAllMoves();
-                var eggMoves = source.GetEggMoves(species, form);
-                nodes[species][form] = new LearnNode
+                int formCount = pt.GetFormEntry(species, 0).FormCount;
+                InitializeNode(species, species, 0, moves, pt, source);
+                for (byte form = 1; form < formCount; form++)
+                    InitializeNode(formIndex++, species, form, moves, pt, source);
+            }
+
+            // Smeargle can pass down almost any move, mark them as level-up moves
+            var context = version.GetContext();
+            for (int i = 0; i < moves.Length; i++)
+            {
+                if (MoveInfo.IsSketchValid(moves[i], context))
+                    Nodes[(int)Species.Smeargle].Moves |= (byte)(1 << i);
+            }
+
+            // Evolutions
+            var reverse = EvolutionTree.GetEvolutionTree(context).Reverse;
+            for (int index = 0; index < Nodes.Length; index++)
+            {
+                foreach (var (species, form) in reverse.GetPreEvolutions(Nodes[index].Species, Nodes[index].Form))
                 {
-                    Gender = entry.Gender,
-                    EggGroup1 = (EggGroup)entry.EggGroup1,
-                    EggGroup2 = (EggGroup)entry.EggGroup2,
-                    Moves = (byte)(Moveset.BitOverlap(levelUpMoves, moves) | (Moveset.BitOverlap(eggMoves, moves) << 4))
+                    int pre = GetIndex(species, form);
+                    if (pre == -1)
+                        continue;
+
+                    // Can evolve to get a level-up move, and pass it down as an Egg Move to make a father of the same species
+                    var flags = Nodes[pre].EggMoves() & Nodes[index].LevelUpMoves();
+                    if (flags != 0)
+                    {
+                        Nodes[pre].Moves |= (byte)flags; // add to level-up moves
+                        Nodes[pre].Moves &= (byte)(~(flags << 4)); // remove from Egg Moves
+                    }
+
+                    // Egg Group compatibility for baby Pokémon is determined by their evolved form
+                    if (Nodes[pre].EggGroups == UNDISCOVERED && Nodes[index].EggGroups != UNDISCOVERED)
+                        Nodes[pre].EggGroups = Nodes[index].EggGroups;
+                }
+            }
+
+            var forward = EvolutionTree.GetEvolutionTree(context).Forward;
+            for (int index = 0; index < Nodes.Length; index++)
+            {
+                foreach (var (species, form) in forward.GetEvolutions(Nodes[index].Species, Nodes[index].Form))
+                {
+                    int evo = GetIndex(species, form);
+                    if (evo == -1)
+                        continue;
+
+                    // Evolved form can have all moves the pre-evolved form can learn
+                    Nodes[evo].Moves |= Nodes[index].Moves;
+                }
+            }
+        }
+
+        private void InitializeNode(int index, ushort species, byte form, ReadOnlySpan<ushort> moves, IPersonalTable pt, ILearnSource source)
+        {
+            var pi = pt.GetFormEntry(species, form);
+            var levelUpMoves = source.GetLearnset(species, form).GetAllMoves();
+            var eggMoves = source.GetEggMoves(species, form);
+            Nodes[index].Species = species;
+            Nodes[index].Form = form;
+            Nodes[index].Gender = pi.Gender;
+            Nodes[index].EggGroups = (ushort)((1 << pi.EggGroup1) | (1 << pi.EggGroup2));
+            Nodes[index].Moves = (byte)(Moveset.BitOverlap(levelUpMoves, moves) | (Moveset.BitOverlap(eggMoves, moves) << 4));
+        }
+
+        /// <summary>
+        /// Maps species ID and form ID to the corresponding internal index of the node within the graph.
+        /// </summary>
+        /// <param name="species">Entity species</param>
+        /// <param name="form">Entity form</param>
+        /// <returns>Index of the corresponding node, or 0 if no such node is found</returns>
+        private ushort GetIndex(ushort species, byte form)
+        {
+            if (form == 0)
+                return species;
+            for (ushort i = (ushort)(MaxSpeciesID + 1); i < Nodes.Length; i++)
+            {
+                if (Nodes[i].Species == species && Nodes[i].Form == form)
+                    return i;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Search for the shortest chain of fathers who can learn all needed moves and pass them on to the target.
+        /// </summary>
+        /// <param name="moves">Moves to check</param>
+        /// <param name="species">Entity species</param>
+        /// <param name="form">Entity form</param>
+        /// <param name="version">Version to check</param>
+        /// <param name="chain">Chain of fathers, or null if no chain was found</param>
+        /// <param name="enc">Possible encounter for the first father in the chain, or null if no chain was found or the move is learned by level-up</param>
+        /// <returns>Whether a valid chain was found</returns>
+        public bool FindChain(ReadOnlySpan<ushort> moves, ushort species, byte form, GameVersion version, out (ushort Species, byte Form)[]? chain, out IEncounterable? enc)
+        {
+            ushort index = GetIndex(species, form);
+            enc = null;
+            return FindChainLevelUp(index, out chain) || FindChainEncounter(moves, index, version, out chain, out enc);
+        }
+
+        /// <summary>
+        /// Search for the shortest chain of fathers who can learn all needed moves via level-up and pass them on to the target.
+        /// </summary>
+        /// <param name="start">Index of start node</param>
+        /// <param name="chain">Chain of fathers, or null if no chain was found</param>
+        /// <returns>Whether a valid chain was found</returns>
+        /// <remarks>
+        /// This is implemented as a breadth-first search along all edges where the father can either learn by level-up or inherit all needed Egg Moves for the child.
+        /// If the father can learn all needed moves for the child via level-up, it is immediately returned.
+        /// Note that even if the father was explored before, we still need to check if it can learn the moves needed by the child we're checking, since the needed moves might be different.
+        /// </remarks>
+        private bool FindChainLevelUp(ushort start, out (ushort Species, byte Form)[]? chain)
+        {
+            Queue<(ushort Previous, ushort Child)> queue = new();
+            queue.Enqueue((start, start));
+            while (queue.Count > 0)
+            {
+                var (previous, child) = queue.Dequeue();
+                var childNeeds = Nodes[child].EggMoves();
+                Nodes[child].Visited = Visited.LevelUp;
+                for (ushort father = 0; father < Nodes.Length; father++)
+                {
+                    if (CanBeFather(child, father))
+                    {
+                        var fatherHas = Nodes[father].LevelUpMoves();
+                        if ((childNeeds & fatherHas) == childNeeds)
+                        {
+                            // The moves the child needs are a subset of what the father can learn through level-up, start of chain found
+                            Edges[child, father].Previous = previous;
+                            MakeChain(child, father, out chain);
+                            return true;
+                        }
+                        var fatherNeeds = Nodes[father].EggMoves();
+                        if ((childNeeds & (fatherHas | fatherNeeds)) == childNeeds)
+                        {
+                            // The moves the child needs are a subset of what the father can learn, but it needs to inherit some Egg Moves still
+                            Edges[child, father].Previous = previous;
+                            if (Nodes[father].Visited != Visited.LevelUp)
+                                queue.Enqueue((child, father));
+                        }
+                    }
+                }
+            }
+
+            // No match
+            chain = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Search for the shortest chain of fathers who can learn all needed moves and pass them on to the target,
+        /// where the first father in the chain can only have a needed move as a special move or when transferred from another generation.
+        /// </summary>
+        /// <param name="moves">Moves to check</param>
+        /// <param name="start">Index of start node</param>
+        /// <param name="version">Version to check</param>
+        /// <param name="chain">Chain of fathers, or null if no chain was found</param>
+        /// <param name="enc">Possible encounter for the first father in the chain, or null if no chain was found</param>
+        /// <returns>Whether a valid chain was found</returns>
+        /// <remarks>
+        /// <see cref="FindChainLevelUp"/> must have been run on the graph previously, with no match found.
+        /// If the father can learn all needed moves for the child via level-up, it is immediately returned.
+        /// Note that even if the father was explored before, we still need to check if it can learn the moves needed by the child we're checking, since the needed moves might be different.
+        /// </remarks>
+        private bool FindChainEncounter(ReadOnlySpan<ushort> moves, ushort start, GameVersion version, out (ushort Species, byte Form)[]? chain, out IEncounterable? enc)
+        {
+            PKM template = version.GetGeneration() switch
+            {
+                1 => new PK1() { Gender = 0 },
+                2 => new PK2() { Gender = 0 },
+                3 => new PK3() { Gender = 0 },
+                4 => new PK4() { Gender = 0 },
+                5 => new PK5() { Gender = 0 },
+                _ => throw new ArgumentOutOfRangeException(nameof(version)),
+            };
+            ushort[] needs = moves.ToArray();
+
+            Queue<ushort> queue = new();
+            queue.Enqueue(start);
+            while (queue.Count > 0)
+            {
+                var child = queue.Dequeue();
+                var childNeeds = Nodes[child].EggMoves();
+                Nodes[child].Visited = Visited.Encounter;
+                for (ushort father = 0; father < Nodes.Length; father++)
+                {
+                    if (Edges[child, father].Previous == 0)
+                        continue; // cannot pass on any Egg Moves to the target (never followed this edge during the level-up search)
+
+                    // Could be the father if there's another way to get the needed Egg Moves besides breeding.
+                    // Look for any encounter that can learn these moves.
+                    for (var i = 0; i < moves.Length; i++)
+                        needs[i] = ((childNeeds >> i) & 1) == 1 ? moves[i] : (ushort)0;
+                    template.Species = Nodes[father].Species;
+                    template.Form = Nodes[father].Form;
+                    enc = EncounterMovesetGenerator.GenerateEncountersNonEgg(template, needs).FirstOrDefault();
+                    if (enc is not null)
+                    {
+                        // The moves the child needs are a subset of what the father can learn through this encounter, start of chain found
+                        MakeChain(child, father, out chain);
+                        return true;
+                    }
+
+                    // No matching encounter was found, but it could still be part of a chain that requires this father
+                    if (Nodes[father].Visited != Visited.Encounter)
+                        queue.Enqueue(father);
+                }
+            }
+
+            // No match
+            chain = null;
+            enc = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Follows edges in the graph from the specified father back to the requested Egg, returning a chain of every father along the way.
+        /// </summary>
+        /// <param name="child">Index of the child node for the starting edge</param>
+        /// <param name="father">Index of the father node for the starting edge</param>
+        /// <param name="chain">Chain of fathers</param>
+        private void MakeChain(ushort child, ushort father, out (ushort Species, byte Form)[] chain)
+        {
+#if !DEBUG
+            chain = [];
+#endif
+#if DEBUG
+            int cnt = 2;
+            for (var (c, f) = (child, father); c != Edges[c, f].Previous; cnt++)
+                (c, f) = (Edges[c, f].Previous, c);
+
+            chain = new (ushort Species, byte Form)[cnt];
+            int i = 0;
+            for (var (c, f) = (child, father); i < cnt; i++)
+            {
+                chain[i] = (Nodes[f].Species, Nodes[f].Form);
+                (c, f) = (Edges[c, f].Previous, c);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Checks whether the child node can have the father node as a father.
+        /// </summary>
+        /// <param name="child">Index of the child node</param>
+        /// <param name="father">Index of the father node</param>
+        /// <returns></returns>
+        private bool CanBeFather(ushort child, ushort father)
+        {
+            if ((Nodes[father].EggGroups & Nodes[child].EggGroups) == 0)
+                return false; // No shared Egg Groups
+            if (Nodes[father].EggGroups == UNDISCOVERED)
+                return false; // Cannot breed
+            if (Nodes[father].Gender is PersonalInfo.RatioMagicFemale or PersonalInfo.RatioMagicGenderless)
+                return false; // Cannot be male
+            if (Nodes[child].Gender is PersonalInfo.RatioMagicMale && !Breeding.IsGenderSpeciesDetermination(Nodes[child].Species) && !SpeciesCategory.IsFixedGenderFromDual(Nodes[child].Species))
+            {
+                // Can only have itself or its evolutions as a father (breeding with Ditto)
+                Species childSpecies = (Species)Nodes[child].Species;
+                Species fatherSpecies = (Species)Nodes[father].Species;
+                return (fatherSpecies == childSpecies) || childSpecies switch
+                {
+                    Species.Tyrogue => fatherSpecies is Species.Hitmonlee or Species.Hitmonchan or Species.Hitmontop,
+                    Species.Rufflet => fatherSpecies is Species.Braviary,
+                    _ => false,
                 };
             }
+            return true;
         }
-
-        // Smeargle can pass down almost any move
-        // Mark Smeargle as able to learn them by level-up
-        var smeargle = nodes[(ushort)Species.Smeargle][0];
-        for (int i = 0; i < moves.Length; i++)
-        {
-            if (MoveInfo.IsSketchValid(moves[i], context))
-                smeargle.Moves |= (byte)(1 << i);
-        }
-
-        // Evolutions
-        var reverse = EvolutionTree.GetEvolutionTree(context).Reverse;
-        foreach (var (species, form, evo) in Iterate(nodes))
-        {
-            foreach (var (preSpecies, preForm) in reverse.GetPreEvolutions(species, form))
-            {
-                if (preForm >= nodes[preSpecies].Length)
-                    continue;
-                var pre = nodes[preSpecies][preForm];
-
-                // Can evolve to get a level up move, and pass it down as an Egg Move to make a father of the same species
-                var flags = (pre.Moves >> 4) & (evo.Moves & 0x0F);
-                if (flags != 0)
-                {
-                    pre.Moves |= (byte)flags; // add to level up moves
-                    pre.Moves &= (byte)(~(flags << 4)); // remove from Egg Moves
-                }
-
-                // Egg Group compatibility for baby Pokémon is determined by their evolved form
-                if (pre.EggGroup1 == EggGroup.Undiscovered && evo.EggGroup1 != EggGroup.Undiscovered)
-                {
-                    pre.EggGroup1 = evo.EggGroup1;
-                    pre.EggGroup2 = evo.EggGroup2;
-                }
-            }
-        }
-
-        var forward = EvolutionTree.GetEvolutionTree(context).Forward;
-        foreach (var (species, form, pre) in Iterate(nodes))
-        {
-            foreach (var (evoSpecies, evoForm) in forward.GetEvolutions(species, form))
-            {
-                if (evoForm >= nodes[evoSpecies].Length)
-                    continue;
-                var evo = nodes[evoSpecies][evoForm];
-
-                // Evolved form can have all moves the pre-evolved form can learn
-                evo.Moves |= pre.Moves;
-            }
-        }
-        return nodes;
     }
 
     /// <summary>
-    /// Marks edges on the graph corresponding to possible father-child relationships that can pass on a wanted level-up move as a Egg Move.
-    /// If a chain of fathers is found, it is returned immediately.
+    /// Node in the graph, representing a particular species and form.
     /// </summary>
-    /// <param name="nodes">Graph to search</param>
-    /// <param name="eggSpecies">Species to start from</param>
-    /// <param name="eggForm">Form to start from</param>
-    /// <param name="chain">Chain of fathers</param>
-    /// <returns>Whether a valid chain was found</returns>
-    private static bool MarkFathersAndCheckLevelUp(LearnNode[][] nodes, ushort eggSpecies, byte eggForm, out (ushort Species, byte Form)[]? chain)
+    private record struct LearnNode
     {
-        Queue<LearnEdge> q = new();
-        var egg = nodes[eggSpecies][eggForm];
-        egg.Distance = 1;
-        q.Enqueue(new LearnEdge(eggSpecies, eggForm, (byte)(egg.Moves >> 4)));
-
-        while (q.Count > 0)
-        {
-            var child = q.Dequeue();
-            var childNode = nodes[child.Species][child.Form];
-            if (child.Flags == 0)
-            {
-                MakeChain(nodes, child.Species, child.Form, out chain);
-                return true;
-            }
-            foreach (var (species, form, father) in Iterate(nodes))
-            {
-                if (father.Distance == 0 && father.CanFather(childNode))
-                {
-                    var levelFlags = father.Moves & 0x0F;
-                    if ((child.Flags & levelFlags) == child.Flags)
-                    {
-                        // Can learn all needed moves for the child through level-up, start of chain found
-                        father.Distance = (byte)(childNode.Distance + 1);
-                        father.Child = child;
-                        q.Enqueue(new LearnEdge(species, form, (byte)0));
-                    }
-                    var eggFlags = father.Moves >> 4;
-                    if ((child.Flags & (eggFlags | levelFlags)) == child.Flags)
-                    {
-                        // Can learn all needed moves for the child, but needs to inherit some Egg Moves still
-                        father.Distance = (byte)(childNode.Distance + 1);
-                        father.Child = child;
-                        q.Enqueue(new LearnEdge(species, form, (byte)eggFlags));
-                    }
-                }
-            }
-        }
-        chain = null;
-        return false; // no father found
-    }
-
-    /// <summary>
-    /// Check encounters for possible fathers to see if they can learn needed Egg Moves in some other way besides level up (transfer, static, etc.).
-    /// </summary>
-    /// <param name="nodes">Graph to search</param>
-    /// <param name="moves">Moves to check</param>
-    /// <param name="version">Version to check</param>
-    /// <param name="chain">Chain of fathers</param>
-    /// <returns>Whether a valid chain was found</returns>
-    private static bool CheckEncounters(LearnNode[][] nodes, ReadOnlySpan<ushort> moves, GameVersion version, out (ushort Species, byte Form)[]? chain)
-    {
-        PKM template = version.GetGeneration() switch
-        {
-            1 => new PK1() { Gender = 0 },
-            2 => new PK2() { Gender = 0 },
-            3 => new PK3() { Gender = 0 },
-            4 => new PK4() { Gender = 0 },
-            5 => new PK5() { Gender = 0 },
-            _ => throw new ArgumentOutOfRangeException(nameof(version)),
-        };
-        ushort[] needs = moves.ToArray();
-        foreach (var (species, form, father) in Iterate(nodes))
-        {
-            if (nodes[species][form].Distance == 0)
-                continue; // never visited, cannot pass on any Egg Moves to the target
-
-            // This species could be the father if there's another way to get the needed Egg Moves besides breeding.
-            // Look for any encounter that can learn this move.
-            for (var i = 0; i < moves.Length; i++)
-                needs[i] = ((nodes[species][form].Moves >> (i + 4)) & 1) == 1 ? moves[i] : (ushort)0;
-
-            template.Species = species;
-            template.Form = form;
-            var enc = EncounterMovesetGenerator.GenerateEncountersNonEgg(template, needs).FirstOrDefault();
-            if (enc is not null)
-            {
-                MakeChain(nodes, species, form, out chain); // start of chain found
-                return true;
-            }
-        }
-        chain = null;
-        return false;
-    }
-
-    /// <summary>
-    /// Follows edges in the graph from the specified father back to the requested Egg, returning a chain of every father along the way.
-    /// </summary>
-    /// <param name="nodes">Graph to search</param>
-    /// <param name="species">Species to start from</param>
-    /// <param name="form">Form to start from</param>
-    /// <param name="chain">Chain of fathers</param>
-    private static void MakeChain(LearnNode[][] nodes, ushort species, byte form, out (ushort Species, byte Form)[] chain)
-    {
-        chain = new (ushort Species, byte Form)[nodes[species][form].Distance];
-        var cnt = 0;
-        var node = nodes[species][form];
-        while (node.Child is not null)
-        {
-            chain[cnt++] = (species, form);
-            (species, form) = (node.Child.Species, node.Child.Form);
-            node = nodes[species][form];
-        }
-        chain[cnt] = (species, form);
-    }
-
-    private record LearnNode
-    {
-        public byte Distance;
+        public ushort Species;
+        public byte Form;
         public byte Gender;
-        public EggGroup EggGroup1;
-        public EggGroup EggGroup2;
+
+        /// <summary>
+        /// Bitfield of flags for each Egg Group
+        /// </summary>
+        public ushort EggGroups;
 
         /// <summary>
         /// Bitfield containing whether each needed move can be learned by level up or as an Egg Move.
@@ -320,34 +421,44 @@ public static class EggMoveVerifier
         /// </remarks>
         public byte Moves;
 
-        public LearnEdge? Child = null;
-    }
-    private record LearnEdge(ushort Species, byte Form, byte Flags);
-
-    /// <summary>
-    /// Iterate through all species and forms in the graph.
-    /// </summary>
-    private static IEnumerable<(ushort Species, byte Form, LearnNode Node)> Iterate(this LearnNode[][] nodes)
-    {
-        for (ushort species = 1; species < nodes.Length; species++)
-        {
-            for (byte form = 0; form < nodes[species].Length; form++)
-            {
-                yield return (species, form, nodes[species][form]);
-            }
-        }
+        public Visited Visited;
     }
 
     /// <summary>
-    /// Checks if this <see cref="LearnNode"/> can father the child node.
+    /// Edge in the graph, representing a father-child relationship.
     /// </summary>
-    /// <param name="father">Father node</param>
-    /// <param name="child">Child node</param>
-    /// <returns></returns>
-    private static bool CanFather(this LearnNode father, LearnNode child)
+    private record struct LearnEdge
     {
-        if (father.Gender is PersonalInfo.RatioMagicFemale or PersonalInfo.RatioMagicGenderless)
-            return false;
-        return father.EggGroup1 == child.EggGroup1 || father.EggGroup1 == child.EggGroup2 || father.EggGroup2 == child.EggGroup1 || father.EggGroup2 == child.EggGroup2;
+        /// <summary>
+        /// Grandchild of the father node of this edge, or child of the child node of this edge.
+        /// </summary>
+        /// <remarks>
+        /// Used for tracing a specific path back to the start node.
+        /// </remarks>
+        public ushort Previous;
     }
+
+    /// <summary>
+    /// Used to mark if a node has been visited during a traversal of the graph.
+    /// </summary>
+    private enum Visited : byte
+    {
+        /// <summary>
+        /// Not visited yet
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// Visited by <see cref="LearnGraph.FindChainLevelUp"/>
+        /// </summary>
+        LevelUp = 1,
+
+        /// <summary>
+        /// Visited by <see cref="LearnGraph.FindChainEncounter"/>
+        /// </summary>
+        Encounter = 2,
+    }
+
+    private static byte EggMoves(this LearnNode node) => (byte)(node.Moves >> 4);
+    private static byte LevelUpMoves(this LearnNode node) => (byte)(node.Moves & 0x0F);
 }
