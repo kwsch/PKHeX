@@ -84,7 +84,7 @@ public sealed class MiscVerifier : Verifier
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
 
-            var result = serverGift.IsValidDate(date);
+            var result = serverGift.IsWithinDistributionWindow(date);
             if (result == EncounterServerDateCheck.Invalid)
                 data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
         }

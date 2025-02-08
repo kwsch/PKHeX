@@ -245,7 +245,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
 
         if (Directory.Exists(files[0])) // folder
         {
-            SE.LoadBoxes(out string _, files[0]);
+            SE.LoadBoxes(out _, files[0]);
             Drag.Reset();
             return;
         }
