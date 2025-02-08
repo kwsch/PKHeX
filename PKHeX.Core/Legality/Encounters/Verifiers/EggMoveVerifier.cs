@@ -96,9 +96,9 @@ public static class EggMoveVerifier
     private static void PrintChain(ReadOnlySpan<ushort> moves, ushort species, byte form, GameVersion version, (ushort Species, byte Form)[]? chain, IEncounterTemplate? enc)
     {
         if (chain is null)
-            System.Diagnostics.Debug.WriteLine($"Could not find a breeding chain for {(Species)species}-{form} in {version} with moves {string.Join(", ", Array.ConvertAll(moves.ToArray(), m => (Move)m))}");
+            System.Diagnostics.Debug.WriteLine($"Could not find a breeding chain for {(Species)species}-{form} in {version} with moves {string.Join(", ", moves.ToArray().Select(m => (Move)m))}");
         else
-            System.Diagnostics.Debug.WriteLine($"Found a breeding chain: ({(enc is null ? "LevelUp" : "Encounter")}) {string.Join(", ", Array.ConvertAll(chain, p => $"{(Species)p.Species}-{p.Form}"))}");
+            System.Diagnostics.Debug.WriteLine($"Found a breeding chain for {(Species)species}-{form} in {version}: ({(enc is null ? "LevelUp" : "Encounter")}) {string.Join(", ", Array.ConvertAll(chain, p => $"{(Species)p.Species}-{p.Form}"))}");
     }
 #endif
 
