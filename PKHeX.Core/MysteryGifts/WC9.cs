@@ -560,10 +560,8 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     {
         if (!IsDateRestricted)
             return EncounterDate.GetDateSwitch();
-        if (EncounterServerDate.WC9GiftsChk.TryGetValue(Checksum, out var range))
-            return range.Start;
-        if (EncounterServerDate.WC9Gifts.TryGetValue(CardID, out range))
-            return range.Start;
+        if (this.GetDistributionWindow(out var window))
+            return window.GetGenerateDate();
         return EncounterDate.GetDateSwitch();
     }
 
