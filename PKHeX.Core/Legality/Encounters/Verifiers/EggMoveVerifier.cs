@@ -37,7 +37,7 @@ public static class EggMoveVerifier
         moves[..ctr].Sort(); // Treat different orderings identically when caching
         moves[ctr..].Clear();
 
-        if (ctr > 0 && !IsPossible(moves, egg.Species, egg.Version))
+        if (ctr > 1 && !IsPossible(moves, egg.Species, egg.Version))
         {
             // Mark as an unobtainable combination
             for (var i = 0; i < result.Length; i++)
@@ -73,7 +73,7 @@ public static class EggMoveVerifier
         moves[..ctr].Sort(); // Treat different orderings identically when caching
         moves[ctr..].Clear();
 
-        var result = (ctr == 0) || IsPossible(moves, species, version);
+        var result = (ctr <= 1) || IsPossible(moves, species, version);
         ArrayPool<ushort>.Shared.Return(rent);
         return result;
     }
@@ -373,6 +373,8 @@ public static class EggMoveVerifier
                 return false; // Cannot breed
             if (nf.Gender is PersonalInfo.RatioMagicFemale or PersonalInfo.RatioMagicGenderless)
                 return false; // Cannot be male
+            if (nc.Gender is PersonalInfo.RatioMagicGenderless)
+                return false; // Cannot have a father (breeding with Ditto)
             if (nc.Gender is PersonalInfo.RatioMagicMale)
             {
                 var childSpecies = nc.Species;
