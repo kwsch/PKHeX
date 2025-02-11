@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EggMoveVerifier
 {
-    private static readonly ConcurrentDictionary<(ushort Species, byte Form, GameVersion Version, ushort Move1, ushort Move2, ushort Move3, ushort Move4), bool> Lookup = new();
+    private static readonly ConcurrentDictionary<(ushort Species, GameVersion Version, ushort Move1, ushort Move2, ushort Move3, ushort Move4), bool> Lookup = new();
 
     /// <summary>
     /// Flags invalid Egg Move combinations in a Pokémon's current moveset.
@@ -37,7 +37,7 @@ public static class EggMoveVerifier
         moves[..ctr].Sort(); // Treat different orderings identically when caching
         moves[ctr..].Clear();
 
-        if (ctr > 0 && !IsPossible(moves, egg.Species, egg.Form, egg.Version))
+        if (ctr > 0 && !IsPossible(moves, egg.Species, egg.Version))
         {
             // Mark as an unobtainable combination
             for (var i = 0; i < result.Length; i++)
@@ -50,19 +50,18 @@ public static class EggMoveVerifier
     }
 
     /// <summary>
-    /// Checks if an Egg of the requested species and form can have all requested Egg Moves simultaneously.
+    /// Checks if an Egg of the requested species can have all requested Egg Moves simultaneously.
     /// </summary>
     /// <param name="needs">Wanted moves</param>
     /// <param name="species">Requested species of the Egg</param>
-    /// <param name="form">Requested form of the Egg</param>
     /// <param name="version">Version to check</param>
     /// <returns>Whether the combination is valid</returns>
-    public static bool IsEggMoveCombinationValid(ReadOnlySpan<ushort> needs, ushort species, byte form, GameVersion version)
+    public static bool IsEggMoveCombinationValid(ReadOnlySpan<ushort> needs, ushort species, GameVersion version)
     {
         if (version.GetGeneration() >= 6)
             return true; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
-        var eggMoves = GameData.GetLearnSource(version).GetEggMoves(species, form);
+        var eggMoves = GameData.GetLearnSource(version).GetEggMoves(species, 0);
         var rent = ArrayPool<ushort>.Shared.Rent(4);
         var moves = rent.AsSpan(0, 4);
         int ctr = 0;
@@ -74,31 +73,31 @@ public static class EggMoveVerifier
         moves[..ctr].Sort(); // Treat different orderings identically when caching
         moves[ctr..].Clear();
 
-        var result = (ctr == 0) || IsPossible(moves, species, form, version);
+        var result = (ctr == 0) || IsPossible(moves, species, version);
         ArrayPool<ushort>.Shared.Return(rent);
         return result;
     }
 
-    private static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, byte form, GameVersion version)
+    private static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, GameVersion version)
     {
-        if (Lookup.TryGetValue((species, form, version, moves[0], moves[1], moves[2], moves[3]), out bool found))
+        if (Lookup.TryGetValue((species, version, moves[0], moves[1], moves[2], moves[3]), out bool found))
             return found;
         var graph = new LearnGraph(moves, version);
-        found = graph.FindChain(moves, species, form, version, out var chain, out var enc);
+        found = graph.FindChain(moves, species, version, out var chain, out var enc);
 #if DEBUG
-        PrintChain(moves, species, form, version, chain, enc);
+        PrintChain(moves, species, version, chain, enc);
 #endif
-        Lookup.TryAdd((species, form, version, moves[0], moves[1], moves[2], moves[3]), found);
+        Lookup.TryAdd((species, version, moves[0], moves[1], moves[2], moves[3]), found);
         return found;
     }
 
 #if DEBUG
-    private static void PrintChain(ReadOnlySpan<ushort> moves, ushort species, byte form, GameVersion version, (ushort Species, byte Form)[]? chain, IEncounterTemplate? enc)
+    private static void PrintChain(ReadOnlySpan<ushort> moves, ushort species, GameVersion version, ushort[]? chain, IEncounterTemplate? enc)
     {
         if (chain is null)
-            System.Diagnostics.Debug.WriteLine($"Could not find a breeding chain for {(Species)species}-{form} in {version} with moves {string.Join(", ", moves.ToArray().Select(m => (Move)m))}");
+            System.Diagnostics.Debug.WriteLine($"Could not find a breeding chain for {(Species)species} in {version} with moves {string.Join(", ", moves.ToArray().Select(m => (Move)m))}");
         else
-            System.Diagnostics.Debug.WriteLine($"Found a breeding chain for {(Species)species}-{form} in {version}: ({(enc is null ? "LevelUp" : "Encounter")}) {string.Join(", ", Array.ConvertAll(chain, p => $"{(Species)p.Species}-{p.Form}"))}");
+            System.Diagnostics.Debug.WriteLine($"Found a breeding chain for {(Species)species} in {version}: ({(enc is null ? "LevelUp" : "Encounter")}) {string.Join(", ", Array.ConvertAll(chain, p => $"{(Species)p}"))}");
     }
 #endif
 
@@ -109,30 +108,18 @@ public static class EggMoveVerifier
     {
         private readonly LearnNode[] Nodes;
         private readonly Dictionary<LearnEdge, LearnEdge> Edges;
-        private readonly ushort MaxSpeciesID;
         private const int UNDISCOVERED = 1 << (int)EggGroup.Undiscovered;
 
         public LearnGraph(ReadOnlySpan<ushort> moves, GameVersion version)
         {
-            // Count how many forms need to be in the graph
-            MaxSpeciesID = version.GetMaxSpeciesID();
+            // Initialize nodes
+            var maxSpeciesID = version.GetMaxSpeciesID();
             var pt = GameData.GetPersonal(version);
-            int count = 1; // reserved for species 0
-            for (ushort species = 1; species <= MaxSpeciesID; species++)
-                count += pt.GetFormEntry(species, 0).FormCount;
-            Nodes = new LearnNode[count];
-            Edges = [];
-
-            // Initialize nodes, putting alternate forms at the end
             var source = GameData.GetLearnSource(version);
-            var formIndex = MaxSpeciesID + 1;
-            for (ushort species = 1; species <= MaxSpeciesID; species++)
-            {
-                int formCount = pt.GetFormEntry(species, 0).FormCount;
-                InitializeNode(species, species, 0, moves, pt, source);
-                for (byte form = 1; form < formCount; form++)
-                    InitializeNode(formIndex++, species, form, moves, pt, source);
-            }
+            Nodes = new LearnNode[maxSpeciesID + 1]; // reserve 0 for species 0
+            for (ushort species = 1; species <= maxSpeciesID; species++)
+                InitializeNode(species, species, moves, pt, source);
+            Edges = [];
 
             // Smeargle can pass down almost any move, mark them as level-up moves
             var context = version.GetContext();
@@ -147,27 +134,22 @@ public static class EggMoveVerifier
             for (ushort evo = 0; evo < Nodes.Length; evo++)
             {
                 var ne = Nodes[evo];
-                foreach (var (species, form) in reverse.GetPreEvolutions(ne.Species, ne.Form))
+                foreach (var (pre, _) in reverse.GetPreEvolutions(ne.Species, 0))
                 {
-                    var pre = GetIndex(species, form);
-                    if (pre == 0)
-                        continue;
-
                     var np = Nodes[pre];
                     // Egg Group compatibility for baby Pokémon is determined by their evolved form
                     if (np.EggGroups == UNDISCOVERED && ne.EggGroups != UNDISCOVERED)
-                        np.EggGroups = ne.EggGroups;
+                        Nodes[pre].EggGroups = ne.EggGroups;
 
                     // Can evolve to get a level-up move, and pass it down as an Egg Move to make a father of the same species
                     if (!CanBeFather(pre, evo))
                         continue;
 
-
                     var flags = np.EggMoves() & ne.LevelUpMoves();
                     if (flags != 0)
                     {
-                        np.Moves |= (byte)flags; // add to level-up moves
-                        np.Moves &= (byte)(~(flags << 4)); // remove from Egg Moves
+                        Nodes[pre].Moves |= (byte)flags; // add to level-up moves
+                        Nodes[pre].Moves &= (byte)(~(flags << 4)); // remove from Egg Moves
                     }
                 }
             }
@@ -176,20 +158,19 @@ public static class EggMoveVerifier
             for (ushort pre = 0; pre < Nodes.Length; pre++)
             {
                 var np = Nodes[pre];
-                foreach (var (species, form) in forward.GetEvolutions(np.Species, np.Form))
+                foreach (var (evo, _) in forward.GetEvolutions(np.Species, 0))
                 {
-                    var evo = GetIndex(species, form);
-                    if (evo == 0)
-                        continue;
-
                     // Evolved form can have all moves the pre-evolved form can learn
                     Nodes[evo].Moves |= np.Moves;
                 }
             }
         }
 
-        private void InitializeNode(int index, ushort species, byte form, ReadOnlySpan<ushort> moves, IPersonalTable pt, ILearnSource source)
+        private void InitializeNode(int index, ushort species, ReadOnlySpan<ushort> moves, IPersonalTable pt, ILearnSource source)
         {
+            // In Gen 2-5, no species has a different gender ratio or Egg Groups between forms.
+            // Only Wormadam has a different learnset between forms, but it can't be a father to pass on any moves it learns and Burmy has no Egg Moves.
+            const byte form = 0;
             var pi = pt.GetFormEntry(species, form);
             var levelUpMoves = source.GetLearnset(species, form).GetAllMoves();
             var eggMoves = source.GetEggMoves(species, form);
@@ -197,7 +178,6 @@ public static class EggMoveVerifier
             Nodes[index] = new LearnNode
             {
                 Species = species,
-                Form = form,
                 Gender = pi.Gender,
                 EggGroups = (ushort)((1 << pi.EggGroup1) | (1 << pi.EggGroup2)),
                 Moves = (byte)(Moveset.BitOverlap(levelUpMoves, moves) | (Moveset.BitOverlap(eggMoves, moves) << 4)),
@@ -205,39 +185,18 @@ public static class EggMoveVerifier
         }
 
         /// <summary>
-        /// Maps species ID and form ID to the corresponding internal index of the node within the graph.
-        /// </summary>
-        /// <param name="species">Entity species</param>
-        /// <param name="form">Entity form</param>
-        /// <returns>Index of the corresponding node, or 0 if no such node is found</returns>
-        private ushort GetIndex(ushort species, byte form)
-        {
-            if (form == 0)
-                return species;
-            for (ushort i = (ushort)(MaxSpeciesID + 1); i < Nodes.Length; i++)
-            {
-                var node = Nodes[i];
-                if (node.Species == species && node.Form == form)
-                    return i;
-            }
-            return 0;
-        }
-
-        /// <summary>
         /// Search for the shortest chain of fathers who can learn all needed moves and pass them on to the target.
         /// </summary>
         /// <param name="moves">Moves to check</param>
         /// <param name="species">Entity species</param>
-        /// <param name="form">Entity form</param>
         /// <param name="version">Version to check</param>
         /// <param name="chain">Chain of fathers, or null if no chain was found</param>
         /// <param name="enc">Possible encounter for the first father in the chain, or null if no chain was found or the move is learned by level-up</param>
         /// <returns>Whether a valid chain was found</returns>
-        public bool FindChain(ReadOnlySpan<ushort> moves, ushort species, byte form, GameVersion version, out (ushort Species, byte Form)[]? chain, out IEncounterTemplate? enc)
+        public bool FindChain(ReadOnlySpan<ushort> moves, ushort species, GameVersion version, out ushort[]? chain, out IEncounterTemplate? enc)
         {
-            ushort index = GetIndex(species, form);
             enc = null;
-            return FindChainLevelUp(index, out chain) || FindChainEncounter(moves, index, version, out chain, out enc);
+            return FindChainLevelUp(species, out chain) || FindChainEncounter(moves, species, version, out chain, out enc);
         }
 
         /// <summary>
@@ -251,7 +210,7 @@ public static class EggMoveVerifier
         /// If the father can learn all needed moves for the child via level-up, it is immediately returned.
         /// Note that the same node or edge can be reached multiple times, since the needed moves for the child might be different.
         /// </remarks>
-        private bool FindChainLevelUp(ushort start, out (ushort Species, byte Form)[]? chain)
+        private bool FindChainLevelUp(ushort start, out ushort[]? chain)
         {
             var startEdge = new LearnEdge(start, start, Nodes[start].EggMoves());
             Edges.Add(startEdge, startEdge);
@@ -319,7 +278,7 @@ public static class EggMoveVerifier
         /// If the father can learn all needed moves for the child via level-up, it is immediately returned.
         /// Note that the same node or edge can be reached multiple times, since the needed moves for the child might be different.
         /// </remarks>
-        private bool FindChainEncounter(ReadOnlySpan<ushort> moves, ushort start, GameVersion version, out (ushort Species, byte Form)[]? chain, out IEncounterTemplate? enc)
+        private bool FindChainEncounter(ReadOnlySpan<ushort> moves, ushort start, GameVersion version, out ushort[]? chain, out IEncounterTemplate? enc)
         {
             HashSet<(ushort Father, byte Needs)> generated = [];
             PKM template = version.GetGeneration() switch
@@ -351,7 +310,6 @@ public static class EggMoveVerifier
 
                         var nf = Nodes[father];
                         template.Species = nf.Species;
-                        template.Form = nf.Form;
 
                         enc = EncounterMovesetGenerator.GenerateEncountersNonEgg(template, needs).FirstOrDefault();
                         if (enc is not null)
@@ -380,7 +338,7 @@ public static class EggMoveVerifier
         /// </summary>
         /// <param name="edge">Final edge</param>
         /// <param name="chain">Chain of fathers</param>
-        private void MakeChain(LearnEdge edge, out (ushort Species, byte Form)[] chain)
+        private void MakeChain(LearnEdge edge, out ushort[]? chain)
         {
 #if !DEBUG
             chain = [];
@@ -390,11 +348,11 @@ public static class EggMoveVerifier
             for (var e = edge; e != Edges[e]; cnt++)
                 e = Edges[e];
 
-            chain = new (ushort Species, byte Form)[cnt];
+            chain = new ushort[cnt];
             int i = 0;
             for (var e = edge; i < cnt; i++)
             {
-                chain[i] = (Nodes[e.Father].Species, Nodes[e.Father].Form);
+                chain[i] = Nodes[e.Father].Species;
                 e = Edges[e];
             }
 #endif
@@ -435,12 +393,11 @@ public static class EggMoveVerifier
     }
 
     /// <summary>
-    /// Node in the graph, representing a particular species and form.
+    /// Node in the graph, representing a particular species.
     /// </summary>
-    private record struct LearnNode : ISpeciesForm
+    private record struct LearnNode
     {
         public required ushort Species { get; init; }
-        public required byte Form { get; init; }
 
         /// <summary>
         /// Gender ratio of the species

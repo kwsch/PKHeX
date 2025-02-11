@@ -290,7 +290,7 @@ public static class EncounterMovesetGenerator
         var eggs = generator.GetPossible(pk, chain, version, Egg);
         foreach (var egg in eggs)
         {
-            if (needs.Length == 0 || (HasAllNeededMovesEgg(needs.Span, egg) && EggMoveVerifier.IsEggMoveCombinationValid(needs.Span, egg.Species, egg.Form, version)))
+            if (needs.Length == 0 || (HasAllNeededMovesEgg(needs.Span, egg) && EggMoveVerifier.IsEggMoveCombinationValid(needs.Span, egg.Species, version)))
                 yield return egg;
         }
     }
