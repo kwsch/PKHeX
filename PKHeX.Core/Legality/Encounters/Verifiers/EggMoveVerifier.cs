@@ -57,7 +57,7 @@ public static class EggMoveVerifier
     }
 
     /// <summary>
-    /// Checks if an Egg of the requested species can have all requested Egg Moves simultaneously.
+    /// Checks if an Egg of the requested species can have all requested Egg Moves in the moveset simultaneously.
     /// This includes inherited level-up moves for female-only species.
     /// </summary>
     /// <param name="needs">Wanted moves</param>
@@ -113,16 +113,32 @@ public static class EggMoveVerifier
 
     private static bool IsDualGenderParent(ushort species) => Breeding.IsGenderSpeciesDetermination(species) || SpeciesCategory.IsFixedGenderFromDual(species);
 
-    private static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, GameVersion version)
+    /// <summary>
+    /// Checks if an Egg of the requested species can inherit all requested moves simultaneously.
+    /// </summary>
+    /// <param name="moves">Wanted Egg Moves (or inherited level-up moves)</param>
+    /// <param name="species">Requested species of the Egg</param>
+    /// <param name="version">Version to check</param>
+    /// <returns>Whether the combination is valid</returns>
+    public static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, GameVersion version)
     {
         if (Lookup.TryGetValue((species, version, moves[0], moves[1], moves[2], moves[3]), out bool found))
             return found;
+        found = IsPossible(moves, species, version, out _, out _);
+        Lookup.TryAdd((species, version, moves[0], moves[1], moves[2], moves[3]), found);
+        return found;
+    }
+
+    /// <inheritdoc cref="IsPossible(ReadOnlySpan{ushort}, ushort, GameVersion)"/>
+    /// <param name="chain">Chain of fathers, or null if no chain was found</param>
+    /// <param name="enc">Possible encounter for the first father in the chain, or null if no chain was found</param>
+    public static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, GameVersion version, out ushort[]? chain, out IEncounterTemplate? enc)
+    {
         var graph = new LearnGraph(moves, version);
-        found = graph.FindChain(moves, species, version, out var chain, out var enc);
+        var found = graph.FindChain(moves, species, version, out chain, out enc);
 #if DEBUG
         PrintChain(moves, species, version, chain, enc);
 #endif
-        Lookup.TryAdd((species, version, moves[0], moves[1], moves[2], moves[3]), found);
         return found;
     }
 
@@ -389,10 +405,6 @@ public static class EggMoveVerifier
         /// <param name="chain">Chain of fathers</param>
         private void MakeChain(LearnEdge edge, out ushort[]? chain)
         {
-#if !DEBUG
-            chain = [];
-#endif
-#if DEBUG
             int cnt = 1;
             for (var e = edge; e != Edges[e]; cnt++)
                 e = Edges[e];
@@ -404,7 +416,6 @@ public static class EggMoveVerifier
                 chain[i] = Nodes[e.Father].Species;
                 e = Edges[e];
             }
-#endif
         }
 
         /// <summary>
