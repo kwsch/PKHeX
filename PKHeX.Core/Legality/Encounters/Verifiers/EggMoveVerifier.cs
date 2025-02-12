@@ -15,6 +15,7 @@ public static class EggMoveVerifier
 
     /// <summary>
     /// Flags invalid Egg Move combinations in a Pokémon's current moveset.
+    /// This includes inherited level-up moves for female-only species.
     /// </summary>
     /// <param name="result">How each move was learned</param>
     /// <param name="current">Current moves</param>
@@ -26,23 +27,25 @@ public static class EggMoveVerifier
         if (enc.Generation >= 6)
             return; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
+        var pi = GameData.GetPersonal(egg.Version).GetFormEntry(egg.Species, 0);
+        bool checkInheritLevelUp = pi.OnlyFemale && !IsDualGenderParent(egg.Species);
         ushort[] rent = ArrayPool<ushort>.Shared.Rent(4);
         var moves = rent.AsSpan(0, 4);
         int ctr = 0;
         for (var i = 0; i < result.Length; i++)
         {
-            if (result[i].Info.Method == LearnMethod.EggMove)
+            if (result[i].Info.Method == LearnMethod.EggMove || (checkInheritLevelUp && result[i].Info.Method == LearnMethod.InheritLevelUp))
                 moves[ctr++] = current[i];
         }
         moves[..ctr].Sort(); // Treat different orderings identically when caching
         moves[ctr..].Clear();
 
-        if (ctr > 1 && !IsPossible(moves, egg.Species, egg.Version))
+        if (!(ctr == 0 || (!checkInheritLevelUp && ctr == 1) || IsPossible(moves, egg.Species, egg.Version)))
         {
             // Mark as an unobtainable combination
             for (var i = 0; i < result.Length; i++)
             {
-                if (result[i].Info.Method == LearnMethod.EggMove)
+                if (result[i].Info.Method == LearnMethod.EggMove || (checkInheritLevelUp && result[i].Info.Method == LearnMethod.InheritLevelUp))
                     result[i] = MoveResult.UnobtainableEgg();
             }
         }
@@ -51,6 +54,7 @@ public static class EggMoveVerifier
 
     /// <summary>
     /// Checks if an Egg of the requested species can have all requested Egg Moves simultaneously.
+    /// This includes inherited level-up moves for female-only species.
     /// </summary>
     /// <param name="needs">Wanted moves</param>
     /// <param name="species">Requested species of the Egg</param>
@@ -61,22 +65,32 @@ public static class EggMoveVerifier
         if (version.GetGeneration() >= 6)
             return true; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
-        var eggMoves = GameData.GetLearnSource(version).GetEggMoves(species, 0);
+        var pi = GameData.GetPersonal(version).GetFormEntry(species, 0);
+        var source = GameData.GetLearnSource(version);
+        var eggMoves = source.GetEggMoves(species, 0);
+        var learnset = source.GetLearnset(species, 0);
+        var eggLevel = EggStateLegality.GetEggLevel(version.GetGeneration());
+        var baseMoves = learnset.GetBaseEggMoves(eggLevel);
+        var levelUpMoves = learnset.GetAllMoves();
+
+        bool checkInheritLevelUp = pi.OnlyFemale && !IsDualGenderParent(species);
         var rent = ArrayPool<ushort>.Shared.Rent(4);
         var moves = rent.AsSpan(0, 4);
         int ctr = 0;
         foreach (var move in needs)
         {
-            if (eggMoves.Contains(move))
+            if (eggMoves.Contains(move) || (checkInheritLevelUp && levelUpMoves.Contains(move) && !baseMoves.Contains(move)))
                 moves[ctr++] = move;
         }
         moves[..ctr].Sort(); // Treat different orderings identically when caching
         moves[ctr..].Clear();
 
-        var result = (ctr <= 1) || IsPossible(moves, species, version);
+        var result = ctr == 0 || (!checkInheritLevelUp && ctr == 1) || IsPossible(moves, species, version);
         ArrayPool<ushort>.Shared.Return(rent);
         return result;
     }
+
+    private static bool IsDualGenderParent(ushort species) => Breeding.IsGenderSpeciesDetermination(species) || SpeciesCategory.IsFixedGenderFromDual(species);
 
     private static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, GameVersion version)
     {
@@ -116,9 +130,10 @@ public static class EggMoveVerifier
             var maxSpeciesID = version.GetMaxSpeciesID();
             var pt = GameData.GetPersonal(version);
             var source = GameData.GetLearnSource(version);
+            var eggLevel = EggStateLegality.GetEggLevel(version.GetGeneration());
             Nodes = new LearnNode[maxSpeciesID + 1]; // reserve 0 for species 0
             for (ushort species = 1; species <= maxSpeciesID; species++)
-                InitializeNode(species, species, moves, pt, source);
+                InitializeNode(species, moves, eggLevel, pt, source);
             Edges = [];
 
             // Smeargle can pass down almost any move, mark them as level-up moves
@@ -166,21 +181,34 @@ public static class EggMoveVerifier
             }
         }
 
-        private void InitializeNode(int index, ushort species, ReadOnlySpan<ushort> moves, IPersonalTable pt, ILearnSource source)
+        private void InitializeNode(ushort species, ReadOnlySpan<ushort> moves, byte eggLevel, IPersonalTable pt, ILearnSource source)
         {
             // In Gen 2-5, no species has a different gender ratio or Egg Groups between forms.
             // Only Wormadam has a different learnset between forms, but it can't be a father to pass on any moves it learns and Burmy has no Egg Moves.
             const byte form = 0;
             var pi = pt.GetFormEntry(species, form);
-            var levelUpMoves = source.GetLearnset(species, form).GetAllMoves();
             var eggMoves = source.GetEggMoves(species, form);
+            var learnset = source.GetLearnset(species, form);
+            var levelUpMoves = learnset.GetAllMoves();
 
-            Nodes[index] = new LearnNode
+            var childHas = Moveset.BitOverlap(levelUpMoves, moves);
+            var childNeeds = Moveset.BitOverlap(eggMoves, moves);
+
+            // For species that can be both genders, you can breed parents with both the needed Egg Moves and level-up moves.
+            // For female-only species, you can't do this, so we also need to make sure that the father can learn any needed inherited level-up moves.
+            if (pi.OnlyFemale && !Breeding.IsGenderSpeciesDetermination(species) && !SpeciesCategory.IsFixedGenderFromDual(species))
+            {
+                var baseMoves = learnset.GetBaseEggMoves(eggLevel);
+                childHas = Moveset.BitOverlap(baseMoves, moves);
+                childNeeds |= Moveset.BitOverlap(levelUpMoves, moves) & ~childHas;
+            }
+
+            Nodes[species] = new LearnNode
             {
                 Species = species,
                 Gender = pi.Gender,
                 EggGroups = (ushort)((1 << pi.EggGroup1) | (1 << pi.EggGroup2)),
-                Moves = (byte)(Moveset.BitOverlap(levelUpMoves, moves) | (Moveset.BitOverlap(eggMoves, moves) << 4)),
+                Moves = (byte)(childHas | (childNeeds << 4)),
             };
         }
 
@@ -303,7 +331,7 @@ public static class EggMoveVerifier
                     // Could be the father if there's another way to get the needed Egg Moves besides breeding.
                     // Look for any encounter that can learn these moves.
                     var (child, father, childNeeds) = edge;
-                    if (generated.Add((father, childNeeds)))
+                    if (generated.Add((father, childNeeds)) && (father != child || CanBeFather(child, father)))
                     {
                         for (var i = 0; i < moves.Length; i++)
                             needs[i] = ((childNeeds >> i) & 1) == 1 ? moves[i] : (ushort)0;
@@ -374,14 +402,14 @@ public static class EggMoveVerifier
             if (nf.Gender is PersonalInfo.RatioMagicFemale or PersonalInfo.RatioMagicGenderless)
                 return false; // Cannot be male
             if (nc.Gender is PersonalInfo.RatioMagicGenderless)
-                return false; // Cannot have a father (breeding with Ditto)
+                return false; // Cannot have a father (must breed from Ditto)
             if (nc.Gender is PersonalInfo.RatioMagicMale)
             {
                 var childSpecies = nc.Species;
-                if (Breeding.IsGenderSpeciesDetermination(childSpecies) || SpeciesCategory.IsFixedGenderFromDual(childSpecies))
+                if (IsDualGenderParent(childSpecies))
                     return true;
 
-                // Can only have itself or its evolutions as a father (breeding with Ditto)
+                // Can only have itself or its evolutions as a father (must breed from Ditto)
                 var fatherSpecies = nf.Species;
                 return (fatherSpecies == childSpecies) || (Species)childSpecies switch
                 {
