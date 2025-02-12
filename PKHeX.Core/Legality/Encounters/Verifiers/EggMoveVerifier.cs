@@ -27,7 +27,11 @@ public static class EggMoveVerifier
         if (enc.Generation >= 6)
             return; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
+        // If Smeargle can be a direct father, all Egg Move combinations are possible.
         var pi = GameData.GetPersonal(egg.Version).GetFormEntry(egg.Species, 0);
+        if (CanSmeargleBeFather(current, pi, egg.Version.GetContext()))
+            return;
+
         bool checkInheritLevelUp = pi.OnlyFemale && !IsDualGenderParent(egg.Species);
         ushort[] rent = ArrayPool<ushort>.Shared.Rent(4);
         var moves = rent.AsSpan(0, 4);
@@ -65,7 +69,11 @@ public static class EggMoveVerifier
         if (version.GetGeneration() >= 6)
             return true; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
+        // If Smeargle can be a direct father, all Egg Move combinations are possible.
         var pi = GameData.GetPersonal(version).GetFormEntry(species, 0);
+        if (CanSmeargleBeFather(needs, pi, version.GetContext()))
+            return true;
+
         var source = GameData.GetLearnSource(version);
         var eggMoves = source.GetEggMoves(species, 0);
         var learnset = source.GetLearnset(species, 0);
@@ -88,6 +96,19 @@ public static class EggMoveVerifier
         var result = ctr == 0 || (!checkInheritLevelUp && ctr == 1) || IsPossible(moves, species, version);
         ArrayPool<ushort>.Shared.Return(rent);
         return result;
+    }
+
+    private static bool CanSmeargleBeFather(ReadOnlySpan<ushort> moves, PersonalInfo pi, EntityContext context)
+    {
+        if ((pi.EggGroup1 != (int)EggGroup.Field && pi.EggGroup2 != (int)EggGroup.Field) || pi.OnlyMale || pi.Genderless)
+            return false;
+
+        foreach (var move in moves)
+        {
+            if (!MoveInfo.IsSketchValid(move, context))
+                return false;
+        }
+        return true;
     }
 
     private static bool IsDualGenderParent(ushort species) => Breeding.IsGenderSpeciesDetermination(species) || SpeciesCategory.IsFixedGenderFromDual(species);
