@@ -30,20 +30,19 @@ internal static class LearnVerifier
     {
         if (pk.IsEgg)
         {
+            // Check for the correct ordering of moves as the order is immutable while egg.
             LearnVerifierEgg.Verify(result, current, enc, pk);
-            // Check invalid Egg Move combinations.
-            if (enc is EncounterEgg { Generation: <= 5 })
-                EggMoveVerifier.FlagEggMoveCombination(result, current, enc);
-            return;
+        }
+        else
+        {
+            LearnVerifierHistory.Verify(result, current, enc, pk, history);
+            // Check for form exclusive interlocked moves.
+            FlagFormExclusiveMoves(result, current, pk);
         }
 
-        LearnVerifierHistory.Verify(result, current, enc, pk, history);
-        // Check for form exclusive interlocked moves.
-        FlagFormExclusiveMoves(result, current, pk);
-
         // Check invalid Egg Move combinations.
-        if (enc is EncounterEgg { Generation: <= 5 })
-            EggMoveVerifier.FlagEggMoveCombination(result, current, enc);
+        if (enc is EncounterEgg { Generation: <= 5 } egg)
+            EggMoveVerifier.FlagEggMoveCombination(result, current, egg);
     }
 
     private static void Finalize(Span<MoveResult> result, ReadOnlySpan<ushort> current)

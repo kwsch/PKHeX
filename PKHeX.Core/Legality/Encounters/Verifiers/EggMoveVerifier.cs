@@ -1,5 +1,4 @@
 using System;
-using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EggMoveVerifier
 {
-    private static readonly ConcurrentDictionary<(ushort Species, GameVersion Version, ushort Move1, ushort Move2, ushort Move3, ushort Move4), bool> Lookup = new();
+    private static readonly ConcurrentDictionary<(ushort Species, GameVersion Version, ushort Move1, ushort Move2, ushort Move3, ushort Move4), bool> Lookup = [];
 
     /// <summary>
     /// Flags invalid Egg Move combinations in a Pokémon's current moveset.
@@ -28,32 +27,35 @@ public static class EggMoveVerifier
             return; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
         // If Smeargle can be a direct father, all Egg Move combinations are possible.
-        var pi = GameData.GetPersonal(egg.Version).GetFormEntry(egg.Species, 0);
+        var pi = GameData.GetPersonal(egg.Version)[egg.Species];
         if (CanSmeargleBeFather(current, pi, egg.Version.GetContext()))
             return;
 
         bool checkInheritLevelUp = pi.OnlyFemale && !IsDualGenderParent(egg.Species);
-        ushort[] rent = ArrayPool<ushort>.Shared.Rent(4);
-        var moves = rent.AsSpan(0, 4);
+        Span<ushort> moves = stackalloc ushort[4];
         int ctr = 0;
-        for (var i = 0; i < result.Length; i++)
+        for (int i = 0; i < result.Length; i++)
         {
-            if (result[i].Info.Method == LearnMethod.EggMove || (checkInheritLevelUp && result[i].Info.Method == LearnMethod.InheritLevelUp))
+            var method = result[i].Info.Method;
+            if (method == LearnMethod.EggMove || (checkInheritLevelUp && method == LearnMethod.InheritLevelUp))
                 moves[ctr++] = current[i];
         }
-        moves[..ctr].Sort(); // Treat different orderings identically when caching
-        moves[ctr..].Clear();
+        if (ctr == 0)
+            return; // none to flag.
+        if (ctr == 1 && !checkInheritLevelUp)
+            return;
 
-        if (!(ctr == 0 || (!checkInheritLevelUp && ctr == 1) || IsPossible(moves, egg.Species, egg.Version)))
+        moves[..ctr].Sort(); // Treat different orderings identically when caching
+        if (IsPossible(moves, egg.Species, egg.Version))
+            return;
+
+        // Mark as an unobtainable combination
+        foreach (ref var m in result)
         {
-            // Mark as an unobtainable combination
-            for (var i = 0; i < result.Length; i++)
-            {
-                if (result[i].Info.Method == LearnMethod.EggMove || (checkInheritLevelUp && result[i].Info.Method == LearnMethod.InheritLevelUp))
-                    result[i] = MoveResult.UnobtainableEgg();
-            }
+            var method = m.Info.Method;
+            if (method == LearnMethod.EggMove || (checkInheritLevelUp && method == LearnMethod.InheritLevelUp))
+                m = MoveResult.UnobtainableEgg();
         }
-        ArrayPool<ushort>.Shared.Return(rent);
     }
 
     /// <summary>
@@ -70,7 +72,7 @@ public static class EggMoveVerifier
             return true; // Can inherit Egg Moves from either parent, so all possible combinations are legal
 
         // If Smeargle can be a direct father, all Egg Move combinations are possible.
-        var pi = GameData.GetPersonal(version).GetFormEntry(species, 0);
+        var pi = GameData.GetPersonal(version)[species];
         if (CanSmeargleBeFather(needs, pi, version.GetContext()))
             return true;
 
@@ -82,20 +84,22 @@ public static class EggMoveVerifier
         var levelUpMoves = learnset.GetAllMoves();
 
         bool checkInheritLevelUp = pi.OnlyFemale && !IsDualGenderParent(species);
-        var rent = ArrayPool<ushort>.Shared.Rent(4);
-        var moves = rent.AsSpan(0, 4);
+        Span<ushort> moves = stackalloc ushort[4];
         int ctr = 0;
         foreach (var move in needs)
         {
             if (eggMoves.Contains(move) || (checkInheritLevelUp && levelUpMoves.Contains(move) && !baseMoves.Contains(move)))
                 moves[ctr++] = move;
         }
-        moves[..ctr].Sort(); // Treat different orderings identically when caching
-        moves[ctr..].Clear();
+        if (ctr == 0)
+            return true;
+        if (ctr == 1 && !checkInheritLevelUp)
+            return true;
 
-        var result = ctr == 0 || (!checkInheritLevelUp && ctr == 1) || IsPossible(moves, species, version);
-        ArrayPool<ushort>.Shared.Return(rent);
-        return result;
+        moves[..ctr].Sort(); // Treat different orderings identically when caching
+        if (IsPossible(moves, species, version))
+            return true;
+        return false;
     }
 
     private static bool CanSmeargleBeFather(ReadOnlySpan<ushort> moves, PersonalInfo pi, EntityContext context)
@@ -130,8 +134,11 @@ public static class EggMoveVerifier
     }
 
     /// <inheritdoc cref="IsPossible(ReadOnlySpan{ushort}, ushort, GameVersion)"/>
+    /// <param name="version"></param>
     /// <param name="chain">Chain of fathers, or null if no chain was found</param>
     /// <param name="enc">Possible encounter for the first father in the chain, or null if no chain was found</param>
+    /// <param name="moves"></param>
+    /// <param name="species"></param>
     public static bool IsPossible(ReadOnlySpan<ushort> moves, ushort species, GameVersion version, out ushort[]? chain, out IEncounterTemplate? enc)
     {
         var graph = new LearnGraph(moves, version);
