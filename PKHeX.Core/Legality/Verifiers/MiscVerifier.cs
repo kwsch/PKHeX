@@ -633,12 +633,13 @@ public sealed class MiscVerifier : Verifier
         if (pb7.Stat_CP != pb7.CalcCP && !IsStarterLGPE(pb7))
             data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
 
-        // HOME moving in and out will retain received date. ensure it matches if no HT data present.
-        if (pb7.ReceivedDate is not { } date || !EncounterDate.IsValidDateSwitch(date) || (pb7.IsUntraded && date != pb7.MetDate))
-            data.AddLine(GetInvalid(LDateOutsideConsoleWindow, Misc));
-
         if (pb7.ReceivedTime is null)
             data.AddLine(GetInvalid(LDateTimeClockInvalid, Misc));
+
+        // HOME moving in and out will retain received date. ensure it matches if no HT data present.
+        // Go Park captures will have different dates, as the GO met date is retained as Met Date.
+        if (pb7.ReceivedDate is not { } date || !EncounterDate.IsValidDateSwitch(date) || (pb7.IsUntraded && data.EncounterOriginal is not EncounterSlot7GO && date != pb7.MetDate))
+            data.AddLine(GetInvalid(LDateOutsideConsoleWindow, Misc));
     }
 
     private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
