@@ -83,6 +83,6 @@ public static class DateUtil
 
     public static bool IsTimeValid(byte receivedHour, byte receivedMinute, byte receivedSecond)
     {
-        return (receivedHour + 1u) < 24u && (receivedMinute + 1u) < 60u && (receivedSecond + 1u) < 60u;
+        return receivedHour < 24u && receivedMinute < 60u && receivedSecond < 60u;
     }
 }
