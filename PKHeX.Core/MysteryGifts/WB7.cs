@@ -428,7 +428,8 @@ public sealed class WB7(byte[] Data)
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? GetSuggestedDate();
+        pk.ReceivedDate = pk.MetDate = Date ?? GetSuggestedDate();
+        pk.ReceivedTime = EncounterDate.GetTime();
         pk.IsNicknamed = GetIsNicknamed(redeemLanguage);
         pk.Nickname = pk.IsNicknamed ? GetNickname(redeemLanguage) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 

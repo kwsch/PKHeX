@@ -35,6 +35,11 @@ public static class EncounterDate
     public static DateOnly GetDateSwitch() => DateOnly.FromDateTime(Now);
 
     /// <summary>
+    /// Fetches a valid time for the current date.
+    /// </summary>
+    public static TimeOnly GetTime() => TimeOnly.FromDateTime(Now);
+
+    /// <summary>
     /// Fetches a valid date for the specified <see cref="GameConsole"/>.
     /// </summary>
     public static DateOnly GetDate(GameConsole console) => console switch

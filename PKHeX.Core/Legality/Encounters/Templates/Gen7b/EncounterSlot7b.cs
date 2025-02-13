@@ -31,6 +31,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.GG[Species];
+        var date = EncounterDate.GetDateSwitch();
         var pk = new PB7
         {
             Species = Species,
@@ -39,7 +40,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
             MetLocation = Location,
             MetLevel = LevelMin,
             Version = Version,
-            MetDate = EncounterDate.GetDateSwitch(),
+            MetDate = date,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
@@ -47,6 +48,9 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+
+            ReceivedDate = date,
+            ReceivedTime = EncounterDate.GetTime(),
         };
         SetPINGA(pk, criteria, pi);
         pk.ResetHeight();

@@ -80,4 +80,9 @@ public static class DateUtil
 
     /// <inheritdoc cref="GetRandomDateWithin(DateOnly,DateOnly,Random)"/>
     public static DateOnly GetRandomDateWithin(DateOnly start, DateOnly end) => GetRandomDateWithin(start, end, Util.Rand);
+
+    public static bool IsTimeValid(byte receivedHour, byte receivedMinute, byte receivedSecond)
+    {
+        return (receivedHour + 1u) < 24u && (receivedMinute + 1u) < 60u && (receivedSecond + 1u) < 60u;
+    }
 }

@@ -42,6 +42,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var rnd = Util.Rand;
+        var date = this.GetRandomValidDate();
         var pk = new PB7
         {
             PID = rnd.Rand32(),
@@ -54,12 +55,15 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             MetLevel = LevelMin,
             Version = Version,
             Ball = (byte)Ball.Poke,
-            MetDate = this.GetRandomValidDate(),
+            MetDate = date,
 
             Language = lang,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
+
+            ReceivedDate = date,
+            ReceivedTime = EncounterDate.GetTime(),
         };
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
