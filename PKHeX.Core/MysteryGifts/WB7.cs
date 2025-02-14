@@ -199,7 +199,7 @@ public sealed class WB7(byte[] Data)
 
     public Nature Nature { get => (Nature)Data[CardStart + 0xA0]; set => Data[CardStart + 0xA0] = (byte)value; }
     public override byte Gender { get => Data[CardStart + 0xA1]; set => Data[CardStart + 0xA1] = value; }
-    public override int AbilityType { get => 3; set => Data[CardStart + 0xA2] = (byte)value; } // no references, always ability 0/1
+    public override int AbilityType { get => IsHOMEGift ? Data[CardStart + 0xA2] : 3; set => Data[CardStart + 0xA2] = (byte)value; } // no references, always ability 0/1
     public ShinyType6 PIDType { get => (ShinyType6)Data[CardStart + 0xA3]; set => Data[CardStart + 0xA3] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4), value); }
     public override ushort Location  { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA6)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA6), value); }
@@ -439,13 +439,32 @@ public sealed class WB7(byte[] Data)
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        pk.HeightScalar = (byte)rnd.Next(0x100);
-        pk.WeightScalar = (byte)rnd.Next(0x100);
+        if (IsScalarFixed)
+        {
+            pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+        }
+        else
+        {
+            pk.HeightScalar = (byte)rnd.Next(0x100);
+            pk.WeightScalar = (byte)rnd.Next(0x100);
+        }
+        
         pk.ResetCalculatedValues(); // cp & dimensions
 
         pk.RefreshChecksum();
         return pk;
     }
+
+    /// <summary>
+    ///  HOME Meltan is a special case where height/weight is fixed.
+    /// </summary>
+    public bool IsScalarFixed => CardID is 9028;
+
+    private byte GetHomeScalar() => CardID switch
+    {
+        9028 => 128,
+        _ => throw new ArgumentException(),
+    };
 
     private DateOnly GetSuggestedDate()
     {
@@ -617,6 +636,15 @@ public sealed class WB7(byte[] Data)
         if (OTGender < 3 && OTGender != pk.OriginalTrainerGender) return false;
         if ((sbyte)Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
+
+        if (IsScalarFixed)
+        {
+            var scalar = GetHomeScalar();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
+                return false;
+            if (pk is IScaledSize3 sc && sc.Scale != scalar)
+                return false;
+        }
 
         if (pk is IAwakened s && s.IsAwakeningBelow(this))
             return false;
