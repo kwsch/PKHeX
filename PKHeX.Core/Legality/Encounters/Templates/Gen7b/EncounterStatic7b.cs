@@ -37,6 +37,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.GG[Species, Form];
+        var date = EncounterDate.GetDateSwitch();
         var pk = new PB7
         {
             Species = Species,
@@ -46,7 +47,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
             MetLocation = Location,
             MetLevel = LevelMin,
             Version = version,
-            MetDate = EncounterDate.GetDateSwitch(),
+            MetDate = date,
             Ball = (byte)Ball.Poke,
 
             Language = lang,
@@ -54,6 +55,9 @@ public sealed record EncounterStatic7b(GameVersion Version)
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+
+            ReceivedDate = date,
+            ReceivedTime = EncounterDate.GetTime(),
         };
         SetPINGA(pk, criteria, pi);
         pk.ResetHeight();

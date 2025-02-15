@@ -166,6 +166,9 @@ public sealed class GP1(Memory<byte> Raw)
             OriginalTrainerName = sav.OT,
             Ball = 4,
             Language = sav.Language,
+
+            ReceivedDate = EncounterDate.GetDateSwitch(),
+            ReceivedTime = EncounterDate.GetTime(),
         };
 
         var nick = Nickname;

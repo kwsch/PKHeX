@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
 public sealed class WB7(byte[] Data)
-    : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, INature, ILangNicknamedTemplate, IMetLevel, IRestrictVersion
+    : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, IEncounterServerDate, INature, ILangNicknamedTemplate, IMetLevel, IRestrictVersion
 {
     public WB7() : this(new byte[Size]) { }
 
@@ -352,6 +352,8 @@ public sealed class WB7(byte[] Data)
         return 0xEE + (index * 0x1A);
     }
 
+    public bool IsHOMEGift => CardID >= 9000;
+
     public override PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         if (!IsEntity)
@@ -426,7 +428,8 @@ public sealed class WB7(byte[] Data)
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? EncounterDate.GetDateSwitch();
+        pk.ReceivedDate = pk.MetDate = Date ?? GetSuggestedDate();
+        pk.ReceivedTime = EncounterDate.GetTime();
         pk.IsNicknamed = GetIsNicknamed(redeemLanguage);
         pk.Nickname = pk.IsNicknamed ? GetNickname(redeemLanguage) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
@@ -442,6 +445,15 @@ public sealed class WB7(byte[] Data)
 
         pk.RefreshChecksum();
         return pk;
+    }
+
+    private DateOnly GetSuggestedDate()
+    {
+        if (!IsDateRestricted)
+            return EncounterDate.GetDateSwitch();
+        if (this.GetDistributionWindow(out var window))
+            return window.GetGenerateDate();
+        return EncounterDate.GetDateSwitch();
     }
 
     private void SetEggMetData(PB7 pk)
@@ -612,6 +624,7 @@ public sealed class WB7(byte[] Data)
         return true;
     }
 
+    public bool IsDateRestricted => IsHOMEGift;
     protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false;
 }

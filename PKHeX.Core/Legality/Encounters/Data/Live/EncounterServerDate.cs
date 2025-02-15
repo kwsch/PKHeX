@@ -19,6 +19,7 @@ public static class EncounterServerDate
     /// <returns>True if the date obtained is within the date of availability for the given <see cref="enc"/>.</returns>
     public static EncounterServerDateCheck IsWithinDistributionWindow(this IEncounterServerDate enc, DateOnly obtained) => enc switch
     {
+        WB7 wb7 => Result(wb7.IsWithinDistributionWindow(obtained)),
         WC8 wc8 => Result(wc8.IsWithinDistributionWindow(obtained)),
         WA8 wa8 => Result(wa8.IsWithinDistributionWindow(obtained)),
         WB8 wb8 => Result(wb8.IsWithinDistributionWindow(obtained)),
@@ -26,6 +27,9 @@ public static class EncounterServerDate
         EncounterSlot8GO g8 => Result(g8.IsWithinDistributionWindow(obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
+
+    /// <inheritdoc cref="IsWithinDistributionWindow(IEncounterServerDate,DateOnly)"/>
+    public static bool IsWithinDistributionWindow(this WB7 card, DateOnly obtained) => card.GetDistributionWindow(out var window) && window.Contains(obtained);
 
     /// <inheritdoc cref="IsWithinDistributionWindow(IEncounterServerDate,DateOnly)"/>
     public static bool IsWithinDistributionWindow(this WC8 card, DateOnly obtained) => card.GetDistributionWindow(out var window) && window.Contains(obtained);
@@ -39,6 +43,7 @@ public static class EncounterServerDate
     /// <inheritdoc cref="IsWithinDistributionWindow(IEncounterServerDate,DateOnly)"/>
     public static bool IsWithinDistributionWindow(this WC9 card, DateOnly obtained) => card.GetDistributionWindow(out var window) && window.Contains(obtained);
 
+    public static bool GetDistributionWindow(this WB7 card, out DistributionWindow window) => WB7Gifts.TryGetValue(card.CardID, out window);
     public static bool GetDistributionWindow(this WC8 card, out DistributionWindow window) => WC8Gifts.TryGetValue(card.CardID, out window) || WC8GiftsChk.TryGetValue(card.Checksum, out window);
     public static bool GetDistributionWindow(this WA8 card, out DistributionWindow window) => WA8Gifts.TryGetValue(card.CardID, out window);
     public static bool GetDistributionWindow(this WB8 card, out DistributionWindow window) => WB8Gifts.TryGetValue(card.CardID, out window);
@@ -63,6 +68,14 @@ public static class EncounterServerDate
     /// Introduction of S/V support; gift availability time window for these games.
     /// </summary>
     private static readonly DistributionWindow HOME3_ML = new(2023, 05, 30);
+
+    /// <summary>
+    /// Minimum date the gift can be received.
+    /// </summary>
+    private static readonly Dictionary<int, DistributionWindow> WB7Gifts = new()
+    {
+        {9028, new(2025, 02, 11)}, // Shiny Meltan
+    };
 
     /// <summary>
     /// Minimum date the gift can be received.
@@ -102,6 +115,7 @@ public static class EncounterServerDate
         {9012, new(2020, 11, 10)}, // Gigantamax Melmetal
         {9013, new(2021, 06, 17)}, // Gigantamax Bulbasaur
         {9014, new(2021, 06, 17)}, // Gigantamax Squirtle
+        {9029, new(2025, 02, 11)}, // Shiny Keldeo
     };
 
     /// <summary>
@@ -120,7 +134,7 @@ public static class EncounterServerDate
         {9018, HOME2_AB}, // Hidden Ability Rowlet
         {9019, HOME2_AB}, // Hidden Ability Cyndaquil
         {9020, HOME2_AB}, // Hidden Ability Oshawott
-        {9027, new(2025, 01, 28)}, // Shiny Enamorus
+        {9027, new(2025, 01, 27)}, // Shiny Enamorus
     };
 
     /// <summary>
@@ -131,7 +145,7 @@ public static class EncounterServerDate
         {9015, HOME2_AB}, // Hidden Ability Turtwig
         {9016, HOME2_AB}, // Hidden Ability Chimchar
         {9017, HOME2_AB}, // Hidden Ability Piplup
-        {9026, new(2025, 01, 28)}, // Shiny Manaphy
+        {9026, new(2025, 01, 27)}, // Shiny Manaphy
     };
 
     /// <summary>

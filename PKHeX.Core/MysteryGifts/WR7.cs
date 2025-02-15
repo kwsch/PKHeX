@@ -148,7 +148,8 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
 
         pk.Species = Species;
         pk.MetLevel = pk.CurrentLevel = Level;
-        pk.MetDate = Date;
+        pk.ReceivedDate = pk.MetDate = Date;
+        pk.ReceivedTime = EncounterDate.GetTime();
 
         return pk; // can't really do much more, just return the rough data
     }

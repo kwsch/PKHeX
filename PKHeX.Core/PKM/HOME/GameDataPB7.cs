@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PB7"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSizeAbsolute, IMemoryOT, IGameDataSplitAbility
+public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSizeAbsolute, IGameDataSplitAbility
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PB7;
     private const int SIZE = HomeCrypto.SIZE_2GAME_PB7;
@@ -52,11 +52,14 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
     public byte FieldEventFatigue2 { get => Data[0x28]; set => Data[0x28] = value; }
     public byte Fullness { get => Data[0x29]; set => Data[0x29] = value; }
     public byte Rank { get => Data[0x2A]; set => Data[0x2A] = value; }
-    public byte OriginalTrainerAffection { get => Data[0x2B]; set => Data[0x2B] = (byte)value; }
-    public byte OriginalTrainerMemoryIntensity { get => Data[0x2C]; set => Data[0x2C] = value; }
-    public byte OriginalTrainerMemory { get => Data[0x2D]; set => Data[0x2D] = value; }
-    public ushort OriginalTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data[0x2E..]); set => WriteUInt16LittleEndian(Data[0x2E..], value); }
-    public byte OriginalTrainerMemoryFeeling { get => Data[0x30]; set => Data[0x30] = value; }
+
+    public byte ReceivedYear { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public byte ReceivedMonth { get => Data[0x2C]; set => Data[0x2C] = value; }
+    public byte ReceivedDay { get => Data[0x2D]; set => Data[0x2D] = value; }
+    public byte ReceivedHour { get => Data[0x2E]; set => Data[0x2E] = value; }
+    public byte ReceivedMinute { get => Data[0x2F]; set => Data[0x2F] = value; }
+    public byte ReceivedSecond { get => Data[0x30]; set => Data[0x30] = value; }
+
     public byte Enjoyment { get => Data[0x31]; set => Data[0x31] = value; }
     public uint GeoPadding { get => ReadUInt32LittleEndian(Data[0x32..]); set => WriteUInt32LittleEndian(Data[0x32..], value); }
     public byte Ball { get => Data[0x36]; set => Data[0x36] = value; }
@@ -91,11 +94,12 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         pk.FieldEventFatigue2 = FieldEventFatigue2;
         pk.Fullness = Fullness;
         // pk.Rank = Rank;
-        // pk.OriginalTrainerAffection
-        // pk.OriginalTrainerMemoryIntensity
-        // pk.OriginalTrainerMemory
-        // pk.OriginalTrainerMemoryVariable
-        // pk.OriginalTrainerMemoryFeeling
+        pk.ReceivedYear = ReceivedYear;
+        pk.ReceivedMonth = ReceivedMonth;
+        pk.ReceivedDay = ReceivedDay;
+        pk.ReceivedHour = ReceivedHour;
+        pk.ReceivedMinute = ReceivedMinute;
+        pk.ReceivedSecond = ReceivedSecond;
         pk.Enjoyment = Enjoyment;
         // pk.GeoPadding = GeoPadding;
         pk.AbilityNumber = AbilityNumber;

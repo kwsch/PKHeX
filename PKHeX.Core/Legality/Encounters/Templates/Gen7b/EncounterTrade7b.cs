@@ -49,6 +49,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
         var version = this.GetCompatibleVersion(tr.Version);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.GG[Species, Form];
+        var date = EncounterDate.GetDateSwitch();
         var pk = new PB7
         {
             Species = Species,
@@ -56,7 +57,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             CurrentLevel = Level,
             MetLocation = Location,
             MetLevel = Level,
-            MetDate = EncounterDate.GetDateSwitch(),
+            MetDate = date,
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
@@ -73,6 +74,9 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             HandlingTrainerGender = tr.Gender,
             CurrentHandler = 1,
             HandlingTrainerFriendship = pi.BaseFriendship,
+
+            ReceivedDate = date,
+            ReceivedTime = EncounterDate.GetTime(),
         };
 
         EncounterUtil.SetEncounterMoves(pk, version, Level);

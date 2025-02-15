@@ -259,12 +259,70 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     }
 
     public override byte OriginalTrainerFriendship { get => Data[0xCA]; set => Data[0xCA] = value; }
-    // 0xCB Unused
-    // 0xCC Unused
-    // 0xCD Unused
-    // 0xCE Unused
-    // 0xCF Unused
-    // 0xD0 Unused
+
+    // Local time of the console when the Pokémon was received
+    public byte ReceivedYear { get => Data[0xCB]; set => Data[0xCB] = value; }
+    public byte ReceivedMonth { get => Data[0xCC]; set => Data[0xCC] = value; }
+    public byte ReceivedDay { get => Data[0xCD]; set => Data[0xCD] = value; }
+    public byte ReceivedHour { get => Data[0xCE]; set => Data[0xCE] = value; }
+    public byte ReceivedMinute { get => Data[0xCF]; set => Data[0xCF] = value; }
+    public byte ReceivedSecond { get => Data[0xD0]; set => Data[0xD0] = value; }
+    public DateOnly? ReceivedDate
+    {
+        get
+        {
+            if (!DateUtil.IsDateValid(2000 + ReceivedYear, ReceivedMonth, ReceivedDay))
+                return null;
+            return new DateOnly(ReceivedYear + 2000, ReceivedMonth, ReceivedDay);
+        }
+        set
+        {
+            if (value is { } d)
+            {
+                // Only update the properties if a value is provided.
+                ReceivedYear = (byte)(d.Year - 2000);
+                ReceivedMonth = (byte)d.Month;
+                ReceivedDay = (byte)d.Day;
+            }
+            else
+            {
+                // Clear the Date.
+                // If code tries to access Date again, null will be returned.
+                ReceivedYear = 0;
+                ReceivedMonth = 0;
+                ReceivedDay = 0;
+            }
+        }
+    }
+
+    public TimeOnly? ReceivedTime
+    {
+        get
+        {
+            if (!DateUtil.IsTimeValid(ReceivedHour, ReceivedMinute, ReceivedSecond))
+                return null;
+            return new TimeOnly(ReceivedHour, ReceivedMinute, ReceivedSecond);
+        }
+        set
+        {
+            if (value is { } t)
+            {
+                // Only update the properties if a value is provided.
+                ReceivedHour = (byte)t.Hour;
+                ReceivedMinute = (byte)t.Minute;
+                ReceivedSecond = (byte)t.Second;
+            }
+            else
+            {
+                // Clear the Time.
+                // If code tries to access Time again, null will be returned.
+                ReceivedHour = 0;
+                ReceivedMinute = 0;
+                ReceivedSecond = 0;
+            }
+        }
+    }
+
     public override byte EggYear { get => Data[0xD1]; set => Data[0xD1] = value; }
     public override byte EggMonth { get => Data[0xD2]; set => Data[0xD2] = value; }
     public override byte EggDay { get => Data[0xD3]; set => Data[0xD3] = value; }
@@ -340,7 +398,12 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         if (!BelongsTo(tr))
             return false;
 
-        CurrentHandler = 0;
+        if (CurrentHandler != 0)
+        {
+            CurrentHandler = 0;
+            ReceivedDate = IsUntraded ? MetDate : EncounterDate.GetDateSwitch();
+            ReceivedTime = EncounterDate.GetTime();
+        }
         return true;
     }
 
@@ -355,6 +418,9 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         {
             HandlingTrainerName = other;
             HandlingTrainerFriendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
+
+            ReceivedDate = EncounterDate.GetDateSwitch();
+            ReceivedTime = EncounterDate.GetTime();
         }
         CurrentHandler = 1;
         HandlingTrainerGender = tr.Gender;
