@@ -439,17 +439,19 @@ public sealed class WB7(byte[] Data)
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        if (IsScalarFixed)
+        if (IsHeightWeightFixed)
         {
             pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+            pk.HeightAbsolute = GetHomeHeightAbsolute();
+            pk.WeightAbsolute = GetHomeWeightAbsolute();
+            pk.ResetCP(); //do not reset dimensions
         }
         else
         {
             pk.HeightScalar = (byte)rnd.Next(0x100);
             pk.WeightScalar = (byte)rnd.Next(0x100);
-        }
-        
-        pk.ResetCalculatedValues(); // cp & dimensions
+            pk.ResetCalculatedValues(); // cp & dimensions
+        }        
 
         pk.RefreshChecksum();
         return pk;
@@ -458,11 +460,23 @@ public sealed class WB7(byte[] Data)
     /// <summary>
     ///  HOME Meltan is a special case where height/weight is fixed.
     /// </summary>
-    public bool IsScalarFixed => CardID is 9028;
+    public bool IsHeightWeightFixed => CardID is 9028;
 
     private byte GetHomeScalar() => CardID switch
     {
         9028 => 128,
+        _ => throw new ArgumentException(),
+    };
+
+    private float GetHomeHeightAbsolute() => CardID switch
+    {
+        9028 => (float)18.1490211,
+        _ => throw new ArgumentException(),
+    };
+
+    private float GetHomeWeightAbsolute() => CardID switch
+    {
+        9028 => (float)77.09419,
         _ => throw new ArgumentException(),
     };
 
@@ -637,12 +651,14 @@ public sealed class WB7(byte[] Data)
         if ((sbyte)Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
 
-        if (IsScalarFixed)
+        if (IsHeightWeightFixed)
         {
             var scalar = GetHomeScalar();
             if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
                 return false;
             if (pk is IScaledSize3 sc && sc.Scale != scalar)
+                return false;
+            if (pk is IScaledSizeAbsolute abs && (abs.HeightAbsolute != GetHomeHeightAbsolute() || abs.WeightAbsolute != GetHomeWeightAbsolute()))
                 return false;
         }
 
