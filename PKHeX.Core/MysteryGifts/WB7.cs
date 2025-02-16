@@ -468,13 +468,13 @@ public sealed class WB7(byte[] Data)
         _ => throw new ArgumentException(),
     };
 
-    private float GetHomeHeightAbsolute() => CardID switch
+    public float GetHomeHeightAbsolute() => CardID switch
     {
         9028 => (float)18.1490211,
         _ => throw new ArgumentException(),
     };
 
-    private float GetHomeWeightAbsolute() => CardID switch
+    public float GetHomeWeightAbsolute() => CardID switch
     {
         9028 => (float)77.09419,
         _ => throw new ArgumentException(),
