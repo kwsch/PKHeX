@@ -13,6 +13,8 @@ public sealed class WB7(byte[] Data)
 
     public const int Size = 0x310;
     private const int CardStart = 0x208;
+    private Span<byte> Card => Data.AsSpan(CardStart, 0x108);
+
     public override bool FatefulEncounter => true;
 
     public override byte Generation => 7;
@@ -224,7 +226,6 @@ public sealed class WB7(byte[] Data)
     public override bool IsEgg { get => Data[CardStart + 0xD1] == 1; set => Data[CardStart + 0xD1] = value ? (byte)1 : (byte)0; }
     public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2), value); }
 
-    public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
     public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8), value); }
     public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA), value); }
     public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC), value); }
@@ -236,6 +237,7 @@ public sealed class WB7(byte[] Data)
     public byte AV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = value; }
     public byte AV_SPA { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = value; }
     public byte AV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = value; }
+    public uint PID { get => ReadUInt32LittleEndian(Card[0xD4..]); set => WriteUInt32LittleEndian(Card[0xD4..], value); }
 
     // Meta Accessible Properties
     public int[] IVs
