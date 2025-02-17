@@ -135,16 +135,28 @@ public sealed class WB7(byte[] Data)
 
     // Pokémon Properties
     public override bool IsEntity { get => CardType == 0; set { if (value) CardType = 0; } }
-    public override bool IsShiny => PIDType == ShinyType6.Always;
+    public override bool IsShiny => Shiny.IsShiny();
 
     public override Shiny Shiny => PIDType switch
     {
-        ShinyType6.FixedValue => Shiny.FixedValue,
+        ShinyType6.FixedValue => FixedShinyType(),
         ShinyType6.Random => Shiny.Random,
         ShinyType6.Always => Shiny.Always,
         ShinyType6.Never => Shiny.Never,
         _ => throw new ArgumentOutOfRangeException(),
     };
+
+    private Shiny FixedShinyType() => GetShinyXor() switch
+    {
+        <= 15 => Shiny.Always,
+        _ => Shiny.Never,
+    };
+
+    private uint GetShinyXor()
+    {
+        var xor = PID ^ ID32;
+        return (xor >> 16) ^ (xor & 0xFFFF);
+    }
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Card[0x68..]); set => WriteUInt32LittleEndian(Card[0x68..], value); }
     public override ushort TID16 { get => ReadUInt16LittleEndian(Card[0x68..]); set => WriteUInt16LittleEndian(Card[0x68..], value); }
@@ -444,7 +456,7 @@ public sealed class WB7(byte[] Data)
             pk.HeightScalar = (byte)rnd.Next(0x100);
             pk.WeightScalar = (byte)rnd.Next(0x100);
             pk.ResetCalculatedValues(); // cp & dimensions
-        }        
+        }
 
         pk.RefreshChecksum();
         return pk;
@@ -654,6 +666,9 @@ public sealed class WB7(byte[] Data)
         }
 
         if (pk is IAwakened s && s.IsAwakeningBelow(this))
+            return false;
+
+        if (PIDType is ShinyType6.FixedValue && pk.PID != PID)
             return false;
 
         return true;
