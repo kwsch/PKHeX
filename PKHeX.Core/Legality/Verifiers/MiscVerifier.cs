@@ -644,7 +644,7 @@ public sealed class MiscVerifier : Verifier
 
     private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
     {
-        if (data.EncounterMatch is WB7 enc && enc.IsHeightWeightFixed)
+        if (data is { Entity: PB7 , EncounterMatch: WB7 { IsHeightWeightFixed: true } enc })
             VerifyFixedSizes(data, obj, enc);
         else
             VerifyCalculatedSizes(data, obj);

@@ -660,8 +660,6 @@ public sealed class WB7(byte[] Data)
                 return false;
             if (pk is IScaledSize3 sc && sc.Scale != scalar)
                 return false;
-            if (pk is IScaledSizeAbsolute abs && (abs.HeightAbsolute != GetHomeHeightAbsolute() || abs.WeightAbsolute != GetHomeWeightAbsolute()))
-                return false;
         }
 
         if (pk is IAwakened s && s.IsAwakeningBelow(this))
