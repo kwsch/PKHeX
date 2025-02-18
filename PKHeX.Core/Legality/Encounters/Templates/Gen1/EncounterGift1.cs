@@ -75,6 +75,15 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         "LUIGW" => true,
         "LUIGIC" => true,
         "YOSHIC" => true,
+        "EUROPE" => true,
+        "SWEDEN" => true,
+        "NORWAY" => true,
+        "FINLAND" => true,
+        "DENMARK" => true,
+        "AUSTRIA" => true,
+        "UK" => true,
+        "NAL" => true,
+        "MARIO" => true,
         _ => false,
     };
 
