@@ -644,10 +644,24 @@ public sealed class MiscVerifier : Verifier
 
     private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
     {
-        // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+        if (data is { Entity: PB7 , EncounterMatch: WB7 { IsHeightWeightFixed: true } enc })
+            VerifyFixedSizes(data, obj, enc);
+        else
+            VerifyCalculatedSizes(data, obj);
+    }
+
+    private static void VerifyFixedSizes(LegalityAnalysis data, IScaledSizeValue obj, WB7 enc)
+    {
+        if (obj.HeightAbsolute != enc.GetHomeHeightAbsolute())
+            data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
+        if (obj.WeightAbsolute != enc.GetHomeWeightAbsolute())
+            data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
+    }
+
+    private static void VerifyCalculatedSizes(LegalityAnalysis data, IScaledSizeValue obj)
+    {
         if (obj.HeightAbsolute != obj.CalcHeightAbsolute)
             data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
-        // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
         if (obj.WeightAbsolute != obj.CalcWeightAbsolute)
             data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
     }
