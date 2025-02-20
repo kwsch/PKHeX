@@ -49,6 +49,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         VirtualConsoleMew = 1,
         Stadium = 2,
         EuropeTour = 3,
+        JapanTour = 4,
     }
 
     private const ushort TrainerIDStadiumJPN = 1999;
@@ -62,6 +63,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
     private const string VirtualConsoleMewINT = "GF";
     private const string VirtualConsoleMewJPN = "ゲーフリ";
     private const string FirstTourOT = "YOSHIRA";
+    private const string FirstJapanOT = "マクハリ";
 
     private static bool IsTourOT(ReadOnlySpan<char> str) => str switch
     {
@@ -87,6 +89,31 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         _ => false,
     };
 
+    private static bool IsJapanOT(ReadOnlySpan<char> str) => str switch
+    {
+        // Nintendo Space World '99 Mew
+        // August 27 to 29, 1999
+        "マクハリ" => true,
+
+        // Next Generation World Hobby Fair Dome Cup Mew
+        // December 7, 1997 to February 15, 1998
+        "フクオカ" => true,
+        "トウキョー" => true,
+        "オーサカ" => true,
+        "サッポロ" => true,
+        "ナゴヤ" => true,
+
+        // Nintendo Space World '97 Mew
+        // November 22 to 24, 1997
+        "マリオ" => true,
+        "クッパ" => true,
+        "ルイージ" => true,
+        "ピーチ" => true,
+        "ヨッシー" => true,
+        "ドンキー" => true,
+        _ => false,
+    };
+
     public EncounterGift1(ReadOnlySpan<byte> data)
     {
         Species = data[0];
@@ -95,7 +122,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         Language = (LanguageRestriction)data[6];
         Trainer = (TrainerType)data[7];
 
-        if (Trainer is EuropeTour)
+        if (Trainer is EuropeTour or JapanTour)
             IVs = new(5, 10, 1, 12, 5, 5);
         else if (Trainer is VirtualConsoleMew)
             IVs = new(15, 15, 15, 15, 15, 15);
@@ -151,6 +178,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
                 },
                 VirtualConsoleMew => lang == Japanese ? VirtualConsoleMewJPN : VirtualConsoleMewINT,
                 EuropeTour => FirstTourOT, // YOSHIRA
+                JapanTour => FirstJapanOT, // マクハリ
                 _ => EncounterUtil.GetTrainerName(tr, (int)lang),
             },
         };
@@ -223,6 +251,8 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
 
         if (Trainer == EuropeTour)
             return IsTourOT(trainer);
+        if (Trainer == JapanTour)
+            return IsJapanOT(trainer);
 
         var language = pk.Language;
         if (Trainer == VirtualConsoleMew)
