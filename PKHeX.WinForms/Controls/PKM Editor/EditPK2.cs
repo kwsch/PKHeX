@@ -45,7 +45,9 @@ public partial class PKMEditor
         if (la.Valid)
             return;
 
-        var lang = SpeciesName.GetSpeciesNameLanguage(sk2.Species, sk2.Nickname, 2);
+        Span<char> nickname = stackalloc char[sk2.MaxStringLengthNickname];
+        int len = sk2.LoadString(sk2.NicknameTrash, nickname);
+        var lang = SpeciesName.GetSpeciesNameLanguage(sk2.Species, nickname[..len], 2);
         if (lang >= 1 && (lang == 1 != sk2.Japanese)) // force match language
             sk2.SwapLanguage();
         else if (sk2.Japanese != (sav.Language == 1)) // force match save file
