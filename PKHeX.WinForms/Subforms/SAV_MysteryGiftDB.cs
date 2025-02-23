@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Core.Searching;
 using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Properties;
 using PKHeX.WinForms.Controls;
@@ -237,24 +238,15 @@ public partial class SAV_MysteryGiftDB : Form
             System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private static Func<MysteryGift, bool> IsPresent<TTable>(TTable pt) where TTable : IPersonalTable => z => pt.IsPresentInGame(z.Species, z.Form);
-
     private void LoadDatabase()
     {
         var db = EncounterEvent.GetAllEvents();
 
         if (Main.Settings.MysteryDb.FilterUnavailableSpecies)
         {
-            db = SAV switch
-            {
-                SAV9SV s9 => db.Where(IsPresent(s9.Personal)),
-                SAV8SWSH s8 => db.Where(IsPresent(s8.Personal)),
-                SAV8BS b8 => db.Where(IsPresent(b8.Personal)),
-                SAV8LA a8 => db.Where(IsPresent(a8.Personal)),
-                SAV7b => db.Where(z => z is WB7),
-                SAV7 => db.Where(z => z.Generation < 7 || z is WC7),
-                _ => db.Where(z => z.Generation <= SAV.Generation),
-            };
+            var filter = EntityPresenceFilters.GetFilterGift<MysteryGift>(SAV.Context, SAV.Generation);
+            if (filter != null)
+                db = db.Where(filter);
         }
 
         RawDB = [..db];

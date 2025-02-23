@@ -27,6 +27,19 @@ public partial class SAV_Database : Form
     private const int GridWidth = 6;
     private const int GridHeight = 11;
 
+    private readonly PictureBox[] PKXBOXES;
+    private readonly string DatabasePath = Main.DatabasePath;
+    private List<SlotCache> Results = [];
+    private List<SlotCache> RawDB = [];
+    private int slotSelected = -1; // = null;
+    private Image? slotColor;
+    private const int RES_MIN = GridWidth * 1;
+    private const int RES_MAX = GridWidth * GridHeight;
+    private readonly string Counter;
+    private readonly string Viewed;
+    private const int MAXFORMAT = PKX.Generation;
+    private readonly SummaryPreviewer ShowSet = new();
+
     public SAV_Database(PKMEditor f1, SAVEditor saveditor)
     {
         InitializeComponent();
@@ -131,19 +144,6 @@ public partial class SAV_Database : Form
         CenterToParent();
         Closing += (_, _) => ShowSet.Clear();
     }
-
-    private readonly PictureBox[] PKXBOXES;
-    private readonly string DatabasePath = Main.DatabasePath;
-    private List<SlotCache> Results = [];
-    private List<SlotCache> RawDB = [];
-    private int slotSelected = -1; // = null;
-    private Image? slotColor;
-    private const int RES_MIN = GridWidth * 1;
-    private const int RES_MAX = GridWidth * GridHeight;
-    private readonly string Counter;
-    private readonly string Viewed;
-    private const int MAXFORMAT = PKX.Generation;
-    private readonly SummaryPreviewer ShowSet = new();
 
     private void ClickView(object sender, EventArgs e)
     {
@@ -409,7 +409,7 @@ public partial class SAV_Database : Form
 
         if (Main.Settings.EntityDb.FilterUnavailableSpecies)
         {
-            var filter = GetFilterForSaveFile(sav);
+            var filter = EntityPresenceFilters.GetFilterEntity(sav.Context);
             if (filter is not null)
                 result.RemoveAll(z => !filter(z.Entity));
         }
@@ -423,15 +423,6 @@ public partial class SAV_Database : Form
         // Finalize the Database
         return result;
     }
-
-    private static Func<PKM, bool>? GetFilterForSaveFile(SaveFile sav) => sav switch
-    {
-        SAV8SWSH => static pk => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form),
-        SAV8BS   => static pk => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form),
-        SAV8LA   => static pk => pk is PA8 || PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form),
-        SAV9SV   => static pk => pk is PK9 || PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form),
-        _ => null,
-    };
 
     private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<SlotCache> dbTemp, string file)
     {
