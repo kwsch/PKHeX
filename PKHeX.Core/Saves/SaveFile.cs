@@ -1,6 +1,8 @@
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -212,7 +214,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
     private Span<byte> GetPartySpan(int index) => PartyBuffer[GetPartyOffset(index)..];
     public PKM GetPartySlotAtIndex(int index) => GetPartySlot(GetPartySpan(index));
 
-    public void SetPartySlotAtIndex(PKM pk, int index, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+    public void SetPartySlotAtIndex(PKM pk, int index, EntityImportSettings settings = default)
     {
         // update party count
         if ((uint)index > 5)
@@ -229,37 +231,38 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
             PartyCount = index;
         }
 
-        SetPartySlot(pk, GetPartySpan(index), trade, dex);
+        SetPartySlot(pk, GetPartySpan(index), settings);
     }
 
-    public void SetSlotFormatParty(PKM pk, Span<byte> data, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+    public void SetSlotFormatParty(PKM pk, Span<byte> data, EntityImportSettings settings = default)
     {
         if (pk.GetType() != PKMType)
             throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-        UpdatePKM(pk, isParty: true, trade, dex);
+        UpdatePKM(pk, isParty: true, settings);
         SetPartyValues(pk, isParty: true);
         WritePartySlot(pk, data);
     }
 
-    public void SetSlotFormatStored(PKM pk, Span<byte> data, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+    public void SetSlotFormatStored(PKM pk, Span<byte> data, EntityImportSettings settings = default)
     {
         if (pk.GetType() != PKMType)
             throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-        UpdatePKM(pk, isParty: false, trade, dex);
+        UpdatePKM(pk, isParty: false, settings);
         SetPartyValues(pk, isParty: false);
         WriteSlotFormatStored(pk, data);
     }
 
-    public void SetPartySlot(PKM pk, Span<byte> data, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault) => SetSlotFormatParty(pk, data, trade, dex);
+    public void SetPartySlot(PKM pk, Span<byte> data, EntityImportSettings settings = default)
+        => SetSlotFormatParty(pk, data, settings);
 
-    public void SetBoxSlot(PKM pk, Span<byte> data, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+    public void SetBoxSlot(PKM pk, Span<byte> data, EntityImportSettings settings = default)
     {
         if (pk.GetType() != PKMType)
             throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-        UpdatePKM(pk, isParty: false, trade, dex);
+        UpdatePKM(pk, isParty: false, settings);
         SetPartyValues(pk, isParty: false);
         WriteBoxSlot(pk, data);
     }
@@ -273,16 +276,17 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         for (int i = slot + 1; i <= newEmpty; i++) // Slide slots down
         {
             var current = GetPartySlotAtIndex(i);
-            SetPartySlotAtIndex(current, i - 1, PKMImportSetting.Skip, PKMImportSetting.Skip);
+            SetPartySlotAtIndex(current, i - 1, EntityImportSettings.None);
         }
-        SetPartySlotAtIndex(BlankPKM, newEmpty, PKMImportSetting.Skip, PKMImportSetting.Skip);
+        SetPartySlotAtIndex(BlankPKM, newEmpty, EntityImportSettings.None);
         // PartyCount will automatically update via above call. Do not adjust.
     }
 
     #region Slot Storing
-    public static PKMImportSetting SetUpdateDex { protected get; set; } = PKMImportSetting.Update;
-    public static PKMImportSetting SetUpdatePKM { protected get; set; } = PKMImportSetting.Update;
-    public static PKMImportSetting SetUpdateRecords { protected get; set; } = PKMImportSetting.Update;
+    public static EntityImportOption SetUpdateDex { protected get; set; } = EntityImportOption.Enable;
+    public static EntityImportOption SetUpdatePKM { protected get; set; } = EntityImportOption.Enable;
+    public static EntityImportOption SetUpdateRecords { protected get; set; } = EntityImportOption.Enable;
+    public static EntityImportSettings SetUpdateSettings => new(SetUpdatePKM, SetUpdateDex, SetUpdateRecords);
 
     public abstract Type PKMType { get; }
     protected abstract PKM GetPKM(byte[] data);
@@ -321,41 +325,52 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         pk.ResetPartyStats();
     }
 
+    protected void UpdatePKM(PKM pk, bool isParty, EntityImportSettings settings = default)
+    {
+        if (IsUpdateAdapt(settings.UpdateToSaveFile))
+            SetPKM(pk, isParty);
+        if (IsUpdateDex(settings.UpdatePokeDex))
+            SetDex(pk);
+        if (IsUpdateRecord(settings.UpdateRecord))
+            SetRecord(pk);
+    }
+
     /// <summary>
     /// Conditions a <see cref="pk"/> for this save file as if it was traded to it.
     /// </summary>
     /// <param name="pk">Entity to adapt</param>
-    /// <param name="party">Entity exists in party format</param>
-    /// <param name="trade">Setting on whether to adapt</param>
-    public void AdaptPKM(PKM pk, bool party = true, PKMImportSetting trade = PKMImportSetting.UseDefault)
+    /// <param name="isParty">Entity exists in party format</param>
+    /// <param name="option">Setting on whether to adapt</param>
+    public void AdaptToSaveFile(PKM pk, bool isParty = true, EntityImportOption option = EntityImportOption.UseDefault)
     {
-        if (GetTradeUpdateSetting(trade))
-            SetPKM(pk, party);
+        if (IsUpdateAdapt(option))
+            SetPKM(pk, isParty);
     }
 
-    protected void UpdatePKM(PKM pk, bool isParty, PKMImportSetting trade, PKMImportSetting dex)
+    private static bool IsUpdateAdapt(EntityImportOption option = EntityImportOption.UseDefault)
     {
-        AdaptPKM(pk, isParty, trade);
-        if (GetDexUpdateSetting(dex))
-            SetDex(pk);
+        if (option == EntityImportOption.UseDefault)
+            option = SetUpdatePKM;
+        return option == EntityImportOption.Enable;
     }
 
-    private static bool GetTradeUpdateSetting(PKMImportSetting trade = PKMImportSetting.UseDefault)
+    private static bool IsUpdateDex(EntityImportOption option = EntityImportOption.UseDefault)
     {
-        if (trade == PKMImportSetting.UseDefault)
-            trade = SetUpdatePKM;
-        return trade == PKMImportSetting.Update;
+        if (option == EntityImportOption.UseDefault)
+            option = SetUpdateDex;
+        return option == EntityImportOption.Enable;
     }
 
-    private static bool GetDexUpdateSetting(PKMImportSetting trade = PKMImportSetting.UseDefault)
+    private static bool IsUpdateRecord(EntityImportOption option = EntityImportOption.UseDefault)
     {
-        if (trade == PKMImportSetting.UseDefault)
-            trade = SetUpdateDex;
-        return trade == PKMImportSetting.Update;
+        if (option == EntityImportOption.UseDefault)
+            option = SetUpdateDex;
+        return option == EntityImportOption.Enable;
     }
 
     protected virtual void SetPKM(PKM pk, bool isParty = false) { }
     protected virtual void SetDex(PKM pk) { }
+    protected virtual void SetRecord(PKM pk) { }
     #endregion
 
     #region Pokédex
@@ -557,11 +572,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
         return GetBoxSlotOffset(box, slot);
     }
 
-    public void SetBoxSlotAtIndex(PKM pk, int box, int slot, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
-        => SetBoxSlot(pk, BoxBuffer[GetBoxSlotOffset(box, slot)..], trade, dex);
+    public void SetBoxSlotAtIndex(PKM pk, int box, int slot, EntityImportSettings settings = default)
+        => SetBoxSlot(pk, BoxBuffer[GetBoxSlotOffset(box, slot)..], settings);
 
-    public void SetBoxSlotAtIndex(PKM pk, int index, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
-        => SetBoxSlot(pk, BoxBuffer[GetBoxSlotOffset(index)..], trade, dex);
+    public void SetBoxSlotAtIndex(PKM pk, int index, EntityImportSettings settings = default)
+        => SetBoxSlot(pk, BoxBuffer[GetBoxSlotOffset(index)..], settings);
     #endregion
 
     #region Storage Manipulations
@@ -685,10 +700,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
 
         SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
 
+        var settings = EntityImportSettings.None;
         for (int i = 0; i < boxclone.Length; i++)
         {
             var pk = boxclone[i];
-            SetBoxSlotAtIndex(pk, i, PKMImportSetting.Skip, PKMImportSetting.Skip);
+            SetBoxSlotAtIndex(pk, i, settings);
         }
         return count;
     }
@@ -754,6 +770,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
 
         var storage = BoxBuffer;
         int modified = 0;
+        var settings = EntityImportSettings.None;
         for (int b = BoxStart; b <= BoxEnd; b++)
         {
             for (int s = 0; s < BoxSlotCount; s++)
@@ -767,7 +784,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVe
                 var pk = GetBoxSlotAtIndex(b, s);
                 action(pk);
                 ++modified;
-                SetBoxSlot(pk, dest, PKMImportSetting.Skip, PKMImportSetting.Skip);
+                SetBoxSlot(pk, dest, settings);
             }
         }
         return modified;

@@ -140,7 +140,7 @@ public partial class SAV_MysteryGiftDB : Form
             WinFormsUtil.Error(c.GetDisplayString(temp, SAV.PKMType));
             return;
         }
-        SAV.AdaptPKM(pk);
+        SAV.AdaptToSaveFile(pk);
         PKME_Tabs.PopulateFields(pk, false);
         slotSelected = index;
         slotColor = SpriteUtil.Spriter.View;
@@ -407,11 +407,11 @@ public partial class SAV_MysteryGiftDB : Form
 
     private void Menu_Import_Click(object sender, EventArgs e)
     {
-        if (!BoxView.GetBulkImportSettings(out var clearAll, out var overwrite, out var noSetb))
+        if (!BoxView.GetBulkImportSettings(out var clearAll, out var overwrite, out var settings))
             return;
 
         int box = BoxView.Box.CurrentBox;
-        int ctr = SAV.LoadBoxes(Results, out var result, box, clearAll, overwrite, noSetb);
+        int ctr = SAV.LoadBoxes(Results, out var result, box, clearAll, overwrite, settings);
         if (ctr <= 0)
             return;
 

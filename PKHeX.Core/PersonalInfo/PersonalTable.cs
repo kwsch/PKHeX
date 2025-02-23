@@ -130,7 +130,7 @@ public static class PersonalTable
 
     private static void PopulateGen3Tutors()
     {
-        // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
+        // Enable Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
         var machine = BinLinkerAccessor.Get(Util.GetBinaryResource("hmtm_g3.pkl"), "g3"u8);
         var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g3.pkl"), "g3"u8);
         E.LoadTables(machine, tutors);

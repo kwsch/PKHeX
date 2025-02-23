@@ -185,7 +185,7 @@ public partial class BatchEditor : Form
             SlotInfoLoader.AddPartyData(SAV, data);
             process(data);
             foreach (var slot in data)
-                slot.Source.WriteTo(SAV, slot.Entity, PKMImportSetting.Skip);
+                slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
         }
         if (boxes)
         {
@@ -193,7 +193,7 @@ public partial class BatchEditor : Form
             SlotInfoLoader.AddBoxData(SAV, data);
             process(data);
             foreach (var slot in data)
-                slot.Source.WriteTo(SAV, slot.Entity, PKMImportSetting.Skip);
+                slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
         }
         void process(IList<SlotCache> d)
         {

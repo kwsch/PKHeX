@@ -71,6 +71,6 @@ public sealed class SlotChangelog(SaveFile SAV)
     {
         public SingleSlotReversion(ISlotInfo info, SaveFile sav) : this(info, info.Read(sav)) { }
 
-        public override void Revert(SaveFile sav) => Info.WriteTo(sav, Entity, PKMImportSetting.Skip);
+        public override void Revert(SaveFile sav) => Info.WriteTo(sav, Entity, EntityImportSettings.None);
     }
 }
