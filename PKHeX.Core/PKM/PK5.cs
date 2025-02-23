@@ -377,11 +377,11 @@ public sealed class PK5 : PKM, ISanityChecksum,
             TID16 = TID16,
             SID16 = SID16,
             EXP = EXP,
-            PID = PID,
+            PID = GetTransferPID(PID, ID32, out _),
             Ability = Ability,
             AbilityNumber = 1 << CalculateAbilityIndex(),
             MarkingValue = MarkingValue,
-            Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad IngameTrade (Japanese B/W)
+            Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad In-game Trade (Japanese B/W)
 
             ContestCool = ContestCool,
             ContestBeauty = ContestBeauty,
@@ -490,8 +490,10 @@ public sealed class PK5 : PKM, ISanityChecksum,
         RecentTrainerCache.SetFirstCountryRegion(pk6);
 
         // Apply trash bytes for species name of current app language -- default to PKM's language if no match
-        int curLang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, 5);
-        if (curLang < 0)
+        Span<char> nickname = stackalloc char[MaxStringLengthNickname];
+        int len = LoadString(NicknameTrash, nickname);
+        int curLang = SpeciesName.GetSpeciesNameLanguage(Species, nickname[..len], 5);
+        if (curLang <= 0)
             curLang = Language;
         pk6.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, curLang, 6);
         if (IsNicknamed)
@@ -499,11 +501,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
         // When transferred, friendship gets reset.
         pk6.OriginalTrainerFriendship = pk6.HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
-
-        // Gen6 changed the shiny correlation to have 2x the rate.
-        // If the current PID would be shiny with those increased odds, fix it.
-        if ((PSV ^ TSV) == 1)
-            pk6.PID ^= 0x80000000;
 
         // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
         pk6.FixMoves();
@@ -519,6 +516,25 @@ public sealed class PK5 : PKM, ISanityChecksum,
         pk6.RefreshChecksum();
 
         return pk6; // Done!
+    }
+
+    /// <summary>
+    /// When transferred to Generation 6, the Encryption Constant is copied from the PID.
+    /// The PID is then checked to see if it becomes shiny with the new Shiny rules (>>4 instead of >>3)
+    /// If the PID is non-shiny->shiny, the top bit is flipped.
+    /// </summary>
+    /// <param name="ec">Original PID</param>
+    /// <param name="oid">Trainer ID 32-bit</param>
+    /// <param name="bitFlipProc">Indicates if the PID was bit-flipped to prevent it from becoming shiny.</param>
+    /// <returns></returns>
+    public static uint GetTransferPID(uint ec, uint oid, out bool bitFlipProc)
+    {
+        // Gen6 changed the shiny correlation to have 2x the rate.
+        // If the current PID would be shiny with those increased odds, fix it.
+        var tmp = ec ^ oid;
+        var xor = tmp ^ (tmp >> 16);
+        bitFlipProc = (xor & 0xFFF8u) == 8;
+        return bitFlipProc ? (ec ^ 0x80000000) : ec;
     }
 
     private static byte CountBattleRibbons(ReadOnlySpan<byte> data)
