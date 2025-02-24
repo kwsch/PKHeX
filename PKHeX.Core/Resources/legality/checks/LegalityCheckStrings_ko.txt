@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
 LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = 컨디션은 0이어야 합니다.
 LContestZeroSheen = Contest Stat Sheen should be 0.
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = Met Date is outside of distribution window.
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = EV가 2 남았습니다.
 LEffortAbove252 = EV는 252 이하여야 합니다.
 LEffortAbove510 = EV의 총합은 510 이하여야 합니다.
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = 케르디오의 기술과 폼이 일치하지 않습니다
 LMoveNincada = 하나의 아이스크 기술만 가질 수 있습니다.
 LMoveNincadaEvo = 토중몬에서 아이스크로 진화하면서 배운 기술입니다.
 LMoveNincadaEvoF_0 = {0}세대에서 토중몬에서 아이스크로 진화하면서 배운 기술입니다.
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = 기술 {0}의 PP가 허용된 값보다 많습니다.
 LMovePPUpsTooHigh_0 = Move {0} PP Ups is above the amount allowed.
 LMoveRelearnDexNav = 도감 내비 기술이 예상과 다릅니다.
@@ -386,6 +389,7 @@ LSuperUnused = 사용되지 않는 대단한 특훈 플래그가 켜져 있습�
 LTeraTypeIncorrect = Tera Type does not match the expected value.
 LTeraTypeMismatch = Tera Type does not match either of the default types.
 LTradeNotAvailable = Encounter cannot be traded to the active trainer.
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = 버추얼 콘솔 게임에서 얻을 수 없는 포켓몬 종류입니다.
 LTransferCurrentHandlerInvalid = Invalid Current handler value, trainer details for save file expected another value.
 LTransferEgg = 알은 세대를 옮길 수 없습니다.

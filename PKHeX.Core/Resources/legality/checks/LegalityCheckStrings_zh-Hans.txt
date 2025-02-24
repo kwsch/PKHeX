@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = 华丽大赛光泽度应 <= {0}。
 LContestSheenTooLow_0 = 华丽大赛光泽度应 >= {0}。
 LContestZero = 华丽大赛状态值应为0。
 LContestZeroSheen = 华丽大赛光泽度应为0。
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = 相遇日期在配信日期区间之外。
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = 剩下2点努力值。
 LEffortAbove252 = 单项努力值不能超过252。
 LEffortAbove510 = 努力值总和不能超过510。
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = 凯路迪欧的招式与形态不匹配。
 LMoveNincada = 只能拥有一个铁面忍者的招式。
 LMoveNincadaEvo = 通过土居忍士进化为铁面忍者习得。
 LMoveNincadaEvoF_0 = 通过土居忍士在第{0}世代进化为铁面忍者习得。
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = 招式 {0} PP高于允许值。
 LMovePPUpsTooHigh_0 = 招式 {0} PP上升高于允许值。
 LMoveRelearnDexNav = 非正确忍足系统相遇的招式。
@@ -386,6 +389,7 @@ LSuperUnused = 未使用的超级训练旗标被标记。
 LTeraTypeIncorrect = 太晶属性与期望值不匹配。
 LTeraTypeMismatch = 太晶属性与宝可梦默认属性不匹配。
 LTradeNotAvailable = 该相遇方式无法被交换到当前持有训练家手上。
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = 不能在VC中获得该种宝可梦。
 LTransferCurrentHandlerInvalid = 非法当前持有训练家信息，存档中训练家信息是另一个值。
 LTransferEgg = 不能跨世代传送蛋。

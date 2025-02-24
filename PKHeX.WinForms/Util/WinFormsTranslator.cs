@@ -238,6 +238,10 @@ public static class WinFormsTranslator
                 form?.Dispose();
             }
             // This is a debug utility method, will always be logging. Shouldn't ever fail.
+            catch (TargetInvocationException)
+            {
+                // Don't care; forms will sometimes fail to load.
+            }
             catch
             {
                 System.Diagnostics.Debug.Write($"Failed to create a new form {t}");
