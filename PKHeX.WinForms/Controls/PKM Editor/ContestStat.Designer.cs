@@ -52,12 +52,12 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Sheen.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Sheen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Sheen.Location = new System.Drawing.Point(248, 16);
+            TB_Sheen.Location = new System.Drawing.Point(248, 18);
             TB_Sheen.Margin = new System.Windows.Forms.Padding(0);
             TB_Sheen.Mask = "000";
             TB_Sheen.MinimumSize = new System.Drawing.Size(32, 23);
             TB_Sheen.Name = "TB_Sheen";
-            TB_Sheen.Size = new System.Drawing.Size(32, 23);
+            TB_Sheen.Size = new System.Drawing.Size(32, 25);
             TB_Sheen.TabIndex = 58;
             TB_Sheen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Sheen.Click += ClickTextBox;
@@ -67,12 +67,12 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Tough.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Tough.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Tough.Location = new System.Drawing.Point(200, 16);
+            TB_Tough.Location = new System.Drawing.Point(200, 18);
             TB_Tough.Margin = new System.Windows.Forms.Padding(0);
             TB_Tough.Mask = "000";
             TB_Tough.MinimumSize = new System.Drawing.Size(32, 23);
             TB_Tough.Name = "TB_Tough";
-            TB_Tough.Size = new System.Drawing.Size(32, 23);
+            TB_Tough.Size = new System.Drawing.Size(32, 25);
             TB_Tough.TabIndex = 57;
             TB_Tough.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Tough.Click += ClickTextBox;
@@ -82,12 +82,12 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Smart.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Smart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Smart.Location = new System.Drawing.Point(152, 16);
+            TB_Smart.Location = new System.Drawing.Point(152, 18);
             TB_Smart.Margin = new System.Windows.Forms.Padding(0);
             TB_Smart.Mask = "000";
             TB_Smart.MinimumSize = new System.Drawing.Size(32, 23);
             TB_Smart.Name = "TB_Smart";
-            TB_Smart.Size = new System.Drawing.Size(32, 23);
+            TB_Smart.Size = new System.Drawing.Size(32, 25);
             TB_Smart.TabIndex = 56;
             TB_Smart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Smart.Click += ClickTextBox;
@@ -97,12 +97,12 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Cute.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Cute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Cute.Location = new System.Drawing.Point(104, 16);
+            TB_Cute.Location = new System.Drawing.Point(104, 18);
             TB_Cute.Margin = new System.Windows.Forms.Padding(0);
             TB_Cute.Mask = "000";
             TB_Cute.MinimumSize = new System.Drawing.Size(32, 23);
             TB_Cute.Name = "TB_Cute";
-            TB_Cute.Size = new System.Drawing.Size(32, 23);
+            TB_Cute.Size = new System.Drawing.Size(32, 25);
             TB_Cute.TabIndex = 55;
             TB_Cute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Cute.Click += ClickTextBox;
@@ -112,12 +112,12 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Beauty.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Beauty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Beauty.Location = new System.Drawing.Point(56, 16);
+            TB_Beauty.Location = new System.Drawing.Point(56, 18);
             TB_Beauty.Margin = new System.Windows.Forms.Padding(0);
             TB_Beauty.Mask = "000";
             TB_Beauty.MinimumSize = new System.Drawing.Size(32, 23);
             TB_Beauty.Name = "TB_Beauty";
-            TB_Beauty.Size = new System.Drawing.Size(32, 23);
+            TB_Beauty.Size = new System.Drawing.Size(32, 25);
             TB_Beauty.TabIndex = 54;
             TB_Beauty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Beauty.Click += ClickTextBox;
@@ -127,12 +127,12 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Cool.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Cool.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Cool.Location = new System.Drawing.Point(8, 16);
+            TB_Cool.Location = new System.Drawing.Point(8, 18);
             TB_Cool.Margin = new System.Windows.Forms.Padding(0);
             TB_Cool.Mask = "000";
             TB_Cool.MinimumSize = new System.Drawing.Size(32, 23);
             TB_Cool.Name = "TB_Cool";
-            TB_Cool.Size = new System.Drawing.Size(32, 23);
+            TB_Cool.Size = new System.Drawing.Size(32, 25);
             TB_Cool.TabIndex = 53;
             TB_Cool.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Cool.Click += ClickTextBox;
@@ -195,9 +195,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // Label_ContestStats
             // 
-            Label_ContestStats.Location = new System.Drawing.Point(74, 1);
+            Label_ContestStats.Location = new System.Drawing.Point(72, 0);
             Label_ContestStats.Name = "Label_ContestStats";
-            Label_ContestStats.Size = new System.Drawing.Size(140, 13);
+            Label_ContestStats.Size = new System.Drawing.Size(144, 16);
             Label_ContestStats.TabIndex = 59;
             Label_ContestStats.Text = "Contest Stats";
             Label_ContestStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -241,7 +241,7 @@ namespace PKHeX.WinForms.Controls
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(288, 40);
+            tableLayoutPanel1.Size = new System.Drawing.Size(288, 45);
             tableLayoutPanel1.TabIndex = 67;
             // 
             // FLP_SmartClever
@@ -272,7 +272,7 @@ namespace PKHeX.WinForms.Controls
             Controls.Add(tableLayoutPanel1);
             Controls.Add(Label_ContestStats);
             Name = "ContestStat";
-            Size = new System.Drawing.Size(288, 56);
+            Size = new System.Drawing.Size(288, 60);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             FLP_SmartClever.ResumeLayout(false);
