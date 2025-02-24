@@ -70,7 +70,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     {
         if (Species != (int)Core.Species.Unown)
         {
-            if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria))
+            if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, pi, criteria, pk.E))
                 return;
             this.SetRandom(pk, pi, criteria, Util.Rand32());
         }

@@ -1,7 +1,25 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-24/11/11 - New Update:
+25/02/23 - New Update:
+ - Legality:
+ - - Added: Handling for new HOME gifts (Meltan, Keldeo, Manaphy, Enamorus).
+ - - Added: Gen7b Received DateTime validation. This was missed for how many years? Use the batch editor to fix any affected.
+ - - Added: Gen1 recognition for Japanese tour Mews. Thanks @ShadowMario3 !
+ - - Added: Separated word filter for NDS, 3DS, and Switch contexts. Thanks @abcboy101 !
+ - - Added: Gen3 encounters now show nearest initial seeds and frame counts elapsed.
+ - - Added: Gen4 Pokewalker IV spreads are now validated and show initial seeds.
+ - - Added: Current PP verifier. This is a naive check to highlight box mons that haven't been healed since capture. Will be improved in future.
+ - Added: Gen1 Hall of Fame editor.
+ - Added: Gen3 Hall of Fame editor.
+ - Added: Gen3 Secret Base editor. Thanks @pasqualenardiello !
+ - Fixed: Gen7b encounters now generate with a valid Received DateTime.
+ - Fixed: Gen6 Link data now saves correctly. Thanks @R-YaTian !
+ - Changed: Gen3 RSBox now shows boxes similar to visual row order in-game rather than by order in the save file.
+ - Changed: Sprite generating performance improved (less allocation).
+ - Changed: Encounter template generating loops have been improved to better seek input criteria (IVs, nature, etc).
+
+24/11/11 - New Update: (345549) [9656226]
  - Legality:
  - - Added: Gen3/4 Nidoran eggs now recognize their PID correlation. Thanks @abcboy101 !
  - - Added: Gen7 LGPE crossover locations added. Thanks @Lusamine !

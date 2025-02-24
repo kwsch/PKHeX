@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 
 public static partial class Extensions
 {
-    public static IReadOnlyList<PKM> GetAllPKM(this SaveFile sav)
+    public static List<PKM> GetAllPKM(this SaveFile sav)
     {
         var result = new List<PKM>();
         if (sav.HasBox)
@@ -161,7 +161,7 @@ public static partial class Extensions
         return list;
     }
 
-    private static List<SlotInfoMisc> GetExtraSlots7b(ISaveBlock7b sav)
+    private static List<SlotInfoMisc> GetExtraSlots7b(SAV7b sav)
     {
         return
         [
@@ -169,7 +169,7 @@ public static partial class Extensions
         ];
     }
 
-    private static List<SlotInfoMisc> GetExtraSlots8(ISaveBlock8Main sav)
+    private static List<SlotInfoMisc> GetExtraSlots8(SAV8SWSH sav)
     {
         var fused = sav.Fused;
         var dc = sav.Daycare;
@@ -178,6 +178,7 @@ public static partial class Extensions
             new(fused[0], 0, true) {Type = StorageSlotType.FusedKyurem},
             new(fused[1], 1, true) {Type = StorageSlotType.FusedNecrozmaS},
             new(fused[2], 2, true) {Type = StorageSlotType.FusedNecrozmaM},
+            // If Calyrex exists, insert here at index 3.
 
             new(dc[0], 0) {Type = StorageSlotType.Daycare},
             new(dc[1], 1) {Type = StorageSlotType.Daycare},
@@ -185,10 +186,9 @@ public static partial class Extensions
             new(dc[3], 3) {Type = StorageSlotType.Daycare},
         };
 
-        if (sav is SAV8SWSH {SaveRevision: >= 2} s8)
+        if (sav.Blocks.TryGetBlock(SaveBlockAccessor8SWSH.KFusedCalyrex, out var calyrex))
         {
-            var block = s8.Blocks.GetBlockSafe(SaveBlockAccessor8SWSH.KFusedCalyrex);
-            var c = new SlotInfoMisc(block.Raw, 3, true) {Type = StorageSlotType.FusedCalyrex};
+            var c = new SlotInfoMisc(calyrex.Raw, 3, true) {Type = StorageSlotType.FusedCalyrex};
             list.Insert(3, c);
         }
 
@@ -218,11 +218,10 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots9(SAV9SV sav)
     {
-        var afterBox = sav.GetBoxOffset(BoxLayout9.BoxCount);
         var list = new List<SlotInfoMisc>
         {
             // Ride Legend
-            new(sav.BoxInfo.Raw.Slice(afterBox, PokeCrypto.SIZE_9PARTY), 0, true, Mutable: true) { Type = StorageSlotType.Ride },
+            new(sav.BoxInfo.RideLegend, 0, true, Mutable: true) { Type = StorageSlotType.Ride },
         };
 
         var block = sav.Blocks.GetBlock(SaveBlockAccessor9SV.KFusedCalyrex);

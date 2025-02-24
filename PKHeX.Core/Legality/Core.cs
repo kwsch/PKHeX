@@ -80,22 +80,22 @@ public static class Legal
     internal const int MaxAbilityID_8 = MaxAbilityID_8_R2;
 
     // Orion (No DLC)
-    internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
-    internal const int MaxMoveID_8_O0 = 796; // Steel Beam
-    internal const int MaxItemID_8_O0 = 1278; // Rotom Catalog, ignore all catalog parts
-    internal const int MaxAbilityID_8_O0 = 258; // Hunger Switch
+    internal const ushort MaxSpeciesID_8_O0 = 890; // Eternatus
+    internal const ushort MaxMoveID_8_O0 = 796; // Steel Beam
+    internal const ushort MaxItemID_8_O0 = 1278; // Rotom Catalog, ignore all catalog parts
+    internal const ushort MaxAbilityID_8_O0 = 258; // Hunger Switch
 
     // Rigel 1 (DLC 1: Isle of Armor)
-    internal const int MaxSpeciesID_8_R1 = 893; // Zarude
-    internal const int MaxMoveID_8_R1 = 818; // Surging Strikes
-    internal const int MaxItemID_8_R1 = 1589; // Mark Charm
-    internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+    internal const ushort MaxSpeciesID_8_R1 = 893; // Zarude
+    internal const ushort MaxMoveID_8_R1 = 818; // Surging Strikes
+    internal const ushort MaxItemID_8_R1 = 1589; // Mark Charm
+    internal const ushort MaxAbilityID_8_R1 = 260; // Unseen Fist
 
     // Rigel 2 (DLC 2: Crown Tundra)
-    internal const int MaxSpeciesID_8_R2 = 898; // Calyrex
-    internal const int MaxMoveID_8_R2 = 826; // Eerie Spell
-    internal const int MaxItemID_8_R2 = 1607; // Reins of Unity
-    internal const int MaxAbilityID_8_R2 = 267; // As One (Glastrier)
+    internal const ushort MaxSpeciesID_8_R2 = 898; // Calyrex
+    internal const ushort MaxMoveID_8_R2 = 826; // Eerie Spell
+    internal const ushort MaxItemID_8_R2 = 1607; // Reins of Unity
+    internal const ushort MaxAbilityID_8_R2 = 267; // As One (Glastrier)
 
     internal const int MaxBallID_8 = 0x1A; // 26 Beast
     internal const GameVersion MaxGameID_8 = GameVersion.SH;
@@ -114,25 +114,25 @@ public static class Legal
   //internal const GameVersion MaxGameID_8b = GameVersion.SP;
     internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
 
-    internal const int MaxSpeciesID_9 = MaxSpeciesID_9_T2;
-    internal const int MaxMoveID_9 = MaxMoveID_9_T2;
-    internal const int MaxItemID_9 = MaxItemID_9_T2;
-    internal const int MaxAbilityID_9 = MaxAbilityID_9_T2;
+    internal const ushort MaxSpeciesID_9 = MaxSpeciesID_9_T2;
+    internal const ushort MaxMoveID_9 = MaxMoveID_9_T2;
+    internal const ushort MaxItemID_9 = MaxItemID_9_T2;
+    internal const ushort MaxAbilityID_9 = MaxAbilityID_9_T2;
 
-    internal const int MaxSpeciesID_9_T0 = (int)Species.IronLeaves;
-    internal const int MaxMoveID_9_T0 = (int)Move.MagicalTorque;
-    internal const int MaxItemID_9_T0 = 2400; // Yellow Dish
-    internal const int MaxAbilityID_9_T0 = (int)Ability.MyceliumMight;
+    internal const ushort MaxSpeciesID_9_T0 = (int)Species.IronLeaves;
+    internal const ushort MaxMoveID_9_T0 = (int)Move.MagicalTorque;
+    internal const ushort MaxItemID_9_T0 = 2400; // Yellow Dish
+    internal const ushort MaxAbilityID_9_T0 = (int)Ability.MyceliumMight;
 
-    internal const int MaxSpeciesID_9_T1 = (int)Species.Ogerpon;
-    internal const int MaxMoveID_9_T1 = (int)Move.IvyCudgel;
-    internal const int MaxItemID_9_T1 = 2481; // Glimmering Charm
-    internal const int MaxAbilityID_9_T1 = (int)Ability.SupersweetSyrup;
+    internal const ushort MaxSpeciesID_9_T1 = (int)Species.Ogerpon;
+    internal const ushort MaxMoveID_9_T1 = (int)Move.IvyCudgel;
+    internal const ushort MaxItemID_9_T1 = 2481; // Glimmering Charm
+    internal const ushort MaxAbilityID_9_T1 = (int)Ability.SupersweetSyrup;
 
-    internal const int MaxSpeciesID_9_T2 = (int)Species.Pecharunt;
-    internal const int MaxMoveID_9_T2 = (int)Move.MalignantChain;
-    internal const int MaxItemID_9_T2 = 2557; // Briar’s Book
-    internal const int MaxAbilityID_9_T2 = (int)Ability.PoisonPuppeteer;
+    internal const ushort MaxSpeciesID_9_T2 = (int)Species.Pecharunt;
+    internal const ushort MaxMoveID_9_T2 = (int)Move.MalignantChain;
+    internal const ushort MaxItemID_9_T2 = 2557; // Briar’s Book
+    internal const ushort MaxAbilityID_9_T2 = (int)Ability.PoisonPuppeteer;
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
     internal const GameVersion MaxGameID_9 = GameVersion.VL;

@@ -1934,8 +1934,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_Favorite.Visible = t is IFavorite;
         PB_BattleVersion.Visible = FLP_BattleVersion.Visible = t is IBattleVersion;
         BTN_History.Visible = format >= 6 && !pb7;
-        BTN_Ribbons.Visible = format >= 3 && !pb7;
+        BTN_Ribbons.Visible = format >= 3; // pb7 has ribbons on HOME Meltan lol
         BTN_Medals.Visible = format is 6 or 7 && !pb7;
+        FLP_ReceivedDate.Visible = pb7;
         FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
         FLP_OriginalNature.Visible = format >= 8;
         B_RelearnFlags.Visible = t is ITechRecord;
