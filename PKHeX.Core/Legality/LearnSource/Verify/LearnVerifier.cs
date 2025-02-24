@@ -30,13 +30,19 @@ internal static class LearnVerifier
     {
         if (pk.IsEgg)
         {
+            // Check for the correct ordering of moves as the order is immutable while egg.
             LearnVerifierEgg.Verify(result, current, enc, pk);
-            return;
+        }
+        else
+        {
+            LearnVerifierHistory.Verify(result, current, enc, pk, history);
+            // Check for form exclusive interlocked moves.
+            FlagFormExclusiveMoves(result, current, pk);
         }
 
-        LearnVerifierHistory.Verify(result, current, enc, pk, history);
-        // Check for form exclusive interlocked moves.
-        FlagFormExclusiveMoves(result, current, pk);
+        // Check invalid Egg Move combinations.
+        if (enc is EncounterEgg { Generation: <= 5 } egg)
+            EggMoveVerifier.FlagEggMoveCombination(result, current, egg);
     }
 
     private static void Finalize(Span<MoveResult> result, ReadOnlySpan<ushort> current)
@@ -109,35 +115,38 @@ internal static class LearnVerifier
             return;
 
         // Hoopa in Gen8+ cannot have Hyperspace Hole if not form 0, and cannot have Hyperspace Fury if not form 1.
-        var disallow = pk.Form != 0 ? (ushort)Move.HyperspaceHole : (ushort)Move.HyperspaceFury;
+        byte form = pk.Form;
+        bool unbound = form == 1;
+        var disallow = unbound ? (ushort)Move.HyperspaceHole : (ushort)Move.HyperspaceFury;
         var index = current.IndexOf(disallow);
         if (index >= 0)
-            result[index] = MoveResult.Unobtainable(pk.Form == 0 ? (ushort)Move.HyperspaceHole : (ushort)Move.HyperspaceFury);
+            result[index] = MoveResult.Unobtainable(!unbound ? (ushort)Move.HyperspaceHole : (ushort)Move.HyperspaceFury);
     }
 
     private static void FlagFormExclusiveKyurem(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk)
     {
         // Kyurem forms replace Scary Face with their Fusion Move and vice versa.
-        if (pk.Form is not 1) // not White
+        byte form = pk.Form;
+        if (form is not 1) // not White
         {
             // Disallow Fusion Flare
             var index = current.IndexOf((ushort)Move.FusionFlare);
             if (index >= 0)
                 result[index] = MoveResult.Unobtainable((ushort)Move.ScaryFace);
         }
-        if (pk.Form is not 2) // not Black
+        if (form is not 2) // not Black
         {
             // Disallow Fusion Flare
             var index = current.IndexOf((ushort)Move.FusionBolt);
             if (index >= 0)
                 result[index] = MoveResult.Unobtainable((ushort)Move.ScaryFace);
         }
-        if (pk.Form is not 0 && pk.Format < 8) // unfused
+        if (form is not 0 && pk.Format < 8) // fused
         {
             // Disallow Scary Face in formats < 8
             var index = current.IndexOf((ushort)Move.ScaryFace);
             if (index >= 0)
-                result[index] = MoveResult.Unobtainable(pk.Form == 1 ? (ushort)Move.FusionFlare : (ushort)Move.FusionBolt);
+                result[index] = MoveResult.Unobtainable(form == 1 ? (ushort)Move.FusionFlare : (ushort)Move.FusionBolt);
         }
     }
 }
