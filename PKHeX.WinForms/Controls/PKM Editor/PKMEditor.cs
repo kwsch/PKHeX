@@ -1956,7 +1956,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ToggleInterface(byte format)
     {
         ToggleSecrets(HideSecretValues, format);
-        FLP_Handler.Visible = GB_nOT.Visible = FLP_HT.Visible = GB_RelearnMoves.Visible = format >= 6;
+        FLP_HT.Visible = GB_nOT.Visible = FLP_Handler.Visible =
+        FLP_Relearn4.Visible = FLP_Relearn3.Visible = FLP_Relearn2.Visible = FLP_Relearn1.Visible = GB_RelearnMoves.Visible = format >= 6;
 
         PB_Origin.Visible = format >= 6;
         FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = format == 5;

@@ -532,8 +532,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            UC_Gender.AccessibleDescription = "Entity gender pane (0) (0) (0) (0) (0) (0) (0) (0) (0)";
-            UC_Gender.AccessibleName = "Entity gender pane (0) (0) (0) (0) (0) (0) (0) (0) (0)";
+            UC_Gender.AccessibleDescription = "Entity gender panel";
+            UC_Gender.AccessibleName = "Entity gender panel";
             UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_Gender.AllowClick = false;
             UC_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_Gender.BackgroundImage");
@@ -1927,9 +1927,9 @@ namespace PKHeX.WinForms.Controls
             FLP_Moves.Controls.Add(GB_CurrentMoves);
             FLP_Moves.Controls.Add(FLP_PP);
             FLP_Moves.Controls.Add(MC_Move1);
-            FLP_Moves.Controls.Add(MC_Move4);
-            FLP_Moves.Controls.Add(MC_Move3);
             FLP_Moves.Controls.Add(MC_Move2);
+            FLP_Moves.Controls.Add(MC_Move3);
+            FLP_Moves.Controls.Add(MC_Move4);
             FLP_Moves.Controls.Add(GB_RelearnMoves);
             FLP_Moves.Controls.Add(FLP_Relearn1);
             FLP_Moves.Controls.Add(FLP_Relearn2);
@@ -2006,7 +2006,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move4.AutoSize = true;
             MC_Move4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Moves.SetFlowBreak(MC_Move4, true);
-            MC_Move4.Location = new System.Drawing.Point(8, 58);
+            MC_Move4.Location = new System.Drawing.Point(8, 110);
             MC_Move4.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             MC_Move4.Name = "MC_Move4";
             MC_Move4.PP = 0;
@@ -2034,7 +2034,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move2.AutoSize = true;
             MC_Move2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Moves.SetFlowBreak(MC_Move2, true);
-            MC_Move2.Location = new System.Drawing.Point(8, 110);
+            MC_Move2.Location = new System.Drawing.Point(8, 58);
             MC_Move2.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             MC_Move2.Name = "MC_Move2";
             MC_Move2.PP = 0;
@@ -2709,8 +2709,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = "Trainer gender pane (0) (0) (0) (0) (0) (0) (0) (0) (0)";
-            UC_OTGender.AccessibleName = "Trainer gender pane (0) (0) (0) (0) (0) (0) (0) (0) (0)";
+            UC_OTGender.AccessibleDescription = "Trainer gender panel";
+            UC_OTGender.AccessibleName = "Trainer gender panel";
             UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
@@ -2928,8 +2928,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            UC_HTGender.AccessibleDescription = "Handling Trainer gender pane (0) (0) (0) (0) (0) (0) (0) (0) (0)";
-            UC_HTGender.AccessibleName = "Handling Trainer gender pane (0) (0) (0) (0) (0) (0) (0) (0) (0)";
+            UC_HTGender.AccessibleDescription = "Handling Trainer gender panel";
+            UC_HTGender.AccessibleName = "Handling Trainer gender panel";
             UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_HTGender.AllowClick = true;
             UC_HTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_HTGender.BackgroundImage");
