@@ -27,12 +27,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         InitializeComponent();
 
-        // Groupbox doesn't show Click event in Designer...
-        GB_OT.Click += ClickGT;
-        GB_nOT.Click += ClickGT;
-        GB_CurrentMoves.Click += ClickMoves;
-        GB_RelearnMoves.Click += ClickMoves;
-
         var font = FontUtil.GetPKXFont();
         TB_Nickname.Font = TB_OT.Font = TB_HT.Font = font;
 
@@ -346,6 +340,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
             return;
         }
+        PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = true;
         MC_Move1.HideLegality = MC_Move2.HideLegality = MC_Move3.HideLegality = MC_Move4.HideLegality = false;
 
         // Refresh Move Legality
@@ -358,7 +353,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             var relearn = info.Relearn;
             for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !relearn[i].Valid;
+                relearnPB[i].Image = MoveDisplayState.GetMoveImage(!relearn[i].Valid, Entity, i);
         }
 
         if (args.HasFlag(UpdateLegalityArgs.SkipMoveRepopulation))
@@ -1934,8 +1929,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_Favorite.Visible = t is IFavorite;
         PB_BattleVersion.Visible = FLP_BattleVersion.Visible = t is IBattleVersion;
         BTN_History.Visible = format >= 6 && !pb7;
-        BTN_Ribbons.Visible = format >= 3 && !pb7;
+        BTN_Ribbons.Visible = format >= 3; // pb7 has ribbons on HOME Meltan lol
         BTN_Medals.Visible = format is 6 or 7 && !pb7;
+        FLP_ReceivedDate.Visible = pb7;
         FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
         FLP_OriginalNature.Visible = format >= 8;
         B_RelearnFlags.Visible = t is ITechRecord;
@@ -1961,7 +1957,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ToggleInterface(byte format)
     {
         ToggleSecrets(HideSecretValues, format);
-        FLP_Handler.Visible = GB_nOT.Visible = FLP_HT.Visible = GB_RelearnMoves.Visible = format >= 6;
+        FLP_HT.Visible = GB_nOT.Visible = FLP_Handler.Visible =
+        FLP_Relearn4.Visible = FLP_Relearn3.Visible = FLP_Relearn2.Visible = FLP_Relearn1.Visible = GB_RelearnMoves.Visible = format >= 6;
 
         PB_Origin.Visible = format >= 6;
         FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = format == 5;

@@ -89,9 +89,9 @@ public static class SaveExtensions
     /// <param name="compat">Compatible <see cref="PKM"/> data that can be set to the <see cref="sav"/> without conversion.</param>
     /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
     /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
-    /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
+    /// <param name="settings">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
     /// <returns>Count of injected <see cref="PKM"/>.</returns>
-    public static int ImportPKMs(this SaveFile sav, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
+    public static int ImportPKMs(this SaveFile sav, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, EntityImportSettings settings = default)
     {
         int startCount = boxStart * sav.BoxSlotCount;
         int maxCount = sav.SlotCount;
@@ -109,7 +109,7 @@ public static class SaveExtensions
                 if (index >= maxCount) // Boxes full!
                     break;
 
-                sav.SetBoxSlotAtIndex(pk, index, noSetb);
+                sav.SetBoxSlotAtIndex(pk, index, settings);
             }
             else
             {
@@ -117,7 +117,7 @@ public static class SaveExtensions
                 if (index < 0) // Boxes full!
                     break;
 
-                sav.SetBoxSlotAtIndex(pk, index, noSetb);
+                sav.SetBoxSlotAtIndex(pk, index, settings);
                 nonOverwriteImport++;
             }
 

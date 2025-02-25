@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public interface ISaveBlock9Main
 {
-    Box8 BoxInfo { get; }
+    Box9 BoxInfo { get; }
     Party9 PartyInfo { get; }
     MyItem9 Items { get; }
     MyStatus9 MyStatus { get; }

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_RTC3
     {
@@ -65,7 +65,7 @@
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(287, 163);
+            B_Save.Location = new System.Drawing.Point(286, 174);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(88, 27);
@@ -77,7 +77,7 @@
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(192, 163);
+            B_Cancel.Location = new System.Drawing.Point(286, 207);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(88, 27);
@@ -89,10 +89,10 @@
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_Reset.Location = new System.Drawing.Point(14, 163);
+            B_Reset.Location = new System.Drawing.Point(14, 174);
             B_Reset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Reset.Name = "B_Reset";
-            B_Reset.Size = new System.Drawing.Size(88, 27);
+            B_Reset.Size = new System.Drawing.Size(128, 60);
             B_Reset.TabIndex = 77;
             B_Reset.Text = "Reset RTC";
             B_Reset.UseVisualStyleBackColor = true;
@@ -124,7 +124,7 @@
             L_ESecond.Location = new System.Drawing.Point(88, 115);
             L_ESecond.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_ESecond.Name = "L_ESecond";
-            L_ESecond.Size = new System.Drawing.Size(51, 15);
+            L_ESecond.Size = new System.Drawing.Size(57, 17);
             L_ESecond.TabIndex = 20;
             L_ESecond.Text = "Seconds";
             L_ESecond.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -136,7 +136,7 @@
             L_EMinute.Location = new System.Drawing.Point(88, 85);
             L_EMinute.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EMinute.Name = "L_EMinute";
-            L_EMinute.Size = new System.Drawing.Size(50, 15);
+            L_EMinute.Size = new System.Drawing.Size(54, 17);
             L_EMinute.TabIndex = 19;
             L_EMinute.Text = "Minutes";
             L_EMinute.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,7 +148,7 @@
             L_EHour.Location = new System.Drawing.Point(88, 55);
             L_EHour.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EHour.Name = "L_EHour";
-            L_EHour.Size = new System.Drawing.Size(39, 15);
+            L_EHour.Size = new System.Drawing.Size(43, 17);
             L_EHour.TabIndex = 18;
             L_EHour.Text = "Hours";
             L_EHour.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -160,7 +160,7 @@
             L_EDay.Location = new System.Drawing.Point(88, 25);
             L_EDay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EDay.Name = "L_EDay";
-            L_EDay.Size = new System.Drawing.Size(32, 15);
+            L_EDay.Size = new System.Drawing.Size(36, 17);
             L_EDay.TabIndex = 14;
             L_EDay.Text = "Days";
             L_EDay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -171,7 +171,7 @@
             NUD_ESecond.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_ESecond.Maximum = new decimal(new int[] { 59, 0, 0, 0 });
             NUD_ESecond.Name = "NUD_ESecond";
-            NUD_ESecond.Size = new System.Drawing.Size(77, 23);
+            NUD_ESecond.Size = new System.Drawing.Size(77, 25);
             NUD_ESecond.TabIndex = 17;
             NUD_ESecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -181,7 +181,7 @@
             NUD_EMinute.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EMinute.Maximum = new decimal(new int[] { 59, 0, 0, 0 });
             NUD_EMinute.Name = "NUD_EMinute";
-            NUD_EMinute.Size = new System.Drawing.Size(77, 23);
+            NUD_EMinute.Size = new System.Drawing.Size(77, 25);
             NUD_EMinute.TabIndex = 16;
             NUD_EMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -191,7 +191,7 @@
             NUD_EHour.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EHour.Maximum = new decimal(new int[] { 23, 0, 0, 0 });
             NUD_EHour.Name = "NUD_EHour";
-            NUD_EHour.Size = new System.Drawing.Size(77, 23);
+            NUD_EHour.Size = new System.Drawing.Size(77, 25);
             NUD_EHour.TabIndex = 15;
             NUD_EHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -201,7 +201,7 @@
             NUD_EDay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EDay.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_EDay.Name = "NUD_EDay";
-            NUD_EDay.Size = new System.Drawing.Size(77, 23);
+            NUD_EDay.Size = new System.Drawing.Size(77, 25);
             NUD_EDay.TabIndex = 14;
             NUD_EDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -231,7 +231,7 @@
             L_ISecond.Location = new System.Drawing.Point(88, 115);
             L_ISecond.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_ISecond.Name = "L_ISecond";
-            L_ISecond.Size = new System.Drawing.Size(51, 15);
+            L_ISecond.Size = new System.Drawing.Size(57, 17);
             L_ISecond.TabIndex = 20;
             L_ISecond.Text = "Seconds";
             L_ISecond.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -243,7 +243,7 @@
             L_IMinute.Location = new System.Drawing.Point(88, 85);
             L_IMinute.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_IMinute.Name = "L_IMinute";
-            L_IMinute.Size = new System.Drawing.Size(50, 15);
+            L_IMinute.Size = new System.Drawing.Size(54, 17);
             L_IMinute.TabIndex = 19;
             L_IMinute.Text = "Minutes";
             L_IMinute.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -255,7 +255,7 @@
             L_IHour.Location = new System.Drawing.Point(88, 55);
             L_IHour.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_IHour.Name = "L_IHour";
-            L_IHour.Size = new System.Drawing.Size(39, 15);
+            L_IHour.Size = new System.Drawing.Size(43, 17);
             L_IHour.TabIndex = 18;
             L_IHour.Text = "Hours";
             L_IHour.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -267,7 +267,7 @@
             L_IDay.Location = new System.Drawing.Point(88, 25);
             L_IDay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_IDay.Name = "L_IDay";
-            L_IDay.Size = new System.Drawing.Size(32, 15);
+            L_IDay.Size = new System.Drawing.Size(36, 17);
             L_IDay.TabIndex = 14;
             L_IDay.Text = "Days";
             L_IDay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -278,7 +278,7 @@
             NUD_ISecond.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_ISecond.Maximum = new decimal(new int[] { 59, 0, 0, 0 });
             NUD_ISecond.Name = "NUD_ISecond";
-            NUD_ISecond.Size = new System.Drawing.Size(77, 23);
+            NUD_ISecond.Size = new System.Drawing.Size(77, 25);
             NUD_ISecond.TabIndex = 17;
             NUD_ISecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -288,7 +288,7 @@
             NUD_IMinute.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_IMinute.Maximum = new decimal(new int[] { 59, 0, 0, 0 });
             NUD_IMinute.Name = "NUD_IMinute";
-            NUD_IMinute.Size = new System.Drawing.Size(77, 23);
+            NUD_IMinute.Size = new System.Drawing.Size(77, 25);
             NUD_IMinute.TabIndex = 16;
             NUD_IMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -298,7 +298,7 @@
             NUD_IHour.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_IHour.Maximum = new decimal(new int[] { 23, 0, 0, 0 });
             NUD_IHour.Name = "NUD_IHour";
-            NUD_IHour.Size = new System.Drawing.Size(77, 23);
+            NUD_IHour.Size = new System.Drawing.Size(77, 25);
             NUD_IHour.TabIndex = 15;
             NUD_IHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -308,17 +308,17 @@
             NUD_IDay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_IDay.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_IDay.Name = "NUD_IDay";
-            NUD_IDay.Size = new System.Drawing.Size(77, 23);
+            NUD_IDay.Size = new System.Drawing.Size(77, 25);
             NUD_IDay.TabIndex = 14;
             NUD_IDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // B_BerryFix
             // 
             B_BerryFix.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_BerryFix.Location = new System.Drawing.Point(108, 163);
+            B_BerryFix.Location = new System.Drawing.Point(151, 174);
             B_BerryFix.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_BerryFix.Name = "B_BerryFix";
-            B_BerryFix.Size = new System.Drawing.Size(77, 27);
+            B_BerryFix.Size = new System.Drawing.Size(128, 60);
             B_BerryFix.TabIndex = 78;
             B_BerryFix.Text = "Berry Fix";
             B_BerryFix.UseVisualStyleBackColor = true;
@@ -327,7 +327,7 @@
             // SAV_RTC3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(386, 203);
+            ClientSize = new System.Drawing.Size(384, 249);
             Controls.Add(B_BerryFix);
             Controls.Add(B_Reset);
             Controls.Add(GB_Passed);

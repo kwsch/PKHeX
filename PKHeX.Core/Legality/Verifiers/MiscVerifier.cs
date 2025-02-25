@@ -642,15 +642,31 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LDateOutsideConsoleWindow, Misc));
     }
 
-    private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
+    private static void VerifyAbsoluteSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue
     {
-        // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+        if (obj is PB7 pb7 && data.EncounterMatch is WB7 { IsHeightWeightFixed: true } enc)
+            VerifyFixedSizes(data, pb7, enc);
+        else
+            VerifyCalculatedSizes(data, obj);
+    }
+
+    // ReSharper disable 4 CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+    private static void VerifyFixedSizes<T>(LegalityAnalysis data, T obj, WB7 enc) where T : IScaledSizeValue
+    {
+        if (obj.HeightAbsolute != enc.GetHomeHeightAbsolute())
+            data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
+        if (obj.WeightAbsolute != enc.GetHomeWeightAbsolute())
+            data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
+    }
+
+    private static void VerifyCalculatedSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue
+    {
         if (obj.HeightAbsolute != obj.CalcHeightAbsolute)
             data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
-        // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
         if (obj.WeightAbsolute != obj.CalcWeightAbsolute)
             data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
     }
+    // ReSharper restore CompareOfFloatsByEqualityOperator
 
     private static bool IsStarterLGPE<T>(T pk) where T : ISpeciesForm => pk switch
     {

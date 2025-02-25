@@ -35,9 +35,9 @@ public interface ISlotInfo
     /// </summary>
     /// <param name="sav">Save file to try writing to.</param>
     /// <param name="pk">Entity data to try writing.</param>
-    /// <param name="setting">Setting to use when importing the <see cref="pk"/> data</param>
+    /// <param name="settings">Setting to use when importing the <see cref="pk"/> data</param>
     /// <returns>Returns false if it did not succeed.</returns>
-    bool WriteTo(SaveFile sav, PKM pk, PKMImportSetting setting = PKMImportSetting.UseDefault);
+    bool WriteTo(SaveFile sav, PKM pk, EntityImportSettings settings = default);
 
     /// <summary>
     /// Reads a <see cref="PKM"/> from the <see cref="sav"/>.

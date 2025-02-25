@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = けづやは <= {0} でなければなりません。
 LContestSheenTooLow_0 = けづやは >= {0} でなければなりません。
 LContestZero = コンディションは0でなければなりません。
 LContestZeroSheen = けづやは0でなければなりません。
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = 出会った日が配布期間外です。
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = 努力値が2残っています。
 LEffortAbove252 = 努力値は1つにつき252までです。
 LEffortAbove510 = 努力値の合計は510までです。
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = ケルディオの技/フォルムが一致しません。
 LMoveNincada = テッカニンの技は１つだけ覚えることが可能です。
 LMoveNincadaEvo = テッカニンに進化させる際に、覚えられます。
 LMoveNincadaEvoF_0 = {0} 世代でテッカニンに進化させる際、覚えられます。
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = 技 {0} のPPが上限を超えています。
 LMovePPUpsTooHigh_0 = 技 {0} のポイントアップ上限を超えています。
 LMoveRelearnDexNav = ずかんナビによる技ではありません。
@@ -386,6 +389,7 @@ LSuperUnused = 未使用のスパトレにフラグが立っています。
 LTeraTypeIncorrect = テラスタルタイプが一致しません。
 LTeraTypeMismatch = テラスタルタイプが元のタイプのいずれにも一致しません。
 LTradeNotAvailable = Encounter cannot be traded to the active trainer.
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = VCからポケモンを入手できません。
 LTransferCurrentHandlerInvalid = 不正なトレーナーの値です。トレーナー情報に他の値を入力してください。
 LTransferEgg = 世代間でタマゴを送ることはできません。

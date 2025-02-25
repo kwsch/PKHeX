@@ -27,19 +27,13 @@ public static class SearchUtil
         _ => pk.Generation == generation,
     };
 
-    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, int level)
+    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, int level) => option switch
     {
-        if (level > 100)
-            return true; // why???
-
-        return option switch
-        {
-            SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
-            SearchComparison.Equals =>            pk.Stat_Level == level,
-            SearchComparison.GreaterThanEquals => pk.Stat_Level >= level,
-            _ => true,
-        };
-    }
+        SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
+        SearchComparison.Equals =>            pk.Stat_Level == level,
+        SearchComparison.GreaterThanEquals => pk.Stat_Level >= level,
+        _ => true,
+    };
 
     public static bool SatisfiesFilterEVs(PKM pk, int option) => option switch
     {

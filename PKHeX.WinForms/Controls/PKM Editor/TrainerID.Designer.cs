@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class TrainerID
     {
@@ -42,6 +42,8 @@
             // 
             // FLP
             // 
+            FLP.AutoSize = true;
+            FLP.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP.Controls.Add(Label_TID);
             FLP.Controls.Add(TB_TID);
             FLP.Controls.Add(TB_TID7);
@@ -72,7 +74,7 @@
             TB_TID.Margin = new System.Windows.Forms.Padding(0);
             TB_TID.Mask = "00000";
             TB_TID.Name = "TB_TID";
-            TB_TID.Size = new System.Drawing.Size(40, 23);
+            TB_TID.Size = new System.Drawing.Size(40, 25);
             TB_TID.TabIndex = 1;
             TB_TID.Text = "12345";
             TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -86,7 +88,7 @@
             TB_TID7.Margin = new System.Windows.Forms.Padding(0);
             TB_TID7.Mask = "000000";
             TB_TID7.Name = "TB_TID7";
-            TB_TID7.Size = new System.Drawing.Size(48, 23);
+            TB_TID7.Size = new System.Drawing.Size(48, 25);
             TB_TID7.TabIndex = 2;
             TB_TID7.Text = "123456";
             TB_TID7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -95,7 +97,7 @@
             // 
             // Label_SID
             // 
-            Label_SID.Location = new System.Drawing.Point(0, 24);
+            Label_SID.Location = new System.Drawing.Point(0, 25);
             Label_SID.Margin = new System.Windows.Forms.Padding(0);
             Label_SID.Name = "Label_SID";
             Label_SID.Size = new System.Drawing.Size(40, 24);
@@ -106,11 +108,11 @@
             // TB_SID
             // 
             TB_SID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SID.Location = new System.Drawing.Point(40, 24);
+            TB_SID.Location = new System.Drawing.Point(40, 25);
             TB_SID.Margin = new System.Windows.Forms.Padding(0);
             TB_SID.Mask = "00000";
             TB_SID.Name = "TB_SID";
-            TB_SID.Size = new System.Drawing.Size(40, 23);
+            TB_SID.Size = new System.Drawing.Size(40, 25);
             TB_SID.TabIndex = 3;
             TB_SID.Text = "12345";
             TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -120,11 +122,11 @@
             // TB_SID7
             // 
             TB_SID7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SID7.Location = new System.Drawing.Point(80, 24);
+            TB_SID7.Location = new System.Drawing.Point(80, 25);
             TB_SID7.Margin = new System.Windows.Forms.Padding(0);
             TB_SID7.Mask = "0000";
             TB_SID7.Name = "TB_SID7";
-            TB_SID7.Size = new System.Drawing.Size(32, 23);
+            TB_SID7.Size = new System.Drawing.Size(32, 25);
             TB_SID7.TabIndex = 4;
             TB_SID7.Text = "1234";
             TB_SID7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -141,6 +143,7 @@
             FLP.ResumeLayout(false);
             FLP.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

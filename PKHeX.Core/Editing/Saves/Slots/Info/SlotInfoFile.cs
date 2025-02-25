@@ -11,6 +11,6 @@ public sealed record SlotInfoFile(string Path) : ISlotInfo
 
     public bool CanWriteTo(SaveFile sav) => false;
     public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk) => WriteBlockedMessage.InvalidDestination;
-    public bool WriteTo(SaveFile sav, PKM pk, PKMImportSetting setting = PKMImportSetting.UseDefault) => false;
+    public bool WriteTo(SaveFile sav, PKM pk, EntityImportSettings settings = default) => false;
     public PKM Read(SaveFile sav) => sav.BlankPKM;
 }

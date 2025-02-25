@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = Il Lustro dovrebbe essere <= {0}.
 LContestSheenTooLow_0 = Il Lustro dovrebbe essere >= {0}.
 LContestZero = Le statistiche delle Gare dovrebbero essere 0.
 LContestZeroSheen = Il Lustro dovrebbe essere 0.
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = La data di incontro è al di fuori del periodo di Distribuzione.
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = 2 EV rimanenti.
 LEffortAbove252 = Gli EV non possono essere maggiori di 252.
 LEffortAbove510 = Gli EV totali non possono essere maggiori di 510.
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = Mossa/Forma di Keldeo non corrispondente.
 LMoveNincada = Solo una mossa di Ninjask è concessa.
 LMoveNincadaEvo = Acquisita evolvendo Nincada in Ninjask.
 LMoveNincadaEvoF_0 = Acquisita evolvendo Nincada in Ninjask in gen {0}.
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = I PP della mossa {0} sono oltre il massimo consentito.
 LMovePPUpsTooHigh_0 = I PP Up della mossa {0} sono oltre il massimo consentito.
 LMoveRelearnDexNav = Non è una mossa da Navidex prevista.
@@ -386,6 +389,7 @@ LSuperUnused = Il segnale inutilizzato per il Super Allenamento è stato abilita
 LTeraTypeIncorrect = Il Tera Tipo non corrisponde al valore atteso.
 LTeraTypeMismatch = Il Tera Tipo non corrisponde a nessuno dei due tipi base.
 LTradeNotAvailable = Il Pokémon non può essere scambiato all'Allenatore attuale.
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = Il Pokémon trasferito da una generazione passata non è stato trasferito correttamente, o non è compatibile con questo salvataggio.
 LTransferCurrentHandlerInvalid = Il valore dell'Ultimo Allenatore è invalido, i dettagli allenatori del salvataggio non sono corretti.
 LTransferEgg = Impossibile tarsferire Uova tra Generazioni diverse.

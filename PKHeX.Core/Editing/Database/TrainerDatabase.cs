@@ -13,6 +13,33 @@ public sealed class TrainerDatabase
     private readonly Dictionary<GameVersion, List<ITrainerInfo>> Database = [];
 
     /// <summary>
+    /// Gets the number of unique versions in the database.
+    /// </summary>
+    public int CountVersions => Database.Count;
+
+    /// <summary>
+    /// Gets the number of trainers in the database.
+    /// </summary>
+    public int CountTrainers => Database.Sum(z => z.Value.Count);
+
+    /// <summary>
+    /// Checks if the database contains any trainers for the specified <see cref="version"/>.
+    /// </summary>
+    /// <param name="version"></param>
+    public bool HasVersion(GameVersion version) => Database.ContainsKey(version);
+
+    /// <summary>
+    /// Gets all trainers from the database for the specified saved <see cref="version"/>.
+    /// </summary>
+    /// <param name="version">Saved Version to fetch trainers for</param>
+    public ReadOnlySpan<ITrainerInfo> GetTrainers(GameVersion version)
+    {
+        if (Database.TryGetValue(version, out var list))
+            return CollectionsMarshal.AsSpan(list);
+        return default;
+    }
+
+    /// <summary>
     /// Fetches an appropriate trainer based on the requested <see cref="version"/>.
     /// </summary>
     /// <param name="version">Version the trainer should originate from</param>

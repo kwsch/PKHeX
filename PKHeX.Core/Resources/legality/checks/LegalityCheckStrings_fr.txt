@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
 LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = Les Stats de Concours doivent être 0.
 LContestZeroSheen = Contest Stat Sheen should be 0.
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = La date de rencontre est en dehors de la fenêtre de distribution.
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = 2 EVs restants. 
 LEffortAbove252 = Les EVs dans une seule statistique ne peuvent pas dépasser 252.
 LEffortAbove510 = Le total d'EVs ne doit pas être supérieur à 510.
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = Combinaison forme/capacité invalide chez Keldeo.
 LMoveNincada = Une seule capacité de Ninjask est permise.
 LMoveNincadaEvo = Apprise en faisant évoluer Ningale en Ninjask.
 LMoveNincadaEvoF_0 = Apprise en faisant évoluer Ningale en Ninjask dans la génération {0}.
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = Le déplacement {0} PP est supérieur au montant autorisé.
 LMovePPUpsTooHigh_0 = Move {0} PP Ups is above the amount allowed.
 LMoveRelearnDexNav = Ce n'est pas un mouvement DexNav.
@@ -386,6 +389,7 @@ LSuperUnused = La case Super Training inutilisée est cochée.
 LTeraTypeIncorrect = Le type de la Téracristallisation ne correspond pas à la valeur attendue.
 LTeraTypeMismatch = Le type de la Téracristallisation ne correspond à aucun des types par défaut.
 LTradeNotAvailable = La rencontre ne peut pas être échangée avec le dresseur actif.
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = Espèce non obtenable dans jeu de Console Virtuelle.
 LTransferCurrentHandlerInvalid = Valeur du gestionnaire courant non valide, les détails du dresseur pour le fichier de sauvegarde attendaient une autre valeur.
 LTransferEgg = Un Œuf ne peut pas être transféré entre les générations.

@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
 LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = Contest Stats should be 0.
 LContestZeroSheen = Contest Stat Sheen should be 0.
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = Met Date is outside of distribution window.
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = 2 EVs remaining.
 LEffortAbove252 = EVs cannot go above 252.
 LEffortAbove510 = EV total cannot be above 510.
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = Keldeo Move/Form mismatch.
 LMoveNincada = Only one Ninjask move allowed.
 LMoveNincadaEvo = Learned by evolving Nincada into Ninjask.
 LMoveNincadaEvoF_0 = Learned by evolving Nincada into Ninjask in Generation {0}.
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = Move {0} PP is above the amount allowed.
 LMovePPUpsTooHigh_0 = Move {0} PP Ups is above the amount allowed.
 LMoveRelearnDexNav = Not an expected DexNav move.
@@ -386,6 +389,7 @@ LSuperUnused = Unused Super Training Flag is flagged.
 LTeraTypeIncorrect = Tera Type does not match the expected value.
 LTeraTypeMismatch = Tera Type does not match either of the default types.
 LTradeNotAvailable = Encounter cannot be traded to the active trainer.
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = Incorrectly transferred from previous generation.
 LTransferCurrentHandlerInvalid = Invalid Current handler value, trainer details for save file expected another value.
 LTransferEgg = Can't transfer Eggs between Generations.
