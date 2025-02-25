@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class FormArgument
     {
@@ -37,13 +37,15 @@
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             flowLayoutPanel1.Controls.Add(NUD_FormArg);
             flowLayoutPanel1.Controls.Add(CB_FormArg);
             flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(143, 22);
+            flowLayoutPanel1.Size = new System.Drawing.Size(119, 25);
             flowLayoutPanel1.TabIndex = 1;
             // 
             // NUD_FormArg
@@ -52,7 +54,7 @@
             NUD_FormArg.Margin = new System.Windows.Forms.Padding(0);
             NUD_FormArg.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FormArg.Name = "NUD_FormArg";
-            NUD_FormArg.Size = new System.Drawing.Size(44, 23);
+            NUD_FormArg.Size = new System.Drawing.Size(44, 25);
             NUD_FormArg.TabIndex = 0;
             NUD_FormArg.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FormArg.Visible = false;
@@ -67,7 +69,7 @@
             CB_FormArg.Location = new System.Drawing.Point(44, 0);
             CB_FormArg.Margin = new System.Windows.Forms.Padding(0);
             CB_FormArg.Name = "CB_FormArg";
-            CB_FormArg.Size = new System.Drawing.Size(75, 23);
+            CB_FormArg.Size = new System.Drawing.Size(75, 25);
             CB_FormArg.TabIndex = 1;
             CB_FormArg.Visible = false;
             CB_FormArg.SelectedIndexChanged += CB_FormArg_SelectedIndexChanged;
@@ -75,12 +77,15 @@
             // FormArgument
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Controls.Add(flowLayoutPanel1);
             Name = "FormArgument";
-            Size = new System.Drawing.Size(143, 22);
+            Size = new System.Drawing.Size(119, 25);
             flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_FormArg).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

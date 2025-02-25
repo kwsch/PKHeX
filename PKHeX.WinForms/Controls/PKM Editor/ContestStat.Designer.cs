@@ -52,7 +52,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Sheen.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Sheen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Sheen.Location = new System.Drawing.Point(248, 18);
+            TB_Sheen.Location = new System.Drawing.Point(248, 16);
             TB_Sheen.Margin = new System.Windows.Forms.Padding(0);
             TB_Sheen.Mask = "000";
             TB_Sheen.MinimumSize = new System.Drawing.Size(32, 23);
@@ -67,7 +67,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Tough.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Tough.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Tough.Location = new System.Drawing.Point(200, 18);
+            TB_Tough.Location = new System.Drawing.Point(200, 16);
             TB_Tough.Margin = new System.Windows.Forms.Padding(0);
             TB_Tough.Mask = "000";
             TB_Tough.MinimumSize = new System.Drawing.Size(32, 23);
@@ -82,7 +82,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Smart.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Smart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Smart.Location = new System.Drawing.Point(152, 18);
+            TB_Smart.Location = new System.Drawing.Point(152, 16);
             TB_Smart.Margin = new System.Windows.Forms.Padding(0);
             TB_Smart.Mask = "000";
             TB_Smart.MinimumSize = new System.Drawing.Size(32, 23);
@@ -97,7 +97,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Cute.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Cute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Cute.Location = new System.Drawing.Point(104, 18);
+            TB_Cute.Location = new System.Drawing.Point(104, 16);
             TB_Cute.Margin = new System.Windows.Forms.Padding(0);
             TB_Cute.Mask = "000";
             TB_Cute.MinimumSize = new System.Drawing.Size(32, 23);
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Beauty.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Beauty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Beauty.Location = new System.Drawing.Point(56, 18);
+            TB_Beauty.Location = new System.Drawing.Point(56, 16);
             TB_Beauty.Margin = new System.Windows.Forms.Padding(0);
             TB_Beauty.Mask = "000";
             TB_Beauty.MinimumSize = new System.Drawing.Size(32, 23);
@@ -127,7 +127,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Cool.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Cool.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Cool.Location = new System.Drawing.Point(8, 18);
+            TB_Cool.Location = new System.Drawing.Point(8, 16);
             TB_Cool.Margin = new System.Windows.Forms.Padding(0);
             TB_Cool.Mask = "000";
             TB_Cool.MinimumSize = new System.Drawing.Size(32, 23);
@@ -215,6 +215,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.AutoSize = true;
+            tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 6;
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
@@ -241,7 +243,7 @@ namespace PKHeX.WinForms.Controls
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(288, 45);
+            tableLayoutPanel1.Size = new System.Drawing.Size(288, 41);
             tableLayoutPanel1.TabIndex = 67;
             // 
             // FLP_SmartClever
@@ -277,6 +279,7 @@ namespace PKHeX.WinForms.Controls
             tableLayoutPanel1.PerformLayout();
             FLP_SmartClever.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
