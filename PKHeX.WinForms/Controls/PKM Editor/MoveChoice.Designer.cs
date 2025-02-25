@@ -89,14 +89,16 @@ namespace PKHeX.WinForms.Controls
             // FLP_Move
             // 
             FLP_Move.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            FLP_Move.AutoSize = true;
             FLP_Move.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Move.Controls.Add(PB_Type);
             FLP_Move.Controls.Add(CB_Move);
             FLP_Move.Controls.Add(TB_PP);
             FLP_Move.Controls.Add(CB_PPUps);
             FLP_Move.Location = new System.Drawing.Point(24, 0);
+            FLP_Move.Margin = new System.Windows.Forms.Padding(0);
             FLP_Move.Name = "FLP_Move";
-            FLP_Move.Size = new System.Drawing.Size(224, 26);
+            FLP_Move.Size = new System.Drawing.Size(222, 26);
             FLP_Move.TabIndex = 18;
             // 
             // PB_Type
@@ -112,16 +114,19 @@ namespace PKHeX.WinForms.Controls
             // MoveChoice
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Controls.Add(PB_Triangle);
             Controls.Add(FLP_Move);
+            Margin = new System.Windows.Forms.Padding(0);
             Name = "MoveChoice";
-            Size = new System.Drawing.Size(248, 26);
+            Size = new System.Drawing.Size(246, 26);
             ((System.ComponentModel.ISupportInitialize)PB_Triangle).EndInit();
             FLP_Move.ResumeLayout(false);
             FLP_Move.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PB_Type).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

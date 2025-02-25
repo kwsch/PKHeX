@@ -310,7 +310,7 @@ namespace PKHeX.WinForms.Controls
             FLP_HP.Location = new System.Drawing.Point(0, 24);
             FLP_HP.Margin = new System.Windows.Forms.Padding(0);
             FLP_HP.Name = "FLP_HP";
-            FLP_HP.Size = new System.Drawing.Size(308, 25);
+            FLP_HP.Size = new System.Drawing.Size(308, 26);
             FLP_HP.TabIndex = 1;
             // 
             // Label_HP
@@ -338,7 +338,7 @@ namespace PKHeX.WinForms.Controls
             FLP_HPRight.Location = new System.Drawing.Point(80, 0);
             FLP_HPRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_HPRight.Name = "FLP_HPRight";
-            FLP_HPRight.Size = new System.Drawing.Size(228, 25);
+            FLP_HPRight.Size = new System.Drawing.Size(228, 26);
             FLP_HPRight.TabIndex = 1;
             // 
             // TB_BaseHP
@@ -346,7 +346,7 @@ namespace PKHeX.WinForms.Controls
             TB_BaseHP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BaseHP.Enabled = false;
             TB_BaseHP.Location = new System.Drawing.Point(0, 0);
-            TB_BaseHP.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BaseHP.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BaseHP.Mask = "000";
             TB_BaseHP.Name = "TB_BaseHP";
             TB_BaseHP.PromptChar = ' ';
@@ -429,10 +429,10 @@ namespace PKHeX.WinForms.Controls
             FLP_Atk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Atk.Controls.Add(Label_ATK);
             FLP_Atk.Controls.Add(FLP_AtkRight);
-            FLP_Atk.Location = new System.Drawing.Point(0, 49);
+            FLP_Atk.Location = new System.Drawing.Point(0, 50);
             FLP_Atk.Margin = new System.Windows.Forms.Padding(0);
             FLP_Atk.Name = "FLP_Atk";
-            FLP_Atk.Size = new System.Drawing.Size(308, 25);
+            FLP_Atk.Size = new System.Drawing.Size(308, 26);
             FLP_Atk.TabIndex = 2;
             // 
             // Label_ATK
@@ -460,7 +460,7 @@ namespace PKHeX.WinForms.Controls
             FLP_AtkRight.Location = new System.Drawing.Point(80, 0);
             FLP_AtkRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_AtkRight.Name = "FLP_AtkRight";
-            FLP_AtkRight.Size = new System.Drawing.Size(228, 25);
+            FLP_AtkRight.Size = new System.Drawing.Size(228, 26);
             FLP_AtkRight.TabIndex = 2;
             // 
             // TB_BaseATK
@@ -468,7 +468,7 @@ namespace PKHeX.WinForms.Controls
             TB_BaseATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BaseATK.Enabled = false;
             TB_BaseATK.Location = new System.Drawing.Point(0, 0);
-            TB_BaseATK.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BaseATK.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BaseATK.Mask = "000";
             TB_BaseATK.Name = "TB_BaseATK";
             TB_BaseATK.PromptChar = ' ';
@@ -551,10 +551,10 @@ namespace PKHeX.WinForms.Controls
             FLP_Def.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Def.Controls.Add(Label_DEF);
             FLP_Def.Controls.Add(FLP_DefRight);
-            FLP_Def.Location = new System.Drawing.Point(0, 74);
+            FLP_Def.Location = new System.Drawing.Point(0, 76);
             FLP_Def.Margin = new System.Windows.Forms.Padding(0);
             FLP_Def.Name = "FLP_Def";
-            FLP_Def.Size = new System.Drawing.Size(308, 25);
+            FLP_Def.Size = new System.Drawing.Size(308, 26);
             FLP_Def.TabIndex = 3;
             // 
             // Label_DEF
@@ -582,7 +582,7 @@ namespace PKHeX.WinForms.Controls
             FLP_DefRight.Location = new System.Drawing.Point(80, 0);
             FLP_DefRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_DefRight.Name = "FLP_DefRight";
-            FLP_DefRight.Size = new System.Drawing.Size(228, 25);
+            FLP_DefRight.Size = new System.Drawing.Size(228, 26);
             FLP_DefRight.TabIndex = 3;
             // 
             // TB_BaseDEF
@@ -590,7 +590,7 @@ namespace PKHeX.WinForms.Controls
             TB_BaseDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BaseDEF.Enabled = false;
             TB_BaseDEF.Location = new System.Drawing.Point(0, 0);
-            TB_BaseDEF.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BaseDEF.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BaseDEF.Mask = "000";
             TB_BaseDEF.Name = "TB_BaseDEF";
             TB_BaseDEF.PromptChar = ' ';
@@ -673,10 +673,10 @@ namespace PKHeX.WinForms.Controls
             FLP_SpA.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_SpA.Controls.Add(FLP_SpALeft);
             FLP_SpA.Controls.Add(FLP_SpARight);
-            FLP_SpA.Location = new System.Drawing.Point(0, 99);
+            FLP_SpA.Location = new System.Drawing.Point(0, 102);
             FLP_SpA.Margin = new System.Windows.Forms.Padding(0);
             FLP_SpA.Name = "FLP_SpA";
-            FLP_SpA.Size = new System.Drawing.Size(308, 25);
+            FLP_SpA.Size = new System.Drawing.Size(308, 26);
             FLP_SpA.TabIndex = 4;
             // 
             // FLP_SpALeft
@@ -685,7 +685,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SpALeft.Controls.Add(Label_SPA);
             FLP_SpALeft.Controls.Add(Label_SPC);
             FLP_SpALeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            FLP_SpALeft.Location = new System.Drawing.Point(0, 0);
+            FLP_SpALeft.Location = new System.Drawing.Point(0, 1);
             FLP_SpALeft.Margin = new System.Windows.Forms.Padding(0);
             FLP_SpALeft.Name = "FLP_SpALeft";
             FLP_SpALeft.Size = new System.Drawing.Size(80, 24);
@@ -727,7 +727,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SpARight.Location = new System.Drawing.Point(80, 0);
             FLP_SpARight.Margin = new System.Windows.Forms.Padding(0);
             FLP_SpARight.Name = "FLP_SpARight";
-            FLP_SpARight.Size = new System.Drawing.Size(228, 25);
+            FLP_SpARight.Size = new System.Drawing.Size(228, 26);
             FLP_SpARight.TabIndex = 4;
             // 
             // TB_BaseSPA
@@ -735,7 +735,7 @@ namespace PKHeX.WinForms.Controls
             TB_BaseSPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BaseSPA.Enabled = false;
             TB_BaseSPA.Location = new System.Drawing.Point(0, 0);
-            TB_BaseSPA.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BaseSPA.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BaseSPA.Mask = "000";
             TB_BaseSPA.Name = "TB_BaseSPA";
             TB_BaseSPA.PromptChar = ' ';
@@ -818,10 +818,10 @@ namespace PKHeX.WinForms.Controls
             FLP_SpD.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_SpD.Controls.Add(Label_SPD);
             FLP_SpD.Controls.Add(FLP_SpDRight);
-            FLP_SpD.Location = new System.Drawing.Point(0, 124);
+            FLP_SpD.Location = new System.Drawing.Point(0, 128);
             FLP_SpD.Margin = new System.Windows.Forms.Padding(0);
             FLP_SpD.Name = "FLP_SpD";
-            FLP_SpD.Size = new System.Drawing.Size(308, 25);
+            FLP_SpD.Size = new System.Drawing.Size(308, 26);
             FLP_SpD.TabIndex = 5;
             // 
             // Label_SPD
@@ -849,7 +849,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SpDRight.Location = new System.Drawing.Point(80, 0);
             FLP_SpDRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_SpDRight.Name = "FLP_SpDRight";
-            FLP_SpDRight.Size = new System.Drawing.Size(228, 25);
+            FLP_SpDRight.Size = new System.Drawing.Size(228, 26);
             FLP_SpDRight.TabIndex = 5;
             // 
             // TB_BaseSPD
@@ -857,7 +857,7 @@ namespace PKHeX.WinForms.Controls
             TB_BaseSPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BaseSPD.Enabled = false;
             TB_BaseSPD.Location = new System.Drawing.Point(0, 0);
-            TB_BaseSPD.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BaseSPD.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BaseSPD.Mask = "000";
             TB_BaseSPD.Name = "TB_BaseSPD";
             TB_BaseSPD.PromptChar = ' ';
@@ -940,10 +940,10 @@ namespace PKHeX.WinForms.Controls
             FLP_Spe.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Spe.Controls.Add(Label_SPE);
             FLP_Spe.Controls.Add(FLP_SpeRight);
-            FLP_Spe.Location = new System.Drawing.Point(0, 149);
+            FLP_Spe.Location = new System.Drawing.Point(0, 154);
             FLP_Spe.Margin = new System.Windows.Forms.Padding(0);
             FLP_Spe.Name = "FLP_Spe";
-            FLP_Spe.Size = new System.Drawing.Size(308, 25);
+            FLP_Spe.Size = new System.Drawing.Size(308, 26);
             FLP_Spe.TabIndex = 6;
             // 
             // Label_SPE
@@ -971,7 +971,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SpeRight.Location = new System.Drawing.Point(80, 0);
             FLP_SpeRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_SpeRight.Name = "FLP_SpeRight";
-            FLP_SpeRight.Size = new System.Drawing.Size(228, 25);
+            FLP_SpeRight.Size = new System.Drawing.Size(228, 26);
             FLP_SpeRight.TabIndex = 6;
             // 
             // TB_BaseSPE
@@ -979,7 +979,7 @@ namespace PKHeX.WinForms.Controls
             TB_BaseSPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BaseSPE.Enabled = false;
             TB_BaseSPE.Location = new System.Drawing.Point(0, 0);
-            TB_BaseSPE.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BaseSPE.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BaseSPE.Mask = "000";
             TB_BaseSPE.Name = "TB_BaseSPE";
             TB_BaseSPE.PromptChar = ' ';
@@ -1062,10 +1062,10 @@ namespace PKHeX.WinForms.Controls
             FLP_StatsTotal.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_StatsTotal.Controls.Add(Label_Total);
             FLP_StatsTotal.Controls.Add(FLP_StatsTotalRight);
-            FLP_StatsTotal.Location = new System.Drawing.Point(0, 174);
+            FLP_StatsTotal.Location = new System.Drawing.Point(0, 180);
             FLP_StatsTotal.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             FLP_StatsTotal.Name = "FLP_StatsTotal";
-            FLP_StatsTotal.Size = new System.Drawing.Size(288, 25);
+            FLP_StatsTotal.Size = new System.Drawing.Size(288, 26);
             FLP_StatsTotal.TabIndex = 7;
             // 
             // Label_Total
@@ -1091,7 +1091,7 @@ namespace PKHeX.WinForms.Controls
             FLP_StatsTotalRight.Location = new System.Drawing.Point(80, 0);
             FLP_StatsTotalRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_StatsTotalRight.Name = "FLP_StatsTotalRight";
-            FLP_StatsTotalRight.Size = new System.Drawing.Size(208, 25);
+            FLP_StatsTotalRight.Size = new System.Drawing.Size(208, 26);
             FLP_StatsTotalRight.TabIndex = 7;
             // 
             // TB_BST
@@ -1099,7 +1099,7 @@ namespace PKHeX.WinForms.Controls
             TB_BST.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_BST.Enabled = false;
             TB_BST.Location = new System.Drawing.Point(0, 0);
-            TB_BST.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            TB_BST.Margin = new System.Windows.Forms.Padding(0, 0, 8, 1);
             TB_BST.MaxLength = 3;
             TB_BST.Name = "TB_BST";
             TB_BST.ReadOnly = true;
@@ -1166,7 +1166,7 @@ namespace PKHeX.WinForms.Controls
             FLP_HPType.Controls.Add(Label_HiddenPowerPrefix);
             FLP_HPType.Controls.Add(CB_HPType);
             FLP_HPType.Controls.Add(Label_HiddenPowerPower);
-            FLP_HPType.Location = new System.Drawing.Point(0, 207);
+            FLP_HPType.Location = new System.Drawing.Point(0, 214);
             FLP_HPType.Margin = new System.Windows.Forms.Padding(0);
             FLP_HPType.Name = "FLP_HPType";
             FLP_HPType.Size = new System.Drawing.Size(272, 25);
@@ -1212,7 +1212,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Characteristic.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Characteristic.Controls.Add(Label_CharacteristicPrefix);
             FLP_Characteristic.Controls.Add(L_Characteristic);
-            FLP_Characteristic.Location = new System.Drawing.Point(0, 232);
+            FLP_Characteristic.Location = new System.Drawing.Point(0, 239);
             FLP_Characteristic.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             FLP_Characteristic.Name = "FLP_Characteristic";
             FLP_Characteristic.Size = new System.Drawing.Size(280, 24);
@@ -1245,8 +1245,8 @@ namespace PKHeX.WinForms.Controls
             FLP_TeraType.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_TeraType.Controls.Add(FLP_TeraInner);
             FLP_TeraType.Controls.Add(PB_TeraType);
-            FLP_TeraType.Location = new System.Drawing.Point(0, 264);
-            FLP_TeraType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
+            FLP_TeraType.Location = new System.Drawing.Point(0, 271);
+            FLP_TeraType.Margin = new System.Windows.Forms.Padding(0);
             FLP_TeraType.Name = "FLP_TeraType";
             FLP_TeraType.Size = new System.Drawing.Size(278, 64);
             FLP_TeraType.TabIndex = 12;
@@ -1359,8 +1359,8 @@ namespace PKHeX.WinForms.Controls
             // 
             PAN_BTN.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PAN_BTN.Controls.Add(FLP_PKMEditors);
-            PAN_BTN.Location = new System.Drawing.Point(0, 336);
-            PAN_BTN.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
+            PAN_BTN.Location = new System.Drawing.Point(0, 343);
+            PAN_BTN.Margin = new System.Windows.Forms.Padding(0, 8, 0, 8);
             PAN_BTN.Name = "PAN_BTN";
             PAN_BTN.Size = new System.Drawing.Size(288, 24);
             PAN_BTN.TabIndex = 20;
@@ -1427,7 +1427,7 @@ namespace PKHeX.WinForms.Controls
             FLP_DynamaxLevel.Controls.Add(L_DynamaxLevel);
             FLP_DynamaxLevel.Controls.Add(CB_DynamaxLevel);
             FLP_DynamaxLevel.Controls.Add(CHK_Gigantamax);
-            FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 368);
+            FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 375);
             FLP_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             FLP_DynamaxLevel.Name = "FLP_DynamaxLevel";
             FLP_DynamaxLevel.Size = new System.Drawing.Size(262, 27);
@@ -1473,7 +1473,7 @@ namespace PKHeX.WinForms.Controls
             FLP_AlphaNoble.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_AlphaNoble.Controls.Add(CHK_IsAlpha);
             FLP_AlphaNoble.Controls.Add(CHK_IsNoble);
-            FLP_AlphaNoble.Location = new System.Drawing.Point(80, 395);
+            FLP_AlphaNoble.Location = new System.Drawing.Point(80, 402);
             FLP_AlphaNoble.Margin = new System.Windows.Forms.Padding(80, 0, 0, 0);
             FLP_AlphaNoble.Name = "FLP_AlphaNoble";
             FLP_AlphaNoble.Size = new System.Drawing.Size(144, 24);
