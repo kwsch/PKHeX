@@ -116,6 +116,20 @@ public static class MethodCXD
         return true;
     }
 
+    public static bool TryGetShinySID(ushort tid, out ushort sid, uint xor, uint bits)
+    {
+        for (int i = 0; i < 8; i++, bits++)
+        {
+            var newSID = (ushort)(xor ^ (bits & 7));
+            if (!TryGetSeedTrainerID(tid, newSID, out _))
+                continue;
+            sid = newSID;
+            return true;
+        }
+        sid = 0;
+        return false;
+    }
+
     /// <summary>
     /// Tries to set a valid PID/IV for the requested criteria for a Colosseum starter (Umbreon and Espeon), preferring to match Trainer IDs.
     /// </summary>
