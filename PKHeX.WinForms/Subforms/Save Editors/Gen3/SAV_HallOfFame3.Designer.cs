@@ -33,11 +33,11 @@ namespace PKHeX.WinForms
             NUD_Members = new System.Windows.Forms.NumericUpDown();
             TB_PID = new System.Windows.Forms.TextBox();
             TB_Nickname = new System.Windows.Forms.TextBox();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
-            label4 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
+            L_TID = new System.Windows.Forms.Label();
+            L_SID = new System.Windows.Forms.Label();
+            L_PID = new System.Windows.Forms.Label();
+            L_Nickname = new System.Windows.Forms.Label();
+            L_Level = new System.Windows.Forms.Label();
             NUD_Level = new System.Windows.Forms.NumericUpDown();
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
@@ -57,7 +57,7 @@ namespace PKHeX.WinForms
             LB_Entries.FormattingEnabled = true;
             LB_Entries.Location = new System.Drawing.Point(12, 14);
             LB_Entries.Name = "LB_Entries";
-            LB_Entries.Size = new System.Drawing.Size(120, 199);
+            LB_Entries.Size = new System.Drawing.Size(120, 191);
             LB_Entries.TabIndex = 0;
             // 
             // CB_Species
@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
             CB_Species.FormattingEnabled = true;
             CB_Species.Location = new System.Drawing.Point(169, 14);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(119, 23);
+            CB_Species.Size = new System.Drawing.Size(119, 25);
             CB_Species.TabIndex = 2;
             // 
             // NUD_Members
@@ -73,7 +73,7 @@ namespace PKHeX.WinForms
             NUD_Members.Location = new System.Drawing.Point(344, 14);
             NUD_Members.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_Members.Name = "NUD_Members";
-            NUD_Members.Size = new System.Drawing.Size(35, 23);
+            NUD_Members.Size = new System.Drawing.Size(35, 25);
             NUD_Members.TabIndex = 3;
             // 
             // TB_PID
@@ -93,61 +93,61 @@ namespace PKHeX.WinForms
             TB_Nickname.Location = new System.Drawing.Point(224, 43);
             TB_Nickname.MaxLength = 10;
             TB_Nickname.Name = "TB_Nickname";
-            TB_Nickname.Size = new System.Drawing.Size(120, 23);
+            TB_Nickname.Size = new System.Drawing.Size(120, 25);
             TB_Nickname.TabIndex = 6;
             TB_Nickname.Text = "WWWWWWWWWW";
             // 
-            // label1
+            // L_TID
             // 
-            label1.Location = new System.Drawing.Point(138, 122);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(80, 24);
-            label1.TabIndex = 7;
-            label1.Text = "TID:";
-            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_TID.Location = new System.Drawing.Point(138, 122);
+            L_TID.Name = "L_TID";
+            L_TID.Size = new System.Drawing.Size(80, 24);
+            L_TID.TabIndex = 7;
+            L_TID.Text = "TID:";
+            L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label2
+            // L_SID
             // 
-            label2.Location = new System.Drawing.Point(138, 146);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(80, 24);
-            label2.TabIndex = 8;
-            label2.Text = "SID:";
-            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_SID.Location = new System.Drawing.Point(138, 146);
+            L_SID.Name = "L_SID";
+            L_SID.Size = new System.Drawing.Size(80, 24);
+            L_SID.TabIndex = 8;
+            L_SID.Text = "SID:";
+            L_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // L_PID
             // 
-            label3.Location = new System.Drawing.Point(138, 98);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(80, 24);
-            label3.TabIndex = 9;
-            label3.Text = "PID:";
-            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_PID.Location = new System.Drawing.Point(138, 98);
+            L_PID.Name = "L_PID";
+            L_PID.Size = new System.Drawing.Size(80, 24);
+            L_PID.TabIndex = 9;
+            L_PID.Text = "PID:";
+            L_PID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label4
+            // L_Nickname
             // 
-            label4.Location = new System.Drawing.Point(138, 41);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(80, 24);
-            label4.TabIndex = 10;
-            label4.Text = "Nickname:";
-            label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Nickname.Location = new System.Drawing.Point(138, 41);
+            L_Nickname.Name = "L_Nickname";
+            L_Nickname.Size = new System.Drawing.Size(80, 24);
+            L_Nickname.TabIndex = 10;
+            L_Nickname.Text = "Nickname:";
+            L_Nickname.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label5
+            // L_Level
             // 
-            label5.Location = new System.Drawing.Point(138, 71);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(80, 24);
-            label5.TabIndex = 11;
-            label5.Text = "Level:";
-            label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Level.Location = new System.Drawing.Point(138, 71);
+            L_Level.Name = "L_Level";
+            L_Level.Size = new System.Drawing.Size(80, 24);
+            L_Level.TabIndex = 11;
+            L_Level.Text = "Level:";
+            L_Level.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Level
             // 
             NUD_Level.Location = new System.Drawing.Point(224, 72);
             NUD_Level.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_Level.Name = "NUD_Level";
-            NUD_Level.Size = new System.Drawing.Size(40, 23);
+            NUD_Level.Size = new System.Drawing.Size(40, 25);
             NUD_Level.TabIndex = 12;
             NUD_Level.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -178,7 +178,7 @@ namespace PKHeX.WinForms
             TB_TID.Location = new System.Drawing.Point(224, 124);
             TB_TID.Mask = "00000";
             TB_TID.Name = "TB_TID";
-            TB_TID.Size = new System.Drawing.Size(40, 23);
+            TB_TID.Size = new System.Drawing.Size(40, 25);
             TB_TID.TabIndex = 15;
             TB_TID.Text = "00000";
             TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -188,7 +188,7 @@ namespace PKHeX.WinForms
             TB_SID.Location = new System.Drawing.Point(224, 148);
             TB_SID.Mask = "00000";
             TB_SID.Name = "TB_SID";
-            TB_SID.Size = new System.Drawing.Size(40, 23);
+            TB_SID.Size = new System.Drawing.Size(40, 25);
             TB_SID.TabIndex = 16;
             TB_SID.Text = "00000";
             TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -199,7 +199,7 @@ namespace PKHeX.WinForms
             CHK_Shiny.Enabled = false;
             CHK_Shiny.Location = new System.Drawing.Point(298, 101);
             CHK_Shiny.Name = "CHK_Shiny";
-            CHK_Shiny.Size = new System.Drawing.Size(55, 19);
+            CHK_Shiny.Size = new System.Drawing.Size(57, 21);
             CHK_Shiny.TabIndex = 17;
             CHK_Shiny.Text = "Shiny";
             CHK_Shiny.UseVisualStyleBackColor = true;
@@ -238,11 +238,11 @@ namespace PKHeX.WinForms
             Controls.Add(B_Cancel);
             Controls.Add(B_Save);
             Controls.Add(NUD_Level);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(L_Level);
+            Controls.Add(L_Nickname);
+            Controls.Add(L_PID);
+            Controls.Add(L_SID);
+            Controls.Add(L_TID);
             Controls.Add(TB_Nickname);
             Controls.Add(TB_PID);
             Controls.Add(NUD_Members);
@@ -269,11 +269,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Members;
         private System.Windows.Forms.TextBox TB_PID;
         private System.Windows.Forms.TextBox TB_Nickname;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label L_TID;
+        private System.Windows.Forms.Label L_SID;
+        private System.Windows.Forms.Label L_PID;
+        private System.Windows.Forms.Label L_Nickname;
+        private System.Windows.Forms.Label L_Level;
         private System.Windows.Forms.NumericUpDown NUD_Level;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
