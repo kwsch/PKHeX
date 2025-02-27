@@ -318,7 +318,7 @@ public sealed class WB7(byte[] Data)
     /// <remarks>
     /// Gifts received can be locally traded to the international release, so there is no need to consider residence or transferability.
     /// </remarks>
-    public bool IsMainlandChinaGift => CardID is (1501 or 1503);
+    public bool IsMainlandChinaGift => CardID is (> 1500 and <= 1503);
 
     public int GetLanguage(int redeemLanguage)
     {
