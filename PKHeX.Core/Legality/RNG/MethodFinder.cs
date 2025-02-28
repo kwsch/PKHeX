@@ -396,46 +396,10 @@ public static class MethodFinder
 
     private static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
     {
-        if (!IsCuteCharm(pk, pid))
+        if (!CuteCharm4.IsCuteCharm(pk, pid))
             return GetNonMatch(out pidiv);
         pidiv = PIDIV.CuteCharm;
         return true;
-    }
-
-    public static bool IsCuteCharm(PKM pk, uint pid)
-    {
-        if (pid > 0xFF)
-            return false;
-
-        var (species, gender) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
-        static byte getRatio(ushort species)
-        {
-            return species <= Legal.MaxSpeciesID_4
-                ? PersonalTable.HGSS[species].Gender
-                : PKX.GetGenderRatio(species);
-        }
-
-        const uint n = 25;
-        switch (gender)
-        {
-            // case 2: break; // can't cute charm a genderless pk
-            case 0: // male
-                var gr = getRatio(species);
-                if (gr >= PersonalInfo.RatioMagicFemale) // no modification for PID
-                    break;
-                var rate = n * ((gr / n) + 1); // buffered
-                var nature = pid % n;
-                if (nature + rate != pid)
-                    break;
-                return true;
-            case 1: // female
-                if (pid >= n)
-                    break; // nope, this isn't a valid nature
-                if (getRatio(species) >= PersonalInfo.RatioMagicFemale) // no modification for PID
-                    break;
-                return true;
-        }
-        return false;
     }
 
     private static bool GetChainShinyMatch(Span<uint> seeds, ITrainerID32 pk, uint pid, uint iv1, uint iv2, out PIDIV pidiv)
@@ -550,8 +514,8 @@ public static class MethodFinder
         if (mid is not (0 or midMask))
             return GetNonMatch(out pidiv);
 
-        // Quirky Nature is not possible with the algorithm.
         var nature = actualPID % 25;
+        // Quirky Nature is not possible with the algorithm.
         if (nature == 24)
             return GetNonMatch(out pidiv);
 
@@ -657,57 +621,6 @@ public static class MethodFinder
         1 => esv - 50 < 35, // [50,85)
         2 => esv >= 85, // [85,100)
         _ => false,
-    };
-
-    internal static bool IsCuteCharm4Valid(ISpeciesForm enc, PKM pk)
-    {
-        if (pk.Gender is not (0 or 1))
-            return pk.Species == (ushort)Species.Shedinja;
-        if (pk.Species is not ((int)Species.Marill or (int)Species.Azumarill))
-            return true;
-        if (!IsCuteCharmAzurillMale(pk.PID)) // recognized as not Azurill
-            return true;
-        return enc.Species == (int)Species.Azurill; // encounter must be male Azurill
-    }
-
-    private static bool IsCuteCharmAzurillMale(uint pid) => pid is >= 0xC8 and <= 0xE0;
-
-    /// <summary>
-    /// There are some edge cases when the gender ratio changes across evolutions.
-    /// </summary>
-    private static (ushort Species, byte Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, ushort currentSpecies) => currentSpecies switch
-    {
-        // Nincada evo chain travels from M/F -> Genderless Shedinja
-        (int)Species.Shedinja  => ((int)Species.Nincada, EntityGender.GetFromPID((int)Species.Nincada, pid)),
-
-        // These evolved species cannot be encountered with cute charm.
-        // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
-        // We can assume the re-mapped species' [gender ratio] is what was encountered.
-        (int)Species.Wormadam  => ((int)Species.Burmy,   1),
-        (int)Species.Mothim    => ((int)Species.Burmy,   0),
-        (int)Species.Vespiquen => ((int)Species.Combee,  1),
-        (int)Species.Gallade   => ((int)Species.Kirlia,  0),
-        (int)Species.Froslass  => ((int)Species.Snorunt, 1),
-        // Azurill & Marill/Azumarill collision
-        // Changed gender ratio (25% M -> 50% M) needs special treatment.
-        // Double-check the encounter species with IsCuteCharm4Valid afterward.
-        (int)Species.Marill or (int)Species.Azumarill when IsCuteCharmAzurillMale(pid) => ((int)Species.Azurill, 0),
-
-        // Future evolutions
-        _ => GetCuteCharmSpeciesGen4(currentSpecies, pk.Gender),
-    };
-
-    private static (ushort Species, byte Gender) GetCuteCharmSpeciesGen4(ushort species, byte gender) => species switch
-    {
-        <= Legal.MaxSpeciesID_4 => (species, gender), // has a valid personal reference, all good
-        (int)Species.Sylveon    => ((int)Species.Eevee, gender),
-        (int)Species.MrRime     => ((int)Species.MrMime, gender),
-        (int)Species.Wyrdeer    => ((int)Species.Stantler, gender),
-        (int)Species.Kleavor    => ((int)Species.Scyther, gender),
-        (int)Species.Sneasler   => ((int)Species.Sneasel, gender),
-        (int)Species.Ursaluna   => ((int)Species.Ursaring, gender),
-        (int)Species.Annihilape => ((int)Species.Primeape, gender),
-        _ => (species, gender), // throw an exception? Hitting here is an invalid case.
     };
 
     public static PIDIV GetPokeSpotSeedFirst(PKM pk, byte slot)

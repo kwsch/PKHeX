@@ -201,7 +201,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
         // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
         if (type is PIDType.CuteCharm)
-            return MethodFinder.IsCuteCharm(pk, pk.EncryptionConstant) && MethodFinder.IsCuteCharm4Valid(this, pk);
+            return CuteCharm4.IsCuteCharm(pk, pk.EncryptionConstant) && CuteCharm4.IsValid(this, pk);
         return false;
     }
 

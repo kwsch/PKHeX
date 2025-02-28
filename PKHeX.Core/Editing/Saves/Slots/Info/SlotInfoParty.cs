@@ -15,7 +15,7 @@ public sealed record SlotInfoParty(int Slot) : ISlotInfo
         ? WriteBlockedMessage.InvalidPartyConfiguration
         : WriteBlockedMessage.None;
 
-    public bool WriteTo(SaveFile sav, PKM pk, PKMImportSetting setting = PKMImportSetting.UseDefault)
+    public bool WriteTo(SaveFile sav, PKM pk, EntityImportSettings settings = default)
     {
         if (pk.Species == 0)
         {
@@ -24,7 +24,7 @@ public sealed record SlotInfoParty(int Slot) : ISlotInfo
             return true;
         }
         Slot = Math.Min(Slot, sav.PartyCount); // realign if necessary
-        sav.SetPartySlotAtIndex(pk, Slot, setting, setting);
+        sav.SetPartySlotAtIndex(pk, Slot, settings);
         return true;
     }
 

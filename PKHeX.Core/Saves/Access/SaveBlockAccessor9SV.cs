@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
@@ -12,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class SaveBlockAccessor9SV(SAV9SV sav) : SCBlockAccessor, ISaveBlock9Main
 {
     public override IReadOnlyList<SCBlock> BlockInfo { get; } = sav.AllBlocks;
-    public Box8 BoxInfo { get; } = new(sav, Block(sav, KBox));
+    public Box9 BoxInfo { get; } = new(sav, Block(sav, KBox));
     public Party9 PartyInfo { get; } = new(sav, Block(sav, KParty));
     public MyItem9 Items { get; } = new(sav, Block(sav, KItem));
     public MyStatus9 MyStatus { get; } = new(sav, Block(sav, KMyStatus));

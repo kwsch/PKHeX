@@ -394,7 +394,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         if (type is PIDType.Method_1)
             return true;
         if (type is PIDType.CuteCharm)
-            return MethodFinder.IsCuteCharm4Valid(this, pk);
+            return CuteCharm4.IsValid(this, pk);
         return false;
     }
 

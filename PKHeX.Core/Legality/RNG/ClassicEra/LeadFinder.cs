@@ -45,7 +45,7 @@ public static class LeadFinder
             // There's a very-very rare chance that the PID-IV can be from Cute Charm too.
             // It may match Method 1, but since we early-return, we don't check for Cute Charm.
             // So, we check for Cute Charm here and try checking Cute Charm frames if it matches.
-            if (MethodFinder.IsCuteCharm(pk, pk.EncryptionConstant))
+            if (CuteCharm4.IsCuteCharm(pk, pk.EncryptionConstant))
                 type = CuteCharm;
         }
         else if (type is Method_1)
@@ -63,7 +63,7 @@ public static class LeadFinder
             // There's a very-very rare chance that the PID-IV can be from Cute Charm too.
             // It may match Method 1, but since we early-return, we don't check for Cute Charm.
             // So, we check for Cute Charm here and try checking Cute Charm frames if it matches.
-            if (MethodFinder.IsCuteCharm(pk, pk.EncryptionConstant))
+            if (CuteCharm4.IsCuteCharm(pk, pk.EncryptionConstant))
                 type = CuteCharm;
         }
         if (type is CuteCharm)

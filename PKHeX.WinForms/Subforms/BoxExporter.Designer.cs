@@ -31,7 +31,7 @@ namespace PKHeX.WinForms
             PG_Settings = new System.Windows.Forms.PropertyGrid();
             B_Export = new System.Windows.Forms.Button();
             flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            label1 = new System.Windows.Forms.Label();
+            L_Namer = new System.Windows.Forms.Label();
             CB_Namer = new System.Windows.Forms.ComboBox();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Controls.Add(label1);
+            flowLayoutPanel1.Controls.Add(L_Namer);
             flowLayoutPanel1.Controls.Add(CB_Namer);
             flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -69,15 +69,15 @@ namespace PKHeX.WinForms
             flowLayoutPanel1.Size = new System.Drawing.Size(304, 27);
             flowLayoutPanel1.TabIndex = 2;
             // 
-            // label1
+            // L_Namer
             // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(8, 8);
-            label1.Margin = new System.Windows.Forms.Padding(8, 8, 0, 8);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(46, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Namer:";
+            L_Namer.AutoSize = true;
+            L_Namer.Location = new System.Drawing.Point(8, 8);
+            L_Namer.Margin = new System.Windows.Forms.Padding(8, 8, 0, 8);
+            L_Namer.Name = "L_Namer";
+            L_Namer.Size = new System.Drawing.Size(46, 15);
+            L_Namer.TabIndex = 0;
+            L_Namer.Text = "Namer:";
             // 
             // CB_Namer
             // 
@@ -114,7 +114,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PropertyGrid PG_Settings;
         private System.Windows.Forms.Button B_Export;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_Namer;
         private System.Windows.Forms.ComboBox CB_Namer;
     }
 }

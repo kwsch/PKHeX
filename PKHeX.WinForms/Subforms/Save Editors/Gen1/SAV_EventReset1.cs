@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -24,18 +25,19 @@ public partial class SAV_EventReset1 : Form
         var pairs = Overworld.GetFlagPairs().OrderBy(z => z.Name);
         foreach (var pair in pairs)
         {
-            var split = pair.Name.Split('_');
-            var specName = split[0][G1OverworldSpawner.FlagPropertyPrefix.Length..];
+            var name = pair.Name.AsSpan(G1OverworldSpawner.FlagPropertyPrefix.Length);
+            var index = name.IndexOf('_');
+            var specName = index == -1 ? name : name[..index];
 
             // convert species name to current localization language
             SpeciesName.TryGetSpecies(specName, (int)LanguageID.English, out var species);
-            var pkmname = GameInfo.Strings.specieslist[species];
+            var localized = GameInfo.Strings.specieslist[species];
+            if (index != -1) // assume there is a suffix after the underscore; throw exception when not
+                localized += $" {name[(index + 1)..]}";
 
-            if (split.Length != 1)
-                pkmname += $" {split[1]}";
             var b = new Button
             {
-                Text = pkmname, Enabled = pair.IsHidden,
+                Text = localized, Enabled = pair.IsHidden,
                 Size = new Size((Width / 2) - 25, 22),
             };
             b.Click += (_, _) =>

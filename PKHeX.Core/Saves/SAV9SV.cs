@@ -67,7 +67,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public IReadOnlyList<SCBlock> AllBlocks { get; }
     public T GetValue<T>(uint key) where T : struct => Blocks.GetBlockValueSafe<T>(key);
     public void SetValue<T>(uint key, T value) where T : struct => Blocks.SetBlockValueSafe(key, value);
-    public Box8 BoxInfo => Blocks.BoxInfo;
+    public Box9 BoxInfo => Blocks.BoxInfo;
     public Party9 PartyInfo => Blocks.PartyInfo;
     public MyItem9 Items => Blocks.Items;
     public MyStatus9 MyStatus => Blocks.MyStatus;
@@ -113,32 +113,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         Party = 0;
         TeamIndexes.LoadBattleTeams();
 
-        int rev = SaveRevision;
-        if (rev == 0)
+        (m_move, m_spec, m_item, m_abil) = SaveRevision switch
         {
-            m_move = Legal.MaxMoveID_9_T0;
-            m_spec = Legal.MaxSpeciesID_9_T0;
-            m_item = Legal.MaxItemID_9_T0;
-            m_abil = Legal.MaxAbilityID_9_T0;
-        }
-        else if (rev == 1)
-        {
-            m_move = Legal.MaxMoveID_9_T1;
-            m_spec = Legal.MaxSpeciesID_9_T1;
-            m_item = Legal.MaxItemID_9_T1;
-            m_abil = Legal.MaxAbilityID_9_T1;
-        }
-        else if (rev == 2)
-        {
-            m_move = Legal.MaxMoveID_9_T2;
-            m_spec = Legal.MaxSpeciesID_9_T2;
-            m_item = Legal.MaxItemID_9_T2;
-            m_abil = Legal.MaxAbilityID_9_T2;
-        }
-        else
-        {
-            throw new ArgumentOutOfRangeException(nameof(SaveRevision));
-        }
+            0 => (Legal.MaxMoveID_9_T0, Legal.MaxSpeciesID_9_T0, Legal.MaxItemID_9_T0, Legal.MaxAbilityID_9_T0),
+            1 => (Legal.MaxMoveID_9_T1, Legal.MaxSpeciesID_9_T1, Legal.MaxItemID_9_T1, Legal.MaxAbilityID_9_T1),
+            2 => (Legal.MaxMoveID_9_T2, Legal.MaxSpeciesID_9_T2, Legal.MaxItemID_9_T2, Legal.MaxAbilityID_9_T2),
+            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        };
     }
 
     // Configuration
@@ -205,9 +186,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         pk9.RefreshChecksum();
-        if (SetUpdateRecords != PKMImportSetting.Skip)
-            AddCountAcquired(pk9);
     }
+
+    protected override void SetRecord(PKM pk) => AddCountAcquired(pk);
 
     private static uint GetFormArgument(PKM pk)
     {

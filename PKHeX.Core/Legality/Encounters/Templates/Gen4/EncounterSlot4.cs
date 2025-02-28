@@ -182,7 +182,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         if (type is PIDType.ChainShiny)
             return pk.IsShiny && CanUseRadar;
         if (type is PIDType.CuteCharm)
-            return MethodFinder.IsCuteCharm4Valid(this, pk);
+            return CuteCharm4.IsValid(this, pk);
         return false;
     }
 

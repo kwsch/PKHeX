@@ -44,15 +44,15 @@ public sealed class SecretBaseManager3
 
     private void WriteTo(Span<byte> data)
     {
-        // Initialize: Wipe trainer name of each slot
-        for (int i = 0; i < BaseCount; i++)
-            data.Slice((i * SecretBase3.SIZE) + 2, 7).Fill(StringConverter3.TerminatorByte);
-
         var tmp = Bases.ToList();
         for (int i = 0; i < BaseCount; i++)
         {
             if (!Occupied[i])
+            {
+                // Initialize: Wipe trainer name of each slot
+                data.Slice((i * SecretBase3.SIZE) + 2, 7).Fill(StringConverter3.TerminatorByte);
                 continue;
+            }
             var tmpbase = tmp[0];
             tmpbase.Data.CopyTo(data[(i * SecretBase3.SIZE)..]);
             tmp.RemoveAt(0);

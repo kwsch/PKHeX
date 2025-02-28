@@ -18,7 +18,7 @@ public sealed record EncounterInvalid : IEncounterable
     public EntityContext Context { get; }
     public GameVersion Version { get; }
     public bool IsShiny => false;
-    public Shiny Shiny => Shiny.Never;
+    public Shiny Shiny => Shiny.Random;
 
     public string Name => "Invalid";
     public string LongName => "Invalid";

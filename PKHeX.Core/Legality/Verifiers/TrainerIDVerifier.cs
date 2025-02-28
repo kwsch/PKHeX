@@ -69,13 +69,26 @@ public sealed class TrainerIDVerifier : Verifier
             data.AddLine(Get(LOTSuspicious, Severity.Fishy));
     }
 
-    public static void VerifyTrainerID_CXD<T>(LegalityAnalysis data, T tr) where T : ITrainerID32
+    public static bool TryGetShinySID(uint pid, ushort tid, GameVersion version, out ushort sid)
+    {
+        var xor = ((pid >> 16) ^ (pid & 0xFFFF) ^ tid) & 0xFFF8;
+        uint bits = Util.Rand32();
+        if (version is GameVersion.R or GameVersion.S)
+            return MethodH.TryGetShinySID(tid, out sid, xor, bits);
+        if (version is GameVersion.CXD)
+            return MethodCXD.TryGetShinySID(tid, out sid, xor, bits);
+
+        sid = (ushort)(xor ^ (bits & 7));
+        return true;
+    }
+
+    private static void VerifyTrainerID_CXD<T>(LegalityAnalysis data, T tr) where T : ITrainerID32
     {
         if (!MethodCXD.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
             data.AddLine(GetInvalid(LTrainerIDNoSeed, CheckIdentifier.Trainer));
     }
 
-    public static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr) where T : ITrainerID32
+    private static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr) where T : ITrainerID32
     {
         if (!MethodH.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
             data.AddLine(GetInvalid(LTrainerIDNoSeed, CheckIdentifier.Trainer));

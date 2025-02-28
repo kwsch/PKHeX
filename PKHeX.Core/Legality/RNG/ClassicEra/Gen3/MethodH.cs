@@ -697,4 +697,19 @@ public static class MethodH
         seed = seeds[0];
         return true;
     }
+
+    public static bool TryGetShinySID(ushort tid, out ushort sid, uint xor, uint bits = 0)
+    {
+        for (int i = 0; i < 8; i++, bits++)
+        {
+            var newSID = (ushort)(xor ^ (bits & 7));
+            if (!TryGetSeedTrainerID(tid, newSID, out _))
+                continue;
+            sid = newSID;
+            return true;
+        }
+        sid = 0;
+        return false;
+    }
+
 }

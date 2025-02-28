@@ -106,28 +106,13 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         Party = 0;
         TeamIndexes.LoadBattleTeams();
 
-        int rev = SaveRevision;
-        if (rev == 0)
+        (m_move, m_spec, m_item, m_abil) = SaveRevision switch
         {
-            m_move = Legal.MaxMoveID_8_O0;
-            m_spec = Legal.MaxSpeciesID_8_O0;
-            m_item = Legal.MaxItemID_8_O0;
-            m_abil = Legal.MaxAbilityID_8_O0;
-        }
-        else if (rev == 1)
-        {
-            m_move = Legal.MaxMoveID_8_R1;
-            m_spec = Legal.MaxSpeciesID_8_R1;
-            m_item = Legal.MaxItemID_8_R1;
-            m_abil = Legal.MaxAbilityID_8_R1;
-        }
-        else
-        {
-            m_move = Legal.MaxMoveID_8_R2;
-            m_spec = Legal.MaxSpeciesID_8_R2;
-            m_item = Legal.MaxItemID_8_R2;
-            m_abil = Legal.MaxAbilityID_8_R2;
-        }
+            0 => (Legal.MaxMoveID_8_O0, Legal.MaxSpeciesID_8_O0, Legal.MaxItemID_8_O0, Legal.MaxAbilityID_8_O0),
+            1 => (Legal.MaxMoveID_8_R1, Legal.MaxSpeciesID_8_R1, Legal.MaxItemID_8_R1, Legal.MaxAbilityID_8_R1),
+            2 => (Legal.MaxMoveID_8_R2, Legal.MaxSpeciesID_8_R2, Legal.MaxItemID_8_R2, Legal.MaxAbilityID_8_R2),
+            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        };
     }
 
     // Save Data Attributes
@@ -198,9 +183,9 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         }
 
         pk8.RefreshChecksum();
-        if (SetUpdateRecords != PKMImportSetting.Skip)
-            AddCountAcquired(pk8);
     }
+
+    protected override void SetRecord(PKM pk) => AddCountAcquired(pk);
 
     private static uint GetFormArgument(PKM pk)
     {

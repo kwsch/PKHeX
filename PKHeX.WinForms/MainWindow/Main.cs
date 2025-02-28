@@ -436,9 +436,9 @@ public partial class Main : Form
         SpriteBuilderUtil.SpriterPreference = settings.Sprite.SpritePreference;
 
         var write = settings.SlotWrite;
-        SaveFile.SetUpdateDex = write.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
-        SaveFile.SetUpdatePKM = write.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
-        SaveFile.SetUpdateRecords = write.SetUpdateRecords ? PKMImportSetting.Update : PKMImportSetting.Skip;
+        SaveFile.SetUpdateDex = write.SetUpdateDex ? EntityImportOption.Enable : EntityImportOption.Disable;
+        SaveFile.SetUpdatePKM = write.SetUpdatePKM ? EntityImportOption.Enable : EntityImportOption.Disable;
+        SaveFile.SetUpdateRecords = write.SetUpdateRecords ? EntityImportOption.Enable : EntityImportOption.Disable;
 
         C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
         CommonEdits.ShowdownSetIVMarkings = settings.Import.ApplyMarkings;
@@ -666,7 +666,7 @@ public partial class Main : Form
         Debug.WriteLine(c.GetDisplayString(pk, destType));
         if (tmp is null)
             return false;
-        C_SAV.SAV.AdaptPKM(tmp);
+        C_SAV.SAV.AdaptToSaveFile(tmp);
         PKME_Tabs.PopulateFields(tmp);
         return true;
     }
@@ -698,7 +698,7 @@ public partial class Main : Form
             return true;
         }
 
-        C_SAV.SAV.AdaptPKM(pk);
+        C_SAV.SAV.AdaptToSaveFile(pk);
         PKME_Tabs.PopulateFields(pk);
         Debug.WriteLine(c);
         return true;

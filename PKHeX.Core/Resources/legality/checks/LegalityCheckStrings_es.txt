@@ -53,7 +53,9 @@ LContestSheenTooHigh_0 = La estadística de concurso Brillo debería ser <= {0}.
 LContestSheenTooLow_0 = La estadística de concurso Brillo debería ser >= {0}.
 LContestZero = Las estadísticas de concurso deberían ser 0.
 LContestZeroSheen =  La estadística de concurso Brillo debería ser 0.
+LDateOutsideConsoleWindow = Local Date is outside of console's local time window.
 LDateOutsideDistributionWindow = La fecha de encuentro está fuera del rango de fechas de distribución.
+LDateTimeClockInvalid = Local Time is not a valid timestamp.
 LEffort2Remaining = 2 EVs restantes.
 LEffortAbove252 = Los EVs no pueden superar los 252.
 LEffortAbove510 = Los EVs totales no pueden ser más de 510.
@@ -290,6 +292,7 @@ LMoveKeldeoMismatch = Movimiento/Forma de Keldeo incorrecta.
 LMoveNincada = Solo un movimiento de Ninjask permitido.
 LMoveNincadaEvo = Aprendido al evolucionar a Nincada en Ninjask
 LMoveNincadaEvoF_0 = Aprendido al evolucionar a Nincada en Ninjask en Generación {0}.
+LMovePPExpectHealed_0 = Move {0} PP is below the amount expected.
 LMovePPTooHigh_0 = Los PP del movimiento {0} están por encima de los permitidos. 
 LMovePPUpsTooHigh_0 = Move {0} PP Ups is above the amount allowed.
 LMoveRelearnDexNav = No es un Movimiento de DexNav.
@@ -386,6 +389,7 @@ LSuperUnused = La casilla de Superentrenamiento no utilizada está marcada.
 LTeraTypeIncorrect = El Teratipo no coincide con el esperado.
 LTeraTypeMismatch = El Teratipo no coincide con ninguno de los tipos por defecto.
 LTradeNotAvailable = No se puede intercambiar el encuentro al Entrenador actual.
+LTrainerIDNoSeed = Trainer ID is not obtainable from any RNG seed.
 LTransferBad = No se puede obtener la especie en los juegos de Consola Virtual.
 LTransferCurrentHandlerInvalid = Entrenador actual no válido, se esperaba otro valor de los detalles del entrenador del archivo de guardado.
 LTransferEgg = No se pueden transferir Huevos entre generaciones.
