@@ -26,8 +26,15 @@ public partial class SettingsEditor : Form
             CB_Blank.InitializeBinding();
             CB_Blank.DataSource = GameInfo.VersionDataSource.Where(z => !IsInvalidSaveFileVersion((GameVersion)z.Value)).ToList();
             CB_Blank.SelectedValue = (int)s.Startup.DefaultSaveVersion;
-            CB_Blank.SelectedValueChanged += (_, _) => s.Startup.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
-            CB_Blank.SelectedIndexChanged += (_, _) => BlankChanged = true;
+            CB_Blank.SelectedValueChanged += (_, _) =>
+            {
+                var index = WinFormsUtil.GetIndex(CB_Blank);
+                var version = (GameVersion)index;
+                if (IsInvalidSaveFileVersion(version))
+                    return;
+                s.Startup.DefaultSaveVersion = version;
+            };
+            CB_Blank.SelectedIndexChanged += (_, _) => BlankChanged = !IsInvalidSaveFileVersion((GameVersion)WinFormsUtil.GetIndex(CB_Blank));
             B_Reset.Click += (_, _) => DeleteSettings();
         }
         else

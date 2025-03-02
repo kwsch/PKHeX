@@ -58,7 +58,8 @@ namespace PKHeX.WinForms
             // 
             // CB_Blank
             // 
-            CB_Blank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Blank.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Blank.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Blank.FormattingEnabled = true;
             CB_Blank.Location = new System.Drawing.Point(116, 3);
             CB_Blank.Name = "CB_Blank";
