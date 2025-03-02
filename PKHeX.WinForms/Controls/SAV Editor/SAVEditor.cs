@@ -941,7 +941,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     public bool ExportSaveFile()
     {
         ValidateChildren();
-        bool reload = SAV is SAV7b b && b.FixPreWrite();
+        bool reload = SAV is IStorageCleanup b && b.FixStoragePreWrite();
         if (reload)
             ReloadSlots();
         return WinFormsUtil.ExportSAVDialog(SAV, SAV.CurrentBox);

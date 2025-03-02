@@ -107,8 +107,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     /// <param name="data">Full savedata</param>
     private static void ReverseEndianness(Span<byte> data)
     {
-        var uintArr = MemoryMarshal.Cast<byte, uint>(data);
-        for (int i = 0; i < uintArr.Length; i++)
-            uintArr[i] = BinaryPrimitives.ReverseEndianness(uintArr[i]);
+        var as32 = MemoryMarshal.Cast<byte, int>(data);
+        BinaryPrimitives.ReverseEndianness(as32, as32);
     }
 }

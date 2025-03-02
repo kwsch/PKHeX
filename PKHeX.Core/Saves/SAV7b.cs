@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
 /// </summary>
-public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStorageProvider
+public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStorageProvider, IStorageCleanup
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
     public override string Extension => ".bin";
@@ -89,7 +89,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public override int BoxSlotCount => 25;
     public override int BoxCount => 40; // 1000/25
 
-    public bool FixPreWrite() => Blocks.Storage.CompressStorage();
+    public bool FixStoragePreWrite() => Blocks.Storage.CompressStorage();
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
