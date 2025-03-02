@@ -24,8 +24,7 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
 
     public byte Generation => 5;
     public IEnumerable<PKM> Contents => GetTeam(0).Concat(GetTeam(1)); // don't bother with multi-battles
-    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE
-                                            && ReadUInt16LittleEndian(data[^4..]) == Checksums.CRC16_CCITT(data[..^4]);
+    public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE && ReadUInt16LittleEndian(data[^2..]) == 0;
 
     // Structure:
     // 0xC4 - 0x18A0: encrypted region

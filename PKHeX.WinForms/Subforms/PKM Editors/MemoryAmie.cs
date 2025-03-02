@@ -101,20 +101,17 @@ public partial class MemoryAmie : Form
             CB_CTFeel.SelectedIndex = m.HandlingTrainerMemoryFeeling;
         }
 
+        var lOT = LegalityCheckStrings.L_XOT;
+        var lHT = LegalityCheckStrings.L_XHT;
         CB_Handler.Items.Clear();
-        CB_Handler.Items.Add($"{Entity.OriginalTrainerName} ({TextArgs.OT})"); // OTNAME : OT
+        CB_Handler.Items.Add($"{Entity.OriginalTrainerName} ({lOT})"); // OTNAME : OT
 
-        if (!string.IsNullOrEmpty(Entity.HandlingTrainerName))
-            CB_Handler.Items.Add(Entity.HandlingTrainerName);
-        else
-            Entity.CurrentHandler = 0;
+        var ht = Entity.HandlingTrainerName;
+        if (string.IsNullOrWhiteSpace(ht))
+            ht = "----EMPTY----";
+        CB_Handler.Items.Add($"{ht} ({lHT})");
 
         tabControl1.SelectedIndex = CB_Handler.SelectedIndex = Entity.CurrentHandler;
-
-        GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled =
-            BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled =
-                L_Sociability.Enabled = MT_Sociability.Enabled =
-                    L_Fullness.Enabled = L_Enjoyment.Enabled = Entity is not { IsEgg: true, IsUntraded: true, HandlingTrainerFriendship: 0 };
 
         if (!Entity.IsEgg)
         {
@@ -122,8 +119,8 @@ public partial class MemoryAmie : Form
             if (Entity.Generation < 6)
             {
                 // Previous Generation Mon
-                GB_M_OT.Text = $"{TextArgs.PastGen} {Entity.OriginalTrainerName}: {TextArgs.OT}"; // Past Gen OT : OTNAME
-                GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HandlingTrainerName}"; // Memories with : HTNAME
+                GB_M_OT.Text = $"{TextArgs.PastGen} {Entity.OriginalTrainerName}: {lOT}"; // Past Gen OT : OTNAME
+                GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HandlingTrainerName} ({lHT})"; // Memories with : HTNAME
                 enable = false;
                 // Reset to no memory -- don't reset affection as OR/AS can raise it (+20 * n) via Contests
                 CB_OTQual.SelectedIndex = CB_OTFeel.SelectedIndex = 0;
@@ -132,8 +129,8 @@ public partial class MemoryAmie : Form
             else
             {
                 enable = true;
-                GB_M_OT.Text = $"{TextArgs.MemoriesWith} {Entity.OriginalTrainerName} ({TextArgs.OT})"; // Memories with : OTNAME
-                GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HandlingTrainerName}"; // Memories with : HTNAME
+                GB_M_OT.Text = $"{TextArgs.MemoriesWith} {Entity.OriginalTrainerName} ({lOT})"; // Memories with : OTNAME
+                GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HandlingTrainerName} ({lHT})"; // Memories with : HTNAME
                 if (Entity.HandlingTrainerName.Length == 0)
                 {
                     CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled =
@@ -143,7 +140,7 @@ public partial class MemoryAmie : Form
                 }
                 else
                 {
-                    GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HandlingTrainerName}";
+                    GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HandlingTrainerName} ({lHT})";
                 }
             }
             RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = enable;

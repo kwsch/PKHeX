@@ -62,7 +62,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSize;
         const int size = BoxSizeJ - 2;
-        var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
+        var chk = Checksums.CheckSum16(Data.AsSpan(boxOfs, size));
         var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
         return chk == actual;
     }
@@ -71,7 +71,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSize;
         const int size = BoxSizeJ - 2;
-        var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
+        var chk = Checksums.CheckSum16(Data.AsSpan(boxOfs, size));
         WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
     }
 

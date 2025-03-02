@@ -80,7 +80,7 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSizeBox;
         var size = BoxSize - 2;
-        var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
+        var chk = Checksums.CheckSum16(Data.AsSpan(boxOfs, size));
         var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
         return chk == actual;
     }
@@ -118,7 +118,7 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSizeBox;
         var size = BoxSize - 2;
-        var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
+        var chk = Checksums.CheckSum16(Data.AsSpan(boxOfs, size));
         WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
     }
 
@@ -217,12 +217,12 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
     {
         var ofs = MailboxBlockOffset(Language);
         var size = MailboxBlockSize - 2;
-        var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, ofs, size));
+        var chk = Checksums.CheckSum16(Data.AsSpan(ofs, size));
         WriteUInt16BigEndian(Data.AsSpan(ofs + size), chk);
 
         var ofsHeld = MailboxHeldBlockOffset(Language);
         var sizeHeld = MailboxHeldBlockSize - 2;
-        var chkHeld = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, ofsHeld, sizeHeld));
+        var chkHeld = Checksums.CheckSum16(Data.AsSpan(ofsHeld, sizeHeld));
         WriteUInt16BigEndian(Data.AsSpan(ofsHeld + sizeHeld), chkHeld);
     }
     #endregion

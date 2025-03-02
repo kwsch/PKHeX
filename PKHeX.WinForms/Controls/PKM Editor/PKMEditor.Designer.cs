@@ -257,6 +257,7 @@ namespace PKHeX.WinForms.Controls
             Tab_Moves = new System.Windows.Forms.TabPage();
             Tab_Cosmetic = new System.Windows.Forms.TabPage();
             Tab_OTMisc = new System.Windows.Forms.TabPage();
+            L_ArrivedDateTime = new System.Windows.Forms.Label();
             Hidden_TC.SuspendLayout();
             Hidden_Main.SuspendLayout();
             FLP_Main.SuspendLayout();
@@ -1432,7 +1433,7 @@ namespace PKHeX.WinForms.Controls
             Hidden_Met.Margin = new System.Windows.Forms.Padding(0);
             Hidden_Met.Name = "Hidden_Met";
             Hidden_Met.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
-            Hidden_Met.Size = new System.Drawing.Size(331, 505);
+            Hidden_Met.Size = new System.Drawing.Size(331, 504);
             Hidden_Met.TabIndex = 1;
             Hidden_Met.Text = "Met";
             Hidden_Met.UseVisualStyleBackColor = true;
@@ -1454,7 +1455,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Met.Location = new System.Drawing.Point(0, 16);
             FLP_Met.Margin = new System.Windows.Forms.Padding(0);
             FLP_Met.Name = "FLP_Met";
-            FLP_Met.Size = new System.Drawing.Size(331, 489);
+            FLP_Met.Size = new System.Drawing.Size(331, 488);
             FLP_Met.TabIndex = 1;
             // 
             // FLP_OriginGame
@@ -1890,7 +1891,7 @@ namespace PKHeX.WinForms.Controls
             Hidden_Stats.Margin = new System.Windows.Forms.Padding(0);
             Hidden_Stats.Name = "Hidden_Stats";
             Hidden_Stats.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            Hidden_Stats.Size = new System.Drawing.Size(331, 505);
+            Hidden_Stats.Size = new System.Drawing.Size(331, 504);
             Hidden_Stats.TabIndex = 2;
             Hidden_Stats.Text = "Stats";
             Hidden_Stats.UseVisualStyleBackColor = true;
@@ -1905,7 +1906,7 @@ namespace PKHeX.WinForms.Controls
             Stats.Location = new System.Drawing.Point(0, 8);
             Stats.Margin = new System.Windows.Forms.Padding(0);
             Stats.Name = "Stats";
-            Stats.Size = new System.Drawing.Size(331, 497);
+            Stats.Size = new System.Drawing.Size(331, 496);
             Stats.StatDecreased = System.Drawing.Color.Blue;
             Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
             Stats.StatIncreased = System.Drawing.Color.Red;
@@ -1918,7 +1919,7 @@ namespace PKHeX.WinForms.Controls
             Hidden_Moves.Location = new System.Drawing.Point(4, 5);
             Hidden_Moves.Margin = new System.Windows.Forms.Padding(0);
             Hidden_Moves.Name = "Hidden_Moves";
-            Hidden_Moves.Size = new System.Drawing.Size(331, 505);
+            Hidden_Moves.Size = new System.Drawing.Size(331, 504);
             Hidden_Moves.TabIndex = 3;
             Hidden_Moves.Text = "Attacks";
             Hidden_Moves.UseVisualStyleBackColor = true;
@@ -2293,7 +2294,7 @@ namespace PKHeX.WinForms.Controls
             Hidden_Cosmetic.Controls.Add(FLP_CosmeticTop);
             Hidden_Cosmetic.Location = new System.Drawing.Point(4, 5);
             Hidden_Cosmetic.Name = "Hidden_Cosmetic";
-            Hidden_Cosmetic.Size = new System.Drawing.Size(331, 505);
+            Hidden_Cosmetic.Size = new System.Drawing.Size(331, 504);
             Hidden_Cosmetic.TabIndex = 5;
             Hidden_Cosmetic.Text = "Cosmetic";
             Hidden_Cosmetic.UseVisualStyleBackColor = true;
@@ -2621,7 +2622,7 @@ namespace PKHeX.WinForms.Controls
             Hidden_OTMisc.Location = new System.Drawing.Point(4, 5);
             Hidden_OTMisc.Margin = new System.Windows.Forms.Padding(0);
             Hidden_OTMisc.Name = "Hidden_OTMisc";
-            Hidden_OTMisc.Size = new System.Drawing.Size(331, 505);
+            Hidden_OTMisc.Size = new System.Drawing.Size(331, 504);
             Hidden_OTMisc.TabIndex = 4;
             Hidden_OTMisc.Text = "OT/Misc";
             Hidden_OTMisc.UseVisualStyleBackColor = true;
@@ -2645,7 +2646,7 @@ namespace PKHeX.WinForms.Controls
             FLP_OTMisc.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_OTMisc.Location = new System.Drawing.Point(0, 0);
             FLP_OTMisc.Name = "FLP_OTMisc";
-            FLP_OTMisc.Size = new System.Drawing.Size(331, 505);
+            FLP_OTMisc.Size = new System.Drawing.Size(331, 504);
             FLP_OTMisc.TabIndex = 1;
             // 
             // GB_OT
@@ -3111,18 +3112,19 @@ namespace PKHeX.WinForms.Controls
             FLP_ReceivedDate.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             FLP_ReceivedDate.AutoSize = true;
             FLP_ReceivedDate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            FLP_ReceivedDate.Controls.Add(L_ArrivedDateTime);
             FLP_ReceivedDate.Controls.Add(CAL_ReceivedDateTime);
             FLP_ReceivedDate.Location = new System.Drawing.Point(0, 393);
             FLP_ReceivedDate.Margin = new System.Windows.Forms.Padding(0);
             FLP_ReceivedDate.Name = "FLP_ReceivedDate";
-            FLP_ReceivedDate.Size = new System.Drawing.Size(253, 25);
+            FLP_ReceivedDate.Size = new System.Drawing.Size(256, 65);
             FLP_ReceivedDate.TabIndex = 52;
             // 
             // CAL_ReceivedDateTime
             // 
             CAL_ReceivedDateTime.CustomFormat = "yyyy-MM-dd HH:mm:ss tt";
             CAL_ReceivedDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            CAL_ReceivedDateTime.Location = new System.Drawing.Point(24, 0);
+            CAL_ReceivedDateTime.Location = new System.Drawing.Point(24, 40);
             CAL_ReceivedDateTime.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
             CAL_ReceivedDateTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_ReceivedDateTime.Name = "CAL_ReceivedDateTime";
@@ -3217,6 +3219,16 @@ namespace PKHeX.WinForms.Controls
             Tab_OTMisc.TabIndex = 4;
             Tab_OTMisc.Text = "OT/Misc";
             Tab_OTMisc.UseVisualStyleBackColor = true;
+            // 
+            // L_ArrivedDateTime
+            // 
+            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 16);
+            L_ArrivedDateTime.Margin = new System.Windows.Forms.Padding(24, 16, 0, 0);
+            L_ArrivedDateTime.Name = "L_ArrivedDateTime";
+            L_ArrivedDateTime.Size = new System.Drawing.Size(232, 24);
+            L_ArrivedDateTime.TabIndex = 52;
+            L_ArrivedDateTime.Text = "Acquired by current handler at...";
+            L_ArrivedDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PKMEditor
             // 
@@ -3591,5 +3603,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_Relearn4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox CB_Form;
+        private System.Windows.Forms.Label L_ArrivedDateTime;
     }
 }
