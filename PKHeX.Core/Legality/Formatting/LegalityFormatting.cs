@@ -104,25 +104,36 @@ public static class LegalityFormatting
     private static void AddEncounterInfoPIDIV(List<string> lines, LegalInfo info)
     {
         var pidiv = info.PIDIV;
+        var type = pidiv.Type;
+        var msgType = string.Format(L_FPIDType_0, type);
         var enc = info.EncounterOriginal;
-        var type = string.Format(L_FPIDType_0, pidiv.Type);
         if (enc is IRandomCorrelationEvent3 r3)
         {
-            var mainType = r3.GetSuggestedCorrelation();
-            if (mainType != pidiv.Type)
-                type += $" [{mainType}]";
+            if (type is not PIDType.None)
+            {
+                var mainType = r3.GetSuggestedCorrelation();
+                if (mainType != type)
+                    msgType += $" [{mainType}]";
+            }
             if (enc is EncounterGift3 { Method: PIDType.BACD_M } && info.PIDIVMatches) // mystry
             {
                 var detail = MystryMew.GetSeedIndexes(pidiv.OriginSeed);
-                type += $" ({detail.Index}-{detail.SubIndex})";
+                msgType += $" ({detail.Index}-{detail.SubIndex})";
             }
         }
-        lines.Add(type);
+        lines.Add(msgType);
         if (pidiv.NoSeed)
         {
-            if (pidiv.Type is PIDType.Pokewalker)
+            if (type is PIDType.Pokewalker)
             {
                 var line = GetLinePokewalkerSeed(info);
+                lines.Add(line);
+            }
+            else if (enc is PCD { Gift.PK.PID: <= 1 }) // tick rand
+            {
+                var ticks = ARNG.Prev(info.Entity.EncryptionConstant);
+                var line = string.Format(L_FOriginSeed_0, ticks.ToString("X8"));
+                line += $" [{ticks / 524_288f:F2}]"; // seconds?
                 lines.Add(line);
             }
             return;
