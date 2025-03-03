@@ -39,7 +39,17 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = Version != GameVersion.RSE ? Version : GameVersion.RSE.Contains(tr.Version) ? tr.Version : GameVersion.E;
+        var version = Version switch
+        {
+            GameVersion.RSE => tr.Version switch
+            {
+                GameVersion.R => GameVersion.R,
+                GameVersion.S => GameVersion.S,
+                GameVersion.RS => GameVersion.R,
+                _ => GameVersion.E,
+            },
+            _ => Version
+        };
         var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
