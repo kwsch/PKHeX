@@ -63,8 +63,13 @@ public sealed class HistoryVerifier : Verifier
             byte expect = shouldBe0 ? (byte)0 : (byte)1;
             if (!IsHandlerStateCorrect(enc, pk, current, expect))
             {
-                data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
-                return;
+                // generally disable this check if it's being edited inside a blank save file's environment.
+                if (tr is not SaveFile { State.Exportable: false })
+                    data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
+                // if there's no HT data yet specified, don't bother checking further.
+                // blank save exports will be injected and fixed later, and not-blanks will have been flagged by the above.
+                if (pk.IsUntraded)
+                    return;
             }
 
             if (current == 1)
