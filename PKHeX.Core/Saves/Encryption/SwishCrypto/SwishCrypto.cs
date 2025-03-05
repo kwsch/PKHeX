@@ -56,15 +56,15 @@ public static class SwishCrypto
         // Due to the xorpad being extended 0x7F->0x80, if len%7F==0, we miss the last vectored xor.
         // Subtract 1 from the data size in the event that the length is an even multiple, to get one less iteration.
         var xp = StaticXorpad;
-        var xp64 = MemoryMarshal.Cast<byte, Vector<ulong>>(xp);
-        var size = xp.Length - 1;
+        var xpVec = MemoryMarshal.Cast<byte, Vector<byte>>(xp);
+        var size = xp.Length - 1; // 0x7F, not 0x80
         int iterations = (data.Length - 1) / size;
         do
         {
-            var slice = MemoryMarshal.Cast<byte, Vector<ulong>>(data[..xp.Length]);
+            var slice = MemoryMarshal.Cast<byte, Vector<byte>>(data[..xp.Length]);
             for (int i = slice.Length - 1; i >= 0; i--)
-                slice[i] ^= xp64[i];
-            data = data[size..];
+                slice[i] ^= xpVec[i];
+            data = data[size..]; // Advance by 0x7F, not 0x80
         } while (--iterations != 0);
         // Xor the remainder.
         for (int i = data.Length - 1; i >= 0; i--)

@@ -28,43 +28,25 @@ public static class SaveUtil
     public const int SIZE_G9_2   = 0x31A2D0; // 1.0.0 -> 1.1.0
 
     // 1.2.0: add 0x2C9F; clean upgrade (1.1.0->1.2.0 is same as *1.2.0)
-    public const int SIZE_G9_3A0 = 0x31CF7C; // 1.0.0 -> 1.0.1 -> 1.1.0 -> 1.2.0 AM
-    public const int SIZE_G9_3A1 = 0x31CA6F; //          1.0.1 -> 1.1.0 -> 1.2.0 AM
-    public const int SIZE_G9_3B0 = SIZE_G9_3A0 - 0xD; // BM
     public const int SIZE_G9_3B1 = SIZE_G9_3A1 - 0xD; // BM
-    public const int SIZE_G9_3G0 = SIZE_G9_3A0 + 0x5; // GO
-    public const int SIZE_G9_3G1 = SIZE_G9_3A1 + 0x5; // GO
-    public const int SIZE_G9_3P0 = SIZE_G9_3B0 + 0x5; // GO (before Multiplayer)
     public const int SIZE_G9_3P1 = SIZE_G9_3B1 + 0x5; // GO (before Multiplayer)
+    public const int SIZE_G9_3A1 = 0x31CA6F; //          1.0.1 -> 1.1.0 -> 1.2.0 AM
+    public const int SIZE_G9_3G1 = SIZE_G9_3A1 + 0x5; // GO
+
+    public const int SIZE_G9_3B0 = SIZE_G9_3A0 - 0xD; // BM
+    public const int SIZE_G9_3P0 = SIZE_G9_3B0 + 0x5; // GO (before Multiplayer)
+    public const int SIZE_G9_3A0 = 0x31CF7C; // 1.0.0 -> 1.0.1 -> 1.1.0 -> 1.2.0 AM
+    public const int SIZE_G9_3G0 = SIZE_G9_3A0 + 0x5; // GO
 
     // 2.0.1 (2.0.0 skipped): Teal Mask
-    public const int SIZE_G9_DLC1_B = 0x4329A0;
-    public const int SIZE_G9_DLC1_T = 0x4329A5; // +5
-    public const int SIZE_G9_DLC1_0 = 0x4329A9; // +4
-    public const int SIZE_G9_DLC1_E = 0x4329AD; // +1
-    public const int SIZE_G9_DLC1_1 = 0x4329AE; // +1
-    public const int SIZE_G9_DLC1_D = 0x4329B2; // +4
-    public const int SIZE_G9_DLC1_F = 0x4329B3; // +1
-    public const int SIZE_G9_DLC1_A = 0x4329B6; // +3
-    public const int SIZE_G9_DLC1_Q = 0x4329B7; // +1
-    public const int SIZE_G9_DLC1_2 = 0x4329BB; // +5
-    public const int SIZE_G9_DLC1_U = 0x4329BC; // +1
-    public const int SIZE_G9_DLC1_W = 0x4329BF; // +4
-    public const int SIZE_G9_DLC1_3 = 0x4329C0; // +5
-    public const int SIZE_G9_DLC1_9 = 0x4329C4;
-    public const int SIZE_G9_DLC1_V = 0x4329C9;
-    public const int SIZE_G9_DLC1_4 = 0x432EB6;
-    public const int SIZE_G9_DLC1_C = 0x432EBB; // +5
-    public const int SIZE_G9_DLC1_5 = 0x432EBF; // +4
-    public const int SIZE_G9_DLC1_H = 0x432EC0; // +1
-    public const int SIZE_G9_DLC1_6 = 0x432EC3; // +4
-    public const int SIZE_G9_DLC1_G = 0x432EC4; // +1
-    public const int SIZE_G9_DLC1_7 = 0x432EC8; // +5
-    public const int SIZE_G9_DLC1_I = 0x432EC9; // +1
-    public const int SIZE_G9_DLC1_R = 0x432ECC; // +1
-    public const int SIZE_G9_DLC1_8 = 0x432ECD; // +5
-    public const int SIZE_G9_DLC1_Y = 0x432ED1; // +1
-    public const int SIZE_G9_DLC1_Z = 0x432ED6; // +5
+    // 3.0.0: The Indigo Disk
+    // Both save file sizes have a ton of optional blocks, so just accept a range (min/max) and rely on the hash validity.
+    private const int SIZE_G9_DLC1_MIN1 = 0x4329A0;
+    private const int SIZE_G9_DLC1_MAX1 = 0x4329C9;
+    private const int SIZE_G9_DLC1_MIN2 = 0x432EB6;
+    private const int SIZE_G9_DLC1_MAX2 = 0x432ED6;
+    private const int SIZE_G9_202 = 0xC8E; // Add 2 blocks (1 obj 0xC80, 1 bool) = 4{key}1{obj}4{len} + 4{key}1{boolT/boolF}
+    private const int SIZE_G9_300 = 0x83AD;
 
     public const int SIZE_G8LA = 0x136DDE;
     public const int SIZE_G8LA_1 = 0x13AD06;
@@ -74,11 +56,11 @@ public static class SaveUtil
     public const int SIZE_G8BDSP_2 = 0xEED8C;
     public const int SIZE_G8BDSP_3 = 0xEF0A4;
 
-    public const int SIZE_G8SWSH = 0x1716B3; // 1.0
-    public const int SIZE_G8SWSH_1 = 0x17195E; // 1.0 -> 1.1
-    public const int SIZE_G8SWSH_2 = 0x180B19; // 1.0 -> 1.1 -> 1.2
+    public const int SIZE_G8SWSH    = 0x1716B3; // 1.0
+    public const int SIZE_G8SWSH_1  = 0x17195E; // 1.0 -> 1.1
+    public const int SIZE_G8SWSH_2  = 0x180B19; // 1.0 -> 1.1 -> 1.2
     public const int SIZE_G8SWSH_2B = 0x180AD0; // 1.0 -> 1.2
-    public const int SIZE_G8SWSH_3 = 0x1876B1; // 1.0 -> 1.1 -> 1.2 -> 1.3
+    public const int SIZE_G8SWSH_3  = 0x1876B1; // 1.0 -> 1.1 -> 1.2 -> 1.3
     public const int SIZE_G8SWSH_3A = 0x187693; // 1.0 -> 1.1 -> 1.3
     public const int SIZE_G8SWSH_3B = 0x187668; // 1.0 -> 1.2 -> 1.3
     public const int SIZE_G8SWSH_3C = 0x18764A; // 1.0 -> 1.3
@@ -138,8 +120,6 @@ public static class SaveUtil
     ];
 #endif
 
-    private const int SIZE_G9_202 = 0xC8E; // Add 2 blocks (1 obj 0xC80, 1 bool) = 4{key}1{obj}4{len} + 4{key}1{boolT/boolF}
-    private const int SIZE_G9_300 = 0x83AD;
     private static bool IsSizeGen9SV(int length) => length is
         SIZE_G9_0 or SIZE_G9_0a or
         SIZE_G9_1 or SIZE_G9_1a or SIZE_G9_1A or SIZE_G9_1Aa or SIZE_G9_1Ba or SIZE_G9_1Ab or
@@ -147,33 +127,14 @@ public static class SaveUtil
         SIZE_G9_3 or
         SIZE_G9_3A0 or SIZE_G9_3A1 or SIZE_G9_3B0 or SIZE_G9_3B1 or
         SIZE_G9_3G0 or SIZE_G9_3G1 or SIZE_G9_3P0 or SIZE_G9_3P1 or
-        SIZE_G9_DLC1_0 or (SIZE_G9_DLC1_0 + SIZE_G9_202) or (SIZE_G9_DLC1_0 + SIZE_G9_300) or
-        SIZE_G9_DLC1_1 or (SIZE_G9_DLC1_1 + SIZE_G9_202) or (SIZE_G9_DLC1_1 + SIZE_G9_300) or
-        SIZE_G9_DLC1_2 or (SIZE_G9_DLC1_2 + SIZE_G9_202) or (SIZE_G9_DLC1_2 + SIZE_G9_300) or
-        SIZE_G9_DLC1_3 or (SIZE_G9_DLC1_3 + SIZE_G9_202) or (SIZE_G9_DLC1_3 + SIZE_G9_300) or
-        SIZE_G9_DLC1_4 or (SIZE_G9_DLC1_4 + SIZE_G9_202) or (SIZE_G9_DLC1_4 + SIZE_G9_300) or
-        SIZE_G9_DLC1_5 or (SIZE_G9_DLC1_5 + SIZE_G9_202) or (SIZE_G9_DLC1_5 + SIZE_G9_300) or
-        SIZE_G9_DLC1_6 or (SIZE_G9_DLC1_6 + SIZE_G9_202) or (SIZE_G9_DLC1_6 + SIZE_G9_300) or
-        SIZE_G9_DLC1_7 or (SIZE_G9_DLC1_7 + SIZE_G9_202) or (SIZE_G9_DLC1_7 + SIZE_G9_300) or
-        SIZE_G9_DLC1_8 or (SIZE_G9_DLC1_8 + SIZE_G9_202) or (SIZE_G9_DLC1_8 + SIZE_G9_300) or
-        SIZE_G9_DLC1_9 or (SIZE_G9_DLC1_9 + SIZE_G9_202) or (SIZE_G9_DLC1_9 + SIZE_G9_300) or
-        SIZE_G9_DLC1_A or (SIZE_G9_DLC1_A + SIZE_G9_202) or (SIZE_G9_DLC1_A + SIZE_G9_300) or
-        SIZE_G9_DLC1_B or (SIZE_G9_DLC1_B + SIZE_G9_202) or (SIZE_G9_DLC1_B + SIZE_G9_300) or
-        SIZE_G9_DLC1_C or (SIZE_G9_DLC1_C + SIZE_G9_202) or (SIZE_G9_DLC1_C + SIZE_G9_300) or
-        SIZE_G9_DLC1_D or (SIZE_G9_DLC1_D + SIZE_G9_202) or (SIZE_G9_DLC1_D + SIZE_G9_300) or
-        SIZE_G9_DLC1_E or (SIZE_G9_DLC1_E + SIZE_G9_202) or (SIZE_G9_DLC1_E + SIZE_G9_300) or
-        SIZE_G9_DLC1_F or (SIZE_G9_DLC1_F + SIZE_G9_202) or (SIZE_G9_DLC1_F + SIZE_G9_300) or
-        SIZE_G9_DLC1_G or (SIZE_G9_DLC1_G + SIZE_G9_202) or (SIZE_G9_DLC1_G + SIZE_G9_300) or
-        SIZE_G9_DLC1_H or (SIZE_G9_DLC1_H + SIZE_G9_202) or (SIZE_G9_DLC1_H + SIZE_G9_300) or
-        SIZE_G9_DLC1_I or (SIZE_G9_DLC1_I + SIZE_G9_202) or (SIZE_G9_DLC1_I + SIZE_G9_300) or
-        SIZE_G9_DLC1_Q or (SIZE_G9_DLC1_Q + SIZE_G9_202) or (SIZE_G9_DLC1_Q + SIZE_G9_300) or
-        SIZE_G9_DLC1_W or (SIZE_G9_DLC1_W + SIZE_G9_202) or (SIZE_G9_DLC1_W + SIZE_G9_300) or
-        SIZE_G9_DLC1_R or (SIZE_G9_DLC1_R + SIZE_G9_202) or (SIZE_G9_DLC1_R + SIZE_G9_300) or
-        SIZE_G9_DLC1_T or (SIZE_G9_DLC1_T + SIZE_G9_202) or (SIZE_G9_DLC1_T + SIZE_G9_300) or
-        SIZE_G9_DLC1_Y or (SIZE_G9_DLC1_Y + SIZE_G9_202) or (SIZE_G9_DLC1_Y + SIZE_G9_300) or
-        SIZE_G9_DLC1_U or (SIZE_G9_DLC1_U + SIZE_G9_202) or (SIZE_G9_DLC1_U + SIZE_G9_300) or
-        SIZE_G9_DLC1_V or (SIZE_G9_DLC1_V + SIZE_G9_202) or (SIZE_G9_DLC1_V + SIZE_G9_300) or
-        SIZE_G9_DLC1_Z or (SIZE_G9_DLC1_Z + SIZE_G9_202) or (SIZE_G9_DLC1_Z + SIZE_G9_300);
+        // tons of optional blocks, just rely on range(+) and hash validity
+        (>= SIZE_G9_DLC1_MIN1 and <= SIZE_G9_DLC1_MAX1 + 100) or
+        (>= SIZE_G9_DLC1_MIN2 and <= SIZE_G9_DLC1_MAX2 + 100) or
+        (>= SIZE_G9_DLC1_MIN1 + SIZE_G9_202 and <= SIZE_G9_DLC1_MAX1 + SIZE_G9_202 + 100) or
+        (>= SIZE_G9_DLC1_MIN2 + SIZE_G9_202 and <= SIZE_G9_DLC1_MAX2 + SIZE_G9_202 + 100) or
+        (>= SIZE_G9_DLC1_MIN1 + SIZE_G9_300 and <= SIZE_G9_DLC1_MAX1 + SIZE_G9_300 + 100) or
+        (>= SIZE_G9_DLC1_MIN2 + SIZE_G9_300 and <= SIZE_G9_DLC1_MAX2 + SIZE_G9_300 + 100)
+    ;
 
     private static bool IsSizeGen8SWSH(int length) => length is SIZE_G8SWSH
         or SIZE_G8SWSH_1
