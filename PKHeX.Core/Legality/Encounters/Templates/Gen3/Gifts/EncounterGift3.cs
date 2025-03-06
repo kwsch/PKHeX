@@ -269,6 +269,24 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
 
     private static uint SetPINGAChannel(PK3 pk, EncounterCriteria criteria)
     {
+        if (criteria.IsSpecifiedIVsAll())
+        {
+            Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsChannel];
+            var count = XDRNG.GetSeedsChannel(seeds, (uint)criteria.IV_HP, (uint)criteria.IV_ATK, (uint)criteria.IV_DEF, (uint)criteria.IV_SPA, (uint)criteria.IV_SPD, (uint)criteria.IV_SPE);
+            foreach (var seed in seeds[..count])
+            {
+                if (!ChannelJirachi.IsPossible(seed))
+                    continue;
+                PIDGenerator.SetValuesFromSeedChannel(pk, seed);
+                var pid = pk.EncryptionConstant;
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                    continue; // try again
+                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+                    continue; // try again
+                return seed;
+            }
+        }
+
         while (true)
         {
             uint seed = Util.Rand32();
