@@ -102,7 +102,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         // Errors will be flagged later for those not manually handled below.
         if (defer.Encounter is not { } lastResort)
             yield break;
-        if (defer.Type is DeferralType.PIDIV)
+        if (defer.Type is DeferralType.PIDIV && !(lastResort is EncounterEgg && ParseSettings.Settings.FramePattern.EggRandomAnyType3))
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
         else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
