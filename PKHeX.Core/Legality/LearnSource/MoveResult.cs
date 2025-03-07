@@ -68,6 +68,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     public static readonly MoveResult Sketch = new(LearnMethod.Sketch);
     public static MoveResult Unobtainable(ushort expect) => new(LearnMethod.UnobtainableExpect) { Expect = expect };
     public static MoveResult Unobtainable() => new(LearnMethod.Unobtainable);
+    public static MoveResult UnobtainableEgg() => new(LearnMethod.UnobtainableEgg);
 
     /// <summary>
     /// Checks if all <see cref="MoveResult"/>s in the span are <see cref="Valid"/>.
