@@ -677,7 +677,7 @@ public sealed class MysteryBlock4DP(SAV4DP sav, Memory<byte> raw) : MysteryBlock
     public override void SetMysteryGift(int index, PCD pcd)
     {
         base.SetMysteryGift(index, pcd);
-        SetMysteryGiftReceivedSentinel(index, pcd.Empty ? 0 : MysteryGiftDPSlotActive);
+        SetMysteryGiftReceivedSentinel(MaxCountPGT + index, pcd.Empty ? 0 : MysteryGiftDPSlotActive);
     }
 }
 

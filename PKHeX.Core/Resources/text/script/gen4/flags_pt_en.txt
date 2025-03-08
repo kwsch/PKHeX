@@ -58,7 +58,7 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
-0325	r	Dialga/Pakia rifts spawnable
+0325	r	Dialga/Palkia rifts spawnable
 1051	s	Found Adamant Orb on Mt. Coronet
 1053	s	Found Lustrous Orb on Mt. Coronet
 2507	s	Entered Pal Park Catching Show

@@ -58,7 +58,7 @@
 0134	g	Intercambio en Ciudad Vetusta
 0244	g	Intercambio en Ciudad Puntaneva
 0245	g	Intercambio en Ruta 226
-0325	r	Grieta de Dialga/Pakia visible 
+0325	r	Grieta de Dialga/Palkia visible 
 1051	s	Diamansfera encontrada en Monte Corona
 1053	s	Lustresfera encontrada en Monte Corona
 2507	s	Participado en las capturas del Parque Compi
