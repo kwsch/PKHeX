@@ -29,7 +29,7 @@ public static class RibbonSpriteUtil
         if (max != 4) // Memory
         {
             var sprite = name.ToLowerInvariant();
-            if (max == value)
+            if (value >= max)
                 return sprite + "2";
             return sprite;
         }
