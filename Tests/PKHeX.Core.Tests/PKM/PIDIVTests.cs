@@ -146,14 +146,9 @@ public class PIDIVTest
     public void PIDIVPokeSpotTest()
     {
         // XD PokeSpots: Check all 3 Encounter Slots (examples are one for each location).
-        var pkPS0 = new PK3 { PID = 0x7B2D9DA7 }; // Zubat (Cave)
-        MethodFinder.GetPokeSpotSeedFirst(pkPS0, 0).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Common)
-
-        var pkPS1 = new PK3 { PID = 0x3EE9AF66 }; // Gligar (Rock)
-        MethodFinder.GetPokeSpotSeedFirst(pkPS1, 1).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Uncommon)
-
-        var pkPS2 = new PK3 { PID = 0x9B667F3C }; // Surskit (Oasis)
-        MethodFinder.GetPokeSpotSeedFirst(pkPS2, 2).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Rare)
+        MethodPokeSpot.TryGetOriginSeedPID(0x7B2D9DA7, 0, out _).Should().BeTrue(); // Zubat (Cave) (Common)
+        MethodPokeSpot.TryGetOriginSeedPID(0x3EE9AF66, 1, out _).Should().BeTrue(); // Gligar (Rock) (Uncommon)
+        MethodPokeSpot.TryGetOriginSeedPID(0x9B667F3C, 2, out _).Should().BeTrue(); // Surskit (Oasis) (Rare)
     }
 
     [Theory]

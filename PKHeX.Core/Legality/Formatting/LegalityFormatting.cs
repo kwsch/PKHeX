@@ -154,7 +154,7 @@ public static class LegalityFormatting
         {
             var seed = pidiv.OriginSeed;
             var line = string.Format(L_FOriginSeed_0, seed.ToString("X8"));
-            if (info is { EncounterMatch: IRandomCorrelationEvent3 } && pidiv.Mutated is not 0 && pidiv.OriginSeed != pidiv.EncounterSeed)
+            if (pidiv.Mutated is not 0 && pidiv.OriginSeed != pidiv.EncounterSeed)
                 line += $" [{pidiv.EncounterSeed:X8}]";
             lines.Add(line);
         }

@@ -362,6 +362,7 @@ public static class MethodCXD
     public static void SetRandomStarter(XK3 pk, EncounterCriteria criteria)
     {
         var seed = Util.Rand32();
+
         bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
         while (true)
         {
@@ -404,6 +405,7 @@ public static class MethodCXD
         var id32 = pk.ID32;
         var seed = Util.Rand32();
 
+        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
         while (true)
         {
             // Get PID
@@ -425,6 +427,8 @@ public static class MethodCXD
             var iv32 = iv2 << 15 | iv1;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
 
             var abit = XDRNG.Next16(ref seed);
             pk.PID = pid;
@@ -439,6 +443,7 @@ public static class MethodCXD
         var id32 = pk.ID32;
         var seed = Util.Rand32();
 
+        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
         while (true)
         {
             // Get PID
@@ -459,6 +464,8 @@ public static class MethodCXD
             var iv2 = XDRNG.Next15(ref seed);
             var iv32 = iv2 << 15 | iv1;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             var abit = XDRNG.Next16(ref seed);
