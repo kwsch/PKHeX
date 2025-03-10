@@ -12,42 +12,37 @@ public static class MethodPokeSpot
     /// <param name="origin">Origin seed.</param>
     public static PokeSpotSetup IsValidActivation(byte slot, uint seed, out uint origin)
     {
-        // Forward call structure: depends on if Bonsly is available.
-        // No Bonsly
+        // Forward call structure: depends on if Munchlax (10%) or Bonsly (30%) available to spawn
         // 0: Origin
         // 1: rand(003) == 0 - Activation
-        // 2: rand(100) < 10 - if Munchlax available, spawn Munchlax & return.
+        // w: rand(100) < [10 or 30 or 40] -- if neither available to spawn, skip.
         // x: rand(100) encounter slot
-        // y: pid
+        // yz: pid
 
-        // Bonsly
-        // 0: Origin
-        // 1: rand(003) == 0 - Activation
-        // 2: ???
-        // 3: rand(100) < 30 - Bonsly; < 40 - Munchlax
-        // x: rand(100) encounter slot
-        // y: pid
-
-        origin = seed;
+        origin = 0;
         // wild
         var esv = (seed >> 16) % 100;
         if (!IsSlotValid(slot, esv))
             return PokeSpotSetup.Invalid;
 
-        // Assume only Munchlax available
-        var preSlot = XDRNG.Prev16(ref origin);
-        if (preSlot % 100 < 10)
-            return PokeSpotSetup.Invalid; // worst case: only Munchlax available
-        preSlot = XDRNG.Prev16(ref origin);
+        // Assume neither available to spawn.
+        var preSlot = XDRNG.Prev16(ref seed);
         if (preSlot % 3 == 0)
-            return PokeSpotSetup.NoBonsly;
+        {
+            origin = XDRNG.Prev(seed);
+            return PokeSpotSetup.Neither;
+        }
 
-        // Assume both available
-        if (preSlot % 100 < 30)
+        // Assume only Munchlax available
+        if (preSlot % 100 < 10)
             return PokeSpotSetup.Invalid;
-        preSlot = XDRNG.Prev16(ref origin);
+        preSlot = XDRNG.Prev16(ref seed);
         if (preSlot % 3 == 0)
-            return PokeSpotSetup.Bonsly;
+        {
+            origin = XDRNG.Prev(seed);
+            return PokeSpotSetup.Munchlax;
+        }
+
         return PokeSpotSetup.Invalid;
     }
 
@@ -119,6 +114,9 @@ public static class MethodPokeSpot
             // {u16 fakePID, u16 fakePID} => you are here (origin)
             // {u16 iv1, u16 iv2}
             // ability
+            origin = XDRNG.Prev6(preIV);
+            if (!IsValidAnimation(origin, out origin, out _))
+                continue;
 
             var lvl16 = XDRNG.Prev2(preIV) >> 16;
             var lvlRnd = lvl16 % levelDelta;
@@ -129,7 +127,6 @@ public static class MethodPokeSpot
             var abil16 = XDRNG.Next3(preIV) >> 16;
             var abit = abil16 & 1; // don't care about ability, might be reset on evolution
 
-            origin = XDRNG.Prev6(preIV);
             return true;
         }
 
@@ -149,6 +146,10 @@ public static class MethodPokeSpot
         bool checkLevel = criteria.IsSpecifiedLevelRange() && criteria.IsLevelWithinRange(levelMin, levelMax);
         foreach (var preIV in seeds[..count])
         {
+            var origin = XDRNG.Prev6(preIV);
+            if (!IsValidAnimation(origin, out origin, out _))
+                continue;
+
             // origin
             // {u16 fakeID, u16 fakeID}
             // ???
@@ -221,6 +222,10 @@ public static class MethodPokeSpot
             // ability
             var preIV = seed;
 
+            var origin = XDRNG.Prev6(preIV);
+            if (!IsValidAnimation(origin, out origin, out _))
+                continue;
+
             var iv1 = XDRNG.Next15(ref seed);
             var iv2 = XDRNG.Next15(ref seed);
             var iv32 = iv2 << 15 | iv1;
@@ -265,11 +270,50 @@ public static class MethodPokeSpot
         < 85 => 1,
         _ => 2,
     };
+
+    public static bool IsValidAnimation(uint seed, out uint origin, out uint animation)
+    {
+        // Origin
+        // Get a random animation that isn't 3:
+        //   rand(10) until != 3
+        // Based on animation, sub-randomize it:
+        //   if 8, Next5
+        //   if >= 5, Next2
+        //   if <= 4, Next
+
+        // Look backwards, starting with Prev
+        var prev16 = XDRNG.Prev16(ref seed);
+        animation = prev16 % 10;
+        if (animation is < 5 and not 3)
+        {
+            origin = XDRNG.Prev(seed);
+            return true;
+        }
+
+        prev16 = XDRNG.Prev16(ref seed);
+        animation = prev16 % 10;
+        if (animation is >= 5 and not 8)
+        {
+            origin = XDRNG.Prev(seed);
+            return true;
+        }
+
+        seed = XDRNG.Prev3(seed);
+        animation = (seed >> 16) % 10;
+        if (animation is 8)
+        {
+            origin = XDRNG.Prev(seed);
+            return true;
+        }
+
+        origin = 0;
+        return false;
+    }
 }
 
 public enum PokeSpotSetup : byte
 {
     Invalid,
-    NoBonsly,
-    Bonsly,
+    Neither,
+    Munchlax,
 }
