@@ -100,20 +100,20 @@ public static class MethodCXD
     /// </summary>
     /// <param name="tid">Generation 3 Trainer ID</param>
     /// <param name="sid">Generation 3 Secret ID</param>
-    /// <param name="seed">Possible starting seed</param>
+    /// <param name="origin">Possible starting seed</param>
     /// <returns>True if a seed was found, false if no seed was found</returns>
-    public static bool TryGetSeedTrainerID(ushort tid, ushort sid, out uint seed)
+    public static bool TryGetSeedTrainerID(ushort tid, ushort sid, out uint origin)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         var count = XDRNG.GetSeeds(seeds, (uint)tid << 16, (uint)sid << 16);
-
-        if (count == 0)
+        foreach (var s in seeds[..count])
         {
-            seed = 0;
-            return false;
+            var prev1k = XDRNG.Prev1000(s);
+            if (IsReachableFromNameScreen(prev1k, out origin))
+                return true;
         }
-        seed = seeds[0];
-        return true;
+        origin = 0;
+        return false;
     }
 
     public static bool TryGetShinySID(ushort tid, out ushort sid, uint xor, uint bits)
@@ -624,6 +624,38 @@ public static class MethodCXD
             return true;
         }
         result = 0;
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the provided <see cref="seed"/> can be landed at after confirming the player name.
+    /// </summary>
+    /// <param name="seed">Seed that goes on to generate the player TID/SID (after advancing 1000 frames)</param>
+    /// <param name="origin">Current seed that confirms the player name</param>
+    /// <returns>True if <see cref="seed"/> can be reached via <see cref="origin"/></returns>
+    /// <remarks>https://github.com/yatsuna827/PokemonCoRNGLibrary/blob/e5255b13134ab3a2119788c40b5e71ee48d849b0/PokemonCoRNGLibrary/Util/LCGExtensions.cs#L15</remarks> 
+    public static bool IsReachableFromNameScreen(uint seed, out uint origin)
+    {
+        // rand() / 10 == 0 is a skip
+        const ushort SEED_THRESHOLD = 0x1999; // Only need the upper 16 bits
+
+        var p1 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
+        var p2 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
+        var p3 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
+        var p4 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
+
+        if (p1 && p2 && p3 && p4)
+        {
+            origin = seed;
+            return true;
+        }
+
+        if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && IsReachableFromNameScreen(XDRNG.Prev(seed), out origin)) return true;
+        if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && IsReachableFromNameScreen(XDRNG.Prev(seed), out origin)) return true;
+        if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && p2 && IsReachableFromNameScreen(XDRNG.Prev(seed), out origin)) return true;
+        if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && p2 && p3 && IsReachableFromNameScreen(XDRNG.Prev(seed), out origin)) return true;
+
+        origin = 0;
         return false;
     }
 }
