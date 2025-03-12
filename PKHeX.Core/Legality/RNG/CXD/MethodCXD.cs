@@ -31,8 +31,7 @@ public static class MethodCXD
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
 
-            var origin = XDRNG.Prev(seed);
-            var pidiv = new PIDIV(PIDType.CXD, origin);
+            var pidiv = new PIDIV(PIDType.CXD, seed);
             var result = LockFinder.IsAllShadowLockValid(enc, pidiv, pk);
             if (!result)
                 continue;
