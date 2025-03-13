@@ -31,8 +31,7 @@ public static class MethodCXD
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
 
-            var pidiv = new PIDIV(PIDType.CXD, seed);
-            var result = LockFinder.IsAllShadowLockValid(enc, pidiv, pk);
+            var result = LockFinder.IsAllShadowLockValid(enc, seed, pk);
             if (!result)
                 continue;
 
@@ -477,7 +476,7 @@ public static class MethodCXD
 
     private static uint GetPID(uint seed) => GetPIDRegular(ref seed);
 
-    private static uint GetPID(G3PKM pk, uint seed, bool noShiny)
+    private static uint GetPID<T>(T pk, uint seed, bool noShiny) where T : ITrainerID32
     {
         while (true)
         {

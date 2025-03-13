@@ -95,7 +95,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         {
             PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
             var pidiv = MethodFinder.Analyze(pk);
-            var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
+            var result = LockFinder.IsAllShadowLockValid(this, pidiv.OriginSeed, pk);
             if (result)
                 break;
         }

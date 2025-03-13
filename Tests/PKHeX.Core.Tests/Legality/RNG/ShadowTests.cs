@@ -104,7 +104,7 @@ public static class ValidityTests
         var pk3 = new PK3 { PID = pid, IVs = ivs };
         var info = MethodFinder.Analyze(pk3);
         info.Type.Should().Be(PIDType.CXD, "because the PID should match the CXD spread");
-        bool match = LockFinder.IsAllShadowLockValid(info, teams);
+        bool match = LockFinder.IsAllShadowLockValid(teams, info.OriginSeed);
         match.Should().BeTrue($"because the lock conditions for {teams[0].Species} should have been verified");
     }
 }
@@ -169,7 +169,7 @@ public static class PIDTests
                 var info = MethodFinder.Analyze(pk);
                 info.OriginSeed.Should().Be(seed);
                 info.Type.Should().Be(PIDType.CXD, "because the PID should have matched the CXD spread");
-                if (!LockFinder.IsAllShadowLockValid(info, team))
+                if (!LockFinder.IsAllShadowLockValid(team, info.OriginSeed))
                     continue;
                 match = true;
                 break;
@@ -205,7 +205,7 @@ public static class PIDTests
 
         var info = MethodFinder.Analyze(pk3);
         info.Type.Should().Be(PIDType.CXD, "because the PID should have matched the CXD spread");
-        bool result = LockFinder.IsAllShadowLockValid(info, team, pk3.TSV);
+        bool result = LockFinder.IsAllShadowLockValid(team, info.OriginSeed, pk3.TSV);
         result.Should().BeTrue();
 
         // if you're here inspecting what's so special about this method,
