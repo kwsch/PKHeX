@@ -119,8 +119,8 @@ public static class BVRequestUtil
     private static uint Get5BitFromChar(char c)
     {
         c = MapFromChar(c);
-        var shift = c >= 'A' ? '7' : '0';
-        return (uint)(c - shift);
+        uint shift = c >= 'A' ? '7' : '0';
+        return c - shift;
     }
 
     private static char MapToChar(char c) => c switch

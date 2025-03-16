@@ -5,11 +5,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Shadow Pokémon Encounter found in <see cref="GameVersion.CXD"/>
 /// </summary>
-/// <param name="ID">Initial Shadow Gauge value.</param>
-/// <param name="Gauge">Initial Shadow Gauge value.</param>
+/// <param name="Index">Shadow Index</param>
+/// <param name="Gauge">Initial Shadow Gauge value</param>
 /// <param name="PartyPrior">Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.</param>
 // ReSharper disable NotAccessedPositionalProperty.Global
-public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<TeamLock> PartyPrior)
+public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory<TeamLock> PartyPrior)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IShadow3, IFatefulEncounterReadOnly, IMoveset, IRandomCorrelation
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
@@ -31,7 +31,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
     public Ball FixedBall { get; init; } = Ball.None;
     public required Moveset Moves { get; init; }
 
-    public string Name => "Shadow Encounter";
+    public string Name => $"{Version} Shadow Encounter {Index}";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
@@ -79,29 +79,12 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
+        if (criteria.Shiny != Shiny.Never)
+            criteria = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
         if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi, noShiny: true))
             return;
-
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        int ability = criteria.GetAbilityFromNumber(Ability);
-
-        // Ensure that any generated specimen has valid Shadow Locks
-        // This can be kinda slow, depending on how many locks / how strict they are.
-        // Cancel this operation if too many attempts are made to prevent infinite loops.
-        int ctr = 0;
-        const int max = 100_000;
-        do
-        {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-            var pidiv = MethodFinder.Analyze(pk);
-            var result = LockFinder.IsAllShadowLockValid(this, pidiv.OriginSeed, pk);
-            if (result)
-                break;
-        }
-        while (++ctr <= max);
-
-        System.Diagnostics.Debug.Assert(ctr < max);
+        if (!this.SetRandom(pk, criteria, pi, noShiny: true))
+            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: true);
     }
 
     #endregion

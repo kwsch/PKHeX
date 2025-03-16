@@ -26,14 +26,17 @@ public sealed class MiscVerifier : Verifier
 
             switch (pk)
             {
-                case PK5 pk5 when pk5.PokeStarFame != 0 && pk5.IsEgg:
+                case SK2 or CK3 or XK3 or BK4 or RK4 or PA8: // Side Game: No Eggs
+                    data.AddLine(GetInvalid(LTransferEggVersion, Egg));
+                    break;
+                case PK5 pk5 when pk5.PokeStarFame != 0:
                     data.AddLine(GetInvalid(LEggShinyPokeStar, Egg));
                     break;
-                case PK4 pk4 when pk4.ShinyLeaf != 0:
-                    data.AddLine(GetInvalid(LEggShinyLeaf, Egg));
-                    break;
-                case PK4 pk4 when pk4.PokeathlonStat != 0:
-                    data.AddLine(GetInvalid(LEggPokeathlon, Egg));
+                case PK4 pk4:
+                    if (pk4.ShinyLeaf != 0)
+                        data.AddLine(GetInvalid(LEggShinyLeaf, Egg));
+                    if (pk4.PokeathlonStat != 0)
+                        data.AddLine(GetInvalid(LEggPokeathlon, Egg));
                     break;
                 case PK3 when pk.Language != 1:  // All Eggs are Japanese and flagged specially for localized string
                     data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pk.Language), Egg));

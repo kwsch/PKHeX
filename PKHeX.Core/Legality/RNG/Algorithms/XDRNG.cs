@@ -94,8 +94,8 @@ public static class XDRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev11(uint seed) => (seed * rMult11) + rAdd11;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev12(uint seed) => (seed * rMult12) + rAdd12;
 
-    public static uint Next1000(uint seed) => 0xDD867B21 * seed + 0xD252C5A8;
-    public static uint Prev1000(uint seed) => 0x251CC8E1 * seed + 0x94750758;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next1000(uint seed) => 0xDD867B21 * seed + 0xD252C5A8;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev1000(uint seed) => 0x251CC8E1 * seed + 0x94750758;
 
     /// <summary>
     /// Gets the upper 16 bits of the next RNG seed.
@@ -286,9 +286,12 @@ public static class XDRNG
         return ctr;
     }
 
+    /// <summary>
+    /// Finds all the origin seeds for 6 successive rand() calls generating IVs (highest 5 bits of result).
+    /// </summary>
+    /// <inheritdoc cref="GetSeeds(Span{uint}, uint, uint, uint, uint, uint, uint)"/>
     public static int GetSeedsChannel(Span<uint> result, uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
     {
-        // Recovers seeds from 6 successive calls to rand() that returns the top 5 bits of each.
         // Mult(j) = Mult^j
         // Add(j) = Add * (Mult^0 + Mult^1 + ... + Mult^(j-1))
         // Using j = 3 and XDRNG gives Mult = 0x45c82be5 and Add = 0xd2f65b55

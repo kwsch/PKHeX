@@ -564,7 +564,7 @@ public static class MethodFinder
         if (!starter)
             return GetNonMatch(out pidiv);
 
-        if (!MethodCXD.TryGetOriginSeedStarterColo(iv1, iv2, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
+        if (!MethodCXD.TryGetSeedStarterColo(iv1, iv2, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
             return GetNonMatch(out pidiv);
 
         pidiv = new PIDIV(CXD_ColoStarter, result);

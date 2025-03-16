@@ -19,7 +19,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public byte Form => 0;
 
     public string Name => $"Wild Encounter ({Version})";
-    public string LongName => $"{Name} - Cave Spot";
+    public string LongName => $"{Name} - {Parent.Type} Spot";
     public GameVersion Version => Parent.Version;
     public ushort Location => Parent.Location;
 

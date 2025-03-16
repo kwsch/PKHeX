@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
-public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
+public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture, ISeparateIVs
 {
     public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
 
@@ -118,6 +118,14 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
         set => WriteUInt16BigEndian(Data.AsSpan(0xA2), (ushort)(value & 0xFF)); }
 
     // IVs
+    // Big Endian! Shift offset by 1 when interacting with a single byte.
+    byte ISeparateIVs.IV_HP  { get => Data[0xA4 + 1]; set => Data[0xA4 + 1] = value; }
+    byte ISeparateIVs.IV_ATK { get => Data[0xA6 + 1]; set => Data[0xA6 + 1] = value; }
+    byte ISeparateIVs.IV_DEF { get => Data[0xA8 + 1]; set => Data[0xA8 + 1] = value; }
+    byte ISeparateIVs.IV_SPA { get => Data[0xAA + 1]; set => Data[0xAA + 1] = value; }
+    byte ISeparateIVs.IV_SPD { get => Data[0xAC + 1]; set => Data[0xAC + 1] = value; }
+    byte ISeparateIVs.IV_SPE { get => Data[0xAE + 1]; set => Data[0xAE + 1] = value; }
+
     public override int IV_HP {
         get => Math.Min((ushort)31, ReadUInt16BigEndian(Data.AsSpan(0xA4)));
         set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)(value & 0x1F)); }

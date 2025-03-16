@@ -29,7 +29,7 @@ public sealed class CXDVerifier : Verifier
         // Ensure the TID/SID match the expected result, as this isn't hard-checked earlier.
         var pk = data.Entity;
 
-        bool valid = MethodCXD.TryGetOriginSeedStarterXD(pk, out var seed);
+        bool valid = MethodCXD.TryGetSeedStarterXD(pk, out var seed);
         if (!valid)
             data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
         else

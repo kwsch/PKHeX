@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 #if !DEBUG
 internal static class EncountersGO
 {
-    internal const int MAX_LEVEL = 50;
+    internal const byte MAX_LEVEL = 50;
 
     internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(EncounterUtil.Get("go_lgpe", "go"u8));
     internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"u8));
@@ -18,7 +18,7 @@ internal static class EncountersGO
 #else
 public static class EncountersGO
 {
-    internal const int MAX_LEVEL = 50;
+    internal const byte MAX_LEVEL = 50;
 
     internal static EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8));
     internal static EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8));
