@@ -408,6 +408,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     private int DaycareEnd => DaycareOffset + (2 * DaycareSlotSize);
 
+    /// <remarks>
+    /// Egg seed is the PID assigned when the player receives the egg from the daycare.
+    /// If it is an international breed (masuda method), the game will do at most 4 attempts of checking for shiny and re-rolling via ARNG if not.
+    /// </remarks>
     uint IDaycareRandomState<uint>.Seed
     {
         get => ReadUInt32LittleEndian(General[DaycareEnd..]);
@@ -421,10 +425,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         get => ((IDaycareRandomState<uint>)this).Seed != 0;
         set
         {
+            IDaycareRandomState<uint> x = this;
             if (!value)
-                ((IDaycareRandomState<uint>)this).Seed = 0;
-            else if (((IDaycareRandomState<uint>)this).Seed == 0)
-                ((IDaycareRandomState<uint>)this).Seed = (uint)Util.Rand.Next(1, int.MaxValue);
+                x.Seed = 0;
+            else if (x.Seed == 0)
+                x.Seed = (uint)Util.Rand.Next(1, int.MaxValue); // Can be unsigned, but whatever. Just ensure non-zero.
         }
     }
     #endregion
@@ -677,7 +682,7 @@ public sealed class MysteryBlock4DP(SAV4DP sav, Memory<byte> raw) : MysteryBlock
     public override void SetMysteryGift(int index, PCD pcd)
     {
         base.SetMysteryGift(index, pcd);
-        SetMysteryGiftReceivedSentinel(index, pcd.Empty ? 0 : MysteryGiftDPSlotActive);
+        SetMysteryGiftReceivedSentinel(MaxCountPGT + index, pcd.Empty ? 0 : MysteryGiftDPSlotActive);
     }
 }
 

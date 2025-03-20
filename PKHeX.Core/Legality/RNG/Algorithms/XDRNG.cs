@@ -94,6 +94,9 @@ public static class XDRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev11(uint seed) => (seed * rMult11) + rAdd11;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev12(uint seed) => (seed * rMult12) + rAdd12;
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next1000(uint seed) => 0xDD867B21 * seed + 0xD252C5A8;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev1000(uint seed) => 0x251CC8E1 * seed + 0x94750758;
+
     /// <summary>
     /// Gets the upper 16 bits of the next RNG seed.
     /// </summary>
@@ -103,6 +106,17 @@ public static class XDRNG
     {
         seed = Next(seed);
         return seed >> 16;
+    }
+
+    /// <summary>
+    /// Gets the upper 5 bits of the next RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Next5(ref uint seed)
+    {
+        seed = Next(seed);
+        return seed >> 27;
     }
 
     /// <summary>
@@ -177,8 +191,7 @@ public static class XDRNG
         uint result = 0;
         for (int i = 0; i < 6; i++)
         {
-            seed = Next(seed);
-            var value = seed >> 27; // extract top 5 bits
+            var value = Next5(ref seed); // extract top 5 bits
             result |= value << (i * 5);
         }
         return result;
@@ -190,6 +203,7 @@ public static class XDRNG
     // Instead of using yield and iterators, we calculate all results in a tight loop and return the count found.
     public const int MaxCountSeedsPID = 2;
     public const int MaxCountSeedsIV = 6;
+    public const int MaxCountSeedsChannel = 12;
 
     // Euclidean division constants
     private const uint Sub = Add - 0xFFFF;
@@ -269,6 +283,70 @@ public static class XDRNG
                 result[ctr++] = s ^ 0x8000_0000; // top bit flip
             }
         }
+        return ctr;
+    }
+
+    /// <summary>
+    /// Finds all the origin seeds for 6 successive rand() calls generating IVs (highest 5 bits of result).
+    /// </summary>
+    /// <inheritdoc cref="GetSeeds(Span{uint}, uint, uint, uint, uint, uint, uint)"/>
+    public static int GetSeedsChannel(Span<uint> result, uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
+    {
+        // Mult(j) = Mult^j
+        // Add(j) = Add * (Mult^0 + Mult^1 + ... + Mult^(j-1))
+        // Using j = 3 and XDRNG gives Mult = 0x45c82be5 and Add = 0xd2f65b55
+        const uint mult = Mult3; // Modified mult (3 advances)
+        const uint sub = 0xcaf65b56; // Modified add - 0x7ffffff
+        const ulong b = 0x22e415e_ea37d41a; // (Modified mult + 1) * 0x7ffffff
+
+        const ulong prime = 3;
+        const ulong add = 0x3_0000_0000; // prime * 0x1_0000_0000
+        const uint rmax = 0x__1800_0000; // prime * 0x__0800_0000
+        const ulong skip = 0x661D29; // prime * 2^32 % mult
+
+        uint first = hp << 27;
+        uint t = (((spe << 27) - mult * first) - sub);
+        uint kmax = (uint)((b - t) >> 32);
+        ulong x = (t * prime) % mult;
+
+        int ctr = 0;
+        for (ulong k = 0; k <= kmax;)
+        {
+            var r = (x + skip * k) % mult;
+            var m = r % prime;
+            if (m != 0)
+            {
+                m = m == 1 ? 2u : 1u;
+                r += m * skip;
+                k += (byte)m;
+            }
+
+            var tmp = k << 32 | t;
+            while (r < rmax && k <= kmax)
+            {
+                uint seed = first | (uint)(tmp / mult); // hp
+                if (Next5(ref seed) == atk)
+                {
+                    if (Next5(ref seed) == def)
+                    {
+                        _ = Next5(ref seed); // spe
+                        if (Next5(ref seed) == spa)
+                        {
+                            if (Next5(ref seed) == spd)
+                                result[ctr++] = Prev12(seed); // unroll to origin
+                        }
+                    }
+                }
+
+                r += prime * skip;
+                k += prime;
+                tmp += add;
+            }
+
+            // Rounding up without using floats
+            k += ((mult - r) + skip - 1) / skip;
+        }
+
         return ctr;
     }
 

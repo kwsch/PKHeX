@@ -5,11 +5,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Shadow Pokémon Encounter found in <see cref="GameVersion.CXD"/>
 /// </summary>
-/// <param name="ID">Initial Shadow Gauge value.</param>
+/// <param name="Index">Shadow Index</param>
 /// <param name="Gauge">Initial Shadow Gauge value.</param>
 /// <param name="PartyPrior">Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.</param>
 // ReSharper disable NotAccessedPositionalProperty.Global
-public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<TeamLock> PartyPrior)
+public sealed record EncounterShadow3Colo(byte Index, ushort Gauge, ReadOnlyMemory<TeamLock> PartyPrior)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IShadow3, IMoveset, IRandomCorrelation
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
@@ -30,7 +30,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     public required byte Location { get; init; }
     public required Moveset Moves { get; init; }
 
-    public string Name => "Shadow Encounter";
+    public string Name => $"{Version} Shadow Encounter {Index}";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
@@ -89,27 +89,10 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi))
+        if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
-
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        int ability = criteria.GetAbilityFromNumber(Ability);
-
-        // Ensure that any generated specimen has valid Shadow Locks
-        // This can be kinda slow, depending on how many locks / how strict they are.
-        // Cancel this operation if too many attempts are made to prevent infinite loops.
-        int ctr = 0;
-        const int max = 100_000;
-        do
-        {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-            var pidiv = MethodFinder.Analyze(pk);
-            var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
-            if (result)
-                break;
-        }
-        while (++ctr <= max);
+        if (!this.SetRandom(pk, criteria, pi, noShiny: false))
+            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: false);
     }
 
     private void SetPINGA_EReader(CK3 pk)
@@ -133,8 +116,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
             PIDGenerator.SetValuesFromSeedXDRNG_EReader(pk, seed);
             if (pk.Nature != nature || pk.Gender != gender)
                 continue;
-            var pidiv = new PIDIV(PIDType.CXD, seed);
-            var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
+            var result = LockFinder.IsAllShadowLockValid(this, seed, pk);
             if (result)
                 break;
         }

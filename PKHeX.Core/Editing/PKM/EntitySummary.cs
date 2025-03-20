@@ -53,7 +53,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public int IV_SPD => Entity.IV_SPD;
     public int IV_SPE => Entity.IV_SPE;
     public uint EXP => Entity.EXP;
-    public int Level => Entity.CurrentLevel;
+    public byte Level => Entity.CurrentLevel;
     public int EV_HP => Entity.EV_HP;
     public int EV_ATK => Entity.EV_ATK;
     public int EV_DEF => Entity.EV_DEF;
@@ -74,7 +74,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public byte Form => Entity.Form;
     public int PokerusStrain => Entity.PokerusStrain;
     public int PokerusDays => Entity.PokerusDays;
-    public int MetLevel => Entity.MetLevel;
+    public byte MetLevel => Entity.MetLevel;
     public byte OriginalTrainerGender => Entity.OriginalTrainerGender;
 
     public bool FatefulEncounter => Entity.FatefulEncounter;

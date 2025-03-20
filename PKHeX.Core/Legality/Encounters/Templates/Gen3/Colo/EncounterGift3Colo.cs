@@ -89,9 +89,11 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
     private static void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: true))
+        if (criteria.Shiny != Shiny.Never)
+            criteria = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: true))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi.Gender);
+        MethodCXD.SetRandom(pk, criteria, pi, noShiny: true);
     }
     #endregion
 

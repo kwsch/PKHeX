@@ -48,10 +48,10 @@ public static class BallApplicator
     {
         switch (enc)
         {
-            case EncounterSlot4 when IsNincadaEvolveInOrigin(pk, enc):
+            case EncounterSlot4 s4 when IsNincadaEvolveInOrigin(pk, s4):
                 ShedinjaEvolve4.CopyTo(result);
                 return ShedinjaEvolve4.Length;
-            case EncounterSlot3 when IsNincadaEvolveInOrigin(pk, enc):
+            case EncounterSlot3 s3 when IsNincadaEvolveInOrigin(pk, s3):
                 return LoadLegalBalls(result, pk, enc);
         }
         result[0] = Poke;

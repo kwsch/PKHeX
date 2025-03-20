@@ -205,25 +205,6 @@ public static class PIDGenerator
         return E;
     }
 
-    public static void SetRandomPokeSpotPID(PKM pk, Nature nature, byte gender, int ability, int slot)
-    {
-        var rnd = Util.Rand;
-        while (true)
-        {
-            var seed = rnd.Rand32();
-            if (!MethodFinder.IsPokeSpotActivation(slot, seed, out var newSeed))
-                continue;
-
-            SetRandomPokeSpotPID(pk, newSeed);
-            pk.SetRandomIVs();
-
-            if (!IsValidCriteria4(pk, nature, ability, gender))
-                continue;
-
-            return;
-        }
-    }
-
     public static uint GetMG5ShinyPID(uint gval, uint av, ushort TID16, ushort SID16)
     {
         uint pid = ((gval ^ TID16 ^ SID16) << 16) | gval;

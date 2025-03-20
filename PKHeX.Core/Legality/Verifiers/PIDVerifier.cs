@@ -39,7 +39,10 @@ public sealed class PIDVerifier : Verifier
             // Gen4 Eggs are "egg available" based on the stored PID value in the save file.
             // If this value is 0 or is generated as 0 (possible), the game will see "false" and no egg is available.
             // Only a non-zero value is possible to obtain.
-            data.AddLine(GetInvalid(LPIDEncryptZero, CheckIdentifier.EC));
+            // However, With Masuda Method, the egg PID is re-rolled with the ARNG (until shiny, at most 4 times) upon receipt.
+            // None of the un-rolled states share the same shiny-xor as PID=0, you can re-roll into an all-zero PID.
+            // Flag it as fishy, because more often than not, it is hacked rather than a legitimately obtained egg.
+            data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
             return;
         }
 

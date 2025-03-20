@@ -661,12 +661,16 @@ public partial class Main : Form
 
     private bool OpenPKM(PKM pk)
     {
-        var destType = C_SAV.SAV.PKMType;
+        var sav = C_SAV.SAV;
+        var destType = sav.PKMType;
         var tmp = EntityConverter.ConvertToType(pk, destType, out var c);
         Debug.WriteLine(c.GetDisplayString(pk, destType));
         if (tmp is null)
             return false;
-        C_SAV.SAV.AdaptToSaveFile(tmp);
+
+        var unconverted = ReferenceEquals(pk, tmp);
+        if (unconverted && sav is { State.Exportable: true })
+            sav.AdaptToSaveFile(tmp);
         PKME_Tabs.PopulateFields(tmp);
         return true;
     }

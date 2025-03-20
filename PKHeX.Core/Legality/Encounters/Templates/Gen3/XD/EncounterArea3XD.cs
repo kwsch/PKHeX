@@ -8,6 +8,7 @@ public sealed record EncounterArea3XD : IVersion, IEncounterArea<EncounterSlot3X
     public EncounterSlot3XD[] Slots { get; }
     public GameVersion Version => GameVersion.XD;
     public readonly byte Location;
+    public PokeSpotArea Type => (PokeSpotArea)(Location - 90);
 
     public bool IsMatchLocation(ushort location) => location == Location;
 
@@ -21,4 +22,11 @@ public sealed record EncounterArea3XD : IVersion, IEncounterArea<EncounterSlot3X
             new EncounterSlot3XD(this, s2, 10, l2, 2),
         ];
     }
+}
+
+public enum PokeSpotArea : byte
+{
+    Rock = 0,
+    Oasis = 1,
+    Cave = 2,
 }

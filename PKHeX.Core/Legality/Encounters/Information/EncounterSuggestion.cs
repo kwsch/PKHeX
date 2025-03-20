@@ -15,20 +15,26 @@ public static class EncounterSuggestion
     public static EncounterSuggestionData? GetSuggestedMetInfo(PKM pk)
     {
         var loc = TryGetSuggestedTransferLocation(pk);
-
         if (pk.WasEgg)
             return GetSuggestedEncounterEgg(pk, loc);
 
-        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
         var lvl = pk.CurrentLevel;
-        var origin = new EvolutionOrigin(pk.Species, pk.Version, pk.Generation, lvl, lvl, OriginOptions.SkipChecks);
-        var count = EvolutionChain.GetOriginChain(chain, pk, origin);
         var version = pk.Version;
-        var generator = EncounterGenerator.GetGenerator(version);
+        var generation = pk.Generation;
+        var origin = new EvolutionOrigin(pk.Species, version, generation, lvl, lvl, OriginOptions.SkipChecks);
 
-        var evos = chain[..count].ToArray();
-        var w = EncounterSelection.GetMinByLevel(evos, generator.GetPossible(pk, evos, version, EncounterTypeGroup.Slot));
-        var s = EncounterSelection.GetMinByLevel(evos, generator.GetPossible(pk, evos, version, EncounterTypeGroup.Static));
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        var count = EvolutionChain.GetOriginChain(chain, pk, origin);
+        if (count == 0)
+            return null; // no evolutions, no suggestions
+        chain = chain[..count];
+
+        var evos = chain.ToArray();
+        var generator = EncounterGenerator.GetGenerator(version);
+        var pw = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Slot);
+        var ps = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Static);
+        var w = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, pw);
+        var s = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, ps);
 
         if (w is null)
             return s is null ? null : GetSuggestedEncounter(pk, s, loc);
@@ -36,14 +42,16 @@ public static class EncounterSuggestion
             return GetSuggestedEncounter(pk, w, loc);
 
         // Prefer the wild slot; fall back to wild slot if none are exact match.
-        if (IsSpeciesFormMatch(chain, w))
+        if (IsSpeciesFormMatch<EvoCriteria, IEncounterable>(chain, w))
             return GetSuggestedEncounter(pk, w, loc);
-        if (IsSpeciesFormMatch(chain, s))
+        if (IsSpeciesFormMatch<EvoCriteria, IEncounterable>(chain, s))
             return GetSuggestedEncounter(pk, s, loc);
         return GetSuggestedEncounter(pk, w, loc);
     }
 
-    private static bool IsSpeciesFormMatch<T>(ReadOnlySpan<EvoCriteria> evos, T encounter) where T : ISpeciesForm
+    private static bool IsSpeciesFormMatch<TEvo, TEnc>(ReadOnlySpan<TEvo> evos, TEnc encounter)
+        where TEvo : ISpeciesForm
+        where TEnc : ISpeciesForm
     {
         foreach (var evo in evos)
         {
@@ -55,19 +63,19 @@ public static class EncounterSuggestion
 
     private static EncounterSuggestionData GetSuggestedEncounterEgg(PKM pk, ushort loc = LocationNone)
     {
-        int lvl = GetSuggestedEncounterEggMetLevel(pk);
+        var lvl = GetSuggestedEncounterEggMetLevel(pk);
         var met = loc != LocationNone ? loc : GetSuggestedEggMetLocation(pk);
-        return new EncounterSuggestionData(pk, met, (byte)lvl);
+        return new EncounterSuggestionData(pk, met, lvl);
     }
 
-    public static int GetSuggestedEncounterEggMetLevel(PKM pk)
+    public static byte GetSuggestedEncounterEggMetLevel(PKM pk)
     {
         var gen = pk.Generation;
         var format = pk.Format;
         if (gen < 5 && gen != format)
             return pk.CurrentLevel; // be generous with transfer conditions
         if (format < 5) // and native
-            return format == 2 && pk.MetLocation != 0 ? 1 : 0;
+            return format == 2 && pk.MetLocation != 0 ? EggStateLegality.EggMetLevel : (byte)0;
         return 1; // Gen5+
     }
 
@@ -141,9 +149,9 @@ public static class EncounterSuggestion
         }
     }
 
-    private static int GetMaxLevelMax(ReadOnlySpan<EvoCriteria> evos)
+    private static byte GetMaxLevelMax(ReadOnlySpan<EvoCriteria> evos)
     {
-        int max = 0;
+        byte max = 0;
         foreach (var evo in evos)
             max = Math.Max(evo.LevelMax, max);
         return max;
@@ -210,8 +218,11 @@ public static class EncounterSuggestion
     /// <param name="minLevel">Encounter minimum level to calculate for</param>
     /// <returns>Minimum level the <see cref="pk"/> can have for its <see cref="PKM.MetLevel"/></returns>
     /// <remarks>Brute-forces the value by cloning the <see cref="pk"/> and adjusting the <see cref="PKM.MetLevel"/> and returning the lowest valid value.</remarks>
-    public static int GetSuggestedMetLevel(PKM pk, byte minLevel)
+    public static byte GetSuggestedMetLevel(PKM pk, byte minLevel)
     {
+        if (minLevel == 0)
+            minLevel = 1; // prevent underflow
+
         var clone = pk.Clone();
         int minMove = -1;
         for (byte i = clone.CurrentLevel; i >= minLevel; i--)
@@ -224,17 +235,19 @@ public static class EncounterSuggestion
             if (MoveResult.AllValid(moves))
                 minMove = i;
         }
-        return Math.Max(minMove, minLevel);
+        return (byte)Math.Max(minMove, minLevel);
     }
 }
 
 internal static class EncounterSelection
 {
-    internal static T? GetMinByLevel<T>(ReadOnlySpan<EvoCriteria> chain, IEnumerable<T> possible) where T : class, IEncounterTemplate
+    public static TEnc? GetMinByLevel<TEvo, TEnc>(ReadOnlySpan<TEvo> chain, IEnumerable<TEnc> possible)
+        where TEvo : ISpeciesForm
+        where TEnc : class, ISpeciesForm, ILevelRange
     {
         // MinBy grading: prefer species-form match, select lowest min level encounter.
         // Minimum allocation :)
-        T? result = null;
+        TEnc? result = null;
         int min = int.MaxValue;
 
         foreach (var enc in possible)

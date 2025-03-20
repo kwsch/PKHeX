@@ -47,7 +47,11 @@ public sealed class MovePPVerifier : Verifier
         ReadOnlySpan<ushort> moves = [pk.Move1, pk.Move2, pk.Move3, pk.Move4];
         ReadOnlySpan<int> pp = [pk.Move1_PP, pk.Move2_PP, pk.Move3_PP, pk.Move4_PP];
 
-        bool expectHeal = !data.IsStoredSlot(StorageSlotType.Party) && GetIsStoredHealed(pk);
+        bool expectHeal = !data.IsStoredSlot(StorageSlotType.Party) && data.SlotOrigin switch
+        {
+            StorageSlotType.Box or StorageSlotType.GTS or StorageSlotType.BattleBox => GetIsStoredHealed(pk, data.EncounterOriginal),
+            _ => false, // Deposited slots pass through party.
+        };
 
         if (!Legal.IsPPUpAvailable(pk)) // No PP Ups for format
         {
@@ -79,11 +83,39 @@ public sealed class MovePPVerifier : Verifier
     /// <summary>
     /// Checks if the format is expected to have the Pokémon healed to full PP.
     /// </summary>
-    private static bool GetIsStoredHealed(PKM pk) => pk switch
+    private static bool GetIsStoredHealed(PKM pk, IEncounterTemplate enc) => pk switch
     {
-        PB7 => false,
-        PK8 or PA8 or PB8 => false,
+        // Boxes accessible from anywhere; retain HP and PP
         PK9 => false,
-        _ => true,
+        PK8 or PA8 or PB8 => false,
+        PB7 => false,
+        // Don't heal PP when deposited
+        PK1 or PK2 => false,
+        PK6 or PK7 => false,
+
+        // Do heal after capture/deposit
+        SK2 => true,
+        CK3 or XK3 => true,
+        PK4 or RK4 or BK4 or PK5 => true,
+
+        // Check if the encounter has left the boxes after being acquired by the player
+        // only reachable by PK3?
+        _ => HasLeftBoxAfterAcquisition(pk, enc),
     };
+
+    private static bool HasLeftBoxAfterAcquisition(PKM pk, IEncounterTemplate enc)
+    {
+        if (enc.Context != pk.Context)
+            return true; // Different context, assume it was traded and thus is not a wild->box
+        if (pk.EVTotal != 0)
+            return true; // EVs are not possible direct from wild encounters
+
+        if (!Experience.IsAtLevelThreshold(pk.EXP, pk.PersonalInfo.EXPGrowth, out var current))
+            return true; // gained experience
+
+        // Only scenario is if it was leveled up AND matches that exp threshold
+        if (pk.Format >= 3) // has met level
+            return pk.MetLevel != current;
+        return !enc.IsLevelWithinRange(current);
+    }
 }

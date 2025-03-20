@@ -31,9 +31,11 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         {
             if (z is EncounterSlot3XD w)
             {
-                var pidiv = MethodFinder.GetPokeSpotSeedFirst(pk, w.SlotNumber);
-                if (pidiv.Type == PIDType.PokeSpot)
-                    info.PIDIV = pidiv;
+                if (MethodPokeSpot.TryGetOriginSeeds(pk, w, out var pid, out var ivs))
+                {
+                    const PIDType type = PIDType.PokeSpot;
+                    info.PIDIV = new PIDIV(type, pid).AsMutated(type, ivs);
+                }
             }
             else if (z is IShadow3 s)
             {
@@ -74,7 +76,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
     private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, IShadow3 s) => s switch
     {
         EncounterShadow3Colo { IsEReader: true } => GetIsShadowLockValidEReader(pk, info, s),
-        _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk),
+        _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV.OriginSeed, pk),
     };
 
     private static bool GetIsShadowLockValidEReader(PKM pk, LegalInfo info, IShadow3 s)
@@ -85,10 +87,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         var xdc = seeds[..count];
         foreach (var seed in xdc)
         {
-            var pidiv = new PIDIV(PIDType.CXD, XDRNG.Next4(seed));
-            if (!LockFinder.IsAllShadowLockValid(s, pidiv, pk))
+            var origin = XDRNG.Next4(seed);
+            if (!LockFinder.IsAllShadowLockValid(s, origin, pk))
                 continue;
-            info.PIDIV = pidiv;
+            info.PIDIV = new PIDIV(PIDType.CXD, origin);
             return true;
         }
 

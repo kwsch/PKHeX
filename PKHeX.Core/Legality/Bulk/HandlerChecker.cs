@@ -29,6 +29,9 @@ public sealed class HandlerChecker : IBulkAnalyzer
     {
         var pk = cs.Entity;
         var tr = cs.SAV;
+        if (!tr.State.Exportable)
+            return; // blank saves should be skipped for checking handler state
+
         var current = pk.CurrentHandler;
 
         var shouldBe0 = tr.IsFromTrainer(pk);

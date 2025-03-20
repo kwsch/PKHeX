@@ -160,12 +160,7 @@ public sealed class BallVerifier : Verifier
         if (ball > Beast)
             return BadOutOfRange;
 
-        // Sprigatito: Meowscarada the Unrivaled
-        // Fuecoco, Quaxly: Pokémon GO
         var species = enc.Species;
-        if (species is >= (int)Species.Fuecoco and <= (int)Species.Quaquaval)
-            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithoutRaid);
-
         var result = BallContextHOME.Instance.CanBreedWithBall(species, enc.Form, ball);
         return GetResult(result);
     }

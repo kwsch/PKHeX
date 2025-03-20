@@ -204,7 +204,11 @@ public partial class RibbonEditor : Form
             var controlName = PrefixPB + rib.Name;
             var pb = FLP_Ribbons.Controls[controlName] ?? throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
             pb.Visible = (rib.RibbonCount = (byte)nud.Value) != 0;
-            pb.BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
+
+            var max = rib.MaxCount;
+            if (max == 8 && rib.Name is nameof(IRibbonSetMemory6.RibbonCountMemoryBattle) && Entity.Format >= 9)
+                max = 7;
+            pb.BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, max, (int)nud.Value);
 
             ToggleNewRibbon(rib, pb);
         };

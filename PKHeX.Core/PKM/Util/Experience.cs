@@ -69,6 +69,21 @@ public static class Experience
     public static uint GetEXP(byte level, ReadOnlySpan<uint> table) => table[level - 1];
 
     /// <summary>
+    /// Checks if the current Experience points are exactly at the level threshold.
+    /// </summary>
+    /// <param name="exp">Experience points</param>
+    /// <param name="growth">Experience growth rate</param>
+    /// <param name="currentLevel">Calculated current level</param>
+    /// <returns>True if the current amount of Experience points is exactly at the level threshold.</returns>
+    public static bool IsAtLevelThreshold(uint exp, byte growth, out byte currentLevel)
+    {
+        var table = GetTable(growth);
+        currentLevel = GetLevel(exp, table);
+        var min = GetEXP(currentLevel, table);
+        return exp == min;
+    }
+
+    /// <summary>
     /// Gets the minimum Experience points for all levels possible.
     /// </summary>
     /// <param name="growth">Growth Rate type</param>

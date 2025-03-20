@@ -142,19 +142,20 @@ public class PIDIVTest
         MethodFinder.Analyze(pkS5).Type.Should().Be(PIDType.G5MGShiny);
     }
 
-    [Fact]
-    public void PIDIVPokeSpotTest()
-    {
-        // XD PokeSpots: Check all 3 Encounter Slots (examples are one for each location).
-        var pkPS0 = new PK3 { PID = 0x7B2D9DA7 }; // Zubat (Cave)
-        MethodFinder.GetPokeSpotSeedFirst(pkPS0, 0).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Common)
+    [Theory]
+    [InlineData(0x7B2D9DA7, 0)] // Zubat (Cave) (Common)
+    [InlineData(0x3EE9AF66, 1)] // Gligar (Rock) (Uncommon)
+    [InlineData(0x9B667F3C, 2)] // Surskit (Oasis) (Rare)
+    public void PIDIVPokeSpotTest(uint pid, byte slot) => MethodPokeSpot.TryGetOriginSeedPID(pid, slot, out _).Should().BeTrue();
 
-        var pkPS1 = new PK3 { PID = 0x3EE9AF66 }; // Gligar (Rock)
-        MethodFinder.GetPokeSpotSeedFirst(pkPS1, 1).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Uncommon)
-
-        var pkPS2 = new PK3 { PID = 0x9B667F3C }; // Surskit (Oasis)
-        MethodFinder.GetPokeSpotSeedFirst(pkPS2, 2).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Rare)
-    }
+    [Theory]
+    [InlineData(62714, 62938)]
+    [InlineData(05724, 31840)]
+    [InlineData(31827, 52374)]
+    [InlineData(34952, 34952)]
+    [InlineData(31827, 00123, false)]
+    [InlineData(34952, 01337, false)]
+    public void CXDTrainerTest(ushort tid, ushort sid, bool expect = true) => MethodCXD.TryGetSeedTrainerID(tid, sid, out _).Should().Be(expect);
 
     [Theory]
     [InlineData(30, 31, 31, 14, 31, 31, 0x28070031, 024, PokewalkerSeedType.NoStroll)]
