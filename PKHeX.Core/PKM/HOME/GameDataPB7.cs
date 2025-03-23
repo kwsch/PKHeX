@@ -124,11 +124,12 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         FieldEventFatigue2 = pk.FieldEventFatigue2;
         Fullness = pk.Fullness;
         // Rank = pk.Rank;
-        // OriginalTrainerAffection
-        // OriginalTrainerMemoryIntensity
-        // OriginalTrainerMemory
-        // OriginalTrainerMemoryVariable
-        // OriginalTrainerMemoryFeeling
+        ReceivedYear = pk.ReceivedYear;
+        ReceivedMonth = pk.ReceivedMonth;
+        ReceivedDay = pk.ReceivedDay;
+        ReceivedHour = pk.ReceivedHour;
+        ReceivedMinute = pk.ReceivedMinute;
+        ReceivedSecond = pk.ReceivedSecond;
         Enjoyment = pk.Enjoyment;
         // GeoPadding = pk.GeoPadding;
         AbilityNumber = (byte)pk.AbilityNumber;

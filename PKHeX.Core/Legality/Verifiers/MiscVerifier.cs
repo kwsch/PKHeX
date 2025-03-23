@@ -649,17 +649,40 @@ public sealed class MiscVerifier : Verifier
     {
         if (obj is PB7 pb7 && data.EncounterMatch is WB7 { IsHeightWeightFixed: true } enc)
             VerifyFixedSizes(data, pb7, enc);
+        else if (obj is PA8 { Scale: 255 } pa8 && data.EncounterMatch is EncounterStatic8a { IsAlpha: true, HeightScalar: 127, WeightScalar: 127 })
+            VerifyFixedSizeMidAlpha(data, pa8);
         else
             VerifyCalculatedSizes(data, obj);
     }
 
-    // ReSharper disable 4 CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+    // ReSharper disable CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
     private static void VerifyFixedSizes<T>(LegalityAnalysis data, T obj, WB7 enc) where T : IScaledSizeValue
     {
+        // Unlike PLA, there is no way to force it to recalculate in-game.
+        // The only encounter this applies to is Meltan, which cannot reach PLA for recalculation.
         if (obj.HeightAbsolute != enc.GetHomeHeightAbsolute())
             data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
         if (obj.WeightAbsolute != enc.GetHomeWeightAbsolute())
             data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
+    }
+
+    private static void VerifyFixedSizeMidAlpha(LegalityAnalysis data, PA8 pk)
+    {
+        // HOME 3.0.1+ fixes the Height/Weight to 255, but doesn't update the float calculated sizes.
+        // Putting it in party and putting it back in box did trigger them to update, so it can legally be two states:
+        // Mutated (255 with 127-based-floats), or Updated (255 with 255-based-floats)
+        // Since most players won't be triggering an update, it is more likely that it is only mutated.
+        // Check for mutated first. If not matching mutated, must match updated.
+        var pi = pk.PersonalInfo;
+        var mutHeight = PA8.GetHeightAbsolute(pi, 127);
+        if (pk.HeightAbsolute == mutHeight)
+        {
+            var mutWeight = PA8.GetWeightAbsolute(pi, 127, 127);
+            if (pk.WeightAbsolute == mutWeight)
+                return;
+        }
+        // Since it does not match the mutated state, it must be the updated state (255 + matching floats)
+        VerifyCalculatedSizes(data, pk);
     }
 
     private static void VerifyCalculatedSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue
