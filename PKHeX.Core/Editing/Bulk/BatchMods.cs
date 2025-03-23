@@ -41,6 +41,9 @@ public static class BatchMods
         new TypeSuggestion<PKM>(nameof(PKM.Move3_PP), p => p.SetSuggestedMovePP(2)),
         new TypeSuggestion<PKM>(nameof(PKM.Move4_PP), p => p.SetSuggestedMovePP(3)),
 
+        new ComplexSuggestion(nameof(PKM.CurrentFriendship), (_, _, info) => BatchModifications.SetSuggestedCurrentFriendship(info)),
+        new ComplexSuggestion(nameof(PKM.OriginalTrainerFriendship), (_, _, info) => BatchModifications.SetSuggestedOriginalTrainerFriendship(info)),
+        new ComplexSuggestion(nameof(PKM.HandlingTrainerFriendship), (_, _, info) => BatchModifications.SetSuggestedHandlingTrainerFriendship(info)),
         new ComplexSuggestion(nameof(PKM.Moves), (_, _, info) => BatchModifications.SetSuggestedMoveset(info)),
         new ComplexSuggestion(PROP_EVS, (_, _, info) => BatchModifications.SetEVs(info.Entity)),
         new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => BatchModifications.SetSuggestedRelearnData(info, value)),
