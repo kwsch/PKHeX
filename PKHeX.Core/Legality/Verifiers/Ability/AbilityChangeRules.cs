@@ -185,17 +185,21 @@ public static class AbilityChangeRules
         }
 
         // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
-        var first = evos[0];
-        return first.Form != 0 && first.Species switch
-        {
-            (int)Species.Giratina => true, // Form-0 is a/a/h
-            (int)Species.Tornadus => true, // Form-0 is a/a/h
-            (int)Species.Thundurus => true, // Form-0 is a/a/h
-            (int)Species.Landorus => true, // Form-0 is a/a/h
-            (int)Species.Enamorus => true, // Form-0 is a/a/h
-            _ => false,
-        };
+        return IsFormChangeDifferentHidden(evos[0]);
     }
+
+    public static bool IsFormChangeDifferentHidden<TEvo>(TEvo first) where TEvo : ISpeciesForm =>
+        first.Form != 0 && IsFormChangeDifferentHidden(first.Species);
+
+    public static bool IsFormChangeDifferentHidden(ushort species) => species switch
+    {
+        (int)Species.Giratina => true, // Form-0 is a/a/h
+        (int)Species.Tornadus => true, // Form-0 is a/a/h
+        (int)Species.Thundurus=> true, // Form-0 is a/a/h
+        (int)Species.Landorus => true, // Form-0 is a/a/h
+        (int)Species.Enamorus => true, // Form-0 is a/a/h
+        _ => false,
+    };
 
     private static bool IsRevertPossible<TTable, TInfo, TDex>(ReadOnlySpan<TDex> evos, TTable table, int abilityIndex)
         where TTable : IPersonalTable<TInfo>
@@ -215,6 +219,8 @@ public static class AbilityChangeRules
                 return true;
             revert = true;
         }
-        return false;
+
+        // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
+        return abilityIndex == 1 && IsFormChangeDifferentHidden(evos[0]); // can't change to second index
     }
 }

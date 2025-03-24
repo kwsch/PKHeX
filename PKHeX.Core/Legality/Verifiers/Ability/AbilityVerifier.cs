@@ -455,14 +455,6 @@ public sealed class AbilityVerifier : Verifier
             return true;
 
         // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
-        return species switch
-        {
-            (int)Species.Giratina => true, // Form-0 is a/a/h
-            (int)Species.Tornadus => true, // Form-0 is a/a/h
-            (int)Species.Thundurus => true, // Form-0 is a/a/h
-            (int)Species.Landorus => true, // Form-0 is a/a/h
-            (int)Species.Enamorus => true, // Form-0 is a/a/h
-            _ => false,
-        };
+        return AbilityChangeRules.IsFormChangeDifferentHidden(species);
     }
 }
