@@ -24,7 +24,8 @@
 0250	g	Magikarp comprado
 0256	g	Intercambio por Gigalith en Ruta 7
 0259	g	Intercambio por Rotom en Ruta 15
-0289	g	Zorua de N recibido
+0289	g	Zorua de N recibido (1/2)
+0714	g	Zorua de N recibido (2/2)
 0394	g	Eevee de regalo recibido
 0405	g	Intercambio por Tangrowth in Humilau City
 0412	g	Intercambio por Petilil/Cottonee on Ruta 4
