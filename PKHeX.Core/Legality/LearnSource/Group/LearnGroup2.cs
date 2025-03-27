@@ -44,6 +44,9 @@ public sealed class LearnGroup2 : ILearnGroup
 
         // Uh-oh, not all moves are verified yet.
         // To visit Gen1, we need to invalidate moves that can't be learned in Gen1 or re-learned in Gen2.
+        if (GetPrevious(pk, history, enc, option) is null)
+            return true; // can't even visit, don't bother purging.
+
         for (int i = 0; i < result.Length; i++)
         {
             if (current[i] <= Legal.MaxMoveID_1)

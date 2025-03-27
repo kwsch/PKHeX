@@ -176,9 +176,17 @@ public sealed class MiscVerifier : Verifier
         sk2.GetMoves(moves);
         Span<bool> flags = stackalloc bool[4];
 
-        var learn = LearnSource2Stadium.Instance.GetLearnsetStadium(sk2.Species, sk2.Form);
-        if (learn.Validate(moves, sk2.CurrentLevel, flags))
-            return;
+        if (sk2.Species is (ushort)Species.Smeargle)
+        {
+            if (LearnsetStadium.ValidateSmeargle(moves, flags))
+                return;
+        }
+        else
+        {
+            var learn = LearnSource2Stadium.Instance.GetLearnsetStadium(sk2.Species, sk2.Form);
+            if (learn.Validate(moves, sk2.CurrentLevel, flags))
+                return;
+        }
 
         var parse = data.Info.Moves;
         for (int i = 0; i < flags.Length; i++)

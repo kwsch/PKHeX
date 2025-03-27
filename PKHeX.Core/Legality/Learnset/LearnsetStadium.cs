@@ -84,8 +84,8 @@ public sealed class LearnsetStadium
     {
         bool anyInvalid = false;
 
-        // todo: is stadium smart to disallow egg moves+event, or multiple event moves (pikachu)?
-        // Naive checker only checking individual moves in isolation.
+        // Stadium2 is not smart enough to disallow egg moves+event, or multiple event moves (Pikachu).
+        // Naive checker only checks if all individual moves are in its list with sufficient level.
         for (int i = 0; i < moves.Length; i++)
         {
             var move = moves[i];
@@ -99,6 +99,19 @@ public sealed class LearnsetStadium
         }
         return !anyInvalid;
     }
+
+    public static bool ValidateSmeargle(ReadOnlySpan<ushort> moves, Span<bool> flag)
+    {
+        bool anyInvalid = false;
+        for (int i = 0; i < moves.Length; i++)
+            anyInvalid |= flag[i] = !IsSketchValid(moves[i]);
+        return !anyInvalid;
+    }
+
+    /// <summary>
+    /// All others are covered by Mainline possibility. Baton Pass is the only error.
+    /// </summary>
+    public static bool IsSketchValid(ushort move) => move is not (ushort)Move.BatonPass;
 
     /// <summary>
     /// Converts a <see cref="BinLinkerAccessor"/> into an array of <see cref="LearnsetStadium"/>.
