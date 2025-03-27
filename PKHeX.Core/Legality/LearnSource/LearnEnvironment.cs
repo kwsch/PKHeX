@@ -11,7 +11,7 @@ public enum LearnEnvironment : byte
     None,
 
     /* Gen1 */ RB, YW,
-    /* Gen2 */ GS, C,
+    /* Gen2 */ GS, C, Stadium2,
     /* Gen3 */ RS, E, FR, LG,
     /* Gen4 */ DP, Pt, HGSS,
     /* Gen5 */ BW, B2W2,

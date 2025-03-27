@@ -49,6 +49,9 @@ public sealed class MiscVerifier : Verifier
 
         switch (pk)
         {
+            case SK2 sk2:
+                VerifyIsMovesetAllowed(data, sk2);
+                break;
             case PK5 pk5:
                 VerifyGen5Stats(data, pk5);
                 break;
@@ -165,6 +168,28 @@ public sealed class MiscVerifier : Verifier
         // Check for Scale
         if (pk is IScaledSize3 s3 && IsHeightScaleMatchRequired(pk) && s2.HeightScalar != s3.Scale)
             data.AddLine(GetInvalid(LStatIncorrectHeightValue));
+    }
+
+    private void VerifyIsMovesetAllowed(LegalityAnalysis data, SK2 sk2)
+    {
+        Span<ushort> moves = stackalloc ushort[4];
+        sk2.GetMoves(moves);
+        Span<bool> flags = stackalloc bool[4];
+
+        var learn = LearnSource2Stadium.Instance.GetLearnsetStadium(sk2.Species, sk2.Form);
+        if (learn.Validate(moves, sk2.CurrentLevel, flags))
+            return;
+
+        var parse = data.Info.Moves;
+        for (int i = 0; i < flags.Length; i++)
+        {
+            if (!flags[i])
+                continue;
+            ref var m = ref parse[i];
+            if (!m.Valid)
+                continue;
+            m = m with { Info = m.Info with { Method = LearnMethod.Unobtainable, Environment = LearnEnvironment.Stadium2 } };
+        }
     }
 
     private static void VerifyGen5Stats(LegalityAnalysis data, PK5 pk5)

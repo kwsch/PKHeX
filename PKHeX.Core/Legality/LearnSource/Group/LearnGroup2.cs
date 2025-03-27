@@ -107,9 +107,7 @@ public sealed class LearnGroup2 : ILearnGroup
         if (!c.TryGetPersonal(evo.Species, evo.Form, out var cp))
             return; // should never happen.
 
-        if (ParseSettings.AllowGen2MoveReminder(pk))
-            evo = evo with { LevelMin = 1 };
-
+        bool stad2 = ParseSettings.AllowGen2MoveReminder(pk);
         bool kor = pk.Korean; // Crystal is not available to Korean games.
 
         for (int i = result.Length - 1; i >= 0; i--)
@@ -132,6 +130,13 @@ public sealed class LearnGroup2 : ILearnGroup
             chk = c.GetCanLearn(pk, cp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
                 entry = new(chk, (byte)stage, Generation);
+
+            if (stad2)
+            {
+                chk = LearnSource2Stadium.Instance.GetCanRelearn(evo, move, types);
+                if (chk != default && GetIsPreferable(entry, chk, stage))
+                    entry = new(chk, (byte)stage, Generation);
+            }
         }
     }
 
@@ -169,13 +174,12 @@ public sealed class LearnGroup2 : ILearnGroup
 
     private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
     {
-        if (ParseSettings.AllowGen2MoveReminder(pk))
-            evo = evo with { LevelMin = 1 };
-
         LearnSource2GS.Instance.GetAllMoves(result, pk, evo, types);
         if (pk.Korean)
             return;
         LearnSource2C.Instance.GetAllMoves(result, pk, evo, types);
+        if (ParseSettings.AllowGen2MoveReminder(pk))
+            LearnSource2Stadium.Instance.GetAllMoves(result, pk, evo, types);
     }
 
     private static void FlagEncounterMoves(PKM pk, IEncounterTemplate enc, Span<bool> result)

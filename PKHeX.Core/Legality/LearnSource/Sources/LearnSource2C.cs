@@ -97,9 +97,8 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         bool removeVC = pk.Format == 1 || pk.VC1;
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
-            var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
-            var span = learn.GetMoveRange(evo.LevelMax, min);
+            var learn = Learnsets[evo.Species];
+            var span = learn.GetMoveRange(evo.LevelMax, evo.LevelMin);
             foreach (var move in span)
             {
                 if (!removeVC || move <= Legal.MaxMoveID_1)

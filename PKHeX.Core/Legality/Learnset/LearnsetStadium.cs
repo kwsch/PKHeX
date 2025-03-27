@@ -1,6 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
-using static PKHeX.Core.LearnSourceStadium;
+using static PKHeX.Core.LearnMethodStadium2;
 
 namespace PKHeX.Core;
 
@@ -53,9 +53,11 @@ public sealed class LearnsetStadium
     /// </summary>
     /// <param name="move">Move ID to try and remember.</param>
     /// <param name="level">Current level of the Pokémon.</param>
+    /// <param name="criteriaLevel">Level at which the move can be relearned, if applicable.</param>
     /// <returns>True if the move can be relearned.</returns>
-    public bool CanRelearn(ushort move, byte level)
+    public bool CanRelearn(ushort move, byte level, out byte criteriaLevel)
     {
+        criteriaLevel = 0;
         foreach (var learn in Learn)
         {
             if (level < learn.Level)
@@ -64,6 +66,7 @@ public sealed class LearnsetStadium
                 continue;
             if (!learn.Source.IsAbleToBeRelearned())
                 continue;
+            criteriaLevel = learn.Level; // remember the minimum level to relearn
             return true;
         }
         return false;
@@ -107,6 +110,27 @@ public sealed class LearnsetStadium
             result[i] = new LearnsetStadium(entries[i]);
         return result;
     }
+
+    /// <summary>
+    /// Gets the range of moves that can be learned between the specified levels.
+    /// </summary>
+    /// <param name="levelMax">Maximum level to learn moves.</param>
+    /// <param name="levelMin">>Minimum level to learn moves.</param>
+    public ReadOnlySpan<StadiumTuple> GetMoveRange(byte levelMax, byte levelMin = 1)
+    {
+        // find start
+        int start = 0;
+        while (start < Learn.Length && Learn[start].Level < levelMin)
+            start++;
+        // find end
+        int end = start;
+        while (end < Learn.Length && Learn[end].Level <= levelMax)
+            end++;
+        // return the range
+        if (start >= end)
+            return []; // no moves in range
+        return Learn.AsSpan(start, end - start);
+    }
 }
 
 /// <summary>
@@ -115,7 +139,7 @@ public sealed class LearnsetStadium
 /// <param name="Level">Minimum level to learn the move.</param>
 /// <param name="Move">>Move ID.</param>
 /// <param name="Source">>Source of the move (e.g., level up, tutor, egg).</param>
-public readonly record struct StadiumTuple(byte Level, byte Move, LearnSourceStadium Source)
+public readonly record struct StadiumTuple(byte Level, byte Move, LearnMethodStadium2 Source)
 {
     public override string ToString() => $"Lv{Level} {(Move)Move} // {Source}";
 }
@@ -124,13 +148,15 @@ public readonly record struct StadiumTuple(byte Level, byte Move, LearnSourceSta
 /// Flags for the source of moves learned in Stadium 2.
 /// </summary>
 [Flags]
-public enum LearnSourceStadium : byte
+public enum LearnMethodStadium2 : byte
 {
-    None,
+    None = 0,
+    // Able to be remembered
     LevelUpRB = 1 << 0,
     LevelUpYW = 1 << 1,
     LevelUpGS = 1 << 2,
     LevelUpC  = 1 << 3,
+    // Permitted to know by legality checker, but not able to remember.
     TutorC    = 1 << 4,
     EggC      = 1 << 5,
     EggGS     = 1 << 6,
@@ -142,5 +168,5 @@ public static class LearnSourceStadiumExtensions
     /// <summary>
     /// Checks if the source can be relearned.
     /// </summary>
-    public static bool IsAbleToBeRelearned(this LearnSourceStadium source) => (source & (LevelUpRB | LevelUpYW | LevelUpGS | LevelUpC)) != 0;
+    public static bool IsAbleToBeRelearned(this LearnMethodStadium2 source) => (source & (LevelUpRB | LevelUpYW | LevelUpGS | LevelUpC)) != 0;
 }
