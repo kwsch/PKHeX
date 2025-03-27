@@ -213,8 +213,9 @@ public sealed record EncounterStatic8a
                         return false;
                     if (pk is IRibbonSetMark9 { RibbonMarkAlpha: false })
                         return false;
-                    if (pk.IsUntraded)
-                        return false;
+                    // un-traded: don't bother checking; PLA could handle (PLA<->HOME) and never be traded.
+                    // Don't bother checking for HOME Tracker. The updated values is sufficient.
+                    // Having the Alpha mark set will be flagged if lacking a tracker, no need to block matching.
                 }
             }
             else

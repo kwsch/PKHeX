@@ -183,6 +183,7 @@ public static class MoveInfo
     /// <param name="context">Context currently present in</param>
     private static bool IsSketchPossible(ushort move, EntityContext context) => context switch
     {
+        Gen2 when move is (int)SelfDestruct or (int)Explosion or (ushort)Mimic or (ushort)Metronome or (ushort)MirrorMove or (ushort)Transform or (ushort)SleepTalk => false,
         Gen6 when move is (int)ThousandArrows or (int)ThousandWaves or (int)LightofRuin => false,
         Gen7 when move is (int)LightofRuin => false,
         Gen8b when IsDummiedMove(MoveInfo8b.DummiedMoves, move) => false,

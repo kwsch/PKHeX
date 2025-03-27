@@ -11,7 +11,7 @@ public enum LearnEnvironment : byte
     None,
 
     /* Gen1 */ RB, YW,
-    /* Gen2 */ GS, C,
+    /* Gen2 */ GS, C, Stadium2,
     /* Gen3 */ RS, E, FR, LG,
     /* Gen4 */ DP, Pt, HGSS,
     /* Gen5 */ BW, B2W2,
@@ -31,7 +31,7 @@ public static class LearnEnvironmentExtensions
     public static byte GetGeneration(this LearnEnvironment value) => value switch
     {
         RB or YW => 1,
-        GS or C => 2,
+        GS or C or Stadium2 => 2,
         RS or E or FR or LG => 3,
         DP or Pt or HGSS => 4,
         BW or B2W2 => 5,
@@ -45,7 +45,7 @@ public static class LearnEnvironmentExtensions
     public static ReadOnlySpan<EvoCriteria> GetEvolutions(this LearnEnvironment value, EvolutionHistory history) => value switch
     {
         RB or YW => history.Gen1,
-        GS or C => history.Gen2,
+        GS or C or Stadium2 => history.Gen2,
         RS or E or FR or LG => history.Gen3,
         DP or Pt or HGSS => history.Gen4,
         BW or B2W2 => history.Gen5,

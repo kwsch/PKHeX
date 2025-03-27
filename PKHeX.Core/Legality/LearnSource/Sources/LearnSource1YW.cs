@@ -81,9 +81,8 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
 
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
-            var min = ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
-            var span = learn.GetMoveRange(evo.LevelMax, min);
+            var learn = Learnsets[evo.Species];
+            var span = learn.GetMoveRange(evo.LevelMax, evo.LevelMin);
             foreach (var move in span)
                 result[move] = true;
         }

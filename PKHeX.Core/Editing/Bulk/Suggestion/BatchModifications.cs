@@ -145,4 +145,25 @@ internal static class BatchModifications
             pk.SetSuggestedContestStats(la.EncounterMatch, la.Info.EvoChainsAllGens);
         return ModifyResult.Modified;
     }
+
+    public static ModifyResult SetSuggestedCurrentFriendship(BatchInfo info)
+    {
+        var pk = info.Entity;
+        pk.CurrentFriendship = HistoryVerifier.GetSuggestedFriendshipCurrent(pk, info.Legality.EncounterMatch);
+        return ModifyResult.Modified;
+    }
+
+    public static ModifyResult SetSuggestedOriginalTrainerFriendship(BatchInfo info)
+    {
+        var pk = info.Entity;
+        pk.OriginalTrainerFriendship = HistoryVerifier.GetSuggestedFriendshipOT(pk, info.Legality.EncounterMatch);
+        return ModifyResult.Modified;
+    }
+
+    public static ModifyResult SetSuggestedHandlingTrainerFriendship(BatchInfo info)
+    {
+        var pk = info.Entity;
+        pk.HandlingTrainerFriendship = HistoryVerifier.GetSuggestedFriendshipHT(pk);
+        return ModifyResult.Modified;
+    }
 }

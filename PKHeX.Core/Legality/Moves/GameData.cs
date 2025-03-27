@@ -64,7 +64,7 @@ public static class GameData
         Gen9 => LearnSource9SV.Instance,
 
         Stadium => LearnSource1YW.Instance,
-        Stadium2 => LearnSource2GS.Instance,
+        Stadium2 => LearnSource2Stadium.Instance,
 
         _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
     };

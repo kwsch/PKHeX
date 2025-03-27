@@ -24,7 +24,8 @@
 0250	g	Purchased Magikarp
 0256	g	Traded for Gigalith on Route 7
 0259	g	Traded for Rotom on Route 15
-0289	g	Received N's Zorua
+0289	g	Received N's Zorua (1/2)
+0714	g	Received N's Zorua (2/2)
 0394	g	Received Eevee Gift
 0405	g	Traded for Tangrowth in Humilau City
 0412	g	Traded for Petilil/Cottonee on Route 4

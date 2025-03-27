@@ -82,6 +82,7 @@ internal static class Encounters3Colo
         new(27, 06000, First)     { Species = 215, Level = 43, Moves = new(185,103,154,196), Location = 134 }, // Sneasel: Rider Nelis @ Snagem Hideout
         new(28, 06000, First)     { Species = 190, Level = 43, Moves = new(226,321,154,129), Location = 067 }, // Aipom: Cipher Peon Cole @ Shadow PKMN Lab
         new(29, 06000, Murkrow)   { Species = 198, Level = 43, Moves = new(185,212,101,019), Location = 067 }, // Murkrow: Cipher Peon Lare @ Shadow PKMN Lab
+        new(37, 07000, First)     { Species = 198, Level = 43, Moves = new(185,212,101,019), Location = 067 }, // Murkrow: Cipher Peon Lare @ Shadow PKMN Lab (Trainer drops from ceiling: can lose during play-through, rematch later)
         new(30, 06000, First)     { Species = 205, Level = 43, Moves = new(153,182,117,229), Location = 067 }, // Forretress: Cipher Peon Vana @ Shadow PKMN Lab
         new(31, 06000, First)     { Species = 210, Level = 43, Moves = new(044,184,046,070), Location = 069 }, // Granbull: Cipher Peon Tanie @ Shadow PKMN Lab
         new(32, 06000, First)     { Species = 329, Level = 43, Moves = new(242,103,328,225), Location = 068 }, // Vibrava: Cipher Peon Remil @ Shadow PKMN Lab
@@ -96,7 +97,7 @@ internal static class Encounters3Colo
         new(36, 07000, First)     { Species = 225, Level = 45, Moves = new(059,213,217,019), Location = 109 }, // Delibird: Cipher Peon Arton @ Realgam Tower
         new(36, 07000, First)     { Species = 225, Level = 45, Moves = new(059,213,217,019), Location = 132 }, // Delibird: Cipher Peon Arton @ Snagem Hideout
         new(37, 07000, Heracross) { Species = 214, Level = 45, Moves = new(179,203,068,280), Location = 111 }, // Heracross: Cipher Peon Dioge @ Realgam Tower
-        new(37, 07000, First)     { Species = 214, Level = 45, Moves = new(179,203,068,280), Location = 132 }, // Heracross: Cipher Peon Dioge @ Snagem Hideout (Rebattle, can skip original Heracross)
+        new(37, 07000, First)     { Species = 214, Level = 45, Moves = new(179,203,068,280), Location = 132 }, // Heracross: Cipher Peon Dioge @ Snagem Hideout (Trainer drops from ceiling: can lose during play-through, rematch later)
         new(38, 13000, First)     { Species = 227, Level = 47, Moves = new(065,319,314,211), Location = 117 }, // Skarmory: Snagem Head Gonzap @ Realgam Tower
         new(38, 13000, First)     { Species = 227, Level = 47, Moves = new(065,319,314,211), Location = 133 }, // Skarmory: Snagem Head Gonzap @ Snagem Hideout
 
