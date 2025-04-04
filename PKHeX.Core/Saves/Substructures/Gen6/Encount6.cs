@@ -53,8 +53,8 @@ public sealed class PokeRadar6(Memory<byte> Data)
     private ushort PokeRadarPacked { get => ReadUInt16LittleEndian(Span[2..4]); set => WriteUInt16LittleEndian(Span[2..4], value); }
 
     public int PokeRadarCharge { get => PokeRadarPacked & 0x3FFF; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~0x3FFF) | Math.Min(MaxCharge, value)); }
-    public bool PokeRadarFlag1 { get => PokeRadarPacked >> 14 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 14)) | (value ? (1 << 14) : 0)); }
-    public bool PokeRadarFlag2 { get => PokeRadarPacked >> 15 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 15)) | (value ? (1 << 15) : 0)); }
+    public bool PokeRadarFlag1 { get => ((PokeRadarPacked >> 14) & 1) != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 14)) | (value ? (1 << 14) : 0)); }
+    public bool PokeRadarFlag2 { get => ((PokeRadarPacked >> 15) & 1) != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 15)) | (value ? (1 << 15) : 0)); }
 
     public PokeRadarRecord GetRecord(int index) => PokeRadarRecord.ReadRecord(Span[GetRecordOffset(index)..]);
     public void SetRecord(PokeRadarRecord record, int index) => record.WriteRecord(Span[GetRecordOffset(index)..]);
