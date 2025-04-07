@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -39,10 +40,12 @@ public partial class SAV_Database : Form
     private readonly string Viewed;
     private const int MAXFORMAT = PKX.Generation;
     private readonly SummaryPreviewer ShowSet = new();
+    private CancellationTokenSource cts = new();
 
     public SAV_Database(PKMEditor f1, SAVEditor saveditor)
     {
         InitializeComponent();
+        FormClosing += (_, _) => cts.Cancel();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
@@ -123,15 +126,16 @@ public partial class SAV_Database : Form
         // Load Data
         B_Search.Enabled = false;
         L_Count.Text = "Loading...";
-        var task = new Task(LoadDatabase);
+        var token = cts.Token;
+        var task = new Task(() => LoadDatabase(token), cts.Token);
         task.ContinueWith(z =>
         {
-            if (!z.IsFaulted)
+            if (token.IsCancellationRequested || !z.IsFaulted)
                 return;
             Invoke((MethodInvoker)(() => L_Count.Text = "Failed."));
             if (z.Exception is null)
                 return;
-            WinFormsUtil.Error("Loading database failed.", z.Exception.InnerException ?? new Exception(z.Exception.Message));
+            WinFormsUtil.Error("Loading database failed.", z.Exception.InnerException ?? z.Exception.GetBaseException());
         });
         task.Start();
 
@@ -360,7 +364,7 @@ public partial class SAV_Database : Form
         public bool IgnoreBackupFiles { get; } = ignoreBackupFiles;
     }
 
-    private void LoadDatabase()
+    private void LoadDatabase(CancellationToken token)
     {
         var settings = Main.Settings;
         var otherPaths = new List<SearchFolderDetail>();
@@ -369,7 +373,9 @@ public partial class SAV_Database : Form
         if (settings.EntityDb.SearchBackups)
             otherPaths.Add(new SearchFolderDetail(Main.BackupPath, false));
 
-        RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths, settings.EntityDb.SearchExtraSavesDeep);
+        RawDB = LoadEntitiesFromFolder(DatabasePath, SAV, otherPaths, settings.EntityDb.SearchExtraSavesDeep, token);
+        if (token.IsCancellationRequested)
+            return;
 
         // Load stats for pk who do not have any
         foreach (var entry in RawDB)
@@ -381,22 +387,24 @@ public partial class SAV_Database : Form
         try
         {
             while (!IsHandleCreated) { }
+            if (cts.Token.IsCancellationRequested)
+                return;
             BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
         }
         catch { /* Window Closed? */ }
     }
 
-    private static List<SlotCache> LoadPKMSaves(string pkmdb, SaveFile sav, List<SearchFolderDetail> otherPaths, bool otherDeep)
+    private static List<SlotCache> LoadEntitiesFromFolder(string databaseFolder, SaveFile sav, List<SearchFolderDetail> otherPaths, bool otherDeep, CancellationToken token)
     {
         var dbTemp = new ConcurrentBag<SlotCache>();
         var extensions = new HashSet<string>(EntityFileExtension.GetExtensionsAll().Select(z => $".{z}"));
 
-        var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
+        var files = Directory.EnumerateFiles(databaseFolder, "*", SearchOption.AllDirectories);
         Parallel.ForEach(files, file => SlotInfoLoader.AddFromLocalFile(file, dbTemp, sav, extensions));
 
         foreach (var folder in otherPaths)
         {
-            if (!SaveUtil.GetSavesFromFolder(folder.Path, otherDeep, out IEnumerable<string> paths, folder.IgnoreBackupFiles))
+            if (!SaveUtil.GetSavesFromFolder(token, folder.Path, otherDeep, out var paths, folder.IgnoreBackupFiles))
                 continue;
 
             Parallel.ForEach(paths, file => TryAddPKMsFromSaveFilePath(dbTemp, file));
