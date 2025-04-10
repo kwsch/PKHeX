@@ -641,6 +641,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         }
     }
 
+    public int Lottery { get => GetWork(60); set => SetWork(60, (ushort)value); }
+
     /// <remarks>
     /// The game stores an array of 6 groups:
     /// [0] is the group created by the player (empty if the player has never created one)
