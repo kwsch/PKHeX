@@ -66,6 +66,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         OFS_HONEY = 0x72E4;
         OFS_UG_Stats = 0x3A2C;
         OFS_UG_Items = 0x42B0;
+        OFS_Groups = 0x5374;
 
         PoketchStart = 0x114C;
         Seal = 0x6178;
