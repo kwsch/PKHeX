@@ -121,7 +121,8 @@ public partial class SAV_Pokedex4 : Form
 
         string[] formNames = GetFormNames4Dex(species);
 
-        var seen = forms.Where(z => z != FORM_NONE && z < forms.Length).Distinct().Select((_, i) => formNames[forms[i]]).ToArray();
+        var seen_checked = SAV.Dex.GetSeen(species);
+        var seen = forms.Where(z => seen_checked && z != FORM_NONE && z < forms.Length).Distinct().Select((_, i) => formNames[forms[i]]).ToArray();
         var not = formNames.Except(seen).ToArray();
 
         LB_Form.Items.AddRange(seen);
