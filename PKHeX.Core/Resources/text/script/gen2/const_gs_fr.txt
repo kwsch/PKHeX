@@ -1,0 +1,37 @@
+4	s	Centrale	0:Normal,1:Le garde va avoir un appel (évènement scénario)
+5	s	Arène d'Azuria	0:Normal,1:Sbire Rocket apparu (évènement scénario)
+6	s	Route 25	0:Normal,1:Ondine en rencard (évènement scénario)
+8	s	Accueil de la Ligue Pokémon	0:N'a pas montré les 8 badges de Johto,1:A montré les 8 badges de Johto
+13	s	Salle de Clément	0:Réinitialisé,1:Récemment accédé
+14	s	Salle de Koga	0:Réinitialisé,1:Récemment accédé
+15	s	Salle d'Aldo	0:Réinitialisé,1:Récemment accédé
+16	s	Salle de Marion	0:Réinitialisé,1:Récemment accédé
+17	s	Salle de Peter	0:Réinitialisé,1:Récemment accédé,2:A battu Peter,3:Lula et Prof. Chen apparus
+18	s	Salle du Panthéon	0:Peter va enregister votre équipe,1:Récemment accédé
+19	s	Homme de la Route 27	0:Va annoncer votre arrivée à Kanto,1:A annoncé votre arrivée à Kanto
+20	s	Dame de Bourg Geon	0:Avant le Pokémon de Départ (bloque l'accès à la Route 29),1:Après le Pokémon de Départ (donne accès à la Route 29)
+21	s	Évènement du Labo du Prof. Orme	0:Début du jeu,1:A demandé de choisir le Pokémon de départ (sortie du labo impossible),2:Normal,3:L'officier est présent (demande le nom du Rival),5:Assistant va donner une Potion,6:Assistant va donner 5 Poké Balls
+22	s	Maman	0:Début du jeu,1:A donné et expliqué le Pokématos
+23	s	Gars (Route 29)	0:Normal,1:Va montrer le tutoriel de capture
+24	s	Rival (Ville Griotte)	0:A disparu,1:Va vous affronter
+25	s	Maison de M. Pokémon	0:Pas encore entré,1:Entré (a rencontré M. Pokémon et Prof. Chen)
+26	s	Évènement scénario Route 32	0:Gars bloque accès,1:Peut aller plus loin (a accepté Œuf de l'assistant),2:A rencontré le vendeur de Queueramolos
+29	s	Rival (Écorcia)	0:Disparu,1:Va vous affronter
+30	s	Fillette Bridget	0:Normal,1:Va informer que Blanche pleure
+32	s	Rival (Oliville)	0:Pas rencontré,1:Rencontré
+34	s	Sage gardant porte Tour Ferraille	0:Bloque le passage,1:Permet de passer (a montré le Badge Brume)
+35	s	Centre Pokémon de Rosalia	0:Pas entré,1:Entré (a rencontré Léo)
+36	s	Vendeur de Bonbon Rage	0:Bloque l'accès à la Route 44,1:Disparu (peut accéder à la Route 44)
+37	s	Porte de la Route 43	0:Sbires Rocket apparus (péage),1:Sbires Rocket payés/disparus
+38	s	Rival (Mont Sélénite)	0:Va vous affronter,1:Disparu
+39	s	Rival (Tour Chétiflor)	0:Pas rencontré,1:Rencontré
+40	s	Évènement scénario Tour Cendrée	0:Pas entré/va affronter Rival,1:Rival vaincu,2:A vaincu le Crache-Feu Bilou
+41	*	Fauves légendaires (Tour Cendrée)	0:Pas éveillés,1:Éveillés/Ont fui
+42	s	Évènement scénario Tour Radio 4ème	0:Va affronter l'imposteur du directeur,1:A battu le Caïd Rocket déguisé,2:A battu le Caïd Rocket principal dans la salle du studio
+46	s	Boutique Souvenir d'Acajou	0:Normal,1:Peter apparu (évènement scénario)
+48	s	Repaire Rocket -2 évènement scénario	0:Pas encore accédé,1:Peter va soigner votre équipe/Va affronter le Caïd Rocket,2:Peter veut vous faire affronter les Électrode (peut pas quitter la salle du générateur),3:Générateur plus alimenté
+49	s	Repaire Rocket -3 évènement scénario	0:Pas accédé,1:Peter a expliqué les mots de passe,2:Rival rencontré,3:Caïd Rocket vaincu
+50	s	Rival (Souterrain)	0:Va vous affronter,1:Disparu
+52	s	Rival (Route Victoire)	0:Va vous affronter,1:Disparu
+56	s	Évènement Aquaria	0:Normal,2:Gentleman va vous rentrer dedans (évènement scénario)
+57	s	Aquaria -1 Marin	0:Bloque l'accès,1:Ne bloque plus l'accès
