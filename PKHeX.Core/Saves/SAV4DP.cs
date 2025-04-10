@@ -131,6 +131,7 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x72D4..]); set => WriteUInt32LittleEndian(General[0x72D4..], value); }
     public override uint SwarmMaxCountModulo => 28;
     public override int BP { get => ReadUInt16LittleEndian(General[0x65F8..]); set => WriteUInt16LittleEndian(General[0x65F8..], (ushort)value); }
+    public override uint BattleTowerSeed { get => ReadUInt32LittleEndian(General[0x65FC..]); set => WriteUInt32LittleEndian(General[0x65FC..], value); }
 
     protected override ReadOnlySpan<ushort> TreeSpecies =>
     [

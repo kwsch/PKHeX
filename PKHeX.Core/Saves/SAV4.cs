@@ -663,6 +663,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     }
 
     public abstract int BP { get; set; }
+    public abstract uint BattleTowerSeed { get; set; }
     public abstract BattleFrontierFacility4 MaxFacility { get; }
 
     public abstract MysteryBlock4 Mystery { get; }
