@@ -77,6 +77,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         FashionCase = 0x3F64;
         OFS_Record = 0x4B3C;
         OFS_Chatter = 0x4E74;
+        OFS_Groups = 0x440C;
         Geonet = 0x8D44;
         WondercardFlags = 0x9D3C;
         Seal = 0x4E20;
@@ -327,7 +328,9 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     // Swarm
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x68A8..]); set => WriteUInt32LittleEndian(General[0x68A8..], value); }
     public override uint SwarmMaxCountModulo => 20;
+
     public override int BP { get => ReadUInt16LittleEndian(General[0x5BB8..]); set => WriteUInt16LittleEndian(General[0x5BB8..], (ushort)value); }
+    public override uint BattleTowerSeed { get => ReadUInt32LittleEndian(General[0x5BBC..]); set => WriteUInt32LittleEndian(General[0x5BBC..], value); }
 
     // Roamers
     public Roamer4 RoamerRaikou => GetRoamer(0);
