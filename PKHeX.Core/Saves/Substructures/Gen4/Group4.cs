@@ -18,26 +18,29 @@ public sealed class Group4(Memory<byte> Raw)
     // u32 origin seed (used as identifier)
     // u32 current seed
 
-    public readonly Memory<byte> Raw = Raw;
     private Span<byte> Data => Raw.Span;
 
-    private Span<byte> NameTrash => Data.Slice(0x00, 16);
-    public string Name
+    private Span<byte> GroupNameTrash => Data.Slice(0x00, 16);
+    public string GroupName
     {
-        get => StringConverter4.GetString(NameTrash);
-        set => StringConverter4.SetString(NameTrash, value, 7, LeaderLang, StringConverterOption.None);
+        get => StringConverter4.GetString(GroupNameTrash);
+        set => StringConverter4.SetString(GroupNameTrash, value, 7, LeaderLanguage, StringConverterOption.None);
     }
 
     private Span<byte> LeaderTrash => Data.Slice(0x10, 16);
-    public string Leader
+    public string LeaderName
     {
         get => StringConverter4.GetString(LeaderTrash);
-        set => StringConverter4.SetString(LeaderTrash, value, 7, LeaderLang, StringConverterOption.None);
+        set => StringConverter4.SetString(LeaderTrash, value, 7, LeaderLanguage, StringConverterOption.None);
     }
     
     public byte LeaderGender { get => Data[0x20]; set => Data[0x20] = value; }
-    public byte LeaderLang   { get => Data[0x21]; set => Data[0x21] = value; }
+    public byte LeaderLanguage { get => Data[0x21]; set => Data[0x21] = value; }
+
+    // 0x22,0x23 unused alignment
 
     public uint Id   { get => ReadUInt32LittleEndian(Data[0x24..]); set => WriteUInt32LittleEndian(Data[0x24..], value); }
     public uint Seed { get => ReadUInt32LittleEndian(Data[0x28..]); set => WriteUInt32LittleEndian(Data[0x28..], value); }
+
+    public override string ToString() => $"{Seed:X8} {GroupName} {LeaderName} {Id:X8}";
 }
