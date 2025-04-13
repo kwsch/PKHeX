@@ -5,18 +5,18 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly
 {
-    public string OT { get; set; } = TrainerName.ProgramINT;
-    public ushort TID16 { get; set; } = 12345;
-    public ushort SID16 { get; set; } = 54321;
-    public byte Gender { get; set; }
-    public int Language { get; set; } = (int)LanguageID.English;
-    public uint ID32 { get => (uint)(TID16 | (SID16 << 16)); set => (TID16, SID16) = ((ushort)value, (ushort)(value >> 16)); }
+    public string OT { get; init; } = TrainerName.ProgramINT;
+    public ushort TID16 { get; init; } = 12345;
+    public ushort SID16 { get; init; } = 54321;
+    public byte Gender { get; init; }
+    public int Language { get; init; } = (int)LanguageID.English;
+    public uint ID32 { get => (uint)(TID16 | (SID16 << 16)); init => (TID16, SID16) = ((ushort)value, (ushort)(value >> 16)); }
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
     // IRegionOrigin for generation 6/7
-    public byte ConsoleRegion { get; set; } = 1; // North America
-    public byte Region { get; set; } = 7; // California
-    public byte Country { get; set; } = 49; // USA
+    public byte ConsoleRegion { get; init; } = 1; // North America
+    public byte Region { get; init; } = 7; // California
+    public byte Country { get; init; } = 49; // USA
 
     public GameVersion Version { get; }
     public byte Generation { get; init; } = Latest.Generation;
@@ -26,16 +26,14 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly
     {
         Version = game;
         Context = Version.GetContext();
-        SanityCheckRegionOrigin(game);
+        Generation = Context.Generation();
+        if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))
+            ConsoleRegion = Region = Country = 0;
     }
 
-    private void SanityCheckRegionOrigin(GameVersion game)
-    {
-        if (GameVersion.Gen7b.Contains(game) || game.GetGeneration() >= 8)
-            this.ClearRegionOrigin();
-    }
+    public SimpleTrainerInfo(ITrainerInfo other) : this(other, other.Version) { }
 
-    public SimpleTrainerInfo(ITrainerInfo other) : this(other.Version)
+    public SimpleTrainerInfo(ITrainerInfo other, GameVersion specified) : this(specified)
     {
         OT = other.OT;
         TID16 = other.TID16;
@@ -45,9 +43,15 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly
         Generation = other.Generation;
         Context = other.Context;
 
-        if (other is IRegionOrigin r)
-            r.CopyRegionOrigin(this);
-
-        SanityCheckRegionOrigin(Version);
+        if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))
+        {
+            ConsoleRegion = Region = Country = 0;
+        }
+        else if (other is IRegionOriginReadOnly r)
+        {
+            ConsoleRegion = r.ConsoleRegion;
+            Region = r.Region;
+            Country = r.Country;
+        }
     }
 }
