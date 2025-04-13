@@ -4,7 +4,7 @@ using static PKHeX.Core.SlotType2;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.Gen2"/>.
+/// Encounter Slot found in <see cref="EntityContext.Gen2"/>.
 /// </summary>
 /// <remarks>
 /// Referenced Area object contains Time data which is used for <see cref="GameVersion.C"/> origin data.

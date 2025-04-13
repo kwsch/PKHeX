@@ -28,40 +28,40 @@ public static class Locations
     public const ushort Ranger4 = 3001;
     public const ushort Faraway4 = 3002;
 
-    /// <summary> Goldenrod City in <see cref="GameVersion.C"/> </summary>
+    /// <summary> Goldenrod City in Crystal </summary>
     public const byte HatchLocationC = 16;
 
-    /// <summary> Route 117 in <see cref="GameVersion.RSE"/> </summary>
+    /// <summary> Route 117 in R/S/E </summary>
     public const byte HatchLocationRSE = 32;
 
-    /// <summary> Four Island in <see cref="GameVersion.FRLG"/> </summary>
+    /// <summary> Four Island in FR/LG </summary>
     public const byte HatchLocationFRLG = 146;
 
-    /// <summary> Solaceon Town in <see cref="GameVersion.DPPt"/> </summary>
+    /// <summary> Solaceon Town in D/P/Pt </summary>
     public const ushort HatchLocationDPPt = 4;
 
-    /// <summary> Route 34 in <see cref="GameVersion.HGSS"/> </summary>
+    /// <summary> Route 34 in HG/SS </summary>
     public const ushort HatchLocationHGSS = 182;
 
-    /// <summary> Skyarrow Bridge in <see cref="GameVersion.Gen5"/> </summary>
+    /// <summary> Skyarrow Bridge in Gen5 </summary>
     public const ushort HatchLocation5 = 64;
 
-    /// <summary> Route 7 in <see cref="GameVersion.XY"/> </summary>
+    /// <summary> Route 7 in X/Y </summary>
     public const ushort HatchLocation6XY = 38;
 
-    /// <summary> Battle Resort in <see cref="GameVersion.ORAS"/> </summary>
+    /// <summary> Battle Resort in OR/AS </summary>
     public const ushort HatchLocation6AO = 318;
 
-    /// <summary> Paniola Ranch in <see cref="GameVersion.Gen7"/> </summary>
+    /// <summary> Paniola Ranch in Gen7 </summary>
     public const ushort HatchLocation7 = 78;
 
-    /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
+    /// <summary> Route 5 in SW/SH </summary>
     public const ushort HatchLocation8 = 40;
 
-    /// <summary> Solaceon Town in <see cref="GameVersion.BDSP"/> </summary>
+    /// <summary> Solaceon Town in BD/SP </summary>
     public const ushort HatchLocation8b = 446;
 
-    /// <summary> South Province (Area One) in <see cref="GameVersion.SV"/> </summary>
+    /// <summary> South Province (Area One) in S/V </summary>
     public const ushort HatchLocation9 = 6;
 
     /// <summary> Generation 1 -> Generation 7 Transfer Location (Kanto) </summary>
@@ -117,7 +117,7 @@ public static class Locations
     {
         4 => LinkTrade4,
         5 => LinkTrade5,
-        8 when GameVersion.BDSP.Contains(version) => LinkTrade6NPC,
+        8 when version is GameVersion.BD or GameVersion.SP => LinkTrade6NPC,
         _ => LinkTrade6,
     };
 

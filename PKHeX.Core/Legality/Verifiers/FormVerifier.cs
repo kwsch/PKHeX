@@ -105,7 +105,7 @@ public sealed class FormVerifier : Verifier
                     return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                 break;
 
-            case Scatterbug or Spewpa or Vivillon when GameVersion.SV.Contains(enc.Version):
+            case Scatterbug or Spewpa or Vivillon when enc.Context is EntityContext.Gen9:
                 if (form > 18 && enc.Form != form) // Pokéball
                     return GetInvalid(LFormVivillonEventPre);
                 if (form != 18 && enc is EncounterEgg) // Fancy

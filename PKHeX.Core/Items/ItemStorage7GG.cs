@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen7b"/>
+/// </summary>
 public sealed class ItemStorage7GG : IItemStorage
 {
     public static readonly ItemStorage7GG Instance = new();

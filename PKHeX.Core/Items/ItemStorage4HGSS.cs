@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.HG"/> and <see cref="GameVersion.SS"/>
+/// </summary>
 public sealed class ItemStorage4HGSS : ItemStorage4, IItemStorage
 {
     public static readonly ItemStorage4HGSS Instance = new();

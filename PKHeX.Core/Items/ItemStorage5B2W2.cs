@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.B2"/> and <see cref="GameVersion.W2"/>
+/// </summary>
 public sealed class ItemStorage5B2W2 : ItemStorage5, IItemStorage
 {
     public static readonly ItemStorage5B2W2 Instance = new();

@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// <see cref="GameVersion.Gen4"/> encounter area
+/// <see cref="EntityContext.Gen4"/> encounter area
 /// </summary>
 public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTypeTile, IAreaLocation
 {

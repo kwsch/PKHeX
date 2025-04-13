@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Locations for <see cref="GameVersion.BDSP"/>.
+/// Locations for <see cref="EntityContext.Gen8b"/>.
 /// </summary>
 public static class Locations8b
 {

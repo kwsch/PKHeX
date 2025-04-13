@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen5"/>
+/// </summary>
 public abstract class ItemStorage5
 {
     private protected static ReadOnlySpan<ushort> Pouch_Items_BW =>

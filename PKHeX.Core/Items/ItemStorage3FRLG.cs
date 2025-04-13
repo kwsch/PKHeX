@@ -3,6 +3,9 @@ using static PKHeX.Core.ItemStorage3RS;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.FR"/> and <see cref="GameVersion.LG"/>
+/// </summary>
 public sealed class ItemStorage3FRLG : IItemStorage
 {
     public static readonly ItemStorage3FRLG Instance = new();

@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Hatch Location validity for <see cref="GameVersion.SWSH"/>.
+/// Hatch Location validity for <see cref="EntityContext.Gen8"/>.
 /// </summary>
 public static class EggHatchLocation8
 {

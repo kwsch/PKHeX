@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Group that checks the source of a move in <see cref="GameVersion.Gen3"/>.
+/// Group that checks the source of a move in <see cref="EntityContext.Gen3"/>.
 /// </summary>
 public sealed class LearnGroup3 : ILearnGroup
 {
