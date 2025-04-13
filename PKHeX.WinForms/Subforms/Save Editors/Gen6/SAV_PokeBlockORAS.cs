@@ -47,7 +47,7 @@ public partial class SAV_PokeBlockORAS : Form
             return;
 
         // Randomize the trees.
-        SAV.BerryField.ResetAndRandomize(Util.Rand, ItemStorage6XY.Pouch_Berry_XY);
+        SAV.BerryField.ResetAndRandomize(Util.Rand, ItemStorage6XY.Berry);
     }
 
     private void B_GiveAllBlocks_Click(object sender, EventArgs e)

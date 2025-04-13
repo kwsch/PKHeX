@@ -8,7 +8,8 @@ namespace PKHeX.Core;
 public sealed class ItemStorage5B2W2 : ItemStorage5, IItemStorage
 {
     public static readonly ItemStorage5B2W2 Instance = new();
-    private static ReadOnlySpan<ushort> Pouch_Key_B2W2 =>
+
+    public static ReadOnlySpan<ushort> Key =>
     [
         437, 442, 447, 450, 453, 458, 465, 466, 471,
         504, 578,
@@ -19,11 +20,11 @@ public sealed class ItemStorage5B2W2 : ItemStorage5, IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Items_BW,
-        InventoryType.KeyItems => Pouch_Key_B2W2,
-        InventoryType.TMHMs => Pouch_TMHM_BW,
-        InventoryType.Medicine => Pouch_Medicine_BW,
-        InventoryType.Berries => Pouch_Berries_BW,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Key,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Berries => Berry,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }
