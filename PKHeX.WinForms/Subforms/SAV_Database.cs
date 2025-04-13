@@ -38,7 +38,7 @@ public partial class SAV_Database : Form
     private const int RES_MAX = GridWidth * GridHeight;
     private readonly string Counter;
     private readonly string Viewed;
-    private const int MAXFORMAT = PKX.Generation;
+    private const int MAXFORMAT = Latest.Generation;
     private readonly SummaryPreviewer ShowSet = new();
     private CancellationTokenSource cts = new();
 

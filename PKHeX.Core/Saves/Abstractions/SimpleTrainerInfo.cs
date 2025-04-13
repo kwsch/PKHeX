@@ -19,10 +19,10 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     public byte Country { get; set; } = 49; // USA
 
     public GameVersion Version { get; }
-    public byte Generation { get; init; } = PKX.Generation;
-    public EntityContext Context { get; init; } = PKX.Context;
+    public byte Generation { get; init; } = Latest.Generation;
+    public EntityContext Context { get; init; } = Latest.Context;
 
-    public SimpleTrainerInfo(GameVersion game = PKX.Version)
+    public SimpleTrainerInfo(GameVersion game = Latest.Version)
     {
         Version = game;
         Context = Version.GetContext();

@@ -130,7 +130,7 @@ public sealed class PIDVerifier : Verifier
             return; // Evolved, don't need to calculate the final evolution for the verbose report.
 
         // Indicate the evolution for the user.
-        const EntityContext mostRecent = PKX.Context; // latest ec100 form here
+        const EntityContext mostRecent = Latest.Context; // latest ec100 form here
         uint evoVal = pk.EncryptionConstant % 100;
         bool rare = evoVal == 0;
         var (species, form) = EvolutionRestrictions.GetEvolvedSpeciesFormEC100(encSpecies, rare);

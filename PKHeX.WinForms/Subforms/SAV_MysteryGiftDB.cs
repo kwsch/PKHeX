@@ -117,7 +117,7 @@ public partial class SAV_MysteryGiftDB : Form
     private const int RES_MAX = GridWidth * GridHeight;
     private readonly string Counter;
     private readonly string Viewed;
-    private const int MAXFORMAT = PKX.Generation;
+    private const int MAXFORMAT = Latest.Generation;
 
     private bool GetShiftedIndex(ref int index)
     {
