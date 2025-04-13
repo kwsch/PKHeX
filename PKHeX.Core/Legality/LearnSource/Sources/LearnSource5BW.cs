@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.PersonalInfo5BW;
 
 namespace PKHeX.Core;
 
@@ -87,7 +88,7 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
 
     private static bool GetIsTypeTutor(PersonalInfo5BW pi, ushort move)
     {
-        var index = TypeTutor567.IndexOf(move);
+        var index = TypeTutorMoves.IndexOf(move);
         if (index == -1)
             return false;
         return pi.GetIsLearnTutorType(index);
@@ -95,7 +96,7 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
 
     private static bool GetIsTM(PersonalInfo5BW info, ushort move)
     {
-        var index = TMHM_BW.IndexOf(move);
+        var index = MachineMoves.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index) && index != 94; // TM95 not available in this game
@@ -118,15 +119,15 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
         {
             // TM95 is unavailable (Snarl - Lock Capsule)
             // Cache the current value to clear it if so.
-            var tm95 = result[(int)Move.Snarl];
-            pi.SetAllLearnTM(result, TMHM_BW);
-            if (!tm95)
-                result[(int)Move.Snarl] = tm95;
+            var knowSnarlOtherSource = result[(int)Move.Snarl];
+            pi.SetAllLearnTM(result, MachineMoves);
+            if (!knowSnarlOtherSource)
+                result[(int)Move.Snarl] = false;
         }
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
         {
-            pi.SetAllLearnTutorType(result, TypeTutor567);
+            pi.SetAllLearnTutorType(result, TypeTutorMoves);
         }
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))

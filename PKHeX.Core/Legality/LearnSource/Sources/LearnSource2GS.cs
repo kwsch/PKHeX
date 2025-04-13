@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
-using static PKHeX.Core.LearnSource2;
+using static PKHeX.Core.PersonalInfo2;
 
 namespace PKHeX.Core;
 
@@ -100,7 +100,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
 
     private static bool GetIsTM(PersonalInfo2 info, byte move)
     {
-        var index = TMHM_GSC.IndexOf(move);
+        var index = MachineMoves.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index);
@@ -124,7 +124,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-            pi.SetAllLearnTM(result, TMHM_GSC);
+            pi.SetAllLearnTM(result, MachineMoves);
     }
 
     public static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)

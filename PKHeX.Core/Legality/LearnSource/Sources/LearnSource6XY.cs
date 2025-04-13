@@ -55,10 +55,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(TMHM_XY.IndexOf(move)))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(MachineMoves.IndexOf(move)))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(LearnSource5.TypeTutor567.IndexOf(move)))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(PersonalInfo5BW.TypeTutorMoves.IndexOf(move)))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -100,10 +100,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-            pi.SetAllLearnTM(result, TMHM_XY);
+            pi.SetAllLearnTM(result, MachineMoves);
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
-            pi.SetAllLearnTutorType(result, LearnSource5.TypeTutor567);
+            pi.SetAllLearnTutorType(result, PersonalInfo5BW.TypeTutorMoves);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
@@ -117,7 +117,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         }
     }
 
-    private static ReadOnlySpan<ushort> TMHM_XY =>
+    /// <summary>
+    /// Technical Machine moves corresponding to their index within TM bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMoves =>
     [
         468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 355, 219,

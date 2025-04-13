@@ -324,7 +324,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         }
 
         // Remove HM moves
-        ReadOnlySpan<ushort> banned = LearnSource3.HM_3;
+        ReadOnlySpan<ushort> banned = PersonalInfo3.MachineMovesHidden;
         if (banned.Contains(Move1)) pk4.Move1 = 0;
         if (banned.Contains(Move2)) pk4.Move2 = 0;
         if (banned.Contains(Move3)) pk4.Move3 = 0;
