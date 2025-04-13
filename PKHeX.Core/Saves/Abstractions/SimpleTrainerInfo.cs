@@ -42,16 +42,12 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly
         Language = other.Language;
         Generation = other.Generation;
         Context = other.Context;
-
         if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))
-        {
-            ConsoleRegion = Region = Country = 0;
-        }
-        else if (other is IRegionOriginReadOnly r)
-        {
-            ConsoleRegion = r.ConsoleRegion;
-            Region = r.Region;
-            Country = r.Country;
-        }
+            return;
+
+        var geo = other.GetRegionOrigin(other.Language);
+        ConsoleRegion = geo.ConsoleRegion;
+        Region = geo.Region;
+        Country = geo.Country;
     }
 }
