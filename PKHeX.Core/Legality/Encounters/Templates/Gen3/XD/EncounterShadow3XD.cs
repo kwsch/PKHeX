@@ -43,7 +43,7 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.E[Species];
         var pk = new XK3
         {
@@ -57,11 +57,11 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = 0,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
 
             // Fake as Purified
             RibbonNational = true,

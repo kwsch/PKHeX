@@ -30,7 +30,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.E[Species];
         var pk = new XK3
         {
@@ -43,11 +43,11 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
             Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = 0,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);

@@ -40,7 +40,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var rnd = Util.Rand;
         var date = this.GetRandomValidDate();
         var pk = new PB7
@@ -57,7 +57,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             Ball = (byte)Ball.Poke,
             MetDate = date,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
@@ -67,7 +67,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         };
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation);
         SetEncounterMoves(pk, LevelMin);
         pk.AwakeningSetAllTo(2);
         pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);

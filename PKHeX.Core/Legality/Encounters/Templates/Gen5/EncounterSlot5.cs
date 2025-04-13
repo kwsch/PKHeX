@@ -45,7 +45,7 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
@@ -59,11 +59,11 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateNDS(),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);

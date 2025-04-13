@@ -127,9 +127,9 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
-        var version = Version != GameVersion.SV ? Version : GameVersion.SV.Contains(tr.Version) ? tr.Version : GameVersion.SL;
+        var version = Version != GameVersion.SV ? Version : tr.Version is GameVersion.SL or GameVersion.VL ? tr.Version : GameVersion.SL;
         var pi = PersonalTable.SV[Species, form];
         var pk = new PK9
         {
@@ -142,13 +142,13 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateSwitch(),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             ObedienceLevel = LevelMin,
             OriginalTrainerFriendship = pi.BaseFriendship,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
         SetPINGA(pk, criteria, pi);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);

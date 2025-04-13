@@ -56,9 +56,9 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        // Prefer to generate as Crystal, as it will include met data.
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, GameVersion.C);
-        var isJapanese = lang == (int)LanguageID.Japanese;
+        var version = this.GetCompatibleVersion(tr.Version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var isJapanese = language == (int)LanguageID.Japanese;
         var pi = PersonalTable.C[Species];
         var pk = new PK2(isJapanese)
         {
@@ -67,8 +67,8 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
 
             MetLocation = Location,
 
-            Nickname = Nicknames.Span[lang],
-            OriginalTrainerName = TrainerNames.Span[lang],
+            Nickname = Nicknames.Span[language],
+            OriginalTrainerName = TrainerNames.Span[language],
             OriginalTrainerFriendship = pi.BaseFriendship,
         };
 
@@ -86,7 +86,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
             pk.TID16 = tr.TID16;
         }
 
-        EncounterUtil.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, version, Level);
 
         pk.ResetPartyStats();
 

@@ -38,7 +38,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = Version switch
         {
             GameVersion.RSE => tr.Version switch
@@ -62,11 +62,11 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
             Version = version,
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);

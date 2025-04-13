@@ -80,8 +80,8 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var isJapanese = lang == (int)LanguageID.Japanese;
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var isJapanese = language == (int)LanguageID.Japanese;
         var pi = PersonalTable.C[Species];
         var pk = new PK2(isJapanese)
         {
@@ -92,11 +92,11 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
                 : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             TID16 = tr.TID16,
         };
-        pk.SetNotNicknamed(lang);
+        pk.SetNotNicknamed(language);
         if (criteria.Shiny.IsShiny())
             pk.SetShiny();
 

@@ -69,8 +69,8 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IEncou
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.BW[Species];
         var pk = new PK5
         {
@@ -87,14 +87,14 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IEncou
 
             TID16 = TID16,
             Version = version,
-            Language = lang == 1 ? 0 : lang, // Trades for JPN games have language ID of 0, not 1.
+            Language = language == 1 ? 0 : language, // Trades for JPN games have language ID of 0, not 1.
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames.Span[lang],
+            OriginalTrainerName = TrainerNames.Span[language],
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
-            Nickname = IsFixedNickname ? Nicknames.Span[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = IsFixedNickname ? Nicknames.Span[language] : SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         EncounterUtil.SetEncounterMoves(pk, version, Level);

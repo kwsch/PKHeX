@@ -34,7 +34,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     public PB7 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.GG[Species, Form];
         var date = EncounterDate.GetDateSwitch();
@@ -50,11 +50,11 @@ public sealed record EncounterStatic7b(GameVersion Version)
             MetDate = date,
             Ball = (byte)Ball.Poke,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
 
             ReceivedDate = date,
             ReceivedTime = EncounterDate.GetTime(),

@@ -406,7 +406,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         var metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
         var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
-        var language = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var language = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         bool hasOT = GetHasOT(language);
 
         var pk = new PK8

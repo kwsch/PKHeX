@@ -361,11 +361,12 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
+        var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
+        var language = Language != 0 ? Language : (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var geo = tr.GetRegionOrigin(language);
         var rnd = Util.Rand;
         byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
         var metLevel = MetLevel > 0 ? MetLevel : currentLevel;
-        var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
-        var language = Language != 0 ? Language : (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
 
         var pi = PersonalTable.USUM.GetFormEntry(Species, Form);
         PK7 pk = new()
@@ -429,6 +430,10 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             EV_SPE = EV_SPE,
             EV_SPA = EV_SPA,
             EV_SPD = EV_SPD,
+
+            ConsoleRegion = geo.ConsoleRegion,
+            Country = geo.Country,
+            Region = geo.Region,
         };
 
         if (IsOriginalTrainerNameSet && !IsAshPikachu)
@@ -437,17 +442,6 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             pk.HandlingTrainerGender = tr.Gender;
             pk.HandlingTrainerFriendship = pk.OriginalTrainerFriendship;
             pk.CurrentHandler = 1;
-        }
-
-        if (tr is IRegionOrigin o)
-        {
-            pk.Country = o.Country;
-            pk.Region = o.Region;
-            pk.ConsoleRegion = o.ConsoleRegion;
-        }
-        else
-        {
-            pk.SetDefaultRegionOrigins(language);
         }
 
         pk.SetMaximumPPCurrent();

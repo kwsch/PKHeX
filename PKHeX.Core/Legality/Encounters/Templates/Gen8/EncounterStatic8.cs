@@ -72,8 +72,8 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pk = new PK8
         {
             Species = Species,
@@ -87,12 +87,12 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
             ID32 = tr.ID32,
             Version = version,
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = tr.Gender,
             OriginalTrainerName = tr.OT,
             OriginalTrainerFriendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
 
             DynamaxLevel = DynamaxLevel,
             CanGigantamax = CanGigantamax,

@@ -43,8 +43,8 @@ public sealed record EncounterStatic5N(uint PID)
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
@@ -56,11 +56,11 @@ public sealed record EncounterStatic5N(uint PID)
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
 
             Version = version,
-            Language = lang,
+            Language = language,
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             IV_HP = IV,
             IV_ATK = IV,
             IV_DEF = IV,
@@ -69,7 +69,7 @@ public sealed record EncounterStatic5N(uint PID)
             IV_SPE = IV,
 
             NSparkle = NSparkle,
-            OriginalTrainerName = GetOT(lang),
+            OriginalTrainerName = GetOT(language),
             OriginalTrainerGender = 0,
             ID32 = ID32,
             PID = PID,

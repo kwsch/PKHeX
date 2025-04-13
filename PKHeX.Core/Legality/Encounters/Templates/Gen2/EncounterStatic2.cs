@@ -43,7 +43,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.C[Species];
         var pk = new PK2
         {
@@ -55,7 +55,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
             OriginalTrainerFriendship = pi.BaseFriendship,
         };
-        pk.SetNotNicknamed(lang);
+        pk.SetNotNicknamed(language);
 
         pk.DV16 = IVs.IsSpecified ? EncounterUtil.GetDV16(IVs) :
             criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs() :
