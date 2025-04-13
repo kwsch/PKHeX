@@ -263,7 +263,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         }
         else
         {
-            pk.SetMaximumPPCurrent();
+            pk.HealPP();
         }
 
         if (IsEgg) // User's

@@ -492,7 +492,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
           //TeraTypeOverride = TeraTypeOverride,
         };
         // The game doesn't have random tera types.
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk))
         {

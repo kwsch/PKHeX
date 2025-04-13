@@ -461,7 +461,7 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
             MetLocation = Location,
             EggLocation = EggLocation,
         };
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {

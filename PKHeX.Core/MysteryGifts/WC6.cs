@@ -382,7 +382,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             pk.CurrentHandler = 1;
         }
 
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         pk.MetDate = Date ?? EncounterDate.GetDate3DS();
 

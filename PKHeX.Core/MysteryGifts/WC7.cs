@@ -444,7 +444,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             pk.CurrentHandler = 1;
         }
 
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {

@@ -418,7 +418,7 @@ public sealed class WB7(byte[] Data)
             pk.CurrentHandler = 1;
         }
 
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
