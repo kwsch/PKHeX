@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveInfo7
 {
-    public static ReadOnlySpan<byte> MovePP_SM =>
+    public static ReadOnlySpan<byte> PP =>
     [
         00, 35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15,
         20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30,
