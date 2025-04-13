@@ -45,17 +45,19 @@ public static class PokeCrypto
 
     // Gen7 Format is the same size as Gen6.
 
-    internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK); // 0x148
+    internal const int SIZE_8STORED = 8 + (BlockCount * SIZE_8BLOCK); // 0x148
     internal const int SIZE_8PARTY = SIZE_8STORED + 0x10; // 0x158
     private const int SIZE_8BLOCK = 80; // 0x50
 
-    internal const int SIZE_8ASTORED = 8 + (4 * SIZE_8ABLOCK); // 0x168
+    internal const int SIZE_8ASTORED = 8 + (BlockCount * SIZE_8ABLOCK); // 0x168
     internal const int SIZE_8APARTY = SIZE_8ASTORED + 0x10; // 0x178
     private const int SIZE_8ABLOCK = 88; // 0x58
 
     internal const int SIZE_9STORED = SIZE_8STORED;
     internal const int SIZE_9PARTY = SIZE_8PARTY;
     private const int SIZE_9BLOCK = SIZE_8BLOCK;
+
+    private const int BlockCount = 4;
 
     /// <summary>
     /// Positions for shuffling.
@@ -108,7 +110,7 @@ public static class PokeCrypto
     ];
 
     /// <summary>
-    /// Shuffles a 232 byte array containing Pokémon data.
+    /// Shuffles a 4-block byte array containing Pokémon data.
     /// </summary>
     /// <param name="data">Data to shuffle</param>
     /// <param name="sv">Block Shuffle order</param>
@@ -124,12 +126,12 @@ public static class PokeCrypto
 
     private static void ShuffleArray(ReadOnlySpan<byte> data, Span<byte> result, uint sv, [ConstantExpected(Min = 0)] int blockSize)
     {
-        int index = (int)sv * 4;
+        int index = (int)sv * BlockCount;
         const int start = 8;
         data[..start].CopyTo(result[..start]);
-        var end = start + (blockSize * 4);
+        var end = start + (blockSize * BlockCount);
         data[end..].CopyTo(result[end..]);
-        for (int block = 3; block >= 0; block--)
+        for (int block = 0; block < BlockCount; block++)
         {
             var dest = result.Slice(start + (blockSize * block), blockSize);
             int ofs = BlockPosition[index + block];
@@ -313,7 +315,7 @@ public static class PokeCrypto
     private static void CryptPKM(Span<byte> data, uint pv, [ConstantExpected(Min = 0)] int blockSize)
     {
         const int start = 8;
-        int end = (4 * blockSize) + start;
+        int end = (BlockCount * blockSize) + start;
         CryptArray(data[start..end], pv); // Blocks
         if (data.Length > end)
             CryptArray(data[end..], pv); // Party Stats
@@ -323,7 +325,7 @@ public static class PokeCrypto
     private static void CryptPKM45(Span<byte> data, uint pv, uint chk, [ConstantExpected(Min = 0)] int blockSize)
     {
         const int start = 8;
-        int end = (4 * blockSize) + start;
+        int end = (BlockCount * blockSize) + start;
         CryptArray(data[start..end], chk); // Blocks
         if (data.Length > end)
             CryptArray(data[end..], pv); // Party Stats
@@ -332,13 +334,13 @@ public static class PokeCrypto
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void CryptArray(Span<byte> data, uint seed)
     {
-        foreach (ref var u32 in MemoryMarshal.Cast<byte, ushort>(data))
+        foreach (ref var u16 in MemoryMarshal.Cast<byte, ushort>(data))
         {
             seed = (0x41C64E6D * seed) + 0x00006073;
             var xor = (ushort)(seed >> 16);
             if (!BitConverter.IsLittleEndian)
                 xor = ReverseEndianness(xor);
-            u32 ^= xor;
+            u16 ^= xor;
         }
     }
 
@@ -382,10 +384,10 @@ public static class PokeCrypto
 
     private static void ShuffleArray3(ReadOnlySpan<byte> data, Span<byte> result, uint sv)
     {
-        int index = (int)sv * 4;
+        int index = (int)sv * BlockCount;
         data[..SIZE_3HEADER].CopyTo(result[..SIZE_3HEADER]);
         data[SIZE_3STORED..].CopyTo(result[SIZE_3STORED..]);
-        for (int block = 3; block >= 0; block--)
+        for (int block = 0; block < BlockCount; block++)
         {
             var dest = result.Slice(SIZE_3HEADER + (SIZE_3BLOCK * block), SIZE_3BLOCK);
             int ofs = BlockPosition[index + block];
@@ -418,7 +420,7 @@ public static class PokeCrypto
     /// <remarks>Generation 3 Format encryption check which verifies the checksum</remarks>
     public static void DecryptIfEncrypted3(ref byte[] pk)
     {
-        ushort chk = Checksums.Add16(pk.AsSpan(0x20, 4 * SIZE_3BLOCK));
+        ushort chk = Checksums.Add16(pk.AsSpan(0x20, BlockCount * SIZE_3BLOCK));
         if (chk != ReadUInt16LittleEndian(pk.AsSpan(0x1C)))
             pk = DecryptArray3(pk);
     }

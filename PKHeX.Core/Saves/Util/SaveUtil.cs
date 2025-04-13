@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.MessageStrings;
@@ -921,7 +920,7 @@ public static class SaveUtil
     /// Determines whether the save data size is valid for automatically detecting saves.
     /// </summary>
     /// <remarks>Only checks the <see cref="Handlers"/> list.</remarks>
-    public static bool IsSizeValidHandler(long size) => Handlers.Any(z => z.IsRecognized(size));
+    public static bool IsSizeValidHandler(long size) => Handlers.Exists(z => z.IsRecognized(size));
 
     /// <summary>
     /// Determines whether the save data size is valid for automatically detecting saves.
