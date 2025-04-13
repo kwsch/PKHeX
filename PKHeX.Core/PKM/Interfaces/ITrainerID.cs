@@ -44,7 +44,7 @@ public static class TrainerIDExtensions
     /// <summary>
     /// Detects the correct <see cref="TrainerIDFormat"/> to use for the input <see cref="tr"/>.
     /// </summary>
-    public static TrainerIDFormat GetTrainerIDFormat(this ITrainerID tr) => tr switch
+    public static TrainerIDFormat GetTrainerIDFormat(this ITrainerID32ReadOnly tr) => tr switch
     {
         PKM { Format: <= 2 }  => SixteenBitSingle,
         PKM { Version: 0 } pk => pk.Format     >= 7 ? SixDigit : SixteenBit,

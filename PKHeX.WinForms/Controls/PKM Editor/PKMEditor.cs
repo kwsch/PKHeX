@@ -404,7 +404,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (lang <= 0)
             lang = (int)LanguageID.English;
         CB_Language.SelectedValue = lang;
-        if (tr is IRegionOrigin o)
+        if (tr is IRegionOriginReadOnly o)
         {
             CB_3DSReg.SelectedValue = (int)o.ConsoleRegion;
             CB_Country.SelectedValue = (int)o.Country;

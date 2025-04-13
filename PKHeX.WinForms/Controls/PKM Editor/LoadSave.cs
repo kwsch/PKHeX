@@ -330,7 +330,7 @@ public partial class PKMEditor
         LoadRelearnMoves(pk);
         LoadHandlingTrainer(pk);
 
-        if (pk is IRegionOrigin tr)
+        if (pk is IRegionOriginReadOnly tr)
             LoadGeolocation(tr);
     }
 
@@ -349,7 +349,7 @@ public partial class PKMEditor
             SaveGeolocation(tr);
     }
 
-    private void LoadGeolocation(IRegionOrigin pk)
+    private void LoadGeolocation(IRegionOriginReadOnly pk)
     {
         CB_Country.SelectedValue = (int)pk.Country;
         CB_SubRegion.SelectedValue = (int)pk.Region;

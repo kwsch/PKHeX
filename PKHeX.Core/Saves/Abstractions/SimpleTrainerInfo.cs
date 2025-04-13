@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Simple record containing trainer data
 /// </summary>
-public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
+public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly
 {
     public string OT { get; set; } = TrainerName.ProgramINT;
     public ushort TID16 { get; set; } = 12345;
