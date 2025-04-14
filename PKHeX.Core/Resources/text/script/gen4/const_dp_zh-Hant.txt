@@ -10,4 +10,5 @@
 0069	e	天界之笛	0:未解鎖,4387:已解鎖
 0062	r	Current Players Interacted Underground	32:花岩怪出现了
 0138	e	靈魂之塔	0:未解鎖,1:已解鎖
+0248	e	Harbor Inn Event	0:Not Entered,4:Event Completed
 0224	+	夥伴公園最好成績
