@@ -100,6 +100,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
+        if (pk.Version != Version)
+            return false;
         if (!IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))

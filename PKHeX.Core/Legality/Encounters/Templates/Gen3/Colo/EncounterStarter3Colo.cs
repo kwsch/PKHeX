@@ -82,7 +82,13 @@ public sealed record EncounterStarter3Colo(ushort Species, byte Level)
         if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
             return;
         // Fall back to generating a random PID.
-        MethodCXD.SetStarterFromTrainerID(pk, EncounterCriteria.Unrestricted, pk.TID16, pk.SID16);
+        criteria = EncounterCriteria.Unrestricted;
+        if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
+            return;
+        // TID/SID impossible? Just generate anything.
+        _ = Species is (ushort)Core.Species.Umbreon
+            ? MethodCXD.SetStarterFirstFromIVs(pk, criteria)
+            : MethodCXD.SetStarterSecondFromIVs(pk, criteria);
     }
 
     #endregion

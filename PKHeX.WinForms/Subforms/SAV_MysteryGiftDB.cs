@@ -141,6 +141,7 @@ public partial class SAV_MysteryGiftDB : Form
             return;
         }
         SAV.AdaptToSaveFile(pk);
+        pk.RefreshChecksum();
         PKME_Tabs.PopulateFields(pk, false);
         slotSelected = index;
         slotColor = SpriteUtil.Spriter.View;
