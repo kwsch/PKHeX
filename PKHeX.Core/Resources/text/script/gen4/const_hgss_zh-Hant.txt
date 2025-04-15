@@ -3,7 +3,7 @@
 0161	r	三聖獸 (燒焦塔)	0:出現了,1:遊走/逃走
 0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
 0067	e	謎之水晶	0:未解鎖,1778:已解鎖
-0249	e	埋藏之塔	0:未接受關都禦三家,1:已獲得關都禦三家,2:獲得玉,3:蓋歐卡解鎖/固拉多,4:蓋歐卡消失/固拉多,6:烈空坐解鎖,7:烈空坐已捕獲,9:烈空坐消失
+0249	e	埋藏之塔	0:未接受關都禦三家,1:已獲得關都禦三家,2:獲得玉,3:蓋歐卡解鎖/固拉多,4:蓋歐卡消失/固拉多,5:Received Jade Orb,6:烈空坐解鎖,7:烈空坐已捕獲,8:Event Completed,9:烈空坐消失
 0251	e	神奧遺跡	1:未進入,4:已傳送 (第一次),5:去了外面,6:可與竹蘭交談 (小屋),7:可與竹蘭交談 (臺上),8:選擇傳說寶可夢前,10:獲得第一隻寶可夢,13:已傳送 (第二次),14:獲得第二隻寶可夢
 0259	r	神奧第一隻傳說	1:帝牙盧卡,2:帕路奇亞,3:騎拉帝納
 0258	r	神奧第二隻阿爾宙斯	1:初始之間,2:命中註定般地遇見
