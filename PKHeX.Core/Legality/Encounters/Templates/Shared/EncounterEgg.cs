@@ -26,17 +26,17 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var gen = Generation;
+        var generation = Generation;
         var version = Version;
-        var pk = EntityBlank.GetBlank(gen, version);
+        var pk = EntityBlank.GetBlank(generation, version);
 
         tr.ApplyTo(pk);
 
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         pk.Species = Species;
         pk.Form = Form;
-        pk.Language = lang;
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
+        pk.Language = language;
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, generation);
         pk.CurrentLevel = Level;
         pk.Version = version;
 
@@ -49,7 +49,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
         var rnd = Util.Rand;
         SetPINGA(pk, criteria);
 
-        if (gen <= 2)
+        if (generation <= 2)
         {
             var pk2 = (PK2)pk;
             if (version == GameVersion.C)
@@ -71,10 +71,10 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
 
         SetMetData(pk);
 
-        if (gen >= 4)
+        if (generation >= 4)
             pk.SetEggMetData(version, tr.Version);
 
-        if (gen < 6)
+        if (generation < 6)
             return pk;
         if (pk is PK6 pk6)
             pk6.SetHatchMemory6();
@@ -111,7 +111,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, byte Ge
                 pk.Form = (byte)Util.Rand.Next(7, 14);
                 break;
             case (int)Core.Species.Scatterbug or (int)Core.Species.Spewpa or (int)Core.Species.Vivillon:
-                if (sav.Generation is 6 or 7 && sav is IRegionOrigin o)
+                if (sav.Generation is 6 or 7 && sav is IRegionOriginReadOnly o)
                     pk.Form = Vivillon3DS.GetPattern(o.Country, o.Region);
                 // else keep original value
                 break;

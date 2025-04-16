@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -19,23 +20,27 @@ public partial class SAV_FolderList : Form
     private readonly SortableBindingList<SavePreview> Recent;
     private readonly SortableBindingList<SavePreview> Backup;
     private readonly List<Label> TempTranslationLabels = [];
+    private readonly CancellationTokenSource cts = new(TimeSpan.FromSeconds(20));
 
     public SAV_FolderList(Action<SaveFile> openSaveFile)
     {
         InitializeComponent();
+        FormClosing += (_, _) => cts.Cancel();
         OpenSaveFile = openSaveFile;
 
+        var backups = Main.BackupPath;
         var drives = Environment.GetLogicalDrives();
-        Paths = GetPathList(drives);
+        Paths = GetPathList(drives, backups);
 
         dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
         dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
         dgDataRecent.Sorted += (_, _) => GetFilterText(dgDataRecent);
         dgDataBackup.Sorted += (_, _) => GetFilterText(dgDataBackup);
 
-        var extra = Paths.Select(z => z.Path).Where(z => z != Main.BackupPath).Distinct();
-        var backup = SaveFinder.GetSaveFiles(drives, false, [Main.BackupPath], false);
-        var recent = SaveFinder.GetSaveFiles(drives, false, extra, true).ToList();
+        var token = cts.Token;
+        var extra = Paths.Select(z => z.Path).Where(z => z != backups).Distinct();
+        var backup = SaveFinder.GetSaveFiles(drives, false, [backups], false, token);
+        var recent = SaveFinder.GetSaveFiles(drives, false, extra, true, token).ToList();
         var loaded = Main.Settings.Startup.RecentlyLoaded
             .Where(z => recent.All(x => x.Metadata.FilePath != z))
             .Where(File.Exists).Select(SaveUtil.GetVariantSAV).OfType<SaveFile>();
@@ -76,11 +81,11 @@ public partial class SAV_FolderList : Form
         CenterToParent();
     }
 
-    private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives)
+    private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives, string backupPath)
     {
         List<INamedFolderPath> locs =
         [
-            new CustomFolderPath(Main.BackupPath, display: "PKHeX Backups"),
+            new CustomFolderPath(backupPath, display: "PKHeX Backups"),
             ..GetUserPaths(), ..GetConsolePaths(drives), ..GetSwitchPaths(drives),
         ];
         var filtered = locs

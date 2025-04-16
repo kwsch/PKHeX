@@ -34,7 +34,7 @@ public static class Language
     /// </summary>
     /// <param name="generation">Generation to check.</param>
     /// <returns>Available languages for the given generation.</returns>
-    public static ReadOnlySpan<byte> GetAvailableGameLanguages(byte generation = PKX.Generation) => generation switch
+    public static ReadOnlySpan<byte> GetAvailableGameLanguages(byte generation = Latest.Generation) => generation switch
     {
         1           => Languages_3, // No KOR
         2           => Languages_GB,
@@ -45,6 +45,9 @@ public static class Language
 
     private static bool HasLanguage(ReadOnlySpan<byte> permitted, byte language) => permitted.Contains(language);
 
+    /// <inheritdoc cref="GetSafeLanguage(byte, LanguageID, GameVersion)"/>
+    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer) => GetSafeLanguage(generation, prefer, GameVersion.Any);
+
     /// <summary>
     /// Returns the language that is safe to use for the given generation.
     /// </summary>
@@ -52,11 +55,11 @@ public static class Language
     /// <param name="prefer">Preferred language.</param>
     /// <param name="game">Game version to check.</param>
     /// <returns>Language that is safe to use for the given generation.</returns>
-    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
+    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer, GameVersion game) => generation switch
     {
         1 when game == GameVersion.BU => Japanese,
         1           => HasLanguage(Languages_3,  (byte)prefer) ? prefer : SafeLanguage,
-        2           => HasLanguage(Languages_GB, (byte)prefer) && (prefer != Korean || game == GameVersion.C) ? prefer : SafeLanguage,
+        2           => HasLanguage(Languages_GB, (byte)prefer) ? prefer : SafeLanguage,
         3           => HasLanguage(Languages_3 , (byte)prefer) ? prefer : SafeLanguage,
         4 or 5 or 6 => HasLanguage(Languages_GB, (byte)prefer) ? prefer : SafeLanguage,
         _           => HasLanguage(Languages,    (byte)prefer) ? prefer : SafeLanguage,

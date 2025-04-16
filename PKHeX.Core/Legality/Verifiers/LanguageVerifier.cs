@@ -37,11 +37,11 @@ public sealed class LanguageVerifier : Verifier
         if (originalGeneration <= 2)
         {
             // Korean Crystal does not exist, neither do Korean VC1
-            if (pk.Korean && !GameVersion.GS.Contains(pk.Version))
+            if (pk is { Korean: true, Version: not (GameVersion.GD or GameVersion.SI) })
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
 
             // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
-            if (pk is { Version: GameVersion.BU, Japanese: false })
+            if (pk is { Japanese: false, Version: GameVersion.BU })
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(LanguageID.Japanese), (LanguageID)currentLanguage)));
         }
     }

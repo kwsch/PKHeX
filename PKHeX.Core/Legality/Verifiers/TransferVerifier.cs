@@ -197,7 +197,7 @@ public sealed class TransferVerifier : Verifier
         if (original is EncounterStatic2 { DizzyPunchEgg: true}) // Dizzy Punch Gifts
             FlagIncompatibleTransferMove(pk, data.Info.Moves, 146, 2); // can't have Dizzy Punch at all
 
-        bool checkShiny = pk.VC2 || (pk.VC1 && GBRestrictions.IsTimeCapsuleTransferred(pk, data.Info.Moves, original).WasTimeCapsuleTransferred());
+        bool checkShiny = pk.VC2 || original.Generation == 2 || MoveInfo.IsAnyFromGeneration(2, data.Info.Moves);
         if (!checkShiny)
             return;
 

@@ -302,7 +302,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
         // Manaphy is the only PGT gift egg! (and the only gift that needs a version to be set)
         var version = trainer.Version;
-        if (!version.IsValidSavedVersion() || !GameVersion.Gen4.ContainsFromLumped(version))
+        if (!version.IsGen4())
             version = GameVersion.D;
         pk4.Version = version;
 

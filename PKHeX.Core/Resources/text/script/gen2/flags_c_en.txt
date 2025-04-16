@@ -101,7 +101,7 @@
 0111	s	Received Sharp Beak from Monica
 0189	g	Received Dratini
 0193	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
-0205	s	Restored power to Kanto/Magnet Train useable
+0205	s	Restored power to Kanto/Magnet Train usable
 0256	s	Gina gave Leaf Stone present
 0257	s	Alan gave Fire Stone present
 0258	s	Dana gave Thunderstone present

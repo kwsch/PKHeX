@@ -291,7 +291,8 @@ public static class WinFormsUtil
         {
             try
             {
-                var sav = SaveFinder.FindMostRecentSaveFile();
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                var sav = SaveFinder.FindMostRecentSaveFile(cts.Token);
                 return sav?.Metadata.FilePath;
             }
             catch (Exception ex)

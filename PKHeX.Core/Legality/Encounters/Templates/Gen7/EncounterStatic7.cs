@@ -53,13 +53,14 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.USUM[Species, Form];
+        var geo = tr.GetRegionOrigin(language);
         var pk = new PK7
         {
             Species = Species,
-            Form = GetWildForm(Form, tr),
+            Form = Form != FormVivillon ? Form : Vivillon3DS.GetPattern(geo.Country, geo.Region),
             CurrentLevel = LevelMin,
             MetLocation = Location,
             MetLevel = LevelMin,
@@ -69,21 +70,20 @@ public sealed record EncounterStatic7(GameVersion Version)
 
             ID32 = tr.ID32,
             Version = version,
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = tr.Gender,
             OriginalTrainerName = tr.OT,
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
+
+            ConsoleRegion = geo.ConsoleRegion,
+            Country = geo.Country,
+            Region = geo.Region,
         };
         if (RibbonWishing)
             pk.RibbonWishing = true;
-
-        if (tr is IRegionOrigin r)
-            r.CopyRegionOrigin(pk);
-        else
-            pk.SetDefaultRegionOrigins(lang);
 
         if (IsEgg)
         {
@@ -101,19 +101,6 @@ public sealed record EncounterStatic7(GameVersion Version)
         pk.ResetPartyStats();
 
         return pk;
-    }
-
-    private static byte GetWildForm(byte form, ITrainerInfo tr)
-    {
-        if (form == FormVivillon)
-        {
-            if (tr is IRegionOrigin r)
-                return Vivillon3DS.GetPattern(r.Country, r.Region);
-            if (tr.Language == 1)
-                return Vivillon3DS.GetPattern(1, 0);
-            return Vivillon3DS.GetPattern(49, 7); // USA, California
-        }
-        return form;
     }
 
     private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)

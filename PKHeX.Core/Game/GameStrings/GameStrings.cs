@@ -250,7 +250,7 @@ public sealed class GameStrings : IBasicStrings
         itemlist[479] += " (HG/SS)"; // Lost Item (Dropped Item=636)
 
         // Append Z-Crystal Key Item differentiator
-        foreach (var i in ItemStorage7USUM.Pouch_ZCrystal_USUM)
+        foreach (var i in ItemStorage7USUM.ZCrystalKey)
             itemlist[i] += " [Z]";
 
         itemlist[0121] += " (1)"; // Pokémon Box Link

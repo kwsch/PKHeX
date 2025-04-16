@@ -469,7 +469,7 @@ public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
             pk.MetLocation = Locations.Default8bNone;
             pk.IsNicknamed = false;
         }
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version, pk))
         {

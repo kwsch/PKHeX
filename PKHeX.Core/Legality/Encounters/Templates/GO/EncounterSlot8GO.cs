@@ -113,10 +113,10 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var pk = GetBlank();
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var rnd = Util.Rand;
         {
-            pk.Language = lang;
+            pk.Language = language;
             pk.PID = rnd.Rand32();
             pk.EncryptionConstant = rnd.Rand32();
             pk.Species = Species;
@@ -139,7 +139,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         }
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-        pk.Nickname = SpeciesName.GetSpeciesNameImportHOME(Species, lang, Generation);
+        pk.Nickname = SpeciesName.GetSpeciesNameImportHOME(Species, language, Generation);
         SetEncounterMoves(pk, LevelMin);
 
         if (pk is IScaledSize s2)

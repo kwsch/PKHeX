@@ -96,9 +96,10 @@ public sealed class LevelVerifier : Verifier
         {
             // Pokémon has been traded illegally between games without evolving.
             // Trade evolution species IDs for Gen1 are sequential dex numbers.
+            var names = ParseSettings.SpeciesStrings;
             var species = enc.Species;
-            var evolved = ParseSettings.SpeciesStrings[species + 1];
-            var unevolved = ParseSettings.SpeciesStrings[species];
+            var evolved = names[species + 1];
+            var unevolved = names[species];
             data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
         }
     }

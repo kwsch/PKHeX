@@ -3,11 +3,14 @@ using static PKHeX.Core.ItemStorage6XY;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.AS"/> and <see cref="GameVersion.OR"/>
+/// </summary>
 public sealed class ItemStorage6AO : IItemStorage
 {
     public static readonly ItemStorage6AO Instance = new();
 
-    internal static ReadOnlySpan<ushort> Pouch_TMHM_AO =>
+    public static ReadOnlySpan<ushort> Machine =>
     [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -29,7 +32,7 @@ public sealed class ItemStorage6AO : IItemStorage
         425, 737,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Items_AO =>
+    public static ReadOnlySpan<ushort> General =>
     [
         // Flutes moved to the Medicine pouch.
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
@@ -54,7 +57,7 @@ public sealed class ItemStorage6AO : IItemStorage
         752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 767, 768, 769, 770,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_AO =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         216, 445, 446, 447, 465, 466, 471, 628,
         629, 631, 632, 638, 697,
@@ -73,7 +76,7 @@ public sealed class ItemStorage6AO : IItemStorage
         765, 771, 772, 774, 775,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_AO =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
         034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051,
@@ -83,7 +86,7 @@ public sealed class ItemStorage6AO : IItemStorage
         065, 066, 067,
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Items_AO, ..Pouch_Medicine_AO, ..Pouch_Berry_XY];
+    public static ushort[] GetAllHeld() => [..General, ..Medicine, ..Berry];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {
@@ -94,11 +97,11 @@ public sealed class ItemStorage6AO : IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Items_AO,
-        InventoryType.KeyItems => Pouch_Key_AO,
-        InventoryType.TMHMs => Pouch_TMHM_AO,
-        InventoryType.Medicine => Pouch_Medicine_AO,
-        InventoryType.Berries => Pouch_Berry_XY,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Key,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Berries => Berry,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
+using System.Threading;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.MessageStrings;
 using static PKHeX.Core.GameVersion;
@@ -848,12 +848,13 @@ public static class SaveUtil
     /// <summary>
     /// Retrieves possible save file paths from the provided <see cref="folderPath"/>.
     /// </summary>
+    /// <param name="token">Cancellation token to cancel the operation.</param>
     /// <param name="folderPath">Folder to look within</param>
     /// <param name="deep">Search all subfolders</param>
     /// <param name="result">If this function returns true, full path of all <see cref="SaveFile"/> that match criteria. If this function returns false, the error message, or null if the directory could not be found</param>
     /// <param name="ignoreBackups">Option to ignore files with backup names and extensions</param>
     /// <returns>Boolean indicating if the operation was successful.</returns>
-    public static bool GetSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result, bool ignoreBackups = true)
+    public static bool GetSavesFromFolder(CancellationToken token, string folderPath, bool deep, out IEnumerable<string> result, bool ignoreBackups = true)
     {
         if (!Directory.Exists(folderPath))
         {
@@ -865,7 +866,7 @@ public static class SaveUtil
             var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             var files = Directory.EnumerateFiles(folderPath, "*", searchOption)
                 .IterateSafe(log: z => System.Diagnostics.Debug.WriteLine(z));
-            result = FilterSaveFiles(ignoreBackups, files);
+            result = FilterSaveFiles(token, ignoreBackups, files);
             return true;
         }
         catch (Exception ex)
@@ -880,10 +881,13 @@ public static class SaveUtil
         }
     }
 
-    private static IEnumerable<string> FilterSaveFiles(bool ignoreBackups, IEnumerable<string> files)
+    private static IEnumerable<string> FilterSaveFiles(CancellationToken token, bool ignoreBackups, IEnumerable<string> files)
     {
         foreach (var file in files)
         {
+            if (token.IsCancellationRequested)
+                yield break;
+
             if (ignoreBackups && IsBackup(file))
                 continue;
 
@@ -916,7 +920,7 @@ public static class SaveUtil
     /// Determines whether the save data size is valid for automatically detecting saves.
     /// </summary>
     /// <remarks>Only checks the <see cref="Handlers"/> list.</remarks>
-    public static bool IsSizeValidHandler(long size) => Handlers.Any(z => z.IsRecognized(size));
+    public static bool IsSizeValidHandler(long size) => Handlers.Exists(z => z.IsRecognized(size));
 
     /// <summary>
     /// Determines whether the save data size is valid for automatically detecting saves.

@@ -115,9 +115,10 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     {
         bool gsc = CanObtainMinGSC();
         var level = gsc ? LevelMinGSC : LevelMinRBY;
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
-        var isJapanese = lang == (int)LanguageID.Japanese;
-        var pi = EncounterUtil.GetPersonal1(Version, Species);
+        var version = this.GetCompatibleVersion(tr.Version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var isJapanese = language == (int)LanguageID.Japanese;
+        var pi = EncounterUtil.GetPersonal1(version, Species);
         var pk = new PK1(isJapanese)
         {
             Species = Species,
@@ -126,14 +127,14 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
                 : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
-            Nickname = Nicknames.Span[lang],
+            Nickname = Nicknames.Span[language],
             TID16 = tr.TID16,
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
         pk.OriginalTrainerTrash[0] = StringConverter1.TradeOTCode;
 
-        EncounterUtil.SetEncounterMoves(pk, Version, level);
+        EncounterUtil.SetEncounterMoves(pk, version, level);
         if (EvolveOnTrade)
             pk.Species++;
 

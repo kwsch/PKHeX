@@ -1,13 +1,18 @@
 using System;
+using static PKHeX.Core.ItemStorage3RS;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen3"/> XD
+/// </summary>
 public sealed class ItemStorage3XD : IItemStorage
 {
     public static readonly ItemStorage3XD Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Cologne_XD => [513, 514, 515];
-    private static ReadOnlySpan<ushort> Pouch_Items_XD =>
+    public static ReadOnlySpan<ushort> Cologne => [513, 514, 515];
+
+    public static ReadOnlySpan<ushort> General =>
     [
                     13, 14, 15, 16, 17, 18, 19,
         20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -35,7 +40,7 @@ public sealed class ItemStorage3XD : IItemStorage
         511, // Poké Snack
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_XD =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         500, 501, 502, 503, 504, 505, 506, 507, 508, 509,
         510,      512,                516, 517, 518, 519,
@@ -43,7 +48,7 @@ public sealed class ItemStorage3XD : IItemStorage
         530, 531, 532, 533,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Disc_XD =>
+    public static ReadOnlySpan<ushort> Disc =>
     [
                             534, 535, 536, 537, 538, 539,
         540, 541, 542, 543, 544, 545, 546, 547, 548, 549,
@@ -58,13 +63,13 @@ public sealed class ItemStorage3XD : IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Items_XD,
-        InventoryType.KeyItems => Pouch_Key_XD,
-        InventoryType.Balls => ItemStorage3RS.Pouch_Ball_RS,
-        InventoryType.TMHMs => ItemStorage3RS.Pouch_TM_RS,
-        InventoryType.Berries => ItemStorage3RS.Pouch_Berries_RS,
-        InventoryType.Medicine => Pouch_Cologne_XD,
-        InventoryType.BattleItems => Pouch_Disc_XD,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Key,
+        InventoryType.Balls => Balls,
+        InventoryType.TMHMs => MachineOnlyTM,
+        InventoryType.Berries => Berry,
+        InventoryType.Medicine => Cologne,
+        InventoryType.BattleItems => Disc,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

@@ -417,7 +417,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
             return false;
 
         CurrentHandler = 0;
-        if (tr is IRegionOrigin o)
+        if (tr is IRegionOriginReadOnly o)
         {
             if (!IsUntraded && (o.Country != Geo1_Country || o.Region != Geo1_Region))
                 this.TradeGeoLocation(o.Country, o.Region);
@@ -438,7 +438,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
             HandlingTrainerName = other;
             HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
             HandlingTrainerAffection = 0;
-            if (tr is IRegionOrigin o)
+            if (tr is IRegionOriginReadOnly o)
                 this.TradeGeoLocation(o.Country, o.Region);
         }
         CurrentHandler = 1;

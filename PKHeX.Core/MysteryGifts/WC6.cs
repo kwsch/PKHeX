@@ -300,8 +300,12 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
+        var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
+        int language = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var geo = tr.GetRegionOrigin(language);
         var rnd = Util.Rand;
         byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));
+
         var pi = PersonalTable.AO.GetFormEntry(Species, Form);
         PK6 pk = new()
         {
@@ -312,8 +316,8 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             MetLevel = currentLevel,
             Form = Form,
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
-            Version = OriginGame != 0 ? (GameVersion)OriginGame : tr.Version,
-            Language = Language != 0 ? Language : tr.Language,
+            Version = OriginGame != 0 ? (GameVersion)OriginGame : version,
+            Language = Language != 0 ? Language : language,
             Ball = Ball,
             Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
             RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
@@ -364,6 +368,10 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             EV_SPE = EV_SPE,
             EV_SPA = EV_SPA,
             EV_SPD = EV_SPD,
+
+            ConsoleRegion = geo.ConsoleRegion,
+            Country = geo.Country,
+            Region = geo.Region,
         };
 
         if (IsOriginalTrainerNameSet)
@@ -374,18 +382,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             pk.CurrentHandler = 1;
         }
 
-        if (tr is IRegionOrigin o)
-        {
-            pk.Country = o.Country;
-            pk.Region = o.Region;
-            pk.ConsoleRegion = o.ConsoleRegion;
-        }
-        else
-        {
-            pk.SetDefaultRegionOrigins(pk.Language);
-        }
-
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         pk.MetDate = Date ?? EncounterDate.GetDate3DS();
 

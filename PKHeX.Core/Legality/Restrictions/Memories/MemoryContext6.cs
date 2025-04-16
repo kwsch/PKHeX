@@ -35,7 +35,7 @@ public sealed partial class MemoryContext6 : MemoryContext
 
     private static ReadOnlySpan<byte> GetPokeCenterLocations(GameVersion game)
     {
-        return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
+        return game is GameVersion.X or GameVersion.Y ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
     }
 
     public static bool GetHasPokeCenterLocation(GameVersion game, ushort loc)
@@ -65,7 +65,7 @@ public sealed partial class MemoryContext6 : MemoryContext
         var hashSet = new HashSet<ushort>(Legal.HeldItems_AO) { KeyItemUsableObserveEonFlute };
         foreach (var item in KeyItemMemoryArgsAnySpecies)
             hashSet.Add(item);
-        foreach (var tm in ItemStorage6AO.Pouch_TMHM_AO[..100])
+        foreach (var tm in ItemStorage6AO.Machine[..100])
             hashSet.Add(tm);
         return hashSet;
     }
@@ -73,7 +73,7 @@ public sealed partial class MemoryContext6 : MemoryContext
     public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserveEonFlute == item;
     public override bool IsUsedKeyItemSpecific(int item, ushort species) => IsKeyItemMemoryArgValid(species, (ushort)item);
 
-    public override bool CanPlantBerry(int item) => ItemStorage6XY.Pouch_Berry_XY.Contains((ushort)item);
+    public override bool CanPlantBerry(int item) => ItemStorage6XY.Berry.Contains((ushort)item);
     public override bool CanHoldItem(int item) => Legal.HeldItems_AO.Contains((ushort)item);
 
     public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch

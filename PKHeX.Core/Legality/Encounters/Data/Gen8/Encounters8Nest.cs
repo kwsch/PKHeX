@@ -5,9 +5,16 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-internal static class Encounters8Nest
+/// <summary>
+/// Logic for Generation 8 Nest Encounters.
+/// </summary>
+public static class Encounters8Nest
 {
-    internal static ReadOnlySpan<byte> GetNestLocations(byte loc) => loc switch
+    /// <summary>
+    /// Get the locations for a given nest index.
+    /// </summary>
+    /// <returns></returns>
+    public static ReadOnlySpan<byte> GetNestLocations(byte nestIndex) => nestIndex switch
     {
         000 => [144, 134, 122],      // 000 : Stony Wilderness, South Lake Miloch, Rolling Fields
         001 => [144, 126],           // 001 : Stony Wilderness, Watchtower Ruins
@@ -214,18 +221,22 @@ internal static class Encounters8Nest
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
     /// </summary>
-    internal static ReadOnlySpan<byte> InaccessibleRank12DistributionLocations => [154,178,186,188,190,192,194,226,228,230,234]; // Areas that are entirely restricted to water
+    public static ReadOnlySpan<byte> InaccessibleRank12DistributionLocations => [154,178,186,188,190,192,194,226,228,230,234]; // Areas that are entirely restricted to water
 
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
     /// </summary>
-    internal static bool IsInaccessibleRank12Nest(byte nestID, byte location)
+    public static bool IsInaccessibleRank12Nest(byte nestID, byte location)
     {
         var noNest = GetInaccessibleRank12Nests(location);
         return noNest.Length != 0 && noNest.Contains(nestID);
     }
 
-    private static ReadOnlySpan<byte> GetInaccessibleRank12Nests(byte location) => location switch
+    /// <summary>
+    /// Returns the list of Nests that cannot be accessed without Rotom Bike's Water Mode.
+    /// </summary>
+    /// <param name="location">Met location</param>
+    public static ReadOnlySpan<byte> GetInaccessibleRank12Nests(byte location) => location switch
     {
         128 => [6,43], // East Lake Axewell
         130 => [6,41,43], // West Lake Axewell

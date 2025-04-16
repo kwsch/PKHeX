@@ -36,7 +36,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         hashSet.UnionWith(Legal.HeldItems_AO);
         foreach (var item in KeyItemMemoryArgsAnySpecies)
             hashSet.Add(item);
-        foreach (var item in ItemStorage6AO.Pouch_TMHM_AO[..100])
+        foreach (var item in ItemStorage6AO.Machine[..100])
             hashSet.Add(item);
         return hashSet;
     }

@@ -1,8 +1,6 @@
-using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -10,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base Class for Save Files
 /// </summary>
-public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IGeneration, IVersion, IStringConverter
+public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter, ITrainerID32
 {
     // General Object Properties
     public byte[] Data;

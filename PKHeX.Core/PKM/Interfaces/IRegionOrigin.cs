@@ -3,19 +3,49 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes details about the 3DS Console geolocation settings the trainer has set.
 /// </summary>
-public interface IRegionOrigin
+public interface IRegionOrigin : IRegionOriginReadOnly
 {
     /// <summary> Console hardware region. </summary>
     /// <see cref="Region3DSIndex"/>
-    byte ConsoleRegion { get; set; }
+    new byte ConsoleRegion { get; set; }
     /// <summary> Console's configured Country via System Settings. </summary>
-    byte Country { get; set; }
+    new byte Country { get; set; }
     /// <summary> Console's configured Region within <see cref="Country"/> via System Settings. </summary>
-    byte Region { get; set; }
+    new byte Region { get; set; }
 }
 
-public static partial class Extensions
+public interface IRegionOriginReadOnly
 {
+    /// <summary> Console hardware region. </summary>
+    /// <see cref="Region3DSIndex"/>
+    byte ConsoleRegion { get; }
+    /// <summary> Console's configured Country via System Settings. </summary>
+    byte Country { get; }
+    /// <summary> Console's configured Region within <see cref="Country"/> via System Settings. </summary>
+    byte Region { get; }
+}
+
+public readonly record struct GeoRegion3DS(byte ConsoleRegion, byte Country, byte Region);
+
+public static class RegionOriginExtensions
+{
+    public static GeoRegion3DS GetRegionOrigin(this IRegionOriginReadOnly o) => new(o.ConsoleRegion, o.Country, o.Region);
+    public static void SetRegionOrigin(this IRegionOrigin o, GeoRegion3DS r)
+    {
+        o.ConsoleRegion = r.ConsoleRegion;
+        o.Country = r.Country;
+        o.Region = r.Region;
+    }
+
+    public static GeoRegion3DS GetRegionOrigin(this ITrainerInfo tr, int language)
+    {
+        if (tr is IRegionOriginReadOnly r)
+            return r.GetRegionOrigin();
+        if (language == 1) // Japanese
+            return new GeoRegion3DS(0, 1, 0); // Japan
+        return new GeoRegion3DS(1, 49, 7); // North America, USA, California
+    }
+
     public static void SetDefaultRegionOrigins(this IRegionOrigin o, int language)
     {
         if (language == 1)
@@ -32,7 +62,7 @@ public static partial class Extensions
         }
     }
 
-    public static void CopyRegionOrigin(this IRegionOrigin source, IRegionOrigin dest)
+    public static void CopyRegionOrigin(this IRegionOriginReadOnly source, IRegionOrigin dest)
     {
         dest.ConsoleRegion = source.ConsoleRegion;
         dest.Country = source.Country;

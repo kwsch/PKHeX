@@ -6,7 +6,7 @@ using static PKHeX.Core.SlotType3;
 namespace PKHeX.Core;
 
 /// <summary>
-/// <see cref="GameVersion.Gen3"/> encounter area
+/// <see cref="EntityContext.Gen3"/> encounter area
 /// </summary>
 public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocation
 {

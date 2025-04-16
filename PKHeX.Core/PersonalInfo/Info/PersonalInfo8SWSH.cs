@@ -114,7 +114,7 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
 
     public void SetAllLearnTM(Span<bool> result)
     {
-        var moves = TM_SWSH;
+        var moves = MachineMovesTechnical;
         var span = Data.Slice(TM, ByteCountTM);
         for (int index = moves.Length - 1; index >= 0; index--)
         {
@@ -158,7 +158,7 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
 
     public void SetAllLearnTutorType(Span<bool> result)
     {
-        var moves = TypeTutor8;
+        var moves = TypeTutorMoves;
         var tutor = Data[TutorType];
         for (int index = moves.Length - 1; index >= 0; index--)
         {
@@ -186,7 +186,7 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
 
     public void SetAllLearnTutorSpecial(Span<bool> result)
     {
-        var moves = Tutors_SWSH;
+        var moves = SpecialTutorMoves;
         var span = Data.Slice(TutorArmor, 3);
         for (int index = moves.Length - 1; index >= 0; index--)
         {
@@ -197,7 +197,7 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
 
     public void SetAllLearnTR(Span<bool> result)
     {
-        var moves = TR_SWSH;
+        var moves = MachineMovesRecord;
         var span = Data.Slice(TR, ByteCountTM);
         for (int index = moves.Length - 1; index >= 0; index--)
         {
@@ -206,7 +206,10 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
         }
     }
 
-    private static ReadOnlySpan<ushort> TM_SWSH =>
+    /// <summary>
+    /// Technical Machine moves corresponding to their index within TM bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMovesTechnical =>
     [
         005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
         345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
@@ -220,7 +223,10 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
         604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
     ];
 
-    private static ReadOnlySpan<ushort> TR_SWSH =>
+    /// <summary>
+    /// Technical Record moves corresponding to their index within TR bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMovesRecord =>
     [
         014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
         089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
@@ -234,7 +240,10 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
         583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
     ];
 
-    private static ReadOnlySpan<ushort> TypeTutor8 =>
+    /// <summary>
+    /// Type Tutor moves corresponding to their index within Type Tutor bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> TypeTutorMoves =>
     [
         (int)Move.GrassPledge,
         (int)Move.FirePledge,
@@ -246,7 +255,10 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
         (int)Move.SteelBeam,
     ];
 
-    private static ReadOnlySpan<ushort> Tutors_SWSH =>
+    /// <summary>
+    /// Special tutor moves available via the Move Tutors.
+    /// </summary>
+    public static ReadOnlySpan<ushort> SpecialTutorMoves =>
     [
         805, 807, 812, 804, 803, 813, 811, 810,
         815, 814, 797, 806, 800, 809, 799, 808,
@@ -257,24 +269,24 @@ public sealed class PersonalInfo8SWSH(Memory<byte> Raw) : PersonalInfo, IPersona
 
     public bool GetIsLearnTM(ushort move)
     {
-        var index = TM_SWSH.IndexOf(move);
+        var index = MachineMovesTechnical.IndexOf(move);
         return GetIsLearnTM(index);
     }
 
     public bool GetIsLearnTutorType(ushort move)
     {
-        var index = TypeTutor8.IndexOf(move);
+        var index = TypeTutorMoves.IndexOf(move);
         return GetIsLearnTutorType(index);
     }
 
     public bool GetIsLearnTutorSpecial(ushort move)
     {
-        var index = Tutors_SWSH.IndexOf(move);
+        var index = SpecialTutorMoves.IndexOf(move);
         return GetIsLearnTutorSpecial(index);
     }
 
-    public static ReadOnlySpan<ushort> RecordedMoves => TR_SWSH;
-    public ReadOnlySpan<ushort> RecordPermitIndexes => TR_SWSH;
+    public static ReadOnlySpan<ushort> RecordedMoves => MachineMovesRecord;
+    public ReadOnlySpan<ushort> RecordPermitIndexes => MachineMovesRecord;
     public int RecordCountTotal => 112;
     public int RecordCountUsed => CountTR;
 }

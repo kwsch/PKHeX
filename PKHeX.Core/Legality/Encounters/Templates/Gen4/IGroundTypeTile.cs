@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Contains information pertaining the floor tile the <see cref="IEncounterTemplate"/> was obtained on in <see cref="GameVersion.Gen4"/>.
+/// Contains information pertaining the floor tile the <see cref="IEncounterTemplate"/> was obtained on in <see cref="EntityContext.Gen4"/>.
 /// </summary>
 /// <remarks>
 /// <seealso cref="EncounterSlot4"/>

@@ -2,11 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.Pt"/>
+/// </summary>
 public sealed class ItemStorage4Pt : ItemStorage4, IItemStorage
 {
     public static readonly ItemStorage4Pt Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Key_Pt =>
+    public static ReadOnlySpan<ushort> KeyPt =>
     [
                                                 428, 429,
         430, 431, 432, 433, 434, 435, 436, 437, 438, 439,
@@ -15,20 +18,20 @@ public sealed class ItemStorage4Pt : ItemStorage4, IItemStorage
         460, 461, 462, 463, 464, 465, 466, 467,
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Items_Pt, ..Pouch_Mail_DP, ..Pouch_Medicine_DP, ..Pouch_Berries_DP, ..Pouch_Ball_DP, ..Pouch_Battle_DP, ..Pouch_TMHM_DP[..^8]];
+    public static ushort[] GetAllHeld() => [..GeneralPt, ..Mail, ..Medicine, ..Berry, ..BallsDPPt, ..Battle, ..Machine[..^8]];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Items_Pt,
-        InventoryType.KeyItems => Pouch_Key_Pt,
-        InventoryType.TMHMs => Pouch_TMHM_DP,
-        InventoryType.MailItems => Pouch_Mail_DP,
-        InventoryType.Medicine => Pouch_Medicine_DP,
-        InventoryType.Berries => Pouch_Berries_DP,
-        InventoryType.Balls => Pouch_Ball_DP,
-        InventoryType.BattleItems => Pouch_Battle_DP,
+        InventoryType.Items => GeneralPt,
+        InventoryType.KeyItems => KeyPt,
+        InventoryType.TMHMs => Machine,
+        InventoryType.MailItems => Mail,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Berries => Berry,
+        InventoryType.Balls => BallsDPPt,
+        InventoryType.BattleItems => Battle,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

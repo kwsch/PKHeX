@@ -3,9 +3,9 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Locations for <see cref="GameVersion.SV"/>.
+/// Locations for <see cref="EntityContext.Gen9"/>.
 /// </summary>
-internal static class Locations9
+public static class Locations9
 {
     /// <summary>
     /// Checks if the location is accessible in Paldea (without DLC).

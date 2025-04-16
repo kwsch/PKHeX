@@ -99,8 +99,8 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SWSH[Species, Form];
         var rnd = Util.Rand;
         var pk = new PK8
@@ -118,9 +118,9 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
 
             ID32 = ID32,
             Version = version,
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames.Span[lang],
+            OriginalTrainerName = TrainerNames.Span[language],
 
             OriginalTrainerMemory = OriginalTrainerMemory,
             OriginalTrainerMemoryIntensity = OriginalTrainerMemoryIntensity,
@@ -129,7 +129,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
-            Nickname = IsFixedNickname ? Nicknames.Span[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = IsFixedNickname ? Nicknames.Span[language] : SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             DynamaxLevel = DynamaxLevel,
             HandlingTrainerName = tr.OT,
             HandlingTrainerGender = tr.Gender,

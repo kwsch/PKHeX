@@ -34,9 +34,10 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
 
     public PK1 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
-        var isJapanese = lang == (int)LanguageID.Japanese;
-        var pi = EncounterUtil.GetPersonal1(Version, Species);
+        var version = this.GetCompatibleVersion(tr.Version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var isJapanese = language == (int)LanguageID.Japanese;
+        var pi = EncounterUtil.GetPersonal1(version, Species);
         var pk = new PK1(isJapanese)
         {
             Species = Species,
@@ -45,16 +46,16 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
             DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
                 : EncounterUtil.GetRandomDVs(Util.Rand, criteria.Shiny.IsShiny(), criteria.HiddenPowerType),
 
-            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, lang),
+            OriginalTrainerName = EncounterUtil.GetTrainerName(tr, language),
             TID16 = tr.TID16,
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
-        pk.SetNotNicknamed(lang);
+        pk.SetNotNicknamed(language);
         if (criteria.Shiny.IsShiny())
             pk.SetShiny();
 
-        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;

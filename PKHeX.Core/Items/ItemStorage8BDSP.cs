@@ -2,11 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen8b"/>
+/// </summary>
 public sealed class ItemStorage8BDSP : IItemStorage
 {
     public static readonly ItemStorage8BDSP Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Regular_BS =>
+    public static ReadOnlySpan<ushort> General =>
     [
         045, 046, 047, 048, 049, 050, 051, 052, 053, 072, 073, 074, 075, 076, 077, 078,
         079, 080, 081, 082, 083, 084, 085, 093, 094, 107, 108, 109, 110, 111, 112, 135,
@@ -23,7 +26,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         1245, 1246, 1247, 1248, 1249, 1250, 1251, 1606,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_BS =>
+    public static ReadOnlySpan<ushort> Balls =>
     [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016,
         492, 493, 494, 495, 496, 497, 498, 499, 500,
@@ -31,7 +34,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         851,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_BS =>
+    public static ReadOnlySpan<ushort> Battle =>
     [
         055, 056, 057, 058, 059, 060, 061, 062, 063,
     ];
@@ -74,7 +77,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         1821, // Distortion Slate
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_BS =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         428, 431, 432, 433, 438, 439, 440, 443, 445, 446, 447, 448, 449, 450, 451, 452,
         453, 454, 455, 459, 460, 461, 462, 463, 464, 466, 467, 631, 632,
@@ -82,13 +85,13 @@ public sealed class ItemStorage8BDSP : IItemStorage
         1267, 1278, 1822,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_BS =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037,
         038, 039, 040, 041, 042, 043, 044, 054,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Berries_BS =>
+    public static ReadOnlySpan<ushort> Berry =>
     [
         149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
         159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
@@ -99,14 +102,14 @@ public sealed class ItemStorage8BDSP : IItemStorage
         209, 210, 211, 212, 686,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Treasure_BS =>
+    public static ReadOnlySpan<ushort> Treasure =>
     [
         086, 087, 088, 089, 090, 091, 092, 099, 100, 101, 102, 103, 104, 105, 106, 795, 796,
 
         1808, 1809, 1810, 1811, 1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMHM_BS => // TM01-TM100
+    public static ReadOnlySpan<ushort> Machine => // TM01-TM100
     [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -138,14 +141,14 @@ public sealed class ItemStorage8BDSP : IItemStorage
 
     public static ReadOnlySpan<ushort> GetLegal(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Regular_BS,
-        InventoryType.KeyItems => Pouch_Key_BS,
-        InventoryType.TMHMs => Pouch_TMHM_BS,
-        InventoryType.Medicine => Pouch_Medicine_BS,
-        InventoryType.Berries => Pouch_Berries_BS,
-        InventoryType.Balls => Pouch_Ball_BS,
-        InventoryType.BattleItems => Pouch_Battle_BS,
-        InventoryType.Treasure => Pouch_Treasure_BS,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Key,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Berries => Berry,
+        InventoryType.Balls => Balls,
+        InventoryType.BattleItems => Battle,
+        InventoryType.Treasure => Treasure,
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
@@ -155,7 +158,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         InventoryType.Berries, InventoryType.Balls, InventoryType.BattleItems, InventoryType.Treasure,
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Regular_BS, ..Pouch_Ball_BS, ..Pouch_Battle_BS, ..Pouch_Berries_BS, ..Pouch_TMHM_BS, ..Pouch_Medicine_BS, ..Pouch_Treasure_BS];
+    public static ushort[] GetAllHeld() => [..General, ..Balls, ..Battle, ..Berry, ..Machine, ..Medicine, ..Treasure];
 
     public static InventoryType GetInventoryPouch(ushort itemIndex)
     {

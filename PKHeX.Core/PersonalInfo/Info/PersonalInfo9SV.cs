@@ -98,7 +98,7 @@ public sealed class PersonalInfo9SV(Memory<byte> Raw) : PersonalInfo, IPersonalA
 
     public void SetAllLearnTM(Span<bool> result)
     {
-        var moves = TM_SV;
+        var moves = MachineMoves;
         var span = Data.Slice(TM, ByteCountTM);
         for (int index = CountTM - 1; index >= 0; index--)
         {
@@ -111,11 +111,14 @@ public sealed class PersonalInfo9SV(Memory<byte> Raw) : PersonalInfo, IPersonalA
 
     private const int COUNT_RECORD_BASE = 200; // Up to 200 TM flags, but not all are used.
     private const int COUNT_RECORD_DLC = 104; // 13 additional bytes allocated for DLC1/2 TM Flags
-    public ReadOnlySpan<ushort> RecordPermitIndexes => TM_SV;
+    public ReadOnlySpan<ushort> RecordPermitIndexes => MachineMoves;
     public int RecordCountTotal => COUNT_RECORD_BASE + COUNT_RECORD_DLC;
     public int RecordCountUsed => CountTM;
 
-    private static ReadOnlySpan<ushort> TM_SV =>
+    /// <summary>
+    /// Technical Machine moves corresponding to their index within TM bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMoves =>
     [
         005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
         423, 352, 067, 491, 512, 522, 060, 109, 168, 574,

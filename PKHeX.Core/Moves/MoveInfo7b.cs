@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveInfo7b
 {
-    public static ReadOnlySpan<byte> MovePP_GG =>
+    public static ReadOnlySpan<byte> PP =>
     [
         // Absorb: 25 -> 15 (damage buffed from 20->40)
         // Mega Drain: 15 -> 10 (damage buffed from 40->75)
@@ -52,9 +52,9 @@ internal static class MoveInfo7b
         15, 20, 05,
     ];
 
-    public static bool IsAllowedMoveGG(ushort move) => AllowedMovesGG.BinarySearch(move) >= 0;
+    public static bool IsAllowedMoveGG(ushort move) => AllowedMoves.BinarySearch(move) >= 0;
 
-    private static ReadOnlySpan<ushort> AllowedMovesGG =>
+    private static ReadOnlySpan<ushort> AllowedMoves =>
     [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,

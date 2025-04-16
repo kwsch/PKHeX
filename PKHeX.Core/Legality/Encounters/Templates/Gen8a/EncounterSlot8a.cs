@@ -36,11 +36,11 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     public PA8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PA8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.LA[Species, Form];
         var pk = new PA8
         {
-            Language = lang,
+            Language = language,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
@@ -55,7 +55,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             OriginalTrainerFriendship = pi.BaseFriendship,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
         SetPINGA(pk, criteria, pi);
         pk.Scale = pk.HeightScalar;

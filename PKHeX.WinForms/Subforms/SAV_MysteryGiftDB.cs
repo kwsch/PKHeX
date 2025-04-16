@@ -117,7 +117,7 @@ public partial class SAV_MysteryGiftDB : Form
     private const int RES_MAX = GridWidth * GridHeight;
     private readonly string Counter;
     private readonly string Viewed;
-    private const int MAXFORMAT = PKX.Generation;
+    private const int MAXFORMAT = Latest.Generation;
 
     private bool GetShiftedIndex(ref int index)
     {
@@ -141,6 +141,7 @@ public partial class SAV_MysteryGiftDB : Form
             return;
         }
         SAV.AdaptToSaveFile(pk);
+        pk.RefreshChecksum();
         PKME_Tabs.PopulateFields(pk, false);
         slotSelected = index;
         slotColor = SpriteUtil.Spriter.View;

@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen2"/>
+/// </summary>
 public sealed class ItemStorage2 : IItemStorage
 {
     public static readonly ItemStorage2 InstanceGS = new(false);
@@ -10,7 +13,7 @@ public sealed class ItemStorage2 : IItemStorage
     private readonly bool Crystal;
     private ItemStorage2(bool crystal) => Crystal = crystal;
 
-    private static ReadOnlySpan<ushort> Pouch_Items_GSC =>
+    public static ReadOnlySpan<ushort> General =>
     [
                        003,                     008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
@@ -33,25 +36,25 @@ public sealed class ItemStorage2 : IItemStorage
         180, 181, 182, 183, 184, 185, 186, 187, 188, 189,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_GSC =>
+    public static ReadOnlySpan<ushort> Balls =>
     [
         1, 2, 4, 5, 157, 159, 160, 161, 164, 165, 166,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_GS =>
+    public static ReadOnlySpan<ushort> KeyGS =>
     [
         007, 054, 055, 058, 059, 061, 066, 067, 068, 069, 071, 127, 128, 130, 133, 134, 175, 178,
     ];
 
     private const int ExtraKeyCrystal = 4;
 
-    private static ReadOnlySpan<ushort> Pouch_Key_C =>
+    public static ReadOnlySpan<ushort> KeyCrystal =>
     [
         007, 054, 055, 058, 059, 061, 066, 067, 068, 069, 071, 127, 128, 130, 133, 134, 175, 178,
         070, 115, 116, 129,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMHM_GSC =>
+    public static ReadOnlySpan<ushort> Machine =>
     [
              191, 192, 193, 194,      196, 197, 198, 199,
         200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
@@ -61,9 +64,9 @@ public sealed class ItemStorage2 : IItemStorage
         240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Items_GSC, ..Pouch_Ball_GSC, ..Pouch_TMHM_GSC];
+    public static ushort[] GetAllHeld() => [..General, ..Balls, ..Machine];
 
-    private static readonly ushort[] PCItemsC  = [..Pouch_Items_GSC, ..Pouch_Ball_GSC, ..Pouch_TMHM_GSC, ..Pouch_Key_C];
+    private static readonly ushort[] PCItemsC  = [..General, ..Balls, ..Machine, ..KeyCrystal];
 
     private static ReadOnlySpan<ushort> PCItemsGS => PCItemsC.AsSpan(..^ExtraKeyCrystal);
 
@@ -72,10 +75,10 @@ public sealed class ItemStorage2 : IItemStorage
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
 
-        InventoryType.Items => Pouch_Items_GSC,
-        InventoryType.KeyItems => Crystal ? Pouch_Key_C : Pouch_Key_GS,
-        InventoryType.TMHMs => Pouch_TMHM_GSC,
-        InventoryType.Balls => Pouch_Ball_GSC,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Crystal ? KeyCrystal : KeyGS,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Balls => Balls,
         InventoryType.PCItems => Crystal ? PCItemsC : PCItemsGS,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };

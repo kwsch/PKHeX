@@ -86,8 +86,8 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
@@ -100,17 +100,17 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
             Ball = (byte)FixedBall,
             OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = OTGender,
             TID16 = TID16,
             SID16 = SID16,
         };
 
         // Italian LG Jynx untranslated from English name
-        if (Species == (int)Core.Species.Jynx && version == GameVersion.LG && lang == (int)LanguageID.Italian)
-            lang = 2;
-        pk.Nickname = Nicknames.Span[lang];
-        pk.OriginalTrainerName = TrainerNames.Span[lang];
+        if (Species == (int)Core.Species.Jynx && version == GameVersion.LG && language == (int)LanguageID.Italian)
+            language = 2;
+        pk.Nickname = Nicknames.Span[language];
+        pk.OriginalTrainerName = TrainerNames.Span[language];
 
         EncounterUtil.SetEncounterMoves(pk, Version, Level);
         SetPINGA(pk, criteria);

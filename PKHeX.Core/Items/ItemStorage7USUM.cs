@@ -3,11 +3,14 @@ using static PKHeX.Core.ItemStorage7SM;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.US"/> and <see cref="GameVersion.UM"/>
+/// </summary>
 public sealed class ItemStorage7USUM : IItemStorage
 {
     public static readonly ItemStorage7USUM Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Key_USUM =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         216,
         440, // US/UM
@@ -18,12 +21,12 @@ public sealed class ItemStorage7USUM : IItemStorage
         933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Roto_USUM =>
+    public static ReadOnlySpan<ushort> Roto =>
     [
         949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959,
     ];
 
-    internal static ReadOnlySpan<ushort> Pouch_ZCrystal_USUM =>
+    public static ReadOnlySpan<ushort> ZCrystalKey =>
     [
         // SM
         807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835,
@@ -31,7 +34,7 @@ public sealed class ItemStorage7USUM : IItemStorage
         927, 928, 929, 930, 931, 932,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_ZCrystalHeld_USUM =>
+    public static ReadOnlySpan<ushort> ZCrystalHeld =>
     [
         // SM
         776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836,
@@ -39,29 +42,29 @@ public sealed class ItemStorage7USUM : IItemStorage
         921, 922, 923, 924, 925, 926,
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Regular_SM, ..Pouch_Berries_SM, ..Pouch_Medicine_SM, ..Pouch_ZCrystalHeld_USUM, ..Pouch_Roto_USUM];
+    public static ushort[] GetAllHeld() => [..General, ..Berry, ..Medicine, ..ZCrystalHeld, ..Roto];
 
     public static bool GetCrystalHeld(ushort itemKey, out ushort itemHeld)
     {
-        var index = Pouch_ZCrystal_USUM.IndexOf(itemKey);
+        var index = ZCrystalKey.IndexOf(itemKey);
         if (index < 0)
         {
             itemHeld = 0;
             return false;
         }
-        itemHeld = Pouch_ZCrystalHeld_USUM[index];
+        itemHeld = ZCrystalHeld[index];
         return true;
     }
 
     public static bool GetCrystalKey(ushort itemHeld, out ushort itemKey)
     {
-        var index = Pouch_ZCrystalHeld_USUM.IndexOf(itemHeld);
+        var index = ZCrystalHeld.IndexOf(itemHeld);
         if (index < 0)
         {
             itemKey = 0;
             return false;
         }
-        itemKey = Pouch_ZCrystal_USUM[index];
+        itemKey = ZCrystalKey[index];
         return true;
     }
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
@@ -78,13 +81,13 @@ public sealed class ItemStorage7USUM : IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Medicine => Pouch_Medicine_SM,
-        InventoryType.Items => Pouch_Regular_SM,
-        InventoryType.TMHMs => Pouch_TMHM_SM,
-        InventoryType.Berries => Pouch_Berries_SM,
-        InventoryType.KeyItems => Pouch_Key_USUM,
-        InventoryType.ZCrystals => Pouch_ZCrystal_USUM,
-        InventoryType.BattleItems => Pouch_Roto_USUM,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Items => General,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Berries => Berry,
+        InventoryType.KeyItems => Key,
+        InventoryType.ZCrystals => ZCrystalKey,
+        InventoryType.BattleItems => Roto,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

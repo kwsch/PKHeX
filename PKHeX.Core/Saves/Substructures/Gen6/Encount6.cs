@@ -39,7 +39,7 @@ public sealed class Encount6 : SaveBlock<SAV6>
 [TypeConverter(typeof(ValueTypeTypeConverter))]
 public sealed class PokeRadar6(Memory<byte> Data)
 {
-    public const int SIZE = 2 + (RecordCount * PokeRadarRecord.SIZE); // 0x18
+    public const int SIZE = 4 + (RecordCount * PokeRadarRecord.SIZE); // 0x18
 
     private const int MaxCharge = 50;
     private const int RecordCount = 5;
@@ -53,25 +53,25 @@ public sealed class PokeRadar6(Memory<byte> Data)
     private ushort PokeRadarPacked { get => ReadUInt16LittleEndian(Span[2..4]); set => WriteUInt16LittleEndian(Span[2..4], value); }
 
     public int PokeRadarCharge { get => PokeRadarPacked & 0x3FFF; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~0x3FFF) | Math.Min(MaxCharge, value)); }
-    public bool PokeRadarFlag1 { get => PokeRadarPacked >> 14 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 14)) | (value ? (1 << 14) : 0)); }
-    public bool PokeRadarFlag2 { get => PokeRadarPacked >> 15 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 15)) | (value ? (1 << 15) : 0)); }
+    public bool PokeRadarFlag1 { get => ((PokeRadarPacked >> 14) & 1) != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 14)) | (value ? (1 << 14) : 0)); }
+    public bool PokeRadarFlag2 { get => ((PokeRadarPacked >> 15) & 1) != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 15)) | (value ? (1 << 15) : 0)); }
 
     public PokeRadarRecord GetRecord(int index) => PokeRadarRecord.ReadRecord(Span[GetRecordOffset(index)..]);
     public void SetRecord(PokeRadarRecord record, int index) => record.WriteRecord(Span[GetRecordOffset(index)..]);
 
     private static int GetRecordOffset(int index)
     {
-        if ((uint) index >= RecordCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
-
-        return 6 + (index * 2);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, RecordCount);
+        return 4 + (index * 4);
     }
 
-    public PokeRadarRecord Record1 { get => GetRecord(0); set => SetRecord(value, 0); }
-    public PokeRadarRecord Record2 { get => GetRecord(1); set => SetRecord(value, 1); }
-    public PokeRadarRecord Record3 { get => GetRecord(2); set => SetRecord(value, 2); }
-    public PokeRadarRecord Record4 { get => GetRecord(3); set => SetRecord(value, 3); }
-    public PokeRadarRecord Record5 { get => GetRecord(4); set => SetRecord(value, 4); }
+    // xy.script.390
+    // It’s the record machine that offers details of the Poké Radar research.
+    public PokeRadarRecord RecordPast1st { get => GetRecord(0); set => SetRecord(value, 0); }
+    public PokeRadarRecord RecordPast2nd { get => GetRecord(1); set => SetRecord(value, 1); }
+    public PokeRadarRecord RecordPast3rd { get => GetRecord(2); set => SetRecord(value, 2); }
+    public PokeRadarRecord RecordTarget  { get => GetRecord(3); set => SetRecord(value, 3); }
+    public PokeRadarRecord RecordLatest  { get => GetRecord(4); set => SetRecord(value, 4); }
 }
 
 [TypeConverter(typeof(ValueTypeTypeConverter))]

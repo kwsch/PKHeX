@@ -51,7 +51,7 @@ public static class EncounterMovesetGenerator
     /// </summary>
     /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
     /// <param name="info">Trainer information of the receiver.</param>
-    public static void OptimizeCriteria(PKM pk, ITrainerID32 info)
+    public static void OptimizeCriteria(PKM pk, ITrainerID32ReadOnly info)
     {
         pk.ID32 = info.ID32; // Necessary for Gen2 Headbutt encounters and Honey Tree encounters
         var htTrash = pk.HandlingTrainerTrash;

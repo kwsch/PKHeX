@@ -231,7 +231,7 @@ public static class HiddenPower
     /// <param name="type">Hidden Power Type</param>
     /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
     /// <param name="context">Generation specific format</param>
-    public static void SetIVs(int type, Span<int> ivs, EntityContext context = PKX.Context)
+    public static void SetIVs(int type, Span<int> ivs, EntityContext context = Latest.Context)
     {
         if (context.Generation() <= 2)
         {

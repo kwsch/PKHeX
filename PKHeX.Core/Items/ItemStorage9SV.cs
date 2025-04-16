@@ -2,30 +2,33 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen9"/>
+/// </summary>
 public sealed class ItemStorage9SV : IItemStorage
 {
     public static readonly ItemStorage9SV Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_SV =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
         0017, 0018, 0019, 0020, 0021, 0022, 0023, 0024, 0025, 0026,
         0027, 0028, 0029, 0030, 0031, 0032, 0033, 0034, 0035, 0036,
         0037, 0038, 0039, 0040, 0041, 0708, 0709,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_SV =>
+    public static ReadOnlySpan<ushort> Balls =>
     [
         0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010,
         0011, 0012, 0013, 0014, 0015, 0016, 0492, 0493, 0494, 0495,
         0496, 0497, 0498, 0499, 0500, 0576, 0851, 1785,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_SV =>
+    public static ReadOnlySpan<ushort> Battle =>
     [
         0055, 0056, 0057, 0058, 0059, 0060, 0061, 0062, 0063,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Berries_SV =>
+    public static ReadOnlySpan<ushort> Berry =>
     [
         0149, 0150, 0151, 0152, 0153, 0154, 0155, 0156, 0157, 0158,
         0159, 0160, 0161, 0162, 0163, 0169, 0170, 0171, 0172, 0173,
@@ -35,7 +38,7 @@ public sealed class ItemStorage9SV : IItemStorage
         0686, 0687, 0688,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Other_SV =>
+    public static ReadOnlySpan<ushort> Other =>
     [
         0045, 0046, 0047, 0048, 0049, 0050, 0051, 0052, 0053, 0080,
         0081, 0082, 0083, 0084, 0085, 0107, 0108, 0109, 0110, 0111,
@@ -65,7 +68,7 @@ public sealed class ItemStorage9SV : IItemStorage
         2413, 2414, 2415, 2416, 2479, 2482, 2549,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_TM_SV =>
+    public static ReadOnlySpan<ushort> Machine =>
     [
         0328, 0329, 0330, 0331, 0332, 0333, 0334, 0335, 0336, 0337,
         0338, 0339, 0340, 0341, 0342, 0343, 0344, 0345, 0346, 0347,
@@ -92,13 +95,13 @@ public sealed class ItemStorage9SV : IItemStorage
         2280, 2281, 2282, 2283, 2284, 2285, 2286, 2287, 2288, 2289,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Treasure_SV =>
+    public static ReadOnlySpan<ushort> Treasure =>
     [
         0086, 0087, 0088, 0089, 0090, 0091, 0092, 0094, 0106, 0571,
         0580, 0581, 0582, 0583, 1842, 1843,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Picnic_SV =>
+    public static ReadOnlySpan<ushort> Picnic =>
     [
         1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1897,
         1898, 1899, 1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907,
@@ -119,7 +122,7 @@ public sealed class ItemStorage9SV : IItemStorage
         2435, 2436, 2437, 2548, 2551, 2552,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Event_SV =>
+    public static ReadOnlySpan<ushort> Event =>
     [
         0078, 0466, 0628, 0629, 0631, 0632, 0638, 0703, 0765, 0943,
         0944, 0945, 0946, 1267, 1278, 1587, 1589, 1590, 1591, 1829,
@@ -130,7 +133,7 @@ public sealed class ItemStorage9SV : IItemStorage
         2547, 2550, 2553, 2554, 2555, 2556, 2557,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Material_SV =>
+    public static ReadOnlySpan<ushort> Material =>
     [
         1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965,
         1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975,
@@ -224,16 +227,16 @@ public sealed class ItemStorage9SV : IItemStorage
 
     public static ReadOnlySpan<ushort> GetLegal(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Other_SV,
-        InventoryType.KeyItems => Pouch_Event_SV,
-        InventoryType.TMHMs => Pouch_TM_SV,
-        InventoryType.Medicine => Pouch_Medicine_SV,
-        InventoryType.Berries => Pouch_Berries_SV,
-        InventoryType.Balls => Pouch_Ball_SV,
-        InventoryType.BattleItems => Pouch_Battle_SV,
-        InventoryType.Treasure => Pouch_Treasure_SV,
-        InventoryType.Ingredients => Pouch_Picnic_SV,
-        InventoryType.Candy => Pouch_Material_SV,
+        InventoryType.Items => Other,
+        InventoryType.KeyItems => Event,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Berries => Berry,
+        InventoryType.Balls => Balls,
+        InventoryType.BattleItems => Battle,
+        InventoryType.Treasure => Treasure,
+        InventoryType.Ingredients => Picnic,
+        InventoryType.Candy => Material,
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 

@@ -2,11 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="GameVersion.X"/> and <see cref="GameVersion.Y"/>
+/// </summary>
 public sealed class ItemStorage6XY : IItemStorage
 {
     public static readonly ItemStorage6XY Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Items_XY =>
+    public static ReadOnlySpan<ushort> General =>
     [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
         057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075,
@@ -26,7 +29,7 @@ public sealed class ItemStorage6XY : IItemStorage
         699, 704, 710, 711, 715,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_XY =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         216, 431, 442, 445, 446, 447, 450, 465, 466, 471, 628,
         629, 631, 632, 638, 641, 642, 643, 651, 689, 695, 696, 697, 698,
@@ -36,7 +39,7 @@ public sealed class ItemStorage6XY : IItemStorage
         // 716, 717, 706, 707,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMHM_XY =>
+    public static ReadOnlySpan<ushort> Machine =>
     [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -55,7 +58,7 @@ public sealed class ItemStorage6XY : IItemStorage
         420, 421, 422, 423, 424,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_XY =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
         017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029,
@@ -72,7 +75,7 @@ public sealed class ItemStorage6XY : IItemStorage
         708, 709,
     ];
 
-    public static ReadOnlySpan<ushort> Pouch_Berry_XY =>
+    public static ReadOnlySpan<ushort> Berry =>
     [
         149, // Cheri Berry
         150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
@@ -88,7 +91,7 @@ public sealed class ItemStorage6XY : IItemStorage
         688, // Maranga Berry
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Items_XY, ..Pouch_Medicine_XY, ..Pouch_Berry_XY];
+    public static ushort[] GetAllHeld() => [..General, ..Medicine, ..Berry];
 
     internal static ReadOnlySpan<ushort> Unreleased =>
     [
@@ -138,11 +141,11 @@ public sealed class ItemStorage6XY : IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Items_XY,
-        InventoryType.KeyItems => Pouch_Key_XY,
-        InventoryType.TMHMs => Pouch_TMHM_XY,
-        InventoryType.Medicine => Pouch_Medicine_XY,
-        InventoryType.Berries => Pouch_Berry_XY,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Key,
+        InventoryType.TMHMs => Machine,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Berries => Berry,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

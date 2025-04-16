@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.PersonalInfo5BW;
 
 namespace PKHeX.Core;
 
@@ -90,7 +91,7 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
 
     private static bool GetIsTypeTutor(PersonalInfo5B2W2 pi, ushort move)
     {
-        var index = TypeTutor567.IndexOf(move);
+        var index = TypeTutorMoves.IndexOf(move);
         if (index == -1)
             return false;
         return pi.GetIsLearnTutorType(index);
@@ -98,7 +99,7 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
 
     private static bool GetIsTM(PersonalInfo5B2W2 info, ushort move)
     {
-        var index = TMHM_BW.IndexOf(move);
+        var index = MachineMoves.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index);
@@ -118,9 +119,9 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-            pi.SetAllLearnTM(result, TMHM_BW);
+            pi.SetAllLearnTM(result, MachineMoves);
         if (types.HasFlag(MoveSourceType.TypeTutor))
-            pi.SetAllLearnTutorType(result, TypeTutor567);
+            pi.SetAllLearnTutorType(result, TypeTutorMoves);
         if (types.HasFlag(MoveSourceType.SpecialTutor))
             pi.SetAllLearnTutorSpecial(result);
 

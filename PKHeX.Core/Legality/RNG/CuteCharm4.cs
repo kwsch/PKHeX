@@ -36,7 +36,7 @@ public static class CuteCharm4
     {
         return species <= Legal.MaxSpeciesID_4
             ? PersonalTable.HGSS[species].Gender
-            : PKX.GetGenderRatio(species); // fallback (don't bother trying to devolve to Gen1-4 encounter species)
+            : EntityGender.GetGenderRatio(species); // fallback (don't bother trying to devolve to Gen1-4 encounter species)
     }
 
     private static bool IsAzurillMale(uint pid) => pid is >= 0xC8 and <= 0xE0;
