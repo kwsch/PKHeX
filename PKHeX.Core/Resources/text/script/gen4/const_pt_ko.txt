@@ -20,7 +20,7 @@
 0106	r	Iceberg Ruins Statue (레지아이스)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	r	Rock Peak Ruins Statue (레지락) 	0:Inactive,270:Activated,280:Defeated,290:Caught
 0062	r	Current Players Interacted Underground	32:화강돌 나타남
-0138	r	신령탑	0:활성화되지 않음,1:활성화됨
+0138	r	신령탑	0:비활성,1:활동적인
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
