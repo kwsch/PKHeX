@@ -3,7 +3,7 @@
 0161	r	Beasts (Burned Tower)	0:Appeared,1:Roaming/Fled
 0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
 0067	e	Enigma Stone	0:Not Activated,1778:Activated
-0249	e	Embedded Tower	0:Haven't Received Kanto Starter,1:Obtained Kanto Starter,2:Obtained Orb,3:Kyogre/Groudon Activated,4:Kyogre/Groudon Disappeared,6:Rayquaza Activated,7:Rayquaza Caught,9:Rayquaza Disappeared
+0249	e	Embedded Tower	0:Haven't Received Kanto Starter,1:Obtained Kanto Starter,2:Obtained Orb,3:Kyogre/Groudon Activated,4:Kyogre/Groudon Disappeared,5:Received Jade Orb,6:Rayquaza Activated,7:Rayquaza Caught,8:Event Completed,9:Rayquaza Disappeared
 0251	e	Sinjoh Ruins	1:Not entered,4:Teleported (1st),5:Went Outside,6:Cynthia talkable (cabin),7:Cynthia talkable (stage),8:Before Choosing Legendary,10:Obtained First Legendary,13:Teleported (2nd),14:Obtained Second Legendary
 0259	r	Sinnoh Legendary (1st)	1:Dialga,2:Palkia,3:Giratina
 0258	r	Teleportable (2nd) Arceus	1:Hall of Origin,2:Fateful Encounter

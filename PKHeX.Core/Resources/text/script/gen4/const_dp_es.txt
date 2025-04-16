@@ -9,5 +9,6 @@
 0068	e	Carta Prof Oak	0:Sin activar,4370:Activado
 0069	e	Flauta Azur	0:Sin activar,4387:Activado
 0062	r	Current Players Interacted Underground	32:Spiritomb Aparecido
-0138	e	Torre Sagrada	0:Sin activar,1:Activado
+0138	e	Torre Sagrada	0:Desactivado,1:Activo
+0248	e	Evento de Taberna Bahía	0:Sin Entra,4:Evento Completado
 0224	+	Mejor puntuación capturas en Parque Compi
