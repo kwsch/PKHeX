@@ -20,7 +20,7 @@
 0106	r	Estatua de Ruinas Iceberg (Regice)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0107	r	Estatua de Ruinas Pico Roca (Regirock)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0062	r	Current Players Interacted Underground	32:Spiritomb Aparecido
-0138	r	Torre Sagrada	0:Sin activar,1:Activado
+0138	r	Torre Sagrada	0:Desactivado,1:Activo
 0089	r	Estado Mesprit	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
 0088	r	Estado Cresselia	0:Pendiente,1:Capturada,2:Derrotada/Puede reaparecer
 0096	r	Estado Articuno	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
