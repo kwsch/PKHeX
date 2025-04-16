@@ -224,8 +224,10 @@ public static class MethodPokeSpot
 
             var origin = XDRNG.Prev6(preIV);
             if (!IsValidAnimation(origin, out origin, out _))
+            {
+                seed = Util.Rand32();
                 continue;
-
+            }
             var iv1 = XDRNG.Next15(ref seed);
             var iv2 = XDRNG.Next15(ref seed);
             var iv32 = iv2 << 15 | iv1;
