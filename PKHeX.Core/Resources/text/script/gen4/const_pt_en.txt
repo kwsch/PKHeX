@@ -20,7 +20,7 @@
 0106	r	Iceberg Ruins Statue (Regice)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	r	Rock Peak Ruins Statue (Regirock)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0062	r	Current Players Interacted Underground	32:Spiritomb Appeared
-0138	r	Hallowed Tower	0:Not Activated,1:Activated
+0138	r	Hallowed Tower	0:Inactive,1:Active
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
