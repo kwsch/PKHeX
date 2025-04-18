@@ -177,12 +177,10 @@ public static class MethodPokeSpot
     }
 
     public static void SetRandomPID(XK3 pk, EncounterCriteria criteria, byte gender, byte slot)
-        => pk.PID = GetRandomPID(pk.ID32, criteria, gender, slot, out _);
+        => pk.PID = GetRandomPID(pk.ID32, criteria, gender, slot, Util.Rand32(), out _);
 
-    public static uint GetRandomPID(uint id32, EncounterCriteria criteria, byte gender, byte slot, out uint origin)
+    public static uint GetRandomPID(uint id32, EncounterCriteria criteria, byte gender, byte slot, uint seed, out uint origin)
     {
-        var seed = Util.Rand32();
-
         while (true)
         {
             var result = IsValidActivation(slot, seed, out origin);
@@ -204,10 +202,9 @@ public static class MethodPokeSpot
         }
     }
 
-    public static void SetRandomIVs(XK3 pk, EncounterCriteria criteria, byte levelMin, byte levelMax)
+    public static void SetRandomIVs(XK3 pk, EncounterCriteria criteria, byte levelMin, byte levelMax, uint seed)
     {
         var levelDelta = 1u + levelMax - levelMin;
-        var seed = Util.Rand32();
 
         bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
         bool checkLevel = criteria.IsSpecifiedLevelRange() && criteria.IsLevelWithinRange(levelMin, levelMax);

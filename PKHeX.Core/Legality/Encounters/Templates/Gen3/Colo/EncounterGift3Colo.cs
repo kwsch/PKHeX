@@ -93,7 +93,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
             criteria = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
         if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: true))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi, noShiny: true);
+        MethodCXD.SetRandom(pk, criteria, pi, noShiny: true, Util.Rand32());
     }
     #endregion
 

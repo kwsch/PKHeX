@@ -103,7 +103,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             if (TrySetMethod1(pk, criteria, gr))
                 return;
         }
-        SetMethod1(pk, criteria, gr);
+        SetMethod1(pk, criteria, gr, Util.Rand32());
         if (truncate) // Never happens for eggs or dual-ability encounters.
             pk.IV32 &= 0xFF;
     }
@@ -139,9 +139,8 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return false;
     }
 
-    private static void SetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr)
+    private static void SetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr, uint seed)
     {
-        var seed = Util.Rand32();
         var id32 = pk.ID32;
         while (true)
         {

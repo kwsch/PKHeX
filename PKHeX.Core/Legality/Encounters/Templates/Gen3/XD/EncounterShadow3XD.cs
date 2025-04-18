@@ -83,8 +83,10 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
             criteria = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
         if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi, noShiny: true))
             return;
-        if (!this.SetRandom(pk, criteria, pi, noShiny: true))
-            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: true);
+
+        uint seed = Util.Rand32();
+        if (!this.SetRandom(pk, criteria, pi, noShiny: true, seed))
+            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: true, seed);
     }
 
     #endregion

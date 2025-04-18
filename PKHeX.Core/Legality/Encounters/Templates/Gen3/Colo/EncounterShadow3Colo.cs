@@ -91,8 +91,10 @@ public sealed record EncounterShadow3Colo(byte Index, ushort Gauge, ReadOnlyMemo
     {
         if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
-        if (!this.SetRandom(pk, criteria, pi, noShiny: false))
-            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: false);
+
+        uint seed = Util.Rand32();
+        if (!this.SetRandom(pk, criteria, pi, noShiny: false, seed))
+            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: false, seed);
     }
 
     private void SetPINGA_EReader(CK3 pk)
