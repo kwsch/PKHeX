@@ -524,7 +524,11 @@ public partial class Main : Form
 
         // Get Simulator Data
         var text = Clipboard.GetText();
-        var set = new ShowdownSet(text);
+        ShowdownSet set;
+        if (ShowdownTeam.IsShowdownTeamURL(text, out var url) && ShowdownTeam.TryGetTeams(url, out var content, out _))
+            set = ShowdownParsing.GetShowdownSets(content).FirstOrDefault() ?? new(""); // take only first set
+        else
+            set = new ShowdownSet(text);
 
         if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
