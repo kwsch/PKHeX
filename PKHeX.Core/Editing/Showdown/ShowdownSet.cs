@@ -25,60 +25,24 @@ public sealed class ShowdownSet : IBattleTemplate
         (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
     ];
 
-    /// <inheritdoc/>
     public ushort Species { get; private set; }
-
-    /// <inheritdoc/>
     public EntityContext Context { get; private set; } = RecentTrainerCache.Context;
-
-    /// <inheritdoc/>
     public string Nickname { get; private set; } = string.Empty;
-
-    /// <inheritdoc/>
     public byte? Gender { get; private set; }
-
-    /// <inheritdoc/>
     public int HeldItem { get; private set; }
-
-    /// <inheritdoc/>
     public int Ability { get; private set; } = -1;
-
-    /// <inheritdoc/>
     public byte Level { get; private set; } = 100;
-
-    /// <inheritdoc/>
     public bool Shiny { get; private set; }
-
-    /// <inheritdoc/>
     public byte Friendship { get; private set; } = 255;
-
-    /// <inheritdoc/>
     public Nature Nature { get; private set; } = Nature.Random;
-
-    /// <inheritdoc/>
     public string FormName { get; private set; } = string.Empty;
-
-    /// <inheritdoc/>
     public byte Form { get; private set; }
-
-    /// <inheritdoc/>
     public int[] EVs { get; } = [00, 00, 00, 00, 00, 00];
-
-    /// <inheritdoc/>
     public int[] IVs { get; } = [31, 31, 31, 31, 31, 31];
-
-    /// <inheritdoc/>
     public sbyte HiddenPowerType { get; private set; } = -1;
-
     public MoveType TeraType { get; private set; } = MoveType.Any;
-
-    /// <inheritdoc/>
     public ushort[] Moves { get; } = [0, 0, 0, 0];
-
-    /// <inheritdoc/>
     public bool CanGigantamax { get; private set; }
-
-    /// <inheritdoc/>
     public byte DynamaxLevel { get; private set; } = 10;
 
     /// <summary>
@@ -720,7 +684,7 @@ public sealed class ShowdownSet : IBattleTemplate
             return hiddenPowerName;
 
         HiddenPowerType = (sbyte)hpVal;
-        if (!Array.TrueForAll(IVs, z => z == 31))
+        if (IVs.AsSpan().ContainsAnyExcept(31))
         {
             if (!HiddenPower.SetIVsForType(hpVal, IVs, Context))
                 InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");

@@ -13,7 +13,7 @@ public static class ShowdownTeam
     /// </summary>
     /// <param name="team">The numeric identifier of the team.</param>
     /// <returns>A string containing the full URL to access the team data via the API.</returns>
-    public static string GetTeamURL(int team) => $"https://play.pokemonshowdown.com/api/getteam?teamid={team}&raw=1";
+    public static string GetURL(int team) => $"https://play.pokemonshowdown.com/api/getteam?teamid={team}&raw=1";
 
     /// <summary>
     /// Attempts to retrieve the Showdown team data from a specified URL, and reformats it.
@@ -22,7 +22,7 @@ public static class ShowdownTeam
     /// <param name="content">When the method returns, contains the processed team data if retrieval and formatting succeed; otherwise, null.</param>
     /// <param name="team">The numeric identifier extracted from the URL or response.</param>
     /// <returns><c>true</c> if the team data is successfully retrieved and reformatted; otherwise, <c>false</c>.</returns>
-    public static bool TryGetTeams(string url, [NotNullWhen(true)] out string? content, out int team)
+    public static bool TryGetSets(string url, [NotNullWhen(true)] out string? content, out int team)
     {
         team = 0;
         content = null;
@@ -33,7 +33,7 @@ public static class ShowdownTeam
         if (content == null)
             return false;
 
-        return GetTeamsFromReply(ref content);
+        return GetFromReply(ref content);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public static class ShowdownTeam
     /// <returns>
     /// <c>true</c> if the team data is successfully extracted and reformatted; otherwise, <c>false</c>.
     /// </returns>
-    public static bool GetTeamsFromReply(ref string content)
+    public static bool GetFromReply(ref string content)
     {
         // reformat
         const string startText = """
@@ -72,15 +72,15 @@ public static class ShowdownTeam
     /// <param name="text">The text to evaluate.</param>
     /// <param name="url">When the method returns, contains the normalized API URL if the text represents a valid Showdown team URL; otherwise, null.</param>
     /// <returns><c>true</c> if the text is a valid Showdown team URL; otherwise, <c>false</c>.</returns>
-    public static bool IsShowdownTeamURL(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
+    public static bool IsURL(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
     {
         text = text.Trim();
         if (text.StartsWith("https://psim.us/t/") || // short link
             text.StartsWith("https://teams.pokemonshowdown.com/"))
-            return TryGetTeamFromWebURL(text, out url);
+            return TryCheckWeb(text, out url);
 
         if (text.StartsWith("https://play.pokemonshowdown.com/api/getteam?teamid="))
-            return TryGetTeamFromAPITeamURL(text, out url);
+            return TryCheckAPI(text, out url);
 
         url = null;
         return false;
@@ -92,12 +92,12 @@ public static class ShowdownTeam
     /// <param name="text">The Showdown web URL as a read-only span of characters.</param>
     /// <param name="url">When the method returns, contains the standardized API URL if extraction is successful; otherwise, null.</param>
     /// <returns><c>true</c> if the team index is successfully extracted and converted; otherwise, <c>false</c>.</returns>
-    public static bool TryGetTeamFromWebURL(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
+    public static bool TryCheckWeb(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
     {
         url = null;
-        if (!TryGetTeamIndexWeb(text, out var team))
+        if (!TryGetIndexWeb(text, out var team))
             return false;
-        url = GetTeamURL(team);
+        url = GetURL(team);
         return true;
     }
 
@@ -107,12 +107,12 @@ public static class ShowdownTeam
     /// <param name="text">The Showdown API URL as a read-only span of characters.</param>
     /// <param name="url">When the method returns, contains the standardized API URL if extraction is successful; otherwise, null.</param>
     /// <returns><c>true</c> if the team index is successfully extracted and the URL normalized; otherwise, <c>false</c>.</returns>
-    public static bool TryGetTeamFromAPITeamURL(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
+    public static bool TryCheckAPI(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
     {
         url = null;
-        if (!TryGetTeamIndexAPI(text, out var team))
+        if (!TryGetIndexAPI(text, out var team))
             return false;
-        url = GetTeamURL(team);
+        url = GetURL(team);
         return true;
     }
 
@@ -122,7 +122,7 @@ public static class ShowdownTeam
     /// <param name="text">The Showdown web URL provided as a read-only span of characters.</param>
     /// <param name="team">When the method returns, contains the extracted team identifier if successful; otherwise, zero.</param>
     /// <returns><c>true</c> if the team identifier is successfully extracted; otherwise, <c>false</c>.</returns>
-    public static bool TryGetTeamIndexWeb(ReadOnlySpan<char> text, out int team)
+    public static bool TryGetIndexWeb(ReadOnlySpan<char> text, out int team)
     {
         team = 0;
         if (text.EndsWith('/'))
@@ -146,7 +146,7 @@ public static class ShowdownTeam
     /// <param name="text">The Showdown API URL as a read-only span of characters.</param>
     /// <param name="team">When the method returns, contains the extracted team identifier if successful; otherwise, zero.</param>
     /// <returns><c>true</c> if the team identifier is successfully extracted; otherwise, <c>false</c>.</returns>
-    public static bool TryGetTeamIndexAPI(ReadOnlySpan<char> text, out int team)
+    public static bool TryGetIndexAPI(ReadOnlySpan<char> text, out int team)
     {
         team = 0;
         if (!text.EndsWith("&raw=1"))
