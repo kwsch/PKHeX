@@ -350,7 +350,7 @@ public static class BatchEditing
     internal static ModifyResult TryModifyPKM(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
     {
         if (!pk.ChecksumValid || pk.Species == 0)
-            return ModifyResult.Invalid;
+            return ModifyResult.Skipped;
 
         var info = new BatchInfo(pk);
         var props = GetProps(pk);
@@ -369,22 +369,27 @@ public static class BatchEditing
             }
         }
 
-        ModifyResult result = ModifyResult.Modified;
+        var error = false;
+        var result = ModifyResult.Skipped;
         foreach (var cmd in modifications)
         {
             try
             {
                 var tmp = SetPKMProperty(cmd, info, props);
-                if (tmp != ModifyResult.Modified)
+                if (tmp == ModifyResult.Error)
+                    error = true;
+                else if (tmp != ModifyResult.Skipped)
                     result = tmp;
             }
             // Swallow any error because this can be malformed user input.
             catch (Exception ex)
             {
                 Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
-                result = ModifyResult.Error;
+                error = true;
             }
         }
+        if (error)
+            result |= ModifyResult.Error;
         return result;
     }
 

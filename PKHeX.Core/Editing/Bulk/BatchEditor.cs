@@ -34,10 +34,14 @@ public sealed class BatchEditor
         }
 
         var result = BatchEditing.TryModifyPKM(pk, filters, modifications);
-        if (result != ModifyResult.Invalid)
+        if (result != ModifyResult.Skipped)
             Iterated++;
-        if (result == ModifyResult.Error)
+        if (result.HasFlag(ModifyResult.Error))
+        {
             Failed++;
+            // Still need to fix checksum if another modification was successful.
+            result &= ~ModifyResult.Error;
+        }
         if (result != ModifyResult.Modified)
             return false;
 
