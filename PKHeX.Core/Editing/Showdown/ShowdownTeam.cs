@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace PKHeX.Core;
 
@@ -59,10 +60,16 @@ public static class ShowdownTeam
         start += startText.Length; // skip to the start of the team
 
         var end = content.LastIndexOf("\\n", StringComparison.Ordinal);
-        if (end == -1 || end <= start)
+        if (end == -1)
+            return false;
+        var length = end - start;
+        if (length < 5) // arbitrary length check
             return false;
 
-        content = content[start..end].Replace("\\n", Environment.NewLine);
+        var sb = new StringBuilder();
+        sb.Append(content, start, length);
+        sb.Replace("\\n", Environment.NewLine);
+        content = sb.ToString();
         return true;
     }
 

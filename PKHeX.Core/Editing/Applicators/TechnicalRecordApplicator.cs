@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.TechnicalRecordApplicatorOption;
 
 namespace PKHeX.Core;
 
@@ -133,9 +134,9 @@ public static class TechnicalRecordApplicator
     public static void SetRecordFlags(this ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option)
     {
         record.ClearRecordFlags();
-        if (option is TechnicalRecordApplicatorOption.None)
+        if (option is None)
             return;
-        if (option is TechnicalRecordApplicatorOption.ForceAll)
+        if (option is ForceAll)
         {
             record.SetRecordFlagsAll(true, record.Permit.RecordCountUsed);
             return;
@@ -154,9 +155,9 @@ public static class TechnicalRecordApplicator
     public static void SetRecordFlags(this ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option, LegalityAnalysis la)
     {
         record.ClearRecordFlags();
-        if (option is TechnicalRecordApplicatorOption.None)
+        if (option is None)
             return;
-        if (option is TechnicalRecordApplicatorOption.ForceAll)
+        if (option is ForceAll)
         {
             record.SetRecordFlagsAll(true, record.Permit.RecordCountUsed);
             return;
@@ -166,14 +167,14 @@ public static class TechnicalRecordApplicator
 
     private static void SetRecordFlagsInternal(ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option, LegalityAnalysis la)
     {
-        if (option is TechnicalRecordApplicatorOption.LegalCurrent)
+        if (option is LegalCurrent)
         {
             Span<ushort> moves = stackalloc ushort[4];
             pk.GetMoves(moves);
             var evos = la.Info.EvoChainsAllGens.Get(pk.Context);
             record.SetRecordFlags(moves, evos);
         }
-        else if (option is TechnicalRecordApplicatorOption.LegalAll)
+        else if (option is LegalAll)
         {
             var evos = la.Info.EvoChainsAllGens.Get(pk.Context);
             record.SetRecordFlagsAll(evos);
