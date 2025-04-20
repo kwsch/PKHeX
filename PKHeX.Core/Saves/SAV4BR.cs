@@ -113,7 +113,6 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public override int MaxStringLengthTrainer => 7;
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 999999;
-    public override int Language => (int)LanguageID.English; // prevent KOR from inhabiting
 
     public override int BoxCount => 18;
 
@@ -160,6 +159,17 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
     // Trainer Info
     public override GameVersion Version { get => GameVersion.BATREV; set { } }
+
+    public bool Japanese { get => !FlagUtil.GetFlag(Data, 0x57, 0); set => FlagUtil.SetFlag(Data, 0x57, 0, !value); }
+    public LanguageBR BRLanguage { get => (LanguageBR)Data[(_currentSlot * SIZE_SLOT) + 0x384]; set => Data[(_currentSlot * SIZE_SLOT) + 0x384] = (byte)(value); }
+    public override int Language
+    {
+        get => (int)(BRLanguage == LanguageBR.JapaneseOrEnglish && Japanese ? LanguageID.Japanese : BRLanguage.ToLanguageID());
+        set {
+            Japanese = value == (int)LanguageID.Japanese;
+            BRLanguage = ((LanguageID)value).ToLanguageBR();
+        }
+    }
 
     private string GetOTName(int slot)
     {
