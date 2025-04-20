@@ -33,9 +33,12 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
         // Detect active save
         var first  = ReadUInt32BigEndian(Data.AsSpan(0x00004C));
-        var second = ReadUInt32BigEndian(Data.AsSpan(0x1C004C));
-        SaveCount = Math.Max(second, first);
-        if (second > first)
+        var second = ReadUInt32BigEndian(Data.AsSpan(SIZE_HALF + 0x00004C));
+        var firstValid  = IsChecksumValid(Data, 0x0000000);
+        var secondValid = IsChecksumValid(Data, SIZE_HALF);
+        var preferSecond = secondValid && (!firstValid || second > first);
+        SaveCount = preferSecond ? second : first;
+        if (preferSecond)
         {
             // swap halves
             byte[] tempData = new byte[SIZE_HALF];
@@ -110,7 +113,6 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public override int MaxStringLengthTrainer => 7;
     public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 999999;
-    public override int Language => (int)LanguageID.English; // prevent KOR from inhabiting
 
     public override int BoxCount => 18;
 
@@ -137,23 +139,37 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     {
         SetChecksum(Data, 0x0000000, 0x0000100, 0x000008);
         SetChecksum(Data, 0x0000000, SIZE_HALF, SIZE_HALF - 0x80);
-        SetChecksum(Data, SIZE_HALF, 0x0000100, SIZE_HALF + 0x000008);
-        SetChecksum(Data, SIZE_HALF, SIZE_HALF, SIZE_HALF + SIZE_HALF - 0x80);
+
+        // Don't update the checksum for the second half.
+        // We swap the active half to the first half on open, and the second half can be invalid data.
+        // SetChecksum(Data, SIZE_HALF, 0x0000100, SIZE_HALF + 0x000008);
+        // SetChecksum(Data, SIZE_HALF, SIZE_HALF, SIZE_HALF + SIZE_HALF - 0x80);
     }
 
     public override bool ChecksumsValid => IsChecksumsValid(Data);
     public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
-    public static bool IsChecksumsValid(Span<byte> sav)
+    public static bool IsChecksumsValid(Span<byte> sav) => IsChecksumValid(sav, 0x0000000) || IsChecksumValid(sav, SIZE_HALF);
+
+    private static bool IsChecksumValid(Span<byte> sav, int offset)
     {
-        return VerifyChecksum(sav, 0x0000000, 0x0000100, 0x000008)
-               && VerifyChecksum(sav, 0x0000000, SIZE_HALF, SIZE_HALF - 0x80)
-               && VerifyChecksum(sav, SIZE_HALF, 0x0000100, SIZE_HALF + 0x000008)
-               && VerifyChecksum(sav, SIZE_HALF, SIZE_HALF, SIZE_HALF + SIZE_HALF - 0x80);
+        return VerifyChecksum(sav, offset, 0x0000100, offset + 0x000008)
+               && VerifyChecksum(sav, offset, SIZE_HALF, offset + SIZE_HALF - 0x80);
     }
 
     // Trainer Info
     public override GameVersion Version { get => GameVersion.BATREV; set { } }
+
+    public bool Japanese { get => !FlagUtil.GetFlag(Data, 0x57, 0); set => FlagUtil.SetFlag(Data, 0x57, 0, !value); }
+    public LanguageBR BRLanguage { get => (LanguageBR)Data[(_currentSlot * SIZE_SLOT) + 0x384]; set => Data[(_currentSlot * SIZE_SLOT) + 0x384] = (byte)(value); }
+    public override int Language
+    {
+        get => (int)(BRLanguage == LanguageBR.JapaneseOrEnglish && Japanese ? LanguageID.Japanese : BRLanguage.ToLanguageID());
+        set {
+            Japanese = value == (int)LanguageID.Japanese;
+            BRLanguage = ((LanguageID)value).ToLanguageBR();
+        }
+    }
 
     private string GetOTName(int slot)
     {
