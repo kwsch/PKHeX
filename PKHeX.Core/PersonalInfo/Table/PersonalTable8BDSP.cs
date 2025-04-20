@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Personal Table storing <see cref="PersonalInfo8BDSP"/> used in <see cref="GameVersion.BDSP"/>.
+/// Personal Table storing <see cref="PersonalInfo8BDSP"/> used in <see cref="EntityContext.Gen8b"/>.
 /// </summary>
 public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<PersonalInfo8BDSP>
 {

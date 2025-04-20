@@ -65,7 +65,7 @@ public static class GameInfo
     /// <param name="location">Location value</param>
     /// <param name="format">Current <see cref="PKM.Format"/></param>
     /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
-    /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
+    /// <param name="version">Version within <see cref="generation"/>, if needed to differentiate.</param>
     /// <returns>Location name</returns>
     public static string GetLocationName(bool isEggLocation, ushort location, byte format, byte generation, GameVersion version)
     {

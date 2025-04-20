@@ -25,19 +25,19 @@ public static class EncounterEvent
     /// <summary>Event Database for Generation 7</summary>
     public static readonly WC7[] MGDB_G7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
 
-    /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
+    /// <summary>Event Database for Generation 7 <see cref="EntityContext.Gen7b"/></summary>
     public static readonly WB7[] MGDB_G7GG = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
 
-    /// <summary>Event Database for Generation 8</summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8"/></summary>
     public static readonly WC8[] MGDB_G8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.PLA"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8a"/></summary>
     public static readonly WA8[] MGDB_G8A = GetWA8DB(Util.GetBinaryResource("wa8.pkl"));
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8b"/></summary>
     public static readonly WB8[] MGDB_G8B = GetWB8DB(Util.GetBinaryResource("wb8.pkl"));
 
-    /// <summary>Event Database for Generation 9 <see cref="GameVersion.SV"/></summary>
+    /// <summary>Event Database for Generation 9 <see cref="EntityContext.Gen9"/></summary>
     public static readonly WC9[] MGDB_G9 = GetWC9DB(Util.GetBinaryResource("wc9.pkl"));
     #endregion
 

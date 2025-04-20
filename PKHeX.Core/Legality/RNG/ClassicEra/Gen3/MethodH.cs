@@ -7,7 +7,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Method H logic used by mainline <see cref="GameVersion.Gen3"/> RNG.
+/// Method H logic used by mainline <see cref="EntityContext.Gen3"/> RNG.
 /// </summary>
 public static class MethodH
 {

@@ -20,7 +20,7 @@ public static class MemoryApplicator
     }
 
     /// <summary>
-    /// Sets the Memory details to a Hatched Egg's memories.
+    /// Sets the Memory details to a Hatched Egg's memories specific to <see cref="EntityContext.Gen6"/> origin.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetHatchMemory6(this PKM pk)
@@ -37,7 +37,7 @@ public static class MemoryApplicator
     }
 
     /// <summary>
-    /// Sets a random memory specific to <see cref="GameVersion.Gen6"/> locality.
+    /// Sets a random memory specific to <see cref="EntityContext.Gen6"/> origin.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetRandomMemory6(this PK6 pk)

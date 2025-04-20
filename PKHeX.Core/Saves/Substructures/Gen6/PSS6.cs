@@ -80,7 +80,7 @@ public static class PSS6
     private static string GetGameName(GameVersion game)
     {
         const string unk = "UNKNOWN GAME";
-        if (!GameVersion.Gen6.Contains(game))
+        if (game is not (GameVersion.X or GameVersion.Y or GameVersion.OR or GameVersion.AS))
             return unk;
         var list = GameInfo.Strings.gamelist;
         return list[(byte)game];

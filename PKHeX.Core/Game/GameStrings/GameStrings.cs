@@ -795,7 +795,7 @@ public sealed class GameStrings : IBasicStrings
     /// <param name="location">Location value</param>
     /// <param name="format">Current <see cref="PKM.Format"/></param>
     /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
-    /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
+    /// <param name="version">Version within <see cref="generation"/>, if needed to differentiate.</param>
     /// <returns>Location name. Potentially an empty string if no location name is known for that location value.</returns>
     public string GetLocationName(bool isEggLocation, ushort location, byte format, byte generation, GameVersion version)
     {

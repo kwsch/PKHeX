@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-/// <summary> Generation 2 <see cref="PKM"/> format for <see cref="GameVersion.Stadium2"/>. </summary>
+/// <summary> Generation 2 <see cref="PKM"/> format for <see cref="SAV2Stadium"/>. </summary>
 public sealed class SK2 : GBPKM, ICaughtData2
 {
     public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
