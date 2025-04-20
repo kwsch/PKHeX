@@ -86,7 +86,7 @@ public partial class SAV_FolderList : Form
         List<INamedFolderPath> locs =
         [
             new CustomFolderPath(backupPath, display: "PKHeX Backups"),
-            ..GetUserPaths(), ..GetConsolePaths(drives), ..GetSwitchPaths(drives),
+            ..GetUserPaths(), ..GetPaths3DS(drives), ..GetPathsSwitch(drives),
         ];
         var filtered = locs
             .DistinctBy(z => z.Path)
@@ -127,10 +127,10 @@ public partial class SAV_FolderList : Form
     private static IEnumerable<CustomFolderPath> GetUserPaths()
     {
         var paths = Main.Settings.Backup.OtherBackupPaths;
-        return paths.Select(x => new CustomFolderPath(x, true));
+        return paths.Select(x => new CustomFolderPath(x, FolderPathGroup.Custom));
     }
 
-    private static IEnumerable<CustomFolderPath> GetConsolePaths(IEnumerable<string> drives)
+    private static IEnumerable<CustomFolderPath> GetPaths3DS(IEnumerable<string> drives)
     {
         var path3DS = SaveFinder.Get3DSLocation(drives);
         if (path3DS is null)
@@ -141,10 +141,10 @@ public partial class SAV_FolderList : Form
             return [];
 
         var paths = SaveFinder.Get3DSBackupPaths(root);
-        return paths.Select(z => new CustomFolderPath(z));
+        return paths.Select(z => new CustomFolderPath(z, FolderPathGroup.Nintendo3DS));
     }
 
-    private static IEnumerable<CustomFolderPath> GetSwitchPaths(IEnumerable<string> drives)
+    private static IEnumerable<CustomFolderPath> GetPathsSwitch(IEnumerable<string> drives)
     {
         var pathNX = SaveFinder.GetSwitchLocation(drives);
         if (pathNX is null)
@@ -155,19 +155,19 @@ public partial class SAV_FolderList : Form
             return [];
 
         var paths = SaveFinder.GetSwitchBackupPaths(root);
-        return paths.Select(z => new CustomFolderPath(z));
+        return paths.Select(z => new CustomFolderPath(z, FolderPathGroup.NintendoSwitch));
     }
 
     private sealed record CustomFolderPath : INamedFolderPath
     {
         public string Path { get; }
         public string DisplayText { get; }
-        public bool Custom { get; }
+        public FolderPathGroup Group { get; }
 
-        public CustomFolderPath(string path, bool custom = false, string? display = null)
+        public CustomFolderPath(string path, FolderPathGroup group = 0, string? display = null)
         {
             Path = path;
-            Custom = custom;
+            Group = group;
             DisplayText = display ?? ResolveFolderName(path);
         }
 
