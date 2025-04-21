@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// <see cref="GameVersion.BATREV"/> Game Language IDs
+/// <see cref="SAV4BR"/> Game Language IDs
 /// </summary>
 public enum LanguageBR : byte
 {

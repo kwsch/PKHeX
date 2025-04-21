@@ -5,6 +5,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Utility class for detecting the type format of a Pokémon entity.
+/// </summary>
 public static class EntityFormat
 {
     /// <summary>
@@ -210,7 +213,7 @@ public static class EntityFormat
 
 public enum EntityFormatDetected
 {
-    None = -1,
+    None,
 
     FormatPK1,
     FormatPK2, FormatSK2,

@@ -165,7 +165,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public override int Language
     {
         get => (int)(BRLanguage == LanguageBR.JapaneseOrEnglish && Japanese ? LanguageID.Japanese : BRLanguage.ToLanguageID());
-        set {
+        set
+        {
             Japanese = value == (int)LanguageID.Japanese;
             BRLanguage = ((LanguageID)value).ToLanguageBR();
         }

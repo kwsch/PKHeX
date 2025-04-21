@@ -179,7 +179,6 @@ public static partial class Util
     /// <inheritdoc cref="ToTitleCase(ReadOnlySpan{char})"/>
     public static void ToTitleCase(ReadOnlySpan<char> span, Span<char> result)
     {
-        // Add each word to the string builder. Continue from the first index that isn't a space.
         // Add the first character as uppercase, then add each successive character as lowercase.
         bool first = true;
         for (var i = 0; i < span.Length; i++)

@@ -44,7 +44,7 @@ public abstract class PlayTimeLastSaved<TSave, TEpoch>(TSave sav, Memory<byte> r
 
     public DateTime? LastSavedDate
     {
-        get => !DateUtil.IsDateValid(LastSaved.Year, LastSaved.Month, LastSaved.Day)
+        get => !DateUtil.IsValidDate(LastSaved.Year, LastSaved.Month, LastSaved.Day)
             ? null
             : LastSaved.Timestamp;
         set

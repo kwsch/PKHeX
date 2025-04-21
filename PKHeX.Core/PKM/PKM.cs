@@ -164,7 +164,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         get
         {
             // Check to see if date is valid
-            if (!DateUtil.IsDateValid(2000 + MetYear, MetMonth, MetDay))
+            if (!DateUtil.IsValidDate(2000 + MetYear, MetMonth, MetDay))
                 return null;
             return new DateOnly(2000 + MetYear, MetMonth, MetDay);
         }
@@ -207,7 +207,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         get
         {
             // Check to see if date is valid
-            if (!DateUtil.IsDateValid(2000 + EggYear, EggMonth, EggDay))
+            if (!DateUtil.IsValidDate(2000 + EggYear, EggMonth, EggDay))
                 return null;
             return new DateOnly(2000 + EggYear, EggMonth, EggDay);
         }

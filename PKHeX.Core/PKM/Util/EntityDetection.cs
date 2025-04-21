@@ -4,6 +4,9 @@ using static PKHeX.Core.PokeCrypto;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for detecting a <see cref="PKM"/> entity from a byte array or length.
+/// </summary>
 public static class EntityDetection
 {
     /// <summary>

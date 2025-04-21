@@ -36,6 +36,8 @@ public static class RecentTrainerCache
     public static void SetRecentTrainer(ITrainerInfo trainer)
     {
         Trainer = trainer;
+
+        // Update Gen6/7 trainer reference if applicable, otherwise retain whatever was there.
         if (trainer is IRegionOriginReadOnly g67)
             Trainer67 = g67;
     }

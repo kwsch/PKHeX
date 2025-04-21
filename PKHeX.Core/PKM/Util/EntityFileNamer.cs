@@ -4,6 +4,9 @@ using System.IO;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for creating file names for <see cref="PKM"/> data.
+/// </summary>
 public static class EntityFileNamer
 {
     /// <summary>

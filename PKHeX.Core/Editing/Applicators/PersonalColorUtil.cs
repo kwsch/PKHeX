@@ -27,9 +27,9 @@ public static class PersonalColorUtil
 
     public static ReadOnlySpan<Ball> GetPreferredByColor(IEncounterTemplate enc) => GetPreferredByColor(enc, GetColor(enc));
 
-    public static ReadOnlySpan<Ball> GetPreferredByColor<T>(T enc, PersonalColor color) where T : IVersion
+    public static ReadOnlySpan<Ball> GetPreferredByColor<T>(T enc, PersonalColor color) where T : IContext
     {
-        if (enc.Version is GameVersion.PLA)
+        if (enc.Context is EntityContext.Gen8a)
             return GetPreferredByColorLA(color);
         return GetPreferredByColor(color);
     }

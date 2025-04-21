@@ -80,7 +80,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         get
         {
             // Check to see if date is valid
-            if (!DateUtil.IsDateValid(Year, Month, Day))
+            if (!DateUtil.IsValidDate(Year, Month, Day))
                 return null;
 
             return new DateOnly((int)Year, (int)Month, (int)Day);

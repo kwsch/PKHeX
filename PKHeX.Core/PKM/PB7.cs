@@ -342,7 +342,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     {
         get
         {
-            if (!DateUtil.IsDateValid(2000 + ReceivedYear, ReceivedMonth, ReceivedDay))
+            if (!DateUtil.IsValidDate(2000 + ReceivedYear, ReceivedMonth, ReceivedDay))
                 return null;
             return new DateOnly(ReceivedYear + 2000, ReceivedMonth, ReceivedDay);
         }
@@ -370,7 +370,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     {
         get
         {
-            if (!DateUtil.IsTimeValid(ReceivedHour, ReceivedMinute, ReceivedSecond))
+            if (!DateUtil.IsValidTime(ReceivedHour, ReceivedMinute, ReceivedSecond))
                 return null;
             return new TimeOnly(ReceivedHour, ReceivedMinute, ReceivedSecond);
         }

@@ -11,7 +11,7 @@ public class DateUtilTests
     [InlineData(2001, 1, 31)]
     public void RecognizesCorrectDates(int year, int month, int day)
     {
-        Assert.True(DateUtil.IsDateValid(year, month, day), $"Failed to recognize {year}/{month}/{day}");
+        Assert.True(DateUtil.IsValidDate(year, month, day), $"Failed to recognize {year}/{month}/{day}");
     }
 
     [Theory]
@@ -29,13 +29,13 @@ public class DateUtilTests
     [InlineData(2016, 12, 31)]
     public void RecognizesValidMonthBoundaries(int year, int month, int day)
     {
-        Assert.True(DateUtil.IsDateValid(year, month, day), $"Incorrect month boundary for {year}/{month}/{day}");
+        Assert.True(DateUtil.IsValidDate(year, month, day), $"Incorrect month boundary for {year}/{month}/{day}");
     }
 
     [Fact]
     public void RecognizeCorrectLeapYear()
     {
-        Assert.True(DateUtil.IsDateValid(2004, 2, 29));
+        Assert.True(DateUtil.IsValidDate(2004, 2, 29));
     }
 
     [Theory]
@@ -51,7 +51,7 @@ public class DateUtilTests
     [InlineData(uint.MaxValue, uint.MaxValue, uint.MaxValue, false, "Failed with uint.MaxValue, negative")]
     public void CheckDate(uint year, uint month, uint day, bool cmp, string because)
     {
-        var result = DateUtil.IsDateValid(year, month, day);
+        var result = DateUtil.IsValidDate(year, month, day);
         result.Should().Be(cmp, because);
     }
 
