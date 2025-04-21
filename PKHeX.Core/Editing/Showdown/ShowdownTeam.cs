@@ -21,11 +21,9 @@ public static class ShowdownTeam
     /// </summary>
     /// <param name="url">The URL to retrieve the team data from.</param>
     /// <param name="content">When the method returns, contains the processed team data if retrieval and formatting succeed; otherwise, null.</param>
-    /// <param name="team">The numeric identifier extracted from the URL or response.</param>
     /// <returns><c>true</c> if the team data is successfully retrieved and reformatted; otherwise, <c>false</c>.</returns>
-    public static bool TryGetSets(string url, [NotNullWhen(true)] out string? content, out int team)
+    public static bool TryGetSets(string url, [NotNullWhen(true)] out string? content)
     {
-        team = 0;
         content = null;
         if (!Uri.TryCreate(url, UriKind.Absolute, out var uriResult) || (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
             return false;

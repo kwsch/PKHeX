@@ -525,7 +525,9 @@ public partial class Main : Form
         // Get Simulator Data
         var text = Clipboard.GetText();
         ShowdownSet set;
-        if (ShowdownTeam.IsURL(text, out var url) && ShowdownTeam.TryGetSets(url, out var content, out _))
+        if (ShowdownTeam.IsURL(text, out var url) && ShowdownTeam.TryGetSets(url, out var content))
+            set = ShowdownParsing.GetShowdownSets(content).FirstOrDefault() ?? new(""); // take only first set
+        else if (PokepasteTeam.IsURL(text, out url) && PokepasteTeam.TryGetSets(url, out content))
             set = ShowdownParsing.GetShowdownSets(content).FirstOrDefault() ?? new(""); // take only first set
         else
             set = new ShowdownSet(text);
