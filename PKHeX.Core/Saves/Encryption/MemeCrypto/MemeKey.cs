@@ -74,7 +74,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             Xor(temp, slice);
-            aes.DecryptEcb(temp, temp);
+            aes.DecryptCbc(temp, aes.IV, temp);
             temp.CopyTo(slice);
         }
 
@@ -104,7 +104,7 @@ public readonly ref struct MemeKey
         {
             var slice = sig.Slice(i, chunk);
             Xor(slice, temp);
-            aes.EncryptEcb(slice, slice);
+            aes.EncryptCbc(slice, aes.IV, slice);
             slice.CopyTo(temp);
         }
 
@@ -131,7 +131,9 @@ public readonly ref struct MemeKey
 
         // Don't dispose in this method, let the consumer dispose.
         // no IV -- all zero.
-        return RuntimeCryptographyProvider.Aes.Create(key, CipherMode.ECB, PaddingMode.None);
+        var aes = RuntimeCryptographyProvider.Aes.Create(key, CipherMode.CBC, PaddingMode.None);
+        aes.IV = new byte[aes.BlockSize / 8]; // Initialize IV to zero for now; will be updated dynamically.
+        return aes;
     }
 
     /// <summary>
