@@ -99,34 +99,6 @@ public static class EntityContextExtensions
     };
 
     /// <summary>
-    /// Gets all <see cref="GameVersion"/> values that fall within the context.
-    /// </summary>
-    public static GameVersion[] GetVersionsWithin(this EntityContext value, GameVersion[] source) => value.GetVersionLump().GetVersionsWithinRange(source);
-
-    /// <summary>
-    /// Gets the corresponding lumped <see cref="GameVersion"/> value for the context.
-    /// </summary>
-    /// <remarks>Shouldn't really use this; see <see cref="GetVersionsWithin"/>.</remarks>
-    public static GameVersion GetVersionLump(this EntityContext value) => value switch
-    {
-        Gen1 => GameVersion.Gen1,
-        Gen2 => GameVersion.Gen2,
-        Gen3 => GameVersion.Gen3,
-        Gen4 => GameVersion.Gen4,
-        Gen5 => GameVersion.Gen5,
-        Gen6 => GameVersion.Gen6,
-        Gen7 => GameVersion.Gen7,
-        Gen8 => GameVersion.Gen8,
-        Gen9 => GameVersion.Gen9,
-
-        Gen7b => GameVersion.Gen7b,
-        Gen8a => GameVersion.PLA,
-        Gen8b => GameVersion.BDSP,
-
-        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
-    };
-
-    /// <summary>
     /// Gets the corresponding <see cref="EntityContext"/> value for the <see cref="GameVersion"/>.
     /// </summary>
     public static EntityContext GetContext(this GameVersion version) => version switch

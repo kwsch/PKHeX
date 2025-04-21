@@ -248,7 +248,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int MaxAbilityID => Legal.MaxAbilityID_2;
     public override int MaxItemID => Legal.MaxItemID_2;
     public override int MaxBallID => 0; // unused
-    public override GameVersion MaxGameID => GameVersion.Gen2; // unused
+    public override GameVersion MaxGameID => GameVersion.C; // unused
     public override int MaxMoney => 999999;
     public override int MaxCoins => 9999;
 

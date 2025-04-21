@@ -25,9 +25,9 @@ public sealed class TypeSuggestion<T>([ConstantExpected] string Keyword, Action<
     {
         var pk = info.Entity;
         if (pk is not T x)
-            return ModifyResult.Invalid;
+            return ModifyResult.Skipped;
         if (!Criteria(x))
-            return ModifyResult.Invalid;
+            return ModifyResult.Skipped;
         Action(x, value);
         return ModifyResult.Modified;
     }

@@ -120,7 +120,7 @@ internal static class GBRestrictions
     }
 
     /// <summary>
-    /// Checks if the <see cref="pk"/> can inhabit <see cref="Gen1"></see>
+    /// Checks if the <see cref="pk"/> can inhabit <see cref="EntityContext.Gen1"></see>
     /// </summary>
     /// <param name="pk">Data to check</param>
     /// <returns>true if it can inhabit, false if it can not.</returns>

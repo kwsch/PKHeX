@@ -19,7 +19,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     public bool Korean => false;
 
     public sealed override int MaxBallID => 0; // unused
-    public sealed override GameVersion MaxGameID => GameVersion.Gen1; // unused
+    public sealed override GameVersion MaxGameID => GameVersion.YW; // unused
     public sealed override int MaxMoney => 999999;
     public sealed override int MaxCoins => 9999;
 

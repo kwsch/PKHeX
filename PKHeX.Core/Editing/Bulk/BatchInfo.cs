@@ -1,18 +1,18 @@
-using System;
-
 namespace PKHeX.Core;
 
 /// <summary>
 /// Information wrapper used for Batch Editing to apply suggested values.
 /// </summary>
-public sealed class BatchInfo
+/// <param name="Entity"> Entity to be modified. </param>
+public sealed record BatchInfo(PKM Entity)
 {
-    internal PKM Entity { get; }
-    internal BatchInfo(PKM pk) => Entity = pk;
+    private LegalityAnalysis? la; // c# 14 replace with get-field
 
-    private LegalityAnalysis? la;
-    internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
+    /// <summary>
+    /// Legality analysis of the entity.
+    /// </summary>
+    public LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
 
+    /// <inheritdoc cref="LegalityAnalysis.Valid"/>
     public bool Legal => Legality.Valid;
-    internal void SuggestedRelearn(Span<ushort> moves) => Legality.GetSuggestedRelearnMoves(moves, Legality.EncounterOriginal);
 }

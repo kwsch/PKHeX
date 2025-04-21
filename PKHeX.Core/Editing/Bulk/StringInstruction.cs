@@ -23,11 +23,18 @@ public sealed record StringInstruction(string PropertyName, string PropertyValue
 {
     public string PropertyValue { get; private set; } = PropertyValue;
 
-    public void SetScreenedValue(ReadOnlySpan<string> arr)
+    /// <summary>
+    /// Sets the <see cref="PropertyValue"/> to the index of the value in the input <see cref="arr"/>, if it exists.
+    /// </summary>
+    /// <param name="arr">List of values to search for the <see cref="PropertyValue"/>.</param>
+    /// <returns>True if the value was found and set, false otherwise.</returns>
+    public bool SetScreenedValue(ReadOnlySpan<string> arr)
     {
         int index = arr.IndexOf(PropertyValue);
-        if ((uint)index < arr.Length)
-            PropertyValue = index.ToString();
+        if ((uint)index >= arr.Length)
+            return false;
+        PropertyValue = index.ToString();
+        return true;
     }
 
     /// <summary>

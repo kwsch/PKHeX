@@ -4,7 +4,7 @@ using static PKHeX.Core.Species;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot representing data transferred to <see cref="GameVersion.Gen8"/> (HOME).
+/// Encounter Slot representing data transferred to HOME.
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
 public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type, PogoImportFormat OriginFormat)
