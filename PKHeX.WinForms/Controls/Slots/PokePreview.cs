@@ -139,6 +139,10 @@ public partial class PokePreview : Form
 
     private static (string Detail, string Encounter) GetStatsString(PKM pk, LegalityAnalysis la)
     {
+        var language = Main.Settings.Startup.Language;
+        var localization = BattleTemplateLocalization.GetLocalization(language);
+        var statNames = localization.Config.StatNames;
+
         var setText = SummaryPreviewer.GetPreviewText(pk, la);
         var sb = new StringBuilder();
         var lines = setText.AsSpan().EnumerateLines();
@@ -158,9 +162,9 @@ public partial class PokePreview : Form
         }
 
         if (pk is IGanbaru g)
-            AddGanbaru(g, sb);
+            AddGanbaru(g, sb, statNames);
         if (pk is IAwakened a)
-            AddAwakening(a, sb);
+            AddAwakening(a, sb, statNames);
 
         while (lines.MoveNext())
         {
@@ -190,23 +194,23 @@ public partial class PokePreview : Form
         static bool IsMoveLine(ReadOnlySpan<char> line) => line.Length != 0 && line[0] == '-';
     }
 
-    private static void AddGanbaru(IGanbaru g, StringBuilder sb)
+    private static void AddGanbaru(IGanbaru g, StringBuilder sb, ReadOnlySpan<string> statNames)
     {
         Span<byte> gvs = stackalloc byte[6];
         g.GetGVs(gvs);
-        TryAdd<byte>(sb, "GVs", gvs);
+        TryAdd<byte>(sb, "GVs", gvs, statNames);
     }
 
-    private static void AddAwakening(IAwakened a, StringBuilder sb)
+    private static void AddAwakening(IAwakened a, StringBuilder sb, ReadOnlySpan<string> statNames)
     {
         Span<byte> avs = stackalloc byte[6];
         a.GetAVs(avs);
-        TryAdd<byte>(sb, "AVs", avs);
+        TryAdd<byte>(sb, "AVs", avs, statNames);
     }
 
-    private static void TryAdd<T>(StringBuilder sb, [ConstantExpected] string type, ReadOnlySpan<T> stats, T ignore = default) where T : unmanaged, IEquatable<T>
+    private static void TryAdd<T>(StringBuilder sb, [ConstantExpected] string type, ReadOnlySpan<T> stats, ReadOnlySpan<string> statNames, T ignore = default) where T : unmanaged, IEquatable<T>
     {
-        var chunks = ShowdownSet.GetStringStats(stats, ignore);
+        var chunks = ShowdownSet.GetStringStats(stats, ignore, statNames);
         if (chunks.Length != 0)
             sb.AppendLine($"{type}: {string.Join(" / ", chunks)}");
     }

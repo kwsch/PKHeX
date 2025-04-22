@@ -1,4 +1,5 @@
 {
+ "StatNames": ["HP", "Atk", "Def", "Spe", "SpA", "SpD"],
  "Left": [
   { "Token": "Friendship", "Text": "Friendship: " },
   { "Token": "EVs", "Text": "EVs: " },

@@ -11,6 +11,11 @@ public class BattleTemplateConfig
     public required BattleTemplateTuple[] Right { get; init; } // {Timid} Nature
     public required BattleTemplateTuple[] Center { get; init; } // Shiny: Yes
 
+    /// <summary>
+    /// Stat names, ordered with speed in the middle (not last).
+    /// </summary>
+    public required string[] StatNames { get; init; }
+
     public BattleTemplateToken TryParse(ReadOnlySpan<char> line, out ReadOnlySpan<char> value)
     {
         value = default;
