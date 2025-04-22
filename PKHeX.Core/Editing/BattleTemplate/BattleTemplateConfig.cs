@@ -1,0 +1,86 @@
+using System;
+using System.Text;
+
+namespace PKHeX.Core;
+
+public class BattleTemplateConfig
+{
+    public sealed record BattleTemplateTuple(BattleTemplateToken Token, string Text);
+
+    public required BattleTemplateTuple[] Left { get; init; } // Friendship: {100}
+    public required BattleTemplateTuple[] Right { get; init; } // {Timid} Nature
+    public required BattleTemplateTuple[] Center { get; init; } // Shiny: Yes
+
+    public BattleTemplateToken TryParse(ReadOnlySpan<char> line, out ReadOnlySpan<char> value)
+    {
+        value = default;
+        if (line.Length == 0)
+            return BattleTemplateToken.None;
+        foreach (var tuple in Left)
+        {
+            if (!line.StartsWith(tuple.Text, StringComparison.OrdinalIgnoreCase))
+                continue;
+            value = line[tuple.Text.Length..];
+            return tuple.Token;
+        }
+        foreach (var tuple in Right)
+        {
+            if (!line.EndsWith(tuple.Text, StringComparison.OrdinalIgnoreCase))
+                continue;
+            value = line[..^tuple.Text.Length];
+            return tuple.Token;
+        }
+        foreach (var tuple in Center)
+        {
+            if (!line.Equals(tuple.Text, StringComparison.OrdinalIgnoreCase))
+                continue;
+            return tuple.Token;
+        }
+        return BattleTemplateToken.None;
+    }
+
+    private string GetToken(BattleTemplateToken token, out bool isLeft)
+    {
+        foreach (var tuple in Left)
+        {
+            if (tuple.Token != token)
+                continue;
+            isLeft = true;
+            return tuple.Text;
+        }
+        foreach (var tuple in Right)
+        {
+            if (tuple.Token != token)
+                continue;
+            isLeft = false;
+            return tuple.Text;
+        }
+        foreach (var tuple in Center)
+        {
+            if (tuple.Token != token)
+                continue;
+            isLeft = false;
+            return tuple.Text;
+        }
+        throw new ArgumentException($"Token {token} not found in config");
+    }
+
+    public string Push(BattleTemplateToken token) => GetToken(token, out _);
+
+    public string Push<T>(BattleTemplateToken token, T value)
+    {
+        var str = GetToken(token, out var isLeft);
+        if (isLeft)
+            return $"{str}{value}";
+        return $"{value}{str}";
+    }
+
+    public void Push<T>(BattleTemplateToken token, T value, StringBuilder sb)
+    {
+        var str = GetToken(token, out var isLeft);
+        if (isLeft)
+            sb.Append(str).Append(value);
+        else
+            sb.Append(value).Append(str);
+    }
+}

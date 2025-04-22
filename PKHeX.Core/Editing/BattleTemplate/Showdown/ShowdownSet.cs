@@ -15,7 +15,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private const string ItemSplit = " @ ";
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
     internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
-    private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
+    private static BattleTemplateLocalization DefaultStrings => BattleTemplateLocalization.Default;
 
     private static ReadOnlySpan<ushort> DashedSpecies =>
     [
@@ -50,7 +50,8 @@ public sealed class ShowdownSet : IBattleTemplate
     /// </summary>
     public readonly List<string> InvalidLines = new(0);
 
-    private GameStrings Strings { get; set; } = DefaultStrings;
+    private BattleTemplateLocalization Localization { get; set; } = DefaultStrings;
+    private GameStrings Strings => Localization.Strings;
 
     /// <summary>
     /// Loads a new <see cref="ShowdownSet"/> from the input string.
@@ -79,7 +80,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private void SanitizeResult()
     {
         FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
-        Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Context);
+        Form = ShowdownParsing.GetFormFromString(FormName, Localization.Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
         if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion or (int)Oinkologne)
@@ -180,7 +181,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (line[0] is '-' or '–')
         {
             var moveString = ParseLineMove(line);
-            int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
+            int move = StringUtil.FindIndexIgnoreCase(Localization.Strings.movelist, moveString);
             if (move < 0)
                 InvalidLines.Add($"Unknown Move: {moveString}");
             else if (moves.Contains((ushort)move))
@@ -204,7 +205,13 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             var left = line[..split].Trim();
             var right = line[(split + LineSplit.Length)..].Trim();
-            valid = ParseEntry(left, right);
+            var token = GetToken(left);
+            if (token == BattleTemplateToken.None)
+            {
+                InvalidLines.Add($"Unknown Token: {left}");
+                return false;
+            }
+            valid = ParseEntry(token, right);
         }
 
         if (!valid)
@@ -223,18 +230,43 @@ public sealed class ShowdownSet : IBattleTemplate
         return (Nature = (Nature)StringUtil.FindIndexIgnoreCase(Strings.natures, nature)).IsFixed();
     }
 
-    private bool ParseEntry(ReadOnlySpan<char> identifier, ReadOnlySpan<char> value) => identifier switch
+    private BattleTemplateToken GetToken(ReadOnlySpan<char> text)
     {
-        "Ability"       => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
-        "Nature"        => (Nature  = (Nature)StringUtil.FindIndexIgnoreCase(Strings.natures    , value)).IsFixed(),
-        "Shiny"         => Shiny         = StringUtil.IsMatchIgnoreCase("Yes", value),
-        "Gigantamax"    => CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value),
-        "Friendship"    => ParseFriendship(value),
-        "EVs"           => ParseLineEVs(value),
-        "IVs"           => ParseLineIVs(value),
-        "Level"         => ParseLevel(value),
-        "Dynamax Level" => ParseDynamax(value),
-        "Tera Type"     => ParseTeraType(value),
+        if (text.Equals("Ability", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.Ability;
+        if (text.Equals("Nature", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.Nature;
+        if (text.Equals("Shiny", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.Shiny;
+        if (text.Equals("Gigantamax", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.Gigantamax;
+        if (text.Equals("Friendship", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.Friendship;
+        if (text.Equals("EVs", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.EVs;
+        if (text.Equals("IVs", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.IVs;
+        if (text.Equals("Level", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.Level;
+        if (text.Equals("Dynamax Level", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.DynamaxLevel;
+        if (text.Equals("Tera Type", StringComparison.OrdinalIgnoreCase))
+            return BattleTemplateToken.TeraType;
+        return BattleTemplateToken.None;
+    }
+
+    private bool ParseEntry(BattleTemplateToken token, ReadOnlySpan<char> value) => token switch
+    {
+        BattleTemplateToken.Ability       => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
+        BattleTemplateToken.Nature        => (Nature  = (Nature)StringUtil.FindIndexIgnoreCase(Strings.natures    , value)).IsFixed(),
+        BattleTemplateToken.Shiny         => Shiny         = StringUtil.IsMatchIgnoreCase("Yes", value),
+        BattleTemplateToken.Gigantamax    => CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value),
+        BattleTemplateToken.Friendship    => ParseFriendship(value),
+        BattleTemplateToken.EVs           => ParseLineEVs(value),
+        BattleTemplateToken.IVs           => ParseLineIVs(value),
+        BattleTemplateToken.Level         => ParseLevel(value),
+        BattleTemplateToken.DynamaxLevel => ParseDynamax(value),
+        BattleTemplateToken.TeraType     => ParseTeraType(value),
         _ => false,
     };
 
@@ -293,61 +325,66 @@ public sealed class ShowdownSet : IBattleTemplate
     /// <summary>
     /// Gets the localized Text representation of the set details.
     /// </summary>
-    /// <param name="lang">Language ID</param>
-    private string LocalizedText(int lang)
-    {
-        var strings = GameInfo.GetStrings(lang);
-        return GetText(strings);
-    }
+    /// <param name="language">Language ID</param>
+    private string LocalizedText(int language) => GetText(BattleTemplateLocalization.GetLocalization(language));
 
-    private string GetText(GameStrings? strings = null)
+    private string GetText(BattleTemplateLocalization? strings = null)
     {
         if (Species is 0 or > MAX_SPECIES)
             return string.Empty;
 
         if (strings is not null)
-            Strings = strings;
+            Localization = strings;
 
-        var result = GetSetLines();
+        var result = new List<string>(8);
+        GetSetLines(result);
         return string.Join(Environment.NewLine, result);
     }
 
     public List<string> GetSetLines()
     {
         var result = new List<string>();
+        GetSetLines(result);
+        return result;
+    }
 
+    public void GetSetLines(List<string> result)
+    {
         // First Line: Name, Nickname, Gender, Item
         var form = ShowdownParsing.GetShowdownFormName(Species, FormName);
         result.Add(GetStringFirstLine(form));
+
+        var cfg = Localization.Config;
 
         // IVs
         var maxIV = Context.Generation() < 3 ? 15 : 31;
         var ivs = GetStringStats(IVs, maxIV);
         if (ivs.Length != 0)
-            result.Add($"IVs: {string.Join(" / ", ivs)}");
+            result.Add(cfg.Push(BattleTemplateToken.IVs, string.Join(" / ", ivs)));
 
         // EVs
         var evs = GetStringStats(EVs, 0);
         if (evs.Length != 0)
-            result.Add($"EVs: {string.Join(" / ", evs)}");
+            result.Add(cfg.Push(BattleTemplateToken.EVs, string.Join(" / ", evs)));
 
         // Secondary Stats
         if ((uint)Ability < Strings.Ability.Count)
-            result.Add($"Ability: {Strings.Ability[Ability]}");
+            result.Add(cfg.Push(BattleTemplateToken.Ability, Strings.Ability[Ability]));
+
         if (Context == EntityContext.Gen9 && TeraType != MoveType.Any)
         {
             if ((uint)TeraType <= TeraTypeUtil.MaxType) // Fairy
-                result.Add($"Tera Type: {Strings.Types[(int)TeraType]}");
+                result.Add(cfg.Push(BattleTemplateToken.TeraType, Strings.Types[(int)TeraType]));
             else if ((uint)TeraType == TeraTypeUtil.Stellar)
-                result.Add($"Tera Type: {Strings.Types[TeraTypeUtil.StellarTypeDisplayStringIndex]}");
+                result.Add(cfg.Push(BattleTemplateToken.TeraType, Strings.Types[TeraTypeUtil.StellarTypeDisplayStringIndex]));
         }
 
         if (Level != 100)
-            result.Add($"Level: {Level}");
+            result.Add(cfg.Push(BattleTemplateToken.Level, Level));
         if (Shiny)
-            result.Add("Shiny: Yes");
+            result.Add(cfg.Push(BattleTemplateToken.Shiny));
         if (Context == EntityContext.Gen8 && DynamaxLevel != 10)
-            result.Add($"Dynamax Level: {DynamaxLevel}");
+            result.Add(cfg.Push(BattleTemplateToken.DynamaxLevel, DynamaxLevel));
         if (Context == EntityContext.Gen8 && CanGigantamax)
             result.Add("Gigantamax: Yes");
 
@@ -356,7 +393,6 @@ public sealed class ShowdownSet : IBattleTemplate
 
         // Moves
         result.AddRange(GetStringMoves());
-        return result;
     }
 
     private string GetStringFirstLine(string form)

@@ -1,0 +1,18 @@
+{
+ "Left": [
+  { "Token": "Friendship", "Text": "Friendship: " },
+  { "Token": "EVs", "Text": "EVs: " },
+  { "Token": "IVs", "Text": "IVs: " },
+  { "Token": "Level", "Text": "Level: " },
+  { "Token": "Ability", "Text": "Ability: " },
+  { "Token": "DynamaxLevel", "Text": "Dynamax Level: " },
+  { "Token": "TeraType", "Text": "Tera Type: " }
+ ],
+ "Right": [
+  { "Token": "Nature", "Text": " Nature" }
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "Shiny: Yes" },
+  { "Token": "Gigantamax", "Text": "Gigantamax: Yes" }
+ ]
+}
