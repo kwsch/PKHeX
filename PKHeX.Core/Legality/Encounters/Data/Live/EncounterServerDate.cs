@@ -217,6 +217,7 @@ public static class EncounterServerDate
         {0514, new(2025, 02, 05, 2025, 07, 01, +2)}, // Pokémon Day 2025 Flying Tera Type Eevee
         {0519, new(2025, 02, 20, 2025, 03, 01)}, // Marco's Jumpluff
         {0066, new(2025, 04, 18, 2025, 08, 01)}, // Wei Chyr's Rillaboom
+        {1019, new(2025, 04, 24, 2025, 07, 01)}, // Pokémon Town - KOR Ditto Project
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
