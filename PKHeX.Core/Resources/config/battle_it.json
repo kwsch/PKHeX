@@ -1,19 +1,19 @@
 {
- "StatNames": ["HP", "Atk", "Def", "Spe", "SpA", "SpD"],
+ "StatNames": ["PS", "Att", "Dif", "Vel", "AtS", "DiS"],
  "Left": [
-  { "Token": "Friendship", "Text": "Friendship: " },
+  { "Token": "Friendship", "Text": "Amicizia: " },
   { "Token": "EVs", "Text": "EVs: " },
   { "Token": "IVs", "Text": "IVs: " },
-  { "Token": "Level", "Text": "Level: " },
-  { "Token": "Ability", "Text": "Ability: " },
-  { "Token": "DynamaxLevel", "Text": "Dynamax Level: " },
-  { "Token": "TeraType", "Text": "Tera Type: " }
+  { "Token": "Level", "Text": "Livello: " },
+  { "Token": "Ability", "Text": "Abilità: " },
+  { "Token": "DynamaxLevel", "Text": "Livello Dynamax: " },
+  { "Token": "TeraType", "Text": "Teratipo: " },
+  { "Token": "Nature", "Text": "Natura " }
  ],
  "Right": [
-  { "Token": "Nature", "Text": " Nature" }
  ],
  "Center": [
-  { "Token": "Shiny", "Text": "Shiny: Yes" },
-  { "Token": "Gigantamax", "Text": "Gigantamax: Yes" }
+  { "Token": "Shiny", "Text": "Cromatico: Si" },
+  { "Token": "Gigantamax", "Text": "Gigamax: Si" }
  ]
 }

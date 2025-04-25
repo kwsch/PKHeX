@@ -1,19 +1,19 @@
 {
- "StatNames": ["HP", "Atk", "Def", "Spe", "SpA", "SpD"],
+ "StatNames": ["HP", "攻击", "防御", "速度", "特攻", "特防"],
  "Left": [
-  { "Token": "Friendship", "Text": "Friendship: " },
-  { "Token": "EVs", "Text": "EVs: " },
-  { "Token": "IVs", "Text": "IVs: " },
-  { "Token": "Level", "Text": "Level: " },
-  { "Token": "Ability", "Text": "Ability: " },
-  { "Token": "DynamaxLevel", "Text": "Dynamax Level: " },
-  { "Token": "TeraType", "Text": "Tera Type: " }
+  { "Token": "Friendship", "Text": "亲密度: " },
+  { "Token": "EVs", "Text": "努力值: " },
+  { "Token": "IVs", "Text": "个体值: " },
+  { "Token": "Level", "Text": "等级: " },
+  { "Token": "Ability", "Text": "性格: " },
+  { "Token": "DynamaxLevel", "Text": "极巨等级: " },
+  { "Token": "TeraType", "Text": "太晶属性: " },
+  { "Token": "Nature", "Text": "性格: " }
  ],
  "Right": [
-  { "Token": "Nature", "Text": " Nature" }
  ],
  "Center": [
-  { "Token": "Shiny", "Text": "Shiny: Yes" },
-  { "Token": "Gigantamax", "Text": "Gigantamax: Yes" }
+  { "Token": "Shiny", "Text": "發光寶: 是的" },
+  { "Token": "Gigantamax", "Text": "超极巨: 是的" }
  ]
 }
