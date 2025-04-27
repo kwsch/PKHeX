@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using static PKHeX.Core.Species;
 
@@ -12,7 +13,7 @@ public sealed class ShowdownSet : IBattleTemplate
 {
     private const string ItemSplit = " @ ";
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
-    internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
+    private const string DefaultLanguage = BattleTemplateLocalization.DefaultLanguage; // English
     private static BattleTemplateLocalization DefaultStrings => BattleTemplateLocalization.Default;
 
     private static ReadOnlySpan<ushort> DashedSpecies =>
@@ -48,37 +49,36 @@ public sealed class ShowdownSet : IBattleTemplate
     /// </summary>
     public readonly List<string> InvalidLines = new(0);
 
-    private BattleTemplateLocalization Localization { get; set; } = DefaultStrings;
-    private GameStrings Strings => Localization.Strings;
-
     /// <summary>
     /// Loads a new <see cref="ShowdownSet"/> from the input string.
     /// </summary>
     /// <param name="input">Single-line string which will be split before loading.</param>
-    public ShowdownSet(ReadOnlySpan<char> input) => LoadLines(input.EnumerateLines());
+    /// <param name="localization">Localization to parse the lines with.</param>
+    public ShowdownSet(ReadOnlySpan<char> input, BattleTemplateLocalization? localization = null) => LoadLines(input.EnumerateLines(), localization ?? DefaultStrings);
 
     /// <summary>
     /// Loads a new <see cref="ShowdownSet"/> from the input string.
     /// </summary>
     /// <param name="lines">Enumerable list of lines.</param>
-    public ShowdownSet(IEnumerable<string> lines) => LoadLines(lines);
+    /// <param name="localization">Localization to parse the lines with.</param>
+    public ShowdownSet(IEnumerable<string> lines, BattleTemplateLocalization? localization = null) => LoadLines(lines, localization ?? DefaultStrings);
 
-    private void LoadLines(SpanLineEnumerator lines)
+    private void LoadLines(SpanLineEnumerator lines, BattleTemplateLocalization localization)
     {
-        ParseLines(lines);
-        SanitizeResult();
+        ParseLines(lines, localization);
+        SanitizeResult(localization);
     }
 
-    private void LoadLines(IEnumerable<string> lines)
+    private void LoadLines(IEnumerable<string> lines, BattleTemplateLocalization localization)
     {
-        ParseLines(lines);
-        SanitizeResult();
+        ParseLines(lines, localization);
+        SanitizeResult(localization);
     }
 
-    private void SanitizeResult()
+    private void SanitizeResult(BattleTemplateLocalization localization)
     {
         FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
-        Form = ShowdownParsing.GetFormFromString(FormName, Localization.Strings, Species, Context);
+        Form = ShowdownParsing.GetFormFromString(FormName, localization.Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
         if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion or (int)Oinkologne)
@@ -111,7 +111,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private static bool IsLengthOutOfRange(ReadOnlySpan<char> trim) => IsLengthOutOfRange(trim.Length);
     private static bool IsLengthOutOfRange(int length) => (uint)(length - MinLength) > MaxLength - MinLength;
 
-    private void ParseLines(SpanLineEnumerator lines)
+    private void ParseLines(SpanLineEnumerator lines, BattleTemplateLocalization localization)
     {
         int movectr = 0;
         bool first = true;
@@ -123,7 +123,7 @@ public sealed class ShowdownSet : IBattleTemplate
                 // Try for other languages just in case.
                 if (first && trim.Length != 0)
                 {
-                    ParseFirstLine(trim);
+                    ParseFirstLine(trim, localization.Strings);
                     first = false;
                     continue;
                 }
@@ -133,16 +133,16 @@ public sealed class ShowdownSet : IBattleTemplate
 
             if (first)
             {
-                ParseFirstLine(trim);
+                ParseFirstLine(trim, localization.Strings);
                 first = false;
                 continue;
             }
-            if (ParseLine(trim, ref movectr))
+            if (ParseLine(trim, ref movectr, localization))
                 return; // End of moves, end of set data
         }
     }
 
-    private void ParseLines(IEnumerable<string> lines)
+    private void ParseLines(IEnumerable<string> lines, BattleTemplateLocalization localization)
     {
         int movectr = 0;
         bool first = true;
@@ -154,7 +154,7 @@ public sealed class ShowdownSet : IBattleTemplate
                 // Try for other languages just in case.
                 if (first && trim.Length != 0)
                 {
-                    ParseFirstLine(trim);
+                    ParseFirstLine(trim, localization.Strings);
                     first = false;
                     continue;
                 }
@@ -164,22 +164,22 @@ public sealed class ShowdownSet : IBattleTemplate
 
             if (first)
             {
-                ParseFirstLine(trim);
+                ParseFirstLine(trim, localization.Strings);
                 first = false;
                 continue;
             }
-            if (ParseLine(trim, ref movectr))
+            if (ParseLine(trim, ref movectr, localization))
                 return; // End of moves, end of set data
         }
     }
 
-    private bool ParseLine(ReadOnlySpan<char> line, ref int movectr)
+    private bool ParseLine(ReadOnlySpan<char> line, ref int movectr, BattleTemplateLocalization localization)
     {
         var moves = Moves.AsSpan();
         if (line[0] is '-' or '–')
         {
-            var moveString = ParseLineMove(line);
-            int move = StringUtil.FindIndexIgnoreCase(Localization.Strings.movelist, moveString);
+            var moveString = ParseLineMove(line, localization.Strings);
+            int move = StringUtil.FindIndexIgnoreCase(localization.Strings.movelist, moveString);
             if (move < 0)
                 InvalidLines.Add($"Unknown Move: {moveString}");
             else if (moves.Contains((ushort)move))
@@ -193,30 +193,30 @@ public sealed class ShowdownSet : IBattleTemplate
         if (movectr != 0)
             return true;
 
-        var token = Localization.Config.TryParse(line, out var value);
+        var token = localization.Config.TryParse(line, out var value);
         if (token == BattleTemplateToken.None)
         {
             InvalidLines.Add($"Unknown Token: {line}");
             return false;
         }
-        var valid = ParseEntry(token, value);
+        var valid = ParseEntry(token, value, localization);
         if (!valid)
             InvalidLines.Add(line.ToString());
         return false;
     }
 
-    private bool ParseEntry(BattleTemplateToken token, ReadOnlySpan<char> value) => token switch
+    private bool ParseEntry(BattleTemplateToken token, ReadOnlySpan<char> value, BattleTemplateLocalization localization) => token switch
     {
-        BattleTemplateToken.Ability       => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
-        BattleTemplateToken.Nature        => (Nature  = (Nature)StringUtil.FindIndexIgnoreCase(Strings.natures, value)).IsFixed(),
+        BattleTemplateToken.Ability       => (Ability = StringUtil.FindIndexIgnoreCase(localization.Strings.abilitylist, value)) >= 0,
+        BattleTemplateToken.Nature        => (Nature  = (Nature)StringUtil.FindIndexIgnoreCase(localization.Strings.natures, value)).IsFixed(),
         BattleTemplateToken.Shiny         => Shiny         = true,
         BattleTemplateToken.Gigantamax    => CanGigantamax = true,
         BattleTemplateToken.Friendship    => ParseFriendship(value),
-        BattleTemplateToken.EVs           => ParseLineEVs(value),
-        BattleTemplateToken.IVs           => ParseLineIVs(value),
+        BattleTemplateToken.EVs           => ParseLineEVs(value, localization.Config.StatNames),
+        BattleTemplateToken.IVs           => ParseLineIVs(value, localization.Config.StatNames),
         BattleTemplateToken.Level         => ParseLevel(value),
         BattleTemplateToken.DynamaxLevel  => ParseDynamax(value),
-        BattleTemplateToken.TeraType      => ParseTeraType(value),
+        BattleTemplateToken.TeraType      => ParseTeraType(value, localization.Strings.types),
         _ => false,
     };
 
@@ -248,10 +248,9 @@ public sealed class ShowdownSet : IBattleTemplate
         return true;
     }
 
-    private bool ParseTeraType(ReadOnlySpan<char> value)
+    private bool ParseTeraType(ReadOnlySpan<char> value, ReadOnlySpan<string> types)
     {
         Context = EntityContext.Gen9;
-        var types = Strings.types;
         var val = StringUtil.FindIndexIgnoreCase(types, value);
         if (val < 0)
             return false;
@@ -274,39 +273,39 @@ public sealed class ShowdownSet : IBattleTemplate
 
     /// <inheritdoc cref="LocalizedText(BattleTemplateLocalization)"/>
     /// <param name="lang">Language code</param>
-    public string LocalizedText(string lang = DefaultLanguage) => LocalizedText(GameLanguage.GetLanguageIndex(lang));
+    public string LocalizedText(string lang = DefaultLanguage) => LocalizedText(BattleTemplateLocalization.GetLocalization(lang));
 
     /// <inheritdoc cref="LocalizedText(BattleTemplateLocalization)"/>
     /// <param name="language">Language ID</param>
-    public string LocalizedText(int language) => LocalizedText(BattleTemplateLocalization.GetLocalization(language));
+    public string LocalizedText(LanguageID language) => LocalizedText(BattleTemplateLocalization.GetLocalization(language));
 
-    private string GetText(BattleTemplateLocalization? strings = null)
+    private string GetText(BattleTemplateLocalization? localization = null)
     {
         if (Species is 0 or > MAX_SPECIES)
             return string.Empty;
 
-        if (strings is not null)
-            Localization = strings;
-
+        localization ??= DefaultStrings;
         var result = new List<string>(8);
-        GetSetLines(result);
+        GetSetLines(result, localization);
         return string.Join(Environment.NewLine, result);
     }
 
-    public List<string> GetSetLines()
+    public List<string> GetSetLines(BattleTemplateLocalization? localization = null)
     {
         var result = new List<string>();
-        GetSetLines(result);
+        localization ??= DefaultStrings;
+        GetSetLines(result, localization);
         return result;
     }
 
-    public void GetSetLines(List<string> result)
+    public void GetSetLines(List<string> result, BattleTemplateLocalization localization)
     {
         // First Line: Name, Nickname, Gender, Item
         var form = ShowdownParsing.GetShowdownFormName(Species, FormName);
-        result.Add(GetStringFirstLine(form));
+        result.Add(GetStringFirstLine(form, localization.Strings));
 
-        var cfg = Localization.Config;
+        var cfg = localization.Config;
+        var strings = localization.Strings;
 
         // IVs
         var maxIV = Context.Generation() < 3 ? 15 : 31;
@@ -320,15 +319,15 @@ public sealed class ShowdownSet : IBattleTemplate
             result.Add(cfg.Push(BattleTemplateToken.EVs, string.Join(" / ", evs)));
 
         // Secondary Stats
-        if ((uint)Ability < Strings.Ability.Count)
-            result.Add(cfg.Push(BattleTemplateToken.Ability, Strings.Ability[Ability]));
+        if ((uint)Ability < strings.Ability.Count)
+            result.Add(cfg.Push(BattleTemplateToken.Ability, strings.Ability[Ability]));
 
         if (Context == EntityContext.Gen9 && TeraType != MoveType.Any)
         {
             if ((uint)TeraType <= TeraTypeUtil.MaxType) // Fairy
-                result.Add(cfg.Push(BattleTemplateToken.TeraType, Strings.Types[(int)TeraType]));
+                result.Add(cfg.Push(BattleTemplateToken.TeraType, strings.Types[(int)TeraType]));
             else if ((uint)TeraType == TeraTypeUtil.Stellar)
-                result.Add(cfg.Push(BattleTemplateToken.TeraType, Strings.Types[TeraTypeUtil.StellarTypeDisplayStringIndex]));
+                result.Add(cfg.Push(BattleTemplateToken.TeraType, strings.Types[TeraTypeUtil.StellarTypeDisplayStringIndex]));
         }
 
         if (Level != 100)
@@ -340,16 +339,16 @@ public sealed class ShowdownSet : IBattleTemplate
         if (Context == EntityContext.Gen8 && CanGigantamax)
             result.Add(cfg.Push(BattleTemplateToken.Gigantamax));
 
-        if ((uint)Nature < Strings.Natures.Count)
-            result.Add(cfg.Push(BattleTemplateToken.Nature, Strings.Natures[(byte)Nature]));
+        if ((uint)Nature < strings.Natures.Count)
+            result.Add(cfg.Push(BattleTemplateToken.Nature, strings.Natures[(byte)Nature]));
 
         // Moves
-        result.AddRange(GetStringMoves());
+        result.AddRange(GetStringMoves(strings));
     }
 
-    private string GetStringFirstLine(string form)
+    private string GetStringFirstLine(string form, GameStrings strings)
     {
-        string specForm = Strings.Species[Species];
+        string specForm = strings.Species[Species];
         if (form.Length != 0)
             specForm += $"-{form.Replace("Mega ", "Mega-")}";
         else if (Species == (int)NidoranM)
@@ -367,7 +366,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
         if (HeldItem > 0)
         {
-            var items = Strings.GetItemStrings(Context);
+            var items = strings.GetItemStrings(Context);
             if ((uint)HeldItem < items.Length)
                 result += $"{ItemSplit}{items[HeldItem]}";
         }
@@ -404,9 +403,9 @@ public sealed class ShowdownSet : IBattleTemplate
         return result;
     }
 
-    private IEnumerable<string> GetStringMoves()
+    private IEnumerable<string> GetStringMoves(GameStrings strings)
     {
-        var moves = Strings.Move;
+        var moves = strings.Move;
         foreach (var move in Moves)
         {
             if (move == 0 || move >= moves.Count)
@@ -419,7 +418,7 @@ public sealed class ShowdownSet : IBattleTemplate
             }
 
             var type = 1 + HiddenPowerType; // skip Normal
-            var typeName = Strings.Types[type];
+            var typeName = strings.Types[type];
             yield return $"- {moves[move]} [{typeName}]";
         }
     }
@@ -446,9 +445,11 @@ public sealed class ShowdownSet : IBattleTemplate
     /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
     /// </summary>
     /// <param name="pk">PKM to convert to string</param>
+    /// <param name="localization">Localization to parse the lines with.</param>
     /// <returns>New ShowdownSet object representing the input <see cref="pk"/></returns>
-    public ShowdownSet(PKM pk)
+    public ShowdownSet(PKM pk, BattleTemplateLocalization? localization = null)
     {
+        localization ??= DefaultStrings;
         if (pk.Species == 0)
             return;
 
@@ -489,10 +490,10 @@ public sealed class ShowdownSet : IBattleTemplate
             }
         }
 
-        FormName = ShowdownParsing.GetStringFromForm(Form = pk.Form, Strings, Species, Context);
+        FormName = ShowdownParsing.GetStringFromForm(Form = pk.Form, localization.Strings, Species, Context);
     }
 
-    private void ParseFirstLine(ReadOnlySpan<char> first)
+    private void ParseFirstLine(ReadOnlySpan<char> first, GameStrings strings)
     {
         int itemSplit = first.IndexOf(ItemSplit, StringComparison.Ordinal);
         if (itemSplit != -1)
@@ -500,38 +501,39 @@ public sealed class ShowdownSet : IBattleTemplate
             var itemName = first[(itemSplit + ItemSplit.Length)..];
             var speciesName = first[..itemSplit];
 
-            ParseItemName(itemName);
-            ParseFirstLineNoItem(speciesName);
+            if (!ParseItemName(itemName, strings))
+                InvalidLines.Add($"Unknown Item: {itemName}");
+            ParseFirstLineNoItem(speciesName, strings);
         }
         else
         {
-            ParseFirstLineNoItem(first);
+            ParseFirstLineNoItem(first, strings);
         }
     }
 
-    private void ParseItemName(ReadOnlySpan<char> itemName)
+    private bool ParseItemName(ReadOnlySpan<char> itemName, GameStrings strings)
     {
-        if (TrySetItem(Context, itemName))
-            return;
-        if (TrySetItem(EntityContext.Gen3, itemName))
-            return;
-        if (TrySetItem(EntityContext.Gen2, itemName))
-            return;
-        InvalidLines.Add($"Unknown Item: {itemName}");
-
-        bool TrySetItem(EntityContext context, ReadOnlySpan<char> span)
-        {
-            var items = Strings.GetItemStrings(context);
-            int item = StringUtil.FindIndexIgnoreCase(items, span);
-            if (item < 0)
-                return false;
-            HeldItem = item;
-            Context = context;
+        if (TryGetItem(itemName, strings, Context))
             return true;
-        }
+        if (TryGetItem(itemName, strings, EntityContext.Gen3))
+            return true;
+        if (TryGetItem(itemName, strings, EntityContext.Gen2))
+            return true;
+        return false;
     }
 
-    private void ParseFirstLineNoItem(ReadOnlySpan<char> line)
+    private bool TryGetItem(ReadOnlySpan<char> itemName, GameStrings strings, EntityContext context)
+    {
+        var items = strings.GetItemStrings(context);
+        var item = StringUtil.FindIndexIgnoreCase(items, itemName);
+        if (item < 0)
+            return false;
+        Context = context;
+        HeldItem = item;
+        return true;
+    }
+
+    private void ParseFirstLineNoItem(ReadOnlySpan<char> line, GameStrings strings)
     {
         // Gender Detection
         if (line.EndsWith("(M)", StringComparison.Ordinal))
@@ -547,14 +549,14 @@ public sealed class ShowdownSet : IBattleTemplate
 
         // Nickname Detection
         if (line.IndexOf('(') != -1 && line.IndexOf(')') != -1)
-            ParseSpeciesNickname(line);
+            ParseSpeciesNickname(line, strings);
         else
-            ParseSpeciesForm(line);
+            ParseSpeciesForm(line, strings);
     }
 
     private const string Gmax = "-Gmax";
 
-    private bool ParseSpeciesForm(ReadOnlySpan<char> speciesLine)
+    private bool ParseSpeciesForm(ReadOnlySpan<char> speciesLine, GameStrings strings)
     {
         speciesLine = speciesLine.Trim();
         if (speciesLine.Length == 0)
@@ -566,7 +568,7 @@ public sealed class ShowdownSet : IBattleTemplate
             speciesLine = speciesLine[..^Gmax.Length];
         }
 
-        var speciesIndex = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine);
+        var speciesIndex = StringUtil.FindIndexIgnoreCase(strings.specieslist, speciesLine);
         if (speciesIndex > 0)
         {
             // success, nothing else !
@@ -579,7 +581,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (end < 0)
             return false;
 
-        speciesIndex = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
+        speciesIndex = StringUtil.FindIndexIgnoreCase(strings.specieslist, speciesLine[..end]);
         if (speciesIndex > 0)
         {
             Species = (ushort)speciesIndex;
@@ -590,7 +592,7 @@ public sealed class ShowdownSet : IBattleTemplate
         // failure to parse, check edge cases
         foreach (var e in DashedSpecies)
         {
-            var sn = Strings.Species[e];
+            var sn = strings.Species[e];
             if (!speciesLine.StartsWith(sn.Replace("♂", "-M").Replace("♀", "-F"), StringComparison.Ordinal))
                 continue;
             Species = e;
@@ -603,7 +605,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (end < 0)
             return false;
 
-        speciesIndex = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
+        speciesIndex = StringUtil.FindIndexIgnoreCase(strings.specieslist, speciesLine[..end]);
         if (speciesIndex > 0)
         {
             Species = (ushort)speciesIndex;
@@ -613,7 +615,7 @@ public sealed class ShowdownSet : IBattleTemplate
         return false;
     }
 
-    private void ParseSpeciesNickname(ReadOnlySpan<char> line)
+    private void ParseSpeciesNickname(ReadOnlySpan<char> line, GameStrings strings)
     {
         // Entering into this method requires both ( and ) to be present within the input line.
         int index = line.LastIndexOf('(');
@@ -643,13 +645,13 @@ public sealed class ShowdownSet : IBattleTemplate
             }
         }
 
-        if (ParseSpeciesForm(species))
+        if (ParseSpeciesForm(species, strings))
             Nickname = nickname.ToString();
-        else if (ParseSpeciesForm(nickname))
+        else if (ParseSpeciesForm(nickname, strings))
             Nickname = species.ToString();
     }
 
-    private ReadOnlySpan<char> ParseLineMove(ReadOnlySpan<char> line)
+    private ReadOnlySpan<char> ParseLineMove(ReadOnlySpan<char> line, GameStrings strings)
     {
         var startSearch = line[1] == ' ' ? 2 : 1;
         var option = line.IndexOf('/');
@@ -657,7 +659,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
         var moveString = line.Trim();
 
-        var hiddenPowerName = Strings.Move[(int)Move.HiddenPower];
+        var hiddenPowerName = strings.Move[(int)Move.HiddenPower];
         if (!moveString.StartsWith(hiddenPowerName, StringComparison.OrdinalIgnoreCase))
             return moveString; // regular move
 
@@ -666,7 +668,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
         // Defined Hidden Power
         var type = GetHiddenPowerType(moveString[(hiddenPowerName.Length + 1)..]);
-        var types = Strings.types.AsSpan(1, HiddenPower.TypeCount);
+        var types = strings.types.AsSpan(1, HiddenPower.TypeCount);
         int hpVal = StringUtil.FindIndexIgnoreCase(types, type); // Get HP Type
         if (hpVal == -1)
             return hiddenPowerName;
@@ -702,7 +704,7 @@ public sealed class ShowdownSet : IBattleTemplate
         return type;
     }
 
-    private bool ParseLineEVs(ReadOnlySpan<char> line)
+    private bool ParseLineEVs(ReadOnlySpan<char> line, ReadOnlySpan<string> statNames)
     {
         int start = 0;
         while (true)
@@ -711,7 +713,7 @@ public sealed class ShowdownSet : IBattleTemplate
             var separator = chunk.IndexOf('/');
             var len = separator == -1 ? chunk.Length : separator;
             var tuple = chunk[..len].Trim();
-            if (!AbsorbValue(tuple))
+            if (!AbsorbValue(tuple, statNames))
                 InvalidLines.Add($"Invalid EV tuple: {tuple}");
             if (separator == -1)
                 break; // no more stats
@@ -719,13 +721,13 @@ public sealed class ShowdownSet : IBattleTemplate
         }
         return true;
 
-        bool AbsorbValue(ReadOnlySpan<char> text)
+        bool AbsorbValue(ReadOnlySpan<char> text, ReadOnlySpan<string> stats)
         {
             var space = text.IndexOf(' ');
             if (space == -1)
                 return false;
             var stat = text[(space + 1)..].Trim();
-            var statIndex = StringUtil.FindIndexIgnoreCase(Localization.Config.StatNames, stat);
+            var statIndex = StringUtil.FindIndexIgnoreCase(stats, stat);
             if (statIndex == -1)
                 return false;
             var value = text[..space].Trim();
@@ -736,7 +738,7 @@ public sealed class ShowdownSet : IBattleTemplate
         }
     }
 
-    private bool ParseLineIVs(ReadOnlySpan<char> line)
+    private bool ParseLineIVs(ReadOnlySpan<char> line, ReadOnlySpan<string> statNames)
     {
         int start = 0;
         while (true)
@@ -745,7 +747,7 @@ public sealed class ShowdownSet : IBattleTemplate
             var separator = chunk.IndexOf('/');
             var len = separator == -1 ? chunk.Length : separator;
             var tuple = chunk[..len].Trim();
-            if (!AbsorbValue(tuple))
+            if (!AbsorbValue(tuple, statNames))
                 InvalidLines.Add($"Invalid IV tuple: {tuple}");
             if (separator == -1)
                 break; // no more stats
@@ -753,13 +755,13 @@ public sealed class ShowdownSet : IBattleTemplate
         }
         return true;
 
-        bool AbsorbValue(ReadOnlySpan<char> text)
+        bool AbsorbValue(ReadOnlySpan<char> text, ReadOnlySpan<string> stats)
         {
             var space = text.IndexOf(' ');
             if (space == -1)
                 return false;
             var stat = text[(space + 1)..].Trim();
-            var statIndex = StringUtil.FindIndexIgnoreCase(Localization.Config.StatNames, stat);
+            var statIndex = StringUtil.FindIndexIgnoreCase(stats, stat);
             if (statIndex == -1)
                 return false;
             var value = text[..space].Trim();
@@ -768,5 +770,41 @@ public sealed class ShowdownSet : IBattleTemplate
             IVs[statIndex] = statValue;
             return true;
         }
+    }
+
+    /// <summary>
+    /// Tries to parse the input string into a <see cref="ShowdownSet"/> object.
+    /// </summary>
+    /// <param name="message">Input string to parse.</param>
+    /// <param name="set">Parsed <see cref="ShowdownSet"/> object if successful, otherwise might be a best-match with some unparsed lines.</param>
+    /// <returns>True if the input was parsed successfully, false otherwise.</returns>
+    public static bool TryParseAnyLanguage(ReadOnlySpan<char> message, [NotNullWhen(true)] out ShowdownSet? set)
+    {
+        set = null;
+        if (message.Length == 0)
+            return false;
+
+        var invalid = int.MaxValue;
+        var all = BattleTemplateLocalization.GetAll();
+        foreach (var lang in all)
+        {
+            var local = lang.Value;
+            var tmp = new ShowdownSet(message, local);
+            var bad = tmp.InvalidLines.Count;
+            if (bad == 0)
+            {
+                set = tmp;
+                return true;
+            }
+
+            // Check for invalid lines
+            if (bad >= invalid)
+                continue;
+
+            // Best so far.
+            invalid = bad;
+            set = tmp;
+        }
+        return false;
     }
 }

@@ -3,19 +3,33 @@ using System.Text;
 
 namespace PKHeX.Core;
 
-public class BattleTemplateConfig
+/// <summary>
+/// Grammar and prefix/suffix tokens for <see cref="IBattleTemplate"/>.
+/// </summary>
+public sealed record BattleTemplateConfig
 {
     public sealed record BattleTemplateTuple(BattleTemplateToken Token, string Text);
 
-    public required BattleTemplateTuple[] Left { get; init; } // Friendship: {100}
-    public required BattleTemplateTuple[] Right { get; init; } // {Timid} Nature
-    public required BattleTemplateTuple[] Center { get; init; } // Shiny: Yes
+    /// <summary> Prefix tokens - e.g. Friendship: {100} </summary>
+    public required BattleTemplateTuple[] Left { get; init; }
+
+    /// <summary> Suffix tokens - e.g. {Timid} Nature </summary>
+    public required BattleTemplateTuple[] Right { get; init; }
+
+    /// <summary> Tokens that always display the same text, with no value - e.g. Shiny: Yes </summary>
+    public required BattleTemplateTuple[] Center { get; init; }
 
     /// <summary>
     /// Stat names, ordered with speed in the middle (not last).
     /// </summary>
     public required string[] StatNames { get; init; }
 
+    /// <summary>
+    /// Tries to parse the line for a token and value, if applicable.
+    /// </summary>
+    /// <param name="line">Line to parse</param>
+    /// <param name="value">Value for the token, if applicable</param>
+    /// <returns>Token type that was found</returns>
     public BattleTemplateToken TryParse(ReadOnlySpan<char> line, out ReadOnlySpan<char> value)
     {
         value = default;
@@ -70,8 +84,14 @@ public class BattleTemplateConfig
         throw new ArgumentException($"Token {token} not found in config");
     }
 
+    /// <summary>
+    /// Gets the string representation of the token. No value is combined with it.
+    /// </summary>
     public string Push(BattleTemplateToken token) => GetToken(token, out _);
 
+    /// <summary>
+    /// Gets the string representation of the token, and combines the value with it.
+    /// </summary>
     public string Push<T>(BattleTemplateToken token, T value)
     {
         var str = GetToken(token, out var isLeft);
@@ -80,6 +100,7 @@ public class BattleTemplateConfig
         return $"{value}{str}";
     }
 
+    /// <inheritdoc cref="Push{T}(BattleTemplateToken,T)"/>
     public void Push<T>(BattleTemplateToken token, T value, StringBuilder sb)
     {
         var str = GetToken(token, out var isLeft);

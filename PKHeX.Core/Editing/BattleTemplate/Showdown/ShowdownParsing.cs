@@ -242,13 +242,13 @@ public static class ShowdownParsing
     /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data.
     /// </summary>
     /// <param name="data">Pokémon data to summarize.</param>
-    /// <param name="lang">Localization setting</param>
+    /// <param name="language">Localization setting</param>
     /// <returns>Consumable list of <see cref="ShowdownSet.Text"/> lines.</returns>
-    public static IEnumerable<string> GetShowdownText(IEnumerable<PKM> data, string lang = ShowdownSet.DefaultLanguage)
+    public static IEnumerable<string> GetShowdownText(IEnumerable<PKM> data, string language = BattleTemplateLocalization.DefaultLanguage)
     {
         var sets = GetShowdownSets(data);
         foreach (var set in sets)
-            yield return set.LocalizedText(lang);
+            yield return set.LocalizedText(language);
     }
 
     /// <summary>
