@@ -4,7 +4,7 @@ using System.Text;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Grammar and prefix/suffix tokens for <see cref="IBattleTemplate"/>.
+/// Grammar and prefix/suffix tokens for <see cref="IBattleTemplate"/> localization.
 /// </summary>
 public sealed record BattleTemplateConfig
 {
@@ -23,6 +23,50 @@ public sealed record BattleTemplateConfig
     /// Stat names, ordered with speed in the middle (not last).
     /// </summary>
     public required string[] StatNames { get; init; }
+
+    /// <summary>
+    /// Stat names, ordered with speed in the middle (not last).
+    /// </summary>
+    public required string[] StatNamesFull { get; init; }
+
+    public required string Male { get; init; }
+    public required string Female { get; init; }
+
+    private static readonly string[] StatNamesOneChar = ["H", "A", "B", "S", "C", "D"];
+
+    /// <summary>
+    /// Gets the stat names in the requested format.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public ReadOnlySpan<string> GetStatDisplay(StatDisplayStyle style = StatDisplayStyle.Abbreviated) => style switch
+    {
+        StatDisplayStyle.Abbreviated => StatNames,
+        StatDisplayStyle.Full => StatNamesFull,
+        StatDisplayStyle.OneChar => StatNamesOneChar,
+        _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
+    };
+
+    public static ReadOnlySpan<char> GetMoveDisplay(MoveDisplayStyle style = MoveDisplayStyle.Fill) => style switch
+    {
+        MoveDisplayStyle.Fill => "----",
+        MoveDisplayStyle.Directional => "↑←↓→",
+        _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
+    };
+
+    public static ReadOnlySpan<BattleTemplateToken> Showdown =>
+    [
+        BattleTemplateToken.Ability,
+        BattleTemplateToken.Level,
+        BattleTemplateToken.Shiny,
+        BattleTemplateToken.Friendship,
+        BattleTemplateToken.DynamaxLevel,
+        BattleTemplateToken.Gigantamax,
+        BattleTemplateToken.TeraType,
+        BattleTemplateToken.EVs,
+        BattleTemplateToken.Nature,
+        BattleTemplateToken.IVs,
+        BattleTemplateToken.Moves,
+    ];
 
     /// <summary>
     /// Tries to parse the line for a token and value, if applicable.
@@ -108,5 +152,30 @@ public sealed record BattleTemplateConfig
             sb.Append(str).Append(value);
         else
             sb.Append(value).Append(str);
+    }
+
+    /// <summary>
+    /// Checks all representations of the stat name for a match.
+    /// </summary>
+    /// <param name="stat">Stat name</param>
+    /// <returns>-1 if not found, otherwise the index of the stat</returns>
+    public int GetStatIndex(ReadOnlySpan<char> stat)
+    {
+        for (int i = 0; i < StatNames.Length; i++)
+        {
+            if (stat.Equals(StatNames[i], StringComparison.OrdinalIgnoreCase))
+                return i;
+        }
+        for (int i = 0; i < StatNamesFull.Length; i++)
+        {
+            if (stat.Equals(StatNamesFull[i], StringComparison.OrdinalIgnoreCase))
+                return i;
+        }
+        for (int i = 0; i < StatNamesOneChar.Length; i++)
+        {
+            if (stat.Equals(StatNamesOneChar[i], StringComparison.OrdinalIgnoreCase))
+                return i;
+        }
+        return -1;
     }
 }

@@ -1,5 +1,8 @@
 {
  "StatNames": ["PS", "Att", "Dif", "Vel", "AtS", "DiS"],
+ "StatNamesFull": ["PS", "Attacco", "Difesa", "Velocità", "Attacco Sp.", "Difesa Sp."],
+ "Male":  "Maschio",
+ "Female":  "Femmina",
  "Left": [
   { "Token": "Friendship", "Text": "Amicizia: " },
   { "Token": "EVs", "Text": "EVs: " },
@@ -8,7 +11,10 @@
   { "Token": "Ability", "Text": "Abilità: " },
   { "Token": "DynamaxLevel", "Text": "Livello Dynamax: " },
   { "Token": "TeraType", "Text": "Teratipo: " },
-  { "Token": "Nature", "Text": "Natura " }
+  { "Token": "Nature", "Text": "Natura " },
+  { "Token": "Gender", "Text": "Genere: "},
+  { "Token": "Nickname", "Text": "Soprannome: "},
+  { "Token": "HeldItem", "Text": "Strumento tenuto: "}
  ],
  "Right": [
  ],

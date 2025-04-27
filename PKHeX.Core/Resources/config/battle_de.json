@@ -1,5 +1,8 @@
 {
- "StatNames": ["KP", "Atk", "Vert", "Init", "SpA", "SpD"],
+ "StatNames": ["KP", "Ang", "Vert", "Init", "SpA", "SpV"],
+ "StatNamesFull": ["KP", "Angriff", "Verteidigung", "Initiative", "Sp. Angriff", "Sp. Verteidigung"],
+ "Male":  "Männlich",
+ "Female":  "Weiblich",
  "Left": [
   { "Token": "Friendship", "Text": "Freundschaft: " },
   { "Token": "EVs", "Text": "EVs: " },
@@ -7,7 +10,10 @@
   { "Token": "Level", "Text": "Level: " },
   { "Token": "Ability", "Text": "Fähigkeit: " },
   { "Token": "DynamaxLevel", "Text": "Dynamax Level: " },
-  { "Token": "TeraType", "Text": "Tera-Typ: " }
+  { "Token": "TeraType", "Text": "Tera-Typ: " },
+  { "Token": "Gender", "Text": "Geschlecht: "},
+  { "Token": "Nickname", "Text": "Spitzname: "},
+  { "Token": "HeldItem", "Text": "Item: "}
  ],
  "Right": [
   { "Token": "Nature", "Text": " Wesen" }

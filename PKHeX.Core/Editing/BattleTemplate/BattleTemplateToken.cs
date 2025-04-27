@@ -23,4 +23,10 @@ public enum BattleTemplateToken : byte
     DynamaxLevel,
     Gigantamax,
     TeraType,
+
+    Moves,
+
+    HeldItem,
+    Nickname,
+    Gender,
 }

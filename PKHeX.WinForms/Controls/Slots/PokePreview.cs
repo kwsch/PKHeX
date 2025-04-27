@@ -141,7 +141,7 @@ public partial class PokePreview : Form
     {
         var language = Main.Settings.Startup.Language;
         var localization = BattleTemplateLocalization.GetLocalization(language);
-        var statNames = localization.Config.StatNames;
+        var statNames = localization.Config.GetStatDisplay();
 
         var setText = SummaryPreviewer.GetPreviewText(pk, la);
         var sb = new StringBuilder();

@@ -1,5 +1,8 @@
 {
  "StatNames": ["HP", "攻擊", "防禦", "速度", "特攻", "特防"],
+ "StatNamesFull": ["HP", "攻擊", "防禦", "速度", "特攻", "特防"],
+ "Male":  "男",
+ "Female":  "女",
  "Left": [
   { "Token": "Friendship", "Text": "親密度: " },
   { "Token": "EVs", "Text": "努力值: " },
@@ -8,7 +11,10 @@
   { "Token": "Ability", "Text": "特性: " },
   { "Token": "DynamaxLevel", "Text": "極巨化等級: " },
   { "Token": "TeraType", "Text": "太晶屬性: " },
-  { "Token": "Nature", "Text": "性格: " }
+  { "Token": "Nature", "Text": "性格: " },
+  { "Token": "Gender", "Text": "性別: "},
+  { "Token": "Nickname", "Text": "昵稱: "},
+  { "Token": "HeldItem", "Text": "携帶物品: "}
  ],
  "Right": [
  ],

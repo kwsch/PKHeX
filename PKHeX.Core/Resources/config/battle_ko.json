@@ -1,13 +1,19 @@
 {
  "StatNames": ["HP", "공격", "방어", "스피드", "특공", "특방"],
+ "StatNamesFull": ["HP", "공격", "방어", "스피드", "특공", "특방"],
+ "Male":  "남성",
+ "Female":  "여성",
  "Left": [
-  { "Token": "Friendship", "Text": "친밀도: " },
+  { "Token": "Friendship", "Text": "친밀도 " },
   { "Token": "EVs", "Text": "EVs: " },
   { "Token": "IVs", "Text": "IVs: " },
-  { "Token": "Level", "Text": "스피드: " },
-  { "Token": "Ability", "Text": "특성: " },
-  { "Token": "DynamaxLevel", "Text": "다이맥스 레벨: " },
-  { "Token": "TeraType", "Text": "테라스탈타입: " }
+  { "Token": "Level", "Text": "스피드 " },
+  { "Token": "Ability", "Text": "특성 " },
+  { "Token": "DynamaxLevel", "Text": "다이맥스 레벨 " },
+  { "Token": "TeraType", "Text": "테라스탈타입 " },
+  { "Token": "Gender", "Text": "성별 "},
+  { "Token": "Nickname", "Text": "이름 "},
+  { "Token": "HeldItem", "Text": "持ち物 "}
  ],
  "Right": [
   { "Token": "Nature", "Text": "성격" }
