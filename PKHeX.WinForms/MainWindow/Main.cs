@@ -530,7 +530,7 @@ public partial class Main : Form
         else if (PokepasteTeam.IsURL(text, out url) && PokepasteTeam.TryGetSets(url, out content))
             set = ShowdownParsing.GetShowdownSets(content).FirstOrDefault() ?? new(""); // take only first set
         else
-            set = new ShowdownSet(text);
+            set = ShowdownParsing.TryParseAnyLanguage(text, out var s) ? s : new("");
 
         if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }

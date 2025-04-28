@@ -237,10 +237,8 @@ public static class ShowdownParsing
     {
         // Find the end of the Showdown Set lines.
         // The end is implied when:
-        // - we see a complete whitespace or empty line, or
-        // - we witness four 'move' definition lines.
+        // - we see a complete whitespace or empty line
         int length = 0;
-        int moveCount = 4;
 
         while (true)
         {
@@ -252,9 +250,7 @@ public static class ShowdownParsing
             var used = newline + 1;
             length += used;
 
-            if (slice.IsEmpty || slice.IsWhiteSpace())
-                return length;
-            if (slice.TrimStart()[0] is '-' or '–' && --moveCount == 0)
+            if (slice.IsWhiteSpace())
                 return length;
             text = text[used..];
         }

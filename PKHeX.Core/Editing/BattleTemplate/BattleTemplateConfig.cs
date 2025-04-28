@@ -53,7 +53,7 @@ public sealed record BattleTemplateConfig
         _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
     };
 
-    public static bool IsMovePrefix(char c) => c is '-' or '↑' or '←' or '↓' or '→';
+    public static bool IsMovePrefix(char c) => c is '-' or '–' or '↑' or '←' or '↓' or '→';
 
     public static ReadOnlySpan<BattleTemplateToken> CommunityStandard =>
     [

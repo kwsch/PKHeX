@@ -96,12 +96,9 @@ public sealed class SummaryPreviewer
 
     public static string AppendEncounterInfo(LegalityAnalysis la, string text)
     {
-        var result = new List<string>(8);
-        if (text.Length != 0)
-        {
-            result.Add(text);
+        var result = new List<string>(8) { text };
+        if (text.Length != 0) // add a blank line between the set and the encounter info if isn't already a blank line
             result.Add("");
-        }
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);
     }
