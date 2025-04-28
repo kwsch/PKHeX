@@ -381,7 +381,9 @@ public static class ShowdownParsing
             invalid = bad;
             set = tmp;
         }
-        return false;
+        if (set is null)
+            return false;
+        return set.Species != 0;
     }
 
     /// <inheritdoc cref="TryParseAnyLanguage(ReadOnlySpan{char}, out ShowdownSet?)"/>

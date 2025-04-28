@@ -631,7 +631,7 @@ public sealed class ShowdownSet : IBattleTemplate
         for (var i = 0; i < Moves.Length; i++)
         {
             var move = Moves[i];
-            if (move == 0 && (style is MoveDisplayStyle.Directional && added != 0))
+            if (move == 0 && !(style is MoveDisplayStyle.Directional && added != 0))
                 continue;
             if (move >= moveNames.Length)
                 continue;
@@ -973,7 +973,11 @@ public sealed class ShowdownSet : IBattleTemplate
                 InvalidLines.Add($"Invalid EV nature: {natureName}");
                 return false; // invalid line
             }
-            Nature = (Nature)natureIndex;
+
+            if (Nature != Nature.Random)
+                InvalidLines.Add($"EV nature ignored, specified previously: {natureName}");
+            else
+                Nature = (Nature)natureIndex;
 
             line = line[..nature].TrimEnd();
         }
@@ -995,6 +999,12 @@ public sealed class ShowdownSet : IBattleTemplate
         // Check for plus/minus
         if (plus == -1 && minus == -1)
             return true;
+
+        if (Nature != Nature.Random)
+        {
+            InvalidLines.Add($"EV nature +/- ignored, specified previously: {line}");
+            return false;
+        }
         return AdjustNature(plus, minus);
 
         bool AbsorbValue(ReadOnlySpan<char> text, BattleTemplateConfig stats)
