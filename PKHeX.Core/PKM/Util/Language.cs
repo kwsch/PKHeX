@@ -80,7 +80,27 @@ public static class Language
         Korean => "ko",
         ChineseS => "zh-Hans",
         ChineseT => "zh-Hant",
+        English => "en",
         _ => GameLanguage.DefaultLanguage,
+    };
+
+    /// <summary>
+    /// Gets the <see cref="LanguageID"/> value from a language code.
+    /// </summary>
+    /// <param name="language">Language code.</param>
+    /// <returns>Language ID.</returns>
+    public static LanguageID GetLanguageValue(string language) => language switch
+    {
+        "ja" => Japanese,
+        "fr" => French,
+        "it" => Italian,
+        "de" => German,
+        "es" => Spanish,
+        "ko" => Korean,
+        "zh-Hans" => ChineseS,
+        "zh-Hant" => ChineseT,
+        "en" => English,
+        _ => GetLanguageValue(GameLanguage.DefaultLanguage),
     };
 
     /// <summary>

@@ -196,7 +196,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         if (Language == LanguageRestriction.International && request is not (English or French or Italian or German or Spanish))
             return English;
 
-        if (request is Hacked or UNUSED_6 or >= Korean)
+        if (request is None or UNUSED_6 or >= Korean)
             return English;
         return request;
     }
