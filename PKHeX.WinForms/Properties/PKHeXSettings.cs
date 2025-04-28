@@ -35,6 +35,7 @@ public sealed class PKHeXSettings
     public SpriteSettings Sprite { get; set; } = new();
     public SoundSettings Sounds { get; set; } = new();
     public HoverSettings Hover { get; set; } = new();
+    public BattleTemplateSettings BattleTemplate { get; set; } = new();
 
     // GUI Specific
     public DrawConfig Draw { get; set; } = new();
