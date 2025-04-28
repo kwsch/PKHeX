@@ -29,4 +29,6 @@ public enum BattleTemplateToken : byte
     HeldItem,
     Nickname,
     Gender,
+    AVs,
+    GVs,
 }

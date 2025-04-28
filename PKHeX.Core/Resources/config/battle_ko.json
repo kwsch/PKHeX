@@ -7,6 +7,8 @@
   { "Token": "Friendship", "Text": "친밀도 " },
   { "Token": "EVs", "Text": "EVs: " },
   { "Token": "IVs", "Text": "IVs: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "노력 레벨을 " },
   { "Token": "Level", "Text": "스피드 " },
   { "Token": "Ability", "Text": "특성 " },
   { "Token": "DynamaxLevel", "Text": "다이맥스 레벨 " },

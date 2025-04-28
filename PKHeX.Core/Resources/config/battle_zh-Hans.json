@@ -7,6 +7,8 @@
   { "Token": "Friendship", "Text": "亲密度: " },
   { "Token": "EVs", "Text": "努力值: " },
   { "Token": "IVs", "Text": "个体值: " },
+  { "Token": "AVs", "Text": "AVs " },
+  { "Token": "GVs", "Text": "奋斗等级 " },
   { "Token": "Level", "Text": "等级: " },
   { "Token": "Ability", "Text": "性格: " },
   { "Token": "DynamaxLevel", "Text": "极巨等级: " },

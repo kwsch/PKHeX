@@ -7,6 +7,8 @@
   { "Token": "Friendship", "Text": "Amicizia: " },
   { "Token": "EVs", "Text": "EVs: " },
   { "Token": "IVs", "Text": "IVs: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "GVs: " },
   { "Token": "Level", "Text": "Livello: " },
   { "Token": "Ability", "Text": "Abilità: " },
   { "Token": "DynamaxLevel", "Text": "Livello Dynamax: " },

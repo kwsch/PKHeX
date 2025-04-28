@@ -6,7 +6,9 @@
  "Left": [
   { "Token": "Friendship", "Text": "Freundschaft: " },
   { "Token": "EVs", "Text": "EVs: " },
-  { "Token": "DVs", "Text": "IVs: " },
+  { "Token": "IVs", "Text": "DVs: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "GVs: " },
   { "Token": "Level", "Text": "Level: " },
   { "Token": "Ability", "Text": "Fähigkeit: " },
   { "Token": "DynamaxLevel", "Text": "Dynamax Level: " },
