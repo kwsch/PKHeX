@@ -53,8 +53,11 @@ public sealed record BattleTemplateConfig
         _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
     };
 
-    public static ReadOnlySpan<BattleTemplateToken> Showdown =>
+    public static bool IsMovePrefix(char c) => c is '-' or '↑' or '←' or '↓' or '→';
+
+    public static ReadOnlySpan<BattleTemplateToken> CommunityStandard =>
     [
+        BattleTemplateToken.FirstLine,
         BattleTemplateToken.Ability,
         BattleTemplateToken.Level,
         BattleTemplateToken.Shiny,
@@ -66,6 +69,38 @@ public sealed record BattleTemplateConfig
         BattleTemplateToken.Nature,
         BattleTemplateToken.IVs,
         BattleTemplateToken.Moves,
+    ];
+
+    public static ReadOnlySpan<BattleTemplateToken> Showdown =>
+    [
+        BattleTemplateToken.FirstLine,
+        BattleTemplateToken.AbilityHeldItem,
+        BattleTemplateToken.Moves,
+        BattleTemplateToken.EVsAppendNature,
+        BattleTemplateToken.IVs,
+        BattleTemplateToken.Level,
+        BattleTemplateToken.Shiny,
+        BattleTemplateToken.Friendship,
+        BattleTemplateToken.DynamaxLevel,
+        BattleTemplateToken.Gigantamax,
+        BattleTemplateToken.TeraType,
+    ];
+    public static ReadOnlySpan<BattleTemplateToken> DefaultHover =>
+    [
+        // First line is handled manually.
+        BattleTemplateToken.HeldItem,
+        BattleTemplateToken.Ability,
+        BattleTemplateToken.Level,
+        BattleTemplateToken.Shiny,
+        BattleTemplateToken.DynamaxLevel,
+        BattleTemplateToken.Gigantamax,
+        BattleTemplateToken.TeraType,
+        BattleTemplateToken.EVs,
+        BattleTemplateToken.IVs,
+        BattleTemplateToken.Nature,
+        BattleTemplateToken.Moves,
+
+        // Other tokens are handled manually (Ganbaru, Awakening) as they are not stored by the battle template interface, only entity objects.
     ];
 
     /// <summary>

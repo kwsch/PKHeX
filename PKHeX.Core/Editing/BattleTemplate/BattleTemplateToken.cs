@@ -31,4 +31,9 @@ public enum BattleTemplateToken : byte
     Gender,
     AVs,
     GVs,
+
+    FirstLine,
+    AbilityHeldItem,
+    EVsWithNature,
+    EVsAppendNature,
 }
