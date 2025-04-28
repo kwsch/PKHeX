@@ -10,9 +10,11 @@ public class ShowdownSetTests
     [Fact]
     public void SimulatorGetParse()
     {
+        var settings = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard);
+
         foreach (ReadOnlySpan<char> setstr in Sets)
         {
-            var set = new ShowdownSet(setstr).GetSetLines();
+            var set = new ShowdownSet(setstr).GetSetLines(settings);
             foreach (var line in set)
                 setstr.Contains(line, StringComparison.Ordinal).Should().BeTrue($"Line {line} should be in the set {setstr}");
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -10,6 +11,9 @@ namespace PKHeX.Core;
 public static class ShowdownParsing
 {
     private static readonly string[] genderForms = ["", "F", ""];
+
+    /// <inheritdoc cref="ShowdownSet.DefaultListAllocation"/>
+    private const int DefaultListAllocation = ShowdownSet.DefaultListAllocation;
 
     /// <summary>
     /// Gets the Form ID from the input <see cref="name"/>.
@@ -147,12 +151,13 @@ public static class ShowdownParsing
     /// Fetches <see cref="ShowdownSet"/> data from the input <see cref="lines"/>.
     /// </summary>
     /// <param name="lines">Raw lines containing numerous multi-line set data.</param>
+    /// <param name="localization">Localization data for the set.</param>
     /// <returns><see cref="ShowdownSet"/> objects until <see cref="lines"/> is consumed.</returns>
-    public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines)
+    public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines, BattleTemplateLocalization localization)
     {
         // exported sets always have >4 moves; new List will always require 1 resizing, allocate 2x to save 1 reallocation.
         // intro, nature, ability, (ivs, evs, shiny, level) 4*moves
-        var setLines = new List<string>(8);
+        var setLines = new List<string>(DefaultListAllocation);
         foreach (var line in lines)
         {
             if (!string.IsNullOrWhiteSpace(line))
@@ -162,14 +167,53 @@ public static class ShowdownParsing
             }
             if (setLines.Count == 0)
                 continue;
-            yield return new ShowdownSet(setLines);
+            yield return new ShowdownSet(setLines, localization);
             setLines.Clear();
         }
         if (setLines.Count != 0)
-            yield return new ShowdownSet(setLines);
+            yield return new ShowdownSet(setLines, localization);
     }
 
-    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string})"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines)
+    {
+        var setLines = new List<string>(DefaultListAllocation);
+        foreach (var line in lines)
+        {
+            if (!string.IsNullOrWhiteSpace(line))
+            {
+                setLines.Add(line);
+                continue;
+            }
+            if (setLines.Count == 0)
+                continue;
+            yield return TryParseAnyLanguage(setLines, out var set) ? set : new ShowdownSet(setLines);
+            setLines.Clear();
+        }
+        if (setLines.Count != 0)
+            yield return TryParseAnyLanguage(setLines, out var set) ? set : new ShowdownSet(setLines);
+    }
+
+    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string},BattleTemplateLocalization)"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(ReadOnlyMemory<char> text, BattleTemplateLocalization localization)
+    {
+        int start = 0;
+        do
+        {
+            var span = text.Span;
+            var slice = span[start..];
+            var set = GetShowdownSet(slice, localization, out int length);
+            if (set.Species == 0)
+                break;
+            yield return set;
+            start += length;
+        }
+        while (start < text.Length);
+    }
+
+    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string},BattleTemplateLocalization)"/>
+    /// <summary>
+    /// Language-unknown version of <see cref="GetShowdownSets(IEnumerable{string},BattleTemplateLocalization)"/>.
+    /// </summary>
     public static IEnumerable<ShowdownSet> GetShowdownSets(ReadOnlyMemory<char> text)
     {
         int start = 0;
@@ -186,8 +230,8 @@ public static class ShowdownParsing
         while (start < text.Length);
     }
 
-    /// <inheritdoc cref="GetShowdownSets(ReadOnlyMemory{char})"/>
-    public static IEnumerable<ShowdownSet> GetShowdownSets(string text) => GetShowdownSets(text.AsMemory());
+    /// <inheritdoc cref="GetShowdownSets(ReadOnlyMemory{char},BattleTemplateLocalization)"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(string text, BattleTemplateLocalization localization) => GetShowdownSets(text.AsMemory(), localization);
 
     private static int GetLength(ReadOnlySpan<char> text)
     {
@@ -216,39 +260,58 @@ public static class ShowdownParsing
         }
     }
 
-    public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, out int length)
+    public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, BattleTemplateLocalization localization, out int length)
     {
         length = GetLength(text);
         var slice = text[..length];
-        var set = new ShowdownSet(slice);
+        var set = new ShowdownSet(slice, localization);
         while (length < text.Length && text[length] is '\r' or '\n' or ' ')
             length++;
         return set;
     }
+
+    public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, out int length)
+    {
+        length = GetLength(text);
+        var slice = text[..length];
+        if (!TryParseAnyLanguage(slice, out var set))
+            set = new ShowdownSet(slice); // should never fall back
+        while (length < text.Length && text[length] is '\r' or '\n' or ' ')
+            length++;
+        return set;
+    }
+
+    public static IEnumerable<ShowdownSet> GetShowdownSets(string text) => GetShowdownSets(text.AsMemory());
 
     /// <summary>
     /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
     /// </summary>
     /// <param name="pk">PKM to convert to string</param>
     /// <returns>Multi line set data</returns>
-    public static string GetShowdownText(PKM pk)
+    public static string GetShowdownText(PKM pk) => GetShowdownText(pk, BattleTemplateExportSettings.Showdown);
+
+    public static string GetShowdownText(PKM pk, in BattleTemplateExportSettings settings)
     {
         if (pk.Species == 0)
             return string.Empty;
-        return new ShowdownSet(pk).Text;
+        var set = new ShowdownSet(pk);
+        set.InterpretAsPreview(pk);
+        return set.GetText(settings);
     }
 
     /// <summary>
     /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data.
     /// </summary>
     /// <param name="data">Pokémon data to summarize.</param>
-    /// <param name="language">Localization setting</param>
+    /// <param name="settings">Export localization/style setting</param>
     /// <returns>Consumable list of <see cref="ShowdownSet.Text"/> lines.</returns>
-    public static IEnumerable<string> GetShowdownText(IEnumerable<PKM> data, string language = BattleTemplateLocalization.DefaultLanguage)
+    public static IEnumerable<string> GetShowdownText(IEnumerable<PKM> data, in BattleTemplateExportSettings settings)
     {
+        List<string> result = new();
         var sets = GetShowdownSets(data);
         foreach (var set in sets)
-            yield return set.LocalizedText(language);
+            result.Add(set.GetText(settings));
+        return result;
     }
 
     /// <summary>
@@ -272,18 +335,105 @@ public static class ShowdownParsing
     /// <param name="data">Pokémon data to summarize.</param>
     /// <param name="separator">Splitter between each set.</param>
     /// <returns>Single string containing all <see cref="ShowdownSet.Text"/> lines.</returns>
-    public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownText(data));
+    public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownText(data, BattleTemplateExportSettings.Showdown));
+
+    public static string GetShowdownSets(IEnumerable<PKM> data, string separator, in BattleTemplateExportSettings settings) => string.Join(separator, GetShowdownText(data, settings));
 
     /// <summary>
     /// Gets a localized string preview of the provided <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Pokémon data</param>
-    /// <param name="language">Language code</param>
+    /// <param name="settings">Export settings</param>
     /// <returns>Multi-line string</returns>
-    public static string GetLocalizedPreviewText(PKM pk, string language)
+    public static string GetLocalizedPreviewText(PKM pk, in BattleTemplateExportSettings settings)
     {
         var set = new ShowdownSet(pk);
         set.InterpretAsPreview(pk);
-        return set.LocalizedText(language);
+        return set.GetText(settings);
+    }
+
+    /// <summary>
+    /// Tries to parse the input string into a <see cref="ShowdownSet"/> object.
+    /// </summary>
+    /// <param name="message">Input string to parse.</param>
+    /// <param name="set">Parsed <see cref="ShowdownSet"/> object if successful, otherwise might be a best-match with some unparsed lines.</param>
+    /// <returns>True if the input was parsed successfully, false otherwise.</returns>
+    public static bool TryParseAnyLanguage(ReadOnlySpan<char> message, [NotNullWhen(true)] out ShowdownSet? set)
+    {
+        set = null;
+        if (message.Length == 0)
+            return false;
+
+        var invalid = int.MaxValue;
+        var all = BattleTemplateLocalization.GetAll();
+        foreach (var lang in all)
+        {
+            var local = lang.Value;
+            var tmp = new ShowdownSet(message, local);
+            var bad = tmp.InvalidLines.Count;
+            if (bad == 0)
+            {
+                set = tmp;
+                return true;
+            }
+
+            // Check for invalid lines
+            if (bad >= invalid)
+                continue;
+
+            // Best so far.
+            invalid = bad;
+            set = tmp;
+        }
+        return false;
+    }
+
+    /// <inheritdoc cref="TryParseAnyLanguage(ReadOnlySpan{char}, out ShowdownSet?)"/>
+    public static bool TryParseAnyLanguage(IReadOnlyList<string> setLines, [NotNullWhen(true)] out ShowdownSet? set)
+    {
+        set = null;
+        if (setLines.Count == 0)
+            return false;
+
+        var invalid = int.MaxValue;
+        var all = BattleTemplateLocalization.GetAll();
+        foreach (var lang in all)
+        {
+            var local = lang.Value;
+            var tmp = new ShowdownSet(setLines, local);
+            var bad = tmp.InvalidLines.Count;
+            if (bad == 0)
+            {
+                set = tmp;
+                return true;
+            }
+
+            // Check for invalid lines
+            if (bad >= invalid)
+                continue;
+
+            // Best so far.
+            invalid = bad;
+            set = tmp;
+        }
+        return false;
+    }
+
+    public static bool TryTranslate(ReadOnlySpan<char> message, BattleTemplateExportSettings outputSettings, [NotNullWhen(true)] out string? translated)
+    {
+        translated = null;
+        if (!TryParseAnyLanguage(message, out var set))
+            return false;
+        translated = set.GetText(outputSettings);
+        return true;
+    }
+
+    public static bool TryTranslate(IReadOnlyList<string> message, BattleTemplateExportSettings outputSettings, [NotNullWhen(true)] out string? translated)
+    {
+        translated = null;
+        if (!TryParseAnyLanguage(message, out var set))
+            return false;
+        translated = set.GetText(outputSettings);
+        return true;
     }
 }

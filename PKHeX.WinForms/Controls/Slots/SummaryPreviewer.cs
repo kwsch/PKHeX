@@ -24,20 +24,32 @@ public sealed class SummaryPreviewer
             return;
         }
 
+        var programLanguage = Language.GetLanguageValue(Main.Settings.Startup.Language);
+        var cfg = Main.Settings.BattleTemplate;
+        var settings = cfg.Hover.GetSettings(programLanguage, pk.Context);
+
         if (Settings.HoverSlotShowPreview && Control.ModifierKeys != Keys.Alt)
-            UpdatePreview(pb, pk);
+        {
+            UpdatePreview(pb, pk, settings);
+        }
         else if (Settings.HoverSlotShowText)
-            ShowSet.SetToolTip(pb, GetPreviewText(pk, new LegalityAnalysis(pk)));
+        {
+            var text = GetPreviewText(pk, settings);
+            if (Settings.HoverSlotShowEncounter)
+                text = AppendEncounterInfo(new LegalityAnalysis(pk), text);
+            ShowSet.SetToolTip(pb, text);
+        }
+
         if (Settings.HoverSlotPlayCry)
             Cry.PlayCry(pk, pk.Context);
     }
 
-    private void UpdatePreview(Control pb, PKM pk)
+    private void UpdatePreview(Control pb, PKM pk, BattleTemplateExportSettings settings)
     {
         _source.Cancel();
         _source = new();
         UpdatePreviewPosition(new());
-        Previewer.Populate(pk);
+        Previewer.Populate(pk, settings);
         Previewer.Show();
     }
 
@@ -80,12 +92,16 @@ public sealed class SummaryPreviewer
         Cry.Stop();
     }
 
-    public static string GetPreviewText(PKM pk, LegalityAnalysis la)
+    public static string GetPreviewText(PKM pk, BattleTemplateExportSettings settings) => ShowdownParsing.GetLocalizedPreviewText(pk, settings);
+
+    public static string AppendEncounterInfo(LegalityAnalysis la, string text)
     {
-        var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
-        if (!Main.Settings.Hover.HoverSlotShowEncounter)
-            return text;
-        var result = new List<string> { text, string.Empty };
+        var result = new List<string>(8);
+        if (text.Length != 0)
+        {
+            result.Add(text);
+            result.Add("");
+        }
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);
     }

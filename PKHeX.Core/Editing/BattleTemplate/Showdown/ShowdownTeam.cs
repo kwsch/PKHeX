@@ -82,7 +82,9 @@ public static class ShowdownTeam
         text = text.Trim();
         if (text.StartsWith("https://psim.us/t/") || // short link
             text.StartsWith("https://teams.pokemonshowdown.com/"))
+        {
             return TryCheckWeb(text, out url);
+        }
 
         if (text.StartsWith("https://play.pokemonshowdown.com/api/getteam?teamid="))
             return TryCheckAPI(text, out url);
