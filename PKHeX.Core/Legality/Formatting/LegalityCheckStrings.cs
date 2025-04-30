@@ -398,6 +398,7 @@ public static class LegalityCheckStrings
     public static string LMoveSourceEggEvent { get; set; } = "Event Egg Move.";
     public static string LMoveSourceEmpty { get; set; } = "Empty Move.";
     public static string LMoveSourceInvalid { get; set; } = "Invalid Move.";
+    public static string LMoveSourceInvalidEgg { get; set; } = "Invalid Egg Move combination.";
     public static string LMoveSourceInvalidSketch { get; set; } = "Invalid Move (Sketch).";
     public static string LMoveSourceLevelUp { get; set; } = "Learned by Level-up.";
     public static string LMoveSourceRelearn { get; set; } = "Relearnable Move.";
