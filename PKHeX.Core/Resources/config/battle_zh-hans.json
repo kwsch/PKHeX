@@ -10,7 +10,7 @@
   { "Token": "AVs", "Text": "AVs " },
   { "Token": "GVs", "Text": "奋斗等级 " },
   { "Token": "Level", "Text": "等级: " },
-  { "Token": "Ability", "Text": "性格: " },
+  { "Token": "Ability", "Text": "特性: " },
   { "Token": "DynamaxLevel", "Text": "极巨等级: " },
   { "Token": "TeraType", "Text": "太晶属性: " },
   { "Token": "Nature", "Text": "性格: " },

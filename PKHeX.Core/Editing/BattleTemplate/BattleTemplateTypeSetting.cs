@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed class BattleTemplateSettings
 {
     [LocalizedDescription("Settings for showing details when hovering a slot.")]
-    public BattleTemplateTypeSetting Hover { get; set; } = new(BattleTemplateDisplayStyle.Preview, LanguageID.None, MoveDisplayStyle.Directional);
+    public BattleTemplateTypeSetting Hover { get; set; } = new(BattleTemplateDisplayStyle.Brief, LanguageID.None, MoveDisplayStyle.Directional);
 
     [LocalizedDescription("Settings for showing details when exporting a slot.")]
     public BattleTemplateTypeSetting Export { get; set; } = new(BattleTemplateDisplayStyle.Showdown, LanguageID.English);
@@ -54,7 +54,7 @@ public sealed class BattleTemplateTypeSetting
     private static ReadOnlySpan<BattleTemplateToken> GetOrder(BattleTemplateDisplayStyle style, ReadOnlySpan<BattleTemplateToken> custom) => style switch
     {
         BattleTemplateDisplayStyle.Legacy => BattleTemplateConfig.CommunityStandard,
-        BattleTemplateDisplayStyle.Preview => BattleTemplateConfig.DefaultHover,
+        BattleTemplateDisplayStyle.Brief => BattleTemplateConfig.DefaultHover,
         BattleTemplateDisplayStyle.Custom => custom,
         _ => BattleTemplateConfig.Showdown,
     };

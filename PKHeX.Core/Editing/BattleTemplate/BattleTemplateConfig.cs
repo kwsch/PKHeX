@@ -71,7 +71,9 @@ public sealed record BattleTemplateConfig
         BattleTemplateToken.Moves,
     ];
 
-    public static ReadOnlySpan<BattleTemplateToken> Showdown =>
+    public static ReadOnlySpan<BattleTemplateToken> Showdown => CommunityStandard;
+
+    public static ReadOnlySpan<BattleTemplateToken> ShowdownNew =>
     [
         BattleTemplateToken.FirstLine,
         BattleTemplateToken.AbilityHeldItem,
@@ -85,6 +87,7 @@ public sealed record BattleTemplateConfig
         BattleTemplateToken.Gigantamax,
         BattleTemplateToken.TeraType,
     ];
+
     public static ReadOnlySpan<BattleTemplateToken> DefaultHover =>
     [
         // First line is handled manually.

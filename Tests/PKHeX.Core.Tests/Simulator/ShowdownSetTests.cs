@@ -166,6 +166,40 @@ public class ShowdownSetTests
     }
 
     [Theory]
+    [InlineData(SetAllTokenExample)]
+    public void SimulatorTranslate(string message, string languageOriginal = "en")
+    {
+        var settingsOriginal = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard, languageOriginal);
+        if (!ShowdownParsing.TryParseAnyLanguage(message, out var set))
+            throw new Exception("Input failed");
+
+        var all = BattleTemplateLocalization.GetAll();
+        foreach (var l in all)
+        {
+            var languageTarget = l.Key;
+            if (languageTarget == languageOriginal)
+                continue;
+
+            var exportSettings = new BattleTemplateExportSettings(languageTarget);
+            var translated = set.GetText(exportSettings);
+            translated.Should().NotBeNullOrEmpty();
+            translated.Should().NotBe(message);
+
+            // Convert back, should be 1:1
+            if (!ShowdownParsing.TryParseAnyLanguage(translated, out var set2))
+                throw new Exception($"{languageTarget} parse failed");
+            if (set2.InvalidLines.Count != 0)
+                throw new Exception($"{languageTarget} parse lines not recognized");
+
+            set2.Species.Should().Be(set.Species);
+            set2.Form.Should().Be(set.Form);
+
+            var result = set2.GetText(settingsOriginal);
+            result.Should().Be(message);
+        }
+    }
+
+    [Theory]
     [InlineData(SetDuplicateMoves, 3)]
     public void SimulatorParseDuplicate(string text, int moveCount)
     {
@@ -261,6 +295,24 @@ public class ShowdownSetTests
         - Water Pulse
         - Shadow Ball
         - Hyper Voice
+        """;
+
+    private const string SetAllTokenExample =
+        """
+        Pikachu (F) @ Oran Berry
+        Ability: Static
+        Level: 69
+        Shiny: Yes
+        Friendship: 42
+        Dynamax Level: 3
+        Gigantamax: Yes
+        EVs: 12 HP / 5 Atk / 6 Def / 17 SpA / 4 SpD / 101 Spe
+        Quirky Nature
+        IVs: 30 HP / 22 Atk / 29 Def / 7 SpA / 1 SpD / 0 Spe
+        - Pound
+        - Sky Attack
+        - Hyperspace Fury
+        - Metronome
         """;
 
     private const string SetSmeargle =
