@@ -215,20 +215,21 @@ public sealed record BattleTemplateConfig
         return -1;
     }
 
-    public StatDisplayConfig.ParseResult TryParseStats(ReadOnlySpan<char> message, Span<int> bestResult)
+    public StatParseResult TryParseStats(ReadOnlySpan<char> message, Span<int> bestResult)
     {
         var result = ParseInternal(message, bestResult);
         ReorderSpeedNotLast(bestResult);
+        result.TreatAmpsAsSpeedNotLast();
         return result;
     }
 
-    private StatDisplayConfig.ParseResult ParseInternal(ReadOnlySpan<char> message, Span<int> bestResult)
+    private StatParseResult ParseInternal(ReadOnlySpan<char> message, Span<int> bestResult)
     {
         Span<int> original = stackalloc int[bestResult.Length];
         bestResult.CopyTo(original);
 
         var result = StatNames.TryParse(message, bestResult);
-        if (result.IsParsedAllStats)
+        if (result.IsParseClean)
             return result;
 
         // Check if the others get a better result
@@ -238,7 +239,7 @@ public sealed record BattleTemplateConfig
         {
             original.CopyTo(tmp); // restore original defaults
             var other = StatNamesFull.TryParse(message, tmp);
-            if (other.IsParsedAllStats)
+            if (other.IsParseClean)
             {
                 tmp.CopyTo(bestResult);
                 return other;
@@ -254,7 +255,7 @@ public sealed record BattleTemplateConfig
         {
             original.CopyTo(tmp); // restore original defaults
             var other = set.TryParse(message, tmp);
-            if (other.IsParsedAllStats)
+            if (other.IsParseClean)
             {
                 tmp.CopyTo(bestResult);
                 return other;

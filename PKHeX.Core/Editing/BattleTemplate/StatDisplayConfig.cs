@@ -11,6 +11,9 @@ namespace PKHeX.Core;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class StatDisplayConfig
 {
+    /// <summary>
+    /// Stat names are displayed without localization; H:X A:X B:X C:X D:X S:X
+    /// </summary>
     public static readonly StatDisplayConfig HABCDS = new()
     {
         Names = ["H", "A", "B", "C", "D", "S"],
@@ -20,6 +23,12 @@ public sealed class StatDisplayConfig
         AlwaysShow = true,
     };
 
+    /// <summary>
+    /// Stat names are displayed without localization; X/X/X/X/X/X
+    /// </summary>
+    /// <remarks>
+    /// Same as <see cref="Raw00"/> but with no leading zeroes.
+    /// </remarks>
     public static readonly StatDisplayConfig Raw = new()
     {
         Names = [],
@@ -28,6 +37,12 @@ public sealed class StatDisplayConfig
         AlwaysShow = true,
     };
 
+    /// <summary>
+    /// Stat names are displayed without localization; XX/XX/XX/XX/XX/XX
+    /// </summary>
+    /// <remarks>
+    /// Same as <see cref="Raw"/> but with 2 digits (leading zeroes).
+    /// </remarks>
     public static readonly StatDisplayConfig Raw00 = new()
     {
         Names = [],
@@ -37,11 +52,18 @@ public sealed class StatDisplayConfig
         MinimumDigits = 2,
     };
 
+    /// <summary>
+    /// List of stat display styles that are commonly used and not specific to a localization.
+    /// </summary>
     public static List<StatDisplayConfig> Custom { get; } = [HABCDS, Raw]; // Raw00 parses equivalent to Raw
 
     /// <summary>List of stat names to display</summary>
     public required string[] Names { get; init; }
+
+    /// <summary>Separator between each stat+value declaration</summary>
     public string Separator { get; init; } = " / ";
+
+    /// <summary>Separator between the stat name and value</summary>
     public string ValueGap { get; init; } = " ";
 
     /// <summary><c>true</c> if the text is displayed on the left side of the value</summary>
@@ -53,6 +75,11 @@ public sealed class StatDisplayConfig
     /// <summary>Minimum number of digits to show for the stat value.</summary>
     public int MinimumDigits { get; init; }
 
+    /// <summary>
+    /// Gets the index of the displayed stat name (in visual order) via a case-insensitive search.
+    /// </summary>
+    /// <param name="stat">Stat name, trimmed.</param>
+    /// <returns>-1 if not found, otherwise the index of the stat name.</returns>
     public int GetStatIndex(ReadOnlySpan<char> stat)
     {
         for (int i = 0; i < Names.Length; i++)
@@ -63,16 +90,14 @@ public sealed class StatDisplayConfig
         return -1;
     }
 
-    public string Format<T>(int statIndex, T statValue, ReadOnlySpan<char> valueSuffix = default, bool skipValue = false)
-    {
-        var statName = statIndex < Names.Length ? Names[statIndex] : "";
-        var length = GetStatSize(statName, statValue, valueSuffix, skipValue);
-
-        var sb = new StringBuilder(length);
-        Append(sb, statName, statValue, valueSuffix, skipValue);
-        return sb.ToString();
-    }
-
+    /// <summary>
+    /// Formats a stat value into a string builder.
+    /// </summary>
+    /// <param name="sb">Result string builder</param>
+    /// <param name="statIndex">Display index of the stat</param>
+    /// <param name="statValue">Stat value</param>
+    /// <param name="valueSuffix">Optional suffix for the value, to display a stat amplification request</param>
+    /// <param name="skipValue"><c>true</c> to skip the value, only displaying the stat name and amplification (if provided)</param>
     public void Format<T>(StringBuilder sb, int statIndex, T statValue, ReadOnlySpan<char> valueSuffix = default, bool skipValue = false)
     {
         var statName = statIndex < Names.Length ? Names[statIndex] : "";
@@ -134,7 +159,7 @@ public sealed class StatDisplayConfig
     /// <param name="message">Input string</param>
     /// <param name="result">Result storage</param>
     /// <returns>Parse result</returns>
-    public ParseResult TryParse(ReadOnlySpan<char> message, Span<int> result)
+    public StatParseResult TryParse(ReadOnlySpan<char> message, Span<int> result)
     {
         var separator = GetSeparatorParse();
         var gap = ValueGap.AsSpan().Trim();
@@ -147,40 +172,22 @@ public sealed class StatDisplayConfig
             return TryParseRight(message, result, separator, gap);
     }
 
-    public record struct ParseResult()
+    private StatParseResult TryParseIsLeft(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
     {
-        public byte CountParsed { get; set; } = 0;
-        public sbyte Plus { get; set; } = -1;
-        public sbyte Minus { get; set; } = -1;
-
-        public bool IsParseClean { get; private set; } = true;
-        public bool IsParsedAllStats { get; private set; } = false;
-
-        public void FinishParse(int expect)
-        {
-            if (CountParsed == 0 && Plus < 0 && Minus < 0)
-                Dirty();
-            IsParsedAllStats = CountParsed == expect || IsParseClean;
-        }
-
-        public void FinishParseOnly(int expect) => IsParsedAllStats = CountParsed == expect;
-        public void Dirty() => IsParseClean = false;
-        public bool HasAmps => Plus != -1 || Minus != -1;
-    }
-
-    private ParseResult TryParseIsLeft(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
-    {
-        var rec = new ParseResult();
+        var rec = new StatParseResult();
 
         for (int i = 0; i < Names.Length; i++)
         {
+            if (message.Length == 0)
+                break;
+
             var statName = Names[i];
             var index = message.IndexOf(statName, StringComparison.OrdinalIgnoreCase);
             if (index == -1)
                 continue;
 
             if (index != 0)
-                rec.Dirty(); // We have something before our stat name, so it isn't clean.
+                rec.MarkDirty(); // We have something before our stat name, so it isn't clean.
 
             message = message[statName.Length..].TrimStart();
             if (valueGap.Length > 0 && message.StartsWith(valueGap))
@@ -194,8 +201,11 @@ public sealed class StatDisplayConfig
 
             if (value.Length != 0)
             {
-                TryPeekAmp(ref value, ref rec, i);
-                TryParse(result, ref rec, value, i);
+                var amped = TryPeekAmp(ref value, ref rec, i);
+                if (amped && value.Length == 0)
+                    rec.MarkParsed(index);
+                else
+                    TryParse(result, ref rec, value, i);
             }
 
             if (indexSeparator != -1)
@@ -203,16 +213,22 @@ public sealed class StatDisplayConfig
             else
                 break;
         }
+
+        if (!message.IsWhiteSpace()) // shouldn't be anything left in the message to parse
+            rec.MarkDirty();
         rec.FinishParse(Names.Length);
         return rec;
     }
 
-    private ParseResult TryParseRight(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
+    private StatParseResult TryParseRight(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
     {
-        var rec = new ParseResult();
+        var rec = new StatParseResult();
 
         for (int i = 0; i < Names.Length; i++)
         {
+            if (message.Length == 0)
+                break;
+
             var statName = Names[i];
             var index = message.IndexOf(statName, StringComparison.OrdinalIgnoreCase);
             if (index == -1)
@@ -222,7 +238,7 @@ public sealed class StatDisplayConfig
             var indexSeparator = value.LastIndexOf(separator);
             if (indexSeparator != -1)
             {
-                rec.Dirty(); // We have something before our stat name, so it isn't clean.
+                rec.MarkDirty(); // We have something before our stat name, so it isn't clean.
                 value = value[(indexSeparator + 1)..].TrimStart();
             }
 
@@ -231,25 +247,33 @@ public sealed class StatDisplayConfig
 
             if (value.Length != 0)
             {
-                TryPeekAmp(ref value, ref rec, i);
-                TryParse(result, ref rec, value, i);
+                var amped = TryPeekAmp(ref value, ref rec, i);
+                if (amped && value.Length == 0)
+                    rec.MarkParsed(index);
+                else
+                    TryParse(result, ref rec, value, i);
             }
 
             message = message[(index + statName.Length)..].TrimStart();
             if (message.StartsWith(separator))
                 message = message[1..].TrimStart();
-            if (message.Length == 0)
-                break;
         }
 
+        if (!message.IsWhiteSpace()) // shouldn't be anything left in the message to parse
+            rec.MarkDirty();
         rec.FinishParse(Names.Length);
         return rec;
     }
 
-    // Existing TryParseRaw method remains unchanged.
-    public static ParseResult TryParseRaw(ReadOnlySpan<char> message, Span<int> result, char separator)
+    /// <summary>
+    /// Parses a raw stat string.
+    /// </summary>
+    /// <param name="message">Input string</param>
+    /// <param name="result">Output storage</param>
+    /// <param name="separator">Separator character</param>
+    public static StatParseResult TryParseRaw(ReadOnlySpan<char> message, Span<int> result, char separator)
     {
-        var rec = new ParseResult();
+        var rec = new StatParseResult();
 
         // Expect the message to contain all entries of `result` separated by the separator and an arbitrary amount of spaces permitted.
         // The message is split by the separator, and each part is trimmed of whitespace.
@@ -258,51 +282,53 @@ public sealed class StatDisplayConfig
             var index = message.IndexOf(separator);
 
             var value = index != -1 ? message[..index].Trim() : message.Trim();
-            message = message[value.Length..].TrimStart();
+            message = message[(index+1)..].TrimStart();
 
             if (value.Length == 0)
             {
-                rec.Dirty(); // Something is wrong with the message, as we have an empty stat.
-                break;
+                rec.MarkDirty(); // Something is wrong with the message, as we have an empty stat.
+                continue; // Maybe it's a duplicate separator; keep parsing and hope that the required amount are parsed.
             }
 
-            TryPeekAmp(ref value, ref rec, i);
-            if (!int.TryParse(value, out var stat) || stat < 0)
-            {
-                rec.Dirty();
-                break;
-            }
-            result[i] = stat;
-            rec.CountParsed++;
+            var amped = TryPeekAmp(ref value, ref rec, i);
+            if (amped && value.Length == 0)
+                rec.MarkParsed(index);
+            else
+                TryParse(result, ref rec, value, i);
         }
 
+        if (!message.IsWhiteSpace()) // shouldn't be anything left in the message to parse
+            rec.MarkDirty();
         rec.FinishParseOnly(result.Length);
         return rec;
     }
 
-    private static void TryParse(Span<int> result, ref ParseResult rec, ReadOnlySpan<char> value, int statIndex)
+    private static void TryParse(Span<int> result, ref StatParseResult rec, ReadOnlySpan<char> value, int statIndex)
     {
         if (!int.TryParse(value, out var stat) || stat < 0)
         {
-            rec.Dirty();
+            rec.MarkDirty();
             return;
         }
         result[statIndex] = stat;
-        rec.CountParsed++;
+        rec.MarkParsed(statIndex);
     }
 
-    private static void TryPeekAmp(ref ReadOnlySpan<char> value, ref ParseResult rec, int statIndex)
+    private static bool TryPeekAmp(ref ReadOnlySpan<char> value, ref StatParseResult rec, int statIndex)
     {
         var last = value[^1];
         if (last == '+')
         {
             rec.Plus = (sbyte)statIndex;
             value = value[..^1].TrimEnd();
+            return true;
         }
-        else if (last == '-')
+        if (last == '-')
         {
             rec.Minus = (sbyte)statIndex;
             value = value[..^1].TrimEnd();
+            return true;
         }
+        return false;
     }
 }
