@@ -22,27 +22,27 @@ public sealed record BattleTemplateConfig
     /// <summary>
     /// Stat names, ordered with speed in the middle (not last).
     /// </summary>
-    public required string[] StatNames { get; init; }
+    public required StatDisplayConfig StatNames { get; init; }
 
     /// <summary>
     /// Stat names, ordered with speed in the middle (not last).
     /// </summary>
-    public required string[] StatNamesFull { get; init; }
+    public required StatDisplayConfig StatNamesFull { get; init; }
 
     public required string Male { get; init; }
     public required string Female { get; init; }
-
-    private static readonly string[] StatNamesOneChar = ["H", "A", "B", "S", "C", "D"];
 
     /// <summary>
     /// Gets the stat names in the requested format.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public ReadOnlySpan<string> GetStatDisplay(StatDisplayStyle style = StatDisplayStyle.Abbreviated) => style switch
+    public StatDisplayConfig GetStatDisplay(StatDisplayStyle style = StatDisplayStyle.Abbreviated) => style switch
     {
         StatDisplayStyle.Abbreviated => StatNames,
         StatDisplayStyle.Full => StatNamesFull,
-        StatDisplayStyle.OneChar => StatNamesOneChar,
+        StatDisplayStyle.HABCDS => StatDisplayConfig.HABCDS,
+        StatDisplayStyle.Raw => StatDisplayConfig.Raw,
+        StatDisplayStyle.Raw00 => StatDisplayConfig.Raw00,
         _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
     };
 
@@ -199,21 +199,82 @@ public sealed record BattleTemplateConfig
     /// <returns>-1 if not found, otherwise the index of the stat</returns>
     public int GetStatIndex(ReadOnlySpan<char> stat)
     {
-        for (int i = 0; i < StatNames.Length; i++)
+        var index = StatNames.GetStatIndex(stat);
+        if (index != -1)
+            return index;
+        index = StatNamesFull.GetStatIndex(stat);
+        if (index != -1)
+            return index;
+
+        foreach (var set in StatDisplayConfig.Custom)
         {
-            if (stat.Equals(StatNames[i], StringComparison.OrdinalIgnoreCase))
-                return i;
-        }
-        for (int i = 0; i < StatNamesFull.Length; i++)
-        {
-            if (stat.Equals(StatNamesFull[i], StringComparison.OrdinalIgnoreCase))
-                return i;
-        }
-        for (int i = 0; i < StatNamesOneChar.Length; i++)
-        {
-            if (stat.Equals(StatNamesOneChar[i], StringComparison.OrdinalIgnoreCase))
-                return i;
+            index = set.GetStatIndex(stat);
+            if (index != -1)
+                return index;
         }
         return -1;
+    }
+
+    public StatDisplayConfig.ParseResult TryParseStats(ReadOnlySpan<char> message, Span<int> bestResult)
+    {
+        var result = ParseInternal(message, bestResult);
+        ReorderSpeedNotLast(bestResult);
+        return result;
+    }
+
+    private StatDisplayConfig.ParseResult ParseInternal(ReadOnlySpan<char> message, Span<int> bestResult)
+    {
+        Span<int> original = stackalloc int[bestResult.Length];
+        bestResult.CopyTo(original);
+
+        var result = StatNames.TryParse(message, bestResult);
+        if (result.IsParsedAllStats)
+            return result;
+
+        // Check if the others get a better result
+        int bestCount = result.CountParsed;
+        Span<int> tmp = stackalloc int[bestResult.Length];
+        // Check Long Stat names
+        {
+            original.CopyTo(tmp); // restore original defaults
+            var other = StatNamesFull.TryParse(message, tmp);
+            if (other.IsParsedAllStats)
+            {
+                tmp.CopyTo(bestResult);
+                return other;
+            }
+            if (other.CountParsed > bestCount)
+            {
+                bestCount = other.CountParsed;
+                tmp.CopyTo(bestResult);
+            }
+        }
+        // Check custom parsers
+        foreach (var set in StatDisplayConfig.Custom)
+        {
+            original.CopyTo(tmp); // restore original defaults
+            var other = set.TryParse(message, tmp);
+            if (other.IsParsedAllStats)
+            {
+                tmp.CopyTo(bestResult);
+                return other;
+            }
+            if (other.CountParsed > bestCount)
+            {
+                bestCount = other.CountParsed;
+                tmp.CopyTo(bestResult);
+            }
+        }
+
+        return result;
+    }
+
+    private static void ReorderSpeedNotLast<T>(Span<T> arr)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(arr.Length, 6);
+        var speed = arr[5];
+        arr[5] = arr[4];
+        arr[4] = arr[3];
+        arr[3] = speed;
     }
 }

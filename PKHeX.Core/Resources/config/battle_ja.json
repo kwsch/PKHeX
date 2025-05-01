@@ -1,6 +1,14 @@
 {
- "StatNames": ["HP", "攻撃", "防御", "素早さ", "特攻", "特防"],
- "StatNamesFull": ["HP", "攻撃", "防御", "素早さ", "特攻", "特防"],
+ "StatNames": {
+  "Names": ["HP", "攻撃", "防御", "特攻", "特防", "素早さ"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "攻撃", "防御", "特攻", "特防", "素早さ"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
  "Male":  "男性",
  "Female":  "女性",
  "Left": [

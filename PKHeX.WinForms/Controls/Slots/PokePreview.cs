@@ -176,7 +176,7 @@ public partial class PokePreview : Form
     {
         Span<byte> gvs = stackalloc byte[6];
         g.GetGVs(gvs);
-        var statNames = settings.Localization.Config.GetStatDisplay(settings.Stats);
+        var statNames = settings.Localization.Config.GetStatDisplay(settings.StatsOther);
         var value = TryAdd<byte>(gvs, statNames);
         if (value.Length == 0)
             return;
@@ -188,7 +188,7 @@ public partial class PokePreview : Form
     {
         Span<byte> avs = stackalloc byte[6];
         a.GetAVs(avs);
-        var statNames = settings.Localization.Config.GetStatDisplay(settings.Stats);
+        var statNames = settings.Localization.Config.GetStatDisplay(settings.StatsOther);
         var value = TryAdd<byte>(avs, statNames);
         if (value.Length == 0)
             return;
@@ -196,7 +196,7 @@ public partial class PokePreview : Form
         line += Environment.NewLine + result;
     }
 
-    private static string TryAdd<T>(ReadOnlySpan<T> stats, ReadOnlySpan<string> statNames, T ignore = default) where T : unmanaged, IEquatable<T>
+    private static string TryAdd<T>(ReadOnlySpan<T> stats, StatDisplayConfig statNames, T ignore = default) where T : unmanaged, IEquatable<T>
     {
         var chunks = ShowdownSet.GetStringStats(stats, ignore, statNames);
         if (chunks.Length == 0)

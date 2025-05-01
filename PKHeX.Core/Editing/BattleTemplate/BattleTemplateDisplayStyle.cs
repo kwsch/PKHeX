@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Token order for displaying the battle template.
+/// </summary>
 public enum BattleTemplateDisplayStyle : sbyte
 {
     Custom = -1,

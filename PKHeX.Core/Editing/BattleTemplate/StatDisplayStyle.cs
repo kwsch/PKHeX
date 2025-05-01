@@ -3,8 +3,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Style to display stat names.
 /// </summary>
-public enum StatDisplayStyle : byte
+public enum StatDisplayStyle : sbyte
 {
+    Custom = -1,
+
     /// <summary>
     /// Stat names are displayed in abbreviated (2-3 characters) localized text.
     /// </summary>
@@ -19,7 +21,17 @@ public enum StatDisplayStyle : byte
     /// Stat names are displayed as a single character.
     /// </summary>
     /// <remarks>
-    /// This is the typical format used by the Japanese community; H/A/B/C/D/S.
+    /// This is the typical format used by the Japanese community; HABCDS.
     /// </remarks>
-    OneChar,
+    HABCDS,
+
+    /// <summary>
+    /// Stat names are displayed without localization; X/X/X/X/X/X
+    /// </summary>
+    Raw,
+
+    /// <summary>
+    /// Stat names are displayed without localization; XX/XX/XX/XX/XX/XX
+    /// </summary>
+    Raw00,
 }

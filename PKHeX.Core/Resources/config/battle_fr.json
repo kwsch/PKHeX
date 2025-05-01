@@ -1,6 +1,14 @@
 {
- "StatNames": ["PV", "Atq", "Def", "Vit", "AtS", "DeS"],
- "StatNamesFull": ["PV", "Attaque", "Défense", "Vitesse", "Atq. Spé.", "Déf. Spé."],
+ "StatNames": {
+  "Names": ["PV", "Atq", "Def", "AtS", "DeS", "Vit"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["PV", "Attaque", "Défense", "Atq. Spé.", "Déf. Spé.", "Vitesse"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
  "Male":  "Homme",
  "Female":  "Femme",
  "Left": [

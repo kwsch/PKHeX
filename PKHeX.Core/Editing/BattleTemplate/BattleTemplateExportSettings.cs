@@ -2,12 +2,36 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Settings for exporting a battle template.
+/// </summary>
 public readonly ref struct BattleTemplateExportSettings
 {
+    /// <summary>
+    /// Order of the tokens in the export.
+    /// </summary>
     public ReadOnlySpan<BattleTemplateToken> Order { get; init; }
+
+    /// <summary>
+    /// Localization for the battle template.
+    /// </summary>
     public BattleTemplateLocalization Localization { get; }
 
-    public StatDisplayStyle Stats { get; init; }
+    /// <summary>
+    /// Display style for the EVs.
+    /// </summary>
+    public StatDisplayStyle StatsEVs { get; init; }
+
+    /// <summary>
+    /// Display style for the IVs.
+    /// </summary>
+    public StatDisplayStyle StatsIVs { get; init; }
+
+    public StatDisplayStyle StatsOther { get; init; }
+
+    /// <summary>
+    /// Display style for the moves.
+    /// </summary>
     public MoveDisplayStyle Moves { get; init; }
 
     public static BattleTemplateExportSettings Showdown => new(BattleTemplateConfig.Showdown);
@@ -28,6 +52,9 @@ public readonly ref struct BattleTemplateExportSettings
         Order = order;
     }
 
+    /// <summary>
+    /// Checks if the token is in the export.
+    /// </summary>
     public bool IsTokenInExport(BattleTemplateToken token)
     {
         foreach (var t in Order)
@@ -38,6 +65,9 @@ public readonly ref struct BattleTemplateExportSettings
         return false;
     }
 
+    /// <summary>
+    /// Gets the index of the token in the export.
+    /// </summary>
     public int GetTokenIndex(BattleTemplateToken token)
     {
         for (int i = 0; i < Order.Length; i++)
@@ -48,6 +78,12 @@ public readonly ref struct BattleTemplateExportSettings
         return -1;
     }
 
+    /// <summary>
+    /// Checks if the token is in the export.
+    /// </summary>
+    /// <remarks>Should be a static method, but is not because it feels better this way.</remarks>
+    /// <param name="token">Token to check</param>
+    /// <param name="tokens">Tokens to check against</param>
     public bool IsTokenInExport(BattleTemplateToken token, ReadOnlySpan<BattleTemplateToken> tokens)
     {
         foreach (var t in tokens)

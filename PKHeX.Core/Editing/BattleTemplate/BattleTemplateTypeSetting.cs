@@ -18,8 +18,13 @@ public sealed class BattleTemplateTypeSetting
 
     [LocalizedDescription("Language to use when exporting a battle template.")]
     public LanguageID Language { get; set; }
-    public StatDisplayStyle StyleStat { get; set; }
+    public StatDisplayStyle StyleStatEVs { get; set; }
+    public StatDisplayStyle StyleStatIVs { get; set; }
+    public StatDisplayStyle StyleStatOther { get; set; }
     public MoveDisplayStyle StyleMove { get; set; }
+
+    [LocalizedDescription("Custom stat labels and grammar.")]
+    public StatDisplayConfig StatsCustom { get; set; } = StatDisplayConfig.HABCDS;
 
     [LocalizedDescription("Display format to use when exporting a battle template from the program.")]
     public BattleTemplateDisplayStyle TokenOrder { get; set; }
@@ -38,7 +43,9 @@ public sealed class BattleTemplateTypeSetting
 
     public BattleTemplateExportSettings GetSettings(LanguageID programLanguage, EntityContext context) => new(GetOrder(TokenOrder, TokenOrderCustom), GetLanguageExport(programLanguage))
     {
-        Stats = StyleStat,
+        StatsEVs = StyleStatEVs,
+        StatsIVs = StyleStatIVs,
+        StatsOther = StyleStatOther,
         Moves = GetMoveDisplayStyle(StyleMove, context),
     };
 

@@ -188,15 +188,42 @@ public class ShowdownSetTests
             // Convert back, should be 1:1
             if (!ShowdownParsing.TryParseAnyLanguage(translated, out var set2))
                 throw new Exception($"{languageTarget} parse failed");
-            if (set2.InvalidLines.Count != 0)
-                throw new Exception($"{languageTarget} parse lines not recognized");
-
+            set2.InvalidLines.Should().BeEmpty();
             set2.Species.Should().Be(set.Species);
             set2.Form.Should().Be(set.Form);
 
             var result = set2.GetText(settingsOriginal);
             result.Should().Be(message);
         }
+    }
+
+    [Theory]
+    [InlineData(SetAllTokenExample)]
+    public void SimulatorTranslateHABCDS(string message, string languageOriginal = "en")
+    {
+        var settingsOriginal = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard, languageOriginal);
+        if (!ShowdownParsing.TryParseAnyLanguage(message, out var set))
+            throw new Exception("Input failed");
+
+        var target = new BattleTemplateExportSettings("ja")
+        {
+            StatsIVs = StatDisplayStyle.HABCDS,
+            StatsEVs = StatDisplayStyle.HABCDS,
+        };
+
+        var translated = set.GetText(target);
+        translated.Should().NotBeNullOrEmpty();
+        translated.Should().NotBe(message);
+
+        // Convert back, should be 1:1
+        if (!ShowdownParsing.TryParseAnyLanguage(translated, out var set2))
+            throw new Exception("ja parse failed");
+        set2.InvalidLines.Should().BeEmpty();
+        set2.Species.Should().Be(set.Species);
+        set2.Form.Should().Be(set.Form);
+
+        var result = set2.GetText(settingsOriginal);
+        result.Should().Be(message);
     }
 
     [Theory]

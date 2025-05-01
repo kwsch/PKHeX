@@ -1,6 +1,14 @@
 {
- "StatNames": ["HP", "공격", "방어", "스피드", "특공", "특방"],
- "StatNamesFull": ["HP", "공격", "방어", "스피드", "특공", "특방"],
+ "StatNames": {
+  "Names": ["HP", "공격", "방어", "특공", "특방", "스피드"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "공격", "방어", "특공", "특방", "스피드"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
  "Male":  "남성",
  "Female":  "여성",
  "Left": [

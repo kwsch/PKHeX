@@ -12,7 +12,9 @@ namespace PKHeX.Core;
 [JsonConverter(typeof(JsonStringEnumConverter<BattleTemplateToken>))]
 public enum BattleTemplateToken : byte
 {
-    None = 0, // invalid
+    None = 0, // invalid, used as a magic value to signal that a token is not recognized
+
+    // Standard tokens
     Shiny,
     Ability,
     Nature,
@@ -24,16 +26,24 @@ public enum BattleTemplateToken : byte
     Gigantamax,
     TeraType,
 
+    // Tokens that can appear multiple times
     Moves,
 
+    // When present, first line will not contain values for these tokens (instead outputting on separate token line)
+    // Not part of the standard export format, but can be recognized/optionally used in the program
     HeldItem,
     Nickname,
     Gender,
+
+    // Manually appended, not stored or recognized on import
     AVs,
     GVs,
 
-    FirstLine,
-    AbilityHeldItem,
-    EVsWithNature,
-    EVsAppendNature,
+    // Future Showdown propositions
+    AbilityHeldItem, // [Ability] Item
+    EVsWithNature, // +/-
+    EVsAppendNature, // +/- and .. (Nature)
+
+    // Omitting the first line (species) shouldn't be done unless it is manually added in the presentation/export.
+    FirstLine = byte.MaxValue, 
 }

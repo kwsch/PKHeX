@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using static PKHeX.Core.Species;
 
@@ -12,6 +13,7 @@ public sealed class ShowdownSet : IBattleTemplate
 {
     private const char ItemSplit = '@';
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
+    private const int MaxMoveCount = 4;
     private const string DefaultLanguage = BattleTemplateLocalization.DefaultLanguage; // English
     private static BattleTemplateLocalization DefaultStrings => BattleTemplateLocalization.Default;
 
@@ -98,8 +100,6 @@ public sealed class ShowdownSet : IBattleTemplate
         }
     }
 
-    private const int MaxMoveCount = 4;
-
     // Skip lines that are too short or too long.
     // Longest line is ~74 (Gen2 EVs)
     // Length permitted: 3-80
@@ -178,6 +178,11 @@ public sealed class ShowdownSet : IBattleTemplate
         var firstChar = line[0];
         if (firstChar is '-' or '–')
         {
+            if (movectr >= MaxMoveCount)
+            {
+                InvalidLines.Add($"Too many moves: {line}");
+                return;
+            }
             var moveString = ParseLineMove(line, localization.Strings);
             int move = StringUtil.FindIndexIgnoreCase(localization.Strings.movelist, moveString);
             if (move < 0)
@@ -193,6 +198,11 @@ public sealed class ShowdownSet : IBattleTemplate
         var dirMoveIndex = dirMove.IndexOf(firstChar);
         if (dirMoveIndex != -1)
         {
+            if (moves[dirMoveIndex] != 0)
+            {
+                InvalidLines.Add($"Move slot already specified: {line}");
+                return;
+            }
             var moveString = ParseLineMove(line, localization.Strings);
             int move = StringUtil.FindIndexIgnoreCase(localization.Strings.movelist, moveString);
             if (move < 0)
@@ -471,10 +481,10 @@ public sealed class ShowdownSet : IBattleTemplate
                 var maxIV = Context.Generation() < 3 ? 15 : 31;
                 if (!IVs.AsSpan().ContainsAnyExcept(maxIV))
                     break; // skip if all IVs are maxed
-                var nameIVs = cfg.GetStatDisplay(settings.Stats);
+                var nameIVs = cfg.GetStatDisplay(settings.StatsIVs);
                 var ivs = GetStringStats(IVs, maxIV, nameIVs);
                 if (ivs.Length != 0)
-                    result.Add(cfg.Push(BattleTemplateToken.IVs, string.Join(" / ", ivs)));
+                    result.Add(cfg.Push(BattleTemplateToken.IVs, ivs));
                 break;
 
             // EVs
@@ -527,14 +537,13 @@ public sealed class ShowdownSet : IBattleTemplate
     private void AddEVs(List<string> result, in BattleTemplateExportSettings settings, BattleTemplateToken token)
     {
         var cfg = settings.Localization.Config;
-        var nameEVs = cfg.GetStatDisplay(settings.Stats);
-        var evs = token switch
+        var nameEVs = cfg.GetStatDisplay(settings.StatsEVs);
+        var line = token switch
         {
             BattleTemplateToken.EVsWithNature => GetStringStatsNature(EVs, 0, nameEVs, Nature),
             BattleTemplateToken.EVsAppendNature => GetStringStatsNature(EVs, 0, nameEVs, Nature),
             _ => GetStringStats(EVs, 0, nameEVs),
         };
-        var line = string.Join(" / ", evs);
         if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed())
             line += $" ({settings.Localization.Strings.natures[(int)Nature]})";
         result.Add(cfg.Push(BattleTemplateToken.EVs, line));
@@ -560,7 +569,7 @@ public sealed class ShowdownSet : IBattleTemplate
         return $"[{abilityName}] {ItemSplit} {itemName}";
     }
 
-    public static string[] GetStringStatsNature<T>(ReadOnlySpan<T> stats, T ignoreValue, ReadOnlySpan<string> statNames, Nature nature) where T : IEquatable<T>
+    public static string GetStringStatsNature<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
     {
         var (plus, minus) = NatureAmp.GetNatureModification(nature);
         if (plus == minus)
@@ -574,50 +583,62 @@ public sealed class ShowdownSet : IBattleTemplate
         }
 
         var count = stats.Length;
-        for (int i = 0; i < stats.Length; i++)
+        if (!statNames.AlwaysShow)
         {
-            if (stats[i].Equals(ignoreValue) && i != plus && i != minus)
-                count--; // ignore unused stats
+            for (int i = 0; i < stats.Length; i++)
+            {
+                if (stats[i].Equals(ignoreValue) && i != plus && i != minus)
+                    count--; // ignore unused stats
+            }
         }
         if (count == 0)
-            return [];
+            return string.Empty;
 
-        var result = new string[count];
+        var result = new StringBuilder();
         int ctr = 0;
         for (int i = 0; i < stats.Length; i++)
         {
             var statIndex = GetStatIndexStored(i);
             var statValue = stats[statIndex];
-            if (statValue.Equals(ignoreValue) && statIndex != plus && statIndex != minus)
-                continue; // ignore unused stats
-            var statName = statNames[statIndex];
-            var amp = statIndex == plus ? "+" : statIndex == minus ? "-" : string.Empty;
 
-            result[ctr++] = !statValue.Equals(ignoreValue)
-                ? $"{statValue}{amp} {statName}"
-                : $"{amp} {statName}";
+            var hideValue = statValue.Equals(ignoreValue) && !statNames.AlwaysShow;
+            if (hideValue && statIndex != plus && statIndex != minus)
+                continue; // ignore unused stats
+            var amp = statIndex == plus ? "+" : statIndex == minus ? "-" : string.Empty;
+            if (ctr++ != 0)
+                result.Append(statNames.Separator);
+            statNames.Format(result, i, statValue, amp, hideValue);
         }
-        return result;
+        return result.ToString();
     }
 
-    public static string[] GetStringStats<T>(ReadOnlySpan<T> stats, T ignoreValue, ReadOnlySpan<string> statNames) where T : IEquatable<T>
+    public static string GetStringStats<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames) where T : IEquatable<T>
     {
-        var count = stats.Length - stats.Count(ignoreValue);
+        var count = stats.Length;
+        if (!statNames.AlwaysShow)
+        {
+            foreach (var stat in stats)
+            {
+                if (stat.Equals(ignoreValue))
+                    count--; // ignore unused stats
+            }
+        }
         if (count == 0)
-            return [];
+            return "";
 
-        var result = new string[count];
+        var result = new StringBuilder();
         int ctr = 0;
         for (int i = 0; i < stats.Length; i++)
         {
             var statIndex = GetStatIndexStored(i);
             var statValue = stats[statIndex];
-            if (statValue.Equals(ignoreValue))
-                continue; // ignore unused stats
-            var statName = statNames[statIndex];
-            result[ctr++] = $"{statValue} {statName}";
+            if (statValue.Equals(ignoreValue) && !statNames.AlwaysShow)
+                continue;
+            if (ctr++ != 0)
+                result.Append(statNames.Separator);
+            statNames.Format(result, i, statValue);
         }
-        return result;
+        return result.ToString();
     }
 
     private void GetStringMoves(List<string> result, in BattleTemplateExportSettings settings)
@@ -951,10 +972,6 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseLineEVs(ReadOnlySpan<char> line, BattleTemplateLocalization localization)
     {
-        int plus = -1, minus = -1;
-        int start = 0;
-        var config = localization.Config;
-
         // If nature is present, parse it first.
         var nature = line.IndexOf('(');
         if (nature != -1)
@@ -982,64 +999,31 @@ public sealed class ShowdownSet : IBattleTemplate
             line = line[..nature].TrimEnd();
         }
 
-        // Parse stats left to right, delimited by `/`.
-        while (true)
-        {
-            var chunk = line[start..];
-            var separator = chunk.IndexOf('/');
-            var len = separator == -1 ? chunk.Length : separator;
-            var tuple = chunk[..len].Trim();
+        var result = localization.Config.TryParseStats(line, EVs);
+        var success = result.IsParsedAllStats;
+        if (!result.IsParseClean)
+            InvalidLines.Add($"Invalid EVs: {line}");
 
-            if (!AbsorbValue(tuple, config))
-                InvalidLines.Add($"Invalid EV tuple: {tuple}");
-            if (separator == -1)
-                break; // no more stats
-            start += separator + 1;
-        }
-        // Check for plus/minus
-        if (plus == -1 && minus == -1)
-            return true;
-
+        if (result is { HasAmps: false })
+            return success;
         if (Nature != Nature.Random)
         {
             InvalidLines.Add($"EV nature +/- ignored, specified previously: {line}");
             return false;
         }
-        return AdjustNature(plus, minus);
 
-        bool AbsorbValue(ReadOnlySpan<char> text, BattleTemplateConfig stats)
-        {
-            var space = text.IndexOf(' ');
-            if (space == -1)
-                return false;
+        success &= AdjustNature(result.Plus, result.Minus);
+        return success;
+    }
 
-            var statName = text[(space + 1)..].Trim();
-            var statIndex = stats.GetStatIndex(statName);
-            if (statIndex == -1)
-                return false;
-
-            var value = text[..space].Trim();
-            if (value.EndsWith('+'))
-            {
-                plus = statIndex - 1;
-                value = value[..^1].Trim();
-                if (value.Length == 0)
-                    return true; // nothing else to parse
-            }
-            else if (value.EndsWith('-'))
-            {
-                minus = statIndex - 1;
-                value = value[..^1].Trim();
-                if (value.Length == 0)
-                    return true; // nothing else to parse
-            }
-
-            if (!ushort.TryParse(value, out var statValue))
-                return false;
-
-            EVs[statIndex] = statValue;
-            return true;
-        }
+    private bool ParseLineIVs(ReadOnlySpan<char> line, BattleTemplateConfig config)
+    {
+        // Parse stats, with unspecified name representation (try all).
+        var result = config.TryParseStats(line, IVs);
+        var success = result.IsParsedAllStats;
+        if (!result.IsParseClean)
+            InvalidLines.Add($"Invalid IVs: {line}");
+        return success;
     }
 
     private bool AdjustNature(int plus, int minus)
@@ -1051,43 +1035,5 @@ public sealed class ShowdownSet : IBattleTemplate
         else
             Nature = NatureAmp.CreateNatureFromAmps(plus, minus);
         return true;
-    }
-
-    private bool ParseLineIVs(ReadOnlySpan<char> line, BattleTemplateConfig config)
-    {
-        // Parse stats, with unspecified name representation (try all).
-        int start = 0;
-        while (true)
-        {
-            var chunk = line[start..];
-            var separator = chunk.IndexOf('/');
-            var len = separator == -1 ? chunk.Length : separator;
-            var tuple = chunk[..len].Trim();
-            if (!AbsorbValue(tuple, config))
-                InvalidLines.Add($"Invalid IV tuple: {tuple}");
-            if (separator == -1)
-                break; // no more stats
-            start += separator + 1;
-        }
-        return true;
-
-        bool AbsorbValue(ReadOnlySpan<char> text, BattleTemplateConfig stats)
-        {
-            var space = text.IndexOf(' ');
-            if (space == -1)
-                return false;
-
-            var stat = text[(space + 1)..].Trim();
-            var statIndex = stats.GetStatIndex(stat);
-            if (statIndex == -1)
-                return false;
-
-            var value = text[..space].Trim();
-            if (!byte.TryParse(value, out var statValue))
-                return false;
-
-            IVs[statIndex] = statValue;
-            return true;
-        }
     }
 }

@@ -1,6 +1,14 @@
 {
- "StatNames": ["HP", "攻击", "防御", "速度", "特攻", "特防"],
- "StatNamesFull": ["HP", "攻击", "防御", "速度", "特攻", "特防"],
+ "StatNames": {
+  "Names": ["HP", "攻击", "防御", "特攻", "特防", "速度"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "攻击", "防御", "特攻", "特防", "速度"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
  "Male":  "男",
  "Female":  "女",
  "Left": [

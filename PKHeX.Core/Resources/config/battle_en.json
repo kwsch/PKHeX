@@ -1,6 +1,14 @@
 {
- "StatNames": ["HP", "Atk", "Def", "Spe", "SpA", "SpD"],
- "StatNamesFull": ["HP", "Attack", "Defense", "Speed", "Sp. Atk", "Sp. Def"],
+ "StatNames": {
+  "Names": ["HP", "Atk", "Def", "SpA", "SpD", "Spe"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
  "Male":  "Male",
  "Female":  "Female",
  "Left": [
