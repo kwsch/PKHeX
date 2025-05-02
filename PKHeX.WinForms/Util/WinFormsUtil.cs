@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -259,7 +260,7 @@ public static class WinFormsUtil
     /// <param name="extensions">Misc extensions of <see cref="PKM"/> files supported by the Save File.</param>
     /// <param name="path">Output result path</param>
     /// <returns>Result of the dialog menu indicating if a file is to be loaded from the output path.</returns>
-    public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string? path)
+    public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, [NotNullWhen(true)] out string? path)
     {
         var sb = new StringBuilder(128);
         foreach (var type in extensions)

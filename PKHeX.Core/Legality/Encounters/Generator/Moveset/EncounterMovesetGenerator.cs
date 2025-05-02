@@ -128,18 +128,24 @@ public static class EncounterMovesetGenerator
     private static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlyMemory<ushort> moves, GameVersion version)
     {
         pk.Version = version;
-        var context = version.GetContext();
-        var generation = version.GetGeneration();
-        foreach (var enc in GenerateVersionEncounters(pk, moves, version, generation, context))
+        if (version is GameVersion.GO)
+            return GenerateVersionEncountersGO(pk, moves);
+        return GenerateVersionEncounters(pk, moves, version, version.GetGeneration(), version.GetContext());
+    }
+
+    private static IEnumerable<IEncounterable> GenerateVersionEncountersGO(PKM pk, ReadOnlyMemory<ushort> moves)
+    {
+        // GO Encounters can be from Gen7b or Gen8+; try again with Gen8+ if we still need to iterate.
+        var gen7b = GenerateVersionEncounters(pk, moves, GameVersion.GO, 7, EntityContext.Gen7b);
+        foreach (var enc in gen7b)
             yield return enc;
 
         // GO Encounters can be from Gen7b or Gen8+; try again with Gen8+ if we still need to iterate.
-        if (version is not GameVersion.GO || pk.Format < 8)
+        if (pk.Context is EntityContext.Gen7b)
             yield break;
 
-        generation = 8;
-        context = EntityContext.Gen8;
-        foreach (var enc in GenerateVersionEncounters(pk, moves, version, generation, context))
+        var gen8 = GenerateVersionEncounters(pk, moves, GameVersion.GO, 8, EntityContext.Gen8);
+        foreach (var enc in gen8)
             yield return enc;
     }
 
@@ -151,7 +157,7 @@ public static class EncounterMovesetGenerator
             yield break;
 
         ReadOnlyMemory<ushort> needs = GetNeededMoves(pk, moves.Span, version, generation, context);
-        var generator = EncounterGenerator.GetGenerator(version);
+        var generator = EncounterGenerator.GetGenerator(version, generation);
 
         foreach (var type in PriorityList)
         {

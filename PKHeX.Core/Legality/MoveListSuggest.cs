@@ -185,7 +185,7 @@ public static class MoveListSuggest
             return;
 
         // Try again with the other split-breed species if possible.
-        var generator = EncounterGenerator.GetGenerator(enc.Version);
+        var generator = EncounterGenerator.GetGenerator(enc.Version, enc.Generation);
 
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
         var origin = new EvolutionOrigin(enc.Species, enc.Version, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
