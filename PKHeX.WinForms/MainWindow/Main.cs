@@ -524,18 +524,15 @@ public partial class Main : Form
 
         // Get Simulator Data
         var text = Clipboard.GetText();
-        ShowdownSet set;
-        if (ShowdownTeam.IsURL(text, out var url) && ShowdownTeam.TryGetSets(url, out var content))
-            set = ShowdownParsing.GetShowdownSets(content).FirstOrDefault() ?? new(""); // take only first set
-        else if (PokepasteTeam.IsURL(text, out url) && PokepasteTeam.TryGetSets(url, out content))
-            set = ShowdownParsing.GetShowdownSets(content).FirstOrDefault() ?? new(""); // take only first set
-        else
-            set = new ShowdownSet(text);
+        var sets = BattleTemplateTeams.TryGetSets(text);
+        var set = sets.FirstOrDefault() ?? new(""); // take only first set
 
         if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-        var reformatted = set.Text;
+        var programLanguage = Language.GetLanguageValue(Settings.Startup.Language);
+        var settings = Settings.BattleTemplate.Export.GetSettings(programLanguage, set.Context);
+        var reformatted = set.GetText(settings);
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, reformatted))
             return;
 
@@ -555,7 +552,9 @@ public partial class Main : Form
         }
 
         var pk = PreparePKM();
-        var text = ShowdownParsing.GetShowdownText(pk);
+        var programLanguage = Language.GetLanguageValue(Settings.Startup.Language);
+        var settings = Settings.BattleTemplate.Export.GetSettings(programLanguage, pk.Context);
+        var text = ShowdownParsing.GetShowdownText(pk, settings);
         bool success = WinFormsUtil.SetClipboardText(text);
         if (!success || !Clipboard.GetText().Equals(text))
             WinFormsUtil.Alert(MsgClipboardFailWrite, MsgSimulatorExportFail);

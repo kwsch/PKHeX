@@ -1,0 +1,35 @@
+{
+ "StatNames": {
+  "Names": ["KP", "Ang", "Vert", "Init", "SpA", "SpV"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["KP", "Angriff", "Verteidigung", "Initiative", "Sp. Angriff", "Sp. Verteidigung"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "Male":  "Männlich",
+ "Female":  "Weiblich",
+ "Left": [
+  { "Token": "Friendship", "Text": "Freundschaft: " },
+  { "Token": "EVs", "Text": "EVs: " },
+  { "Token": "IVs", "Text": "DVs: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "GVs: " },
+  { "Token": "Level", "Text": "Level: " },
+  { "Token": "Ability", "Text": "Fähigkeit: " },
+  { "Token": "DynamaxLevel", "Text": "Dynamax Level: " },
+  { "Token": "TeraType", "Text": "Tera-Typ: " },
+  { "Token": "Gender", "Text": "Geschlecht: "},
+  { "Token": "Nickname", "Text": "Spitzname: "},
+  { "Token": "HeldItem", "Text": "Item: "}
+ ],
+ "Right": [
+  { "Token": "Nature", "Text": " Wesen" }
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "Schillerndes: Ja" },
+  { "Token": "Gigantamax", "Text": "Gigadynamax: Ja" }
+ ]
+}

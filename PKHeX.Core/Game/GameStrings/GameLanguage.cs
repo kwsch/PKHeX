@@ -35,6 +35,8 @@ public static class GameLanguage
     /// Language codes supported for loading string resources
     /// </summary>
     /// <see cref="ProgramLanguage"/>
+    public static ReadOnlySpan<string> AllSupportedLanguages => LanguageCodes;
+
     private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant"];
 
     /// <summary>

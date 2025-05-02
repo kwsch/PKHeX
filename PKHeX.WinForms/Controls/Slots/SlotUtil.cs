@@ -66,6 +66,11 @@ public static class SlotUtil
 
         pb.BackColor = Color.Transparent;
         pb.Image = img;
-        pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(p, Main.CurrentLanguage);
+
+        var x = Main.Settings;
+        var programLanguage = Language.GetLanguageValue(x.Startup.Language);
+        var cfg = x.BattleTemplate;
+        var settings = cfg.Hover.GetSettings(programLanguage, p.Context);
+        pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(p, settings);
     }
 }

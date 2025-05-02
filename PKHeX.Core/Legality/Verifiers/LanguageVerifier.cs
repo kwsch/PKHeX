@@ -54,7 +54,7 @@ public sealed class LanguageVerifier : Verifier
         if (currentLanguage > maxLanguageID)
             return false; //  Language not available (yet)
 
-        if (currentLanguage <= (int)LanguageID.Hacked && !(enc is EncounterTrade5BW && EncounterTrade5BW.IsValidMissingLanguage(pk)))
+        if (currentLanguage <= (int)LanguageID.None && !(enc is EncounterTrade5BW && EncounterTrade5BW.IsValidMissingLanguage(pk)))
             return false; // Missing Language value is not obtainable
 
         return true; // Language is possible

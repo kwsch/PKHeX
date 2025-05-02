@@ -1,0 +1,35 @@
+{
+ "StatNames": {
+  "Names": ["PS", "Att", "Dif", "AtS", "DiS", "Vel"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["PS", "Attacco", "Difesa", "Attacco Sp.", "Difesa Sp.", "Velocità"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "Male":  "Maschio",
+ "Female":  "Femmina",
+ "Left": [
+  { "Token": "Friendship", "Text": "Amicizia: " },
+  { "Token": "EVs", "Text": "EVs: " },
+  { "Token": "IVs", "Text": "IVs: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "GVs: " },
+  { "Token": "Level", "Text": "Livello: " },
+  { "Token": "Ability", "Text": "Abilità: " },
+  { "Token": "DynamaxLevel", "Text": "Livello Dynamax: " },
+  { "Token": "TeraType", "Text": "Teratipo: " },
+  { "Token": "Nature", "Text": "Natura " },
+  { "Token": "Gender", "Text": "Genere: "},
+  { "Token": "Nickname", "Text": "Soprannome: "},
+  { "Token": "HeldItem", "Text": "Strumento tenuto: "}
+ ],
+ "Right": [
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "Cromatico: Si" },
+  { "Token": "Gigantamax", "Text": "Gigamax: Si" }
+ ]
+}

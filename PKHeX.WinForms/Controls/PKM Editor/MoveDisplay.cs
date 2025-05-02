@@ -10,7 +10,7 @@ public partial class MoveDisplay : UserControl
 {
     public MoveDisplay() => InitializeComponent();
 
-    public int Populate(PKM pk, ushort move, EntityContext context, ReadOnlySpan<string> moves, bool valid = true)
+    public int Populate(PKM pk, GameStrings strings, ushort move, EntityContext context, ReadOnlySpan<string> moves, bool valid = true)
     {
         if (move == 0 || move >= moves.Length)
         {
@@ -24,7 +24,7 @@ public partial class MoveDisplay : UserControl
         if (move == (int)Core.Move.HiddenPower && pk.Context is not EntityContext.Gen8a)
         {
             if (HiddenPower.TryGetTypeIndex(pk.HPType, out type))
-                name = $"{name} ({GameInfo.Strings.types[type]}) [{pk.HPPower}]";
+                name = $"{name} ({strings.types[type]}) [{pk.HPPower}]";
         }
 
         var size = PokePreview.MeasureSize(name, L_Move.Font);
