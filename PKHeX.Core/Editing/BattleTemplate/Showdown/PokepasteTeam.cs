@@ -4,6 +4,12 @@ using System.Globalization;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for retrieving Showdown teams from URLs.
+/// </summary>
+/// <remarks>
+/// <see href="https://pokepast.es/"/>
+/// </remarks>
 public static class PokepasteTeam
 {
     /// <summary>
@@ -12,8 +18,17 @@ public static class PokepasteTeam
     /// <param name="team">The numeric identifier of the team.</param>
     /// <returns>A string containing the full URL to access the team data.</returns>
     public static string GetURL(ulong team) => $"https://pokepast.es/{team:x16}/raw";
+
+    /// <inheritdoc cref="GetURL"/>
+    /// <remarks>For legacy team indexes (first 255 or so), shouldn't ever be triggered non-test team indexes.</remarks>
     public static string GetURLOld(int team) => $"https://pokepast.es/{team}/raw";
 
+    /// <summary>
+    /// Attempts to retrieve the Showdown team data from a specified URL, and reformats it.
+    /// </summary>
+    /// <param name="url">The URL to retrieve the team data from.</param>
+    /// <param name="content">When the method returns, contains the processed team data if retrieval and formatting succeed; otherwise, null.</param>
+    /// <returns><c>true</c> if the team data is successfully retrieved and reformatted; otherwise, <c>false</c>.</returns>
     public static bool TryGetSets(string url, [NotNullWhen(true)] out string? content)
     {
         content = null;
@@ -29,7 +44,6 @@ public static class PokepasteTeam
     /// </summary>
     /// <param name="text">The text to evaluate.</param>
     /// <param name="url">When the method returns, contains the normalized API URL if the text represents a valid Showdown team URL; otherwise, null.</param>
-    /// <param name="hash"></param>
     /// <returns><c>true</c> if the text is a valid Showdown team URL; otherwise, <c>false</c>.</returns>
     public static bool IsURL(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
     {

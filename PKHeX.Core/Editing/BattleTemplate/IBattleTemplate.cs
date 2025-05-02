@@ -23,6 +23,7 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamaxReadOnly, IDynamaxLe
     /// <summary>
     /// <see cref="PKM.HeldItem"/> of the Set entity.
     /// </summary>
+    /// <remarks>Depends on <see cref="Context"/> for context-specific item lists.</remarks>
     int HeldItem { get; }
 
     /// <summary>

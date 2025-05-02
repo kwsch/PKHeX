@@ -16,7 +16,7 @@ public sealed class BattleTemplateSettings
 public sealed class BattleTemplateTypeSetting
 {
 
-    [LocalizedDescription("Language to use when exporting a battle template.")]
+    [LocalizedDescription("Language to use when exporting a battle template. If not specified in settings, will use current language.")]
     public LanguageID Language { get; set; }
     public StatDisplayStyle StyleStatEVs { get; set; }
     public StatDisplayStyle StyleStatIVs { get; set; }
@@ -39,6 +39,9 @@ public sealed class BattleTemplateTypeSetting
         Language = lang;
         StyleMove = move;
     }
+
+    public override string ToString() => $"{TokenOrder} {Language}";
+
     private LanguageID GetLanguageExport(LanguageID program) => GetLanguage(Language, program);
 
     public BattleTemplateExportSettings GetSettings(LanguageID programLanguage, EntityContext context) => new(GetOrder(TokenOrder, TokenOrderCustom), GetLanguageExport(programLanguage))

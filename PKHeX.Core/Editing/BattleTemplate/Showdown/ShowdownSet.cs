@@ -367,8 +367,14 @@ public sealed class ShowdownSet : IBattleTemplate
         return string.Join(Environment.NewLine, result);
     }
 
+    /// <inheritdoc cref="GetSetLines(in BattleTemplateExportSettings)"/>
     public List<string> GetSetLines(string language = DefaultLanguage) => GetSetLines(new BattleTemplateExportSettings(language));
 
+    /// <summary>
+    /// Gets all lines comprising the exported set details.
+    /// </summary>
+    /// <param name="settings">Export settings</param>
+    /// <returns>List of lines comprising the set</returns>
     public List<string> GetSetLines(in BattleTemplateExportSettings settings)
     {
         var result = new List<string>(DefaultListAllocation);
@@ -378,6 +384,7 @@ public sealed class ShowdownSet : IBattleTemplate
         return result;
     }
 
+    /// <inheritdoc cref="GetSetLines(in BattleTemplateExportSettings)"/>
     public void GetSetLines(List<string> result, in BattleTemplateExportSettings settings)
     {
         var tokens = settings.Order;
@@ -539,8 +546,8 @@ public sealed class ShowdownSet : IBattleTemplate
         var nameEVs = cfg.GetStatDisplay(settings.StatsEVs);
         var line = token switch
         {
-            BattleTemplateToken.EVsWithNature => GetStringStatsNature(EVs, 0, nameEVs, Nature),
-            BattleTemplateToken.EVsAppendNature => GetStringStatsNature(EVs, 0, nameEVs, Nature),
+            BattleTemplateToken.EVsWithNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
+            BattleTemplateToken.EVsAppendNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
             _ => GetStringStats(EVs, 0, nameEVs),
         };
         if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed())
@@ -568,18 +575,17 @@ public sealed class ShowdownSet : IBattleTemplate
         return $"[{abilityName}] {ItemSplit} {itemName}";
     }
 
-    public static string GetStringStatsNature<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
+    /// <inheritdoc cref="GetStringStats{T}(ReadOnlySpan{T}, T, StatDisplayConfig)"/>
+    /// <remarks>Appends the nature amplification to the stat values, if not a neutral nature.</remarks>
+    public static string GetStringStatsNatureAmp<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
     {
         var (plus, minus) = NatureAmp.GetNatureModification(nature);
         if (plus == minus)
-        {
-            plus = minus = -1; // dummy them out
-        }
-        else
-        {
-            plus++;
-            minus++;
-        }
+            return GetStringStats(stats, ignoreValue, statNames); // neutral nature won't appear any different
+
+        // Shift as HP is not affected by nature.
+        plus++;
+        minus++;
 
         var count = stats.Length;
         if (!statNames.AlwaysShow)
@@ -611,6 +617,12 @@ public sealed class ShowdownSet : IBattleTemplate
         return result.ToString();
     }
 
+    /// <summary>
+    /// Gets the string representation of the stats.
+    /// </summary>
+    /// <param name="stats">Stats to display</param>
+    /// <param name="ignoreValue">Value to ignore</param>
+    /// <param name="statNames">Stat names to use</param>
     public static string GetStringStats<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames) where T : IEquatable<T>
     {
         var count = stats.Length;

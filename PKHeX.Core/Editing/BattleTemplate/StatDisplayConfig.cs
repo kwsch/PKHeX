@@ -90,6 +90,8 @@ public sealed class StatDisplayConfig
         return -1;
     }
 
+    public override string ToString() => string.Join(Separator, Names);
+
     /// <summary>
     /// Formats a stat value into a string builder.
     /// </summary>
@@ -197,7 +199,9 @@ public sealed class StatDisplayConfig
 
             var indexSeparator = value.IndexOf(separator);
             if (indexSeparator != -1)
-                value = value[..indexSeparator].TrimStart();
+                value = value[..indexSeparator].Trim();
+            else
+                message = default; // everything remaining belongs in the value we are going to parse.
 
             if (value.Length != 0)
             {

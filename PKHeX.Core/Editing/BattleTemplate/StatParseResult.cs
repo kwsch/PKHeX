@@ -53,7 +53,7 @@ public record struct StatParseResult()
             return false;
         // Mark the stat index as parsed
         IndexesParsed |= (byte)(1 << statIndex);
-        CountParsed++;
+        ++CountParsed;
         return true;
     }
 

@@ -174,6 +174,7 @@ public static class ShowdownParsing
             yield return new ShowdownSet(setLines, localization);
     }
 
+    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string},BattleTemplateLocalization)"/>
     public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines)
     {
         var setLines = new List<string>(DefaultListAllocation);
@@ -256,6 +257,13 @@ public static class ShowdownParsing
         }
     }
 
+    /// <summary>
+    /// Attempts to parse the input <see cref="text"/> into a <see cref="ShowdownSet"/> object.
+    /// </summary>
+    /// <param name="text">Input string to parse.</param>
+    /// <param name="localization">Input localization to use.</param>
+    /// <param name="length">Amount of characters consumed from the input string.</param>
+    /// <returns>Parsed <see cref="ShowdownSet"/> object if successful, otherwise might be a best-match with some/all unparsed lines.</returns>
     public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, BattleTemplateLocalization localization, out int length)
     {
         length = GetLength(text);
@@ -266,6 +274,7 @@ public static class ShowdownParsing
         return set;
     }
 
+    /// <inheritdoc cref="GetShowdownSet(ReadOnlySpan{char},BattleTemplateLocalization,out int)"/>
     public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, out int length)
     {
         length = GetLength(text);
@@ -277,15 +286,18 @@ public static class ShowdownParsing
         return set;
     }
 
+    /// <inheritdoc cref="GetShowdownSets(ReadOnlyMemory{char},BattleTemplateLocalization)"/>
     public static IEnumerable<ShowdownSet> GetShowdownSets(string text) => GetShowdownSets(text.AsMemory());
+
+    /// <inheritdoc cref="GetShowdownText(PKM, in BattleTemplateExportSettings)"/>
+    public static string GetShowdownText(PKM pk) => GetShowdownText(pk, BattleTemplateExportSettings.Showdown);
 
     /// <summary>
     /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
     /// </summary>
     /// <param name="pk">PKM to convert to string</param>
+    /// <param name="settings">Import localization/style setting</param>
     /// <returns>Multi line set data</returns>
-    public static string GetShowdownText(PKM pk) => GetShowdownText(pk, BattleTemplateExportSettings.Showdown);
-
     public static string GetShowdownText(PKM pk, in BattleTemplateExportSettings settings)
     {
         if (pk.Species == 0)
@@ -325,14 +337,16 @@ public static class ShowdownParsing
         }
     }
 
+    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string},BattleTemplateLocalization)"/>
+    public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownText(data, BattleTemplateExportSettings.Showdown));
+
     /// <summary>
     /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data, and combines it into one string.
     /// </summary>
     /// <param name="data">Pokémon data to summarize.</param>
     /// <param name="separator">Splitter between each set.</param>
+    /// <param name="settings">Import localization/style setting</param>
     /// <returns>Single string containing all <see cref="ShowdownSet.Text"/> lines.</returns>
-    public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownText(data, BattleTemplateExportSettings.Showdown));
-
     public static string GetShowdownSets(IEnumerable<PKM> data, string separator, in BattleTemplateExportSettings settings) => string.Join(separator, GetShowdownText(data, settings));
 
     /// <summary>
@@ -417,6 +431,13 @@ public static class ShowdownParsing
         return false;
     }
 
+    /// <summary>
+    /// Tries to translate the input battle template <see cref="message"/> into a localized string.
+    /// </summary>
+    /// <param name="message">Input string to parse.</param>
+    /// <param name="outputSettings">Export settings</param>
+    /// <param name="translated">Translated string if successful.</param>
+    /// <returns><c>true</c> if the input was translated successfully, <c>false</c> otherwise.</returns>
     public static bool TryTranslate(ReadOnlySpan<char> message, BattleTemplateExportSettings outputSettings, [NotNullWhen(true)] out string? translated)
     {
         translated = null;
@@ -426,6 +447,7 @@ public static class ShowdownParsing
         return true;
     }
 
+    /// <inheritdoc cref="TryTranslate(ReadOnlySpan{char}, BattleTemplateExportSettings, out string?)"/>
     public static bool TryTranslate(IReadOnlyList<string> message, BattleTemplateExportSettings outputSettings, [NotNullWhen(true)] out string? translated)
     {
         translated = null;
