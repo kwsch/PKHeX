@@ -117,9 +117,9 @@ public sealed class StatDisplayConfig
         if (!skipValue)
         {
             sb.Append(statValue);
-            var end = sb.Length;
-            if (end < MinimumDigits)
-                sb.Insert(start, "0", MinimumDigits - end);
+            var length = sb.Length - start;
+            if (length < MinimumDigits)
+                sb.Insert(start, "0", MinimumDigits - length);
         }
         sb.Append(valueSuffix);
 
