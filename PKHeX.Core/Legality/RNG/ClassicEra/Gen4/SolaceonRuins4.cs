@@ -2,8 +2,16 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for <see cref="EntityContext.Gen4"/> Solaceon Ruins Unown forms.
+/// </summary>
 public static class SolaceonRuins4
 {
+    /// <summary>
+    /// Met location for the Solaceon Ruins.
+    /// </summary>
+    public const ushort Location = 53;
+
     /// <summary>
     /// Checks if the requested <see cref="form"/> is valid for the given seed.
     /// </summary>

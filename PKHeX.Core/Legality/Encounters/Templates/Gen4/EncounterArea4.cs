@@ -128,15 +128,9 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
         58, // 20 Floaroma Meadow
     ];
 
-    /// <summary>
-    /// Checks if the Unown form is valid for the given <see cref="PKM"/>.
-    /// </summary>
-    public static bool IsUnownFormValid(PKM pk, byte form)
-    {
-        return pk.HGSS
-            ?   RuinsOfAlph4.IsFormValid(pk, form)
-            : SolaceonRuins4.IsFormValid(pk, form);
-    }
+    public static bool IsUnownFormValid(PKM pk, byte form, bool isRuinsOfAlph) => isRuinsOfAlph
+        ?   RuinsOfAlph4.IsFormValid(pk, form)
+        : SolaceonRuins4.IsFormValid(pk, form);
 }
 
 /// <summary>

@@ -296,12 +296,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
     public bool Gen9 => SV;
-    public bool Gen8 => Version is >= SW and <= SP || GO_HOME;
-    public bool Gen7 => Version is >= SN and <= UM || GG;
-    public bool Gen6 => Version is >= X and <= OR;
-    public bool Gen5 => Version is >= W and <= B2;
-    public bool Gen4 => Version is HG or SS or D or P or GameVersion.Pt;
-    public bool Gen3 => Version is (>= S and <= LG) or CXD;
+    public bool Gen8 => Version.IsGen8() || GO_HOME;
+    public bool Gen7 => Version.IsGen7();
+    public bool Gen6 => Version.IsGen6();
+    public bool Gen5 => Version.IsGen5();
+    public bool Gen4 => Version.IsGen4();
+    public bool Gen3 => Version.IsGen3();
     public bool Gen2 => Version == GSC; // Fixed value set by the Gen2 PKM classes
     public bool Gen1 => Version == RBY; // Fixed value set by the Gen1 PKM classes
     public bool GenU => Generation <= 0;
@@ -312,7 +312,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         {
             if (Gen9) return 9;
             if (Gen8) return 8;
-            if (Gen7) return 7;
+            if (Gen7 || GG) return 7;
             if (Gen6) return 6;
             if (Gen5) return 5;
             if (Gen4) return 4;

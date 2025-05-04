@@ -165,7 +165,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         }
         if (IsDeferredWurmple(pk))
             return EncounterMatchRating.PartialMatch;
-        if (pk.Species == (int)Core.Species.Unown && !EncounterArea4.IsUnownFormValid(pk, pk.Form))
+        if (Species == (int)Core.Species.Unown && !EncounterArea4.IsUnownFormValid(pk, pk.Form, Location is RuinsOfAlph4.Location))
             return EncounterMatchRating.PartialMatch;
         return EncounterMatchRating.Match;
     }

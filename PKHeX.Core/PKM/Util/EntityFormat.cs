@@ -211,6 +211,12 @@ public static class EntityFormat
     }
 }
 
+/// <summary>
+/// Enum representing the detected format of a Pokémon entity.
+/// </summary>
+/// <remarks>
+/// Roughly correlated to derived <see cref="PKM"/> types, besides the "one-of" range of enum values.
+/// </remarks>
 public enum EntityFormatDetected
 {
     None,

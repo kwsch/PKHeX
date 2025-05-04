@@ -2,8 +2,16 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for <see cref="EntityContext.Gen4"/> Ruins of Alph Unown forms.
+/// </summary>
 public static class RuinsOfAlph4
 {
+    /// <summary>
+    /// Met location for the Ruins of Alph.
+    /// </summary>
+    public const ushort Location = 209;
+
     /// <summary>
     /// Checks if the requested <see cref="form"/> is valid for the given seed.
     /// </summary>
