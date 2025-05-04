@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public record struct StatParseResult()
 {
     private const uint MaxStatCount = 6; // Number of stats in the game
-    private const sbyte NoStatAmp = -1;
+    public const sbyte NoStatAmp = -1;
 
     /// <summary>
     /// Count of parsed stats.
@@ -16,17 +16,17 @@ public record struct StatParseResult()
     public byte CountParsed { get; private set; } = 0; // could potentially make this a computed value (popcnt), but it's not worth it
 
     /// <summary>
-    /// Indexes of parsed stats.
+    /// Bitflag indexes of parsed stats, indexed in visual order.
     /// </summary>
     public byte IndexesParsed { get; private set; } = 0;
 
     /// <summary>
-    /// Stat index of increased stat.
+    /// Stat index of increased stat, indexed in visual order.
     /// </summary>
     public sbyte Plus { get; set; } = NoStatAmp;
 
     /// <summary>
-    /// Stat index of decreased stat.
+    /// Stat index of decreased stat, indexed in visual order.
     /// </summary>
     public sbyte Minus { get; set; } = NoStatAmp;
 
@@ -114,15 +114,19 @@ public record struct StatParseResult()
         Minus = GetSpeedMiddleIndex(Minus);
     }
 
-    // Move speed from index 5 to index 3, and the other stats down to account for HP not being boosted.
+    /// <summary>
+    /// Adjusts stat indexes from visual to stored, and ignoring HP's index.
+    /// </summary>
+    /// <param name="amp">Visual index of the stat to get the adjusted value for.</param>
+    /// <returns>Stored index of the stat.</returns>
     private static sbyte GetSpeedMiddleIndex(sbyte amp) => amp switch
     {
-        0 => -1,
+        // 0 => NoStatAmp -- handle via default case
         1 => 0, // Atk
         2 => 1, // Def
         3 => 3, // SpA
         4 => 4, // SpD
         5 => 2, // Spe
-        _ => amp,
+        _ => NoStatAmp,
     };
 }

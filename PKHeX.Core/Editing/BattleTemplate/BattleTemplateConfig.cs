@@ -219,7 +219,6 @@ public sealed record BattleTemplateConfig
     {
         var result = ParseInternal(message, bestResult);
         ReorderSpeedNotLast(bestResult);
-        result.TreatAmpsAsSpeedNotLast();
         return result;
     }
 

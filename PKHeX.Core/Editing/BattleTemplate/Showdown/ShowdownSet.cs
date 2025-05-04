@@ -263,8 +263,8 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseEntry(BattleTemplateToken token, ReadOnlySpan<char> value, BattleTemplateLocalization localization) => token switch
     {
-        BattleTemplateToken.Ability       => (Ability = StringUtil.FindIndexIgnoreCase(localization.Strings.abilitylist, value)) >= 0,
-        BattleTemplateToken.Nature        => (Nature  = (Nature)StringUtil.FindIndexIgnoreCase(localization.Strings.natures, value)).IsFixed(),
+        BattleTemplateToken.Ability       => ParseLineAbility(value, localization.Strings.abilitylist),
+        BattleTemplateToken.Nature        => ParseLineNature(value, localization.Strings.natures),
         BattleTemplateToken.Shiny         => Shiny         = true,
         BattleTemplateToken.Gigantamax    => CanGigantamax = true,
         BattleTemplateToken.HeldItem      => ParseItemName(value, localization.Strings),
@@ -278,6 +278,46 @@ public sealed class ShowdownSet : IBattleTemplate
         BattleTemplateToken.TeraType      => ParseTeraType(value, localization.Strings.types),
         _ => false,
     };
+
+    private bool ParseLineAbility(ReadOnlySpan<char> value, ReadOnlySpan<string> abilityNames)
+    {
+        var index = StringUtil.FindIndexIgnoreCase(abilityNames, value);
+        if (index < 0)
+        {
+            InvalidLines.Add($"Unknown Ability: {value}");
+            return false;
+        }
+        if (Ability != -1 && Ability != index)
+        {
+            InvalidLines.Add($"Different ability already specified: {value}");
+            return false;
+        }
+
+        Ability = index;
+        return true;
+    }
+
+    private bool ParseLineNature(ReadOnlySpan<char> value, ReadOnlySpan<string> natureNames)
+    {
+        var index = StringUtil.FindIndexIgnoreCase(natureNames, value);
+        if (index < 0)
+            return false;
+
+        var nature = (Nature)index;
+        if (!nature.IsFixed())
+        {
+            InvalidLines.Add($"Invalid Nature: {value}");
+            return false;
+        }
+        if (Nature != Nature.Random && Nature != nature)
+        {
+            InvalidLines.Add($"Different nature already specified: {value}");
+            return false;
+        }
+
+        Nature = nature;
+        return true;
+    }
 
     private bool ParseNickname(ReadOnlySpan<char> value)
     {
@@ -1002,7 +1042,7 @@ public sealed class ShowdownSet : IBattleTemplate
                 return false; // invalid line
             }
 
-            if (Nature != Nature.Random)
+            if (Nature != Nature.Random) // specified in a separate Nature line
                 InvalidLines.Add($"EV nature ignored, specified previously: {natureName}");
             else
                 Nature = (Nature)natureIndex;
@@ -1012,18 +1052,20 @@ public sealed class ShowdownSet : IBattleTemplate
 
         var result = localization.Config.TryParseStats(line, EVs);
         var success = result.IsParsedAllStats;
-        if (!result.IsParseClean)
-            InvalidLines.Add($"Invalid EVs: {line}");
-
         if (result is { HasAmps: false })
             return success;
-        if (Nature != Nature.Random)
-        {
-            InvalidLines.Add($"EV nature +/- ignored, specified previously: {line}");
-            return false;
-        }
 
-        success &= AdjustNature(result.Plus, result.Minus);
+        // Use the amp nature ONLY if nature was not specified.
+        // Only indicate invalid if it differs from the current nature.
+        var currentNature = Nature;
+        result.TreatAmpsAsSpeedNotLast();
+        var ampNature = AdjustNature(result.Plus, result.Minus);
+        success &= ampNature;
+        if (ampNature && currentNature != Nature.Random && currentNature != Nature)
+        {
+            InvalidLines.Add($"EV +/- nature does not match specified nature: {currentNature}");
+            Nature = currentNature; // revert to original
+        }
         return success;
     }
 
@@ -1031,17 +1073,14 @@ public sealed class ShowdownSet : IBattleTemplate
     {
         // Parse stats, with unspecified name representation (try all).
         var result = config.TryParseStats(line, IVs);
-        var success = result.IsParsedAllStats;
-        if (!result.IsParseClean)
-            InvalidLines.Add($"Invalid IVs: {line}");
-        return success;
+        return result.IsParsedAllStats;
     }
 
-    private bool AdjustNature(int plus, int minus)
+    private bool AdjustNature(sbyte plus, sbyte minus)
     {
-        if (plus == -1)
+        if (plus == StatParseResult.NoStatAmp)
             InvalidLines.Add("Invalid Nature adjustment, missing plus stat.");
-        if (minus == -1)
+        if (minus == StatParseResult.NoStatAmp)
             InvalidLines.Add("Invalid Nature adjustment, missing minus stat.");
         else
             Nature = NatureAmp.CreateNatureFromAmps(plus, minus);

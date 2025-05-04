@@ -284,9 +284,17 @@ public sealed class StatDisplayConfig
         for (int i = 0; i < result.Length; i++)
         {
             var index = message.IndexOf(separator);
-
-            var value = index != -1 ? message[..index].Trim() : message.Trim();
-            message = message[(index+1)..].TrimStart();
+            ReadOnlySpan<char> value;
+            if (index != -1)
+            {
+                value = message[..index].TrimEnd();
+                message = message[(index + 1)..].TrimStart();
+            }
+            else // no further iterations to be done
+            {
+                value = message;
+                message = default;
+            }
 
             if (value.Length == 0)
             {
