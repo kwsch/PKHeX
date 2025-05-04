@@ -77,12 +77,24 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private void SanitizeResult(BattleTemplateLocalization localization)
     {
-        FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
+        ReviseContextIfPastGenForm(localization.Strings);
+        FormName = ShowdownParsing.GetFormNameFromShowdownFormName(Species, FormName, Ability);
         Form = ShowdownParsing.GetFormFromString(FormName, localization.Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
         if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion or (int)Oinkologne)
             ReviseGenderedForms();
+    }
+
+    private void ReviseContextIfPastGenForm(GameStrings strings)
+    {
+        if (FormName.Length == 0)
+            return; // no form name
+
+        if (FormInfo.HasTotemForm(Species) && ShowdownParsing.IsTotemForm(FormName))
+            Context = EntityContext.Gen7;
+        else if (Species is (int)Pikachu && ShowdownParsing.IsCosplayPikachu(FormName, strings.forms))
+            Context = EntityContext.Gen6;
     }
 
     private void ReviseGenderedForms()
@@ -115,7 +127,7 @@ public sealed class ShowdownSet : IBattleTemplate
         bool first = true;
         foreach (var line in lines)
         {
-            ReadOnlySpan<char> trim = line.Trim();
+            var trim = line.Trim();
             if (IsLengthOutOfRange(trim))
             {
                 // Try for other languages just in case.
@@ -502,8 +514,7 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             // Core
             case BattleTemplateToken.FirstLine:
-                var form = ShowdownParsing.GetShowdownFormName(Species, FormName);
-                result.Add(GetStringFirstLine(form, settings));
+                result.Add(GetStringFirstLine(FormName, settings));
                 break;
             case BattleTemplateToken.Ability when (uint)Ability < strings.Ability.Count:
                 result.Add(cfg.Push(BattleTemplateToken.Ability, strings.Ability[Ability]));

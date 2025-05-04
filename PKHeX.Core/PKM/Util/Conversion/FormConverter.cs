@@ -957,7 +957,7 @@ public static class FormConverter
         SetDecorations(result, 7, forms[CaramelSwirl]);
         SetDecorations(result, 8, forms[RainbowSwirl]);
 
-        static void SetDecorations(Span<string> result, [ConstantExpected] byte f, string baseName)
+        static void SetDecorations(Span<string> result, [ConstantExpected] byte f, ReadOnlySpan<char> baseName)
         {
             int start = f * AlcremieCountDecoration;
             var slice = result.Slice(start, AlcremieCountDecoration);
@@ -973,4 +973,20 @@ public static class FormConverter
         (int)Alcremie => Enum.GetNames<AlcremieDecoration>(),
         _ => EMPTY,
     };
+
+    /// <summary>
+    /// Compatibility check for past-generation form list for <see cref="Pikachu"/>.
+    /// </summary>
+    /// <param name="formName">Desired form name</param>
+    /// <param name="formNames">List of all form names</param>
+    /// <returns><c>true</c> if the form name is a cosplay Pikachu form.</returns>
+    public static bool IsCosplayPikachu(ReadOnlySpan<char> formName, ReadOnlySpan<string> formNames)
+    {
+        for (int i = 729; i <= 734; i++)
+        {
+            if (formName.Equals(formNames[i], StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
 }

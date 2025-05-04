@@ -12,11 +12,11 @@ public class ShowdownSetTests
     {
         var settings = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard);
 
-        foreach (ReadOnlySpan<char> setstr in Sets)
+        foreach (var setstr in Sets)
         {
             var set = new ShowdownSet(setstr).GetSetLines(settings);
             foreach (var line in set)
-                setstr.Contains(line, StringComparison.Ordinal).Should().BeTrue($"Line {line} should be in the set {setstr}");
+                setstr.Contains(line, StringComparison.Ordinal).Should().BeTrue($"`{line}` should be in the set: {setstr}");
         }
     }
 
@@ -410,7 +410,7 @@ public class ShowdownSetTests
         SetMunchSnorLax,
 
         """
-        Greninja @ Choice Specs
+        Greninja-Ash @ Choice Specs
         Ability: Battle Bond
         EVs: 252 SpA / 4 SpD / 252 Spe
         Timid Nature

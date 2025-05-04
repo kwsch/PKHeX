@@ -75,7 +75,10 @@ public static class ShowdownParsing
             return string.Empty;
 
         var forms = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);
-        return form >= forms.Length ? string.Empty : forms[form];
+        var result = form >= forms.Length ? string.Empty : forms[form];
+
+        // Showdown uses a non-standard representation for some forms, and uses interstitial dashes instead of spaces.
+        return GetShowdownFormName(species, result);
     }
 
     private const string MiniorFormName = "Meteor";
@@ -116,13 +119,22 @@ public static class ShowdownParsing
         };
     }
 
+    public static bool IsTotemForm(ReadOnlySpan<char> formName) =>
+        formName.Equals("Totem", StringComparison.OrdinalIgnoreCase) ||
+        formName.Equals("Alola-Totem", StringComparison.OrdinalIgnoreCase) || 
+        formName.Equals("Large", StringComparison.OrdinalIgnoreCase);
+
+
+    public static bool IsCosplayPikachu(ReadOnlySpan<char> formName, ReadOnlySpan<string> formNames)
+        => FormConverter.IsCosplayPikachu(formName, formNames);
+
     /// <summary>
     /// Converts the Showdown form name to PKHeX's form name.
     /// </summary>
     /// <param name="species">Species ID</param>
     /// <param name="form">Showdown form name</param>
     /// <param name="ability">Showdown ability ID</param>
-    public static string SetShowdownFormName(ushort species, string form, int ability)
+    public static string GetFormNameFromShowdownFormName(ushort species, string form, int ability)
     {
         if (form.Length != 0)
             form = form.Replace(' ', '-'); // inconsistencies are great
