@@ -51,6 +51,7 @@ public sealed class SummaryPreviewer
         UpdatePreviewPosition(new());
         Previewer.Populate(pk, settings);
         Previewer.Show();
+        Previewer.BringToFront(); // Ensure Z-order is front, as other processes may have previously rearranged.
     }
 
     public void UpdatePreviewPosition(Point location)
