@@ -111,8 +111,7 @@ public sealed class PersonalInfo4(Memory<byte> Raw) : PersonalInfo, IPersonalAbi
 
     public void SetIsLearnTutorType(int index, bool value)
     {
-        if ((uint)index >= CountTutor)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)CountTutor);
         TypeTutors[index] = value;
     }
 

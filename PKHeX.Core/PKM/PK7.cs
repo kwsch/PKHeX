@@ -427,15 +427,13 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     public MarkingColor GetMarking(int index)
     {
-        if ((uint)index >= MarkingCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MarkingCount);
         return (MarkingColor)((MarkingValue >> (index * 2)) & 3);
     }
 
     public void SetMarking(int index, MarkingColor value)
     {
-        if ((uint)index >= MarkingCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MarkingCount);
         var shift = index * 2;
         MarkingValue = (ushort)((MarkingValue & ~(0b11 << shift)) | (((byte)value & 3) << shift));
     }
