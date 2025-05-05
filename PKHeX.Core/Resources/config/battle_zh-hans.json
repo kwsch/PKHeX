@@ -9,13 +9,13 @@
   "ValueGap":  " ",
   "Separator": " / "
  },
- "Male":  "男",
- "Female":  "女",
+ "Male":  "公",
+ "Female":  "母",
  "Left": [
   { "Token": "Friendship", "Text": "亲密度: " },
   { "Token": "EVs", "Text": "努力值: " },
   { "Token": "IVs", "Text": "个体值: " },
-  { "Token": "AVs", "Text": "AVs " },
+  { "Token": "AVs", "Text": "觉醒值 " },
   { "Token": "GVs", "Text": "奋斗等级 " },
   { "Token": "Level", "Text": "等级: " },
   { "Token": "Ability", "Text": "特性: " },
@@ -29,7 +29,7 @@
  "Right": [
  ],
  "Center": [
-  { "Token": "Shiny", "Text": "發光寶: 是的" },
+  { "Token": "Shiny", "Text": "异色: 是的" },
   { "Token": "Gigantamax", "Text": "超极巨: 是的" }
  ]
 }
