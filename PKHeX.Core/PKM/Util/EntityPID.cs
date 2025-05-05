@@ -28,7 +28,7 @@ public static class EntityPID
         // Below logic handles Gen3-5.
         // No need to get form specific entry, as Gen3-5 do not have that feature.
         var gt = PersonalTable.B2W2[species].Gender;
-        bool g34 = origin.IsGen3();
+        bool g34 = origin.IsGen3() || origin.IsGen4();
         uint abilBitVal = g34 ? oldPID & 0x0000_0001 : oldPID & 0x0001_0000;
 
         bool g3unown = origin is GameVersion.FR or GameVersion.LG && species == (int)Species.Unown;
