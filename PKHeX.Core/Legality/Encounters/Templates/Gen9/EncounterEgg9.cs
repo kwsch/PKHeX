@@ -58,7 +58,7 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
 
             PID = rnd.Rand32(),
             EncryptionConstant = rnd.Rand32(),
-            Nature = criteria.GetNature(Nature.Random),
+            Nature = criteria.GetNature(),
             Gender = criteria.GetGender(pi),
         };
         pk.StatNature = pk.Nature;

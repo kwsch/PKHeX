@@ -77,20 +77,22 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         // Get a random PID that matches gender/nature/ability criteria
         var pi = pk.PersonalInfo;
         var gr = pi.Gender;
-        var pid = pk.PID = GetRandomPID(criteria, gr);
+        var pid = GetRandomPID(criteria, gr, out var gender);
+        pk.PID = pid;
+        pk.Gender = gender;
         pk.RefreshAbility((int)(pid & 1));
 
         return pk;
     }
 
-    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr)
+    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr, out byte gender)
     {
         var seed = Util.Rand32();
         while (true)
         {
             seed = LCRNG.Next(seed);
             var pid = seed;
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 continue;
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))

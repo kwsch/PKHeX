@@ -58,7 +58,7 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
             MetDate = date,
             EggMetDate = date,
 
-            Nature = criteria.GetNature(Nature.Random),
+            Nature = criteria.GetNature(),
         };
 
         SetEncounterMoves(pk, version);
@@ -73,22 +73,23 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
         var pi = pk.PersonalInfo;
         var gr = pi.Gender;
         var ability = criteria.GetAbilityFromNumber(Ability);
-        var pid = GetRandomPID(criteria, gr);
+        var pid = GetRandomPID(criteria, gr, out var gender);
         pid = pid & 0xFFFEFFFF | (uint)(ability & 1) << 16; // 0x00000000 or 0x00010000
         pk.PID = pid;
+        pk.Gender = gender;
         pk.RefreshAbility(ability);
 
         return pk;
     }
 
-    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr)
+    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr, out byte gender)
     {
         var seed = Util.Rand32();
         while (true)
         {
             seed = LCRNG.Next(seed);
             var pid = seed;
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 continue;
             return pid;
