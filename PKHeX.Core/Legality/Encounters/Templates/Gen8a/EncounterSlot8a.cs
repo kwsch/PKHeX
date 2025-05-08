@@ -117,16 +117,15 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         _ => 0,
     });
 
-    private void SetEncounterMoves(PKM pk, int level)
+    private void SetEncounterMoves(PA8 pk, int level)
     {
-        var pa8 = (PA8)pk;
         Span<ushort> moves = stackalloc ushort[4];
         var (learn, mastery) = GetLevelUpInfo();
-        LoadInitialMoveset(pa8, moves, learn, level);
+        LoadInitialMoveset(pk, moves, learn, level);
         pk.SetMoves(moves);
-        pa8.SetEncounterMasteryFlags(moves, mastery, level);
-        if (pa8.AlphaMove != 0)
-            pa8.SetMasteryFlagMove(pa8.AlphaMove);
+        pk.SetEncounterMasteryFlags(moves, mastery, level);
+        if (pk.AlphaMove != 0)
+            pk.SetMasteryFlagMove(pk.AlphaMove);
     }
 
     public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)

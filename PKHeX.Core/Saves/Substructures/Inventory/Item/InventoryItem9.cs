@@ -7,7 +7,6 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
 {
     public const int SIZE = 0x10;
 
-    public const uint PouchNone = 0xFFFFFFFF;
     public const uint PouchMedicine = 0;
     public const uint PouchBall = 1;
     public const uint PouchBattle = 2;
@@ -20,30 +19,37 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
     public const uint PouchMaterial = 9;
     public const uint PouchRecipe = 10;
 
+    /// <summary>
+    /// Invalid pouch ID.
+    /// </summary>
+    /// <remarks>
+    /// Only used internally to this program, not stored in the data.
+    /// The game did have behavior that initialized to this value on early patches, but was later changed to initialize to 0.
+    /// Therefore, we cannot use this value to set. Technically it can be used to determine if the game was started on an early patch.
+    /// </remarks>
+    public const uint PouchInvalid = 0xFFFFFFFF;
+
     public uint Pouch { get; set; }
     public uint Flags { get; set; }
     public uint Padding { get; set; }
 
     public bool IsNew      { get => (Flags & 0x1) != 0; set => Flags = (Flags & ~0x1u) | (value ? 0x1u : 0x0u); } // red dot
     public bool IsFavorite { get => (Flags & 0x2) != 0; set => Flags = (Flags & ~0x2u) | (value ? 0x2u : 0x0u); }
-    public bool IsUpdated  { get => (Flags & 0x4) != 0; set => Flags = (Flags & ~0x4u) | (value ? 0x4u : 0x0u); } // always true if pouch is set
+    public bool IsObtained { get => (Flags & 0x4) != 0; set => Flags = (Flags & ~0x4u) | (value ? 0x4u : 0x0u); } // Has Been Obtained At Least Once
 
-    public override string ToString() => $"{Index:000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")} - {Flags:X8}";
+    public override string ToString()
+    {
+        if (IsObtained)
+            return $"{Index:0000} Empty";
+        return $"{Index:0000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")} - {Flags:X8}";
+    }
 
     public override void Clear()
     {
-        Index = Count = 0;
+        Pouch = 0;
+        Count = 0;
         Flags = Padding = 0;
-        IsFavorite = false;
-        IsUpdated = false;
-        IsNew = false;
-        Pouch = PouchNone;
     }
-
-    /// <summary>
-    /// Indicates if the item has been acquired by the player.
-    /// </summary>
-    public bool IsValidPouch => Pouch != PouchNone;
 
     public static InventoryItem9 Read(ushort index, ReadOnlySpan<byte> data) => new()
     {
@@ -56,8 +62,6 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
 
     public void Write(Span<byte> data)
     {
-        IsUpdated = Pouch != PouchNone;
-
         // Index is not saved.
         WriteUInt32LittleEndian(data, Pouch);
         WriteUInt32LittleEndian(data[4..], (uint)Count);
@@ -65,16 +69,13 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
         WriteUInt32LittleEndian(data[12..], Padding);
     }
 
-    public static void Clear(Span<byte> data) => WriteUInt128LittleEndian(data, PouchNone);
     public static uint GetItemCount(Span<byte> data) => ReadUInt32LittleEndian(data[4..]);
 
     public override void SetNewDetails(int count)
     {
         base.SetNewDetails(count);
-        if (IsValidPouch)
-            return;
         IsNew = true;
-        IsUpdated = true;
+        IsObtained = true;
         IsFavorite = false;
     }
 

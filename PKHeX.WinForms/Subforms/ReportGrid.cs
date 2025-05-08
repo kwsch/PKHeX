@@ -161,6 +161,8 @@ public partial class ReportGrid : Form
 
     private void PromptSaveCSV(object sender, FormClosingEventArgs e)
     {
+        if (ModifierKeys.HasFlag(Keys.Shift))
+            return;
         if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
             return;
         using var savecsv = new SaveFileDialog();

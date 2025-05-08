@@ -11,6 +11,8 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
     public uint PouchIndex { get; set; } = pouch;
 
     public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
+    public static int GetItemOffset(ushort index) => InventoryItem9.SIZE * index;
+    public static Span<byte> GetItemSpan(Span<byte> block, ushort index) => block[GetItemOffset(index)..];
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {
@@ -19,71 +21,87 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
 
         int ctr = 0;
         foreach (var index in LegalItems)
-        {
-            var item = GetItem(data, index);
-            if (!item.IsValidPouch)
-                continue;
-            items[ctr++] = item;
-        }
-        while (ctr != LegalItems.Length)
-            items[ctr++] = new InventoryItem9();
+            items[ctr++] = GetItem(data, index);
 
         Items = items;
     }
 
-    public static InventoryItem9 GetItem(ReadOnlySpan<byte> data, ushort itemID)
+    public static InventoryItem9 GetItem(ReadOnlySpan<byte> block, ushort itemID)
     {
         var ofs = GetItemOffset(itemID);
-        return InventoryItem9.Read(itemID, data[ofs..]);
+        return InventoryItem9.Read(itemID, block[ofs..]);
     }
 
-    public override void SetPouch(Span<byte> data)
+    public override void SetPouch(Span<byte> block)
     {
-        HashSet<ushort> processed = [];
-
         // Write all the item slots still present in the pouch. Keep track of the item IDs processed.
         var items = (InventoryItem9[])Items;
+        var processed = new HashSet<ushort>(items.Length);
 
-        var LegalItems = Info.GetItems(Type);
+        var legal = Info.GetItems(Type);
         foreach (var item in items)
         {
             var index = (ushort)item.Index;
             if (index == 0)
                 continue;
-            if (!LegalItems.Contains(index))
+            if (!legal.Contains(index))
             {
                 Debug.WriteLine($"Invalid Item ID returned within this pouch: {index}");
                 continue;
             }
 
-            if (SetNew && item.Index != 0)
-            {
-                var original = GetItem(data, (ushort)item.Index);
-                item.IsNew |= !original.IsValidPouch;
-            }
-
-            item.Pouch = PouchIndex;
-
-            var ofs = GetItemOffset(index);
-            item.Write(data[ofs..]);
+            var span = GetItemSpan(block, index);
+            var original = InventoryItem9.Read(index, span);
+            EnsureFlagsConsistent(item, original);
 
             // In the event of duplicates, we just overwrite what was previously written by a prior duplicate.
             // Don't care if we've already processed this item, just write it again.
+            item.Write(span);
             processed.Add(index);
         }
 
         // For all the items that were not present in the pouch, clear the data for them.
-        foreach (var index in LegalItems)
+        foreach (var index in legal)
         {
             if (processed.Contains(index))
                 continue;
-            ClearItem(data, index);
+            SetQuantityZero(block, index);
         }
     }
 
-    public static int GetItemOffset(ushort index) => InventoryItem9.SIZE * index;
-    public static Span<byte> GetItemSpan(Span<byte> data, ushort index) => data[GetItemOffset(index)..];
-    public static void ClearItem(Span<byte> data, ushort index) => InventoryItem9.Clear(GetItemSpan(data, index));
+    private void EnsureFlagsConsistent(InventoryItem9 item, InventoryItem9 original)
+    {
+        if (item.Count != 0)
+        {
+            // Ensure the flag is set; 0->X and Y->Z
+            item.IsObtained = true;
+            if (!original.IsObtained && SetNew)
+                item.IsNew = true;
+        }
+        else
+        {
+            if (!item.IsObtained)
+            {
+                item.IsNew = item.IsFavorite = false;
+                if (item.Pouch is not (0 or uint.MaxValue))
+                    item.Pouch = 0;
+            }
+        }
+
+        if (item.IsObtained)
+            item.Pouch = PouchIndex; // ensure the pouch is set
+    }
+
+    public static void SetQuantityZero(Span<byte> block, ushort index)
+    {
+        var span = GetItemSpan(block, index);
+        var exist = InventoryItem9.Read(index, span);
+        if (exist.Count == 0)
+            return;
+        exist.Count = 0;
+        exist.IsObtained = true;
+        exist.Write(span);
+    }
 
     public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
     {

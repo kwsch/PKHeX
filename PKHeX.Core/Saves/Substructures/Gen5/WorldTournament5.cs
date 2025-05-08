@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public class WorldTournament5(Memory<byte> Raw)
+public sealed class WorldTournament5(Memory<byte> Raw)
 {
     public const int SIZE = 0x1214;
     public const string Extension = "pwt";

@@ -41,7 +41,10 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string OT => Entity.OriginalTrainerName;
     public string Version => Get(Strings.gamelist, (int)Entity.Version);
     public string OTLang => ((LanguageID)Entity.Language).ToString();
-    public string Legal { get { var la = new LegalityAnalysis(Entity); return la.Parsed ? la.Valid.ToString() : "-"; } }
+    public string Legal => Legality.Parsed ? Legality.Valid.ToString() : "-";
+    public string EncounterType => Legality.EncounterMatch.LongName;
+
+    private LegalityAnalysis Legality { get; }
 
     #region Extraneous
     public string EC => Entity.EncryptionConstant.ToString("X8");
@@ -113,6 +116,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
         Entity = pk;
         Strings = strings;
         Stats = Entity.GetStats(Entity.PersonalInfo);
+        Legality = new LegalityAnalysis(Entity);
     }
 
     /// <summary>

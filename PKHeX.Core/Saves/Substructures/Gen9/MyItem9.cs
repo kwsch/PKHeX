@@ -13,7 +13,17 @@ public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
 
     private Span<byte> GetItemSpan(ushort itemIndex) => InventoryPouch9.GetItemSpan(Data, itemIndex);
 
-    public void DeleteItem(ushort itemIndex) => InventoryItem9.Clear(GetItemSpan(itemIndex));
+    public uint DefaultInitPouch => System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(Data); // Item 0
+
+    /// <summary>
+    /// Deletes the item at the requested <paramref name="itemIndex"/>.
+    /// </summary>
+    /// <remarks>
+    /// Copies item 0 to the requested item index, effectively deleting it.
+    /// Item 0 should always be un-tarnished, so this is a safe operation.
+    /// <see cref="InventoryItem9.PouchInvalid"/> for remarks on Pouch type quirks. This aims to retain consistency within the block.
+    /// </remarks>
+    public void DeleteItem(ushort itemIndex) => GetItemSpan(0).CopyTo(GetItemSpan(itemIndex));
     public InventoryItem9 GetItem(ushort itemIndex) => InventoryItem9.Read(itemIndex, GetItemSpan(itemIndex));
 
     public uint GetItemQuantity(ushort itemIndex) => InventoryItem9.GetItemCount(GetItemSpan(itemIndex));
@@ -21,7 +31,7 @@ public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
     public void SetItemQuantity(ushort itemIndex, int quantity)
     {
         var pouch = GetPouchIndex(GetType(itemIndex));
-        if (pouch == InventoryItem9.PouchNone)
+        if (pouch == InventoryItem9.PouchInvalid)
         {
             DeleteItem(itemIndex); // don't allow setting items that don't exist
             return;
@@ -30,6 +40,7 @@ public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
         var item = InventoryItem9.Read(itemIndex, span);
         item.Count = quantity;
         item.Pouch = GetPouchIndex(GetType(itemIndex));
+        item.IsObtained = true;
         item.Write(span);
     }
 
@@ -79,6 +90,20 @@ public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
         }
     }
 
+    public void ResetToDefault()
+    {
+        var block = Data;
+        var defaultPouch = DefaultInitPouch;
+        ResetToDefault(block, defaultPouch);
+    }
+
+    public static void ResetToDefault(Span<byte> block, uint defaultPouch)
+    {
+        block.Clear();
+        for (int i = 0; i < block.Length; i += InventoryItem9.SIZE)
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(block[i..], defaultPouch);
+    }
+
     private static InventoryPouch9 MakePouch(InventoryType type)
     {
         var info = ItemStorage9SV.Instance;
@@ -98,6 +123,6 @@ public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
         InventoryType.Treasure => InventoryItem9.PouchTreasure,
         InventoryType.Ingredients => InventoryItem9.PouchPicnic,
         InventoryType.Candy => InventoryItem9.PouchMaterial,
-        _ => InventoryItem9.PouchNone,
+        _ => InventoryItem9.PouchInvalid,
     };
 }

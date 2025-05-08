@@ -92,7 +92,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         }
     }
 
-    protected virtual void SetEncounterMoves(PKM pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+    protected virtual void SetEncounterMoves(PK3 pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching
