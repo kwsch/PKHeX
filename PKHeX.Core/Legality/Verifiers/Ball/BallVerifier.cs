@@ -75,7 +75,7 @@ public sealed class BallVerifier : Verifier
             return VerifyBallEquals(current, ball);
 
         // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.
-        if (current is Heavy && enc is not EncounterEgg && pk is { SM: true } && BallUseLegality.IsAlolanCaptureNoHeavyBall(enc.Species))
+        if (current is Heavy && enc is not EncounterEgg7 && pk is { SM: true } && BallUseLegality.IsAlolanCaptureNoHeavyBall(enc.Species))
             return BadCaptureHeavy; // Heavy Ball, can inherit if from egg (US/UM fixed catch rate calc)
 
         return enc switch
@@ -86,13 +86,13 @@ public sealed class BallVerifier : Verifier
             EncounterSlot8 when pk is IRibbonSetMark8 { RibbonMarkCurry: true } or IRibbonSetAffixed { AffixedRibbon: (sbyte)RibbonIndex.MarkCurry }
                 => GetResult(current is Poke or Great or Ultra),
 
-            EncounterEgg => VerifyBallEgg(enc, current, pk), // Inheritance rules can vary.
+            IEncounterEgg egg => VerifyBallEgg(egg, current, pk), // Inheritance rules can vary.
             EncounterStatic5Entree => VerifyBallEquals(current, BallUseLegality.DreamWorldBalls),
             _ => VerifyBallEquals(current, BallUseLegality.GetWildBalls(enc.Generation, enc.Version)),
         };
     }
 
-    private static BallVerificationResult VerifyBallEgg(IEncounterTemplate enc, Ball ball, PKM pk)
+    private static BallVerificationResult VerifyBallEgg(IEncounterEgg enc, Ball ball, PKM pk)
     {
         if (enc.Generation < 6) // No inheriting Balls
             return VerifyBallEquals(ball, Poke); // Must be Poké Ball -- no ball inheritance.
@@ -105,17 +105,17 @@ public sealed class BallVerifier : Verifier
         };
     }
 
-    private static BallVerificationResult VerifyBallInherited(IEncounterTemplate enc, Ball ball, PKM pk) => enc.Context switch
+    private static BallVerificationResult VerifyBallInherited(IEncounterEgg egg, Ball ball, PKM pk) => egg switch
     {
-        EntityContext.Gen6 => VerifyBallEggGen6(enc, ball, pk), // Gen6 Inheritance Rules
-        EntityContext.Gen7 => VerifyBallEggGen7(enc, ball, pk), // Gen7 Inheritance Rules
-        EntityContext.Gen8 => VerifyBallEggGen8(enc, ball),
-        EntityContext.Gen8b => VerifyBallEggGen8BDSP(enc, ball),
-        EntityContext.Gen9 => VerifyBallEggGen9(enc, ball),
+        EncounterEgg6 e6 => VerifyBallEggGen6(e6, ball, pk), // Gen6 Inheritance Rules
+        EncounterEgg7 e7 => VerifyBallEggGen7(e7, ball, pk), // Gen7 Inheritance Rules
+        EncounterEgg8 e8 => VerifyBallEggGen8(e8, ball),
+        EncounterEgg8b b => VerifyBallEggGen8BDSP(b, ball),
+        EncounterEgg9 e9 => VerifyBallEggGen9(e9, ball),
         _ => BadEncounter,
     };
 
-    private static BallVerificationResult VerifyBallEggGen6(IEncounterTemplate enc, Ball ball, PKM pk)
+    private static BallVerificationResult VerifyBallEggGen6(EncounterEgg6 enc, Ball ball, PKM pk)
     {
         if (ball > Dream)
             return BadOutOfRange;
@@ -124,7 +124,7 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen7(IEncounterTemplate enc, Ball ball, PKM pk)
+    private static BallVerificationResult VerifyBallEggGen7(EncounterEgg7 enc, Ball ball, PKM pk)
     {
         if (ball > Beast)
             return BadOutOfRange;
@@ -133,7 +133,7 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen8BDSP(IEncounterTemplate enc, Ball ball)
+    private static BallVerificationResult VerifyBallEggGen8BDSP(EncounterEgg8b enc, Ball ball)
     {
         if (ball > Beast)
             return BadOutOfRange;
@@ -146,7 +146,7 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen8(IEncounterTemplate enc, Ball ball)
+    private static BallVerificationResult VerifyBallEggGen8(EncounterEgg8 enc, Ball ball)
     {
         if (ball > Beast)
             return BadOutOfRange;
@@ -155,7 +155,7 @@ public sealed class BallVerifier : Verifier
         return GetResult(result);
     }
 
-    private static BallVerificationResult VerifyBallEggGen9(IEncounterTemplate enc, Ball ball)
+    private static BallVerificationResult VerifyBallEggGen9(EncounterEgg9 enc, Ball ball)
     {
         if (ball > Beast)
             return BadOutOfRange;

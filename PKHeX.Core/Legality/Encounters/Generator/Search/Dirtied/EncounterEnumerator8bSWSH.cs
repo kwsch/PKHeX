@@ -79,7 +79,7 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                if (!EncounterGenerator8b.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
+                if (!EncounterGenerator8b.TryGetSplit((EncounterEgg8b)Current.Encounter, Chain, out egg))
                     goto case YieldState.TradeStart;
                 State = YieldState.End;
                 return SetCurrent(egg);

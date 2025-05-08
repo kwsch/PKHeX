@@ -71,16 +71,16 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
                 return SetCurrent(egg);
             case YieldState.BredTrade:
                 State = YieldState.BredSplit;
-                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg)Current);
+                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg7)Current);
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                if (!EncounterGenerator7.TryGetSplit((EncounterEgg)Current, Chain, out egg))
+                if (!EncounterGenerator7.TryGetSplit((EncounterEgg7)Current, Chain, out egg))
                     goto case YieldState.EventStart;
                 State = YieldState.BredSplitTrade;
                 return SetCurrent(egg);
             case YieldState.BredSplitTrade:
                 State = YieldState.EventStart;
-                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg)Current);
+                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg7)Current);
                 return SetCurrent(egg);
 
             case YieldState.EventStart:

@@ -14,7 +14,7 @@ public static class LearnVerifierRelearn
             VerifyRelearnNone(pk, result);
         else if (enc is IRelearn {Relearn: {HasMoves: true} x})
             VerifyRelearnSpecifiedMoveset(pk, x, result);
-        else if (enc is EncounterEgg e)
+        else if (enc is IEncounterEgg e)
             VerifyEggMoveset(e, result, pk);
         else if (enc is EncounterSlot6AO { CanDexNav: true } z && pk.RelearnMove1 != 0)
             VerifyRelearnDexNav(pk, result, z);
@@ -75,14 +75,14 @@ public static class LearnVerifierRelearn
         result[0] = ParseExpect(pk.RelearnMove1);
     }
 
-    private static void VerifyEggMoveset(EncounterEgg e, Span<MoveResult> result, PKM pk)
+    private static void VerifyEggMoveset(IEncounterEgg e, Span<MoveResult> result, PKM pk)
     {
         Span<ushort> moves = stackalloc ushort[4];
         pk.GetRelearnMoves(moves);
         VerifyEggMoveset(e, result, moves);
     }
 
-    internal static void VerifyEggMoveset(EncounterEgg e, Span<MoveResult> result, ReadOnlySpan<ushort> moves)
+    internal static void VerifyEggMoveset(IEncounterEgg e, Span<MoveResult> result, ReadOnlySpan<ushort> moves)
     {
         var gen = e.Generation;
         Span<byte> origins = stackalloc byte[moves.Length];

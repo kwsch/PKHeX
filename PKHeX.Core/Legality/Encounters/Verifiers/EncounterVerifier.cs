@@ -21,7 +21,7 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounter(PKM pk, IEncounterTemplate enc) => enc switch
     {
-        EncounterEgg e => VerifyEncounterEgg(pk, e.Generation),
+        IEncounterEgg e => VerifyEncounterEgg(pk, e.Generation),
         EncounterShadow3Colo { IsEReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LG3EReader),
         EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LEncUnreleasedEMewJP),
         EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),

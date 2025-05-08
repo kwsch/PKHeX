@@ -253,7 +253,7 @@ public sealed class MiscVerifier : Verifier
         }
 
         var enc = data.EncounterOriginal;
-        if (enc is EncounterEgg { Context: EntityContext.Gen9 } g)
+        if (enc is EncounterEgg9 g)
         {
             if (!Tera9RNG.IsMatchTeraTypePersonalEgg(g.Species, g.Form, (byte)pk9.TeraTypeOriginal))
                 data.AddLine(GetInvalid(LTeraTypeMismatch));
@@ -279,9 +279,9 @@ public sealed class MiscVerifier : Verifier
 
         if (!Locations9.IsAccessiblePreDLC(pk9.MetLocation))
         {
-            if (enc is { Species: (int)Species.Larvesta, Form: 0 } and not EncounterEgg)
+            if (enc is { Species: (int)Species.Larvesta, Form: 0 } and not EncounterEgg9)
                 DisallowLevelUpMove(24, (ushort)Move.BugBite, pk9, data);
-            else if (enc is { Species: (int)Species.Zorua, Form: 1 } and not EncounterEgg)
+            else if (enc is { Species: (int)Species.Zorua, Form: 1 } and not EncounterEgg9)
                 DisallowLevelUpMove(28, (ushort)Move.Spite, pk9, data);
             else
                 return;
@@ -500,7 +500,7 @@ public sealed class MiscVerifier : Verifier
         if (!EggStateLegality.GetIsEggHatchCyclesValid(pk, enc))
             data.AddLine(GetInvalid(LEggHatchCycles, Egg));
 
-        if (pk.Format >= 6 && enc is EncounterEgg && !MovesMatchRelearn(pk))
+        if (pk.Format >= 6 && enc is IEncounterEgg && !MovesMatchRelearn(pk))
         {
             const int moveCount = 4;
             var sb = new StringBuilder(64);

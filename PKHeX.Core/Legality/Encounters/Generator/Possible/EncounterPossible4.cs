@@ -72,7 +72,7 @@ public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup 
                 return SetCurrent(egg);
             case YieldState.BredSplit:
                 State = YieldState.EventStart;
-                if (EncounterGenerator4.TryGetSplit((EncounterEgg)Current, Chain, out egg))
+                if (EncounterGenerator4.TryGetSplit((EncounterEgg4)Current, Chain, out egg))
                     return SetCurrent(egg);
                 goto case YieldState.EventStart;
 

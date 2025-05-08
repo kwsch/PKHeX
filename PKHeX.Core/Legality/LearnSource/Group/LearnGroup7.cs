@@ -29,13 +29,13 @@ public sealed class LearnGroup7 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option, mode);
 
-        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
+        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg7 egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg7 egg)
     {
         ILearnSource inst = egg.Version > GameVersion.MN ? LearnSource7USUM.Instance : LearnSource7SM.Instance;
         var eggMoves = inst.GetEggMoves(egg.Species, egg.Form);

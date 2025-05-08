@@ -1,0 +1,102 @@
+namespace PKHeX.Core;
+
+public sealed record EncounterEgg3(ushort Species, GameVersion Version) : IEncounterEgg, IRandomCorrelation
+{
+    private byte Location => Version is GameVersion.FR or GameVersion.LG
+        ? Locations.HatchLocationFRLG
+        : Locations.HatchLocationRSE;
+
+    public string Name => "Egg";
+    public string LongName => Name;
+
+    public const byte Level = 5;
+    public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && Version is GameVersion.E;
+
+    public byte Form => 0; // No forms in Gen3
+    public byte Generation => 3;
+    public EntityContext Context => EntityContext.Gen3;
+    public bool IsShiny => false;
+    public byte LevelMin => Level;
+    public byte LevelMax => Level;
+    ushort ILocation.EggLocation => 0;
+    ushort ILocation.Location => Location;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public Ball FixedBall => Ball.Poke;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsEgg => true;
+
+    // Generation 3 has PID/IV correlations and RNG abuse; assume none.
+    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.None;
+    public PIDType GetSuggestedCorrelation() => PIDType.None;
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PK3 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+
+    public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    {
+        var version = Version;
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+
+        var pk = new PK3
+        {
+            Species = Species,
+            CurrentLevel = Level,
+            Version = version,
+            Ball = (byte)FixedBall,
+            TID16 = tr.TID16,
+            SID16 = tr.SID16,
+            OriginalTrainerGender = tr.Gender,
+
+            // Force Hatch
+            Language = language,
+            OriginalTrainerName = tr.OT,
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
+            OriginalTrainerFriendship = 120,
+            MetLevel = 0,
+            MetLocation = Location,
+        };
+
+        SetEncounterMoves(pk, version);
+        pk.HealPP();
+
+        if (criteria.IsSpecifiedIVsAny(out _))
+            criteria.SetRandomIVs(pk);
+        else
+            criteria.SetRandomIVs(pk, 3);
+
+        // Get a random PID that matches gender/nature/ability criteria
+        var pi = pk.PersonalInfo;
+        var gr = pi.Gender;
+        var pid = pk.PID = GetRandomPID(criteria, gr, out var gender);
+        pk.Gender = gender;
+        pk.RefreshAbility((int)(pid % 2));
+
+        return pk;
+    }
+
+    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr, out byte gender)
+    {
+        var seed = Util.Rand32();
+        while (true)
+        {
+            seed = LCRNG.Next(seed);
+            var pid = seed;
+            gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+                continue;
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                continue;
+            if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((byte)(pid % 2)))
+                continue;
+            return pid;
+        }
+    }
+
+    private void SetEncounterMoves(PK3 pk, GameVersion version)
+    {
+        var ls = GameData.GetLearnSource(version);
+        var learn = ls.GetLearnset(Species, Form);
+        var initial = learn.GetBaseEggMoves(LevelMin);
+        pk.SetMoves(initial);
+    }
+}

@@ -27,7 +27,7 @@ public sealed class LearnGroup9 : ILearnGroup
 
         CheckSharedMoves(result, current, evos[0]);
 
-        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter) && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
+        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter) && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg9 egg)
             CheckEncounterMoves(result, current, egg);
 
         if (MoveResult.AllParsed(result))
@@ -57,7 +57,7 @@ public sealed class LearnGroup9 : ILearnGroup
         }
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg9 egg)
     {
         var game = LearnSource9SV.Instance;
         var eggMoves = game.GetEggMoves(egg.Species, egg.Form);

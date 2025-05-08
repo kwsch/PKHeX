@@ -106,7 +106,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         // Errors will be flagged later for those not manually handled below.
         if (defer.Encounter is not { } lastResort)
             yield break;
-        if (defer.Type is DeferralType.PIDIV && !(lastResort is EncounterEgg && ParseSettings.Settings.FramePattern.EggRandomAnyType4))
+        if (defer.Type is DeferralType.PIDIV && !(lastResort is EncounterEgg4 && ParseSettings.Settings.FramePattern.EggRandomAnyType4))
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
         else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
@@ -136,23 +136,17 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         return type == PIDType.None;
     }
 
-    private const byte Generation = 4;
     private const EntityContext Context = EntityContext.Gen4;
-    private const byte EggLevel = 1;
+    private const byte EggLevel = EncounterEgg4.Level;
 
-    private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
-    {
-        if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
-            form = FormInfo.GetOutOfBattleForm(species, form, Generation);
-        return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
-    }
+    private static EncounterEgg4 CreateEggEncounter(ushort species, GameVersion version) => new(species, version);
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)
     {
         return EvolutionTree.Evolves4.GetBaseSpeciesForm(lowest.Species, lowest.Form);
     }
 
-    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg4? result)
     {
         result = null;
         var devolved = chain[^1];
@@ -174,13 +168,13 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         if (!PersonalTable.HGSS.IsPresentInGame(species, form))
             return false;
 
-        result = CreateEggEncounter(species, form, version);
+        result = CreateEggEncounter(species, version);
         return true;
     }
 
     // Version is not updated when hatching an Egg in Gen4. Version is a clear indicator of the game it originated on.
 
-    public static bool TryGetSplit(EncounterEgg other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetSplit(EncounterEgg4 other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg4? result)
     {
         result = null;
         // Check for split-breed
@@ -194,7 +188,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         if (!Breeding.IsSplitBreedNotBabySpecies4(devolved.Species))
             return false;
 
-        result = other with { Species = devolved.Species, Form = devolved.Form };
+        result = other with { Species = devolved.Species };
         return true;
     }
 }

@@ -31,23 +31,17 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
             yield return enc.Encounter;
     }
 
-    private const byte Generation = 5;
     private const EntityContext Context = EntityContext.Gen5;
     private const byte EggLevel = EggStateLegality.EggMetLevel;
 
-    private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
-    {
-        if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
-            form = FormInfo.GetOutOfBattleForm(species, form, Generation);
-        return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
-    }
+    private static EncounterEgg5 CreateEggEncounter(ushort species, GameVersion version) => new(species, version);
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)
     {
         return EvolutionTree.Evolves5.GetBaseSpeciesForm(lowest.Species, lowest.Form);
     }
 
-    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg5? result)
     {
         result = null;
         var devolved = chain[^1];
@@ -69,14 +63,14 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         if (!PersonalTable.B2W2.IsPresentInGame(species, form))
             return false;
 
-        result = CreateEggEncounter(species, form, version);
+        result = CreateEggEncounter(species, version);
         return true;
     }
 
     // Both B/W and B2/W2 have the same egg move sets, so there is no point generating other-game pair encounters for traded eggs.
     // When hatched, the entity's Version is updated to the OT's.
 
-    public static bool TryGetSplit(EncounterEgg other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetSplit(EncounterEgg5 other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg5? result)
     {
         result = null;
         // Check for split-breed
@@ -90,7 +84,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         if (!Breeding.IsSplitBreedNotBabySpecies4(devolved.Species))
             return false;
 
-        result = other with { Species = devolved.Species, Form = devolved.Form };
+        result = other with { Species = devolved.Species };
         return true;
     }
 }

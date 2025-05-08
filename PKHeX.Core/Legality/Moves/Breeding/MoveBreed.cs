@@ -31,7 +31,7 @@ public static class MoveBreed
     /// Gets the expected moves the egg should come with, using an input of requested <see cref="moves"/> that are requested to be in the output.
     /// </summary>
     /// <param name="moves">Moves requested to be in the expected moves result</param>
-    /// <param name="enc">Encounter detail interface wrapper; should always be <see cref="EncounterEgg"/>.</param>
+    /// <param name="enc">Encounter detail interface wrapper; should always be <see cref="IEncounterEgg"/> or <see cref="EncounterInvalid"/>.</param>
     /// <param name="result">Result moves that are valid</param>
     /// <remarks>Validates the requested moves first prior to trying a more expensive computation.</remarks>
     /// <returns>True if the <see cref="result"/> is valid using the input <see cref="moves"/>. If not valid, the <see cref="result"/> will be base egg moves, probably valid.</returns>

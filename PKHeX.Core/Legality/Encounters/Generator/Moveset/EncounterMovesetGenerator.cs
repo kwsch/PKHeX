@@ -420,7 +420,7 @@ public static class EncounterMovesetGenerator
         var eggMoves = source.GetEggMoves(egg.Species, egg.Form);
         int flags = Moveset.BitOverlap(eggMoves, needs);
         var vt = needs.IndexOf((ushort)Move.VoltTackle);
-        if (vt != -1 && egg is EncounterEgg { CanHaveVoltTackle: true })
+        if (vt != -1 && egg is IEncounterEgg { CanHaveVoltTackle: true })
             flags |= 1 << vt;
         else if (egg.Generation <= 2)
             flags |= GetMoveMaskGen2(needs, egg);

@@ -26,15 +26,15 @@ public sealed class PIDVerifier : Verifier
             data.AddLine(Get(LPIDZero, Severity.Fishy));
         if (!pk.Nature.IsFixed()) // out of range
             data.AddLine(GetInvalid(LPIDNatureMismatch));
-        if (data.Info.EncounterMatch is EncounterEgg egg)
+        if (data.Info.EncounterMatch is IEncounterEgg egg)
             VerifyEggPID(data, pk, egg);
 
         VerifyShiny(data);
     }
 
-    private static void VerifyEggPID(LegalityAnalysis data, PKM pk, EncounterEgg egg)
+    private static void VerifyEggPID(LegalityAnalysis data, PKM pk, IEncounterEgg egg)
     {
-        if (egg.Generation is 4 && pk.EncryptionConstant == 0)
+        if (egg is EncounterEgg4 && pk.EncryptionConstant == 0)
         {
             // Gen4 Eggs are "egg available" based on the stored PID value in the save file.
             // If this value is 0 or is generated as 0 (possible), the game will see "false" and no egg is available.
@@ -46,7 +46,7 @@ public sealed class PIDVerifier : Verifier
             return;
         }
 
-        if (egg.Generation is 3 or 4 && Breeding.IsGenderSpeciesDetermination(egg.Species))
+        if (egg is EncounterEgg3 or EncounterEgg4 && Breeding.IsGenderSpeciesDetermination(egg.Species))
         {
             var gender = pk.Gender;
             if (!Breeding.IsValidSpeciesBit34(pk.EncryptionConstant, gender)) // 50/50 chance!
