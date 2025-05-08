@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Version) : IEncounterEgg
@@ -28,8 +30,7 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
 
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = Version;
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var date = EncounterDate.GetDate3DS();
         var pi = PersonalTable.USUM[Species, Form];
         var rnd = Util.Rand;
@@ -39,7 +40,7 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
         {
             Species = Species,
             CurrentLevel = Level,
-            Version = version,
+            Version = Version,
             Ball = (byte)Ball.Poke,
             TID16 = tr.TID16,
             SID16 = tr.SID16,
@@ -57,8 +58,8 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
             MetDate = date,
             EggMetDate = date,
 
-            PID = rnd.Rand32(),
             EncryptionConstant = rnd.Rand32(),
+            PID = rnd.Rand32(),
             Nature = criteria.GetNature(),
             Gender = criteria.GetGender(pi),
 
@@ -71,7 +72,7 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
         if (Species is (int)Core.Species.Scatterbug)
             pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);
 
-        SetEncounterMoves(pk, version);
+        SetEncounterMoves(pk);
         pk.HealPP();
         pk.RelearnMove1 = pk.Move1;
         pk.RelearnMove2 = pk.Move2;
@@ -89,10 +90,16 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
         return pk;
     }
 
-    private void SetEncounterMoves(PK7 pk, GameVersion version)
+    public ILearnSource Learn => Version switch
     {
-        var ls = GameData.GetLearnSource(version);
-        var learn = ls.GetLearnset(Species, Form);
+        GameVersion.SN or GameVersion.MN => LearnSource7SM.Instance,
+        GameVersion.US or GameVersion.UM => LearnSource7USUM.Instance,
+        _ => throw new ArgumentOutOfRangeException(nameof(Version), Version, null),
+    };
+
+    private void SetEncounterMoves(PK7 pk)
+    {
+        var learn = Learn.GetLearnset(Species, Form);
         var initial = learn.GetBaseEggMoves(LevelMin);
         pk.SetMoves(initial);
     }

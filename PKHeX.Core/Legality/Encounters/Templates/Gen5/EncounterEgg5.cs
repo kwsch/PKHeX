@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
@@ -34,15 +35,14 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = Version;
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var date = EncounterDate.GetDateNDS();
 
         var pk = new PK5
         {
             Species = Species,
             CurrentLevel = Level,
-            Version = version,
+            Version = Version,
             Ball = (byte)FixedBall,
             TID16 = tr.TID16,
             SID16 = tr.SID16,
@@ -63,7 +63,7 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
             Nature = criteria.GetNature(),
         };
 
-        SetEncounterMoves(pk, version);
+        SetEncounterMoves(pk);
         pk.HealPP();
 
         if (criteria.IsSpecifiedIVsAny(out _))
@@ -98,10 +98,16 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
         }
     }
 
-    private void SetEncounterMoves(PK5 pk, GameVersion version)
+    public ILearnSource Learn => Version switch
     {
-        var ls = GameData.GetLearnSource(version);
-        var learn = ls.GetLearnset(Species, Form);
+        GameVersion.B or GameVersion.W => LearnSource5BW.Instance,
+        GameVersion.B2 or GameVersion.W2 => LearnSource5B2W2.Instance,
+        _ => throw new ArgumentOutOfRangeException(nameof(Version), Version, null),
+    };
+
+    private void SetEncounterMoves(PK5 pk)
+    {
+        var learn = Learn.GetLearnset(Species, Form);
         var initial = learn.GetBaseEggMoves(LevelMin);
         pk.SetMoves(initial);
     }

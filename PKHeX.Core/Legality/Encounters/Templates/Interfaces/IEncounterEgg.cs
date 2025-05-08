@@ -5,5 +5,6 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IEncounterEgg : IEncounterable
 {
+    ILearnSource Learn { get; }
     bool CanHaveVoltTackle { get; }
 }

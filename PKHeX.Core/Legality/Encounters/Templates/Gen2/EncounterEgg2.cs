@@ -31,8 +31,7 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = Version;
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var rnd = Util.Rand;
 
         var pk = new PK2(language == (int)LanguageID.Japanese)
@@ -53,10 +52,10 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
                 : EncounterUtil.GetRandomDVs(rnd, criteria.Shiny.IsShiny(), criteria.HiddenPowerType)
         };
 
-        SetEncounterMoves(pk, version);
+        SetEncounterMoves(pk);
         pk.HealPP();
 
-        if (version == GameVersion.C)
+        if (Version == GameVersion.C)
         {
             // Set met data for Crystal hatch.
             pk.MetLocation = Locations.HatchLocationC;
@@ -73,10 +72,14 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
         return pk;
     }
 
-    private void SetEncounterMoves(PK2 pk, GameVersion version)
+    ILearnSource IEncounterEgg.Learn => Learn;
+    public ILearnSource<PersonalInfo2> Learn => Version is GameVersion.C
+        ? LearnSource2C.Instance
+        : LearnSource2GS.Instance;
+
+    private void SetEncounterMoves(PK2 pk)
     {
-        var ls = GameData.GetLearnSource(version);
-        var learn = ls.GetLearnset(Species, Form);
+        var learn = Learn.GetLearnset(Species, Form);
         var initial = learn.GetBaseEggMoves(LevelMin);
         pk.SetMoves(initial);
     }

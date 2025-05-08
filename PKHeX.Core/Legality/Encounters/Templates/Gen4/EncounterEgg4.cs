@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
@@ -49,15 +50,14 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = Version;
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var date = EncounterDate.GetDateNDS();
 
         var pk = new PK4
         {
             Species = Species,
             CurrentLevel = Level,
-            Version = version,
+            Version = Version,
             Ball = (byte)FixedBall,
             TID16 = tr.TID16,
             SID16 = tr.SID16,
@@ -76,7 +76,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             EggMetDate = date,
         };
 
-        SetEncounterMoves(pk, version);
+        SetEncounterMoves(pk);
         pk.HealPP();
 
         if (criteria.IsSpecifiedIVsAny(out _))
@@ -113,10 +113,18 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         }
     }
 
-    private void SetEncounterMoves(PK4 pk, GameVersion version)
+    ILearnSource IEncounterEgg.Learn => Learn;
+    public ILearnSource<PersonalInfo4> Learn => Version switch
     {
-        var ls = GameData.GetLearnSource(version);
-        var learn = ls.GetLearnset(Species, Form);
+        GameVersion.D or GameVersion.P => LearnSource4DP.Instance,
+        GameVersion.Pt => LearnSource4DP.Instance,
+        GameVersion.HG or GameVersion.SS => LearnSource4HGSS.Instance,
+        _ => throw new ArgumentOutOfRangeException(nameof(Version), Version, null),
+    };
+
+    private void SetEncounterMoves(PK4 pk)
+    {
+        var learn = Learn.GetLearnset(Species, Form);
         var initial = learn.GetBaseEggMoves(LevelMin);
         pk.SetMoves(initial);
     }

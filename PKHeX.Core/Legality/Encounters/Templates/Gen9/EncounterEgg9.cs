@@ -28,8 +28,7 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
 
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var version = Version;
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var date = EncounterDate.GetDateSwitch();
         var pi = PersonalTable.SV[Species, Form];
         var rnd = Util.Rand;
@@ -38,7 +37,7 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
         {
             Species = Species,
             CurrentLevel = Level,
-            Version = version,
+            Version = Version,
             Ball = (byte)Ball.Poke,
             TID16 = tr.TID16,
             SID16 = tr.SID16,
@@ -56,14 +55,14 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
             MetDate = date,
             EggMetDate = date,
 
-            PID = rnd.Rand32(),
             EncryptionConstant = rnd.Rand32(),
+            PID = rnd.Rand32(),
             Nature = criteria.GetNature(),
             Gender = criteria.GetGender(pi),
         };
         pk.StatNature = pk.Nature;
 
-        SetEncounterMoves(pk, version);
+        SetEncounterMoves(pk);
         pk.HealPP();
         pk.RelearnMove1 = pk.Move1;
         pk.RelearnMove2 = pk.Move2;
@@ -87,10 +86,12 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
         return pk;
     }
 
-    private void SetEncounterMoves(PK9 pk, GameVersion version)
+    ILearnSource IEncounterEgg.Learn => Learn;
+    public ILearnSource<PersonalInfo9SV> Learn => LearnSource9SV.Instance;
+
+    private void SetEncounterMoves(PK9 pk)
     {
-        var ls = GameData.GetLearnSource(version);
-        var learn = ls.GetLearnset(Species, Form);
+        var learn = Learn.GetLearnset(Species, Form);
         var initial = learn.GetBaseEggMoves(LevelMin);
         pk.SetMoves(initial);
     }
