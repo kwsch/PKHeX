@@ -60,7 +60,7 @@ public static class CommonEvent3Checker
         var rand2 = LCRNG.Next16(ref seed);
         var combined = (rand1 << 16) | rand2;
         var result = PCJPFifthAnniversary.GetResultPCJP(combined);
-        if (result.Shiny)
+        if (!result.Shiny)
             return false;
         if (result.Index != index)
             return false;
