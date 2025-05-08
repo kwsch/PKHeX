@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncounterEgg, IRandomCorrelation
@@ -24,7 +26,7 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
     public bool IsEgg => true;
 
     // Generation 5 has PID/IV correlations and RNG abuse; assume none.
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.None;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.None ? Match : Mismatch;
     public PIDType GetSuggestedCorrelation() => PIDType.None;
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -24,9 +25,12 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
     private enum DeferralType
     {
+        // Legal
         None,
+        PIDIVDefer,
+
+        // Illegal
         PIDIV,
-        Tile,
         Ball,
         SlotNumber,
     }
@@ -64,9 +68,13 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (!IsTypeCompatible(e, pk, ref info.GetPIDIVRef()))
+            var typeCheck = IsTypeCompatible(e, pk, ref info.GetPIDIVRef());
+            if (typeCheck is not Match)
             {
-                defer.Update(DeferralType.PIDIV, e);
+                var rating = typeCheck == NotIdeal
+                    ? DeferralType.PIDIVDefer
+                    : DeferralType.PIDIV;
+                defer.Update(rating, e);
                 continue;
             }
             if (!IsBallCompatible(e, pk))
@@ -102,7 +110,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         // Errors will be flagged later for those not manually handled below.
         if (defer.Encounter is not { } lastResort)
             yield break;
-        if (defer.Type is DeferralType.PIDIV && !(lastResort is EncounterEgg3 && ParseSettings.Settings.FramePattern.EggRandomAnyType3))
+        if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
         else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
@@ -115,14 +123,14 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         _ => pk.Ball is not (byte)Ball.Safari,
     };
 
-    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, ref PIDIV pidiv)
+    private static RandomCorrelationRating IsTypeCompatible(IEncounterTemplate enc, PKM pk, ref PIDIV pidiv)
     {
         if (enc is IRandomCorrelationEvent3 revise)
             return revise.IsCompatibleReviseReset(ref pidiv, pk);
         var type = pidiv.Type;
         if (enc is IRandomCorrelation r)
             return r.IsCompatible(type, pk);
-        return type == PIDType.None;
+        return type is PIDType.None ? Match : Mismatch;
     }
 
     private const EntityContext Context = EntityContext.Gen3;

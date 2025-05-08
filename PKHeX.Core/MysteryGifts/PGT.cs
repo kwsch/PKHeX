@@ -1,6 +1,7 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.GiftType4;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -449,13 +450,13 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public bool RibbonChampionWorld { get => PK.RibbonChampionWorld; set => PK.RibbonChampionWorld = value; }
     public bool RibbonSouvenir { get => PK.RibbonSouvenir; set => PK.RibbonSouvenir = value; }
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (IsManaphyEgg)
-            return IsG4ManaphyPIDValid(type, pk);
+            return IsG4ManaphyPIDValid(type, pk) ? Match : Mismatch;
         if (PK.PID != 1 && type == PIDType.G5MGShiny)
-            return true;
-        return type == PIDType.None;
+            return Match;
+        return type is PIDType.None ? Match : Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation()

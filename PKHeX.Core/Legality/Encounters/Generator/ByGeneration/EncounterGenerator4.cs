@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -29,7 +30,11 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
     private enum DeferralType
     {
+        // Legal
         None,
+        PIDIVDefer,
+
+        // Illegal
         PIDIV,
         Tile,
         Ball,
@@ -66,9 +71,14 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                 defer.Update(DeferralType.Tile, e);
                 continue;
             }
-            if (!IsTypeCompatible(e, pk, info.PIDIV.Type))
+
+            var typeCheck = IsTypeCompatible(e, pk, info.PIDIV.Type);
+            if (typeCheck is not Match)
             {
-                defer.Update(DeferralType.PIDIV, e);
+                var rating = typeCheck == NotIdeal
+                    ? DeferralType.PIDIVDefer
+                    : DeferralType.PIDIV;
+                defer.Update(rating, e);
                 continue;
             }
             if (!IsBallCompatible(e, pk))
@@ -106,7 +116,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         // Errors will be flagged later for those not manually handled below.
         if (defer.Encounter is not { } lastResort)
             yield break;
-        if (defer.Type is DeferralType.PIDIV && !(lastResort is EncounterEgg4 && ParseSettings.Settings.FramePattern.EggRandomAnyType4))
+        if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
         else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
@@ -129,11 +139,11 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         return t.GroundTile.Contains(e.GroundTile);
     }
 
-    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+    private static RandomCorrelationRating IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
     {
         if (enc is IRandomCorrelation r)
             return r.IsCompatible(type, pk);
-        return type == PIDType.None;
+        return type is PIDType.None ? Match : Mismatch;
     }
 
     private const EntityContext Context = EntityContext.Gen4;
