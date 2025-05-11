@@ -96,7 +96,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     {
         if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi, noShiny: false);
+        MethodCXD.SetRandom(pk, criteria, pi, noShiny: false, Util.Rand32());
     }
     #endregion
 

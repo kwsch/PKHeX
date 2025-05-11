@@ -62,7 +62,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         MethodPokeSpot.SetRandomPID(pk, criteria, pi.Gender, SlotNumber);
         if (criteria.IsSpecifiedIVsAll() && !MethodPokeSpot.TrySetIVs(pk, criteria, LevelMin, LevelMax))
             return;
-        MethodPokeSpot.SetRandomIVs(pk, criteria, LevelMin, LevelMax);
+        MethodPokeSpot.SetRandomIVs(pk, criteria, LevelMin, LevelMax, Util.Rand32());
     }
 
     #endregion

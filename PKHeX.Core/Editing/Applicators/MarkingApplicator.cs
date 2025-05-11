@@ -28,7 +28,8 @@ public static class MarkingApplicator
             SetMarkings(b, pk);
     }
 
-    private static void SetMarkings(this IAppliedMarkings<bool> mark, PKM pk)
+    /// <inheritdoc cref="SetMarkings(PKM)"/>
+    public static void SetMarkings(this IAppliedMarkings<bool> mark, PKM pk)
     {
         var method = MarkingMethod(pk);
         mark.SetMarking(0, method(pk.IV_HP , 0) == 1);
@@ -39,7 +40,8 @@ public static class MarkingApplicator
         mark.SetMarking(5, method(pk.IV_SPE, 5) == 1);
     }
 
-    private static void SetMarkings(this IAppliedMarkings<MarkingColor> mark, PKM pk)
+    /// <inheritdoc cref="SetMarkings(PKM)"/>
+    public static void SetMarkings(this IAppliedMarkings<MarkingColor> mark, PKM pk)
     {
         var method = MarkingMethod(pk);
         mark.SetMarking(0, (MarkingColor)method(pk.IV_HP, 0));

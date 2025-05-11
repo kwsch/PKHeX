@@ -332,7 +332,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
     {
         if (Language != 0)
             return (LanguageID) Language;
-        if (language < LanguageID.Korean && language != LanguageID.Hacked)
+        if (language < LanguageID.Korean && language != LanguageID.None)
         {
             if (Language == 0 && language is not LanguageID.Japanese)
                 return language;

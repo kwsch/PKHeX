@@ -326,10 +326,8 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for the XD starter (Eevee).
     /// </summary>
-    public static void SetStarterRandom(XK3 pk, EncounterCriteria criteria)
+    public static void SetStarterRandom(XK3 pk, EncounterCriteria criteria, uint seed)
     {
-        var seed = Util.Rand32();
-
         bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
         while (true)
         {
@@ -377,13 +375,12 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for a shadow encounter.
     /// </summary>
-    public static bool SetRandom<TEnc, TEntity>(this TEnc enc, TEntity pk, in EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny)
+    public static bool SetRandom<TEnc, TEntity>(this TEnc enc, TEntity pk, in EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny, uint seed)
         where TEnc : IShadow3
         where TEntity : G3PKM, ISeparateIVs
     {
         var id32 = pk.ID32;
         var gender = pi.Gender;
-        var seed = Util.Rand32();
 
         bool hasPrior = enc.PartyPrior.Length != 0;
         bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
@@ -425,12 +422,11 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for a non-shadow encounter.
     /// </summary>
-    public static void SetRandom<T>(T pk, EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny)
+    public static void SetRandom<T>(T pk, EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny, uint seed)
         where T : G3PKM, ISeparateIVs
     {
         var id32 = pk.ID32;
         var gender = pi.Gender;
-        var seed = Util.Rand32();
 
         bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
         while (true)

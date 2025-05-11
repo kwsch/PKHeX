@@ -40,7 +40,7 @@ public static class BatchEditing
     /// </summary>
     public static string[][] Properties => GetProperties.Value;
 
-    private static readonly Dictionary<string,PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] Props = GetPropertyDictionaries(Types);
+    private static readonly Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] Props = GetPropertyDictionaries(Types);
     private static readonly Lazy<string[][]> GetProperties = new(() => GetPropArray(Props, CustomProperties));
 
     private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] GetPropertyDictionaries(IReadOnlyList<Type> types)
@@ -79,8 +79,9 @@ public static class BatchEditing
     internal const string PROP_MOVEMASTERY = "MoveMastery";
     internal const string IdentifierContains = nameof(IdentifierContains);
 
-    private static string[][] GetPropArray(Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] types, ReadOnlySpan<string> extra)
+    private static string[][] GetPropArray<T>(Dictionary<string, T>.AlternateLookup<ReadOnlySpan<char>>[] types, ReadOnlySpan<string> extra)
     {
+        // Create a list for all types, [inAny, ..types, inAll]
         var result = new string[types.Length + 2][];
         var p = result.AsSpan(1, types.Length);
 
@@ -223,18 +224,22 @@ public static class BatchEditing
     /// <param name="i">Instruction to initialize.</param>
     private static void SetInstructionScreenedValue(StringInstruction i)
     {
+        ReadOnlySpan<string> set;
         switch (i.PropertyName)
         {
-            case nameof(PKM.Species): i.SetScreenedValue(GameInfo.Strings.specieslist); return;
-            case nameof(PKM.HeldItem): i.SetScreenedValue(GameInfo.Strings.itemlist); return;
-            case nameof(PKM.Ability): i.SetScreenedValue(GameInfo.Strings.abilitylist); return;
-            case nameof(PKM.Nature): i.SetScreenedValue(GameInfo.Strings.natures); return;
-            case nameof(PKM.Ball): i.SetScreenedValue(GameInfo.Strings.balllist); return;
+            case nameof(PKM.Species):  set = GameInfo.Strings.specieslist; break;
+            case nameof(PKM.HeldItem): set = GameInfo.Strings.itemlist;    break;
+            case nameof(PKM.Ability):  set = GameInfo.Strings.abilitylist; break;
+            case nameof(PKM.Nature):   set = GameInfo.Strings.natures;  break;
+            case nameof(PKM.Ball):     set = GameInfo.Strings.balllist; break;
 
             case nameof(PKM.Move1) or nameof(PKM.Move2) or nameof(PKM.Move3) or nameof(PKM.Move4):
             case nameof(PKM.RelearnMove1) or nameof(PKM.RelearnMove2) or nameof(PKM.RelearnMove3) or nameof(PKM.RelearnMove4):
-                i.SetScreenedValue(GameInfo.Strings.movelist); return;
+                set = GameInfo.Strings.movelist; break;
+            default:
+                return;
         }
+        i.SetScreenedValue(set);
     }
 
     private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> GetProps(PKM pk)
@@ -345,7 +350,7 @@ public static class BatchEditing
     internal static ModifyResult TryModifyPKM(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
     {
         if (!pk.ChecksumValid || pk.Species == 0)
-            return ModifyResult.Invalid;
+            return ModifyResult.Skipped;
 
         var info = new BatchInfo(pk);
         var props = GetProps(pk);
@@ -364,22 +369,27 @@ public static class BatchEditing
             }
         }
 
-        ModifyResult result = ModifyResult.Modified;
+        var error = false;
+        var result = ModifyResult.Skipped;
         foreach (var cmd in modifications)
         {
             try
             {
                 var tmp = SetPKMProperty(cmd, info, props);
-                if (tmp != ModifyResult.Modified)
+                if (tmp == ModifyResult.Error)
+                    error = true;
+                else if (tmp != ModifyResult.Skipped)
                     result = tmp;
             }
             // Swallow any error because this can be malformed user input.
             catch (Exception ex)
             {
                 Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
-                result = ModifyResult.Error;
+                error = true;
             }
         }
+        if (error)
+            result |= ModifyResult.Error;
         return result;
     }
 
@@ -498,14 +508,18 @@ public static class BatchEditing
     /// <param name="cmd">Modification</param>
     private static ModifyResult SetByteArrayProperty(PKM pk, StringInstruction cmd)
     {
+        Span<byte> dest;
         switch (cmd.PropertyName)
         {
-            case nameof(PKM.NicknameTrash): StringUtil.LoadHexBytesTo(cmd.PropertyValue.AsSpan(CONST_BYTES.Length), pk.NicknameTrash, 3); return ModifyResult.Modified;
-            case nameof(PKM.OriginalTrainerTrash):       StringUtil.LoadHexBytesTo(cmd.PropertyValue.AsSpan(CONST_BYTES.Length), pk.OriginalTrainerTrash, 3);       return ModifyResult.Modified;
-            case nameof(PKM.HandlingTrainerTrash):       StringUtil.LoadHexBytesTo(cmd.PropertyValue.AsSpan(CONST_BYTES.Length), pk.HandlingTrainerTrash, 3);       return ModifyResult.Modified;
+            case nameof(PKM.NicknameTrash) or nameof(PKM.Nickname): dest = pk.NicknameTrash; break;
+            case nameof(PKM.OriginalTrainerTrash): dest = pk.OriginalTrainerTrash; break;
+            case nameof(PKM.HandlingTrainerTrash): dest = pk.HandlingTrainerTrash; break;
             default:
                 return ModifyResult.Error;
         }
+        var src = cmd.PropertyValue.AsSpan(CONST_BYTES.Length); // skip prefix
+        StringUtil.LoadHexBytesTo(src, dest, 3);
+        return ModifyResult.Modified;
     }
 
     /// <summary>
@@ -567,16 +581,16 @@ public static class BatchEditing
                 {
                     value <<= 2; // flags are the lowest bits, and our random value is still fine.
                     value |= bk.IV32 & 3; // preserve the flags
+                    bk.IV32 = value;
+                    return;
                 }
-                else
+
+                var exist = ReflectUtil.GetValue(pk, IV32);
+                value |= exist switch
                 {
-                    var exist = ReflectUtil.GetValue(pk, IV32);
-                    value |= exist switch
-                    {
-                        uint iv => iv & (3u << 30), // preserve the flags
-                        _ => 0,
-                    };
-                }
+                    uint iv => iv & (3u << 30), // preserve the flags
+                    _ => 0,
+                };
                 ReflectUtil.SetValue(pi, pk, value);
             }
             else

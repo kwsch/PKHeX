@@ -301,7 +301,7 @@ public partial class Main : Form
     private void MainMenuOpen(object sender, EventArgs e)
     {
         if (WinFormsUtil.OpenSAVPKMDialog(C_SAV.SAV.PKMExtensions, out var path))
-            OpenQuick(path!);
+            OpenQuick(path);
     }
 
     private void MainMenuSave(object sender, EventArgs e)
@@ -524,12 +524,15 @@ public partial class Main : Form
 
         // Get Simulator Data
         var text = Clipboard.GetText();
-        var set = new ShowdownSet(text);
+        var sets = BattleTemplateTeams.TryGetSets(text);
+        var set = sets.FirstOrDefault() ?? new(""); // take only first set
 
         if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-        var reformatted = set.Text;
+        var programLanguage = Language.GetLanguageValue(Settings.Startup.Language);
+        var settings = Settings.BattleTemplate.Export.GetSettings(programLanguage, set.Context);
+        var reformatted = set.GetText(settings);
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, reformatted))
             return;
 
@@ -549,7 +552,9 @@ public partial class Main : Form
         }
 
         var pk = PreparePKM();
-        var text = ShowdownParsing.GetShowdownText(pk);
+        var programLanguage = Language.GetLanguageValue(Settings.Startup.Language);
+        var settings = Settings.BattleTemplate.Export.GetSettings(programLanguage, pk.Context);
+        var text = ShowdownParsing.GetShowdownText(pk, settings);
         bool success = WinFormsUtil.SetClipboardText(text);
         if (!success || !Clipboard.GetText().Equals(text))
             WinFormsUtil.Alert(MsgClipboardFailWrite, MsgSimulatorExportFail);
@@ -876,7 +881,8 @@ public partial class Main : Form
     {
 #if DEBUG
         // Get the file path that started this exe.
-        var date = File.GetLastWriteTime(Environment.ProcessPath!);
+        var path = Environment.ProcessPath;
+        var date = path is null ? DateTime.Now : File.GetLastWriteTime(path);
         string version = $"d-{date:yyyyMMdd}";
 #else
         var v = Program.CurrentVersion;

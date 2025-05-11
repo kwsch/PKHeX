@@ -76,13 +76,13 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
                 return;
             // Fall back to generating a random PID.
-            MethodCXD.SetStarterRandom(pk, criteria);
+            MethodCXD.SetStarterRandom(pk, criteria, Util.Rand32());
             return;
         }
 
         if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi, noShiny: false);
+        MethodCXD.SetRandom(pk, criteria, pi, noShiny: false, Util.Rand32());
     }
     #endregion
 

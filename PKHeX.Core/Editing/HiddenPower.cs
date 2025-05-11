@@ -71,6 +71,11 @@ public static class HiddenPower
     /// </summary>
     public const int TypeCount = 16;
 
+    /// <summary>
+    /// Checks if the input Hidden Power Type is not one of the 15 valid types.
+    /// </summary>
+    /// <param name="type">Hidden Power Type</param>
+    /// <returns><c>true</c> if the input Hidden Power Type is not one of the 15 valid types.</returns>
     public static bool IsInvalidType(int type) => (uint)type >= TypeCount;
 
     /// <summary>

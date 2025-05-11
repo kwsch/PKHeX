@@ -71,12 +71,11 @@ public static class GenerateMethodH
         }
     }
 
-    public static void SetRandomUnown<T>(this T enc, PK3 pk, EncounterCriteria criteria)
+    public static void SetRandomUnown<T>(this T enc, PK3 pk, EncounterCriteria criteria, uint seed)
        where T : INumberedSlot, ISpeciesForm
     {
         //bool checkForm = forms.Contains(criteria.Form); // not a property :(
         var (min, max) = SlotMethodH.GetRangeGrass(enc.SlotNumber);
-        var seed = Util.Rand32();
         // Can't game the seed with % 100 increments as Unown's form calculation is based on the PID.
 
         while (true)

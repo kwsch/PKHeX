@@ -4,7 +4,7 @@ using static PKHeX.Core.SlotType8b;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.BDSP"/>.
+/// Encounter Slot found in <see cref="EntityContext.Gen8b"/>.
 /// </summary>
 public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Contiguous series Game Language IDs
@@ -9,7 +9,7 @@ public enum LanguageID : byte
     /// Undefined Language ID, usually indicative of a value not being set.
     /// </summary>
     /// <remarks>Gen5 Japanese In-game Trades happen to not have their Language value set, and express Language=0.</remarks>
-    Hacked = 0,
+    None = 0,
 
     /// <summary>
     /// Japanese (日本語)

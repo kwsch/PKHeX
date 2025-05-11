@@ -11,7 +11,7 @@ public static class DateUtil
     /// <param name="month">The month of the date of which to check the validity.</param>
     /// <param name="day">The day of the date of which to check the validity.</param>
     /// <returns>A boolean indicating if the date is valid.</returns>
-    public static bool IsDateValid(int year, int month, int day)
+    public static bool IsValidDate(int year, int month, int day)
     {
         if (year is <= 0 or > 9999)
             return false;
@@ -30,14 +30,20 @@ public static class DateUtil
     /// <param name="month">The month of the date of which to check the validity.</param>
     /// <param name="day">The day of the date of which to check the validity.</param>
     /// <returns>A boolean indicating if the date is valid.</returns>
-    public static bool IsDateValid(uint year, uint month, uint day)
+    public static bool IsValidDate(uint year, uint month, uint day)
     {
-        return year < int.MaxValue && month < int.MaxValue && day < int.MaxValue && IsDateValid((int)year, (int)month, (int)day);
+        return year < int.MaxValue && month < int.MaxValue && day < int.MaxValue && IsValidDate((int)year, (int)month, (int)day);
     }
 
     private static readonly DateTime Epoch2000 = new(2000, 1, 1);
     private const int SecondsPerDay = 60*60*24; // 86400
 
+    /// <summary>
+    /// Combines the date and time components into a seconds-elapsed value, relative to the epoch 2000.
+    /// </summary>
+    /// <param name="date">Date component</param>
+    /// <param name="time">Time component</param>
+    /// <returns>Seconds elapsed since epoch 2000</returns>
     public static int GetSecondsFrom2000(DateTime date, DateTime time)
     {
         int seconds = (int)(date - Epoch2000).TotalSeconds;
@@ -46,12 +52,24 @@ public static class DateUtil
         return seconds;
     }
 
+    /// <summary>
+    /// Converts a seconds-elapsed value to the Date and Time components, relative to the epoch 2000.
+    /// </summary>
+    /// <param name="seconds">Seconds elapsed since epoch 2000</param>
+    /// <param name="date">Date component</param>
+    /// <param name="time">Time component</param>
     public static void GetDateTime2000(uint seconds, out DateTime date, out DateTime time)
     {
         date = Epoch2000.AddSeconds(seconds);
         time = Epoch2000.AddSeconds(seconds % SecondsPerDay);
     }
 
+    /// <summary>
+    /// Converts a seconds-elapsed value to a string.
+    /// </summary>
+    /// <param name="value">Seconds elapsed</param>
+    /// <param name="secondsBias">If provided, treat as epoch 2000 + secondsBias</param>
+    /// <returns>String representation of the date/time value</returns>
     public static string ConvertDateValueToString(int value, int secondsBias = -1)
     {
         var sb = new System.Text.StringBuilder();
@@ -81,7 +99,14 @@ public static class DateUtil
     /// <inheritdoc cref="GetRandomDateWithin(DateOnly,DateOnly,Random)"/>
     public static DateOnly GetRandomDateWithin(DateOnly start, DateOnly end) => GetRandomDateWithin(start, end, Util.Rand);
 
-    public static bool IsTimeValid(byte receivedHour, byte receivedMinute, byte receivedSecond)
+    /// <summary>
+    /// Checks if the given time components represent a valid time.
+    /// </summary>
+    /// <param name="receivedHour"></param>
+    /// <param name="receivedMinute"></param>
+    /// <param name="receivedSecond"></param>
+    /// <returns></returns>
+    public static bool IsValidTime(byte receivedHour, byte receivedMinute, byte receivedSecond)
     {
         return receivedHour < 24u && receivedMinute < 60u && receivedSecond < 60u;
     }

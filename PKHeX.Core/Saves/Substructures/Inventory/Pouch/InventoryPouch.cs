@@ -280,7 +280,8 @@ public abstract class InventoryPouch
             return false;
         }
 
-        count = GetSuggestedItemCount(sav, item, count);
+        if (count > 0)
+            count = GetSuggestedItemCount(sav, item, count);
         return true;
     }
 

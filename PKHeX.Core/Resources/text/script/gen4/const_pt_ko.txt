@@ -12,6 +12,7 @@
 0068	e	오박사의 편지	0:활성화되지 않음,4370:활성화됨
 0069	e	천계의 피리	0:활성화되지 않음,4387:활성화됨
 0070	e	비밀의열쇠	0:활성화되지 않음,4387:활성화됨
+0248	e	항구 숙소 이벤트	0:입장 전,4:이벤트 완성됨
 0086	e	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
 0087	e	미정 이벤트 (224번도로)	0:활성화되지 않음,1:활성화 가능,2:활성화됨
 0133	s	미정 (224번도로)	0:활성화되지 않음,1:활성화됨,2:나타남
@@ -19,7 +20,7 @@
 0106	r	Iceberg Ruins Statue (레지아이스)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	r	Rock Peak Ruins Statue (레지락) 	0:Inactive,270:Activated,280:Defeated,290:Caught
 0062	r	Current Players Interacted Underground	32:화강돌 나타남
-0138	r	신령탑	0:활성화되지 않음,1:활성화됨
+0138	r	신령탑	0:비활성,1:활동적인
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn

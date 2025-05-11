@@ -46,6 +46,13 @@ public static class EntityGender
         return GetFromPIDAndRatio(pid, gt);
     }
 
+    /// <summary>
+    /// Gets the gender from the <see cref="pid"/> and <see cref="gr"/> values.
+    /// </summary>
+    /// <param name="pid">Personality ID.</param>
+    /// <param name="gr">Gender Ratio.</param>
+    /// <returns>Gender ID (0/1/2)</returns>
+    /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
     public static byte GetFromPIDAndRatio(uint pid, byte gr) => gr switch
     {
         PersonalInfo.RatioMagicGenderless => Genderless,

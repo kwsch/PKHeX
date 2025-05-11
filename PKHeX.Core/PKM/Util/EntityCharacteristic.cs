@@ -24,7 +24,38 @@ public static class EntityCharacteristic
     public static int GetCharacteristic(uint ec, uint iv32)
     {
         int index = (int)(ec % 6);
+        var (maxStatIndex, maxStatValue) = GetMaxStat(iv32, index);
+        return GetCharacteristic(maxStatIndex, maxStatValue);
+    }
 
+    /// <summary>
+    /// Gets the characteristic index of the given unpacked IVs.
+    /// </summary>
+    /// <param name="ec">Encryption Constant.</param>
+    /// <param name="ivs">Unpacked IVs.</param>
+    /// <returns>Characteristic index.</returns>
+    public static int GetCharacteristic(uint ec, Span<int> ivs)
+    {
+        int index = (int)(ec % 6);
+        var (maxStatIndex, maxStatValue) = GetMaxStat(ivs, index);
+        return GetCharacteristic(maxStatIndex, maxStatValue);
+    }
+
+    /// <summary>
+    /// Gets the characteristic index of the given IVs when the IVs are stored in reverse order (HP highest bits).
+    /// </summary>
+    /// <param name="ec">Encryption Constant.</param>
+    /// <param name="iv32">Lumped IVs with HP occupying the highest bits.</param>
+    /// <returns>Characteristic index.</returns>
+    public static int GetCharacteristicInvertFields(uint ec, uint iv32)
+    {
+        int index = (int)(ec % 6);
+        var (maxStatIndex, maxStatValue) = GetMaxStat32Invert(iv32, index);
+        return GetCharacteristic(maxStatIndex, maxStatValue);
+    }
+
+    private static (int MaxStatIndex, int MaxStatValue) GetMaxStat(uint iv32, int index)
+    {
         // Get individual IVs from the lumped value.
         // The IVs are stored in the following order: HP, Atk, Def, Spe, SpA, SpD
         // Check all IVs, get the highest IV and its index. If there are multiple highest IVs, the first index checked is chosen.
@@ -44,19 +75,11 @@ public static class EntityCharacteristic
                 index = 0;
         } while (maxStatIndex != index);
 
-        return GetCharacteristic(maxStatIndex, (int)maxStatValue);
+        return (maxStatIndex, (int)maxStatValue);
     }
 
-    /// <summary>
-    /// Gets the characteristic index of the given unpacked IVs.
-    /// </summary>
-    /// <param name="ec">Encryption Constant.</param>
-    /// <param name="ivs">Unpacked IVs.</param>
-    /// <returns>Characteristic index.</returns>
-    public static int GetCharacteristic(uint ec, Span<int> ivs)
+    private static (int MaxStatIndex, int MaxStatValue) GetMaxStat(Span<int> ivs, int index)
     {
-        int index = (int)(ec % 6);
-
         // Get individual IVs from the lumped value.
         // The IVs are stored in the following order: HP, Atk, Def, Spe, SpA, SpD
         // Check all IVs, get the highest IV and its index. If there are multiple highest IVs, the first index checked is chosen.
@@ -76,22 +99,12 @@ public static class EntityCharacteristic
                 index = 0;
         } while (maxStatIndex != index);
 
-        return GetCharacteristic(maxStatIndex, maxStatValue);
+        return (maxStatIndex, maxStatValue);
     }
 
-    /// <summary>
-    /// Gets the characteristic index of the given IVs in Big Endian format.
-    /// </summary>
-    /// <param name="ec">Encryption Constant.</param>
-    /// <param name="iv32">Lumped IVs in Big Endian format.</param>
-    /// <returns>Characteristic index.</returns>
-    public static int GetCharacteristicInvertFields(uint ec, uint iv32)
+    private static (int MaxStatIndex, int MaxStatValue) GetMaxStat32Invert(uint iv32, int index)
     {
-        int index = (int)(ec % 6);
-
-        // Get individual IVs from the lumped value.
-        // The IVs are stored in the following order: SpD, SpA, Spe, Def, Atk, HP
-        // Check all IVs, get the highest IV and its index. If there are multiple highest IVs, the first index checked is chosen.
+        // Same as GetMaxStat, but for formats where the IVs are stored in reverse order.
         int maxStatIndex = index;
         var maxStatValue = 0u;
         do
@@ -109,6 +122,6 @@ public static class EntityCharacteristic
                 index = 0;
         } while (maxStatIndex != index);
 
-        return GetCharacteristic(maxStatIndex, (int)maxStatValue);
+        return (maxStatIndex, (int)maxStatValue);
     }
 }

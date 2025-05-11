@@ -169,7 +169,7 @@ public static class StringConverter8
 
     private static void TrimHalfSpaces(Span<char> u16)
     {
-        // If a replacement is made, any leading or trailing halfwidth spaces are trimmed.
+        // If a replacement is made, any leading or trailing half-width spaces are trimmed.
         // This allows nicknames/OT names that are the empty string or consist entirely of fullwidth spaces.
         int length = u16.IndexOf((char)TerminatorNull);
         if (length == -1)

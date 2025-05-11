@@ -30,7 +30,7 @@ public static class EncounterSuggestion
         chain = chain[..count];
 
         var evos = chain.ToArray();
-        var generator = EncounterGenerator.GetGenerator(version);
+        var generator = EncounterGenerator.GetGenerator(version, generation);
         var pw = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Slot);
         var ps = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Static);
         var w = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, pw);

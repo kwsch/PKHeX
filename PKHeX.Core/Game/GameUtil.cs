@@ -109,6 +109,9 @@ public static class GameUtil
     /// <returns>Generation ID</returns>
     public static byte GetGeneration(this GameVersion game)
     {
+        if (game.IsValidSavedVersion())
+            return game.GetGenerationFromSaved();
+
         if (Gen1.Contains(game)) return 1;
         if (Gen2.Contains(game)) return 2;
         if (Gen3.Contains(game)) return 3;
@@ -121,6 +124,24 @@ public static class GameUtil
         if (Gen9.Contains(game)) return 9;
         return 0;
     }
+
+    public static byte GetGenerationFromSaved(this GameVersion game) => game switch
+    {
+        RD or GN or BU or YW => 1,
+        GD or SI or C => 2,
+        S or R or E or FR or LG or CXD => 3,
+        D or P or Pt or HG or SS => 4,
+        B or W or B2 or W2 => 5,
+        X or Y or AS or OR => 6,
+        GP or GE => 7,
+        SN or MN => 7,
+        US or UM => 7,
+        PLA => 8,
+        BD or SP => 8,
+        SW or SH => 8,
+        SL or VL => 9,
+        _ => 0
+    };
 
     /// <summary>
     /// Gets the Generation the <see cref="GameVersion"/> belongs to.
@@ -260,10 +281,4 @@ public static class GameUtil
             generation = 9;
         return versions.Where(version => version.GetGeneration() <= generation);
     }
-
-    /// <summary>
-    /// Finds all <see cref="GameVersion"/> values within the <see cref="lump"/>.
-    /// </summary>
-    public static GameVersion[] GetVersionsWithinRange(this GameVersion lump, GameVersion[] source) =>
-        Array.FindAll(source, z => lump.Contains(z));
 }

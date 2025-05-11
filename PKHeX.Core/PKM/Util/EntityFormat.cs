@@ -5,6 +5,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Utility class for detecting the type format of a Pokémon entity.
+/// </summary>
 public static class EntityFormat
 {
     /// <summary>
@@ -208,9 +211,15 @@ public static class EntityFormat
     }
 }
 
+/// <summary>
+/// Enum representing the detected format of a Pokémon entity.
+/// </summary>
+/// <remarks>
+/// Roughly correlated to derived <see cref="PKM"/> types, besides the "one-of" range of enum values.
+/// </remarks>
 public enum EntityFormatDetected
 {
-    None = -1,
+    None,
 
     FormatPK1,
     FormatPK2, FormatSK2,

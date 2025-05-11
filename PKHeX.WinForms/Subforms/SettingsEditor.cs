@@ -64,6 +64,7 @@ public partial class SettingsEditor : Form
             var tab = new TabPage(p) { Name = $"Tab_{p}" };
             var pg = new PropertyGrid { SelectedObject = state, Dock = DockStyle.Fill };
             tab.Controls.Add(pg);
+            pg.ExpandAllGridItems();
             tabControl1.TabPages.Add(tab);
         }
     }

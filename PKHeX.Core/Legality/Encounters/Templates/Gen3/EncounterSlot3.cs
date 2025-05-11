@@ -88,11 +88,11 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         {
             if (criteria.IsSpecifiedIVsAll() && this.SetFromIVsUnown(pk, criteria))
                 return;
-            this.SetRandomUnown(pk, criteria);
+            this.SetRandomUnown(pk, criteria, Util.Rand32());
         }
     }
 
-    protected virtual void SetEncounterMoves(PKM pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+    protected virtual void SetEncounterMoves(PK3 pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching

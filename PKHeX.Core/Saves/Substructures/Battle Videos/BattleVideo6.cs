@@ -137,7 +137,7 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
     {
         get
         {
-            if (!DateUtil.IsDateValid(MatchYear, MatchMonth, MatchDay))
+            if (!DateUtil.IsValidDate(MatchYear, MatchMonth, MatchDay))
                 return null;
             return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
         }
@@ -163,7 +163,7 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
     {
         get
         {
-            if (!DateUtil.IsDateValid(UploadYear, UploadMonth, UploadDay))
+            if (!DateUtil.IsValidDate(UploadYear, UploadMonth, UploadDay))
                 return null;
             return new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
         }

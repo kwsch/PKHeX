@@ -79,18 +79,18 @@ public sealed class MiscVerifier : Verifier
             VerifyFullness(data, pk);
 
         var enc = data.EncounterMatch;
-        if (enc is IEncounterServerDate { IsDateRestricted: true } serverGift)
+        if (enc is IEncounterServerDate { IsDateRestricted: true } encounterDate)
         {
-            var date = new DateOnly(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
+            var actualDay = new DateOnly(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
 
             // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
             if (enc is WB8 { IsDateLockJapanese: true } or WA8 { IsDateLockJapanese: true })
             {
-                if (date < new DateOnly(2022, 5, 20) && pk.Language != (int)LanguageID.Japanese)
+                if (actualDay < new DateOnly(2022, 5, 20) && pk.Language != (int)LanguageID.Japanese)
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
 
-            var result = serverGift.IsWithinDistributionWindow(date);
+            var result = encounterDate.IsWithinDistributionWindow(actualDay);
             if (result == EncounterServerDateCheck.Invalid)
                 data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
         }

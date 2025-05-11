@@ -1,0 +1,35 @@
+{
+ "StatNames": {
+  "Names": ["PV", "Atq", "Déf", "AttS", "DéfS", "Vit"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["PV", "Attaque", "Défense", "Att. Spé.", "Déf. Spé.", "Vitesse"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "Male":  "Mâle",
+ "Female":  "Femelle",
+ "Left": [
+  { "Token": "Friendship", "Text": "Bonheur : " },
+  { "Token": "EVs", "Text": "EVs : " },
+  { "Token": "IVs", "Text": "IVs : " },
+  { "Token": "AVs", "Text": "AVs : " },
+  { "Token": "GVs", "Text": "GVs : " },
+  { "Token": "Level", "Text": "Niveau : " },
+  { "Token": "Ability", "Text": "Talent : " },
+  { "Token": "DynamaxLevel", "Text": "Niveau Dynamax : " },
+  { "Token": "TeraType", "Text": "Type Téra : " },
+  { "Token": "Nature", "Text": "Nature : " },
+  { "Token": "Gender", "Text": "Sexe : "},
+  { "Token": "Nickname", "Text": "Surnom : "},
+  { "Token": "HeldItem", "Text": "Objet : "}
+ ],
+ "Right": [
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "Chromatique : Oui" },
+  { "Token": "Gigantamax", "Text": "Gigamax : Oui" }
+ ]
+}

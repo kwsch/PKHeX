@@ -7,7 +7,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Method H logic used by mainline <see cref="GameVersion.Gen3"/> RNG.
+/// Method H logic used by mainline <see cref="EntityContext.Gen3"/> RNG.
 /// </summary>
 public static class MethodH
 {
@@ -604,7 +604,7 @@ public static class MethodH
 
     private static bool IsOriginalLevelValid(byte min, byte max, byte format, uint level)
     {
-        if (format == Format)
+        if (format == Format && min > 1)
             return level == min; // Met Level matches
         return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
     }

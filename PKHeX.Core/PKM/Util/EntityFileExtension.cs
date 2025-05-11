@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for interacting with Entity file extensions.
+/// </summary>
 public static class EntityFileExtension
 {
     // All side-game formats that don't follow the usual pk* format

@@ -38,7 +38,9 @@ public sealed class EmbeddedResourceCache
 
     private static string GetFileName(string resName)
     {
-        var period = resName.LastIndexOf('.', resName.Length - 5);
+        var period = resName.LastIndexOf('.');
+        if (resName.Length - period <= 5)
+            period = resName.LastIndexOf('.', period - 1);
         var start = period + 1;
         System.Diagnostics.Debug.Assert(start != 0); // should have a period in the name
 

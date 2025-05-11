@@ -1,0 +1,35 @@
+{
+ "StatNames": {
+  "Names": ["HP", "공격", "방어", "특공", "특방", "스피드"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "공격", "방어", "특공", "특방", "스피드"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "Male":  "남성",
+ "Female":  "여성",
+ "Left": [
+  { "Token": "Friendship", "Text": "친밀도 " },
+  { "Token": "EVs", "Text": "EVs: " },
+  { "Token": "IVs", "Text": "IVs: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "노력 레벨을 " },
+  { "Token": "Level", "Text": "스피드 " },
+  { "Token": "Ability", "Text": "특성 " },
+  { "Token": "DynamaxLevel", "Text": "다이맥스 레벨 " },
+  { "Token": "TeraType", "Text": "테라스탈타입 " },
+  { "Token": "Gender", "Text": "성별 "},
+  { "Token": "Nickname", "Text": "이름 "},
+  { "Token": "HeldItem", "Text": "持ち物 "}
+ ],
+ "Right": [
+  { "Token": "Nature", "Text": "성격" }
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "빛나는: 예" },
+  { "Token": "Gigantamax", "Text": "거다이맥스: 예" }
+ ]
+}

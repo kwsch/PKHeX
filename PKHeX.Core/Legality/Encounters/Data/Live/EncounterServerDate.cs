@@ -24,6 +24,7 @@ public static class EncounterServerDate
         WA8 wa8 => Result(wa8.IsWithinDistributionWindow(obtained)),
         WB8 wb8 => Result(wb8.IsWithinDistributionWindow(obtained)),
         WC9 wc9 => Result(wc9.IsWithinDistributionWindow(obtained)),
+        EncounterSlot7GO g7 => Result(g7.IsWithinDistributionWindow(obtained)),
         EncounterSlot8GO g8 => Result(g8.IsWithinDistributionWindow(obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
@@ -215,6 +216,8 @@ public static class EncounterServerDate
         {1010, new(2025, 01, 21, 2025, 04, 01)}, // Pokémon Lucario & The Mystery of Mew Movie Gift KOR 아론's Lucario
         {0514, new(2025, 02, 05, 2025, 07, 01, +2)}, // Pokémon Day 2025 Flying Tera Type Eevee
         {0519, new(2025, 02, 20, 2025, 03, 01)}, // Marco's Jumpluff
+        {0066, new(2025, 04, 18, 2025, 08, 01)}, // Wei Chyr's Rillaboom
+        {1019, new(2025, 04, 24, 2025, 07, 01)}, // Pokémon Town - KOR Ditto Project
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco

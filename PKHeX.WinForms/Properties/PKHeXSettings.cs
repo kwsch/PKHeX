@@ -35,6 +35,7 @@ public sealed class PKHeXSettings
     public SpriteSettings Sprite { get; set; } = new();
     public SoundSettings Sounds { get; set; } = new();
     public HoverSettings Hover { get; set; } = new();
+    public BattleTemplateSettings BattleTemplate { get; set; } = new();
 
     // GUI Specific
     public DrawConfig Draw { get; set; } = new();
@@ -482,19 +483,19 @@ public sealed class SaveLanguageSettings
     public void Apply()
     {
         SaveLanguage.OverrideLanguageGen1 = OverrideGen1.Language;
-        if (GameVersion.RBY.Contains(OverrideGen1.Version))
+        if (OverrideGen1.Version.IsGen1())
             SaveLanguage.OverrideVersionGen1 = OverrideGen1.Version;
 
         SaveLanguage.OverrideLanguageGen2 = OverrideGen2.Language;
-        if (GameVersion.GS.Contains(OverrideGen2.Version))
+        if (OverrideGen2.Version is GameVersion.GD or GameVersion.SI)
             SaveLanguage.OverrideVersionGen2 = OverrideGen2.Version;
 
         SaveLanguage.OverrideLanguageGen3RS = OverrideGen3RS.Language;
-        if (GameVersion.RS.Contains(OverrideGen3RS.Version))
+        if (OverrideGen3RS.Version is GameVersion.R or GameVersion.S)
             SaveLanguage.OverrideVersionGen3RS = OverrideGen3RS.Version;
 
         SaveLanguage.OverrideLanguageGen3FRLG = OverrideGen3FRLG.Language;
-        if (GameVersion.FRLG.Contains(OverrideGen3FRLG.Version))
+        if (OverrideGen3FRLG.Version is GameVersion.FR or GameVersion.LG)
             SaveLanguage.OverrideVersionGen3FRLG = OverrideGen3FRLG.Version;
     }
 }

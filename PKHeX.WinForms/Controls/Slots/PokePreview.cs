@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -30,17 +28,17 @@ public partial class PokePreview : Form
         Properties.Resources.gender_2,
     ];
 
-    public void Populate(PKM pk)
+    public void Populate(PKM pk, in BattleTemplateExportSettings settings)
     {
         var la = new LegalityAnalysis(pk);
-        int width = PopulateHeader(pk);
-        PopulateMoves(pk, la, ref width);
-        PopulateText(pk, la, width);
+        int width = PopulateHeader(pk, settings);
+        PopulateMoves(pk, la, settings, ref width);
+        PopulateText(pk, la, settings, width);
     }
 
-    private int PopulateHeader(PKM pk)
+    private int PopulateHeader(PKM pk, in BattleTemplateExportSettings settings)
     {
-        var name = GetNameTitle(pk);
+        var name = GetNameTitle(pk, settings);
         var size = MeasureSize(name, L_Name.Font);
         L_Name.Width = Math.Max(InitialNameWidth, size.Width);
         L_Name.Text = name;
@@ -52,14 +50,19 @@ public partial class PokePreview : Form
         return Math.Max(InitialWidth, width);
     }
 
-    private static string GetNameTitle(PKM pk)
+    private static string GetNameTitle(PKM pk, in BattleTemplateExportSettings settings)
     {
+        // Don't care about form; the user will be able to see the sprite next to the preview.
         var nick = pk.Nickname;
-        var all = GameInfo.Strings.Species;
+        var strings = settings.Localization.Strings;
+        var all = strings.Species;
         var species = pk.Species;
         if (species >= all.Count)
             return nick;
         var expect = all[species];
+        if (settings.IsTokenInExport(BattleTemplateToken.Nickname))
+            return expect; // Nickname will be on another line.
+
         if (nick.Equals(expect, StringComparison.OrdinalIgnoreCase))
             return nick;
         return $"{nick} ({expect})";
@@ -87,32 +90,33 @@ public partial class PokePreview : Form
         PB_Gender.Image = GenderImages[gender];
     }
 
-    private void PopulateMoves(PKM pk, LegalityAnalysis la, ref int width)
+    private void PopulateMoves(PKM pk, LegalityAnalysis la, in BattleTemplateExportSettings settings, ref int width)
     {
         var context = pk.Context;
-        var names = GameInfo.Strings.movelist;
+        var strings = settings.Localization.Strings;
+        var names = strings.movelist;
         var check = la.Info.Moves;
-        var w1 = Move1.Populate(pk, pk.Move1, context, names, check[0].Valid);
-        var w2 = Move2.Populate(pk, pk.Move2, context, names, check[1].Valid);
-        var w3 = Move3.Populate(pk, pk.Move3, context, names, check[2].Valid);
-        var w4 = Move4.Populate(pk, pk.Move4, context, names, check[3].Valid);
+        var w1 = Move1.Populate(pk, strings, pk.Move1, context, names, check[0].Valid);
+        var w2 = Move2.Populate(pk, strings, pk.Move2, context, names, check[1].Valid);
+        var w3 = Move3.Populate(pk, strings, pk.Move3, context, names, check[2].Valid);
+        var w4 = Move4.Populate(pk, strings, pk.Move4, context, names, check[3].Valid);
 
         var maxWidth = Math.Max(w1, Math.Max(w2, Math.Max(w3, w4)));
         width = Math.Max(width, maxWidth + Move1.Margin.Horizontal + interiorMargin);
     }
 
-    private void PopulateText(PKM pk, LegalityAnalysis la, int width)
+    private void PopulateText(PKM pk, LegalityAnalysis la, in BattleTemplateExportSettings settings, int width)
     {
-        var (stats, enc) = GetStatsString(pk, la);
-        var settings = Main.Settings.Hover;
+        var (before, after) = GetBeforeAndAfter(pk, la, settings);
+        var hover = Main.Settings.Hover;
 
         bool hasMoves = pk.MoveCount != 0;
         FLP_Moves.Visible = hasMoves;
         var height = FLP_List.Top + interiorMargin;
         if (hasMoves)
             height += FLP_Moves.Height + FLP_Moves.Margin.Vertical;
-        ToggleLabel(L_Stats, stats, settings.PreviewShowPaste, ref width, ref height);
-        ToggleLabel(L_Etc, enc, settings.HoverSlotShowEncounter, ref width, ref height);
+        ToggleLabel(L_LinesBeforeMoves, before, hover.PreviewShowPaste, ref width, ref height);
+        ToggleLabel(L_LinesAfterMoves, after, hover.HoverSlotShowEncounter, ref width, ref height);
         Size = new Size(width, height);
     }
 
@@ -137,78 +141,67 @@ public partial class PokePreview : Form
         return TextRenderer.MeasureText(text, font, new Size(), flags);
     }
 
-    private static (string Detail, string Encounter) GetStatsString(PKM pk, LegalityAnalysis la)
+    private static (string Before, string After) GetBeforeAndAfter(PKM pk, LegalityAnalysis la, in BattleTemplateExportSettings settings)
     {
-        var setText = SummaryPreviewer.GetPreviewText(pk, la);
-        var sb = new StringBuilder();
-        var lines = setText.AsSpan().EnumerateLines();
-        if (!lines.MoveNext())
-            throw new ArgumentException("Invalid text format", nameof(pk));
+        var order = settings.Order;
+        // Bifurcate the order into two sections; split via Moves.
+        var moveIndex = settings.GetTokenIndex(BattleTemplateToken.Moves);
+        var before = moveIndex == -1 ? order : order[..moveIndex];
+        var after = moveIndex == -1 ? default : order[(moveIndex + 1)..];
+        if (before.Length > 0 && before[0] == BattleTemplateToken.FirstLine)
+            before = before[1..]; // remove first line token; trust that users don't randomly move it lower in the list.
 
-        var first = lines.Current;
-        var itemIndex = first.IndexOf('@');
-        if (itemIndex != -1) // Held Item
-        {
-            var remaining = first[(itemIndex + 2)..];
-            if (remaining[^1] == ')')
-                remaining = remaining[..^3]; // lop off gender
-            var item = remaining.Trim();
-            if (item.Length != 0)
-                sb.AppendLine($"Held Item: {item}");
-        }
+        var start = SummaryPreviewer.GetPreviewText(pk, settings with { Order = before });
+        var end = SummaryPreviewer.GetPreviewText(pk, settings with { Order = after });
+        if (settings.IsTokenInExport(BattleTemplateToken.IVs, before))
+            TryAppendOtherStats(pk, ref start, settings);
+        else if (settings.IsTokenInExport(BattleTemplateToken.IVs, after))
+            TryAppendOtherStats(pk, ref end, settings);
 
-        if (pk is IGanbaru g)
-            AddGanbaru(g, sb);
-        if (pk is IAwakened a)
-            AddAwakening(a, sb);
+        if (Main.Settings.Hover.HoverSlotShowEncounter)
+            end = SummaryPreviewer.AppendEncounterInfo(la, end);
 
-        while (lines.MoveNext())
-        {
-            var line = lines.Current;
-            if (IsMoveLine(line))
-            {
-                while (lines.MoveNext())
-                {
-                    if (!IsMoveLine(lines.Current))
-                        break;
-                }
-                break;
-            }
-            sb.Append(line).AppendLine();
-        }
-
-        var detail = sb.ToString();
-        sb.Clear();
-        while (lines.MoveNext())
-        {
-            var line = lines.Current;
-            sb.Append(line).AppendLine();
-        }
-        var enc = sb.ToString();
-        return (detail.TrimEnd(), enc.TrimEnd());
-
-        static bool IsMoveLine(ReadOnlySpan<char> line) => line.Length != 0 && line[0] == '-';
+        return (start, end);
     }
 
-    private static void AddGanbaru(IGanbaru g, StringBuilder sb)
+    private static void TryAppendOtherStats(PKM pk, ref string line, in BattleTemplateExportSettings settings)
+    {
+        if (pk is IGanbaru g)
+            AppendGanbaru(g, ref line, settings);
+        if (pk is IAwakened a)
+            AppendAwakening(a, ref line, settings);
+    }
+
+    private static void AppendGanbaru(IGanbaru g, ref string line, in BattleTemplateExportSettings settings)
     {
         Span<byte> gvs = stackalloc byte[6];
         g.GetGVs(gvs);
-        TryAdd<byte>(sb, "GVs", gvs);
+        var statNames = settings.Localization.Config.GetStatDisplay(settings.StatsOther);
+        var value = TryAdd<byte>(gvs, statNames);
+        if (value.Length == 0)
+            return;
+        var result = settings.Localization.Config.Push(BattleTemplateToken.GVs, value);
+        line += Environment.NewLine + result;
     }
 
-    private static void AddAwakening(IAwakened a, StringBuilder sb)
+    private static void AppendAwakening(IAwakened a, ref string line, in BattleTemplateExportSettings settings)
     {
         Span<byte> avs = stackalloc byte[6];
         a.GetAVs(avs);
-        TryAdd<byte>(sb, "AVs", avs);
+        var statNames = settings.Localization.Config.GetStatDisplay(settings.StatsOther);
+        var value = TryAdd<byte>(avs, statNames);
+        if (value.Length == 0)
+            return;
+        var result = settings.Localization.Config.Push(BattleTemplateToken.AVs, value);
+        line += Environment.NewLine + result;
     }
 
-    private static void TryAdd<T>(StringBuilder sb, [ConstantExpected] string type, ReadOnlySpan<T> stats, T ignore = default) where T : unmanaged, IEquatable<T>
+    private static string TryAdd<T>(ReadOnlySpan<T> stats, StatDisplayConfig statNames, T ignore = default) where T : unmanaged, IEquatable<T>
     {
-        var chunks = ShowdownSet.GetStringStats(stats, ignore);
-        if (chunks.Length != 0)
-            sb.AppendLine($"{type}: {string.Join(" / ", chunks)}");
+        var chunks = ShowdownSet.GetStringStats(stats, ignore, statNames);
+        if (chunks.Length == 0)
+            return string.Empty;
+        return string.Join(" / ", chunks);
     }
 
     /// <summary> Prevent stealing focus from the form that shows this. </summary>

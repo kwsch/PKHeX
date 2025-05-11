@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// MemeCrypto V1 - The Original Series
 /// </summary>
 /// <remarks>
-/// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="GameVersion.Gen7"/>.
+/// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="EntityContext.Gen7"/>.
 /// <br> The save file stores a dedicated block to contain a hash of the savedata, computed when the block is zeroed. </br>
 /// <br> This signing logic is reused for other authentication; refer to <see cref="MemeKeyIndex"/>. </br>
 /// <br> The save file first computes a SHA256 Hash over the block checksum region.

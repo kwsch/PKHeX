@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
+/// Generation 8 <see cref="SaveFile"/> object for <see cref="EntityContext.Gen8b"/> games.
 /// </summary>
 public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventWorkArray<int>, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareRandomState<ulong>
 {

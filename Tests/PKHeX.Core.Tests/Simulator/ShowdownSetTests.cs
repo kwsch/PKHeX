@@ -10,11 +10,13 @@ public class ShowdownSetTests
     [Fact]
     public void SimulatorGetParse()
     {
-        foreach (ReadOnlySpan<char> setstr in Sets)
+        var settings = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard);
+
+        foreach (var setstr in Sets)
         {
-            var set = new ShowdownSet(setstr).GetSetLines();
+            var set = new ShowdownSet(setstr).GetSetLines(settings);
             foreach (var line in set)
-                setstr.Contains(line, StringComparison.Ordinal).Should().BeTrue($"Line {line} should be in the set {setstr}");
+                setstr.Contains(line, StringComparison.Ordinal).Should().BeTrue($"`{line}` should be in the set: {setstr}");
         }
     }
 
@@ -164,6 +166,67 @@ public class ShowdownSetTests
     }
 
     [Theory]
+    [InlineData(SetAllTokenExample)]
+    public void SimulatorTranslate(string message, string languageOriginal = "en")
+    {
+        var settingsOriginal = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard, languageOriginal);
+        if (!ShowdownParsing.TryParseAnyLanguage(message, out var set))
+            throw new Exception("Input failed");
+
+        var all = BattleTemplateLocalization.GetAll();
+        foreach (var l in all)
+        {
+            var languageTarget = l.Key;
+            if (languageTarget == languageOriginal)
+                continue;
+
+            var exportSettings = new BattleTemplateExportSettings(languageTarget);
+            var translated = set.GetText(exportSettings);
+            translated.Should().NotBeNullOrEmpty();
+            translated.Should().NotBe(message);
+
+            // Convert back, should be 1:1
+            if (!ShowdownParsing.TryParseAnyLanguage(translated, out var set2))
+                throw new Exception($"{languageTarget} parse failed");
+            set2.InvalidLines.Should().BeEmpty();
+            set2.Species.Should().Be(set.Species);
+            set2.Form.Should().Be(set.Form);
+
+            var result = set2.GetText(settingsOriginal);
+            result.Should().Be(message);
+        }
+    }
+
+    [Theory]
+    [InlineData(SetAllTokenExample)]
+    public void SimulatorTranslateHABCDS(string message, string languageOriginal = "en")
+    {
+        var settingsOriginal = new BattleTemplateExportSettings(BattleTemplateConfig.CommunityStandard, languageOriginal);
+        if (!ShowdownParsing.TryParseAnyLanguage(message, out var set))
+            throw new Exception("Input failed");
+
+        var target = new BattleTemplateExportSettings("ja")
+        {
+            StatsIVs = StatDisplayStyle.HABCDS,
+            StatsEVs = StatDisplayStyle.HABCDS,
+        };
+
+        var translated = set.GetText(target);
+        translated.Should().NotBeNullOrEmpty();
+        translated.Should().NotBe(message);
+
+        // Convert back, should be 1:1
+        if (!ShowdownParsing.TryParseAnyLanguage(translated, out var set2))
+            throw new Exception("ja parse failed");
+        set2.InvalidLines.Should().BeEmpty();
+        set2.Species.Should().Be(set.Species);
+        set2.Form.Should().Be(set.Form);
+
+        var result = set2.GetText(settingsOriginal);
+        result.Should().Be(message);
+    }
+
+    [Theory]
     [InlineData(SetDuplicateMoves, 3)]
     public void SimulatorParseDuplicate(string text, int moveCount)
     {
@@ -261,6 +324,24 @@ public class ShowdownSetTests
         - Hyper Voice
         """;
 
+    private const string SetAllTokenExample =
+        """
+        Pikachu (F) @ Oran Berry
+        Ability: Static
+        Level: 69
+        Shiny: Yes
+        Friendship: 42
+        Dynamax Level: 3
+        Gigantamax: Yes
+        EVs: 12 HP / 5 Atk / 6 Def / 17 SpA / 4 SpD / 101 Spe
+        Quirky Nature
+        IVs: 30 HP / 22 Atk / 29 Def / 7 SpA / 1 SpD / 0 Spe
+        - Pound
+        - Sky Attack
+        - Hyperspace Fury
+        - Metronome
+        """;
+
     private const string SetSmeargle =
         """
         Smeargle @ Focus Sash
@@ -329,7 +410,7 @@ public class ShowdownSetTests
         SetMunchSnorLax,
 
         """
-        Greninja @ Choice Specs
+        Greninja-Ash @ Choice Specs
         Ability: Battle Bond
         EVs: 252 SpA / 4 SpD / 252 Spe
         Timid Nature

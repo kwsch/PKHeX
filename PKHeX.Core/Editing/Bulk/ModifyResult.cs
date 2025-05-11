@@ -1,27 +1,30 @@
-﻿namespace PKHeX.Core;
+using System;
+
+namespace PKHeX.Core;
 
 /// <summary>
-/// Batch Editor Modification result for an individual <see cref="PKM"/>.
+/// Batch Editor Modification result for an individual processing operation.
 /// </summary>
+[Flags]
 public enum ModifyResult
 {
     /// <summary>
-    /// The <see cref="PKM"/> has invalid data and is not a suitable candidate for modification.
-    /// </summary>
-    Invalid,
-
-    /// <summary>
-    /// An error was occurred while iterating modifications for this <see cref="PKM"/>.
-    /// </summary>
-    Error,
-
-    /// <summary>
-    /// The <see cref="PKM"/> was skipped due to a matching Filter.
+    /// No modifications were performed as a filter excluded it.
     /// </summary>
     Filtered,
 
     /// <summary>
-    /// The <see cref="PKM"/> was modified.
+    /// Not a suitable candidate for modification.
+    /// </summary>
+    Skipped,
+
+    /// <summary>
+    /// One or more modifications was successfully applied.
     /// </summary>
     Modified,
+
+    /// <summary>
+    /// An error was occurred while attempting modifications.
+    /// </summary>
+    Error = 0x80,
 }

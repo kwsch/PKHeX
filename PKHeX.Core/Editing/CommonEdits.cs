@@ -34,14 +34,15 @@ public static class CommonEdits
     }
 
     /// <summary>
-    /// Clears the <see cref="PKM.Nickname"/> to the default value.
+    /// Sets the <see cref="PKM.Nickname"/> to the default value of the current species and language.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
+    /// <returns>Default nickname for the current species and language.</returns>
     public static string ClearNickname(this PKM pk)
     {
         pk.IsNicknamed = false;
         string nick = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
-        pk.Nickname = nick;
+        pk.SetString(pk.NicknameTrash, nick, nick.Length, StringConverterOption.None);
         if (pk is GBPKM pk12)
             pk12.SetNotNicknamed();
         return nick;

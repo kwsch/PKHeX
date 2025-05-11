@@ -283,7 +283,7 @@
 .*cockmuncher.*
 .*cocknose.*
 .*cockring.*
-.*cocksuck.*
+.*cocksucker.*
 .*coglion.*
 .*cojon.*
 .*cojón.*
@@ -359,6 +359,8 @@
 .*dennisrader.*
 .*depp.*
 .*derrickbird.*
+.*desnudas.*
+.*desnudos.*
 .*desvirgar.*
 .*devinkelley.*
 .*dick.*
@@ -413,6 +415,7 @@
 .*droogkloot.*
 .*ducon.*
 .*dunecoon.*
+.*dyke.*
 .*dylanklebold.*
 .*ebahytый.*
 .*ebatb.*
@@ -568,6 +571,7 @@
 .*goudou.*
 .*gouinasse.*
 .*gouine.*
+.*greaser.*
 .*greenriverkiller.*
 .*greppeldel.*
 .*grognasse.*
@@ -758,6 +762,7 @@
 .*lude.*
 .*lukamagnotta.*
 .*lul.*
+.*lusty.*
 .*m0ele\$t.*
 .*m0elest.*
 .*m0le\$t.*
@@ -862,6 +867,7 @@
 .*n1q.*
 .*naadhopper.*
 .*nacionaria.*
+.*naked.*
 .*nathanielveltman.*
 .*naz1.*
 .*nazi.*
@@ -895,6 +901,7 @@
 .*nikker.*
 .*nillk1ggers.*
 .*nillkiggers.*
+.*nippl.*
 .*niqg.*
 .*niqq.*
 .*nl9.*
@@ -911,6 +918,8 @@
 .*nometoquesel.*
 .*nometoquesl.*
 .*noдъebhytb.*
+.*nude.*
+.*nudist.*
 .*numpt.*
 .*nutsack.*
 .*nutte.*
@@ -953,6 +962,7 @@
 .*pajote.*
 .*paneleirote$
 .*panocha.*
+.*panty.*
 .*papzak.*
 .*partouze.*
 .*pasivaza.*
@@ -1209,8 +1219,8 @@
 .*sekreet.*
 .*seks.*
 .*semen.*
-.*sendnudes.*
 .*sergeidovzhenko.*
+.*sessoorale.*
 .*sex.*
 .*sh!t.*
 .*shag$
@@ -1309,6 +1319,7 @@
 .*testiculo.*
 .*tetas.*
 .*tetazas.*
+.*tetonas.*
 .*tetorras.*
 .*tettekop.*
 .*tettenkop.*
@@ -1426,6 +1437,7 @@
 .*wtf.*
 .*xoxoл.*
 .*xxne\.jp.*
+.*xxx.*
 .*xyи.*
 .*xyё.*
 .*xуй.*
@@ -2956,7 +2968,6 @@
 ^cock$
 ^cocô$
 ^coge.*
-^coger.*
 ^cogi.*
 ^cok$
 ^colhanito$
@@ -3044,7 +3055,6 @@
 ^dummkopf$
 ^dummsau$
 ^dunnpfiff$
-^dyke$
 ^débilmental$
 ^dégobillage$
 ^dégobiller$
@@ -3112,7 +3122,6 @@
 ^fettwanst$
 ^ffs$
 ^fica.*
-^ficat.*
 ^filhadaputa$
 ^filhodaputa$
 ^filhodeumagrandeputa$
@@ -3430,12 +3439,10 @@
 ^punhetaça$
 ^punheteiro$
 ^puta.*
-^putas.*
 ^puti$
 ^putinha$
 ^putinho$
 ^puto.*
-^putos.*
 ^putão$
 ^puñal$
 ^pédale$
@@ -3642,7 +3649,6 @@
 ^vergewaltigter$
 ^viadinho$
 ^viado$
-^vibrator$
 ^vir-me$
 ^virme$
 ^vollspacken$

@@ -21,7 +21,7 @@ internal static class AbilityBreedLegality
     ];
 
     /// <summary>
-    /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen5"/>
+    /// Species that cannot be bred with a Hidden Ability originating in <see cref="EntityContext.Gen5"/>
     /// </summary>
     public static bool IsHiddenPossible5(ushort species)
     {
@@ -33,7 +33,7 @@ internal static class AbilityBreedLegality
     }
 
     /// <summary>
-    /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen6"/>
+    /// Species that cannot be bred with a Hidden Ability originating in <see cref="EntityContext.Gen6"/>
     /// </summary>
     public static bool IsHiddenPossible6(ushort species, byte form) => species switch
     {
@@ -54,7 +54,7 @@ internal static class AbilityBreedLegality
     };
 
     /// <summary>
-    /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen7"/>
+    /// Species that cannot be bred with a Hidden Ability originating in <see cref="EntityContext.Gen7"/>
     /// </summary>
     public static bool IsHiddenPossible7(ushort species, byte form) => species switch
     {
@@ -74,7 +74,7 @@ internal static class AbilityBreedLegality
     };
 
     /// <summary>
-    /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.BDSP"/>
+    /// Species that cannot be bred with a Hidden Ability originating in games that link together via HOME.
     /// </summary>
     public static bool IsHiddenPossibleHOME(ushort eggSpecies) => eggSpecies is not (int)Phione; // Everything else can!
 }
