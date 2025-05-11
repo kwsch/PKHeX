@@ -136,6 +136,19 @@ public static class LegalityFormatting
                 line += $" [{ticks / 524_288f:F2}]"; // seconds?
                 lines.Add(line);
             }
+            else if (enc is EncounterEgg3)
+            {
+                if (Daycare3.TryGetOriginSeed(info.Entity, out var day3))
+                {
+                    var line = string.Format(L_FOriginSeed_0, day3.Origin.ToString("X8"));
+                    lines.Add(line);
+
+                    lines.Add($"Initial: 0x{day3.Initial:X8}, Frame: {day3.Advances + 1}"); // frames are 1-indexed
+                    var sb = new StringBuilder();
+                    AppendFrameTimeStamp(day3.Advances, sb);
+                    lines.Add($"Time: {sb}");
+                }
+            }
             return;
         }
 
