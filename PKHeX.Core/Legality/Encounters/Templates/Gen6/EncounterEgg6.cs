@@ -44,21 +44,19 @@ public sealed record EncounterEgg6(ushort Species, byte Form, GameVersion Versio
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)Ball.Poke,
-            TID16 = tr.TID16,
-            SID16 = tr.SID16,
+            ID32 = tr.ID32,
             OriginalTrainerGender = tr.Gender,
 
             // Force Hatch
             Language = language,
-            OriginalTrainerName = tr.OT,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
+            OriginalTrainerName = tr.OT,
             OriginalTrainerFriendship = 120,
             MetLevel = 1,
-            MetLocation = Location,
-            EggLocation = tr.Version == Version ? Locations.Daycare5 : Locations.LinkTrade6,
-
             MetDate = date,
+            MetLocation = Location,
             EggMetDate = date,
+            EggLocation = tr.Version == Version ? Locations.Daycare5 : Locations.LinkTrade6,
 
             EncryptionConstant = rnd.Rand32(),
             PID = rnd.Rand32(),

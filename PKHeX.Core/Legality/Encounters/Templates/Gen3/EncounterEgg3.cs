@@ -53,8 +53,7 @@ public sealed record EncounterEgg3(ushort Species, GameVersion Version) : IEncou
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)FixedBall,
-            TID16 = tr.TID16,
-            SID16 = tr.SID16,
+            ID32 = tr.ID32,
             OriginalTrainerGender = tr.Gender,
 
             // Force Hatch
@@ -75,7 +74,7 @@ public sealed record EncounterEgg3(ushort Species, GameVersion Version) : IEncou
             criteria.SetRandomIVs(pk, 3);
 
         // Get a random PID that matches gender/nature/ability criteria
-        var pi = pk.PersonalInfo;
+        var pi = PersonalTable.E[Species];
         var gr = pi.Gender;
         var pid = GetRandomPID(criteria, gr);
         pk.PID = pid;
@@ -84,11 +83,12 @@ public sealed record EncounterEgg3(ushort Species, GameVersion Version) : IEncou
         return pk;
     }
 
-    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr)
+    private uint GetRandomPID(in EncounterCriteria criteria, byte gr)
     {
         var seed = Util.Rand32();
         while (true)
         {
+            // LCRNG is sufficiently random, especially with the nature of vBlanks potentially (super rarely) disjointing rand calls.
             seed = LCRNG.Next(seed);
             var pid = seed;
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
@@ -98,6 +98,14 @@ public sealed record EncounterEgg3(ushort Species, GameVersion Version) : IEncou
                 continue;
             if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((byte)(pid % 2)))
                 continue;
+
+            // For Nidoran and Volbeat/Illumise, match the bit correlation to be most permissive with move inheritance.
+            if (Breeding.IsGenderSpeciesDetermination(Species) && !Breeding.IsValidSpeciesBit34(pid, gender))
+                continue; // 50/50 chance!
+
+            if (!Daycare3.IsValidProcPID(pid, Version))
+                continue; // 0-value PID is invalid
+
             return pid;
         }
     }

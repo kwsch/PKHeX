@@ -44,8 +44,7 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)FixedBall,
-            TID16 = tr.TID16,
-            SID16 = tr.SID16,
+            ID32 = tr.ID32,
             OriginalTrainerGender = tr.Gender,
 
             // Force Hatch
@@ -54,11 +53,10 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerFriendship = 120,
             MetLevel = 1,
-            MetLocation = Location,
-            EggLocation = tr.Version == Version ? Locations.Daycare5 : Locations.LinkTrade5,
-
             MetDate = date,
+            MetLocation = Location,
             EggMetDate = date,
+            EggLocation = tr.Version == Version ? Locations.Daycare5 : Locations.LinkTrade5,
 
             Nature = criteria.GetNature(),
         };
@@ -72,7 +70,7 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
             criteria.SetRandomIVs(pk, 3);
 
         // Get a random PID that matches gender/nature/ability criteria
-        var pi = pk.PersonalInfo;
+        var pi = PersonalTable.B2W2[Species];
         var gr = pi.Gender;
         var ability = criteria.GetAbilityFromNumber(Ability);
         var pid = GetRandomPID(criteria, gr, out var gender);

@@ -39,21 +39,15 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
             Species = Species,
             CurrentLevel = Level,
             TID16 = tr.TID16,
-            SID16 = tr.SID16,
-            OriginalTrainerGender = tr.Gender,
 
             // Force Hatch
             OriginalTrainerName = tr.OT,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerFriendship = 120,
 
-            DV16 = criteria.IsSpecifiedIVsAll()
-                ? criteria.GetCombinedDVs()
+            DV16 = criteria.IsSpecifiedIVsAll() ? criteria.GetCombinedDVs()
                 : EncounterUtil.GetRandomDVs(rnd, criteria.Shiny.IsShiny(), criteria.HiddenPowerType)
         };
-
-        SetEncounterMoves(pk);
-        pk.HealPP();
+        pk.SetNotNicknamed(language);
 
         if (Version == GameVersion.C)
         {
@@ -64,10 +58,8 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
             pk.OriginalTrainerGender = (byte)(tr.Gender & 1);
         }
 
-        if (criteria.IsSpecifiedIVsAny(out _))
-            criteria.SetRandomIVs(pk);
-        else
-            criteria.SetRandomIVs(pk, 3);
+        SetEncounterMoves(pk);
+        pk.HealPP();
 
         return pk;
     }

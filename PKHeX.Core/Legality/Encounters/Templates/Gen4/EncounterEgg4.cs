@@ -59,8 +59,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)FixedBall,
-            TID16 = tr.TID16,
-            SID16 = tr.SID16,
+            ID32 = tr.ID32,
             OriginalTrainerGender = tr.Gender,
 
             // Force Hatch
@@ -69,11 +68,10 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerFriendship = 120,
             MetLevel = 0,
-            MetLocation = GetHatchLocation(tr.Version),
-            EggLocation = tr.Version == Version ? Locations.Daycare4 : Locations.LinkTrade4,
-
             MetDate = date,
+            MetLocation = GetHatchLocation(tr.Version),
             EggMetDate = date,
+            EggLocation = tr.Version == Version ? Locations.Daycare4 : Locations.LinkTrade4,
         };
 
         SetEncounterMoves(pk);
@@ -85,7 +83,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             criteria.SetRandomIVs(pk, 3);
 
         // Get a random PID that matches gender/nature/ability criteria
-        var pi = pk.PersonalInfo;
+        var pi = PersonalTable.HGSS[Species];
         var gr = pi.Gender;
         var pid = GetRandomPID(criteria, gr, out var gender);
         pk.PID = pid;
@@ -95,7 +93,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         return pk;
     }
 
-    private static uint GetRandomPID(in EncounterCriteria criteria, byte gr, out byte gender)
+    private uint GetRandomPID(in EncounterCriteria criteria, byte gr, out byte gender)
     {
         var seed = Util.Rand32();
         while (true)
@@ -109,6 +107,15 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
                 continue;
             if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((byte)(pid % 2)))
                 continue;
+
+            // For Nidoran and Volbeat/Illumise, match the bit correlation to be most permissive with move inheritance.
+            if (Breeding.IsGenderSpeciesDetermination(Species) && !Breeding.IsValidSpeciesBit34(pid, gender))
+                continue; // 50/50 chance!
+
+            // A 0-value PID is possible via Masuda Method even though a 0-value saved indicates "no egg available".
+            // PID is rolled forward upon picking up the egg.
+            // Not worth skipping 0-value PIDs. Too rare to be worth trying again, since it can be a valid PID.
+
             return pid;
         }
     }
