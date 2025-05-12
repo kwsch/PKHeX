@@ -914,23 +914,46 @@ public sealed class MiscVerifier : Verifier
             int count = pk.Permit.RecordCountUsed;
             for (int i = 0; i < count; i++)
             {
+                var evo = evos[0];
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                if ((pi ??= GetPersonal(evos[0])).GetIsLearnTM(i))
+                if ((pi ??= GetPersonal(evo)).GetIsLearnTM(i))
                     continue;
 
+                // Deoxys has different TM permissions depending on form.
                 // Zoroark-0 cannot learn Encore via TM, but the pre-evolution Zorua-0 can via TM.
                 // Double check if any pre-evolutions can learn the TM.
-                bool preEvoHas = false;
-                for (int p = 1; p < evos.Length; p++)
+
+                if (evo.Species is (int)Species.Deoxys)
                 {
-                    if (!GetPersonal(evos[p]).GetIsLearnTM(i))
+                    bool anyForm = false;
+                    var fc = pi.FormCount;
+                    for (int p = 1; p < fc; p++)
+                    {
+                        evo = evo with { Form = (byte)p };
+                        if (!GetPersonal(evo).GetIsLearnTM(i))
+                            continue;
+                        anyForm = true;
+                        break;
+                    }
+                    if (anyForm)
                         continue;
-                    preEvoHas = true;
-                    break;
                 }
-                if (!preEvoHas)
-                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
+                else
+                {
+                    bool preEvoHas = false;
+                    for (int p = 1; p < evos.Length; p++)
+                    {
+                        evo = evos[p];
+                        if (!GetPersonal(evo).GetIsLearnTM(i))
+                            continue;
+                        preEvoHas = true;
+                        break;
+                    }
+                    if (preEvoHas)
+                        continue;
+                }
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
             }
         }
     }
