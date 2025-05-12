@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -72,6 +74,6 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type == PIDType.PokeSpot;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.PokeSpot ? Match : Mismatch;
     public PIDType GetSuggestedCorrelation() => PIDType.PokeSpot;
 }

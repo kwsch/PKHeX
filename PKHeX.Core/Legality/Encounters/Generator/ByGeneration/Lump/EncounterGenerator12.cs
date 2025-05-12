@@ -93,7 +93,7 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
         EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
         EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
         EncounterSlot1 or EncounterSlot2 => GBEncounterPriority.WildEncounter,
-        EncounterEgg => GBEncounterPriority.EggEncounter,
+        EncounterEgg2 => GBEncounterPriority.EggEncounter,
         _ => GBEncounterPriority.StaticEncounter,
     };
 

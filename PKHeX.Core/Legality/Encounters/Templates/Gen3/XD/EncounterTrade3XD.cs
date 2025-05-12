@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -156,8 +157,9 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD ? Match : Mismatch;
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
+
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
     {
         if ((uint)language >= TrainerNames.Length)

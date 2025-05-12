@@ -124,17 +124,50 @@ public static class LegalityFormatting
         lines.Add(msgType);
         if (pidiv.NoSeed)
         {
-            if (type is PIDType.Pokewalker)
+            if (enc is EncounterStatic4Pokewalker)
             {
+                if (type is not PIDType.Pokewalker)
+                    return;
                 var line = GetLinePokewalkerSeed(info);
                 lines.Add(line);
             }
-            else if (enc is PCD { Gift.PK.PID: <= 1 }) // tick rand
+            else if (enc is PCD pcd)
             {
-                var ticks = ARNG.Prev(info.Entity.EncryptionConstant);
-                var line = string.Format(L_FOriginSeed_0, ticks.ToString("X8"));
-                line += $" [{ticks / 524_288f:F2}]"; // seconds?
-                lines.Add(line);
+                var gift = pcd.Gift;
+                if (gift is { HasPID: false }) // tick rand
+                {
+                    var ticks = ARNG.Prev(info.Entity.EncryptionConstant);
+                    var line = string.Format(L_FOriginSeed_0, ticks.ToString("X8"));
+                    line += $" [{ticks / 524_288f:F2}]"; // seconds?
+                    lines.Add(line);
+                }
+                if (gift is { HasIVs: false })
+                {
+                    var pk = info.Entity;
+                    Span<int> ivs = stackalloc int[6];
+                    pk.GetIVs(ivs);
+
+                    var date = pk.MetDate ?? new DateOnly(2000, 1, 1);
+                    var initial = ClassicEraRNG.SeekInitialSeedForIVs(ivs, (uint)date.Year, (uint)date.Month, (uint)date.Day, out var origin);
+                    var components = ClassicEraRNG.DecomposeSeed(initial, (uint)date.Year, (uint)date.Month, (uint)date.Day);
+                    
+                    AppendInitialDateTime(lines, initial, origin, components);
+                    if (components.IsInvalid())
+                        lines.Add("INVALID");
+                }
+            }
+            else if (enc is EncounterEgg3)
+            {
+                if (Daycare3.TryGetOriginSeed(info.Entity, out var day3))
+                {
+                    var line = string.Format(L_FOriginSeed_0, day3.Origin.ToString("X8"));
+                    lines.Add(line);
+
+                    lines.Add($"Initial: 0x{day3.Initial:X8}, Frame: {day3.Advances + 1}"); // frames are 1-indexed
+                    var sb = new StringBuilder();
+                    AppendFrameTimeStamp(day3.Advances, sb);
+                    lines.Add($"Time: {sb}");
+                }
             }
             return;
         }
@@ -160,6 +193,8 @@ public static class LegalityFormatting
         }
         if (enc is EncounterSlot3 or EncounterStatic3)
             AppendDetailsFrame3(info, lines);
+        else if (enc is EncounterSlot4 or EncounterStatic4)
+            AppendDetailsDate4(info, lines);
     }
 
     private static string GetLinePokewalkerSeed(LegalInfo info)
@@ -195,17 +230,47 @@ public static class LegalityFormatting
         return line;
     }
 
+    private static void AppendDetailsDate4(LegalInfo info, List<string> lines)
+    {
+        var pidiv = info.PIDIV;
+        if (pidiv.Type is not (PIDType.Method_1 or PIDType.ChainShiny))
+            return;
+
+        // Try to determine date/time
+        var enc = info.EncounterOriginal;
+        var seed = enc is EncounterSlot4 && info.FrameMatches ? pidiv.EncounterSeed : pidiv.OriginSeed;
+
+        // Assume the met date is the same as the encounter date.
+        var entity = info.Entity;
+        var date = entity.MetDate ?? new DateOnly(2000, 1, 1);
+        var initialSeed = ClassicEraRNG.SeekInitialSeed((uint)date.Year, (uint)date.Month, (uint)date.Day, seed);
+        AppendInitialDateTime(lines, initialSeed, seed, date);
+    }
+
+    private static void AppendInitialDateTime(List<string> lines, uint initialSeed, uint origin, DateOnly date)
+    {
+        var decompose = ClassicEraRNG.DecomposeSeed(initialSeed, (uint)date.Year, (uint)date.Month, (uint)date.Day);
+        AppendInitialDateTime(lines, initialSeed, origin, decompose);
+    }
+
+    private static void AppendInitialDateTime(List<string> lines, uint initialSeed, uint origin, InitialSeedComponents4 decompose)
+    {
+        var advances = LCRNG.GetDistance(initialSeed, origin);
+        lines.Add($"{decompose.Year+2000:0000}-{decompose.Month:00}-{decompose.Day:00} @ {decompose.Hour:00}:{decompose.Minute:00}:{decompose.Second:00} - {decompose.Delay}");
+        lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {advances + 1}"); // frames are 1-indexed
+    }
+
     private static void AppendDetailsFrame3(LegalInfo info, List<string> lines)
     {
         var pidiv = info.PIDIV;
         var pk = info.Entity;
         var enc = info.EncounterOriginal;
         var seed = enc is EncounterSlot3 && info.FrameMatches ? pidiv.EncounterSeed : pidiv.OriginSeed;
-        var (initialSeed, frame) = GetInitialSeed(seed, pk.Version);
-        lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {frame + 1}"); // frames are 1-indexed
+        var (initialSeed, advances) = GetInitialSeed3(seed, pk.Version);
+        lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {advances + 1}"); // frames are 1-indexed
 
         var sb = new StringBuilder();
-        AppendFrameTimeStamp(frame, sb);
+        AppendFrameTimeStamp(advances, sb);
         lines.Add($"Time: {sb}");
 
         // Try appending the TID frame if it originates from Emerald.
@@ -213,12 +278,12 @@ public static class LegalityFormatting
             return;
         // don't bother ignoring postgame-only. E4 resets the seed, but it's annoying to check.
         var tidSeed = pk.TID16; // start of game
-        var tidFrame = LCRNG.GetDistance(tidSeed, seed);
-        if (tidFrame >= frame)
+        var tidAdvances = LCRNG.GetDistance(tidSeed, seed);
+        if (tidAdvances >= advances)
             return; // only show if it makes sense to
-        lines.Add($"New Game: 0x{tidSeed:X8}, Frame: {tidFrame + 1}"); // frames are 1-indexed
+        lines.Add($"New Game: 0x{tidSeed:X8}, Frame: {tidAdvances + 1}"); // frames are 1-indexed
         sb.Clear();
-        AppendFrameTimeStamp(tidFrame, sb);
+        AppendFrameTimeStamp(tidAdvances, sb);
         lines.Add($"Time: {sb}");
     }
 
@@ -236,7 +301,7 @@ public static class LegalityFormatting
             sb.Append($" (days: {(int)time.TotalDays})");
     }
 
-    private static (uint Seed, uint Frame) GetInitialSeed(uint seed, GameVersion game)
+    private static (uint Seed, uint Advances) GetInitialSeed3(uint seed, GameVersion game)
     {
         if (game is GameVersion.E) // Always 0 seed.
             return (0, LCRNG.GetDistance(0, seed));
@@ -251,9 +316,9 @@ public static class LegalityFormatting
         if (game is GameVersion.R or GameVersion.S)
         {
             const uint drySeed = 0x05A0;
-            var dryFrame = LCRNG.GetDistance(drySeed, seed);
-            if (dryFrame < ushort.MaxValue << 2)
-                return (drySeed, dryFrame);
+            var advances = LCRNG.GetDistance(drySeed, seed);
+            if (advances < ushort.MaxValue << 2)
+                return (drySeed, advances);
         }
         return (nearest16, ctr);
     }

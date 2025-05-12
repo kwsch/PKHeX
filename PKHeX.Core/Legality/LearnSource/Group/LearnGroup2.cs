@@ -35,7 +35,7 @@ public sealed class LearnGroup2 : ILearnGroup
             Check(result, current, pk, evos[i], i, option, types);
         }
 
-        if (enc is EncounterEgg { Generation: Generation } egg)
+        if (enc is EncounterEgg2 egg)
             CheckEncounterMoves(result, current, egg);
 
         bool vc1 = pk.VC1;
@@ -82,7 +82,7 @@ public sealed class LearnGroup2 : ILearnGroup
             LearnSource2GS.GetEncounterMoves(enc, moves);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg2 egg)
     {
         ILearnSource inst = egg.Version == GameVersion.C ? LearnSource2C.Instance : LearnSource2GS.Instance;
         var eggMoves = inst.GetEggMoves(egg.Species, egg.Form);

@@ -85,7 +85,7 @@ public static class MoveSetApplicator
         if (moves[0] != 0)
             return;
 
-        if (enc is MysteryGift or EncounterEgg)
+        if (enc is MysteryGift or IEncounterEgg)
             return;
 
         if (enc is EncounterSlot6AO {CanDexNav: true} dn)

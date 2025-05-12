@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.GroundTileAllowed;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -383,17 +384,17 @@ public sealed record EncounterStatic4(GameVersion Version)
 
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (Species == (int)Core.Species.Pichu)
-            return type == PIDType.Pokewalker;
+            return type is PIDType.Pokewalker ? Match : Mismatch;
         if (Shiny == Shiny.Always)
-            return type == PIDType.ChainShiny;
+            return type is PIDType.ChainShiny ? Match : Mismatch;
         if (type is PIDType.Method_1)
-            return true;
+            return Match;
         if (type is PIDType.CuteCharm)
-            return CuteCharm4.IsValid(this, pk);
-        return false;
+            return CuteCharm4.IsValid(this, pk) ? Match : Mismatch;
+        return Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation()

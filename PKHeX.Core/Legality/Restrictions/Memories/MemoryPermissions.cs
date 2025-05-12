@@ -123,7 +123,7 @@ public static class MemoryPermissions
     {
         if (pk.IsOriginalMovesetDeleted())
             return true;
-        return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
+        return enc is IEncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
     }
 
     public static bool GetCanRelearnMove(PKM pk, ushort move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)

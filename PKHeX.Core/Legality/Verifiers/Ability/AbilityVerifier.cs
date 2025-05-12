@@ -322,7 +322,7 @@ public sealed class AbilityVerifier : Verifier
         // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
         return enc switch
         {
-            EncounterEgg e when pk.AbilityNumber == 4 && !AbilityBreedLegality.IsHiddenPossible5(e.Species) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg5 egg when pk.AbilityNumber == 4 && !egg.Ability.CanBeHidden() => GetInvalid(LAbilityHiddenUnavailable),
             _ => CheckMatch(data.Entity, abilities, 5, pk.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch, enc),
         };
     }
@@ -335,7 +335,7 @@ public sealed class AbilityVerifier : Verifier
 
         return enc switch
         {
-            EncounterEgg egg when !AbilityBreedLegality.IsHiddenPossible6(egg.Species, egg.Form) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg6 egg when !egg.Ability.CanBeHidden() => GetInvalid(LAbilityHiddenUnavailable),
             _ => VALID,
         };
     }
@@ -348,7 +348,7 @@ public sealed class AbilityVerifier : Verifier
 
         return enc switch
         {
-            EncounterEgg egg when !AbilityBreedLegality.IsHiddenPossible7(egg.Species, egg.Form) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg7 egg when !egg.Ability.CanBeHidden() => GetInvalid(LAbilityHiddenUnavailable),
             _ => VALID,
         };
     }
@@ -361,7 +361,7 @@ public sealed class AbilityVerifier : Verifier
 
         return enc switch
         {
-            EncounterEgg egg when !AbilityBreedLegality.IsHiddenPossibleHOME(egg.Species) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg8b egg when !egg.Ability.CanBeHidden() => GetInvalid(LAbilityHiddenUnavailable),
             _ => VALID,
         };
     }

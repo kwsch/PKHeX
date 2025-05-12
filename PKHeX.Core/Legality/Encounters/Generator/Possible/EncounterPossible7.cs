@@ -71,16 +71,16 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
                 return SetCurrent(egg);
             case YieldState.BredTrade:
                 State = YieldState.BredSplit;
-                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg)Current);
+                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg7)Current);
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                if (!EncounterGenerator7.TryGetSplit((EncounterEgg)Current, Chain, out egg))
+                if (!EncounterGenerator7.TryGetSplit((EncounterEgg7)Current, Chain, out egg))
                     goto case YieldState.EventStart;
                 State = YieldState.BredSplitTrade;
                 return SetCurrent(egg);
             case YieldState.BredSplitTrade:
                 State = YieldState.EventStart;
-                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg)Current);
+                egg = EncounterGenerator7.MutateEggTrade((EncounterEgg7)Current);
                 return SetCurrent(egg);
 
             case YieldState.EventStart:
@@ -97,6 +97,8 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
                 Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Trade))
+                    goto case YieldState.StartCaptures;
                 if (Version is GameVersion.SN or GameVersion.MN)
                 { State = YieldState.TradeSM; goto case YieldState.TradeSM; }
                 if (Version is GameVersion.US or GameVersion.UM)
@@ -115,6 +117,8 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
                 goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Static))
+                    goto case YieldState.SlotStart;
                 if (Version == GameVersion.US)
                 { State = YieldState.StaticUS; goto case YieldState.StaticUS; }
                 if (Version == GameVersion.UM)
@@ -152,6 +156,8 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
                 Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Slot))
+                    goto case YieldState.SlotEnd;
                 if (Version == GameVersion.US)
                 { State = YieldState.SlotUS; goto case YieldState.SlotUS; }
                 if (Version == GameVersion.UM)

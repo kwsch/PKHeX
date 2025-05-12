@@ -1,5 +1,6 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -158,15 +159,15 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
         return result;
     }
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is Method;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is Method ? Match : Mismatch;
 
-    public bool IsCompatibleReviseReset(ref PIDIV value, PKM pk)
+    public RandomCorrelationRating IsCompatibleReviseReset(ref PIDIV value, PKM pk)
     {
         var prev = value.Mutated; // if previously revised, use that instead.
         var type = prev is 0 ? value.Type : prev;
         if (type is not PIDType.BACD_AX)
-            return false;
+            return Mismatch;
 
-        return true; // Table weight -> gift selection is a separate RNG, nothing to check!
+        return Match; // Table weight -> gift selection is a separate RNG, nothing to check!
     }
 }

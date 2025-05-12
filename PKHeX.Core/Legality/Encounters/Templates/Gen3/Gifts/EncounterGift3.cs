@@ -2,6 +2,7 @@ using System;
 using static PKHeX.Core.PIDType;
 using static PKHeX.Core.CommonEvent3;
 using static PKHeX.Core.CommonEvent3Checker;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -420,20 +421,20 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
 
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => true; // checked in explicit match
 
-    public bool IsCompatible(PIDType type, PKM pk) => type == Method;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type == Method ? Match : Mismatch;
 
-    public bool IsCompatibleReviseReset(ref PIDIV value, PKM pk)
+    public RandomCorrelationRating IsCompatibleReviseReset(ref PIDIV value, PKM pk)
     {
         var prev = value.Mutated; // if previously revised, use that instead.
         var type = prev is 0 ? value.Type : prev;
 
         if (type is BACD_EA or BACD_ES && !IsEgg)
-            return false;
+            return Mismatch;
 
         if (OriginalTrainerGender is not (GiftGender3.RandAlgo or GiftGender3.Recipient) && (!IsEgg || pk.IsEgg) && !IsMatchGender(pk, value.OriginSeed))
-            return false;
+            return Mismatch;
 
-        return Method switch
+        bool result = Method switch
         {
             BACD_U => type is BACD,
             BACD_R => IsRestrictedSimple(ref value, type),
@@ -448,6 +449,10 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             Method_2 => type is Method_2 or (Method_1 or Method_4), // via PID modulo VBlank abuse
             _ => false,
         };
+
+        if (result)
+            return Match;
+        return Mismatch;
     }
 
     private bool IsMatchGender(PKM pk, uint seed)

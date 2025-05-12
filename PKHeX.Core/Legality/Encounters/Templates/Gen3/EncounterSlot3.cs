@@ -1,5 +1,6 @@
 using static PKHeX.Core.PIDType;
 using static PKHeX.Core.SlotType3;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -130,11 +131,13 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
-        if (Species != (int)Core.Species.Unown)
-            return type is (Method_1 or Method_2 or Method_3 or Method_4);
-        return type is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown);
+        var match = Species != (int)Core.Species.Unown
+            ? type is Method_1       or Method_2       or Method_3       or Method_4
+            : type is Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
+
+        return match ? Match : Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? Method_1_Unown : Method_1;

@@ -275,7 +275,7 @@ public static class EncounterMovesetGenerator
         var eggs = generator.GetPossible(pk, chain, version, Egg);
         foreach (var egg in eggs)
         {
-            if (needs.Length == 0 || HasAllNeededMovesEgg(needs.Span, egg))
+            if (needs.Length == 0 || HasAllNeededMovesEgg(needs.Span, (IEncounterEgg)egg))
                 yield return egg;
         }
     }
@@ -414,13 +414,13 @@ public static class EncounterMovesetGenerator
         return Moveset.BitOverlap(moves, needs);
     }
 
-    private static int GetMoveMaskEgg(ReadOnlySpan<ushort> needs, IEncounterTemplate egg)
+    private static int GetMoveMaskEgg(ReadOnlySpan<ushort> needs, IEncounterEgg egg)
     {
-        var source = GameData.GetLearnSource(egg.Version);
+        var source = egg.Learn;
         var eggMoves = source.GetEggMoves(egg.Species, egg.Form);
         int flags = Moveset.BitOverlap(eggMoves, needs);
         var vt = needs.IndexOf((ushort)Move.VoltTackle);
-        if (vt != -1 && egg is EncounterEgg { CanHaveVoltTackle: true })
+        if (vt != -1 && egg.CanHaveVoltTackle)
             flags |= 1 << vt;
         else if (egg.Generation <= 2)
             flags |= GetMoveMaskGen2(needs, egg);
@@ -440,7 +440,7 @@ public static class EncounterMovesetGenerator
         return false;
     }
 
-    private static bool HasAllNeededMovesEgg(ReadOnlySpan<ushort> needs, IEncounterTemplate egg)
+    private static bool HasAllNeededMovesEgg(ReadOnlySpan<ushort> needs, IEncounterEgg egg)
     {
         int flags = GetMoveMaskEgg(needs, egg);
         return flags == (1 << needs.Length) - 1;

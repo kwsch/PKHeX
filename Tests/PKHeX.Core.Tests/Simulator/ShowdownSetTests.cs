@@ -32,7 +32,7 @@ public class ShowdownSetTests
         var first = encounters.FirstOrDefault();
         Assert.NotNull(first);
 
-        var egg = (EncounterEgg)first;
+        var egg = (EncounterEgg7)first;
         var info = new SimpleTrainerInfo(GameVersion.SN);
         var pk = egg.ConvertToPKM(info);
         Assert.True(pk.Species != set.Species);

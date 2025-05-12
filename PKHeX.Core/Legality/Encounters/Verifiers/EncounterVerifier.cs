@@ -21,13 +21,13 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounter(PKM pk, IEncounterTemplate enc) => enc switch
     {
-        EncounterEgg e => VerifyEncounterEgg(pk, e.Generation),
         EncounterShadow3Colo { IsEReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LG3EReader),
         EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LEncUnreleasedEMewJP),
         EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
         EncounterStatic4 { IsRoaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(LG4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
-        { IsEgg: true } when !pk.IsEgg => VerifyEncounterEgg(pk, enc.Generation),
+        IEncounterEgg e when pk.IsEgg => VerifyEncounterEggUnhatched(pk, e.Context),
+        { IsEgg: true } when !pk.IsEgg => VerifyEncounterEggHatched(pk, enc.Context),
         EncounterInvalid => GetInvalid(LEncInvalid),
         _ => GetValid(string.Empty), // todo: refactor
     };
@@ -35,7 +35,7 @@ public static class EncounterVerifier
     private static CheckResult VerifyEncounterG12(PKM pk, IEncounterTemplate enc)
     {
         if (enc.IsEgg)
-            return VerifyEncounterEgg(pk, 2);
+            return pk.IsEgg ? VerifyUnhatchedEgg2(pk) : VerifyEncounterEgg2(pk);
 
         return enc switch
         {
@@ -57,17 +57,31 @@ public static class EncounterVerifier
     };
 
     // Eggs
-    private static CheckResult VerifyEncounterEgg(PKM pk, byte generation) => generation switch
+    private static CheckResult VerifyEncounterEggUnhatched(PKM pk, EntityContext context) => context switch
     {
-        2 => pk.IsEgg ? VerifyUnhatchedEgg2(pk) : VerifyEncounterEgg2(pk),
-        3 => pk.IsEgg ? VerifyUnhatchedEgg3(pk) : VerifyEncounterEgg3(pk),
-        4 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade4) : VerifyEncounterEgg4(pk),
-        5 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade5) : VerifyEncounterEgg5(pk),
-        6 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg6(pk),
-        7 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg7(pk),
-        8 when GameVersion.BDSP.Contains(pk.Version) => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone) : VerifyEncounterEgg8BDSP(pk),
-        8 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg8(pk),
-        9 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg9(pk),
+        EntityContext.Gen2 => VerifyUnhatchedEgg2(pk),
+        EntityContext.Gen3 => VerifyUnhatchedEgg3(pk),
+        EntityContext.Gen4 => VerifyUnhatchedEgg(pk, Locations.LinkTrade4),
+        EntityContext.Gen5 => VerifyUnhatchedEgg(pk, Locations.LinkTrade5),
+        EntityContext.Gen6 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EntityContext.Gen7 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EntityContext.Gen8b=> VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone),
+        EntityContext.Gen8 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EntityContext.Gen9 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        _ => GetInvalid(LEggLocationInvalid),
+    };
+
+    private static CheckResult VerifyEncounterEggHatched(PKM pk, EntityContext context) => context switch
+    {
+        EntityContext.Gen2 => VerifyEncounterEgg2(pk),
+        EntityContext.Gen3 => VerifyEncounterEgg3(pk),
+        EntityContext.Gen4 => VerifyEncounterEgg4(pk),
+        EntityContext.Gen5 => VerifyEncounterEgg5(pk),
+        EntityContext.Gen6 => VerifyEncounterEgg6(pk),
+        EntityContext.Gen7 => VerifyEncounterEgg7(pk),
+        EntityContext.Gen8b=> VerifyEncounterEgg8BDSP(pk),
+        EntityContext.Gen8 => VerifyEncounterEgg8(pk),
+        EntityContext.Gen9 => VerifyEncounterEgg9(pk),
         _ => GetInvalid(LEggLocationInvalid),
     };
 
@@ -335,7 +349,7 @@ public static class EncounterVerifier
         }
         if (!pk.IsEgg && gift.IsEgg) // hatched
         {
-            var hatchCheck = VerifyEncounterEgg(pk, gift.Generation);
+            var hatchCheck = VerifyEncounterEggHatched(pk, gift.Context);
             if (!hatchCheck.Valid)
                 return hatchCheck;
         }

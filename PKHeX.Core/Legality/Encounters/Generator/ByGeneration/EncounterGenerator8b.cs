@@ -35,7 +35,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen8b;
     private const byte EggLevel = 1;
 
-    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg8b? result)
     {
         result = null;
         var devolved = chain[^1];
@@ -61,7 +61,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
         return true;
     }
 
-    public static bool TryGetSplit(EncounterEgg other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetSplit(EncounterEgg8b other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg8b? result)
     {
         result = null;
         // Check for split-breed
@@ -79,11 +79,11 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
         return true;
     }
 
-    private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
+    private static EncounterEgg8b CreateEggEncounter(ushort species, byte form, GameVersion version)
     {
         if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
             form = FormInfo.GetOutOfBattleForm(species, form, Generation);
-        return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
+        return new EncounterEgg8b(species, form, version);
     }
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)

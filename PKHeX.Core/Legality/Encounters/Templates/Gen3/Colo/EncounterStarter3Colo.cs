@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -151,7 +153,7 @@ public sealed record EncounterStarter3Colo(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD_ColoStarter;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD_ColoStarter ? Match : Mismatch;
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD_ColoStarter;
 }

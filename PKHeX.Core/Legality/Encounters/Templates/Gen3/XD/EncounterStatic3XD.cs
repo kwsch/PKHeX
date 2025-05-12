@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -138,11 +140,13 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (type is PIDType.CXD)
-            return true;
-        return type is PIDType.CXDAnti && FatefulEncounter;
+            return Match;
+        if (type is PIDType.CXDAnti && FatefulEncounter)
+            return Match;
+        return Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
