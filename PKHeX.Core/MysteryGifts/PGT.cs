@@ -318,6 +318,9 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         pk4.EggMetDate = pk4.MetDate = EncounterDate.GetDateNDS();
     }
 
+    public bool HasPID => PK.PID > 1; // 0=Random, 1=Random (Anti-Shiny). 0 was never used in any Gen4 gift (all non-shiny).
+    public bool HasIVs => (PK.IV32 & 0x3FFF_FFFFu) != 0; // ignore Nickname/Egg flag bits
+
     private static void SetPINGA(PK4 pk4, PersonalInfo4 pi, EncounterCriteria criteria)
     {
         // Ability is forced already, can't force anything

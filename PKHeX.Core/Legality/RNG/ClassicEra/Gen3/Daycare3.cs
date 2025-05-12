@@ -254,10 +254,26 @@ public static class Daycare3
     }
 }
 
+/// <summary>
+/// Stores initial seed information for Gen3 daycare seeds.
+/// </summary>
+/// <param name="Origin">Seed that originates the egg on pickup from Daycare.</param>
+/// <param name="Advances">Advances from the initial seed to the origin seed.</param>
+/// <param name="Initial">Initial seed from the start of the game.</param>
+/// <param name="Pattern">Generation pattern of the egg.</param>
 public readonly record struct Daycare3Origin(uint Origin, uint Advances, ushort Initial, Daycare3Correlation Pattern = Daycare3Correlation.Regular);
 
 public enum Daycare3Correlation
 {
+    /// <summary>
+    /// None detected, usually just a sentinel value.
+    /// </summary>
     None,
+
+    /// <summary>
+    /// Standard vBlank pattern.
+    /// </summary>
     Regular,
+
+    // Other patterns may be added in the future if other examples necessitate it.
 }
