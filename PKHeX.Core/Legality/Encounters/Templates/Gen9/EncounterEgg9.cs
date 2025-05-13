@@ -47,11 +47,12 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerName = tr.OT,
             OriginalTrainerFriendship = 100,
+            ObedienceLevel = 1,
             MetLevel = 1,
             MetDate = date,
             MetLocation = Location,
             EggMetDate = date,
-            EggLocation = tr.Version == Version ? Locations.Daycare5 : Locations.LinkTrade6,
+            EggLocation = tr.Version == Version ? Locations.Picnic9 : Locations.LinkTrade6,
 
             EncryptionConstant = rnd.Rand32(),
             PID = rnd.Rand32(),
