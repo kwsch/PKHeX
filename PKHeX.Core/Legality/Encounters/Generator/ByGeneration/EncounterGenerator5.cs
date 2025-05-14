@@ -34,7 +34,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen5;
     private const byte EggLevel = EggStateLegality.EggMetLevel;
 
-    private static EncounterEgg5 CreateEggEncounter(ushort species, GameVersion version) => new(species, version);
+    private static EncounterEgg5 CreateEggEncounter(ushort species, byte form, GameVersion version) => new(species, form, version);
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)
     {
@@ -63,7 +63,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         if (!PersonalTable.B2W2.IsPresentInGame(species, form))
             return false;
 
-        result = CreateEggEncounter(species, version);
+        result = CreateEggEncounter(species, form,version);
         return true;
     }
 

@@ -41,6 +41,7 @@ public sealed record EncounterEgg6(ushort Species, byte Form, GameVersion Versio
         var pk = new PK6
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)Ball.Poke,

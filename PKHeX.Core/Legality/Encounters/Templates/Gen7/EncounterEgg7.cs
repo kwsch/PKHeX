@@ -39,6 +39,7 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
         var pk = new PK7
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)Ball.Poke,

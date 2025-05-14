@@ -3,7 +3,7 @@ using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
-public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncounterEgg, IRandomCorrelation
+public sealed record EncounterEgg5(ushort Species, byte Form, GameVersion Version) : IEncounterEgg, IRandomCorrelation
 {
     private const ushort Location = Locations.HatchLocation5;
 
@@ -13,7 +13,6 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
     public const byte Level = 1;
     public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu;
 
-    public byte Form => 0;
     public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public bool IsShiny => false;
@@ -41,6 +40,7 @@ public sealed record EncounterEgg5(ushort Species, GameVersion Version) : IEncou
         var pk = new PK5
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Version = Version,
             Ball = (byte)FixedBall,
