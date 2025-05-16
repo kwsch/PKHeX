@@ -15,6 +15,9 @@ namespace PKHeX.WinForms;
 
 public partial class ReportGrid : Form
 {
+    public IPropertyProvider PropertyProvider { get; init; } = DefaultPropertyProvider.Instance;
+    private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
+
     public ReportGrid()
     {
         InitializeComponent();
@@ -50,8 +53,6 @@ public partial class ReportGrid : Form
 
         dgData.ContextMenuStrip = mnu;
     }
-
-    private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
 
     public void PopulateData(IReadOnlyList<SlotCache> data) => PopulateData(data, [], []);
 
@@ -142,8 +143,6 @@ public partial class ReportGrid : Form
         }
         ArrayPool<string>.Shared.Return(rent, true);
     }
-
-    public IPropertyProvider PropertyProvider { get; init; } = DefaultPropertyProvider.Instance;
 
     private bool TryGetCustomCell(PKM pk, string prop, [NotNullWhen(true)] out string? result)
     {

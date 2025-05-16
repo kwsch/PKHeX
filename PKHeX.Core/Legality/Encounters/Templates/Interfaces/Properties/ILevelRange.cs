@@ -16,16 +16,6 @@ public interface ILevelRange
     byte LevelMax { get; }
 }
 
-/// <summary>
-/// Simple abstraction to hold a single level.
-/// </summary>
-/// <param name="Level">Min and Max level.</param>
-public readonly record struct SingleLevelRange(byte Level) : ILevelRange
-{
-    public byte LevelMin => Level;
-    public byte LevelMax => Level;
-}
-
 public static class LevelRangeExtensions
 {
     public static bool IsFixedLevel(this ILevelRange r) => r.LevelMin == r.LevelMax;

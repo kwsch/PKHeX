@@ -85,7 +85,7 @@ public partial class SAV_FolderList : Form
     {
         List<INamedFolderPath> locs =
         [
-            new CustomFolderPath(backupPath, display: "PKHeX Backups"),
+            new CustomFolderPath(backupPath, DisplayText: "PKHeX Backups"),
             ..GetUserPaths(), ..GetPaths3DS(drives), ..GetPathsSwitch(drives),
         ];
         var filtered = locs
@@ -158,18 +158,10 @@ public partial class SAV_FolderList : Form
         return paths.Select(z => new CustomFolderPath(z, FolderPathGroup.NintendoSwitch));
     }
 
-    private sealed record CustomFolderPath : INamedFolderPath
+    private sealed record CustomFolderPath(string Path, string DisplayText, FolderPathGroup Group = 0) : INamedFolderPath
     {
-        public string Path { get; }
-        public string DisplayText { get; }
-        public FolderPathGroup Group { get; }
-
-        public CustomFolderPath(string path, FolderPathGroup group = 0, string? display = null)
-        {
-            Path = path;
-            Group = group;
-            DisplayText = display ?? ResolveFolderName(path);
-        }
+        public CustomFolderPath(string path, FolderPathGroup group = 0)
+            : this(path, ResolveFolderName(path), group) { }
 
         private static string ResolveFolderName(string path)
         {

@@ -378,7 +378,7 @@ public static class WinFormsUtil
 
     private static void ExportSAV(SaveFile sav, string path)
     {
-        var ext = Path.GetExtension(path).ToLowerInvariant();
+        var ext = Path.GetExtension(path.AsSpan());
         var flags = sav.Metadata.GetSuggestedFlags(ext);
 
         try
