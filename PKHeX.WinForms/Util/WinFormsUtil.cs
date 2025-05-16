@@ -205,6 +205,22 @@ public static class WinFormsUtil
         ((ComboBox)sender).DroppedDown = false;
     }
 
+    public static void MouseWheelIncrement1(object? sender, MouseEventArgs e) => Adjust(sender, e, 1);
+    public static void MouseWheelIncrement4(object? sender, MouseEventArgs e) => Adjust(sender, e, 4);
+
+    private static void Adjust(object? sender, MouseEventArgs e, uint increment)
+    {
+        if (sender is not TextBoxBase tb)
+            return;
+        var text = tb.Text;
+        var value = Util.ToUInt32(text);
+        if (e.Delta > 0)
+            value += increment;
+        else if (value >= increment)
+            value -= increment;
+        tb.Text = value.ToString();
+    }
+
     /// <summary>
     /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
     /// </summary>

@@ -76,6 +76,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Controls contained in a TabPage are not created until the tab page is shown
         // Any data bindings in these controls are not activated until the tab page is shown.
         FlickerInterface();
+
+        TB_EXP.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+        TB_Level.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+        TB_Friendship.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
     }
 
     private sealed class ValidationRequiredSet(Control[] controls, Func<PKM, bool> shouldCheck, Func<Control, bool> isState)
