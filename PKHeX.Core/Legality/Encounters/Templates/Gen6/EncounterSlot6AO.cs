@@ -118,9 +118,9 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     #region Matching
 
-    private const int FluteBoostMin = 4; // White Flute decreases levels.
-    private const int FluteBoostMax = 4; // Black Flute increases levels.
-    private const int DexNavBoost = 29 + FluteBoostMax; // Maximum DexNav chain (95) and Flute.
+    private const byte FluteBoostMin = 4; // White Flute decreases levels.
+    private const byte FluteBoostMax = 4; // Black Flute increases levels.
+    private const byte DexNavBoost = 29 + FluteBoostMax; // Maximum DexNav chain (95) and Flute.
 
     public byte GetDownleveledMin() => (byte)(LevelMin - FluteBoostMin);
 

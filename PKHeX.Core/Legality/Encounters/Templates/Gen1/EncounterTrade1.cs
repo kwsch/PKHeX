@@ -174,7 +174,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         return true;
     }
 
-    private bool IsMatchLevel(PKM pk, int lvl)
+    private bool IsMatchLevel(PKM pk, byte lvl)
     {
         if (pk is not PK1 || CanObtainMinGSC())
             return lvl >= LevelMinGSC;

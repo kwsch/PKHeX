@@ -97,7 +97,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
         }
     }
 
-    public void SetEncounterMoves(ushort species, byte form, int level, Span<ushort> init)
+    public void SetEncounterMoves(ushort species, byte form, byte level, Span<ushort> init)
     {
         if (!TryGetPersonal(species, 0, out var personal))
             return;

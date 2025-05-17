@@ -196,14 +196,14 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         }
     }
 
-    private void SetEncounterMoves(PKM pk, int level)
+    private void SetEncounterMoves(PKM pk, byte level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         GetInitialMoves(level, moves);
         pk.SetMoves(moves);
     }
 
-    public void GetInitialMoves(int level, Span<ushort> moves)
+    public void GetInitialMoves(byte level, Span<ushort> moves)
     {
         var source = GameData.GetLearnSource(OriginGroup);
         source.SetEncounterMoves(Species, Form, level, moves);

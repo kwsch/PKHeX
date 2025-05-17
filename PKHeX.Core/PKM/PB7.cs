@@ -514,7 +514,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
-        int level = CurrentLevel;
+        var level = CurrentLevel;
         var nature = Nature;
         int friend = CurrentFriendship; // stats +10% depending on friendship!
         int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
@@ -533,7 +533,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     /// <param name="iv">Current IV, already accounted for Hyper Training</param>
     /// <param name="level">Current Level</param>
     /// <returns>Initial Stat</returns>
-    private static int GetStat(int baseStat, int iv, int level) => (iv + (2 * baseStat)) * level / 100;
+    private static int GetStat(int baseStat, int iv, byte level) => (iv + (2 * baseStat)) * level / 100;
 
     /// <summary>
     /// Gets the initial stat value with nature amplification applied. Used for all stats except HP.
@@ -544,7 +544,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     /// <param name="nature"><see cref="PKM.Nature"/></param>
     /// <param name="statIndex">Stat amp index in the nature amp table</param>
     /// <returns>Initial Stat with nature amplification applied.</returns>
-    private static int GetStat(int baseStat, int iv, int level, Nature nature, int statIndex)
+    private static int GetStat(int baseStat, int iv, byte level, Nature nature, int statIndex)
     {
         int initial = GetStat(baseStat, iv, level) + 5;
         return NatureAmp.AmplifyStat(nature, statIndex, initial);
@@ -557,7 +557,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         get
         {
             var p = PersonalInfo;
-            int level = CurrentLevel;
+            var level = CurrentLevel;
             var nature = Nature;
             int scalar = CPScalar;
 

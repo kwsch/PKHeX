@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EntitySuggestionUtil
 {
-    public static List<string> GetMetLocationSuggestionMessage(PKM pk, int level, ushort location, int minimumLevel, IEncounterable? enc)
+    public static List<string> GetMetLocationSuggestionMessage(PKM pk, byte level, ushort location, int minimumLevel, IEncounterable? enc)
     {
         var suggestion = new List<string> { MsgPKMSuggestionStart };
         if (pk.Format >= 3)

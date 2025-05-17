@@ -61,7 +61,7 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets all possible move shop flags for the requested entity.
     /// </summary>
-    public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level)
+    public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, byte level)
     {
         var permit = shop.Permit;
         var possible = permit.RecordPermitIndexes;
@@ -79,7 +79,7 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets all move shop flags for the currently known moves.
     /// </summary>
-    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, int level)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, byte level)
     {
         var permit = shop.Permit;
         var possible = permit.RecordPermitIndexes;
@@ -97,7 +97,7 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets the "mastered" move shop flag for the requested move.
     /// </summary>
-    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, ushort move)
+    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, byte level, int index, ushort move)
     {
         if (shop.GetMasteredRecordFlag(index))
             return;
@@ -116,7 +116,7 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets the "mastered" move shop flag for the encounter.
     /// </summary>
-    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, int level)
+    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, byte level)
     {
         var permit = shop.Permit;
         var possible = permit.RecordPermitIndexes;
@@ -143,7 +143,6 @@ public static class MoveShopRecordApplicator
     public static void SetPurchasedFlagsAll(this IMoveShop8Mastery shop)
     {
         var permit = shop.Permit;
-        var possible = permit.RecordPermitIndexes;
         for (int index = 0; index < permit.RecordCountUsed; index++)
         {
             var allowed = permit.IsRecordPermitted(index);

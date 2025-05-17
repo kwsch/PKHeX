@@ -61,7 +61,7 @@ public interface IMoveShop8Mastery : IMoveShop8
 
 public static class MoveShop8MasteryExtensions
 {
-    public static bool IsValidPurchasedEncounter(this IMoveShop8 shop, Learnset learn, int level, ushort alpha, bool allowPurchasedAlpha)
+    public static bool IsValidPurchasedEncounter(this IMoveShop8 shop, Learnset learn, byte level, ushort alpha, bool allowPurchasedAlpha)
     {
         var permit = shop.Permit.RecordPermitIndexes;
         var current = shop.Permit;

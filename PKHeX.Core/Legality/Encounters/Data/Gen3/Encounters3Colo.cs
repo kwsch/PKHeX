@@ -22,7 +22,7 @@ internal static class Encounters3Colo
     internal static readonly EncounterGift3Colo[] Gifts =
     [
         // In-Game without Bonus Disk
-        new(311, 13, TrainerNameDuking, GameVersion.CXD) { Location = 254, TID16 = 37149, OriginalTrainerGender = 0, Moves = new(045, 086, 098, 270) }, // Plusle @ Ingame Trade
+        new(311, 13, TrainerNameDuking, GameVersion.CXD) { Location = 254, TID16 = 37149, OriginalTrainerGender = 0, Moves = new(045, 086, 098, 270) }, // Plusle @ In-game Trade
     ];
 
     internal static readonly EncounterShadow3Colo[] Shadow =

@@ -914,7 +914,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             var expInput = Util.ToUInt32(TB_EXP.Text);
             var expCalc = expInput;
             var gr = Entity.PersonalInfo.EXPGrowth;
-            int lvlExp = Experience.GetLevel(expInput, gr);
+            var lvlExp = Experience.GetLevel(expInput, gr);
             if (lvlExp == 100)
                 expCalc = Experience.GetEXP(100, gr);
 

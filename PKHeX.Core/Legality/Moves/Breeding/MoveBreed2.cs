@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 /// <remarks>Refer to <see cref="EggSource2"/> for inheritance ordering.</remarks>
 public static class MoveBreed2
 {
-    private const int level = 5;
+    private const byte Level = EncounterEgg2.Level;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
     public static bool Validate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
@@ -34,7 +34,7 @@ public static class MoveBreed2
 
         var actual = MemoryMarshal.Cast<byte, EggSource2>(origins);
         Span<byte> possible = stackalloc byte[count];
-        var value = new BreedInfo<EggSource2>(actual, possible, learnset, moves, level);
+        var value = new BreedInfo<EggSource2>(actual, possible, learnset, moves, Level);
 
         bool inherit = Breeding.GetCanInheritMoves(species);
         MarkMovesForOrigin(value, eggMoves, count, inherit, pi, version);

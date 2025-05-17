@@ -27,7 +27,7 @@ public sealed class SearchSettings
     public bool? SearchLegal { get; set; }
     public bool? SearchEgg { get; set; }
     public int? ESV { get; set; }
-    public int? Level { get; init; }
+    public byte? Level { get; init; }
 
     public int IVType { get; init; }
     public int EVType { get; init; }

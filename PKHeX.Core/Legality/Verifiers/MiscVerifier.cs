@@ -484,7 +484,7 @@ public sealed class MiscVerifier : Verifier
                 VerifyReceivability(data, g);
                 VerifyFatefulMysteryGift(data, g);
                 return;
-            case IFatefulEncounterReadOnly {FatefulEncounter: true}: // ingame fateful
+            case IFatefulEncounterReadOnly {FatefulEncounter: true}: // in-game fateful
                 VerifyFatefulIngameActive(data);
                 return;
         }

@@ -138,7 +138,7 @@ public sealed class LegendsArceusVerifier : Verifier
         }
     }
 
-    private static int AddMasteredMissing(PA8 pa, Span<ushort> current, int ctr, Learnset baseLearn, Learnset currentLearn, int level)
+    private static int AddMasteredMissing(PA8 pa, Span<ushort> current, int ctr, Learnset baseLearn, Learnset currentLearn, byte level)
     {
         var purchased = pa.Permit.RecordPermitIndexes;
         for (int i = 0; i < purchased.Length; i++)
@@ -234,7 +234,7 @@ public sealed class LegendsArceusVerifier : Verifier
                 continue; // cannot learn via level up
             level = Math.Min(lvl, level);
         }
-        return pa.CurrentLevel >= level;
+        return level <= pa.CurrentLevel;
     }
 
     private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, ushort alphaMove, IPermitRecord permit)

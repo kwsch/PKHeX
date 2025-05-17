@@ -27,7 +27,7 @@ public static class SearchUtil
         _ => pk.Generation == generation,
     };
 
-    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, int level) => option switch
+    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, byte level) => option switch
     {
         SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
         SearchComparison.Equals =>            pk.Stat_Level == level,

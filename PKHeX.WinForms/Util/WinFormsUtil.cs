@@ -367,7 +367,7 @@ public static class WinFormsUtil
     /// Opens a dialog to save a <see cref="SaveFile"/> file.
     /// </summary>
     /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
-    /// <param name="currentBox">Box the player will be greeted with when accessing the PC ingame.</param>
+    /// <param name="currentBox">Box the player will be greeted with when accessing the PC in-game.</param>
     /// <returns>True if the file was saved.</returns>
     public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
     {
@@ -406,16 +406,10 @@ public static class WinFormsUtil
         }
         catch (Exception x)
         {
-            switch (x)
-            {
-                case UnauthorizedAccessException:
-                case FileNotFoundException:
-                case IOException:
-                    Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
-                    break;
-                default:
-                    throw;
-            }
+            if (x is UnauthorizedAccessException or FileNotFoundException or IOException)
+                Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
+            else // Don't know what threw, but it wasn't I/O related.
+                throw;
         }
     }
 
