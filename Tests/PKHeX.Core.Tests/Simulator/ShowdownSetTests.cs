@@ -197,6 +197,37 @@ public class ShowdownSetTests
         }
     }
 
+    [Fact]
+    public void StatNamesNoSubstring()
+    {
+        var all = BattleTemplateLocalization.GetAll();
+        foreach (var l in all)
+        {
+            var languageTarget = l.Key;
+            var x = l.Value.Config;
+
+            CheckSubstring(x.StatNames.Names, languageTarget);
+            CheckSubstring(x.StatNamesFull.Names, languageTarget);
+        }
+
+        void CheckSubstring(string[] statNames, string languageTarget)
+        {
+            // ensure no stat name is a substring of another
+            for (int i = 0; i < statNames.Length; i++)
+            {
+                var name = statNames[i];
+                for (int j = 0; j < statNames.Length; j++)
+                {
+                    if (i == j)
+                        continue;
+                    var other = statNames[j];
+                    if (other.Contains(name) || name.Contains(other))
+                        throw new Exception($"Stat name {name} is a substring of {other} in {languageTarget}");
+                }
+            }
+        }
+    }
+
     [Theory]
     [InlineData(SetAllTokenExample)]
     public void SimulatorTranslateHABCDS(string message, string languageOriginal = "en")
