@@ -102,14 +102,14 @@ public static class MoveShopRecordApplicator
         if (shop.GetMasteredRecordFlag(index))
             return;
 
-        if (level < (uint)learn.GetLevelLearnMove(move)) // Can't learn it yet; must purchase.
+        if (learn.TryGetLevelLearnMove(move, out var learnLevel) && level < learnLevel) // Can't learn it yet; must purchase.
         {
             shop.SetPurchasedRecordFlag(index, true);
             shop.SetMasteredRecordFlag(index, true);
             return;
         }
 
-        if (level < (uint)mastery.GetLevelLearnMove(move)) // Can't master it yet; must Seed of Mastery
+        if (mastery.TryGetLevelLearnMove(move, out var masterLevel) && level < masterLevel) // Can't master it yet; must Seed of Mastery
             shop.SetMasteredRecordFlag(index, true);
     }
 
@@ -131,8 +131,8 @@ public static class MoveShopRecordApplicator
             // If the Pokémon is caught with any move shop move in its learnset,
             // and it is high enough level to master it, the game will automatically
             // give it the "Mastered" flag but not the "Purchased" flag
-            // For moves that are not in the learnset, it returns -1 which is true, thus set as mastered.
-            if (level >= mastery.GetLevelLearnMove(move))
+            // For moves that are not in the learnset, set as mastered.
+            if (!mastery.TryGetLevelLearnMove(move, out var masteryLevel) || level >= masteryLevel)
                 shop.SetMasteredRecordFlag(index, true);
         }
     }

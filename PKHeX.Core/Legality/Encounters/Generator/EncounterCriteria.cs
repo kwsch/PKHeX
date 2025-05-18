@@ -256,34 +256,32 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// <summary>
     /// Gets the gender to generate, random if unspecified.
     /// </summary>
-    public byte GetGender(IGenderDetail pkPersonalInfo)
+    public byte GetGender(IGenderDetail info)
     {
-        if (!pkPersonalInfo.IsDualGender)
-            return pkPersonalInfo.FixedGender();
-        if (pkPersonalInfo.Genderless)
+        if (!info.IsDualGender)
+            return info.FixedGender();
+        if (info.Genderless)
             return 2;
         if (Gender is not Gender.Random)
             return (byte)Gender;
-        return pkPersonalInfo.RandomGender();
+        return info.RandomGender();
     }
 
     /// <summary>
-    /// Gets a random ability index (0/1/2) to generate, based off an encounter's <see cref="num"/>.
+    /// Gets a random ability index (0/1/2) to generate, based off an encounter's <see cref="encounter"/>.
     /// </summary>
-    public int GetAbilityFromNumber(AbilityPermission num)
+    public int GetAbilityFromNumber(AbilityPermission encounter)
     {
-        if (num.IsSingleValue(out int index)) // fixed number
+        if (encounter.IsSingleValue(out int index)) // fixed number
             return index;
-
-        bool canBeHidden = num.CanBeHidden();
-        return GetAbilityIndexPreference(canBeHidden);
+        return GetAbilityIndexPreference(encounter);
     }
 
-    private int GetAbilityIndexPreference(bool canBeHidden = false) => Ability switch
+    private int GetAbilityIndexPreference(AbilityPermission perm) => Ability switch
     {
         OnlyFirst => 0,
         OnlySecond => 1,
-        OnlyHidden or Any12H when canBeHidden => 2, // hidden allowed
+        OnlyHidden or Any12H when perm.CanBeHidden() => 2, // hidden allowed
         _ => Util.Rand.Next(2),
     };
 

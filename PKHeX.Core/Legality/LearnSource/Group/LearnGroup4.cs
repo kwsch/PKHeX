@@ -47,11 +47,12 @@ public sealed class LearnGroup4 : ILearnGroup
             if (move == 0)
                 break;
 
-            var level = moves.GetLevelLearnMove(move);
-            if (level == -1 || !nincada.InsideLevelRange(level))
+            if (!moves.TryGetLevelLearnMove(move, out var level))
+                continue;
+            if (!nincada.InsideLevelRange(level))
                 continue;
 
-            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, (byte)level);
+            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, level);
             result[i] = new MoveResult(info, 0, Generation);
             break; // Can only have one Ninjask move.
         }

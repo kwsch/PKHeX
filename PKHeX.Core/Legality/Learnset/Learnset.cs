@@ -221,15 +221,22 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
     /// <param name="move">Move ID</param>
     public bool GetIsLearn(ushort move) => Moves.AsSpan().Contains(move);
 
-    /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
+    /// <summary>
+    /// Checks if the specified move is learned by level up.
+    /// </summary>
     /// <param name="move">Move ID</param>
-    /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
-    public int GetLevelLearnMove(ushort move)
+    /// <param name="level">Level at which the move is learned</param>
+    /// <returns>True if the move is learned by level up, false otherwise.</returns>
+    public bool TryGetLevelLearnMove(ushort move, out byte level)
     {
         var index = Array.IndexOf(Moves, move);
         if (index == -1)
-            return -1;
-        return Levels[index];
+        {
+            level = 0;
+            return false;
+        }
+        level = Levels[index];
+        return true;
     }
 
     public ReadOnlySpan<ushort> GetBaseEggMoves(byte level)

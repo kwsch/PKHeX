@@ -154,9 +154,8 @@ public sealed class LegendsArceusVerifier : Verifier
 
             // Check if we can swap it into the moveset after it evolves.
             var move = purchased[i];
-            var baseLevel = baseLearn.GetLevelLearnMove(move);
-            var mustKnow = baseLevel is not -1 && baseLevel <= pa.MetLevel;
-            if (!mustKnow && currentLearn.GetLevelLearnMove(move) != level)
+            var mustKnow = baseLearn.TryGetLevelLearnMove(move, out var baseLevel) && baseLevel <= pa.MetLevel;
+            if (!mustKnow && currentLearn.TryGetLevelLearnMove(move, out var c2) && c2 != level)
                 continue;
 
             if (!current.Contains(move))
@@ -229,8 +228,7 @@ public sealed class LegendsArceusVerifier : Verifier
         foreach (var evo in data.Info.EvoChainsAllGens.Gen8a)
         {
             var moveset = LearnSource8LA.Instance.GetLearnset(evo.Species, evo.Form);
-            var lvl = moveset.GetLevelLearnMove(moves[i]);
-            if (lvl == -1)
+            if (!moveset.TryGetLevelLearnMove(moves[i], out var lvl))
                 continue; // cannot learn via level up
             level = Math.Min(lvl, level);
         }
