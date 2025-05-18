@@ -1,7 +1,32 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
+25/05/18 - New Update:
+ - Legality:
+ - - Added: Gen3/4 egg PID types can be allowed to be any PID type by the user if changed via program settings.
+ - - Added: Gen3 XD Poké Spot IV animation is now checked for legality.
+ - - Added: Gen2 Stadium's move reminder learnset is now implemented for GB-Era relearning.
+ - - Fixed: Gen3 Colo Murkrow added rebattle team locks (lack thereof). Thanks Unknown Warrior !
+ - - Fixed: Gen4 Eggs now permit a PID of 0 (Masuda method re-rolling into 0 when receiving egg).
+ - - Fixed: Gen8 PLA handling of un-transferred mid-scale fixed Alpha encounter sizing checks. Thanks Yorhu !
+ - - Changed: Encounter Templates for eggs are now context-specific rather than a shared implementation for all games.
+ - Added: ShowdownSet localization - separate settings for Exporting to clipboard and Hovering slots.
+ - Added: Scrolling the mouse within the EXP/Level/IV/EV/Friendship text boxes will increment/decrement (nuzlocke edging/etc).
+ - Added: Gen1 Stadium boxes will now initialize boxes if not yet used, and hide empty slots/compress storage on save.
+ - Added: Gen4 Battle Revolution now recognizes the save file language. Thanks @abcboy101 !
+ - Added: Gen4 Group seed editing. Thanks @taxicat1 !
+ - Fixed: Gen4 PCD active flag now activates correctly. Thanks @glencoe2004 !
+ - Fixed: Gen4 Pokédex now un-sees forms correctly. Thanks @rganhoto !
+ - Fixed: Gen6 PP for Submission is now correctly updated to 20. Thanks @FrostedGeulleisia !
+ - Fixed: Gen9 SV picnic inventory is no longer bumped to at least 1 when saving inventory edits.
+ - Fixed: Gen9 now shows the Battle Memory Ribbon in gold if 7 ribbons instead of 8 (to match the game behavior).
+ - Changed: Gen9 SV save file sizes now check for a range of sizes rather than specific sizes.
+ - Changed: Translations updated. Thanks @mk360, @easyworld, @Mimigris !
+ - Changed: Intel CPUs might work better with the recent .NET 9 runtime. Thanks @hewenhan !
+ - Changed: ShowdownSet parsing/exporting was rewritten for more flexibility (localization) as well as new formats/representations.
+
 25/02/23 - New Update:
+ - Changed: PKHeX now uses .NET 9 for its runtime (updated from .NET 8)!
  - Legality:
  - - Added: Handling for new HOME gifts (Meltan, Keldeo, Manaphy, Enamorus).
  - - Added: Gen7b Received DateTime validation. This was missed for how many years? Use the batch editor to fix any affected.
