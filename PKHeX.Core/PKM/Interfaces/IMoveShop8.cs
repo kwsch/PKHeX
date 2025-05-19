@@ -76,9 +76,7 @@ public static class MoveShop8MasteryExtensions
             var move = permit[i];
 
             // Can only purchase a move if it is not already in the available learnset.
-            if (!learn.TryGetLevelLearnMove(move, out var learnLevel))
-                return false;
-            if (learnLevel <= level)
+            if (learn.TryGetLevelLearnMove(move, out var learnLevel) && learnLevel <= level)
                 return false;
 
             // Can only purchase an Alpha Move if it was pre-1.1 patch.
