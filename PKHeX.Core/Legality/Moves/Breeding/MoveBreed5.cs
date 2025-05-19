@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <remarks>Refer to <see cref="EggSource5"/> for inheritance ordering.</remarks>
 public static class MoveBreed5
 {
-    private const int level = 1;
+    private const byte Level = EncounterEgg5.Level;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
     public static bool Validate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
@@ -35,7 +35,7 @@ public static class MoveBreed5
 
         var actual = MemoryMarshal.Cast<byte, EggSource5>(origins);
         Span<byte> possible = stackalloc byte[count];
-        var value = new BreedInfo<EggSource5>(actual, possible, learnset, moves, level);
+        var value = new BreedInfo<EggSource5>(actual, possible, learnset, moves, Level);
         if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle)
             actual[--count] = VoltTackle;
 

@@ -59,8 +59,8 @@ public class StatTest
 
         ushort effort = 63001;
         effort = (ushort)(Math.Min((ushort)255, (ushort)Math.Ceiling(Math.Sqrt(effort))) >> 2);
+        const byte level = 100;
         const int iv = 15;
-        const int level = 100;
         const int baseStat = 91;
         var expect = (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
         expect.Should().Be(279);
@@ -81,7 +81,7 @@ public class BelugaTests
 {
     [Theory]
     [InlineData(41, 25, 91)]
-    public void CalculateCP(int level, int statSum, int expect)
+    public void CalculateCP(byte level, int statSum, int expect)
     {
         var result1 = (((level * 4.0f / 100.0f) + 2.0f) * (statSum & 0xFFFF));
         var result2 = (int)result1;

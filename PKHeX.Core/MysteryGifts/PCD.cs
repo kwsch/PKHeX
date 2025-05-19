@@ -101,7 +101,7 @@ public sealed class PCD(byte[] Data)
     public override ushort Location { get => (ushort)(IsEgg ? 0 : Gift.EggLocation + 3000); set { } }
     public override ushort EggLocation { get => (ushort)(IsEgg ? Gift.EggLocation + 3000 : 0); set { } }
 
-    public bool IsCompatible(PIDType type, PKM pk) => Gift.IsCompatible(type, pk);
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => Gift.IsCompatible(type, pk);
     public PIDType GetSuggestedCorrelation() => Gift.GetSuggestedCorrelation();
 
     public bool GiftEquals(PGT pgt)

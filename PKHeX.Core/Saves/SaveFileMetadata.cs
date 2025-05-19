@@ -187,7 +187,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// Gets suggested export options for the save file.
     /// </summary>
     /// <param name="ext">Selected export extension</param>
-    public BinaryExportSetting GetSuggestedFlags(string? ext = null)
+    public BinaryExportSetting GetSuggestedFlags(ReadOnlySpan<char> ext)
     {
         // Do everything as default
         var flags = BinaryExportSetting.None;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -24,9 +25,12 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
     private enum DeferralType
     {
+        // Legal
         None,
+        PIDIVDefer,
+
+        // Illegal
         PIDIV,
-        Tile,
         Ball,
         SlotNumber,
     }
@@ -64,9 +68,13 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (!IsTypeCompatible(e, pk, ref info.GetPIDIVRef()))
+            var typeCheck = IsTypeCompatible(e, pk, ref info.GetPIDIVRef());
+            if (typeCheck is not Match)
             {
-                defer.Update(DeferralType.PIDIV, e);
+                var rating = typeCheck == NotIdeal
+                    ? DeferralType.PIDIVDefer
+                    : DeferralType.PIDIV;
+                defer.Update(rating, e);
                 continue;
             }
             if (!IsBallCompatible(e, pk))
@@ -102,7 +110,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         // Errors will be flagged later for those not manually handled below.
         if (defer.Encounter is not { } lastResort)
             yield break;
-        if (defer.Type is DeferralType.PIDIV && !(lastResort is EncounterEgg && ParseSettings.Settings.FramePattern.EggRandomAnyType3))
+        if (defer.Type is DeferralType.PIDIV)
             info.ManualFlag = EncounterYieldFlag.InvalidPIDIV;
         else if (defer.Type is DeferralType.SlotNumber)
             info.ManualFlag = EncounterYieldFlag.InvalidFrame;
@@ -115,33 +123,27 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         _ => pk.Ball is not (byte)Ball.Safari,
     };
 
-    private static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, ref PIDIV pidiv)
+    private static RandomCorrelationRating IsTypeCompatible(IEncounterTemplate enc, PKM pk, ref PIDIV pidiv)
     {
         if (enc is IRandomCorrelationEvent3 revise)
             return revise.IsCompatibleReviseReset(ref pidiv, pk);
         var type = pidiv.Type;
         if (enc is IRandomCorrelation r)
             return r.IsCompatible(type, pk);
-        return type == PIDType.None;
+        return type is PIDType.None ? Match : Mismatch;
     }
 
-    private const byte Generation = 3;
     private const EntityContext Context = EntityContext.Gen3;
-    private const byte EggLevel = 5;
+    private const byte EggLevel = EncounterEgg3.Level;
 
-    private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
-    {
-        if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Castform)
-            form = FormInfo.GetOutOfBattleForm(species, form, Generation);
-        return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
-    }
+    private static EncounterEgg3 CreateEggEncounter(ushort species, GameVersion version) => new(species, version);
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)
     {
         return EvolutionTree.Evolves3.GetBaseSpeciesForm(lowest.Species, lowest.Form);
     }
 
-    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg3? result)
     {
         result = null;
         var devolved = chain[^1];
@@ -163,13 +165,13 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         if (!PersonalTable.E.IsPresentInGame(species, form))
             return false;
 
-        result = CreateEggEncounter(species, form, version);
+        result = CreateEggEncounter(species, version);
         return true;
     }
 
     // Version is not updated when hatching an Egg in Gen3. Version is a clear indicator of the game it originated on.
 
-    public static bool TryGetSplit(EncounterEgg other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetSplit(EncounterEgg3 other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg3? result)
     {
         result = null;
         // Check for split-breed
@@ -183,7 +185,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         if (!Breeding.IsSplitBreedNotBabySpecies3(devolved.Species))
             return false;
 
-        result = other with { Species = devolved.Species, Form = devolved.Form };
+        result = other with { Species = devolved.Species };
         return true;
     }
 }

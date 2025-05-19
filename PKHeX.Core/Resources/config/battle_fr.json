@@ -1,6 +1,6 @@
 {
  "StatNames": {
-  "Names": ["PV", "Atq", "Déf", "AttS", "DéfS", "Vit"],
+  "Names": ["PV", "Atq", "Dfs", "Asp", "Dsp", "Vit"],
   "ValueGap":  " ",
   "Separator": " / "
  },

@@ -79,7 +79,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override bool IsUntraded => Data[0xB8] == 0 && Data[0xB8 + 1] == 0 && Format == Generation; // immediately terminated HandlingTrainerName data (\0)
 
     // Complex Generated Attributes
-    public override int Characteristic => EntityCharacteristic.GetCharacteristic(EncryptionConstant, IV32);
+    public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
     protected override byte[] Encrypt()
@@ -512,7 +512,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
-        int level = CurrentLevel;
+        var level = CurrentLevel;
         var nature = StatNature;
 
         stats[0] = (ushort)(GetGanbaruStat(p.HP, HT_HP ? 31 : IV_HP, GV_HP, level) + GetStatHp(p.HP, level));
@@ -523,7 +523,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         stats[5] = (ushort)(GetGanbaruStat(p.SPD, HT_SPD ? 31 : IV_SPD, GV_SPD, level) + GetStat(p.SPD, level, nature, 3));
     }
 
-    public static int GetGanbaruStat(int baseStat, int iv, byte gv, int level)
+    public static int GetGanbaruStat(int baseStat, int iv, byte gv, byte level)
     {
         var mul = GanbaruExtensions.GetGanbaruMultiplier(gv, iv);
         double step1 = Math.Abs(Math.Sqrt(baseStat)) * mul; // The game does abs after sqrt; should be before. It's fine because baseStat is never negative.
@@ -531,12 +531,12 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return (int)Math.Round(result, MidpointRounding.AwayFromZero);
     }
 
-    public static int GetStatHp(int baseStat, int level)
+    public static int GetStatHp(int baseStat, byte level)
     {
         return (int)((((level / 100.0f) + 1.0f) * baseStat) + level);
     }
 
-    public static int GetStat(int baseStat, int level, Nature nature, int statIndex)
+    public static int GetStat(int baseStat, byte level, Nature nature, int statIndex)
     {
         var initial = (int)((((level / 50.0f) + 1.0f) * baseStat) / 1.5f);
         return NatureAmp.AmplifyStat(nature, statIndex, initial);

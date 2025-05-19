@@ -26,15 +26,15 @@ public sealed class PIDVerifier : Verifier
             data.AddLine(Get(LPIDZero, Severity.Fishy));
         if (!pk.Nature.IsFixed()) // out of range
             data.AddLine(GetInvalid(LPIDNatureMismatch));
-        if (data.Info.EncounterMatch is EncounterEgg egg)
+        if (data.Info.EncounterMatch is IEncounterEgg egg)
             VerifyEggPID(data, pk, egg);
 
         VerifyShiny(data);
     }
 
-    private static void VerifyEggPID(LegalityAnalysis data, PKM pk, EncounterEgg egg)
+    private static void VerifyEggPID(LegalityAnalysis data, PKM pk, IEncounterEgg egg)
     {
-        if (egg.Generation is 4 && pk.EncryptionConstant == 0)
+        if (egg is EncounterEgg4)
         {
             // Gen4 Eggs are "egg available" based on the stored PID value in the save file.
             // If this value is 0 or is generated as 0 (possible), the game will see "false" and no egg is available.
@@ -42,19 +42,30 @@ public sealed class PIDVerifier : Verifier
             // However, With Masuda Method, the egg PID is re-rolled with the ARNG (until shiny, at most 4 times) upon receipt.
             // None of the un-rolled states share the same shiny-xor as PID=0, you can re-roll into an all-zero PID.
             // Flag it as fishy, because more often than not, it is hacked rather than a legitimately obtained egg.
-            data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
-            return;
-        }
+            if (pk.EncryptionConstant == 0)
+                data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
 
-        if (egg.Generation is 3 or 4 && Breeding.IsGenderSpeciesDetermination(egg.Species))
-        {
-            var gender = pk.Gender;
-            if (!Breeding.IsValidSpeciesBit34(pk.EncryptionConstant, gender)) // 50/50 chance!
-            {
-                if (gender == 1 || IsEggBitRequiredMale34(data.Info.Moves))
-                    data.AddLine(GetInvalid(LPIDGenderMismatch, CheckIdentifier.EC));
-            }
+            if (Breeding.IsGenderSpeciesDetermination(egg.Species))
+                VerifyEggGender8000(data, pk);
         }
+        else if (egg is EncounterEgg3)
+        {
+            if (!Daycare3.IsValidProcPID(pk.EncryptionConstant, egg.Version))
+                data.AddLine(Get(LPIDEncryptZero, Severity.Invalid, CheckIdentifier.EC));
+
+            if (Breeding.IsGenderSpeciesDetermination(egg.Species))
+                VerifyEggGender8000(data, pk);
+            // PID and IVs+Inheritance randomness is sufficiently random; any permutation of vBlank correlations is possible.
+        }
+    }
+
+    private static void VerifyEggGender8000(LegalityAnalysis data, PKM pk)
+    {
+        var gender = pk.Gender;
+        if (Breeding.IsValidSpeciesBit34(pk.EncryptionConstant, gender))
+            return; // 50/50 chance!
+        if (gender == 1 || IsEggBitRequiredMale34(data.Info.Moves))
+            data.AddLine(GetInvalid(LPIDGenderMismatch, CheckIdentifier.EC));
     }
 
     private void VerifyShiny(LegalityAnalysis data)

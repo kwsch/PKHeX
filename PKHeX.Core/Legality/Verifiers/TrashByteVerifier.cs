@@ -102,7 +102,7 @@ public sealed class TrashByteVerifier : Verifier
 
         VerifyTrashNickname(data, pk.NicknameTrash);
         var enc = data.Info.EncounterMatch;
-        if (enc is EncounterEgg && pk.WasTradedEgg)
+        if (enc is IEncounterEgg && pk.WasTradedEgg)
         {
             // Allow Traded eggs to have a single layer of OT trash bytes.
             VerifyTrashSingle(data, pk.OriginalTrainerTrash, OriginalTrainer);

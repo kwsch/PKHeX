@@ -28,6 +28,15 @@ public static class EntityCharacteristic
         return GetCharacteristic(maxStatIndex, maxStatValue);
     }
 
+    /// <inheritdoc cref="GetCharacteristic(int,int)"/>
+    /// <remarks>
+    /// Generations 5-9(+?) initialize the "best" characteristic index to 0 (HP).
+    /// In the event that all IVs are 0, the characteristic index is also 0, regardless of EC % 6.
+    /// The original implementation in Gen4 has the "correct" behavior, being based on EC % 6; as does HOME on mobile.
+    /// Only formats that display the all-zero-IV characteristic as always-"HP" reference this method.
+    /// </remarks>
+    public static int GetCharacteristicInit0(uint ec, uint iv32) => iv32 == 0 ? 0 : GetCharacteristic(ec, iv32);
+
     /// <summary>
     /// Gets the characteristic index of the given unpacked IVs.
     /// </summary>

@@ -48,9 +48,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
             }
             static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
             {
+                // boolean results only from this set of games (no correlation confusion to be concerned with)
                 if (enc is IRandomCorrelation r)
-                    return r.IsCompatible(type, pk);
-                return type == PIDType.None;
+                    return r.IsCompatible(type, pk) == RandomCorrelationRating.Match;
+                return type is PIDType.None;
             }
 
             if (IsTypeCompatible(z, pk, info.PIDIV.Type))

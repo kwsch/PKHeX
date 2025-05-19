@@ -62,7 +62,7 @@ public sealed class FormVerifier : Verifier
                 return GetInvalid(LFormBattle);
 
             case Pikachu when enc.Generation >= 7: // Cap
-                var expectForm = enc is EncounterInvalid or EncounterEgg ? 0 : enc.Form;
+                var expectForm = enc is EncounterInvalid or IEncounterEgg ? 0 : enc.Form;
                 if (form != expectForm)
                 {
                     bool gift = enc is MysteryGift g && g.Form != form;
@@ -108,7 +108,7 @@ public sealed class FormVerifier : Verifier
             case Scatterbug or Spewpa or Vivillon when enc.Context is EntityContext.Gen9:
                 if (form > 18 && enc.Form != form) // Pokéball
                     return GetInvalid(LFormVivillonEventPre);
-                if (form != 18 && enc is EncounterEgg) // Fancy
+                if (form != 18 && enc is IEncounterEgg) // Fancy
                     return GetInvalid(LFormVivillonNonNative);
                 break;
             case Scatterbug or Spewpa:

@@ -100,7 +100,7 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.BredSplit:
                 bool daycare = Entity.EggLocation == Locations.Daycare5;
                 State = daycare ? YieldState.End : YieldState.StartCaptures;
-                if (EncounterGenerator5.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
+                if (EncounterGenerator5.TryGetSplit((EncounterEgg5)Current.Encounter, Chain, out egg))
                     return SetCurrent(egg);
                 if (daycare)
                     break; // no other encounters

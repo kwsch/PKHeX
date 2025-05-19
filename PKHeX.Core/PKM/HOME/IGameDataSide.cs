@@ -108,7 +108,7 @@ public static class GameDataSideExtensions
     /// <summary>
     /// Resets the moves using the <see cref="source"/> for the given level.
     /// </summary>
-    public static void ResetMoves(this IGameDataSide data, ushort species, byte form, int level, ILearnSource source, EntityContext context)
+    public static void ResetMoves(this IGameDataSide data, ushort species, byte form, byte level, ILearnSource source, EntityContext context)
     {
         var learn = source.GetLearnset(species, form);
         Span<ushort> moves = stackalloc ushort[4];

@@ -85,13 +85,12 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = Learnsets[evo.Species];
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1)
+            if (learn.TryGetLevelLearnMove(move, out var level))
             {
                 if (evo.InsideLevelRange(level))
-                    return new(LevelUp, Game, (byte)level);
+                    return new(LevelUp, Game, level);
                 if (level == 1 && types.HasFlag(MoveSourceType.Evolve)) // Evolution
-                    return new(Evolution, Game, (byte)level);
+                    return new(Evolution, Game, level);
             }
         }
 

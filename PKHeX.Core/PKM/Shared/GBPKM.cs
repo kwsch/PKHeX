@@ -237,7 +237,7 @@ public abstract class GBPKM : PKM
         stats[5] = GetStat(p.SPD, IV_SPD, EV_SPD, lv);
     }
 
-    protected static ushort GetStat(int baseStat, int iv, int effort, int level)
+    protected static ushort GetStat(int baseStat, int iv, int effort, byte level)
     {
         // The games store a precomputed ushort[256] i^2 table for all ushort->byte square root calculations.
         // The game then iterates to find the lowest index with a value >= input (effort).

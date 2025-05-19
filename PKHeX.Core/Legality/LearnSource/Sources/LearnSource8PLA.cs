@@ -42,9 +42,8 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource,
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))
@@ -102,9 +101,8 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource,
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level))
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))

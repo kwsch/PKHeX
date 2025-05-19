@@ -26,6 +26,8 @@ public readonly struct PIDIV
     [field: FieldOffset(9)] public LeadRequired Lead { get; init; }
     [field: FieldOffset(9)] public PIDType Mutated { get; init; }
 
+    public PIDType GetDerivedType() => Mutated is 0 ? Type : Mutated;
+
     public PIDIV(PIDType type, uint seed = 0)
     {
         Type = type;

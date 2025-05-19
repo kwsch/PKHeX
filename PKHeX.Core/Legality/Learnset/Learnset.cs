@@ -21,7 +21,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
 
     public ReadOnlySpan<ushort> GetAllMoves() => Moves;
 
-    public ReadOnlySpan<ushort> GetMoveRange(int maxLevel, int minLevel = 0)
+    public ReadOnlySpan<ushort> GetMoveRange(byte maxLevel, byte minLevel = 0)
     {
         if (minLevel <= 1 && maxLevel >= 100)
             return Moves;
@@ -38,7 +38,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
         return Moves.AsSpan(start, length);
     }
 
-    private int FindGrq(int level, int start = 0)
+    private int FindGrq(byte level, int start = 0)
     {
         var levels = Levels;
         for (int i = start; i < levels.Length; i++)
@@ -49,7 +49,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
         return -1;
     }
 
-    private int FindGr(int level, int start)
+    private int FindGr(byte level, int start)
     {
         var levels = Levels;
         for (int i = start; i < levels.Length; i++)
@@ -60,7 +60,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
         return -1;
     }
 
-    private int FindLastLeq(int level, int end = 0)
+    private int FindLastLeq(byte level, int end = 0)
     {
         var levels = Levels;
         for (int i = levels.Length - 1; i >= end; i--)
@@ -77,7 +77,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
     /// <param name="moves">Move array to write to</param>
     /// <param name="ctr">Starting index to begin overwriting at</param>
     /// <returns>Array of Move IDs</returns>
-    public void SetEncounterMoves(int level, Span<ushort> moves, int ctr = 0)
+    public void SetEncounterMoves(byte level, Span<ushort> moves, int ctr = 0)
     {
         for (int i = 0; i < Moves.Length; i++)
         {
@@ -115,7 +115,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
         }
     }
 
-    public void SetEncounterMovesBackwards(int level, Span<ushort> moves, int ctr = 0)
+    public void SetEncounterMovesBackwards(byte level, Span<ushort> moves, int ctr = 0)
     {
         int index = FindLastLeq(level);
 
@@ -145,7 +145,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
     }
 
     /// <summary>Adds the learned moves by level up to the specified level.</summary>
-    public void SetLevelUpMoves(int startLevel, int endLevel, Span<ushort> moves, int ctr = 0)
+    public void SetLevelUpMoves(byte startLevel, byte endLevel, Span<ushort> moves, int ctr = 0)
     {
         int startIndex = FindGrq(startLevel);
         if (startIndex == -1)
@@ -176,7 +176,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
     }
 
     /// <summary>Adds the learned moves by level up to the specified level.</summary>
-    public void SetLevelUpMoves(int startLevel, int endLevel, Span<ushort> moves, ReadOnlySpan<ushort> ignore, int ctr = 0)
+    public void SetLevelUpMoves(byte startLevel, byte endLevel, Span<ushort> moves, ReadOnlySpan<ushort> ignore, int ctr = 0)
     {
         int startIndex = FindGrq(startLevel);
         if (startIndex == -1)
@@ -221,15 +221,22 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
     /// <param name="move">Move ID</param>
     public bool GetIsLearn(ushort move) => Moves.AsSpan().Contains(move);
 
-    /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
+    /// <summary>
+    /// Checks if the specified move is learned by level up.
+    /// </summary>
     /// <param name="move">Move ID</param>
-    /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
-    public int GetLevelLearnMove(ushort move)
+    /// <param name="level">Level at which the move is learned</param>
+    /// <returns>True if the move is learned by level up, false otherwise.</returns>
+    public bool TryGetLevelLearnMove(ushort move, out byte level)
     {
         var index = Array.IndexOf(Moves, move);
         if (index == -1)
-            return -1;
-        return Levels[index];
+        {
+            level = 0;
+            return false;
+        }
+        level = Levels[index];
+        return true;
     }
 
     public ReadOnlySpan<ushort> GetBaseEggMoves(byte level)

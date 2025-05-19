@@ -166,21 +166,28 @@ public static class BatchEditing
     /// Gets the type of the <see cref="PKM"/> property using the saved cache of properties.
     /// </summary>
     /// <param name="propertyName">Property Name to fetch the type for</param>
+    /// <param name="result">Type name of the property</param>
     /// <param name="typeIndex">Type index (within <see cref="Types"/>). Leave empty (0) for a nonspecific format.</param>
     /// <returns>Short name of the property's type.</returns>
-    public static string? GetPropertyType(string propertyName, int typeIndex = 0)
+    public static bool TryGetPropertyType(string propertyName, [NotNullWhen(true)] out string? result, int typeIndex = 0)
     {
         if (CustomProperties.Contains(propertyName))
-            return "Custom";
+        {
+            result ="Custom";
+            return true;
+        }
 
+        result = null;
         if (typeIndex == 0) // Any
         {
             foreach (var p in Props)
             {
-                if (p.TryGetValue(propertyName, out var pi))
-                    return pi.PropertyType.Name;
+                if (!p.TryGetValue(propertyName, out var pi))
+                    continue;
+                result = pi.PropertyType.Name;
+                return true;
             }
-            return null;
+            return false;
         }
 
         int index = typeIndex - 1;
@@ -188,8 +195,9 @@ public static class BatchEditing
             index = 0; // All vs Specific
         var pr = Props[index];
         if (!pr.TryGetValue(propertyName, out var info))
-            return null;
-        return info.PropertyType.Name;
+            return false;
+        result = info.PropertyType.Name;
+        return true;
     }
 
     /// <summary>

@@ -45,7 +45,7 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
 
     // Complex Generated Attributes
     public abstract uint IV32 { get; set; }
-    public override int Characteristic => EntityCharacteristic.GetCharacteristic(EncryptionConstant, IV32);
+    public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
     protected sealed override byte[] Encrypt()

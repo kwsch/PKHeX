@@ -103,7 +103,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 goto case YieldState.StaticStart;
             case YieldState.BredCrystal:
                 State = YieldState.StaticStart;
-                if (EncounterGenerator2.TryGetEggCrystal(Entity, (EncounterEgg)Current.Encounter, out egg))
+                if (EncounterGenerator2.TryGetEggCrystal(Entity, (EncounterEgg2)Current.Encounter, out egg))
                     return SetCurrent(egg);
                 goto case YieldState.StaticStart;
 

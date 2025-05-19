@@ -74,7 +74,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     public bool IsUnhatchedEgg => Version == 0 && IsEgg;
 
     // Complex Generated Attributes
-    public override int Characteristic => EntityCharacteristic.GetCharacteristic(EncryptionConstant, IV32);
+    public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
     protected override byte[] Encrypt()

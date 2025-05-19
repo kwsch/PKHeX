@@ -205,6 +205,22 @@ public static class WinFormsUtil
         ((ComboBox)sender).DroppedDown = false;
     }
 
+    public static void MouseWheelIncrement1(object? sender, MouseEventArgs e) => Adjust(sender, e, 1);
+    public static void MouseWheelIncrement4(object? sender, MouseEventArgs e) => Adjust(sender, e, 4);
+
+    private static void Adjust(object? sender, MouseEventArgs e, uint increment)
+    {
+        if (sender is not TextBoxBase tb)
+            return;
+        var text = tb.Text;
+        var value = Util.ToUInt32(text);
+        if (e.Delta > 0)
+            value += increment;
+        else if (value >= increment)
+            value -= increment;
+        tb.Text = value.ToString();
+    }
+
     /// <summary>
     /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
     /// </summary>
@@ -351,7 +367,7 @@ public static class WinFormsUtil
     /// Opens a dialog to save a <see cref="SaveFile"/> file.
     /// </summary>
     /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
-    /// <param name="currentBox">Box the player will be greeted with when accessing the PC ingame.</param>
+    /// <param name="currentBox">Box the player will be greeted with when accessing the PC in-game.</param>
     /// <returns>True if the file was saved.</returns>
     public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
     {
@@ -378,7 +394,7 @@ public static class WinFormsUtil
 
     private static void ExportSAV(SaveFile sav, string path)
     {
-        var ext = Path.GetExtension(path).ToLowerInvariant();
+        var ext = Path.GetExtension(path.AsSpan());
         var flags = sav.Metadata.GetSuggestedFlags(ext);
 
         try
@@ -390,16 +406,10 @@ public static class WinFormsUtil
         }
         catch (Exception x)
         {
-            switch (x)
-            {
-                case UnauthorizedAccessException:
-                case FileNotFoundException:
-                case IOException:
-                    Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
-                    break;
-                default:
-                    throw;
-            }
+            if (x is UnauthorizedAccessException or FileNotFoundException or IOException)
+                Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
+            else // Don't know what threw, but it wasn't I/O related.
+                throw;
         }
     }
 

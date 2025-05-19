@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -180,11 +181,11 @@ public sealed record EncounterShadow3Colo(byte Index, ushort Gauge, ReadOnlyMemo
 
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (IsEReader)
-            return true;
-        return type is PIDType.CXD;
+            return Match;
+        return type is PIDType.CXD ? Match : Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation()

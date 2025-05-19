@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
 
@@ -26,9 +27,9 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] wallpapernames, puffs, walkercourses;
     public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
     public readonly string[] seals, accessories, backdrops, poketchapps;
-    private readonly string lang;
-    private readonly int LanguageIndex;
+    private readonly string LanguageFilePrefix;
 
+    public LanguageID Language { get; }
     public string EggName { get; }
     public IReadOnlyList<string> Species => specieslist;
     public IReadOnlyList<string> Item => itemlist;
@@ -37,7 +38,7 @@ public sealed class GameStrings : IBasicStrings
     public IReadOnlyList<string> Types => types;
     public IReadOnlyList<string> Natures => natures;
 
-    private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
+    private string[] Get(string ident) => GameLanguage.GetStrings(ident, LanguageFilePrefix);
     private const string NPC = "NPC";
     private const string EmptyIndex = "---";
 
@@ -53,10 +54,10 @@ public sealed class GameStrings : IBasicStrings
         1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771,
     ];
 
-    internal GameStrings(string l)
+    internal GameStrings(string langFilePrefix)
     {
-        lang = l;
-        LanguageIndex = GameLanguage.GetLanguageIndex(l);
+        Language = GameLanguage.GetLanguage(LanguageFilePrefix = langFilePrefix);
+
         ribbons = Get("ribbons");
 
         // Past Generation strings
@@ -75,7 +76,7 @@ public sealed class GameStrings : IBasicStrings
         AppendLocationIndex(CXD.Met0.AsSpan(0, 227));
 
         // Current Generation strings
-        natures = Util.GetNaturesList(l);
+        natures = Util.GetNaturesList(langFilePrefix);
         types = Get("types");
         abilitylist = Get("abilities");
 
@@ -275,13 +276,13 @@ public sealed class GameStrings : IBasicStrings
         SanitizeItemsLA(itemlist);
         SanitizeItemsSV(itemlist);
 
-        if (lang is "fr")
+        if (Language is LanguageID.French)
         {
             itemlist[1681] += " (LA)"; // Galet Noir       dup with 617 (Dark Stone | Black Tumblestone)
             itemlist[1262] += " (G8)"; // Nouilles         dup with 1934 (Instant Noodles | Rice)
             itemlist[1263] += " (G8)"; // Steak Haché      dup with 1925 (Precooked Burger | Herbed Sausage)
         }
-        else if (lang is "ja")
+        else if (Language is LanguageID.Japanese)
         {
             itemlist[1693] += " (LA)"; // むしよけスプレー   dup with 79 (Repel)
             itemlist[1716] += " (LA)"; // ビビリだま        dup with 847 (Adrenaline Orb | Scatter Bang)
@@ -390,7 +391,7 @@ public sealed class GameStrings : IBasicStrings
         SanitizeMetGen8b(Gen8b);
         SanitizeMetGen9(Gen9);
 
-        if (lang is "es" or "it")
+        if (Language is Italian or Spanish)
         {
             // Campeonato Mundial duplicates
             for (int i = 28; i < 35; i++)
@@ -402,7 +403,7 @@ public sealed class GameStrings : IBasicStrings
             Gen7b.Met4[27] += " (-)";
         }
 
-        if (lang == "ko")
+        if (Language is Korean)
         {
             // Pokémon Ranger duplicate (should be Ranger Union)
             Gen5.Met4[71] += " (-)";
@@ -444,7 +445,7 @@ public sealed class GameStrings : IBasicStrings
             set.Met4[i] += $" ({i - 97})";
 
         // Localize the Poketransfer to the language (30001)
-        set.Met3[1] = GameLanguage.GetTransporterName(LanguageIndex);
+        set.Met3[1] = GetTransporterName(Language);
         set.Met3[2] += $" ({NPC})";             // Anything from an NPC
         set.Met3[3] += $" ({EggName})";         // Link Trade (Egg)
 
@@ -600,7 +601,7 @@ public sealed class GameStrings : IBasicStrings
         for (int i = 55; i <= 60; i++) // distinguish second set of YYYY Event from the first
             set.Met4[i] += " (-)";
 
-        if (lang is "en" or "es" or "de" or "it" or "fr")
+        if (Language is English or Spanish or German or Italian or French)
         {
             // Final four locations are not nouns, rather the same location reference (at the...) as prior entries.
             set.Met0[152] += " (152)"; // Galaxy Hall
@@ -756,7 +757,7 @@ public sealed class GameStrings : IBasicStrings
         // in Generation 9, TM #'s are padded to 3 digits; format them appropriately here
         var clone = (string[])itemlist.Clone();
         var span = clone.AsSpan();
-        var zero = lang is "ja" or "zh-Hans" or "zh-Hant" ? "０" : "0";
+        var zero = Language is Japanese or ChineseS or ChineseT ? "０" : "0";
         InsertZero(span[328..420], zero); // 01-92
         InsertZero(span[618..621], zero); // 93-95
         InsertZero(span[690..694], zero); // 96-99
@@ -866,4 +867,21 @@ public sealed class GameStrings : IBasicStrings
             return [];
         return set.GetLocationNames(bankID);
     }
+
+    /// <summary>
+    /// Gets the Met Location display name for the Pokétransporter.
+    /// </summary>
+    public static string GetTransporterName(LanguageID language) => language switch
+    {
+        Japanese => "ポケシフター", // ja
+        French => "Poké Fret", // fr
+        Italian => "Pokétrasporto", // it
+        German => "Poképorter", // de
+        Spanish => "Pokétransfer", // es
+        Korean => "포케시프터", // ko
+        ChineseS => "宝可传送", // zh-Hans
+        ChineseT => "寶可傳送", // zh-Hant
+
+        _ => "Poké Transfer", // en
+    };
 }

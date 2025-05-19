@@ -117,7 +117,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         _ => 0,
     });
 
-    private void SetEncounterMoves(PA8 pk, int level)
+    private void SetEncounterMoves(PA8 pk, byte level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         var (learn, mastery) = GetLevelUpInfo();
@@ -128,7 +128,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             pk.SetMasteryFlagMove(pk.AlphaMove);
     }
 
-    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)
+    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, byte level)
     {
         if (pa8.AlphaMove != 0)
         {

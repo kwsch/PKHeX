@@ -564,7 +564,7 @@ public partial class SAV_Database : Form
 
             BatchInstructions = RTB_Instructions.Text,
 
-            Level = int.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
+            Level = byte.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
             SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
             EVType = CB_EVTrain.SelectedIndex,
             IVType = CB_IV.SelectedIndex,

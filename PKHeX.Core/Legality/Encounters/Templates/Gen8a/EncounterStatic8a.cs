@@ -127,7 +127,7 @@ public sealed record EncounterStatic8a
         Finalize(pa8, slotSeed);
     }
 
-    private void SetEncounterMoves(PA8 pk, int level)
+    private void SetEncounterMoves(PA8 pk, byte level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         var (learn, mastery) = GetLevelUpInfo();
@@ -140,7 +140,7 @@ public sealed record EncounterStatic8a
 
     public (Learnset Learn, Learnset Mastery) GetLevelUpInfo() => LearnSource8LA.GetLearnsetAndMastery(Species, Form);
 
-    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)
+    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, byte level)
     {
         if (Moves.HasMoves)
             Moves.CopyTo(moves);

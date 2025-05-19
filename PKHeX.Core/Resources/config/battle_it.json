@@ -1,11 +1,11 @@
 {
  "StatNames": {
-  "Names": ["PS", "Att", "Dif", "AtS", "DiS", "Vel"],
+  "Names": ["PS", "Att", "Dif", "Asp", "Dsp", "Vel"],
   "ValueGap":  " ",
   "Separator": " / "
  },
  "StatNamesFull": {
-  "Names": ["PS", "Attacco", "Difesa", "Attacco Sp.", "Difesa Sp.", "Velocità"],
+  "Names": ["PS", "Attacco", "Difesa", "Att. Spec.", "Dif. Spec.", "Velocità"],
   "ValueGap":  " ",
   "Separator": " / "
  },

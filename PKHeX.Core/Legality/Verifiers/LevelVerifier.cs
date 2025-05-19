@@ -80,14 +80,13 @@ public sealed class LevelVerifier : Verifier
         var enc = data.EncounterMatch;
         if (pk.IsEgg)
         {
-            const int elvl = 5;
-            if (elvl != pk.CurrentLevel)
-                data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
+            if (pk.CurrentLevel != EncounterEgg2.Level)
+                data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, EncounterEgg2.Level)));
             return;
         }
         if (pk.MetLocation != 0) // crystal
         {
-            int lvl = pk.CurrentLevel;
+            var lvl = pk.CurrentLevel;
             if (lvl < pk.MetLevel)
                 data.AddLine(GetInvalid(LLevelMetBelow));
         }

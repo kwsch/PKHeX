@@ -23,6 +23,15 @@ public partial class StatEditor : UserControl
 
         TB_BST.ResetForeColor();
         TB_IVTotal.ForeColor = TB_EVTotal.ForeColor = MT_EVs[0].ForeColor;
+
+        foreach (var iv in MT_IVs)
+            iv.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+        foreach (var ev in MT_EVs)
+            ev.MouseWheel += WinFormsUtil.MouseWheelIncrement4;
+        foreach (var av in MT_AVs)
+            av.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+        foreach (var gv in MT_GVs)
+            gv.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
     }
 
     public Color EVsInvalid { get; set; } = Color.Red;

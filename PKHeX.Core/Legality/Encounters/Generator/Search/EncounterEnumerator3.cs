@@ -242,7 +242,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
                 return SetCurrent(egg);
             case YieldState.BredSplit:
                 State = YieldState.Fallback;
-                if (!EncounterGenerator3.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
+                if (!EncounterGenerator3.TryGetSplit((EncounterEgg3)Current.Encounter, Chain, out egg))
                     goto case YieldState.Fallback;
                 return SetCurrent(egg);
 

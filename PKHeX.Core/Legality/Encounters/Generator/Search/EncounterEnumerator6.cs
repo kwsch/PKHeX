@@ -95,20 +95,20 @@ public record struct EncounterEnumerator6(PKM Entity, EvoCriteria[] Chain, GameV
                 State = YieldState.BredSplit;
                 if (Entity.EggLocation != Locations.LinkTrade6)
                     goto case YieldState.BredSplit;
-                egg = EncounterGenerator6.MutateEggTrade((EncounterEgg)Current.Encounter);
+                egg = EncounterGenerator6.MutateEggTrade((EncounterEgg6)Current.Encounter);
                 return SetCurrent(egg);
             case YieldState.BredSplit:
                 if (Chain[^1].Species is (int)Species.Togepi or (int)Species.Wynaut)
                     goto case YieldState.StartCaptures;
                 State = YieldState.BredSplitTrade;
-                if (!EncounterGenerator6.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
+                if (!EncounterGenerator6.TryGetSplit((EncounterEgg6)Current.Encounter, Chain, out egg))
                     break;
                 return SetCurrent(egg);
             case YieldState.BredSplitTrade:
                 State = YieldState.StartCaptures;
                 if (Entity.EggLocation != Locations.LinkTrade6)
                     goto case YieldState.StartCaptures;
-                egg = EncounterGenerator6.MutateEggTrade((EncounterEgg)Current.Encounter);
+                egg = EncounterGenerator6.MutateEggTrade((EncounterEgg6)Current.Encounter);
                 return SetCurrent(egg);
 
             case YieldState.TradeStart:

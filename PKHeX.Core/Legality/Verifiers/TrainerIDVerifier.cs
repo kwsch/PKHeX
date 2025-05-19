@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -37,8 +38,14 @@ public sealed class TrainerIDVerifier : Verifier
             var enc = data.EncounterMatch;
             // If the trainer ID is that of the player, verify it is possible
             // For eggs, the version does not update on hatch, so it truly is from R/S.
-            if (enc is not ITrainerID16ReadOnly) // all are 32-bit locked anyway
-                VerifyTrainerID_RS(data, pk);
+            // All encounters with fixed TID/SID are 32-bit locked anyway, but a 16-bit TID interface check is sufficient.
+            if (enc is not ITrainerID16ReadOnly)
+            {
+                // Eggs from R/S that are traded to Emerald can obtain the Emerald TID/SID without updating version.
+                // Flag it as fishy for manual inspection. If it matches an Emerald trainer, it's fine.
+                var severity = enc is EncounterEgg3 && !pk.IsEgg ? Severity.Fishy : Severity.Invalid;
+                VerifyTrainerID_RS(data, pk, severity);
+            }
         }
         else if (pk.VC)
         {
@@ -88,10 +95,10 @@ public sealed class TrainerIDVerifier : Verifier
             data.AddLine(GetInvalid(LTrainerIDNoSeed, CheckIdentifier.Trainer));
     }
 
-    private static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr) where T : ITrainerID32
+    private static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr, Severity severity = Severity.Invalid) where T : ITrainerID32
     {
         if (!MethodH.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
-            data.AddLine(GetInvalid(LTrainerIDNoSeed, CheckIdentifier.Trainer));
+            data.AddLine(Get(LTrainerIDNoSeed, severity, CheckIdentifier.Trainer));
     }
 
     public static bool IsOTIDSuspicious(ushort tid16, ushort sid16) => (tid16, sid16) switch

@@ -1,11 +1,11 @@
 {
  "StatNames": {
-  "Names": ["KP", "Ang", "Vert", "Init", "SpA", "SpV"],
+  "Names": ["KP", "Ang", "Vert", "SpA", "SpV", "Init"],
   "ValueGap":  " ",
   "Separator": " / "
  },
  "StatNamesFull": {
-  "Names": ["KP", "Angriff", "Verteidigung", "Initiative", "Sp. Angriff", "Sp. Verteidigung"],
+  "Names": ["KP", "Angriff", "Verteidigung", "Spez. Ang.", "Spez. Vert.", "Initiative"],
   "ValueGap":  " ",
   "Separator": " / "
  },

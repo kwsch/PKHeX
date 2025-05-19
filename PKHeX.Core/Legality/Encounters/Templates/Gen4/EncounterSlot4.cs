@@ -1,4 +1,5 @@
 using static PKHeX.Core.SlotType4;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -173,17 +174,17 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (type is PIDType.Method_1)
-            return true;
+            return Match;
         // Chain shiny with Poké Radar is only possible in D/P/Pt, in grass.
         // Safari Zone does not allow using the Poké Radar
         if (type is PIDType.ChainShiny)
-            return pk.IsShiny && CanUseRadar;
+            return pk.IsShiny && CanUseRadar ? Match : Mismatch;
         if (type is PIDType.CuteCharm)
-            return CuteCharm4.IsValid(this, pk);
-        return false;
+            return CuteCharm4.IsValid(this, pk) ? Match : Mismatch;
+        return Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;

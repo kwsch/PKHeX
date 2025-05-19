@@ -50,9 +50,8 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))

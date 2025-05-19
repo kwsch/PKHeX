@@ -144,7 +144,7 @@ public sealed class LinkEntity6(Memory<byte> Raw) : IRibbonSetEvent3, IRibbonSet
         set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Language, StringConverterOption.ClearZero);
     }
 
-    public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }
+    public byte Level { get => Data[0x68]; set => Data[0x68] = value; }
     public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = value ? (byte)1 : (byte)0; }
     public uint PID { get => ReadUInt32LittleEndian(Data[0x6C..]); set => WriteUInt32LittleEndian(Data[0x6C..], value); }
     public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[0x70..]); set => WriteUInt16LittleEndian(Data[0x70..], value); }

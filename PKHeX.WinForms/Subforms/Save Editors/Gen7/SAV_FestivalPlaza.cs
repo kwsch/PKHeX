@@ -468,16 +468,17 @@ public partial class SAV_FestivalPlaza : Form
         }
         if (sender == TB_UsedFlags)
         {
-            f[entry].UsedFlags = Convert.ToUInt32(t, 16);
+            f[entry].UsedFlags = Util.GetHexValue(t);
         }
         else if (sender == TB_UsedStats)
         {
-            f[entry].UsedRandStat = Convert.ToUInt32(t, 16);
+            f[entry].UsedRandStat = Util.GetHexValue(t);
         }
         else if (sender == TB_FacilityID)
         {
-            var updated = Util.GetBytesFromHexString(t.PadLeft(24, '0'));
-            updated.CopyTo(f[entry].TrainerFesID);
+            var dest = f[entry].TrainerFesID;
+            dest.Clear();
+            Util.GetBytesFromHexString(t, dest);
         }
     }
 

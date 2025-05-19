@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -55,35 +56,45 @@ public static class BoxManipUtil
     /// Gets the corresponding name from <see cref="ManipCategoryNames"/> for the requested <see cref="type"/>.
     /// </summary>
     /// <param name="type">Manipulation type.</param>
+    /// <param name="name">Category Name</param>
     /// <returns>Category Name</returns>
-    public static string? GetManipCategoryName(this BoxManipType type)
+    public static bool TryGetManipCategoryName(this BoxManipType type, [NotNullWhen(true)] out string? name)
     {
         for (int i = 0; i < ManipCategories.Length; i++)
         {
             foreach (var manip in ManipCategories[i])
             {
-                if (manip.Type == type)
-                    return ManipCategoryNames[i];
+                if (manip.Type != type)
+                    continue;
+                name = ManipCategoryNames[i];
+                return true;
             }
         }
-        return null;
+
+        name = null;
+        return false;
     }
 
     /// <summary>
     /// Gets the corresponding name from <see cref="ManipCategoryNames"/> for the requested <see cref="manip"/>.
     /// </summary>
     /// <param name="manip">Manipulation type.</param>
+    /// <param name="name">Category Name</param>
     /// <returns>Category Name</returns>
-    public static string? GetManipCategoryName(this IBoxManip manip)
+    public static bool GetManipCategoryName(this IBoxManip manip, [NotNullWhen(true)] out string? name)
     {
         for (int i = 0; i < ManipCategories.Length; i++)
         {
             foreach (var m in ManipCategories[i])
             {
-                if (m == manip)
-                    return ManipCategoryNames[i];
+                if (m != manip)
+                    continue;
+                name = ManipCategoryNames[i];
+                return true;
             }
         }
-        return null;
+
+        name = null;
+        return false;
     }
 }
