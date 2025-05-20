@@ -257,10 +257,10 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture, ISeparateIVs
         if (current == GCRegion.NoRegion)
             return StringConverter3GC.GetString(data); // don't bother
         var language = Language;
-        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
-        if (current == expect)
+        if (CurrentRegion == GCRegion.NTSC_J == (language == 1)) // treat PAL and NTSC_U as equivalent
             return StringConverter3GC.GetString(data); // no remap needed
 
+        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
         Span<byte> remap = stackalloc byte[data.Length];
         data.CopyTo(remap);
         StringConverter3GC.RemapGlyphsBetweenRegions3GC(remap, current, expect, language);
@@ -273,10 +273,10 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture, ISeparateIVs
         if (current == GCRegion.NoRegion)
             return StringConverter3GC.LoadString(data, destBuffer); // don't bother
         var language = Language;
-        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
-        if (current == expect)
+        if (CurrentRegion == GCRegion.NTSC_J == (language == 1)) // treat PAL and NTSC_U as equivalent
             return StringConverter3GC.LoadString(data, destBuffer); // no remap needed
 
+        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
         Span<byte> remap = stackalloc byte[data.Length];
         data.CopyTo(remap);
         StringConverter3GC.RemapGlyphsBetweenRegions3GC(remap, current, expect, language);
@@ -285,14 +285,14 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture, ISeparateIVs
 
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
     {
-        var language = Language;
         var current = CurrentRegion;
         if (current == GCRegion.NoRegion)
             return StringConverter3GC.SetString(destBuffer, value, maxLength, option); // don't bother
-        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
-        if (current == expect)
+        var language = Language;
+        if (CurrentRegion == GCRegion.NTSC_J == (language == 1)) // treat PAL and NTSC_U as equivalent
             return StringConverter3GC.SetString(destBuffer, value, maxLength, option); // no remap needed
 
+        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
         // ensure glyphs match the transfer route
         var result = StringConverter3GC.SetString(destBuffer, value, maxLength, option);
         StringConverter3GC.RemapGlyphsBetweenRegions3GC(destBuffer[..result], expect, current, language);
