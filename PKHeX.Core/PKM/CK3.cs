@@ -293,10 +293,10 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture, ISeparateIVs
         if (current == expect)
             return StringConverter3GC.SetString(destBuffer, value, maxLength, option); // no remap needed
 
-        Span<byte> remap = stackalloc byte[destBuffer.Length];
-        destBuffer.CopyTo(remap);
-        StringConverter3GC.RemapGlyphsBetweenRegions3GC(remap, expect, current, language);
-        return StringConverter3GC.SetString(remap, value, maxLength, option);
+        // ensure glyphs match the transfer route
+        var result = StringConverter3GC.SetString(destBuffer, value, maxLength, option);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(destBuffer[..result], expect, current, language);
+        return result;
     }
 
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)

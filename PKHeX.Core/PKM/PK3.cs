@@ -374,7 +374,15 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter3.LoadString(data, destBuffer, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter3.SetString(destBuffer, value, maxLength, Language, option);
+    {
+        int result = StringConverter3.SetString(destBuffer, value, maxLength, Language, option);
+        if (result == 0 && IsEgg) // Might be the user tried creating a non-JPN egg. Try using the international table (be nice).
+            result = StringConverter3.SetString(destBuffer, value, maxLength, (int)LanguageID.English, option);
+        // There are other cases like force-hatching an egg, which will have the wrong OT name encoding, or situations where one language has one but not all.
+        // Let the user figure it out.
+        return result;
+    }
+
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
         => TrashBytes8.GetTerminatorIndex(data);
     public override int GetStringLength(ReadOnlySpan<byte> data)
