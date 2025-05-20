@@ -6,7 +6,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 public sealed record EncounterDist9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IFixedNature
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IGenerateSeed32,
+    ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IFixedNature
 {
     public byte Generation => 9;
     ushort ILocation.Location => Location;
@@ -242,7 +243,7 @@ public sealed record EncounterDist9
     {
         int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        var pi = PersonalTable.SV[Species, Form];
+        var pi = GetPersonal();
         var pk = new PK9
         {
             Language = language,
@@ -269,18 +270,32 @@ public sealed record EncounterDist9
         return pk;
     }
 
+    private PersonalInfo9SV GetPersonal() => PersonalTable.SV[Species, Form];
+
     private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
-        const byte rollCount = 1;
-        const byte undefinedSize = 0;
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
-            undefinedSize, undefinedSize, ScaleType, Scale,
-            Ability, Shiny, Nature, IVs: IVs);
-
+        var param = GetParam(pi);
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk, init, param, criteria);
         if (!success && !this.TryApply32(pk, init, param, criteria.WithoutIVs()))
             this.TryApply32(pk, init, param, EncounterCriteria.Unrestricted);
+    }
+
+    private GenerateParam9 GetParam(PersonalInfo9SV pi)
+    {
+        const byte rollCount = 1;
+        const byte undefinedSize = 0;
+        return new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
+            undefinedSize, undefinedSize, ScaleType, Scale,
+            Ability, Shiny, Nature, IVs: IVs);
+    }
+
+    public bool GenerateSeed32(PKM pk, uint seed)
+    {
+        var pk9 = (PK9)pk;
+        var param = GetParam(GetPersonal());
+        Encounter9RNG.GenerateData(pk9, param, EncounterCriteria.Unrestricted, seed);
+        return true;
     }
     #endregion
 
