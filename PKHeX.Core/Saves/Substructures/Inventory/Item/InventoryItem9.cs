@@ -39,13 +39,14 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
 
     public override string ToString()
     {
-        if (IsObtained)
+        if (!IsObtained)
             return $"{Index:0000} Empty";
         return $"{Index:0000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")} - {Flags:X8}";
     }
 
     public override void Clear()
     {
+        Index = 0;
         Pouch = 0;
         Count = 0;
         Flags = Padding = 0;
