@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record EncounterDist9 : ITeraRaid9, IFixedNature
+public sealed record EncounterDist9 : ITeraRaid9, IFixedNature, IVersion, ILevelRange, IEncounterMatch, IEncounterTemplate, ILocation
 {
     public byte Generation => 9;
     ushort ILocation.Location => Location;
