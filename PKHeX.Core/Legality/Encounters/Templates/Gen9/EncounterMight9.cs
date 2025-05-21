@@ -3,9 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record EncounterMight9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IGenerateSeed32,
-    ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IFixedNature
+public sealed record EncounterMight9 : ITeraRaid9, IFixedNature
 {
     public byte Generation => 9;
     ushort ILocation.Location => Location;
@@ -250,8 +248,6 @@ public sealed record EncounterMight9
     };
 
     #region Generating
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
     public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
