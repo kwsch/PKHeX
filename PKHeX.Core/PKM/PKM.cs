@@ -283,8 +283,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public bool SM => Version is SN or MN;
     public bool USUM => Version is US or UM;
     public bool GO => Version is GameVersion.GO;
-    public bool VC1 => Version is >= RD and <= YW;
-    public bool VC2 => Version is >= GD and <= C;
+    public bool VC1 => Version is RD or GN or BU or YW;
+    public bool VC2 => Version is GD or SI or C;
     public bool LGPE => Version is GP or GE;
     public bool SWSH => Version is SW or SH;
     public virtual bool BDSP => Version is BD or SP;

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
