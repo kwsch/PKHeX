@@ -10,9 +10,10 @@ namespace PKHeX.Core;
 /// A full <see cref="WB7"/> is not stored in the <see cref="SAV7b"/> structure, as it is immediately converted to <see cref="PKM"/> upon receiving from server.
 /// The save file just stores a summary of the received data for the user to look back at.
 /// </remarks>
-public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
+public sealed class WR7 : DataMysteryGift
 {
     public WR7() : this(new byte[Size]) { }
+    public WR7(Memory<byte> raw) : base(raw) { }
 
     public const int Size = 0x140;
     public override byte Generation => 7;
@@ -25,22 +26,22 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
 
     public long Epoch
     {
-        get => ReadInt64LittleEndian(Data.AsSpan(0x00));
-        set => WriteInt64LittleEndian(Data.AsSpan(0x00), value);
+        get => ReadInt64LittleEndian(Data);
+        set => WriteInt64LittleEndian(Data, value);
     }
 
     public DateOnly Date => new DateOnly(1970, 1, 1).AddDays((int)(Epoch / 86400));
 
     public override int CardID
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[0x08..]);
+        set => WriteUInt16LittleEndian(Data[0x08..], (ushort)value);
     }
 
     public ushort CardType
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), value);
+        get => ReadUInt16LittleEndian(Data[0x0A..]);
+        set => WriteUInt16LittleEndian(Data[0x0A..], value);
     }
 
     public WR7GiftType GiftType
@@ -59,8 +60,8 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
 
     public override ushort Species
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x10C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x10C), value);
+        get => ReadUInt16LittleEndian(Data[0x10C..]);
+        set => WriteUInt16LittleEndian(Data[0x10C..], value);
     }
 
     public override bool GiftUsed { get; set; }
@@ -71,18 +72,18 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
         set => Data[0x10E] = value;
     }
 
-    public override int ItemID { get => ReadUInt16LittleEndian(Data.AsSpan(0x110)); set => WriteUInt16LittleEndian(Data.AsSpan(0x110), (ushort)value); }
-    public ushort ItemIDCount   { get => ReadUInt16LittleEndian(Data.AsSpan(0x112)); set => WriteUInt16LittleEndian(Data.AsSpan(0x112), value); }
-    public ushort ItemSet2Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x114)); set => WriteUInt16LittleEndian(Data.AsSpan(0x114), value); }
-    public ushort ItemSet2Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x116)); set => WriteUInt16LittleEndian(Data.AsSpan(0x116), value); }
-    public ushort ItemSet3Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x118)); set => WriteUInt16LittleEndian(Data.AsSpan(0x118), value); }
-    public ushort ItemSet3Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x11A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x11A), value); }
-    public ushort ItemSet4Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x11C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x11C), value); }
-    public ushort ItemSet4Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x11E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x11E), value); }
-    public ushort ItemSet5Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x120)); set => WriteUInt16LittleEndian(Data.AsSpan(0x120), value); } // struct union overlaps OT Name data, beware!
-    public ushort ItemSet5Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x122)); set => WriteUInt16LittleEndian(Data.AsSpan(0x122), value); }
-    public ushort ItemSet6Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x124)); set => WriteUInt16LittleEndian(Data.AsSpan(0x124), value); }
-    public ushort ItemSet6Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x126)); set => WriteUInt16LittleEndian(Data.AsSpan(0x126), value); }
+    public override int ItemID { get => ReadUInt16LittleEndian(Data[0x110..]); set => WriteUInt16LittleEndian(Data[0x110..], (ushort)value); }
+    public ushort ItemIDCount   { get => ReadUInt16LittleEndian(Data[0x112..]); set => WriteUInt16LittleEndian(Data[0x112..], value); }
+    public ushort ItemSet2Item  { get => ReadUInt16LittleEndian(Data[0x114..]); set => WriteUInt16LittleEndian(Data[0x114..], value); }
+    public ushort ItemSet2Count { get => ReadUInt16LittleEndian(Data[0x116..]); set => WriteUInt16LittleEndian(Data[0x116..], value); }
+    public ushort ItemSet3Item  { get => ReadUInt16LittleEndian(Data[0x118..]); set => WriteUInt16LittleEndian(Data[0x118..], value); }
+    public ushort ItemSet3Count { get => ReadUInt16LittleEndian(Data[0x11A..]); set => WriteUInt16LittleEndian(Data[0x11A..], value); }
+    public ushort ItemSet4Item  { get => ReadUInt16LittleEndian(Data[0x11C..]); set => WriteUInt16LittleEndian(Data[0x11C..], value); }
+    public ushort ItemSet4Count { get => ReadUInt16LittleEndian(Data[0x11E..]); set => WriteUInt16LittleEndian(Data[0x11E..], value); }
+    public ushort ItemSet5Item  { get => ReadUInt16LittleEndian(Data[0x120..]); set => WriteUInt16LittleEndian(Data[0x120..], value); } // struct union overlaps OT Name data, beware!
+    public ushort ItemSet5Count { get => ReadUInt16LittleEndian(Data[0x122..]); set => WriteUInt16LittleEndian(Data[0x122..], value); }
+    public ushort ItemSet6Item  { get => ReadUInt16LittleEndian(Data[0x124..]); set => WriteUInt16LittleEndian(Data[0x124..], value); }
+    public ushort ItemSet6Count { get => ReadUInt16LittleEndian(Data[0x126..]); set => WriteUInt16LittleEndian(Data[0x126..], value); }
 
     public override byte Gender { get; set; }
     public override byte Form { get; set; }
@@ -92,8 +93,8 @@ public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
 
     public override string OriginalTrainerName
     {
-        get => StringConverter8.GetString(Data.AsSpan(0x120, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value, 12, StringConverterOption.ClearZero);
+        get => StringConverter8.GetString(Data.Slice(0x120, 0x1A));
+        set => StringConverter8.SetString(Data.Slice(0x120, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public LanguageID LanguageReceived

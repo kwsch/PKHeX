@@ -12,10 +12,11 @@ namespace PKHeX.Core;
 /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
 /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
 /// </remarks>
-public sealed class PCD(byte[] Data)
-    : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, IRestrictVersion, IRandomCorrelation
+public sealed class PCD(Memory<byte> raw)
+    : DataMysteryGift(raw), IRibbonSetEvent3, IRibbonSetEvent4, IRestrictVersion, IRandomCorrelation
 {
     public PCD() : this(new byte[Size]) { }
+    private readonly Memory<byte> _raw = raw;
 
     public const int Size = 0x358; // 856
     public override byte Generation => 4;
@@ -35,26 +36,22 @@ public sealed class PCD(byte[] Data)
         set => Gift.Ball = value;
     }
 
-    public override byte[] Write()
+    public override ReadOnlySpan<byte> Write()
     {
         // Ensure PGT content is encrypted
-        var clone = new PCD((byte[])Data.Clone());
-        if (clone.Gift.VerifyPKEncryption())
-            clone.Gift = clone.Gift;
+        var clone = new PCD(Data.ToArray());
+        clone.Gift.VerifyPKEncryption();
         return clone.Data;
     }
 
-    public PGT Gift
-    {
-        get => _gift ??= new PGT(Data[..PGT.Size]);
-        set => (_gift = value).Data.CopyTo(Data, 0);
-    }
+    public PGT Gift => _gift ??= new PGT(_raw[..PGT.Size]);
 
     private PGT? _gift;
+
     public GiftType4 GiftType => Gift.GiftType;
 
-    public Span<byte> GetMetadata() => Data.AsSpan(PGT.Size);
-    public void SetMetadata(ReadOnlySpan<byte> data) => data.CopyTo(Data.AsSpan(PGT.Size));
+    public Span<byte> GetMetadata() => Data[PGT.Size..];
+    public void SetMetadata(ReadOnlySpan<byte> data) => data.CopyTo(Data[PGT.Size..]);
 
     public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
     public override bool IsEntity { get => Gift.IsEntity; set => Gift.IsEntity = value; }
@@ -65,13 +62,13 @@ public sealed class PCD(byte[] Data)
 
     public override int CardID
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x150));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x150), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[0x150..0x152]);
+        set => WriteUInt16LittleEndian(Data[0x150..0x152], (ushort)value);
     }
 
     private const int TitleLength = 0x48;
 
-    private Span<byte> CardTitleSpan => Data.AsSpan(0x104, TitleLength);
+    private Span<byte> CardTitleSpan => Data.Slice(0x104, TitleLength);
 
     public override string CardTitle
     {
@@ -79,7 +76,7 @@ public sealed class PCD(byte[] Data)
         set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, 0, StringConverterOption.ClearFF);
     }
 
-    public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
+    public ushort CardCompatibility => ReadUInt16LittleEndian(Data[0x14C..0x14E]); // rest of bytes we don't really care about
 
     public override ushort Species { get => Gift.IsManaphyEgg ? (ushort)490 : Gift.Species; set => Gift.Species = value; }
     public override Moveset Moves { get => Gift.Moves; set => Gift.Moves = value; }

@@ -6,10 +6,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 Mystery Gift Template File
 /// </summary>
-public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, ILangNick,
+public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick,
     IContestStats, INature, IMemoryOT, IRelearn, IMetLevel, IRestrictVersion
 {
     public WC7() : this(new byte[Size]) { }
+    public WC7(Memory<byte> raw) : base(raw) { }
 
     public const int Size = 0x108;
     public override byte Generation => 7;
@@ -35,21 +36,21 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     // General Card Properties
     public override int CardID
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0), (ushort)value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, (ushort)value);
     }
 
     public override string CardTitle
     {
         // Max len 36 char, followed by null terminator
-        get => StringConverter7.GetString(Data.AsSpan(2, 0x4A));
-        set => StringConverter7.SetString(Data.AsSpan(2, 0x4A), value, 36, Language, StringConverterOption.ClearZero);
+        get => StringConverter7.GetString(Data.Slice(2, 0x4A));
+        set => StringConverter7.SetString(Data.Slice(2, 0x4A), value, 36, Language, StringConverterOption.ClearZero);
     }
 
     internal uint RawDate
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x4C));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x4C), value);
+        get => ReadUInt32LittleEndian(Data[0x4C..]);
+        set => WriteUInt32LittleEndian(Data[0x4C..], value);
     }
 
     private uint Year
@@ -126,16 +127,16 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     // Item Properties
     public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }
-    public override int ItemID { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
-    public int GetItem(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x68 + (0x4 * index)));
-    public void SetItem(int index, ushort item) => WriteUInt16LittleEndian(Data.AsSpan(0x68 + (4 * index)), item);
-    public int GetQuantity(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x6A + (0x4 * index)));
-    public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data.AsSpan(0x6A + (4 * index)), quantity);
+    public override int ItemID { get => ReadUInt16LittleEndian(Data[0x68..]); set => WriteUInt16LittleEndian(Data[0x68..], (ushort)value); }
+    public int GetItem(int index) => ReadUInt16LittleEndian(Data[(0x68 + (0x4 * index))..]);
+    public void SetItem(int index, ushort item) => WriteUInt16LittleEndian(Data[(0x68 + (4 * index))..], item);
+    public int GetQuantity(int index) => ReadUInt16LittleEndian(Data[(0x6A + (0x4 * index))..]);
+    public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data[(0x6A + (4 * index))..], quantity);
 
     public override int Quantity
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[0x6A..]);
+        set => WriteUInt16LittleEndian(Data[0x6A..], (ushort)value);
     }
 
     // Pokémon Properties
@@ -168,20 +169,20 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public override uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x68));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x68), value);
+        get => ReadUInt32LittleEndian(Data[0x68..]);
+        set => WriteUInt32LittleEndian(Data[0x68..], value);
     }
 
     public override ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x68));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value);
+        get => ReadUInt16LittleEndian(Data[0x68..]);
+        set => WriteUInt16LittleEndian(Data[0x68..], value);
     }
 
     public override ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value);
+        get => ReadUInt16LittleEndian(Data[0x6A..]);
+        set => WriteUInt16LittleEndian(Data[0x6A..], value);
     }
 
     public byte OriginGame
@@ -191,8 +192,8 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     }
 
     public uint EncryptionConstant {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x70));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x70), value);
+        get => ReadUInt32LittleEndian(Data[0x70..]);
+        set => WriteUInt32LittleEndian(Data[0x70..], value);
     }
 
     public override byte Ball
@@ -202,30 +203,30 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public override int HeldItem
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x78));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x78), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[0x78..]);
+        set => WriteUInt16LittleEndian(Data[0x78..], (ushort)value);
     }
 
-    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7A), value); }
-    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7C), value); }
-    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), value); }
-    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(0x80), value); }
-    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(0x82), value); }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x7A..]); set => WriteUInt16LittleEndian(Data[0x7A..], value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data[0x7C..]); set => WriteUInt16LittleEndian(Data[0x7C..], value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x7E..]); set => WriteUInt16LittleEndian(Data[0x7E..], value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x80..]); set => WriteUInt16LittleEndian(Data[0x80..], value); }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data[0x82..]); set => WriteUInt16LittleEndian(Data[0x82..], value); }
     public override byte Form { get => Data[0x84]; set => Data[0x84] = value; }
     public int Language { get => Data[0x85]; set => Data[0x85] = (byte)value; }
 
     public string Nickname
     {
-        get => StringConverter7.GetString(Data.AsSpan(0x86, 0x1A));
-        set => StringConverter7.SetString(Data.AsSpan(0x86, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
+        get => StringConverter7.GetString(Data.Slice(0x86, 0x1A));
+        set => StringConverter7.SetString(Data.Slice(0x86, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public Nature Nature { get => (Nature)Data[0xA0]; set => Data[0xA0] = (byte)value; }
     public override byte Gender { get => Data[0xA1]; set => Data[0xA1] = value; }
     public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
     public ShinyType6 PIDType { get => (ShinyType6)Data[0xA3]; set => Data[0xA3] = (byte)value; }
-    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA4), value); }
-    public override ushort Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xA6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA6), value); }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[0xA4..]); set => WriteUInt16LittleEndian(Data[0xA4..], value); }
+    public override ushort Location { get => ReadUInt16LittleEndian(Data[0xA6..]); set => WriteUInt16LittleEndian(Data[0xA6..], value); }
     public byte MetLevel { get => Data[0xA8]; set => Data[0xA8] = value; }
 
     public byte ContestCool   { get => Data[0xA9]; set => Data[0xA9] = value; }
@@ -246,25 +247,25 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     public override string OriginalTrainerName
     {
-        get => StringConverter7.GetString(Data.AsSpan(0xB6, 0x1A));
-        set => StringConverter7.SetString(Data.AsSpan(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
+        get => StringConverter7.GetString(Data.Slice(0xB6, 0x1A));
+        set => StringConverter7.SetString(Data.Slice(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public bool IsOriginalTrainerNameSet => Data[0xB6] != 0 || Data[0xB7] != 0;
 
     public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }
     public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
-    public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD2), value); }
+    public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data[0xD2..]); set => WriteUInt16LittleEndian(Data[0xD2..], value); }
 
-    public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
-    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), value); }
-    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), value); }
-    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDC), value); }
-    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDE), value); }
+    public uint PID { get => ReadUInt32LittleEndian(Data[0xD4..]); set => WriteUInt32LittleEndian(Data[0xD4..], value); }
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[0xD8..]); set => WriteUInt16LittleEndian(Data[0xD8..], value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data[0xDA..]); set => WriteUInt16LittleEndian(Data[0xDA..], value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data[0xDC..]); set => WriteUInt16LittleEndian(Data[0xDC..], value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[0xDE..]); set => WriteUInt16LittleEndian(Data[0xDE..], value); }
 
     public byte OriginalTrainerMemoryIntensity { get => Data[0xE0]; set => Data[0xE0] = value; }
     public byte OriginalTrainerMemory { get => Data[0xE1]; set => Data[0xE1] = value; }
-    public ushort OriginalTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data.AsSpan(0xE2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xE2), value); }
+    public ushort OriginalTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data[0xE2..]); set => WriteUInt16LittleEndian(Data[0xE2..], value); }
     public byte OriginalTrainerMemoryFeeling { get => Data[0xE4]; set => Data[0xE4] = value; }
 
     public int EV_HP { get => Data[0xE5]; set => Data[0xE5] = (byte)value; }

@@ -11,7 +11,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
     public bool CanGenerateEggs => true;
 
     // Utility
-    internal static readonly PGT RangerManaphy = new() { Data = { [0] = 7, [8] = 1 } };
+    internal static readonly PGT RangerManaphy = new() { CardType = (ushort)GiftType4.ManaphyEgg, ItemSubID = 1 /* pid never shiny */ };
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {

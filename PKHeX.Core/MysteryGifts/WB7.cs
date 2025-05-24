@@ -1,20 +1,20 @@
 using System;
-using static System.Buffers.Binary. BinaryPrimitives;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
-public sealed class WB7(byte[] Data)
-    : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, IEncounterServerDate, INature, ILangNicknamedTemplate,
-        IMetLevel, IRestrictVersion, IRibbonSetEvent3, IRibbonSetEvent4
+public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEncounterServerDate, INature, ILangNicknamedTemplate,
+    IMetLevel, IRestrictVersion, IRibbonSetEvent3, IRibbonSetEvent4
 {
     public WB7() : this(new byte[Size]) { }
+    public WB7(Memory<byte> raw) : base(raw) { }
 
     public const int Size = 0x310;
     private const int CardStart = 0x208;
-    private Span<byte> Card => Data.AsSpan(CardStart, 0x108);
+    private Span<byte> Card => Data.Slice(CardStart, 0x108);
 
     public override bool FatefulEncounter => true;
 
@@ -333,13 +333,13 @@ public sealed class WB7(byte[] Data)
         return redeemLanguage;
     }
 
-    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
+    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.Slice(GetOTOffset(language))) != 0;
 
-    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    private Span<byte> GetNicknameSpan(int language) => Data.Slice(GetNicknameOffset(language), 0x1A);
     public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
     public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    private Span<byte> GetOTSpan(int language) => Data.Slice(GetOTOffset(language), 0x1A);
     public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
     public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
@@ -589,7 +589,7 @@ public sealed class WB7(byte[] Data)
         if (CanBeAnyLanguage())
             return true;
 
-        return Array.IndexOf(Data, (byte)language, 0x1D8, 9) >= 0;
+        return Data.Slice(0x1D8, 9).Contains((byte)language);
     }
 
     public bool CanBeAnyLanguage()

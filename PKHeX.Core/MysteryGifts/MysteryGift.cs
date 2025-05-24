@@ -27,8 +27,8 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     /// <param name="data">Raw data of the mystery gift.</param>
     /// <param name="ext">Extension of the file from which the <paramref name="data"/> was retrieved.</param>
     /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> or <paramref name="ext"/> is invalid.</returns>
-    /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
-    public static DataMysteryGift? GetMysteryGift(byte[] data, ReadOnlySpan<char> ext) => data.Length switch
+    /// <remarks>This overload differs from <see cref="GetMysteryGift(Memory{byte})"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
+    public static DataMysteryGift? GetMysteryGift(Memory<byte> data, ReadOnlySpan<char> ext) => data.Length switch
     {
         PGT.Size when Equals(ext, ".pgt") => new PGT(data),
         PCD.Size when Equals(ext, ".pcd", ".wc4") => new PCD(data),
@@ -56,7 +56,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     /// </summary>
     /// <param name="data">Raw data of the mystery gift.</param>
     /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> is invalid.</returns>
-    public static DataMysteryGift? GetMysteryGift(byte[] data) => data.Length switch
+    public static DataMysteryGift? GetMysteryGift(Memory<byte> data) => data.Length switch
     {
         PGT.Size => new PGT(data),
         PCD.Size => new PCD(data),
@@ -65,15 +65,15 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
         WB8.Size => new WB8(data),
 
         // WC8/WC5Full: WC8 0x2CF always 0, WC5Full 0x2CF contains card checksum
-        WC8.Size => data[0x2CF] == 0 ? new WC8(data) : new PGF(data),
+        WC8.Size => data.Span[0x2CF] == 0 ? new WC8(data) : new PGF(data),
 
         // WA8/WC9: WA8 CardType >0 for WA8, 0 for WC9.
-        WA8.Size => data[0xF] > 0 ? new WA8(data) : new WC9(data),
+        WA8.Size => data.Span[0xF] > 0 ? new WA8(data) : new WC9(data),
 
         // WC6/WC7: Check year
-        WC6.Size => ReadUInt32LittleEndian(data.AsSpan(0x4C)) / 10000 < 2000 ? new WC7(data) : new WC6(data),
+        WC6.Size => ReadUInt32LittleEndian(data.Span[0x4C..]) / 10000 < 2000 ? new WC7(data) : new WC6(data),
         // WC6Full/WC7Full: 0x205 has 3 * 0x46 for Gen6, now only 2.
-        WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
+        WC6Full.Size => data.Span[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
         _ => null,
     };
 

@@ -8,9 +8,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
 /// </summary>
-public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
+public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
 {
     public PGT() : this(new byte[Size]) { }
+    public PGT(Memory<byte> raw) : base(raw) { }
 
     public const int Size = 0x104; // 260
     public override byte Generation => 4;
@@ -37,16 +38,16 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     public override bool GiftUsed { get => false; set { } }
     public override Shiny Shiny => IsEgg ? Shiny.Random : PK.PID == 1 ? Shiny.Never : IsShiny ? Shiny.Always : Shiny.Never;
 
-    public ushort CardType { get => ReadUInt16LittleEndian(Data.AsSpan(0x0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0), value); }
+    public ushort CardType { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public byte Slot { get => Data[2]; set => Data[2] = value; }
     public byte Detail { get => Data[3]; set => Data[3] = value; }
-    public override int ItemID { get => ReadInt32LittleEndian(Data.AsSpan(0x4)); set => WriteInt32LittleEndian(Data.AsSpan(0x4), value); }
-    public int ItemSubID { get => ReadInt32LittleEndian(Data.AsSpan(0x8)); set => WriteInt32LittleEndian(Data.AsSpan(0x8), value); }
+    public override int ItemID { get => ReadInt32LittleEndian(Data[0x4..]); set => WriteInt32LittleEndian(Data[0x4..], value); }
+    public int ItemSubID { get => ReadInt32LittleEndian(Data[0x8..]); set => WriteInt32LittleEndian(Data[0x8..], value); }
     public int PokewalkerCourseID { get => Data[0x4]; set => Data[0x4] = (byte)value; }
 
     public PK4 PK
     {
-        get => _pk ??= new PK4(Data.AsSpan(8, PokeCrypto.SIZE_4PARTY).ToArray());
+        get => _pk ??= new PK4(Data.Slice(8, PokeCrypto.SIZE_4PARTY).ToArray());
         set
         {
             _pk = value;
@@ -54,14 +55,14 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             bool zero = Array.TrueForAll(data, static z => z == 0); // all zero
             if (!zero)
                 data = PokeCrypto.EncryptArray45(data);
-            data.CopyTo(Data, 8);
+            data.CopyTo(Data[8..]);
         }
     }
 
-    public override byte[] Write()
+    public override ReadOnlySpan<byte> Write()
     {
         // Ensure PGT content is encrypted
-        var clone = new PGT((byte[])Data.Clone());
+        var clone = new PGT(Data.ToArray());
         clone.VerifyPKEncryption();
         return clone.Data;
     }
@@ -76,7 +77,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     {
         if (GiftType is not (Pokémon or PokémonEgg))
             return false; // not encrypted
-        if (ReadUInt32LittleEndian(Data.AsSpan(0x64 + 8)) != 0)
+        if (ReadUInt32LittleEndian(Data[(0x64 + 8)..]) != 0)
             return false; // already encrypted (unused PK4 field, zero)
         EncryptPK();
         return true;
@@ -84,7 +85,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     private void EncryptPK()
     {
-        var span = Data.AsSpan(8, PokeCrypto.SIZE_4PARTY);
+        var span = Data.Slice(8, PokeCrypto.SIZE_4PARTY);
         var ekdata = PokeCrypto.EncryptArray45(span);
         ekdata.CopyTo(span);
     }
