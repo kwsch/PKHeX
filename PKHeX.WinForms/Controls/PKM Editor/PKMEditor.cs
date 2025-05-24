@@ -2,13 +2,11 @@ using PKHeX.Core;
 using PKHeX.Drawing;
 using PKHeX.Drawing.Misc;
 using PKHeX.Drawing.PokeSprite;
-using PKHeX.Drawing.PokeSprite.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 using static PKHeX.Core.MessageStrings;
@@ -2297,20 +2295,5 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         TC_Editor.SelectedTab = Tab_Main;
         CB_PKRSStrain.DroppedDown = true;
-    }
-}
-
-public static class MoveDisplayState
-{
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Bitmap? GetMoveImage(bool isIllegal, PKM pk, int index)
-    {
-        if (isIllegal)
-            return Resources.warn;
-
-        if (MoveInfo.IsDummiedMove(pk, index))
-            return Resources.hint;
-
-        return null;
     }
 }
