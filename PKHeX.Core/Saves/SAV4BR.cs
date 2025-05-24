@@ -223,7 +223,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
-    // Save file does not have Box Name / Wallpaper info
+    // Save file does not have Wallpaper info
     private int BoxName = -1;
     private const int BoxNameLength = 0x28;
 
@@ -239,8 +239,6 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
 
         var span = GetBoxNameSpan(box);
-        if (ReadUInt16BigEndian(span) == 0)
-            return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
         return GetString(span);
     }
 
@@ -250,9 +248,6 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             return;
 
         var span = GetBoxNameSpan(box);
-        if (ReadUInt16BigEndian(span) == 0)
-            return;
-
         SetString(span, value, BoxNameLength / 2, StringConverterOption.ClearZero);
     }
 
