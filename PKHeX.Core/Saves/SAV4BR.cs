@@ -178,6 +178,30 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
+    private TimeSpan PlayedSpan
+    {
+        get => TimeSpan.FromSeconds(ReadDoubleBigEndian(Data.AsSpan((0x388 + (_currentSlot * SIZE_SLOT)), 16)));
+        set => WriteDoubleBigEndian(Data.AsSpan((0x388 + (_currentSlot * SIZE_SLOT)), 16), value.TotalSeconds);
+    }
+
+    public override int PlayedHours
+    {
+        get => (ushort)PlayedSpan.TotalHours;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.TotalHours) + TimeSpan.FromHours(value); }
+    }
+
+    public override int PlayedMinutes
+    {
+        get => (byte)PlayedSpan.Minutes;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromMinutes(time.Minutes) + TimeSpan.FromMinutes(value); }
+    }
+
+    public override int PlayedSeconds
+    {
+        get => (byte)PlayedSpan.Seconds;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
+    }
+
     private string GetOTName(int slot)
     {
         var ofs = 0x390 + (SIZE_SLOT * slot);
