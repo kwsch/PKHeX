@@ -27,6 +27,12 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         InitializeData(data);
     }
 
+    public SAV4BR(byte[] data, int currentSlot) : base(data)
+    {
+        InitializeData(data);
+        CurrentSlot = currentSlot;
+    }
+
     private void InitializeData(ReadOnlySpan<byte> data)
     {
         Data = DecryptPBRSaveData(data);
@@ -74,7 +80,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     }
 
     // Configuration
-    protected override SAV4BR CloneInternal() => new(GetFinalData());
+    protected override SAV4BR CloneInternal() => new(GetFinalData(), CurrentSlot);
 
     public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 
