@@ -11,7 +11,7 @@ public sealed class Paintings3(Memory<byte> raw, bool Japanese)
 
     public Span<byte> Data => raw.Span;
 
-    public uint PID { get => ReadUInt32LittleEndian(Data[..]); set => WriteUInt32LittleEndian(Data[..], value); }
+    public uint PID { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
     public ushort TID { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt16LittleEndian(Data[0x04..], value); }
     public ushort SID { get => ReadUInt16LittleEndian(Data[0x06..]); set => WriteUInt16LittleEndian(Data[0x06..], value); }
     public ushort Species
