@@ -13,8 +13,8 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
 {
     public static readonly LearnSource2C Instance = new();
     private static readonly PersonalTable2 Personal = PersonalTable.C;
-    private static readonly EggMoves2[] EggMoves = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), Legal.MaxSpeciesID_2);
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), Legal.MaxSpeciesID_2);
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_c.pkl"), "c\0"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_c.pkl"), "c\0"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const LearnEnvironment Game = C;
 
@@ -35,17 +35,19 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
-        return moves.GetHasEggMove(move);
+        var moves = arr[species];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return [];
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

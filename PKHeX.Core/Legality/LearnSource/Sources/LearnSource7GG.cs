@@ -12,7 +12,7 @@ public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
 {
     public static readonly LearnSource7GG Instance = new();
     private static readonly PersonalTable7GG Personal = PersonalTable.GG;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_7b;
     private const LearnEnvironment Game = GG;
     private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.

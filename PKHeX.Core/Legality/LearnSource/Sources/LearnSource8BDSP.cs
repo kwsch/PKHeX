@@ -13,8 +13,8 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
 {
     public static readonly LearnSource8BDSP Instance = new();
     private static readonly PersonalTable8BDSP Personal = PersonalTable.BDSP;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"u8));
-    private static readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"u8));
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_8b;
     private const LearnEnvironment Game = BDSP;
 
@@ -36,7 +36,7 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         if (species >= arr.Length)
             return false;
         var moves = arr[species];
-        return moves.GetHasEggMove(move);
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)

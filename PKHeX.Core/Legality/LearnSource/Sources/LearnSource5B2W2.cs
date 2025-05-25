@@ -13,7 +13,7 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
 {
     public static readonly LearnSource5B2W2 Instance = new();
     private static readonly PersonalTable5B2W2 Personal = PersonalTable.B2W2;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_5;
     private const LearnEnvironment Game = B2W2;
 
@@ -32,17 +32,19 @@ public sealed class LearnSource5B2W2 : LearnSource5, ILearnSource<PersonalInfo5B
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
-        return moves.GetHasEggMove(move);
+        var moves = arr[species];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return [];
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo5B2W2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

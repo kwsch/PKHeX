@@ -116,7 +116,7 @@ public sealed class LearnsetStadium
     /// <summary>
     /// Converts a <see cref="BinLinkerAccessor"/> into an array of <see cref="LearnsetStadium"/>.
     /// </summary>
-    public static LearnsetStadium[] GetArray(BinLinkerAccessor entries)
+    public static LearnsetStadium[] GetArray(BinLinkerAccessor16 entries)
     {
         var result = new LearnsetStadium[entries.Length];
         for (int i = 0; i < entries.Length; i++)

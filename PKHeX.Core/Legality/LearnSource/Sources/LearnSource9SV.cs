@@ -12,9 +12,9 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
 {
     public static readonly LearnSource9SV Instance = new();
     private static readonly PersonalTable9SV Personal = PersonalTable.SV;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_sv.pkl"), "sv"u8));
-    private static readonly ushort[][] EggMoves = EggMoves9.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_sv.pkl"), "sv"u8));
-    private static readonly ushort[][] Reminder = EggMoves9.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("reminder_sv.pkl"), "sv"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_sv.pkl"), "sv"u8));
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_sv.pkl"), "sv"u8));
+    private static readonly MoveSource[] Reminder = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("reminder_sv.pkl"), "sv"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_9;
     private const LearnEnvironment Game = SV;
 
@@ -34,8 +34,8 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         var index = Personal.GetFormIndex(species, form);
         if (index >= EggMoves.Length)
             return false;
-        var moves = EggMoves[index].AsSpan();
-        return moves.Contains(move);
+        var moves = EggMoves[index];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
@@ -43,7 +43,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         var index = Personal.GetFormIndex(species, form);
         if (index >= EggMoves.Length)
             return [];
-        return EggMoves[index];
+        return EggMoves[index].Moves;
     }
 
     public bool GetIsReminderMove(ushort species, byte form, ushort move)
@@ -51,8 +51,8 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         var index = Personal.GetFormIndex(species, form);
         if (index >= Reminder.Length)
             return false;
-        var moves = Reminder[index].AsSpan();
-        return moves.Contains(move);
+        var moves = Reminder[index];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetReminderMoves(ushort species, byte form)
@@ -60,7 +60,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         var index = Personal.GetFormIndex(species, form);
         if (index >= Reminder.Length)
             return [];
-        return Reminder[index];
+        return Reminder[index].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo9SV pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
