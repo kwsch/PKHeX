@@ -49,7 +49,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
     {
         if (sender is null)
             return;
-        if (!Drag.Info.DragDropInProgress)
+        if (!Drag.Info.IsDragDropInProgress)
             SE.ClickSlot(sender, e);
     }
 
@@ -58,7 +58,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         if (sender is null)
             return;
         if (e.Button == MouseButtons.Left)
-            Drag.Info.LeftMouseIsDown = false;
+            Drag.Info.IsLeftMouseDown = false;
         Drag.Info.Source = null;
     }
 
@@ -68,7 +68,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
             return;
         if (e.Button == MouseButtons.Left)
         {
-            Drag.Info.LeftMouseIsDown = true;
+            Drag.Info.IsLeftMouseDown = true;
             Drag.MouseDownPosition = Cursor.Position;
         }
     }
@@ -79,8 +79,8 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
             return;
         if (e.Action != DragAction.Cancel && e.Action != DragAction.Drop)
             return;
-        Drag.Info.LeftMouseIsDown = false;
-        Drag.Info.DragDropInProgress = false;
+        Drag.Info.IsLeftMouseDown = false;
+        Drag.Info.IsDragDropInProgress = false;
     }
 
     public void DragEnter(object? sender, DragEventArgs e)
@@ -92,7 +92,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         else if (e.Data is not null) // within
             e.Effect = DragDropEffects.Move;
 
-        if (Drag.Info.DragDropInProgress)
+        if (Drag.Info.IsDragDropInProgress)
             Drag.SetCursor(((Control)sender).FindForm(), Drag.Info.Cursor);
     }
 
@@ -144,7 +144,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         // Create a temporary PKM file to perform a drag drop operation.
 
         // Set flag to prevent re-entering.
-        Drag.Info.DragDropInProgress = true;
+        Drag.Info.IsDragDropInProgress = true;
 
         // Prepare Data
         Drag.Info.Source = GetSlotInfo(pb);
@@ -163,7 +163,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         // Keep it to 20 seconds; Discord upload only stores the file path until you click Upload.
         int delay = external ? 20_000 : 0;
         DeleteAsync(newfile, delay);
-        if (Drag.Info.DragIsParty)
+        if (Drag.Info.IsDragParty)
             SE.SetParty();
     }
 
@@ -219,7 +219,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         Drag.Info.CurrentPath = newfile;
         var result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
         var external = Drag.Info.Destination is null || result != DragDropEffects.Link;
-        if (external || Drag.Info.SameLocation) // not dropped to another box slot, restore img
+        if (external || Drag.Info.IsDragSameLocation) // not dropped to another box slot, restore img
         {
             pb.Image = img;
             pb.BackgroundImage = LastSlot.OriginalBackground;
@@ -254,7 +254,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         e.Effect = mod == DropModifier.Clone ? DragDropEffects.Copy : DragDropEffects.Link;
 
         // file
-        if (Drag.Info.SameLocation)
+        if (Drag.Info.IsDragSameLocation)
         {
             e.Effect = DragDropEffects.Link;
             return;
@@ -345,7 +345,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
             TrySetPKMSource(mod);
 
         // Copy from temp to destination slot.
-        var type = info.DragIsSwap ? SlotTouchType.Swap : SlotTouchType.Set;
+        var type = info.IsDragSwap ? SlotTouchType.Swap : SlotTouchType.Set;
         Env.Slots.Set(info.Destination!.Slot, pk, type);
         Drag.ResetCursor(pb.FindForm());
         return true;
@@ -364,7 +364,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
             return true;
         }
 
-        var type = info.DragIsSwap ? SlotTouchType.Swap : SlotTouchType.Set;
+        var type = info.IsDragSwap ? SlotTouchType.Swap : SlotTouchType.Set;
         var pk = dest.ReadCurrent();
         Env.Slots.Set(Drag.Info.Source!.Slot, pk, type);
         return true;

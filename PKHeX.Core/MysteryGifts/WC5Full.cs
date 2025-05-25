@@ -6,15 +6,16 @@ namespace PKHeX.Core;
 public sealed class WC5Full
 {
     public const int Size = 0x2D0;
-    public readonly byte[] Data;
     public readonly PGF Gift;
 
-    private Span<byte> Metadata => Data.AsSpan(PGF.Size);
+    public readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
+    private Span<byte> Metadata => Data[PGF.Size..];
 
-    public WC5Full(byte[] data)
+    public WC5Full(Memory<byte> raw)
     {
-        Data = data;
-        var wc5 = data.AsSpan(0, PGF.Size).ToArray();
+        Raw = raw[..Size];
+        var wc5 = raw[..PGF.Size];
         Gift = new PGF(wc5)
         {
             Date = EncounterDate.GetDateNDS(),

@@ -270,8 +270,7 @@ public partial class SAV_Wondercard : Form
             return;
         int index = pba.IndexOf(pb);
 
-        var arr = Album[index].Data;
-        Array.Clear(arr, 0, arr.Length);
+        Album[index].Clear();
 
         // Shuffle blank card down
         int i = index;
@@ -497,7 +496,7 @@ public partial class SAV_Wondercard : Form
         string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(gift.FileName));
         try
         {
-            await File.WriteAllBytesAsync(newfile, gift.Write()).ConfigureAwait(true);
+            File.WriteAllBytes(newfile, gift.Write());
             DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy | DragDropEffects.Move);
         }
         // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.

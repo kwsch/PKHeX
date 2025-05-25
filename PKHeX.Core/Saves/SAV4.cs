@@ -813,8 +813,7 @@ public abstract class MysteryBlock4(SAV4 sav, Memory<byte> raw) : SaveBlock<SAV4
         if (pcd.Data.Length != PCD.Size)
             throw new InvalidCastException(nameof(pcd));
         var gift = pcd.Gift;
-        if (gift.VerifyPKEncryption())
-            pcd.Gift = gift; // ensure data is encrypted in the object
+        gift.VerifyPKEncryption();
         SAV.SetData(GetCardSpanPCD(index), pcd.Data);
     }
 

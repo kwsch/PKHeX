@@ -12,7 +12,14 @@ namespace PKHeX.WinForms.Controls;
 /// </summary>
 public sealed class SlotHoverHandler : IDisposable
 {
+    /// <summary>
+    /// Gets or sets the drawing configuration for the slot hover effect.
+    /// </summary>
     public DrawConfig Draw { private get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the hover effect should display a glow.
+    /// </summary>
     public bool GlowHover { private get; set; } = true;
 
     private readonly SummaryPreviewer Preview = new();
@@ -23,6 +30,11 @@ public sealed class SlotHoverHandler : IDisposable
     private PictureBox? Slot;
     private SlotTrackerImage? LastSlot;
 
+    /// <summary>
+    /// Starts the hover animation and preview for the specified slot.
+    /// </summary>
+    /// <param name="pb">The PictureBox representing the slot to animate.</param>
+    /// <param name="lastSlot">The last slot tracker image to update.</param>
     public void Start(PictureBox pb, SlotTrackerImage lastSlot)
     {
         var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
@@ -59,6 +71,9 @@ public sealed class SlotHoverHandler : IDisposable
         Preview.Show(pb, pk);
     }
 
+    /// <summary>
+    /// Stops the hover animation and restores the original slot background.
+    /// </summary>
     public void Stop()
     {
         if (Slot is not null)
@@ -73,6 +88,9 @@ public sealed class SlotHoverHandler : IDisposable
         Preview.Clear();
     }
 
+    /// <summary>
+    /// Releases all resources used by the <see cref="SlotHoverHandler"/>.
+    /// </summary>
     public void Dispose()
     {
         HoverWorker.Dispose();
@@ -80,6 +98,10 @@ public sealed class SlotHoverHandler : IDisposable
         Draw.Dispose();
     }
 
+    /// <summary>
+    /// Updates the mouse position for the preview display.
+    /// </summary>
+    /// <param name="location">The current mouse location.</param>
     public void UpdateMousePosition(Point location)
     {
         Preview.UpdatePreviewPosition(location);

@@ -27,6 +27,12 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         InitializeData(data);
     }
 
+    public SAV4BR(byte[] data, int currentSlot) : base(data)
+    {
+        InitializeData(data);
+        CurrentSlot = currentSlot;
+    }
+
     private void InitializeData(ReadOnlySpan<byte> data)
     {
         Data = DecryptPBRSaveData(data);
@@ -74,7 +80,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     }
 
     // Configuration
-    protected override SAV4BR CloneInternal() => new(GetFinalData());
+    protected override SAV4BR CloneInternal() => new(GetFinalData(), CurrentSlot);
 
     public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 
@@ -172,6 +178,30 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
+    private TimeSpan PlayedSpan
+    {
+        get => TimeSpan.FromSeconds(ReadDoubleBigEndian(Data.AsSpan((0x388 + (_currentSlot * SIZE_SLOT)), 16)));
+        set => WriteDoubleBigEndian(Data.AsSpan((0x388 + (_currentSlot * SIZE_SLOT)), 16), value.TotalSeconds);
+    }
+
+    public override int PlayedHours
+    {
+        get => (ushort)PlayedSpan.TotalHours;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.TotalHours) + TimeSpan.FromHours(value); }
+    }
+
+    public override int PlayedMinutes
+    {
+        get => (byte)PlayedSpan.Minutes;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromMinutes(time.Minutes) + TimeSpan.FromMinutes(value); }
+    }
+
+    public override int PlayedSeconds
+    {
+        get => (byte)PlayedSpan.Seconds;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
+    }
+
     private string GetOTName(int slot)
     {
         var ofs = 0x390 + (SIZE_SLOT * slot);
@@ -223,7 +253,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
-    // Save file does not have Box Name / Wallpaper info
+    // Save file does not have Wallpaper info
     private int BoxName = -1;
     private const int BoxNameLength = 0x28;
 
@@ -239,8 +269,6 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
 
         var span = GetBoxNameSpan(box);
-        if (ReadUInt16BigEndian(span) == 0)
-            return BoxDetailNameExtensions.GetDefaultBoxNameCaps(box);
         return GetString(span);
     }
 
@@ -250,9 +278,6 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             return;
 
         var span = GetBoxNameSpan(box);
-        if (ReadUInt16BigEndian(span) == 0)
-            return;
-
         SetString(span, value, BoxNameLength / 2, StringConverterOption.ClearZero);
     }
 

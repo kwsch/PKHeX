@@ -89,8 +89,8 @@ public sealed class LinkEntity6(Memory<byte> Raw) : IRibbonSetEvent3, IRibbonSet
 
     public TrainerIDFormat TrainerIDDisplayFormat => TrainerIDFormat.SixteenBit;
 
-    public uint ID32 { get => ReadUInt32LittleEndian(Data[..]); set => WriteUInt32LittleEndian(Data[..], value); }
-    public ushort TID16 { get => ReadUInt16LittleEndian(Data[..]); set => WriteUInt16LittleEndian(Data[..], value); }
+    public uint ID32 { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public ushort TID16 { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public ushort SID16 { get => ReadUInt16LittleEndian(Data[0x02..]); set => WriteUInt16LittleEndian(Data[0x02..], value); }
     public byte OriginGame { get => Data[0x04]; set => Data[0x04] = value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data[0x08..]); set => WriteUInt32LittleEndian(Data[0x08..], value); }
@@ -216,7 +216,7 @@ public sealed class LinkEntity6(Memory<byte> Raw) : IRibbonSetEvent3, IRibbonSet
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var wc6 = new WC6();
-        Data.CopyTo(wc6.Data.AsSpan(0x68));
+        Data.CopyTo(wc6.Data[0x68..]);
         return wc6.ConvertToPKM(tr, criteria);
     }
 }

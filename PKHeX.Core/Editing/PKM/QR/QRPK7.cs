@@ -23,7 +23,7 @@ public sealed class QRPK7(Memory<byte> Raw) : IEncounterInfo
     public Ball FixedBall => (Ball)Ball;
     public Shiny Shiny => Shiny.Never;
 
-    public uint EncryptionConstant => ReadUInt32LittleEndian(Data[..]);
+    public uint EncryptionConstant => ReadUInt32LittleEndian(Data);
     public byte HyperTrainFlags => Data[4];
     public byte Unk_5 => Data[5];
     public byte Unk_6 => Data[6];

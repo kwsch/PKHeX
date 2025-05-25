@@ -77,16 +77,6 @@ public static class EntityGender
         return NG;
     }
 
-    // 256/100% gender ratios
-    private const byte OM = 000; // 100% Male
-    private const byte VM = 031; // 7:1 Male
-    private const byte MM = 063; // 3:1 Male
-    private const byte HH = 127; // 1:1 50%
-    private const byte MF = 191; // 3:1 Mostly-Female
-    private const byte VF = 225; // 7:1 Female
-    private const byte OF = 254; // 100% Female
-    private const byte NG = 255; // Only-Genderless
-
     private static ReadOnlySpan<byte> GenderRatios =>
     [
         NG, VM, VM, VM, VM, VM, VM, VM, VM, VM, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, OF, OF, OF, OM, OM, OM, MF, MF, MF, MF, MF,
@@ -121,4 +111,23 @@ public static class EntityGender
         // 1000
         NG, NG, NG, NG, NG, NG, NG, NG, NG, NG, NG, HH, NG, NG, OM, OM, OM, OF, HH, HH, NG, NG, NG, NG, NG,
     ];
+
+    // 256/100% gender ratios
+
+    /// <summary> Only Male: 0x00 </summary>
+    private const byte OM = 000; // only male
+    /// <summary> 7:1 Male: 0x1F </summary>
+    public const byte VM = 031; // very male
+    /// <summary> 3:1 Male: 0x3F </summary>
+    public const byte MM = 063; // mostly male
+    /// <summary> 1:1 50%: 0x7F </summary>
+    public const byte HH = 127; // half & half
+    /// <summary> 3:1 Female: 0xBF </summary>
+    public const byte MF = 191; // mostly female
+    /// <summary> 7:1 Female: 0xDF </summary>
+    public const byte VF = 225; // very female
+    /// <summary> Only Female: 0xFE </summary>
+    private const byte OF = 254; // only female
+    /// <summary> Genderless 0xFF </summary>
+    private const byte NG = 255; // no gender
 }
