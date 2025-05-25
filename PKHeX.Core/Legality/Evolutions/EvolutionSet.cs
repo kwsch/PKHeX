@@ -10,7 +10,7 @@ public static class EvolutionSet
 {
     private const int SIZE = 8;
 
-    public static EvolutionMethod[][] GetArray(BinLinkerAccessor data, byte levelUp = 1)
+    public static EvolutionMethod[][] GetArray(BinLinkerAccessor16 data, byte levelUp = 1)
     {
         var result = new EvolutionMethod[data.Length][];
         for (int i = 0; i < result.Length; i++)

@@ -12,8 +12,8 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
 {
     public static readonly LearnSource8SWSH Instance = new();
     private static readonly PersonalTable8SWSH Personal = PersonalTable.SWSH;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"u8));
-    private static readonly EggMoves7[] EggMoves = EggMoves7.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"u8));
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_8_R2;
     private const LearnEnvironment Game = SWSH;
 
@@ -30,17 +30,19 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var index = Personal.GetFormIndex(species, form);
+        if (index >= EggMoves.Length)
             return false;
-        var moves = EggMoves.GetFormEggMoves(species, form);
-        return moves.Contains(move);
+        var moves = EggMoves[index];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var index = Personal.GetFormIndex(species, form);
+        if (index >= EggMoves.Length)
             return [];
-        return EggMoves.GetFormEggMoves(species, form);
+        return EggMoves[index].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8SWSH pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

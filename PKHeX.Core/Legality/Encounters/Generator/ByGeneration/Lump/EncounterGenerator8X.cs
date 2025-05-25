@@ -18,7 +18,13 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk, 8);
+        var context = pk.Version switch
+        {
+            PLA => EntityContext.Gen8a,
+            BD or SP => EntityContext.Gen8b,
+            _ => EntityContext.Gen8,
+        };
+        var chain = EncounterOrigin.GetOriginChain(pk, 8, context);
         return GetEncounters(pk, chain, info);
     }
 

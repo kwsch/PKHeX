@@ -11,6 +11,7 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
     private const int SIZE = PersonalInfo8SWSH.SIZE;
     private const ushort MaxSpecies = Legal.MaxSpeciesID_8_R2;
     public ushort MaxSpeciesID => MaxSpecies;
+    public int Count => Table.Length;
 
     public PersonalTable8SWSH(Memory<byte> data)
     {

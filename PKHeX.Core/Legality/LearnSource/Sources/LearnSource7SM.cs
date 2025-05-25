@@ -13,8 +13,8 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
 {
     public static readonly LearnSource7SM Instance = new();
     private static readonly PersonalTable7 Personal = PersonalTable.SM;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"u8));
-    private static readonly EggMoves7[] EggMoves = EggMoves7.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"u8));
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_7;
     private const LearnEnvironment Game = SM;
     private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
@@ -34,17 +34,19 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var index = Personal.GetFormIndex(species, form);
+        if (index >= EggMoves.Length)
             return false;
-        var moves = EggMoves.GetFormEggMoves(species, form);
-        return moves.Contains(move);
+        var moves = EggMoves[index];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var index = Personal.GetFormIndex(species, form);
+        if (index >= EggMoves.Length)
             return [];
-        return EggMoves.GetFormEggMoves(species, form);
+        return EggMoves[index].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

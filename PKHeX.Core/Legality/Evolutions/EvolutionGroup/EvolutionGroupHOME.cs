@@ -20,7 +20,7 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
     {
         if (enc.Generation >= 8)
             return null;
-        if (enc.Version is GP or GE or GG or GO)
+        if (enc.Context is EntityContext.Gen7b)
             return EvolutionGroup7b.Instance;
         return EvolutionGroup7.Instance;
     }

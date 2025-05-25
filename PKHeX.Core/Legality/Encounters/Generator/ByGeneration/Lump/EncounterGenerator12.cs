@@ -25,13 +25,13 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
         // If the current data indicates that it must have originated from Crystal, only yield encounter data from Crystal.
         bool crystal = pk is ICaughtData2 { CaughtData: not 0 } or { Format: >= 7, OriginalTrainerGender: 1 };
         if (crystal)
-            return EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.C);
+            return EncounterGenerator2.Instance.GetEncounters(pk);
 
         var visited = GBRestrictions.GetTradebackStatusInitial(pk);
         return visited switch
         {
-            PotentialGBOrigin.Gen1Only => EncounterGenerator1.Instance.GetEncounters(pk, GameVersion.RBY),
-            PotentialGBOrigin.Gen2Only => EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.GSC),
+            PotentialGBOrigin.Gen1Only => EncounterGenerator1.Instance.GetEncounters(pk),
+            PotentialGBOrigin.Gen2Only => EncounterGenerator2.Instance.GetEncounters(pk),
             _ when pk.Korean => GenerateFilteredEncounters12BothKorean(pk),
             _ => GenerateFilteredEncounters12Both(pk),
         };
@@ -43,7 +43,7 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
         // Yield GS first, then Crystal, then RBY. Anything other than GS will be flagged by later checks.
 
         var deferred = new List<IEncounterable>();
-        var get2 = EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.GSC);
+        var get2 = EncounterGenerator2.Instance.GetEncounters(pk);
         foreach (var enc in get2)
         {
             if (enc.Version == GameVersion.C)
@@ -55,7 +55,7 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
         foreach (var enc in deferred)
             yield return enc;
 
-        var get1 = EncounterGenerator1.Instance.GetEncounters(pk, GameVersion.RBY);
+        var get1 = EncounterGenerator1.Instance.GetEncounters(pk);
         foreach (var enc in get1)
             yield return enc;
     }
@@ -64,8 +64,8 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
     {
         // Iterate over both games, consuming from one list at a time until the other list has higher priority encounters
         // Buffer the encounters so that we can consume each iterator separately
-        var get1 = EncounterGenerator1.Instance.GetEncounters(pk, GameVersion.RBY);
-        var get2 = EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.GSC);
+        var get1 = EncounterGenerator1.Instance.GetEncounters(pk);
+        var get2 = EncounterGenerator2.Instance.GetEncounters(pk);
         using var g1i = new PeekEnumerator<IEncounterable>(get1);
         using var g2i = new PeekEnumerator<IEncounterable>(get2);
         while (g2i.PeekIsNext() || g1i.PeekIsNext())

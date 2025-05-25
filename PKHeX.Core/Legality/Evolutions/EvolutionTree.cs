@@ -27,7 +27,7 @@ public sealed class EvolutionTree : EvolutionNetwork
     public static readonly EvolutionTree Evolves9  = GetViaPersonal(PersonalTable.SV,   EvolutionSet.GetArray(GetReader("sv", "sv"u8)));
 
     private static ReadOnlySpan<byte> GetResource([ConstantExpected] string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
-    private static BinLinkerAccessor GetReader([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> identifier) => BinLinkerAccessor.Get(GetResource(resource), identifier);
+    private static BinLinkerAccessor16 GetReader([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> identifier) => BinLinkerAccessor16.Get(GetResource(resource), identifier);
     private EvolutionTree(IEvolutionForward forward, IEvolutionReverse reverse) : base(forward, reverse) { }
 
     private static EvolutionTree GetViaSpecies(IPersonalTable t, EvolutionMethod[][] entries)

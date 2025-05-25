@@ -13,7 +13,7 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
 {
     public static readonly LearnSource3E Instance = new();
     private static readonly PersonalTable3 Personal = PersonalTable.E;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_e.pkl"), "em"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_e.pkl"), "em"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     private const LearnEnvironment Game = E;
     private const byte Generation = 3;
@@ -35,17 +35,19 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
-        return moves.GetHasEggMove(move);
+        var moves = arr[species];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return [];
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo3 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

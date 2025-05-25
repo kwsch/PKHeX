@@ -21,7 +21,7 @@ public static class EncounterSuggestion
         var lvl = pk.CurrentLevel;
         var version = pk.Version;
         var generation = pk.Generation;
-        var origin = new EvolutionOrigin(pk.Species, version, generation, lvl, lvl, OriginOptions.SkipChecks);
+        var origin = new EvolutionOrigin(pk.Species, version.GetContext(), generation, lvl, lvl, OriginOptions.SkipChecks);
 
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
         var count = EvolutionChain.GetOriginChain(chain, pk, origin);
@@ -136,7 +136,7 @@ public static class EncounterSuggestion
 
         int most = 1;
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var origin = new EvolutionOrigin(pk.Species, pk.Version, pk.Generation, startLevel, 100, OriginOptions.SkipChecks);
+        var origin = new EvolutionOrigin(pk.Species, pk.Version.GetContext(), pk.Generation, startLevel, 100, OriginOptions.SkipChecks);
         while (true)
         {
             var count = EvolutionChain.GetOriginChain(chain, pk, origin);

@@ -130,11 +130,3 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     public sealed override int MaxStringLengthTrainer => 12;
     public sealed override int MaxStringLengthNickname => 12;
 }
-
-public interface ISuperTrain
-{
-    uint SuperTrainBitFlags { get; set; }
-    bool SecretSuperTrainingUnlocked { get; set; }
-    bool SecretSuperTrainingComplete { get; set; }
-    int SuperTrainingMedalCount(int lowBitCount = 30);
-}

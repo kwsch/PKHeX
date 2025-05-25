@@ -6,12 +6,12 @@ namespace PKHeX.Core;
 /// Details about the original encounter.
 /// </summary>
 /// <param name="Species">Species the encounter originated as</param>
-/// <param name="Version">Version the encounter originated on</param>
+/// <param name="Context">Context the encounter originated in</param>
 /// <param name="Generation">Generation the encounter originated in</param>
 /// <param name="LevelMin">Minimum level the encounter originated at</param>
 /// <param name="LevelMax">Maximum level in final state</param>
 /// <param name="Options">Options to toggle logic when using this data</param>
-public readonly record struct EvolutionOrigin(ushort Species, GameVersion Version, byte Generation, byte LevelMin, byte LevelMax, OriginOptions Options = 0)
+public readonly record struct EvolutionOrigin(ushort Species, EntityContext Context, byte Generation, byte LevelMin, byte LevelMax, OriginOptions Options = 0)
 {
     /// <summary>
     /// Checks if evolution checks against the Entity should be skipped when devolving or devolving.

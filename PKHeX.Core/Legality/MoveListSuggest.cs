@@ -188,7 +188,7 @@ public static class MoveListSuggest
         var generator = EncounterGenerator.GetGenerator(enc.Version, enc.Generation);
 
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var origin = new EvolutionOrigin(enc.Species, enc.Version, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
+        var origin = new EvolutionOrigin(enc.Species, enc.Context, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
         int count = EvolutionChain.GetOriginChain(chain, pk, origin);
         var evos = chain[..count].ToArray();
         var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);

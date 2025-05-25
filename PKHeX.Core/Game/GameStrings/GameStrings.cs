@@ -276,13 +276,13 @@ public sealed class GameStrings : IBasicStrings
         SanitizeItemsLA(itemlist);
         SanitizeItemsSV(itemlist);
 
-        if (Language is LanguageID.French)
+        if (Language is French)
         {
             itemlist[1681] += " (LA)"; // Galet Noir       dup with 617 (Dark Stone | Black Tumblestone)
             itemlist[1262] += " (G8)"; // Nouilles         dup with 1934 (Instant Noodles | Rice)
             itemlist[1263] += " (G8)"; // Steak Haché      dup with 1925 (Precooked Burger | Herbed Sausage)
         }
-        else if (Language is LanguageID.Japanese)
+        else if (Language is Japanese)
         {
             itemlist[1693] += " (LA)"; // むしよけスプレー   dup with 79 (Repel)
             itemlist[1716] += " (LA)"; // ビビリだま        dup with 847 (Adrenaline Orb | Scatter Bang)

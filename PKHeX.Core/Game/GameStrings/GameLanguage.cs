@@ -13,7 +13,7 @@ public static class GameLanguage
 
     private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant"];
 
-    public static string LanguageCode(int lang) => (uint)lang >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[lang];
+    public static string LanguageCode(int localizationIndex) => (uint)localizationIndex >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[localizationIndex];
     public static int LanguageCount => LanguageCodes.Length;
 
     /// <summary>

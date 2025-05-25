@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource2Stadium : ILearnSource<PersonalInfo2>, IEggSource
 {
     public static readonly LearnSource2Stadium Instance = new();
-    private static readonly LearnsetStadium[] Learnsets = LearnsetStadium.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("reminder_stad2.pkl"), "s2"u8));
+    private static readonly LearnsetStadium[] Learnsets = LearnsetStadium.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("reminder_stad2.pkl"), "s2"u8));
 
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const LearnEnvironment Game = Stadium2;

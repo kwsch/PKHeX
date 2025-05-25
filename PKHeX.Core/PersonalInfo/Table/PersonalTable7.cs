@@ -11,6 +11,7 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
     private readonly PersonalInfo7[] Table;
     private const int SIZE = PersonalInfo7.SIZE;
     public ushort MaxSpeciesID { get; }
+    public int Count => Table.Length;
 
     public PersonalTable7(Memory<byte> data, ushort maxSpecies)
     {
