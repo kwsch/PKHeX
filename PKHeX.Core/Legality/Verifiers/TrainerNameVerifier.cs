@@ -73,7 +73,7 @@ public sealed class TrainerNameVerifier : Verifier
     {
         IFixedTrainer { IsFixedTrainer: true } => false,
         MysteryGift { IsEgg: false } => false,
-        EncounterStatic5N => false,
+        ITrainerID16ReadOnly => false,
         _ => true,
     };
 

@@ -12,12 +12,13 @@ public static class EncounterOrigin
     /// </summary>
     /// <param name="pk">Current state of the Pokémon</param>
     /// <param name="generation">Original Generation</param>
+    /// <param name="context">Origin context of the Pokémon</param>
     /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
     /// <remarks>Use <see cref="GetOriginChain12"/> if the <see cref="pk"/> originated from Generation 1 or 2.</remarks>
-    public static EvoCriteria[] GetOriginChain(PKM pk, byte generation)
+    public static EvoCriteria[] GetOriginChain(PKM pk, byte generation, EntityContext context)
     {
         var (minLevel, maxLevel) = GetMinMax(pk, generation);
-        var origin = new EvolutionOrigin(pk.Species, pk.Version, generation, minLevel, maxLevel);
+        var origin = new EvolutionOrigin(pk.Species, context, generation, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 
@@ -25,15 +26,14 @@ public static class EncounterOrigin
     /// Gets possible evolution details for the input <see cref="pk"/> originating from Generation 1 or 2.
     /// </summary>
     /// <param name="pk">Current state of the Pokémon</param>
-    /// <param name="gameSource">Game/group the <see cref="pk"/> originated from. If <see cref="GameVersion.RBY"/>, it assumes Gen 1, otherwise Gen 2.</param>
+    /// <param name="generation">Original Generation</param>
+    /// <param name="context">Origin context of the Pokémon</param>
     /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
-    public static EvoCriteria[] GetOriginChain12(PKM pk, GameVersion gameSource)
+    public static EvoCriteria[] GetOriginChain12(PKM pk, byte generation, EntityContext context)
     {
         var (minLevel, maxLevel) = GetMinMaxGB(pk);
-        bool rby = gameSource == GameVersion.RBY;
-        GameVersion version = rby ? GameVersion.RBY : GameVersion.GSC;
-        byte gen = rby ? (byte)1 : (byte)2;
-        var origin = new EvolutionOrigin(pk.Species, version, gen, minLevel, maxLevel);
+        bool rby = context == EntityContext.Gen1;
+        var origin = new EvolutionOrigin(pk.Species, context, generation, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 

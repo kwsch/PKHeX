@@ -29,7 +29,7 @@ public static class EntityFileExtension
     /// </summary>
     /// <param name="maxGeneration">Maximum Generation to permit</param>
     /// <returns>Valid <see cref="PKM"/> file extensions.</returns>
-    public static string[] GetExtensions(int maxGeneration = Latest.Generation)
+    public static string[] GetExtensions(byte maxGeneration = Latest.Generation)
     {
         int min = maxGeneration is <= 2 or >= 7 ? 1 : 3;
         int size = maxGeneration - min + 1 + CountExtra;
@@ -99,11 +99,11 @@ public static class EntityFileExtension
     public static IReadOnlyList<string> Extensions7b => [ExtensionPB7];
     public static IReadOnlyList<string> GetExtensionsAll() => Extensions;
     public static IReadOnlyList<string> GetExtensionsHOME() => Extensions;
-    public static IReadOnlyList<string> GetExtensionsAtOrBelow(int specific)
+    public static IReadOnlyList<string> GetExtensionsAtOrBelow(byte specific)
         => Array.FindAll(Extensions, f => IsAtOrBelow(f, specific));
-    public static IReadOnlyList<string> GetExtensionsAtOrBelow(int specific, string exclude)
+    public static IReadOnlyList<string> GetExtensionsAtOrBelow(byte specific, string exclude)
         => Array.FindAll(Extensions, f => IsAtOrBelow(f, specific) && !exclude.Contains(f));
-    private static bool IsAtOrBelow(ReadOnlySpan<char> ext, int specific)
+    private static bool IsAtOrBelow(ReadOnlySpan<char> ext, byte specific)
         => IsAtOrBelow(specific, ext[^1] - 0x30);
-    private static bool IsAtOrBelow(int specific, int gen) => gen <= specific;
+    private static bool IsAtOrBelow(byte specific, int gen) => gen <= specific;
 }

@@ -21,9 +21,9 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         throw new ArgumentException("Generator does not support direct calls to this method.");
     }
 
-    public IEnumerable<IEncounterable> GetEncounters(PKM pk, GameVersion game)
+    public IEnumerable<IEncounterable> GetEncounters(PKM pk)
     {
-        var chain = EncounterOrigin.GetOriginChain12(pk, game);
+        var chain = EncounterOrigin.GetOriginChain12(pk, 2, EntityContext.Gen2);
         if (chain.Length == 0)
             return [];
         return GetEncounters(pk, chain);

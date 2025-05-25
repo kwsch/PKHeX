@@ -11,6 +11,7 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
     private const int SIZE = PersonalInfo8LA.SIZE;
     private const ushort MaxSpecies = Legal.MaxSpeciesID_8a;
     public ushort MaxSpeciesID => MaxSpecies;
+    public int Count => Table.Length;
 
     public PersonalTable8LA(Memory<byte> data)
     {

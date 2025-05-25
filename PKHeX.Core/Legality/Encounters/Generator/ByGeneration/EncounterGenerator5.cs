@@ -11,7 +11,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk, 5);
+        var chain = EncounterOrigin.GetOriginChain(pk, 5, Context);
         if (chain.Length == 0)
             return [];
         return GetEncounters(pk, chain, info);
