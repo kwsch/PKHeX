@@ -216,6 +216,14 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
 
     #endregion
 
+    /// <summary>
+    /// Language obtained by the trainer will be of a foreign language ID.
+    /// </summary>
+    /// <remarks>
+    /// Does NOT indicate for bugged D/P English origin, which is Japanese.
+    /// </remarks>
+    public bool IsLanguageSwap => Species is (ushort)Core.Species.Magikarp or (ushort)Core.Species.Pikachu;
+
     public int DetectOriginalLanguage(PKM pk)
     {
         int lang = pk.Language;

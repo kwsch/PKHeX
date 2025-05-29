@@ -24,12 +24,22 @@ public readonly record struct EvolutionOrigin(ushort Species, EntityContext Cont
     public bool IsDiscardRequired(byte format) => format <= 2 && Options.HasFlag(OriginOptions.ForceDiscard);
 }
 
+/// <summary>
+/// Options for <see cref="EvolutionOrigin"/> to modify logic checks based on the source of the <see cref="EvolutionOrigin"/> constructor input.
+/// </summary>
 [Flags]
 public enum OriginOptions : byte
 {
     None = 0,
+
+    /// <inheritdoc cref="EvolutionOrigin.SkipChecks"/>
     SkipChecks = 1 << 0,
+
+    /// <inheritdoc cref="EvolutionOrigin.IsDiscardRequired"/>
     ForceDiscard = 1 << 1,
 
+    /// <summary>
+    /// Options relevant when checking for an encounter template, which bypasses logic checks against an Entity.
+    /// </summary>
     EncounterTemplate = SkipChecks | ForceDiscard,
 }
