@@ -286,9 +286,10 @@ public partial class SAV_Database : Form
 
         var comboAny = new ComboItem(MsgAny, -1);
 
-        var species = new List<ComboItem>(GameInfo.SpeciesDataSource);
-        species.RemoveAt(0);
-        species.Insert(0, comboAny);
+        var species = new List<ComboItem>(GameInfo.SpeciesDataSource)
+        {
+            [0] = comboAny // Replace (None) with "Any"
+        };
         CB_Species.DataSource = species;
 
         var items = new List<ComboItem>(GameInfo.ItemDataSource);
