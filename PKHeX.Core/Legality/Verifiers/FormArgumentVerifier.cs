@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Species;
 
@@ -124,7 +125,7 @@ public sealed class FormArgumentVerifier : Verifier
         };
     }
 
-    private static bool HasVisitedAs(EvoCriteria[] evos, Species species) => EvolutionHistory.HasVisited(evos, (ushort)species);
+    private static bool HasVisitedAs(ReadOnlySpan<EvoCriteria> evos, Species species) => EvolutionHistory.HasVisited(evos, (ushort)species);
     private static bool HasVisitedPLA(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen8a, species);
     private static bool HasVisitedSV(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen9, species);
 

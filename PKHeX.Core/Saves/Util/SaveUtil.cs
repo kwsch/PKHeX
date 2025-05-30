@@ -848,13 +848,13 @@ public static class SaveUtil
     /// <summary>
     /// Retrieves possible save file paths from the provided <see cref="folderPath"/>.
     /// </summary>
-    /// <param name="token">Cancellation token to cancel the operation.</param>
     /// <param name="folderPath">Folder to look within</param>
     /// <param name="deep">Search all subfolders</param>
+    /// <param name="token">Cancellation token to cancel the operation.</param>
     /// <param name="result">If this function returns true, full path of all <see cref="SaveFile"/> that match criteria. If this function returns false, the error message, or null if the directory could not be found</param>
     /// <param name="ignoreBackups">Option to ignore files with backup names and extensions</param>
     /// <returns>Boolean indicating if the operation was successful.</returns>
-    public static bool GetSavesFromFolder(CancellationToken token, string folderPath, bool deep, out IEnumerable<string> result, bool ignoreBackups = true)
+    public static bool GetSavesFromFolder(string folderPath, bool deep, CancellationToken token, out IEnumerable<string> result, bool ignoreBackups = true)
     {
         if (!Directory.Exists(folderPath))
         {
@@ -866,7 +866,7 @@ public static class SaveUtil
             var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             var files = Directory.EnumerateFiles(folderPath, "*", searchOption)
                 .IterateSafe(log: z => System.Diagnostics.Debug.WriteLine(z));
-            result = FilterSaveFiles(token, ignoreBackups, files);
+            result = FilterSaveFiles(ignoreBackups, files, token);
             return true;
         }
         catch (Exception ex)
@@ -881,7 +881,7 @@ public static class SaveUtil
         }
     }
 
-    private static IEnumerable<string> FilterSaveFiles(CancellationToken token, bool ignoreBackups, IEnumerable<string> files)
+    private static IEnumerable<string> FilterSaveFiles(bool ignoreBackups, IEnumerable<string> files, CancellationToken token)
     {
         foreach (var file in files)
         {

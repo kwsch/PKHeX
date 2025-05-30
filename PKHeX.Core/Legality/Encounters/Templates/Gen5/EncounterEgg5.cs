@@ -74,7 +74,7 @@ public sealed record EncounterEgg5(ushort Species, byte Form, GameVersion Versio
         var gr = pi.Gender;
         var ability = criteria.GetAbilityFromNumber(Ability);
         var pid = GetRandomPID(criteria, gr, out var gender);
-        pid = pid & 0xFFFEFFFF | (uint)(ability & 1) << 16; // 0x00000000 or 0x00010000
+        pid = (pid & 0xFFFEFFFFu) | (uint)(ability & 1) << 16; // 0x00000000 or 0x00010000
         pk.PID = pid;
         pk.Gender = gender;
         pk.RefreshAbility(ability);

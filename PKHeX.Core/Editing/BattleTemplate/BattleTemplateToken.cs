@@ -45,5 +45,5 @@ public enum BattleTemplateToken : byte
     EVsAppendNature, // +/- and .. (Nature)
 
     // Omitting the first line (species) shouldn't be done unless it is manually added in the presentation/export.
-    FirstLine = byte.MaxValue, 
+    FirstLine = byte.MaxValue,
 }

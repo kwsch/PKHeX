@@ -94,8 +94,8 @@ public static class XDRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev11(uint seed) => (seed * rMult11) + rAdd11;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev12(uint seed) => (seed * rMult12) + rAdd12;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next1000(uint seed) => 0xDD867B21 * seed + 0xD252C5A8;
-    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev1000(uint seed) => 0x251CC8E1 * seed + 0x94750758;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next1000(uint seed) => (0xDD867B21 * seed) + 0xD252C5A8;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev1000(uint seed) => (0x251CC8E1 * seed) + 0x94750758;
 
     /// <summary>
     /// Gets the upper 16 bits of the next RNG seed.
@@ -305,14 +305,14 @@ public static class XDRNG
         const ulong skip = 0x661D29; // prime * 2^32 % mult
 
         uint first = hp << 27;
-        uint t = (((spe << 27) - mult * first) - sub);
+        uint t = (((spe << 27) - (mult * first)) - sub);
         uint kmax = (uint)((b - t) >> 32);
         ulong x = (t * prime) % mult;
 
         int ctr = 0;
         for (ulong k = 0; k <= kmax;)
         {
-            var r = (x + skip * k) % mult;
+            var r = (x + (skip * k)) % mult;
             var m = r % prime;
             if (m != 0)
             {

@@ -150,7 +150,7 @@ public static class LegalityFormatting
                     var date = pk.MetDate ?? new DateOnly(2000, 1, 1);
                     var initial = ClassicEraRNG.SeekInitialSeedForIVs(ivs, (uint)date.Year, (uint)date.Month, (uint)date.Day, out var origin);
                     var components = ClassicEraRNG.DecomposeSeed(initial, (uint)date.Year, (uint)date.Month, (uint)date.Day);
-                    
+
                     AppendInitialDateTime(lines, initial, origin, components);
                     if (components.IsInvalid())
                         lines.Add("INVALID");

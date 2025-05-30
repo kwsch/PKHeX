@@ -21,7 +21,7 @@ public readonly record struct DistributionWindow(DateOnly Start, DateOnly? End =
     /// </summary>
     /// <param name="obtained">Date obtained.</param>
     /// <returns>True if the date obtained is within the date of availability for the given range.</returns>
-    public bool Contains(DateOnly obtained) => Start <= obtained && End is null || obtained <= End;
+    public bool Contains(DateOnly obtained) => (Start <= obtained && End is null) || obtained <= End;
 
     /// <summary>
     /// Get a valid date within the generation range.

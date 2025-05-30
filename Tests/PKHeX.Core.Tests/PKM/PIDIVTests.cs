@@ -152,9 +152,10 @@ public class PIDIVTest
     [InlineData(62714, 62938)]
     [InlineData(05724, 31840)]
     [InlineData(31827, 52374)]
+    [InlineData(01337, 01337)]
     [InlineData(34952, 34952)]
-    [InlineData(31827, 00123, false)]
-    [InlineData(34952, 01337, false)]
+    [InlineData(01337, 00001, false)]
+    [InlineData(42069, 13370, false)]
     public void CXDTrainerTest(ushort tid, ushort sid, bool expect = true) => MethodCXD.TryGetSeedTrainerID(tid, sid, out _).Should().Be(expect);
 
     [Theory]

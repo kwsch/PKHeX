@@ -88,7 +88,7 @@ public sealed class TrainerIDVerifier : Verifier
         var severity = Severity.Invalid;
         if (data.EncounterOriginal is (EncounterSlot3XD or EncounterShadow3XD or EncounterStatic3XD))
         {
-            // XD does not do the rand1000 on PAL copies of the game.
+            // XD does not do the random Poké Ball sequence on naming menu for PAL copies of the game.
             var lang = (LanguageID)data.Entity.Language;
             if (lang > LanguageID.English) // definitely PAL
                 return;

@@ -108,7 +108,7 @@ public static class ClassicEraRNG
     /// </remarks>
     public static uint GetInitialSeed(uint year, uint month, uint day, uint hour, uint minute, uint second, uint delay)
     {
-        byte ab = (byte)(month * day + minute + second);
+        byte ab = (byte)((month * day) + minute + second);
         byte cd = (byte)hour;
 
         return (uint)(((ab << 24) | (cd << 16))) + delay + year - 2000u;
@@ -126,21 +126,13 @@ public static class ClassicEraRNG
     /// </remarks>
     public static uint SeekInitialSeed(uint year, uint month, uint day, uint seed)
     {
-        while (true)
-        {
-            if (IsInitialSeed(year, month, day, seed))
-                break;
+        while (!IsInitialSeed(year, month, day, seed))
             seed = LCRNG.Prev(seed);
-        }
         var decompose = DecomposeSeed(seed, year, month, day);
         // Check one step previous, just in case that delay is better.
         var prevSeed = LCRNG.Prev(seed);
-        while (true)
-        {
-            if (IsInitialSeed(year, month, day, prevSeed))
-                break;
+        while (!IsInitialSeed(year, month, day, prevSeed))
             prevSeed = LCRNG.Prev(prevSeed);
-        }
 
         var distance = LCRNG.GetDistance(prevSeed, seed);
         if (distance > 5000) // arbitrary limit, most won't need this many advances to RNG.

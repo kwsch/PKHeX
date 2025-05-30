@@ -121,9 +121,8 @@ public static class ShowdownParsing
 
     public static bool IsTotemForm(ReadOnlySpan<char> formName) =>
         formName.Equals("Totem", StringComparison.OrdinalIgnoreCase) ||
-        formName.Equals("Alola-Totem", StringComparison.OrdinalIgnoreCase) || 
+        formName.Equals("Alola-Totem", StringComparison.OrdinalIgnoreCase) ||
         formName.Equals("Large", StringComparison.OrdinalIgnoreCase);
-
 
     public static bool IsCosplayPikachu(ReadOnlySpan<char> formName, ReadOnlySpan<string> formNames)
         => FormConverter.IsCosplayPikachu(formName, formNames);

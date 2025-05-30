@@ -17,6 +17,9 @@ public sealed class ConsoleRegionVerifier : Verifier
         data.AddLine(result);
     }
 
+    /// <summary>
+    /// Verifies that the region data maps to one of the <see cref="Region3DSIndex"/> values, and that the country is valid for that region.
+    /// </summary>
     private CheckResult VerifyConsoleRegion(IRegionOrigin pk)
     {
         var consoleRegion = pk.ConsoleRegion;

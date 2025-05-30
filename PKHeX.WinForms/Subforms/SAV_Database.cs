@@ -40,7 +40,7 @@ public partial class SAV_Database : Form
     private readonly string Viewed;
     private const int MAXFORMAT = Latest.Generation;
     private readonly SummaryPreviewer ShowSet = new();
-    private CancellationTokenSource cts = new();
+    private readonly CancellationTokenSource cts = new();
 
     public SAV_Database(PKMEditor f1, SAVEditor saveditor)
     {
@@ -420,7 +420,7 @@ public partial class SAV_Database : Form
 
         foreach (var folder in otherPaths)
         {
-            if (!SaveUtil.GetSavesFromFolder(token, folder.Path, otherDeep, out var paths, folder.IgnoreBackupFiles))
+            if (!SaveUtil.GetSavesFromFolder(folder.Path, otherDeep, token, out var paths, folder.IgnoreBackupFiles))
                 continue;
 
             Parallel.ForEach(paths, file => TryAddPKMsFromSaveFilePath(dbTemp, file));

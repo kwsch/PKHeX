@@ -151,6 +151,9 @@ public static class MethodCXD
         var count = XDRNG.GetSeedsIVs(seeds, iv1 << 16, iv2 << 16);
         foreach (var seed in seeds[..count])
         {
+            var origin = XDRNG.Prev4(seed);
+            if (!IsValidNameScreenEndSeed(origin, out _))
+                continue;
             // * => IV, IV, ability, PID, PID
             var s = XDRNG.Next3(seed);
 
@@ -202,11 +205,12 @@ public static class MethodCXD
             {
                 // Find Trainer ID for this Umbreon frame.
                 var s = LCRNG.Prev7(prePID); // hypothetical origin seed
+                if (!IsValidNameScreenEndSeed(s, out _))
+                    continue;
                 var sid = LCRNG.Next16(ref s);
                 var tid = LCRNG.Next16(ref s);
                 var id32 = sid << 16 | tid;
-                uint espeonPID;
-                if (IsValidTrainerCombination(criteria, id32, umbreon, frameEspeonPID, out espeonPID))
+                if (IsValidTrainerCombination(criteria, id32, umbreon, frameEspeonPID, out var espeonPID))
                 {
                     pk.PID = espeonPID;
                     pk.ID32 = id32;
@@ -329,12 +333,16 @@ public static class MethodCXD
     public static void SetStarterRandom(XK3 pk, EncounterCriteria criteria, uint seed)
     {
         bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool checkNameScreen = pk.Language is (int)LanguageID.Japanese;
         while (true)
         {
-            if (!IsValidNameScreenEndSeed(seed, out _))
+            if (checkNameScreen)
             {
-                seed = XDRNG.Next(seed);
-                continue;
+                if (!IsValidNameScreenEndSeed(XDRNG.Prev1000(seed), out _))
+                {
+                    seed = XDRNG.Next(seed);
+                    continue;
+                }
             }
             var start = seed;
 
@@ -625,9 +633,11 @@ public static class MethodCXD
     /// <param name="seed">Seed that goes on to generate the player TID/SID (after advancing 1000 frames)</param>
     /// <param name="origin">Current seed that confirms the player name</param>
     /// <returns>True if <see cref="seed"/> can be reached via <see cref="origin"/></returns>
-    /// <remarks>https://github.com/yatsuna827/PokemonCoRNGLibrary/blob/e5255b13134ab3a2119788c40b5e71ee48d849b0/PokemonCoRNGLibrary/Util/LCGExtensions.cs#L15</remarks> 
+    /// <remarks>https://github.com/yatsuna827/PokemonCoRNGLibrary/blob/e5255b13134ab3a2119788c40b5e71ee48d849b0/PokemonCoRNGLibrary/Util/LCGExtensions.cs#L15</remarks>
     public static bool IsValidNameScreenEndSeed(uint seed, out uint origin)
     {
+        // On the character name screen, the game has a 10% chance to spawn a ball, and if passes, in a random position (using 4 RNG calls).
+        // Ensure the seed can be landed on, with rough criteria of 4 fadeout frames in a row.
         // rand() / 10 == 0 is a skip
         const ushort SEED_THRESHOLD = 0x1999; // Only need the upper 16 bits
 
@@ -642,6 +652,7 @@ public static class MethodCXD
             return true;
         }
 
+        // Couldn't land on the input seed naturally, try to find an earlier seed that catapults us to the input seed by spawning a ball.
         if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && IsValidNameScreenEndSeed(XDRNG.Prev(seed), out origin)) return true;
         if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && IsValidNameScreenEndSeed(XDRNG.Prev(seed), out origin)) return true;
         if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && p2 && IsValidNameScreenEndSeed(XDRNG.Prev(seed), out origin)) return true;

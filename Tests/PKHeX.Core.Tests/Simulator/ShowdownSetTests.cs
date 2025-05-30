@@ -210,7 +210,7 @@ public class ShowdownSetTests
             CheckSubstring(x.StatNamesFull.Names, languageTarget);
         }
 
-        void CheckSubstring(string[] statNames, string languageTarget)
+        static void CheckSubstring(ReadOnlySpan<string> statNames, string languageTarget)
         {
             // ensure no stat name is a substring of another
             for (int i = 0; i < statNames.Length; i++)

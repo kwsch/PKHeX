@@ -15,7 +15,6 @@ public sealed class BattleTemplateSettings
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class BattleTemplateTypeSetting
 {
-
     [LocalizedDescription("Language to use when exporting a battle template. If not specified in settings, will use current language.")]
     public LanguageID Language { get; set; }
     public StatDisplayStyle StyleStatEVs { get; set; }
