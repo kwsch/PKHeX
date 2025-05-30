@@ -85,8 +85,19 @@ public sealed class TrainerIDVerifier : Verifier
 
     private static void VerifyTrainerID_CXD<T>(LegalityAnalysis data, T tr) where T : ITrainerID32ReadOnly
     {
+        var severity = Severity.Invalid;
+        if (data.EncounterOriginal is (EncounterSlot3XD or EncounterShadow3XD or EncounterStatic3XD))
+        {
+            // XD does not do the rand1000 on PAL copies of the game.
+            var lang = (LanguageID)data.Entity.Language;
+            if (lang > LanguageID.English) // definitely PAL
+                return;
+            if (lang is LanguageID.English)
+                severity = Severity.Fishy; // can be PAL or US, let user verify.
+            // japanese will stay Invalid
+        }
         if (!MethodCXD.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
-            data.AddLine(GetInvalid(LTrainerIDNoSeed, CheckIdentifier.Trainer));
+            data.AddLine(Get(LTrainerIDNoSeed, severity, CheckIdentifier.Trainer));
     }
 
     private static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr, Severity severity = Severity.Invalid) where T : ITrainerID32ReadOnly

@@ -59,7 +59,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
     private static void CheckLearnset(LegalityAnalysis data, PA8 pa)
     {
-        var moveCount = GetMoveCount(pa);
+        var moveCount = pa.MoveCount;
         if (moveCount == 4)
             return;
 
@@ -164,16 +164,6 @@ public sealed class LegendsArceusVerifier : Verifier
                 return 4;
         }
         return ctr;
-    }
-
-    private static int GetMoveCount(PA8 pa)
-    {
-        var count = 0;
-        if (pa.Move1 != 0) count++;
-        if (pa.Move2 != 0) count++;
-        if (pa.Move3 != 0) count++;
-        if (pa.Move4 != 0) count++;
-        return count;
     }
 
     private void CheckMastery(LegalityAnalysis data, PA8 pa)

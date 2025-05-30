@@ -631,7 +631,7 @@ public static class MethodCXD
         // rand() / 10 == 0 is a skip
         const ushort SEED_THRESHOLD = 0x1999; // Only need the upper 16 bits
 
-        var p1 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
+        var p1 =           (seed >> 16) > SEED_THRESHOLD;
         var p2 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
         var p3 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;
         var p4 = XDRNG.Prev16(ref seed) > SEED_THRESHOLD;

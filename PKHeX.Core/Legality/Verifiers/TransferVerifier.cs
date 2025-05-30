@@ -44,7 +44,7 @@ public sealed class TransferVerifier : Verifier
         }
         if (met <= 2) // Not enough EXP to have every nature -- check for exclusions!
         {
-            var pi = pk.PersonalInfo;
+            var pi = data.PersonalInfo;
             var growth = pi.EXPGrowth;
             var nature = pk.Nature;
             bool valid = VerifyVCNature(growth, nature);

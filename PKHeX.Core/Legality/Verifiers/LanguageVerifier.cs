@@ -1,4 +1,6 @@
 using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
 
@@ -13,21 +15,21 @@ public sealed class LanguageVerifier : Verifier
     {
         var pk = data.Entity;
         var originalGeneration = data.Info.Generation;
-        var currentLanguage = pk.Language;
-        var maxLanguageID = Legal.GetMaxLanguageID(originalGeneration);
+        var currentLanguage = (LanguageID)pk.Language;
+        var maxLanguageID = (LanguageID)Legal.GetMaxLanguageID(originalGeneration);
         var enc = data.EncounterMatch;
         if (!IsValidLanguageID(currentLanguage, maxLanguageID, pk, enc))
         {
-            data.AddLine(GetInvalid(string.Format(LOTLanguage, $"<={(LanguageID)maxLanguageID}", (LanguageID)currentLanguage)));
+            data.AddLine(GetInvalid(string.Format(LOTLanguage, $"<={maxLanguageID}", currentLanguage)));
             return;
         }
 
         // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
         if (pk.Format == 4 && enc.Generation == 4 && !IsValidGen4Korean(currentLanguage)
-            && enc is not EncounterTrade4PID {Species: (int)Species.Pikachu or (int)Species.Magikarp} // ger magikarp / eng pikachu
+            && enc is not EncounterTrade4PID { IsLanguageSwap: true } // ger magikarp / eng pikachu
            )
         {
-            bool kor = currentLanguage == (int)LanguageID.Korean;
+            bool kor = currentLanguage == Korean;
             var msgpkm = kor ? L_XKorean : L_XKoreanNon;
             var msgsav = kor ? L_XKoreanNon : L_XKorean;
             data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, msgpkm, msgsav)));
@@ -37,24 +39,24 @@ public sealed class LanguageVerifier : Verifier
         if (originalGeneration <= 2)
         {
             // Korean Crystal does not exist, neither do Korean VC1
-            if (pk is { Korean: true, Version: not (GameVersion.GD or GameVersion.SI) })
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
+            if (pk is { Korean: true, Version: not (GD or SI) })
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={currentLanguage}", currentLanguage)));
 
             // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
-            if (pk is { Japanese: false, Version: GameVersion.BU })
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(LanguageID.Japanese), (LanguageID)currentLanguage)));
+            if (pk is { Japanese: false, Version: BU })
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(Japanese), currentLanguage)));
         }
     }
 
-    public static bool IsValidLanguageID(int currentLanguage, int maxLanguageID, PKM pk, IEncounterTemplate enc)
+    public static bool IsValidLanguageID(LanguageID currentLanguage, LanguageID maxLanguageID, PKM pk, IEncounterTemplate enc)
     {
-        if (currentLanguage == (int)LanguageID.UNUSED_6)
+        if (currentLanguage == UNUSED_6)
             return false; // Language ID 6 is unused.
 
         if (currentLanguage > maxLanguageID)
             return false; //  Language not available (yet)
 
-        if (currentLanguage <= (int)LanguageID.None && !(enc is EncounterTrade5BW && EncounterTrade5BW.IsValidMissingLanguage(pk)))
+        if (currentLanguage == 0 && !(enc is EncounterTrade5BW && EncounterTrade5BW.IsValidMissingLanguage(pk)))
             return false; // Missing Language value is not obtainable
 
         return true; // Language is possible
@@ -67,18 +69,18 @@ public sealed class LanguageVerifier : Verifier
     /// Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
     /// Anything with Gen4 origin cannot exist in the other language save file.
     /// </remarks>
-    public static bool IsValidGen4Korean(int pkmLanguage)
+    public static bool IsValidGen4Korean(LanguageID pkmLanguage)
     {
         if (ParseSettings.ActiveTrainer is not SAV4 tr)
             return true; // ignore
         return IsValidGen4Korean(pkmLanguage, tr);
     }
 
-    /// <inheritdoc cref="IsValidGen4Korean(int)"/>
-    public static bool IsValidGen4Korean(int pkmLanguage, SAV4 tr)
+    /// <inheritdoc cref="IsValidGen4Korean(LanguageID)"/>
+    public static bool IsValidGen4Korean(LanguageID pkmLanguage, SAV4 tr)
     {
-        bool savKOR = tr.Language == (int)LanguageID.Korean;
-        bool pkmKOR = pkmLanguage == (int)LanguageID.Korean;
+        bool savKOR = (LanguageID)tr.Language == Korean;
+        bool pkmKOR = pkmLanguage == Korean;
         return savKOR == pkmKOR;
     }
 }

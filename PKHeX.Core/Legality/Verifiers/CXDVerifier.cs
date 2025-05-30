@@ -18,10 +18,13 @@ public sealed class CXDVerifier : Verifier
 
         if (pk.OriginalTrainerGender == 1)
             data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
+
+        // Trainer ID is checked in another verifier. Don't duplicate it here.
     }
 
     private static void VerifyStarterXD(LegalityAnalysis data)
     {
+        // The starter in XD must have the correct PIDIV type.
         var info = data.Info.PIDIV;
         if (info.Type is not (PIDType.CXD or PIDType.CXD_ColoStarter))
             return; // already flagged as invalid

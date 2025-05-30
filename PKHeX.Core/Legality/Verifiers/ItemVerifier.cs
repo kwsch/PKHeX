@@ -17,17 +17,19 @@ public sealed class ItemVerifier : Verifier
             data.AddLine(GetInvalid(LItemEgg));
 
         if (!ItemRestrictions.IsHeldItemAllowed(item, context: pk.Context))
-        {
             data.AddLine(GetInvalid(LItemUnreleased));
-        }
-        else if (pk.Format == 3 && item == 175) // Enigma Berry
-        {
-            // A Pokémon holding this Berry cannot be traded to Pokémon Colosseum or Pokémon XD: Gale of Darkness, nor can it be stored in Pokémon Box Ruby & Sapphire.
-            if (pk is CK3 or XK3)
-                data.AddLine(GetInvalid(LItemUnreleased));
-            else
-                VerifyEReaderBerry(data);
-        }
+        else if (item == 175 && pk is G3PKM g3) // Enigma Berry
+            VerifyEnigmaGen3(data, g3);
+    }
+
+    private void VerifyEnigmaGen3(LegalityAnalysis data, G3PKM g3)
+    {
+        // A Pokémon holding this Berry cannot be traded to Pokémon Colosseum or Pokémon XD: Gale of Darkness,
+        // nor can it be stored in Pokémon Box Ruby & Sapphire.
+        if (g3 is CK3 or XK3 || ParseSettings.ActiveTrainer is SAV3RSBox)
+            data.AddLine(GetInvalid(LItemUnreleased));
+        else
+            VerifyEReaderBerry(data);
     }
 
     private void VerifyEReaderBerry(LegalityAnalysis data)
