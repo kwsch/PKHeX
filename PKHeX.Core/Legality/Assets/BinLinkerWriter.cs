@@ -29,11 +29,28 @@ public static class BinLinkerWriter
     public static byte[] Compress(BinLinkerAccessor arr, Func<byte[], byte[]>? convert = null, int padTo = 0)
     {
         var ident = arr.IdentifierSpan; // use existing identifier
-        // Unpack the BinLinkerAccessor into a byte[][] for compression
+        var temp = Unpack(arr);
+        return Compress(temp, ident, convert ?? (z => z), padTo);
+    }
+
+    /// <summary>
+    /// Unpacks a <see cref="BinLinkerAccessor"/> into individual file arrays.
+    /// </summary>
+    public static byte[][] Unpack(this BinLinkerAccessor arr)
+    {
         var temp = new byte[arr.Length][];
         for (int i = 0; i < temp.Length; i++)
             temp[i] = arr[i].ToArray();
-        return Compress(temp, ident, convert ?? (z => z), padTo);
+        return temp;
+    }
+
+    /// <inheritdoc cref="Unpack(BinLinkerAccessor)"/>
+    public static byte[][] Unpack(this BinLinkerAccessor16 arr)
+    {
+        var temp = new byte[arr.Length][];
+        for (int i = 0; i < temp.Length; i++)
+            temp[i] = arr[i].ToArray();
+        return temp;
     }
 
     /// <summary>

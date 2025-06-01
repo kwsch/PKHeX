@@ -9,7 +9,7 @@ public static class Wild8bRNG
 {
     private const int UNSET = -1;
 
-    public static void ApplyDetails(PKM pk, EncounterCriteria criteria,
+    public static void ApplyDetails(PB8 pk, EncounterCriteria criteria,
         Shiny shiny = Shiny.FixedValue,
         int flawless = -1,
         AbilityPermission ability = AbilityPermission.Any12,
@@ -39,7 +39,7 @@ public static class Wild8bRNG
         }
     }
 
-    public static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, Shiny shiny, int flawless, XorShift128 xors, AbilityPermission ability)
+    public static bool TryApplyFromSeed(PB8 pk, EncounterCriteria criteria, Shiny shiny, int flawless, XorShift128 xors, AbilityPermission ability)
     {
         // Encryption Constant
         pk.EncryptionConstant = xors.NextUInt();
@@ -89,12 +89,12 @@ public static class Wild8bRNG
         if (!criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
-        pk.IV_HP = ivs[0];
-        pk.IV_ATK = ivs[1];
-        pk.IV_DEF = ivs[2];
-        pk.IV_SPA = ivs[3];
-        pk.IV_SPD = ivs[4];
-        pk.IV_SPE = ivs[5];
+        pk.IV32 = (uint)ivs[0] |
+                  (uint)(ivs[1] << 05) |
+                  (uint)(ivs[2] << 10) |
+                  (uint)(ivs[5] << 15) | // speed is last in the array, but in the middle of the 32bit value
+                  (uint)(ivs[3] << 20) |
+                  (uint)(ivs[4] << 25);
 
         // Ability
         var n = ability switch

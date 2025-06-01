@@ -5,8 +5,15 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core.Bulk;
 
+/// <summary>
+/// Checks for cloned Pokémon in a bulk legality analysis.
+/// </summary>
 public sealed class StandardCloneChecker : IBulkAnalyzer
 {
+    /// <summary>
+    /// Analyzes the provided <see cref="BulkAnalysis"/> for cloned Pokémon.
+    /// </summary>
+    /// <param name="input">The bulk analysis data to check.</param>
     public void Analyze(BulkAnalysis input) => CheckClones(input);
 
     private static void CheckClones(BulkAnalysis input)
@@ -40,16 +47,8 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
     private static void CheckClonedTrackerHOME(BulkAnalysis input, IHomeTrack home, SlotCache cs, LegalityAnalysis ca)
     {
         var tracker = home.Tracker;
-        if (tracker == DefaultUnsetTrackerHOME)
-            CheckTrackerMissing(input, cs, ca);
-        else
+        if (tracker != DefaultUnsetTrackerHOME)
             CheckTrackerPresent(input, cs, tracker);
-    }
-
-    private static void CheckTrackerMissing(BulkAnalysis input, SlotCache cs, LegalityAnalysis ca)
-    {
-        if (ca.Info.Generation is (< 8 and not 0))
-            input.AddLine(cs, "Missing tracker.", Encounter);
     }
 
     private static void CheckTrackerPresent(BulkAnalysis input, SlotCache cs, ulong tracker)

@@ -212,8 +212,8 @@ public partial class Main : Form
 
             while (!IsHandleCreated) // Wait for form to be ready
                 await Task.Delay(2_000).ConfigureAwait(false);
-            Invoke(() => NotifyNewVersionAvailable(latestVersion)); // invoke on GUI thread
-        });
+            await InvokeAsync(() => NotifyNewVersionAvailable(latestVersion)).ConfigureAwait(false); // invoke on GUI thread
+        }).ConfigureAwait(false);
     }
 
     private void NotifyNewVersionAvailable(Version version)

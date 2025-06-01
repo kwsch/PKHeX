@@ -239,7 +239,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
 
     private static bool TrySetWishmkrShiny(PK3 pk, EncounterCriteria criteria)
     {
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         bool filterNature = criteria.IsSpecifiedNature();
         foreach (var s in Wishmkr.All9)
         {
@@ -251,7 +251,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             var iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue; // try again
-            if (filterIVs && !criteria.IsCompatibleIVs(iv32))
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue; // try again
             pk.PID = pid;
             pk.IV32 = iv32;

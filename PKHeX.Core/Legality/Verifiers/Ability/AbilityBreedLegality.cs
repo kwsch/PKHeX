@@ -29,7 +29,7 @@ internal static class AbilityBreedLegality
         var table = BanHidden5;
         if (index >= table.Length)
             return true;
-        return (BanHidden5[index] & (1 << (species & 7))) == 0;
+        return (table[index] & (1 << (species & 7))) == 0;
     }
 
     /// <summary>

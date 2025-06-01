@@ -75,13 +75,8 @@ public sealed record EncounterEgg6(ushort Species, byte Form, GameVersion Versio
             pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);
 
         SetEncounterMoves(pk);
-        pk.HealPP();
-        pk.RelearnMove1 = pk.Move1;
-        pk.RelearnMove2 = pk.Move2;
-        pk.RelearnMove3 = pk.Move3;
-        pk.RelearnMove4 = pk.Move4;
 
-        if (criteria.IsSpecifiedIVsAny(out _))
+        if (criteria.IsSpecifiedIVs())
             criteria.SetRandomIVs(pk);
         else
             criteria.SetRandomIVs(pk, 3);
@@ -102,7 +97,8 @@ public sealed record EncounterEgg6(ushort Species, byte Form, GameVersion Versio
     private void SetEncounterMoves(PK6 pk)
     {
         var learn = Learn.GetLearnset(Species, Form);
-        var initial = learn.GetBaseEggMoves(LevelMin);
+        var initial = learn.GetBaseEggMoves(Level);
         pk.SetMoves(initial);
+        pk.SetRelearnMoves(initial);
     }
 }

@@ -174,34 +174,29 @@ public partial class PokePreview : Form
 
     private static void AppendGanbaru(IGanbaru g, ref string line, in BattleTemplateExportSettings settings)
     {
-        Span<byte> gvs = stackalloc byte[6];
-        g.GetGVs(gvs);
-        var statNames = settings.Localization.Config.GetStatDisplay(settings.StatsOther);
-        var value = TryAdd<byte>(gvs, statNames);
-        if (value.Length == 0)
-            return;
-        var result = settings.Localization.Config.Push(BattleTemplateToken.GVs, value);
-        line += Environment.NewLine + result;
+        Span<byte> stats = stackalloc byte[6];
+        g.GetGVs(stats);
+        var token = BattleTemplateToken.GVs;
+        TryAppend<byte>(stats, ref line, settings, token);
     }
 
     private static void AppendAwakening(IAwakened a, ref string line, in BattleTemplateExportSettings settings)
     {
-        Span<byte> avs = stackalloc byte[6];
-        a.GetAVs(avs);
-        var statNames = settings.Localization.Config.GetStatDisplay(settings.StatsOther);
-        var value = TryAdd<byte>(avs, statNames);
-        if (value.Length == 0)
-            return;
-        var result = settings.Localization.Config.Push(BattleTemplateToken.AVs, value);
-        line += Environment.NewLine + result;
+        Span<byte> stats = stackalloc byte[6];
+        a.GetAVs(stats);
+        var token = BattleTemplateToken.AVs;
+        TryAppend<byte>(stats, ref line, settings, token);
     }
 
-    private static string TryAdd<T>(ReadOnlySpan<T> stats, StatDisplayConfig statNames, T ignore = default) where T : unmanaged, IEquatable<T>
+    private static void TryAppend<T>(ReadOnlySpan<T> stats, ref string line, BattleTemplateExportSettings settings, BattleTemplateToken token) where T : unmanaged, IEquatable<T>
     {
-        var chunks = ShowdownSet.GetStringStats(stats, ignore, statNames);
-        if (chunks.Length == 0)
-            return string.Empty;
-        return string.Join(" / ", chunks);
+        var localization = settings.Localization;
+        var statNames = localization.Config.GetStatDisplay(settings.StatsOther);
+        var value = ShowdownSet.GetStringStats(stats, default, statNames);
+        if (value.Length == 0)
+            return;
+        var result = localization.Config.Push(token, value);
+        line += Environment.NewLine + result;
     }
 
     /// <summary> Prevent stealing focus from the form that shows this. </summary>

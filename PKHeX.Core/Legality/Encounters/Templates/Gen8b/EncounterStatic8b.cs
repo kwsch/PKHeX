@@ -121,9 +121,12 @@ public sealed record EncounterStatic8b(GameVersion Version)
     {
         if (!IsRoaming)
             return false;
+        if (pk is not PB8 pb8)
+            throw new ArgumentException($"{nameof(pk)} must be a {nameof(PB8)} instance.", nameof(pk));
+
         var criteria = EncounterCriteria.Unrestricted;
         var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
-        Roaming8bRNG.TryApplyFromSeed(pk, criteria, shiny, FlawlessIVCount, seed);
+        Roaming8bRNG.TryApplyFromSeed(pb8, criteria, shiny, FlawlessIVCount, seed);
         return true;
     }
 

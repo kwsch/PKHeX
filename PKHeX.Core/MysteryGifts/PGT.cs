@@ -169,7 +169,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             return;
 
         var seed = Util.Rand32();
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             // Generate PID
@@ -339,7 +339,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             pk4.IV32 |= criteria.GetCombinedIVs();
             return;
         }
-        if (criteria.IsSpecifiedIVsAny(out _))
+        if (criteria.IsSpecifiedIVs())
         {
             criteria.SetRandomIVs(pk4);
             return;

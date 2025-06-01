@@ -326,7 +326,7 @@ public static class PokewalkerRNG
     {
         // Act like a Non-Stroll encounter, generate IV rand() results immediately.
         iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
-        return criteria.IsCompatibleIVs(iv32);
+        return criteria.IsSatisfiedIVs(iv32);
     }
 }
 

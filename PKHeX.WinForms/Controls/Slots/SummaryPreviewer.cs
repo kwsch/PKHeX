@@ -118,8 +118,8 @@ public sealed class SummaryPreviewer
             // Give a little bit of fade-out delay
             await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
             if (!src.IsCancellationRequested)
-                Previewer.Invoke(Previewer.Hide);
-        }, src.Token);
+                await Previewer.InvokeAsync(Previewer.Hide, src.Token).ConfigureAwait(false);
+        }, src.Token).ConfigureAwait(false);
         ShowSet.RemoveAll();
         Cry.Stop();
     }

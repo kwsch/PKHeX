@@ -326,7 +326,7 @@ public static class ShowdownParsing
     /// <returns>Consumable list of <see cref="ShowdownSet.Text"/> lines.</returns>
     public static IEnumerable<string> GetShowdownText(IEnumerable<PKM> data, in BattleTemplateExportSettings settings)
     {
-        List<string> result = new();
+        List<string> result = new(1);
         var sets = GetShowdownSets(data);
         foreach (var set in sets)
             result.Add(set.GetText(settings));

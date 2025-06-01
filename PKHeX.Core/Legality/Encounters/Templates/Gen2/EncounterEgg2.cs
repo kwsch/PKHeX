@@ -59,7 +59,6 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
         }
 
         SetEncounterMoves(pk);
-        pk.HealPP();
 
         return pk;
     }
@@ -72,7 +71,7 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
     private void SetEncounterMoves(PK2 pk)
     {
         var learn = Learn.GetLearnset(Species, Form);
-        var initial = learn.GetBaseEggMoves(LevelMin);
+        var initial = learn.GetBaseEggMoves(Level);
         pk.SetMoves(initial);
     }
 }

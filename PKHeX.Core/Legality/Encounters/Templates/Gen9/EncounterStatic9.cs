@@ -150,14 +150,7 @@ public sealed record EncounterStatic9(GameVersion Version)
         if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
             this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
         if (IVs.IsSpecified)
-        {
-            pk.IV_HP = IVs.HP;
-            pk.IV_ATK = IVs.ATK;
-            pk.IV_DEF = IVs.DEF;
-            pk.IV_SPA = IVs.SPA;
-            pk.IV_SPD = IVs.SPD;
-            pk.IV_SPE = IVs.SPE;
-        }
+            pk.IV32 = IVs.GetIV32();
 
         if (Gender != FixedGenderUtil.GenderRandom)
             pk.Gender = Gender;

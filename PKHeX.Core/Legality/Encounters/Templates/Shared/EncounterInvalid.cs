@@ -5,6 +5,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Invalid Encounter Data
 /// </summary>
+/// <remarks>
+/// To return something, rather than null, when an encounter is invalid or not found.
+/// </remarks>
 public sealed record EncounterInvalid : IEncounterable
 {
     public static readonly EncounterInvalid Default = new();

@@ -16,7 +16,6 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     public ushort EggLocation => 0;
 
     public byte Form => 0;
-    public byte CrossoverFlags = CrossoverFlags;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name}";

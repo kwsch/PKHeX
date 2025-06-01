@@ -332,7 +332,7 @@ public static class MethodCXD
     /// </summary>
     public static void SetStarterRandom(XK3 pk, EncounterCriteria criteria, uint seed)
     {
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         bool checkNameScreen = pk.Language is (int)LanguageID.Japanese;
         while (true)
         {
@@ -391,7 +391,7 @@ public static class MethodCXD
         var gender = pi.Gender;
 
         bool hasPrior = enc.PartyPrior.Length != 0;
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         int ctr = 0;
         while (ctr++ < MaxIterationsShadowSearch)
         {
@@ -436,7 +436,7 @@ public static class MethodCXD
         var id32 = pk.ID32;
         var gender = pi.Gender;
 
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             // fakePID x2, IVs x2, ability, pid1*, pid2

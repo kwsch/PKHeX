@@ -206,7 +206,7 @@ public static class MethodPokeSpot
     {
         var levelDelta = 1u + levelMax - levelMin;
 
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && criteria.IsLevelWithinRange(levelMin, levelMax);
         while (true)
         {

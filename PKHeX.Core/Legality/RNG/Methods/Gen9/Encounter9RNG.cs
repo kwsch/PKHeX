@@ -91,12 +91,12 @@ public static class Encounter9RNG
         if (!ignoreIVs && !criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
-        pk.IV_HP = ivs[0];
-        pk.IV_ATK = ivs[1];
-        pk.IV_DEF = ivs[2];
-        pk.IV_SPA = ivs[3];
-        pk.IV_SPD = ivs[4];
-        pk.IV_SPE = ivs[5];
+        pk.IV32 = (uint)ivs[0] |
+                  (uint)(ivs[1] << 05) |
+                  (uint)(ivs[2] << 10) |
+                  (uint)(ivs[5] << 15) | // speed is last in the array, but in the middle of the 32bit value
+                  (uint)(ivs[3] << 20) |
+                  (uint)(ivs[4] << 25);
 
         int ability = enc.Ability switch
         {

@@ -23,6 +23,9 @@ public static class EncountersGO
     internal static EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8));
     internal static EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8));
 
+    /// <summary>
+    /// Debug method to reload the encounter data from the binary resources next to the executable.
+    /// </summary>
     public static void Reload()
     {
         SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8));
@@ -31,7 +34,8 @@ public static class EncountersGO
 
     private static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
     {
-        var name = $"encounter_{resource}.pkl";
+        var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        var name = System.IO.Path.Combine(exePath, $"encounter_{resource}.pkl");
         var data = System.IO.File.Exists(name) ? System.IO.File.ReadAllBytes(name) : Util.GetBinaryResource(name);
         return BinLinkerAccessor.Get(data, ident);
     }

@@ -5,8 +5,15 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core.Bulk;
 
+/// <summary>
+/// Checks for duplicate event egg mystery gifts among Pokémon in a bulk legality analysis.
+/// </summary>
 public sealed class DuplicateGiftChecker : IBulkAnalyzer
 {
+    /// <summary>
+    /// Analyzes the provided <see cref="BulkAnalysis"/> for duplicate event egg mystery gifts.
+    /// </summary>
+    /// <param name="input">The bulk analysis data to check.</param>
     public void Analyze(BulkAnalysis input)
     {
         if (input.Trainer.Generation <= 2)
