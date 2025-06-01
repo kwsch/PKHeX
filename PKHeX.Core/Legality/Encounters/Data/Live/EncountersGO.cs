@@ -1,13 +1,9 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
+#if !DEBUG
 namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter data from <see cref="GameVersion.GO"/>, which has multiple generations of origin.
 /// </summary>
-#if !DEBUG
 internal static class EncountersGO
 {
     internal const byte MAX_LEVEL = 50;
@@ -16,6 +12,12 @@ internal static class EncountersGO
     internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"u8));
 }
 #else
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+
+namespace PKHeX.Core;
 public static class EncountersGO
 {
     internal const byte MAX_LEVEL = 50;
@@ -34,9 +36,9 @@ public static class EncountersGO
 
     private static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
     {
-        var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        var name = System.IO.Path.Combine(exePath, $"encounter_{resource}.pkl");
-        var data = System.IO.File.Exists(name) ? System.IO.File.ReadAllBytes(name) : Util.GetBinaryResource(name);
+        var exePath = Path.GetDirectoryName(Environment.ProcessPath)!;
+        var name = Path.Combine(exePath, $"encounter_{resource}.pkl");
+        var data = File.Exists(name) ? File.ReadAllBytes(name) : Util.GetBinaryResource(name);
         return BinLinkerAccessor.Get(data, ident);
     }
 }

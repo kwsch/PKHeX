@@ -5,5 +5,8 @@ namespace PKHeX.Core;
 /// </summary>
 public readonly record struct EvolutionLink(EvolutionMethod Method, ushort Species, byte Form)
 {
+    /// <summary>
+    /// Indicates if this link is empty, meaning it does not represent a valid evolution method.
+    /// </summary>
     public bool IsEmpty => Species == 0;
 }

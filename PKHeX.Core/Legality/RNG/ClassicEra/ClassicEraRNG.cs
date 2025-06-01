@@ -152,7 +152,7 @@ public static class ClassicEraRNG
     /// <param name="month">Month component (1-12).</param>
     /// <param name="day">Day component (1-31).</param>
     /// <param name="seed">Initial seed to check.</param>
-    /// <returns><c>true</c> if the seed is an initial seed for the given date and time; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the seed is an initial seed for the given date and time; otherwise, <see langword="false"/>.</returns>
     public static bool IsInitialSeed(uint year, uint month, uint day, uint seed)
     {
         // Check component: hour

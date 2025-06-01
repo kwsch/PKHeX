@@ -9,29 +9,40 @@ namespace PKHeX.Core;
 public interface IEvolutionForward
 {
     /// <summary>
-    /// Gets the forward evolution paths for the given species and form.
+    /// Retrieves the forward evolution methods for a specified species and form.
     /// </summary>
+    /// <param name="species">The species identifier of the Pokémon.</param>
+    /// <param name="form">The form identifier of the Pokémon.</param>
+    /// <returns>A read-only memory segment containing the evolution methods for the specified species and form. If no evolution
+    /// methods are available, the returned segment will be empty.</returns>
     ReadOnlyMemory<EvolutionMethod> GetForward(ushort species, byte form);
 
     /// <summary>
-    /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to, yielded in order of increasing evolution stage.
+    /// Retrieves the evolutions for a given species and form.
     /// </summary>
-    /// <param name="species">Species ID</param>
-    /// <param name="form">Form ID</param>
-    /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
+    /// <param name="species">The species identifier of the entity for which to retrieve evolutions.</param>
+    /// <param name="form">The form identifier of the entity for which to retrieve evolutions.</param>
+    /// <returns>An enumerable collection of tuples, where each tuple contains the species identifier and form identifier of a
+    /// possible evolution. The collection will be empty if no evolutions are available.</returns>
     IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form);
 
     /// <summary>
-    /// Tries to evolve the given <see cref="pk"/> to the next evolution stage.
+    /// Attempts to determine if the specified Pokémon can evolve into the target species and form.
     /// </summary>
-    /// <param name="head">Current species and form to try evolving</param>
-    /// <param name="next">Expected species and form after evolution</param>
-    /// <param name="pk">Entity to evolve</param>
-    /// <param name="currentMaxLevel">Maximum allowed level for the result</param>
-    /// <param name="levelMin">Minimum level for the result</param>
-    /// <param name="skipChecks">Skip evolution exclusion checks</param>
-    /// <param name="tweak">Rule tweaks to use when checking evolution criteria</param>
-    /// <param name="result">Resulting evolution criteria</param>
-    /// <returns>True if the evolution is possible and <see cref="result"/> is valid.</returns>
+    /// <remarks>This method evaluates all applicable evolution methods for the given Pokémon and determines
+    /// if the evolution to the specified target species and form is valid based on the provided parameters. If the
+    /// evolution is valid, the resulting criteria are returned in the <paramref name="result"/> parameter.</remarks>
+    /// <typeparam name="T">The type representing the species and form of the Pokémon.</typeparam>
+    /// <param name="head">The current species and form of the Pokémon.</param>
+    /// <param name="next">The target species and form to evolve into.</param>
+    /// <param name="pk">The Pokémon instance to evaluate for evolution.</param>
+    /// <param name="currentMaxLevel">The maximum level currently allowed for evolution.</param>
+    /// <param name="levelMin">The minimum level required for evolution.</param>
+    /// <param name="skipChecks">A value indicating whether to bypass certain evolution checks.</param>
+    /// <param name="tweak">Additional rules or tweaks to apply during the evolution check.</param>
+    /// <param name="result">When this method returns, contains the evolution criteria if the evolution is valid; otherwise, the default
+    /// value.</param>
+    /// <returns><see langword="true"/> if the Pokémon can evolve into the specified species and form; otherwise, <see
+    /// langword="false"/>.</returns>
     bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak, out EvoCriteria result) where T : ISpeciesForm;
 }

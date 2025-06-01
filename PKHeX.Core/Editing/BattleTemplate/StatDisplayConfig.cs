@@ -66,10 +66,10 @@ public sealed class StatDisplayConfig
     /// <summary>Separator between the stat name and value</summary>
     public string ValueGap { get; init; } = " ";
 
-    /// <summary><c>true</c> if the text is displayed on the left side of the value</summary>
+    /// <summary><see langword="true"/> if the text is displayed on the left side of the value</summary>
     public bool IsLeft { get; init; }
 
-    /// <summary><c>true</c> if the stat is always shown, even if the value is default</summary>
+    /// <summary><see langword="true"/> if the stat is always shown, even if the value is default</summary>
     public bool AlwaysShow { get; init; }
 
     /// <summary>Minimum number of digits to show for the stat value.</summary>
@@ -99,7 +99,7 @@ public sealed class StatDisplayConfig
     /// <param name="statIndex">Display index of the stat</param>
     /// <param name="statValue">Stat value</param>
     /// <param name="valueSuffix">Optional suffix for the value, to display a stat amplification request</param>
-    /// <param name="skipValue"><c>true</c> to skip the value, only displaying the stat name and amplification (if provided)</param>
+    /// <param name="skipValue"><see langword="true"/> to skip the value, only displaying the stat name and amplification (if provided)</param>
     public void Format<T>(StringBuilder sb, int statIndex, T statValue, ReadOnlySpan<char> valueSuffix = default, bool skipValue = false)
     {
         var statName = statIndex < Names.Length ? Names[statIndex] : "";

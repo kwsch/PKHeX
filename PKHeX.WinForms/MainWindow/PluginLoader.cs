@@ -134,7 +134,7 @@ public static class PluginLoader
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <param name="plugin">The plugin type to match.</param>
-    /// <returns><c>true</c> if the type is a valid plugin type; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the type is a valid plugin type; otherwise, <see langword="false"/>.</returns>
     private static bool IsTypePlugin(Type type, Type plugin)
     {
         if (type.IsInterface || type.IsAbstract)

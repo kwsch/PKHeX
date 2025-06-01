@@ -448,7 +448,7 @@ public static class ShowdownParsing
     /// <param name="message">Input string to parse.</param>
     /// <param name="outputSettings">Export settings</param>
     /// <param name="translated">Translated string if successful.</param>
-    /// <returns><c>true</c> if the input was translated successfully, <c>false</c> otherwise.</returns>
+    /// <returns><see langword="true"/> if the input was translated successfully, <see langword="false"/> otherwise.</returns>
     public static bool TryTranslate(ReadOnlySpan<char> message, BattleTemplateExportSettings outputSettings, [NotNullWhen(true)] out string? translated)
     {
         translated = null;

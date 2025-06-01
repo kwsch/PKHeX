@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EvolutionUtil;
 
 namespace PKHeX.Core;
@@ -225,6 +224,9 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
     };
 }
 
+/// <summary>
+/// Evolution environment for <see cref="EntityContext.Gen8"/>.
+/// </summary>
 public sealed class EvolutionEnvironment8 : IEvolutionEnvironment
 {
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves8;
@@ -251,6 +253,9 @@ public sealed class EvolutionEnvironment8 : IEvolutionEnvironment
     };
 }
 
+/// <summary>
+/// Evolution environment for <see cref="EntityContext.Gen8a"/>.
+/// </summary>
 public sealed class EvolutionEnvironment8a : IEvolutionEnvironment
 {
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves8a;
@@ -263,6 +268,9 @@ public sealed class EvolutionEnvironment8a : IEvolutionEnvironment
         => Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
 }
 
+/// <summary>
+/// Evolution environment for <see cref="EntityContext.Gen8b"/>.
+/// </summary>
 public sealed class EvolutionEnvironment8b : IEvolutionEnvironment
 {
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves8b;
@@ -275,6 +283,9 @@ public sealed class EvolutionEnvironment8b : IEvolutionEnvironment
         => Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
 }
 
+/// <summary>
+/// Evolution environment for <see cref="EntityContext.Gen9"/>.
+/// </summary>
 public sealed class EvolutionEnvironment9 : IEvolutionEnvironment
 {
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves9;

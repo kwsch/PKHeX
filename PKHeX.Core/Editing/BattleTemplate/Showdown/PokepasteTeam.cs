@@ -28,7 +28,7 @@ public static class PokepasteTeam
     /// </summary>
     /// <param name="url">The URL to retrieve the team data from.</param>
     /// <param name="content">When the method returns, contains the processed team data if retrieval and formatting succeed; otherwise, null.</param>
-    /// <returns><c>true</c> if the team data is successfully retrieved and reformatted; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the team data is successfully retrieved and reformatted; otherwise, <see langword="false"/>.</returns>
     public static bool TryGetSets(string url, [NotNullWhen(true)] out string? content)
     {
         content = null;
@@ -44,7 +44,7 @@ public static class PokepasteTeam
     /// </summary>
     /// <param name="text">The text to evaluate.</param>
     /// <param name="url">When the method returns, contains the normalized API URL if the text represents a valid Showdown team URL; otherwise, null.</param>
-    /// <returns><c>true</c> if the text is a valid Showdown team URL; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the text is a valid Showdown team URL; otherwise, <see langword="false"/>.</returns>
     public static bool IsURL(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
     {
         text = text.Trim();
@@ -60,7 +60,7 @@ public static class PokepasteTeam
     /// </summary>
     /// <param name="text">The Showdown web URL as a read-only span of characters.</param>
     /// <param name="url">When the method returns, contains the standardized API URL if extraction is successful; otherwise, null.</param>
-    /// <returns><c>true</c> if the team index is successfully extracted and converted; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the team index is successfully extracted and converted; otherwise, <see langword="false"/>.</returns>
     public static bool TryCheckWeb(ReadOnlySpan<char> text, [NotNullWhen(true)] out string? url)
     {
         // if ends with `/`, remove.

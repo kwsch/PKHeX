@@ -79,7 +79,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Checks if the Hidden Power type for the given IVs matches the specified HiddenPowerType.
     /// </summary>
     /// <param name="iv32">The 32-bit integer representing the IVs.</param>
-    /// <returns><c>true</c> if the Hidden Power type matches; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the Hidden Power type matches; otherwise, <see langword="false"/>.</returns>
     public bool IsSatisfiedHiddenPower(uint iv32) => HiddenPower.GetType(iv32) == HiddenPowerType;
 
     private const sbyte RandomIV = -1;
@@ -87,31 +87,31 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// <summary>
     /// Determines whether a specific Hidden Power type is specified in the criteria.
     /// </summary>
-    /// <returns>><c>true</c> if a Hidden Power type is specified; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if a Hidden Power type is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedHiddenPower() => HiddenPowerType != -1;
 
     /// <summary>
     /// Determines whether a specific Nature is specified in the criteria or if complex nature mutations are allowed.
     /// </summary>
-    /// <returns>><c>true</c> if a Nature is specified or complex nature mutations are allowed; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if a Nature is specified or complex nature mutations are allowed; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedNature() => Nature != Nature.Random || Mutations.IsComplexNature();
 
     /// <summary>
     /// Determines whether a level range is specified in the criteria.
     /// </summary>
-    /// <returns>><c>true</c> if a level range is specified; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if a level range is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedLevelRange() => LevelMax != 0;
 
     /// <summary>
     /// Determines whether a specific Ability is specified in the criteria.
     /// </summary>
-    /// <returns>><c>true</c> if an Ability is specified; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if an Ability is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedAbility() => Ability != Any12H;
 
     /// <summary>
     /// Determines whether all IVs are specified in the criteria.
     /// </summary>
-    /// <returns>><c>true</c> if all IVs are specified; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if all IVs are specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedIVsAll() => IV_HP != RandomIV
                                    && IV_ATK != RandomIV
                                    && IV_DEF != RandomIV
@@ -122,7 +122,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// <summary>
     /// Determines whether any IV is specified in the criteria.
     /// </summary>
-    /// <returns>><c>true</c> if any IV is specified; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if any IV is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedIVs() => IV_HP != RandomIV
                                 || IV_ATK != RandomIV
                                 || IV_DEF != RandomIV
@@ -134,7 +134,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Determines whether the number of specified IVs is at least the given count.
     /// </summary>
     /// <param name="count">The minimum number of specified IVs to check for.</param>
-    /// <returns>><c>true</c> if the number of specified IVs is at least <paramref name="count"/>; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if the number of specified IVs is at least <paramref name="count"/>; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedIVs(int count) => count <= GetCountSpecifiedIVs();
 
     /// <summary>
@@ -152,7 +152,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Determines whether the specified index satisfies the ability criteria based on the current <see cref="Ability"/> setting.
     /// </summary>
     /// <param name="index">Actual ability index to check for being present in the criteria.</param>
-    /// <returns>><c>true</c> if the index satisfies the ability criteria; otherwise, <c>false</c>.</returns>
+    /// <returns>><see langword="true"/> if the index satisfies the ability criteria; otherwise, <see langword="false"/>.</returns>
     public bool IsSatisfiedAbility(int index) => IsSatisfiedAbility(index, Ability);
 
     private bool IsSatisfiedAbility(int index, AbilityPermission ability) => ability switch
@@ -169,7 +169,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Determines whether the specified Nature satisfies the criteria.
     /// </summary>
     /// <param name="nature">The Nature to check.</param>
-    /// <returns><c>true</c> if the Nature satisfies the criteria; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the Nature satisfies the criteria; otherwise, <see langword="false"/>.</returns>
     public bool IsSatisfiedNature(Nature nature)
     {
         if (Mutations.HasFlag(AllowOnlyNeutralNature))
@@ -183,14 +183,14 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Determines whether the specified level satisfies the level range criteria.
     /// </summary>
     /// <param name="level">The level to check.</param>
-    /// <returns><c>true</c> if the level satisfies the criteria; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if the level satisfies the criteria; otherwise, false.</returns>
     public bool IsSatisfiedLevelRange(byte level) => LevelMin <= level && level <= LevelMax;
 
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
     /// </summary>
     /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is last!</param>
-    /// <returns><c>true</c> if compatible, <c>false</c> if incompatible.</returns>
+    /// <returns><see langword="true"/> if compatible, <see langword="false"/> if incompatible.</returns>
     public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs)
     {
         var IVs = encounterIVs;
@@ -509,7 +509,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Checks if the provided IVs are compatible with the criteria's IV restrictions.
     /// </summary>
     /// <param name="ivs">The IVs to check for compatibility.</param>
-    /// <returns><c>true</c> if the IVs are compatible; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the IVs are compatible; otherwise, <see langword="false"/>.</returns>
     public bool IsCompatibleIVs(ReadOnlySpan<int> ivs)
     {
         if (ivs.Length != 6)

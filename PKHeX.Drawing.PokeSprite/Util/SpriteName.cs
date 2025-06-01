@@ -5,8 +5,14 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Drawing.PokeSprite;
 
+/// <summary>
+/// Logic for retrieving the resource names of Pokémon and related sprites.
+/// </summary>
 public static class SpriteName
 {
+    /// <summary>
+    /// Allows returning a Shiny sprite when available.
+    /// </summary>
     public static bool AllowShinySprite { get; set; }
 
     private const char Separator = '_';

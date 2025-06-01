@@ -12,7 +12,7 @@ public static class Daycare3
     /// </summary>
     /// <param name="pid">Obtained PID.</param>
     /// <param name="version">Version the egg was obtained in.</param>
-    /// <returns><c>true</c> if the PID is valid, <c>false</c> otherwise.</returns>
+    /// <returns><see langword="true"/> if the PID is valid, <see langword="false"/> otherwise.</returns>
     public static bool IsValidProcPID(uint pid, GameVersion version)
     {
         // Gen3 Eggs don't have a zero-value pending PID value.
@@ -56,7 +56,7 @@ public static class Daycare3
     /// <param name="pid">Obtained PID; only high 16 bits needed.</param>
     /// <param name="version">Version of the game.</param>
     /// <param name="origin">Origin info when receiving the egg</param>
-    /// <returns><c>true</c> if a valid origin was found, <c>false</c> otherwise.</returns>
+    /// <returns><see langword="true"/> if a valid origin was found, <see langword="false"/> otherwise.</returns>
     public static bool TryGetOriginSeed(ReadOnlySpan<int> ivs, uint pid, GameVersion version, out Daycare3Origin origin)
     {
         if (version is GameVersion.E)

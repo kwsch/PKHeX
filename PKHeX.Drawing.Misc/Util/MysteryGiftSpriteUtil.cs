@@ -5,8 +5,16 @@ using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.Drawing.Misc;
 
+/// <summary>
+/// Provides utility methods for retrieving and composing sprites for Mystery Gifts.
+/// </summary>
 public static class MysteryGiftSpriteUtil
 {
+    /// <summary>
+    /// Gets the sprite image for the specified <see cref="MysteryGift"/>.
+    /// </summary>
+    /// <param name="gift">The mystery gift to get the sprite for.</param>
+    /// <returns>A <see cref="Bitmap"/> representing the sprite image.</returns>
     public static Bitmap Sprite(this MysteryGift gift) => GetSprite(gift);
 
     private static Bitmap GetSprite(MysteryGift gift)

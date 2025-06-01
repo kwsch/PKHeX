@@ -10,6 +10,11 @@ public static class EvolutionSet
 {
     private const int SIZE = 8;
 
+    /// <summary>
+    /// Retrieves a two-dimensional array of <see cref="EvolutionMethod"/> objects based on the provided data.
+    /// </summary>
+    /// <param name="data">Container data to unpack.</param>
+    /// <param name="levelUp">Level up amount required to trigger a level up evolution. Is 0 for games like <see cref="GameVersion.PLA"/> which can trigger manually when satisfied.</param>
     public static EvolutionMethod[][] GetArray(BinLinkerAccessor16 data, byte levelUp = 1)
     {
         var result = new EvolutionMethod[data.Length][];

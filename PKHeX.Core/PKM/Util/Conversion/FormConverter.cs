@@ -979,7 +979,7 @@ public static class FormConverter
     /// </summary>
     /// <param name="formName">Desired form name</param>
     /// <param name="formNames">List of all form names</param>
-    /// <returns><c>true</c> if the form name is a cosplay Pikachu form.</returns>
+    /// <returns><see langword="true"/> if the form name is a cosplay Pikachu form.</returns>
     public static bool IsCosplayPikachu(ReadOnlySpan<char> formName, ReadOnlySpan<string> formNames)
     {
         for (int i = 729; i <= 734; i++)
