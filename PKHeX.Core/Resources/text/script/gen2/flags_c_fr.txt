@@ -15,56 +15,55 @@
 0191	*	Fargas est prêt à rendre la GS Ball (à combiner avec le drapeau du dessus)
 0192	*	La GS Ball peut être insérée dans l'autel du Bois aux Chênes
 1809	*	Aucun objet de Cadeau Mystère n'attend au Centre Pokémon
-0672	*	Puzzle d'Ho-Oh résolu
-0673	*	Puzzle de Kabuto résolu
-0674	*	Puzzle d'Amonita résolu
-0675	*	Puzzle de Ptéra résolu
-0676	*	DECO_BED_1
-0677	*	DECO_BED_2
-0678	*	DECO_BED_3
-0679	*	DECO_BED_4
-0680	*	DECO_CARPET_1
-0681	*	DECO_CARPET_2
-0682	*	DECO_CARPET_3
-0683	*	DECO_CARPET_4
-0684	*	DECO_PLANT_1
-0685	*	DECO_PLANT_2
-0686	*	DECO_PLANT_3
-0687	*	DECO_PLANT_4
-0688	*	DECO_POSTER_1
-0689	*	DECO_POSTER_2
-0690	*	DECO_POSTER_3
-0691	*	DECO_FAMICOM
-0692	*	DECO_SNES
-0693	*	DECO_N64
-0694	*	DECO_VIRTUAL_BOY
-0695	*	DECO_PIKACHU_DOLL
-0696	*	DECO_SURFING_PIKACHU_DOLL
-0697	*	DECO_CLEFAIRY_DOLL
-0698	*	DECO_JIGGLYPUFF_DOLL
-0699	*	DECO_BULBASAUR_DOLL
-0700	*	DECO_CHARMANDER_DOLL
-0701	*	DECO_SQUIRTLE_DOLL
-0702	*	DECO_POLIWAG_DOLL
-0703	*	DECO_DIGLETT_DOLL
-0704	*	DECO_STARMIE_DOLL
-0705	*	DECO_MAGIKARP_DOLL
-0706	*	DECO_ODDISH_DOLL
-0707	*	DECO_GENGAR_DOLL
-0708	*	DECO_SHELLDER_DOLL
-0709	*	DECO_GRIMER_DOLL
-0710	*	DECO_VOLTORB_DOLL
-0711	*	DECO_WEEDLE_DOLL
-0712	*	DECO_UNOWN_DOLL
-0713	*	DECO_GEODUDE_DOLL
-0714	*	DECO_MACHOP_DOLL
-0715	*	DECO_TENTACOOL_DOLL
-0716	*	PLAYERS_ROOM_POSTER
-0717	*	DECO_GOLD_TROPHY
-0718	*	DECO_SILVER_TROPHY
-0719	*	DECO_BIG_SNORLAX_DOLL
-0720	*	DECO_BIG_ONIX_DOLL
-0721	*	DECO_BIG_LAPRAS_DOLL
+0672	*	Puzzle d'Ho-Oh résolu aux Ruines d'Alpha
+0673	*	Puzzle de Kabuto résolu aux Ruines d'Alpha
+0674	*	Puzzle d'Amonita résolu aux Ruines d'Alpha
+0675	*	Puzzle de Ptéra résolu aux Ruines d'Alpha
+0676	*	Lit à Plumes
+0677	*	Lit Rose
+0678	*	Lit à Pois
+0679	*	Lit Pikachu
+0680	*	Tapis Rouge
+0681	*	Tapis Bleu
+0682	*	Tapis Jaune
+0683	*	Tapis Vert
+0684	*	Grosse Plante
+0685	*	Plante Tropicale
+0686	*	Maxi Plante
+0687	*	Carte
+0688	*	Poster Pikachu
+0689	*	Poster Mélofée
+0690	*	Poster Rondoudou
+0691	*	NES
+0692	*	Super Nintendo
+0693	*	Nintendo 64
+0694	*	Virtual Boy
+0695	*	Poupée Pikachu
+0696	*	Jouet Pikachu Surf
+0697	*	Poupée Mélofée
+0698	*	Poupée Rondoudou
+0699	*	Poupée Bulbizarre
+0700	*	Poupée Salamèche
+0701	*	Poupée Carapuce
+0702	*	Poupée Ptitard
+0703	*	Poupée Taupiqueur
+0704	*	Poupée Stari
+0705	*	Poupée Magicarpe
+0706	*	Poupée Mystherbe
+0707	*	Poupée Ectoplasma
+0708	*	Poupée Kokiyas
+0709	*	Poupée Tadmorv
+0710	*	Poupée Voltorbe
+0711	*	Poupée Aspicot
+0712	*	Poupée Zarbi
+0713	*	Poupée Racaillou
+0714	*	Poupée Machoc
+0715	*	Poupée Tentacool
+0717	*	Trophée Or
+0718	*	Trophée Argent
+0719	*	Ronflex Super
+0720	*	Onix Super
+0721	*	Lokhlass Super
 0791	r	Ho-oh attrapé
 0792	r	Lugia attrapé
 0830	r	Œuf Bizarre reçu
@@ -98,7 +97,7 @@
 0108	s	Samuel rencontré
 0109	s	Rune Sort reçu de Samuel
 0110	s	Lucie rencontrée
-0111	s	Bec Pointy reçu de Lucie
+0111	s	Bec Pointu reçu de Lucie
 0189	g	Minidraco reçu
 0193	g	Quiz mal répondu (le Minidraco offert n'aura pas Vit.Extrême)
 0205	s	Alimentation revenue à Kanto/Train Magnet utilisable
