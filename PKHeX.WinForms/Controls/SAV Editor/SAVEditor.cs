@@ -29,7 +29,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         value.Slots.Publisher.Subscribers.Add(SL_Extra);
     }
 
-    public SaveFile SAV { get; private set; } = new FakeSaveFile();
+    public SaveFile SAV { get; private set; } = FakeSaveFile.Default;
     public int CurrentBox => Box.CurrentBox;
     public SlotChangeManager M { get; }
     public readonly ContextMenuSAV menu;

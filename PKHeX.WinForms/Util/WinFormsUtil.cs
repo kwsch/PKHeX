@@ -175,7 +175,7 @@ public static class WinFormsUtil
             default:
                 throw new IndexOutOfRangeException(nameof(e.ScrollOrientation));
         }
-        static int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
+        static int Clamp(int value, ScrollProperties prop) => Math.Clamp(value, prop.Minimum, prop.Maximum);
     }
 
     /// <summary>
@@ -195,8 +195,8 @@ public static class WinFormsUtil
         control.ValueMember = nameof(ComboItem.Value);
     }
 
-    public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
-    public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
+    public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
+    public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
 
     public static void RemoveDropCB(object? sender, KeyEventArgs e)
     {

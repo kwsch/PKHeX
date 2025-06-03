@@ -20,7 +20,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO8;
 
-    public string Name => $"Wild Encounter ({Version})";
+    public string Name => $"GO Encounter ({Version})";
     public string LongName
     {
         get

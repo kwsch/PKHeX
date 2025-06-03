@@ -19,6 +19,9 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public bool Korean => false;
     public override int Language { get; set; }
 
+    /// <summary>
+    /// Rather than deal with managing lists on each slot read/write, store all sequentially in a single buffer.
+    /// </summary>
     private readonly byte[] Reserved = new byte[SIZE_RESERVED];
 
     private const int SIZE_RESERVED = 0x8000; // unpacked box data

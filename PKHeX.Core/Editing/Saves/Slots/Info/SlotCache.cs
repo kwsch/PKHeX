@@ -22,13 +22,11 @@ public sealed class SlotCache : IComparable<SlotCache>
     /// </summary>
     public readonly PKM Entity;
 
-    private static readonly FakeSaveFile NoSaveFile = new();
-
     public SlotCache(SlotInfoFile source, PKM entity)
     {
         Source = source;
         Entity = entity;
-        SAV = NoSaveFile;
+        SAV = FakeSaveFile.Default;
     }
 
     public SlotCache(ISlotInfo source, PKM entity, SaveFile sav)

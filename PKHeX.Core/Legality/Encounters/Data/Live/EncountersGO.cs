@@ -36,9 +36,10 @@ public static class EncountersGO
 
     private static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
     {
-        var exePath = Path.GetDirectoryName(Environment.ProcessPath)!;
-        var name = Path.Combine(exePath, $"encounter_{resource}.pkl");
-        var data = File.Exists(name) ? File.ReadAllBytes(name) : Util.GetBinaryResource(name);
+        var exePath = Path.GetDirectoryName(Environment.ProcessPath) ?? "";
+        var file = $"encounter_{resource}.pkl";
+        var fullPath = Path.Combine(exePath, file);
+        var data = File.Exists(fullPath) ? File.ReadAllBytes(fullPath) : Util.GetBinaryResource(file);
         return BinLinkerAccessor.Get(data, ident);
     }
 }

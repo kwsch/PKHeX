@@ -15,7 +15,7 @@ public static class FileUtil
     /// <summary>
     /// Attempts to get a binary object from the provided path.
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">Path to the file.</param>
     /// <param name="reference">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
     public static object? GetSupportedFile(string path, SaveFile? reference = null)
