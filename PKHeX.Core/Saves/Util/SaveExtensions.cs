@@ -40,7 +40,7 @@ public static class SaveExtensions
 
     private static List<string> GetSaveFileErrata(this SaveFile sav, PKM pk, IBasicStrings strings)
     {
-        var errata = new List<string>();
+        var errata = new List<string>(0); // usually nothing wrong, so start with empty list
         ushort held = (ushort)pk.HeldItem;
         if (sav.Generation > 1 && held != 0)
         {

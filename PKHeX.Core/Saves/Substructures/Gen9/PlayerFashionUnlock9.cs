@@ -5,6 +5,9 @@ using static PKHeX.Core.SaveBlockAccessor9SV;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Collection of unlock-able fashion items for the player in Generation 9 games.
+/// </summary>
 public static class PlayerFashionUnlock9
 {
     private static ReadOnlySpan<ushort> Eyewear =>
@@ -127,6 +130,10 @@ public static class PlayerFashionUnlock9
         8076, 8077,
     ];
 
+    /// <summary>
+    /// Adds the specified fashion items to the block data.
+    /// </summary>
+    /// <returns>The number of items added that were not already present.</returns>
     public static int Add(SCBlockAccessor acc, uint key, ReadOnlySpan<ushort> add)
     {
         var block = acc.GetBlock(key);
@@ -136,6 +143,7 @@ public static class PlayerFashionUnlock9
 
     private const int SIZE = 8;
 
+    /// <inheritdoc cref="Add(SCBlockAccessor, uint, ReadOnlySpan{ushort})"/>
     public static int Add(Span<byte> data, ReadOnlySpan<ushort> add)
     {
         var missing = new HashSet<ushort>(add.Length);
@@ -173,6 +181,9 @@ public static class PlayerFashionUnlock9
         return added;
     }
 
+    /// <summary>
+    /// Unlocks the fashion items for the player based on the requested gender.
+    /// </summary>
     public static int UnlockBase(SCBlockAccessor acc, byte gender)
     {
         int count = 0;

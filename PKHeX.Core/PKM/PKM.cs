@@ -364,6 +364,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public int[] IVs
     {
+        [Obsolete($"Use the {nameof(GetIVs)} method with stackalloc to not allocate.")]
         get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set => SetIVs(value);
     }

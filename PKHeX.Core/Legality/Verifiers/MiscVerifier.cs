@@ -841,13 +841,14 @@ public sealed class MiscVerifier : Verifier
         return true;
     }
 
-    private void VerifyStatNature(LegalityAnalysis data, PKM pk)
+    private void VerifyStatNature<T>(LegalityAnalysis data, T pk) where T : PKM
     {
-        var sn = (byte)pk.StatNature;
-        if (sn == (byte)pk.Nature)
+        // No encounters innately come with a different Stat Nature...
+        // If it matches the Nature, it is valid. If it doesn't, it should be one of the mint natures.
+        var statNature = pk.StatNature;
+        if (statNature == pk.Nature)
             return;
-        // Only allow Serious nature (12); disallow all other neutral natures.
-        if (sn != 12 && (sn > 24 || sn % 6 == 0))
+        if (!statNature.IsMint())
             data.AddLine(GetInvalid(LStatNatureInvalid));
     }
 

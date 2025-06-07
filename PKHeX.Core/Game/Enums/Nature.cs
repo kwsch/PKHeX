@@ -58,6 +58,9 @@ public static class NatureUtil
     /// <summary>
     /// Checks if the provided <see cref="value"/> is a possible mint nature.
     /// </summary>
+    /// <remarks>
+    /// The only valid mint natures are those which have a stat amp applied, or neutral nature being Serious.
+    /// </remarks>
     public static bool IsMint(this Nature value) => (value.IsFixed() && (byte)value % 6 != 0) || value == Nature.Serious;
 
     /// <summary>

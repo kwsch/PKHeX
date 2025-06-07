@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -24,7 +23,7 @@ public class PIDIVTest
         var gk1 = new PK3();
         PIDGenerator.SetValuesFromSeed(gk1, ga1.Type, ga1.OriginSeed);
         gk1.PID.Should().Be(pk1.PID);
-        gk1.IVs.SequenceEqual(pk1.IVs).Should().BeTrue();
+        gk1.IV32.Should().Be(pk1.IV32);
     }
 
     [Fact]
@@ -61,7 +60,7 @@ public class PIDIVTest
         var gk3 = new PK3();
         PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, pv.OriginSeed);
         gk3.PID.Should().Be(pk3.PID);
-        gk3.IVs.SequenceEqual(pk3.IVs).Should().BeTrue();
+        gk3.IV32.Should().Be(pk3.IV32);
     }
 
     [Fact]
@@ -75,7 +74,7 @@ public class PIDIVTest
         var gkC = new PK3();
         PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, pv.OriginSeed);
         gkC.PID.Should().Be(pkC.PID);
-        gkC.IVs.SequenceEqual(pkC.IVs).Should().BeTrue();
+        gkC.IV32.Should().Be(pkC.IV32);
     }
 
     [Fact]
@@ -110,7 +109,7 @@ public class PIDIVTest
         var gkRS = new PK3 { TID16 = 30317, SID16 = 00000 };
         PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_S, bfix);
         gkRS.PID.Should().Be(pkRS.PID);
-        gkRS.IVs.SequenceEqual(pkRS.IVs).Should().BeTrue();
+        gkRS.IV32.Should().Be(pkRS.IV32);
 
         // Unrestricted Antishiny nyx
         var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = [00, 15, 05, 04, 21, 05], TID16 = 00080, SID16 = 00000};
