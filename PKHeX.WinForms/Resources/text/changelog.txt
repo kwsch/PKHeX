@@ -1,7 +1,20 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/05/18 - New Update:
+25/06/09 - New Update:
+ - Legality:
+ - - Fixed: Gen3 XD trainer ID checks no longer required for PAL copies of the game.
+ - - Fixed: Gen8 PLA purchased/master flag check regression fixed.
+ - - Changed: Updated badwords list. Thanks @abcboy101 !
+ - Added: Gen4 PBR box names and play time now available for edits. Thanks @abcboy101 !
+ - Fixed: Gen9 inventory edits with duplicate/cleared item slots now behaves correctly for editing items near the end of the list.
+ - Fixed: Gen3 nickname encoding is better handled when transferring between international and Japanese games.
+ - Fixed: PokePreview hover form no longer flickers the main GUI.
+ - Fixed: Stat abbreviations for other languages have been updated for easier parsing.
+ - Changed: Legality resources for levelup/eggmove/evolve have been re-serialized to a more compact & straightforward format, improving startup time.
+ - Changed: Plugin loading logic reworked for better containerization.
+
+25/05/18 - New Update: (107108) [10158312]
  - Legality:
  - - Added: Gen3/4 egg PID types can be allowed to be any PID type by the user if changed via program settings.
  - - Added: Gen3 XD Poké Spot IV animation is now checked for legality.
@@ -25,7 +38,7 @@ http://projectpokemon.org/pkhex/
  - Changed: Intel CPUs might work better with the recent .NET 9 runtime. Thanks @hewenhan !
  - Changed: ShowdownSet parsing/exporting was rewritten for more flexibility (localization) as well as new formats/representations.
 
-25/02/23 - New Update:
+25/02/23 - New Update: (394978) [10051204]
  - Changed: PKHeX now uses .NET 9 for its runtime (updated from .NET 8)!
  - Legality:
  - - Added: Handling for new HOME gifts (Meltan, Keldeo, Manaphy, Enamorus).
