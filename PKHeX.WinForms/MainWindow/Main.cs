@@ -901,7 +901,7 @@ public partial class Main : Form
             return title + $"[{version}]";
         if (!sav.State.Exportable) // Blank save file
             return title + $"{sav.Metadata.FileName} [{sav.OT} ({version})]";
-        return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.Metadata.BAKName)); // more descriptive
+        return title + Path.GetFileNameWithoutExtension(PathUtil.CleanFileName(sav.Metadata.BAKName)); // more descriptive
     }
 
     private static bool TryBackupExportCheck(SaveFile sav, string path)

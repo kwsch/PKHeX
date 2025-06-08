@@ -38,12 +38,12 @@ public static class BoxUtil
             if (boxFolders)
             {
                 string boxName = sav is IBoxDetailName bn ? bn.GetBoxName(box) : BoxDetailNameExtensions.GetDefaultBoxName(box);
-                boxName = Util.CleanFileName(boxName);
+                boxName = PathUtil.CleanFileName(boxName);
                 boxFolder = Path.Combine(path, boxName);
                 Directory.CreateDirectory(boxFolder);
             }
 
-            var fileName = Util.CleanFileName(pk.FileName);
+            var fileName = PathUtil.CleanFileName(pk.FileName);
             var fn = Path.Combine(boxFolder, fileName);
             if (File.Exists(fn))
                 continue;
@@ -76,7 +76,7 @@ public static class BoxUtil
             if (pk.Species == 0 || !pk.Valid || box != currentBox)
                 continue;
 
-            var fileName = Path.Combine(path, Util.CleanFileName(pk.FileName));
+            var fileName = Path.Combine(path, PathUtil.CleanFileName(pk.FileName));
             if (File.Exists(fileName))
                 continue;
 

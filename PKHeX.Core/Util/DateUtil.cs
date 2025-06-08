@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for handling date and time values, including validation and conversion to/from seconds elapsed since a specific epoch.
+/// </summary>
 public static class DateUtil
 {
     /// <summary>
@@ -102,12 +105,5 @@ public static class DateUtil
     /// <summary>
     /// Checks if the given time components represent a valid time.
     /// </summary>
-    /// <param name="receivedHour"></param>
-    /// <param name="receivedMinute"></param>
-    /// <param name="receivedSecond"></param>
-    /// <returns></returns>
-    public static bool IsValidTime(byte receivedHour, byte receivedMinute, byte receivedSecond)
-    {
-        return receivedHour < 24u && receivedMinute < 60u && receivedSecond < 60u;
-    }
+    public static bool IsValidTime(byte hour, byte minute, byte second) => hour < 24u && minute < 60u && second < 60u;
 }

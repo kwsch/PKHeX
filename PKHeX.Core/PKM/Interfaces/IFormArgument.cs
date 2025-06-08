@@ -114,9 +114,6 @@ public static class FormArgumentUtil
     public static uint GetFormArgumentMax(ushort species, byte form, EntityContext context)
     {
         var gen = context.Generation();
-        if (gen <= 5)
-            return 0;
-
         return species switch
         {
             (int)Furfrou when form != 0 => 5,

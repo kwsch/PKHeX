@@ -958,7 +958,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             return false;
         }
 
-        var suggestion = Util.CleanFileName(SAV.Metadata.BAKName);
+        var suggestion = PathUtil.CleanFileName(SAV.Metadata.BAKName);
         using var sfd = new SaveFileDialog();
         sfd.FileName = suggestion;
         if (sfd.ShowDialog() != DialogResult.OK)

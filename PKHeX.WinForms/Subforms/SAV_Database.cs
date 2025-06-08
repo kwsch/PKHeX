@@ -241,7 +241,7 @@ public partial class SAV_Database : Form
         PKM pk = PKME_Tabs.PreparePKM();
         Directory.CreateDirectory(DatabasePath);
 
-        string path = Path.Combine(DatabasePath, Util.CleanFileName(pk.FileName));
+        string path = Path.Combine(DatabasePath, PathUtil.CleanFileName(pk.FileName));
 
         if (File.Exists(path))
         {
@@ -510,7 +510,7 @@ public partial class SAV_Database : Form
         Directory.CreateDirectory(path);
 
         foreach (var pk in Results.Select(z => z.Entity))
-            File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.DecryptedPartyData);
+            File.WriteAllBytes(Path.Combine(path, PathUtil.CleanFileName(pk.FileName)), pk.DecryptedPartyData);
     }
 
     private void Menu_Import_Click(object sender, EventArgs e)

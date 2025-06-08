@@ -493,7 +493,7 @@ public partial class SAV_Wondercard : Form
         // Create Temp File to Drag
         wc_slot = index;
         Cursor.Current = Cursors.Hand;
-        string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(gift.FileName));
+        string newfile = Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(gift.FileName));
         try
         {
             File.WriteAllBytes(newfile, gift.Write());

@@ -17,9 +17,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int SIZE_STORED { get; }
     public string Extension => GetType().Name.ToLowerInvariant();
     public abstract PersonalInfo PersonalInfo { get; }
+
+    /// <summary>
+    /// Bytes in the data structure that are unused, either as alignment padding, or were reserved and never used.
+    /// </summary>
     public virtual ReadOnlySpan<ushort> ExtraBytes => [];
 
-    // Internal Attributes set on creation
     public readonly byte[] Data; // Raw Storage
 
     protected PKM(byte[] data) => Data = data;

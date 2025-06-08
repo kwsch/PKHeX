@@ -292,7 +292,7 @@ public partial class SAV_MysteryGiftDB : Form
 
         foreach (var gift in Results.OfType<DataMysteryGift>()) // WC3 have no data
         {
-            var fileName = Util.CleanFileName(gift.FileName);
+            var fileName = PathUtil.CleanFileName(gift.FileName);
             var path = Path.Combine(folder, fileName);
             var data = gift.Write();
             File.WriteAllBytes(path, data);

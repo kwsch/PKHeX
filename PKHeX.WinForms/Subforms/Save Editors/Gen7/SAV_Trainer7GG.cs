@@ -207,7 +207,7 @@ public partial class SAV_Trainer7GG : Form
 
         var folder = fbd.SelectedPath;
         foreach (var gpk in gofiles)
-            File.WriteAllBytes(Path.Combine(folder, Util.CleanFileName(gpk.FileName)), gpk.Data);
+            File.WriteAllBytes(Path.Combine(folder, PathUtil.CleanFileName(gpk.FileName)), gpk.Data);
         WinFormsUtil.Alert($"Dumped {gofiles.Length} files to {folder}");
     }
 

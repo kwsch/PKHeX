@@ -86,6 +86,22 @@ public static class FileUtil
         catch { return -1; } // Bad File / Locked
     }
 
+    /// <summary>
+    /// Safely iterates over the elements of the specified <see cref="IEnumerable{T}"/>, handling exceptions during enumeration.
+    /// </summary>
+    /// <remarks>
+    /// This method ensures that exceptions thrown during enumeration do not terminate the iteration prematurely.
+    /// Instead, it logs the exception (if a <paramref name="log"/> action is provided) and continues iterating until the specified <paramref name="failOut"/> limit is reached.
+    /// If the limit is exceeded, the iteration stops.
+    /// </remarks>
+    /// <typeparam name="T">The type of elements in the source collection.</typeparam>
+    /// <param name="source">The source collection to iterate over. Cannot be <see langword="null"/>.</param>
+    /// <param name="failOut">
+    /// The maximum number of consecutive exceptions allowed before the iteration is terminated.
+    /// Must be greater than or equal to 0.
+    /// </param>
+    /// <param name="log">An optional action to log or handle exceptions that occur during enumeration. If <see langword="null"/>, exceptions are ignored.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> that yields elements from the source collection, skipping over elements that cause exceptions.</returns>
     public static IEnumerable<T> IterateSafe<T>(this IEnumerable<T> source, int failOut = 10, Action<Exception>? log = null)
     {
         using var enumerator = source.GetEnumerator();
@@ -306,7 +322,7 @@ public static class FileUtil
         string fn = pk.FileNameWithoutExtension;
         string filename = fn + (encrypt ? $".ek{pk.Format}" : $".{pk.Extension}");
 
-        return Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+        return Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(filename));
     }
 
     /// <summary>
@@ -342,8 +358,15 @@ public static class FileUtil
 /// <param name="Count">Count of objects</param>
 public sealed record ConcatenatedEntitySet(Memory<byte> Data, int Count)
 {
+    /// <summary>
+    /// Size of each Entity in bytes.
+    /// </summary>
     public int SlotSize => Data.Length / Count;
 
+    /// <summary>
+    /// Retrieves a specific slot of data from the concatenated set.
+    /// </summary>
+    /// <param name="index">Slot index to retrieve.</param>
     public Span<byte> GetSlot(int index)
     {
         var size = SlotSize;

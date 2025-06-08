@@ -45,9 +45,22 @@ public static class FormConverter
         };
     }
 
+    /// <summary>
+    /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
+    /// </summary>
     private static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
 
+    /// <summary>
+    /// Used to indicate that the form list is a single form, so no name is specified.
+    /// </summary>
     private static readonly string[] EMPTY = [string.Empty];
+
+    /// <summary>
+    /// Lets Go, Pikachu! &amp; Eevee! Starter form name.
+    /// </summary>
+    /// <remarks>
+    /// Different from the "Partner Cap" form.
+    /// </remarks>
     private const string Starter = nameof(Starter);
 
     private static string[] GetFormsGen1(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)

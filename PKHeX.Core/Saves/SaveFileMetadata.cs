@@ -102,7 +102,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
         var fileName = Path.GetFileName(path);
 
         // Trim off existing backup name if present
-        var bakName = Util.CleanFileName(bak);
+        var bakName = PathUtil.CleanFileName(bak);
         if (fileName.EndsWith(bakName, StringComparison.Ordinal))
             fileName = fileName[..^bakName.Length];
 
@@ -159,7 +159,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
 
     public string GetBackupFileName(string destDir)
     {
-        return Path.Combine(destDir, Util.CleanFileName(BAKName));
+        return Path.Combine(destDir, PathUtil.CleanFileName(BAKName));
     }
 
     private void SetAsBlank()

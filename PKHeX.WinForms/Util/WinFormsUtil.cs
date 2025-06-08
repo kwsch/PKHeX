@@ -336,7 +336,7 @@ public static class WinFormsUtil
         using var sfd = new SaveFileDialog();
         sfd.Filter = genericFilter;
         sfd.DefaultExt = pkx;
-        sfd.FileName = Util.CleanFileName(pk.FileName);
+        sfd.FileName = PathUtil.CleanFileName(pk.FileName);
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 
@@ -422,7 +422,7 @@ public static class WinFormsUtil
     {
         using var sfd = new SaveFileDialog();
         sfd.Filter = GetMysterGiftFilter(gift.Context);
-        sfd.FileName = Util.CleanFileName(gift.FileName);
+        sfd.FileName = PathUtil.CleanFileName(gift.FileName);
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 

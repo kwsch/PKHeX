@@ -29,6 +29,12 @@ public sealed class ValueTypeTypeConverter : ExpandableObjectConverter
     }
 }
 
+/// <summary>
+/// Used for converting a <see cref="uint"/> to an uppercase hex string and back.
+/// </summary>
+/// <remarks>
+/// When converting from a string, it accepts both "0x" prefixed and non-prefixed hex strings, with case insensitivity.
+/// </remarks>
 public sealed class TypeConverterU32 : TypeConverter
 {
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
@@ -60,6 +66,12 @@ public sealed class TypeConverterU32 : TypeConverter
     }
 }
 
+/// <summary>
+/// Used for converting a <see cref="ulong"/> to an uppercase hex string and back.
+/// </summary>
+/// <remarks>
+/// When converting from a string, it accepts both "0x" prefixed and non-prefixed hex strings, with case insensitivity.
+/// </remarks>
 public sealed class TypeConverterU64 : TypeConverter
 {
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
