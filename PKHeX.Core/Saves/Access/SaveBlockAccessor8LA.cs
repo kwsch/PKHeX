@@ -100,6 +100,8 @@ public sealed class SaveBlockAccessor8LA(SAV8LA sav) : SCBlockAccessor, ISaveBlo
 
     private const uint KRecordEternalBattleReverie = 0xEB550C12; // U32 Highest streak for Eternal Battle Reverie
 
+    private const uint KInGameMinutes = 0x203A7F34; // Double for current in-game time, stored as minutes
+
     // Flags
     private const uint KEnableSpawnerSpiritomb = 0x2DC7E4CC; // FSYS_MKRG_100_SPAWN
     private const uint KEnableSpawnerUxie = 0x9EC1F2C4; // FEVE_YUKUSII_ENCOUNT_ENABLE
