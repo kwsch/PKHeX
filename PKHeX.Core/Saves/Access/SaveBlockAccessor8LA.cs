@@ -96,11 +96,13 @@ public sealed class SaveBlockAccessor8LA(SAV8LA sav) : SCBlockAccessor, ISaveBlo
     private const uint KRecordTargetPractice = 0xA69E079B; // U32 High score for Target Practice minigame (Practice Field)
     private const uint KRecordLostSatchelsFound = 0x4AAF7FBE; // U32 Satchels retrieved for NPCs and other players
     private const uint KRecordOwnSatchelsRetrieved = 0x8C46768E; // U32 Satchels other players retrieved for you
-    private const uint KStarterChoice = 0x6960C6EF; // U32 0=Rowlet, 1=Cyndaquil, 2=Oshawott
+    private const uint KStarterChoice = 0x6960C6EF; // U32 0 = Rowlet, 1 = Cyndaquil, 2 = Oshawott
 
     private const uint KRecordEternalBattleReverie = 0xEB550C12; // U32 Highest streak for Eternal Battle Reverie
 
     private const uint KInGameMinutes = 0x203A7F34; // Double for current in-game time, stored as minutes
+    private const uint KMoonPhase = 0x9E4635BB; // U32 Moon Phase (0-1 = New, 2-3 = Waxing Crescent, 4-5 = First Quarter, 6-7 = Waxing Gibbous
+                                                // 8-9 = Full, 10-11 = Waning Gibbous, 12-13 = Last Quarter, 14-15 = Waning Crescent)
 
     // Flags
     private const uint KEnableSpawnerSpiritomb = 0x2DC7E4CC; // FSYS_MKRG_100_SPAWN
