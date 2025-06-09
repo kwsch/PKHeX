@@ -200,12 +200,10 @@ public partial class SAV_MysteryGiftDB : Form
         var comboAny = new ComboItem(MsgAny, -1);
 
         var source = GameInfo.FilteredSources;
-        var species = new List<ComboItem>(source.Species)
-        {
-            [0] = comboAny // Replace the first item with "Any"
-        };
-        var filteredSpecies = species.Where(z => RawDB.Any(mg => mg.Species == z.Value)).ToList();
-        CB_Species.DataSource = filteredSpecies;
+        var species = new List<ComboItem>(source.Species);
+        species.RemoveAll(z => RawDB.All(mg => mg.Species != z.Value));
+        species.Insert(0, comboAny);
+        CB_Species.DataSource = species;
 
         var items = new List<ComboItem>(source.Items);
         items.Insert(0, comboAny); CB_HeldItem.DataSource = items;
