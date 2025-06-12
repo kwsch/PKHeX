@@ -173,5 +173,10 @@ public static class GenerateMethodJ
         return false;
     }
 
+    /// <summary>
+    /// Combines two 16-bit unsigned integers into a single 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="a">The first set of 16 bits from a Rand() call.</param>
+    /// <param name="b">The second set of 16 bits from a Rand() call.</param>
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
 }

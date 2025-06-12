@@ -99,7 +99,7 @@ public abstract class InventoryPouch
             arr[ctr++] = arr[i]; // absorb down
         }
         while (ctr < arr.Length)
-            arr[ctr++].Clear();
+            arr[ctr++] = GetEmpty();
     }
 
     /// <summary>

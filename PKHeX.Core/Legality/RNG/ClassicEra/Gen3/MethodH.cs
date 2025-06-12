@@ -142,7 +142,7 @@ public static class MethodH
             {
                 if (CheckEncounterActivationEmerald(enc, ref result))
                 {
-                    if (result.IsNoAbilityLead())
+                    if (result.IsNoRequirement())
                         return result;
                     if (result.IsBetterThan(prefer))
                         prefer = result;
@@ -162,13 +162,12 @@ public static class MethodH
 
         while (true)
         {
-            if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result)
-                && result.IsNoAbilityLead())
+            if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result) && result.IsNoRequirement())
             {
                 result.Lead = CuteCharm;
                 if (CheckEncounterActivationEmerald(enc, ref result))
                 {
-                    if (result.IsNoAbilityLead())
+                    if (result.IsNoRequirement())
                         return result;
                     if (result.IsBetterThan(prefer))
                         prefer = result;

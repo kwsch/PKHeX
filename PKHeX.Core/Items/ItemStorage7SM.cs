@@ -208,7 +208,7 @@ public sealed class ItemStorage7SM : IItemStorage
         if (items.BinarySearch((ushort)itemIndex) < 0)
             return false;
 
-        return Unreleased.BinarySearch((ushort)itemIndex) < 0;
+        return itemCount != 0 && Unreleased.BinarySearch((ushort)itemIndex) < 0;
     }
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch

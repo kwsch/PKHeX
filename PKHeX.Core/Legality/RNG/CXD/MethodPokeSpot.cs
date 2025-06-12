@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for interacting with PokeSpot encounters in Pokémon XD: Gale of Darkness.
+/// </summary>
 public static class MethodPokeSpot
 {
     /// <summary>
@@ -46,6 +49,14 @@ public static class MethodPokeSpot
         return PokeSpotSetup.Invalid;
     }
 
+    /// <summary>
+    /// Attempts to retrieve the origin seeds for the specified Pokémon and encounter slot.
+    /// </summary>
+    /// <param name="pk">The Pokémon for which to retrieve the origin seeds.</param>
+    /// <param name="slot">The encounter slot associated with the Pokémon.</param>
+    /// <param name="pid">When this method returns, contains an origin seed for the Pokémon's PID, if the operation succeeds.</param>
+    /// <param name="ivs">When this method returns, contains an origin seed for the Pokémon's IVs, if the operation succeeds.</param>
+    /// <returns><see langword="true"/> if both the PID and IV origin seeds are successfully retrieved; otherwise, <see langword="false"/>.</returns>
     public static bool TryGetOriginSeeds(PKM pk, EncounterSlot3XD slot, out uint pid, out uint ivs)
     {
         pid = 0;
@@ -57,6 +68,14 @@ public static class MethodPokeSpot
         return true;
     }
 
+    /// <summary>
+    /// Attempts to determine the origin seed based on the provided Pokémon's IVs and level constraints.
+    /// </summary>
+    /// <param name="pk">The Pokémon whose IVs and metadata are used to calculate the origin seed.</param>
+    /// <param name="levelMin">The minimum level of the encounter slot.</param>
+    /// <param name="levelMax">The maximum level of the encounter slot.</param>
+    /// <param name="origin">Origin seed if the operation succeeds; otherwise, is 0.</param>
+    /// <returns><see langword="true"/> if the origin seed was successfully determined; otherwise, <see langword="false"/>.</returns>
     public static bool TryGetOriginSeedIVs(PKM pk, byte levelMin, byte levelMax, out uint origin)
     {
         var hp = (uint)pk.IV_HP;
@@ -71,6 +90,13 @@ public static class MethodPokeSpot
         return TryGetOriginSeedIVs(iv1 << 16, iv2 << 16, levelMin, levelMax, pk.MetLevel, pk.Format == 3, out origin);
     }
 
+    /// <summary>
+    /// Attempts to determine the origin seed for a given PID and encounter slot.
+    /// </summary>
+    /// <param name="pid">The PID to analyze.</param>
+    /// <param name="slot">The encounter slot index to validate against.</param>
+    /// <param name="origin">Origin seed if the operation succeeds; otherwise, is 0.</param>
+    /// <returns><see langword="true"/> if the origin seed was successfully determined; otherwise, <see langword="false"/>.</returns>
     public static bool TryGetOriginSeedPID(uint pid, byte slot, out uint origin)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
@@ -94,6 +120,21 @@ public static class MethodPokeSpot
         return false;
     }
 
+    /// <summary>
+    /// Attempts to determine the origin seed based on the provided IVs and level constraints.
+    /// </summary>
+    /// <param name="iv1">The first individual value (IV) component used for seed determination, already shifted left 16 bits.</param>
+    /// <param name="iv2">The second individual value (IV) component used for seed determination, already shifted left 16 bits.</param>
+    /// <param name="levelMin">The minimum level of the encounter slot.</param>
+    /// <param name="levelMax">The maximum level of the encounter slot.</param>
+    /// <param name="metLevel">The level at which the entity was met. This is used to validate the origin seed.</param>
+    /// <param name="hasOriginalMetLevel">
+    /// Whether the <paramref name="metLevel"/> must match the calculated level exactly.
+    /// If <see langword="true"/>, the calculated level must equal <paramref name="metLevel"/>;
+    /// otherwise, the calculated level must be greater than or equal to <paramref name="metLevel"/>.
+    /// </param>
+    /// <param name="origin">Origin seed if the operation succeeds; otherwise, is 0.</param>
+    /// <returns><see langword="true"/> if the origin seed was successfully determined; otherwise, <see langword="false"/>.</returns>
     public static bool TryGetOriginSeedIVs(uint iv1, uint iv2, byte levelMin, byte levelMax, byte metLevel, bool hasOriginalMetLevel, out uint origin)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
@@ -134,6 +175,14 @@ public static class MethodPokeSpot
         return false;
     }
 
+    /// <summary>
+    /// Attempts to set the individual values (IVs), level, and ability of the specified Pokémon based on the provided encounter criteria and level range.
+    /// </summary>
+    /// <param name="pk">The Pokémon object to modify.</param>
+    /// <param name="criteria">The encounter criteria used to determine permissible random IVs and levels.</param>
+    /// <param name="levelMin">The minimum level of the encounter slot.</param>
+    /// <param name="levelMax">The maximum level of the encounter slot.</param>
+    /// <returns><see langword="true"/> if all values were successfully applied; otherwise, <see langword="false"/>.</returns>
     public static bool TrySetIVs(XK3 pk, EncounterCriteria criteria, byte levelMin, byte levelMax)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
@@ -176,9 +225,28 @@ public static class MethodPokeSpot
         return false;
     }
 
+    /// <summary>
+    /// Sets a random PID for the specified Pokémon based on the provided criteria.
+    /// </summary>
+    /// <param name="pk">The Pokémon object whose PID will be set.</param>
+    /// <param name="criteria">The encounter criteria used to determine the PID.</param>
+    /// <param name="gender">
+    /// The gender of the Pokémon.
+    /// Use <see langword="0"/> for male, <see langword="1"/> for female, or <see langword="2"/> for genderless.
+    /// </param>
+    /// <param name="slot">The encounter slot index that the encounter originated from.</param>
     public static void SetRandomPID(XK3 pk, EncounterCriteria criteria, byte gender, byte slot)
         => pk.PID = GetRandomPID(pk.ID32, criteria, gender, slot, Util.Rand32(), out _);
 
+    /// <summary>
+    /// Generates a random PID for the specified Pokémon based on the provided criteria.
+    /// </summary>
+    /// <param name="id32">The Trainer ID used to determine shiny status.</param>
+    /// <param name="criteria">The encounter criteria that the generated PID must satisfy, such as nature, gender, and shiny status.</param>
+    /// <param name="gender">The gender ratio of the Pokémon, used to determine valid gender values.</param>
+    /// <param name="slot">The encounter slot index that the encounter originated from.</param>
+    /// <param name="seed">The initial RNG seed used to generate the PID. Will repeatedly attempt with different adjacent seeds.</param>
+    /// <param name="origin">Origin seed that was used to generate the PID.</param>
     public static uint GetRandomPID(uint id32, EncounterCriteria criteria, byte gender, byte slot, uint seed, out uint origin)
     {
         while (true)
@@ -202,6 +270,14 @@ public static class MethodPokeSpot
         }
     }
 
+    /// <summary>
+    /// Sets random Individual Values (IVs) and level for the specified Pokémon based on the given criteria and seed.
+    /// </summary>
+    /// <param name="pk">The Pokémon object whose IVs and level will be set.</param>
+    /// <param name="criteria">The encounter criteria used to filter valid IVs, level range, and other conditions.</param>
+    /// <param name="levelMin">The minimum level of the encounter slot.</param>
+    /// <param name="levelMax">The maximum level of the encounter slot.</param>
+    /// <param name="seed">The initial RNG seed used to generate the random IVs and level. Will repeatedly attempt with different adjacent seeds.</param>
     public static void SetRandomIVs(XK3 pk, EncounterCriteria criteria, byte levelMin, byte levelMax, uint seed)
     {
         var levelDelta = 1u + levelMax - levelMin;
@@ -262,8 +338,25 @@ public static class MethodPokeSpot
 
     private static uint GetPIDRegular(uint a, uint b) => a << 16 | b;
 
+    /// <summary>
+    /// Determines whether the specified slot is valid for the given ESV value.
+    /// </summary>
+    /// <param name="slot">The slot index to validate.</param>
+    /// <param name="esv">The ESV value [0,99] from the RNG.</param>
     public static bool IsSlotValid(byte slot, uint esv) => GetSlot(esv) == slot;
 
+    /// <summary>
+    /// Determines the slot number based on the provided ESV (Encounter Slot Value).
+    /// </summary>
+    /// <param name="esv">The Encounter Slot Value (ESV) used to determine the slot.</param>
+    /// <returns>
+    /// A byte representing the slot number:
+    /// <list type="bullet">
+    ///   <item><description>0 if <paramref name="esv"/> is less than 50.</description></item>
+    ///   <item><description>1 if <paramref name="esv"/> is between 50 (inclusive) and 85 (exclusive).</description></item>
+    ///   <item><description>2 if <paramref name="esv"/> is 85 or greater.</description></item>
+    /// </list>
+    /// </returns>
     public static byte GetSlot(uint esv) => esv switch
     {
         < 50 => 0,
@@ -271,6 +364,13 @@ public static class MethodPokeSpot
         _ => 2,
     };
 
+    /// <summary>
+    /// Determines whether a valid animation pattern can be generated based on the given seed.
+    /// </summary>
+    /// <param name="seed">The initial seed value used to generate the encounter slot.</param>
+    /// <param name="origin">The origin seed that generates the animation pattern, followed by the encounter slot.</param>
+    /// <param name="animation">Observed animation pattern.</param>
+    /// <returns><see langword="true"/> if a valid pre-animation seed is found; otherwise, <see langword="false"/>.</returns>
     public static bool IsValidAnimation(uint seed, out uint origin, out uint animation)
     {
         // Origin
@@ -311,9 +411,25 @@ public static class MethodPokeSpot
     }
 }
 
+/// <summary>
+/// Represents the current game state when generating a PokéSpot in the game.
+/// </summary>
 public enum PokeSpotSetup : byte
 {
+    /// <summary>
+    /// Represents an invalid or uninitialized state.
+    /// </summary>
     Invalid,
+
+    /// <summary>
+    /// Neither Munchlax nor Bonsly is available to spawn in the PokéSpot.
+    /// </summary>
     Neither,
+
+    /// <summary>
+    /// Munchlax is not available to spawn; either not unlocked or already at another PokéSpot.
+    /// </summary>
     Munchlax,
+
+    // No need to differentiate Bonsly from Munchlax, as having only Bonsly available is less forgiving odds (30%) than having only Munchlax (10%) available.
 }

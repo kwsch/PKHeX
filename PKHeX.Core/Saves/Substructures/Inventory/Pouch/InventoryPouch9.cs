@@ -10,7 +10,7 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
     public bool SetNew { get; set; }
     public uint PouchIndex { get; set; } = pouch;
 
-    public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
+    public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = count != 0 };
     public static int GetItemOffset(ushort index) => InventoryItem9.SIZE * index;
     public static Span<byte> GetItemSpan(Span<byte> block, ushort index) => block.Slice(GetItemOffset(index), InventoryItem9.SIZE);
 

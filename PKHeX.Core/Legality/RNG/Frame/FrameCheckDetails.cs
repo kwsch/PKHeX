@@ -1,5 +1,11 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Commonly reused frame details for checking encounter frames being possible to obtain.
+/// </summary>
+/// <remarks>
+/// By precomputing the seeds, we can avoid having to calculate them on the fly for every lead scenario check.
+/// </remarks>
 public readonly ref struct FrameCheckDetails<T>
 {
     public readonly T Encounter;

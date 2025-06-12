@@ -9,7 +9,7 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
 {
     public bool SetNew { get; set; }
 
-    public override InventoryItem8b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
+    public override InventoryItem8b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = count != 0 };
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {

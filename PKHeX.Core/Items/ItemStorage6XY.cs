@@ -136,7 +136,7 @@ public sealed class ItemStorage6XY : IItemStorage
     {
         if (type is InventoryType.KeyItems)
             return true;
-        return Unreleased.BinarySearch((ushort)itemIndex) < 0;
+        return itemCount != 0 && Unreleased.BinarySearch((ushort)itemIndex) < 0;
     }
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch

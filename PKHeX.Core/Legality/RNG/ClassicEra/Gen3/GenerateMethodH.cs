@@ -267,6 +267,20 @@ public static class GenerateMethodH
         return false;
     }
 
+    /// <summary>
+    /// Combines two 16-bit unsigned integers into a single 32-bit unsigned integer.
+    /// </summary>
+    /// <remarks>
+    /// Used for Unown PIDs in FireRed/LeafGreen.
+    /// </remarks>
+    /// <param name="a">The first set of 16 bits from a Rand() call.</param>
+    /// <param name="b">The second set of 16 bits from a Rand() call.</param>
     public static uint GetPIDUnown(uint a, uint b) => a << 16 | b;
+
+    /// <summary>
+    /// Combines two 16-bit unsigned integers into a single 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="a">The first set of 16 bits from a Rand() call.</param>
+    /// <param name="b">The second set of 16 bits from a Rand() call.</param>
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
 }

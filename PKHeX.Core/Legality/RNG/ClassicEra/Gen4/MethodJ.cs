@@ -101,6 +101,12 @@ public static class MethodJ
         }
     }
 
+    /// <summary>
+    /// Indicates if the encounter cannot be triggered via Sweet Scent, and must be triggered via random means.
+    /// </summary>
+    /// <remarks>
+    /// For Honey Trees, there's slightly special logic needing this to return true to handle in the same branch as non-Sweet Scent encounters.
+    /// </remarks>
     public static bool IsEncounterCheckApplicable(SlotType4 type) => type is HoneyTree || type.IsFishingRodType();
 
     /// <inheritdoc cref="MethodK.SkipToLevelRand{T}"/>

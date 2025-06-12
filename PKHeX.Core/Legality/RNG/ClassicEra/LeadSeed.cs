@@ -3,8 +3,11 @@ using static PKHeX.Core.LeadRequired;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Result wrapper for encounter lead information.
+/// Result wrapper for Player's party lead and encounter seed information.
 /// </summary>
+/// <remarks>
+/// Mutable struct to allow for some ref mutations, like shifting the seed to an earlier frame, to not require passing the entire struct.
+/// </remarks>
 public struct LeadSeed(uint Seed, LeadRequired Lead)
 {
     /// <summary>
@@ -23,8 +26,20 @@ public struct LeadSeed(uint Seed, LeadRequired Lead)
         lead = Lead;
     }
 
+    /// <summary>
+    /// Checks if the player's lead Pokémon ability is not one of the abilities that impacts encounter generation.
+    /// </summary>
+    /// <remarks>
+    /// Most often, the player's lead Pokémon does not have an ability that affects the encounter.
+    /// </remarks>
     public readonly bool IsNoRequirement() => Lead == None;
-    public readonly bool IsNoAbilityLead() => Lead == None;
+
+    /// <summary>
+    /// Checks if the player's lead Pokémon ability is recognized as a valid lead condition.
+    /// </summary>
+    /// <remarks>
+    /// Syntax sugar for checking it is not <see cref="Invalid"/>, in the event logic needs to be extended in the future.
+    /// </remarks>
     public readonly bool IsValid() => Lead != Invalid;
 
     /// <summary>

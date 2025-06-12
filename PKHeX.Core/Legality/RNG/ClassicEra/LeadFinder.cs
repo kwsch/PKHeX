@@ -5,8 +5,11 @@ using static PKHeX.Core.PIDType;
 namespace PKHeX.Core;
 
 /// <summary>
-/// High-level wrappers for the Golden Era of RNG manipulation.
+/// Logic for detecting what the player had as their lead party member when obtaining a wild capture.
 /// </summary>
+/// <remarks>
+/// Used to determine the lead party member &amp; initial seed for encounters in Generation 3 and 4 games.
+/// </remarks>
 public static class LeadFinder
 {
     /// <inheritdoc cref="GetLeadInfo4{TEnc,TEvo}"/>
