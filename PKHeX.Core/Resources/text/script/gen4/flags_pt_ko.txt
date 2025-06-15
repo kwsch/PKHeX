@@ -42,26 +42,30 @@
 1337	s	Found Metal Coat in Iron Ruins
 1338	s	Found Never-Melt Ice in Iceberg Ruins
 1339	s	Found Hard Stone in Rock Peak Ruins
-2728	g	Friday Drifloon Disappeared
-2722	g	Today's Trophy Garden Pokémon Known
+0151	g	Received Porygon
+0305	g	Received Eevee
+2430	*	Unlocked Bebe's PC
+2433	s	2nd Rematch Against Trainers Unlocked
+2728	r	Friday Drifloon Disappeared
+2722	r	Today's Trophy Garden Pokémon Known
 0710	*	Unlocked Rotom's Room
-0119	r	Changed Rotom Form Once
-0699	r	Microwave Oven Appliance Disappeared
-0700	*	Washing Machine Appliance Disappeared
-0701	*	Refrigerator Appliance Disappeared
+0119	*	Changed Rotom Form Once
+0699	e	Microwave Oven Appliance Disappeared
+0700	e	Washing Machine Appliance Disappeared
+0701	e	Refrigerator Appliance Disappeared
 0702	e	Rotary Fan Appliance Disappeared
 0703	e	Lawn Mower Appliance Disappeared
-0133	e	Traded in Oreburgh City
-0134	e	Traded in Eterna City
-0244	e	Traded in Snowpoint City
+0133	g	Traded in Oreburgh City
+0134	g	Traded in Eterna City
+0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
-0325	g	Dialga/Palkia rifts spawnable
-1051	g	Found Adamant Orb on Mt. Coronet
-1053	g	Found Lustrous Orb on Mt. Coronet
-2507	r	Entered Pal Park Catching Show
-1409	s	Defeated Jogger Richard (Morning)
-1448	s	Defeated Policeman Bobby (Night)
-1449	s	Defeated Policeman Alex (Night)
+0325	r	Dialga/Palkia rifts spawnable
+1051	s	Found Adamant Orb on Mt. Coronet
+1053	s	Found Lustrous Orb on Mt. Coronet
+2507	s	Entered Pal Park Catching Show
+1409	t	Defeated Jogger Richard (Morning)
+1448	t	Defeated Policeman Bobby (Night)
+1449	t	Defeated Policeman Alex (Night)
 1450	t	Defeated Policeman Dylan (Night)
 1462	t	Defeated Policeman Caleb (Night)
 1490	t	Defeated Jogger Scott (Morning)
@@ -241,3 +245,4 @@
 2763	t	Defeated Pokémon Trainer Marley in Battleground (Today)
 2764	t	Defeated Pokémon Trainer Buck in Battleground (Today)
 2765	t	Defeated Pokémon Trainer Mira in Battleground (Today)
+
