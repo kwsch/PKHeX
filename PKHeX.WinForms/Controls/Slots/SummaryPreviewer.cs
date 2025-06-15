@@ -57,6 +57,7 @@ public sealed class SummaryPreviewer
     private const int HWND_TOPMOST = -1;
     private const uint SWP_NOACTIVATE = 0x0010;
 
+    #pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
     [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetWindowPos")]
     private static extern bool SetWindowPos(
         int hWnd,             // Window handle
@@ -69,6 +70,7 @@ public sealed class SummaryPreviewer
 
     [System.Runtime.InteropServices.DllImport("user32.dll")]
     private static extern bool ShowWindow(nint hWnd, int nCmdShow);
+    #pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
     public static void ShowInactiveTopmost(Form frm)
     {

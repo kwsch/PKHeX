@@ -305,7 +305,7 @@ public static class XDRNG
         const ulong skip = 0x661D29; // prime * 2^32 % mult
 
         uint first = hp << 27;
-        uint t = (((spe << 27) - (mult * first)) - sub);
+        uint t = (spe << 27) - (mult * first) - sub;
         uint kmax = (uint)((b - t) >> 32);
         ulong x = (t * prime) % mult;
 

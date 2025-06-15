@@ -13,8 +13,11 @@ public static class Wishmkr
     public const ushort TrainerID = 20043;
 
     /// <summary>
-    /// Of the 65536 possible seeds, only 9 give a shiny Jirachi. No duplicate for natures
+    /// Of the 65536 possible seeds, only 9 give a shiny Jirachi. No duplicate for natures.
     /// </summary>
+    /// <remarks>
+    /// Index is nature, value is seed. 0 means no shiny for that nature.
+    /// </remarks>
     private static ReadOnlySpan<ushort> Seeds =>
     [
         0x0000, 0x7236, 0x0000, 0x0000, 0xA030, 0x0000,
@@ -26,6 +29,9 @@ public static class Wishmkr
     /// <summary>
     /// All 9 seeds that generate a shiny Jirachi.
     /// </summary>
+    /// <remarks>
+    /// <see cref="Seeds"/> for index mapping.
+    /// </remarks>
     public static ReadOnlySpan<ushort> All9 =>
     [
         0x7236, // Lonely

@@ -124,7 +124,7 @@ public static class EntityGender
     public const byte HH = 127; // half & half
     /// <summary> 3:1 Female: 0xBF </summary>
     public const byte MF = 191; // mostly female
-    /// <summary> 7:1 Female: 0xDF </summary>
+    /// <summary> 7:1 Female: 0xE1 </summary>
     public const byte VF = 225; // very female
     /// <summary> Only Female: 0xFE </summary>
     private const byte OF = 254; // only female

@@ -87,9 +87,8 @@ public static class Overworld8RNG
                   (uint)(ivs[4] << 25);
 
         // Remainder
-        var scale = (IScaledSize) pk;
-        scale.HeightScalar = (byte)(xoro.NextInt(0x81) + xoro.NextInt(0x80));
-        scale.WeightScalar = (byte)(xoro.NextInt(0x81) + xoro.NextInt(0x80));
+        pk.HeightScalar = (byte)(xoro.NextInt(0x81) + xoro.NextInt(0x80));
+        pk.WeightScalar = (byte)(xoro.NextInt(0x81) + xoro.NextInt(0x80));
 
         return true;
     }

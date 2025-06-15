@@ -25,9 +25,10 @@ public sealed class EvolutionReverseLookup(ushort MaxSpecies) : IEvolutionLookup
     /// <summary>
     /// Registers an evolution link for a specific species and form.
     /// </summary>
-    /// <remarks>If the specified form is 0, the method delegates to an overload that registers the link 
-    /// without considering the form. Otherwise, the species and form combination is used to  determine or create an
-    /// index for registration.</remarks>
+    /// <remarks>
+    /// If the specified form is 0, the method delegates to an overload that registers the link without considering the form.
+    /// Otherwise, the species and form combination is used to  determine or create an index for registration.
+    /// </remarks>
     /// <param name="link">The evolution link to register.</param>
     /// <param name="species">The species identifier associated with the evolution link.</param>
     /// <param name="form">The form identifier of the species.</param>

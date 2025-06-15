@@ -180,8 +180,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
     private TimeSpan PlayedSpan
     {
-        get => TimeSpan.FromSeconds(ReadDoubleBigEndian(Data.AsSpan((0x388 + (_currentSlot * SIZE_SLOT)), 16)));
-        set => WriteDoubleBigEndian(Data.AsSpan((0x388 + (_currentSlot * SIZE_SLOT)), 16), value.TotalSeconds);
+        get => TimeSpan.FromSeconds(ReadDoubleBigEndian(Data.AsSpan(0x388 + (_currentSlot * SIZE_SLOT), 16)));
+        set => WriteDoubleBigEndian(Data.AsSpan(0x388 + (_currentSlot * SIZE_SLOT), 16), value.TotalSeconds);
     }
 
     public override int PlayedHours

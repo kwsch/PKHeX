@@ -135,9 +135,8 @@ public static class Wild8bRNG
         pk.StatNature = pk.Nature = nature;
 
         // Remainder
-        var scale = (IScaledSize)pk;
-        scale.HeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));
-        scale.WeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));
+        pk.HeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));
+        pk.WeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));
 
         // Item, don't care
         return true;

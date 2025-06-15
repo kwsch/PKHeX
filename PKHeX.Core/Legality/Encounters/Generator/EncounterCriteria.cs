@@ -524,7 +524,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     }
 
     /// <inheritdoc cref="IsCompatibleIVs(ReadOnlySpan{int})"/>
-    /// <param name="iv32">The 32-bit integer representing the IVs.</param> 
+    /// <param name="iv32">The 32-bit integer representing the IVs.</param>
     public bool IsSatisfiedIVs(uint iv32)
     {
         if (!IsSatisfiedIV(IV_HP, (int)((iv32 >> 00) & 0x1F))) return false;

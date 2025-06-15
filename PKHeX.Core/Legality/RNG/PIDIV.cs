@@ -40,8 +40,8 @@ public readonly struct PIDIV
         Seed64 = seed;
     }
 
-    /// <remarks> Some PID/IVs may be generated without a single seed, but may follow a traceable pattern. </remarks>
-    /// <summary> Indicates that there is no <see cref="OriginSeed"/> to refer to. </summary>
+    /// <summary> Indicates that there is no specific <see cref="OriginSeed"/> to refer to. </summary>
+    /// <remarks> Some PID/IVs may be generated from a multitude of seeds, but may follow a traceable pattern. </remarks>
     public bool NoSeed => Type is PIDType.None or PIDType.Pokewalker or PIDType.G5MGShiny;
 
 #if DEBUG

@@ -100,9 +100,8 @@ public static class Roaming8bRNG
         pk.RefreshAbility((int)xoro.NextUInt(2));
 
         // Remainder
-        var scale = (IScaledSize)pk;
-        scale.HeightScalar = (byte)(xoro.NextUInt(0x81) + xoro.NextUInt(0x80));
-        scale.WeightScalar = (byte)(xoro.NextUInt(0x81) + xoro.NextUInt(0x80));
+        pk.HeightScalar = (byte)(xoro.NextUInt(0x81) + xoro.NextUInt(0x80));
+        pk.WeightScalar = (byte)(xoro.NextUInt(0x81) + xoro.NextUInt(0x80));
 
         return true;
     }

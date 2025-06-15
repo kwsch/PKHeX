@@ -129,7 +129,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             // Must match level exactly.
             if (!this.IsLevelWithinRange(pk.MetLevel))
             {
-                if ((Type is not Grass || pk.MetLevel != PressureLevel) || ParseSettings.Settings.FramePattern.RNGFrameNotFound4 != Severity.Invalid)
+                if (Type is not Grass || pk.MetLevel != PressureLevel || ParseSettings.Settings.FramePattern.RNGFrameNotFound4 != Severity.Invalid)
                     return false; // Only allow Pressure Slots through if they'll be checked by the later Lead verification.
             }
         }

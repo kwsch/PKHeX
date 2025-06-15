@@ -111,7 +111,7 @@ public static class ClassicEraRNG
         byte ab = (byte)((month * day) + minute + second);
         byte cd = (byte)hour;
 
-        return (uint)(((ab << 24) | (cd << 16))) + delay + year - 2000u;
+        return (uint)((ab << 24) | (cd << 16)) + delay + year - 2000u;
     }
 
     /// <summary>

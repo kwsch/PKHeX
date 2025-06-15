@@ -64,18 +64,12 @@ public partial class KChart : Form
         cells[c++].Value = p.CatchRate.ToString("000");
         cells[c++].Value = TypeSpriteUtil.GetTypeSpriteWide(p.Type1, SAV.Generation);
         cells[c++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSpriteWide(p.Type2, SAV.Generation);
-        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.HP);
-        cells[c++].Value = p.HP.ToString("000");
-        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.ATK);
-        cells[c++].Value = p.ATK.ToString("000");
-        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.DEF);
-        cells[c++].Value = p.DEF.ToString("000");
-        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPA);
-        cells[c++].Value = p.SPA.ToString("000");
-        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPD);
-        cells[c++].Value = p.SPD.ToString("000");
-        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPE);
-        cells[c++].Value = p.SPE.ToString("000");
+        Stat(cells[c++], p.HP);
+        Stat(cells[c++], p.ATK);
+        Stat(cells[c++], p.DEF);
+        Stat(cells[c++], p.SPA);
+        Stat(cells[c++], p.SPD);
+        Stat(cells[c++], p.SPE);
         var abils = p.AbilityCount;
         cells[c++].Value = abilities[abils > 0 ? p.GetAbilityAtIndex(0) : 0];
         cells[c++].Value = abilities[abils > 1 ? p.GetAbilityAtIndex(1) : 0];
@@ -83,6 +77,12 @@ public partial class KChart : Form
 
         row.Height = SpriteUtil.Spriter.Height + 1;
         DGV.Rows.Add(row);
+
+        static void Stat(DataGridViewCell cell, int value)
+        {
+            cell.Style.BackColor = ColorUtil.ColorBaseStat(value);
+            cell.Value = value.ToString("000");
+        }
     }
 
     private static bool GetIsNative(IPersonalInfo personalInfo, ushort s) => personalInfo switch
