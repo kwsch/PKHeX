@@ -119,7 +119,7 @@ public sealed class ItemStorage6XY : IItemStorage
         558, // Bug Gem
         559, // Rock Gem
         560, // Ghost Gem
-        561, // Dragon Gemt
+        561, // Dragon Gem
         562, // Dark Gem
         563, // Steel Gem
         576, // Dream Ball
