@@ -25,6 +25,7 @@ public static class GenerateMethodJ
         bool randLevel = MethodJ.IsLevelRand(enc);
         bool checkProc = MethodJ.IsEncounterCheckApplicable(enc.Type);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
 
         // Generate Method J correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -64,6 +65,8 @@ public static class GenerateMethodJ
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
+                if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                    continue;
 
                 if (enc.Species is (ushort)Species.Unown)
                 {

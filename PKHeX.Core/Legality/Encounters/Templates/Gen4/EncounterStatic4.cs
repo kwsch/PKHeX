@@ -159,6 +159,7 @@ public sealed record EncounterStatic4(GameVersion Version)
     private static void SetMethod1(PK4 pk, in EncounterCriteria criteria, byte gr, uint seed)
     {
         var id32 = pk.ID32;
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             var pid = ClassicEraRNG.GetSequentialPID(ref seed);
@@ -179,6 +180,8 @@ public sealed record EncounterStatic4(GameVersion Version)
 
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;
@@ -227,6 +230,7 @@ public sealed record EncounterStatic4(GameVersion Version)
     private static void SetChainShiny(PK4 pk, in EncounterCriteria criteria, byte gr, uint seed)
     {
         var id32 = pk.ID32;
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             var pid = ClassicEraRNG.GetChainShinyPID(ref seed, id32);
@@ -243,6 +247,8 @@ public sealed record EncounterStatic4(GameVersion Version)
 
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;

@@ -339,17 +339,15 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             pk4.IV32 |= criteria.GetCombinedIVs();
             return;
         }
-        if (criteria.IsSpecifiedIVs())
-        {
-            criteria.SetRandomIVs(pk4);
-            return;
-        }
         var seed = Util.Rand32(); // reseed, do not have method 1 correlation
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         uint iv32;
         while (true)
         {
             iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
             break;
         }

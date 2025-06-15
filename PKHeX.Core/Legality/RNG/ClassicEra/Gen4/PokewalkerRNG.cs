@@ -325,8 +325,14 @@ public static class PokewalkerRNG
     private static bool TryApply(ref uint seed, out uint iv32, in EncounterCriteria criteria)
     {
         // Act like a Non-Stroll encounter, generate IV rand() results immediately.
-        iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
-        return criteria.IsSatisfiedIVs(iv32);
+        var lo = LCRNG.Next15(ref seed);
+        var hi = LCRNG.Next15(ref seed);
+        iv32 = (hi << 15) | lo;
+        if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+            return false;
+        if (!criteria.IsSatisfiedIVs(iv32))
+            return false;
+        return true;
     }
 }
 

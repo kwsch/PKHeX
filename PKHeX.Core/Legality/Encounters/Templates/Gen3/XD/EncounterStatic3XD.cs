@@ -71,14 +71,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     {
         if (Species == (int)Core.Species.Eevee)
         {
-            // Prefer IVs if requested, rather than Trainer Matching.
-            if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetStarterFromIVs(pk, criteria))
-                return;
-            // Fall back to Trainer ID matching.
-            if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
-                return;
-            // Fall back to generating a random PID.
-            MethodCXD.SetStarterRandom(pk, criteria, Util.Rand32());
+            SetStarterPINGA(pk, criteria);
             return;
         }
 
@@ -86,6 +79,19 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             return;
         MethodCXD.SetRandom(pk, criteria, pi, noShiny: false, Util.Rand32());
     }
+
+    private static void SetStarterPINGA(XK3 pk, EncounterCriteria criteria)
+    {
+        // Prefer IVs if requested, rather than Trainer Matching.
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetStarterFromIVs(pk, criteria))
+            return;
+        // Fall back to Trainer ID matching.
+        if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
+            return;
+        // Fall back to generating a random PID.
+        MethodCXD.SetStarterRandom(pk, criteria, Util.Rand32());
+    }
+
     #endregion
 
     #region Matching

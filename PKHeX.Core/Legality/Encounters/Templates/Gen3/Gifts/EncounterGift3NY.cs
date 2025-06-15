@@ -74,6 +74,7 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
     private static void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         uint seed = Util.Rand32();
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         var gr = pi.Gender;
         var idXor = pk.TID16; // no SID
         while (true)
@@ -84,9 +85,13 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 continue;
-
+            var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = iv32;
             pk.RefreshAbility((int)(pid & 1));
             return;
         }

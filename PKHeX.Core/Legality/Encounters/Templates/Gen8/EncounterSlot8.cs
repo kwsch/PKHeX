@@ -104,6 +104,11 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
             pk.PID = rand.Rand32();
+            if (criteria.Shiny.IsShiny())
+                pk.PID = ShinyUtil.GetShinyPID(pk.TID16, pk.SID16, pk.PID, criteria.Shiny == Shiny.AlwaysSquare ? 0 : (uint)rand.Next(1, 15));
+            else if (criteria.Shiny == Shiny.Never && pk.IsShiny)
+                pk.PID ^= 0x80000000; // flip top bit to ensure non-shiny
+
             pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rand);
             pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rand);
             criteria.SetRandomIVs(pk);

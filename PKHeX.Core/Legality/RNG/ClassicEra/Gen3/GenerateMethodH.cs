@@ -15,6 +15,7 @@ public static class GenerateMethodH
         var (min, max) = SlotMethodH.GetRange(enc.Type, enc.SlotNumber);
         bool checkProc = MethodH.IsEncounterCheckApplicable(enc.Type);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
 
         // Generate Method H correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -55,6 +56,8 @@ public static class GenerateMethodH
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
+                if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                    continue;
 
                 {
                     var level = (byte)MethodH.GetRandomLevel(enc, lv, LeadRequired.None);
@@ -78,6 +81,7 @@ public static class GenerateMethodH
         var (min, max) = SlotMethodH.GetRangeGrass(enc.SlotNumber);
         // Can't game the seed with % 100 increments as Unown's form calculation is based on the PID.
 
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             var esv = LCRNG.Next16(ref seed) % 100;
@@ -102,6 +106,8 @@ public static class GenerateMethodH
 
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                    continue;
+                if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                     continue;
 
                 pk.PID = pid;

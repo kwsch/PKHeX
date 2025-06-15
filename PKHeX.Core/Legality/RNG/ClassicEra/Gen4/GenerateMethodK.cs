@@ -26,6 +26,7 @@ public static class GenerateMethodK
         var modulo = enc.Type.IsSafari() ? 10u : 100u;
         bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
 
         // Generate Method K correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -88,6 +89,8 @@ public static class GenerateMethodK
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
+                if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                    continue;
 
                 if (enc.Type is SlotType4.BugContest && !MethodK.IsAny31(iv32) && !MethodK.IsAny31(iv32 >> 16))
                     break; // try again

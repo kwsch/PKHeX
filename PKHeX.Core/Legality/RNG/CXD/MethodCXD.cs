@@ -99,6 +99,7 @@ public static class MethodCXD
     /// </summary>
     public static bool SetStarterFromTrainerID(CK3 pk, in EncounterCriteria criteria, ushort tid, ushort sid)
     {
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         var id32 = (uint)sid << 16 | tid;
         var species = pk.Species;
         // * => TID, SID, fakepid*2, [IVs, ability, PID]
@@ -130,6 +131,8 @@ public static class MethodCXD
             var iv1 = XDRNG.Prev15(ref prePID);
             var iv32 = iv2 << 15 | iv1;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;
@@ -265,6 +268,7 @@ public static class MethodCXD
     public static bool SetStarterFromTrainerID(XK3 pk, EncounterCriteria criteria, ushort tid, ushort sid)
     {
         // * => TID, SID, fakepid*2, [IVs, ability, PID]
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         Span<uint> all = stackalloc uint[XDRNG.MaxCountSeedsPID];
         var count = XDRNG.GetSeeds(all, (uint)tid << 16, (uint)sid << 16);
         var seeds = all[..count];
@@ -284,6 +288,8 @@ public static class MethodCXD
             var iv2 = XDRNG.Next15(ref ivSeed);
             var iv32 = iv2 << 15 | iv1;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;
