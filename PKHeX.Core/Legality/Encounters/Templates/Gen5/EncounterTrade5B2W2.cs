@@ -106,13 +106,13 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IEnc
 
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        if (pk.IsShiny)
-            pk.PID ^= 0x1000_0000;
-        var nature = criteria.GetNature(Nature);
-        var gender = criteria.GetGender(Gender, pi);
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
-        criteria.SetRandomIVs(pk, IVs);
+        if (Gender != FixedGenderUtil.GenderRandom)
+            criteria = criteria with { Gender = (Gender)Gender };
+        criteria = criteria with { Shiny = Shiny.Never };
+
+        var abilityIndex = criteria.GetAbilityFromNumber(Ability);
+        var seed = Util.Rand32();
+        MonochromeRNG.Generate(pk, criteria, pi.Gender, seed, abilityIndex);
     }
 
     #endregion

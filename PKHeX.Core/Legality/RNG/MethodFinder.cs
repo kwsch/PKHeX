@@ -383,9 +383,9 @@ public static class MethodFinder
         // generation 5 shiny PIDs
         if (low <= 0xFF)
         {
-            var av = (pid >> 16) & 1;
-            var genPID = PIDGenerator.GetMG5ShinyPID(low, av, pk.TID16, pk.SID16);
-            if (genPID == pid)
+            var abilBit = (pid >> 16) & 1;
+            var expect = MonochromeRNG.GetShinyPID(low, abilBit, pk.TID16, pk.SID16);
+            if (pid == expect)
             {
                 pidiv = PIDIV.G5MGShiny;
                 return true;

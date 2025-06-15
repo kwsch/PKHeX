@@ -22,7 +22,8 @@ public readonly struct LeadEncounterQueue<TEnc>
     /// <param name="encounter">Encounter obtained with the lead.</param>
     public void Insert(LeadSeed lead, TEnc encounter) => Insert(new(lead, encounter));
 
-    public void Insert(LeadEncounter<TEnc> toInsert)
+    /// <inheritdoc cref="Insert(LeadSeed,TEnc)"/>
+    private void Insert(LeadEncounter<TEnc> toInsert)
     {
         for (int i = 0; i < List.Count; i++)
         {

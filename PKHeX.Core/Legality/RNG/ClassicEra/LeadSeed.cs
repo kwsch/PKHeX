@@ -20,12 +20,6 @@ public struct LeadSeed(uint Seed, LeadRequired Lead)
     /// </summary>
     public LeadRequired Lead = Lead;
 
-    public readonly void Deconstruct(out uint seed, out LeadRequired lead)
-    {
-        seed = Seed;
-        lead = Lead;
-    }
-
     /// <summary>
     /// Checks if the player's lead Pokémon ability is not one of the abilities that impacts encounter generation.
     /// </summary>
