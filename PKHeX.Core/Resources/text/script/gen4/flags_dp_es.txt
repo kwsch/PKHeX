@@ -1,6 +1,6 @@
-0350	r	Route 222 Accessible
-0351	r	Dialga/Palkia Caught
-0482	r	Dialga/Palkia Gone from Spear Pillar
+0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
+0351	s	Dialga/Palkia Caught
+0482	s	Dialga/Palkia Gone from Spear Pillar
 0511	r	Uxie desaparecido
 0509	r	Mesprit desaparecido (Caverna Veraz)
 0510	r	Azelf desaparecido

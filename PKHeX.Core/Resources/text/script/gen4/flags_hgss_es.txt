@@ -60,6 +60,9 @@
 0217	s	Vicki conocido/Flecha venenosa conseguido
 0212	s	Sabino conocida/Arena fina conseguido
 0165	s	Domingo conocido/Imán conseguido
+0119	s	Kurt's Granddaughter Is Worried About Kurt
+0414	s	Kurt at Slowpoke Well
+0415	s	Rocket Grunt Guarding Slowpoke Well Gone
 0539	*	Puzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
 0541	*	Puzle de Destello en la pared de las Ruinas Alfa resuelto
 0543	*	Puzle de Piedra agua en la pared de las Ruinas Alfa resuelto
