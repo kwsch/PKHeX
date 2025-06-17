@@ -47,6 +47,7 @@ public sealed class SummaryPreviewer
     private void UpdatePreview(Control pb, PKM pk, BattleTemplateExportSettings settings)
     {
         _source.Cancel();
+        _source.Dispose(); // Properly dispose the previous CancellationTokenSource
         _source = new();
         UpdatePreviewPosition(new());
         Previewer.Populate(pk, settings);
@@ -112,16 +113,24 @@ public sealed class SummaryPreviewer
     public void Clear()
     {
         var src = _source;
-        Task.Run(async () =>
+        try
         {
-            if (!Previewer.IsHandleCreated)
-                return; // not shown ever
+            var token = _source.Token;
+            Task.Run(async () =>
+            {
+                if (!Previewer.IsHandleCreated)
+                    return; // not shown ever
 
-            // Give a little bit of fade-out delay
-            await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
-            if (!src.IsCancellationRequested)
-                await Previewer.InvokeAsync(Previewer.Hide, src.Token).ConfigureAwait(false);
-        }, src.Token).ConfigureAwait(false);
+                // Give a little bit of fade-out delay
+                await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
+                if (!src.IsCancellationRequested)
+                    await Previewer.InvokeAsync(Previewer.Hide, token).ConfigureAwait(false);
+            }, token).ConfigureAwait(false);
+        }
+        catch
+        {
+            // Ignore.
+        }
         ShowSet.RemoveAll();
         Cry.Stop();
     }
