@@ -13,12 +13,18 @@ namespace PKHeX.Core;
 /// <param name="Argument">Conditions in which the move was learned</param>
 public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment Environment, byte Argument = 0)
 {
+    /// <inheritdoc cref="Summarize(StringBuilder, ReadOnlySpan{char})"/>
     public void Summarize(StringBuilder sb)
     {
         var localized = GetLocalizedMethod();
         Summarize(sb, localized);
     }
 
+    /// <summary>
+    /// Summarizes the move learn info into a human-readable format and appends it to the provided <see cref="StringBuilder"/>.
+    /// </summary>
+    /// <param name="sb">The <see cref="StringBuilder"/> to append the summary to.</param>
+    /// <param name="localizedMethod">The localized string representing the learning method.</param>
     private void Summarize(StringBuilder sb, ReadOnlySpan<char> localizedMethod)
     {
         if (Environment.IsSpecified())

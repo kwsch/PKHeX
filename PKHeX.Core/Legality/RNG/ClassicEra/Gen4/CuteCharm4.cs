@@ -18,10 +18,15 @@ public static class CuteCharm4
     {
         // pid >= ratio is male
         // get the lowest PID that will be male for Hardy (0)
-        var basePID = NatureCount * ((genderRatio / NatureCount) + 1);
+        var basePID = GetBufferedBasePID(genderRatio);
         // add the desired nature to the base PID
         return basePID + nature;
     }
+
+    /// <summary>
+    /// Gets the starting PID for a male gender by rounding up to the next multiple of <see cref="NatureCount"/> (25).
+    /// </summary>
+    private static uint GetBufferedBasePID(byte genderRatio) => NatureCount * ((genderRatio / NatureCount) + 1);
 
     /// <summary>
     /// Gets the PID of a Female wild encounter when the player leads a Male Pokémon with Cute Charm.
@@ -39,6 +44,15 @@ public static class CuteCharm4
             : EntityGender.GetGenderRatio(species); // fallback (don't bother trying to devolve to Gen1-4 encounter species)
     }
 
+    /// <summary>
+    /// Checks if the PID is within the range created by the buffered PID algorithm.
+    /// </summary>
+    /// <param name="pid">Obtained PID</param>
+    /// <returns>True if the PID is within the Azurill male range.</returns>
+    /// <remarks>
+    /// The game starts with a PID of 200, and then adds nature (0-24) to it, resulting in a range of 200-224.
+    /// 200 is via <see cref="GetBufferedBasePID"/> with the 3F:1M gender ratio of Azurill (191).
+    /// </remarks>
     private static bool IsAzurillMale(uint pid) => pid is >= 0xC8 and <= 0xE0;
 
     /// <summary>

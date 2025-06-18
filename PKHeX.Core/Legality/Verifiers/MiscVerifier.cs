@@ -21,25 +21,33 @@ public sealed class MiscVerifier : Verifier
         {
             VerifyMiscEggCommon(data);
 
+            // No egg have contest stats from the encounter.
             if (pk is IContestStatsReadOnly s && s.HasContestStats())
                 data.AddLine(GetInvalid(LEggContest, Egg));
 
+            // Cannot transfer eggs across contexts (must be hatched).
+            var e = data.EncounterOriginal;
+            if (e.Context != pk.Context)
+                data.AddLine(GetInvalid(LTransferEggVersion, Egg));
+
             switch (pk)
             {
-                case SK2 or CK3 or XK3 or BK4 or RK4 or PA8: // Side Game: No Eggs
+                // Side Game: No Eggs
+                case SK2 or CK3 or XK3 or BK4 or RK4 when e.Context == pk.Context:
                     data.AddLine(GetInvalid(LTransferEggVersion, Egg));
                     break;
-                case PK5 pk5 when pk5.PokeStarFame != 0:
-                    data.AddLine(GetInvalid(LEggShinyPokeStar, Egg));
+
+                // All Eggs are Japanese and flagged specially for localized string
+                case PK3 when pk.Language != 1:
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pk.Language), Egg));
                     break;
+
+                // Cannot obtain Shiny Leaf or Pokeathlon Stats as Egg
                 case PK4 pk4:
                     if (pk4.ShinyLeaf != 0)
                         data.AddLine(GetInvalid(LEggShinyLeaf, Egg));
                     if (pk4.PokeathlonStat != 0)
                         data.AddLine(GetInvalid(LEggPokeathlon, Egg));
-                    break;
-                case PK3 when pk.Language != 1:  // All Eggs are Japanese and flagged specially for localized string
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pk.Language), Egg));
                     break;
             }
 
@@ -59,8 +67,8 @@ public sealed class MiscVerifier : Verifier
             case PK9 pk9: VerifyStats9(data, pk9); break;
         }
 
-        if (pk.Format >= 6)
-            VerifyFullness(data, pk);
+        if (pk is IFullnessEnjoyment fe) // 6-8
+            VerifyFullness(data, pk, fe);
 
         var enc = data.EncounterMatch;
         if (enc is IEncounterServerDate { IsDateRestricted: true } encounterDate)
@@ -209,6 +217,12 @@ public sealed class MiscVerifier : Verifier
     private static void VerifyStats5(LegalityAnalysis data, PK5 pk5)
     {
         var enc = data.EncounterMatch;
+
+        // Cannot participate in Pokestar Studios as Egg
+        if (pk5.IsEgg && pk5.PokeStarFame != 0)
+            data.AddLine(GetInvalid(LEggShinyPokeStar, Egg));
+
+        // Ensure NSparkle is only present on N's encounters.
         if (enc is EncounterStatic5N)
         {
             if (!pk5.NSparkle)
@@ -351,7 +365,7 @@ public sealed class MiscVerifier : Verifier
     private void VerifyMiscPokerus(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.Format == 1)
+        if (pk.Format == 1) // not stored in Gen1 format
             return;
 
         var strain = pk.PokerusStrain;
@@ -622,10 +636,8 @@ public sealed class MiscVerifier : Verifier
         }
     }
 
-    private static void VerifyFullness(LegalityAnalysis data, PKM pk)
+    private static void VerifyFullness(LegalityAnalysis data, PKM pk, IFullnessEnjoyment fe)
     {
-        if (pk is not IFullnessEnjoyment fe)
-            return;
         if (pk.IsEgg)
         {
             if (fe.Fullness != 0)
