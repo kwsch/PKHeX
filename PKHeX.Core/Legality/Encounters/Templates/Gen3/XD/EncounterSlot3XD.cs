@@ -59,7 +59,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         MethodPokeSpot.SetRandomPID(pk, criteria, pi.Gender, SlotNumber);
         if (criteria.IsSpecifiedIVsAll() && !MethodPokeSpot.TrySetIVs(pk, criteria, LevelMin, LevelMax))

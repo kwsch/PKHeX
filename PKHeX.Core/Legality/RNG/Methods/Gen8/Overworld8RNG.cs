@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </remarks>
 public static class Overworld8RNG
 {
-    public static void ApplyDetails(PK8 pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1, int maxAttempts = 70_000)
+    public static void ApplyDetails(PK8 pk, in EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1, int maxAttempts = 70_000)
     {
         if (shiny == Shiny.FixedValue)
             shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : criteria.Shiny;
@@ -29,7 +29,7 @@ public static class Overworld8RNG
         TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, rnd.Rand32());
     }
 
-    private static bool TryApplyFromSeed(PK8 pk, EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)
+    private static bool TryApplyFromSeed(PK8 pk, in EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)
     {
         var xoro = new Xoroshiro128Plus(seed);
 

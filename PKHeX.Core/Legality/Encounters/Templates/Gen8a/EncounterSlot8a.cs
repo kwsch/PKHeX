@@ -66,7 +66,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PA8 pk, EncounterCriteria criteria, PersonalInfo8LA pi)
+    private void SetPINGA(PA8 pk, in EncounterCriteria criteria, PersonalInfo8LA pi)
     {
         var para = GetParams(pi);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && this.IsLevelWithinRange(criteria);

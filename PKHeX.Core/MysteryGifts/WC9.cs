@@ -574,7 +574,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
@@ -585,9 +585,9 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => GetAbilityIndex(criteria, AbilityType);
+    private int GetAbilityIndex(in EncounterCriteria criteria) => GetAbilityIndex(criteria, AbilityType);
 
-    private int GetAbilityIndex(EncounterCriteria criteria, int type) => type switch
+    private int GetAbilityIndex(in EncounterCriteria criteria, int type) => type switch
     {
         00 or 01 or 02 => type, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H

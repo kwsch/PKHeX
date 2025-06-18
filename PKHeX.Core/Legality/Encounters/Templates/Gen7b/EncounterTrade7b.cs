@@ -89,7 +89,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
         return pk;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria, PersonalInfo7GG pi)
+    private void SetPINGA(PB7 pk, in EncounterCriteria criteria, PersonalInfo7GG pi)
     {
         var rnd = Util.Rand;
         pk.PID = rnd.Rand32();

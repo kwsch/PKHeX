@@ -102,7 +102,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PB8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB8 pk, in EncounterCriteria criteria)
     {
         var req = GetRequirement(pk);
         if (req == MustHave) // Roamers

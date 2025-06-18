@@ -83,7 +83,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         return form;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
+    private void SetPINGA(PK4 pk, in EncounterCriteria criteria, PersonalInfo4 pi)
     {
         bool hgss = pk.HGSS;
         if (hgss)

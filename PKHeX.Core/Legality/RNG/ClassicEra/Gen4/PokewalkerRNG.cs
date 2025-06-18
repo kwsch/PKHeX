@@ -293,7 +293,7 @@ public static class PokewalkerRNG
     /// </summary>
     /// <param name="criteria">Criteria to set IVs with.</param>
     /// <param name="iv32">Result IVs</param>
-    public static bool GetRandomIVs(EncounterCriteria criteria, out uint iv32)
+    public static bool GetRandomIVs(in EncounterCriteria criteria, out uint iv32)
     {
         // Try to find a seed that works for the given criteria.
         // Don't waste too much time iterating, try around 100k.

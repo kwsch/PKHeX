@@ -121,7 +121,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         return pk;
     }
 
-    private void SetPINGA(PK3 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK3 pk, in EncounterCriteria criteria)
     {
         pk.PID = PID;
         criteria.SetRandomIVs(pk, IVs);

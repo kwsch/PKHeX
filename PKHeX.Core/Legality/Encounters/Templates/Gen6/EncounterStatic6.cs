@@ -104,7 +104,7 @@ public sealed record EncounterStatic6(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
+    private void SetPINGA(PK6 pk, in EncounterCriteria criteria, PersonalInfo6AO pi)
     {
         if (pk.IsShiny)
         {

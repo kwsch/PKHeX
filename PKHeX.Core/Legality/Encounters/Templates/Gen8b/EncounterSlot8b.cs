@@ -93,7 +93,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PB8 pk, EncounterCriteria criteria, PersonalInfo8BDSP pi)
+    private void SetPINGA(PB8 pk, in EncounterCriteria criteria, PersonalInfo8BDSP pi)
     {
         var rnd = Util.Rand;
         pk.PID = rnd.Rand32();

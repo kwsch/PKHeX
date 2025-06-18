@@ -78,15 +78,14 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.Shiny != Shiny.Never)
-            criteria = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
-        if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi, noShiny: true))
+        var tmp = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
+        if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, tmp, pi, noShiny: true))
             return;
 
         uint seed = Util.Rand32();
-        if (!this.SetRandom(pk, criteria, pi, noShiny: true, seed))
+        if (!this.SetRandom(pk, tmp, pi, noShiny: true, seed))
             this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: true, seed);
     }
 

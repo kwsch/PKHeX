@@ -181,7 +181,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         return GetRandomVersion(Version);
     }
 
-    private uint SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private uint SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (Method is Channel)
             return SetPINGAChannel(pk, criteria);
@@ -237,7 +237,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         return true;
     }
 
-    private static bool TrySetWishmkrShiny(PK3 pk, EncounterCriteria criteria)
+    private static bool TrySetWishmkrShiny(PK3 pk, in EncounterCriteria criteria)
     {
         bool filterIVs = criteria.IsSpecifiedIVs(2);
         bool filterNature = criteria.IsSpecifiedNature();
@@ -268,7 +268,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         return pid;
     }
 
-    private static uint SetPINGAChannel(PK3 pk, EncounterCriteria criteria)
+    private static uint SetPINGAChannel(PK3 pk, in EncounterCriteria criteria)
     {
         if (criteria.IsSpecifiedIVsAll())
         {

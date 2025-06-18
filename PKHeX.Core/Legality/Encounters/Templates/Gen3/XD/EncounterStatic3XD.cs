@@ -67,7 +67,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (Species == (int)Core.Species.Eevee)
         {
@@ -80,7 +80,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         MethodCXD.SetRandom(pk, criteria, pi, noShiny: false, Util.Rand32());
     }
 
-    private static void SetStarterPINGA(XK3 pk, EncounterCriteria criteria)
+    private static void SetStarterPINGA(XK3 pk, in EncounterCriteria criteria)
     {
         // Prefer IVs if requested, rather than Trainer Matching.
         if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetStarterFromIVs(pk, criteria))

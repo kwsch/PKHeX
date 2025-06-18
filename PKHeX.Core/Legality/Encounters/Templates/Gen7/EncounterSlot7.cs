@@ -87,7 +87,7 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
         return (byte)Util.Rand.Next(PersonalTable.USUM[Species].FormCount);
     }
 
-    private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)
+    private void SetPINGA(PK7 pk, in EncounterCriteria criteria, PersonalInfo7 pi)
     {
         var rnd = Util.Rand;
         pk.PID = rnd.Rand32();

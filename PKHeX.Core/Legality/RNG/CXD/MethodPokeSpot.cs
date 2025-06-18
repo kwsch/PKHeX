@@ -183,7 +183,7 @@ public static class MethodPokeSpot
     /// <param name="levelMin">The minimum level of the encounter slot.</param>
     /// <param name="levelMax">The maximum level of the encounter slot.</param>
     /// <returns><see langword="true"/> if all values were successfully applied; otherwise, <see langword="false"/>.</returns>
-    public static bool TrySetIVs(XK3 pk, EncounterCriteria criteria, byte levelMin, byte levelMax)
+    public static bool TrySetIVs(XK3 pk, in EncounterCriteria criteria, byte levelMin, byte levelMax)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
         criteria.GetCombinedIVs(out var iv1, out var iv2);
@@ -235,7 +235,7 @@ public static class MethodPokeSpot
     /// Use <see langword="0"/> for male, <see langword="1"/> for female, or <see langword="2"/> for genderless.
     /// </param>
     /// <param name="slot">The encounter slot index that the encounter originated from.</param>
-    public static void SetRandomPID(XK3 pk, EncounterCriteria criteria, byte gender, byte slot)
+    public static void SetRandomPID(XK3 pk, in EncounterCriteria criteria, byte gender, byte slot)
         => pk.PID = GetRandomPID(pk.ID32, criteria, gender, slot, Util.Rand32(), out _);
 
     /// <summary>
@@ -247,7 +247,7 @@ public static class MethodPokeSpot
     /// <param name="slot">The encounter slot index that the encounter originated from.</param>
     /// <param name="seed">The initial RNG seed used to generate the PID. Will repeatedly attempt with different adjacent seeds.</param>
     /// <param name="origin">Origin seed that was used to generate the PID.</param>
-    public static uint GetRandomPID(uint id32, EncounterCriteria criteria, byte gender, byte slot, uint seed, out uint origin)
+    public static uint GetRandomPID(uint id32, in EncounterCriteria criteria, byte gender, byte slot, uint seed, out uint origin)
     {
         while (true)
         {
@@ -278,7 +278,7 @@ public static class MethodPokeSpot
     /// <param name="levelMin">The minimum level of the encounter slot.</param>
     /// <param name="levelMax">The maximum level of the encounter slot.</param>
     /// <param name="seed">The initial RNG seed used to generate the random IVs and level. Will repeatedly attempt with different adjacent seeds.</param>
-    public static void SetRandomIVs(XK3 pk, EncounterCriteria criteria, byte levelMin, byte levelMax, uint seed)
+    public static void SetRandomIVs(XK3 pk, in EncounterCriteria criteria, byte levelMin, byte levelMax, uint seed)
     {
         var levelDelta = 1u + levelMax - levelMin;
 

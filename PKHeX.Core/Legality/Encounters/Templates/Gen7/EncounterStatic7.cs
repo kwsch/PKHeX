@@ -103,7 +103,7 @@ public sealed record EncounterStatic7(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)
+    private void SetPINGA(PK7 pk, in EncounterCriteria criteria, PersonalInfo7 pi)
     {
         var rnd = Util.Rand;
         pk.EncryptionConstant = rnd.Rand32();

@@ -108,7 +108,7 @@ public sealed record EncounterOutbreak9
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         var rnd = Util.Rand;
         pk.PID = rnd.Rand32();

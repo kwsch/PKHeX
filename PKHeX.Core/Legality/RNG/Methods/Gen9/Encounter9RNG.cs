@@ -12,7 +12,7 @@ public static class Encounter9RNG
     /// Sets the <see cref="pk"/> with random data based on the <see cref="enc"/> and <see cref="criteria"/>.
     /// </summary>
     /// <returns>True if the generated data matches the <see cref="criteria"/>.</returns>
-    public static bool TryApply32<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
+    public static bool TryApply32<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, in EncounterCriteria criteria)
         where  TEnc : IEncounterTemplate, ITeraRaid9
     {
         const int maxCtr = 100_000;
@@ -32,8 +32,8 @@ public static class Encounter9RNG
         return false;
     }
 
-    /// <inheritdoc cref="TryApply32{TEnc}(TEnc, PK9, in ulong, in GenerateParam9, EncounterCriteria)"/>
-    public static bool TryApply64<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
+    /// <inheritdoc cref="TryApply32{TEnc}(TEnc, PK9, in ulong, in GenerateParam9, in EncounterCriteria)"/>
+    public static bool TryApply64<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, in EncounterCriteria criteria)
         where TEnc : ISpeciesForm, IGemType
     {
         var rand = new Xoroshiro128Plus(init);
@@ -55,7 +55,7 @@ public static class Encounter9RNG
     /// Fills out an entity with details from the provided encounter template.
     /// </summary>
     /// <returns>False if the seed cannot generate data matching the criteria.</returns>
-    public static bool GenerateData(PK9 pk, in GenerateParam9 enc, EncounterCriteria criteria, in ulong seed, bool ignoreIVs = false)
+    public static bool GenerateData(PK9 pk, in GenerateParam9 enc, in EncounterCriteria criteria, in ulong seed, bool ignoreIVs = false)
     {
         var rand = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);

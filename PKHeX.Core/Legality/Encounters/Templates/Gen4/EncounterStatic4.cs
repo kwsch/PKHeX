@@ -101,7 +101,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
+    private void SetPINGA(PK4 pk, in EncounterCriteria criteria, PersonalInfo4 pi)
     {
         // Pichu is special -- use Pokewalker method
         var gr = pi.Gender;

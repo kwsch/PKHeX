@@ -153,7 +153,7 @@ public static class RaidRNG
     /// <param name="param">Parameters to generate with</param>
     /// <param name="criteria">Criteria to generate with</param>
     /// <returns>True if the seed matches the entity</returns>
-    public static bool TryApply(PK8 pk, ulong seed, Span<int> ivs, in GenerateParam8 param, EncounterCriteria criteria)
+    public static bool TryApply(PK8 pk, ulong seed, Span<int> ivs, in GenerateParam8 param, in EncounterCriteria criteria)
     {
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();

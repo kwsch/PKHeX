@@ -11,7 +11,7 @@ public static class Overworld8aRNG
     private const int UNSET = -1;
 
     // ReSharper disable once UnusedTupleComponentInReturnValue
-    public static (ulong GroupSeed, ulong SlotSeed) ApplyDetails(PA8 pk, EncounterCriteria criteria, in OverworldParam8a para, bool giveAlphaMove)
+    public static (ulong GroupSeed, ulong SlotSeed) ApplyDetails(PA8 pk, in EncounterCriteria criteria, in OverworldParam8a para, bool giveAlphaMove)
     {
         int ctr = 0;
         const int maxAttempts = 50_000;
@@ -84,7 +84,7 @@ public static class Overworld8aRNG
         return (int)alphaRand.NextInt((uint)count);
     }
 
-    public static bool TryApplyFromSeed(PA8 pk, EncounterCriteria criteria, in OverworldParam8a para, ulong seed)
+    public static bool TryApplyFromSeed(PA8 pk, in EncounterCriteria criteria, in OverworldParam8a para, ulong seed)
     {
         var rand = new Xoroshiro128Plus(seed);
 

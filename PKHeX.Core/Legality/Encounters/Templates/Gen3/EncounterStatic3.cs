@@ -95,7 +95,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
-    private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         var gr = pi.Gender;
         if (IsRoamingTruncatedIVs)
@@ -111,7 +111,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         SetMethod1(pk, criteria, gr, Util.Rand32());
     }
 
-    private static bool SetRoamerPINGA(PK3 pk, EncounterCriteria criteria)
+    private static bool SetRoamerPINGA(PK3 pk, in EncounterCriteria criteria)
     {
         // For every possible 8-bit IV combination, check if it meets the criteria.
         var id32 = pk.ID32;
@@ -152,7 +152,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return false;
     }
 
-    private static bool TrySetMethod1(PK3 pk, EncounterCriteria criteria, byte gr)
+    private static bool TrySetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr)
     {
         criteria.GetCombinedIVs(out var iv1, out var iv2);
 

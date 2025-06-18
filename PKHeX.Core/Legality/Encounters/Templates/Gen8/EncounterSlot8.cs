@@ -90,7 +90,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
 
     #endregion
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
+    private void SetPINGA(PK8 pk, in EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         bool symbol = Parent.PermitCrossover;
         var c = symbol ? EncounterCriteria.Unrestricted : criteria;

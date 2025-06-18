@@ -92,7 +92,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     protected virtual ushort GetLocation() => Location;
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
+    private void SetPINGA(PK8 pk, in EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         bool requestShiny = criteria.Shiny.IsShiny();
         bool checkShiny = requestShiny && Shiny != Shiny.Never;
@@ -266,7 +266,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         RaidRNG.TryApply(pk8, seed, iv, param, criteria);
     }
 
-    protected virtual bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
+    protected virtual bool TryApply(PK8 pk, ulong seed, Span<int> iv, in GenerateParam8 param, in EncounterCriteria criteria)
     {
         return RaidRNG.TryApply(pk, seed, iv, param, criteria);
     }

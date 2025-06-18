@@ -551,7 +551,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PA8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PA8 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
@@ -562,7 +562,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H

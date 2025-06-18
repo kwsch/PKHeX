@@ -101,7 +101,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         return pk;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
+    private void SetPINGA(PK4 pk, in EncounterCriteria criteria, PersonalInfo4 pi)
     {
         var gender = criteria.GetGender(Gender, pi);
         var nature = (uint)criteria.GetNature();
@@ -112,7 +112,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         pk.IV32 = GetIV32(criteria);
     }
 
-    private static uint GetIV32(EncounterCriteria criteria)
+    private static uint GetIV32(in EncounterCriteria criteria)
     {
         if (criteria.IsSpecifiedIVsAll()) // Don't trust that the requirements are valid
         {

@@ -173,7 +173,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         RaidRNG.TryApply(pk8, seed, iv, param, criteria);
     }
 
-    protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
+    protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, in GenerateParam8 param, in EncounterCriteria criteria)
     {
         var (possible, noShiny) = IsPossibleSeed(pk, seed, false);
         if (!possible)
@@ -182,7 +182,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         {
             if (criteria.Shiny.IsShiny())
                 return false;
-            param = param with { Shiny = Shiny.Never };
+            return base.TryApply(pk, seed, iv, param with { Shiny = Shiny.Never }, criteria);
         }
         return base.TryApply(pk, seed, iv, param, criteria);
     }

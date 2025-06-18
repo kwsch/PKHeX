@@ -129,7 +129,7 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
         return pk;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, in EncounterCriteria criteria)
     {
         var pid = FatefulEncounter ? Util.Rand32() : PID;
         pk.PID = pid;

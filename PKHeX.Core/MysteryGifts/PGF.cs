@@ -322,7 +322,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria)
     {
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         pk.Nature = criteria.GetNature(Nature);
@@ -333,7 +333,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H

@@ -109,7 +109,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         return pk;
     }
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK8 pk, in EncounterCriteria criteria)
     {
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
             pk.MetLevel = pk.CurrentLevel = EncounterArea8.BoostLevel;

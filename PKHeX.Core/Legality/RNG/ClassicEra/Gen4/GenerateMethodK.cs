@@ -16,7 +16,7 @@ public static class GenerateMethodK
     /// <param name="criteria">Criteria to match</param>
     /// <param name="seed">Initial seed to use; will be modified during the loop if the first seed fails</param>
     /// <returns>Method 1 origin seed applied</returns>
-    public static uint SetRandomK<T>(this T enc, PK4 pk, PersonalInfo4 pi, EncounterCriteria criteria, uint seed)
+    public static uint SetRandomK<T>(this T enc, PK4 pk, PersonalInfo4 pi, in EncounterCriteria criteria, uint seed)
         where T : IEncounterSlot4
     {
         var id32 = pk.ID32;
@@ -113,7 +113,7 @@ public static class GenerateMethodK
     /// <param name="criteria">Criteria to match</param>
     /// <param name="origin">Method 1 origin seed applied</param>
     /// <returns>True if the PID/IV was valid &amp; applied to the entity.</returns>
-    public static bool SetFromIVsK<T>(this T enc, PK4 pk, PersonalInfo4 pi, EncounterCriteria criteria, out uint origin)
+    public static bool SetFromIVsK<T>(this T enc, PK4 pk, PersonalInfo4 pi, in EncounterCriteria criteria, out uint origin)
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;

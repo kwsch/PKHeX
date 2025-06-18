@@ -265,7 +265,7 @@ public static class MethodCXD
     /// <summary>
     /// Tries to set a valid PID/IV for the requested criteria for the XD starter (Eevee), preferring to match Trainer IDs.
     /// </summary>
-    public static bool SetStarterFromTrainerID(XK3 pk, EncounterCriteria criteria, ushort tid, ushort sid)
+    public static bool SetStarterFromTrainerID(XK3 pk, in EncounterCriteria criteria, ushort tid, ushort sid)
     {
         // * => TID, SID, fakepid*2, [IVs, ability, PID]
         var filterIVs = criteria.IsSpecifiedIVs(2);
@@ -304,7 +304,7 @@ public static class MethodCXD
     /// <summary>
     /// Tries to set a valid PID/IV with the requested criteria for the XD starter (Eevee), preferring to match the IVs requested.
     /// </summary>
-    public static bool SetStarterFromIVs(XK3 pk, EncounterCriteria criteria)
+    public static bool SetStarterFromIVs(XK3 pk, in EncounterCriteria criteria)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
         criteria.GetCombinedIVs(out var iv1, out var iv2);
@@ -336,7 +336,7 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for the XD starter (Eevee).
     /// </summary>
-    public static void SetStarterRandom(XK3 pk, EncounterCriteria criteria, uint seed)
+    public static void SetStarterRandom(XK3 pk, in EncounterCriteria criteria, uint seed)
     {
         bool filterIVs = criteria.IsSpecifiedIVs(2);
         bool checkNameScreen = pk.Language is (int)LanguageID.Japanese;
@@ -436,7 +436,7 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for a non-shadow encounter.
     /// </summary>
-    public static void SetRandom<T>(T pk, EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny, uint seed)
+    public static void SetRandom<T>(T pk, in EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny, uint seed)
         where T : G3PKM, ISeparateIVs
     {
         var id32 = pk.ID32;

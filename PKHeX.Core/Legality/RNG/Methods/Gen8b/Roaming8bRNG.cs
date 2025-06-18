@@ -13,7 +13,7 @@ public static class Roaming8bRNG
 {
     private const int UNSET = -1;
 
-    public static void ApplyDetails(PB8 pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1, int maxAttempts = 70_000)
+    public static void ApplyDetails(PB8 pk, in EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1, int maxAttempts = 70_000)
     {
         if (shiny == Shiny.FixedValue)
             shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : criteria.Shiny;
@@ -37,7 +37,7 @@ public static class Roaming8bRNG
         TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, rnd.Rand32());
     }
 
-    public static bool TryApplyFromSeed(PB8 pk, EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)
+    public static bool TryApplyFromSeed(PB8 pk, in EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)
     {
         var xoro = new Xoroshiro128Plus8b(seed);
 

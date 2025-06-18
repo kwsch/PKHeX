@@ -126,7 +126,7 @@ public sealed record EncounterStatic9(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         const byte undefinedSize = 0;
         byte height, weight, scale;

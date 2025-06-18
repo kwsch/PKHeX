@@ -70,7 +70,7 @@ public sealed record EncounterGift3JPN(ushort Species, Distribution3JPN Distribu
         return pk;
     }
 
-    private static void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         uint seed = Util.Rand32();
         var filterIVs = criteria.IsSpecifiedIVs(2);

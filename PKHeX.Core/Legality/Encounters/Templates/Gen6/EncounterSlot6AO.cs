@@ -104,7 +104,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
         return (byte)Util.Rand.Next(PersonalTable.AO[Species].FormCount);
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
+    private void SetPINGA(PK6 pk, in EncounterCriteria criteria, PersonalInfo6AO pi)
     {
         var rnd = Util.Rand;
         pk.PID = rnd.Rand32();
