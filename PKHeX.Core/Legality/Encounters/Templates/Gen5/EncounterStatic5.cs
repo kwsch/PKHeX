@@ -81,20 +81,25 @@ public sealed record EncounterStatic5(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
+        var tmp = criteria;
         if (Gender is not FixedGenderUtil.GenderRandom)
-            criteria = criteria with { Gender = (Gender)Gender };
+            tmp = tmp with { Gender = (Gender)Gender };
         if (Shiny is Shiny.Never)
-            criteria = criteria with { Shiny = Shiny.Never };
+            tmp = tmp with { Shiny = Shiny.Never };
 
         var seed = Util.Rand32();
         var gr = pi.Gender;
-        var ability = criteria.GetAbilityFromNumber(Ability);
+        var abilityIndex = criteria.GetAbilityFromNumber(Ability);
         if (IsShiny)
-            MonochromeRNG.GenerateShiny(pk, criteria, gr, seed, ability);
+            MonochromeRNG.GenerateShiny(pk, tmp, gr, seed, abilityIndex);
         else
-            MonochromeRNG.Generate(pk, criteria, gr, seed, ability);
+            MonochromeRNG.Generate(pk, tmp, gr, seed, abilityIndex);
+
+        pk.Nature = criteria.GetNature();
+        pk.RefreshAbility(abilityIndex);
+        criteria.SetRandomIVs(pk);
     }
 
     #endregion

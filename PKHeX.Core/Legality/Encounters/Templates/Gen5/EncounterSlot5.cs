@@ -80,11 +80,14 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
         return (byte)Util.Rand.Next(PersonalTable.B2W2[Species].FormCount);
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
         var abilityIndex = criteria.GetAbilityFromNumber(Ability);
         var seed = Util.Rand32();
         MonochromeRNG.Generate(pk, criteria, pi.Gender, seed, abilityIndex);
+        pk.Nature = criteria.GetNature();
+        pk.RefreshAbility(abilityIndex);
+        criteria.SetRandomIVs(pk);
     }
     #endregion
 

@@ -8,10 +8,21 @@ public static class MonochromeRNG
     /// <summary>
     /// Calculates the XOR result of the Trainer ID and Secret ID, masked to the least significant bit.
     /// </summary>
-    public static uint GetTrainerBitXor(ITrainerID32ReadOnly tr) => ((uint)tr.TID16 ^ tr.SID16) & 1;
+    public static uint GetBitXor<T>(T tr) where T : ITrainerID32ReadOnly => ((uint)tr.TID16 ^ tr.SID16) & 1;
+
+    /// <inheritdoc cref="GetBitXor{T}(T)"/>
+    public static uint GetBitXor(ushort tid, ushort sid) => ((uint)tid ^ sid) & 1;
 
     /// <summary>
-    /// Generates a Pokémon with a valid PID, gender, nature, ability, and IVs based on the specified criteria.
+    /// Calculates the XOR result of the PID, Trainer ID, and Secret ID.
+    /// </summary>
+    public static uint GetBitXor<T>(T tr, uint pid) where T : ITrainerID32ReadOnly => GetBitXor(tr) ^ (pid & 1) ^ (pid >> 31);
+
+    /// <inheritdoc cref="GetBitXor{T}(T,uint)"/>
+    public static uint GetBitXor(uint pid, ushort tid, ushort sid) => GetBitXor(tid, sid) ^ (pid & 1) ^ (pid >> 31);
+
+    /// <summary>
+    /// Assigns a valid PID and gender based on the specified criteria.
     /// </summary>
     /// <param name="pk">The Pokémon object to be modified with the generated attributes.</param>
     /// <param name="criteria">The encounter criteria that define the desired attributes for the Pokémon.</param>
@@ -30,7 +41,7 @@ public static class MonochromeRNG
         // Gender: still follows the Gen3/4 correlation based on low-8 bits of PID.
         // Ability: bit 16
         // Correlation: Trainer ID low-bits with PID high-bit and low-bit xor must be 0.
-        var bitXor = GetTrainerBitXor(pk);
+        var bitXor = GetBitXor(pk);
         var id32 = pk.ID32;
 
         // Logic: get a PID that matches Gender, then force the other correlations since they won't invalidate the gender.
@@ -58,10 +69,34 @@ public static class MonochromeRNG
             pk.Gender = gender;
             break;
         }
+    }
 
-        pk.Nature = criteria.GetNature();
-        pk.RefreshAbility(abilityIndex);
-        criteria.SetRandomIVs(pk);
+    /// <remarks>
+    /// Uses a different method to generate the PID, which does not correlate with the Trainer ID or Secret ID.
+    /// </remarks>
+    /// <inheritdoc cref="Generate"/>
+    public static void GetPIDNoCorrelate(PK5 pk, in EncounterCriteria criteria, byte gr, uint seed, int abilityIndex)
+    {
+        // Generate a PID that matches
+        var id32 = pk.ID32;
+        while (true)
+        {
+            var pid = seed;
+            var abit = (pid >> 16);
+            if (abit != (abilityIndex & 1))
+                pid ^= 1u << 16;
+
+            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            if (!IsSatisfied(criteria, pid, id32, gender))
+            {
+                seed = LCRNG.Next(seed); // arbitrary scramble
+                continue;
+            }
+
+            pk.PID = pid;
+            pk.Gender = gender;
+            break;
+        }
     }
 
     private static bool IsSatisfied(in EncounterCriteria criteria, uint pid, uint id32, byte gender)
@@ -80,7 +115,7 @@ public static class MonochromeRNG
     }
 
     /// <summary>
-    /// Generates a shiny Pokémon based on the specified encounter criteria and randomization parameters.
+    /// Assigns a valid shiny PID and gender based on the specified criteria.
     /// </summary>
     /// <param name="pk">The Pokémon object to be modified with the generated attributes.</param>
     /// <param name="criteria">The encounter criteria that define the desired attributes for the Pokémon.</param>
@@ -105,9 +140,6 @@ public static class MonochromeRNG
                 : (byte)1,
         };
         pk.PID = GetShinyPID(genderByte, (uint)(abilityIndex & 1), pk.TID16, pk.SID16, shinyType);
-        pk.Nature = criteria.GetNature();
-        pk.RefreshAbility(abilityIndex);
-        criteria.SetRandomIVs(pk);
     }
 
     private static byte GetRandomGenderComponent(in EncounterCriteria criteria, byte gr, uint seed, out byte gender)

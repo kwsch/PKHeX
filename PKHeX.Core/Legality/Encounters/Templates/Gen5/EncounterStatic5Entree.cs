@@ -67,12 +67,15 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
         return pk;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        criteria = criteria with { Shiny = Shiny.Never };
         var abilityIndex = criteria.GetAbilityFromNumber(Ability);
         var seed = Util.Rand32();
-        MonochromeRNG.Generate(pk, criteria, pi.Gender, seed, abilityIndex);
+        MonochromeRNG.Generate(pk, criteria with { Shiny = Shiny.Never }, pi.Gender, seed, abilityIndex);
+
+        pk.Nature = criteria.GetNature();
+        pk.RefreshAbility(abilityIndex);
+        criteria.SetRandomIVs(pk);
     }
 
     #endregion
