@@ -11,6 +11,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 {
     public PGF() : this(new byte[Size]) { }
     public PGF(Memory<byte> raw) : base(raw) { }
+    public override PGF Clone() => new(Data.ToArray());
 
     public int RestrictLanguage { get; set; } // None
     public byte RestrictVersion { get; set; } // Permit All
@@ -75,7 +76,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public Nature Nature { get => (Nature)Data[0x34]; set => Data[0x34] = (byte)value; }
     public override byte Gender { get => Data[0x35]; set => Data[0x35] = value; }
-    public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
+    public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x38..]); set => WriteUInt16LittleEndian(Data[0x38..], value); }
     public override ushort Location { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }

@@ -46,7 +46,7 @@ public static class EncounterText
             return lines;
 
         // Record types! Can get a nice summary.
-        // Won't work neatly for Mystery Gift types since those aren't record types.
+        // Won't work neatly for Mystery Gift types since those aren't record types, plus they have way too many properties.
         if (enc is not MysteryGift)
         {
             // ReSharper disable once ConstantNullCoalescingCondition

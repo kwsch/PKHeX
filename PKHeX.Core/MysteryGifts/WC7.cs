@@ -11,6 +11,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 {
     public WC7() : this(new byte[Size]) { }
     public WC7(Memory<byte> raw) : base(raw) { }
+    public override WC7 Clone() => new(Data.ToArray());
 
     public const int Size = 0x108;
     public override byte Generation => 7;
@@ -223,7 +224,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public Nature Nature { get => (Nature)Data[0xA0]; set => Data[0xA0] = (byte)value; }
     public override byte Gender { get => Data[0xA1]; set => Data[0xA1] = value; }
-    public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
+    public int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
     public ShinyType6 PIDType { get => (ShinyType6)Data[0xA3]; set => Data[0xA3] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[0xA4..]); set => WriteUInt16LittleEndian(Data[0xA4..], value); }
     public override ushort Location { get => ReadUInt16LittleEndian(Data[0xA6..]); set => WriteUInt16LittleEndian(Data[0xA6..], value); }

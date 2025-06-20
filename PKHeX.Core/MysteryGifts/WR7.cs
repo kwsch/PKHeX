@@ -14,6 +14,7 @@ public sealed class WR7 : DataMysteryGift
 {
     public WR7() : this(new byte[Size]) { }
     public WR7(Memory<byte> raw) : base(raw) { }
+    public override WR7 Clone() => new(Data.ToArray());
 
     public const int Size = 0x140;
     public override byte Generation => 7;
@@ -90,6 +91,8 @@ public sealed class WR7 : DataMysteryGift
     public override uint ID32 { get; set; }
     public override ushort TID16 { get; set; }
     public override ushort SID16 { get; set; }
+    public override bool IsEgg { get => false; set { } }
+    public override int HeldItem { get => -1; set { } }
 
     public override string OriginalTrainerName
     {

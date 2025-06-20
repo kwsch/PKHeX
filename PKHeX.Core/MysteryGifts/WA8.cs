@@ -15,6 +15,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 {
     public WA8() : this(new byte[Size]) { }
     public WA8(Memory<byte> raw) : base(raw) { }
+    public override WA8 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2C8;
 
@@ -176,7 +177,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public override byte Level  { get => Data[0x23C]; set => Data[0x23C] = value; }
     public override bool IsEgg { get => Data[0x23D] == 1; set => Data[0x23D] = value ? (byte)1 : (byte)0; }
     public Nature Nature          { get => (Nature)Data[0x23E]; set => Data[0x23E] = (byte)value; }
-    public override int AbilityType { get => Data[0x23F]; set => Data[0x23F] = (byte)value; }
+    public int AbilityType { get => Data[0x23F]; set => Data[0x23F] = (byte)value; }
 
     private byte PIDTypeValue => Data[0x240];
 

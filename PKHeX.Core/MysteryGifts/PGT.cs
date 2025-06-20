@@ -12,6 +12,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 {
     public PGT() : this(new byte[Size]) { }
     public PGT(Memory<byte> raw) : base(raw) { }
+    public override PGT Clone() => new(Data.ToArray());
 
     public const int Size = 0x104; // 260
     public override byte Generation => 4;

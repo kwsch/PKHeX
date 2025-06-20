@@ -257,7 +257,7 @@ public partial class SAV_Wondercard : Form
             WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{GameInfo.Strings.Item[533]} slot not valid.");
             return;
         }
-        gifts[index] = (DataMysteryGift)gift.Clone();
+        gifts[index] = gift.Clone();
         SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
         SetGiftBoxes();
         SetCardID(gift.CardID);
@@ -556,7 +556,7 @@ public partial class SAV_Wondercard : Form
                 return;
             }
             SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
-            dest = (DataMysteryGift)gift.Clone();
+            dest = gift.Clone();
 
             SetCardID(dest.CardID);
             ViewGiftData(dest);
