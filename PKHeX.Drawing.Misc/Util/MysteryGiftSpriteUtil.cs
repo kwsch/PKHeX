@@ -19,7 +19,7 @@ public static class MysteryGiftSpriteUtil
 
     private static Bitmap GetSprite(MysteryGift gift)
     {
-        if (gift.Empty)
+        if (gift.IsEmpty)
             return SpriteUtil.Spriter.None;
 
         var img = GetBaseImage(gift);

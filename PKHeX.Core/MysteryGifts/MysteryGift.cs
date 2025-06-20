@@ -132,7 +132,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
 
     public abstract bool IsEntity { get; set; }
     public virtual int Quantity { get => 1; set { } }
-    public virtual bool Empty => false;
+    public virtual bool IsEmpty => false;
 
     public virtual string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
