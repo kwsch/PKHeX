@@ -153,20 +153,21 @@ public static class EncounterEvent
                     return true;
                 }
             }
-            EGDB_G4 = SetArray(lg4);
-            EGDB_G5 = SetArray(lg5);
-            EGDB_G6 = SetArray(lg6);
-            EGDB_G7 = SetArray(lg7);
-            EGDB_G7GG = SetArray(lb7);
-            EGDB_G8 = SetArray(lg8);
-            EGDB_G8A = SetArray(la8);
-            EGDB_G8B = SetArray(lb8);
-            EGDB_G9 = SetArray(lg9);
-            continue;
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static T[] SetArray<T>(List<T>? update) => update is null ? [] : update.ToArray();
         }
+
+        EGDB_G4 = SetArray(lg4);
+        EGDB_G5 = SetArray(lg5);
+        EGDB_G6 = SetArray(lg6);
+        EGDB_G7 = SetArray(lg7);
+        EGDB_G7GG = SetArray(lb7);
+        EGDB_G8 = SetArray(lg8);
+        EGDB_G8A = SetArray(la8);
+        EGDB_G8B = SetArray(lb8);
+        EGDB_G9 = SetArray(lg9);
+        return;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static T[] SetArray<T>(List<T>? update) => update is null ? [] : update.ToArray();
     }
 
     /// <summary>
