@@ -1,3 +1,6 @@
+0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
+0351	s	Dialga/Palkia Caught
+0482	s	Dialga/Palkia Gone from Spear Pillar
 0511	r	由克希 已消失
 0509	r	艾姆利多(心齐湖) 已消失
 0510	r	亚克诺姆 已消失
@@ -24,9 +27,11 @@
 0666	s	在森之洋馆遇到小女孩幽灵
 0897	s	在森之洋馆找到解毒药 (隐藏)
 1008	s	在森之洋馆找到森之羊羹
+1023	s	Found Adamant/Lustrous Orb in Spear Pillar
 1233	s	在森之洋馆找到恶颜石板
 1234	s	在森之洋馆找到TM90
 2401	*	跑步鞋已关闭
+2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	得到小福蛋的蛋
 0305	g	已获得伊布
 2430	*	已解锁水木的电脑

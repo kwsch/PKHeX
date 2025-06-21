@@ -60,6 +60,9 @@
 0217	s	Met Frieda/Got Poison Barb
 0212	s	Met Santos/Got Soft Sand
 0165	s	Met Sunny/Got Magnet
+0119	s	Kurt's Granddaughter Is Worried About Kurt
+0414	s	Kurt at Slowpoke Well
+0415	s	Rocket Grunt Guarding Slowpoke Well Gone
 0539	*	Solved Ruins of Alph Escape Rope wall puzzle
 0541	*	Solved Ruins of Alph Flash wall puzzle
 0543	*	Solved Ruins of Alph Water Stone wall puzzle

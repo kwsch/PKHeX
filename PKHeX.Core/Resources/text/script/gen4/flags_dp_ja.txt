@@ -1,3 +1,6 @@
+0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
+0351	s	Dialga/Palkia Caught
+0482	s	Dialga/Palkia Gone from Spear Pillar
 0511	r	ユクシー戦闘済み
 0509	r	シンジこのくうどうのエムリットが飛び去った(徘徊イベント)
 0510	r	アグノム戦闘済み
@@ -24,9 +27,11 @@
 0666	s	もりのようかんで幽霊の少女に遭遇した
 0897	s	もりのようかんでどくけし入手
 1008	s	もりのようかんでもりのヨウカン入手
+1023	s	Found Adamant/Lustrous Orb in Spear Pillar
 1233	s	もりのようかんでこわもてプレート入手
 1234	s	もりのようかんでわざマシン９０入手
 2401	*	ランニングシューズ未取得
+2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	ピンプクのタマゴ受け取り済み
 0305	g	イーブイ受け取り済み
 2430	*	『ミズキのパソコン』表記になる

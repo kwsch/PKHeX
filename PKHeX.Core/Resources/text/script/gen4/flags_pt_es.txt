@@ -45,6 +45,7 @@
 0151	g	Porygon recibido
 0305	g	Eevee recibido
 2430	*	PC de Tecla desbloqueado
+2433	s	2nd Rematch Against Trainers Unlocked
 2728	r	Drifloon de los viernes desaparecido
 2722	r	Pokémon de hoy en el Jardín Trofeo
 0710	*	Habitación de Rotom desbloqueada

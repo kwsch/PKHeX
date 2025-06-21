@@ -60,6 +60,9 @@
 0217	s	カネコに会った/どくバリをもらった
 0212	s	ツチオに会った/やわらかいすなをもらった
 0165	s	ニチオに会った/じしゃくをもらった
+0119	s	Kurt's Granddaughter Is Worried About Kurt
+0414	s	Kurt at Slowpoke Well
+0415	s	Rocket Grunt Guarding Slowpoke Well Gone
 0539	*	『ANANUKE』の部屋の壁開通
 0541	*	『HIKARI』の部屋の壁開通
 0543	*	『MIZU』の部屋の壁開通
