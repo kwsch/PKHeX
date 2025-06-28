@@ -103,5 +103,5 @@ public sealed class HallFame3PKM(Memory<byte> Raw, bool Japanese) : ISpeciesForm
         _ => Form,
     };
 
-    public bool IsShiny => ShinyUtil.GetIsShiny(ID32, PID, 8);
+    public bool IsShiny => ShinyUtil.GetIsShiny3(ID32, PID);
 }

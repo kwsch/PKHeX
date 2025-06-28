@@ -282,7 +282,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
                 var pid = pk.EncryptionConstant;
                 if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                     continue; // try again
-                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(pk.ID32, pid))
                     continue; // try again
                 return seed;
             }
@@ -298,7 +298,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             var pid = pk.EncryptionConstant;
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(pk.ID32, pid))
                 continue; // try again
             var iv32 = pk.IV32;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))

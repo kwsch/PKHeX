@@ -55,7 +55,7 @@ public static class GenerateMethodK
                 var pid = GetPIDRegular(a, b);
                 if (pid % 25 != nature)
                     continue;
-                if (ShinyUtil.GetIsShiny(id32, pid, 8) != criteria.Shiny.IsShiny())
+                if (ShinyUtil.GetIsShiny3(id32, pid) != criteria.Shiny.IsShiny())
                     break; // try again
                 if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((int)(pid & 1)))
                     break; // try again

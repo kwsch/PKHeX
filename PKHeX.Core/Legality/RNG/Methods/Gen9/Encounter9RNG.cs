@@ -283,16 +283,16 @@ public static class Encounter9RNG
         {
             var tid = (ushort)fakeTID;
             var sid = (ushort)(fakeTID >> 16);
-            if (!GetIsShiny(fakeTID, pid)) // battled
+            if (!GetIsShiny6(fakeTID, pid)) // battled
                 pid = GetShinyPID(tid, sid, pid, 0);
-            if (!GetIsShiny(pk.ID32, pid)) // captured
+            if (!GetIsShiny6(pk.ID32, pid)) // captured
                 pid = GetShinyPID(pk.TID16, pk.SID16, pid, GetShinyXor(pid, fakeTID) == 0 ? 0u : 1u);
         }
         else // Never
         {
-            if (GetIsShiny(fakeTID, pid)) // battled
+            if (GetIsShiny6(fakeTID, pid)) // battled
                 pid ^= 0x1000_0000;
-            if (GetIsShiny(pk.ID32, pid)) // captured
+            if (GetIsShiny6(pk.ID32, pid)) // captured
                 pid ^= 0x1000_0000;
         }
         return pid;

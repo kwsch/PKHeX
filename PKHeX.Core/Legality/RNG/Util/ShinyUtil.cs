@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -9,28 +8,37 @@ namespace PKHeX.Core;
 public static class ShinyUtil
 {
     /// <summary>
-    /// Computes a shiny PID from the provided values.
+    /// Modifies the upper half of the PID to be shiny with the provided values.
     /// </summary>
     /// <param name="tid">Trainer ID.</param>
     /// <param name="sid">Trainer Secret ID.</param>
     /// <param name="pid">Entity PID.</param>
-    /// <param name="type">Shiny XOR type.</param>
+    /// <param name="xorType">Shiny XOR type.</param>
     /// <returns>Shiny PID.</returns>
-    public static uint GetShinyPID(in ushort tid, in ushort sid, in uint pid, in uint type)
+    public static uint GetShinyPID(in ushort tid, in ushort sid, in uint pid, in uint xorType)
     {
         var low = pid & 0xFFFF;
-        return ((type ^ tid ^ sid ^ low) << 16) | low;
+        return ((xorType ^ tid ^ sid ^ low) << 16) | low;
     }
 
     /// <summary>
-    /// Checks if the PID is shiny.
+    /// Checks if the PID is shiny using criteria from Generation 6+.
     /// </summary>
     /// <param name="id32">Combined Trainer ID and Secret ID.</param>
     /// <param name="pid">Entity PID.</param>
-    /// <param name="cmp">Comparison threshold.</param>
     /// <returns>True if shiny, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool GetIsShiny(in uint id32, in uint pid, [ConstantExpected(Max = 16, Min = 8)] uint cmp = 16) => GetShinyXor(id32, pid) < cmp;
+    public static bool GetIsShiny6(in uint id32, in uint pid) => GetShinyXor(id32, pid) < 16;
+
+
+    /// <summary>
+    /// Checks if the PID is shiny using criteria from Generation 3-5.
+    /// </summary>
+    /// <param name="id32">Combined Trainer ID and Secret ID.</param>
+    /// <param name="pid">Entity PID.</param>
+    /// <returns>True if shiny, false otherwise.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool GetIsShiny3(in uint id32, in uint pid) => GetShinyXor(id32, pid) < 8;
 
     /// <summary>
     /// Computes the shiny XOR value.
@@ -59,12 +67,12 @@ public static class ShinyUtil
     {
         if (isShiny)
         {
-            if (!GetIsShiny(id32, pid))
+            if (!GetIsShiny6(id32, pid))
                 pid = GetShinyPID((ushort)(id32 & 0xFFFFu), (ushort)(id32 >> 16), pid, xorType);
         }
         else
         {
-            if (GetIsShiny(id32, pid))
+            if (GetIsShiny6(id32, pid))
                 pid ^= 0x1000_0000;
         }
     }

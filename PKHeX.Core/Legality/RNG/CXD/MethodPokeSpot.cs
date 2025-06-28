@@ -263,7 +263,7 @@ public static class MethodPokeSpot
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gender)))
                 continue;
 
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             return pid;

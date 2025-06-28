@@ -54,7 +54,7 @@ public static class GenerateMethodJ
                 var pid = GetPIDRegular(a, b);
                 if (pid % 25 != nature)
                     continue;
-                if (ShinyUtil.GetIsShiny(id32, pid, 8) != criteria.Shiny.IsShiny())
+                if (ShinyUtil.GetIsShiny3(id32, pid) != criteria.Shiny.IsShiny())
                     break; // try again
                 if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((int)(pid & 1)))
                     break; // try again
@@ -126,7 +126,7 @@ public static class GenerateMethodJ
             var a = LCRNG.Next16(ref s);
             var b = LCRNG.Next16(ref s);
             var pid = GetPIDRegular(a, b);
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue;

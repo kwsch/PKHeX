@@ -472,7 +472,7 @@ public static class MethodFinder
             if (expectPID != actualPID)
             {
                 // Check for the alternate event types that force shiny state.
-                bool isShiny = ShinyUtil.GetIsShiny(idXor, actualPID, 8);
+                bool isShiny = ShinyUtil.GetIsShiny3(idXor, actualPID);
                 if (!isShiny) // most likely, branch prediction!
                 {
                     if (CommonEvent3.IsRegularAntishiny(actualPID, expectPID))

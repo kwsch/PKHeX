@@ -51,7 +51,7 @@ public static class CommonEvent3
     public static uint GetRegularAntishiny(uint a16, uint b16, uint idXor)
     {
         var pid = GetRegular(a16, b16);
-        if (ShinyUtil.GetIsShiny(idXor, pid, 8))
+        if (ShinyUtil.GetIsShiny3(idXor, pid))
             pid = GetRegularAntishiny(pid);
         return pid;
     }

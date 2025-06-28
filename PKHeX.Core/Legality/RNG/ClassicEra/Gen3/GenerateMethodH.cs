@@ -42,12 +42,10 @@ public static class GenerateMethodH
                 var a = LCRNG.Next16(ref seed);
                 var b = LCRNG.Next16(ref seed);
                 var pid = GetPIDRegular(a, b);
-                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                     continue;
                 if (pid % 25 != nature)
                     continue;
-                if (ShinyUtil.GetIsShiny(id32, pid, 8) != criteria.Shiny.IsShiny())
-                    break; // try again
                 if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((int)(pid & 1)))
                     break; // try again
                 if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))

@@ -124,7 +124,7 @@ public sealed record EncounterShadow3Colo(byte Index, ushort Gauge, ReadOnlyMemo
             if ((Nature)(pid % 25) != nature || EntityGender.GetFromPIDAndRatio(pid, gr) != gender)
                 continue;
 
-            if (criteria.Shiny.IsShiny() && !ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+            if (criteria.Shiny.IsShiny() && !ShinyUtil.GetIsShiny3(pk.ID32, pid))
                 continue;
 
             var result = LockFinder.IsAllShadowLockValid(this, seed, pk);

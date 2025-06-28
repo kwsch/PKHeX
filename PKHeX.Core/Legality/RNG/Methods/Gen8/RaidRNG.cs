@@ -172,12 +172,12 @@ public static class RaidRNG
 
         if (isShiny)
         {
-            if (!GetIsShiny(pk.ID32, pid))
+            if (!GetIsShiny6(pk.ID32, pid))
                 pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.ID32, pid))
+            if (GetIsShiny6(pk.ID32, pid))
                 pid ^= 0x1000_0000;
         }
 

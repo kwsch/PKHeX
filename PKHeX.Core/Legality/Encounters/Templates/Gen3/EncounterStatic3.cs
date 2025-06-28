@@ -135,7 +135,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
                     var pid = (rand2 << 16) | rand1;
                     if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                         continue;
-                    bool shiny = ShinyUtil.GetIsShiny(id32, pid, 8);
+                    bool shiny = ShinyUtil.GetIsShiny3(id32, pid);
                     if (criteria.Shiny.IsShiny() != shiny)
                         continue;
 
@@ -190,7 +190,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         while (true)
         {
             var pid = ClassicEraRNG.GetSequentialPID(ref seed);
-            var shiny = ShinyUtil.GetIsShiny(id32, pid, 8);
+            var shiny = ShinyUtil.GetIsShiny3(id32, pid);
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
 
