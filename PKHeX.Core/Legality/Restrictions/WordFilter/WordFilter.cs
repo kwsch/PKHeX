@@ -80,7 +80,7 @@ public static class WordFilter
         return IsFilteredLookBack(message, out regMatch, current, original);
     }
 
-    private static bool IsFilteredCurrentOnly(ReadOnlySpan<char> message, ref string? regMatch,
+    private static bool IsFilteredCurrentOnly(ReadOnlySpan<char> message, [NotNullWhen(true)] ref string? regMatch,
         EntityContext current, EntityContext original) => current switch
     {
         EntityContext.Gen5 => WordFilter5.IsFiltered(message, out regMatch),

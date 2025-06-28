@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -139,7 +140,7 @@ public static class EncounterEvent
                 if (!added)
                     Trace.WriteLine($"Failed to add gift in {Path.GetDirectoryName(path)}: {gift.FileName}");
 
-                static bool AddOrExpand<T>(ref HashSet<T>? arr, ref List<T>? extra, T obj)
+                static bool AddOrExpand<T>([NotNullWhen(true)] ref HashSet<T>? arr, ref List<T>? extra, T obj)
                 {
                     if (arr is null)
                     {

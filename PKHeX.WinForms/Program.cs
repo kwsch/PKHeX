@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 
 #if !DEBUG
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.IO;
 using System.Threading;
@@ -195,14 +196,14 @@ internal static class Program
         return true;
     }
 
-    private static bool IsOldPkhexCorePresent(Exception? ex)
+    private static bool IsOldPkhexCorePresent([NotNullWhen(true)] Exception? ex)
     {
         return ex is MissingMethodException or TypeLoadException or TypeInitializationException
             && File.Exists("PKHeX.Core.dll")
             && AssemblyName.GetAssemblyName("PKHeX.Core.dll").Version < CurrentVersion;
     }
 
-    private static bool IsPkhexCoreMissing(Exception? ex)
+    private static bool IsPkhexCoreMissing([NotNullWhen(true)] Exception? ex)
     {
         return ex is FileNotFoundException { FileName: {} n } && n.Contains("PKHeX.Core");
     }

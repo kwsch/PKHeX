@@ -1,16 +1,17 @@
 using PKHeX.Core;
 using PKHeX.Core.Searching;
+using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Controls;
+using PKHeX.WinForms.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PKHeX.Drawing.PokeSprite;
-using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -332,7 +333,7 @@ public partial class SAV_Encounters : Form
 
     private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class
     {
-        public bool Equals(T? x, T? y)
+        public bool Equals([NotNullWhen(true)] T? x, [NotNullWhen(true)] T? y)
         {
             if (x is null)
                 return false;

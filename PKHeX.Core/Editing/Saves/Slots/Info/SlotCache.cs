@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -64,7 +65,7 @@ public sealed class SlotCache : IComparable<SlotCache>
         return string.CompareOrdinal(Identify(), other.Identify());
     }
 
-    public override bool Equals(object? obj)
+    public override bool Equals([NotNullWhen(true)] object? obj)
     {
         if (ReferenceEquals(this, obj))
             return true;

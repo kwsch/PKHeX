@@ -103,8 +103,7 @@ public static class ItemRestrictions
         var result = GetPermitList(max, allowed);
         foreach (var index in disallow1)
             result[index] = false;
-        for (int i = disallow2.Start.Value; i < disallow2.End.Value; i++)
-            result[i] = false;
+        result.AsSpan()[disallow2].Clear();
         return result;
     }
 }
