@@ -19,7 +19,12 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public bool Korean { get; }
     public override int Language { get; set; }
 
-    private readonly byte[] Reserved = new byte[0x8000];
+    /// <summary>
+    /// Rather than deal with managing lists on each slot read/write, store all sequentially in a single buffer.
+    /// </summary>
+    private readonly byte[] Reserved = new byte[SIZE_RESERVED];
+
+    private const int SIZE_RESERVED = 0x8000; // unpacked box data
 
     protected override Span<byte> BoxBuffer => Reserved;
     protected override Span<byte> PartyBuffer => Reserved;
@@ -195,21 +200,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
         else if (Korean)
         {
-            // Calculate oddball checksum
-            ushort sum = 0;
-            Span<(ushort, ushort)> offsetpairs =
-            [
-                (0x106B, 0x1533),
-                (0x1534, 0x1A12),
-                (0x1A13, 0x1C38),
-                (0x3DD8, 0x3F79),
-                (0x7E39, 0x7E6A),
-            ];
-            foreach (var p in offsetpairs)
-            {
-                for (int i = p.Item1; i < p.Item2; i++)
-                    sum += Data[i];
-            }
+            var sum = GetKoreanChecksum();
             WriteUInt16LittleEndian(Data.AsSpan(0x7E6B), sum);
         }
         else
@@ -229,6 +220,26 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             }
         }
         return Data;
+    }
+
+    private ushort GetKoreanChecksum()
+    {
+        // Calculate oddball checksum
+        ushort sum = 0;
+        Span<(ushort Start, ushort EndExclusive)> offsetpairs =
+        [
+            (0x106B, 0x1533),
+            (0x1534, 0x1A12),
+            (0x1A13, 0x1C38),
+            (0x3DD8, 0x3F79),
+            (0x7E39, 0x7E6A),
+        ];
+        foreach (var p in offsetpairs)
+        {
+            for (int i = p.Start; i < p.EndExclusive; i++)
+                sum += Data[i];
+        }
+        return sum;
     }
 
     // Configuration

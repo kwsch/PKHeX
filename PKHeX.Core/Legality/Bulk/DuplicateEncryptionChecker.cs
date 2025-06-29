@@ -4,8 +4,15 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core.Bulk;
 
+/// <summary>
+/// Checks for duplicate Encryption Constants (EC) among Pokémon in a bulk legality analysis.
+/// </summary>
 public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 {
+    /// <summary>
+    /// Analyzes the provided <see cref="BulkAnalysis"/> for duplicate Encryption Constants.
+    /// </summary>
+    /// <param name="input">The bulk analysis data to check.</param>
     public void Analyze(BulkAnalysis input)
     {
         if (input.Trainer.Generation < 6)

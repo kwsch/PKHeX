@@ -31,7 +31,7 @@ public static class MethodCXD
                 continue;
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
-            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             var result = LockFinder.IsAllShadowLockValid(enc, seed, pk);
@@ -69,7 +69,7 @@ public static class MethodCXD
                 continue;
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
-            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             pk.PID = pid;
@@ -99,6 +99,7 @@ public static class MethodCXD
     /// </summary>
     public static bool SetStarterFromTrainerID(CK3 pk, in EncounterCriteria criteria, ushort tid, ushort sid)
     {
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         var id32 = (uint)sid << 16 | tid;
         var species = pk.Species;
         // * => TID, SID, fakepid*2, [IVs, ability, PID]
@@ -131,6 +132,8 @@ public static class MethodCXD
             var iv32 = iv2 << 15 | iv1;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
 
             pk.PID = pid;
             SetIVs(pk, iv1, iv2);
@@ -151,6 +154,9 @@ public static class MethodCXD
         var count = XDRNG.GetSeedsIVs(seeds, iv1 << 16, iv2 << 16);
         foreach (var seed in seeds[..count])
         {
+            var origin = XDRNG.Prev4(seed);
+            if (!IsValidNameScreenEndSeed(origin, out _))
+                continue;
             // * => IV, IV, ability, PID, PID
             var s = XDRNG.Next3(seed);
 
@@ -202,11 +208,12 @@ public static class MethodCXD
             {
                 // Find Trainer ID for this Umbreon frame.
                 var s = LCRNG.Prev7(prePID); // hypothetical origin seed
+                if (!IsValidNameScreenEndSeed(s, out _))
+                    continue;
                 var sid = LCRNG.Next16(ref s);
                 var tid = LCRNG.Next16(ref s);
                 var id32 = sid << 16 | tid;
-                uint espeonPID;
-                if (IsValidTrainerCombination(criteria, id32, umbreon, frameEspeonPID, out espeonPID))
+                if (IsValidTrainerCombination(criteria, id32, umbreon, frameEspeonPID, out var espeonPID))
                 {
                     pk.PID = espeonPID;
                     pk.ID32 = id32;
@@ -232,7 +239,7 @@ public static class MethodCXD
     private static bool IsValidTrainerCombination(in EncounterCriteria criteria, uint id32, uint umbreon, uint pidSeed, out uint espeonPID)
     {
         espeonPID = 0;
-        if (ShinyUtil.GetIsShiny(id32, umbreon))
+        if (ShinyUtil.GetIsShiny3(id32, umbreon))
             return false; // Umbreon cannot be shiny
 
         // Generate Espeon PID
@@ -258,9 +265,10 @@ public static class MethodCXD
     /// <summary>
     /// Tries to set a valid PID/IV for the requested criteria for the XD starter (Eevee), preferring to match Trainer IDs.
     /// </summary>
-    public static bool SetStarterFromTrainerID(XK3 pk, EncounterCriteria criteria, ushort tid, ushort sid)
+    public static bool SetStarterFromTrainerID(XK3 pk, in EncounterCriteria criteria, ushort tid, ushort sid)
     {
         // * => TID, SID, fakepid*2, [IVs, ability, PID]
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         Span<uint> all = stackalloc uint[XDRNG.MaxCountSeedsPID];
         var count = XDRNG.GetSeeds(all, (uint)tid << 16, (uint)sid << 16);
         var seeds = all[..count];
@@ -281,6 +289,8 @@ public static class MethodCXD
             var iv32 = iv2 << 15 | iv1;
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
 
             pk.PID = pid;
             SetIVs(pk, iv1, iv2);
@@ -294,7 +304,7 @@ public static class MethodCXD
     /// <summary>
     /// Tries to set a valid PID/IV with the requested criteria for the XD starter (Eevee), preferring to match the IVs requested.
     /// </summary>
-    public static bool SetStarterFromIVs(XK3 pk, EncounterCriteria criteria)
+    public static bool SetStarterFromIVs(XK3 pk, in EncounterCriteria criteria)
     {
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
         criteria.GetCombinedIVs(out var iv1, out var iv2);
@@ -311,7 +321,7 @@ public static class MethodCXD
             var tid = XDRNG.Prev3(seed) >> 16;
             var sid = XDRNG.Prev2(seed) >> 16;
             var id32 = sid << 16 | tid;
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             pk.ID32 = id32;
@@ -326,15 +336,19 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for the XD starter (Eevee).
     /// </summary>
-    public static void SetStarterRandom(XK3 pk, EncounterCriteria criteria, uint seed)
+    public static void SetStarterRandom(XK3 pk, in EncounterCriteria criteria, uint seed)
     {
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
+        bool checkNameScreen = pk.Language is (int)LanguageID.Japanese;
         while (true)
         {
-            if (!IsValidNameScreenEndSeed(seed, out _))
+            if (checkNameScreen)
             {
-                seed = XDRNG.Next(seed);
-                continue;
+                if (!IsValidNameScreenEndSeed(XDRNG.Prev1000(seed), out _))
+                {
+                    seed = XDRNG.Next(seed);
+                    continue;
+                }
             }
             var start = seed;
 
@@ -349,7 +363,7 @@ public static class MethodCXD
             var tid = XDRNG.Next16(ref start);
             var sid = XDRNG.Next16(ref start);
             var id32 = sid << 16 | tid;
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             // Get IVs
@@ -383,7 +397,7 @@ public static class MethodCXD
         var gender = pi.Gender;
 
         bool hasPrior = enc.PartyPrior.Length != 0;
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         int ctr = 0;
         while (ctr++ < MaxIterationsShadowSearch)
         {
@@ -393,7 +407,7 @@ public static class MethodCXD
                 continue;
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gender)))
                 continue;
-            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             // Get IVs -- separately from the single-stepping seed to avoid deadlock (processing same frames each loop)
@@ -422,13 +436,13 @@ public static class MethodCXD
     /// <summary>
     /// Sets a random PID/IV with the requested criteria for a non-shadow encounter.
     /// </summary>
-    public static void SetRandom<T>(T pk, EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny, uint seed)
+    public static void SetRandom<T>(T pk, in EncounterCriteria criteria, PersonalInfo3 pi, bool noShiny, uint seed)
         where T : G3PKM, ISeparateIVs
     {
         var id32 = pk.ID32;
         var gender = pi.Gender;
 
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             // fakePID x2, IVs x2, ability, pid1*, pid2
@@ -437,7 +451,7 @@ public static class MethodCXD
                 continue;
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gender)))
                 continue;
-            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (!noShiny && criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
 
             // Get IVs -- separately from the single-stepping seed to avoid deadlock (processing same frames each loop)
@@ -473,7 +487,7 @@ public static class MethodCXD
         while (true)
         {
             uint pid = GetPIDReuseFirst(ref seed);
-            if (!noShiny || !ShinyUtil.GetIsShiny(id32, pid))
+            if (!noShiny || !ShinyUtil.GetIsShiny3(id32, pid))
                 return pid;
         }
     }
@@ -484,7 +498,7 @@ public static class MethodCXD
         while (true)
         {
             uint pid = GetPIDRegular(ref seed);
-            if (!noShiny || !ShinyUtil.GetIsShiny(id32, pid))
+            if (!noShiny || !ShinyUtil.GetIsShiny3(id32, pid))
                 return pid;
         }
     }
@@ -504,7 +518,7 @@ public static class MethodCXD
     private static bool IsMaleEevee(uint pid) => (pid & 0xFF) >= GenderRatioMale87_5;
 
     private static bool IsValidStarterColo(uint id32, uint pid)
-        => IsMaleEevee(pid) && !ShinyUtil.GetIsShiny(id32, pid, 8);
+        => IsMaleEevee(pid) && !ShinyUtil.GetIsShiny3(id32, pid);
 
     private static bool IsMatchIVs(uint iv1, uint iv2, uint seed)
     {
@@ -625,9 +639,11 @@ public static class MethodCXD
     /// <param name="seed">Seed that goes on to generate the player TID/SID (after advancing 1000 frames)</param>
     /// <param name="origin">Current seed that confirms the player name</param>
     /// <returns>True if <see cref="seed"/> can be reached via <see cref="origin"/></returns>
-    /// <remarks>https://github.com/yatsuna827/PokemonCoRNGLibrary/blob/e5255b13134ab3a2119788c40b5e71ee48d849b0/PokemonCoRNGLibrary/Util/LCGExtensions.cs#L15</remarks> 
+    /// <remarks>https://github.com/yatsuna827/PokemonCoRNGLibrary/blob/e5255b13134ab3a2119788c40b5e71ee48d849b0/PokemonCoRNGLibrary/Util/LCGExtensions.cs#L15</remarks>
     public static bool IsValidNameScreenEndSeed(uint seed, out uint origin)
     {
+        // On the character name screen, the game has a 10% chance to spawn a ball, and if passes, in a random position (using 4 RNG calls).
+        // Ensure the seed can be landed on, with rough criteria of 4 fadeout frames in a row.
         // rand() / 10 == 0 is a skip
         const ushort SEED_THRESHOLD = 0x1999; // Only need the upper 16 bits
 
@@ -642,6 +658,7 @@ public static class MethodCXD
             return true;
         }
 
+        // Couldn't land on the input seed naturally, try to find an earlier seed that catapults us to the input seed by spawning a ball.
         if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && IsValidNameScreenEndSeed(XDRNG.Prev(seed), out origin)) return true;
         if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && IsValidNameScreenEndSeed(XDRNG.Prev(seed), out origin)) return true;
         if (XDRNG.Prev16(ref seed) <= SEED_THRESHOLD && p1 && p2 && IsValidNameScreenEndSeed(XDRNG.Prev(seed), out origin)) return true;

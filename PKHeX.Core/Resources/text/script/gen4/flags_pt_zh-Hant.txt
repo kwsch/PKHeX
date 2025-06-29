@@ -45,6 +45,7 @@
 0151	g	獲得多邊獸
 0305	g	獲得伊布
 2430	*	解鎖水木的電腦
+2433	s	2nd Rematch Against Trainers Unlocked
 2728	r	星期五飄飄球已消失
 2722	r	已知今天最自豪的後院寶可夢
 0710	*	Unlocked Rotom's Room

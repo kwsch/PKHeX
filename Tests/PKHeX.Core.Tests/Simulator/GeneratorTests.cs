@@ -77,8 +77,7 @@ public class GeneratorTests
             var pk = ez.ConvertToPKM(tr, criteria);
             pk.Nature.Should().Be(nature, "not nature locked");
             pk.IsShiny.Should().BeTrue("encounter is shiny locked");
-            pk.TID16.Should().Be(tr.TID16);
-            pk.SID16.Should().Be(tr.SID16);
+            pk.ID32.Should().Be(tr.ID32);
         }
     }
 }

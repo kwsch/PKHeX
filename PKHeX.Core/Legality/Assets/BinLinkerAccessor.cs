@@ -53,6 +53,12 @@ public readonly ref struct BinLinkerAccessor
         return new BinLinkerAccessor(data);
     }
 
+    /// <inheritdoc cref="Get(ReadOnlySpan{byte}, ReadOnlySpan{byte})"/>
+    /// <summary>
+    /// Gets a new <see cref="BinLinkerAccessor"/> for the provided <see cref="data"/> without identifier verification.
+    /// </summary>
+    public static BinLinkerAccessor Get(ReadOnlySpan<byte> data) => new(data);
+
     [Conditional("DEBUG")]
     private static void SanityCheckIdentifier(ReadOnlySpan<byte> data, [Length(2, 2)] ReadOnlySpan<byte> identifier)
     {

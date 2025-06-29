@@ -38,7 +38,7 @@ public record struct StatParseResult()
     /// <summary>
     /// Indicates if all stat indexes available were parsed.
     /// </summary>
-    public bool IsParsedAllStats { get; private set; } = false;
+    public bool IsParsedAllStats { get; private set; }
 
     /// <summary>
     /// Marks the stat index as parsed, and updates the count of parsed stats.
@@ -62,7 +62,7 @@ public record struct StatParseResult()
     /// </summary>
     /// <param name="statIndex">Visual index of the stat to check.</param>
     /// <returns>True if the stat was parsed, false otherwise.</returns>
-    public bool WasParsed(int statIndex)
+    public readonly bool WasParsed(int statIndex)
     {
         // Check if the stat index is valid (0-5)
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)statIndex, MaxStatCount);
@@ -100,7 +100,7 @@ public record struct StatParseResult()
     /// <summary>
     /// Indicates if any stat has any amplified (+/-) requested, indicative of nature.
     /// </summary>
-    public bool HasAmps => Plus != NoStatAmp || Minus != NoStatAmp;
+    public readonly bool HasAmps => Plus != NoStatAmp || Minus != NoStatAmp;
 
     /// <summary>
     /// Reorders the speed stat to be in the middle of the stats.

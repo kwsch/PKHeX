@@ -60,14 +60,14 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
         return pk;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
-        if (pk.IsShiny)
-            pk.PID ^= 0x1000_0000;
+        var abilityIndex = criteria.GetAbilityFromNumber(Ability);
+        var seed = Util.Rand32();
+        MonochromeRNG.Generate(pk, criteria with { Shiny = Shiny.Never }, pi.Gender, seed, abilityIndex);
+
+        pk.Nature = criteria.GetNature();
+        pk.RefreshAbility(abilityIndex);
         criteria.SetRandomIVs(pk);
     }
 

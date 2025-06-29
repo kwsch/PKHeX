@@ -11,6 +11,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
 {
     public WC6() : this(new byte[Size]) { }
     public WC6(Memory<byte> raw) : base(raw) { }
+    public override WC6 Clone() => new(Data.ToArray());
 
     public const int Size = 0x108;
     public const uint EonTicketConst = 0x225D73C2;
@@ -176,7 +177,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
 
     public Nature Nature { get => (Nature)Data[0xA0]; set => Data[0xA0] = (byte)value; }
     public override byte Gender { get => Data[0xA1]; set => Data[0xA1] = value; }
-    public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
+    public int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
     public ShinyType6 PIDType { get => (ShinyType6)Data[0xA3]; set => Data[0xA3] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[0xA4..]); set => WriteUInt16LittleEndian(Data[0xA4..], value); }
     public override ushort Location { get => ReadUInt16LittleEndian(Data[0xA6..]); set => WriteUInt16LittleEndian(Data[0xA6..], value); }
@@ -434,7 +435,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK6 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = criteria.GetNature(Nature);
@@ -445,7 +446,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H

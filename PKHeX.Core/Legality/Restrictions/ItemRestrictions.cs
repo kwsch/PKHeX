@@ -48,6 +48,7 @@ public static class ItemRestrictions
         _ => [], // lgp/e, pla, etc
     };
 
+    // Combined bitflags for released held items across generations.
     private static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
     private static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, ItemStorage3RS.Unreleased); // Safari Ball
     private static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, ItemStorage4.Unreleased);
@@ -102,8 +103,7 @@ public static class ItemRestrictions
         var result = GetPermitList(max, allowed);
         foreach (var index in disallow1)
             result[index] = false;
-        for (int i = disallow2.Start.Value; i < disallow2.End.Value; i++)
-            result[i] = false;
+        result.AsSpan()[disallow2].Clear();
         return result;
     }
 }

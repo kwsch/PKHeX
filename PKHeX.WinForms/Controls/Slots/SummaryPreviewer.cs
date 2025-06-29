@@ -47,6 +47,7 @@ public sealed class SummaryPreviewer
     private void UpdatePreview(Control pb, PKM pk, BattleTemplateExportSettings settings)
     {
         _source.Cancel();
+        _source.Dispose(); // Properly dispose the previous CancellationTokenSource
         _source = new();
         UpdatePreviewPosition(new());
         Previewer.Populate(pk, settings);
@@ -57,6 +58,7 @@ public sealed class SummaryPreviewer
     private const int HWND_TOPMOST = -1;
     private const uint SWP_NOACTIVATE = 0x0010;
 
+    #pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
     [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetWindowPos")]
     private static extern bool SetWindowPos(
         int hWnd,             // Window handle
@@ -69,6 +71,7 @@ public sealed class SummaryPreviewer
 
     [System.Runtime.InteropServices.DllImport("user32.dll")]
     private static extern bool ShowWindow(nint hWnd, int nCmdShow);
+    #pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
     public static void ShowInactiveTopmost(Form frm)
     {
@@ -110,16 +113,24 @@ public sealed class SummaryPreviewer
     public void Clear()
     {
         var src = _source;
-        Task.Run(async () =>
+        try
         {
-            if (!Previewer.IsHandleCreated)
-                return; // not shown ever
+            var token = _source.Token;
+            Task.Run(async () =>
+            {
+                if (!Previewer.IsHandleCreated)
+                    return; // not shown ever
 
-            // Give a little bit of fade-out delay
-            await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
-            if (!src.IsCancellationRequested)
-                Previewer.Invoke(Previewer.Hide);
-        }, src.Token);
+                // Give a little bit of fade-out delay
+                await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
+                if (!src.IsCancellationRequested)
+                    await Previewer.InvokeAsync(Previewer.Hide, token).ConfigureAwait(false);
+            }, token).ConfigureAwait(false);
+        }
+        catch
+        {
+            // Ignore.
+        }
         ShowSet.RemoveAll();
         Cry.Stop();
     }

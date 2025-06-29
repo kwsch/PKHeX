@@ -121,9 +121,8 @@ public static class ShowdownParsing
 
     public static bool IsTotemForm(ReadOnlySpan<char> formName) =>
         formName.Equals("Totem", StringComparison.OrdinalIgnoreCase) ||
-        formName.Equals("Alola-Totem", StringComparison.OrdinalIgnoreCase) || 
+        formName.Equals("Alola-Totem", StringComparison.OrdinalIgnoreCase) ||
         formName.Equals("Large", StringComparison.OrdinalIgnoreCase);
-
 
     public static bool IsCosplayPikachu(ReadOnlySpan<char> formName, ReadOnlySpan<string> formNames)
         => FormConverter.IsCosplayPikachu(formName, formNames);
@@ -327,7 +326,7 @@ public static class ShowdownParsing
     /// <returns>Consumable list of <see cref="ShowdownSet.Text"/> lines.</returns>
     public static IEnumerable<string> GetShowdownText(IEnumerable<PKM> data, in BattleTemplateExportSettings settings)
     {
-        List<string> result = new();
+        List<string> result = new(1);
         var sets = GetShowdownSets(data);
         foreach (var set in sets)
             result.Add(set.GetText(settings));
@@ -449,7 +448,7 @@ public static class ShowdownParsing
     /// <param name="message">Input string to parse.</param>
     /// <param name="outputSettings">Export settings</param>
     /// <param name="translated">Translated string if successful.</param>
-    /// <returns><c>true</c> if the input was translated successfully, <c>false</c> otherwise.</returns>
+    /// <returns><see langword="true"/> if the input was translated successfully, <see langword="false"/> otherwise.</returns>
     public static bool TryTranslate(ReadOnlySpan<char> message, BattleTemplateExportSettings outputSettings, [NotNullWhen(true)] out string? translated)
     {
         translated = null;

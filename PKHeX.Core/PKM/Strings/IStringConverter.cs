@@ -33,6 +33,5 @@ public interface IStringConverter
     /// <param name="length">Maximum length of the <see cref="text"/> to encode.</param>
     /// <param name="option">Buffer conditioning option.</param>
     /// <returns>Count of bytes written to <see cref="data"/>.</returns>
-
     int SetString(Span<byte> data, ReadOnlySpan<char> text, int length, StringConverterOption option);
 }

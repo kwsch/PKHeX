@@ -791,22 +791,24 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity.Format < 6)
             return false;
 
-        Span<ushort> m = stackalloc ushort[4];
-        Legality.GetSuggestedRelearnMoves(m);
-        if (Entity.RelearnMove1 == m[0] && Entity.RelearnMove2 == m[1] && Entity.RelearnMove3 == m[2] && Entity.RelearnMove4 == m[3])
+        Span<ushort> moves = stackalloc ushort[4];
+        Legality.GetSuggestedRelearnMoves(moves);
+        Span<ushort> current = stackalloc ushort[4];
+        Entity.GetRelearnMoves(current);
+        if (moves.SequenceEqual(current))
             return false;
 
         if (!silent)
         {
-            var msg = GetMoveListPrint(m, GameInfo.Strings.movelist);
+            var msg = GetMoveListPrint(moves, GameInfo.Strings.movelist);
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, msg))
                 return false;
         }
 
-        CB_RelearnMove4.SelectedValue = (int)m[3];
-        CB_RelearnMove3.SelectedValue = (int)m[2];
-        CB_RelearnMove2.SelectedValue = (int)m[1];
-        CB_RelearnMove1.SelectedValue = (int)m[0];
+        CB_RelearnMove4.SelectedValue = (int)moves[3];
+        CB_RelearnMove3.SelectedValue = (int)moves[2];
+        CB_RelearnMove2.SelectedValue = (int)moves[1];
+        CB_RelearnMove1.SelectedValue = (int)moves[0];
         return true;
     }
 

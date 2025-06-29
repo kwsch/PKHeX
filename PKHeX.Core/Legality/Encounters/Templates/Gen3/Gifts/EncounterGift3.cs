@@ -181,7 +181,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         return GetRandomVersion(Version);
     }
 
-    private uint SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private uint SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (Method is Channel)
             return SetPINGAChannel(pk, criteria);
@@ -208,7 +208,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
                 continue;
 
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             pk.RefreshAbility((int)(pk.PID & 1));
             return seed;
         }
@@ -220,7 +220,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         if (Method is Channel)
         {
             seed = ChannelJirachi.SkipToPIDIV(seed);
-            PIDGenerator.SetValuesFromSeedChannel(pk3, seed);
+            SetValuesFromSeedChannel(pk3, seed);
             return true;
         }
 
@@ -233,13 +233,13 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             _ when Method is Method_2 => GetMethod2(ref seed),
             _ => GetRegular(ref seed),
         };
-        pk3.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
+        pk3.IV32 = ClassicEraRNG.GetSequentialIVs(ref seed);
         return true;
     }
 
-    private static bool TrySetWishmkrShiny(PK3 pk, EncounterCriteria criteria)
+    private static bool TrySetWishmkrShiny(PK3 pk, in EncounterCriteria criteria)
     {
-        bool filterIVs = criteria.IsSpecifiedIVsAny(out var count) && count <= 2;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         bool filterNature = criteria.IsSpecifiedNature();
         foreach (var s in Wishmkr.All9)
         {
@@ -248,10 +248,10 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             if (filterNature && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
 
-            var iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
+            var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue; // try again
-            if (filterIVs && !criteria.IsCompatibleIVs(iv32))
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue; // try again
             pk.PID = pid;
             pk.IV32 = iv32;
@@ -268,7 +268,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         return pid;
     }
 
-    private static uint SetPINGAChannel(PK3 pk, EncounterCriteria criteria)
+    private static uint SetPINGAChannel(PK3 pk, in EncounterCriteria criteria)
     {
         if (criteria.IsSpecifiedIVsAll())
         {
@@ -278,32 +278,57 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             {
                 if (!ChannelJirachi.IsPossible(seed))
                     continue;
-                PIDGenerator.SetValuesFromSeedChannel(pk, seed);
+                SetValuesFromSeedChannel(pk, seed);
                 var pid = pk.EncryptionConstant;
                 if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                     continue; // try again
-                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+                if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(pk.ID32, pid))
                     continue; // try again
                 return seed;
             }
         }
 
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             uint seed = Util.Rand32();
             seed = ChannelJirachi.SkipToPIDIV(seed);
-            PIDGenerator.SetValuesFromSeedChannel(pk, seed);
+            SetValuesFromSeedChannel(pk, seed);
 
             var pid = pk.EncryptionConstant;
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(pk.ID32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(pk.ID32, pid))
                 continue; // try again
-            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(pk.IV32))
+            var iv32 = pk.IV32;
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                 continue; // try again
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
 
             return seed;
         }
+    }
+
+    public static void SetValuesFromSeedChannel(PK3 pk, uint seed)
+    {
+        const ushort TID16 = 40122;
+        var sid = XDRNG.Next16(ref seed);
+        pk.ID32 = (sid << 16) | TID16;
+
+        var pid1 = XDRNG.Next16(ref seed);
+        var pid2 = XDRNG.Next16(ref seed);
+        var pid = (pid1 << 16) | pid2;
+        if ((pid2 > 7 ? 0 : 1) != (pid1 ^ sid ^ TID16))
+            pid ^= 0x80000000;
+        pk.PID = pid;
+
+        pk.HeldItem = (ushort)((XDRNG.Next16(ref seed) >> 15) + 169u); // 0-Ganlon, 1-Salac
+        pk.Version = GameVersion.S + (byte)(XDRNG.Next16(ref seed) >> 15); // 0-Sapphire, 1-Ruby
+        pk.OriginalTrainerGender = (byte)(XDRNG.Next16(ref seed) >> 15);
+
+        var iv32 = XDRNG.GetSequentialIV32(seed);
+        pk.SetIVs(iv32);
     }
 
     private uint GetSaneSeed(uint seed) => Method switch

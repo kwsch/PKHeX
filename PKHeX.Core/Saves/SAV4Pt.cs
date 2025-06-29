@@ -73,7 +73,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
         OFS_UG_Stats = 0x3CB4;
         OFS_UG_Items = 0x4538;
-        
+
         OFS_Groups = 0x5610;
 
         PoketchStart = 0x1160;

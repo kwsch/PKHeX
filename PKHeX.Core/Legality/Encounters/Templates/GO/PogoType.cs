@@ -64,6 +64,14 @@ public enum PogoType : byte
     /// <remarks> Unlike standard Field Research encounters, these are boosted to Level 20. </remarks>
     ResearchUB20,
 
+    /// <summary> Gigantamax Pokémon captured after completing Field Research. </summary>
+    /// <remarks> These Pokémon can not be transferred to Pokémon HOME. </remarks>
+    ResearchG,
+
+    /// <summary> Pokémon captured after completing Field Research. </summary>
+    /// <remarks> Unlike standard Field Research encounters, these have a range of possible Levels, ranging from 1 to 15 or 20. </remarks>
+    ResearchR,
+
     /// <summary> Pokémon captured from the GO Battle League. </summary>
     GBL = 40,
     /// <summary> Mythical Pokémon captured from the GO Battle League. </summary>
@@ -79,6 +87,9 @@ public enum PogoType : byte
     MaxBattle = 60,
     /// <summary> Mythical Pokémon captured after completing Max Battles. </summary>
     MaxBattleM,
+    /// <summary> Gigantamax Pokémon captured after completing Max Battles. </summary>
+    /// <remarks> These Pokémon can not be transferred to Pokémon HOME. </remarks>
+    MaxBattleG,
 
     /// <summary> Pokémon captured from Special Research or Timed Research with a Premier Ball. </summary>
     /// <remarks>
@@ -126,7 +137,7 @@ public static class PogoTypeExtensions
         PogoType.MaxBattleM => 20,
         PogoType.Research269 => 15,
         PogoType.Research269M => 15,
-        _ => 1, // Wild, Egg
+        _ => 1, // Wild, Egg, Research (range)
     };
 
     /// <summary>
@@ -159,7 +170,7 @@ public static class PogoTypeExtensions
     {
         var req = encounterType.GetValidBall();
         if (req == Ball.None)
-            return (uint)(ball - 2) <= 2; // Poke, Great, Ultra
+            return (uint)(ball - 2) <= 2; // Poké, Great, Ultra
         return ball == req;
     }
 
@@ -196,6 +207,6 @@ public static class PogoTypeExtensions
         PogoType.MaxBattleM => Ball.Premier,
         PogoType.Research269 => Ball.Premier,
         PogoType.Research269M => Ball.Premier,
-        _ => Ball.None, // Poke, Great, Ultra
+        _ => Ball.None, // Poké, Great, Ultra
     };
 }

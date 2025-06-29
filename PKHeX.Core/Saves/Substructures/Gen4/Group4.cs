@@ -20,7 +20,7 @@ public sealed class Group4(Memory<byte> Raw)
 
     private Span<byte> Data => Raw.Span;
 
-    private Span<byte> GroupNameTrash => Data.Slice(0x00, 16);
+    private Span<byte> GroupNameTrash => Data[..16];
     public string GroupName
     {
         get => StringConverter4.GetString(GroupNameTrash);
@@ -33,7 +33,7 @@ public sealed class Group4(Memory<byte> Raw)
         get => StringConverter4.GetString(LeaderTrash);
         set => StringConverter4.SetString(LeaderTrash, value, 7, LeaderLanguage, StringConverterOption.None);
     }
-    
+
     public byte LeaderGender { get => Data[0x20]; set => Data[0x20] = value; }
     public byte LeaderLanguage { get => Data[0x21]; set => Data[0x21] = value; }
 

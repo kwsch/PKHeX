@@ -11,6 +11,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
 {
     public WB7() : this(new byte[Size]) { }
     public WB7(Memory<byte> raw) : base(raw) { }
+    public override WB7 Clone() => new(Data.ToArray());
 
     public const int Size = 0x310;
     private const int CardStart = 0x208;
@@ -183,7 +184,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
 
     public Nature Nature { get => (Nature)Card[0xA0]; set => Card[0xA0] = (byte)value; }
     public override byte Gender { get => Card[0xA1]; set => Card[0xA1] = value; }
-    public override int AbilityType { get => IsHOMEGift ? Card[0xA2] : 3; set => Card[0xA2] = (byte)value; } // no references, always ability 0/1
+    public int AbilityType { get => IsHOMEGift ? Card[0xA2] : 3; set => Card[0xA2] = (byte)value; } // no references, always ability 0/1
     public ShinyType6 PIDType { get => (ShinyType6)Card[0xA3]; set => Card[0xA3] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Card[0xA4..]); set => WriteUInt16LittleEndian(Card[0xA4..], value); }
     public override ushort Location  { get => ReadUInt16LittleEndian(Card[0xA6..]); set => WriteUInt16LittleEndian(Card[0xA6..], value); }
@@ -333,7 +334,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
         return redeemLanguage;
     }
 
-    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.Slice(GetOTOffset(language))) != 0;
+    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data[GetOTOffset(language)..]) != 0;
 
     private Span<byte> GetNicknameSpan(int language) => Data.Slice(GetNicknameOffset(language), 0x1A);
     public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
@@ -502,7 +503,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = criteria.GetNature(Nature);
@@ -513,7 +514,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H

@@ -92,7 +92,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     protected virtual ushort GetLocation() => Location;
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
+    protected virtual void SetPINGA(PK8 pk, in EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         bool requestShiny = criteria.Shiny.IsShiny();
         bool checkShiny = requestShiny && Shiny != Shiny.Never;
@@ -115,7 +115,10 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (ctr == max) // fail
         {
             if (!TryApply(pk, seed = rand.Next(), iv, param, criteria.WithoutIVs()))
-                while (!TryApply(pk, seed = rand.Next(), iv, param, EncounterCriteria.Unrestricted)) { }
+            {
+                var tmp = EncounterCriteria.Unrestricted;
+                while (!TryApply(pk, seed = rand.Next(), iv, param, tmp)) { }
+            }
         }
 
         FinishCorrelation(pk, seed);
@@ -125,7 +128,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     protected GenerateParam8 GetParam() => GetParam(Info);
 
-    protected GenerateParam8 GetParam(PersonalInfo8SWSH pi)
+    private GenerateParam8 GetParam(PersonalInfo8SWSH pi)
     {
         var ratio = RemapGenderToParam(Gender, pi);
         return new GenerateParam8(Species, ratio, FlawlessIVCount, Ability, Shiny, Nature.Random, IVs);
@@ -266,12 +269,12 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         RaidRNG.TryApply(pk8, seed, iv, param, criteria);
     }
 
-    protected virtual bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
+    protected virtual bool TryApply(PK8 pk, ulong seed, Span<int> iv, in GenerateParam8 param, in EncounterCriteria criteria)
     {
         return RaidRNG.TryApply(pk, seed, iv, param, criteria);
     }
 
-    private static byte RemapGenderToParam(byte gender, PersonalInfo8SWSH pi) => gender switch
+    protected static byte RemapGenderToParam(byte gender, PersonalInfo8SWSH pi) => gender switch
     {
         0 => PersonalInfo.RatioMagicMale,
         1 => PersonalInfo.RatioMagicFemale,

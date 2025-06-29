@@ -20,7 +20,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO7;
-    public string Name => $"Wild Encounter ({Version})";
+    public string Name => $"GO Encounter ({Version})";
     public string LongName
     {
         get
@@ -80,7 +80,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         return pk;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, in EncounterCriteria criteria)
     {
         var pi = PersonalTable.GG[Species];
         var gender = criteria.GetGender(Gender, pi);

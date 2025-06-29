@@ -101,7 +101,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
+    private void SetPINGA(PK4 pk, in EncounterCriteria criteria, PersonalInfo4 pi)
     {
         // Pichu is special -- use Pokewalker method
         var gr = pi.Gender;
@@ -159,10 +159,11 @@ public sealed record EncounterStatic4(GameVersion Version)
     private static void SetMethod1(PK4 pk, in EncounterCriteria criteria, byte gr, uint seed)
     {
         var id32 = pk.ID32;
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             var pid = ClassicEraRNG.GetSequentialPID(ref seed);
-            var shiny = ShinyUtil.GetIsShiny(id32, pid, 8);
+            var shiny = ShinyUtil.GetIsShiny3(id32, pid);
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
 
@@ -179,6 +180,8 @@ public sealed record EncounterStatic4(GameVersion Version)
 
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;
@@ -200,7 +203,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         {
             var prev3 = LCRNG.Prev3(seed); // Unwind the RNG to get the real origin seed for the PID/IV
             var pid = ClassicEraRNG.GetChainShinyPID(ref prev3, id32);
-            var shiny = ShinyUtil.GetIsShiny(id32, pid, 8);
+            var shiny = ShinyUtil.GetIsShiny3(id32, pid);
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
@@ -227,6 +230,7 @@ public sealed record EncounterStatic4(GameVersion Version)
     private static void SetChainShiny(PK4 pk, in EncounterCriteria criteria, byte gr, uint seed)
     {
         var id32 = pk.ID32;
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             var pid = ClassicEraRNG.GetChainShinyPID(ref seed, id32);
@@ -243,6 +247,8 @@ public sealed record EncounterStatic4(GameVersion Version)
 
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;

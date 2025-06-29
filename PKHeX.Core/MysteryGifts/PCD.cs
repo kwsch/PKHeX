@@ -17,6 +17,7 @@ public sealed class PCD(Memory<byte> raw)
 {
     public PCD() : this(new byte[Size]) { }
     private readonly Memory<byte> _raw = raw;
+    public override PCD Clone() => new(Data.ToArray());
 
     public const int Size = 0x358; // 856
     public override byte Generation => 4;

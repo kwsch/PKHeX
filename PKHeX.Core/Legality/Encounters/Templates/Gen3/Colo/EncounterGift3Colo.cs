@@ -88,13 +88,12 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
-    private static void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(CK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.Shiny != Shiny.Never)
-            criteria = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
-        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: true))
+        var tmp = criteria with { Shiny = Shiny.Never }; // ensure no bad inputs
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, tmp, pi, noShiny: true))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi, noShiny: true, Util.Rand32());
+        MethodCXD.SetRandom(pk, tmp, pi, noShiny: true, Util.Rand32());
     }
     #endregion
 

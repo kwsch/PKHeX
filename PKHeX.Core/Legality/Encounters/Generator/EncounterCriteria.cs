@@ -43,7 +43,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     public sbyte HiddenPowerType { get; init; }
 
     /// <summary>
-    /// Form to generate, when the form is random.
+    /// Form to generate, when the encounter's form is random.
     /// </summary>
     /// <remarks>Currently only used for Unown in Generation 4.</remarks>
     public sbyte Form { get; init; }
@@ -62,6 +62,9 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         HiddenPowerType = -1;
     }
 
+    /// <summary>
+    /// Creates a new <see cref="EncounterCriteria"/> with random IVs.
+    /// </summary>
     public EncounterCriteria WithoutIVs() => this with
     {
         IV_HP = RandomIV,
@@ -72,16 +75,43 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         IV_SPE = RandomIV,
     };
 
+    /// <summary>
+    /// Checks if the Hidden Power type for the given IVs matches the specified HiddenPowerType.
+    /// </summary>
+    /// <param name="iv32">The 32-bit integer representing the IVs.</param>
+    /// <returns><see langword="true"/> if the Hidden Power type matches; otherwise, <see langword="false"/>.</returns>
     public bool IsSatisfiedHiddenPower(uint iv32) => HiddenPower.GetType(iv32) == HiddenPowerType;
 
     private const sbyte RandomIV = -1;
 
+    /// <summary>
+    /// Determines whether a specific Hidden Power type is specified in the criteria.
+    /// </summary>
+    /// <returns>><see langword="true"/> if a Hidden Power type is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedHiddenPower() => HiddenPowerType != -1;
+
+    /// <summary>
+    /// Determines whether a specific Nature is specified in the criteria or if complex nature mutations are allowed.
+    /// </summary>
+    /// <returns>><see langword="true"/> if a Nature is specified or complex nature mutations are allowed; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedNature() => Nature != Nature.Random || Mutations.IsComplexNature();
+
+    /// <summary>
+    /// Determines whether a level range is specified in the criteria.
+    /// </summary>
+    /// <returns>><see langword="true"/> if a level range is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedLevelRange() => LevelMax != 0;
 
+    /// <summary>
+    /// Determines whether a specific Ability is specified in the criteria.
+    /// </summary>
+    /// <returns>><see langword="true"/> if an Ability is specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedAbility() => Ability != Any12H;
 
+    /// <summary>
+    /// Determines whether all IVs are specified in the criteria.
+    /// </summary>
+    /// <returns>><see langword="true"/> if all IVs are specified; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedIVsAll() => IV_HP != RandomIV
                                    && IV_ATK != RandomIV
                                    && IV_DEF != RandomIV
@@ -89,13 +119,40 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
                                    && IV_SPD != RandomIV
                                    && IV_SPE != RandomIV;
 
-    public bool IsSpecifiedIVsAny(out int count) => (count = Convert.ToInt32(IV_HP  != RandomIV)
-                                                           + Convert.ToInt32(IV_ATK != RandomIV)
-                                                           + Convert.ToInt32(IV_DEF != RandomIV)
-                                                           + Convert.ToInt32(IV_SPA != RandomIV)
-                                                           + Convert.ToInt32(IV_SPD != RandomIV)
-                                                           + Convert.ToInt32(IV_SPE != RandomIV)) != 0;
+    /// <summary>
+    /// Determines whether any IV is specified in the criteria.
+    /// </summary>
+    /// <returns>><see langword="true"/> if any IV is specified; otherwise, <see langword="false"/>.</returns>
+    public bool IsSpecifiedIVs() => IV_HP != RandomIV
+                                || IV_ATK != RandomIV
+                                || IV_DEF != RandomIV
+                                || IV_SPA != RandomIV
+                                || IV_SPD != RandomIV
+                                || IV_SPE != RandomIV;
 
+    /// <summary>
+    /// Determines whether the number of specified IVs is at least the given count.
+    /// </summary>
+    /// <param name="count">The minimum number of specified IVs to check for.</param>
+    /// <returns>><see langword="true"/> if the number of specified IVs is at least <paramref name="count"/>; otherwise, <see langword="false"/>.</returns>
+    public bool IsSpecifiedIVs(int count) => GetCountSpecifiedIVs() <= count;
+
+    /// <summary>
+    /// Gets the number of IVs that are specified in the criteria.
+    /// </summary>
+    /// <returns>The count of specified IVs.</returns>
+    public int GetCountSpecifiedIVs() => Convert.ToInt32(IV_HP  != RandomIV)
+                                       + Convert.ToInt32(IV_ATK != RandomIV)
+                                       + Convert.ToInt32(IV_DEF != RandomIV)
+                                       + Convert.ToInt32(IV_SPA != RandomIV)
+                                       + Convert.ToInt32(IV_SPD != RandomIV)
+                                       + Convert.ToInt32(IV_SPE != RandomIV);
+
+    /// <summary>
+    /// Determines whether the specified index satisfies the ability criteria based on the current <see cref="Ability"/> setting.
+    /// </summary>
+    /// <param name="index">Actual ability index to check for being present in the criteria.</param>
+    /// <returns>><see langword="true"/> if the index satisfies the ability criteria; otherwise, <see langword="false"/>.</returns>
     public bool IsSatisfiedAbility(int index) => IsSatisfiedAbility(index, Ability);
 
     private bool IsSatisfiedAbility(int index, AbilityPermission ability) => ability switch
@@ -108,6 +165,11 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         _ => throw new ArgumentOutOfRangeException(nameof(ability), ability, null),
     };
 
+    /// <summary>
+    /// Determines whether the specified Nature satisfies the criteria.
+    /// </summary>
+    /// <param name="nature">The Nature to check.</param>
+    /// <returns><see langword="true"/> if the Nature satisfies the criteria; otherwise, <see langword="false"/>.</returns>
     public bool IsSatisfiedNature(Nature nature)
     {
         if (Mutations.HasFlag(AllowOnlyNeutralNature))
@@ -117,13 +179,18 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         return nature == Nature || Mutations.HasFlag(CanMintNature);
     }
 
+    /// <summary>
+    /// Determines whether the specified level satisfies the level range criteria.
+    /// </summary>
+    /// <param name="level">The level to check.</param>
+    /// <returns><see langword="true"/> if the level satisfies the criteria; otherwise, false.</returns>
     public bool IsSatisfiedLevelRange(byte level) => LevelMin <= level && level <= LevelMax;
 
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
     /// </summary>
     /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is last!</param>
-    /// <returns>True if compatible, false if incompatible.</returns>
+    /// <returns><see langword="true"/> if compatible, <see langword="false"/> if incompatible.</returns>
     public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs)
     {
         var IVs = encounterIVs;
@@ -223,6 +290,10 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         return result;
     }
 
+    /// <summary>
+    /// Indicates if the <see cref="Form"/> is specified.
+    /// </summary>
+    /// <returns></returns>
     public bool IsSpecifiedForm() => Form != -1;
 
     /// <summary>
@@ -328,8 +399,15 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
             : rnd.Next(32); // speed
     }
 
+    /// <inheritdoc cref="SetRandomIVs(PKM,int,Random)"/>
     public void SetRandomIVs(PKM pk, int flawless) => SetRandomIVs(pk, flawless, Util.Rand);
 
+    /// <summary>
+    /// Sets random IVs for the <paramref name="pk"/> with a minimum number of flawless IVs.
+    /// </summary>
+    /// <param name="pk">Entity to mutate.</param>
+    /// <param name="flawless">Count of flawless IVs to set (31).</param>
+    /// <param name="rand">Random number generator to use.</param>
     public void SetRandomIVs(PKM pk, int flawless, Random rand)
     {
         Span<int> ivs = [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
@@ -397,48 +475,21 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         }
     }
 
-    public bool IsCompatibleIVs(ReadOnlySpan<int> ivs)
-    {
-        if (ivs.Length != 6)
-            return false;
-        if (IV_HP != RandomIV && IV_HP != ivs[0])
-            return false;
-        if (IV_ATK != RandomIV && IV_ATK != ivs[1])
-            return false;
-        if (IV_DEF != RandomIV && IV_DEF != ivs[2])
-            return false;
-        if (IV_SPE != RandomIV && IV_SPE != ivs[3])
-            return false;
-        if (IV_SPA != RandomIV && IV_SPA != ivs[4])
-            return false;
-        if (IV_SPD != RandomIV && IV_SPD != ivs[5])
-            return false;
-        return true;
-    }
-
-    public bool IsCompatibleIVs(uint iv32)
-    {
-        if ( IV_HP != RandomIV &&  IV_HP != ((iv32 >> (0 * 5)) & 0x1F))
-            return false;
-        if (IV_ATK != RandomIV && IV_ATK != ((iv32 >> (1 * 5)) & 0x1F))
-            return false;
-        if (IV_DEF != RandomIV && IV_DEF != ((iv32 >> (2 * 5)) & 0x1F))
-            return false;
-        if (IV_SPE != RandomIV && IV_SPE != ((iv32 >> (3 * 5)) & 0x1F))
-            return false;
-        if (IV_SPA != RandomIV && IV_SPA != ((iv32 >> (4 * 5)) & 0x1F))
-            return false;
-        if (IV_SPD != RandomIV && IV_SPD != ((iv32 >> (5 * 5)) & 0x1F))
-            return false;
-        return true;
-    }
-
+    /// <summary>
+    /// Gets the combined IVs as two 32-bit integers, where the first contains HP, ATK, DEF and the second contains SPE, SPA, SPD.
+    /// </summary>
+    /// <param name="iv1">The first combined IV containing HP, ATK, DEF.</param>
+    /// <param name="iv2">The second combined IV containing SPE, SPA, SPD.</param>
+    /// <remarks>Useful for RNG algorithm detection/correlation seeking.</remarks>
     public void GetCombinedIVs(out uint iv1, out uint iv2)
     {
         iv1 = (byte)IV_HP | (uint)IV_ATK << 5 | (uint)IV_DEF << 10;
         iv2 = (byte)IV_SPE | (uint)IV_SPA << 5 | (uint)IV_SPD << 10;
     }
 
+    /// <summary>
+    /// Gets the combined IVs as a single 32-bit integer, where each IV is packed into 5 bits.
+    /// </summary>
     public uint GetCombinedIVs() => (byte)IV_HP
                                   | (uint)IV_ATK << 5
                                   | (uint)IV_DEF << 10
@@ -446,8 +497,34 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
                                   | (uint)IV_SPA << 20
                                   | (uint)IV_SPD << 25;
 
+    /// <summary>
+    /// Gets the combined DVs as a 16-bit unsigned integer, where each DV is packed into 4 bits.
+    /// </summary>
+    /// <remarks>
+    /// Generation 1/2 format.
+    /// </remarks>
     public ushort GetCombinedDVs() => (ushort)((byte)IV_SPA | (byte)IV_SPE << 4 | (byte)IV_DEF << 8 | (byte)IV_ATK << 12);
 
+    /// <summary>
+    /// Checks if the provided IVs are compatible with the criteria's IV restrictions.
+    /// </summary>
+    /// <param name="ivs">The IVs to check for compatibility.</param>
+    /// <returns><see langword="true"/> if the IVs are compatible; otherwise, <see langword="false"/>.</returns>
+    public bool IsCompatibleIVs(ReadOnlySpan<int> ivs)
+    {
+        if (ivs.Length != 6)
+            return false;
+        if (!IsSatisfiedIV(IV_HP, ivs[0])) return false;
+        if (!IsSatisfiedIV(IV_ATK, ivs[1])) return false;
+        if (!IsSatisfiedIV(IV_DEF, ivs[2])) return false;
+        if (!IsSatisfiedIV(IV_SPE, ivs[3])) return false;
+        if (!IsSatisfiedIV(IV_SPA, ivs[4])) return false;
+        if (!IsSatisfiedIV(IV_SPD, ivs[5])) return false;
+        return true;
+    }
+
+    /// <inheritdoc cref="IsCompatibleIVs(ReadOnlySpan{int})"/>
+    /// <param name="iv32">The 32-bit integer representing the IVs.</param>
     public bool IsSatisfiedIVs(uint iv32)
     {
         if (!IsSatisfiedIV(IV_HP, (int)((iv32 >> 00) & 0x1F))) return false;

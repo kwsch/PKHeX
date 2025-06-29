@@ -13,21 +13,26 @@ namespace PKHeX.Core;
 public sealed class EvolutionTree : EvolutionNetwork
 {
     public const int MaxEvolutions = 3;
-    public static readonly EvolutionTree Evolves1  = GetViaSpecies (PersonalTable.Y,    EvolutionSet.GetArray(GetReader("g1", "g1"u8)));
-    public static readonly EvolutionTree Evolves2  = GetViaSpecies (PersonalTable.C,    EvolutionSet.GetArray(GetReader("g2", "g2"u8)));
-    public static readonly EvolutionTree Evolves3  = GetViaSpecies (PersonalTable.RS,   EvolutionSet.GetArray(GetReader("g3", "g3"u8)));
-    public static readonly EvolutionTree Evolves4  = GetViaSpecies (PersonalTable.DP,   EvolutionSet.GetArray(GetReader("g4", "g4"u8)));
-    public static readonly EvolutionTree Evolves5  = GetViaSpecies (PersonalTable.BW,   EvolutionSet.GetArray(GetReader("g5", "g5"u8)));
-    public static readonly EvolutionTree Evolves6  = GetViaSpecies (PersonalTable.AO,   EvolutionSet.GetArray(GetReader("g6", "g6"u8)));
-    public static readonly EvolutionTree Evolves7  = GetViaPersonal(PersonalTable.USUM, EvolutionSet.GetArray(GetReader("uu", "uu"u8)));
-    public static readonly EvolutionTree Evolves7b = GetViaPersonal(PersonalTable.GG,   EvolutionSet.GetArray(GetReader("gg", "gg"u8)));
-    public static readonly EvolutionTree Evolves8  = GetViaPersonal(PersonalTable.SWSH, EvolutionSet.GetArray(GetReader("ss", "ss"u8)));
-    public static readonly EvolutionTree Evolves8a = GetViaPersonal(PersonalTable.LA,   EvolutionSet.GetArray(GetReader("la", "la"u8), 0));
-    public static readonly EvolutionTree Evolves8b = GetViaPersonal(PersonalTable.BDSP, EvolutionSet.GetArray(GetReader("bs", "bs"u8)));
-    public static readonly EvolutionTree Evolves9  = GetViaPersonal(PersonalTable.SV,   EvolutionSet.GetArray(GetReader("sv", "sv"u8)));
+    public static readonly EvolutionTree Evolves1  = GetViaSpecies (PersonalTable.Y,    Get("g1", "g1"u8));
+    public static readonly EvolutionTree Evolves2  = GetViaSpecies (PersonalTable.C,    Get("g2", "g2"u8));
+    public static readonly EvolutionTree Evolves3  = GetViaSpecies (PersonalTable.RS,   Get("g3", "g3"u8));
+    public static readonly EvolutionTree Evolves4  = GetViaSpecies (PersonalTable.DP,   Get("g4", "g4"u8));
+    public static readonly EvolutionTree Evolves5  = GetViaSpecies (PersonalTable.BW,   Get("g5", "g5"u8));
+    public static readonly EvolutionTree Evolves6  = GetViaSpecies (PersonalTable.AO,   Get("g6", "g6"u8));
+    public static readonly EvolutionTree Evolves7  = GetViaPersonal(PersonalTable.USUM, Get("uu", "uu"u8));
+    public static readonly EvolutionTree Evolves7b = GetViaPersonal(PersonalTable.GG,   Get("gg", "gg"u8));
+    public static readonly EvolutionTree Evolves8  = GetViaPersonal(PersonalTable.SWSH, Get("ss", "ss"u8));
+    public static readonly EvolutionTree Evolves8a = GetViaPersonal(PersonalTable.LA,   Get("la", "la"u8, 0));
+    public static readonly EvolutionTree Evolves8b = GetViaPersonal(PersonalTable.BDSP, Get("bs", "bs"u8));
+    public static readonly EvolutionTree Evolves9  = GetViaPersonal(PersonalTable.SV,   Get("sv", "sv"u8));
 
-    private static ReadOnlySpan<byte> GetResource([ConstantExpected] string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
-    private static BinLinkerAccessor16 GetReader([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> identifier) => BinLinkerAccessor16.Get(GetResource(resource), identifier);
+    private static EvolutionMethod[][] Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> identifier, [ConstantExpected] byte levelUp = 1)
+    {
+        var data = Util.GetBinaryResource($"evos_{resource}.pkl");
+        var bla = BinLinkerAccessor16.Get(data, identifier);
+        return EvolutionSet.GetArray(bla, levelUp);
+    }
+
     private EvolutionTree(IEvolutionForward forward, IEvolutionReverse reverse) : base(forward, reverse) { }
 
     private static EvolutionTree GetViaSpecies(IPersonalTable t, EvolutionMethod[][] entries)

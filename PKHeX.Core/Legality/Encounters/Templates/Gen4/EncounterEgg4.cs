@@ -75,9 +75,8 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         };
 
         SetEncounterMoves(pk);
-        pk.HealPP();
 
-        if (criteria.IsSpecifiedIVsAny(out _))
+        if (criteria.IsSpecifiedIVs())
             criteria.SetRandomIVs(pk);
         else
             criteria.SetRandomIVs(pk, 3);
@@ -132,7 +131,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
     private void SetEncounterMoves(PK4 pk)
     {
         var learn = Learn.GetLearnset(Species, Form);
-        var initial = learn.GetBaseEggMoves(LevelMin);
+        var initial = learn.GetBaseEggMoves(Level);
         pk.SetMoves(initial);
     }
 }

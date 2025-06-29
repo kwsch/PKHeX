@@ -11,6 +11,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 {
     public PGF() : this(new byte[Size]) { }
     public PGF(Memory<byte> raw) : base(raw) { }
+    public override PGF Clone() => new(Data.ToArray());
 
     public int RestrictLanguage { get; set; } // None
     public byte RestrictVersion { get; set; } // Permit All
@@ -75,7 +76,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public Nature Nature { get => (Nature)Data[0x34]; set => Data[0x34] = (byte)value; }
     public override byte Gender { get => Data[0x35]; set => Data[0x35] = value; }
-    public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
+    public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x38..]); set => WriteUInt16LittleEndian(Data[0x38..], value); }
     public override ushort Location { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }
@@ -322,7 +323,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria)
     {
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         pk.Nature = criteria.GetNature(Nature);
@@ -333,7 +334,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H
@@ -366,7 +367,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         if (PIDType == 2) // Always
         {
             var gb = (byte)pk.PID;
-            pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID16, pk.SID16);
+            pk.PID = MonochromeRNG.GetShinyPID(gb, (uint)av, pk.TID16, pk.SID16);
         }
         else if (PIDType != 1) // Force Not Shiny
         {

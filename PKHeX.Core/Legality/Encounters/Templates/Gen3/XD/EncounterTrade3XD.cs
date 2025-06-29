@@ -93,7 +93,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private static void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;

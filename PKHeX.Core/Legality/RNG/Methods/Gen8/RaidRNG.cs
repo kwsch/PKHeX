@@ -153,7 +153,7 @@ public static class RaidRNG
     /// <param name="param">Parameters to generate with</param>
     /// <param name="criteria">Criteria to generate with</param>
     /// <returns>True if the seed matches the entity</returns>
-    public static bool TryApply(PK8 pk, ulong seed, Span<int> ivs, in GenerateParam8 param, EncounterCriteria criteria)
+    public static bool TryApply(PK8 pk, ulong seed, Span<int> ivs, in GenerateParam8 param, in EncounterCriteria criteria)
     {
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();
@@ -172,12 +172,12 @@ public static class RaidRNG
 
         if (isShiny)
         {
-            if (!GetIsShiny(pk.ID32, pid))
+            if (!GetIsShiny6(pk.ID32, pid))
                 pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.ID32, pid))
+            if (GetIsShiny6(pk.ID32, pid))
                 pid ^= 0x1000_0000;
         }
 
@@ -210,12 +210,12 @@ public static class RaidRNG
         if (!param.IVs.IsSpecified && !criteria.IsIVsCompatibleSpeedLast(ivs))
             return false;
 
-        pk.IV_HP = ivs[0];
-        pk.IV_ATK = ivs[1];
-        pk.IV_DEF = ivs[2];
-        pk.IV_SPA = ivs[3];
-        pk.IV_SPD = ivs[4];
-        pk.IV_SPE = ivs[5];
+        pk.IV32 = (uint)ivs[0] |
+                  (uint)(ivs[1] << 05) |
+                  (uint)(ivs[2] << 10) |
+                  (uint)(ivs[5] << 15) | // speed is last in the array, but in the middle of the 32bit value
+                  (uint)(ivs[3] << 20) |
+                  (uint)(ivs[4] << 25);
 
         int ability = param.Ability switch
         {

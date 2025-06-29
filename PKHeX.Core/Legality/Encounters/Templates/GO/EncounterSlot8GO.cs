@@ -20,7 +20,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO8;
 
-    public string Name => $"Wild Encounter ({Version})";
+    public string Name => $"GO Encounter ({Version})";
     public string LongName
     {
         get
@@ -164,7 +164,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         return pk;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PKM pk, in EncounterCriteria criteria)
     {
         var pi = GetPersonal();
         if (OriginFormat is PogoImportFormat.PK7)

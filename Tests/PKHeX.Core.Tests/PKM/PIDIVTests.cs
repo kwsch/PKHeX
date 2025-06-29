@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -21,10 +20,11 @@ public class PIDIVTest
         var pk4 = new PK3 {PID = 0x31B05271, IVs = [02, 18, 03, 05, 30, 11]};
         MethodFinder.Analyze(pk4).Type.Should().Be(PIDType.Method_4);
 
-        var gk1 = new PK3();
-        PIDGenerator.SetValuesFromSeed(gk1, ga1.Type, ga1.OriginSeed);
-        gk1.PID.Should().Be(pk1.PID);
-        gk1.IVs.SequenceEqual(pk1.IVs).Should().BeTrue();
+        var seed = ga1.OriginSeed;
+        var pid = ClassicEraRNG.GetSequentialPID(ref seed);
+        var ivs = ClassicEraRNG.GetSequentialIVs(ref seed);
+        pk1.PID.Should().Be(pid);
+        pk1.IV32.Should().Be(ivs);
     }
 
     [Fact]
@@ -58,10 +58,19 @@ public class PIDIVTest
         var pv = MethodFinder.Analyze(pk3);
         pv.Type.Should().Be(PIDType.CXD);
 
-        var gk3 = new PK3();
-        PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, pv.OriginSeed);
-        gk3.PID.Should().Be(pk3.PID);
-        gk3.IVs.SequenceEqual(pk3.IVs).Should().BeTrue();
+        var seed = pv.OriginSeed;
+
+        var iv1 = XDRNG.Next15(ref seed); // IV1
+        var iv2 = XDRNG.Next15(ref seed); // IV2
+        _ = XDRNG.Next16(ref seed); // Ability
+        var d16 = XDRNG.Next16(ref seed); // PID
+        var e16 = XDRNG.Next16(ref seed); // PID
+
+        var iv32 = (iv2 << 15) | iv1;
+        var pid = (d16 << 16) | e16;
+
+        pid.Should().Be(pk3.PID);
+        iv32.Should().Be(pk3.IV32);
     }
 
     [Fact]
@@ -73,9 +82,9 @@ public class PIDIVTest
         pv.Type.Should().Be(PIDType.Channel);
 
         var gkC = new PK3();
-        PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, pv.OriginSeed);
+        EncounterGift3.SetValuesFromSeedChannel(gkC, pv.OriginSeed);
         gkC.PID.Should().Be(pkC.PID);
-        gkC.IVs.SequenceEqual(pkC.IVs).Should().BeTrue();
+        gkC.IV32.Should().Be(pkC.IV32);
     }
 
     [Fact]
@@ -107,10 +116,11 @@ public class PIDIVTest
         result = MethodFinder.Analyze(pkRS);
         (result is { Type: PIDType.BACD_S, OriginSeed: bfix }).Should().BeTrue();
 
-        var gkRS = new PK3 { TID16 = 30317, SID16 = 00000 };
-        PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_S, bfix);
-        gkRS.PID.Should().Be(pkRS.PID);
-        gkRS.IVs.SequenceEqual(pkRS.IVs).Should().BeTrue();
+        uint seed = bfix;
+        var pid = CommonEvent3.GetForceShiny(ref seed, 30317);
+        var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
+        pid.Should().Be(pkRS.PID);
+        iv32.Should().Be(pkRS.IV32);
 
         // Unrestricted Antishiny nyx
         var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = [00, 15, 05, 04, 21, 05], TID16 = 00080, SID16 = 00000};
@@ -152,9 +162,10 @@ public class PIDIVTest
     [InlineData(62714, 62938)]
     [InlineData(05724, 31840)]
     [InlineData(31827, 52374)]
+    [InlineData(01337, 01337)]
     [InlineData(34952, 34952)]
-    [InlineData(31827, 00123, false)]
-    [InlineData(34952, 01337, false)]
+    [InlineData(01337, 00001, false)]
+    [InlineData(42069, 13370, false)]
     public void CXDTrainerTest(ushort tid, ushort sid, bool expect = true) => MethodCXD.TryGetSeedTrainerID(tid, sid, out _).Should().Be(expect);
 
     [Theory]

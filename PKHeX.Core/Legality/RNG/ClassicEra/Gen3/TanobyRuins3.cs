@@ -38,6 +38,11 @@ public static class TanobyRuins3
 
     private static bool IsLocationInRuins(byte location) => location is >= 188 and <= 194;
 
+    /// <summary>
+    /// Gets the forms available in the location.
+    /// </summary>
+    /// <param name="location">Chamber location (188-194)</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static ReadOnlySpan<byte> GetForms(byte location) => location switch
     {
         188 => [00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 27], // 188 = Monean Chamber

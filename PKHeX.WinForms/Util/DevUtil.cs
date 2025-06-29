@@ -14,9 +14,9 @@ public static class DevUtil
     public static void AddControl(ToolStripDropDownItem t)
     {
         t.DropDownItems.Add(GetTranslationUpdater());
+        t.DropDownItems.Add(GetPogoPickleReload());
     }
 
-    private static readonly string[] Languages = ["ja", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant"];
     private static string DefaultLanguage => Main.CurrentLanguage;
 
     public static bool IsUpdatingTranslations { get; private set; }
@@ -46,13 +46,24 @@ public static class DevUtil
         return ti;
     }
 
+    private static ToolStripMenuItem GetPogoPickleReload()
+    {
+        var ti = new ToolStripMenuItem
+        {
+            ShortcutKeys = Keys.Control | Keys.Alt | Keys.P,
+            Visible = false,
+        };
+        ti.Click += (_, _) => EncountersGO.Reload();
+        return ti;
+    }
+
     private static void UpdateTranslations()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         var types = assembly.GetTypes();
 
         // Trigger a translation then dump all.
-        foreach (var lang in Languages) // get all languages ready to go
+        foreach (var lang in GameLanguage.AllSupportedLanguages) // get all languages ready to go
             _ = WinFormsTranslator.GetDictionary(lang);
         WinFormsTranslator.SetUpdateMode();
         WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
@@ -82,6 +93,12 @@ public static class DevUtil
         Application.Exit();
     }
 
+    /// <summary>
+    /// All enum types that should be translated in the WinForms GUI.
+    /// </summary>
+    /// <remarks>
+    /// Each enum's defined values will be dumped and available for translation.
+    /// </remarks>
     private static readonly Type[] EnumTypesToTranslate =
     [
         typeof(StatusCondition),
@@ -100,18 +117,27 @@ public static class DevUtil
         typeof(PlayerSkinColor8),
     ];
 
+    /// <summary>
+    /// Create fake controls that may not be currently present in the form, but are used for localization stubs.
+    /// </summary>
     private static IEnumerable<Control> GetExtraControls()
     {
         foreach (var name in SlotList.GetEnumNames().Distinct())
             yield return new Label { Name = $"{nameof(Main)}.L_{name}", Text = name };
     }
 
+    /// <summary>
+    /// Forms that should not be translated, or are dynamic and should not be included in the dump.
+    /// </summary>
     private static readonly string[] LoadBanlist =
     [
         nameof(SplashScreen),
         nameof(PokePreview),
     ];
 
+    /// <summary>
+    /// Controls that should not be translated, or are dynamic and should not be included in the dump.
+    /// </summary>
     private static readonly string[] Banlist =
     [
         "Gender=", // editor gender labels
@@ -133,6 +159,7 @@ public static class DevUtil
         $"{nameof(SAV_OPower)}.L_", // Dynamic label
     ];
 
+    // paths should match the project structure, so that the files are in the correct place when the logic updates them.
     private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false, "PKHeX.Core", "Resources", "text", "program");
     private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings), true, "PKHeX.Core", "Resources", "legality", "checks");
 
@@ -140,7 +167,7 @@ public static class DevUtil
     {
         var dir = GetResourcePath(rel);
         DumpStrings(t, sorted, DefaultLanguage, dir);
-        foreach (var lang in Languages)
+        foreach (var lang in GameLanguage.AllSupportedLanguages)
             DumpStrings(t, sorted, lang, dir);
     }
 

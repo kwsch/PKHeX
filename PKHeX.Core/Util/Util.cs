@@ -69,17 +69,17 @@ public static partial class Util
             if (char.IsAsciiDigit(c))
             {
                 result <<= 4;
-                result += (uint)(c - '0');
+                result |= (uint)(c - '0');
             }
             else if (char.IsAsciiHexDigitUpper(c))
             {
                 result <<= 4;
-                result += (uint)(c - 'A' + 10);
+                result |= (uint)(c - 'A' + 10);
             }
             else if (char.IsAsciiHexDigitLower(c))
             {
                 result <<= 4;
-                result += (uint)(c - 'a' + 10);
+                result |= (uint)(c - 'a' + 10);
             }
         }
         return result;
@@ -101,29 +101,31 @@ public static partial class Util
             if (char.IsAsciiDigit(c))
             {
                 result <<= 4;
-                result += (uint)(c - '0');
+                result |= (uint)(c - '0');
             }
             else if (char.IsAsciiHexDigitUpper(c))
             {
                 result <<= 4;
-                result += (uint)(c - 'A' + 10);
+                result |= (uint)(c - 'A' + 10);
             }
             else if (char.IsAsciiHexDigitLower(c))
             {
                 result <<= 4;
-                result += (uint)(c - 'a' + 10);
+                result |= (uint)(c - 'a' + 10);
             }
         }
         return result;
     }
 
-    /// <summary>
-    /// Parses a variable length hex string (non-spaced, bytes in order).
-    /// </summary>
+    /// <inheritdoc cref="GetBytesFromHexString(ReadOnlySpan{char}, Span{byte})"/>
     public static byte[] GetBytesFromHexString(ReadOnlySpan<char> input)
         => Convert.FromHexString(input);
 
-    /// <inheritdoc cref="GetBytesFromHexString(ReadOnlySpan{char})"/>
+    /// <summary>
+    /// Parses a variable length hex string (non-spaced, bytes in order).
+    /// </summary>
+    /// <param name="input">Hex string to parse</param>
+    /// <param name="result">Buffer to write the result to</param>
     public static void GetBytesFromHexString(ReadOnlySpan<char> input, Span<byte> result)
         => Convert.FromHexString(input, result, out _, out _);
 
@@ -162,10 +164,7 @@ public static partial class Util
         return ctr;
     }
 
-    /// <summary>
-    /// Returns a new string with each word converted to its appropriate title case.
-    /// </summary>
-    /// <param name="span">Input string to modify</param>
+    /// <inheritdoc cref="ToTitleCase(ReadOnlySpan{char}, Span{char})"/>
     public static string ToTitleCase(ReadOnlySpan<char> span)
     {
         if (span.IsEmpty)
@@ -176,7 +175,14 @@ public static partial class Util
         return new string(result);
     }
 
-    /// <inheritdoc cref="ToTitleCase(ReadOnlySpan{char})"/>
+    /// <summary>
+    /// Returns a new string with each word converted to its appropriate title case.
+    /// </summary>
+    /// <remarks>
+    /// Assumes that words are separated by whitespace characters. Duplicate whitespace are not skipped.
+    /// </remarks>
+    /// <param name="span">Input string to modify</param>
+    /// <param name="result">>Buffer to write the result to</param>
     public static void ToTitleCase(ReadOnlySpan<char> span, Span<char> result)
     {
         // Add the first character as uppercase, then add each successive character as lowercase.

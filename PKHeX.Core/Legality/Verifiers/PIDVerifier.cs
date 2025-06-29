@@ -109,8 +109,7 @@ public sealed class PIDVerifier : Verifier
     private void VerifyG5PID_IDCorrelation(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var pid = pk.EncryptionConstant;
-        var result = (pid & 1) ^ (pid >> 31) ^ (pk.TID16 & 1) ^ (pk.SID16 & 1);
+        var result = MonochromeRNG.GetBitXor(pk, pk.EncryptionConstant);
         if (result != 0)
             data.AddLine(GetInvalid(LPIDTypeMismatch));
     }

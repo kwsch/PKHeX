@@ -77,7 +77,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         return pk;
     }
 
-    private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (Species != (int)Core.Species.Unown)
         {

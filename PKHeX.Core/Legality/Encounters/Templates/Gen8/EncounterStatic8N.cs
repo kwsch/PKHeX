@@ -24,13 +24,13 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     public override byte LevelMin => LevelCaps[MinRank * 2];
     public override byte LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-    public EncounterStatic8N(byte nestIndex, byte minRank, byte maxRank, byte val, [ConstantExpected] GameVersion game) : base(game)
+    public EncounterStatic8N(byte nestIndex, byte minRank, byte maxRank, byte flawless, [ConstantExpected] GameVersion game) : base(game)
     {
         NestIndex = nestIndex;
         MinRank = minRank;
         MaxRank = maxRank;
         DynamaxLevel = (byte)(MinRank + 1u);
-        FlawlessIVCount = val;
+        FlawlessIVCount = flawless;
     }
 
     public static EncounterStatic8N Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game) => new(data[6], data[7], data[8], data[9], game)
@@ -173,7 +173,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         RaidRNG.TryApply(pk8, seed, iv, param, criteria);
     }
 
-    protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
+    protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, in GenerateParam8 param, in EncounterCriteria criteria)
     {
         var (possible, noShiny) = IsPossibleSeed(pk, seed, false);
         if (!possible)
@@ -182,7 +182,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         {
             if (criteria.Shiny.IsShiny())
                 return false;
-            param = param with { Shiny = Shiny.Never };
+            return base.TryApply(pk, seed, iv, param with { Shiny = Shiny.Never }, criteria);
         }
         return base.TryApply(pk, seed, iv, param, criteria);
     }

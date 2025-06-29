@@ -13,7 +13,7 @@ public static class BattleTemplateTeams
     /// </summary>
     /// <param name="text">The input text to check.</param>
     /// <param name="content">When the method returns, contains the retrieved team data if the text is a valid URL; otherwise, null.</param>
-    /// <returns><c>true</c> if the text is a valid URL and the team data was successfully retrieved; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the text is a valid URL and the team data was successfully retrieved; otherwise, <see langword="false"/>.</returns>
     public static bool TryGetSetLines(string text, [NotNullWhen(true)] out string? content)
     {
         if (ShowdownTeam.IsURL(text, out var url))

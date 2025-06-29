@@ -50,6 +50,23 @@ public static class EvolutionReversal
         return ctr;
     }
 
+    /// <summary>
+    /// Attempts to determine if the specified Pokémon can devolve based on the provided criteria.
+    /// </summary>
+    /// <remarks>This method evaluates multiple potential devolution paths for the specified Pokémon. If
+    /// multiple methods exist to devolve to the same species or form, the method prioritizes less restrictive
+    /// conditions (e.g., methods without level-up requirements). If no valid devolution path is found, the method
+    /// returns <see langword="false"/> and sets <paramref name="result"/> to its default value.</remarks>
+    /// <param name="node">The <see cref="EvolutionNode"/> representing the evolution data to evaluate.</param>
+    /// <param name="pk">The Pokémon to check for devolution eligibility.</param>
+    /// <param name="currentMaxLevel">The current maximum level allowed for devolution.</param>
+    /// <param name="levelMin">The minimum level required for devolution.</param>
+    /// <param name="skipChecks">A value indicating whether to bypass certain validation checks during the devolution process.</param>
+    /// <param name="tweak">An <see cref="EvolutionRuleTweak"/> object that modifies the devolution rules.</param>
+    /// <param name="result">When this method returns, contains the <see cref="EvoCriteria"/> describing the devolution criteria if the
+    /// operation succeeds; otherwise, contains the default value.</param>
+    /// <returns><see langword="true"/> if the Pokémon can devolve based on the provided criteria; otherwise, <see
+    /// langword="false"/>.</returns>
     public static bool TryDevolve(this EvolutionNode node, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak, out EvoCriteria result)
     {
         // Multiple methods can exist to devolve to the same species-form.

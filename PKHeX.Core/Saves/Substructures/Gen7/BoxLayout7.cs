@@ -37,7 +37,7 @@ public sealed class BoxLayout7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav
     }
 
     private Span<byte> GetBoxNameSpan(int box) => Data.Slice(GetBoxNameOffset(box), SAV6.LongStringLength);
-    private static int GetBoxNameOffset(int box) => (SAV6.LongStringLength * box);
+    private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
     public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
     public void SetBoxName(int box, ReadOnlySpan<char> value) => SAV.SetString(GetBoxNameSpan(box), value, StringMaxLength, StringConverterOption.ClearZero);
 

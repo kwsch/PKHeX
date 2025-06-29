@@ -151,7 +151,7 @@ public static class SaveFinder
             if (token.IsCancellationRequested)
                 break;
 
-            if (!SaveUtil.GetSavesFromFolder(token, folder, true, out IEnumerable<string> files, ignoreBackups))
+            if (!SaveUtil.GetSavesFromFolder(folder, true, token, out IEnumerable<string> files, ignoreBackups))
             {
                 if (files is not string[] msg) // should always return string[]
                     continue;
@@ -176,10 +176,10 @@ public static class SaveFinder
     /// True if a valid save file was found, false otherwise.
     /// </returns>
     /// <inheritdoc cref="FindMostRecentSaveFile(IReadOnlyList{string},CancellationToken,string[])"/>
-    public static bool TryDetectSaveFile(CancellationToken token, [NotNullWhen(true)] out SaveFile? sav) => TryDetectSaveFile(token, DriveList, out sav);
+    public static bool TryDetectSaveFile(CancellationToken token, [NotNullWhen(true)] out SaveFile? sav) => TryDetectSaveFile(DriveList, token, out sav);
 
     /// <inheritdoc cref="TryDetectSaveFile(CancellationToken, out SaveFile)"/>
-    public static bool TryDetectSaveFile(CancellationToken token, IReadOnlyList<string> drives, [NotNullWhen(true)] out SaveFile? sav)
+    public static bool TryDetectSaveFile(IReadOnlyList<string> drives, CancellationToken token, [NotNullWhen(true)] out SaveFile? sav)
     {
         sav = FindMostRecentSaveFile(drives, CustomBackupPaths, token);
         var path = sav?.Metadata.FilePath;

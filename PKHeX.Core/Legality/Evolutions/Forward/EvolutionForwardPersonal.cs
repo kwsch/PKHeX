@@ -5,8 +5,15 @@ using System.Runtime.CompilerServices;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Provides forward evolution pathways with reliance on personal table data for form branched evolutions.
+/// Represents a forward evolution handler that determines evolution methods and possible evolutions for a given species
+/// and form, based on personal data and evolution entries.
 /// </summary>
+/// <remarks>This class provides methods to retrieve evolution methods, determine possible evolutions, and
+/// validate evolution criteria for a given Pokémon species and form. It uses a combination of evolution entries and
+/// personal data to perform these operations.</remarks>
+/// <param name="Entries">Collection of evolution methods indexed by the Personal Table's <see cref="IPersonalTable.GetFormIndex"/></param>
+/// <param name="Personal">Personal Table containing species and form data.</param>
+/// <seealso cref="EvolutionForwardSpecies"/>
 public sealed class EvolutionForwardPersonal(EvolutionMethod[][] Entries, IPersonalTable Personal) : IEvolutionForward
 {
     public ReadOnlyMemory<EvolutionMethod> GetForward(ushort species, byte form)

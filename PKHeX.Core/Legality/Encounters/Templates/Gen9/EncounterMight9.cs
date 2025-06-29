@@ -284,7 +284,7 @@ public sealed record EncounterMight9 : ITeraRaid9, IFixedNature
 
     private PersonalInfo9SV GetPersonal() => PersonalTable.SV[Species, Form];
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         var param = GetParam(pi);
         var init = Util.Rand.Rand64();

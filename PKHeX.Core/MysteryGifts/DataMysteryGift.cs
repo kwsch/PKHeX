@@ -14,7 +14,7 @@ public abstract class DataMysteryGift(Memory<byte> Raw) : MysteryGift
     /// </summary>
     public virtual ReadOnlySpan<byte> Write() => Data;
 
-    public override int GetHashCode()
+    public sealed override int GetHashCode()
     {
         int hash = 17;
         foreach (var b in Data)
@@ -22,18 +22,12 @@ public abstract class DataMysteryGift(Memory<byte> Raw) : MysteryGift
         return hash;
     }
 
+    public sealed override bool IsEmpty => !Data.ContainsAnyExcept<byte>(0);
+
+    public void Clear() => Data.Clear();
+
     /// <summary>
     /// Creates a deep copy of the <see cref="MysteryGift"/> object data.
     /// </summary>
-    public override MysteryGift Clone()
-    {
-        var data = Data.ToArray();
-        var result = GetMysteryGift(data);
-        ArgumentNullException.ThrowIfNull(result);
-        return result;
-    }
-
-    public sealed override bool Empty => !Data.ContainsAnyExcept<byte>(0);
-
-    public void Clear() => Data.Clear();
+    public abstract DataMysteryGift Clone();
 }

@@ -11,6 +11,9 @@ public sealed class GroundTileVerifier : Verifier
 
     public override void Verify(LegalityAnalysis data)
     {
+        // Only specific encounters in Generation 4 set a GroundTile value.
+        // This value is retained after transferring to Gen5, but not beyond.
+        // Gen3 and Gen5 encounters should never have a Tile value.
         if (data.Entity is not IGroundTile e)
             return;
         var enc = data.EncounterMatch;
@@ -27,7 +30,12 @@ public sealed class GroundTileVerifier : Verifier
     /// <returns>True if stored ground tile value is permitted.</returns>
     public static bool IsGroundTileValid(IEncounterTemplate enc, IGroundTile e)
     {
-        var type = enc is IGroundTypeTile t ? t.GroundTile : GroundTileAllowed.None;
-        return type.Contains(e.GroundTile);
+        if (enc is not IGroundTypeTile t)
+            return e.GroundTile is GroundTileType.None;
+
+        var allow = t.GroundTile;
+        if (allow is GroundTileAllowed.None)
+            return e.GroundTile is GroundTileType.None;
+        return allow.Contains(e.GroundTile);
     }
 }

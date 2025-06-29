@@ -262,21 +262,21 @@ public sealed class AbilityVerifier : Verifier
         if (g is PGT) // Ranger Manaphy
             return (pk.Format >= 6 ? (pk.AbilityNumber == 1) : (pk.AbilityNumber < 4)) ? VALID : GetInvalid(LAbilityMismatchGift);
 
-        var cardType = g.AbilityType;
-        if (cardType == 4) // 1/2/H
+        var permit = g.Ability;
+        if (permit == AbilityPermission.Any12H)
             return VALID;
         int abilNumber = pk.AbilityNumber;
-        if (cardType == 3) // 1/2
+        if (permit == AbilityPermission.Any12)
             return abilNumber == 4 ? GetInvalid(LAbilityMismatchGift) : VALID;
 
         // Only remaining matches are fixed index abilities
-        int cardAbilIndex = 1 << cardType;
+        int cardAbilIndex = (int)permit;
         if (abilNumber == cardAbilIndex)
             return VALID;
 
         // Can still match if the ability was changed via ability capsule...
         // However, it can't change to/from Hidden Abilities.
-        if (abilNumber == 4 || cardType == 2)
+        if (abilNumber == 4 || permit == AbilityPermission.OnlyHidden)
             return GetInvalid(LAbilityHiddenFail);
 
         // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
@@ -319,7 +319,7 @@ public sealed class AbilityVerifier : Verifier
     {
         var pk = data.Entity;
 
-        // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
+        // Eggs and Encounter Slots have not yet checked for Hidden Ability potential.
         return enc switch
         {
             EncounterEgg5 egg when pk.AbilityNumber == 4 && !egg.Ability.CanBeHidden() => GetInvalid(LAbilityHiddenUnavailable),

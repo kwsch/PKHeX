@@ -135,10 +135,11 @@ public sealed class TransferVerifier : Verifier
             // Check for impossible 7->8 transfers
             if (enc is EncounterStatic7 { IsTotem: true } s)
             {
-                if (s.IsTotemNoTransfer)
+                if (s.IsTotemNoTransfer || pk.Form != s.GetTotemBaseForm())
+                {
                     data.AddLine(GetInvalid(LTransferBad));
-                else if (pk.Form != s.GetTotemBaseForm())
-                    data.AddLine(GetInvalid(LTransferBad));
+                    return;
+                }
             }
         }
 
@@ -179,7 +180,7 @@ public sealed class TransferVerifier : Verifier
         {
             data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Settings.HOMETransfer.HOMETransferTrackerNotPresent));
             // To the reader: It seems like the best course of action for setting a tracker is:
-            // - Transfer a 0-Tracker pk to HOME to get assigned a valid Tracker
+            // - Transfer a 0-Tracker pk to HOME to get assigned a valid Tracker via the game it originated from.
             // - Don't make one up.
         }
     }

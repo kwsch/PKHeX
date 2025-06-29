@@ -16,7 +16,7 @@ public static class GenerateMethodJ
     /// <param name="criteria">Criteria to match</param>
     /// <param name="seed">Initial seed to use; will be modified during the loop if the first seed fails</param>
     /// <returns>Method 1 origin seed applied</returns>
-    public static uint SetRandomJ<T>(this T enc, PK4 pk, PersonalInfo4 pi, EncounterCriteria criteria, uint seed)
+    public static uint SetRandomJ<T>(this T enc, PK4 pk, PersonalInfo4 pi, in EncounterCriteria criteria, uint seed)
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;
@@ -25,6 +25,7 @@ public static class GenerateMethodJ
         bool randLevel = MethodJ.IsLevelRand(enc);
         bool checkProc = MethodJ.IsEncounterCheckApplicable(enc.Type);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
 
         // Generate Method J correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -53,7 +54,7 @@ public static class GenerateMethodJ
                 var pid = GetPIDRegular(a, b);
                 if (pid % 25 != nature)
                     continue;
-                if (ShinyUtil.GetIsShiny(id32, pid, 8) != criteria.Shiny.IsShiny())
+                if (ShinyUtil.GetIsShiny3(id32, pid) != criteria.Shiny.IsShiny())
                     break; // try again
                 if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((int)(pid & 1)))
                     break; // try again
@@ -64,6 +65,8 @@ public static class GenerateMethodJ
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
+                if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                    continue;
 
                 if (enc.Species is (ushort)Species.Unown)
                 {
@@ -106,7 +109,7 @@ public static class GenerateMethodJ
     /// <param name="criteria">Criteria to match</param>
     /// <param name="origin">Method 1 origin seed applied</param>
     /// <returns>True if the PID/IV was valid &amp; applied to the entity.</returns>
-    public static bool SetFromIVsJ<T>(this T enc, PK4 pk, PersonalInfo4 pi, EncounterCriteria criteria, out uint origin)
+    public static bool SetFromIVsJ<T>(this T enc, PK4 pk, PersonalInfo4 pi, in EncounterCriteria criteria, out uint origin)
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;
@@ -123,7 +126,7 @@ public static class GenerateMethodJ
             var a = LCRNG.Next16(ref s);
             var b = LCRNG.Next16(ref s);
             var pid = GetPIDRegular(a, b);
-            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny(id32, pid, 8))
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                 continue;
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue;
@@ -173,5 +176,10 @@ public static class GenerateMethodJ
         return false;
     }
 
+    /// <summary>
+    /// Combines two 16-bit unsigned integers into a single 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="a">The first set of 16 bits from a Rand() call.</param>
+    /// <param name="b">The second set of 16 bits from a Rand() call.</param>
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
 }

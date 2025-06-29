@@ -149,7 +149,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
         return pk;
     }
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
+    private void SetPINGA(PK8 pk, in EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         var gender = criteria.GetGender(Gender, pi);
         var nature = criteria.GetNature(Nature);

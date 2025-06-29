@@ -2,9 +2,25 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Represents a fake save file implementation for testing or placeholder purposes.
+/// </summary>
+/// <remarks>
+/// This class provides a minimal implementation of the <see cref="SaveFile"/> base class, with default
+/// or fixed values for all properties and methods. It is primarily intended for scenarios where a functional save file
+/// is not required, such as testing or mock implementations.
+/// </remarks>
 public sealed class FakeSaveFile : SaveFile
 {
+    /// <summary>
+    /// Represents the default instance of the <see cref="FakeSaveFile"/> class.
+    /// </summary>
+    /// <remarks>This static, read-only instance can be used as a default or fallback value when no specific
+    /// <see cref="FakeSaveFile"/> instance is required.
+    /// </remarks>
     public static readonly FakeSaveFile Default = new();
+    private FakeSaveFile() { }
+
     protected internal override string ShortSummary => "Fake Save File";
     protected override FakeSaveFile CloneInternal() => this;
     public override string Extension => string.Empty;

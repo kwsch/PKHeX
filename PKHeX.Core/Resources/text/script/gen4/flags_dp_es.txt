@@ -1,3 +1,6 @@
+0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
+0351	s	Dialga/Palkia Caught
+0482	s	Dialga/Palkia Gone from Spear Pillar
 0511	r	Uxie desaparecido
 0509	r	Mesprit desaparecido (Caverna Veraz)
 0510	r	Azelf desaparecido
@@ -24,9 +27,11 @@
 0666	s	Encontrada Niña Fantasma en la Vieja Mansión
 0897	s	Encontrado Antidoto (escondido) en la Vieja Mansión
 1008	s	Encontrada Barrita Plus en la Vieja Mansión
+1023	s	Found Adamant/Lustrous Orb in Spear Pillar
 1233	s	Encontrada Tabla Oscura en la Vieja Mansión
 1234	s	Encontrada MT90 en la Vieja Mansión
 2401	*	Deportivas deshabilitadas
+2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	Huevo Happiny de regalo recibido
 0305	g	Eevee recibido
 2430	*	PC de Tecla desbloqueado

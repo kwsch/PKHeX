@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Stores parsed data about how a move was learned.
 /// </summary>
 /// <param name="Info">Info about the game it was learned in.</param>
-/// <param name="EvoStage">Evolution stage index within the <see cref="MoveLearnInfo.Environment"/> evolution list it existed in.</param>
+/// <param name="EvoStage">Evolution stage index within the <see cref="EntityContext"/> evolution list it existed in.</param>
 /// <param name="Generation">Rough indicator of generation the <see cref="MoveLearnInfo.Environment"/> was.</param>
 /// <param name="Expect">Optional value used when the move is not legal, to indicate that another move ID should have been in that move slot instead.</param>
 public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, ushort Expect = 0)
@@ -15,7 +15,8 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     public bool IsParsed => this != default;
     public bool Valid => Info.Method.IsValid();
 
-    internal MoveResult(LearnMethod method, LearnEnvironment game = 0) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
+    internal MoveResult(LearnMethod method, LearnEnvironment game) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
+    private MoveResult(LearnMethod method) : this(new MoveLearnInfo(method, LearnEnvironment.None)) { }
 
     public string Summary(ISpeciesForm current, EvolutionHistory history)
     {
@@ -66,6 +67,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     public static readonly MoveResult Duplicate = new(LearnMethod.Duplicate);
     public static readonly MoveResult EmptyInvalid = new(LearnMethod.EmptyInvalid);
     public static readonly MoveResult Sketch = new(LearnMethod.Sketch);
+
     public static MoveResult Unobtainable(ushort expect) => new(LearnMethod.UnobtainableExpect) { Expect = expect };
     public static MoveResult Unobtainable() => new(LearnMethod.Unobtainable);
 

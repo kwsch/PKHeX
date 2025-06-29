@@ -220,7 +220,7 @@ public sealed class ItemStorage9SV : IItemStorage
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {
-        return Unreleased.BinarySearch((ushort)itemIndex) < 0;
+        return itemCount != 0 && Unreleased.BinarySearch((ushort)itemIndex) < 0;
     }
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => GetLegal(type);

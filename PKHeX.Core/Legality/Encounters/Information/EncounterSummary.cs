@@ -11,20 +11,20 @@ public sealed record EncounterSummary
     private readonly GameVersion Version;
     private readonly string LocationName;
 
-    private EncounterSummary(IEncounterTemplate z)
+    private EncounterSummary(IEncounterTemplate enc)
     {
-        Version = z.Version;
-        LocationName = GetLocationName(z);
+        Version = enc.Version;
+        LocationName = GetLocationName(enc);
     }
 
-    private static string GetLocationName(IEncounterTemplate z)
+    private static string GetLocationName(IEncounterTemplate enc)
     {
-        var generation = z.Generation;
-        var version = z.Version;
+        var generation = enc.Generation;
+        var version = enc.Version;
         if (generation == 0 && version > 0)
             generation = version.GetGeneration();
 
-        if (z is not ILocation l)
+        if (enc is not ILocation l)
             return $"[Gen{generation}]\t";
         var loc = l.GetEncounterLocation(generation, version);
 

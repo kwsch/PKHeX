@@ -121,7 +121,7 @@ public partial class SAV_HallOfFame3 : Form
         if (sid.ToString() != TB_SID.Text)
             TB_SID.Text = sid.ToString();
 
-        CHK_Shiny.Checked = ShinyUtil.GetIsShiny((sid << 16) | tid, pid, 8);
+        CHK_Shiny.Checked = ShinyUtil.GetIsShiny3((sid << 16) | tid, pid);
         UpdateSprite();
     }
 

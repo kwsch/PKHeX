@@ -175,7 +175,7 @@ public static class WinFormsUtil
             default:
                 throw new IndexOutOfRangeException(nameof(e.ScrollOrientation));
         }
-        static int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
+        static int Clamp(int value, ScrollProperties prop) => Math.Clamp(value, prop.Minimum, prop.Maximum);
     }
 
     /// <summary>
@@ -195,8 +195,8 @@ public static class WinFormsUtil
         control.ValueMember = nameof(ComboItem.Value);
     }
 
-    public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
-    public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
+    public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
+    public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
 
     public static void RemoveDropCB(object? sender, KeyEventArgs e)
     {
@@ -336,7 +336,7 @@ public static class WinFormsUtil
         using var sfd = new SaveFileDialog();
         sfd.Filter = genericFilter;
         sfd.DefaultExt = pkx;
-        sfd.FileName = Util.CleanFileName(pk.FileName);
+        sfd.FileName = PathUtil.CleanFileName(pk.FileName);
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 
@@ -422,7 +422,7 @@ public static class WinFormsUtil
     {
         using var sfd = new SaveFileDialog();
         sfd.Filter = GetMysterGiftFilter(gift.Context);
-        sfd.FileName = Util.CleanFileName(gift.FileName);
+        sfd.FileName = PathUtil.CleanFileName(gift.FileName);
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 

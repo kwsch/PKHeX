@@ -101,11 +101,6 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     }
 
     /// <summary>
-    /// Creates a deep copy of the <see cref="MysteryGift"/> object data.
-    /// </summary>
-    public abstract MysteryGift Clone();
-
-    /// <summary>
     /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type.
     /// </summary>
     public string Type => GetType().Name;
@@ -132,25 +127,18 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
 
     public abstract bool IsEntity { get; set; }
     public virtual int Quantity { get => 1; set { } }
-    public virtual bool Empty => false;
+    public virtual bool IsEmpty => false;
 
-    public virtual string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
+    public string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
     // Search Properties
     public virtual Moveset Moves { get => default; set { } }
     public virtual bool HasFixedIVs => true;
     public virtual void GetIVs(Span<int> value) { }
     public virtual bool IsShiny => false;
-
-    public virtual Shiny Shiny
-    {
-        get => Shiny.Never;
-        init => throw new InvalidOperationException();
-    }
-
-    public virtual bool IsEgg { get => false; set { } }
-    public virtual int HeldItem { get => -1; set { } }
-    public virtual int AbilityType { get => -1; set { } }
+    public abstract Shiny Shiny { get; }
+    public abstract bool IsEgg { get; set; }
+    public abstract int HeldItem { get; set; }
     public abstract byte Gender { get; set; }
     public abstract byte Form { get; set; }
     public abstract uint ID32 { get; set; }

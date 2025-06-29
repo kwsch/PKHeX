@@ -697,7 +697,7 @@ public partial class SAV_Misc3 : Form
         var pid = Util.GetHexValue(TB_PID.Text);
         var tid = Util.ToUInt32(TB_TID.Text);
         var sid = Util.ToUInt32(TB_SID.Text);
-        CHK_Shiny.Checked = ShinyUtil.GetIsShiny((sid << 16) | tid, pid, 8);
+        CHK_Shiny.Checked = ShinyUtil.GetIsShiny3((sid << 16) | tid, pid);
     }
 
     private void ValidatePaintingIDs()

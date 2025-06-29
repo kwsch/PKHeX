@@ -210,7 +210,7 @@ public sealed class MetDataSource(GameStrings s)
             return MetGen2;
 
         IReadOnlyList<ComboItem> result;
-        if (egg && version < W && context.Generation() >= 5)
+        if (egg && version < W && context is not (EntityContext.Gen3 or EntityContext.Gen4))
             result = MetGen4;
         else
             result = GetLocationListInternal(version, context);

@@ -293,7 +293,7 @@ public static class PokewalkerRNG
     /// </summary>
     /// <param name="criteria">Criteria to set IVs with.</param>
     /// <param name="iv32">Result IVs</param>
-    public static bool GetRandomIVs(EncounterCriteria criteria, out uint iv32)
+    public static bool GetRandomIVs(in EncounterCriteria criteria, out uint iv32)
     {
         // Try to find a seed that works for the given criteria.
         // Don't waste too much time iterating, try around 100k.
@@ -325,8 +325,14 @@ public static class PokewalkerRNG
     private static bool TryApply(ref uint seed, out uint iv32, in EncounterCriteria criteria)
     {
         // Act like a Non-Stroll encounter, generate IV rand() results immediately.
-        iv32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
-        return criteria.IsCompatibleIVs(iv32);
+        var lo = LCRNG.Next15(ref seed);
+        var hi = LCRNG.Next15(ref seed);
+        iv32 = (hi << 15) | lo;
+        if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+            return false;
+        if (!criteria.IsSatisfiedIVs(iv32))
+            return false;
+        return true;
     }
 }
 

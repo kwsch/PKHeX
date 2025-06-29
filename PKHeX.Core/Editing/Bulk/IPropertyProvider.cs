@@ -13,7 +13,7 @@ public interface IPropertyProvider
     /// <param name="pk">Entity to retrieve the property from.</param>
     /// <param name="prop">Property name to retrieve.</param>
     /// <param name="result">Property value as string.</param>
-    /// <returns><c>true</c> if the property was found and retrieved successfully; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the property was found and retrieved successfully; otherwise, <see langword="false"/>.</returns>
     bool TryGetProperty(PKM pk, string prop, [NotNullWhen(true)] out string? result);
 }
 

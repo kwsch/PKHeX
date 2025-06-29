@@ -62,9 +62,8 @@ public sealed record EncounterEgg5(ushort Species, byte Form, GameVersion Versio
         };
 
         SetEncounterMoves(pk);
-        pk.HealPP();
 
-        if (criteria.IsSpecifiedIVsAny(out _))
+        if (criteria.IsSpecifiedIVs())
             criteria.SetRandomIVs(pk);
         else
             criteria.SetRandomIVs(pk, 3);
@@ -74,7 +73,7 @@ public sealed record EncounterEgg5(ushort Species, byte Form, GameVersion Versio
         var gr = pi.Gender;
         var ability = criteria.GetAbilityFromNumber(Ability);
         var pid = GetRandomPID(criteria, gr, out var gender);
-        pid = pid & 0xFFFEFFFF | (uint)(ability & 1) << 16; // 0x00000000 or 0x00010000
+        pid = (pid & 0xFFFEFFFFu) | (uint)(ability & 1) << 16; // 0x00000000 or 0x00010000
         pk.PID = pid;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
@@ -106,7 +105,7 @@ public sealed record EncounterEgg5(ushort Species, byte Form, GameVersion Versio
     private void SetEncounterMoves(PK5 pk)
     {
         var learn = Learn.GetLearnset(Species, Form);
-        var initial = learn.GetBaseEggMoves(LevelMin);
+        var initial = learn.GetBaseEggMoves(Level);
         pk.SetMoves(initial);
     }
 }

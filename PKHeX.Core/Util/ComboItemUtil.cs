@@ -128,15 +128,18 @@ public static partial class Util
         for (int i = 0; i < ballItemID.Length; i++)
             list[i] = new ComboItem(itemNames[ballItemID[i]], ballIndex[i]);
 
-        // 3 Balls are preferentially first, sort Master Ball with the rest Alphabetically.
+        // First 3 Balls (Poke, Great, Ultra) are preferentially first, sort Master Ball with the rest Alphabetically.
         list.AsSpan(3).Sort(Comparer);
         return list;
     }
 
+    /// <summary>
+    /// Comparer for <see cref="ComboItem"/> based on the <see cref="ComboItem.Text"/> property.
+    /// </summary>
     private static readonly FunctorComparer<ComboItem> Comparer =
         new((a, b) => string.CompareOrdinal(a.Text, b.Text));
 
-    private sealed class FunctorComparer<T>(Comparison<T> Comparison) : IComparer<T>
+    private sealed class FunctorComparer<T>(Comparison<T> Comparison) : IComparer<T> where T : notnull
     {
         public int Compare(T? x, T? y)
         {

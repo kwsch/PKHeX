@@ -21,6 +21,7 @@ public sealed class EffortValueVerifier : Verifier
         }
 
         // In Generation 1 & 2, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
+        // When transferred to Gen7+, EVs are reset to 0, so checks will be relevant then.
         byte format = pk.Format;
         if (format < 3) // Can abuse daycare for EV training without EXP gain
             return;

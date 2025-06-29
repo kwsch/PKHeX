@@ -4,8 +4,13 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Provides forward evolution pathways based only on species.
+/// Represents a forward evolution system for species, providing methods to retrieve and validate evolutions.
 /// </summary>
+/// <remarks>This class is responsible for managing forward evolutions of species, including retrieving possible
+/// evolutions and validating evolution criteria. It implements the <see cref="IEvolutionForward"/> interface to provide
+/// evolution-related functionality.</remarks>
+/// <param name="Entries">Collection of evolution methods indexed by species ID.</param>
+/// <seealso cref="EvolutionForwardSpecies"/>
 public sealed class EvolutionForwardSpecies(EvolutionMethod[][] Entries) : IEvolutionForward
 {
     public IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form)

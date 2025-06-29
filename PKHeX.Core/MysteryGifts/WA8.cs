@@ -15,6 +15,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 {
     public WA8() : this(new byte[Size]) { }
     public WA8(Memory<byte> raw) : base(raw) { }
+    public override WA8 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2C8;
 
@@ -176,7 +177,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public override byte Level  { get => Data[0x23C]; set => Data[0x23C] = value; }
     public override bool IsEgg { get => Data[0x23D] == 1; set => Data[0x23D] = value ? (byte)1 : (byte)0; }
     public Nature Nature          { get => (Nature)Data[0x23E]; set => Data[0x23E] = (byte)value; }
-    public override int AbilityType { get => Data[0x23F]; set => Data[0x23F] = (byte)value; }
+    public int AbilityType { get => Data[0x23F]; set => Data[0x23F] = (byte)value; }
 
     private byte PIDTypeValue => Data[0x240];
 
@@ -551,7 +552,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PA8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PA8 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
@@ -562,7 +563,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H

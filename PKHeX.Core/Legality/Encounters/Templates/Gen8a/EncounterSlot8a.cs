@@ -66,7 +66,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PA8 pk, EncounterCriteria criteria, PersonalInfo8LA pi)
+    private void SetPINGA(PA8 pk, in EncounterCriteria criteria, PersonalInfo8LA pi)
     {
         var para = GetParams(pi);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && this.IsLevelWithinRange(criteria);
@@ -87,10 +87,12 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
 
     public void GenerateSeed64(PKM pk, ulong seed)
     {
+        if (pk is not PA8 pa8)
+            throw new ArgumentException($"{nameof(pk)} must be a {nameof(PA8)} instance.", nameof(pk));
         var criteria = EncounterCriteria.Unrestricted;
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
         var para = GetParams(pi);
-        _ = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
+        _ = Overworld8aRNG.ApplyDetails(pa8, criteria, para, HasAlphaMove);
     }
 
     private OverworldParam8a GetParams(PersonalInfo8LA pi) => new()

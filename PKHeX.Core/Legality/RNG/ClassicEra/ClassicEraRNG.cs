@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace PKHeX.Core;
 
@@ -108,10 +107,10 @@ public static class ClassicEraRNG
     /// </remarks>
     public static uint GetInitialSeed(uint year, uint month, uint day, uint hour, uint minute, uint second, uint delay)
     {
-        byte ab = (byte)(month * day + minute + second);
+        byte ab = (byte)((month * day) + minute + second);
         byte cd = (byte)hour;
 
-        return (uint)(((ab << 24) | (cd << 16))) + delay + year - 2000u;
+        return (uint)((ab << 24) | (cd << 16)) + delay + year - 2000u;
     }
 
     /// <summary>
@@ -126,21 +125,13 @@ public static class ClassicEraRNG
     /// </remarks>
     public static uint SeekInitialSeed(uint year, uint month, uint day, uint seed)
     {
-        while (true)
-        {
-            if (IsInitialSeed(year, month, day, seed))
-                break;
+        while (!IsInitialSeed(year, month, day, seed))
             seed = LCRNG.Prev(seed);
-        }
         var decompose = DecomposeSeed(seed, year, month, day);
         // Check one step previous, just in case that delay is better.
         var prevSeed = LCRNG.Prev(seed);
-        while (true)
-        {
-            if (IsInitialSeed(year, month, day, prevSeed))
-                break;
+        while (!IsInitialSeed(year, month, day, prevSeed))
             prevSeed = LCRNG.Prev(prevSeed);
-        }
 
         var distance = LCRNG.GetDistance(prevSeed, seed);
         if (distance > 5000) // arbitrary limit, most won't need this many advances to RNG.
@@ -160,7 +151,7 @@ public static class ClassicEraRNG
     /// <param name="month">Month component (1-12).</param>
     /// <param name="day">Day component (1-31).</param>
     /// <param name="seed">Initial seed to check.</param>
-    /// <returns><c>true</c> if the seed is an initial seed for the given date and time; otherwise, <c>false</c>.</returns>
+    /// <returns><see langword="true"/> if the seed is an initial seed for the given date and time; otherwise, <see langword="false"/>.</returns>
     public static bool IsInitialSeed(uint year, uint month, uint day, uint seed)
     {
         // Check component: hour
@@ -278,22 +269,4 @@ public static class ClassicEraRNG
         }
         return best;
     }
-}
-
-/// <summary>
-/// Stores the components of an initial seed from Generation 4.
-/// </summary>
-public readonly record struct InitialSeedComponents4
-{
-    [Range(0, 99)] public required byte Year { get; init; }
-    [Range(1, 12)] public required byte Month { get; init; }
-    [Range(1, 31)] public required byte Day { get; init; }
-    [Range(0, 23)] public required byte Hour { get; init; }
-    [Range(0, 59)] public required byte Minute { get; init; }
-    [Range(0, 59)] public required byte Second { get; init; }
-
-    public required ushort Delay { get; init; } // essentially XXX-65535, but can overflow. Not that anyone waits the 30+ minutes to do that since other initial seeds are more efficient.
-
-    public uint ToSeed() => ClassicEraRNG.GetInitialSeed(Year, Month, Day, Hour, Minute, Second, Delay);
-    public bool IsInvalid() => Month == 0;
 }
