@@ -101,12 +101,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     private void SetPINGA(PK6 pk, in EncounterCriteria criteria, PersonalInfo6XY pi)
     {
         var rnd = Util.Rand;
-        pk.PID = rnd.Rand32();
-        if (criteria.Shiny.IsShiny())
-            pk.PID = ShinyUtil.GetShinyPID(pk.TID16, pk.SID16, pk.PID, criteria.Shiny == Shiny.AlwaysSquare ? 0 : (uint)rnd.Next(1, 15));
-        else if (criteria.Shiny == Shiny.Never && pk.IsShiny)
-            pk.PID ^= 0x80000000; // flip top bit to ensure non-shiny
-
+        pk.PID = EncounterUtil.GetRandomPID(pk, rnd, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);

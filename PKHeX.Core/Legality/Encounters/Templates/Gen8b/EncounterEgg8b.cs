@@ -58,9 +58,14 @@ public sealed record EncounterEgg8b(ushort Species, byte Form, GameVersion Versi
 
             MetDate = date,
             EggMetDate = date,
+
+            // Disassociated from the Egg RNG; PID only is overwritten if re-rolled.
+            PID = EncounterUtil.GetRandomPID(tr, rnd, criteria.Shiny),
+            HeightScalar = PokeSizeUtil.GetRandomScalar(rnd),
+            WeightScalar = PokeSizeUtil.GetRandomScalar(rnd)
         };
 
-        SetPINGA(pk, criteria, pi, Util.Rand32());
+        SetPINGA(pk, criteria, pi, rnd.Rand32());
         SetEncounterMoves(pk);
 
         return pk;
@@ -170,15 +175,10 @@ public sealed record EncounterEgg8b(ushort Species, byte Form, GameVersion Versi
             // When generating, the game first generates a template, unrelated from the egg seed.
             // This unrelated PID can be retained if the breeding does not use Masuda Method or Shiny Charm re-rolls.
             // Height and Weight are also unrelated, via the template.
-            var templateRand = Util.Rand;
-            var pid = templateRand.Rand32();
-            pk.HeightScalar = PokeSizeUtil.GetRandomScalar(templateRand);
-            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(templateRand);
+            // For eggs, we'll "randomly" get the right PID via template roll before ever generating the rest of the egg.
 
             // Set the rest of the values as per our generating via the egg seed.
-            // For eggs, if the PID isn't the desired shiny type, we'll say it was traded from a suitable trainer where it happened to be shiny.
             pk.EncryptionConstant = rng.NextUInt(); // PID would be re-rolled after here, but we aren't going to have re-rolls in our hypothetical setup.
-            pk.PID = GetFinalPID(pk, pid, criteria); // PID dissociated completely (see above)
             pk.SetIVs(ivs);
             pk.StatNature = pk.Nature = criteria.GetNature(); // Everstone (see above)
             pk.Gender = gender;
@@ -254,71 +254,5 @@ public sealed record EncounterEgg8b(ushort Species, byte Form, GameVersion Versi
             if (result[i] is Uninitialized)
                 result[i] = (int)baseIV;
         }
-    }
-
-    private static uint GetFinalPID(PB8 pk, uint pid, EncounterCriteria criteria)
-    {
-        // Assume no Masuda Method, no Shiny Charm; only 1 roll.
-        var id32 = pk.ID32;
-        var isShiny = ShinyUtil.GetIsShiny6(id32, pid);
-
-        // Ensure the shiny is the correct state.
-        if (!criteria.Shiny.IsShiny())
-        {
-            if (!isShiny)
-                return pid;
-
-            // Must be traded from another game that it was not shiny in.
-            pid ^= 0x1000_0000;
-            ForceTradedEgg(pk, pid, uint.MaxValue);
-            return pid; // Force non-shiny by flipping the shiny bit.
-        }
-
-        // Want a shiny, less likely.
-        var wantSquare = criteria.Shiny is Shiny.AlwaysSquare;
-        if (!isShiny)
-            return ForceShiny(pk, wantSquare, pid);
-
-        // Already shiny, but might not be the desired XOR type.
-        var xor = ShinyUtil.GetShinyXor(pid, id32);
-        if (wantSquare ? xor != 0 : xor == 0) // wrong type
-            return ForceShiny(pk, wantSquare, pid);
-
-        // Right shiny type.
-        return pid;
-    }
-
-    private static uint ForceShiny(PB8 pk, bool wantSquare, uint pid)
-    {
-        // Must be traded from another game that it just happened to be shiny.
-        var xorType = wantSquare ? 0u : (uint)Util.Rand.Next(1, 16);
-        pid = ShinyUtil.GetShinyPID(pk.TID16, pk.SID16, pid, xorType);
-        ForceTradedEgg(pk, pid, xorType);
-        return pid;
-    }
-
-    private static void ForceTradedEgg(PB8 pk, uint pid, uint xorType)
-    {
-        if (pk.IsUntraded)
-        {
-            pk.OriginalTrainerTrash.CopyTo(pk.HandlingTrainerTrash);
-            pk.HandlingTrainerGender = pk.OriginalTrainerGender;
-            pk.HandlingTrainerLanguage = (byte)pk.Language;
-        }
-        if (!pk.IsEgg)
-        {
-            pk.EggLocation = Locations.LinkTrade6NPC;
-            return;
-        }
-        pk.MetLocation = Locations.LinkTrade6NPC; // Egg wasn't the right state, so force traded.
-        pk.MetDate = EncounterDate.GetDateSwitch(); // Update met date to the trade date.
-
-        // Need to determine a fake Trainer ID that allows us to be a traded egg with the right XOR type.
-        var rand = Util.Rand;
-        var id32 = rand.Rand32();
-        if (xorType >= 16) // not shiny desired; this randomness is deferred to here since the hot path is not-IsEgg early return above.
-            xorType = (uint)rand.Next(16, ushort.MaxValue + 1);
-        // Use the PID as if it were the TID/SID so the result is instead our TID/SID with resulting xorType.
-        pk.ID32 = ShinyUtil.GetShinyPID((ushort)(pid << 16), (ushort)pid, id32, xorType);
     }
 }

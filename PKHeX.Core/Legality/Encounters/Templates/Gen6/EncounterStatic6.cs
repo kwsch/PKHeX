@@ -58,7 +58,7 @@ public sealed record EncounterStatic6(GameVersion Version)
         var pk = new PK6
         {
             EncryptionConstant = rnd.Rand32(),
-            PID = rnd.Rand32(),
+            PID = EncounterUtil.GetRandomPID(tr, rnd, Shiny, criteria.Shiny),
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,

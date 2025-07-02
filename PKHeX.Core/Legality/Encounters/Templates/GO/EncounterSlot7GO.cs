@@ -46,7 +46,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         var date = this.GetRandomValidDate();
         var pk = new PB7
         {
-            PID = rnd.Rand32(),
+            PID = EncounterUtil.GetRandomPID(tr, rnd, Shiny, criteria.Shiny),
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
             Form = Form,
