@@ -76,6 +76,24 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     };
 
     /// <summary>
+    /// Creates a new <see cref="EncounterCriteria"/> with random IVs.
+    /// </summary>
+    public EncounterCriteria ReviseIVsHyperTrainAvailable() => this with
+    {
+        IV_HP = ReviseForHyperTrain(IV_HP),
+        IV_ATK = ReviseForHyperTrain(IV_ATK),
+        IV_DEF = ReviseForHyperTrain(IV_DEF),
+        IV_SPA = ReviseForHyperTrain(IV_SPA),
+        IV_SPD = ReviseForHyperTrain(IV_SPD),
+        IV_SPE = ReviseForHyperTrain(IV_SPE),
+    };
+
+    /// <summary>
+    /// Keeps an IV only if it cannot be overridden in-game to that value (via hyper training).
+    /// </summary>
+    private static sbyte ReviseForHyperTrain(sbyte current) => current is 31 ? RandomIV : current;
+
+    /// <summary>
     /// Checks if the Hidden Power type for the given IVs matches the specified HiddenPowerType.
     /// </summary>
     /// <param name="iv32">The 32-bit integer representing the IVs.</param>

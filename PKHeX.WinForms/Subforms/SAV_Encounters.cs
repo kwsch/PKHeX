@@ -103,6 +103,8 @@ public partial class SAV_Encounters : Form
         L_Count.Text = "Ready...";
 
         CenterToParent();
+        CB_Species.Select();
+        CheckIsSearchDisallowed();
     }
 
     private void GetTypeFilters()
@@ -121,6 +123,15 @@ public partial class SAV_Encounters : Form
         {
             TypeFilters.Controls.Add(chk);
             TypeFilters.SetFlowBreak(chk, true);
+            chk.Click += (_, _) =>
+            {
+                if ((ModifierKeys & Keys.Shift) != 0)
+                {
+                    foreach (var c in TypeFilters.Controls.OfType<CheckBox>())
+                        c.Checked = c == chk;
+                }
+            };
+            chk.CheckStateChanged += (_, _) => CheckIsSearchDisallowed();
         }
     }
 
@@ -182,7 +193,7 @@ public partial class SAV_Encounters : Form
         FillPKXBoxes(SCR_Box.Value);
     }
 
-    private EncounterCriteria GetCriteria(ISpeciesForm enc, EncounterDatabaseSettings settings)
+    private EncounterCriteria GetCriteria(IEncounterTemplate enc, EncounterDatabaseSettings settings)
     {
         if (!settings.UseTabsAsCriteria)
             return EncounterCriteria.Unrestricted;
@@ -202,6 +213,8 @@ public partial class SAV_Encounters : Form
         var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo, mutations);
         if (!isInChain)
             criteria = criteria with { Gender = Gender.Random }; // Genderless tabs and a gendered enc -> let's play safe.
+        if (editor.Context.IsHyperTrainingAvailable(100))
+            criteria = criteria.ReviseIVsHyperTrainAvailable();
         return criteria;
     }
 
@@ -261,7 +274,7 @@ public partial class SAV_Encounters : Form
         var settings = GetSearchSettings();
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-        if (settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+        if (DisallowSearch(settings))
             return [];
         var pk = SAV.BlankPKM;
 
@@ -297,6 +310,13 @@ public partial class SAV_Encounters : Form
         }
 
         return results;
+    }
+
+    private bool DisallowSearch(SearchSettings settings)
+    {
+        if (TypeFilters.Controls.OfType<CheckBox>().All(z => !z.Checked))
+            return false; // no types selected
+        return settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch;
     }
 
     private static IEnumerable<ushort> GetFullRange(int max)
@@ -512,5 +532,13 @@ public partial class SAV_Encounters : Form
         if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
         tb.AppendText(s);
+    }
+
+    private void CB_Species_SelectedIndexChanged(object sender, EventArgs e) => CheckIsSearchDisallowed();
+
+    private void CheckIsSearchDisallowed()
+    {
+        var settings = GetSearchSettings();
+        B_Search.Enabled = !DisallowSearch(settings);
     }
 }

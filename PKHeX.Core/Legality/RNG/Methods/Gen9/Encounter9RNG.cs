@@ -21,7 +21,10 @@ public static class Encounter9RNG
         {
             uint seed = (uint)rand.NextInt(uint.MaxValue);
             if (!enc.CanBeEncountered(seed))
+            {
+                ctr--; // don't consider it an attempt
                 continue;
+            }
             if (!GenerateData(pk, param, criteria, seed, param.IVs.IsSpecified))
                 continue;
 
