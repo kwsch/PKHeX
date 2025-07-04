@@ -156,7 +156,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public override int MaxAbilityID => Legal.MaxAbilityID_4;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public override int MaxBallID => Legal.MaxBallID_4;
-    public override GameVersion MaxGameID => Legal.MaxGameID_4;
+    public override GameVersion MaxGameID => GameVersion.BATREV;
 
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 4;

@@ -108,7 +108,7 @@ public sealed class GameDataSource
         27, 26, // 6 OR/AS
         21, 20, // 5 B/W
         23, 22, // 5 B2/W2
-        10, 11, 12, // 4 D/P/Pt
+        10, 11, 12, 16, // 4 D/P/Pt/PBR
         07, 08, // 4 HG/SS
         02, 01, 03, // 3 R/S/E
         04, 05, // 3 FR/LG
