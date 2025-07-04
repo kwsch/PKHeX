@@ -16,7 +16,9 @@ internal static class Encounters3Colo
     /// <summary>
     /// When transferring from Gen3->Gen4, a Spanish OT:Duking has the Á char changed to い.
     /// </summary>
-    /// <see cref="StringConverter345.TransferGlyphs34(System.ReadOnlySpan{byte},int,int,System.Span{byte})"/> cref=""/>
+    /// <remarks>
+    /// <see cref="StringConverter345.TransferGlyphs34(System.ReadOnlySpan{byte},int,int,System.Span{byte})"/>
+    /// </remarks>
     internal const string TrainerNameDukingSpanish4 = "GERMいN";
 
     internal static readonly EncounterGift3Colo[] Gifts =

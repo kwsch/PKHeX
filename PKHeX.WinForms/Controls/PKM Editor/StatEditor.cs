@@ -511,7 +511,7 @@ public partial class StatEditor : UserControl
         var decr = L_Stats[dn + 1];
         incr.ForeColor = StatIncreased;
         decr.ForeColor = StatDecreased;
-        return $"+{incr.Text} / -{decr.Text}".Replace(":", "");
+        return $"+{incr.Text} / -{decr.Text}".Replace(":", string.Empty);
     }
 
     public void SetATKIVGender(byte gender)

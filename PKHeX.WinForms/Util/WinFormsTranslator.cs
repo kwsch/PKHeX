@@ -120,7 +120,7 @@ public static class WinFormsTranslator
         }
 
         var txt = (string?)Properties.Resources.ResourceManager.GetObject(file);
-        return txt ?? "";
+        return txt ?? string.Empty;
     }
 
     private static IEnumerable<object> GetTranslatableControls(Control f)

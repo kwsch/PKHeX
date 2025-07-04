@@ -686,7 +686,7 @@ public sealed class ShowdownSet : IBattleTemplate
             }
         }
         if (count == 0)
-            return "";
+            return string.Empty;
 
         var result = new StringBuilder();
         int ctr = 0;

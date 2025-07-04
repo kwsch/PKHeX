@@ -55,7 +55,7 @@ public sealed class SaveHandlerGCI : ISaveHandler
         var header = input[..headerSize].ToArray();
         var data = input[headerSize..].ToArray();
 
-        return new SaveHandlerSplitResult(data, header, [], this);
+        return new SaveHandlerSplitResult(data, header, default, this);
     }
 
     public void Finalize(Span<byte> data) { }

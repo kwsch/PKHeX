@@ -138,10 +138,9 @@ public sealed record EncounterEgg8b(ushort Species, byte Form, GameVersion Versi
             else if (isRandomGender)
             {
                 var rand = rng.NextUInt(252) + 1;
-                var randGender = rand < ratio ? (byte)1 : (byte)0;
-                if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(randGender))
+                gender = rand < ratio ? (byte)1 : (byte)0;
+                if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                     continue;
-                gender = randGender;
             }
 
             // nature

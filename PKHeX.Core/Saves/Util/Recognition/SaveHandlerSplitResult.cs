@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -9,10 +11,10 @@ namespace PKHeX.Core;
 /// <param name="Header">The header segment of the save operation, which may contain metadata or other relevant information.</param>
 /// <param name="Footer">The footer segment of the save operation, which may contain additional metadata or checksums.</param>
 /// <param name="Handler">The save handler responsible for processing the save operation, providing methods for recognition and finalization.</param>
-public sealed class SaveHandlerSplitResult(byte[] Data, byte[] Header, byte[] Footer, ISaveHandler Handler)
+public sealed class SaveHandlerSplitResult(byte[] Data, Memory<byte> Header, Memory<byte> Footer, ISaveHandler Handler)
 {
-    public readonly byte[] Header = Header;
-    public readonly byte[] Footer = Footer;
+    public readonly Memory<byte> Header = Header;
+    public readonly Memory<byte> Footer = Footer;
     public readonly byte[] Data = Data;
     public readonly ISaveHandler Handler = Handler;
 }
