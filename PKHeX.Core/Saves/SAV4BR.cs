@@ -147,7 +147,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     protected override SAV4BR CloneInternal() => new(this);
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 4;
+    protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 84;
     public override BK4 BlankPKM => new();
     public override Type PKMType => typeof(BK4);
 
@@ -249,18 +249,18 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public string CurrentOT { get => GetOTName(CurrentSlot); set => SetOTName(CurrentSlot, value); }
 
     // Storage
+    public override bool HasParty => true;
+    public override int GetPartyOffset(int slot)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(slot, 6);
+        return 0x44C + (SIZE_PARTY * slot);
+    }
+
     public override bool HasBox => true;
     public override int GetBoxOffset(int box)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(box, BoxCount);
         return 0x978 + (SIZE_STORED * box * 30);
-    }
-
-    public override bool HasParty => true;
-    public override int GetPartyOffset(int slot)
-    {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(slot, 6);
-        return 0x13A54 + (SIZE_PARTY * slot);
     }
 
     public override uint Money
