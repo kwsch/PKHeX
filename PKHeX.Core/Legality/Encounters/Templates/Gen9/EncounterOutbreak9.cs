@@ -26,6 +26,7 @@ public sealed record EncounterOutbreak9
     public required byte LevelMax { get; init; }
     public required byte Gender { get; init; }
     public required RibbonIndex Ribbon { get; init; }
+    public AreaWeather9 Weather { get; init; }
     public required byte MetBase { get; init; }
     public required bool IsForcedScaleRange { get; init; }
     public required byte ScaleMin { get; init; }
@@ -33,7 +34,7 @@ public sealed record EncounterOutbreak9
     public required bool IsShiny { get; init; }
     public required UInt128 MetFlags { get; init; }
 
-    private const int SIZE = 0x14 + 8;
+    private const int SIZE = 0xC + 16;
 
     public static EncounterOutbreak9[] GetArray(ReadOnlySpan<byte> data)
     {
@@ -53,13 +54,15 @@ public sealed record EncounterOutbreak9
         LevelMin = data[0x04],
         LevelMax = data[0x05],
         Ribbon = (RibbonIndex)data[0x06],
-        MetBase = data[0x07],
+        Weather = (AreaWeather9)data[0x07],
 
         IsForcedScaleRange = data[0x08] != 0,
         ScaleMin = data[0x09],
         ScaleMax = data[0x0A],
         IsShiny = data[0x0B] != 0,
-        MetFlags = ReadUInt128LittleEndian(data[0x0C..]),
+
+        MetBase = data[0x0C],
+        MetFlags = ReadUInt128LittleEndian(data[0x0C..]) >> 8,
     };
 
     public string Name => "Distribution Outbreak Encounter";
@@ -226,6 +229,12 @@ public sealed record EncounterOutbreak9
             }
         }
 
+        if (pk is IRibbonSetMark8 m)
+        {
+            if (m.HasWeatherMark(out var weather) && !CanSpawnInWeather(weather))
+                return EncounterMatchRating.DeferredErrors;
+        }
+
         return EncounterMatchRating.Match;
     }
 
@@ -237,4 +246,6 @@ public sealed record EncounterOutbreak9
     }
 
     #endregion
+
+    public bool CanSpawnInWeather(RibbonIndex mark) => Weather.IsMarkCompatible(mark);
 }

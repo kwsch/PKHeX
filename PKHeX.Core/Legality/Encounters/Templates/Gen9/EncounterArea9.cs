@@ -48,8 +48,9 @@ public sealed record EncounterArea9 : IEncounterArea<EncounterSlot9>, IAreaLocat
             var min = slot[4];
             var max = slot[5];
             var time = slot[6];
+            var weather = (AreaWeather9)slot[7];
 
-            result[i] = new EncounterSlot9(this, species, form, min, max, gender, time);
+            result[i] = new EncounterSlot9(this, species, form, min, max, gender, time, weather);
         }
         return result;
     }
