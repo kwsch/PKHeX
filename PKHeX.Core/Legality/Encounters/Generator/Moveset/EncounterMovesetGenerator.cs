@@ -84,14 +84,7 @@ public static class EncounterMovesetGenerator
         if (!IsSane(pk, moves.Span))
             yield break;
 
-        if (versions.Length != 0)
-        {
-            foreach (var enc in GenerateEncounters(pk, moves, (IReadOnlyList<GameVersion>)versions))
-                yield return enc;
-            yield break;
-        }
-
-        var vers = GameUtil.GetVersionsWithinRange(pk, pk.Format);
+        var vers = versions.Length != 0 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var version in vers)
         {
             foreach (var enc in GenerateVersionEncounters(pk, moves, version))
@@ -104,15 +97,23 @@ public static class EncounterMovesetGenerator
     /// </summary>
     /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
     /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
-    /// <param name="vers">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
+    /// <param name="versions">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ReadOnlyMemory<ushort> moves, IReadOnlyList<GameVersion> vers)
+    public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ReadOnlyMemory<ushort> moves, ReadOnlyMemory<GameVersion> versions)
     {
+        if (versions.Length == 0)
+        {
+            foreach (var enc in GenerateEncounters(pk, moves))
+                yield return enc;
+            yield break;
+        }
+
         if (!IsSane(pk, moves.Span))
             yield break;
 
-        foreach (var version in vers)
+        for (int i = 0; i < versions.Length; i++)
         {
+            var version = versions.Span[i];
             foreach (var enc in GenerateVersionEncounters(pk, moves, version))
                 yield return enc;
         }

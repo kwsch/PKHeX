@@ -325,7 +325,7 @@ public partial class SAV_Encounters : Form
             yield return i;
     }
 
-    private IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<ushort> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, ReadOnlyMemory<ushort> moves, PKM pk, CancellationToken token)
+    private IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<ushort> species, IPersonalTable pt, ReadOnlyMemory<GameVersion> versions, ReadOnlyMemory<ushort> moves, PKM pk, CancellationToken token)
     {
         foreach (var s in species)
         {
@@ -365,7 +365,7 @@ public partial class SAV_Encounters : Form
         public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
     }
 
-    private IEnumerable<IEncounterInfo> GetEncounters(ushort species, byte form, ReadOnlyMemory<ushort> moves, PKM pk, IReadOnlyList<GameVersion> vers)
+    private IEnumerable<IEncounterInfo> GetEncounters(ushort species, byte form, ReadOnlyMemory<ushort> moves, PKM pk, ReadOnlyMemory<GameVersion> vers)
     {
         pk.Species = species;
         pk.Form = form;

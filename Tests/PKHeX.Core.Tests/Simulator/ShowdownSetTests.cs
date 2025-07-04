@@ -23,28 +23,33 @@ public class ShowdownSetTests
     [Fact]
     public void SimulatorGetEncounters()
     {
+        // Set must have visited US/UM. Sun/Moon origin can't obtain the moves unless traded.
         var set = new ShowdownSet(SetGlaceonUSUMTutor);
-        var pk7 = new PK7 {Species = set.Species, Form = set.Form, Moves = set.Moves};
+        var pk7 = new PK7 {Species = set.Species, Form = set.Form};
         var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
         Assert.False(encounters.Any());
+
+        // Mark as traded, to allow tutor moves to be recognized as valid.
+        // Find the first egg, generate, won't be evolved yet.
         pk7.HandlingTrainerName = TrainerName.ProgramINT;
         encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-        var first = encounters.FirstOrDefault();
-        Assert.NotNull(first);
+        var egg = encounters.OfType<EncounterEgg7>().FirstOrDefault();
+        Assert.NotNull(egg);
 
-        var egg = (EncounterEgg7)first;
-        var info = new SimpleTrainerInfo(GameVersion.SN);
-        var pk = egg.ConvertToPKM(info);
+        var trainer = new SimpleTrainerInfo(GameVersion.SN);
+        var pk = egg.ConvertToPKM(trainer);
         Assert.True(pk.Species != set.Species);
 
+        // Ensure was legally generated.
         var la = new LegalityAnalysis(pk);
         la.Valid.Should().BeTrue($"Encounter should have generated legally: {egg} {la.Report()}");
 
-        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, set.Moves).ToList();
+        // Check all possible encounters.
+        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, trainer, set.Moves).ToList();
         for (var i = 0; i < test.Count; i++)
         {
             var t = test[i];
-            var convert = t.ConvertToPKM(info);
+            var convert = t.ConvertToPKM(trainer);
             var la2 = new LegalityAnalysis(convert);
             la2.Valid.Should().BeTrue($"Encounter {i} should have generated legally: {t} {la2.Report()}");
         }
@@ -273,8 +278,8 @@ public class ShowdownSetTests
     {
         var set = new ShowdownSet(text);
         var pk7 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves, CurrentLevel = set.Level };
-        var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
-        var tr3 = encs.First(z => z is EncounterTrade3);
+        var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.FR);
+        var tr3 = encs.OfType<EncounterTrade3>().First();
         var pk3 = tr3.ConvertToPKM(new SimpleTrainerInfo(GameVersion.FR));
 
         var la = new LegalityAnalysis(pk3);
