@@ -35,7 +35,7 @@ public static class MarkRules
         EncounterSlot8 or EncounterStatic8 { Gift: false, ScriptedNoMarks: false } => IsMarkAllowedSpecific8(mark, pk, enc),
         EncounterSlot9 s => IsMarkAllowedSpecific9(mark, s),
         EncounterStatic9 s => IsMarkAllowedSpecific9(mark, s),
-        EncounterOutbreak9 o when o.Ribbon == mark || IsMarkAllowedSpecific9(mark, pk) => true, // not guaranteed ribbon/mark
+        EncounterOutbreak9 o when o.Ribbon == mark || IsMarkAllowedSpecific9(mark, o) => true, // not guaranteed ribbon/mark
         WC9 wc9 => wc9.GetRibbonIndex(mark),
         _ => false,
     };
@@ -44,13 +44,13 @@ public static class MarkRules
     /// Checks if a specific encounter mark is disallowed.
     /// </summary>
     /// <returns>False if mark is disallowed based on specific conditions.</returns>
-    public static bool IsMarkAllowedSpecific8(RibbonIndex mark, PKM pk, IEncounterTemplate x) => mark switch
+    public static bool IsMarkAllowedSpecific8(RibbonIndex mark, PKM pk, IEncounterTemplate enc) => mark switch
     {
-        MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
-        MarkFishing when !IsMarkAllowedFishing(x) => false,
-        MarkMisty when x.Generation == 8 && pk.MetLevel < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60Fog(pk.MetLocation) => false,
-        MarkDestiny => x is EncounterSlot9, // Capture on Birthday
-        >= MarkCloudy and <= MarkMisty => IsWeatherPermitted8(mark, x),
+        MarkCurry when !IsMarkAllowedCurry(pk, enc) => false,
+        MarkFishing when !IsMarkAllowedFishing(enc) => false,
+        MarkMisty when enc.Generation == 8 && pk.MetLevel < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60Fog(pk.MetLocation) => false,
+        MarkDestiny => enc is EncounterSlot9, // Capture on Birthday
+        >= MarkCloudy and <= MarkMisty => IsWeatherPermitted8(mark, enc),
         _ => true,
     };
 
@@ -58,13 +58,13 @@ public static class MarkRules
     /// Checks if a specific encounter mark is disallowed.
     /// </summary>
     /// <returns>False if mark is disallowed based on specific conditions.</returns>
-    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, EncounterSlot9 x) => mark switch
+    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, EncounterSlot9 enc) => mark switch
     {
         MarkCurry => false,
         MarkFishing => false,
         MarkDestiny => true, // Capture on Birthday
-        >= MarkLunchtime and <= MarkDawn => x.CanSpawnAtTime(mark),
-        >= MarkCloudy and <= MarkMisty => x.CanSpawnInWeather(mark),
+        >= MarkLunchtime and <= MarkDawn => enc.CanSpawnAtTime(mark),
+        >= MarkCloudy and <= MarkMisty => enc.CanSpawnInWeather(mark),
         _ => true,
     };
 
@@ -73,13 +73,13 @@ public static class MarkRules
     /// </summary>
     /// <returns>False if mark is disallowed based on specific conditions.</returns>
     /// <remarks>ONLY USE FOR <see cref="EncounterOutbreak9"/></remarks>
-    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, PKM pk) => mark switch
+    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, EncounterOutbreak9 enc) => mark switch
     {
         MarkCurry => false,
         MarkFishing => false,
         MarkDestiny => true, // Capture on Birthday
         >= MarkLunchtime and <= MarkDawn => true, // no time restrictions
-        >= MarkCloudy and <= MarkMisty => pk is PK8 || EncounterSlot9.CanSpawnInWeather(mark, (byte)pk.MetLocation),
+        >= MarkCloudy and <= MarkMisty => enc.CanSpawnInWeather(mark),
         _ => true,
     };
 
