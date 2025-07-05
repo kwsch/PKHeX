@@ -73,7 +73,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IEncount
         var geo = tr.GetRegionOrigin(language);
         var pk = new PK6
         {
-            PID = rnd.Rand32(),
+            PID = EncounterUtil.GetRandomPID(tr, rnd, Shiny),
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
             CurrentLevel = Level,

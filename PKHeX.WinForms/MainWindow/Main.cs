@@ -525,7 +525,7 @@ public partial class Main : Form
         // Get Simulator Data
         var text = Clipboard.GetText();
         var sets = BattleTemplateTeams.TryGetSets(text);
-        var set = sets.FirstOrDefault() ?? new(""); // take only first set
+        var set = sets.FirstOrDefault() ?? new(string.Empty); // take only first set
 
         if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }

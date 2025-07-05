@@ -33,7 +33,7 @@ public sealed class StatDisplayConfig
     {
         Names = [],
         Separator = "/",
-        ValueGap = "",
+        ValueGap = string.Empty,
         AlwaysShow = true,
     };
 
@@ -47,7 +47,7 @@ public sealed class StatDisplayConfig
     {
         Names = [],
         Separator = "/",
-        ValueGap = "",
+        ValueGap = string.Empty,
         AlwaysShow = true,
         MinimumDigits = 2,
     };

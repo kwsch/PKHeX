@@ -97,14 +97,14 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
         if (SetFlags.Count == 0)
             list.Add("None.");
 
-        list.Add("");
+        list.Add(string.Empty);
         list.Add("Flags: OFF");
         list.Add("==========");
         list.AddRange(fOff);
         if (ClearedFlags.Count == 0)
             list.Add("None.");
 
-        list.Add("");
+        list.Add(string.Empty);
         list.Add("Work:");
         list.Add("=====");
         if (WorkChanged.Count == 0)

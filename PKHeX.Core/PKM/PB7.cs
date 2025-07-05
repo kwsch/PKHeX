@@ -476,6 +476,25 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return true;
     }
 
+    private new bool BelongsTo(ITrainerInfo tr)
+    {
+        if (tr.Version != Version)
+        {
+            // GO Park captures are the save file but with GO as the version. Allow it to remain with OT rather than forcing HT.
+            if (Version != GameVersion.GO || !IsUntraded)
+                return false;
+        }
+
+        if (tr.ID32 != ID32)
+            return false;
+        if (tr.Gender != OriginalTrainerGender)
+            return false;
+
+        Span<char> ot = stackalloc char[MaxStringLengthTrainer];
+        int len = LoadString(OriginalTrainerTrash, ot);
+        return ot[..len].SequenceEqual(tr.OT);
+    }
+
     protected override void TradeHT(ITrainerInfo tr)
     {
         Span<char> ht = stackalloc char[TrashCharCountTrainer];

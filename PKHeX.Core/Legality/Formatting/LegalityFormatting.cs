@@ -151,7 +151,7 @@ public static class LegalityFormatting
                     var initial = ClassicEraRNG.SeekInitialSeedForIVs(ivs, (uint)date.Year, (uint)date.Month, (uint)date.Day, out var origin);
                     var components = ClassicEraRNG.DecomposeSeed(initial, (uint)date.Year, (uint)date.Month, (uint)date.Day);
 
-                    AppendInitialDateTime(lines, initial, origin, components);
+                    AppendInitialDateTime4(lines, initial, origin, components);
                     if (components.IsInvalid())
                         lines.Add("INVALID");
                 }
@@ -165,7 +165,7 @@ public static class LegalityFormatting
 
                     lines.Add($"Initial: 0x{day3.Initial:X8}, Frame: {day3.Advances + 1}"); // frames are 1-indexed
                     var sb = new StringBuilder();
-                    AppendFrameTimeStamp(day3.Advances, sb);
+                    AppendFrameTimeStamp3(day3.Advances, sb);
                     lines.Add($"Time: {sb}");
                 }
             }
@@ -244,16 +244,16 @@ public static class LegalityFormatting
         var entity = info.Entity;
         var date = entity.MetDate ?? new DateOnly(2000, 1, 1);
         var initialSeed = ClassicEraRNG.SeekInitialSeed((uint)date.Year, (uint)date.Month, (uint)date.Day, seed);
-        AppendInitialDateTime(lines, initialSeed, seed, date);
+        AppendInitialDateTime4(lines, initialSeed, seed, date);
     }
 
-    private static void AppendInitialDateTime(List<string> lines, uint initialSeed, uint origin, DateOnly date)
+    private static void AppendInitialDateTime4(List<string> lines, uint initialSeed, uint origin, DateOnly date)
     {
         var decompose = ClassicEraRNG.DecomposeSeed(initialSeed, (uint)date.Year, (uint)date.Month, (uint)date.Day);
-        AppendInitialDateTime(lines, initialSeed, origin, decompose);
+        AppendInitialDateTime4(lines, initialSeed, origin, decompose);
     }
 
-    private static void AppendInitialDateTime(List<string> lines, uint initialSeed, uint origin, InitialSeedComponents4 decompose)
+    private static void AppendInitialDateTime4(List<string> lines, uint initialSeed, uint origin, InitialSeedComponents4 decompose)
     {
         var advances = LCRNG.GetDistance(initialSeed, origin);
         lines.Add($"{decompose.Year+2000:0000}-{decompose.Month:00}-{decompose.Day:00} @ {decompose.Hour:00}:{decompose.Minute:00}:{decompose.Second:00} - {decompose.Delay}");
@@ -270,7 +270,7 @@ public static class LegalityFormatting
         lines.Add($"Initial: 0x{initialSeed:X8}, Frame: {advances + 1}"); // frames are 1-indexed
 
         var sb = new StringBuilder();
-        AppendFrameTimeStamp(advances, sb);
+        AppendFrameTimeStamp3(advances, sb);
         lines.Add($"Time: {sb}");
 
         // Try appending the TID frame if it originates from Emerald.
@@ -283,11 +283,16 @@ public static class LegalityFormatting
             return; // only show if it makes sense to
         lines.Add($"New Game: 0x{tidSeed:X8}, Frame: {tidAdvances + 1}"); // frames are 1-indexed
         sb.Clear();
-        AppendFrameTimeStamp(tidAdvances, sb);
+        AppendFrameTimeStamp3(tidAdvances, sb);
         lines.Add($"Time: {sb}");
     }
 
-    private static void AppendFrameTimeStamp(uint frame, StringBuilder sb)
+    /// <summary>
+    /// Converts a generation 3 RNG advancement frame to a timestamp.
+    /// </summary>
+    /// <param name="frame">Frames elapsed since the initial seed.</param>
+    /// <param name="sb">StringBuilder to append the timestamp to.</param>
+    private static void AppendFrameTimeStamp3(uint frame, StringBuilder sb)
     {
         var time = TimeSpan.FromSeconds((double)frame / 60);
         if (time.TotalHours >= 1)
@@ -303,12 +308,13 @@ public static class LegalityFormatting
 
     private static (uint Seed, uint Advances) GetInitialSeed3(uint seed, GameVersion game)
     {
-        if (game is GameVersion.E) // Always 0 seed.
+        // Emerald is always initial seed of 0 for startups other than E4/New Game.
+        if (game is GameVersion.E)
             return (0, LCRNG.GetDistance(0, seed));
 
         var nearest16 = seed;
         uint ctr = 0;
-        while (nearest16 > ushort.MaxValue || ctr < 360) // 6 seconds to boot->encounter?
+        while (nearest16 > ushort.MaxValue || ctr < (6 * 60)) // minimum 6 seconds to boot->encounter?
         {
             nearest16 = LCRNG.Prev(nearest16);
             ctr++;
@@ -339,7 +345,9 @@ public static class LegalityFormatting
     public static string GetEncounterName(this IEncounterable enc)
     {
         var str = ParseSettings.SpeciesStrings;
-        var name = (uint) enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
+        // Shouldn't ever be out of range, but just in case.
+        var species = enc.Species;
+        var name = (uint)species < str.Count ? str[species] : species.ToString();
         return $"{enc.LongName} ({name})";
     }
 

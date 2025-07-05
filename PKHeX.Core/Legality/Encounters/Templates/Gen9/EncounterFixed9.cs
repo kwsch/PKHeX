@@ -113,7 +113,7 @@ public sealed record EncounterFixed9
     private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         var rnd = Util.Rand;
-        pk.PID = rnd.Rand32();
+        pk.PID = EncounterUtil.GetRandomPID(pk, rnd, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);

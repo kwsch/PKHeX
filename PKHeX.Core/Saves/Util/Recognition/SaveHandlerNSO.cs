@@ -25,7 +25,7 @@ public sealed class SaveHandlerNSO : ISaveHandler
         var obj = new UnpackedHeaderNSOReadOnly(input);
         var header = input[..obj.Length];
         var data = input[obj.Length..];
-        return new SaveHandlerSplitResult([..data], [..header], [], this);
+        return new SaveHandlerSplitResult([..data], header.ToArray(), default, this);
     }
 
     public void Finalize(Span<byte> input)

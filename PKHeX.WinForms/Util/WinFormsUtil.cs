@@ -57,6 +57,11 @@ public static class WinFormsUtil
         }
     }
 
+    /// <summary>
+    /// Searches upwards through the control hierarchy to find the first parent control of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <param name="sender">Child control to start searching from.</param>
+    /// <returns>The first parent control of type <typeparamref name="T"/>, or null if none found.</returns>
     public static T? GetUnderlyingControl<T>(object sender) where T : class
     {
         while (true)
@@ -77,6 +82,11 @@ public static class WinFormsUtil
         }
     }
 
+    /// <summary>
+    /// Checks if a window of type <typeparamref name="T"/> already exists and brings it to the front if it does.
+    /// </summary>
+    /// <param name="parent">The parent form to center the window on.</param>
+    /// <returns><c>true</c> if the window exists and was brought to the front; otherwise, <c>false</c>.</returns>
     public static bool OpenWindowExists<T>(this Form parent) where T : Form
     {
         var form = FirstFormOfType<T>();

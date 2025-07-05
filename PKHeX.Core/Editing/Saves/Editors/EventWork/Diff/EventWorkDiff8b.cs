@@ -69,7 +69,7 @@ public sealed class EventWorkDiff8b : IEventWorkDiff
         if (SetFlags.Count == 0)
             list.Add("None.");
 
-        list.Add("");
+        list.Add(string.Empty);
         list.Add("Flags: OFF");
         list.Add("==========");
         list.AddRange(fOff);
@@ -82,14 +82,14 @@ public sealed class EventWorkDiff8b : IEventWorkDiff
         if (SetFlags.Count == 0)
             list.Add("None.");
 
-        list.Add("");
+        list.Add(string.Empty);
         list.Add("System: OFF");
         list.Add("==========");
         list.AddRange(sOff);
         if (ClearedSystem.Count == 0)
             list.Add("None.");
 
-        list.Add("");
+        list.Add(string.Empty);
         list.Add("Work:");
         list.Add("=====");
         if (WorkChanged.Count == 0)

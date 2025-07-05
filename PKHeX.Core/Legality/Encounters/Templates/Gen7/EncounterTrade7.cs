@@ -71,7 +71,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IEncount
         var geo = tr.GetRegionOrigin(language);
         var pk = new PK7
         {
-            PID = rnd.Rand32(),
+            PID = EncounterUtil.GetRandomPID(tr, rnd, Shiny),
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
             Form = Form,

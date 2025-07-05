@@ -56,7 +56,7 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
             EggLocation = tr.Version == Version ? Locations.Picnic9 : Locations.LinkTrade6,
 
             EncryptionConstant = rnd.Rand32(),
-            PID = rnd.Rand32(),
+            PID = EncounterUtil.GetRandomPID(tr, rnd, criteria.Shiny),
             Nature = criteria.GetNature(),
             Gender = criteria.GetGender(pi),
         };

@@ -141,7 +141,7 @@ public sealed class SummaryPreviewer
     {
         var result = new List<string>(8) { text };
         if (text.Length != 0) // add a blank line between the set and the encounter info if isn't already a blank line
-            result.Add("");
+            result.Add(string.Empty);
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);
     }

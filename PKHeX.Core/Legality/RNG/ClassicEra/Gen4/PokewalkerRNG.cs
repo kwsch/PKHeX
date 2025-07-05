@@ -16,6 +16,8 @@ public static class PokewalkerRNG
     private const int maxYears = 100;
     private const int secondsPerDay = 60 * 60 * 24;
 
+    public const int MaxPriorPokes = boxCapacity - 1; // max prior poke index for Stroll seeds
+
     // seeding for [stroll]: 3600 * hour + 60 * minute + second
     // seeding for [no-stroll]: (((month*day + minute + second) & 0xff) << 24) | (hour << 16) | (year)
 
@@ -166,7 +168,7 @@ public static class PokewalkerRNG
         {
             var s = LCRNG.Prev(seed);
             if (IsSeedFormatStroll(s)) // don't check species; can be disassociated from slots.
-                return new(s, boxCapacity - 1, PokewalkerSeedType.Stroll); // decrement priorPoke back to 0-indexed
+                return new(s, MaxPriorPokes, PokewalkerSeedType.Stroll); // decrement priorPoke back to 0-indexed
         }
         return default;
     }
@@ -340,7 +342,7 @@ public static class PokewalkerRNG
 /// Wrapper for Pokewalker Seed Results
 /// </summary>
 /// <param name="Seed">32-bit seed</param>
-/// <param name="PriorPoke">Count of Pokémon generated prior to the checked Pokémon</param>
+/// <param name="PriorPoke">Count of Pokémon generated prior to the checked Pokémon. Maximum value: <see cref="PokewalkerRNG.MaxPriorPokes"/> (539)</param>
 /// <param name="Type">Type of seed</param>
 public readonly record struct PokewalkerSeedResult(uint Seed, ushort PriorPoke, PokewalkerSeedType Type);
 

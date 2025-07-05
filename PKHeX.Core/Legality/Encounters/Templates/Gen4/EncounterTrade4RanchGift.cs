@@ -51,7 +51,7 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
         4 => "GIULIA",
         5 => "EUKALIA",
         7 => "Eulalia",
-        _ => "",
+        _ => string.Empty,
     };
 
     private const string _name = "My Pokémon Ranch - Trade";

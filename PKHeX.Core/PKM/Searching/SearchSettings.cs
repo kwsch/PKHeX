@@ -204,12 +204,12 @@ public sealed class SearchSettings
         return pk.IsEgg;
     }
 
-    public IReadOnlyList<GameVersion> GetVersions(SaveFile sav) => GetVersions(sav, GetFallbackVersion(sav));
+    public ReadOnlyMemory<GameVersion> GetVersions(SaveFile sav) => GetVersions(sav, GetFallbackVersion(sav));
 
-    public IReadOnlyList<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
+    public ReadOnlyMemory<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
     {
         if (Version > 0)
-            return [Version];
+            return new[] {Version};
 
         return Generation switch
         {

@@ -24,7 +24,7 @@ public class SelectablePictureBox : PictureBox
         Invalidate();
         base.OnEnter(e);
         AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
-            AutomationNotificationProcessing.All, AccessibleDescription ?? AccessibleName ?? "");
+            AutomationNotificationProcessing.All, AccessibleDescription ?? AccessibleName ?? string.Empty);
     }
     protected override void OnLeave(EventArgs e)
     {

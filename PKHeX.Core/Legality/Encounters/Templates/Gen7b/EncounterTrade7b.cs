@@ -92,7 +92,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
     private void SetPINGA(PB7 pk, in EncounterCriteria criteria, PersonalInfo7GG pi)
     {
         var rnd = Util.Rand;
-        pk.PID = rnd.Rand32();
+        pk.PID = EncounterUtil.GetRandomPID(pk, rnd, Shiny, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
