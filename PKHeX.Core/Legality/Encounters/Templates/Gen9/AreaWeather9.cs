@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Encounter Conditions for <see cref="GameVersion.SV"/>
 /// </summary>
 [Flags]
-public enum AreaWeather9 : ushort
+public enum AreaWeather9 : byte
 {
     None,
     Normal = 1,
