@@ -27,14 +27,13 @@ public static class ReplaceTrainerNameHOME
     /// <param name="form">Original form to check for game presence.</param>
     public static EntityContext IsTriggerAndReplace(ReadOnlySpan<char> original, ReadOnlySpan<char> current, LanguageID language, GameVersion origin, ushort species, byte form)
     {
-        // Use the encounter species-form to determine if the Pokémon can visit the game.
-        if (SWSH.IsPresentInGame(species, form) && ReplaceTrainerName8 .IsTriggerAndReplace(original, current, language))
+        if (SWSH.IsPresentInGame(species, form) && ReplaceTrainerName8.IsTriggerAndReplace(original, current, language))
             return Gen8;
-        if (LA  .IsPresentInGame(species, form) && ReplaceTrainerName8a.IsTriggerAndReplace(original, current, language))
+        if (LA.IsPresentInGame(species, form) && ReplaceTrainerName8a.IsTriggerAndReplace(original, current, language))
             return Gen8a;
         if (BDSP.IsPresentInGame(species, form) && ReplaceTrainerName8b.IsTriggerAndReplace(original, current, language, origin))
             return Gen8b;
-        if (SV  .IsPresentInGame(species, form) && ReplaceTrainerName9 .IsTriggerAndReplace(original, current, language))
+        if (SV.IsPresentInGame(species, form) && ReplaceTrainerName9.IsTriggerAndReplace(original, current, language))
             return Gen9;
         if (IsTrigger(original, language) && IsReplace(current))
             return Context;
@@ -44,13 +43,13 @@ public static class ReplaceTrainerNameHOME
     /// <inheritdoc cref="IsTriggerAndReplace(ReadOnlySpan{char},ReadOnlySpan{char},LanguageID,GameVersion,ushort,byte)"/>
     public static EntityContext IsTriggerAndReplace(ReadOnlySpan<char> original, ReadOnlySpan<char> current, LanguageID language, GameVersion origin, EvolutionHistory history)
     {
-        if (history.HasVisitedSWSH && ReplaceTrainerName8 .IsTriggerAndReplace(original, current, language))
+        if (history.HasVisitedSWSH && ReplaceTrainerName8.IsTriggerAndReplace(original, current, language))
             return Gen8;
-        if (history.HasVisitedPLA  && ReplaceTrainerName8a.IsTriggerAndReplace(original, current, language))
+        if (history.HasVisitedPLA && ReplaceTrainerName8a.IsTriggerAndReplace(original, current, language))
             return Gen8a;
         if (history.HasVisitedBDSP && ReplaceTrainerName8b.IsTriggerAndReplace(original, current, language, origin))
             return Gen8b;
-        if (history.HasVisitedGen9 && ReplaceTrainerName9 .IsTriggerAndReplace(original, current, language))
+        if (history.HasVisitedGen9 && ReplaceTrainerName9.IsTriggerAndReplace(original, current, language))
             return Gen9;
         if (IsTrigger(original, language) && IsReplace(current))
             return Context;
@@ -67,14 +66,13 @@ public static class ReplaceTrainerNameHOME
     /// <param name="form">Original form to check for game presence.</param>
     public static EntityContext IsReplace(ReadOnlySpan<char> current, LanguageID language, GameVersion origin, ushort species, byte form)
     {
-        // Use the encounter species-form to determine if the Pokémon can visit the game.
-        if (SWSH.IsPresentInGame(species, form) && ReplaceTrainerName8 .IsReplace(current, language))
+        if (SWSH.IsPresentInGame(species, form) && ReplaceTrainerName8.IsReplace(current, language))
             return Gen8;
-        if (LA  .IsPresentInGame(species, form) && ReplaceTrainerName8a.IsReplace(current, language))
+        if (LA.IsPresentInGame(species, form) && ReplaceTrainerName8a.IsReplace(current, language))
             return Gen8a;
         if (BDSP.IsPresentInGame(species, form) && ReplaceTrainerName8b.IsReplace(current, language, origin))
             return Gen8b;
-        if (SV  .IsPresentInGame(species, form) && ReplaceTrainerName9 .IsReplace(current, language))
+        if (SV.IsPresentInGame(species, form) && ReplaceTrainerName9.IsReplace(current, language))
             return Gen9;
         if (current.SequenceEqual(ReplaceName))
             return Context;
@@ -84,13 +82,13 @@ public static class ReplaceTrainerNameHOME
     /// <inheritdoc cref="IsReplace(ReadOnlySpan{char},LanguageID,GameVersion,ushort,byte)"/>
     public static EntityContext IsReplace(ReadOnlySpan<char> current, LanguageID language, GameVersion origin, EvolutionHistory history)
     {
-        if (history.HasVisitedSWSH && ReplaceTrainerName8 .IsReplace(current, language))
+        if (history.HasVisitedSWSH && ReplaceTrainerName8.IsReplace(current, language))
             return Gen8;
-        if (history.HasVisitedPLA  && ReplaceTrainerName8a.IsReplace(current, language))
+        if (history.HasVisitedPLA && ReplaceTrainerName8a.IsReplace(current, language))
             return Gen8a;
         if (history.HasVisitedBDSP && ReplaceTrainerName8b.IsReplace(current, language, origin))
             return Gen8b;
-        if (history.HasVisitedGen9 && ReplaceTrainerName9 .IsReplace(current, language))
+        if (history.HasVisitedGen9 && ReplaceTrainerName9.IsReplace(current, language))
             return Gen9;
         if (IsReplace(current))
             return Context;
