@@ -119,10 +119,6 @@ public static class ReplaceTrainerNameHOME
         if (result)
             return true;
 
-        // Check for too-long names for Asian languages.
-        if (name.Length > Legal.MaxLengthTrainerAsian && language is (LanguageID.Japanese or LanguageID.Korean or LanguageID.ChineseS or LanguageID.ChineseT))
-            return true;
-
         // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
         return false; // OK
     }
