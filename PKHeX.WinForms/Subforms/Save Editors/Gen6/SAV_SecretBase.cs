@@ -386,6 +386,7 @@ public partial class SAV_SecretBase : Form
     private void B_Import_Click(object sender, EventArgs e)
     {
         using var ofd = new OpenFileDialog();
+        ofd.Title = MsgFileLoadSelectFileSecretBase;
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 

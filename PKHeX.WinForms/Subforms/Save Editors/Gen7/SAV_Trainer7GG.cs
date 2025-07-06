@@ -213,16 +213,16 @@ public partial class SAV_Trainer7GG : Form
 
     private void B_Import_Click(object sender, EventArgs e)
     {
-        using var sfd = new OpenFileDialog();
-        sfd.Filter = GoFilter;
-        sfd.FilterIndex = 0;
-        sfd.RestoreDirectory = true;
+        using var ofd = new OpenFileDialog();
+        ofd.Filter = GoFilter;
+        ofd.FilterIndex = 0;
+        ofd.RestoreDirectory = true;
 
         // Export
-        if (sfd.ShowDialog() != DialogResult.OK)
+        if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
-        string path = sfd.FileName;
+        string path = ofd.FileName;
         ImportGP1From(path);
     }
 

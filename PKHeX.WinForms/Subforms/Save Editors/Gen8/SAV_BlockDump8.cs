@@ -202,6 +202,7 @@ public partial class SAV_BlockDump8 : Form
     private void B_LoadOld_Click(object sender, EventArgs e)
     {
         using var ofd = new OpenFileDialog();
+        ofd.Title = MessageStrings.MsgFileLoadSaveSelectGame;
         ofd.FileName = "main";
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
@@ -261,6 +262,7 @@ public partial class SAV_BlockDump8 : Form
         var key = blockTarget.Key;
         var data = blockTarget.Data;
         using var ofd = new OpenFileDialog();
+        ofd.Title = MessageStrings.MsgFileLoadSelectFileBlock;
         ofd.FileName = $"{key:X8}.bin";
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
