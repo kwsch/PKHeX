@@ -112,6 +112,8 @@ public static class ReplaceTrainerName7
         if (name.Length == 0)
             return false; // invalid string
 
+        // Disallow full-width and half-width existing in the same string.
+        // Disallow undefined characters.
         var first = name[0];
         if (!IsDefined(first))
             return false;

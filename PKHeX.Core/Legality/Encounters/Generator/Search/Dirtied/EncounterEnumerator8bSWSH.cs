@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Iterates to find potentially matched encounters for <see cref="EncounterEnumerator8b"/> encounters while in the <see cref="PK8"/> format.
 /// </summary>
-public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
+public record struct EncounterEnumerator8bSWSH(PK8 Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {
     private IEncounterable? Deferred;
     private int Index;
@@ -56,7 +55,6 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
         switch (State)
         {
             case YieldState.Start:
-                Debug.Assert(Entity is PK8);
                 if (Chain.Length == 0)
                     break;
 

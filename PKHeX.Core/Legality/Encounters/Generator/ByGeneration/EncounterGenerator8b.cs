@@ -26,7 +26,9 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
-        var iterator = new EncounterEnumerator8bSWSH(pk, chain, game);
+        if (pk is not PK8 pk8)
+            yield break;
+        var iterator = new EncounterEnumerator8bSWSH(pk8, chain, game);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }

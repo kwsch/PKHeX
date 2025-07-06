@@ -119,7 +119,9 @@ public static class ReplaceTrainerNameHOME
         if (result)
             return true;
 
+        // Skip CheckNgWords: Numbers, whitespace, whitewords, nn::ngc -- implicitly flagged by our WordFilter. No legitimate events trigger this.
         // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
+
         return false; // OK
     }
 }

@@ -8,8 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ReplaceTrainerName8
 {
-    private const EntityContext Context = EntityContext.Gen8;
-
     /// <summary>
     /// Checks if the original name is a trigger for replacement, and if the current name is a valid replacement.
     /// </summary>
@@ -35,11 +33,11 @@ public static class ReplaceTrainerName8
     /// otherwise, <see langword="false"/>.</returns>
     public static bool IsTrigger(ReadOnlySpan<char> name, LanguageID language)
     {
-        bool result = StringFontUtil.HasUndefinedCharacters(name, Context, language, language);
+        bool result = !IsValid(name, language);
         if (result)
             return true;
 
-        // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
+        // Skip CheckNgWords: Numbers, whitespace, whitewords, nn::ngc -- implicitly flagged by our WordFilter. No legitimate events trigger this.
 
         return false; // OK
     }
@@ -71,4 +69,34 @@ public static class ReplaceTrainerName8
 
         _ => "Sword.",
     };
+
+    private static bool IsCJK(char c) => c is (>= (char)0x4E00 and <= (char)0x9FA0 and not (char)0x4EDD);
+    private static bool IsHiragana(char c) => c is (>= (char)0x3041 and <= (char)0x3090);
+    private static bool IsKatakana(char c) => c is (>= (char)0x30A1 and <= (char)0x30FA);
+    private static bool IsKanji(char c) => c is (>= (char)0x4E00 and <= (char)0x9FCC);
+    private static bool IsHangul(char c) => c is (>= (char)0xAC00 and <= (char)0xD7A3);
+
+    public static bool IsValid(ReadOnlySpan<char> name, LanguageID language)
+    {
+        // Check if fullwidth is used, and if it doesn't exceed 6 chars.
+        // Japanese has a special check, disallowing CJK range (except for a symbol char).
+        if (language is Japanese)
+        {
+            foreach (var c in name)
+            {
+                if (IsCJK(c))
+                    return false;
+            }
+        }
+
+        bool fullWidth = false;
+        for (var i = 0; i < name.Length; i++)
+        {
+            var c = name[i];
+            fullWidth |= IsHiragana(c) || IsKatakana(c) || IsKanji(c) || IsHangul(c);
+            if (fullWidth && i > Legal.MaxLengthTrainerAsian)
+                return false;
+        }
+        return true;
+    }
 }

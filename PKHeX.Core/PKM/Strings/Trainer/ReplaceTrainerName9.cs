@@ -8,8 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ReplaceTrainerName9
 {
-    private const EntityContext Context = EntityContext.Gen9;
-
     /// <summary>
     /// Checks if the original name is a trigger for replacement, and if the current name is a valid replacement.
     /// </summary>
@@ -35,11 +33,11 @@ public static class ReplaceTrainerName9
     /// otherwise, <see langword="false"/>.</returns>
     public static bool IsTrigger(ReadOnlySpan<char> name, LanguageID language)
     {
-        bool result = StringFontUtil.HasUndefinedCharacters(name, Context, language, language);
+        bool result = !ReplaceTrainerName8.IsValid(name, language);
         if (result)
             return true;
 
-        // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
+        // Skip CheckNgWords: Numbers, whitespace, whitewords, nn::ngc -- implicitly flagged by our WordFilter. No legitimate events trigger this.
 
         return false; // OK
     }
