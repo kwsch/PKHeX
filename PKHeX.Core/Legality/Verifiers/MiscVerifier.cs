@@ -850,6 +850,8 @@ public sealed class MiscVerifier : Verifier
             return false;
         if (enc is WC8 { IsHOMEGift: true })
             return false;
+        if (enc is WC9) // fixed values (usually 0 or 128)
+            return false;
         return true;
     }
 
