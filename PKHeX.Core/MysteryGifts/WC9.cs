@@ -680,8 +680,10 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             if (!CanBeAnyLanguage() && !CanHaveLanguage(pk.Language))
                 return false;
 
-            var OT = GetOT(pk.Language); // May not be guaranteed to work.
-            if (!string.IsNullOrEmpty(OT) && OT != pk.OriginalTrainerName) return false;
+            var OT = GetOTSpan(pk.Language); // May not be guaranteed to work.
+            if (!OT.ContainsAnyExcept<byte>(0) && !IsMatchTrainerName(OT, pk))
+                return false;
+
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0)
             {
@@ -755,6 +757,25 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         if (type is ShinyType8.Never or ShinyType8.Random)
             return true;
         return pk.PID == GetPID(pk, type);
+    }
+
+    private bool IsMatchTrainerName(ReadOnlySpan<byte> trainerTrash, PKM pk)
+    {
+        Span<char> trainerName = stackalloc char[12];
+        int length = StringConverter8.LoadString(trainerTrash, trainerName);
+        trainerName = trainerName[..length];
+
+        Span<char> pkTrainerName = stackalloc char[pk.MaxStringLengthTrainer];
+        int pkLength = pk.LoadString(pk.OriginalTrainerTrash, pkTrainerName);
+        pkTrainerName = pkTrainerName[..pkLength];
+
+        if (length == pkLength && trainerName.SequenceEqual(pkTrainerName))
+            return true;
+
+        var language = (LanguageID)pk.Language;
+        var version = pk.Version;
+        var other = ReplaceTrainerNameHOME.IsTriggerAndReplace(trainerName, pkTrainerName, language, version, Species, Form);
+        return other is not EntityContext.None;
     }
 
     private bool IsMatchLocation(PKM pk)

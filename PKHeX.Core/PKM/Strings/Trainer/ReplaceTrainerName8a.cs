@@ -18,9 +18,9 @@ public static class ReplaceTrainerName8a
     /// <param name="language">Entity language.</param>
     public static bool IsTriggerAndReplace(ReadOnlySpan<char> original, ReadOnlySpan<char> current, LanguageID language)
     {
-        if (!IsTriggerReplace(original, language))
+        if (!IsTrigger(original, language))
             return false;
-        return IsReplaceName(current, language);
+        return IsReplace(current, language);
     }
 
     /// <summary>
@@ -33,14 +33,14 @@ public static class ReplaceTrainerName8a
     /// <param name="language">The language identifier used to apply language-specific rules.</param>
     /// <returns><see langword="true"/> if the name contains undefined characters or violates language-specific constraints;
     /// otherwise, <see langword="false"/>.</returns>
-    public static bool IsTriggerReplace(ReadOnlySpan<char> name, LanguageID language)
+    public static bool IsTrigger(ReadOnlySpan<char> name, LanguageID language)
     {
         bool result = StringFontUtil.HasUndefinedCharacters(name, Context, language, language);
         if (result)
             return true;
 
         // Check for too-long names for Asian languages.
-        if (name.Length > 5 && language is (Japanese or Korean or ChineseS or ChineseT))
+        if (name.Length > Legal.MaxLengthTrainerAsian && language is (Japanese or Korean or ChineseS or ChineseT))
             return true;
 
         // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
@@ -48,7 +48,12 @@ public static class ReplaceTrainerName8a
         return false; // OK
     }
 
-    public static bool IsReplaceName(ReadOnlySpan<char> name, LanguageID language)
+    /// <summary>
+    /// Checks if the provided name is one of the valid replacement names for the specified language and game version.
+    /// </summary>
+    /// <param name="name">Current name to check for valid replacement.</param>
+    /// <param name="language">Entity language.</param>
+    public static bool IsReplace(ReadOnlySpan<char> name, LanguageID language)
     {
         var expect = GetName(language);
         return name.SequenceEqual(expect);

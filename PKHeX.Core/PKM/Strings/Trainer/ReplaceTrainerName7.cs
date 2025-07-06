@@ -44,7 +44,7 @@ public static class ReplaceTrainerName7
             return true;
 
         // Check for too-long names for Asian languages.
-        if (name.Length > 5 && language is (Japanese or Korean or ChineseS or ChineseT))
+        if (name.Length > Legal.MaxLengthTrainerAsian && language is (Japanese or Korean or ChineseS or ChineseT))
             return true;
 
         // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
@@ -52,6 +52,12 @@ public static class ReplaceTrainerName7
         return false; // OK
     }
 
+    /// <summary>
+    /// Checks if the provided name is one of the valid replacement names for the specified language and game version.
+    /// </summary>
+    /// <param name="name">Current name to check for valid replacement.</param>
+    /// <param name="language">Entity language.</param>
+    /// <param name="origin">Entity game version.</param>
     public static bool IsReplace(ReadOnlySpan<char> name, LanguageID language, GameVersion origin)
     {
         // Triggering the replacement can be done on SN/MN or US/UM.

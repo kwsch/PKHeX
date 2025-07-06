@@ -9,6 +9,13 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ReplaceTrainerNameHOME
 {
+    private const EntityContext Context = Gen9;
+
+    /// <summary>
+    /// Gets the replacement name for trades within the HOME context.
+    /// </summary>
+    public const string ReplaceName = "HOME";
+
     /// <summary>
     /// Checks if the original name is a trigger for replacement, and if the current name is a valid replacement.
     /// </summary>
@@ -29,6 +36,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (SV  .IsPresentInGame(species, form) && ReplaceTrainerName9 .IsTriggerAndReplace(original, current, language))
             return Gen9;
+        if (IsTrigger(original, language) && IsReplace(current))
+            return Context;
         return None; // No replacement
     }
 
@@ -43,6 +52,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (history.HasVisitedGen9 && ReplaceTrainerName9 .IsTriggerAndReplace(original, current, language))
             return Gen9;
+        if (IsTrigger(original, language) && IsReplace(current))
+            return Context;
         return None; // No replacement
     }
 
@@ -65,6 +76,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (SV  .IsPresentInGame(species, form) && ReplaceTrainerName9 .IsReplace(current, language))
             return Gen9;
+        if (current.SequenceEqual(ReplaceName))
+            return Context;
         return None; // No replacement
     }
 
@@ -79,6 +92,38 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (history.HasVisitedGen9 && ReplaceTrainerName9 .IsReplace(current, language))
             return Gen9;
+        if (IsReplace(current))
+            return Context;
         return None; // No replacement
+    }
+
+    /// <summary>
+    /// Checks if the provided name is one of the valid replacement names for the specified language and game version.
+    /// </summary>
+    /// <param name="name">Current name to check for valid replacement.</param>
+    public static bool IsReplace(ReadOnlySpan<char> name) => name is ReplaceName;
+
+    /// <summary>
+    /// Determines whether the specified name should be replaced based on language-specific rules.
+    /// </summary>
+    /// <remarks>This method checks for undefined characters in the name and applies additional rules for
+    /// certain languages. For example, names longer than five characters are flagged for replacement in Asian languages
+    /// such as Japanese, Korean, Simplified Chinese, and Traditional Chinese.</remarks>
+    /// <param name="name">The name to evaluate, represented as a read-only span of characters.</param>
+    /// <param name="language">The language identifier used to apply language-specific rules.</param>
+    /// <returns><see langword="true"/> if the name contains undefined characters or violates language-specific constraints;
+    /// otherwise, <see langword="false"/>.</returns>
+    public static bool IsTrigger(ReadOnlySpan<char> name, LanguageID language)
+    {
+        bool result = StringFontUtil.HasUndefinedCharacters(name, Context, language, language);
+        if (result)
+            return true;
+
+        // Check for too-long names for Asian languages.
+        if (name.Length > Legal.MaxLengthTrainerAsian && language is (LanguageID.Japanese or LanguageID.Korean or LanguageID.ChineseS or LanguageID.ChineseT))
+            return true;
+
+        // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
+        return false; // OK
     }
 }

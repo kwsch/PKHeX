@@ -203,6 +203,16 @@ public static class Legal
         _ => true,
     };
 
+    public const int MaxLengthTrainerAsian = 6; // Chinese/Japanese/Korean
+    public const int MaxLengthTrainerWestern = 12;
+    public const int MaxLengthTrainerAsian15 = 6; // Chinese/Japanese/Korean
+    public const int MaxLengthTrainerWestern15 = 12;
+
+    public const int MaxLengthNicknameAsian = 6; // Chinese/Japanese/Korean
+    public const int MaxLengthNicknameWestern = 12;
+    public const int MaxLengthNicknameAsian15 = 5; // Chinese/Japanese/Korean
+    public const int MaxLengthNicknameWestern15 = 10;
+
     /// <summary>
     /// Gets the maximum length of a Trainer Name for the input <see cref="generation"/> and <see cref="language"/>.
     /// </summary>
@@ -210,9 +220,9 @@ public static class Legal
     /// <param name="language">Language of the Trainer</param>
     public static int GetMaxLengthOT(byte generation, LanguageID language) => language switch
     {
-        LanguageID.ChineseS or LanguageID.ChineseT => 6,
-        LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
-        _ => generation >= 6 ? 12 : 7,
+        LanguageID.ChineseS or LanguageID.ChineseT => MaxLengthTrainerAsian,
+        LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? MaxLengthTrainerAsian : MaxLengthTrainerAsian15,
+        _ => generation >= 6 ? MaxLengthTrainerWestern : MaxLengthTrainerWestern15,
     };
 
     /// <summary>
@@ -222,9 +232,9 @@ public static class Legal
     /// <param name="language">Language of the Trainer</param>
     public static int GetMaxLengthNickname(byte generation, LanguageID language) => language switch
     {
-        LanguageID.ChineseS or LanguageID.ChineseT => 6,
-        LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
-        _ => generation >= 6 ? 12 : 10,
+        LanguageID.ChineseS or LanguageID.ChineseT => MaxLengthNicknameAsian,
+        LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? MaxLengthNicknameAsian : MaxLengthNicknameAsian15,
+        _ => generation >= 6 ? MaxLengthNicknameWestern : MaxLengthNicknameWestern15,
     };
 
     /// <summary>
