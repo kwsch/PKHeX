@@ -116,16 +116,16 @@ public static class WinFormsUtil
     /// </summary>
     /// <param name="lines">User-friendly message about the error.</param>
     /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
-    internal static DialogResult Error(params string[] lines)
+    internal static DialogResult Error(params ReadOnlySpan<string?> lines)
     {
         System.Media.SystemSounds.Hand.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
         return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
-    internal static DialogResult Alert(params string[] lines) => Alert(true, lines);
+    internal static DialogResult Alert(params ReadOnlySpan<string?> lines) => Alert(true, lines);
 
-    internal static DialogResult Alert(bool sound, params string[] lines)
+    internal static DialogResult Alert(bool sound, params ReadOnlySpan<string?> lines)
     {
         if (sound)
             System.Media.SystemSounds.Asterisk.Play();
@@ -133,7 +133,7 @@ public static class WinFormsUtil
         return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, sound ? MessageBoxIcon.Information : MessageBoxIcon.None);
     }
 
-    internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
+    internal static DialogResult Prompt(MessageBoxButtons btn, params ReadOnlySpan<string?> lines)
     {
         System.Media.SystemSounds.Asterisk.Play();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);

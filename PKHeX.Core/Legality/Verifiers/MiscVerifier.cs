@@ -353,7 +353,7 @@ public sealed class MiscVerifier : Verifier
         return -1;
     }
 
-    private static bool IsObedienceLevelValid(PKM pk, byte current, int expectObey)
+    private static bool IsObedienceLevelValid(PKM pk, byte current, byte expectObey)
     {
         if (current > pk.CurrentLevel)
             return false;

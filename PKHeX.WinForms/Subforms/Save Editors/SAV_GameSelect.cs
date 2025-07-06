@@ -10,7 +10,7 @@ public partial class SAV_GameSelect : Form
 {
     public GameVersion Result = GameVersion.Invalid;
 
-    public SAV_GameSelect(IEnumerable<ComboItem> items, params string[] lines)
+    public SAV_GameSelect(IEnumerable<ComboItem> items, params ReadOnlySpan<string?> lines)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
