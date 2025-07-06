@@ -677,11 +677,11 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
 
-            if (!CanBeAnyLanguage() && !CanHaveLanguage(pk.Language))
+            var language = pk.Language;
+            if (!CanBeAnyLanguage() && !CanHaveLanguage(language))
                 return false;
 
-            var OT = GetOTSpan(pk.Language); // May not be guaranteed to work.
-            if (!OT.ContainsAnyExcept<byte>(0) && !IsMatchTrainerName(OT, pk))
+            if (GetHasOT(language) && !IsMatchTrainerName(GetOTSpan(language), pk))
                 return false;
 
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
