@@ -205,22 +205,7 @@ public static class ClassicEraRNG
 
         var yearComponent = (byte)(year - 2000u);
         var delay = (ushort)((ushort)seed - yearComponent);
-
-        // Minute and seconds: prefer a seconds value at least 7, at most 15 if possible.
-        const byte minSec = 7;
-        const byte maxSec = 15;
-        byte min; byte sec;
-        if (delta < 59 + maxSec)
-        {
-            sec = delta >= minSec ? (byte)(delta - minSec) : delta;
-            min = (byte)(delta - sec);
-        }
-        else
-        {
-            // need a higher seconds
-            min = 59;
-            sec = (byte)(delta - 59);
-        }
+        var (min, sec) = GetMinuteSecond(delta);
 
         return new InitialSeedComponents4
         {
@@ -233,6 +218,32 @@ public static class ClassicEraRNG
             Minute = min,
             Second = sec,
         };
+    }
+
+    private static (byte Minute, byte Second) GetMinuteSecond(byte delta)
+    {
+        // Minute and seconds: prefer a seconds value at least 7, at most 15 if possible.
+        const byte minSec = 7;
+        const byte maxSec = 15;
+        byte min; byte sec;
+        if (delta < 59 + maxSec)
+        {
+            sec = delta switch
+            {
+                <= minSec => delta,
+                <= minSec + 59 => (byte)Math.Max(minSec, delta - 59),
+                _ => maxSec,
+            };
+            min = (byte)(delta - sec);
+        }
+        else
+        {
+            // need a higher seconds
+            min = 59;
+            sec = (byte)(delta - 59);
+        }
+
+        return (min, sec);
     }
 
     /// <summary>

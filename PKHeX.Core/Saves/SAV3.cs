@@ -282,7 +282,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     }
 
     private static bool IsSectorUninitialized(ReadOnlySpan<byte> sector) =>
-        sector.IndexOfAnyExcept<byte>(0, 0xFF) == -1;
+        !sector.ContainsAnyExcept<byte>(0, 0xFF);
 
     private bool IsSectorValid(int sectorIndex)
     {

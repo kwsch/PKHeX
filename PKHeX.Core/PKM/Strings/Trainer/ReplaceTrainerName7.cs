@@ -131,9 +131,17 @@ public static class ReplaceTrainerName7
     }
 
     private static bool IsDefined(char c) => (EnterableCharacters[c >> 3] & (1 << (c & 0x07))) != 0;
-    public static bool IsFullWidth(char c) => !IsHalfWidth(c) && !IsKorean(c);
+    public static bool IsFullWidth(char c) => !IsHalfWidth(c) && !IsHangul(c);
+
+    /// <summary>
+    /// Is any character in the <see cref="HalfWidth"/> list.
+    /// </summary>
     public static bool IsHalfWidth(char c) => HalfWidth.BinarySearch((ushort)c) >= 0;
-    private static bool IsKorean(char c) => c is (>= (char)0xAC00 and <= (char)0xD7AF) or (>= (char)0x3130 and <= (char)0x318F);
+
+    /// <summary>
+    /// Hangul Syllables or Hangul Compatibility Jamo
+    /// </summary>
+    private static bool IsHangul(char c) => c is (>= (char)0xAC00 and <= (char)0xD7AF) or (>= (char)0x3130 and <= (char)0x318F);
 
     // via code.bin
     public static ReadOnlySpan<ushort> HalfWidth =>

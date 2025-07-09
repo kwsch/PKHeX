@@ -137,7 +137,7 @@ public abstract class SAV4Sinnoh : SAV4, IBoxDetailName, IBoxDetailWallpaper
     protected int OFS_UG_Stats;
     public const uint UG_MAX = 999_999;
     private Span<byte> UndergroundStats => General.Slice(OFS_UG_Stats, 0x38); // Length?
-    public uint UG_PeopleMet      { get => ReadUInt32LittleEndian(UndergroundStats[0x00..]); set => WriteUInt32LittleEndian(UndergroundStats[0x00..], value); }
+    public uint UG_PeopleMet      { get => ReadUInt32LittleEndian(UndergroundStats); set => WriteUInt32LittleEndian(UndergroundStats, value); }
     public uint UG_GiftsGiven     { get => ReadUInt32LittleEndian(UndergroundStats[0x04..]); set => WriteUInt32LittleEndian(UndergroundStats[0x04..], value); }
     public uint UG_FlagsTaken     { get => ReadUInt32LittleEndian(UndergroundStats[0x08..]); set => WriteUInt32LittleEndian(UndergroundStats[0x08..], value); }
     public uint UG_Spheres        { get => ReadUInt32LittleEndian(UndergroundStats[0x0C..]); set => WriteUInt32LittleEndian(UndergroundStats[0x0C..], value); }
