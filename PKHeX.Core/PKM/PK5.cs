@@ -414,7 +414,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
             Nature = Nature,
 
             Version = Version,
-            OriginalTrainerName = OriginalTrainerName,
 
             // Dates are kept upon transfer
             MetDate = MetDate,
@@ -497,8 +496,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
         if (IsNicknamed)
             pk6.Nickname = Nickname;
 
-        // When transferred, friendship gets reset.
-        pk6.OriginalTrainerFriendship = pk6.HandlingTrainerFriendship = PersonalInfo.BaseFriendship;
+        // When transferred, friendship gets reset. Base friendship is the same as Gen5, so table doesn't matter.
+        pk6.OriginalTrainerFriendship = pk6.HandlingTrainerFriendship = pk6.PersonalInfo.BaseFriendship;
 
         // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
         pk6.FixMoves();
@@ -508,7 +507,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
         // Fix Name Strings
         StringConverter345.TransferGlyphs56(pk6.NicknameTrash);
-        StringConverter345.TransferGlyphs56(pk6.OriginalTrainerTrash);
+        StringConverter345.TransferString56(OriginalTrainerTrash, pk6.OriginalTrainerTrash);
 
         // Fix Checksum
         pk6.RefreshChecksum();
@@ -524,7 +523,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
     /// <param name="ec">Original PID</param>
     /// <param name="oid">Trainer ID 32-bit</param>
     /// <param name="bitFlipProc">Indicates if the PID was bit-flipped to prevent it from becoming shiny.</param>
-    /// <returns></returns>
     public static uint GetTransferPID(uint ec, uint oid, out bool bitFlipProc)
     {
         // Gen6 changed the shiny correlation to have 2x the rate.
