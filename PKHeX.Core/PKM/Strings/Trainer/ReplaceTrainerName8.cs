@@ -103,14 +103,29 @@ public static class ReplaceTrainerName8
             }
         }
 
-        bool fullWidth = false;
-        for (var i = 0; i < name.Length; i++)
-        {
-            var c = name[i];
-            fullWidth |= IsHiragana(c) || IsKatakana(c) || IsKanji(c) || IsHangul(c);
-            if (fullWidth && i > Legal.MaxLengthTrainerAsian)
-                return false;
-        }
+        if (IsAnyFullWidthLengthTooLong(name, out _))
+            return false;
+
         return true;
+    }
+
+    /// <summary>
+    /// Checks if any full-width characters are entered, and if so, ensures the total length does not exceed 6 characters.
+    /// </summary>
+    /// <param name="name">Input string to validate.</param>
+    /// <param name="anyFullWidth">Indicates if any full-width characters were found in the input.</param>
+    /// <returns><see langword="true"/> if any full-width characters are found in a too-long string.</returns>
+    public static bool IsAnyFullWidthLengthTooLong(ReadOnlySpan<char> name, out bool anyFullWidth)
+    {
+        // disassembled logic scans each character, and if a full-width char has been found at any index, checks if current index > 6
+        // we already know the length, so we can just check if any full-width exists
+        anyFullWidth = false;
+        foreach (var c in name)
+        {
+            anyFullWidth = IsHiragana(c) || IsKatakana(c) || IsKanji(c) || IsHangul(c);
+            if (anyFullWidth)
+                return name.Length > Legal.MaxLengthTrainerAsian;
+        }
+        return false;
     }
 }

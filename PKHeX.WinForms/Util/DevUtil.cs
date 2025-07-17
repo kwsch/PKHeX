@@ -15,6 +15,7 @@ public static class DevUtil
     {
         t.DropDownItems.Add(GetTranslationUpdater());
         t.DropDownItems.Add(GetPogoPickleReload());
+        t.DropDownItems.Add(GetHexImporter());
     }
 
     private static string DefaultLanguage => Main.CurrentLanguage;
@@ -33,6 +34,34 @@ public static class DevUtil
         DumpStringsMessage();
         UpdateTranslations();
         IsUpdatingTranslations = false;
+    }
+
+    private static ToolStripMenuItem GetHexImporter()
+    {
+        var ti = new ToolStripMenuItem
+        {
+            ShortcutKeys = Keys.Control | Keys.Alt | Keys.I,
+            Visible = false,
+        };
+        ti.Click += (_, _) =>
+        {
+            var hex = Clipboard.GetText().Trim();
+            if (string.IsNullOrEmpty(hex))
+            {
+                WinFormsUtil.Alert("Clipboard is empty.");
+                return;
+            }
+            try
+            {
+                var data = Convert.FromHexString(hex.Replace(" ", ""));
+                Application.OpenForms.OfType<Main>().First().OpenFile(data, "", "");
+            }
+            catch (FormatException)
+            {
+                WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
+            }
+        };
+        return ti;
     }
 
     private static ToolStripMenuItem GetTranslationUpdater()

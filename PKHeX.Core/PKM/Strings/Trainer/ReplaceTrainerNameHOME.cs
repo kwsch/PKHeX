@@ -1,5 +1,6 @@
 using System;
 using static PKHeX.Core.EntityContext;
+using static PKHeX.Core.LanguageID;
 using static PKHeX.Core.PersonalTable;
 
 namespace PKHeX.Core;
@@ -38,7 +39,7 @@ public static class ReplaceTrainerNameHOME
             return Gen9;
         if (IsTrigger(original, language) && IsReplace(current))
             return Context;
-        return None; // No replacement
+        return EntityContext.None; // No replacement
     }
 
     /// <inheritdoc cref="IsTriggerAndReplace(ReadOnlySpan{char},ReadOnlySpan{char},LanguageID,GameVersion,ushort,byte)"/>
@@ -54,7 +55,7 @@ public static class ReplaceTrainerNameHOME
             return Gen9;
         if (IsTrigger(original, language) && IsReplace(current))
             return Context;
-        return None; // No replacement
+        return EntityContext.None; // No replacement
     }
 
     /// <summary>
@@ -78,7 +79,7 @@ public static class ReplaceTrainerNameHOME
             return Gen9;
         if (current.SequenceEqual(ReplaceName))
             return Context;
-        return None; // No replacement
+        return EntityContext.None; // No replacement
     }
 
     /// <inheritdoc cref="IsReplace(ReadOnlySpan{char},LanguageID,GameVersion,ushort,byte)"/>
@@ -94,7 +95,7 @@ public static class ReplaceTrainerNameHOME
             return Gen9;
         if (IsReplace(current))
             return Context;
-        return None; // No replacement
+        return EntityContext.None; // No replacement
     }
 
     /// <summary>
@@ -115,12 +116,29 @@ public static class ReplaceTrainerNameHOME
     /// otherwise, <see langword="false"/>.</returns>
     public static bool IsTrigger(ReadOnlySpan<char> name, LanguageID language)
     {
+        // Undefined Chars - Patrick's Pelipper gift has \u200b (zero width space)
+        // Other triggers:
+        // Traded eggs from another language - ENG origin, KOR hatched => KOR OT, reset to HOME.
+        // ---- This is because it fails the "IsDefined" char check for the origin language.
         bool result = StringFontUtil.HasUndefinedCharacters(name, Context, language, language);
         if (result)
             return true;
 
-        // Skip CheckNgWords: Numbers, whitespace, whitewords, nn::ngc -- implicitly flagged by our WordFilter. No legitimate events trigger this.
-        // Skip trash byte checks since nothing is legally generated with them; they'll already be flagged via trash byte checks.
+        // Too-long OT names from length-limited languages (Japanese, Korean, Chinese)
+        // ---- Simple length check. Usually flagged by other legality checks, but can legally trigger for some event gifts.
+        if (language is (Japanese or Korean or ChineseS or ChineseT) && ReplaceTrainerName8.IsAnyFullWidthLengthTooLong(name, out _))
+            return true;
+
+        // Tested, but does not trigger (unlike other environments):
+        // NO: Mixed full-width & half-width entry
+        // --- [ァaaァァ] as flagged in Gen7. Probably no longer flagged because software keyboards might allow blending.
+        // NO: Using Full-width chars from half-width language, exceeding full-width entry length.
+        // --- [ァァァァァァァ] as flagged in Gen8. Probably removed for same reasons above/future-proofing.
+
+        // Skip checks that never occur for fixed-string encounters (like events).
+        // We can flag them separately, and the user can trigger sanitization via arbitrary text entry.
+        // Skip CheckNgWords: Numbers, whitespace, whitewords, nn::ngc -- implicitly flagged by our WordFilter. 
+        // Skip trash byte checks.
 
         return false; // OK
     }

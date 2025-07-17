@@ -611,7 +611,7 @@ public partial class Main : Form
 #endif
     }
 
-    private void OpenFile(byte[] input, string path, string ext)
+    internal void OpenFile(byte[] input, string path, string ext)
     {
         var obj = FileUtil.GetSupportedFile(input, ext, C_SAV.SAV);
         if (obj is not null && LoadFile(obj, path))
