@@ -60,9 +60,9 @@
 0217	s	遇见星期兄弟 星琪舞/获得毒针
 0212	s	遇见星期兄弟 星琪柳/获得柔软沙子
 0165	s	遇见星期兄弟 星琪天/获得磁铁
-0119	s	Kurt's Granddaughter Is Worried About Kurt
-0414	s	Kurt at Slowpoke Well
-0415	s	Rocket Grunt Guarding Slowpoke Well Gone
+0119	s	钢铁的孙女正在担心他
+0414	s	钢铁正在呆呆兽之井
+0415	s	守卫呆呆兽之井的火箭队手下已消失
 0539	*	阿露福遗迹 化石盔拼图/离洞绳秘密房间 已解决
 0541	*	阿露福遗迹 化石翼龙拼图/闪光秘密房间 已解决
 0543	*	阿露福遗迹 菊石兽拼图/水之石秘密房间 已解决
