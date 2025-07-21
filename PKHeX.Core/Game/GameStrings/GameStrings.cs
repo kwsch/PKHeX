@@ -29,6 +29,8 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] seals, accessories, backdrops, poketchapps;
     private readonly string LanguageFilePrefix;
 
+    public ReadOnlySpan<string> HiddenPowerTypes => types.AsSpan(1, HiddenPower.TypeCount);
+
     public LanguageID Language { get; }
     public string EggName { get; }
     public IReadOnlyList<string> Species => specieslist;

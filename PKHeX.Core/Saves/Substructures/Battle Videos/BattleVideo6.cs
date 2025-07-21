@@ -6,9 +6,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BattleVideo6(byte[] Data) : IBattleVideo
+public sealed class BattleVideo6(Memory<byte> Raw) : IBattleVideo
 {
-    private readonly byte[] Data = (byte[])Data.Clone();
+    public Span<byte> Data => Raw.Span;
 
     public const int SIZE = 0x2E60;
     private const string NPC = "NPC";
@@ -29,32 +29,32 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
 
     public string Debug1
     {
-        get => StringConverter6.GetString(Data.AsSpan(0x6, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x6, 0x1A), value, 12, 0, StringConverterOption.ClearZero);
+        get => StringConverter6.GetString(Data.Slice(0x6, 0x1A));
+        set => StringConverter6.SetString(Data.Slice(0x6, 0x1A), value, 12, 0, StringConverterOption.ClearZero);
     }
 
     public string Debug2
     {
-        get => StringConverter6.GetString(Data.AsSpan(0x50, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x50, 0x1A), value, 12, 0, StringConverterOption.ClearZero);
+        get => StringConverter6.GetString(Data.Slice(0x50, 0x1A));
+        set => StringConverter6.SetString(Data.Slice(0x50, 0x1A), value, 12, 0, StringConverterOption.ClearZero);
     }
 
-    public ulong RNGConst1 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A0), value); }
-    public ulong RNGConst2 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A4)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A4), value); }
-    public ulong RNGSeed1  { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A8)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A8), value); }
-    public ulong RNGSeed2  { get => ReadUInt64LittleEndian(Data.AsSpan(0x1B0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1B0), value); }
+    public ulong RNGConst1 { get => ReadUInt64LittleEndian(Data[0x1A0..]); set => WriteUInt64LittleEndian(Data[0x1A0..], value); }
+    public ulong RNGConst2 { get => ReadUInt64LittleEndian(Data[0x1A4..]); set => WriteUInt64LittleEndian(Data[0x1A4..], value); }
+    public ulong RNGSeed1  { get => ReadUInt64LittleEndian(Data[0x1A8..]); set => WriteUInt64LittleEndian(Data[0x1A8..], value); }
+    public ulong RNGSeed2  { get => ReadUInt64LittleEndian(Data[0x1B0..]); set => WriteUInt64LittleEndian(Data[0x1B0..], value); }
 
-    public int Background { get => ReadInt32LittleEndian(Data.AsSpan(0x1BC)); set => WriteInt32LittleEndian(Data.AsSpan(0x1BC), value); }
-    public int Unk1CE { get => ReadUInt16LittleEndian(Data.AsSpan(0x1CE)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1CE), (ushort)value); }
-    public int IntroID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E4)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E4), (ushort)value); }
-    public int MusicID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1F0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1F0), (ushort)value); }
+    public int Background { get => ReadInt32LittleEndian(Data[0x1BC..]); set => WriteInt32LittleEndian(Data[0x1BC..], value); }
+    public int Unk1CE { get => ReadUInt16LittleEndian(Data[0x1CE..]); set => WriteUInt16LittleEndian(Data[0x1CE..], (ushort)value); }
+    public int IntroID { get => ReadUInt16LittleEndian(Data[0x1E4..]); set => WriteUInt16LittleEndian(Data[0x1E4..], (ushort)value); }
+    public int MusicID { get => ReadUInt16LittleEndian(Data[0x1F0..]); set => WriteUInt16LittleEndian(Data[0x1F0..], (ushort)value); }
 
     public string[] GetPlayerNames()
     {
         string[] trainers = new string[PlayerCount];
         for (int i = 0; i < PlayerCount; i++)
         {
-            var span = Data.AsSpan(0xEC + (0x1A * i), 0x1A);
+            var span = Data.Slice(0xEC + (0x1A * i), 0x1A);
             var str = StringConverter6.GetString(span);
             trainers[i] = string.IsNullOrWhiteSpace(str) ? NPC : str;
         }
@@ -68,7 +68,7 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
 
         for (int i = 0; i < PlayerCount; i++)
         {
-            var span = Data.AsSpan(0xEC + (0x1A * i), 0x1A);
+            var span = Data.Slice(0xEC + (0x1A * i), 0x1A);
             string tr = value[i] == NPC ? string.Empty : value[i];
             StringConverter6.SetString(span, tr, 12, 0, StringConverterOption.ClearZero);
         }
@@ -99,7 +99,7 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
         {
             int offset = start + (PokeCrypto.SIZE_6PARTY * ((t * 6) + p));
             offset += 8 * (((t * 6) + p) / 6); // 8 bytes padding between teams
-            var span = Data.AsSpan(offset, PokeCrypto.SIZE_6PARTY);
+            var span = Data.Slice(offset, PokeCrypto.SIZE_6PARTY);
             team[p] = new PK6(span.ToArray());
         }
 
@@ -113,11 +113,11 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
         {
             int offset = start + (PokeCrypto.SIZE_6PARTY * ((t * 6) + p));
             offset += 8 * (((t * 6) + p) / 6); // 8 bytes padding between teams
-            team[p].EncryptedPartyData.CopyTo(Data, offset);
+            team[p].EncryptedPartyData.CopyTo(Data[offset..]);
         }
     }
 
-    public int MatchYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E50)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E50), (ushort)value); }
+    public int MatchYear { get => ReadUInt16LittleEndian(Data[0x2E50..]); set => WriteUInt16LittleEndian(Data[0x2E50..], (ushort)value); }
     public int MatchDay { get => Data[0x2E52]; set => Data[0x2E52] = (byte)value; }
     public int MatchMonth { get => Data[0x2E53]; set => Data[0x2E53] = (byte)value; }
     public int MatchHour { get => Data[0x2E54]; set => Data[0x2E54] = (byte)value; }
@@ -125,7 +125,7 @@ public sealed class BattleVideo6(byte[] Data) : IBattleVideo
     public int MatchSecond { get => Data[0x2E56]; set => Data[0x2E56] = (byte)value; }
     public int MatchFlags { get => Data[0x2E57]; set => Data[0x2E57] = (byte)value; }
 
-    public int UploadYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E58), (ushort)value); }
+    public int UploadYear { get => ReadUInt16LittleEndian(Data[0x2E58..]); set => WriteUInt16LittleEndian(Data[0x2E58..], (ushort)value); }
     public int UploadDay { get => Data[0x2E5A]; set => Data[0x2E5A] = (byte)value; }
     public int UploadMonth { get => Data[0x2E5B]; set => Data[0x2E5B] = (byte)value; }
     public int UploadHour { get => Data[0x2E5C]; set => Data[0x2E5C] = (byte)value; }

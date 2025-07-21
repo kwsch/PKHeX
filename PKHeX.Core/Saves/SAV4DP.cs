@@ -16,7 +16,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
-    public SAV4DP(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize)
+    public SAV4DP(Memory<byte> data) : base(data, GeneralSize, StorageSize, GeneralSize)
     {
         Initialize();
         Mystery = new MysteryBlock4DP(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4DP.Size));
@@ -28,7 +28,7 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override Zukan4 Dex { get; }
     public override MysteryBlock4DP Mystery { get; }
 
-    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP((byte[])Data.Clone()) : new SAV4DP();
+    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP(Data.ToArray()) : new SAV4DP();
     public override GameVersion Version { get => GameVersion.DP; set { } }
     public override PersonalTable4 Personal => PersonalTable.DP;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_DP;

@@ -106,7 +106,7 @@ public sealed class StartupArguments
         var sav = SaveUtil.GetBlankSAV(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
-            var max = GameInfo.VersionDataSource.MaxBy(z => z.Value)!;
+            var max = GameInfo.Sources.BallDataSource.MaxBy(z => z.Value)!;
             var maxVer = (GameVersion)max.Value;
             sav = SaveUtil.GetBlankSAV(maxVer, tr, lang);
         }

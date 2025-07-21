@@ -33,14 +33,14 @@ public sealed class Mail2 : MailDetail
     private byte LineBreakCode => Korean ? StringConverter2KOR.LineBreakCode : StringConverter2.LineBreakCode;
     private char LineBreak => Korean ? StringConverter2KOR.LineBreak : StringConverter2.LineBreak;
 
-    public Mail2(SAV2 sav, int index) : base(sav.Data.AsSpan(GetMailOffset(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffset(index, GetMailSize(sav.Language)))
+    public Mail2(SAV2 sav, int index) : base(sav.Data.Slice(GetMailOffset(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffset(index, GetMailSize(sav.Language)))
     {
         EnglishGS = sav.Version != GameVersion.C && sav.Language == (int)LanguageID.English;
         Japanese = sav.Japanese;
         Korean = sav.Korean;
     }
 
-    public Mail2(SAV2Stadium sav, int index) : base(sav.Data.AsSpan(GetMailOffsetStadium2(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffsetStadium2(index, GetMailSize(sav.Language)))
+    public Mail2(SAV2Stadium sav, int index) : base(sav.Data.Slice(GetMailOffsetStadium2(index, GetMailSize(sav.Language)), GetMailSize(sav.Language)).ToArray(), GetMailOffsetStadium2(index, GetMailSize(sav.Language)))
     {
         EnglishGS = false;
         Japanese = sav.Japanese;
@@ -130,7 +130,7 @@ public sealed class Mail2 : MailDetail
 
     public override string GetMessage(bool isLastLine)
     {
-        var span = Data.AsSpan(0, MESSAGE_LENGTH);
+        var span = Data[..MESSAGE_LENGTH];
         var index = span.IndexOf(LineBreakCode);
         return index == -1 ? string.Empty : GetString(isLastLine ? span[(index + 1)..] : span[..index]);
     }
@@ -139,7 +139,7 @@ public sealed class Mail2 : MailDetail
     {
         if (IsEmpty == true && line1.Length == 0 && line2.Length == 0)
         {
-            Data.AsSpan(0, MESSAGE_LENGTH).Clear();
+            Data[..MESSAGE_LENGTH].Clear();
             return;
         }
 
@@ -147,7 +147,7 @@ public sealed class Mail2 : MailDetail
         {
             // Japanese/international Randy's mail has a line break in different place.
             // Korean always puts a line break after the first line, even if it's not full.
-            var span = Data.AsSpan(0, MESSAGE_LENGTH);
+            var span = Data[..MESSAGE_LENGTH];
             var message = string.Join(LineBreak, line1, line2);
             SetString(span, message, MESSAGE_LENGTH,
                 // Randy's mail can have trash bytes after the end of the message, so don't clear it.
@@ -156,19 +156,19 @@ public sealed class Mail2 : MailDetail
         }
 
         // Japanese/international user-entered mail always has a line break at index 0x10
-        var span1 = Data.AsSpan(0, LINE_LENGTH);
+        var span1 = Data[..LINE_LENGTH];
         SetString(span1, line1, LINE_LENGTH);
         if (line2.Length != 0) // Pad the first line with spaces if needed
             span1.Replace<byte>(0x50, 0x7F);
         Data[LINE_LENGTH] = LineBreakCode;
-        var span2 = Data.AsSpan(LINE_LENGTH + 1, LINE_LENGTH);
+        var span2 = Data.Slice(LINE_LENGTH + 1, LINE_LENGTH);
         SetString(span2, line2, LINE_LENGTH);
     }
 
     public override string AuthorName
     {
-        get => GetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH));
-        set => SetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH), value,
+        get => GetString(Data.Slice(OFS_AUTHOR, AUTHOR_LENGTH));
+        set => SetString(Data.Slice(OFS_AUTHOR, AUTHOR_LENGTH), value,
             // Japanese/Korean don't have an extra byte for the terminator.
             AUTHOR_LENGTH - ((Japanese || Korean) ? 0 : 1),
             // Randy's mail can have trash bytes after the end of the OT, so don't clear it.
@@ -211,14 +211,14 @@ public sealed class Mail2 : MailDetail
 
     public ushort Nationality
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2));
-        set => WriteUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2), value);
+        get => ReadUInt16BigEndian(Data.Slice(OFS_AUTHOR_NATION, 2));
+        set => WriteUInt16BigEndian(Data.Slice(OFS_AUTHOR_NATION, 2), value);
     }
 
     public override ushort AuthorTID
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID, 2));
-        set => WriteUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID, 2), value);
+        get => ReadUInt16BigEndian(Data.Slice(OFS_AUTHOR_ID, 2));
+        set => WriteUInt16BigEndian(Data.Slice(OFS_AUTHOR_ID, 2), value);
     }
 
     public override ushort AppearPKM { get => Data[OFS_APPEAR]; set => Data[OFS_APPEAR] = (byte)value; }
@@ -248,11 +248,11 @@ public sealed class Mail2 : MailDetail
             // Korean mail can have a line break anywhere, so look at trash bytes instead
             // User-entered mail always fills the message buffer with 0x50
             // Randy's mail has trash bytes after the terminator, so check for any trash bytes
-            var span = Data.AsSpan(0, MESSAGE_LENGTH);
+            var span = Data[..MESSAGE_LENGTH];
             var terminator = span.IndexOf<byte>(0x50);
             return terminator == -1 || !span[terminator..].ContainsAnyExcept<byte>(0x50);
         }
     }
 
-    public override void SetBlank() => Data.AsSpan(0, SIZE).Clear();
+    public override void SetBlank() => Data[..SIZE].Clear();
 }

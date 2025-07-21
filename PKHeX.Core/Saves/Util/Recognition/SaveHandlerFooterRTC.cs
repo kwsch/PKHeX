@@ -30,7 +30,7 @@ public sealed class SaveHandlerFooterRTC : ISaveHandler
         return size is not (> MaxFooter or < MinFooter);
     }
 
-    public SaveHandlerSplitResult TrySplit(ReadOnlySpan<byte> input)
+    public SaveHandlerSplitResult TrySplit(Memory<byte> input)
     {
         var footerSize = input.Length & 0x3F;
         var RealSize = input.Length - footerSize;

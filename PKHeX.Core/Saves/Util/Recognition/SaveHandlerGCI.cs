@@ -40,13 +40,13 @@ public sealed class SaveHandlerGCI : ISaveHandler
 
     public bool IsRecognized(long size) => size is SIZE_G3BOXGCI or SIZE_G3COLOGCI or SIZE_G3XDGCI;
 
-    public SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input)
+    public SaveHandlerSplitResult? TrySplit(Memory<byte> input)
     {
         switch (input.Length)
         {
-            case SIZE_G3COLOGCI when IsGameMatchHeader(HEADER_COLO , input):
-            case SIZE_G3XDGCI   when IsGameMatchHeader(HEADER_XD   , input):
-            case SIZE_G3BOXGCI  when IsGameMatchHeader(HEADER_RSBOX, input):
+            case SIZE_G3COLOGCI when IsGameMatchHeader(HEADER_COLO , input.Span):
+            case SIZE_G3XDGCI   when IsGameMatchHeader(HEADER_XD   , input.Span):
+            case SIZE_G3BOXGCI  when IsGameMatchHeader(HEADER_RSBOX, input.Span):
                 break;
             default:
                 return null;

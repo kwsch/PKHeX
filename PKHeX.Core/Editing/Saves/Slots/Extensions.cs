@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -62,7 +61,7 @@ public static partial class Extensions
             return None;
         return
         [
-            new(sav.Large.AsMemory(0x3C98), 0) {Type = StorageSlotType.Daycare},
+            new(sav.LargeBuffer[0x3C98..], 0) {Type = StorageSlotType.Daycare},
         ];
     }
 

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
 {
-    public SAV7USUM(byte[] data) : base(data, SaveBlockAccessor7USUM.BlockMetadataOffset)
+    public SAV7USUM(Memory<byte> data) : base(data, SaveBlockAccessor7USUM.BlockMetadataOffset)
     {
         Blocks = new SaveBlockAccessor7USUM(this);
         Initialize();
@@ -32,7 +32,7 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
 
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_USUM;
-    protected override SAV7USUM CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV7USUM CloneInternal() => new(Data.ToArray());
     public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
@@ -74,12 +74,13 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override void UpdateQrConstants()
     {
         var qr = Blocks.BlockInfo[35];
+        var block = Data.Slice(qr.Offset, qr.Length);
         var flag = EventWork.GetEventFlag(EventWork7USUM.MagearnaEventFlag); // 4060
         ulong value = flag ? MagearnaConst : 0ul;
-        WriteUInt64LittleEndian(Data.AsSpan(qr.Offset + 0x168), value);
+        WriteUInt64LittleEndian(block[0x168..], value);
 
         flag = EventWork.GetEventFlag(EventWork7USUM.CapPikachuEventFlag); // 4060
         value = flag ? CapPikachuConst : 0ul;
-        WriteUInt64LittleEndian(Data.AsSpan(qr.Offset + 0x16C), value);
+        WriteUInt64LittleEndian(block[0x16C..], value);
     }
 }

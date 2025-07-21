@@ -15,6 +15,23 @@ public static class GeniusCrypto
             keys[i] = ReadUInt16BigEndian(input[(i * 2)..]);
     }
 
+    public static void Decrypt(Span<byte> data, Range keyRange, Range dataRange)
+    {
+        Span<ushort> keys = stackalloc ushort[4];
+        ReadKeys(data[keyRange], keys);
+        Decrypt(data[dataRange], keys);
+    }
+
+    public static void Encrypt(Span<byte> data, Range keyRange, Range dataRange)
+    {
+        Span<ushort> keys = stackalloc ushort[4];
+        ReadKeys(data[keyRange], keys);
+        Encrypt(data[dataRange], keys);
+    }
+
+    public static void Decrypt(Span<byte> data, Span<ushort> keys) => Decrypt(data, data, keys);
+    public static void Encrypt(Span<byte> data, Span<ushort> keys) => Encrypt(data, data, keys);
+
     public static void Decrypt(ReadOnlySpan<byte> input, Span<byte> output, Span<ushort> keys)
     {
         ArgumentOutOfRangeException.ThrowIfNotEqual(keys.Length, 4);

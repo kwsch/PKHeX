@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomState<ushort>
 {
     // Configuration
-    protected override SAV3FRLG CloneInternal() => new(GetFinalData()[..]) { Language = Language };
+    protected override SAV3FRLG CloneInternal() => new(GetFinalData()) { Language = Language };
     public override GameVersion Version { get; set; } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
     public override PersonalTable3 Personal => _personal;
@@ -23,14 +23,14 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public SAV3FRLG(bool japanese = false) : base(japanese) => Initialize();
 
-    public SAV3FRLG(byte[] data) : base(data)
+    public SAV3FRLG(Memory<byte> data) : base(data)
     {
         Initialize();
 
         // Fix save files that have an overflow corruption with the Pokédex.
         // Future loads of this save file will cause it to be recognized as FR/LG correctly.
         if (IsCorruptPokedexFF())
-            WriteUInt32LittleEndian(Small.AsSpan(0xAC), 1);
+            WriteUInt32LittleEndian(Small[0xAC..], 1);
     }
 
     protected override int EventFlag => 0xEE0;
@@ -64,25 +64,25 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public uint BerryPowder
     {
-        get => ReadUInt32LittleEndian(Small.AsSpan(0xAF8)) ^ SecurityKey;
-        set => WriteUInt32LittleEndian(Small.AsSpan(0xAF8), value ^ SecurityKey);
+        get => ReadUInt32LittleEndian(Small.Slice(0xAF8)) ^ SecurityKey;
+        set => WriteUInt32LittleEndian(Small.Slice(0xAF8), value ^ SecurityKey);
     }
 
-    public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB00)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB00), Math.Min((ushort)9999, value)); }
+    public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.Slice(0xB00)); set => WriteUInt16LittleEndian(Small.Slice(0xB00), Math.Min((ushort)9999, value)); }
     // u16 field2;
-    public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0xB04)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB04), Math.Min((ushort)9999, value)); }
-    public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0xB06)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB06), Math.Min((ushort)9999, value)); }
+    public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.Slice(0xB04)); set => WriteUInt16LittleEndian(Small.Slice(0xB04), Math.Min((ushort)9999, value)); }
+    public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.Slice(0xB06)); set => WriteUInt16LittleEndian(Small.Slice(0xB06), Math.Min((ushort)9999, value)); }
     // u32 field8;
-    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB0C)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB0C), Math.Min(99990, value)); }
+    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.Slice(0xB0C)); set => WriteUInt32LittleEndian(Small.Slice(0xB0C), Math.Min(99990, value)); }
 
-    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB10)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB10), Math.Min(99990, value)); }
-    public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB14)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB14), Math.Min((ushort)9999, value)); }
-    public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0xB16)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB16), Math.Min((ushort)9999, value)); }
+    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.Slice(0xB10)); set => WriteUInt32LittleEndian(Small.Slice(0xB10), Math.Min(99990, value)); }
+    public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.Slice(0xB14)); set => WriteUInt16LittleEndian(Small.Slice(0xB14), Math.Min((ushort)9999, value)); }
+    public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.Slice(0xB16)); set => WriteUInt16LittleEndian(Small.Slice(0xB16), Math.Min((ushort)9999, value)); }
 
     public override uint SecurityKey
     {
-        get => ReadUInt32LittleEndian(Small.AsSpan(0xF20));
-        set => WriteUInt32LittleEndian(Small.AsSpan(0xF20), value);
+        get => ReadUInt32LittleEndian(Small.Slice(0xF20));
+        set => WriteUInt32LittleEndian(Small.Slice(0xF20), value);
     }
     #endregion
 
@@ -92,14 +92,14 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public override uint Money
     {
-        get => ReadUInt32LittleEndian(Large.AsSpan(0x0290)) ^ SecurityKey;
-        set => WriteUInt32LittleEndian(Large.AsSpan(0x0290), value ^ SecurityKey);
+        get => ReadUInt32LittleEndian(Large.Slice(0x0290)) ^ SecurityKey;
+        set => WriteUInt32LittleEndian(Large.Slice(0x0290), value ^ SecurityKey);
     }
 
     public override uint Coin
     {
-        get => (ushort)(ReadUInt16LittleEndian(Large.AsSpan(0x0294)) ^ SecurityKey);
-        set => WriteUInt16LittleEndian(Large.AsSpan(0x0294), (ushort)(value ^ SecurityKey));
+        get => (ushort)(ReadUInt16LittleEndian(Large.Slice(0x0294)) ^ SecurityKey);
+        set => WriteUInt16LittleEndian(Large.Slice(0x0294), (ushort)(value ^ SecurityKey));
     }
 
     private const int OFS_PCItem = 0x0298;
@@ -130,8 +130,8 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
     ushort IDaycareRandomState<ushort>.Seed
     {
-        get => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)));
-        set => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), value);
+        get => ReadUInt16LittleEndian(Large.Slice(GetDaycareEXPOffset(2)));
+        set => WriteUInt16LittleEndian(Large.Slice(GetDaycareEXPOffset(2)), value);
     }
 
     protected override int ExternalEventData => 0x30A7;
@@ -140,11 +140,11 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     private const int OFFSET_EBERRY = 0x30EC;
     private const int SIZE_EBERRY = 0x34;
 
-    public override Span<byte> EReaderBerry() => Large.AsSpan(OFFSET_EBERRY, SIZE_EBERRY);
+    public override Span<byte> EReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
     #endregion
 
     #region eTrainer
-    public override Span<byte> EReaderTrainer() => Small.AsSpan(0x4A0, 0xBC);
+    public override Span<byte> EReaderTrainer() => Small.Slice(0x4A0, 0xBC);
     #endregion
 
     public int WonderOffset => WonderNewsOffset;
@@ -152,9 +152,9 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     private int WonderCardOffset => WonderNewsOffset + (Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
     private int WonderCardExtraOffset => WonderCardOffset + (Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
 
-    private Span<byte> WonderNewsData => Large.AsSpan(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
-    private Span<byte> WonderCardData => Large.AsSpan(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
-    private Span<byte> WonderCardExtraData => Large.AsSpan(WonderCardExtraOffset, WonderCard3Extra.SIZE);
+    private Span<byte> WonderNewsData => Large.Slice(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
+    private Span<byte> WonderCardData => Large.Slice(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
+    private Span<byte> WonderCardExtraData => Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE);
 
     public WonderNews3 WonderNews { get => new(WonderNewsData.ToArray()); set => SetData(WonderNewsData, value.Data); }
     public WonderCard3 WonderCard { get => new(WonderCardData.ToArray()); set => SetData(WonderCardData, value.Data); }
@@ -164,15 +164,15 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     // 0x340: news MENewsJisanStruct
     // 0x344: uint[5], uint[5] tracking?
 
-    private Span<byte> MysterySpan => Large.AsSpan(0x361C, MysteryEvent3.SIZE);
+    private Span<byte> MysterySpan => Large.Slice(0x361C, MysteryEvent3.SIZE);
     public override Gen3MysteryData MysteryData { get => new MysteryEvent3(MysterySpan.ToArray()); set => SetData(MysterySpan, value.Data); }
 
     protected override int SeenOffset3 => 0x3A18;
 
     public string RivalName
     {
-        get => GetString(Large.AsSpan(0x3A4C, 8));
-        set => SetString(Large.AsSpan(0x3A4C, 8), value, 7, StringConverterOption.ClearZero);
+        get => GetString(Large.Slice(0x3A4C, 8));
+        set => SetString(Large.Slice(0x3A4C, 8), value, 7, StringConverterOption.ClearZero);
     }
 
     #endregion

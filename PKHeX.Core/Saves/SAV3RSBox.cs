@@ -16,8 +16,6 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public SAV3GCMemoryCard? MemoryCard { get; init; }
     private readonly bool Japanese;
 
-    public SAV3RSBox(byte[] data, SAV3GCMemoryCard memCard) : this(data) => MemoryCard = memCard;
-
     public SAV3RSBox(bool japanese = false) : base(SaveUtil.SIZE_G3BOX)
     {
         Japanese = japanese;
@@ -26,12 +24,15 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         ClearBoxes();
     }
 
-    public SAV3RSBox(byte[] data) : base(data)
+    public SAV3RSBox(Memory<byte> data) : base(data)
     {
-        Japanese = data[0] == 0x83; // ポケモンボックス Ｒ＆Ｓ
-        Blocks = ReadBlocks(data);
+        Japanese = Data[0] == 0x83; // ポケモンボックス Ｒ＆Ｓ
+        Blocks = ReadBlocks(Data);
         InitializeData();
     }
+
+    private readonly Memory<byte> Boxes = new byte[SIZE_RESERVED];
+    protected override Span<byte> BoxBuffer => Boxes.Span;
 
     private void InitializeData()
     {
@@ -46,13 +47,9 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         Blocks = [..ordered];
 
         // Set up PC data buffer beyond end of save file.
-        Box = Data.Length;
-        Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
+        Box = 0;
 
-        // Copy block to the allocated location
-        const int copySize = BLOCK_SIZE - 0x10;
-        foreach (var b in Blocks)
-            Array.Copy(Data, b.Offset + 0xC, Data, (int) (Box + (b.ID * copySize)), copySize);
+        UnpackBoxes(Data);
     }
 
     private static BlockInfoRSBOX[] ReadBlocks(ReadOnlySpan<byte> data)
@@ -73,7 +70,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     private const int BLOCK_SIZE = 0x2000;
     private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         var newFile = GetInnerData();
 
@@ -87,18 +84,46 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
 
     private byte[] GetInnerData()
     {
+        var result = Data.ToArray();
+        PackBoxes(result);
+
+        Blocks.SetChecksums(result);
+        return result;
+    }
+
+    private void PackBoxes(Span<byte> data)
+    {
         // Copy Box data back
         const int copySize = BLOCK_SIZE - 0x10;
         foreach (var b in Blocks)
-            Array.Copy(Data, (int) (Box + (b.ID * copySize)), Data, b.Offset + 0xC, copySize);
+        {
+            var src = BoxBuffer.Slice((int)(b.ID * copySize), copySize);
+            var dest = data.Slice(b.Offset + 0xC, copySize);
+            src.CopyTo(dest);
+        }
+    }
 
-        SetChecksums();
-
-        return Data[..^SIZE_RESERVED];
+    private void UnpackBoxes(Span<byte> data)
+    {
+        // Copy block to the allocated location
+        const int copySize = BLOCK_SIZE - 0x10;
+        foreach (var b in Blocks)
+        {
+            var dest = BoxBuffer.Slice((int)(b.ID * copySize), copySize);
+            var src = data.Slice(b.Offset + 0xC, copySize);
+            src.CopyTo(dest);
+        }
     }
 
     // Configuration
     protected override SAV3RSBox CloneInternal() => new(GetInnerData()) { MemoryCard = MemoryCard };
+
+    public override void CopyChangesFrom(SaveFile sav)
+    {
+        if (sav is not SAV3RSBox s)
+            return;
+        s.BoxBuffer.CopyTo(BoxBuffer);
+    }
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
@@ -133,7 +158,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
 
     // Storage
     public override int GetPartyOffset(int slot) => -1;
-    public override int GetBoxOffset(int box) => Box + 8 + (SIZE_STORED * box * 30);
+    public override int GetBoxOffset(int box) => 8 + (SIZE_STORED * box * 30);
     public override int GetBoxSlotOffset(int box, int slot)
     {
         // Boxes are a 12x5 grid instead of the usual 6x5
@@ -149,30 +174,30 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
 
     public override int CurrentBox
     {
-        get => Data[Box + 4] * 2;
-        set => Data[Box + 4] = (byte)(value / 2);
+        get => BoxBuffer[4] * 2;
+        set => BoxBuffer[4] = (byte)(value / 2);
     }
 
     private Span<byte> GetBoxNameSpan(int box)
     {
-        int offset = Box + 0x1EC38 + (9 * box);
-        return Data.AsSpan(offset, 9);
+        int offset = 0x1EC38 + (9 * box);
+        return BoxBuffer.Slice(offset, 9);
     }
 
-    private int GetBoxWallpaperOffset(int box)
-    {
-        // Box Wallpaper is directly after the Box Names
-        return Box + 0x1ED19 + (box / 2);
-    }
+    // Box Wallpaper is directly after the Box Names
+    private static int GetBoxWallpaperOffset(int box) => 0x1ED19 + (box / 2);
 
-    public int GetBoxWallpaper(int box) => Data[GetBoxWallpaperOffset(box)];
-    public void SetBoxWallpaper(int box, int value) => Data[GetBoxWallpaperOffset(box)] = (byte)value;
+    public int GetBoxWallpaper(int box) => BoxBuffer[GetBoxWallpaperOffset(box)];
+    public void SetBoxWallpaper(int box, int value) => BoxBuffer[GetBoxWallpaperOffset(box)] = (byte)value;
+
+    public const int BoxNamePrefix = 5;
+    private const string BoxName1 = "[◖ ] ";
+    private const string BoxName2 = "[ ◗] ";
 
     public string GetBoxName(int box)
     {
         // Tweaked for the 1-30/31-60 box showing
-        var dir = box % 2 == 0 ? "◖ " : " ◗";
-        string boxName = $"[{dir}] ";
+        var boxName = box % 2 == 0 ? BoxName1 : BoxName2;
         box /= 2;
 
         var span = GetBoxNameSpan(box);
@@ -184,8 +209,21 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         return boxName;
     }
 
+    private static bool IsBoxNamePrefix(ReadOnlySpan<char> value)
+    {
+        if (value.StartsWith(BoxName1))
+            return true;
+        if (value.StartsWith(BoxName2))
+            return true;
+        return false;
+    }
+
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
+        if (IsBoxNamePrefix(value))
+            value = value[BoxNamePrefix..];
+
+        box /= 2;
         var span = GetBoxNameSpan(box);
         if (value.SequenceEqual(BoxDetailNameExtensions.GetDefaultBoxNameCaps(box)))
         {

@@ -1,17 +1,13 @@
+using System;
+
 namespace PKHeX.Core;
 
-public abstract class MailDetail
+public abstract class MailDetail(Memory<byte> Raw, int DataOffset = 0)
 {
-    protected readonly byte[] Data;
-    protected readonly int DataOffset;
+    protected readonly int _dataOffset = DataOffset;
+    protected Span<byte> Data => Raw.Span.Slice(_dataOffset);
 
-    protected MailDetail(byte[] data, int offset = 0)
-    {
-        Data = data;
-        DataOffset = offset;
-    }
-
-    public virtual void CopyTo(SaveFile sav) => sav.SetData(Data, DataOffset);
+    public virtual void CopyTo(SaveFile sav) => sav.SetData(Raw.Span, _dataOffset);
     public virtual void CopyTo(PK4 pk4) { }
     public virtual void CopyTo(PK5 pk5) { }
     public virtual string GetMessage(bool isLastLine) => string.Empty;
