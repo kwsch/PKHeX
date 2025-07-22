@@ -66,7 +66,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         if (versionOverride is not (GameVersion.RB or GameVersion.YW))
         {
             if (Starter != 0)
-                Version = Yellow ? GameVersion.YW : GameVersion.RB;
+                // Pikachu
+                Version = Starter == 0x54 ? GameVersion.YW : GameVersion.RB;
             else
                 Version = Data[Offsets.PikaFriendship] != 0 ? GameVersion.YW : GameVersion.RB;
         }
@@ -305,7 +306,6 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public Span<byte> RivalTrash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
 
     public byte RivalStarter { get => Data[Offsets.Starter - 2]; set => Data[Offsets.Starter - 2] = value; }
-    public bool Yellow => Starter == 0x54; // Pikachu
     public byte Starter { get => Data[Offsets.Starter]; set => Data[Offsets.Starter] = value; }
 
     public ref byte WramD72E => ref Data[Offsets.Starter + 0x17]; // offset relative to player starter
