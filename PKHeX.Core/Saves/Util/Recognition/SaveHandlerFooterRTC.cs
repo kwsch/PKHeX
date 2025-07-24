@@ -34,8 +34,8 @@ public sealed class SaveHandlerFooterRTC : ISaveHandler
     {
         var footerSize = input.Length & 0x3F;
         var RealSize = input.Length - footerSize;
-        var footer = input[RealSize..].ToArray();
-        var data = input[..RealSize].ToArray();
+        var footer = input[RealSize..];
+        var data = input[..RealSize];
 
         return new SaveHandlerSplitResult(data, default, footer, this);
     }

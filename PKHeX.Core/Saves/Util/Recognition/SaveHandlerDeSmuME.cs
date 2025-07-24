@@ -20,8 +20,8 @@ public sealed class SaveHandlerDeSmuME : ISaveHandler
         if (!GetHasFooter(input.Span))
             return null;
 
-        var footer = input[RealSize..].ToArray();
-        var data = input[..RealSize].ToArray();
+        var footer = input[RealSize..];
+        var data = input[..RealSize];
 
         return new SaveHandlerSplitResult(data, default, footer, this);
     }
