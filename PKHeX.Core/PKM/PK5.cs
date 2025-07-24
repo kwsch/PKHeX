@@ -330,11 +330,10 @@ public sealed class PK5 : PKM, ISanityChecksum,
         if (IsEgg)
         {
             // Don't bother updating eggs that were already traded.
-            const ushort location = Locations.LinkTrade5;
-            if (MetLocation != location && !BelongsTo(tr))
+            if (MetLocation is not (Locations.LinkTrade5 or Locations.LinkTrade5NPC) && !BelongsTo(tr))
             {
                 var date = EncounterDate.GetDateNDS();
-                SetLinkTradeEgg(date.Day, date.Month, date.Year, location);
+                SetLinkTradeEgg(date.Day, date.Month, date.Year, Locations.LinkTrade5);
             }
         }
     }

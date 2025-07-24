@@ -31,7 +31,7 @@ public static class CatchRateApplicator
         var enc = la.EncounterMatch;
         switch (enc)
         {
-            case EncounterGift1 { Version: GameVersion.Stadium, Species: (int)Species.Psyduck }:
+            case EncounterGift1 { Trainer: EncounterGift1.TrainerType.Stadium, Species: (int)Species.Psyduck }:
                 return pk.Japanese ? (byte)167 : (byte)168; // Amnesia Psyduck has different catch rates depending on language
             default:
                 var pt = GetPersonalTable(sav, enc.Version);
