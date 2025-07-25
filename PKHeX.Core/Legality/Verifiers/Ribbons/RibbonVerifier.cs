@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -24,22 +24,30 @@ public sealed class RibbonVerifier : Verifier
 
     public override void Verify(LegalityAnalysis data)
     {
+        Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
+        var count = Parse(result, data);
+        if (count == 0)
+            data.AddLine(GetValid(RibbonAllValid));
+        else // defer string creation unless we request the string. We'll re-do work, but this saves hot path allocation where the string is never needed to be humanized.
+            data.AddLine(GetInvalid(RibbonFInvalid_0));
+    }
+
+    public static string GetMessage(LegalityAnalysis data)
+    {
+        Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
+        int count = Parse(result, data);
+        return GetMessage(result[..count]);
+    }
+
+    private static int Parse(Span<RibbonResult> result, LegalityAnalysis data)
+    {
         // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
         var enc = data.EncounterMatch;
         var pk = data.Entity;
 
         // Check Unobtainable Ribbons
         var args = new RibbonVerifierArguments(pk, enc, data.Info.EvoChainsAllGens);
-        Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
-        int count = GetRibbonResults(args, result);
-        if (count == 0)
-        {
-            data.AddLine(GetValid(LRibbonAllValid));
-            return;
-        }
-
-        var msg = GetMessage(result[..count]);
-        data.AddLine(GetInvalid(msg));
+        return GetRibbonResults(args, result);
     }
 
     /// <summary>
@@ -93,12 +101,12 @@ public sealed class RibbonVerifier : Verifier
         int invalid = total - missing;
         var sb = new StringBuilder(total * 20);
         if (missing != 0)
-            AppendAll(result, sb, LRibbonFMissing_0, true);
+            AppendAll(result, sb, LegalityCheckStrings.LRibbonFMissing_0, true);
         if (invalid != 0)
         {
             if (missing != 0) // need to visually separate the message
                 sb.Append(Environment.NewLine);
-            AppendAll(result, sb, LRibbonFInvalid_0, false);
+            AppendAll(result, sb, LegalityCheckStrings.LRibbonFInvalid_0, false);
         }
         return sb.ToString();
     }

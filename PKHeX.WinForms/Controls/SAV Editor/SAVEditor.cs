@@ -900,7 +900,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgClipboardLegalityExport) != DialogResult.Yes)
             return;
 
-        var lines = bulk.Parse.Select(z => $"{z.Judgement}: {z.Comment}");
+        var lines = bulk.Parse.Select(z => $"{z.Result.Judgement}: {z.Comment}");
         var msg = string.Join(Environment.NewLine, lines);
         WinFormsUtil.SetClipboardText(msg);
         SystemSounds.Asterisk.Play();

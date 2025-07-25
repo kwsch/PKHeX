@@ -45,7 +45,7 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         LegalityFormatting.AddMoves(info.Moves, lines, pk.Format, false, pk, evos);
         if (pk.Format >= 6)
             LegalityFormatting.AddRelearn(info.Relearn, lines, false, pk, evos);
-        LegalityFormatting.AddSecondaryChecksInvalid(l.Results, lines);
+        LegalityFormatting.AddSecondaryChecksInvalid(l, l.Results, lines);
     }
 
     private static List<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
@@ -72,7 +72,7 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         if (lines.Count != initialCount) // move info added, break for next section
             lines.Add(string.Empty);
 
-        LegalityFormatting.AddSecondaryChecksValid(l.Results, lines);
+        LegalityFormatting.AddSecondaryChecksValid(l, l.Results, lines);
 
         lines.Add(separator);
         lines.Add(string.Empty);

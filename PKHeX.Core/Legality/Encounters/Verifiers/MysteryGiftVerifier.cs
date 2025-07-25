@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -42,17 +42,17 @@ public static class MysteryGiftVerifier
 
         var version = (int)value >> 16;
         if (version != 0 && !CanVersionReceiveGift(g.Generation, version, pk.Version))
-            return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, LEncGiftVersionNotDistributed);
+            return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, EncGiftVersionNotDistributed);
 
         var lang = value & MysteryGiftRestriction.LangRestrict;
         if (lang != 0 && !lang.HasFlag((MysteryGiftRestriction) (1 << pk.Language)))
-            return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language));
+            return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, OTLanguageShouldBe_0, (ushort)lang.GetSuggestedLanguage());
 
         if (pk is IRegionOriginReadOnly tr)
         {
             var region = value & MysteryGiftRestriction.RegionRestrict;
             if (region != 0 && !region.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
-                return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, LGeoHardwareRange);
+                return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, EncGiftRegionNotDistributed, (ushort)region.GetSuggestedRegion());
         }
 
         return new CheckResult(CheckIdentifier.GameOrigin);

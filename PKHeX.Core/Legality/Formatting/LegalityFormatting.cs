@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -24,22 +25,22 @@ public static class LegalityFormatting
     public static string GetLegalityReport(LegalityAnalysis la) => Formatter.GetReport(la);
     public static string GetVerboseLegalityReport(LegalityAnalysis la) => Formatter.GetReportVerbose(la);
 
-    public static void AddSecondaryChecksValid(IEnumerable<CheckResult> results, List<string> lines)
+    public static void AddSecondaryChecksValid(LegalityAnalysis la, IEnumerable<CheckResult> results, List<string> lines)
     {
         var outputLines = results
-            .Where(chk => chk.Valid && chk.Comment != L_AValid)
+            .Where(chk => chk.Valid && chk.ResultCode != Valid)
             .OrderBy(chk => chk.Judgement) // Fishy sorted to top
-            .Select(chk => chk.Format(L_F0_1));
+            .Select(chk => string.Format(L_F0_1, chk.Judgement.Description(), chk.ResultCode.Humanize(la, chk.Argument)));
         lines.AddRange(outputLines);
     }
 
-    public static void AddSecondaryChecksInvalid(IReadOnlyList<CheckResult> results, List<string> lines)
+    public static void AddSecondaryChecksInvalid(LegalityAnalysis la, IReadOnlyList<CheckResult> results, List<string> lines)
     {
         foreach (var chk in results)
         {
             if (chk.Valid)
                 continue;
-            lines.Add(chk.Format(L_F0_1));
+            lines.Add(string.Format(L_F0_1, chk.Judgement.Description(), chk.ResultCode.Humanize(la, chk.Argument)));
         }
     }
 

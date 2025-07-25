@@ -159,7 +159,7 @@ public class LegalityTest
     private static IEnumerable<string> GetIllegalLines(LegalityAnalysis legality)
     {
         foreach (var l in legality.Results.Where(z => !z.Valid))
-            yield return l.Comment;
+            yield return l.ResultCode.Humanize(legality, l.Argument);
 
         var info = legality.Info;
         foreach (var m in info.Moves.Where(z => !z.Valid))

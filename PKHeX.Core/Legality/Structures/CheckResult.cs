@@ -3,14 +3,20 @@ namespace PKHeX.Core;
 /// <summary>
 /// Result of a Legality Check
 /// </summary>
-[System.Diagnostics.DebuggerDisplay($"{{{nameof(Identifier)}}}: {{{nameof(Comment)}}}")]
+[System.Diagnostics.DebuggerDisplay($"{{{nameof(Identifier)}}}: {{{nameof(ResultCode)}}}")]
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public readonly record struct CheckResult(Severity Judgement, CheckIdentifier Identifier, string Comment)
+public readonly record struct CheckResult(Severity Judgement, CheckIdentifier Identifier, LegalityCheckResultCode ResultCode, ushort Argument = 0)
 {
     public bool Valid => Judgement != Severity.Invalid;
-    public string Rating => Judgement.Description();
 
-    internal CheckResult(CheckIdentifier i) : this(Severity.Valid, i, LegalityCheckStrings.L_AValid) { }
+    internal CheckResult(CheckIdentifier i) : this(Severity.Valid, i, LegalityCheckResultCode.Valid) { }
 
-    public string Format(string format) => string.Format(format, Rating, Comment);
+    /// <summary>
+    /// Compatibility constructor for transition purposes. Will use a default error code.
+    /// </summary>
+    public CheckResult(Severity judgement, CheckIdentifier identifier, string _)
+        : this(judgement, identifier, LegalityCheckResultCode.Error)
+    {
+        // This constructor is temporary for transition purposes
+    }
 }
