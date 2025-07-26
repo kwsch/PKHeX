@@ -41,7 +41,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
         ClearBoxes();
     }
 
-    protected SAV5(byte[] data) : base(data)
+    protected SAV5(Memory<byte> data) : base(data)
     {
         Initialize();
     }
@@ -150,7 +150,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public abstract Record5 Records { get; }
     IEventFlag37 IEventFlagProvider37.EventWork => EventWork;
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         EntreeForest.EndAccess();
         Mystery.EndAccess();
@@ -158,7 +158,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     }
 
     public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
-    public byte[] GetMailData(int offset) => Data.AsSpan(offset, Mail5.SIZE).ToArray();
+    public byte[] GetMailData(int offset) => Data.Slice(offset, Mail5.SIZE).ToArray();
 
     public MailDetail GetMail(int mailIndex)
     {
@@ -186,18 +186,18 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public const int HallOfFameSize = 0x155C;
     private const int Link3DSDataSize = 0x400;
 
-    public Memory<byte> BattleVideoNative => Data.AsMemory(ExtBattleVideoNativeOffset, BattleVideo5.SIZE);
-    public Memory<byte> BattleVideoDownload1 => Data.AsMemory(ExtBattleVideoDownload1Offset, BattleVideo5.SIZE);
-    public Memory<byte> BattleVideoDownload2 => Data.AsMemory(ExtBattleVideoDownload2Offset, BattleVideo5.SIZE);
-    public Memory<byte> BattleVideoDownload3 => Data.AsMemory(ExtBattleVideoDownload3Offset, BattleVideo5.SIZE);
-    public Memory<byte> CGearSkinData => Data.AsMemory(ExtCGearOffset, CGearBackground.SIZE);
-    public Memory<byte> BattleTest => Data.AsMemory(ExtBattleTestOffset, BattleTest5.SIZE);
-    public Memory<byte> MusicalDownloadData => Data.AsMemory(ExtMusicalDownloadOffset, MusicalDownloadSize);
-    public Memory<byte> PokedexSkinData => Data.AsMemory(ExtPokeDexSkinOffset, PokeDexSkin5.SIZE);
-    public Memory<byte> HallOfFame1 => Data.AsMemory(ExtHallOfFame1Offset, HallOfFameSize);
-    public Memory<byte> HallOfFame2 => Data.AsMemory(ExtHallOfFame2Offset, HallOfFameSize);
-    public Memory<byte> Link1Data => Data.AsMemory(ExtLink1Offset, Link3DSDataSize);
-    public Memory<byte> Link2Data => Data.AsMemory(ExtLink2Offset, Link3DSDataSize);
+    public Memory<byte> BattleVideoNative => Buffer.Slice(ExtBattleVideoNativeOffset, BattleVideo5.SIZE);
+    public Memory<byte> BattleVideoDownload1 => Buffer.Slice(ExtBattleVideoDownload1Offset, BattleVideo5.SIZE);
+    public Memory<byte> BattleVideoDownload2 => Buffer.Slice(ExtBattleVideoDownload2Offset, BattleVideo5.SIZE);
+    public Memory<byte> BattleVideoDownload3 => Buffer.Slice(ExtBattleVideoDownload3Offset, BattleVideo5.SIZE);
+    public Memory<byte> CGearSkinData => Buffer.Slice(ExtCGearOffset, CGearBackground.SIZE);
+    public Memory<byte> BattleTest => Buffer.Slice(ExtBattleTestOffset, BattleTest5.SIZE);
+    public Memory<byte> MusicalDownloadData => Buffer.Slice(ExtMusicalDownloadOffset, MusicalDownloadSize);
+    public Memory<byte> PokedexSkinData => Buffer.Slice(ExtPokeDexSkinOffset, PokeDexSkin5.SIZE);
+    public Memory<byte> HallOfFame1 => Buffer.Slice(ExtHallOfFame1Offset, HallOfFameSize);
+    public Memory<byte> HallOfFame2 => Buffer.Slice(ExtHallOfFame2Offset, HallOfFameSize);
+    public Memory<byte> Link1Data => Buffer.Slice(ExtLink1Offset, Link3DSDataSize);
+    public Memory<byte> Link2Data => Buffer.Slice(ExtLink2Offset, Link3DSDataSize);
 
     private const int ExtFooterLength = 0x14;
 
@@ -216,13 +216,13 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
 
         // Update Tail Section
         ushort chk = Checksums.CRC16_CCITT(data);
-        var tail = Data.AsSpan(offset + size);
+        var tail = Data[(offset + size)..];
         WriteUInt16LittleEndian(tail, count); // block updated counter
         WriteUInt16LittleEndian(tail[2..], chk); // checksum
 
         // Update Footer
         int lengthInner = size + 0x100 - (size % 0x100); // wasting 0x100 bytes, nice!
-        var footer = Data.AsSpan(offset + lengthInner, ExtFooterLength);
+        var footer = Data.Slice(offset + lengthInner, ExtFooterLength);
         WriteFooterDLC(footer, chk, lengthInner + ExtFooterLength, count);
         return chk;
     }
@@ -297,7 +297,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
         IsAvailablePokedexSkin = true;
     }
 
-    private Span<byte> DexSkinFooter => Data.AsSpan((ExtPokeDexSkinOffset + PokeDexSkin5.SIZE - 4)..);
+    private Span<byte> DexSkinFooter => Data.Slice(ExtPokeDexSkinOffset + PokeDexSkin5.SIZE - 4, 4);
 
     public bool IsAvailablePokedexSkin
     {

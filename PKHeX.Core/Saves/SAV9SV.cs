@@ -13,9 +13,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override string Extension => string.Empty;
     public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsHOME();
 
-    public SAV9SV(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
+    public SAV9SV(Memory<byte> data) : this(SwishCrypto.Decrypt(data.Span)) { }
 
-    private SAV9SV(IReadOnlyList<SCBlock> blocks) : base([])
+    private SAV9SV(IReadOnlyList<SCBlock> blocks) : base(Memory<byte>.Empty)
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
@@ -56,7 +56,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
     protected override void SetChecksums() { } // None!
-    protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
+    protected override Memory<byte> GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
     public override PersonalTable9SV Personal => PersonalTable.SV;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SV;

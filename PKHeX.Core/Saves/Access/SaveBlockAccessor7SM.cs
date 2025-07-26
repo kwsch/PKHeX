@@ -83,8 +83,8 @@ public sealed class SaveBlockAccessor7SM(SAV7SM sav) : ISaveBlockAccessor<BlockI
 
     private static Memory<byte> Block(SAV7SM sav, int index)
     {
-        var data = sav.Data;
+        var data = sav.Buffer;
         var block = BlockInfoSM[index];
-        return data.AsMemory(block.Offset, block.Length);
+        return data.Slice(block.Offset, block.Length);
     }
 }

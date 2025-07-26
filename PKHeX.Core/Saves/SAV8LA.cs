@@ -12,9 +12,9 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override string Extension => string.Empty;
     public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsHOME();
 
-    public SAV8LA(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
+    public SAV8LA(Memory<byte> data) : this(SwishCrypto.Decrypt(data.Span)) { }
 
-    private SAV8LA(IReadOnlyList<SCBlock> blocks) : base([])
+    private SAV8LA(IReadOnlyList<SCBlock> blocks) : base(Memory<byte>.Empty)
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor8LA(this);
@@ -85,7 +85,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override bool IsVersionValid() => Version is GameVersion.PLA;
 
     protected override void SetChecksums() { } // None!
-    protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
+    protected override Memory<byte> GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
     public override PersonalTable8LA Personal => PersonalTable.LA;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_LA;

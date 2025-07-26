@@ -22,15 +22,15 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override int MaxStringLengthNickname => StringLength;
 
     public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM) => IsEncodingJapanese = jp;
-    public SK2(byte[] data) : this(data, IsJapanese(data)) { }
-    public SK2(byte[] data, bool jp) : base(data) => IsEncodingJapanese = jp;
+    public SK2(Memory<byte> data) : this(data, IsJapanese(data.Span)) { }
+    public SK2(Memory<byte> data, bool jp) : base(data) => IsEncodingJapanese = jp;
 
-    public override SK2 Clone() => new((byte[])Data.Clone(), Japanese)
+    public override SK2 Clone() => new(Data.ToArray(), Japanese)
     {
         IsEgg = IsEgg,
     };
 
-    protected override byte[] Encrypt() => Data;
+    protected override byte[] Encrypt() => Data.ToArray();
 
     #region Stored Attributes
     public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
@@ -40,14 +40,14 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override ushort Move2 { get => Data[3]; set => Data[3] = (byte)value; }
     public override ushort Move3 { get => Data[4]; set => Data[4] = (byte)value; }
     public override ushort Move4 { get => Data[5]; set => Data[5] = (byte)value; }
-    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), value); }
-    public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); } // not 3 bytes like in PK2
-    public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
-    public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), (ushort)value); }
-    public override int EV_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x10)); set => WriteUInt16BigEndian(Data.AsSpan(0x10), (ushort)value); }
-    public override int EV_SPE { get => ReadUInt16BigEndian(Data.AsSpan(0x12)); set => WriteUInt16BigEndian(Data.AsSpan(0x12), (ushort)value); }
-    public override int EV_SPC { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), (ushort)value); }
-    public override ushort DV16 { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data[6..]); set => WriteUInt16BigEndian(Data[6..], value); }
+    public override uint EXP { get => ReadUInt32BigEndian(Data[8..]); set => WriteUInt32BigEndian(Data[8..], value); } // not 3 bytes like in PK2
+    public override int EV_HP { get => ReadUInt16BigEndian(Data[0x0C..]); set => WriteUInt16BigEndian(Data[0x0C..], (ushort)value); }
+    public override int EV_ATK { get => ReadUInt16BigEndian(Data[0x0E..]); set => WriteUInt16BigEndian(Data[0x0E..], (ushort)value); }
+    public override int EV_DEF { get => ReadUInt16BigEndian(Data[0x10..]); set => WriteUInt16BigEndian(Data[0x10..], (ushort)value); }
+    public override int EV_SPE { get => ReadUInt16BigEndian(Data[0x12..]); set => WriteUInt16BigEndian(Data[0x12..], (ushort)value); }
+    public override int EV_SPC { get => ReadUInt16BigEndian(Data[0x14..]); set => WriteUInt16BigEndian(Data[0x14..], (ushort)value); }
+    public override ushort DV16 { get => ReadUInt16BigEndian(Data[0x16..]); set => WriteUInt16BigEndian(Data[0x16..], value); }
     public override int Move1_PP { get => Data[0x18] & 0x3F; set => Data[0x18] = (byte)((Data[0x18] & 0xC0) | Math.Min(63, value)); }
     public override int Move2_PP { get => Data[0x19] & 0x3F; set => Data[0x19] = (byte)((Data[0x19] & 0xC0) | Math.Min(63, value)); }
     public override int Move3_PP { get => Data[0x1A] & 0x3F; set => Data[0x1A] = (byte)((Data[0x1A] & 0xC0) | Math.Min(63, value)); }
@@ -85,7 +85,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
     public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
 
-    public ushort CaughtData { get => ReadUInt16BigEndian(Data.AsSpan(0x21)); set => WriteUInt16BigEndian(Data.AsSpan(0x21), value); }
+    public ushort CaughtData { get => ReadUInt16BigEndian(Data[0x21..]); set => WriteUInt16BigEndian(Data[0x21..], value); }
 
     public int MetTimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
     public override byte MetLevel    { get => (byte)((CaughtData >> 8) & 0x3F); set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
@@ -112,8 +112,8 @@ public sealed class SK2 : GBPKM, ICaughtData2
         }
     }
 
-    public override Span<byte> NicknameTrash => Data.AsSpan(0x24, StringLength);
-    public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x30, StringLength);
+    public override Span<byte> NicknameTrash => Data.Slice(0x24, StringLength);
+    public override Span<byte> OriginalTrainerTrash => Data.Slice(0x30, StringLength);
     public override int TrashCharCountTrainer => StringLength;
     public override int TrashCharCountNickname => StringLength;
 

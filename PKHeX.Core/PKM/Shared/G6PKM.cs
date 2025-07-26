@@ -8,13 +8,13 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
 {
     public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
-    protected G6PKM(byte[] data) : base(data) { }
+    protected G6PKM(Memory<byte> data) : base(data) { }
     protected G6PKM([ConstantExpected] int size) : base(size) { }
 
     // Trash Bytes
-    public sealed override Span<byte> NicknameTrash => Data.AsSpan(0x40, 26);
-    public sealed override Span<byte> HandlingTrainerTrash => Data.AsSpan(0x78, 26);
-    public sealed override Span<byte> OriginalTrainerTrash => Data.AsSpan(0xB0, 26);
+    public sealed override Span<byte> NicknameTrash => Data.Slice(0x40, 26);
+    public sealed override Span<byte> HandlingTrainerTrash => Data.Slice(0x78, 26);
+    public sealed override Span<byte> OriginalTrainerTrash => Data.Slice(0xB0, 26);
     public override int TrashCharCountTrainer => 13;
     public override int TrashCharCountNickname => 13;
 
@@ -24,7 +24,7 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
     public sealed override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
-    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_6STORED]);
+    private ushort CalculateChecksum() => Checksums.Add16(Data[8..PokeCrypto.SIZE_6STORED]);
 
     // Simple Generated Attributes
     public sealed override byte CurrentFriendship

@@ -57,6 +57,6 @@ public sealed class SaveBlockAccessor7b(SAV7b sav) : ISaveBlockAccessor<BlockInf
     public static Memory<byte> Block(SAV7b sav, BelugaBlockIndex index)
     {
         var block = BlockInfoGG[(int)index];
-        return sav.Data.AsMemory(block.Offset, block.Length);
+        return sav.Buffer.Slice(block.Offset, block.Length);
     }
 }

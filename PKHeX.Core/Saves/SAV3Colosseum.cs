@@ -15,8 +15,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
 
-    private readonly Memory<byte> Raw;
-    private new Span<byte> Data => Raw.Span;
+    private readonly Memory<byte> Container;
     protected override Span<byte> BoxBuffer => Data;
     protected override Span<byte> PartyBuffer => Data;
 
@@ -27,6 +26,10 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     // Checksum is SHA1 over 0-0x1DFD7, stored in the last 20 bytes of the save slot.
     // Another SHA1 hash is 0x1DFD8, for 20 bytes. Unknown purpose.
     // Checksum is used as the crypto key.
+
+    // For managing our save file, our Data will be the "active" save slot.
+    // If we can detect which slot is most recent, we will use that one.
+    // For blank saves, just allocate a new slot.
 
     private readonly int SaveCount = -1;
     private readonly int SaveIndex = -1;
@@ -40,20 +43,24 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public SAV3Colosseum(bool japanese = false)
     {
         Japanese = japanese;
-
-        Raw = new byte[ColoCrypto.SLOT_SIZE];
+        Container = default;
         CurrentRegion = OriginalRegion = japanese ? GCRegion.NTSC_J : GCRegion.NTSC_U;
         StrategyMemo = Initialize();
         ClearBoxes();
     }
 
-    public SAV3Colosseum(byte[] data) : base(data)
+    public SAV3Colosseum(Memory<byte> data, bool decrypt = true) : this(ColoCrypto.DetectLatest(data.Span), data, decrypt) { }
+    private SAV3Colosseum((int Index, int Count) latest, Memory<byte> data, bool decrypt = true) : base(ColoCrypto.GetSlot(data, latest.Index))
     {
-        Japanese = data[0] == 0x83; // Japanese game name first character
+        if (decrypt)
+            ColoCrypto.Decrypt(Data);
+        (SaveIndex, SaveCount) = latest;
+
+        Container = data;
+        var span = data.Span;
+        Japanese = span[0] == 0x83; // Japanese game name first character
 
         // Decrypt most recent save slot
-        (SaveIndex, SaveCount) = ColoCrypto.DetectLatest(data);
-        Raw = ColoCrypto.GetSlot(data.AsMemory(), SaveIndex);
         StrategyMemo = Initialize();
     }
 
@@ -72,15 +79,15 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
         {
             var ofs = GetPartyOffset(i);
             var span = Data[ofs..];
-            if (ReadUInt16BigEndian(span) != 0) // species is at offset 0x00
+            if (IsPKMPresent(span))
                 PartyCount++;
         }
 
-        var memo = new StrategyMemo(Data[Memo..], xd: false);
+        var memo = new StrategyMemo(Buffer[Memo..], xd: false);
         return memo;
     }
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         var newFile = GetInnerData();
 
@@ -98,14 +105,14 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
         SetChecksums();
 
         // Put save slot back in original save data
-        byte[] newFile = (byte[])base.Data.Clone();
-        ColoCrypto.SetSlot(newFile, SaveIndex, Data);
-
-        return newFile;
+        var result = Container.ToArray();
+        var region = ColoCrypto.GetSlot(result, SaveIndex);
+        ColoCrypto.Encrypt(region.Span);
+        return result;
     }
 
     // Configuration
-    protected override SAV3Colosseum CloneInternal() => new(GetInnerData()) { MemoryCard = MemoryCard };
+    protected override SAV3Colosseum CloneInternal() => new((SaveIndex, SaveCount), Container.ToArray(), false) { MemoryCard = MemoryCard };
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED; // unused
@@ -293,7 +300,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public byte DaycareDepositLevel { get => Data[DaycareOffset + 1]; set => Data[DaycareOffset + 1] = value; }
     public uint GetDaycareEXP(int index) => ReadUInt32BigEndian(Data[(DaycareOffset + 4)..]);
     public void SetDaycareEXP(int index, uint value) => WriteUInt32BigEndian(Data[(DaycareOffset + 4)..], value);
-    public Memory<byte> GetDaycareSlot(int slot) => Raw.Slice(DaycareOffset + 8, PokeCrypto.SIZE_3CSTORED);
+    public Memory<byte> GetDaycareSlot(int slot) => Buffer.Slice(DaycareOffset + 8, PokeCrypto.SIZE_3CSTORED);
 
     // Japanese Bonus Disc Gift Flags
     /// <summary> Received Master Ball from JP Colosseum Bonus Disc; for reaching 30,000 <see cref="CouponsTotal"/> </summary>

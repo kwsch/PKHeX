@@ -118,6 +118,6 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
     public static Memory<byte> Block(SAV5BW sav, int index)
     {
         var block = BlocksBW[index];
-        return sav.Data.AsMemory(block.Offset, block.Length);
+        return sav.Buffer.Slice(block.Offset, block.Length);
     }
 }

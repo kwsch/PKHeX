@@ -48,8 +48,8 @@ public sealed class SaveBlockAccessor6AODemo(SAV6AODemo sav) : ISaveBlockAccesso
 
     private static Memory<byte> Block(SAV6AODemo sav, int index)
     {
-        var data = sav.Data;
+        var data = sav.Buffer;
         var block = BlocksAODemo[index];
-        return data.AsMemory(block.Offset, block.Length);
+        return data.Slice(block.Offset, block.Length);
     }
 }

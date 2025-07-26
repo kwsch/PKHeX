@@ -36,7 +36,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public override PersonalTable4 Personal => PersonalTable.Pt;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_Pt;
-    protected override SAV4Ranch CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV4Ranch CloneInternal() => new(Data.ToArray());
     protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
     public override string Extension => ".bin";
 
@@ -47,11 +47,11 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     private readonly GameVersion _version;
     public override GameVersion Version { get => _version; set { } }
-    public SAV4Ranch(byte[] data) : base(data, typeof(RK4), 0)
+    public SAV4Ranch(Memory<byte> data) : base(data, typeof(RK4), 0)
     {
         _version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
 
-        OT = GetString(Data.AsSpan(0x770, 0x12));
+        OT = GetString(Data.Slice(0x770, 0x12));
 
         // 0x18 starts the header table: [u32 BlockID, u32 Offset]
         // Block 00, Offset = Metadata object
@@ -67,19 +67,19 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         // 03: size, count, Pokemon (PK4 + metadata)[count]
         // 04: size, count, ???
 
-        MiiCountOffset = ReadInt32BigEndian(Data.AsSpan(0x24)) + 4;
-        TrainerMiiCountOffset = ReadInt32BigEndian(Data.AsSpan(0x2C)) + 4;
-        MiiCount = ReadInt32BigEndian(Data.AsSpan(MiiCountOffset));
-        TrainerMiiCount = ReadInt32BigEndian(Data.AsSpan(TrainerMiiCountOffset));
+        MiiCountOffset = ReadInt32BigEndian(Data[0x24..]) + 4;
+        TrainerMiiCountOffset = ReadInt32BigEndian(Data[0x2C..]) + 4;
+        MiiCount = ReadInt32BigEndian(Data[MiiCountOffset..]);
+        TrainerMiiCount = ReadInt32BigEndian(Data[TrainerMiiCountOffset..]);
 
         MiiDataOffset = MiiCountOffset + 4;
         TrainerMiiDataOffset = TrainerMiiCountOffset + 4;
 
-        PokemonCountOffset = ReadInt32BigEndian(Data.AsSpan(0x34)) + 4;
+        PokemonCountOffset = ReadInt32BigEndian(Data[0x34..]) + 4;
         Box = PokemonCountOffset + 4;
 
-        DataEndMarkerOffset = ReadInt32BigEndian(Data.AsSpan(0x3C));
-        DataEndMarker = ReadInt32BigEndian(Data.AsSpan(DataEndMarkerOffset));
+        DataEndMarkerOffset = ReadInt32BigEndian(Data[0x3C..]);
+        DataEndMarker = ReadInt32BigEndian(Data[DataEndMarkerOffset..]);
     }
 
     private const int ToyBaseOffset = 0x227B;
@@ -87,16 +87,16 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public int CurrentRanchLevel { get => Data[0x5A] + 1; set => Data[0x5A] = (byte)(value - 1); }
     public int PlannedRanchLevel { get => Data[0x5B] + 1; set => Data[0x5B] = (byte)(value - 1); } // tomorrow's level
 
-    public uint SecondsSince2000 { get => ReadUInt32BigEndian(Data.AsSpan(0x5C)); set => WriteUInt32BigEndian(Data.AsSpan(0x5C), value); }
-    public uint TotalSeconds { get => ReadUInt32BigEndian(Data.AsSpan(0x60)); set => WriteUInt32BigEndian(Data.AsSpan(0x60), value); }
-    public ushort NextHayleyBringNationalDex { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value); }
+    public uint SecondsSince2000 { get => ReadUInt32BigEndian(Data[0x5C..]); set => WriteUInt32BigEndian(Data[0x5C..], value); }
+    public uint TotalSeconds { get => ReadUInt32BigEndian(Data[0x60..]); set => WriteUInt32BigEndian(Data[0x60..], value); }
+    public ushort NextHayleyBringNationalDex { get => ReadUInt16LittleEndian(Data[0x6A..]); set => WriteUInt16LittleEndian(Data[0x6A..], value); }
 
     public RanchToy GetRanchToy(int index)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxToyCount);
 
         int toyOffset = ToyBaseOffset + (RanchToy.SIZE * index);
-        var data = Data.AsSpan(toyOffset, RanchToy.SIZE).ToArray();
+        var data = Data.Slice(toyOffset, RanchToy.SIZE).ToArray();
         return new RanchToy(data);
     }
 
@@ -107,7 +107,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
             toy = BlankToy;
 
         int toyOffset = ToyBaseOffset + (RanchToy.SIZE * index);
-        SetData(Data.AsSpan(toyOffset), toy.Data);
+        SetData(Data[toyOffset..], toy.Data);
     }
 
     public RanchMii GetRanchMii(int index)
@@ -115,7 +115,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MiiCount);
 
         int offset = MiiDataOffset + (RanchMii.SIZE * index);
-        var data = Data.AsSpan(offset, RanchMii.SIZE).ToArray();
+        var data = Data.Slice(offset, RanchMii.SIZE).ToArray();
         return new RanchMii(data);
     }
 
@@ -124,7 +124,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MiiCount);
 
         int offset = MiiDataOffset + (RanchMii.SIZE * index);
-        SetData(Data.AsSpan(offset), trainer.Data);
+        SetData(Data[offset..], trainer.Data);
     }
 
     public RanchTrainerMii GetRanchTrainerMii(int index)
@@ -132,7 +132,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)TrainerMiiCount);
 
         int offset = TrainerMiiDataOffset + (RanchTrainerMii.SIZE * index);
-        var data = Data.AsSpan(offset, RanchTrainerMii.SIZE).ToArray();
+        var data = Data.Slice(offset, RanchTrainerMii.SIZE).ToArray();
         return new RanchTrainerMii(data);
     }
 
@@ -141,14 +141,14 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)TrainerMiiCount);
 
         int offset = TrainerMiiDataOffset + (RanchTrainerMii.SIZE * index);
-        SetData(Data.AsSpan(offset), mii.Data);
+        SetData(Data[offset..], mii.Data);
     }
 
     private const int sha1HashSize = 20;
 
     protected override void SetChecksums()
     {
-        var data = Data.AsSpan();
+        var data = Data;
         var slotCount = GetOccupiedSlotCount();
         int pkStart = PokemonCountOffset + 4;
         UpdateMetadata(pkStart + (slotCount * SIZE_STORED));
@@ -165,7 +165,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         for (int i = count - 1; i >= 0; i--)
         {
             var ofs = GetBoxSlotOffset(i);
-            var span = Data.AsSpan(ofs, SIZE_STORED);
+            var span = Data.Slice(ofs, SIZE_STORED);
             var type = ReadUInt64LittleEndian(span[0x88..]);
             if (type != 0)
                 return i + 1;
@@ -212,7 +212,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     private void UpdateMetadata(int pkEnd)
     {
-        var data = Data.AsSpan();
+        var data = Data;
         // ensure the final data is cleared if the user screws stuff up
         {
             DataEndMarkerOffset = pkEnd;

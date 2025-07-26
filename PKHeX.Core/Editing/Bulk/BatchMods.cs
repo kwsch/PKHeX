@@ -76,7 +76,7 @@ public static class BatchMods
             value => value.StartsWith(CONST_SHINY),
             (pk, cmd) => CommonEdits.SetShiny(pk, GetRequestedShinyState(cmd.PropertyValue))),
 
-        new ComplexSet(nameof(PKM.Species), value => value is "0", (pk, _) => pk.Data.AsSpan().Clear()),
+        new ComplexSet(nameof(PKM.Species), value => value is "0", (pk, _) => pk.Data.Clear()),
         new ComplexSet(nameof(PKM.IsNicknamed), value => value.Equals("false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
 
         // Complicated

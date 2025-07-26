@@ -53,14 +53,14 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <param name="data">Finalized save file data (with fixed checksums) to be written to a file</param>
     /// <param name="setting">Toggle flags </param>
     /// <returns>Final save file data.</returns>
-    public byte[] Finalize(byte[] data, BinaryExportSetting setting)
+    public Memory<byte> Finalize(Memory<byte> data, BinaryExportSetting setting)
     {
         if (HasFooter && !setting.HasFlag(BinaryExportSetting.ExcludeFooter))
-            data = [..data, ..Footer.Span];
+            data = (byte[])[.. data.Span, ..Footer.Span];
         if (HasHeader && !setting.HasFlag(BinaryExportSetting.ExcludeHeader))
-            data = [..Header.Span, ..data];
+            data = (byte[])[..Header.Span, ..data.Span];
         if (!setting.HasFlag(BinaryExportSetting.ExcludeFinalize))
-            Handler?.Finalize(data);
+            Handler?.Finalize(data.Span);
         return data;
     }
 

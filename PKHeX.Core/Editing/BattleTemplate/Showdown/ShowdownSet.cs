@@ -994,7 +994,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
         // Defined Hidden Power
         var type = GetHiddenPowerType(moveString[(hiddenPowerName.Length + 1)..]);
-        var types = strings.types.AsSpan(1, HiddenPower.TypeCount);
+        var types = strings.HiddenPowerTypes;
         int hpVal = StringUtil.FindIndexIgnoreCase(types, type); // Get HP Type
         if (hpVal == -1)
             return hiddenPowerName;

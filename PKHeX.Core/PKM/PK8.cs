@@ -31,8 +31,8 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
     public override EntityContext Context => EntityContext.Gen8;
 
     public PK8() => AffixedRibbon = Core.AffixedRibbon.None;
-    public PK8(byte[] data) : base(data) { }
-    public override PK8 Clone() => new((byte[])Data.Clone());
+    public PK8(Memory<byte> data) : base(data) { }
+    public override PK8 Clone() => new(Data.ToArray());
 
     // Synthetic Trading Logic
     public bool BelongsTo(ITrainerInfo tr)
@@ -69,7 +69,7 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
             TradeHT(tr);
     }
 
-    public int DynamaxType { get => ReadUInt16LittleEndian(Data.AsSpan(0x156)); set => WriteUInt16LittleEndian(Data.AsSpan(0x156), (ushort)value); }
+    public int DynamaxType { get => ReadUInt16LittleEndian(Data[0x156..]); set => WriteUInt16LittleEndian(Data[0x156..], (ushort)value); }
 
     public void FixMemories()
     {

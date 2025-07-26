@@ -53,7 +53,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         {
             _pk = value;
             var data = value.Data;
-            bool zero = Array.TrueForAll(data, static z => z == 0); // all zero
+            bool zero = !data.ContainsAnyExcept<byte>(0); // all zero
             if (!zero)
                 data = PokeCrypto.EncryptArray45(data);
             data.CopyTo(Data[8..]);

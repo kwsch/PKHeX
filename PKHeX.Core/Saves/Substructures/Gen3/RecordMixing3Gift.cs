@@ -13,21 +13,22 @@ public sealed class RecordMixing3Gift
     /// </summary>
     public const int SIZE = 8;
 
-    public readonly byte[] Data;
+    public readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
 
-    public RecordMixing3Gift(byte[] data)
+    public RecordMixing3Gift(Memory<byte> raw)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, SIZE);
-        Data = data;
+        ArgumentOutOfRangeException.ThrowIfNotEqual(raw.Length, SIZE);
+        Raw = raw;
     }
 
     public bool IsChecksumValid() => Checksum == ComputeChecksum();
     public void FixChecksum() => Checksum = ComputeChecksum();
 
-    private ushort ComputeChecksum() => Checksums.CheckSum16(Data.AsSpan(4));
+    private ushort ComputeChecksum() => Checksums.CheckSum16(Data[4..]);
 
-    public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0)); set => WriteUInt16LittleEndian(Data.AsSpan(0), value); }
+    public ushort Checksum { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public byte Max { get => Data[4]; set => Data[4] = value; }
     public byte Count { get => Data[5]; set => Data[5] = value; }
-    public ushort Item { get => ReadUInt16LittleEndian(Data.AsSpan(6)); set => WriteUInt16LittleEndian(Data.AsSpan(6), value); }
+    public ushort Item { get => ReadUInt16LittleEndian(Data[6..]); set => WriteUInt16LittleEndian(Data[6..], value); }
 }

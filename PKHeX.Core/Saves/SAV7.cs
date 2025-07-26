@@ -15,7 +15,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsAtOrBelow(7, "pb7");
 
-    protected SAV7(byte[] data, [ConstantExpected] int biOffset) : base(data, biOffset)
+    protected SAV7(Memory<byte> data, [ConstantExpected] int biOffset) : base(data, biOffset)
     {
     }
 
@@ -87,17 +87,17 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     protected void ClearMemeCrypto()
     {
         // The MemeCrypto block is always zero -- they could have hidden a secret inside it, but they didn't.
-        Data.AsSpan(AllBlocks[MemeCryptoBlock].Offset + 0x100, MemeCrypto.SaveFileSignatureLength).Clear();
+        Data.Slice(AllBlocks[MemeCryptoBlock].Offset + 0x100, MemeCrypto.SaveFileSignatureLength).Clear();
     }
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         BoxLayout.SaveBattleTeams();
         SetChecksums();
 
         // Applying the MemeCrypto signature will invalidate the checksum for that block.
         // This logic is not set up to revert that block after returning, so just return a copy of our data.
-        var result = (byte[])Data.Clone();
+        var result = Data.ToArray();
         MemeCrypto.SignInPlace(result);
         return result;
     }

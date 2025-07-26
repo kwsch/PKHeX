@@ -4,17 +4,19 @@ namespace PKHeX.Core;
 
 public static class BattleVideo
 {
-    public static IBattleVideo? GetVariantBattleVideo(byte[] data)
+    public static IBattleVideo? GetVariantBattleVideo(Memory<byte> data)
     {
-        if (BattleVideo7.IsValid(data))
+        ReadOnlySpan<byte> span = data.Span;
+
+        if (BattleVideo7.IsValid(span))
             return new BattleVideo7(data);
-        if (BattleVideo6.IsValid(data))
+        if (BattleVideo6.IsValid(span))
             return new BattleVideo6(data);
-        if (BattleVideo5.IsValid(data))
+        if (BattleVideo5.IsValid(span))
             return new BattleVideo5(data);
-        if (BattleVideo4.IsValid(data))
+        if (BattleVideo4.IsValid(span))
             return new BattleVideo4(data);
-        if (BattleVideo3.IsValid(data))
+        if (BattleVideo3.IsValid(span))
             return new BattleVideo3(data);
         return null;
     }

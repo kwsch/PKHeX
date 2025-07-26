@@ -113,7 +113,7 @@ public partial class SAV_Misc5 : Form
 
             default: throw new ArgumentOutOfRangeException(nameof(SAV.Version));
         }
-        uint valFly = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsFly));
+        uint valFly = ReadUInt32LittleEndian(SAV.Data[ofsFly..]);
         CLB_FlyDest.Items.Clear();
         CLB_FlyDest.Items.AddRange(FlyDestA);
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
@@ -210,7 +210,7 @@ public partial class SAV_Misc5 : Form
 
     private void SaveMain()
     {
-        uint valFly = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsFly));
+        uint valFly = ReadUInt32LittleEndian(SAV.Data[ofsFly..]);
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
         {
             if (FlyDestC[i] < 32)
@@ -226,7 +226,7 @@ public partial class SAV_Misc5 : Form
                 SAV.Data[ofs] = (byte)((SAV.Data[ofs] & ~(1 << (FlyDestC[i] & 7))) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] & 7)));
             }
         }
-        WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsFly), valFly);
+        WriteUInt32LittleEndian(SAV.Data[ofsFly..], valFly);
 
         if (SAV is SAV5BW bw)
         {

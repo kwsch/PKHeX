@@ -8,19 +8,20 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class Gen3MysteryData
 {
-    public readonly byte[] Data;
+    public readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
 
-    protected Gen3MysteryData(byte[] data) => Data = data;
+    protected Gen3MysteryData(Memory<byte> raw) => Raw = raw;
 
     public ushort Checksum
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0), value);
+        get => ReadUInt16LittleEndian(Data);
+        set => WriteUInt16LittleEndian(Data, value);
     }
 
     public bool IsChecksumValid() => Checksum == ComputeChecksum();
     public void FixChecksum() => Checksum = ComputeChecksum();
-    protected virtual ushort ComputeChecksum() => GetChecksum(Data.AsSpan(4));
+    protected virtual ushort ComputeChecksum() => GetChecksum(Data[4..]);
 
     private static ushort GetChecksum(ReadOnlySpan<byte> data)
     {

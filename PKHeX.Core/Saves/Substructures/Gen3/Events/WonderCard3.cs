@@ -15,7 +15,7 @@ public sealed class WonderCard3 : Gen3MysteryData
     /// </summary>
     public const int SIZE_JAP = sizeof(uint) + 164;
 
-    public WonderCard3(byte[] data) : base(data) => AssertLength(data.Length);
+    public WonderCard3(Memory<byte> raw) : base(raw) => AssertLength(raw.Length);
 
     private static void AssertLength(int length)
     {
@@ -25,9 +25,9 @@ public sealed class WonderCard3 : Gen3MysteryData
 
     public bool Japanese => Data.Length is SIZE_JAP;
 
-    public ushort CardID { get => ReadUInt16LittleEndian(Data.AsSpan(4)); set => WriteUInt16LittleEndian(Data.AsSpan(4), value); }
-    public ushort Icon { get => ReadUInt16LittleEndian(Data.AsSpan(6)); set => WriteUInt16LittleEndian(Data.AsSpan(6), value); }
-    public uint Count { get => ReadUInt16LittleEndian(Data.AsSpan(8)); set => WriteUInt32LittleEndian(Data.AsSpan(8), value); }
+    public ushort CardID { get => ReadUInt16LittleEndian(Data[4..]); set => WriteUInt16LittleEndian(Data[4..], value); }
+    public ushort Icon { get => ReadUInt16LittleEndian(Data[6..]); set => WriteUInt16LittleEndian(Data[6..], value); }
+    public uint Count { get => ReadUInt16LittleEndian(Data[8..]); set => WriteUInt32LittleEndian(Data[8..], value); }
 
     public byte Type { get => (byte)(Data[0xC] & 0b11); set => Data[0xC] = (byte)((Data[0xC] & ~0b11) | (value & 0b11)); }
     public byte Color { get => (byte)(Data[0xC] & 0b00111100); set => Data[0xC] = (byte)((Data[0xC] & ~0b00111100) | (value & 0b00111100)); }
@@ -37,19 +37,19 @@ public sealed class WonderCard3 : Gen3MysteryData
 
     public string Title
     {
-        get => StringConverter3.GetString(Data.AsSpan(0xE, Japanese ? 18 : 40), Japanese);
+        get => StringConverter3.GetString(Data.Slice(0xE, Japanese ? 18 : 40), Japanese);
         set
         {
-            var dest = Data.AsSpan(0xE, Japanese ? 18 : 40);
+            var dest = Data.Slice(0xE, Japanese ? 18 : 40);
             StringConverter3.SetString(dest, value, Japanese ? 18 : 40, Japanese, StringConverterOption.ClearFF);
         }
     }
     public string Subtitle
     {
-        get => StringConverter3.GetString(Data.AsSpan(0x20, Japanese ? 13 : 40), Japanese);
+        get => StringConverter3.GetString(Data.Slice(0x20, Japanese ? 13 : 40), Japanese);
         set
         {
-            var dest = Data.AsSpan(0x20, Japanese ? 13 : 40);
+            var dest = Data.Slice(0x20, Japanese ? 13 : 40);
             StringConverter3.SetString(dest, value, Japanese ? 13 : 40, Japanese, StringConverterOption.ClearFF);
         }
     }

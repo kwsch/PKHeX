@@ -9,7 +9,7 @@ public class MysteryEvent3 : Gen3MysteryData
 {
     public const int SIZE = sizeof(uint) + 1000; // total 0x3EC
 
-    public MysteryEvent3(byte[] data) : base(data) => ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, SIZE);
+    public MysteryEvent3(Memory<byte> raw) : base(raw) => ArgumentOutOfRangeException.ThrowIfNotEqual(raw.Length, SIZE);
 
     public byte Magic { get => Data[4]; set => Data[4] = value; }
     public byte MapGroup { get => Data[5]; set => Data[5] = value; }

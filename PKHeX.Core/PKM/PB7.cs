@@ -30,83 +30,86 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override PersonalInfo7GG PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
 
     public PB7() : base(SIZE) { }
-    public PB7(byte[] data) : base(DecryptParty(data)) { }
+    public PB7(Memory<byte> data) : base(DecryptParty(data)) { }
 
-    private static byte[] DecryptParty(byte[] data)
+    private static Memory<byte> DecryptParty(Memory<byte> data)
     {
         PokeCrypto.DecryptIfEncrypted67(ref data);
-        if (data.Length != SIZE)
-            Array.Resize(ref data, SIZE);
-        return data;
+        if (data.Length >= SIZE)
+            return data;
+
+        var result = new byte[SIZE];
+        data.Span.CopyTo(result);
+        return result;
     }
 
-    public override PB7 Clone() => new((byte[])Data.Clone());
+    public override PB7 Clone() => new(Data.ToArray());
 
     // Structure
     #region Block A
     public override uint EncryptionConstant
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
     public override ushort Sanity
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x04));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value);
+        get => ReadUInt16LittleEndian(Data[0x04..]);
+        set => WriteUInt16LittleEndian(Data[0x04..], value);
     }
 
     public override ushort Checksum
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x06));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
+        get => ReadUInt16LittleEndian(Data[0x06..]);
+        set => WriteUInt16LittleEndian(Data[0x06..], value);
     }
 
     public override ushort Species
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value);
+        get => ReadUInt16LittleEndian(Data[0x08..]);
+        set => WriteUInt16LittleEndian(Data[0x08..], value);
     }
 
     public override int HeldItem
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[0x0A..]);
+        set => WriteUInt16LittleEndian(Data[0x0A..], (ushort)value);
     }
 
     public override uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x0C));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value);
+        get => ReadUInt32LittleEndian(Data[0x0C..]);
+        set => WriteUInt32LittleEndian(Data[0x0C..], value);
     }
 
     public override ushort TID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value);
+        get => ReadUInt16LittleEndian(Data[0x0C..]);
+        set => WriteUInt16LittleEndian(Data[0x0C..], value);
     }
 
     public override ushort SID16
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value);
+        get => ReadUInt16LittleEndian(Data[0x0E..]);
+        set => WriteUInt16LittleEndian(Data[0x0E..], value);
     }
 
     public override uint EXP
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x10));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
+        get => ReadUInt32LittleEndian(Data[0x10..]);
+        set => WriteUInt32LittleEndian(Data[0x10..], value);
     }
 
     public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int AbilityNumber { get => Data[0x15] & 7; set => Data[0x15] = (byte)((Data[0x15] & ~7) | (value & 7)); }
     public bool IsFavorite { get => (Data[0x15] & 8) != 0; set => Data[0x15] = (byte)((Data[0x15] & ~8) | ((value ? 1 : 0) << 3)); }
-    public ushort MarkingValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), value); }
+    public ushort MarkingValue { get => ReadUInt16LittleEndian(Data[0x16..]); set => WriteUInt16LittleEndian(Data[0x16..], value); }
 
     public override uint PID
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x18));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x18), value);
+        get => ReadUInt32LittleEndian(Data[0x18..]);
+        set => WriteUInt32LittleEndian(Data[0x18..], value);
     }
 
     public override Nature Nature { get => (Nature)Data[0x1C]; set => Data[0x1C] = (byte)value; }
@@ -129,7 +132,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public byte PokerusState { get => Data[0x2B]; set => Data[0x2B] = value; }
     public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
     public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
-    public float HeightAbsolute { get => ReadSingleLittleEndian(Data.AsSpan(0x2C)); set => WriteSingleLittleEndian(Data.AsSpan(0x2C), value); }
+    public float HeightAbsolute { get => ReadSingleLittleEndian(Data[0x2C..]); set => WriteSingleLittleEndian(Data[0x2C..], value); }
     private byte RIB0 { get => Data[0x30]; set => Data[0x30] = value; } // Ribbons are read as uints, but let's keep them per byte.
     private byte RIB1 { get => Data[0x31]; set => Data[0x31] = value; }
     private byte RIB2 { get => Data[0x32]; set => Data[0x32] = value; }
@@ -201,12 +204,12 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     // 0x39 Unused
     public byte HeightScalar { get => Data[0x3A]; set => Data[0x3A] = value; }
     public byte WeightScalar { get => Data[0x3B]; set => Data[0x3B] = value; }
-    public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x3C), value); }
+    public uint FormArgument { get => ReadUInt32LittleEndian(Data[0x3C..]); set => WriteUInt32LittleEndian(Data[0x3C..], value); }
     public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
     public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
     public byte FormArgumentMaximum { get => (byte)(FormArgument >> 16); set => FormArgument = (FormArgument & ~0xFF0000u) | (uint)(value << 16); }
 
-    public int RibbonCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x30)) & 0b00000000_00000011__11111111_11111111__11111111_11111111__11111111_11111111);
+    public int RibbonCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data[0x30..]) & 0b00000000_00000011__11111111_11111111__11111111_11111111__11111111_11111111);
 
     #endregion
     #region Block B
@@ -218,26 +221,26 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     public override ushort Move1
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x5A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value);
+        get => ReadUInt16LittleEndian(Data[0x5A..]);
+        set => WriteUInt16LittleEndian(Data[0x5A..], value);
     }
 
     public override ushort Move2
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x5C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value);
+        get => ReadUInt16LittleEndian(Data[0x5C..]);
+        set => WriteUInt16LittleEndian(Data[0x5C..], value);
     }
 
     public override ushort Move3
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x5E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value);
+        get => ReadUInt16LittleEndian(Data[0x5E..]);
+        set => WriteUInt16LittleEndian(Data[0x5E..], value);
     }
 
     public override ushort Move4
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x60));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x60), value);
+        get => ReadUInt16LittleEndian(Data[0x60..]);
+        set => WriteUInt16LittleEndian(Data[0x60..], value);
     }
 
     public override int Move1_PP { get => Data[0x62]; set => Data[0x62] = (byte)value; }
@@ -251,31 +254,31 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     public override ushort RelearnMove1
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value);
+        get => ReadUInt16LittleEndian(Data[0x6A..]);
+        set => WriteUInt16LittleEndian(Data[0x6A..], value);
     }
 
     public override ushort RelearnMove2
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x6C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6C), value);
+        get => ReadUInt16LittleEndian(Data[0x6C..]);
+        set => WriteUInt16LittleEndian(Data[0x6C..], value);
     }
 
     public override ushort RelearnMove3
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x6E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6E), value);
+        get => ReadUInt16LittleEndian(Data[0x6E..]);
+        set => WriteUInt16LittleEndian(Data[0x6E..], value);
     }
 
     public override ushort RelearnMove4
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x70));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x70), value);
+        get => ReadUInt16LittleEndian(Data[0x70..]);
+        set => WriteUInt16LittleEndian(Data[0x70..], value);
     }
 
     // 0x72 Unused
     // 0x73 Unused
-    public override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x74)); set => WriteUInt32LittleEndian(Data.AsSpan(0x74), value); }
+    public override uint IV32 { get => ReadUInt32LittleEndian(Data[0x74..]); set => WriteUInt32LittleEndian(Data[0x74..], value); }
     public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
     public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
     public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -314,7 +317,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
     public byte HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = value; }
     // 0xA7 Unused
-    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
+    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data[0xA8..]); set => WriteUInt16LittleEndian(Data[0xA8..], value); }
     // 0xAA Unused
     // 0xAB Unused
     public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
@@ -401,8 +404,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override byte MetMonth { get => Data[0xD5]; set => Data[0xD5] = value; }
     public override byte MetDay { get => Data[0xD6]; set => Data[0xD6] = value; }
     public int Rank { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // unused but fetched for stat calcs, and set for trpoke data?
-    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), value); }
-    public override ushort MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), value); }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[0xD8..]); set => WriteUInt16LittleEndian(Data[0xD8..], value); }
+    public override ushort MetLocation { get => ReadUInt16LittleEndian(Data[0xDA..]); set => WriteUInt16LittleEndian(Data[0xDA..], value); }
     public override byte Ball { get => Data[0xDC]; set => Data[0xDC] = value; }
     public override byte MetLevel { get => (byte)(Data[0xDD] & ~0x80); set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
     public override byte OriginalTrainerGender { get => (byte)(Data[0xDD] >> 7); set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
@@ -418,22 +421,22 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     // 0xE1 Unused
     // 0xE2 Unused
     public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
-    public float WeightAbsolute { get => ReadSingleLittleEndian(Data.AsSpan(0xE4)); set => WriteSingleLittleEndian(Data.AsSpan(0xE4), value); }
+    public float WeightAbsolute { get => ReadSingleLittleEndian(Data[0xE4..]); set => WriteSingleLittleEndian(Data[0xE4..], value); }
     #endregion
     #region Battle Stats
-    public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0xE8)); set => WriteInt32LittleEndian(Data.AsSpan(0xE8), value); }
+    public override int Status_Condition { get => ReadInt32LittleEndian(Data[0xE8..]); set => WriteInt32LittleEndian(Data[0xE8..], value); }
     public override byte Stat_Level { get => Data[0xEC]; set => Data[0xEC] = value; }
     public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
     public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
     // 0xEF unused
-    public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0xF0)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF0), (ushort)value); }
-    public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0xF2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF2), (ushort)value); }
-    public override int Stat_ATK { get => ReadUInt16LittleEndian(Data.AsSpan(0xF4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF4), (ushort)value); }
-    public override int Stat_DEF { get => ReadUInt16LittleEndian(Data.AsSpan(0xF6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF6), (ushort)value); }
-    public override int Stat_SPE { get => ReadUInt16LittleEndian(Data.AsSpan(0xF8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF8), (ushort)value); }
-    public override int Stat_SPA { get => ReadUInt16LittleEndian(Data.AsSpan(0xFA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xFA), (ushort)value); }
-    public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0xFC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xFC), (ushort)value); }
-    public int Stat_CP { get => ReadUInt16LittleEndian(Data.AsSpan(0xFE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xFE), (ushort)value); }
+    public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data[0xF0..]); set => WriteUInt16LittleEndian(Data[0xF0..], (ushort)value); }
+    public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data[0xF2..]); set => WriteUInt16LittleEndian(Data[0xF2..], (ushort)value); }
+    public override int Stat_ATK { get => ReadUInt16LittleEndian(Data[0xF4..]); set => WriteUInt16LittleEndian(Data[0xF4..], (ushort)value); }
+    public override int Stat_DEF { get => ReadUInt16LittleEndian(Data[0xF6..]); set => WriteUInt16LittleEndian(Data[0xF6..], (ushort)value); }
+    public override int Stat_SPE { get => ReadUInt16LittleEndian(Data[0xF8..]); set => WriteUInt16LittleEndian(Data[0xF8..], (ushort)value); }
+    public override int Stat_SPA { get => ReadUInt16LittleEndian(Data[0xFA..]); set => WriteUInt16LittleEndian(Data[0xFA..], (ushort)value); }
+    public override int Stat_SPD { get => ReadUInt16LittleEndian(Data[0xFC..]); set => WriteUInt16LittleEndian(Data[0xFC..], (ushort)value); }
+    public int Stat_CP { get => ReadUInt16LittleEndian(Data[0xFE..]); set => WriteUInt16LittleEndian(Data[0xFE..], (ushort)value); }
     public bool Stat_Mega { get => Data[0x100] != 0; set => Data[0x100] = value ? (byte)1 : (byte)0; }
     public int Stat_MegaForm { get => Data[0x101]; set => Data[0x101] = (byte)value; }
     // 102/103 unused

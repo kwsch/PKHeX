@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 public sealed class SAV7SM : SAV7, ISaveBlock7SM
 {
-    public SAV7SM(byte[] data) : base(data, SaveBlockAccessor7SM.BlockMetadataOffset)
+    public SAV7SM(Memory<byte> data) : base(data, SaveBlockAccessor7SM.BlockMetadataOffset)
     {
         Blocks = new SaveBlockAccessor7SM(this);
         Initialize();
@@ -33,7 +33,7 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
 
     public override PersonalTable7 Personal => PersonalTable.SM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SM;
-    protected override SAV7SM CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV7SM CloneInternal() => new(Data.ToArray());
 
     #region Blocks
     public SaveBlockAccessor7SM Blocks { get; }
@@ -73,6 +73,6 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
     {
         var flag = EventWork.GetEventFlag(EventWork7SM.MagearnaEventFlag); // 3100
         ulong value = flag ? MagearnaConst : 0ul;
-        WriteUInt64LittleEndian(Data.AsSpan(Blocks.BlockInfo[35].Offset + 0x168), value);
+        WriteUInt64LittleEndian(Data[(Blocks.BlockInfo[35].Offset + 0x168)..], value);
     }
 }

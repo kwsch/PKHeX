@@ -37,9 +37,12 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     // There's no harm having buffers larger than their actual size (per format).
     // A checksum consuming extra zeroes does not change the prior checksum result.
-    public readonly byte[] Small = new byte[1 * SIZE_SECTOR_USED]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
-    public readonly byte[] Large = new byte[4 * SIZE_SECTOR_USED]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
-    public readonly byte[] Storage = new byte[9 * SIZE_SECTOR_USED]; //  [0x83D0]
+    public readonly Memory<byte> SmallBuffer = new byte[1 * SIZE_SECTOR_USED]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
+    public readonly Memory<byte> LargeBuffer = new byte[4 * SIZE_SECTOR_USED]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
+    public readonly Memory<byte> StorageBuffer = new byte[9 * SIZE_SECTOR_USED]; //  [0x83D0]
+    public Span<byte> Small => SmallBuffer.Span;
+    public Span<byte> Large => LargeBuffer.Span;
+    public Span<byte> Storage => StorageBuffer.Span;
 
     private readonly int ActiveSlot;
     public sealed override int Language { get; set; }
@@ -51,15 +54,15 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     protected SAV3(bool japanese) => Japanese = japanese;
 
-    protected SAV3(byte[] data) : base(data)
+    protected SAV3(Memory<byte> data) : base(data)
     {
         // Copy sector data to the allocated location
-        ReadSectors(data, ActiveSlot = GetActiveSlot(data));
+        ReadSectors(data.Span, ActiveSlot = GetActiveSlot(data.Span));
 
         // OT name is the first 8 bytes of Small. The game fills any unused characters with 0xFF.
         // Japanese games are limited to 5 character OT names; INT 7 characters. +1 0xFF terminator.
         // Since JPN games don't touch the last 2 bytes (alignment), they end up as zeroes!
-        Japanese = ReadInt16LittleEndian(Small.AsSpan(0x6)) == 0;
+        Japanese = ReadInt16LittleEndian(Small[0x6..]) == 0;
     }
 
     private void ReadSectors(ReadOnlySpan<byte> data, int group)
@@ -92,9 +95,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     private Span<byte> GetStructureChunk(short id) => id switch
     {
-        >= 5 => Storage.AsSpan((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED),
-        >= 1 => Large  .AsSpan((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED),
-        _ => Small.AsSpan(0, SIZE_SECTOR_USED),
+        >= 5 => Storage.Slice((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED),
+        >= 1 => Large  .Slice((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED),
+        _ => Small[..SIZE_SECTOR_USED],
     };
 
     /// <summary>
@@ -139,7 +142,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         return SAV3BlockDetection.CompareFooters(data, sectorZero0, sectorZero1);
     }
 
-    protected sealed override byte[] GetFinalData()
+    protected sealed override Memory<byte> GetFinalData()
     {
         // Copy Box data back
         WriteSectors(Data, ActiveSlot);
@@ -187,9 +190,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     /// <returns>New <see cref="SaveFile"/> object.</returns>
     public SAV3 ForceLoad(GameVersion version) => version switch
     {
-        GameVersion.R or GameVersion.S or GameVersion.RS => new SAV3RS(Data),
-        GameVersion.E => new SAV3E(Data),
-        GameVersion.FR or GameVersion.LG or GameVersion.FRLG => new SAV3FRLG(Data),
+        GameVersion.R or GameVersion.S or GameVersion.RS => new SAV3RS(Buffer),
+        GameVersion.E => new SAV3E(Buffer),
+        GameVersion.FR or GameVersion.LG or GameVersion.FRLG => new SAV3FRLG(Buffer),
         _ => throw new ArgumentOutOfRangeException(nameof(version)),
     };
 
@@ -264,7 +267,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     private void SetSectorValidExtra(int offset)
     {
-        var sector = Data.AsSpan(offset, SIZE_SECTOR);
+        var sector = Data.Slice(offset, SIZE_SECTOR);
         if (IsSectorUninitialized(sector))
             return;
         var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
@@ -273,7 +276,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     private bool IsSectorValidExtra(int offset)
     {
-        var sector = Data.AsSpan(offset, SIZE_SECTOR);
+        var sector = Data.Slice(offset, SIZE_SECTOR);
         if (IsSectorUninitialized(sector))
             return true;
         var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
@@ -288,7 +291,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         int start = ActiveSlot * SIZE_MAIN;
         int ofs = start + (sectorIndex * SIZE_SECTOR);
-        var sector = Data.AsSpan(ofs, SIZE_SECTOR);
+        var sector = Data.Slice(ofs, SIZE_SECTOR);
         var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
         var actual = ReadUInt16LittleEndian(sector[0xFF6..]);
         return expect == actual;
@@ -337,7 +340,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public abstract uint SecurityKey { get; set; }
 
-    public Span<byte> OriginalTrainerTrash => Small.AsSpan(0, 8);
+    public Span<byte> OriginalTrainerTrash => Small[..8];
 
     public sealed override string OT
     {
@@ -361,26 +364,26 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public sealed override uint ID32
     {
-        get => ReadUInt32LittleEndian(Small.AsSpan(0x0A));
-        set => WriteUInt32LittleEndian(Small.AsSpan(0x0A), value);
+        get => ReadUInt32LittleEndian(Small[0x0A..]);
+        set => WriteUInt32LittleEndian(Small[0x0A..], value);
     }
 
     public sealed override ushort TID16
     {
-        get => ReadUInt16LittleEndian(Small.AsSpan(0xA));
-        set => WriteUInt16LittleEndian(Small.AsSpan(0xA), value);
+        get => ReadUInt16LittleEndian(Small[0xA..]);
+        set => WriteUInt16LittleEndian(Small[0xA..], value);
     }
 
     public sealed override ushort SID16
     {
-        get => ReadUInt16LittleEndian(Small.AsSpan(0xC));
-        set => WriteUInt16LittleEndian(Small.AsSpan(0xC), value);
+        get => ReadUInt16LittleEndian(Small[0xC..]);
+        set => WriteUInt16LittleEndian(Small[0xC..], value);
     }
 
     public sealed override int PlayedHours
     {
-        get => ReadUInt16LittleEndian(Small.AsSpan(0xE));
-        set => WriteUInt16LittleEndian(Small.AsSpan(0xE), (ushort)value);
+        get => ReadUInt16LittleEndian(Small[0xE..]);
+        set => WriteUInt16LittleEndian(Small[0xE..], (ushort)value);
     }
 
     public sealed override int PlayedMinutes
@@ -416,8 +419,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
     }
 
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Large.AsSpan(EventWork + (index * 2)));
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Large.AsSpan(EventWork)[(index * 2)..], value);
+    public ushort GetWork(int index) => ReadUInt16LittleEndian(Large[(EventWork + (index * 2))..]);
+    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Large[EventWork..][(index * 2)..], value);
     #endregion
 
     public sealed override bool GetFlag(int offset, int bitIndex) => GetFlag(Large, offset, bitIndex);
@@ -471,10 +474,10 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     protected abstract int DaycareSlotSize { get; }
     protected abstract int DaycareOffset { get; }
     protected abstract int GetDaycareEXPOffset(int slot);
-    public Memory<byte> GetDaycareSlot(int slot) => Large.AsMemory(GetDaycareSlotOffset(slot), DaycareSlotSize);
-    public uint GetDaycareEXP(int index) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(index)));
-    public void SetDaycareEXP(int index, uint value) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(index)), value);
-    public bool IsDaycareOccupied(int slot) => IsPKMPresent(Large.AsSpan(GetDaycareSlotOffset(slot)));
+    public Memory<byte> GetDaycareSlot(int slot) => LargeBuffer.Slice(GetDaycareSlotOffset(slot), DaycareSlotSize);
+    public uint GetDaycareEXP(int index) => ReadUInt32LittleEndian(Large[GetDaycareEXPOffset(index)..]);
+    public void SetDaycareEXP(int index, uint value) => WriteUInt32LittleEndian(Large[GetDaycareEXPOffset(index)..], value);
+    public bool IsDaycareOccupied(int slot) => IsPKMPresent(Large[GetDaycareSlotOffset(slot)..]);
     public void SetDaycareOccupied(int slot, bool occupied) { /* todo */ }
     public int GetDaycareSlotOffset(int slot) => DaycareOffset + (slot * DaycareSlotSize);
     protected abstract int EggEventFlag { get; }
@@ -517,13 +520,13 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public string GetBoxName(int box)
     {
         int offset = GetBoxOffset(COUNT_BOX);
-        return StringConverter3.GetString(Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
+        return StringConverter3.GetString(Storage.Slice(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
     }
 
     public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int offset = GetBoxOffset(COUNT_BOX);
-        var dest = Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);
+        var dest = Storage.Slice(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);
         SetString(dest, value, COUNT_BOXNAME - 1, StringConverterOption.ClearZero);
     }
     #endregion
@@ -550,8 +553,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         SetSeen(species, true);
     }
 
-    public uint DexPIDUnown  { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x4)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x4), value); }
-    public uint DexPIDSpinda { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8), value); }
+    public uint DexPIDUnown  { get => ReadUInt32LittleEndian(Small[(PokeDex + 0x4)..]); set => WriteUInt32LittleEndian(Small[(PokeDex + 0x4)..], value); }
+    public uint DexPIDSpinda { get => ReadUInt32LittleEndian(Small[(PokeDex + 0x8)..]); set => WriteUInt32LittleEndian(Small[(PokeDex + 0x8)..], value); }
     public int DexUnownForm => EntityPID.GetUnownForm3(DexPIDUnown);
 
     public sealed override bool GetCaught(ushort species)
@@ -637,7 +640,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public MailDetail GetMail(int mailIndex)
     {
         var ofs = GetMailOffset(mailIndex);
-        var data = Large.AsSpan(ofs, Mail3.SIZE).ToArray();
+        var data = Large.Slice(ofs, Mail3.SIZE).ToArray();
         return new Mail3(data, ofs);
     }
 
@@ -681,12 +684,12 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     /// <summary>
     /// Only used by Japanese Emerald games.
     /// </summary>
-    public Memory<byte> GetEReaderData() => Data.AsMemory(0x1E000, SIZE_SECTOR_USED);
+    public Memory<byte> GetEReaderData() => Buffer.Slice(0x1E000, SIZE_SECTOR_USED);
 
     /// <summary> Only used in Emerald. </summary>
-    public Memory<byte> GetFinalExternalData() => Data.AsMemory(0x1F000, SIZE_SECTOR_USED);
+    public Memory<byte> GetFinalExternalData() => Buffer.Slice(0x1F000, SIZE_SECTOR_USED);
 
-    public bool IsCorruptPokedexFF() => MemoryMarshal.Read<ulong>(Small.AsSpan(0xAC)) == ulong.MaxValue;
+    public bool IsCorruptPokedexFF() => MemoryMarshal.Read<ulong>(Small[0xAC..]) == ulong.MaxValue;
 
     public override void CopyChangesFrom(SaveFile sav)
     {
@@ -699,7 +702,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     #region External Connections
 
-    public Span<byte> GiftRibbons => Large.AsSpan(ExternalEventData - 11, 11);
+    public Span<byte> GiftRibbons => Large.Slice(ExternalEventData - 11, 11);
 
     public void GiftRibbonsImport(ReadOnlySpan<byte> trade)
     {
@@ -720,14 +723,14 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public uint ColosseumRaw1
     {
-        get => ReadUInt32LittleEndian(Large.AsSpan(ExternalEventData + 7));
-        set => WriteUInt32LittleEndian(Large.AsSpan(ExternalEventData + 7), value);
+        get => ReadUInt32LittleEndian(Large[(ExternalEventData + 7)..]);
+        set => WriteUInt32LittleEndian(Large[(ExternalEventData + 7)..], value);
     }
 
     public uint ColosseumRaw2
     {
-        get => ReadUInt32LittleEndian(Large.AsSpan(ExternalEventData + 11));
-        set => WriteUInt32LittleEndian(Large.AsSpan(ExternalEventData + 11), value);
+        get => ReadUInt32LittleEndian(Large[(ExternalEventData + 11)..]);
+        set => WriteUInt32LittleEndian(Large[(ExternalEventData + 11)..], value);
     }
 
     /// <summary>

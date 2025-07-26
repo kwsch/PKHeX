@@ -292,21 +292,21 @@ public partial class SAV_FestivalPlaza : Form
 
     private void LoadBattleAgency()
     {
-        p[0] = SAV.GetStoredSlot(SAV.Data.AsSpan(0x6C200));
-        p[1] = SAV.GetPartySlot(SAV.Data.AsSpan(0x6C2E8));
-        p[2] = SAV.GetPartySlot(SAV.Data.AsSpan(0x6C420));
+        p[0] = SAV.GetStoredSlot(SAV.Data[0x6C200..]);
+        p[1] = SAV.GetPartySlot(SAV.Data[0x6C2E8..]);
+        p[2] = SAV.GetPartySlot(SAV.Data[0x6C420..]);
         LoadPictureBox();
         B_ImportParty.Visible = SAV.HasParty;
         CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);
         CHK_TrainerInvited.Checked = IsTrainerInvited();
-        ushort valus = ReadUInt16LittleEndian(SAV.Data.AsSpan(0x6C55C));
+        ushort valus = ReadUInt16LittleEndian(SAV.Data[0x6C55C..]);
         int grade = (valus >> 6) & 0x3F;
         NUD_Grade.Value = grade;
         int max = (Math.Min(49, grade) / 10 * 3) + 2;
         int defeated = valus >> 12;
         NUD_Defeated.Value = defeated > max ? max : defeated;
         NUD_Defeated.Maximum = max;
-        NUD_DefeatMon.Value = ReadUInt16LittleEndian(SAV.Data.AsSpan(0x6C558));
+        NUD_DefeatMon.Value = ReadUInt16LittleEndian(SAV.Data[0x6C558..]);
         for (int i = 0; i < NUD_Trainers.Length; i++)
         {
             int j = GetSavData16(0x6C56C + (0x14 * i));
@@ -323,7 +323,7 @@ public partial class SAV_FestivalPlaza : Form
     }
 
     private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];
-    private ushort GetSavData16(int offset) => ReadUInt16LittleEndian(SAV.Data.AsSpan(offset));
+    private ushort GetSavData16(int offset) => ReadUInt16LittleEndian(SAV.Data[offset..]);
     private const ushort InvitedValue = 0x7DFF;
     private readonly PKM[] p = new PKM[3];
     private readonly PictureBox[] PBs = new PictureBox[3];
@@ -334,18 +334,18 @@ public partial class SAV_FestivalPlaza : Form
         SAV.SetFlag(0x6C55E, 1, CHK_Choosed.Checked);
         if (IsTrainerInvited() != CHK_TrainerInvited.Checked)
         {
-            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C3EE), (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0));
-            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C526), (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0));
+            WriteUInt16LittleEndian(SAV.Data[0x6C3EE..], (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0));
+            WriteUInt16LittleEndian(SAV.Data[0x6C526..], (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0));
         }
         SAV.SetData(p[0].EncryptedBoxData, 0x6C200);
         SAV.SetData(p[1].EncryptedPartyData, 0x6C2E8);
         SAV.SetData(p[2].EncryptedPartyData, 0x6C420);
 
         var gradeDefeated = ((((int)NUD_Defeated.Value & 0xF) << 12) | (((int)NUD_Grade.Value & 0x3F) << 6) | (SAV.Data[0x6C55C] & 0x3F));
-        WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C558), (ushort)NUD_DefeatMon.Value);
-        WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C55C), (ushort)gradeDefeated);
+        WriteUInt16LittleEndian(SAV.Data[0x6C558..], (ushort)NUD_DefeatMon.Value);
+        WriteUInt16LittleEndian(SAV.Data[0x6C55C..], (ushort)gradeDefeated);
         for (int i = 0; i < NUD_Trainers.Length; i++)
-            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C56C + (0x14 * i)), (ushort)NUD_Trainers[i].Value);
+            WriteUInt16LittleEndian(SAV.Data[(0x6C56C + (0x14 * i))..], (ushort)NUD_Trainers[i].Value);
         SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
     }
 

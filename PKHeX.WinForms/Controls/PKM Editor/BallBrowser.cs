@@ -30,7 +30,7 @@ public partial class BallBrowser : Form
 
         int countLegal = 0;
         List<PictureBox> controls = [];
-        var names = GameInfo.BallDataSource;
+        var names = GameInfo.Sources.BallDataSource;
         for (byte ballID = 1; ballID <= max; ballID++)
         {
             var name = GetBallName(ballID, names);

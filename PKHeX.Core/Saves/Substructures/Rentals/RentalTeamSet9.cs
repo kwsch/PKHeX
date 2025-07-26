@@ -6,11 +6,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Save Block for Scarlet/Violet that stores a fixed amount of saved rental teams.
 /// </summary>
-public sealed class RentalTeamSet9(byte[] Data) : IPokeGroup
+public sealed class RentalTeamSet9(Memory<byte> Raw) : IPokeGroup
 {
     public const int SIZE = Count * RentalTeam9.SIZE;
     public const int Count = 5;
-    public readonly byte[] Data = Data;
+    public Span<byte> Data => Raw.Span;
 
     public RentalTeam9 GetRentalTeam(int index) => RentalTeam9.GetFrom(Data, index);
     public void SetRentalTeam(int index, RentalTeam9 team) => team.WriteTo(Data, index);

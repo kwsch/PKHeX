@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IRibbonSetRibbons, IContestStats, IAppliedMarkings3
 {
-    protected G3PKM(byte[] data) : base(data) { }
+    protected G3PKM(Memory<byte> data) : base(data) { }
     protected G3PKM([ConstantExpected] int size) : base(size) { }
 
     public abstract override PersonalInfo3 PersonalInfo { get; }

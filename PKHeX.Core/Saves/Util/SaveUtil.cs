@@ -454,8 +454,7 @@ public static class SaveUtil
         if (data.Length != SIZE_G4BR)
             return Invalid;
 
-        byte[] sav = SAV4BR.DecryptPBRSaveData(data);
-        return SAV4BR.IsChecksumsValid(sav) ? BATREV : Invalid;
+        return SAV4BR.IsValidSaveFile(data) ? BATREV : Invalid;
     }
 
     /// <summary>Checks to see if the data belongs to a Gen5 save</summary>
@@ -610,7 +609,7 @@ public static class SaveUtil
     /// <param name="data">Save data from which to create a SaveFile.</param>
     /// <param name="path">Optional save file path, may help initialize a non-standard save file format.</param>
     /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
-    public static SaveFile? GetVariantSAV(byte[] data, string? path = null)
+    public static SaveFile? GetVariantSAV(Memory<byte> data, string? path = null)
     {
 #if !EXCLUDE_HACKS
         foreach (var h in CustomSaveReaders)
@@ -654,9 +653,9 @@ public static class SaveUtil
         return null;
     }
 
-    private static SaveFile? GetVariantSAVInternal(byte[] data)
+    private static SaveFile? GetVariantSAVInternal(Memory<byte> data)
     {
-        var type = GetSAVType(data);
+        var type = GetSAVType(data.Span);
         return type switch
         {
             // Main Games
@@ -713,12 +712,12 @@ public static class SaveUtil
         // Pre-check for header/footer signatures
         if (memCard.IsNoGameSelected)
             memCard.GetMemoryCardState();
-        var memory = memCard.ReadSaveGameData();
+        var memory = memCard.ReadSaveGameData().ToArray();
         if (memory.Length == 0)
             return null;
 
-        var split = DolphinHandler.TrySplit(memory.Span);
-        var data = split is not null ? split.Data : memory.ToArray();
+        var split = DolphinHandler.TrySplit(memory);
+        var data = split?.Data ?? memory;
 
         SaveFile sav;
         switch (memCard.SelectedGameVersion)
@@ -726,7 +725,7 @@ public static class SaveUtil
             // Side Games
             case COLO: sav = new SAV3Colosseum(data) { MemoryCard = memCard }; break;
             case XD: sav = new SAV3XD(data) { MemoryCard = memCard }; break;
-            case RSBOX: sav = new SAV3RSBox(data, memCard) { MemoryCard = memCard }; break;
+            case RSBOX: sav = new SAV3RSBox(data) { MemoryCard = memCard }; break;
 
             // No pattern matched
             default: return null;

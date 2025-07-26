@@ -46,13 +46,13 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         ClearBoxes();
     }
 
-    public SAV1(byte[] data, GameVersion versionOverride = GameVersion.Any, LanguageID language = LanguageID.English) : base(data)
+    public SAV1(Memory<byte> data, GameVersion versionOverride = GameVersion.Any, LanguageID language = LanguageID.English) : base(data)
     {
         Japanese = SaveUtil.GetIsG1SAVJ(Data);
         Language = (int)language;
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
-        Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
+        Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(Data);
         Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         if (Version == GameVersion.Invalid)
             return;
@@ -85,14 +85,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
                 if (i == current)
                     continue; // Use the current box data instead, loaded a little later.
                 int ofs = GetBoxRawDataOffset(i);
-                var src = Data.AsSpan(ofs, stored);
+                var src = Data.Slice(ofs, stored);
                 var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
                 PokeList1.Unpack(src, dest, StringLength, capacity, false);
             }
         }
         if (current < BoxCount) // Load Current Box
         {
-            var src = Data.AsSpan(Offsets.CurrentBox, stored);
+            var src = Data.Slice(Offsets.CurrentBox, stored);
             var dest = BoxBuffer[(current * SIZE_BOX_AS_SINGLES)..];
             PokeList1.Unpack(src, dest, StringLength, capacity, false);
         }
@@ -100,12 +100,12 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         // Stash party immediately after.
         {
             var ofs = Offsets.Party;
-            var src = Data.AsSpan(ofs, SIZE_PARTY_LIST);
+            var src = Data.Slice(ofs, SIZE_PARTY_LIST);
             var dest = PartyBuffer[GetPartyOffset(0)..];
             PokeList1.Unpack(src, dest, StringLength, 6, true);
         }
 
-        var dc = Data.AsSpan(Offsets.Daycare, 0x38);
+        var dc = Data.Slice(Offsets.Daycare, 0x38);
         PokeList1.UnpackNOB(dc[1..], PartyBuffer[DaycareOffset..], StringLength);
     }
 
@@ -133,7 +133,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public byte GetWork(int index) => Data[Offsets.EventWork + index];
     public void SetWork(int index, byte value) => Data[Offsets.EventWork + index] = value;
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         int boxListLength = SIZE_BOX_LIST;
         var boxSlotCount = BoxSlotCount;
@@ -152,7 +152,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i);
-            var dest = Data.AsSpan(ofs, boxListLength);
+            var dest = Data.Slice(ofs, boxListLength);
             var src = GetUnpackedBoxSpan(i);
 
             bool written = PokeList1.MergeSingles(src, dest, StringLength, boxSlotCount, false, boxInitialized);
@@ -161,7 +161,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
             // Ensure the current box is mirrored in the box buffer; easier than having dest be CurrentBox.
             // On the rare chance that the box is empty and was de-synchronized from the current box as empty, we need to write separately.
-            var currentBox = Data.AsSpan(Offsets.CurrentBox, boxListLength);
+            var currentBox = Data.Slice(Offsets.CurrentBox, boxListLength);
             if (written) // Data is good; mirror it.
                 dest.CopyTo(currentBox);
             else // Data was already empty/uninitialized. Try again with the current box buffer.
@@ -171,17 +171,17 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         // Write Party
         {
             int ofs = Offsets.Party;
-            var dest = Data.AsSpan(ofs, SIZE_PARTY_LIST);
+            var dest = Data.Slice(ofs, SIZE_PARTY_LIST);
             var src = PartyBuffer[GetPartyOffset(0)..];
 
             PokeList1.MergeSingles(src, dest, StringLength, 6, true);
         }
 
         // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-        PokeList1.PackNOB(PartyBuffer[DaycareOffset..], Data.AsSpan(Offsets.Daycare, 0x38)[1..], StringLength);
+        PokeList1.PackNOB(PartyBuffer[DaycareOffset..], Data.Slice(Offsets.Daycare, 0x38)[1..], StringLength);
 
         SetChecksums();
-        return Data;
+        return Data.ToArray();
     }
 
     private Span<byte> GetUnpackedBoxSpan(int box)
@@ -218,7 +218,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV1 CloneInternal() => new(GetFinalData()[..], Version) { Language = Language };
+    protected override SAV1 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;
@@ -259,7 +259,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     private byte GetRBYChecksum(int start, int end)
     {
-        var span = Data.AsSpan(start, end - start);
+        var span = Data[start..end];
         byte result = 0;
         foreach (ref var b in span)
             result += b;
@@ -271,11 +271,11 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override string OT
     {
-        get => GetString(Data.AsSpan(Offsets.OT, MaxStringLengthTrainer));
-        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthTrainer + 1), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => GetString(Data.Slice(Offsets.OT, MaxStringLengthTrainer));
+        set => SetString(Data.Slice(Offsets.OT, MaxStringLengthTrainer + 1), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
-    public Span<byte> OriginalTrainerTrash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
+    public Span<byte> OriginalTrainerTrash { get => Data.Slice(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.OT..]); } }
 
     public override byte Gender
     {
@@ -291,19 +291,19 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override ushort TID16
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TID16));
-        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TID16), value);
+        get => ReadUInt16BigEndian(Data[Offsets.TID16..]);
+        set => WriteUInt16BigEndian(Data[Offsets.TID16..], value);
     }
 
     public override ushort SID16 { get => 0; set { } }
 
     public string Rival
     {
-        get => GetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer));
-        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthTrainer), value, MaxStringLengthTrainer, StringConverterOption.Clear50);
+        get => GetString(Data.Slice(Offsets.Rival, MaxStringLengthTrainer));
+        set => SetString(Data.Slice(Offsets.Rival, MaxStringLengthTrainer), value, MaxStringLengthTrainer, StringConverterOption.Clear50);
     }
 
-    public Span<byte> RivalTrash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
+    public Span<byte> RivalTrash { get => Data.Slice(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.Rival..]); } }
 
     public byte RivalStarter { get => Data[Offsets.Starter - 2]; set => Data[Offsets.Starter - 2] = value; }
     public byte Starter { get => Data[Offsets.Starter]; set => Data[Offsets.Starter] = value; }
@@ -321,8 +321,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public uint PikaBeachScore
     {
-        get => BinaryCodedDecimal.ReadUInt32LittleEndian(Data.AsSpan(Offsets.PikaBeachScore, 2));
-        set => BinaryCodedDecimal.WriteUInt32LittleEndian(Data.AsSpan(Offsets.PikaBeachScore, 2), Math.Min(9999, value));
+        get => BinaryCodedDecimal.ReadUInt32LittleEndian(Data.Slice(Offsets.PikaBeachScore, 2));
+        set => BinaryCodedDecimal.WriteUInt32LittleEndian(Data.Slice(Offsets.PikaBeachScore, 2), Math.Min(9999, value));
     }
 
     public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
@@ -407,21 +407,21 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override uint Money
     {
-        get => BinaryCodedDecimal.ReadUInt32BigEndian(Data.AsSpan(Offsets.Money, 3));
+        get => BinaryCodedDecimal.ReadUInt32BigEndian(Data.Slice(Offsets.Money, 3));
         set
         {
             value = (uint)Math.Min(value, MaxMoney);
-            BinaryCodedDecimal.WriteUInt32BigEndian(Data.AsSpan(Offsets.Money, 3), value);
+            BinaryCodedDecimal.WriteUInt32BigEndian(Data.Slice(Offsets.Money, 3), value);
         }
     }
 
     public uint Coin
     {
-        get => BinaryCodedDecimal.ReadUInt32BigEndian(Data.AsSpan(Offsets.Coin, 2));
+        get => BinaryCodedDecimal.ReadUInt32BigEndian(Data.Slice(Offsets.Coin, 2));
         set
         {
             value = (ushort)Math.Min(value, MaxCoins);
-            BinaryCodedDecimal.WriteUInt32BigEndian(Data.AsSpan(Offsets.Coin, 2), value);
+            BinaryCodedDecimal.WriteUInt32BigEndian(Data.Slice(Offsets.Coin, 2), value);
         }
     }
 
@@ -578,7 +578,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public HallOfFameReader1 HallOfFame => new(Data.AsMemory(0x0598, HallOfFameReader1.SIZE), Japanese);
+    public HallOfFameReader1 HallOfFame => new(Buffer.Slice(0x0598, HallOfFameReader1.SIZE), Japanese);
 
     public byte HallOfFameCount
     {

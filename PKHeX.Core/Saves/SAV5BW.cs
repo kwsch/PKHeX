@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -9,11 +10,11 @@ namespace PKHeX.Core;
 public sealed class SAV5BW : SAV5
 {
     public SAV5BW() : base(SaveUtil.SIZE_G5RAW) => Blocks = new SaveBlockAccessor5BW(this);
-    public SAV5BW(byte[] data) : base(data) => Blocks = new SaveBlockAccessor5BW(this);
+    public SAV5BW(Memory<byte> data) : base(data) => Blocks = new SaveBlockAccessor5BW(this);
 
     public override PersonalTable5BW Personal => PersonalTable.BW;
     public SaveBlockAccessor5BW Blocks { get; }
-    protected override SAV5BW CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV5BW CloneInternal() => new(Data.ToArray());
     public override int MaxItemID => Legal.MaxItemID_5_BW;
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;

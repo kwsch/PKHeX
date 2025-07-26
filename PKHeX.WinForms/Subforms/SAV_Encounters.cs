@@ -225,16 +225,16 @@ public partial class SAV_Encounters : Form
         CB_GameOrigin.InitializeBinding();
 
         var Any = new ComboItem(MsgAny, 0);
-
-        var source = GameInfo.FilteredSources;
-        var species = new List<ComboItem>(GameInfo.SpeciesDataSource)
+        var filtered = GameInfo.FilteredSources;
+        var source = filtered.Source;
+        var species = new List<ComboItem>(source.SpeciesDataSource)
         {
             [0] = Any // Replace (None) with "Any"
         };
         CB_Species.DataSource = species;
 
         // Set the Move ComboBoxes too.
-        var DS_Move = new List<ComboItem>(source.Moves);
+        var DS_Move = new List<ComboItem>(filtered.Moves);
         DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
         {
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
@@ -244,7 +244,7 @@ public partial class SAV_Encounters : Form
             }
         }
 
-        var DS_Version = new List<ComboItem>(GameInfo.VersionDataSource);
+        var DS_Version = new List<ComboItem>(source.VersionDataSource);
         DS_Version.Insert(0, Any);
         DS_Version.RemoveAt(DS_Version.Count - 1);
         CB_GameOrigin.DataSource = DS_Version;

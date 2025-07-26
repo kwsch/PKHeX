@@ -409,7 +409,7 @@ public static class WinFormsUtil
 
         try
         {
-            File.WriteAllBytes(path, sav.Write(flags));
+            File.WriteAllBytes(path, sav.Write(flags).Span);
             sav.State.Edited = false;
             sav.Metadata.SetExtraInfo(path);
             Alert(MsgSaveExportSuccessPath, path);

@@ -102,9 +102,9 @@ public static class HomeCrypto
     /// Decrypts the input <see cref="data"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Format encryption check</remarks>
-    public static void DecryptIfEncrypted(ref byte[] data)
+    public static void DecryptIfEncrypted(ref Memory<byte> data)
     {
-        var span = data.AsSpan();
+        var span = data.Span;
         var format = ReadUInt16LittleEndian(span);
         if (IsKnownVersion(format))
         {

@@ -17,7 +17,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
-    public SAV4HGSS(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
+    public SAV4HGSS(Memory<byte> data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
     {
         Initialize();
         Mystery = new MysteryBlock4HGSS(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4HGSS.Size));
@@ -25,7 +25,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     }
 
     public override Zukan4 Dex { get; }
-    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
+    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS(Data.ToArray()) : new SAV4HGSS();
 
     public override GameVersion Version { get => GameVersion.HGSS; set { } }
     public override PersonalTable4 Personal => PersonalTable.HGSS;
@@ -53,7 +53,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         GetSAVOffsets();
     }
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         // Make sure all boxes are copied when saved only once in-game.
         // This results in the game "saving a lot of data", but ensures the boxdata struct does not corrupt in-game on single save.

@@ -418,31 +418,33 @@ public static class PokeCrypto
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 3 Format encryption check which verifies the checksum</remarks>
-    public static void DecryptIfEncrypted3(ref byte[] pk)
+    public static void DecryptIfEncrypted3(ref Memory<byte> pk)
     {
-        ushort chk = Checksums.Add16(pk.AsSpan(0x20, BlockCount * SIZE_3BLOCK));
-        if (chk != ReadUInt16LittleEndian(pk.AsSpan(0x1C)))
-            pk = DecryptArray3(pk);
+        ushort chk = Checksums.Add16(pk.Span.Slice(0x20, BlockCount * SIZE_3BLOCK));
+        if (chk != ReadUInt16LittleEndian(pk.Span[0x1C..]))
+            pk = DecryptArray3(pk.Span);
     }
 
     /// <summary>
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 4 &amp; 5 Format encryption check which checks for the unused bytes</remarks>
-    public static void DecryptIfEncrypted45(ref byte[] pk)
+    public static void DecryptIfEncrypted45(ref Memory<byte> pk)
     {
-        var span = pk.AsSpan();
-        if (ReadUInt32LittleEndian(span[0x64..]) != 0)
+        var span = pk.Span;
+        if (IsEncrypted45(span))
             pk = DecryptArray45(span);
     }
+
+    public static bool IsEncrypted45(ReadOnlySpan<byte> data) => ReadUInt32LittleEndian(data[0x64..]) != 0;
 
     /// <summary>
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 6 &amp; 7 Format encryption check</remarks>
-    public static void DecryptIfEncrypted67(ref byte[] pk)
+    public static void DecryptIfEncrypted67(ref Memory<byte> pk)
     {
-        var span = pk.AsSpan();
+        var span = pk.Span;
         if (ReadUInt16LittleEndian(span[0xC8..]) != 0 || ReadUInt16LittleEndian(span[0x58..]) != 0)
             pk = DecryptArray6(span);
     }
@@ -451,9 +453,9 @@ public static class PokeCrypto
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 8 Format encryption check</remarks>
-    public static void DecryptIfEncrypted8(ref byte[] pk)
+    public static void DecryptIfEncrypted8(ref Memory<byte> pk)
     {
-        var span = pk.AsSpan();
+        var span = pk.Span;
         if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0x110..]) != 0)
             pk = DecryptArray8(span);
     }
@@ -462,9 +464,9 @@ public static class PokeCrypto
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 8 Format encryption check</remarks>
-    public static void DecryptIfEncrypted8A(ref byte[] pk)
+    public static void DecryptIfEncrypted8A(ref Memory<byte> pk)
     {
-        var span = pk.AsSpan();
+        var span = pk.Span;
         if (ReadUInt16LittleEndian(span[0x78..]) != 0 || ReadUInt16LittleEndian(span[0x128..]) != 0)
             pk = DecryptArray8A(span);
     }
@@ -473,9 +475,9 @@ public static class PokeCrypto
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 9 Format encryption check</remarks>
-    public static void DecryptIfEncrypted9(ref byte[] pk)
+    public static void DecryptIfEncrypted9(ref Memory<byte> pk)
     {
-        var span = pk.AsSpan();
+        var span = pk.Span;
         if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0x110..]) != 0)
             pk = DecryptArray9(span);
     }

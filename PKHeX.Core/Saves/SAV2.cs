@@ -60,7 +60,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         ClearBoxes();
     }
 
-    public SAV2(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+    public SAV2(Memory<byte> data, GameVersion versionOverride = GameVersion.Any) : base(data)
     {
         Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG2SAV(Data);
         Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
@@ -85,7 +85,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i, splitAtIndex);
-            var src = Data.AsSpan(ofs, stored);
+            var src = Data.Slice(ofs, stored);
             var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
             PokeList2.Unpack(src, dest, StringLength, capacity, false);
         }
@@ -97,7 +97,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         // Stash party immediately after.
         {
             var ofs = Offsets.Party;
-            var src = Data.AsSpan(ofs, SIZE_PARTY_LIST);
+            var src = Data.Slice(ofs, SIZE_PARTY_LIST);
             var dest = PartyBuffer[GetPartyOffset(0)..];
             PokeList2.Unpack(src, dest, StringLength, 6, true);
         }
@@ -105,13 +105,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         if (Offsets.Daycare >= 0)
         {
             var dc0 = PartyBuffer[GetDaycareSlotOffset(0)..];
-            PokeList2.UnpackNOB(Data.AsSpan(GetRawDaycareSlotOffset(0)), dc0, StringLength);
+            PokeList2.UnpackNOB(Data[GetRawDaycareSlotOffset(0)..], dc0, StringLength);
 
             var dc1 = PartyBuffer[GetDaycareSlotOffset(1)..];
-            PokeList2.UnpackNOB(Data.AsSpan(GetRawDaycareSlotOffset(1)), dc1, StringLength);
+            PokeList2.UnpackNOB(Data[GetRawDaycareSlotOffset(1)..], dc1, StringLength);
 
             var egg = PartyBuffer[GetDaycareSlotOffset(2)..];
-            PokeList2.UnpackNOB(Data.AsSpan(GetRawDaycareSlotOffset(2)), egg, StringLength);
+            PokeList2.UnpackNOB(Data[GetRawDaycareSlotOffset(2)..], egg, StringLength);
             if (egg[2] != PokeList2.SlotEmpty)
                 egg[1] = PokeList2.SlotEgg;
         }
@@ -148,7 +148,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return 0x6000 + ((i - splitAtIndex) * (SIZE_BOX_LIST + 2));
     }
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         int splitAtIndex = (Japanese ? 6 : 7);
         int boxListLength = SIZE_BOX_LIST;
@@ -156,18 +156,18 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i, splitAtIndex);
-            var dest = Data.AsSpan(ofs, boxListLength);
+            var dest = Data.Slice(ofs, boxListLength);
             var src = BoxBuffer.Slice(i * SIZE_BOX_AS_SINGLES, SIZE_BOX_AS_SINGLES);
 
             bool written = PokeList2.MergeSingles(src, dest, StringLength, boxSlotCount, false);
             if (written && i == CurrentBox)
-                dest.CopyTo(Data.AsSpan(Offsets.CurrentBox));
+                dest.CopyTo(Data[Offsets.CurrentBox..]);
         }
 
         // Write Party
         {
             int ofs = Offsets.Party;
-            var dest = Data.AsSpan(ofs, SIZE_PARTY_LIST);
+            var dest = Data.Slice(ofs, SIZE_PARTY_LIST);
             var src = PartyBuffer[GetPartyOffset(0)..];
 
             PokeList2.MergeSingles(src, dest, StringLength, 6, true);
@@ -178,13 +178,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         if (Offsets.Daycare >= 0)
         {
             var dc0 = PartyBuffer[GetDaycareSlotOffset(0)..];
-            PokeList2.PackNOB(dc0, Data.AsSpan(GetRawDaycareSlotOffset(0)), StringLength);
+            PokeList2.PackNOB(dc0, Data[GetRawDaycareSlotOffset(0)..], StringLength);
 
             var dc1 = PartyBuffer[GetDaycareSlotOffset(1)..];
-            PokeList2.PackNOB(dc1, Data.AsSpan(GetRawDaycareSlotOffset(1)), StringLength);
+            PokeList2.PackNOB(dc1, Data[GetRawDaycareSlotOffset(1)..], StringLength);
 
             var egg = PartyBuffer[GetDaycareSlotOffset(2)..];
-            PokeList2.PackNOB(egg, Data.AsSpan(GetRawDaycareSlotOffset(2)), StringLength);
+            PokeList2.PackNOB(egg, Data[GetRawDaycareSlotOffset(2)..], StringLength);
         }
 
         SetChecksums();
@@ -193,33 +193,33 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             switch (Version)
             {
                 case GameVersion.C:
-                    Data.AsSpan(Offsets.Trainer1, 0xADA).CopyTo(Data.AsSpan(0x7209)); break;
+                    Data.Slice(Offsets.Trainer1, 0xADA).CopyTo(Data[0x7209..]); break;
                 default:
-                    Data.AsSpan(Offsets.Trainer1, 0xC83).CopyTo(Data.AsSpan(0x7209)); break;
+                    Data.Slice(Offsets.Trainer1, 0xC83).CopyTo(Data[0x7209..]); break;
             }
         }
         else if (Korean)
         {
             var sum = GetKoreanChecksum();
-            WriteUInt16LittleEndian(Data.AsSpan(0x7E6B), sum);
+            WriteUInt16LittleEndian(Data[0x7E6B..], sum);
         }
         else
         {
             switch (Version)
             {
                 case GameVersion.C:
-                    Array.Copy(Data, 0x2009, Data, 0x1209, 0xB7A);
+                    Data.Slice(0x2009, 0xB7A).CopyTo(Data[0x1209..]);
                     break;
                 default:
-                    Array.Copy(Data, 0x2009, Data, 0x15C7, 0x222F - 0x2009);
-                    Array.Copy(Data, 0x222F, Data, 0x3D69, 0x23D9 - 0x222F);
-                    Array.Copy(Data, 0x23D9, Data, 0x0C6B, 0x2856 - 0x23D9);
-                    Array.Copy(Data, 0x2856, Data, 0x7E39, 0x288A - 0x2856);
-                    Array.Copy(Data, 0x288A, Data, 0x10E8, 0x2D69 - 0x288A);
+                    Data[0x2009..0x222F].CopyTo(Data[0x15C7..]);
+                    Data[0x222F..0x23D9].CopyTo(Data[0x3D69..]);
+                    Data[0x23D9..0x2856].CopyTo(Data[0x0C6B..]);
+                    Data[0x2856..0x288A].CopyTo(Data[0x7E39..]);
+                    Data[0x288A..0x2D69].CopyTo(Data[0x10E8..]);
                     break;
             }
         }
-        return Data;
+        return Data.ToArray();
     }
 
     private ushort GetKoreanChecksum()
@@ -243,7 +243,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV2 CloneInternal() => new(GetFinalData()[..], Version) { Language = Language };
+    protected override SAV2 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;
@@ -292,8 +292,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     protected override void SetChecksums()
     {
         ushort accum = GetChecksum();
-        WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition), accum);
-        WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition2), accum);
+        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..], accum);
+        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..], accum);
     }
 
     public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
@@ -303,8 +303,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         get
         {
             ushort accum = GetChecksum();
-            ushort actual = ReadUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition));
-            ushort actual2 = ReadUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition2));
+            ushort actual = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..]);
+            ushort actual2 = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..]);
 
             bool checksum1Valid = (accum == actual);
             bool checksum2Valid = (accum == actual2);
@@ -318,26 +318,26 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override string OT
     {
-        get => GetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthTrainer));
-        set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
+        get => GetString(Data.Slice(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthTrainer));
+        set => SetString(Data.Slice(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
     }
 
     public Span<byte> OriginalTrainerTrash
     {
-        get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength);
-        set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
+        get => Data.Slice(Offsets.Trainer1 + 2, StringLength);
+        set { if (value.Length == StringLength) value.CopyTo(Data[(Offsets.Trainer1 + 2)..]); }
     }
 
     public string Rival
     {
-        get => GetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer));
-        set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
+        get => GetString(Data.Slice(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer));
+        set => SetString(Data.Slice(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
     }
 
     public Span<byte> RivalTrash
     {
-        get => Data.AsSpan(Offsets.Rival, StringLength);
-        set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); }
+        get => Data.Slice(Offsets.Rival, StringLength);
+        set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.Rival..]); }
     }
 
     public override byte Gender
@@ -366,16 +366,16 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override ushort TID16
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Trainer1));
-        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.Trainer1), value);
+        get => ReadUInt16BigEndian(Data[Offsets.Trainer1..]);
+        set => WriteUInt16BigEndian(Data[Offsets.Trainer1..], value);
     }
 
     public override ushort SID16 { get => 0; set { } }
 
     public override int PlayedHours
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TimePlayed));
-        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TimePlayed), (ushort)value);
+        get => ReadUInt16BigEndian(Data[Offsets.TimePlayed..]);
+        set => WriteUInt16BigEndian(Data[Offsets.TimePlayed..], (ushort)value);
     }
 
     public override int PlayedMinutes
@@ -392,8 +392,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public int Badges
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges));
-        set { if (value < 0) return; WriteUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges), (ushort)value); }
+        get => ReadUInt16LittleEndian(Data[Offsets.JohtoBadges..]);
+        set { if (value < 0) return; WriteUInt16LittleEndian(Data[Offsets.JohtoBadges..], (ushort)value); }
     }
 
     private byte Options
@@ -463,22 +463,22 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     // 3 bytes
     public override uint Money
     {
-        get => ReadUInt32BigEndian(Data.AsSpan(Offsets.Money)) >> 8;
+        get => ReadUInt32BigEndian(Data[Offsets.Money..]) >> 8;
         set
         {
             var clamp = (uint)Math.Min(value, MaxMoney);
             var toWrite = (clamp << 8) | Data[Offsets.Money + 3];
-            WriteUInt32BigEndian(Data.AsSpan(Offsets.Money), toWrite);
+            WriteUInt32BigEndian(Data[Offsets.Money..], toWrite);
         }
     }
 
     public uint Coin
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Money + 7));
+        get => ReadUInt16BigEndian(Data[(Offsets.Money + 7)..]);
         set
         {
             var clamped = (ushort)Math.Min(value, MaxCoins);
-            WriteUInt16BigEndian(Data.AsSpan(Offsets.Money + 7), clamped);
+            WriteUInt16BigEndian(Data[(Offsets.Money + 7)..], clamped);
         }
     }
 
@@ -617,7 +617,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     private Span<byte> GetBoxNameSpan(int box)
     {
         int len = Korean ? 17 : 9;
-        return Data.AsSpan(Offsets.BoxNames + (box * len), len);
+        return Data.Slice(Offsets.BoxNames + (box * len), len);
     }
 
     public void SetBoxName(int box, ReadOnlySpan<char> value)
@@ -776,9 +776,9 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     private ushort GetResetKey()
     {
         ushort result = 0;
-        foreach (var b in Data.AsSpan(Offsets.Money, 3))
+        foreach (var b in Data.Slice(Offsets.Money, 3))
             result += b;
-        var tr = Data.AsSpan(Offsets.Trainer1, 7);
+        var tr = Data.Slice(Offsets.Trainer1, 7);
         var end = tr[2..].IndexOf(StringConverter1.TerminatorCode);
         if (end >= 0)
             tr = tr[..(end + 2)];

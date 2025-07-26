@@ -21,7 +21,7 @@ public abstract class GBPKM : PKM
     public sealed override ReadOnlySpan<ushort> ExtraBytes => [];
 
     protected GBPKM([ConstantExpected] int size) : base(size) { }
-    protected GBPKM(byte[] data) : base(data) { }
+    protected GBPKM(Memory<byte> data) : base(data) { }
 
     public sealed override byte[] EncryptedPartyData => Encrypt();
     public sealed override byte[] EncryptedBoxData => Encrypt();

@@ -15,7 +15,7 @@ public sealed class WonderNews3 : Gen3MysteryData
     /// </summary>
     public const int SIZE_JAP = sizeof(uint) + 224;
 
-    public WonderNews3(byte[] data) : base(data) => AssertLength(data.Length);
+    public WonderNews3(Memory<byte> raw) : base(raw) => AssertLength(raw.Length);
 
     private static void AssertLength(int length)
     {
@@ -25,16 +25,16 @@ public sealed class WonderNews3 : Gen3MysteryData
 
     public bool Japanese => Data.Length is SIZE_JAP;
 
-    public ushort NewsID   { get => ReadUInt16LittleEndian(Data.AsSpan(4)); set => WriteUInt16LittleEndian(Data.AsSpan(4), value); }
+    public ushort NewsID   { get => ReadUInt16LittleEndian(Data[4..]); set => WriteUInt16LittleEndian(Data[4..], value); }
     public byte Flag { get => Data[6]; set => Data[6] = value; }
     public byte Color { get => Data[7]; set => Data[7] = value; }
 
     public string Title
     {
-        get => StringConverter3.GetString(Data.AsSpan(8, Japanese ? 20 : 40), Japanese);
+        get => StringConverter3.GetString(Data.Slice(8, Japanese ? 20 : 40), Japanese);
         set
         {
-            var dest = Data.AsSpan(8, Japanese ? 20 : 40);
+            var dest = Data.Slice(8, Japanese ? 20 : 40);
             StringConverter3.SetString(dest, value, Japanese ? 20 : 40, Japanese, StringConverterOption.ClearFF);
         }
     }

@@ -6,52 +6,21 @@ namespace PKHeX.Core;
 public sealed class SecretBase6PKM : ISanityChecksum, IFatefulEncounter
 {
     public const int SIZE = 0x34;
-    public readonly byte[] Data;
+    public readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
 
-    public SecretBase6PKM(byte[] data) => Data = data;
-    public SecretBase6PKM() => Data = new byte[SIZE];
+    public SecretBase6PKM(Memory<byte> raw) => Raw = raw;
+    public SecretBase6PKM() => Raw = new byte[SIZE];
 
-    public uint EncryptionConstant
-    {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
-    }
-
-    public ushort Sanity
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x04));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value);
-    }
-
-    public ushort Checksum
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x06));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
-    }
-
-    public ushort Species
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value);
-    }
-
-    public int HeldItem
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
-    }
-
+    public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public ushort Sanity { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt16LittleEndian(Data[0x04..], value); }
+    public ushort Checksum { get => ReadUInt16LittleEndian(Data[0x06..]); set => WriteUInt16LittleEndian(Data[0x06..], value); }
+    public ushort Species { get => ReadUInt16LittleEndian(Data[0x08..]); set => WriteUInt16LittleEndian(Data[0x08..], value); }
+    public int HeldItem { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], (ushort)value); }
     public int Ability { get => Data[0x0C]; set => Data[0x0C] = (byte)value; }
     public int AbilityNumber { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
-
-    public uint PID
-    {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x10));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
-    }
-
+    public uint PID { get => ReadUInt32LittleEndian(Data[0x10..]); set => WriteUInt32LittleEndian(Data[0x10..], value); }
     public Nature Nature { get => (Nature)Data[0x14]; set => Data[0x14] = (byte)value; }
-
     public bool FatefulEncounter { get => (Data[0x15] & 1) == 1; set => Data[0x15] = (byte)((Data[0x15] & ~0x01) | (value ? 1 : 0)); }
     public byte Gender { get => (byte)((Data[0x15] >> 1) & 0x3); set => Data[0x15] = (byte)((Data[0x15] & ~0x06) | (value << 1)); }
     public byte Form { get => (byte)(Data[0x15] >> 3); set => Data[0x15] = (byte)((Data[0x15] & 0x07) | (value << 3)); }
@@ -63,29 +32,10 @@ public sealed class SecretBase6PKM : ISanityChecksum, IFatefulEncounter
     public int EV_SPA { get => Data[0x1A]; set => Data[0x1A] = (byte)value; }
     public int EV_SPD { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
 
-    public ushort Move1
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x1C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value);
-    }
-
-    public ushort Move2
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x1E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value);
-    }
-
-    public ushort Move3
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x20));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x20), value);
-    }
-
-    public ushort Move4
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x22));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x22), value);
-    }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x20..]); set => WriteUInt16LittleEndian(Data[0x20..], value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x22..]); set => WriteUInt16LittleEndian(Data[0x22..], value); }
 
     public int Move1_PPUps { get => Data[0x24]; set => Data[0x24] = (byte)value; }
     public int Move2_PPUps { get => Data[0x25]; set => Data[0x25] = (byte)value; }

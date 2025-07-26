@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// A single Generation 9 Rental Team
 /// </summary>
-public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
+public sealed class RentalTeam9(Memory<byte> Raw) : IRentalTeam<PK9>, IPokeGroup
 {
     private const int LEN_OT = 11; // char
     private const int LEN_TEAMNAME = 10; // char
@@ -28,23 +28,23 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
     private const int OFS_END = OFS_6 + LEN_POKE;
     public const int SIZE = OFS_END + sizeof(uint); // 0x844
 
-    public readonly byte[] Data = Data;
+    public Span<byte> Data => Raw.Span;
 
     // 2 bytes number
     public ushort ID
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(OFS_META + 0x00));
-        set => WriteUInt16LittleEndian(Data.AsSpan(OFS_META + 0x00), value);
+        get => ReadUInt16LittleEndian(Data[(OFS_META + 0x00)..]);
+        set => WriteUInt16LittleEndian(Data[(OFS_META + 0x00)..], value);
     }
 
-    private Span<byte> OriginalTrainerTrash => Data.AsSpan(OFS_META + 0x02, LEN_OT * sizeof(char));
+    private Span<byte> OriginalTrainerTrash => Data.Slice(OFS_META + 0x02, LEN_OT * sizeof(char));
 
-    private Span<byte> TeamNameTrash => Data.AsSpan(OFS_META + 0x18, LEN_TEAMNAME * sizeof(char));
+    private Span<byte> TeamNameTrash => Data.Slice(OFS_META + 0x18, LEN_TEAMNAME * sizeof(char));
 
     public uint Language
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(OFS_META + 0x2C));
-        set => WriteUInt32LittleEndian(Data.AsSpan(OFS_META + 0x2C), value);
+        get => ReadUInt32LittleEndian(Data[(OFS_META + 0x2C)..]);
+        set => WriteUInt32LittleEndian(Data[(OFS_META + 0x2C)..], value);
     }
 
     public string PlayerName
@@ -61,14 +61,14 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
 
     public uint EntityCount
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(OFS_END));
-        set => WriteUInt32LittleEndian(Data.AsSpan(OFS_END), value);
+        get => ReadUInt32LittleEndian(Data.Slice(OFS_END));
+        set => WriteUInt32LittleEndian(Data.Slice(OFS_END), value);
     }
 
     public PK9 GetSlot(int slot)
     {
         var ofs = GetSlotOffset(slot);
-        var data = Data.AsSpan(ofs, LEN_POKE);
+        var data = Data.Slice(ofs, LEN_POKE);
         var pk9 = new PK9(data.ToArray());
         pk9.ResetPartyStats();
         return pk9;
@@ -80,7 +80,7 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
         var data = pk.EncryptedPartyData;
         // Wipe Party Stats
         Array.Clear(data, LEN_STORED, LEN_PARTYSTAT);
-        data.CopyTo(Data, ofs);
+        data.CopyTo(Data.Slice(ofs));
     }
 
     public PK9[] GetTeam()
@@ -111,7 +111,7 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
 
     public IEnumerable<PKM> Contents => GetTeam();
 
-    public static bool IsRentalTeam(byte[] data)
+    public static bool IsRentalTeam(Memory<byte> data)
     {
         if (data.Length != SIZE)
             return false;
@@ -139,7 +139,7 @@ public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
 
     public void WriteTo(Span<byte> data, int index) => Data.CopyTo(data[(index * SIZE)..]);
 
-    private Span<byte> CheckSpan => Data.AsSpan(OFS_1, 6 * LEN_POKE);
+    private Span<byte> CheckSpan => Data.Slice(OFS_1, 6 * LEN_POKE);
 
     /// <summary>
     /// Simple checksum to detect team duplication.

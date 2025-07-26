@@ -13,15 +13,19 @@ public sealed class StrategyMemo
     private StrategyMemoEntry? this[ushort Species] => Entries.Find(e => e.Species == Species);
     private readonly ushort _unk;
 
-    public StrategyMemo(bool xd = true) : this(stackalloc byte[4], xd) { }
-
-    public StrategyMemo(Span<byte> block, bool xd)
+    public StrategyMemo(bool xd = true)
     {
         XD = xd;
-        int count = ReadUInt16BigEndian(block);
+        Entries = [];
+    }
+
+    public StrategyMemo(Memory<byte> block, bool xd)
+    {
+        XD = xd;
+        int count = ReadUInt16BigEndian(block.Span);
         if (count > MAX_COUNT)
             count = MAX_COUNT;
-        _unk = ReadUInt16BigEndian(block[2..]);
+        _unk = ReadUInt16BigEndian(block[2..].Span);
 
         Entries = new List<StrategyMemoEntry>(count);
         for (int i = 0; i < count; i++)
@@ -31,7 +35,7 @@ public sealed class StrategyMemo
         }
     }
 
-    private StrategyMemoEntry Read(Span<byte> block, int index)
+    private StrategyMemoEntry Read(Memory<byte> block, int index)
     {
         var ofs = 4 + (SIZE_ENTRY * index);
         var span = block.Slice(ofs, SIZE_ENTRY);
@@ -45,9 +49,10 @@ public sealed class StrategyMemo
         WriteInt16BigEndian(result.AsSpan(0), (short)Entries.Count);
         WriteInt16BigEndian(result.AsSpan(2), (short)_unk);
 
+        var dest = result.AsSpan(4);
         var count = Math.Min(MAX_COUNT, Entries.Count);
         for (int i = 0; i < count; i++)
-            Entries[i].Data.CopyTo(result, 4 + (i * SIZE_ENTRY));
+            Entries[i].Data.CopyTo(dest[(i * SIZE_ENTRY)..]);
         return result;
     }
 
@@ -66,9 +71,9 @@ public sealed class StrategyMemo
     }
 }
 
-public sealed class StrategyMemoEntry(bool XD, byte[] Data)
+public sealed class StrategyMemoEntry(bool XD, Memory<byte> Raw)
 {
-    public readonly byte[] Data = Data;
+    public Span<byte> Data => Raw.Span;
 
     public StrategyMemoEntry(bool XD) : this(XD, new byte[StrategyMemo.SIZE_ENTRY]) { }
 
@@ -76,15 +81,15 @@ public sealed class StrategyMemoEntry(bool XD, byte[] Data)
     {
         get
         {
-            var val = (ushort)(ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF);
+            var val = (ushort)(ReadUInt16BigEndian(Data) & 0x1FF);
             return SpeciesConverter.GetNational3(val);
         }
         set
         {
             var val = SpeciesConverter.GetInternal3(value);
-            var cval = ReadUInt16BigEndian(Data.AsSpan(0));
+            var cval = ReadUInt16BigEndian(Data);
             cval &= 0xE00; val &= 0x1FF; cval |= val;
-            WriteUInt16BigEndian(Data.AsSpan(0x00), cval);
+            WriteUInt16BigEndian(Data, cval);
         }
     }
 
@@ -93,12 +98,12 @@ public sealed class StrategyMemoEntry(bool XD, byte[] Data)
 
     public uint ID32
     {
-        get => ReadUInt32BigEndian(Data.AsSpan(0x04));
-        set => WriteUInt32BigEndian(Data.AsSpan(0x04), value);
+        get => ReadUInt32BigEndian(Data[0x04..]);
+        set => WriteUInt32BigEndian(Data[0x04..], value);
     }
-    public ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(4)); set => WriteUInt16BigEndian(Data.AsSpan(4), value); }
-    public ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), value); }
-    public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); }
+    public ushort SID16 { get => ReadUInt16BigEndian(Data[4..]); set => WriteUInt16BigEndian(Data[4..], value); }
+    public ushort TID16 { get => ReadUInt16BigEndian(Data[6..]); set => WriteUInt16BigEndian(Data[6..], value); }
+    public uint PID { get => ReadUInt32BigEndian(Data[8..]); set => WriteUInt32BigEndian(Data[8..], value); }
 
     public bool Seen
     {
@@ -113,7 +118,7 @@ public sealed class StrategyMemoEntry(bool XD, byte[] Data)
             if (XD)
                 Flag1 = !value;
             else if (!value)
-                Data.AsSpan(0, StrategyMemo.SIZE_ENTRY).Clear();
+                Data[..StrategyMemo.SIZE_ENTRY].Clear();
         }
     }
 

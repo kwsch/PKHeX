@@ -8,9 +8,9 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, ISaveFileRevision, ISCBlockArray, IBoxDetailName, IBoxDetailWallpaper
 {
-    public SAV8SWSH(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
+    public SAV8SWSH(Memory<byte> data) : this(SwishCrypto.Decrypt(data.Span)) { }
 
-    private SAV8SWSH(IReadOnlyList<SCBlock> blocks) : base([])
+    private SAV8SWSH(IReadOnlyList<SCBlock> blocks) : base(Memory<byte>.Empty)
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor8SWSH(this);
@@ -51,7 +51,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
     protected override void SetChecksums() { } // None!
-    protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
+    protected override Memory<byte> GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
     public override PersonalTable8SWSH Personal => PersonalTable.SWSH;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SWSH;

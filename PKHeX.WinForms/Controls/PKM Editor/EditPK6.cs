@@ -40,7 +40,7 @@ public partial class PKMEditor
         SavePartyStats(pk6);
 
         // Ensure party stats are essentially clean.
-        pk6.Data.AsSpan(0xFE).Clear();
+        pk6.Data[0xFE..].Clear();
         // Status Condition is allowed to be mutated to pre-set conditions like Burn for Guts.
 
         pk6.FixMoves();

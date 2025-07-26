@@ -128,16 +128,18 @@ public partial class SAV_MailBox : Form
         MakePartyList();
         MakePCList();
 
+        var filtered = GameInfo.FilteredSources;
+        var source = filtered.Source;
         if (Generation is 2 or 3)
         {
             CB_AppearPKM1.Items.Clear();
             CB_AppearPKM1.InitializeBinding();
-            CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), string.Empty);
+            CB_AppearPKM1.DataSource = new BindingSource(filtered.Species, string.Empty);
             B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
         }
         else if (Generation is 4 or 5)
         {
-            var species = GameInfo.FilteredSources.Species.ToList();
+            var species = filtered.Species;
             foreach (ComboBox a in AppearPKMs)
             {
                 a.Items.Clear();
@@ -145,7 +147,7 @@ public partial class SAV_MailBox : Form
                 a.DataSource = new BindingSource(species, string.Empty);
             }
 
-            var vers = GameInfo.VersionDataSource
+            var vers = filtered.Source.VersionDataSource
                 .Where(z => ((GameVersion)z.Value).GetGeneration() == Generation);
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
@@ -156,7 +158,7 @@ public partial class SAV_MailBox : Form
         CB_AuthorLang.InitializeBinding();
         CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), string.Empty);
 
-        var ItemList = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
+        var ItemList = source.Strings.GetItemStrings(SAV.Context, SAV.Version);
         CB_MailType.Items.Clear();
         CB_MailType.Items.Add(ItemList[0]);
         foreach (int item in MailItemID)
@@ -234,11 +236,11 @@ public partial class SAV_MailBox : Form
                     // duplicate
                     int ofs = 0x600;
                     int len = Mail2.GetMailSize(SAV.Language) * 6;
-                    Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                    SAV.Data.Slice(ofs,len).CopyTo(SAV.Data.Slice(ofs + len, len));
                     ofs += len << 1;
                     SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
                     len = (Mail2.GetMailSize(SAV.Language) * 10) + 1;
-                    Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
+                    SAV.Data.Slice(ofs, len).CopyTo(SAV.Data.Slice(ofs + len, len));
                 }
                 else if (SAV is SAV2Stadium)
                 {
