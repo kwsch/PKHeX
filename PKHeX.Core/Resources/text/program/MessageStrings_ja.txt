@@ -169,6 +169,7 @@ MsgGeonetPointNone = ない
 MsgGeonetPointBlue = 青
 MsgGeonetPointYellow = 黄
 MsgGeonetPointRed = 赤
+MsgGearAllCharacterStyles = 全て
 MsgQRDecodeFail = デコードしたデータは有効なPKMまたはギフトデータではありません。
 MsgQRDecodeSize = QRコードデータサイズ: {0} バイト
 MsgQRDeprecated = QRコードは非推奨となり、他の方法が優先されます。

@@ -169,6 +169,7 @@ MsgGeonetPointNone = None
 MsgGeonetPointBlue = Blue
 MsgGeonetPointYellow = Yellow
 MsgGeonetPointRed = Red
+MsgGearAllCharacterStyles = Tutto
 MsgQRDecodeFail = I dati decodificati non corrispondono ad un Pokémon o ad un Dono valido.
 MsgQRDecodeSize = Dimensione dati QR: {0} byte
 MsgQRDeprecated = I codci QR sono deprecati in favore di altri metodi.

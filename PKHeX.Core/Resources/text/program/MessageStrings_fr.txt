@@ -169,6 +169,7 @@ MsgGeonetPointNone = Aucun
 MsgGeonetPointBlue = Bleu
 MsgGeonetPointYellow = Jaune
 MsgGeonetPointRed = Rouge
+MsgGearAllCharacterStyles = Tout
 MsgQRDecodeFail = Les données décodées ne correspondent pas à un Pokémon ou cadeau valide.
 MsgQRDecodeSize = Taille des données QR : {0} octets.
 MsgQRDeprecated = Les QR Codes sont dépréciés en faveur d'autres méthodes.

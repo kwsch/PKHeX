@@ -92,6 +92,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenSealStickers = new System.Windows.Forms.Button();
             B_Poffins = new System.Windows.Forms.Button();
             B_RaidsSevenStar = new System.Windows.Forms.Button();
+            B_OpenGear = new System.Windows.Forms.Button();
             FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
             B_SaveBoxBin = new System.Windows.Forms.Button();
             B_VerifyCHK = new System.Windows.Forms.Button();
@@ -405,6 +406,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenSealStickers);
             FLP_SAVtools.Controls.Add(B_Poffins);
             FLP_SAVtools.Controls.Add(B_RaidsSevenStar);
+            FLP_SAVtools.Controls.Add(B_OpenGear);
             FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Bottom;
             FLP_SAVtools.Location = new System.Drawing.Point(0, 175);
             FLP_SAVtools.Margin = new System.Windows.Forms.Padding(0);
@@ -833,6 +835,17 @@ namespace PKHeX.WinForms.Controls
             B_RaidsSevenStar.UseVisualStyleBackColor = true;
             B_RaidsSevenStar.Click += B_OpenRaids_Click;
             // 
+            // B_OpenGear
+            // 
+            B_OpenGear.Location = new System.Drawing.Point(212, 364);
+            B_OpenGear.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenGear.Name = "B_OpenGear";
+            B_OpenGear.Size = new System.Drawing.Size(96, 32);
+            B_OpenGear.TabIndex = 9;
+            B_OpenGear.Text = "Gear";
+            B_OpenGear.UseVisualStyleBackColor = true;
+            B_OpenGear.Click += B_OpenGear_Click;
+            // 
             // FLP_SAVToolsMisc
             // 
             FLP_SAVToolsMisc.Controls.Add(B_SaveBoxBin);
@@ -1099,5 +1112,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_VerifySaveEntities;
         private System.Windows.Forms.Button B_RaidsSevenStar;
         private System.Windows.Forms.Button B_ConvertKorean;
+        private System.Windows.Forms.Button B_OpenGear;
     }
 }

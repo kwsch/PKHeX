@@ -263,6 +263,13 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         return 0x978 + (SIZE_STORED * box * 30);
     }
 
+    public bool GearShinyGroudonOutfit { get => FlagUtil.GetFlag(Data, 0x434, 0); set => FlagUtil.SetFlag(Data, 0x434, 0, value); }
+    public bool GearShinyLucarioOutfit { get => FlagUtil.GetFlag(Data, 0x434, 1); set => FlagUtil.SetFlag(Data, 0x434, 1, value); }
+    public bool GearShinyElectivireOutfit { get => FlagUtil.GetFlag(Data, 0x434, 2); set => FlagUtil.SetFlag(Data, 0x434, 2, value); }
+    public bool GearShinyKyogreOutfit { get => FlagUtil.GetFlag(Data, 0x434, 3); set => FlagUtil.SetFlag(Data, 0x434, 3, value); }
+    public bool GearShinyRoseradeOutfit { get => FlagUtil.GetFlag(Data, 0x434, 4); set => FlagUtil.SetFlag(Data, 0x434, 4, value); }
+    public bool GearShinyPachirisuOutfit { get => FlagUtil.GetFlag(Data, 0x434, 5); set => FlagUtil.SetFlag(Data, 0x434, 5, value); }
+
     public override uint Money
     {
         get => (uint)((Data[0x12861] << 16) | (Data[0x12862] << 8) | Data[0x12863]);
@@ -341,6 +348,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         if (pk is G4PKM g4)
             g4.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
     }
+
+    public GearUnlock GearUnlock => new(Buffer.Slice(0x584EC, GearUnlock.Size));
 
     public static void Decrypt(Span<byte> input)
     {
