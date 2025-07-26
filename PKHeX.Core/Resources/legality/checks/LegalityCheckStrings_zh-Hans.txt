@@ -395,6 +395,7 @@ LTransferCurrentHandlerInvalid = 非法当前持有训练家信息，存档中�
 LTransferEgg = 不能跨世代传送蛋。
 LTransferEggLocationTransporter = 非法相遇地点, 应该是宝可梦传送。
 LTransferEggMetLevel = 对于传送，相遇等级非法。
+LTransferEggVersion = Can't transfer Eggs to this game.
 LTransferFlagIllegal = 游戏中被标记为非法(使用了游戏bug)。
 LTransferHTFlagRequired = 当前持有人不能与该宝可梦的初训家为同一人（包括同世代不同游戏）。
 LTransferHTMismatchGender = 处理训练家的性别与期望的训练家性别不符。

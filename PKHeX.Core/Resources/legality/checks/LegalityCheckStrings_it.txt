@@ -395,6 +395,7 @@ LTransferCurrentHandlerInvalid = Il valore dell'Ultimo Allenatore è invalido, i
 LTransferEgg = Impossibile tarsferire Uova tra Generazioni diverse.
 LTransferEggLocationTransporter = Luogo di incontro non valido, previsto Pokétrasporto.
 LTransferEggMetLevel = Livello di incontro non valido per il trasferimento.
+LTransferEggVersion = Can't transfer Eggs to this game.
 LTransferFlagIllegal = Segnato come Illegale dal gioco (abuso di glitch o clonazione).
 LTransferHTFlagRequired = l'Allenatore Originale non può essere l'Ultimo Allenatore.
 LTransferHTMismatchGender = Handling trainer does not match the expected trainer gender.

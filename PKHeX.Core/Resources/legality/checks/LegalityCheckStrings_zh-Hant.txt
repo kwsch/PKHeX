@@ -395,6 +395,7 @@ LTransferCurrentHandlerInvalid = 不合法之現時持有人資訊，儲存資�
 LTransferEgg = 不能跨世代傳送蛋。
 LTransferEggLocationTransporter = 不合法之遇見地點, 應該是虛擬傳送。
 LTransferEggMetLevel = 對於寶可傳送不合法之遇見等級。
+LTransferEggVersion = Can't transfer Eggs to this game.
 LTransferFlagIllegal = 游戲中被標記爲非法 (可濫用之Bug)。
 LTransferHTFlagRequired = 現任處理教練不能是原教練。
 LTransferHTMismatchGender = Handling trainer does not match the expected trainer gender.

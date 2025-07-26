@@ -395,6 +395,7 @@ LTransferCurrentHandlerInvalid = Entrenador actual no válido, se esperaba otro 
 LTransferEgg = No se pueden transferir Huevos entre generaciones.
 LTransferEggLocationTransporter = Localización inválida, se esperaba Pokétransfer.
 LTransferEggMetLevel = Nivel de encuentro inválido para la transferencia.
+LTransferEggVersion = Can't transfer Eggs to this game.
 LTransferFlagIllegal = Marcado como ilegal por el juego (abuso de glitch).
 LTransferHTFlagRequired = El Entrenador actual no puede ser EO.
 LTransferHTMismatchGender = Handling trainer does not match the expected trainer gender.
