@@ -22,7 +22,6 @@ public static class LocalizeUtil
         // Update Legality Strings
         Task.Run(() =>
         {
-            LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
             LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
         });
     }

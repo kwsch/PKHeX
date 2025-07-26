@@ -1,7 +1,3 @@
-using System;
-using System.Numerics;
-using static PKHeX.Core.LegalityCheckResultCode;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -9,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>
 /// When a result is generated, instead of storing the string directly, an instance of this enum is stored instead.
-/// The string is only fetched from <see cref="LegalityCheckStrings"/> when needed for display.
+/// The string is only fetched from <see cref="LegalityCheckLocalization"/> when needed for display.
 /// </remarks>
 public enum LegalityCheckResultCode : ushort
 {
@@ -18,6 +14,8 @@ public enum LegalityCheckResultCode : ushort
     Valid,
     /// <summary>Default text for indicating an error has occurred.</summary>
     Error,
+
+    // The order of the enum is important only for humanization; keep sorted by handling, with groups by category and functionality.
 
     // Ability
     AbilityCapsuleUsed,
@@ -147,7 +145,7 @@ public enum LegalityCheckResultCode : ushort
     FormPikachuCosplay,
     FormPikachuCosplayInvalid,
     FormPikachuEventInvalid,
-    FormInvalidExpect,
+    FormInvalidExpect_0,
     FormValid,
     FormVivillon,
     FormVivillonEventPre,
@@ -225,35 +223,20 @@ public enum LegalityCheckResultCode : ushort
     MarkValueUnusedBitsPresent,
 
     // Memory
-    MemoryArgBadCatch,
-    MemoryArgBadHatch,
     MemoryArgBadHT,
-    MemoryArgBadID,
-    MemoryArgBadItem,
-    MemoryArgBadLocation,
-    MemoryArgBadMove,
-    MemoryArgBadOTEgg,
-    MemoryArgBadSpecies,
-    MemoryArgSpecies,
-    MemoryCleared,
-    MemoryFeelInvalid_H,
     MemoryHTFlagInvalid,
     MemoryHTLanguage,
     MemoryIndexArgHT,
-    MemoryIndexFeel,
-    MemoryIndexFeelHT09,
-    MemoryIndexID,
-    MemoryIndexIntensity,
+    MemoryIndexFeelHTLEQ9,
     MemoryIndexIntensityHT1,
     MemoryIndexLinkHT,
-    MemoryIndexVar,
+    MemoryIndexVar_H1,
     MemoryMissingHT,
     MemoryMissingOT,
     MemorySocialZero,
     MemoryStatAffectionHT0,
     MemoryStatAffectionOT0,
     MemoryStatFriendshipHT0,
-    MemoryStatFriendshipOTBaseEvent,
 
     // Met Detail
     MetDetailTimeOfDay,
@@ -388,6 +371,7 @@ public enum LegalityCheckResultCode : ushort
     // Formattable Argument Present: 1 Number
     FirstWithArgument,
     ContestSheenGEQ_0 = FirstWithArgument,
+    MemoryStatFriendshipOTBaseEvent_0,
     ContestSheenLEQ_0,
     EggFMetLevel_0,
     EffortUntrainedCap_0,
@@ -400,9 +384,6 @@ public enum LegalityCheckResultCode : ushort
     IVAllEqual_0,
     IVFlawlessCountGEQ_0, // count
     MarkValueOutOfRange_0, // unknown value
-    MemoryF_0_Valid,
-    MemoryHTGender_0,
-    MemoryIndexIntensityMin_01,
     MemoryStatSocialLEQ_0,
     MemoryStatFullness_0,
     MemoryStatFullnessLEQ_0,
@@ -414,6 +395,7 @@ public enum LegalityCheckResultCode : ushort
     MovePPExpectHealed_0, // move slot
     MovePPTooHigh_0, // move slot
     MovePPUpsTooHigh_0, // move slot
+    MemoryHTGender_0, // gender value
 
     // Single Argument: Move ID
     FirstWithMove,
@@ -429,6 +411,26 @@ public enum LegalityCheckResultCode : ushort
     OTLanguageShouldBeLeq_0, // language
     EncGiftLanguageNotDistributed_0, // language
     OTLanguageCannotPlayOnVersion_0, // language
+
+    // Multiple Arguments: Memories
+    FirstWithMemory,
+    MemoryValid_H = FirstWithMemory,
+    MemoryArgBadCatch_H,
+    MemoryArgBadHatch_H,
+    MemoryArgBadID_H,
+    MemoryArgBadLocation_H,
+    MemoryArgBadOTEgg_H,
+    MemoryArgSpecies_H,
+    MemoryCleared_H,
+    MemoryFeelInvalid_H,
+    FirstMemoryWithValue,
+    MemoryArgBadSpecies_H1 = FirstMemoryWithValue,
+    MemoryArgBadMove_H1,
+    MemoryArgBadItem_H1,
+    MemoryIndexID_H1,
+    MemoryIndexFeel_H1,
+    MemoryIndexIntensity_H1,
+    MemoryIndexIntensityMin_H1,
 
     // One/Two Arguments: Special
     FirstComplex,

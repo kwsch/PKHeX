@@ -8,10 +8,10 @@ public interface ILegalityFormatter
     /// <summary>
     /// Gets a small summary of the legality analysis.
     /// </summary>
-    string GetReport(LegalityLocalizationContext l);
+    string GetReport(in LegalityLocalizationContext l);
 
     /// <summary>
     /// Gets a verbose summary of the legality analysis.
     /// </summary>
-    string GetReportVerbose(LegalityLocalizationContext l);
+    string GetReportVerbose(in LegalityLocalizationContext l);
 }

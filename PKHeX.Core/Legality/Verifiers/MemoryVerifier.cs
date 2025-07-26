@@ -142,16 +142,16 @@ public sealed class MemoryVerifier : Verifier
             return VerifyMemoryHM6(info, mem, memory, hmIndex);
 
         if (mem.IsInvalidGeneralLocationMemoryValue(memory.MemoryID, memory.Variable, info.EncounterMatch, pk))
-            return GetInvalid(MemoryArgBadLocation, memory.Handler);
+            return GetInvalid(MemoryArgBadLocation_H, memory.Handler);
 
         if (mem.IsInvalidMiscMemory(memory.MemoryID, memory.Variable, (Species)pk.Species, pk.Version, handler))
-            return GetInvalid(MemoryArgBadID, memory.Handler);
+            return GetInvalid(MemoryArgBadID_H, memory.Handler);
 
         switch (memory.MemoryID)
         {
             case 19 when pk.Species is (int)Species.Urshifu   && memory.Variable is not 34: // tall building is the only location for evolving Urshifu
             case 19 when pk.Species is (int)Species.Runerigus && memory.Variable is not 72: // vast field is the only location for evolving Runerigus
-                return GetInvalid(MemoryArgBadLocation, memory.Handler);
+                return GetInvalid(MemoryArgBadLocation_H, memory.Handler);
 
             // {0} saw {2} carrying {1} on its back. {4} that {3}.
             case 21 when mem.Context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).GetIsLearnHM(2): // Fly
@@ -170,7 +170,7 @@ public sealed class MemoryVerifier : Verifier
             case 71 when !GetCanDynamaxTrainer(memory.Variable, 8, handler == 0 ? pk.Version : GameVersion.Any):
             // {0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
             case 72 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
-                return GetInvalid(MemoryArgBadSpecies, memory.Handler);
+                return GetInvalid(MemoryArgBadSpecies_H1, memory.Handler, memory.Variable);
 
             // Move
             // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
@@ -181,23 +181,23 @@ public sealed class MemoryVerifier : Verifier
             // Species
             // With {1}, {0} went fishing, and they caught {2}. {4} that {3}.
             case 7 when !GetCanFishSpecies(memory.Variable, mem.Context, handler == 0 ? pk.Version : GameVersion.Any):
-                return GetInvalid(MemoryArgBadSpecies, memory.Handler);
+                return GetInvalid(MemoryArgBadSpecies_H1, memory.Handler, memory.Variable);
 
             // {0} saw {1} paying attention to {2}. {4} that {3}.
             // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
             // {0} was taken to a Pokémon Nursery by {1} and left with {2}. {4} that {3}.
             case 9 or 60 or 75 when mem.Context == Gen8 && !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
-                return GetInvalid(MemoryArgBadSpecies, memory.Handler);
+                return GetInvalid(MemoryArgBadSpecies_H1, memory.Handler, memory.Variable);
 
             // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
             // {0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
             // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
             case 82 or 83 or 87 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
-                return GetInvalid(MemoryArgBadSpecies, memory.Handler);
+                return GetInvalid(MemoryArgBadSpecies_H1, memory.Handler, memory.Variable);
 
             // {0} had a very hard training session with {1}. {4} that {3}.
             case 53 when mem.Context == Gen8 && pk is IHyperTrain t && !t.IsHyperTrained():
-                return GetInvalid(MemoryArgBadID, memory.Handler);
+                return GetInvalid(MemoryArgBadID_H, memory.Handler);
 
             // Item
             // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
@@ -215,7 +215,7 @@ public sealed class MemoryVerifier : Verifier
             // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
             // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
             case 84 or 88 when !Legal.HeldItems_SWSH.Contains(memory.Variable) || pk.IsEgg:
-                return GetInvalid(MemoryArgBadItem, memory.Handler);
+                return GetInvalid(Identifier, MemoryArgBadItem_H1, memory.Handler, memory.Variable);
         }
 
         return VerifyCommonMemoryEtc(memory, mem);
@@ -244,24 +244,24 @@ public sealed class MemoryVerifier : Verifier
         return BadSpeciesMove(memory.Handler);
     }
 
-    private CheckResult BadSpeciesMove(byte handler) => GetInvalid(MemoryArgBadMove, handler);
+    private CheckResult BadSpeciesMove(byte handler) => GetInvalid(MemoryArgBadMove_H1, handler);
 
     private CheckResult VerifyCommonMemoryEtc(MemoryVariableSet memory, MemoryContext context)
     {
         if (!context.CanHaveIntensity(memory.MemoryID, memory.Intensity))
         {
             var min = context.GetMinimumIntensity(memory.MemoryID);
-            return GetInvalid(Identifier, MemoryIndexIntensityMin_01, memory.Handler, min);
+            return GetInvalid(Identifier, MemoryIndexIntensityMin_H1, memory.Handler, min);
         }
 
         if (!context.CanHaveFeeling(memory.MemoryID, memory.Feeling, memory.Variable))
             return GetInvalid(MemoryFeelInvalid_H, memory.Handler);
 
-        return GetValid(MemoryF_0_Valid, memory.Handler);
+        return GetValid(MemoryValid_H, memory.Handler);
     }
 
-    private const byte L_XOT = 0x00; // Original Trainer Memory
-    private const byte L_XHT = 0x01; // Handling Trainer Memory
+    private const ushort L_XOT = 0; // Original Trainer Memory
+    private const ushort L_XHT = 1; // Handling Trainer Memory
 
     /// <summary>
     /// Used for enforcing a fixed memory detail.
@@ -275,19 +275,19 @@ public sealed class MemoryVerifier : Verifier
     {
         var pk = (ITrainerMemories)data.Entity;
         if (pk.OriginalTrainerMemory != m)
-            data.AddLine(GetInvalid(L_XOT, MemoryIndexID, m));
+            data.AddLine(GetInvalid(MemoryIndexID_H1, L_XOT, m));
         if (pk.OriginalTrainerMemoryIntensity != i)
-            data.AddLine(GetInvalid(L_XOT, MemoryIndexIntensity, i));
+            data.AddLine(GetInvalid(MemoryIndexIntensity_H1, L_XOT, i));
         if (pk.OriginalTrainerMemoryVariable != t)
-            data.AddLine(GetInvalid(L_XOT, MemoryIndexVar, t));
+            data.AddLine(GetInvalid(MemoryIndexVar_H1, L_XOT, t));
         if (pk.OriginalTrainerMemoryFeeling != f)
-            data.AddLine(GetInvalid(L_XOT, MemoryIndexFeel, f));
+            data.AddLine(GetInvalid(MemoryIndexFeel_H1, L_XOT, f));
     }
 
     private void VerifyHTMemoryNone(LegalityAnalysis data, ITrainerMemories pk)
     {
         if (pk.HandlingTrainerMemory != 0 || pk.HandlingTrainerMemoryVariable != 0 || pk.HandlingTrainerMemoryIntensity != 0 || pk.HandlingTrainerMemoryFeeling != 0)
-            data.AddLine(GetInvalid(MemoryCleared, L_XHT));
+            data.AddLine(GetInvalid(MemoryCleared_H, L_XHT));
     }
 
     private void VerifyOTMemory(LegalityAnalysis data)
@@ -342,7 +342,7 @@ public sealed class MemoryVerifier : Verifier
         // Bounds checking
         var mc = Memories.GetContext(context);
         if (!mc.CanObtainMemoryOT(pk.Version, memory))
-            data.AddLine(GetInvalid(MemoryArgBadID, L_XOT));
+            data.AddLine(GetInvalid(MemoryArgBadID_H, L_XOT));
 
         // Verify memory if specific to OT
         switch (memory)
@@ -355,24 +355,24 @@ public sealed class MemoryVerifier : Verifier
 
             // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
             case 2 when !enc.IsEgg:
-                data.AddLine(GetInvalid(MemoryArgBadHatch, L_XOT));
+                data.AddLine(GetInvalid(MemoryArgBadHatch_H, L_XOT));
                 break;
 
             // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
             case 4 when mc.Context == Gen6: // Gen8 applies this memory erroneously
-                data.AddLine(GetInvalid(MemoryArgBadOTEgg, L_XOT));
+                data.AddLine(GetInvalid(MemoryArgBadOTEgg_H, L_XOT));
                 return;
 
             // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
             case 6 when !mc.HasPokeCenter(pk.Version, mem.OriginalTrainerMemoryVariable):
-                data.AddLine(GetInvalid(MemoryArgBadLocation, L_XOT));
+                data.AddLine(GetInvalid(MemoryArgBadLocation_H, L_XOT));
                 return;
 
             // {0} was with {1} when {1} caught {2}. {4} that {3}.
             case 14:
                 var result = GetCanBeCaptured(mem.OriginalTrainerMemoryVariable, mc.Context, pk.Version) // Any Game in the Handling Trainer's generation
-                    ? GetValid(MemoryArgSpecies, L_XOT)
-                    : GetInvalid(MemoryArgBadSpecies, L_XOT);
+                    ? GetValid(MemoryArgSpecies_H, L_XOT)
+                    : GetInvalid(MemoryArgBadSpecies_H1, L_XOT, mem.OriginalTrainerMemoryVariable);
                 data.AddLine(result);
                 return;
         }
@@ -429,7 +429,7 @@ public sealed class MemoryVerifier : Verifier
         // Bounds checking
         var mc = Memories.GetContext(memoryGen);
         if (!mc.CanObtainMemoryHT(pk.Version, memory))
-            data.AddLine(GetInvalid(MemoryArgBadID, L_XHT));
+            data.AddLine(GetInvalid(MemoryArgBadID_H, L_XHT));
 
         // Verify memory if specific to HT
         switch (memory)
@@ -449,24 +449,24 @@ public sealed class MemoryVerifier : Verifier
 
             // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
             case 1:
-                data.AddLine(GetInvalid(MemoryArgBadCatch, L_XHT));
+                data.AddLine(GetInvalid(MemoryArgBadCatch_H, L_XHT));
                 return;
 
             // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
             case 2:
-                data.AddLine(GetInvalid(MemoryArgBadHatch, L_XHT));
+                data.AddLine(GetInvalid(MemoryArgBadHatch_H, L_XHT));
                 return;
 
             // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
             case 6 when !mc.HasPokeCenter(GameVersion.Any, mem.HandlingTrainerMemoryVariable):
-                data.AddLine(GetInvalid(MemoryArgBadLocation, L_XHT));
+                data.AddLine(GetInvalid(MemoryArgBadLocation_H, L_XHT));
                 return;
 
             // {0} was with {1} when {1} caught {2}. {4} that {3}.
             case 14:
                 var result = GetCanBeCaptured(mem.HandlingTrainerMemoryVariable, mc.Context, GameVersion.Any) // Any Game in the Handling Trainer's generation
-                    ? GetValid(MemoryArgSpecies, L_XHT)
-                    : GetInvalid(MemoryArgBadSpecies, L_XHT);
+                    ? GetValid(MemoryArgSpecies_H, L_XHT)
+                    : GetInvalid(MemoryArgBadSpecies_H1, L_XHT, mem.HandlingTrainerMemoryVariable);
                 data.AddLine(result);
                 return;
         }
@@ -495,12 +495,12 @@ public sealed class MemoryVerifier : Verifier
             return;
 
         if (mem.HandlingTrainerMemory != 4)
-            data.AddLine(Severity.Invalid, MemoryIndexLinkHT, CheckIdentifier.Memory);
+            data.AddLine(GetInvalid(MemoryIndexLinkHT, L_XHT, 4));
         if (mem.HandlingTrainerMemoryVariable != 0)
-            data.AddLine(Severity.Invalid, MemoryIndexArgHT, CheckIdentifier.Memory);
+            data.AddLine(GetInvalid(MemoryIndexArgHT, L_XHT, 0));
         if (mem.HandlingTrainerMemoryIntensity != 1)
-            data.AddLine(Severity.Invalid, MemoryIndexIntensityHT1, CheckIdentifier.Memory);
-        if (mem.HandlingTrainerMemoryFeeling > 10)
-            data.AddLine(Severity.Invalid, MemoryIndexFeelHT09, CheckIdentifier.Memory);
+            data.AddLine(GetInvalid(MemoryIndexIntensityHT1, L_XHT, 1));
+        if (mem.HandlingTrainerMemoryFeeling >= 10)
+            data.AddLine(GetInvalid(MemoryIndexFeelHTLEQ9, L_XHT));
     }
 }

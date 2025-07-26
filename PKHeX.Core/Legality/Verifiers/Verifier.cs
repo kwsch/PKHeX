@@ -21,14 +21,14 @@ public abstract class Verifier
     protected CheckResult GetInvalid(LegalityCheckResultCode msg) => Get(Severity.Invalid, msg);
     protected CheckResult Get(Severity s, LegalityCheckResultCode msg) => CheckResult.Get(s, Identifier, msg);
 
-    protected CheckResult GetInvalid(LegalityCheckResultCode msg, uint argument) => Get(Severity.Invalid, msg, argument);
     protected CheckResult GetValid(LegalityCheckResultCode msg, uint argument) => Get(Severity.Valid, msg, argument);
+    protected CheckResult GetInvalid(LegalityCheckResultCode msg, uint argument) => Get(Severity.Invalid, msg, argument);
+    protected CheckResult GetInvalid(LegalityCheckResultCode msg, ushort arg0, ushort arg1) => GetInvalid(Identifier, msg, arg0, arg1);
     protected CheckResult Get(Severity s, LegalityCheckResultCode msg, uint argument) => CheckResult.Get(s, Identifier, msg, argument);
 
     protected static CheckResult GetValid(CheckIdentifier c, LegalityCheckResultCode msg, uint argument = 0) => Get(c, Severity.Valid, msg, argument);
     protected static CheckResult Get(CheckIdentifier c, Severity s, LegalityCheckResultCode msg, uint argument = 0) => CheckResult.Get(s, c, msg, argument);
 
     protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, uint value = 0) => CheckResult.Get(Severity.Invalid, c, msg, value);
-    protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, byte arg0, byte arg1 = 0) => GetInvalid(c, msg, arg0 | (uint)arg1 << 16);
     protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, ushort arg0, ushort arg1 = 0) => GetInvalid(c, msg, arg0 | (uint)arg1 << 16);
 }

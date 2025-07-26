@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -9,15 +8,21 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EncounterText
 {
-    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, bool verbose = false) => GetTextLines(enc, GameInfo.Strings, verbose);
+    private static EncounterDisplayContext GetContext(string language = GameLanguage.DefaultLanguage) => new()
+    {
+        Localization = EncounterDisplayLocalization.Get(language),
+        Strings = GameInfo.GetStrings(language),
+    };
 
-    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, GameStrings strings, bool verbose = false)
+    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, bool verbose = false, string language = GameLanguage.DefaultLanguage) => GetTextLines(enc, GetContext(language), verbose);
+
+    public static IReadOnlyList<string> GetTextLines(this IEncounterInfo enc, EncounterDisplayContext ctx, bool verbose = false)
     {
         var lines = new List<string>();
-        var str = strings.Species;
-        var name = (uint)enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
-        var EncounterName = $"{(enc is IEncounterable ie ? ie.LongName : "Special")} ({name})";
-        lines.Add(string.Format(L_FEncounterType_0, EncounterName));
+        var loc = ctx.Localization;
+        var name = ctx.GetSpeciesName(enc);
+        lines.Add(string.Format(loc.Format, loc.EncounterType, name));
+
         if (enc is MysteryGift mg)
         {
             lines.AddRange(mg.GetDescription());
@@ -26,21 +31,15 @@ public static class EncounterText
         {
             var moves = m.Moves;
             if (moves.HasMoves)
-            {
-                string result = moves.GetMovesetLine(strings.movelist);
-                lines.Add(result);
-            }
+                lines.Add(ctx.GetMoveset(moves));
         }
 
-        var loc = enc.GetEncounterLocation(enc.Generation, enc.Version);
-        if (!string.IsNullOrEmpty(loc))
-            lines.Add(string.Format(L_F0_1, "Location", loc));
+        var location = enc.GetEncounterLocation(enc.Generation, enc.Version);
+        if (!string.IsNullOrEmpty(location))
+            lines.Add(string.Format(loc.Format, loc.Location, location));
 
-        var game = enc.Version.IsValidSavedVersion() ? strings.gamelist[(int)enc.Version] : enc.Version.ToString();
-        lines.Add(string.Format(L_F0_1, nameof(GameVersion), game));
-        lines.Add(enc.LevelMin == enc.LevelMax
-            ? $"Level: {enc.LevelMin}"
-            : $"Level: {enc.LevelMin}-{enc.LevelMax}");
+        lines.Add(ctx.GetVersionDisplay(enc));
+        lines.Add(ctx.GetLevelDisplay(enc));
 
         if (!verbose)
             return lines;
@@ -54,5 +53,39 @@ public static class EncounterText
             lines.AddRange(raw.Split(',', '}', '{'));
         }
         return lines;
+    }
+}
+
+public record struct EncounterDisplayContext
+{
+    public required EncounterDisplayLocalization Localization { get; init; }
+    public required GameStrings Strings { get; init; }
+
+    public string GetSpeciesName(IEncounterTemplate enc)
+    {
+        var encSpecies = enc.Species;
+        var str = Strings.Species;
+        var name = (uint)encSpecies < str.Count ? str[encSpecies] : encSpecies.ToString();
+        var EncounterName = $"{(enc is IEncounterable ie ? ie.LongName : "Special")} ({name})";
+        return EncounterName;
+    }
+
+    public string GetMoveset(Moveset moves) => moves.GetMovesetLine(Strings.movelist);
+
+    public string GetVersionDisplay(IEncounterTemplate enc)
+    {
+        var version = enc.Version;
+        var versionName = enc.Version.IsValidSavedVersion()
+            ? Strings.gamelist[(int)enc.Version]
+            : enc.Version.ToString();
+
+        return string.Format(Localization.Format, Localization.Version, versionName);
+    }
+
+    public string GetLevelDisplay(IEncounterTemplate enc)
+    {
+        if (enc.LevelMin == enc.LevelMax)
+            return string.Format(Localization.Format, Localization.Level, enc.LevelMin);
+        return string.Format(Localization.Format, Localization.LevelRange, enc.LevelMin, enc.LevelMax);
     }
 }

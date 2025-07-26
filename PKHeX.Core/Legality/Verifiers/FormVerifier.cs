@@ -75,7 +75,7 @@ public sealed class FormVerifier : Verifier
             case Unown when enc.Generation == 3:
                 var expectUnown = EntityPID.GetUnownForm3(pk.EncryptionConstant);
                 if (expectUnown != form)
-                    return GetInvalid(FormInvalidExpect, expectUnown);
+                    return GetInvalid(FormInvalidExpect_0, expectUnown);
                 break;
 
             case Dialga or Palkia or Giratina or Arceus when form > 0 && pk is PA8: // can change forms with key items
@@ -88,7 +88,7 @@ public sealed class FormVerifier : Verifier
 
             case Arceus:
                 var arceus = FormItem.GetFormArceus(pk.HeldItem, pk.Format);
-                return arceus != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItemMatches);
+                return arceus != form ? GetInvalid(FormItemInvalid) : GetValid(FormItemMatches);
             case Keldeo when enc.Generation != 5 || pk.Format >= 8:
                 // can mismatch in Gen5 via B/W tutor and transfer up
                 // can mismatch in Gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
@@ -100,7 +100,7 @@ public sealed class FormVerifier : Verifier
                 break;
             case Genesect:
                 var genesect = FormItem.GetFormGenesect(pk.HeldItem);
-                return genesect != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItemMatches);
+                return genesect != form ? GetInvalid(FormItemInvalid) : GetValid(FormItemMatches);
             case Greninja:
                 if (form > 1) // Ash Battle Bond active
                     return GetInvalid(FormBattle);
@@ -148,7 +148,7 @@ public sealed class FormVerifier : Verifier
 
             case Silvally:
                 var silvally = FormItem.GetFormSilvally(pk.HeldItem);
-                return silvally != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItemMatches);
+                return silvally != form ? GetInvalid(FormItemInvalid) : GetValid(FormItemMatches);
 
             // Form doesn't exist in SM; cannot originate from that game.
             case Rockruff when enc.Generation == 7 && form == 1 && pk.SM:

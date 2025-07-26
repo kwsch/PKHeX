@@ -12,6 +12,9 @@ public readonly record struct CheckResult
     /// <summary> Indicates whether the result is valid. </summary>
     public bool Valid => Judgement != Severity.Invalid;
 
+    /// <summary> Indicates if the result isn't a generic "Valid" result, and might be worth displaying to the user. </summary>
+    public bool IsNotGeneric() => Result != LegalityCheckResultCode.Valid;
+
     /// <summary> Indicates the severity of the result. </summary>
     [field: FieldOffset(0)] public required Severity Judgement { get; init; }
 

@@ -225,12 +225,12 @@ public sealed class MiscVerifier : Verifier
         if (enc is EncounterStatic5N)
         {
             if (!pk5.NSparkle)
-                data.AddLine(GetInvalid(CheckIdentifier.Fateful, G5SparkleRequired));
+                data.AddLine(GetInvalid(Fateful, G5SparkleRequired));
         }
         else
         {
             if (pk5.NSparkle)
-                data.AddLine(GetInvalid(CheckIdentifier.Fateful, G5SparkleInvalid));
+                data.AddLine(GetInvalid(Fateful, G5SparkleInvalid));
         }
     }
 
@@ -508,7 +508,7 @@ public sealed class MiscVerifier : Verifier
                 return;
         }
         if (pk.FatefulEncounter)
-            data.AddLine(GetInvalid(CheckIdentifier.Fateful, FatefulInvalid));
+            data.AddLine(GetInvalid(Fateful, FatefulInvalid));
     }
 
     private static void VerifyMiscEggCommon(LegalityAnalysis data)
@@ -595,15 +595,15 @@ public sealed class MiscVerifier : Verifier
     {
         // check for shiny locked gifts
         if (!g3.Shiny.IsValid(data.Entity))
-            data.AddLine(GetInvalid(CheckIdentifier.Fateful, EncGiftShinyMismatch));
+            data.AddLine(GetInvalid(Fateful, EncGiftShinyMismatch));
     }
 
     private static void VerifyFatefulIngameActive(LegalityAnalysis data)
     {
         var pk = data.Entity;
         var result = pk.FatefulEncounter
-            ? GetValid(CheckIdentifier.Fateful, Valid)
-            : GetInvalid(CheckIdentifier.Fateful, FatefulMissing);
+            ? GetValid(Fateful, Valid)
+            : GetInvalid(Fateful, FatefulMissing);
         data.AddLine(result);
     }
 

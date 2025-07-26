@@ -790,10 +790,24 @@ public sealed class GameStrings : IBasicStrings
                     return g3items;
 
                 var g3ItemsWithEBerry = (string[])g3items.Clone();
-                g3ItemsWithEBerry[175] = EReaderBerrySettings.DisplayName;
+                g3ItemsWithEBerry[175] = GetEnigmaBerryName3(Language, EReaderBerrySettings.Name);
                 return g3ItemsWithEBerry;
         }
     }
+
+    private static string GetEnigmaBerryName3(LanguageID language, string berryName) => string.Format(language switch
+    {
+        Japanese => "{0}のみ",
+        English => "{0} BERRY",
+        German => "{0}BEERE",
+        French => "BAIE {0}",
+        Italian => "BACCA{0}",
+        Spanish => "BAYA {0}",
+        Korean => "{0}열매",
+        ChineseS => "{0}果",
+        ChineseT => "{0}果",
+        _ => throw new ArgumentOutOfRangeException(nameof(language), language, null),
+    }, berryName);
 
     /// <summary>
     /// Gets the location name for the specified parameters.

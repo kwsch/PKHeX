@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using FluentAssertions;
 using System.IO;
 using System.Linq;
@@ -163,18 +162,18 @@ public class LegalityTest
         var localizer = new LegalityLocalizationContext
         {
             Analysis = legality,
-            Settings = BattleTemplateExportSettings.Showdown,
+            Settings = LegalityLocalizationSet.GetLocalization(GameLanguage.DefaultLanguage),
         };
 
         StringBuilder result = new();
         foreach (var l in legality.Results.Where(z => !z.Valid))
-            result.AppendLine(l.Result.Humanize(localizer, l));
+            result.AppendLine(localizer.Humanize(l));
 
         var info = legality.Info;
         foreach (var m in info.Moves.Where(z => !z.Valid))
-            result.AppendLine(m.Summary(info.Entity, info.EvoChainsAllGens));
+            result.AppendLine(m.Summary(localizer));
         foreach (var r in info.Relearn.Where(z => !z.Valid))
-            result.AppendLine(r.Summary(info.Entity, info.EvoChainsAllGens));
+            result.AppendLine(r.Summary(localizer));
 
         return result.ToString();
     }

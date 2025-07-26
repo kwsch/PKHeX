@@ -68,7 +68,7 @@ public sealed class SlotHoverHandler : IDisposable
             bg = ImageUtil.LayerImage(orig, bg, 0, 0);
         pb.BackgroundImage = LastSlot.CurrentBackground = bg;
 
-        Preview.Show(pb, pk);
+        Preview.Show(pb, pk, data.Type);
     }
 
     /// <summary>

@@ -32,13 +32,13 @@ public sealed class RibbonVerifier : Verifier
             data.AddLine(GetInvalid(RibbonFInvalid_0, (ushort)count));
     }
 
-    public static string GetMessage(LegalityAnalysis data, RibbonStrings str)
+    public static string GetMessage(LegalityAnalysis data, RibbonStrings str, LegalityCheckLocalization localize)
     {
         // Calling this method assumes that one or more ribbons are invalid or missing.
         // The work was already done but forgotten, so we need to parse again.
         Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
         int count = Parse(result, data);
-        return GetMessage(result[..count], str);
+        return GetMessage(result[..count], str, localize);
     }
 
     private static int Parse(Span<RibbonResult> result, LegalityAnalysis data)
@@ -96,19 +96,19 @@ public sealed class RibbonVerifier : Verifier
         return list.Count;
     }
 
-    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str)
+    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str , LegalityCheckLocalization localize)
     {
         var total = result.Length;
         int missing = GetCountMissing(result);
         int invalid = total - missing;
         var sb = new StringBuilder(total * 20);
         if (missing != 0)
-            AppendAll(result, sb, str, LegalityCheckStrings.LRibbonFMissing_0, true);
+            AppendAll(result, sb, str, localize.RibbonMissing_0, true);
         if (invalid != 0)
         {
             if (missing != 0) // need to visually separate the message
                 sb.Append(Environment.NewLine);
-            AppendAll(result, sb, str, LegalityCheckStrings.LRibbonFInvalid_0, false);
+            AppendAll(result, sb, str, localize.RibbonFInvalid_0, false);
         }
         return sb.ToString();
     }

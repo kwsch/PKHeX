@@ -188,8 +188,9 @@ public sealed class HistoryVerifier : Verifier
             // If none match, then it is not a valid OT friendship.
             var fs = pk.OriginalTrainerFriendship;
             var enc = data.Info.EncounterMatch;
-            if (GetBaseFriendship(enc) != fs)
-                data.AddLine(GetInvalid(MemoryStatFriendshipOTBaseEvent));
+            var expect = GetBaseFriendship(enc);
+            if (fs != expect)
+                data.AddLine(GetInvalid(MemoryStatFriendshipOTBaseEvent_0, expect));
         }
     }
 
@@ -199,20 +200,22 @@ public sealed class HistoryVerifier : Verifier
         // Since some evolutions have different base friendship values, check all possible evolutions for a match.
         // If none match, then it is not a valid OT friendship.
         // VC transfers use S/M personal info
-        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OriginalTrainerFriendship);
+        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OriginalTrainerFriendship, out var hint);
         if (!any)
-            data.AddLine(GetInvalid(MemoryStatFriendshipOTBaseEvent));
+            data.AddLine(GetInvalid(MemoryStatFriendshipOTBaseEvent_0, hint));
     }
 
-    private static bool IsMatchFriendship(EvoCriteria[] evos, int fs)
+    private static bool IsMatchFriendship(ReadOnlySpan<EvoCriteria> evos, byte current, out byte expect)
     {
+        expect = 0; // will be overridden on the first loop
         var pt = PersonalTable.USUM;
         foreach (var z in evos)
         {
             if (!pt.IsPresentInGame(z.Species, z.Form))
                 continue;
             var entry = pt.GetFormEntry(z.Species, z.Form);
-            if (entry.BaseFriendship == fs)
+            expect = entry.BaseFriendship;
+            if (expect == current)
                 return true;
         }
         return false;
@@ -314,13 +317,13 @@ public sealed class HistoryVerifier : Verifier
         _ => false,
     };
 
-    private static int GetBaseFriendship(IEncounterTemplate enc) => enc switch
+    private static byte GetBaseFriendship(IEncounterTemplate enc) => enc switch
     {
         IFixedOTFriendship f => f.OriginalTrainerFriendship,
         _ => GetBaseFriendship(enc.Context, enc.Species, enc.Form),
     };
 
-    private static int GetBaseFriendship(EntityContext context, ushort species, byte form) => context switch
+    private static byte GetBaseFriendship(EntityContext context, ushort species, byte form) => context switch
     {
         EntityContext.Gen6  => PersonalTable.AO[species].BaseFriendship,
         EntityContext.Gen7  => PersonalTable.USUM[species].BaseFriendship,
