@@ -36,7 +36,7 @@ public sealed class SummaryPreviewer
         {
             var text = GetPreviewText(pk, settings);
             if (Settings.HoverSlotShowEncounter)
-                text = AppendEncounterInfo(new LegalityAnalysis(pk), text);
+                text = AppendEncounterInfo(new LegalityLocalizationContext { Analysis = new LegalityAnalysis(pk), Settings = settings }, text);
             ShowSet.SetToolTip(pb, text);
         }
 
@@ -137,7 +137,7 @@ public sealed class SummaryPreviewer
 
     public static string GetPreviewText(PKM pk, BattleTemplateExportSettings settings) => ShowdownParsing.GetLocalizedPreviewText(pk, settings);
 
-    public static string AppendEncounterInfo(LegalityAnalysis la, string text)
+    public static string AppendEncounterInfo(LegalityLocalizationContext la, string text)
     {
         var result = new List<string>(8) { text };
         if (text.Length != 0) // add a blank line between the set and the encounter info if isn't already a blank line

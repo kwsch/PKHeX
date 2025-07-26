@@ -76,7 +76,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         if (pp.OriginalTrainerName != cp.OriginalTrainerName)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingTrainerID, ident, severity);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingTrainerIDs, ident, severity);
         }
 
         return false;

@@ -34,13 +34,13 @@ public sealed class TrashByteVerifier : Verifier
         {
             // Trash bytes should be zero.
             if (!TrashBytesUTF16.IsTrashEmpty(pk.OriginalTrainerTrash))
-                data.AddLine(GetInvalid(TrashBytesShouldBeEmpty, CheckIdentifier.Trainer));
+                data.AddLine(GetInvalid(CheckIdentifier.Trainer, TrashBytesShouldBeEmpty));
         }
         else
         {
             // Should have trash bytes from the transfer process.
             if (TrashBytesUTF16.IsTrashEmpty(pk.OriginalTrainerTrash))
-                data.AddLine(GetInvalid(TrashBytesExpected, CheckIdentifier.Trainer));
+                data.AddLine(GetInvalid(CheckIdentifier.Trainer, TrashBytesExpected));
         }
     }
 
@@ -49,24 +49,24 @@ public sealed class TrashByteVerifier : Verifier
         var enc = pcd.Gift.PK;
         var ot = enc.OriginalTrainerTrash;
         if (!ot.SequenceEqual(pk.OriginalTrainerTrash))
-            data.AddLine(GetInvalid(TrashBytesMismatchInitial, CheckIdentifier.Trainer));
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, TrashBytesMismatchInitial));
 
         if (pcd.Species != pk.Species)
             return; // Evolved, trash bytes are rewritten.
 
         var nick = enc.NicknameTrash;
         if (!nick.SequenceEqual(pk.NicknameTrash))
-            data.AddLine(GetInvalid(TrashBytesMismatchInitial, CheckIdentifier.Nickname));
+            data.AddLine(GetInvalid(CheckIdentifier.Nickname, TrashBytesMismatchInitial));
     }
 
     private void VerifyTrashBytesHOME(LegalityAnalysis data, PKM pk)
     {
         if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.NicknameTrash))
-            data.AddLine(GetInvalid(TrashBytesMissingTerminator, CheckIdentifier.Nickname));
+            data.AddLine(GetInvalid(CheckIdentifier.Nickname, TrashBytesMissingTerminator));
         if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.OriginalTrainerTrash))
-            data.AddLine(GetInvalid(TrashBytesMissingTerminator, CheckIdentifier.Trainer));
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, TrashBytesMissingTerminator));
         if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.HandlingTrainerTrash))
-            data.AddLine(GetInvalid(TrashBytesMissingTerminator, CheckIdentifier.Handler));
+            data.AddLine(GetInvalid(CheckIdentifier.Handler, TrashBytesMissingTerminator));
 
         if (pk.IsEgg)
         {
@@ -133,14 +133,14 @@ public sealed class TrashByteVerifier : Verifier
     {
         var result = TrashBytesUTF16.IsTrashSingleOrNone(span);
         if (result.IsInvalid())
-            data.AddLine(GetInvalid(TrashBytesShouldBeEmpty, GetIdentifier(s)));
+            data.AddLine(GetInvalid(GetIdentifier(s), TrashBytesShouldBeEmpty));
     }
 
     private void VerifyTrashSpecific(LegalityAnalysis data, ReadOnlySpan<byte> span, ReadOnlySpan<char> under, StringSource s, Severity severity = Severity.Invalid)
     {
         var result = TrashBytesUTF16.IsTrashSpecific(span, under);
         if (result.IsInvalid())
-            data.AddLine(Get(TrashBytesExpected_0, severity, GetIdentifier(s)));
+            data.AddLine(Get(GetIdentifier(s), severity, TrashBytesExpected));
     }
 
     private void VerifyTrashNone(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s,
@@ -148,19 +148,19 @@ public sealed class TrashByteVerifier : Verifier
     {
         var result = TrashBytesUTF16.IsTrashNone(span);
         if (result.IsInvalid())
-            data.AddLine(Get(TrashBytesShouldBeEmpty, severity, GetIdentifier(s)));
+            data.AddLine(Get(GetIdentifier(s), severity, TrashBytesShouldBeEmpty));
     }
 
     private void VerifyTrashNotEmpty(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s)
     {
         if (!TrashBytesUTF16.IsTrashNotEmpty(span))
-            data.AddLine(GetInvalid(TrashBytesExpected, GetIdentifier(s)));
+            data.AddLine(GetInvalid(GetIdentifier(s), TrashBytesExpected));
     }
 
     private void VerifyTrashEmpty(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s)
     {
         if (!TrashBytesUTF16.IsTrashEmpty(span))
-            data.AddLine(GetInvalid(TrashBytesShouldBeEmpty, GetIdentifier(s)));
+            data.AddLine(GetInvalid(GetIdentifier(s), TrashBytesShouldBeEmpty));
     }
 
     private static CheckIdentifier GetIdentifier(StringSource s) => s switch

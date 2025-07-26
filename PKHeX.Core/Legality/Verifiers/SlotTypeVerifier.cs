@@ -23,7 +23,7 @@ public sealed class SlotTypeVerifier : Verifier
         else
         {
             if (!IsSourceValid(pk, source))
-                data.AddLine(GetInvalid(StoredSourceInvalid_0, (ushort)source));
+                data.AddLine(GetInvalid(StoredSlotSourceInvalid_0, (ushort)source));
         }
     }
 

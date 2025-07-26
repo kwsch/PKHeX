@@ -36,7 +36,7 @@ public sealed class LegendsArceusVerifier : Verifier
             if (gv <= max)
                 continue;
 
-            data.AddLine(GetInvalid(GanbaruStatTooHigh, CheckIdentifier.GVs));
+            data.AddLine(GetInvalid(CheckIdentifier.GVs, GanbaruStatLEQ_01, max, (ushort)i));
             return;
         }
     }
@@ -47,14 +47,14 @@ public sealed class LegendsArceusVerifier : Verifier
         if (pa.IsAlpha && data.EncounterMatch is EncounterSlot8a)
         {
             if (pa.HeightScalar != 255)
-                data.AddLine(GetInvalid(StatIncorrectHeightValue));
+                data.AddLine(GetInvalid(StatIncorrectHeightValue, 255));
             if (pa.WeightScalar != 255)
-                data.AddLine(GetInvalid(StatIncorrectWeightValue));
+                data.AddLine(GetInvalid(StatIncorrectWeightValue, 255));
         }
 
         // No way to mutate the display height scalar value. Must match!
         if (pa.HeightScalar != pa.Scale)
-            data.AddLine(GetInvalid(StatIncorrectHeightCopy, CheckIdentifier.Encounter));
+            data.AddLine(GetInvalid(CheckIdentifier.Encounter, StatIncorrectHeightCopy));
     }
 
     private static void CheckLearnset(LegalityAnalysis data, PA8 pa)
@@ -242,7 +242,7 @@ public sealed class LegendsArceusVerifier : Verifier
         var masteredIndex = permit.RecordPermitIndexes.IndexOf(alphaMove);
         // Index is already >= 0, implicitly via the above call not returning false.
         if (!pa.GetMasteredRecordFlag(masteredIndex))
-            data.AddLine(GetInvalid(MoveShopAlphaMoveShouldBeMastered));
+            data.AddLine(GetInvalid(MoveShopAlphaMoveShouldBeMastered_0, alphaMove));
     }
 
     private void VerifyAlphaMoveZero(LegalityAnalysis data)

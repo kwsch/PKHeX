@@ -30,7 +30,7 @@ public sealed class IndividualValueVerifier : Verifier
         var pk = data.Entity;
         var hp = pk.IV_HP;
         if (hp < 30 && AllIVsEqual(pk, hp))
-            data.AddLine(Get(IVAllEqual_0, Severity.Fishy, (ushort)hp));
+            data.AddLine(Get(Severity.Fishy, IVAllEqual_0, (ushort)hp));
     }
 
     private static bool AllIVsEqual(PKM pk, int hp) => pk.IV_ATK == hp
@@ -80,7 +80,7 @@ public sealed class IndividualValueVerifier : Verifier
     private void VerifyIVsFlawless(LegalityAnalysis data, int count)
     {
         if (data.Entity.FlawlessIVCount < count)
-            data.AddLine(GetInvalid(IVF_COUNT0_31, (ushort)count));
+            data.AddLine(GetInvalid(IVFlawlessCountGEQ_0, (ushort)count));
     }
 
     private void VerifyIVsGoTransfer(LegalityAnalysis data, IPogoSlot g)

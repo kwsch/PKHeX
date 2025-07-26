@@ -1,3 +1,6 @@
+using System;
+using System.Numerics;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -13,12 +16,8 @@ public enum LegalityCheckResultCode : ushort
     // General Strings
     /// <summary>Default text for indicating validity.</summary>
     Valid,
-    /// <summary>Default text for indicating legality.</summary>
-    Legal,
     /// <summary>Default text for indicating an error has occurred.</summary>
     Error,
-    /// <summary>Analysis not available for the PKM</summary>
-    AnalysisUnavailable,
 
     // Ability
     AbilityCapsuleUsed,
@@ -31,20 +30,11 @@ public enum LegalityCheckResultCode : ushort
     AbilityMismatch3,
     AbilityMismatchFlag,
     AbilityMismatchGift,
-    AbilityMismatchGrotto,
-    AbilityMismatchHordeSafari,
     AbilityMismatchPID,
-    AbilityMismatchSOS,
     AbilityUnexpected,
 
     // Awakened Values
     AwakenedCap,
-    Awakened0ShouldBeValue_0,
-    Awakened1ShouldBeValue_0,
-    Awakened2ShouldBeValue_0,
-    Awakened3ShouldBeValue_0,
-    Awakened4ShouldBeValue_0,
-    Awakened5ShouldBeValue_0,
 
     // Ball
     BallAbility,
@@ -53,7 +43,6 @@ public enum LegalityCheckResultCode : ushort
     BallEnc,
     BallEncMismatch,
     BallHeavy,
-    BallNone,
     BallSpecies,
     BallSpeciesPass,
     BallUnavailable,
@@ -61,8 +50,6 @@ public enum LegalityCheckResultCode : ushort
     // Contest
     ContestZero,
     ContestZeroSheen,
-    ContestSheenTooLowGEQ_0,
-    ContestSheenTooHighLEQ_0,
 
     // Date & Timestamps
     DateOutsideConsoleWindow,
@@ -72,7 +59,6 @@ public enum LegalityCheckResultCode : ushort
     // Egg
     EggContest,
     EggEXP,
-    EggFMetLevel_0,
     EggHatchCycles,
     EggLocation,
     EggLocationInvalid,
@@ -83,7 +69,6 @@ public enum LegalityCheckResultCode : ushort
     EggMetLocationFail,
     EggNature,
     EggPokeathlon,
-    EggPokerus,
     EggPP,
     EggPPUp,
     EggRelearnFlags,
@@ -96,12 +81,6 @@ public enum LegalityCheckResultCode : ushort
     EncCondition,
     EncConditionBadRNGFrame,
     EncConditionBadSpecies,
-    EncConditionBlack,
-    EncConditionBlackLead,
-    EncConditionDexNav,
-    EncConditionLead,
-    EncConditionWhite,
-    EncConditionWhiteLead,
     EncGift,
     EncGiftEggEvent,
     EncGiftIVMismatch,
@@ -110,7 +89,6 @@ public enum LegalityCheckResultCode : ushort
     EncGiftPIDMismatch,
     EncGiftShinyMismatch,
     EncGiftVersionNotDistributed,
-    EncGiftLanguageNotDistributed,
     EncGiftRegionNotDistributed,
     EncInvalid,
     EncMasteryInitial,
@@ -119,17 +97,11 @@ public enum LegalityCheckResultCode : ushort
     EncTradeIndexBad,
     EncTradeMatch,
     EncTradeUnchanged,
-    EncTradeShouldHaveEvolvedToSpecies_0,
-    EncStaticMatch,
     EncStaticPIDShiny,
-    EncStaticRelearn,
     EncTypeMatch,
     EncTypeMismatch,
     EncUnreleased,
     EncUnreleasedEMewJP,
-    EncUnreleasedHoOArceus,
-    EncUnreleasedPtDarkrai,
-    EncUnreleasedPtShaymin,
 
     // E-Reader
     EReaderAmerica,
@@ -145,12 +117,9 @@ public enum LegalityCheckResultCode : ushort
     EffortEgg,
     EffortShouldBeZero,
     EffortEXPIncreased,
-    EffortUntrainedCap,
 
     // Evolution
     EvoInvalid,
-    EvoTradeReq,
-    EvoTradeReqOutsider_0,
     EvoTradeRequired,
 
     // Fateful
@@ -164,8 +133,6 @@ public enum LegalityCheckResultCode : ushort
     FavoriteMarkingUnavailable,
 
     // Form
-    FormArgumentHigh,
-    FormArgumentLow,
     FormArgumentNotAllowed,
     FormArgumentValid,
     FormArgumentInvalid,
@@ -174,8 +141,7 @@ public enum LegalityCheckResultCode : ushort
     FormEternalInvalid,
     FormInvalidGame,
     FormInvalidNature,
-    FormInvalidRange,
-    FormItem,
+    FormItemMatches,
     FormItemInvalid,
     FormParty,
     FormPikachuCosplay,
@@ -187,7 +153,6 @@ public enum LegalityCheckResultCode : ushort
     FormVivillonEventPre,
     FormVivillonInvalid,
     FormVivillonNonNative,
-    FormInvalidRangeLEQ_0,
 
     // Generation 1 & 2
     G1CatchRateChain,
@@ -198,16 +163,8 @@ public enum LegalityCheckResultCode : ushort
     G1CatchRateNone,
     G1CharNick,
     G1CharOT,
-    G1GBEncounter,
-    G1MoveExclusive,
-    G1MoveLearnSameLevel,
-    G1MoveTradeback,
-    G1OTEvent,
     G1OTGender,
     G1Stadium,
-    G1StadiumInternational,
-    G1StadiumJapanese,
-    G1TradebackPreEvoMove,
     G1Type1Fail,
     G1Type2Fail,
     G1TypeMatch1,
@@ -216,10 +173,6 @@ public enum LegalityCheckResultCode : ushort
     G1TypePorygonFail,
     G1TypePorygonFail1,
     G1TypePorygonFail2,
-    G2InvalidTilePark,
-    G2InvalidTileR14,
-    G2InvalidTileSafari,
-    G2InvalidTileTreeID,
     G2InvalidTileTreeNotFound,
     G2TreeID,
     G2OTGender,
@@ -228,16 +181,10 @@ public enum LegalityCheckResultCode : ushort
     G3EReader,
     G3OTGender,
     G4InvalidTileR45Surf,
-    G5ID_N,
     G5IVAll30,
-    G5OTGenderN,
     G5PIDShinyGrotto,
-    G5PIDShinyN,
     G5SparkleInvalid,
     G5SparkleRequired,
-
-    // Ganbaru Values
-    GanbaruStatTooHigh,
 
     // Gender
     GenderInvalidNone,
@@ -252,11 +199,8 @@ public enum LegalityCheckResultCode : ushort
     GeoNoRegion,
 
     // Hints
-    HintEvolvesToSpecies_0,
-    HintEvolvesToRareForm_0,
 
     // Hyper Training
-    HyperTooLow_0,
     HyperPerfectAll,
     HyperPerfectOne,
     HyperPerfectUnavailable,
@@ -266,9 +210,7 @@ public enum LegalityCheckResultCode : ushort
     ItemUnreleased,
 
     // IVs
-    IVAllEqual_0,
     IVNotCorrect,
-    IVF_COUNT0_31,
 
     // Level
     LevelEXPThreshold,
@@ -279,7 +221,6 @@ public enum LegalityCheckResultCode : ushort
     LevelMetSane,
 
     // Markings
-    MarkValueOutOfRange_0,
     MarkValueShouldBeZero,
     MarkValueUnusedBitsPresent,
 
@@ -295,10 +236,8 @@ public enum LegalityCheckResultCode : ushort
     MemoryArgBadSpecies,
     MemoryArgSpecies,
     MemoryCleared,
-    MemoryF_0_Valid,
     MemoryFeelInvalid_H,
     MemoryHTFlagInvalid,
-    MemoryHTGender_0,
     MemoryHTLanguage,
     MemoryIndexArgHT,
     MemoryIndexFeel,
@@ -306,95 +245,26 @@ public enum LegalityCheckResultCode : ushort
     MemoryIndexID,
     MemoryIndexIntensity,
     MemoryIndexIntensityHT1,
-    MemoryIndexIntensityMin_01,
     MemoryIndexLinkHT,
     MemoryIndexVar,
     MemoryMissingHT,
     MemoryMissingOT,
     MemorySocialZero,
-    MemorySocialTooHighLEQ_0,
     MemoryStatAffectionHT0,
     MemoryStatAffectionOT0,
     MemoryStatFriendshipHT0,
     MemoryStatFriendshipOTBaseEvent,
-    MemoryStatFullness_0,
-    MemoryStatFullnessLEQ_0,
-    MemoryStatEnjoyment_0,
 
     // Met Detail
     MetDetailTimeOfDay,
 
-    // Moves - Eggs
-    MoveEggFIncompatible0_1,
-    MoveEggIncompatible,
-    MoveEggIncompatibleEvent,
-    MoveEggInherited,
-    MoveEggInheritedTutor,
-    MoveEggInvalid,
-    MoveEggInvalidEvent,
-    MoveEggInvalidEventLevelUp,
-    MoveEggInvalidEventLevelUpGift,
-    MoveEggInvalidEventTMHM,
-    MoveEggInvalidEventTutor,
-    MoveEggLevelUp,
-    MoveEggMissing,
-    MoveEggMoveGift,
-    MoveEggTMHM,
-
     // Moves - General
-    MoveEventEggLevelUp,
-    MoveEvoFCombination_0,
-    MoveEvoFHigher,
-    MoveEvoFLower,
-    MoveFDefault_0,
-    MoveFExpect_0,
-    MoveFExpectSingle_0,
-    MoveFLevelUp_0,
-    MoveFTMHM_0,
-    MoveFTutor_0,
     MoveKeldeoMismatch,
-    MoveNincada,
-    MoveNincadaEvo,
-    MoveNincadaEvoF_0,
-    MovePPExpectHealed_0,
-    MovePPTooHigh_0,
-    MovePPUpsTooHigh_0,
-    MoveSourceShared,
-    MoveSourceSharedF,
     MovesShouldMatchRelearnMoves,
 
-    // Moves - Relearn
-    MoveRelearnDexNav,
-    MoveRelearnUnderground,
-    MoveRelearnEgg,
-    MoveRelearnEggMissing,
-    MoveRelearnFExpect_0,
-    MoveRelearnFMiss_0,
-    MoveRelearnInvalid,
-    MoveRelearnNone,
-
     // Moves - Shop & Alpha
-    MoveShopAlphaMoveShouldBeMastered,
     MoveShopAlphaMoveShouldBeOther,
     MoveShopAlphaMoveShouldBeZero,
-    MoveShopMasterInvalid_0,
-    MoveShopMasterNotLearned_0,
-    MoveShopPurchaseInvalid_0,
-
-    // Moves - Sources
-    MoveSourceDefault,
-    MoveSourceDuplicate,
-    MoveSourceEgg,
-    MoveSourceEggEvent,
-    MoveSourceEmpty,
-    MoveSourceInvalid,
-    MoveSourceInvalidSketch,
-    MoveSourceLevelUp,
-    MoveSourceRelearn,
-    MoveSourceSpecial,
-    MoveSourceTMHM,
-    MoveSourceTutor,
-    MoveSourceTR,
 
     // Nickname
     NickFlagEggNo,
@@ -412,11 +282,6 @@ public enum LegalityCheckResultCode : ushort
 
     // Original Trainer
     OTLanguage,
-    OTLanguageShouldBe_0,
-    OTLanguageShouldBe_0or1,
-    OTLanguageShouldBeLeq_0,
-    OTLanguageCannotPlayOnVersion_0,
-    OTLanguageCannotTransferFromConsoleRegion_0,
     OTLong,
     OTShort,
     OTSuspicious,
@@ -438,17 +303,9 @@ public enum LegalityCheckResultCode : ushort
     PIDTypeMismatch,
     PIDZero,
 
-    // Pokerus
-    PokerusDaysTooHigh,
-    PokerusStrainUnobtainable_0,
-
     // Ribbons
     RibbonAllValid,
     RibbonEgg,
-    RibbonFInvalid_0,
-    RibbonMissing_0,
-    RibbonMarkingInvalid_0,
-    RibbonMarkingAffixed_0,
 
     // Stats
     StatDynamaxInvalid,
@@ -458,7 +315,6 @@ public enum LegalityCheckResultCode : ushort
     StatIncorrectWeight,
     StatIncorrectWeightValue,
     StatInvalidHeightWeight,
-    StatIncorrectCP,
     StatGigantamaxInvalid,
     StatGigantamaxValid,
     StatNatureInvalid,
@@ -468,7 +324,6 @@ public enum LegalityCheckResultCode : ushort
 
     // Storage
     StoredSourceEgg,
-    StoredSourceInvalid_0,
 
     // Super Training
     SuperComplete,
@@ -497,51 +352,105 @@ public enum LegalityCheckResultCode : ushort
     TransferEggMetLevel,
     TransferEggVersion,
     TransferFlagIllegal,
-    TransferHTFlagRequired,
-    TransferHTMismatchName,
-    TransferHTMismatchGender,
-    TransferHTMismatchLanguage,
+    TransferHandlerFlagRequired,
+    TransferHandlerMismatchName,
+    TransferHandlerMismatchGender,
+    TransferHandlerMismatchLanguage,
     TransferMet,
     TransferNotPossible,
     TransferMetLocation,
-    TransferMove,
-    TransferMoveG4HM,
-    TransferMoveHM,
     TransferNature,
     TransferObedienceLevel,
-    TransferOriginFInvalid0_1,
     TransferKoreanGen4,
-    TransferPIDECBitFlip,
-    TransferPIDECEquals,
-    TransferPIDECXor,
+    TransferEncryptGen6BitFlip,
+    TransferEncryptGen6Equals,
+    TransferEncryptGen6Xor,
     TransferTrackerMissing,
     TransferTrackerShouldBeZero,
-
-    // Trash Bytes
-    TrashBytesExpected_0,
     TrashBytesExpected,
     TrashBytesMismatchInitial,
     TrashBytesMissingTerminator,
     TrashBytesShouldBeEmpty,
-    TrashBytesUnexpected,
-
-    // Word Filter
-    WordFilterInvalidCharacter_0,
-    WordFilterFlaggedPattern_01,
-    WordFilterTooManyNumbers_0,
 
     // Bulk Cross-Comparison
     BulkCloneDetectedDetails,
     BulkCloneDetectedTracker,
     BulkSharingEncryptionConstantGenerationSame,
     BulkSharingEncryptionConstantGenerationDifferent,
-    BulkSharingEncryptionConstantRNGType,
+    BulkSharingEncryptionConstantEncounterType,
     BulkSharingPIDGenerationDifferent,
     BulkSharingPIDGenerationSame,
-    BulkSharingPIDRNGType,
+    BulkSharingPIDEncounterType,
     BulkDuplicateMysteryGiftEggReceived,
-    BulkSharingTrainerID,
+    BulkSharingTrainerIDs,
     BulkSharingTrainerVersion,
+
+    // Formattable Argument Present: 1 Number
+    FirstWithArgument,
+    ContestSheenGEQ_0 = FirstWithArgument,
+    ContestSheenLEQ_0,
+    EggFMetLevel_0,
+    EffortUntrainedCap_0,
+    EvoTradeReqOutsider_0,
+    FormArgumentLEQ_0,
+    FormArgumentGEQ_0,
+    FormInvalidRange_0,
+    FormInvalidRangeLEQ_0,
+    HyperTrainLevelGEQ_0, // level
+    IVAllEqual_0,
+    IVFlawlessCountGEQ_0, // count
+    MarkValueOutOfRange_0, // unknown value
+    MemoryF_0_Valid,
+    MemoryHTGender_0,
+    MemoryIndexIntensityMin_01,
+    MemoryStatSocialLEQ_0,
+    MemoryStatFullness_0,
+    MemoryStatFullnessLEQ_0,
+    MemoryStatEnjoyment_0,
+    StatIncorrectCP_0, // value
+    WordFilterTooManyNumbers_0, // count
+    PokerusDaysLEQ_0, // days
+    PokerusStrainUnobtainable_0, // strain
+    MovePPExpectHealed_0, // move slot
+    MovePPTooHigh_0, // move slot
+    MovePPUpsTooHigh_0, // move slot
+
+    // Single Argument: Move ID
+    FirstWithMove,
+    MoveTechRecordFlagMissing_0 = FirstWithMove, // move ID
+    MoveShopAlphaMoveShouldBeMastered_0, // move
+    MoveShopMasterInvalid_0, // move ID
+    MoveShopMasterNotLearned_0, // move ID
+    MoveShopPurchaseInvalid_0, // move ID
+
+    // One Argument: Language
+    FirstWithLanguage,
+    OTLanguageShouldBe_0 = FirstWithLanguage, // language
+    OTLanguageShouldBeLeq_0, // language
+    EncGiftLanguageNotDistributed_0, // language
+    OTLanguageCannotPlayOnVersion_0, // language
+
+    // One/Two Arguments: Special
+    FirstComplex,
+    RibbonFInvalid_0 = FirstComplex, // generated string
+    WordFilterFlaggedPattern_01, // filter, pattern
+    WordFilterInvalidCharacter_0, // filter, pattern
+
+    AwakenedStatGEQ_01,// value, statName
+    GanbaruStatLEQ_01, // value, statName
+    OTLanguageCannotTransferToConsoleRegion_0, // ConsoleRegion
+    EncTradeShouldHaveEvolvedToSpecies_0, // species
+    MoveEvoFCombination_0, // species
+    HintEvolvesToSpecies_0, // species
+
+    RibbonMarkingInvalid_0, // ribbon
+    RibbonMarkingAffixed_0, // ribbon
+    RibbonMissing_0, // ribbon
+
+    StoredSlotSourceInvalid_0, // StorageSlotType
+    HintEvolvesToRareForm_0, // bool
+
+    OTLanguageShouldBe_0or1, // language,language
 
     MAX,
 }

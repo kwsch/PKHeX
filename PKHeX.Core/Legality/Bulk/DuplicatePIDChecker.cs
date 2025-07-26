@@ -77,7 +77,7 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
 
         if (eggMysteryCurrent != eggMysteryPrevious)
         {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDRNGType, ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDEncounterType, ident);
         }
     }
 }

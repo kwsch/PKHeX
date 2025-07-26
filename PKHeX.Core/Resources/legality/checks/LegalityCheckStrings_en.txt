@@ -359,8 +359,8 @@ LPokerusDaysTooHigh_0 = Pokérus Days Remaining value is too high; expected <= {
 LPokerusStrainUnobtainable_0 = Pokérus Strain {0} cannot be obtained.
 LRibbonAllValid = All ribbons accounted for.
 LRibbonEgg = Can't receive Ribbon(s) as an Egg.
-LRibbonFInvalid_0 = Invalid Ribbons: 
-LRibbonFMissing_0 = Missing Ribbons: 
+LRibbonFInvalid_0 = Invalid Ribbons: {0}
+LRibbonFMissing_0 = Missing Ribbons: {0}
 LRibbonMarkingAffixedF_0 = Invalid Affixed Ribbon/Marking: {0}
 LRibbonMarkingFInvalid_0 = Invalid Marking: {0}
 LStatAlphaInvalid = Alpha Flag mismatch.

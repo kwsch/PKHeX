@@ -394,7 +394,7 @@ public sealed class AbilityVerifier : Verifier
                 // Must not have the Ability bit flag set.
                 // Shadow encounters set a random ability index; don't bother checking if it's a re-battle for ability bit flipping.
                 if (abit && enc is not IShadow3)
-                    return GetInvalid(AbilityMismatchFlag, CheckIdentifier.PID);
+                    return GetInvalid(CheckIdentifier.PID, AbilityMismatchFlag);
             }
             else
             {
@@ -402,7 +402,7 @@ public sealed class AbilityVerifier : Verifier
                 // Version value check isn't factually correct, but there are no C/XD gifts with (Version!=15) that have two abilities.
                 // Pikachu, Celebi, Ho-Oh
                 if (pk.Version != GameVersion.CXD && abit != ((pk.EncryptionConstant & 1) == 1))
-                    return GetInvalid(AbilityMismatchPID, CheckIdentifier.PID);
+                    return GetInvalid(CheckIdentifier.PID, AbilityMismatchPID);
             }
         }
         else if (pk.Format >= 6)

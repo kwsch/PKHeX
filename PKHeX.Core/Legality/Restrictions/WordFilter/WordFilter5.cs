@@ -10,6 +10,8 @@ public static class WordFilter5
     private static readonly Dictionary<string, int>.AlternateLookup<ReadOnlySpan<char>> Words = GetDictionary(BadWords)
             .GetAlternateLookup<ReadOnlySpan<char>>();
 
+    public static string GetPattern(int index) => BadWords[index];
+
     private static Dictionary<string, int> GetDictionary(ReadOnlySpan<string> input)
     {
         var result = new Dictionary<string, int>(input.Length);

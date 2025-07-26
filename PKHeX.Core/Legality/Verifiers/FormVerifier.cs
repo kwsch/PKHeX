@@ -38,7 +38,7 @@ public sealed class FormVerifier : Verifier
         var enc = data.EncounterMatch;
 
         if (!pi.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, enc.Generation))
-            return GetInvalid(FormInvalidRange, (ushort)(count - 1));
+            return GetInvalid(FormInvalidRange_0, (ushort)(count - 1));
 
         switch ((Species)species)
         {
@@ -88,7 +88,7 @@ public sealed class FormVerifier : Verifier
 
             case Arceus:
                 var arceus = FormItem.GetFormArceus(pk.HeldItem, pk.Format);
-                return arceus != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItem);
+                return arceus != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItemMatches);
             case Keldeo when enc.Generation != 5 || pk.Format >= 8:
                 // can mismatch in Gen5 via B/W tutor and transfer up
                 // can mismatch in Gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
@@ -100,12 +100,12 @@ public sealed class FormVerifier : Verifier
                 break;
             case Genesect:
                 var genesect = FormItem.GetFormGenesect(pk.HeldItem);
-                return genesect != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItem);
+                return genesect != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItemMatches);
             case Greninja:
                 if (form > 1) // Ash Battle Bond active
                     return GetInvalid(FormBattle);
                 if (form != 0 && enc is not MysteryGift) // Form can not be bred for, MysteryGift already checked
-                    return GetInvalid(FormInvalidRange, 0);
+                    return GetInvalid(FormInvalidRange_0, 0);
                 break;
 
             case Scatterbug or Spewpa or Vivillon when enc.Context is EntityContext.Gen9:
@@ -122,7 +122,7 @@ public sealed class FormVerifier : Verifier
                 if (!Vivillon3DS.IsPatternValid(form, tr.ConsoleRegion))
                     return GetInvalid(FormVivillonInvalid);
                 if (!Vivillon3DS.IsPatternNative(form, tr.Country, tr.Region))
-                    data.AddLine(Get(FormVivillonNonNative, Severity.Fishy));
+                    data.AddLine(Get(Severity.Fishy, FormVivillonNonNative));
                 break;
             case Vivillon:
                 if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
@@ -136,7 +136,7 @@ public sealed class FormVerifier : Verifier
                 if (!Vivillon3DS.IsPatternValid(form, trv.ConsoleRegion))
                     return GetInvalid(FormVivillonInvalid);
                 if (!Vivillon3DS.IsPatternNative(form, trv.Country, trv.Region))
-                    data.AddLine(Get(FormVivillonNonNative, Severity.Fishy));
+                    data.AddLine(Get(Severity.Fishy, FormVivillonNonNative));
                 break;
 
             case Floette when form == 5: // Floette Eternal Flower -- Never Released
@@ -148,7 +148,7 @@ public sealed class FormVerifier : Verifier
 
             case Silvally:
                 var silvally = FormItem.GetFormSilvally(pk.HeldItem);
-                return silvally != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItem);
+                return silvally != form ? GetInvalid(FormItemInvalid) : GetValid(LegalityCheckResultCode.FormItemMatches);
 
             // Form doesn't exist in SM; cannot originate from that game.
             case Rockruff when enc.Generation == 7 && form == 1 && pk.SM:

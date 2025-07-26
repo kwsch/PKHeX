@@ -27,7 +27,7 @@ public sealed class HyperTrainingVerifier : Verifier
         var minLevel = t.GetHyperTrainMinLevel(data.Info.EvoChainsAllGens, pk.Context);
         if (pk.CurrentLevel < minLevel)
         {
-            data.AddLine(GetInvalid(HyperTooLow_0, (ushort)minLevel));
+            data.AddLine(GetInvalid(HyperTrainLevelGEQ_0, (ushort)minLevel));
             return;
         }
 

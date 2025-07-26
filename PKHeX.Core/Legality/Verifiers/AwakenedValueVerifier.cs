@@ -39,16 +39,16 @@ public sealed class AwakenedValueVerifier : Verifier
 
         // For each stat, ensure the current AV is at least the required minimum
         if (current[0] < required[0])
-            data.AddLine(GetInvalid(Awakened0ShouldBeValue_0, required[0])); // HP
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[0], 0)); // HP
         if (current[1] < required[1])
-            data.AddLine(GetInvalid(Awakened1ShouldBeValue_0, required[1])); // Atk
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[1], 1)); // Atk
         if (current[2] < required[2])
-            data.AddLine(GetInvalid(Awakened2ShouldBeValue_0, required[2])); // Def
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[2], 2)); // Def
         if (current[3] < required[3])
-            data.AddLine(GetInvalid(Awakened3ShouldBeValue_0, required[3])); // SpA
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[3], 4)); // SpA
         if (current[4] < required[4])
-            data.AddLine(GetInvalid(Awakened4ShouldBeValue_0, required[4])); // SpD
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[4], 5)); // SpD
         if (current[5] < required[5])
-            data.AddLine(GetInvalid(Awakened5ShouldBeValue_0, required[5])); // Speed
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[5], 3)); // Speed
     }
 }

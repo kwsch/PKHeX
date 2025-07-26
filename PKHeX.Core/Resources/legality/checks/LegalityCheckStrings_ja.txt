@@ -359,8 +359,8 @@ LPokerusDaysTooHigh_0 = ポケルスの残り日数が多すぎます; 範囲 <=
 LPokerusStrainUnobtainable_0 = ポケルス株 {0} は取得できません。
 LRibbonAllValid = 全てのリボンからなっている
 LRibbonEgg = タマゴにリボンは設定できません。
-LRibbonFInvalid_0 = 無効なリボンが設定されています: 
-LRibbonFMissing_0 = 次のリボンが不足しています: 
+LRibbonFInvalid_0 = 無効なリボンが設定されています: {0}
+LRibbonFMissing_0 = 次のリボンが不足しています: {0}
 LRibbonMarkingAffixedF_0 = 無効なリボン/マーキングが設定されています: {0}
 LRibbonMarkingFInvalid_0 = 無効なマーキング: {0}
 LStatAlphaInvalid = オヤブンフラグ不一致。

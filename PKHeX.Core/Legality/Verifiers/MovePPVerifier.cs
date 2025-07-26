@@ -22,9 +22,9 @@ public sealed class MovePPVerifier : Verifier
     {
         var pk = data.Entity;
         if (pk.Move1_PPUps != 0 || pk.Move2_PPUps != 0 || pk.Move3_PPUps != 0 || pk.Move4_PPUps != 0)
-            data.AddLine(GetInvalid(EggPPUp, CheckIdentifier.Egg));
+            data.AddLine(GetInvalid(CheckIdentifier.Egg, EggPPUp));
         if (!IsZeroMovePP(pk))
-            data.AddLine(GetInvalid(EggPP, CheckIdentifier.Egg));
+            data.AddLine(GetInvalid(CheckIdentifier.Egg, EggPP));
     }
 
     private static bool IsZeroMovePP(PKM pk)
@@ -58,7 +58,7 @@ public sealed class MovePPVerifier : Verifier
             for (int i = 0; i < ups.Length; i++)
             {
                 if (ups[i] != 0)
-                    data.AddLine(GetInvalid(MovePPUpsTooHigh_0, (ushort)i));
+                    data.AddLine(GetInvalid(MovePPUpsTooHigh_0, (ushort)(i + 1)));
             }
         }
         else // Check specific move indexes
@@ -66,7 +66,7 @@ public sealed class MovePPVerifier : Verifier
             for (int i = 0; i < ups.Length; i++)
             {
                 if (!Legal.IsPPUpAvailable(moves[i]) && ups[i] != 0)
-                    data.AddLine(GetInvalid(MovePPUpsTooHigh_0, (ushort)i));
+                    data.AddLine(GetInvalid(MovePPUpsTooHigh_0, (ushort)(i + 1)));
             }
         }
 
@@ -74,9 +74,9 @@ public sealed class MovePPVerifier : Verifier
         {
             var expect = pk.GetMovePP(moves[i], ups[i]);
             if (pp[i] > expect)
-                data.AddLine(GetInvalid(MovePPTooHigh_0, (ushort)i));
+                data.AddLine(GetInvalid(MovePPTooHigh_0, (ushort)(i + 1)));
             else if (expectHeal && pp[i] != expect)
-                data.AddLine(GetInvalid(MovePPExpectHealed_0, (ushort)i));
+                data.AddLine(GetInvalid(MovePPExpectHealed_0, (ushort)(i + 1)));
         }
     }
 

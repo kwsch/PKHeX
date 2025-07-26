@@ -50,12 +50,12 @@ public sealed class ContestStatVerifier : Verifier
             var minSheen = CalculateMinimumSheen(s, initial, pk, method);
 
             if (s.ContestSheen < minSheen)
-                data.AddLine(GetInvalid(ContestSheenTooLowGEQ_0, minSheen));
+                data.AddLine(GetInvalid(ContestSheenGEQ_0, minSheen));
 
             // Check for sheen values that are too high.
             var maxSheen = CalculateMaximumSheen(s, pk.Nature, initial, gen3);
             if (s.ContestSheen > maxSheen)
-                data.AddLine(GetInvalid(ContestSheenTooHighLEQ_0, maxSheen));
+                data.AddLine(GetInvalid(ContestSheenLEQ_0, maxSheen));
         }
         else if (correlation == Mixed)
         {
@@ -65,7 +65,7 @@ public sealed class ContestStatVerifier : Verifier
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
             var maxSheen = CalculateMaximumSheen(s, pk.Nature, initial, gen3);
             if (s.ContestSheen > maxSheen)
-                data.AddLine(GetInvalid(ContestSheenTooHighLEQ_0, maxSheen));
+                data.AddLine(GetInvalid(ContestSheenLEQ_0, maxSheen));
         }
     }
 }

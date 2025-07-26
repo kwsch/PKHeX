@@ -12,32 +12,35 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
     /// <summary>
     /// Gets a minimal report string for the analysis.
     /// </summary>
-    public string GetReport(LegalityAnalysis l)
+    public string GetReport(LegalityLocalizationContext la)
     {
+        var l = la.Analysis;
         if (l.Valid)
             return L_ALegal;
         if (!l.Parsed)
             return L_AnalysisUnavailable;
 
         List<string> lines = [];
-        GetLegalityReportLines(l, lines);
+        GetLegalityReportLines(la, lines);
         return string.Join(Environment.NewLine, lines);
     }
 
     /// <summary>
     /// Gets a verbose report string for the analysis.
     /// </summary>
-    public string GetReportVerbose(LegalityAnalysis l)
+    public string GetReportVerbose(LegalityLocalizationContext la)
     {
+        var l = la.Analysis;
         if (!l.Parsed)
             return L_AnalysisUnavailable;
 
-        var lines = GetVerboseLegalityReportLines(l);
+        var lines = GetVerboseLegalityReportLines(la);
         return string.Join(Environment.NewLine, lines);
     }
 
-    private static void GetLegalityReportLines(LegalityAnalysis l, List<string> lines)
+    private static void GetLegalityReportLines(LegalityLocalizationContext la, List<string> lines)
     {
+        var l = la.Analysis;
         var info = l.Info;
         var pk = l.Entity;
 
@@ -45,16 +48,17 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         LegalityFormatting.AddMoves(info.Moves, lines, pk.Format, false, pk, evos);
         if (pk.Format >= 6)
             LegalityFormatting.AddRelearn(info.Relearn, lines, false, pk, evos);
-        LegalityFormatting.AddSecondaryChecksInvalid(l, l.Results, lines);
+        LegalityFormatting.AddSecondaryChecksInvalid(la, l.Results, lines);
     }
 
-    private static List<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
+    private static List<string> GetVerboseLegalityReportLines(LegalityLocalizationContext la)
     {
+        var l = la.Analysis;
         var lines = new List<string>();
         if (l.Valid)
             lines.Add(L_ALegal);
         else
-            GetLegalityReportLines(l, lines);
+            GetLegalityReportLines(la, lines);
         var info = l.Info;
         var pk = l.Entity;
         const string separator = "===";
@@ -72,11 +76,11 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         if (lines.Count != initialCount) // move info added, break for next section
             lines.Add(string.Empty);
 
-        LegalityFormatting.AddSecondaryChecksValid(l, l.Results, lines);
+        LegalityFormatting.AddSecondaryChecksValid(la, l.Results, lines);
 
         lines.Add(separator);
         lines.Add(string.Empty);
-        LegalityFormatting.AddEncounterInfo(l, lines);
+        LegalityFormatting.AddEncounterInfo(la, lines);
 
         return lines;
     }

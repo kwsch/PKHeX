@@ -181,7 +181,7 @@ public sealed class BallVerifier : Verifier
     {
         bool valid = value.IsValid();
         var msg = value.GetMessage();
-        return Get(msg, valid ? Severity.Valid : Severity.Invalid);
+        return Get(valid ? Severity.Valid : Severity.Invalid, msg);
     }
 }
 

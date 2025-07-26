@@ -45,7 +45,7 @@ public static class EncounterFinder
 
             // Looks like we might have a good enough match. Check if this is really a good match.
             info.EncounterMatch = enc;
-            if (e.ResultCode != Valid)
+            if (e.Result != Valid)
                 info.Parse.Add(e);
             if (!VerifySecondaryChecks(pk, info, encounter))
                 continue;
@@ -63,7 +63,7 @@ public static class EncounterFinder
                 continue;
 
             // We ran out of possible encounters without finding a suitable match; add a message indicating that the encounter is not a complete match.
-            info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.Encounter, EncInvalid));
+            info.Parse.Add(CheckResult.Get(Severity.Invalid, CheckIdentifier.Encounter, EncInvalid));
             break;
         }
 
@@ -71,9 +71,9 @@ public static class EncounterFinder
         if (manual != EncounterYieldFlag.None)
         {
             if (!info.FrameMatches) // if false, all valid RNG frame matches have already been consumed
-                info.Parse.Add(new CheckResult(ParseSettings.Settings.FramePattern.GetSeverity(info.Generation), CheckIdentifier.PID, EncConditionBadRNGFrame));
+                info.Parse.Add(CheckResult.Get(ParseSettings.Settings.FramePattern.GetSeverity(info.Generation), CheckIdentifier.PID, EncConditionBadRNGFrame));
             else if (!info.PIDIVMatches) // if false, all valid PID/IV matches have already been consumed
-                info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, PIDTypeMismatch));
+                info.Parse.Add(CheckResult.Get(Severity.Invalid, CheckIdentifier.PID, PIDTypeMismatch));
         }
     }
 
@@ -166,7 +166,7 @@ public static class EncounterFinder
         info.EncounterMatch = new EncounterInvalid(pk);
         var hint = GetHintWhyNotFound(pk, info.EncounterMatch.Generation);
 
-        info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.Encounter, hint));
+        info.Parse.Add(CheckResult.Get(Severity.Invalid, CheckIdentifier.Encounter, hint));
         LearnVerifierRelearn.Verify(info.Relearn, info.EncounterOriginal, pk);
         LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }

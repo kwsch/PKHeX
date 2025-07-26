@@ -251,7 +251,7 @@ public sealed class MemoryVerifier : Verifier
         if (!context.CanHaveIntensity(memory.MemoryID, memory.Intensity))
         {
             var min = context.GetMinimumIntensity(memory.MemoryID);
-            return GetInvalid(MemoryIndexIntensityMin_01, Identifier, memory.Handler, min);
+            return GetInvalid(Identifier, MemoryIndexIntensityMin_01, memory.Handler, min);
         }
 
         if (!context.CanHaveFeeling(memory.MemoryID, memory.Feeling, memory.Variable))
@@ -275,13 +275,13 @@ public sealed class MemoryVerifier : Verifier
     {
         var pk = (ITrainerMemories)data.Entity;
         if (pk.OriginalTrainerMemory != m)
-            data.AddLine(GetInvalid(MemoryIndexID, L_XOT, m));
+            data.AddLine(GetInvalid(L_XOT, MemoryIndexID, m));
         if (pk.OriginalTrainerMemoryIntensity != i)
-            data.AddLine(GetInvalid(MemoryIndexIntensity, L_XOT, i));
+            data.AddLine(GetInvalid(L_XOT, MemoryIndexIntensity, i));
         if (pk.OriginalTrainerMemoryVariable != t)
-            data.AddLine(GetInvalid(MemoryIndexVar, L_XOT, t));
+            data.AddLine(GetInvalid(L_XOT, MemoryIndexVar, t));
         if (pk.OriginalTrainerMemoryFeeling != f)
-            data.AddLine(GetInvalid(MemoryIndexFeel, L_XOT, f));
+            data.AddLine(GetInvalid(L_XOT, MemoryIndexFeel, f));
     }
 
     private void VerifyHTMemoryNone(LegalityAnalysis data, ITrainerMemories pk)
@@ -349,7 +349,7 @@ public sealed class MemoryVerifier : Verifier
         {
             // No Memory
             case 0: // SW/SH trades don't set HT memories immediately, which is hilarious.
-                data.AddLine(Get(MemoryMissingOT, mc.Context == Gen8 ? Severity.Fishy : Severity.Invalid));
+                data.AddLine(Get(mc.Context == Gen8 ? Severity.Fishy : Severity.Invalid, MemoryMissingOT));
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
                 return;
 
@@ -443,7 +443,7 @@ public sealed class MemoryVerifier : Verifier
                     _ => Severity.Invalid,
                 };
                 if (severity != Severity.Valid)
-                    data.AddLine(Get(MemoryMissingHT, severity));
+                    data.AddLine(Get(severity, MemoryMissingHT));
                 VerifyHTMemoryNone(data, mem);
                 return;
 

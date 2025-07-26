@@ -118,7 +118,7 @@ public sealed class HistoryVerifier : Verifier
         }
 
         if (current != 1 && (enc.Context != pk.Context || neverOT))
-            data.AddLine(GetInvalid(TransferHTFlagRequired));
+            data.AddLine(GetInvalid(TransferHandlerFlagRequired));
         if (!pk.IsUntraded && IsUntradeableEncounter(enc)) // Starter, untradeable
             data.AddLine(GetInvalid(TransferCurrentHandlerInvalid));
     }
@@ -141,15 +141,15 @@ public sealed class HistoryVerifier : Verifier
         ht = ht[..len];
 
         if (!ht.SequenceEqual(tr.OT))
-            data.AddLine(GetInvalid(TransferHTMismatchName));
+            data.AddLine(GetInvalid(TransferHandlerMismatchName));
         if (pk.HandlingTrainerGender != tr.Gender)
-            data.AddLine(GetInvalid(TransferHTMismatchGender));
+            data.AddLine(GetInvalid(TransferHandlerMismatchGender));
 
         // If the format exposes a language, check if it matches.
         // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
         // Statistically unlikely that players will play in different languages, but it's technically possible.
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-            data.AddLine(Get(TransferHTMismatchLanguage, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, TransferHandlerMismatchLanguage));
     }
 
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch

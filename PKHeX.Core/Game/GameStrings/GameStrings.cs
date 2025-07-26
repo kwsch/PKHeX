@@ -27,7 +27,10 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] wallpapernames, puffs, walkercourses;
     public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
     public readonly string[] seals, accessories, backdrops, poketchapps;
+    public readonly string[] console3ds, languageNames;
     private readonly string LanguageFilePrefix;
+
+    public readonly RibbonStrings Ribbons;
 
     public LanguageID Language { get; }
     public string EggName { get; }
@@ -59,6 +62,7 @@ public sealed class GameStrings : IBasicStrings
         Language = GameLanguage.GetLanguage(LanguageFilePrefix = langFilePrefix);
 
         ribbons = Get("ribbons");
+        Ribbons = new(ribbons);
 
         // Past Generation strings
         g3items = Get("ItemsG3");
@@ -124,6 +128,8 @@ public sealed class GameStrings : IBasicStrings
         accessories = Get("accessories");
         backdrops = Get("backdrops");
         poketchapps = Get("poketchapps");
+        console3ds = Get("console3ds");
+        languageNames = Get("language");
 
         EggName = specieslist[0];
         Gen4 = Get4("hgss");

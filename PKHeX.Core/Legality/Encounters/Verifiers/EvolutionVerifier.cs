@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EvolutionVerifier
 {
-    private static readonly CheckResult VALID = new(CheckIdentifier.Evolution);
+    private static readonly CheckResult VALID = CheckResult.GetValid(CheckIdentifier.Evolution);
 
     /// <summary>
     /// Verifies Evolution scenarios of <see cref="IEncounterable"/> templates for an input <see cref="PKM"/> and relevant <see cref="LegalInfo"/>.
@@ -19,11 +19,11 @@ public static class EvolutionVerifier
     {
         // Check if basic evolution methods are satisfiable with this encounter.
         if (!IsValidEvolution(pk, info.EvoChainsAllGens, info.EncounterOriginal))
-            return new CheckResult(Severity.Invalid, CheckIdentifier.Evolution, EvoInvalid);
+            return CheckResult.Get(Severity.Invalid, CheckIdentifier.Evolution, EvoInvalid);
 
         // Check if complex evolution methods are satisfiable with this encounter.
         if (!IsValidEvolutionWithMove(pk, info))
-            return new CheckResult(Severity.Invalid, CheckIdentifier.Evolution, MoveEvoFCombination_0, pk.Species);
+            return CheckResult.Get(Severity.Invalid, CheckIdentifier.Evolution, MoveEvoFCombination_0, pk.Species);
 
         return VALID;
     }

@@ -83,9 +83,9 @@ public sealed class BulkAnalysis
     /// </summary>
     public void AddLine(SlotCache first, SlotCache second, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
-        var chk = new BulkCheckResult(new(s, i, msg), c);
-        Parse.Add(chk);
+        var line = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
+        var chk = CheckResult.Get(s, i, msg);
+        Parse.Add(new(chk, line));
     }
 
     /// <summary>
@@ -93,9 +93,9 @@ public sealed class BulkAnalysis
     /// </summary>
     public void AddLine(SlotCache first, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
-        var chk = new BulkCheckResult(new(s, i, msg), c);
-        Parse.Add(chk);
+        var line = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
+        var chk = CheckResult.Get(s, i, msg);
+        Parse.Add(new(chk, line));
     }
 
     private static LegalityAnalysis[] GetIndividualAnalysis(ReadOnlySpan<SlotCache> list)

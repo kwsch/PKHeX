@@ -20,7 +20,7 @@ public sealed class LanguageVerifier : Verifier
         var enc = data.EncounterMatch;
         if (!IsValidLanguageID(currentLanguage, maxLanguageID, pk, enc))
         {
-            data.AddLine(GetInvalid(OTLanguageShouldBeLeq_0, Identifier, (byte)maxLanguageID, (byte)currentLanguage));
+            data.AddLine(GetInvalid(Identifier, OTLanguageShouldBeLeq_0, (byte)maxLanguageID, (byte)currentLanguage));
             return;
         }
 

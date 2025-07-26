@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.Species;
 
@@ -26,7 +27,7 @@ public sealed class FormArgumentVerifier : Verifier
 
         var unusedMask = pk.Format == 6 ? 0xFFFF_FF00 : 0xFF00_0000;
         if ((arg & unusedMask) != 0)
-            return GetInvalid(FormArgumentHigh);
+            return GetInvalid(FormArgumentLEQ_0);
 
         return (Species)pk.Species switch
         {
@@ -46,58 +47,58 @@ public sealed class FormArgumentVerifier : Verifier
             Yamask when pk.Form == 1 => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(FormArgumentNotAllowed),
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => GetValid(FormArgumentValid),
             },
             Basculin when pk.Form is 2 => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(FormArgumentNotAllowed),
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => GetValid(FormArgumentValid),
             },
             Qwilfish when pk.Form is 1 => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(FormArgumentNotAllowed),
-                not 0 when pk.CurrentLevel < 25 => GetInvalid(FormArgumentHigh), // Can't get requisite move
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                not 0 when pk.CurrentLevel < 25 => GetInvalid(FormArgumentLEQ_0, 0), // Can't get requisite move
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => GetValid(FormArgumentValid),
             },
             Overqwil => arg switch
             {
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 0 when enc.Species == (ushort)Overqwil => GetValid(FormArgumentValid),
-                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < (pk is IHomeTrack { HasTracker: true } ? 15 : 28) => GetInvalid(FormArgumentLow),
-                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(FormArgumentLow),
+                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < (pk is IHomeTrack { HasTracker: true } ? 15 : 28) => GetInvalid(FormArgumentGEQ_0, 20),
+                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(FormArgumentLEQ_0, 0),
                 _ when pk is IHomeTrack { HasTracker: false } and PA8 { CurrentLevel: < 25 } => GetInvalid(EvoInvalid),
                 _ => GetValid(FormArgumentValid),
             },
             Stantler => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(FormArgumentNotAllowed),
-                not 0 when pk.CurrentLevel < 31 => GetInvalid(FormArgumentHigh),
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                not 0 when pk.CurrentLevel < 31 => GetInvalid(FormArgumentLEQ_0, 0),
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => arg == 0 || HasVisitedPLA(data, Stantler) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
             Primeape => arg switch
             {
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => arg == 0 || HasVisitedSV(data, Primeape) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
             Bisharp => arg switch
             {
-                > 9_999 => GetInvalid(FormArgumentHigh),
+                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => arg == 0 || HasVisitedSV(data, Bisharp) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
             Gimmighoul => arg switch
             {
                 // When leveled up, the game copies the save file's current coin count to the arg (clamped to <=999). If >=999, evolution is triggered.
                 // Without being leveled up at least once, it cannot have a form arg value.
-                >= 999 => GetInvalid(FormArgumentHigh),
+                >= 999 => GetInvalid(FormArgumentLEQ_0, 999),
                 0 => GetValid(FormArgumentValid),
                 _ => pk.CurrentLevel != pk.MetLevel ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
-            Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
+            Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (ushort)AlcremieDecoration.Ribbon),
             Wyrdeer when enc.Species != (int)Wyrdeer && pk.CurrentLevel < 31 => GetInvalid(EvoInvalid),
             Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
@@ -111,9 +112,9 @@ public sealed class FormArgumentVerifier : Verifier
                 EncounterStatic9 { StarterBoxLegend: true } x when ParseSettings.ActiveTrainer is { } tr && (tr is not SAV9SV sv || sv.Version != x.Version) => GetInvalid(TradeNotAvailable),
                 EncounterStatic9 { StarterBoxLegend: true } => arg switch
                 {
-                  < EncounterStatic9.RideLegendFormArg => GetInvalid(FormArgumentLow),
+                  < EncounterStatic9.RideLegendFormArg => GetInvalid(FormArgumentGEQ_0, EncounterStatic9.RideLegendFormArg),
                     EncounterStatic9.RideLegendFormArg => !data.IsStoredSlot(StorageSlotType.Ride) ? GetInvalid(FormParty) : GetValid(FormArgumentValid),
-                  > EncounterStatic9.RideLegendFormArg => GetInvalid(FormArgumentHigh),
+                  > EncounterStatic9.RideLegendFormArg => GetInvalid(FormArgumentLEQ_0, EncounterStatic9.RideLegendFormArg),
                 },
                 _ => arg switch
                 {
@@ -137,7 +138,7 @@ public sealed class FormArgumentVerifier : Verifier
     /// <param name="value">Current Form Argument value</param>
     /// <param name="min">Minimum value allowed</param>
     /// <param name="max">Maximum value allowed</param>
-    private CheckResult VerifyFormArgumentRange(ushort encSpecies, Species check, uint value, uint min, uint max)
+    private CheckResult VerifyFormArgumentRange(ushort encSpecies, Species check, uint value, [ConstantExpected] ushort min, [ConstantExpected] ushort max)
     {
         // If was never the Form Argument accruing species (never evolved from it), then it must be zero.
         if (encSpecies == (ushort)check)
@@ -149,9 +150,9 @@ public sealed class FormArgumentVerifier : Verifier
 
         // Evolved, must be within the range.
         if (value < min)
-            return GetInvalid(FormArgumentLow);
+            return GetInvalid(FormArgumentGEQ_0, min);
         if (value > max)
-            return GetInvalid(FormArgumentHigh);
+            return GetInvalid(FormArgumentLEQ_0, max);
         return GetValid(FormArgumentValid);
     }
 

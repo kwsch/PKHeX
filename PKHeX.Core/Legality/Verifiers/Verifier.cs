@@ -17,18 +17,18 @@ public abstract class Verifier
     public abstract void Verify(LegalityAnalysis data);
 
     // Standard methods for creating CheckResults
-    protected CheckResult GetInvalid(LegalityCheckResultCode msg) => Get(msg, Severity.Invalid);
-    protected CheckResult GetValid(LegalityCheckResultCode msg) => Get(msg, Severity.Valid);
-    protected CheckResult Get(LegalityCheckResultCode msg, Severity s) => new(s, Identifier, msg);
+    protected CheckResult GetValid(LegalityCheckResultCode msg) => Get(Severity.Valid, msg);
+    protected CheckResult GetInvalid(LegalityCheckResultCode msg) => Get(Severity.Invalid, msg);
+    protected CheckResult Get(Severity s, LegalityCheckResultCode msg) => CheckResult.Get(s, Identifier, msg);
 
-    // Methods for creating CheckResults with an argument
-    protected CheckResult GetInvalid(LegalityCheckResultCode msg, ushort argument) => Get(msg, Severity.Invalid, argument);
-    protected CheckResult GetValid(LegalityCheckResultCode msg, ushort argument) => Get(msg, Severity.Valid, argument);
-    protected CheckResult Get(LegalityCheckResultCode msg, Severity s, ushort argument) => new(s, Identifier, msg, argument);
+    protected CheckResult GetInvalid(LegalityCheckResultCode msg, uint argument) => Get(Severity.Invalid, msg, argument);
+    protected CheckResult GetValid(LegalityCheckResultCode msg, uint argument) => Get(Severity.Valid, msg, argument);
+    protected CheckResult Get(Severity s, LegalityCheckResultCode msg, uint argument) => CheckResult.Get(s, Identifier, msg, argument);
 
-    // Static methods for creating CheckResults with a specific identifier and argument
-    protected static CheckResult GetInvalid(LegalityCheckResultCode msg, CheckIdentifier c, ushort argument = 0) => Get(msg, Severity.Invalid, c, argument);
-    protected static CheckResult GetInvalid(LegalityCheckResultCode msg, CheckIdentifier c, byte arg0, byte arg1 = 0) => Get(msg, Severity.Invalid, c, (ushort)(arg0 | (arg1 << 8)));
-    protected static CheckResult GetValid(LegalityCheckResultCode msg, CheckIdentifier c, ushort argument = 0) => Get(msg, Severity.Valid, c, argument);
-    protected static CheckResult Get(LegalityCheckResultCode msg, Severity s, CheckIdentifier c, ushort argument = 0) => new(s, c, msg, argument);
+    protected static CheckResult GetValid(CheckIdentifier c, LegalityCheckResultCode msg, uint argument = 0) => Get(c, Severity.Valid, msg, argument);
+    protected static CheckResult Get(CheckIdentifier c, Severity s, LegalityCheckResultCode msg, uint argument = 0) => CheckResult.Get(s, c, msg, argument);
+
+    protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, uint value = 0) => CheckResult.Get(Severity.Invalid, c, msg, value);
+    protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, byte arg0, byte arg1 = 0) => GetInvalid(c, msg, arg0 | (uint)arg1 << 16);
+    protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, ushort arg0, ushort arg1 = 0) => GetInvalid(c, msg, arg0 | (uint)arg1 << 16);
 }

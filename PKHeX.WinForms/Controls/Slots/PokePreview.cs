@@ -159,7 +159,7 @@ public partial class PokePreview : Form
             TryAppendOtherStats(pk, ref end, settings);
 
         if (Main.Settings.Hover.HoverSlotShowEncounter)
-            end = SummaryPreviewer.AppendEncounterInfo(la, end);
+            end = SummaryPreviewer.AppendEncounterInfo(new LegalityLocalizationContext { Analysis = la, Settings = settings }, end);
 
         return (start, end);
     }

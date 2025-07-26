@@ -18,29 +18,53 @@ public static class LegalityFormatting
     /// <param name="la">Legality result to format</param>
     /// <param name="verbose">Include all details in the parse, including valid check messages.</param>
     /// <returns>Single line string</returns>
-    public static string Report(this LegalityAnalysis la, bool verbose = false) => verbose ? GetVerboseLegalityReport(la) : GetLegalityReport(la);
+    public static string Report(this LegalityAnalysis la, bool verbose = false)
+    {
+        var localizer = GetDefaultLocalization(la);
+        return Report(localizer, verbose);
+    }
+
+    /// <inheritdoc cref="Report(LegalityAnalysis, bool)"/>
+    public static string Report(this LegalityLocalizationContext localizer, bool verbose) => verbose ? GetVerboseLegalityReport(localizer) : GetLegalityReport(localizer);
+
+    /// <inheritdoc cref="Report(LegalityAnalysis, bool)"/>
+    public static string Report(this LegalityAnalysis la, string language, bool verbose = false)
+    {
+        var localizer = new LegalityLocalizationContext
+        {
+            Analysis = la,
+            Settings = new BattleTemplateExportSettings(language),
+        };
+        return localizer.Report(verbose);
+    }
 
     public static ILegalityFormatter Formatter { private get; set; } = new BaseLegalityFormatter();
 
-    public static string GetLegalityReport(LegalityAnalysis la) => Formatter.GetReport(la);
-    public static string GetVerboseLegalityReport(LegalityAnalysis la) => Formatter.GetReportVerbose(la);
+    private static LegalityLocalizationContext GetDefaultLocalization(LegalityAnalysis la) => new()
+    {
+        Analysis = la,
+        Settings = BattleTemplateExportSettings.Showdown,
+    };
 
-    public static void AddSecondaryChecksValid(LegalityAnalysis la, IEnumerable<CheckResult> results, List<string> lines)
+    public static string GetLegalityReport(LegalityLocalizationContext la) => Formatter.GetReport(la);
+    public static string GetVerboseLegalityReport(LegalityLocalizationContext la) => Formatter.GetReportVerbose(la);
+
+    public static void AddSecondaryChecksValid(LegalityLocalizationContext la, IEnumerable<CheckResult> results, List<string> lines)
     {
         var outputLines = results
-            .Where(chk => chk.Valid && chk.ResultCode != Valid)
-            .OrderBy(chk => chk.Judgement) // Fishy sorted to top
-            .Select(chk => string.Format(L_F0_1, chk.Judgement.Description(), chk.ResultCode.Humanize(la, chk.Argument)));
-        lines.AddRange(outputLines);
+            .Where(chk => chk.Valid && chk.Result != Valid)
+            .OrderBy(chk => chk.Judgement); // Fishy sorted to top
+        foreach (var chk in outputLines)
+            lines.Add(string.Format(L_F0_1, chk.Judgement.Description(), chk.Result.Humanize(la, chk)));
     }
 
-    public static void AddSecondaryChecksInvalid(LegalityAnalysis la, IReadOnlyList<CheckResult> results, List<string> lines)
+    public static void AddSecondaryChecksInvalid(LegalityLocalizationContext la, IReadOnlyList<CheckResult> results, List<string> lines)
     {
         foreach (var chk in results)
         {
             if (chk.Valid)
                 continue;
-            lines.Add(string.Format(L_F0_1, chk.Judgement.Description(), chk.ResultCode.Humanize(la, chk.Argument)));
+            lines.Add(string.Format(L_F0_1, chk.Judgement.Description(), chk.Result.Humanize(la, chk)));
         }
     }
 
@@ -72,12 +96,13 @@ public static class LegalityFormatting
     /// <summary>
     /// Adds information about the <see cref="LegalityAnalysis.EncounterMatch"/> to the <see cref="lines"/>.
     /// </summary>
-    public static void AddEncounterInfo(LegalityAnalysis la, List<string> lines)
+    public static void AddEncounterInfo(LegalityLocalizationContext l, List<string> lines)
     {
+        var la = l.Analysis;
         var enc = la.EncounterOriginal;
 
         // Name
-        lines.Add(string.Format(L_FEncounterType_0, enc.GetEncounterName()));
+        lines.Add(string.Format(L_FEncounterType_0, enc.GetEncounterName(l.Strings.specieslist)));
         if (enc is MysteryGift g)
             lines.Add(g.CardHeader);
 
@@ -343,12 +368,11 @@ public static class LegalityFormatting
         return result;
     }
 
-    public static string GetEncounterName(this IEncounterable enc)
+    public static string GetEncounterName(this IEncounterable enc, ReadOnlySpan<string> speciesNames)
     {
-        var str = ParseSettings.SpeciesStrings;
         // Shouldn't ever be out of range, but just in case.
         var species = enc.Species;
-        var name = (uint)species < str.Count ? str[species] : species.ToString();
+        var name = (uint)species < speciesNames.Length ? speciesNames[species] : species.ToString();
         return $"{enc.LongName} ({name})";
     }
 

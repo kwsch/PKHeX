@@ -41,11 +41,11 @@ public sealed class EffortValueVerifier : Verifier
 
         // Only one of the following can be true: 0, 508, and x%6!=0
         if (sum == 0 && !enc.IsWithinEncounterRange(pk))
-            data.AddLine(Get(EffortEXPIncreased, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, EffortEXPIncreased));
         else if (sum == EffortValues.MaxEffective)
-            data.AddLine(Get(Effort2Remaining, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, Effort2Remaining));
         else if (evs[0] != 0 && !evs.ContainsAnyExcept(evs[0]))
-            data.AddLine(Get(EffortAllEqual, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, EffortAllEqual));
     }
 
     private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, ReadOnlySpan<int> evs, PKM pk)
@@ -65,7 +65,7 @@ public sealed class EffortValueVerifier : Verifier
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
             var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
             if (baseEXP == pk.EXP)
-                data.AddLine(GetInvalid(EffortUntrainedCap, EffortValues.MaxVitamins34));
+                data.AddLine(GetInvalid(EffortUntrainedCap_0, EffortValues.MaxVitamins34));
         }
     }
 

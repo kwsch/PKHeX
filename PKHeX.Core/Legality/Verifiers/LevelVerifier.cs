@@ -22,7 +22,7 @@ public sealed class LevelVerifier : Verifier
             }
             if (gift.Level > pk.CurrentLevel)
             {
-                data.AddLine(GetInvalid(LevelMetGiftFail));
+                data.AddLine(GetInvalid(LevelMetGiftFail, gift.Level));
                 return;
             }
         }
@@ -39,7 +39,7 @@ public sealed class LevelVerifier : Verifier
                 ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
                 : Experience.GetEXP(enc.LevelMin, data.PersonalInfo.EXPGrowth);
             if (reqEXP != pk.EXP)
-                data.AddLine(GetInvalid(EggEXP));
+                data.AddLine(GetInvalid(EggEXP, reqEXP));
             return;
         }
 
@@ -48,13 +48,13 @@ public sealed class LevelVerifier : Verifier
         {
             var expect = Experience.GetEXP(100, data.PersonalInfo.EXPGrowth);
             if (pk.EXP != expect)
-                data.AddLine(GetInvalid(LevelEXPTooHigh));
+                data.AddLine(GetInvalid(Identifier, LevelEXPTooHigh, expect));
         }
 
         if (lvl < pk.MetLevel)
-            data.AddLine(GetInvalid(LevelMetBelow));
+            data.AddLine(GetInvalid(LevelMetBelow, lvl));
         else if (!enc.IsWithinEncounterRange(pk) && lvl != 100 && pk.EXP == Experience.GetEXP(lvl, data.PersonalInfo.EXPGrowth))
-            data.AddLine(Get(LevelEXPThreshold, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, LevelEXPThreshold));
         else
             data.AddLine(GetValid(LevelMetSane));
     }
@@ -88,14 +88,14 @@ public sealed class LevelVerifier : Verifier
         {
             var lvl = pk.CurrentLevel;
             if (lvl < pk.MetLevel)
-                data.AddLine(GetInvalid(LevelMetBelow));
+                data.AddLine(GetInvalid(LevelMetBelow, lvl));
         }
 
         if (IsTradeEvolutionRequired(data, enc))
         {
             // Pokémon has been traded illegally between games without evolving.
             // Trade evolution species IDs for Gen1 are sequential dex numbers.
-            data.AddLine(GetInvalid(EvoTradeReqOutsider_0, (ushort)(enc.Species + 1)));
+            data.AddLine(GetInvalid(EvoTradeReqOutsider_0, enc.Species + 1u));
         }
     }
 

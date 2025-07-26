@@ -68,14 +68,6 @@ public sealed class MarkVerifier : Verifier
         }
     }
 
-    private static string GetRibbonNameSafe(RibbonIndex index)
-    {
-        if (index >= MAX_COUNT)
-            return index.ToString();
-        var expect = $"Ribbon{index}";
-        return RibbonStrings.GetName(expect);
-    }
-
     private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)
     {
         if (m is not IRibbonSetAffixed a)
@@ -130,7 +122,7 @@ public sealed class MarkVerifier : Verifier
         affix.Fix(args, true);
         bool invalid = RibbonVerifier.IsValidExtra(affix, args);
         var severity = invalid ? Severity.Invalid : Severity.Fishy;
-        data.AddLine(Get(RibbonMarkingAffixed_0, severity, (ushort)affix));
+        data.AddLine(Get(severity, RibbonMarkingAffixed_0, (ushort)affix));
     }
 
     private static bool IsMoveSetEvolvedShedinja(PKM pk)

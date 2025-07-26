@@ -33,13 +33,13 @@ public sealed class TrainerNameVerifier : Verifier
         trainer = trainer[..len];
         if (trainer.Contains('\uffff') && pk is { Format: 4 })
         {
-            data.AddLine(GetInvalid(WordFilterInvalidCharacter_0, CheckIdentifier.Trainer, 0xFFFF));
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, WordFilterInvalidCharacter_0, 0xFFFF));
             return;
         }
 
         if (IsOTNameSuspicious(trainer))
         {
-            data.AddLine(Get(OTSuspicious, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OTSuspicious));
         }
 
         if (pk.VC)
@@ -49,20 +49,20 @@ public sealed class TrainerNameVerifier : Verifier
         else if (trainer.Length > Legal.GetMaxLengthOT(enc.Generation, (LanguageID)pk.Language))
         {
             if (!IsEdgeCaseLength(pk, enc, trainer))
-                data.AddLine(Get(OTLong, Severity.Invalid));
+                data.AddLine(Get(Severity.Invalid, OTLong));
         }
 
         if (ParseSettings.Settings.WordFilter.IsEnabled(pk.Format))
         {
             if (WordFilter.IsFiltered(trainer, pk.Context, enc.Context, out var type, out var badPattern))
-                data.AddLine(GetInvalid(WordFilterFlaggedPattern_01, WordFilterTypeExtensions.GetPackedValue(type, badPattern)));
+                data.AddLine(GetInvalid(CheckIdentifier.Trainer, WordFilterFlaggedPattern_01, (ushort)type, (ushort)badPattern));
             if (ContainsTooManyNumbers(trainer, enc.Generation))
-                data.AddLine(GetInvalid(WordFilterTooManyNumbers_0, CheckIdentifier.Trainer, (ushort)GetMaxNumberCount(enc.Generation)));
+                data.AddLine(GetInvalid(CheckIdentifier.Trainer, WordFilterTooManyNumbers_0, (ushort)GetMaxNumberCount(enc.Generation)));
 
             Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
             int nameLen = pk.LoadString(pk.HandlingTrainerTrash, ht);
             if (WordFilter.IsFiltered(ht[..nameLen], pk.Context, out type, out badPattern)) // HT context is always the current context
-                data.AddLine(GetInvalid(WordFilterFlaggedPattern_01, CheckIdentifier.Handler, WordFilterTypeExtensions.GetPackedValue(type, badPattern)));
+                data.AddLine(GetInvalid(CheckIdentifier.Handler, WordFilterFlaggedPattern_01, (ushort)type, (ushort)badPattern));
         }
     }
 
@@ -118,7 +118,7 @@ public sealed class TrainerNameVerifier : Verifier
         {
             if (pk is SK2 {TID16: 0, IsRental: true})
             {
-                data.AddLine(Get(OTShort, Severity.Fishy));
+                data.AddLine(Get(Severity.Fishy, OTShort));
             }
             else
             {
@@ -145,21 +145,21 @@ public sealed class TrainerNameVerifier : Verifier
         if (pk.Japanese)
         {
             if (str.Length > 5)
-                data.AddLine(GetInvalid(OTLong));
+                data.AddLine(GetInvalid(OTLong, 5));
             if (!StringConverter1.GetIsJapanese(str))
                 data.AddLine(GetInvalid(G1CharOT));
         }
         else if (pk.Korean)
         {
             if (str.Length > 5)
-                data.AddLine(GetInvalid(OTLong));
+                data.AddLine(GetInvalid(OTLong, 5));
             if (!StringConverter2KOR.GetIsKorean(str))
                 data.AddLine(GetInvalid(G1CharOT));
         }
         else
         {
             if (str.Length > 7)
-                data.AddLine(GetInvalid(OTLong));
+                data.AddLine(GetInvalid(OTLong, 7));
             if (!StringConverter1.GetIsEnglish(str))
                 data.AddLine(GetInvalid(G1CharOT));
         }

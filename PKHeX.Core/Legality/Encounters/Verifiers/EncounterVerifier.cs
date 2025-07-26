@@ -102,7 +102,7 @@ public static class EncounterVerifier
     private static CheckResult VerifyUnhatchedEgg2(PKM pk)
     {
         if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
-            return new CheckResult(CheckIdentifier.Encounter);
+            return CheckResult.GetValid(CheckIdentifier.Encounter);
 
         if (c2.MetLevel != EggStateLegality.EggMetLevel)
             return GetInvalid(EggFMetLevel_0, EggStateLegality.EggMetLevel);
@@ -144,9 +144,9 @@ public static class EncounterVerifier
         return GetInvalid(EggLocationInvalid);
     }
 
-    private static CheckResult GetInvalid(LegalityCheckResultCode message, CheckIdentifier ident = CheckIdentifier.Encounter) => new(Severity.Invalid, ident, message);
-    private static CheckResult GetInvalid(LegalityCheckResultCode message, byte value, CheckIdentifier ident = CheckIdentifier.Encounter) => new(Severity.Invalid, ident, message, value);
-    private static CheckResult GetValid(LegalityCheckResultCode message) => new(Severity.Valid, CheckIdentifier.Encounter, message);
+    private static CheckResult GetInvalid(LegalityCheckResultCode message, CheckIdentifier ident = CheckIdentifier.Encounter) => CheckResult.Get(Severity.Invalid, ident, message);
+    private static CheckResult GetInvalid(LegalityCheckResultCode message, byte value, CheckIdentifier ident = CheckIdentifier.Encounter) => CheckResult.Get(Severity.Invalid, ident, message, value);
+    private static CheckResult GetValid(LegalityCheckResultCode message) => CheckResult.Get(Severity.Valid, CheckIdentifier.Encounter, message);
 
     private static CheckResult VerifyEncounterEgg3Transfer(PKM pk)
     {

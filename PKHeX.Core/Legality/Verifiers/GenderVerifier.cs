@@ -45,8 +45,8 @@ public sealed class GenderVerifier : Verifier
     {
         var pk = data.Entity;
         var result = GetExpectedNature(pk) == pk.Nature
-            ? GetValid(PIDNatureMatch, CheckIdentifier.Nature)
-            : GetInvalid(PIDNatureMismatch, CheckIdentifier.Nature);
+            ? GetValid(CheckIdentifier.Nature, PIDNatureMatch)
+            : GetInvalid(CheckIdentifier.Nature, PIDNatureMismatch);
         data.AddLine(result);
     }
 

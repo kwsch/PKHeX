@@ -76,7 +76,7 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 
         if (eggMysteryCurrent != eggMysteryPrevious)
         {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantRNGType, ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantEncounterType, ident);
         }
     }
 }

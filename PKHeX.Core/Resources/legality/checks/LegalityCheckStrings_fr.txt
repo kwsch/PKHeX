@@ -359,8 +359,8 @@ LPokerusDaysTooHigh_0 = Temps restant pour le Pokérus invalide. Attendu <= {0}.
 LPokerusStrainUnobtainable_0 = La souche Pokérus {0} ne peut être obtenue.
 LRibbonAllValid = Tous les rubans ont été comptabilisés.
 LRibbonEgg = L'Œuf ne peut pas recevoir de Rubans.
-LRibbonFInvalid_0 = Rubans invalides : 
-LRibbonFMissing_0 = Rubans manquants : 
+LRibbonFInvalid_0 = Rubans invalides : {0}
+LRibbonFMissing_0 = Rubans manquants : {0}
 LRibbonMarkingAffixedF_0 = Ruban / marquage apposé non valide: {0}
 LRibbonMarkingFInvalid_0 = Marquage non valide : {0}
 LStatAlphaInvalid = Baron incompatible.

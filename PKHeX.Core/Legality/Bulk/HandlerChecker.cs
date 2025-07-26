@@ -58,14 +58,14 @@ public sealed class HandlerChecker : IBulkAnalyzer
         ht = ht[..len];
 
         if (!ht.SequenceEqual(tr.OT))
-            data.AddLine(cs, TransferHTMismatchName, Trainer);
+            data.AddLine(cs, TransferHandlerMismatchName, Trainer);
         if (pk.HandlingTrainerGender != tr.Gender)
-            data.AddLine(cs, TransferHTMismatchGender, Trainer);
+            data.AddLine(cs, TransferHandlerMismatchGender, Trainer);
 
         // If the format exposes a language, check if it matches.
         // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
         // Statistically unlikely that players will play in different languages, but it's technically possible.
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-            data.AddLine(cs, TransferHTMismatchLanguage, Trainer, Severity.Fishy);
+            data.AddLine(cs, TransferHandlerMismatchLanguage, Trainer, Severity.Fishy);
     }
 }

@@ -116,7 +116,7 @@ public static class WordFilter
         // Switch 2 backwards transfer? Won't know for another couple years.
         if (WordFilterNX.IsFiltered(message, out regMatch, original))
         {
-            type = WordFilterType.NX;
+            type = WordFilterType.NintendoSwitch;
             return true;
         }
 
@@ -129,7 +129,7 @@ public static class WordFilter
 
         if (WordFilter3DS.IsFiltered(message, out regMatch, original))
         {
-            type = WordFilterType.Citra;
+            type = WordFilterType.Nintendo3DS;
             return true;
         }
 
@@ -142,4 +142,12 @@ public static class WordFilter
         type = WordFilterType.None;
         return false;
     }
+
+    public static string GetPattern(WordFilterType chkArgument, int index) => chkArgument switch
+    {
+        WordFilterType.Gen5 => WordFilter5.GetPattern(index),
+        WordFilterType.Nintendo3DS => WordFilter3DS.GetPattern(index),
+        WordFilterType.NintendoSwitch => WordFilterNX.GetPattern(index),
+        _ => string.Empty,
+    };
 }

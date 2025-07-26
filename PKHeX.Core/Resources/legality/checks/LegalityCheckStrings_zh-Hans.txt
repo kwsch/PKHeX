@@ -359,8 +359,8 @@ LPokerusDaysTooHigh_0 = 宝可病毒剩余时间过长; 应 <= {0}。
 LPokerusStrainUnobtainable_0 = 宝可病毒种类 {0} 不可获得
 LRibbonAllValid = 所有奖章合法。
 LRibbonEgg = 蛋不能接受奖章。
-LRibbonFInvalid_0 = 非法奖章： 
-LRibbonFMissing_0 = 缺失奖章： 
+LRibbonFInvalid_0 = 非法奖章： {0}
+LRibbonFMissing_0 = 缺失奖章： {0}
 LRibbonMarkingAffixedF_0 = 无效的奖章/证章： {0}
 LRibbonMarkingFInvalid_0 = 无效标记： {0}
 LStatAlphaInvalid = 头目标记不匹配。

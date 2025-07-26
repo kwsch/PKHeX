@@ -446,8 +446,8 @@ public static class LegalityCheckStrings
 
     public static string LRibbonAllValid { get; set; } = "All ribbons accounted for.";
     public static string LRibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
-    public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: ";
-    public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: ";
+    public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
+    public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: {0}";
     public static string LRibbonMarkingFInvalid_0 { get; set; } = "Invalid Marking: {0}";
     public static string LRibbonMarkingAffixedF_0 { get; set; } = "Invalid Affixed Ribbon/Marking: {0}";
 
@@ -520,4 +520,36 @@ public static class LegalityCheckStrings
 
     #endregion
 
+    public static string LEncTradeShouldHaveEvolvedToSpecies_0 { get; set; } = "Trade Encounter should have evolved to species: {0}.";
+    public static string LEncGiftLanguageNotDistributed { get; set; } = "Gift Encounter was never distributed with this language.";
+    public static string LEncGiftRegionNotDistributed { get; set; } = "Gift Encounter was never distributed to this Console Region.";
+    public static string LFormInvalidRangeLEQ_0 { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
+    public static string LMovesShouldMatchRelearnMoves { get; set; } = "Moves should exactly match Relearn Moves.";
+    public static string LMemoryStatEnjoyment_0 { get; set; } = "Enjoyment should be {0}.";
+    public static string LMemoryStatFullness_0 { get; set; } = "Fullness should be {0}.";
+    public static string LMemoryStatFullnessLEQ_0 { get; set; } = "Fullness should be <= {0}.";
+    public static string LOTLanguageShouldBe_0 { get; set; } = "Language ID should be {0}, not {1}.";
+    public static string LOTLanguageShouldBe_0or1 { get; set; } = "Language ID should be {0} or {1}, not {2}.";
+    public static string LOTLanguageShouldBeLeq_0 { get; set; } = "Language ID should be <= {0}, not {1}.";
+    public static string LOTLanguageCannotPlayOnVersion_0 { get; set; } = "Language ID {0} cannot be played on this version.";
+    public static string LOTLanguageCannotTransferToConsoleRegion_0 { get; set; } = "Language ID {0} cannot be transferred to this Console Region.";
+
+    public static string LWordFilterInvalidCharacter_0 { get; set; } = "Word Filter ({2}): Invalid character '{0}' (0x{1}).";
+    public static string LWordFilterFlaggedPattern_01 { get; set; } = "Word Filter ({1}): Flagged pattern '{0}'.";
+    public static string LTransferKoreanGen4 { get; set; } = "Korean Generation 4 games cannot interact with International Generation 4 games.";
+    public static string LWordFilterTooManyNumbers_0 { get; set; } = "Word Filter: Too many numbers (>{0}).";
+    public static string LBulkCloneDetectedDetails { get; set; } = "Clone detected (Details).";
+    public static string LBulkCloneDetectedTracker { get; set; } = "Clone detected (Duplicate Tracker).";
+    public static string LHintEvolvesToSpecies_0 { get; set; } = "Evolves to species: {0}.";
+    public static string LHintEvolvesToRareForm_0 { get; set; } = "Evolves to rare form: {0}.";
+    public static string LBulkSharingEncryptionConstantGenerationDifferent { get; set; } = "Detected sharing of Encryption Constant across generations.";
+    public static string LBulkSharingEncryptionConstantGenerationSame { get; set; } = "Detected sharing of Encryption Constant.";
+    public static string LBulkSharingEncryptionConstantRNGType { get; set; } = "Detected sharing of Encryption Constant sharing for different RNG encounters.";
+    public static string LBulkSharingPIDGenerationDifferent { get; set; } = "Detected sharing of PID across generations.";
+    public static string LBulkSharingPIDGenerationSame { get; set; } = "Detected sharing of PID.";
+    public static string LBulkSharingPIDRNGType { get; set; } = "Detected sharing of PID for different RNG encounters.";
+    public static string LBulkDuplicateMysteryGiftEggReceived { get; set; } = "Detected multiple redemptions of the same non-repeatable Mystery Gift Egg.";
+    public static string LBulkSharingTrainerID { get; set; } = "Detected sharing of Trainer ID across multiple trainer names.";
+    public static string LBulkSharingTrainerVersion { get; set; } = "Detected sharing of Trainer ID across multiple versions.";
+    public static string LMemoryFeelInvalid_H { get; set; } = "Feel value is invalid for {1} Trainer Memory: {0}";
 }

@@ -11,6 +11,8 @@ public static class WordFilter3DS
 {
     private static readonly Regex[] Regexes = WordFilter.LoadPatterns(Util.GetStringResource("badwords_3ds"));
 
+    public static string GetPattern(int index) => Regexes[index].ToString();
+
     /// <summary>
     /// Regex patterns to check against
     /// </summary>

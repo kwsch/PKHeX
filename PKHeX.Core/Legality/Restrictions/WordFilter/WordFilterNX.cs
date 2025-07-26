@@ -15,6 +15,8 @@ public static class WordFilterNX
     /// <remarks>No need to keep the original pattern strings around; the <see cref="Regex"/> object retrieves this via <see cref="Regex.ToString()"/></remarks>
     private static readonly Regex[] Regexes = WordFilter.LoadPatterns(Util.GetStringResource("badwords_switch"));
 
+    public static string GetPattern(int index) => Regexes[index].ToString();
+
     /// <summary>
     /// Due to some messages repeating (Trainer names), keep a list of repeated values for faster lookup.
     /// </summary>

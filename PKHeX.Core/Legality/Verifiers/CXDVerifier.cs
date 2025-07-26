@@ -17,7 +17,7 @@ public sealed class CXDVerifier : Verifier
         // Colo starters are already hard-verified. No need to check them here.
 
         if (pk.OriginalTrainerGender == 1)
-            data.AddLine(GetInvalid(G3OTGender, CheckIdentifier.Trainer));
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, G3OTGender));
 
         // Trainer ID is checked in another verifier. Don't duplicate it here.
     }
@@ -34,7 +34,7 @@ public sealed class CXDVerifier : Verifier
 
         bool valid = MethodCXD.TryGetSeedStarterXD(pk, out var seed);
         if (!valid)
-            data.AddLine(GetInvalid(EncConditionBadRNGFrame, CheckIdentifier.PID));
+            data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
         else
             data.Info.PIDIV = new PIDIV(PIDType.CXD, seed);
     }

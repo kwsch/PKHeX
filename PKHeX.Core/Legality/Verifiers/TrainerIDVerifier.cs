@@ -47,27 +47,27 @@ public sealed class TrainerIDVerifier : Verifier
             if (pk.SID16 != 0)
                 data.AddLine(GetInvalid(OT_SID0Invalid));
             if (pk.TID16 == 0)
-                data.AddLine(Get(OT_TID0, Severity.Fishy));
+                data.AddLine(Get(Severity.Fishy, OT_TID0));
             return;
         }
         else if (pk.Format <= 2)
         {
             // Only TID is used for Gen 1/2
             if (pk.TID16 == 0)
-                data.AddLine(Get(OT_TID0, Severity.Fishy));
+                data.AddLine(Get(Severity.Fishy, OT_TID0));
             return;
         }
 
         if (pk is { ID32: 0 })
-            data.AddLine(Get(OT_IDs0, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_IDs0));
         else if (pk.TID16 == pk.SID16)
-            data.AddLine(Get(OT_IDEqual, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_IDEqual));
         else if (pk.TID16 == 0)
-            data.AddLine(Get(OT_TID0, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_TID0));
         else if (pk.SID16 == 0)
-            data.AddLine(Get(OT_SID0, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_SID0));
         else if (IsOTIDSuspicious(pk.TID16, pk.SID16))
-            data.AddLine(Get(OTSuspicious, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OTSuspicious));
     }
 
     public static bool TryGetShinySID(uint pid, ushort tid, GameVersion version, out ushort sid)
@@ -97,13 +97,13 @@ public sealed class TrainerIDVerifier : Verifier
             // japanese will stay Invalid
         }
         if (!MethodCXD.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
-            data.AddLine(Get(TrainerIDNoSeed, severity, CheckIdentifier.Trainer));
+            data.AddLine(Get(CheckIdentifier.Trainer, severity, TrainerIDNoSeed));
     }
 
     private static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr, Severity severity = Severity.Invalid) where T : ITrainerID32ReadOnly
     {
         if (!MethodH.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
-            data.AddLine(Get(TrainerIDNoSeed, severity, CheckIdentifier.Trainer));
+            data.AddLine(Get(CheckIdentifier.Trainer, severity, TrainerIDNoSeed));
     }
 
     public static bool IsOTIDSuspicious(ushort tid16, ushort sid16) => (tid16, sid16) switch
