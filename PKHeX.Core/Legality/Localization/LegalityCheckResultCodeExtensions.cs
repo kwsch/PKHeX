@@ -19,6 +19,7 @@ public static class LegalityCheckResultCodeExtensions
     public static string GetTemplate(this LegalityCheckResultCode code, LegalityCheckLocalization localization) => code switch
     {
         // General Strings
+        External => localization.NotImplemented,
         Valid => localization.Valid,
         Error => localization.Error,
 

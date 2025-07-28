@@ -102,6 +102,9 @@ public sealed class LegalityAnalysis
                 AddLine(Severity.Invalid, EncConditionBadSpecies, CheckIdentifier.GameOrigin);
             GetParseMethod()();
 
+            foreach (var ext in ExternalLegalityCheck.ExternalCheckers.Values)
+                ext.Check(Parse, this);
+
             Valid = Parse.TrueForAll(chk => chk.Valid)
                     && MoveResult.AllValid(Info.Moves)
                     && MoveResult.AllValid(Info.Relearn);

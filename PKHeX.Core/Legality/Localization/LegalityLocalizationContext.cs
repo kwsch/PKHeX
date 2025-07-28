@@ -1,75 +1,7 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
-
-public sealed class LegalityLocalizationSet
-{
-    private static readonly Dictionary<string, LegalityLocalizationSet> Cache = new();
-
-    public required LegalityCheckLocalization Lines { get; init; }
-    public required GameStrings Strings { get; init; }
-    public required EncounterDisplayLocalization Encounter { get; init; }
-    public required MoveSourceLocalization Moves { get; init; }
-    public required GeneralLocalization General { get; init; }
-
-    public static LegalityLocalizationSet GetLocalization(LanguageID language) => GetLocalization(language.GetLanguageCode());
-
-    public string Description(Severity s) => s switch
-    {
-        Severity.Invalid => Lines.SInvalid,
-        Severity.Fishy => Lines.SFishy,
-        Severity.Valid => Lines.SValid,
-        _ => Lines.NotImplemented,
-    };
-
-    /// <summary>
-    /// Gets the localization for the requested language.
-    /// </summary>
-    /// <param name="language">Language code</param>
-    public static LegalityLocalizationSet GetLocalization(string language)
-    {
-        if (Cache.TryGetValue(language, out var result))
-            return result;
-
-        result = new LegalityLocalizationSet
-        {
-            Strings = GameInfo.GetStrings(language),
-            Lines = LegalityCheckLocalization.Get(language),
-            Encounter = EncounterDisplayLocalization.Get(language),
-            Moves = MoveSourceLocalization.Get(language),
-            General = GeneralLocalization.Get(language),
-        };
-        Cache[language] = result;
-        return result;
-    }
-
-    /// <summary>
-    /// Force loads all localizations.
-    /// </summary>
-    public static bool ForceLoadAll()
-    {
-        bool anyLoaded = false;
-        foreach (var lang in GameLanguage.AllSupportedLanguages)
-        {
-            if (Cache.ContainsKey(lang))
-                continue;
-            _ = GetLocalization(lang);
-            anyLoaded = true;
-        }
-        return anyLoaded;
-    }
-
-    /// <summary>
-    /// Gets all localizations.
-    /// </summary>
-    public static IReadOnlyDictionary<string, LegalityLocalizationSet> GetAll()
-    {
-        _ = ForceLoadAll();
-        return Cache;
-    }
-}
 
 public readonly ref struct LegalityLocalizationContext
 {
@@ -141,6 +73,8 @@ public readonly ref struct LegalityLocalizationContext
     private string GetInternalString(CheckResult chk)
     {
         var code = chk.Result;
+        if (code is External)
+            return ExternalLegalityCheck.Localize(chk, Settings);
         var template = code.GetTemplate(Settings.Lines);
         if (code < FirstWithArgument)
             return template;

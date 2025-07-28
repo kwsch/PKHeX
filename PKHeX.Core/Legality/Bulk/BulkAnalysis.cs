@@ -5,8 +5,6 @@ using System.Text;
 
 namespace PKHeX.Core.Bulk;
 
-public readonly record struct BulkCheckResult(CheckResult Result, string Comment);
-
 /// <summary>
 /// Analyzes content within a <see cref="SaveFile"/> for overall <see cref="PKM"/> legality analysis.
 /// </summary>
@@ -117,7 +115,10 @@ public sealed class BulkAnalysis
             if (sb.Length != 0)
                 sb.AppendLine(); // gap for next result
 
-            var template = chk.Result.GetTemplate(localization.Lines);
+            var code = chk.Result;
+            var template = code is LegalityCheckResultCode.External
+                ? ExternalLegalityCheck.Localize(chk, localization)
+                : code.GetTemplate(localization.Lines);
             var judge = localization.Description(chk.Judgement);
             sb.AppendFormat(localization.Lines.F0_1, judge, template);
             sb.AppendLine();

@@ -9,7 +9,8 @@ namespace PKHeX.Core;
 /// </remarks>
 public enum LegalityCheckResultCode : ushort
 {
-    // General Strings
+    /// <summary>Originated from / Defer to an external validator.</summary>
+    External,
     /// <summary>Default text for indicating validity.</summary>
     Valid,
     /// <summary>Default text for indicating an error has occurred.</summary>
