@@ -38,7 +38,7 @@ public sealed class FormVerifier : Verifier
         var enc = data.EncounterMatch;
 
         if (!pi.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, enc.Generation))
-            return GetInvalid(FormInvalidRange_0, (ushort)(count - 1));
+            return GetInvalid(FormInvalidRangeLEQ_0F, (ushort)(count - 1));
 
         switch ((Species)species)
         {
@@ -71,7 +71,7 @@ public sealed class FormVerifier : Verifier
                 break;
 
             case Unown when enc.Generation == 2 && form >= 26:
-                return GetInvalid(FormInvalidRangeLEQ_0, 25);
+                return GetInvalid(FormInvalidRangeLEQ_0F, 25);
             case Unown when enc.Generation == 3:
                 var expectUnown = EntityPID.GetUnownForm3(pk.EncryptionConstant);
                 if (expectUnown != form)
@@ -105,7 +105,7 @@ public sealed class FormVerifier : Verifier
                 if (form > 1) // Ash Battle Bond active
                     return GetInvalid(FormBattle);
                 if (form != 0 && enc is not MysteryGift) // Form can not be bred for, MysteryGift already checked
-                    return GetInvalid(FormInvalidRange_0, 0);
+                    return GetInvalid(FormInvalidRangeLEQ_0F, 0);
                 break;
 
             case Scatterbug or Spewpa or Vivillon when enc.Context is EntityContext.Gen9:

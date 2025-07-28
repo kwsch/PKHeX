@@ -379,8 +379,6 @@ public enum LegalityCheckResultCode : ushort
     EvoTradeReqOutsider_0,
     FormArgumentLEQ_0,
     FormArgumentGEQ_0,
-    FormInvalidRange_0,
-    FormInvalidRangeLEQ_0,
     HyperTrainLevelGEQ_0, // level
     IVAllEqual_0,
     IVFlawlessCountGEQ_0, // count
@@ -452,6 +450,7 @@ public enum LegalityCheckResultCode : ushort
 
     StoredSlotSourceInvalid_0, // StorageSlotType
     HintEvolvesToRareForm_0, // bool
+    FormInvalidRangeLEQ_0F,
 
     OTLanguageShouldBe_0or1, // language,language
 

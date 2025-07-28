@@ -96,8 +96,8 @@ public readonly ref struct LegalityLocalizationContext
 
     private string GetMemory(CheckResult chk, string template, LegalityCheckResultCode code)
     {
-        if (code is < FirstMemoryWithValue)
-            return string.Format(template, chk.Value);
+        if (code < FirstMemoryWithValue)
+            return string.Format(template, GetTrainer(chk.Argument));
         if (code is MemoryArgBadItem_H1)
             return string.Format(template, GetTrainer(chk.Argument), GetSpeciesName(chk.Argument2));
         if (code is MemoryArgBadMove_H1)
@@ -111,8 +111,8 @@ public readonly ref struct LegalityLocalizationContext
     {
         < FirstComplex => format, // why are you even here?
         RibbonsInvalid_A => string.Format(format, GetRibbonMessage()),
-        WordFilterFlaggedPattern_01 => string.Format(format, (WordFilterType)chk.Argument, WordFilter.GetPattern((WordFilterType)chk.Argument, chk.Argument2)),
-        WordFilterInvalidCharacter_0 => string.Format(format, chk.Argument.ToString("X4")),
+        WordFilterFlaggedPattern_01 => string.Format(format, WordFilter.GetPattern((WordFilterType)chk.Argument, chk.Argument2), (WordFilterType)chk.Argument),
+        WordFilterInvalidCharacter_0 => string.Format(format, chk.Argument, chk.Argument.ToString("X4")),
 
         AwakenedStatGEQ_01 => string.Format(format, chk.Argument, GetStatName(chk.Argument2)),
         GanbaruStatLEQ_01 => string.Format(format, chk.Argument, GetStatName(chk.Argument2)),
@@ -128,6 +128,7 @@ public readonly ref struct LegalityLocalizationContext
 
         StoredSlotSourceInvalid_0 => string.Format(format, (StorageSlotSource)chk.Argument),
         HintEvolvesToRareForm_0 => string.Format(format, chk.Argument == 1),
+        FormInvalidRangeLEQ_0F => string.Format(format, chk.Argument, Analysis.Entity.Form),
 
         OTLanguageShouldBe_0or1 => string.Format(format, GetLanguageName(chk.Argument), GetLanguageName(chk.Argument2), GetLanguageName(Analysis.Entity.Language)),
 

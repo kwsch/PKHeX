@@ -164,7 +164,7 @@ public sealed class LegalityCheckLocalization
     public string FormEternalInvalid { get; set; } = "Invalid Eternal Flower encounter.";
     public string FormInvalidGame { get; set; } = "Form cannot be obtained in origin game.";
     public string FormInvalidNature { get; set; } = "Form cannot have this nature.";
-    public string FormInvalidRange { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
+    public string FormInvalidRange_01 { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
     public string FormItem { get; set; } = "Held item matches Form.";
     public string FormItemInvalid { get; set; } = "Held item does not match Form.";
     public string FormParty { get; set; } = "Form cannot exist outside of Party.";
@@ -408,7 +408,7 @@ public sealed class LegalityCheckLocalization
     public string EncTradeShouldHaveEvolvedToSpecies_0 { get; set; } = "Trade Encounter should have evolved to species: {0}.";
     public string EncGiftLanguageNotDistributed { get; set; } = "Gift Encounter was never distributed with this language.";
     public string EncGiftRegionNotDistributed { get; set; } = "Gift Encounter was never distributed to this Console Region.";
-    public string FormInvalidRangeLEQ_0 { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
+    public string FormInvalidRangeLEQ_0F { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
     public string MovesShouldMatchRelearnMoves { get; set; } = "Moves should exactly match Relearn Moves.";
     public string MemoryStatEnjoyment_0 { get; set; } = "Enjoyment should be {0}.";
     public string MemoryStatFullness_0 { get; set; } = "Fullness should be {0}.";
