@@ -99,12 +99,12 @@ public readonly ref struct LegalityLocalizationContext
     public static LegalityLocalizationContext Create(LegalityAnalysis la, string language = GameLanguage.DefaultLanguage)
         => Create(la, LegalityLocalizationSet.GetLocalization(language));
 
-    public string GetRibbonMessage() => RibbonVerifier.GetMessage(Analysis, Strings.Ribbons, Settings.Lines);
+    public string GetRibbonMessage() => RibbonVerifier.GetMessage(Analysis, Strings.Ribbons);
     public string GetStatName(int displayIndex) => GetSafe(Settings.General.StatNames, displayIndex);
     public string GetMoveName(ushort move) => GetSafe(Strings.movelist, move);
     public string GetSpeciesName(ushort species) => GetSafe(Strings.specieslist, species);
     public string GetConsoleRegion3DS(int index) => GetSafe(Strings.console3ds, index);
-    public string GetRibbonName(int index) => GetSafe(Strings.ribbons, index);
+    public string GetRibbonName(RibbonIndex index) => Strings.Ribbons.GetNameSafe($"Ribbon{index}", out var result) ? result : index.ToString();
     public string GetLanguageName(int index) => GetSafe(Strings.languageNames, index);
 
     private static string GetSafe(ReadOnlySpan<string> arr, int index)
@@ -173,7 +173,7 @@ public readonly ref struct LegalityLocalizationContext
     private string GetComplex(CheckResult chk, string format, LegalityCheckResultCode code) => code switch
     {
         < FirstComplex => format, // why are you even here?
-        RibbonFInvalid_0 => string.Format(format, GetRibbonMessage()),
+        RibbonsInvalid_A => string.Format(format, GetRibbonMessage()),
         WordFilterFlaggedPattern_01 => string.Format(format, (WordFilterType)chk.Argument, WordFilter.GetPattern((WordFilterType)chk.Argument, chk.Argument2)),
         WordFilterInvalidCharacter_0 => string.Format(format, chk.Argument.ToString("X4")),
 
@@ -185,9 +185,9 @@ public readonly ref struct LegalityLocalizationContext
         MoveEvoFCombination_0 => string.Format(format, GetSpeciesName(chk.Argument)),
         HintEvolvesToSpecies_0 => string.Format(format, GetSpeciesName(chk.Argument)),
 
-        RibbonMarkingInvalid_0 => string.Format(format, GetRibbonName(chk.Argument)),
-        RibbonMarkingAffixed_0 => string.Format(format, GetRibbonName(chk.Argument)),
-        RibbonMissing_0 => string.Format(format, GetRibbonName(chk.Argument)),
+        RibbonMarkingInvalid_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
+        RibbonMarkingAffixed_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
+        RibbonsMissing_A => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
 
         StoredSlotSourceInvalid_0 => string.Format(format, (StorageSlotSource)chk.Argument),
         HintEvolvesToRareForm_0 => string.Format(format, chk.Argument == 1),

@@ -336,8 +336,8 @@ public sealed class LegalityCheckLocalization
 
     public string RibbonAllValid { get; set; } = "All ribbons accounted for.";
     public string RibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
-    public string RibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
-    public string RibbonMissing_0 { get; set; } = "Missing Ribbons: {0}";
+    public string RibbonsInvalid_A { get; set; } = "Invalid Ribbons: {0}";
+    public string RibbonsMissing_A { get; set; } = "Missing Ribbons: {0}";
     public string RibbonMarkingInvalid_0 { get; set; } = "Invalid Marking: {0}";
     public string RibbonMarkingAffixed_0 { get; set; } = "Invalid Affixed Ribbon/Marking: {0}";
 

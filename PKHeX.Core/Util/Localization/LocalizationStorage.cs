@@ -14,7 +14,7 @@ public sealed record LocalizationStorage<T>(string Name, JsonTypeInfo<T> Info)
         AllowTrailingCommas = true,
         WriteIndented = true,
         IndentCharacter = ' ',
-        IndentSize = 2,
+        IndentSize = 4,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
 #pragma warning restore RCS1158 // Static member in generic type should use a type parameter

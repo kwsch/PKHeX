@@ -1,8 +1,8 @@
 {
-	"StatNames": ["KP", "Angriff", "Verteidigung", "Spezialangriff", "Spezialverteidigung", "Initiative"],
-	"OriginalTrainer": "Originaltrainer",
-	"HandlingTrainer": "Vorheriger Trainer",
-	"GenderMale": "Männlich",
-	"GenderFemale": "Weiblich",
-	"GenderGenderless": "Geschlechtslos"
+    "StatNames": [ "KP", "Angriff", "Verteidigung", "Spezialangriff", "Spezialverteidigung", "Initiative" ],
+    "OriginalTrainer": "Originaltrainer",
+    "HandlingTrainer": "Vorheriger Trainer",
+    "GenderMale": "Männlich",
+    "GenderFemale": "Weiblich",
+    "GenderGenderless": "Geschlechtslos"
 }

@@ -29,16 +29,16 @@ public sealed class RibbonVerifier : Verifier
         if (count == 0)
             data.AddLine(GetValid(RibbonAllValid));
         else // defer hint string creation unless we request the string. We'll re-do work, but this saves hot path allocation where the string is never needed to be humanized.
-            data.AddLine(GetInvalid(RibbonFInvalid_0, (ushort)count));
+            data.AddLine(GetInvalid(RibbonsInvalid_A, (ushort)count));
     }
 
-    public static string GetMessage(LegalityAnalysis data, RibbonStrings str, LegalityCheckLocalization localize)
+    public static string GetMessage(LegalityAnalysis data, RibbonStrings str)
     {
         // Calling this method assumes that one or more ribbons are invalid or missing.
         // The work was already done but forgotten, so we need to parse again.
         Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
         int count = Parse(result, data);
-        return GetMessage(result[..count], str, localize);
+        return GetMessage(result[..count], str);
     }
 
     private static int Parse(Span<RibbonResult> result, LegalityAnalysis data)
@@ -96,19 +96,19 @@ public sealed class RibbonVerifier : Verifier
         return list.Count;
     }
 
-    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str , LegalityCheckLocalization localize)
+    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str)
     {
         var total = result.Length;
         int missing = GetCountMissing(result);
         int invalid = total - missing;
         var sb = new StringBuilder(total * 20);
         if (missing != 0)
-            AppendAll(result, sb, str, localize.RibbonMissing_0, true);
+            AppendAll(result, sb, str, true);
         if (invalid != 0)
         {
             if (missing != 0) // need to visually separate the message
                 sb.Append(Environment.NewLine);
-            AppendAll(result, sb, str, localize.RibbonFInvalid_0, false);
+            AppendAll(result, sb, str, false);
         }
         return sb.ToString();
     }
@@ -126,10 +126,9 @@ public sealed class RibbonVerifier : Verifier
 
     private const string MessageSplitNextRibbon = ", ";
 
-    private static void AppendAll(ReadOnlySpan<RibbonResult> result, StringBuilder sb, RibbonStrings str, string startText, bool stateMissing)
+    private static void AppendAll(ReadOnlySpan<RibbonResult> result, StringBuilder sb, RibbonStrings str, bool stateMissing)
     {
         int added = 0;
-        sb.Append(startText);
         foreach (var x in result)
         {
             if (x.IsMissing != stateMissing)

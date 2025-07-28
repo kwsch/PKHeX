@@ -434,7 +434,7 @@ public enum LegalityCheckResultCode : ushort
 
     // One/Two Arguments: Special
     FirstComplex,
-    RibbonFInvalid_0 = FirstComplex, // generated string
+    RibbonsInvalid_A = FirstComplex, // generated string
     WordFilterFlaggedPattern_01, // filter, pattern
     WordFilterInvalidCharacter_0, // filter, pattern
 
@@ -447,7 +447,7 @@ public enum LegalityCheckResultCode : ushort
 
     RibbonMarkingInvalid_0, // ribbon
     RibbonMarkingAffixed_0, // ribbon
-    RibbonMissing_0, // ribbon
+    RibbonsMissing_A, // ribbon
 
     StoredSlotSourceInvalid_0, // StorageSlotType
     HintEvolvesToRareForm_0, // bool
