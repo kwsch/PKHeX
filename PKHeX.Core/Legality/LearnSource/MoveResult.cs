@@ -18,17 +18,21 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     internal MoveResult(LearnMethod method, LearnEnvironment game) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
     private MoveResult(LearnMethod method) : this(new MoveLearnInfo(method, LearnEnvironment.None)) { }
 
-    public string Summary(ISpeciesForm current, EvolutionHistory history)
+    public string Summary(in LegalityLocalizationContext ctx)
     {
         var sb = new StringBuilder(48);
-        Info.Summarize(sb);
+        Info.Summarize(sb, ctx.Settings.Moves);
         if (Info.Method.HasExpectedMove())
         {
             var name = ParseSettings.MoveStrings[Expect];
-            var str = LegalityCheckStrings.LMoveFExpectSingle_0;
+            var str = ctx.Settings.Lines.MoveFExpectSingle_0;
             sb.Append(' ').AppendFormat(str, name);
             return sb.ToString();
         }
+
+        var la = ctx.Analysis;
+        var history = la.Info.EvoChainsAllGens;
+        var current = la.Entity;
 
         var detail = GetDetail(history);
         if (detail.Species == 0)
@@ -57,9 +61,6 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     public bool IsRelearn => Info.Method.IsRelearn();
 
     public Severity Judgement => Valid ? Severity.Valid : Severity.Invalid;
-    public string Rating => Judgement.Description();
-
-    public string Format(string format, int index, PKM pk, EvolutionHistory history) => string.Format(format, Rating, index, Summary(pk, history));
 
     public static MoveResult Initial(LearnEnvironment game) => new(LearnMethod.Initial, game);
     public static readonly MoveResult Relearn = new(LearnMethod.Relearn);

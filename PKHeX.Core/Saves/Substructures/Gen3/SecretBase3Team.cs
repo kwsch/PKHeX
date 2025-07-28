@@ -18,11 +18,12 @@ public sealed class SecretBase3Team
     private static int GetOffsetItem(int index) => O_Item + (index * 2);
 
     public readonly SecretBase3PKM[] Team;
-    private readonly byte[] Data;
+    private readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
 
-    public SecretBase3Team(byte[] data)
+    public SecretBase3Team(Memory<byte> raw)
     {
-        Data = data;
+        Raw = raw;
         Team = new SecretBase3PKM[6];
         for (int i = 0; i < Team.Length; i++)
             Team[i] = GetPKM(i);
@@ -32,18 +33,18 @@ public sealed class SecretBase3Team
     {
         for (int i = 0; i < Team.Length; i++)
             SetPKM(i);
-        return Data;
+        return Data.ToArray();
     }
 
     private SecretBase3PKM GetPKM(int index) => new()
     {
-        PID = ReadUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index))),
-        SpeciesInternal = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index))),
-        HeldItem = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index))),
-        Move1 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0))),
-        Move2 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1))),
-        Move3 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 2))),
-        Move4 = ReadUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 3))),
+        PID = ReadUInt32LittleEndian(Data[GetOffsetPID(index)..]),
+        SpeciesInternal = ReadUInt16LittleEndian(Data[GetOffsetSpecies(index)..]),
+        HeldItem = ReadUInt16LittleEndian(Data[GetOffsetItem(index)..]),
+        Move1 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 0)..]),
+        Move2 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 1)..]),
+        Move3 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 2)..]),
+        Move4 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 3)..]),
         Level = Data[O_Level + index],
         EVAll = Data[O_EV + index],
     };
@@ -51,13 +52,13 @@ public sealed class SecretBase3Team
     private void SetPKM(int index)
     {
         var pk = Team[index];
-        WriteUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index)), pk.PID);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index)), pk.SpeciesInternal);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index)), pk.HeldItem);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0)), pk.Move1);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1)), pk.Move2);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 2)), pk.Move3);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 3)), pk.Move4);
+        WriteUInt32LittleEndian(Data[GetOffsetPID(index)..], pk.PID);
+        WriteUInt16LittleEndian(Data[GetOffsetSpecies(index)..], pk.SpeciesInternal);
+        WriteUInt16LittleEndian(Data[GetOffsetItem(index)..], pk.HeldItem);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 0)..], pk.Move1);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 1)..], pk.Move2);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 2)..], pk.Move3);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 3)..], pk.Move4);
         Data[O_Level + index] = pk.Level;
         Data[O_EV + index] = pk.EVAll;
     }

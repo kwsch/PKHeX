@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -25,11 +25,11 @@ public sealed class AwakenedValueVerifier : Verifier
         // Can't obtain EVs in the game; only AVs.
         int sum = pb7.EVTotal;
         if (sum != 0)
-            data.AddLine(GetInvalid(LEffortShouldBeZero));
+            data.AddLine(GetInvalid(EffortShouldBeZero));
 
         // Check that all AVs are within the allowed cap
         if (!pb7.AwakeningAllValid())
-            data.AddLine(GetInvalid(LAwakenedCap));
+            data.AddLine(GetInvalid(AwakenedCap));
 
         // Gather all AVs. When leveling up, AVs are "randomly" granted, so a mon must be at or above.
         Span<byte> required = stackalloc byte[6];
@@ -39,16 +39,16 @@ public sealed class AwakenedValueVerifier : Verifier
 
         // For each stat, ensure the current AV is at least the required minimum
         if (current[0] < required[0])
-            data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, required[0], nameof(IAwakened.AV_HP))));
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[0], 0)); // HP
         if (current[1] < required[1])
-            data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, required[1], nameof(IAwakened.AV_ATK))));
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[1], 1)); // Atk
         if (current[2] < required[2])
-            data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, required[2], nameof(IAwakened.AV_DEF))));
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[2], 2)); // Def
         if (current[3] < required[3])
-            data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, required[3], nameof(IAwakened.AV_SPA))));
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[3], 4)); // SpA
         if (current[4] < required[4])
-            data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, required[4], nameof(IAwakened.AV_SPD))));
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[4], 5)); // SpD
         if (current[5] < required[5])
-            data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, required[5], nameof(IAwakened.AV_SPE))));
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[5], 3)); // Speed
     }
 }

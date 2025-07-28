@@ -27,7 +27,7 @@ internal static class TestUtil
         {
             if (IsInitialized)
                 return;
-            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+            // There used to be a lot of static initialization in the legality code, which is now removed.
             IsInitialized = true;
         }
     }

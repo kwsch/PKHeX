@@ -11,30 +11,24 @@ public sealed class GameDataSource
     /// <summary>
     /// List of <see cref="Region3DSIndex"/> values to display.
     /// </summary>
-    public static readonly IReadOnlyList<ComboItem> Regions =
-    [
-        new ("Japan (日本)",      0),
-        new ("Americas (NA/SA)",  1),
-        new ("Europe (EU/AU)",    2),
-        new ("China (中国大陆)",   4),
-        new ("Korea (한국)",       5),
-        new ("Taiwan (香港/台灣)", 6),
-    ];
+    public readonly IReadOnlyList<ComboItem> Regions;
 
     /// <summary>
     /// List of <see cref="LanguageID"/> values to display.
     /// </summary>
-    private static readonly ComboItem[] LanguageList =
+    private readonly ComboItem[] LanguageList;
+
+    private static ReadOnlySpan<byte> LanguageIDs =>
     [
-        new ("JPN (日本語)",   (int)LanguageID.Japanese),
-        new ("ENG (English)",  (int)LanguageID.English),
-        new ("FRE (Français)", (int)LanguageID.French),
-        new ("ITA (Italiano)", (int)LanguageID.Italian),
-        new ("GER (Deutsch)",  (int)LanguageID.German),
-        new ("ESP (Español)",  (int)LanguageID.Spanish),
-        new ("KOR (한국어)",    (int)LanguageID.Korean),
-        new ("CHS (简体中文)",  (int)LanguageID.ChineseS),
-        new ("CHT (繁體中文)",  (int)LanguageID.ChineseT),
+        (byte)LanguageID.Japanese,
+        (byte)LanguageID.English,
+        (byte)LanguageID.French,
+        (byte)LanguageID.Italian,
+        (byte)LanguageID.German,
+        (byte)LanguageID.Spanish,
+        (byte)LanguageID.Korean,
+        (byte)LanguageID.ChineseS,
+        (byte)LanguageID.ChineseT,
     ];
 
     /// <summary>
@@ -42,7 +36,7 @@ public sealed class GameDataSource
     /// </summary>
     /// <param name="generation">Generation to get the language list for.</param>
     /// <returns>List of languages to display.</returns>
-    public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation) => generation switch
+    public IReadOnlyList<ComboItem> LanguageDataSource(byte generation) => generation switch
     {
           3 => LanguageList[..6], // No Korean+
         < 7 => LanguageList[..7], // No Chinese+
@@ -57,6 +51,8 @@ public sealed class GameDataSource
         NatureDataSource = Util.GetCBList(s.natures);
         AbilityDataSource = Util.GetCBList(s.abilitylist);
         GroundTileDataSource = Util.GetUnsortedCBList(s.groundtiletypes, GroundTileTypeExtensions.ValidTileTypes);
+        Regions = Util.GetUnsortedCBList(s.console3ds, Locale3DS.DefinedLocales);
+        LanguageList = Util.GetUnsortedCBList(s.languageNames, LanguageIDs);
 
         var moves = Util.GetCBList(s.movelist);
         HaXMoveDataSource = moves;

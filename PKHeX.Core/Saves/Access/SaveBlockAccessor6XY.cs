@@ -107,8 +107,8 @@ public sealed class SaveBlockAccessor6XY(SAV6XY sav) : ISaveBlockAccessor<BlockI
 
     private static Memory<byte> Block(SAV6XY sav, int i)
     {
-        var data = sav.Data;
+        var data = sav.Buffer;
         var block = BlocksXY[i];
-        return data.AsMemory(block.Offset, block.Length);
+        return data.Slice(block.Offset, block.Length);
     }
 }

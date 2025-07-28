@@ -46,7 +46,7 @@ public static class FileUtil
     /// <param name="ext">File extension used as a hint.</param>
     /// <param name="reference">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
-    public static object? GetSupportedFile(byte[] data, ReadOnlySpan<char> ext, SaveFile? reference = null)
+    public static object? GetSupportedFile(Memory<byte> data, ReadOnlySpan<char> ext, SaveFile? reference = null)
     {
         if (TryGetSAV(data, out var sav))
             return sav;
@@ -126,16 +126,16 @@ public static class FileUtil
         }
     }
 
-    private static bool TryGetGP1(byte[] data, [NotNullWhen(true)] out GP1? gp1)
+    private static bool TryGetGP1(Memory<byte> data, [NotNullWhen(true)] out GP1? gp1)
     {
         gp1 = null;
-        if (data.Length != GP1.SIZE || ReadUInt32LittleEndian(data.AsSpan(0x28)) == 0)
+        if (data.Length != GP1.SIZE || ReadUInt32LittleEndian(data.Span[0x28..]) == 0)
             return false;
         gp1 = new GP1(data);
         return true;
     }
 
-    private static bool TryGetBundle(byte[] data, [NotNullWhen(true)] out IPokeGroup? result)
+    private static bool TryGetBundle(Memory<byte> data, [NotNullWhen(true)] out IPokeGroup? result)
     {
         result = null;
         if (RentalTeam8.IsRentalTeam(data))
@@ -185,7 +185,7 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="sav">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetSAV(byte[] data, [NotNullWhen(true)] out SaveFile? sav)
+    public static bool TryGetSAV(Memory<byte> data, [NotNullWhen(true)] out SaveFile? sav)
     {
         sav = SaveUtil.GetVariantSAV(data);
         return sav is not null;
@@ -197,9 +197,9 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="memcard">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetMemoryCard(byte[] data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
+    public static bool TryGetMemoryCard(Memory<byte> data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
-        if (!SAV3GCMemoryCard.IsMemoryCardSize(data) || IsNoDataPresent(data))
+        if (!SAV3GCMemoryCard.IsMemoryCardSize(data.Span) || IsNoDataPresent(data.Span))
         {
             memcard = null;
             return false;
@@ -208,7 +208,7 @@ public static class FileUtil
         return true;
     }
 
-    /// <inheritdoc cref="TryGetMemoryCard(byte[], out SAV3GCMemoryCard?)"/>
+    /// <inheritdoc cref="TryGetMemoryCard(Memory{byte}, out SAV3GCMemoryCard?)"/>
     public static bool TryGetMemoryCard(string file, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
         if (!File.Exists(file))
@@ -228,7 +228,7 @@ public static class FileUtil
     /// <param name="ext">Format hint</param>
     /// <param name="sav">Reference save file used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
+    public static bool TryGetPKM(Memory<byte> data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
     {
         if (ext.EndsWith("pgt")) // size collision with pk6
         {
@@ -247,10 +247,10 @@ public static class FileUtil
     /// <param name="result">Output result</param>
     /// <param name="sav">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetPCBoxBin(byte[] data, [NotNullWhen(true)] out ConcatenatedEntitySet? result, SaveFile? sav)
+    public static bool TryGetPCBoxBin(Memory<byte> data, [NotNullWhen(true)] out ConcatenatedEntitySet? result, SaveFile? sav)
     {
         result = null;
-        if (sav is null || IsNoDataPresent(data))
+        if (sav is null || IsNoDataPresent(data.Span))
             return false;
 
         // Only return if the size is one of the save file's data chunk formats.
@@ -290,7 +290,7 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="bv">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out IBattleVideo? bv)
+    public static bool TryGetBattleVideo(Memory<byte> data, [NotNullWhen(true)] out IBattleVideo? bv)
     {
         bv = BattleVideo.GetVariantBattleVideo(data);
         return bv is not null;
@@ -303,7 +303,7 @@ public static class FileUtil
     /// <param name="mg">Output result</param>
     /// <param name="ext">Format hint</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
+    public static bool TryGetMysteryGift(Memory<byte> data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
     {
         mg = ext.Length == 0
             ? MysteryGift.GetMysteryGift(data)

@@ -61,10 +61,10 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
         {
             if (ca.Info.Generation != gen)
             {
-                input.AddLine(ps, cs, "EC sharing across generations detected.", ident);
+                input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationDifferent, ident);
                 return;
             }
-            input.AddLine(ps, cs, "EC sharing for 3DS-onward origin detected.", ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationSame, ident);
             return;
         }
 
@@ -76,7 +76,7 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 
         if (eggMysteryCurrent != eggMysteryPrevious)
         {
-            input.AddLine(ps, cs, "EC sharing across RNG encounters detected.", ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantEncounterType, ident);
         }
     }
 }

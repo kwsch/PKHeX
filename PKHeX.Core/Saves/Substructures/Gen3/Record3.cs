@@ -6,8 +6,8 @@ namespace PKHeX.Core;
 
 public sealed class Record3(SAV3 SAV)
 {
-    public uint GetRecord(int record) => ReadUInt32LittleEndian(SAV.Large.AsSpan(GetRecordOffset(record))) ^ SAV.SecurityKey;
-    public void SetRecord(int record, uint value) => WriteUInt32LittleEndian(SAV.Large.AsSpan(GetRecordOffset(record)), value ^ SAV.SecurityKey);
+    public uint GetRecord(int record) => ReadUInt32LittleEndian(SAV.Large[GetRecordOffset(record)..]) ^ SAV.SecurityKey;
+    public void SetRecord(int record, uint value) => WriteUInt32LittleEndian(SAV.Large[GetRecordOffset(record)..], value ^ SAV.SecurityKey);
 
     private int GetRecordOffset(int record)
     {

@@ -31,11 +31,12 @@ public sealed class FilteredGameDataSource
         var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
         Games = Source.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value) || g.Value == 0).ToList();
 
-        Languages = GameDataSource.LanguageDataSource(sav.Generation);
+        Languages = Source.LanguageDataSource(sav.Generation);
         Balls = Source.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList();
         Abilities = Source.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList();
 
         G4GroundTiles = Source.GroundTileDataSource;
+        ConsoleRegions = Source.Regions;
         Natures = Source.NatureDataSource;
     }
 
@@ -113,7 +114,7 @@ public sealed class FilteredGameDataSource
     public readonly IReadOnlyList<ComboItem> Abilities;
     public readonly IReadOnlyList<ComboItem> Natures;
     public readonly IReadOnlyList<ComboItem> G4GroundTiles;
-    public readonly IReadOnlyList<ComboItem> ConsoleRegions = GameDataSource.Regions;
+    public readonly IReadOnlyList<ComboItem> ConsoleRegions;
 
     private const char HiddenAbilitySuffix = 'H';
     private const char AbilityIndexSuffix = '1';

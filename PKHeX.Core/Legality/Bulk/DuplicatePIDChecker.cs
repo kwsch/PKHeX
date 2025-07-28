@@ -58,14 +58,14 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
 
         if (ca.Info.Generation != gen)
         {
-            input.AddLine(ps, cs, "PID sharing across generations detected.", ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDGenerationDifferent, ident);
             return;
         }
 
         bool gbaNDS = gen is 3 or 4 or 5;
         if (!gbaNDS)
         {
-            input.AddLine(ps, cs, "PID sharing for 3DS-onward origin detected.", ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDGenerationSame, ident);
             return;
         }
 
@@ -77,7 +77,7 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
 
         if (eggMysteryCurrent != eggMysteryPrevious)
         {
-            input.AddLine(ps, cs, "PID sharing across RNG encounters detected.", ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDEncounterType, ident);
         }
     }
 }

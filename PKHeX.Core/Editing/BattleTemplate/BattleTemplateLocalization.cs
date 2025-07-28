@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PKHeX.Core;
@@ -14,7 +13,15 @@ public sealed record BattleTemplateLocalization(GameStrings Strings, BattleTempl
     public const string DefaultLanguage = GameLanguage.DefaultLanguage; // English
 
     private static readonly Dictionary<string, BattleTemplateLocalization> Cache = new();
+    private static readonly BattleTemplateConfigContext Context = new(LocalizationStorage<BattleTemplateConfig>.Options);
+    public static readonly LocalizationStorage<BattleTemplateConfig> ConfigCache = new("battle", Context.BattleTemplateConfig);
     public static readonly BattleTemplateLocalization Default = GetLocalization(DefaultLanguage);
+
+    /// <summary>
+    /// Gets the localization for the requested language.
+    /// </summary>
+    /// <param name="language">Language code</param>
+    public static BattleTemplateConfig GetConfig(string language) => ConfigCache.Get(language);
 
     /// <param name="language"><see cref="LanguageID"/> index</param>
     /// <inheritdoc cref="GetLocalization(string)"/>
@@ -34,17 +41,6 @@ public sealed record BattleTemplateLocalization(GameStrings Strings, BattleTempl
         var cfg = GetConfig(language);
         result = new BattleTemplateLocalization(strings, cfg);
         Cache[language] = result;
-        return result;
-    }
-
-    private static string GetJson(string language) => Util.GetStringResource($"battle_{language}.json");
-    private static BattleTemplateConfigContext GetContext() => new();
-
-    private static BattleTemplateConfig GetConfig(string language)
-    {
-        var text = GetJson(language);
-        var result = JsonSerializer.Deserialize(text, GetContext().BattleTemplateConfig)
-            ?? throw new JsonException($"Failed to deserialize {nameof(BattleTemplateConfig)} for {language}");
         return result;
     }
 

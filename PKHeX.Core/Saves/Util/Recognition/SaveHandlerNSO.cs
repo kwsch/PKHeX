@@ -15,17 +15,17 @@ public sealed class SaveHandlerNSO : ISaveHandler
 
     public static ReadOnlySpan<byte> GetHashROM(ReadOnlySpan<byte> header) => new UnpackedHeaderNSOReadOnly(header).HashROM;
 
-    public SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input)
+    public SaveHandlerSplitResult? TrySplit(Memory<byte> input)
     {
         if (input.Length < SmallestSize)
             return null;
-        if (!input.StartsWith(Magic))
+        if (!input.Span.StartsWith(Magic))
             return null;
 
-        var obj = new UnpackedHeaderNSOReadOnly(input);
+        var obj = new UnpackedHeaderNSOReadOnly(input.Span);
         var header = input[..obj.Length];
         var data = input[obj.Length..];
-        return new SaveHandlerSplitResult([..data], header.ToArray(), default, this);
+        return new SaveHandlerSplitResult(data, header, default, this);
     }
 
     public void Finalize(Span<byte> input)

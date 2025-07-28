@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace PKHeX.Core;
@@ -33,7 +32,7 @@ public static class WordFilter
     /// <param name="regexes">Console regex set to check against.</param>
     /// <param name="regMatch">Matching regex that filters the phrase.</param>
     /// <returns>Boolean result if the message is filtered or not.</returns>
-    internal static bool TryMatch(ReadOnlySpan<char> message, ReadOnlySpan<Regex> regexes, [NotNullWhen(true)] out string? regMatch)
+    internal static bool TryMatch(ReadOnlySpan<char> message, ReadOnlySpan<Regex> regexes, out int regMatch)
     {
         // Clean the string
         Span<char> clean = stackalloc char[message.Length];
@@ -41,76 +40,114 @@ public static class WordFilter
         if (ctr != clean.Length)
             clean = clean[..ctr];
 
-        foreach (var regex in regexes)
+        for (var i = 0; i < regexes.Length; i++)
         {
+            var regex = regexes[i];
             foreach (var _ in regex.EnumerateMatches(clean))
             {
-                regMatch = regex.ToString();
+                regMatch = i;
                 return true;
             }
         }
-        regMatch = null;
+
+        regMatch = -1;
         return false;
     }
 
-    /// <inheritdoc cref="IsFiltered(ReadOnlySpan{char}, out string?, EntityContext, EntityContext)"/>
-    public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch,
-        EntityContext current)
-        => IsFiltered(message, out regMatch, current, current);
+    /// <inheritdoc cref="IsFiltered(ReadOnlySpan{char}, EntityContext, EntityContext, out WordFilterType, out int)"/>
+    public static bool IsFiltered(ReadOnlySpan<char> message, EntityContext current, out WordFilterType type, out int regMatch)
+        => IsFiltered(message, current, current, out type, out regMatch);
 
     /// <summary>
     /// Checks to see if a phrase contains filtered content.
     /// </summary>
     /// <param name="message">Phrase to check for</param>
-    /// <param name="regMatch">Matching regex that filters the phrase.</param>
     /// <param name="current">Current context to check.</param>
     /// <param name="original">Earliest context to check.</param>
+    /// <param name="type">Word filter set that matched the phrase.</param>
+    /// <param name="regMatch">Matching regex that filters the phrase.</param>
     /// <returns>Boolean result if the message is filtered or not.</returns>
-    public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch,
-        EntityContext current, EntityContext original)
+    public static bool IsFiltered(ReadOnlySpan<char> message, EntityContext current, EntityContext original, out WordFilterType type, out int regMatch)
     {
-        regMatch = null;
+        regMatch = -1;
         if (message.IsWhiteSpace() || message.Length <= 1)
+        {
+            type = WordFilterType.None;
             return false;
+        }
 
         // Only check against the single filter if requested
         if (ParseSettings.Settings.WordFilter.DisableWordFilterPastGen)
-            return IsFilteredCurrentOnly(message, ref regMatch, current, original);
+        {
+            if (IsFilteredCurrentOnly(message, current, original, out regMatch))
+            {
+                type = WordFilterTypeExtensions.GetName(current);
+                return true;
+            }
+            type = WordFilterType.None;
+            return false;
+        }
 
-        return IsFilteredLookBack(message, out regMatch, current, original);
+        return IsFilteredLookBack(message, current, original, out type, out regMatch);
     }
 
-    private static bool IsFilteredCurrentOnly(ReadOnlySpan<char> message, [NotNullWhen(true)] ref string? regMatch,
-        EntityContext current, EntityContext original) => current switch
+    private static bool IsFilteredCurrentOnly(ReadOnlySpan<char> message, EntityContext current, EntityContext original, out int regMatch)
     {
-        EntityContext.Gen5 => WordFilter5.IsFiltered(message, out regMatch),
-
-        EntityContext.Gen6 => WordFilter3DS.IsFilteredGen6(message, out regMatch),
-        EntityContext.Gen7 when original is EntityContext.Gen6
-                           => WordFilter3DS.IsFilteredGen6(message, out regMatch),
-
-        EntityContext.Gen7 => WordFilter3DS.IsFilteredGen7(message, out regMatch),
-        _ => current.GetConsole() switch
+        regMatch = 0;
+        return current switch
         {
-            GameConsole.NX => WordFilterNX.IsFiltered(message, out regMatch, original),
-            _ => false,
-        },
-    };
+            EntityContext.Gen5 => WordFilter5.IsFiltered(message, out regMatch),
 
-    private static bool IsFilteredLookBack(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch,
-        EntityContext current, EntityContext original)
+            EntityContext.Gen6 => WordFilter3DS.IsFilteredGen6(message, out regMatch),
+            EntityContext.Gen7 when original is EntityContext.Gen6
+                => WordFilter3DS.IsFilteredGen6(message, out regMatch),
+
+            EntityContext.Gen7 => WordFilter3DS.IsFilteredGen7(message, out regMatch),
+            _ => current.GetConsole() switch
+            {
+                GameConsole.NX => WordFilterNX.IsFiltered(message, out regMatch, original),
+                _ => false,
+            },
+        };
+    }
+
+    private static bool IsFilteredLookBack(ReadOnlySpan<char> message, EntityContext current, EntityContext original, out WordFilterType type, out int regMatch)
     {
         // Switch 2 backwards transfer? Won't know for another couple years.
         if (WordFilterNX.IsFiltered(message, out regMatch, original))
+        {
+            type = WordFilterType.NintendoSwitch;
             return true;
+        }
 
         var generation = original.Generation();
         if (generation > 7 || original is EntityContext.Gen7b)
+        {
+            type = WordFilterType.None;
             return false;
-        if (WordFilter3DS.IsFiltered(message, out regMatch, original))
-            return true;
+        }
 
-        return generation == 5 && WordFilter5.IsFiltered(message, out regMatch);
+        if (WordFilter3DS.IsFiltered(message, out regMatch, original))
+        {
+            type = WordFilterType.Nintendo3DS;
+            return true;
+        }
+
+        if (generation == 5 && WordFilter5.IsFiltered(message, out regMatch))
+        {
+            type = WordFilterType.Gen5;
+            return true;
+        }
         // no other word filters (none in Gen3 or Gen4)
+        type = WordFilterType.None;
+        return false;
     }
+
+    public static string GetPattern(WordFilterType chkArgument, int index) => chkArgument switch
+    {
+        WordFilterType.Gen5 => WordFilter5.GetPattern(index),
+        WordFilterType.Nintendo3DS => WordFilter3DS.GetPattern(index),
+        WordFilterType.NintendoSwitch => WordFilterNX.GetPattern(index),
+        _ => string.Empty,
+    };
 }

@@ -50,7 +50,7 @@ public sealed partial class SAV_GroupViewer : Form
         var group = Groups[CurrentGroup];
         var index = Box.Entries.IndexOf(pb);
         var slot = group.Slots[index];
-        Preview.Show(pb, slot);
+        Preview.Show(pb, slot, group.Type);
     }
 
     private void OmniClick(object sender, EventArgs e)
@@ -112,12 +112,12 @@ public sealed partial class SAV_GroupViewer : Form
         if (index == CurrentGroup)
             return;
 
-        var (_, slots) = Groups[index];
+        var (_, slots, type) = Groups[index];
         Regenerate(slots.Length);
 
         var sav = SAV;
         for (int i = 0; i < slots.Length; i++)
-            Box.Entries[i].Image = slots[i].Sprite(sav, flagIllegal: true);
+            Box.Entries[i].Image = slots[i].Sprite(sav, flagIllegal: true, storage: type);
 
         if (slotSelected != -1 && (uint)slotSelected < Box.Entries.Count)
             Box.Entries[slotSelected].BackgroundImage = groupSelected != index ? null : SpriteUtil.Spriter.View;

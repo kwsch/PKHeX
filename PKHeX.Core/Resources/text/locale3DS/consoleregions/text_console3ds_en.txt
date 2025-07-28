@@ -1,0 +1,7 @@
+﻿Japan (日本)
+Americas (NA/SA)
+Europe (EU/AU)
+
+China (中国大陆)
+Korea (한국)
+Taiwan (香港/台灣)

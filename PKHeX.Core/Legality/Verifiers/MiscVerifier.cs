@@ -1,6 +1,5 @@
 using System;
-using System.Text;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core;
@@ -23,36 +22,36 @@ public sealed class MiscVerifier : Verifier
 
             // No egg have contest stats from the encounter.
             if (pk is IContestStatsReadOnly s && s.HasContestStats())
-                data.AddLine(GetInvalid(LEggContest, Egg));
+                data.AddLine(GetInvalid(Egg, EggContest));
 
             // Cannot transfer eggs across contexts (must be hatched).
             var e = data.EncounterOriginal;
             if (e.Context != pk.Context)
-                data.AddLine(GetInvalid(LTransferEggVersion, Egg));
+                data.AddLine(GetInvalid(Egg, TransferEggVersion));
 
             switch (pk)
             {
                 // Side Game: No Eggs
                 case SK2 or CK3 or XK3 or BK4 or RK4 when e.Context == pk.Context:
-                    data.AddLine(GetInvalid(LTransferEggVersion, Egg));
+                    data.AddLine(GetInvalid(Egg, TransferEggVersion));
                     break;
 
                 // All Eggs are Japanese and flagged specially for localized string
                 case PK3 when pk.Language != 1:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pk.Language), Egg));
+                    data.AddLine(GetInvalid(Egg, OTLanguageShouldBe_0, (byte)LanguageID.Japanese));
                     break;
 
                 // Cannot obtain Shiny Leaf or Pokeathlon Stats as Egg
                 case PK4 pk4:
                     if (pk4.ShinyLeaf != 0)
-                        data.AddLine(GetInvalid(LEggShinyLeaf, Egg));
+                        data.AddLine(GetInvalid(Egg, EggShinyLeaf));
                     if (pk4.PokeathlonStat != 0)
-                        data.AddLine(GetInvalid(LEggPokeathlon, Egg));
+                        data.AddLine(GetInvalid(Egg, EggPokeathlon));
                     break;
             }
 
             if (pk is IHomeTrack { HasTracker: true })
-                data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
+                data.AddLine(GetInvalid(TransferTrackerShouldBeZero));
         }
 
         switch (pk)
@@ -88,7 +87,7 @@ public sealed class MiscVerifier : Verifier
             if (s64.TryGetSeed(pk, out var seed))
                 data.Info.PIDIV = new PIDIV(PIDType.Xoroshiro, seed);
             if (enc is IMasteryInitialMoveShop8 m && !m.IsForcedMasteryCorrect(pk))
-                data.AddLine(GetInvalid(LEncMasteryInitial));
+                data.AddLine(GetInvalid(EncMasteryInitial));
         }
 
         VerifyMiscFatefulEncounter(data);
@@ -111,7 +110,7 @@ public sealed class MiscVerifier : Verifier
         };
 
         if (!valid)
-            data.AddLine(GetInvalid(LPIDTypeMismatch));
+            data.AddLine(GetInvalid(PIDTypeMismatch));
     }
 
     private void VerifyCorrelation8(LegalityAnalysis data, IOverworldCorrelation8 z, PKM pk)
@@ -132,7 +131,7 @@ public sealed class MiscVerifier : Verifier
         };
 
         if (!valid)
-            data.AddLine(GetInvalid(LPIDTypeMismatch));
+            data.AddLine(GetInvalid(PIDTypeMismatch));
     }
 
     private void VerifyServerDate2000(LegalityAnalysis data, PKM pk, IEncounterable enc, IEncounterServerDate date)
@@ -144,18 +143,18 @@ public sealed class MiscVerifier : Verifier
         if (enc is WB8 { IsDateLockJapanese: true } or WA8 { IsDateLockJapanese: true })
         {
             if (actualDay < new DateOnly(2022, 5, 20) && pk.Language != (int)LanguageID.Japanese)
-                data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
+                data.AddLine(GetInvalid(DateOutsideDistributionWindow));
         }
 
         var result = date.IsWithinDistributionWindow(actualDay);
         if (result == EncounterServerDateCheck.Invalid)
-            data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
+            data.AddLine(GetInvalid(DateOutsideDistributionWindow));
     }
 
     private void VerifyStats7(LegalityAnalysis data, PK7 pk7)
     {
         if (pk7.ResortEventStatus >= ResortEventState.MAX)
-            data.AddLine(GetInvalid(LTransferBad));
+            data.AddLine(GetInvalid(TransferBad));
     }
 
     private void VerifyMiscScaleValues(LegalityAnalysis data, PKM pk, IEncounterTemplate enc)
@@ -168,20 +167,20 @@ public sealed class MiscVerifier : Verifier
         {
             // Gen1-7 can have 0-0 if kept in PLA before HOME 3.0
             if (s2 is { HeightScalar: 0, WeightScalar: 0 } && !data.Info.EvoChainsAllGens.HasVisitedPLA && enc is not IPogoSlot)
-                data.AddLine(Get(LStatInvalidHeightWeight, Severity.Invalid, Encounter));
+                data.AddLine(Get(Encounter, Severity.Invalid, StatInvalidHeightWeight));
         }
         else if (CheckHeightWeightOdds(data.EncounterMatch))
         {
             if (s2 is { HeightScalar: 0, WeightScalar: 0 })
             {
                 if (ParseSettings.Settings.HOMETransfer.ZeroHeightWeight != Severity.Valid)
-                    data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.Settings.HOMETransfer.ZeroHeightWeight, Encounter));
+                    data.AddLine(Get(Encounter, ParseSettings.Settings.HOMETransfer.ZeroHeightWeight, StatInvalidHeightWeight));
             }
         }
 
         // Check for Scale
         if (pk is IScaledSize3 s3 && IsHeightScaleMatchRequired(pk) && s2.HeightScalar != s3.Scale)
-            data.AddLine(GetInvalid(LStatIncorrectHeightValue));
+            data.AddLine(GetInvalid(StatIncorrectHeightValue));
     }
 
     private void VerifyIsMovesetAllowed(LegalityAnalysis data, SK2 sk2)
@@ -220,18 +219,18 @@ public sealed class MiscVerifier : Verifier
 
         // Cannot participate in Pokestar Studios as Egg
         if (pk5.IsEgg && pk5.PokeStarFame != 0)
-            data.AddLine(GetInvalid(LEggShinyPokeStar, Egg));
+            data.AddLine(GetInvalid(Egg, EggShinyPokeStar));
 
         // Ensure NSparkle is only present on N's encounters.
         if (enc is EncounterStatic5N)
         {
             if (!pk5.NSparkle)
-                data.AddLine(GetInvalid(LG5SparkleRequired, Fateful));
+                data.AddLine(GetInvalid(Fateful, G5SparkleRequired));
         }
         else
         {
             if (pk5.NSparkle)
-                data.AddLine(GetInvalid(LG5SparkleInvalid, Fateful));
+                data.AddLine(GetInvalid(Fateful, G5SparkleInvalid));
         }
     }
 
@@ -248,35 +247,35 @@ public sealed class MiscVerifier : Verifier
         VerifyTechRecordSV(data, pk9);
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
-            data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            data.AddLine(GetInvalid(StatBattleVersionInvalid));
         if (!IsObedienceLevelValid(pk9, pk9.ObedienceLevel, pk9.MetLevel))
-            data.AddLine(GetInvalid(LTransferObedienceLevel));
+            data.AddLine(GetInvalid(TransferObedienceLevel));
         if (pk9.IsEgg)
         {
             if (pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
-                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+                data.AddLine(GetInvalid(TeraTypeIncorrect));
         }
         else if (pk9.Species == (int)Species.Terapagos)
         {
             if (!TeraTypeUtil.IsValidTerapagos((byte)pk9.TeraTypeOverride))
-                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+                data.AddLine(GetInvalid(TeraTypeIncorrect));
         }
         else if (pk9.Species == (int)Species.Ogerpon)
         {
             if (!TeraTypeUtil.IsValidOgerpon((byte)pk9.TeraTypeOverride, pk9.Form))
-                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+                data.AddLine(GetInvalid(TeraTypeIncorrect));
         }
         else
         {
             if (!TeraTypeUtil.IsValid((byte)pk9.TeraTypeOriginal))
-                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+                data.AddLine(GetInvalid(TeraTypeIncorrect));
         }
 
         var enc = data.EncounterOriginal;
         if (enc is EncounterEgg9 g)
         {
             if (!Tera9RNG.IsMatchTeraTypePersonalEgg(g.Species, g.Form, (byte)pk9.TeraTypeOriginal))
-                data.AddLine(GetInvalid(LTeraTypeMismatch));
+                data.AddLine(GetInvalid(TeraTypeMismatch));
         }
         else if (enc is ITeraRaid9)
         {
@@ -286,15 +285,15 @@ public sealed class MiscVerifier : Verifier
         else if (enc is not { Context: EntityContext.Gen9 } || pk9 is { GO_HOME: true })
         {
             if (pk9.TeraTypeOverride == (MoveType)TeraTypeUtil.OverrideNone)
-                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+                data.AddLine(GetInvalid(TeraTypeIncorrect));
             else if (GetTeraImportMatch(data.Info.EvoChainsAllGens.Gen9, pk9.TeraTypeOriginal, enc) == -1)
-                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+                data.AddLine(GetInvalid(TeraTypeIncorrect));
         }
         else if (enc is EncounterStatic9 { StarterBoxLegend: true })
         {
             // Ride legends cannot be traded or transferred.
             if (pk9.CurrentHandler != 0 || pk9.Tracker != 0 || !pk9.IsUntraded)
-                data.AddLine(GetInvalid(LTransferBad));
+                data.AddLine(GetInvalid(TransferBad));
         }
 
         if (!Locations9.IsAccessiblePreDLC(pk9.MetLocation))
@@ -309,7 +308,7 @@ public sealed class MiscVerifier : Verifier
             // Safari and Sport are not obtainable in the base game.
             // For the learnset restricted cases, we need to check if the ball is available too.
             if (((BallUseLegality.WildPokeballs9PreDLC2 >> pk9.Ball) & 1) != 1)
-                data.AddLine(GetInvalid(LBallUnavailable));
+                data.AddLine(GetInvalid(BallUnavailable));
         }
     }
 
@@ -372,11 +371,11 @@ public sealed class MiscVerifier : Verifier
         var days = pk.PokerusDays;
         bool strainValid = Pokerus.IsStrainValid(pk, data.Info.EncounterMatch, strain, days);
         if (!strainValid)
-            data.AddLine(GetInvalid(string.Format(LPokerusStrainUnobtainable_0, strain)));
+            data.AddLine(GetInvalid(PokerusStrainUnobtainable_0, (ushort)strain));
 
         bool daysValid = Pokerus.IsDurationValid(strain, days, out var max);
         if (!daysValid)
-            data.AddLine(GetInvalid(string.Format(LPokerusDaysTooHigh_0, max)));
+            data.AddLine(GetInvalid(PokerusDaysLEQ_0, (ushort)max));
     }
 
     public void VerifyMiscG1(LegalityAnalysis data)
@@ -397,7 +396,7 @@ public sealed class MiscVerifier : Verifier
                     _ => time is 1 or 2 or 3,
                 };
                 if (!valid)
-                    data.AddLine(new CheckResult(Severity.Invalid, Encounter, LMetDetailTimeOfDay));
+                    data.AddLine(GetInvalid(Encounter, MetDetailTimeOfDay));
             }
             return;
         }
@@ -414,16 +413,16 @@ public sealed class MiscVerifier : Verifier
             // Can have any type combination of any species by using Conversion.
             if (!PersonalTable1.TypeIDExists(pk1.Type1))
             {
-                data.AddLine(GetInvalid(LG1TypePorygonFail1));
+                data.AddLine(GetInvalid(G1TypePorygonFail1));
             }
             if (!PersonalTable1.TypeIDExists(pk1.Type2))
             {
-                data.AddLine(GetInvalid(LG1TypePorygonFail2));
+                data.AddLine(GetInvalid(G1TypePorygonFail2));
             }
             else // Both types exist, ensure a Gen1 species has this combination
             {
                 var matchSpecies = PersonalTable.RB.IsValidTypeCombination(pk1);
-                var result = matchSpecies != -1 ? GetValid(LG1TypeMatchPorygon) : GetInvalid(LG1TypePorygonFail);
+                var result = matchSpecies != -1 ? GetValid(G1TypeMatchPorygon) : GetInvalid(G1TypePorygonFail);
                 data.AddLine(result);
             }
         }
@@ -434,8 +433,8 @@ public sealed class MiscVerifier : Verifier
             if (!match2 && ParseSettings.AllowGBStadium2)
                 match2 = (species is (int)Species.Magnemite or (int)Species.Magneton) && pk1.Type2 == 9; // Steel Magnemite via Stadium2
 
-            var first = match1 ? GetValid(LG1TypeMatch1) : GetInvalid(LG1Type1Fail);
-            var second = match2 ? GetValid(LG1TypeMatch2) : GetInvalid(LG1Type2Fail);
+            var first = match1 ? GetValid(G1TypeMatch1) : GetInvalid(G1Type1Fail);
+            var second = match2 ? GetValid(G1TypeMatch2) : GetInvalid(G1Type2Fail);
             data.AddLine(first);
             data.AddLine(second);
         }
@@ -454,7 +453,7 @@ public sealed class MiscVerifier : Verifier
     {
         var rate = pk1.CatchRate;
         if (PK1.IsCatchRateHeldItem(rate))
-            return GetValid(LG1CatchRateMatchTradeback);
+            return GetValid(G1CatchRateMatchTradeback);
         return GetWasNotTradeback(data, pk1, eval);
     }
 
@@ -462,20 +461,20 @@ public sealed class MiscVerifier : Verifier
     {
         var rate = pk1.CatchRate;
         if (MoveInfo.IsAnyFromGeneration(2, data.Info.Moves))
-            return GetInvalid(LG1CatchRateItem);
+            return GetInvalid(G1CatchRateItem);
         var e = data.EncounterMatch;
         if (e is EncounterGift1 { Version: GameVersion.Stadium } or EncounterTrade1)
-            return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
+            return GetValid(G1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
 
         ushort species = pk1.Species;
         if (GBRestrictions.IsSpeciesNotAvailableCatchRate((byte)species) && rate == PersonalTable.RB[species].CatchRate)
         {
             if (species != (int)Species.Dragonite || rate != 45 || !(e.Version == GameVersion.BU || e.Version.Contains(GameVersion.YW)))
-                return GetInvalid(LG1CatchRateEvo);
+                return GetInvalid(G1CatchRateEvo);
         }
         if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, rate))
-            return GetInvalid(eval == TimeCapsuleEvaluation.Transferred12 ? LG1CatchRateChain : LG1CatchRateNone);
-        return GetValid(LG1CatchRateMatchPrevious);
+            return GetInvalid(eval == TimeCapsuleEvaluation.Transferred12 ? G1CatchRateChain : G1CatchRateNone);
+        return GetValid(G1CatchRateMatchPrevious);
     }
 
     private static void VerifyMiscFatefulEncounter(LegalityAnalysis data)
@@ -509,7 +508,7 @@ public sealed class MiscVerifier : Verifier
                 return;
         }
         if (pk.FatefulEncounter)
-            data.AddLine(GetInvalid(LFatefulInvalid, Fateful));
+            data.AddLine(GetInvalid(Fateful, FatefulInvalid));
     }
 
     private static void VerifyMiscEggCommon(LegalityAnalysis data)
@@ -518,30 +517,17 @@ public sealed class MiscVerifier : Verifier
 
         var enc = data.EncounterMatch;
         if (!EggStateLegality.GetIsEggHatchCyclesValid(pk, enc))
-            data.AddLine(GetInvalid(LEggHatchCycles, Egg));
+            data.AddLine(GetInvalid(Egg, EggHatchCycles));
 
         if (pk.Format >= 6 && enc is IEncounterEgg && !MovesMatchRelearn(pk))
-        {
-            const int moveCount = 4;
-            var sb = new StringBuilder(64);
-            for (int i = 0; i < moveCount; i++)
-            {
-                var move = pk.GetRelearnMove(i);
-                var name = ParseSettings.GetMoveName(move);
-                sb.Append(name);
-                if (i != moveCount - 1)
-                    sb.Append(", ");
-            }
-            var msg = string.Format(LMoveFExpect_0, sb);
-            data.AddLine(GetInvalid(msg, Egg));
-        }
+            data.AddLine(GetInvalid(Egg, MovesShouldMatchRelearnMoves));
 
         if (pk is ITechRecord record)
         {
             if (record.GetMoveRecordFlagAny())
-                data.AddLine(GetInvalid(LEggRelearnFlags, Egg));
+                data.AddLine(GetInvalid(Egg, EggRelearnFlags));
             if (pk.StatNature != pk.Nature)
-                data.AddLine(GetInvalid(LEggNature, Egg));
+                data.AddLine(GetInvalid(Egg, EggNature));
         }
     }
 
@@ -569,14 +555,14 @@ public sealed class MiscVerifier : Verifier
             {
                 var locToCheck = pk.IsEgg ? pk.MetLocation : pk.EggLocation;
                 if (locToCheck is not (Locations.LinkTrade5 or Locations.LinkTrade5NPC))
-                    data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
+                    data.AddLine(GetInvalid(PID, PIDTypeMismatch));
             }
         }
 
         bool shouldHave = g.FatefulEncounter;
         var result = pk.FatefulEncounter == shouldHave
-            ? GetValid(LFatefulMystery, Fateful)
-            : GetInvalid(LFatefulMysteryMissing, Fateful);
+            ? GetValid(Fateful, FatefulMystery)
+            : GetInvalid(Fateful, FatefulMysteryMissing);
         data.AddLine(result);
     }
 
@@ -585,21 +571,22 @@ public sealed class MiscVerifier : Verifier
         var pk = data.Entity;
         switch (g)
         {
+            case PCD pcd when !pcd.CanBeReceivedByVersion(pk.Version) && pcd.Gift.PK.Version == 0:
             case WC6 wc6 when !wc6.CanBeReceivedByVersion(pk.Version) && !pk.WasTradedEgg:
             case WC7 wc7 when !wc7.CanBeReceivedByVersion(pk.Version) && !pk.WasTradedEgg:
             case WC8 wc8 when !wc8.CanBeReceivedByVersion(pk.Version):
             case WB8 wb8 when !wb8.CanBeReceivedByVersion(pk.Version, pk):
             case WA8 wa8 when !wa8.CanBeReceivedByVersion(pk.Version, pk):
-                data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
+                data.AddLine(GetInvalid(GameOrigin, EncGiftVersionNotDistributed));
                 return;
             case PGF pgf when pgf.RestrictLanguage != 0 && pk.Language != pgf.RestrictLanguage:
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, pgf.RestrictLanguage, pk.Language), CheckIdentifier.Language));
+                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, (ushort)pgf.RestrictLanguage));
                 return;
             case WC6 wc6 when wc6.RestrictLanguage != 0 && pk.Language != wc6.RestrictLanguage:
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pk.Language), CheckIdentifier.Language));
+                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, (ushort)wc6.RestrictLanguage));
                 return;
             case WC7 wc7 when wc7.RestrictLanguage != 0 && pk.Language != wc7.RestrictLanguage:
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pk.Language), CheckIdentifier.Language));
+                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, (ushort)wc7.RestrictLanguage));
                 return;
         }
     }
@@ -608,15 +595,15 @@ public sealed class MiscVerifier : Verifier
     {
         // check for shiny locked gifts
         if (!g3.Shiny.IsValid(data.Entity))
-            data.AddLine(GetInvalid(LEncGiftShinyMismatch, Fateful));
+            data.AddLine(GetInvalid(Fateful, EncGiftShinyMismatch));
     }
 
     private static void VerifyFatefulIngameActive(LegalityAnalysis data)
     {
         var pk = data.Entity;
         var result = pk.FatefulEncounter
-            ? GetValid(LFateful, Fateful)
-            : GetInvalid(LFatefulMissing, Fateful);
+            ? GetValid(Fateful, Valid)
+            : GetInvalid(Fateful, FatefulMissing);
         data.AddLine(result);
     }
 
@@ -635,7 +622,7 @@ public sealed class MiscVerifier : Verifier
                 bool Sun()  => ((uint)pk.Version & 1) == 0;
                 bool Moon() => ((uint)pk.Version & 1) == 1;
                 if (pk.IsUntraded)
-                    data.AddLine(GetInvalid(LEvoTradeRequired, Evolution));
+                    data.AddLine(GetInvalid(Evolution, EvoTradeRequired));
                 break;
         }
     }
@@ -645,21 +632,21 @@ public sealed class MiscVerifier : Verifier
         if (pk.IsEgg)
         {
             if (fe.Fullness != 0)
-                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
+                data.AddLine(GetInvalid(Encounter, MemoryStatFullness_0, 0));
             if (fe.Enjoyment != 0)
-                data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, "0"), Encounter));
+                data.AddLine(GetInvalid(Encounter, MemoryStatEnjoyment_0, 0));
             return;
         }
 
         if (pk.Format >= 8)
         {
             if (fe.Fullness > 245) // Exiting camp is -10, so a 255=>245 is max.
-                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "<=245"), Encounter));
+                data.AddLine(GetInvalid(Encounter, MemoryStatFullnessLEQ_0, 245));
             else if (fe.Fullness is not 0 && pk is not PK8) // BD/SP and PLA do not set this field, even via HOME.
-                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
+                data.AddLine(GetInvalid(Encounter, MemoryStatFullness_0, 0));
 
             if (fe.Enjoyment != 0)
-                data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, "0"), Encounter));
+                data.AddLine(GetInvalid(Encounter, MemoryStatEnjoyment_0, 0));
             return;
         }
 
@@ -673,7 +660,7 @@ public sealed class MiscVerifier : Verifier
             return; // evolved
 
         if (IsUnfeedable(pk.Species))
-            data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
+            data.AddLine(GetInvalid(Encounter, MemoryStatFullness_0, 0));
     }
 
     public static bool IsUnfeedable(ushort species) => species is
@@ -688,16 +675,17 @@ public sealed class MiscVerifier : Verifier
     private static void VerifyStats7b(LegalityAnalysis data, PB7 pb7)
     {
         VerifyAbsoluteSizes(data, pb7);
+        var calc = pb7.CalcCP;
         if (pb7.Stat_CP != pb7.CalcCP && !IsStarterLGPE(pb7))
-            data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
+            data.AddLine(GetInvalid(Encounter, StatIncorrectCP_0, (uint)calc));
 
         if (pb7.ReceivedTime is null)
-            data.AddLine(GetInvalid(LDateTimeClockInvalid, Misc));
+            data.AddLine(GetInvalid(Misc, DateTimeClockInvalid));
 
         // HOME moving in and out will retain received date. ensure it matches if no HT data present.
         // Go Park captures will have different dates, as the GO met date is retained as Met Date.
         if (pb7.ReceivedDate is not { } date || !EncounterDate.IsValidDateSwitch(date) || (pb7.IsUntraded && data.EncounterOriginal is not EncounterSlot7GO && date != pb7.MetDate))
-            data.AddLine(GetInvalid(LDateOutsideConsoleWindow, Misc));
+            data.AddLine(GetInvalid(Misc, DateOutsideConsoleWindow));
     }
 
     private static void VerifyAbsoluteSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue
@@ -715,10 +703,13 @@ public sealed class MiscVerifier : Verifier
     {
         // Unlike PLA, there is no way to force it to recalculate in-game.
         // The only encounter this applies to is Meltan, which cannot reach PLA for recalculation.
-        if (obj.HeightAbsolute != enc.GetHomeHeightAbsolute())
-            data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
-        if (obj.WeightAbsolute != enc.GetHomeWeightAbsolute())
-            data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
+        var expectHeight = enc.GetHomeHeightAbsolute();
+        if (obj.HeightAbsolute != expectHeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectHeight, BitConverter.SingleToUInt32Bits(expectHeight)));
+
+        var expectWeight = enc.GetHomeWeightAbsolute();
+        if (obj.WeightAbsolute != expectWeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectWeight, BitConverter.SingleToUInt32Bits(expectWeight)));
     }
 
     private static void VerifyFixedSizeMidAlpha(LegalityAnalysis data, PA8 pk)
@@ -742,10 +733,13 @@ public sealed class MiscVerifier : Verifier
 
     private static void VerifyCalculatedSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue
     {
-        if (obj.HeightAbsolute != obj.CalcHeightAbsolute)
-            data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
+        var expectHeight = obj.CalcHeightAbsolute;
+        if (obj.HeightAbsolute != expectHeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectHeight, BitConverter.SingleToUInt32Bits(expectHeight)));
+
+        var expectWeight = obj.CalcWeightAbsolute;
         if (obj.WeightAbsolute != obj.CalcWeightAbsolute)
-            data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
+            data.AddLine(GetInvalid(Encounter, StatIncorrectWeight, BitConverter.SingleToUInt32Bits(expectWeight)));
     }
     // ReSharper restore CompareOfFloatsByEqualityOperator
 
@@ -762,31 +756,31 @@ public sealed class MiscVerifier : Verifier
         if (pk8.IsEgg)
         {
             if (social != 0)
-                data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
+                data.AddLine(GetInvalid(Encounter, MemorySocialZero));
         }
         else if (social > byte.MaxValue)
         {
-            data.AddLine(GetInvalid(string.Format(LMemorySocialTooHigh_0, byte.MaxValue), Encounter));
+            data.AddLine(GetInvalid(Encounter, MemoryStatSocialLEQ_0, 0));
         }
 
         VerifyStatNature(data, pk8);
 
         if (!pk8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
-            data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            data.AddLine(GetInvalid(StatBattleVersionInvalid));
 
         var enc = data.EncounterMatch;
         bool originGMax = enc is IGigantamaxReadOnly {CanGigantamax: true};
         if (originGMax != pk8.CanGigantamax)
         {
             bool ok = !pk8.IsEgg && Gigantamax.CanToggle(pk8.Species, pk8.Form, enc.Species, enc.Form);
-            var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
+            var chk = ok ? GetValid(StatGigantamaxValid) : GetInvalid(StatGigantamaxInvalid);
             data.AddLine(chk);
         }
 
         if (pk8.DynamaxLevel != 0)
         {
             if (!pk8.CanHaveDynamaxLevel(pk8) || pk8.DynamaxLevel > 10)
-                data.AddLine(GetInvalid(LStatDynamaxInvalid));
+                data.AddLine(GetInvalid(StatDynamaxInvalid));
         }
 
         VerifyTechRecordSWSH(data, pk8);
@@ -799,21 +793,21 @@ public sealed class MiscVerifier : Verifier
 
         var social = pa8.Sociability;
         if (social != 0)
-            data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
+            data.AddLine(GetInvalid(Encounter, MemorySocialZero));
 
         VerifyStatNature(data, pa8);
 
         if (!pa8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
-            data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            data.AddLine(GetInvalid(StatBattleVersionInvalid));
 
         if (pa8.CanGigantamax)
-            data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+            data.AddLine(GetInvalid(StatGigantamaxInvalid));
 
         if (pa8.DynamaxLevel != 0)
-            data.AddLine(GetInvalid(LStatDynamaxInvalid));
+            data.AddLine(GetInvalid(StatDynamaxInvalid));
 
         if (pa8.GetMoveRecordFlagAny() && !pa8.IsEgg) // already checked for eggs
-            data.AddLine(GetInvalid(LEggRelearnFlags));
+            data.AddLine(GetInvalid(EggRelearnFlags));
 
         VerifyTechRecordSWSH(data, pa8);
     }
@@ -822,28 +816,28 @@ public sealed class MiscVerifier : Verifier
     {
         var social = pb8.Sociability;
         if (social != 0)
-            data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
+            data.AddLine(GetInvalid(Encounter, MemorySocialZero));
 
         if (pb8.IsDprIllegal)
-            data.AddLine(GetInvalid(LTransferFlagIllegal));
+            data.AddLine(GetInvalid(TransferFlagIllegal));
         if (pb8.Species is (int)Species.Spinda or (int)Species.Nincada && !pb8.BDSP)
-            data.AddLine(GetInvalid(LTransferNotPossible));
+            data.AddLine(GetInvalid(TransferNotPossible));
         if (pb8.Species is (int)Species.Spinda && pb8.Tracker != 0)
-            data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
+            data.AddLine(GetInvalid(TransferTrackerShouldBeZero));
 
         VerifyStatNature(data, pb8);
 
         if (!pb8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
-            data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            data.AddLine(GetInvalid(StatBattleVersionInvalid));
 
         if (pb8.CanGigantamax)
-            data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+            data.AddLine(GetInvalid(StatGigantamaxInvalid));
 
         if (pb8.DynamaxLevel != 0)
-            data.AddLine(GetInvalid(LStatDynamaxInvalid));
+            data.AddLine(GetInvalid(StatDynamaxInvalid));
 
         if (pb8.GetMoveRecordFlagAny() && !pb8.IsEgg) // already checked for eggs
-            data.AddLine(GetInvalid(LEggRelearnFlags));
+            data.AddLine(GetInvalid(EggRelearnFlags));
 
         VerifyTechRecordSWSH(data, pb8);
     }
@@ -867,10 +861,10 @@ public sealed class MiscVerifier : Verifier
         if (statNature == pk.Nature)
             return;
         if (!statNature.IsMint())
-            data.AddLine(GetInvalid(LStatNatureInvalid));
+            data.AddLine(GetInvalid(StatNatureInvalid));
     }
 
-    private static string GetMoveName<T>(T pk, int index) where T : PKM, ITechRecord => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
+    private static ushort GetMoveIndex<T>(T pk, int index) where T : PKM, ITechRecord => pk.Permit.RecordPermitIndexes[index];
 
     private void VerifyTechRecordSWSH<T>(LegalityAnalysis data, T pk) where T : PKM, ITechRecord
     {
@@ -882,7 +876,7 @@ public sealed class MiscVerifier : Verifier
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
+                data.AddLine(GetInvalid(MoveTechRecordFlagMissing_0, GetMoveIndex(pk, i)));
             }
         }
         else
@@ -908,7 +902,7 @@ public sealed class MiscVerifier : Verifier
                         continue;
                 }
 
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
+                data.AddLine(GetInvalid(MoveTechRecordFlagMissing_0, GetMoveIndex(pk, i)));
             }
         }
     }
@@ -929,7 +923,7 @@ public sealed class MiscVerifier : Verifier
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
+                data.AddLine(GetInvalid(MoveTechRecordFlagMissing_0, GetMoveIndex(pk, i)));
             }
         }
         else
@@ -978,7 +972,7 @@ public sealed class MiscVerifier : Verifier
                     if (preEvoHas)
                         continue;
                 }
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
+                data.AddLine(GetInvalid(MoveTechRecordFlagMissing_0, GetMoveIndex(pk, i)));
             }
         }
     }

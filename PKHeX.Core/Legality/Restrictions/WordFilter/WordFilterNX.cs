@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace PKHeX.Core;
@@ -16,13 +15,16 @@ public static class WordFilterNX
     /// <remarks>No need to keep the original pattern strings around; the <see cref="Regex"/> object retrieves this via <see cref="Regex.ToString()"/></remarks>
     private static readonly Regex[] Regexes = WordFilter.LoadPatterns(Util.GetStringResource("badwords_switch"));
 
+    public static string GetPattern(int index) => Regexes[index].ToString();
+
     /// <summary>
     /// Due to some messages repeating (Trainer names), keep a list of repeated values for faster lookup.
     /// </summary>
-    private static readonly ConcurrentDictionary<string, string?>.AlternateLookup<ReadOnlySpan<char>> Lookup =
-        new ConcurrentDictionary<string, string?>().GetAlternateLookup<ReadOnlySpan<char>>();
+    private static readonly ConcurrentDictionary<string, int>.AlternateLookup<ReadOnlySpan<char>> Lookup =
+        new ConcurrentDictionary<string, int>().GetAlternateLookup<ReadOnlySpan<char>>();
 
     private const int MAX_COUNT = (1 << 17) - 1; // arbitrary cap for max dictionary size
+    private const int NoMatch = -1;
 
     /// <summary>
     /// Checks to see if a phrase contains filtered content.
@@ -31,15 +33,15 @@ public static class WordFilterNX
     /// <param name="regMatch">Matching regex that filters the phrase.</param>
     /// <param name="original">Earliest context to check.</param>
     /// <returns>Boolean result if the message is filtered or not.</returns>
-    public static bool IsFiltered(ReadOnlySpan<char> message, [NotNullWhen(true)] out string? regMatch, EntityContext original)
+    public static bool IsFiltered(ReadOnlySpan<char> message, out int regMatch, EntityContext original)
     {
-        regMatch = null;
+        regMatch = NoMatch;
         if (IsSpeciesName(message, original))
             return false;
 
         // Check dictionary
         if (Lookup.TryGetValue(message, out regMatch))
-            return regMatch is not null;
+            return regMatch is not NoMatch;
 
         // not in dictionary, check patterns
         if (WordFilter.TryMatch(message, Regexes, out regMatch))
@@ -51,7 +53,7 @@ public static class WordFilterNX
         // didn't match any pattern, cache result
         if ((Lookup.Dictionary.Count & ~MAX_COUNT) != 0)
             Lookup.Dictionary.Clear(); // reset
-        Lookup.TryAdd(message, regMatch = null);
+        Lookup.TryAdd(message, regMatch = NoMatch);
         return false;
     }
 

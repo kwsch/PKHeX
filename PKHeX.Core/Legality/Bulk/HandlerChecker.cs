@@ -1,6 +1,6 @@
 using System;
 using static PKHeX.Core.CheckIdentifier;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core.Bulk;
 
@@ -44,7 +44,7 @@ public sealed class HandlerChecker : IBulkAnalyzer
         var shouldBe0 = tr.IsFromTrainer(pk);
         byte expect = shouldBe0 ? (byte)0 : (byte)1;
         if (!HistoryVerifier.IsHandlerStateCorrect(la.EncounterOriginal, pk, current, expect))
-            input.AddLine(cs, LTransferCurrentHandlerInvalid, Trainer);
+            input.AddLine(cs, TransferCurrentHandlerInvalid, Trainer);
 
         if (current == 1)
             CheckHandlingTrainerEquals(input, pk, tr, cs);
@@ -58,14 +58,14 @@ public sealed class HandlerChecker : IBulkAnalyzer
         ht = ht[..len];
 
         if (!ht.SequenceEqual(tr.OT))
-            data.AddLine(cs, LTransferHTMismatchName, Trainer);
+            data.AddLine(cs, TransferHandlerMismatchName, Trainer);
         if (pk.HandlingTrainerGender != tr.Gender)
-            data.AddLine(cs, LTransferHTMismatchGender, Trainer);
+            data.AddLine(cs, TransferHandlerMismatchGender, Trainer);
 
         // If the format exposes a language, check if it matches.
         // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
         // Statistically unlikely that players will play in different languages, but it's technically possible.
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-            data.AddLine(cs, LTransferHTMismatchLanguage, Trainer, Severity.Fishy);
+            data.AddLine(cs, TransferHandlerMismatchLanguage, Trainer, Severity.Fishy);
     }
 }

@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.Ball;
 using static PKHeX.Core.BallVerificationResult;
 
@@ -180,8 +180,8 @@ public sealed class BallVerifier : Verifier
     private CheckResult Localize(BallVerificationResult value)
     {
         bool valid = value.IsValid();
-        string msg = value.GetMessage();
-        return Get(msg, valid ? Severity.Valid : Severity.Invalid);
+        var msg = value.GetMessage();
+        return Get(valid ? Severity.Valid : Severity.Invalid, msg);
     }
 }
 
@@ -210,17 +210,17 @@ public static class BallVerificationResultExtensions
         _ => false,
     };
 
-    public static string GetMessage(this BallVerificationResult value) => value switch
+    public static LegalityCheckResultCode GetMessage(this BallVerificationResult value) => value switch
     {
-        ValidEncounter => LBallEnc,
-        ValidInheritedSpecies => LBallSpeciesPass,
-        BadEncounter => LBallEncMismatch,
-        BadCaptureHeavy => LBallHeavy,
-        BadInheritAbility => LBallAbility,
-        BadInheritSpecies => LBallSpecies,
-        BadInheritCherish => LBallEggCherish,
-        BadInheritMaster => LBallEggMaster,
-        BadOutOfRange => LBallUnavailable,
+        ValidEncounter => BallEnc,
+        ValidInheritedSpecies => BallSpeciesPass,
+        BadEncounter => BallEncMismatch,
+        BadCaptureHeavy => BallHeavy,
+        BadInheritAbility => BallAbility,
+        BadInheritSpecies => BallSpecies,
+        BadInheritCherish => BallEggCherish,
+        BadInheritMaster => BallEggMaster,
+        BadOutOfRange => BallUnavailable,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 }

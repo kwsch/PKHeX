@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -19,7 +19,7 @@ public sealed class GenderVerifier : Verifier
             // D/P/Pt & HG/SS Shedinja glitch -- only generation 4 spawns
             bool ignore = pk is { Format: 4, Species: (int)Species.Shedinja } && pk.MetLevel != pk.CurrentLevel;
             if (!ignore)
-                data.AddLine(GetInvalid(LGenderInvalidNone));
+                data.AddLine(GetInvalid(GenderInvalidNone));
             return;
         }
 
@@ -28,7 +28,7 @@ public sealed class GenderVerifier : Verifier
         if (gen is 3 or 4 or 5)
         {
             // Gender-PID & Nature-PID relationship check
-            var result = IsValidGenderPID(data) ? GetValid(LPIDGenderMatch) : GetInvalid(LPIDGenderMismatch);
+            var result = IsValidGenderPID(data) ? GetValid(PIDGenderMatch) : GetInvalid(PIDGenderMismatch);
             data.AddLine(result);
 
             if (gen != 5)
@@ -38,15 +38,15 @@ public sealed class GenderVerifier : Verifier
 
         // Check fixed gender cases
         if ((pi.OnlyFemale && gender != 1) || (pi.OnlyMale && gender != 0))
-            data.AddLine(GetInvalid(LGenderInvalidNone));
+            data.AddLine(GetInvalid(GenderInvalidNone));
     }
 
     private static void VerifyNaturePID(LegalityAnalysis data)
     {
         var pk = data.Entity;
         var result = GetExpectedNature(pk) == pk.Nature
-            ? GetValid(LPIDNatureMatch, CheckIdentifier.Nature)
-            : GetInvalid(LPIDNatureMismatch, CheckIdentifier.Nature);
+            ? GetValid(CheckIdentifier.Nature, PIDNatureMatch)
+            : GetInvalid(CheckIdentifier.Nature, PIDNatureMismatch);
         data.AddLine(result);
     }
 

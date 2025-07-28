@@ -21,29 +21,29 @@ public sealed class RK4 : G4PKM
     public override PersonalInfo4 PersonalInfo => PersonalTable.Pt.GetFormEntry(Species, Form);
 
     public RK4() : base(PokeCrypto.SIZE_4RSTORED) { }
-    public RK4(byte[] data) : base(Decrypt(data)) { }
+    public RK4(Memory<byte> data) : base(Decrypt(data)) { }
 
-    private static byte[] Decrypt(byte[] data)
+    private static Memory<byte> Decrypt(Memory<byte> data)
     {
         data = data[..PokeCrypto.SIZE_4RSTORED];
         PokeCrypto.DecryptIfEncrypted45(ref data);
         return data;
     }
 
-    public override RK4 Clone() => new((byte[])Data.Clone());
+    public override RK4 Clone() => new(Data.ToArray());
 
     // Structure
-    public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
-    public override ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value); }
-    public override ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value); }
+    public override uint PID { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
+    public override ushort Sanity { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt16LittleEndian(Data[0x04..], value); }
+    public override ushort Checksum { get => ReadUInt16LittleEndian(Data[0x06..]); set => WriteUInt16LittleEndian(Data[0x06..], value); }
 
     #region Block A
-    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value); }
-    public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
-    public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value); }
-    public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
-    public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
-    public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data[0x08..]); set => WriteUInt16LittleEndian(Data[0x08..], value); }
+    public override int HeldItem { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], (ushort)value); }
+    public override uint ID32 { get => ReadUInt32LittleEndian(Data[0x0C..]); set => WriteUInt32LittleEndian(Data[0x0C..], value); }
+    public override ushort TID16 { get => ReadUInt16LittleEndian(Data[0x0C..]); set => WriteUInt16LittleEndian(Data[0x0C..], value); }
+    public override ushort SID16 { get => ReadUInt16LittleEndian(Data[0x0E..]); set => WriteUInt16LittleEndian(Data[0x0E..], value); }
+    public override uint EXP { get => ReadUInt32LittleEndian(Data[0x10..]); set => WriteUInt32LittleEndian(Data[0x10..], value); }
     public override byte OriginalTrainerFriendship { get => Data[0x14]; set => Data[0x14] = value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
     public override byte MarkingValue { get => Data[0x16]; set => Data[0x16] = value; }
@@ -98,16 +98,16 @@ public sealed class RK4 : G4PKM
     public override bool RIB3_6 { get => (RIB3 & (1 << 6)) == 1 << 6; set => RIB3 = (byte)((RIB3 & ~(1 << 6)) | (value ? 1 << 6 : 0)); } // Unused
     public override bool RIB3_7 { get => (RIB3 & (1 << 7)) == 1 << 7; set => RIB3 = (byte)((RIB3 & ~(1 << 7)) | (value ? 1 << 7 : 0)); } // Unused
 
-    public override int RibbonCount => BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x24)) & 0b00001111_11111111__11111111_11111111)
-                                     + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x3C)))
-                                     + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x60)) & 0b00000000_00001111__11111111_11111111);
+    public override int RibbonCount => BitOperations.PopCount(ReadUInt32LittleEndian(Data[0x24..]) & 0b00001111_11111111__11111111_11111111)
+                                     + BitOperations.PopCount(ReadUInt32LittleEndian(Data[0x3C..]))
+                                     + BitOperations.PopCount(ReadUInt32LittleEndian(Data[0x60..]) & 0b00000000_00001111__11111111_11111111);
     #endregion
 
     #region Block B
-    public override ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x28)); set => WriteUInt16LittleEndian(Data.AsSpan(0x28), value); }
-    public override ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2A), value); }
-    public override ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2C), value); }
-    public override ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E), value); }
+    public override ushort Move1 { get => ReadUInt16LittleEndian(Data[0x28..]); set => WriteUInt16LittleEndian(Data[0x28..], value); }
+    public override ushort Move2 { get => ReadUInt16LittleEndian(Data[0x2A..]); set => WriteUInt16LittleEndian(Data[0x2A..], value); }
+    public override ushort Move3 { get => ReadUInt16LittleEndian(Data[0x2C..]); set => WriteUInt16LittleEndian(Data[0x2C..], value); }
+    public override ushort Move4 { get => ReadUInt16LittleEndian(Data[0x2E..]); set => WriteUInt16LittleEndian(Data[0x2E..], value); }
     public override int Move1_PP { get => Data[0x30]; set => Data[0x30] = (byte)value; }
     public override int Move2_PP { get => Data[0x31]; set => Data[0x31] = (byte)value; }
     public override int Move3_PP { get => Data[0x32]; set => Data[0x32] = (byte)value; }
@@ -116,7 +116,7 @@ public sealed class RK4 : G4PKM
     public override int Move2_PPUps { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-    public override uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x38)); set => WriteUInt32LittleEndian(Data.AsSpan(0x38), value); }
+    public override uint IV32 { get => ReadUInt32LittleEndian(Data[0x38..]); set => WriteUInt32LittleEndian(Data[0x38..], value); }
     public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
     public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
     public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -170,14 +170,14 @@ public sealed class RK4 : G4PKM
     // 0x42-0x43 Unused
     public override ushort EggLocationExtended
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x44));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x44), value);
+        get => ReadUInt16LittleEndian(Data[0x44..]);
+        set => WriteUInt16LittleEndian(Data[0x44..], value);
     }
 
     public override ushort MetLocationExtended
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x46));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x46), value);
+        get => ReadUInt16LittleEndian(Data[0x46..]);
+        set => WriteUInt16LittleEndian(Data[0x46..], value);
     }
 
     #endregion
@@ -251,13 +251,13 @@ public sealed class RK4 : G4PKM
 
     public override ushort EggLocationDP
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x7E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), value);
+        get => ReadUInt16LittleEndian(Data[0x7E..]);
+        set => WriteUInt16LittleEndian(Data[0x7E..], value);
     }
     public override ushort MetLocationDP
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x80));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x80), value);
+        get => ReadUInt16LittleEndian(Data[0x80..]);
+        set => WriteUInt16LittleEndian(Data[0x80..], value);
     }
 
     public override byte PokerusState { get => Data[0x82]; set => Data[0x82] = value; }
@@ -308,14 +308,14 @@ public sealed class RK4 : G4PKM
 
     public RanchOwnershipStatus OwnershipStatus
     {
-        get => (RanchOwnershipStatus)ReadUInt16BigEndian(Data.AsSpan(0x8A));
-        set => WriteUInt16BigEndian(Data.AsSpan(0x8A), (ushort)value);
+        get => (RanchOwnershipStatus)ReadUInt16BigEndian(Data[0x8A..]);
+        set => WriteUInt16BigEndian(Data[0x8A..], (ushort)value);
     }
 
-    public ushort HandlingTrainerTID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8C), value); }
-    public ushort HandlingTrainerSID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), value); }
+    public ushort HandlingTrainerTID { get => ReadUInt16LittleEndian(Data[0x8C..]); set => WriteUInt16LittleEndian(Data[0x8C..], value); }
+    public ushort HandlingTrainerSID { get => ReadUInt16LittleEndian(Data[0x8E..]); set => WriteUInt16LittleEndian(Data[0x8E..], value); }
 
-    public override Span<byte> HandlingTrainerTrash => Data.AsSpan(0x90, 0x10);
+    public override Span<byte> HandlingTrainerTrash => Data.Slice(0x90, 0x10);
     public override string HandlingTrainerName
     {
         get => StringConverter4.GetString(HandlingTrainerTrash);
@@ -335,7 +335,7 @@ public sealed class RK4 : G4PKM
     {
         RefreshChecksum();
 
-        byte[] data = (byte[])Data.Clone();
+        byte[] data = Data.ToArray();
         byte[] pkData = data[..PokeCrypto.SIZE_4STORED];
         pkData = PokeCrypto.EncryptArray45(pkData);
         pkData.CopyTo(data, 0);
@@ -344,7 +344,7 @@ public sealed class RK4 : G4PKM
 
     public PK4 ConvertToPK4()
     {
-        byte[] data = Data.AsSpan(0, PokeCrypto.SIZE_4STORED).ToArray();
+        byte[] data = Data[..PokeCrypto.SIZE_4STORED].ToArray();
         var pk4 = new PK4(data);
         pk4.ResetPartyStats();
         pk4.RefreshChecksum();

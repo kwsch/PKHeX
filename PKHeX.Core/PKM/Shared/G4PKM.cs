@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public abstract class G4PKM : PKM, IHandlerUpdate,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons, IContestStats, IGroundTile, IAppliedMarkings4
 {
-    protected G4PKM(byte[] data) : base(data) { }
+    protected G4PKM(Memory<byte> data) : base(data) { }
     protected G4PKM([ConstantExpected] int size) : base(size) { }
 
     // Maximums
@@ -36,11 +36,11 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     public sealed override void RefreshChecksum() => Checksum = CalculateChecksum();
     public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
-    protected virtual ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
+    protected virtual ushort CalculateChecksum() => Checksums.Add16(Data[8..PokeCrypto.SIZE_4STORED]);
 
     // Trash Bytes
-    public sealed override Span<byte> NicknameTrash => Data.AsSpan(0x48, 22);
-    public sealed override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x68, 16);
+    public sealed override Span<byte> NicknameTrash => Data.Slice(0x48, 22);
+    public sealed override Span<byte> OriginalTrainerTrash => Data.Slice(0x68, 16);
     public override int TrashCharCountNickname => 11;
     public override int TrashCharCountTrainer => 8;
 
