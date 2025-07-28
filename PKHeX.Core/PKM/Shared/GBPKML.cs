@@ -35,7 +35,7 @@ public abstract class GBPKML : GBPKM
         NicknameTrash.Fill(StringConverter1.TerminatorCode);
     }
 
-    protected GBPKML(byte[] data, bool jp = false) : base(data)
+    protected GBPKML(Memory<byte> data, bool jp = false) : base(data)
     {
         int strLen = jp ? StringLengthJapanese : StringLengthNotJapan;
 

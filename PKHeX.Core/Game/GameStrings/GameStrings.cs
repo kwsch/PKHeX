@@ -30,6 +30,7 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] console3ds, languageNames;
     private readonly string LanguageFilePrefix;
 
+    public ReadOnlySpan<string> HiddenPowerTypes => types.AsSpan(1, HiddenPower.TypeCount);
     public readonly RibbonStrings Ribbons;
 
     public LanguageID Language { get; }

@@ -187,7 +187,7 @@ public partial class Main : Form
         var sav = SaveUtil.GetBlankSAV(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
-            var max = GameInfo.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
+            var max = GameInfo.Sources.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
             version = (GameVersion)max.Value;
             sav = SaveUtil.GetBlankSAV(version, tr, lang);
         }
@@ -611,13 +611,13 @@ public partial class Main : Form
 #endif
     }
 
-    internal void OpenFile(byte[] input, string path, string ext)
+    internal void OpenFile(Memory<byte> input, string path, string ext)
     {
         var obj = FileUtil.GetSupportedFile(input, ext, C_SAV.SAV);
         if (obj is not null && LoadFile(obj, path))
             return;
 
-        WinFormsUtil.Error(GetHintInvalidFile(input, path),
+        WinFormsUtil.Error(GetHintInvalidFile(input.Span, path),
             $"{MsgFileLoad}{Environment.NewLine}{path}",
             $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
     }
@@ -1002,7 +1002,7 @@ public partial class Main : Form
             for (int i = 0; i < g.Length; i++)
             {
                 int id = (int)g[i];
-                result[i] = GameInfo.VersionDataSource.First(v => v.Value == id);
+                result[i] = GameInfo.Sources.VersionDataSource.First(v => v.Value == id);
             }
             return result;
         }

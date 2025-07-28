@@ -85,8 +85,8 @@ public sealed class SaveBlockAccessor7USUM(SAV7USUM sav) : ISaveBlockAccessor<Bl
 
     private static Memory<byte> Block(SAV7USUM sav, int index)
     {
-        var data = sav.Data;
+        var data = sav.Buffer;
         var block = BlockInfoUSUM[index];
-        return data.AsMemory(block.Offset, block.Length);
+        return data.Slice(block.Offset, block.Length);
     }
 }

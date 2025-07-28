@@ -3,9 +3,10 @@ using System.ComponentModel;
 
 namespace PKHeX.Core;
 
-public sealed class PokeBlock3(byte[] Data)
+public sealed class PokeBlock3(Memory<byte> Raw)
 {
     public const int SIZE = 8;
+    public Span<byte> Data => Raw.Span;
 
     private const string Stats = nameof(Stats);
 
@@ -32,7 +33,7 @@ public sealed class PokeBlock3(byte[] Data)
 
     public byte Level => Math.Max(Math.Max(Math.Max(Math.Max(Spicy, Dry), Sweet), Bitter), Sour);
 
-    public void Delete() => Data.AsSpan().Clear();
+    public void Delete() => Data.Clear();
 
     public void Maximize(bool create = false)
     {

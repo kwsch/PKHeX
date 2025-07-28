@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Container block for a single Generation 8 saved Rental Team
 /// </summary>
-public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
+public sealed class RentalTeam8(Memory<byte> Raw) : IRentalTeam<PK8>, IPokeGroup
 {
     public const int SIZE = 0x880;
 
@@ -26,6 +26,8 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
     private const int OFS_6 = OFS_5 + LEN_POKE;
     private const int POST_META = OFS_6 + LEN_POKE; // 0x866
 
+    public Span<byte> Data => Raw.Span;
+
     public ulong ID { get => ReadUInt64LittleEndian(GetMetadataStart()); set => WriteUInt64LittleEndian(GetMetadataStart(), value); }
     public string TeamID { get => StringConverter8.GetString(GetMetadataStart().Slice(8, 0x1C)); set => StringConverter8.SetString(GetMetadataStart().Slice(8, 0x1C), value, 0x1C / 2); }
     // 2 unused bytes, probably null terminator for TeamID
@@ -35,7 +37,7 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
     public PK8 GetSlot(int slot)
     {
         var ofs = GetSlotOffset(slot);
-        var data1 = Data.AsSpan(ofs, LEN_POKE);
+        var data1 = Data.Slice(ofs, LEN_POKE);
         var pk8 = new PK8(data1.ToArray());
         pk8.ResetPartyStats();
         return pk8;
@@ -47,7 +49,7 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
         var data1 = pk.EncryptedPartyData;
         // Wipe Party Stats
         Array.Clear(data1, LEN_STORED, LEN_PARTYSTAT);
-        data1.CopyTo(Data, ofs);
+        data1.CopyTo(Data[ofs..]);
     }
 
     public PK8[] GetTeam()
@@ -76,8 +78,8 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
         return OFS_1 + (LEN_POKE * slot);
     }
 
-    public Span<byte> GetMetadataStart() => Data.AsSpan(OFS_META, LEN_META);
-    public Span<byte> GetMetadataEnd() => Data.AsSpan(POST_META);
+    public Span<byte> GetMetadataStart() => Data.Slice(OFS_META, LEN_META);
+    public Span<byte> GetMetadataEnd() => Data[POST_META..];
 
     public uint Unknown { get => ReadUInt32LittleEndian(GetMetadataEnd()); set => WriteUInt32LittleEndian(GetMetadataEnd(), value); }
 
@@ -108,7 +110,7 @@ public sealed class RentalTeam8(byte[] Data) : IRentalTeam<PK8>, IPokeGroup
 
     public IEnumerable<PKM> Contents => GetTeam();
 
-    public static bool IsRentalTeam(byte[] data)
+    public static bool IsRentalTeam(Memory<byte> data)
     {
         if (data.Length != SIZE)
             return false;

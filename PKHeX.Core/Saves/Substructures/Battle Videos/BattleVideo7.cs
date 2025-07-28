@@ -5,14 +5,14 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BattleVideo7(byte[] data) : IBattleVideo
+public sealed class BattleVideo7(Memory<byte> Raw) : IBattleVideo
 {
     public const int SIZE = 0x2BC0;
     private const string NPC = "NPC";
     private const int PlayerCount = 4;
 
     public byte Generation => 7;
-    private readonly byte[] Data = (byte[])data.Clone();
+    public Span<byte> Data => Raw.Span;
 
     public IEnumerable<PKM> Contents => PlayerTeams.SelectMany(t => t);
     public static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
@@ -42,7 +42,7 @@ public sealed class BattleVideo7(byte[] data) : IBattleVideo
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
-            var span = Data.AsSpan(offset, PokeCrypto.SIZE_6STORED);
+            var span = Data.Slice(offset, PokeCrypto.SIZE_6STORED);
             team[p] = new PK7(span.ToArray());
         }
 
@@ -55,7 +55,7 @@ public sealed class BattleVideo7(byte[] data) : IBattleVideo
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
-            team[p].EncryptedPartyData.CopyTo(Data, offset);
+            team[p].EncryptedPartyData.CopyTo(Data[offset..]);
         }
     }
 
@@ -64,7 +64,7 @@ public sealed class BattleVideo7(byte[] data) : IBattleVideo
         string[] trainers = new string[PlayerCount];
         for (int i = 0; i < PlayerCount; i++)
         {
-            var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
+            var span = Data.Slice(0x12C + +(0x1A * i), 0x1A);
             var str = StringConverter7.GetString(span);
             trainers[i] = string.IsNullOrWhiteSpace(trainers[i]) ? NPC : str;
         }
@@ -79,12 +79,12 @@ public sealed class BattleVideo7(byte[] data) : IBattleVideo
         for (int i = 0; i < PlayerCount; i++)
         {
             string tr = value[i] == NPC ? string.Empty : value[i];
-            var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
+            var span = Data.Slice(0x12C + +(0x1A * i), 0x1A);
             StringConverter7.SetString(span, tr, 12, 0, StringConverterOption.ClearZero);
         }
     }
 
-    private int MatchYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2BB0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2BB0), (ushort)value); }
+    private int MatchYear { get => ReadUInt16LittleEndian(Data[0x2BB0..]); set => WriteUInt16LittleEndian(Data[0x2BB0..], (ushort)value); }
     private int MatchDay { get => Data[0x2BB3]; set => Data[0x2BB3] = (byte)value; }
     private int MatchMonth { get => Data[0x2BB2]; set => Data[0x2BB2] = (byte)value; }
     private int MatchHour { get => Data[0x2BB4]; set => Data[0x2BB4] = (byte)value; }

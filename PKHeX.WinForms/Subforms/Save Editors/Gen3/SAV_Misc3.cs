@@ -336,16 +336,16 @@ public partial class SAV_Misc3 : Form
             if (val > 9999)
                 val = 9999;
             var offset = BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi);
-            WriteUInt32LittleEndian(SAV.Small.AsSpan(offset), val);
+            WriteUInt32LittleEndian(SAV.Small[offset..], val);
             return;
         }
         if (SetValToSav == -1)
         {
             int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
             const int offset = 0xCDC;
-            var current = ReadUInt32LittleEndian(SAV.Small.AsSpan(offset));
+            var current = ReadUInt32LittleEndian(SAV.Small[offset..]);
             var update = (current & ~(1u << p)) | (CHK_Continue.Checked ? 1u : 0) << p;
-            WriteUInt32LittleEndian(SAV.Small.AsSpan(offset), update);
+            WriteUInt32LittleEndian(SAV.Small[offset..], update);
             return;
         }
         if (!SetSavToVal)
@@ -355,14 +355,14 @@ public partial class SAV_Misc3 : Form
         for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
         {
             var offset = BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi);
-            int vali = ReadUInt16LittleEndian(SAV.Small.AsSpan(offset));
+            int vali = ReadUInt16LittleEndian(SAV.Small[offset..]);
             if (vali > 9999)
                 vali = 9999;
             StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
         }
 
         var shift = (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi);
-        CHK_Continue.Checked = (ReadUInt32LittleEndian(SAV.Small.AsSpan(0xCDC)) & (1 << shift)) != 0;
+        CHK_Continue.Checked = (ReadUInt32LittleEndian(SAV.Small[0xCDC..]) & (1 << shift)) != 0;
         editingval = false;
     }
 
