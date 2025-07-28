@@ -159,12 +159,12 @@ public sealed record EncounterStatic5(GameVersion Version)
 
         var eggLoc = pk.EggLocation;
         if (!pk.IsEgg) // hatched
-            return eggLoc == EggLocation || eggLoc == Locations.LinkTrade5;
+            return eggLoc == EggLocation || eggLoc is (Locations.LinkTrade5 or Locations.LinkTrade5NPC);
 
         // Unhatched:
         if (eggLoc != EggLocation)
             return false;
-        if (pk.MetLocation is not (0 or Locations.LinkTrade5))
+        if (pk.MetLocation is not (0 or Locations.LinkTrade5 or Locations.LinkTrade5NPC))
             return false;
         return true;
     }

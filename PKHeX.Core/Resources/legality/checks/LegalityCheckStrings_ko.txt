@@ -395,6 +395,7 @@ LTransferCurrentHandlerInvalid = Invalid Current handler value, trainer details 
 LTransferEgg = 알은 세대를 옮길 수 없습니다.
 LTransferEggLocationTransporter = 만난 장소가 잘못되었습니다. 포케시프터로 예상됩니다.
 LTransferEggMetLevel = 만난 장소가 잘못되었습니다.
+LTransferEggVersion = Can't transfer Eggs to this game.
 LTransferFlagIllegal = Flagged as illegal by the game (glitch abuse).
 LTransferHTFlagRequired = 현재의 핸들링 트레이너는 원래의 트레이너가 될 수 없습니다.
 LTransferHTMismatchGender = Handling trainer does not match the expected trainer gender.

@@ -73,7 +73,7 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 if (Chain.Length == 0)
                     break;
 
-                if (Entity.MetLocation == Locations.LinkTrade5NPC)
+                if (Entity is { MetLocation: Locations.LinkTrade5NPC, IsEgg: false })
                     goto case YieldState.TradeStart;
                 if (!Entity.FatefulEncounter)
                     goto case YieldState.Bred;

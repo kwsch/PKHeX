@@ -1,6 +1,6 @@
-0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
-0351	s	Dialga/Palkia Caught
-0482	s	Dialga/Palkia Gone from Spear Pillar
+0350	s	222号道路已解锁/可以从神和镇获得帝牙卢卡/帕路奇亚图鉴
+0351	s	已捉到帝牙卢卡/帕路奇亚
+0482	s	帝牙卢卡/帕路奇亚离开神和镇
 0511	r	由克希 已消失
 0509	r	艾姆利多(心齐湖) 已消失
 0510	r	亚克诺姆 已消失
@@ -27,11 +27,11 @@
 0666	s	在森之洋馆遇到小女孩幽灵
 0897	s	在森之洋馆找到解毒药 (隐藏)
 1008	s	在森之洋馆找到森之羊羹
-1023	s	Found Adamant/Lustrous Orb in Spear Pillar
+1023	s	在枪之柱找到金刚宝珠/白玉宝珠
 1233	s	在森之洋馆找到恶颜石板
 1234	s	在森之洋馆找到TM90
 2401	*	跑步鞋已关闭
-2433	s	2nd Rematch Against Trainers Unlocked
+2433	s	与训练家第二次重战已解锁
 0251	g	得到小福蛋的蛋
 0305	g	已获得伊布
 2430	*	已解锁水木的电脑
@@ -204,4 +204,4 @@
 2136	t	与资深训练家 天马第二次再战
 2137	t	与资深训练家 五郎丸再战
 2733	s	学会流行语 (当天)
-2738	t	在战斗区击败对手(当前周六/周日)
+2738	t	在战斗区击败对手 (当前周六/周日)

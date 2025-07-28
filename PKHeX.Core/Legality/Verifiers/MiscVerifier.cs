@@ -565,8 +565,12 @@ public sealed class MiscVerifier : Verifier
         {
             var Info = data.Info;
             Info.PIDIV = MethodFinder.Analyze(pk);
-            if (Info.PIDIV.Type != PIDType.G5MGShiny && pk.EggLocation != Locations.LinkTrade5)
-                data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
+            if (Info.PIDIV.Type != PIDType.G5MGShiny)
+            {
+                var locToCheck = pk.IsEgg ? pk.MetLocation : pk.EggLocation;
+                if (locToCheck is not (Locations.LinkTrade5 or Locations.LinkTrade5NPC))
+                    data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
+            }
         }
 
         bool shouldHave = g.FatefulEncounter;

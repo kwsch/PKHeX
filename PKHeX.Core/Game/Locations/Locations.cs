@@ -17,8 +17,8 @@ public static class Locations
 
     public const ushort LinkTrade2NPC = 126;
     public const ushort LinkTrade3NPC = 254;
-    public const ushort LinkTrade4NPC = 2001;
-    public const ushort LinkTrade5NPC = 30002;
+    public const ushort LinkTrade4NPC = 2001; // correctly NOT used by Spin Trade, unlike Gen5.
+    public const ushort LinkTrade5NPC = 30002; // incorrectly used by Spin Trade player traded eggs; two legal values!
     public const ushort LinkTrade6NPC = 30001;
 
     public const ushort Breeder5 = 60003;
@@ -139,7 +139,7 @@ public static class Locations
         return loc == Faraway4 && version is GameVersion.Pt or GameVersion.HG or GameVersion.SS;
     }
 
-    public static bool IsEggLocationBred5(ushort loc) => loc is Daycare5 or LinkTrade5;
+    public static bool IsEggLocationBred5(ushort loc) => loc is Daycare5 or LinkTrade5 or LinkTrade5NPC;
     public static bool IsEggLocationBred6(ushort loc) => loc is Daycare5 or LinkTrade6;
     public static bool IsEggLocationBred8b(ushort loc) => loc is Daycare8b or LinkTrade6NPC;
     public static bool IsEggLocationBred9(ushort loc) => loc is Picnic9 or LinkTrade6;

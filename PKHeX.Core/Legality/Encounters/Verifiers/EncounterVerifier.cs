@@ -26,7 +26,7 @@ public static class EncounterVerifier
         EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
         EncounterStatic4 { IsRoaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(LG4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
-        IEncounterEgg e when pk.IsEgg => VerifyEncounterEggUnhatched(pk, e.Context),
+        IEncounterEgg e when pk.IsEgg => VerifyEncounterEggUnhatched(pk, e),
         { IsEgg: true } when !pk.IsEgg => VerifyEncounterEggHatched(pk, enc.Context),
         EncounterInvalid => GetInvalid(LEncInvalid),
         _ => GetValid(string.Empty), // todo: refactor
@@ -57,17 +57,17 @@ public static class EncounterVerifier
     };
 
     // Eggs
-    private static CheckResult VerifyEncounterEggUnhatched(PKM pk, EntityContext context) => context switch
+    private static CheckResult VerifyEncounterEggUnhatched(PKM pk, IEncounterEgg egg) => egg switch
     {
-        EntityContext.Gen2 => VerifyUnhatchedEgg2(pk),
-        EntityContext.Gen3 => VerifyUnhatchedEgg3(pk),
-        EntityContext.Gen4 => VerifyUnhatchedEgg(pk, Locations.LinkTrade4),
-        EntityContext.Gen5 => VerifyUnhatchedEgg(pk, Locations.LinkTrade5),
-        EntityContext.Gen6 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
-        EntityContext.Gen7 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
-        EntityContext.Gen8b=> VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone),
-        EntityContext.Gen8 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
-        EntityContext.Gen9 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EncounterEgg2 => VerifyUnhatchedEgg2(pk),
+        EncounterEgg3 => VerifyUnhatchedEgg3(pk),
+        EncounterEgg4 => VerifyUnhatchedEgg(pk, Locations.LinkTrade4),
+        EncounterEgg5 => VerifyUnhatchedEgg5(pk),
+        EncounterEgg6 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EncounterEgg7 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EncounterEgg8b=> VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone),
+        EncounterEgg8 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
+        EncounterEgg9 => VerifyUnhatchedEgg(pk, Locations.LinkTrade6),
         _ => GetInvalid(LEggLocationInvalid),
     };
 
@@ -306,7 +306,7 @@ public static class EncounterVerifier
         return GetInvalid(LEggLocationInvalid);
     }
 
-    private static CheckResult VerifyUnhatchedEgg(PKM pk, int tradeLoc, int noneLoc = 0)
+    private static CheckResult VerifyUnhatchedEgg(PKM pk, int tradeLoc, ushort noneLoc = 0)
     {
         var eggLevel = pk.Format is 3 or 4 ? EggStateLegality.EggMetLevel34 : EggStateLegality.EggMetLevel;
         if (pk.MetLevel != eggLevel)
@@ -318,6 +318,22 @@ public static class EncounterVerifier
         if (met == tradeLoc)
             return GetValid(LEggLocationTrade);
         return met == noneLoc
+            ? GetValid(LEggUnhatched)
+            : GetInvalid(LEggLocationNone);
+    }
+
+    private static CheckResult VerifyUnhatchedEgg5(PKM pk)
+    {
+        const byte eggLevel = EggStateLegality.EggMetLevel;
+        if (pk.MetLevel != eggLevel)
+            return GetInvalid(string.Format(LEggFMetLevel_0, eggLevel));
+        if (pk.EggLocation is (Locations.LinkTrade5 or Locations.LinkTrade5NPC))
+            return GetInvalid(LEggLocationTradeFail);
+
+        var met = pk.MetLocation;
+        if (met is (Locations.LinkTrade5 or Locations.LinkTrade5NPC))
+            return GetValid(LEggLocationTrade);
+        return met == 0
             ? GetValid(LEggUnhatched)
             : GetInvalid(LEggLocationNone);
     }

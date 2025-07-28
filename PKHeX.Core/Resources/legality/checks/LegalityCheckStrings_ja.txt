@@ -395,6 +395,7 @@ LTransferCurrentHandlerInvalid = 不正なトレーナーの値です。トレ�
 LTransferEgg = 世代間でタマゴを送ることはできません。
 LTransferEggLocationTransporter = 出会った場所が不正です。世代を超えてポケモンを送る必要があります。
 LTransferEggMetLevel = 送られてきたポケモンの出会ったレベルが不正です。
+LTransferEggVersion = Can't transfer Eggs to this game.
 LTransferFlagIllegal = 不正にフラグが立てられています。（バグの悪用）
 LTransferHTFlagRequired = 現在の取り扱いトレーナーは元のトレーナーと同じであってはなりません。
 LTransferHTMismatchGender = Handling trainer does not match the expected trainer gender.

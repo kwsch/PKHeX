@@ -1970,6 +1970,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = format >= 4;
         ShinyLeaf.Visible = format == 4;
 
+        // Ensure marking order is correct for gen3|future. Gen3 has square second, not third.
+        var orderCorrect = (format == 3) == (PB_Mark3.Location.X < PB_Mark2.Location.X);
+        if (!orderCorrect) // Swap the locations of the marks.
+            (PB_Mark2.Location, PB_Mark3.Location) = (PB_Mark3.Location, PB_Mark2.Location);
+
         DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = format > 3 && HaX;
         CB_Ability.Visible = CB_Ability.TabStop = !DEV_Ability.Enabled && format >= 3;
         FLP_Nature.Visible = format >= 3;

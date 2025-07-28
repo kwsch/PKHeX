@@ -34,7 +34,14 @@ public sealed class PIDVerifier : Verifier
 
     private static void VerifyEggPID(LegalityAnalysis data, PKM pk, IEncounterEgg egg)
     {
-        if (egg is EncounterEgg4)
+        if (egg is EncounterEgg5)
+        {
+            // Gen5 eggs use rand(0xFFFFFFFF), which never yields 0xFFFFFFFF (max 0xFFFFFFFE).
+            // Masuda Method does the same as the original PID roll. PID is never re-rolled a different way.
+            if (pk.EncryptionConstant == uint.MaxValue)
+                data.AddLine(Get(LPIDEncryptZero, Severity.Invalid, CheckIdentifier.EC));
+        }
+        else if (egg is EncounterEgg4)
         {
             // Gen4 Eggs are "egg available" based on the stored PID value in the save file.
             // If this value is 0 or is generated as 0 (possible), the game will see "false" and no egg is available.
