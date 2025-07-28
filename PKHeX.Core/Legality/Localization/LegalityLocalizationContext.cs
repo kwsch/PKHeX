@@ -34,7 +34,7 @@ public readonly ref struct LegalityLocalizationContext
     public static LegalityLocalizationContext Create(LegalityAnalysis la, string language = GameLanguage.DefaultLanguage)
         => Create(la, LegalityLocalizationSet.GetLocalization(language));
 
-    public string GetRibbonMessage() => RibbonVerifier.GetMessage(Analysis, Strings.Ribbons);
+    public string GetRibbonMessage(LegalityCheckResultCode code) => RibbonVerifier.GetMessage(Analysis, Strings.Ribbons, code);
     public string GetStatName(int displayIndex) => GetSafe(Settings.General.StatNames, displayIndex);
     public string GetMoveName(ushort move) => GetSafe(Strings.movelist, move);
     public string GetSpeciesName(ushort species) => GetSafe(Strings.specieslist, species);
@@ -110,7 +110,8 @@ public readonly ref struct LegalityLocalizationContext
     private string GetComplex(CheckResult chk, string format, LegalityCheckResultCode code) => code switch
     {
         < FirstComplex => format, // why are you even here?
-        RibbonsInvalid_A => string.Format(format, GetRibbonMessage()),
+        RibbonsInvalid_0 => string.Format(format, GetRibbonMessage(code)),
+        RibbonsMissing_0 => string.Format(format, GetRibbonMessage(code)),
         WordFilterFlaggedPattern_01 => string.Format(format, WordFilter.GetPattern((WordFilterType)chk.Argument, chk.Argument2), (WordFilterType)chk.Argument),
         WordFilterInvalidCharacter_0 => string.Format(format, chk.Argument, chk.Argument.ToString("X4")),
 
@@ -123,8 +124,8 @@ public readonly ref struct LegalityLocalizationContext
         HintEvolvesToSpecies_0 => string.Format(format, GetSpeciesName(chk.Argument)),
 
         RibbonMarkingInvalid_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
+        RibbonMarkingMissing_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
         RibbonMarkingAffixed_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
-        RibbonsMissing_A => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
 
         StoredSlotSourceInvalid_0 => string.Format(format, (StorageSlotSource)chk.Argument),
         HintEvolvesToRareForm_0 => string.Format(format, chk.Argument == 1),

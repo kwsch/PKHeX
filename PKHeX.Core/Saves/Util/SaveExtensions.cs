@@ -65,7 +65,7 @@ public static class SaveExtensions
             errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pk.Species]}");
 
         if (!sav.Personal[pk.Species].IsFormWithinRange(pk.Form) && !FormInfo.IsValidOutOfBoundsForm(pk.Species, pk.Form, pk.Generation))
-            errata.Add(string.Format(legality.FormInvalidRange_01, Math.Max(0, sav.Personal[pk.Species].FormCount - 1), pk.Form));
+            errata.Add(string.Format(legality.FormInvalidRangeLEQ_0F, Math.Max(0, sav.Personal[pk.Species].FormCount - 1), pk.Form));
 
         var movestr = strings.Move;
         for (int i = 0; i < 4; i++)

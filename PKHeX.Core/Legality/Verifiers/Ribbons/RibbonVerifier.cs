@@ -27,18 +27,27 @@ public sealed class RibbonVerifier : Verifier
         Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
         var count = Parse(result, data);
         if (count == 0)
+        {
             data.AddLine(GetValid(RibbonAllValid));
-        else // defer hint string creation unless we request the string. We'll re-do work, but this saves hot path allocation where the string is never needed to be humanized.
-            data.AddLine(GetInvalid(RibbonsInvalid_A, (ushort)count));
+            return;
+        }
+
+        // defer hint string creation unless we request the string. We'll re-do work, but this saves hot path allocation where the string is never needed to be humanized.
+        var missing = GetCountMissing(result);
+        var invalid = count - missing;
+        if (missing != 0)
+            data.AddLine(GetInvalid(RibbonsMissing_0, (ushort)missing));
+        if (invalid != 0)
+            data.AddLine(GetInvalid(RibbonsInvalid_0, (ushort)invalid));
     }
 
-    public static string GetMessage(LegalityAnalysis data, RibbonStrings str)
+    public static string GetMessage(LegalityAnalysis data, RibbonStrings str, LegalityCheckResultCode code)
     {
         // Calling this method assumes that one or more ribbons are invalid or missing.
         // The work was already done but forgotten, so we need to parse again.
         Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
         int count = Parse(result, data);
-        return GetMessage(result[..count], str);
+        return GetMessage(result[..count], str, code);
     }
 
     private static int Parse(Span<RibbonResult> result, LegalityAnalysis data)
@@ -96,20 +105,16 @@ public sealed class RibbonVerifier : Verifier
         return list.Count;
     }
 
-    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str)
+    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str, LegalityCheckResultCode code)
     {
         var total = result.Length;
-        int missing = GetCountMissing(result);
-        int invalid = total - missing;
         var sb = new StringBuilder(total * 20);
-        if (missing != 0)
-            AppendAll(result, sb, str, true);
-        if (invalid != 0)
-        {
-            if (missing != 0) // need to visually separate the message
-                sb.Append(Environment.NewLine);
+
+        if (code is RibbonsInvalid_0) // most likely
             AppendAll(result, sb, str, false);
-        }
+        else if (code is RibbonsMissing_0)
+            AppendAll(result, sb, str, true);
+
         return sb.ToString();
     }
 

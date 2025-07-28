@@ -189,9 +189,10 @@ public static class LegalityCheckResultCodeExtensions
         PokerusStrainUnobtainable_0 => localization.PokerusStrainUnobtainable_0,
 
         // Ribbons
-        RibbonsInvalid_A => localization.RibbonsInvalid_A,
-        RibbonsMissing_A => localization.RibbonsMissing_A,
+        RibbonsInvalid_0 => localization.RibbonsInvalid_0,
+        RibbonsMissing_0 => localization.RibbonsMissing_0,
         RibbonMarkingInvalid_0 => localization.RibbonMarkingInvalid_0,
+        RibbonMarkingMissing_0 => localization.RibbonMarkingMissing_0,
         RibbonMarkingAffixed_0 => localization.RibbonMarkingAffixed_0,
 
         // Storage

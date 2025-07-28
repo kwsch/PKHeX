@@ -164,7 +164,6 @@ public sealed class LegalityCheckLocalization
     public string FormEternalInvalid { get; set; } = "Invalid Eternal Flower encounter.";
     public string FormInvalidGame { get; set; } = "Form cannot be obtained in origin game.";
     public string FormInvalidNature { get; set; } = "Form cannot have this nature.";
-    public string FormInvalidRange_01 { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
     public string FormItem { get; set; } = "Held item matches Form.";
     public string FormItemInvalid { get; set; } = "Held item does not match Form.";
     public string FormParty { get; set; } = "Form cannot exist outside of Party.";
@@ -336,9 +335,10 @@ public sealed class LegalityCheckLocalization
 
     public string RibbonAllValid { get; set; } = "All ribbons accounted for.";
     public string RibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
-    public string RibbonsInvalid_A { get; set; } = "Invalid Ribbons: {0}";
-    public string RibbonsMissing_A { get; set; } = "Missing Ribbons: {0}";
+    public string RibbonsInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
+    public string RibbonsMissing_0 { get; set; } = "Missing Ribbons: {0}";
     public string RibbonMarkingInvalid_0 { get; set; } = "Invalid Marking: {0}";
+    public string RibbonMarkingMissing_0 { get; set; } = "Missing Marking: {0}";
     public string RibbonMarkingAffixed_0 { get; set; } = "Invalid Affixed Ribbon/Marking: {0}";
 
     public string StatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";

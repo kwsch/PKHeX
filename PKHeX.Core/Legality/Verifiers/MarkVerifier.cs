@@ -30,7 +30,7 @@ public sealed class MarkVerifier : Verifier
 
         // Some encounters come with a fixed Mark, and we've not yet checked if it's missing.
         if (data.EncounterMatch is IEncounterMarkExtra extra && extra.IsMissingExtraMark(pk, out var missing))
-            data.AddLine(GetInvalid(RibbonsMissing_A, (ushort)missing));
+            data.AddLine(GetInvalid(RibbonMarkingMissing_0, (ushort)missing));
     }
 
     private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)
