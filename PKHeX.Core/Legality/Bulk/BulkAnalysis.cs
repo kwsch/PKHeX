@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace PKHeX.Core.Bulk;
 
@@ -83,7 +84,7 @@ public sealed class BulkAnalysis
     /// </summary>
     public void AddLine(SlotCache first, SlotCache second, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var line = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
+        var line = GetSummary(first) + Environment.NewLine + GetSummary(second);
         var chk = CheckResult.Get(s, i, msg);
         Parse.Add(new(chk, line));
     }
@@ -93,7 +94,7 @@ public sealed class BulkAnalysis
     /// </summary>
     public void AddLine(SlotCache first, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var line = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
+        var line = GetSummary(first);
         var chk = CheckResult.Get(s, i, msg);
         Parse.Add(new(chk, line));
     }
@@ -107,4 +108,24 @@ public sealed class BulkAnalysis
     }
 
     private static LegalityAnalysis Get(SlotCache cache) => new(cache.Entity, cache.SAV.Personal, cache.Source.Type);
+
+    public string Report(LegalityLocalizationSet localization)
+    {
+        var sb = new StringBuilder(1024);
+        foreach (var (chk, comment) in Parse)
+        {
+            if (sb.Length != 0)
+                sb.AppendLine(); // gap for next result
+
+            var template = chk.Result.GetTemplate(localization.Lines);
+            var judge = localization.Description(chk.Judgement);
+            sb.AppendFormat(localization.Lines.F0_1, judge, template);
+            sb.AppendLine();
+
+            sb.AppendLine(comment);
+        }
+        if (sb.Length == 0)
+            sb.AppendLine(localization.Lines.Valid);
+        return sb.ToString();
+    }
 }

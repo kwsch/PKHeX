@@ -16,6 +16,14 @@ public sealed class LegalityLocalizationSet
 
     public static LegalityLocalizationSet GetLocalization(LanguageID language) => GetLocalization(language.GetLanguageCode());
 
+    public string Description(Severity s) => s switch
+    {
+        Severity.Invalid => Lines.SInvalid,
+        Severity.Fishy => Lines.SFishy,
+        Severity.Valid => Lines.SValid,
+        _ => Lines.NotImplemented,
+    };
+
     /// <summary>
     /// Gets the localization for the requested language.
     /// </summary>
@@ -127,16 +135,8 @@ public readonly ref struct LegalityLocalizationContext
         var format = Settings.Lines.F0_1;
         if (verbose)
             str = string.Format(format, chk.Identifier.ToString(), str);
-        return string.Format(format, Description(chk.Judgement), str);
+        return string.Format(format, Settings.Description(chk.Judgement), str);
     }
-
-    public string Description(Severity s) => s switch
-    {
-        Severity.Invalid => Settings.Lines.SInvalid,
-        Severity.Fishy => Settings.Lines.SFishy,
-        Severity.Valid => Settings.Lines.SValid,
-        _ => Settings.Lines.NotImplemented,
-    };
 
     private string GetInternalString(CheckResult chk)
     {
@@ -207,5 +207,5 @@ public readonly ref struct LegalityLocalizationContext
     }
 
     public string FormatRelearn(in MoveResult move, int index) => Format(move, index, Settings.Moves.FormatRelearn);
-    private string Format(in MoveResult move, int index, string format) => string.Format(format, Description(move.Judgement), index, move.Summary(this));
+    private string Format(in MoveResult move, int index, string format) => string.Format(format, Settings.Description(move.Judgement), index, move.Summary(this));
 }
