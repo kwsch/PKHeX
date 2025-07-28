@@ -144,8 +144,6 @@ public record struct EncounterEnumerator8bSWSH(PK8 Entity, EvoCriteria[] Chain, 
                 if (Deferred is not null)
                     return SetCurrent(Deferred, Rating);
                 break;
-            case YieldState.End:
-                return false;
         }
         return false;
     }

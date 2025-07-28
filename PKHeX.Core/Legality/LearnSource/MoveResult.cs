@@ -24,7 +24,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
         Info.Summarize(sb, ctx.Settings.Moves);
         if (Info.Method.HasExpectedMove())
         {
-            var name = ParseSettings.MoveStrings[Expect];
+            var name = ctx.GetMoveName(Expect);
             var str = ctx.Settings.Lines.MoveFExpectSingle_0;
             sb.Append(' ').AppendFormat(str, name);
             return sb.ToString();
@@ -40,7 +40,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
         if (detail.Species == current.Species && detail.Form == current.Form)
             return sb.ToString();
 
-        sb.Append(' ').Append(ParseSettings.SpeciesStrings[detail.Species]);
+        sb.Append(' ').Append(ctx.GetSpeciesName(detail.Species));
         if (detail.Form != current.Form)
             sb.Append('-').Append(detail.Form);
         return sb.ToString();

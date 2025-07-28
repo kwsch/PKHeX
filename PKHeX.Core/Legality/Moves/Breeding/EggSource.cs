@@ -1,6 +1,5 @@
 using System;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.LegalityCheckLocalization;
 
 namespace PKHeX.Core;
 

@@ -26,9 +26,9 @@ public sealed class Mail3 : MailDetail
         MailType = 0;
     }
 
-    public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data.Slice(((index1 * 3) + index2) * 2));
-    public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data.Slice(((index1 * 3) + index2) * 2), value);
-    public override void CopyTo(SaveFile sav) => sav.SetData(((SAV3)sav).Large[_dataOffset..], Data);
+    public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data[(((index1 * 3) + index2) * 2)..]);
+    public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data[(((index1 * 3) + index2) * 2)..], value);
+    public override void CopyTo(SaveFile sav) => sav.SetData(((SAV3)sav).Large[DataOffset..], Data);
 
     public override string AuthorName
     {
@@ -57,10 +57,10 @@ public sealed class Mail3 : MailDetail
         set => JP = value == (byte)LanguageID.Japanese;
     }
 
-    public override ushort AuthorTID { get => ReadUInt16LittleEndian(Data.Slice(0x1A)); set => WriteUInt16LittleEndian(Data.Slice(0x1A), value); }
-    public override ushort AuthorSID { get => ReadUInt16LittleEndian(Data.Slice(0x1C)); set => WriteUInt16LittleEndian(Data.Slice(0x1C), value); }
-    public override ushort AppearPKM { get => ReadUInt16LittleEndian(Data.Slice(0x1E)); set => WriteUInt16LittleEndian(Data.Slice(0x1E), (ushort)(value == 0 ? 1 : value)); }
-    public override int MailType { get => ReadUInt16LittleEndian(Data.Slice(0x20)); set => WriteUInt16LittleEndian(Data.Slice(0x20), (ushort)value); }
+    public override ushort AuthorTID { get => ReadUInt16LittleEndian(Data[0x1A..]); set => WriteUInt16LittleEndian(Data[0x1A..], value); }
+    public override ushort AuthorSID { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
+    public override ushort AppearPKM { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], (ushort)(value == 0 ? 1 : value)); }
+    public override int MailType { get => ReadUInt16LittleEndian(Data[0x20..]); set => WriteUInt16LittleEndian(Data[0x20..], (ushort)value); }
 
     public override bool? IsEmpty => MailType switch
     {

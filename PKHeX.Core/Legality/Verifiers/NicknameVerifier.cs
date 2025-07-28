@@ -418,7 +418,7 @@ public sealed class NicknameVerifier : Verifier
         var pk = data.Entity;
         var lang = pk.Language;
         if (pk.Format == 5 && lang == (int)Japanese)
-            data.AddLine(GetInvalid(CheckIdentifier.Language, OTLanguageShouldBe_0, (byte)0));
+            data.AddLine(GetInvalid(CheckIdentifier.Language, OTLanguageShouldBe_0, 0));
 
         lang = Math.Max(lang, 1);
         VerifyTrade(data, t, lang);

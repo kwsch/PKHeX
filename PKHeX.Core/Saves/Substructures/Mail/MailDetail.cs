@@ -2,12 +2,12 @@ using System;
 
 namespace PKHeX.Core;
 
-public abstract class MailDetail(Memory<byte> Raw, int DataOffset = 0)
+public abstract class MailDetail(Memory<byte> Raw, int dataOffset = 0)
 {
-    protected readonly int _dataOffset = DataOffset;
-    protected Span<byte> Data => Raw.Span.Slice(_dataOffset);
+    protected Span<byte> Data => Raw.Span;
+    protected readonly int DataOffset = dataOffset;
 
-    public virtual void CopyTo(SaveFile sav) => sav.SetData(Raw.Span, _dataOffset);
+    public virtual void CopyTo(SaveFile sav) => sav.SetData(Raw.Span, DataOffset);
     public virtual void CopyTo(PK4 pk4) { }
     public virtual void CopyTo(PK5 pk5) { }
     public virtual string GetMessage(bool isLastLine) => string.Empty;

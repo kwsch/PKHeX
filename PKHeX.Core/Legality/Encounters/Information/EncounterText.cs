@@ -56,7 +56,7 @@ public static class EncounterText
     }
 }
 
-public record struct EncounterDisplayContext
+public readonly record struct EncounterDisplayContext
 {
     public required EncounterDisplayLocalization Localization { get; init; }
     public required GameStrings Strings { get; init; }

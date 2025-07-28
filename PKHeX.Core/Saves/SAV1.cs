@@ -65,8 +65,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         // see if RBY can be differentiated
         if (versionOverride is not (GameVersion.RB or GameVersion.YW))
         {
-            if (Starter != 0)
-                // Pikachu
+            if (Starter != 0) // Pikachu
                 Version = Starter == 0x54 ? GameVersion.YW : GameVersion.RB;
             else
                 Version = Data[Offsets.PikaFriendship] != 0 ? GameVersion.YW : GameVersion.RB;

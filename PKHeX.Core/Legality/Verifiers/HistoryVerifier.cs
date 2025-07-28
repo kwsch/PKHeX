@@ -40,7 +40,7 @@ public sealed class HistoryVerifier : Verifier
         // 3+
         bool neverOT = !GetCanOTHandle(enc, pk, enc.Generation);
         if (neverOT)
-            return (byte)GetBaseFriendship(enc);
+            return GetBaseFriendship(enc);
         return GetSuggestedFriendshipByMove(pk);
     }
 

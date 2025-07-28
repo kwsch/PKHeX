@@ -12,7 +12,7 @@ public sealed record BattleTemplateLocalization(GameStrings Strings, BattleTempl
 {
     public const string DefaultLanguage = GameLanguage.DefaultLanguage; // English
 
-    private static readonly Dictionary<string, BattleTemplateLocalization> Cache = new();
+    private static readonly Dictionary<string, BattleTemplateLocalization> Cache = new(1);
     private static readonly BattleTemplateConfigContext Context = new(LocalizationStorage<BattleTemplateConfig>.Options);
     public static readonly LocalizationStorage<BattleTemplateConfig> ConfigCache = new("battle", Context.BattleTemplateConfig);
     public static readonly BattleTemplateLocalization Default = GetLocalization(DefaultLanguage);

@@ -116,7 +116,7 @@ public class LegalityTest
             exists.Should().BeTrue($"the specified test directory at '{path}' should exist");
         else if (!exists)
             return;
-        
+
         var files = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
         var ctr = 0;
         foreach (var file in files)

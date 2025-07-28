@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class LegalityLocalizationSet
 {
-    private static readonly Dictionary<string, LegalityLocalizationSet> Cache = new();
+    private static readonly Dictionary<string, LegalityLocalizationSet> Cache = new(1);
 
     public required LegalityCheckLocalization Lines { get; init; }
     public required GameStrings Strings { get; init; }

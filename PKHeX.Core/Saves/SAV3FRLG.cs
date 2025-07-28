@@ -64,25 +64,25 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public uint BerryPowder
     {
-        get => ReadUInt32LittleEndian(Small.Slice(0xAF8)) ^ SecurityKey;
-        set => WriteUInt32LittleEndian(Small.Slice(0xAF8), value ^ SecurityKey);
+        get => ReadUInt32LittleEndian(Small[0xAF8..]) ^ SecurityKey;
+        set => WriteUInt32LittleEndian(Small[0xAF8..], value ^ SecurityKey);
     }
 
-    public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.Slice(0xB00)); set => WriteUInt16LittleEndian(Small.Slice(0xB00), Math.Min((ushort)9999, value)); }
+    public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small[0xB00..]); set => WriteUInt16LittleEndian(Small[0xB00..], Math.Min((ushort)9999, value)); }
     // u16 field2;
-    public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.Slice(0xB04)); set => WriteUInt16LittleEndian(Small.Slice(0xB04), Math.Min((ushort)9999, value)); }
-    public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.Slice(0xB06)); set => WriteUInt16LittleEndian(Small.Slice(0xB06), Math.Min((ushort)9999, value)); }
+    public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small[0xB04..]); set => WriteUInt16LittleEndian(Small[0xB04..], Math.Min((ushort)9999, value)); }
+    public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small[0xB06..]); set => WriteUInt16LittleEndian(Small[0xB06..], Math.Min((ushort)9999, value)); }
     // u32 field8;
-    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.Slice(0xB0C)); set => WriteUInt32LittleEndian(Small.Slice(0xB0C), Math.Min(99990, value)); }
+    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small[0xB0C..]); set => WriteUInt32LittleEndian(Small[0xB0C..], Math.Min(99990, value)); }
 
-    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.Slice(0xB10)); set => WriteUInt32LittleEndian(Small.Slice(0xB10), Math.Min(99990, value)); }
-    public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.Slice(0xB14)); set => WriteUInt16LittleEndian(Small.Slice(0xB14), Math.Min((ushort)9999, value)); }
-    public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.Slice(0xB16)); set => WriteUInt16LittleEndian(Small.Slice(0xB16), Math.Min((ushort)9999, value)); }
+    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small[0xB10..]); set => WriteUInt32LittleEndian(Small[0xB10..], Math.Min(99990, value)); }
+    public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small[0xB14..]); set => WriteUInt16LittleEndian(Small[0xB14..], Math.Min((ushort)9999, value)); }
+    public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small[0xB16..]); set => WriteUInt16LittleEndian(Small[0xB16..], Math.Min((ushort)9999, value)); }
 
     public override uint SecurityKey
     {
-        get => ReadUInt32LittleEndian(Small.Slice(0xF20));
-        set => WriteUInt32LittleEndian(Small.Slice(0xF20), value);
+        get => ReadUInt32LittleEndian(Small[0xF20..]);
+        set => WriteUInt32LittleEndian(Small[0xF20..], value);
     }
     #endregion
 
@@ -92,14 +92,14 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public override uint Money
     {
-        get => ReadUInt32LittleEndian(Large.Slice(0x0290)) ^ SecurityKey;
-        set => WriteUInt32LittleEndian(Large.Slice(0x0290), value ^ SecurityKey);
+        get => ReadUInt32LittleEndian(Large[0x0290..]) ^ SecurityKey;
+        set => WriteUInt32LittleEndian(Large[0x0290..], value ^ SecurityKey);
     }
 
     public override uint Coin
     {
-        get => (ushort)(ReadUInt16LittleEndian(Large.Slice(0x0294)) ^ SecurityKey);
-        set => WriteUInt16LittleEndian(Large.Slice(0x0294), (ushort)(value ^ SecurityKey));
+        get => (ushort)(ReadUInt16LittleEndian(Large[0x0294..]) ^ SecurityKey);
+        set => WriteUInt16LittleEndian(Large[0x0294..], (ushort)(value ^ SecurityKey));
     }
 
     private const int OFS_PCItem = 0x0298;
@@ -130,8 +130,8 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
     ushort IDaycareRandomState<ushort>.Seed
     {
-        get => ReadUInt16LittleEndian(Large.Slice(GetDaycareEXPOffset(2)));
-        set => WriteUInt16LittleEndian(Large.Slice(GetDaycareEXPOffset(2)), value);
+        get => ReadUInt16LittleEndian(Large[GetDaycareEXPOffset(2)..]);
+        set => WriteUInt16LittleEndian(Large[GetDaycareEXPOffset(2)..], value);
     }
 
     protected override int ExternalEventData => 0x30A7;

@@ -248,7 +248,9 @@ public static class MethodCXD
         // Check if request constraints satisfied
         if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(espeonPID % 25)))
             return false;
-        return false;
+        // gender and shiny locked.
+
+        return true;
     }
 
     // Call structure for XD Starter:

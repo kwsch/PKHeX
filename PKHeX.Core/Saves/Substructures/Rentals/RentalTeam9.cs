@@ -61,8 +61,8 @@ public sealed class RentalTeam9(Memory<byte> Raw) : IRentalTeam<PK9>, IPokeGroup
 
     public uint EntityCount
     {
-        get => ReadUInt32LittleEndian(Data.Slice(OFS_END));
-        set => WriteUInt32LittleEndian(Data.Slice(OFS_END), value);
+        get => ReadUInt32LittleEndian(Data[OFS_END..]);
+        set => WriteUInt32LittleEndian(Data[OFS_END..], value);
     }
 
     public PK9 GetSlot(int slot)
@@ -80,7 +80,7 @@ public sealed class RentalTeam9(Memory<byte> Raw) : IRentalTeam<PK9>, IPokeGroup
         var data = pk.EncryptedPartyData;
         // Wipe Party Stats
         Array.Clear(data, LEN_STORED, LEN_PARTYSTAT);
-        data.CopyTo(Data.Slice(ofs));
+        data.CopyTo(Data[ofs..]);
     }
 
     public PK9[] GetTeam()

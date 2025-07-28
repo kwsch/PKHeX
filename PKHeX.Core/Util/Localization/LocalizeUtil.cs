@@ -16,13 +16,6 @@ public static class LocalizeUtil
         if (sav is not null)
             GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, hax);
 
-        // Update Legality Analysis strings
-        ParseSettings.ChangeLocalizationStrings(str.movelist, str.specieslist);
-
-        // Update Legality Strings
-        Task.Run(() =>
-        {
-            LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
-        });
+        Task.Run(() => LocalizationUtil.SetLocalization(typeof(MessageStrings), lang));
     }
 }

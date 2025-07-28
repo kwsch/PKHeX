@@ -58,7 +58,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public Span<byte> RivalTrash
     {
         get => Data.Slice(0x23BA4, MaxStringLengthTrainer * 2);
-        set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(Data.Slice(0x23BA4)); }
+        set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(Data[0x23BA4..]); }
     }
 
     protected override int ExtBattleVideoNativeOffset    => 0x4C000; // 0x1A00
