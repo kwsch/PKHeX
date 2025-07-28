@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core;
@@ -21,7 +21,7 @@ public sealed class MarkingVerifier : Verifier
     {
         // Can only be toggled on in LGP/E, and is retained via transfer to HOME and into other games.
         if (pk is IFavorite { IsFavorite: true } && !data.Info.EvoChainsAllGens.HasVisitedLGPE)
-            data.AddLine(GetInvalid(LFavoriteMarkingUnavailable));
+            data.AddLine(GetInvalid(FavoriteMarkingUnavailable));
     }
 
     private void VerifyMarkValue(LegalityAnalysis data, PKM pk)
@@ -47,14 +47,14 @@ public sealed class MarkingVerifier : Verifier
         if (mv == 0)
             return;
         if (mv > Dual6)
-            data.AddLine(GetInvalid(LMarkValueUnusedBitsPresent));
+            data.AddLine(GetInvalid(MarkValueUnusedBitsPresent));
 
         var count = pk.MarkingCount;
         for (int i = 0; i < count; i++)
         {
             var value = pk.GetMarking(i);
             if (value is not (0 or MarkingColor.Blue or MarkingColor.Pink))
-                data.AddLine(GetInvalid(string.Format(LMarkValueOutOfRange_0, i)));
+                data.AddLine(GetInvalid(MarkValueOutOfRange_0, (ushort)i));
         }
     }
 
@@ -63,7 +63,7 @@ public sealed class MarkingVerifier : Verifier
         if (mv == 0)
             return;
         if (!IsMarkValueValid3456(pk, mv))
-            data.AddLine(GetInvalid(LMarkValueUnusedBitsPresent));
+            data.AddLine(GetInvalid(MarkValueUnusedBitsPresent));
     }
 
     private static bool IsMarkValueValid3456(IAppliedMarkings3 pk, int value)

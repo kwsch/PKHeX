@@ -137,7 +137,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
             var rel = ofs + ListHeaderSize + (i * SIZE_STORED);
             members[i] = (PK1)GetStoredSlot(Data[rel..]);
         }
-        return new SlotGroup(name, members);
+        return new SlotGroup(name, members, StorageSlotType.Box);
     }
 
     public override void WriteSlotFormatStored(PKM pk, Span<byte> data)

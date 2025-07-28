@@ -47,7 +47,6 @@ public static class ParseSettings
 
     public static IReadOnlyList<string> MoveStrings { get; private set; } = Util.GetMovesList(GameLanguage.DefaultLanguage);
     public static IReadOnlyList<string> SpeciesStrings { get; private set; } = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
-    public static string GetMoveName(ushort move) => move >= MoveStrings.Count ? LegalityCheckStrings.L_AError : MoveStrings[move];
 
     public static void ChangeLocalizationStrings(IReadOnlyList<string> moves, IReadOnlyList<string> species)
     {

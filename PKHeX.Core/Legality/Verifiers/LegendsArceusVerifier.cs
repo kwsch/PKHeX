@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -16,9 +16,9 @@ public sealed class LegendsArceusVerifier : Verifier
             return;
 
         if (pa.IsNoble)
-            data.AddLine(GetInvalid(LStatNobleInvalid));
+            data.AddLine(GetInvalid(StatNobleInvalid));
         if (pa.IsAlpha != data.EncounterMatch is IAlphaReadOnly { IsAlpha: true })
-            data.AddLine(GetInvalid(LStatAlphaInvalid));
+            data.AddLine(GetInvalid(StatAlphaInvalid));
 
         CheckScalars(data, pa);
         CheckGanbaru(data, pa);
@@ -36,7 +36,7 @@ public sealed class LegendsArceusVerifier : Verifier
             if (gv <= max)
                 continue;
 
-            data.AddLine(GetInvalid(LGanbaruStatTooHigh, CheckIdentifier.GVs));
+            data.AddLine(GetInvalid(CheckIdentifier.GVs, GanbaruStatLEQ_01, max, (ushort)i));
             return;
         }
     }
@@ -47,14 +47,14 @@ public sealed class LegendsArceusVerifier : Verifier
         if (pa.IsAlpha && data.EncounterMatch is EncounterSlot8a)
         {
             if (pa.HeightScalar != 255)
-                data.AddLine(GetInvalid(LStatIncorrectHeightValue));
+                data.AddLine(GetInvalid(StatIncorrectHeightValue, 255));
             if (pa.WeightScalar != 255)
-                data.AddLine(GetInvalid(LStatIncorrectWeightValue));
+                data.AddLine(GetInvalid(StatIncorrectWeightValue, 255));
         }
 
         // No way to mutate the display height scalar value. Must match!
         if (pa.HeightScalar != pa.Scale)
-            data.AddLine(GetInvalid(LStatIncorrectHeightCopy, CheckIdentifier.Encounter));
+            data.AddLine(GetInvalid(CheckIdentifier.Encounter, StatIncorrectHeightCopy));
     }
 
     private static void CheckLearnset(LegalityAnalysis data, PA8 pa)
@@ -188,7 +188,7 @@ public sealed class LegendsArceusVerifier : Verifier
             if (permit.IsRecordPermitted(i))
                 return; // If it has been legally purchased, then any mastery state is legal.
 
-            data.AddLine(GetInvalid(string.Format(LMoveShopPurchaseInvalid_0, ParseSettings.MoveStrings[permit.RecordPermitIndexes[i]])));
+            data.AddLine(GetInvalid(MoveShopPurchaseInvalid_0, permit.RecordPermitIndexes[i]));
             return;
         }
 
@@ -204,9 +204,9 @@ public sealed class LegendsArceusVerifier : Verifier
         if (data.EncounterMatch is (IMoveset m and IMasteryInitialMoveShop8) && m.Moves.Contains(move))
             return; // Previously checked.
         if (!permit.IsRecordPermitted(i))
-            data.AddLine(GetInvalid(string.Format(LMoveShopMasterInvalid_0, ParseSettings.MoveStrings[move])));
+            data.AddLine(GetInvalid(MoveShopMasterInvalid_0, move));
         else if (!CanLearnMoveByLevelUp(data, pa, i, moves))
-            data.AddLine(GetInvalid(string.Format(LMoveShopMasterNotLearned_0, ParseSettings.MoveStrings[move])));
+            data.AddLine(GetInvalid(MoveShopMasterNotLearned_0, move));
     }
 
     private static bool CanLearnMoveByLevelUp(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<ushort> moves)
@@ -229,12 +229,12 @@ public sealed class LegendsArceusVerifier : Verifier
     {
         if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType8a.Landmark })
         {
-            data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeZero));
+            data.AddLine(GetInvalid(MoveShopAlphaMoveShouldBeZero));
             return;
         }
         if (!CanMasterMoveFromMoveShop(alphaMove, permit))
         {
-            data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeOther));
+            data.AddLine(GetInvalid(MoveShopAlphaMoveShouldBeOther));
             return;
         }
 
@@ -242,7 +242,7 @@ public sealed class LegendsArceusVerifier : Verifier
         var masteredIndex = permit.RecordPermitIndexes.IndexOf(alphaMove);
         // Index is already >= 0, implicitly via the above call not returning false.
         if (!pa.GetMasteredRecordFlag(masteredIndex))
-            data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeMastered));
+            data.AddLine(GetInvalid(MoveShopAlphaMoveShouldBeMastered_0, alphaMove));
     }
 
     private void VerifyAlphaMoveZero(LegalityAnalysis data)
@@ -256,7 +256,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);
         if (!pi.HasMoveShop) // must have had a tutor flag
-            data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeOther));
+            data.AddLine(GetInvalid(MoveShopAlphaMoveShouldBeOther));
     }
 
     private static bool CanMasterMoveFromMoveShop(ushort move, IPermitRecord permit)

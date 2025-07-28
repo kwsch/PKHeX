@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.StorageSlotType;
 using static PKHeX.Core.Species;
 
@@ -18,12 +18,12 @@ public sealed class SlotTypeVerifier : Verifier
         if (pk.IsEgg)
         {
             if (!IsSourceValidEgg(pk, source))
-                data.AddLine(GetInvalid(LStoredSourceEgg));
+                data.AddLine(GetInvalid(StoredSourceEgg));
         }
         else
         {
             if (!IsSourceValid(pk, source))
-                data.AddLine(GetInvalid(string.Format(LStoredSourceInvalid_0, source)));
+                data.AddLine(GetInvalid(StoredSlotSourceInvalid_0, (ushort)source));
         }
     }
 

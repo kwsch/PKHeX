@@ -238,5 +238,5 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     public override bool CanHaveIntensity(byte memory, byte intensity) => CanHaveIntensity8(memory, intensity);
     public override bool CanHaveFeeling(byte memory, byte feeling, ushort argument) => CanHaveFeeling8(memory, feeling, argument);
-    public override int GetMinimumIntensity(byte memory) => GetMinimumIntensity8(memory);
+    public override byte GetMinimumIntensity(byte memory) => GetMinimumIntensity8(memory);
 }

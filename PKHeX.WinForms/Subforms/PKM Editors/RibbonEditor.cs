@@ -21,6 +21,7 @@ public partial class RibbonEditor : Form
 
     private bool EnableBackgroundChange;
     private Control? LastToggledOn;
+    private readonly RibbonStrings RibbonStrings = GameInfo.Strings.Ribbons;
 
     public RibbonEditor(PKM pk)
     {
@@ -51,8 +52,6 @@ public partial class RibbonEditor : Form
         }
 
         const int count = AffixedRibbon.Max + 1; // 0 is a valid index, and max is inclusive with that index.
-        static string GetRibbonPropertyName(int z) => RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}");
-        static ComboItem GetComboItem(int ribbonIndex) => new(GetRibbonPropertyName(ribbonIndex), ribbonIndex);
 
         var none = GameInfo.GetStrings(Main.CurrentLanguage).Move[0];
         var ds = new List<ComboItem>(1 + count) { new(none, AffixedRibbon.None) };
@@ -63,6 +62,9 @@ public partial class RibbonEditor : Form
         CB_Affixed.DataSource = ds;
         CB_Affixed.SelectedValue = (int)affixed.AffixedRibbon;
     }
+
+    private ComboItem GetComboItem(int ribbonIndex) => new(GetRibbonPropertyName(ribbonIndex), ribbonIndex);
+    private string GetRibbonPropertyName(int z) => RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}");
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 

@@ -39,7 +39,7 @@ public static class GameInfo
     }
 
     public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation)
-        => GameDataSource.LanguageDataSource(generation);
+        => Sources.LanguageDataSource(generation);
 
     /// <summary>
     /// Gets the location name for the specified parameters.

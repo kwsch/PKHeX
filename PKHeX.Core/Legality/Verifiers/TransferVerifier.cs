@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -27,7 +27,7 @@ public sealed class TransferVerifier : Verifier
     {
         var pk = data.Entity;
         if (pk.OriginalTrainerGender == 1 && pk.Version != GameVersion.C)
-            data.AddLine(GetInvalid(LG2OTGender));
+            data.AddLine(GetInvalid(G2OTGender));
     }
 
     private void VerifyVCNatureEXP(LegalityAnalysis data)
@@ -39,7 +39,7 @@ public sealed class TransferVerifier : Verifier
         {
             var nature = Experience.GetNatureVC(pk.EXP);
             if (nature != pk.Nature)
-                data.AddLine(GetInvalid(LTransferNature));
+                data.AddLine(GetInvalid(TransferNature, (uint)nature));
             return;
         }
         if (met <= 2) // Not enough EXP to have every nature -- check for exclusions!
@@ -49,7 +49,7 @@ public sealed class TransferVerifier : Verifier
             var nature = pk.Nature;
             bool valid = VerifyVCNature(growth, nature);
             if (!valid)
-                data.AddLine(GetInvalid(LTransferNature));
+                data.AddLine(GetInvalid(TransferNature));
         }
     }
 
@@ -68,7 +68,7 @@ public sealed class TransferVerifier : Verifier
         // (15:65536, ~1:4096) odds on a given shiny transfer!
         var xor = data.Entity.ShinyXor;
         if (xor is <= 15 and not 0)
-            data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Settings.Game.Gen7.Gen7TransferStarPID, CheckIdentifier.PID));
+            data.AddLine(Get(CheckIdentifier.PID, ParseSettings.Settings.Game.Gen7.Gen7TransferStarPID, EncStaticPIDShiny));
     }
 
     private static void VerifyVCGeolocation(LegalityAnalysis data)
@@ -79,7 +79,7 @@ public sealed class TransferVerifier : Verifier
         // VC Games were region locked to the Console, meaning not all language games are available.
         var within = Locale3DS.IsRegionLockedLanguageValidVC(pk7.ConsoleRegion, pk7.Language);
         if (!within)
-            data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)pk7.Language}", ((LanguageID)pk7.Language).ToString()), CheckIdentifier.Language));
+            data.AddLine(GetInvalid(CheckIdentifier.Language, OTLanguageCannotTransferToConsoleRegion_0, pk7.ConsoleRegion));
     }
 
     public void VerifyTransferLegalityG3(LegalityAnalysis data)
@@ -88,12 +88,12 @@ public sealed class TransferVerifier : Verifier
         if (pk.Format == 4) // Pal Park (3->4)
         {
             if (pk.MetLocation != Locations.Transfer3)
-                data.AddLine(GetInvalid(LEggLocationPalPark));
+                data.AddLine(GetInvalid(EggLocationPalPark, Locations.Transfer3));
         }
         else // Transporter (4->5)
         {
             if (pk.MetLocation != Locations.Transfer4)
-                data.AddLine(GetInvalid(LTransferEggLocationTransporter));
+                data.AddLine(GetInvalid(TransferEggLocationTransporter, Locations.Transfer4));
         }
     }
 
@@ -109,14 +109,14 @@ public sealed class TransferVerifier : Verifier
         {
             case (int)Species.Celebi:
                 if (loc is not (Locations.Transfer4_CelebiUnused or Locations.Transfer4_CelebiUsed))
-                    data.AddLine(GetInvalid(LTransferMet));
+                    data.AddLine(GetInvalid(TransferMet));
                 break;
             case (int)Species.Raikou or (int)Species.Entei or (int)Species.Suicune:
                 if (loc is not (Locations.Transfer4_CrownUnused or Locations.Transfer4_CrownUsed))
-                    data.AddLine(GetInvalid(LTransferMet));
+                    data.AddLine(GetInvalid(TransferMet));
                 break;
             default:
-                data.AddLine(GetInvalid(LTransferEggLocationTransporter));
+                data.AddLine(GetInvalid(TransferEggLocationTransporter));
                 break;
         }
     }
@@ -137,7 +137,7 @@ public sealed class TransferVerifier : Verifier
             {
                 if (s.IsTotemNoTransfer || pk.Form != s.GetTotemBaseForm())
                 {
-                    data.AddLine(GetInvalid(LTransferBad));
+                    data.AddLine(GetInvalid(TransferBad));
                     return;
                 }
             }
@@ -152,7 +152,7 @@ public sealed class TransferVerifier : Verifier
             _ => PersonalTable.SWSH,
         };
         if (!pt.IsPresentInGame(pk.Species, pk.Form))
-            data.AddLine(GetInvalid(LTransferBad));
+            data.AddLine(GetInvalid(TransferBad));
     }
 
     private void VerifyHOMETransfer(LegalityAnalysis data, PKM pk)
@@ -168,7 +168,7 @@ public sealed class TransferVerifier : Verifier
         if (pk.Context is not (EntityContext.Gen8 or EntityContext.Gen8a or EntityContext.Gen8b))
         {
             if (s is { HeightScalar: 0, WeightScalar: 0 } && !data.Info.EvoChainsAllGens.HasVisitedPLA)
-                data.AddLine(GetInvalid(LTransferBad));
+                data.AddLine(GetInvalid(TransferBad));
         }
     }
 
@@ -178,7 +178,7 @@ public sealed class TransferVerifier : Verifier
         // Can't validate the actual values (we aren't the server), so we can only check against zero.
         if (pk is IHomeTrack { HasTracker: false })
         {
-            data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Settings.HOMETransfer.HOMETransferTrackerNotPresent));
+            data.AddLine(Get(ParseSettings.Settings.HOMETransfer.HOMETransferTrackerNotPresent, TransferTrackerMissing));
             // To the reader: It seems like the best course of action for setting a tracker is:
             // - Transfer a 0-Tracker pk to HOME to get assigned a valid Tracker via the game it originated from.
             // - Don't make one up.
@@ -188,11 +188,11 @@ public sealed class TransferVerifier : Verifier
     public void VerifyVCEncounter(PKM pk, IEncounterTemplate original, EncounterTransfer7 transfer, LegalityAnalysis data)
     {
         if (pk.MetLocation != transfer.Location)
-            data.AddLine(GetInvalid(LTransferMetLocation));
+            data.AddLine(GetInvalid(TransferMetLocation));
 
         var expectEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
         if (pk.EggLocation != expectEgg)
-            data.AddLine(GetInvalid(LEggLocationNone));
+            data.AddLine(GetInvalid(EggLocationNone));
 
         // Flag Moves that cannot be transferred
         if (original is EncounterStatic2 { DizzyPunchEgg: true}) // Dizzy Punch Gifts
@@ -207,12 +207,12 @@ public sealed class TransferVerifier : Verifier
             var enc = data.EncounterOriginal;
             var pi = PersonalTable.USUM[enc.Species];
             if (pi.Gender == 31 && pk.IsShiny) // impossible gender-shiny
-                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
+                data.AddLine(GetInvalid(CheckIdentifier.PID, EncStaticPIDShiny));
         }
         else if (pk.Species == (int)Species.Unown)
         {
             if (pk.Form is not (8 or 21) && pk.IsShiny) // impossibly form-shiny (not I or V)
-                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
+                data.AddLine(GetInvalid(CheckIdentifier.PID, EncStaticPIDShiny));
         }
     }
 

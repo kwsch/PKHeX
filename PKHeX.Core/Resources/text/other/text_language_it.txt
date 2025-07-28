@@ -1,0 +1,11 @@
+﻿
+GPN (日本語)
+ING (English)
+FRA (Français)
+ITA (Italiano)
+TED (Deutsch)
+
+SPA-E (Español)
+COR (한국어)
+CIN-S (简体中文)
+CIN-T (繁體中文)

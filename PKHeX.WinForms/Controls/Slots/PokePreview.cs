@@ -28,12 +28,11 @@ public partial class PokePreview : Form
         Properties.Resources.gender_2,
     ];
 
-    public void Populate(PKM pk, in BattleTemplateExportSettings settings)
+    public void Populate(PKM pk, in BattleTemplateExportSettings settings, in LegalityLocalizationContext ctx)
     {
-        var la = new LegalityAnalysis(pk);
         int width = PopulateHeader(pk, settings);
-        PopulateMoves(pk, la, settings, ref width);
-        PopulateText(pk, la, settings, width);
+        PopulateMoves(pk, ctx.Analysis, settings, ref width);
+        PopulateText(pk, ctx, settings, width);
     }
 
     private int PopulateHeader(PKM pk, in BattleTemplateExportSettings settings)
@@ -105,7 +104,7 @@ public partial class PokePreview : Form
         width = Math.Max(width, maxWidth + Move1.Margin.Horizontal + interiorMargin);
     }
 
-    private void PopulateText(PKM pk, LegalityAnalysis la, in BattleTemplateExportSettings settings, int width)
+    private void PopulateText(PKM pk, in LegalityLocalizationContext la, in BattleTemplateExportSettings settings, int width)
     {
         var (before, after) = GetBeforeAndAfter(pk, la, settings);
         var hover = Main.Settings.Hover;
@@ -141,7 +140,7 @@ public partial class PokePreview : Form
         return TextRenderer.MeasureText(text, font, new Size(), flags);
     }
 
-    private static (string Before, string After) GetBeforeAndAfter(PKM pk, LegalityAnalysis la, in BattleTemplateExportSettings settings)
+    private static (string Before, string After) GetBeforeAndAfter(PKM pk, in LegalityLocalizationContext la, in BattleTemplateExportSettings settings)
     {
         var order = settings.Order;
         // Bifurcate the order into two sections; split via Moves.

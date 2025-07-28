@@ -36,6 +36,8 @@ internal static class EvolutionRestrictions
         _ => NONE,
     };
 
+    public static bool IsEvolvedSpeciesFormRare(uint encryptionConstant) => encryptionConstant % 100 is 0;
+
     /// <summary>
     /// Gets the species-form that it will evolve into.
     /// </summary>

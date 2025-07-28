@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -14,9 +13,9 @@ namespace PKHeX.Core;
 public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment Environment, byte Argument = 0)
 {
     /// <inheritdoc cref="Summarize(StringBuilder, ReadOnlySpan{char})"/>
-    public void Summarize(StringBuilder sb)
+    public void Summarize(StringBuilder sb, MoveSourceLocalization strings)
     {
-        var localized = GetLocalizedMethod();
+        var localized = GetLocalizedMethod(strings);
         Summarize(sb, localized);
     }
 
@@ -34,31 +33,31 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
             sb.Append($" @ lv{Argument}");
     }
 
-    private string GetLocalizedMethod() => Method switch
+    private string GetLocalizedMethod(MoveSourceLocalization strings) => Method switch
     {
-        Empty => LMoveSourceEmpty,
-        Relearn => LMoveSourceRelearn,
-        Initial => LMoveSourceDefault,
-        LevelUp => LMoveSourceLevelUp,
-        TMHM => LMoveSourceTMHM,
-        Tutor => LMoveSourceTutor,
-        Sketch => LMoveSourceShared,
-        EggMove => LMoveRelearnEgg,
-        InheritLevelUp => LMoveEggInherited,
+        Empty => strings.SourceEmpty,
+        Relearn => strings.SourceRelearn,
+        Initial => strings.SourceDefault,
+        LevelUp => strings.SourceLevelUp,
+        TMHM => strings.SourceTMHM,
+        Tutor => strings.SourceTutor,
+        Sketch => strings.SourceShared,
+        EggMove => strings.RelearnEgg,
+        InheritLevelUp => strings.EggInherited,
 
-        HOME => LMoveSourceSpecial,
-        Evolution => LMoveSourceSpecial,
-        Encounter => LMoveSourceSpecial,
-        SpecialEgg => LMoveSourceSpecial,
-        ShedinjaEvo => LMoveSourceSpecial,
+        HOME => strings.SourceSpecial,
+        Evolution => strings.SourceSpecial,
+        Encounter => strings.SourceSpecial,
+        SpecialEgg => strings.SourceSpecial,
+        ShedinjaEvo => strings.SourceSpecial,
 
-        Shared => LMoveSourceShared,
+        Shared => strings.SourceShared,
 
         // Invalid
-        None => LMoveSourceInvalid,
-        Unobtainable or UnobtainableExpect => LMoveSourceInvalid,
-        Duplicate => LMoveSourceDuplicate,
-        EmptyInvalid => LMoveSourceEmpty,
+        None => strings.SourceInvalid,
+        Unobtainable or UnobtainableExpect => strings.SourceInvalid,
+        Duplicate => strings.SourceDuplicate,
+        EmptyInvalid => strings.SourceEmpty,
 
         _ => throw new ArgumentOutOfRangeException(nameof(Method), Method, null),
     };

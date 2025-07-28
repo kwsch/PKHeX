@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -20,21 +20,21 @@ public sealed class HyperTrainingVerifier : Verifier
 
         if (!t.IsHyperTrainingAvailable())
         {
-            data.AddLine(GetInvalid(LHyperPerfectUnavailable));
+            data.AddLine(GetInvalid(HyperPerfectUnavailable));
             return;
         }
 
         var minLevel = t.GetHyperTrainMinLevel(data.Info.EvoChainsAllGens, pk.Context);
         if (pk.CurrentLevel < minLevel)
         {
-            data.AddLine(GetInvalid(string.Format(LHyperTooLow_0, minLevel)));
+            data.AddLine(GetInvalid(HyperTrainLevelGEQ_0, (ushort)minLevel));
             return;
         }
 
         int max = pk.MaxIV;
         if (pk.IVTotal == max * 6)
         {
-            data.AddLine(GetInvalid(LHyperPerfectAll));
+            data.AddLine(GetInvalid(HyperPerfectAll));
             return;
         }
 
@@ -53,7 +53,7 @@ public sealed class HyperTrainingVerifier : Verifier
         }
 
         if (IsFlawlessHyperTrained(pk, t, max))
-            data.AddLine(GetInvalid(LHyperPerfectOne));
+            data.AddLine(GetInvalid(HyperPerfectOne));
     }
 
     public static bool IsFlawlessHyperTrained(PKM pk, IHyperTrain t, int max)

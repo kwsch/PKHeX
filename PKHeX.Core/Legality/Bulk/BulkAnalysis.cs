@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 
 namespace PKHeX.Core.Bulk;
 
+public readonly record struct BulkCheckResult(CheckResult Result, string Comment);
+
 /// <summary>
 /// Analyzes content within a <see cref="SaveFile"/> for overall <see cref="PKM"/> legality analysis.
 /// </summary>
@@ -12,7 +14,7 @@ public sealed class BulkAnalysis
     public readonly IReadOnlyList<SlotCache> AllData;
     public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
     public readonly ITrainerInfo Trainer;
-    public readonly List<CheckResult> Parse = [];
+    public readonly List<BulkCheckResult> Parse = [];
     public readonly Dictionary<ulong, SlotCache> Trackers = [];
     public readonly bool Valid;
 
@@ -41,7 +43,7 @@ public sealed class BulkAnalysis
         CloneFlags = new bool[AllData.Count];
 
         ScanAll();
-        Valid = Parse.Count == 0 || Parse.TrueForAll(static z => z.Valid);
+        Valid = Parse.Count == 0 || Parse.TrueForAll(static z => z.Result.Valid);
     }
 
     // Remove things that aren't actual stored data, or already flagged by legality checks.
@@ -79,21 +81,21 @@ public sealed class BulkAnalysis
     /// <summary>
     /// Adds a new entry to the <see cref="Parse"/> list.
     /// </summary>
-    public void AddLine(SlotCache first, SlotCache second, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
+    public void AddLine(SlotCache first, SlotCache second, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
-        var chk = new CheckResult(s, i, c);
-        Parse.Add(chk);
+        var line = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
+        var chk = CheckResult.Get(s, i, msg);
+        Parse.Add(new(chk, line));
     }
 
     /// <summary>
     /// Adds a new entry to the <see cref="Parse"/> list.
     /// </summary>
-    public void AddLine(SlotCache first, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
+    public void AddLine(SlotCache first, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
-        var chk = new CheckResult(s, i, c);
-        Parse.Add(chk);
+        var line = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
+        var chk = CheckResult.Get(s, i, msg);
+        Parse.Add(new(chk, line));
     }
 
     private static LegalityAnalysis[] GetIndividualAnalysis(ReadOnlySpan<SlotCache> list)
