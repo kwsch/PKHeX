@@ -3,12 +3,18 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Provides functionality for managing and localizing external legality checkers.
+/// </summary>
+/// <remarks>
+/// <see cref="LegalityAnalysis"/> will automatically use the registered external checkers after its legality checks are complete.
+/// </remarks>
 public static class ExternalLegalityCheck
 {
     /// <summary>
     /// Gets the collection of external legality checkers indexed by their unique identifier.
     /// </summary>
-    internal static readonly Dictionary<ushort, IExternalLegalityChecker> ExternalCheckers = [];
+    internal static Dictionary<ushort, IExternalLegalityChecker> ExternalCheckers { get; } = [];
 
     /// <summary>
     /// Registers an external legality checker for use in validation processes.

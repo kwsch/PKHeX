@@ -59,6 +59,9 @@ public sealed class BulkAnalysis
     /// <summary>
     /// Supported <see cref="IBulkAnalyzer"/> checkers that will be iterated through to check all entities.
     /// </summary>
+    /// <remarks>
+    /// Adding a bulk analyzer here as a user of this library? Be sure to register a <see cref="IExternalLegalityChecker"/> to display results in string output.
+    /// </remarks>
     public static readonly List<IBulkAnalyzer> Analyzers =
     [
         new StandardCloneChecker(),

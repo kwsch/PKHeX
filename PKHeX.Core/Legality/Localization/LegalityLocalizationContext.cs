@@ -3,6 +3,9 @@ using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Value object that contains the context for localization of legality checks.
+/// </summary>
 public readonly ref struct LegalityLocalizationContext
 {
     public required LegalityAnalysis Analysis { get; init; }
