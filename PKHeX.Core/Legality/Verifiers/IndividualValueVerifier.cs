@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -30,7 +30,7 @@ public sealed class IndividualValueVerifier : Verifier
         var pk = data.Entity;
         var hp = pk.IV_HP;
         if (hp < 30 && AllIVsEqual(pk, hp))
-            data.AddLine(Get(string.Format(LIVAllEqual_0, hp), Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, IVAllEqual_0, (ushort)hp));
     }
 
     private static bool AllIVsEqual(PKM pk, int hp) => pk.IV_ATK == hp
@@ -51,7 +51,7 @@ public sealed class IndividualValueVerifier : Verifier
         {
             bool valid = Legal.GetIsFixedIVSequenceValidSkipRand(IVs, data.Entity);
             if (!valid)
-                data.AddLine(GetInvalid(LEncGiftIVMismatch));
+                data.AddLine(GetInvalid(EncGiftIVMismatch));
         }
         else
         {
@@ -80,12 +80,12 @@ public sealed class IndividualValueVerifier : Verifier
     private void VerifyIVsFlawless(LegalityAnalysis data, int count)
     {
         if (data.Entity.FlawlessIVCount < count)
-            data.AddLine(GetInvalid(string.Format(LIVF_COUNT0_31, count)));
+            data.AddLine(GetInvalid(IVFlawlessCountGEQ_0, (ushort)count));
     }
 
     private void VerifyIVsGoTransfer(LegalityAnalysis data, IPogoSlot g)
     {
         if (!g.GetIVsValid(data.Entity))
-            data.AddLine(GetInvalid(LIVNotCorrect));
+            data.AddLine(GetInvalid(IVNotCorrect));
     }
 }

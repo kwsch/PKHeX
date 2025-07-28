@@ -1,5 +1,3 @@
-using static PKHeX.Core.LegalityCheckStrings;
-
 namespace PKHeX.Core;
 
 /// <summary> Severity indication of the associated <see cref="CheckResult"/> </summary>
@@ -24,20 +22,4 @@ public enum Severity : sbyte
     /// Values are valid.
     /// </summary>
     Valid = 1,
-}
-
-public static partial class Extensions
-{
-    /// <summary>
-    /// Converts a Check result Severity determination (Valid/Invalid/etc.) to the localized string.
-    /// </summary>
-    /// <param name="s"><see cref="Severity"/> value to convert to string.</param>
-    /// <returns>Localized <see cref="string"/>.</returns>
-    public static string Description(this Severity s) => s switch
-    {
-        Severity.Invalid => L_SInvalid,
-        Severity.Fishy => L_SFishy,
-        Severity.Valid => L_SValid,
-        _ => L_SNotImplemented,
-    };
 }

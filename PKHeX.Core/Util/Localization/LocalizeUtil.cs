@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace PKHeX.Core;
 
@@ -22,8 +22,6 @@ public static class LocalizeUtil
         // Update Legality Strings
         Task.Run(() =>
         {
-            RibbonStrings.ResetDictionary(str.ribbons);
-            LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
             LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
         });
     }

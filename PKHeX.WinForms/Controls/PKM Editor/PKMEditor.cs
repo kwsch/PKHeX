@@ -1834,7 +1834,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 PB_Affixed.Image = RibbonSpriteUtil.GetRibbonSprite((RibbonIndex)affixed);
                 PB_Affixed.Visible = true;
                 // Update the tooltip with the ribbon name.
-                var name = RibbonStrings.GetNameSafe($"Ribbon{(RibbonIndex)affixed}", out var result) ? result : affixed.ToString();
+                var name = GameInfo.Strings.Ribbons.GetNameSafe($"Ribbon{(RibbonIndex)affixed}", out var result) ? result : affixed.ToString();
                 if (pk is IRibbonSetMarks { RibbonMarkCount: > 1 } y)
                     name += Environment.NewLine + GetRibbonAffixCount(y);
                 AffixedTip.SetToolTip(PB_Affixed, name);

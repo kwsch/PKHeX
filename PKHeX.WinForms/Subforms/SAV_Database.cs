@@ -793,7 +793,8 @@ public partial class SAV_Database : Form
         if (!GetShiftedIndex(ref index))
             return;
 
-        ShowSet.Show(pb, Results[index].Entity);
+        var ent = Results[index];
+        ShowSet.Show(pb, ent.Entity, ent.Source.Type);
     }
 
     private void B_Add_Click(object sender, EventArgs e)

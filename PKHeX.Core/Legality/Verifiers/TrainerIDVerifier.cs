@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -23,7 +23,7 @@ public sealed class TrainerIDVerifier : Verifier
             var id32 = pk.ID32;
             if (id32 is 0 or int.MaxValue)
             {
-                data.AddLine(GetInvalid(LOT_IDInvalid));
+                data.AddLine(GetInvalid(OT_IDInvalid));
                 return;
             }
         }
@@ -45,29 +45,29 @@ public sealed class TrainerIDVerifier : Verifier
         {
             // Only TID is used for Gen 1/2 VC
             if (pk.SID16 != 0)
-                data.AddLine(GetInvalid(LOT_SID0Invalid));
+                data.AddLine(GetInvalid(OT_SID0Invalid));
             if (pk.TID16 == 0)
-                data.AddLine(Get(LOT_TID0, Severity.Fishy));
+                data.AddLine(Get(Severity.Fishy, OT_TID0));
             return;
         }
         else if (pk.Format <= 2)
         {
             // Only TID is used for Gen 1/2
             if (pk.TID16 == 0)
-                data.AddLine(Get(LOT_TID0, Severity.Fishy));
+                data.AddLine(Get(Severity.Fishy, OT_TID0));
             return;
         }
 
         if (pk is { ID32: 0 })
-            data.AddLine(Get(LOT_IDs0, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_IDs0));
         else if (pk.TID16 == pk.SID16)
-            data.AddLine(Get(LOT_IDEqual, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_IDEqual));
         else if (pk.TID16 == 0)
-            data.AddLine(Get(LOT_TID0, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_TID0));
         else if (pk.SID16 == 0)
-            data.AddLine(Get(LOT_SID0, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OT_SID0));
         else if (IsOTIDSuspicious(pk.TID16, pk.SID16))
-            data.AddLine(Get(LOTSuspicious, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, OTSuspicious));
     }
 
     public static bool TryGetShinySID(uint pid, ushort tid, GameVersion version, out ushort sid)
@@ -97,13 +97,13 @@ public sealed class TrainerIDVerifier : Verifier
             // japanese will stay Invalid
         }
         if (!MethodCXD.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
-            data.AddLine(Get(LTrainerIDNoSeed, severity, CheckIdentifier.Trainer));
+            data.AddLine(Get(CheckIdentifier.Trainer, severity, TrainerIDNoSeed));
     }
 
     private static void VerifyTrainerID_RS<T>(LegalityAnalysis data, T tr, Severity severity = Severity.Invalid) where T : ITrainerID32ReadOnly
     {
         if (!MethodH.TryGetSeedTrainerID(tr.TID16, tr.SID16, out _))
-            data.AddLine(Get(LTrainerIDNoSeed, severity, CheckIdentifier.Trainer));
+            data.AddLine(Get(CheckIdentifier.Trainer, severity, TrainerIDNoSeed));
     }
 
     public static bool IsOTIDSuspicious(ushort tid16, ushort sid16) => (tid16, sid16) switch

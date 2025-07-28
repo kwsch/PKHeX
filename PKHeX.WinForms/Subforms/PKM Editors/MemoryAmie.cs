@@ -101,8 +101,9 @@ public partial class MemoryAmie : Form
             CB_CTFeel.SelectedIndex = m.HandlingTrainerMemoryFeeling;
         }
 
-        var lOT = LegalityCheckStrings.L_XOT;
-        var lHT = LegalityCheckStrings.L_XHT;
+        var translation = GeneralLocalization.Get(Main.CurrentLanguage);
+        var lOT = translation.OriginalTrainer;
+        var lHT = translation.HandlingTrainer;
         CB_Handler.Items.Clear();
         CB_Handler.Items.Add($"{Entity.OriginalTrainerName} ({lOT})"); // OTNAME : OT
 

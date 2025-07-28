@@ -1,5 +1,3 @@
-using static PKHeX.Core.LegalityCheckStrings;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -10,12 +8,12 @@ namespace PKHeX.Core;
 /// <param name="Variable">Argument for the memory</param>
 /// <param name="Intensity">How strongly they remember the memory</param>
 /// <param name="Feeling">How they feel about the memory</param>
-public readonly record struct MemoryVariableSet(string Handler, byte MemoryID, ushort Variable, byte Intensity, byte Feeling)
+public readonly record struct MemoryVariableSet(byte Handler, byte MemoryID, ushort Variable, byte Intensity, byte Feeling)
 {
     public static MemoryVariableSet Read(ITrainerMemories pk, int handler) => handler switch
     {
-        0 => new(L_XOT, pk.OriginalTrainerMemory, pk.OriginalTrainerMemoryVariable, pk.OriginalTrainerMemoryIntensity, pk.OriginalTrainerMemoryFeeling), // OT
-        1 => new(L_XHT, pk.HandlingTrainerMemory, pk.HandlingTrainerMemoryVariable, pk.HandlingTrainerMemoryIntensity, pk.HandlingTrainerMemoryFeeling), // HT
-        _ => new(L_XOT, 0, 0, 0, 0),
+        0 => new(0, pk.OriginalTrainerMemory, pk.OriginalTrainerMemoryVariable, pk.OriginalTrainerMemoryIntensity, pk.OriginalTrainerMemoryFeeling), // OT
+        1 => new(1, pk.HandlingTrainerMemory, pk.HandlingTrainerMemoryVariable, pk.HandlingTrainerMemoryIntensity, pk.HandlingTrainerMemoryFeeling), // HT
+        _ => new(0, 0, 0, 0, 0),
     };
 }

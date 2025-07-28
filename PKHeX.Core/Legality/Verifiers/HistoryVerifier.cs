@@ -1,5 +1,5 @@
 using System;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -68,22 +68,22 @@ public sealed class HistoryVerifier : Verifier
             VerifyGeoLocationData(data, t, data.Entity);
 
         if (pk.VC && pk is PK7 {Geo1_Country: 0}) // VC transfers set Geo1 Country
-            data.AddLine(GetInvalid(LGeoMemoryMissing));
+            data.AddLine(GetInvalid(GeoMemoryMissing));
 
         if (!pk.IsUntraded)
         {
             // Can't have HT details even as a Link Trade egg, except in some games.
             if (pk.IsEgg && !EggStateLegality.IsValidHTEgg(pk))
-                data.AddLine(GetInvalid(LMemoryArgBadHT));
+                data.AddLine(GetInvalid(MemoryArgBadHT));
             return;
         }
 
         if (pk.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-            data.AddLine(GetInvalid(LMemoryHTFlagInvalid));
+            data.AddLine(GetInvalid(MemoryHTFlagInvalid));
         else if (pk.HandlingTrainerFriendship != 0)
-            data.AddLine(GetInvalid(LMemoryStatFriendshipHT0));
+            data.AddLine(GetInvalid(MemoryStatFriendshipHT0));
         else if (pk is IAffection {HandlingTrainerAffection: not 0})
-            data.AddLine(GetInvalid(LMemoryStatAffectionHT0));
+            data.AddLine(GetInvalid(MemoryStatAffectionHT0));
 
         // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.
     }
@@ -106,7 +106,7 @@ public sealed class HistoryVerifier : Verifier
             {
                 // generally disable this check if it's being edited inside a blank save file's environment.
                 if (tr is not SaveFile { State.Exportable: false })
-                    data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
+                    data.AddLine(GetInvalid(TransferCurrentHandlerInvalid));
                 // if there's no HT data yet specified, don't bother checking further.
                 // blank save exports will be injected and fixed later, and not-blanks will have been flagged by the above.
                 if (pk.IsUntraded)
@@ -118,9 +118,9 @@ public sealed class HistoryVerifier : Verifier
         }
 
         if (current != 1 && (enc.Context != pk.Context || neverOT))
-            data.AddLine(GetInvalid(LTransferHTFlagRequired));
+            data.AddLine(GetInvalid(TransferHandlerFlagRequired));
         if (!pk.IsUntraded && IsUntradeableEncounter(enc)) // Starter, untradeable
-            data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
+            data.AddLine(GetInvalid(TransferCurrentHandlerInvalid));
     }
 
     public static bool IsHandlerStateCorrect(IEncounterTemplate enc, PKM pk, byte current, byte expect)
@@ -141,15 +141,15 @@ public sealed class HistoryVerifier : Verifier
         ht = ht[..len];
 
         if (!ht.SequenceEqual(tr.OT))
-            data.AddLine(GetInvalid(LTransferHTMismatchName));
+            data.AddLine(GetInvalid(TransferHandlerMismatchName));
         if (pk.HandlingTrainerGender != tr.Gender)
-            data.AddLine(GetInvalid(LTransferHTMismatchGender));
+            data.AddLine(GetInvalid(TransferHandlerMismatchGender));
 
         // If the format exposes a language, check if it matches.
         // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
         // Statistically unlikely that players will play in different languages, but it's technically possible.
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-            data.AddLine(Get(LTransferHTMismatchLanguage, Severity.Fishy));
+            data.AddLine(Get(Severity.Fishy, TransferHandlerMismatchLanguage));
     }
 
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
@@ -188,8 +188,9 @@ public sealed class HistoryVerifier : Verifier
             // If none match, then it is not a valid OT friendship.
             var fs = pk.OriginalTrainerFriendship;
             var enc = data.Info.EncounterMatch;
-            if (GetBaseFriendship(enc) != fs)
-                data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
+            var expect = GetBaseFriendship(enc);
+            if (fs != expect)
+                data.AddLine(GetInvalid(MemoryStatFriendshipOTBaseEvent_0, expect));
         }
     }
 
@@ -199,20 +200,22 @@ public sealed class HistoryVerifier : Verifier
         // Since some evolutions have different base friendship values, check all possible evolutions for a match.
         // If none match, then it is not a valid OT friendship.
         // VC transfers use S/M personal info
-        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OriginalTrainerFriendship);
+        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OriginalTrainerFriendship, out var hint);
         if (!any)
-            data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
+            data.AddLine(GetInvalid(MemoryStatFriendshipOTBaseEvent_0, hint));
     }
 
-    private static bool IsMatchFriendship(EvoCriteria[] evos, int fs)
+    private static bool IsMatchFriendship(ReadOnlySpan<EvoCriteria> evos, byte current, out byte expect)
     {
+        expect = 0; // will be overridden on the first loop
         var pt = PersonalTable.USUM;
         foreach (var z in evos)
         {
             if (!pt.IsPresentInGame(z.Species, z.Form))
                 continue;
             var entry = pt.GetFormEntry(z.Species, z.Form);
-            if (entry.BaseFriendship == fs)
+            expect = entry.BaseFriendship;
+            if (expect == current)
                 return true;
         }
         return false;
@@ -228,7 +231,7 @@ public sealed class HistoryVerifier : Verifier
             // Can gain affection in Gen6 via the Contest glitch applying affection to OT rather than HT.
             // VC encounters cannot obtain OT affection since they can't visit Gen6.
             if ((origin <= 2 && a.OriginalTrainerAffection != 0) || IsInvalidContestAffection(a))
-                data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
+                data.AddLine(GetInvalid(MemoryStatAffectionOT0));
         }
         else if (neverOT)
         {
@@ -237,17 +240,17 @@ public sealed class HistoryVerifier : Verifier
                 if (pk is { IsUntraded: true, XY: true })
                 {
                     if (a.OriginalTrainerAffection != 0)
-                        data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
+                        data.AddLine(GetInvalid(MemoryStatAffectionOT0));
                 }
                 else if (IsInvalidContestAffection(a))
                 {
-                    data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
+                    data.AddLine(GetInvalid(MemoryStatAffectionOT0));
                 }
             }
             else
             {
                 if (a.OriginalTrainerAffection != 0)
-                    data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
+                    data.AddLine(GetInvalid(MemoryStatAffectionOT0));
             }
         }
     }
@@ -260,18 +263,18 @@ public sealed class HistoryVerifier : Verifier
         var pk = data.Entity;
         var htGender = pk.HandlingTrainerGender;
         if (htGender > 1 || (pk.IsUntraded && htGender != 0))
-            data.AddLine(GetInvalid(string.Format(LMemoryHTGender, htGender)));
+            data.AddLine(GetInvalid(MemoryHTGender_0, htGender));
     }
 
     private void VerifyGeoLocationData(LegalityAnalysis data, IGeoTrack t, PKM pk)
     {
         var valid = t.GetValidity();
         if (valid == GeoValid.CountryAfterPreviousEmpty)
-            data.AddLine(GetInvalid(LGeoBadOrder));
+            data.AddLine(GetInvalid(GeoBadOrder));
         else if (valid == GeoValid.RegionWithoutCountry)
-            data.AddLine(GetInvalid(LGeoNoRegion));
+            data.AddLine(GetInvalid(GeoNoRegion));
         if (t.Geo1_Country != 0 && pk.IsUntraded) // traded
-            data.AddLine(GetInvalid(LGeoNoCountryHT));
+            data.AddLine(GetInvalid(GeoNoCountryHT));
     }
 
     // OR/AS contests mistakenly apply 20 affection to the OT instead of the current handler's value
@@ -314,13 +317,13 @@ public sealed class HistoryVerifier : Verifier
         _ => false,
     };
 
-    private static int GetBaseFriendship(IEncounterTemplate enc) => enc switch
+    private static byte GetBaseFriendship(IEncounterTemplate enc) => enc switch
     {
         IFixedOTFriendship f => f.OriginalTrainerFriendship,
         _ => GetBaseFriendship(enc.Context, enc.Species, enc.Form),
     };
 
-    private static int GetBaseFriendship(EntityContext context, ushort species, byte form) => context switch
+    private static byte GetBaseFriendship(EntityContext context, ushort species, byte form) => context switch
     {
         EntityContext.Gen6  => PersonalTable.AO[species].BaseFriendship,
         EntityContext.Gen7  => PersonalTable.USUM[species].BaseFriendship,

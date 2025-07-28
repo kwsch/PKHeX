@@ -68,7 +68,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         // Trainer-ID-SID16 should only occur for one version
         if (IsSharedVersion(pp, pa, cp, ca))
         {
-            input.AddLine(ps, cs, "TID sharing across versions detected.", ident);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingTrainerVersion, ident);
             return true;
         }
 
@@ -76,7 +76,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         if (pp.OriginalTrainerName != cp.OriginalTrainerName)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
-            input.AddLine(ps, cs, "TID sharing across different trainer names detected.", ident, severity);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingTrainerIDs, ident, severity);
         }
 
         return false;

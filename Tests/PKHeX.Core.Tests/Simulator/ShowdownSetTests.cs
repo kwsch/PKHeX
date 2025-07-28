@@ -178,7 +178,7 @@ public class ShowdownSetTests
         if (!ShowdownParsing.TryParseAnyLanguage(message, out var set))
             throw new Exception("Input failed");
 
-        var all = BattleTemplateLocalization.GetAll();
+        var all = BattleTemplateLocalization.ConfigCache.GetAll();
         foreach (var l in all)
         {
             var languageTarget = l.Key;
@@ -205,11 +205,11 @@ public class ShowdownSetTests
     [Fact]
     public void StatNamesNoSubstring()
     {
-        var all = BattleTemplateLocalization.GetAll();
+        var all = BattleTemplateLocalization.ConfigCache.GetAll();
         foreach (var l in all)
         {
             var languageTarget = l.Key;
-            var x = l.Value.Config;
+            var x = l.Value;
 
             CheckSubstring(x.StatNames.Names, languageTarget);
             CheckSubstring(x.StatNamesFull.Names, languageTarget);

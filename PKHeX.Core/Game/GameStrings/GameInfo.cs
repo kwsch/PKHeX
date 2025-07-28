@@ -47,10 +47,10 @@ public static class GameInfo
     public static IReadOnlyList<ComboItem> VersionDataSource => Sources.VersionDataSource;
     public static IReadOnlyList<ComboItem> MoveDataSource => Sources.HaXMoveDataSource;
     public static IReadOnlyList<ComboItem> GroundTileDataSource => Sources.GroundTileDataSource;
-    public static IReadOnlyList<ComboItem> Regions => GameDataSource.Regions;
+    public static IReadOnlyList<ComboItem> Regions => Sources.Regions;
 
     public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation)
-        => GameDataSource.LanguageDataSource(generation);
+        => Sources.LanguageDataSource(generation);
 
     /// <summary>
     /// Gets the location name for the specified parameters.

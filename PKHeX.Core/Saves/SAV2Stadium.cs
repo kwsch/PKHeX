@@ -183,7 +183,7 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
             var rel = ofs + ListHeaderSizeTeam + (i * SIZE_STORED);
             members[i] = (SK2)GetStoredSlot(Data.AsSpan(rel));
         }
-        return new SlotGroup(name, members);
+        return new SlotGroup(name, members, StorageSlotType.Box);
     }
 
     public override int GetBoxOffset(int box)

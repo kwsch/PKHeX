@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.LanguageID;
 
@@ -20,7 +20,7 @@ public sealed class LanguageVerifier : Verifier
         var enc = data.EncounterMatch;
         if (!IsValidLanguageID(currentLanguage, maxLanguageID, pk, enc))
         {
-            data.AddLine(GetInvalid(string.Format(LOTLanguage, $"<={maxLanguageID}", currentLanguage)));
+            data.AddLine(GetInvalid(Identifier, OTLanguageShouldBeLeq_0, (byte)maxLanguageID, (byte)currentLanguage));
             return;
         }
 
@@ -30,9 +30,7 @@ public sealed class LanguageVerifier : Verifier
            )
         {
             bool kor = currentLanguage == Korean;
-            var msgpkm = kor ? L_XKorean : L_XKoreanNon;
-            var msgsav = kor ? L_XKoreanNon : L_XKorean;
-            data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, msgpkm, msgsav)));
+            data.AddLine(GetInvalid(TransferKoreanGen4));
             return;
         }
 
@@ -40,11 +38,11 @@ public sealed class LanguageVerifier : Verifier
         {
             // Korean Crystal does not exist, neither do Korean VC1
             if (pk is { Korean: true, Version: not (GD or SI) })
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={currentLanguage}", currentLanguage)));
+                data.AddLine(GetInvalid(OTLanguageCannotPlayOnVersion_0, (byte)pk.Version));
 
             // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
             if (pk is { Japanese: false, Version: BU })
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(Japanese), currentLanguage)));
+                data.AddLine(GetInvalid(OTLanguageCannotPlayOnVersion_0, (byte)pk.Version));
         }
     }
 

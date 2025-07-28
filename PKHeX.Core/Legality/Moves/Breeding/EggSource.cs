@@ -1,6 +1,6 @@
 using System;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckLocalization;
 
 namespace PKHeX.Core;
 
@@ -94,62 +94,62 @@ public static class EggSourceUtil
     /// <summary>
     /// Unboxes the parse result and returns a user-friendly string for the move result.
     /// </summary>
-    public static string GetSourceString(Array parse, byte generation, int index)
+    public static string GetSourceString(Array parse, byte generation, int index, MoveSourceLocalization loc)
     {
         if (index >= parse.Length)
-            return LMoveSourceEmpty;
+            return loc.SourceEmpty;
 
         return generation switch
         {
-            2      => ((EggSource2[])parse)[index].GetSourceString(),
-            3 or 4 => ((EggSource34[])parse)[index].GetSourceString(),
-            5      => ((EggSource5[])parse)[index].GetSourceString(),
-            >= 6   => ((EggSource6[])parse)[index].GetSourceString(),
-            _      => LMoveSourceEmpty,
+            2      => ((EggSource2[])parse)[index].GetSourceString(loc),
+            3 or 4 => ((EggSource34[])parse)[index].GetSourceString(loc),
+            5      => ((EggSource5[])parse)[index].GetSourceString(loc),
+            >= 6   => ((EggSource6[])parse)[index].GetSourceString(loc),
+            _      => loc.SourceEmpty,
         };
     }
 
-    private static string GetSourceString(this EggSource2 source) => source switch
+    private static string GetSourceString(this EggSource2 source, MoveSourceLocalization loc) => source switch
     {
-        EggSource2.Base => LMoveRelearnEgg,
-        EggSource2.FatherEgg => LMoveEggInherited,
-        EggSource2.FatherTM => LMoveEggTMHM,
-        EggSource2.ParentLevelUp => LMoveEggLevelUp,
-        EggSource2.Tutor => LMoveEggInheritedTutor,
+        EggSource2.Base => loc.RelearnEgg,
+        EggSource2.FatherEgg => loc.EggInherited,
+        EggSource2.FatherTM => loc.EggTMHM,
+        EggSource2.ParentLevelUp => loc.EggLevelUp,
+        EggSource2.Tutor => loc.EggInheritedTutor,
         EggSource2.Max => "Any",
-        _ => LMoveEggInvalid,
+        _ => loc.EggInvalid,
     };
 
-    private static string GetSourceString(this EggSource34 source) => source switch
+    private static string GetSourceString(this EggSource34 source, MoveSourceLocalization loc) => source switch
     {
-        EggSource34.Base => LMoveRelearnEgg,
-        EggSource34.FatherEgg => LMoveEggInherited,
-        EggSource34.FatherTM => LMoveEggTMHM,
-        EggSource34.ParentLevelUp => LMoveEggLevelUp,
+        EggSource34.Base => loc.RelearnEgg,
+        EggSource34.FatherEgg => loc.EggInherited,
+        EggSource34.FatherTM => loc.EggTMHM,
+        EggSource34.ParentLevelUp => loc.EggLevelUp,
         EggSource34.Max => "Any",
-        EggSource34.VoltTackle => LMoveSourceSpecial,
-        _ => LMoveEggInvalid,
+        EggSource34.VoltTackle => loc.SourceSpecial,
+        _ => loc.EggInvalid,
     };
 
-    private static string GetSourceString(this EggSource5 source) => source switch
+    private static string GetSourceString(this EggSource5 source, MoveSourceLocalization loc) => source switch
     {
-        EggSource5.Base => LMoveRelearnEgg,
-        EggSource5.FatherEgg => LMoveEggInherited,
-        EggSource5.ParentLevelUp => LMoveEggLevelUp,
-        EggSource5.FatherTM => LMoveEggTMHM,
+        EggSource5.Base => loc.RelearnEgg,
+        EggSource5.FatherEgg => loc.EggInherited,
+        EggSource5.ParentLevelUp => loc.EggLevelUp,
+        EggSource5.FatherTM => loc.EggTMHM,
         EggSource5.Max => "Any",
-        EggSource5.VoltTackle => LMoveSourceSpecial,
-        _ => LMoveEggInvalid,
+        EggSource5.VoltTackle => loc.SourceSpecial,
+        _ => loc.EggInvalid,
     };
 
-    private static string GetSourceString(this EggSource6 source) => source switch
+    private static string GetSourceString(this EggSource6 source, MoveSourceLocalization loc) => source switch
     {
-        EggSource6.Base => LMoveRelearnEgg,
-        EggSource6.ParentLevelUp => LMoveEggLevelUp,
-        EggSource6.ParentEgg => LMoveEggInherited,
+        EggSource6.Base => loc.RelearnEgg,
+        EggSource6.ParentLevelUp => loc.EggLevelUp,
+        EggSource6.ParentEgg => loc.EggInherited,
         EggSource6.Max => "Any",
-        EggSource6.VoltTackle => LMoveSourceSpecial,
-        _ => LMoveEggInvalid,
+        EggSource6.VoltTackle => loc.SourceSpecial,
+        _ => loc.EggInvalid,
     };
 
     /// <summary>

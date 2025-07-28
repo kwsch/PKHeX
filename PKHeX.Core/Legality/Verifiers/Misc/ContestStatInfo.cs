@@ -67,7 +67,7 @@ public static class ContestStatInfo
         _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BD/SP Contests
     };
 
-    public static int CalculateMaximumSheen(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial, bool pokeBlock3)
+    public static byte CalculateMaximumSheen(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial, bool pokeBlock3)
     {
         if (s.IsAnyContestStatMax())
             return MaxContestStat;
@@ -86,10 +86,10 @@ public static class ContestStatInfo
 			return 59;
 
         // Can get trash poffins by burning and spilling on purpose.
-        return Math.Min(MaxContestStat, avg * HighestFeelPoffin8b);
+        return (byte)Math.Min(MaxContestStat, avg * HighestFeelPoffin8b);
     }
 
-    public static int CalculateMinimumSheen(IContestStatsReadOnly s, IContestStatsReadOnly initial, INature pk, ContestStatGrantingSheen method) => method switch
+    public static byte CalculateMinimumSheen(IContestStatsReadOnly s, IContestStatsReadOnly initial, INature pk, ContestStatGrantingSheen method) => method switch
     {
         ContestStatGrantingSheen.Gen8b => CalculateMinimumSheen8b(s, pk.Nature, initial),
         ContestStatGrantingSheen.Gen3 => CalculateMinimumSheen3(s, pk.Nature, initial),
@@ -98,7 +98,7 @@ public static class ContestStatInfo
     };
 
     // BD/SP has a slightly better stat:sheen ratio than Gen4; prefer if it has visited.
-    public static int CalculateMinimumSheen8b(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
+    public static byte CalculateMinimumSheen8b(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
     {
         if (s.IsContestEqual(initial))
             return initial.ContestSheen;
@@ -111,10 +111,10 @@ public static class ContestStatInfo
         avg = Math.Min(rawAvg, avg); // be generous
         avg = (BestSheenStat8b * avg) / MaxContestStat;
 
-        return Math.Clamp(avg, LowestFeelPoffin8b, BestSheenStat8b);
+        return (byte)Math.Clamp(avg, LowestFeelPoffin8b, BestSheenStat8b);
     }
 
-    public static int CalculateMinimumSheen3(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
+    public static byte CalculateMinimumSheen3(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
     {
         if (s.IsContestEqual(initial))
             return initial.ContestSheen;
@@ -127,10 +127,10 @@ public static class ContestStatInfo
         avg = Math.Min(rawAvg, avg); // be generous
 
         avg = (BestSheenStat3 * avg) / MaxContestStat;
-        return Math.Clamp(avg, LowestFeelBlock3, BestSheenStat3);
+        return (byte)Math.Clamp(avg, LowestFeelBlock3, BestSheenStat3);
     }
 
-    public static int CalculateMinimumSheen4(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
+    public static byte CalculateMinimumSheen4(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
     {
         if (s.IsContestEqual(initial))
             return initial.ContestSheen;
@@ -142,10 +142,10 @@ public static class ContestStatInfo
         var avg = Math.Max(1, (byte)nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
 
-        return Math.Clamp(avg, LowestFeelPoffin4, MaxContestStat);
+        return (byte)Math.Clamp(avg, LowestFeelPoffin4, MaxContestStat);
     }
 
-    private static int CalculateMaximumSheen3(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
+    private static byte CalculateMaximumSheen3(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
     {
         // By using Enigma and Lansat and a 25 +1/-1, can get a +9/+19s at minimum RPM
         // By using Strib, Chilan, Niniku, or Topo, can get a black +2/2/2 & 83 block (6:83) at minimum RPM.
@@ -164,7 +164,7 @@ public static class ContestStatInfo
 
         // Prefer the bad-black-block correlation if more than 3 stats have gains >= 2.
         var permit = has3 ? (sum * 83 / 6) : (sum * 19 / 9);
-        return Math.Clamp(permit, LowestFeelBlock3, MaxContestStat);
+        return (byte)Math.Clamp(permit, LowestFeelBlock3, MaxContestStat);
     }
 
     private static int GetAverageFeel(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)

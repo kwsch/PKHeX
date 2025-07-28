@@ -1,0 +1,11 @@
+﻿
+JAP (日本語)
+ANG (English)
+FRA (Français)
+ITA (Italiano)
+ALL (Deutsch)
+
+ES-EU (Español)
+COR (한국어)
+CHS (简体中文)
+CHT (繁體中文)
