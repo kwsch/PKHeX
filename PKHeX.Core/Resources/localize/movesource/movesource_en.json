@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0} Move {1}: {2}",
+    "FormatRelearn": "{0} Relearn Move {1}: {2}",
+    "SourceDefault": "Default move.",
+    "SourceDuplicate": "Duplicate Move.",
+    "SourceEmpty": "Empty Move.",
+    "SourceInvalid": "Invalid Move.",
+    "SourceLevelUp": "Learned by Level-up.",
+    "SourceRelearn": "Relearnable Move.",
+    "SourceSpecial": "Special Non-Relearn Move.",
+    "SourceTMHM": "Learned by TM/HM.",
+    "SourceTutor": "Learned by Move Tutor.",
+    "SourceShared": "Shared Non-Relearn Move.",
+    "RelearnEgg": "Base Egg move.",
+    "EggInherited": "Inherited Egg move.",
+    "EggTMHM": "Inherited TM/HM move.",
+    "EggInheritedTutor": "Inherited tutor move.",
+    "EggInvalid": "Not an expected Egg move.",
+    "EggLevelUp": "Inherited move learned by Level-up."
+}

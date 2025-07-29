@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0}技{1}: {2}",
+    "FormatRelearn": "{0}再習得技{1}: {2}",
+    "SourceDefault": "デフォルト技。",
+    "SourceDuplicate": "重複技。",
+    "SourceEmpty": "空技。",
+    "SourceInvalid": "無効技。",
+    "SourceLevelUp": "レベルアップで習得。",
+    "SourceRelearn": "再習得可能技。",
+    "SourceSpecial": "特殊な非再習得技。",
+    "SourceTMHM": "TM/HMで習得。",
+    "SourceTutor": "教え技で習得。",
+    "SourceShared": "共有非再習得技。",
+    "RelearnEgg": "基本タマゴ技。",
+    "EggInherited": "遺伝タマゴ技。",
+    "EggTMHM": "遺伝TM/HM技。",
+    "EggInheritedTutor": "遺伝教え技。",
+    "EggInvalid": "期待されないタマゴ技。",
+    "EggLevelUp": "遺伝レベルアップ技。"
+}

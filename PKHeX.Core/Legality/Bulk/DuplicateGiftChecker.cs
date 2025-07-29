@@ -51,7 +51,7 @@ public sealed class DuplicateGiftChecker : IBulkAnalyzer
             var grp = tidGroup[0];
             var first = grp[0].Slot;
             var second = grp[1].Slot;
-            input.AddLine(first, second, $"Receipt of the same egg mystery gifts detected: {dupe.Key}", Encounter);
+            input.AddLine(first, second, LegalityCheckResultCode.BulkDuplicateMysteryGiftEggReceived, Encounter);
         }
     }
 

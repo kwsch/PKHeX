@@ -72,8 +72,9 @@ public partial class SAV_Trainer : Form
 
     private void GetComboBoxes()
     {
+        var sources = GameInfo.Sources;
         CB_3DSReg.InitializeBinding();
-        CB_3DSReg.DataSource = GameInfo.Regions;
+        CB_3DSReg.DataSource = new BindingSource(sources.Regions, string.Empty);
         CB_Language.InitializeBinding();
         CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 

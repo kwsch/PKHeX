@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -24,22 +24,41 @@ public sealed class RibbonVerifier : Verifier
 
     public override void Verify(LegalityAnalysis data)
     {
+        Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
+        var count = Parse(result, data);
+        if (count == 0)
+        {
+            data.AddLine(GetValid(RibbonAllValid));
+            return;
+        }
+
+        // defer hint string creation unless we request the string. We'll re-do work, but this saves hot path allocation where the string is never needed to be humanized.
+        var missing = GetCountMissing(result);
+        var invalid = count - missing;
+        if (missing != 0)
+            data.AddLine(GetInvalid(RibbonsMissing_0, (ushort)missing));
+        if (invalid != 0)
+            data.AddLine(GetInvalid(RibbonsInvalid_0, (ushort)invalid));
+    }
+
+    public static string GetMessage(LegalityAnalysis data, RibbonStrings str, LegalityCheckResultCode code)
+    {
+        // Calling this method assumes that one or more ribbons are invalid or missing.
+        // The work was already done but forgotten, so we need to parse again.
+        Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
+        int count = Parse(result, data);
+        return GetMessage(result[..count], str, code);
+    }
+
+    private static int Parse(Span<RibbonResult> result, LegalityAnalysis data)
+    {
         // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
         var enc = data.EncounterMatch;
         var pk = data.Entity;
 
         // Check Unobtainable Ribbons
         var args = new RibbonVerifierArguments(pk, enc, data.Info.EvoChainsAllGens);
-        Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
-        int count = GetRibbonResults(args, result);
-        if (count == 0)
-        {
-            data.AddLine(GetValid(LRibbonAllValid));
-            return;
-        }
-
-        var msg = GetMessage(result[..count]);
-        data.AddLine(GetInvalid(msg));
+        return GetRibbonResults(args, result);
     }
 
     /// <summary>
@@ -86,20 +105,16 @@ public sealed class RibbonVerifier : Verifier
         return list.Count;
     }
 
-    private static string GetMessage(ReadOnlySpan<RibbonResult> result)
+    private static string GetMessage(ReadOnlySpan<RibbonResult> result, RibbonStrings str, LegalityCheckResultCode code)
     {
         var total = result.Length;
-        int missing = GetCountMissing(result);
-        int invalid = total - missing;
         var sb = new StringBuilder(total * 20);
-        if (missing != 0)
-            AppendAll(result, sb, LRibbonFMissing_0, true);
-        if (invalid != 0)
-        {
-            if (missing != 0) // need to visually separate the message
-                sb.Append(Environment.NewLine);
-            AppendAll(result, sb, LRibbonFInvalid_0, false);
-        }
+
+        if (code is RibbonsInvalid_0) // most likely
+            AppendAll(result, sb, str, false);
+        else if (code is RibbonsMissing_0)
+            AppendAll(result, sb, str, true);
+
         return sb.ToString();
     }
 
@@ -116,17 +131,16 @@ public sealed class RibbonVerifier : Verifier
 
     private const string MessageSplitNextRibbon = ", ";
 
-    private static void AppendAll(ReadOnlySpan<RibbonResult> result, StringBuilder sb, string startText, bool stateMissing)
+    private static void AppendAll(ReadOnlySpan<RibbonResult> result, StringBuilder sb, RibbonStrings str, bool stateMissing)
     {
         int added = 0;
-        sb.Append(startText);
         foreach (var x in result)
         {
             if (x.IsMissing != stateMissing)
                 continue;
             if (added++ != 0)
                 sb.Append(MessageSplitNextRibbon);
-            var localized = RibbonStrings.GetName(x.PropertyName);
+            var localized = str.GetName(x.PropertyName);
             sb.Append(localized);
         }
     }

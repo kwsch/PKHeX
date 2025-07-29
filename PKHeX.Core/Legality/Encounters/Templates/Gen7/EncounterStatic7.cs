@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-
 namespace PKHeX.Core;
 
 /// <summary>

@@ -17,7 +17,7 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
     public override ReadOnlySpan<ushort> HeldItems => [];
     public override GameVersion Version { get => GameVersion.Stadium; set { } }
 
-    protected override SAV1Stadium CloneInternal() => new((byte[])Data.Clone(), Japanese);
+    protected override SAV1Stadium CloneInternal() => new(Data.ToArray(), Japanese);
 
     public override byte Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
@@ -61,9 +61,9 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
     private const int BoxStart = 0xC000;
     public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSize);
 
-    public SAV1Stadium(byte[] data) : this(data, IsStadiumJ(data)) { }
+    public SAV1Stadium(Memory<byte> data) : this(data, IsStadiumJ(data.Span)) { }
 
-    public SAV1Stadium(byte[] data, bool japanese) : base(data, japanese, GetIsSwap(data, japanese))
+    public SAV1Stadium(Memory<byte> data, bool japanese) : base(data, japanese, GetIsSwap(data.Span, japanese))
     {
         Box = BoxStart;
         ConditionBoxes();
@@ -103,7 +103,7 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
         {
             // If the box is uninitialized, reset it to the right state.
             var ofs = GetBoxOffset(i);
-            var raw = Data.AsSpan(ofs - ListHeaderSize, BoxSize);
+            var raw = Data.Slice(ofs - ListHeaderSize, BoxSize);
             var header = raw[..ListHeaderSize];
             var footer = raw[^ListFooterSize..];
 
@@ -130,7 +130,7 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
             for (int s = count; s < BoxSlotCount; s++)
             {
                 var rel = ofs + (s * SIZE_STORED);
-                var slice = Data.AsSpan(rel, SIZE_STORED);
+                var slice = Data.Slice(rel, SIZE_STORED);
                 var species = slice[0];
                 if (species == 0) // don't bother converting from internal->national
                     continue; // don't bother wiping already-empty slots.
@@ -143,7 +143,7 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
     {
         var ofs = GetBoxOffset(0);
         ofs += 0x1_0000;
-        var raw = Data.AsSpan(ofs - ListHeaderSize, BoxSize);
+        var raw = Data.Slice(ofs - ListHeaderSize, BoxSize);
         var header = raw[..ListHeaderSize];
         var footer = raw[^ListFooterSize..];
         return IsHeaderValid(header, footer, Japanese);
@@ -161,8 +161,8 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSize;
         var size = BoxSize - 2;
-        var chk = Checksums.CheckSum16(Data.AsSpan(boxOfs, size));
-        var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
+        var chk = Checksums.CheckSum16(Data.Slice(boxOfs, size));
+        var actual = ReadUInt16BigEndian(Data[(boxOfs + size)..]);
         return chk == actual;
     }
 
@@ -170,8 +170,8 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
     {
         var boxOfs = GetBoxOffset(box) - ListHeaderSize;
         var size = BoxSize - 2;
-        var chk = Checksums.CheckSum16(Data.AsSpan(boxOfs, size));
-        WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
+        var chk = Checksums.CheckSum16(Data.Slice(boxOfs, size));
+        WriteUInt16BigEndian(Data[(boxOfs + size)..], chk);
     }
 
     protected override void SetBoxMetadata(int box)
@@ -215,8 +215,8 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
                 if (present != s)
                 {
                     anyShifted = true;
-                    var upSlot = Data.AsSpan(ofs + (present * SIZE_STORED));
-                    var src = Data.AsSpan(rel, SIZE_STORED);
+                    var upSlot = Data[(ofs + (present * SIZE_STORED))..];
+                    var src = Data.Slice(rel, SIZE_STORED);
                     src.CopyTo(upSlot);
                     // wipe the old slot
                     src.Clear();
@@ -245,7 +245,7 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
 
         var data = pk.Data;
         int len = StringLength;
-        data.CopyTo(result, 0);
+        data.CopyTo(result);
         gb.NicknameTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED));
         gb.OriginalTrainerTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED + len));
         return result;
@@ -322,11 +322,11 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
 
         var ofs = GetTeamOffset(team);
         var otOfs = ofs + (Japanese ? 2 : 1);
-        var str = GetString(Data.AsSpan(otOfs, Japanese ? 5 : 7));
+        var str = GetString(Data.Slice(otOfs, Japanese ? 5 : 7));
         if (string.IsNullOrWhiteSpace(str))
             return name;
         var idOfs = ofs + (Japanese ? 0x8 : 0xC);
-        var id = ReadUInt16BigEndian(Data.AsSpan(idOfs));
+        var id = ReadUInt16BigEndian(Data[idOfs..]);
         return $"{name} [{id:D5}:{str}]";
     }
 
@@ -367,9 +367,9 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
         for (int i = 0; i < 6; i++)
         {
             var rel = ofs + ListHeaderSize + (i * SIZE_STORED);
-            members[i] = (PK1)GetStoredSlot(Data.AsSpan(rel));
+            members[i] = (PK1)GetStoredSlot(Data[rel..]);
         }
-        return new SlotGroup(name, members);
+        return new SlotGroup(name, members, StorageSlotType.Box);
     }
 
     public override void WriteSlotFormatStored(PKM pk, Span<byte> data)

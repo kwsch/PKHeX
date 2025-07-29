@@ -1,0 +1,15 @@
+{
+    "Format": "{0}: {1}",
+    "FormatLevelRange": "{0}: {1}-{2}",
+    "EncounterType": "遭遇タイプ",
+    "Version": "バージョン",
+    "Level": "レベル",
+    "LevelRange": "レベル範囲",
+    "Location": "場所",
+    "OriginSeed": "元のシード}",
+    "PIDType": "性格値",
+    "Time": "時間",
+    "FrameNewGame": "新規ゲーム: 0x{0}, フレーム: {1}",
+    "FrameInitial": "初期値: 0x{0}, フレーム: {1}",
+    "SuffixDays": " (日数: {0})"
+}

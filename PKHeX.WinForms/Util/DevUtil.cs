@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
@@ -15,6 +16,7 @@ public static class DevUtil
     {
         t.DropDownItems.Add(GetTranslationUpdater());
         t.DropDownItems.Add(GetPogoPickleReload());
+        t.DropDownItems.Add(GetHexImporter());
     }
 
     private static string DefaultLanguage => Main.CurrentLanguage;
@@ -33,6 +35,34 @@ public static class DevUtil
         DumpStringsMessage();
         UpdateTranslations();
         IsUpdatingTranslations = false;
+    }
+
+    private static ToolStripMenuItem GetHexImporter()
+    {
+        var ti = new ToolStripMenuItem
+        {
+            ShortcutKeys = Keys.Control | Keys.Alt | Keys.I,
+            Visible = false,
+        };
+        ti.Click += (_, _) =>
+        {
+            var hex = Clipboard.GetText().Trim();
+            if (string.IsNullOrEmpty(hex))
+            {
+                WinFormsUtil.Alert("Clipboard is empty.");
+                return;
+            }
+            try
+            {
+                var data = Convert.FromHexString(hex.Replace(" ", ""));
+                Application.OpenForms.OfType<Main>().First().OpenFile(data, "", "");
+            }
+            catch (FormatException)
+            {
+                WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
+            }
+        };
+        return ti;
     }
 
     private static ToolStripMenuItem GetTranslationUpdater()
@@ -161,9 +191,28 @@ public static class DevUtil
 
     // paths should match the project structure, so that the files are in the correct place when the logic updates them.
     private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false, "PKHeX.Core", "Resources", "text", "program");
-    private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings), true, "PKHeX.Core", "Resources", "legality", "checks");
+    private static void DumpStringsLegality()
+    {
+        ReadOnlySpan<string> rel = ["PKHeX.Core", "Resources", "localize"];
+        DumpJson(EncounterDisplayLocalization.Cache, rel);
+        DumpJson(MoveSourceLocalization.Cache, rel);
+        DumpJson(LegalityCheckLocalization.Cache, rel);
+        DumpJson(MoveSourceLocalization.Cache, rel);
+    }
 
-    private static void DumpStrings(Type t, bool sorted, params string[] rel)
+    private static void DumpJson<T>(LocalizationStorage<T> set, ReadOnlySpan<string> rel) where T : notnull
+    {
+        var dir = GetResourcePath([.. rel, set.Name]);
+        var all = set.GetAll();
+        foreach (var (lang, entries) in all)
+        {
+            var location = Path.Combine(dir, set.GetFileName(lang));
+            var json = JsonSerializer.Serialize(entries, set.Info);
+            File.WriteAllText(location, json);
+        }
+    }
+
+    private static void DumpStrings(Type t, bool sorted, params ReadOnlySpan<string> rel)
     {
         var dir = GetResourcePath(rel);
         DumpStrings(t, sorted, DefaultLanguage, dir);
@@ -199,7 +248,7 @@ public static class DevUtil
         return Path.Combine(dir, fn);
     }
 
-    private static string GetResourcePath(params string[] subdir)
+    private static string GetResourcePath(params ReadOnlySpan<string> subdir)
     {
         // Starting from the executable path, crawl upwards until we get to the repository/sln root
         const string repo = "PKHeX";

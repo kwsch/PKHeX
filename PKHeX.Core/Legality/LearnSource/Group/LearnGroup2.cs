@@ -189,17 +189,26 @@ public sealed class LearnGroup2 : ILearnGroup
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
-            result[x.Move4] = true;
-            result[x.Move3] = true;
-            result[x.Move2] = true;
-            result[x.Move1] = true;
+            SetTrue(x.Move4, result);
+            SetTrue(x.Move3, result);
+            SetTrue(x.Move2, result);
+            SetTrue(x.Move1, result);
         }
         else
         {
             Span<ushort> moves = stackalloc ushort[4];
             GetEncounterMoves(pk, enc, moves);
             foreach (var move in moves)
-                result[move] = true;
+                SetTrue(move, result);
+        }
+        return;
+
+        // Needed in the event we're adding encounter moves for Gen2 in the format of Gen1.
+        // We could potentially check for Format == 1, but the length check is equivalent and more "safe".
+        static void SetTrue(ushort move, Span<bool> permit)
+        {
+            if (move < permit.Length)
+                permit[move] = true;
         }
     }
 }

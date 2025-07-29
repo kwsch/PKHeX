@@ -198,10 +198,12 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
 
     public byte OTGender { get => Data[0xB5]; set => Data[0xB5] = value; }
 
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0xB6, 0x1A);
+
     public override string OriginalTrainerName
     {
-        get => StringConverter6.GetString(Data.Slice(0xB6, 0x1A));
-        set => StringConverter6.SetString(Data.Slice(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
+        get => StringConverter6.GetString(OriginalTrainerTrash);
+        set => StringConverter6.SetString(OriginalTrainerTrash, value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public bool IsOriginalTrainerNameSet => Data[0xB6] != 0 || Data[0xB7] != 0;
@@ -537,7 +539,9 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
                 }
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
-            if (IsOriginalTrainerNameSet && OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (IsOriginalTrainerNameSet && !IsMatchTrainerName(OriginalTrainerTrash, pk))
+                return false;
+
             if (PIDType == ShinyType6.FixedValue && pk.PID != PID) return false;
             if (!Shiny.IsValid(pk)) return false;
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
@@ -578,6 +582,32 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
             return false;
 
         return true;
+    }
+
+    private bool IsMatchTrainerName(ReadOnlySpan<byte> trainerTrash, PKM pk)
+    {
+        Span<char> trainerName = stackalloc char[12];
+        int length = StringConverter6.LoadString(trainerTrash, trainerName);
+        trainerName = trainerName[..length];
+
+        Span<char> pkTrainerName = stackalloc char[pk.MaxStringLengthTrainer];
+        int pkLength = pk.LoadString(pk.OriginalTrainerTrash, pkTrainerName);
+        pkTrainerName = pkTrainerName[..pkLength];
+
+        if (length == pkLength && trainerName.SequenceEqual(pkTrainerName))
+            return true;
+
+        var language = (LanguageID)pk.Language;
+        var version = pk.Version;
+        if (ReplaceTrainerName7.IsTriggerAndReplace(trainerName, pkTrainerName, language, version))
+            return true;
+        if (pk.Context is not EntityContext.Gen7)
+        {
+            var other = ReplaceTrainerNameHOME.IsTriggerAndReplace(trainerName, pkTrainerName, language, version, Species, Form);
+            if (other is not EntityContext.None)
+                return true;
+        }
+        return false;
     }
 
     protected override bool IsMatchDeferred(PKM pk)

@@ -38,7 +38,7 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
             }
 
             input.SetIsClone(i, true);
-            input.AddLine(ps, cs, "Clone detected (Details).", Encounter);
+            input.AddLine(ps, cs, LegalityCheckResultCode.BulkCloneDetectedDetails, Encounter);
         }
     }
 
@@ -54,7 +54,7 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
     private static void CheckTrackerPresent(BulkAnalysis input, SlotCache cs, ulong tracker)
     {
         if (input.Trackers.TryGetValue(tracker, out var clone))
-            input.AddLine(cs, clone, "Clone detected (Duplicate Tracker).", Encounter);
+            input.AddLine(cs, clone, LegalityCheckResultCode.BulkCloneDetectedTracker, Encounter);
         else
             input.Trackers.Add(tracker, cs);
     }

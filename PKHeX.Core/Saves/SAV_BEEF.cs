@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 /// <remarks>Shared logic is used by Gen6 and Gen7 save files.</remarks>
 public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
 {
-    protected SAV_BEEF(byte[] data, [ConstantExpected] int biOffset) : base(data)
+    protected SAV_BEEF(Memory<byte> data, [ConstantExpected] int biOffset) : base(data)
     {
         BlockInfoOffset = biOffset;
     }
@@ -35,8 +35,8 @@ public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     /// </summary>
     public ulong TimeStampCurrent
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(BlockInfoOffset));
-        set => WriteUInt64LittleEndian(Data.AsSpan(BlockInfoOffset), value);
+        get => ReadUInt64LittleEndian(Data[BlockInfoOffset..]);
+        set => WriteUInt64LittleEndian(Data[BlockInfoOffset..], value);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     /// </summary>
     public ulong TimeStampPrevious
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(BlockInfoOffset));
-        set => WriteUInt64LittleEndian(Data.AsSpan(BlockInfoOffset), value);
+        get => ReadUInt64LittleEndian(Data[BlockInfoOffset..]);
+        set => WriteUInt64LittleEndian(Data[BlockInfoOffset..], value);
     }
 }

@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0}招式{1}: {2}",
+    "FormatRelearn": "{0}重新學習招式{1}: {2}",
+    "SourceDefault": "預設招式。",
+    "SourceDuplicate": "重複招式。",
+    "SourceEmpty": "空招式。",
+    "SourceInvalid": "無效招式。",
+    "SourceLevelUp": "通過升級學會。",
+    "SourceRelearn": "可重新學習的招式。",
+    "SourceSpecial": "特殊的非重新學習招式。",
+    "SourceTMHM": "通過招式學習器/秘傳學習器學會。",
+    "SourceTutor": "通過招式教學學會。",
+    "SourceShared": "共享的非重新學習招式。",
+    "RelearnEgg": "基礎蛋招式。",
+    "EggInherited": "遺傳蛋招式。",
+    "EggTMHM": "遺傳招式學習器/秘傳學習器招式。",
+    "EggInheritedTutor": "遺傳教學招式。",
+    "EggInvalid": "非預期的蛋招式。",
+    "EggLevelUp": "遺傳升級學會的招式。"
+}

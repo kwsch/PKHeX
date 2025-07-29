@@ -112,16 +112,16 @@ public static class EntityFormat
     /// <param name="data">Raw data of the Pokémon file.</param>
     /// <param name="prefer">Optional identifier for the preferred generation.  Usually the generation of the destination save file.</param>
     /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
-    public static PKM? GetFromBytes(byte[] data, EntityContext prefer = EntityContext.None)
+    public static PKM? GetFromBytes(Memory<byte> data, EntityContext prefer = EntityContext.None)
     {
-        var format = GetFormat(data);
+        var format = GetFormat(data.Span);
         return GetFromBytes(data, format, prefer);
     }
 
-    private static PKM? GetFromBytes(byte[] data, EntityFormatDetected format, EntityContext prefer) => format switch
+    private static PKM? GetFromBytes(Memory<byte> data, EntityFormatDetected format, EntityContext prefer) => format switch
     {
-        FormatPK1 => PokeList1.ReadFromSingle(data),
-        FormatPK2 => PokeList2.ReadFromSingle(data),
+        FormatPK1 => PokeList1.ReadFromSingle(data.Span),
+        FormatPK2 => PokeList2.ReadFromSingle(data.Span),
         FormatSK2 => new SK2(data),
         FormatPK3 => new PK3(data),
         FormatCK3 => new CK3(data),
@@ -183,7 +183,7 @@ public static class EntityFormat
                 return FormatPK7;
         }
 
-        int mb = ReadUInt16LittleEndian(pk.Data.AsSpan(0x16));
+        int mb = ReadUInt16LittleEndian(pk.Data[0x16..]);
         if (mb > 0xAAA)
             return FormatPK6;
         for (int i = 0; i < 6; i++)

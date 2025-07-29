@@ -12,11 +12,11 @@ public sealed class SaveHandlerARDS : ISaveHandler
 
     public bool IsRecognized(long size) => size is ExpectedSize;
 
-    public SaveHandlerSplitResult TrySplit(ReadOnlySpan<byte> input)
+    public SaveHandlerSplitResult TrySplit(Memory<byte> input)
     {
         // No authentication to see if it actually is a header; no size collisions expected.
-        var header = input[..sizeHeader].ToArray();
-        var data = input[sizeHeader..].ToArray();
+        var header = input[..sizeHeader];
+        var data = input[sizeHeader..];
         return new SaveHandlerSplitResult(data, header, default, this);
     }
 

@@ -25,5 +25,5 @@ public abstract class MemoryContext
 
     public abstract bool CanHaveIntensity(byte memory, byte intensity);
     public abstract bool CanHaveFeeling(byte memory, byte feeling, ushort argument);
-    public abstract int GetMinimumIntensity(byte memory);
+    public abstract byte GetMinimumIntensity(byte memory);
 }

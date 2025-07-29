@@ -248,9 +248,11 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public override string OriginalTrainerName
     {
-        get => StringConverter7.GetString(Data.Slice(0xB6, 0x1A));
-        set => StringConverter7.SetString(Data.Slice(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
+        get => StringConverter7.GetString(OriginalTrainerTrash);
+        set => StringConverter7.SetString(OriginalTrainerTrash, value, 12, Language, StringConverterOption.ClearZero);
     }
+
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0xB6, 0x1A);
 
     public bool IsOriginalTrainerNameSet => Data[0xB6] != 0 || Data[0xB7] != 0;
 
@@ -573,7 +575,9 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
                 if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
-            if (IsOriginalTrainerNameSet && OriginalTrainerName != pk.OriginalTrainerName) return false;
+            if (IsOriginalTrainerNameSet && !IsMatchTrainerName(OriginalTrainerTrash, pk))
+                return false;
+
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0 && EncryptionConstant != pk.EncryptionConstant) return false;
             if (Language != 0 && Language != pk.Language) return false;
@@ -619,6 +623,32 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             return pk.SM; // not US/UM
 
         return PIDType != 0 || pk.PID == PID;
+    }
+
+    private bool IsMatchTrainerName(ReadOnlySpan<byte> trainerTrash, PKM pk)
+    {
+        Span<char> trainerName = stackalloc char[12];
+        int length = StringConverter7.LoadString(trainerTrash, trainerName);
+        trainerName = trainerName[..length];
+
+        Span<char> pkTrainerName = stackalloc char[pk.MaxStringLengthTrainer];
+        int pkLength = pk.LoadString(pk.OriginalTrainerTrash, pkTrainerName);
+        pkTrainerName = pkTrainerName[..pkLength];
+
+        if (length == pkLength && trainerName.SequenceEqual(pkTrainerName))
+            return true;
+
+        var language = (LanguageID)pk.Language;
+        var version = pk.Version;
+        if (ReplaceTrainerName7.IsTriggerAndReplace(trainerName, pkTrainerName, language, version))
+            return true;
+        if (pk.Context is not EntityContext.Gen7)
+        {
+            var other = ReplaceTrainerNameHOME.IsTriggerAndReplace(trainerName, pkTrainerName, language, version, Species, Form);
+            if (other is not EntityContext.None)
+                return true;
+        }
+        return false;
     }
 
     public override GameVersion Version => CardID == 2046 ? GameVersion.SM : RestrictVersion switch

@@ -118,7 +118,7 @@ public static partial class Extensions
         if ((result = UpdateCheck(g.Geo5_Country, g.Geo5_Region, ref end)) != GeoValid.Valid)
             return result;
 
-        return result;
+        return GeoValid.Valid;
 
         static GeoValid UpdateCheck(byte country, byte region, ref bool end)
         {

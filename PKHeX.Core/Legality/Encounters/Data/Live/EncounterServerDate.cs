@@ -222,6 +222,10 @@ public static class EncounterServerDate
         {0523, new(2025, 06, 13, 2025, 06, 21)}, // NAIC 2025 Wolfe's Incineroar
         {0067, new(2025, 06, 20, 2025, 06, 23)}, // PJCS 2025 Hyuma Hara's Flutter Mane
         {0068, new(2025, 06, 20, 2025, 10, 01)}, // PJCS 2025 Ray Yamanaka's Amoonguss
+        {9996, new(2025, 08, 07, 2025, 10, 01)}, // Shiny Wo-Chien
+        {9997, new(2025, 08, 21, 2025, 10, 01)}, // Shiny Chien-Pao
+        {9998, new(2025, 09, 04, 2025, 10, 01)}, // Shiny Ting-Lu
+        {9999, new(2025, 09, 18, 2025, 10, 01)}, // Shiny Chi-Yu
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco

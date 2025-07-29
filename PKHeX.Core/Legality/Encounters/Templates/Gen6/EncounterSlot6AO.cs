@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using static PKHeX.Core.SlotType6;
 
 namespace PKHeX.Core;

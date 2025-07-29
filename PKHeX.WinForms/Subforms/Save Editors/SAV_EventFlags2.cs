@@ -273,6 +273,7 @@ public sealed partial class SAV_EventFlags2 : Form
     private void OpenSAV(object sender, EventArgs e)
     {
         using var ofd = new OpenFileDialog();
+        ofd.Title = MsgFileLoadSaveSelectGame;
         if (ofd.ShowDialog() == DialogResult.OK)
             LoadSAV(sender, ofd.FileName);
     }

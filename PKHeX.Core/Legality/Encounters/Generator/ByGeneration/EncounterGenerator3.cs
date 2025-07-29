@@ -28,11 +28,11 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         // Legal
         None,
         PIDIVDefer,
+        SlotNumber,
 
         // Illegal
-        PIDIV,
         Ball,
-        SlotNumber,
+        PIDIV,
     }
 
     private struct Deferral
@@ -42,7 +42,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
         public void Update(DeferralType type, IEncounterable enc)
         {
-            if (Type >= type)
+            if (type >= Type && Encounter is not null)
                 return;
             Type = type;
             Encounter = enc;

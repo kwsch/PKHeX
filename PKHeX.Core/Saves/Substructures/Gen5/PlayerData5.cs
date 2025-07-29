@@ -34,6 +34,12 @@ public abstract class PlayerData5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
         set => WriteUInt16LittleEndian(Data[(0x14 + 2)..], value);
     }
 
+    public uint GameSyncID
+    {
+        get => ReadUInt32LittleEndian(Data[0x18..]);
+        set => WriteUInt32LittleEndian(Data[0x18..], value);
+    }
+
     public int Country
     {
         get => Data[0x1C];
@@ -84,7 +90,61 @@ public abstract class PlayerData5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
         set => Data[0x24 + 3] = (byte)value;
     }
 
-    // 0x25-0x2F ???
+    // 7 bits year
+    // 4 bits month
+    // 5 bits day
+    // 5 bits hour
+    // 6 bits minute
+    public uint LastSaved
+    {
+        get => ReadUInt32LittleEndian(Data[0x28..]);
+        set => WriteUInt32LittleEndian(Data[0x2C..], value);
+    }
+
+    public uint LastSavedYear
+    {
+        get => LastSaved & 0x7F;
+        set => LastSaved = (LastSaved & 0xFFFFFF80) | (value & 0x7F);
+    }
+
+    public uint LastSavedMonth
+    {
+        get => (LastSaved >> 7) & 0x0F;
+        set => LastSaved = (LastSaved & 0xFFFFF87F) | ((value & 0x0F) << 7);
+    }
+
+    public uint LastSavedDay
+    {
+        get => (LastSaved >> 11) & 0x1F;
+        set => LastSaved = (LastSaved & 0xFFFFC7FF) | ((value & 0x1F) << 11);
+    }
+
+    public uint LastSavedHour
+    {
+        get => (LastSaved >> 16) & 0x1F;
+        set => LastSaved = (LastSaved & 0xFFFE3FFF) | ((value & 0x1F) << 16);
+    }
+
+    public uint LastSavedMinute
+    {
+        get => (LastSaved >> 21) & 0x3F;
+        set => LastSaved = (LastSaved & 0xFFF1FFFF) | ((value & 0x3F) << 21);
+    }
+
+    public DateTime LastSavedDateTime
+    {
+        get => new(2000 + (int)LastSavedYear, (int)LastSavedMonth, (int)LastSavedDay, (int)LastSavedHour, (int)LastSavedMinute, 0);
+        set
+        {
+            LastSavedYear = (uint)(value.Year - 2000);
+            LastSavedMonth = (uint)value.Month;
+            LastSavedDay = (uint)value.Day;
+            LastSavedHour = (uint)value.Hour;
+            LastSavedMinute = (uint)value.Minute;
+        }
+    }
+
+    // 0x2C-0x2F ???
 
     protected const ushort C21E = 0xC21E;
 

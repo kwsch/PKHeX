@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityAnalyzers;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -99,15 +99,18 @@ public sealed class LegalityAnalysis
         {
             EncounterFinder.FindVerifiedEncounter(pk, Info);
             if (!pk.IsOriginValid)
-                AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
+                AddLine(Severity.Invalid, EncConditionBadSpecies, CheckIdentifier.GameOrigin);
             GetParseMethod()();
+
+            foreach (var ext in ExternalLegalityCheck.ExternalCheckers.Values)
+                ext.Check(Parse, this);
 
             Valid = Parse.TrueForAll(chk => chk.Valid)
                     && MoveResult.AllValid(Info.Moves)
                     && MoveResult.AllValid(Info.Relearn);
 
             if (!Valid && IsPotentiallyMysteryGift(Info, pk))
-                AddLine(Severity.Invalid, LFatefulGiftMissing, CheckIdentifier.Fateful);
+                AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);
             Parsed = true;
         }
 #if SUPPRESS
@@ -130,7 +133,7 @@ public sealed class LegalityAnalysis
                     p = MoveResult.Unobtainable();
             }
 
-            AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
+            AddLine(Severity.Invalid, Error, CheckIdentifier.Misc);
         }
 #endif
     }
@@ -261,7 +264,7 @@ public sealed class LegalityAnalysis
     /// <param name="s">Check severity</param>
     /// <param name="c">Check comment</param>
     /// <param name="i">Check type</param>
-    internal void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, i, c));
+    internal void AddLine(Severity s, LegalityCheckResultCode c, CheckIdentifier i) => AddLine(CheckResult.Get(s, i, c));
 
     /// <summary>
     /// Adds a new Check parse value.

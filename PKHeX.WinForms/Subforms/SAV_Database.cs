@@ -286,36 +286,38 @@ public partial class SAV_Database : Form
 
         var comboAny = new ComboItem(MsgAny, -1);
 
-        var species = new List<ComboItem>(GameInfo.SpeciesDataSource)
+        var filtered = GameInfo.FilteredSources;
+        var source = filtered.Source;
+        var species = new List<ComboItem>(source.SpeciesDataSource)
         {
             [0] = comboAny // Replace (None) with "Any"
         };
         CB_Species.DataSource = species;
 
-        var items = new List<ComboItem>(GameInfo.ItemDataSource);
+        var items = new List<ComboItem>(filtered.Items);
         items.Insert(0, comboAny);
         CB_HeldItem.DataSource = items;
 
-        var natures = new List<ComboItem>(GameInfo.NatureDataSource);
+        var natures = new List<ComboItem>(source.NatureDataSource);
         natures.Insert(0, comboAny);
         CB_Nature.DataSource = natures;
 
-        var abilities = new List<ComboItem>(GameInfo.AbilityDataSource);
+        var abilities = new List<ComboItem>(source.AbilityDataSource);
         abilities.Insert(0, comboAny);
         CB_Ability.DataSource = abilities;
 
-        var versions = new List<ComboItem>(GameInfo.VersionDataSource);
+        var versions = new List<ComboItem>(source.VersionDataSource);
         versions.Insert(0, comboAny);
         versions.RemoveAt(versions.Count - 1); // None
         CB_GameOrigin.DataSource = versions;
 
-        var hptypes = GameInfo.Strings.types.AsSpan(1, HiddenPower.TypeCount);
+        var hptypes = source.Strings.HiddenPowerTypes;
         var types = Util.GetCBList(hptypes);
         types.Insert(0, comboAny);
         CB_HPType.DataSource = types;
 
         // Set the Move ComboBoxes too.
-        var moves = new List<ComboItem>(GameInfo.MoveDataSource);
+        var moves = new List<ComboItem>(filtered.Moves);
         moves.RemoveAt(0);
         moves.Insert(0, comboAny);
         {
@@ -793,7 +795,8 @@ public partial class SAV_Database : Form
         if (!GetShiftedIndex(ref index))
             return;
 
-        ShowSet.Show(pb, Results[index].Entity);
+        var ent = Results[index];
+        ShowSet.Show(pb, ent.Entity, ent.Source.Type);
     }
 
     private void B_Add_Click(object sender, EventArgs e)

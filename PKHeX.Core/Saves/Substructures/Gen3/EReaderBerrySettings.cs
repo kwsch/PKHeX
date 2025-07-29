@@ -9,13 +9,10 @@ namespace PKHeX.Core;
 public static class EReaderBerrySettings
 {
     /// <summary> e-Reader Berry is Enigma or special berry (from e-Reader data)</summary>
-    public static bool IsEnigma { get; set; } = true;
+    public static bool IsEnigma { get; private set; } = true;
 
     /// <summary> e-Reader Berry Name </summary>
-    private static string Name { get; set; } = string.Empty;
-
-    /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-    public static string DisplayName => Util.ToTitleCase(string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Name));
+    public static string Name { get; private set; } = string.Empty;
 
     private static int Language { get; set; }
 

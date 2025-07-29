@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace PKHeX.Core;
 
@@ -16,15 +16,6 @@ public static class LocalizeUtil
         if (sav is not null)
             GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, hax);
 
-        // Update Legality Analysis strings
-        ParseSettings.ChangeLocalizationStrings(str.movelist, str.specieslist);
-
-        // Update Legality Strings
-        Task.Run(() =>
-        {
-            RibbonStrings.ResetDictionary(str.ribbons);
-            LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
-            LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
-        });
+        Task.Run(() => LocalizationUtil.SetLocalization(typeof(MessageStrings), lang));
     }
 }

@@ -148,8 +148,8 @@ public static class PluginLoader
 /// </summary>
 public class PluginLoadResult
 {
-    public List<PluginLoadContext> Contexts { get; } = new();
-    public List<Assembly> Assemblies { get; } = new();
+    public List<PluginLoadContext> Contexts { get; } = [];
+    public List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
     /// Returns all loaded assemblies for downstream use.

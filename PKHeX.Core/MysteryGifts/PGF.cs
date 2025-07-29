@@ -419,7 +419,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         {
             if (EggLocation != pk.EggLocation) // traded
             {
-                if (pk.EggLocation != Locations.LinkTrade5)
+                if (pk.IsEgg || pk.EggLocation is not (Locations.LinkTrade5 or Locations.LinkTrade5NPC))
                     return false;
             }
             else if (PIDType == 0 && pk.IsShiny)

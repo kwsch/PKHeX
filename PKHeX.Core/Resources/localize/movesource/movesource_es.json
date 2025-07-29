@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0} Movimiento {1}: {2}",
+    "FormatRelearn": "{0} Movimiento Reaprendido {1}: {2}",
+    "SourceDefault": "Movimiento predeterminado.",
+    "SourceDuplicate": "Movimiento duplicado.",
+    "SourceEmpty": "Movimiento vacío.",
+    "SourceInvalid": "Movimiento no válido.",
+    "SourceLevelUp": "Aprendido por subida de nivel.",
+    "SourceRelearn": "Movimiento reaprendible.",
+    "SourceSpecial": "Movimiento especial no-reaprendible.",
+    "SourceTMHM": "Aprendido por MT/MO.",
+    "SourceTutor": "Aprendido por Tutor de Movimientos.",
+    "SourceShared": "Movimiento compartido no-reaprendible.",
+    "RelearnEgg": "Movimiento Huevo base.",
+    "EggInherited": "Movimiento Huevo heredado.",
+    "EggTMHM": "Movimiento MT/MO heredado.",
+    "EggInheritedTutor": "Movimiento tutor heredado.",
+    "EggInvalid": "Movimiento Huevo no esperado.",
+    "EggLevelUp": "Movimiento heredado aprendido por subida de nivel."
+}

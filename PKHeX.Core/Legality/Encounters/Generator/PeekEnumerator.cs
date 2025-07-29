@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,7 +34,7 @@ public sealed class PeekEnumerator<T> : IEnumerator<T> where T : class
     public void Reset()
     {
         Enumerator.Reset();
-        peek = default;
+        peek = null;
         didPeek = false;
     }
 
@@ -72,7 +72,7 @@ public sealed class PeekEnumerator<T> : IEnumerator<T> where T : class
         return peek!;
     }
 
-    public T? PeekOrDefault() => !TryFetchPeek() ? default : peek;
+    public T? PeekOrDefault() => !TryFetchPeek() ? null : peek;
 
     /// <summary>
     /// Checks if a Next element exists

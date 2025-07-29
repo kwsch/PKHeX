@@ -118,7 +118,8 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
         var species = Entity.Species;
         if (species is (int)Species.Dudunsparce or (int)Species.Maushold)
         {
-            if (!EvolutionRestrictions.GetIsExpectedEvolveFormEC100(species, Entity.Form, Entity.EncryptionConstant % 100 == 0))
+            var expectRare = EvolutionRestrictions.IsEvolvedSpeciesFormRare(Entity.EncryptionConstant);
+            if (!EvolutionRestrictions.GetIsExpectedEvolveFormEC100(species, Entity.Form, expectRare))
                 return SeekMode.Reverse;
         }
         else if (EvolutionRestrictions.IsFormArgEvolution(species))

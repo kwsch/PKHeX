@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0} 기술 {1}: {2}",
+    "FormatRelearn": "{0} 재학습 기술 {1}: {2}",
+    "SourceDefault": "기본 기술.",
+    "SourceDuplicate": "중복 기술.",
+    "SourceEmpty": "빈 기술.",
+    "SourceInvalid": "유효하지 않은 기술.",
+    "SourceLevelUp": "레벨업으로 습득.",
+    "SourceRelearn": "재학습 가능한 기술.",
+    "SourceSpecial": "특수한 비재학습 기술.",
+    "SourceTMHM": "기술머신/비전머신으로 습득.",
+    "SourceTutor": "기술 가르치기로 습득.",
+    "SourceShared": "공유된 비재학습 기술.",
+    "RelearnEgg": "기본 알 기술.",
+    "EggInherited": "유전된 알 기술.",
+    "EggTMHM": "유전된 기술머신/비전머신 기술.",
+    "EggInheritedTutor": "유전된 가르쳐주는 기술.",
+    "EggInvalid": "예상되지 않은 알 기술.",
+    "EggLevelUp": "유전된 레벨업 기술."
+}

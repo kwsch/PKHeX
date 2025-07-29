@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0} Attacke {1}: {2}",
+    "FormatRelearn": "{0} Wiedererlernte Attacke {1}: {2}",
+    "SourceDefault": "Standard-Attacke.",
+    "SourceDuplicate": "Doppelte Attacke.",
+    "SourceEmpty": "Leere Attacke.",
+    "SourceInvalid": "Ungültige Attacke.",
+    "SourceLevelUp": "Durch Level-Aufstieg erlernt.",
+    "SourceRelearn": "Wiedererlenbare Attacke.",
+    "SourceSpecial": "Spezielle nicht-wiedererlenbare Attacke.",
+    "SourceTMHM": "Durch TM/VM erlernt.",
+    "SourceTutor": "Durch Attacken-Lehrer erlernt.",
+    "SourceShared": "Geteilte nicht-wiedererlenbare Attacke.",
+    "RelearnEgg": "Basis-Ei-Attacke.",
+    "EggInherited": "Vererbte Ei-Attacke.",
+    "EggTMHM": "Vererbte TM/VM-Attacke.",
+    "EggInheritedTutor": "Vererbte Tutor-Attacke.",
+    "EggInvalid": "Unerwartete Ei-Attacke.",
+    "EggLevelUp": "Vererbte Attacke durch Level-Aufstieg erlernt."
+}

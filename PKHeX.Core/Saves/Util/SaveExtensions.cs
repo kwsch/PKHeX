@@ -17,9 +17,12 @@ public static class SaveExtensions
     /// </summary>
     /// <param name="sav"><see cref="SaveFile"/> that is being checked.</param>
     /// <param name="pk"><see cref="PKM"/> that is being tested for compatibility.</param>
-    public static IReadOnlyList<string> EvaluateCompatibility(this SaveFile sav, PKM pk)
+    /// <param name="language">Language to use for error messages.</param>
+    public static IReadOnlyList<string> EvaluateCompatibility(this SaveFile sav, PKM pk, string language = GameLanguage.DefaultLanguage)
     {
-        return sav.GetSaveFileErrata(pk, GameInfo.Strings);
+        var strings = GameInfo.GetStrings(language);
+        var legality = LegalityCheckLocalization.Get(language);
+        return sav.GetSaveFileErrata(pk, GameInfo.Strings, legality);
     }
 
     /// <summary>
@@ -38,7 +41,7 @@ public static class SaveExtensions
         return true;
     }
 
-    private static List<string> GetSaveFileErrata(this SaveFile sav, PKM pk, IBasicStrings strings)
+    private static List<string> GetSaveFileErrata(this SaveFile sav, PKM pk, IBasicStrings strings, LegalityCheckLocalization legality)
     {
         var errata = new List<string>(0); // usually nothing wrong, so start with empty list
         ushort held = (ushort)pk.HeldItem;
@@ -62,7 +65,7 @@ public static class SaveExtensions
             errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pk.Species]}");
 
         if (!sav.Personal[pk.Species].IsFormWithinRange(pk.Form) && !FormInfo.IsValidOutOfBoundsForm(pk.Species, pk.Form, pk.Generation))
-            errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pk.Species].FormCount - 1), pk.Form));
+            errata.Add(string.Format(legality.FormInvalidRangeLEQ_0F, Math.Max(0, sav.Personal[pk.Species].FormCount - 1), pk.Form));
 
         var movestr = strings.Move;
         for (int i = 0; i < 4; i++)

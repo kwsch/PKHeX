@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0} Attaque {1}: {2}",
+    "FormatRelearn": "{0} Attaque Réapprise {1}: {2}",
+    "SourceDefault": "Attaque par défaut.",
+    "SourceDuplicate": "Attaque dupliquée.",
+    "SourceEmpty": "Attaque vide.",
+    "SourceInvalid": "Attaque non valide.",
+    "SourceLevelUp": "Apprise par montée de niveau.",
+    "SourceRelearn": "Attaque réapprenable.",
+    "SourceSpecial": "Attaque spéciale non-réapprise.",
+    "SourceTMHM": "Apprise par CT/CS.",
+    "SourceTutor": "Apprise par Tuteur de Capacités.",
+    "SourceShared": "Attaque partagée non-réapprise.",
+    "RelearnEgg": "Attaque Œuf de base.",
+    "EggInherited": "Attaque Œuf héritée.",
+    "EggTMHM": "Attaque CT/CS héritée.",
+    "EggInheritedTutor": "Attaque tuteur héritée.",
+    "EggInvalid": "Attaque Œuf non attendue.",
+    "EggLevelUp": "Attaque héritée apprise par montée de niveau."
+}

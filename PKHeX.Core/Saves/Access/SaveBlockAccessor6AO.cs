@@ -111,8 +111,8 @@ public sealed class SaveBlockAccessor6AO(SAV6AO sav) : ISaveBlockAccessor<BlockI
 
     private static Memory<byte> Block(SAV6AO sav, int index)
     {
-        var data = sav.Data;
+        var data = sav.Buffer;
         var block = BlocksAO[index];
-        return data.AsMemory(block.Offset, block.Length);
+        return data.Slice(block.Offset, block.Length);
     }
 }

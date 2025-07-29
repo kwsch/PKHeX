@@ -65,6 +65,11 @@ public static class MessageStrings
     public static string MsgFileLoadSaveSelectVersion { get; set; } = "Select the version.";
     public static string MsgFileLoadSaveSelectGame { get; set; } = "Select a game to edit.";
     public static string MsgFileLoadSaveMultiple { get; set; } = "Multiple games detected";
+
+    public static string MsgFileLoadSelectFileSave { get; set; } = "Select a save file...";
+    public static string MsgFileLoadSelectFileBlock { get; set; } = "Select a save block file...";
+    public static string MsgFileLoadSelectFileSecretBase { get; set; } = "Select a Secret Base file...";
+
     public static string MsgFileGameCubeBad { get; set; } = "Invalid or corrupted GC Memory Card. Aborting.";
     public static string MsgFileGameCubeDuplicate { get; set; } = "GC Memory Card with duplicated game save files. Aborting.";
     public static string MsgFileGameCubeNoGames { get; set; } = "GC Memory Card without any Pokémon save file. Aborting.";

@@ -464,7 +464,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
     }
 
     /// <summary>
-    ///  HOME Meltan is a special case where height/weight is fixed.
+    /// HOME Meltan is a special case where height/weight is fixed.
     /// </summary>
     public bool IsHeightWeightFixed => CardID is 9028;
 
@@ -476,13 +476,13 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEnco
 
     public float GetHomeHeightAbsolute() => CardID switch
     {
-        9028 => 18.1490211f,
+        9028 => 18.1490211f, // corresponds to 98, but forced to 128
         _ => throw new ArgumentException(),
     };
 
     public float GetHomeWeightAbsolute() => CardID switch
     {
-        9028 => 77.09419f,
+        9028 => 77.09419f, // corresponds to 167, but forced to 128
         _ => throw new ArgumentException(),
     };
 

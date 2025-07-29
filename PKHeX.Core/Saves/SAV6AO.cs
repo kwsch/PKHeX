@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="SAV6" />
 public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetailName, IBoxDetailWallpaper, IMysteryGiftStorageProvider, IDaycareMulti
 {
-    public SAV6AO(byte[] data) : base(data, SaveBlockAccessor6AO.BlockMetadataOffset)
+    public SAV6AO(Memory<byte> data) : base(data, SaveBlockAccessor6AO.BlockMetadataOffset)
     {
         Blocks = new SaveBlockAccessor6AO(this);
         Initialize();
@@ -25,7 +25,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
     public override PersonalTable6AO Personal => PersonalTable.AO;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_AO;
     public SaveBlockAccessor6AO Blocks { get; }
-    protected override SAV6AO CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV6AO CloneInternal() => new(Data.ToArray());
     public override ushort MaxMoveID => Legal.MaxMoveID_6_AO;
     public override int MaxItemID => Legal.MaxItemID_6_AO;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
@@ -99,8 +99,8 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite, IBoxDetail
 
     // Daycare
 
-    public override string JPEGTitle => !HasJPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
-    public override Span<byte> GetJPEGData() => !HasJPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004);
+    public override string JPEGTitle => !HasJPEGData ? string.Empty : StringConverter6.GetString(Data.Slice(JPEG, 0x1A));
+    public override Span<byte> GetJPEGData() => !HasJPEGData ? [] : Data.Slice(JPEG + 0x54, 0xE004);
     private bool HasJPEGData => Data[JPEG + 0x54] == 0xFF;
 
     public override int CurrentBox { get => Blocks.BoxLayout.CurrentBox; set => Blocks.BoxLayout.CurrentBox = value; }

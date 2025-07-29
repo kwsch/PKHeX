@@ -1,0 +1,20 @@
+{
+    "FormatMove": "{0} Mossa {1}: {2}",
+    "FormatRelearn": "{0} Mossa Riappresa {1}: {2}",
+    "SourceDefault": "Mossa predefinita.",
+    "SourceDuplicate": "Mossa duplicata.",
+    "SourceEmpty": "Mossa vuota.",
+    "SourceInvalid": "Mossa non valida.",
+    "SourceLevelUp": "Appresa per aumento di livello.",
+    "SourceRelearn": "Mossa riapprendibile.",
+    "SourceSpecial": "Mossa speciale non-riapprendibile.",
+    "SourceTMHM": "Appresa tramite MT/MN.",
+    "SourceTutor": "Appresa tramite Insegnamosse.",
+    "SourceShared": "Mossa condivisa non-riapprendibile.",
+    "RelearnEgg": "Mossa Uovo di base.",
+    "EggInherited": "Mossa Uovo ereditata.",
+    "EggTMHM": "Mossa MT/MN ereditata.",
+    "EggInheritedTutor": "Mossa insegnata ereditata.",
+    "EggInvalid": "Mossa Uovo non prevista.",
+    "EggLevelUp": "Mossa ereditata appresa per aumento di livello."
+}

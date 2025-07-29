@@ -13,7 +13,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
     public override string Extension => string.Empty;
 
-    protected SAV6(byte[] data, [ConstantExpected] int biOffset) : base(data, biOffset) { }
+    protected SAV6(Memory<byte> data, [ConstantExpected] int biOffset) : base(data, biOffset) { }
     protected SAV6([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size, biOffset) { }
 
     // Configuration

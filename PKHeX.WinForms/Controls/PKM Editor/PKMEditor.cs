@@ -187,7 +187,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private readonly PictureBox[] relearnPB;
     public SaveFile RequestSaveFile => SaveFileRequested.Invoke(this, EventArgs.Empty);
-    public bool PKMIsUnsaved => FieldsLoaded && LastData.AsSpan().ContainsAnyExcept<byte>(0) && !LastData.SequenceEqual(CurrentPKM.Data);
+    public bool PKMIsUnsaved => FieldsLoaded && LastData.AsSpan().ContainsAnyExcept<byte>(0) && !CurrentPKM.Data.SequenceEqual(LastData);
 
     private readonly MoveChoice[] Moves;
     private readonly ComboBox[] Relearn;
@@ -206,7 +206,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
 
         var pk = GetPKMfromFields();
-        LastData = pk.Data;
+        LastData = pk.Data.ToArray();
         return pk.Clone();
     }
 
@@ -325,7 +325,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         SetMarkings();
         UpdateLegality();
         UpdateSprite();
-        LastData = PreparePKM().Data;
+        LastData = PreparePKM().Data.ToArray();
         RefreshFontWarningButton();
     }
 
@@ -1834,7 +1834,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 PB_Affixed.Image = RibbonSpriteUtil.GetRibbonSprite((RibbonIndex)affixed);
                 PB_Affixed.Visible = true;
                 // Update the tooltip with the ribbon name.
-                var name = RibbonStrings.GetNameSafe($"Ribbon{(RibbonIndex)affixed}", out var result) ? result : affixed.ToString();
+                var name = GameInfo.Strings.Ribbons.GetNameSafe($"Ribbon{(RibbonIndex)affixed}", out var result) ? result : affixed.ToString();
                 if (pk is IRibbonSetMarks { RibbonMarkCount: > 1 } y)
                     name += Environment.NewLine + GetRibbonAffixCount(y);
                 AffixedTip.SetToolTip(PB_Affixed, name);
@@ -1969,6 +1969,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = format >= 4;
         ShinyLeaf.Visible = format == 4;
+
+        // Ensure marking order is correct for gen3|future. Gen3 has square second, not third.
+        var orderCorrect = (format == 3) == (PB_Mark3.Location.X < PB_Mark2.Location.X);
+        if (!orderCorrect) // Swap the locations of the marks.
+            (PB_Mark2.Location, PB_Mark3.Location) = (PB_Mark3.Location, PB_Mark2.Location);
 
         DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = format > 3 && HaX;
         CB_Ability.Visible = CB_Ability.TabStop = !DEV_Ability.Enabled && format >= 3;

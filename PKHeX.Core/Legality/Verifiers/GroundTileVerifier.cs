@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -18,7 +18,7 @@ public sealed class GroundTileVerifier : Verifier
             return;
         var enc = data.EncounterMatch;
         bool valid = IsGroundTileValid(enc, e);
-        var result = !valid ? GetInvalid(LEncTypeMismatch) : GetValid(LEncTypeMatch);
+        var result = !valid ? GetInvalid(EncTypeMismatch) : GetValid(EncTypeMatch);
         data.AddLine(result);
     }
 

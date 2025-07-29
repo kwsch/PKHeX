@@ -1,0 +1,15 @@
+{
+    "Format": "{0}: {1}",
+    "FormatLevelRange": "{0}: {1}-{2}",
+    "EncounterType": "Tipo de Encuentro",
+    "Version": "Versión",
+    "Level": "Nivel",
+    "LevelRange": "Rango de nivel",
+    "Location": "Ubicación",
+    "OriginSeed": "Semilla original",
+    "PIDType": "Tipo de PID",
+    "Time": "Tiempo",
+    "FrameNewGame": "Nuevo juego: 0x{0}, Fotograma: {1}",
+    "FrameInitial": "Inicial: 0x{0}, Fotograma: {1}",
+    "SuffixDays": " (días: {0})"
+}

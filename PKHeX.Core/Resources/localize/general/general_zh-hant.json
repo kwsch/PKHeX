@@ -1,0 +1,8 @@
+{
+    "StatNames": [ "HP", "攻擊", "防禦", "特攻", "特防", "速度" ],
+    "OriginalTrainer": "原訓練家",
+    "HandlingTrainer": "上一位訓練家",
+    "GenderMale": "♂",
+    "GenderFemale": "♀",
+    "GenderGenderless": "無性別"
+}

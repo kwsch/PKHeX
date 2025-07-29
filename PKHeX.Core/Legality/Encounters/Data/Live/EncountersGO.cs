@@ -28,15 +28,15 @@ public static class EncountersGO
     /// <summary>
     /// Debug method to reload the encounter data from the binary resources next to the executable.
     /// </summary>
-    public static void Reload()
+    public static void Reload(string? dir = null)
     {
-        SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8));
-        SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8));
+        SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8, dir));
+        SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8, dir));
     }
 
-    private static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
+    private static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, string? dir = null)
     {
-        var exePath = Path.GetDirectoryName(Environment.ProcessPath) ?? string.Empty;
+        var exePath = dir ?? Path.GetDirectoryName(Environment.ProcessPath) ?? string.Empty;
         var file = $"encounter_{resource}.pkl";
         var fullPath = Path.Combine(exePath, file);
         var data = File.Exists(fullPath) ? File.ReadAllBytes(fullPath) : Util.GetBinaryResource(file);

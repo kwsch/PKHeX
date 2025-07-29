@@ -16,7 +16,7 @@ public sealed class SummaryPreviewer
     private CancellationTokenSource _source = new();
     private static HoverSettings Settings => Main.Settings.Hover;
 
-    public void Show(Control pb, PKM pk)
+    public void Show(Control pb, PKM pk, StorageSlotType type = StorageSlotType.None)
     {
         if (pk.Species == 0)
         {
@@ -27,16 +27,19 @@ public sealed class SummaryPreviewer
         var programLanguage = Language.GetLanguageValue(Main.Settings.Startup.Language);
         var cfg = Main.Settings.BattleTemplate;
         var settings = cfg.Hover.GetSettings(programLanguage, pk.Context);
+        var localize = LegalityLocalizationSet.GetLocalization(programLanguage);
+        var la = new LegalityAnalysis(pk, type);
+        var ctx = LegalityLocalizationContext.Create(la, localize);
 
         if (Settings.HoverSlotShowPreview && Control.ModifierKeys != Keys.Alt)
         {
-            UpdatePreview(pb, pk, settings);
+            UpdatePreview(pb, pk, settings, ctx);
         }
         else if (Settings.HoverSlotShowText)
         {
             var text = GetPreviewText(pk, settings);
             if (Settings.HoverSlotShowEncounter)
-                text = AppendEncounterInfo(new LegalityAnalysis(pk), text);
+                text = AppendEncounterInfo(ctx, text);
             ShowSet.SetToolTip(pb, text);
         }
 
@@ -44,13 +47,13 @@ public sealed class SummaryPreviewer
             Cry.PlayCry(pk, pk.Context);
     }
 
-    private void UpdatePreview(Control pb, PKM pk, BattleTemplateExportSettings settings)
+    private void UpdatePreview(Control pb, PKM pk, in BattleTemplateExportSettings settings, in LegalityLocalizationContext ctx)
     {
         _source.Cancel();
         _source.Dispose(); // Properly dispose the previous CancellationTokenSource
         _source = new();
         UpdatePreviewPosition(new());
-        Previewer.Populate(pk, settings);
+        Previewer.Populate(pk, settings, ctx);
         ShowInactiveTopmost(Previewer);
     }
 
@@ -137,7 +140,7 @@ public sealed class SummaryPreviewer
 
     public static string GetPreviewText(PKM pk, BattleTemplateExportSettings settings) => ShowdownParsing.GetLocalizedPreviewText(pk, settings);
 
-    public static string AppendEncounterInfo(LegalityAnalysis la, string text)
+    public static string AppendEncounterInfo(LegalityLocalizationContext la, string text)
     {
         var result = new List<string>(8) { text };
         if (text.Length != 0) // add a blank line between the set and the encounter info if isn't already a blank line
@@ -148,7 +151,7 @@ public sealed class SummaryPreviewer
 
     private static string GetPreviewText(IEncounterInfo enc, bool verbose = false)
     {
-        var lines = enc.GetTextLines(GameInfo.Strings, verbose);
+        var lines = enc.GetTextLines(verbose, Main.CurrentLanguage);
         return string.Join(Environment.NewLine, lines);
     }
 }

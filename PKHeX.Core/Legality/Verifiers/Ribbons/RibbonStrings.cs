@@ -7,15 +7,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// String Translation Utility
 /// </summary>
-public static class RibbonStrings
+public class RibbonStrings
 {
-    private static readonly Dictionary<string, string> RibbonNames = [];
+    private readonly Dictionary<string, string> RibbonNames = [];
 
     /// <summary>
     /// Resets the Ribbon Dictionary to use the supplied set of Ribbon (Property) Names.
     /// </summary>
     /// <param name="lines">Array of strings that are tab separated with Property Name, \t, and Display Name.</param>
-    public static void ResetDictionary(ReadOnlySpan<string> lines)
+    public RibbonStrings(ReadOnlySpan<string> lines)
     {
         RibbonNames.EnsureCapacity(lines.Length);
 
@@ -38,11 +38,11 @@ public static class RibbonStrings
     /// <param name="propertyName">Ribbon property name</param>
     /// <param name="result">Ribbon localized name</param>
     /// <returns>True if exists</returns>
-    public static bool GetNameSafe(string propertyName, [NotNullWhen(true)] out string? result) => RibbonNames.TryGetValue(propertyName, out result);
+    public bool GetNameSafe(string propertyName, [NotNullWhen(true)] out string? result) => RibbonNames.TryGetValue(propertyName, out result);
 
     /// <returns>Ribbon display name</returns>
     /// <inheritdoc cref="GetNameSafe"/>
-    public static string GetName(string propertyName)
+    public string GetName(string propertyName)
     {
         // Throw an exception with the requested property name as the message, rather than an ambiguous "key not present" message.
         // We should ALWAYS have the key present as the input arguments are not user-defined, rather, they are from PKM property names.
