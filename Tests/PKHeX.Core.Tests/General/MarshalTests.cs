@@ -28,5 +28,5 @@ public class MarshalTests
     [InlineData(16, typeof(EvolutionLink))]
     [InlineData(16, typeof(EncounterCriteria))]
     [InlineData(24, typeof(GenerateParam9))]
-    public void MarshalSizeLessThanEqual(int expect, Type t) => Marshal.SizeOf(t).Should().BeLessOrEqualTo(expect);
+    public void MarshalSizeLessThanEqual(int expect, Type t) => Marshal.SizeOf(t).Should().BeLessThanOrEqualTo(expect);
 }
