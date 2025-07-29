@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="LICENSE.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/PKHeX.Core.Tests/PKHeX.Core.Tests.csproj" />
+  </Folder>
+  <Project Path="PKHeX.Core/PKHeX.Core.csproj" />
+  <Project Path="PKHeX.Drawing.Misc/PKHeX.Drawing.Misc.csproj" />
+  <Project Path="PKHeX.Drawing.PokeSprite/PKHeX.Drawing.PokeSprite.csproj" />
+  <Project Path="PKHeX.Drawing/PKHeX.Drawing.csproj" />
+  <Project Path="PKHeX.WinForms/PKHeX.WinForms.csproj" />
+</Solution>
