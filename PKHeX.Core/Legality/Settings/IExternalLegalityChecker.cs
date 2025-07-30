@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -12,7 +10,7 @@ namespace PKHeX.Core;
 ///   with the <see cref="CheckResult.Argument"/> set to the <see cref="Identity"/> of this checker.
 ///   You can still use <see cref="CheckResult.Argument2"/> to store values useful for localization, if you must.
 /// </remarks>
-public interface IExternalLegalityChecker
+public interface IExternalLegalityChecker : ILegalityVerifier
 {
     /// <summary>
     /// Friendly name of the legality check, used for display/internal purposes.
@@ -23,13 +21,6 @@ public interface IExternalLegalityChecker
     /// Unique identity of the legality check, used to identify the check in results.
     /// </summary>
     public ushort Identity { get; }
-
-    /// <summary>
-    /// Runs the legality check against the provided data.
-    /// </summary>
-    /// <param name="results">Results to append to.</param>
-    /// <param name="data">Context data for the legality check, after the regular analysis has concluded.</param>
-    void Check(List<CheckResult> results, LegalityAnalysis data);
 
     /// <summary>
     /// Requests a localized string for the given check result.

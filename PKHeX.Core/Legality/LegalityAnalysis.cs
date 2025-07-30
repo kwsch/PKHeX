@@ -103,7 +103,7 @@ public sealed class LegalityAnalysis
             GetParseMethod()();
 
             foreach (var ext in ExternalLegalityCheck.ExternalCheckers.Values)
-                ext.Check(Parse, this);
+                ext.Verify(this);
 
             Valid = Parse.TrueForAll(chk => chk.Valid)
                     && MoveResult.AllValid(Info.Moves)
@@ -270,7 +270,7 @@ public sealed class LegalityAnalysis
     /// Adds a new Check parse value.
     /// </summary>
     /// <param name="chk">Check result to add.</param>
-    internal void AddLine(CheckResult chk) => Parse.Add(chk);
+    public void AddLine(CheckResult chk) => Parse.Add(chk);
 
     private void UpdateVCTransferInfo()
     {

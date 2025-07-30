@@ -3,12 +3,19 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core.Bulk;
 
+/// <summary>
+/// Provides functionality for managing and localizing external bulk checkers.
+/// </summary>
+/// <remarks>
+/// <see cref="BulkAnalysis"/> will automatically use the registered external checkers after its bulk checks are complete.
+/// </remarks>
 public static class ExternalBulkCheck
 {
     /// <summary>
     /// Gets the collection of external legality checkers indexed by their unique identifier.
     /// </summary>
     internal static Dictionary<ushort, IExternalBulkChecker> ExternalCheckers { get; } = [];
+
     /// <summary>
     /// Registers an external bulk legality checker for use in validation processes.
     /// </summary>
