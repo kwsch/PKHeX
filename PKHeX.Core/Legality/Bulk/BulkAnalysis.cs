@@ -30,19 +30,44 @@ public sealed class BulkAnalysis
     /// </summary>
     public bool SetIsClone(int entryIndex, bool value = true) => CloneFlags[entryIndex] = value;
 
-    public BulkAnalysis(SaveFile sav, BulkAnalysisSettings settings)
+    public BulkAnalysis(SaveFile sav, BulkAnalysisSettings settings) : this(GetSlots(sav), settings, sav)
     {
-        Trainer = sav;
+    }
+
+    public BulkAnalysis(IEnumerable<SlotCache> source, BulkAnalysisSettings settings, ITrainerInfo tr) : this(GetSlots(source), settings, tr)
+    {
+    }
+
+    private BulkAnalysis(List<SlotCache> list, BulkAnalysisSettings settings, ITrainerInfo tr)
+    {
+        Trainer = tr;
         Settings = settings;
-        var list = new List<SlotCache>(sav.BoxSlotCount + (sav.HasParty ? 6 : 0) + 5);
-        SlotInfoLoader.AddFromSaveFile(sav, list);
-        list.RemoveAll(IsEmptyData);
         AllData = list;
         AllAnalysis = GetIndividualAnalysis(CollectionsMarshal.AsSpan(list));
         CloneFlags = new bool[AllData.Count];
 
         ScanAll();
         Valid = Parse.Count == 0 || Parse.TrueForAll(static z => z.Result.Valid);
+    }
+
+    private static List<SlotCache> GetSlots(SaveFile sav)
+    {
+        var list = new List<SlotCache>(sav.BoxSlotCount + (sav.HasParty ? 6 : 0) + 5);
+        SlotInfoLoader.AddFromSaveFile(sav, list);
+        list.RemoveAll(IsEmptyData);
+        return list;
+    }
+
+    private static List<SlotCache> GetSlots(IEnumerable<SlotCache> source)
+    {
+        var list = new List<SlotCache>();
+        foreach (var slot in source)
+        {
+            if (IsEmptyData(slot))
+                continue;
+            list.Add(slot);
+        }
+        return list;
     }
 
     // Remove things that aren't actual stored data, or already flagged by legality checks.
