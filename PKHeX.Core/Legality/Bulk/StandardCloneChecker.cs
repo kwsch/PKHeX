@@ -18,7 +18,7 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
 
     private static void CheckClones(BulkAnalysis input)
     {
-        var dict = new Dictionary<string, SlotCache>();
+        var dict = new Dictionary<string, (SlotCache Slot, int Index)>();
         for (int i = 0; i < input.AllData.Count; i++)
         {
             var cs = input.AllData[i];
@@ -27,35 +27,35 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
 
             // Check the upload tracker to see if there's any duplication.
             if (cs.Entity is IHomeTrack home)
-                CheckClonedTrackerHOME(input, home, cs, ca);
+                CheckClonedTrackerHOME(input, home, cs, i);
 
             // Hash Details like EC/IV to see if there's any duplication.
             var identity = SearchUtil.HashByDetails(cs.Entity);
             if (!dict.TryGetValue(identity, out var ps))
             {
-                dict.Add(identity, cs);
+                dict.Add(identity, (cs, i));
                 continue;
             }
 
             input.SetIsClone(i, true);
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkCloneDetectedDetails, Encounter);
+            input.AddLine(ps.Slot, cs, Encounter, i, ps.Index, LegalityCheckResultCode.BulkCloneDetectedDetails);
         }
     }
 
     private const ulong DefaultUnsetTrackerHOME = 0ul;
 
-    private static void CheckClonedTrackerHOME(BulkAnalysis input, IHomeTrack home, SlotCache cs, LegalityAnalysis ca)
+    private static void CheckClonedTrackerHOME(BulkAnalysis input, IHomeTrack home, SlotCache cs, int index)
     {
         var tracker = home.Tracker;
         if (tracker != DefaultUnsetTrackerHOME)
-            CheckTrackerPresent(input, cs, tracker);
+            CheckTrackerPresent(input, cs, tracker, index);
     }
 
-    private static void CheckTrackerPresent(BulkAnalysis input, SlotCache cs, ulong tracker)
+    private static void CheckTrackerPresent(BulkAnalysis input, SlotCache cs, ulong tracker, int index)
     {
         if (input.Trackers.TryGetValue(tracker, out var clone))
-            input.AddLine(cs, clone, LegalityCheckResultCode.BulkCloneDetectedTracker, Encounter);
+            input.AddLine(cs, clone.Slot, Encounter, index, clone.Index, LegalityCheckResultCode.BulkCloneDetectedTracker);
         else
-            input.Trackers.Add(tracker, cs);
+            input.Trackers.Add(tracker, (cs, index));
     }
 }

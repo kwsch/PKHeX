@@ -10,4 +10,7 @@ namespace PKHeX.Core.Bulk;
 /// It'll store a generated string that describes the result of the check, which can be used for debugging or user feedback.
 /// Is it something able to be localized? Anything is possible, but we only will generate identifier-like comments that aren't really localizable besides formatting chars.
 /// </remarks>
-public readonly record struct BulkCheckResult(CheckResult Result, string Comment);
+public readonly record struct BulkCheckResult(CheckResult Result, string Comment, int Index1, int Index2 = BulkCheckResult.NoIndex)
+{
+    public const int NoIndex = -1;
+}

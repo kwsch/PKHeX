@@ -14,7 +14,7 @@ public sealed class BulkAnalysis
     public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
     public readonly ITrainerInfo Trainer;
     public readonly List<BulkCheckResult> Parse = [];
-    public readonly Dictionary<ulong, SlotCache> Trackers = [];
+    public readonly Dictionary<ulong, (SlotCache Slot, int Index)> Trackers = [];
     public readonly bool Valid;
 
     public readonly BulkAnalysisSettings Settings;
@@ -62,7 +62,7 @@ public sealed class BulkAnalysis
     /// <remarks>
     /// Adding a bulk analyzer here as a user of this library? Be sure to register a <see cref="IExternalLegalityChecker"/> to display results in string output.
     /// </remarks>
-    public static readonly List<IBulkAnalyzer> Analyzers =
+    private static readonly List<IBulkAnalyzer> Analyzers =
     [
         new StandardCloneChecker(),
         new DuplicateTrainerChecker(),
@@ -76,6 +76,8 @@ public sealed class BulkAnalysis
     {
         foreach (var analyzer in Analyzers)
             analyzer.Analyze(this);
+        foreach (var analyzer in ExternalBulkCheck.ExternalCheckers.Values)
+            analyzer.Analyze(this);
     }
 
     private static string GetSummary(SlotCache entry) => $"[{entry.Identify()}]";
@@ -83,22 +85,45 @@ public sealed class BulkAnalysis
     /// <summary>
     /// Adds a new entry to the <see cref="Parse"/> list.
     /// </summary>
-    public void AddLine(SlotCache first, SlotCache second, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
+    public void AddLine(SlotCache first, CheckIdentifier id, int index1,
+        LegalityCheckResultCode msg, ushort argument1 = 0, ushort argument2 = 0, Severity s = Severity.Invalid)
     {
-        var line = GetSummary(first) + Environment.NewLine + GetSummary(second);
-        var chk = CheckResult.Get(s, i, msg);
-        Parse.Add(new(chk, line));
+        var line = GetSummary(first);
+        var chk = new CheckResult
+        {
+            Judgement = s,
+            Identifier = id,
+            Result = msg,
+            Argument = argument1,
+            Argument2 = argument2,
+        };
+        Parse.Add(new(chk, line, index1));
     }
 
     /// <summary>
     /// Adds a new entry to the <see cref="Parse"/> list.
     /// </summary>
-    public void AddLine(SlotCache first, LegalityCheckResultCode msg, CheckIdentifier i, Severity s = Severity.Invalid)
+    public void AddLine(SlotCache first, SlotCache second, CheckIdentifier id, int index1, int index2,
+        LegalityCheckResultCode msg, ushort argument1 = 0, ushort argument2 = 0, Severity s = Severity.Invalid)
     {
-        var line = GetSummary(first);
-        var chk = CheckResult.Get(s, i, msg);
-        Parse.Add(new(chk, line));
+        var line = GetSummary(first) + Environment.NewLine + GetSummary(second);
+        var chk = new CheckResult
+        {
+            Judgement = s,
+            Identifier = id,
+            Result = msg,
+            Argument = argument1,
+            Argument2 = argument2,
+        };
+        Parse.Add(new(chk, line, index1, index2));
     }
+
+    public void AddExternal(SlotCache first, CheckIdentifier id, int index1, ushort identity, ushort argument = 0, Severity s = Severity.Invalid)
+        => AddLine(first, id, index1, LegalityCheckResultCode.External, identity, argument, s);
+
+    public void AddExternal(SlotCache first, SlotCache second, CheckIdentifier id, int index1, int index2, ushort identity, ushort argument = 0, Severity s = Severity.Invalid)
+        => AddLine(first, second, id, index1, index2, LegalityCheckResultCode.External, identity, argument, s);
+
 
     private static LegalityAnalysis[] GetIndividualAnalysis(ReadOnlySpan<SlotCache> list)
     {
@@ -113,15 +138,17 @@ public sealed class BulkAnalysis
     public string Report(LegalityLocalizationSet localization)
     {
         var sb = new StringBuilder(1024);
-        foreach (var (chk, comment) in Parse)
+        foreach (var (chk, comment, index1, index2) in Parse)
         {
             if (sb.Length != 0)
                 sb.AppendLine(); // gap for next result
 
             var code = chk.Result;
-            var template = code is LegalityCheckResultCode.External
-                ? ExternalLegalityCheck.Localize(chk, localization)
-                : code.GetTemplate(localization.Lines);
+            string template;
+            if (code is LegalityCheckResultCode.External)
+                template = ExternalBulkCheck.Localize(chk, localization, AllAnalysis, index1, index2);
+            else
+                template = code.GetTemplate(localization.Lines);
             var judge = localization.Description(chk.Judgement);
             sb.AppendFormat(localization.Lines.F0_1, judge, template);
             sb.AppendLine();

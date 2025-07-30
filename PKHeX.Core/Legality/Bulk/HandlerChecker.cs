@@ -28,12 +28,15 @@ public sealed class HandlerChecker : IBulkAnalyzer
             if (!la.Valid)
                 continue;
             var cs = input.AllData[i];
-            Verify(input, cs, la);
+            var cr = new CombinedReference(cs, la, i);
+            Verify(input, cr);
         }
     }
 
-    private static void Verify(BulkAnalysis input, SlotCache cs, LegalityAnalysis la)
+    private static void Verify(BulkAnalysis input, CombinedReference cr)
     {
+        var cs = cr.Slot;
+        var la = cr.Analysis;
         var pk = cs.Entity;
         var tr = cs.SAV;
         if (!tr.State.Exportable)
@@ -44,28 +47,31 @@ public sealed class HandlerChecker : IBulkAnalyzer
         var shouldBe0 = tr.IsFromTrainer(pk);
         byte expect = shouldBe0 ? (byte)0 : (byte)1;
         if (!HistoryVerifier.IsHandlerStateCorrect(la.EncounterOriginal, pk, current, expect))
-            input.AddLine(cs, TransferCurrentHandlerInvalid, Trainer);
+            input.AddLine(cs, Trainer, cr.Index, TransferCurrentHandlerInvalid);
 
         if (current == 1)
-            CheckHandlingTrainerEquals(input, pk, tr, cs);
+            CheckHandlingTrainerEquals(input, cr);
     }
 
     /// <summary> <see cref="HistoryVerifier.CheckHandlingTrainerEquals"/> </summary>
-    private static void CheckHandlingTrainerEquals(BulkAnalysis data, PKM pk, SaveFile tr, SlotCache cs)
+    private static void CheckHandlingTrainerEquals(BulkAnalysis data, CombinedReference cr)
     {
+        var cs = cr.Slot;
+        var pk = cs.Entity;
+        var tr = cs.SAV;
         Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
         var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
         ht = ht[..len];
 
         if (!ht.SequenceEqual(tr.OT))
-            data.AddLine(cs, TransferHandlerMismatchName, Trainer);
+            data.AddLine(cs, Trainer, cr.Index, TransferHandlerMismatchName);
         if (pk.HandlingTrainerGender != tr.Gender)
-            data.AddLine(cs, TransferHandlerMismatchGender, Trainer);
+            data.AddLine(cs, Trainer, cr.Index, TransferHandlerMismatchGender);
 
         // If the format exposes a language, check if it matches.
         // Can be mismatched as the game only checks OT/Gender equivalence -- if it matches, don't update everything else.
         // Statistically unlikely that players will play in different languages, but it's technically possible.
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
-            data.AddLine(cs, TransferHandlerMismatchLanguage, Trainer, Severity.Fishy);
+            data.AddLine(cs, Trainer, cr.Index, TransferHandlerMismatchLanguage, s: Severity.Fishy);
     }
 }

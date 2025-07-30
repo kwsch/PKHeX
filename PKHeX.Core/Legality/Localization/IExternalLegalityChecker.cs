@@ -36,6 +36,7 @@ public interface IExternalLegalityChecker
     /// </summary>
     /// <param name="chk">Check result to localize.</param>
     /// <param name="settings">Localization settings and strings that can be used.</param>
+    /// <param name="data">Analysis the check originated from, which may contain additional context.</param>
     /// <returns>Localized string for the check result.</returns>
-    string Localize(CheckResult chk, LegalityLocalizationSet settings);
+    string Localize(CheckResult chk, LegalityLocalizationSet settings, LegalityAnalysis data);
 }

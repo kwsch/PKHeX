@@ -23,18 +23,20 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
                 continue; // already flagged
             var cs = input.AllData[i];
             var ca = input.AllAnalysis[i];
-            Verify(input, dict, cs, ca);
+            var cr = new CombinedReference(cs, ca, i);
+            Verify(input, dict, cr);
         }
     }
 
-    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, SlotCache cs, LegalityAnalysis ca)
+    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, CombinedReference cr)
     {
+        var ca = cr.Analysis;
+        var cs = cr.Slot;
         var id = cs.Entity.ID32;
 
         if (!dict.TryGetValue(id, out var pr))
         {
-            var r = new CombinedReference(cs, ca);
-            dict.Add(id, r);
+            dict.Add(id, cr);
             return;
         }
 
@@ -44,18 +46,22 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         if (ca.Info.Generation <= 2 && pa.Info.Generation <= 2)
             return;
 
-        var ps = pr.Slot;
-        if (VerifyIDReuse(input, ps, pa, cs, ca))
+        if (VerifyIDReuse(input, pr, cr))
             return;
 
         // egg encounters can be traded before hatching
         // store the current loop pk if it's a better reference
-        if (ps.Entity.WasTradedEgg && !cs.Entity.WasTradedEgg)
-            dict[id] = new CombinedReference(cs, ca);
+        var ps = pr.Slot;
+        if (ps.Entity.WasTradedEgg && !ca.Entity.WasTradedEgg)
+            dict[id] = cr;
     }
 
-    private static bool VerifyIDReuse(BulkAnalysis input, SlotCache ps, LegalityAnalysis pa, SlotCache cs, LegalityAnalysis ca)
+    private static bool VerifyIDReuse(BulkAnalysis input, CombinedReference pr, CombinedReference cr)
     {
+        var pa = pr.Analysis;
+        var ps = pr.Slot;
+        var ca = cr.Analysis;
+        var cs = cr.Slot;
         if (IsNotPlayerDetails(pa.EncounterMatch) || IsNotPlayerDetails(ca.EncounterMatch))
             return false;
 
@@ -68,7 +74,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         // Trainer-ID-SID16 should only occur for one version
         if (IsSharedVersion(pp, pa, cp, ca))
         {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingTrainerVersion, ident);
+            input.AddLine(ps, cs, ident, pr.Index, cr.Index, LegalityCheckResultCode.BulkSharingTrainerVersion);
             return true;
         }
 
@@ -76,7 +82,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         if (pp.OriginalTrainerName != cp.OriginalTrainerName)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingTrainerIDs, ident, severity);
+            input.AddLine(ps, cs, ident, pr.Index, cr.Index, LegalityCheckResultCode.BulkSharingTrainerIDs, s: severity);
         }
 
         return false;

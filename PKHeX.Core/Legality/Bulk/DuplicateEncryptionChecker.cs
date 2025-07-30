@@ -29,16 +29,18 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
                 continue; // already flagged
             var cp = input.AllData[i];
             var ca = input.AllAnalysis[i];
-            Verify(input, dict, cp, ca);
+            var cr = new CombinedReference(cp, ca, i);
+            Verify(input, dict, cr);
         }
     }
 
-    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, SlotCache cp, LegalityAnalysis ca)
+    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, CombinedReference cr)
     {
+        var cp = cr.Analysis;
+
         Debug.Assert(cp.Entity.Format >= 6);
         var id = cp.Entity.EncryptionConstant;
 
-        var cr = new CombinedReference(cp, ca);
         if (!dict.TryGetValue(id, out var pa))
         {
             dict.Add(id, cr);
@@ -50,8 +52,8 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 
     private static void VerifyECShare(BulkAnalysis input, CombinedReference pr, CombinedReference cr)
     {
-        var (ps, pa) = pr;
-        var (cs, ca) = cr;
+        var (ps, pa, index1) = pr;
+        var (cs, ca, index2) = cr;
 
         const CheckIdentifier ident = PID;
         var gen = pa.Info.Generation;
@@ -61,10 +63,10 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
         {
             if (ca.Info.Generation != gen)
             {
-                input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationDifferent, ident);
+                input.AddLine(ps, cs, ident, index1, index2, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationDifferent);
                 return;
             }
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationSame, ident);
+            input.AddLine(ps, cs, ident, index1, index2, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationSame);
             return;
         }
 
@@ -76,7 +78,7 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 
         if (eggMysteryCurrent != eggMysteryPrevious)
         {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingEncryptionConstantEncounterType, ident);
+            input.AddLine(ps, cs, ident, index1, index2, LegalityCheckResultCode.BulkSharingEncryptionConstantEncounterType);
         }
     }
 }
