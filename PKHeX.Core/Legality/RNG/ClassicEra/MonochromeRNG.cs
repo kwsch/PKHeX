@@ -53,7 +53,7 @@ public static class MonochromeRNG
         // We could probably do this in a single step (shiny, gender), but it's not worth the complexity.
         while (true)
         {
-            var pid = LCRNG64.NextRange(ref seed, uint.MaxValue); // can't get 0xFFFFFFFF as a PID without it being modified.
+            var pid = LCRNG64.Next32(ref seed);
 
             // Force correlations
             if (isForcedGender) // assume gender in criteria is the specified one, and the species can be either gender.

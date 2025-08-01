@@ -34,14 +34,7 @@ public sealed class PIDVerifier : Verifier
 
     private static void VerifyEggPID(LegalityAnalysis data, PKM pk, IEncounterEgg egg)
     {
-        if (egg is EncounterEgg5)
-        {
-            // Gen5 eggs use rand(0xFFFFFFFF), which never yields 0xFFFFFFFF (max 0xFFFFFFFE).
-            // Masuda Method does the same as the original PID roll. PID is never re-rolled a different way.
-            if (pk.EncryptionConstant == uint.MaxValue)
-                data.AddLine(Get(CheckIdentifier.EC, Severity.Invalid, PIDEncryptZero));
-        }
-        else if (egg is EncounterEgg4)
+        if (egg is EncounterEgg4)
         {
             // Gen4 Eggs are "egg available" based on the stored PID value in the save file.
             // If this value is 0 or is generated as 0 (possible), the game will see "false" and no egg is available.
@@ -92,25 +85,16 @@ public sealed class PIDVerifier : Verifier
 
                 if (enc is EncounterStatic5 { IsWildCorrelationPID: true })
                     VerifyG5PID_IDCorrelation(data);
-                // general: flag 0xFFFFFFFF as invalid, but some rare cases can be (checking the template with a future heuristic will be necessary).
-                if (pk.EncryptionConstant is uint.MaxValue)
-                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
             case EncounterStatic5 { IsWildCorrelationPID: true }:
                 VerifyG5PID_IDCorrelation(data);
-                if (pk.EncryptionConstant is uint.MaxValue)
-                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
 
             case EncounterSlot5 {IsHiddenGrotto: true} when pk.IsShiny:
                 data.AddLine(GetInvalid(CheckIdentifier.Shiny, G5PIDShinyGrotto));
-                if (pk.EncryptionConstant is uint.MaxValue)
-                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
             case EncounterSlot5 {IsHiddenGrotto: false}:
                 VerifyG5PID_IDCorrelation(data);
-                if (pk.EncryptionConstant is uint.MaxValue)
-                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
 
             case PCD d: // fixed PID
