@@ -86,15 +86,31 @@ public sealed class PIDVerifier : Verifier
         switch (enc)
         {
             // Forced PID or generated without an encounter
-            // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
+            case IGeneration { Generation: 5 } and IFixedGender { Gender: 0 or 1 } fg:
+                if (enc is not PGF && !MonochromeRNG.IsValidForcedRandomGender(pk.EncryptionConstant, fg.Gender))
+                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
+
+                if (enc is EncounterStatic5 { IsWildCorrelationPID: true })
+                    VerifyG5PID_IDCorrelation(data);
+                // general: flag 0xFFFFFFFF as invalid, but some rare cases can be (checking the template with a future heuristic will be necessary).
+                if (pk.EncryptionConstant is uint.MaxValue)
+                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
+                break;
             case EncounterStatic5 { IsWildCorrelationPID: true }:
                 VerifyG5PID_IDCorrelation(data);
+                if (pk.EncryptionConstant is uint.MaxValue)
+                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
+
             case EncounterSlot5 {IsHiddenGrotto: true} when pk.IsShiny:
                 data.AddLine(GetInvalid(CheckIdentifier.Shiny, G5PIDShinyGrotto));
+                if (pk.EncryptionConstant is uint.MaxValue)
+                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
             case EncounterSlot5 {IsHiddenGrotto: false}:
                 VerifyG5PID_IDCorrelation(data);
+                if (pk.EncryptionConstant is uint.MaxValue)
+                    data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
                 break;
 
             case PCD d: // fixed PID

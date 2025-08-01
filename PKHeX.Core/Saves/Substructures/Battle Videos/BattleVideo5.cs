@@ -277,16 +277,13 @@ public sealed class BattleVideo5(Memory<byte> Raw) : IBattleVideo
     }
     #endregion
 
-    public const ulong BWRNG_M = 0x5D588B656C078965ul;
-    public const ulong BWRNG_A = 0x0000000000269EC3ul;
-
     public static bool GetIsDecrypted(ReadOnlySpan<byte> data)
     {
         if (data.Length < SIZE)
             return false;
-        if (ReadUInt64LittleEndian(data[0xCC..]) != BWRNG_M) // mul
+        if (ReadUInt64LittleEndian(data[0xCC..]) != LCRNG64.Mult) // mul
             return false;
-        if (ReadUInt64LittleEndian(data[0xD4..]) != BWRNG_A) // add
+        if (ReadUInt64LittleEndian(data[0xD4..]) != LCRNG64.Add) // add
             return false;
         return true;
     }

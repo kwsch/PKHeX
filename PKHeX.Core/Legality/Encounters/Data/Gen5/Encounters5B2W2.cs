@@ -101,11 +101,8 @@ public static class Encounters5B2W2
         new(B2W2) { FixedBall = Ball.Poke, Species = 566, Level = 25, Location = 007 }, // Archen
 
         // Gift
-        new(B2W2) { FixedBall = Ball.Poke, Species = 133, Level = 10, Location = 008, Ability = OnlyHidden }, // HA Eevee @ Castelia City
-        new(B2W2) { FixedBall = Ball.Poke, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 0 }, // HA Deerling @ Route 6
-        new(B2W2) { FixedBall = Ball.Poke, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 1 }, // HA Deerling @ Route 6
-        new(B2W2) { FixedBall = Ball.Poke, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 2 }, // HA Deerling @ Route 6
-        new(B2W2) { FixedBall = Ball.Poke, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 3 }, // HA Deerling @ Route 6
+        new(B2W2) { FixedBall = Ball.Poke, Species = 133, Level = 10, Location = 008, Ability = OnlyHidden, Shiny = Shiny.Never, Gender = 0 }, // HA Eevee @ Castelia City
+        new(B2W2) { FixedBall = Ball.Poke, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Shiny = Shiny.Never }, // HA Deerling @ Route 6
         new(B2W2) { FixedBall = Ball.Poke, Species = 129, Level = 05, Location = 068 } , // Magikarp @ Marvelous Bridge
         new(B2W2) { FixedBall = Ball.Poke, Species = 440, Level = 01, EggLocation = 60003, Location = 0 }, // Happiny Egg from PKMN Breeder
 
@@ -114,11 +111,10 @@ public static class Encounters5B2W2
         new(B2W2) { Species = 591, Level = 43, Location = 024 }, // Amoonguss @ Route 11
         new(B2W2) { Species = 591, Level = 47, Location = 127 }, // Amoonguss @ Route 22
         new(B2W2) { Species = 591, Level = 56, Location = 128 }, // Amoonguss @ Route 23
-        new(B2W2) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden }, // Jellicent @ Undella Bay w/ Hidden Ability
         new(B2W2) { Species = 637, Level = 35, Location = 035 }, // Volcarona @ Relic Castle
         new(B2W2) { Species = 637, Level = 65, Location = 035 }, // Volcarona @ Relic Castle
         new(B2W2) { Species = 558, Level = 42, Location = 141 }, // Crustle @ Seaside Cave
-        new(B2W2) { Species = 612, Level = 60, Location = 147, Shiny = Shiny.Always}, // Haxorus @ Nature Preserve
+        new(B2W2) { Species = 612, Level = 60, Location = 147, Shiny = Shiny.Always }, // Haxorus @ Nature Preserve
 
         // Stationary Legendary
         new(B2W2) { Species = 377, Level = 65, Location = 150 }, // Regirock @ Rock Peak Chamber

@@ -30,7 +30,7 @@ public sealed record EncounterStatic5(GameVersion Version)
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public bool IsWildCorrelationPID => !IsRoaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle && !Gift && Ability != AbilityPermission.OnlyHidden;
+    public bool IsWildCorrelationPID => !IsRoaming && Shiny == Shiny.Random && !Gift && Ability != AbilityPermission.OnlyHidden;
 
     #region Generating
 
@@ -83,21 +83,12 @@ public sealed record EncounterStatic5(GameVersion Version)
 
     private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        var tmp = criteria;
-        if (Gender is not FixedGenderUtil.GenderRandom)
-            tmp = tmp with { Gender = (Gender)Gender };
-        if (Shiny is Shiny.Never)
-            tmp = tmp with { Shiny = Shiny.Never };
-
-        var seed = Util.Rand32();
+        var seed = Util.Rand.Rand64();
         var gr = pi.Gender;
-        var abilityIndex = criteria.GetAbilityFromNumber(Ability);
-        if (IsShiny)
-            MonochromeRNG.GenerateShiny(pk, tmp, gr, seed, abilityIndex);
-        else
-            MonochromeRNG.Generate(pk, tmp, gr, seed, abilityIndex);
+        MonochromeRNG.Generate(pk, criteria, gr, seed, IsWildCorrelationPID, Shiny, Ability, Gender);
 
         pk.Nature = criteria.GetNature();
+        var abilityIndex = Ability == AbilityPermission.OnlyHidden ? 2 : (int)((pk.PID >> 16) & 1);
         pk.RefreshAbility(abilityIndex);
         criteria.SetRandomIVs(pk);
     }
