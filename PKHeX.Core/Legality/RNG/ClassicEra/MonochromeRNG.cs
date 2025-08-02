@@ -112,14 +112,6 @@ public static class MonochromeRNG
         }
     }
 
-    public static bool CanBeMax(bool wildXor, Shiny type, AbilityPermission ability, byte forceGender = FixedGenderUtil.GenderRandom)
-    {
-        if (forceGender is not FixedGenderUtil.GenderRandom)
-            return false;
-        // need a lot more permutation thinking to actually verify this.
-        return true;
-    }
-
     public static bool IsValidForcedRandomGender(uint pid, byte gender) => gender switch
     {
         0 => (pid & 0xFF) is not (254 or 255),

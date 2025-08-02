@@ -1,6 +1,8 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System;
 using System.Text.Json.Serialization;
+using static PKHeX.Core.LearnMethod;
 
 namespace PKHeX.Core;
 
@@ -39,6 +41,36 @@ public sealed class MoveSourceLocalization
     public required string EggInheritedTutor { get; init; } = "Inherited tutor move.";
     public required string EggInvalid { get; init; } = "Not an expected Egg move.";
     public required string EggLevelUp { get; init; } = "Inherited move learned by Level-up.";
+    public required string LevelUpSuffix { get; init; } = " @ lv{0}";
+
+    public string Localize(LearnMethod method) => method switch
+    {
+        Empty => SourceEmpty,
+        Relearn => SourceRelearn,
+        Initial => SourceDefault,
+        LevelUp => SourceLevelUp,
+        TMHM => SourceTMHM,
+        Tutor => SourceTutor,
+        Sketch => SourceShared,
+        EggMove => RelearnEgg,
+        InheritLevelUp => EggInherited,
+
+        HOME => SourceSpecial,
+        Evolution => SourceSpecial,
+        Encounter => SourceSpecial,
+        SpecialEgg => SourceSpecial,
+        ShedinjaEvo => SourceSpecial,
+
+        Shared => SourceShared,
+
+        // Invalid
+        None => SourceInvalid,
+        Unobtainable or UnobtainableExpect => SourceInvalid,
+        Duplicate => SourceDuplicate,
+        EmptyInvalid => SourceEmpty,
+
+        _ => throw new ArgumentOutOfRangeException(nameof(method), method, null),
+    };
 }
 
 [JsonSerializable(typeof(MoveSourceLocalization))]

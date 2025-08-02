@@ -16,5 +16,6 @@
     "EggTMHM": "遺伝TM/HM技。",
     "EggInheritedTutor": "遺伝教え技。",
     "EggInvalid": "期待されないタマゴ技。",
-    "EggLevelUp": "遺伝レベルアップ技。"
+    "EggLevelUp": "遺伝レベルアップ技。",
+    "LevelUpSuffix": " @ lv{0}"
 }

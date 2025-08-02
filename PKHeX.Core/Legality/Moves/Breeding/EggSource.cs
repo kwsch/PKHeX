@@ -91,67 +91,6 @@ public enum EggSource6 : byte
 public static class EggSourceUtil
 {
     /// <summary>
-    /// Unboxes the parse result and returns a user-friendly string for the move result.
-    /// </summary>
-    public static string GetSourceString(Array parse, byte generation, int index, MoveSourceLocalization loc)
-    {
-        if (index >= parse.Length)
-            return loc.SourceEmpty;
-
-        return generation switch
-        {
-            2      => ((EggSource2[])parse)[index].GetSourceString(loc),
-            3 or 4 => ((EggSource34[])parse)[index].GetSourceString(loc),
-            5      => ((EggSource5[])parse)[index].GetSourceString(loc),
-            >= 6   => ((EggSource6[])parse)[index].GetSourceString(loc),
-            _      => loc.SourceEmpty,
-        };
-    }
-
-    private static string GetSourceString(this EggSource2 source, MoveSourceLocalization loc) => source switch
-    {
-        EggSource2.Base => loc.RelearnEgg,
-        EggSource2.FatherEgg => loc.EggInherited,
-        EggSource2.FatherTM => loc.EggTMHM,
-        EggSource2.ParentLevelUp => loc.EggLevelUp,
-        EggSource2.Tutor => loc.EggInheritedTutor,
-        EggSource2.Max => "Any",
-        _ => loc.EggInvalid,
-    };
-
-    private static string GetSourceString(this EggSource34 source, MoveSourceLocalization loc) => source switch
-    {
-        EggSource34.Base => loc.RelearnEgg,
-        EggSource34.FatherEgg => loc.EggInherited,
-        EggSource34.FatherTM => loc.EggTMHM,
-        EggSource34.ParentLevelUp => loc.EggLevelUp,
-        EggSource34.Max => "Any",
-        EggSource34.VoltTackle => loc.SourceSpecial,
-        _ => loc.EggInvalid,
-    };
-
-    private static string GetSourceString(this EggSource5 source, MoveSourceLocalization loc) => source switch
-    {
-        EggSource5.Base => loc.RelearnEgg,
-        EggSource5.FatherEgg => loc.EggInherited,
-        EggSource5.ParentLevelUp => loc.EggLevelUp,
-        EggSource5.FatherTM => loc.EggTMHM,
-        EggSource5.Max => "Any",
-        EggSource5.VoltTackle => loc.SourceSpecial,
-        _ => loc.EggInvalid,
-    };
-
-    private static string GetSourceString(this EggSource6 source, MoveSourceLocalization loc) => source switch
-    {
-        EggSource6.Base => loc.RelearnEgg,
-        EggSource6.ParentLevelUp => loc.EggLevelUp,
-        EggSource6.ParentEgg => loc.EggInherited,
-        EggSource6.Max => "Any",
-        EggSource6.VoltTackle => loc.SourceSpecial,
-        _ => loc.EggInvalid,
-    };
-
-    /// <summary>
     /// Converts the parse result and returns a user-friendly string for the move result.
     /// </summary>
     public static LearnMethod GetSource(byte value, byte generation) => generation switch

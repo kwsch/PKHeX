@@ -16,5 +16,6 @@
     "EggTMHM": "Vererbte TM/VM-Attacke.",
     "EggInheritedTutor": "Vererbte Tutor-Attacke.",
     "EggInvalid": "Unerwartete Ei-Attacke.",
-    "EggLevelUp": "Vererbte Attacke durch Level-Aufstieg erlernt."
+    "EggLevelUp": "Vererbte Attacke durch Level-Aufstieg erlernt.",
+    "LevelUpSuffix": " @ lv{0}"
 }

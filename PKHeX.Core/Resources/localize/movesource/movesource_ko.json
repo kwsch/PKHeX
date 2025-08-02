@@ -16,5 +16,6 @@
     "EggTMHM": "유전된 기술머신/비전머신 기술.",
     "EggInheritedTutor": "유전된 가르쳐주는 기술.",
     "EggInvalid": "예상되지 않은 알 기술.",
-    "EggLevelUp": "유전된 레벨업 기술."
+    "EggLevelUp": "유전된 레벨업 기술.",
+    "LevelUpSuffix": " @ lv{0}"
 }
