@@ -54,7 +54,7 @@ public sealed class EffortValueVerifier : Verifier
         if (!anyAbove100)
             return;
 
-        if (enc.LevelMin == 100) // only true for Gen4 and Format=4
+        if (enc.LevelMin == Experience.MaxLevel) // only true for Gen4 and Format=4
         {
             // Cannot EV train at level 100 -- Certain events are distributed at level 100.
             // EVs can only be increased by vitamins to a max of 100.

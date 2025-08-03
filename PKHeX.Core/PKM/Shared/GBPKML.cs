@@ -88,7 +88,7 @@ public abstract class GBPKML : GBPKM
     {
         // Reset the destination buffer based on the termination style of the existing string.
         bool zeroed = exist.Contains<byte>(0);
-        StringConverterOption converterOption = (zeroed) ? StringConverterOption.ClearZero : StringConverterOption.Clear50;
-        SetString(exist, value, value.Length, converterOption);
+        var option = zeroed ? StringConverterOption.ClearZero : StringConverterOption.Clear50;
+        SetString(exist, value, value.Length, option);
     }
 }

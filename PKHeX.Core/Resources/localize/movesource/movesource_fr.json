@@ -16,5 +16,6 @@
     "EggTMHM": "Attaque CT/CS héritée.",
     "EggInheritedTutor": "Attaque tuteur héritée.",
     "EggInvalid": "Attaque Œuf non attendue.",
-    "EggLevelUp": "Attaque héritée apprise par montée de niveau."
+    "EggLevelUp": "Attaque héritée apprise par montée de niveau.",
+    "LevelUpSuffix": " @ lv{0}"
 }

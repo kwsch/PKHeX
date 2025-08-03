@@ -16,5 +16,6 @@
     "EggTMHM": "Inherited TM/HM move.",
     "EggInheritedTutor": "Inherited tutor move.",
     "EggInvalid": "Not an expected Egg move.",
-    "EggLevelUp": "Inherited move learned by Level-up."
+    "EggLevelUp": "Inherited move learned by Level-up.",
+    "LevelUpSuffix": " @ lv{0}"
 }

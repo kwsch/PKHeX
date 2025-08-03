@@ -56,6 +56,8 @@ public partial class SAV_Database : Form
         };
         Tab_Advanced.Controls.Add(UC_Builder);
         UC_Builder.SendToBack();
+        if (!Directory.Exists(DatabasePath))
+            Menu_OpenDB.Visible = false;
 
         SAV = saveditor.SAV;
         BoxView = saveditor;
@@ -151,6 +153,7 @@ public partial class SAV_Database : Form
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
         Closing += (_, _) => ShowSet.Clear();
+        CB_Species.Select();
     }
 
     private void ClickView(object sender, EventArgs e)

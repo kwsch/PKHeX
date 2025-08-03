@@ -39,7 +39,7 @@ public static class LearnEnvironmentExtensions
     public static bool IsSpecified(this LearnEnvironment value) => value is not None;
 
     /// <summary>
-    /// Gets the generation number (1-n) for the given <see cref="LearnEnvironment"/>.
+    /// Gets the generation number [1-n] for the given <see cref="LearnEnvironment"/>.
     /// </summary>
     public static byte GetGeneration(this LearnEnvironment value) => value switch
     {

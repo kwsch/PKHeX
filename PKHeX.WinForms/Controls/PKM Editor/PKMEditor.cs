@@ -482,7 +482,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         bool tmp = FieldsLoaded;
         FieldsLoaded = false;
-        var items = GameInfo.FilteredSources.GetAbilityList(Entity);
+        var items = GameInfo.FilteredSources.GetAbilityList(Entity.PersonalInfo);
         CB_Ability.DataSource = items;
         CB_Ability.SelectedIndex = Math.Clamp(ability, 0, items.Count - 1); // restore original index if available
         FieldsLoaded = tmp;
@@ -908,17 +908,19 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (ChangingFields)
             return;
         ChangingFields = true;
+
+        var pi = Entity.PersonalInfo;
+        var gr = pi.EXPGrowth;
         if (sender == TB_EXP)
         {
             // Change the Level
             var expInput = Util.ToUInt32(TB_EXP.Text);
             var expCalc = expInput;
-            var gr = Entity.PersonalInfo.EXPGrowth;
             var lvlExp = Experience.GetLevel(expInput, gr);
-            if (lvlExp == 100)
-                expCalc = Experience.GetEXP(100, gr);
+            if (lvlExp == Experience.MaxLevel)
+                expCalc = Experience.GetEXP(Experience.MaxLevel, gr);
 
-            var lvlInput = Math.Max(1, Util.ToInt32(TB_Level.Text));
+            var lvlInput = Experience.ClampLevel((byte)Util.ToInt32(TB_Level.Text));
             if (lvlInput != lvlExp)
                 TB_Level.Text = lvlExp.ToString();
             if (expInput != expCalc && !HaX)
@@ -928,10 +930,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             // Change the XP
             var input = Util.ToInt32(TB_Level.Text);
-            var level = (byte)Math.Clamp(input, 1, 100);
+            var level = (byte)Math.Clamp(input, Experience.MinLevel, Experience.MaxLevel);
             if (input != level && !string.IsNullOrWhiteSpace(TB_Level.Text))
                 TB_Level.Text = level.ToString();
-            TB_EXP.Text = Experience.GetEXP(level, Entity.PersonalInfo.EXPGrowth).ToString();
+            TB_EXP.Text = Experience.GetEXP(level, gr).ToString();
         }
         ChangingFields = false;
         if (FieldsLoaded) // store values back

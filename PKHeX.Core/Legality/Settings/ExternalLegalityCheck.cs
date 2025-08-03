@@ -37,16 +37,17 @@ public static class ExternalLegalityCheck
     /// Retrieves a localized string representation of the specified check result.
     /// </summary>
     /// <param name="chk">The check result to be localized, containing the argument to be processed.</param>
-    /// <param name="settings">The localization settings that determine how the check result should be translated.</param>
+    /// <param name="localization">The localization settings that determine how the check result should be translated.</param>
+    /// <param name="data">Legality analysis data that may be used for additional context in localization.</param>
     /// <returns>A localized string that represents the check result according to the specified settings.</returns>
-    public static string Localize(CheckResult chk, LegalityLocalizationSet settings)
+    public static string Localize(CheckResult chk, LegalityLocalizationSet localization, LegalityAnalysis data)
     {
         if (ExternalCheckers.Count == 0)
-            return settings.Lines.NotImplemented;
+            return localization.Lines.NotImplemented;
 
         if (!ExternalCheckers.TryGetValue(chk.Argument, out var checker))
-            return settings.Lines.NotImplemented;
+            return localization.Lines.NotImplemented;
 
-        return checker.Localize(chk, settings);
+        return checker.Localize(chk, localization, data);
     }
 }

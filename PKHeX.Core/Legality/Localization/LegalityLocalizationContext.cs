@@ -77,7 +77,7 @@ public readonly ref struct LegalityLocalizationContext
     {
         var code = chk.Result;
         if (code is External)
-            return ExternalLegalityCheck.Localize(chk, Settings);
+            return ExternalLegalityCheck.Localize(chk, Settings, Analysis);
         var template = code.GetTemplate(Settings.Lines);
         if (code < FirstWithArgument)
             return template;

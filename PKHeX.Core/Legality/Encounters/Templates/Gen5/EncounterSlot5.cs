@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -28,13 +30,13 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
     {
         HiddenAbilityPermission.Never => AbilityPermission.Any12,
         HiddenAbilityPermission.Always => AbilityPermission.OnlyHidden,
-        _ => AbilityPermission.Any12H,
+        _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private bool IsDeferredHiddenAbility(bool IsHidden) => IsHiddenAbilitySlot() switch
+    private bool IsDeferredHiddenAbility(bool isHidden) => IsHiddenAbilitySlot() switch
     {
-        HiddenAbilityPermission.Never => IsHidden,
-        HiddenAbilityPermission.Always => !IsHidden,
+        HiddenAbilityPermission.Never => isHidden,
+        HiddenAbilityPermission.Always => !isHidden,
         _ => false,
     };
 
@@ -82,10 +84,10 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
 
     private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        var abilityIndex = criteria.GetAbilityFromNumber(Ability);
-        var seed = Util.Rand32();
-        MonochromeRNG.Generate(pk, criteria, pi.Gender, seed, abilityIndex);
+        var seed = Util.Rand.Rand64();
+        MonochromeRNG.Generate(pk, criteria, pi.Gender, seed, true, Shiny, Ability);
         pk.Nature = criteria.GetNature();
+        var abilityIndex = Ability == AbilityPermission.OnlyHidden ? 2 : (int)((pk.PID >> 16) & 1);
         pk.RefreshAbility(abilityIndex);
         criteria.SetRandomIVs(pk);
     }

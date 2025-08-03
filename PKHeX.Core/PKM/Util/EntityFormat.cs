@@ -174,7 +174,7 @@ public static class EntityFormat
         var et = pk.GroundTile;
         if (et != 0)
         {
-            if (pk.CurrentLevel < 100) // can't be hyper trained
+            if (pk.CurrentLevel < Experience.MaxLevel) // Can't be hyper trained in Gen7
                 return FormatPK6;
 
             if (!pk.Gen4) // can't have GroundTile

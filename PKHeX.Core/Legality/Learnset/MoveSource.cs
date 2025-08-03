@@ -17,10 +17,15 @@ public readonly struct MoveSource
     public static MoveSource[] GetArray(BinLinkerAccessor16 entries)
     {
         var result = new MoveSource[entries.Length];
-        result[0] = new MoveSource([]);
+        var empty = result[0] = new MoveSource([]);
         for (int i = 1; i < result.Length; i++)
         {
             var data = entries[i];
+            if (data.Length == 0)
+            {
+                result[i] = empty; // empty entry
+                continue;
+            }
             var moves = GetArray(data);
             result[i] = new MoveSource(moves);
         }
@@ -29,10 +34,6 @@ public readonly struct MoveSource
 
     public static ushort[] GetArray(ReadOnlySpan<byte> data)
     {
-        // Frequently, the data is empty, and the length is 0.
-        // Even though the ToArray() method will return [], check before the .Cast to avoid that work.
-        if (data.Length == 0)
-            return [];
         var moves = MemoryMarshal.Cast<byte, ushort>(data).ToArray();
         if (!BitConverter.IsLittleEndian)
             ReverseEndianness(moves, moves);

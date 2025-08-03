@@ -28,16 +28,18 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
                 continue; // already flagged
             var cp = input.AllData[i];
             var ca = input.AllAnalysis[i];
-            Verify(input, dict, ca, cp);
+            var cr = new CombinedReference(cp, ca, i);
+            Verify(input, dict, cr);
         }
     }
 
-    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, LegalityAnalysis ca, SlotCache cp)
+    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, CombinedReference cr)
     {
+        var ca = cr.Analysis;
+        var cp = cr.Slot;
         bool g345 = ca.Info.Generation is 3 or 4 or 5;
         var id = g345 ? cp.Entity.EncryptionConstant : cp.Entity.PID;
 
-        var cr = new CombinedReference(cp, ca);
         if (!dict.TryGetValue(id, out var pr))
         {
             dict.Add(id, cr);
@@ -58,14 +60,14 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
 
         if (ca.Info.Generation != gen)
         {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDGenerationDifferent, ident);
+            input.AddLine(ps, cs, ident, pr.Index, cr.Index, LegalityCheckResultCode.BulkSharingPIDGenerationDifferent);
             return;
         }
 
         bool gbaNDS = gen is 3 or 4 or 5;
         if (!gbaNDS)
         {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDGenerationSame, ident);
+            input.AddLine(ps, cs, ident, pr.Index, cr.Index, LegalityCheckResultCode.BulkSharingPIDGenerationSame);
             return;
         }
 
@@ -76,8 +78,6 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
         bool eggMysteryPrevious = penc is IEncounterEgg or MysteryGift;
 
         if (eggMysteryCurrent != eggMysteryPrevious)
-        {
-            input.AddLine(ps, cs, LegalityCheckResultCode.BulkSharingPIDEncounterType, ident);
-        }
+            input.AddLine(ps, cs, ident, pr.Index, cr.Index, LegalityCheckResultCode.BulkSharingPIDEncounterType);
     }
 }

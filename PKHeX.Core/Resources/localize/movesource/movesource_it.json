@@ -16,5 +16,6 @@
     "EggTMHM": "Mossa MT/MN ereditata.",
     "EggInheritedTutor": "Mossa insegnata ereditata.",
     "EggInvalid": "Mossa Uovo non prevista.",
-    "EggLevelUp": "Mossa ereditata appresa per aumento di livello."
+    "EggLevelUp": "Mossa ereditata appresa per aumento di livello.",
+    "LevelUpSuffix": " @ lv{0}"
 }

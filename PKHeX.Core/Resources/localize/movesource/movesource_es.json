@@ -16,5 +16,6 @@
     "EggTMHM": "Movimiento MT/MO heredado.",
     "EggInheritedTutor": "Movimiento tutor heredado.",
     "EggInvalid": "Movimiento Huevo no esperado.",
-    "EggLevelUp": "Movimiento heredado aprendido por subida de nivel."
+    "EggLevelUp": "Movimiento heredado aprendido por subida de nivel.",
+    "LevelUpSuffix": " @ lv{0}"
 }

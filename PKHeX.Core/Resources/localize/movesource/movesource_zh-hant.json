@@ -16,5 +16,6 @@
     "EggTMHM": "遺傳招式學習器/秘傳學習器招式。",
     "EggInheritedTutor": "遺傳教學招式。",
     "EggInvalid": "非預期的蛋招式。",
-    "EggLevelUp": "遺傳升級學會的招式。"
+    "EggLevelUp": "遺傳升級學會的招式。",
+    "LevelUpSuffix": " @ lv{0}"
 }

@@ -32,7 +32,7 @@ public sealed class DuplicateGiftChecker : IBulkAnalyzer
             var la = input.AllAnalysis[i];
             if (!IsEventEgg(c, la))
                 continue;
-            combined.Add(new(c, la));
+            combined.Add(new(c, la, i));
         }
 
         if (combined.Count < 2)
@@ -51,7 +51,7 @@ public sealed class DuplicateGiftChecker : IBulkAnalyzer
             var grp = tidGroup[0];
             var first = grp[0].Slot;
             var second = grp[1].Slot;
-            input.AddLine(first, second, LegalityCheckResultCode.BulkDuplicateMysteryGiftEggReceived, Encounter);
+            input.AddLine(first, second, Encounter, grp[0].Index, grp[1].Index, LegalityCheckResultCode.BulkDuplicateMysteryGiftEggReceived);
         }
     }
 

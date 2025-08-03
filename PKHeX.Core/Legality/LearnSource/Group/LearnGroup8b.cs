@@ -25,6 +25,7 @@ public sealed class LearnGroup8b : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
+        // Egg moves can be shared, which is the same list used by Underground moves.
         CheckSharedMoves(result, current, evos[0]);
 
         if (MoveResult.AllParsed(result))

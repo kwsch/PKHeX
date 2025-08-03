@@ -1,8 +1,11 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// RNG logic for Generation 5 (Black/White/Black2/White2) games.
 /// </summary>
+/// <remarks><see cref="LCRNG64"/></remarks>
 public static class MonochromeRNG
 {
     /// <summary>
@@ -28,11 +31,11 @@ public static class MonochromeRNG
     /// <param name="criteria">The encounter criteria that define the desired attributes for the Pokémon.</param>
     /// <param name="gr">The gender ratio used to determine the Pokémon's gender.</param>
     /// <param name="seed">The initial random seed used for generating the Pokémon's PID and other attributes.</param>
-    /// <param name="abilityIndex">The index of the ability to assign to the Pokémon.</param>
-    /// <remarks>
-    /// <see cref="GenerateShiny"/> should be used instead if shiny state is required.
-    /// </remarks>
-    public static void Generate(PK5 pk, in EncounterCriteria criteria, byte gr, uint seed, int abilityIndex)
+    /// <param name="wildXor">Wild XOR is applied to the PID, which increases the chance of a shiny Pokémon (but actually doesn't).</param>
+    /// <param name="type">Shiny type to apply to the generated PID.</param>
+    /// <param name="ability">The ability permission that determines which ability can be assigned to the Pokémon.</param>
+    /// <param name="forceGender">Single gender is forced, regardless of the criteria.</param>
+    public static void Generate(PK5 pk, in EncounterCriteria criteria, byte gr, ulong seed, bool wildXor, Shiny type, AbilityPermission ability, byte forceGender = FixedGenderUtil.GenderRandom)
     {
         // The RNG is random enough (64-bit) that our results won't be traceable to a specific seed (sufficiently random).
         // Therefore, we can skip the whole advancement sequence and "create" a PID directly from our random seed.
@@ -43,27 +46,65 @@ public static class MonochromeRNG
         // Correlation: Trainer ID low-bits with PID high-bit and low-bit xor must be 0.
         var bitXor = GetBitXor(pk);
         var id32 = pk.ID32;
+        var isSingleAbility = ability.IsSingleValue(out _);
+        var isForcedGender = forceGender is not FixedGenderUtil.GenderRandom && gr is not (0 or 254 or 255); // random gender species-forms only
 
         // Logic: get a PID that matches Gender, then force the other correlations since they won't invalidate the gender.
         // We could probably do this in a single step (shiny, gender), but it's not worth the complexity.
         while (true)
         {
-            var pid = seed;
+            var pid = LCRNG64.Next32(ref seed);
 
             // Force correlations
-            var abit = (pid >> 16) & 1;
-            if (abit != (abilityIndex & 1))
-                pid ^= 1u << 16;
-            var corr = (pid >> 31) ^ (pid & 1) ^ bitXor;
-            if (corr != 0)
-                pid ^= 1u;
-
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (!IsSatisfied(criteria, pid, id32, gender))
+            if (isForcedGender) // assume gender in criteria is the specified one, and the species can be either gender.
             {
-                seed = LCRNG.Next(seed); // arbitrary scramble
-                continue;
+                pid = (pid & 0xFFFFFF00) | forceGender switch
+                {
+                    0 => gr + LCRNG64.NextRange(ref seed, 253u - gr + 1), // male
+                    _ => 1 + LCRNG64.NextRange(ref seed, gr - 1u), // female
+                };
             }
+
+            if (type is Shiny.Never)
+            {
+                if (ShinyUtil.GetIsShiny3(id32, pid))
+                    pid ^= 0x1000_0000; // force not shiny. the wild xor is never true.
+            }
+            else if (type is Shiny.Always)
+            {
+                // inlined GetShinyPID without ability force (done later)
+                var gval = (byte)pid;
+                var trainerXor = (id32 >> 16) ^ (ushort)id32;
+                pid = ((gval ^ trainerXor) << 16) | gval;
+            }
+
+            if (isSingleAbility)
+            {
+                // force ability bit
+                var bit = (ability == AbilityPermission.OnlySecond ? 1 : 0);
+                var abilityBit = bit << 16;
+                if ((pid & 0x1_0000) != abilityBit)
+                    pid ^= 0x1_0000;
+            }
+
+            if (wildXor)
+            {
+                // great job checking the wrong bits to give 2x shiny chance for wild stuff.
+                var corr = (pid >> 31) ^ (pid & 1) ^ bitXor;
+                if (corr != 0)
+                    pid ^= 0x8000_0000;
+            }
+
+            // Verify the result is what we want.
+            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+            if (!isForcedGender && criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+                continue;
+            if (!isSingleAbility && criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((int)(pid >> 16) & 1))
+                continue;
+
+            var xor = ShinyUtil.GetShinyXor(pid, id32);
+            if (!IsShinyStateOK(criteria.Shiny, xor, type))
+                continue;
 
             pk.PID = pid;
             pk.Gender = gender;
@@ -71,105 +112,20 @@ public static class MonochromeRNG
         }
     }
 
-    /// <remarks>
-    /// Uses a different method to generate the PID, which does not correlate with the Trainer ID or Secret ID.
-    /// </remarks>
-    /// <inheritdoc cref="Generate"/>
-    public static void GetPIDNoCorrelate(PK5 pk, in EncounterCriteria criteria, byte gr, uint seed, int abilityIndex)
+    public static bool IsValidForcedRandomGender(uint pid, byte gender) => gender switch
     {
-        // Generate a PID that matches
-        var id32 = pk.ID32;
-        while (true)
-        {
-            var pid = seed;
-            var abit = (pid >> 16);
-            if (abit != (abilityIndex & 1))
-                pid ^= 1u << 16;
+        0 => (pid & 0xFF) is not (254 or 255),
+        1 => (pid & 0xFF) is not 0,
+        _ => throw new ArgumentOutOfRangeException(nameof(gender), gender, null),
+    };
 
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (!IsSatisfied(criteria, pid, id32, gender))
-            {
-                seed = LCRNG.Next(seed); // arbitrary scramble
-                continue;
-            }
-
-            pk.PID = pid;
-            pk.Gender = gender;
-            break;
-        }
-    }
-
-    private static bool IsSatisfied(in EncounterCriteria criteria, uint pid, uint id32, byte gender)
+    private static bool IsShinyStateOK(Shiny desired, uint xor, Shiny encType) => desired switch
     {
-        if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
-            return false;
-
-        var xor = ShinyUtil.GetShinyXor(pid, id32);
-        return criteria.Shiny switch
-        {
-            Shiny.AlwaysSquare when xor != 0 => false,
-            Shiny.AlwaysStar when xor is >= 8 or 0 => false,
-            Shiny.Never when xor < 8 => false,
-            _ => true
-        };
-    }
-
-    /// <summary>
-    /// Assigns a valid shiny PID and gender based on the specified criteria.
-    /// </summary>
-    /// <param name="pk">The Pokémon object to be modified with the generated attributes.</param>
-    /// <param name="criteria">The encounter criteria that define the desired attributes for the Pokémon.</param>
-    /// <param name="gr">The gender ratio used to determine the Pokémon's gender.</param>
-    /// <param name="seed">The initial random seed used for generating the Pokémon's PID and other attributes.</param>
-    /// <param name="abilityIndex">The index of the ability to assign to the Pokémon.</param>
-    /// <remarks>
-    /// <see cref="Generate"/> should be used instead if shiny state is not required.
-    /// </remarks>
-    public static void GenerateShiny(PK5 pk, in EncounterCriteria criteria, byte gr, uint seed, int abilityIndex)
-    {
-        // Get a random 8-bit number that satisfies the gender.
-        uint genderByte = GetRandomGenderComponent(criteria, gr, seed, out var gender);
-        pk.Gender = gender;
-
-        byte shinyType = criteria.Shiny switch
-        {
-            Shiny.AlwaysSquare => 0,
-            Shiny.AlwaysStar => 1,
-            _ => (LCRNG.Next(seed) & 7u) == 0 // random choice, evenly distributed
-                ? (byte)0
-                : (byte)1,
-        };
-        pk.PID = GetShinyPID(genderByte, (uint)(abilityIndex & 1), pk.TID16, pk.SID16, shinyType);
-    }
-
-    private static byte GetRandomGenderComponent(in EncounterCriteria criteria, byte gr, uint seed, out byte gender)
-    {
-        while (true)
-        {
-            var genderByte = (byte)(seed & 0xFF);
-            gender = EntityGender.GetFromPIDAndRatio(genderByte, gr);
-            if (!criteria.IsSpecifiedGender() || criteria.IsSatisfiedGender(gender))
-                return genderByte;
-
-            seed = LCRNG.Next(seed); // arbitrary scramble
-        }
-    }
-
-    private static uint GetShinyPID(uint gval, uint abilityBit, ushort TID16, ushort SID16, byte shinyType)
-    {
-        // Logic: get a PID that matches Gender, then force the other correlations since they won't invalidate the gender.
-        uint pid = ((gval ^ TID16 ^ SID16) << 16) | gval;
-        var xor = 0u;
-        if ((pid & 0x10000) != abilityBit << 16)
-        {
-            pid ^= 0x10000;
-            xor = 1;
-        }
-        if (xor != shinyType)
-            pid ^= 1u;
-
-        return pid;
-    }
+        Shiny.AlwaysSquare when encType is not Shiny.Never && xor != 0 => false,
+        Shiny.AlwaysStar when encType is not Shiny.Never && xor is >= 8 or 0 => false,
+        Shiny.Never when encType is not Shiny.Always && xor < 8 => false,
+        _ => true
+    };
 
     /// <summary>
     /// Calculates a shiny PID based on the provided parameters.

@@ -25,8 +25,8 @@ public partial class PKMEditor
         {
             // Sanity check level and EXP
             var current = pk.CurrentLevel;
-            if (current == 100) // clamp back to max EXP
-                pk.CurrentLevel = 100;
+            if (current == Experience.MaxLevel) // clamp back to max EXP
+                pk.CurrentLevel = Experience.MaxLevel;
         }
 
         CB_Species.SelectedValue = (int)pk.Species;

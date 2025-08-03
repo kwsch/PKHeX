@@ -81,7 +81,7 @@ public sealed class HallFame3PKM(Memory<byte> Raw, bool Japanese) : ISpeciesForm
     public int Level
     {
         get => SpecLevel >> 9;
-        set => SpecLevel = (ushort)((SpecLevel & 0x1FF) | (Math.Min(100, value) << 9));
+        set => SpecLevel = (ushort)((SpecLevel & 0x1FF) | (Math.Min(Experience.MaxLevel, value) << 9));
     }
 
     public ushort Species

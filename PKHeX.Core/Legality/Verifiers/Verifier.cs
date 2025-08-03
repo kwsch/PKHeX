@@ -32,3 +32,12 @@ public abstract class Verifier
     protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, uint value = 0) => CheckResult.Get(Severity.Invalid, c, msg, value);
     protected static CheckResult GetInvalid(CheckIdentifier c, LegalityCheckResultCode msg, ushort arg0, ushort arg1 = 0) => GetInvalid(c, msg, arg0 | (uint)arg1 << 16);
 }
+
+public interface ILegalityVerifier
+{
+    /// <summary>
+    /// Processes the <see cref="data"/> and adds any relevant <see cref="CheckResult"/> values to the <see cref="LegalityAnalysis.Parse"/>.
+    /// </summary>
+    /// <param name="data">Analysis data to process</param>
+    void Verify(LegalityAnalysis data);
+}
