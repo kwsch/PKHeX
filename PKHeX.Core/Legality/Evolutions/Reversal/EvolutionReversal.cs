@@ -124,7 +124,7 @@ public static class EvolutionReversal
     {
         if (flag == 0)
             return 0;
-        if (currentMaxLevel == 100 && tweak.AllowLevelUpEvolution100)
+        if (currentMaxLevel == Experience.MaxLevel && tweak.AllowLevelUpEvolution100)
             return 0;
         return flag;
     }

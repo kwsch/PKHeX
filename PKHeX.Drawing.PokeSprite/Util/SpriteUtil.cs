@@ -200,7 +200,7 @@ public static class SpriteUtil
         const int bpp = 4;
         int start = bpp * SpriteWidth * (SpriteHeight - 1);
         var level = pk.CurrentLevel;
-        if (level == 100)
+        if (level == Experience.MaxLevel)
             return ImageUtil.WritePixels(img, Color.Lime, start, start + (SpriteWidth * bpp));
 
         var pct = Experience.GetEXPToLevelUpPercentage(level, pk.EXP, pk.PersonalInfo.EXPGrowth);

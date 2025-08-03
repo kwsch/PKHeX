@@ -30,7 +30,7 @@ public static class MoveListSuggest
             var lvl = pk.Format >= 7 ? pk.MetLevel : pk.CurrentLevel;
             var source = GameData.GetLearnSource(enc.Version);
             source.SetEncounterMoves(enc.Species, 0, lvl, moves);
-            if (pk.Format == 1) // remove out-of-range moves from Gen 2 encounters
+            if (pk.Format == 1 || pk is { Format: >= 7, VC1: true }) // remove out-of-range moves from Gen 2 encounters
             {
                 var adjusted = RemoveOutOfRangeMoves(moves, Legal.MaxMoveID_1);
                 if (adjusted)
@@ -39,11 +39,12 @@ public static class MoveListSuggest
             return;
         }
 
-        if (pk.Species == enc.Species || pk.Context.Generation() >= 8)
+        if (pk.Species == enc.Species || pk.Format >= 8)
         {
             var game = pk.Version; // account for SW/SH foreign mutated versions
-            if (pk.Context.Generation() >= 8)
+            if (!game.IsValidSavedVersion()) // also eggs in S/V without version
                 game = pk.Context.GetSingleGameVersion();
+
             var source = GameData.GetLearnSource(game);
             source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
             return;

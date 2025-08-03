@@ -8,6 +8,22 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Experience
 {
+    public const int MaxLevel = 100;
+    public const int MinLevel = 1;
+
+    public static bool IsValidLevel(byte level)
+    {
+        // Level must be between 1 and 100, inclusive.
+        return level is >= MinLevel and <= MaxLevel;
+    }
+
+    public static byte ClampLevel(byte level) => level switch
+    {
+        < MinLevel => MinLevel,
+        > MaxLevel => MaxLevel,
+        _ => level,
+    };
+
     /// <summary>
     /// Gets the current level of a species.
     /// </summary>
@@ -31,11 +47,11 @@ public static class Experience
         // Eagerly return 100 if the exp is at max
         // Also avoids overflow issues with the table in the event EXP is out of bounds
         if (exp >= table[^1])
-            return 100;
+            return MaxLevel;
 
         // Most will be below level 50, so start from the bottom
         // Don't bother with binary search, as the table is small
-        byte tl = 1; // Initial Level. Iterate upwards to find the level
+        byte tl = MinLevel; // Initial Level. Iterate upwards to find the level
         while (exp >= table[tl])
             ++tl;
         return tl;
@@ -49,10 +65,10 @@ public static class Experience
     /// <returns>Experience points needed to have specified level.</returns>
     public static uint GetEXP(byte level, byte growth)
     {
-        if (level <= 1)
+        if (level <= MinLevel)
             return 0;
-        if (level > 100)
-            level = 100;
+        if (level > MaxLevel)
+            level = MaxLevel;
 
         var table = GetTable(growth);
         return GetEXP(level, table);
@@ -115,7 +131,7 @@ public static class Experience
     /// <returns>EXP to level up</returns>
     public static uint GetEXPToLevelUp(byte level, byte growth)
     {
-        if (level >= 100)
+        if (level >= MaxLevel)
             return 0;
         var table = GetTable(growth);
         var current = GetEXP(level, table);
@@ -132,7 +148,7 @@ public static class Experience
     /// <returns>Percentage [0,1.00)</returns>
     public static double GetEXPToLevelUpPercentage(byte level, uint exp, byte growth)
     {
-        if (level >= 100)
+        if (level >= MaxLevel)
             return 0;
 
         var table = GetTable(growth);

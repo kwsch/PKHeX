@@ -23,7 +23,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
 
     public ReadOnlySpan<ushort> GetMoveRange(byte maxLevel, byte minLevel = 0)
     {
-        if (minLevel <= 1 && maxLevel >= 100)
+        if (minLevel <= Experience.MinLevel && maxLevel >= Experience.MaxLevel) // out of range, return all
             return Moves;
         if (minLevel > maxLevel)
             return default;

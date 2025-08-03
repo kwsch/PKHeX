@@ -44,16 +44,16 @@ public sealed class LevelVerifier : Verifier
         }
 
         var lvl = pk.CurrentLevel;
-        if (lvl >= 100)
+        if (lvl >= Experience.MaxLevel)
         {
-            var expect = Experience.GetEXP(100, data.PersonalInfo.EXPGrowth);
+            var expect = Experience.GetEXP(Experience.MaxLevel, data.PersonalInfo.EXPGrowth);
             if (pk.EXP != expect)
                 data.AddLine(GetInvalid(Identifier, LevelEXPTooHigh, expect));
         }
 
         if (lvl < pk.MetLevel)
             data.AddLine(GetInvalid(LevelMetBelow, lvl));
-        else if (!enc.IsWithinEncounterRange(pk) && lvl != 100 && pk.EXP == Experience.GetEXP(lvl, data.PersonalInfo.EXPGrowth))
+        else if (!enc.IsWithinEncounterRange(pk) && lvl != Experience.MaxLevel && pk.EXP == Experience.GetEXP(lvl, data.PersonalInfo.EXPGrowth))
             data.AddLine(Get(Severity.Fishy, LevelEXPThreshold));
         else
             data.AddLine(GetValid(LevelMetSane));

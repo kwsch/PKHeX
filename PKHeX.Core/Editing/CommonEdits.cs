@@ -405,7 +405,7 @@ public static class CommonEdits
     {
         if (pk.IsEgg)
             return;
-        pk.CurrentLevel = 100;
+        pk.CurrentLevel = Experience.MaxLevel;
         if (pk is ICombatPower pb)
             pb.ResetCP();
     }

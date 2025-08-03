@@ -17,7 +17,7 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
     private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_7_USUM;
     private const LearnEnvironment Game = USUM;
-    private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
+    private const int ReminderBonus = Experience.MaxLevel; // Move reminder allows re-learning ALL level up moves regardless of level.
 
     public LearnEnvironment Environment => Game;
 

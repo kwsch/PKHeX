@@ -62,7 +62,7 @@ public sealed class FilteredGameDataSource
         return result;
 
         static int FilterAbove(List<ComboItem> species, ushort limit)
-            => species.RemoveAll(s => s.Value >= limit);
+            => species.RemoveAll(s => s.Value > limit);
 
         static int FilterUnavailable<T>(List<ComboItem> source, T table) where T : IPersonalTable
             => source.RemoveAll(s => !table.IsSpeciesInGame((ushort)s.Value));
@@ -121,8 +121,6 @@ public sealed class FilteredGameDataSource
 
     private const char HiddenAbilitySuffix = 'H';
     private const char AbilityIndexSuffix = '1';
-
-    public IReadOnlyList<ComboItem> GetAbilityList(PKM pk) => GetAbilityList(pk.PersonalInfo);
 
     public IReadOnlyList<ComboItem> GetAbilityList(IPersonalAbility pi)
     {

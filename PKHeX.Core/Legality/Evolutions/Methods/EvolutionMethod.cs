@@ -59,7 +59,7 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
             return InsufficientLevel;
         if (lvl < levelMin + LevelUp && !skipChecks)
         {
-            if (lvl == 100 && tweak.AllowLevelUpEvolution100)
+            if (lvl == Experience.MaxLevel && tweak.AllowLevelUpEvolution100)
                 return Valid;
             return InsufficientLevel;
         }

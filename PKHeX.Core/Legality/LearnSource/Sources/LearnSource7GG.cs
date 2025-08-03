@@ -15,7 +15,7 @@ public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
     private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_7b;
     private const LearnEnvironment Game = GG;
-    private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
+    private const int ReminderBonus = Experience.MaxLevel; // Move reminder allows re-learning ALL level up moves regardless of level.
 
     public LearnEnvironment Environment => Game;
 
