@@ -39,7 +39,7 @@ public partial class SAV_Pokedex5 : Form
         TB_PID.Text = Dex.Spinda.ToString("X8");
 
         editing = false;
-        if (Dex.InitialSpecies is not (0 or > 693))
+        if (Dex.InitialSpecies is not (0 or > 649))
             CB_Species.SelectedValue = (int)Dex.InitialSpecies;
         else
             LB_Species.SelectedIndex = 0;
