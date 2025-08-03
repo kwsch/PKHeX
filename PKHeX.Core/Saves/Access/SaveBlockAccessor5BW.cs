@@ -102,7 +102,7 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
     public Daycare5 Daycare { get; } = new(sav, Block(sav, 50));
     public Misc5BW Misc { get; } = new(sav, Block(sav, 52));
     public Entralink5BW Entralink { get; } = new(sav, Block(sav, 53));
-    public Zukan5 Zukan { get; } = new(sav, Block(sav, 55), 0x320);
+    public Zukan5 Zukan { get; } = new Zukan5BW(Block(sav, 55));
     public Encount5BW Encount { get; } = new(sav, Block(sav, 56));
     public BattleSubwayPlay5 BattleSubwayPlay { get; } = new(sav, Block(sav, 57));
     public BattleSubway5 BattleSubway { get; } = new(sav, Block(sav, 58));
