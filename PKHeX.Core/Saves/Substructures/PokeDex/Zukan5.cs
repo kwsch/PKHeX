@@ -51,6 +51,25 @@ public sealed class Zukan5B2W2(Memory<byte> dex) : Zukan5(dex)
 /// </summary>
 public abstract class Zukan5(Memory<byte> raw)
 {
+    // General structure: u32 magic, upgrade flags, 9*bitflags, form flags, language flags, u32 spinda
+
+    /* 9 BitRegions with 0x54*8 bits
+     * Region 0: Caught flags - has been captured/obtained via gift/trade/evolution.
+     * Seen flags: Only should set the genders that have been seen. Genderless acts as male.
+     * Region 1: Seen Male/Genderless
+     * Region 2: Seen Female
+     * Region 3: Seen Male/Genderless Shiny
+     * Region 4: Seen Female Shiny
+     * Displayed flags: only one should be set for a given species. Usually is the one first seen, or selected by the player.
+     * Region 5: Displayed Male/Genderless
+     * Region 6: Displayed Female
+     * Region 7: Displayed Male/Genderless Shiny
+     * Region 8: Displayed Female Shiny
+     * Next, 4*{bytes} for form flags
+     * Next, bitflag region for languages obtained (only for species 1-493)
+     * Lastly, the Spinda spot pattern, which is the first seen Spinda's encryption constant.
+     */
+
     public Span<byte> Data => raw.Span;
     private const int BitSeenSize = 0x54;
     private const int DexLangIDCount = 7;
@@ -71,7 +90,7 @@ public abstract class Zukan5(Memory<byte> raw)
     protected abstract int FormLen { get; } // byte count
 
     private int OFS_LANG => FormDex + (FormLen * 4); // 0x2FC + (0xB * 4) = 0x328 for B2/W2, 0x2FC + (0x9 * 4) = 0x320 for BW
-    private int OFS_SPINDA => OFS_LANG + 431; // ((DexLangIDCount * Legal.MaxSpeciesID_4) / 8), rounded up to 432 bytes
+    private int OFS_SPINDA => OFS_LANG + 432; // ((DexLangIDCount * Legal.MaxSpeciesID_4) / 8) = 431.375, rounded up to 432 bytes
 
     public uint Spinda
     {
