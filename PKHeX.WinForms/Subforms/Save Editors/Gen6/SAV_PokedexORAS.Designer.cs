@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_PokedexORAS
     {
@@ -51,7 +51,7 @@
             GB_Language = new System.Windows.Forms.GroupBox();
             GB_Displayed = new System.Windows.Forms.GroupBox();
             L_DexNav = new System.Windows.Forms.Label();
-            MT_Count = new System.Windows.Forms.MaskedTextBox();
+            MT_Seen = new System.Windows.Forms.MaskedTextBox();
             GB_Owned = new System.Windows.Forms.GroupBox();
             TB_Spinda = new System.Windows.Forms.TextBox();
             L_Spinda = new System.Windows.Forms.Label();
@@ -77,6 +77,10 @@
             mnuFormNone = new System.Windows.Forms.ToolStripMenuItem();
             mnuForm1 = new System.Windows.Forms.ToolStripMenuItem();
             mnuFormAll = new System.Windows.Forms.ToolStripMenuItem();
+            label1 = new System.Windows.Forms.Label();
+            MT_Obtained = new System.Windows.Forms.MaskedTextBox();
+            CHK_NationalDexActive = new System.Windows.Forms.CheckBox();
+            CHK_NationalDexUnlocked = new System.Windows.Forms.CheckBox();
             GB_Language.SuspendLayout();
             GB_Displayed.SuspendLayout();
             GB_Owned.SuspendLayout();
@@ -101,7 +105,6 @@
             // 
             LB_Species.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LB_Species.FormattingEnabled = true;
-            LB_Species.ItemHeight = 15;
             LB_Species.Location = new System.Drawing.Point(14, 46);
             LB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Species.Name = "LB_Species";
@@ -115,7 +118,7 @@
             CHK_P1.Location = new System.Drawing.Point(7, 16);
             CHK_P1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P1.Name = "CHK_P1";
-            CHK_P1.Size = new System.Drawing.Size(75, 19);
+            CHK_P1.Size = new System.Drawing.Size(81, 21);
             CHK_P1.TabIndex = 3;
             CHK_P1.Text = "Obtained";
             CHK_P1.UseVisualStyleBackColor = true;
@@ -126,7 +129,7 @@
             CHK_P6.Location = new System.Drawing.Point(6, 15);
             CHK_P6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P6.Name = "CHK_P6";
-            CHK_P6.Size = new System.Drawing.Size(52, 19);
+            CHK_P6.Size = new System.Drawing.Size(56, 21);
             CHK_P6.TabIndex = 8;
             CHK_P6.Text = "Male";
             CHK_P6.UseVisualStyleBackColor = true;
@@ -138,7 +141,7 @@
             CHK_P7.Location = new System.Drawing.Point(6, 31);
             CHK_P7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P7.Name = "CHK_P7";
-            CHK_P7.Size = new System.Drawing.Size(64, 19);
+            CHK_P7.Size = new System.Drawing.Size(68, 21);
             CHK_P7.TabIndex = 9;
             CHK_P7.Text = "Female";
             CHK_P7.UseVisualStyleBackColor = true;
@@ -150,7 +153,7 @@
             CHK_P8.Location = new System.Drawing.Point(6, 47);
             CHK_P8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P8.Name = "CHK_P8";
-            CHK_P8.Size = new System.Drawing.Size(84, 19);
+            CHK_P8.Size = new System.Drawing.Size(90, 21);
             CHK_P8.TabIndex = 10;
             CHK_P8.Text = "Shiny Male";
             CHK_P8.UseVisualStyleBackColor = true;
@@ -162,7 +165,7 @@
             CHK_P9.Location = new System.Drawing.Point(6, 63);
             CHK_P9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P9.Name = "CHK_P9";
-            CHK_P9.Size = new System.Drawing.Size(96, 19);
+            CHK_P9.Size = new System.Drawing.Size(102, 21);
             CHK_P9.TabIndex = 11;
             CHK_P9.Text = "Shiny Female";
             CHK_P9.UseVisualStyleBackColor = true;
@@ -174,7 +177,7 @@
             CHK_L7.Location = new System.Drawing.Point(21, 144);
             CHK_L7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L7.Name = "CHK_L7";
-            CHK_L7.Size = new System.Drawing.Size(63, 19);
+            CHK_L7.Size = new System.Drawing.Size(69, 21);
             CHK_L7.TabIndex = 19;
             CHK_L7.Text = "Korean";
             CHK_L7.UseVisualStyleBackColor = true;
@@ -185,7 +188,7 @@
             CHK_L6.Location = new System.Drawing.Point(21, 125);
             CHK_L6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L6.Name = "CHK_L6";
-            CHK_L6.Size = new System.Drawing.Size(67, 19);
+            CHK_L6.Size = new System.Drawing.Size(72, 21);
             CHK_L6.TabIndex = 18;
             CHK_L6.Text = "Spanish";
             CHK_L6.UseVisualStyleBackColor = true;
@@ -196,7 +199,7 @@
             CHK_L5.Location = new System.Drawing.Point(21, 105);
             CHK_L5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L5.Name = "CHK_L5";
-            CHK_L5.Size = new System.Drawing.Size(68, 19);
+            CHK_L5.Size = new System.Drawing.Size(73, 21);
             CHK_L5.TabIndex = 17;
             CHK_L5.Text = "German";
             CHK_L5.UseVisualStyleBackColor = true;
@@ -207,7 +210,7 @@
             CHK_L4.Location = new System.Drawing.Point(21, 85);
             CHK_L4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L4.Name = "CHK_L4";
-            CHK_L4.Size = new System.Drawing.Size(58, 19);
+            CHK_L4.Size = new System.Drawing.Size(61, 21);
             CHK_L4.TabIndex = 16;
             CHK_L4.Text = "Italian";
             CHK_L4.UseVisualStyleBackColor = true;
@@ -218,7 +221,7 @@
             CHK_L3.Location = new System.Drawing.Point(21, 66);
             CHK_L3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L3.Name = "CHK_L3";
-            CHK_L3.Size = new System.Drawing.Size(62, 19);
+            CHK_L3.Size = new System.Drawing.Size(65, 21);
             CHK_L3.TabIndex = 15;
             CHK_L3.Text = "French";
             CHK_L3.UseVisualStyleBackColor = true;
@@ -229,7 +232,7 @@
             CHK_L2.Location = new System.Drawing.Point(21, 46);
             CHK_L2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L2.Name = "CHK_L2";
-            CHK_L2.Size = new System.Drawing.Size(64, 19);
+            CHK_L2.Size = new System.Drawing.Size(68, 21);
             CHK_L2.TabIndex = 14;
             CHK_L2.Text = "English";
             CHK_L2.UseVisualStyleBackColor = true;
@@ -240,7 +243,7 @@
             CHK_L1.Location = new System.Drawing.Point(21, 27);
             CHK_L1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_L1.Name = "CHK_L1";
-            CHK_L1.Size = new System.Drawing.Size(73, 19);
+            CHK_L1.Size = new System.Drawing.Size(81, 21);
             CHK_L1.TabIndex = 13;
             CHK_L1.Text = "Japanese";
             CHK_L1.UseVisualStyleBackColor = true;
@@ -251,7 +254,7 @@
             L_goto.Location = new System.Drawing.Point(14, 18);
             L_goto.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_goto.Name = "L_goto";
-            L_goto.Size = new System.Drawing.Size(35, 15);
+            L_goto.Size = new System.Drawing.Size(39, 17);
             L_goto.TabIndex = 20;
             L_goto.Text = "goto:";
             // 
@@ -265,7 +268,7 @@
             CB_Species.Location = new System.Drawing.Point(58, 15);
             CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(107, 23);
+            CB_Species.Size = new System.Drawing.Size(107, 25);
             CB_Species.TabIndex = 21;
             CB_Species.SelectedIndexChanged += ChangeCBSpecies;
             CB_Species.SelectedValueChanged += ChangeCBSpecies;
@@ -339,23 +342,23 @@
             // 
             // L_DexNav
             // 
-            L_DexNav.Location = new System.Drawing.Point(215, 276);
+            L_DexNav.Location = new System.Drawing.Point(314, 253);
             L_DexNav.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_DexNav.Name = "L_DexNav";
             L_DexNav.Size = new System.Drawing.Size(121, 23);
             L_DexNav.TabIndex = 32;
-            L_DexNav.Text = "DexNav Lv:";
-            L_DexNav.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            L_DexNav.Text = "Seen:";
+            L_DexNav.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // MT_Count
+            // MT_Seen
             // 
-            MT_Count.Location = new System.Drawing.Point(173, 276);
-            MT_Count.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_Count.Mask = "0000";
-            MT_Count.Name = "MT_Count";
-            MT_Count.Size = new System.Drawing.Size(37, 23);
-            MT_Count.TabIndex = 31;
-            MT_Count.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Seen.Location = new System.Drawing.Point(447, 251);
+            MT_Seen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Seen.Mask = "00000";
+            MT_Seen.Name = "MT_Seen";
+            MT_Seen.Size = new System.Drawing.Size(37, 25);
+            MT_Seen.TabIndex = 31;
+            MT_Seen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // GB_Owned
             // 
@@ -372,7 +375,7 @@
             // TB_Spinda
             // 
             TB_Spinda.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Spinda.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_Spinda.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_Spinda.Location = new System.Drawing.Point(370, 225);
             TB_Spinda.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Spinda.Name = "TB_Spinda";
@@ -386,7 +389,7 @@
             L_Spinda.Location = new System.Drawing.Point(314, 228);
             L_Spinda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Spinda.Name = "L_Spinda";
-            L_Spinda.Size = new System.Drawing.Size(46, 15);
+            L_Spinda.Size = new System.Drawing.Size(51, 17);
             L_Spinda.TabIndex = 30;
             L_Spinda.Text = "Spinda:";
             // 
@@ -411,7 +414,7 @@
             CHK_P5.Location = new System.Drawing.Point(7, 66);
             CHK_P5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P5.Name = "CHK_P5";
-            CHK_P5.Size = new System.Drawing.Size(96, 19);
+            CHK_P5.Size = new System.Drawing.Size(102, 21);
             CHK_P5.TabIndex = 7;
             CHK_P5.Text = "Shiny Female";
             CHK_P5.UseVisualStyleBackColor = true;
@@ -423,7 +426,7 @@
             CHK_P4.Location = new System.Drawing.Point(7, 50);
             CHK_P4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P4.Name = "CHK_P4";
-            CHK_P4.Size = new System.Drawing.Size(84, 19);
+            CHK_P4.Size = new System.Drawing.Size(90, 21);
             CHK_P4.TabIndex = 6;
             CHK_P4.Text = "Shiny Male";
             CHK_P4.UseVisualStyleBackColor = true;
@@ -435,7 +438,7 @@
             CHK_P3.Location = new System.Drawing.Point(7, 33);
             CHK_P3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P3.Name = "CHK_P3";
-            CHK_P3.Size = new System.Drawing.Size(64, 19);
+            CHK_P3.Size = new System.Drawing.Size(68, 21);
             CHK_P3.TabIndex = 5;
             CHK_P3.Text = "Female";
             CHK_P3.UseVisualStyleBackColor = true;
@@ -447,7 +450,7 @@
             CHK_P2.Location = new System.Drawing.Point(7, 17);
             CHK_P2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_P2.Name = "CHK_P2";
-            CHK_P2.Size = new System.Drawing.Size(52, 19);
+            CHK_P2.Size = new System.Drawing.Size(56, 21);
             CHK_P2.TabIndex = 4;
             CHK_P2.Text = "Male";
             CHK_P2.UseVisualStyleBackColor = true;
@@ -457,54 +460,54 @@
             // 
             modifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuSeenNone, mnuSeenAll, mnuCaughtNone, mnuCaughtAll, mnuComplete, mnuResetNav, mnuDexNav });
             modifyMenu.Name = "modifyMenu";
-            modifyMenu.Size = new System.Drawing.Size(150, 158);
+            modifyMenu.Size = new System.Drawing.Size(159, 158);
             // 
             // mnuSeenNone
             // 
             mnuSeenNone.Name = "mnuSeenNone";
-            mnuSeenNone.Size = new System.Drawing.Size(149, 22);
+            mnuSeenNone.Size = new System.Drawing.Size(158, 22);
             mnuSeenNone.Text = "Seen none";
             mnuSeenNone.Click += ModifyAll;
             // 
             // mnuSeenAll
             // 
             mnuSeenAll.Name = "mnuSeenAll";
-            mnuSeenAll.Size = new System.Drawing.Size(149, 22);
+            mnuSeenAll.Size = new System.Drawing.Size(158, 22);
             mnuSeenAll.Text = "Seen all";
             mnuSeenAll.Click += ModifyAll;
             // 
             // mnuCaughtNone
             // 
             mnuCaughtNone.Name = "mnuCaughtNone";
-            mnuCaughtNone.Size = new System.Drawing.Size(149, 22);
+            mnuCaughtNone.Size = new System.Drawing.Size(158, 22);
             mnuCaughtNone.Text = "Caught none";
             mnuCaughtNone.Click += ModifyAll;
             // 
             // mnuCaughtAll
             // 
             mnuCaughtAll.Name = "mnuCaughtAll";
-            mnuCaughtAll.Size = new System.Drawing.Size(149, 22);
+            mnuCaughtAll.Size = new System.Drawing.Size(158, 22);
             mnuCaughtAll.Text = "Caught all";
             mnuCaughtAll.Click += ModifyAll;
             // 
             // mnuComplete
             // 
             mnuComplete.Name = "mnuComplete";
-            mnuComplete.Size = new System.Drawing.Size(149, 22);
+            mnuComplete.Size = new System.Drawing.Size(158, 22);
             mnuComplete.Text = "Complete Dex";
             mnuComplete.Click += ModifyAll;
             // 
             // mnuResetNav
             // 
             mnuResetNav.Name = "mnuResetNav";
-            mnuResetNav.Size = new System.Drawing.Size(149, 22);
+            mnuResetNav.Size = new System.Drawing.Size(158, 22);
             mnuResetNav.Text = "Reset DexNav";
             mnuResetNav.Click += ModifyAll;
             // 
             // mnuDexNav
             // 
             mnuDexNav.Name = "mnuDexNav";
-            mnuDexNav.Size = new System.Drawing.Size(149, 22);
+            mnuDexNav.Size = new System.Drawing.Size(158, 22);
             mnuDexNav.Text = "999 DexNav";
             mnuDexNav.Click += ModifyAll;
             // 
@@ -515,7 +518,7 @@
             CLB_FormsSeen.Location = new System.Drawing.Point(447, 70);
             CLB_FormsSeen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CLB_FormsSeen.Name = "CLB_FormsSeen";
-            CLB_FormsSeen.Size = new System.Drawing.Size(138, 166);
+            CLB_FormsSeen.Size = new System.Drawing.Size(138, 164);
             CLB_FormsSeen.TabIndex = 34;
             // 
             // L_FormsSeen
@@ -535,7 +538,7 @@
             CLB_FormDisplayed.Location = new System.Drawing.Point(593, 70);
             CLB_FormDisplayed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CLB_FormDisplayed.Name = "CLB_FormDisplayed";
-            CLB_FormDisplayed.Size = new System.Drawing.Size(138, 166);
+            CLB_FormDisplayed.Size = new System.Drawing.Size(138, 164);
             CLB_FormDisplayed.TabIndex = 36;
             CLB_FormDisplayed.ItemCheck += UpdateDisplayedForm;
             // 
@@ -564,42 +567,87 @@
             // 
             modifyMenuForms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuFormNone, mnuForm1, mnuFormAll });
             modifyMenuForms.Name = "modifyMenu";
-            modifyMenuForms.Size = new System.Drawing.Size(130, 70);
+            modifyMenuForms.Size = new System.Drawing.Size(138, 70);
             // 
             // mnuFormNone
             // 
             mnuFormNone.Name = "mnuFormNone";
-            mnuFormNone.Size = new System.Drawing.Size(129, 22);
+            mnuFormNone.Size = new System.Drawing.Size(137, 22);
             mnuFormNone.Text = "Seen none";
             mnuFormNone.Click += ModifyAllForms;
             // 
             // mnuForm1
             // 
             mnuForm1.Name = "mnuForm1";
-            mnuForm1.Size = new System.Drawing.Size(129, 22);
+            mnuForm1.Size = new System.Drawing.Size(137, 22);
             mnuForm1.Text = "Seen one";
             mnuForm1.Click += ModifyAllForms;
             // 
             // mnuFormAll
             // 
             mnuFormAll.Name = "mnuFormAll";
-            mnuFormAll.Size = new System.Drawing.Size(129, 22);
+            mnuFormAll.Size = new System.Drawing.Size(137, 22);
             mnuFormAll.Text = "Seen all";
             mnuFormAll.Click += ModifyAllForms;
+            // 
+            // label1
+            // 
+            label1.Location = new System.Drawing.Point(314, 279);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(121, 23);
+            label1.TabIndex = 39;
+            label1.Text = "Obtained:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_Obtained
+            // 
+            MT_Obtained.Location = new System.Drawing.Point(447, 277);
+            MT_Obtained.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Obtained.Mask = "00000";
+            MT_Obtained.Name = "MT_Obtained";
+            MT_Obtained.Size = new System.Drawing.Size(37, 25);
+            MT_Obtained.TabIndex = 40;
+            MT_Obtained.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // CHK_NationalDexActive
+            // 
+            CHK_NationalDexActive.AutoSize = true;
+            CHK_NationalDexActive.Location = new System.Drawing.Point(179, 290);
+            CHK_NationalDexActive.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_NationalDexActive.Name = "CHK_NationalDexActive";
+            CHK_NationalDexActive.Size = new System.Drawing.Size(153, 21);
+            CHK_NationalDexActive.TabIndex = 48;
+            CHK_NationalDexActive.Text = "National Mode Active";
+            CHK_NationalDexActive.UseVisualStyleBackColor = true;
+            // 
+            // CHK_NationalDexUnlocked
+            // 
+            CHK_NationalDexUnlocked.AutoSize = true;
+            CHK_NationalDexUnlocked.Location = new System.Drawing.Point(179, 271);
+            CHK_NationalDexUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_NationalDexUnlocked.Name = "CHK_NationalDexUnlocked";
+            CHK_NationalDexUnlocked.Size = new System.Drawing.Size(173, 21);
+            CHK_NationalDexUnlocked.TabIndex = 47;
+            CHK_NationalDexUnlocked.Text = "National Mode Unlocked";
+            CHK_NationalDexUnlocked.UseVisualStyleBackColor = true;
             // 
             // SAV_PokedexORAS
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(740, 314);
+            Controls.Add(CHK_NationalDexActive);
+            Controls.Add(CHK_NationalDexUnlocked);
+            Controls.Add(MT_Obtained);
+            Controls.Add(label1);
             Controls.Add(B_ModifyForms);
             Controls.Add(L_FormDisplayed);
             Controls.Add(CLB_FormDisplayed);
             Controls.Add(L_FormsSeen);
             Controls.Add(CLB_FormsSeen);
-            Controls.Add(L_DexNav);
             Controls.Add(GB_Encountered);
             Controls.Add(L_Spinda);
-            Controls.Add(MT_Count);
+            Controls.Add(MT_Seen);
             Controls.Add(TB_Spinda);
             Controls.Add(GB_Owned);
             Controls.Add(GB_Displayed);
@@ -611,6 +659,7 @@
             Controls.Add(L_goto);
             Controls.Add(LB_Species);
             Controls.Add(B_Cancel);
+            Controls.Add(L_DexNav);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -659,7 +708,7 @@
         private System.Windows.Forms.GroupBox GB_Owned;
         private System.Windows.Forms.TextBox TB_Spinda;
         private System.Windows.Forms.Label L_Spinda;
-        private System.Windows.Forms.MaskedTextBox MT_Count;
+        private System.Windows.Forms.MaskedTextBox MT_Seen;
         private System.Windows.Forms.Label L_DexNav;
         private System.Windows.Forms.GroupBox GB_Encountered;
         private System.Windows.Forms.CheckBox CHK_P5;
@@ -683,5 +732,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuFormNone;
         private System.Windows.Forms.ToolStripMenuItem mnuFormAll;
         private System.Windows.Forms.ToolStripMenuItem mnuForm1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.MaskedTextBox MT_Obtained;
+        private System.Windows.Forms.CheckBox CHK_NationalDexActive;
+        private System.Windows.Forms.CheckBox CHK_NationalDexUnlocked;
     }
 }

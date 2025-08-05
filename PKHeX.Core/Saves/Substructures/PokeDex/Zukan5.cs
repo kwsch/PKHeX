@@ -83,6 +83,9 @@ public abstract class Zukan5(Memory<byte> raw)
     public ushort InitialSpecies { get => (ushort)((Packed >> 12) & 0x3FF); set => Packed = (Packed & ~0x3FF000u) | ((uint)value << 12); } // bit 12-21
     // remaining 10 bits are unused
 
+    private const ushort MaxSpecies = Legal.MaxSpeciesID_5;
+    private const ushort MaxSpeciesLanguage = Legal.MaxSpeciesID_4;
+
     private const int OFS_CAUGHT = 0x8;
     private const int OFS_SEEN = OFS_CAUGHT + BitSeenSize; // 0x5C
     private const int OFS_DISP = OFS_SEEN + (BitSeenSize * 4); // 0x1AC
@@ -111,7 +114,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public bool GetSeen(ushort species, int region)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return false;
         int bit = species - 1;
         return GetFlag(OFS_SEEN + (region * BitSeenSize), bit);
@@ -125,7 +128,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetSeen(ushort species, int region, bool value = true)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return;
         int bit = species - 1;
         SetFlag(OFS_SEEN + (region * BitSeenSize), bit, value);
@@ -133,7 +136,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public bool GetSeen(ushort species)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return false;
         int bit = species - 1;
         for (int i = 0; i < 4; i++)
@@ -146,7 +149,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void ClearSeen(ushort species)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return;
         int bit = species - 1;
         for (int i = 0; i < 4; i++)
@@ -155,7 +158,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public bool GetCaught(ushort species)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return false;
         int bit = species - 1;
         return GetFlag(OFS_CAUGHT, bit);
@@ -163,7 +166,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetCaught(ushort species, bool value = true)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return;
         int bit = species - 1;
         SetFlag(OFS_CAUGHT, bit, value);
@@ -177,7 +180,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public bool GetDisplayed(ushort species, int region)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return false;
         int bit = species - 1;
         return GetFlag(OFS_DISP + (region * BitSeenSize), bit);
@@ -185,7 +188,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public bool GetDisplayedAny(ushort species)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return false;
         // Check Displayed Status for base form
         int bit = species - 1;
@@ -205,7 +208,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetDisplayed(ushort species, int region, bool value = true)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return;
         int bit = species - 1;
         SetFlag(OFS_DISP + (region * BitSeenSize), bit, value);
@@ -213,7 +216,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void ClearDisplayed(ushort species)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_5)
+        if (species is 0 or > MaxSpecies)
             return;
         int bit = species - 1;
         for (int i = 0; i < 4; i++)
@@ -230,7 +233,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public bool GetLanguageFlag(ushort species, int langIndex)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_4) // no Gen5
+        if (species is 0 or > MaxSpeciesLanguage) // no Gen5
             return false;
         int bit = species - 1;
         int lbit = (bit * DexLangIDCount) + langIndex;
@@ -247,7 +250,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetLanguageFlag(ushort species, int index, bool isLanguageSet)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_4) // no Gen5
+        if (species is 0 or > MaxSpeciesLanguage) // no Gen5
             return;
         int bit = species - 1;
         int lbit = (bit * DexLangIDCount) + index;
@@ -256,7 +259,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetAllLanguage(ushort species, bool isLanguageSet = true)
     {
-        if (species is 0 or > Legal.MaxSpeciesID_4) // no Gen5
+        if (species is 0 or > MaxSpeciesLanguage) // no Gen5
             return;
         int bit = species - 1;
         for (int i = 0; i < DexLangIDCount; i++)
@@ -317,7 +320,7 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetDex(PKM pk)
     {
-        if (pk.Species is 0 or > Legal.MaxSpeciesID_5)
+        if (pk.Species is 0 or > MaxSpecies)
             return;
         if (pk.IsEgg) // do not add
             return;
@@ -333,7 +336,7 @@ public abstract class Zukan5(Memory<byte> raw)
         if (!GetDisplayedAny(species))
             SetDisplayed(species, gender, isShiny);
 
-        if (species <= Legal.MaxSpeciesID_4)
+        if (species <= MaxSpeciesLanguage)
             SetLanguageFlag(species, (LanguageID)pk.Language);
 
         var (formIndex, count) = GetFormIndex(species);
@@ -428,13 +431,13 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SeenNone()
     {
-        for (ushort species = 1; species <= Legal.MaxSpeciesID_5; species++)
+        for (ushort species = 1; species <= MaxSpecies; species++)
             ClearSeen(species);
     }
 
     public void SeenAll(bool shinyToo)
     {
-        for (ushort species = 1; species <= Legal.MaxSpeciesID_5; species++)
+        for (ushort species = 1; species <= MaxSpecies; species++)
         {
             var pi = PersonalTable.BW[species]; // only need for Gender info
             CompleteSeen(species, shinyToo, pi);
@@ -443,13 +446,13 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void CaughtAll(LanguageID language, bool allLanguages)
     {
-        for (ushort species = 1; species <= Legal.MaxSpeciesID_5; species++)
+        for (ushort species = 1; species <= MaxSpecies; species++)
             CompleteObtained(species, language, allLanguages);
     }
 
     public void CaughtNone()
     {
-        for (ushort species = 1; species <= Legal.MaxSpeciesID_5; species++)
+        for (ushort species = 1; species <= MaxSpecies; species++)
         {
             SetCaught(species, false);
             SetAllLanguage(species, false);
@@ -462,7 +465,9 @@ public abstract class Zukan5(Memory<byte> raw)
 
     public void SetFormsSeen(bool shinyToo, bool firstFormOnly = false)
     {
-        for (ushort species = 1; species <= Legal.MaxSpeciesID_5; species++)
+        for (ushort species = 1; species <= MaxSpecies; species++)
             CompleteForms(species, shinyToo, firstFormOnly);
     }
+
+    public void Reset() => Data[4..].Clear(); // Clear all flags, except magic
 }

@@ -66,7 +66,7 @@ public abstract class ZukanBase<T>(T sav, Memory<byte> dex) : SaveBlock<T>(sav, 
 }
 
 /// <summary>
-/// Base class for Pokédex operations, exposing the shared structure features used by Generations 5, 6, and 7.
+/// Base class for Pokédex operations, exposing the shared structure features used by Generation 7.
 /// </summary>
 public abstract class Zukan<T>(T sav, Memory<byte> raw, int langflag) : ZukanBase<T>(sav, raw)
     where T : SaveFile

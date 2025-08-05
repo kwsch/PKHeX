@@ -144,10 +144,10 @@ public partial class SAV_Pokedex5 : Form
         CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = !pi.OnlyFemale;
         CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(pi.OnlyMale || pi.Genderless);
 
+        var (index, count) = Dex.GetFormIndex(species);
         if (skipFormRepop)
         {
             // Just re-load without changing the text.
-            var (index, count) = Dex.GetFormIndex(species);
             if (count == 0)
                 return;
             for (int i = 0; i < count; i++)
@@ -163,23 +163,21 @@ public partial class SAV_Pokedex5 : Form
         CLB_FormsSeen.Items.Clear();
         CLB_FormDisplayed.Items.Clear();
 
-        var fc = pi.FormCount;
-        int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
-        if (f < 0)
-            return;
-        string[] forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
+        if (count == 0)
+            return; // No forms to set.
+        var forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         if (forms.Length < 1)
             return;
 
         for (int i = 0; i < forms.Length; i++) // Seen
-            CLB_FormsSeen.Items.Add(forms[i], Dex.GetFormFlag(f + i, 0));
+            CLB_FormsSeen.Items.Add(forms[i], Dex.GetFormFlag(index + i, 0));
         for (int i = 0; i < forms.Length; i++) // Seen Shiny
-            CLB_FormsSeen.Items.Add($"* {forms[i]}", Dex.GetFormFlag(f + i, 1));
+            CLB_FormsSeen.Items.Add($"* {forms[i]}", Dex.GetFormFlag(index + i, 1));
 
         for (int i = 0; i < forms.Length; i++) // Displayed
-            CLB_FormDisplayed.Items.Add(forms[i], Dex.GetFormFlag(f + i, 2));
+            CLB_FormDisplayed.Items.Add(forms[i], Dex.GetFormFlag(index + i, 2));
         for (int i = 0; i < forms.Length; i++) // Displayed Shiny
-            CLB_FormDisplayed.Items.Add($"* {forms[i]}", Dex.GetFormFlag(f + i, 3));
+            CLB_FormDisplayed.Items.Add($"* {forms[i]}", Dex.GetFormFlag(index + i, 3));
     }
 
     private void SetEntry()
@@ -200,21 +198,20 @@ public partial class SAV_Pokedex5 : Form
                 Dex.SetLanguageFlag(species, i, CL[i].Checked);
         }
 
-        var fc = SAV.Personal[species].FormCount;
-        int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
-        if (f < 0)
+        var (index, count) = Dex.GetFormIndex(species);
+        if (count == 0)
             return;
 
         for (int i = 0; i < CLB_FormsSeen.Items.Count / 2; i++) // Seen
-            Dex.SetFormFlag(f + i, 0, CLB_FormsSeen.GetItemChecked(i));
+            Dex.SetFormFlag(index + i, 0, CLB_FormsSeen.GetItemChecked(i));
         for (int i = 0; i < CLB_FormsSeen.Items.Count / 2; i++)  // Seen Shiny
-            Dex.SetFormFlag(f + i, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count / 2)));
+            Dex.SetFormFlag(index + i, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count / 2)));
 
         editing = true;
         for (int i = 0; i < CLB_FormDisplayed.Items.Count / 2; i++) // Displayed
-            Dex.SetFormFlag(f + i, 2, CLB_FormDisplayed.GetItemChecked(i));
+            Dex.SetFormFlag(index + i, 2, CLB_FormDisplayed.GetItemChecked(i));
         for (int i = 0; i < CLB_FormDisplayed.Items.Count / 2; i++)  // Displayed Shiny
-            Dex.SetFormFlag(f + i, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count / 2)));
+            Dex.SetFormFlag(index + i, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count / 2)));
         editing = false;
     }
 
