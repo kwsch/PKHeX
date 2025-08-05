@@ -192,7 +192,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         SetChecksum(span, 0x0000000, SIZE_HALF, SIZE_HALF - 0x80);
     }
 
-    public override bool ChecksumsValid => IsChecksumsValid(Data);
+    public override bool ChecksumsValid => IsChecksumsValid(Container.Span);
     public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
     public static bool IsChecksumsValid(Span<byte> sav) => IsChecksumValid(sav, 0x0000000) || IsChecksumValid(sav, SIZE_HALF);
