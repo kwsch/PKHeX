@@ -207,8 +207,6 @@ public partial class SAV_PokedexORAS : Form
         for (int i = 0; i < display.Items.Count / 2; i++)  // Displayed Shiny
             Zukan.SetFormFlag(index + i, 3, display.GetItemChecked(i + (display.Items.Count / 2)));
 
-        return;
-
         static ushort Clamp(ReadOnlySpan<char> text) => (ushort)Math.Clamp(Util.ToUInt32(text), 0, ushort.MaxValue);
     }
 
