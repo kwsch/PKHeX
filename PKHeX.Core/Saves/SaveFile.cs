@@ -409,7 +409,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     public decimal PercentCaught => (decimal)CaughtCount / MaxSpeciesID;
     #endregion
 
-    public bool HasBox => Box > -1;
+    public virtual bool HasBox => Box > -1;
     public virtual int BoxSlotCount => 30;
     public virtual int BoxesUnlocked { get => -1; set { } }
     public virtual byte[] BoxFlags { get => []; set { } }

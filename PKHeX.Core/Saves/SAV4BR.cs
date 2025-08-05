@@ -31,7 +31,11 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public int CurrentSlot
     {
         get => _currentSlot;
-        set => LoadSlot(_currentSlot = value);
+        set
+        {
+            LoadSlot(value);
+            _currentSlot = value;
+        }
     }
 
     public SAV4BR() : base(SIZE_SLOT) => ClearBoxes();
@@ -244,8 +248,19 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public string CurrentOT { get => GetOTName(CurrentSlot); set => SetOTName(CurrentSlot, value); }
 
     // Storage
-    public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
-    public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
+    public override bool HasBox => true;
+    public override int GetBoxOffset(int box)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(box, BoxCount);
+        return 0x978 + (SIZE_STORED * box * 30);
+    }
+
+    public override bool HasParty => true;
+    public override int GetPartyOffset(int slot)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(slot, 6);
+        return 0x13A54 + (SIZE_PARTY * slot);
+    }
 
     public override uint Money
     {
