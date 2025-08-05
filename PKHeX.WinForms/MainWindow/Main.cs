@@ -918,9 +918,12 @@ public partial class Main : Form
             return false;
 
         var meta = sav.Metadata;
-        var backupName = meta.GetBackupFileName(dir);
-        if (File.Exists(backupName))
-            return false; // Already backed up.
+        
+        // Create timestamped backup filename
+        var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        var baseBackupName = meta.GetBackupFileName(dir);
+        var backupName = Path.Combine(Path.GetDirectoryName(baseBackupName) ?? dir, 
+            Path.GetFileNameWithoutExtension(baseBackupName) + $".{timestamp}.bak");
 
         // Ensure the file we are copying exists.
         var src = meta.FilePath;
@@ -929,8 +932,12 @@ public partial class Main : Form
 
         try
         {
-            // Don't need to force overwrite, but on the off-chance it was written externally, we force ours.
+            // Create the timestamped backup
             File.Copy(src, backupName, true);
+            
+            // Perform backup rotation
+            RotateSaveBackups(baseBackupName, Settings.Backup.MaxBackupCount);
+            
             return true;
         }
         catch (Exception ex)
@@ -938,6 +945,44 @@ public partial class Main : Form
             WinFormsUtil.Error(MsgBackupUnable, ex);
             return false;
         }
+    }
+    
+    private static void RotateSaveBackups(string baseBackupPath, int maxBackupCount)
+    {
+        if (maxBackupCount <= 0)
+            return;
+            
+        try
+        {
+            var dir = Path.GetDirectoryName(baseBackupPath);
+            if (string.IsNullOrEmpty(dir))
+                return;
+                
+            var baseFileName = Path.GetFileNameWithoutExtension(baseBackupPath);
+            var pattern = $"{baseFileName}.*.bak";
+            
+            // Get all timestamped backups for this save file
+            var backupFiles = Directory.GetFiles(dir, pattern)
+                .Where(f => System.Text.RegularExpressions.Regex.IsMatch(
+                    Path.GetFileName(f), 
+                    $@"^{System.Text.RegularExpressions.Regex.Escape(baseFileName)}\.\d{{8}}_\d{{6}}\.bak$"))
+                .OrderByDescending(f => f)
+                .ToList();
+            
+            // Delete oldest backups if we exceed the limit
+            if (backupFiles.Count > maxBackupCount)
+            {
+                foreach (var oldBackup in backupFiles.Skip(maxBackupCount))
+                {
+                    try
+                    {
+                        File.Delete(oldBackup);
+                    }
+                    catch { /* Ignore deletion errors */ }
+                }
+            }
+        }
+        catch { /* Ignore rotation errors to not interrupt save process */ }
     }
 
     private static bool CheckLoadPath(string path)

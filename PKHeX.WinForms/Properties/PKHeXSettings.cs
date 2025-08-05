@@ -114,6 +114,9 @@ public sealed class BackupSettings
     [LocalizedDescription("Tracks if the \"Create Backup\" prompt has been issued to the user.")]
     public bool BAKPrompt { get; set; }
 
+    [LocalizedDescription("Maximum number of backup files to keep per original file. Older backups are deleted when this limit is exceeded.")]
+    public int MaxBackupCount { get; set; } = 5;
+
     [LocalizedDescription("List of extra locations to look for Save Files.")]
     public List<string> OtherBackupPaths { get; set; } = [];
 

@@ -367,10 +367,62 @@ public static class WinFormsUtil
         if (!File.Exists(path))
             return;
 
-        // File already exists, save a .bak
-        string bakpath = $"{path}.bak";
-        if (!File.Exists(bakpath))
-            File.Move(path, bakpath);
+        // Create timestamped backup with rotation
+        var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string bakpath = $"{path}.bak.{timestamp}";
+        
+        try
+        {
+            File.Copy(path, bakpath, true);
+            
+            // Perform backup rotation
+            RotateBackups(path, Main.Settings?.Backup?.MaxBackupCount ?? 5);
+        }
+        catch
+        {
+            // Fallback to simple backup if timestamped fails
+            string simpleBakPath = $"{path}.bak";
+            if (!File.Exists(simpleBakPath))
+                File.Move(path, simpleBakPath);
+        }
+    }
+    
+    private static void RotateBackups(string originalPath, int maxBackupCount)
+    {
+        if (maxBackupCount <= 0)
+            return;
+            
+        try
+        {
+            // Get all timestamped backups for this file
+            var dir = Path.GetDirectoryName(originalPath);
+            if (string.IsNullOrEmpty(dir))
+                return;
+                
+            var fileName = Path.GetFileName(originalPath);
+            var pattern = $"{fileName}.bak.*";
+            
+            var backupFiles = Directory.GetFiles(dir, pattern)
+                .Where(f => System.Text.RegularExpressions.Regex.IsMatch(
+                    Path.GetFileName(f), 
+                    $@"^{System.Text.RegularExpressions.Regex.Escape(fileName)}\.bak\.\d{{8}}_\d{{6}}$"))
+                .OrderByDescending(f => f)
+                .ToList();
+            
+            // Delete oldest backups if we exceed the limit
+            if (backupFiles.Count > maxBackupCount)
+            {
+                foreach (var oldBackup in backupFiles.Skip(maxBackupCount))
+                {
+                    try
+                    {
+                        File.Delete(oldBackup);
+                    }
+                    catch { /* Ignore deletion errors */ }
+                }
+            }
+        }
+        catch { /* Ignore rotation errors to not interrupt save process */ }
     }
 
     /// <summary>
