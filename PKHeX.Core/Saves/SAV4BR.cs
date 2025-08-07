@@ -20,8 +20,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
     private const int SIZE_SLOT = 0x6FF00;
 
-    /// <summary> Amount of times the primary save has been saved </summary>
     private readonly int SavePartition;
+    /// <summary> Amount of times the primary save has been saved </summary>
     private readonly uint SaveCount;
     private readonly Memory<byte> Container;
 
@@ -52,13 +52,14 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         InitializeData();
     }
 
-    private SAV4BR(SAV4BR other) : base(other.Data.ToArray())
+    private SAV4BR(SAV4BR other) : base(new byte[SIZE_SLOT])
     {
         Container = other.Container.ToArray();
         SavePartition = other.SavePartition;
         SaveCount = other.SaveCount;
         CurrentSlot = other.CurrentSlot;
 
+        other.Data.CopyTo(Data);
         InitializeData();
     }
 
@@ -242,7 +243,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
     }
 
-    private Span<byte> GetOriginalTrainerSpan(int slot) => Container.Span.Slice((SIZE_SLOT * slot) + 0x390, 16);
+    private Span<byte> GetOriginalTrainerSpan(int slot) => (slot == CurrentSlot ? Data : GetSlot(slot)).Slice(0x390, 16);
     private string GetOTName(int slot) => GetString(GetOriginalTrainerSpan(slot));
     private void SetOTName(int slot, ReadOnlySpan<char> name) => SetString(GetOriginalTrainerSpan(slot), name, 7, StringConverterOption.ClearZero);
     public string CurrentOT { get => GetOTName(CurrentSlot); set => SetOTName(CurrentSlot, value); }
