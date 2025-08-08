@@ -7,7 +7,11 @@ namespace PKHeX.Core;
 /// </summary>
 public static class GameInfo
 {
-    private static readonly GameStrings?[] Languages = new GameStrings[GameLanguage.LanguageCount];
+    private static readonly LanguageStorage<GameStrings> Languages = new GameStringResourceSet();
+    private sealed record GameStringResourceSet : LanguageStorage<GameStrings>
+    {
+        protected override GameStrings Create(string language) => new(language);
+    }
 
     public static string CurrentLanguage { get; set; } = GameLanguage.DefaultLanguage;
     public static readonly IReadOnlyList<string> GenderSymbolUnicode = ["♂", "♀", "-"];
@@ -22,11 +26,7 @@ public static class GameInfo
         set => Sources = new GameDataSource(_strings = value);
     }
 
-    public static GameStrings GetStrings(string lang)
-    {
-        int index = GameLanguage.GetLanguageIndex(lang);
-        return Languages[index] ??= new GameStrings(lang);
-    }
+    public static GameStrings GetStrings(string lang) => Languages.Get(lang);
 
     public static string GetVersionName(GameVersion version)
     {
