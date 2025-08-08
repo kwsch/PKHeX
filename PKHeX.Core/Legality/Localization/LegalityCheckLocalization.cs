@@ -75,8 +75,10 @@ public sealed class LegalityCheckLocalization
     public string ContestSheenGEQ_0 { get; set; } = "Contest Stat Sheen should be >= {0}.";
     public string ContestSheenLEQ_0 { get; set; } = "Contest Stat Sheen should be <= {0}.";
 
-    public string DateOutsideConsoleWindow { get; set; } = "Local Date is outside of console's local time window.";
-    public string DateTimeClockInvalid { get; set; } = "Local Time is not a valid timestamp.";
+    public string DateCalendarInvalidMet { get; set; } = "Met Date is not a valid calendar date.";
+    public string DateCalendarInvalidEgg { get; set; } = "Egg Met Date is not a valid calendar date.";
+    public string DateLocalInvalidDate { get; set; } = "Local Date is outside of console's local time window.";
+    public string DateLocalInvalidTime { get; set; } = "Local Time is not a valid timestamp.";
     public string DateOutsideDistributionWindow { get; set; } = "Met Date is outside of distribution window.";
 
     public string EggContest { get; set; } = "Cannot increase Contest Stats of an Egg.";
@@ -91,11 +93,9 @@ public sealed class LegalityCheckLocalization
     public string EggLocationTradeFail { get; set; } = "Invalid Egg Location, shouldn't be 'traded' while an Egg.";
     public string EggMetLocationFail { get; set; } = "Can't obtain Egg from Egg Location.";
     public string EggNature { get; set; } = "Eggs cannot have their Stat Nature changed.";
-    public string EggPokeathlon { get; set; } = "Eggs cannot have Pokéathlon stats.";
     public string EggPP { get; set; } = "Eggs cannot have modified move PP counts.";
     public string EggPPUp { get; set; } = "Cannot apply PP Ups to an Egg.";
     public string EggRelearnFlags { get; set; } = "Expected no Relearn Move Flags.";
-    public string EggShinyLeaf { get; set; } = "Eggs cannot have Shiny Leaf/Crown.";
     public string EggShinyPokeStar { get; set; } = "Eggs cannot be a Pokéstar Studios star.";
     public string EggSpecies { get; set; } = "Can't obtain Egg for this species.";
     public string EggUnhatched { get; set; } = "Valid un-hatched Egg.";
@@ -202,6 +202,10 @@ public sealed class LegalityCheckLocalization
     public string G3EReader { get; set; } = "Non Japanese Shadow E-reader Pokémon. Unreleased encounter.";
     public string G3OTGender { get; set; } = "OT from Colosseum/XD cannot be female.";
     public string G4InvalidTileR45Surf { get; set; } = "Johto Route 45 surfing encounter. Unreachable Water tiles.";
+    public string G4PartnerMoodEgg { get; set; } = "Eggs cannot have an Mood stat value.";
+    public string G4PartnerMoodZero { get; set; } = "Mood stat value should be zero when not in the player's party.";
+    public string G4ShinyLeafBitsInvalid { get; set; } = "Shiny Leaf/Crown bits are not valid.";
+    public string G4ShinyLeafBitsEgg { get; set; } = "Eggs cannot have Shiny Leaf/Crown.";
     public string G5IVAll30 { get; set; } = "All IVs of N's Pokémon should be 30.";
     public string G5PIDShinyGrotto { get; set; } = "Hidden Grotto captures cannot be shiny.";
     public string G5SparkleInvalid { get; set; } = "Special In-game N's Sparkle flag should not be checked.";

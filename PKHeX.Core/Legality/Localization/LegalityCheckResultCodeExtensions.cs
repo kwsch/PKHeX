@@ -59,8 +59,10 @@ public static class LegalityCheckResultCodeExtensions
         ContestSheenLEQ_0 => localization.ContestSheenLEQ_0,
 
         // Date & Timestamps
-        DateOutsideConsoleWindow => localization.DateOutsideConsoleWindow,
-        DateTimeClockInvalid => localization.DateTimeClockInvalid,
+        DateCalendarInvalidMet => localization.DateCalendarInvalidMet,
+        DateCalendarInvalidEgg => localization.DateCalendarInvalidEgg,
+        DateLocalInvalidDate => localization.DateLocalInvalidDate,
+        DateLocalInvalidTime => localization.DateLocalInvalidTime,
         DateOutsideDistributionWindow => localization.DateOutsideDistributionWindow,
 
         // Egg
@@ -76,11 +78,9 @@ public static class LegalityCheckResultCodeExtensions
         EggLocationTradeFail => localization.EggLocationTradeFail,
         EggMetLocationFail => localization.EggMetLocationFail,
         EggNature => localization.EggNature,
-        EggPokeathlon => localization.EggPokeathlon,
         EggPP => localization.EggPP,
         EggPPUp => localization.EggPPUp,
         EggRelearnFlags => localization.EggRelearnFlags,
-        EggShinyLeaf => localization.EggShinyLeaf,
         EggShinyPokeStar => localization.EggShinyPokeStar,
         EggSpecies => localization.EggSpecies,
         EggUnhatched => localization.EggUnhatched,
@@ -232,6 +232,10 @@ public static class LegalityCheckResultCodeExtensions
         G3EReader => localization.G3EReader,
         G3OTGender => localization.G3OTGender,
         G4InvalidTileR45Surf => localization.G4InvalidTileR45Surf,
+        G4PartnerMoodEgg => localization.G4PartnerMoodEgg,
+        G4PartnerMoodZero => localization.G4PartnerMoodZero,
+        G4ShinyLeafBitsEgg => localization.G4ShinyLeafBitsEgg,
+        G4ShinyLeafBitsInvalid => localization.G4ShinyLeafBitsInvalid,
         G5IVAll30 => localization.G5IVAll30,
         G5PIDShinyGrotto => localization.G5PIDShinyGrotto,
         G5SparkleInvalid => localization.G5SparkleInvalid,

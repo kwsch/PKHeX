@@ -51,8 +51,10 @@ public enum LegalityCheckResultCode : ushort
     ContestZeroSheen,
 
     // Date & Timestamps
-    DateOutsideConsoleWindow,
-    DateTimeClockInvalid,
+    DateCalendarInvalidMet,
+    DateCalendarInvalidEgg,
+    DateLocalInvalidDate,
+    DateLocalInvalidTime,
     DateOutsideDistributionWindow,
 
     // Egg
@@ -67,11 +69,9 @@ public enum LegalityCheckResultCode : ushort
     EggLocationTradeFail,
     EggMetLocationFail,
     EggNature,
-    EggPokeathlon,
     EggPP,
     EggPPUp,
     EggRelearnFlags,
-    EggShinyLeaf,
     EggShinyPokeStar,
     EggSpecies,
     EggUnhatched,
@@ -180,6 +180,10 @@ public enum LegalityCheckResultCode : ushort
     G3EReader,
     G3OTGender,
     G4InvalidTileR45Surf,
+    G4PartnerMoodEgg,
+    G4PartnerMoodZero,
+    G4ShinyLeafBitsEgg,
+    G4ShinyLeafBitsInvalid,
     G5IVAll30,
     G5PIDShinyGrotto,
     G5SparkleInvalid,

@@ -40,14 +40,6 @@ public sealed class MiscVerifier : Verifier
                 case PK3 when pk.Language != 1:
                     data.AddLine(GetInvalid(Egg, OTLanguageShouldBe_0, (byte)LanguageID.Japanese));
                     break;
-
-                // Cannot obtain Shiny Leaf or Pokeathlon Stats as Egg
-                case PK4 pk4:
-                    if (pk4.ShinyLeaf != 0)
-                        data.AddLine(GetInvalid(Egg, EggShinyLeaf));
-                    if (pk4.PokeathlonStat != 0)
-                        data.AddLine(GetInvalid(Egg, EggPokeathlon));
-                    break;
             }
 
             if (pk is IHomeTrack { HasTracker: true })
@@ -57,6 +49,7 @@ public sealed class MiscVerifier : Verifier
         switch (pk)
         {
             case SK2 sk2: VerifyIsMovesetAllowed(data, sk2); break;
+            case G4PKM pk4: VerifyMisc4(data, pk4); break;
             case PK5 pk5: VerifyStats5(data, pk5); break;
             case PK7 pk7: VerifyStats7(data, pk7); break;
             case PB7 pb7: VerifyStats7b(data, pb7); break;
@@ -93,6 +86,61 @@ public sealed class MiscVerifier : Verifier
         VerifyMiscFatefulEncounter(data);
         VerifyMiscPokerus(data);
         VerifyMiscScaleValues(data, pk, enc);
+        VerifyDateValues(data, pk);
+    }
+
+    private void VerifyMisc4(LegalityAnalysis data, G4PKM pk)
+    {
+        // Mood:
+        // Range is [-127, 127]. Deduplicated unique adjustments are +8, +10, and -20.
+        // Increment adjustments of -2 (-20 +8 +10) and +2 (+8*4 +10 -20) are possible.
+        // Start from 0 or from clamped edge, with above adjustments, at least one mutation path can arrive at a given [-127, 127] value.
+        // There are probably other scripted increments, but the above is just to prove that all values are possible via specific actions.
+        // Eggs cannot have a value other than 0.
+        // HG/SS resets when promoting to lead of party, or removing from party. Therefore, any party slot can retain a non-zero value.
+        // Mood also resets for the lead Pokémon when booting the game, but it can be mutated immediately after (and saved/dumped).
+        // Note: Trading to D/P/Pt does not clear (thus unchanged on side games too), so this check is only relevant for HG/SS slots.
+        if (pk.PartnerMood != 0)
+        {
+            if (pk.IsEgg)
+                data.AddLine(GetInvalid(Egg, G4PartnerMoodEgg));
+            else if (data.SlotOrigin is not StorageSlotType.Party && ParseSettings.ActiveTrainer is SAV4HGSS)
+                data.AddLine(GetInvalid(Egg, G4PartnerMoodZero));
+        }
+
+        // Shiny leaf: cannot have crown (bit 5) without bits 0-4. Bits higher are invalid.
+        // Eggs cannot receive a Shiny Leaf.
+        var leaf = pk.ShinyLeaf;
+        if (leaf is > 0b_11111 and not 0b_1_11111 || (leaf is not 0 && pk.IsEgg))
+            data.AddLine(GetInvalid(G4ShinyLeafBitsInvalid));
+    }
+
+    private static void VerifyDateValues(LegalityAnalysis data, PKM pk)
+    {
+        if (pk.Format <= 3)
+            return; // Gen1-3 do not have date values.
+
+        var expect0 = pk is PB8 ? Locations.Default8bNone : 0;
+        if (pk.MetLocation != expect0)
+        {
+            if (pk.MetDate is null)
+                data.AddLine(GetInvalid(Memory, DateCalendarInvalidMet));
+        }
+        else
+        {
+            if (pk.MetMonth != 0 || pk.MetDay != 0 || pk.MetYear != 0)
+                data.AddLine(GetInvalid(Memory, DateCalendarInvalidMet));
+        }
+        if (pk.EggLocation != expect0)
+        {
+            if (pk.EggMetDate is null)
+                data.AddLine(GetInvalid(Memory, DateCalendarInvalidEgg));
+        }
+        else
+        {
+            if (pk.EggMonth != 0 || pk.EggDay != 0 || pk.EggYear != 0)
+                data.AddLine(GetInvalid(Memory, DateCalendarInvalidEgg));
+        }
     }
 
     private void VerifyCorrelation8b(LegalityAnalysis data, IStaticCorrelation8b s8b, PKM pk)
@@ -680,12 +728,12 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(Encounter, StatIncorrectCP_0, (uint)calc));
 
         if (pb7.ReceivedTime is null)
-            data.AddLine(GetInvalid(Misc, DateTimeClockInvalid));
+            data.AddLine(GetInvalid(Misc, DateLocalInvalidTime));
 
         // HOME moving in and out will retain received date. ensure it matches if no HT data present.
         // Go Park captures will have different dates, as the GO met date is retained as Met Date.
         if (pb7.ReceivedDate is not { } date || !EncounterDate.IsValidDateSwitch(date) || (pb7.IsUntraded && data.EncounterOriginal is not EncounterSlot7GO && date != pb7.MetDate))
-            data.AddLine(GetInvalid(Misc, DateOutsideConsoleWindow));
+            data.AddLine(GetInvalid(Misc, DateLocalInvalidDate));
     }
 
     private static void VerifyAbsoluteSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue

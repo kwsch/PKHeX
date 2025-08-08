@@ -281,7 +281,7 @@ public sealed class BK4 : G4PKM
     public override byte OriginalTrainerGender { get => (byte)(Data[0x84] & 1); set => Data[0x84] = (byte)((Data[0x84] & ~0x1) | (value & 1)); }
     public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
     public override byte BallHGSS { get => Data[0x86]; set => Data[0x86] = value; }
-    public override byte PokeathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
+    public override sbyte PartnerMood { get => (sbyte)Data[0x87]; set => Data[0x87] = (byte)value; }
     #endregion
 
     // Not stored

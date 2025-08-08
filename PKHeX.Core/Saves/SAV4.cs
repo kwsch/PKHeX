@@ -370,7 +370,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     protected sealed override PK4 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-    protected sealed override void SetPKM(PKM pk, bool isParty = false)
+    protected override void SetPKM(PKM pk, bool isParty = false)
     {
         var pk4 = (PK4)pk;
         // Apply to this Save File
