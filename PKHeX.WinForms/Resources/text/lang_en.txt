@@ -419,6 +419,7 @@ Main.L_Secure2=Secure Value 2:
 Main.L_ShadowID=Shadow ID:
 Main.L_TeraTypeOriginal=Original Tera Type:
 Main.L_TeraTypeOverride=Override Tera Type:
+Main.L_WalkingMood=Walking Mood:
 Main.L_Weight=Weight:
 Main.L_XP1=+XP:
 Main.L_XP2=+XP:

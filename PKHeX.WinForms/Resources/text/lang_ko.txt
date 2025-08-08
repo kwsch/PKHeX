@@ -419,6 +419,7 @@ Main.L_Secure2=보안 값 2:
 Main.L_ShadowID=다크 ID:
 Main.L_TeraTypeOriginal=Original Tera Type:
 Main.L_TeraTypeOverride=Override Tera Type:
+Main.L_WalkingMood=Walking Mood:
 Main.L_Weight=몸무게:
 Main.L_XP1=+XP:
 Main.L_XP2=+XP:

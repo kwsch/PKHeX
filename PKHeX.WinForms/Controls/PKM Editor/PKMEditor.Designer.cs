@@ -199,6 +199,9 @@ namespace PKHeX.WinForms.Controls
             PB_Favorite = new System.Windows.Forms.PictureBox();
             PB_Origin = new System.Windows.Forms.PictureBox();
             PB_BattleVersion = new System.Windows.Forms.PictureBox();
+            FLP_WalkingMood = new System.Windows.Forms.FlowLayoutPanel();
+            L_WalkingMood = new System.Windows.Forms.Label();
+            NUD_WalkingMood = new System.Windows.Forms.NumericUpDown();
             SizeCP = new SizeCP();
             ShinyLeaf = new ShinyLeaf();
             PAN_CosmeticButtons = new System.Windows.Forms.Panel();
@@ -248,6 +251,7 @@ namespace PKHeX.WinForms.Controls
             BTN_RerollEC = new System.Windows.Forms.Button();
             TB_EC = new System.Windows.Forms.TextBox();
             FLP_ReceivedDate = new System.Windows.Forms.FlowLayoutPanel();
+            L_ArrivedDateTime = new System.Windows.Forms.Label();
             CAL_ReceivedDateTime = new System.Windows.Forms.DateTimePicker();
             StatusView = new StatusConditionView();
             TC_Editor = new VerticalTabControlEntityEditor();
@@ -257,7 +261,6 @@ namespace PKHeX.WinForms.Controls
             Tab_Moves = new System.Windows.Forms.TabPage();
             Tab_Cosmetic = new System.Windows.Forms.TabPage();
             Tab_OTMisc = new System.Windows.Forms.TabPage();
-            L_ArrivedDateTime = new System.Windows.Forms.Label();
             Hidden_TC.SuspendLayout();
             Hidden_Main.SuspendLayout();
             FLP_Main.SuspendLayout();
@@ -339,6 +342,8 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)PB_Favorite).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PB_Origin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PB_BattleVersion).BeginInit();
+            FLP_WalkingMood.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_WalkingMood).BeginInit();
             PAN_CosmeticButtons.SuspendLayout();
             FLP_PKMEditors.SuspendLayout();
             Hidden_OTMisc.SuspendLayout();
@@ -533,8 +538,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            UC_Gender.AccessibleDescription = "Entity gender panel";
-            UC_Gender.AccessibleName = "Entity gender panel";
+            UC_Gender.AccessibleDescription = "Entity gender panel (0) (0) (0) (0)";
+            UC_Gender.AccessibleName = "Entity gender panel (0) (0) (0) (0)";
             UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_Gender.AllowClick = false;
             UC_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_Gender.BackgroundImage");
@@ -2304,6 +2309,7 @@ namespace PKHeX.WinForms.Controls
             FLP_CosmeticTop.Controls.Add(GB_Markings);
             FLP_CosmeticTop.Controls.Add(PB_Affixed);
             FLP_CosmeticTop.Controls.Add(FLP_BigMarkings);
+            FLP_CosmeticTop.Controls.Add(FLP_WalkingMood);
             FLP_CosmeticTop.Controls.Add(SizeCP);
             FLP_CosmeticTop.Controls.Add(ShinyLeaf);
             FLP_CosmeticTop.Controls.Add(PAN_CosmeticButtons);
@@ -2466,6 +2472,7 @@ namespace PKHeX.WinForms.Controls
             FLP_BigMarkings.Controls.Add(PB_Favorite);
             FLP_BigMarkings.Controls.Add(PB_Origin);
             FLP_BigMarkings.Controls.Add(PB_BattleVersion);
+            FLP_CosmeticTop.SetFlowBreak(FLP_BigMarkings, true);
             FLP_BigMarkings.Location = new System.Drawing.Point(72, 96);
             FLP_BigMarkings.Margin = new System.Windows.Forms.Padding(72, 8, 0, 0);
             FLP_BigMarkings.Name = "FLP_BigMarkings";
@@ -2515,10 +2522,43 @@ namespace PKHeX.WinForms.Controls
             PB_BattleVersion.TabStop = false;
             PB_BattleVersion.Click += ClickVersionMarking;
             // 
+            // FLP_WalkingMood
+            // 
+            FLP_WalkingMood.AutoSize = true;
+            FLP_WalkingMood.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            FLP_WalkingMood.Controls.Add(L_WalkingMood);
+            FLP_WalkingMood.Controls.Add(NUD_WalkingMood);
+            FLP_CosmeticTop.SetFlowBreak(FLP_WalkingMood, true);
+            FLP_WalkingMood.Location = new System.Drawing.Point(32, 152);
+            FLP_WalkingMood.Margin = new System.Windows.Forms.Padding(32, 8, 0, 0);
+            FLP_WalkingMood.Name = "FLP_WalkingMood";
+            FLP_WalkingMood.Size = new System.Drawing.Size(168, 26);
+            FLP_WalkingMood.TabIndex = 52;
+            // 
+            // L_WalkingMood
+            // 
+            L_WalkingMood.Location = new System.Drawing.Point(0, 0);
+            L_WalkingMood.Margin = new System.Windows.Forms.Padding(0);
+            L_WalkingMood.Name = "L_WalkingMood";
+            L_WalkingMood.Size = new System.Drawing.Size(120, 24);
+            L_WalkingMood.TabIndex = 9;
+            L_WalkingMood.Text = "Walking Mood:";
+            L_WalkingMood.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_WalkingMood
+            // 
+            NUD_WalkingMood.Location = new System.Drawing.Point(120, 1);
+            NUD_WalkingMood.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            NUD_WalkingMood.Maximum = new decimal(new int[] { 127, 0, 0, 0 });
+            NUD_WalkingMood.Minimum = new decimal(new int[] { 127, 0, 0, int.MinValue });
+            NUD_WalkingMood.Name = "NUD_WalkingMood";
+            NUD_WalkingMood.Size = new System.Drawing.Size(48, 25);
+            NUD_WalkingMood.TabIndex = 103;
+            // 
             // SizeCP
             // 
             SizeCP.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            SizeCP.Location = new System.Drawing.Point(48, 152);
+            SizeCP.Location = new System.Drawing.Point(48, 186);
             SizeCP.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             SizeCP.Name = "SizeCP";
             SizeCP.Size = new System.Drawing.Size(224, 96);
@@ -2528,7 +2568,7 @@ namespace PKHeX.WinForms.Controls
             // 
             ShinyLeaf.AccessibleDescription = "Gen 4 shiny leaf crown control";
             ShinyLeaf.AccessibleName = "Gen 4 shiny leaf crown control";
-            ShinyLeaf.Location = new System.Drawing.Point(56, 256);
+            ShinyLeaf.Location = new System.Drawing.Point(56, 290);
             ShinyLeaf.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
             ShinyLeaf.Name = "ShinyLeaf";
             ShinyLeaf.Size = new System.Drawing.Size(200, 64);
@@ -2538,7 +2578,7 @@ namespace PKHeX.WinForms.Controls
             // 
             PAN_CosmeticButtons.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PAN_CosmeticButtons.Controls.Add(FLP_PKMEditors);
-            PAN_CosmeticButtons.Location = new System.Drawing.Point(0, 320);
+            PAN_CosmeticButtons.Location = new System.Drawing.Point(0, 354);
             PAN_CosmeticButtons.Margin = new System.Windows.Forms.Padding(0);
             PAN_CosmeticButtons.Name = "PAN_CosmeticButtons";
             PAN_CosmeticButtons.Size = new System.Drawing.Size(296, 39);
@@ -2609,7 +2649,7 @@ namespace PKHeX.WinForms.Controls
             Contest.ContestSheen = 0;
             Contest.ContestSmart = 0;
             Contest.ContestTough = 0;
-            Contest.Location = new System.Drawing.Point(0, 359);
+            Contest.Location = new System.Drawing.Point(0, 393);
             Contest.Margin = new System.Windows.Forms.Padding(0);
             Contest.Name = "Contest";
             Contest.Size = new System.Drawing.Size(288, 59);
@@ -2711,8 +2751,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = "Trainer gender panel";
-            UC_OTGender.AccessibleName = "Trainer gender panel";
+            UC_OTGender.AccessibleDescription = "Trainer gender panel (0) (0) (0) (0)";
+            UC_OTGender.AccessibleName = "Trainer gender panel (0) (0) (0) (0)";
             UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
@@ -2930,8 +2970,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            UC_HTGender.AccessibleDescription = "Handling Trainer gender panel";
-            UC_HTGender.AccessibleName = "Handling Trainer gender panel";
+            UC_HTGender.AccessibleDescription = "Handling Trainer gender panel (0) (0) (0) (0)";
+            UC_HTGender.AccessibleName = "Handling Trainer gender panel (0) (0) (0) (0)";
             UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_HTGender.AllowClick = true;
             UC_HTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_HTGender.BackgroundImage");
@@ -3120,6 +3160,16 @@ namespace PKHeX.WinForms.Controls
             FLP_ReceivedDate.Size = new System.Drawing.Size(256, 65);
             FLP_ReceivedDate.TabIndex = 52;
             // 
+            // L_ArrivedDateTime
+            // 
+            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 16);
+            L_ArrivedDateTime.Margin = new System.Windows.Forms.Padding(24, 16, 0, 0);
+            L_ArrivedDateTime.Name = "L_ArrivedDateTime";
+            L_ArrivedDateTime.Size = new System.Drawing.Size(232, 24);
+            L_ArrivedDateTime.TabIndex = 52;
+            L_ArrivedDateTime.Text = "Acquired by current handler at...";
+            L_ArrivedDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // CAL_ReceivedDateTime
             // 
             CAL_ReceivedDateTime.CustomFormat = "yyyy-MM-dd HH:mm:ss tt";
@@ -3219,16 +3269,6 @@ namespace PKHeX.WinForms.Controls
             Tab_OTMisc.TabIndex = 4;
             Tab_OTMisc.Text = "OT/Misc";
             Tab_OTMisc.UseVisualStyleBackColor = true;
-            // 
-            // L_ArrivedDateTime
-            // 
-            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 16);
-            L_ArrivedDateTime.Margin = new System.Windows.Forms.Padding(24, 16, 0, 0);
-            L_ArrivedDateTime.Name = "L_ArrivedDateTime";
-            L_ArrivedDateTime.Size = new System.Drawing.Size(232, 24);
-            L_ArrivedDateTime.TabIndex = 52;
-            L_ArrivedDateTime.Text = "Acquired by current handler at...";
-            L_ArrivedDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PKMEditor
             // 
@@ -3346,6 +3386,8 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)PB_Favorite).EndInit();
             ((System.ComponentModel.ISupportInitialize)PB_Origin).EndInit();
             ((System.ComponentModel.ISupportInitialize)PB_BattleVersion).EndInit();
+            FLP_WalkingMood.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_WalkingMood).EndInit();
             PAN_CosmeticButtons.ResumeLayout(false);
             PAN_CosmeticButtons.PerformLayout();
             FLP_PKMEditors.ResumeLayout(false);
@@ -3604,5 +3646,8 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox CB_Form;
         private System.Windows.Forms.Label L_ArrivedDateTime;
+        private System.Windows.Forms.FlowLayoutPanel FLP_WalkingMood;
+        private System.Windows.Forms.Label L_WalkingMood;
+        private System.Windows.Forms.NumericUpDown NUD_WalkingMood;
     }
 }

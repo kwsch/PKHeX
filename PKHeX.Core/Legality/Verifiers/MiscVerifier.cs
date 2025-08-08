@@ -100,7 +100,7 @@ public sealed class MiscVerifier : Verifier
         // HG/SS resets when promoting to lead of party, or removing from party. Therefore, any party slot can retain a non-zero value.
         // Mood also resets for the lead Pokémon when booting the game, but it can be mutated immediately after (and saved/dumped).
         // Note: Trading to D/P/Pt does not clear (thus unchanged on side games too), so this check is only relevant for HG/SS slots.
-        if (pk.PartnerMood != 0)
+        if (pk.WalkingMood != 0)
         {
             if (pk.IsEgg)
                 data.AddLine(GetInvalid(Egg, G4PartnerMoodEgg));

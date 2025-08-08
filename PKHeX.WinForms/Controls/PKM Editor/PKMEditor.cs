@@ -1970,7 +1970,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = format == 5;
 
         CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = format >= 4;
-        ShinyLeaf.Visible = format == 4;
+        ShinyLeaf.Visible = FLP_WalkingMood.Visible = format == 4;
 
         // Ensure marking order is correct for gen3|future. Gen3 has square second, not third.
         var orderCorrect = (format == 3) == (PB_Mark3.Location.X < PB_Mark2.Location.X);

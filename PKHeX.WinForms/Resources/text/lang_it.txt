@@ -419,6 +419,7 @@ Main.L_Secure2=Secure Value 2:
 Main.L_ShadowID=ID Ombra:
 Main.L_TeraTypeOriginal=Teratipo originale:
 Main.L_TeraTypeOverride=Teratipo sostitutivo:
+Main.L_WalkingMood=Walking Mood:
 Main.L_Weight=Peso:
 Main.L_XP1=+XP:
 Main.L_XP2=+XP:

@@ -182,7 +182,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     {
         base.SetPKM(pk, isParty);
         if (!isParty)
-            ((PK4)pk).PartnerMood = 0;
+            ((PK4)pk).WalkingMood = 0;
     }
 
     public override IReadOnlyList<InventoryPouch> Inventory

@@ -419,6 +419,7 @@ Main.L_Secure2=安保值 2:
 Main.L_ShadowID=黑暗ID:
 Main.L_TeraTypeOriginal=原始太晶屬性:
 Main.L_TeraTypeOverride=轉變太晶屬性:
+Main.L_WalkingMood=Walking Mood:
 Main.L_Weight=體重:
 Main.L_XP1=+XP:
 Main.L_XP2=+XP:

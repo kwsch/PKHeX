@@ -419,6 +419,7 @@ Main.L_Secure2=Secure Value 2:
 Main.L_ShadowID=ﾀﾞｰｸﾎﾟｹﾓﾝID
 Main.L_TeraTypeOriginal=元のテラスタイプ
 Main.L_TeraTypeOverride=変更テラスタイプ
+Main.L_WalkingMood=Walking Mood:
 Main.L_Weight=重さ
 Main.L_XP1=+XP:
 Main.L_XP2=+XP:
