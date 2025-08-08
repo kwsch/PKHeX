@@ -26,9 +26,9 @@ public partial class BatchEditor : Form
         var above = FLP_RB.Location;
         UC_Builder = new EntityInstructionBuilder(() => pk)
         {
-            Location = new() { Y = above.Y + FLP_RB.Height + 6, X = above.X + 1 },
+            Location = new() { Y = above.Y + FLP_RB.Height + 4 - 1, X = above.X + 1 },
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-            Width = B_Add.Location.X - above.X - 6,
+            Width = B_Add.Location.X - above.X - 2,
         };
         Controls.Add(UC_Builder);
         SAV = sav;
