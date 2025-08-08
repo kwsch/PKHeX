@@ -77,7 +77,7 @@ namespace PKHeX.WinForms
             mnuFormNone = new System.Windows.Forms.ToolStripMenuItem();
             mnuForm1 = new System.Windows.Forms.ToolStripMenuItem();
             mnuFormAll = new System.Windows.Forms.ToolStripMenuItem();
-            label1 = new System.Windows.Forms.Label();
+            L_DexNavObtained = new System.Windows.Forms.Label();
             MT_Obtained = new System.Windows.Forms.MaskedTextBox();
             CHK_NationalDexActive = new System.Windows.Forms.CheckBox();
             CHK_NationalDexUnlocked = new System.Windows.Forms.CheckBox();
@@ -590,15 +590,15 @@ namespace PKHeX.WinForms
             mnuFormAll.Text = "Seen all";
             mnuFormAll.Click += ModifyAllForms;
             // 
-            // label1
+            // L_DexNavObtained
             // 
-            label1.Location = new System.Drawing.Point(314, 279);
-            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(121, 23);
-            label1.TabIndex = 39;
-            label1.Text = "Obtained:";
-            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_DexNavObtained.Location = new System.Drawing.Point(314, 279);
+            L_DexNavObtained.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_DexNavObtained.Name = "L_DexNavObtained";
+            L_DexNavObtained.Size = new System.Drawing.Size(121, 23);
+            L_DexNavObtained.TabIndex = 39;
+            L_DexNavObtained.Text = "Obtained:";
+            L_DexNavObtained.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Obtained
             // 
@@ -639,7 +639,7 @@ namespace PKHeX.WinForms
             Controls.Add(CHK_NationalDexActive);
             Controls.Add(CHK_NationalDexUnlocked);
             Controls.Add(MT_Obtained);
-            Controls.Add(label1);
+            Controls.Add(L_DexNavObtained);
             Controls.Add(B_ModifyForms);
             Controls.Add(L_FormDisplayed);
             Controls.Add(CLB_FormDisplayed);
@@ -732,7 +732,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolStripMenuItem mnuFormNone;
         private System.Windows.Forms.ToolStripMenuItem mnuFormAll;
         private System.Windows.Forms.ToolStripMenuItem mnuForm1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_DexNavObtained;
         private System.Windows.Forms.MaskedTextBox MT_Obtained;
         private System.Windows.Forms.CheckBox CHK_NationalDexActive;
         private System.Windows.Forms.CheckBox CHK_NationalDexUnlocked;
