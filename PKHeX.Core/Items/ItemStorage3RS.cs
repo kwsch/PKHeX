@@ -56,7 +56,7 @@ public sealed class ItemStorage3RS : IItemStorage
 
     internal static ReadOnlySpan<ushort> Unreleased => [005]; // Safari Ball
 
-    public static ushort[] GetAllHeld() => [..General, ..Balls, ..Berry, ..Machine[..^COUNT_HM]];
+    public static ushort[] GetAllHeld() => [..General, ..Balls, ..Berry, ..MachineOnlyTM];
 
     private static readonly ushort[] PCItems = [..General, ..Key, .. Berry, ..Balls, ..Machine];
 

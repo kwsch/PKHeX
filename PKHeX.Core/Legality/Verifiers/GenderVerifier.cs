@@ -59,7 +59,7 @@ public sealed class GenderVerifier : Verifier
         if (!genderValid)
             return IsValidGenderMismatch(pk);
 
-        // check for mixed->fixed gender incompatibility by checking the gender of the original species
+        // Check for mixed->fixed gender incompatibility by checking the gender of the original species
         if (SpeciesCategory.IsFixedGenderFromDual(pk.Species))
             return IsValidFixedGenderFromBiGender(pk, data.EncounterMatch.Species);
 
@@ -69,19 +69,22 @@ public sealed class GenderVerifier : Verifier
     private static bool IsValidFixedGenderFromBiGender(PKM pk, ushort originalSpecies)
     {
         var current = pk.Gender;
-        if (current == 2) // shedinja, genderless
+        if (current == 2) // Shedinja, genderless
             return true;
         var gender = EntityGender.GetFromPID(originalSpecies, pk.EncryptionConstant);
         return gender == current;
     }
 
+    /// <summary>
+    /// Checks the un-evolved species' gender ratio instead of the current species.
+    /// </summary>
     private static bool IsValidGenderMismatch(PKM pk) => pk.Species switch
     {
-        // Shedinja evolution gender glitch, should match original Gender
-        (int) Species.Shedinja when pk.Format == 4 => pk.Gender == EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, EntityGender.HH), // 1:1
+        // Shedinja evolution gender glitch (doesn't set as Genderless): should match original Gender
+        (int) Species.Shedinja when pk.Format == 4 => pk.Gender == EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, EntityGender.HH), // 1:1 (Nincada)
 
-        // Evolved from Azurill after transferring to keep gender
-        (int) Species.Marill or (int) Species.Azumarill when pk.Format >= 6 => pk.Gender == 1 && (pk.EncryptionConstant & 0xFF) > EntityGender.MM, // 3:1
+        // Azurill gender changing: Different gender ratios, will "change" genders if evolved in games where PID-Gender is still coupled (<= Gen5).
+        (int) Species.Marill or (int) Species.Azumarill when pk.Format >= 6 => pk.Gender == 1 && (byte)pk.EncryptionConstant is >= EntityGender.HH and < EntityGender.MF, // 3F:1M (Azurill)
 
         _ => false,
     };

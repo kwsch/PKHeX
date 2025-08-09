@@ -18,8 +18,6 @@ public sealed class ItemStorage3FRLG : IItemStorage
         349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374,
     ];
 
-    private static readonly ushort[] PCItems = [..General, ..Key, ..Balls, ..Machine, ..Berry];
-
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
@@ -29,7 +27,7 @@ public sealed class ItemStorage3FRLG : IItemStorage
         InventoryType.Balls => Balls,
         InventoryType.TMHMs => Machine,
         InventoryType.Berries => Berry,
-        InventoryType.PCItems => PCItems,
+        InventoryType.PCItems => General,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

@@ -113,7 +113,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
 
     private bool IsCatchRateValid(byte rate)
     {
-        if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(rate))
+        if (ParseSettings.AllowGen1Tradeback && ItemConverter.IsCatchRateHeldItem(rate))
             return true;
 
         // Light Ball (Yellow) starter

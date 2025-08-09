@@ -70,7 +70,7 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
 
         var rate = pk1.CatchRate;
         var expect = EncounterUtil.GetPersonal1(Version, Species).CatchRate;
-        if (expect != rate && !(ParseSettings.AllowGen1Tradeback && GBRestrictions.IsTradebackCatchRate(rate)))
+        if (expect != rate && !(ParseSettings.AllowGen1Tradeback && ItemConverter.IsCatchRateHeldItem(rate)))
             return false;
         return true;
     }

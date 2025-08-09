@@ -500,7 +500,7 @@ public sealed class MiscVerifier : Verifier
     private CheckResult GetWasTradeback(LegalityAnalysis data, PK1 pk1, TimeCapsuleEvaluation eval)
     {
         var rate = pk1.CatchRate;
-        if (PK1.IsCatchRateHeldItem(rate))
+        if (ItemConverter.IsCatchRateHeldItem(rate))
             return GetValid(G1CatchRateMatchTradeback);
         return GetWasNotTradeback(data, pk1, eval);
     }

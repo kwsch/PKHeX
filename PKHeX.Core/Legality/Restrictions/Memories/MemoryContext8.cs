@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -36,7 +35,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         hashSet.UnionWith(Legal.HeldItems_AO);
         foreach (var item in KeyItemMemoryArgsAnySpecies)
             hashSet.Add(item);
-        foreach (var item in ItemStorage6AO.Machine[..100])
+        foreach (var item in ItemStorage6AO.MachineTM)
             hashSet.Add(item);
         return hashSet;
     }
@@ -45,7 +44,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     public override bool IsUsedKeyItemUnspecific(int item) => false;
     public override bool IsUsedKeyItemSpecific(int item, ushort species) => IsKeyItemMemoryArgValid(species, (ushort)item);
-    public override bool CanHoldItem(int item) => Legal.HeldItems_SWSH.Contains((ushort)item);
+    public override bool CanHoldItem(int item) => ItemRestrictions.IsHeldItemAllowed(item, EntityContext.Gen8);
 
     public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch
     {

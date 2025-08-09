@@ -129,6 +129,9 @@ public abstract record LanguageStorage<T> where T : notnull
     /// <summary>
     /// Gets all localizations.
     /// </summary>
+    /// <remarks>
+    /// If the entries are not already loaded, this will load all entries via <see cref="ForceLoadAll"/>.
+    /// </remarks>
     public IEnumerable<(string Key, T Value)> GetAll()
     {
         _ = ForceLoadAll();

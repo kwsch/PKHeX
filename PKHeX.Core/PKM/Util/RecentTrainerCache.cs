@@ -32,7 +32,6 @@ public static class RecentTrainerCache
     /// <summary>
     /// Updates the cache with the most recently loaded trainer reference.
     /// </summary>
-    /// <param name="trainer"></param>
     public static void SetRecentTrainer(ITrainerInfo trainer)
     {
         Trainer = trainer;

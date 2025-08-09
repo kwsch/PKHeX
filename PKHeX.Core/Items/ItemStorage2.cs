@@ -61,10 +61,15 @@ public sealed class ItemStorage2 : IItemStorage
         210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
              221, 222, 223, 224, 225, 226, 227, 228, 229,
         230, 231, 232, 233, 234, 235, 236, 237, 238, 239,
-        240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
+        240, 241, 242,
+
+        // HMs
+                       243, 244, 245, 246, 247, 248, 249,
     ];
 
-    public static ushort[] GetAllHeld() => [..General, ..Balls, ..Machine];
+    private static ReadOnlySpan<ushort> TMs => Machine[..50];
+
+    public static ushort[] GetAllHeld() => [..General, ..Balls, ..TMs];
 
     private static readonly ushort[] PCItemsC  = [..General, ..Balls, ..Machine, ..KeyCrystal];
 

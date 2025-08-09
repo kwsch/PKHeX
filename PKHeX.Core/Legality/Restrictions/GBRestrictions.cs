@@ -183,7 +183,7 @@ internal static class GBRestrictions
         if (!matchAny)
             return Either;
 
-        if (IsTradebackCatchRate(catch_rate))
+        if (ItemConverter.IsCatchRateHeldItem(catch_rate))
             return Either;
 
         return Gen1Only;
@@ -200,12 +200,12 @@ internal static class GBRestrictions
 
         if (MoveInfo.IsAnyFromGeneration(2, moves))
         {
-            if (pk is {CatchRate: not 0} && !IsTradebackCatchRate(pk.CatchRate))
+            if (pk is {CatchRate: not 0} && !ItemConverter.IsCatchRateHeldItem(pk.CatchRate))
                 return BadCatchRate;
             return Transferred12;
         }
 
-        bool isTradebackItem = IsTradebackCatchRate(rate);
+        bool isTradebackItem = ItemConverter.IsCatchRateHeldItem(rate);
         if (IsCatchRateMatchEncounter(enc, pk))
             return isTradebackItem ? Indeterminate : NotTransferred;
         return isTradebackItem ? Transferred12 : BadCatchRate;
@@ -218,8 +218,6 @@ internal static class GBRestrictions
         EncounterTrade1 => true,
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.CatchRate),
     };
-
-    public static bool IsTradebackCatchRate(byte rate) => Array.IndexOf(HeldItems_GSC, rate) != -1;
 }
 
 /// <summary>
