@@ -1,6 +1,4 @@
 using System;
-using System.Buffers;
-using System.Collections.Generic;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -19,7 +17,7 @@ public class BattlePass(Memory<byte> raw)
 
     /// <inheritdoc cref="SaveFile.SID16"/>
     /// <remarks>Used for NPC Trainers. 00000 for player-made Battle Passes.</remarks>
-    public ushort SID { get => ReadUInt16BigEndian(Data[0x00..]); set => WriteUInt16BigEndian(Data[0x00..], value); }
+    public ushort SID { get => ReadUInt16BigEndian(Data); set => WriteUInt16BigEndian(Data, value); }
 
     /// <inheritdoc cref="SaveFile.TID16"/>
     /// <remarks>Used for NPC Trainers. 00000 for player-made Battle Passes.</remarks>
@@ -264,7 +262,7 @@ public class BattlePass(Memory<byte> raw)
         get => Encoding.ASCII.GetString(Data.Slice(0x5ED, 4));
         set
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 Data[0x5ED + i] = (byte)(value.Length > i ? value[i] : '\0');
         }
     }

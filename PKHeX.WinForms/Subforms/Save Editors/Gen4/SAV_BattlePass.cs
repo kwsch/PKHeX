@@ -1,10 +1,10 @@
-using PKHeX.Core;
-using PKHeX.Drawing.PokeSprite;
-using PKHeX.WinForms.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using PKHeX.Core;
+using PKHeX.Drawing.PokeSprite;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -274,7 +274,7 @@ public partial class SAV_BattlePass : Form
                 return;
         }
 
-        SaveCurrent(CurrentPass, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
         CurrentPass.SetPartySlotAtIndex(pk, index);
         switch (sav.BattlePasses.GetPassType(CurrentPassIndex))
         {
@@ -296,7 +296,7 @@ public partial class SAV_BattlePass : Form
         if (pk.Species == 0)
         { System.Media.SystemSounds.Asterisk.Play(); return; }
 
-        SaveCurrent(CurrentPass, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
         CurrentPass.DeletePartySlot(index);
         LoadCurrent(CurrentPass);
     }
@@ -446,7 +446,7 @@ public partial class SAV_BattlePass : Form
         loading = false;
     }
 
-    private void SaveCurrent(BattlePass pdata, int index)
+    private void SaveCurrent(BattlePass pdata)
     {
         pdata.Name = TB_Name.Text;
         pdata.TrainerTitle = (short)WinFormsUtil.GetIndex(CB_TrainerTitle);
@@ -534,7 +534,7 @@ public partial class SAV_BattlePass : Form
         if (index < 0 || loading)
             return;
 
-        SaveCurrent(CurrentPass, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
         B_FDelete.Enabled = SAV.BattlePasses.GetPassType(index) != BattlePassType.Rental;
         LoadCurrent(CurrentPass = GetBattlePassReference(CurrentPassIndex = index));
     }
@@ -563,7 +563,7 @@ public partial class SAV_BattlePass : Form
         var bp = CurrentPass;
         ArgumentNullException.ThrowIfNull(bp);
 
-        SaveCurrent(bp, CurrentPassIndex);
+        SaveCurrent(bp);
         var tr = bp.Name;
         if (string.IsNullOrWhiteSpace(tr))
             tr = "Trainer";
@@ -593,7 +593,7 @@ public partial class SAV_BattlePass : Form
             System.Media.SystemSounds.Asterisk.Play();
             return;
         }
-        SaveCurrent(CurrentPass, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
 
         SAV.BattlePasses.Swap(index, other);
         ReloadBattlePassList();
@@ -611,7 +611,7 @@ public partial class SAV_BattlePass : Form
     private void B_Delete_Click(object sender, EventArgs e)
     {
         var index = CurrentPassIndex;
-        SaveCurrent(CurrentPass, index);
+        SaveCurrent(CurrentPass);
 
         SAV.BattlePasses.Delete(index);
         ReloadBattlePassList();
@@ -629,9 +629,7 @@ public partial class SAV_BattlePass : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        var pdata = CurrentPass;
-        if (pdata is not null)
-            SaveCurrent(pdata, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
 
         // Since there may have been other changes in the main window, only overwrite the Battle Passes
         Origin.BattlePasses.CopyChangesFrom(SAV.BattlePasses);
@@ -641,45 +639,43 @@ public partial class SAV_BattlePass : Form
 
     private void B_UnlockCustom_Click(object sender, EventArgs e)
     {
-        SaveCurrent(CurrentPass, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
         SAV.BattlePasses.UnlockAllCustomPasses();
         LoadCurrent(CurrentPass);
     }
 
     private void B_UnlockRental_Click(object sender, EventArgs e)
     {
-        SaveCurrent(CurrentPass, CurrentPassIndex);
+        SaveCurrent(CurrentPass);
         SAV.BattlePasses.UnlockAllRentalPasses();
         LoadCurrent(CurrentPass);
     }
 
     private void ValidateCatchphrase(object sender, EventArgs e)
     {
-        if (CurrentPass is not null && sender is TextBox tb)
+        if (sender is not TextBox tb)
+            return;
+
+        int i = 0;
+        int length = 0;
+        foreach (string line in tb.Lines)
         {
-            int i = 0;
-            int length = 0;
-            foreach (string line in tb.Lines)
+            foreach (char c in line)
             {
-                foreach (char c in line)
+                length += c switch
                 {
-                    length += c switch
-                    {
-                        StringConverter4GC.LineBreak or
-                        StringConverter4GC.Proportional or
-                        StringConverter4GC.PokemonName => 2,
-                        _ => 1,
-                    };
-                    if (length > tb.MaxLength)
-                    {
-                        tb.Text = tb.Text[..i];
-                        return;
-                    }
-                    i++;
+                    StringConverter4GC.LineBreak or StringConverter4GC.Proportional or StringConverter4GC.PokemonName => 2,
+                    _ => 1,
+                };
+                if (length > tb.MaxLength)
+                {
+                    tb.Text = tb.Text[..i];
+                    return;
                 }
-                length += 2;
-                i += Environment.NewLine.Length;
+                i++;
             }
+            length += 2;
+            i += Environment.NewLine.Length;
         }
     }
 
@@ -689,45 +685,9 @@ public partial class SAV_BattlePass : Form
             mt.Text = Util.GetHexValue64(mt.Text).ToString("X16");
     }
 
-    private void ResetGear(object sender, EventArgs e)
-    {
-        if (!loading)
-        {
-            ModelBR model = (ModelBR)(int)CB_Model.SelectedValue!;
-            SetupComboBoxesAppearance(model);
-            if (model is >= ModelBR.YoungBoy and <= ModelBR.LittleGirl)
-            {
-                CB_Head.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Head);
-                CB_Hair.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Hair);
-                CB_Face.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Face);
-                CB_Glasses.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Glasses);
-                CB_Top.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Top);
-                CB_Hands.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Hands);
-                CB_Bottom.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Bottom);
-                CB_Shoes.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Shoes);
-                CB_Badge.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Badges);
-                CB_Bag.SelectedValue = GearUnlock.GetDefault(model, GearCategory.Bags);
-            }
-            else
-            {
-                CB_Head.SelectedValue = 0;
-                CB_Hair.SelectedValue = 0;
-                CB_Face.SelectedValue = 0;
-                CB_Glasses.SelectedValue = 0;
-                CB_Top.SelectedValue = 0;
-                CB_Hands.SelectedValue = 0;
-                CB_Bottom.SelectedValue = 0;
-                CB_Shoes.SelectedValue = 0;
-                CB_Badge.SelectedValue = 0;
-                CB_Bag.SelectedValue = 0;
-            }
-        }
-    }
-
     private void UpdatePresetIndexes(object sender, EventArgs e)
     {
-        if (CurrentPass != null)
-            CurrentPass.ResetPresetIndexes();
+        CurrentPass.ResetPresetIndexes();
     }
 
     private void UpdateCountry(object sender, EventArgs e)

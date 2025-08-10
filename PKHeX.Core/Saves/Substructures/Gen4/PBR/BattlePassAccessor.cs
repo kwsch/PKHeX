@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Retrieves <see cref="BattlePass"> from a <see cref="SAV4BR"/>.
+/// Retrieves <see cref="BattlePass"/> from a <see cref="SAV4BR"/>.
 /// </summary>
 /// <param name="sav">The save file to read from.</param>
 public sealed class BattlePassAccessor(SAV4BR sav)
@@ -39,9 +39,9 @@ public sealed class BattlePassAccessor(SAV4BR sav)
     {
         int ofs = index switch
         {
-            _ when index < PASS_START_OTHER2 => PassBank1 + (index * BattlePass.Size),
-            _ when index < PASS_START_OTHER3 => PassBank2 + ((index - PASS_START_OTHER2) * BattlePass.Size),
-            _ when index < PASS_COUNT => PassBank3 + ((index - PASS_START_OTHER3) * BattlePass.Size),
+            < PASS_START_OTHER2 => PassBank1 + (index * BattlePass.Size),
+            < PASS_START_OTHER3 => PassBank2 + ((index - PASS_START_OTHER2) * BattlePass.Size),
+            < PASS_COUNT => PassBank3 + ((index - PASS_START_OTHER3) * BattlePass.Size),
             _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
         return sav.Buffer.Slice(ofs, BattlePass.Size);
@@ -52,10 +52,10 @@ public sealed class BattlePassAccessor(SAV4BR sav)
         _ when index < PASS_START_RENTAL => BattlePassType.Custom,
         _ when index < PASS_START_FRIEND => BattlePassType.Rental,
         _ when index < PASS_START_DOWNLOAD => BattlePassType.Friend,
-        _ when index < PASS_START_OTHER1 => BattlePassType.Download,
-        _ when index < PASS_START_OTHER2 => BattlePassType.Other1,
-        _ when index < PASS_START_OTHER3 => BattlePassType.Other2,
-        _ when index < PASS_COUNT => BattlePassType.Other3,
+        < PASS_START_OTHER1 => BattlePassType.Download,
+        < PASS_START_OTHER2 => BattlePassType.Other1,
+        < PASS_START_OTHER3 => BattlePassType.Other2,
+        < PASS_COUNT => BattlePassType.Other3,
         _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 

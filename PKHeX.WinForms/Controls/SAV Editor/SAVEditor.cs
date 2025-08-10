@@ -728,16 +728,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             var form = WinFormsUtil.FirstFormOfType<SAV_BattlePass>();
             if (form is not null)
-            {
                 form.CenterToForm(ParentForm);
-            }
             else
-            {
-                form = new SAV_BattlePass(sav, M.Env.PKMEditor)
-                {
-                    Owner = ParentForm,
-                };
-            }
+                form = new SAV_BattlePass(sav, M.Env.PKMEditor) { Owner = ParentForm };
             form.BringToFront();
             form.Show();
         }

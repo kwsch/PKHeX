@@ -27,8 +27,8 @@ public sealed class GearUnlock(Memory<byte> raw)
         {
             for (GearCategory category = Head; category <= Badges; category++)
             {
-                var (Offset, _, Default) = Info(model, category);
-                Set(Offset + Default);
+                var (offset, _, @default) = Info(model, category);
+                Set(offset + @default);
             }
         }
     }
@@ -71,7 +71,7 @@ public sealed class GearUnlock(Memory<byte> raw)
             Bags => (0x067, 17, 1), // Summer Bag A
             Glasses => (0x078, 9, 0), // Take Off
             Badges => (0x081, 17, 0), // Take Off
-            _ => throw new ArgumentOutOfRangeException(nameof(category)),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
         },
         CoolBoy => category switch
         {
@@ -85,7 +85,7 @@ public sealed class GearUnlock(Memory<byte> raw)
             Bags => (0x15F, 5, 0), // Take Off
             Glasses => (0x164, 9, 0), // Take Off
             Badges => (0x16D, 1, 0), // Take Off
-            _ => throw new ArgumentOutOfRangeException(nameof(category)),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
         },
         MuscleMan => category switch
         {
@@ -99,7 +99,7 @@ public sealed class GearUnlock(Memory<byte> raw)
             Bags => (0x263, 17, 1), // Army Bag A
             Glasses => (0x274, 9, 0), // Take Off
             Badges => (0x27D, 1, 0), // Take Off
-            _ => throw new ArgumentOutOfRangeException(nameof(category)),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
         },
         YoungGirl => category switch
         {
@@ -113,7 +113,7 @@ public sealed class GearUnlock(Memory<byte> raw)
             Bags => (0x367, 17, 1), // Girls' Purse A
             Glasses => (0x378, 9, 0), // Take Off
             Badges => (0x381, 1, 0), // Take Off
-            _ => throw new ArgumentOutOfRangeException(nameof(category)),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
         },
         CoolGirl => category switch
         {
@@ -127,7 +127,7 @@ public sealed class GearUnlock(Memory<byte> raw)
             Bags => (0x467, 7, 0), // Take Off
             Glasses => (0x46E, 15, 0), // Take Off
             Badges => (0x47D, 1, 0), // Take Off
-            _ => throw new ArgumentOutOfRangeException(nameof(category)),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
         },
         LittleGirl => category switch
         {
@@ -141,8 +141,8 @@ public sealed class GearUnlock(Memory<byte> raw)
             Bags => (0x557, 9, 0), // Take Off
             Glasses => (0x560, 13, 0), // Take Off
             Badges => (0x56D, 1, 0), // Take Off
-            _ => throw new ArgumentOutOfRangeException(nameof(category)),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, null),
         },
-        _ => throw new ArgumentOutOfRangeException(nameof(model))
+        _ => throw new ArgumentOutOfRangeException(nameof(model), model, null),
     };
 }

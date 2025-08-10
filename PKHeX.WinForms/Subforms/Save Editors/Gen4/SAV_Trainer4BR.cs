@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -130,31 +129,31 @@ public partial class SAV_Trainer4BR : Form
 
     private void ValidateCatchphrase(object sender, EventArgs e)
     {
-        if (sender is TextBox tb)
+        if (sender is not TextBox tb)
+            return;
+
+        int i = 0;
+        int length = 0;
+        foreach (string line in tb.Lines)
         {
-            int i = 0;
-            int length = 0;
-            foreach (string line in tb.Lines)
+            foreach (char c in line)
             {
-                foreach (char c in line)
+                length += c switch
                 {
-                    length += c switch
-                    {
-                        StringConverter4GC.LineBreak or
+                    StringConverter4GC.LineBreak or
                         StringConverter4GC.Proportional or
                         StringConverter4GC.PokemonName => 2,
-                        _ => 1,
-                    };
-                    if (length > tb.MaxLength)
-                    {
-                        tb.Text = tb.Text[..i];
-                        return;
-                    }
-                    i++;
+                    _ => 1,
+                };
+                if (length > tb.MaxLength)
+                {
+                    tb.Text = tb.Text[..i];
+                    return;
                 }
-                length += 2;
-                i += Environment.NewLine.Length;
+                i++;
             }
+            length += 2;
+            i += Environment.NewLine.Length;
         }
     }
 
@@ -177,14 +176,14 @@ public partial class SAV_Trainer4BR : Form
 
     private void CB_Language_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (sender is ComboBox c)
-        {
-            int index = WinFormsUtil.GetIndex(c);
-            if (index != (int)LanguageID.Japanese)
-                TB_SelfIntroduction.MaxLength = 51;
-            else
-                TB_SelfIntroduction.MaxLength = 53;
-            ValidateCatchphrase(TB_SelfIntroduction, e);
-        }
+        if (sender is not ComboBox c)
+            return;
+
+        int index = WinFormsUtil.GetIndex(c);
+        if (index != (int)LanguageID.Japanese)
+            TB_SelfIntroduction.MaxLength = 51;
+        else
+            TB_SelfIntroduction.MaxLength = 53;
+        ValidateCatchphrase(TB_SelfIntroduction, e);
     }
 }

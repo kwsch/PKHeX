@@ -271,11 +271,11 @@ public static class GameUtil
         var versions = GameVersions
             .Where(version => obj.MinGameID <= version && version <= max);
         if (max != BATREV)
-            versions = versions.Where(version => version != BATREV);
+            versions = versions.Where(static version => version != BATREV);
         if (generation == 0)
             return versions;
         if (max == Legal.MaxGameID_7 && generation == 7)
-            versions = versions.Where(version => version != GO);
+            versions = versions.Where(static version => version != GO);
 
         // HOME allows up-reach to Gen9
         if (generation >= 8)
