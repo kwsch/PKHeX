@@ -166,7 +166,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     #region Checksums
 
     private const int HashLength = MD5.HashSizeInBytes;
-    private const int HashOffset = SaveUtil.SIZE_G8BDSP - HashLength;
+    private const int HashOffset = SaveUtil.SIZE_G8BDSP_0 - HashLength;
     private Span<byte> CurrentHash => Data.Slice(HashOffset, HashLength);
 
     // Checksum is stored in the middle of the save file, and is zeroed before computing.

@@ -42,7 +42,7 @@ public partial class SAV_FolderList : Form
         var recent = SaveFinder.GetSaveFiles(drives, false, extra, true, token).ToList();
         var loaded = Main.Settings.Startup.RecentlyLoaded
             .Where(z => recent.All(x => x.Metadata.FilePath != z))
-            .Where(File.Exists).Select(SaveUtil.GetVariantSAV).OfType<SaveFile>();
+            .Where(File.Exists).Select(SaveUtil.GetSaveFile).OfType<SaveFile>();
 
         Recent = PopulateData(dgDataRecent, loaded.Concat(recent));
         Backup = PopulateData(dgDataBackup, backup);
@@ -276,7 +276,7 @@ public partial class SAV_FolderList : Form
         foreach (var file in files)
         {
             var fi = new FileInfo(file);
-            if (!SaveUtil.IsSizeValid(fi.Length) || SaveUtil.GetVariantSAV(file) is not { } sav)
+            if (!SaveUtil.IsSizeValid(fi.Length) || !SaveUtil.TryGetSaveFile(file, out var sav))
             {
                 if (deleteNotSaves)
                     File.Delete(file);

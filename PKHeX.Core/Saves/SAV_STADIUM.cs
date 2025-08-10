@@ -33,7 +33,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     protected SAV_STADIUM(Memory<byte> data, bool japanese, bool swap) : base(data)
     {
         Japanese = japanese;
-        OT = SaveUtil.GetSafeTrainerName(this, (LanguageID)Language);
+        OT = BlankSaveFile.GetSafeTrainerName(this, (LanguageID)Language);
 
         if (!swap)
             return;
@@ -44,7 +44,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     protected SAV_STADIUM(bool japanese, [ConstantExpected] int size) : base(size)
     {
         Japanese = japanese;
-        OT = SaveUtil.GetSafeTrainerName(this, (LanguageID)Language);
+        OT = BlankSaveFile.GetSafeTrainerName(this, (LanguageID)Language);
     }
 
     protected sealed override byte[] DecryptPKM(byte[] data) => data;

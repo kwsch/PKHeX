@@ -455,17 +455,16 @@ public partial class SAV_Database : Form
 
     private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<SlotCache> dbTemp, string file)
     {
-        var sav = SaveUtil.GetVariantSAV(file);
-        if (sav is null)
+        if (SaveUtil.TryGetSaveFile(file, out var sav))
         {
-            if (FileUtil.TryGetMemoryCard(file, out var mc))
-                TryAddPKMsFromMemoryCard(dbTemp, mc, file);
-            else
-                Debug.WriteLine($"Unable to load SaveFile: {file}");
+            SlotInfoLoader.AddFromSaveFile(sav, dbTemp);
             return;
         }
 
-        SlotInfoLoader.AddFromSaveFile(sav, dbTemp);
+        if (FileUtil.TryGetMemoryCard(file, out var mc))
+            TryAddPKMsFromMemoryCard(dbTemp, mc, file);
+        else
+            Debug.WriteLine($"Unable to load SaveFile: {file}");
     }
 
     private static void TryAddPKMsFromMemoryCard(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string file)
@@ -475,17 +474,16 @@ public partial class SAV_Database : Form
             return;
 
         if (mc.HasCOLO)
-            TryAdd(dbTemp, mc, file, GameVersion.COLO);
+            TryAdd(dbTemp, mc, file, SaveFileType.Colosseum);
         if (mc.HasXD)
-            TryAdd(dbTemp, mc, file, GameVersion.XD);
+            TryAdd(dbTemp, mc, file, SaveFileType.XD);
         if (mc.HasRSBOX)
-            TryAdd(dbTemp, mc, file, GameVersion.RSBOX);
+            TryAdd(dbTemp, mc, file, SaveFileType.RSBox);
 
-        static void TryAdd(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string path, GameVersion game)
+        static void TryAdd(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string path, SaveFileType game)
         {
             mc.SelectSaveGame(game);
-            var sav = SaveUtil.GetVariantSAV(mc);
-            if (sav is null)
+            if (!SaveUtil.TryGetSaveFile(mc, out var sav))
                 return;
             sav.Metadata.SetExtraInfo(path);
             SlotInfoLoader.AddFromSaveFile(sav, dbTemp);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static PKHeX.Core.EventWorkUtil;
 using static PKHeX.Core.EventWorkDiffCompatibility;
@@ -19,6 +20,15 @@ public sealed class EventWorkDiff8b : IEventWorkDiff
 
     private const int MAX_SAVEFILE_SIZE = 0x10_0000; // 1 MB
 
+    private static bool TryGetSaveFile(string path, [NotNullWhen(true)] out SAV8BS? sav)
+    {
+        sav = null;
+        if (!SaveUtil.TryGetSaveFile(path, out var s) || s is not SAV8BS b)
+            return false;
+        sav = b;
+        return true;
+    }
+
     public EventWorkDiff8b(SAV8BS s1, SAV8BS s2) => Diff(s1, s2);
 
     public EventWorkDiff8b(string f1, string f2)
@@ -26,9 +36,7 @@ public sealed class EventWorkDiff8b : IEventWorkDiff
         Message = SanityCheckFiles(f1, f2, MAX_SAVEFILE_SIZE);
         if (Message != Valid)
             return;
-        var s1 = SaveUtil.GetVariantSAV(f1);
-        var s2 = SaveUtil.GetVariantSAV(f2);
-        if (s1 is not SAV8BS b1 || s2 is not SAV8BS b2)
+        if (!TryGetSaveFile(f1, out var b1) || !TryGetSaveFile(f2, out var b2))
         {
             Message = DifferentGameGroup;
             return;

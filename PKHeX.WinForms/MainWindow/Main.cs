@@ -182,14 +182,14 @@ public partial class Main : Form
     private void LoadBlankSaveFile(GameVersion version)
     {
         var current = C_SAV?.SAV;
-        var lang = SaveUtil.GetSafeLanguage(current);
-        var tr = SaveUtil.GetSafeTrainerName(current, lang);
-        var sav = SaveUtil.GetBlankSAV(version, tr, lang);
+        var lang = BlankSaveFile.GetSafeLanguage(current);
+        var tr = BlankSaveFile.GetSafeTrainerName(current, lang);
+        var sav = BlankSaveFile.Get(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
             var max = GameInfo.Sources.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
             version = (GameVersion)max.Value;
-            sav = SaveUtil.GetBlankSAV(version, tr, lang);
+            sav = BlankSaveFile.Get(version, tr, lang);
         }
         OpenSAV(sav, string.Empty);
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
@@ -656,8 +656,7 @@ public partial class Main : Form
             case SAV3GCMemoryCard gc:
                 if (!CheckGCMemoryCard(gc, path))
                     return true;
-                var mcsav = SaveUtil.GetVariantSAV(gc);
-                if (mcsav is null)
+                if (!SaveUtil.TryGetSaveFile(gc, out var mcsav))
                     return false;
                 mcsav.Metadata.SetExtraInfo(path);
                 return OpenSAV(mcsav, path);
@@ -729,7 +728,7 @@ public partial class Main : Form
         return true;
     }
 
-    private static GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
+    private static SaveFileType SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
     {
         if (memCard.SaveGameCount == 1)
             return memCard.SelectedGameVersion;
@@ -737,15 +736,15 @@ public partial class Main : Form
         var games = GetMemoryCardGameSelectionList(memCard);
         var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
         dialog.ShowDialog();
-        return dialog.Result;
+        return (SaveFileType)dialog.Result;
     }
 
     private static List<ComboItem> GetMemoryCardGameSelectionList(SAV3GCMemoryCard memCard)
     {
         var games = new List<ComboItem>();
-        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
-        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
-        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
+        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)SaveFileType.Colosseum));
+        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)SaveFileType.XD));
+        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)SaveFileType.RSBox));
         return games;
     }
 
@@ -766,14 +765,14 @@ public partial class Main : Form
 
             case MemoryCardSaveStatus.MultipleSaveGame:
                 var game = SelectMemoryCardSaveGame(memCard);
-                if (game == GameVersion.Invalid) //Cancel
+                if (game == 0) // Cancel
                     return false;
                 memCard.SelectSaveGame(game);
                 break;
 
-            case MemoryCardSaveStatus.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
-            case MemoryCardSaveStatus.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
-            case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
+            case MemoryCardSaveStatus.SaveGameCOLO: memCard.SelectSaveGame(SaveFileType.Colosseum); break;
+            case MemoryCardSaveStatus.SaveGameXD: memCard.SelectSaveGame(SaveFileType.XD); break;
+            case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(SaveFileType.RSBox); break;
 
             default:
                 WinFormsUtil.Error(!SAV3GCMemoryCard.IsMemoryCardSize(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
@@ -964,13 +963,14 @@ public partial class Main : Form
                 var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                 dialog.ShowDialog();
-                if (dialog.Result is GameVersion.Invalid)
+                if (dialog.Result is 0)
                     return false;
 
-                var s = s3.ForceLoad(dialog.Result);
+                var game = (GameVersion)dialog.Result;
+                var s = s3.ForceLoad(game);
                 if (s is SAV3FRLG frlg)
                 {
-                    bool result = frlg.ResetPersonal(dialog.Result);
+                    bool result = frlg.ResetPersonal(game);
                     if (!result)
                         return false;
                 }
@@ -988,7 +988,8 @@ public partial class Main : Form
                 var msg = string.Format(dual, "3", fr, lg);
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                 dialog.ShowDialog();
-                bool result = frlg.ResetPersonal(dialog.Result);
+                var game = (GameVersion)dialog.Result;
+                bool result = frlg.ResetPersonal(game);
                 if (!result)
                     return false;
             }

@@ -37,7 +37,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override IReadOnlyList<string> PKMExtensions => Korean ? ["pk2"]
         : EntityFileExtension.GetExtensionsAtOrBelow(2);
 
-    public SAV2(GameVersion version = GameVersion.C, LanguageID language = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
+    public SAV2(LanguageID language = LanguageID.English, GameVersion version = GameVersion.C) : base(SaveUtil.SIZE_G2RAW_J)
     {
         Version = version;
         switch (language)
@@ -60,13 +60,12 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         ClearBoxes();
     }
 
-    public SAV2(Memory<byte> data, GameVersion versionOverride = GameVersion.Any) : base(data)
+    public SAV2(Memory<byte> data, LanguageID language, GameVersion version) : base(data)
     {
-        Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG2SAV(Data);
-        Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
-        if (Version != GameVersion.C && !Japanese)
-            Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
-        Language = Japanese ? 1 : Korean ? (int)LanguageID.Korean : -1;
+        Version = version == GameVersion.C ? GameVersion.C : GameVersion.GS;
+        Japanese = language == LanguageID.Japanese;
+        Korean = language == LanguageID.Korean;
+        Language = (int)language;
 
         Offsets = new SAV2Offsets(this);
         Personal = Version == GameVersion.C ? PersonalTable.C : PersonalTable.GS;
@@ -243,7 +242,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV2 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
+    protected override SAV2 CloneInternal() => new(GetFinalData(), (LanguageID)Language, Version);
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;

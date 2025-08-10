@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static PKHeX.Core.EventWorkDiffCompatibility;
 using static PKHeX.Core.EventWorkDiffCompatibilityExtensions;
@@ -21,6 +22,17 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
 
     private const int MAX_SAVEFILE_SIZE = 0x10_0000; // 1 MB
 
+    private static bool TryGetSaveFile(string path, [NotNullWhen(true)] out TSave? sav, out GameVersion version)
+    {
+        version = default;
+        sav = null;
+        if (!SaveUtil.TryGetSaveFile(path, out var s) || s is not TSave b)
+            return false;
+        sav = b;
+        version = s.Version;
+        return true;
+    }
+
     public EventBlockDiff(TSave s1, TSave s2) => Diff(s1, s2);
 
     public EventBlockDiff(string f1, string f2)
@@ -28,29 +40,19 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
         Message = SanityCheckFiles(f1, f2, MAX_SAVEFILE_SIZE);
         if (Message != Valid)
             return;
-        var s1 = SaveUtil.GetVariantSAV(f1);
-        var s2 = SaveUtil.GetVariantSAV(f2);
-        if (s1 is null || s2 is null || s1.GetType() != s2.GetType() || GetBlock(s1) is not { } t1 || GetBlock(s2) is not { } t2)
+
+        if (!TryGetSaveFile(f1, out var s1, out var v1) || !TryGetSaveFile(f2, out var s2, out var v2))
         {
             Message = DifferentGameGroup;
             return;
         }
-        if (s1.Version != s2.Version)
+        if (v1 != v2)
         {
             Message = DifferentVersion;
             return;
         }
 
-        Diff(t1, t2);
-    }
-
-    private static TSave? GetBlock(SaveFile s1)
-    {
-        if (s1 is TSave t1)
-            return t1;
-        if (s1 is IEventFlagProvider37 p1)
-            return p1.EventWork as TSave;
-        return null;
+        Diff(s1, s2);
     }
 
     private static EventWorkDiffCompatibility SanityCheckSaveInfo(TSave s1, TSave s2)
