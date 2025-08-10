@@ -145,6 +145,7 @@ public static class DevUtil
         typeof(Stamp7),
         typeof(FestivalPlazaFacilityColor),
         typeof(PlayerSkinColor8),
+        typeof(BattlePassType),
     ];
 
     /// <summary>

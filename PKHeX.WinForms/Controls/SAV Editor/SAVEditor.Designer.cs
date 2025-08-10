@@ -92,6 +92,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenSealStickers = new System.Windows.Forms.Button();
             B_Poffins = new System.Windows.Forms.Button();
             B_RaidsSevenStar = new System.Windows.Forms.Button();
+            B_OpenBattlePass = new System.Windows.Forms.Button();
             B_OpenGear = new System.Windows.Forms.Button();
             FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
             B_SaveBoxBin = new System.Windows.Forms.Button();
@@ -406,6 +407,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenSealStickers);
             FLP_SAVtools.Controls.Add(B_Poffins);
             FLP_SAVtools.Controls.Add(B_RaidsSevenStar);
+            FLP_SAVtools.Controls.Add(B_OpenBattlePass);
             FLP_SAVtools.Controls.Add(B_OpenGear);
             FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Bottom;
             FLP_SAVtools.Location = new System.Drawing.Point(0, 175);
@@ -835,9 +837,20 @@ namespace PKHeX.WinForms.Controls
             B_RaidsSevenStar.UseVisualStyleBackColor = true;
             B_RaidsSevenStar.Click += B_OpenRaids_Click;
             // 
+            // B_OpenBattlePass
+            // 
+            B_OpenBattlePass.Location = new System.Drawing.Point(212, 364);
+            B_OpenBattlePass.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenBattlePass.Name = "B_OpenBattlePass";
+            B_OpenBattlePass.Size = new System.Drawing.Size(96, 32);
+            B_OpenBattlePass.TabIndex = 8;
+            B_OpenBattlePass.Text = "Battle Passes";
+            B_OpenBattlePass.UseVisualStyleBackColor = true;
+            B_OpenBattlePass.Click += B_OpenBattlePass_Click;
+            // 
             // B_OpenGear
             // 
-            B_OpenGear.Location = new System.Drawing.Point(212, 364);
+            B_OpenGear.Location = new System.Drawing.Point(316, 364);
             B_OpenGear.Margin = new System.Windows.Forms.Padding(4);
             B_OpenGear.Name = "B_OpenGear";
             B_OpenGear.Size = new System.Drawing.Size(96, 32);
@@ -1112,6 +1125,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_VerifySaveEntities;
         private System.Windows.Forms.Button B_RaidsSevenStar;
         private System.Windows.Forms.Button B_ConvertKorean;
+        private System.Windows.Forms.Button B_OpenBattlePass;
         private System.Windows.Forms.Button B_OpenGear;
     }
 }
