@@ -59,6 +59,9 @@ public partial class PKMEditor
         LoadAVs(pk7);
         SizeCP.LoadPKM(pk7);
 
+        NUD_Spirit7b.Value = pk7.Spirit;
+        NUD_Mood7b.Value = pk7.Mood;
+
         try
         {
             CAL_ReceivedDateTime.Value = new DateTime(
@@ -88,9 +91,6 @@ public partial class PKMEditor
         if (pk7.Stat_CP == 0)
             pk7.ResetCP();
 
-        // heal values to original
-        pk7.FieldEventFatigue1 = pk7.FieldEventFatigue2 = 100;
-
         var date = CAL_ReceivedDateTime.Value;
         pk7.ReceivedYear = (byte)(date.Year - 2000);
         pk7.ReceivedMonth = (byte)date.Month;
@@ -98,6 +98,9 @@ public partial class PKMEditor
         pk7.ReceivedHour = (byte)date.Hour;
         pk7.ReceivedMinute = (byte)date.Minute;
         pk7.ReceivedSecond = (byte)date.Second;
+
+        pk7.Spirit = (byte)NUD_Spirit7b.Value;
+        pk7.Mood = (byte)NUD_Mood7b.Value;
 
         pk7.FixMoves();
         pk7.FixRelearn();

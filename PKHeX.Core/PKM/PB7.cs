@@ -19,7 +19,6 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         0x90, 0x91, // HT Terminator
         0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, // Old Geolocation/memories
         0xA7, 0xAA, 0xAB,
-        0xAC, 0xAD, // Fatigue, no GUI editing
         0xC8, 0xC9, // OT Terminator
     ];
 
@@ -320,8 +319,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data[0xA8..]); set => WriteUInt16LittleEndian(Data[0xA8..], value); }
     // 0xAA Unused
     // 0xAB Unused
-    public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
-    public byte FieldEventFatigue2 { get => Data[0xAD]; set => Data[0xAD] = value; }
+    public byte Spirit { get => Data[0xAC]; set => Data[0xAC] = value; }
+    public byte Mood { get => Data[0xAD]; set => Data[0xAD] = value; }
     public byte Fullness { get => Data[0xAE]; set => Data[0xAE] = value; }
     public byte Enjoyment { get => Data[0xAF]; set => Data[0xAF] = value; }
     #endregion
@@ -742,6 +741,16 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         4 => 3,
         5 => 4,
         _ => throw new ArgumentOutOfRangeException(nameof(characterIndex)), // never happens, characteristic is always 0-29
+    };
+
+    public const byte InitialSpiritMood = 100;
+    public void ResetSpiritMood() => Spirit = Mood = InitialSpiritMood;
+
+    public bool IsStarter => this switch
+    {
+        { Species: (int)Core.Species.Pikachu, Form: 8 } => true,
+        { Species: (int)Core.Species.Eevee, Form: 1 } => true,
+        _ => false,
     };
 
     public override string GetString(ReadOnlySpan<byte> data)

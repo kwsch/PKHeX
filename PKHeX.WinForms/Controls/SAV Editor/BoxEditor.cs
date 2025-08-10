@@ -106,7 +106,7 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     public ISlotInfo GetSlotData(PictureBox view)
     {
         int slot = GetSlot(view);
-        return new SlotInfoBox(ViewIndex, slot);
+        return new SlotInfoBox(ViewIndex, slot, SAV);
     }
 
     private int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(sender);

@@ -48,8 +48,8 @@ public static class SlotInfoLoader
         {
             for (int slot = 0; slot < sc; slot++)
             {
-                var ident = new SlotInfoBox(box, slot);
-                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                var ident = new SlotInfoBox(box, slot, sav);
+                var pk = ident.Read(sav);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }
@@ -124,8 +124,8 @@ public static class SlotInfoLoader
         {
             for (int slot = 0; slot < sc; slot++)
             {
-                var ident = new SlotInfoBox(box, slot);
-                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                var ident = new SlotInfoBox(box, slot, sav);
+                var pk = ident.Read(sav);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }

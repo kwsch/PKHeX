@@ -48,8 +48,8 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
     public float HeightAbsolute { get => ReadSingleLittleEndian(Data[0x1F..]); set => WriteSingleLittleEndian(Data[0x1F..], value); }
     public float WeightAbsolute { get => ReadSingleLittleEndian(Data[0x23..]); set => WriteSingleLittleEndian(Data[0x23..], value); }
 
-    public byte FieldEventFatigue1 { get => Data[0x27]; set => Data[0x27] = value; }
-    public byte FieldEventFatigue2 { get => Data[0x28]; set => Data[0x28] = value; }
+    public byte Spirit { get => Data[0x27]; set => Data[0x27] = value; }
+    public byte Mood { get => Data[0x28]; set => Data[0x28] = value; }
     public byte Fullness { get => Data[0x29]; set => Data[0x29] = value; }
     public byte Rank { get => Data[0x2A]; set => Data[0x2A] = value; }
 
@@ -86,12 +86,12 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         pk.AV_SPA = AV_SPA;
         pk.AV_SPD = AV_SPD;
         pk.ResortEventStatus = (ResortEventState)ResortEventState;
-        pk.HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
-        pk.WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        pk.HeightAbsolute = pk.HeightAbsolute; // Don't recalculate; some event gifts are "wrong" but it is "right" to retain.
+        pk.WeightAbsolute = pk.WeightAbsolute; // Don't recalculate; some event gifts are "wrong" but it is "right" to retain.
 
         // Some fields are unused as PB7, don't bother copying.
-        pk.FieldEventFatigue1 = FieldEventFatigue1;
-        pk.FieldEventFatigue2 = FieldEventFatigue2;
+        pk.Spirit = Spirit;
+        pk.Mood = Mood;
         pk.Fullness = Fullness;
         // pk.Rank = Rank;
         pk.ReceivedYear = ReceivedYear;
@@ -116,12 +116,12 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         AV_SPA = pk.AV_SPA;
         AV_SPD = pk.AV_SPD;
         ResortEventState = (byte)pk.ResortEventStatus;
-        HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
-        WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        HeightAbsolute = pk.HeightAbsolute; // Don't recalculate; some event gifts are "wrong" but it is "right" to retain.
+        WeightAbsolute = pk.WeightAbsolute; // Don't recalculate; some event gifts are "wrong" but it is "right" to retain.
 
         // Some fields are unused as PB7, don't bother copying.
-        FieldEventFatigue1 = pk.FieldEventFatigue1;
-        FieldEventFatigue2 = pk.FieldEventFatigue2;
+        Spirit = pk.Spirit;
+        Mood = pk.Mood;
         Fullness = pk.Fullness;
         // Rank = pk.Rank;
         ReceivedYear = pk.ReceivedYear;

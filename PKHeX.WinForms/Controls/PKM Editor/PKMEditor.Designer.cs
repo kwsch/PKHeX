@@ -199,6 +199,12 @@ namespace PKHeX.WinForms.Controls
             PB_Favorite = new System.Windows.Forms.PictureBox();
             PB_Origin = new System.Windows.Forms.PictureBox();
             PB_BattleVersion = new System.Windows.Forms.PictureBox();
+            FLP_Spirit7b = new System.Windows.Forms.FlowLayoutPanel();
+            L_Spirit7b = new System.Windows.Forms.Label();
+            NUD_Spirit7b = new System.Windows.Forms.NumericUpDown();
+            FLP_Mood7b = new System.Windows.Forms.FlowLayoutPanel();
+            L_Mood7b = new System.Windows.Forms.Label();
+            NUD_Mood7b = new System.Windows.Forms.NumericUpDown();
             FLP_WalkingMood = new System.Windows.Forms.FlowLayoutPanel();
             L_WalkingMood = new System.Windows.Forms.Label();
             NUD_WalkingMood = new System.Windows.Forms.NumericUpDown();
@@ -342,6 +348,10 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)PB_Favorite).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PB_Origin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PB_BattleVersion).BeginInit();
+            FLP_Spirit7b.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Spirit7b).BeginInit();
+            FLP_Mood7b.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Mood7b).BeginInit();
             FLP_WalkingMood.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_WalkingMood).BeginInit();
             PAN_CosmeticButtons.SuspendLayout();
@@ -538,9 +548,6 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            UC_Gender.AccessibleDescription = "Entity gender panel (0) (0) (0) (0)";
-            UC_Gender.AccessibleName = "Entity gender panel (0) (0) (0) (0)";
-            UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_Gender.AllowClick = false;
             UC_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_Gender.BackgroundImage");
             UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -2309,6 +2316,8 @@ namespace PKHeX.WinForms.Controls
             FLP_CosmeticTop.Controls.Add(GB_Markings);
             FLP_CosmeticTop.Controls.Add(PB_Affixed);
             FLP_CosmeticTop.Controls.Add(FLP_BigMarkings);
+            FLP_CosmeticTop.Controls.Add(FLP_Spirit7b);
+            FLP_CosmeticTop.Controls.Add(FLP_Mood7b);
             FLP_CosmeticTop.Controls.Add(FLP_WalkingMood);
             FLP_CosmeticTop.Controls.Add(SizeCP);
             FLP_CosmeticTop.Controls.Add(ShinyLeaf);
@@ -2318,7 +2327,7 @@ namespace PKHeX.WinForms.Controls
             FLP_CosmeticTop.Location = new System.Drawing.Point(0, 0);
             FLP_CosmeticTop.Name = "FLP_CosmeticTop";
             FLP_CosmeticTop.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
-            FLP_CosmeticTop.Size = new System.Drawing.Size(331, 426);
+            FLP_CosmeticTop.Size = new System.Drawing.Size(331, 504);
             FLP_CosmeticTop.TabIndex = 0;
             // 
             // GB_Markings
@@ -2474,7 +2483,7 @@ namespace PKHeX.WinForms.Controls
             FLP_BigMarkings.Controls.Add(PB_BattleVersion);
             FLP_CosmeticTop.SetFlowBreak(FLP_BigMarkings, true);
             FLP_BigMarkings.Location = new System.Drawing.Point(72, 96);
-            FLP_BigMarkings.Margin = new System.Windows.Forms.Padding(72, 8, 0, 0);
+            FLP_BigMarkings.Margin = new System.Windows.Forms.Padding(72, 8, 0, 8);
             FLP_BigMarkings.Name = "FLP_BigMarkings";
             FLP_BigMarkings.Size = new System.Drawing.Size(144, 48);
             FLP_BigMarkings.TabIndex = 2;
@@ -2522,6 +2531,70 @@ namespace PKHeX.WinForms.Controls
             PB_BattleVersion.TabStop = false;
             PB_BattleVersion.Click += ClickVersionMarking;
             // 
+            // FLP_Spirit7b
+            // 
+            FLP_Spirit7b.AutoSize = true;
+            FLP_Spirit7b.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            FLP_Spirit7b.Controls.Add(L_Spirit7b);
+            FLP_Spirit7b.Controls.Add(NUD_Spirit7b);
+            FLP_CosmeticTop.SetFlowBreak(FLP_Spirit7b, true);
+            FLP_Spirit7b.Location = new System.Drawing.Point(8, 152);
+            FLP_Spirit7b.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            FLP_Spirit7b.Name = "FLP_Spirit7b";
+            FLP_Spirit7b.Size = new System.Drawing.Size(164, 26);
+            FLP_Spirit7b.TabIndex = 53;
+            // 
+            // L_Spirit7b
+            // 
+            L_Spirit7b.Location = new System.Drawing.Point(0, 0);
+            L_Spirit7b.Margin = new System.Windows.Forms.Padding(0);
+            L_Spirit7b.Name = "L_Spirit7b";
+            L_Spirit7b.Size = new System.Drawing.Size(120, 24);
+            L_Spirit7b.TabIndex = 9;
+            L_Spirit7b.Text = "Spirit:";
+            L_Spirit7b.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Spirit7b
+            // 
+            NUD_Spirit7b.Location = new System.Drawing.Point(120, 1);
+            NUD_Spirit7b.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            NUD_Spirit7b.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NUD_Spirit7b.Name = "NUD_Spirit7b";
+            NUD_Spirit7b.Size = new System.Drawing.Size(44, 25);
+            NUD_Spirit7b.TabIndex = 103;
+            // 
+            // FLP_Mood7b
+            // 
+            FLP_Mood7b.AutoSize = true;
+            FLP_Mood7b.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            FLP_Mood7b.Controls.Add(L_Mood7b);
+            FLP_Mood7b.Controls.Add(NUD_Mood7b);
+            FLP_CosmeticTop.SetFlowBreak(FLP_Mood7b, true);
+            FLP_Mood7b.Location = new System.Drawing.Point(8, 178);
+            FLP_Mood7b.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            FLP_Mood7b.Name = "FLP_Mood7b";
+            FLP_Mood7b.Size = new System.Drawing.Size(164, 26);
+            FLP_Mood7b.TabIndex = 54;
+            // 
+            // L_Mood7b
+            // 
+            L_Mood7b.Location = new System.Drawing.Point(0, 0);
+            L_Mood7b.Margin = new System.Windows.Forms.Padding(0);
+            L_Mood7b.Name = "L_Mood7b";
+            L_Mood7b.Size = new System.Drawing.Size(120, 24);
+            L_Mood7b.TabIndex = 9;
+            L_Mood7b.Text = "Mood:";
+            L_Mood7b.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Mood7b
+            // 
+            NUD_Mood7b.Location = new System.Drawing.Point(120, 1);
+            NUD_Mood7b.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            NUD_Mood7b.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NUD_Mood7b.Name = "NUD_Mood7b";
+            NUD_Mood7b.Size = new System.Drawing.Size(44, 25);
+            NUD_Mood7b.TabIndex = 103;
+            // 
             // FLP_WalkingMood
             // 
             FLP_WalkingMood.AutoSize = true;
@@ -2529,8 +2602,8 @@ namespace PKHeX.WinForms.Controls
             FLP_WalkingMood.Controls.Add(L_WalkingMood);
             FLP_WalkingMood.Controls.Add(NUD_WalkingMood);
             FLP_CosmeticTop.SetFlowBreak(FLP_WalkingMood, true);
-            FLP_WalkingMood.Location = new System.Drawing.Point(32, 152);
-            FLP_WalkingMood.Margin = new System.Windows.Forms.Padding(32, 8, 0, 0);
+            FLP_WalkingMood.Location = new System.Drawing.Point(8, 204);
+            FLP_WalkingMood.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             FLP_WalkingMood.Name = "FLP_WalkingMood";
             FLP_WalkingMood.Size = new System.Drawing.Size(168, 26);
             FLP_WalkingMood.TabIndex = 52;
@@ -2558,17 +2631,17 @@ namespace PKHeX.WinForms.Controls
             // SizeCP
             // 
             SizeCP.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            SizeCP.Location = new System.Drawing.Point(48, 186);
+            SizeCP.Location = new System.Drawing.Point(48, 238);
             SizeCP.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             SizeCP.Name = "SizeCP";
-            SizeCP.Size = new System.Drawing.Size(224, 96);
+            SizeCP.Size = new System.Drawing.Size(228, 96);
             SizeCP.TabIndex = 3;
             // 
             // ShinyLeaf
             // 
             ShinyLeaf.AccessibleDescription = "Gen 4 shiny leaf crown control";
             ShinyLeaf.AccessibleName = "Gen 4 shiny leaf crown control";
-            ShinyLeaf.Location = new System.Drawing.Point(56, 290);
+            ShinyLeaf.Location = new System.Drawing.Point(56, 342);
             ShinyLeaf.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
             ShinyLeaf.Name = "ShinyLeaf";
             ShinyLeaf.Size = new System.Drawing.Size(200, 64);
@@ -2578,7 +2651,7 @@ namespace PKHeX.WinForms.Controls
             // 
             PAN_CosmeticButtons.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PAN_CosmeticButtons.Controls.Add(FLP_PKMEditors);
-            PAN_CosmeticButtons.Location = new System.Drawing.Point(0, 354);
+            PAN_CosmeticButtons.Location = new System.Drawing.Point(0, 406);
             PAN_CosmeticButtons.Margin = new System.Windows.Forms.Padding(0);
             PAN_CosmeticButtons.Name = "PAN_CosmeticButtons";
             PAN_CosmeticButtons.Size = new System.Drawing.Size(296, 39);
@@ -2649,7 +2722,7 @@ namespace PKHeX.WinForms.Controls
             Contest.ContestSheen = 0;
             Contest.ContestSmart = 0;
             Contest.ContestTough = 0;
-            Contest.Location = new System.Drawing.Point(0, 393);
+            Contest.Location = new System.Drawing.Point(0, 445);
             Contest.Margin = new System.Windows.Forms.Padding(0);
             Contest.Name = "Contest";
             Contest.Size = new System.Drawing.Size(288, 59);
@@ -2751,9 +2824,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = "Trainer gender panel (0) (0) (0) (0)";
-            UC_OTGender.AccessibleName = "Trainer gender panel (0) (0) (0) (0)";
-            UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
+            UC_OTGender.AccessibleDescription = " (0) (0) (0)";
+            UC_OTGender.AccessibleName = " (0) (0) (0)";
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
             UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -2970,9 +3042,6 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            UC_HTGender.AccessibleDescription = "Handling Trainer gender panel (0) (0) (0) (0)";
-            UC_HTGender.AccessibleName = "Handling Trainer gender panel (0) (0) (0) (0)";
-            UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             UC_HTGender.AllowClick = true;
             UC_HTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_HTGender.BackgroundImage");
             UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -3386,6 +3455,10 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)PB_Favorite).EndInit();
             ((System.ComponentModel.ISupportInitialize)PB_Origin).EndInit();
             ((System.ComponentModel.ISupportInitialize)PB_BattleVersion).EndInit();
+            FLP_Spirit7b.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Spirit7b).EndInit();
+            FLP_Mood7b.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Mood7b).EndInit();
             FLP_WalkingMood.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_WalkingMood).EndInit();
             PAN_CosmeticButtons.ResumeLayout(false);
@@ -3649,5 +3722,11 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_WalkingMood;
         private System.Windows.Forms.Label L_WalkingMood;
         private System.Windows.Forms.NumericUpDown NUD_WalkingMood;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Spirit7b;
+        private System.Windows.Forms.Label L_Spirit7b;
+        private System.Windows.Forms.NumericUpDown NUD_Spirit7b;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Mood7b;
+        private System.Windows.Forms.Label L_Mood7b;
+        private System.Windows.Forms.NumericUpDown NUD_Mood7b;
     }
 }

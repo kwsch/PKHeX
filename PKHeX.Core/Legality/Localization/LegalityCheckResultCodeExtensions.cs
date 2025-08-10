@@ -240,6 +240,8 @@ public static class LegalityCheckResultCodeExtensions
         G5PIDShinyGrotto => localization.G5PIDShinyGrotto,
         G5SparkleInvalid => localization.G5SparkleInvalid,
         G5SparkleRequired => localization.G5SparkleRequired,
+        G7BSocialShouldBe100Spirit => localization.G7BSocialShouldBe100Spirit,
+        G7BSocialShouldBe100Mood => localization.G7BSocialShouldBe100Mood,
         GanbaruStatLEQ_01 => localization.GanbaruStatTooHigh,
         GenderInvalidNone => localization.GenderInvalidNone,
         GeoBadOrder => localization.GeoBadOrder,
