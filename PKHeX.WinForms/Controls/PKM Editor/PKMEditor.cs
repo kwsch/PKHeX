@@ -1968,7 +1968,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_Relearn4.Visible = FLP_Relearn3.Visible = FLP_Relearn2.Visible = FLP_Relearn1.Visible = GB_RelearnMoves.Visible = format >= 6;
 
         PB_Origin.Visible = format >= 6;
-        FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = format == 5;
+        FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = FLP_PokeStarFame.Visible = format == 5;
 
         CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = format >= 4;
         ShinyLeaf.Visible = FLP_WalkingMood.Visible = format == 4;

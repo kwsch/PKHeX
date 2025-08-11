@@ -13,7 +13,9 @@ public sealed class BK4 : G4PKM
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
-        0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
+        0x42, 0x43, // Unused
+        0x5E, // Unused
+        0x63, 0x64, 0x65, 0x66, 0x67, // unused ribbon bits
     ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4STORED;

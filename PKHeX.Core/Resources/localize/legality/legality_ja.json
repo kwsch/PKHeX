@@ -156,6 +156,8 @@
     "G5PIDShinyGrotto": "隠し穴産のポケモンは色違いになりません。",
     "G5SparkleInvalid": "Nのポケモンフラグのチェックを外してください。",
     "G5SparkleRequired": "Nのポケモンフラグのチェックを入れてください。",
+    "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
+    "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "１つ以上のがんばレベルが通常限界値（10-個体値ボーナス）を超えています。",
     "GenderInvalidNone": "性別不明のポケモンは性別を持ちません。",
     "GeoBadOrder": "地域（おもいで）:空白があります。",

@@ -16,7 +16,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
         0x63, // last 8 bits of a 32bit ribbonset
         0x64, 0x65, 0x66, 0x67, // unused 32bit ribbonset?
         0x86, // unused
-        0x87, // PokeStar Fame
     ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;

@@ -156,6 +156,8 @@
     "G5PIDShinyGrotto": "Les Pokémon capturés dans les Trouées cachées ne peuvent pas être chromatiques.",
     "G5SparkleInvalid": "Le flag de l'éclat spécial des Pokémon de N ne doit pas être coché.",
     "G5SparkleRequired": "Le flag de l'éclat spécial des Pokémon de N est manquant.",
+    "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
+    "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "Une ou plusieurs valeurs du niveau d'effort sont supérieures à la limite naturelle de (10 - IV bonus).",
     "GenderInvalidNone": "Les Pokémon asexués ne peuvent pas être genrés.",
     "GeoBadOrder": "Mémoire géolocalisations : Vide présent.",

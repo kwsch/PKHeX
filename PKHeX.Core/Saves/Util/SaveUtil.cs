@@ -370,8 +370,8 @@ public static class SaveUtil
     private static bool IsG4Pt(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RAW && IsValidGeneralFooter2(data, SAV4Pt.GeneralSize);
     private static bool IsG4HGSS(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RAW && IsValidGeneralFooter2(data, SAV4HGSS.GeneralSize);
     private static bool IsG4BR(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BR && SAV4BR.IsValidSaveFile(data);
-    private static bool IsG5BW(ReadOnlySpan<byte> data) => data.Length == SIZE_G5BW && IsValidFooter5(data, SIZE_G5BW, 0x8C);
-    private static bool IsG5B2W2(ReadOnlySpan<byte> data) => data.Length == SIZE_G5B2W2 && IsValidFooter5(data, SIZE_G5B2W2, 0x94);
+    private static bool IsG5BW(ReadOnlySpan<byte> data) => data.Length == SIZE_G5RAW && IsValidFooter5(data, SIZE_G5BW, 0x8C);
+    private static bool IsG5B2W2(ReadOnlySpan<byte> data) => data.Length == SIZE_G5RAW && IsValidFooter5(data, SIZE_G5B2W2, 0x94);
     private static bool IsG6XY(ReadOnlySpan<byte> data) => data.Length == SIZE_G6XY && HasSaveFooterBEEF(data);
     private static bool IsG6AO(ReadOnlySpan<byte> data) => data.Length == SIZE_G6ORAS && HasSaveFooterBEEF(data);
     private static bool IsG6AODemo(ReadOnlySpan<byte> data) => data.Length == SIZE_G6ORASDEMO && HasSaveFooterBEEF(data);

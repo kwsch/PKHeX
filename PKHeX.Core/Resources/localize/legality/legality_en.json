@@ -156,6 +156,8 @@
     "G5PIDShinyGrotto": "Hidden Grotto captures cannot be shiny.",
     "G5SparkleInvalid": "Special in-game N's Sparkle flag should not be checked.",
     "G5SparkleRequired": "Special in-game N's Sparkle flag missing.",
+    "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
+    "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "One or more Ganbaru Value is above the natural limit of (10 - IV bonus).",
     "GenderInvalidNone": "Genderless Pokémon should not have a gender.",
     "GeoBadOrder": "GeoLocation Memory: Gap/Blank present.",

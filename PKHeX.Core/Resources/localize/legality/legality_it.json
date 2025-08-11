@@ -156,6 +156,8 @@
     "G5PIDShinyGrotto": "Gli incontri del Meandro Nascosto non possono essere Shiny.",
     "G5SparkleInvalid": "Il segnale speciale di luccichio dei Pokémon di N non dovrebbe essere ablitato.",
     "G5SparkleRequired": "Segnale speciale di luccichio dei Pokémon di N assente.",
+    "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
+    "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "Uno o più valori Ganbaru è oltre il limite naturale di (10 - IV bonus).",
     "GenderInvalidNone": "I Pokémon senza sesso non dovrebbero avere un Sesso.",
     "GeoBadOrder": "Memoria GeoLocation: Gap/Blank.",

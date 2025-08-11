@@ -267,6 +267,9 @@ namespace PKHeX.WinForms.Controls
             Tab_Moves = new System.Windows.Forms.TabPage();
             Tab_Cosmetic = new System.Windows.Forms.TabPage();
             Tab_OTMisc = new System.Windows.Forms.TabPage();
+            FLP_PokeStarFame = new System.Windows.Forms.FlowLayoutPanel();
+            L_PokeStarFame = new System.Windows.Forms.Label();
+            NUD_PokeStarFame = new System.Windows.Forms.NumericUpDown();
             Hidden_TC.SuspendLayout();
             Hidden_Main.SuspendLayout();
             FLP_Main.SuspendLayout();
@@ -370,6 +373,8 @@ namespace PKHeX.WinForms.Controls
             FLP_EncryptionConstant.SuspendLayout();
             FLP_ReceivedDate.SuspendLayout();
             TC_Editor.SuspendLayout();
+            FLP_PokeStarFame.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_PokeStarFame).BeginInit();
             SuspendLayout();
             // 
             // Hidden_TC
@@ -2319,6 +2324,7 @@ namespace PKHeX.WinForms.Controls
             FLP_CosmeticTop.Controls.Add(FLP_Spirit7b);
             FLP_CosmeticTop.Controls.Add(FLP_Mood7b);
             FLP_CosmeticTop.Controls.Add(FLP_WalkingMood);
+            FLP_CosmeticTop.Controls.Add(FLP_PokeStarFame);
             FLP_CosmeticTop.Controls.Add(SizeCP);
             FLP_CosmeticTop.Controls.Add(ShinyLeaf);
             FLP_CosmeticTop.Controls.Add(PAN_CosmeticButtons);
@@ -2631,7 +2637,7 @@ namespace PKHeX.WinForms.Controls
             // SizeCP
             // 
             SizeCP.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            SizeCP.Location = new System.Drawing.Point(48, 238);
+            SizeCP.Location = new System.Drawing.Point(48, 264);
             SizeCP.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             SizeCP.Name = "SizeCP";
             SizeCP.Size = new System.Drawing.Size(228, 96);
@@ -2641,7 +2647,7 @@ namespace PKHeX.WinForms.Controls
             // 
             ShinyLeaf.AccessibleDescription = "Gen 4 shiny leaf crown control";
             ShinyLeaf.AccessibleName = "Gen 4 shiny leaf crown control";
-            ShinyLeaf.Location = new System.Drawing.Point(56, 342);
+            ShinyLeaf.Location = new System.Drawing.Point(56, 368);
             ShinyLeaf.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
             ShinyLeaf.Name = "ShinyLeaf";
             ShinyLeaf.Size = new System.Drawing.Size(200, 64);
@@ -2651,7 +2657,7 @@ namespace PKHeX.WinForms.Controls
             // 
             PAN_CosmeticButtons.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PAN_CosmeticButtons.Controls.Add(FLP_PKMEditors);
-            PAN_CosmeticButtons.Location = new System.Drawing.Point(0, 406);
+            PAN_CosmeticButtons.Location = new System.Drawing.Point(0, 432);
             PAN_CosmeticButtons.Margin = new System.Windows.Forms.Padding(0);
             PAN_CosmeticButtons.Name = "PAN_CosmeticButtons";
             PAN_CosmeticButtons.Size = new System.Drawing.Size(296, 39);
@@ -2722,7 +2728,7 @@ namespace PKHeX.WinForms.Controls
             Contest.ContestSheen = 0;
             Contest.ContestSmart = 0;
             Contest.ContestTough = 0;
-            Contest.Location = new System.Drawing.Point(0, 445);
+            Contest.Location = new System.Drawing.Point(0, 471);
             Contest.Margin = new System.Windows.Forms.Padding(0);
             Contest.Name = "Contest";
             Contest.Size = new System.Drawing.Size(288, 59);
@@ -2824,8 +2830,6 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            UC_OTGender.AccessibleDescription = " (0) (0) (0)";
-            UC_OTGender.AccessibleName = " (0) (0) (0)";
             UC_OTGender.AllowClick = true;
             UC_OTGender.BackgroundImage = (System.Drawing.Image)resources.GetObject("UC_OTGender.BackgroundImage");
             UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -3339,6 +3343,38 @@ namespace PKHeX.WinForms.Controls
             Tab_OTMisc.Text = "OT/Misc";
             Tab_OTMisc.UseVisualStyleBackColor = true;
             // 
+            // FLP_PokeStarFame
+            // 
+            FLP_PokeStarFame.AutoSize = true;
+            FLP_PokeStarFame.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            FLP_PokeStarFame.Controls.Add(L_PokeStarFame);
+            FLP_PokeStarFame.Controls.Add(NUD_PokeStarFame);
+            FLP_CosmeticTop.SetFlowBreak(FLP_PokeStarFame, true);
+            FLP_PokeStarFame.Location = new System.Drawing.Point(8, 230);
+            FLP_PokeStarFame.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            FLP_PokeStarFame.Name = "FLP_PokeStarFame";
+            FLP_PokeStarFame.Size = new System.Drawing.Size(164, 26);
+            FLP_PokeStarFame.TabIndex = 55;
+            // 
+            // L_PokeStarFame
+            // 
+            L_PokeStarFame.Location = new System.Drawing.Point(0, 0);
+            L_PokeStarFame.Margin = new System.Windows.Forms.Padding(0);
+            L_PokeStarFame.Name = "L_PokeStarFame";
+            L_PokeStarFame.Size = new System.Drawing.Size(120, 24);
+            L_PokeStarFame.TabIndex = 9;
+            L_PokeStarFame.Text = "Fame:";
+            L_PokeStarFame.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_PokeStarFame
+            // 
+            NUD_PokeStarFame.Location = new System.Drawing.Point(120, 1);
+            NUD_PokeStarFame.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            NUD_PokeStarFame.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NUD_PokeStarFame.Name = "NUD_PokeStarFame";
+            NUD_PokeStarFame.Size = new System.Drawing.Size(44, 25);
+            NUD_PokeStarFame.TabIndex = 103;
+            // 
             // PKMEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -3485,6 +3521,8 @@ namespace PKHeX.WinForms.Controls
             FLP_EncryptionConstant.PerformLayout();
             FLP_ReceivedDate.ResumeLayout(false);
             TC_Editor.ResumeLayout(false);
+            FLP_PokeStarFame.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_PokeStarFame).EndInit();
             ResumeLayout(false);
         }
 
@@ -3728,5 +3766,8 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_Mood7b;
         private System.Windows.Forms.Label L_Mood7b;
         private System.Windows.Forms.NumericUpDown NUD_Mood7b;
+        private System.Windows.Forms.FlowLayoutPanel FLP_PokeStarFame;
+        private System.Windows.Forms.Label L_PokeStarFame;
+        private System.Windows.Forms.NumericUpDown NUD_PokeStarFame;
     }
 }
