@@ -189,11 +189,13 @@ public partial class SAV_BattlePass : Form
                 model = ModelBR.YoungBoy;
             var (offset, count) = GearUnlock.GetOffsetCount(model, category);
             cb.DataSource = Util.GetCBList(Gear.AsSpan(offset, count));
+            cb.SelectedValue = GearUnlock.GetDefault(model, category);
             cb.Enabled = true;
         }
         else
         {
             cb.DataSource = EmptyCBList;
+            cb.SelectedValue = 0;
             cb.Enabled = false;
         }
     }
@@ -358,8 +360,6 @@ public partial class SAV_BattlePass : Form
     private void LoadCurrent(BattlePass pdata)
     {
         loading = true;
-
-        SetupComboBoxesAppearance((ModelBR)pdata.Model);
 
         TB_Name.Text = pdata.Name;
         CB_TrainerTitle.SelectedValue = (int)pdata.TrainerTitle;
@@ -685,9 +685,22 @@ public partial class SAV_BattlePass : Form
             mt.Text = Util.GetHexValue64(mt.Text).ToString("X16");
     }
 
+    private void CB_Model_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (sender is ComboBox c)
+        {
+            int index = WinFormsUtil.GetIndex(c);
+            SetupComboBoxesAppearance((ModelBR)index);
+            if (!loading)
+                UpdatePresetIndexes(sender, e);
+        }
+    }
+
     private void UpdatePresetIndexes(object sender, EventArgs e)
     {
+        SaveCurrent(CurrentPass);
         CurrentPass.ResetPresetIndexes();
+        LoadCurrent(CurrentPass);
     }
 
     private void UpdateCountry(object sender, EventArgs e)

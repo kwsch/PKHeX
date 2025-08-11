@@ -1021,7 +1021,7 @@ namespace PKHeX.WinForms
             CB_Model.Name = "CB_Model";
             CB_Model.Size = new System.Drawing.Size(160, 23);
             CB_Model.TabIndex = 1;
-            CB_Model.SelectedIndexChanged += UpdatePresetIndexes;
+            CB_Model.SelectedIndexChanged += CB_Model_SelectedIndexChanged;
             // 
             // L_Bag
             // 
@@ -1084,7 +1084,7 @@ namespace PKHeX.WinForms
             L_Model.Name = "L_Model";
             L_Model.Size = new System.Drawing.Size(80, 23);
             L_Model.TabIndex = 0;
-            L_Model.Text = "Char. Style:";
+            L_Model.Text = "Character:";
             L_Model.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Bottom
