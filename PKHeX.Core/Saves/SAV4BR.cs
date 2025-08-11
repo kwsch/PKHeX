@@ -20,8 +20,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
     private const int SIZE_SLOT = 0x6FF00;
 
-    /// <summary> Amount of times the primary save has been saved </summary>
     private readonly int SavePartition;
+    /// <summary> Amount of times the primary save has been saved </summary>
     private readonly uint SaveCount;
     private readonly Memory<byte> Container;
 
@@ -52,13 +52,14 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         InitializeData();
     }
 
-    private SAV4BR(SAV4BR other) : base(other.Data.ToArray())
+    private SAV4BR(SAV4BR other) : base(new byte[SIZE_SLOT])
     {
         Container = other.Container.ToArray();
         SavePartition = other.SavePartition;
         SaveCount = other.SaveCount;
         CurrentSlot = other.CurrentSlot;
 
+        other.Data.CopyTo(Data);
         InitializeData();
     }
 
@@ -146,7 +147,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     protected override SAV4BR CloneInternal() => new(this);
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 4;
+    protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 84;
     public override BK4 BlankPKM => new();
     public override Type PKMType => typeof(BK4);
 
@@ -155,7 +156,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     public override int MaxAbilityID => Legal.MaxAbilityID_4;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public override int MaxBallID => Legal.MaxBallID_4;
-    public override GameVersion MaxGameID => Legal.MaxGameID_4;
+    public override GameVersion MaxGameID => GameVersion.BATREV;
 
     public override int MaxEV => EffortValues.Max255;
     public override byte Generation => 4;
@@ -173,7 +174,9 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             int ctr = 0;
             for (int i = 0; i < 6; i++)
             {
-                if (Data[GetPartyOffset(i) + 4] != 0) // sanity
+                var ofs = GetPartyOffset(i);
+                var span = Data[ofs..];
+                if (IsPKMPresent(span))
                     ctr++;
             }
             return ctr;
@@ -184,7 +187,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
-    // Checksums
+    #region Checksums
     protected override void SetChecksums()
     {
         var span = Container.Span[(SavePartition * SIZE_HALF)..];
@@ -192,7 +195,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         SetChecksum(span, 0x0000000, SIZE_HALF, SIZE_HALF - 0x80);
     }
 
-    public override bool ChecksumsValid => IsChecksumsValid(Data);
+    public override bool ChecksumsValid => IsChecksumsValid(Container.Span);
     public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
     public static bool IsChecksumsValid(Span<byte> sav) => IsChecksumValid(sav, 0x0000000) || IsChecksumValid(sav, SIZE_HALF);
@@ -202,8 +205,9 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         return VerifyChecksum(sav, offset, 0x0000100, offset + 0x000008)
                && VerifyChecksum(sav, offset, SIZE_HALF, offset + SIZE_HALF - 0x80);
     }
+    #endregion
 
-    // Trainer Info
+    #region Trainer Info
     public override GameVersion Version { get => GameVersion.BATREV; set { } }
 
     public bool Japanese { get => !FlagUtil.GetFlag(Data, 0x57, 0); set => FlagUtil.SetFlag(Data, 0x57, 0, !value); }
@@ -242,25 +246,17 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
     }
 
-    private Span<byte> GetOriginalTrainerSpan(int slot) => Container.Span.Slice((SIZE_SLOT * slot) + 0x390, 16);
+    private Span<byte> GetOriginalTrainerSpan(int slot) => (slot == CurrentSlot ? Data : GetSlot(slot)).Slice(0x390, 16);
     private string GetOTName(int slot) => GetString(GetOriginalTrainerSpan(slot));
     private void SetOTName(int slot, ReadOnlySpan<char> name) => SetString(GetOriginalTrainerSpan(slot), name, 7, StringConverterOption.ClearZero);
     public string CurrentOT { get => GetOTName(CurrentSlot); set => SetOTName(CurrentSlot, value); }
 
-    // Storage
-    public override bool HasBox => true;
-    public override int GetBoxOffset(int box)
-    {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(box, BoxCount);
-        return 0x978 + (SIZE_STORED * box * 30);
-    }
-
-    public override bool HasParty => true;
-    public override int GetPartyOffset(int slot)
-    {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(slot, 6);
-        return 0x13A54 + (SIZE_PARTY * slot);
-    }
+    public bool GearShinyGroudonOutfit { get => FlagUtil.GetFlag(Data, 0x434, 0); set => FlagUtil.SetFlag(Data, 0x434, 0, value); }
+    public bool GearShinyLucarioOutfit { get => FlagUtil.GetFlag(Data, 0x434, 1); set => FlagUtil.SetFlag(Data, 0x434, 1, value); }
+    public bool GearShinyElectivireOutfit { get => FlagUtil.GetFlag(Data, 0x434, 2); set => FlagUtil.SetFlag(Data, 0x434, 2, value); }
+    public bool GearShinyKyogreOutfit { get => FlagUtil.GetFlag(Data, 0x434, 3); set => FlagUtil.SetFlag(Data, 0x434, 3, value); }
+    public bool GearShinyRoseradeOutfit { get => FlagUtil.GetFlag(Data, 0x434, 4); set => FlagUtil.SetFlag(Data, 0x434, 4, value); }
+    public bool GearShinyPachirisuOutfit { get => FlagUtil.GetFlag(Data, 0x434, 5); set => FlagUtil.SetFlag(Data, 0x434, 5, value); }
 
     public override uint Money
     {
@@ -273,6 +269,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
+    /// <inheritdoc cref="SaveFile.TID16"/>
+    /// <remarks>Copied from the connected DS game.</remarks>
     public override ushort TID16
     {
         get => (ushort)((Data[0x12867] << 8) | Data[0x12860]);
@@ -283,6 +281,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
+    /// <inheritdoc cref="SaveFile.SID16"/>
+    /// <remarks>Copied from the connected DS game.</remarks>
     public override ushort SID16
     {
         get => (ushort)((Data[0x12865] << 8) | Data[0x12866]);
@@ -291,6 +291,146 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             Data[0x12865] = (byte)(value >> 8);
             Data[0x12866] = (byte)(value & 0xFF);
         }
+    }
+
+    public Span<byte> BirthMonthTrash => Data.Slice(0x3B0, 0x8);
+    public string BirthMonth
+    {
+        get => StringConverter4GC.GetStringUnicodeBR(BirthMonthTrash);
+        set => StringConverter4GC.SetStringUnicodeBR(value, BirthMonthTrash);
+    }
+
+    public Span<byte> BirthDayTrash => Data.Slice(0x3B8, 0x8);
+    public string BirthDay
+    {
+        get => StringConverter4GC.GetStringUnicodeBR(BirthDayTrash);
+        set => StringConverter4GC.SetStringUnicodeBR(value, BirthDayTrash);
+    }
+
+    public int Country { get => ReadUInt16BigEndian(Data[0x3C0..]); set => WriteUInt16BigEndian(Data[0x578..], (ushort)value); }
+    public int Region { get => ReadUInt16BigEndian(Data[0x3C2..]); set => WriteUInt16BigEndian(Data[0x57A..], (ushort)value); }
+
+    public Span<byte> SelfIntroductionTrash => Data.Slice(0x3C4, 0x6C);
+
+    /// <summary>
+    /// The self-introduction in the player's profile.
+    /// </summary>
+    /// <remarks>
+    /// Western games prefix the text with \uFFFF\uF013 to indicate that
+    /// it should be displayed with a proportional font in Japanese games.
+    /// </remarks>
+    public string SelfIntroduction
+    {
+        get => StringConverter4GC.GetStringUnicodeBR(SelfIntroductionTrash);
+        set => StringConverter4GC.SetStringUnicodeBR(value, SelfIntroductionTrash);
+    }
+
+    public uint RecordTotalBattles
+    {
+        get => (uint)((Data[0x1286A] << 16) | (Data[0x1286B] << 8) | Data[0x12864]);
+        set
+        {
+            Data[0x1286A] = (byte)((value >> 16) & 0xFF);
+            Data[0x1286B] = (byte)((value >> 8) & 0xFF);
+            Data[0x12864] = (byte)(value & 0xFF);
+        }
+    }
+
+    public uint RecordColosseumBattles
+    {
+        get => (uint)((Data[0x1286F] << 16) | (Data[0x12868] << 8) | Data[0x12869]);
+        set
+        {
+            Data[0x1286F] = (byte)((value >> 16) & 0xFF);
+            Data[0x12868] = (byte)((value >> 8) & 0xFF);
+            Data[0x12869] = (byte)(value & 0xFF);
+        }
+    }
+
+    public uint RecordFreeBattles
+    {
+        get => (uint)((Data[0x1286C] << 16) | (Data[0x1286D] << 8) | Data[0x1286E]);
+        set
+        {
+            Data[0x1286C] = (byte)((value >> 16) & 0xFF);
+            Data[0x1286D] = (byte)((value >> 8) & 0xFF);
+            Data[0x1286E] = (byte)(value & 0xFF);
+        }
+    }
+
+    public uint RecordWiFiBattles
+    {
+        get => (uint)((Data[0x12871] << 16) | (Data[0x12872] << 8) | Data[0x12873]);
+        set
+        {
+            Data[0x12871] = (byte)((value >> 16) & 0xFF);
+            Data[0x12872] = (byte)((value >> 8) & 0xFF);
+            Data[0x12873] = (byte)(value & 0xFF);
+        }
+    }
+
+    public byte RecordGatewayColosseumClears { get => Data[0x12870]; set => Data[0x12870] = value; }
+    public byte RecordMainStreetColosseumClears { get => Data[0x12877]; set => Data[0x12877] = value; }
+    public byte RecordWaterfallColosseumClears { get => Data[0x12876]; set => Data[0x12876] = value; }
+    public byte RecordNeonColosseumClears { get => Data[0x12875]; set => Data[0x12875] = value; }
+    public byte RecordCrystalColosseumClears { get => Data[0x12874]; set => Data[0x12874] = value; }
+    public byte RecordSunnyParkColosseumClears { get => Data[0x1287B]; set => Data[0x1287B] = value; }
+    public byte RecordMagmaColosseumClears { get => Data[0x1287A]; set => Data[0x1287A] = value; }
+    public byte RecordCourtyardColosseumClears { get => Data[0x12879]; set => Data[0x12879] = value; }
+    public byte RecordSunsetColosseumClears { get => Data[0x12878]; set => Data[0x12878] = value; }
+    public byte RecordStargazerColosseumClears { get => Data[0x1287F]; set => Data[0x1287F] = value; }
+
+    public bool UnlockedGatewayColosseum { get => FlagUtil.GetFlag(Data, 0x12889, 4); set => FlagUtil.SetFlag(Data, 0x12889, 4, value); }
+    public bool UnlockedMainStreetColosseum { get => FlagUtil.GetFlag(Data, 0x12889, 5); set => FlagUtil.SetFlag(Data, 0x12889, 5, value); }
+    public bool UnlockedWaterfallColosseum { get => FlagUtil.GetFlag(Data, 0x12889, 6); set => FlagUtil.SetFlag(Data, 0x12889, 6, value); }
+    public bool UnlockedNeonColosseum { get => FlagUtil.GetFlag(Data, 0x12889, 7); set => FlagUtil.SetFlag(Data, 0x12889, 7, value); }
+    public bool UnlockedCrystalColosseum { get => FlagUtil.GetFlag(Data, 0x12888, 0); set => FlagUtil.SetFlag(Data, 0x12888, 0, value); }
+    public bool UnlockedSunnyParkColosseum { get => FlagUtil.GetFlag(Data, 0x12888, 1); set => FlagUtil.SetFlag(Data, 0x12888, 1, value); }
+    public bool UnlockedMagmaColosseum { get => FlagUtil.GetFlag(Data, 0x12888, 2); set => FlagUtil.SetFlag(Data, 0x12888, 2, value); }
+    public bool UnlockedCourtyardColosseum { get => FlagUtil.GetFlag(Data, 0x12888, 3); set => FlagUtil.SetFlag(Data, 0x12888, 3, value); }
+    public bool UnlockedSunsetColosseum { get => FlagUtil.GetFlag(Data, 0x12888, 4); set => FlagUtil.SetFlag(Data, 0x12888, 4, value); }
+    public bool UnlockedStargazerColosseum { get => FlagUtil.GetFlag(Data, 0x12888, 5); set => FlagUtil.SetFlag(Data, 0x12888, 5, value); }
+    public bool UnlockedPostGame { get => FlagUtil.GetFlag(Data, 0x12891, 6); set => FlagUtil.SetFlag(Data, 0x12891, 6, value); }
+
+    /// <summary>
+    /// Used to identify which save file created a given Battle Pass.
+    /// </summary>
+    /// <remarks>
+    /// If the value in the save file is 0, a value is instead calculated for the saved Battle Pass.
+    /// </remarks>
+    public ulong PlayerID
+    {
+        get => (
+            ((ulong)Data[0x128CA] << 56) | ((ulong)Data[0x128CC] << 48) | ((ulong)Data[0x128CE] << 40) | ((ulong)Data[0x128C0] << 32) |
+            ((ulong)Data[0x128D2] << 24) | ((ulong)Data[0x128D4] << 16) | ((ulong)Data[0x128D6] << 8) | Data[0x128C8]
+        );
+        set
+        {
+            Data[0x128CA] = (byte)((value >> 56) & 0xFF);
+            Data[0x128CC] = (byte)((value >> 48) & 0xFF);
+            Data[0x128CE] = (byte)((value >> 40) & 0xFF);
+            Data[0x128C0] = (byte)((value >> 32) & 0xFF);
+            Data[0x128D2] = (byte)((value >> 24) & 0xFF);
+            Data[0x128D4] = (byte)((value >> 16) & 0xFF);
+            Data[0x128D6] = (byte)((value >> 8) & 0xFF);
+            Data[0x128C8] = (byte)(value & 0xFF);
+        }
+    }
+    #endregion
+
+    #region Storage
+    public override bool HasParty => true;
+    public override int GetPartyOffset(int slot)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(slot, 6);
+        return 0x44C + (SIZE_PARTY * slot);
+    }
+
+    public override bool HasBox => true;
+    public override int GetBoxOffset(int box)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(box, BoxCount);
+        return 0x978 + (SIZE_STORED * box * 30);
     }
 
     // Save file does not have Wallpaper info
@@ -341,6 +481,40 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             g4.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
     }
 
+    /// <summary>
+    /// Finds the location of a PKM in the party or boxes.
+    /// </summary>
+    /// <param name="pk">The PKM to find.</param>
+    /// <returns>Where the PKM was found, or (255, 255) otherwise</returns>
+    public (byte Box, byte Slot) FindSlot(PKM pk)
+    {
+        var party = PartyData;
+        for (byte slot = 0; slot < PartyCount; slot++)
+        {
+            PKM other = party[slot];
+            if (pk.PID == other.PID && pk.DecryptedBoxData.AsSpan().SequenceEqual(other.DecryptedBoxData))
+                return (0, slot);
+        }
+
+        var boxes = BoxData;
+        for (byte box = 0; box < BoxCount; box++)
+        {
+            for (byte slot = 0; slot < BoxSlotCount; slot++)
+            {
+                PKM other = boxes[(box * BoxSlotCount) + slot];
+                if (pk.PID == other.PID && pk.DecryptedBoxData.AsSpan().SequenceEqual(other.DecryptedBoxData))
+                    return (++box, slot);
+            }
+        }
+
+        return (255, 255); // disappeared
+    }
+    #endregion
+
+    public BattlePassAccessor BattlePasses => new(this);
+    public GearUnlock GearUnlock => new(Buffer.Slice(0x584EC, GearUnlock.Size));
+
+    #region Encryption
     public static void Decrypt(Span<byte> input)
     {
         for (int offset = 0; offset < SaveUtil.SIZE_G4BR; offset += SIZE_HALF)
@@ -415,11 +589,12 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
                 checksums[c] += ((value >> c) & 1);
         }
     }
+    #endregion
 
     public override string GetString(ReadOnlySpan<byte> data)
-        => StringConverter4GC.GetStringUnicode(data);
+        => StringConverter4GC.GetStringUnicodeBR(data);
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
-        => StringConverter4GC.LoadStringUnicode(data, destBuffer);
+        => StringConverter4GC.LoadStringUnicodeBR(data, destBuffer);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
+        => StringConverter4GC.SetStringUnicodeBR(value, destBuffer, maxLength, option);
 }

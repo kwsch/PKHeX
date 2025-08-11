@@ -169,6 +169,7 @@ MsgGeonetPointNone = 无
 MsgGeonetPointBlue = 蓝
 MsgGeonetPointYellow = 黄
 MsgGeonetPointRed = 红
+MsgGearAllCharacterStyles = 全部
 MsgQRDecodeFail = 解码后的数据不是一个有效的宝可梦或神秘礼物
 MsgQRDecodeSize = QR 数据大小: {0} 字节
 MsgQRDeprecated = QR 码已因其他方式而被弃用。

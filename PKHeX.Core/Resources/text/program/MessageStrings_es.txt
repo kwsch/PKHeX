@@ -169,6 +169,7 @@ MsgGeonetPointNone = Ningún
 MsgGeonetPointBlue = Azul
 MsgGeonetPointYellow = Amarillo
 MsgGeonetPointRed = Rojo
+MsgGearAllCharacterStyles = Todo
 MsgQRDecodeFail = Los datos decodificados no son PKM/Regalo válidos.
 MsgQRDecodeSize = Tamaño de los datos de QR: {0} bytes
 MsgQRDeprecated = Los códigos QR están obsoletos en favor de otros métodos.

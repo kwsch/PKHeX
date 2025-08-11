@@ -221,6 +221,7 @@ public static class MessageStrings
     public static string MsgGeonetPointYellow { get; set; } = "Yellow";
     public static string MsgGeonetPointRed { get; set; } = "Red";
 
+    public static string MsgGearAllCharacterStyles { get; set; } = "All";
     #endregion
 
     #region QR Codes

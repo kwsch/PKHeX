@@ -169,6 +169,7 @@ MsgGeonetPointNone = None
 MsgGeonetPointBlue = Blue
 MsgGeonetPointYellow = Yellow
 MsgGeonetPointRed = Red
+MsgGearAllCharacterStyles = 모두
 MsgQRDecodeFail = 해독한 데이터가 사용 가능한 포켓몬/소포가 아닙니다.
 MsgQRDecodeSize = QR 데이터 크기: {0} 바이트
 MsgQRDeprecated = QR 코드는 다른 방법들이 나옴에 따라 더이상 사용되지 않습니다.

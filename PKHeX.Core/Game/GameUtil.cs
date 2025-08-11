@@ -219,7 +219,6 @@ public static class GameUtil
         DP     => version is D or P,
         HGSS   => version is HG or SS,
         DPPt   => version is D or P or Pt or DP,
-        BATREV => version is D or P or Pt or HG or SS,
         Gen4   => version is D or P or Pt or HG or SS or BATREV or DP or HGSS or DPPt,
 
         BW     => version is B or W,
@@ -271,10 +270,12 @@ public static class GameUtil
             return [GO, GP, GE];
         var versions = GameVersions
             .Where(version => obj.MinGameID <= version && version <= max);
+        if (max != BATREV)
+            versions = versions.Where(static version => version != BATREV);
         if (generation == 0)
             return versions;
         if (max == Legal.MaxGameID_7 && generation == 7)
-            versions = versions.Where(version => version != GO);
+            versions = versions.Where(static version => version != GO);
 
         // HOME allows up-reach to Gen9
         if (generation >= 8)

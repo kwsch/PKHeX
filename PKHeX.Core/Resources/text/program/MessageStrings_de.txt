@@ -169,6 +169,7 @@ MsgGeonetPointNone = None
 MsgGeonetPointBlue = Blue
 MsgGeonetPointYellow = Yellow
 MsgGeonetPointRed = Red
+MsgGearAllCharacterStyles = Alle
 MsgQRDecodeFail = Die entschlüsselten Daten enthalten kein gültiges PKM/Wunderkarte.
 MsgQRDecodeSize = QR Daten Größe: {0} bytes
 MsgQRDeprecated = QR Codes sind veraltet zugunsten von anderen Methoden.
