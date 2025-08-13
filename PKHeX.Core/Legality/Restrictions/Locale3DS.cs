@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
@@ -8,6 +9,14 @@ namespace PKHeX.Core;
 /// <remarks>These values were specific to the 3DS games (Generations 6 and 7, excluding LGP/E)</remarks>
 public static class Locale3DS
 {
+    /// <summary>
+    /// List of defined Console Regions.
+    /// </summary>
+    /// <remarks>
+    /// 3 was reserved for AUS, but was later merged into Europe, so it is not a valid locale code.
+    /// </remarks>
+    public static ReadOnlySpan<byte> DefinedLocales => [0, 1, 2, /*3,*/ 4, 5, 6];
+
     /// <summary>
     /// Compares the <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> to determine if the country is available within that region.
     /// </summary>

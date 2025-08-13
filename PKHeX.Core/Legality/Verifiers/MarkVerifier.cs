@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
@@ -25,13 +25,12 @@ public sealed class MarkVerifier : Verifier
         if (pk.IsEgg && pk is IRibbonSetAffixed a && a.AffixedRibbon != -1)
         {
             // Disallow affixed values on eggs.
-            var affix = (RibbonIndex)a.AffixedRibbon;
-            data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
+            data.AddLine(GetInvalid(RibbonMarkingAffixed_0, (ushort)(RibbonIndex)a.AffixedRibbon));
         }
 
         // Some encounters come with a fixed Mark, and we've not yet checked if it's missing.
         if (data.EncounterMatch is IEncounterMarkExtra extra && extra.IsMissingExtraMark(pk, out var missing))
-            data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(missing))));
+            data.AddLine(GetInvalid(RibbonMarkingMissing_0, (ushort)missing));
     }
 
     private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)
@@ -39,7 +38,7 @@ public sealed class MarkVerifier : Verifier
         for (var mark = MarkLunchtime; mark <= MarkSlump; mark++)
         {
             if (m.GetRibbon((int)mark))
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
+                data.AddLine(GetInvalid(RibbonMarkingInvalid_0, (ushort)mark));
         }
     }
 
@@ -54,27 +53,19 @@ public sealed class MarkVerifier : Verifier
 
             if (hasOne)
             {
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
+                data.AddLine(GetInvalid(RibbonMarkingInvalid_0, (ushort)mark));
                 return;
             }
 
             bool result = MarkRules.IsEncounterMarkValid(mark, data.Entity, data.EncounterMatch);
             if (!result)
             {
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
+                data.AddLine(GetInvalid(RibbonMarkingInvalid_0, (ushort)mark));
                 return;
             }
 
             hasOne = true;
         }
-    }
-
-    private static string GetRibbonNameSafe(RibbonIndex index)
-    {
-        if (index >= MAX_COUNT)
-            return index.ToString();
-        var expect = $"Ribbon{index}";
-        return RibbonStrings.GetName(expect);
     }
 
     private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)
@@ -90,7 +81,7 @@ public sealed class MarkVerifier : Verifier
         var max = MarkRules.GetMaxAffixValue(data.Info.EvoChainsAllGens);
         if ((sbyte)max == -1 || affix > max)
         {
-            data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
+            data.AddLine(GetInvalid(RibbonMarkingAffixed_0, (ushort)affix));
             return;
         }
 
@@ -114,7 +105,7 @@ public sealed class MarkVerifier : Verifier
         if (affix.IsEncounterMark8())
         {
             if (!MarkRules.IsEncounterMarkValid(affix, pk, enc))
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
+                data.AddLine(GetInvalid(RibbonMarkingAffixed_0, (ushort)affix));
             return;
         }
 
@@ -129,10 +120,9 @@ public sealed class MarkVerifier : Verifier
         clone.Species = (int) Species.Nincada;
         var args = new RibbonVerifierArguments(clone, enc, data.Info.EvoChainsAllGens);
         affix.Fix(args, true);
-        var name = GetRibbonNameSafe(affix);
         bool invalid = RibbonVerifier.IsValidExtra(affix, args);
         var severity = invalid ? Severity.Invalid : Severity.Fishy;
-        data.AddLine(Get(string.Format(LRibbonMarkingAffixedF_0, name), severity));
+        data.AddLine(Get(severity, RibbonMarkingAffixed_0, (ushort)affix));
     }
 
     private static bool IsMoveSetEvolvedShedinja(PKM pk)
@@ -153,6 +143,6 @@ public sealed class MarkVerifier : Verifier
     {
         var hasRibbon = m.GetRibbonIndex(affix);
         if (!hasRibbon)
-            data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
+            data.AddLine(GetInvalid(RibbonMarkingAffixed_0, (ushort)affix));
     }
 }

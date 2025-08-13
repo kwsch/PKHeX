@@ -2,11 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen8a"/>
+/// </summary>
 public sealed class ItemStorage8LA : IItemStorage
 {
     public static readonly ItemStorage8LA Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Items_LA =>
+    public static ReadOnlySpan<ushort> General =>
     [
         017, 023, 024, 025, 026, 027, 028, 029, 039, 041,
         050, 054, 072, 073, 075, 080, 081, 082, 083, 084,
@@ -30,7 +33,7 @@ public sealed class ItemStorage8LA : IItemStorage
         1760, 1761, 1762, 1764, 1785,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Recipe_LA =>
+    public static ReadOnlySpan<ushort> Recipe =>
     [
         1640, 1641, 1642, 1643, 1644,       1646, 1647, 1648, 1649,
         1650,       1652, 1653, 1654, 1655, 1656, 1657, 1658, 1659,
@@ -45,7 +48,7 @@ public sealed class ItemStorage8LA : IItemStorage
         1783, 1784,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_LA =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         111,
         298, 299,
@@ -67,10 +70,10 @@ public sealed class ItemStorage8LA : IItemStorage
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
 
-        InventoryType.Items => Pouch_Items_LA,
-        InventoryType.KeyItems => Pouch_Key_LA,
-        InventoryType.PCItems => Pouch_Items_LA,
-        InventoryType.Treasure => Pouch_Recipe_LA,
+        InventoryType.Items => General,
+        InventoryType.KeyItems => Key,
+        InventoryType.PCItems => General,
+        InventoryType.Treasure => Recipe,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

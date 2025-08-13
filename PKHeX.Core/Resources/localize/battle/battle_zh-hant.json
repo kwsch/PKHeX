@@ -1,0 +1,35 @@
+{
+ "StatNames": {
+  "Names": ["HP", "攻擊", "防禦", "特攻", "特防", "速度"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "攻擊", "防禦", "特攻", "特防", "速度"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "Male":  "男",
+ "Female":  "女",
+ "Left": [
+  { "Token": "Friendship", "Text": "親密度: " },
+  { "Token": "EVs", "Text": "努力值: " },
+  { "Token": "IVs", "Text": "個體值: " },
+  { "Token": "AVs", "Text": "AVs: " },
+  { "Token": "GVs", "Text": "奋斗等级: " },
+  { "Token": "Level", "Text": "等級: " },
+  { "Token": "Ability", "Text": "特性: " },
+  { "Token": "DynamaxLevel", "Text": "極巨化等級: " },
+  { "Token": "TeraType", "Text": "太晶屬性: " },
+  { "Token": "Nature", "Text": "性格: " },
+  { "Token": "Gender", "Text": "性別: "},
+  { "Token": "Nickname", "Text": "昵稱: "},
+  { "Token": "HeldItem", "Text": "携帶物品: "}
+ ],
+ "Right": [
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "發光寶: 是的" },
+  { "Token": "Gigantamax", "Text": "超極巨: 是的" }
+ ]
+}

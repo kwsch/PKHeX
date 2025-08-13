@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
 /// </summary>
-public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStorageProvider
+public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStorageProvider, IStorageCleanup
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
     public override string Extension => ".bin";
@@ -18,13 +18,13 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
-    public override PB7 GetBoxSlot(int offset) => GetDecryptedPKM(Data.AsSpan(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PB7 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
     public override PB7 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
 
     public override PersonalTable7GG Personal => PersonalTable.GG;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GG;
 
-    protected override SAV7b CloneInternal() => new((byte[])Data.Clone());
+    protected override SAV7b CloneInternal() => new(Data.ToArray());
 
     public SaveBlockAccessor7b Blocks { get; }
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
@@ -36,7 +36,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
         ClearBoxes();
     }
 
-    public SAV7b(byte[] data) : base(data, 0xB8800)
+    public SAV7b(Memory<byte> data) : base(data, 0xB8800)
     {
         Blocks = new SaveBlockAccessor7b(this);
         Initialize();
@@ -89,12 +89,15 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public override int BoxSlotCount => 25;
     public override int BoxCount => 40; // 1000/25
 
-    public bool FixPreWrite() => Blocks.Storage.CompressStorage();
+    public bool FixStoragePreWrite() => Blocks.Storage.CompressStorage();
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
         var pb7 = (PB7)pk;
         // Apply to this Save File
+        if (!isParty && !pb7.IsStarter)
+            pb7.ResetSpiritMood();
+
         pb7.UpdateHandler(this);
         pb7.RefreshChecksum();
     }

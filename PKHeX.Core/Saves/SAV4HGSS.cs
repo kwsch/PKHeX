@@ -17,7 +17,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
-    public SAV4HGSS(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
+    public SAV4HGSS(Memory<byte> data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
     {
         Initialize();
         Mystery = new MysteryBlock4HGSS(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4HGSS.Size));
@@ -25,7 +25,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     }
 
     public override Zukan4 Dex { get; }
-    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
+    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS(Data.ToArray()) : new SAV4HGSS();
 
     public override GameVersion Version { get => GameVersion.HGSS; set { } }
     public override PersonalTable4 Personal => PersonalTable.HGSS;
@@ -53,7 +53,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         GetSAVOffsets();
     }
 
-    protected override byte[] GetFinalData()
+    protected override Memory<byte> GetFinalData()
     {
         // Make sure all boxes are copied when saved only once in-game.
         // This results in the game "saving a lot of data", but ensures the boxdata struct does not corrupt in-game on single save.
@@ -77,6 +77,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         FashionCase = 0x3F64;
         OFS_Record = 0x4B3C;
         OFS_Chatter = 0x4E74;
+        OFS_Groups = 0x440C;
         Geonet = 0x8D44;
         WondercardFlags = 0x9D3C;
         Seal = 0x4E20;
@@ -176,6 +177,13 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         Storage[GetBoxWallpaperOffset(box)] = (byte)value;
     }
     #endregion
+
+    protected override void SetPKM(PKM pk, bool isParty = false)
+    {
+        base.SetPKM(pk, isParty);
+        if (!isParty)
+            ((PK4)pk).WalkingMood = 0;
+    }
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {
@@ -327,7 +335,9 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     // Swarm
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x68A8..]); set => WriteUInt32LittleEndian(General[0x68A8..], value); }
     public override uint SwarmMaxCountModulo => 20;
+
     public override int BP { get => ReadUInt16LittleEndian(General[0x5BB8..]); set => WriteUInt16LittleEndian(General[0x5BB8..], (ushort)value); }
+    public override uint BattleTowerSeed { get => ReadUInt32LittleEndian(General[0x5BBC..]); set => WriteUInt32LittleEndian(General[0x5BBC..], value); }
 
     // Roamers
     public Roamer4 RoamerRaikou => GetRoamer(0);

@@ -49,7 +49,7 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
     /// <summary>
     /// Post-game boosts all levels to a minimum of 60.
     /// </summary>
-    public const int BoostLevel = 60;
+    public const byte BoostLevel = 60;
 
     public static bool IsWildArea(ushort location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
     public static bool IsBoostedArea60(ushort location) => IsWildArea(location);

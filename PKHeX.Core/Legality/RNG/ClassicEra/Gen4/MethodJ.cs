@@ -101,6 +101,12 @@ public static class MethodJ
         }
     }
 
+    /// <summary>
+    /// Indicates if the encounter cannot be triggered via Sweet Scent, and must be triggered via random means.
+    /// </summary>
+    /// <remarks>
+    /// For Honey Trees, there's slightly special logic needing this to return true to handle in the same branch as non-Sweet Scent encounters.
+    /// </remarks>
     public static bool IsEncounterCheckApplicable(SlotType4 type) => type is HoneyTree || type.IsFishingRodType();
 
     /// <inheritdoc cref="MethodK.SkipToLevelRand{T}"/>
@@ -472,9 +478,9 @@ public static class MethodJ
 
     private static bool IsOriginalLevelValid(byte min, byte max, byte format, uint level)
     {
-        if (format == Format)
+        if (format == Format && min > 1)
             return level == min; // Met Level matches
-        return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
+        return LevelRangeExtensions.IsLevelWithinRange((byte)level, min, max);
     }
 
     public static uint GetRandomLevel<T>(T enc, uint seed, LeadRequired lead) where T : IEncounterSlot4

@@ -1,16 +1,17 @@
 using PKHeX.Core;
 using PKHeX.Core.Searching;
+using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Controls;
+using PKHeX.WinForms.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PKHeX.Drawing.PokeSprite;
-using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -102,6 +103,8 @@ public partial class SAV_Encounters : Form
         L_Count.Text = "Ready...";
 
         CenterToParent();
+        CB_Species.Select();
+        CheckIsSearchDisallowed();
     }
 
     private void GetTypeFilters()
@@ -120,6 +123,15 @@ public partial class SAV_Encounters : Form
         {
             TypeFilters.Controls.Add(chk);
             TypeFilters.SetFlowBreak(chk, true);
+            chk.Click += (_, _) =>
+            {
+                if ((ModifierKeys & Keys.Shift) != 0)
+                {
+                    foreach (var c in TypeFilters.Controls.OfType<CheckBox>())
+                        c.Checked = c == chk;
+                }
+            };
+            chk.CheckStateChanged += (_, _) => CheckIsSearchDisallowed();
         }
     }
 
@@ -165,7 +177,15 @@ public partial class SAV_Encounters : Form
         var enc = Results[index];
         var criteria = GetCriteria(enc, Main.Settings.EncounterDb);
         var trainer = Trainers.GetTrainer(enc.Version, enc.Generation <= 2 ? (LanguageID)SAV.Language : null) ?? SAV;
-        var pk = enc.ConvertToPKM(trainer, criteria);
+        var temp = enc.ConvertToPKM(trainer, criteria);
+        var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out var c);
+        if (pk is null)
+        {
+            WinFormsUtil.Error(c.GetDisplayString(temp, SAV.PKMType));
+            return;
+        }
+
+        SAV.AdaptToSaveFile(pk);
         pk.RefreshChecksum();
         PKME_Tabs.PopulateFields(pk, false);
         slotSelected = index;
@@ -173,7 +193,7 @@ public partial class SAV_Encounters : Form
         FillPKXBoxes(SCR_Box.Value);
     }
 
-    private EncounterCriteria GetCriteria(ISpeciesForm enc, EncounterDatabaseSettings settings)
+    private EncounterCriteria GetCriteria(IEncounterTemplate enc, EncounterDatabaseSettings settings)
     {
         if (!settings.UseTabsAsCriteria)
             return EncounterCriteria.Unrestricted;
@@ -193,6 +213,8 @@ public partial class SAV_Encounters : Form
         var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo, mutations);
         if (!isInChain)
             criteria = criteria with { Gender = Gender.Random }; // Genderless tabs and a gendered enc -> let's play safe.
+        if (editor.Context.IsHyperTrainingAvailable(100))
+            criteria = criteria.ReviseIVsHyperTrainAvailable();
         return criteria;
     }
 
@@ -203,12 +225,16 @@ public partial class SAV_Encounters : Form
         CB_GameOrigin.InitializeBinding();
 
         var Any = new ComboItem(MsgAny, 0);
-
-        var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
-        DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;
+        var filtered = GameInfo.FilteredSources;
+        var source = filtered.Source;
+        var species = new List<ComboItem>(source.SpeciesDataSource)
+        {
+            [0] = Any // Replace (None) with "Any"
+        };
+        CB_Species.DataSource = species;
 
         // Set the Move ComboBoxes too.
-        var DS_Move = new List<ComboItem>(GameInfo.MoveDataSource);
+        var DS_Move = new List<ComboItem>(filtered.Moves);
         DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
         {
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
@@ -218,7 +244,7 @@ public partial class SAV_Encounters : Form
             }
         }
 
-        var DS_Version = new List<ComboItem>(GameInfo.VersionDataSource);
+        var DS_Version = new List<ComboItem>(source.VersionDataSource);
         DS_Version.Insert(0, Any);
         DS_Version.RemoveAt(DS_Version.Count - 1);
         CB_GameOrigin.DataSource = DS_Version;
@@ -248,7 +274,7 @@ public partial class SAV_Encounters : Form
         var settings = GetSearchSettings();
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-        if (settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+        if (DisallowSearch(settings))
             return [];
         var pk = SAV.BlankPKM;
 
@@ -286,13 +312,20 @@ public partial class SAV_Encounters : Form
         return results;
     }
 
+    private bool DisallowSearch(SearchSettings settings)
+    {
+        if (TypeFilters.Controls.OfType<CheckBox>().All(z => !z.Checked))
+            return false; // no types selected
+        return settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch;
+    }
+
     private static IEnumerable<ushort> GetFullRange(int max)
     {
         for (ushort i = 1; i <= max; i++)
             yield return i;
     }
 
-    private IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<ushort> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, ReadOnlyMemory<ushort> moves, PKM pk, CancellationToken token)
+    private IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<ushort> species, IPersonalTable pt, ReadOnlyMemory<GameVersion> versions, ReadOnlyMemory<ushort> moves, PKM pk, CancellationToken token)
     {
         foreach (var s in species)
         {
@@ -320,7 +353,7 @@ public partial class SAV_Encounters : Form
 
     private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class
     {
-        public bool Equals(T? x, T? y)
+        public bool Equals([NotNullWhen(true)] T? x, [NotNullWhen(true)] T? y)
         {
             if (x is null)
                 return false;
@@ -332,7 +365,7 @@ public partial class SAV_Encounters : Form
         public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
     }
 
-    private IEnumerable<IEncounterInfo> GetEncounters(ushort species, byte form, ReadOnlyMemory<ushort> moves, PKM pk, IReadOnlyList<GameVersion> vers)
+    private IEnumerable<IEncounterInfo> GetEncounters(ushort species, byte form, ReadOnlyMemory<ushort> moves, PKM pk, ReadOnlyMemory<GameVersion> vers)
     {
         pk.Species = species;
         pk.Form = form;
@@ -499,5 +532,13 @@ public partial class SAV_Encounters : Form
         if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
         tb.AppendText(s);
+    }
+
+    private void CB_Species_SelectedIndexChanged(object sender, EventArgs e) => CheckIsSearchDisallowed();
+
+    private void CheckIsSearchDisallowed()
+    {
+        var settings = GetSearchSettings();
+        B_Search.Enabled = !DisallowSearch(settings);
     }
 }

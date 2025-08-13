@@ -1,4 +1,6 @@
 using System;
+using static PKHeX.Core.Ball;
+using static PKHeX.Core.PersonalColor;
 
 namespace PKHeX.Core;
 
@@ -25,9 +27,9 @@ public static class PersonalColorUtil
 
     public static ReadOnlySpan<Ball> GetPreferredByColor(IEncounterTemplate enc) => GetPreferredByColor(enc, GetColor(enc));
 
-    public static ReadOnlySpan<Ball> GetPreferredByColor<T>(T enc, PersonalColor color) where T : IVersion
+    public static ReadOnlySpan<Ball> GetPreferredByColor<T>(T enc, PersonalColor color) where T : IContext
     {
-        if (enc.Version is GameVersion.PLA)
+        if (enc.Context is EntityContext.Gen8a)
             return GetPreferredByColorLA(color);
         return GetPreferredByColor(color);
     }
@@ -37,29 +39,29 @@ public static class PersonalColorUtil
     /// </summary>
     public static ReadOnlySpan<Ball> GetPreferredByColor(PersonalColor color) => color switch
     {
-        PersonalColor.Red => [Ball.Repeat, Ball.Fast, Ball.Heal, Ball.Great, Ball.Dream, Ball.Lure],
-        PersonalColor.Blue => [Ball.Dive, Ball.Net, Ball.Great, Ball.Lure, Ball.Beast],
-        PersonalColor.Yellow => [Ball.Level, Ball.Ultra, Ball.Repeat, Ball.Quick, Ball.Moon],
-        PersonalColor.Green => [Ball.Safari, Ball.Friend, Ball.Nest, Ball.Dusk],
-        PersonalColor.Black => [Ball.Luxury, Ball.Heavy, Ball.Ultra, Ball.Moon, Ball.Net, Ball.Beast],
-        PersonalColor.Brown => [Ball.Level, Ball.Heavy],
-        PersonalColor.Purple => [Ball.Master, Ball.Love, Ball.Heal, Ball.Dream],
-        PersonalColor.Gray => [Ball.Heavy, Ball.Premier, Ball.Luxury],
-        PersonalColor.White => [Ball.Premier, Ball.Timer, Ball.Luxury, Ball.Ultra],
-        _ => [Ball.Love, Ball.Heal, Ball.Dream],
+        Red => [Repeat, Fast, Heal, Great, Dream, Lure],
+        Blue => [Dive, Net, Great, Lure, Beast],
+        Yellow => [Level, Ultra, Repeat, Quick, Moon],
+        Green => [Safari, Friend, Nest, Dusk],
+        Black => [Luxury, Heavy, Ultra, Moon, Net, Beast],
+        Brown => [Level, Heavy],
+        Purple => [Master, Love, Heal, Dream],
+        Gray => [Heavy, Premier, Luxury],
+        White => [Premier, Timer, Luxury, Ultra],
+        _ => [Love, Heal, Dream],
     };
 
     public static ReadOnlySpan<Ball> GetPreferredByColorLA(PersonalColor color) => color switch
     {
-        PersonalColor.Red => [Ball.LAPoke],
-        PersonalColor.Blue => [Ball.LAFeather, Ball.LAGreat, Ball.LAJet],
-        PersonalColor.Yellow => [Ball.LAUltra],
-        PersonalColor.Green => [Ball.LAPoke],
-        PersonalColor.Black => [Ball.LAGigaton, Ball.LALeaden, Ball.LAHeavy, Ball.LAUltra],
-        PersonalColor.Brown => [Ball.LAPoke],
-        PersonalColor.Purple => [Ball.LAPoke],
-        PersonalColor.Gray => [Ball.LAGigaton, Ball.LALeaden, Ball.LAHeavy],
-        PersonalColor.White => [Ball.LAWing, Ball.LAJet],
-        _ => [Ball.LAPoke],
+        Red => [LAPoke],
+        Blue => [LAFeather, LAGreat, LAJet],
+        Yellow => [LAUltra],
+        Green => [LAPoke],
+        Black => [LAGigaton, LALeaden, LAHeavy, LAUltra],
+        Brown => [LAPoke],
+        Purple => [LAPoke],
+        Gray => [LAGigaton, LALeaden, LAHeavy],
+        White => [LAWing, LAJet],
+        _ => [LAPoke],
     };
 }

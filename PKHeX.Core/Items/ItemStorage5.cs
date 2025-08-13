@@ -2,9 +2,12 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen5"/>
+/// </summary>
 public abstract class ItemStorage5
 {
-    private protected static ReadOnlySpan<ushort> Pouch_Items_BW =>
+    public static ReadOnlySpan<ushort> General =>
     [
             01, 02, 03, 04, 05, 06, 07, 08, 09,
         10, 11, 12, 13, 14, 15, 16,
@@ -41,7 +44,7 @@ public abstract class ItemStorage5
         590,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_TMHM_BW =>
+    public static ReadOnlySpan<ushort> Machine =>
     [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -59,7 +62,7 @@ public abstract class ItemStorage5
         420, 421, 422, 423, 424, 425,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Medicine_BW =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
                                     17, 18, 19,
         20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -72,7 +75,7 @@ public abstract class ItemStorage5
         570, 591,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Berries_BW =>
+    public static ReadOnlySpan<ushort> Berry =>
     [
                                                      149,
         150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
@@ -105,5 +108,5 @@ public abstract class ItemStorage5
         576, // Dream Ball
     ];
 
-    public static ushort[] GetAllHeld() => [..Pouch_Items_BW, ..Pouch_Medicine_BW, ..Pouch_Berries_BW];
+    public static ushort[] GetAllHeld() => [..General, ..Medicine, ..Berry];
 }

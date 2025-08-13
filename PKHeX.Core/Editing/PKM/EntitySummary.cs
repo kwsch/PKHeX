@@ -22,7 +22,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string Nature => Get(Strings.natures, (byte)Entity.StatNature);
     public string Gender => Get(GenderSymbols, Entity.Gender);
     public string ESV => Entity.PSV.ToString("0000");
-    public string HP_Type => Get(Strings.types, Entity.HPType + 1);
+    public string HP_Type => GetSpan(Strings.HiddenPowerTypes, Entity.HPType);
     public string Ability => Get(Strings.abilitylist, Entity.Ability);
     public string Move1 => Get(Strings.movelist, Entity.Move1);
     public string Move2 => Get(Strings.movelist, Entity.Move2);
@@ -41,7 +41,10 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string OT => Entity.OriginalTrainerName;
     public string Version => Get(Strings.gamelist, (int)Entity.Version);
     public string OTLang => ((LanguageID)Entity.Language).ToString();
-    public string Legal { get { var la = new LegalityAnalysis(Entity); return la.Parsed ? la.Valid.ToString() : "-"; } }
+    public string Legal => Legality.Parsed ? Legality.Valid.ToString() : "-";
+    public string EncounterType => Legality.EncounterMatch.LongName;
+
+    private LegalityAnalysis Legality { get; }
 
     #region Extraneous
     public string EC => Entity.EncryptionConstant.ToString("X8");
@@ -53,7 +56,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public int IV_SPD => Entity.IV_SPD;
     public int IV_SPE => Entity.IV_SPE;
     public uint EXP => Entity.EXP;
-    public int Level => Entity.CurrentLevel;
+    public byte Level => Entity.CurrentLevel;
     public int EV_HP => Entity.EV_HP;
     public int EV_ATK => Entity.EV_ATK;
     public int EV_DEF => Entity.EV_DEF;
@@ -74,7 +77,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public byte Form => Entity.Form;
     public int PokerusStrain => Entity.PokerusStrain;
     public int PokerusDays => Entity.PokerusDays;
-    public int MetLevel => Entity.MetLevel;
+    public byte MetLevel => Entity.MetLevel;
     public byte OriginalTrainerGender => Entity.OriginalTrainerGender;
 
     public bool FatefulEncounter => Entity.FatefulEncounter;
@@ -97,7 +100,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public string Relearn2 => Get(Strings.movelist, Entity.RelearnMove2);
     public string Relearn3 => Get(Strings.movelist, Entity.RelearnMove3);
     public string Relearn4 => Get(Strings.movelist, Entity.RelearnMove4);
-    public ushort Checksum => Entity is ISanityChecksum s ? s.Checksum : Checksums.CRC16_CCITT(Entity.Data.AsSpan(Entity.SIZE_STORED));
+    public ushort Checksum => Entity is ISanityChecksum s ? s.Checksum : Checksums.CRC16_CCITT(Entity.Data[Entity.SIZE_STORED..]);
     public int Friendship => Entity.OriginalTrainerFriendship;
     public int EggYear => Entity.EggMetDate.GetValueOrDefault().Year;
     public int EggMonth => Entity.EggMetDate.GetValueOrDefault().Month;
@@ -113,6 +116,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
         Entity = pk;
         Strings = strings;
         Stats = Entity.GetStats(Entity.PersonalInfo);
+        Legality = new LegalityAnalysis(Entity);
     }
 
     /// <summary>

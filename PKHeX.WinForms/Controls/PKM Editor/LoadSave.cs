@@ -25,8 +25,8 @@ public partial class PKMEditor
         {
             // Sanity check level and EXP
             var current = pk.CurrentLevel;
-            if (current == 100) // clamp back to max EXP
-                pk.CurrentLevel = 100;
+            if (current == Experience.MaxLevel) // clamp back to max EXP
+                pk.CurrentLevel = Experience.MaxLevel;
         }
 
         CB_Species.SelectedValue = (int)pk.Species;
@@ -330,7 +330,7 @@ public partial class PKMEditor
         LoadRelearnMoves(pk);
         LoadHandlingTrainer(pk);
 
-        if (pk is IRegionOrigin tr)
+        if (pk is IRegionOriginReadOnly tr)
             LoadGeolocation(tr);
     }
 
@@ -349,7 +349,7 @@ public partial class PKMEditor
             SaveGeolocation(tr);
     }
 
-    private void LoadGeolocation(IRegionOrigin pk)
+    private void LoadGeolocation(IRegionOriginReadOnly pk)
     {
         CB_Country.SelectedValue = (int)pk.Country;
         CB_SubRegion.SelectedValue = (int)pk.Region;

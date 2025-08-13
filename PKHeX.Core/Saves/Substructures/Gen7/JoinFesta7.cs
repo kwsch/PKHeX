@@ -73,7 +73,7 @@ public sealed class JoinFesta7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav
 
     public DateTime? FestaDate
     {
-        get => FestaYear >= 0 && FestaMonth > 0 && FestaDay > 0 && FestaHour >= 0 && FestaMinute >= 0 && FestaSecond >= 0 && DateUtil.IsDateValid(FestaYear, FestaMonth, FestaDay)
+        get => FestaYear >= 0 && FestaMonth > 0 && FestaDay > 0 && FestaHour >= 0 && FestaMinute >= 0 && FestaSecond >= 0 && DateUtil.IsValidDate(FestaYear, FestaMonth, FestaDay)
             ? new DateTime(FestaYear, FestaMonth, FestaDay, FestaHour, FestaMinute, FestaSecond)
             : null;
         set

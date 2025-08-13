@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Iterates to find potentially matched encounters for <see cref="GameVersion.SWSH"/>.
+/// Iterates to find potentially matched encounters for <see cref="EntityContext.Gen8"/>.
 /// </summary>
 public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {
@@ -91,7 +91,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                 return SetCurrent(egg);
             case YieldState.BredSplit:
                 State = YieldState.End;
-                if (EncounterGenerator8.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
+                if (EncounterGenerator8.TryGetSplit((EncounterEgg8)Current.Encounter, Chain, out egg))
                     return SetCurrent(egg);
                 break;
 

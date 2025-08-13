@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon XD. </summary>
-public sealed class XK3 : G3PKM, IShadowCapture
+public sealed class XK3 : G3PKM, IShadowCapture, ISeparateIVs, IGCRegion
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -19,25 +19,25 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
     public override EntityContext Context => EntityContext.Gen3;
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
-    public XK3(byte[] data) : base(data) { }
+    public XK3(Memory<byte> data) : base(data) { }
     public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
-    public override XK3 Clone() => new((byte[])Data.Clone()) { Purification = Purification, IsShadow = IsShadow };
+    public override XK3 Clone() => new(Data.ToArray()) { Purification = Purification, IsShadow = IsShadow };
     public override void RefreshChecksum() => Valid = true;
 
     // Trash Bytes
-    public override Span<byte> OriginalTrainerTrash => Data.AsSpan(0x38, 22);
-    public Span<byte> NicknameDisplayTrash => Data.AsSpan(0x4E, 22);
-    public override Span<byte> NicknameTrash => Data.AsSpan(0x64, 22);
+    public override Span<byte> OriginalTrainerTrash => Data.Slice(0x38, 22);
+    public Span<byte> NicknameDisplayTrash => Data.Slice(0x4E, 22);
+    public override Span<byte> NicknameTrash => Data.Slice(0x64, 22);
     public override int TrashCharCountTrainer => 11;
     public override int TrashCharCountNickname => 11;
 
-    public override ushort SpeciesInternal { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
+    public override ushort SpeciesInternal { get => ReadUInt16BigEndian(Data); set => WriteUInt16BigEndian(Data, value); } // raw access
     public override ushort Species { get => SpeciesConverter.GetNational3(SpeciesInternal); set => SpeciesInternal = SpeciesConverter.GetInternal3(value); }
     public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
-    public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x02)); set => WriteUInt16BigEndian(Data.AsSpan(0x02), (ushort)value); }
-    public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt16BigEndian(Data.AsSpan(0x04), (ushort)value); }
-    public override byte OriginalTrainerFriendship { get => (byte)ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), value); }
-    public override ushort MetLocation { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), value); }
+    public override int HeldItem { get => ReadUInt16BigEndian(Data[0x02..]); set => WriteUInt16BigEndian(Data[0x02..], (ushort)value); }
+    public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data[0x04..]); set => WriteUInt16BigEndian(Data[0x04..], (ushort)value); }
+    public override byte OriginalTrainerFriendship { get => (byte)ReadUInt16BigEndian(Data[0x06..]); set => WriteUInt16BigEndian(Data[0x06..], value); }
+    public override ushort MetLocation { get => ReadUInt16BigEndian(Data[0x08..]); set => WriteUInt16BigEndian(Data[0x08..], value); }
     // 0x0A-0x0B Unknown
     // 0x0C-0x0D Unknown
     public override byte MetLevel { get => Data[0x0E]; set => Data[0x0E] = value; }
@@ -59,11 +59,11 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override bool AbilityBit { get => (XDPKMFLAGS & (1 << 6)) == 1 << 6; set => XDPKMFLAGS = (XDPKMFLAGS & ~(1 << 6)) | (value ? 1 << 6 : 0); }
     public override bool IsEgg      { get => (XDPKMFLAGS & (1 << 7)) == 1 << 7; set => XDPKMFLAGS = (XDPKMFLAGS & ~(1 << 7)) | (value ? 1 << 7 : 0); }
     // 0x1E-0x1F Unknown
-    public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x20)); set => WriteUInt32BigEndian(Data.AsSpan(0x20), value); }
-    public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0x24)); set => WriteUInt32BigEndian(Data.AsSpan(0x24), value); }
-    public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), value); }
-    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), value); }
-    public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x28)); set => WriteUInt32BigEndian(Data.AsSpan(0x28), value); }
+    public override uint EXP { get => ReadUInt32BigEndian(Data[0x20..]); set => WriteUInt32BigEndian(Data[0x20..], value); }
+    public override uint ID32 { get => ReadUInt32BigEndian(Data[0x24..]); set => WriteUInt32BigEndian(Data[0x24..], value); }
+    public override ushort SID16 { get => ReadUInt16BigEndian(Data[0x24..]); set => WriteUInt16BigEndian(Data[0x24..], value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data[0x26..]); set => WriteUInt16BigEndian(Data[0x26..], value); }
+    public override uint PID { get => ReadUInt32BigEndian(Data[0x28..]); set => WriteUInt32BigEndian(Data[0x28..], value); }
     // 0x2A-0x2B Unknown
     // 0x2C-0x2F Battle Related
     public bool Obedient { get => Data[0x30] == 1; set => Data[0x30] = value ? (byte)1 : (byte)0; }
@@ -102,7 +102,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     }
 
     // 0x7A-0x7B Unknown
-    private ushort RIB0 { get => ReadUInt16BigEndian(Data.AsSpan(0x7C)); set => WriteUInt16BigEndian(Data.AsSpan(0x7C), value); }
+    private ushort RIB0 { get => ReadUInt16BigEndian(Data[0x7C..]); set => WriteUInt16BigEndian(Data[0x7C..], value); }
     public override bool RibbonChampionG3        { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (value ? 1 << 15 : 0)); }
     public override bool RibbonWinning           { get => (RIB0 & (1 << 14)) == 1 << 14; set => RIB0 = (ushort)((RIB0 & ~(1 << 14)) | (value ? 1 << 14 : 0)); }
     public override bool RibbonVictory           { get => (RIB0 & (1 << 13)) == 1 << 13; set => RIB0 = (ushort)((RIB0 & ~(1 << 13)) | (value ? 1 << 13 : 0)); }
@@ -123,66 +123,73 @@ public sealed class XK3 : G3PKM, IShadowCapture
     // 0x7E-0x7F Unknown
 
     // Moves
-    public override ushort Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x80)); set => WriteUInt16BigEndian(Data.AsSpan(0x80), value); }
+    public override ushort Move1 { get => ReadUInt16BigEndian(Data[0x80..]); set => WriteUInt16BigEndian(Data[0x80..], value); }
     public override int Move1_PP { get => Data[0x82]; set => Data[0x82] = (byte)value; }
     public override int Move1_PPUps { get => Data[0x83]; set => Data[0x83] = (byte)value; }
-    public override ushort Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x84)); set => WriteUInt16BigEndian(Data.AsSpan(0x84), value); }
+    public override ushort Move2 { get => ReadUInt16BigEndian(Data[0x84..]); set => WriteUInt16BigEndian(Data[0x84..], value); }
     public override int Move2_PP { get => Data[0x86]; set => Data[0x86] = (byte)value; }
     public override int Move2_PPUps { get => Data[0x87]; set => Data[0x87] = (byte)value; }
-    public override ushort Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x88)); set => WriteUInt16BigEndian(Data.AsSpan(0x88), value); }
+    public override ushort Move3 { get => ReadUInt16BigEndian(Data[0x88..]); set => WriteUInt16BigEndian(Data[0x88..], value); }
     public override int Move3_PP { get => Data[0x8A]; set => Data[0x8A] = (byte)value; }
     public override int Move3_PPUps { get => Data[0x8B]; set => Data[0x8B] = (byte)value; }
-    public override ushort Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x8C)); set => WriteUInt16BigEndian(Data.AsSpan(0x8C), value); }
+    public override ushort Move4 { get => ReadUInt16BigEndian(Data[0x8C..]); set => WriteUInt16BigEndian(Data[0x8C..], value); }
     public override int Move4_PP { get => Data[0x8E]; set => Data[0x8E] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x8F]; set => Data[0x8F] = (byte)value; }
 
     // More party stats
-    public override int Stat_HPMax { get => ReadUInt16BigEndian(Data.AsSpan(0x90)); set => WriteUInt16BigEndian(Data.AsSpan(0x90), (ushort)value); }
-    public override int Stat_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x92)); set => WriteUInt16BigEndian(Data.AsSpan(0x92), (ushort)value); }
-    public override int Stat_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x94)); set => WriteUInt16BigEndian(Data.AsSpan(0x94), (ushort)value); }
-    public override int Stat_SPA { get => ReadUInt16BigEndian(Data.AsSpan(0x96)); set => WriteUInt16BigEndian(Data.AsSpan(0x96), (ushort)value); }
-    public override int Stat_SPD { get => ReadUInt16BigEndian(Data.AsSpan(0x98)); set => WriteUInt16BigEndian(Data.AsSpan(0x98), (ushort)value); }
-    public override int Stat_SPE { get => ReadUInt16BigEndian(Data.AsSpan(0x9A)); set => WriteUInt16BigEndian(Data.AsSpan(0x9A), (ushort)value); }
+    public override int Stat_HPMax { get => ReadUInt16BigEndian(Data[0x90..]); set => WriteUInt16BigEndian(Data[0x90..], (ushort)value); }
+    public override int Stat_ATK { get => ReadUInt16BigEndian(Data[0x92..]); set => WriteUInt16BigEndian(Data[0x92..], (ushort)value); }
+    public override int Stat_DEF { get => ReadUInt16BigEndian(Data[0x94..]); set => WriteUInt16BigEndian(Data[0x94..], (ushort)value); }
+    public override int Stat_SPA { get => ReadUInt16BigEndian(Data[0x96..]); set => WriteUInt16BigEndian(Data[0x96..], (ushort)value); }
+    public override int Stat_SPD { get => ReadUInt16BigEndian(Data[0x98..]); set => WriteUInt16BigEndian(Data[0x98..], (ushort)value); }
+    public override int Stat_SPE { get => ReadUInt16BigEndian(Data[0x9A..]); set => WriteUInt16BigEndian(Data[0x9A..], (ushort)value); }
 
     // EVs
     public override int EV_HP
     {
-        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data.AsSpan(0x9C)));
-        set => WriteUInt16BigEndian(Data.AsSpan(0x9C), (ushort)(value & 0xFF));
+        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data[0x9C..]));
+        set => WriteUInt16BigEndian(Data[0x9C..], (ushort)(value & 0xFF));
     }
 
     public override int EV_ATK
     {
-        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data.AsSpan(0x9E)));
-        set => WriteUInt16BigEndian(Data.AsSpan(0x9E), (ushort)(value & 0xFF));
+        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data[0x9E..]));
+        set => WriteUInt16BigEndian(Data[0x9E..], (ushort)(value & 0xFF));
     }
 
     public override int EV_DEF
     {
-        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data.AsSpan(0xA0)));
-        set => WriteUInt16BigEndian(Data.AsSpan(0xA0), (ushort)(value & 0xFF));
+        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data[0xA0..]));
+        set => WriteUInt16BigEndian(Data[0xA0..], (ushort)(value & 0xFF));
     }
 
     public override int EV_SPA
     {
-        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data.AsSpan(0xA2)));
-        set => WriteUInt16BigEndian(Data.AsSpan(0xA2), (ushort)(value & 0xFF));
+        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data[0xA2..]));
+        set => WriteUInt16BigEndian(Data[0xA2..], (ushort)(value & 0xFF));
     }
 
     public override int EV_SPD
     {
-        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data.AsSpan(0xA4)));
-        set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)(value & 0xFF));
+        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data[0xA4..]));
+        set => WriteUInt16BigEndian(Data[0xA4..], (ushort)(value & 0xFF));
     }
 
     public override int EV_SPE
     {
-        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data.AsSpan(0xA6)));
-        set => WriteUInt16BigEndian(Data.AsSpan(0xA6), (ushort)(value & 0xFF));
+        get => Math.Min(byte.MaxValue, ReadUInt16BigEndian(Data[0xA6..]));
+        set => WriteUInt16BigEndian(Data[0xA6..], (ushort)(value & 0xFF));
     }
 
     // IVs
-    public override int IV_HP { get => Data[0xA8]; set => Data[0xA8] = (byte)(value & 0x1F); }
+    byte ISeparateIVs.IV_HP  { get => Data[0xA8]; set => Data[0xA8] = value; }
+    byte ISeparateIVs.IV_ATK { get => Data[0xA9]; set => Data[0xA9] = value; }
+    byte ISeparateIVs.IV_DEF { get => Data[0xAA]; set => Data[0xAA] = value; }
+    byte ISeparateIVs.IV_SPA { get => Data[0xAB]; set => Data[0xAB] = value; }
+    byte ISeparateIVs.IV_SPD { get => Data[0xAC]; set => Data[0xAC] = value; }
+    byte ISeparateIVs.IV_SPE { get => Data[0xAD]; set => Data[0xAD] = value; }
+
+    public override int IV_HP  { get => Data[0xA8]; set => Data[0xA8] = (byte)(value & 0x1F); }
     public override int IV_ATK { get => Data[0xA9]; set => Data[0xA9] = (byte)(value & 0x1F); }
     public override int IV_DEF { get => Data[0xAA]; set => Data[0xAA] = (byte)(value & 0x1F); }
     public override int IV_SPA { get => Data[0xAB]; set => Data[0xAB] = (byte)(value & 0x1F); }
@@ -201,7 +208,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override byte RibbonCountG3Smart  { get => Data[0xB6]; set => Data[0xB6] = value; }
     public override byte RibbonCountG3Tough  { get => Data[0xB7]; set => Data[0xB7] = value; }
 
-    public ushort ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xBA)); set => WriteUInt16BigEndian(Data.AsSpan(0xBA), value); }
+    public ushort ShadowID { get => ReadUInt16BigEndian(Data[0xBA..]); set => WriteUInt16BigEndian(Data[0xBA..], value); }
 
     // Purification information is stored in the save file and accessed based on the Shadow ID.
     public int Purification { get; set; }
@@ -211,10 +218,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
 
     public bool IsShadow { get; internal set; } // determined by savedata, not written back to sav
 
-    protected override byte[] Encrypt()
-    {
-        return (byte[])Data.Clone();
-    }
+    protected override byte[] Encrypt() => Data.ToArray();
 
     public PK3 ConvertToPK3()
     {
@@ -246,12 +250,55 @@ public sealed class XK3 : G3PKM, IShadowCapture
         _ => false,
     };
 
+    // render original string if possible
     public override string GetString(ReadOnlySpan<byte> data)
-        => StringConverter3GC.GetString(data);
+    {
+        var current = CurrentRegion;
+        if (current == GCRegion.NoRegion)
+            return StringConverter3GC.GetString(data); // don't bother
+        var language = Language;
+        if (CurrentRegion == GCRegion.NTSC_J == (language == 1)) // treat PAL and NTSC_U as equivalent
+            return StringConverter3GC.GetString(data); // no remap needed
+
+        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
+        Span<byte> remap = stackalloc byte[data.Length];
+        data.CopyTo(remap);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(remap, current, expect, language);
+        return StringConverter3GC.GetString(remap);
+    }
+
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
-        => StringConverter3GC.LoadString(data, destBuffer);
+    {
+        var current = CurrentRegion;
+        if (current == GCRegion.NoRegion)
+            return StringConverter3GC.LoadString(data, destBuffer); // don't bother
+        var language = Language;
+        if (CurrentRegion == GCRegion.NTSC_J == (language == 1)) // treat PAL and NTSC_U as equivalent
+            return StringConverter3GC.LoadString(data, destBuffer); // no remap needed
+
+        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
+        Span<byte> remap = stackalloc byte[data.Length];
+        data.CopyTo(remap);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(remap, current, expect, language);
+        return StringConverter3GC.LoadString(remap, destBuffer);
+    }
+
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-        => StringConverter3GC.SetString(destBuffer, value, maxLength, option);
+    {
+        var current = CurrentRegion;
+        if (current == GCRegion.NoRegion)
+            return StringConverter3GC.SetString(destBuffer, value, maxLength, option); // don't bother
+        var language = Language;
+        if (CurrentRegion == GCRegion.NTSC_J == (language == 1)) // treat PAL and NTSC_U as equivalent
+            return StringConverter3GC.SetString(destBuffer, value, maxLength, option); // no remap needed
+
+        var expect = language == 1 ? GCRegion.NTSC_J : GCRegion.NTSC_U;
+        // ensure glyphs match the transfer route
+        var result = StringConverter3GC.SetString(destBuffer, value, maxLength, option);
+        StringConverter3GC.RemapGlyphsBetweenRegions3GC(destBuffer[..result], expect, current, language);
+        return result;
+    }
+
     public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
         => TrashBytesUTF16.GetTerminatorIndex(data, StringConverter3GC.TerminatorBigEndian);
     public override int GetStringLength(ReadOnlySpan<byte> data)

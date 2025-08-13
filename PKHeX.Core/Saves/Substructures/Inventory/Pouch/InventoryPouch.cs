@@ -99,7 +99,7 @@ public abstract class InventoryPouch
             arr[ctr++] = arr[i]; // absorb down
         }
         while (ctr < arr.Length)
-            arr[ctr++].Clear();
+            arr[ctr++] = GetEmpty();
     }
 
     /// <summary>
@@ -280,7 +280,8 @@ public abstract class InventoryPouch
             return false;
         }
 
-        count = GetSuggestedItemCount(sav, item, count);
+        if (count > 0)
+            count = GetSuggestedItemCount(sav, item, count);
         return true;
     }
 

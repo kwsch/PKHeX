@@ -1,9 +1,9 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Time of Day enumeration used for <see cref="GameVersion.PLA"/> Pokédex entries.
 /// </summary>
-public enum PokedexTimeOfDay8a
+public enum PokedexTimeOfDay8a : byte
 {
     Morning = 0,
     Midday = 1,

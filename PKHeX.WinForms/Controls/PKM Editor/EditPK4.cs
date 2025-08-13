@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
@@ -25,6 +25,7 @@ public partial class PKMEditor
 
         // Minor properties
         ShinyLeaf.SetValue(pk4.ShinyLeaf);
+        NUD_WalkingMood.Value = pk4.WalkingMood;
 
         LoadPartyStats(pk4);
         UpdateStats();
@@ -44,6 +45,7 @@ public partial class PKMEditor
 
         // Minor properties
         pk4.ShinyLeaf = ShinyLeaf.GetValue();
+        pk4.WalkingMood = (sbyte)NUD_WalkingMood.Value;
 
         SavePartyStats(pk4);
         pk4.FixMoves();

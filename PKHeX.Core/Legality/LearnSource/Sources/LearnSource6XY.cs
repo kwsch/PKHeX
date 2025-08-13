@@ -12,8 +12,8 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
 {
     public static readonly LearnSource6XY Instance = new();
     private static readonly PersonalTable6XY Personal = PersonalTable.XY;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"u8));
-    private static readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"u8));
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
     private const LearnEnvironment Game = XY;
 
@@ -32,17 +32,19 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
-        return moves.GetHasEggMove(move);
+        var moves = arr[species];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return [];
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo6XY pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
@@ -50,15 +52,14 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+                return new(LevelUp, Game, level);
         }
 
-        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(TMHM_XY.IndexOf(move)))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(MachineMoves.IndexOf(move)))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(LearnSource5.TypeTutor567.IndexOf(move)))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(PersonalInfo5BW.TypeTutorMoves.IndexOf(move)))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -100,10 +101,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-            pi.SetAllLearnTM(result, TMHM_XY);
+            pi.SetAllLearnTM(result, MachineMoves);
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
-            pi.SetAllLearnTutorType(result, LearnSource5.TypeTutor567);
+            pi.SetAllLearnTutorType(result, PersonalInfo5BW.TypeTutorMoves);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
@@ -117,7 +118,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         }
     }
 
-    private static ReadOnlySpan<ushort> TMHM_XY =>
+    /// <summary>
+    /// Technical Machine moves corresponding to their index within TM bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMoves =>
     [
         468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 355, 219,

@@ -17,7 +17,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk, 3);
+        var chain = EncounterOrigin.GetOriginChain(pk, 3, EntityContext.Gen3);
         return GetEncounters(pk, chain, info);
     }
 
@@ -31,9 +31,11 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         {
             if (z is EncounterSlot3XD w)
             {
-                var pidiv = MethodFinder.GetPokeSpotSeedFirst(pk, w.SlotNumber);
-                if (pidiv.Type == PIDType.PokeSpot)
-                    info.PIDIV = pidiv;
+                if (MethodPokeSpot.TryGetOriginSeeds(pk, w, out var pid, out var ivs))
+                {
+                    const PIDType type = PIDType.PokeSpot;
+                    info.PIDIV = new PIDIV(type, pid).AsMutated(type, ivs);
+                }
             }
             else if (z is IShadow3 s)
             {
@@ -46,9 +48,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
             }
             static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
             {
+                // boolean results only from this set of games (no correlation confusion to be concerned with)
                 if (enc is IRandomCorrelation r)
-                    return r.IsCompatible(type, pk);
-                return type == PIDType.None;
+                    return r.IsCompatible(type, pk) == RandomCorrelationRating.Match;
+                return type is PIDType.None;
             }
 
             if (IsTypeCompatible(z, pk, info.PIDIV.Type))
@@ -73,11 +76,11 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
 
     private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, IShadow3 s) => s switch
     {
-        EncounterShadow3Colo { IsEReader: true } => GetIsShadowLockValidEReader(pk, info, s),
-        _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk),
+        EncounterShadow3Colo { IsEReader: true } c => GetIsShadowLockValidEReader(pk, info, c),
+        _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV.OriginSeed, pk),
     };
 
-    private static bool GetIsShadowLockValidEReader(PKM pk, LegalInfo info, IShadow3 s)
+    private static bool GetIsShadowLockValidEReader(PKM pk, LegalInfo info, EncounterShadow3Colo s)
     {
         // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
@@ -85,10 +88,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         var xdc = seeds[..count];
         foreach (var seed in xdc)
         {
-            var pidiv = new PIDIV(PIDType.CXD, XDRNG.Next4(seed));
-            if (!LockFinder.IsAllShadowLockValid(s, pidiv, pk))
+            var origin = XDRNG.Next4(seed);
+            if (!LockFinder.IsAllShadowLockValid(s, origin, pk))
                 continue;
-            info.PIDIV = pidiv;
+            info.PIDIV = new PIDIV(PIDType.CXD, origin);
             return true;
         }
 

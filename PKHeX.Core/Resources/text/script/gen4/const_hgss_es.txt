@@ -3,7 +3,7 @@
 0161	r	Perros (Torre Quemada)	0:Aparecido,1:Errante/Escapado
 0304	s	Estado Máximo Peñas	0:Muñeca Clefairy pendiente,1:Pendiente de conocer en Carmín (Lati@s pendiente),2:Conocido (Lati@s errante),3:Da a elegir inicial de Hoenn,4:Entrega inicial de Hoenn,5:Hablado con él en el Museo de Plateada,6:Quiere intercambiar en Silph S.A.,7:Intercambio por Beldum
 0067	e	Piedra Enigma	0:Sin activar,1778:Activa
-0249	e	Torre Oculta	0:Sin recibir inicial de Kanto,1:Obtenido inicial de Kanto,2:Orbe obtenido,3:Kyogre/Groudon activado,4:Kyogre/Groudon desaparecido,6:Rayquaza activado,7:Rayquaza capturado,9:Rayquaza desaparecido
+0249	e	Torre Oculta	0:Sin recibir inicial de Kanto,1:Obtenido inicial de Kanto,2:Orbe obtenido,3:Kyogre/Groudon activado,4:Kyogre/Groudon desaparecido,5:Recibido Esfera Verde,6:Rayquaza activado,7:Rayquaza capturado,8:Evento completado,9:Rayquaza desaparecido
 0251	e	Ruinas Sinjoh	1:Sin entra,4:Teletransportado (1ra),5:Salido fuera,6:Cynthia hablable (cabaña),7:Cynthia hablable,8:Antes de elegir legendario,10:Obtenido primer legendario,13:Teletransportado (2da),14:Obtenido segundo legendario
 0259	r	Legendario de Sinnoh (1er)	1:Dialga,2:Palkia,3:Giratina
 0258	r	Teletransportable (2do) Arceus	1:Sala Origen,2:Encuentro fatídico

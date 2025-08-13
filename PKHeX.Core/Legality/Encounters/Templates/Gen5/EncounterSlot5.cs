@@ -1,7 +1,9 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.Gen5"/>.
+/// Encounter Slot found in <see cref="EntityContext.Gen5"/>.
 /// </summary>
 public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>
@@ -28,13 +30,13 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
     {
         HiddenAbilityPermission.Never => AbilityPermission.Any12,
         HiddenAbilityPermission.Always => AbilityPermission.OnlyHidden,
-        _ => AbilityPermission.Any12H,
+        _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private bool IsDeferredHiddenAbility(bool IsHidden) => IsHiddenAbilitySlot() switch
+    private bool IsDeferredHiddenAbility(bool isHidden) => IsHiddenAbilitySlot() switch
     {
-        HiddenAbilityPermission.Never => IsHidden,
-        HiddenAbilityPermission.Always => !IsHidden,
+        HiddenAbilityPermission.Never => isHidden,
+        HiddenAbilityPermission.Always => !isHidden,
         _ => false,
     };
 
@@ -45,7 +47,7 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
@@ -59,11 +61,11 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateNDS(),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);
@@ -80,12 +82,13 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
         return (byte)Util.Rand.Next(PersonalTable.B2W2[Species].FormCount);
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
+    private void SetPINGA(PK5 pk, in EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
+        var seed = Util.Rand.Rand64();
+        MonochromeRNG.Generate(pk, criteria, pi.Gender, seed, true, Shiny, Ability);
+        pk.Nature = criteria.GetNature();
+        var abilityIndex = Ability == AbilityPermission.OnlyHidden ? 2 : (int)((pk.PID >> 16) & 1);
+        pk.RefreshAbility(abilityIndex);
         criteria.SetRandomIVs(pk);
     }
     #endregion

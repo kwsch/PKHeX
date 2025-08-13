@@ -499,9 +499,9 @@ public static class MethodK
 
     private static bool IsOriginalLevelValid(byte min, byte max, byte format, uint level)
     {
-        if (format == Format)
+        if (format == Format && min > 1)
             return level == min; // Met Level matches
-        return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
+        return LevelRangeExtensions.IsLevelWithinRange((byte)level, min, max);
     }
 
     public static uint GetRandomLevel<T>(T enc, uint seed, LeadRequired lead) where T : IEncounterSlot4

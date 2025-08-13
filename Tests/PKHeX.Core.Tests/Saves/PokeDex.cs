@@ -55,10 +55,8 @@ public static class PokeDex
         var dex = sav.Blocks.Zukan;
         var data = dex.Data;
 
-        var fc = sav.Personal[species].FormCount;
-        var bit = sav.Zukan.DexFormIndexFetcher(species, fc);
-        if (bit < 0)
-            return;
+        var (bit, count) = sav.Zukan.GetFormIndex(species);
+        count.Should().NotBe(0, "should have forms tracked");
         bit += form;
         var value = (byte)(1 << (bit & 7));
         var offset = bit >> 3;

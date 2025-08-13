@@ -11,7 +11,7 @@ public interface IRandomCorrelation
     /// <param name="type">Observed <see cref="PIDType"/> of the <see cref="pk"/></param>
     /// <param name="pk">Entity to compare against for other details</param>
     /// <returns>True if all details are compatible</returns>
-    bool IsCompatible(PIDType type, PKM pk);
+    RandomCorrelationRating IsCompatible(PIDType type, PKM pk);
 
     /// <summary>
     /// Gets the suggested <see cref="PIDType"/> for the encounter.
@@ -30,5 +30,16 @@ public interface IRandomCorrelationEvent3 : IRandomCorrelation
     /// <param name="value">Value to check and mutate</param>
     /// <param name="pk">Entity to compare against</param>
     /// <returns>True if Compatible. Revision of the ref value is not returned.</returns>
-    bool IsCompatibleReviseReset(ref PIDIV value, PKM pk);
+    RandomCorrelationRating IsCompatibleReviseReset(ref PIDIV value, PKM pk);
+}
+
+public enum RandomCorrelationRating
+{
+    // Clear match, no issues.
+    Match,
+    // Weak match, could be better matched to another encounter.
+    NotIdeal,
+
+    // Invalid
+    Mismatch,
 }

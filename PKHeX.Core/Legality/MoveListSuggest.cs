@@ -1,5 +1,6 @@
 using System;
 using System.Buffers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -29,20 +30,60 @@ public static class MoveListSuggest
             var lvl = pk.Format >= 7 ? pk.MetLevel : pk.CurrentLevel;
             var source = GameData.GetLearnSource(enc.Version);
             source.SetEncounterMoves(enc.Species, 0, lvl, moves);
+            if (pk.Format == 1 || pk is { Format: >= 7, VC1: true }) // remove out-of-range moves from Gen 2 encounters
+            {
+                var adjusted = RemoveOutOfRangeMoves(moves, Legal.MaxMoveID_1);
+                if (adjusted)
+                    ReorderMoves(moves);
+            }
             return;
         }
 
-        if (pk.Species == enc.Species || pk.Context.Generation() >= 8)
+        if (pk.Species == enc.Species || pk.Format >= 8)
         {
             var game = pk.Version; // account for SW/SH foreign mutated versions
-            if (pk.Context.Generation() >= 8)
+            if (!game.IsValidSavedVersion()) // also eggs in S/V without version
                 game = pk.Context.GetSingleGameVersion();
+
             var source = GameData.GetLearnSource(game);
             source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
             return;
         }
 
         GetValidMoves(pk, enc, evoChains, moves, types);
+    }
+
+    private static bool RemoveOutOfRangeMoves(Span<ushort> moves, [ConstantExpected] ushort max)
+    {
+        var anyRemoved = false;
+        for (int i = 0; i < moves.Length; i++)
+        {
+            var move = moves[i];
+            if (move == 0)
+                break;
+            if (move <= max)
+                continue;
+            moves[i] = 0;
+            anyRemoved = true;
+        }
+        return anyRemoved;
+    }
+
+    private static void ReorderMoves(Span<ushort> moves)
+    {
+        // Swap 0'd moves to the back
+        for (int i = 0; i < moves.Length; i++)
+        {
+            if (moves[i] != 0)
+                continue;
+            for (int j = i + 1; j < moves.Length; j++)
+            {
+                if (moves[j] == 0)
+                    continue;
+                (moves[i], moves[j]) = (moves[j], moves[i]);
+                break;
+            }
+        }
     }
 
     private static void GetValidMoves(PKM pk, IEncounterTemplate enc, EvolutionHistory evoChains, Span<ushort> moves, MoveSourceType types = MoveSourceType.ExternalSources)
@@ -132,7 +173,7 @@ public static class MoveListSuggest
     {
         if (enc is IRelearn { Relearn: { HasMoves: true } r })
             r.CopyTo(moves);
-        else if (enc is EncounterEgg or EncounterInvalid { IsEgg: true })
+        else if (enc is IEncounterEgg or EncounterInvalid { IsEgg: true })
             GetSuggestedRelearnEgg(enc, pk, moves);
     }
 
@@ -157,7 +198,7 @@ public static class MoveListSuggest
         if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
             return;
 
-        if (enc is EncounterEgg or EncounterInvalid {IsEgg: true})
+        if (enc is IEncounterEgg or EncounterInvalid {IsEgg: true})
             enc.GetSuggestedRelearnEgg(info.Moves, pk, moves);
         else
             enc.GetSuggestedRelearnInternal(pk, moves);
@@ -185,10 +226,10 @@ public static class MoveListSuggest
             return;
 
         // Try again with the other split-breed species if possible.
-        var generator = EncounterGenerator.GetGenerator(enc.Version);
+        var generator = EncounterGenerator.GetGenerator(enc.Version, enc.Generation);
 
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var origin = new EvolutionOrigin(enc.Species, enc.Version, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
+        var origin = new EvolutionOrigin(enc.Species, enc.Context, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
         int count = EvolutionChain.GetOriginChain(chain, pk, origin);
         var evos = chain[..count].ToArray();
         var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);

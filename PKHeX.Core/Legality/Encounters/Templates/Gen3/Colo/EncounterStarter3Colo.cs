@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -82,7 +84,13 @@ public sealed record EncounterStarter3Colo(ushort Species, byte Level)
         if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
             return;
         // Fall back to generating a random PID.
-        MethodCXD.SetStarterFromTrainerID(pk, EncounterCriteria.Unrestricted, pk.TID16, pk.SID16);
+        criteria = EncounterCriteria.Unrestricted;
+        if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
+            return;
+        // TID/SID impossible? Just generate anything.
+        _ = Species is (ushort)Core.Species.Umbreon
+            ? MethodCXD.SetStarterFirstFromIVs(pk, criteria)
+            : MethodCXD.SetStarterSecondFromIVs(pk, criteria);
     }
 
     #endregion
@@ -145,7 +153,7 @@ public sealed record EncounterStarter3Colo(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD_ColoStarter;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD_ColoStarter ? Match : Mismatch;
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD_ColoStarter;
 }

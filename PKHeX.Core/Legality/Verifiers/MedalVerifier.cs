@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -22,18 +22,18 @@ public sealed class MedalVerifier : Verifier
         var Info = data.Info;
         uint value = train.SuperTrainBitFlags;
         if ((value & 3) != 0) // 2 unused flags
-            data.AddLine(GetInvalid(LSuperUnused));
+            data.AddLine(GetInvalid(SuperUnused));
         int TrainCount = train.SuperTrainingMedalCount();
 
         if (pk.IsEgg)
         {
             // Can't have any super training data as an egg.
             if (TrainCount > 0)
-                data.AddLine(GetInvalid(LSuperEgg));
+                data.AddLine(GetInvalid(SuperEgg));
             if (train.SecretSuperTrainingUnlocked)
-                data.AddLine(GetInvalid(LSuperNoUnlocked));
+                data.AddLine(GetInvalid(SuperNoUnlocked));
             if (train.SecretSuperTrainingComplete)
-                data.AddLine(GetInvalid(LSuperNoComplete));
+                data.AddLine(GetInvalid(SuperNoComplete));
             return;
         }
 
@@ -41,11 +41,11 @@ public sealed class MedalVerifier : Verifier
         {
             // Can't have any super training data if it never visited Gen6.
             if (TrainCount > 0)
-                data.AddLine(GetInvalid(LSuperUnavailable));
+                data.AddLine(GetInvalid(SuperUnavailable));
             if (train.SecretSuperTrainingUnlocked)
-                data.AddLine(GetInvalid(LSuperNoUnlocked));
+                data.AddLine(GetInvalid(SuperNoUnlocked));
             if (train.SecretSuperTrainingComplete)
-                data.AddLine(GetInvalid(LSuperNoComplete));
+                data.AddLine(GetInvalid(SuperNoComplete));
             return;
         }
 
@@ -53,15 +53,15 @@ public sealed class MedalVerifier : Verifier
         {
             // Gen6->Gen7 transfer wipes the two Secret flags.
             if (train.SecretSuperTrainingUnlocked)
-                data.AddLine(GetInvalid(LSuperNoUnlocked));
+                data.AddLine(GetInvalid(SuperNoUnlocked));
             if (train.SecretSuperTrainingComplete)
-                data.AddLine(GetInvalid(LSuperNoComplete));
+                data.AddLine(GetInvalid(SuperNoComplete));
             return;
         }
 
         // Only reach here if Format==6.
         if (TrainCount == 30 ^ train.SecretSuperTrainingComplete)
-            data.AddLine(GetInvalid(LSuperComplete));
+            data.AddLine(GetInvalid(SuperComplete));
     }
 
     private void VerifyMedalsEvent(LegalityAnalysis data)
@@ -69,6 +69,6 @@ public sealed class MedalVerifier : Verifier
         var pk = data.Entity;
         byte value = pk.Data[0x3A];
         if (value != 0)
-            data.AddLine(GetInvalid(LSuperDistro));
+            data.AddLine(GetInvalid(SuperDistro));
     }
 }

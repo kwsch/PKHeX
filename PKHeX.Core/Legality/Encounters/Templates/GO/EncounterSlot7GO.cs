@@ -3,12 +3,13 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.Gen7"/> (GO Park, <seealso cref="GameVersion.GG"/>).
+/// Encounter Slot found in <see cref="EntityContext.Gen7b"/> (GO Park).
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
 public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type)
-    : IEncounterable, IEncounterMatch, IPogoSlot, IEncounterConvertible<PB7>
+    : IEncounterable, IEncounterMatch, IPogoSlot, IEncounterConvertible<PB7>, IEncounterServerDate
 {
+    public bool IsDateRestricted => true;
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
@@ -19,7 +20,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO7;
-    public string Name => $"Wild Encounter ({Version})";
+    public string Name => $"GO Encounter ({Version})";
     public string LongName
     {
         get
@@ -40,12 +41,12 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var rnd = Util.Rand;
         var date = this.GetRandomValidDate();
         var pk = new PB7
         {
-            PID = rnd.Rand32(),
+            PID = EncounterUtil.GetRandomPID(tr, rnd, Shiny, criteria.Shiny),
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
             Form = Form,
@@ -57,7 +58,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             Ball = (byte)Ball.Poke,
             MetDate = date,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
@@ -67,7 +68,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         };
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation);
         SetEncounterMoves(pk, LevelMin);
         pk.AwakeningSetAllTo(2);
         pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
@@ -79,7 +80,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         return pk;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, in EncounterCriteria criteria)
     {
         var pi = PersonalTable.GG[Species];
         var gender = criteria.GetGender(Gender, pi);
@@ -106,7 +107,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         }
     }
 
-    private void SetEncounterMoves(PB7 pk, int level)
+    private void SetEncounterMoves(PB7 pk, byte level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         var source = LearnSource7GG.Instance;
@@ -135,6 +136,18 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             return false;
 
         return true;
+    }
+
+    public bool IsWithinDistributionWindow(PKM pk)
+    {
+        var date = new DateOnly(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
+        return IsWithinDistributionWindow(date);
+    }
+
+    public bool IsWithinDistributionWindow(DateOnly date)
+    {
+        var stamp = PogoDateRangeExtensions.GetTimeStamp(date.Year, date.Month, date.Day);
+        return this.IsWithinStartEnd(stamp);
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk)

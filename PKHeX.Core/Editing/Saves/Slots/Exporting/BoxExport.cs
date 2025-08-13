@@ -119,7 +119,7 @@ public static class BoxExport
     private static string GetFolderName(SaveFile sav, int box, BoxExportFolderNaming mode)
     {
         var boxName = sav is IBoxDetailNameRead r ? r.GetBoxName(box) : BoxDetailNameExtensions.GetDefaultBoxName(box);
-        boxName = Util.CleanFileName(boxName);
+        boxName = PathUtil.CleanFileName(boxName);
         return mode switch
         {
             BoxExportFolderNaming.BoxName => boxName,
@@ -132,7 +132,7 @@ public static class BoxExport
     private static string GetFileName(PKM pk, BoxExportIndexPrefix mode, IFileNamer<PKM> namer, int box, int slot, int boxSlotCount)
     {
         var slotName = GetInnerName(namer, pk);
-        var fileName = Util.CleanFileName(slotName);
+        var fileName = PathUtil.CleanFileName(slotName);
         var prefix = GetPrefix(mode, box, slot, boxSlotCount);
 
         return $"{prefix}{fileName}.{pk.Extension}";
@@ -152,7 +152,7 @@ public static class BoxExport
         try
         {
             var slotName = namer.GetName(pk);
-            return Util.CleanFileName(slotName);
+            return PathUtil.CleanFileName(slotName);
         }
         catch { return "Name Error"; }
     }

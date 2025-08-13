@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -17,11 +17,14 @@ public sealed class CXDVerifier : Verifier
         // Colo starters are already hard-verified. No need to check them here.
 
         if (pk.OriginalTrainerGender == 1)
-            data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, G3OTGender));
+
+        // Trainer ID is checked in another verifier. Don't duplicate it here.
     }
 
     private static void VerifyStarterXD(LegalityAnalysis data)
     {
+        // The starter in XD must have the correct PIDIV type.
         var info = data.Info.PIDIV;
         if (info.Type is not (PIDType.CXD or PIDType.CXD_ColoStarter))
             return; // already flagged as invalid
@@ -29,9 +32,9 @@ public sealed class CXDVerifier : Verifier
         // Ensure the TID/SID match the expected result, as this isn't hard-checked earlier.
         var pk = data.Entity;
 
-        bool valid = MethodCXD.TryGetOriginSeedStarterXD(pk, out var seed);
+        bool valid = MethodCXD.TryGetSeedStarterXD(pk, out var seed);
         if (!valid)
-            data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
+            data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
         else
             data.Info.PIDIV = new PIDIV(PIDType.CXD, seed);
     }

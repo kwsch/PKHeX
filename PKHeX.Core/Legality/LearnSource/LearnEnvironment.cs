@@ -6,12 +6,18 @@ using static LearnEnvironment;
 /// <summary>
 /// Indicates the group of game(s) that the move was learned in.
 /// </summary>
+/// <remarks>
+/// Each unique set of learnsets has a unique <see cref="LearnEnvironment"/> value.
+/// </remarks>
 public enum LearnEnvironment : byte
 {
+    /// <summary>
+    /// Sentinel value indicating no environment specified/initial environment.
+    /// </summary>
     None,
 
     /* Gen1 */ RB, YW,
-    /* Gen2 */ GS, C,
+    /* Gen2 */ GS, C, Stadium2,
     /* Gen3 */ RS, E, FR, LG,
     /* Gen4 */ DP, Pt, HGSS,
     /* Gen5 */ BW, B2W2,
@@ -27,11 +33,18 @@ public enum LearnEnvironment : byte
 /// </summary>
 public static class LearnEnvironmentExtensions
 {
+    /// <summary>
+    /// Indicates whether the <see cref="LearnEnvironment"/> is specified (not <see cref="None"/>), and thus worth indicating.
+    /// </summary>
     public static bool IsSpecified(this LearnEnvironment value) => value is not None;
+
+    /// <summary>
+    /// Gets the generation number [1-n] for the given <see cref="LearnEnvironment"/>.
+    /// </summary>
     public static byte GetGeneration(this LearnEnvironment value) => value switch
     {
         RB or YW => 1,
-        GS or C => 2,
+        GS or C or Stadium2 => 2,
         RS or E or FR or LG => 3,
         DP or Pt or HGSS => 4,
         BW or B2W2 => 5,
@@ -42,10 +55,13 @@ public static class LearnEnvironmentExtensions
         _ => 0,
     };
 
+    /// <summary>
+    /// Retrieves the evolution criteria for the given <see cref="LearnEnvironment"/> from the provided <see cref="EvolutionHistory"/>.
+    /// </summary>
     public static ReadOnlySpan<EvoCriteria> GetEvolutions(this LearnEnvironment value, EvolutionHistory history) => value switch
     {
         RB or YW => history.Gen1,
-        GS or C => history.Gen2,
+        GS or C or Stadium2 => history.Gen2,
         RS or E or FR or LG => history.Gen3,
         DP or Pt or HGSS => history.Gen4,
         BW or B2W2 => history.Gen5,

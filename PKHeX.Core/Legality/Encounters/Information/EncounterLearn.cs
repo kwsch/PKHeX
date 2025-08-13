@@ -106,8 +106,8 @@ public static class EncounterLearn
         if (PersonalTable.SWSH.IsPresentInGame(species, form))
         {
             var blank = new PK8 { Species = species, Form = form };
-            var v = vers.Where(z => z <= GameVersion.SH).ToArray();
-            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, v);
+            var version = vers.Where(z => z <= GameVersion.SH).ToArray();
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, version);
             foreach (var enc in encs)
                 yield return enc;
             iterated = true;

@@ -159,12 +159,10 @@ public static class ItemConverter
     /// <returns>Gen2 Item</returns>
     public static byte GetItemFuture1(byte value)
     {
-        if (!IsItemTransferable12(value))
+        if (!IsCatchRateHeldItem(value))
             return GetTeruSamaItem(value);
         return value;
     }
-
-    private static bool IsItemTransferable12(ushort item) => Legal.HeldItems_GSC.AsSpan().Contains(item);
 
     /// <summary>
     /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.
@@ -219,4 +217,17 @@ public static class ItemConverter
         3 => item is (>= 339 and <= 346),
         _ => item is (>= 420 and <= 427) or 737,
     };
+
+    /// <summary>
+    /// Checks if the catch rate byte is equivalent to a Gen2 held item.
+    /// </summary>
+    public static bool IsCatchRateHeldItem(byte rate) => FlagUtil.GetFlag(CatchRateIsHeldItem, rate);
+
+    private static ReadOnlySpan<byte> CatchRateIsHeldItem =>
+    [
+        0x3F, 0xFF, 0xFF, 0xFD, 0xFF, 0xDF, 0x3B, 0xD2,
+        0x03, 0xFF, 0xFF, 0xFB, 0xEF, 0xFF, 0xE7, 0x7E,
+        0x18, 0x9C, 0xC5, 0xF1, 0xFB, 0x77, 0xF0, 0xBF,
+        0xF7, 0xFF, 0xFF, 0xEF, 0xFF, 0xFF, 0x07, 0x00,
+    ];
 }

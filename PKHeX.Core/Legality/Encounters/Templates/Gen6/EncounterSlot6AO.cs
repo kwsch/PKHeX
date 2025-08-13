@@ -57,8 +57,9 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.AO[Species];
+        var geo = tr.GetRegionOrigin(language);
         var pk = new PK6
         {
             Species = Species,
@@ -71,16 +72,16 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDate3DS(),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
+
+            ConsoleRegion = geo.ConsoleRegion,
+            Country = geo.Country,
+            Region = geo.Region,
         };
-        if (tr is IRegionOrigin r)
-            r.CopyRegionOrigin(pk);
-        else
-            pk.SetDefaultRegionOrigins(lang);
 
         SetPINGA(pk, criteria, pi);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
@@ -103,10 +104,10 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
         return (byte)Util.Rand.Next(PersonalTable.AO[Species].FormCount);
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
+    private void SetPINGA(PK6 pk, in EncounterCriteria criteria, PersonalInfo6AO pi)
     {
         var rnd = Util.Rand;
-        pk.PID = rnd.Rand32();
+        pk.PID = EncounterUtil.GetRandomPID(pk, rnd, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
@@ -117,9 +118,9 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     #region Matching
 
-    private const int FluteBoostMin = 4; // White Flute decreases levels.
-    private const int FluteBoostMax = 4; // Black Flute increases levels.
-    private const int DexNavBoost = 29 + FluteBoostMax; // Maximum DexNav chain (95) and Flute.
+    private const byte FluteBoostMin = 4; // White Flute decreases levels.
+    private const byte FluteBoostMax = 4; // Black Flute increases levels.
+    private const byte DexNavBoost = 29 + FluteBoostMax; // Maximum DexNav chain (95) and Flute.
 
     public byte GetDownleveledMin() => (byte)(LevelMin - FluteBoostMin);
 

@@ -12,8 +12,8 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource,
 {
     public static readonly LearnSource8LA Instance = new();
     private static readonly PersonalTable8LA Personal = PersonalTable.LA;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"u8));
-    private static readonly Learnset[] Mastery = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("mastery_la.pkl"), "la"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"u8));
+    private static readonly Learnset[] Mastery = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("mastery_la.pkl"), "la"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     private const LearnEnvironment Game = PLA;
 
@@ -42,9 +42,8 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource,
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))
@@ -102,9 +101,8 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource,
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level))
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))

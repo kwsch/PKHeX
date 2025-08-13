@@ -77,8 +77,8 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.DP[Species];
         var pk = new PK4
         {
@@ -94,14 +94,14 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
 
             ID32 = ID32,
             Version = version,
-            Language = GetReceivedLanguage(lang, version),
+            Language = GetReceivedLanguage(language, version),
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames.Span[lang],
+            OriginalTrainerName = TrainerNames.Span[language],
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = true,
-            Nickname = Nicknames.Span[lang],
+            Nickname = Nicknames.Span[language],
 
             HandlingTrainerName = tr.OT,
             HandlingTrainerGender = tr.Gender,
@@ -215,6 +215,14 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
 
     #endregion
+
+    /// <summary>
+    /// Language obtained by the trainer will be of a foreign language ID.
+    /// </summary>
+    /// <remarks>
+    /// Does NOT indicate for bugged D/P English origin, which is Japanese.
+    /// </remarks>
+    public bool IsLanguageSwap => Species is (ushort)Core.Species.Magikarp or (ushort)Core.Species.Pikachu;
 
     public int DetectOriginalLanguage(PKM pk)
     {

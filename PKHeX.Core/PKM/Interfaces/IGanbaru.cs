@@ -78,12 +78,19 @@ public static class GanbaruExtensions
     {
         var result = true;
         result &= g.GV_HP == GetMaxGanbaru(pk.IV_HP);
-        result &= g.GV_ATK >= (pk.IV_ATK == 0 ? 0 : GetMaxGanbaru(pk.IV_ATK));
+        result &= IsMaxOr01(g.GV_ATK, pk.IV_ATK);
         result &= g.GV_DEF == GetMaxGanbaru(pk.IV_DEF);
-        result &= g.GV_SPE >= (pk.IV_SPE == 0 ? 0 : GetMaxGanbaru(pk.IV_SPE));
         result &= g.GV_SPA == GetMaxGanbaru(pk.IV_SPA);
         result &= g.GV_SPD == GetMaxGanbaru(pk.IV_SPD);
+        result &= IsMaxOr01(g.GV_SPE, pk.IV_SPE);
         return result;
+
+        static bool IsMaxOr01(byte gv, int iv)
+        {
+            if (iv <= 1 && gv == 0)
+                return true;
+            return gv == GetMaxGanbaru(iv);
+        }
     }
 
     /// <summary>

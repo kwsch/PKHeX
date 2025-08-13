@@ -1,10 +1,11 @@
 using static PKHeX.Core.PIDType;
 using static PKHeX.Core.SlotType3;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.Gen3"/>.
+/// Encounter Slot found in <see cref="EntityContext.Gen3"/>.
 /// </summary>
 public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IEncounterSlot3, IRandomCorrelation
@@ -38,8 +39,18 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        var version = Version != GameVersion.RSE ? Version : GameVersion.RSE.Contains(tr.Version) ? tr.Version : GameVersion.E;
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var version = Version switch
+        {
+            GameVersion.RSE => tr.Version switch
+            {
+                GameVersion.R => GameVersion.R,
+                GameVersion.S => GameVersion.S,
+                GameVersion.RS => GameVersion.R,
+                _ => GameVersion.E,
+            },
+            _ => Version
+        };
         var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
@@ -52,11 +63,11 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
             Version = version,
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);
@@ -66,7 +77,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         return pk;
     }
 
-    private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (Species != (int)Core.Species.Unown)
         {
@@ -78,11 +89,11 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         {
             if (criteria.IsSpecifiedIVsAll() && this.SetFromIVsUnown(pk, criteria))
                 return;
-            this.SetRandomUnown(pk, criteria);
+            this.SetRandomUnown(pk, criteria, Util.Rand32());
         }
     }
 
-    protected virtual void SetEncounterMoves(PKM pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
+    protected virtual void SetEncounterMoves(PK3 pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching
@@ -120,11 +131,13 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
-        if (Species != (int)Core.Species.Unown)
-            return type is (Method_1 or Method_2 or Method_3 or Method_4);
-        return type is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown);
+        var match = Species != (int)Core.Species.Unown
+            ? type is Method_1       or Method_2       or Method_3       or Method_4
+            : type is Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
+
+        return match ? Match : Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? Method_1_Unown : Method_1;

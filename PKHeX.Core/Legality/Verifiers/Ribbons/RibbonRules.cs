@@ -106,11 +106,11 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSWSH(PKM pk, IEncounterTemplate enc)
     {
         // Transfers from prior games, as well as from GO, require the battle-ready symbol in order to participate in Ranked.
-        if ((enc.Generation < 8 || enc.Version == GameVersion.GO) && pk is IBattleVersion { BattleVersion: 0 })
+        if ((enc.Generation < 8 || enc.Context is EntityContext.Gen7b) && pk is IBattleVersion { BattleVersion: 0 })
             return false;
 
-        // GO transfers: Capture date is global time, and not console changeable.
-        bool hasRealDate = enc.Version == GameVersion.GO || enc is IEncounterServerDate { IsDateRestricted: true };
+        // GO transfers and server gifts: Capture date is global time, and not console changeable.
+        bool hasRealDate = enc is IEncounterServerDate { IsDateRestricted: true };
         if (hasRealDate)
         {
             // Ranked is still ongoing, but the use of Mythicals was restricted to Series 13 only.

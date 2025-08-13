@@ -79,6 +79,9 @@ internal static class GBRestrictions
         _ => false,
     };
 
+    /// <summary>
+    /// Indicates if the species will always evolve if traded to a Generation 1 player.
+    /// </summary>
     internal static bool IsTradeEvolution1(ushort species) => species is (int)Kadabra or (int)Machoke or (int)Graveler or (int)Haunter;
 
     public static bool RateMatchesEncounter(ushort species, GameVersion version, byte rate)
@@ -117,11 +120,11 @@ internal static class GBRestrictions
     }
 
     /// <summary>
-    /// Checks if the <see cref="pk"/> can inhabit <see cref="Gen1"></see>
+    /// Checks if the <see cref="pk"/> can inhabit <see cref="EntityContext.Gen1"></see>
     /// </summary>
     /// <param name="pk">Data to check</param>
     /// <returns>true if it can inhabit, false if it can not.</returns>
-    internal static bool CanInhabitGen1(this PKM pk)
+    private static bool CanOriginateGen1(this PKM pk)
     {
         // Korean Gen2 games can't trade-back because there are no Gen1 Korean games released
         if (pk.Korean || pk.IsEgg)
@@ -131,14 +134,17 @@ internal static class GBRestrictions
         // If you put a Pokémon in the N64 box, the met info is retained, even if you switch over to a Gen1 game to teach it TMs
         // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
         // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
-        if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBStadium2)
+        // This method is only called for Encounter enumeration; if it has Gen2 data, it is not a Gen1 encounter.
+        if (pk is ICaughtData2 {CaughtData: not 0})
             return false;
 
         // Sanity check species, if it could have existed as a pre-evolution.
-        ushort species = pk.Species;
-        if (species <= MaxSpeciesID_1)
-            return true;
-        return IsEvolvedFromGen1Species(species);
+        return CanVisitGen1(pk.Species);
+    }
+
+    internal static bool CanVisitGen1(ushort species)
+    {
+        return species <= MaxSpeciesID_1 || IsEvolvedFromGen1Species(species);
     }
 
     /// <summary>
@@ -151,7 +157,7 @@ internal static class GBRestrictions
             return GetTradebackStatusRBY(pk1);
 
         if (pk.Format == 2 || pk.VC2) // Check for impossible Tradeback scenarios
-            return !pk.CanInhabitGen1() ? Gen2Only : Either;
+            return !pk.CanOriginateGen1() ? Gen2Only : Either;
 
         // VC2 is released, we can assume it will be TradebackType.Any.
         // Is impossible to differentiate a VC1 Pokémon traded to Gen7 after VC2 is available.
@@ -177,56 +183,32 @@ internal static class GBRestrictions
         if (!matchAny)
             return Either;
 
-        if (IsTradebackCatchRate(catch_rate))
+        if (ItemConverter.IsCatchRateHeldItem(catch_rate))
             return Either;
 
         return Gen1Only;
     }
 
-    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, ReadOnlySpan<MoveResult> moves, IEncounterTemplate enc)
+    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PK1 pk, ReadOnlySpan<MoveResult> moves, IEncounterTemplate enc)
     {
-        foreach (var z in moves)
+        if (enc.Generation == 2)
+            return Transferred21;
+
+        var rate = pk.CatchRate;
+        if (rate == 0)
+            return Transferred12;
+
+        if (MoveInfo.IsAnyFromGeneration(2, moves))
         {
-            if (z.Generation == enc.Generation || z.Generation is not (1 or 2))
-                continue;
-            if (pk is PK1 {CatchRate: not 0} g1 && !IsTradebackCatchRate(g1.CatchRate))
+            if (pk is {CatchRate: not 0} && !ItemConverter.IsCatchRateHeldItem(pk.CatchRate))
                 return BadCatchRate;
-            return enc.Generation == 2 ? Transferred21 : Transferred12;
+            return Transferred12;
         }
 
-        if (pk is not GBPKM gb)
-        {
-            return enc.Generation switch
-            {
-                1 when pk.VC2 => Transferred12,
-                2 when pk.VC1 => Transferred21,
-                _ => NotTransferred,
-            };
-        }
-
-        if (gb is ICaughtData2 pk2)
-        {
-            if (enc.Generation == 1)
-                return Transferred12;
-            if (pk2.CaughtData != 0)
-                return NotTransferred;
-            if (enc.Version == C)
-                return Transferred21;
-            return Indeterminate;
-        }
-
-        if (gb is PK1 pk1)
-        {
-            var rate = pk1.CatchRate;
-            if (rate == 0)
-                return Transferred12;
-
-            bool isTradebackItem = IsTradebackCatchRate(rate);
-            if (IsCatchRateMatchEncounter(enc, pk1))
-                return isTradebackItem ? Indeterminate : NotTransferred;
-            return isTradebackItem ? Transferred12 : BadCatchRate;
-        }
-        return Indeterminate;
+        bool isTradebackItem = ItemConverter.IsCatchRateHeldItem(rate);
+        if (IsCatchRateMatchEncounter(enc, pk))
+            return isTradebackItem ? Indeterminate : NotTransferred;
+        return isTradebackItem ? Transferred12 : BadCatchRate;
     }
 
     private static bool IsCatchRateMatchEncounter(IEncounterTemplate enc, PK1 pk1) => enc switch
@@ -236,8 +218,6 @@ internal static class GBRestrictions
         EncounterTrade1 => true,
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.CatchRate),
     };
-
-    public static bool IsTradebackCatchRate(byte rate) => Array.IndexOf(HeldItems_GSC, rate) != -1;
 }
 
 /// <summary>
@@ -290,15 +270,4 @@ public enum TimeCapsuleEvaluation
     /// Has a catch rate that does not match a held item or the original catch rate value for any progenitor species.
     /// </summary>
     BadCatchRate,
-}
-
-/// <summary>
-/// Extension methods for <see cref="TimeCapsuleEvaluation"/>.
-/// </summary>
-public static class TimeCapsuleEvlautationExtensions
-{
-    /// <summary>
-    /// Indicates if the <see cref="eval"/> definitely transferred via Time Capsule.
-    /// </summary>
-    public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not (Indeterminate or NotTransferred or BadCatchRate);
 }

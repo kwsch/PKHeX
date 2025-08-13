@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Group that checks the source of a move in <see cref="GameVersion.Gen6"/>.
+/// Group that checks the source of a move in <see cref="EntityContext.Gen6"/>.
 /// </summary>
 public sealed class LearnGroup6 : ILearnGroup
 {
@@ -24,7 +24,7 @@ public sealed class LearnGroup6 : ILearnGroup
 
         if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter))
         {
-            if (enc is EncounterEgg { Generation: Generation } egg)
+            if (enc is EncounterEgg6 egg)
                 CheckEncounterMoves(result, current, egg);
             else if (enc is EncounterSlot6AO { CanDexNav: true } dexnav && pk.IsOriginalMovesetDeleted())
                 CheckDexNavMoves(result, current, dexnav);
@@ -33,7 +33,7 @@ public sealed class LearnGroup6 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg6 egg)
     {
         ILearnSource inst = egg.Version > GameVersion.Y ? LearnSource6AO.Instance : LearnSource6XY.Instance;
         var eggMoves = inst.GetEggMoves(egg.Species, egg.Form);

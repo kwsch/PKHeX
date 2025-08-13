@@ -53,14 +53,14 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <param name="data">Finalized save file data (with fixed checksums) to be written to a file</param>
     /// <param name="setting">Toggle flags </param>
     /// <returns>Final save file data.</returns>
-    public byte[] Finalize(byte[] data, BinaryExportSetting setting)
+    public Memory<byte> Finalize(Memory<byte> data, BinaryExportSetting setting)
     {
         if (HasFooter && !setting.HasFlag(BinaryExportSetting.ExcludeFooter))
-            data = [..data, ..Footer.Span];
+            data = (byte[])[.. data.Span, ..Footer.Span];
         if (HasHeader && !setting.HasFlag(BinaryExportSetting.ExcludeHeader))
-            data = [..Header.Span, ..data];
+            data = (byte[])[..Header.Span, ..data.Span];
         if (!setting.HasFlag(BinaryExportSetting.ExcludeFinalize))
-            Handler?.Finalize(data);
+            Handler?.Finalize(data.Span);
         return data;
     }
 
@@ -102,7 +102,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
         var fileName = Path.GetFileName(path);
 
         // Trim off existing backup name if present
-        var bakName = Util.CleanFileName(bak);
+        var bakName = PathUtil.CleanFileName(bak);
         if (fileName.EndsWith(bakName, StringComparison.Ordinal))
             fileName = fileName[..^bakName.Length];
 
@@ -159,7 +159,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
 
     public string GetBackupFileName(string destDir)
     {
-        return Path.Combine(destDir, Util.CleanFileName(BAKName));
+        return Path.Combine(destDir, PathUtil.CleanFileName(BAKName));
     }
 
     private void SetAsBlank()
@@ -187,7 +187,7 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// Gets suggested export options for the save file.
     /// </summary>
     /// <param name="ext">Selected export extension</param>
-    public BinaryExportSetting GetSuggestedFlags(string? ext = null)
+    public BinaryExportSetting GetSuggestedFlags(ReadOnlySpan<char> ext)
     {
         // Do everything as default
         var flags = BinaryExportSetting.None;

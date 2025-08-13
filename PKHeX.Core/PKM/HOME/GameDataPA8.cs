@@ -104,7 +104,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSize
         IsAlpha = pk.IsAlpha;
         IsNoble = pk.IsNoble;
         AlphaMove = pk.AlphaMove;
-        pkh.HeightScalar = Scale = pk.Scale; // Overwrite Height
+        pkh.HeightScalar = Scale = pk.IsAlpha ? byte.MaxValue : pk.Scale; // Overwrite Height -- fix error in Alpha static encounters w/ 127-scale (3.0.1+)
         HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
         WeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
         GV_HP = pk.GV_HP;

@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Group that checks the source of a move in <see cref="GameVersion.Gen4"/>.
+/// Group that checks the source of a move in <see cref="EntityContext.Gen4"/>.
 /// </summary>
 public sealed class LearnGroup4 : ILearnGroup
 {
@@ -21,7 +21,7 @@ public sealed class LearnGroup4 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
-        if (types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg4 egg)
             CheckEncounterMoves(result, current, egg);
 
         if (types.HasFlag(MoveSourceType.LevelUp) && enc.Species is (int)Species.Nincada && evos is [{ Species: (int)Species.Shedinja }, _])
@@ -47,17 +47,18 @@ public sealed class LearnGroup4 : ILearnGroup
             if (move == 0)
                 break;
 
-            var level = moves.GetLevelLearnMove(move);
-            if (level == -1 || !nincada.InsideLevelRange(level))
+            if (!moves.TryGetLevelLearnMove(move, out var level))
+                continue;
+            if (!nincada.InsideLevelRange(level))
                 continue;
 
-            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, (byte)level);
+            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, level);
             result[i] = new MoveResult(info, 0, Generation);
             break; // Can only have one Ninjask move.
         }
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg4 egg)
     {
         ILearnSource inst = egg.Version switch
         {

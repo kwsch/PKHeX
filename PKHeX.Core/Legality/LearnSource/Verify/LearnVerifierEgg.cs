@@ -17,7 +17,7 @@ internal static class LearnVerifierEgg
 
     private static void VerifyPre3DS(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
     {
-        if (enc is EncounterEgg e)
+        if (enc is IEncounterEgg e)
             LearnVerifierRelearn.VerifyEggMoveset(e, result, current);
         else
             VerifyFromEncounter(result, current, enc);
@@ -74,7 +74,7 @@ internal static class LearnVerifierEgg
 
     private static void VerifyFromRelearn(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc, PKM pk)
     {
-        if (enc is EncounterEgg)
+        if (enc is IEncounterEgg)
             VerifyMatchesRelearn(result, current, pk);
         else if (enc is IMoveset { Moves: { HasMoves: true } x })
             VerifyMovesInitial(result, current, x, GameData.GetLearnSource(enc.Version).Environment);

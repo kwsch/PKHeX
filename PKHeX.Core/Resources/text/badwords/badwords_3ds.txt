@@ -822,7 +822,6 @@
 ^ana-boot-camp$
 ^ana-mia$
 ^ana/mia$
-^anaal .*
 ^anaal.*
 ^anaandmia$
 ^anabelief$

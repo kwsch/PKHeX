@@ -34,6 +34,11 @@ public static class SCTypeCodeExtensions
 {
     public static bool IsBoolean(this SCTypeCode type) => unchecked((uint)type - 1u) < 3;
 
+    /// <summary>
+    /// Gets the number of bytes occupied by a variable of a given type.
+    /// </summary>
+    /// <param name="type">Type of the value</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static int GetTypeSize(this SCTypeCode type) => type switch
     {
         SCTypeCode.Bool3 => sizeof(bool),
@@ -54,6 +59,12 @@ public static class SCTypeCodeExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString()),
     };
 
+    /// <summary>
+    /// Gets the runtime <see cref="Type"/> of the value.
+    /// </summary>
+    /// <param name="type">Type of the value</param>
+    /// <remarks>If <see cref="SCTypeCode.Array"/>, use <see cref="GetTypeArray"/>.</remarks>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static Type GetType(this SCTypeCode type) => type switch
     {
         SCTypeCode.Byte => typeof(byte),
@@ -68,6 +79,29 @@ public static class SCTypeCodeExtensions
 
         SCTypeCode.Single => typeof(float),
         SCTypeCode.Double => typeof(double),
+
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString()),
+    };
+
+    /// <summary>
+    /// Gets the runtime <see cref="Type"/> of the array.
+    /// </summary>
+    /// <param name="type">Type of the array</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static Type GetTypeArray(this SCTypeCode type) => type switch
+    {
+        SCTypeCode.Byte => typeof(byte[]),
+        SCTypeCode.UInt16 => typeof(ushort[]),
+        SCTypeCode.UInt32 => typeof(uint[]),
+        SCTypeCode.UInt64 => typeof(ulong[]),
+
+        SCTypeCode.SByte => typeof(sbyte[]),
+        SCTypeCode.Int16 => typeof(short[]),
+        SCTypeCode.Int32 => typeof(int[]),
+        SCTypeCode.Int64 => typeof(long[]),
+
+        SCTypeCode.Single => typeof(float[]),
+        SCTypeCode.Double => typeof(double[]),
 
         _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString()),
     };

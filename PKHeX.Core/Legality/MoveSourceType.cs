@@ -5,6 +5,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Indicates the source of a <see cref="Move"/> for a <see cref="PKM"/>.
 /// </summary>
+/// <remarks>
+/// This enum is mostly a "lumping" enum to pivot searching logic.
+/// See <see cref="LearnMethod"/> for the more-specific tracking enumeration.
+/// </remarks>
 [Flags]
 public enum MoveSourceType
 {

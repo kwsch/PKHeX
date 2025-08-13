@@ -43,10 +43,10 @@ namespace PKHeX.WinForms.Controls
             // 
             L_PropValue.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             L_PropValue.AutoSize = true;
-            L_PropValue.Location = new System.Drawing.Point(200, 28);
+            L_PropValue.Location = new System.Drawing.Point(236, 30);
             L_PropValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_PropValue.Name = "L_PropValue";
-            L_PropValue.Size = new System.Drawing.Size(80, 15);
+            L_PropValue.Size = new System.Drawing.Size(89, 17);
             L_PropValue.TabIndex = 18;
             L_PropValue.Text = "PropertyValue";
             // 
@@ -56,7 +56,7 @@ namespace PKHeX.WinForms.Controls
             L_PropType.Location = new System.Drawing.Point(55, 28);
             L_PropType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_PropType.Name = "L_PropType";
-            L_PropType.Size = new System.Drawing.Size(76, 15);
+            L_PropType.Size = new System.Drawing.Size(85, 17);
             L_PropType.TabIndex = 17;
             L_PropType.Text = "PropertyType";
             // 
@@ -66,11 +66,11 @@ namespace PKHeX.WinForms.Controls
             CB_Require.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Require.FormattingEnabled = true;
             CB_Require.Items.AddRange(new object[] { "Set", "==", "!=", ">", ">=", "<", "<=" });
-            CB_Require.Location = new System.Drawing.Point(203, 0);
-            CB_Require.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Require.Location = new System.Drawing.Point(236, 0);
+            CB_Require.Margin = new System.Windows.Forms.Padding(4);
             CB_Require.Name = "CB_Require";
-            CB_Require.Size = new System.Drawing.Size(135, 23);
-            CB_Require.TabIndex = 16;
+            CB_Require.Size = new System.Drawing.Size(100, 25);
+            CB_Require.TabIndex = 2;
             // 
             // CB_Property
             // 
@@ -79,11 +79,11 @@ namespace PKHeX.WinForms.Controls
             CB_Property.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Property.DropDownWidth = 200;
             CB_Property.FormattingEnabled = true;
-            CB_Property.Location = new System.Drawing.Point(58, 0);
-            CB_Property.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Property.Location = new System.Drawing.Point(56, 0);
+            CB_Property.Margin = new System.Windows.Forms.Padding(4);
             CB_Property.Name = "CB_Property";
-            CB_Property.Size = new System.Drawing.Size(137, 23);
-            CB_Property.TabIndex = 15;
+            CB_Property.Size = new System.Drawing.Size(176, 25);
+            CB_Property.TabIndex = 1;
             CB_Property.SelectedIndexChanged += CB_Property_SelectedIndexChanged;
             // 
             // CB_Format
@@ -91,10 +91,10 @@ namespace PKHeX.WinForms.Controls
             CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Format.FormattingEnabled = true;
             CB_Format.Location = new System.Drawing.Point(0, 0);
-            CB_Format.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Format.Margin = new System.Windows.Forms.Padding(4);
             CB_Format.Name = "CB_Format";
-            CB_Format.Size = new System.Drawing.Size(51, 23);
-            CB_Format.TabIndex = 14;
+            CB_Format.Size = new System.Drawing.Size(52, 25);
+            CB_Format.TabIndex = 0;
             CB_Format.SelectedIndexChanged += CB_Format_SelectedIndexChanged;
             // 
             // EntityInstructionBuilder

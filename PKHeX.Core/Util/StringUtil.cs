@@ -90,20 +90,15 @@ public static class StringUtil
 
     private static byte DecodeTuple(char _0, char _1)
     {
-        byte result;
-        if (char.IsAsciiDigit(_0))
-            result = (byte)((_0 - '0') << 4);
-        else if (char.IsAsciiHexDigitUpper(_0))
-            result = (byte)((_0 - 'A' + 10) << 4);
-        else
-            throw new ArgumentOutOfRangeException(nameof(_0));
+        return (byte)(DecodeChar(_0) << 4 | DecodeChar(_1));
 
-        if (char.IsAsciiDigit(_1))
-            result |= (byte)(_1 - '0');
-        else if (char.IsAsciiHexDigitUpper(_1))
-            result |= (byte)(_1 - 'A' + 10);
-        else
-            throw new ArgumentOutOfRangeException(nameof(_1));
-        return result;
+        static int DecodeChar(char x)
+        {
+            if (char.IsAsciiDigit(x))
+                return (byte)(x - '0');
+            if (char.IsAsciiHexDigitUpper(x))
+                return (byte)(x - 'A' + 10);
+            throw new ArgumentOutOfRangeException(nameof(_0));
+        }
     }
 }

@@ -16,7 +16,7 @@ public static class GenerateMethodK
     /// <param name="criteria">Criteria to match</param>
     /// <param name="seed">Initial seed to use; will be modified during the loop if the first seed fails</param>
     /// <returns>Method 1 origin seed applied</returns>
-    public static uint SetRandomK<T>(this T enc, PK4 pk, PersonalInfo4 pi, EncounterCriteria criteria, uint seed)
+    public static uint SetRandomK<T>(this T enc, PK4 pk, PersonalInfo4 pi, in EncounterCriteria criteria, uint seed)
         where T : IEncounterSlot4
     {
         var id32 = pk.ID32;
@@ -26,6 +26,7 @@ public static class GenerateMethodK
         var modulo = enc.Type.IsSafari() ? 10u : 100u;
         bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
 
         // Generate Method K correlated PID and IVs, no lead (keep things simple).
         while (true)
@@ -54,7 +55,7 @@ public static class GenerateMethodK
                 var pid = GetPIDRegular(a, b);
                 if (pid % 25 != nature)
                     continue;
-                if (ShinyUtil.GetIsShiny(id32, pid, 8) != criteria.Shiny.IsShiny())
+                if (ShinyUtil.GetIsShiny3(id32, pid) != criteria.Shiny.IsShiny())
                     break; // try again
                 if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((int)(pid & 1)))
                     break; // try again
@@ -88,6 +89,8 @@ public static class GenerateMethodK
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
                 if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
                     break; // try again
+                if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                    continue;
 
                 if (enc.Type is SlotType4.BugContest && !MethodK.IsAny31(iv32) && !MethodK.IsAny31(iv32 >> 16))
                     break; // try again
@@ -110,7 +113,7 @@ public static class GenerateMethodK
     /// <param name="criteria">Criteria to match</param>
     /// <param name="origin">Method 1 origin seed applied</param>
     /// <returns>True if the PID/IV was valid &amp; applied to the entity.</returns>
-    public static bool SetFromIVsK<T>(this T enc, PK4 pk, PersonalInfo4 pi, EncounterCriteria criteria, out uint origin)
+    public static bool SetFromIVsK<T>(this T enc, PK4 pk, PersonalInfo4 pi, in EncounterCriteria criteria, out uint origin)
         where T : IEncounterSlot4
     {
         var gr = pi.Gender;
@@ -173,5 +176,10 @@ public static class GenerateMethodK
         return false;
     }
 
+    /// <summary>
+    /// Combines two 16-bit unsigned integers into a single 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="a">The first set of 16 bits from a Rand() call.</param>
+    /// <param name="b">The second set of 16 bits from a Rand() call.</param>
     public static uint GetPIDRegular(uint a, uint b) => b << 16 | a;
 }

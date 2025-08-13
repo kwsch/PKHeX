@@ -15,7 +15,7 @@ public static class FileUtil
     /// <summary>
     /// Attempts to get a binary object from the provided path.
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">Path to the file.</param>
     /// <param name="reference">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
     public static object? GetSupportedFile(string path, SaveFile? reference = null)
@@ -46,9 +46,9 @@ public static class FileUtil
     /// <param name="ext">File extension used as a hint.</param>
     /// <param name="reference">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
-    public static object? GetSupportedFile(byte[] data, ReadOnlySpan<char> ext, SaveFile? reference = null)
+    public static object? GetSupportedFile(Memory<byte> data, ReadOnlySpan<char> ext, SaveFile? reference = null)
     {
-        if (TryGetSAV(data, out var sav))
+        if (SaveUtil.TryGetSaveFile(data, out var sav))
             return sav;
         if (TryGetMemoryCard(data, out var mc))
             return mc;
@@ -86,6 +86,22 @@ public static class FileUtil
         catch { return -1; } // Bad File / Locked
     }
 
+    /// <summary>
+    /// Safely iterates over the elements of the specified <see cref="IEnumerable{T}"/>, handling exceptions during enumeration.
+    /// </summary>
+    /// <remarks>
+    /// This method ensures that exceptions thrown during enumeration do not terminate the iteration prematurely.
+    /// Instead, it logs the exception (if a <paramref name="log"/> action is provided) and continues iterating until the specified <paramref name="failOut"/> limit is reached.
+    /// If the limit is exceeded, the iteration stops.
+    /// </remarks>
+    /// <typeparam name="T">The type of elements in the source collection.</typeparam>
+    /// <param name="source">The source collection to iterate over. Cannot be <see langword="null"/>.</param>
+    /// <param name="failOut">
+    /// The maximum number of consecutive exceptions allowed before the iteration is terminated.
+    /// Must be greater than or equal to 0.
+    /// </param>
+    /// <param name="log">An optional action to log or handle exceptions that occur during enumeration. If <see langword="null"/>, exceptions are ignored.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> that yields elements from the source collection, skipping over elements that cause exceptions.</returns>
     public static IEnumerable<T> IterateSafe<T>(this IEnumerable<T> source, int failOut = 10, Action<Exception>? log = null)
     {
         using var enumerator = source.GetEnumerator();
@@ -110,16 +126,16 @@ public static class FileUtil
         }
     }
 
-    private static bool TryGetGP1(byte[] data, [NotNullWhen(true)] out GP1? gp1)
+    private static bool TryGetGP1(Memory<byte> data, [NotNullWhen(true)] out GP1? gp1)
     {
         gp1 = null;
-        if (data.Length != GP1.SIZE || ReadUInt32LittleEndian(data.AsSpan(0x28)) == 0)
+        if (data.Length != GP1.SIZE || ReadUInt32LittleEndian(data.Span[0x28..]) == 0)
             return false;
         gp1 = new GP1(data);
         return true;
     }
 
-    private static bool TryGetBundle(byte[] data, [NotNullWhen(true)] out IPokeGroup? result)
+    private static bool TryGetBundle(Memory<byte> data, [NotNullWhen(true)] out IPokeGroup? result)
     {
         result = null;
         if (RentalTeam8.IsRentalTeam(data))
@@ -164,26 +180,14 @@ public static class FileUtil
     public static bool IsFileTooSmall(long length) => length < 0x20; // bigger than PK1
 
     /// <summary>
-    /// Tries to get a <see cref="SaveFile"/> object from the input parameters.
-    /// </summary>
-    /// <param name="data">Binary data</param>
-    /// <param name="sav">Output result</param>
-    /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetSAV(byte[] data, [NotNullWhen(true)] out SaveFile? sav)
-    {
-        sav = SaveUtil.GetVariantSAV(data);
-        return sav is not null;
-    }
-
-    /// <summary>
     /// Tries to get a <see cref="SAV3GCMemoryCard"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
     /// <param name="memcard">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetMemoryCard(byte[] data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
+    public static bool TryGetMemoryCard(Memory<byte> data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
-        if (!SAV3GCMemoryCard.IsMemoryCardSize(data) || IsNoDataPresent(data))
+        if (!SAV3GCMemoryCard.IsMemoryCardSize(data.Span) || IsNoDataPresent(data.Span))
         {
             memcard = null;
             return false;
@@ -192,7 +196,7 @@ public static class FileUtil
         return true;
     }
 
-    /// <inheritdoc cref="TryGetMemoryCard(byte[], out SAV3GCMemoryCard?)"/>
+    /// <inheritdoc cref="TryGetMemoryCard(Memory{byte}, out SAV3GCMemoryCard?)"/>
     public static bool TryGetMemoryCard(string file, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
         if (!File.Exists(file))
@@ -212,7 +216,7 @@ public static class FileUtil
     /// <param name="ext">Format hint</param>
     /// <param name="sav">Reference save file used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
+    public static bool TryGetPKM(Memory<byte> data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
     {
         if (ext.EndsWith("pgt")) // size collision with pk6
         {
@@ -231,10 +235,10 @@ public static class FileUtil
     /// <param name="result">Output result</param>
     /// <param name="sav">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetPCBoxBin(byte[] data, [NotNullWhen(true)] out ConcatenatedEntitySet? result, SaveFile? sav)
+    public static bool TryGetPCBoxBin(Memory<byte> data, [NotNullWhen(true)] out ConcatenatedEntitySet? result, SaveFile? sav)
     {
         result = null;
-        if (sav is null || IsNoDataPresent(data))
+        if (sav is null || IsNoDataPresent(data.Span))
             return false;
 
         // Only return if the size is one of the save file's data chunk formats.
@@ -274,7 +278,7 @@ public static class FileUtil
     /// <param name="data">Binary data</param>
     /// <param name="bv">Output result</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out IBattleVideo? bv)
+    public static bool TryGetBattleVideo(Memory<byte> data, [NotNullWhen(true)] out IBattleVideo? bv)
     {
         bv = BattleVideo.GetVariantBattleVideo(data);
         return bv is not null;
@@ -287,7 +291,7 @@ public static class FileUtil
     /// <param name="mg">Output result</param>
     /// <param name="ext">Format hint</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
+    public static bool TryGetMysteryGift(Memory<byte> data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
     {
         mg = ext.Length == 0
             ? MysteryGift.GetMysteryGift(data)
@@ -306,7 +310,7 @@ public static class FileUtil
         string fn = pk.FileNameWithoutExtension;
         string filename = fn + (encrypt ? $".ek{pk.Format}" : $".{pk.Extension}");
 
-        return Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+        return Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(filename));
     }
 
     /// <summary>
@@ -342,8 +346,15 @@ public static class FileUtil
 /// <param name="Count">Count of objects</param>
 public sealed record ConcatenatedEntitySet(Memory<byte> Data, int Count)
 {
+    /// <summary>
+    /// Size of each Entity in bytes.
+    /// </summary>
     public int SlotSize => Data.Length / Count;
 
+    /// <summary>
+    /// Retrieves a specific slot of data from the concatenated set.
+    /// </summary>
+    /// <param name="index">Slot index to retrieve.</param>
     public Span<byte> GetSlot(int index)
     {
         var size = SlotSize;

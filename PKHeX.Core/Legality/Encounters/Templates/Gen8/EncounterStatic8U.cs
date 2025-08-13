@@ -48,11 +48,53 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
         base.SetTrainerName(name, pk);
     }
 
+    // These raids are always generated as Never-Shiny, and only at the choice screen are they possibly set shiny.
+    private const Shiny ShinyMethod = Shiny.Never;
+    private const byte ShinyXor = 1; // If forced shiny, the XOR is always 1.
+
+    // Need to override to ensure the fallback also uses Never-Shiny.
+    protected override void SetPINGA(PK8 pk, in EncounterCriteria criteria, PersonalInfo8SWSH pi)
+    {
+        Span<int> iv = stackalloc int[6];
+
+        int ctr = 0;
+        var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
+        var param = GetParam(pi);
+        ulong seed;
+        const int max = 100_000;
+        do
+        {
+            if (TryApply(pk, seed = rand.Next(), iv, param, criteria))
+                break;
+        } while (++ctr < max);
+
+        if (ctr == max) // fail
+        {
+            if (!TryApply(pk, seed = rand.Next(), iv, param, criteria.WithoutIVs()))
+            {
+                var tmp = EncounterCriteria.Unrestricted with { Shiny = ShinyMethod };
+                while (!TryApply(pk, seed = rand.Next(), iv, param, tmp)) { }
+            }
+        }
+
+        FinishCorrelation(pk, seed);
+        if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature && criteria.Nature.IsMint())
+            pk.StatNature = criteria.Nature;
+        if (criteria.Shiny.IsShiny())
+            pk.PID = ShinyUtil.GetShinyPID(pk.TID16, pk.SID16, pk.PID, ShinyXor);
+    }
+
+    private GenerateParam8 GetParam(PersonalInfo8SWSH pi)
+    {
+        var ratio = RemapGenderToParam(Gender, pi);
+        return new GenerateParam8(Species, ratio, FlawlessIVCount, Ability, ShinyMethod, Nature.Random, IVs);
+    }
+
     // no downleveling, unlike all other raids
     protected override bool IsMatchLevel(PKM pk) => pk.MetLevel == Level;
     protected override bool IsMatchLocation(PKM pk) => Location == pk.MetLocation;
 
-    public bool IsShinyXorValid(ushort pkShinyXor) => pkShinyXor is > 15 or 1;
+    public bool IsShinyXorValid(ushort pkShinyXor) => pkShinyXor is > 15 or ShinyXor; // not shiny, or shiny with XOR=1
 
     public bool ShouldHaveScientistTrash => Level != 70; // Level 65, not legendary/sub-legendary/ultra beast
 

@@ -257,31 +257,31 @@ public sealed class SAV3GCMemoryCard(Memory<byte> Raw)
         return MemoryCardSaveStatus.SaveGameRSBOX;
     }
 
-    public bool IsNoGameSelected => SelectedGameVersion == GameVersion.Any;
+    public bool IsNoGameSelected => SelectedGameVersion == default;
 
-    public GameVersion SelectedGameVersion
+    public SaveFileType SelectedGameVersion
     {
         get
         {
             if (EntrySelected < 0)
-                return GameVersion.Any;
+                return SaveFileType.None;
             if (EntrySelected == EntryCOLO)
-                return GameVersion.COLO;
+                return SaveFileType.Colosseum;
             if (EntrySelected == EntryXD)
-                return GameVersion.XD;
+                return SaveFileType.XD;
             if (EntrySelected == EntryRSBOX)
-                return GameVersion.RSBOX;
-            return GameVersion.Any; //Default for no game selected
+                return SaveFileType.RSBox;
+            return default; //Default for no game selected
         }
     }
 
-    public void SelectSaveGame(GameVersion Game)
+    public void SelectSaveGame(SaveFileType Game)
     {
         switch (Game)
         {
-            case GameVersion.COLO: if (HasCOLO) EntrySelected = EntryCOLO; break;
-            case GameVersion.XD: if (HasXD) EntrySelected = EntryXD; break;
-            case GameVersion.RSBOX: if (HasRSBOX) EntrySelected = EntryRSBOX; break;
+            case SaveFileType.Colosseum: if (HasCOLO) EntrySelected = EntryCOLO; break;
+            case SaveFileType.XD: if (HasXD) EntrySelected = EntryXD; break;
+            case SaveFileType.RSBox: if (HasRSBOX) EntrySelected = EntryRSBOX; break;
         }
     }
 

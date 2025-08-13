@@ -1,9 +1,8 @@
 using System;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public class PokestarMovie5(Memory<byte> Raw)
+public sealed class PokestarMovie5(Memory<byte> Raw)
 {
     public const int SIZE = 0x4B4;
     public const string Extension = "psm5";

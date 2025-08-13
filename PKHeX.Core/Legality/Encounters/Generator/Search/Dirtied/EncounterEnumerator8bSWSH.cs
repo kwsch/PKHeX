@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Iterates to find potentially matched encounters for <see cref="GameVersion.BDSP"/> encounters while in the <see cref="PK8"/> format.
+/// Iterates to find potentially matched encounters for <see cref="EncounterEnumerator8b"/> encounters while in the <see cref="PK8"/> format.
 /// </summary>
-public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
+public record struct EncounterEnumerator8bSWSH(PK8 Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {
     private IEncounterable? Deferred;
     private int Index;
@@ -56,7 +55,6 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
         switch (State)
         {
             case YieldState.Start:
-                Debug.Assert(Entity is PK8);
                 if (Chain.Length == 0)
                     break;
 
@@ -79,7 +77,7 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                if (!EncounterGenerator8b.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
+                if (!EncounterGenerator8b.TryGetSplit((EncounterEgg8b)Current.Encounter, Chain, out egg))
                     goto case YieldState.TradeStart;
                 State = YieldState.End;
                 return SetCurrent(egg);
@@ -146,8 +144,6 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
                 if (Deferred is not null)
                     return SetCurrent(Deferred, Rating);
                 break;
-            case YieldState.End:
-                return false;
         }
         return false;
     }

@@ -29,7 +29,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         value.Slots.Publisher.Subscribers.Add(SL_Extra);
     }
 
-    public SaveFile SAV { get; private set; } = new FakeSaveFile();
+    public SaveFile SAV { get; private set; } = FakeSaveFile.Default;
     public int CurrentBox => Box.CurrentBox;
     public SlotChangeManager M { get; }
     public readonly ContextMenuSAV menu;
@@ -492,9 +492,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void UpdateSaveSlot(object sender, EventArgs e)
     {
-        if (SAV is not SAV4BR br)
+        var index = WinFormsUtil.GetIndex(CB_SaveSlot);
+        if (SAV is not SAV4BR br || br.CurrentSlot == index)
             return;
-        br.CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
+
+        var form = WinFormsUtil.FirstFormOfType<SAV_BattlePass>();
+        form?.Close();
+
+        br.CurrentSlot = index;
         Box.ResetBoxNames(); // fix box names
         SetPKMBoxes();
         UpdateBoxViewers(true);
@@ -615,6 +620,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenGeonetEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Geonet4((SAV4)SAV));
     private void B_OpenUnityTowerEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_UnityTower((SAV5)SAV));
     private void B_OpenChatterEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Chatter(SAV));
+    private void B_OpenGear_Click(object sender, EventArgs e) => OpenDialog(new SAV_Gear((SAV4BR)SAV));
 
     private void B_OpenSecretBase_Click(object sender, EventArgs e)
     {
@@ -664,6 +670,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         SAV8BS bs => new SAV_Trainer8b(bs),
         SAV8LA la => new SAV_Trainer8a(la),
         SAV9SV sv => new SAV_Trainer9(sv),
+        SAV4BR br => new SAV_Trainer4BR(br),
         _ => new SAV_SimpleTrainer(sav),
     };
 
@@ -713,6 +720,23 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         if (SAV is SAV_STADIUM s0)
             TryOpen(s0, s0.GetRegisteredTeams());
+    }
+
+    private void B_OpenBattlePass_Click(object sender, EventArgs e)
+    {
+        void TryOpen(SAV4BR sav)
+        {
+            var form = WinFormsUtil.FirstFormOfType<SAV_BattlePass>();
+            if (form is not null)
+                form.CenterToForm(ParentForm);
+            else
+                form = new SAV_BattlePass(sav, M.Env.PKMEditor) { Owner = ParentForm };
+            form.BringToFront();
+            form.Show();
+        }
+
+        if (SAV is SAV4BR br)
+            TryOpen(br);
     }
 
     private void B_Blocks_Click(object sender, EventArgs e)
@@ -900,8 +924,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgClipboardLegalityExport) != DialogResult.Yes)
             return;
 
-        var lines = bulk.Parse.Select(z => $"{z.Judgement}: {z.Comment}");
-        var msg = string.Join(Environment.NewLine, lines);
+        var localization = LegalityLocalizationSet.GetLocalization(Main.CurrentLanguage);
+        var msg = bulk.Report(localization);
         WinFormsUtil.SetClipboardText(msg);
         SystemSounds.Asterisk.Play();
     }
@@ -941,7 +965,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     public bool ExportSaveFile()
     {
         ValidateChildren();
-        bool reload = SAV is SAV7b b && b.FixPreWrite();
+        bool reload = SAV is IStorageCleanup b && b.FixStoragePreWrite();
         if (reload)
             ReloadSlots();
         return WinFormsUtil.ExportSAVDialog(SAV, SAV.CurrentBox);
@@ -958,7 +982,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             return false;
         }
 
-        var suggestion = Util.CleanFileName(SAV.Metadata.BAKName);
+        var suggestion = PathUtil.CleanFileName(SAV.Metadata.BAKName);
         using var sfd = new SaveFileDialog();
         sfd.FileName = suggestion;
         if (sfd.ShowDialog() != DialogResult.OK)
@@ -1233,8 +1257,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 
         B_OtherSlots.Visible = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
-        B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
-        B_OpenMiscEditor.Visible = sav is SAV2 { Version: GameVersion.C} or SAV3 or SAV4 or SAV5 or SAV8BS;
+        B_OpenTrainerInfo.Visible = sav.HasParty || SAV is SAV7b; // Box RS
+        B_OpenItemPouch.Visible = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
+        B_OpenMiscEditor.Visible = sav is SAV2 { Version: GameVersion.C } or SAV3 or SAV4 or SAV5 or SAV8BS;
         B_Roamer.Visible = sav is SAV3 or SAV6XY;
 
         B_OpenHoneyTreeEditor.Visible = sav is SAV4Sinnoh;
@@ -1242,6 +1267,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenGeonetEditor.Visible = sav is SAV4;
         B_OpenUnityTowerEditor.Visible = sav is SAV5;
         B_OpenChatterEditor.Visible = sav is SAV4 or SAV5;
+        B_OpenBattlePass.Visible = B_OpenGear.Visible = sav is SAV4BR;
         B_OpenSealStickers.Visible = B_Poffins.Visible = sav is SAV8BS;
         B_OpenApricorn.Visible = sav is SAV4HGSS;
         B_OpenRTCEditor.Visible = (sav.Generation == 2 && sav is not SAV2Stadium) || sav is IGen3Hoenn;
@@ -1331,7 +1357,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private static void ExportShowdownText(SaveFile sav, string success, Func<SaveFile, IEnumerable<PKM>> fetch)
     {
         var list = fetch(sav);
-        var result = ShowdownParsing.GetShowdownSets(list, Environment.NewLine + Environment.NewLine);
+        var programLanguage = Language.GetLanguageValue(Main.Settings.Startup.Language);
+        var settings = Main.Settings.BattleTemplate.Export.GetSettings(programLanguage, sav.Context);
+        var result = ShowdownParsing.GetShowdownSets(list, Environment.NewLine + Environment.NewLine, settings);
         if (string.IsNullOrWhiteSpace(result))
             return;
         if (WinFormsUtil.SetClipboardText(result))

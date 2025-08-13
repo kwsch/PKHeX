@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="9.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>

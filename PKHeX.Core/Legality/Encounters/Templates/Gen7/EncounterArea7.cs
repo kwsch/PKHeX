@@ -11,7 +11,7 @@ public enum SlotType7 : byte
 }
 
 /// <summary>
-/// <see cref="GameVersion.Gen7"/> encounter area
+/// <see cref="EntityContext.Gen7"/> encounter area
 /// </summary>
 public sealed record EncounterArea7 : IEncounterArea<EncounterSlot7>, IAreaLocation
 {

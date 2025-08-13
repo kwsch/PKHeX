@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
-using static PKHeX.Core.LearnSource4;
+using static PKHeX.Core.PersonalInfo4;
 
 namespace PKHeX.Core;
 
@@ -13,8 +13,8 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
 {
     public static readonly LearnSource4HGSS Instance = new();
     private static readonly PersonalTable4 Personal = PersonalTable.HGSS;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"u8));
-    private static readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"u8));
+    private static readonly MoveSource[] EggMoves = MoveSource.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_4;
     private const LearnEnvironment Game = HGSS;
     private const byte Generation = 4;
@@ -34,17 +34,19 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
-        return moves.GetHasEggMove(move);
+        var moves = arr[species];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return [];
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo4 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
@@ -52,9 +54,8 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
@@ -92,16 +93,16 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
 
     private static bool GetIsTypeTutor(ushort species, ushort move) => move switch
     {
-        (ushort)Move.BlastBurn => SpecialTutors_Compatibility_4_BlastBurn.Contains(species),
-        (ushort)Move.HydroCannon => SpecialTutors_Compatibility_4_HydroCannon.Contains(species),
-        (ushort)Move.FrenzyPlant => SpecialTutors_Compatibility_4_FrenzyPlant.Contains(species),
-        (ushort)Move.DracoMeteor => SpecialTutors_Compatibility_4_DracoMeteor.Contains(species),
+        (ushort)Move.BlastBurn => SpecialTutorBlastBurn.Contains(species),
+        (ushort)Move.HydroCannon => SpecialTutorHydroCannon.Contains(species),
+        (ushort)Move.FrenzyPlant => SpecialTutorFrenzyPlant.Contains(species),
+        (ushort)Move.DracoMeteor => SpecialTutorDracoMeteor.Contains(species),
         _ => false,
     };
 
     private static bool GetIsSpecialTutor(PersonalInfo4 pi, ushort move)
     {
-        var index = Tutors_4.IndexOf(move);
+        var index = TutorMoves.IndexOf(move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -109,13 +110,13 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
 
     private static bool GetIsTM(PersonalInfo4 info, ushort move)
     {
-        var index = TM_4.IndexOf(move);
+        var index = MachineMovesTechnical.IndexOf(move);
         return info.GetIsLearnTM(index);
     }
 
     private static bool GetIsHM(PersonalInfo4 info, ushort move)
     {
-        var index = HM_HGSS.IndexOf(move);
+        var index = MachineMovesHiddenHGSS.IndexOf(move);
         return info.GetIsLearnHM(index);
     }
 
@@ -134,10 +135,10 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
 
         if (types.HasFlag(MoveSourceType.Machine))
         {
-            pi.SetAllLearnTM(result, TM_4);
+            pi.SetAllLearnTM(result, MachineMovesTechnical);
 
             if (pk.Format == Generation)
-                pi.SetAllLearnHM(result, HM_HGSS);
+                pi.SetAllLearnHM(result, MachineMovesHiddenHGSS);
             else if (pi.GetIsLearnHM(4)) // Permit Whirlpool to leak through if transferred to Gen5+ (via D/P/Pt)
                 result[(int)Move.Whirlpool] = true;
         }
@@ -145,18 +146,18 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
         if (types.HasFlag(MoveSourceType.TypeTutor))
         {
             // Elemental Beams
-            if (SpecialTutors_Compatibility_4_BlastBurn.Contains(evo.Species))
+            if (SpecialTutorBlastBurn.Contains(evo.Species))
                 result[(int)Move.BlastBurn] = true;
-            if (SpecialTutors_Compatibility_4_HydroCannon.Contains(evo.Species))
+            if (SpecialTutorHydroCannon.Contains(evo.Species))
                 result[(int)Move.HydroCannon] = true;
-            if (SpecialTutors_Compatibility_4_FrenzyPlant.Contains(evo.Species))
+            if (SpecialTutorFrenzyPlant.Contains(evo.Species))
                 result[(int)Move.FrenzyPlant] = true;
-            if (SpecialTutors_Compatibility_4_DracoMeteor.Contains(evo.Species))
+            if (SpecialTutorDracoMeteor.Contains(evo.Species))
                 result[(int)Move.DracoMeteor] = true;
         }
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
-            pi.SetAllLearnTutorType(result, Tutors_4);
+            pi.SetAllLearnTutorType(result, TutorMoves);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {

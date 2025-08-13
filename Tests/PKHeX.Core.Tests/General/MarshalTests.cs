@@ -23,10 +23,10 @@ public class MarshalTests
     [InlineData( 8, typeof(NPCLock))]
     [InlineData( 8, typeof(IndividualValueSet))]
     [InlineData( 8, typeof(EvolutionOrigin))]
+    [InlineData( 8, typeof(CheckResult))]
     [InlineData(16, typeof(DreamWorldEntry))]
-    [InlineData(16, typeof(CheckResult))]
     [InlineData(16, typeof(EvolutionLink))]
     [InlineData(16, typeof(EncounterCriteria))]
     [InlineData(24, typeof(GenerateParam9))]
-    public void MarshalSizeLessThanEqual(int expect, Type t) => Marshal.SizeOf(t).Should().BeLessOrEqualTo(expect);
+    public void MarshalSizeLessThanEqual(int expect, Type t) => Marshal.SizeOf(t).Should().BeLessThanOrEqualTo(expect);
 }

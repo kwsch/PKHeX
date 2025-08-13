@@ -7,12 +7,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Mystery Gift Template File
 /// </summary>
-public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature, ITeraType, IRibbonIndex, IMemoryOT,
+public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbonIndex, IMemoryOT,
     ILangNicknamedTemplate, IEncounterServerDate, IRelearn, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9, IEncounterMarkExtra
 {
     public WC9() : this(new byte[Size]) { }
+    public WC9(Memory<byte> raw) : base(raw) { }
+    public override WC9 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2C8;
     public const int CardStart = 0x0;
@@ -43,15 +45,15 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     // General Card Properties
     public override int CardID
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x8));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x8), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[(CardStart + 0x8)..]);
+        set => WriteUInt16LittleEndian(Data[(CardStart + 0x8)..], (ushort)value);
     }
 
     // Added in 1.2.0; now can enforce a fixed scale if not 256.
     public ushort Scale
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x0C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x0C), value);
+        get => ReadUInt16LittleEndian(Data[(CardStart + 0x0C)..]);
+        set => WriteUInt16LittleEndian(Data[(CardStart + 0x0C)..], value);
     }
 
     public byte CardFlags { get => Data[CardStart + 0x10]; set => Data[CardStart + 0x10] = value; }
@@ -86,10 +88,10 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         set => SetQuantity(0, (ushort)value);
     }
 
-    public int GetItem(int index) => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x18 + (0x4 * index)));
-    public void SetItem(int index, ushort item) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x18 + (4 * index)), item);
-    public int GetQuantity(int index) => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x1A + (0x4 * index)));
-    public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x1A + (4 * index)), quantity);
+    public int GetItem(int index) => ReadUInt16LittleEndian(Data[(CardStart + 0x18 + (0x4 * index))..]);
+    public void SetItem(int index, ushort item) => WriteUInt16LittleEndian(Data[(CardStart + 0x18 + (4 * index))..], item);
+    public int GetQuantity(int index) => ReadUInt16LittleEndian(Data[(CardStart + 0x1A + (0x4 * index))..]);
+    public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data[(CardStart + 0x1A + (4 * index))..], quantity);
 
     // Pokémon Properties
     public override bool IsEntity { get => CardType == GiftType.Pokemon; set { if (value) CardType = GiftType.Pokemon; } }
@@ -127,14 +129,14 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     // Since we expose the 16bit (pk9) component values here, just adjust them accordingly with an inlined calc.
     public override uint ID32
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18));
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), value);
+        get => ReadUInt32LittleEndian(Data[(CardStart + 0x18)..]);
+        set => WriteUInt32LittleEndian(Data[(CardStart + 0x18)..], value);
     }
 
     public uint ID32Old
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000u * (uint)CardID);
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), value + (1000000u * (uint)CardID));
+        get => ReadUInt32LittleEndian(Data[(CardStart + 0x18)..]) - (1000000u * (uint)CardID);
+        set => WriteUInt32LittleEndian(Data[(CardStart + 0x18)..], value + (1000000u * (uint)CardID));
     }
 
     public override ushort TID16
@@ -151,54 +153,54 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public int OriginGame
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(CardStart + 0x1C));
-        set => WriteInt32LittleEndian(Data.AsSpan(CardStart + 0x1C), value);
+        get => ReadInt32LittleEndian(Data[(CardStart + 0x1C)..]);
+        set => WriteInt32LittleEndian(Data[(CardStart + 0x1C)..], value);
     }
 
     public uint EncryptionConstant
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x20));
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x20), value);
+        get => ReadUInt32LittleEndian(Data[(CardStart + 0x20)..]);
+        set => WriteUInt32LittleEndian(Data[(CardStart + 0x20)..], value);
     }
 
     public uint PID
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x24));
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x24), value);
+        get => ReadUInt32LittleEndian(Data[(CardStart + 0x24)..]);
+        set => WriteUInt32LittleEndian(Data[(CardStart + 0x24)..], value);
     }
 
     // Nicknames, OT Names 0x28 - 0x220
-    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x220)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x220), value); }
-    public override ushort Location { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x222)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x222), value); }
+    public override ushort EggLocation { get => ReadUInt16LittleEndian(Data[(CardStart + 0x220)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x220)..], value); }
+    public override ushort Location { get => ReadUInt16LittleEndian(Data[(CardStart + 0x222)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x222)..], value); }
 
     public override byte Ball
     {
-        get => (byte)ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x224));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x224), value);
+        get => (byte)ReadUInt16LittleEndian(Data[(CardStart + 0x224)..]);
+        set => WriteUInt16LittleEndian(Data[(CardStart + 0x224)..], value);
     }
 
     public override int HeldItem
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x226));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x226), (ushort)value);
+        get => ReadUInt16LittleEndian(Data[(CardStart + 0x226)..]);
+        set => WriteUInt16LittleEndian(Data[(CardStart + 0x226)..], (ushort)value);
     }
 
-    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x228)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x228), value); }
-    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x22A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22A), value); }
-    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x22C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22C), value); }
-    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x22E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22E), value); }
-    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x230)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x230), value); }
-    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x232)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x232), value); }
-    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x234)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x234), value); }
-    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x236)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x236), value); }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x228)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x228)..], value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x22A)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x22A)..], value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x22C)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x22C)..], value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x22E)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x22E)..], value); }
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x230)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x230)..], value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x232)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x232)..], value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x234)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x234)..], value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[(CardStart + 0x236)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x236)..], value); }
 
-    public override ushort Species { get => SpeciesConverter.GetNational9(ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x238))); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x238), SpeciesConverter.GetInternal9(value)); }
+    public override ushort Species { get => SpeciesConverter.GetNational9(ReadUInt16LittleEndian(Data[(CardStart + 0x238)..])); set => WriteUInt16LittleEndian(Data[(CardStart + 0x238)..], SpeciesConverter.GetInternal9(value)); }
     public override byte Form { get => Data[CardStart + 0x23A]; set => Data[CardStart + 0x23A] = value; }
     public override byte Gender { get => Data[CardStart + 0x23B]; set => Data[CardStart + 0x23B] = value; }
     public override byte Level { get => Data[CardStart + 0x23C]; set => Data[CardStart + 0x23C] = value; }
     public override bool IsEgg { get => Data[CardStart + 0x23D] == 1; set => Data[CardStart + 0x23D] = value ? (byte)1 : (byte)0; }
     public Nature Nature { get => (Nature)Data[CardStart + 0x23E]; set => Data[CardStart + 0x23E] = (byte)value; }
-    public override int AbilityType { get => Data[CardStart + 0x23F]; set => Data[CardStart + 0x23F] = (byte)value; }
+    public int AbilityType { get => Data[CardStart + 0x23F]; set => Data[CardStart + 0x23F] = (byte)value; }
 
     public ShinyType8 PIDType { get => (ShinyType8)Data[CardStart + 0x240]; set => Data[CardStart + 0x240] = (byte)value; }
 
@@ -211,15 +213,15 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     }
 
     public MoveType TeraType => TeraTypeOriginal;
-    public short HeightValue { get => ReadInt16LittleEndian(Data.AsSpan(CardStart + 0x244)); set => WriteInt16LittleEndian(Data.AsSpan(CardStart + 0x244), value); }
-    public short WeightValue { get => ReadInt16LittleEndian(Data.AsSpan(CardStart + 0x246)); set => WriteInt16LittleEndian(Data.AsSpan(CardStart + 0x246), value); }
+    public short HeightValue { get => ReadInt16LittleEndian(Data[(CardStart + 0x244)..]); set => WriteInt16LittleEndian(Data[(CardStart + 0x244)..], value); }
+    public short WeightValue { get => ReadInt16LittleEndian(Data[(CardStart + 0x246)..]); set => WriteInt16LittleEndian(Data[(CardStart + 0x246)..], value); }
 
     // Ribbons 0x24C-0x26C
     private const int RibbonBytesOffset = 0x248;
     private const int RibbonBytesCount = 0x20;
     private const byte RibbonByteNone = 0xFF; // signed -1
 
-    private Span<byte> RibbonSpan => Data.AsSpan(RibbonBytesOffset, RibbonBytesCount);
+    private Span<byte> RibbonSpan => Data.Slice(RibbonBytesOffset, RibbonBytesCount);
 
     public bool HasMarkEncounter8
     {
@@ -278,9 +280,9 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public byte OriginalTrainerMemoryIntensity { get => Data[CardStart + 0x275]; set => Data[CardStart + 0x275] = value; }
     public byte OriginalTrainerMemory { get => Data[CardStart + 0x276]; set => Data[CardStart + 0x276] = value; }
     public byte OriginalTrainerMemoryFeeling { get => Data[CardStart + 0x277]; set => Data[CardStart + 0x277] = value; }
-    public ushort OriginalTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x278)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x278), value); }
+    public ushort OriginalTrainerMemoryVariable { get => ReadUInt16LittleEndian(Data[(CardStart + 0x278)..]); set => WriteUInt16LittleEndian(Data[(CardStart + 0x278)..], value); }
 
-    public ushort Checksum => ReadUInt16LittleEndian(Data.AsSpan(0x2C4));
+    public ushort Checksum => ReadUInt16LittleEndian(Data[0x2C4..]);
 
     // Meta Accessible Properties
     public int[] IVs
@@ -319,14 +321,14 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         }
     }
 
-    public bool GetIsNicknamed(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetNicknameOffset(language))) != 0;
+    public bool GetIsNicknamed(int language) => ReadUInt16LittleEndian(Data[GetNicknameOffset(language)..]) != 0;
 
     public bool CanBeAnyLanguage()
     {
         for (int i = 0; i < 9; i++)
         {
             var ofs = GetLanguageOffset(i);
-            var lang = ReadInt16LittleEndian(Data.AsSpan(ofs));
+            var lang = ReadInt16LittleEndian(Data[ofs..]);
             if (lang != 0)
                 return false;
         }
@@ -344,7 +346,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         for (int i = 0; i < 9; i++)
         {
             var ofs = GetLanguageOffset(i);
-            var lang = ReadInt16LittleEndian(Data.AsSpan(ofs));
+            var lang = ReadInt16LittleEndian(Data[ofs..]);
             if (lang == language)
                 return true;
         }
@@ -354,7 +356,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
     private static int GetLanguageOffset(int index) => 0x28 + (index * 0x1C) + 0x1A;
 
-    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
+    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data[GetOTOffset(language)..]) != 0;
 
     private static int GetLanguageIndex(int language)
     {
@@ -402,11 +404,11 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public bool IsNicknamed => false;
     public int Language => 2;
 
-    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    private Span<byte> GetNicknameSpan(int language) => Data.Slice(GetNicknameOffset(language), 0x1A);
     public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
     public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    private Span<byte> GetOTSpan(int language) => Data.Slice(GetOTOffset(language), 0x1A);
     public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
     public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
@@ -492,7 +494,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
           //TeraTypeOverride = TeraTypeOverride,
         };
         // The game doesn't have random tera types.
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk))
         {
@@ -573,7 +575,7 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
@@ -584,9 +586,9 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => GetAbilityIndex(criteria, AbilityType);
+    private int GetAbilityIndex(in EncounterCriteria criteria) => GetAbilityIndex(criteria, AbilityType);
 
-    private int GetAbilityIndex(EncounterCriteria criteria, int type) => type switch
+    private int GetAbilityIndex(in EncounterCriteria criteria, int type) => type switch
     {
         00 or 01 or 02 => type, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H
@@ -675,11 +677,13 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
 
-            if (!CanBeAnyLanguage() && !CanHaveLanguage(pk.Language))
+            var language = pk.Language;
+            if (!CanBeAnyLanguage() && !CanHaveLanguage(language))
                 return false;
 
-            var OT = GetOT(pk.Language); // May not be guaranteed to work.
-            if (!string.IsNullOrEmpty(OT) && OT != pk.OriginalTrainerName) return false;
+            if (GetHasOT(language) && !IsMatchTrainerName(GetOTSpan(language), pk))
+                return false;
+
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0)
             {
@@ -753,6 +757,25 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         if (type is ShinyType8.Never or ShinyType8.Random)
             return true;
         return pk.PID == GetPID(pk, type);
+    }
+
+    private bool IsMatchTrainerName(ReadOnlySpan<byte> trainerTrash, PKM pk)
+    {
+        Span<char> trainerName = stackalloc char[12];
+        int length = StringConverter8.LoadString(trainerTrash, trainerName);
+        trainerName = trainerName[..length];
+
+        Span<char> pkTrainerName = stackalloc char[pk.MaxStringLengthTrainer];
+        int pkLength = pk.LoadString(pk.OriginalTrainerTrash, pkTrainerName);
+        pkTrainerName = pkTrainerName[..pkLength];
+
+        if (length == pkLength && trainerName.SequenceEqual(pkTrainerName))
+            return true;
+
+        var language = (LanguageID)pk.Language;
+        var version = pk.Version;
+        var other = ReplaceTrainerNameHOME.IsTriggerAndReplace(trainerName, pkTrainerName, language, version, Species, Form);
+        return other is not EntityContext.None;
     }
 
     private bool IsMatchLocation(PKM pk)

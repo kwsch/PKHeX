@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static PKHeX.Core.EggSource34;
 using static PKHeX.Core.GameVersion;
-using static PKHeX.Core.LearnSource4;
+using static PKHeX.Core.PersonalInfo4;
 
 namespace PKHeX.Core;
 
@@ -13,7 +13,7 @@ namespace PKHeX.Core;
 /// <remarks>Refer to <see cref="EggSource34"/> for inheritance ordering.</remarks>
 public static class MoveBreed4
 {
-    private const int level = 1;
+    private const byte Level = EncounterEgg4.Level;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
     public static bool Validate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
@@ -40,7 +40,7 @@ public static class MoveBreed4
 
         var actual = MemoryMarshal.Cast<byte, EggSource34>(origins);
         Span<byte> possible = stackalloc byte[count];
-        var value = new BreedInfo<EggSource34>(actual, possible, learnset, moves, level);
+        var value = new BreedInfo<EggSource34>(actual, possible, learnset, moves, Level);
         if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle)
             actual[--count] = VoltTackle;
 
@@ -157,8 +157,8 @@ public static class MoveBreed4
         var possible = value.Possible;
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
-        var tmlist = TM_4;
-        var hmlist = gameVersion is HG or SS ? HM_HGSS : HM_DPPt;
+        var tmlist = MachineMovesTechnical;
+        var hmlist = gameVersion is HG or SS ? MachineMovesHiddenHGSS : MachineMovesHiddenDPPt;
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)

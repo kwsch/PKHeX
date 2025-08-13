@@ -50,20 +50,20 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         ClearBoxes();
     }
 
-    protected SAV4(byte[] data, [ConstantExpected] int gSize, [ConstantExpected] int sSize, [ConstantExpected] int sStart) : base(data)
+    protected SAV4(Memory<byte> data, [ConstantExpected] int gSize, [ConstantExpected] int sSize, [ConstantExpected] int sStart) : base(data)
     {
-        var GeneralBlockPosition = GetActiveBlock(data, 0, gSize);
-        var StorageBlockPosition = GetActiveBlock(data, sStart, sSize);
+        var GeneralBlockPosition = GetActiveBlock(Data, 0, gSize);
+        var StorageBlockPosition = GetActiveBlock(Data, sStart, sSize);
 
         var gbo = (GeneralBlockPosition == 0 ? 0 : PartitionSize);
         var sbo = (StorageBlockPosition == 0 ? 0 : PartitionSize) + sStart;
-        GeneralBuffer = Data.AsMemory(gbo, gSize);
-        StorageBuffer = Data.AsMemory(sbo, sSize);
+        GeneralBuffer = Buffer.Slice(gbo, gSize);
+        StorageBuffer = Buffer.Slice(sbo, sSize);
 
         var gboBackup = (GeneralBlockPosition != 0 ? 0 : PartitionSize);
         var sboBackup = (StorageBlockPosition != 0 ? 0 : PartitionSize) + sStart;
-        BackupGeneralBuffer = Data.AsMemory(gboBackup, gSize);
-        BackupStorageBuffer = Data.AsMemory(sboBackup, sSize);
+        BackupGeneralBuffer = Buffer.Slice(gboBackup, gSize);
+        BackupStorageBuffer = Buffer.Slice(sboBackup, sSize);
     }
 
     // Configuration
@@ -126,8 +126,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
             WriteUInt32LittleEndian(BackupGeneral[^8..^4], magic);
         if (ReadUInt32LittleEndian(BackupStorage[^8..^4]) != 0xFFFFFFFF)
             WriteUInt32LittleEndian(BackupStorage[^8..^4], magic);
-        ExtraBlocks.SetMagics(Data.AsSpan(), magic);
-        ExtraBlocks.SetMagics(Data.AsSpan(PartitionSize..), magic);
+        ExtraBlocks.SetMagics(Data, magic);
+        ExtraBlocks.SetMagics(Data[PartitionSize..], magic);
     }
 
     protected sealed override void SetChecksums()
@@ -138,8 +138,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
             WriteUInt16LittleEndian(BackupGeneral[^2..], CalcBlockChecksum(BackupGeneral));
         if (ReadUInt32LittleEndian(BackupStorage[^8..^4]) != 0xFFFFFFFF)
             WriteUInt16LittleEndian(BackupStorage[^2..], CalcBlockChecksum(BackupStorage));
-        ExtraBlocks.SetChecksums(Data.AsSpan());
-        ExtraBlocks.SetChecksums(Data.AsSpan(PartitionSize..));
+        ExtraBlocks.SetChecksums(Data);
+        ExtraBlocks.SetChecksums(Data[PartitionSize..]);
     }
 
     public sealed override bool ChecksumsValid
@@ -150,9 +150,9 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
                 return false;
             if (!GetBlockChecksumValid(Storage))
                 return false;
-            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan()))
+            if (!ExtraBlocks.GetChecksumsValid(Data))
                 return false;
-            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan(PartitionSize..)))
+            if (!ExtraBlocks.GetChecksumsValid(Data[PartitionSize..]))
                 return false;
 
             return true;
@@ -168,10 +168,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
                 list.Add("Small block checksum is invalid");
             if (!GetBlockChecksumValid(Storage))
                 list.Add("Large block checksum is invalid");
-            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan()))
-                list.Add(ExtraBlocks.GetChecksumInfo(Data.AsSpan()));
-            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan(PartitionSize..)))
-                list.Add(ExtraBlocks.GetChecksumInfo(Data.AsSpan(PartitionSize..)));
+            if (!ExtraBlocks.GetChecksumsValid(Data))
+                list.Add(ExtraBlocks.GetChecksumInfo(Data));
+            if (!ExtraBlocks.GetChecksumsValid(Data[PartitionSize..]))
+                list.Add(ExtraBlocks.GetChecksumInfo(Data[PartitionSize..]));
 
             return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
         }
@@ -189,7 +189,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
         // Hall of Fame
         if (index == 0)
-            return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block);
+            return SAV4BlockDetection.CompareExtra(Data, Data[PartitionSize..], block);
 
         // Battle Hall/Battle Videos
         var KeyOffset = Extra;
@@ -198,7 +198,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         var key = ReadUInt32LittleEndian(General[(KeyOffset + (0x4 * (index - 1)))..]);
         var keyBackup = ReadUInt32LittleEndian(General[(KeyBackupOffset + (0x4 * (index - 1)))..]);
         var prefer = General[PreferOffset + (index - 1)];
-        return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
+        return SAV4BlockDetection.CompareExtra(Data, Data[PartitionSize..], block, key, keyBackup, prefer);
     }
     #endregion
 
@@ -211,7 +211,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
         var block = ExtraBlocks[index];
         var active = GetActiveExtraBlock(block);
-        return active == -1 ? null : new BattleVideo4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, BattleVideo4.SIZE_USED));
+        return active == -1 ? null : new BattleVideo4(Buffer.Slice((active == 0 ? 0 : PartitionSize) + block.Offset, BattleVideo4.SIZE_USED));
     }
 
     public Hall4? GetHall()
@@ -221,7 +221,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
         var block = ExtraBlocks[1];
         var active = GetActiveExtraBlock(block);
-        return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_USED));
+        return active == -1 ? null : new Hall4(Buffer.Slice((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_USED));
     }
 
     protected int WondercardFlags = int.MinValue;
@@ -238,10 +238,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     private int OFS_Backdrop => FashionCase + 0x28;
 
     protected int OFS_Chatter = int.MinValue;
-    public Chatter4 Chatter => new(this, Data.AsMemory(OFS_Chatter));
+    public Chatter4 Chatter => new(this, Buffer[OFS_Chatter..]);
 
     protected int OFS_Record = int.MinValue;
-    public Record4 Records => new(this, Data.AsMemory(OFS_Record, Record4.GetSize(this)));
+    public Record4 Records => new(this, Buffer.Slice(OFS_Record, Record4.GetSize(this)));
+
+    protected int OFS_Groups = int.MinValue;
 
     // Storage
     public override int PartyCount
@@ -368,7 +370,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     protected sealed override PK4 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-    protected sealed override void SetPKM(PKM pk, bool isParty = false)
+    protected override void SetPKM(PKM pk, bool isParty = false)
     {
         var pk4 = (PK4)pk;
         // Apply to this Save File
@@ -408,6 +410,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     private int DaycareEnd => DaycareOffset + (2 * DaycareSlotSize);
 
+    /// <summary>
+    /// Egg seed is the PID assigned when the player receives the egg from the daycare.
+    /// If it is an international breed (masuda method), the game will do at most 4 attempts of checking for shiny and re-rolling via ARNG if not.
+    /// </summary>
     uint IDaycareRandomState<uint>.Seed
     {
         get => ReadUInt32LittleEndian(General[DaycareEnd..]);
@@ -421,10 +427,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         get => ((IDaycareRandomState<uint>)this).Seed != 0;
         set
         {
+            IDaycareRandomState<uint> x = this;
             if (!value)
-                ((IDaycareRandomState<uint>)this).Seed = 0;
-            else if (((IDaycareRandomState<uint>)this).Seed == 0)
-                ((IDaycareRandomState<uint>)this).Seed = (uint)Util.Rand.Next(1, int.MaxValue);
+                x.Seed = 0;
+            else if (x.Seed == 0)
+                x.Seed = (uint)Util.Rand.Next(1, int.MaxValue); // Can be unsigned, but whatever. Just ensure non-zero.
         }
     }
     #endregion
@@ -634,7 +641,31 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         }
     }
 
+    public int Lottery { get => GetWork(60); set => SetWork(60, (ushort)value); }
+
+    /// <summary>
+    /// The game stores an array of 6 groups:
+    /// [0] is the group created by the player (empty if the player has never created one)
+    /// [1] is the group the player is currently in (controls swarms, Great Marsh, Feebas etc.) Unnamed default group if the player has never joined one
+    /// [2] through [5] are groups created by other players, imported via record mixing. These are joinable via the group NPC
+    /// </summary>
+    public Group4 GroupPlayer => GetGroup(0);
+    public Group4 GroupActive => GetGroup(1);
+    public Group4 GroupOther1 => GetGroup(2);
+    public Group4 GroupOther2 => GetGroup(3);
+    public Group4 GroupOther3 => GetGroup(4);
+    public Group4 GroupOther4 => GetGroup(5);
+
+    private Group4 GetGroup(int index)
+    {
+        const int size = Group4.SIZE;
+        var ofs = OFS_Groups + (index * size);
+        var mem = GeneralBuffer.Slice(ofs, size);
+        return new Group4(mem);
+    }
+
     public abstract int BP { get; set; }
+    public abstract uint BattleTowerSeed { get; set; }
     public abstract BattleFrontierFacility4 MaxFacility { get; }
 
     public abstract MysteryBlock4 Mystery { get; }
@@ -671,13 +702,13 @@ public sealed class MysteryBlock4DP(SAV4DP sav, Memory<byte> raw) : MysteryBlock
     public override void SetMysteryGift(int index, PGT pgt)
     {
         base.SetMysteryGift(index, pgt);
-        SetMysteryGiftReceivedSentinel(index, pgt.Empty ? 0 : MysteryGiftDPSlotActive);
+        SetMysteryGiftReceivedSentinel(index, pgt.IsEmpty ? 0 : MysteryGiftDPSlotActive);
     }
 
     public override void SetMysteryGift(int index, PCD pcd)
     {
         base.SetMysteryGift(index, pcd);
-        SetMysteryGiftReceivedSentinel(index, pcd.Empty ? 0 : MysteryGiftDPSlotActive);
+        SetMysteryGiftReceivedSentinel(MaxCountPGT + index, pcd.IsEmpty ? 0 : MysteryGiftDPSlotActive);
     }
 }
 
@@ -782,8 +813,7 @@ public abstract class MysteryBlock4(SAV4 sav, Memory<byte> raw) : SaveBlock<SAV4
         if (pcd.Data.Length != PCD.Size)
             throw new InvalidCastException(nameof(pcd));
         var gift = pcd.Gift;
-        if (gift.VerifyPKEncryption())
-            pcd.Gift = gift; // ensure data is encrypted in the object
+        gift.VerifyPKEncryption();
         SAV.SetData(GetCardSpanPCD(index), pcd.Data);
     }
 

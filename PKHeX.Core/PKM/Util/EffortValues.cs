@@ -108,6 +108,10 @@ public static class EffortValues
     /// <param name="evs">Array to store the resulting EVs</param>
     public static void Clear(Span<int> evs) => evs.Clear();
 
+    /// <summary>
+    /// Evaluates the total EVs and returns a grade based on the maximum allowed.
+    /// </summary>
+    /// <param name="sum">Total EVs</param>
     public static EffortValueGrade GetGrade(int sum) => sum switch
     {
         0 => EffortValueGrade.None,

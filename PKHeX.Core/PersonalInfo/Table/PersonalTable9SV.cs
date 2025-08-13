@@ -11,6 +11,7 @@ public sealed class PersonalTable9SV : IPersonalTable, IPersonalTable<PersonalIn
     private const int SIZE = PersonalInfo9SV.SIZE;
     private const ushort MaxSpecies = Legal.MaxSpeciesID_9;
     public ushort MaxSpeciesID => MaxSpecies;
+    public int Count => Table.Length;
 
     public PersonalTable9SV(Memory<byte> data)
     {

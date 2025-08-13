@@ -69,8 +69,8 @@ public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncount
 
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SV[Species, Form];
         var rnd = Util.Rand;
         var xoro = new Xoroshiro128Plus(rnd.Rand64());
@@ -89,14 +89,14 @@ public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncount
 
             ID32 = ID32,
             Version = version,
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = TrainerNames.Span[lang],
+            OriginalTrainerName = TrainerNames.Span[language],
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
-            Nickname = IsFixedNickname ? Nicknames.Span[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = IsFixedNickname ? Nicknames.Span[language] : SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
 
             HeightScalar = PokeSizeUtil.GetRandomScalar(rnd),
             WeightScalar = Weight.GetSizeValue(Weight != SizeType9.RANDOM ? FixedValueScale : default, ref xoro),
@@ -125,10 +125,10 @@ public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncount
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         var rnd = Util.Rand;
-        pk.PID = rnd.Rand32();
+        pk.PID = EncounterUtil.GetRandomPID(pk, rnd, Shiny, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
         pk.Nature = pk.StatNature = criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);

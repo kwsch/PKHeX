@@ -62,7 +62,7 @@ public sealed class InventoryPouch7b(InventoryType type, IItemStorage info, int 
             // mixed regular battle items & mega stones
             case InventoryType.BattleItems when item > 100:
             // mixed regular items & key items
-            case InventoryType.Items when ItemStorage7GG.Pouch_Regular_GG_Key.Contains((ushort)item):
+            case InventoryType.Items when ItemStorage7GG.Key.Contains((ushort)item):
                 return Math.Min(1, requestVal);
 
             default:

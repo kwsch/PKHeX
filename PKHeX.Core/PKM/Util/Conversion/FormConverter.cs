@@ -45,9 +45,22 @@ public static class FormConverter
         };
     }
 
+    /// <summary>
+    /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
+    /// </summary>
     private static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
 
+    /// <summary>
+    /// Used to indicate that the form list is a single form, so no name is specified.
+    /// </summary>
     private static readonly string[] EMPTY = [string.Empty];
+
+    /// <summary>
+    /// Lets Go, Pikachu! &amp; Eevee! Starter form name.
+    /// </summary>
+    /// <remarks>
+    /// Different from the "Partner Cap" form.
+    /// </remarks>
     private const string Starter = nameof(Starter);
 
     private static string[] GetFormsGen1(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
@@ -957,7 +970,7 @@ public static class FormConverter
         SetDecorations(result, 7, forms[CaramelSwirl]);
         SetDecorations(result, 8, forms[RainbowSwirl]);
 
-        static void SetDecorations(Span<string> result, [ConstantExpected] byte f, string baseName)
+        static void SetDecorations(Span<string> result, [ConstantExpected] byte f, ReadOnlySpan<char> baseName)
         {
             int start = f * AlcremieCountDecoration;
             var slice = result.Slice(start, AlcremieCountDecoration);
@@ -973,4 +986,20 @@ public static class FormConverter
         (int)Alcremie => Enum.GetNames<AlcremieDecoration>(),
         _ => EMPTY,
     };
+
+    /// <summary>
+    /// Compatibility check for past-generation form list for <see cref="Pikachu"/>.
+    /// </summary>
+    /// <param name="formName">Desired form name</param>
+    /// <param name="formNames">List of all form names</param>
+    /// <returns><see langword="true"/> if the form name is a cosplay Pikachu form.</returns>
+    public static bool IsCosplayPikachu(ReadOnlySpan<char> formName, ReadOnlySpan<string> formNames)
+    {
+        for (int i = 729; i <= 734; i++)
+        {
+            if (formName.Equals(formNames[i], StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
 }

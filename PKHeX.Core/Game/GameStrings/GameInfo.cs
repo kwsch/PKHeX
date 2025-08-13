@@ -7,23 +7,18 @@ namespace PKHeX.Core;
 /// </summary>
 public static class GameInfo
 {
-    private static readonly GameStrings?[] Languages = new GameStrings[GameLanguage.LanguageCount];
+    private static readonly LanguageStorage<GameStrings> Languages = new GameStringResourceSet();
+    private sealed record GameStringResourceSet : LanguageStorage<GameStrings>
+    {
+        protected override GameStrings Create(string language) => new(language);
+    }
 
     public static string CurrentLanguage { get; set; } = GameLanguage.DefaultLanguage;
     public static readonly IReadOnlyList<string> GenderSymbolUnicode = ["♂", "♀", "-"];
     public static readonly IReadOnlyList<string> GenderSymbolASCII = ["M", "F", "-"];
     private static GameStrings _strings = GetStrings(CurrentLanguage);
-
-    public static GameStrings GetStrings(string lang)
-    {
-        int index = GameLanguage.GetLanguageIndex(lang);
-        return GetStrings(index);
-    }
-
-    public static GameStrings GetStrings(int index)
-    {
-        return Languages[index] ??= new GameStrings(GameLanguage.LanguageCode(index));
-    }
+    public static GameDataSource Sources { get; private set; } = new(_strings);
+    public static FilteredGameDataSource FilteredSources { get; set; } = new(FakeSaveFile.Default, Sources);
 
     public static GameStrings Strings
     {
@@ -31,12 +26,11 @@ public static class GameInfo
         set => Sources = new GameDataSource(_strings = value);
     }
 
-    public static GameDataSource Sources { get; private set; } = new(_strings);
-    public static FilteredGameDataSource FilteredSources { get; set; } = new(FakeSaveFile.Default, Sources);
+    public static GameStrings GetStrings(string lang) => Languages.Get(lang);
 
     public static string GetVersionName(GameVersion version)
     {
-        foreach (var kvp in VersionDataSource)
+        foreach (var kvp in Sources.VersionDataSource)
         {
             if (kvp.Value == (int)version)
                 return kvp.Text;
@@ -44,19 +38,8 @@ public static class GameInfo
         return version.ToString();
     }
 
-    // DataSource providing
-    public static IReadOnlyList<ComboItem> ItemDataSource => FilteredSources.Items;
-    public static IReadOnlyList<ComboItem> SpeciesDataSource => Sources.SpeciesDataSource;
-    public static IReadOnlyList<ComboItem> BallDataSource => Sources.BallDataSource;
-    public static IReadOnlyList<ComboItem> NatureDataSource => Sources.NatureDataSource;
-    public static IReadOnlyList<ComboItem> AbilityDataSource => Sources.AbilityDataSource;
-    public static IReadOnlyList<ComboItem> VersionDataSource => Sources.VersionDataSource;
-    public static IReadOnlyList<ComboItem> MoveDataSource => Sources.HaXMoveDataSource;
-    public static IReadOnlyList<ComboItem> GroundTileDataSource => Sources.GroundTileDataSource;
-    public static IReadOnlyList<ComboItem> Regions => GameDataSource.Regions;
-
     public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation)
-        => GameDataSource.LanguageDataSource(generation);
+        => Sources.LanguageDataSource(generation);
 
     /// <summary>
     /// Gets the location name for the specified parameters.
@@ -65,7 +48,7 @@ public static class GameInfo
     /// <param name="location">Location value</param>
     /// <param name="format">Current <see cref="PKM.Format"/></param>
     /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
-    /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
+    /// <param name="version">Version within <see cref="generation"/>, if needed to differentiate.</param>
     /// <returns>Location name</returns>
     public static string GetLocationName(bool isEggLocation, ushort location, byte format, byte generation, GameVersion version)
     {

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.PersonalInfo5BW;
 
 namespace PKHeX.Core;
 
@@ -12,7 +13,7 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
 {
     public static readonly LearnSource5BW Instance = new();
     private static readonly PersonalTable5BW Personal = PersonalTable.BW;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"u8));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor16.Get(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_5;
     private const LearnEnvironment Game = BW;
 
@@ -23,7 +24,7 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo5BW? pi)
     {
         pi = null;
-        if (!Personal.IsPresentInGame(species, form))
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;
@@ -31,17 +32,19 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
-        return moves.GetHasEggMove(move);
+        var moves = arr[species];
+        return moves.GetHasMove(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if (species > MaxSpecies)
+        var arr = EggMoves;
+        if (species >= arr.Length)
             return [];
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo5BW pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
@@ -49,9 +52,8 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
@@ -87,7 +89,7 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
 
     private static bool GetIsTypeTutor(PersonalInfo5BW pi, ushort move)
     {
-        var index = TypeTutor567.IndexOf(move);
+        var index = TypeTutorMoves.IndexOf(move);
         if (index == -1)
             return false;
         return pi.GetIsLearnTutorType(index);
@@ -95,7 +97,7 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
 
     private static bool GetIsTM(PersonalInfo5BW info, ushort move)
     {
-        var index = TMHM_BW.IndexOf(move);
+        var index = MachineMoves.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index) && index != 94; // TM95 not available in this game
@@ -118,15 +120,15 @@ public sealed class LearnSource5BW : LearnSource5, ILearnSource<PersonalInfo5BW>
         {
             // TM95 is unavailable (Snarl - Lock Capsule)
             // Cache the current value to clear it if so.
-            var tm95 = result[(int)Move.Snarl];
-            pi.SetAllLearnTM(result, TMHM_BW);
-            if (!tm95)
-                result[(int)Move.Snarl] = tm95;
+            var knowSnarlOtherSource = result[(int)Move.Snarl];
+            pi.SetAllLearnTM(result, MachineMoves);
+            if (!knowSnarlOtherSource)
+                result[(int)Move.Snarl] = false;
         }
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
         {
-            pi.SetAllLearnTutorType(result, TypeTutor567);
+            pi.SetAllLearnTutorType(result, TypeTutorMoves);
         }
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))

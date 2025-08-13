@@ -69,6 +69,11 @@ public enum GameVersion : byte
     /// Pokémon SoulSilver (NDS)
     /// </summary>
     SS = 8,
+
+    /// <summary>
+    /// Pokémon Battle Revolution (Wii)
+    /// </summary>
+    BATREV = 16,
     #endregion
 
     #region Gen5
@@ -329,11 +334,6 @@ public enum GameVersion : byte
     /// <see cref="HG"/>
     /// <see cref="SS"/>
     HGSS,
-
-    /// <summary>
-    /// Pokémon Battle Revolution [<see cref="SAV4BR"/>] identifier.
-    /// </summary>
-    BATREV,
 
     /// <summary>
     /// Pokémon Black &amp; White version group.

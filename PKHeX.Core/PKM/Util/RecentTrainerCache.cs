@@ -7,9 +7,9 @@ namespace PKHeX.Core;
 public static class RecentTrainerCache
 {
     private static ITrainerInfo Trainer = new SimpleTrainerInfo();
-    private static IRegionOrigin Trainer67 = new SimpleTrainerInfo(GameVersion.SN);
+    private static IRegionOriginReadOnly Trainer67 = new SimpleTrainerInfo(GameVersion.SN);
 
-    private static IRegionOrigin GetTrainer3DS(ITrainerInfo tr) => tr as IRegionOrigin ?? Trainer67;
+    private static IRegionOriginReadOnly GetTrainer3DS(ITrainerInfo tr) => tr as IRegionOrigin ?? Trainer67;
 
     /// <summary> Most recently loaded <see cref="ITrainerInfo.OT"/>. </summary>
     public static string OriginalTrainerName => Trainer.OT;
@@ -32,11 +32,12 @@ public static class RecentTrainerCache
     /// <summary>
     /// Updates the cache with the most recently loaded trainer reference.
     /// </summary>
-    /// <param name="trainer"></param>
     public static void SetRecentTrainer(ITrainerInfo trainer)
     {
         Trainer = trainer;
-        if (trainer is IRegionOrigin g67)
+
+        // Update Gen6/7 trainer reference if applicable, otherwise retain whatever was there.
+        if (trainer is IRegionOriginReadOnly g67)
             Trainer67 = g67;
     }
 

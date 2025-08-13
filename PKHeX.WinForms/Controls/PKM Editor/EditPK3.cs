@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
@@ -10,9 +10,9 @@ public partial class PKMEditor
         if (Entity is not G3PKM pk3)
             throw new FormatException(nameof(Entity));
 
+        LoadMisc3(pk3);
         LoadMisc1(pk3);
         LoadMisc2(pk3);
-        LoadMisc3(pk3);
 
         CB_Ability.SelectedIndex = pk3.AbilityBit && CB_Ability.Items.Count > 1 ? 1 : 0;
         if (pk3 is IShadowCapture s)
@@ -27,9 +27,9 @@ public partial class PKMEditor
         if (Entity is not G3PKM pk3)
             throw new FormatException(nameof(Entity));
 
+        SaveMisc3(pk3); // save Language first so that Nickname/etc encode properly
+        SaveMisc2(pk3); // save IsEgg prior to setting ^
         SaveMisc1(pk3);
-        SaveMisc2(pk3);
-        SaveMisc3(pk3);
 
         pk3.AbilityBit = CB_Ability.SelectedIndex != 0;
         if (Entity is IShadowCapture ck3)

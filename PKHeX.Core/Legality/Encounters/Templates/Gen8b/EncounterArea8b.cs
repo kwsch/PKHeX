@@ -6,7 +6,7 @@ using static PKHeX.Core.SlotType8b;
 namespace PKHeX.Core;
 
 /// <summary>
-/// <see cref="GameVersion.BDSP"/> encounter area
+/// <see cref="EntityContext.Gen8b"/> encounter area
 /// </summary>
 public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLocation
 {

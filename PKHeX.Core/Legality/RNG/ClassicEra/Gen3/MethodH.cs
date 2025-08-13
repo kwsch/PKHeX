@@ -7,7 +7,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Method H logic used by mainline <see cref="GameVersion.Gen3"/> RNG.
+/// Method H logic used by mainline <see cref="EntityContext.Gen3"/> RNG.
 /// </summary>
 public static class MethodH
 {
@@ -142,7 +142,7 @@ public static class MethodH
             {
                 if (CheckEncounterActivationEmerald(enc, ref result))
                 {
-                    if (result.IsNoAbilityLead())
+                    if (result.IsNoRequirement())
                         return result;
                     if (result.IsBetterThan(prefer))
                         prefer = result;
@@ -162,13 +162,12 @@ public static class MethodH
 
         while (true)
         {
-            if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result)
-                && result.IsNoAbilityLead())
+            if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result) && result.IsNoRequirement())
             {
                 result.Lead = CuteCharm;
                 if (CheckEncounterActivationEmerald(enc, ref result))
                 {
-                    if (result.IsNoAbilityLead())
+                    if (result.IsNoRequirement())
                         return result;
                     if (result.IsBetterThan(prefer))
                         prefer = result;
@@ -604,9 +603,9 @@ public static class MethodH
 
     private static bool IsOriginalLevelValid(byte min, byte max, byte format, uint level)
     {
-        if (format == Format)
+        if (format == Format && min > 1)
             return level == min; // Met Level matches
-        return LevelRangeExtensions.IsLevelWithinRange((int)level, min, max);
+        return LevelRangeExtensions.IsLevelWithinRange((byte)level, min, max);
     }
 
     public static uint GetRandomLevel<T>(T enc, uint u16LevelRand, LeadRequired lead) where T : ILevelRange => lead switch
@@ -711,5 +710,4 @@ public static class MethodH
         sid = 0;
         return false;
     }
-
 }

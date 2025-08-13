@@ -31,11 +31,14 @@ public static class HomeCrypto
     public const int SIZE_2GAME_PK9 = 0x3D; // 61
     public const int SIZE_2STORED = 0x23A; // 570
 
-    public const int SIZE_3GAME_PK9 = 0x3D + 0xD; // 61
+    public const int SIZE_3GAME_PK9 = 0x3D + 0xD; // 74
     public const int SIZE_3STORED = 0x247; // 583
 
+    /// <summary> Latest maximum size of a Pokémon Home entity. </summary>
     public const int SIZE_STORED = SIZE_3STORED;
+    /// <summary> Latest maximum size of a Pokémon Home entity's core data shared with all side-games. </summary>
     public const int SIZE_CORE = SIZE_2CORE;
+    /// <summary> Latest Version identifier stored in the header. </summary>
     public const int VersionLatest = Version3;
 
     public static bool IsKnownVersion(ushort version) => version is Version1 or Version2 or Version3;
@@ -99,9 +102,9 @@ public static class HomeCrypto
     /// Decrypts the input <see cref="data"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Format encryption check</remarks>
-    public static void DecryptIfEncrypted(ref byte[] data)
+    public static void DecryptIfEncrypted(ref Memory<byte> data)
     {
-        var span = data.AsSpan();
+        var span = data.Span;
         var format = ReadUInt16LittleEndian(span);
         if (IsKnownVersion(format))
         {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Iterates to find possible encounters for <see cref="GameVersion.BDSP"/> encounters.
+/// Iterates to find possible encounters for <see cref="EntityContext.Gen8b"/> encounters.
 /// </summary>
 public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version, PKM Entity) : IEnumerator<IEncounterable>
 {
@@ -60,7 +60,7 @@ public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                if (!EncounterGenerator8b.TryGetSplit((EncounterEgg)Current, Chain, out egg))
+                if (!EncounterGenerator8b.TryGetSplit((EncounterEgg8b)Current, Chain, out egg))
                     goto case YieldState.EventStart;
                 State = YieldState.EventStart;
                 return SetCurrent(egg);

@@ -4,7 +4,7 @@ using static PKHeX.Core.GameVersion;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Hatch Location validity for <see cref="GameVersion.Gen5"/>.
+/// Hatch Location validity for <see cref="EntityContext.Gen5"/>.
 /// </summary>
 public static class EggHatchLocation5
 {

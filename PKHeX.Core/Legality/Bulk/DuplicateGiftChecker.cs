@@ -5,8 +5,15 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core.Bulk;
 
+/// <summary>
+/// Checks for duplicate event egg mystery gifts among Pokémon in a bulk legality analysis.
+/// </summary>
 public sealed class DuplicateGiftChecker : IBulkAnalyzer
 {
+    /// <summary>
+    /// Analyzes the provided <see cref="BulkAnalysis"/> for duplicate event egg mystery gifts.
+    /// </summary>
+    /// <param name="input">The bulk analysis data to check.</param>
     public void Analyze(BulkAnalysis input)
     {
         if (input.Trainer.Generation <= 2)
@@ -25,7 +32,7 @@ public sealed class DuplicateGiftChecker : IBulkAnalyzer
             var la = input.AllAnalysis[i];
             if (!IsEventEgg(c, la))
                 continue;
-            combined.Add(new(c, la));
+            combined.Add(new(c, la, i));
         }
 
         if (combined.Count < 2)
@@ -44,7 +51,7 @@ public sealed class DuplicateGiftChecker : IBulkAnalyzer
             var grp = tidGroup[0];
             var first = grp[0].Slot;
             var second = grp[1].Slot;
-            input.AddLine(first, second, $"Receipt of the same egg mystery gifts detected: {dupe.Key}", Encounter);
+            input.AddLine(first, second, Encounter, grp[0].Index, grp[1].Index, LegalityCheckResultCode.BulkDuplicateMysteryGiftEggReceived);
         }
     }
 

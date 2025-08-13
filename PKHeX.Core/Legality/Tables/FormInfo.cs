@@ -24,6 +24,24 @@ public static class FormInfo
         return false;
     }
 
+    /// <summary>
+    /// Checks if the form is a Mega form.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    /// <param name="form">Entity form</param>
+    public static bool IsMegaForm(ushort species, byte form)
+    {
+        if (BattleMegas.Contains(species))
+            return IsBattleMegaForm(species, form);
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the species has a Mega form.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    public static bool HasMegaForm(ushort species) => BattleMegas.Contains(species);
+
     private static bool IsBattleForm(ushort species, byte form) => species switch
     {
         // Only continue checking if the species is in the list of Battle Only forms.

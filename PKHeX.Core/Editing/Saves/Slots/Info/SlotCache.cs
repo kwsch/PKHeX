@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -22,13 +23,11 @@ public sealed class SlotCache : IComparable<SlotCache>
     /// </summary>
     public readonly PKM Entity;
 
-    private static readonly FakeSaveFile NoSaveFile = new();
-
     public SlotCache(SlotInfoFile source, PKM entity)
     {
         Source = source;
         Entity = entity;
-        SAV = NoSaveFile;
+        SAV = FakeSaveFile.Default;
     }
 
     public SlotCache(ISlotInfo source, PKM entity, SaveFile sav)
@@ -66,7 +65,7 @@ public sealed class SlotCache : IComparable<SlotCache>
         return string.CompareOrdinal(Identify(), other.Identify());
     }
 
-    public override bool Equals(object? obj)
+    public override bool Equals([NotNullWhen(true)] object? obj)
     {
         if (ReferenceEquals(this, obj))
             return true;

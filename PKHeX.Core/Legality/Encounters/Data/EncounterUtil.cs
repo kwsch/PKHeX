@@ -111,6 +111,49 @@ public static class EncounterUtil
     }
 
     /// <summary>
+    /// Generates a random Pokémon ID (PID) based on the provided trainer information, random number generator, and
+    /// shiny type.
+    /// </summary>
+    /// <remarks>The shiny type influences the XOR value applied during PID generation:
+    /// <list type="bullet">
+    /// <item><description><see cref="Shiny.AlwaysSquare"/> results in a square shiny PID.</description></item>
+    /// <item><description><see cref="Shiny.AlwaysStar"/> or <see cref="Shiny.Always"/> results in a star shiny PID.</description></item>
+    /// <item><description>Other shiny types result in a PID with a random XOR value within the valid range, but never shiny.</description></item>
+    /// </list>
+    /// The method ensures that the generated PID adheres to the shiny calculation rules based on the provided trainer's TID and SID.</remarks>
+    /// <typeparam name="T">The type of the trainer object, which must implement <see cref="ITrainerID32ReadOnly"/>.</typeparam>
+    /// <param name="tr">The trainer object containing the Trainer ID (TID) and Secret ID (SID) values used for PID generation.</param>
+    /// <param name="rnd">The random number generator used to produce random values for PID calculation.</param>
+    /// <param name="type">The shiny type that determines the XOR value used in PID generation.</param>
+    /// <returns>A 32-bit unsigned integer representing the generated Pokémon ID (PID).</returns>
+    public static uint GetRandomPID<T>(T tr, Random rnd, Shiny type) where T : ITrainerID32ReadOnly
+    {
+        uint pid = rnd.Rand32();
+        uint xorType = type switch
+        {
+            Shiny.Always => (uint)rnd.Next(0, 15 + 1),
+            Shiny.AlwaysStar => (uint)rnd.Next(1, 15),
+            Shiny.AlwaysSquare => 0,
+            _ => (uint)rnd.Next(16, ushort.MaxValue + 1),
+        };
+        return ShinyUtil.GetShinyPID(tr.TID16, tr.SID16, pid, xorType);
+    }
+
+    public static uint GetRandomPID<T>(T tr, Random rnd, Shiny encounterShiny, Shiny criteriaShiny) where T : ITrainerID32ReadOnly
+    {
+        // Determine actual shiny state to use
+        var shiny = DetermineFinalShinyState(encounterShiny, criteriaShiny);
+        return GetRandomPID(tr, rnd, shiny);
+    }
+
+    private static Shiny DetermineFinalShinyState(Shiny template, Shiny criteria) => template switch
+    {
+        Shiny.Always when criteria.IsShiny() => criteria, // OK to use
+        Shiny.Random => criteria, // Can be whatever the criteria is
+        _ => template, // Use the template shiny state
+    };
+
+    /// <summary>
     /// Mashes the IVs into a DV16 value.
     /// </summary>
     public static ushort GetDV16(in IndividualValueSet actual)

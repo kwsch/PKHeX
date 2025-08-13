@@ -4,7 +4,7 @@ using static PKHeX.Core.Species;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot representing data transferred to <see cref="GameVersion.Gen8"/> (HOME).
+/// Encounter Slot representing data transferred to HOME.
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
 public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type, PogoImportFormat OriginFormat)
@@ -20,7 +20,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO8;
 
-    public string Name => $"Wild Encounter ({Version})";
+    public string Name => $"GO Encounter ({Version})";
     public string LongName
     {
         get
@@ -113,10 +113,10 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var pk = GetBlank();
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var rnd = Util.Rand;
         {
-            pk.Language = lang;
+            pk.Language = language;
             pk.PID = rnd.Rand32();
             pk.EncryptionConstant = rnd.Rand32();
             pk.Species = Species;
@@ -139,7 +139,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         }
         SetPINGA(pk, criteria);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-        pk.Nickname = SpeciesName.GetSpeciesNameImportHOME(Species, lang, Generation);
+        pk.Nickname = SpeciesName.GetSpeciesNameImportHOME(Species, language, Generation);
         SetEncounterMoves(pk, LevelMin);
 
         if (pk is IScaledSize s2)
@@ -164,7 +164,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         return pk;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PKM pk, in EncounterCriteria criteria)
     {
         var pi = GetPersonal();
         if (OriginFormat is PogoImportFormat.PK7)
@@ -196,14 +196,14 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         }
     }
 
-    private void SetEncounterMoves(PKM pk, int level)
+    private void SetEncounterMoves(PKM pk, byte level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         GetInitialMoves(level, moves);
         pk.SetMoves(moves);
     }
 
-    public void GetInitialMoves(int level, Span<ushort> moves)
+    public void GetInitialMoves(byte level, Span<ushort> moves)
     {
         var source = GameData.GetLearnSource(OriginGroup);
         source.SetEncounterMoves(Species, Form, level, moves);

@@ -36,11 +36,14 @@ public static class BatchMods
         new TypeSuggestion<PKM>(nameof(PKM.HealPP), p => p.HealPP()),
         new TypeSuggestion<PKM>(nameof(IHyperTrain.HyperTrainFlags), p => p.SetSuggestedHyperTrainingData()),
 
-        new TypeSuggestion<PKM>(nameof(PKM.Move1_PP), p => p.SetSuggestedMovePP(0)),
-        new TypeSuggestion<PKM>(nameof(PKM.Move2_PP), p => p.SetSuggestedMovePP(1)),
-        new TypeSuggestion<PKM>(nameof(PKM.Move3_PP), p => p.SetSuggestedMovePP(2)),
-        new TypeSuggestion<PKM>(nameof(PKM.Move4_PP), p => p.SetSuggestedMovePP(3)),
+        new TypeSuggestion<PKM>(nameof(PKM.Move1_PP), p => p.HealPPIndex(0)),
+        new TypeSuggestion<PKM>(nameof(PKM.Move2_PP), p => p.HealPPIndex(1)),
+        new TypeSuggestion<PKM>(nameof(PKM.Move3_PP), p => p.HealPPIndex(2)),
+        new TypeSuggestion<PKM>(nameof(PKM.Move4_PP), p => p.HealPPIndex(3)),
 
+        new ComplexSuggestion(nameof(PKM.CurrentFriendship), (_, _, info) => BatchModifications.SetSuggestedCurrentFriendship(info)),
+        new ComplexSuggestion(nameof(PKM.OriginalTrainerFriendship), (_, _, info) => BatchModifications.SetSuggestedOriginalTrainerFriendship(info)),
+        new ComplexSuggestion(nameof(PKM.HandlingTrainerFriendship), (_, _, info) => BatchModifications.SetSuggestedHandlingTrainerFriendship(info)),
         new ComplexSuggestion(nameof(PKM.Moves), (_, _, info) => BatchModifications.SetSuggestedMoveset(info)),
         new ComplexSuggestion(PROP_EVS, (_, _, info) => BatchModifications.SetEVs(info.Entity)),
         new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => BatchModifications.SetSuggestedRelearnData(info, value)),
@@ -73,7 +76,7 @@ public static class BatchMods
             value => value.StartsWith(CONST_SHINY),
             (pk, cmd) => CommonEdits.SetShiny(pk, GetRequestedShinyState(cmd.PropertyValue))),
 
-        new ComplexSet(nameof(PKM.Species), value => value is "0", (pk, _) => pk.Data.AsSpan().Clear()),
+        new ComplexSet(nameof(PKM.Species), value => value is "0", (pk, _) => pk.Data.Clear()),
         new ComplexSet(nameof(PKM.IsNicknamed), value => value.Equals("false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
 
         // Complicated

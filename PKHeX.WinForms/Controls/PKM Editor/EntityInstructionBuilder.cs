@@ -45,7 +45,10 @@ public partial class EntityInstructionBuilder : UserControl
 
     private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
     {
-        L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
+        if (!BatchEditing.TryGetPropertyType(CB_Property.Text, out var type, CB_Format.SelectedIndex))
+            type = "Unknown";
+        L_PropType.Text = type;
+
         if (BatchEditing.TryGetHasProperty(Entity, CB_Property.Text, out var pi))
         {
             L_PropType.ResetForeColor();

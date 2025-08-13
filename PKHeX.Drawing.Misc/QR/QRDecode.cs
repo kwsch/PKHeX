@@ -7,11 +7,20 @@ using PKHeX.Core;
 
 namespace PKHeX.Drawing.Misc;
 
+/// <summary>
+/// Provides utilities for decoding QR codes using an external web API.
+/// </summary>
 public static class QRDecode
 {
     // QR Utility
     private const string DecodeAPI = "http://api.qrserver.com/v1/read-qr-code/?fileurl=";
 
+    /// <summary>
+    /// Retrieves and decodes QR code data from the specified image URL.
+    /// </summary>
+    /// <param name="address">The URL of the image containing the QR code.</param>
+    /// <param name="result">The decoded byte array result, if successful.</param>
+    /// <returns>A <see cref="QRDecodeResult"/> indicating the outcome of the operation.</returns>
     public static QRDecodeResult GetQRData(string address, out byte[] result)
     {
         result = [];
@@ -50,6 +59,12 @@ public static class QRDecode
         }
     }
 
+    /// <summary>
+    /// Decodes the JSON response from the QR code API into a byte array.
+    /// </summary>
+    /// <param name="data">The JSON response string from the API.</param>
+    /// <returns>The decoded byte array from the QR code.</returns>
+    /// <exception cref="FormatException">Thrown if the JSON format is invalid or unexpected.</exception>
     private static byte[] DecodeQRJson(string data)
     {
         const string cap = "\",\"error\":null}]}]";
@@ -90,6 +105,11 @@ public static class QRDecode
         return Convert.FromBase64String(pkstr);
     }
 
+    /// <summary>
+    /// Converts a <see cref="QRDecodeResult"/> to a user-friendly message string.
+    /// </summary>
+    /// <param name="result">The QR decode result.</param>
+    /// <returns>A message string describing the result, or an empty string if successful.</returns>
     public static string ConvertMsg(this QRDecodeResult result) => result switch
     {
         QRDecodeResult.Success => string.Empty,

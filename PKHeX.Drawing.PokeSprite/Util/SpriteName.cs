@@ -5,8 +5,14 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Drawing.PokeSprite;
 
+/// <summary>
+/// Logic for retrieving the resource names of Pokémon and related sprites.
+/// </summary>
 public static class SpriteName
 {
+    /// <summary>
+    /// Allows returning a Shiny sprite when available.
+    /// </summary>
     public static bool AllowShinySprite { get; set; }
 
     private const char Separator = '_';
@@ -22,7 +28,7 @@ public static class SpriteName
     /// <summary>
     /// Gets the resource name of the Pokémon sprite.
     /// </summary>
-    public static string GetResourceStringSprite(ushort species, byte form, byte gender, uint formarg, EntityContext context = PKX.Context, bool shiny = false)
+    public static string GetResourceStringSprite(ushort species, byte form, byte gender, uint formarg, EntityContext context = Latest.Context, bool shiny = false)
     {
         if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
             form = 0;

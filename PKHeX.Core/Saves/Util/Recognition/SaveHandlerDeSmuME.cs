@@ -15,15 +15,15 @@ public sealed class SaveHandlerDeSmuME : ISaveHandler
 
     public bool IsRecognized(long size) => size is ExpectedSize;
 
-    public SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input)
+    public SaveHandlerSplitResult? TrySplit(Memory<byte> input)
     {
-        if (!GetHasFooter(input))
+        if (!GetHasFooter(input.Span))
             return null;
 
-        var footer = input[RealSize..].ToArray();
-        var data = input[..RealSize].ToArray();
+        var footer = input[RealSize..];
+        var data = input[..RealSize];
 
-        return new SaveHandlerSplitResult(data, [], footer, this);
+        return new SaveHandlerSplitResult(data, default, footer, this);
     }
 
     public void Finalize(Span<byte> data) { }

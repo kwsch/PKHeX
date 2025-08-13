@@ -106,6 +106,13 @@ public static class WinFormsTranslator
             if (!ReferenceEquals(current, updated))
                 t.Text = updated;
         }
+        else if (c is DataGridViewColumn col)
+        {
+            var current = col.HeaderText;
+            var updated = context.GetTranslatedText($"{formname}.DGV_{col.Name}", current);
+            if (!ReferenceEquals(current, updated))
+                col.HeaderText = updated;
+        }
     }
 
     private static ReadOnlySpan<char> GetTranslationFile(ReadOnlySpan<char> lang)
@@ -120,7 +127,7 @@ public static class WinFormsTranslator
         }
 
         var txt = (string?)Properties.Resources.ResourceManager.GetObject(file);
-        return txt ?? "";
+        return txt ?? string.Empty;
     }
 
     private static IEnumerable<object> GetTranslatableControls(Control f)
@@ -146,6 +153,15 @@ public static class WinFormsTranslator
 
                     if (z is ListControl or TextBoxBase or LinkLabel or NumericUpDown or ContainerControl)
                         break; // undesirable to modify, ignore
+
+                    if (z is DataGridView dgv && dgv.ColumnHeadersVisible)
+                    {
+                        foreach (DataGridViewColumn col in dgv.Columns)
+                        {
+                            if (col.Visible && !string.IsNullOrWhiteSpace(col.HeaderText))
+                                yield return col;
+                        }
+                    }
 
                     if (!string.IsNullOrWhiteSpace(z.Text))
                         yield return z;

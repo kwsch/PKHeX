@@ -12,6 +12,7 @@
 0068	e	Oak's Letter	0:Not Activated,4370:Activated
 0069	e	Azure Flute	0:Not Activated,4387:Activated
 0070	e	Secret Key	0:Not Activated,4355:Activated
+0248	e	Harbor Inn Event	0:Not Entered,4:Event Completed
 0086	e	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
 0087	e	Event Marley (Route 224)	0:Not Activated,1:Can be Activated,2:Activated
 0133	s	Marley (Route 224)	0:Not Activated,1:Activated,2:Appeared
@@ -19,7 +20,7 @@
 0106	r	Iceberg Ruins Statue (Regice)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	r	Rock Peak Ruins Statue (Regirock)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0062	r	Current Players Interacted Underground	32:Spiritomb Appeared
-0138	r	Hallowed Tower	0:Not Activated,1:Activated
+0138	r	Hallowed Tower	0:Inactive,1:Active
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn

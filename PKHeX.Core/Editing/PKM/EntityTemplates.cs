@@ -28,7 +28,7 @@ public static class EntityTemplates
         pk.OriginalTrainerName = tr.OT;
         pk.OriginalTrainerGender = tr.Gender;
         pk.ID32 = tr.ID32;
-        if (tr is IRegionOrigin o && pk is IRegionOrigin gt)
+        if (tr is IRegionOriginReadOnly o && pk is IRegionOrigin gt)
         {
             gt.ConsoleRegion = o.ConsoleRegion;
             gt.Country = o.Country;

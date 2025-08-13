@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,7 +30,7 @@ public partial class Main : Form
         InitializeComponent();
         if (Settings.Display.DisableScalingDpi)
             AutoScaleMode = AutoScaleMode.Font;
-        C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(new FakeSaveFile(), PKME_Tabs));
+        C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(FakeSaveFile.Default, PKME_Tabs));
         FormLoadAddEvents();
 #if DEBUG // translation updater -- all controls are added at this point -- call translate now
         if (DevUtil.IsUpdatingTranslations)
@@ -46,7 +47,7 @@ public partial class Main : Form
         startup.ReadSettings(Settings.Startup);
         startup.ReadTemplateIfNoEntity(TemplatePath);
 
-        if (Settings.Startup.PluginLoadMethod != PluginLoadSetting.DontLoad)
+        if (Settings.Startup.PluginLoadEnable)
             FormLoadPlugins();
 
         FormLoadInitialFiles(startup);
@@ -181,14 +182,14 @@ public partial class Main : Form
     private void LoadBlankSaveFile(GameVersion version)
     {
         var current = C_SAV?.SAV;
-        var lang = SaveUtil.GetSafeLanguage(current);
-        var tr = SaveUtil.GetSafeTrainerName(current, lang);
-        var sav = SaveUtil.GetBlankSAV(version, tr, lang);
+        var lang = BlankSaveFile.GetSafeLanguage(current);
+        var tr = BlankSaveFile.GetSafeTrainerName(current, lang);
+        var sav = BlankSaveFile.Get(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
-            var max = GameInfo.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
+            var max = GameInfo.Sources.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
             version = (GameVersion)max.Value;
-            sav = SaveUtil.GetBlankSAV(version, tr, lang);
+            sav = BlankSaveFile.Get(version, tr, lang);
         }
         OpenSAV(sav, string.Empty);
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
@@ -211,8 +212,8 @@ public partial class Main : Form
 
             while (!IsHandleCreated) // Wait for form to be ready
                 await Task.Delay(2_000).ConfigureAwait(false);
-            Invoke(() => NotifyNewVersionAvailable(latestVersion)); // invoke on GUI thread
-        });
+            await InvokeAsync(() => NotifyNewVersionAvailable(latestVersion)).ConfigureAwait(false); // invoke on GUI thread
+        }).ConfigureAwait(false);
     }
 
     private void NotifyNewVersionAvailable(Version version)
@@ -273,7 +274,7 @@ public partial class Main : Form
 #endif
         try
         {
-            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath, Settings.Startup.PluginLoadMethod));
+            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath, Settings.Startup.PluginLoadMerged));
         }
         catch (InvalidCastException c)
         {
@@ -300,7 +301,7 @@ public partial class Main : Form
     private void MainMenuOpen(object sender, EventArgs e)
     {
         if (WinFormsUtil.OpenSAVPKMDialog(C_SAV.SAV.PKMExtensions, out var path))
-            OpenQuick(path!);
+            OpenQuick(path);
     }
 
     private void MainMenuSave(object sender, EventArgs e)
@@ -523,12 +524,15 @@ public partial class Main : Form
 
         // Get Simulator Data
         var text = Clipboard.GetText();
-        var set = new ShowdownSet(text);
+        var sets = BattleTemplateTeams.TryGetSets(text);
+        var set = sets.FirstOrDefault() ?? new(string.Empty); // take only first set
 
         if (set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-        var reformatted = set.Text;
+        var programLanguage = Language.GetLanguageValue(Settings.Startup.Language);
+        var settings = Settings.BattleTemplate.Export.GetSettings(programLanguage, set.Context);
+        var reformatted = set.GetText(settings);
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, reformatted))
             return;
 
@@ -548,7 +552,9 @@ public partial class Main : Form
         }
 
         var pk = PreparePKM();
-        var text = ShowdownParsing.GetShowdownText(pk);
+        var programLanguage = Language.GetLanguageValue(Settings.Startup.Language);
+        var settings = Settings.BattleTemplate.Export.GetSettings(programLanguage, pk.Context);
+        var text = ShowdownParsing.GetShowdownText(pk, settings);
         bool success = WinFormsUtil.SetClipboardText(text);
         if (!success || !Clipboard.GetText().Equals(text))
             WinFormsUtil.Alert(MsgClipboardFailWrite, MsgSimulatorExportFail);
@@ -605,13 +611,13 @@ public partial class Main : Form
 #endif
     }
 
-    private void OpenFile(byte[] input, string path, string ext)
+    internal void OpenFile(Memory<byte> input, string path, string ext)
     {
         var obj = FileUtil.GetSupportedFile(input, ext, C_SAV.SAV);
         if (obj is not null && LoadFile(obj, path))
             return;
 
-        WinFormsUtil.Error(GetHintInvalidFile(input, path),
+        WinFormsUtil.Error(GetHintInvalidFile(input.Span, path),
             $"{MsgFileLoad}{Environment.NewLine}{path}",
             $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
     }
@@ -650,8 +656,7 @@ public partial class Main : Form
             case SAV3GCMemoryCard gc:
                 if (!CheckGCMemoryCard(gc, path))
                     return true;
-                var mcsav = SaveUtil.GetVariantSAV(gc);
-                if (mcsav is null)
+                if (!SaveUtil.TryGetSaveFile(gc, out var mcsav))
                     return false;
                 mcsav.Metadata.SetExtraInfo(path);
                 return OpenSAV(mcsav, path);
@@ -661,12 +666,16 @@ public partial class Main : Form
 
     private bool OpenPKM(PKM pk)
     {
-        var destType = C_SAV.SAV.PKMType;
+        var sav = C_SAV.SAV;
+        var destType = sav.PKMType;
         var tmp = EntityConverter.ConvertToType(pk, destType, out var c);
         Debug.WriteLine(c.GetDisplayString(pk, destType));
         if (tmp is null)
             return false;
-        C_SAV.SAV.AdaptToSaveFile(tmp);
+
+        var unconverted = ReferenceEquals(pk, tmp);
+        if (unconverted && sav is { State.Exportable: true })
+            sav.AdaptToSaveFile(tmp);
         PKME_Tabs.PopulateFields(tmp);
         return true;
     }
@@ -719,7 +728,7 @@ public partial class Main : Form
         return true;
     }
 
-    private static GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
+    private static SaveFileType SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
     {
         if (memCard.SaveGameCount == 1)
             return memCard.SelectedGameVersion;
@@ -727,15 +736,15 @@ public partial class Main : Form
         var games = GetMemoryCardGameSelectionList(memCard);
         var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
         dialog.ShowDialog();
-        return dialog.Result;
+        return (SaveFileType)dialog.Result;
     }
 
     private static List<ComboItem> GetMemoryCardGameSelectionList(SAV3GCMemoryCard memCard)
     {
         var games = new List<ComboItem>();
-        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
-        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
-        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
+        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)SaveFileType.Colosseum));
+        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)SaveFileType.XD));
+        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)SaveFileType.RSBox));
         return games;
     }
 
@@ -756,14 +765,14 @@ public partial class Main : Form
 
             case MemoryCardSaveStatus.MultipleSaveGame:
                 var game = SelectMemoryCardSaveGame(memCard);
-                if (game == GameVersion.Invalid) //Cancel
+                if (game == 0) // Cancel
                     return false;
                 memCard.SelectSaveGame(game);
                 break;
 
-            case MemoryCardSaveStatus.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
-            case MemoryCardSaveStatus.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
-            case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
+            case MemoryCardSaveStatus.SaveGameCOLO: memCard.SelectSaveGame(SaveFileType.Colosseum); break;
+            case MemoryCardSaveStatus.SaveGameXD: memCard.SelectSaveGame(SaveFileType.XD); break;
+            case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(SaveFileType.RSBox); break;
 
             default:
                 WinFormsUtil.Error(!SAV3GCMemoryCard.IsMemoryCardSize(memCard.Data.Length) ? MsgFileGameCubeBad : GetHintInvalidFile(memCard.Data, path), path);
@@ -871,7 +880,8 @@ public partial class Main : Form
     {
 #if DEBUG
         // Get the file path that started this exe.
-        var date = File.GetLastWriteTime(Environment.ProcessPath!);
+        var path = Environment.ProcessPath;
+        var date = path is null ? DateTime.Now : File.GetLastWriteTime(path);
         string version = $"d-{date:yyyyMMdd}";
 #else
         var v = Program.CurrentVersion;
@@ -890,7 +900,7 @@ public partial class Main : Form
             return title + $"[{version}]";
         if (!sav.State.Exportable) // Blank save file
             return title + $"{sav.Metadata.FileName} [{sav.OT} ({version})]";
-        return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.Metadata.BAKName)); // more descriptive
+        return title + Path.GetFileNameWithoutExtension(PathUtil.CleanFileName(sav.Metadata.BAKName)); // more descriptive
     }
 
     private static bool TryBackupExportCheck(SaveFile sav, string path)
@@ -953,13 +963,14 @@ public partial class Main : Form
                 var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                 dialog.ShowDialog();
-                if (dialog.Result is GameVersion.Invalid)
+                if (dialog.Result is 0)
                     return false;
 
-                var s = s3.ForceLoad(dialog.Result);
+                var game = (GameVersion)dialog.Result;
+                var s = s3.ForceLoad(game);
                 if (s is SAV3FRLG frlg)
                 {
-                    bool result = frlg.ResetPersonal(dialog.Result);
+                    bool result = frlg.ResetPersonal(game);
                     if (!result)
                         return false;
                 }
@@ -977,7 +988,8 @@ public partial class Main : Form
                 var msg = string.Format(dual, "3", fr, lg);
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                 dialog.ShowDialog();
-                bool result = frlg.ResetPersonal(dialog.Result);
+                var game = (GameVersion)dialog.Result;
+                bool result = frlg.ResetPersonal(game);
                 if (!result)
                     return false;
             }
@@ -991,7 +1003,7 @@ public partial class Main : Form
             for (int i = 0; i < g.Length; i++)
             {
                 int id = (int)g[i];
-                result[i] = GameInfo.VersionDataSource.First(v => v.Value == id);
+                result[i] = GameInfo.Sources.VersionDataSource.First(v => v.Value == id);
             }
             return result;
         }
@@ -1339,7 +1351,8 @@ public partial class Main : Form
     {
         try
         {
-            if (!SaveFinder.TryDetectSaveFile(out var sav))
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            if (!SaveFinder.TryDetectSaveFile(cts.Token, out var sav))
                 return;
 
             var path = sav.Metadata.FilePath!;

@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -17,12 +17,12 @@ public sealed class LevelVerifier : Verifier
         {
             if (!IsMetLevelMatchEncounter(gift, pk))
             {
-                data.AddLine(GetInvalid(LLevelMetGift));
+                data.AddLine(GetInvalid(LevelMetGift));
                 return;
             }
             if (gift.Level > pk.CurrentLevel)
             {
-                data.AddLine(GetInvalid(LLevelMetGiftFail));
+                data.AddLine(GetInvalid(LevelMetGiftFail, gift.Level));
                 return;
             }
         }
@@ -31,32 +31,32 @@ public sealed class LevelVerifier : Verifier
         {
             if (pk.CurrentLevel != enc.LevelMin)
             {
-                data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, enc.LevelMin)));
+                data.AddLine(GetInvalid(EggFMetLevel_0, enc.LevelMin));
                 return;
             }
 
             var reqEXP = enc is EncounterStatic2 { DizzyPunchEgg: true }
                 ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
-                : Experience.GetEXP(enc.LevelMin, pk.PersonalInfo.EXPGrowth);
+                : Experience.GetEXP(enc.LevelMin, data.PersonalInfo.EXPGrowth);
             if (reqEXP != pk.EXP)
-                data.AddLine(GetInvalid(LEggEXP));
+                data.AddLine(GetInvalid(EggEXP, reqEXP));
             return;
         }
 
         var lvl = pk.CurrentLevel;
-        if (lvl >= 100)
+        if (lvl >= Experience.MaxLevel)
         {
-            var expect = Experience.GetEXP(100, pk.PersonalInfo.EXPGrowth);
+            var expect = Experience.GetEXP(Experience.MaxLevel, data.PersonalInfo.EXPGrowth);
             if (pk.EXP != expect)
-                data.AddLine(GetInvalid(LLevelEXPTooHigh));
+                data.AddLine(GetInvalid(Identifier, LevelEXPTooHigh, expect));
         }
 
         if (lvl < pk.MetLevel)
-            data.AddLine(GetInvalid(LLevelMetBelow));
-        else if (!enc.IsWithinEncounterRange(pk) && lvl != 100 && pk.EXP == Experience.GetEXP(lvl, pk.PersonalInfo.EXPGrowth))
-            data.AddLine(Get(LLevelEXPThreshold, Severity.Fishy));
+            data.AddLine(GetInvalid(LevelMetBelow, lvl));
+        else if (!enc.IsWithinEncounterRange(pk) && lvl != Experience.MaxLevel && pk.EXP == Experience.GetEXP(lvl, data.PersonalInfo.EXPGrowth))
+            data.AddLine(Get(Severity.Fishy, LevelEXPThreshold));
         else
-            data.AddLine(GetValid(LLevelMetSane));
+            data.AddLine(GetValid(LevelMetSane));
     }
 
     private static bool IsMetLevelMatchEncounter(MysteryGift gift, PKM pk)
@@ -80,26 +80,22 @@ public sealed class LevelVerifier : Verifier
         var enc = data.EncounterMatch;
         if (pk.IsEgg)
         {
-            const int elvl = 5;
-            if (elvl != pk.CurrentLevel)
-                data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
+            if (pk.CurrentLevel != EncounterEgg2.Level)
+                data.AddLine(GetInvalid(EggFMetLevel_0, EncounterEgg2.Level));
             return;
         }
         if (pk.MetLocation != 0) // crystal
         {
-            int lvl = pk.CurrentLevel;
+            var lvl = pk.CurrentLevel;
             if (lvl < pk.MetLevel)
-                data.AddLine(GetInvalid(LLevelMetBelow));
+                data.AddLine(GetInvalid(LevelMetBelow, lvl));
         }
 
         if (IsTradeEvolutionRequired(data, enc))
         {
             // Pokémon has been traded illegally between games without evolving.
             // Trade evolution species IDs for Gen1 are sequential dex numbers.
-            var species = enc.Species;
-            var evolved = ParseSettings.SpeciesStrings[species + 1];
-            var unevolved = ParseSettings.SpeciesStrings[species];
-            data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
+            data.AddLine(GetInvalid(EvoTradeReqOutsider_0, enc.Species + 1u));
         }
     }
 

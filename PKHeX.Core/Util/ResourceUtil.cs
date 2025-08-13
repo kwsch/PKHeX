@@ -178,6 +178,19 @@ public static partial class Util
         return result;
     }
 
+    /// <summary>
+    /// Splits the specified <see cref="ReadOnlySpan{T}"/> of characters into an array of strings, using newline characters ('\n') as delimiters.
+    /// </summary>
+    /// <remarks>
+    /// This method is optimized for performance and avoids unnecessary allocations by working directly with spans.
+    /// It is suitable for scenarios where splitting large text data into lines is required.
+    /// </remarks>
+    /// <param name="s">The span of characters to split. Can include '\n' and '\r\n' as line breaks.</param>
+    /// <returns>
+    /// An array of strings, where each element represents a line of text from the input span.
+    /// Lines ending with a carriage return ('\r') will have the '\r' removed.
+    /// Returns an empty array if the input span is empty.
+    /// </returns>
     private static string[] FastSplit(ReadOnlySpan<char> s)
     {
         // Get Count

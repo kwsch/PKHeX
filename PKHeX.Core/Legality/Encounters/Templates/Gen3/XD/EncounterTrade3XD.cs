@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -92,11 +93,11 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
     private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private static void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: false))
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi.Gender);
+        MethodCXD.SetRandom(pk, criteria, pi, noShiny: false, Util.Rand32());
     }
     #endregion
 
@@ -156,8 +157,9 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.CXD ? Match : Mismatch;
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;
+
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
     {
         if ((uint)language >= TrainerNames.Length)

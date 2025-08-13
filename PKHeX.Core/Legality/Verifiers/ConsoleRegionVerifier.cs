@@ -1,4 +1,4 @@
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
 
@@ -17,11 +17,14 @@ public sealed class ConsoleRegionVerifier : Verifier
         data.AddLine(result);
     }
 
+    /// <summary>
+    /// Verifies that the region data maps to one of the <see cref="Region3DSIndex"/> values, and that the country is valid for that region.
+    /// </summary>
     private CheckResult VerifyConsoleRegion(IRegionOrigin pk)
     {
         var consoleRegion = pk.ConsoleRegion;
         if (consoleRegion >= 7)
-            return GetInvalid(LGeoHardwareRange);
+            return GetInvalid(GeoHardwareRange);
 
         return Verify3DSDataPresent(pk, consoleRegion);
     }
@@ -29,7 +32,7 @@ public sealed class ConsoleRegionVerifier : Verifier
     private CheckResult Verify3DSDataPresent(IRegionOrigin pk, byte consoleRegion)
     {
         if (!Locale3DS.IsConsoleRegionCountryValid(consoleRegion, pk.Country))
-            return GetInvalid(LGeoHardwareInvalid);
-        return GetValid(LGeoHardwareValid);
+            return GetInvalid(GeoHardwareInvalid);
+        return GetValid(GeoHardwareValid);
     }
 }

@@ -29,9 +29,10 @@ public partial class SAV_PokedexSV : Form
         CB_Species.Items.Clear();
 
         // Fill List
+        var filtered = GameInfo.FilteredSources;
         const int maxSpecies = (int)Species.IronLeaves; // 1010 -- no DLC species
         CB_Species.InitializeBinding();
-        var species = GameInfo.SpeciesDataSource.Where(z => SAV.Personal.IsSpeciesInGame((ushort)z.Value) && z.Value <= maxSpecies).ToArray();
+        var species = filtered.Species.Where(z => z.Value <= maxSpecies).ToArray();
         CB_Species.DataSource = new BindingSource(species, string.Empty);
 
         var list = species

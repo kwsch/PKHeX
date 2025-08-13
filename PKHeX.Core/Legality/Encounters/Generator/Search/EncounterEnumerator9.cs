@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Iterates to find potentially matched encounters for <see cref="GameVersion.SV"/>.
+/// Iterates to find potentially matched encounters for <see cref="EntityContext.Gen9"/>.
 /// </summary>
 public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {

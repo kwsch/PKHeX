@@ -136,7 +136,7 @@ public class SecretBase6(Memory<byte> raw)
             LoadSelf(other);
     }
 
-    public static SecretBase6? Read(byte[] data)
+    public static SecretBase6? Read(Memory<byte> data)
     {
         return data.Length switch
         {

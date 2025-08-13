@@ -2,11 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen8"/>
+/// </summary>
 public sealed class ItemStorage8SWSH : IItemStorage
 {
     public static readonly ItemStorage8SWSH Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Regular_SWSH =>
+    public static ReadOnlySpan<ushort> General =>
     [
         045, 046, 047, 048, 049, 050, 051, 052, 053, 076, 077, 079, 080, 081, 082, 083, 084, 085, 107, 108, 109,
         110, 112, 116, 117, 118, 119, 135, 136, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 228,
@@ -44,7 +47,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
         1592, 1604, 1606,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_SWSH =>
+    public static ReadOnlySpan<ushort> Balls =>
     [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016,
         492, 493, 494, 495, 496, 497, 498, 499, 500,
@@ -52,12 +55,12 @@ public sealed class ItemStorage8SWSH : IItemStorage
         851,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_SWSH =>
+    public static ReadOnlySpan<ushort> Battle =>
     [
         055, 056, 057, 058, 059, 060, 061, 062, 063, 1580,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_SWSH =>
+    public static ReadOnlySpan<ushort> Key =>
     [
         078,
         628, 629, 631, 632, 638,
@@ -71,7 +74,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
         1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMTR_SWSH =>
+    public static ReadOnlySpan<ushort> MachineRecord =>
     [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -102,11 +105,12 @@ public sealed class ItemStorage8SWSH : IItemStorage
         1230, // TM00
     ];
 
+    private const int COUNT_TM = 99;
     private const int COUNT_TR = 100;
-    private static ReadOnlySpan<ushort> Pouch_TR_SWSH => Pouch_TMTR_SWSH.Slice(99, COUNT_TR);
+    private static ReadOnlySpan<ushort> Record => MachineRecord.Slice(COUNT_TM, COUNT_TR);
     public static bool IsTechRecord(ushort itemID) => itemID - 1130u < COUNT_TR;
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_SWSH =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026,
         027, 028, 029, 030, 031, 032, 033, 034, 035, 036,
@@ -118,7 +122,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
         1579,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Berries_SWSH =>
+    public static ReadOnlySpan<ushort> Berry =>
     [
                                                      149,
         150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
@@ -131,14 +135,14 @@ public sealed class ItemStorage8SWSH : IItemStorage
         686, 687, 688,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ingredients_SWSH =>
+    public static ReadOnlySpan<ushort> Ingredients =>
     [
         1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093,
         1094, 1095, 1096, 1097, 1098, 1099, 1256, 1257, 1258, 1259,
         1260, 1261, 1262, 1263, 1264,
     ];
 
-    private static ReadOnlySpan<ushort> Pouch_Treasure_SWSH =>
+    public static ReadOnlySpan<ushort> Treasure =>
     [
         086, 087, 088, 089, 090, 091, 092, 094, 106,
         571, 580, 581, 582, 583,
@@ -197,7 +201,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
         return Unreleased.BinarySearch(item) < 0;
     }
 
-    public static ushort[] GetAllHeld() => [..Pouch_Regular_SWSH, ..Pouch_Ball_SWSH, ..Pouch_Battle_SWSH, ..Pouch_Berries_SWSH, ..Pouch_Medicine_SWSH, ..Pouch_TR_SWSH, ..Pouch_Treasure_SWSH, ..Pouch_Ingredients_SWSH];
+    public static ushort[] GetAllHeld() => [..General, ..Balls, ..Battle, ..Berry, ..Medicine, ..Record, ..Treasure, ..Ingredients];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {
@@ -208,15 +212,15 @@ public sealed class ItemStorage8SWSH : IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Medicine => Pouch_Medicine_SWSH,
-        InventoryType.Balls => Pouch_Ball_SWSH,
-        InventoryType.BattleItems => Pouch_Battle_SWSH,
-        InventoryType.Berries => Pouch_Berries_SWSH,
-        InventoryType.Items => Pouch_Regular_SWSH,
-        InventoryType.TMHMs => Pouch_TMTR_SWSH,
-        InventoryType.Treasure => Pouch_Treasure_SWSH,
-        InventoryType.Candy => Pouch_Ingredients_SWSH,
-        InventoryType.KeyItems => Pouch_Key_SWSH,
+        InventoryType.Medicine => Medicine,
+        InventoryType.Balls => Balls,
+        InventoryType.BattleItems => Battle,
+        InventoryType.Berries => Berry,
+        InventoryType.Items => General,
+        InventoryType.TMHMs => MachineRecord,
+        InventoryType.Treasure => Treasure,
+        InventoryType.Candy => Ingredients,
+        InventoryType.KeyItems => Key,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

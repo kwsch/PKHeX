@@ -61,7 +61,7 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets all possible move shop flags for the requested entity.
     /// </summary>
-    public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level)
+    public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, byte level)
     {
         var permit = shop.Permit;
         var possible = permit.RecordPermitIndexes;
@@ -79,7 +79,7 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets all move shop flags for the currently known moves.
     /// </summary>
-    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, int level)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, byte level)
     {
         var permit = shop.Permit;
         var possible = permit.RecordPermitIndexes;
@@ -97,26 +97,26 @@ public static class MoveShopRecordApplicator
     /// <summary>
     /// Sets the "mastered" move shop flag for the requested move.
     /// </summary>
-    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, ushort move)
+    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, byte level, int index, ushort move)
     {
         if (shop.GetMasteredRecordFlag(index))
             return;
 
-        if (level < (uint)learn.GetLevelLearnMove(move)) // Can't learn it yet; must purchase.
+        if (learn.TryGetLevelLearnMove(move, out var learnLevel) && level < learnLevel) // Can't learn it yet; must purchase.
         {
             shop.SetPurchasedRecordFlag(index, true);
             shop.SetMasteredRecordFlag(index, true);
             return;
         }
 
-        if (level < (uint)mastery.GetLevelLearnMove(move)) // Can't master it yet; must Seed of Mastery
+        if (mastery.TryGetLevelLearnMove(move, out var masterLevel) && level < masterLevel) // Can't master it yet; must Seed of Mastery
             shop.SetMasteredRecordFlag(index, true);
     }
 
     /// <summary>
     /// Sets the "mastered" move shop flag for the encounter.
     /// </summary>
-    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, int level)
+    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, byte level)
     {
         var permit = shop.Permit;
         var possible = permit.RecordPermitIndexes;
@@ -131,8 +131,8 @@ public static class MoveShopRecordApplicator
             // If the Pokémon is caught with any move shop move in its learnset,
             // and it is high enough level to master it, the game will automatically
             // give it the "Mastered" flag but not the "Purchased" flag
-            // For moves that are not in the learnset, it returns -1 which is true, thus set as mastered.
-            if (level >= mastery.GetLevelLearnMove(move))
+            // For moves that are not in the learnset, set as mastered.
+            if (!mastery.TryGetLevelLearnMove(move, out var masteryLevel) || level >= masteryLevel)
                 shop.SetMasteredRecordFlag(index, true);
         }
     }
@@ -143,7 +143,6 @@ public static class MoveShopRecordApplicator
     public static void SetPurchasedFlagsAll(this IMoveShop8Mastery shop)
     {
         var permit = shop.Permit;
-        var possible = permit.RecordPermitIndexes;
         for (int index = 0; index < permit.RecordCountUsed; index++)
         {
             var allowed = permit.IsRecordPermitted(index);

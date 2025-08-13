@@ -146,7 +146,7 @@ public sealed class PersonalInfo7(Memory<byte> Raw)
 
     public bool GetIsLearnTutorSpecial(ushort move)
     {
-        var index = Tutors_USUM.IndexOf(move);
+        var index = BattlePointTutorMoves.IndexOf(move);
         if (index < 0)
             return false;
         return (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
@@ -154,7 +154,7 @@ public sealed class PersonalInfo7(Memory<byte> Raw)
 
     public void SetAllLearnTutorSpecial(Span<bool> result)
     {
-        var moves = Tutors_USUM;
+        var moves = BattlePointTutorMoves;
         var span = Data.Slice(Tutor1, ByteCountTutor1);
         for (int index = 0; index < moves.Length; index++)
         {
@@ -163,7 +163,10 @@ public sealed class PersonalInfo7(Memory<byte> Raw)
         }
     }
 
-    private static ReadOnlySpan<ushort> Tutors_USUM =>
+    /// <summary>
+    /// Battle Point Tutor moves corresponding to their index within Tutor bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> BattlePointTutorMoves =>
     [
         450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
         277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
@@ -171,5 +174,24 @@ public sealed class PersonalInfo7(Memory<byte> Raw)
         380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
 
         477, 502, 432, 710, 707, 675, 673,
+    ];
+
+    /// <summary>
+    /// Technical Machine moves corresponding to their index within TM bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMoves =>
+    [
+        526, 337, 473, 347, 046, 092, 258, 339, 474, 237,
+        241, 269, 058, 059, 063, 113, 182, 240, 355, 219,
+        218, 076, 479, 085, 087, 089, 216, 141, 094, 247,
+        280, 104, 115, 482, 053, 188, 201, 126, 317, 332,
+        259, 263, 488, 156, 213, 168, 490, 496, 497, 315,
+        211, 411, 412, 206, 503, 374, 451, 507, 693, 511,
+        261, 512, 373, 153, 421, 371, 684, 416, 397, 694,
+        444, 521, 086, 360, 014, 019, 244, 523, 524, 157,
+        404, 525, 611, 398, 138, 447, 207, 214, 369, 164,
+        430, 433, 528, 057, 555, 267, 399, 127, 605, 590,
+
+        // No HMs
     ];
 }

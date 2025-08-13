@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -34,7 +36,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.E[Species];
         var pk = new XK3
         {
@@ -48,11 +50,11 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = 0,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);
@@ -65,25 +67,31 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (Species == (int)Core.Species.Eevee)
         {
-            // Prefer IVs if requested, rather than Trainer Matching.
-            if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetStarterFromIVs(pk, criteria))
-                return;
-            // Fall back to Trainer ID matching.
-            if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
-                return;
-            // Fall back to generating a random PID.
-            MethodCXD.SetRandomStarter(pk, criteria);
+            SetStarterPINGA(pk, criteria);
             return;
         }
 
-        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVsCXD(pk, criteria, pi, noShiny: false))
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
-        MethodCXD.SetRandom(pk, criteria, pi.Gender);
+        MethodCXD.SetRandom(pk, criteria, pi, noShiny: false, Util.Rand32());
     }
+
+    private static void SetStarterPINGA(XK3 pk, in EncounterCriteria criteria)
+    {
+        // Prefer IVs if requested, rather than Trainer Matching.
+        if (criteria.IsSpecifiedIVsAll() && MethodCXD.SetStarterFromIVs(pk, criteria))
+            return;
+        // Fall back to Trainer ID matching.
+        if (MethodCXD.SetStarterFromTrainerID(pk, criteria, pk.TID16, pk.SID16))
+            return;
+        // Fall back to generating a random PID.
+        MethodCXD.SetStarterRandom(pk, criteria, Util.Rand32());
+    }
+
     #endregion
 
     #region Matching
@@ -138,11 +146,13 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (type is PIDType.CXD)
-            return true;
-        return type is PIDType.CXDAnti && FatefulEncounter;
+            return Match;
+        if (type is PIDType.CXDAnti && FatefulEncounter)
+            return Match;
+        return Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.CXD;

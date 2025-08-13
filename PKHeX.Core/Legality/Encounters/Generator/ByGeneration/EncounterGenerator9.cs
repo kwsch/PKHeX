@@ -11,7 +11,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk, 9);
+        var chain = EncounterOrigin.GetOriginChain(pk, Generation, Context);
         if (chain.Length == 0)
             return [];
 
@@ -32,7 +32,9 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
-        var iterator = new EncounterEnumerator9SWSH(pk, chain, game);
+        if (pk is not PK8 pk8)
+            yield break;
+        var iterator = new EncounterEnumerator9SWSH(pk8, chain, game);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
@@ -48,14 +50,14 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen9;
     private const byte EggLevel = 1;
 
-    public static bool TryGetEgg(PKM pk, EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetEgg(PKM pk, EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg9? result)
     {
         if (version == 0 && pk.IsEgg)
             version = SL;
         return TryGetEgg(chain, version, out result);
     }
 
-    public static bool TryGetEgg(EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    public static bool TryGetEgg(EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg9? result)
     {
         result = null;
         var devolved = chain[^1];
@@ -82,13 +84,13 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         return true;
     }
 
-    private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
+    private static EncounterEgg9 CreateEggEncounter(ushort species, byte form, GameVersion version)
     {
         if (species == (int)Species.Scatterbug)
             form = Vivillon3DS.FancyFormID; // Fancy
         else if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
             form = FormInfo.GetOutOfBattleForm(species, form, Generation);
-        return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
+        return new EncounterEgg9(species, form, version);
     }
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)

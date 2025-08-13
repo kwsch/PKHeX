@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Iterates to find potentially matched encounters for <see cref="GameVersion.Gen2"/>.
+/// Iterates to find potentially matched encounters for <see cref="EntityContext.Gen2"/>.
 /// </summary>
 public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncounterable>>
 {
@@ -27,16 +27,23 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
         Entity = pk;
         Chain = chain;
 
-        if (pk is ICaughtData2 { CaughtData: not 0 } c2)
+        if (pk.Korean)
+            return;
+
+        if (pk is not ICaughtData2 c2)
         {
             canOriginateCrystal = true;
-            hasOriginalMet = true;
-            met = c2.MetLocation;
+            return;
         }
-        else
+        if (c2.CaughtData == 0)
         {
-            canOriginateCrystal = pk is { Format: >= 7, Korean: false } || pk.CanInhabitGen1();
+            canOriginateCrystal = GBRestrictions.CanVisitGen1(chain[0].Species); // can visit & wipe met
+            return;
         }
+
+        canOriginateCrystal = true;
+        hasOriginalMet = true;
+        met = c2.MetLocation;
     }
 
     readonly object IEnumerator.Current => Current;
@@ -96,7 +103,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 goto case YieldState.StaticStart;
             case YieldState.BredCrystal:
                 State = YieldState.StaticStart;
-                if (EncounterGenerator2.TryGetEggCrystal(Entity, (EncounterEgg)Current.Encounter, out egg))
+                if (EncounterGenerator2.TryGetEggCrystal(Entity, (EncounterEgg2)Current.Encounter, out egg))
                     return SetCurrent(egg);
                 goto case YieldState.StaticStart;
 

@@ -956,7 +956,7 @@ public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
     private void OnPokeDefeated(ushort species) => IncrementResearchTaskProgress(species, Defeat);
 
     private void OnPokeDefeatedWithMoveType(ushort species, MoveType moveType)
-        => IncrementResearchTaskProgress(species, DefeatWithMoveType, TryGetTriggeredTask(species, moveType, out var task), task.Index);
+        => IncrementResearchTaskProgress(species, DefeatWithMoveType, TryGetTriggeredTask(species, moveType, out var task), task?.Index ?? -1);
 
     public void OnPokeUseMove(PKM pk, ushort move)
     {
@@ -967,7 +967,7 @@ public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
     }
 
     private void OnPokeUseMove(ushort species, ushort move)
-        => IncrementResearchTaskProgress(species, UseMove, TryGetTriggeredTask(species, move, out var task), task.Index);
+        => IncrementResearchTaskProgress(species, UseMove, TryGetTriggeredTask(species, move, out var task), task?.Index ?? -1);
 
     public void OnPokeEvolved(ushort fromSpecies, ushort toSpecies)
     {
@@ -1139,18 +1139,18 @@ public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
         return task.TaskThresholds[^1];
     }
 
-    private static bool TryGetTriggeredTask(ushort species, PokedexResearchTaskType8a which, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, PokedexResearchTaskType8a which, [NotNullWhen(true)] out PokedexResearchTask8a? outTask)
         => TryGetTriggeredTask(species, which, MoveType.Any, -1, PokedexTimeOfDay8a.Invalid, out outTask);
-    private static bool TryGetTriggeredTask(ushort species, MoveType moveType, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, MoveType moveType, [NotNullWhen(true)] out PokedexResearchTask8a? outTask)
         => TryGetTriggeredTask(species, DefeatWithMoveType, moveType, -1, PokedexTimeOfDay8a.Invalid, out outTask);
-    private static bool TryGetTriggeredTask(ushort species, int move, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, int move, [NotNullWhen(true)] out PokedexResearchTask8a? outTask)
         => TryGetTriggeredTask(species, UseMove, MoveType.Any, move, PokedexTimeOfDay8a.Invalid, out outTask);
-    private static bool TryGetTriggeredTask(ushort species, PokedexTimeOfDay8a timeOfDay, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, PokedexTimeOfDay8a timeOfDay, [NotNullWhen(true)] out PokedexResearchTask8a? outTask)
         => TryGetTriggeredTask(species, CatchAtTime, MoveType.Any, -1, timeOfDay, out outTask);
 
-    private static bool TryGetTriggeredTask(ushort species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay, [NotNullWhen(true)] out PokedexResearchTask8a? outTask)
     {
-        outTask = new PokedexResearchTask8a();
+        outTask = null;
 
         if (!TryGetResearchTasks(species, out var tasks))
             return false;

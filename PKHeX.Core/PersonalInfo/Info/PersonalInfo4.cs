@@ -111,8 +111,7 @@ public sealed class PersonalInfo4(Memory<byte> Raw) : PersonalInfo, IPersonalAbi
 
     public void SetIsLearnTutorType(int index, bool value)
     {
-        if ((uint)index >= CountTutor)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)CountTutor);
         TypeTutors[index] = value;
     }
 
@@ -142,4 +141,84 @@ public sealed class PersonalInfo4(Memory<byte> Raw) : PersonalInfo, IPersonalAbi
                 result[moves[index - CountTM]] = true;
         }
     }
+
+    /// <summary>
+    /// Gets the preferred list of HM moves to disallow on transfer from <see cref="PK4"/> to <see cref="PK5"/>.
+    /// </summary>
+    /// <remarks>
+    /// If Defog is in the moveset, then we prefer HG/SS (remove Whirlpool) over D/P/Pt.
+    /// Defog is a competitively viable move, while Whirlpool is not really useful.
+    /// </remarks>
+    /// <param name="hasDefog">True if the current moveset has <see cref="Move.Defog"/>.</param>
+    public static ReadOnlySpan<ushort> GetPreferredTransferHMs(bool hasDefog) => hasDefog ? MachineMovesHiddenHGSS : MachineMovesHiddenDPPt;
+
+    /// <summary> Species that can learn <see cref="Move.BlastBurn"/> via Move Tutor on Route 210. </summary>
+    public static ReadOnlySpan<ushort> SpecialTutorBlastBurn => [006, 157, 257, 392];
+
+    /// <summary> Species that can learn <see cref="Move.HydroCannon"/> via Move Tutor on Route 210. </summary>
+    public static ReadOnlySpan<ushort> SpecialTutorHydroCannon => [009, 160, 260, 395];
+
+    /// <summary> Species that can learn <see cref="Move.FrenzyPlant"/> via Move Tutor on Route 210. </summary>
+    public static ReadOnlySpan<ushort> SpecialTutorFrenzyPlant => [003, 154, 254, 389];
+
+    /// <summary> Species that can learn <see cref="Move.DracoMeteor"/> via Move Tutor on Route 210. </summary>
+    public static ReadOnlySpan<ushort> SpecialTutorDracoMeteor => [147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487];
+
+    /// <summary>
+    /// Special tutor moves available via the Move Tutors added in Pt/HG/SS.
+    /// </summary>
+    public static ReadOnlySpan<ushort> TutorMoves =>
+    [
+        291, 189, 210, 196, 205, 009, 007, 276, 008, 442, 401, 466, 380, 173, 180, 314,
+        270, 283, 200, 246, 235, 324, 428, 410, 414, 441, 239, 402, 334, 393, 387, 340,
+        271, 257, 282, 389, 129, 253, 162, 220, 081, 366, 356, 388, 277, 272, 215, 067,
+        143, 335, 450, 029,
+    ];
+
+    /// <summary>
+    /// Technical Machine moves corresponding to their index within TM bitflag permissions.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMovesTechnical =>
+    [
+        264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
+        241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
+        218, 076, 231, 085, 087, 089, 216, 091, 094, 247,
+        280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
+        259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
+        355, 411, 412, 206, 362, 374, 451, 203, 406, 409,
+        261, 318, 373, 153, 421, 371, 278, 416, 397, 148,
+        444, 419, 086, 360, 014, 446, 244, 445, 399, 157,
+        404, 214, 363, 398, 138, 447, 207, 365, 369, 164,
+        430, 433,
+    ];
+
+    /// <summary>
+    /// Hidden Machines in D/P/Pt.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMovesHiddenDPPt =>
+    [
+        (int)Move.Cut,
+        (int)Move.Fly,
+        (int)Move.Surf,
+        (int)Move.Strength,
+        (int)Move.Defog,
+        (int)Move.RockSmash,
+        (int)Move.Waterfall,
+        (int)Move.RockClimb,
+    ];
+
+    /// <summary>
+    /// Hidden Machines in HG/SS.
+    /// </summary>
+    public static ReadOnlySpan<ushort> MachineMovesHiddenHGSS =>
+    [
+        (int)Move.Cut,
+        (int)Move.Fly,
+        (int)Move.Surf,
+        (int)Move.Strength,
+        (int)Move.Whirlpool,
+        (int)Move.RockSmash,
+        (int)Move.Waterfall,
+        (int)Move.RockClimb,
+    ];
 }

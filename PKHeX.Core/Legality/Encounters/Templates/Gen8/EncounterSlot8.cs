@@ -47,7 +47,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     public PK8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
         var pi = PersonalTable.SWSH[Species, form];
         var pk = new PK8
@@ -61,11 +61,11 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerFriendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
@@ -90,10 +90,9 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
 
     #endregion
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
+    private void SetPINGA(PK8 pk, in EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         bool symbol = Parent.PermitCrossover;
-        var c = symbol ? EncounterCriteria.Unrestricted : criteria;
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         pk.Nature = pk.StatNature = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
@@ -103,13 +102,15 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         {
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
-            pk.PID = rand.Rand32();
+            pk.PID = EncounterUtil.GetRandomPID(pk, rand, criteria.Shiny);
+
             pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rand);
             pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rand);
             criteria.SetRandomIVs(pk);
             return;
         }
         // Don't bother honoring shiny state.
+        var c = symbol ? EncounterCriteria.Unrestricted : criteria;
         Overworld8RNG.ApplyDetails(pk, c, Shiny.Random);
     }
 

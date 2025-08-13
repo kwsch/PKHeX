@@ -27,7 +27,7 @@ public sealed class SearchSettings
     public bool? SearchLegal { get; set; }
     public bool? SearchEgg { get; set; }
     public int? ESV { get; set; }
-    public int? Level { get; init; }
+    public byte? Level { get; init; }
 
     public int IVType { get; init; }
     public int EVType { get; init; }
@@ -204,12 +204,12 @@ public sealed class SearchSettings
         return pk.IsEgg;
     }
 
-    public IReadOnlyList<GameVersion> GetVersions(SaveFile sav) => GetVersions(sav, GetFallbackVersion(sav));
+    public ReadOnlyMemory<GameVersion> GetVersions(SaveFile sav) => GetVersions(sav, GetFallbackVersion(sav));
 
-    public IReadOnlyList<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
+    public ReadOnlyMemory<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
     {
         if (Version > 0)
-            return [Version];
+            return new[] {Version};
 
         return Generation switch
         {

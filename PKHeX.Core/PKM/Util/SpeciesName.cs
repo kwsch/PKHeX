@@ -8,8 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class SpeciesName
 {
-    private const int LatestGeneration = PKX.Generation;
-
     /// <summary>
     /// Species name lists indexed by the <see cref="LanguageID"/> value.
     /// </summary>
@@ -34,16 +32,16 @@ public static class SpeciesName
     /// <remarks>Indexing matches <see cref="SpeciesLang"/>.</remarks>
     private static string GetEggName(int language) => language switch
     {
-        1 => "タマゴ",
-        2 => "Egg",
-        3 => "Œuf",
-        4 => "Uovo",
-        5 => "Ei",
+        (int)LanguageID.Japanese => "タマゴ",
+        (int)LanguageID.English  => "Egg",
+        (int)LanguageID.French   => "Œuf",
+        (int)LanguageID.Italian  => "Uovo",
+        (int)LanguageID.German   => "Ei",
 
-        7 => "Huevo",
-        8 => "알",
-        9 => "蛋",
-        10 => "蛋",
+        (int)LanguageID.Spanish  => "Huevo",
+        (int)LanguageID.Korean   => "알",
+        (int)LanguageID.ChineseS => "蛋",
+        (int)LanguageID.ChineseT => "蛋",
         _ => string.Empty,
     };
 
@@ -246,7 +244,7 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-    public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation = LatestGeneration)
+    public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation = Latest.Generation)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         foreach (var language in langs)
@@ -265,7 +263,7 @@ public static class SpeciesName
     /// <param name="language">Language ID of the Pokémon</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>True if it does not match the language name, False if not nicknamed (matches).</returns>
-    public static bool IsNicknamed(ushort species, ReadOnlySpan<char> nickname, int language, byte generation = LatestGeneration)
+    public static bool IsNicknamed(ushort species, ReadOnlySpan<char> nickname, int language, byte generation = Latest.Generation)
     {
         var expect = GetSpeciesNameGeneration(species, language, generation);
         return !nickname.SequenceEqual(expect);
@@ -279,7 +277,7 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-    public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, byte generation = LatestGeneration)
+    public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, byte generation = Latest.Generation)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         var priorityIndex = langs.IndexOf((byte)priorityLanguage);
@@ -300,7 +298,7 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-    public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation = LatestGeneration)
+    public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, byte generation = Latest.Generation)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         return GetSpeciesNameLanguage(species, nickname, generation, langs);
@@ -329,7 +327,7 @@ public static class SpeciesName
         return SpeciesDict[language].TryGetValue(speciesName, out species);
     }
 
-    public static bool TryGetSpeciesAnyLanguage(ReadOnlySpan<char> speciesName, out ushort species, byte generation = LatestGeneration)
+    public static bool TryGetSpeciesAnyLanguage(ReadOnlySpan<char> speciesName, out ushort species, byte generation = Latest.Generation)
     {
         foreach (var language in Language.GetAvailableGameLanguages(generation))
         {
@@ -340,7 +338,7 @@ public static class SpeciesName
         return false;
     }
 
-    public static bool TryGetSpeciesAnyLanguageCaseInsensitive(ReadOnlySpan<char> speciesName, out ushort species, byte generation = LatestGeneration)
+    public static bool TryGetSpeciesAnyLanguageCaseInsensitive(ReadOnlySpan<char> speciesName, out ushort species, byte generation = Latest.Generation)
     {
         Span<char> lowercase = stackalloc char[speciesName.Length];
         speciesName.ToLowerInvariant(lowercase);

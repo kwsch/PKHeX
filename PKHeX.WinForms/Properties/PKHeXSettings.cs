@@ -35,6 +35,7 @@ public sealed class PKHeXSettings
     public SpriteSettings Sprite { get; set; } = new();
     public SoundSettings Sounds { get; set; } = new();
     public HoverSettings Hover { get; set; } = new();
+    public BattleTemplateSettings BattleTemplate { get; set; } = new();
 
     // GUI Specific
     public DrawConfig Draw { get; set; } = new();
@@ -138,8 +139,11 @@ public sealed class StartupSettings : IStartupSettings
     [LocalizedDescription("Show the changelog when a new version of the program is run for the first time.")]
     public bool ShowChangelogOnUpdate { get; set; } = true;
 
-    [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists. Try LoadFile to mitigate intermittent load failures.")]
-    public PluginLoadSetting PluginLoadMethod { get; set; } = PluginLoadSetting.LoadFrom;
+    [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists.")]
+    public bool PluginLoadEnable { get; set; } = true;
+
+    [LocalizedDescription("Loads any plugins that were merged into the main executable file.")]
+    public bool PluginLoadMerged { get; set; }
 
     [Browsable(false)]
     public List<string> RecentlyLoaded { get; set; } = new(DefaultMaxRecent);
@@ -156,7 +160,7 @@ public sealed class StartupSettings : IStartupSettings
     }
 
     // Don't let invalid values slip into the startup version.
-    private GameVersion _defaultSaveVersion = PKX.Version;
+    private GameVersion _defaultSaveVersion = Latest.Version;
     private string _language = WinFormsUtil.GetCultureLanguage();
 
     [Browsable(false)]
@@ -200,17 +204,6 @@ public sealed class StartupSettings : IStartupSettings
             recent.RemoveAt(recent.Count - 1);
         recent.Insert(0, path);
     }
-}
-
-public enum PluginLoadSetting
-{
-    DontLoad,
-    LoadFrom,
-    LoadFile,
-    UnsafeLoadFrom,
-    LoadFromMerged,
-    LoadFileMerged,
-    UnsafeMerged,
 }
 
 public sealed class EntityConverterSettings
@@ -482,19 +475,19 @@ public sealed class SaveLanguageSettings
     public void Apply()
     {
         SaveLanguage.OverrideLanguageGen1 = OverrideGen1.Language;
-        if (GameVersion.RBY.Contains(OverrideGen1.Version))
+        if (OverrideGen1.Version.IsGen1())
             SaveLanguage.OverrideVersionGen1 = OverrideGen1.Version;
 
         SaveLanguage.OverrideLanguageGen2 = OverrideGen2.Language;
-        if (GameVersion.GS.Contains(OverrideGen2.Version))
+        if (OverrideGen2.Version is GameVersion.GD or GameVersion.SI)
             SaveLanguage.OverrideVersionGen2 = OverrideGen2.Version;
 
         SaveLanguage.OverrideLanguageGen3RS = OverrideGen3RS.Language;
-        if (GameVersion.RS.Contains(OverrideGen3RS.Version))
+        if (OverrideGen3RS.Version is GameVersion.R or GameVersion.S)
             SaveLanguage.OverrideVersionGen3RS = OverrideGen3RS.Version;
 
         SaveLanguage.OverrideLanguageGen3FRLG = OverrideGen3FRLG.Language;
-        if (GameVersion.FRLG.Contains(OverrideGen3FRLG.Version))
+        if (OverrideGen3FRLG.Version is GameVersion.FR or GameVersion.LG)
             SaveLanguage.OverrideVersionGen3FRLG = OverrideGen3FRLG.Version;
     }
 }

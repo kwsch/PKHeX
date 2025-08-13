@@ -147,7 +147,7 @@ public static class PokeList1
         var stringSection1 = output.Slice(ofsStr1, stringLength);
         var stringSection2 = output.Slice(ofsStr2, stringLength);
 
-        pk.Data.AsSpan(0, sizeBody).CopyTo(body);
+        pk.Data[..sizeBody].CopyTo(body);
         pk.OriginalTrainerTrash.CopyTo(stringSection1);
         pk.NicknameTrash.CopyTo(stringSection2);
 

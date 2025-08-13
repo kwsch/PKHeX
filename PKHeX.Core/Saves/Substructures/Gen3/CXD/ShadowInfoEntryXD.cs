@@ -36,24 +36,22 @@ public abstract class ShadowInfoEntryXD(Memory<byte> Raw)
     public override string ToString() => $"{(Species) Species} 0x{PID:X8} {Purification}";
 }
 
-public sealed class ShadowInfoEntry3J : ShadowInfoEntryXD
+public sealed class ShadowInfoEntry3J(Memory<byte> data) : ShadowInfoEntryXD(data)
 {
     internal const int SIZE_ENTRY = 60; // -12 from U
 
-    public ShadowInfoEntry3J() : base(new byte[SIZE_ENTRY]) { }
-    public ShadowInfoEntry3J(byte[] data) : base(data) { }
+    public ShadowInfoEntry3J() : this(new byte[SIZE_ENTRY]) { }
 
     public override byte Index { get => Data[0x35]; set => Data[0x35] = value; }
 
     public override string ToString() => $"{(Species)Species} 0x{PID:X8} {Purification}";
 }
 
-public sealed class ShadowInfoEntry3U : ShadowInfoEntryXD
+public sealed class ShadowInfoEntry3U(Memory<byte> data) : ShadowInfoEntryXD(data)
 {
     internal const int SIZE_ENTRY = 72; // -12 from U
 
-    public ShadowInfoEntry3U() : base(new byte[SIZE_ENTRY]) { }
-    public ShadowInfoEntry3U(byte[] data) : base(data) { }
+    public ShadowInfoEntry3U() : this(new byte[SIZE_ENTRY]) { }
 
     public override byte Index { get => Data[0x3F]; set => Data[0x3F] = value; }
 

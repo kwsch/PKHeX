@@ -5,14 +5,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// Minimal Trainer Information necessary for generating a <see cref="PKM"/>.
 /// </summary>
-public interface ITrainerInfo : ITrainerID32
+public interface ITrainerInfo : ITrainerID32ReadOnly, IVersion, IGeneration
 {
     string OT { get; }
     byte Gender { get; }
-    GameVersion Version { get; }
+    new GameVersion Version { get; }
     int Language { get; }
 
-    byte Generation { get; }
+    new byte Generation { get; }
     EntityContext Context { get; }
 }
 
@@ -38,7 +38,7 @@ public static class TrainerInfoExtensions
         if (pk is not IRegionOrigin tr)
             return;
 
-        if (info is not IRegionOrigin o)
+        if (info is not IRegionOriginReadOnly o)
             return;
         o.CopyRegionOrigin(tr);
     }

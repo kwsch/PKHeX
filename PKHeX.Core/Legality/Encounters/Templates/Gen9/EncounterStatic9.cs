@@ -68,12 +68,12 @@ public sealed record EncounterStatic9(GameVersion Version)
     public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
-            Language = lang,
+            Language = language,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
@@ -85,7 +85,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             Ball = (byte)Ball.Poke,
             FatefulEncounter = FatefulEncounter,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             ObedienceLevel = LevelMin,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
@@ -126,7 +126,7 @@ public sealed record EncounterStatic9(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         const byte undefinedSize = 0;
         byte height, weight, scale;
@@ -150,14 +150,7 @@ public sealed record EncounterStatic9(GameVersion Version)
         if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
             this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
         if (IVs.IsSpecified)
-        {
-            pk.IV_HP = IVs.HP;
-            pk.IV_ATK = IVs.ATK;
-            pk.IV_DEF = IVs.DEF;
-            pk.IV_SPA = IVs.SPA;
-            pk.IV_SPD = IVs.SPD;
-            pk.IV_SPE = IVs.SPE;
-        }
+            pk.IV32 = IVs.GetIV32();
 
         if (Gender != FixedGenderUtil.GenderRandom)
             pk.Gender = Gender;

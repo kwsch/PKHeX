@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Hatch Location validity for <see cref="GameVersion.Gen6"/>.
+/// Hatch Location validity for <see cref="EntityContext.Gen6"/>.
 /// </summary>
 public static class EggHatchLocation6
 {

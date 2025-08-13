@@ -66,6 +66,7 @@ namespace PKHeX.WinForms
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(160, 48);
+            AutoSize = true;
             Controls.Add(PB_Icon);
             Controls.Add(L_Site);
             Controls.Add(L_Status);

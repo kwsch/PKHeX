@@ -26,6 +26,8 @@ public readonly struct PIDIV
     [field: FieldOffset(9)] public LeadRequired Lead { get; init; }
     [field: FieldOffset(9)] public PIDType Mutated { get; init; }
 
+    public PIDType GetDerivedType() => Mutated is 0 ? Type : Mutated;
+
     public PIDIV(PIDType type, uint seed = 0)
     {
         Type = type;
@@ -38,8 +40,8 @@ public readonly struct PIDIV
         Seed64 = seed;
     }
 
-    /// <remarks> Some PID/IVs may be generated without a single seed, but may follow a traceable pattern. </remarks>
-    /// <summary> Indicates that there is no <see cref="OriginSeed"/> to refer to. </summary>
+    /// <summary> Indicates that there is no specific <see cref="OriginSeed"/> to refer to. </summary>
+    /// <remarks> Some PID/IVs may be generated from a multitude of seeds, but may follow a traceable pattern. </remarks>
     public bool NoSeed => Type is PIDType.None or PIDType.Pokewalker or PIDType.G5MGShiny;
 
 #if DEBUG

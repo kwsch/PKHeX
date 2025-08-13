@@ -1,0 +1,1535 @@
+Summer Cap A
+Summer Cap B
+Summer Cap C
+Summer Cap D
+City Hat A
+City Hat B
+City Hat C
+City Hat D
+Western Hat A
+Western Hat B
+Western Hat C
+Western Hat D
+Groudon Outfit
+Groudon Outfit (Shiny)
+Pikachu Hat
+Crown
+Pokétopia Beret
+Chestnut
+Shiny Yellow
+Deep Purple
+Red
+Blue
+Teal Blue
+Groudon Outfit
+Groudon Outfit (Shiny)
+(Take Off)
+Chestnut Eyes
+Nose Bandage
+Groudon Outfit
+Groudon Outfit (Shiny)
+Pikachu Paint
+Poké Ball Paint
+Dark Paint
+Red Eyes
+Olive Eyes
+Green Eyes
+Summer T-shirt A
+Summer T-shirt B
+Summer T-shirt C
+Summer T-shirt D
+City Shirt A
+City Shirt B
+Western Shirt A
+Western Shirt B
+Groudon Outfit
+Groudon Outfit (Shiny)
+Pikachu T-shirt
+Pokétopia T-shirt
+Poké Ball T-shirt
+Expedition Shirt
+Ocean T-shirt
+Desert T-shirt
+Cyber T-shirt
+Flame T-shirt
+Summer Jeans A
+Summer Jeans B
+Summer Jeans C
+Summer Jeans D
+City Pants A
+City Pants B
+Western Pants A
+Western Pants B
+Groudon Outfit
+Groudon Outfit (Shiny)
+Pikachu Pants
+Pokétopia Pants
+Poké Ball Pants
+Expedition Pants
+Ocean Pants
+Desert Pants
+Cyber Pants
+Flame Pants
+Summer Shoes A
+Summer Shoes B
+Summer Shoes C
+Summer Shoes D
+City Shoes A
+City Shoes B
+City Shoes C
+City Shoes D
+Western Shoes A
+Western Shoes B
+Western Shoes C
+Western Shoes D
+Groudon Outfit
+Groudon Outfit (Shiny)
+(Take Off)
+Summer Wristband A
+Summer Wristband B
+Summer Wristband C
+Summer Wristband D
+City Wristband A
+City Wristband B
+City Wristband C
+City Wristband D
+Western Gloves A
+Western Gloves B
+Western Gloves C
+Western Gloves D
+Groudon Outfit
+Groudon Outfit (Shiny)
+Pikachu Gloves
+Fingerless Gloves
+(Take Off)
+Summer Bag A
+Summer Bag B
+Summer Bag C
+Summer Bag D
+City Bag A
+City Bag B
+City Bag C
+City Bag D
+Western Bag A
+Western Bag B
+Western Bag C
+Western Bag D
+Groudon Outfit
+Groudon Outfit (Shiny)
+Pikachu Bag
+Poké Ball Bag
+(Take Off)
+Serious Glasses
+Wild Shades
+Frameless Glasses
+Mirror Shades
+Star Shades
+Disguise Glasses
+Madam Glasses
+Antique Spectacles
+(Take Off)
+Happy Badge
+Poké Ball Metal Badge
+Lucky Badge
+Fire Badge
+Pikachu Badge
+Leaf Badge
+Poké Ball Badge
+Rose Corsage
+Golden Badge
+Silver Badge
+Bronze Badge
+Diamond Brooch
+Pearl Brooch
+Ruby Brooch
+Sapphire Brooch
+Emerald Brooch
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cool Hat A
+Cool Hat B
+Cool Hat C
+Cool Hat D
+Rider Cap A
+Rider Cap B
+Rider Cap C
+Rider Cap D
+Formal Hat A
+Formal Hat B
+Formal Hat C
+Formal Hat D
+Lucario Outfit
+Lucario Outfit (Shiny)
+Pikachu Hat
+Crown
+Pokétopia Beret
+Light Blue
+Light Brown
+Silver Black
+Pale Blond
+Mint Green
+Ice Blue
+Lucario Outfit
+Lucario Outfit (Shiny)
+(Take Off)
+Emerald Eyes
+Formal Paint
+Lucario Outfit
+Lucario Outfit (Shiny)
+Pikachu Paint
+Poké Ball Paint
+Dark Paint
+Red Eyes
+Olive Eyes
+Green Eyes
+Cool Jacket A
+Cool Jacket B
+Cool Jacket C
+Cool Jacket D
+Rider Jacket A
+Rider Jacket B
+Formal Suit A
+Formal Suit B
+Lucario Outfit
+Lucario Outfit (Shiny)
+Pikachu Jacket
+Pokétopia Jacket
+Poké Ball Jacket
+Expedition Jacket
+Ocean Jacket
+Desert Jacket
+Cyber Jacket
+Flame Jacket
+Cool Pants A
+Cool Pants B
+Cool Pants C
+Cool Pants D
+Rider Pants A
+Rider Pants B
+Formal Pants A
+Formal Pants B
+Lucario Outfit
+Lucario Outfit (Shiny)
+Pikachu Pants
+Pokétopia Pants
+Poké Ball Pants
+Expedition Pants
+Ocean Pants
+Desert Pants
+Cyber Pants
+Flame Pants
+Cool Shoes A
+Cool Shoes B
+Cool Shoes C
+Cool Shoes D
+Rider Shoes A
+Rider Shoes B
+Rider Shoes C
+Rider Shoes D
+Formal Shoes A
+Formal Shoes B
+Formal Shoes C
+Formal Shoes D
+Lucario Outfit
+Lucario Outfit (Shiny)
+(Take Off)
+Rider Gloves A
+Rider Gloves B
+Rider Gloves C
+Rider Gloves D
+Lucario Outfit
+Lucario Outfit (Shiny)
+Pikachu Gloves
+Fingerless Gloves
+(Take Off)
+Lucario Outfit
+Lucario Outfit (Shiny)
+Pikachu Bag
+Poké Ball Bag
+(Take Off)
+Serious Glasses
+Wild Shades
+Frameless Glasses
+Mirror Shades
+Star Shades
+Disguise Glasses
+Madam Glasses
+Antique Spectacles
+(Take Off)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Spiky Hair
+Sports Cap A
+Sports Cap B
+Sports Cap C
+Sports Cap D
+Solar Helmet A
+Solar Helmet B
+Solar Helmet C
+Solar Helmet D
+Electivire Outfit
+Electivire Outfit (Shiny)
+Pikachu Hat
+Crown
+Pokétopia Beret
+Beige
+Blue Gray
+Auburn
+Yellow
+Cocoa
+Khaki
+Electivire Outfit
+Electivire Outfit (Shiny)
+(Take Off)
+Sports Tape
+Electivire Outfit
+Electivire Outfit (Shiny)
+Pikachu Paint
+Poké Ball Paint
+Dark Paint
+Red Eyes
+Olive Eyes
+Green Eyes
+Army Tank Top A
+Army Tank Top B
+Army Tank Top C
+Army Tank Top D
+Sports Tank Top A
+Sports Tank Top B
+Solar Tank Top A
+Solar Tank Top B
+Electivire Outfit
+Electivire Outfit (Shiny)
+Pikachu Tank Top
+Pokétopia Tank Top
+Poké Ball Tank Top
+Expedition Tank Top
+Ocean Tank Top
+Desert Tank Top
+Cyber Tank Top
+Flame Tank Top
+Army Pants A
+Army Pants B
+Army Pants C
+Army Pants D
+Sports Pants A
+Sports Pants B
+Solar Pants A
+Solar Pants B
+Electivire Outfit
+Electivire Outfit (Shiny)
+Pikachu Pants
+Pokétopia Pants
+Poké Ball Pants
+Expedition Pants
+Ocean Pants
+Desert Pants
+Cyber Pants
+Flame Pants
+Army Boots A
+Army Boots B
+Army Boots C
+Army Boots D
+Sports Boots A
+Sports Boots B
+Sports Boots C
+Sports Boots D
+Solar Boots A
+Solar Boots B
+Solar Boots C
+Solar Boots D
+Electivire Outfit
+Electivire Outfit (Shiny)
+(Take Off)
+Army Wristband A
+Army Wristband B
+Army Wristband C
+Army Wristband D
+Sports Wristband A
+Sports Wristband B
+Sports Wristband C
+Sports Wristband D
+Solar Gloves A
+Solar Gloves B
+Solar Gloves C
+Solar Gloves D
+Electivire Outfit
+Electivire Outfit (Shiny)
+Pikachu Gloves
+Fingerless Gloves
+(Take Off)
+Army Bag A
+Army Bag B
+Army Bag C
+Army Bag D
+Sports Bag A
+Sports Bag B
+Sports Bag C
+Sports Bag D
+Solar Bag A
+Solar Bag B
+Solar Bag C
+Solar Bag D
+Electivire Outfit
+Electivire Outfit (Shiny)
+Pikachu Bag
+Poké Ball Bag
+(Take Off)
+Serious Glasses
+Wild Shades
+Frameless Glasses
+Mirror Shades
+Star Shades
+Disguise Glasses
+Madam Glasses
+Antique Spectacles
+(Take Off)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Girls' Cap A
+Girls' Cap B
+Girls' Cap C
+Girls' Cap D
+Picnic Hat A
+Picnic Hat B
+Picnic Hat C
+Picnic Hat D
+Pirate Hat A
+Pirate Hat B
+Pirate Hat C
+Pirate Hat D
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+Pikachu Hat
+Crown
+Pokétopia Beret
+Sky Blue
+Dark Gray
+Blond
+Strawberry
+Brunette
+Milky Blue
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+(Take Off)
+Sky Blue Eyes
+Purple Eyes
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+Pikachu Paint
+Poké Ball Paint
+Dark Paint
+Red Eyes
+Olive Eyes
+Green Eyes
+Girls' Minidress A
+Girls' Minidress B
+Girls' Minidress C
+Girls' Minidress D
+Picnic Minidress A
+Picnic Minidress B
+Pirate Minidress A
+Pirate Minidress B
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+Pikachu Minidress
+Pokétopia Minidress
+Poké Ball Minidress
+Expedition Minidress
+Ocean Minidress
+Desert Minidress
+Cyber Minidress
+Flame Minidress
+Girls' Shorts A
+Girls' Shorts B
+Girls' Shorts C
+Girls' Shorts D
+Picnic Shorts A
+Picnic Shorts B
+Pirate Shorts A
+Pirate Shorts B
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+Pikachu Shorts
+Pokétopia Shorts
+Poké Ball Shorts
+Expedition Shorts
+Ocean Shorts
+Desert Shorts
+Cyber Shorts
+Flame Shorts
+Girls' Shoes A
+Girls' Shoes B
+Girls' Shoes C
+Girls' Shoes D
+Picnic Shoes A
+Picnic Shoes B
+Picnic Shoes C
+Picnic Shoes D
+Pirate Shoes A
+Pirate Shoes B
+Pirate Shoes C
+Pirate Shoes D
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+(Take Off)
+Girls' Wristband A
+Girls' Wristband B
+Girls' Wristband C
+Girls' Wristband D
+Picnic Gloves A
+Picnic Gloves B
+Picnic Gloves C
+Picnic Gloves D
+Pirate Gloves A
+Pirate Gloves B
+Pirate Gloves C
+Pirate Gloves D
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+Pikachu Gloves
+Fingerless Gloves
+(Take Off)
+Girls' Purse A
+Girls' Purse B
+Girls' Purse C
+Girls' Purse D
+Picnic Purse A
+Picnic Purse B
+Picnic Purse C
+Picnic Purse D
+Pirate Purse A
+Pirate Purse B
+Pirate Purse C
+Pirate Purse D
+Kyogre Outfit
+Kyogre Outfit (Shiny)
+Pikachu Bag
+Poké Ball Bag
+(Take Off)
+Serious Glasses
+Wild Shades
+Frameless Glasses
+Mirror Shades
+Star Shades
+Disguise Glasses
+Madam Glasses
+Antique Spectacles
+(Take Off)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cool Cap A
+Cool Cap B
+Cool Cap C
+Cool Cap D
+Celebrity Hat A
+Celebrity Hat B
+Celebrity Hat C
+Celebrity Hat D
+Forest Hat A
+Forest Hat B
+Forest Hat C
+Forest Hat D
+Roserade Outfit
+Roserade Outfit (Shiny)
+Pikachu Hat
+Crown
+Pokétopia Beret
+Purple
+Metallic Silver
+Ocean Blue
+Sand Beige
+Silky Black 
+Red Brown
+Roserade Outfit
+Roserade Outfit (Shiny)
+(Take Off)
+Celebrity Makeup
+Forest Eyes
+Roserade Outfit
+Roserade Outfit (Shiny)
+Pikachu Paint
+Poké Ball Paint
+Dark Paint
+Red Eyes
+Olive Eyes
+Green Eyes
+Cool Tank Top A
+Cool Tank Top B
+Cool Tank Top C
+Cool Tank Top D
+Celebrity Top A
+Celebrity Top B
+Forest Tank Top A
+Forest Tank Top B
+Roserade Outfit
+Roserade Outfit (Shiny)
+Pikachu Tank Top
+Pokétopia Tank Top
+Poké Ball Tank Top
+Expedition Tank Top
+Ocean Tank Top
+Desert Tank Top
+Cyber Tank Top
+Flame Tank Top
+Cool Pants A
+Cool Pants B
+Cool Pants C
+Cool Pants D
+Celebrity Pants A
+Celebrity Pants B
+Forest Pants A
+Forest Pants B
+Roserade Outfit
+Roserade Outfit (Shiny)
+Pikachu Pants
+Pokétopia Pants
+Poké Ball Pants
+Expedition Pants
+Ocean Pants
+Desert Pants
+Cyber Pants
+Flame Pants
+Cool Sandals A
+Cool Sandals B
+Cool Sandals C
+Cool Sandals D
+Celebrity Sandals A
+Celebrity Sandals B
+Celebrity Sandals C
+Celebrity Sandals D
+Forest Sandals A
+Forest Sandals B
+Forest Sandals C
+Forest Sandals D
+Roserade Outfit
+Roserade Outfit (Shiny)
+(Take Off)
+Cool Bangle A
+Cool Bangle B
+Cool Bangle C
+Cool Bangle D
+Celebrity Gloves A
+Celebrity Gloves B
+Celebrity Gloves C
+Celebrity Gloves D
+Forest Gloves A
+Forest Gloves B
+Forest Gloves C
+Forest Gloves D
+Roserade Outfit
+Roserade Outfit (Shiny)
+Pikachu Gloves
+Fingerless Gloves
+(Take Off)
+Forest Purse A
+Forest Purse B
+Forest Purse C
+Forest Purse D
+Pikachu Bag
+Poké Ball Bag
+(Take Off)
+Celebrity Shades A
+Celebrity Shades B
+Celebrity Shades C
+Celebrity Shades D
+Roserade Outfit
+Roserade Outfit (Shiny)
+Serious Glasses
+Wild Shades
+Frameless Glasses
+Mirror Shades
+Star Shades
+Disguise Glasses
+Madam Glasses
+Antique Spectacles
+(Take Off)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cute Headband A
+Cute Headband B
+Cute Headband C
+Cute Headband D
+School Headband A
+School Headband B
+School Headband C
+School Headband D
+Space Headband A
+Space Headband B
+Space Headband C
+Space Headband D
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+Pikachu Ears
+Crown
+Pokétopia Headband
+Pink
+Orange
+Black
+Silver
+Brown
+Aqua Blue
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+(Take Off)
+Blue Eyes
+Rose Eyes
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+Pikachu Paint
+Poké Ball Paint
+Dark Paint
+Red Eyes
+Olive Eyes
+Green Eyes
+Cute Dress A
+Cute Dress B
+Cute Dress C
+Cute Dress D
+School Uniform A
+School Uniform B
+Space Dress A
+Space Dress B
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+Pikachu Dress
+Pokétopia Dress
+Poké Ball Dress
+Expedition Dress
+Ocean Dress
+Desert Dress
+Cyber Dress
+Flame Dress
+(Unused 0)
+(Unused 1)
+Cute Shoes A
+Cute Shoes B
+Cute Shoes C
+Cute Shoes D
+School Shoes A
+School Shoes B
+School Shoes C
+School Shoes D
+Space Shoes A
+Space Shoes B
+Space Shoes C
+Space Shoes D
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+(Take Off)
+Cute Bracelet A
+Cute Bracelet B
+Cute Bracelet C
+Cute Bracelet D
+School Watch A
+School Watch B
+School Watch C
+School Watch D
+Space Gloves A
+Space Gloves B
+Space Gloves C
+Space Gloves D
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+Pikachu Gloves
+Fingerless Gloves
+(Take Off)
+Space Purse A
+Space Purse B
+Space Purse C
+Space Purse D
+Pachirisu Outfit
+Pachirisu Outfit (Shiny)
+Pikachu Bag
+Poké Ball Bag
+(Take Off)
+School Glasses A
+School Glasses B
+School Glasses C
+School Glasses D
+Serious Glasses
+Wild Shades
+Frameless Glasses
+Mirror Shades
+Star Shades
+Disguise Glasses
+Madam Glasses
+Antique Spectacles
+(Take Off)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

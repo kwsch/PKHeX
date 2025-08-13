@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Group that checks the source of a move in <see cref="GameVersion.Gen5"/>.
+/// Group that checks the source of a move in <see cref="EntityContext.Gen5"/>.
 /// </summary>
 public sealed class LearnGroup5 : ILearnGroup
 {
@@ -21,13 +21,13 @@ public sealed class LearnGroup5 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option);
 
-        if (types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg5 egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg5 egg)
     {
         ILearnSource inst = egg.Version > GameVersion.B ? LearnSource5B2W2.Instance : LearnSource5BW.Instance;
         var eggMoves = inst.GetEggMoves(egg.Species, egg.Form);

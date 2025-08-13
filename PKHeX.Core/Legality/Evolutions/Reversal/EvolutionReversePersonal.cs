@@ -2,9 +2,18 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Represents a reverse evolution lookup mechanism for determining the lineage of Pokémon species and forms.
+/// </summary>
+/// <remarks>This class provides functionality to trace the evolutionary lineage of a Pokémon species and form,
+/// allowing reverse lookups to identify pre-evolutions and related evolutionary data. It is designed to work with a
+/// personal table and a set of evolution method entries.</remarks>
+/// <param name="Entries">Collection of evolution methods indexed by the Personal Table's <see cref="IPersonalTable.GetFormIndex"/></param>
+/// <param name="Personal">Personal Table containing species and form data.</param>
+/// <seealso cref="EvolutionReverseSpecies"/>
 public sealed class EvolutionReversePersonal(EvolutionMethod[][] Entries, IPersonalTable Personal) : IEvolutionReverse
 {
-    public IEvolutionLookup Lineage { get; } = GetLineage(Personal, Entries);
+    public EvolutionReverseLookup Lineage { get; } = GetLineage(Personal, Entries);
     public ref readonly EvolutionNode GetReverse(ushort species, byte form) => ref Lineage[species, form];
 
     private static EvolutionReverseLookup GetLineage(IPersonalTable t, EvolutionMethod[][] entries)

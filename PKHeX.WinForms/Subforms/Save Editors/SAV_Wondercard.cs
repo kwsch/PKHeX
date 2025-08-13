@@ -197,7 +197,7 @@ public partial class SAV_Wondercard : Form
         for (int i = 0; i < album.Length; i++)
         {
             var exist = album[i];
-            if (!exist.Empty)
+            if (!exist.IsEmpty)
                 continue;
             if (exist.Type != gift.Type)
                 continue;
@@ -257,7 +257,7 @@ public partial class SAV_Wondercard : Form
             WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{GameInfo.Strings.Item[533]} slot not valid.");
             return;
         }
-        gifts[index] = (DataMysteryGift)gift.Clone();
+        gifts[index] = gift.Clone();
         SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
         SetGiftBoxes();
         SetCardID(gift.CardID);
@@ -270,14 +270,13 @@ public partial class SAV_Wondercard : Form
             return;
         int index = pba.IndexOf(pb);
 
-        var arr = Album[index].Data;
-        Array.Clear(arr, 0, arr.Length);
+        Album[index].Clear();
 
         // Shuffle blank card down
         int i = index;
         while (i < Album.Length - 1)
         {
-            if (Album[i + 1].Empty)
+            if (Album[i + 1].IsEmpty)
                 break;
             if (Album[i + 1].Type != Album[i].Type)
                 break;
@@ -313,7 +312,7 @@ public partial class SAV_Wondercard : Form
     {
         if (Cards is MysteryBlock4 s4)
         {
-            s4.IsDeliveryManActive = Album.Any(g => !g.Empty);
+            s4.IsDeliveryManActive = Album.Any(g => !g.IsEmpty);
             MysteryBlock4.UpdateSlotPGT(Album, SAV is SAV4HGSS);
             if (SAV is SAV4HGSS hgss)
                 hgss.LockCapsuleSlot = (PCD)Album[^1];
@@ -420,7 +419,7 @@ public partial class SAV_Wondercard : Form
     {
         if (mg is null)
             return;
-        if (mg.Empty)
+        if (mg.IsEmpty)
         {
             WinFormsUtil.Alert(MsgMysteryGiftSlotNone);
             return;
@@ -488,16 +487,16 @@ public partial class SAV_Wondercard : Form
 
         int index = pba.IndexOf(pb);
         var gift = Album[index];
-        if (gift.Empty)
+        if (gift.IsEmpty)
             return;
 
         // Create Temp File to Drag
         wc_slot = index;
         Cursor.Current = Cursors.Hand;
-        string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(gift.FileName));
+        string newfile = Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(gift.FileName));
         try
         {
-            await File.WriteAllBytesAsync(newfile, gift.Write()).ConfigureAwait(true);
+            File.WriteAllBytes(newfile, gift.Write());
             DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy | DragDropEffects.Move);
         }
         // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
@@ -557,7 +556,7 @@ public partial class SAV_Wondercard : Form
                 return;
             }
             SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
-            dest = (DataMysteryGift)gift.Clone();
+            dest = gift.Clone();
 
             SetCardID(dest.CardID);
             ViewGiftData(dest);
@@ -584,7 +583,7 @@ public partial class SAV_Wondercard : Form
             if (s2 is PCD { CanConvertToPGT: true } && s1 is PGT)
             {
                 // Get first empty slot
-                var firstEmpty = Array.FindIndex(gifts, static z => z.Empty);
+                var firstEmpty = Array.FindIndex(gifts, static z => z.IsEmpty);
                 if ((uint)firstEmpty < dest)
                     dest = firstEmpty;
 
@@ -607,7 +606,7 @@ public partial class SAV_Wondercard : Form
         }
 
         // If data is present in both slots, just swap.
-        if (!s1.Empty)
+        if (!s1.IsEmpty)
         {
             // Swap
             (gifts[src], gifts[dest]) = (s1, s2);
@@ -617,7 +616,7 @@ public partial class SAV_Wondercard : Form
         // empty slot created, bubble this slot to the end of its list
         for (int i = src; i != dest; i++)
         {
-            if (gifts[i + 1].Empty)
+            if (gifts[i + 1].IsEmpty)
                 return i; // done bubbling
             (gifts[i + 1], gifts[i]) = (gifts[i], gifts[i + 1]);
         }

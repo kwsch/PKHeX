@@ -386,6 +386,7 @@ public partial class SAV_SecretBase : Form
     private void B_Import_Click(object sender, EventArgs e)
     {
         using var ofd = new OpenFileDialog();
+        ofd.Title = MsgFileLoadSelectFileSecretBase;
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -419,7 +420,7 @@ public partial class SAV_SecretBase : Form
             tr = "Trainer";
         using var sfd = new SaveFileDialog();
         sfd.Filter = "Secret Base Data|*.sb6";
-        sfd.FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6";
+        sfd.FileName = $"{sb.BaseLocation:D2} - {PathUtil.CleanFileName(tr)}.sb6";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 

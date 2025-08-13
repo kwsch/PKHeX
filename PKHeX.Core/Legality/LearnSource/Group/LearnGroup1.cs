@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Group that checks the source of a move in <see cref="GameVersion.Gen1"/>.
+/// Group that checks the source of a move in <see cref="EntityContext.Gen1"/>.
 /// </summary>
 public sealed class LearnGroup1 : ILearnGroup
 {
@@ -13,7 +13,7 @@ public sealed class LearnGroup1 : ILearnGroup
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => pk.Context switch
     {
-        EntityContext.Gen1 when enc.Generation == 1 && pk is PK1 pk1 && HasDefinitelyVisitedGen2(pk1) => LearnGroup2.Instance,
+        EntityContext.Gen1 when enc.Generation == 1 && pk is PK1 pk1 && HasPossiblyVisitedGen2(pk1) => LearnGroup2.Instance,
         EntityContext.Gen1 when enc.Generation == 2 => LearnGroup2.Instance,
         EntityContext.Gen2 => null,
         _ => enc.Generation == 1 ? LearnGroup2.Instance : null,
@@ -142,18 +142,12 @@ public sealed class LearnGroup1 : ILearnGroup
         // Flag empty slots if never visited Gen2 move deleter.
         if (pk is not PK1 pk1)
             return;
-        if (HasDefinitelyVisitedGen2(pk1))
+        if (HasPossiblyVisitedGen2(pk1))
             return;
         FlagFishyMoveSlots(result, current, enc);
     }
 
-    private static bool HasDefinitelyVisitedGen2(PK1 pk1)
-    {
-        if (!ParseSettings.AllowGen1Tradeback)
-            return false;
-        var rate = pk1.CatchRate;
-        return rate is 0 || GBRestrictions.IsTradebackCatchRate(rate);
-    }
+    private static bool HasPossiblyVisitedGen2(PK1 pk1) => ParseSettings.AllowGen1Tradeback && ItemConverter.IsCatchRateHeldItem(pk1.CatchRate);
 
     private static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> moves)
     {
@@ -172,9 +166,6 @@ public sealed class LearnGroup1 : ILearnGroup
         var yw = LearnSource1YW.Instance;
         if (!yw.TryGetPersonal(evo.Species, evo.Form, out var yp))
             return; // should never happen.
-
-        if (ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk))
-            evo = evo with { LevelMin = 1 };
 
         for (int i = result.Length - 1; i >= 0; i--)
         {
@@ -229,9 +220,6 @@ public sealed class LearnGroup1 : ILearnGroup
 
     private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
     {
-        if (ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk))
-            evo = evo with { LevelMin = 1 };
-
         LearnSource1YW.Instance.GetAllMoves(result, pk, evo, types);
         LearnSource1RB.Instance.GetAllMoves(result, pk, evo, types);
     }

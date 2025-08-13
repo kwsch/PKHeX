@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public class BattleTest5(Memory<byte> Raw)
+public sealed class BattleTest5(Memory<byte> Raw)
 {
     public const int SIZE = 0x5C8;
     public const string Extension = "bt5";

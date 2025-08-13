@@ -3,9 +3,25 @@ namespace PKHeX.Core;
 /// <summary>
 /// Box Data <see cref="ISlotInfo"/>
 /// </summary>
-public sealed record SlotInfoBox(int Box, int Slot) : ISlotInfo
+public sealed record SlotInfoBox : ISlotInfo
 {
-    public StorageSlotType Type => StorageSlotType.Box;
+    public int Box { get; init; }
+    public int Slot { get; init; }
+
+    public SlotInfoBox(int box, int slot, SaveFile sav)
+    {
+        Box = box;
+        Slot = slot;
+        if (sav is SAV7b s7b)
+        {
+            var index = s7b.GetBoxSlotFlags(box, slot);
+            if (index.IsParty() >= 0)
+                Type = StorageSlotType.Party;
+        }
+    }
+
+    public StorageSlotType Type { get; private set; } = StorageSlotType.Box;
+
     public bool CanWriteTo(SaveFile sav) => sav.HasBox && !sav.IsBoxSlotLocked(Box, Slot);
     public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk) => WriteBlockedMessage.None;
 
@@ -15,5 +31,8 @@ public sealed record SlotInfoBox(int Box, int Slot) : ISlotInfo
         return true;
     }
 
-    public PKM Read(SaveFile sav) => sav.GetBoxSlotAtIndex(Box, Slot);
+    public PKM Read(SaveFile sav)
+    {
+        return sav.GetBoxSlotAtIndex(Box, Slot);
+    }
 }

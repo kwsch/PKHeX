@@ -383,9 +383,9 @@ public static class MethodFinder
         // generation 5 shiny PIDs
         if (low <= 0xFF)
         {
-            var av = (pid >> 16) & 1;
-            var genPID = PIDGenerator.GetMG5ShinyPID(low, av, pk.TID16, pk.SID16);
-            if (genPID == pid)
+            var abilBit = (pid >> 16) & 1;
+            var expect = MonochromeRNG.GetShinyPID(low, abilBit, pk.TID16, pk.SID16);
+            if (pid == expect)
             {
                 pidiv = PIDIV.G5MGShiny;
                 return true;
@@ -472,7 +472,7 @@ public static class MethodFinder
             if (expectPID != actualPID)
             {
                 // Check for the alternate event types that force shiny state.
-                bool isShiny = ShinyUtil.GetIsShiny(idXor, actualPID, 8);
+                bool isShiny = ShinyUtil.GetIsShiny3(idXor, actualPID);
                 if (!isShiny) // most likely, branch prediction!
                 {
                     if (CommonEvent3.IsRegularAntishiny(actualPID, expectPID))
@@ -564,7 +564,7 @@ public static class MethodFinder
         if (!starter)
             return GetNonMatch(out pidiv);
 
-        if (!MethodCXD.TryGetOriginSeedStarterColo(iv1, iv2, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
+        if (!MethodCXD.TryGetSeedStarterColo(iv1, iv2, pk.EncryptionConstant, pk.TID16, pk.SID16, species, out var result))
             return GetNonMatch(out pidiv);
 
         pidiv = new PIDIV(CXD_ColoStarter, result);
@@ -588,56 +588,5 @@ public static class MethodFinder
     {
         // not implemented; correlation between IVs and RNG hasn't been converted to code.
         return PIDIV.None;
-    }
-
-    public static bool IsPokeSpotActivation(int slot, uint seed, out uint s)
-    {
-        s = seed;
-        var esv = (seed >> 16) % 100;
-        if (!IsPokeSpotSlotValid(slot, esv))
-        {
-            // todo
-        }
-        // check for valid activation
-        s = XDRNG.Prev(seed);
-        if ((s >> 16) % 3 != 0)
-        {
-            if ((s >> 16) % 100 < 10) // can't fail a Munchlax/Bonsly encounter check
-            {
-                // todo
-            }
-            s = XDRNG.Prev(s);
-            if ((s >> 16) % 3 != 0) // can't activate even if generous
-            {
-                // todo
-            }
-        }
-        return true;
-    }
-
-    private static bool IsPokeSpotSlotValid(int slot, uint esv) => slot switch
-    {
-        0 => esv < 50 , // [0,50)
-        1 => esv - 50 < 35, // [50,85)
-        2 => esv >= 85, // [85,100)
-        _ => false,
-    };
-
-    public static PIDIV GetPokeSpotSeedFirst(PKM pk, byte slot)
-    {
-        // Activate (rand % 3)
-        // Munchlax / Bonsly (10%/30%)
-        // Encounter Slot Value (ESV) = 50%/35%/15% rarity (0-49, 50-84, 85-99)
-
-        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
-        int count = XDRNG.GetSeeds(seeds, pk.EncryptionConstant);
-        var reg = seeds[..count];
-        foreach (var seed in reg)
-        {
-            // check for valid encounter slot info
-            if (IsPokeSpotActivation(slot, seed, out uint s))
-                return new PIDIV(PokeSpot, s);
-        }
-        return default;
     }
 }

@@ -19,7 +19,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     public bool Korean => false;
 
     public sealed override int MaxBallID => 0; // unused
-    public sealed override GameVersion MaxGameID => GameVersion.Gen1; // unused
+    public sealed override GameVersion MaxGameID => GameVersion.YW; // unused
     public sealed override int MaxMoney => 999999;
     public sealed override int MaxCoins => 9999;
 
@@ -30,10 +30,10 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     public sealed override string OT { get; set; }
     public sealed override int Language => Japanese ? 1 : 2;
 
-    protected SAV_STADIUM(byte[] data, bool japanese, bool swap) : base(data)
+    protected SAV_STADIUM(Memory<byte> data, bool japanese, bool swap) : base(data)
     {
         Japanese = japanese;
-        OT = SaveUtil.GetSafeTrainerName(this, (LanguageID)Language);
+        OT = BlankSaveFile.GetSafeTrainerName(this, (LanguageID)Language);
 
         if (!swap)
             return;
@@ -44,7 +44,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     protected SAV_STADIUM(bool japanese, [ConstantExpected] int size) : base(size)
     {
         Japanese = japanese;
-        OT = SaveUtil.GetSafeTrainerName(this, (LanguageID)Language);
+        OT = BlankSaveFile.GetSafeTrainerName(this, (LanguageID)Language);
     }
 
     protected sealed override byte[] DecryptPKM(byte[] data) => data;
@@ -75,11 +75,11 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
         return true;
     }
 
-    protected sealed override byte[] GetFinalData()
+    protected sealed override Memory<byte> GetFinalData()
     {
         var result = base.GetFinalData();
         if (IsPairSwapped)
-            ReverseEndianness(result = [..result]);
+            ReverseEndianness(result.Span);
         return result;
     }
 
@@ -107,8 +107,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     /// <param name="data">Full savedata</param>
     private static void ReverseEndianness(Span<byte> data)
     {
-        var uintArr = MemoryMarshal.Cast<byte, uint>(data);
-        for (int i = 0; i < uintArr.Length; i++)
-            uintArr[i] = BinaryPrimitives.ReverseEndianness(uintArr[i]);
+        var as32 = MemoryMarshal.Cast<byte, int>(data);
+        BinaryPrimitives.ReverseEndianness(as32, as32);
     }
 }

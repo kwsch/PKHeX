@@ -19,8 +19,8 @@
 0604	r	Seabreak Path Appeared
 0291	r	Shaymin (Flower Paradise) Disappeared
 0286	r	Arceus Disappeared
-0307	r	Fullmoon Island Ferry Accessable
-0316	r	Newmoon Island Ferry Accessable
+0307	r	Fullmoon Island Ferry Accessible
+0316	r	Newmoon Island Ferry Accessible
 0578	r	Professor Oak (Eterna City) Disappeared
 0281	r	Articuno/Zapdos/Moltres Roamed (1)
 0153	r	Articuno/Zapdos/Moltres Roamed (2)
@@ -45,6 +45,7 @@
 0151	g	Received Porygon
 0305	g	Received Eevee
 2430	*	Unlocked Bebe's PC
+2433	s	2nd Rematch Against Trainers Unlocked
 2728	r	Friday Drifloon Disappeared
 2722	r	Today's Trophy Garden Pokémon Known
 0710	*	Unlocked Rotom's Room
@@ -58,7 +59,7 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
-0325	r	Dialga/Pakia rifts spawnable
+0325	r	Dialga/Palkia rifts spawnable
 1051	s	Found Adamant Orb on Mt. Coronet
 1053	s	Found Lustrous Orb on Mt. Coronet
 2507	s	Entered Pal Park Catching Show

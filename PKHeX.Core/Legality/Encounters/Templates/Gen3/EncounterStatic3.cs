@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -94,21 +95,64 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
-    private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         var gr = pi.Gender;
-        bool truncate = IsRoamingTruncatedIVs;
-        if (criteria.IsSpecifiedIVsAll() && !truncate)
+        if (IsRoamingTruncatedIVs)
+        {
+            SetRoamerPINGA(pk, criteria);
+            return;
+        }
+        if (criteria.IsSpecifiedIVsAll())
         {
             if (TrySetMethod1(pk, criteria, gr))
                 return;
         }
-        SetMethod1(pk, criteria, gr);
-        if (truncate) // Never happens for eggs or dual-ability encounters.
-            pk.IV32 &= 0xFF;
+        SetMethod1(pk, criteria, gr, Util.Rand32());
     }
 
-    private static bool TrySetMethod1(PK3 pk, EncounterCriteria criteria, byte gr)
+    private static bool SetRoamerPINGA(PK3 pk, in EncounterCriteria criteria)
+    {
+        // For every possible 8-bit IV combination, check if it meets the criteria.
+        var id32 = pk.ID32;
+        for (uint i = 0; i <= byte.MaxValue; i++)
+        {
+            var iv32 = i;
+
+            // IVs can only ever be Hidden Power: Fighting. Don't bother checking if it matches.
+            if (!criteria.IsSatisfiedIVs(iv32))
+                continue;
+
+            // Satisfactory IVs; now check PID/nature/shininess.
+            var frame = iv32 << 16;
+            for (uint hi = 0; hi <= byte.MaxValue; hi++)
+            {
+                for (uint lo = 0; lo <= ushort.MaxValue; lo++)
+                {
+                    var state = frame | (hi << 24) | lo;
+                    var rand2 = LCRNG.Prev16(ref state);
+                    var rand1 = LCRNG.Prev16(ref state);
+                    var pid = (rand2 << 16) | rand1;
+                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                        continue;
+                    bool shiny = ShinyUtil.GetIsShiny3(id32, pid);
+                    if (criteria.Shiny.IsShiny() != shiny)
+                        continue;
+
+                    pk.PID = pid;
+                    pk.IV32 = iv32;
+                    pk.RefreshAbility(0);
+                    return true;
+                }
+            }
+        }
+        // Should never happen, but just in case.
+        SetMethod1(pk, criteria, 255, Util.Rand32());
+        pk.IV32 &= 0xFF; // truncate to 8 bits (value storage fail)
+        return false;
+    }
+
+    private static bool TrySetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr)
     {
         criteria.GetCombinedIVs(out var iv1, out var iv2);
 
@@ -139,14 +183,14 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return false;
     }
 
-    private static void SetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr)
+    private static void SetMethod1(PK3 pk, in EncounterCriteria criteria, byte gr, uint seed)
     {
-        var seed = Util.Rand32();
         var id32 = pk.ID32;
+        bool filterIVs = criteria.IsSpecifiedIVs(2);
         while (true)
         {
             var pid = ClassicEraRNG.GetSequentialPID(ref seed);
-            var shiny = ShinyUtil.GetIsShiny(id32, pid, 8);
+            var shiny = ShinyUtil.GetIsShiny3(id32, pid);
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
 
@@ -163,6 +207,8 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                 continue;
 
             pk.PID = pid;
@@ -247,22 +293,22 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     }
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         var version = pk.Version;
         if (version is GameVersion.E)
-            return type is PIDType.Method_1;
+            return type is PIDType.Method_1 ? Match : Mismatch;
 
         if (IsRoaming) // Glitched IVs
-            return IsRoamerPIDIV(type, pk);
+            return IsRoamerPIDIV(type, pk) ? Match : Mismatch;
 
         if (type is PIDType.Method_1)
-            return true;
+            return Match;
         // RS: Only Method 1, but RSBox s/w emulation can yield Method 4.
         if (version is GameVersion.R or GameVersion.S)
-            return type is PIDType.Method_4;
+            return type is PIDType.Method_4 ? NotIdeal : Mismatch;
         // FR/LG: Only Method 1, but Togepi gift can be Method 4 via PID modulo VBlank abuse
-        return type is PIDType.Method_4 && Species is (ushort)Core.Species.Togepi;
+        return type is PIDType.Method_4 && Species is (ushort)Core.Species.Togepi ? NotIdeal : Mismatch;
     }
 
     private static bool IsRoamerPIDIV(PIDType val, PKM pk)

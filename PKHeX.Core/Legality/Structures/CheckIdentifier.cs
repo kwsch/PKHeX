@@ -168,4 +168,9 @@ public enum CheckIdentifier : byte
     /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="StorageSlotType"/>.
     /// </summary>
     SlotType,
+
+    /// <summary>
+    /// The <see cref="CheckResult"/> pertains to the Current Handler (not OT) of the <see cref="PKM"/> data.
+    /// </summary>
+    Handler,
 }

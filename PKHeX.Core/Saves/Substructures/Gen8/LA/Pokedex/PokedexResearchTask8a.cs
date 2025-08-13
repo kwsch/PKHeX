@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.PokedexResearchTaskType8a;
 
@@ -10,22 +10,26 @@ namespace PKHeX.Core;
 public sealed class PokedexResearchTask8a
 {
     public readonly PokedexResearchTaskType8a Task;
-    public readonly int Threshold;
-    public readonly int Move;
+    public readonly byte PointsSingle;
+    public readonly byte PointsBonus;
+    public readonly byte Threshold;
+    public readonly ushort Move;
     public readonly MoveType Type;
     public readonly PokedexTimeOfDay8a TimeOfDay;
     public readonly ulong Hash_06;
     public readonly ulong Hash_07;
     public readonly ulong Hash_08;
     public readonly byte[] TaskThresholds;
-    public readonly int PointsSingle;
-    public readonly int PointsBonus;
     public readonly bool RequiredForCompletion;
-    public readonly int Index;
+    public readonly sbyte Index;
 
     private const int SIZE = 0x28;
 
-    public PokedexResearchTask8a() : this(stackalloc byte[SIZE]) { }
+    public PokedexResearchTask8a()
+    {
+        Index = -1;
+        TaskThresholds = [];
+    }
 
     private PokedexResearchTask8a(ReadOnlySpan<byte> data)
     {
@@ -42,7 +46,7 @@ public sealed class PokedexResearchTask8a
         TaskThresholds = data.Slice(0x21, data[0x20]).ToArray();
         RequiredForCompletion = data[0x26] != 0;
 
-        Index = Task is UseMove or DefeatWithMoveType ? data[0x27] : -1;
+        Index = Task is UseMove or DefeatWithMoveType ? (sbyte)data[0x27] : (sbyte)-1;
     }
 
     public static PokedexResearchTask8a[] DeserializeFrom(ReadOnlySpan<byte> data)

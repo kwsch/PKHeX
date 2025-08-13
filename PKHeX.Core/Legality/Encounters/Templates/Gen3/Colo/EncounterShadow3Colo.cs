@@ -1,15 +1,16 @@
 using System;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Shadow Pokémon Encounter found in <see cref="GameVersion.CXD"/>
 /// </summary>
-/// <param name="ID">Initial Shadow Gauge value.</param>
+/// <param name="Index">Shadow Index</param>
 /// <param name="Gauge">Initial Shadow Gauge value.</param>
 /// <param name="PartyPrior">Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.</param>
 // ReSharper disable NotAccessedPositionalProperty.Global
-public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<TeamLock> PartyPrior)
+public sealed record EncounterShadow3Colo(byte Index, ushort Gauge, ReadOnlyMemory<TeamLock> PartyPrior)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IShadow3, IMoveset, IRandomCorrelation
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
@@ -30,7 +31,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     public required byte Location { get; init; }
     public required Moveset Moves { get; init; }
 
-    public string Name => "Shadow Encounter";
+    public string Name => $"{Version} Shadow Encounter {Index}";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
@@ -79,40 +80,25 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     private int GetTemplateLanguage(ITrainerInfo tr) => IsEReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(CK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (!IsEReader)
             SetPINGA_Regular(pk, criteria, pi);
         else
-            SetPINGA_EReader(pk);
+            SetPINGA_EReader(pk, criteria);
     }
 
-    private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA_Regular(CK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi))
+        if (criteria.IsSpecifiedIVsAll() && this.SetFromIVs(pk, criteria, pi, noShiny: false))
             return;
 
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        int ability = criteria.GetAbilityFromNumber(Ability);
-
-        // Ensure that any generated specimen has valid Shadow Locks
-        // This can be kinda slow, depending on how many locks / how strict they are.
-        // Cancel this operation if too many attempts are made to prevent infinite loops.
-        int ctr = 0;
-        const int max = 100_000;
-        do
-        {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
-            var pidiv = MethodFinder.Analyze(pk);
-            var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
-            if (result)
-                break;
-        }
-        while (++ctr <= max);
+        uint seed = Util.Rand32();
+        if (!this.SetRandom(pk, criteria, pi, noShiny: false, seed))
+            this.SetRandom(pk, EncounterCriteria.Unrestricted, pi, noShiny: false, seed);
     }
 
-    private void SetPINGA_EReader(CK3 pk)
+    private void SetPINGA_EReader(CK3 pk, in EncounterCriteria criteria)
     {
         // E-Reader have all IVs == 0
         // Skip setting IVs.
@@ -127,16 +113,27 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         int ctr = 0;
         const int max = 100_000;
         var rnd = Util.Rand;
+        var gr = pk.PersonalInfo.Gender;
         do
         {
             var seed = rnd.Rand32();
-            PIDGenerator.SetValuesFromSeedXDRNG_EReader(pk, seed);
-            if (pk.Nature != nature || pk.Gender != gender)
+            var D = XDRNG.Prev3(seed); // PID
+            var E = XDRNG.Next(D); // PID
+            var pid = (D & 0xFFFF0000) | (E >> 16);
+
+            if ((Nature)(pid % 25) != nature || EntityGender.GetFromPIDAndRatio(pid, gr) != gender)
                 continue;
-            var pidiv = new PIDIV(PIDType.CXD, seed);
-            var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
-            if (result)
-                break;
+
+            if (criteria.Shiny.IsShiny() && !ShinyUtil.GetIsShiny3(pk.ID32, pid))
+                continue;
+
+            var result = LockFinder.IsAllShadowLockValid(this, seed, pk);
+            if (!result)
+                continue;
+
+            pk.PID = pid;
+            pk.RefreshAbility(0);
+            // IVs always 0 for E-Reader shadows.
         }
         while (++ctr <= max);
     }
@@ -196,11 +193,11 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk)
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (IsEReader)
-            return true;
-        return type is PIDType.CXD;
+            return Match;
+        return type is PIDType.CXD ? Match : Mismatch;
     }
 
     public PIDType GetSuggestedCorrelation()

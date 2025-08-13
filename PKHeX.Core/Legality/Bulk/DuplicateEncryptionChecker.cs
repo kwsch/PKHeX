@@ -4,8 +4,15 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core.Bulk;
 
+/// <summary>
+/// Checks for duplicate Encryption Constants (EC) among Pokémon in a bulk legality analysis.
+/// </summary>
 public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 {
+    /// <summary>
+    /// Analyzes the provided <see cref="BulkAnalysis"/> for duplicate Encryption Constants.
+    /// </summary>
+    /// <param name="input">The bulk analysis data to check.</param>
     public void Analyze(BulkAnalysis input)
     {
         if (input.Trainer.Generation < 6)
@@ -22,16 +29,18 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
                 continue; // already flagged
             var cp = input.AllData[i];
             var ca = input.AllAnalysis[i];
-            Verify(input, dict, cp, ca);
+            var cr = new CombinedReference(cp, ca, i);
+            Verify(input, dict, cr);
         }
     }
 
-    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, SlotCache cp, LegalityAnalysis ca)
+    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, CombinedReference cr)
     {
+        var cp = cr.Analysis;
+
         Debug.Assert(cp.Entity.Format >= 6);
         var id = cp.Entity.EncryptionConstant;
 
-        var cr = new CombinedReference(cp, ca);
         if (!dict.TryGetValue(id, out var pa))
         {
             dict.Add(id, cr);
@@ -43,8 +52,8 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
 
     private static void VerifyECShare(BulkAnalysis input, CombinedReference pr, CombinedReference cr)
     {
-        var (ps, pa) = pr;
-        var (cs, ca) = cr;
+        var (ps, pa, index1) = pr;
+        var (cs, ca, index2) = cr;
 
         const CheckIdentifier ident = PID;
         var gen = pa.Info.Generation;
@@ -54,22 +63,22 @@ public sealed class DuplicateEncryptionChecker : IBulkAnalyzer
         {
             if (ca.Info.Generation != gen)
             {
-                input.AddLine(ps, cs, "EC sharing across generations detected.", ident);
+                input.AddLine(ps, cs, ident, index1, index2, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationDifferent);
                 return;
             }
-            input.AddLine(ps, cs, "EC sharing for 3DS-onward origin detected.", ident);
+            input.AddLine(ps, cs, ident, index1, index2, LegalityCheckResultCode.BulkSharingEncryptionConstantGenerationSame);
             return;
         }
 
         // eggs/mystery gifts shouldn't share with wild encounters
         var cenc = ca.Info.EncounterMatch;
-        bool eggMysteryCurrent = cenc is EncounterEgg or MysteryGift;
+        bool eggMysteryCurrent = cenc is IEncounterEgg or MysteryGift;
         var penc = pa.Info.EncounterMatch;
-        bool eggMysteryPrevious = penc is EncounterEgg or MysteryGift;
+        bool eggMysteryPrevious = penc is IEncounterEgg or MysteryGift;
 
         if (eggMysteryCurrent != eggMysteryPrevious)
         {
-            input.AddLine(ps, cs, "EC sharing across RNG encounters detected.", ident);
+            input.AddLine(ps, cs, ident, index1, index2, LegalityCheckResultCode.BulkSharingEncryptionConstantEncounterType);
         }
     }
 }

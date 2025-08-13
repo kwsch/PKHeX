@@ -16,7 +16,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         Dex = new Zukan4(this, GeneralBuffer[PokeDex..]);
     }
 
-    public SAV4DP(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize)
+    public SAV4DP(Memory<byte> data) : base(data, GeneralSize, StorageSize, GeneralSize)
     {
         Initialize();
         Mystery = new MysteryBlock4DP(this, GeneralBuffer.Slice(OffsetMystery, MysteryBlock4DP.Size));
@@ -28,7 +28,7 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override Zukan4 Dex { get; }
     public override MysteryBlock4DP Mystery { get; }
 
-    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP((byte[])Data.Clone()) : new SAV4DP();
+    protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP(Data.ToArray()) : new SAV4DP();
     public override GameVersion Version { get => GameVersion.DP; set { } }
     public override PersonalTable4 Personal => PersonalTable.DP;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_DP;
@@ -66,6 +66,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         OFS_HONEY = 0x72E4;
         OFS_UG_Stats = 0x3A2C;
         OFS_UG_Items = 0x42B0;
+        OFS_Groups = 0x5374;
 
         PoketchStart = 0x114C;
         Seal = 0x6178;
@@ -126,10 +127,11 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override int Y2 { get => ReadUInt16LittleEndian(General[0x25FE..]); set => WriteUInt16LittleEndian(General[0x25FE..], (ushort)value); }
     public override int Z { get => ReadUInt16LittleEndian(General[0x2602..]); set => WriteUInt16LittleEndian(General[0x2602..], (ushort)value); }
 
-    public override uint SafariSeed { get => ReadUInt32LittleEndian(General[0x53C4..]); set => WriteUInt32LittleEndian(General[0x53C4..], value); }
-    public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x53C8..]); set => WriteUInt32LittleEndian(General[0x53C8..], value); }
+    public override uint SafariSeed { get => ReadUInt32LittleEndian(General[0x72D0..]); set => WriteUInt32LittleEndian(General[0x72D0..], value); }
+    public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x72D4..]); set => WriteUInt32LittleEndian(General[0x72D4..], value); }
     public override uint SwarmMaxCountModulo => 28;
     public override int BP { get => ReadUInt16LittleEndian(General[0x65F8..]); set => WriteUInt16LittleEndian(General[0x65F8..], (ushort)value); }
+    public override uint BattleTowerSeed { get => ReadUInt32LittleEndian(General[0x65FC..]); set => WriteUInt32LittleEndian(General[0x65FC..], value); }
 
     protected override ReadOnlySpan<ushort> TreeSpecies =>
     [

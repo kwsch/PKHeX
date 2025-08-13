@@ -2,6 +2,15 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Provides functionality to reverse-engineer evolutionary relationships between species and forms.
+/// </summary>
+/// <remarks>This class is used to determine pre-evolutionary relationships for a given species and form,  as well
+/// as to attempt devolving a Pokémon to its prior evolutionary state. It relies on an evolution method table and
+/// personal data to construct a reverse lookup of evolutionary lineages.</remarks>
+/// <param name="Entries">Collection of evolution methods indexed by species ID.</param>
+/// <param name="Personal">Personal Table containing species and form data.</param>
+/// <seealso cref="EvolutionReversePersonal"/>
 public sealed class EvolutionReverseSpecies(EvolutionMethod[][] Entries, IPersonalTable Personal) : IEvolutionReverse
 {
     public EvolutionReverseLookup Lineage { get; } = GetLineage(Personal, Entries);

@@ -1,7 +1,5 @@
-using System;
 using System.Text;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -13,47 +11,18 @@ namespace PKHeX.Core;
 /// <param name="Argument">Conditions in which the move was learned</param>
 public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment Environment, byte Argument = 0)
 {
-    public void Summarize(StringBuilder sb)
+    /// <summary>
+    /// Summarizes the move learn info into a human-readable format and appends it to the provided <see cref="StringBuilder"/>.
+    /// </summary>
+    /// <param name="sb">The <see cref="StringBuilder"/> to append the summary to.</param>
+    /// <param name="strings">The localized strings to use for displaying the learning method.</param>
+    public void Summarize(StringBuilder sb, MoveSourceLocalization strings)
     {
-        var localized = GetLocalizedMethod();
-        Summarize(sb, localized);
-    }
-
-    private void Summarize(StringBuilder sb, ReadOnlySpan<char> localizedMethod)
-    {
+        var localizedMethod = strings.Localize(Method);
         if (Environment.IsSpecified())
             sb.Append(Environment).Append('-');
         sb.Append(localizedMethod);
         if (Method is LevelUp)
-            sb.Append($" @ lv{Argument}");
+            sb.AppendFormat(strings.LevelUpSuffix, Argument);
     }
-
-    private string GetLocalizedMethod() => Method switch
-    {
-        Empty => LMoveSourceEmpty,
-        Relearn => LMoveSourceRelearn,
-        Initial => LMoveSourceDefault,
-        LevelUp => LMoveSourceLevelUp,
-        TMHM => LMoveSourceTMHM,
-        Tutor => LMoveSourceTutor,
-        Sketch => LMoveSourceShared,
-        EggMove => LMoveRelearnEgg,
-        InheritLevelUp => LMoveEggInherited,
-
-        HOME => LMoveSourceSpecial,
-        Evolution => LMoveSourceSpecial,
-        Encounter => LMoveSourceSpecial,
-        SpecialEgg => LMoveSourceSpecial,
-        ShedinjaEvo => LMoveSourceSpecial,
-
-        Shared => LMoveSourceShared,
-
-        // Invalid
-        None => LMoveSourceInvalid,
-        Unobtainable or UnobtainableExpect => LMoveSourceInvalid,
-        Duplicate => LMoveSourceDuplicate,
-        EmptyInvalid => LMoveSourceEmpty,
-
-        _ => throw new ArgumentOutOfRangeException(nameof(Method), Method, null),
-    };
 }

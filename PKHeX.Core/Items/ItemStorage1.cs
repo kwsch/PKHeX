@@ -2,12 +2,15 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen1"/>
+/// </summary>
 public sealed class ItemStorage1 : IItemStorage
 {
     public static readonly ItemStorage1 Instance = new();
     private ItemStorage1() { }
 
-    private static ReadOnlySpan<ushort> Pouch_Items_RBY =>
+    public static ReadOnlySpan<ushort> General =>
     [
         000,001,002,003,004,005,006,            010,011,012,013,014,015,
         016,017,018,019,020,                                029,030,031,
@@ -26,5 +29,5 @@ public sealed class ItemStorage1 : IItemStorage
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 
-    public ReadOnlySpan<ushort> GetItems(InventoryType type) => Pouch_Items_RBY;
+    public ReadOnlySpan<ushort> GetItems(InventoryType type) => General;
 }

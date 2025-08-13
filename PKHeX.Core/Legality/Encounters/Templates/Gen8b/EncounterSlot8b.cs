@@ -4,7 +4,7 @@ using static PKHeX.Core.SlotType8b;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.BDSP"/>.
+/// Encounter Slot found in <see cref="EntityContext.Gen8b"/>.
 /// </summary>
 public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PB8>
@@ -65,7 +65,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
     public PB8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8
         {
@@ -78,11 +78,11 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerFriendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
@@ -93,10 +93,10 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PB8 pk, EncounterCriteria criteria, PersonalInfo8BDSP pi)
+    private void SetPINGA(PB8 pk, in EncounterCriteria criteria, PersonalInfo8BDSP pi)
     {
         var rnd = Util.Rand;
-        pk.PID = rnd.Rand32();
+        pk.PID = EncounterUtil.GetRandomPID(pk, rnd, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
         criteria.SetRandomIVs(pk);
         pk.Nature = pk.StatNature = criteria.GetNature();

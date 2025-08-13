@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Group that checks the source of a move in <see cref="GameVersion.BDSP"/>.
+/// Group that checks the source of a move in <see cref="EntityContext.Gen8b"/>.
 /// </summary>
 public sealed class LearnGroup8b : ILearnGroup
 {
@@ -25,6 +25,7 @@ public sealed class LearnGroup8b : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
+        // Egg moves can be shared, which is the same list used by Underground moves.
         CheckSharedMoves(result, current, evos[0]);
 
         if (MoveResult.AllParsed(result))

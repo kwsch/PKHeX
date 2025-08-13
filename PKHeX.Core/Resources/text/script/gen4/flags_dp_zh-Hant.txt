@@ -1,3 +1,6 @@
+0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
+0351	s	Dialga/Palkia Caught
+0482	s	Dialga/Palkia Gone from Spear Pillar
 0511	r	由克希 已消失
 0509	r	艾姆利多(心齊湖) 已消失
 0510	r	亞克諾姆 已消失
@@ -24,9 +27,11 @@
 0666	s	在森之洋館遇到小女孩幽靈
 0897	s	在森之洋館找到解毒藥 (隱藏)
 1008	s	在森之洋館找到森之羊羹
+1023	s	Found Adamant/Lustrous Orb in Spear Pillar
 1233	s	在森之洋館找到惡顏石板
 1234	s	在森之洋館找到TM90
 2401	*	跑步鞋已關閉
+2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	得到小福蛋的蛋
 0305	g	已獲得伊布
 2430	*	已解鎖水木的電腦
@@ -66,7 +71,7 @@
 2001	t	Had Pokémon Breeder Albert 3rd Rematch
 2002	t	Had Pokémon Breeder Jennifer 1st Rematch
 2003	t	Had Pokémon Breeder Jennifer 2nd Rematch
-2004	t	Had Pokémon Breeder Jennnifer 3rd Rematch
+2004	t	Had Pokémon Breeder Jennifer 3rd Rematch
 2005	t	Had Camper Zackary 1st Rematch
 2006	t	Had Camper Zackary 2nd Rematch
 2007	t	Had Camper Zackary 3rd Rematch

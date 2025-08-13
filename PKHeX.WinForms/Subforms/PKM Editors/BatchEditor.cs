@@ -26,9 +26,9 @@ public partial class BatchEditor : Form
         var above = FLP_RB.Location;
         UC_Builder = new EntityInstructionBuilder(() => pk)
         {
-            Location = new() { Y = above.Y + FLP_RB.Height + 6, X = above.X + 1 },
+            Location = new() { Y = above.Y + FLP_RB.Height + 4 - 1, X = above.X + 1 },
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-            Width = B_Add.Location.X - above.X - 6,
+            Width = B_Add.Location.X - above.X - 2,
         };
         Controls.Add(UC_Builder);
         SAV = sav;
@@ -219,17 +219,19 @@ public partial class BatchEditor : Form
         if (data.Count == 0)
             return;
 
+        // Pull out any filter meta instructions from the filters.
         var filterMeta = Filters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
         if (filterMeta.Length != 0)
             Filters = Filters.Except(filterMeta).ToArray();
 
-        var max = data[0].Entity.MaxSpeciesID;
+        var max = SAV.MaxSpeciesID;
 
         for (int i = 0; i < data.Count; i++)
         {
             var entry = data[i];
-            var pk = data[i].Entity;
+            var pk = entry.Entity;
 
+            // Ignore empty/invalid slots.
             var spec = pk.Species;
             if (spec == 0 || spec > max)
             {

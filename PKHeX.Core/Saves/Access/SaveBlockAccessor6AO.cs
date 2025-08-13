@@ -86,7 +86,7 @@ public sealed class SaveBlockAccessor6AO(SAV6AO sav) : ISaveBlockAccessor<BlockI
     public BattleBox6 BattleBox { get; } = new(sav, Block(sav, 13));
     public MyStatus6 Status { get; } = new(sav, Block(sav, 17));
     public EventWork6 EventWork { get; } = new(sav, Block(sav, 19));
-    public Zukan6AO Zukan { get; } = new(sav, Block(sav, 20), 0x400);
+    public Zukan6AO Zukan { get; } = new(Block(sav, 20));
     public UnionPokemon6 Fused { get; } = new(sav, Block(sav, 22));
     public ConfigSave6 Config { get; } = new(sav, Block(sav, 23));
     public OPower6 OPower { get; } = new(sav, Block(sav, 25));
@@ -111,8 +111,8 @@ public sealed class SaveBlockAccessor6AO(SAV6AO sav) : ISaveBlockAccessor<BlockI
 
     private static Memory<byte> Block(SAV6AO sav, int index)
     {
-        var data = sav.Data;
+        var data = sav.Buffer;
         var block = BlocksAO[index];
-        return data.AsMemory(block.Offset, block.Length);
+        return data.Slice(block.Offset, block.Length);
     }
 }

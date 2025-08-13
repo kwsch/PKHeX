@@ -45,6 +45,7 @@
 0151	g	獲得多邊獸
 0305	g	獲得伊布
 2430	*	解鎖水木的電腦
+2433	s	2nd Rematch Against Trainers Unlocked
 2728	r	星期五飄飄球已消失
 2722	r	已知今天最自豪的後院寶可夢
 0710	*	Unlocked Rotom's Room
@@ -58,7 +59,7 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
-0325	r	Dialga/Pakia rifts spawnable
+0325	r	Dialga/Palkia rifts spawnable
 1051	s	Found Adamant Orb on Mt. Coronet
 1053	s	Found Lustrous Orb on Mt. Coronet
 2507	s	Entered Pal Park Catching Show

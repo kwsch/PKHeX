@@ -5,8 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record EncounterDist9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IFixedNature
+public sealed record EncounterDist9 : ITeraRaid9, IFixedNature
 {
     public byte Generation => 9;
     ushort ILocation.Location => Location;
@@ -235,17 +234,15 @@ public sealed record EncounterDist9
     };
 
     #region Generating
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
     public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        var pi = PersonalTable.SV[Species, Form];
+        var pi = GetPersonal();
         var pk = new PK9
         {
-            Language = lang,
+            Language = language,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
@@ -256,7 +253,7 @@ public sealed record EncounterDist9
             Version = version,
             Ball = (byte)Ball.Poke,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             ObedienceLevel = LevelMin,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
@@ -269,18 +266,32 @@ public sealed record EncounterDist9
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
-    {
-        const byte rollCount = 1;
-        const byte undefinedSize = 0;
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
-            undefinedSize, undefinedSize, ScaleType, Scale,
-            Ability, Shiny, Nature, IVs: IVs);
+    private PersonalInfo9SV GetPersonal() => PersonalTable.SV[Species, Form];
 
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
+    {
+        var param = GetParam(pi);
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk, init, param, criteria);
         if (!success && !this.TryApply32(pk, init, param, criteria.WithoutIVs()))
             this.TryApply32(pk, init, param, EncounterCriteria.Unrestricted);
+    }
+
+    private GenerateParam9 GetParam(PersonalInfo9SV pi)
+    {
+        const byte rollCount = 1;
+        const byte undefinedSize = 0;
+        return new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
+            undefinedSize, undefinedSize, ScaleType, Scale,
+            Ability, Shiny, Nature, IVs: IVs);
+    }
+
+    public bool GenerateSeed32(PKM pk, uint seed)
+    {
+        var pk9 = (PK9)pk;
+        var param = GetParam(GetPersonal());
+        Encounter9RNG.GenerateData(pk9, param, EncounterCriteria.Unrestricted, seed);
+        return true;
     }
     #endregion
 

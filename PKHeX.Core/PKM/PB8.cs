@@ -35,8 +35,8 @@ public sealed class PB8 : G8PKM
         AffixedRibbon = Core.AffixedRibbon.None;
     }
 
-    public PB8(byte[] data) : base(data) { }
-    public override PB8 Clone() => new((byte[])Data.Clone());
+    public PB8(Memory<byte> data) : base(data) { }
+    public override PB8 Clone() => new(Data.ToArray());
 
     public bool IsDprIllegal
     {

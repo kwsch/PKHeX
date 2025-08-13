@@ -7,9 +7,6 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class LearnVerifier
 {
-    private static readonly MoveResult Duplicate = new(LearnMethod.Duplicate);
-    private static readonly MoveResult EmptyInvalid = new(LearnMethod.EmptyInvalid);
-
     public static void Verify(Span<MoveResult> result, PKM pk, IEncounterTemplate enc, EvolutionHistory history)
     {
         // Clear any existing parse results.
@@ -46,7 +43,7 @@ internal static class LearnVerifier
 
         // Can't have empty first move.
         if (current[0] == 0)
-            result[0] = EmptyInvalid;
+            result[0] = MoveResult.EmptyInvalid;
     }
 
     private static void VerifyNoEmptyDuplicates(Span<MoveResult> result, ReadOnlySpan<ushort> current)
@@ -80,7 +77,7 @@ internal static class LearnVerifier
         {
             if (current[i] != move)
                 continue;
-            result[index] = Duplicate;
+            result[index] = MoveResult.Duplicate;
             return;
         }
     }
@@ -91,7 +88,7 @@ internal static class LearnVerifier
         {
             if (current[i] != 0)
                 return;
-            result[i] = EmptyInvalid;
+            result[i] = MoveResult.EmptyInvalid;
         }
     }
 

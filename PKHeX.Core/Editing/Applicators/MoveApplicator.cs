@@ -92,22 +92,4 @@ public static class MoveApplicator
         pk.Move3_PP = moves.Move3 == 0 ? 0 : pk.GetMovePP(moves.Move3, pk.Move3_PPUps);
         pk.Move4_PP = moves.Move4 == 0 ? 0 : pk.GetMovePP(moves.Move4, pk.Move4_PPUps);
     }
-
-    /// <summary>
-    /// Updates the individual PP count values for each move slot based on the maximum possible value.
-    /// </summary>
-    /// <param name="pk">Pokémon to modify.</param>
-    public static void SetMaximumPPCurrent(this PKM pk)
-    {
-        Span<ushort> moves = stackalloc ushort[4];
-        pk.GetMoves(moves);
-        pk.SetMaximumPPCurrent(moves);
-    }
-
-    /// <summary>
-    /// Refreshes the Move PP for the desired move.
-    /// </summary>
-    /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="index">Move PP to refresh.</param>
-    public static void SetSuggestedMovePP(this PKM pk, int index) => pk.HealPPIndex(index);
 }

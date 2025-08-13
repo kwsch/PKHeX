@@ -322,9 +322,8 @@ public static class SaveLanguage
     private static SaveLanguageResult GetFallback(SAV1 sav)
     {
         bool jp = sav.Japanese;
-        bool yw = sav.Yellow;
         var lang = jp ? Japanese : OverrideLanguageGen1;
-        var ver = yw ? YW : OverrideVersionGen1;
+        var ver = sav.Version == YW ? YW : OverrideVersionGen1;
         return (lang, ver);
     }
 

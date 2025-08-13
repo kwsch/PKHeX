@@ -51,7 +51,7 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
         4 => "GIULIA",
         5 => "EUKALIA",
         7 => "Eulalia",
-        _ => "",
+        _ => string.Empty,
     };
 
     private const string _name = "My Pokémon Ranch - Trade";
@@ -85,8 +85,8 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.DP[Species];
         var pk = new PK4
         {
@@ -101,13 +101,13 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
 
             ID32 = ID32,
             Version = version,
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = OTGender,
-            OriginalTrainerName = GetTrainerName(lang),
+            OriginalTrainerName = GetTrainerName(language),
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
 
             HandlingTrainerName = tr.OT,
             HandlingTrainerGender = tr.Gender,
@@ -129,7 +129,7 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
         return pk;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, in EncounterCriteria criteria)
     {
         var pid = FatefulEncounter ? Util.Rand32() : PID;
         pk.PID = pid;

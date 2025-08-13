@@ -6,25 +6,29 @@ public sealed class WC7Full
 {
     public const int Size = 0x310;
     private const int GiftStart = Size - WC7.Size;
-    public readonly byte[] Data;
     public readonly WC7 Gift;
+
+    public readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
 
     public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
     public byte RestrictLanguage { get => Data[0x1FF]; set => Data[0x1FF] = value; }
 
-    public WC7Full(byte[] data)
+    public WC7Full(Memory<byte> raw)
     {
-        Data = data;
-        var wc7 = data.AsSpan(GiftStart).ToArray();
+        Raw = raw[..Size];
+        var wc7 = raw[GiftStart..];
         Gift = new WC7(wc7);
         var now = EncounterDate.GetDate3DS();
-        Gift.RawDate = WC7.SetDate((uint)now.Year, (uint)now.Month, (uint)now.Day);
+        Gift.RawDate = GetDate(now);
 
         Gift.RestrictVersion = RestrictVersion;
         Gift.RestrictLanguage = RestrictLanguage;
     }
 
-    public static WC7[] GetArray(ReadOnlySpan<byte> wc7Full, ReadOnlySpan<byte> data)
+    private static uint GetDate(DateOnly date) => WC7.SetDate((uint)date.Year, (uint)date.Month, (uint)date.Day);
+
+    public static WC7[] GetArray(Memory<byte> wc7Full, Memory<byte> data)
     {
         var countfull = wc7Full.Length / Size;
         var countgift = data.Length / WC7.Size;
@@ -39,20 +43,21 @@ public sealed class WC7Full
         return result;
     }
 
-    private static WC7 ReadWC7(ReadOnlySpan<byte> data, int ofs, DateOnly date)
+    private static WC7 ReadWC7(Memory<byte> data, int ofs, DateOnly date)
     {
-        var slice = data.Slice(ofs + GiftStart, WC7.Size).ToArray();
+        var slice = data.Slice(ofs + GiftStart, WC7.Size);
+        var span = data.Span[ofs..];
         return new WC7(slice)
         {
-            RestrictVersion = data[ofs],
-            RestrictLanguage = data[ofs + 0x1FF],
-            RawDate = WC7.SetDate((uint) date.Year, (uint) date.Month, (uint) date.Day),
+            RestrictVersion = span[0],
+            RestrictLanguage = span[0x1FF],
+            RawDate = GetDate(date),
         };
     }
 
-    private static WC7 ReadWC7Only(ReadOnlySpan<byte> data, int ofs)
+    private static WC7 ReadWC7Only(Memory<byte> data, int ofs)
     {
-        var slice = data.Slice(ofs, WC7.Size).ToArray();
+        var slice = data.Slice(ofs, WC7.Size);
         return new WC7(slice);
     }
 }

@@ -2,9 +2,12 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen4"/>
+/// </summary>
 public abstract class ItemStorage4
 {
-    private protected static ReadOnlySpan<ushort> Pouch_Items_DP =>
+    public static ReadOnlySpan<ushort> GeneralDP =>
     [
         68, 69,
         70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
@@ -28,7 +31,7 @@ public abstract class ItemStorage4
         320, 321, 322, 323, 324, 325, 326, 327,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Items_Pt =>
+    public static ReadOnlySpan<ushort> GeneralPt =>
     [
         68, 69,
         70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
@@ -52,7 +55,7 @@ public abstract class ItemStorage4
         320, 321, 322, 323, 324, 325, 326, 327,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Key_DP =>
+    public static ReadOnlySpan<ushort> Key =>
     [
                                                 428, 429,
         430, 431, 432, 433, 434, 435, 436, 437, 438, 439,
@@ -61,7 +64,7 @@ public abstract class ItemStorage4
         460, 461, 462, 463, 464,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_TMHM_DP =>
+    public static ReadOnlySpan<ushort> Machine =>
     [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -78,12 +81,12 @@ public abstract class ItemStorage4
         420, 421, 422, 423, 424, 425, 426, 427,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Mail_DP =>
+    public static ReadOnlySpan<ushort> Mail =>
     [
         137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Medicine_DP =>
+    public static ReadOnlySpan<ushort> Medicine =>
     [
                                     17, 18, 19,
         20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -92,7 +95,7 @@ public abstract class ItemStorage4
         50, 51, 52, 53, 54,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Berries_DP =>
+    public static ReadOnlySpan<ushort> Berry =>
     [
                                                      149,
         150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
@@ -104,12 +107,12 @@ public abstract class ItemStorage4
         210, 211, 212,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Ball_DP =>
+    public static ReadOnlySpan<ushort> BallsDPPt =>
     [
         1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
     ];
 
-    private protected static ReadOnlySpan<ushort> Pouch_Battle_DP =>
+    public static ReadOnlySpan<ushort> Battle =>
     [
         // Stat Ups
         55, 56, 57, 58, 59, 60, 61, 62,

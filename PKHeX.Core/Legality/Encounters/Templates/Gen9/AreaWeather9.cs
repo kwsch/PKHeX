@@ -8,18 +8,17 @@ namespace PKHeX.Core;
 /// Encounter Conditions for <see cref="GameVersion.SV"/>
 /// </summary>
 [Flags]
-public enum AreaWeather9 : ushort
+public enum AreaWeather9 : byte
 {
     None,
     Normal = 1,
     Overcast = 1 << 1,
     Raining = 1 << 2,
     Thunderstorm = 1 << 3,
-    Intense_Sun = 1 << 4,
+    Mist = 1 << 4,
     Snowing = 1 << 5,
     Snowstorm = 1 << 6,
     Sandstorm = 1 << 7,
-    Heavy_Fog = 1 << 8,
 
     Standard = Normal | Overcast | Raining | Thunderstorm,
     Sand = Normal | Overcast | Raining | Sandstorm,
@@ -40,6 +39,7 @@ public static class AreaWeather9Extensions
         MarkSnowy => (weather & Snowing) != 0,
         MarkBlizzard => (weather & Snowstorm) != 0,
         MarkSandstorm => (weather & Sandstorm) != 0,
+        MarkMisty => (weather & Mist) != 0,
         _ => false,
     };
 }

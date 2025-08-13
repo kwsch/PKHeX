@@ -1,5 +1,6 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.RandomCorrelationRating;
 
 namespace PKHeX.Core;
 
@@ -38,7 +39,7 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => true; // checked in explicit match
 
     #region Generating
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
 
     public PK3 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
@@ -70,9 +71,10 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
         return pk;
     }
 
-    private static void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private static void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
         uint seed = Util.Rand32();
+        var filterIVs = criteria.IsSpecifiedIVs(2);
         var gr = pi.Gender;
         var idXor = pk.TID16; // no SID
         while (true)
@@ -83,9 +85,13 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 continue;
-
+            var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
+            if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))
+                continue;
+            if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
+                continue;
             pk.PID = pid;
-            pk.IV32 = PIDGenerator.GetIVsFromSeedSequentialLCRNG(ref seed);
+            pk.IV32 = iv32;
             pk.RefreshAbility((int)(pid & 1));
             return;
         }
@@ -158,15 +164,15 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
         return result;
     }
 
-    public bool IsCompatible(PIDType type, PKM pk) => type is Method;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is Method ? Match : Mismatch;
 
-    public bool IsCompatibleReviseReset(ref PIDIV value, PKM pk)
+    public RandomCorrelationRating IsCompatibleReviseReset(ref PIDIV value, PKM pk)
     {
         var prev = value.Mutated; // if previously revised, use that instead.
         var type = prev is 0 ? value.Type : prev;
         if (type is not PIDType.BACD_AX)
-            return false;
+            return Mismatch;
 
-        return true; // Table weight -> gift selection is a separate RNG, nothing to check!
+        return Match; // Table weight -> gift selection is a separate RNG, nothing to check!
     }
 }

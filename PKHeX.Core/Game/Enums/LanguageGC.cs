@@ -58,7 +58,7 @@ public static class LanguageGCRemap
     /// </summary>
     public static LanguageID ToLanguageID(this LanguageGC lang) => lang switch
     {
-        LanguageGC.Hacked => LanguageID.Hacked,
+        LanguageGC.Hacked => LanguageID.None,
         LanguageGC.Japanese => LanguageID.Japanese,
         LanguageGC.English => LanguageID.English,
         LanguageGC.German => LanguageID.German,
@@ -73,7 +73,7 @@ public static class LanguageGCRemap
     /// </summary>
     public static LanguageGC ToLanguageGC(this LanguageID lang) => lang switch
     {
-        LanguageID.Hacked => LanguageGC.Hacked,
+        LanguageID.None => LanguageGC.Hacked,
         LanguageID.Japanese => LanguageGC.Japanese,
         LanguageID.English => LanguageGC.English,
         LanguageID.German => LanguageGC.German,

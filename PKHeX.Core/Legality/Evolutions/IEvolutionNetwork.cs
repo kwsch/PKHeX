@@ -23,7 +23,14 @@ public interface IEvolutionNetwork
 /// </summary>
 public abstract class EvolutionNetwork : IEvolutionNetwork
 {
+    /// <summary>
+    /// Gets the forward evolution logic.
+    /// </summary>
     public IEvolutionForward Forward { get; }
+
+    /// <summary>
+    /// Gets the reverse evolution logic.
+    /// </summary>
     public IEvolutionReverse Reverse { get; }
 
     protected EvolutionNetwork(IEvolutionForward forward, IEvolutionReverse reverse)

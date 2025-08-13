@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -25,19 +26,19 @@ public static class EncounterEvent
     /// <summary>Event Database for Generation 7</summary>
     public static readonly WC7[] MGDB_G7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
 
-    /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
+    /// <summary>Event Database for Generation 7 <see cref="EntityContext.Gen7b"/></summary>
     public static readonly WB7[] MGDB_G7GG = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
 
-    /// <summary>Event Database for Generation 8</summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8"/></summary>
     public static readonly WC8[] MGDB_G8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.PLA"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8a"/></summary>
     public static readonly WA8[] MGDB_G8A = GetWA8DB(Util.GetBinaryResource("wa8.pkl"));
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8b"/></summary>
     public static readonly WB8[] MGDB_G8B = GetWB8DB(Util.GetBinaryResource("wb8.pkl"));
 
-    /// <summary>Event Database for Generation 9 <see cref="GameVersion.SV"/></summary>
+    /// <summary>Event Database for Generation 9 <see cref="EntityContext.Gen9"/></summary>
     public static readonly WC9[] MGDB_G9 = GetWC9DB(Util.GetBinaryResource("wc9.pkl"));
     #endregion
 
@@ -70,19 +71,19 @@ public static class EncounterEvent
     public static WC9[] EGDB_G9 { get; private set; } = [];
     #endregion
 
-    private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
-    private static PGF[] GetPGFDB(ReadOnlySpan<byte> bin) => Get(bin, PGF.Size, static d => new PGF(d));
+    private static PCD[] GetPCDDB(Memory<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
+    private static PGF[] GetPGFDB(Memory<byte> bin) => Get(bin, PGF.Size, static d => new PGF(d));
 
-    private static WC6[] GetWC6DB(ReadOnlySpan<byte> wc6bin, ReadOnlySpan<byte> wc6full) => WC6Full.GetArray(wc6full, wc6bin);
-    private static WC7[] GetWC7DB(ReadOnlySpan<byte> wc7bin, ReadOnlySpan<byte> wc7full) => WC7Full.GetArray(wc7full, wc7bin);
+    private static WC6[] GetWC6DB(Memory<byte> wc6bin, Memory<byte> wc6full) => WC6Full.GetArray(wc6full, wc6bin);
+    private static WC7[] GetWC7DB(Memory<byte> wc7bin, Memory<byte> wc7full) => WC7Full.GetArray(wc7full, wc7bin);
 
-    private static WB7[] GetWB7DB(ReadOnlySpan<byte> bin) => Get(bin, WB7.Size, static d => new WB7(d));
-    private static WC8[] GetWC8DB(ReadOnlySpan<byte> bin) => Get(bin, WC8.Size, static d => new WC8(d));
-    private static WB8[] GetWB8DB(ReadOnlySpan<byte> bin) => Get(bin, WB8.Size, static d => new WB8(d));
-    private static WA8[] GetWA8DB(ReadOnlySpan<byte> bin) => Get(bin, WA8.Size, static d => new WA8(d));
-    private static WC9[] GetWC9DB(ReadOnlySpan<byte> bin) => Get(bin, WC9.Size, static d => new WC9(d));
+    private static WB7[] GetWB7DB(Memory<byte> bin) => Get(bin, WB7.Size, static d => new WB7(d));
+    private static WC8[] GetWC8DB(Memory<byte> bin) => Get(bin, WC8.Size, static d => new WC8(d));
+    private static WB8[] GetWB8DB(Memory<byte> bin) => Get(bin, WB8.Size, static d => new WB8(d));
+    private static WA8[] GetWA8DB(Memory<byte> bin) => Get(bin, WA8.Size, static d => new WA8(d));
+    private static WC9[] GetWC9DB(Memory<byte> bin) => Get(bin, WC9.Size, static d => new WC9(d));
 
-    private static T[] Get<T>(ReadOnlySpan<byte> bin, int size, Func<byte[], T> ctor)
+    private static T[] Get<T>(Memory<byte> bin, int size, Func<Memory<byte>, T> ctor)
     {
         // bin is a multiple of size
         // bin.Length % size == 0
@@ -91,7 +92,7 @@ public static class EncounterEvent
         for (int i = 0; i < result.Length; i++)
         {
             var offset = i * size;
-            var slice = bin.Slice(offset, size).ToArray();
+            var slice = bin.Slice(offset, size);
             result[i] = ctor(slice);
         }
         return result;
@@ -139,7 +140,7 @@ public static class EncounterEvent
                 if (!added)
                     Trace.WriteLine($"Failed to add gift in {Path.GetDirectoryName(path)}: {gift.FileName}");
 
-                static bool AddOrExpand<T>(ref HashSet<T>? arr, ref List<T>? extra, T obj)
+                static bool AddOrExpand<T>([NotNullWhen(true)] ref HashSet<T>? arr, ref List<T>? extra, T obj)
                 {
                     if (arr is null)
                     {
@@ -153,20 +154,21 @@ public static class EncounterEvent
                     return true;
                 }
             }
-            EGDB_G4 = SetArray(lg4);
-            EGDB_G5 = SetArray(lg5);
-            EGDB_G6 = SetArray(lg6);
-            EGDB_G7 = SetArray(lg7);
-            EGDB_G7GG = SetArray(lb7);
-            EGDB_G8 = SetArray(lg8);
-            EGDB_G8A = SetArray(la8);
-            EGDB_G8B = SetArray(lb8);
-            EGDB_G9 = SetArray(lg9);
-            continue;
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static T[] SetArray<T>(List<T>? update) => update is null ? [] : update.ToArray();
         }
+
+        EGDB_G4 = SetArray(lg4);
+        EGDB_G5 = SetArray(lg5);
+        EGDB_G6 = SetArray(lg6);
+        EGDB_G7 = SetArray(lg7);
+        EGDB_G7GG = SetArray(lb7);
+        EGDB_G8 = SetArray(lg8);
+        EGDB_G8A = SetArray(la8);
+        EGDB_G8B = SetArray(lb8);
+        EGDB_G9 = SetArray(lg9);
+        return;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static T[] SetArray<T>(List<T>? update) => update is null ? [] : update.ToArray();
     }
 
     /// <summary>

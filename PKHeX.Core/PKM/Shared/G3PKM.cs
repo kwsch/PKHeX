@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IRibbonSetRibbons, IContestStats, IAppliedMarkings3
 {
-    protected G3PKM(byte[] data) : base(data) { }
+    protected G3PKM(Memory<byte> data) : base(data) { }
     protected G3PKM([ConstantExpected] int size) : base(size) { }
 
     public abstract override PersonalInfo3 PersonalInfo { get; }
@@ -44,15 +44,13 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
 
     public bool GetMarking(int index)
     {
-        if ((uint)index >= MarkingCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MarkingCount);
         return ((MarkingValue >> index) & 1) != 0;
     }
 
     public void SetMarking(int index, bool value)
     {
-        if ((uint)index >= MarkingCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MarkingCount);
         MarkingValue = (byte)((MarkingValue & ~(1 << index)) | ((value ? 1 : 0) << index));
     }
 

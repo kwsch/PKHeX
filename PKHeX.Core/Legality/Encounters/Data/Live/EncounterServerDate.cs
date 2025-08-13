@@ -24,6 +24,7 @@ public static class EncounterServerDate
         WA8 wa8 => Result(wa8.IsWithinDistributionWindow(obtained)),
         WB8 wb8 => Result(wb8.IsWithinDistributionWindow(obtained)),
         WC9 wc9 => Result(wc9.IsWithinDistributionWindow(obtained)),
+        EncounterSlot7GO g7 => Result(g7.IsWithinDistributionWindow(obtained)),
         EncounterSlot8GO g8 => Result(g8.IsWithinDistributionWindow(obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
@@ -215,6 +216,16 @@ public static class EncounterServerDate
         {1010, new(2025, 01, 21, 2025, 04, 01)}, // Pokémon Lucario & The Mystery of Mew Movie Gift KOR 아론's Lucario
         {0514, new(2025, 02, 05, 2025, 07, 01, +2)}, // Pokémon Day 2025 Flying Tera Type Eevee
         {0519, new(2025, 02, 20, 2025, 03, 01)}, // Marco's Jumpluff
+        {0066, new(2025, 04, 18, 2025, 08, 01)}, // Wei Chyr's Rillaboom
+        {1019, new(2025, 04, 24, 2025, 07, 01)}, // Pokémon Town - KOR Ditto Project
+        {1020, new(2025, 06, 06, 2025, 06, 10)}, // PTC 2025 홍주영's Porygon2
+        {0523, new(2025, 06, 13, 2025, 06, 21)}, // NAIC 2025 Wolfe's Incineroar
+        {0067, new(2025, 06, 20, 2025, 06, 23)}, // PJCS 2025 Hyuma Hara's Flutter Mane
+        {0068, new(2025, 06, 20, 2025, 10, 01)}, // PJCS 2025 Ray Yamanaka's Amoonguss
+        {1542, new(2025, 08, 07, 2025, 10, 01)}, // Shiny Wo-Chien
+        {9997, new(2025, 08, 21, 2025, 10, 01)}, // Shiny Chien-Pao
+        {9998, new(2025, 09, 04, 2025, 10, 01)}, // Shiny Ting-Lu
+        {9999, new(2025, 09, 18, 2025, 10, 01)}, // Shiny Chi-Yu
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco

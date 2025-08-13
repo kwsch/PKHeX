@@ -61,8 +61,8 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
     public PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8
         {
@@ -77,12 +77,12 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
             ID32 = tr.ID32,
             Version = version,
-            Language = lang,
+            Language = language,
             OriginalTrainerGender = tr.Gender,
             OriginalTrainerName = tr.OT,
             OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         if (IsEgg)
@@ -102,7 +102,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PB8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB8 pk, in EncounterCriteria criteria)
     {
         var req = GetRequirement(pk);
         if (req == MustHave) // Roamers
@@ -121,9 +121,12 @@ public sealed record EncounterStatic8b(GameVersion Version)
     {
         if (!IsRoaming)
             return false;
+        if (pk is not PB8 pb8)
+            throw new ArgumentException($"{nameof(pk)} must be a {nameof(PB8)} instance.", nameof(pk));
+
         var criteria = EncounterCriteria.Unrestricted;
         var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
-        Roaming8bRNG.TryApplyFromSeed(pk, criteria, shiny, FlawlessIVCount, seed);
+        Roaming8bRNG.TryApplyFromSeed(pb8, criteria, shiny, FlawlessIVCount, seed);
         return true;
     }
 

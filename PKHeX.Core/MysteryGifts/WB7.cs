@@ -1,20 +1,21 @@
 using System;
-using static System.Buffers.Binary. BinaryPrimitives;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
-public sealed class WB7(byte[] Data)
-    : DataMysteryGift(Data), ILangNick, IAwakened, IRelearn, IEncounterServerDate, INature, ILangNicknamedTemplate,
-        IMetLevel, IRestrictVersion, IRibbonSetEvent3, IRibbonSetEvent4
+public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, IRelearn, IEncounterServerDate, INature, ILangNicknamedTemplate,
+    IMetLevel, IRestrictVersion, IRibbonSetEvent3, IRibbonSetEvent4
 {
     public WB7() : this(new byte[Size]) { }
+    public WB7(Memory<byte> raw) : base(raw) { }
+    public override WB7 Clone() => new(Data.ToArray());
 
     public const int Size = 0x310;
     private const int CardStart = 0x208;
-    private Span<byte> Card => Data.AsSpan(CardStart, 0x108);
+    private Span<byte> Card => Data.Slice(CardStart, 0x108);
 
     public override bool FatefulEncounter => true;
 
@@ -83,7 +84,7 @@ public sealed class WB7(byte[] Data)
         get
         {
             // Check to see if date is valid
-            if (!DateUtil.IsDateValid(Year, Month, Day))
+            if (!DateUtil.IsValidDate(Year, Month, Day))
                 return null;
 
             return new DateOnly((int)Year, (int)Month, (int)Day);
@@ -183,7 +184,7 @@ public sealed class WB7(byte[] Data)
 
     public Nature Nature { get => (Nature)Card[0xA0]; set => Card[0xA0] = (byte)value; }
     public override byte Gender { get => Card[0xA1]; set => Card[0xA1] = value; }
-    public override int AbilityType { get => IsHOMEGift ? Card[0xA2] : 3; set => Card[0xA2] = (byte)value; } // no references, always ability 0/1
+    public int AbilityType { get => IsHOMEGift ? Card[0xA2] : 3; set => Card[0xA2] = (byte)value; } // no references, always ability 0/1
     public ShinyType6 PIDType { get => (ShinyType6)Card[0xA3]; set => Card[0xA3] = (byte)value; }
     public override ushort EggLocation { get => ReadUInt16LittleEndian(Card[0xA4..]); set => WriteUInt16LittleEndian(Card[0xA4..], value); }
     public override ushort Location  { get => ReadUInt16LittleEndian(Card[0xA6..]); set => WriteUInt16LittleEndian(Card[0xA6..], value); }
@@ -333,13 +334,13 @@ public sealed class WB7(byte[] Data)
         return redeemLanguage;
     }
 
-    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
+    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data[GetOTOffset(language)..]) != 0;
 
-    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    private Span<byte> GetNicknameSpan(int language) => Data.Slice(GetNicknameOffset(language), 0x1A);
     public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
     public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    private Span<byte> GetOTSpan(int language) => Data.Slice(GetOTOffset(language), 0x1A);
     public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
     public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
@@ -418,7 +419,7 @@ public sealed class WB7(byte[] Data)
             pk.CurrentHandler = 1;
         }
 
-        pk.SetMaximumPPCurrent();
+        pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
@@ -463,7 +464,7 @@ public sealed class WB7(byte[] Data)
     }
 
     /// <summary>
-    ///  HOME Meltan is a special case where height/weight is fixed.
+    /// HOME Meltan is a special case where height/weight is fixed.
     /// </summary>
     public bool IsHeightWeightFixed => CardID is 9028;
 
@@ -475,13 +476,13 @@ public sealed class WB7(byte[] Data)
 
     public float GetHomeHeightAbsolute() => CardID switch
     {
-        9028 => 18.1490211f,
+        9028 => 18.1490211f, // corresponds to 98, but forced to 128
         _ => throw new ArgumentException(),
     };
 
     public float GetHomeWeightAbsolute() => CardID switch
     {
-        9028 => 77.09419f,
+        9028 => 77.09419f, // corresponds to 167, but forced to 128
         _ => throw new ArgumentException(),
     };
 
@@ -502,7 +503,7 @@ public sealed class WB7(byte[] Data)
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         pk.Nature = criteria.GetNature(Nature);
@@ -513,7 +514,7 @@ public sealed class WB7(byte[] Data)
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
     {
         00 or 01 or 02 => AbilityType, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H
@@ -589,7 +590,7 @@ public sealed class WB7(byte[] Data)
         if (CanBeAnyLanguage())
             return true;
 
-        return Array.IndexOf(Data, (byte)language, 0x1D8, 9) >= 0;
+        return Data.Slice(0x1D8, 9).Contains((byte)language);
     }
 
     public bool CanBeAnyLanguage()

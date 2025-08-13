@@ -1,3 +1,5 @@
+using static PKHeX.Core.RandomCorrelationRating;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -19,7 +21,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public byte Form => 0;
 
     public string Name => $"Wild Encounter ({Version})";
-    public string LongName => $"{Name} - Cave Spot";
+    public string LongName => $"{Name} - {Parent.Type} Spot";
     public GameVersion Version => Parent.Version;
     public ushort Location => Parent.Location;
 
@@ -30,7 +32,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pi = PersonalTable.E[Species];
         var pk = new XK3
         {
@@ -43,11 +45,11 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
             Version = GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
-            Language = lang,
+            Language = language,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = 0,
             ID32 = tr.ID32,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
 
         SetPINGA(pk, criteria, pi);
@@ -57,12 +59,12 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
+    private void SetPINGA(XK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var gender = criteria.GetGender(pi);
-        var nature = criteria.GetNature();
-        int ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
+        MethodPokeSpot.SetRandomPID(pk, criteria, pi.Gender, SlotNumber);
+        if (criteria.IsSpecifiedIVsAll() && !MethodPokeSpot.TrySetIVs(pk, criteria, LevelMin, LevelMax))
+            return;
+        MethodPokeSpot.SetRandomIVs(pk, criteria, LevelMin, LevelMax, Util.Rand32());
     }
 
     #endregion
@@ -72,6 +74,6 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
     #endregion
 
-    public bool IsCompatible(PIDType type, PKM pk) => type == PIDType.PokeSpot;
+    public RandomCorrelationRating IsCompatible(PIDType type, PKM pk) => type is PIDType.PokeSpot ? Match : Mismatch;
     public PIDType GetSuggestedCorrelation() => PIDType.PokeSpot;
 }

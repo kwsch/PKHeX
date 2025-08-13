@@ -67,10 +67,18 @@ public interface IRibbonSetMarks
 
 public static partial class RibbonExtensions
 {
-    public static bool HasWeatherMark(this IRibbonSetMark8 m)
+    public static bool HasWeatherMark(this IRibbonSetMark8 m, out RibbonIndex ribbon)
     {
-        return m.RibbonMarkCloudy   || m.RibbonMarkRainy || m.RibbonMarkStormy    || m.RibbonMarkSnowy
-            || m.RibbonMarkBlizzard || m.RibbonMarkDry   || m.RibbonMarkSandstorm || m.RibbonMarkMisty;
+        if (m.RibbonMarkCloudy) { ribbon = RibbonIndex.MarkCloudy; return true; }
+        if (m.RibbonMarkRainy) { ribbon = RibbonIndex.MarkRainy; return true; }
+        if (m.RibbonMarkStormy) { ribbon = RibbonIndex.MarkStormy; return true; }
+        if (m.RibbonMarkSnowy) { ribbon = RibbonIndex.MarkSnowy; return true; }
+        if (m.RibbonMarkBlizzard) { ribbon = RibbonIndex.MarkBlizzard; return true; }
+        if (m.RibbonMarkDry) { ribbon = RibbonIndex.MarkDry; return true; }
+        if (m.RibbonMarkSandstorm) { ribbon = RibbonIndex.MarkSandstorm; return true; }
+        if (m.RibbonMarkMisty) { ribbon = RibbonIndex.MarkMisty; return true; }
+        ribbon = default;
+        return false;
     }
 
     public static void CopyRibbonSetMark8(this IRibbonSetMark8 set, IRibbonSetMark8 dest)

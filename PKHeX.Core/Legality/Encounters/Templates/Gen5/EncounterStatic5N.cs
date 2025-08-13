@@ -6,14 +6,14 @@ namespace PKHeX.Core;
 /// Generation 5 Static Encounter from N
 /// </summary>
 public sealed record EncounterStatic5N(uint PID)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IFixedTrainer, IFixedNature
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IFixedTrainer, IFixedNature, ITrainerID32ReadOnly
 {
     public byte Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
     public GameVersion Version => GameVersion.B2W2;
     public const bool NSparkle = true;
     public bool IsFixedTrainer => true;
-    private const uint ID32 = 2;
+    private const ushort ID32 = 2;
     private const byte IV = 30;
 
     public byte Form => 0;
@@ -23,6 +23,10 @@ public sealed record EncounterStatic5N(uint PID)
     public bool IsEgg => false;
     public ushort EggLocation => 0;
     public Ball FixedBall => Species == (int)Core.Species.Zorua ? Ball.Poke : Ball.None; // Zorua can't be captured; others can.
+
+    public ushort TID16 => ID32;
+    uint ITrainerID32ReadOnly.ID32 => ID32;
+    public ushort SID16 => 0;
 
     public required ushort Species { get; init; }
     public required byte Level { get; init; }
@@ -43,8 +47,8 @@ public sealed record EncounterStatic5N(uint PID)
 
     public PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
@@ -56,20 +60,15 @@ public sealed record EncounterStatic5N(uint PID)
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
 
             Version = version,
-            Language = lang,
+            Language = language,
 
             OriginalTrainerFriendship = pi.BaseFriendship,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            IV_HP = IV,
-            IV_ATK = IV,
-            IV_DEF = IV,
-            IV_SPA = IV,
-            IV_SPD = IV,
-            IV_SPE = IV,
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
+            IV32 = 0b11110_11110_11110_11110_11110_11110, // all 30
 
             NSparkle = NSparkle,
-            OriginalTrainerName = GetOT(lang),
+            OriginalTrainerName = GetOT(language),
             OriginalTrainerGender = 0,
             ID32 = ID32,
             PID = PID,

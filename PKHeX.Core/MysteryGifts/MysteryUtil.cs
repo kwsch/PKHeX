@@ -46,7 +46,7 @@ public static class MysteryUtil
     /// <returns>List of lines</returns>
     public static IEnumerable<string> GetDescription(this MysteryGift gift, IBasicStrings strings)
     {
-        if (gift.Empty)
+        if (gift.IsEmpty)
             return [MsgMysteryGiftSlotEmpty];
 
         var result = new List<string> { gift.CardHeader };

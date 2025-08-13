@@ -7,9 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Tera Raid Encounter
 /// </summary>
-public sealed record EncounterTera9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IGenerateSeed32,
-        ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IEncounterFormRandom
+public sealed record EncounterTera9 : ITeraRaid9, IEncounterFormRandom
 {
     public byte Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -173,17 +171,15 @@ public sealed record EncounterTera9
     };
 
     #region Generating
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
-    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
     public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = GetPersonal();
         var pk = new PK9
         {
-            Language = lang,
+            Language = language,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
@@ -194,7 +190,7 @@ public sealed record EncounterTera9
             Version = version,
             Ball = (byte)Ball.Poke,
 
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             ObedienceLevel = LevelMin,
             OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
@@ -210,7 +206,7 @@ public sealed record EncounterTera9
 
     private PersonalInfo9SV GetPersonal() => PersonalTable.SV[Species, Form];
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
+    private void SetPINGA(PK9 pk, in EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         var param = GetParam(pi);
         var init = Util.Rand.Rand64();

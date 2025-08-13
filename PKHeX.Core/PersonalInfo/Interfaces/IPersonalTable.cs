@@ -11,6 +11,11 @@ public interface IPersonalTable
     ushort MaxSpeciesID { get; }
 
     /// <summary>
+    /// Count of entries in the table.
+    /// </summary>
+    int Count { get; }
+
+    /// <summary>
     /// Gets an index from the inner array.
     /// </summary>
     /// <remarks>Has built in length checks; returns empty (0) entry if out of range.</remarks>
@@ -61,7 +66,21 @@ public interface IPersonalTable
 /// <typeparam name="T">Specific type of <see cref="IPersonalInfo"/> the table contains.</typeparam>
 public interface IPersonalTable<out T> where T : IPersonalInfo
 {
+    /// <summary>
+    /// Gets the entry from the table based on absolute index, not species/form.
+    /// </summary>
+    /// <remarks>
+    /// Only use this if not requesting based on Form.
+    /// </remarks>
     T this[int index] { get; }
+
+    /// <summary>
+    /// Gets the entry from the table based on species/form.
+    /// </summary>
     T this[ushort species, byte form] { get; }
+
+    /// <summary>
+    /// Gets the entry from the table based on species/form.
+    /// </summary>
     T GetFormEntry(ushort species, byte form);
 }
