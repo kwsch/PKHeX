@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -6,7 +7,6 @@ using PKHeX.Core;
 #if !DEBUG
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.IO;
 using System.Threading;
 #endif
 
@@ -14,47 +14,59 @@ namespace PKHeX.WinForms;
 
 internal static class Program
 {
+    // Pipelines build can sometimes tack on text to the version code. Strip it out.
+    public static readonly Version CurrentVersion = Version.Parse(GetSaneVersionTag(Application.ProductVersion));
+
+    public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
+    public const string ConfigFileName = "cfg.json";
+    public static string PathConfig => Path.Combine(WorkingDirectory, ConfigFileName);
+
     /// <summary>
-    /// The main entry point for the application.
+    /// Global settings instance, loaded before any forms are created.
     /// </summary>
+    public static PKHeXSettings Settings { get; private set; } = null!;
+
+    public static bool HaX { get; private set; }
+
     [STAThread]
     private static void Main()
     {
 #if !DEBUG
-        // Add the event handler for handling UI thread exceptions to the event.
         Application.ThreadException += UIThreadException;
-
-        // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-        // Add the event handler for handling non-UI thread exceptions to the event.
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-        // Run the application
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
+        // Load settings first
+        var settings = Settings = PKHeXSettings.GetSettings(PathConfig);
+        settings.LocalResources.SetLocalPath(WorkingDirectory);
+
         var args = Environment.GetCommandLineArgs();
-        // if an arg is "dark", set the color mode to dark
-        if (args.Length > 1 && args[1] == "dark")
-#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        var dark = args.Length > 1 && args[1] == "dark";
+        if (dark || settings.Startup.DarkMode)
+#pragma warning disable WFO5001
             Application.SetColorMode(SystemColorMode.Dark);
-#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning restore WFO5001
 
         var splash = new SplashScreen();
         new Task(() => splash.ShowDialog()).Start();
-        new Task(() => EncounterEvent.RefreshMGDB(WinForms.Main.MGDatabasePath)).Start();
-        var main = new Main();
+
+        // Prepare init values that used to be calculated in Main
+        WinFormsUtil.AddSaveFileExtensions(settings.Backup.OtherSaveFileExtensions);
+        var startup = StartupUtil.GetStartup(args, settings.Startup, settings.LocalResources);
+        var init = StartupUtil.FormLoadInitialActions(args, settings.Startup, settings.Backup, CurrentVersion);
+        HaX = init.HaX;
+        var main = new Main(init, startup);
+
+        // Setup complete.
         splash.BeginInvoke(splash.ForceClose);
         Application.Run(main);
     }
 
-    // Pipelines build can sometimes tack on text to the version code. Strip it out.
-    public static readonly Version CurrentVersion = Version.Parse(GetSaneVersionTag(Application.ProductVersion));
-
     private static ReadOnlySpan<char> GetSaneVersionTag(ReadOnlySpan<char> productVersion)
     {
-        // Take only 0-9 and '.', stop on first char not in that set.
         for (int i = 0; i < productVersion.Length; i++)
         {
             char c = productVersion[i];
@@ -70,7 +82,6 @@ internal static class Program
 #if !DEBUG
     private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
-    // Handle the UI exceptions by showing a dialog box, and asking the user if they wish to abort execution.
     private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
     {
         DialogResult result = DialogResult.Cancel;
@@ -85,7 +96,6 @@ internal static class Program
             HandleReportingException(t.Exception, reportingException);
         }
 
-        // Exits the program when the user clicks Abort.
         if (result == DialogResult.Abort)
             Application.Exit();
     }
@@ -101,9 +111,6 @@ internal static class Program
         return "An error occurred in PKHeX. Please report this error to the PKHeX author.";
     }
 
-    // Handle the UI exceptions by showing a dialog box, and asking the user if they wish to abort execution.
-    // NOTE: This exception cannot be kept from terminating the application - it can only
-    // log the event, and inform the user about it.
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         var ex = e.ExceptionObject as Exception;
@@ -135,7 +142,6 @@ internal static class Program
 
     private static bool IsPluginError<T>(Exception exception, out string pluginName)
     {
-        // Check the stacktrace to see if the namespace is a type that derives from IPlugin
         pluginName = string.Empty;
         var stackTrace = new System.Diagnostics.StackTrace(exception);
         foreach (var frame in stackTrace.GetFrames())
@@ -158,7 +164,6 @@ internal static class Program
         }
         catch
         {
-            // We've failed to even save the error details to a file. There's nothing else we can do.
         }
         if (reportingException is FileNotFoundException x && x.FileName?.StartsWith("PKHeX.Core") == true)
         {
@@ -175,22 +180,15 @@ internal static class Program
         }
     }
 
-    /// <summary>
-    /// Attempt to log exceptions to a file when there's an error displaying exception details.
-    /// </summary>
-    /// <param name="originalException"></param>
-    /// <param name="errorHandlingException"></param>
     private static bool EmergencyErrorLog(Exception? originalException, Exception errorHandlingException)
     {
         try
         {
-            // Not using a string builder because something's very wrong, and we don't want to make things worse
             var message = (originalException?.ToString() ?? "null first exception") + Environment.NewLine + errorHandlingException;
             File.WriteAllText($"PKHeX_Error_Report {DateTime.Now:yyyyMMddHHmmss}.txt", message);
         }
         catch (Exception)
         {
-            // We've failed to save the error details twice now. There's nothing else we can do.
             return false;
         }
         return true;

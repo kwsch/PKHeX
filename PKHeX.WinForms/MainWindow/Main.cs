@@ -22,11 +22,8 @@ namespace PKHeX.WinForms;
 
 public partial class Main : Form
 {
-    public Main()
+    public Main(ProgramInit init, StartupArguments args)
     {
-        string[] args = Environment.GetCommandLineArgs();
-        FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
-
         InitializeComponent();
         if (Settings.Display.DisableScalingDpi)
             AutoScaleMode = AutoScaleMode.Font;
@@ -42,27 +39,22 @@ public partial class Main : Form
         FormInitializeSecond();
         FormLoadCheckForUpdates();
 
-        var startup = new StartupArguments();
-        startup.ReadArguments(args);
-        startup.ReadSettings(Settings.Startup);
-        startup.ReadTemplateIfNoEntity(TemplatePath);
-
         if (Settings.Startup.PluginLoadEnable)
             FormLoadPlugins();
 
-        FormLoadInitialFiles(startup);
+        FormLoadInitialFiles(args);
 
         if (HaX)
         {
             EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
             WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
         }
-        else if (showChangelog)
+        else if (init.ShowChangelog)
         {
             ShowAboutDialog(AboutPage.Changelog);
         }
 
-        if (BAKprompt && !Directory.Exists(BackupPath))
+        if (init.BackupPrompt && !Directory.Exists(BackupPath))
             PromptBackup();
 
         BringToFront();
@@ -91,56 +83,26 @@ public partial class Main : Form
     }
 
     public static IReadOnlyList<string> GenderSymbols { get; private set; } = GameInfo.GenderSymbolUnicode;
-    public static bool HaX { get; private set; }
-
-    private readonly string[] main_langlist = Enum.GetNames<ProgramLanguage>();
-
-    private static readonly List<IPlugin> Plugins = [];
+    public static bool HaX => Program.HaX;
+    private static List<IPlugin> Plugins { get; }= [];
     #endregion
 
     #region Path Variables
 
-    public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
-    public static readonly string DatabasePath = Path.Combine(WorkingDirectory, "pkmdb");
-    public static readonly string MGDatabasePath = Path.Combine(WorkingDirectory, "mgdb");
-    public static readonly string ConfigPath = Path.Combine(WorkingDirectory, "cfg.json");
-    public static readonly string BackupPath = Path.Combine(WorkingDirectory, "bak");
-    public static readonly string CryPath = Path.Combine(WorkingDirectory, "sounds");
-    private static readonly string TemplatePath = Path.Combine(WorkingDirectory, "template");
-    private static readonly string TrainerPath = Path.Combine(WorkingDirectory, "trainers");
-    private static readonly string PluginPath = Path.Combine(WorkingDirectory, "plugins");
+    public static string DatabasePath => Settings.LocalResources.GetDatabasePath();
+    public static string MGDatabasePath => Settings.LocalResources.GetMGDatabasePath();
+    public static string BackupPath => Settings.LocalResources.GetBackupPath();
+    public static string CryPath => Settings.LocalResources.GetCryPath();
+    private static string TemplatePath => Settings.LocalResources.GetTemplatePath();
+    private static string TrainerPath => Settings.LocalResources.GetTrainerPath();
+    private static string PluginPath => Settings.LocalResources.GetPluginPath();
     private const string ThreadPath = "https://projectpokemon.org/pkhex/";
 
-    public static readonly PKHeXSettings Settings = PKHeXSettings.GetSettings(ConfigPath);
+    public static PKHeXSettings Settings => Program.Settings;
 
     #endregion
 
     #region //// MAIN MENU FUNCTIONS ////
-    private static void FormLoadInitialSettings(IEnumerable<string> args, out bool showChangelog, out bool BAKprompt)
-    {
-        showChangelog = false;
-        BAKprompt = false;
-
-        FormLoadConfig(out BAKprompt, out showChangelog);
-        HaX = Settings.Startup.ForceHaXOnLaunch || GetIsHaX(args);
-
-        WinFormsUtil.AddSaveFileExtensions(Settings.Backup.OtherSaveFileExtensions);
-        SaveFinder.CustomBackupPaths.Clear();
-        SaveFinder.CustomBackupPaths.AddRange(Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
-    }
-
-    private static bool GetIsHaX(IEnumerable<string> args)
-    {
-        foreach (var x in args)
-        {
-            var arg = x.AsSpan().Trim('-');
-            if (arg.Equals(nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
-                return true;
-        }
-
-        ReadOnlySpan<char> path = Environment.ProcessPath!;
-        return Path.GetFileNameWithoutExtension(path).EndsWith(nameof(HaX));
-    }
 
     private void FormLoadAddEvents()
     {
@@ -251,8 +213,8 @@ public partial class Main : Form
     {
         var settings = Settings;
         Draw = C_SAV.M.Hover.Draw = PKME_Tabs.Draw = settings.Draw;
-        ReloadProgramSettings(settings);
-        CB_MainLanguage.Items.AddRange(main_langlist);
+        ReloadProgramSettings(settings, true);
+        CB_MainLanguage.Items.AddRange(Enum.GetNames<ProgramLanguage>());
         PB_Legal.Visible = !HaX;
         C_SAV.HaX = PKME_Tabs.HaX = HaX;
 
@@ -428,36 +390,23 @@ public partial class Main : Form
             C_SAV.ReloadSlots();
     }
 
-    private void ReloadProgramSettings(PKHeXSettings settings)
+    private void ReloadProgramSettings(PKHeXSettings settings, bool skipCore = false)
     {
+        if (!skipCore)
+            StartupUtil.ReloadSettings(settings);
+
         Draw.LoadBrushes();
         PKME_Tabs.Unicode = Unicode = settings.Display.Unicode;
         PKME_Tabs.UpdateUnicode(GenderSymbols);
         SpriteName.AllowShinySprite = settings.Sprite.ShinySprites;
         SpriteBuilderUtil.SpriterPreference = settings.Sprite.SpritePreference;
 
-        var write = settings.SlotWrite;
-        SaveFile.SetUpdateDex = write.SetUpdateDex ? EntityImportOption.Enable : EntityImportOption.Disable;
-        SaveFile.SetUpdatePKM = write.SetUpdatePKM ? EntityImportOption.Enable : EntityImportOption.Disable;
-        SaveFile.SetUpdateRecords = write.SetUpdateRecords ? EntityImportOption.Enable : EntityImportOption.Disable;
-
         C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
-        CommonEdits.ShowdownSetIVMarkings = settings.Import.ApplyMarkings;
-        CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
         C_SAV.FlagIllegal = settings.Display.FlagIllegal;
         C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
-        ParseSettings.Initialize(settings.Legality);
         PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
-        settings.SaveLanguage.Apply();
-
-        var converter = settings.Converter;
-        EntityConverter.AllowIncompatibleConversion = converter.AllowIncompatibleConversion;
-        EntityConverter.RejuvenateHOME = converter.AllowGuessRejuvenateHOME;
-        EntityConverter.VirtualConsoleSourceGen1 = converter.VirtualConsoleSourceGen1;
-        EntityConverter.VirtualConsoleSourceGen2 = converter.VirtualConsoleSourceGen2;
-        EntityConverter.RetainMetDateTransfer45 = converter.RetainMetDateTransfer45;
 
         SpriteBuilder.LoadSettings(settings.Sprite);
     }
@@ -1326,7 +1275,7 @@ public partial class Main : Form
                 }
             }
 
-            await PKHeXSettings.SaveSettings(ConfigPath, Settings).ConfigureAwait(false);
+            await PKHeXSettings.SaveSettings(Program.PathConfig, Settings).ConfigureAwait(false);
         }
         catch
         {

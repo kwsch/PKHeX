@@ -38,10 +38,7 @@ public static class ParseSettings
     /// </summary>
     public static bool AllowGen1Tradeback => Settings.Tradeback.AllowGen1Tradeback;
 
-    public static void Initialize(LegalitySettings settings)
-    {
-        Settings = settings;
-    }
+    public static void Initialize(LegalitySettings settings) => Settings = settings;
 
     /// <summary>
     /// Checks to see if Crystal is available to visit/originate from.

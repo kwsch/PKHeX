@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -15,10 +15,14 @@ public interface IStartupSettings
     /// <summary>
     /// Method to load the environment's initial save file.
     /// </summary>
-    AutoLoadSetting AutoLoadSaveOnStartup { get; }
+    SaveFileLoadSetting AutoLoadSaveOnStartup { get; }
 
     /// <summary>
     /// List of recently loaded save file paths.
     /// </summary>
     List<string> RecentlyLoaded { get; }
+
+    string Version { get; set; }
+    bool ShowChangelogOnUpdate { get; set; }
+    bool ForceHaXOnLaunch { get; set; }
 }

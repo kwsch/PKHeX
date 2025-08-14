@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Option to load a save file automatically to an editing environment.
 /// </summary>
-public enum AutoLoadSetting
+public enum SaveFileLoadSetting
 {
     /// <summary>
     /// Doesn't autoload a save file, and instead uses a fake save file data.

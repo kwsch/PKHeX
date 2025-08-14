@@ -15,13 +15,13 @@ public sealed class StartupArguments
     public SaveFile? SAV { get; private set; }
 
     // ReSharper disable once UnassignedGetOnlyAutoProperty
-    public Exception? Error { get; }
+    public Exception? Error { get; internal set; }
     public readonly List<object> Extra = [];
 
     /// <summary>
     /// Step 1: Reads in command line arguments.
     /// </summary>
-    public void ReadArguments(IEnumerable<string> args)
+    public void ReadArguments(ReadOnlySpan<string> args)
     {
         foreach (var path in args)
         {
@@ -69,15 +69,15 @@ public sealed class StartupArguments
 
     private static SaveFile? ReadSettingsDefinedPKM(IStartupSettings startup, PKM pk) => startup.AutoLoadSaveOnStartup switch
     {
-        AutoLoadSetting.RecentBackup => SaveFinder.DetectSaveFiles(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token).FirstOrDefault(z => z.IsCompatiblePKM(pk)),
-        AutoLoadSetting.LastLoaded => GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(z => z.IsCompatiblePKM(pk)),
+        SaveFileLoadSetting.RecentBackup => SaveFinder.DetectSaveFiles(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token).FirstOrDefault(z => z.IsCompatiblePKM(pk)),
+        SaveFileLoadSetting.LastLoaded => GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(z => z.IsCompatiblePKM(pk)),
         _ => null,
     };
 
     private static SaveFile? ReadSettingsAnyPKM(IStartupSettings startup) => startup.AutoLoadSaveOnStartup switch
     {
-        AutoLoadSetting.RecentBackup => SaveFinder.DetectSaveFiles(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token).FirstOrDefault(),
-        AutoLoadSetting.LastLoaded => GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(),
+        SaveFileLoadSetting.RecentBackup => SaveFinder.DetectSaveFiles(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token).FirstOrDefault(),
+        SaveFileLoadSetting.LastLoaded => GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(),
         _ => null,
     };
 
