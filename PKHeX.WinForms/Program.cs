@@ -54,14 +54,24 @@ internal static class Program
         new Task(() => splash.ShowDialog()).Start();
 
         // Prepare init values that used to be calculated in Main
-        WinFormsUtil.AddSaveFileExtensions(settings.Backup.OtherSaveFileExtensions);
         var startup = StartupUtil.GetStartup(args, settings.Startup, settings.LocalResources);
         var init = StartupUtil.FormLoadInitialActions(args, settings.Startup, settings.Backup, CurrentVersion);
         HaX = init.HaX;
-        var main = new Main(init, startup);
+        var main = new Main();
 
         // Setup complete.
+        main.CheckForUpdates();
+        if (Settings.Startup.PluginLoadEnable)
+            main.AttachPlugins();
+        main.LoadInitialFiles(startup);
         splash.BeginInvoke(splash.ForceClose);
+        if (init.HaX)
+            main.WarnBehavior();
+        else if (init.ShowChangelog)
+            main.ShowAboutDialog(AboutPage.Changelog);
+        else if (init.BackupPrompt && !Directory.Exists(settings.LocalResources.GetBackupPath()))
+            main.PromptBackup();
+        main.AnimateStartup();
         Application.Run(main);
     }
 

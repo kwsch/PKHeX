@@ -22,7 +22,7 @@ namespace PKHeX.WinForms;
 
 public partial class Main : Form
 {
-    public Main(ProgramInit init, StartupArguments args)
+    public Main()
     {
         InitializeComponent();
         if (Settings.Display.DisableScalingDpi)
@@ -37,26 +37,10 @@ public partial class Main : Form
         }
 #endif
         FormInitializeSecond();
-        FormLoadCheckForUpdates();
+    }
 
-        if (Settings.Startup.PluginLoadEnable)
-            FormLoadPlugins();
-
-        FormLoadInitialFiles(args);
-
-        if (HaX)
-        {
-            EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
-            WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
-        }
-        else if (init.ShowChangelog)
-        {
-            ShowAboutDialog(AboutPage.Changelog);
-        }
-
-        if (init.BackupPrompt && !Directory.Exists(BackupPath))
-            PromptBackup();
-
+    public void AnimateStartup()
+    {
         BringToFront();
         WindowState = FormWindowState.Minimized;
         Show();
@@ -114,7 +98,7 @@ public partial class Main : Form
         C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
 
         // ToolTips for Drag&Drop
-        toolTip.SetToolTip(dragout, "PKM QuickSave");
+        toolTip.SetToolTip(dragout, "Drag to Save");
 
         // Box to Tabs D&D
         dragout.AllowDrop = true;
@@ -128,7 +112,7 @@ public partial class Main : Form
         C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
     }
 
-    private void FormLoadInitialFiles(StartupArguments args)
+    public void LoadInitialFiles(StartupArguments args)
     {
         var sav = args.SAV!;
         var path = sav.Metadata.FilePath ?? string.Empty;
@@ -157,7 +141,7 @@ public partial class Main : Form
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
     }
 
-    private void FormLoadCheckForUpdates()
+    public void CheckForUpdates()
     {
         Task.Run(async () =>
         {
@@ -187,26 +171,6 @@ public partial class Main : Form
         lbl.Visible = lbl.TabStop = lbl.Enabled = true;
     }
 
-    private static void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
-    {
-        BAKprompt = false;
-        showChangelog = false;
-
-        // Version Check
-        var ver = Program.CurrentVersion;
-        var startup = Settings.Startup;
-        if (startup.ShowChangelogOnUpdate && startup.Version.Length != 0) // already run on system
-        {
-            bool parsed = Version.TryParse(startup.Version, out var lastrev);
-            showChangelog = parsed && lastrev < ver;
-        }
-        startup.Version = ver.ToString(); // set current version so this doesn't happen until the user updates next time
-
-        // BAK Prompt
-        if (!Settings.Backup.BAKPrompt)
-            BAKprompt = Settings.Backup.BAKPrompt = true;
-    }
-
     public static DrawConfig Draw { get; private set; } = new();
 
     private void FormInitializeSecond()
@@ -226,7 +190,7 @@ public partial class Main : Form
         CB_MainLanguage.SelectedIndex = GameLanguage.GetLanguageIndex(settings.Startup.Language);
     }
 
-    private void FormLoadPlugins()
+    public void AttachPlugins()
     {
         if (Plugins.Count != 0)
             return; // already loaded
@@ -287,7 +251,7 @@ public partial class Main : Form
 
     private void MainMenuAbout(object sender, EventArgs e) => ShowAboutDialog(AboutPage.Shortcuts);
 
-    private static void ShowAboutDialog(AboutPage index)
+    public void ShowAboutDialog(AboutPage index)
     {
         using var form = new About(index);
         form.ShowDialog();
@@ -408,7 +372,12 @@ public partial class Main : Form
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
 
+        if (HaX)
+        {
+            EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
+        }
         SpriteBuilder.LoadSettings(settings.Sprite);
+        WinFormsUtil.AddSaveFileExtensions(settings.Backup.OtherSaveFileExtensions);
     }
 
     private void MainMenuBoxLoad(object sender, EventArgs e)
@@ -1316,7 +1285,7 @@ public partial class Main : Form
         }
     }
 
-    private static void PromptBackup()
+    public void PromptBackup()
     {
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgBackupCreateLocation, BackupPath), MsgBackupCreateQuestion))
             return;
@@ -1334,4 +1303,9 @@ public partial class Main : Form
     private void ClickUndo(object sender, EventArgs e) => C_SAV.ClickUndo();
     private void ClickRedo(object sender, EventArgs e) => C_SAV.ClickRedo();
     #endregion
+
+    public void WarnBehavior()
+    {
+        WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
+    }
 }
