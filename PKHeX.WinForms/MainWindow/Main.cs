@@ -39,14 +39,6 @@ public partial class Main : Form
         FormInitializeSecond();
     }
 
-    public void AnimateStartup()
-    {
-        BringToFront();
-        WindowState = FormWindowState.Minimized;
-        Show();
-        WindowState = FormWindowState.Normal;
-    }
-
     #region Important Variables
     public static string CurrentLanguage
     {
@@ -79,7 +71,6 @@ public partial class Main : Form
     public static string CryPath => Settings.LocalResources.GetCryPath();
     private static string TemplatePath => Settings.LocalResources.GetTemplatePath();
     private static string TrainerPath => Settings.LocalResources.GetTrainerPath();
-    private static string PluginPath => Settings.LocalResources.GetPluginPath();
     private const string ThreadPath = "https://projectpokemon.org/pkhex/";
 
     public static PKHeXSettings Settings => Program.Settings;
@@ -105,9 +96,9 @@ public partial class Main : Form
 
         // Add ContextMenus
         var mnu = new ContextMenuPKM();
-        mnu.RequestEditorLegality += (_, args) => ClickLegality(mnu, args);
-        mnu.RequestEditorQR += (_, args) => ClickQR(mnu, args);
-        mnu.RequestEditorSaveAs += (_, args) => MainMenuSave(mnu, args);
+        mnu.RequestEditorLegality += ClickLegality;
+        mnu.RequestEditorQR += ClickQR;
+        mnu.RequestEditorSaveAs += MainMenuSave;
         dragout.ContextMenuStrip = mnu.mnuL;
         C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
     }
@@ -127,39 +118,37 @@ public partial class Main : Form
 
     private void LoadBlankSaveFile(GameVersion version)
     {
+        if (!version.IsValidSavedVersion())
+            version = Latest.Version;
         var current = C_SAV?.SAV;
         var lang = BlankSaveFile.GetSafeLanguage(current);
         var tr = BlankSaveFile.GetSafeTrainerName(current, lang);
         var sav = BlankSaveFile.Get(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
-            var max = GameInfo.Sources.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
-            version = (GameVersion)max.Value;
+            version = Latest.Version;
             sav = BlankSaveFile.Get(version, tr, lang);
         }
         OpenSAV(sav, string.Empty);
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
     }
 
-    public void CheckForUpdates()
+    public async Task CheckForUpdates()
     {
-        Task.Run(async () =>
+        Version? latestVersion;
+        // User might not be connected to the internet or with a flaky connection.
+        try { latestVersion = UpdateUtil.GetLatestPKHeXVersion(); }
+        catch (Exception ex)
         {
-            Version? latestVersion;
-            // User might not be connected to the internet or with a flaky connection.
-            try { latestVersion = UpdateUtil.GetLatestPKHeXVersion(); }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Exception while checking for latest version: {ex}");
-                return;
-            }
-            if (latestVersion is null || latestVersion <= Program.CurrentVersion)
-                return;
+            Debug.WriteLine($"Exception while checking for latest version: {ex}");
+            return;
+        }
+        if (latestVersion is null || latestVersion <= Program.CurrentVersion)
+            return;
 
-            while (!IsHandleCreated) // Wait for form to be ready
-                await Task.Delay(2_000).ConfigureAwait(false);
-            await InvokeAsync(() => NotifyNewVersionAvailable(latestVersion)).ConfigureAwait(false); // invoke on GUI thread
-        }).ConfigureAwait(false);
+        while (!IsHandleCreated) // Wait for form to be ready
+            await Task.Delay(2_000).ConfigureAwait(false);
+        await InvokeAsync(() => NotifyNewVersionAvailable(latestVersion)).ConfigureAwait(false); // invoke on GUI thread
     }
 
     private void NotifyNewVersionAvailable(Version version)
@@ -192,15 +181,16 @@ public partial class Main : Form
 
     public void AttachPlugins()
     {
+        var folder = Settings.LocalResources.GetPluginPath();
         if (Plugins.Count != 0)
             return; // already loaded
 #if !MERGED // merged should load dlls from within too, folder is no longer required
-        if (!Directory.Exists(PluginPath))
+        if (!Directory.Exists(folder))
             return;
 #endif
         try
         {
-            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath, Settings.Startup.PluginLoadMerged));
+            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(folder, Settings.Startup.PluginLoadMerged));
         }
         catch (InvalidCastException c)
         {
@@ -230,7 +220,7 @@ public partial class Main : Form
             OpenQuick(path);
     }
 
-    private void MainMenuSave(object sender, EventArgs e)
+    private void MainMenuSave(object? sender, EventArgs e)
     {
         if (!PKME_Tabs.EditsComplete)
             return;
@@ -975,7 +965,7 @@ public partial class Main : Form
     #region //// PKX WINDOW FUNCTIONS ////
     private bool QR6Notified;
 
-    private void ClickQR(object sender, EventArgs e)
+    private void ClickQR(object? sender, EventArgs e)
     {
         if (ModifierKeys == Keys.Alt)
         {
@@ -1048,7 +1038,7 @@ public partial class Main : Form
         form.ShowDialog();
     }
 
-    private void ClickLegality(object sender, EventArgs e)
+    private void ClickLegality(object? sender, EventArgs e)
     {
         if (!PKME_Tabs.EditsComplete)
         { SystemSounds.Hand.Play(); return; }
@@ -1285,19 +1275,21 @@ public partial class Main : Form
         }
     }
 
-    public void PromptBackup()
+    public void PromptBackup(string folder)
     {
-        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgBackupCreateLocation, BackupPath), MsgBackupCreateQuestion))
+        if (Directory.Exists(folder))
+            return;
+        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgBackupCreateLocation, folder), MsgBackupCreateQuestion))
             return;
 
         try
         {
-            Directory.CreateDirectory(BackupPath);
-            WinFormsUtil.Alert(MsgBackupSuccess, string.Format(MsgBackupDelete, BackupPath));
+            Directory.CreateDirectory(folder);
+            WinFormsUtil.Alert(MsgBackupSuccess, string.Format(MsgBackupDelete, folder));
         }
         catch (Exception ex)
         // Maybe they put their exe in a folder that we can't create files/folders to.
-        { WinFormsUtil.Error($"{MsgBackupUnable} @ {BackupPath}", ex); }
+        { WinFormsUtil.Error($"{MsgBackupUnable} @ {folder}", ex); }
     }
 
     private void ClickUndo(object sender, EventArgs e) => C_SAV.ClickUndo();

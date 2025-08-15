@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -7,7 +8,6 @@ using PKHeX.Core;
 #if !DEBUG
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Threading;
 #endif
 
 namespace PKHeX.WinForms;
@@ -24,12 +24,10 @@ internal static class Program
     /// <summary>
     /// Global settings instance, loaded before any forms are created.
     /// </summary>
-    public static PKHeXSettings Settings { get; private set; } = null!;
+    public static PKHeXSettings Settings { get; }
 
     public static bool HaX { get; private set; }
-
-    [STAThread]
-    private static void Main()
+    static Program()
     {
 #if !DEBUG
         Application.ThreadException += UIThreadException;
@@ -38,40 +36,64 @@ internal static class Program
 #endif
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
+        Settings = PKHeXSettings.GetSettings(PathConfig);
 
-        // Load settings first
-        var settings = Settings = PKHeXSettings.GetSettings(PathConfig);
-        settings.LocalResources.SetLocalPath(WorkingDirectory);
-
-        var args = Environment.GetCommandLineArgs();
-        var dark = args.Length > 1 && args[1] == "dark";
-        if (dark || settings.Startup.DarkMode)
+        if (Settings.Startup.DarkMode)
 #pragma warning disable WFO5001
             Application.SetColorMode(SystemColorMode.Dark);
 #pragma warning restore WFO5001
+    }
 
-        var splash = new SplashScreen();
-        new Task(() => splash.ShowDialog()).Start();
+    [STAThread]
+    private static void Main()
+    {
+        // Load settings first
+        var settings = Settings;
+        settings.LocalResources.SetLocalPath(WorkingDirectory);
+        StartupUtil.ReloadSettings(settings);
 
-        // Prepare init values that used to be calculated in Main
-        var startup = StartupUtil.GetStartup(args, settings.Startup, settings.LocalResources);
-        var init = StartupUtil.FormLoadInitialActions(args, settings.Startup, settings.Backup, CurrentVersion);
+        SplashScreen? splash = null;
+        if (!settings.Startup.SkipSplashScreen)
+        {
+            // Show splash screen on a dedicated STA thread so it can pump its own message loop.
+            var splashThread = new Thread(() =>
+            {
+                splash = new SplashScreen();
+                Application.Run(splash);
+            })
+            { IsBackground = true };
+            splashThread.SetApartmentState(ApartmentState.STA);
+            splashThread.Start();
+        }
+
+        var args = Environment.GetCommandLineArgs();
+        // Prepare initial values for the main form.
+        var startup = StartupUtil.GetStartup(args, settings);
+        var init = StartupUtil.FormLoadInitialActions(args, settings, CurrentVersion);
         HaX = init.HaX;
         var main = new Main();
 
+        // Close splash when Main is ready to display, then perform startup animation.
+        main.Shown += (_, _) =>
+        {
+            Task.Run(() => splash?.BeginInvoke(splash.ForceClose));
+            main.Activate();
+
+            // Follow-up: display popups if needed.
+            if (init.HaX)
+                main.WarnBehavior();
+            else if (init.ShowChangelog)
+                main.ShowAboutDialog(AboutPage.Changelog);
+            else if (init.BackupPrompt)
+                main.PromptBackup(settings.LocalResources.GetBackupPath());
+
+            Task.Run(main.CheckForUpdates);
+        };
+
         // Setup complete.
-        main.CheckForUpdates();
         if (Settings.Startup.PluginLoadEnable)
             main.AttachPlugins();
         main.LoadInitialFiles(startup);
-        splash.BeginInvoke(splash.ForceClose);
-        if (init.HaX)
-            main.WarnBehavior();
-        else if (init.ShowChangelog)
-            main.ShowAboutDialog(AboutPage.Changelog);
-        else if (init.BackupPrompt && !Directory.Exists(settings.LocalResources.GetBackupPath()))
-            main.PromptBackup();
-        main.AnimateStartup();
         Application.Run(main);
     }
 

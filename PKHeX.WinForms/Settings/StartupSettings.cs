@@ -17,6 +17,9 @@ public sealed class StartupSettings : IStartupSettings
     [LocalizedDescription("Force HaX mode on Program Launch")]
     public bool ForceHaXOnLaunch { get; set; }
 
+    [LocalizedDescription("Skips displaying the splash screen on Program Launch.")]
+    public bool SkipSplashScreen { get; set; }
+
     [LocalizedDescription("Automatically locates the most recently saved Save File when opening a new file.")]
     public bool TryDetectRecentSave { get; set; } = true;
 
