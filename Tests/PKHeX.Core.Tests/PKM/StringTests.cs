@@ -97,7 +97,6 @@ public class StringTests
         result.Should().Be(g7);
     }
 
-
     [Theory]
     [InlineData(Species.MrMime, "MR․MIME")]
     public static void ConvertStringG1(Species species, string expect)
