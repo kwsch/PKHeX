@@ -9,26 +9,26 @@ public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort
 {
     private int EntryCount => Move1 == 0 ? 1 : Move2 == 0 ? 1 : Move3 == 0 ? 2 : 3;
 
-    private void AddTo(GameVersion game, Span<EncounterStatic5Entree> result, ref int ctr)
+    private void AddTo(GameVersion version, Span<EncounterStatic5Entree> result, ref int ctr)
     {
         var p = PersonalTable.B2W2[Species];
         var a = p.HasHiddenAbility ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
         if (Move1 == 0)
         {
-            result[ctr++] = new EncounterStatic5Entree(game, Species, Level, Form, Gender, a);
+            result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a);
             return;
         }
 
-        result[ctr++] = new EncounterStatic5Entree(game, Species, Level, Form, Gender, a, Move1);
+        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move1);
         if (Move2 == 0)
             return;
-        result[ctr++] = new EncounterStatic5Entree(game, Species, Level, Form, Gender, a, Move2);
+        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move2);
         if (Move3 == 0)
             return;
-        result[ctr++] = new EncounterStatic5Entree(game, Species, Level, Form, Gender, a, Move3);
+        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move3);
     }
 
-    public static EncounterStatic5Entree[] GetArray(GameVersion game, ReadOnlySpan<DreamWorldEntry> t)
+    public static EncounterStatic5Entree[] GetArray(GameVersion version, ReadOnlySpan<DreamWorldEntry> t)
     {
         // Split encounters with multiple permitted special moves -- a pk can only be obtained with 1 of the special moves!
         int count = 0;
@@ -39,7 +39,7 @@ public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort
         int ctr = 0;
         var tmp = result.AsSpan();
         foreach (var s in t)
-            s.AddTo(game, tmp, ref ctr);
+            s.AddTo(version, tmp, ref ctr);
         return result;
     }
 }

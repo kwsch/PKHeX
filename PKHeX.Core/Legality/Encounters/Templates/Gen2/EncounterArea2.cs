@@ -30,22 +30,22 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
         _ => Rates,
     };
 
-    public static EncounterArea2[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea2[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea2[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea2(input[i], game);
+            result[i] = new EncounterArea2(input[i], version);
         return result;
     }
 
-    private EncounterArea2(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea2(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = data[0];
         Time = (EncounterTime)data[1];
         Type = (SlotType2)data[2];
         Rate = data[3];
 
-        Version = game;
+        Version = version;
 
         var slotData = data[4..];
         if (Type > Surf) // Not Grass/Surf

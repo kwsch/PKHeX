@@ -50,9 +50,9 @@ public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncount
     public required GemType TeraType { get; init; }
     public bool RibbonPartner { get; }
 
-    public EncounterTrade9(ReadOnlySpan<string[]> names, byte index, GameVersion game, ushort species, byte level)
+    public EncounterTrade9(ReadOnlySpan<string[]> names, byte index, GameVersion version, ushort species, byte level)
     {
-        Version = game;
+        Version = version;
         bool partner = RibbonPartner = index is (>= 2 and <= 31);
         Nicknames = partner ? [] : EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));

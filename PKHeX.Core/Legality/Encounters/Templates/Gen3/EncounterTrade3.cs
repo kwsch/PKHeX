@@ -67,11 +67,11 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         }
     }
 
-    public EncounterTrade3(ReadOnlySpan<string[]> names, byte index, GameVersion game, uint pid, ushort species, byte level)
+    public EncounterTrade3(ReadOnlySpan<string[]> names, byte index, GameVersion version, uint pid, ushort species, byte level)
     {
         Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
-        Version = game;
+        Version = version;
         PID = pid;
         Species = species;
         Level = level;

@@ -19,40 +19,40 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, IAreaLocat
 
     public bool IsMatchLocation(ushort location) => location == Location;
 
-    public static EncounterArea3[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea3[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea3(input[i], game);
+            result[i] = new EncounterArea3(input[i], version);
         return result;
     }
 
-    public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea3[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea3(input[i], game, SwarmGrass50);
+            result[i] = new EncounterArea3(input[i], version, SwarmGrass50);
         return result;
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = data[0];
         // data[1] is unused because location is always <= 255.
         Type = (SlotType3)data[2];
         Rate = data[3];
-        Version = game;
+        Version = version;
 
         Slots = ReadRegularSlots(data[4..]);
     }
 
-    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game, [ConstantExpected] SlotType3 type)
+    private EncounterArea3(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version, [ConstantExpected] SlotType3 type)
     {
         Location = data[0];
         // data[1] is unused because location is always <= 255.
         Type = type; // data[2] but it's always the same value
         Rate = data[3];
-        Version = game;
+        Version = version;
 
         Slots = ReadSwarmSlots(data[4..]);
     }

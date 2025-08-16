@@ -308,19 +308,19 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
         _ => None,
     };
 
-    public static EncounterArea8[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game, [ConstantExpected] bool symbol = false)
+    public static EncounterArea8[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version, bool symbol = false)
     {
         var result = new EncounterArea8[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea8(input[i], symbol, game);
+            result[i] = new EncounterArea8(input[i], symbol, version);
         return result;
     }
 
-    private EncounterArea8(ReadOnlySpan<byte> areaData, [ConstantExpected] bool symbol, [ConstantExpected] GameVersion game)
+    private EncounterArea8(ReadOnlySpan<byte> areaData, bool symbol, [ConstantExpected] GameVersion version)
     {
         PermitCrossover = symbol;
         Location = areaData[0];
-        Version = game;
+        Version = version;
         Slots = ReadSlots(areaData, areaData[1]);
     }
 

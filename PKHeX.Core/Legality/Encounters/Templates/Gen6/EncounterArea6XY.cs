@@ -31,12 +31,12 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
 
     public bool IsMatchLocation(ushort location) => Location == location;
 
-    public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game, EncounterArea6XY safari)
+    public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version, EncounterArea6XY safari)
     {
         int count = input.Length;
         var result = new EncounterArea6XY[count + 1];
         for (int i = 0; i < count; i++)
-            result[i] = new EncounterArea6XY(input[i], game);
+            result[i] = new EncounterArea6XY(input[i], version);
         result[^1] = safari;
         return result;
     }
@@ -50,11 +50,11 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
         Slots = LoadSafariSlots();
     }
 
-    private EncounterArea6XY(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea6XY(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = ReadUInt16LittleEndian(data);
         Type = (SlotType6)data[2];
-        Version = game;
+        Version = version;
 
         Slots = ReadSlots(data[4..]);
     }

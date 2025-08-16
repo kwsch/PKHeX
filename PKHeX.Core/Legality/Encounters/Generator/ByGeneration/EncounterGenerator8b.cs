@@ -4,14 +4,14 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
-public sealed class EncounterGenerator8b : IEncounterGenerator
+public sealed class EncounterGenerator8b : IEncounterGenerator, IEncounterGeneratorSWSH
 {
     public static readonly EncounterGenerator8b Instance = new();
     public bool CanGenerateEggs => true;
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible8b(chain, groups, game, pk);
+        var iterator = new EncounterPossible8b(chain, groups, version, pk);
         foreach (var enc in iterator)
             yield return enc;
     }
@@ -24,11 +24,11 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
             yield return enc.Encounter;
     }
 
-    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
+    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion version)
     {
         if (pk is not PK8 pk8)
             yield break;
-        var iterator = new EncounterEnumerator8bSWSH(pk8, chain, game);
+        var iterator = new EncounterEnumerator8bSWSH(pk8, chain, version);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }

@@ -242,13 +242,13 @@ public sealed partial class SAV_EventWork : Form
         ChangeSAV();
     }
 
-    private static string[] GetStringList(GameVersion game, [ConstantExpected] string type)
+    private static string[] GetStringList(GameVersion version, [ConstantExpected] string type)
     {
-        var gamePrefix = GetGameFilePrefix(game);
+        var gamePrefix = GetGameFilePrefix(version);
         return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
     }
 
-    private static string GetGameFilePrefix(GameVersion game) => game switch
+    private static string GetGameFilePrefix(GameVersion version) => version switch
     {
         SL or VL or SV => "sv",
         BD or SP or BDSP => "bdsp",
@@ -267,7 +267,7 @@ public sealed partial class SAV_EventWork : Form
         C => "c",
         R or S or RS => "rs",
         FR or LG or FRLG => "frlg",
-        _ => throw new IndexOutOfRangeException(nameof(game)),
+        _ => throw new IndexOutOfRangeException(nameof(version)),
     };
 
     private void DiffSaves()

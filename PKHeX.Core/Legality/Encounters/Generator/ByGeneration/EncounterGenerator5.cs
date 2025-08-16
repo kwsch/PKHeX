@@ -17,9 +17,9 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         return GetEncounters(pk, chain, info);
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible5(chain, groups, game);
+        var iterator = new EncounterPossible5(chain, groups, version);
         foreach (var enc in iterator)
             yield return enc;
     }

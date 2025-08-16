@@ -19,21 +19,21 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTyp
 
     public bool IsMatchLocation(ushort location) => location == Location;
 
-    public static EncounterArea4[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea4[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea4[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea4(input[i], game);
+            result[i] = new EncounterArea4(input[i], version);
         return result;
     }
 
-    private EncounterArea4(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea4(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = data[0];
         // data[1] is unused because location is always <= 255.
         Type = (SlotType4)data[2];
         Rate = data[3];
-        Version = game;
+        Version = version;
         // although flags are 32bit, none have values > 16bit.
         GroundTile = (GroundTileAllowed)ReadUInt16LittleEndian(data[4..]);
 

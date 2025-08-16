@@ -306,7 +306,7 @@ public static class Encounters8Nest
         new(SWSH) { Species = 133, Level = 25, Ability = A2, IVs = new(31,31,31,-1,-1,-1), DynamaxLevel = 5, Moves = new(606,273,038,129), CanGigantamax = true }, // ★Sgr7194 Gigantamax Eevee
     ];
 
-    private static EncounterStatic8N[] GetBase([Length(2, 2), ConstantExpected] string name, [ConstantExpected] GameVersion game)
+    private static EncounterStatic8N[] GetBase([Length(2, 2), ConstantExpected] string name, [ConstantExpected] GameVersion version)
     {
         var data = EncounterUtil.Get(name);
         const int size = 10;
@@ -315,13 +315,13 @@ public static class Encounters8Nest
         for (int i = 0; i < result.Length; i++)
         {
             var slice = data.Slice(i * size, size);
-            result[i] = EncounterStatic8N.Read(slice, game);
+            result[i] = EncounterStatic8N.Read(slice, version);
         }
 
         return result;
     }
 
-    private static EncounterStatic8ND[] GetDist([Length(2, 2), ConstantExpected] string name, [ConstantExpected] GameVersion game)
+    private static EncounterStatic8ND[] GetDist([Length(2, 2), ConstantExpected] string name, [ConstantExpected] GameVersion version)
     {
         var data = EncounterUtil.Get(name);
         const int size = 0x10;
@@ -330,7 +330,7 @@ public static class Encounters8Nest
         for (int i = 0; i < result.Length; i++)
         {
             var slice = data.Slice(i * size, size);
-            result[i] = EncounterStatic8ND.Read(slice, game);
+            result[i] = EncounterStatic8ND.Read(slice, version);
         }
 
         return result;

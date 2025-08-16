@@ -17,19 +17,19 @@ public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>, IAreaLocat
 
     public bool IsMatchLocation(ushort location) => Location == location;
 
-    public static EncounterArea5[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea5[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea5[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea5(input[i], game);
+            result[i] = new EncounterArea5(input[i], version);
         return result;
     }
 
-    private EncounterArea5(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea5(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = ReadUInt16LittleEndian(data);
         Type = (SlotType5)data[2];
-        Version = game;
+        Version = version;
 
         Slots = ReadSlots(data[4..]);
     }

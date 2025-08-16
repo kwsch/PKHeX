@@ -255,7 +255,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
-    public override GameVersion Version { get => MyStatus.Game; set => MyStatus.Game = value; }
+    public override GameVersion Version { get => MyStatus.Version; set => MyStatus.Version = value; }
     public override byte Gender { get => MyStatus.Male ? (byte)0 : (byte)1; set => MyStatus.Male = value == 0; }
     public override int Language { get => Config.Language; set => Config.Language = value; }
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }

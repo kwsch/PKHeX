@@ -152,13 +152,13 @@ public static class MoveBreed4
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource34> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo4 info, GameVersion gameVersion)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource34> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo4 info, GameVersion version)
     {
         var possible = value.Possible;
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
         var tmlist = MachineMovesTechnical;
-        var hmlist = gameVersion is HG or SS ? MachineMovesHiddenHGSS : MachineMovesHiddenDPPt;
+        var hmlist = version is HG or SS ? MachineMovesHiddenHGSS : MachineMovesHiddenDPPt;
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)

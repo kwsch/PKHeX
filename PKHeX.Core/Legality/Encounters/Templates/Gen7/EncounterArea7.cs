@@ -23,19 +23,19 @@ public sealed record EncounterArea7 : IEncounterArea<EncounterSlot7>, IAreaLocat
 
     public bool IsMatchLocation(ushort location) => Location == location;
 
-    public static EncounterArea7[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea7[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea7[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea7(input[i], game);
+            result[i] = new EncounterArea7(input[i], version);
         return result;
     }
 
-    private EncounterArea7(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea7(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = ReadUInt16LittleEndian(data);
         Type = (SlotType7)data[2];
-        Version = game;
+        Version = version;
 
         Slots = ReadSlots(data[4..]);
     }
