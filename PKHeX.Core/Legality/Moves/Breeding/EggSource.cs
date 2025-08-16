@@ -1,4 +1,3 @@
-using System;
 using static PKHeX.Core.LearnMethod;
 
 namespace PKHeX.Core;

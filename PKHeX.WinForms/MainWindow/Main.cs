@@ -121,14 +121,7 @@ public partial class Main : Form
         if (!version.IsValidSavedVersion())
             version = Latest.Version;
         var current = C_SAV?.SAV;
-        var lang = BlankSaveFile.GetSafeLanguage(current);
-        var tr = BlankSaveFile.GetSafeTrainerName(current, lang);
-        var sav = BlankSaveFile.Get(version, tr, lang);
-        if (sav.Version == GameVersion.Invalid) // will fail to load
-        {
-            version = Latest.Version;
-            sav = BlankSaveFile.Get(version, tr, lang);
-        }
+        var sav = BlankSaveFile.Get(version, current);
         OpenSAV(sav, string.Empty);
         C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
     }
@@ -425,7 +418,7 @@ public partial class Main : Form
     }
 
     // Misc Options
-    private void ClickShowdownImportPKM(object sender, EventArgs e)
+    private void ClickShowdownImportPKM(object? sender, EventArgs e)
     {
         if (!Clipboard.ContainsText())
         { WinFormsUtil.Alert(MsgClipboardFailRead); return; }
@@ -1146,42 +1139,49 @@ public partial class Main : Form
     // ReSharper disable once AsyncVoidMethod
     private async void Dragout_MouseDown(object sender, MouseEventArgs e)
     {
-        if (e.Button != MouseButtons.Left)
-            return;
-
-        if (ModifierKeys is Keys.Alt or Keys.Shift)
-        {
-            ClickQR(sender, e);
-            return;
-        }
-
-        if (!PKME_Tabs.EditsComplete)
-            return;
-
-        // Gather data
-        var pk = PreparePKM();
-        var encrypt = ModifierKeys == Keys.Control;
-        var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
-
-        // Create Temp File to Drag
-        var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
         try
         {
-            await File.WriteAllBytesAsync(newfile, data).ConfigureAwait(true);
+            if (e.Button != MouseButtons.Left)
+                return;
 
-            var pb = (PictureBox)sender;
-            if (pb.Image is Bitmap img)
-                C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(img.GetHicon());
+            if (ModifierKeys is Keys.Alt or Keys.Shift)
+            {
+                ClickQR(sender, e);
+                return;
+            }
 
-            DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
+            if (!PKME_Tabs.EditsComplete)
+                return;
+
+            // Gather data
+            var pk = PreparePKM();
+            var encrypt = ModifierKeys == Keys.Control;
+            var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
+
+            // Create Temp File to Drag
+            var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
+            try
+            {
+                await File.WriteAllBytesAsync(newfile, data).ConfigureAwait(true);
+
+                var pb = (PictureBox)sender;
+                if (pb.Image is Bitmap img)
+                    C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(img.GetHicon());
+
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
+            }
+            // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
+            catch (Exception x)
+            { WinFormsUtil.Error("Drag && Drop Error", x); }
+            finally
+            {
+                C_SAV.M.Drag.ResetCursor(this);
+                await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
+            }
         }
-        // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
-        catch (Exception x)
-        { WinFormsUtil.Error("Drag && Drop Error", x); }
-        finally
+        catch
         {
-            C_SAV.M.Drag.ResetCursor(this);
-            await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
+            // Ignore.
         }
     }
 

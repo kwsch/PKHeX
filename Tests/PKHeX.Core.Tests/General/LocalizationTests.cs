@@ -5,14 +5,14 @@ namespace PKHeX.Core.Tests;
 public static class LocalizationTests
 {
     [Fact]
-    public static void EncounterDisplay() => EncounterDisplayLocalization.Cache.GetAll();
+    public static void EncounterDisplay() => _ = EncounterDisplayLocalization.Cache.GetAll();
 
     [Fact]
-    public static void MoveSource() => MoveSourceLocalization.Cache.GetAll();
+    public static void MoveSource() => _ = MoveSourceLocalization.Cache.GetAll();
 
     [Fact]
-    public static void LegalityCheck() => LegalityCheckLocalization.Cache.GetAll();
+    public static void LegalityCheck() => _ = LegalityCheckLocalization.Cache.GetAll();
 
     [Fact]
-    public static void General() => GeneralLocalization.Cache.GetAll();
+    public static void General() => _ = GeneralLocalization.Cache.GetAll();
 }

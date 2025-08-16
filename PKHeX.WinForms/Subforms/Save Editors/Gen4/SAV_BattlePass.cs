@@ -31,15 +31,15 @@ public partial class SAV_BattlePass : Form
     private readonly string[] Skin = WinFormsTranslator.GetEnumTranslation<SkinColorBR>(Main.CurrentLanguage);
     private readonly string[] PictureTypes = WinFormsTranslator.GetEnumTranslation<PictureTypeBR>(Main.CurrentLanguage);
     private readonly string[] PassDesigns = GameLanguage.GetStrings("pass_design", Main.CurrentLanguage);
-    private readonly string[] TrainerTitles1 = GameLanguage.GetStrings($"trainer_title", Main.CurrentLanguage);
-    private readonly string[] TrainerTitles2 = GameLanguage.GetStrings($"trainer_title_npc", Main.CurrentLanguage);
+    private readonly string[] TrainerTitles1 = GameLanguage.GetStrings("trainer_title", Main.CurrentLanguage);
+    private readonly string[] TrainerTitles2 = GameLanguage.GetStrings("trainer_title_npc", Main.CurrentLanguage);
 
     private readonly IReadOnlyList<ComboItem> Languages = GameInfo.LanguageDataSource(3);
     private readonly IReadOnlyList<ComboItem> EmptyCBList = [new ComboItem(string.Empty, 0)];
     private const string NPC = "NPC";
     private string None => CharacterStyles[0];
 
-    private bool loading = true;
+    private bool loading;
 
     public SAV_BattlePass(SAV4BR sav, IPKMView view, int index = 0)
     {
@@ -323,7 +323,7 @@ public partial class SAV_BattlePass : Form
             string type = WinFormsTranslator.TranslateEnum(SAV.BattlePasses.GetPassType(i), Main.CurrentLanguage);
             BattlePass pass = GetBattlePassReference(i);
             string name = pass.Name;
-            if ((!pass.Rental && !pass.Issued) || string.IsNullOrWhiteSpace(name))
+            if (pass is { Rental: false, Issued: false } || string.IsNullOrWhiteSpace(name))
                 name = None;
             LB_Passes.Items.Add($"{i + 1:00} {type}/{name}");
         }

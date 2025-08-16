@@ -204,7 +204,7 @@ public static class StringConverter4GC
         return ctr;
     }
 
-    /// <inheritdoc cref="SetStringUnicode(ReadOnlySpan{char}, Span{byte}, int, StringConverterOption))"/>
+    /// <inheritdoc cref="SetStringUnicode(ReadOnlySpan{char}, Span{byte}, int, StringConverterOption)"/>
     public static int SetStringUnicodeBR(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength = -1, StringConverterOption option = StringConverterOption.ClearZero)
     {
         if (maxLength < 0)

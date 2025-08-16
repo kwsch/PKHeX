@@ -412,31 +412,38 @@ public partial class SAV_Encounters : Form
     // ReSharper disable once AsyncVoidMethod
     private async void B_Search_Click(object sender, EventArgs e)
     {
-        B_Search.Enabled = false;
-        EncounterMovesetGenerator.PriorityList = GetTypes();
-
-        var token = TokenSource.Token;
-        var search = SearchDatabase(token);
-        if (token.IsCancellationRequested)
+        try
         {
-            EncounterMovesetGenerator.ResetFilters();
-            return;
-        }
+            B_Search.Enabled = false;
+            EncounterMovesetGenerator.PriorityList = GetTypes();
 
-        var results = await Task.Run(() => search.ToList(), token).ConfigureAwait(true);
-        if (token.IsCancellationRequested)
+            var token = TokenSource.Token;
+            var search = SearchDatabase(token);
+            if (token.IsCancellationRequested)
+            {
+                EncounterMovesetGenerator.ResetFilters();
+                return;
+            }
+
+            var results = await Task.Run(() => search.ToList(), token).ConfigureAwait(true);
+            if (token.IsCancellationRequested)
+            {
+                EncounterMovesetGenerator.ResetFilters();
+                return;
+            }
+
+            if (results.Count == 0)
+                WinFormsUtil.Alert(MsgDBSearchNone);
+
+            SetResults(results); // updates Count Label as well.
+            System.Media.SystemSounds.Asterisk.Play();
+            B_Search.Enabled = true;
+            EncounterMovesetGenerator.ResetFilters();
+        }
+        catch
         {
-            EncounterMovesetGenerator.ResetFilters();
-            return;
+            // Ignore.
         }
-
-        if (results.Count == 0)
-            WinFormsUtil.Alert(MsgDBSearchNone);
-
-        SetResults(results); // updates Count Label as well.
-        System.Media.SystemSounds.Asterisk.Play();
-        B_Search.Enabled = true;
-        EncounterMovesetGenerator.ResetFilters();
     }
 
     private void UpdateScroll(object sender, ScrollEventArgs e)
