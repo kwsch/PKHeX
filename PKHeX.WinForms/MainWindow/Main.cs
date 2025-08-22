@@ -439,8 +439,16 @@ public partial class Main : Form
 
         var invalid = set.InvalidLines;
         if (invalid.Count != 0)
-            WinFormsUtil.Alert(MsgSimulatorInvalid, string.Join(Environment.NewLine, invalid));
-
+        {
+            var localization = BattleTemplateParseErrorLocalization.Get(CurrentLanguage);
+            var sb = new System.Text.StringBuilder();
+            foreach (var line in invalid)
+            {
+                var error = line.Humanize(localization);
+                sb.AppendLine(error);
+            }
+            WinFormsUtil.Alert(MsgSimulatorInvalid, sb.ToString());
+        }
         PKME_Tabs.LoadShowdownSet(set);
     }
 
