@@ -200,10 +200,9 @@ public partial class SAV_Database : Form
         var entry = Results[index];
         var pk = entry.Entity;
 
-        if (entry.Source is SlotInfoFile f)
+        if (entry.Source is SlotInfoFileSingle(var path))
         {
             // Data from Database: Delete file from disk
-            var path = f.Path;
             if (File.Exists(path))
                 File.Delete(path);
         }
@@ -252,7 +251,7 @@ public partial class SAV_Database : Form
 
         File.WriteAllBytes(path, pk.DecryptedBoxData);
 
-        var info = new SlotInfoFile(path);
+        var info = new SlotInfoFileSingle(path);
         var entry = new SlotCache(info, pk);
         Results.Add(entry);
 
@@ -759,8 +758,7 @@ public partial class SAV_Database : Form
         foreach (var entry in duplicates)
         {
             var src = entry.Source;
-            var path = ((SlotInfoFile)src).Path;
-            if (!File.Exists(path))
+            if (src is not SlotInfoFileSingle(var path) || !File.Exists(path))
                 continue;
 
             try { File.Delete(path); ++deleted; }
@@ -785,13 +783,13 @@ public partial class SAV_Database : Form
     {
         // This isn't displayed to the user, so just return the quickest -- Utc (not local time).
         var src = arg.Source;
-        if (src is not SlotInfoFile f)
+        if (src is not SlotInfoFileSingle(var path))
             return DateTime.UtcNow;
-        return File.GetLastWriteTimeUtc(f.Path);
+        return File.GetLastWriteTimeUtc(path);
     }
 
     private bool IsBackupSaveFile(SlotCache pk) => pk.SAV is not FakeSaveFile && pk.SAV != SAV;
-    private bool IsIndividualFilePKMDB(SlotCache pk) => pk.Source is SlotInfoFile f && f.Path.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal);
+    private bool IsIndividualFilePKMDB(SlotCache pk) => pk.Source is SlotInfoFileSingle(var path) && path.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal);
 
     private void L_Viewed_MouseEnter(object sender, EventArgs e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 

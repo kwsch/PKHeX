@@ -274,7 +274,7 @@ public partial class BatchEditor : Form
         if (pk is null)
             return;
 
-        var info = new SlotInfoFile(source);
+        var info = new SlotInfoFileSingle(source);
         var entry = new SlotCache(info, pk);
         if (!BatchEditing.IsFilterMatchMeta(metaFilters, entry))
         {
