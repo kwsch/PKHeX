@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Miscellaneous origination <see cref="ISlotInfo"/>
 /// </summary>
-public sealed record SlotInfoMisc(Memory<byte> Data, int Slot, bool PartyFormat = false, bool Mutable = false) : ISlotInfo
+public sealed record SlotInfoMisc(Memory<byte> Data, int Slot, bool PartyFormat = false, bool Mutable = false, bool HideLegality = false) : ISlotInfo
 {
     public required StorageSlotType Type { get; init; }
     public bool CanWriteTo(SaveFile sav) => Mutable;

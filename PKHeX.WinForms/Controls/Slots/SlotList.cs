@@ -70,7 +70,8 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         if (index < 0)
             return;
         var pb = slots[index];
-        SlotUtil.UpdateSlot(pb, slot, pk, SAV, FlagIllegal, type);
+        var showLegality = m is not { HideLegality: true };
+        SlotUtil.UpdateSlot(pb, slot, pk, SAV, FlagIllegal && showLegality, type);
     }
 
     public int GetViewIndex(ISlotInfo info) => SlotOffsets.FindIndex(info.Equals);
