@@ -25,14 +25,15 @@ public readonly struct LeadEncounterQueue<TEnc>
     /// <inheritdoc cref="Insert(LeadSeed,TEnc)"/>
     private void Insert(LeadEncounter<TEnc> toInsert)
     {
-        for (int i = 0; i < List.Count; i++)
+        var list = List;
+        for (int i = 0; i < list.Count; i++)
         {
-            if (!toInsert.IsBetterThan(List[i]))
+            if (!toInsert.IsBetterThan(list[i]))
                 continue;
-            List.Insert(i, toInsert);
+            list.Insert(i, toInsert);
             return;
         }
-        List.Add(toInsert);
+        list.Add(toInsert);
     }
 }
 

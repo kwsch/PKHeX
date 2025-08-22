@@ -40,7 +40,9 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         // 26 -> 24 (AS ->  X)
         // 27 -> 25 (OR ->  Y)
         // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+#pragma warning disable RCS1130, RCS1257 // Bitwise operation on enum without Flags attribute.
         return version ^ (GameVersion)2;
+#pragma warning restore
     }
 
     private static EncounterEgg6 CreateEggEncounter(ushort species, byte form, GameVersion version)

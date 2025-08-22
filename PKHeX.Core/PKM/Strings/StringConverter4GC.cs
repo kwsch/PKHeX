@@ -149,7 +149,7 @@ public static class StringConverter4GC
 
     private const ushort Null = 0x0000;
     private const char NullChar = (char)Null;
-	
+
     private const char VariableChar = '\xFFFF';
     private const char ProportionalChar = '\x0013';
     private const char PokemonNameChar = '\x0015';

@@ -424,7 +424,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
         {
             PKM[] data = new PKM[BoxCount * BoxSlotCount];
             for (int box = 0; box < BoxCount; box++)
-                AddBoxData(data, box, box * BoxSlotCount);
+                GetBoxData(data, box, box * BoxSlotCount);
             return data;
         }
         set
@@ -454,11 +454,17 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     public PKM[] GetBoxData(int box)
     {
         var data = new PKM[BoxSlotCount];
-        AddBoxData(data, box, 0);
+        GetBoxData(data, box, 0);
         return data;
     }
 
-    public void AddBoxData(IList<PKM> data, int box, int index)
+    /// <summary>
+    /// Populates the specified list with data from a specific box starting at the given index.
+    /// </summary>
+    /// <param name="data">The list to populate with box data. The list must have sufficient capacity to hold the data.</param>
+    /// <param name="box">The zero-based index of the box to retrieve data from.</param>
+    /// <param name="index">The starting index in the <paramref name="data"/> list where the box data will be placed.</param>
+    public void GetBoxData(IList<PKM> data, int box, int index)
     {
         for (int slot = 0; slot < BoxSlotCount; slot++)
         {

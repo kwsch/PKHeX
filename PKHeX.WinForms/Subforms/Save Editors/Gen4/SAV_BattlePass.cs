@@ -119,7 +119,7 @@ public partial class SAV_BattlePass : Form
         {
             if (counts[titles1[i]] > 1)
             {
-                var model = CharacterStyles[i / (titles1.Length / 6) + 1];
+                var model = CharacterStyles[(i / (titles1.Length / 6) + 1)];
                 titles1[i] += $" ({model})";
             }
         }

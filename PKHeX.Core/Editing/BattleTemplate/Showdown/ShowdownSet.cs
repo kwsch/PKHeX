@@ -86,7 +86,7 @@ public sealed class ShowdownSet : IBattleTemplate
         Form = ShowdownParsing.GetFormFromString(FormName, localization.Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
-        if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion or (int)Oinkologne)
+        if (SpeciesCategory.IsFormGenderSpecific(Species))
             ReviseGenderedForms();
     }
 
