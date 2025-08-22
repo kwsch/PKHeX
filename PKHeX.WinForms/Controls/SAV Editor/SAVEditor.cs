@@ -23,10 +23,10 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         M.Env = value;
         menu.Editor = value;
         SAV = value.SAV;
-        value.Slots.Publisher.Subscribers.Add(this);
-        value.Slots.Publisher.Subscribers.Add(SL_Party);
-        value.Slots.Publisher.Subscribers.Add(Box);
-        value.Slots.Publisher.Subscribers.Add(SL_Extra);
+        value.Slots.Publisher.Subscribe(this);
+        value.Slots.Publisher.Subscribe(SL_Party);
+        value.Slots.Publisher.Subscribe(Box);
+        value.Slots.Publisher.Subscribe(SL_Extra);
     }
 
     public SaveFile SAV { get; private set; } = FakeSaveFile.Default;
@@ -234,7 +234,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             var info = SL_Extra.GetSlotData(i);
             var pb = slots[i];
-            SlotUtil.UpdateSlot(pb, info, info.Read(SAV), SAV, Box.FlagIllegal);
+            var showLegality = info is not SlotInfoMisc { HideLegality: true };
+            SlotUtil.UpdateSlot(pb, info, info.Read(SAV), SAV, Box.FlagIllegal && showLegality);
         }
     }
 

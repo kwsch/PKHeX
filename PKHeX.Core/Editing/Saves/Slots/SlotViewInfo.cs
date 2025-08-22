@@ -14,7 +14,15 @@ public sealed class SlotViewInfo<T>(ISlotInfo Slot, ISlotViewer<T> View) : IEqua
     public readonly ISlotViewer<T> View = View;
 
     public PKM ReadCurrent() => Slot.Read(View.SAV);
+
+    /// <summary>
+    /// Indicates if the slot view can be written to.
+    /// </summary>
     public bool CanWriteTo() => Slot.CanWriteTo(View.SAV);
+
+    /// <summary>
+    /// Indicates if the slot is empty (blank) data.
+    /// </summary>
     public bool IsEmpty() => Slot.IsEmpty(View.SAV);
     public WriteBlockedMessage CanWriteTo(PKM pk) => Slot.CanWriteTo(View.SAV, pk);
 

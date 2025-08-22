@@ -10,7 +10,7 @@ public sealed class SlotPublisher<T>
     /// <summary>
     /// All <see cref="ISlotViewer{T}"/> instances that provide a view on individual <see cref="ISlotInfo"/> content.
     /// </summary>
-    public List<ISlotViewer<T>> Subscribers { get; } = [];
+    private List<ISlotViewer<T>> Subscribers { get; } = [];
 
     public ISlotInfo? Previous { get; private set; }
     public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;
@@ -46,4 +46,7 @@ public sealed class SlotPublisher<T>
             return;
         ResetView(sub, Previous, PreviousType, PreviousEntity);
     }
+
+    public void Subscribe(ISlotViewer<T> sub) => Subscribers.Add(sub);
+    public bool Unsubscribe(ISlotViewer<T> sub) => Subscribers.Remove(sub);
 }
