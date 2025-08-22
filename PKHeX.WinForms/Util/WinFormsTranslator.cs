@@ -154,7 +154,7 @@ public static class WinFormsTranslator
                     if (z is ListControl or TextBoxBase or LinkLabel or NumericUpDown or ContainerControl)
                         break; // undesirable to modify, ignore
 
-                    if (z is DataGridView dgv && dgv.ColumnHeadersVisible)
+                    if (z is DataGridView { ColumnHeadersVisible: true } dgv)
                     {
                         foreach (DataGridViewColumn col in dgv.Columns)
                         {

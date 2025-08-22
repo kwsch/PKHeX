@@ -4,7 +4,7 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public sealed class EncounterGenerator9 : IEncounterGenerator
+public sealed class EncounterGenerator9 : IEncounterGenerator, IEncounterGeneratorSWSH
 {
     public static readonly EncounterGenerator9 Instance = new();
     public bool CanGenerateEggs => true;
@@ -23,18 +23,18 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         };
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible9(chain, groups, game);
+        var iterator = new EncounterPossible9(chain, groups, version);
         foreach (var enc in iterator)
             yield return enc;
     }
 
-    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
+    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion version)
     {
         if (pk is not PK8 pk8)
             yield break;
-        var iterator = new EncounterEnumerator9SWSH(pk8, chain, game);
+        var iterator = new EncounterEnumerator9SWSH(pk8, chain, version);
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }

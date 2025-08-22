@@ -63,7 +63,6 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
     /// <summary>
     /// Ensures all data is set up to generate sprites for the save file.
     /// </summary>
-    /// <param name="sav"></param>
     public void Initialize(SaveFile sav)
     {
         if (sav.Generation != 3)
@@ -71,14 +70,14 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
 
         // If the game is indeterminate, we might have different form sprites.
         // Currently, this only applies to Gen3's FireRed / LeafGreen
-        Game = sav.Version;
-        if (Game == GameVersion.FRLG)
-            Game = ReferenceEquals(sav.Personal, PersonalTable.FR) ? GameVersion.FR : GameVersion.LG;
+        Version = sav.Version;
+        if (Version == GameVersion.FRLG)
+            Version = ReferenceEquals(sav.Personal, PersonalTable.FR) ? GameVersion.FR : GameVersion.LG;
     }
 
-    private GameVersion Game;
+    private GameVersion Version;
 
-    private static byte GetDeoxysForm(GameVersion game) => game switch
+    private static byte GetDeoxysForm(GameVersion version) => version switch
     {
         GameVersion.FR => 1, // Attack
         GameVersion.LG => 2, // Defense
@@ -110,7 +109,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
             return None;
 
         if (context == EntityContext.Gen3 && species == (int)Species.Deoxys) // Depends on Gen3 save file version
-            form = GetDeoxysForm(Game);
+            form = GetDeoxysForm(Version);
         else if (context == EntityContext.Gen4 && species == (int)Species.Arceus) // Curse type's existence in Gen4
             form = GetArceusForm4(form);
 

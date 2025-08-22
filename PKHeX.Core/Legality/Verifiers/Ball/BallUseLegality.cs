@@ -23,18 +23,18 @@ internal static class BallUseLegality
         return (permit & (1ul << ball)) != 0;
     }
 
-    public static ulong GetWildBalls(byte generation, GameVersion game) => generation switch
+    public static ulong GetWildBalls(byte generation, GameVersion version) => generation switch
     {
         1 => WildPokeBalls1,
         2 => WildPokeBalls2,
         3 => WildPokeBalls3,
-        4 => GameVersion.HGSS.Contains(game) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
+        4 => GameVersion.HGSS.Contains(version) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
         5 => WildPokeBalls5,
         6 => WildPokeballs6,
-        7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
-        8 when GameVersion.BDSP.Contains(game) => WildPokeBalls4_HGSS,
-        8 when GameVersion.PLA == game => WildPokeBalls8a,
-        8 => GameVersion.GO == game ? WildPokeballs8g_WithRaid : WildPokeballs8,
+        7 => GameVersion.Gen7b.Contains(version) ? WildPokeballs7b : WildPokeballs7,
+        8 when GameVersion.BDSP.Contains(version) => WildPokeBalls4_HGSS,
+        8 when GameVersion.PLA == version => WildPokeBalls8a,
+        8 => GameVersion.GO == version ? WildPokeballs8g_WithRaid : WildPokeballs8,
         9 => WildPokeballs9,
         _ => 0,
     };

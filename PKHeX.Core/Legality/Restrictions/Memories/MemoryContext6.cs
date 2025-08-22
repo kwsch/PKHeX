@@ -32,18 +32,18 @@ public sealed partial class MemoryContext6 : MemoryContext
         return (flags[offset] & (1 << bitIndex)) != 0;
     }
 
-    private static ReadOnlySpan<byte> GetPokeCenterLocations(GameVersion game)
+    private static ReadOnlySpan<byte> GetPokeCenterLocations(GameVersion version)
     {
-        return game is GameVersion.X or GameVersion.Y ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
+        return version is GameVersion.X or GameVersion.Y ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
     }
 
-    public static bool GetHasPokeCenterLocation(GameVersion game, ushort loc)
+    public static bool GetHasPokeCenterLocation(GameVersion version, ushort loc)
     {
-        if (game == GameVersion.Any)
+        if (version == GameVersion.Any)
             return GetHasPokeCenterLocation(GameVersion.X, loc) || GetHasPokeCenterLocation(GameVersion.AS, loc);
         if (loc > byte.MaxValue)
             return false;
-        return GetPokeCenterLocations(game).Contains((byte)loc);
+        return GetPokeCenterLocations(version).Contains((byte)loc);
     }
 
     public static int GetMemoryRarity(byte memory) => memory >= MemoryRandChance.Length ? -1 : MemoryRandChance[memory];

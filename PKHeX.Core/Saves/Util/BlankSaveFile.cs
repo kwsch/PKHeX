@@ -12,6 +12,20 @@ public static class BlankSaveFile
     private const string DefaultTrainer = TrainerName.ProgramINT;
     private const LanguageID DefaultLanguage = English;
 
+    /// <inheritdoc cref="Get(SaveFileType,LanguageID,GameVersion)"/>
+    public static SaveFile Get(GameVersion version, SaveFile? current)
+    {
+        var lang = GetSafeLanguage(current);
+        var tr = GetSafeTrainerName(current, lang);
+        var sav = Get(version, tr, lang);
+        if (sav.Version != GameVersion.Invalid)
+            return sav;
+
+        // will fail to load if an invalid version is given, so fallback to latest known version
+        version = Latest.Version;
+        return Get(version, tr, lang);
+    }
+
     /// <summary>
     /// Returns a <see cref="LanguageID"/> that feels best for the save file's language.
     /// </summary>
@@ -32,10 +46,10 @@ public static class BlankSaveFile
     };
 
     /// <inheritdoc cref="Get(SaveFileType,LanguageID,GameVersion)"/>
-    public static SaveFile Get(GameVersion game, string trainerName = DefaultTrainer, LanguageID language = DefaultLanguage)
+    public static SaveFile Get(GameVersion version, string trainerName = DefaultTrainer, LanguageID language = DefaultLanguage)
     {
-        var type = game.GetSaveFileType();
-        return Get(type, game, trainerName, language);
+        var type = version.GetSaveFileType();
+        return Get(type, version, trainerName, language);
     }
 
     /// <summary>
@@ -56,14 +70,14 @@ public static class BlankSaveFile
     /// Creates an instance of a SaveFile with a blank base.
     /// </summary>
     /// <param name="type">Requested save file type.</param>
-    /// <param name="game">Version to create the save file for.</param>
+    /// <param name="version">Version to create the save file for.</param>
     /// <param name="trainerName">Trainer Name</param>
     /// <param name="language">Language to initialize with</param>
     /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-    public static SaveFile Get(SaveFileType type, GameVersion game, string trainerName = DefaultTrainer, LanguageID language = DefaultLanguage)
+    public static SaveFile Get(SaveFileType type, GameVersion version, string trainerName = DefaultTrainer, LanguageID language = DefaultLanguage)
     {
-        var sav = Get(type, language, game);
-        sav.Version = game;
+        var sav = Get(type, language, version);
+        sav.Version = version;
         sav.OT = trainerName;
         if (sav.Generation >= 4)
             sav.Language = (int)language;
@@ -85,15 +99,15 @@ public static class BlankSaveFile
     /// </summary>
     /// <param name="type">Requested save file type.</param>
     /// <param name="language">Save file language to initialize for</param>
-    /// <param name="game">Version to create the save file for, if a specific version is requested within the <see cref="type"/>.</param>
+    /// <param name="version">Version to create the save file for, if a specific version is requested within the <see cref="type"/>.</param>
     /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-    private static SaveFile Get(SaveFileType type, LanguageID language, GameVersion game = default) => type switch
+    private static SaveFile Get(SaveFileType type, LanguageID language, GameVersion version = default) => type switch
     {
-        RBY => new SAV1(game == GameVersion.BU ? Japanese : language, version: game),
+        RBY => new SAV1(version == GameVersion.BU ? Japanese : language, version: version),
         Stadium1J => new SAV1StadiumJ(),
         Stadium1 => new SAV1Stadium(language == Japanese),
 
-        GSC => new SAV2(language, language == Korean ? GameVersion.GS : game),
+        GSC => new SAV2(language, language == Korean ? GameVersion.GS : version),
         Stadium2 => new SAV2Stadium(language == Japanese),
 
         RS => new SAV3RS(language == Japanese),

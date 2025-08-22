@@ -53,11 +53,11 @@ public static class Language
     /// </summary>
     /// <param name="generation">Generation to check.</param>
     /// <param name="prefer">Preferred language.</param>
-    /// <param name="game">Game version to check.</param>
+    /// <param name="version">Game version to check.</param>
     /// <returns>Language that is safe to use for the given generation.</returns>
-    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer, GameVersion game) => generation switch
+    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer, GameVersion version) => generation switch
     {
-        1 when game == GameVersion.BU => Japanese,
+        1 when version == GameVersion.BU => Japanese,
         1           => HasLanguage(Languages_3,  (byte)prefer) ? prefer : SafeLanguage,
         2           => HasLanguage(Languages_GB, (byte)prefer) ? prefer : SafeLanguage,
         3           => HasLanguage(Languages_3 , (byte)prefer) ? prefer : SafeLanguage,

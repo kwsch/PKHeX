@@ -17,16 +17,16 @@ public sealed class EncounterGeneratorGO : IEncounterGenerator
         return [];
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var lgpe = EncounterGenerator7GO.Instance.GetPossible(pk, chain, game, groups);
+        var lgpe = EncounterGenerator7GO.Instance.GetPossible(pk, chain, version, groups);
         foreach (var enc in lgpe)
             yield return enc;
 
         if (pk is PB7)
             yield break;
 
-        var home = EncounterGenerator8GO.Instance.GetPossible(pk, chain, game, groups);
+        var home = EncounterGenerator8GO.Instance.GetPossible(pk, chain, version, groups);
         foreach (var enc in home)
             yield return enc;
     }

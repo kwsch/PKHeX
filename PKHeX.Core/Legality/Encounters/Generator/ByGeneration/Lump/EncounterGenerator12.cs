@@ -116,11 +116,11 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
         return GetEncounters(pk, info);
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
         // Don't call this method.
-        if (game.GetGeneration() == 1)
-            return EncounterGenerator1.Instance.GetPossible(pk, chain, game, groups);
-        return EncounterGenerator2.Instance.GetPossible(pk, chain, game, groups);
+        if (version.GetGeneration() == 1)
+            return EncounterGenerator1.Instance.GetPossible(pk, chain, version, groups);
+        return EncounterGenerator2.Instance.GetPossible(pk, chain, version, groups);
     }
 }

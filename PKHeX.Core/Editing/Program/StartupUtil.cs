@@ -39,9 +39,10 @@ public static class StartupUtil
         new Task(() => EncounterEvent.RefreshMGDB(mgdb)).Start();
     }
 
-    public static ProgramInit FormLoadInitialActions(ReadOnlySpan<string> args, IStartupSettings startup, BackupSettings backup, Version currentVersion)
+    public static ProgramInit FormLoadInitialActions(ReadOnlySpan<string> args, IProgramSettings settings, Version currentVersion)
     {
         // Check if there is an update available
+        var startup = settings.Startup;
         var showChangelog = GetShowChangelog(currentVersion, startup);
         // Remember the current version for next run
 
@@ -49,6 +50,7 @@ public static class StartupUtil
         var hax = startup.ForceHaXOnLaunch || GetIsHaX(args);
 
         // Prompt to create a backup folder
+        var backup = settings.Backup;
         var showAskBackupFolderCreate = !backup.BAKPrompt;
         if (showAskBackupFolderCreate)
             backup.BAKPrompt = true; // Never prompt after this run, unless changed in settings
@@ -66,14 +68,14 @@ public static class StartupUtil
         return lastRun < currentVersion;
     }
 
-    public static StartupArguments GetStartup(ReadOnlySpan<string> args, IStartupSettings startup, LocalResourceSettings localResource)
+    public static StartupArguments GetStartup(ReadOnlySpan<string> args, IProgramSettings settings)
     {
         var result = new StartupArguments();
         try
         {
             result.ReadArguments(args);
-            result.ReadSettings(startup);
-            result.ReadTemplateIfNoEntity(localResource.GetTemplatePath());
+            result.ReadSettings(settings.Startup);
+            result.ReadTemplateIfNoEntity(settings.LocalResources.GetTemplatePath());
         } catch (Exception ex)
         {
             // If an error occurs, store it in the result for later handling

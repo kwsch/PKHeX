@@ -729,11 +729,11 @@ public sealed class GameStrings : IBasicStrings
         }
     }
 
-    public string[] GetItemStrings(EntityContext context, GameVersion game = GameVersion.Any) => context switch
+    public string[] GetItemStrings(EntityContext context, GameVersion version = GameVersion.Any) => context switch
     {
         EntityContext.Gen1 => g1items,
         EntityContext.Gen2 => g2items,
-        EntityContext.Gen3 => GetItemStrings3(game),
+        EntityContext.Gen3 => GetItemStrings3(version),
         EntityContext.Gen4 => g4items, // mail names changed 4->5
         EntityContext.Gen8b => GetItemStrings8b(),
         EntityContext.Gen9 => GetItemStrings9(),
@@ -778,9 +778,9 @@ public sealed class GameStrings : IBasicStrings
         }
     }
 
-    private string[] GetItemStrings3(GameVersion game)
+    private string[] GetItemStrings3(GameVersion version)
     {
-        switch (game)
+        switch (version)
         {
             case GameVersion.COLO:
                 return g3coloitems;

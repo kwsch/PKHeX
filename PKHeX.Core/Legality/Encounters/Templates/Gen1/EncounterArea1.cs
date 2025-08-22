@@ -15,21 +15,21 @@ public sealed record EncounterArea1 : IEncounterArea<EncounterSlot1>
     public readonly SlotType1 Type;
     public readonly byte Rate;
 
-    public static EncounterArea1[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea1[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea1[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea1(input[i], game);
+            result[i] = new EncounterArea1(input[i], version);
         return result;
     }
 
-    private EncounterArea1(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea1(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = data[0];
         // 1 byte unused
         Type = (SlotType1)data[2];
         Rate = data[3];
-        Version = game;
+        Version = version;
         Slots = ReadSlots(data[4..]);
     }
 

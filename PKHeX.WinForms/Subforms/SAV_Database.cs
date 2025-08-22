@@ -613,26 +613,33 @@ public partial class SAV_Database : Form
     // ReSharper disable once AsyncVoidMethod
     private async void B_Search_Click(object sender, EventArgs e)
     {
-        B_Search.Enabled = false;
-        var search = SearchDatabase();
-
-        bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
-        bool wordFilter = ParseSettings.Settings.WordFilter.CheckWordFilter;
-        if (wordFilter && legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
-            ParseSettings.Settings.WordFilter.CheckWordFilter = false;
-        var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
-        ParseSettings.Settings.WordFilter.CheckWordFilter = wordFilter;
-
-        if (results.Count == 0)
+        try
         {
-            if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked && !Menu_SearchBackups.Checked)
-                WinFormsUtil.Alert(MsgDBSearchFail, MsgDBSearchNone);
-            else
-                WinFormsUtil.Alert(MsgDBSearchNone);
+            B_Search.Enabled = false;
+            var search = SearchDatabase();
+
+            bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
+            bool wordFilter = ParseSettings.Settings.WordFilter.CheckWordFilter;
+            if (wordFilter && legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
+                ParseSettings.Settings.WordFilter.CheckWordFilter = false;
+            var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
+            ParseSettings.Settings.WordFilter.CheckWordFilter = wordFilter;
+
+            if (results.Count == 0)
+            {
+                if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked && !Menu_SearchBackups.Checked)
+                    WinFormsUtil.Alert(MsgDBSearchFail, MsgDBSearchNone);
+                else
+                    WinFormsUtil.Alert(MsgDBSearchNone);
+            }
+            SetResults(results); // updates Count Label as well.
+            System.Media.SystemSounds.Asterisk.Play();
+            B_Search.Enabled = true;
         }
-        SetResults(results); // updates Count Label as well.
-        System.Media.SystemSounds.Asterisk.Play();
-        B_Search.Enabled = true;
+        catch
+        {
+            // Ignore.
+        }
     }
 
     private void UpdateScroll(object sender, ScrollEventArgs e)

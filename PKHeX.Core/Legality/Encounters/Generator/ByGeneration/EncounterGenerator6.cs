@@ -9,9 +9,9 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
     public static readonly EncounterGenerator6 Instance = new();
     public bool CanGenerateEggs => true;
 
-    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible6(chain, groups, game);
+        var iterator = new EncounterPossible6(chain, groups, version);
         foreach (var enc in iterator)
             yield return enc;
     }

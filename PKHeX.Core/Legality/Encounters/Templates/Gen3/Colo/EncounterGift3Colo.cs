@@ -31,12 +31,12 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public required ushort TID16 { get; init; }
     public required byte OriginalTrainerGender { get; init; }
 
-    public EncounterGift3Colo(ushort species, byte level, ReadOnlyMemory<string> trainers, GameVersion game)
+    public EncounterGift3Colo(ushort species, byte level, ReadOnlyMemory<string> trainers, GameVersion version)
     {
         Species = species;
         Level = level;
         TrainerNames = trainers;
-        Version = game;
+        Version = version;
     }
 
     public string Name => "Gift Encounter";

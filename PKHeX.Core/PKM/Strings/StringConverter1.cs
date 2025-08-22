@@ -16,9 +16,10 @@ public static class StringConverter1
     public const char Terminator = '\0';
     public const char TradeOT = '*';
 
-    public static bool GetIsJapanese(ReadOnlySpan<char> str) => AllJapanese(str);
-
-    private static bool AllJapanese(ReadOnlySpan<char> str)
+    /// <summary>
+    /// Quick check if the input string is entirely Japanese characters.
+    /// </summary>
+    public static bool GetIsJapanese(ReadOnlySpan<char> str)
     {
         foreach (var x in str)
         {
@@ -202,6 +203,7 @@ public static class StringConverter1
 
     #region Gen 1 Character Tables
 
+    // Share all to Gen2's tables.
     internal const char NUL = Terminator;
     internal const char TOT = TradeOT;
     internal const char LPK = '{'; // Pk
@@ -210,9 +212,9 @@ public static class StringConverter1
     internal const char LPO = '@'; // Po
     internal const char LKE = '#'; // Ke
     internal const char LEA = '%'; // é for Box/Mail
-    public const char DOT = '․'; // . for MR.MIME (U+2024, not U+002E)
+    internal const char DOT = '․'; // . for MR.MIME (U+2024, not U+002E)
     internal const char SPF = '　'; // Full-width space (U+3000)
-    public const char SPH = ' '; // Half-width space
+    internal const char SPH = ' '; // Half-width space
 
     public static ReadOnlySpan<char> TableEN =>
     [

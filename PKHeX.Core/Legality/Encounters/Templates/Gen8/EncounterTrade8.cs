@@ -55,9 +55,9 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
-    public EncounterTrade8(ReadOnlySpan<string[]> names, byte index, GameVersion game, ushort species, byte level, byte memory, ushort arg, byte feel, byte intensity)
+    public EncounterTrade8(ReadOnlySpan<string[]> names, byte index, GameVersion version, ushort species, byte level, byte memory, ushort arg, byte feel, byte intensity)
     {
-        Version = game;
+        Version = version;
         Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
         Species = species;
@@ -72,9 +72,9 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
     }
 
     [SetsRequiredMembers]
-    public EncounterTrade8(ReadOnlyMemory<string> trainerNames, GameVersion game, ushort species, byte level, byte memory, ushort arg, byte feel, byte intensity)
+    public EncounterTrade8(ReadOnlyMemory<string> trainerNames, GameVersion version, ushort species, byte level, byte memory, ushort arg, byte feel, byte intensity)
     {
-        Version = game;
+        Version = version;
         Nicknames = ReadOnlyMemory<string>.Empty;
         TrainerNames = trainerNames;
         Species = species;

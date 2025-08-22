@@ -15,7 +15,8 @@ internal static class Encounters3FRLG
     internal static readonly EncounterArea3[] SlotsFR = GetRegular("fr", "fr"u8, FR);
     internal static readonly EncounterArea3[] SlotsLG = GetRegular("lg", "lg"u8, LG);
 
-    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
+    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident, [ConstantExpected] GameVersion version)
+        => EncounterArea3.GetAreas(Get(resource, ident), version);
 
     private const string tradeFRLG = "tradefrlg";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeFRLG);
