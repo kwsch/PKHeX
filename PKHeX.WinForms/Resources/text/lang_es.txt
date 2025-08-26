@@ -310,6 +310,7 @@ LocalizedDescription.ShowTeraOpacityBackground=Nivel de opacidad de la capa de f
 LocalizedDescription.ShowTeraOpacityStripe=Nivel de opacidad de la raya correspondiente al Teratipo.
 LocalizedDescription.ShowTeraThicknessStripe=Nivel de grosor (en píxeles) al mostrar la raya coloreada del Teratipo.
 LocalizedDescription.ShowTeraType=Mostrar un fondo para diferenciar el Teratipo en las ranuras de PKM.
+LocalizedDescription.SkipSplashScreen=Skips displaying the splash screen on Program Launch.
 LocalizedDescription.SlotLegalityAlwaysVisible=Skips the context menu hotkey requirement and instead always presents the option to check legality of a slot.
 LocalizedDescription.SoundPath=Path to the sounds folder for sounds to play when hovering over a slot (species cry).
 LocalizedDescription.SpritePreference=Escoger qué tipo de sprites usar.

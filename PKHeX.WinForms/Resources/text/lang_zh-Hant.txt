@@ -310,6 +310,7 @@ LocalizedDescription.ShowTeraOpacityBackground=太晶屬性指示背景層之透
 LocalizedDescription.ShowTeraOpacityStripe=太晶屬性指示條之透明度。
 LocalizedDescription.ShowTeraThicknessStripe=太晶屬性指示條之畫素高度。
 LocalizedDescription.ShowTeraType=為每個寶可夢格子顯示背景以區分太晶屬性。
+LocalizedDescription.SkipSplashScreen=Skips displaying the splash screen on Program Launch.
 LocalizedDescription.SlotLegalityAlwaysVisible=Skips the context menu hotkey requirement and instead always presents the option to check legality of a slot.
 LocalizedDescription.SoundPath=Path to the sounds folder for sounds to play when hovering over a slot (species cry).
 LocalizedDescription.SpritePreference=選擇使用何種構建模式之精靈圖示。

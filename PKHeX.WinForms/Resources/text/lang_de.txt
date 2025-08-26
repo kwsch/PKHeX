@@ -310,6 +310,7 @@ LocalizedDescription.ShowTeraOpacityBackground=Deckkraft des Tera Typ Hintergrun
 LocalizedDescription.ShowTeraOpacityStripe=Deckkraft der Tery Typ Streifens.
 LocalizedDescription.ShowTeraThicknessStripe=Anzahl der Pixel des farbigen Streifens der Tera Typen..
 LocalizedDescription.ShowTeraType=Zeige einen Hintergrund um Tera Typen der PKM zu unterscheiden.
+LocalizedDescription.SkipSplashScreen=Skips displaying the splash screen on Program Launch.
 LocalizedDescription.SlotLegalityAlwaysVisible=Skips the context menu hotkey requirement and instead always presents the option to check legality of a slot.
 LocalizedDescription.SoundPath=Path to the sounds folder for sounds to play when hovering over a slot (species cry).
 LocalizedDescription.SpritePreference=Zu benutzenden Sprite Anzeige Modus.

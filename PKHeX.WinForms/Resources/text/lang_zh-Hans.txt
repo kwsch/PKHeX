@@ -310,6 +310,7 @@ LocalizedDescription.ShowTeraOpacityBackground=太晶属性指示背景层的透
 LocalizedDescription.ShowTeraOpacityStripe=太晶属性指示条的透明度。
 LocalizedDescription.ShowTeraThicknessStripe=太晶属性指示条的画素高度。
 LocalizedDescription.ShowTeraType=为每个宝可梦槽位的显示背景区分太晶属性。
+LocalizedDescription.SkipSplashScreen=Skips displaying the splash screen on Program Launch.
 LocalizedDescription.SlotLegalityAlwaysVisible=无需快捷键调出菜单，始终显示槽位合法性。
 LocalizedDescription.SoundPath=Path to the sounds folder for sounds to play when hovering over a slot (species cry).
 LocalizedDescription.SpritePreference=选择使用何种构建模式的宝可梦图示。
