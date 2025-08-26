@@ -210,6 +210,7 @@ public sealed class LegalityCheckLocalization
     public string G5PIDShinyGrotto { get; set; } = "Hidden Grotto captures cannot be shiny.";
     public string G5SparkleInvalid { get; set; } = "Special In-game N's Sparkle flag should not be checked.";
     public string G5SparkleRequired { get; set; } = "Special In-game N's Sparkle flag missing.";
+    public string G5PokeStarMustBeZero { get; set; } = "Pokéstar Studios fame must be zero, cannot participate.";
     public string G7BSocialShouldBe100Spirit { get; set; } = "Spirit should be 100 for Pokémon not in the player's party.";
     public string G7BSocialShouldBe100Mood { get; set; } = "Mood should be 100 for Pokémon not in the player's party.";
 

@@ -156,6 +156,7 @@
     "G5PIDShinyGrotto": "在隐藏洞穴捕获的宝可梦不能为异色。",
     "G5SparkleInvalid": "特殊游戏内宝可梦N的闪光标记不应勾选。",
     "G5SparkleRequired": "特殊游戏内宝可梦N的闪光标记缺失。",
+    "G5PokeStarMustBeZero": "Pokéstar Studios fame must be zero, cannot participate.",
     "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
     "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "一项或多项奋斗等级超过上限 (10 - IV个体值提升等级)。",
