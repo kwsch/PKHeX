@@ -334,11 +334,9 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
     private uint GetSaneSeed(uint seed) => Method switch
     {
         BACD_RBCD => Math.Clamp(seed, 3, 213), // BCD digit sum
-        BACD_T2 when Species is (ushort)Core.Species.Jirachi
-            => LCRNG.Next2(seed & 0xFFFF),
-        BACD_T2
-            => LCRNG.Next2(PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed)),
-        BACD_T3
+        BACD_TA when Species is (ushort)Core.Species.Jirachi
+            => LCRNG.Next2(seed & 0xFFFF), // table rand, but table result identical
+        BACD_TA or BACD_TS // shiny depends on encounter
             => LCRNG.Next2(PCJPFifthAnniversary.GetSeedForResult(Species, Shiny == Shiny.Always, Moves.Contains((ushort)Move.Wish), seed)),
 
         BACD_M => MystryMew.GetSeed(seed),
@@ -466,8 +464,8 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             BACD_R_A => IsRestrictedAnti(ref value, type),
             BACD_U_AX =>  IsUnrestrictedAntiX(ref value, type),
 
-            BACD_T2 => IsRestrictedTable2(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
-            BACD_T3  => IsRestrictedTable3(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
+            BACD_TA => IsRestrictedTable2(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
+            BACD_TS  => IsRestrictedTable3(ref value, type, Species, Moves.Contains((ushort)Move.Wish)),
             BACD_RBCD => IsBerryFixShiny(ref value, type),
             BACD_M => IsMystryMew(ref value, type),
             Channel => IsChannelJirachi(ref value, type),

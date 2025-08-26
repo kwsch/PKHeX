@@ -8,6 +8,15 @@ public static class PCJPFifthAnniversary
     private const uint MaxTableWeight = 1000;
     private const uint EntryWeight = 125;
 
+    /// <summary>
+    /// Determines the result from the table, based on the input 16-bit random seed.
+    /// </summary>
+    public static (uint Index, bool Wish, bool Shiny) GetResult(ushort rand)
+    {
+        var u32 = WeightedTable3.GetRandom32(rand);
+        return GetResult(u32);
+    }
+
     // Table:
     // Pichu 125 Teeter Dance (100-124 shiny)
     // Pichu 125 Wish (100-124 shiny)
@@ -23,8 +32,13 @@ public static class PCJPFifthAnniversary
     // Species index: (result / 250)
     // Moveset index: (result / 125) % 2
     // Shiny: if Pichu, (result % 125) >= 100
-    public static (uint Index, bool Wish, bool Shiny) GetResultPCJP(uint rand)
+
+    /// <summary>
+    /// Determines the result from the table, based on the input 32-bit random value.
+    /// </summary>
+    private static (uint Index, bool Wish, bool Shiny) GetResult(uint rand)
     {
+        // Reduce the weight to a random number in the range of the table weight.
         var result = WeightedTable3.GetPeriodicWeight(rand, MaxTableWeight);
         var eighth = result / EntryWeight;
         var wish = (eighth & 1) == 1;
@@ -38,7 +52,7 @@ public static class PCJPFifthAnniversary
     /// </summary>
     /// <param name="species">Species ID</param>
     /// <returns>0-3</returns>
-    public static uint GetIndexPCJP(ushort species)
+    public static uint GetIndex(ushort species)
     {
         // Pichu: 172 = 0_10_10_11_00
         // Bagon: 371 = 1_01_11_00_11
@@ -54,21 +68,20 @@ public static class PCJPFifthAnniversary
     /// </summary>
     public static bool IsMatch(ushort species, bool shiny, bool wish, uint rand)
     {
-        var index = GetIndexPCJP(species);
-        var result = GetResultPCJP(rand);
+        var index = GetIndex(species);
+        var result = GetResult(rand);
         return index == result.Index && wish == result.Wish && shiny == result.Shiny;
     }
 
     /// <summary>
     /// Gets a random 16-bit seed that will return the desired table result.
     /// </summary>
-    public static uint GetSeedForResult(ushort species, bool shiny, bool wish, uint seed)
+    public static ushort GetSeedForResult(ushort species, bool shiny, bool wish, uint seed)
     {
         while (true)
         {
-            var u16 = seed & 0xFFFF; // restricted
-            var u32 = WeightedTable3.GetRandom32(u16);
-            if (IsMatch(species, shiny, wish, u32))
+            var u16 = (ushort)seed; // restricted
+            if (IsMatch(species, shiny, wish, u16))
                 return u16;
             seed = LCRNG.Next(seed);
         }
