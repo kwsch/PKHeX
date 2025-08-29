@@ -132,6 +132,7 @@ public readonly ref struct LegalityLocalizationContext
         FormInvalidRangeLEQ_0F => string.Format(format, chk.Argument, Analysis.Entity.Form),
 
         OTLanguageShouldBe_0or1 => string.Format(format, GetLanguageName(chk.Argument), GetLanguageName(chk.Argument2), GetLanguageName(Analysis.Entity.Language)),
+        G6SuperTrainBagHitsInvalid_012 => string.Format(format, (Analysis.Entity as PK6)?.TrainingBagHits ?? 0, chk.Argument, chk.Argument2),
 
         >= MAX => throw new ArgumentOutOfRangeException(nameof(code), code, null),
     };

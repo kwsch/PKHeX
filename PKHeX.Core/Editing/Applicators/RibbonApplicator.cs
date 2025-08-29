@@ -16,13 +16,26 @@ public static class RibbonApplicator
     /// <inheritdoc cref="SetAllValidRibbons(PKM)"/>
     public static void SetAllValidRibbons(LegalityAnalysis la)
     {
-        var args = new RibbonVerifierArguments(la.Entity, la.EncounterMatch, la.Info.EvoChainsAllGens);
+        var pk = la.Entity;
+        var args = new RibbonVerifierArguments(pk, la.EncounterMatch, la.Info.EvoChainsAllGens);
         SetAllRibbonState(args, true);
         FixInvalidRibbons(args);
 
-        // Ribbon Deadlock
-        if (la.Entity is IRibbonSetCommon6 c6)
+        if (la.Entity.IsEgg)
+            return;
+
+        if (pk is IRibbonSetCommon6 c6)
+        {
+            // Medal Deadlock
+            if (pk is ISuperTrain s)
+            {
+                s.SecretSuperTrainingUnlocked = true;
+                s.SuperTrainSupremelyTrained = true;
+                c6.RibbonTraining = true;
+            }
+            // Ribbon Deadlock
             InvertDeadlockContest(c6, true);
+        }
     }
 
     /// <summary>

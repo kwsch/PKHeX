@@ -137,14 +137,20 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetCommon6.RibbonTraining"/> ribbon.
     /// </summary>
-    public static bool IsRibbonValidSuperTraining(ISuperTrain pk)
+    public static bool IsRibbonValidSuperTraining(PKM pk)
     {
-        // It is assumed that the entity existed in the Gen6 game to receive the ribbon.
-        // We only enter this method if the entity implements the interface.
-        const int req = 12; // only first 12 are required to get the ribbon.
-        int count = pk.SuperTrainingMedalCount(req);
-        return count >= req;
+        if (pk is not ISuperTrain s)
+            return true; // Medal flags are wiped when the medal bitflags are wiped on transfer 7->8.
+
+        return IsSuperTrainSupremelyTrained(s.SuperTrainBitFlags);
     }
+
+    /// <summary>
+    /// Checks if all Super Training medals are set (including Secret), indicating "Supremely Trained".
+    /// </summary>
+    /// <param name="value">Stored bitflags for Gen6/7 Super Training medals.</param>
+    /// <returns><c>true</c> if all Super Training medals are set, <c>false</c> otherwise.</returns>
+    public static bool IsSuperTrainSupremelyTrained(uint value) => (value >> 2) == 0x3FFF_FFFF; // ignore the 2 unused low bits (18 regular, 12 secret).
 
     /// <summary>
     /// Checks if the entity participated in battles for the <see cref="IRibbonSetCommon8.RibbonTowerMaster"/> ribbon.

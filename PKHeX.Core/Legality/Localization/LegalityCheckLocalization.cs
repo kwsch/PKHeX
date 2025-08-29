@@ -373,6 +373,10 @@ public sealed class LegalityCheckLocalization
     public string SuperNoUnlocked { get; set; } = "Can't have active Super Training unlocked flag for origins.";
     public string SuperUnavailable { get; set; } = "Super Training missions are not available in games visited.";
     public string SuperUnused { get; set; } = "Unused Super Training Flag is flagged.";
+    public string G6SuperTrainEggBag { get; set; } = "Egg cannot use a Training Bag.";
+    public string G6SuperTrainEggHits { get; set; } = "Eggs cannot hit Training Bags.";
+    public string G6SuperTrainBagInvalid_0 { get; set; } = "Unrecognized Training Bag ID: {0}";
+    public string G6SuperTrainBagHitsInvalid_012 { get; set; } = "Training bag cannot have {0} hits; expected value within [{1},{2}].";
 
     public string TeraTypeIncorrect { get; set; } = "Tera Type does not match the expected value.";
     public string TeraTypeMismatch { get; set; } = "Tera Type does not match either of the default types.";
