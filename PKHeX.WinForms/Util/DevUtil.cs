@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -12,11 +13,12 @@ namespace PKHeX.WinForms;
 
 public static class DevUtil
 {
-    public static void AddControl(ToolStripDropDownItem t)
+    public static void AddDeveloperControls(ToolStripDropDownItem t, List<IPlugin> plugins)
     {
-        t.DropDownItems.Add(GetTranslationUpdater());
-        t.DropDownItems.Add(GetPogoPickleReload());
-        t.DropDownItems.Add(GetHexImporter());
+        t.DropDownItems.Add(GetTranslationUpdater(Keys.D));
+        t.DropDownItems.Add(GetPogoPickleReload(Keys.P));
+        t.DropDownItems.Add(GetHexImporter(Keys.I));
+        t.DropDownItems.Add(GetPluginInfo(Keys.L, plugins));
     }
 
     private static string DefaultLanguage => Main.CurrentLanguage;
@@ -37,54 +39,96 @@ public static class DevUtil
         IsUpdatingTranslations = false;
     }
 
-    private static ToolStripMenuItem GetHexImporter()
+    private static ToolStripMenuItem GetHexImporter(Keys key)
     {
-        var ti = new ToolStripMenuItem
-        {
-            ShortcutKeys = Keys.Control | Keys.Alt | Keys.I,
-            Visible = false,
-        };
-        ti.Click += (_, _) =>
-        {
-            var hex = Clipboard.GetText().Trim();
-            if (string.IsNullOrEmpty(hex))
-            {
-                WinFormsUtil.Alert("Clipboard is empty.");
-                return;
-            }
-            try
-            {
-                var data = Convert.FromHexString(hex.Replace(" ", ""));
-                Application.OpenForms.OfType<Main>().First().OpenFile(data, "", "");
-            }
-            catch (FormatException)
-            {
-                WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
-            }
-        };
+        var ti = GetHiddenMenu(key);
+        ti.Click += (_, _) => OpenFileFromClipboardHex();
         return ti;
     }
 
-    private static ToolStripMenuItem GetTranslationUpdater()
+    private static ToolStripMenuItem GetTranslationUpdater(Keys key)
     {
-        var ti = new ToolStripMenuItem
-        {
-            ShortcutKeys = Keys.Control | Keys.Alt | Keys.D,
-            Visible = false,
-        };
+        var ti = GetHiddenMenu(key);
         ti.Click += (_, _) => UpdateAll();
         return ti;
     }
 
-    private static ToolStripMenuItem GetPogoPickleReload()
+    private static ToolStripMenuItem GetPogoPickleReload(Keys key)
     {
-        var ti = new ToolStripMenuItem
-        {
-            ShortcutKeys = Keys.Control | Keys.Alt | Keys.P,
-            Visible = false,
-        };
+        var ti = GetHiddenMenu(key);
         ti.Click += (_, _) => EncountersGO.Reload();
         return ti;
+    }
+
+    private static ToolStripMenuItem GetPluginInfo(Keys key, List<IPlugin> plugins)
+    {
+        var ti = GetHiddenMenu(key);
+        ti.Click += (_, _) => DisplayPluginList(plugins);
+        return ti;
+    }
+
+    private static ToolStripMenuItem GetHiddenMenu(Keys key) => new()
+    {
+        ShortcutKeys = Keys.Control | Keys.Alt | key,
+        Visible = false,
+    };
+
+    private static void OpenFileFromClipboardHex()
+    {
+        var hex = Clipboard.GetText().Trim();
+        if (string.IsNullOrEmpty(hex))
+        {
+            WinFormsUtil.Alert("Clipboard is empty.");
+            return;
+        }
+        try
+        {
+            var data = Convert.FromHexString(hex.Replace(" ", ""));
+            Application.OpenForms.OfType<Main>().First().OpenFile(data, "", "");
+        }
+        catch (FormatException)
+        {
+            WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
+        }
+    }
+
+    private static void DisplayPluginList(List<IPlugin> plugins)
+    {
+        var text = new StringBuilder();
+
+        text.AppendLine($"Loaded {plugins.Count} plugins:");
+        if (plugins.Count == 0)
+        {
+            text.AppendLine("None.");
+            WinFormsUtil.Alert(text.ToString());
+            return;
+        }
+
+        List<(IPlugin Plugin, string Group)> loaded = [];
+        foreach (var p in plugins)
+        {
+            var assembly = p.GetType().Assembly;
+            var fullName = assembly.FullName;
+            if (fullName != null)
+            {
+                var culture = fullName.IndexOf("Culture", StringComparison.Ordinal);
+                if (culture != -1)
+                    fullName = fullName[..(culture - 2)];
+                if (fullName.EndsWith(".0"))
+                    fullName = fullName[..^2];
+            }
+            loaded.Add(new(p, fullName ?? "Unknown"));
+        }
+
+        foreach (var group in loaded.GroupBy(z => z.Group).OrderBy(z => z.Key))
+        {
+            text.AppendLine(group.Key);
+            foreach (var p in group.OrderBy(z => z.Plugin.Name))
+                text.AppendLine($"- {p.Plugin.Name}");
+        }
+
+
+        WinFormsUtil.Alert(text.ToString());
     }
 
     private static void UpdateTranslations()
