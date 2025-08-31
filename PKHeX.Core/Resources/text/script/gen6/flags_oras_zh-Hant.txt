@@ -130,8 +130,8 @@
 2761	f	Visited Lavaridge Town
 2836	f	Can Fly to Lavaridge Town
 2762	f	Visited Fallarbor Town
-2837	f	Can Fly to Fallabor Town
-2763	f	Visited Vendanturf Town
+2837	f	Can Fly to Fallarbor Town
+2763	f	Visited Verdanturf Town
 2838	f	Can Fly to Verdanturf Town
 2764	f	Visited Pacifidlog Town
 2839	f	Can Fly to Pacifidlog Town
