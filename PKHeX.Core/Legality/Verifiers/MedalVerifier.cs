@@ -41,8 +41,8 @@ public sealed class MedalVerifier : Verifier
         }
         if (!b.IsValid(hits))
         {
-            var range = b.GetRange();
-            data.AddLine(GetInvalid(G6SuperTrainBagHitsInvalid_012, range.Min, range.Max));
+            var max = b.GetMax();
+            data.AddLine(GetInvalid(G6SuperTrainBagHitsInvalid_012, 0, max));
         }
     }
 
@@ -123,26 +123,7 @@ public sealed class MedalVerifier : Verifier
 /// </summary>
 public static class SuperTrainBagExtensions
 {
-    public static ReadOnlySpan<byte> Min =>
-    [
-        0,
-        1,1,1, // HP
-        1,1,1, // ATK
-        1,1,1, // DEF
-        1,1,1, // SpA
-        1,1,1, // SpD
-        1,1,1, // SPE
-        0, // Strength
-        0, // Toughen Up
-        0, // Swiftness
-        0, // Big Shot
-        0, // Double Up
-        1, // Team Flare (bonus stored elsewhere when activated)
-        1, // Reset
-        1, // Soothing Bag
-    ];
-
-    public static ReadOnlySpan<byte> Max =>
+    private static ReadOnlySpan<byte> Max =>
     [
         0,
         2,5,10, // HP
@@ -161,14 +142,17 @@ public static class SuperTrainBagExtensions
         50,  // Soothing Bag
     ];
 
+    // Min is always 0 -- can immediately deposit before finishing a bag.
+
     /// <summary>
-    /// Gets the valid range of hits for the (valid) specified bag.
+    /// Retrieves the maximum value associated with the specified <see cref="SuperTrainBag"/>.
     /// </summary>
-    public static (byte Min, byte Max) GetRange(this SuperTrainBag bag)
+    /// <returns>The maximum value as a <see cref="byte"/> if the <paramref name="bag"/> is valid; otherwise, 0.</returns>
+    public static byte GetMax(this SuperTrainBag bag)
     {
-        if (bag > SuperTrainBag.SoothingBag)
-            throw new ArgumentOutOfRangeException(nameof(bag), bag, null);
-        return (Min[(int)bag], Max[(int)bag]);
+        if (!bag.IsValid())
+            return 0;
+        return Max[(byte)bag];
     }
 
     /// <summary>
@@ -178,25 +162,13 @@ public static class SuperTrainBagExtensions
     {
         if (bag > SuperTrainBag.SoothingBag)
             return false;
-        var (min, max) = bag.GetRange();
-        return hits >= min && hits <= max;
+        return hits <= bag.GetMax();
     }
 
     /// <summary>
     /// Checks if the bag value is within the valid enum range.
     /// </summary>
     public static bool IsValid(this SuperTrainBag bag) => bag <= SuperTrainBag.SoothingBag;
-
-    /// <summary>
-    /// The bag value can stick around with a hit count of 0 if it is a lingering effect bag.
-    /// </summary>
-    /// <returns><c>true</c> if the bag can linger with 0 hits, <c>false</c> otherwise.</returns>
-    public static bool CanLinger(this SuperTrainBag bag) => bag is
-        SuperTrainBag.Strength or
-        SuperTrainBag.ToughenUp or
-        SuperTrainBag.Swiftness or
-        SuperTrainBag.BigShot or
-        SuperTrainBag.DoubleUp;
 }
 
 public enum SuperTrainBag : byte
