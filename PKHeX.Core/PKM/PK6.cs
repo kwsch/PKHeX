@@ -376,6 +376,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override byte Stat_Level { get => Data[0xEC]; set => Data[0xEC] = value; }
     public byte FormArgumentRemain { get => Data[0xED]; set => Data[0xED] = value; }
     public byte FormArgumentElapsed { get => Data[0xEE]; set => Data[0xEE] = value; }
+    public byte TrainingBagEffect { get => Data[0xEF]; set => Data[0xEF] = value; }
     public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data[0xF0..]); set => WriteUInt16LittleEndian(Data[0xF0..], (ushort)value); }
     public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data[0xF2..]); set => WriteUInt16LittleEndian(Data[0xF2..], (ushort)value); }
     public override int Stat_ATK { get => ReadUInt16LittleEndian(Data[0xF4..]); set => WriteUInt16LittleEndian(Data[0xF4..], (ushort)value); }
@@ -484,9 +485,11 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         {
             ResortEventStatus = 0, // Clears old Marking Value
             MarkingValue = 0, // Clears old Super Training Bag & Hits Remaining
+            HyperTrainFlags = 0, // Clears old Gen4 Encounter Type byte
             FormArgument = 0, // Clears old style Form Argument
-            DirtType = 0, // Clears old Form Argument byte
-            DirtLocation = 0, // Clears old Form Argument byte
+            DirtType = 0, // Clears old FormArgumentRemain byte
+            DirtLocation = 0, // Clears old FormArgumentElapsed byte
+            // clear Training Bag effect later since we don't have a Gen7 property at that offset
         };
 
         // Remap boolean markings to the dual-bit format -- set 1 if marked.
@@ -504,13 +507,12 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         pk7.SetTradeMemoryHT6(true); // oh no, memories on Gen7 pk
         RecentTrainerCache.SetFirstCountryRegion(pk7);
 
-        // Bank-accurate data zeroing
         var span = pk7.Data;
-        span[0x94..0x9E].Clear(); /* Geolocations. */
-        span[0xAA..0xB0].Clear(); /* Unused/Amie Fullness & Enjoyment. */
-        span[0xE4..0xE8].Clear(); /* Unused. */
-        pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
-        pk7.Data[0xDE] = 0; /* Gen4 encounter type. */
+        span[0x94..0x9E].Clear(); // Geolocations
+        span[0xAA..0xB0].Clear(); // Unused/Amie Fullness & Enjoyment
+        span[0xE4..0xE8].Clear(); // Unused
+        pk7.Data[0x72] &= 0xFC; // Clear lower two bits of Super training flags
+        pk7.Data[0xEF] = 0; // Clears old Training Bag effect byte from Party Stats
 
         // Copy Form Argument data for Furfrou and Hoopa, since we're nice.
         pk7.FormArgumentRemain = FormArgumentRemain;
