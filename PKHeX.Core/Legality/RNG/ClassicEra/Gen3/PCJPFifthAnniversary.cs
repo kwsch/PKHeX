@@ -64,12 +64,12 @@ public static class PCJPFifthAnniversary
     }
 
     /// <summary>
-    /// Check if the given species, shiny, and wish moveset status match the given rand result.
+    /// Check if the given species, shiny, and wish moveset status match the given seed.
     /// </summary>
-    public static bool IsMatch(ushort species, bool shiny, bool wish, uint rand)
+    public static bool IsMatch(ushort species, bool shiny, bool wish, ushort u16)
     {
         var index = GetIndex(species);
-        var result = GetResult(rand);
+        var result = GetResult(u16);
         return index == result.Index && wish == result.Wish && shiny == result.Shiny;
     }
 
