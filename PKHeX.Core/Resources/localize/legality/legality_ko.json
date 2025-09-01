@@ -316,7 +316,7 @@
     "TransferHTMismatchGender": "Handling trainer does not match the expected trainer gender.",
     "TransferHTMismatchLanguage": "Handling trainer does not match the expected trainer language.",
     "TransferKoreanGen4": "Korean Generation 4 games cannot interact with International Generation 4 games.",
-    "TransferMet": "만난 장소가 잘못되었습니다. 포케시프터 또는 크라운시티로 예상됩니다.",
+    "TransferMet": "Invalid Met Location, expected Poké Transfer/Zoroark (Crown Beasts), Poké Transfer/Celebi (Celebi).",
     "TransferNotPossible": "Unable to transfer into current format from origin format.",
     "TransferMetLocation": "옮겨진 만난 장소가 잘못되었습니다.",
     "TransferNature": "Invalid Nature for transfer Experience.",

@@ -316,7 +316,7 @@
     "TransferHTMismatchGender": "Handling trainer does not match the expected trainer gender.",
     "TransferHTMismatchLanguage": "現時持有人與期望語言不匹配。",
     "TransferKoreanGen4": "Korean Generation 4 games cannot interact with International Generation 4 games.",
-    "TransferMet": "不合法遇見地點，應該為寶可傳送或王冠。",
+    "TransferMet": "Invalid Met Location, expected Poké Transfer/Zoroark (Crown Beasts), Poké Transfer/Celebi (Celebi).",
     "TransferNotPossible": "無法將現時寶可夢檔格式轉換爲源寶可夢檔格式。",
     "TransferMetLocation": "傳送遇見地點不合法。",
     "TransferNature": "對於寶可傳送不合法之性格。",

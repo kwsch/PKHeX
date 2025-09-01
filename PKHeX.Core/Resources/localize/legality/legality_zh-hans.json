@@ -316,7 +316,7 @@
     "TransferHTMismatchGender": "处理训练家的性别与期望的训练家性别不符。",
     "TransferHTMismatchLanguage": "持有训练家与期望训练家语言不匹配。",
     "TransferKoreanGen4": "Korean Generation 4 games cannot interact with International Generation 4 games.",
-    "TransferMet": "非法相遇地点，应该为传送或王冠。",
+    "TransferMet": "Invalid Met Location, expected Poké Transfer/Zoroark (Crown Beasts), Poké Transfer/Celebi (Celebi).",
     "TransferNotPossible": "无法从原始格式转换为当前格式。",
     "TransferMetLocation": "传送相遇地点非法。",
     "TransferNature": "对于传送非法的性格",
