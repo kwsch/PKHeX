@@ -316,7 +316,7 @@
     "TransferHTMismatchGender": "Handling trainer does not match the expected trainer gender.",
     "TransferHTMismatchLanguage": "La lingua dell'Ultimo Allenatore non corrisponde al valore atteso.",
     "TransferKoreanGen4": "Korean Generation 4 games cannot interact with International Generation 4 games.",
-    "TransferMet": "Luogo di incontro invalido, previsto Pokétrasporto o Corona.",
+    "TransferMet": "Luogo di incontro invalido, previsto Pokétrasporto/Zoroark (Bestie Leggendarie), Pokétrasporto/Celebi (Celebi).",
     "TransferNotPossible": "Impossibile trasferire il Pokémon dal formato originale al formato attuale.",
     "TransferMetLocation": "Luogo di trasferimento non valido.",
     "TransferNature": "Natura non valida per il processo di trasferimento.",

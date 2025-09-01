@@ -56,11 +56,11 @@
 2934	r	레지스틸 잡음
 0348	r	레지기가스 쓰러뜨림
 2918	r	레지기가스 잡음
-0380	a	싱글배틀 조각상
-0381	a	더블배틀 조각상
-0382	a	트리플배틀 조각상
-0383	a	로테이션배틀 조각상
-0384	a	멀티배틀 조각상
+0380	a	싱글배틀 조각상 (배틀하우스)
+0381	a	더블배틀 조각상 (배틀하우스)
+0382	a	트리플배틀 조각상 (배틀하우스)
+0383	a	로테이션배틀 조각상 (배틀하우스)
+0384	a	멀티배틀 조각상 (배틀하우스)
 0385	*	슈퍼싱글배틀 해금됨
 0386	*	슈퍼더블배틀 해금됨
 0387	*	슈퍼트리플배틀 해금됨
@@ -72,20 +72,20 @@
 0361	s	Rematched Elite Four
 3023	s	Can Give Red Orb and Blue Orb
 0148	s	Met old hot-springs visitor
-0147	g	Received Wynaut Egg Gift
-0187	g	Received Togepi Egg Gift
-0119	g	Received Castform Gift
-0249	g	Received Beldum Gift
-0264	g	Received Camerupt Gift
-0265	g	Received Sharpedo Gift
-0298	s	Received Diancite
-0308	s	Received Prison Bottle
+0147	g	Received Wynaut Egg Gift (Lavaridge Town Hot-Springs)
+0187	g	Received Togepi Egg Gift (Lavaridge Town Hot-Springs)
+0119	g	Received Castform Gift (Weather Institute)
+0249	g	Received Beldum Gift (Mossdeep City Steven's House)
+0264	g	Received Camerupt Gift (Battle Resort)
+0265	g	Received Sharpedo Gift (Battle Resort)
+0298	s	Received Diancite (Diancie Event)
+0308	s	Received Prison Bottle (Hoopa Event)
 0310	g	Received Johto Starter
 0349	g	Received Sinnoh Starter
 0311	g	Received Unova Starter
-0166	g	Traded for Makuhita in Rustboro City
-0167	g	Traded for Skitty in Fortree City
-0168	g	Traded for Corsola in Pacifidlog Town
+0166	g	In-Game Trade Slakoth for Makuhita (Rustboro City)
+0167	g	In-Game Trade Spinda for Skitty (Fortree City)
+0168	g	In-Game Trade Bellosom for Corsola (Pacifidlog Town)
 0692	s	쓰러뜨림 연승가족
 0806	s	Steven Disappeared from Route 120 Bridge
 0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
@@ -324,230 +324,230 @@
 1207	s	Found Earth Plate Underwater (Route 130)
 1204	s	Found Meadow Plate Underwater (Route 130)
 1208	s	Found Griseous Orb Underwater (Route 130)
-1935	t	Had Calvin 1st Rematch
-1936	t	Had Calvin 2nd Rematch
-1937	t	Had Calvin 3rd Rematch
-1938	t	Had Calvin 4th Rematch
-2391	t	Had Miguel 1st Rematch
-2392	t	Had Miguel 2nd Rematch
-2393	t	Had Miguel 3rd Rematch
-2394	t	Had Miguel 4th Rematch
-1795	t	Had Amy and Liv 1st Rematch
-2108	t	Had Amy and Liv 2nd Rematch
-2336	t	Had Amy and Liv 3rd Rematch
-2337	t	Had Amy and Liv 4th Rematch
-1939	t	Had Haley 1st Rematch
-1940	t	Had Haley 2nd Rematch
-1941	t	Had Haley 3rd Rematch
-1942	t	Had Haley 4th Rematch
-2395	t	Had Cindy 1st Rematch
-2396	t	Had Cindy 2nd Rematch
-2397	t	Had Cindy 3rd Rematch
-2299	t	Had Cindy 4th Rematch
-2398	t	Had Winston 1st Rematch
-2399	t	Had Winston 2nd Rematch
-2400	t	Had Winston 3rd Rematch
-2300	t	Had Winston 4th Rematch
-2217	t	Had James 1st Rematch
-2218	t	Had James 2nd Rematch
-2219	t	Had James 3rd Rematch
-2220	t	Had James 4th Rematch
-2465	t	Had Graeme 1st Rematch
-2466	t	Had Graeme 2nd Rematch
-2467	t	Had Graeme 3rd Rematch
-2468	t	Had Graeme 4th Rematch
-2109	t	Had Elliot 1st Rematch
-2110	t	Had Elliot 2nd Rematch
-2111	t	Had Elliot 3rd Rematch
-2112	t	Had Elliot 4th Rematch
-2251	t	Had Tony 1st Rematch
-2252	t	Had Tony 2nd Rematch
-2253	t	Had Tony 3rd Rematch
-2254	t	Had Tony 4th Rematch
-2550	t	Had Neville 1st Rematch
-2551	t	Had Neville 2nd Rematch
-2552	t	Had Neville 3rd Rematch
-2553	t	Had Neville 4th Rematch
-2522	t	Had Scall and Ion 1st Rematch (Illegal)
-2523	t	Had Scall and Ion 2nd Rematch
-2524	t	Had Scall and Ion 3rd Rematch
-2525	t	Had Scall and Ion 4th Rematch
-2205	t	Had Lois and Hal 1st Rematch
-2206	t	Had Lois and Hal 2nd Rematch
-2207	t	Had Lois and Hal 3rd Rematch
-2208	t	Had Lois and Hal 4th Rematch
-2559	t	Had Portia 1st Rematch
-2560	t	Had Portia 2nd Rematch
-2561	t	Had Portia 3rd Rematch
-2562	t	Had Portia 4th Rematch
-2338	t	Had Ricky 1st Rematch
-2339	t	Had Ricky 2nd Rematch
-2340	t	Had Ricky 3rd Rematch
-2341	t	Had Ricky 4th Rematch
-2113	t	Had Lola 1st Rematch
-2114	t	Had Lola 2nd Rematch
-2115	t	Had Lola 3rd Rematch
-2116	t	Had Lola 4th Rematch
-2125	t	Had Edwin 1st Rematch
-2126	t	Had Edwin 2nd Rematch
-2127	t	Had Edwin 3rd Rematch
-2128	t	Had Edwin 4th Rematch
-2401	t	Had Isabel 1st Rematch
-2402	t	Had Isabel 2nd Rematch
-2403	t	Had Isabel 3rd Rematch
-2404	t	Had Isabel 4th Rematch
-2117	t	Had Benjamin 1st Rematch
-2118	t	Had Benjamin 2nd Rematch
-2119	t	Had Benjamin 3rd Rematch
-2120	t	Had Benjamin 4th Rematch
-2342	t	Had Dusty 1st Rematch
-2343	t	Had Dusty 2nd Rematch
-2344	t	Had Dusty 3rd Rematch
-2345	t	Had Dusty 4th Rematch
-2129	t	Had Wilton 1st Rematch
-2130	t	Had Wilton 2nd Rematch
-2131	t	Had Wilton 3rd Rematch
-2132	t	Had Wilton 4th Rematch
-2133	t	Had Brooke 1st Rematch
-2134	t	Had Brooke 2nd Rematch
-2135	t	Had Brooke 3rd Rematch
-2136	t	Had Brooke 4th Rematch
-2137	t	Had Trent 1st Rematch
-2138	t	Had Trent 2nd Rematch
-2139	t	Had Trent 3rd Rematch
-2140	t	Had Trent 4th Rematch
-2209	t	Had Ethan 1st Rematch
-2210	t	Had Ethan 2nd Rematch
-2211	t	Had Ethan 3rd Rematch
-2212	t	Had Ethan 4th Rematch
-2197	t	Had Shelby 1st Rematch
-2198	t	Had Shelby 2nd Rematch
-2199	t	Had Shelby 3rd Rematch
-2200	t	Had Shelby 4th Rematch
-2213	t	Had Diana 1st Rematch
-2214	t	Had Diana 2nd Rematch
-2215	t	Had Diana 3rd Rematch
-2216	t	Had Diana 4th Rematch
-2359	t	Had Madeline 1st Rematch
-2360	t	Had Madeline 2nd Rematch
-2361	t	Had Madeline 3rd Rematch
-2362	t	Had Madeline 4th Rematch
-2654	t	Had Lao 1st Rematch
-2655	t	Had Lao 2nd Rematch
-2656	t	Had Lao 3rd Rematch
-2657	t	Had Lao 4th Rematch
-2145	t	Had Bernie 1st Rematch
-2146	t	Had Bernie 2nd Rematch
-2147	t	Had Bernie 3rd Rematch
-2148	t	Had Bernie 4th Rematch
-2141	t	Had Steve 1st Rematch
-2142	t	Had Steve 2nd Rematch
-2143	t	Had Steve 3rd Rematch
-2144	t	Had Steve 4th Rematch
-2221	t	Had Nicolas Rematch
-2375	t	Had John and Jay Rematch
-2149	t	Had Cyndy 1st Rematch
-2150	t	Had Cyndy 2nd Rematch
-2151	t	Had Cyndy 3rd Rematch
-2152	t	Had Cyndy 4th Rematch
-2346	t	Had Timothy 1st Rematch
-2347	t	Had Timothy 2nd Rematch
-2348	t	Had Timothy 3rd Rematch
-2349	t	Had Timothy 4th Rematch
-1943	t	Had Nob 1st Rematch
-1944	t	Had Nob 2nd Rematch
-1945	t	Had Nob 3rd Rematch
-1983	t	Had Nob 4th Rematch
-2153	t	Had Jerry 1st Rematch
-2154	t	Had Jerry 2nd Rematch
-2155	t	Had Jerry 3rd Rematch
-2156	t	Had Jerry 4th Rematch
-2157	t	Had Karen 1st Rematch
-2158	t	Had Karen 2nd Rematch
-2159	t	Had Karen 3rd Rematch
-2160	t	Had Karen 4th Rematch
-2234	t	Had Dylan 1st Rematch
-2235	t	Had Dylan 2nd Rematch
-2236	t	Had Dylan 3rd Rematch
-2237	t	Had Dylan 4th Rematch
-2263	t	Had Isaac 1st Rematch
-2264	t	Had Isaac 2nd Rematch
-2265	t	Had Isaac 3rd Rematch
-2266	t	Had Isaac 4th Rematch
-2259	t	Had Lydia 1st Rematch
-2260	t	Had Lydia 2nd Rematch
-2261	t	Had Lydia 3rd Rematch
-2262	t	Had Lydia 4th Rematch
-2363	t	Had Anna and Meg 1st Rematch
-2364	t	Had Anna and Meg 2nd Rematch
-2365	t	Had Anna and Meg 3rd Rematch
-2366	t	Had Anna and Meg 4th Rematch
-2161	t	Had Rose 1st Rematch
-2162	t	Had Rose 2nd Rematch
-2163	t	Had Rose 3rd Rematch
-2164	t	Had Rose 4th Rematch
-2165	t	Had Dalton 1st Rematch
-2166	t	Had Dalton 2nd Rematch
-2167	t	Had Dalton 3rd Rematch
-2168	t	Had Dalton 4th Rematch
-2473	t	Had Jael and Kael 1st Rematch
-2474	t	Had Jael and Kael 2nd Rematch
-2475	t	Had Jael and Kael 3rd Rematch
-2476	t	Had Jael and Kael 4th Rematch
-2169	t	Had Jackson 1st Rematch
-2170	t	Had Jackson 2nd Rematch
-2171	t	Had Jackson 3rd Rematch
-2172	t	Had Jackson 4th Rematch
-2173	t	Had Catherine 1st Rematch
-2174	t	Had Catherine 2nd Rematch
-2175	t	Had Catherine 3rd Rematch
-2176	t	Had Catherine 4th Rematch
-2177	t	Had Robert 1st Rematch
-2178	t	Had Robert 2nd Rematch
-2179	t	Had Robert 3rd Rematch
-2181	t	Had Brandon 1st Rematch
-2182	t	Had Brandon 2nd Rematch
-2183	t	Had Brandon 3rd Rematch
-2534	t	Had Gomez 1st Rematch
-2535	t	Had Gomez 2nd Rematch
-2536	t	Had Gomez 3rd Rematch
-2542	t	Had Sharlene 1st Rematch
-2543	t	Had Sharlene 2nd Rematch
-2544	t	Had Sharlene 3rd Rematch
-2184	t	Had Walter 1st Rematch
-2350	t	Had Walter 2nd Rematch
-2351	t	Had Walter 3rd Rematch
-2367	t	Had Jessica 1st Rematch
-2368	t	Had Jessica 2nd Rematch
-2369	t	Had Jessica 3rd Rematch
-2510	t	Had Momo 1st Rematch
-2511	t	Had Momo 2nd Rematch
-2512	t	Had Momo 3rd Rematch
-2201	t	Had Valerie 1st Rematch
-2202	t	Had Valerie 2nd Rematch
-2203	t	Had Valerie 3rd Rematch
-2185	t	Had Cameron 1st Rematch
-2186	t	Had Cameron 2nd Rematch
-2187	t	Had Cameron 3rd Rematch
-2286	t	Had Rita and Sam 1st Rematch
-2287	t	Had Rita and Sam 2nd Rematch
-2288	t	Had Rita and Sam 3rd Rematch
-2247	t	Had Jenny 1st Rematch
-2248	t	Had Jenny 2nd Rematch
-2486	t	Had Kylan 1st Rematch
-2487	t	Had Kylan 2nd Rematch
-2499	t	Had Arzu 1st Rematch
-2500	t	Had Arzu 2nd Rematch
-2193	t	Had Ernest 1st Rematch
-2194	t	Had Ernest 2nd Rematch
-2224	t	Had Isaiah 1st Rematch
-2225	t	Had Isaiah 2nd Rematch
-2226	t	Had Isaiah 3rd Rematch
-2571	t	Had Jude and Rory Rematch
+1935	t	Had Youngster Calvin 1st Rematch (Route 102)
+1936	t	Had Youngster Calvin 2nd Rematch (Route 102)
+1937	t	Had Youngster Calvin 3rd Rematch (Route 102)
+1938	t	Had Youngster Calvin 4th Rematch (Route 102)
+2391	t	Had Poké Fan Miguel 1st Rematch (Route 103)
+2392	t	Had Poké Fan Miguel 2nd Rematch (Route 103)
+2393	t	Had Poké Fan Miguel 3rd Rematch (Route 103)
+2394	t	Had Poké Fan Miguel 4th Rematch (Route 103)
+1795	t	Had Twins Amy & Liv 1st Rematch (Route 103)
+2108	t	Had Twins Amy & Liv 2nd Rematch (Route 103)
+2336	t	Had Twins Amy & Liv 3rd Rematch (Route 103)
+2337	t	Had Twins Amy & Liv 4th Rematch (Route 103)
+1939	t	Had Lass Haley 1st Rematch (Route 104)
+1940	t	Had Lass Haley 2nd Rematch (Route 104)
+1941	t	Had Lass Haley 3rd Rematch (Route 104)
+1942	t	Had Lass Haley 4th Rematch (Route 104)
+2395	t	Had Lady Cindy 1st Rematch (Route 104)
+2396	t	Had Lady Cindy 2nd Rematch (Route 104)
+2397	t	Had Lady Cindy 3rd Rematch (Route 104)
+2299	t	Had Lady Cindy 4th Rematch (Route 104)
+2398	t	Had Rich Boy Winston 1st Rematch (Route 104)
+2399	t	Had Rich Boy Winston 2nd Rematch (Route 104)
+2400	t	Had Rich Boy Winston 3rd Rematch (Route 104)
+2300	t	Had Rich Boy Winston 4th Rematch (Route 104)
+2217	t	Had Bug Catcher James 1st Rematch (Petalburg Woods)
+2218	t	Had Bug Catcher James 2nd Rematch (Petalburg Woods)
+2219	t	Had Bug Catcher James 3rd Rematch (Petalburg Woods)
+2220	t	Had Bug Catcher James 4th Rematch (Petalburg Woods)
+2465	t	Had Backpacker Graeme 1st Rematch (Route 106)
+2466	t	Had Backpacker Graeme 2nd Rematch (Route 106)
+2467	t	Had Backpacker Graeme 3rd Rematch (Route 106)
+2468	t	Had Backpacker Graeme 4th Rematch (Route 106)
+2109	t	Had Fisherman Elliot 1st Rematch (Route 106)
+2110	t	Had Fisherman Elliot 2nd Rematch (Route 106)
+2111	t	Had Fisherman Elliot 3rd Rematch (Route 106)
+2112	t	Had Fisherman Elliot 4th Rematch (Route 106)
+2251	t	Had Swimmer Tony 1st Rematch (Route 107)
+2252	t	Had Swimmer Tony 2nd Rematch (Route 107)
+2253	t	Had Swimmer Tony 3rd Rematch (Route 107)
+2254	t	Had Swimmer Tony 4th Rematch (Route 107)
+2550	t	Had Ace Trainer Neville 1st Rematch (Route 108)
+2551	t	Had Ace Trainer Neville 2nd Rematch (Route 108)
+2552	t	Had Ace Trainer Neville 3rd Rematch (Route 108)
+2553	t	Had Ace Trainer Neville 4th Rematch (Route 108)
+2522	t	Had Mysterious Sisters Scall & Ion 1st Rematch (Sea Mauville - Illegal)
+2523	t	Had Mysterious Sisters Scall & Ion 2nd Rematch (Sea Mauville)
+2524	t	Had Mysterious Sisters Scall & Ion 3rd Rematch (Sea Mauville)
+2525	t	Had Mysterious Sisters Scall & Ion 4th Rematch (Sea Mauville)
+2205	t	Had Young Couple Lois & Hal 1st Rematch (Sea Mauville)
+2206	t	Had Young Couple Lois & Hal 2nd Rematch (Sea Mauville)
+2207	t	Had Young Couple Lois & Hal 3rd Rematch (Sea Mauville)
+2208	t	Had Young Couple Lois & Hal 4th Rematch (Sea Mauville)
+2559	t	Had Ace Trainer Portia 1st Rematch (Route 109)
+2560	t	Had Ace Trainer Portia 2nd Rematch (Route 109)
+2561	t	Had Ace Trainer Portia 3rd Rematch (Route 109)
+2562	t	Had Ace Trainer Portia 4th Rematch (Route 109)
+2338	t	Had Tuber Ricky 1st Rematch (Route 109)
+2339	t	Had Tuber Ricky 2nd Rematch (Route 109)
+2340	t	Had Tuber Ricky 3rd Rematch (Route 109)
+2341	t	Had Tuber Ricky 4th Rematch (Route 109)
+2113	t	Had Tuber Lola 1st Rematch (Route 109)
+2114	t	Had Tuber Lola 2nd Rematch (Route 109)
+2115	t	Had Tuber Lola 3rd Rematch (Route 109)
+2116	t	Had Tuber Lola 4th Rematch (Route 109)
+2125	t	Had Collector Edwin 1st Rematch (Route 110)
+2126	t	Had Collector Edwin 2nd Rematch (Route 110)
+2127	t	Had Collector Edwin 3rd Rematch (Route 110)
+2128	t	Had Collector Edwin 4th Rematch (Route 110)
+2401	t	Had Poké Fan Isabel 1st Rematch (Route 110)
+2402	t	Had Poké Fan Isabel 2nd Rematch (Route 110)
+2403	t	Had Poké Fan Isabel 3rd Rematch (Route 110)
+2404	t	Had Poké Fan Isabel 4th Rematch (Route 110)
+2117	t	Had Triathlete Benjamin 1st Rematch (Route 110)
+2118	t	Had Triathlete Benjamin 2nd Rematch (Route 110)
+2119	t	Had Triathlete Benjamin 3rd Rematch (Route 110)
+2120	t	Had Triathlete Benjamin 4th Rematch (Route 110)
+2342	t	Had Ruin Maniac Dusty 1st Rematch (Route 111)
+2343	t	Had Ruin Maniac Dusty 2nd Rematch (Route 111)
+2344	t	Had Ruin Maniac Dusty 3rd Rematch (Route 111)
+2345	t	Had Ruin Maniac Dusty 4th Rematch (Route 111)
+2129	t	Had Ace Trainer Wilton 1st Rematch (Route 111)
+2130	t	Had Ace Trainer Wilton 2nd Rematch (Route 111)
+2131	t	Had Ace Trainer Wilton 3rd Rematch (Route 111)
+2132	t	Had Ace Trainer Wilton 4th Rematch (Route 111)
+2133	t	Had Ace Trainer Brooke 1st Rematch (Route 111)
+2134	t	Had Ace Trainer Brooke 2nd Rematch (Route 111)
+2135	t	Had Ace Trainer Brooke 3rd Rematch (Route 111)
+2136	t	Had Ace Trainer Brooke 4th Rematch (Route 111)
+2137	t	Had Hiker Trent 1st Rematch (Route 112)
+2138	t	Had Hiker Trent 2nd Rematch (Route 112)
+2139	t	Had Hiker Trent 3rd Rematch (Route 112)
+2140	t	Had Hiker Trent 4th Rematch (Route 112)
+2209	t	Had Camper Ethan 1st Rematch (Jagged Pass)
+2210	t	Had Camper Ethan 2nd Rematch (Jagged Pass)
+2211	t	Had Camper Ethan 3rd Rematch (Jagged Pass)
+2212	t	Had Camper Ethan 4th Rematch (Jagged Pass)
+2197	t	Had Expert Shelby 1st Rematch (Jagged Pass)
+2198	t	Had Expert Shelby 2nd Rematch (Jagged Pass)
+2199	t	Had Expert Shelby 3rd Rematch (Jagged Pass)
+2200	t	Had Expert Shelby 4th Rematch (Jagged Pass)
+2213	t	Had Picnicker Diana 1st Rematch (Jagged Pass)
+2214	t	Had Picnicker Diana 2nd Rematch (Jagged Pass)
+2215	t	Had Picnicker Diana 3rd Rematch (Jagged Pass)
+2216	t	Had Picnicker Diana 4th Rematch (Jagged Pass)
+2359	t	Had Parasol Lady Madeline 1st Rematch (Route 113)
+2360	t	Had Parasol Lady Madeline 2nd Rematch (Route 113)
+2361	t	Had Parasol Lady Madeline 3rd Rematch (Route 113)
+2362	t	Had Parasol Lady Madeline 4th Rematch (Route 113)
+2654	t	Had Ninja Boy Lao 1st Rematch (Route 113)
+2655	t	Had Ninja Boy Lao 2nd Rematch (Route 113)
+2656	t	Had Ninja Boy Lao 3rd Rematch (Route 113)
+2657	t	Had Ninja Boy Lao 4th Rematch (Route 113)
+2145	t	Had Kindler Bernie 1st Rematch (Route 114)
+2146	t	Had Kindler Bernie 2nd Rematch (Route 114)
+2147	t	Had Kindler Bernie 3rd Rematch (Route 114)
+2148	t	Had Kindler Bernie 4th Rematch (Route 114)
+2141	t	Had Poké Maniac Steve 1st Rematch (Route 114)
+2142	t	Had Poké Maniac Steve 2nd Rematch (Route 114)
+2143	t	Had Poké Maniac Steve 3rd Rematch (Route 114)
+2144	t	Had Poké Maniac Steve 4th Rematch (Route 114)
+2221	t	Had Dragon Tamer Nicolas Rematch (Meteor Falls)
+2375	t	Had Old Couple John & Jay Rematch (Meteor Falls)
+2149	t	Had Battle Girl Cyndy 1st Rematch (Route 115)
+2150	t	Had Battle Girl Cyndy 2nd Rematch (Route 115)
+2151	t	Had Battle Girl Cyndy 3rd Rematch (Route 115)
+2152	t	Had Battle Girl Cyndy 4th Rematch (Route 115)
+2346	t	Had Expert Timothy 1st Rematch (Route 115)
+2347	t	Had Expert Timothy 2nd Rematch (Route 115)
+2348	t	Had Expert Timothy 3rd Rematch (Route 115)
+2349	t	Had Expert Timothy 4th Rematch (Route 115)
+1943	t	Had Black Belt Nob 1st Rematch (Route 115)
+1944	t	Had Black Belt Nob 2nd Rematch (Route 115)
+1945	t	Had Black Belt Nob 3rd Rematch (Route 115)
+1983	t	Had Black Belt Nob 4th Rematch (Route 115)
+2153	t	Had Schoolkid Jerry 1st Rematch (Route 116)
+2154	t	Had Schoolkid Jerry 2nd Rematch (Route 116)
+2155	t	Had Schoolkid Jerry 3rd Rematch (Route 116)
+2156	t	Had Schoolkid Jerry 4th Rematch (Route 116)
+2157	t	Had Schoolkid Karen 1st Rematch (Route 116)
+2158	t	Had Schoolkid Karen 2nd Rematch (Route 116)
+2159	t	Had Schoolkid Karen 3rd Rematch (Route 116)
+2160	t	Had Schoolkid Karen 4th Rematch (Route 116)
+2234	t	Had Triathlete Dylan 1st Rematch (Route 117)
+2235	t	Had Triathlete Dylan 2nd Rematch (Route 117)
+2236	t	Had Triathlete Dylan 3rd Rematch (Route 117)
+2237	t	Had Triathlete Dylan 4th Rematch (Route 117)
+2263	t	Had Pokémon Breeder Isaac 1st Rematch (Route 117)
+2264	t	Had Pokémon Breeder Isaac 2nd Rematch (Route 117)
+2265	t	Had Pokémon Breeder Isaac 3rd Rematch (Route 117)
+2266	t	Had Pokémon Breeder Isaac 4th Rematch (Route 117)
+2259	t	Had Pokémon Breeder Lydia 1st Rematch (Route 117)
+2260	t	Had Pokémon Breeder Lydia 2nd Rematch (Route 117)
+2261	t	Had Pokémon Breeder Lydia 3rd Rematch (Route 117)
+2262	t	Had Pokémon Breeder Lydia 4th Rematch (Route 117)
+2363	t	Had Teammates Anna & Meg 1st Rematch (Route 117)
+2364	t	Had Teammates Anna & Meg 2nd Rematch (Route 117)
+2365	t	Had Teammates Anna & Meg 3rd Rematch (Route 117)
+2366	t	Had Teammates Anna & Meg 4th Rematch (Route 117)
+2161	t	Had Aroma Lady Rose 1st Rematch (Route 118)
+2162	t	Had Aroma Lady Rose 2nd Rematch (Route 118)
+2163	t	Had Aroma Lady Rose 3rd Rematch (Route 118)
+2164	t	Had Aroma Lady Rose 4th Rematch (Route 118)
+2165	t	Had Guitarist Dalton 1st Rematch (Route 118)
+2166	t	Had Guitarist Dalton 2nd Rematch (Route 118)
+2167	t	Had Guitarist Dalton 3rd Rematch (Route 118)
+2168	t	Had Guitarist Dalton 4th Rematch (Route 118)
+2473	t	Had Brains & Brawn Jael & Kael 1st Rematch(Route 119)
+2474	t	Had Brains & Brawn Jael & Kael 2nd Rematch(Route 119)
+2475	t	Had Brains & Brawn Jael & Kael 3rd Rematch(Route 119)
+2476	t	Had Brains & Brawn Jael & Kael 4th Rematch(Route 119)
+2169	t	Had Pokémon Ranger Jackson 1st Rematch (Route 119)
+2170	t	Had Pokémon Ranger Jackson 2nd Rematch (Route 119)
+2171	t	Had Pokémon Ranger Jackson 3rd Rematch (Route 119)
+2172	t	Had Pokémon Ranger Jackson 4th Rematch (Route 119)
+2173	t	Had Pokémon Ranger Catherine 1st Rematch (Route 119)
+2174	t	Had Pokémon Ranger Catherine 2nd Rematch (Route 119)
+2175	t	Had Pokémon Ranger Catherine 3rd Rematch (Route 119)
+2176	t	Had Pokémon Ranger Catherine 4th Rematch (Route 119)
+2177	t	Had Bird Keeper Robert 1st Rematch (Route 120)
+2178	t	Had Bird Keeper Robert 2nd Rematch (Route 120)
+2179	t	Had Bird Keeper Robert 3rd Rematch (Route 120)
+2181	t	Had Bug Maniac Brandon 1st Rematch (Route 120)
+2182	t	Had Bug Maniac Brandon 2nd Rematch (Route 120)
+2183	t	Had Bug Maniac Brandon 3rd Rematch (Route 120)
+2534	t	Had Street Thug Gomez 1st Rematch (Route 120)
+2535	t	Had Street Thug Gomez 2nd Rematch (Route 120)
+2536	t	Had Street Thug Gomez 3rd Rematch (Route 120)
+2542	t	Had Delinquent Sharlene 1st Rematch (Route 120)
+2543	t	Had Delinquent Sharlene 2nd Rematch (Route 120)
+2544	t	Had Delinquent Sharlene 3rd Rematch (Route 120)
+2184	t	Had Gentleman Walter 1st Rematch (Route 121)
+2350	t	Had Gentleman Walter 2nd Rematch (Route 121)
+2351	t	Had Gentleman Walter 3rd Rematch (Route 121)
+2367	t	Had Beauty Jessica 1st Rematch (Route 121)
+2368	t	Had Beauty Jessica 2nd Rematch (Route 121)
+2369	t	Had Beauty Jessica 3rd Rematch (Route 121)
+2510	t	Had Fairy Tale Girl Momo 1st Rematch (Mt. Pyre)
+2511	t	Had Fairy Tale Girl Momo 2nd Rematch (Mt. Pyre)
+2512	t	Had Fairy Tale Girl Momo 3rd Rematch (Mt. Pyre)
+2201	t	Had Hex Maniac Valerie 1st Rematch (Mt. Pyre)
+2202	t	Had Hex Maniac Valerie 2nd Rematch (Mt. Pyre)
+2203	t	Had Hex Maniac Valerie 3rd Rematch (Mt. Pyre)
+2185	t	Had Psychic Cameron 1st Rematch (Route 123)
+2186	t	Had Psychic Cameron 2nd Rematch (Route 123)
+2187	t	Had Psychic Cameron 3rd Rematch (Route 123)
+2286	t	Had Sis & Bro Rita & Sam 1st Rematch (Route 124)
+2287	t	Had Sis & Bro Rita & Sam 2nd Rematch (Route 124)
+2288	t	Had Sis & Bro Rita & Sam 3rd Rematch (Route 124)
+2247	t	Had Swimmer Jenny 1st Rematch (Route 124)
+2248	t	Had Swimmer Jenny 2nd Rematch (Route 124)
+2486	t	Had Scuba Diver Kylan 1st Rematch (Route 124)
+2487	t	Had Scuba Diver Kylan 2nd Rematch (Route 124)
+2499	t	Had Free Diver Arzu 1st Rematch (Route 124)
+2500	t	Had Free Diver Arzu 2nd Rematch (Route 124)
+2193	t	Had Sailor Ernest 1st Rematch (Route 125)
+2194	t	Had Sailor Ernest 2nd Rematch (Route 125)
+2224	t	Had Triathlete Isaiah 1st Rematch (Route 128)
+2225	t	Had Triathlete Isaiah 2nd Rematch (Route 128)
+2226	t	Had Triathlete Isaiah 3rd Rematch (Route 128)
+2571	t	Had Ace Duo Jude & Rory Rematch (Victory Road)
 1914	t	Had Gabby and Ty 1st Rematch
 1915	t	Had Gabby and Ty 2nd Rematch
 1916	t	Had Gabby and Ty 3rd Rematch
 1917	t	Had Gabby and Ty 4th Rematch
 2322	t	Had Gabby and Ty 5th Rematch
-2684	t	Had Wally 1st Rematch
-2686	t	Had Wally 2nd Rematch
+2684	t	Had Wally 1st Rematch (Battle House)
+2686	t	Had Wally 2nd Rematch (Battle House)

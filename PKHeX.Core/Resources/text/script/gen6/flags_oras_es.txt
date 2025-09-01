@@ -56,11 +56,11 @@
 2934	r	Registeel capturado
 0348	r	Regigigas derrotado
 2918	r	Regigigas capturado
-0380	a	Indiv. Statuette
-0381	a	Dobles Statuette
-0382	a	Triples Statuette
-0383	a	Rotación Statuette
-0384	a	Multi Statuette
+0380	a	Indiv. Statuette (Mansión Batalla)
+0381	a	Dobles Statuette (Mansión Batalla)
+0382	a	Triples Statuette (Mansión Batalla)
+0383	a	Rotación Statuette (Mansión Batalla)
+0384	a	Multi Statuette (Mansión Batalla)
 0385	*	Super Indiv. desbloqueado
 0386	*	Super Dobles desbloqueado
 0387	*	Super Triples desbloqueado
@@ -72,12 +72,12 @@
 0361	s	Revancha contra Alto Mando
 3023	s	Puede dar Orbe rojo y Orbe azul
 0148	s	Conocida persona mayor de los baños termales
-0147	g	Huevo de Wynaut de regalo recibido
-0187	g	Huevo de Togepi de regalo recibido
-0119	g	Castform de regalo recibido
-0249	g	Beldum de regalo recibido
-0264	g	Camerupt de regalo recibido
-0265	g	Sharpedo de regalo recibido
+0147	g	Huevo de Wynaut de regalo recibido (Pueblo Lavacalda)
+0187	g	Huevo de Togepi de regalo recibido (Pueblo Lavacalda)
+0119	g	Castform de regalo recibido (Instituto Meteorológico)
+0249	g	Beldum de regalo recibido (Ciudad Algaria)
+0264	g	Camerupt de regalo recibido (Resort Batalla)
+0265	g	Sharpedo de regalo recibido (Resort Batalla)
 0298	s	Diancita recibida
 0308	s	Vasija castigo recibida
 0310	g	Inicial de Johto recibido
@@ -86,7 +86,7 @@
 0166	g	Intercambio por Makuhita en Ciudad Férrica
 0167	g	Intercambio por Skitty en Ciudad Arborada
 0168	g	Intercambio por Corsola en Pueblo Oromar
-0692	s	Família Estratega derrotada
+0692	s	Família Estratega derrotada (Ruta 111)
 0806	s	Máximo desaparecido del puente de la Ruta 120
 0808	g	Criapokémon (cambio de Pikachu coqueta) desaparecida
 0699	s	Steven and Lati@s desaparecido from Ruta 118
@@ -324,230 +324,230 @@
 1207	s	Encontrada Tabla terrax bajo el agua (Ruta 130)
 1204	s	Encontrada Tabla pradal bajo el agua (Ruta 130)
 1208	s	Encontrada Griseosfera bajo el agua (Ruta 130)
-1935	t	1ra revancha contra Calixto 
-1936	t	2da revancha contra Calixto 
-1937	t	3ra revancha contra Calixto
-1938	t	4ta revancha contra Calixto
-2391	t	1ra revancha contra Miguel 
-2392	t	2da revancha contra Miguel 
-2393	t	3ra revancha contra Miguel
-2394	t	4ta revancha contra Miguel
-1795	t	1ra revancha contra Ali y Lia 
-2108	t	2da revancha contra Ali y Lia 
-2336	t	3ra revancha contra Ali y Lia
-2337	t	4ta revancha contra Ali y Lia
-1939	t	1ra revancha contra Herminia 
-1940	t	2da revancha contra Herminia 
-1941	t	3ra revancha contra Herminia
-1942	t	4ta revancha contra Herminia
-2395	t	1ra revancha contra Verónica 
-2396	t	2da revancha contra Verónica 
-2397	t	3ra revancha contra Verónica
-2299	t	4ta revancha contra Verónica
-2398	t	1ra revancha contra Gustavo 
-2399	t	2da revancha contra Gustavo 
-2400	t	3ra revancha contra Gustavo
-2300	t	4ta revancha contra Gustavo
-2217	t	1ra revancha contra Jaime 
-2218	t	2da revancha contra Jaime 
-2219	t	3ra revancha contra Jaime
-2220	t	4ta revancha contra Jaime
-2465	t	1ra revancha contra Ralf 
-2466	t	2da revancha contra Ralf 
-2467	t	3ra revancha contra Ralf
-2468	t	4ta revancha contra Ralf
-2109	t	1ra revancha contra Eloy 
-2110	t	2da revancha contra Eloy 
-2111	t	3ra revancha contra Eloy
-2112	t	4ta revancha contra Eloy
-2251	t	1ra revancha contra Toni 
-2252	t	2da revancha contra Toni 
-2253	t	3ra revancha contra Toni
-2254	t	4ta revancha contra Toni
-2550	t	1ra revancha contra Roy 
-2551	t	2da revancha contra Roy 
-2552	t	3ra revancha contra Roy
-2553	t	4ta revancha contra Roy
-2522	t	1ra revancha contra Luci y Fito (ilegal)
-2523	t	2da revancha contra Luci y Fito 
-2524	t	3ra revancha contra Luci y Fito
-2525	t	4ta revancha contra Luci y Fito
-2205	t	1ra revancha contra Lisa y Nerea 
-2206	t	2da revancha contra Lisa y Nerea 
-2207	t	3ra revancha contra Lisa y Nerea
-2208	t	4ta revancha contra Lisa y Nerea
-2559	t	1ra revancha contra Mariana 
-2560	t	2da revancha contra Mariana 
-2561	t	3ra revancha contra Mariana
-2562	t	4ta revancha contra Mariana
-2338	t	1ra revancha contra Richi 
-2339	t	2da revancha contra Richi 
-2340	t	3ra revancha contra Richi
-2341	t	4ta revancha contra Richi
-2113	t	1ra revancha contra Lola 
-2114	t	2da revancha contra Lola 
-2115	t	3ra revancha contra Lola
-2116	t	4ta revancha contra Lola
-2125	t	1ra revancha contra Edgardo 
-2126	t	2da revancha contra Edgardo 
-2127	t	3ra revancha contra Edgardo
-2128	t	4ta revancha contra Edgardo
-2401	t	1ra revancha contra Isabel 
-2402	t	2da revancha contra Isabel 
-2403	t	3ra revancha contra Isabel
-2404	t	4ta revancha contra Isabel
-2117	t	1ra revancha contra Benjamin 
-2118	t	2da revancha contra Benjamin 
-2119	t	3ra revancha contra Benjamin
-2120	t	4ta revancha contra Benjamin
-2342	t	1ra revancha contra Dacio 
-2343	t	2da revancha contra Dacio 
-2344	t	3ra revancha contra Dacio
-2345	t	4ta revancha contra Dacio
-2129	t	1ra revancha contra Valentín 
-2130	t	2da revancha contra Valentín 
-2131	t	3ra revancha contra Valentín
-2132	t	4ta revancha contra Valentín
-2133	t	1ra revancha contra Berta 
-2134	t	2da revancha contra Berta 
-2135	t	3ra revancha contra Berta
-2136	t	4ta revancha contra Berta
-2137	t	1ra revancha contra Tarsi 
-2138	t	2da revancha contra Tarsi 
-2139	t	3ra revancha contra Tarsi
-2140	t	4ta revancha contra Tarsi
-2209	t	1ra revancha contra Ezequiel 
-2210	t	2da revancha contra Ezequiel 
-2211	t	3ra revancha contra Ezequiel
-2212	t	4ta revancha contra Ezequiel
-2197	t	1ra revancha contra Serafina 
-2198	t	2da revancha contra Serafina 
-2199	t	3ra revancha contra Serafina
-2200	t	4ta revancha contra Serafina
-2213	t	1ra revancha contra Diana 
-2214	t	2da revancha contra Diana 
-2215	t	3ra revancha contra Diana
-2216	t	4ta revancha contra Diana
-2359	t	1ra revancha contra Miranda 
-2360	t	2da revancha contra Miranda 
-2361	t	3ra revancha contra Miranda
-2362	t	4ta revancha contra Miranda
-2654	t	1ra revancha contra Lao 
-2655	t	2da revancha contra Lao 
-2656	t	3ra revancha contra Lao
-2657	t	4ta revancha contra Lao
-2145	t	1ra revancha contra Lope 
-2146	t	2da revancha contra Lope 
-2147	t	3ra revancha contra Lope
-2148	t	4ta revancha contra Lope
-2141	t	1ra revancha contra Esteban 
-2142	t	2da revancha contra Esteban 
-2143	t	3ra revancha contra Esteban
-2144	t	4ta revancha contra Esteban
-2221	t	Revancha contra Nicolás
-2375	t	Revancha contra Juli-Nela
-2149	t	1ra revancha contra Cecilia 
-2150	t	2da revancha contra Cecilia 
-2151	t	3ra revancha contra Cecilia
-2152	t	4ta revancha contra Cecilia
-2346	t	1ra revancha contra Timoteo 
-2347	t	2da revancha contra Timoteo 
-2348	t	3ra revancha contra Timoteo
-2349	t	4ta revancha contra Timoteo
-1943	t	1ra revancha contra Noboru 
-1944	t	2da revancha contra Noboru 
-1945	t	3ra revancha contra Noboru
-1983	t	4ta revancha contra Noboru
-2153	t	1ra revancha contra Jerónimo 
-2154	t	2da revancha contra Jerónimo 
-2155	t	3ra revancha contra Jerónimo
-2156	t	4ta revancha contra Jerónimo
-2157	t	1ra revancha contra Corina 
-2158	t	2da revancha contra Corina 
-2159	t	3ra revancha contra Corina
-2160	t	4ta revancha contra Corina
-2234	t	1ra revancha contra Dan 
-2235	t	2da revancha contra Dan 
-2236	t	3ra revancha contra Dan
-2237	t	4ta revancha contra Dan
-2263	t	1ra revancha contra Isaac 
-2264	t	2da revancha contra Isaac 
-2265	t	3ra revancha contra Isaac
-2266	t	4ta revancha contra Isaac
-2259	t	1ra revancha contra Lidia 
-2260	t	2da revancha contra Lidia 
-2261	t	3ra revancha contra Lidia
-2262	t	4ta revancha contra Lidia
-2363	t	1ra revancha contra Ani y Mati 
-2364	t	2da revancha contra Ani y Mati 
-2365	t	3ra revancha contra Ani y Mati
-2366	t	4ta revancha contra Ani y Mati
-2161	t	1ra revancha contra Rosa 
-2162	t	2da revancha contra Rosa 
-2163	t	3ra revancha contra Rosa
-2164	t	4ta revancha contra Rosa
-2165	t	1ra revancha contra Mike 
-2166	t	2da revancha contra Mike 
-2167	t	3ra revancha contra Mike
-2168	t	4ta revancha contra Mike
-2473	t	1ra revancha contra Manu y Pío 
-2474	t	2da revancha contra Manu y Pío 
-2475	t	3ra revancha contra Manu y Pío
-2476	t	4ta revancha contra Manu y Pío
-2169	t	1ra revancha contra Joaquín 
-2170	t	2da revancha contra Joaquín 
-2171	t	3ra revancha contra Joaquín
-2172	t	4ta revancha contra Joaquín
-2173	t	1ra revancha contra Cristina 
-2174	t	2da revancha contra Cristina 
-2175	t	3ra revancha contra Cristina
-2176	t	4ta revancha contra Cristina
-2177	t	1ra revancha contra Roberto 
-2178	t	2da revancha contra Roberto 
-2179	t	3ra revancha contra Roberto
-2181	t	1ra revancha contra Bartolo 
-2182	t	2da revancha contra Bartolo 
-2183	t	3ra revancha contra Bartolo
-2534	t	1ra revancha contra Christian 
-2535	t	2da revancha contra Christian 
-2536	t	3ra revancha contra Christian
-2542	t	1ra revancha contra Lore 
-2543	t	2da revancha contra Lore 
-2544	t	3ra revancha contra Lore
-2184	t	1ra revancha contra Federico 
-2350	t	2da revancha contra Federico 
-2351	t	3ra revancha contra Federico
-2367	t	1ra revancha contra Gloria 
-2368	t	2da revancha contra Gloria 
-2369	t	3ra revancha contra Gloria
-2510	t	1ra revancha contra Alice 
-2511	t	2da revancha contra Alice 
-2512	t	3ra revancha contra Alice
-2201	t	1ra revancha contra Valeria 
-2202	t	2da revancha contra Valeria 
-2203	t	3ra revancha contra Valeria
-2185	t	1ra revancha contra Silvio 
-2186	t	2da revancha contra Silvio 
-2187	t	3ra revancha contra Silvio
-2286	t	1ra revancha contra Saúl y Rita 
-2287	t	2da revancha contra Saúl y Rita 
-2288	t	3ra revancha contra Saúl y Rita
-2247	t	1ra revancha contra Geno 
-2248	t	2da revancha contra Geno 
-2486	t	1ra revancha contra Gus 
-2487	t	2da revancha contra Gus 
-2499	t	1ra revancha contra Elisa 
-2500	t	2da revancha contra Elisa 
-2193	t	1ra revancha contra Ernesto 
-2194	t	2da revancha contra Ernesto
-2224	t	1ra revancha contra Isaias 
-2225	t	2da revancha contra Isaias 
-2226	t	3ra revancha contra Isaias
-2571	t	Revancha contra Tara y Nico
+1935	t	1ra revancha contra Joven Calixto (Ruta 102) 
+1936	t	2da revancha contra Joven Calixto (Ruta 102) 
+1937	t	3ra revancha contra Joven Calixto (Ruta 102)
+1938	t	4ta revancha contra Joven Calixto (Ruta 102)
+2391	t	1ra revancha contra Pokéfan Miguel (Ruta 103) 
+2392	t	2da revancha contra Pokéfan Miguel (Ruta 103) 
+2393	t	3ra revancha contra Pokéfan Miguel (Ruta 103)
+2394	t	4ta revancha contra Pokéfan Miguel (Ruta 103)
+1795	t	1ra revancha contra Gemelas Ali y Lía (Ruta 103) 
+2108	t	2da revancha contra Gemelas Ali y Lía (Ruta 103) 
+2336	t	3ra revancha contra Gemelas Ali y Lía (Ruta 103)
+2337	t	4ta revancha contra Gemelas Ali y Lía (Ruta 103)
+1939	t	1ra revancha contra Chica Herminia (Ruta 104) 
+1940	t	2da revancha contra Chica Herminia (Ruta 104) 
+1941	t	3ra revancha contra Chica Herminia (Ruta 104)
+1942	t	4ta revancha contra Chica Herminia (Ruta 104)
+2395	t	1ra revancha contra Damisela Verónica (Ruta 104) 
+2396	t	2da revancha contra Damisela Verónica (Ruta 104) 
+2397	t	3ra revancha contra Damisela Verónica (Ruta 104)
+2299	t	4ta revancha contra Damisela Verónica (Ruta 104)
+2398	t	1ra revancha contra Niño bien Gustavo (Ruta 104) 
+2399	t	2da revancha contra Niño bien Gustavo (Ruta 104) 
+2400	t	3ra revancha contra Niño bien Gustavo (Ruta 104)
+2300	t	4ta revancha contra Niño bien Gustavo (Ruta 104)
+2217	t	1ra revancha contra Cazabichos Jaime (Bosque Petalia) 
+2218	t	2da revancha contra Cazabichos Jaime (Bosque Petalia) 
+2219	t	3ra revancha contra Cazabichos Jaime (Bosque Petalia)
+2220	t	4ta revancha contra Cazabichos Jaime (Bosque Petalia)
+2465	t	1ra revancha contra Mochilero Ralf (Ruta 106) 
+2466	t	2da revancha contra Mochilero Ralf (Ruta 106) 
+2467	t	3ra revancha contra Mochilero Ralf (Ruta 106)
+2468	t	4ta revancha contra Mochilero Ralf (Ruta 106)
+2109	t	1ra revancha contra Pescador Eloy (Ruta 106) 
+2110	t	2da revancha contra Pescador Eloy (Ruta 106) 
+2111	t	3ra revancha contra Pescador Eloy (Ruta 106)
+2112	t	4ta revancha contra Pescador Eloy (Ruta 106)
+2251	t	1ra revancha contra Nadador Toni (Ruta 107) 
+2252	t	2da revancha contra Nadador Toni (Ruta 107) 
+2253	t	3ra revancha contra Nadador Toni (Ruta 107)
+2254	t	4ta revancha contra Nadador Toni (Ruta 107)
+2550	t	1ra revancha contra Entrenador guay Roy (Ruta 108) 
+2551	t	2da revancha contra Entrenador guay Roy (Ruta 108) 
+2552	t	3ra revancha contra Entrenador guay Roy (Ruta 108)
+2553	t	4ta revancha contra Entrenador guay Roy (Ruta 108)
+2522	t	1ra revancha contra Pareja joven Luci y Fito (Malvamar - ilegal)
+2523	t	2da revancha contra Pareja joven Luci y Fito (Malvamar) 
+2524	t	3ra revancha contra Pareja joven Luci y Fito (Malvamar)
+2525	t	4ta revancha contra Pareja joven Luci y Fito (Malvamar)
+2205	t	1ra revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar) 
+2206	t	2da revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar) 
+2207	t	3ra revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar)
+2208	t	4ta revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar)
+2559	t	1ra revancha contra Entrenadora guay Mariana (Ruta 109) 
+2560	t	2da revancha contra Entrenadora guay Mariana (Ruta 109) 
+2561	t	3ra revancha contra Entrenadora guay Mariana (Ruta 109)
+2562	t	4ta revancha contra Entrenadora guay Mariana (Ruta 109)
+2338	t	1ra revancha contra Playero Richi (Ruta 109) 
+2339	t	2da revancha contra Playero Richi (Ruta 109) 
+2340	t	3ra revancha contra Playero Richi (Ruta 109)
+2341	t	4ta revancha contra Playero Richi (Ruta 109)
+2113	t	1ra revancha contra Playera Lola (Ruta 109) 
+2114	t	2da revancha contra Playera Lola (Ruta 109) 
+2115	t	3ra revancha contra Playera Lola (Ruta 109)
+2116	t	4ta revancha contra Playera Lola (Ruta 109)
+2125	t	1ra revancha contra Pokécolector Edgardo (Ruta 110) 
+2126	t	2da revancha contra Pokécolector Edgardo (Ruta 110) 
+2127	t	3ra revancha contra Pokécolector Edgardo (Ruta 110)
+2128	t	4ta revancha contra Pokécolector Edgardo (Ruta 110)
+2401	t	1ra revancha contra Pokéfan Isabel (Ruta 110) 
+2402	t	2da revancha contra Pokéfan Isabel (Ruta 110) 
+2403	t	3ra revancha contra Pokéfan Isabel (Ruta 110)
+2404	t	4ta revancha contra Pokéfan Isabel (Ruta 110)
+2117	t	1ra revancha contra Triatleta ciclista Benjamín (Ruta 110) 
+2118	t	2da revancha contra Triatleta ciclista Benjamín (Ruta 110) 
+2119	t	3ra revancha contra Triatleta ciclista Benjamín (Ruta 110)
+2120	t	4ta revancha contra Triatleta ciclista Benjamín (Ruta 110)
+2342	t	1ra revancha contra Ruinamaníaco Dacio (Ruta 111) 
+2343	t	2da revancha contra Ruinamaníaco Dacio (Ruta 111) 
+2344	t	3ra revancha contra Ruinamaníaco Dacio (Ruta 111)
+2345	t	4ta revancha contra Ruinamaníaco Dacio (Ruta 111)
+2129	t	1ra revancha contra Entrenador guay Valentín (Ruta 111) 
+2130	t	2da revancha contra Entrenador guay Valentín (Ruta 111) 
+2131	t	3ra revancha contra Entrenador guay Valentín (Ruta 111)
+2132	t	4ta revancha contra Entrenador guay Valentín (Ruta 111)
+2133	t	1ra revancha contra Entrenadora guay Berta (Ruta 111) 
+2134	t	2da revancha contra Entrenadora guay Berta (Ruta 111) 
+2135	t	3ra revancha contra Entrenadora guay Berta (Ruta 111)
+2136	t	4ta revancha contra Entrenadora guay Berta (Ruta 111)
+2137	t	1ra revancha contra Montañero Tarsi (Ruta 112) 
+2138	t	2da revancha contra Montañero Tarsi (Ruta 112) 
+2139	t	3ra revancha contra Montañero Tarsi (Ruta 112)
+2140	t	4ta revancha contra Montañero Tarsi (Ruta 112)
+2209	t	1ra revancha contra Campista Ezequiel (Desfiladero) 
+2210	t	2da revancha contra Campista Ezequiel (Desfiladero) 
+2211	t	3ra revancha contra Campista Ezequiel (Desfiladero)
+2212	t	4ta revancha contra Campista Ezequiel (Desfiladero)
+2197	t	1ra revancha contra Pokéabu Serafina (Desfiladero) 
+2198	t	2da revancha contra Pokéabu Serafina (Desfiladero) 
+2199	t	3ra revancha contra Pokéabu Serafina (Desfiladero)
+2200	t	4ta revancha contra Pokéabu Serafina (Desfiladero)
+2213	t	1ra revancha contra Dominguera Diana (Desfiladero) 
+2214	t	2da revancha contra Dominguera Diana (Desfiladero) 
+2215	t	3ra revancha contra Dominguera Diana (Desfiladero)
+2216	t	4ta revancha contra Dominguera Diana (Desfiladero)
+2359	t	1ra revancha contra Dama parasol Miranda (Ruta 113) 
+2360	t	2da revancha contra Dama parasol Miranda (Ruta 113) 
+2361	t	3ra revancha contra Dama parasol Miranda (Ruta 113)
+2362	t	4ta revancha contra Dama parasol Miranda (Ruta 113)
+2654	t	1ra revancha contra Chico ninja Lao (Ruta 113) 
+2655	t	2da revancha contra Chico ninja Lao (Ruta 113) 
+2656	t	3ra revancha contra Chico ninja Lao (Ruta 113)
+2657	t	4ta revancha contra Chico ninja Lao (Ruta 113)
+2145	t	1ra revancha contra Prendefuegos Lope (Ruta 114) 
+2146	t	2da revancha contra Prendefuegos Lope (Ruta 114) 
+2147	t	3ra revancha contra Prendefuegos Lope (Ruta 114)
+2148	t	4ta revancha contra Prendefuegos Lope (Ruta 114)
+2141	t	1ra revancha contra Pokémaníaco Esteban (Ruta 114) 
+2142	t	2da revancha contra Pokémaníaco Esteban (Ruta 114) 
+2143	t	3ra revancha contra Pokémaníaco Esteban (Ruta 114)
+2144	t	4ta revancha contra Pokémaníaco Esteban (Ruta 114)
+2221	t	Revancha contra Domadragón Nicolás (Cascada Meteoro)
+2375	t	Revancha contra Pareja mayor Juli-Nela (Cascada Meteoro)
+2149	t	1ra revancha contra Luchadora Cecilia (Ruta 115) 
+2150	t	2da revancha contra Luchadora Cecilia (Ruta 115) 
+2151	t	3ra revancha contra Luchadora Cecilia (Ruta 115)
+2152	t	4ta revancha contra Luchadora Cecilia (Ruta 115)
+2346	t	1ra revancha contra Pokéabu Timoteo (Ruta 115) 
+2347	t	2da revancha contra Pokéabu Timoteo (Ruta 115) 
+2348	t	3ra revancha contra Pokéabu Timoteo (Ruta 115)
+2349	t	4ta revancha contra Pokéabu Timoteo (Ruta 115)
+1943	t	1ra revancha contra Karateka Noboru (Ruta 115) 
+1944	t	2da revancha contra Karateka Noboru (Ruta 115) 
+1945	t	3ra revancha contra Karateka Noboru (Ruta 115)
+1983	t	4ta revancha contra Karateka Noboru (Ruta 115)
+2153	t	1ra revancha contra Escolar Jerónimo (Ruta 116) 
+2154	t	2da revancha contra Escolar Jerónimo (Ruta 116) 
+2155	t	3ra revancha contra Escolar Jerónimo (Ruta 116)
+2156	t	4ta revancha contra Escolar Jerónimo (Ruta 116)
+2157	t	1ra revancha contra Escolar Corina (Ruta 116) 
+2158	t	2da revancha contra Escolar Corina (Ruta 116) 
+2159	t	3ra revancha contra Escolar Corina (Ruta 116)
+2160	t	4ta revancha contra Escolar Corina (Ruta 116)
+2234	t	1ra revancha contra Triatleta Dan (Ruta 117) 
+2235	t	2da revancha contra Triatleta Dan (Ruta 117) 
+2236	t	3ra revancha contra Triatleta Dan (Ruta 117)
+2237	t	4ta revancha contra Triatleta Dan (Ruta 117)
+2263	t	1ra revancha contra Criapokémon Isaac (Ruta 117) 
+2264	t	2da revancha contra Criapokémon Isaac (Ruta 117) 
+2265	t	3ra revancha contra Criapokémon Isaac (Ruta 117)
+2266	t	4ta revancha contra Criapokémon Isaac (Ruta 117)
+2259	t	1ra revancha contra Criapokémon Lidia (Ruta 117) 
+2260	t	2da revancha contra Criapokémon Lidia (Ruta 117) 
+2261	t	3ra revancha contra Criapokémon Lidia (Ruta 117)
+2262	t	4ta revancha contra Criapokémon Lidia (Ruta 117)
+2363	t	1ra revancha contra Estudiantes Ani y Mati (Ruta 117) 
+2364	t	2da revancha contra Estudiantes Ani y Mati (Ruta 117) 
+2365	t	3ra revancha contra Estudiantes Ani y Mati (Ruta 117)
+2366	t	4ta revancha contra Estudiantes Ani y Mati (Ruta 117)
+2161	t	1ra revancha contra Señorita aroma Rosa (Ruta 118) 
+2162	t	2da revancha contra Señorita aroma Rosa (Ruta 118) 
+2163	t	3ra revancha contra Señorita aroma Rosa (Ruta 118)
+2164	t	4ta revancha contra Señorita aroma Rosa (Ruta 118)
+2165	t	1ra revancha contra Guitarrista Mike (Ruta 118) 
+2166	t	2da revancha contra Guitarrista Mike (Ruta 118) 
+2167	t	3ra revancha contra Guitarrista Mike (Ruta 118)
+2168	t	4ta revancha contra Guitarrista Mike (Ruta 118)
+2473	t	1ra revancha contra Cuerpo y mente Manu y Pío (Ruta 119) 
+2474	t	2da revancha contra Cuerpo y mente Manu y Pío (Ruta 119) 
+2475	t	3ra revancha contra Cuerpo y mente Manu y Pío (Ruta 119)
+2476	t	4ta revancha contra Cuerpo y mente Manu y Pío (Ruta 119)
+2169	t	1ra revancha contra Pokémon Ranger Joaquín (Ruta 119) 
+2170	t	2da revancha contra Pokémon Ranger Joaquín (Ruta 119) 
+2171	t	3ra revancha contra Pokémon Ranger Joaquín (Ruta 119)
+2172	t	4ta revancha contra Pokémon Ranger Joaquín (Ruta 119)
+2173	t	1ra revancha contra Pokémon Ranger Cristina (Ruta 119) 
+2174	t	2da revancha contra Pokémon Ranger Cristina (Ruta 118) 
+2175	t	3ra revancha contra Pokémon Ranger Cristina (Ruta 119)
+2176	t	4ta revancha contra Pokémon Ranger Cristina (Ruta 119)
+2177	t	1ra revancha contra Ornitólogo Roberto (Ruta 120) 
+2178	t	2da revancha contra Ornitólogo Roberto (Ruta 120) 
+2179	t	3ra revancha contra Ornitólogo Roberto (Ruta 120)
+2181	t	1ra revancha contra Bichomaníaco Bartolo (Ruta 120) 
+2182	t	2da revancha contra Bichomaníaco Bartolo (Ruta 120) 
+2183	t	3ra revancha contra Bichomaníaco Bartolo (Ruta 120)
+2534	t	1ra revancha contra Macarra Christian (Ruta 120) 
+2535	t	2da revancha contra Macarra Christian (Ruta 120) 
+2536	t	3ra revancha contra Macarra Christian (Ruta 120)
+2542	t	1ra revancha contra Macarra Lore (Ruta 120) 
+2543	t	2da revancha contra Macarra Lore (Ruta 120) 
+2544	t	3ra revancha contra Macarra Lore (Ruta 120)
+2184	t	1ra revancha contra Aristócrata Federico (Ruta 121) 
+2350	t	2da revancha contra Aristócrata Federico (Ruta 121) 
+2351	t	3ra revancha contra Aristócrata Federico (Ruta 121)
+2367	t	1ra revancha contra Modelo Gloria (Ruta 121) 
+2368	t	2da revancha contra Modelo Gloria (Ruta 121) 
+2369	t	3ra revancha contra Modelo Gloria (Ruta 121)
+2510	t	1ra revancha contra Niña soñadora Alice (Monte Pírico) 
+2511	t	2da revancha contra Niña soñadora Alice (Monte Pírico) 
+2512	t	3ra revancha contra Niña soñadora Alice (Monte Pírico)
+2201	t	1ra revancha contra Bruja Valeria (Monte Pírico) 
+2202	t	2da revancha contra Bruja Valeria (Monte Pírico) 
+2203	t	3ra revancha contra Bruja Valeria (Monte Pírico)
+2185	t	1ra revancha contra Médium Silvio (Ruta 123) 
+2186	t	2da revancha contra Médium Silvio (Ruta 123) 
+2187	t	3ra revancha contra Médium Silvio (Ruta 123)
+2286	t	1ra revancha contra Hermanos Saúl y Rita (Ruta 124) 
+2287	t	2da revancha contra Hermanos Saúl y Rita (Ruta 124) 
+2288	t	3ra revancha contra Hermanos Saúl y Rita (Ruta 124)
+2247	t	1ra revancha contra Nadadora Geno (Ruta 124) 
+2248	t	2da revancha contra Nadadora Geno (Ruta 124) 
+2486	t	1ra revancha contra Buceador Gus (Ruta 124) 
+2487	t	2da revancha contra Buceador Gus (Ruta 124) 
+2499	t	1ra revancha contra Buceadora Elisa (Ruta 124) 
+2500	t	2da revancha contra Buceadora Elisa (Ruta 124) 
+2193	t	1ra revancha contra Marinero Ernesto (Ruta 125) 
+2194	t	2da revancha contra Marinero Ernesto (Ruta 125)
+2224	t	1ra revancha contra Triatleta Isaías (Ruta 128) 
+2225	t	2da revancha contra Triatleta Isaías (Ruta 128) 
+2226	t	3ra revancha contra Triatleta Isaías (Ruta 128)
+2571	t	Revancha contra Dúo guays Tara y Nico (Calle Victoria)
 1914	t	1ra revancha contra Gabi y Teo 
 1915	t	2da revancha contra Gabi y Teo 
 1916	t	3ra revancha contra Gabi y Teo
 1917	t	4ta revancha contra Gabi y Teo
 2322	t	5ta revancha contra Gabi y Teo
-2684	t	1ra revancha contra Blasco 
-2686	t	2da revancha contra Blasco 
+2684	t	1ra revancha contra Blasco (Mansión Batalla)
+2686	t	2da revancha contra Blasco (Mansión Batalla)
