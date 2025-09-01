@@ -226,7 +226,7 @@ public static class EncounterServerDate
         {1544, new(2025, 08, 21, 2025, 10, 01)}, // Shiny Chien-Pao
         {9998, new(2025, 09, 04, 2025, 10, 01)}, // Shiny Ting-Lu
         {9999, new(2025, 09, 18, 2025, 10, 01)}, // Shiny Chi-Yu
-        {0524, new(2025, 08, 14, 2025, 08, 30)}, // WCS 2025 Toedscool
+        {0524, new(2025, 08, 14, 2025, 08, 31)}, // WCS 2025 Toedscool
         {0525, new(2025, 08, 15, 2025, 08, 23)}, // WCS 2025 Luca Ceribelli's Farigiraf
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
