@@ -71,7 +71,7 @@
 2720	s	Entré au Panthéon
 0361	s	Conseil 4 Réaffronté
 3023	s	Peut Donner l'Orbe Rouge et l'Orbe Bleu
-0148	s	A Rencontré la Visiteuse des Eaux Thermales
+0148	s	A Rencontré la Dame des Eaux Thermales
 0147	g	Œuf d'Okéoké Reçu (Eaux Thermales de Vermilava)
 0187	g	Œuf de Togepi Reçu (Eaux Thermales de Vermilava)
 0119	g	Morphéo Reçu (Centre Météo)
@@ -86,7 +86,7 @@
 0166	g	Échange Interne Parecool Contre Makuhita (Mérouville)
 0167	g	Échange Interne Spinda Contre Skitty (Cimetronelle)
 0168	g	Échange Interne Joliflor Contre Corayon (Pacifiville)
-0692	s	Famille Stratège Vaincue
+0692	s	Famille Stratège Vaincue (Route 111)
 0806	s	Pierre Disparu du Pont de la Route 120
 0808	g	Éleveuse (Costumière du Pikachu Cosplayeur) Disparue
 0699	s	Pierre et Lati@s Disparus de la Route 118
