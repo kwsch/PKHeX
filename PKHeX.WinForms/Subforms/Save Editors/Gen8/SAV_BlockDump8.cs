@@ -234,11 +234,9 @@ public partial class SAV_BlockDump8 : Form
         if (!SaveUtil.IsSizeValid((int)f2.Length))
             return;
 
-        var s1 = SaveUtil.GetVariantSAV(p1);
-        if (s1 is not ISCBlockArray w1)
+        if (!SaveUtil.TryGetSaveFile(p1, out var s1) || s1 is not ISCBlockArray w1)
             return;
-        var s2 = SaveUtil.GetVariantSAV(p2);
-        if (s2 is not ISCBlockArray w2)
+        if (!SaveUtil.TryGetSaveFile(p2, out var s2) || s2 is not ISCBlockArray w2)
             return;
 
         // Get an external source of names if available.

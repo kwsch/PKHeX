@@ -1,0 +1,23 @@
+{
+  "LineLength": "Line exceeded the maximum supported length: {0}",
+  "TokenUnknown": "Unrecognized: {0}",
+  "TokenFailParse": "Parse Failure: {0}",
+  "MoveCountTooMany": "Too many moves specified: {0}",
+  "MoveSlotAlreadyUsed": "Move slot already used: {0}",
+  "MoveDuplicate": "Duplicate move specified: {0}",
+  "MoveUnrecognized": "Move not recognized: {0}",
+  "ItemUnrecognized": "Held item not recognized: {0}",
+  "AbilityDeclaration": "Ability already declared: {0}",
+  "AbilityUnrecognized": "Ability not recognized: {0}",
+  "AbilityAlreadySpecified": "Ability already specified: {0}",
+  "NatureUnrecognized": "Nature not recognized: {0}",
+  "NatureAlreadySpecified": "Nature already specified: {0}",
+  "HiddenPowerUnknownType": "Hidden Power type not recognized: {0}",
+  "HiddenPowerIncompatibleIVs": "Hidden Power type incompatible with IVs: {0}",
+  "NatureEffortAmpDeclaration": "Nature / effort amp already declared: {0}",
+  "NatureEffortAmpUnknown": "Unknown nature effort amp: {0}",
+  "NatureEffortAmpAlreadySpecified": "Nature effort amp already specified: {0}",
+  "NatureEffortAmpConflictNature": "Declared effort amp conflicts with previously specified nature.",
+  "NatureAmpNoPlus": "Missing '+' nature amp.",
+  "NatureAmpNoMinus": "Missing '-' nature amp."
+}

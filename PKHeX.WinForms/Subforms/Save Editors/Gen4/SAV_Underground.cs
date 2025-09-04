@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -234,7 +233,7 @@ public partial class SAV_Underground : Form
 
     private static string[] SanitizeList(string[] inputlist)
     {
-        string[] listSorted = inputlist.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+        string[] listSorted = Array.FindAll(inputlist, x => !string.IsNullOrEmpty(x));
         Array.Sort(listSorted);
 
         return listSorted;

@@ -32,6 +32,8 @@ public sealed class ItemStorage6AO : IItemStorage
         425, 737,
     ];
 
+    public static ReadOnlySpan<ushort> MachineTM => Machine[..100];
+
     public static ReadOnlySpan<ushort> General =>
     [
         // Flutes moved to the Medicine pouch.

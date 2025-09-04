@@ -1359,10 +1359,10 @@ namespace PKHeX.WinForms.Controls
             // 
             PAN_BTN.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PAN_BTN.Controls.Add(FLP_PKMEditors);
-            PAN_BTN.Location = new System.Drawing.Point(0, 343);
-            PAN_BTN.Margin = new System.Windows.Forms.Padding(0, 8, 0, 8);
+            PAN_BTN.Location = new System.Drawing.Point(0, 339);
+            PAN_BTN.Margin = new System.Windows.Forms.Padding(0, 4, 0, 8);
             PAN_BTN.Name = "PAN_BTN";
-            PAN_BTN.Size = new System.Drawing.Size(288, 24);
+            PAN_BTN.Size = new System.Drawing.Size(288, 26);
             PAN_BTN.TabIndex = 20;
             // 
             // FLP_PKMEditors
@@ -1373,7 +1373,7 @@ namespace PKHeX.WinForms.Controls
             FLP_PKMEditors.Controls.Add(BTN_RandomIVs);
             FLP_PKMEditors.Controls.Add(BTN_RandomEVs);
             FLP_PKMEditors.Controls.Add(BTN_RandomAVs);
-            FLP_PKMEditors.Location = new System.Drawing.Point(32, -2);
+            FLP_PKMEditors.Location = new System.Drawing.Point(32, 0);
             FLP_PKMEditors.Margin = new System.Windows.Forms.Padding(0);
             FLP_PKMEditors.Name = "FLP_PKMEditors";
             FLP_PKMEditors.Size = new System.Drawing.Size(332, 27);
@@ -1427,7 +1427,7 @@ namespace PKHeX.WinForms.Controls
             FLP_DynamaxLevel.Controls.Add(L_DynamaxLevel);
             FLP_DynamaxLevel.Controls.Add(CB_DynamaxLevel);
             FLP_DynamaxLevel.Controls.Add(CHK_Gigantamax);
-            FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 375);
+            FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 373);
             FLP_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             FLP_DynamaxLevel.Name = "FLP_DynamaxLevel";
             FLP_DynamaxLevel.Size = new System.Drawing.Size(262, 27);
@@ -1473,7 +1473,7 @@ namespace PKHeX.WinForms.Controls
             FLP_AlphaNoble.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_AlphaNoble.Controls.Add(CHK_IsAlpha);
             FLP_AlphaNoble.Controls.Add(CHK_IsNoble);
-            FLP_AlphaNoble.Location = new System.Drawing.Point(80, 402);
+            FLP_AlphaNoble.Location = new System.Drawing.Point(80, 400);
             FLP_AlphaNoble.Margin = new System.Windows.Forms.Padding(80, 0, 0, 0);
             FLP_AlphaNoble.Name = "FLP_AlphaNoble";
             FLP_AlphaNoble.Size = new System.Drawing.Size(144, 24);

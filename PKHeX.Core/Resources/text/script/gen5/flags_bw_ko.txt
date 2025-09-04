@@ -11,16 +11,16 @@
 2403	*	러닝슈즈 받음
 0115	*	교환 기능 활성화됨 (포켓몬센터)
 2400	s	Defeated Ghetsis (First game clear)
-0145	s	Received Cover/Plume Fossil from Backpacker
-0148	g	Traded for Petilil/Cottonee
-0280	g	Traded for Basculin
-0315	g	Received Larvesta Egg Gift
-0352	t	Battled Youngster Kyle
-0355	t	Can Battle Lass Dye
-1937	t	Battled Lass Dye
-0339	g	Purchased Magikarp
-0347	g	Traded for Emolga
-0360	g	Traded for Rotom
+0145	s	Received Cover/Plume Fossil from Backpacker (Relic Castle)
+0148	g	In-Game Trade Petilil (B)/Cottonee (W) (Nacrene City)
+0280	g	In-Game Trade Minccino for Basculin (Driftveil City)
+0315	g	Received Larvesta Egg Gift (Route 18)
+0352	t	Battled Youngster Kyle (Driftveil City)
+0355	t	Can Battle Lass Dye (Nacrene City)
+1937	t	Battled Lass Dye (Nacrene City)
+0339	g	Purchased Magikarp (Marvelous Bridge)
+0347	g	In-Game Trade Boldore for Emolga (Route 7)
+0360	g	In-Game Trade Ditto for Rotom (Route 15)
 0663	g	Darmanitan (middle-left) disappeared from Desert Resort
 0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
 0665	g	Darmanitan (top-left) disappeared from Desert Resort

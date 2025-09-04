@@ -1,0 +1,360 @@
+Master Lotta
+Allenatore Provetto
+Allenatore Ferrato
+Allenatore Navigato
+Allenatore Senior
+Allenatore Esperto
+Allenatore Medio
+Allenatore Junior
+Re di Resistenza
+Master di Pokétopia
+Ragazzo VIP
+Allenatore Ordinario
+Allenatore Giovane
+Novellino
+Celebrità
+Star
+Trovamici
+Fan di Ⓟ
+Eroe del Deserto
+Uomo delle Nevi
+Meteorologo
+Cuorearido
+Ragazzo Qualunque
+Testacalda
+Surfista
+Lampo
+Cuoreverde
+Cuor di Ghiaccio
+Lottatore
+Denteavvelenato
+Cuor di Fango
+Cervo Volante
+Asceta
+Pigliainsetti
+Testadura
+Spiritolibero
+Sputafuoco
+Spirito Tenebroso
+Cuor d'Acciaio
+Sprizzaenergia
+Ragazzo Brillante
+Damerino
+Cuorardente
+Ragazzo di Provincia
+Ragazzo di Città
+Cowboy per gioco
+Eroe del Far West
+Amico di Groudon
+Fan di Pikachu
+Tifoso di Pokétopia
+Trova Poké Ball
+Safarista
+Nuotatore
+Escursionista
+Tecnofanatico
+Centauro Fiammante
+Re di Pokétopia
+Divo
+Secchione
+Ragazzo Incognito
+Master Lotta
+Allenatore Provetto
+Allenatore Ferrato
+Allenatore Navigato
+Allenatore Senior
+Allenatore Esperto
+Allenatore Medio
+Allenatore Junior
+Re di Resistenza
+Master di Pokétopia
+Allenatore Veterano
+Allenatore Seniores
+Allenatore Juniores
+Neofita
+Celebrità
+Star
+Trovamici
+Tifoso di Ⓟ
+Signore delle Dune
+Spazzaneve
+Ombrellaio
+Fan dei Solarium
+Tipo Qualunque
+Mente di Fuoco
+Surfista
+Elettrofulmine
+Animaverde
+Ghiacciolo
+Lottatore Nato
+Denteavvelenato
+Anima Polverosa
+Pilota
+Tarocchista
+Catturainsetti
+Testa di Sasso
+Acciuffaspettri
+Dragone
+Nichilista
+Mente d'Acciaio
+Bellimbusto
+Belloccio
+Buontempone
+Rubacuori
+Re dell'Asfalto
+Centauro Giramondo
+Apprendista Mago
+Mago Carismatico
+Amico di Lucario
+Fan di Pikachu
+Tifoso di Pokétopia
+Trova Poké Ball
+Safarista
+Nuotatore
+Escursionista
+Tecnofanatico
+Centauro Fiammante
+Re di Pokétopia
+Attore Esordiente
+Uomo d'Affari
+Tipo Misterioso
+Master Lotta
+Allenatore Provetto
+Allenatore Ferrato
+Allenatore Navigato
+Allenatore Senior
+Allenatore Esperto
+Allenatore Medio
+Allenatore Junior
+Re di Resistenza
+Master di Pokétopia
+Professionista
+Promessa
+Aspirante Allenatore
+Praticante
+Celebrità
+Star
+Trovamici
+Fan di Ⓟ
+Nave del Deserto
+Pupazzo di Neve
+Mr. Catinella
+Mr. Cactus
+Signor Qualunque
+Cuorardente
+Lupo di Mare
+Folgore
+Ecologista
+Cuor di Ghiaccio
+Combattente
+Serpe
+Terremoto
+Aviatore
+Asceta
+Catturainsetti
+Spaccapietre
+Spauracchio
+Signor Drago
+Menteoscura
+Muscoli d'Acciaio
+Maciste
+Macho
+Romanticone
+Fratellone
+Culturista
+Atleta
+Fantaentusiasta
+Astronauta
+Amico di Electivire
+Fan di Pikachu
+Tifoso di Pokétopia
+Trova Poké Ball
+Safarista
+Nuotatore
+Escursionista
+Tecnofanatico
+Centauro Fiammante
+Re di Pokétopia
+VIP
+Intellettuale
+Sig. Incognito
+Master Lotta
+Allenatore Provetto
+Allenatore Ferrato
+Allenatore Navigato
+Allenatore Senior
+Allenatore Esperto
+Allenatore Medio
+Allenatore Junior
+Regina di Resistenza
+Master di Pokétopia
+Fior d'Allenatore
+Allenatore in Fiore
+Allenatore Novellino
+Allenatore in Erba
+Celebrità
+Star
+Trovamici
+Fan di Ⓟ
+Regina del Deserto
+Regina delle Nevi
+Regina della Pioggia
+Stella del Giorno
+Ragazza Qualunque
+Fiamma Rovente
+Surfista
+Bellezza Elettrica 
+Pollice Verde
+Bellezza di Ghiaccio
+Lottatrice
+Lingua Biforcuta
+Cuor di Melma
+Aviatrice
+Asceta
+Pigliainsetti
+Testa di Pietra
+Amica dei Fantasmi
+Domatrice di Draghi
+Cuoreoscuro
+Spirito d'Acciaio
+Scheggia
+Damigella
+Signorinella
+Superatleta
+Fan dei Picnic
+Gitante
+Pirata per Gioco
+Corsara
+Amica di Kyogre
+Fan di Pikachu
+Tifosa di Pokétopia
+Trova Poké Ball
+Safarista
+Nuotatrice
+Escursionista
+Tecnofanatica
+Amazzone Fiammante
+Regina di Pokétopia
+Vedette
+Istitutrice
+Ragazza Incognito
+Master Lotta
+Allenatore Provetto
+Allenatore Ferrato
+Allenatore Navigato
+Allenatore Senior
+Allenatore Esperto
+Allenatore Medio
+Allenatore Junior
+Regina di Resistenza
+Master di Pokétopia
+Stella Sfolgorante
+Stella Splendente
+Stella Luminosa
+Stella Nascente
+Celebrità
+Star
+Trovamici
+Fan di Ⓟ
+Lady Sabbia
+Lady Neve
+Lady Pioggia
+Lady Sole
+Lady Qualunque
+Lady Ardore
+Lady Acqua
+Lady Saetta
+Lady Aroma
+Bellezza Glaciale
+Lottatrice Nata
+Lingua Biforcuta
+Anima Polverosa
+Lady Aquila
+Veggente
+Pigliainsetti
+Lady di Sasso
+Lady Fantasma
+Lady Drago
+Lady Ombra
+Lady d'Acciaio
+Splendore
+Meraviglia
+Gentildonna
+Reginetta
+Celebrità
+Donna di Mondo
+Regina Silvestre
+Bellezza Silvestre
+Amica di Roserade
+Fan di Pikachu
+Tifosa di Pokétopia
+Trova Poké Ball
+Safarista
+Nuotatrice
+Escursionista
+Tecnofanatica
+Amazzone Fiammante
+Regina di Pokétopia
+Grande Diva
+Insegnante
+Lady Incognito
+Master Lotta
+Allenatore Provetto
+Allenatore Ferrato
+Allenatore Navigato
+Allenatore Senior
+Allenatore Esperto
+Allenatore Medio
+Allenatore Junior
+Regina di Resistenza
+Master di Pokétopia
+Dottoressa
+Laureanda
+Studentessa
+Matricola
+Celebrità
+Star
+Trovamici
+Fan di Ⓟ
+Granellino
+Fiocco di Neve
+Gocciolina
+Raggio di Sole
+Bimba Qualunque
+Lingua di Fuoco
+Sirena
+Dinamo
+Fiorista
+Ghiacciolina
+Lottatrice
+Lingua Biforcuta
+Terremoto
+Passerotto
+Chiromante
+Pigliainsetti
+Spirito di Roccia
+Fantasmina
+Draghetta
+Bimba Ombra
+Bimba di Ferro
+Bambolina
+Dolcezza
+Spiritosaldo
+Sorellina
+Studentessa
+Scolaretta
+Turista temporale
+Bimba del Futuro
+Amica di Pachirisu
+Fan di Pikachu
+Tifosa di Pokétopia
+Trova Poké Ball
+Safarista
+Nuotatrice
+Escursionista
+Tecnofanatica
+Amazzone Fiammante
+Regina di Pokétopia
+Stellina
+Signorina
+Bimba Mistero

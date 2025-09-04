@@ -8,7 +8,7 @@ namespace PKHeX.WinForms;
 
 public partial class SAV_GameSelect : Form
 {
-    public GameVersion Result = GameVersion.Invalid;
+    public int Result { get; private set; }
 
     public SAV_GameSelect(IEnumerable<ComboItem> items, params ReadOnlySpan<string?> lines)
     {
@@ -25,7 +25,7 @@ public partial class SAV_GameSelect : Form
 
     private void B_OK_Click(object sender, EventArgs e)
     {
-        Result = (GameVersion)WinFormsUtil.GetIndex(CB_Game);
+        Result = WinFormsUtil.GetIndex(CB_Game);
         Close();
     }
 

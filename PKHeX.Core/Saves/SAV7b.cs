@@ -95,6 +95,9 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     {
         var pb7 = (PB7)pk;
         // Apply to this Save File
+        if (!isParty && !pb7.IsStarter)
+            pb7.ResetSpiritMood();
+
         pb7.UpdateHandler(this);
         pb7.RefreshChecksum();
     }

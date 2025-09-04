@@ -4,11 +4,11 @@
 0886	r	Zygarde Defeated
 0631	r	Snorlax Disappeared
 0321	r	Snorlax Captured
-0381	+	Singles Statuette
-0382	+	Doubles Statuette
-0383	+	Triples Statuette
-0384	+	Rotation Statuette
-0385	+	Multi Statuette
+0381	+	Singles Statuette (Battle Maison)
+0382	+	Doubles Statuette (Battle Maison)
+0383	+	Triples Statuette (Battle Maison)
+0384	+	Rotation Statuette (Battle Maison)
+0385	+	Multi Statuette (Battle Maison)
 0386	+	Super Singles Unlocked
 0387	+	Super Doubles Unlocked
 0388	+	Super Triples Unlocked

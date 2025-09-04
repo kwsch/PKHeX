@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -15,7 +16,7 @@ public static class EvolutionSet
     /// </summary>
     /// <param name="data">Container data to unpack.</param>
     /// <param name="levelUp">Level up amount required to trigger a level up evolution. Is 0 for games like <see cref="GameVersion.PLA"/> which can trigger manually when satisfied.</param>
-    public static EvolutionMethod[][] GetArray(BinLinkerAccessor16 data, byte levelUp = 1)
+    public static EvolutionMethod[][] GetArray(BinLinkerAccessor16 data, [ConstantExpected] byte levelUp = 1)
     {
         var result = new EvolutionMethod[data.Length][];
         for (int i = 0; i < result.Length; i++)
@@ -23,7 +24,7 @@ public static class EvolutionSet
         return result;
     }
 
-    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data, byte levelUp)
+    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data, [ConstantExpected] byte levelUp)
     {
         if (data.Length == 0)
             return [];
@@ -34,7 +35,7 @@ public static class EvolutionSet
         return result;
     }
 
-    private static EvolutionMethod GetMethod(ReadOnlySpan<byte> entry, byte levelUp)
+    private static EvolutionMethod GetMethod(ReadOnlySpan<byte> entry, [ConstantExpected] byte levelUp)
     {
         var type = (EvolutionType)entry[0];
         var arg = ReadUInt16LittleEndian(entry[2..]);

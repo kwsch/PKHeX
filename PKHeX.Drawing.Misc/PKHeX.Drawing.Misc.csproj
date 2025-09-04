@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="9.0.7" />
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.8" />
   </ItemGroup>
 
   <ItemGroup>

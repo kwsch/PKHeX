@@ -13,28 +13,28 @@ public interface IVersion
 
 public static partial class Extensions
 {
-    private static bool CanBeReceivedBy(this IVersion version, GameVersion game) => version.Version.Contains(game);
+    private static bool CanBeReceivedBy(this IVersion v, GameVersion version) => v.Version.Contains(version);
 
     /// <summary>
     /// Gets a compatible saved version value for the given <see cref="IVersion"/>.
     /// </summary>
-    /// <param name="version">Object requesting a saved version.</param>
+    /// <param name="v">Object requesting a saved version.</param>
     /// <param name="prefer">Preferred version to use, if possible.</param>
-    public static GameVersion GetCompatibleVersion(this IVersion version, GameVersion prefer)
+    public static GameVersion GetCompatibleVersion(this IVersion v, GameVersion prefer)
     {
-        if (!version.CanBeReceivedBy(prefer))
-            return version.GetSingleVersion();
+        if (!v.CanBeReceivedBy(prefer))
+            return v.GetSingleVersion();
         if (!prefer.IsValidSavedVersion())
             return prefer.GetSingleVersion();
         return prefer;
     }
 
-    public static GameVersion GetSingleVersion(this IVersion version)
+    public static GameVersion GetSingleVersion(this IVersion v)
     {
-        var v = version.Version;
-        if (v.IsValidSavedVersion())
-            return v;
-        return v.GetSingleVersion();
+        var version = v.Version;
+        if (version.IsValidSavedVersion())
+            return version;
+        return version.GetSingleVersion();
     }
 
     public static GameVersion GetSingleVersion(this GameVersion lump)

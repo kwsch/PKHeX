@@ -198,15 +198,15 @@ public static partial class Extensions
     {
         return
         [
-            new(sav.UgSaveData[0], 0, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[1], 1, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[2], 2, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[3], 3, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[4], 4, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[5], 5, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[6], 6, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[7], 7, true) { Type = StorageSlotType.Misc },
-            new(sav.UgSaveData[8], 8, true) { Type = StorageSlotType.Misc },
+            new(sav.UgSaveData[0], 0, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[1], 1, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[2], 2, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[3], 3, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[4], 4, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[5], 5, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[6], 6, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[7], 7, true) { Type = StorageSlotType.Misc, HideLegality = true },
+            new(sav.UgSaveData[8], 8, true) { Type = StorageSlotType.Misc, HideLegality = true },
         ];
     }
 

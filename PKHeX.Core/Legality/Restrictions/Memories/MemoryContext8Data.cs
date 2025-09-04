@@ -42,6 +42,9 @@ public partial class MemoryContext8
         89, // When {0} was in a Box, it had a weird dream in which {1} was using the move {2}. {4} that {3}.
     ];
 
+    /// <summary>
+    /// Key items that can be used on a Pokémon in the party, where the memory can be recorded by any species.
+    /// </summary>
     private static ReadOnlySpan<ushort> KeyItemMemoryArgsAnySpecies =>
     [
         628, 629, // DNA Splicers

@@ -12,8 +12,12 @@ public static class RibbonVerifierCommon3
         var evos = args.History;
         if (r.RibbonChampionG3 && !evos.HasVisitedGen3)
             list.Add(ChampionG3);
+
+        // Obtained by winning a Master Rank or Link Contest in R/S/E.
+        // Link contest can bypass the PvE ribbon requirement.
         if (r.RibbonArtist && !evos.HasVisitedGen3)
             list.Add(Artist);
+
         if (r.RibbonEffort && !RibbonRules.IsRibbonValidEffort(evos))
             list.Add(Effort);
     }

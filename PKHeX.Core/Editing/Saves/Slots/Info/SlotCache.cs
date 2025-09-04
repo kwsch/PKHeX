@@ -23,7 +23,7 @@ public sealed class SlotCache : IComparable<SlotCache>
     /// </summary>
     public readonly PKM Entity;
 
-    public SlotCache(SlotInfoFile source, PKM entity)
+    public SlotCache(SlotInfoFileMulti source, PKM entity)
     {
         Source = source;
         Entity = entity;
@@ -42,7 +42,8 @@ public sealed class SlotCache : IComparable<SlotCache>
     public string Identify() => GetFileName() + Source switch
     {
         SlotInfoBox box => $"[{box.Box + 1:00}] ({GetBoxName(box.Box)})-{box.Slot + 1:00}: {Entity.FileName}",
-        SlotInfoFile file => $"File: {file.Path}",
+        SlotInfoFileSingle single => $"File: {single.Path}",
+        SlotInfoFileMulti multi => $"File: {multi.Path} Slot: {multi.Slot}: {Entity.FileName}",
         SlotInfoMisc misc => $"{misc.Type}-{misc.Slot}: {Entity.FileName}",
         SlotInfoParty party => $"Party: {party.Slot}: {Entity.FileName}",
         _ => throw new ArgumentOutOfRangeException(nameof(Source)),

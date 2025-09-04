@@ -320,10 +320,10 @@ public static class LegalityFormatting
             sb.AppendFormat(loc.SuffixDays, (int)time.TotalDays);
     }
 
-    private static (uint Seed, uint Advances) GetInitialSeed3(uint seed, GameVersion game)
+    private static (uint Seed, uint Advances) GetInitialSeed3(uint seed, GameVersion version)
     {
         // Emerald is always initial seed of 0 for startups other than E4/New Game.
-        if (game is GameVersion.E)
+        if (version is GameVersion.E)
             return (0, LCRNG.GetDistance(0, seed));
 
         var nearest16 = seed;
@@ -333,7 +333,7 @@ public static class LegalityFormatting
             nearest16 = LCRNG.Prev(nearest16);
             ctr++;
         }
-        if (game is GameVersion.R or GameVersion.S)
+        if (version is GameVersion.R or GameVersion.S)
         {
             const uint drySeed = 0x05A0;
             var advances = LCRNG.GetDistance(drySeed, seed);

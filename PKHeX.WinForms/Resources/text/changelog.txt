@@ -1,7 +1,33 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/06/09 - New Update:
+25/08/30 - New Update:
+ - Legality:
+ - - Added: Gen9 Misty Mark recognition added. Thanks @Lusamine and all the people who helped on Discord to help create a convex hull.
+ - - Added: Mystery Gift with problematic OT names now check for scenarios where the OT name would be sanitized, for legality matching.
+ - - Added: Gen7b following Spirit/Mood checks. Thanks @Lusamine !
+ - - Added: Gen6 Super Training Bag checks. Revised medal completion checks to be more strict.
+ - - Added: Gen5 Pokéstar Studios Fame checks.
+ - - Added: Gen4 Walking Mood (HG/SS) and Shiny Leaf checks.
+ - - Fixed: Gen6 Roselia now allows Apricorn Ball when bred.
+ - - Fixed: Gen5 spin trades now recognized as valid link trade locations for eggs.
+ - - Fixed: PID generation revised for Gen8 shiny dynamax, Gen5 wild, Gen8b eggs to match the game behavior.
+ - - Fixed: Gen8b egg PID generation for eggs now uses game logic, as detection is possible (but not real-time).
+ - - Changed: Legality parse results now defer localization, improving performance (speed) and introspection of results.
+ - Added: Plugins can now inject legality analyzers to the main legality checking engine, to be run at the end of analysis.
+ - Added: Legality Analysis reports can be generated in specified languages rather than the current global language.
+ - Added: Encounter templates for Gen3/4/5/6 now try to honor more of the search criteria, especially if only a couple IVs are requested.
+ - Added: Gen4 PBR now has editors for Battle Pass, Gear, and Trainer Info. Thanks @abcboy101 !
+ - Added: Gen4 DP Spear Pillar event flags added.
+ - Fixed: Gen5 Pokédex Editor now sets forms when Complete Dex is applied.
+ - Fixed: Gen1/2->7 string conversion logic updated to latest Bank/Transporter logic (correct apostrophes on Farfetch'd). Thanks @drabu96 !
+ - Fixed: Gen1 Yellow saves that haven't selected a starter yet are more reliably detected as Yellow (instead of Red/Blue). Thanks @fattard !
+ - Changed: Settings are now loaded before the program starts. New settings added to skip showing the splash screen.
+ - Changed: SaveFile/PKM/Gift data structures are now consistently backed by Memory<byte> instead of byte[].
+ - Changed: Gen3 markings now are displayed in the same order as they are in-game. Gen4+ remains matching the game too.
+ - Changed: Translations updated. Thanks @easyworld, @abcboy101 !
+
+25/06/09 - New Update: (423276) [10581588]
  - Legality:
  - - Fixed: Gen3 XD trainer ID checks no longer required for PAL copies of the game.
  - - Fixed: Gen8 PLA purchased/master flag check regression fixed.

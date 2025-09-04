@@ -48,7 +48,7 @@ public static class FileUtil
     /// <returns>Supported file object reference, null if none found.</returns>
     public static object? GetSupportedFile(Memory<byte> data, ReadOnlySpan<char> ext, SaveFile? reference = null)
     {
-        if (TryGetSAV(data, out var sav))
+        if (SaveUtil.TryGetSaveFile(data, out var sav))
             return sav;
         if (TryGetMemoryCard(data, out var mc))
             return mc;
@@ -178,18 +178,6 @@ public static class FileUtil
     /// </summary>
     /// <param name="length">File size</param>
     public static bool IsFileTooSmall(long length) => length < 0x20; // bigger than PK1
-
-    /// <summary>
-    /// Tries to get a <see cref="SaveFile"/> object from the input parameters.
-    /// </summary>
-    /// <param name="data">Binary data</param>
-    /// <param name="sav">Output result</param>
-    /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetSAV(Memory<byte> data, [NotNullWhen(true)] out SaveFile? sav)
-    {
-        sav = SaveUtil.GetVariantSAV(data);
-        return sav is not null;
-    }
 
     /// <summary>
     /// Tries to get a <see cref="SAV3GCMemoryCard"/> object from the input parameters.

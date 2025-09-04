@@ -250,10 +250,10 @@ public sealed partial class SAV_FlagWork8b : Form
         ChangeSAV();
     }
 
-    private static string GetGameFilePrefix(GameVersion game) => game switch
+    private static string GetGameFilePrefix(GameVersion version) => version switch
     {
         BD or SP or BDSP => "bdsp",
-        _ => throw new IndexOutOfRangeException(nameof(game)),
+        _ => throw new IndexOutOfRangeException(nameof(version)),
     };
 
     private void DiffSaves()

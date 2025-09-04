@@ -8,35 +8,35 @@
 0651	r	Viridium Disparu
 0652	s	Obstacle Enlevé (Route Victoire)
 0653	s	Obstacle Enlevé (Forêt d'Empoigne)
-2403	*	Has Running Shoes
-0115	*	Trading Functionality Enabled (Pokecenter)
-2400	s	Defeated Ghetsis (First game clear)
-0145	s	Received Cover/Plume Fossil from Backpacker
-0148	g	Traded for Petilil/Cottonee
-0280	g	Traded for Basculin
-0315	g	Received Larvesta Egg Gift
-0352	t	Battled Youngster Kyle
-0355	t	Can battle Lass Anémone
-1937	t	Battled Lass Anémone
-0339	g	Purchased Magikarp
-0347	g	Traded for Emolga
-0360	g	Traded for Rotom
-0663	g	Darmanitan (middle-left) disappeared from Desert Resort
-0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
-0665	g	Darmanitan (top-left) disappeared from Desert Resort
-0666	g	Darmanitan (middle-right) disappeared from Desert Resort
-0667	g	Darmanitan (top-right) disappeared from Desert Resort
-0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
-0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
-0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
-2754	s	Rode Royal Unova (Today)
-2762	s	Received a Fossil from Twist Mountain Worker (Today)
-0683	a	Battle Subway: does not possess super single trophy
-0684	a	Battle Subway: does not possess super double trophy
-0685	a	Battle Subway: does not possess super multi trophy
-0767	r	Route 6	 Capture/Defeat Foongus (1)
-0768	r	Route 6	 Capture/Defeat Foongus (2)
-0769	r	Route 10 Capture/Defeat Amoonguss (1)
-0770	r	Route 10 Capture/Defeat Amoonguss (2)
-0771	r	Route 10 Capture/Defeat Foongus (1)
-0772	r	Route 10 Capture/Defeat Foongus (2)
+2403	*	A les Chaussures de Sport
+0115	*	Fonctionnalité d'Échange Activée (Centre Pokémon)
+2400	s	A Vaincu Ghetis (Première Complétion du Jeu)
+0145	s	Fossile Plaque/Plume Reçu de la Randonneuse (Château Enfoui)
+0148	g	Échange Interne Doudouvet (N)/Chlorobule (B) (Maillard)
+0280	g	Échange Interne Chinchidou Contre Bargantua (Port Yoneuve)
+0315	g	Œuf de Pyronille Reçu (Route 18)
+0352	t	A Vaincu Gamin Vince (Port Yoneuve)
+0355	t	Peut Affronter Fillette Anémone (Maillard)
+1937	t	A Vaincu Fillette Anémone (Maillard)
+0339	g	Magicarpe Acheté (Pont de l'Inconnu)
+0347	g	Échange Interne Géolithe Contre Emolga (Route 7)
+0360	g	Échange Interne Métamorph Contre Motisma (Route 15)
+0663	g	Darumacho (milieu à gauche) Disparu du Désert Délassant
+0664	g	Darumacho (en bas à gauche) Disparu du Désert Délassant
+0665	g	Darumacho (en haut à gauche) Disparu du Désert Délassant
+0666	g	Darumacho (milieu à droite) Disparu du Désert Délassant
+0667	g	Darumacho (en haut à droite) Disparu du Désert Délassant
+0729	s	Zorua en Petit Garçon (1) a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+0730	s	La Fille a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+0731	s	Zorua (2) a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+2754	s	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
+2762	s	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
+0683	a	Métro de Combat : Trophée Super Solo non Obtenu
+0684	a	Métro de Combat : Trophée Super Duo non Obtenu
+0685	a	Métro de Combat : Trophée Super Multi non Obtenu
+0767	r	Trompignon Route 6 Capturé/Vaincu (1)
+0768	r	Trompignon Route 6 Capturé/Vaincu (2)
+0769	r	Gaulet Route 10 Capturé/Vaincu (1)
+0770	r	Gaulet Route 10 Capturé/Vaincu (2)
+0771	r	Trompignon Route 10 Capturé/Vaincu (1)
+0772	r	Trompignon Route 10 capturé/Vaincu (2)

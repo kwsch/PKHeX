@@ -1,0 +1,1535 @@
+Sommermütze A
+Sommermütze B
+Sommermütze C
+Sommermütze D
+City-Hut A
+City-Hut B
+City-Hut C
+City-Hut D
+Cowboyhut A
+Cowboyhut B
+Cowboyhut C
+Cowboyhut D
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+Pikachu-Mütze
+Krone
+Pokétopia-Barett
+Braun
+Blond
+Aubergine
+Rot
+Blau
+Türkis
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+(Ablegen)
+Braune Augen
+Nasenpflaster
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+Pikachu-Schminke
+Pokéball-Schminke
+Kriegerschminke
+Rubinaugen
+Bernsteinaugen
+Katzenaugen
+Sommer-T-Shirt A
+Sommer-T-Shirt B
+Sommer-T-Shirt C
+Sommer-T-Shirt D
+City-Shirt A
+City-Shirt B
+Cowboyshirt A
+Cowboyshirt B
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+Pikachu-T-Shirt
+Pokétopia-T-Shirt
+Pokéball-T-Shirt
+Safari-Shirt
+Ozean-T-Shirt
+Wüsten-T-Shirt
+Cyber-T-Shirt
+Flammen-T-Shirt
+Sommerjeans A
+Sommerjeans B
+Sommerjeans C
+Sommerjeans D
+City-Hose A
+City-Hose B
+Cowboyhose A
+Cowboyhose B
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+Pikachu-Hose
+Pokétopia-Hose
+Pokéball-Hose
+Safari-Hose
+Ozean-Hose
+Wüsten-Hose
+Cyber-Hose
+Flammen-Hose
+Sommerschuhe A
+Sommerschuhe B
+Sommerschuhe C
+Sommerschuhe D
+City-Schuhe A
+City-Schuhe B
+City-Schuhe C
+City-Schuhe D
+Cowboyschuhe A
+Cowboyschuhe B
+Cowboyschuhe C
+Cowboyschuhe D
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+(Ablegen)
+Sommer-Schweißband A
+Sommer-Schweißband B
+Sommer-Schweißband C
+Sommer-Schweißband D
+City-Schweißband A
+City-Schweißband B
+City-Schweißband C
+City-Schweißband D
+Cowboyhandschuhe A
+Cowboyhandschuhe B
+Cowboyhandschuhe C
+Cowboyhandschuhe D
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+Pikachu-Handschuhe
+Fingerlose Handschuhe
+(Ablegen)
+Sommertasche A
+Sommertasche B
+Sommertasche C
+Sommertasche D
+City-Tasche A
+City-Tasche B
+City-Tasche C
+City-Tasche D
+Cowboytasche A
+Cowboytasche B
+Cowboytasche C
+Cowboytasche D
+Groudon-Outfit
+Groudon-Outfit (Schillernd)
+Pikachu-Tasche
+Pokéball-Tasche
+(Ablegen)
+Seriöse Brille
+Coole Sonnenbrille
+Rahmenlose Brille
+Spiegelbrille
+Starbrille
+Karnevalbrille
+Hornbrille
+Zwicker
+(Ablegen)
+Herz-Anstecker
+Pokéball-Alu-Anstecker
+Kleeblatt-Anstecker
+Flammen-Anstecker
+Pikachu-Anstecker
+Blatt-Anstecker
+Pokéball-Anstecker
+Rosen-Anstecker
+Gold-Anstecker
+Silber-Anstecker
+Bronze-Anstecker
+Diamantbrosche
+Perlenbrosche
+Rubinbrosche
+Saphirbrosche
+Smaragdbrosche
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lederhut A
+Lederhut B
+Lederhut C
+Lederhut D
+Biker-Mütze A
+Biker-Mütze B
+Biker-Mütze C
+Biker-Mütze D
+Gala-Hut A
+Gala-Hut B
+Gala-Hut C
+Gala-Hut D
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+Pikachu-Mütze
+Krone
+Pokétopia-Barett
+Hellblau
+Hellbraun
+Silberschwarz
+Hellblond
+Minzgrün
+Eisblau
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+(Ablegen)
+Jadeaugen
+Gala-Schminke
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+Pikachu-Schminke
+Pokéball-Schminke
+Kriegerschminke
+Rubinaugen
+Bernsteinaugen
+Katzenaugen
+Lederjacke A
+Lederjacke B
+Lederjacke C
+Lederjacke D
+Bikerjacke A
+Bikerjacke B
+Gala-Jackett A
+Gala-Jackett B
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+Pikachu-Jacke
+Pokétopia-Jacke
+Pokéball-Jacke
+Safari-Jacke
+Ozean-Jacke
+Wüsten-Jacke
+Cyber-Jacke
+Flammen-Jacke
+Lederhose A
+Lederhose B
+Lederhose C
+Lederhose D
+Bikerhose A
+Bikerhose B
+Gala-Hose A
+Gala-Hose B
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+Pikachu-Hose
+Pokétopia-Hose
+Pokéball-Hose
+Safari-Hose
+Ozean-Hose
+Wüsten-Hose
+Cyber-Hose
+Flammen-Hose
+Lederschuhe A
+Lederschuhe B
+Lederschuhe C
+Lederschuhe D
+Bikerschuhe A
+Bikerschuhe B
+Bikerschuhe C
+Bikerschuhe D
+Gala-Schuhe A
+Gala-Schuhe B
+Gala-Schuhe C
+Gala-Schuhe D
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+(Ablegen)
+Bikerhandschuhe A
+Bikerhandschuhe B
+Bikerhandschuhe C
+Bikerhandschuhe D
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+Pikachu-Handschuhe
+Fingerlose Handschuhe
+(Ablegen)
+Lucario-Outfit
+Lucario-Outfit (Schillernd)
+Pikachu-Tasche
+Pokéball-Tasche
+(Ablegen)
+Seriöse Brille
+Coole Sonnenbrille
+Rahmenlose Brille
+Spiegelbrille
+Starbrille
+Karnevalbrille
+Hornbrille
+Zwicker
+(Ablegen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Igelfrisur
+Sportkappe A
+Sportkappe B
+Sportkappe C
+Sportkappe D
+Solarhelm A
+Solarhelm B
+Solarhelm C
+Solarhelm D
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+Pikachu-Mütze
+Krone
+Pokétopia-Barett
+Beige
+Blaugrau
+Rotbraun
+Gelb
+Kakao
+Khaki
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+(Ablegen)
+Sportpflaster
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+Pikachu-Schminke
+Pokéball-Schminke
+Kriegerschminke
+Rubinaugen
+Bernsteinaugen
+Katzenaugen
+Armee-Muskelshirt A
+Armee-Muskelshirt B
+Armee-Muskelshirt C
+Armee-Muskelshirt D
+Sportshirt A
+Sportshirt B
+Solarshirt A
+Solarshirt B
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+Pikachu-Muskelshirt
+Pokétopia-Muskelshirt
+Pokéball-Muskelshirt
+Safari-Muskelshirt
+Ozean-Muskelshirt
+Wüsten-Muskelshirt
+Cyber-Muskelshirt
+Flammen-Muskelshirt
+Armeehose A
+Armeehose B
+Armeehose C
+Armeehose D
+Sporthose A
+Sporthose B
+Solar-Hose A
+Solar-Hose B
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+Pikachu-Hose
+Pokétopia-Hose
+Pokéball-Hose
+Safari-Hose
+Ozean-Hose
+Wüsten-Hose
+Cyber-Hose
+Flammen-Hose
+Armeestiefel A
+Armeestiefel B
+Armeestiefel C
+Armeestiefel D
+Sportstiefel A
+Sportstiefel B
+Sportstiefel C
+Sportstiefel D
+Solar-Stiefel A
+Solar-Stiefel B
+Solar-Stiefel C
+Solar-Stiefel D
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+(Ablegen)
+Armee-Schweißband A
+Armee-Schweißband B
+Armee-Schweißband C
+Armee-Schweißband D
+Sportschweißband A
+Sportschweißband B
+Sportschweißband C
+Sportschweißband D
+Solar-Handschuhe A
+Solar-Handschuhe B
+Solar-Handschuhe C
+Solar-Handschuhe D
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+Pikachu-Handschuhe
+Fingerlose Handschuhe
+(Ablegen)
+Armeetasche A
+Armeetasche B
+Armeetasche C
+Armeetasche D
+Sporttasche A
+Sporttasche B
+Sporttasche C
+Sporttasche D
+Solar-Tasche A
+Solar-Tasche B
+Solar-Tasche C
+Solar-Tasche D
+Elevoltek-Outfit
+Elevoltek-Outfit (Schillernd)
+Pikachu-Tasche
+Pokéball-Tasche
+(Ablegen)
+Seriöse Brille
+Coole Sonnenbrille
+Rahmenlose Brille
+Spiegelbrille
+Starbrille
+Karnevalbrille
+Hornbrille
+Zwicker
+(Ablegen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Flor-Cappie A
+Flor-Cappie B
+Flor-Cappie C
+Flor-Cappie D
+Picknickhut A
+Picknickhut B
+Picknickhut C
+Picknickhut D
+Piratenhut A
+Piratenhut B
+Piratenhut C
+Piratenhut D
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+Pikachu-Mütze
+Krone
+Pokétopia-Barett
+Kobaltblau
+Dunkelgrau
+Blond
+Erdbeer
+Brünett
+Milchig Blau
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+(Ablegen)
+Blaue Augen
+Violette Augen
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+Pikachu-Schminke
+Pokéball-Schminke
+Kriegerschminke
+Rubinaugen
+Bernsteinaugen
+Katzenaugen
+Flor-Minikleid A
+Flor-Minikleid B
+Flor-Minikleid C
+Flor-Minikleid D
+Picknick-Minikleid A
+Picknick-Minikleid B
+Piraten-Minikleid A
+Piraten-Minikleid B
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+Pikachu-Minikleid
+Pokétopia-Minikleid
+Pokéball-Minikleid
+Safari-Minikleid
+Ozean-Minikleid
+Wüsten-Minikleid
+Cyber-Minikleid
+Flammen-Minikleid
+Flor-Shorts A
+Flor-Shorts B
+Flor-Shorts C
+Flor-Shorts D
+Picknick-Shorts A
+Picknick-Shorts B
+Piraten-Shorts A
+Piraten-Shorts B
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+Pikachu-Shorts
+Pokétopia-Shorts
+Pokéball-Shorts
+Safari-Shorts
+Ozean-Shorts
+Wüsten-Shorts
+Cyber-Shorts
+Flammen-Shorts
+Flor-Schuhe A
+Flor-Schuhe B
+Flor-Schuhe C
+Flor-Schuhe D
+Picknickschuhe A
+Picknickschuhe B
+Picknickschuhe C
+Picknickschuhe D
+Piratenschuhe A
+Piratenschuhe B
+Piratenschuhe C
+Piratenschuhe D
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+(Ablegen)
+Flor-Schweißband A
+Flor-Schweißband B
+Flor-Schweißband C
+Flor-Schweißband D
+Picknick-Bänder A
+Picknick-Bänder B
+Picknick-Bänder C
+Picknick-Bänder D
+Piratenhandschuhe A
+Piratenhandschuhe B
+Piratenhandschuhe C
+Piratenhandschuhe D
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+Pikachu-Handschuhe
+Fingerlose Handschuhe
+(Ablegen)
+Flor-Tasche A
+Flor-Tasche B
+Flor-Tasche C
+Flor-Tasche D
+Picknicktasche A
+Picknicktasche B
+Picknicktasche C
+Picknicktasche D
+Piratentasche A
+Piratentasche B
+Piratentasche C
+Piratentasche D
+Kyogre-Outfit
+Kyogre-Outfit (Schillernd)
+Pikachu-Tasche
+Pokéball-Tasche
+(Ablegen)
+Seriöse Brille
+Coole Sonnenbrille
+Rahmenlose Brille
+Spiegelbrille
+Starbrille
+Karnevalbrille
+Hornbrille
+Zwicker
+(Ablegen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ballonmütze A
+Ballonmütze B
+Ballonmütze C
+Ballonmütze D
+Damenhut A
+Damenhut B
+Damenhut C
+Damenhut D
+Tannkappe A
+Tannkappe B
+Tannkappe C
+Tannkappe D
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+Pikachu-Mütze
+Krone
+Pokétopia-Barett
+Violett
+Mattsilber
+Ozeanblau
+Kornbeige
+Seidenschwarz
+Rotbraun
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+(Ablegen)
+Damen-Make-up
+Tann-Augen
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+Pikachu-Schminke
+Pokéball-Schminke
+Kriegerschminke
+Rubinaugen
+Bernsteinaugen
+Katzenaugen
+Ballon-Top A
+Ballon-Top B
+Ballon-Top C
+Ballon-Top D
+Damen-Top A
+Damen-Top B
+Tann-Top A
+Tann-Top B
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+Pikachu-Top
+Pokétopia-Top
+Pokéball-Top
+Safari-Top
+Ozean-Top
+Wüsten-Top
+Cyber-Top
+Flammen-Top
+Ballonhose A
+Ballonhose B
+Ballonhose C
+Ballonhose D
+Damenhose A
+Damenhose B
+Tann-Hose A
+Tann-Hose B
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+Pikachu-Hose
+Pokétopia-Hose
+Pokéball-Hose
+Safari-Hose
+Ozean-Hose
+Wüsten-Hose
+Cyber-Hose
+Flammen-Hose
+Ballonsandalen A
+Ballonsandalen B
+Ballonsandalen C
+Ballonsandalen D
+Damensandalen A
+Damensandalen B
+Damensandalen C
+Damensandalen D
+Tann-Sandalen A
+Tann-Sandalen B
+Tann-Sandalen C
+Tann-Sandalen D
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+(Ablegen)
+Ballonarmreif A
+Ballonarmreif B
+Ballonarmreif C
+Ballonarmreif D
+Damenhandschuhe A
+Damenhandschuhe B
+Damenhandschuhe C
+Damenhandschuhe D
+Tann-Handschuhe A
+Tann-Handschuhe B
+Tann-Handschuhe C
+Tann-Handschuhe D
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+Pikachu-Handschuhe
+Fingerlose Handschuhe
+(Ablegen)
+Tann-Tasche A
+Tann-Tasche B
+Tann-Tasche C
+Tann-Tasche D
+Pikachu-Tasche
+Pokéball-Tasche
+(Ablegen)
+Damenbrille A
+Damenbrille B
+Damenbrille C
+Damenbrille D
+Roserade-Outfit
+Roserade-Outfit (Schillernd)
+Seriöse Brille
+Coole Sonnenbrille
+Rahmenlose Brille
+Spiegelbrille
+Starbrille
+Karnevalbrille
+Hornbrille
+Zwicker
+(Ablegen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Arkade-Haarreif A
+Arkade-Haarreif B
+Arkade-Haarreif C
+Arkade-Haarreif D
+Sonntagshaarreif A
+Sonntagshaarreif B
+Sonntagshaarreif C
+Sonntagshaarreif D
+Astro-Haarreif A
+Astro-Haarreif B
+Astro-Haarreif C
+Astro-Haarreif D
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+Pikachu-Ohren
+Krone
+Pokétopia-Haarreif
+Rosa
+Orange
+Schwarz
+Silber
+Braun
+Aquamarin
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+(Ablegen)
+Blaue Augen
+Rosa Augen
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+Pikachu-Schminke
+Pokéball-Schminke
+Kriegerschminke
+Rubinaugen
+Bernsteinaugen
+Katzenaugen
+Arkade-Kleidchen A
+Arkade-Kleidchen B
+Arkade-Kleidchen C
+Arkade-Kleidchen D
+Sonntagskleidchen A
+Sonntagskleidchen B
+Astro-Kleidchen A
+Astro-Kleidchen B
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+Pikachu-Kleidchen
+Pokétopia-Kleidchen
+Pokéball-Kleidchen
+Safari-Kleidchen
+Ozean-Kleidchen
+Wüsten-Kleidchen
+Cyber-Kleidchen
+Flammen-Kleidchen
+(Unbenutzt 0)
+(Unbenutzt 1)
+Arkade-Schuhe A
+Arkade-Schuhe B
+Arkade-Schuhe C
+Arkade-Schuhe D
+Sonntagsschuhe A
+Sonntagsschuhe B
+Sonntagsschuhe C
+Sonntagsschuhe D
+Astro-Schuhe A
+Astro-Schuhe B
+Astro-Schuhe C
+Astro-Schuhe D
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+(Ablegen)
+Arkade-Armreife A
+Arkade-Armreife B
+Arkade-Armreife C
+Arkade-Armreife D
+Sonntagsuhr A
+Sonntagsuhr B
+Sonntagsuhr C
+Sonntagsuhr D
+Astro-Handschuhe A
+Astro-Handschuhe B
+Astro-Handschuhe C
+Astro-Handschuhe D
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+Pikachu-Handschuhe
+Fingerlose Handschuhe
+(Ablegen)
+Astro-Tasche A
+Astro-Tasche B
+Astro-Tasche C
+Astro-Tasche D
+Pachirisu-Outfit
+Pachirisu-Outfit (Schillernd)
+Pikachu-Tasche
+Pokéball-Tasche
+(Ablegen)
+Sonntagsbrille A
+Sonntagsbrille B
+Sonntagsbrille C
+Sonntagsbrille D
+Seriöse Brille
+Coole Sonnenbrille
+Rahmenlose Brille
+Spiegelbrille
+Starbrille
+Karnevalbrille
+Hornbrille
+Zwicker
+(Ablegen)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

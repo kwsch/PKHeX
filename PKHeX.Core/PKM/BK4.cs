@@ -13,7 +13,9 @@ public sealed class BK4 : G4PKM
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
-        0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
+        0x42, 0x43, // Unused
+        0x5E, // Unused
+        0x63, 0x64, 0x65, 0x66, 0x67, // unused ribbon bits
     ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4STORED;
@@ -281,7 +283,7 @@ public sealed class BK4 : G4PKM
     public override byte OriginalTrainerGender { get => (byte)(Data[0x84] & 1); set => Data[0x84] = (byte)((Data[0x84] & ~0x1) | (value & 1)); }
     public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
     public override byte BallHGSS { get => Data[0x86]; set => Data[0x86] = value; }
-    public override byte PokeathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
+    public override sbyte WalkingMood { get => (sbyte)Data[0x87]; set => Data[0x87] = (byte)value; }
     #endregion
 
     // Not stored

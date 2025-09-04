@@ -51,8 +51,10 @@ public enum LegalityCheckResultCode : ushort
     ContestZeroSheen,
 
     // Date & Timestamps
-    DateOutsideConsoleWindow,
-    DateTimeClockInvalid,
+    DateCalendarInvalidMet,
+    DateCalendarInvalidEgg,
+    DateLocalInvalidDate,
+    DateLocalInvalidTime,
     DateOutsideDistributionWindow,
 
     // Egg
@@ -67,11 +69,9 @@ public enum LegalityCheckResultCode : ushort
     EggLocationTradeFail,
     EggMetLocationFail,
     EggNature,
-    EggPokeathlon,
     EggPP,
     EggPPUp,
     EggRelearnFlags,
-    EggShinyLeaf,
     EggShinyPokeStar,
     EggSpecies,
     EggUnhatched,
@@ -180,10 +180,17 @@ public enum LegalityCheckResultCode : ushort
     G3EReader,
     G3OTGender,
     G4InvalidTileR45Surf,
+    G4PartnerMoodEgg,
+    G4PartnerMoodZero,
+    G4ShinyLeafBitsEgg,
+    G4ShinyLeafBitsInvalid,
     G5IVAll30,
     G5PIDShinyGrotto,
     G5SparkleInvalid,
     G5SparkleRequired,
+    G5PokeStarMustBeZero,
+    G7BSocialShouldBe100Spirit,
+    G7BSocialShouldBe100Mood,
 
     // Gender
     GenderInvalidNone,
@@ -317,6 +324,8 @@ public enum LegalityCheckResultCode : ushort
     SuperNoUnlocked,
     SuperUnavailable,
     SuperUnused,
+    G6SuperTrainEggBag,
+    G6SuperTrainEggHits,
 
     // Tera Type
     TeraTypeIncorrect,
@@ -395,6 +404,7 @@ public enum LegalityCheckResultCode : ushort
     MovePPTooHigh_0, // move slot
     MovePPUpsTooHigh_0, // move slot
     MemoryHTGender_0, // gender value
+    G6SuperTrainBagInvalid_0,
 
     // Single Argument: Move ID
     FirstWithMove,
@@ -454,6 +464,7 @@ public enum LegalityCheckResultCode : ushort
     FormInvalidRangeLEQ_0F,
 
     OTLanguageShouldBe_0or1, // language,language
+    G6SuperTrainBagHitsInvalid_012,
 
     MAX,
 }

@@ -24,7 +24,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     public override byte LevelMin => LevelCaps[MinRank * 2];
     public override byte LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-    public EncounterStatic8N(byte nestIndex, byte minRank, byte maxRank, byte flawless, [ConstantExpected] GameVersion game) : base(game)
+    public EncounterStatic8N(byte nestIndex, byte minRank, byte maxRank, byte flawless, [ConstantExpected] GameVersion version) : base(version)
     {
         NestIndex = nestIndex;
         MinRank = minRank;
@@ -33,7 +33,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         FlawlessIVCount = flawless;
     }
 
-    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game) => new(data[6], data[7], data[8], data[9], game)
+    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version) => new(data[6], data[7], data[8], data[9], version)
     {
         Species = ReadUInt16LittleEndian(data),
         Form = data[2],

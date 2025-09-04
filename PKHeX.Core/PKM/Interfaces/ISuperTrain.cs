@@ -17,17 +17,12 @@ public interface ISuperTrain
     bool SecretSuperTrainingUnlocked { get; set; }
 
     /// <summary>
-    /// Gets or sets whether all Secret Super Training regimens are complete for this Pokémon.
+    /// Gets or sets whether all accessible Super Training regimens are complete for this Pokémon.
     /// </summary>
-    bool SecretSuperTrainingComplete { get; set; }
+    bool SuperTrainSupremelyTrained { get; set; }
 
     /// <summary>
-    /// Gets the number of Super Training medals earned.
+    /// Distribution Event training regimens completed bitflags.
     /// </summary>
-    /// <param name="lowBitCount">The number of regular regimens to count (default: 30).</param>
-    /// <remarks>
-    /// Sometimes only the first `n` bitflags are required, such as the SuperTraining ribbon needing only the first 12 bits, indicating sufficient completion.
-    /// </remarks>
-    /// <returns>The count of completed Super Training regimens (medals).</returns>
-    int SuperTrainingMedalCount(int lowBitCount = 30);
+    ushort DistTrainBitFlags { get; set; }
 }

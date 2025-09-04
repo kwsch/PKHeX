@@ -25,20 +25,20 @@ public sealed record EncounterArea7b : IEncounterArea<EncounterSlot7b>, IAreaLoc
         return location == ToArea1 || location == ToArea2;
     }
 
-    public static EncounterArea7b[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion game)
+    public static EncounterArea7b[] GetAreas(BinLinkerAccessor input, [ConstantExpected] GameVersion version)
     {
         var result = new EncounterArea7b[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea7b(input[i], game);
+            result[i] = new EncounterArea7b(input[i], version);
         return result;
     }
 
-    private EncounterArea7b(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    private EncounterArea7b(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         Location = data[0]; // Always < 255
         ToArea1 = data[2];
         ToArea2 = data[3];
-        Version = game;
+        Version = version;
         Slots = ReadSlots(data[4..]);
     }
 

@@ -128,11 +128,11 @@ public static class EggStateLegality
     /// <summary>
     /// Gets a valid <see cref="PKM.MetLocation"/> for an egg hatched in the origin game, accounting for future format transfers altering the data.
     /// </summary>
-    public static ushort GetEggHatchLocation(GameVersion game, byte format) => game switch
+    public static ushort GetEggHatchLocation(GameVersion version, byte format) => version switch
     {
         R or S or E or FR or LG => format switch
         {
-            3 => game is FR or LG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE,
+            3 => version is FR or LG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE,
             4 => Locations.Transfer3, // Pal Park
             _ => Locations.Transfer4,
         },

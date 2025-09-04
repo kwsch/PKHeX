@@ -34,17 +34,27 @@ public partial class SuperTrainingEditor : Form
         TLP_DistSuperTrain.ResumeLayout();
 
         CHK_SecretUnlocked.Checked = Entity.SecretSuperTrainingUnlocked;
-        CHK_SecretComplete.Checked = Entity.SecretSuperTrainingComplete;
+        CHK_SecretComplete.Checked = Entity.SuperTrainSupremelyTrained;
 
         if (pk is PK6 pk6)
         {
-            CB_Bag.Items.Clear();
-            CB_Bag.Items.Add("---");
-            for (int i = 1; i < GameInfo.Strings.trainingbags.Length - 1; i++)
-                CB_Bag.Items.Add(GameInfo.Strings.trainingbags[i]);
+            var strings = GameInfo.Strings;
+            var bags = strings.trainingbags.AsSpan();
+            var list = CB_Bag.Items;
+            list.Clear();
+            list.Add(strings.Species[0]); // (None)
+            for (int i = 1; i < bags.Length; i++)
+                list.Add(bags[i]);
 
-            CB_Bag.SelectedIndex = pk6.TrainingBag;
-            NUD_BagHits.Value = pk6.TrainingBagHits;
+            var bag = pk6.TrainingBag;
+            if (bag >= bags.Length)
+                bag = 0;
+            var hits = pk6.TrainingBagHits;
+            if (hits > NUD_BagHits.Maximum)
+                hits = 0;
+
+            CB_Bag.SelectedIndex = bag;
+            NUD_BagHits.Value = hits;
 
             if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
                 CHK_Secret_CheckedChanged(this, EventArgs.Empty);
@@ -80,7 +90,7 @@ public partial class SuperTrainingEditor : Form
 
         for (int i = 0; i < result.Length; i++)
         {
-            var name = SuperTrainRegimenExtensions.GetRegimenName(i);
+            var name = SuperTrainRegimenExtensions.GetRegimenNameDistribution(i);
             var chk = GetCheckbox(name);
             TLP_DistSuperTrain.Controls.Add(chk, 0, i);
             result[i] = chk;
@@ -135,14 +145,14 @@ public partial class SuperTrainingEditor : Form
         if (Entity is PK6 pk6)
         {
             pk6.SecretSuperTrainingUnlocked = CHK_SecretUnlocked.Checked;
-            pk6.SecretSuperTrainingComplete = CHK_SecretComplete.Checked;
-            pk6.TrainingBag = CB_Bag.SelectedIndex;
-            pk6.TrainingBagHits = (int)NUD_BagHits.Value;
+            pk6.SuperTrainSupremelyTrained = CHK_SecretComplete.Checked;
+            pk6.TrainingBag = (byte)CB_Bag.SelectedIndex;
+            pk6.TrainingBagHits = (byte)NUD_BagHits.Value;
         }
         else // clear flags if manually cleared
         {
             Entity.SecretSuperTrainingUnlocked &= CHK_SecretUnlocked.Checked;
-            Entity.SecretSuperTrainingComplete &= CHK_SecretComplete.Checked;
+            Entity.SuperTrainSupremelyTrained &= CHK_SecretComplete.Checked;
         }
     }
 

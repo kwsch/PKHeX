@@ -11,16 +11,16 @@ public static class GameData
     /// <summary>
     /// Gets the Personal table for the specified game version.
     /// </summary>
-    /// <param name="game">The game version to retrieve data for.</param>
+    /// <param name="version">The game version to retrieve data for.</param>
     /// <returns>The Personal table for the specified game version.</returns>
-    public static IPersonalTable GetPersonal(GameVersion game) => Personal(game);
+    public static IPersonalTable GetPersonal(GameVersion version) => Personal(version);
 
     /// <summary>
     /// Gets the LearnSource for the specified game version.
     /// </summary>
-    /// <param name="game">The game version to retrieve data for.</param>
+    /// <param name="version">The game version to retrieve data for.</param>
     /// <returns>The LearnSource for the specified game version.</returns>
-    public static ILearnSource GetLearnSource(GameVersion game) => game switch
+    public static ILearnSource GetLearnSource(GameVersion version) => version switch
     {
         RD or GN or BU or RB => LearnSource1RB.Instance,
         YW or RBY => LearnSource1YW.Instance,
@@ -66,15 +66,15 @@ public static class GameData
         Stadium => LearnSource1YW.Instance,
         Stadium2 => LearnSource2Stadium.Instance,
 
-        _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
+        _ => throw new ArgumentOutOfRangeException(nameof(version), $"{version} is not a valid entry in the expression."),
     };
 
     /// <summary>
     /// Retrieves the personal table for the specified game version.
     /// </summary>
-    /// <param name="game">The game version to retrieve data for.</param>
+    /// <param name="version">The game version to retrieve data for.</param>
     /// <returns>The Personal table of the specified game version.</returns>
-    private static IPersonalTable Personal(GameVersion game) => game switch
+    private static IPersonalTable Personal(GameVersion version) => version switch
     {
         RD or GN or BU or RB => PersonalTable.RB,
         YW or RBY => PersonalTable.Y,
@@ -119,6 +119,6 @@ public static class GameData
         Stadium => PersonalTable.Y,
         Stadium2 => PersonalTable.GS,
 
-        _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
+        _ => throw new ArgumentOutOfRangeException(nameof(version), $"{version} is not a valid entry in the expression."),
     };
 }

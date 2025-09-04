@@ -108,7 +108,7 @@ public sealed class GameDataSource
         27, 26, // 6 OR/AS
         21, 20, // 5 B/W
         23, 22, // 5 B2/W2
-        10, 11, 12, // 4 D/P/Pt
+        10, 11, 12, 16, // 4 D/P/Pt/PBR
         07, 08, // 4 HG/SS
         02, 01, 03, // 3 R/S/E
         04, 05, // 3 FR/LG
@@ -133,9 +133,9 @@ public sealed class GameDataSource
         return Util.GetUnsortedCBList(list, OrderedVersionArray);
     }
 
-    public List<ComboItem> GetItemDataSource(GameVersion game, EntityContext context, ReadOnlySpan<ushort> allowed, bool HaX = false)
+    public List<ComboItem> GetItemDataSource(GameVersion version, EntityContext context, ReadOnlySpan<ushort> allowed, bool HaX = false)
     {
-        var items = Strings.GetItemStrings(context, game);
+        var items = Strings.GetItemStrings(context, version);
         return HaX ? Util.GetCBList(items) : Util.GetCBList(items, allowed);
     }
 }

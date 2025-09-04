@@ -17,6 +17,7 @@ public partial class PKMEditor
         CB_GroundTile.SelectedValue = pk5.Gen4 ? (int)pk5.GroundTile : 0;
         CB_GroundTile.Visible = Label_GroundTile.Visible = pk5.Gen4;
         CHK_NSparkle.Checked = pk5.NSparkle;
+        NUD_PokeStarFame.Value = pk5.PokeStarFame;
 
         if (HaX)
             DEV_Ability.SelectedValue = pk5.Ability;
@@ -41,6 +42,7 @@ public partial class PKMEditor
 
         pk5.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
         pk5.NSparkle = CHK_NSparkle.Checked;
+        pk5.PokeStarFame = (byte)NUD_PokeStarFame.Value;
         if (!HaX)
         {
             pk5.HiddenAbility = CB_Ability.SelectedIndex is not (0 or 1);

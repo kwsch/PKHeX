@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public enum LanguageBR : byte
 {
     /// <summary>
-    /// Japanese (日本語) or English (UK/AU)
+    /// Japanese (日本語) or English (US/UK/AU)
     /// </summary>
     /// <remarks>Language value is only used by PAL, and is ignored/left as 0 by NTSC-J/NTSC-U.</remarks>
     JapaneseOrEnglish = 0,

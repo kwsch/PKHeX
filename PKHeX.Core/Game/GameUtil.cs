@@ -27,8 +27,8 @@ public static class GameUtil
     /// <summary>
     /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
     /// </summary>
-    /// <param name="game">Game to check</param>
-    public static bool IsValidSavedVersion(this GameVersion game) => game is > 0 and <= HighestGameID;
+    /// <param name="version">Game to check</param>
+    public static bool IsValidSavedVersion(this GameVersion version) => version is > 0 and <= HighestGameID;
 
     /// <summary>
     /// Most recent game ID utilized by official games.
@@ -105,27 +105,27 @@ public static class GameUtil
     /// <summary>
     /// Gets the Generation the <see cref="GameVersion"/> belongs to.
     /// </summary>
-    /// <param name="game">Game to retrieve the generation for</param>
+    /// <param name="version">Game to retrieve the generation for</param>
     /// <returns>Generation ID</returns>
-    public static byte GetGeneration(this GameVersion game)
+    public static byte GetGeneration(this GameVersion version)
     {
-        if (game.IsValidSavedVersion())
-            return game.GetGenerationFromSaved();
+        if (version.IsValidSavedVersion())
+            return version.GetGenerationFromSaved();
 
-        if (Gen1.Contains(game)) return 1;
-        if (Gen2.Contains(game)) return 2;
-        if (Gen3.Contains(game)) return 3;
-        if (Gen4.Contains(game)) return 4;
-        if (Gen5.Contains(game)) return 5;
-        if (Gen6.Contains(game)) return 6;
-        if (Gen7.Contains(game)) return 7;
-        if (Gen7b.Contains(game)) return 7;
-        if (Gen8.Contains(game)) return 8;
-        if (Gen9.Contains(game)) return 9;
+        if (Gen1.Contains(version)) return 1;
+        if (Gen2.Contains(version)) return 2;
+        if (Gen3.Contains(version)) return 3;
+        if (Gen4.Contains(version)) return 4;
+        if (Gen5.Contains(version)) return 5;
+        if (Gen6.Contains(version)) return 6;
+        if (Gen7.Contains(version)) return 7;
+        if (Gen7b.Contains(version)) return 7;
+        if (Gen8.Contains(version)) return 8;
+        if (Gen9.Contains(version)) return 9;
         return 0;
     }
 
-    public static byte GetGenerationFromSaved(this GameVersion game) => game switch
+    public static byte GetGenerationFromSaved(this GameVersion version) => version switch
     {
         RD or GN or BU or YW => 1,
         GD or SI or C => 2,
@@ -146,9 +146,9 @@ public static class GameUtil
     /// <summary>
     /// Gets the Generation the <see cref="GameVersion"/> belongs to.
     /// </summary>
-    /// <param name="game">Game to retrieve the generation for</param>
+    /// <param name="version">Game to retrieve the generation for</param>
     /// <returns>Generation ID</returns>
-    public static ushort GetMaxSpeciesID(this GameVersion game) => game switch
+    public static ushort GetMaxSpeciesID(this GameVersion version) => version switch
     {
         RD or GN or BU or YW => Legal.MaxSpeciesID_1,
         GD or SI or C        => Legal.MaxSpeciesID_2,
@@ -219,7 +219,6 @@ public static class GameUtil
         DP     => version is D or P,
         HGSS   => version is HG or SS,
         DPPt   => version is D or P or Pt or DP,
-        BATREV => version is D or P or Pt or HG or SS,
         Gen4   => version is D or P or Pt or HG or SS or BATREV or DP or HGSS or DPPt,
 
         BW     => version is B or W,
@@ -271,10 +270,12 @@ public static class GameUtil
             return [GO, GP, GE];
         var versions = GameVersions
             .Where(version => obj.MinGameID <= version && version <= max);
+        if (max != BATREV)
+            versions = versions.Where(static version => version != BATREV);
         if (generation == 0)
             return versions;
         if (max == Legal.MaxGameID_7 && generation == 7)
-            versions = versions.Where(version => version != GO);
+            versions = versions.Where(static version => version != GO);
 
         // HOME allows up-reach to Gen9
         if (generation >= 8)

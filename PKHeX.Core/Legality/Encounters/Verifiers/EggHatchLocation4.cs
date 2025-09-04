@@ -16,7 +16,7 @@ public static class EggHatchLocation4
     /// <summary>
     /// Returns true if the hatch location is valid for the specified Generation 4 game.
     /// </summary>
-    public static bool IsValidMet4(ushort location, GameVersion game) => game switch
+    public static bool IsValidMet4(ushort location, GameVersion version) => version switch
     {
         D or P => IsValidMet4DP(location),
         Pt => IsValidMet4Pt(location),

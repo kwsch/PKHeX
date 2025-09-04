@@ -470,40 +470,47 @@ public partial class SAV_Wondercard : Form
     // ReSharper disable once AsyncVoidMethod
     private async void BoxSlot_MouseDown(object? sender, MouseEventArgs e)
     {
-        if (sender is null)
-            return;
-        switch (ModifierKeys)
-        {
-            case Keys.Control: ClickView(sender, e); return;
-            case Keys.Shift: ClickSet(sender, e); return;
-            case Keys.Alt: ClickDelete(sender, e); return;
-        }
-        var pb = sender as PictureBox;
-        if (pb?.Image is null)
-            return;
-
-        if (e.Button != MouseButtons.Left || e.Clicks != 1)
-            return;
-
-        int index = pba.IndexOf(pb);
-        var gift = Album[index];
-        if (gift.IsEmpty)
-            return;
-
-        // Create Temp File to Drag
-        wc_slot = index;
-        Cursor.Current = Cursors.Hand;
-        string newfile = Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(gift.FileName));
         try
         {
-            File.WriteAllBytes(newfile, gift.Write());
-            DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy | DragDropEffects.Move);
+            if (sender is null)
+                return;
+            switch (ModifierKeys)
+            {
+                case Keys.Control: ClickView(sender, e); return;
+                case Keys.Shift: ClickSet(sender, e); return;
+                case Keys.Alt: ClickDelete(sender, e); return;
+            }
+            var pb = sender as PictureBox;
+            if (pb?.Image is null)
+                return;
+
+            if (e.Button != MouseButtons.Left || e.Clicks != 1)
+                return;
+
+            int index = pba.IndexOf(pb);
+            var gift = Album[index];
+            if (gift.IsEmpty)
+                return;
+
+            // Create Temp File to Drag
+            wc_slot = index;
+            Cursor.Current = Cursors.Hand;
+            string newfile = Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(gift.FileName));
+            try
+            {
+                File.WriteAllBytes(newfile, gift.Write());
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy | DragDropEffects.Move);
+            }
+            // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
+            catch (Exception x)
+            { WinFormsUtil.Error("Drag & Drop Error", x); }
+            wc_slot = -1;
+            await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
         }
-        // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
-        catch (Exception x)
-        { WinFormsUtil.Error("Drag & Drop Error", x); }
-        wc_slot = -1;
-        await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
+        catch
+        {
+            // Ignore.
+        }
     }
 
     private static async Task DeleteAsync(string path, int delay)

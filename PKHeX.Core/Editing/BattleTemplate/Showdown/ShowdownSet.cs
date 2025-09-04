@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using static PKHeX.Core.Species;
+using static PKHeX.Core.BattleTemplateParseErrorType;
 
 namespace PKHeX.Core;
 
@@ -47,7 +48,10 @@ public sealed class ShowdownSet : IBattleTemplate
     /// <summary>
     /// Any lines that failed to be parsed.
     /// </summary>
-    public readonly List<string> InvalidLines = new(0);
+    public readonly List<BattleTemplateParseError> InvalidLines = new(0);
+
+    private void LogError(BattleTemplateParseErrorType type, ReadOnlySpan<char> text = default)
+        => InvalidLines.Add(new(type, text.ToString()));
 
     /// <summary>
     /// Loads a new <see cref="ShowdownSet"/> from the input string.
@@ -82,7 +86,7 @@ public sealed class ShowdownSet : IBattleTemplate
         Form = ShowdownParsing.GetFormFromString(FormName, localization.Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
-        if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion or (int)Oinkologne)
+        if (SpeciesCategory.IsFormGenderSpecific(Species))
             ReviseGenderedForms();
     }
 
@@ -137,7 +141,7 @@ public sealed class ShowdownSet : IBattleTemplate
                     first = false;
                     continue;
                 }
-                InvalidLines.Add(line.ToString());
+                LogError(LineLength, line);
                 continue;
             }
 
@@ -168,7 +172,7 @@ public sealed class ShowdownSet : IBattleTemplate
                     first = false;
                     continue;
                 }
-                InvalidLines.Add(line);
+                LogError(LineLength, line);
                 continue;
             }
 
@@ -183,64 +187,84 @@ public sealed class ShowdownSet : IBattleTemplate
         }
     }
 
-    private void ParseLine(ReadOnlySpan<char> line, ref int movectr, BattleTemplateLocalization localization)
+    private void ParseLine(ReadOnlySpan<char> line, ref int countMoves, BattleTemplateLocalization localization)
     {
-        var moves = Moves.AsSpan();
+        // Check the first char, to see if it is a move input.
         var firstChar = line[0];
         if (firstChar is '-' or '–')
         {
-            if (movectr >= MaxMoveCount)
-            {
-                InvalidLines.Add($"Too many moves: {line}");
-                return;
-            }
-            var moveString = ParseLineMove(line, localization.Strings);
-            int move = StringUtil.FindIndexIgnoreCase(localization.Strings.movelist, moveString);
-            if (move < 0)
-                InvalidLines.Add($"Unknown Move: {moveString}");
-            else if (moves.Contains((ushort)move))
-                InvalidLines.Add($"Duplicate Move: {moveString}");
-            else
-                moves[movectr++] = (ushort)move;
+            ParseMoveLine(line, ref countMoves, localization);
             return;
         }
 
+        // Check if it is a directional move input.
         var dirMove = BattleTemplateConfig.GetMoveDisplay(MoveDisplayStyle.Directional);
         var dirMoveIndex = dirMove.IndexOf(firstChar);
         if (dirMoveIndex != -1)
         {
-            if (moves[dirMoveIndex] != 0)
-            {
-                InvalidLines.Add($"Move slot already specified: {line}");
-                return;
-            }
-            var moveString = ParseLineMove(line, localization.Strings);
-            int move = StringUtil.FindIndexIgnoreCase(localization.Strings.movelist, moveString);
-            if (move < 0)
-                InvalidLines.Add($"Unknown Move: {moveString}");
-            else if (moves.Contains((ushort)move))
-                InvalidLines.Add($"Duplicate Move: {moveString}");
-            else
-                moves[dirMoveIndex] = (ushort)move;
-            movectr++;
+            ParseMoveLineIndex(line, ref countMoves, localization, dirMoveIndex);
             return;
         }
 
-        if (firstChar is '[' or '@') // Ability
+        // Check if it is an Ability selection/line
+        if (firstChar is '[' or '@')
         {
             ParseLineAbilityBracket(line, localization.Strings);
             return;
         }
 
+        // Otherwise, tokenized input line.
         var token = localization.Config.TryParse(line, out var value);
         if (token == BattleTemplateToken.None)
         {
-            InvalidLines.Add($"Unknown Token: {line}");
+            LogError(TokenUnknown, line);
             return;
         }
         var valid = ParseEntry(token, value, localization);
         if (!valid)
-            InvalidLines.Add(line.ToString());
+            LogError(TokenFailParse, line);
+    }
+
+    private void ParseMoveLine(ReadOnlySpan<char> line, ref int countMoves, BattleTemplateLocalization localization)
+    {
+        if (countMoves >= MaxMoveCount)
+        {
+            LogError(MoveCountTooMany, line);
+            return;
+        }
+        TryAddMoveAtIndex(line, ref countMoves, localization, countMoves);
+    }
+
+    private void ParseMoveLineIndex(ReadOnlySpan<char> line, ref int countMoves, BattleTemplateLocalization localization, int index)
+    {
+        if (Moves[index] != 0)
+        {
+            LogError(MoveSlotAlreadyUsed, line);
+            return;
+        }
+        TryAddMoveAtIndex(line, ref countMoves, localization, index);
+    }
+
+    private void TryAddMoveAtIndex(ReadOnlySpan<char> line, ref int countMoves, BattleTemplateLocalization localization, int index)
+    {
+        var strings = localization.Strings;
+        var movelist = strings.movelist;
+        var moveString = ParseLineMove(line, strings);
+        int move = StringUtil.FindIndexIgnoreCase(movelist, moveString);
+        var moves = Moves.AsSpan();
+        if (move < 0)
+        {
+            LogError(MoveUnrecognized, moveString);
+        }
+        else if (moves.Contains((ushort)move))
+        {
+            LogError(MoveDuplicate, moveString);
+        }
+        else
+        {
+            moves[index] = (ushort)move;
+            countMoves++;
+        }
     }
 
     private void ParseLineAbilityBracket(ReadOnlySpan<char> line, GameStrings localizationStrings)
@@ -251,7 +275,7 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             var itemName = line[(itemStart + 1)..].TrimStart();
             if (!ParseItemName(itemName, localizationStrings))
-                InvalidLines.Add($"Unknown Item: {itemName}");
+                LogError(ItemUnrecognized, itemName);
             line = line[..itemStart];
         }
 
@@ -259,7 +283,7 @@ public sealed class ShowdownSet : IBattleTemplate
         var abilityEnd = line.IndexOf(']');
         if (abilityEnd == -1 || line.Length == 1) // '[' should be present if ']' is; length check.
         {
-            InvalidLines.Add($"Invalid Ability declaration: {line}");
+            LogError(AbilityDeclaration, line);
             return; // invalid line
         }
 
@@ -267,7 +291,7 @@ public sealed class ShowdownSet : IBattleTemplate
         var abilityIndex = StringUtil.FindIndexIgnoreCase(localizationStrings.abilitylist, abilityName);
         if (abilityIndex < 0)
         {
-            InvalidLines.Add($"Unknown Ability: {abilityName}");
+            LogError(AbilityUnrecognized, abilityName);
             return; // invalid line
         }
         Ability = abilityIndex;
@@ -296,12 +320,12 @@ public sealed class ShowdownSet : IBattleTemplate
         var index = StringUtil.FindIndexIgnoreCase(abilityNames, value);
         if (index < 0)
         {
-            InvalidLines.Add($"Unknown Ability: {value}");
+            LogError(AbilityUnrecognized, value);
             return false;
         }
         if (Ability != -1 && Ability != index)
         {
-            InvalidLines.Add($"Different ability already specified: {value}");
+            LogError(AbilityAlreadySpecified, value);
             return false;
         }
 
@@ -318,12 +342,12 @@ public sealed class ShowdownSet : IBattleTemplate
         var nature = (Nature)index;
         if (!nature.IsFixed())
         {
-            InvalidLines.Add($"Invalid Nature: {value}");
+            LogError(NatureUnrecognized, value);
             return false;
         }
         if (Nature != Nature.Random && Nature != nature)
         {
-            InvalidLines.Add($"Different nature already specified: {value}");
+            LogError(NatureAlreadySpecified, value);
             return false;
         }
 
@@ -816,7 +840,7 @@ public sealed class ShowdownSet : IBattleTemplate
             var speciesName = first[..itemSplit].TrimEnd();
 
             if (!ParseItemName(itemName, strings))
-                InvalidLines.Add($"Unknown Item: {itemName}");
+                LogError(ItemUnrecognized, itemName);
             ParseFirstLineNoItem(speciesName, strings);
         }
         else
@@ -1004,7 +1028,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (IVs.AsSpan().ContainsAnyExcept(maxIV))
         {
             if (!HiddenPower.SetIVsForType(hpVal, IVs, Context))
-                InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
+                LogError(HiddenPowerIncompatibleIVs, type);
         }
         else if (hpVal >= 0)
         {
@@ -1012,7 +1036,7 @@ public sealed class ShowdownSet : IBattleTemplate
         }
         else
         {
-            InvalidLines.Add($"Invalid Hidden Power Type: {type}");
+            LogError(HiddenPowerUnknownType, type);
         }
         return hiddenPowerName;
     }
@@ -1042,19 +1066,19 @@ public sealed class ShowdownSet : IBattleTemplate
             var end = natureName.IndexOf(')');
             if (end == -1)
             {
-                InvalidLines.Add($"Invalid EV nature: {natureName}");
+                LogError(NatureEffortAmpDeclaration, natureName);
                 return false; // invalid line
             }
             natureName = natureName[..end].Trim();
             var natureIndex = StringUtil.FindIndexIgnoreCase(localization.Strings.natures, natureName);
             if (natureIndex == -1)
             {
-                InvalidLines.Add($"Invalid EV nature: {natureName}");
+                LogError(NatureEffortAmpUnknown, natureName);
                 return false; // invalid line
             }
 
             if (Nature != Nature.Random) // specified in a separate Nature line
-                InvalidLines.Add($"EV nature ignored, specified previously: {natureName}");
+                LogError(NatureEffortAmpAlreadySpecified, natureName);
             else
                 Nature = (Nature)natureIndex;
 
@@ -1074,7 +1098,7 @@ public sealed class ShowdownSet : IBattleTemplate
         success &= ampNature;
         if (ampNature && currentNature != Nature.Random && currentNature != Nature)
         {
-            InvalidLines.Add($"EV +/- nature does not match specified nature: {currentNature}");
+            LogError(NatureEffortAmpConflictNature);
             Nature = currentNature; // revert to original
         }
         return success;
@@ -1090,9 +1114,9 @@ public sealed class ShowdownSet : IBattleTemplate
     private bool AdjustNature(sbyte plus, sbyte minus)
     {
         if (plus == StatParseResult.NoStatAmp)
-            InvalidLines.Add("Invalid Nature adjustment, missing plus stat.");
+            LogError(NatureAmpNoPlus);
         if (minus == StatParseResult.NoStatAmp)
-            InvalidLines.Add("Invalid Nature adjustment, missing minus stat.");
+            LogError(NatureAmpNoMinus);
         else
             Nature = NatureAmp.CreateNatureFromAmps(plus, minus);
         return true;

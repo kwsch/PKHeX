@@ -32,16 +32,16 @@ public static class SpeciesName
     /// <remarks>Indexing matches <see cref="SpeciesLang"/>.</remarks>
     private static string GetEggName(int language) => language switch
     {
-        1 => "タマゴ",
-        2 => "Egg",
-        3 => "Œuf",
-        4 => "Uovo",
-        5 => "Ei",
+        (int)LanguageID.Japanese => "タマゴ",
+        (int)LanguageID.English  => "Egg",
+        (int)LanguageID.French   => "Œuf",
+        (int)LanguageID.Italian  => "Uovo",
+        (int)LanguageID.German   => "Ei",
 
-        7 => "Huevo",
-        8 => "알",
-        9 => "蛋",
-        10 => "蛋",
+        (int)LanguageID.Spanish  => "Huevo",
+        (int)LanguageID.Korean   => "알",
+        (int)LanguageID.ChineseS => "蛋",
+        (int)LanguageID.ChineseT => "蛋",
         _ => string.Empty,
     };
 

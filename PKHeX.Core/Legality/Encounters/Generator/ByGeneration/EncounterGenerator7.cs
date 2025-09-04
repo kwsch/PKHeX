@@ -9,9 +9,9 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
     public static readonly EncounterGenerator7 Instance = new();
     public bool CanGenerateEggs => true;
 
-    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible7(chain, groups, game);
+        var iterator = new EncounterPossible7(chain, groups, version);
         foreach (var enc in iterator)
             yield return enc;
     }
@@ -119,9 +119,9 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         // 32 -> 30 (US -> SN)
         // 33 -> 31 (UM -> MN)
         // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
-#pragma warning disable RCS1130 // Bitwise operation on enum without Flags attribute.
+#pragma warning disable RCS1130, RCS1257 // Bitwise operation on enum without Flags attribute.
         return version ^ (GameVersion)0b111110;
-#pragma warning restore RCS1130 // Bitwise operation on enum without Flags attribute.
+#pragma warning restore
     }
 
     private static EncounterEgg7 CreateEggEncounter(ushort species, byte form, GameVersion version)

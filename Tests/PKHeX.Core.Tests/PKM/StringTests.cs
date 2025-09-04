@@ -84,6 +84,19 @@ public class StringTests
         result.Should().Be(g7);
     }
 
+    // The first dot is a different char than the second!
+    // Dot in g12 is a char used in gen1/2.
+    // Dot in g7 is a standard ASCII.
+    [Theory]
+    [InlineData("test․", "test.")]
+    public static void ConvertStringVCDotConversion(string g12, string g7)
+    {
+        Span<byte> b12 = stackalloc byte[g12.Length];
+        var len = StringConverter1.SetString(b12, g12, g12.Length, false);
+        var result = StringConverter12Transporter.GetString(b12[..len], false);
+        result.Should().Be(g7);
+    }
+
     [Theory]
     [InlineData(Species.MrMime, "MR․MIME")]
     public static void ConvertStringG1(Species species, string expect)

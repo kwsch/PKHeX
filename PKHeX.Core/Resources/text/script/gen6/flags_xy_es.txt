@@ -4,11 +4,11 @@
 0886	r	Zygarde derrotado
 0631	r	Snorlax desaparecido
 0321	r	Snorlax capturado
-0381	+	Indiv. Statuette
-0382	+	Dobles Statuette
-0383	+	Triples Statuette
-0384	+	Rotación Statuette
-0385	+	Multi Statuette
+0381	+	Indiv. Statuette (Mansión Batalla)
+0382	+	Dobles Statuette (Mansión Batalla)
+0383	+	Triples Statuette (Mansión Batalla)
+0384	+	Rotación Statuette (Mansión Batalla)
+0385	+	Multi Statuette (Mansión Batalla)
 0386	+	Super Indiv. desbloqueado
 0387	+	Super Dobles desbloqueado
 0388	+	Super Triples desbloqueado

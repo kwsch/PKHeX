@@ -18,55 +18,52 @@ public static class CommonEvent3Checker
     /// <returns>True if is match; mutation not indicated.</returns>
     public static bool IsRestrictedTable2(ref PIDIV value, PIDType observed, ushort species, bool isWish)
     {
-        if (observed is not (BACD or BACD_A or BACD_EA))
+        // Same method as IsRestrictedTable3, except shiny is disallowed.
+        if (observed is not (BACD or BACD_A or BACD_EA)) // regular/anti-shiny, or anti-shiny before trade & hatch
             return false;
-
-        var seed = value.OriginSeed;
-        var prev2 = LCRNG.Prev2(seed);
-        if (prev2 > ushort.MaxValue)
-            return false;
-        if (species is (ushort)Species.Jirachi)
-            return true;
-
-        var index = PCJPFifthAnniversary.GetIndexPCJP(species);
-        var combined = WeightedTable3.GetRandom32(prev2);
-        var result = PCJPFifthAnniversary.GetResultPCJP(combined);
-        if (result.Shiny)
-            return false;
-        if (result.Index != index)
-            return false;
-        if (result.Wish != isWish)
-            return false;
-        value = value.AsMutated(BACD_R, prev2);
-        return true;
+        return IsRestrictedTableMatch(ref value, species, isWish, false);
     }
 
     /// <remarks>Force Shiny Table constraint.</remarks>
     /// <inheritdoc cref="IsRestrictedTable2"/>
     public static bool IsRestrictedTable3(ref PIDIV value, PIDType observed, ushort species, bool isWish)
     {
-        if (observed is not (BACD_S or BACD_ES))
+        // Same method as IsRestrictedTable2, except it should be shiny.
+        if (observed is not (BACD_S or BACD_ES)) // shiny or shiny before trade & hatch
             return false;
-        var seed = value.OriginSeed;
-        var prev3 = LCRNG.Prev2(seed);
-        if (prev3 > ushort.MaxValue)
-            return false;
-        if (species is (ushort)Species.Jirachi)
-            return true;
+        return IsRestrictedTableMatch(ref value, species, isWish, true);
+    }
 
-        var index = PCJPFifthAnniversary.GetIndexPCJP(species);
-        seed = prev3;
-        var rand1 = LCRNG.Next16(ref seed);
-        var rand2 = LCRNG.Next16(ref seed);
-        var combined = (rand1 << 16) | rand2;
-        var result = PCJPFifthAnniversary.GetResultPCJP(combined);
-        if (!result.Shiny)
+    private static bool IsRestrictedTableMatch(ref PIDIV value, ushort species, bool isWish, bool isShiny)
+    {
+        var seed = value.OriginSeed;
+        var origin = LCRNG.Prev2(seed);
+        if (origin > ushort.MaxValue)
+            return false;
+
+        // Only 2 events distributed with table rand.
+        // Negai Boshi Jirachi was filled with the same entry.
+        // PCJP Fifth Anniversary had a few entries, will need to check.
+        if (species is not (ushort)Species.Jirachi)
+        {
+            // Otherwise, check the table to see if it is valid.
+            if (!IsMatchTableRand(species, isWish, (ushort)origin, isShiny))
+                return false;
+        }
+        value = value.AsMutated(BACD_R, origin);
+        return true;
+    }
+
+    private static bool IsMatchTableRand(ushort species, bool isWish, ushort seed16, bool isShiny)
+    {
+        var index = PCJPFifthAnniversary.GetIndex(species);
+        var result = PCJPFifthAnniversary.GetResult(seed16);
+        if (result.Shiny != isShiny)
             return false;
         if (result.Index != index)
             return false;
         if (result.Wish != isWish)
             return false;
-        value = value.AsMutated(BACD_R, prev3);
         return true;
     }
 

@@ -25,9 +25,9 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly, IT
     public byte Generation { get; init; } = Latest.Generation;
     public EntityContext Context { get; init; } = Latest.Context;
 
-    public SimpleTrainerInfo(GameVersion game = Latest.Version)
+    public SimpleTrainerInfo(GameVersion version = Latest.Version)
     {
-        Version = game;
+        Version = version;
         Context = Version.GetContext();
         Generation = Context.Generation();
         if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))
@@ -80,9 +80,9 @@ public sealed record MutableTrainerInfo : ITrainerInfo, IRegionOrigin, ITrainerI
     public byte Generation { get; set; } = Latest.Generation;
     public EntityContext Context { get; set; } = Latest.Context;
 
-    public MutableTrainerInfo(GameVersion game = Latest.Version)
+    public MutableTrainerInfo(GameVersion version = Latest.Version)
     {
-        Version = game;
+        Version = version;
         Context = Version.GetContext();
         Generation = Context.Generation();
         if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))

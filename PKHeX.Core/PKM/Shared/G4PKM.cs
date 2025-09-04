@@ -166,7 +166,7 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     public abstract GroundTileType GroundTile { get; set; }
     public abstract byte BallDPPt { get; set; }
     public abstract byte BallHGSS { get; set; }
-    public abstract byte PokeathlonStat { get; set; }
+    public abstract sbyte WalkingMood { get; set; }
     public int MarkingCount => 6;
     public abstract byte MarkingValue { get; set; }
 
@@ -376,7 +376,7 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
             BallDPPt = BallDPPt,
             BallHGSS = BallHGSS,
             GroundTile = GroundTile,
-            PokeathlonStat = PokeathlonStat,
+            WalkingMood = WalkingMood,
             FatefulEncounter = FatefulEncounter,
 
             MetLevel = MetLevel,

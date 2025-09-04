@@ -8,12 +8,13 @@ namespace PKHeX.Core;
 /// </summary>
 public static class BallApplicator
 {
-    private static readonly Ball[] BallList = Enum.GetValues<Ball>();
+    private const Ball BallMin = Master; // first defined Enum value
+    private const Ball BallMax = LAOrigin; // all indexes up to and including LAOrigin are defined Enum values.
 
     /// <summary>
     /// Maximum number of <see cref="Ball"/> values that can be returned in a span.
     /// </summary>
-    public const byte MaxBallSpanAlloc = (byte)LAOrigin + 1;
+    public const byte MaxBallSpanAlloc = (byte)BallMax + 1;
 
     private static IEncounterTemplate Get(LegalityAnalysis la) => la.EncounterOriginal;
 
@@ -72,7 +73,7 @@ public static class BallApplicator
     private static int LoadLegalBalls(Span<Ball> result, PKM pk, IEncounterTemplate enc)
     {
         int ctr = 0;
-        foreach (var b in BallList)
+        for (var b = BallMin; b <= BallMax; b++)
         {
             if (BallVerifier.VerifyBall(enc, b, pk).IsValid())
                 result[ctr++] = b;

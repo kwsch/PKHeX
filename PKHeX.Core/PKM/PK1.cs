@@ -87,8 +87,6 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int Stat_SPD { get => Stat_SPC; set { } }
     #endregion
 
-    public static bool IsCatchRateHeldItem(byte rate) => rate == 0 || Array.IndexOf(Legal.HeldItems_GSC, rate) >= 0;
-
     private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, byte rate)
     {
         for (int species = baseSpecies; species <= finalSpecies; species++)
@@ -126,7 +124,7 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     private static bool IsValidCatchRateAnyPreEvo(byte species, byte rate)
     {
-        if (IsCatchRateHeldItem(rate))
+        if (ItemConverter.IsCatchRateHeldItem(rate))
             return true;
         if (species == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
             return true;

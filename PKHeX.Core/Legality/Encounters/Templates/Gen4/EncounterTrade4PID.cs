@@ -58,9 +58,9 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
     public byte ContestTough => Contest;
     public byte ContestSheen => 0;
 
-    public EncounterTrade4PID(ReadOnlySpan<string[]> names, byte index, GameVersion game, uint pid, ushort species, byte level)
+    public EncounterTrade4PID(ReadOnlySpan<string[]> names, byte index, GameVersion version, uint pid, ushort species, byte level)
     {
-        Version = game;
+        Version = version;
         Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
         PID = pid;
@@ -121,10 +121,10 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
         return pk;
     }
 
-    private int GetReceivedLanguage(int lang, GameVersion game)
+    private int GetReceivedLanguage(int lang, GameVersion version)
     {
         if (Version == GameVersion.DPPt)
-            return GetLanguageDPPt(lang, game);
+            return GetLanguageDPPt(lang, version);
 
         // HG/SS
         // Has English Language ID for all except English origin, which is French
@@ -133,13 +133,13 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
         return lang;
     }
 
-    private int GetLanguageDPPt(int lang, GameVersion game)
+    private int GetLanguageDPPt(int lang, GameVersion version)
     {
         // Has German Language ID for all except German origin, which is English
         if (Species == (int)Core.Species.Magikarp)
             return (int)(lang == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
         // All other trades received (D/P only): English games have a Japanese language ID instead of English.
-        if (game is not GameVersion.Pt && lang == (int)LanguageID.English)
+        if (version is not GameVersion.Pt && lang == (int)LanguageID.English)
             return (int)LanguageID.Japanese;
         return lang;
     }

@@ -35,35 +35,33 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsAtOrBelow(2);
 
-    public SAV1(GameVersion version = GameVersion.RBY, LanguageID language = LanguageID.English) : base(SaveUtil.SIZE_G1RAW)
+    public SAV1(LanguageID language = LanguageID.English, GameVersion version = default) : base(SaveUtil.SIZE_G1RAW)
     {
-        Version = version;
+        Version = version == default ? GameVersion.RBY : version;
         Japanese = language == LanguageID.Japanese;
         Language = (int)language;
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-        Personal = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
-        Initialize(version);
+        Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+
+        Initialize();
         ClearBoxes();
     }
 
-    public SAV1(Memory<byte> data, GameVersion versionOverride = GameVersion.Any, LanguageID language = LanguageID.English) : base(data)
+    public SAV1(Memory<byte> data, LanguageID language, GameVersion version = default) : base(data)
     {
-        Japanese = SaveUtil.GetIsG1SAVJ(Data);
+        Version = version == default ? GameVersion.RBY : version;
+        Japanese = language == LanguageID.Japanese;
         Language = (int)language;
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-
-        Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(Data);
         Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
-        if (Version == GameVersion.Invalid)
-            return;
 
-        Initialize(versionOverride);
+        Initialize();
     }
 
-    private void Initialize(GameVersion versionOverride)
+    private void Initialize()
     {
-        // see if RBY can be differentiated
-        if (versionOverride is not (GameVersion.RB or GameVersion.YW))
+        // See if RBY can be differentiated
+        if (Version is not (GameVersion.RB or GameVersion.YW))
         {
             if (Starter != 0) // Pikachu
                 Version = Starter == 0x54 ? GameVersion.YW : GameVersion.RB;
@@ -217,7 +215,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     // Configuration
-    protected override SAV1 CloneInternal() => new(GetFinalData(), Version) { Language = Language };
+    protected override SAV1 CloneInternal() => new(GetFinalData(), (LanguageID)Language, Version);
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => SIZE_STORED;
@@ -591,4 +589,16 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         => StringConverter1.LoadString(data, destBuffer, Japanese);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
+
+
+    public static bool IsYellow(ReadOnlySpan<byte> data, bool japanese) => japanese ? IsYellowJPN(data) : IsYellowINT(data);
+    public static bool IsYellowINT(ReadOnlySpan<byte> data) => IsYellow(data[0x29C3], data[0x271C]);
+    public static bool IsYellowJPN(ReadOnlySpan<byte> data) => IsYellow(data[0x29B9], data[0x2712]);
+
+    private static bool IsYellow(byte starter, byte friendship)
+    {
+        if (starter != 0)
+            return starter == 0x54; // Pikachu
+        return friendship != 0; // Initial Pikachu friendship is non-zero
+    }
 }

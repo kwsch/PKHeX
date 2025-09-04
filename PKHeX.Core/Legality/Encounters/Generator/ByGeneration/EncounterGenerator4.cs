@@ -21,9 +21,9 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         return GetEncounters(pk, chain, info);
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible4(chain, groups, game, pk);
+        var iterator = new EncounterPossible4(chain, groups, version, pk);
         foreach (var enc in iterator)
             yield return enc;
     }

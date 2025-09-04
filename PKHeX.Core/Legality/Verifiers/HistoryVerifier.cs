@@ -155,7 +155,7 @@ public sealed class HistoryVerifier : Verifier
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
     {
         EncounterStatic7b { Location: 28 } => true, // LGP/E Starter
-        EncounterStatic9  { Species: 998 or 999, Level: 68 } => true, // S/V Ride legend
+        EncounterStatic9  { StarterBoxLegend: true } => true, // S/V Ride legend
         _ => false,
     };
 

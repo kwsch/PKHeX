@@ -178,6 +178,13 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     }
     #endregion
 
+    protected override void SetPKM(PKM pk, bool isParty = false)
+    {
+        base.SetPKM(pk, isParty);
+        if (!isParty)
+            ((PK4)pk).WalkingMood = 0;
+    }
+
     public override IReadOnlyList<InventoryPouch> Inventory
     {
         get

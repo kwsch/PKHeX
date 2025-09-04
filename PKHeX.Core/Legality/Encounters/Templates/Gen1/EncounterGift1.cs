@@ -327,7 +327,7 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
 
     private bool IsCatchRateValid(byte rate)
     {
-        if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(rate))
+        if (ParseSettings.AllowGen1Tradeback && ItemConverter.IsCatchRateHeldItem(rate))
             return true;
 
         if (Version == GameVersion.Stadium)

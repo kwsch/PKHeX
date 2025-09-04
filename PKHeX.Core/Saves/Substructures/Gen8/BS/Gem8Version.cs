@@ -13,7 +13,7 @@ public enum Gem8Version
     /// <summary>
     /// Initial cartridge version shipped.
     /// </summary>
-    /// <remarks><see cref="SaveUtil.SIZE_G8BDSP"/></remarks>
+    /// <remarks><see cref="SaveUtil.SIZE_G8BDSP_0"/></remarks>
     V1_0 = 0x25, // 37
 
     /// <summary>

@@ -8,12 +8,12 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
     public static readonly EncounterGenerator8X Instance = new();
     public bool CanGenerateEggs => false;
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups) => game switch
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups) => version switch
     {
-        GO => EncounterGenerator8GO.Instance.GetPossible(pk, chain, game, groups),
-        PLA => EncounterGenerator8a.Instance.GetPossible(pk, chain, game, groups),
-        BD or SP => EncounterGenerator8b.Instance.GetPossible(pk, chain, game, groups),
-        _ => EncounterGenerator8.Instance.GetPossible(pk, chain, game, groups),
+        GO => EncounterGenerator8GO.Instance.GetPossible(pk, chain, version, groups),
+        PLA => EncounterGenerator8a.Instance.GetPossible(pk, chain, version, groups),
+        BD or SP => EncounterGenerator8b.Instance.GetPossible(pk, chain, version, groups),
+        _ => EncounterGenerator8.Instance.GetPossible(pk, chain, version, groups),
     };
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)

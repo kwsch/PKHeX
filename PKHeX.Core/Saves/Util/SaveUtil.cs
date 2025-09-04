@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.MessageStrings;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.SaveFileType;
 
 namespace PKHeX.Core;
 
@@ -14,29 +14,27 @@ namespace PKHeX.Core;
 /// </summary>
 public static class SaveUtil
 {
-    public const int BEEF = 0x42454546;
-
-    public const int SIZE_G9_0   = 0x31626F; // 1.0.0 fresh
-    public const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
-    public const int SIZE_G9_1   = 0x319DB3; // 1.0.1 fresh
-    public const int SIZE_G9_1a  = 0x319DC0; // 1.0.1 after multiplayer
-    public const int SIZE_G9_3   = 0x319DC3; // 1.1.0 fresh
-    public const int SIZE_G9_1Ba = 0x319DD0; // 1.0.1 -> 1.1.0
-    public const int SIZE_G9_1A  = 0x31A2C0; // 1.0.0 -> 1.0.1
-    public const int SIZE_G9_1Aa = 0x31A2CD; // 1.0.0 -> 1.0.1 -> 1.0.1 after multiplayer
-    public const int SIZE_G9_1Ab = 0x31A2DD; // 1.0.0 -> 1.0.1 -> 1.0.1 after multiplayer -> 1.1.0
-    public const int SIZE_G9_2   = 0x31A2D0; // 1.0.0 -> 1.1.0
+    private const int SIZE_G9_0   = 0x31626F; // 1.0.0 fresh
+    private const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
+    private const int SIZE_G9_1   = 0x319DB3; // 1.0.1 fresh
+    private const int SIZE_G9_1a  = 0x319DC0; // 1.0.1 after multiplayer
+    private const int SIZE_G9_3   = 0x319DC3; // 1.1.0 fresh
+    private const int SIZE_G9_1Ba = 0x319DD0; // 1.0.1 -> 1.1.0
+    private const int SIZE_G9_1A  = 0x31A2C0; // 1.0.0 -> 1.0.1
+    private const int SIZE_G9_1Aa = 0x31A2CD; // 1.0.0 -> 1.0.1 -> 1.0.1 after multiplayer
+    private const int SIZE_G9_1Ab = 0x31A2DD; // 1.0.0 -> 1.0.1 -> 1.0.1 after multiplayer -> 1.1.0
+    private const int SIZE_G9_2   = 0x31A2D0; // 1.0.0 -> 1.1.0
 
     // 1.2.0: add 0x2C9F; clean upgrade (1.1.0->1.2.0 is same as *1.2.0)
-    public const int SIZE_G9_3B1 = SIZE_G9_3A1 - 0xD; // BM
-    public const int SIZE_G9_3P1 = SIZE_G9_3B1 + 0x5; // GO (before Multiplayer)
-    public const int SIZE_G9_3A1 = 0x31CA6F; //          1.0.1 -> 1.1.0 -> 1.2.0 AM
-    public const int SIZE_G9_3G1 = SIZE_G9_3A1 + 0x5; // GO
+    private const int SIZE_G9_3B1 = SIZE_G9_3A1 - 0xD; // BM
+    private const int SIZE_G9_3P1 = SIZE_G9_3B1 + 0x5; // GO (before Multiplayer)
+    private const int SIZE_G9_3A1 = 0x31CA6F; //          1.0.1 -> 1.1.0 -> 1.2.0 AM
+    private const int SIZE_G9_3G1 = SIZE_G9_3A1 + 0x5; // GO
 
-    public const int SIZE_G9_3B0 = SIZE_G9_3A0 - 0xD; // BM
-    public const int SIZE_G9_3P0 = SIZE_G9_3B0 + 0x5; // GO (before Multiplayer)
-    public const int SIZE_G9_3A0 = 0x31CF7C; // 1.0.0 -> 1.0.1 -> 1.1.0 -> 1.2.0 AM
-    public const int SIZE_G9_3G0 = SIZE_G9_3A0 + 0x5; // GO
+    private const int SIZE_G9_3B0 = SIZE_G9_3A0 - 0xD; // BM
+    private const int SIZE_G9_3P0 = SIZE_G9_3B0 + 0x5; // GO (before Multiplayer)
+    private const int SIZE_G9_3A0 = 0x31CF7C; // 1.0.0 -> 1.0.1 -> 1.1.0 -> 1.2.0 AM
+    private const int SIZE_G9_3G0 = SIZE_G9_3A0 + 0x5; // GO
 
     // 2.0.1 (2.0.0 skipped): Teal Mask
     // 3.0.0: The Indigo Disk
@@ -48,22 +46,22 @@ public static class SaveUtil
     private const int SIZE_G9_202 = 0xC8E; // Add 2 blocks (1 obj 0xC80, 1 bool) = 4{key}1{obj}4{len} + 4{key}1{boolT/boolF}
     private const int SIZE_G9_300 = 0x83AD;
 
-    public const int SIZE_G8LA = 0x136DDE;
-    public const int SIZE_G8LA_1 = 0x13AD06;
+    private const int SIZE_G8LA = 0x136DDE;
+    private const int SIZE_G8LA_1 = 0x13AD06;
 
-    public const int SIZE_G8BDSP = 0xE9828;
+    public const int SIZE_G8BDSP_0 = 0xE9828;
     public const int SIZE_G8BDSP_1 = 0xEDC20;
     public const int SIZE_G8BDSP_2 = 0xEED8C;
     public const int SIZE_G8BDSP_3 = 0xEF0A4;
 
-    public const int SIZE_G8SWSH    = 0x1716B3; // 1.0
-    public const int SIZE_G8SWSH_1  = 0x17195E; // 1.0 -> 1.1
-    public const int SIZE_G8SWSH_2  = 0x180B19; // 1.0 -> 1.1 -> 1.2
-    public const int SIZE_G8SWSH_2B = 0x180AD0; // 1.0 -> 1.2
-    public const int SIZE_G8SWSH_3  = 0x1876B1; // 1.0 -> 1.1 -> 1.2 -> 1.3
-    public const int SIZE_G8SWSH_3A = 0x187693; // 1.0 -> 1.1 -> 1.3
-    public const int SIZE_G8SWSH_3B = 0x187668; // 1.0 -> 1.2 -> 1.3
-    public const int SIZE_G8SWSH_3C = 0x18764A; // 1.0 -> 1.3
+    private const int SIZE_G8SWSH    = 0x1716B3; // 1.0
+    private const int SIZE_G8SWSH_1  = 0x17195E; // 1.0 -> 1.1
+    private const int SIZE_G8SWSH_2  = 0x180B19; // 1.0 -> 1.1 -> 1.2
+    private const int SIZE_G8SWSH_2B = 0x180AD0; // 1.0 -> 1.2
+    private const int SIZE_G8SWSH_3  = 0x1876B1; // 1.0 -> 1.1 -> 1.2 -> 1.3
+    private const int SIZE_G8SWSH_3A = 0x187693; // 1.0 -> 1.1 -> 1.3
+    private const int SIZE_G8SWSH_3B = 0x187668; // 1.0 -> 1.2 -> 1.3
+    private const int SIZE_G8SWSH_3C = 0x18764A; // 1.0 -> 1.3
 
     public const int SIZE_G7GG = 0x100000;
     public const int SIZE_G7USUM = 0x6CC00;
@@ -145,7 +143,7 @@ public static class SaveUtil
 
     private static bool IsSizeCommonFixed(int length) => length is
         SIZE_G8LA or SIZE_G8LA_1
-        or SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3
+        or SIZE_G8BDSP_0 or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3
         or SIZE_G7SM or SIZE_G7USUM or SIZE_G7GG
         or SIZE_G6XY or SIZE_G6ORAS or SIZE_G6ORASDEMO
         or SIZE_G5RAW or SIZE_G5BW or SIZE_G5B2W2
@@ -156,62 +154,56 @@ public static class SaveUtil
 
     /// <summary>Determines the type of the provided save data.</summary>
     /// <param name="data">Save data of which to determine the origins of</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetSAVType(ReadOnlySpan<byte> data)
+    /// <returns>Save file type information including sub-version details, or Invalid if type cannot be determined.</returns>
+    private static SaveTypeInfo GetTypeInfo(ReadOnlySpan<byte> data)
     {
-        GameVersion version;
-        if ((version = GetIsG1SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG2SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG3SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG4SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG5SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG6SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG7SAV(data)) != Invalid)
-            return version;
+        // Mainline
+        if (IsG1(data, out var info)) return info;
+        if (IsG2(data, out info)) return info;
+        if (IsG3(data, out var smallOffset)) return GetVersionG3SAV(data[smallOffset..]);
+        if (IsG4DP(data)) return DP;
+        if (IsG4Pt(data)) return Pt;
+        if (IsG4HGSS(data)) return HGSS;
+        if (IsG5BW(data)) return BW;
+        if (IsG5B2W2(data)) return B2W2;
+        if (IsG6XY(data)) return XY;
+        if (IsG6AO(data)) return AO;
+        if (IsG6AODemo(data)) return AODemo;
+        if (IsG7SM(data)) return SM;
+        if (IsG7USUM(data)) return USUM;
+        if (IsG7LGPE(data)) return LGPE;
+        if (IsG8SWSH(data)) return SWSH;
+        if (IsG8BDSP(data)) return BDSP;
+        if (IsG8LA(data)) return LA;
+        if (IsG9SV(data)) return SV;
 
-        if (GetIsBelugaSAV(data) != Invalid)
-            return GG;
-        if (GetIsG3COLOSAV(data) != Invalid)
-            return COLO;
-        if (GetIsG3XDSAV(data) != Invalid)
-            return XD;
-        if (GetIsG3BOXSAV(data) != Invalid)
-            return RSBOX;
-        if (GetIsG4BRSAV(data) != Invalid)
-            return BATREV;
+        // Side-game
+        if (IsG3Colosseum(data)) return Colosseum;
+        if (IsG3XD(data)) return XD;
+        if (IsG3RSBox(data)) return RSBox;
+        if (IsG4BR(data)) return BattleRevolution;
 
-        if (GetIsBank7(data)) // pokebank
-            return Gen7;
-        if (GetIsBank4(data)) // pokestock
-            return Gen4;
-        if (GetIsBank3(data)) // pokestock
-            return Gen3;
-        if (GetIsRanch4(data)) // ranch
-            return DPPt;
-        if (SAV2Stadium.IsStadium(data))
-            return Stadium2;
-        if (SAV1Stadium.IsStadium(data))
-            return Stadium;
-        if (SAV1StadiumJ.IsStadium(data))
-            return StadiumJ;
+        // Adjacent/misc.
+        if (IsBank7(data)) return Bulk7; // pokebank
+        if (IsBank4(data)) return Bulk4; // pokestock
+        if (IsBank3(data)) return Bulk3; // pokestock
+        if (IsRanch4(data)) return Ranch;
+        if (SAV2Stadium.IsStadium(data)) return Stadium2;
+        if (SAV1Stadium.IsStadium(data)) return Stadium1;
+        if (SAV1StadiumJ.IsStadium(data)) return Stadium1J;
 
-        if ((version = GetIsG8SAV(data)) != Invalid)
-            return version;
-        if ((version = GetIsG8SAV_BDSP(data)) != Invalid)
-            return version;
-        if ((version = GetIsG8SAV_LA(data)) != Invalid)
-            return version;
-        if ((version = GetIsG9SAV(data)) != Invalid)
-            return version;
-
-        return Invalid;
+        return SaveTypeInfo.Invalid;
     }
+
+    private static bool IsG1INT(ReadOnlySpan<byte> data) => HasListAt(data, 0x2F2C, 0x30C0, 20);
+    private static bool IsG1JPN(ReadOnlySpan<byte> data) => HasListAt(data, 0x2ED5, 0x302D, 30);
+    private static bool IsG2GSINT(ReadOnlySpan<byte> data) => HasListAt(data, 0x288A, 0x2D6C, 20);
+    private static bool IsG2GSJPN(ReadOnlySpan<byte> data) => HasListAt(data, 0x2D10, 0x283E, 30);
+    private static bool IsG2GSKOR(ReadOnlySpan<byte> data) => HasListAt(data, 0x2DAE, 0x28CC, 20);
+    private static bool IsG2CrystalINT(ReadOnlySpan<byte> data) => HasListAt(data, 0x2865, 0x2D10, 20);
+    private static bool IsG2CrystalJPN(ReadOnlySpan<byte> data) => HasListAt(data, 0x283E, 0x281A, 30);
+    private static bool HasListAt(ReadOnlySpan<byte> data, [ConstantExpected] int offset1, [ConstantExpected] int offset2, [ConstantExpected] byte maxCount) =>
+        IsListValidG12(data, offset1, maxCount) && IsListValidG12(data, offset2, maxCount);
 
     /// <summary>
     /// Determines if a Gen1/2 Pokémon List is Invalid
@@ -220,7 +212,7 @@ public static class SaveUtil
     /// <param name="offset">Offset the list starts at</param>
     /// <param name="maxCount">Max count of Pokémon in the list</param>
     /// <returns>True if a valid list, False otherwise</returns>
-    private static bool IsG12ListValid(ReadOnlySpan<byte> data, int offset, [ConstantExpected] byte maxCount)
+    private static bool IsListValidG12(ReadOnlySpan<byte> data, int offset, [ConstantExpected] byte maxCount)
     {
         byte count = data[offset];
         return count <= maxCount && data[offset + 1 + count] == 0xFF;
@@ -228,110 +220,70 @@ public static class SaveUtil
 
     /// <summary>Checks to see if the data belongs to a Gen1 save</summary>
     /// <param name="data">Save data of which to determine the type</param>
+    /// <param name="info">Recognized save file type, if any.</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    internal static GameVersion GetIsG1SAV(ReadOnlySpan<byte> data)
+    private static bool IsG1(ReadOnlySpan<byte> data, out SaveTypeInfo info)
     {
+        info = default;
         if (data.Length is not SIZE_G1RAW)
-            return Invalid;
+            return false;
 
-        // Check if it's not an american save or a japanese save
-        if (!(GetIsG1SAVU(data) || GetIsG1SAVJ(data)))
-            return Invalid;
-        // I can't actually detect which game version, because it's not stored anywhere.
-        // If you can think of anything to do here, please implement :)
-        return RBY;
-    }
+        // Check if it's not an international save or a Japanese save
+        if (IsG1JPN(data))
+        { info = new SaveTypeInfo(RBY, SAV1.IsYellowJPN(data) ? GameVersion.YW : default, LanguageID.Japanese); return true; }
+        if (IsG1INT(data))
+        { info = new SaveTypeInfo(RBY, SAV1.IsYellowINT(data) ? GameVersion.YW : default); return true; }
 
-    /// <summary>Checks to see if the data belongs to an International Gen1 save</summary>
-    /// <param name="data">Save data of which to determine the region</param>
-    /// <returns>True if a valid International save, False otherwise.</returns>
-    private static bool GetIsG1SAVU(ReadOnlySpan<byte> data)
-    {
-        return IsG12ListValid(data, 0x2F2C, 20) && IsG12ListValid(data, 0x30C0, 20);
-    }
-
-    /// <summary>Checks to see if the data belongs to a Japanese Gen1 save</summary>
-    /// <param name="data">Save data of which to determine the region</param>
-    /// <returns>True if a valid Japanese save, False otherwise.</returns>
-    internal static bool GetIsG1SAVJ(ReadOnlySpan<byte> data)
-    {
-        return IsG12ListValid(data, 0x2ED5, 30) && IsG12ListValid(data, 0x302D, 30);
+        return false;
     }
 
     /// <summary>Checks to see if the data belongs to a Gen2 save</summary>
     /// <param name="data">Save data of which to determine the type</param>
+    /// <param name="info">Recognized save file type, if any.</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    internal static GameVersion GetIsG2SAV(ReadOnlySpan<byte> data)
+    private static bool IsG2(ReadOnlySpan<byte> data, out SaveTypeInfo info)
     {
+        info = default;
         if (!IsSizeGen2(data.Length))
-            return Invalid;
+            return false;
 
         // Check if it's not an International, Japanese, or Korean save file
-        GameVersion result;
-        if ((result = GetIsG2SAVU(data)) != Invalid)
-            return result;
-        if ((result = GetIsG2SAVJ(data)) != Invalid)
-            return result;
-        if ((result = GetIsG2SAVK(data)) != Invalid)
-            return result;
-        return Invalid;
-    }
+        // International
+        if (IsG2GSINT(data))
+        { info = new SaveTypeInfo(GSC, GameVersion.GS); return true; }
+        if (IsG2CrystalINT(data))
+        { info = new SaveTypeInfo(GSC, GameVersion.C); return true; }
 
-    /// <summary>Checks to see if the data belongs to an International (not Japanese or Korean) Gen2 save</summary>
-    /// <param name="data">Save data of which to determine the region</param>
-    /// <returns>True if a valid International save, False otherwise.</returns>
-    private static GameVersion GetIsG2SAVU(ReadOnlySpan<byte> data)
-    {
-        if (IsG12ListValid(data, 0x288A, 20) && IsG12ListValid(data, 0x2D6C, 20))
-            return GS;
-        if (IsG12ListValid(data, 0x2865, 20) && IsG12ListValid(data, 0x2D10, 20))
-            return C;
-        return Invalid;
-    }
+        // Japanese
+        if (IsG2GSJPN(data))
+        { info = new SaveTypeInfo(GSC, GameVersion.GS, LanguageID.Japanese); return true; }
+        if (IsG2CrystalJPN(data))
+        { info = new SaveTypeInfo(GSC, GameVersion.C, LanguageID.Japanese); return true; }
 
-    /// <summary>Checks to see if the data belongs to a Japanese Gen2 save</summary>
-    /// <param name="data">Save data of which to determine the region</param>
-    /// <returns>True if a valid Japanese save, False otherwise.</returns>
-    internal static GameVersion GetIsG2SAVJ(ReadOnlySpan<byte> data)
-    {
-        if (!IsG12ListValid(data, 0x2D10, 30))
-            return Invalid;
-        if (IsG12ListValid(data, 0x283E, 30))
-            return GS;
-        if (IsG12ListValid(data, 0x281A, 30))
-            return C;
-        return Invalid;
-    }
-
-    /// <summary>Checks to see if the data belongs to a Korean Gen2 save</summary>
-    /// <param name="data">Save data of which to determine the region</param>
-    /// <returns>True if a valid Korean save, False otherwise.</returns>
-    internal static GameVersion GetIsG2SAVK(ReadOnlySpan<byte> data)
-    {
-        if (IsG12ListValid(data, 0x2DAE, 20) && IsG12ListValid(data, 0x28CC, 20))
-            return GS;
-        return Invalid;
+        // Korean
+        if (IsG2GSKOR(data))
+        { info = new SaveTypeInfo(GSC, GameVersion.GS, LanguageID.Korean); return true; }
+        return false;
     }
 
     /// <summary>Checks to see if the data belongs to a Gen3 save</summary>
     /// <param name="data">Save data of which to determine the type</param>
+    /// <param name="smallOffset">Offset to the small sector of the save file, if applicable.</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG3SAV(ReadOnlySpan<byte> data)
+    private static bool IsG3(ReadOnlySpan<byte> data, out int smallOffset)
     {
+        smallOffset = 0;
         if (data.Length is not SIZE_G3RAW)
-            return Invalid;
+            return false;
 
         // check the save file(s)
         int count = data.Length/SIZE_G3RAWHALF;
         for (int slot = 0; slot < count; slot++)
         {
-            if (!SAV3.IsAllMainSectorsPresent(data, slot, out var smallOffset))
-                continue;
-
-            // Detect RS/E/FRLG
-            return GetVersionG3SAV(data[smallOffset..]);
+            if (SAV3.IsAllMainSectorsPresent(data, slot, out smallOffset))
+                return true;
         }
-        return Invalid;
+        return false;
     }
 
     /// <summary>
@@ -339,7 +291,7 @@ public static class SaveUtil
     /// </summary>
     /// <param name="data">Data to check</param>
     /// <returns>RS, E, or FR/LG.</returns>
-    private static GameVersion GetVersionG3SAV(ReadOnlySpan<byte> data)
+    private static SaveFileType GetVersionG3SAV(ReadOnlySpan<byte> data)
     {
         // 0xAC
         // RS: Battle Tower Data, which will never match the FR/LG fixed value.
@@ -355,7 +307,7 @@ public static class SaveUtil
                 // RS data structure only extends 0x890 bytes; check if any data is present afterward.
                 var remainder = data[0x890..0xF2C];
                 if (remainder.ContainsAnyExcept<byte>(0))
-                    return E;
+                    return Emerald;
                 return RS;
         }
     }
@@ -363,26 +315,26 @@ public static class SaveUtil
     /// <summary>Checks to see if the data belongs to a Gen3 Box RS save</summary>
     /// <param name="data">Save data of which to determine the type</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG3BOXSAV(ReadOnlySpan<byte> data)
+    private static bool IsG3RSBox(ReadOnlySpan<byte> data)
     {
         if (data.Length is not SIZE_G3BOX)
-            return Invalid;
+            return false;
 
         // Verify first checksum
         const int offset = 0x2000;
         var span = data.Slice(offset, 0x1FFC);
         var actual = ReadUInt32BigEndian(span);
         var chk = Checksums.CheckSum16BigInvert(span[4..]);
-        return chk == actual ? RSBOX : Invalid;
+        return chk == actual;
     }
 
     /// <summary>Checks to see if the data belongs to a Colosseum save</summary>
     /// <param name="data">Save data of which to determine the type</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG3COLOSAV(ReadOnlySpan<byte> data)
+    private static bool IsG3Colosseum(ReadOnlySpan<byte> data)
     {
         if (data.Length is not SIZE_G3COLO)
-            return Invalid;
+            return false;
 
         // Check the intro bytes for each save slot
         const int offset = 0x6000;
@@ -390,18 +342,18 @@ public static class SaveUtil
         {
             var ofs = offset + (0x1E000 * i);
             if (ReadUInt32LittleEndian(data[ofs..]) != 0x00000101)
-                return Invalid;
+                return false;
         }
-        return COLO;
+        return true;
     }
 
     /// <summary>Checks to see if the data belongs to a Gen3 XD save</summary>
     /// <param name="data">Save data of which to determine the type</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG3XDSAV(ReadOnlySpan<byte> data)
+    private static bool IsG3XD(ReadOnlySpan<byte> data)
     {
         if (data.Length is not SIZE_G3XD)
-            return Invalid;
+            return false;
 
         // Check the intro bytes for each save slot
         const int offset = 0x6000;
@@ -409,225 +361,165 @@ public static class SaveUtil
         {
             var ofs = offset + (0x28000 * i);
             if ((ReadUInt32LittleEndian(data[ofs..]) & 0xFFFE_FFFF) != 0x00000101)
-                return Invalid;
+                return false;
         }
-        return XD;
+        return true;
     }
 
-    /// <summary>Checks to see if the data belongs to a Gen4 save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG4SAV(ReadOnlySpan<byte> data)
-    {
-        if (data.Length != SIZE_G4RAW)
-            return Invalid;
+    private static bool IsG4DP(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RAW && IsValidGeneralFooter2(data, SAV4DP.GeneralSize);
+    private static bool IsG4Pt(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RAW && IsValidGeneralFooter2(data, SAV4Pt.GeneralSize);
+    private static bool IsG4HGSS(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RAW && IsValidGeneralFooter2(data, SAV4HGSS.GeneralSize);
+    private static bool IsG4BR(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BR && SAV4BR.IsValidSaveFile(data);
+    private static bool IsG5BW(ReadOnlySpan<byte> data) => data.Length == SIZE_G5RAW && IsValidFooter5(data, SIZE_G5BW, 0x8C);
+    private static bool IsG5B2W2(ReadOnlySpan<byte> data) => data.Length == SIZE_G5RAW && IsValidFooter5(data, SIZE_G5B2W2, 0x94);
+    private static bool IsG6XY(ReadOnlySpan<byte> data) => data.Length == SIZE_G6XY && HasSaveFooterBEEF(data);
+    private static bool IsG6AO(ReadOnlySpan<byte> data) => data.Length == SIZE_G6ORAS && HasSaveFooterBEEF(data);
+    private static bool IsG6AODemo(ReadOnlySpan<byte> data) => data.Length == SIZE_G6ORASDEMO && HasSaveFooterBEEF(data);
+    private static bool IsG7SM(ReadOnlySpan<byte> data) => data.Length is (SIZE_G7SM) && HasSaveFooterBEEF(data);
+    private static bool IsG7USUM(ReadOnlySpan<byte> data) => data.Length is (SIZE_G7USUM) && HasSaveFooterBEEF(data);
 
+    private static bool IsValidGeneralFooter2(ReadOnlySpan<byte> data, [ConstantExpected] int length)
+    {
         // Check the other save -- first save is done to the latter half of the binary.
         // The second save should be all that is needed to check.
         const int generalOffset = 0x40000;
-        if (IsValidGeneralFooter(data.Slice(generalOffset, SAV4DP.GeneralSize)))
-            return DP;
-        if (IsValidGeneralFooter(data.Slice(generalOffset, SAV4Pt.GeneralSize)))
-            return Pt;
-        if (IsValidGeneralFooter(data.Slice(generalOffset, SAV4HGSS.GeneralSize)))
-            return HGSS;
-
-        return Invalid;
+        var general = data.Slice(generalOffset, length);
 
         // The block footers contain a 32-bit 'size' followed by a 32-bit binary-coded-decimal timestamp
         // Korean saves have a different timestamp from other localizations.
-        static bool IsValidGeneralFooter(ReadOnlySpan<byte> general)
-        {
-            var size = ReadUInt32LittleEndian(general[^0xC..]);
-            if (size != general.Length)
-                return false;
-            var sdk = ReadUInt32LittleEndian(general[^0x8..]);
-            return sdk is SAV4.MAGIC_JAPAN_INTL or SAV4.MAGIC_KOREAN;
-        }
+        var size = ReadUInt32LittleEndian(general[^0xC..]);
+        if (size != general.Length)
+            return false;
+        var sdk = ReadUInt32LittleEndian(general[^0x8..]);
+        return sdk is SAV4.MAGIC_JAPAN_INTL or SAV4.MAGIC_KOREAN;
     }
 
-    /// <summary>Checks to see if the data belongs to a Gen4 Battle Revolution save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG4BRSAV(ReadOnlySpan<byte> data)
+    private static bool IsValidFooter5(ReadOnlySpan<byte> data, int mainSize, int infoLength)
     {
-        if (data.Length != SIZE_G4BR)
-            return Invalid;
-
-        return SAV4BR.IsValidSaveFile(data) ? BATREV : Invalid;
+        var footer = data.Slice(mainSize - 0x100, infoLength + 0x10);
+        var stored = ReadUInt16LittleEndian(footer[^2..]);
+        var actual = Checksums.CRC16_CCITT(footer[..infoLength]);
+        return stored == actual;
     }
 
-    /// <summary>Checks to see if the data belongs to a Gen5 save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG5SAV(ReadOnlySpan<byte> data)
-    {
-        if (data.Length != SIZE_G5RAW)
-            return Invalid;
-
-        // check the checksum footer block validity; nobody would normally modify this region
-        if (IsValidFooter(data, SIZE_G5BW, 0x8C))
-            return BW;
-        if (IsValidFooter(data, SIZE_G5B2W2, 0x94))
-            return B2W2;
-        return Invalid;
-
-        static bool IsValidFooter(ReadOnlySpan<byte> data, int mainSize, int infoLength)
-        {
-            var footer = data.Slice(mainSize - 0x100, infoLength + 0x10);
-            ushort stored = ReadUInt16LittleEndian(footer[^2..]);
-            ushort actual = Checksums.CRC16_CCITT(footer[..infoLength]);
-            return stored == actual;
-        }
-    }
-
-    /// <summary>Checks to see if the data belongs to a Gen6 save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG6SAV(ReadOnlySpan<byte> data)
-    {
-        if (data.Length is not (SIZE_G6XY or SIZE_G6ORAS or SIZE_G6ORASDEMO))
-            return Invalid;
-
-        if (ReadUInt32LittleEndian(data[^0x1F0..]) != BEEF)
-            return Invalid;
-
-        return data.Length switch
-        {
-            SIZE_G6XY => XY,
-            SIZE_G6ORAS => ORAS,
-            _ => ORASDEMO, // least likely
-        };
-    }
-
-    /// <summary>Checks to see if the data belongs to a Gen7 save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG7SAV(ReadOnlySpan<byte> data)
-    {
-        if (data.Length is not (SIZE_G7SM or SIZE_G7USUM))
-            return Invalid;
-
-        if (ReadUInt32LittleEndian(data[^0x1F0..]) != BEEF)
-            return Invalid;
-
-        return data.Length == SIZE_G7SM ? SM : USUM;
-    }
+    private static bool HasSaveFooterBEEF(ReadOnlySpan<byte> data) => ReadUInt32LittleEndian(data[^0x1F0..]) == 0x42454546; // BEEF
 
     /// <summary>Determines if the input data belongs to a <see cref="SAV7b"/> save</summary>
     /// <param name="data">Save data of which to determine the type</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsBelugaSAV(ReadOnlySpan<byte> data)
+    private static bool IsG7LGPE(ReadOnlySpan<byte> data)
     {
         if (data.Length != SIZE_G7GG)
-            return Invalid;
+            return false;
 
+        data = data[..0xB8800];
         const int actualLength = 0xB8800;
-        if (ReadUInt32LittleEndian(data[(actualLength - 0x1F0)..]) != BEEF) // beef table start
-            return Invalid;
+        if (!HasSaveFooterBEEF(data))
+            return false;
         if (ReadUInt16LittleEndian(data[(actualLength - 0x200 + 0xB0)..]) != 0x13) // check a block number to double-check
-            return Invalid;
+            return false;
 
-        return GG;
+        return true;
     }
 
-    /// <summary>Checks to see if the data belongs to a Gen8 save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG8SAV(ReadOnlySpan<byte> data)
+    private static bool IsG8BDSP(ReadOnlySpan<byte> data) => data.Length switch
     {
-        if (!IsSizeGen8SWSH(data.Length))
-            return Invalid;
+        SIZE_G8BDSP_0 => (Gem8Version)ReadUInt32LittleEndian(data) == Gem8Version.V1_0,
+        SIZE_G8BDSP_1 => (Gem8Version)ReadUInt32LittleEndian(data) == Gem8Version.V1_1,
+        SIZE_G8BDSP_2 => (Gem8Version)ReadUInt32LittleEndian(data) == Gem8Version.V1_2,
+        SIZE_G8BDSP_3 => (Gem8Version)ReadUInt32LittleEndian(data) == Gem8Version.V1_3,
+        _ => false
+    };
 
-        return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;
-    }
+    private static bool IsG8LA(ReadOnlySpan<byte> data) => data.Length is SIZE_G8LA or SIZE_G8LA_1 && SwishCrypto.GetIsHashValid(data);
+    private static bool IsG8SWSH(ReadOnlySpan<byte> data) => IsSizeGen8SWSH(data.Length) && SwishCrypto.GetIsHashValid(data);
+    private static bool IsG9SV(ReadOnlySpan<byte> data) => IsSizeGen9SV(data.Length) && SwishCrypto.GetIsHashValid(data);
 
-    private static GameVersion GetIsG8SAV_BDSP(ReadOnlySpan<byte> data)
-    {
-        if (data.Length is not (SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3))
-            return Invalid;
-
-        var version = (Gem8Version)ReadUInt32LittleEndian(data);
-        if (version is not (Gem8Version.V1_0 or Gem8Version.V1_1 or Gem8Version.V1_2 or Gem8Version.V1_3))
-            return Invalid;
-
-        return BDSP;
-    }
-
-    private static GameVersion GetIsG8SAV_LA(ReadOnlySpan<byte> data)
-    {
-        if (data.Length is not (SIZE_G8LA or SIZE_G8LA_1))
-            return Invalid;
-
-        return SwishCrypto.GetIsHashValid(data) ? PLA : Invalid;
-    }
-
-    /// <summary>Checks to see if the data belongs to a Gen8 save</summary>
-    /// <param name="data">Save data of which to determine the type</param>
-    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG9SAV(ReadOnlySpan<byte> data)
-    {
-        if (!IsSizeGen9SV(data.Length))
-            return Invalid;
-
-        return SwishCrypto.GetIsHashValid(data) ? SV : Invalid;
-    }
-
-    private static bool GetIsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
-    private static bool GetIsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
-    private static bool GetIsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
-    private static bool GetIsRanchDP(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data[0x22AC..]) != 0;
-    private static bool GetIsRanchPlat(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH_PLAT && ReadUInt32BigEndian(data[0x268C..]) != 0;
-    private static bool GetIsRanch4(ReadOnlySpan<byte> data) => GetIsRanchDP(data) || GetIsRanchPlat(data);
+    private static bool IsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
+    private static bool IsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
+    private static bool IsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
+    private static bool IsRanchDP(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data[0x22AC..]) != 0;
+    private static bool IsRanchPlat(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH_PLAT && ReadUInt32BigEndian(data[0x268C..]) != 0;
+    private static bool IsRanch4(ReadOnlySpan<byte> data) => IsRanchDP(data) || IsRanchPlat(data);
 
     /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
     /// <param name="path">File location from which to create a SaveFile.</param>
-    /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
-    public static SaveFile? GetVariantSAV(string path)
+    /// <param name="result">Save file loaded from the given path, or null if loading failed.</param>
+    public static bool TryGetSaveFile(string path, [NotNullWhen(true)] out SaveFile? result)
     {
         // Many things can go wrong with loading save data (file no longer present toc-tou, or bad save layout).
         try
         {
             var data = File.ReadAllBytes(path);
-            var sav = GetVariantSAV(data, path);
-            if (sav is null)
-                return null;
+            if (!TryGetSaveFile(data, out result, path))
+                return false;
 
-            sav.Metadata.SetExtraInfo(path);
-            if (sav.Generation <= 3)
-                SaveLanguage.TryRevise(sav);
-            return sav;
+            result.Metadata.SetExtraInfo(path);
+            if (result.Generation <= 3)
+                SaveLanguage.TryRevise(result);
+            return true;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex);
-            return null;
+            result = null;
+            return false;
         }
     }
 
     /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
+    /// <param name="path">File location from which to create a SaveFile.</param>
+    /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
+    public static SaveFile? GetSaveFile(string path) => TryGetSaveFile(path, out var result) ? result : null;
+
+    /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
     /// <param name="data">Save data from which to create a SaveFile.</param>
+    /// <param name="path">File path, may help initialize a non-standard save file format.</param>
+    /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
+    public static SaveFile? GetSaveFile(Memory<byte> data, string? path = null) => TryGetSaveFile(data, out var result, path) ? result : null;
+
+    /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
+    /// <param name="data">Save data from which to create a SaveFile.</param>
+    /// <param name="result">Save file loaded from the given data, or null if loading failed.</param>
     /// <param name="path">Optional save file path, may help initialize a non-standard save file format.</param>
     /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
-    public static SaveFile? GetVariantSAV(Memory<byte> data, string? path = null)
+    public static bool TryGetSaveFile(Memory<byte> data, [NotNullWhen(true)] out SaveFile? result, string? path = null)
     {
 #if !EXCLUDE_HACKS
+        if (TryGetSaveFileCustom(data, out result, path))
+            return true;
+#endif
+
+        result = GetSaveFileInternal(data);
+        if (result is not null)
+            return true;
+
+#if !EXCLUDE_EMULATOR_FORMATS
+        if (TryGetSaveFileHandler(data, out result, path))
+            return true;
+#endif
+
+        // unrecognized.
+        return false;
+    }
+
+    private static bool TryGetSaveFileCustom(Memory<byte> data, [NotNullWhen(true)] out SaveFile? result, string? path)
+    {
         foreach (var h in CustomSaveReaders)
         {
             if (!h.IsRecognized(data.Length))
                 continue;
 
-            var custom = h.ReadSaveFile(data, path);
-            if (custom is not null)
-                return custom;
+            result = h.ReadSaveFile(data, path);
+            if (result is not null)
+                return true;
         }
-#endif
+        result = null;
+        return false;
+    }
 
-        var sav = GetVariantSAVInternal(data);
-        if (sav is not null)
-            return sav;
-
-#if !EXCLUDE_EMULATOR_FORMATS
+    private static bool TryGetSaveFileHandler(Memory<byte> data, [NotNullWhen(true)] out SaveFile? result, string? path)
+    {
         foreach (var h in Handlers)
         {
             if (!h.IsRecognized(data.Length))
@@ -637,85 +529,88 @@ public static class SaveUtil
             if (split is null)
                 continue;
 
-            sav = GetVariantSAVInternal(split.Data);
-            if (sav is null)
+            result = GetSaveFileInternal(split.Data);
+            if (result is null)
                 continue;
 
-            var meta = sav.Metadata;
+            var meta = result.Metadata;
             meta.SetExtraInfo(split.Header, split.Footer, split.Handler);
             if (path is not null)
                 meta.SetExtraInfo(path);
-            return sav;
+            return true;
         }
-#endif
-
-        // unrecognized.
-        return null;
+        result = null;
+        return false;
     }
 
-    private static SaveFile? GetVariantSAVInternal(Memory<byte> data)
+    private static SaveFile? GetSaveFileInternal(Memory<byte> data)
     {
-        var type = GetSAVType(data.Span);
-        return type switch
-        {
-            // Main Games
-            RBY => new SAV1(data, type),
-            GS or C => new SAV2(data, type),
-
-            RS => new SAV3RS(data),
-            E => new SAV3E(data),
-            FRLG => new SAV3FRLG(data),
-
-            DP => new SAV4DP(data),
-            Pt => new SAV4Pt(data),
-            HGSS => new SAV4HGSS(data),
-
-            BW => new SAV5BW(data),
-            B2W2 => new SAV5B2W2(data),
-
-            XY => new SAV6XY(data),
-            ORAS => new SAV6AO(data),
-            ORASDEMO => new SAV6AODemo(data),
-
-            SM => new SAV7SM(data),
-            USUM => new SAV7USUM(data),
-            GG => new SAV7b(data),
-
-            SWSH => new SAV8SWSH(data),
-            BDSP => new SAV8BS(data),
-            PLA => new SAV8LA(data),
-
-            SV => new SAV9SV(data),
-
-            // Side Games
-            COLO => new SAV3Colosseum(data),
-            XD => new SAV3XD(data),
-            RSBOX => new SAV3RSBox(data),
-            BATREV => new SAV4BR(data),
-            Stadium2 => new SAV2Stadium(data),
-            Stadium => new SAV1Stadium(data),
-            StadiumJ => new SAV1StadiumJ(data),
-
-            // Bulk Storage
-            Gen3 => new Bank3(data),
-            DPPt => new SAV4Ranch(data),
-            Gen4 => new Bank4(data),
-            Gen7 => Bank7.GetBank7(data),
-
-            // No pattern matched
-            _ => null,
-        };
+        var typeInfo = GetTypeInfo(data.Span);
+        return GetSaveFileInternal(data, typeInfo);
     }
 
-    public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
+    private static SaveFile? GetSaveFileInternal(Memory<byte> data, SaveTypeInfo typeInfo) => typeInfo.Type switch
+    {
+        // Main Games
+        RBY => new SAV1(data, typeInfo.Language, typeInfo.SubVersion),
+        GSC => new SAV2(data, typeInfo.Language, typeInfo.SubVersion),
+
+        RS => new SAV3RS(data),
+        Emerald => new SAV3E(data),
+        FRLG => new SAV3FRLG(data),
+
+        DP => new SAV4DP(data),
+        Pt => new SAV4Pt(data),
+        HGSS => new SAV4HGSS(data),
+
+        BW => new SAV5BW(data),
+        B2W2 => new SAV5B2W2(data),
+
+        XY => new SAV6XY(data),
+        AO => new SAV6AO(data),
+        AODemo => new SAV6AODemo(data),
+
+        SM => new SAV7SM(data),
+        USUM => new SAV7USUM(data),
+        LGPE => new SAV7b(data),
+
+        SWSH => new SAV8SWSH(data),
+        BDSP => new SAV8BS(data),
+        LA => new SAV8LA(data),
+
+        SV => new SAV9SV(data),
+
+        // Side Games
+        Colosseum => new SAV3Colosseum(data),
+        XD => new SAV3XD(data),
+        RSBox => new SAV3RSBox(data),
+        BattleRevolution => new SAV4BR(data),
+        Stadium2 => new SAV2Stadium(data),
+        Stadium1 => new SAV1Stadium(data),
+        Stadium1J => new SAV1StadiumJ(data),
+
+        // Bulk Storage
+        Ranch => new SAV4Ranch(data),
+        Bulk3 => new Bank3(data),
+        Bulk4 => new Bank4(data),
+        Bulk7 => Bank7.GetBank7(data),
+
+        // No pattern matched
+        _ => null,
+    };
+
+    public static bool TryGetSaveFile(SAV3GCMemoryCard memCard, [NotNullWhen(true)] out SaveFile? result)
     {
         // Pre-check for header/footer signatures
         if (memCard.IsNoGameSelected)
             memCard.GetMemoryCardState();
-        var memory = memCard.ReadSaveGameData().ToArray();
-        if (memory.Length == 0)
-            return null;
 
+        result = null;
+        var peek = memCard.ReadSaveGameData();
+        if (peek.Length == 0)
+            return false;
+
+        var memory = peek.ToArray();
         var split = DolphinHandler.TrySplit(memory);
         var data = split?.Data ?? memory;
 
@@ -723,125 +618,18 @@ public static class SaveUtil
         switch (memCard.SelectedGameVersion)
         {
             // Side Games
-            case COLO: sav = new SAV3Colosseum(data) { MemoryCard = memCard }; break;
+            case Colosseum: sav = new SAV3Colosseum(data) { MemoryCard = memCard }; break;
             case XD: sav = new SAV3XD(data) { MemoryCard = memCard }; break;
-            case RSBOX: sav = new SAV3RSBox(data) { MemoryCard = memCard }; break;
+            case RSBox: sav = new SAV3RSBox(data) { MemoryCard = memCard }; break;
 
             // No pattern matched
-            default: return null;
+            default: return false;
         }
 
         if (split is not null)
             sav.Metadata.SetExtraInfo(split.Header, split.Footer, split.Handler);
-        return sav;
-    }
-
-    /// <summary>
-    /// Returns a <see cref="LanguageID"/> that feels best for the save file's language.
-    /// </summary>
-    public static LanguageID GetSafeLanguage(SaveFile? sav) => sav switch
-    {
-        null => LanguageID.English,
-        ILangDeviantSave s => s.Japanese ? LanguageID.Japanese : s.Korean ? LanguageID.Korean : LanguageID.English,
-        _ => (uint)sav.Language <= Legal.GetMaxLanguageID(sav.Generation) ? (LanguageID)sav.Language : LanguageID.English,
-    };
-
-    /// <summary>
-    /// Returns a Trainer Name that feels best for the save file's language.
-    /// </summary>
-    public static string GetSafeTrainerName(SaveFile? sav, LanguageID lang) => lang switch
-    {
-        LanguageID.Japanese => sav?.Generation >= 3 ? TrainerName.ProgramJPN : TrainerName.GameFreakJPN,
-        _ => TrainerName.ProgramINT,
-    };
-
-    /// <summary>
-    /// Creates an instance of a SaveFile with a blank base.
-    /// </summary>
-    /// <param name="game">Version to create the save file for.</param>
-    /// <param name="trainerName">Trainer Name</param>
-    /// <param name="language">Language to initialize with</param>
-    /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-    public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
-    {
-        var sav = GetBlankSAV(game, language);
-        sav.Version = game;
-        sav.OT = trainerName;
-        if (sav.Generation >= 4)
-            sav.Language = (int)language;
-
-        // Secondary Properties may not be used but can be filled in as template.
-        (uint tid, uint sid) = sav.Generation >= 7 ? (123456u, 1234u) : (12345u, 54321u);
-        sav.SetDisplayID(tid, sid);
-        sav.Language = (int)language;
-
-        // Only set geolocation data for 3DS titles
-        if (sav is IRegionOrigin o)
-            o.SetDefaultRegionOrigins((int)language);
-
-        return sav;
-    }
-
-    /// <summary>
-    /// Creates an instance of a SaveFile with a blank base.
-    /// </summary>
-    /// <param name="game">Version to create the save file for.</param>
-    /// <param name="language">Save file language to initialize for</param>
-    /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-    private static SaveFile GetBlankSAV(GameVersion game, LanguageID language) => game switch
-    {
-        RD or BU or GN or YW or RBY => new SAV1(version: game, game == BU ? LanguageID.Japanese : language),
-        StadiumJ => new SAV1StadiumJ(),
-        Stadium => new SAV1Stadium(language == LanguageID.Japanese),
-
-        GD or SI or GS => new SAV2(version: GS, language: language),
-        C or GSC => new SAV2(version: C, language: language),
-        Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
-
-        R or S or RS => new SAV3RS(language == LanguageID.Japanese),
-        E or RSE => new SAV3E(language == LanguageID.Japanese),
-        FR or LG or FRLG => new SAV3FRLG(language == LanguageID.Japanese),
-
-        CXD or COLO => new SAV3Colosseum(),
-        XD => new SAV3XD(),
-        RSBOX => new SAV3RSBox(),
-
-        D or P or DP => new SAV4DP(),
-        Pt or DPPt => new SAV4Pt(),
-        HG or SS or HGSS => new SAV4HGSS(),
-        BATREV => new SAV4BR(),
-
-        B or W or BW => new SAV5BW(),
-        B2 or W2 or B2W2 => new SAV5B2W2(),
-
-        X or Y or XY => new SAV6XY(),
-        ORASDEMO => new SAV6AODemo(),
-        OR or AS or ORAS => new SAV6AO(),
-
-        SN or MN or SM => new SAV7SM(),
-        US or UM or USUM => new SAV7USUM(),
-        GP or GE or GG or GO => new SAV7b(),
-
-        SW or SH or SWSH => new SAV8SWSH(),
-        BD or SP or BDSP => new SAV8BS(),
-        PLA => new SAV8LA(),
-
-        SL or VL or SV => new SAV9SV(),
-
-        _ => throw new ArgumentOutOfRangeException(nameof(game)),
-    };
-
-    /// <summary>
-    /// Creates an instance of a SaveFile with a blank base.
-    /// </summary>
-    /// <param name="context">Context of the Save File.</param>
-    /// <param name="trainerName">Trainer Name</param>
-    /// <param name="language">Save file language to initialize for</param>
-    /// <returns>Save File for that generation.</returns>
-    public static SaveFile GetBlankSAV(EntityContext context, string trainerName, LanguageID language = LanguageID.English)
-    {
-        var version = context.GetSingleGameVersion();
-        return GetBlankSAV(version, trainerName, language);
+        result = sav;
+        return true;
     }
 
     /// <summary>
@@ -887,7 +675,7 @@ public static class SaveUtil
             if (token.IsCancellationRequested)
                 yield break;
 
-            if (ignoreBackups && IsBackup(file))
+            if (ignoreBackups && IsBackupFilePath(file))
                 continue;
 
             var size = FileUtil.GetFileSize(file);
@@ -898,12 +686,14 @@ public static class SaveUtil
         }
     }
 
-    public static bool IsBackup(ReadOnlySpan<char> path)
+    public static bool IsBackupFilePath(ReadOnlySpan<char> path)
     {
+        // Gen8+ store main,backup,poke_trade
         var fn = Path.GetFileNameWithoutExtension(path);
         if (fn is "backup")
             return true;
 
+        // Programs storing backups via .bak extension
         var ext = Path.GetExtension(path);
         return ext is ".bak";
     }
@@ -937,5 +727,25 @@ public static class SaveUtil
         if (IsSizeCommonFixed(length))
             return true;
         return false;
+    }
+
+    /// <summary>
+    /// Stores the result from a save detection.
+    /// </summary>
+    /// <param name="Type">The save file type detected</param>
+    /// <param name="SubVersion">Specific game version within the type, or Any if not distinguished</param>
+    private readonly record struct SaveTypeInfo(SaveFileType Type, GameVersion SubVersion = default, LanguageID Language = default)
+    {
+        /// <summary>
+        /// Implicit conversion from SaveTypeInfo to SaveFileType for convenience.
+        /// </summary>
+        public static implicit operator SaveFileType(SaveTypeInfo info) => info.Type;
+
+        public static implicit operator SaveTypeInfo(SaveFileType type) => new(type);
+
+        /// <summary>
+        /// Returns Invalid save type info.
+        /// </summary>
+        public static SaveTypeInfo Invalid => default;
     }
 }

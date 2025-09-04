@@ -35,7 +35,7 @@ public static class SlotInfoLoader
         if (pk.Species is 0)
             return;
 
-        var info = new SlotInfoFile(file);
+        var info = new SlotInfoFileSingle(file);
         var entry = new SlotCache(info, pk);
         db.Add(entry);
     }
@@ -48,8 +48,8 @@ public static class SlotInfoLoader
         {
             for (int slot = 0; slot < sc; slot++)
             {
-                var ident = new SlotInfoBox(box, slot);
-                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                var ident = new SlotInfoBox(box, slot, sav);
+                var pk = ident.Read(sav);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }
@@ -100,22 +100,6 @@ public static class SlotInfoLoader
         AddExtraData(sav, db);
     }
 
-    public static void AddFromLocalFile(string file, ICollection<SlotCache> db, ITrainerInfo dest, ICollection<string> validExtensions)
-    {
-        var fi = new FileInfo(file);
-        if (!validExtensions.Contains(fi.Extension) || !EntityDetection.IsSizePlausible(fi.Length))
-            return;
-
-        var data = File.ReadAllBytes(file);
-        _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, dest);
-        if (pk?.Species is not > 0)
-            return;
-
-        var info = new SlotInfoFile(file);
-        var entry = new SlotCache(info, pk);
-        db.Add(entry);
-    }
-
     public static void AddBoxData(SaveFile sav, ICollection<SlotCache> db)
     {
         var bc = sav.BoxCount;
@@ -124,8 +108,8 @@ public static class SlotInfoLoader
         {
             for (int slot = 0; slot < sc; slot++)
             {
-                var ident = new SlotInfoBox(box, slot);
-                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                var ident = new SlotInfoBox(box, slot, sav);
+                var pk = ident.Read(sav);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }

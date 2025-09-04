@@ -17,7 +17,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
     public byte Index { get; }
     public override string Name => $"Distribution Raid Den Encounter - {Index:000}";
 
-    public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, [ConstantExpected] GameVersion game) : base(game)
+    public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, [ConstantExpected] GameVersion version) : base(version)
     {
         Level = lvl;
         DynamaxLevel = dyna;
@@ -25,7 +25,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
         Index = index;
     }
 
-    public static EncounterStatic8ND Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion game)
+    public static EncounterStatic8ND Read(ReadOnlySpan<byte> data, [ConstantExpected] GameVersion version)
     {
         var d = data[13];
         var dlvl = (byte)(d & 0x7F);
@@ -45,7 +45,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
         var move4 = ReadUInt16LittleEndian(data[10..]);
         var moves = new Moveset(move1, move2, move3, move4);
 
-        return new EncounterStatic8ND(data[12], dlvl, flawless, data[15], game)
+        return new EncounterStatic8ND(data[12], dlvl, flawless, data[15], version)
         {
             Species = ReadUInt16LittleEndian(data),
             Form = data[2],
