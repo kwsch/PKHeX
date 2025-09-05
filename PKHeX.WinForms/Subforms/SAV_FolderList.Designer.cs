@@ -41,24 +41,24 @@ namespace PKHeX.WinForms
             TB_FilterTextContains = new System.Windows.Forms.TextBox();
             TC_Tabs.SuspendLayout();
             Tab_Recent.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(dgDataRecent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgDataRecent).BeginInit();
             Tab_Backup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(dgDataBackup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgDataBackup).BeginInit();
             Tab_Folders.SuspendLayout();
             SuspendLayout();
-            //
+            // 
             // FLP_Buttons
-            //
+            // 
             FLP_Buttons.AutoScroll = true;
             FLP_Buttons.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_Buttons.Location = new System.Drawing.Point(0, 0);
             FLP_Buttons.Name = "FLP_Buttons";
             FLP_Buttons.Padding = new System.Windows.Forms.Padding(3);
-            FLP_Buttons.Size = new System.Drawing.Size(601, 335);
+            FLP_Buttons.Size = new System.Drawing.Size(601, 331);
             FLP_Buttons.TabIndex = 0;
-            //
+            // 
             // TC_Tabs
-            //
+            // 
             TC_Tabs.Controls.Add(Tab_Recent);
             TC_Tabs.Controls.Add(Tab_Backup);
             TC_Tabs.Controls.Add(Tab_Folders);
@@ -68,25 +68,25 @@ namespace PKHeX.WinForms
             TC_Tabs.SelectedIndex = 0;
             TC_Tabs.Size = new System.Drawing.Size(609, 361);
             TC_Tabs.TabIndex = 1;
-            //
+            // 
             // Tab_Recent
-            //
+            // 
             Tab_Recent.Controls.Add(dgDataRecent);
-            Tab_Recent.Location = new System.Drawing.Point(4, 22);
+            Tab_Recent.Location = new System.Drawing.Point(4, 26);
             Tab_Recent.Name = "Tab_Recent";
-            Tab_Recent.Size = new System.Drawing.Size(601, 335);
+            Tab_Recent.Size = new System.Drawing.Size(601, 331);
             Tab_Recent.TabIndex = 1;
             Tab_Recent.Text = "Recent";
             Tab_Recent.UseVisualStyleBackColor = true;
-            //
+            // 
             // dgDataRecent
-            //
+            // 
             dgDataRecent.AllowUserToAddRows = false;
             dgDataRecent.AllowUserToDeleteRows = false;
             dgDataRecent.AllowUserToOrderColumns = true;
             dgDataRecent.AllowUserToResizeColumns = false;
             dgDataRecent.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
             dgDataRecent.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgDataRecent.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             dgDataRecent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -95,28 +95,28 @@ namespace PKHeX.WinForms
             dgDataRecent.Margin = new System.Windows.Forms.Padding(0);
             dgDataRecent.Name = "dgDataRecent";
             dgDataRecent.RowHeadersVisible = false;
-            dgDataRecent.Size = new System.Drawing.Size(601, 335);
+            dgDataRecent.Size = new System.Drawing.Size(601, 331);
             dgDataRecent.TabIndex = 2;
-            dgDataRecent.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(DataGridCellMouseDown);
-            //
+            dgDataRecent.CellMouseDown += DataGridCellMouseDown;
+            // 
             // Tab_Backup
-            //
+            // 
             Tab_Backup.Controls.Add(dgDataBackup);
-            Tab_Backup.Location = new System.Drawing.Point(4, 22);
+            Tab_Backup.Location = new System.Drawing.Point(4, 26);
             Tab_Backup.Name = "Tab_Backup";
-            Tab_Backup.Size = new System.Drawing.Size(601, 335);
+            Tab_Backup.Size = new System.Drawing.Size(601, 331);
             Tab_Backup.TabIndex = 2;
             Tab_Backup.Text = "Backups";
             Tab_Backup.UseVisualStyleBackColor = true;
-            //
+            // 
             // dgDataBackup
-            //
+            // 
             dgDataBackup.AllowUserToAddRows = false;
             dgDataBackup.AllowUserToDeleteRows = false;
             dgDataBackup.AllowUserToOrderColumns = true;
             dgDataBackup.AllowUserToResizeColumns = false;
             dgDataBackup.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
             dgDataBackup.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             dgDataBackup.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             dgDataBackup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -124,45 +124,46 @@ namespace PKHeX.WinForms
             dgDataBackup.Location = new System.Drawing.Point(0, 0);
             dgDataBackup.Name = "dgDataBackup";
             dgDataBackup.RowHeadersVisible = false;
-            dgDataBackup.Size = new System.Drawing.Size(601, 335);
+            dgDataBackup.Size = new System.Drawing.Size(601, 331);
             dgDataBackup.TabIndex = 1;
-            dgDataBackup.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(DataGridCellMouseDown);
-            //
+            dgDataBackup.CellMouseDown += DataGridCellMouseDown;
+            // 
             // Tab_Folders
-            //
+            // 
             Tab_Folders.Controls.Add(FLP_Buttons);
-            Tab_Folders.Location = new System.Drawing.Point(4, 22);
+            Tab_Folders.Location = new System.Drawing.Point(4, 26);
             Tab_Folders.Name = "Tab_Folders";
-            Tab_Folders.Size = new System.Drawing.Size(601, 335);
+            Tab_Folders.Size = new System.Drawing.Size(601, 331);
             Tab_Folders.TabIndex = 0;
             Tab_Folders.Text = "Folders";
             Tab_Folders.UseVisualStyleBackColor = true;
-            //
+            // 
             // CB_FilterColumn
-            //
+            // 
             CB_FilterColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_FilterColumn.Location = new System.Drawing.Point(327, 0);
             CB_FilterColumn.Name = "CB_FilterColumn";
-            CB_FilterColumn.Size = new System.Drawing.Size(121, 21);
+            CB_FilterColumn.Size = new System.Drawing.Size(121, 25);
             CB_FilterColumn.TabIndex = 0;
-            CB_FilterColumn.SelectedIndexChanged += new System.EventHandler(ChangeFilterIndex);
-            //
-            // textBox1
-            //
+            CB_FilterColumn.SelectedIndexChanged += ChangeFilterIndex;
+            // 
+            // TB_FilterTextContains
+            // 
+            TB_FilterTextContains.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TB_FilterTextContains.Location = new System.Drawing.Point(449, 0);
             TB_FilterTextContains.Name = "TB_FilterTextContains";
-            TB_FilterTextContains.Size = new System.Drawing.Size(160, 20);
+            TB_FilterTextContains.Size = new System.Drawing.Size(160, 25);
             TB_FilterTextContains.TabIndex = 2;
-            TB_FilterTextContains.TextChanged += new System.EventHandler(ChangeFilterText);
-            //
+            TB_FilterTextContains.TextChanged += ChangeFilterText;
+            // 
             // SAV_FolderList
-            //
+            // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(609, 361);
             Controls.Add(TB_FilterTextContains);
             Controls.Add(CB_FilterColumn);
             Controls.Add(TC_Tabs);
-            Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
+            Icon = Properties.Resources.Icon;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "SAV_FolderList";
@@ -170,9 +171,9 @@ namespace PKHeX.WinForms
             Text = "Folder List";
             TC_Tabs.ResumeLayout(false);
             Tab_Recent.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(dgDataRecent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgDataRecent).EndInit();
             Tab_Backup.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(dgDataBackup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgDataBackup).EndInit();
             Tab_Folders.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

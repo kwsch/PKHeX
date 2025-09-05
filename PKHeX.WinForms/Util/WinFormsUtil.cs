@@ -384,7 +384,7 @@ public static class WinFormsUtil
         using var sfd = new SaveFileDialog();
         sfd.Filter = sav.Metadata.Filter;
         sfd.FileName = sav.Metadata.FileName;
-        sfd.FilterIndex = 1000; // default to last, All Files
+        sfd.FilterIndex = 0; // default to first filter rather than All Files (last), if one is available.
         sfd.RestoreDirectory = true;
         if (Directory.Exists(sav.Metadata.FileFolder))
             sfd.InitialDirectory = sav.Metadata.FileFolder;
