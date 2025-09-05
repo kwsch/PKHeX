@@ -28,14 +28,17 @@ public partial class SAV_Roamer3 : Form
         CHK_Shiny.Checked = Roamer3.IsShiny(Reader.PID, SAV);
 
         CB_Species.SelectedValue = (int)Reader.Species;
-        var IVs = Reader.IVs;
 
-        var iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
-        for (int i = 0; i < iv.Length; i++)
-            iv[i].Text = IVs[i].ToString();
+        TB_HPIV.Text = Reader.IV_HP.ToString();
+        TB_ATKIV.Text = Reader.IV_ATK.ToString();
+        TB_DEFIV.Text = Reader.IV_DEF.ToString();
+        TB_SPEIV.Text = Reader.IV_SPE.ToString();
+        TB_SPAIV.Text = Reader.IV_SPA.ToString();
+        TB_SPDIV.Text = Reader.IV_SPD.ToString();
 
         CHK_Active.Checked = Reader.Active;
-        NUD_Level.Value = Math.Min(NUD_Level.Maximum, Reader.CurrentLevel);
+        NUD_Level.Value = Math.Min(Reader.CurrentLevel, NUD_Level.Maximum);
+        NUD_HP.Value = Math.Min(Reader.HP_Current, NUD_HP.Maximum);
     }
 
     private void SaveData()
@@ -53,6 +56,7 @@ public partial class SAV_Roamer3 : Form
         ]);
         Reader.Active = CHK_Active.Checked;
         Reader.CurrentLevel = (byte)NUD_Level.Value;
+        Reader.HP_Current = (ushort)NUD_HP.Value;
     }
 
     private void B_Save_Click(object sender, EventArgs e)

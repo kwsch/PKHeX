@@ -49,13 +49,17 @@ namespace PKHeX.WinForms
             CHK_Shiny = new System.Windows.Forms.CheckBox();
             CHK_Active = new System.Windows.Forms.CheckBox();
             NUD_Level = new System.Windows.Forms.NumericUpDown();
+            NUD_HP = new System.Windows.Forms.NumericUpDown();
+            L_HP = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)NUD_Level).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HP).BeginInit();
             SuspendLayout();
             // 
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(225, 125);
+            B_Save.Location = new System.Drawing.Point(267, 94);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(88, 27);
@@ -67,7 +71,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(131, 125);
+            B_Cancel.Location = new System.Drawing.Point(267, 122);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(88, 27);
@@ -83,7 +87,7 @@ namespace PKHeX.WinForms
             TB_SPDIV.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             TB_SPDIV.Mask = "00";
             TB_SPDIV.Name = "TB_SPDIV";
-            TB_SPDIV.Size = new System.Drawing.Size(25, 23);
+            TB_SPDIV.Size = new System.Drawing.Size(25, 25);
             TB_SPDIV.TabIndex = 78;
             TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -94,7 +98,7 @@ namespace PKHeX.WinForms
             TB_SPAIV.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             TB_SPAIV.Mask = "00";
             TB_SPAIV.Name = "TB_SPAIV";
-            TB_SPAIV.Size = new System.Drawing.Size(25, 23);
+            TB_SPAIV.Size = new System.Drawing.Size(25, 25);
             TB_SPAIV.TabIndex = 77;
             TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -105,7 +109,7 @@ namespace PKHeX.WinForms
             TB_DEFIV.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             TB_DEFIV.Mask = "00";
             TB_DEFIV.Name = "TB_DEFIV";
-            TB_DEFIV.Size = new System.Drawing.Size(25, 23);
+            TB_DEFIV.Size = new System.Drawing.Size(25, 25);
             TB_DEFIV.TabIndex = 76;
             TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -116,7 +120,7 @@ namespace PKHeX.WinForms
             TB_ATKIV.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             TB_ATKIV.Mask = "00";
             TB_ATKIV.Name = "TB_ATKIV";
-            TB_ATKIV.Size = new System.Drawing.Size(25, 23);
+            TB_ATKIV.Size = new System.Drawing.Size(25, 25);
             TB_ATKIV.TabIndex = 75;
             TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -127,7 +131,7 @@ namespace PKHeX.WinForms
             TB_HPIV.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             TB_HPIV.Mask = "00";
             TB_HPIV.Name = "TB_HPIV";
-            TB_HPIV.Size = new System.Drawing.Size(25, 23);
+            TB_HPIV.Size = new System.Drawing.Size(25, 25);
             TB_HPIV.TabIndex = 74;
             TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -198,15 +202,15 @@ namespace PKHeX.WinForms
             TB_SPEIV.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             TB_SPEIV.Mask = "00";
             TB_SPEIV.Name = "TB_SPEIV";
-            TB_SPEIV.Size = new System.Drawing.Size(25, 23);
+            TB_SPEIV.Size = new System.Drawing.Size(25, 25);
             TB_SPEIV.TabIndex = 79;
             TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TB_PID
             // 
             TB_PID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            TB_PID.Location = new System.Drawing.Point(161, 67);
+            TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_PID.Location = new System.Drawing.Point(182, 42);
             TB_PID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             TB_PID.MaxLength = 8;
             TB_PID.Name = "TB_PID";
@@ -217,11 +221,11 @@ namespace PKHeX.WinForms
             // 
             // Label_PID
             // 
-            Label_PID.AutoSize = true;
-            Label_PID.Location = new System.Drawing.Point(127, 69);
-            Label_PID.Margin = new System.Windows.Forms.Padding(0, 6, 0, 5);
+            Label_PID.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Label_PID.Location = new System.Drawing.Point(126, 40);
+            Label_PID.Margin = new System.Windows.Forms.Padding(0);
             Label_PID.Name = "Label_PID";
-            Label_PID.Size = new System.Drawing.Size(28, 15);
+            Label_PID.Size = new System.Drawing.Size(52, 24);
             Label_PID.TabIndex = 87;
             Label_PID.Text = "PID:";
             Label_PID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -231,10 +235,10 @@ namespace PKHeX.WinForms
             CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Species.FormattingEnabled = true;
-            CB_Species.Location = new System.Drawing.Point(131, 39);
+            CB_Species.Location = new System.Drawing.Point(182, 16);
             CB_Species.Margin = new System.Windows.Forms.Padding(0);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(146, 23);
+            CB_Species.Size = new System.Drawing.Size(120, 25);
             CB_Species.TabIndex = 88;
             // 
             // Label_Species
@@ -243,7 +247,7 @@ namespace PKHeX.WinForms
             Label_Species.Location = new System.Drawing.Point(127, 20);
             Label_Species.Margin = new System.Windows.Forms.Padding(0);
             Label_Species.Name = "Label_Species";
-            Label_Species.Size = new System.Drawing.Size(49, 15);
+            Label_Species.Size = new System.Drawing.Size(55, 17);
             Label_Species.TabIndex = 89;
             Label_Species.Text = "Species:";
             Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -252,38 +256,73 @@ namespace PKHeX.WinForms
             // 
             CHK_Shiny.AutoSize = true;
             CHK_Shiny.Enabled = false;
-            CHK_Shiny.Location = new System.Drawing.Point(161, 93);
+            CHK_Shiny.Location = new System.Drawing.Point(256, 43);
             CHK_Shiny.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Shiny.Name = "CHK_Shiny";
-            CHK_Shiny.Size = new System.Drawing.Size(60, 19);
+            CHK_Shiny.Size = new System.Drawing.Size(63, 21);
             CHK_Shiny.TabIndex = 90;
             CHK_Shiny.Text = "Shiny?";
             CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // CHK_Active
             // 
-            CHK_Active.Location = new System.Drawing.Point(234, 70);
+            CHK_Active.AutoSize = true;
+            CHK_Active.Location = new System.Drawing.Point(182, 63);
             CHK_Active.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Active.Name = "CHK_Active";
-            CHK_Active.Size = new System.Drawing.Size(89, 35);
+            CHK_Active.Size = new System.Drawing.Size(125, 21);
             CHK_Active.TabIndex = 91;
             CHK_Active.Text = "Roaming (Active)";
             CHK_Active.UseVisualStyleBackColor = true;
             // 
             // NUD_Level
             // 
-            NUD_Level.Location = new System.Drawing.Point(225, 14);
+            NUD_Level.Location = new System.Drawing.Point(182, 117);
             NUD_Level.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Level.Name = "NUD_Level";
-            NUD_Level.Size = new System.Drawing.Size(52, 23);
+            NUD_Level.Size = new System.Drawing.Size(52, 25);
             NUD_Level.TabIndex = 92;
+            // 
+            // NUD_HP
+            // 
+            NUD_HP.Location = new System.Drawing.Point(182, 90);
+            NUD_HP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HP.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_HP.Name = "NUD_HP";
+            NUD_HP.Size = new System.Drawing.Size(58, 25);
+            NUD_HP.TabIndex = 93;
+            NUD_HP.Value = new decimal(new int[] { 65535, 0, 0, 0 });
+            // 
+            // L_HP
+            // 
+            L_HP.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_HP.Location = new System.Drawing.Point(126, 88);
+            L_HP.Margin = new System.Windows.Forms.Padding(0);
+            L_HP.Name = "L_HP";
+            L_HP.Size = new System.Drawing.Size(52, 24);
+            L_HP.TabIndex = 94;
+            L_HP.Text = "HP:";
+            L_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new System.Drawing.Point(126, 117);
+            label1.Margin = new System.Windows.Forms.Padding(0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(52, 24);
+            label1.TabIndex = 95;
+            label1.Text = "Level:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Roamer3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(324, 165);
+            ClientSize = new System.Drawing.Size(368, 161);
+            Controls.Add(label1);
+            Controls.Add(L_HP);
+            Controls.Add(NUD_HP);
             Controls.Add(NUD_Level);
-            Controls.Add(CHK_Active);
             Controls.Add(CHK_Shiny);
             Controls.Add(Label_Species);
             Controls.Add(CB_Species);
@@ -303,16 +342,17 @@ namespace PKHeX.WinForms
             Controls.Add(TB_HPIV);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
+            Controls.Add(CHK_Active);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new System.Drawing.Size(231, 167);
             Name = "SAV_Roamer3";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Roamer Editor";
             ((System.ComponentModel.ISupportInitialize)NUD_Level).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HP).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -339,5 +379,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_Shiny;
         private System.Windows.Forms.CheckBox CHK_Active;
         private System.Windows.Forms.NumericUpDown NUD_Level;
+        private System.Windows.Forms.NumericUpDown NUD_HP;
+        private System.Windows.Forms.Label L_HP;
+        private System.Windows.Forms.Label label1;
     }
 }
