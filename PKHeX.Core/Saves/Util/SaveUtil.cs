@@ -201,7 +201,7 @@ public static class SaveUtil
     private static bool IsG2GSJPN(ReadOnlySpan<byte> data) => HasListAt(data, 0x2D10, 0x283E, 30);
     private static bool IsG2GSKOR(ReadOnlySpan<byte> data) => HasListAt(data, 0x2DAE, 0x28CC, 20);
     private static bool IsG2CrystalINT(ReadOnlySpan<byte> data) => HasListAt(data, 0x2865, 0x2D10, 20);
-    private static bool IsG2CrystalJPN(ReadOnlySpan<byte> data) => HasListAt(data, 0x283E, 0x281A, 30);
+    private static bool IsG2CrystalJPN(ReadOnlySpan<byte> data) => HasListAt(data, 0x2D10, 0x281A, 30);
     private static bool HasListAt(ReadOnlySpan<byte> data, [ConstantExpected] int offset1, [ConstantExpected] int offset2, [ConstantExpected] byte maxCount) =>
         IsListValidG12(data, offset1, maxCount) && IsListValidG12(data, offset2, maxCount);
 
