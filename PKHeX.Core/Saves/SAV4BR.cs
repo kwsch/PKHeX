@@ -104,6 +104,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
         finally
         {
+            span.Clear();
             pool.Return(rent);
         }
     }
