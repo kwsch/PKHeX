@@ -238,7 +238,6 @@ public enum LegalityCheckResultCode : ushort
     MemoryIndexFeelHTLEQ9,
     MemoryIndexIntensityHT1,
     MemoryIndexLinkHT,
-    MemoryIndexVar_H1,
     MemoryMissingHT,
     MemoryMissingOT,
     MemorySocialZero,
@@ -440,6 +439,7 @@ public enum LegalityCheckResultCode : ushort
     MemoryIndexFeel_H1,
     MemoryIndexIntensity_H1,
     MemoryIndexIntensityMin_H1,
+    MemoryIndexVar_H1,
 
     // One/Two Arguments: Special
     FirstComplex,

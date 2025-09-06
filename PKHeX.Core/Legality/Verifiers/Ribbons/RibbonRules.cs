@@ -159,7 +159,14 @@ public static class RibbonRules
     /// </summary>
     /// <param name="value">Stored bitflags for Gen6/7 Super Training medals.</param>
     /// <returns><c>true</c> if all Super Training medals are set, <c>false</c> otherwise.</returns>
-    public static bool IsSuperTrainSupremelyTrained(uint value) => (value >> 2) == 0x3FFF_FFFF; // ignore the 2 unused low bits (18 regular, 12 secret).
+    public static bool IsSuperTrainSupremelyTrained(uint value) => (value & ~0b11) == 0xFFFF_FFFC; // ignore the 2 unused low bits (18 regular, 12 secret).
+
+    /// <summary>
+    /// Forces the input to be in a state indicating "Supremely Trained" for Super Training medals.
+    /// </summary>
+    /// <param name="value">Current value</param>
+    /// <returns>Supremely Trained value</returns>
+    public static uint SetSuperTrainSupremelyTrained(uint value) => (value & 0x3) | 0xFFFF_FFFC; // set all but the 2 unused low bits.
 
     /// <summary>
     /// Checks if the entity participated in battles for the <see cref="IRibbonSetCommon8.RibbonTowerMaster"/> ribbon.

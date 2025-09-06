@@ -94,6 +94,8 @@ public partial class RibbonEditor : Form
         foreach (var r in slice)
             dict.Add(r.PropertyName, r);
 
+        // Find which ribbons are valid by brute forcing all valid ribbons onto the entity.
+        // The final ribbon state is what we will use to indicate which are possible.
         var clone = pk.Clone();
         RibbonApplicator.SetAllValidRibbons(clone);
         var otherList = RibbonInfo.GetRibbonInfo(clone);
