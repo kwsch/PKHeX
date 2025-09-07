@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 
 namespace PKHeX.WinForms;
 
@@ -29,10 +28,7 @@ public static class PluginLoader
         {
             try
             {
-                var context = new PluginLoadContext(file);
-                var asm = context.LoadFromAssemblyPath(file);
-                result.Contexts.Add(context);
-                result.Assemblies.Add(asm);
+                result.Load(file);
             }
             catch (Exception ex)
             {
@@ -41,7 +37,7 @@ public static class PluginLoader
             }
         }
         if (loadMerged)
-            result.Assemblies.Add(Assembly.GetExecutingAssembly());
+            result.LoadFromAssembly(Assembly.GetExecutingAssembly());
         return result;
     }
 
@@ -50,13 +46,15 @@ public static class PluginLoader
     /// </summary>
     /// <typeparam name="T">The type of plugin to load.</typeparam>
     /// <param name="pluginPath">The directory path to search for plugin assemblies.</param>
+    /// <param name="list">Reference to the list to populate with loaded plugins.</param>
     /// <param name="loadMerged">The plugin load setting to use.</param>
-    /// <returns>An enumerable of loaded plugin instances of type <typeparamref name="T"/>.</returns>
-    public static IEnumerable<T> LoadPlugins<T>(string pluginPath, bool loadMerged) where T : class
+    /// <returns>Plugin source information for the loaded plugin instances of type <typeparamref name="T"/>.</returns>
+    public static PluginLoadResult LoadPlugins<T>(string pluginPath, List<T> list, bool loadMerged) where T : class
     {
         var result = LoadPluginAssemblies(pluginPath, loadMerged);
         var pluginTypes = GetPluginsOfType<T>(result.GetAssemblies());
-        return LoadPlugins<T>(pluginTypes);
+        list.AddRange(LoadPlugins<T>(pluginTypes));
+        return result;
     }
 
     /// <summary>
@@ -140,60 +138,5 @@ public static class PluginLoader
         if (type.IsInterface || type.IsAbstract)
             return false;
         return plugin.IsAssignableFrom(type);
-    }
-}
-
-/// <summary>
-/// Encapsulates the result of loading plugins, including their contexts and assemblies.
-/// </summary>
-public class PluginLoadResult
-{
-    public List<PluginLoadContext> Contexts { get; } = [];
-    public List<Assembly> Assemblies { get; } = [];
-
-    /// <summary>
-    /// Returns all loaded assemblies for downstream use.
-    /// </summary>
-    public IEnumerable<Assembly> GetAssemblies() => Assemblies;
-}
-
-/// <summary>
-/// Custom AssemblyLoadContext for loading plugin assemblies in isolation.
-/// </summary>
-public class PluginLoadContext : AssemblyLoadContext
-{
-    private readonly AssemblyDependencyResolver Resolver;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PluginLoadContext"/> class.
-    /// </summary>
-    /// <param name="pluginPath">The path to the plugin assembly.</param>
-    public PluginLoadContext(string pluginPath) : base(isCollectible: true)
-    {
-        Resolver = new AssemblyDependencyResolver(pluginPath);
-    }
-
-    /// <summary>
-    /// Loads the main plugin assembly from the specified path. Delegates framework assemblies to the default context.
-    /// </summary>
-    /// <param name="assemblyName">The assembly name to load.</param>
-    /// <returns>The loaded assembly, or null if not the main plugin assembly.</returns>
-    protected override Assembly? Load(AssemblyName assemblyName)
-    {
-        // Try to resolve plugin-local dependencies
-        var assemblyPath = Resolver.ResolveAssemblyToPath(assemblyName);
-        if (assemblyPath != null)
-            return LoadFromAssemblyPath(assemblyPath);
-
-        // Fallback: try to resolve from the default context (main app/shared dependencies)
-        try
-        {
-            return Default.LoadFromAssemblyName(assemblyName);
-        }
-        catch
-        {
-            // Not found in default context
-            return null;
-        }
     }
 }

@@ -182,7 +182,7 @@ public partial class Main : Form
 
         try
         {
-            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(folder, Settings.Startup.PluginLoadMerged));
+            _ = PluginLoader.LoadPlugins(folder, Plugins, Settings.Startup.PluginLoadMerged);
         }
         catch (InvalidCastException c)
         {
