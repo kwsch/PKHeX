@@ -95,7 +95,8 @@ internal static class Encounters1
     internal static readonly EncounterTrade1[] TradeGift_RB =
     [
         new(TradeNames, 00, 122, RB, 06, 05), // Mr. Mime - Abra
-        new(TradeNames, 01, 032, RB, 02    ), // Nidoran♂ - Nidoran♀
+        new(TradeNames, 01, 029, RB, 02    ), // Nidoran♀ - Nidoran♂ (International)
+        new(TradeNames, 17, 032, RB, 02    ), // Nidoran♂ - Nidoran♀ (Japanese)
         new(TradeNames, 02, 030, RB, 16    ), // Nidorina - Nidorino
         new(TradeNames, 03, 108, RB, 15    ), // Lickitung - Slowbro
         new(TradeNames, 04, 124, RB, 15, 10), // Jynx - Poliwhirl
@@ -105,7 +106,7 @@ internal static class Encounters1
         new(TradeNames, 08, 086, RB, 28, 05), // Seel - Ponyta
     ];
 
-    public static readonly EncounterTrade1[] TradeGift_YW =
+    internal static readonly EncounterTrade1[] TradeGift_YW =
     [
         new(TradeNames, 09, 122, YW, 08, 06), // Mr. Mime - Clefairy
         new(TradeNames, 10, 067, YW, 16, 05) { EvolveOnTrade = true }, // Machoke - Cubone
@@ -116,10 +117,9 @@ internal static class Encounters1
         new(TradeNames, 15, 089, YW, 25, 05), // Muk - Kangaskhan
     ];
 
-    public static readonly EncounterTrade1[] TradeGift_BU =
+    internal static readonly EncounterTrade1[] TradeGift_BU =
     [
         new(TradeNames, 16, 122, BU, 03    ), // Mr. Mime - Jigglypuff
-        new(TradeNames, 17, 029, BU, 02    ), // Nidoran♀ - Nidoran♂
         new(TradeNames, 18, 060, BU, 02    ), // Poliwag - Rattata
         new(TradeNames, 19, 115, BU, 15, 10), // Kangaskhan - Rhydon
         new(TradeNames, 20, 128, BU, 28, 18), // Tauros - Persian
