@@ -176,6 +176,7 @@ public static class DevUtil
     private static readonly Type[] EnumTypesToTranslate =
     [
         typeof(StatusCondition),
+        typeof(StatusType),
         typeof(PokeSize),
         typeof(PokeSizeDetailed),
 

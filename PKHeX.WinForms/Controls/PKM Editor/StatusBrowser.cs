@@ -17,7 +17,7 @@ public partial class StatusBrowser : Form
     private int StatusWidth => StatusHeight;
     private int StatusBrowserWidth => StatusWidth * 2;
 
-    public StatusBrowser()
+    public StatusBrowser(int generation)
     {
         InitializeComponent();
         StatusHeight = Drawing.PokeSprite.Properties.Resources.sicksleep.Height;
@@ -33,13 +33,15 @@ public partial class StatusBrowser : Form
         };
 
         Add(GetImage(StatusCondition.None, "None"));
-        Add(GetImage(StatusCondition.Sleep1, "Sleep"), false);
-        Add(NUD_Sleep);
+        Add(GetImage(StatusCondition.Sleep1, "Sleep"), generation >= 5);
+        if (generation <= 4)
+            Add(NUD_Sleep);
         Add(GetImage(StatusCondition.Poison, "Poison"));
         Add(GetImage(StatusCondition.Burn, "Burn"));
         Add(GetImage(StatusCondition.Paralysis, "Paralysis"));
         Add(GetImage(StatusCondition.Freeze, "Freeze"));
-        Add(GetImage(StatusCondition.PoisonBad, "Toxic"));
+        if (generation is 3 or 4)
+            Add(GetImage(StatusCondition.PoisonBad, "Toxic"));
 
         Height = StatusCount * StatusHeight;
         Width = StatusBrowserWidth;
