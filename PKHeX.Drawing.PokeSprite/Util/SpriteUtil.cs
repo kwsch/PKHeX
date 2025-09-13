@@ -333,4 +333,18 @@ public static class SpriteUtil
             return Resources.sickfrostbite;
         return null;
     }
+
+    public static Image? GetStatusSprite(this StatusType value)
+    {
+        return value switch
+        {
+            StatusType.None => null,
+            StatusType.Paralysis => Resources.sickparalyze,
+            StatusType.Sleep => Resources.sicksleep,
+            StatusType.Freeze => Resources.sickfrostbite,
+            StatusType.Burn => Resources.sickburn,
+            StatusType.Poison => Resources.sickpoison,
+            _ => null,
+        };
+    }
 }
