@@ -58,9 +58,19 @@ public partial class StatusBrowser : Form
 
     public void LoadList(PKM pk)
     {
-        var condition = (StatusCondition)pk.Status_Condition;
-        NUD_Sleep.Value = Math.Max(1, (int)condition & 7);
-        Text = condition.ToString();
+        StatusType type;
+        if (pk.Format <= 4)
+        {
+            var condition = (StatusCondition)pk.Status_Condition;
+            NUD_Sleep.Value = Math.Max(1, (int)condition & 7);
+            type = condition.GetStatusType();
+        }
+        else
+        {
+            type = (StatusType)(pk.Status_Condition & 7);
+        }
+
+        Text = WinFormsTranslator.TranslateEnum(type, Main.CurrentLanguage);
     }
 
     private SelectablePictureBox GetImage(StatusCondition value, string name)
@@ -81,7 +91,7 @@ public partial class StatusBrowser : Form
             Height = StatusHeight,
         };
 
-        pb.MouseEnter += (_, _) => Text = name;
+        pb.MouseEnter += (_, _) => Text = value is StatusCondition.PoisonBad ? "Toxic" : WinFormsTranslator.TranslateEnum(value.GetStatusType(), Main.CurrentLanguage);
         pb.Click += (_, _) =>
         {
             if (value is StatusCondition.Sleep1)

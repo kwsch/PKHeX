@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// Bad poison is only stored outside of battle in Generation 3 and 4.
 /// </remarks>
 [Flags]
-public enum StatusCondition
+public enum StatusCondition : byte
 {
     None = 0,
 #pragma warning disable RCS1191 // Declare enum value as combination of names
@@ -32,7 +32,7 @@ public enum StatusCondition
 /// <summary>
 /// Status condition enum for Generation 5+.
 /// </summary>
-public enum StatusType
+public enum StatusType : byte
 {
     None = 0,
     Paralysis = 1,
