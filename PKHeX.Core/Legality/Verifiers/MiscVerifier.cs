@@ -273,7 +273,7 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(Egg, EggShinyPokeStar));
             else if (enc.Species == (ushort)Species.Ditto) // Having Transform is not allowed; Smeargle can change moves.
                 data.AddLine(GetInvalid(Misc, G5PokeStarMustBeZero));
-            else if (fame % 50 is not (0 or 5)) // all values via +25, -50 for [0,255]
+            else if (fame % 25 is not (0 or 5)) // all values via +25, -50 for [0,255]
                 data.AddLine(GetInvalid(Misc, G5PokeStarImpossibleValue));
         }
 
