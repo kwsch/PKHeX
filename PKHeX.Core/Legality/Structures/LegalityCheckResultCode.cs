@@ -189,6 +189,7 @@ public enum LegalityCheckResultCode : ushort
     G5SparkleInvalid,
     G5SparkleRequired,
     G5PokeStarMustBeZero,
+    G5PokeStarImpossibleValue,
     G7BSocialShouldBe100Spirit,
     G7BSocialShouldBe100Mood,
 

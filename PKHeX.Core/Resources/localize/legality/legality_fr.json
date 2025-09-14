@@ -157,6 +157,7 @@
     "G5SparkleInvalid": "Le drapeau de l'éclat spécial des Pokémon de N ne doit pas être coché.",
     "G5SparkleRequired": "Le drapeau de l'éclat spécial des Pokémon de N est manquant.",
     "G5PokeStarMustBeZero": "Le prestige du Pokéwood doit être à zéro, ne pouvant pas tourner un film.",
+    "G5PokeStarImpossibleValue": "Pokéstar Studios fame value is unreachable.",
     "G7BSocialShouldBe100Spirit": "Les Pokémon hors de l'Équipe devraient avoir leur Esprit à 100.",
     "G7BSocialShouldBe100Mood": "Les Pokémon hors de l'Équipe devraient avoir leur Humeur à 100.",
     "GanbaruStatTooHigh": "Une ou plusieurs valeurs du niveau d'effort sont supérieures à la limite naturelle de (10 - IV bonus).",

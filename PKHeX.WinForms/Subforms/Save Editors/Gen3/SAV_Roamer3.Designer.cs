@@ -51,7 +51,7 @@ namespace PKHeX.WinForms
             NUD_Level = new System.Windows.Forms.NumericUpDown();
             NUD_HP = new System.Windows.Forms.NumericUpDown();
             L_HP = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
+            Label_Level = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)NUD_Level).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_HP).BeginInit();
             SuspendLayout();
@@ -304,22 +304,22 @@ namespace PKHeX.WinForms
             L_HP.Text = "HP:";
             L_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // Label_Level
             // 
-            label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            label1.Location = new System.Drawing.Point(126, 117);
-            label1.Margin = new System.Windows.Forms.Padding(0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(52, 24);
-            label1.TabIndex = 95;
-            label1.Text = "Level:";
-            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Label_Level.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Label_Level.Location = new System.Drawing.Point(126, 117);
+            Label_Level.Margin = new System.Windows.Forms.Padding(0);
+            Label_Level.Name = "Label_Level";
+            Label_Level.Size = new System.Drawing.Size(52, 24);
+            Label_Level.TabIndex = 95;
+            Label_Level.Text = "Level:";
+            Label_Level.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Roamer3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(368, 161);
-            Controls.Add(label1);
+            Controls.Add(Label_Level);
             Controls.Add(L_HP);
             Controls.Add(NUD_HP);
             Controls.Add(NUD_Level);
@@ -381,6 +381,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Level;
         private System.Windows.Forms.NumericUpDown NUD_HP;
         private System.Windows.Forms.Label L_HP;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Label_Level;
     }
 }

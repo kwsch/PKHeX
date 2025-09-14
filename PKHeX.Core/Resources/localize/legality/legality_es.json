@@ -157,6 +157,7 @@
     "G5SparkleInvalid": "La marca chispeante especial de los Pokémon de N en el juego no debería marcarse.",
     "G5SparkleRequired": "Falta la marca chispeante especial de los Pokémon de N en el juego.",
     "G5PokeStarMustBeZero": "Pokéstar Studios fame must be zero, cannot participate.",
+    "G5PokeStarImpossibleValue": "Pokéstar Studios fame value is unreachable.",
     "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
     "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "Un nivel o más de esfuerzo es mayor del límite natural de (10 - bonus IV).",

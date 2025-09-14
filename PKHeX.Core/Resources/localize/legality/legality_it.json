@@ -157,6 +157,7 @@
     "G5SparkleInvalid": "Il segnale speciale di luccichio dei Pokémon di N non dovrebbe essere ablitato.",
     "G5SparkleRequired": "Segnale speciale di luccichio dei Pokémon di N assente.",
     "G5PokeStarMustBeZero": "Pokéstar Studios fame must be zero, cannot participate.",
+    "G5PokeStarImpossibleValue": "Pokéstar Studios fame value is unreachable.",
     "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
     "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "Uno o più valori Ganbaru è oltre il limite naturale di (10 - IV bonus).",

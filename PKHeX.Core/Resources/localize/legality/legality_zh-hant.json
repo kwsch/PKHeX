@@ -157,6 +157,7 @@
     "G5SparkleInvalid": "特殊遊戲內寶可夢N的異色標記不應勾選。",
     "G5SparkleRequired": "特殊遊戲內寶可夢N的異色標記缺失。",
     "G5PokeStarMustBeZero": "Pokéstar Studios fame must be zero, cannot participate.",
+    "G5PokeStarImpossibleValue": "Pokéstar Studios fame value is unreachable.",
     "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
     "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "一項或多項奮鬥等級超過上限 (10 減 IV 個體值提升奮鬥等級)。",

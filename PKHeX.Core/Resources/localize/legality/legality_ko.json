@@ -157,6 +157,7 @@
     "G5SparkleInvalid": "게임 내 특수한 N 전용 반짝임 플래그가 켜져 있지 않아야 합니다.",
     "G5SparkleRequired": "게임 내 특수한 N 전용 반짝임 플래그가 켜져 있지 않습니다.",
     "G5PokeStarMustBeZero": "Pokéstar Studios fame must be zero, cannot participate.",
+    "G5PokeStarImpossibleValue": "Pokéstar Studios fame value is unreachable.",
     "G7BSocialShouldBe100Spirit": "Spirit should be 100 for Pokémon not in the player's party.",
     "G7BSocialShouldBe100Mood": "Mood should be 100 for Pokémon not in the player's party.",
     "GanbaruStatTooHigh": "One or more Ganbaru Value is above the natural limit of (10 - IV bonus).",
