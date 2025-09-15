@@ -115,7 +115,6 @@ public sealed class SummaryPreviewer
 
     public void Clear()
     {
-        var src = _source;
         try
         {
             var token = _source.Token;
@@ -126,7 +125,7 @@ public sealed class SummaryPreviewer
 
                 // Give a little bit of fade-out delay
                 await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
-                if (!src.IsCancellationRequested)
+                if (!token.IsCancellationRequested)
                     await Previewer.InvokeAsync(Previewer.Hide, token).ConfigureAwait(false);
             }, token).ConfigureAwait(false);
         }

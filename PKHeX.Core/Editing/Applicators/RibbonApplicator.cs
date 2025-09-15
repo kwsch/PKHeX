@@ -27,10 +27,14 @@ public static class RibbonApplicator
         if (pk is IRibbonSetCommon6 c6)
         {
             // Medal Deadlock
-            if (pk is ISuperTrain s)
+            if (pk is ISuperTrain s && la.Info.EvoChainsAllGens.HasVisitedGen6)
             {
-                s.SecretSuperTrainingUnlocked = true;
-                s.SuperTrainSupremelyTrained = true;
+                s.SuperTrainBitFlags = RibbonRules.SetSuperTrainSupremelyTrained(s.SuperTrainBitFlags);
+                if (pk.Format == 6) // cleared on 6->7 transfer; only set in Gen6.
+                {
+                    s.SecretSuperTrainingUnlocked = true;
+                    s.SuperTrainSupremelyTrained = true;
+                }
                 c6.RibbonTraining = true;
             }
             // Ribbon Deadlock

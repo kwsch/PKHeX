@@ -265,13 +265,16 @@ public sealed class MiscVerifier : Verifier
     {
         var enc = data.EncounterMatch;
 
+        var fame = pk5.PokeStarFame;
         // Cannot participate in Pokestar Studios as Egg
-        if (pk5.PokeStarFame != 0)
+        if (fame != 0)
         {
             if (pk5.IsEgg)
                 data.AddLine(GetInvalid(Egg, EggShinyPokeStar));
             else if (enc.Species == (ushort)Species.Ditto) // Having Transform is not allowed; Smeargle can change moves.
                 data.AddLine(GetInvalid(Misc, G5PokeStarMustBeZero));
+            else if (fame % 25 is not (0 or 5)) // all values via +25, -50 for [0,255]
+                data.AddLine(GetInvalid(Misc, G5PokeStarImpossibleValue));
         }
 
         // Ensure NSparkle is only present on N's encounters.

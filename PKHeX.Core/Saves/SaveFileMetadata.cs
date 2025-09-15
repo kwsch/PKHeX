@@ -45,7 +45,18 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// <summary>
     /// File Dialog filter to help save the file.
     /// </summary>
-    public string Filter => $"{SAV.GetType().Name}|{GetSuggestedExtension()}|All Files|*.*";
+    public string Filter
+    {
+        get
+        {
+            // Try to filter to suggested extension; otherwise default to all files.
+            const string noFilter = "All Files|*.*";
+            var other = GetSuggestedExtension();
+            if (other.Length == 0)
+                return noFilter;
+            return $"{SAV.GetType().Name}|*{other}|{noFilter}";
+        }
+    }
 
     /// <summary>
     /// Writes the input <see cref="data"/> and appends the <see cref="Header"/> and <see cref="Footer"/> if requested.
@@ -174,11 +185,11 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     public string GetSuggestedExtension()
     {
         var sav = SAV;
-        var fn = sav.Metadata.FileName;
+        var fn = FileName;
         if (fn is not null)
             return Path.GetExtension(fn);
 
-        if ((sav.Generation is 4 or 5) && sav.Metadata.HasFooter)
+        if (HasFooter && (sav.Generation is 4 or 5))
             return ".dsv";
         return sav.Extension;
     }

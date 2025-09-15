@@ -120,7 +120,7 @@ public static class LegalityFormatting
         var type = pidiv.Type;
         var msgType = string.Format(strings.Encounter.Format, strings.Encounter.PIDType, type);
         var enc = info.EncounterOriginal;
-        if (enc is IRandomCorrelationEvent3 r3)
+        if (enc is IRandomCorrelationEvent3 r3 && info.PIDIVMatches)
         {
             if (type is not PIDType.None)
             {

@@ -30,7 +30,7 @@ public static class StringConverter1
         static bool IsJapanese(char c) => c is >= '\u3000' and <= '\u30FC';
     }
 
-    public static bool GetIsEnglish(ReadOnlySpan<char> str) => !GetIsJapanese(str);
+    public static bool GetIsEnglish(ReadOnlySpan<char> str) => !GetIsJapanese(str) && !str.StartsWith(TradeOT);
     public static bool GetIsJapanese(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableJP);
     public static bool GetIsEnglish(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableEN);
 

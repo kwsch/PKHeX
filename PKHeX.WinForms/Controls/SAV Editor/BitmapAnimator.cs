@@ -17,7 +17,7 @@ public sealed class BitmapAnimator : IDisposable
 
     private int imgWidth;
     private int imgHeight;
-    private Memory<byte> GlowData;
+    private ReadOnlyMemory<byte> GlowData;
     private Image? ExtraLayer;
     private Image?[]? GlowCache;
     private Image? OriginalBackground;
@@ -50,7 +50,7 @@ public sealed class BitmapAnimator : IDisposable
             GlowCache[i] = null;
     }
 
-    public void Start(PictureBox pbox, Image baseImage, Memory<byte> glowData, Image? original, Image extra)
+    public void Start(PictureBox pbox, Image baseImage, ReadOnlyMemory<byte> glowData, Image? original, Image extra)
     {
         Enabled = false;
         imgWidth = baseImage.Width;

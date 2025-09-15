@@ -241,6 +241,7 @@ public static class LegalityCheckResultCodeExtensions
         G5SparkleInvalid => localization.G5SparkleInvalid,
         G5SparkleRequired => localization.G5SparkleRequired,
         G5PokeStarMustBeZero => localization.G5PokeStarMustBeZero,
+        G5PokeStarImpossibleValue => localization.G5PokeStarImpossibleValue,
         G7BSocialShouldBe100Spirit => localization.G7BSocialShouldBe100Spirit,
         G7BSocialShouldBe100Mood => localization.G7BSocialShouldBe100Mood,
         GanbaruStatLEQ_01 => localization.GanbaruStatTooHigh,
