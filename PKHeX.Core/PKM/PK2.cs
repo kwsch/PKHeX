@@ -114,8 +114,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public PK1 ConvertToPK1()
     {
         PK1 pk1 = new(Japanese);
-        var dest = pk1.Data.Slice(0x7, 0x1A);
-        Data[1..].CopyTo(dest);
+        Data.Slice(1, 0x1A).CopyTo(pk1.Data[7..]);
         pk1.Species = Species; // This will take care of Typing :)
 
         var lvl = Stat_Level;
