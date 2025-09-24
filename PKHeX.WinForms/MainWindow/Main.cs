@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -377,7 +378,7 @@ public partial class Main : Form
     }
 
     /// <summary>
-    /// Dumps all Entity content stored in the SaveFile's boxes to disk.
+    /// Dumps all Entity stream stored in the SaveFile's boxes to disk.
     /// </summary>
     private void MainMenuBoxDump(object sender, EventArgs e)
     {
@@ -498,26 +499,104 @@ public partial class Main : Form
         if (!fi.Exists)
             return;
 
-        if (FileUtil.IsFileTooBig(fi.Length))
-        {
-            WinFormsUtil.Error(MsgFileSizeLarge + Environment.NewLine + string.Format(MsgFileSize, fi.Length), path);
-            return;
-        }
-        if (FileUtil.IsFileTooSmall(fi.Length))
-        {
-            WinFormsUtil.Error(MsgFileSizeSmall + Environment.NewLine + string.Format(MsgFileSize, fi.Length), path);
-            return;
-        }
-        byte[] input; try { input = File.ReadAllBytes(path); }
-        catch (Exception e) { WinFormsUtil.Error(MsgFileInUse + path, e); return; }
-
         string ext = fi.Extension;
+        byte[] input;
+
+        if (ext.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                using ZipArchive zip = ZipFile.OpenRead(path);
+                ZipArchiveEntry? entry = SelectZipArchiveEntry(zip, path);
+
+                if (entry == null)
+                    return;
+
+                (input, FileInfo? tempFile) = ReadZipArchiveEntry(entry, path);
+
+                if (input.Length == 0 || tempFile == null)
+                    return;
+
+                path = tempFile.FullName;
+            }
+            catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail, e); return; }
+        }
+        else
+        {
+            if (!ValidateFile(path, fi.Length))
+                return;
+
+            try { input = File.ReadAllBytes(path); }
+            catch (Exception e) { WinFormsUtil.Error(MsgFileInUse + path, e); return; }
+        }
+
 #if DEBUG
         OpenFile(input, path, ext);
 #else
-            try { OpenFile(input, path, ext); }
-            catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
+        try { OpenFile(input, path, ext); }
+        catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
 #endif
+    }
+
+    internal ZipArchiveEntry? SelectZipArchiveEntry(ZipArchive zip, string path)
+    {
+        if (zip.Entries.Count == 0)
+        {
+            WinFormsUtil.Error(MsgFileZipArchiveNoEntries + $"\nPath: {path}");
+            return null;
+        }
+
+        ZipArchiveEntrySelect dialog = new(zip, path);
+
+        if (dialog.ShowDialog(this) != DialogResult.OK)
+        {
+            return null;
+        }
+
+        return dialog.SelectedEntry;
+    }
+
+    internal static (byte[] Data, FileInfo? ExtractedFile) ReadZipArchiveEntry(ZipArchiveEntry entry, string path)
+    {
+        if (entry == null)
+            return ([], null);
+
+        long length = entry.Length;
+
+        if (!ValidateFile($"{path}{Path.DirectorySeparatorChar}{entry.FullName}", length))
+            return ([], null);
+
+        try
+        {
+            FileInfo tempDestination = new(Path.Combine(Path.GetTempPath(), entry.Name));
+            entry.ExtractToFile(tempDestination.FullName, overwrite: true);
+
+            byte[] buffer = File.ReadAllBytes(tempDestination.FullName);
+
+            return (buffer, tempDestination);
+        }
+        catch (Exception e)
+        {
+            WinFormsUtil.Error(MsgFileZipArchiveEntryReadFail + "\nPath: " + path, e);
+            return ([], null);
+        }
+    }
+
+    internal static bool ValidateFile(string path, long length)
+    {
+        if (FileUtil.IsFileTooBig(length))
+        {
+            WinFormsUtil.Error(MsgFileSizeLarge + Environment.NewLine + string.Format(MsgFileSize, length), path);
+            return false;
+        }
+
+        if (FileUtil.IsFileTooSmall(length))
+        {
+            WinFormsUtil.Error(MsgFileSizeSmall + Environment.NewLine + string.Format(MsgFileSize, length), path);
+            return false;
+        }
+
+        return true;
     }
 
     internal void OpenFile(Memory<byte> input, string path, string ext)
@@ -794,7 +873,7 @@ public partial class Main : Form
         string version = $"d-{date:yyyyMMdd}";
 #else
         var v = Program.CurrentVersion;
-        string version = $"{2000+v.Major:00}{v.Minor:00}{v.Build:00}";
+        string version = $"{2000 + v.Major:00}{v.Minor:00}{v.Build:00}";
 #endif
         return $"PKH{(HaX ? "a" : "e")}X ({version})";
     }

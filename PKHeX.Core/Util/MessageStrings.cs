@@ -1,6 +1,5 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -85,6 +84,8 @@ public static class MessageStrings
     public static string MsgFileWriteProtected { get; set; } = "File's location is write protected:";
     public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
     public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
+    public static string MsgFileZipArchiveNoEntries { get; set; } = "The zip archive has no entries.";
+    public static string MsgFileZipArchiveEntryReadFail { get; set; } = "Failed to read the expected number of bytes from the archive entry. This could mean your archive is corrupt. Try manually extracting the archive first.";
     public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could mean PKHeX doesn't support your save file or your save file is corrupt.";
     public static string MsgPKMUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could be caused by loading a different generation Pokemon file on an unsupported generation or your file is corrupt.";
 
@@ -126,6 +127,8 @@ public static class MessageStrings
     public static string MsgDatabaseAdvice { get; set; } = "Please dump all boxes from a save file, then ensure the '{0}' folder exists.";
     public static string MsgDatabaseExport { get; set; } = "Save to PKHeX's database?";
     public static string MsgDatabaseLoad { get; set; } = "Load from PKHeX's database?";
+
+    public static string MsgZipArchiveSelectEntryPrompt { get; set; } = "Select entry from ";
 
     #endregion
 
