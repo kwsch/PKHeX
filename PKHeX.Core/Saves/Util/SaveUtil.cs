@@ -505,8 +505,7 @@ public static class SaveUtil
             if (!h.IsRecognized(data.Length))
                 continue;
 
-            result = h.ReadSaveFile(data, path);
-            if (result is not null)
+            if (h.TryRead(data, out result, path))
                 return true;
         }
         result = null;

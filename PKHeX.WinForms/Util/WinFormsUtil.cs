@@ -435,7 +435,7 @@ public static class WinFormsUtil
                 if (path != exist)
                     File.Copy(exist, path, true);
 
-                ZipReader.UpdateSaveFile(data, path);
+                ZipReader.Update(path, data);
                 return;
             }
         }
