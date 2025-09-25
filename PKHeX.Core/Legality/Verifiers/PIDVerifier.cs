@@ -79,8 +79,8 @@ public sealed class PIDVerifier : Verifier
         switch (enc)
         {
             // Forced PID or generated without an encounter
-            case IGeneration { Generation: 5 } and IFixedGender { Gender: 0 or 1 } fg:
-                if (enc is not PGF && !MonochromeRNG.IsValidForcedRandomGender(pk.EncryptionConstant, fg.Gender))
+            case IGeneration { Generation: 5 } and not (EncounterTrade5BW or PGF) and IFixedGender { Gender: 0 or 1 } fg:
+                if (!MonochromeRNG.IsValidForcedRandomGender(pk.EncryptionConstant, fg.Gender))
                     data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
 
                 if (enc is EncounterStatic5 { IsWildCorrelationPID: true })
