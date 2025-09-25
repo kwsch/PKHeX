@@ -11,7 +11,7 @@ public sealed class ZipReader : ISaveReader
 {
     public bool IsRecognized(long dataLength) => dataLength > 4;
 
-    private static bool IsValidFileName(string name) => name is "main" or "SaveData.bin";
+    private static bool IsValidFileName(string name) => name.ToLowerInvariant() is "main" or "savedata.bin";
 
     public SaveFile? ReadSaveFile(Memory<byte> data, string? path = null)
     {
