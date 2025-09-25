@@ -33,7 +33,7 @@ public interface ISaveHandler
 /// <summary>
 /// Provides handling for recognizing atypical save file formats.
 /// </summary>
-public interface ISaveReader : ISaveHandler
+public interface ISaveReader
 {
     /// <summary>
     /// Reads a save file from the <see cref="data"/>
@@ -42,5 +42,8 @@ public interface ISaveReader : ISaveHandler
     /// <param name="path">Optional file path.</param>
     /// <returns>Save File object, or null if invalid. Check <see cref="ISaveHandler"/> if it is compatible first.</returns>
     SaveFile? ReadSaveFile(Memory<byte> data, string? path = null);
+
+    /// <inheritdoc cref="ISaveHandler.IsRecognized"/>
+    bool IsRecognized(long dataLength);
 }
 #endif

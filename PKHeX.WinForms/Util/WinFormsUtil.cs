@@ -409,7 +409,8 @@ public static class WinFormsUtil
 
         try
         {
-            File.WriteAllBytes(path, sav.Write(flags).Span);
+            var data = sav.Write(flags).Span;
+            ExportSAVInternal(data, path, sav.Metadata.FilePath);
             sav.State.Edited = false;
             sav.Metadata.SetExtraInfo(path);
             Alert(MsgSaveExportSuccessPath, path);
@@ -421,6 +422,26 @@ public static class WinFormsUtil
             else // Don't know what threw, but it wasn't I/O related.
                 throw;
         }
+    }
+
+    private static void ExportSAVInternal(ReadOnlySpan<byte> data, string path, string? exist)
+    {
+        // If it originated from a zip, and a zip is being written, update the zip.
+        if (Path.GetExtension(path) is ".zip")
+        {
+            if (Path.Exists(exist) && Path.GetExtension(exist) is ".zip")
+            {
+                // If the paths are different, copy the original zip to the new location first.
+                if (path != exist)
+                    File.Copy(exist, path, true);
+
+                ZipReader.UpdateSaveFile(data, path);
+                return;
+            }
+        }
+
+        // Otherwise, just write the raw data.
+        File.WriteAllBytes(path, data);
     }
 
     /// <summary>
