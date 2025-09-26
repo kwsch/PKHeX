@@ -228,6 +228,7 @@ public static class EncounterServerDate
         {1548, new(2025, 09, 18, 2025, 10, 01)}, // Shiny Chi-Yu
         {0524, new(2025, 08, 14, 2025, 08, 31)}, // WCS 2025 Toedscool
         {0525, new(2025, 08, 15, 2025, 08, 23)}, // WCS 2025 Luca Ceribelli's Farigiraf
+        {1540, new(2025, 09, 25, 2025, 10, 24)}, // Shiny Miraidon / Koraidon Gift
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
