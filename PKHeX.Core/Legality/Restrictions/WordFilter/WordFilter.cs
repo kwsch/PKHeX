@@ -91,29 +91,37 @@ public static class WordFilter
         return IsFilteredLookBack(message, current, original, out type, out regMatch);
     }
 
-    private static bool IsFilteredCurrentOnly(ReadOnlySpan<char> message, EntityContext current, EntityContext original, out int regMatch)
+    private static bool IsFilteredCurrentOnly(ReadOnlySpan<char> message, EntityContext current, EntityContext original, out int regMatch) => current switch
+    {
+        // Ancient: None (Gen1-3), or simply blocked from online trading (Gen4).
+
+        // Past: Game driven
+        EntityContext.Gen5 => WordFilter5.IsFiltered(message, out regMatch),
+
+        EntityContext.Gen6 => WordFilter3DS.IsFilteredGen6(message, out regMatch),
+        EntityContext.Gen7 when original is EntityContext.Gen6
+            => WordFilter3DS.IsFilteredGen6(message, out regMatch),
+
+        EntityContext.Gen7 => WordFilter3DS.IsFilteredGen7(message, out regMatch),
+
+        // Future: Console word filters
+        _ => current.GetConsole() switch
+        {
+            GameConsole.NX => WordFilterNX.IsFiltered(message, out regMatch, original),
+            _ => NoFilter(out regMatch),
+        },
+    };
+
+    private static bool NoFilter(out int regMatch)
     {
         regMatch = 0;
-        return current switch
-        {
-            EntityContext.Gen5 => WordFilter5.IsFiltered(message, out regMatch),
-
-            EntityContext.Gen6 => WordFilter3DS.IsFilteredGen6(message, out regMatch),
-            EntityContext.Gen7 when original is EntityContext.Gen6
-                => WordFilter3DS.IsFilteredGen6(message, out regMatch),
-
-            EntityContext.Gen7 => WordFilter3DS.IsFilteredGen7(message, out regMatch),
-            _ => current.GetConsole() switch
-            {
-                GameConsole.NX => WordFilterNX.IsFiltered(message, out regMatch, original),
-                _ => false,
-            },
-        };
+        return false;
     }
 
     private static bool IsFilteredLookBack(ReadOnlySpan<char> message, EntityContext current, EntityContext original, out WordFilterType type, out int regMatch)
     {
         // Switch 2 backwards transfer? Won't know for another couple years.
+        // Summer 2025: We've been told they won't allow ZA+ to transfer back. Time will tell.
         if (WordFilterNX.IsFiltered(message, out regMatch, original))
         {
             type = WordFilterType.NintendoSwitch;
