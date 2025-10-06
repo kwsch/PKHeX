@@ -22,5 +22,5 @@
 0312	e	Evento de Isla Libertad	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
 0392	e	Belinda/Julián	0:Sin conocer,1:Llamada mediante Objeto perdido,2:Quedada en persona tras 10 llamadas
 0396	t	Trío Sombrío (Ciudad Teja)	0:Luchable (estación actual),1:Luchado en primavera,2:Luchado en verano,3:Luchado en otoño,4:Luchado en invierno
-0399	s	Ruinas Submarinas Evento de Menek	0:Not Activated,1:Activated,2:Entered 1F,3:Entered 2F,4:Entered 3F,6:Entered 4F,8:Found Relic Crown/Completed
+0399	s	Ruinas Submarinas Evento de Menek	0:Sin activar,1:Activado,2:entró en 1F,3:entró en 2F,4:entró en 3F,6:entró en 4F,8:Encontrada Corona Antigua/Completado
 0378	g	Fósil disponible para conseguir	99:Fósil Raíz (Lileep),100:Fósil Garra (Anorith),101:Fósil Hélix (Omanyte),102:Fósil Domo (Kabuto),103:Ámbar Viejo (Aerodactyl),104:Fósil Coraza (Shieldon),105:Fósil Cráneo (Cranidos),572:Fósil Tapa (Tirtouga),573:Fósil Pluma (Archen)
