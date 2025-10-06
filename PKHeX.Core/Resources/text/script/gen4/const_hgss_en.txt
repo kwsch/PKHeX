@@ -1,5 +1,5 @@
 0048	*	Starter	0:Not Chosen,152:Chikorita,155:Cyndaquil,158:Totodile
-0299	r	Spiky-eared Pichu (Ilex Forest)	0:Not appeared,1:Pending,2:Disappeared
+0299	r	Spiky-eared Pichu (Ilex Forest)	0:Not Activated,1:Pending,2:Obtained
 0161	r	Beasts (Burned Tower)	0:Appeared,1:Roaming/Fled
 0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
 0067	e	Enigma Stone	0:Not Activated,1778:Activated
@@ -17,6 +17,6 @@
 0072	r	Roaming Latios Status (SS)	0:Pending,1:Caught,2:Fainted/Can Respawn
 0148	+	Total Week Siblings Met	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
 0151	s	Ace Trainer Sisters (Route 34)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
-0253	r	Hoenn Starters	0:Not Activated,1:Activated
+0253	r	Red (Mt. Silver)	0:Not Defeated,1:Defeated (Hoenn Starters Activated)
 0276	s	Mail Quest	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
 0291	+	Catching Show Best Score (Pal Park)
