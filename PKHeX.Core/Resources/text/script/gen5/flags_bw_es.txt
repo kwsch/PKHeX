@@ -47,5 +47,5 @@
 0770	r	Captura/Derrota al Amoonguss de la Ruta 10 (2)
 0771	r	Captura/Derrota al Foongus de la Ruta 10 (1)
 0772	r	Captura/Derrota al Foongus de la Ruta 10 (2)
-2748	r	Dreamyard Musharna Disappeared (Friday)
-1372	s	Found Relic Crown (Abyssal Ruins 4F)
+2748	r	Solar de los Sueños Musharna desaparecido (Viernes)
+1372	s	Encontrada Corona Antigua (Ruinas Submarinas 4F)
