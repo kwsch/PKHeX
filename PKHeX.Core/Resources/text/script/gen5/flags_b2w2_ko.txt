@@ -1,53 +1,71 @@
+0303	r	코바르온 잡음
 0802	r	코바르온 사라짐
 0302	r	코바르온 (재대결, 레벨 +20)
+0330	r	테라키온 잡음
 0810	r	테라키온 사라짐
 0329	r	테라키온 (재대결, 레벨 +20)
+0301	r	비리디온 잡음
 0801	r	비리디온 사라짐
 0300	r	비리디온 (재대결, 레벨 +20)
-0928	r	Volcarona Disappeared
-0403	r	Volcarona Captured (Level 35/65)
-0404	r	Volcarona Defeated (Level 35)
+0928	r	불카모스 사라짐
+0403	r	불카모스 잡음 (레벨 35/65)
+0404	r	불카모스 쓰러뜨림 (레벨 35)
+0234	r	레시라무/제크로무 잡음
 0667	r	레시라무/제크로무 사라짐
+0249	r	큐레무 잡음
 1004	r	큐레무 사라짐
+0399	r	레지락 잡음
 0922	r	레지락 사라짐
+0400	r	레지아이스 잡음
 0921	r	레지아이스 사라짐
+0401	r	레지스틸 잡음
 0923	r	레지스틸 사라짐
+0374	r	라티오스/라티아스 잡음
+0396	r	유크시 잡음
 0918	r	유크시 사라짐
+0397	r	엠라이트 잡음
 0919	r	엠라이트 사라짐
+0398	r	아그놈 잡음
 0920	r	아그놈 사라짐
+0380	r	히드런 잡음
 0900	r	히드런 사라짐
+0402	r	레지기가스 잡음
 0924	r	레지기가스 사라짐
+0379	r	크레세리아 잡음
 0897	r	크레세리아 사라짐
 0106	*	교환 기능 활성화됨 (포켓몬센터)
 2403	*	러닝슈즈 받음
-2400	s	Entered Hall of Fame
-0250	g	Purchased Magikarp
-0256	g	Traded for Gigalith on Route 7
-0259	g	Traded for Rotom on Route 15
-0289	g	Received N's Zorua (1/2)
-0714	g	Received N's Zorua (2/2)
-0394	g	Received Eevee Gift
-0405	g	Traded for Tangrowth in Humilau City
-0412	g	Traded for Petilil/Cottonee on Route 4
-0426	g	Received Deerling Gift
-0431	g	Traded for Ambipom in Accumula Town
-0432	g	Traded for Alakazam in Accumula Town
-0433	g	Battled Lass Diana 1st Time (Can Trade for Alakazam)
-0434	s	Battled Lass Diana 2nd Time
-0437	g	Received Happiny Egg Gift
-0445	g	Chose Cover/Plume Fossil from Lenora
-0420	r	Shiny Haxorus in Nature Preserve captured
-0946	r	Shiny Haxorus in Nature Preserve disappeared
-0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
-2744	s	Rode Royal Unova (Today)
-2747	s	Received a Fossil from Twist Mountain Worker (Today)
-2774	r	Weekly Mandibuzz/Braviary on Route 4 disappeared
-2775	r	Weekly Jellicent in Undella Bay disappeared
-2442	r	N's Pokémon in the Wild
-0929	r	Route 6	 Capture/Defeat Foongus (1)
-0930	r	Route 6	 Capture/Defeat Foongus (2)
-0931	r	Route 6	 Capture/Defeat Foongus (3)
-0932	r	Route 7	 Capture/Defeat Foongus (1)
-0933	r	Route 7	 Capture/Defeat Foongus (2)
-0868	r	Defeated Seaside Cave Crustle
-2793	t	Rematched Colress (Today)
+2400	s	전당등록 완료
+0250	g	잉어킹을 샀다
+0256	g	7번도로에서 기가이어스를 교환했다
+0259	g	15번도로에서 로토무를 교환했다
+0289	g	N의 조루아 받음 (1/2)
+0714	g	N의 조루아 받음 (2/2)
+0394	g	이브이 선물 받음
+0405	g	기하시티에서 덩쿠림보를 교환했다
+0412	g	4에서 치릴리/소미안를 교환했다
+0426	g	사철록 선물 받음
+0431	g	넝쿨마을에서 겟핸보숭를 교환했다
+0432	g	넝쿨마을에서 후딘를 교환했다
+0433	g	짧은 치마 초희와 첫 번째 배틀을 했다 (수여미와 교환할 수 있다)
+0434	s	짧은 치마 초희와 두 번째 배틀을 했다
+0437	g	핑복 알 선물 받음
+0445	g	알로에에게서 덮개/깃털화석을 선택했다
+0420	r	색이 다른 액스라이즈 (자연보호구역) 잡음
+0946	r	색이 다른 액스라이즈 (자연보호구역) 사라짐
+0996	g	색이 다른 딥상어동/미뇽 선물을 가지고 있던 구아버가 노간주의 집에서 사라졌다
+2464	s	해저유적을 방문했다
+0979	s	비오 사라짐 (물결마을)
+2744	s	저는 로열하나호를 탔어요 (오늘)
+2747	s	태엽산 작업원에게서 화석을 받았다 (오늘)
+2774	r	주간 버랜지나/워글 사라짐 (4번도로)
+2775	r	주간 탱탱겔 사라짐 (물결만)
+2442	r	야생에서 나타나는 N의 포켓몬
+0929	r	6번도로 깜놀버슬 사라짐 (1)
+0930	r	6번도로 깜놀버슬 사라짐 (2)
+0931	r	6번도로 깜놀버슬 사라짐 (3)
+0932	r	7번도로 깜놀버슬 사라짐 (1)
+0933	r	7번도로 깜놀버슬 사라짐 (2)
+0868	r	해변동혈 암팰리스 사라짐
+1469	s	고대의왕관 찾음 (해저유적 4층)
+2793	t	아크로마와 재대결했다 (오늘)
