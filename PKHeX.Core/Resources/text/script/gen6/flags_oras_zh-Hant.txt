@@ -66,488 +66,490 @@
 0387	*	超級三打模式已解鎖
 0388	*	超級輪盤模式已解鎖
 0389	*	超級多人模式已解鎖
+2722	s	寶可夢圖鑑已獲得
 2738	*	異國圖鑒導航相遇解鎖
-0301	s	Defeated Primal Groudon/Kyogre (Story Event)
-2720	s	Entered Hall of Fame
-0361	s	Rematched Elite Four
-3023	s	Can Give Red Orb and Blue Orb
-0148	s	Met old hot-springs visitor
-0147	g	Received Wynaut Egg Gift (Lavaridge Town Hot-Springs)
-0187	g	Received Togepi Egg Gift (Lavaridge Town Hot-Springs)
-0119	g	Received Castform Gift (Weather Institute)
-0249	g	Received Beldum Gift (Mossdeep City Steven's House)
-0264	g	Received Camerupt Gift (Battle Resort)
-0265	g	Received Sharpedo Gift (Battle Resort)
-0298	s	Received Diancite (Diancie Event)
-0308	s	Received Prison Bottle (Hoopa Event)
-0310	g	Received Johto Starter
-0349	g	Received Sinnoh Starter
-0311	g	Received Unova Starter
-0166	g	In-Game Trade Slakoth for Makuhita (Rustboro City)
-0167	g	In-Game Trade Spinda for Skitty (Fortree City)
-0168	g	In-Game Trade Bellosom for Corsola (Pacifidlog Town)
-0692	s	Defeated Winstrate Family (Route 111)
-0806	s	Steven Disappeared from Route 120 Bridge
-0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
-0699	s	Steven and Lati@s Disappeared from Route 118
-0789	s	Root Fossil Disappeared from Route 111
-0790	s	Claw Fossil Disappeared from Route 111
-0927	r	Voltorb (1) Disappeared from New Mauville
-0928	r	Voltorb (2) Disappeared from New Mauville
-0929	r	Voltorb (3) Disappeared from New Mauville
-0930	r	Voltorb (4) Disappeared from New Mauville
-1044	r	(OR) Electrode (1) Disappeared from Team Magma Hideout
-1045	r	(OR) Electrode (2) Disappeared from Team Magma Hideout
-1042	r	(AS) Electrode (1) Disappeared from Team Aqua Hideout
-1043	r	(AS) Electrode (2) Disappeared from Team Aqua Hideout
-0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
-0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
-0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
-0506	r	Invisible Kecleon Disappeared (Route 120, Stairs)
-0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
-0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
-0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
+0301	s	打敗原始固拉多/蓋歐卡(劇情事件)
+2720	s	進入名人堂
+2729	s	EpisodeΔ 已完成
+0361	s	再次對戰四天王
+3023	s	可贈與朱紅色寶珠和靛藍色寶珠
+0148	s	遇見釜炎溫泉遊客
+0147	g	已領取 小果然的蛋
+0187	g	已領取 波克比的蛋
+0119	g	已領取 飄浮泡泡
+0249	g	已領取 鐵啞鈴
+0264	g	已領取 噴火駝
+0265	g	已領取 巨牙鯊
+0298	s	已領取 蒂安希進化石
+0308	s	已領取 懲戒之壺
+0310	g	已領取 城都御三家
+0349	g	已領取 神奧御三家
+0311	g	已領取 合眾御三家
+0166	g	在卡那茲市交換了幕下力士
+0167	g	在茵鬱市交換了向尾喵
+0168	g	在暮水鎮交換了太陽珊瑚
+0692	s	已擊敗 連勝家族
+0806	s	大吾從120號道路的木橋上消失了
+0808	g	培育家(換裝皮卡丘變身者)消失了
+0699	s	大吾和拉帝歐斯OR/拉帝亞斯AS 從118號道路上消失了
+0789	s	根狀化石從111號道路上消失了
+0790	s	爪子化石從111號道路上消失了
+0927	r	霹靂電球1從新紫堇消失了
+0928	r	霹靂電球2從新紫堇消失了
+0929	r	霹靂電球3從新紫堇消失了
+0930	r	霹靂電球4從新紫堇消失了
+1044	r	(OR) 1號電極從熔岩隊基地消失了
+1045	r	(OR) 2號電極從熔岩隊基地消失了
+1042	r	(AS) 1號電極從海洋隊基地消失了
+1043	r	(AS) 2號電極從海洋隊基地消失了
+0697	r	看不見的變隱龍消失了(擋住了茵鬱道館)
+0702	r	看不見的變隱龍消失了(120道路, 木橋)
+0504	r	看不見的變隱龍消失了(119道路, 瀑布上方)
+0506	r	看不見的變隱龍消失了(120道路, 樓梯)
+0508	r	看不見的變隱龍消失了(120道路, 長草迷宮左側)
+0510	r	看不見的變隱龍消失了(釜炎鎮)
+0512	r	看不見的變隱龍消失了(綠嶺宇宙中心)
 0302	r	已擊倒 花岩怪
 0303	r	已捕獲 花岩怪
-0500	s	Sealed Chamber Puzzle Braille Text Disappeared
-3007	s	Sealed Chamber Puzzle Completed
-3008	r	Regi Caves Unlocked
-0501	s	Desert Ruins Puzzle Braille Text Disappeared
-3004	s	Desert Ruins Puzzle Completed
-0502	s	Island Cave Puzzle Braille Text Disappeared
-3005	s	Island Cave Puzzle Completed
-0503	s	Ancient Tomb Puzzle Braille Text Disappeared
-3006	s	Ancient Tomb Puzzle Completed
-1034	s	Cave of Origin B5F Pathway Cleared
-2746	*	Unlocked Lanette's PC
-3009	*	Organize Boxes at top of PC menu
-2758	f	Visited Littleroot Town
-2833	f	Can Fly to Littleroot Town
-2759	f	Visited Oldale Town
-2834	f	Can Fly to Oldale Town
-2760	f	Visited Dewford Town
-2835	f	Can Fly to Dewford Town
-2761	f	Visited Lavaridge Town
-2836	f	Can Fly to Lavaridge Town
-2762	f	Visited Fallarbor Town
-2837	f	Can Fly to Fallarbor Town
-2763	f	Visited Verdanturf Town
-2838	f	Can Fly to Verdanturf Town
-2764	f	Visited Pacifidlog Town
-2839	f	Can Fly to Pacifidlog Town
-2765	f	Visited Petalburg City
-2840	f	Can Fly to Petalburg City
-2766	f	Visited Slateport City
-2841	f	Can Fly to Slateport City
-2767	f	Visited Mauville City
-2842	f	Can Fly to Mauville City
-2768	f	Visited Rustboro City
-2843	f	Can Fly to Rustboro City
-2769	f	Visited Fortree City
-2844	f	Can Fly to Fortree City
-2770	f	Visited Lilycove City
-2845	f	Can Fly to Lilycove City
-2771	f	Visited Mossdeep City
-2846	f	Can Fly to Mossdeep City
-2772	f	Visited Sootopolis City
-2847	f	Can Fly to Sootopolis City
-2773	f	Visited Ever Grande City
-2848	f	Can Fly to Ever Grande City
-2774	f	Visited Route 101
-2849	f	Can Fly to Route 101
-2775	f	Visited Route 102
-2850	f	Can Fly to Route 102
-2776	f	Visited Route 103
-2851	f	Can Fly to Route 103
-2777	f	Visited Route 104
-2852	f	Can Fly to Route 104
-2778	f	Visited Route 105
-2853	f	Can Fly to Route 105
-2779	f	Visited Route 106
-2854	f	Can Fly to Route 106
-2780	f	Visited Route 107
-2855	f	Can Fly to Route 107
-2781	f	Visited Route 108
-2856	f	Can Fly to Route 108
-2782	f	Visited Route 109
-2857	f	Can Fly to Route 109
-2783	f	Visited Route 110
-2858	f	Can Fly to Route 110
-2784	f	Visited Route 111
-2859	f	Can Fly to Route 111
-2785	f	Visited Route 112
-2860	f	Can Fly to Route 112
-2786	f	Visited Route 113
-2861	f	Can Fly to Route 113
-2787	f	Visited Route 114
-2862	f	Can Fly to Route 114
-2788	f	Visited Route 115
-2863	f	Can Fly to Route 115
-2789	f	Visited Route 116
-2864	f	Can Fly to Route 116
-2790	f	Visited Route 117
-2865	f	Can Fly to Route 117
-2791	f	Visited Route 118
-2866	f	Can Fly to Route 118
-2792	f	Visited Route 119
-2867	f	Can Fly to Route 119
-2793	f	Visited Route 120
-2868	f	Can Fly to Route 120
-2794	f	Visited Route 121
-2869	f	Can Fly to Route 121
-2795	f	Visited Route 122
-2870	f	Can Fly to Route 122
-2796	f	Visited Route 123
-2871	f	Can Fly to Route 123
-2797	f	Visited Route 124
-2872	f	Can Fly to Route 124
-2798	f	Visited Route 125
-2873	f	Can Fly to Route 125
-2799	f	Visited Route 126
-2874	f	Can Fly to Route 126
-2800	f	Visited Route 127
-2875	f	Can Fly to Route 127
-2801	f	Visited Route 128
-2876	f	Can Fly to Route 128
-2802	f	Visited Route 129
-2877	f	Can Fly to Route 129
-2803	f	Visited Route 130
-2878	f	Can Fly to Route 130
-2804	f	Visited Route 131
-2879	f	Can Fly to Route 131
-2805	f	Visited Route 132
-2880	f	Can Fly to Route 132
-2806	f	Visited Route 133
-2881	f	Can Fly to Route 133
-2807	f	Visited Route 134
-2882	f	Can Fly to Route 134
-2808	f	Visited Meteor Falls
-2883	f	Can Fly to Meteor Falls
-2809	f	Visited Rusturf Tunnel
-2884	f	Can Fly to Rusturf Tunnel
-2812	f	Visited Granite Cave
-2885	f	Can Fly to Granite Cave
-2813	f	Visited Petalburg Woods
-2886	f	Can Fly to Petalburg Woods
-2814	f	Visited Mt. Chimney
-2887	f	Can Fly to Mt. Chimney
-2815	f	Visited Jagged Pass
-2888	f	Can Fly to Jagged Pass
-2816	f	Visited Fiery Path
-2889	f	Can Fly to Fiery Path
-2817	f	Visited Mt. Pyre
-2890	f	Can Fly to Mt. Pyre
-2819	f	Visited Seafloor Cavern
-2820	f	Visited Cave of Origin
-2821	f	Visited Victory Road
-2891	f	Can Fly to Victory Road
-2822	f	Visited Shoal Cave
-2892	f	Can Fly to Shoal Cave
-2823	f	Visited New Mauville
-2893	f	Can Fly to New Mauville
-2824	f	Visited Sea Mauville
-2894	f	Can Fly to Sea Mauville
-2831	f	Visited Sky Pillar
-2895	f	Can Fly to Sky Pillar
-2984	f	Sky Pillar on the Map
-2897	f	Visited Pokémon League
-2901	f	Can Fly to Pokémon League
-2898	f	Visited Safari Zone
-2902	f	Can Fly to Safari Zone
-2899	f	Visited Southern Island
-2903	f	Discovered Southern Island (Story Event)
-2985	f	Southern Island on the Map
-2900	f	Visited Battle Resort
-3019	f	Can Fly to Battle Resort
-2986	f	Battle Resort on the Map
-2976	f	Visited Secret Islet
-2977	f	Visited Secret Shore
-2978	f	Visited Secret Meadow
-2979	f	Can Fly to Secret Islet
-2987	f	Discovered Secret Islet
-2980	f	Can Fly to Secret Shore
-2988	f	Discovered Secret Shore
-2981	f	Can Fly to Secret Meadow
-2989	f	Discovered Secret Meadow
-2982	f	(OR) Visited Team Magma Hideout
-2983	f	(AS) Visited Team Aqua Hideout
-2905	*	Extremely Harsh Sunlight in Eastern Hoenn
-2906	*	Heavy Rain in Eastern Hoenn
-3063	s	Had Village Sub Combo (Today)
-3064	s	Had Magnemite Croquette (Today)
-3065	s	Had Mauville Ramen Bowl (Today)
-3077	m	Current Battle Resort BGM: Victory Road
-3078	m	Current Battle Resort BGM: Secret Super Training
-3079	m	Current Battle Resort BGM: Hurry Along
-3080	m	Current Battle Resort BGM: Vs. Wally
-0443	s	Found Big Nugget in Trick House Prize Room
-1166	s	Found Yellow Shard Underwater (Route 107)
-1167	s	Found Flame Plate Underwater (Route 107)
-1168	s	Found Heart Scale (1) Underwater (Route 124)
-1170	s	Found Pearl Underwater (Route 124)
-1169	s	Found Heart Scale (2) Underwater (Route 124)
-1174	s	Found Green Shard Underwater (Route 124)
-1175	s	Found Sky Plate Underwater (Route 124)
-1171	s	Found Big Pearl Underwater (Route 124)
-1172	s	Found Calcium Underwater (Route 124)
-1173	s	Found Carbos Underwater (Route 124)
-1177	s	Found Ultra Ball Underwater (Route 126)
-1176	s	Found Heart Scale Underwater (Route 126)
-1184	s	Found Mind Plate Underwater (Route 126)
-1178	s	Found Big Pearl Underwater (Route 126)
-1179	s	Found Blue Shard Underwater (Route 126)
-1180	s	Found Pearl Underwater (Route 126)
-1183	s	Found Yellow Shard Underwater (Route 126)
-1181	s	Found Stardust Underwater (Route 126)
-1182	s	Found Iron Underwater (Route 126)
-1187	s	Found Red Shard Underwater (Route 126)
-1188	s	Found Heart Scale Underwater (Route 127)
-1191	s	Found Dread Plate Underwater (Route 127)
-1190	s	Found Spooky Plate Underwater (Route 127)
-1185	s	Found HP Up Underwater (Route 127)
-1186	s	Found Star Piece Underwater (Route 127)
-1189	s	Found Insect Plate Underwater (Route 127)
-1194	s	Found Stone Plate Underwater (Route 128)
-1195	s	Found Draco Plate Underwater (Route 128)
-1196	s	Found Pixie Plate Underwater (Route 128)
-1197	s	Found Adamant Orb Underwater (Route 128)
-1198	s	Found Blue Shard Underwater (Route 129)
-1192	s	Found Protein Underwater (Route 128)
-1193	s	Found Pearl Underwater (Route 128)
-1202	s	Found Lustrous Orb Underwater (Route 129)
-1199	s	Found Splash Plate Underwater (Route 129)
-1200	s	Found Zap Plate Underwater (Route 129)
-1201	s	Found Toxic Plate Underwater (Route 129)
-1203	s	Found Green Shard Underwater (Route 130)
-1206	s	Found Fist Plate Underwater (Route 130)
-1205	s	Found Icicle Plate Underwater (Route 130)
-1207	s	Found Earth Plate Underwater (Route 130)
-1204	s	Found Meadow Plate Underwater (Route 130)
-1208	s	Found Griseous Orb Underwater (Route 130)
-1935	t	Had Youngster Calvin 1st Rematch (Route 102)
-1936	t	Had Youngster Calvin 2nd Rematch (Route 102)
-1937	t	Had Youngster Calvin 3rd Rematch (Route 102)
-1938	t	Had Youngster Calvin 4th Rematch (Route 102)
-2391	t	Had Poké Fan Miguel 1st Rematch (Route 103)
-2392	t	Had Poké Fan Miguel 2nd Rematch (Route 103)
-2393	t	Had Poké Fan Miguel 3rd Rematch (Route 103)
-2394	t	Had Poké Fan Miguel 4th Rematch (Route 103)
-1795	t	Had Twins Amy & Liv 1st Rematch (Route 103)
-2108	t	Had Twins Amy & Liv 2nd Rematch (Route 103)
-2336	t	Had Twins Amy & Liv 3rd Rematch (Route 103)
-2337	t	Had Twins Amy & Liv 4th Rematch (Route 103)
-1939	t	Had Lass Haley 1st Rematch (Route 104)
-1940	t	Had Lass Haley 2nd Rematch (Route 104)
-1941	t	Had Lass Haley 3rd Rematch (Route 104)
-1942	t	Had Lass Haley 4th Rematch (Route 104)
-2395	t	Had Lady Cindy 1st Rematch (Route 104)
-2396	t	Had Lady Cindy 2nd Rematch (Route 104)
-2397	t	Had Lady Cindy 3rd Rematch (Route 104)
-2299	t	Had Lady Cindy 4th Rematch (Route 104)
-2398	t	Had Rich Boy Winston 1st Rematch (Route 104)
-2399	t	Had Rich Boy Winston 2nd Rematch (Route 104)
-2400	t	Had Rich Boy Winston 3rd Rematch (Route 104)
-2300	t	Had Rich Boy Winston 4th Rematch (Route 104)
-2217	t	Had Bug Catcher James 1st Rematch (Petalburg Woods)
-2218	t	Had Bug Catcher James 2nd Rematch (Petalburg Woods)
-2219	t	Had Bug Catcher James 3rd Rematch (Petalburg Woods)
-2220	t	Had Bug Catcher James 4th Rematch (Petalburg Woods)
-2465	t	Had Backpacker Graeme 1st Rematch (Route 106)
-2466	t	Had Backpacker Graeme 2nd Rematch (Route 106)
-2467	t	Had Backpacker Graeme 3rd Rematch (Route 106)
-2468	t	Had Backpacker Graeme 4th Rematch (Route 106)
-2109	t	Had Fisherman Elliot 1st Rematch (Route 106)
-2110	t	Had Fisherman Elliot 2nd Rematch (Route 106)
-2111	t	Had Fisherman Elliot 3rd Rematch (Route 106)
-2112	t	Had Fisherman Elliot 4th Rematch (Route 106)
-2251	t	Had Swimmer Tony 1st Rematch (Route 107)
-2252	t	Had Swimmer Tony 2nd Rematch (Route 107)
-2253	t	Had Swimmer Tony 3rd Rematch (Route 107)
-2254	t	Had Swimmer Tony 4th Rematch (Route 107)
-2550	t	Had Ace Trainer Neville 1st Rematch (Route 108)
-2551	t	Had Ace Trainer Neville 2nd Rematch (Route 108)
-2552	t	Had Ace Trainer Neville 3rd Rematch (Route 108)
-2553	t	Had Ace Trainer Neville 4th Rematch (Route 108)
-2522	t	Had Mysterious Sisters Scall & Ion 1st Rematch (Sea Mauville - Illegal)
-2523	t	Had Mysterious Sisters Scall & Ion 2nd Rematch (Sea Mauville)
-2524	t	Had Mysterious Sisters Scall & Ion 3rd Rematch (Sea Mauville)
-2525	t	Had Mysterious Sisters Scall & Ion 4th Rematch (Sea Mauville)
-2205	t	Had Young Couple Lois & Hal 1st Rematch (Sea Mauville)
-2206	t	Had Young Couple Lois & Hal 2nd Rematch (Sea Mauville)
-2207	t	Had Young Couple Lois & Hal 3rd Rematch (Sea Mauville)
-2208	t	Had Young Couple Lois & Hal 4th Rematch (Sea Mauville)
-2559	t	Had Ace Trainer Portia 1st Rematch (Route 109)
-2560	t	Had Ace Trainer Portia 2nd Rematch (Route 109)
-2561	t	Had Ace Trainer Portia 3rd Rematch (Route 109)
-2562	t	Had Ace Trainer Portia 4th Rematch (Route 109)
-2338	t	Had Tuber Ricky 1st Rematch (Route 109)
-2339	t	Had Tuber Ricky 2nd Rematch (Route 109)
-2340	t	Had Tuber Ricky 3rd Rematch (Route 109)
-2341	t	Had Tuber Ricky 4th Rematch (Route 109)
-2113	t	Had Tuber Lola 1st Rematch (Route 109)
-2114	t	Had Tuber Lola 2nd Rematch (Route 109)
-2115	t	Had Tuber Lola 3rd Rematch (Route 109)
-2116	t	Had Tuber Lola 4th Rematch (Route 109)
-2125	t	Had Collector Edwin 1st Rematch (Route 110)
-2126	t	Had Collector Edwin 2nd Rematch (Route 110)
-2127	t	Had Collector Edwin 3rd Rematch (Route 110)
-2128	t	Had Collector Edwin 4th Rematch (Route 110)
-2401	t	Had Poké Fan Isabel 1st Rematch (Route 110)
-2402	t	Had Poké Fan Isabel 2nd Rematch (Route 110)
-2403	t	Had Poké Fan Isabel 3rd Rematch (Route 110)
-2404	t	Had Poké Fan Isabel 4th Rematch (Route 110)
-2117	t	Had Triathlete Benjamin 1st Rematch (Route 110)
-2118	t	Had Triathlete Benjamin 2nd Rematch (Route 110)
-2119	t	Had Triathlete Benjamin 3rd Rematch (Route 110)
-2120	t	Had Triathlete Benjamin 4th Rematch (Route 110)
-2342	t	Had Ruin Maniac Dusty 1st Rematch (Route 111)
-2343	t	Had Ruin Maniac Dusty 2nd Rematch (Route 111)
-2344	t	Had Ruin Maniac Dusty 3rd Rematch (Route 111)
-2345	t	Had Ruin Maniac Dusty 4th Rematch (Route 111)
-2129	t	Had Ace Trainer Wilton 1st Rematch (Route 111)
-2130	t	Had Ace Trainer Wilton 2nd Rematch (Route 111)
-2131	t	Had Ace Trainer Wilton 3rd Rematch (Route 111)
-2132	t	Had Ace Trainer Wilton 4th Rematch (Route 111)
-2133	t	Had Ace Trainer Brooke 1st Rematch (Route 111)
-2134	t	Had Ace Trainer Brooke 2nd Rematch (Route 111)
-2135	t	Had Ace Trainer Brooke 3rd Rematch (Route 111)
-2136	t	Had Ace Trainer Brooke 4th Rematch (Route 111)
-2137	t	Had Hiker Trent 1st Rematch (Route 112)
-2138	t	Had Hiker Trent 2nd Rematch (Route 112)
-2139	t	Had Hiker Trent 3rd Rematch (Route 112)
-2140	t	Had Hiker Trent 4th Rematch (Route 112)
-2209	t	Had Camper Ethan 1st Rematch (Jagged Pass)
-2210	t	Had Camper Ethan 2nd Rematch (Jagged Pass)
-2211	t	Had Camper Ethan 3rd Rematch (Jagged Pass)
-2212	t	Had Camper Ethan 4th Rematch (Jagged Pass)
-2197	t	Had Expert Shelby 1st Rematch (Jagged Pass)
-2198	t	Had Expert Shelby 2nd Rematch (Jagged Pass)
-2199	t	Had Expert Shelby 3rd Rematch (Jagged Pass)
-2200	t	Had Expert Shelby 4th Rematch (Jagged Pass)
-2213	t	Had Picnicker Diana 1st Rematch (Jagged Pass)
-2214	t	Had Picnicker Diana 2nd Rematch (Jagged Pass)
-2215	t	Had Picnicker Diana 3rd Rematch (Jagged Pass)
-2216	t	Had Picnicker Diana 4th Rematch (Jagged Pass)
-2359	t	Had Parasol Lady Madeline 1st Rematch (Route 113)
-2360	t	Had Parasol Lady Madeline 2nd Rematch (Route 113)
-2361	t	Had Parasol Lady Madeline 3rd Rematch (Route 113)
-2362	t	Had Parasol Lady Madeline 4th Rematch (Route 113)
-2654	t	Had Ninja Boy Lao 1st Rematch (Route 113)
-2655	t	Had Ninja Boy Lao 2nd Rematch (Route 113)
-2656	t	Had Ninja Boy Lao 3rd Rematch (Route 113)
-2657	t	Had Ninja Boy Lao 4th Rematch (Route 113)
-2145	t	Had Kindler Bernie 1st Rematch (Route 114)
-2146	t	Had Kindler Bernie 2nd Rematch (Route 114)
-2147	t	Had Kindler Bernie 3rd Rematch (Route 114)
-2148	t	Had Kindler Bernie 4th Rematch (Route 114)
-2141	t	Had Poké Maniac Steve 1st Rematch (Route 114)
-2142	t	Had Poké Maniac Steve 2nd Rematch (Route 114)
-2143	t	Had Poké Maniac Steve 3rd Rematch (Route 114)
-2144	t	Had Poké Maniac Steve 4th Rematch (Route 114)
-2221	t	Had Dragon Tamer Nicolas Rematch (Meteor Falls)
-2375	t	Had Old Couple John & Jay Rematch (Meteor Falls)
-2149	t	Had Battle Girl Cyndy 1st Rematch (Route 115)
-2150	t	Had Battle Girl Cyndy 2nd Rematch (Route 115)
-2151	t	Had Battle Girl Cyndy 3rd Rematch (Route 115)
-2152	t	Had Battle Girl Cyndy 4th Rematch (Route 115)
-2346	t	Had Expert Timothy 1st Rematch (Route 115)
-2347	t	Had Expert Timothy 2nd Rematch (Route 115)
-2348	t	Had Expert Timothy 3rd Rematch (Route 115)
-2349	t	Had Expert Timothy 4th Rematch (Route 115)
-1943	t	Had Black Belt Nob 1st Rematch (Route 115)
-1944	t	Had Black Belt Nob 2nd Rematch (Route 115)
-1945	t	Had Black Belt Nob 3rd Rematch (Route 115)
-1983	t	Had Black Belt Nob 4th Rematch (Route 115)
-2153	t	Had Schoolkid Jerry 1st Rematch (Route 116)
-2154	t	Had Schoolkid Jerry 2nd Rematch (Route 116)
-2155	t	Had Schoolkid Jerry 3rd Rematch (Route 116)
-2156	t	Had Schoolkid Jerry 4th Rematch (Route 116)
-2157	t	Had Schoolkid Karen 1st Rematch (Route 116)
-2158	t	Had Schoolkid Karen 2nd Rematch (Route 116)
-2159	t	Had Schoolkid Karen 3rd Rematch (Route 116)
-2160	t	Had Schoolkid Karen 4th Rematch (Route 116)
-2234	t	Had Triathlete Dylan 1st Rematch (Route 117)
-2235	t	Had Triathlete Dylan 2nd Rematch (Route 117)
-2236	t	Had Triathlete Dylan 3rd Rematch (Route 117)
-2237	t	Had Triathlete Dylan 4th Rematch (Route 117)
-2263	t	Had Pokémon Breeder Isaac 1st Rematch (Route 117)
-2264	t	Had Pokémon Breeder Isaac 2nd Rematch (Route 117)
-2265	t	Had Pokémon Breeder Isaac 3rd Rematch (Route 117)
-2266	t	Had Pokémon Breeder Isaac 4th Rematch (Route 117)
-2259	t	Had Pokémon Breeder Lydia 1st Rematch (Route 117)
-2260	t	Had Pokémon Breeder Lydia 2nd Rematch (Route 117)
-2261	t	Had Pokémon Breeder Lydia 3rd Rematch (Route 117)
-2262	t	Had Pokémon Breeder Lydia 4th Rematch (Route 117)
-2363	t	Had Teammates Anna & Meg 1st Rematch (Route 117)
-2364	t	Had Teammates Anna & Meg 2nd Rematch (Route 117)
-2365	t	Had Teammates Anna & Meg 3rd Rematch (Route 117)
-2366	t	Had Teammates Anna & Meg 4th Rematch (Route 117)
-2161	t	Had Aroma Lady Rose 1st Rematch (Route 118)
-2162	t	Had Aroma Lady Rose 2nd Rematch (Route 118)
-2163	t	Had Aroma Lady Rose 3rd Rematch (Route 118)
-2164	t	Had Aroma Lady Rose 4th Rematch (Route 118)
-2165	t	Had Guitarist Dalton 1st Rematch (Route 118)
-2166	t	Had Guitarist Dalton 2nd Rematch (Route 118)
-2167	t	Had Guitarist Dalton 3rd Rematch (Route 118)
-2168	t	Had Guitarist Dalton 4th Rematch (Route 118)
-2473	t	Had Brains & Brawn Jael & Kael 1st Rematch(Route 119)
-2474	t	Had Brains & Brawn Jael & Kael 2nd Rematch(Route 119)
-2475	t	Had Brains & Brawn Jael & Kael 3rd Rematch(Route 119)
-2476	t	Had Brains & Brawn Jael & Kael 4th Rematch(Route 119)
-2169	t	Had Pokémon Ranger Jackson 1st Rematch (Route 119)
-2170	t	Had Pokémon Ranger Jackson 2nd Rematch (Route 119)
-2171	t	Had Pokémon Ranger Jackson 3rd Rematch (Route 119)
-2172	t	Had Pokémon Ranger Jackson 4th Rematch (Route 119)
-2173	t	Had Pokémon Ranger Catherine 1st Rematch (Route 119)
-2174	t	Had Pokémon Ranger Catherine 2nd Rematch (Route 119)
-2175	t	Had Pokémon Ranger Catherine 3rd Rematch (Route 119)
-2176	t	Had Pokémon Ranger Catherine 4th Rematch (Route 119)
-2177	t	Had Bird Keeper Robert 1st Rematch (Route 120)
-2178	t	Had Bird Keeper Robert 2nd Rematch (Route 120)
-2179	t	Had Bird Keeper Robert 3rd Rematch (Route 120)
-2181	t	Had Bug Maniac Brandon 1st Rematch (Route 120)
-2182	t	Had Bug Maniac Brandon 2nd Rematch (Route 120)
-2183	t	Had Bug Maniac Brandon 3rd Rematch (Route 120)
-2534	t	Had Street Thug Gomez 1st Rematch (Route 120)
-2535	t	Had Street Thug Gomez 2nd Rematch (Route 120)
-2536	t	Had Street Thug Gomez 3rd Rematch (Route 120)
-2542	t	Had Delinquent Sharlene 1st Rematch (Route 120)
-2543	t	Had Delinquent Sharlene 2nd Rematch (Route 120)
-2544	t	Had Delinquent Sharlene 3rd Rematch (Route 120)
-2184	t	Had Gentleman Walter 1st Rematch (Route 121)
-2350	t	Had Gentleman Walter 2nd Rematch (Route 121)
-2351	t	Had Gentleman Walter 3rd Rematch (Route 121)
-2367	t	Had Beauty Jessica 1st Rematch (Route 121)
-2368	t	Had Beauty Jessica 2nd Rematch (Route 121)
-2369	t	Had Beauty Jessica 3rd Rematch (Route 121)
-2510	t	Had Fairy Tale Girl Momo 1st Rematch (Mt. Pyre)
-2511	t	Had Fairy Tale Girl Momo 2nd Rematch (Mt. Pyre)
-2512	t	Had Fairy Tale Girl Momo 3rd Rematch (Mt. Pyre)
-2201	t	Had Hex Maniac Valerie 1st Rematch (Mt. Pyre)
-2202	t	Had Hex Maniac Valerie 2nd Rematch (Mt. Pyre)
-2203	t	Had Hex Maniac Valerie 3rd Rematch (Mt. Pyre)
-2185	t	Had Psychic Cameron 1st Rematch (Route 123)
-2186	t	Had Psychic Cameron 2nd Rematch (Route 123)
-2187	t	Had Psychic Cameron 3rd Rematch (Route 123)
-2286	t	Had Sis & Bro Rita & Sam 1st Rematch (Route 124)
-2287	t	Had Sis & Bro Rita & Sam 2nd Rematch (Route 124)
-2288	t	Had Sis & Bro Rita & Sam 3rd Rematch (Route 124)
-2247	t	Had Swimmer Jenny 1st Rematch (Route 124)
-2248	t	Had Swimmer Jenny 2nd Rematch (Route 124)
-2486	t	Had Scuba Diver Kylan 1st Rematch (Route 124)
-2487	t	Had Scuba Diver Kylan 2nd Rematch (Route 124)
-2499	t	Had Free Diver Arzu 1st Rematch (Route 124)
-2500	t	Had Free Diver Arzu 2nd Rematch (Route 124)
-2193	t	Had Sailor Ernest 1st Rematch (Route 125)
-2194	t	Had Sailor Ernest 2nd Rematch (Route 125)
-2224	t	Had Triathlete Isaiah 1st Rematch (Route 128)
-2225	t	Had Triathlete Isaiah 2nd Rematch (Route 128)
-2226	t	Had Triathlete Isaiah 3rd Rematch (Route 128)
-2571	t	Had Ace Duo Jude & Rory Rematch (Victory Road)
-1914	t	Had Gabby and Ty 1st Rematch
-1915	t	Had Gabby and Ty 2nd Rematch
-1916	t	Had Gabby and Ty 3rd Rematch
-1917	t	Had Gabby and Ty 4th Rematch
-2322	t	Had Gabby and Ty 5th Rematch
-2684	t	Had Wally 1st Rematch (Battle House)
-2686	t	Had Wally 2nd Rematch (Battle House)
+0500	s	布告石室言語之廳解密盲文消失了
+3007	s	布告石室關鍵之廳解密完成
+3008	r	已解鎖 雷吉洞穴
+0501	s	沙漠遺跡解密盲文消失了
+3004	s	沙漠遺跡解密完成
+0502	s	小島洞穴解密盲文消失了
+3005	s	小島洞穴解密完成
+0503	s	古代墳墓解密盲文消失了
+3006	s	古代墳墓解密完成
+1034	s	覺醒神殿B5F最深處通道已清理
+2746	*	已解鎖 真由美的電腦
+3009	*	管理電腦盒子菜單頂部
+2758	f	已到達：未白鎮
+2833	f	飛翔目的地已開啟：未白鎮
+2759	f	已到達：古玫鎮
+2834	f	飛翔目的地已開啟：古玫鎮
+2760	f	已到達：武鬥鎮
+2835	f	飛翔目的地已開啟：武鬥鎮
+2761	f	已到達：釜炎鎮
+2836	f	飛翔目的地已開啟：釜炎鎮
+2762	f	已到達：秋葉鎮
+2837	f	飛翔目的地已開啟：秋葉鎮
+2763	f	已到達：綠茵鎮
+2838	f	飛翔目的地已開啟：綠茵鎮
+2764	f	已到達：暮水鎮
+2839	f	飛翔目的地已開啟：暮水鎮
+2765	f	已到達：橙華市
+2840	f	飛翔目的地已開啟：橙華市
+2766	f	已到達：凱那市
+2841	f	飛翔目的地已開啟：凱那市
+2767	f	已到達：紫堇市
+2842	f	飛翔目的地已開啟：紫堇市
+2768	f	已到達：卡那茲市
+2843	f	飛翔目的地已開啟：卡那茲市
+2769	f	已到達：茵郁市
+2844	f	飛翔目的地已開啟：茵郁市
+2770	f	已到達：水靜市
+2845	f	飛翔目的地已開啟：水靜市
+2771	f	已到達：綠嶺市
+2846	f	飛翔目的地已開啟：綠嶺市
+2772	f	已到達：琉璃市
+2847	f	飛翔目的地已開啟：琉璃市
+2773	f	已到達：彩悠市
+2848	f	飛翔目的地已開啟：彩悠市
+2774	f	已到達：101號道路(豐緣)
+2849	f	飛翔目的地已開啟：101號道路(豐緣)
+2775	f	已到達：102號道路(豐緣)
+2850	f	飛翔目的地已開啟：102號道路(豐緣)
+2776	f	已到達：103號道路(豐緣)
+2851	f	飛翔目的地已開啟：103號道路(豐緣)
+2777	f	已到達：104號道路(豐緣)
+2852	f	飛翔目的地已開啟：104號道路(豐緣)
+2778	f	已到達：105號水路(豐緣)
+2853	f	飛翔目的地已開啟：105號水路(豐緣)
+2779	f	已到達：106號水路(豐緣)
+2854	f	飛翔目的地已開啟：106號水路(豐緣)
+2780	f	已到達：107號水路(豐緣)
+2855	f	飛翔目的地已開啟：107號水路(豐緣)
+2781	f	已到達：108號水路(豐緣)
+2856	f	飛翔目的地已開啟：108號水路(豐緣)
+2782	f	已到達：109號水路(豐緣)
+2857	f	飛翔目的地已開啟：109號水路(豐緣)
+2783	f	已到達：110號道路(豐緣)
+2858	f	飛翔目的地已開啟：110號道路(豐緣)
+2784	f	已到達：111號道路(豐緣)
+2859	f	飛翔目的地已開啟：111號道路(豐緣)
+2785	f	已到達：112號道路(豐緣)
+2860	f	飛翔目的地已開啟：112號道路(豐緣)
+2786	f	已到達：113號道路(豐緣)
+2861	f	飛翔目的地已開啟：113號道路(豐緣)
+2787	f	已到達：114號道路(豐緣)
+2862	f	飛翔目的地已開啟：114號道路(豐緣)
+2788	f	已到達：115號道路(豐緣)
+2863	f	飛翔目的地已開啟：115號道路(豐緣)
+2789	f	已到達：116號道路(豐緣)
+2864	f	飛翔目的地已開啟：116號道路(豐緣)
+2790	f	已到達：117號道路(豐緣)
+2865	f	飛翔目的地已開啟：117號道路(豐緣)
+2791	f	已到達：118號道路(豐緣)
+2866	f	飛翔目的地已開啟：118號道路(豐緣)
+2792	f	已到達：119號道路(豐緣)
+2867	f	飛翔目的地已開啟：119號道路(豐緣)
+2793	f	已到達：120號道路(豐緣)
+2868	f	飛翔目的地已開啟：120號道路(豐緣)
+2794	f	已到達：121號道路(豐緣)
+2869	f	飛翔目的地已開啟：121號道路(豐緣)
+2795	f	已到達：122號水路(豐緣)
+2870	f	飛翔目的地已開啟：122號水路(豐緣)
+2796	f	已到達：123號道路(豐緣)
+2871	f	飛翔目的地已開啟：123號道路(豐緣)
+2797	f	已到達：124號水路(豐緣)
+2872	f	飛翔目的地已開啟：124號水路(豐緣)
+2798	f	已到達：125號水路(豐緣)
+2873	f	飛翔目的地已開啟：125號水路(豐緣)
+2799	f	已到達：126號水路(豐緣)
+2874	f	飛翔目的地已開啟：126號水路(豐緣)
+2800	f	已到達：127號水路(豐緣)
+2875	f	飛翔目的地已開啟：127號水路(豐緣)
+2801	f	已到達：128號水路(豐緣)
+2876	f	飛翔目的地已開啟：128號水路(豐緣)
+2802	f	已到達：129號水路(豐緣)
+2877	f	飛翔目的地已開啟：129號水路(豐緣)
+2803	f	已到達：130號水路(豐緣)
+2878	f	飛翔目的地已開啟：130號水路(豐緣)
+2804	f	已到達：131號水路(豐緣)
+2879	f	飛翔目的地已開啟：131號水路(豐緣)
+2805	f	已到達：132號水路(豐緣)
+2880	f	飛翔目的地已開啟：132號水路(豐緣)
+2806	f	已到達：133號水路(豐緣)
+2881	f	飛翔目的地已開啟：133號水路(豐緣)
+2807	f	已到達：134號水路(豐緯)
+2882	f	飛翔目的地已開啟：134號水路(豐緣)
+2808	f	已到达：流星瀑布
+2883	f	飞翔目的地已开启：流星瀑布
+2809	f	已到达：卡绿隧道
+2884	f	飞翔目的地已开启：卡绿隧道
+2812	f	已到达：石之洞窟
+2885	f	飞翔目的地已开启：石之洞窟
+2813	f	已到达：橙华森林
+2886	f	飞翔目的地已开启：橙华森林
+2814	f	已到达：烟囱山
+2887	f	飞翔目的地已开启：烟囱山
+2815	f	已到达：凹凸山道
+2888	f	飞翔目的地已开启：凹凸山道
+2816	f	已到达：烈焰小径
+2889	f	飞翔目的地已开启：烈焰小径
+2817	f	已到达：送神山
+2890	f	飞翔目的地已开启：送神山
+2819	f	已到达：海底洞窟
+2820	f	已到达：觉醒神殿
+2821	f	已到达：冠军之路
+2891	f	飞翔目的地已开启：冠军之路
+2822	f	已到达：浅滩洞穴
+2892	f	飞翔目的地已开启：浅滩洞穴
+2823	f	已到达：新紫堇
+2893	f	飞翔目的地已开启：新紫堇
+2824	f	已到达：海紫堇
+2894	f	飞翔目的地已开启：海紫堇
+2831	f	已到达：天空之柱
+2895	f	飞翔目的地已开启：天空之柱
+2984	f	天空之柱在地图上显示
+2897	f	已到达：宝可梦联盟大门
+2901	f	飞翔目的地已开启：宝可梦联盟大门
+2898	f	已到达：狩猎地带
+2902	f	飞翔目的地已开启：狩猎地带
+2899	f	已到达：南方孤岛
+2903	f	发现南方孤岛(剧情事件)
+2985	f	南方孤岛在地图上显示
+2900	f	已到达：对战度假地
+3019	f	飞翔目的地已开启：对战度假地
+2986	f	对战度假地在地图上显示
+2976	f	已到达：秘密小岛
+2977	f	已到达：秘密海滨
+2978	f	已到达：秘密花圃
+2979	f	飞翔目的地已开启：秘密小岛
+2987	f	发现秘密小岛
+2980	f	飞翔目的地已开启：秘密海滨
+2988	f	发现秘密海滨
+2981	f	飞翔目的地已开启：秘密花圃
+2989	f	发现秘密花圃
+2982	f	(OR)到达熔岩队基地
+2983	f	(AS)到达海洋队基地
+2905	*	丰缘东部大晴天
+2906	*	丰缘东部降雨
+3063	s	紫堇美食广场村庄三明治组合 单打对战(当天)
+3064	s	紫堇美食广场小磁怪烧 双打对战(当天)
+3065	s	紫堇美食广场紫堇什锦面 三打对战(当天)
+3077	m	当前对战度假地BGM：冠军之路
+3078	m	当前对战度假地BGM：超级训练
+3079	m	当前对战度假地BGM：一起同行
+3080	m	当前对战度假地BGM：Vs满充
+0443	s	在戏法屋奖励室发现巨大金珠
+1166	s	在水下发现黄色碎片 (107号水路)
+1167	s	在水下发现火球石板 (107号水路)
+1168	s	在水下发现心之鳞片(1) (124号水路)
+1170	s	在水下发现珍珠 (124号水路)
+1169	s	在水下发现心之鳞片(2) (124号水路)
+1175	s	在水下发现蓝天石板 (124号水路)
+1171	s	在水下发现大珍珠 (124号水路)
+1172	s	在水下发现特攻增强剂 (124号水路)
+1173	s	在水下发现速度增强剂 (124号水路)
+1174	s	在水下发现绿色碎片 (124号水路)
+1177	s	在水下发现高级球 (126号水路)
+1176	s	在水下发现心之鳞片 (126号水路)
+1184	s	在水下发现神奇石板 (126号水路)
+1178	s	在水下发现大珍珠 (126号水路)
+1179	s	在水下发现蓝色碎片 (126号水路)
+1180	s	在水下发现珍珠 (126号水路)
+1183	s	在水下发现黄色碎片 (126号水路)
+1181	s	在水下发现星星沙子 (126号水路)
+1182	s	在水下发现防御增强剂 (126号水路)
+1187	s	在水下发现红色碎片 (126号水路)
+1188	s	在水下发现心之鳞片 (127号水路)
+1191	s	在水下发现恶颜石板 (127号水路)
+1190	s	在水下发现妖怪石板 (127号水路)
+1185	s	在水下发现HP增强剂 (127号水路)
+1186	s	在水下发现星星碎片 (127号水路)
+1189	s	在水下发现玉虫石板 (127号水路)
+1194	s	在水下发现岩石石板 (128号水路)
+1195	s	在水下发现龙之石板 (128号水路)
+1196	s	在水下发现妖精石板 (128号水路)
+1197	s	在水下发现金刚宝珠 (128号水路)
+1198	s	在水下发现蓝色碎片 (129号水路)
+1192	s	在水下发现攻击增强剂 (128号水路)
+1193	s	在水下发现珍珠 (128号水路)
+1202	s	在水下发现白玉宝珠 (129号水路)
+1199	s	在水下发现水滴石板 (129号水路)
+1200	s	在水下发现雷电石板 (129号水路)
+1201	s	在水下发现剧毒石板 (129号水路)
+1203	s	在水下发现绿色碎片 (130号水路)
+1206	s	在水下发现拳头石板 (130号水路)
+1205	s	在水下发现冰柱石板 (130号水路)
+1207	s	在水下发现大地石板 (130号水路)
+1204	s	在水下发现碧绿石板 (130号水路)
+1208	s	在水下发现白金宝珠 (130号水路)
+1935	t	与短裤小子 和树第一次再战
+1936	t	与短裤小子 和树第二次再战
+1937	t	与短裤小子 和树第三次再战
+1938	t	与短裤小子 和树第四次再战
+2391	t	与发烧友俱乐部 光晴第一次再战
+2392	t	与发烧友俱乐部 光晴第二次再战
+2393	t	与发烧友俱乐部 光晴第三次再战
+2394	t	与发烧友俱乐部 光晴第四次再战
+1795	t	与双胞胎 久美和留美第一次再战
+2108	t	与双胞胎 久美和留美第二次再战
+2336	t	与双胞胎 久美和留美第三次再战
+2337	t	与双胞胎 久美和留美第四次再战
+1939	t	与迷你裙 真希第一次再战
+1940	t	与迷你裙 真希第二次再战
+1941	t	与迷你裙 真希第三次再战
+1942	t	与迷你裙 真希第四次再战
+2395	t	与千金小姐 丽华第一次再战
+2396	t	与千金小姐 丽华第二次再战
+2397	t	与千金小姐 丽华第三次再战
+2299	t	与千金小姐 丽华第四次再战
+2398	t	与富家少爷 小贡第一次再战
+2399	t	与富家少爷 小贡第二次再战
+2400	t	与富家少爷 小贡第三次再战
+2300	t	与富家少爷 小贡第四次再战
+2217	t	与捕虫少年 三树也第一次再战
+2218	t	与捕虫少年 三树也第二次再战
+2219	t	与捕虫少年 三树也第三次再战
+2220	t	与捕虫少年 三树也第四次再战
+2465	t	与背包客 雄大也第一次再战
+2466	t	与背包客 雄大也第二次再战
+2467	t	与背包客 雄大也第三次再战
+2468	t	与背包客 雄大也第四次再战
+2109	t	与垂钓者 明彦也第一次再战
+2110	t	与垂钓者 明彦也第二次再战
+2111	t	与垂钓者 明彦也第三次再战
+2112	t	与垂钓者 明彦也第四次再战
+2251	t	与泳裤小伙子 英一第一次再战
+2252	t	与泳裤小伙子 英一第二次再战
+2253	t	与泳裤小伙子 英一第三次再战
+2254	t	与泳裤小伙子 英一第四次再战
+2550	t	与精英训练家 雾雄第一次再战
+2551	t	与精英训练家 雾雄第二次再战
+2552	t	与精英训练家 雾雄第三次再战
+2553	t	与精英训练家 雾雄第四次再战
+2522	t	与不可思议姐妹 宁芙和小仙第一次再战 (非法的)
+2523	t	与不可思议姐妹 宁芙和小仙第二次再战
+2524	t	与不可思议姐妹 宁芙和小仙第三次再战
+2525	t	与不可思议姐妹 宁芙和小仙第四次再战
+2205	t	与热恋情侣 彩和文第一次再战
+2206	t	与热恋情侣 彩和文第二次再战
+2207	t	与热恋情侣 彩和文第三次再战
+2208	t	与热恋情侣 彩和文第四次再战
+2559	t	与精英训练家 麻美第一次再战
+2560	t	与精英训练家 麻美第二次再战
+2561	t	与精英训练家 麻美第三次再战
+2562	t	与精英训练家 麻美第四次再战
+2338	t	与泳圈男孩 裕太第一次再战
+2339	t	与泳圈男孩 裕太第二次再战
+2340	t	与泳圈男孩 裕太第三次再战
+2341	t	与泳圈男孩 裕太第四次再战
+2113	t	与泳圈女孩 亚由美第一次再战
+2114	t	与泳圈女孩 亚由美第二次再战
+2115	t	与泳圈女孩 亚由美第三次再战
+2116	t	与泳圈女孩 亚由美第四次再战
+2125	t	与宝可梦收藏家 元树第一次再战
+2126	t	与宝可梦收藏家 元树第二次再战
+2127	t	与宝可梦收藏家 元树第三次再战
+2128	t	与宝可梦收藏家 元树第四次再战
+2401	t	与发烧友俱乐部 雅子第一次再战
+2402	t	与发烧友俱乐部 雅子第二次再战
+2403	t	与发烧友俱乐部 雅子第三次再战
+2404	t	与发烧友俱乐部 雅子第四次再战
+2117	t	与铁人三项运动员 英明第一次再战
+2118	t	与铁人三项运动员 英明第二次再战
+2119	t	与铁人三项运动员 英明第三次再战
+2120	t	与铁人三项运动员 英明第四次再战
+2342	t	与遗迹狂 伸夫第一次再战
+2343	t	与遗迹狂 伸夫第二次再战
+2344	t	与遗迹狂 伸夫第三次再战
+2345	t	与遗迹狂 伸夫第四次再战
+2129	t	与精英训练家 裕介第一次再战
+2130	t	与精英训练家 裕介第二次再战
+2131	t	与精英训练家 裕介第三次再战
+2132	t	与精英训练家 裕介第四次再战
+2133	t	与精英训练家 真理亚第一次再战
+2134	t	与精英训练家 真理亚第二次再战
+2135	t	与精英训练家 真理亚第三次再战
+2136	t	与精英训练家 真理亚第四次再战
+2137	t	与登山男 健作第一次再战
+2138	t	与登山男 健作第二次再战
+2139	t	与登山男 健作第三次再战
+2140	t	与登山男 健作第四次再战
+2209	t	与露营少年 义晴第一次再战
+2210	t	与露营少年 义晴第二次再战
+2211	t	与露营少年 义晴第三次再战
+2212	t	与露营少年 义晴第四次再战
+2197	t	与达人 宫子第一次再战
+2198	t	与达人 宫子第二次再战
+2199	t	与达人 宫子第三次再战
+2200	t	与达人 宫子第四次再战
+2213	t	與野餐女孩 梢第一次再戰
+2214	t	與野餐女孩 梢第二次再戰
+2215	t	與野餐女孩 梢第三次再戰
+2216	t	與野餐女孩 梢第四次再戰
+2359	t	與陽傘姐姐 圓香第一次再戰
+2360	t	與陽傘姐姐 圓香第二次再戰
+2361	t	與陽傘姐姐 圓香第三次再戰
+2362	t	與陽傘姐姐 圓香第四次再戰
+2654	t	與忍者小子 金次第一次再戰
+2655	t	與忍者小子 金次第二次再戰
+2656	t	與忍者小子 金次第三次再戰
+2657	t	與忍者小子 金次第四次再戰
+2145	t	與營火專家 信彥第一次再戰
+2146	t	與營火專家 信彥第二次再戰
+2147	t	與營火專家 信彥第三次再戰
+2148	t	與營火專家 信彥第四次再戰
+2141	t	與怪獸狂 俊夫第一次再戰
+2142	t	與怪獸狂 俊夫第二次再戰
+2143	t	與怪獸狂 俊夫第三次再戰
+2144	t	與怪獸狂 俊夫第四次再戰
+2221	t	與馴龍師 武再戰
+2375	t	與金婚夫妻 源和初再戰
+2149	t	與對戰少女 由梨香第一次再戰
+2150	t	與對戰少女 由梨香第二次再戰
+2151	t	與對戰少女 由梨香第三次再戰
+2152	t	與對戰少女 由梨香第四次再戰
+2346	t	與達人 文翔第一次再戰
+2347	t	與達人 文翔第二次再戰
+2348	t	與達人 文翔第三次再戰
+2349	t	與達人 文翔第四次再戰
+1943	t	與空手道王 吾郎第一次再戰
+1944	t	與空手道王 吾郎第二次再戰
+1945	t	與空手道王 吾郎第三次再戰
+1983	t	與空手道王 吾郎第四次再戰
+2153	t	與補習班學生 秀夫第一次再戰
+2154	t	與補習班學生 秀夫第二次再戰
+2155	t	與補習班學生 秀夫第三次再戰
+2156	t	與補習班學生 秀夫第四次再戰
+2157	t	與補習班學生 初音第一次再戰
+2158	t	與補習班學生 初音第二次再戰
+2159	t	與補習班學生 初音第三次再戰
+2160	t	與補習班學生 初音第四次再戰
+2234	t	與鐵人三項運動員 阿毅第一次再戰
+2235	t	與鐵人三項運動員 阿毅第二次再戰
+2236	t	與鐵人三項運動員 阿毅第三次再戰
+2237	t	與鐵人三項運動員 阿毅第四次再戰
+2263	t	與寶可夢培育家 誠兒第一次再戰
+2264	t	與寶可夢培育家 誠兒第二次再戰
+2265	t	與寶可夢培育家 誠兒第三次再戰
+2266	t	與寶可夢培育家 誠兒第四次再戰
+2259	t	與寶可夢培育家 郁惠第一次再戰
+2260	t	與寶可夢培育家 郁惠第二次再戰
+2261	t	與寶可夢培育家 郁惠第三次再戰
+2262	t	與寶可夢培育家 郁惠第四次再戰
+2363	t	與學姐與學妹 美穗與里子第一次再戰
+2364	t	與學姐與學妹 美穗與里子第二次再戰
+2365	t	與學姐與學妹 美穗與里子第三次再戰
+2366	t	與學姐與學妹 美穗與里子第四次再戰
+2161	t	與香氛姐姐 彌生第一次再戰
+2162	t	與香氛姐姐 彌生第二次再戰
+2163	t	與香氛姐姐 彌生第三次再戰
+2164	t	與香氛姐姐 彌生第四次再戰
+2165	t	與吉他手 泰瑞第一次再戰
+2166	t	與吉他手 泰瑞第二次再戰
+2167	t	與吉他手 泰瑞第三次再戰
+2168	t	與吉他手 泰瑞第四次再戰
+2473	t	與智者與強者 保志和雄人第一次再戰
+2474	t	與智者與強者 保志和雄人第二次再戰
+2475	t	與智者與強者 保志和雄人第三次再戰
+2476	t	與智者與強者 保志和雄人第四次再戰
+2169	t	與寶可夢巡護員 阿守第一次再戰
+2170	t	與寶可夢巡護員 阿守第二次再戰
+2171	t	與寶可夢巡護員 阿守第三次再戰
+2172	t	與寶可夢巡護員 阿守第四次再戰
+2173	t	與寶可夢巡護員 真奈美第一次再戰
+2174	t	與寶可夢巡護員 真奈美第二次再戰
+2175	t	與寶可夢巡護員 真奈美第三次再戰
+2176	t	與寶可夢巡護員 真奈美第四次再戰
+2177	t	與養鳥人 阿翼第一次再戰
+2178	t	與養鳥人 阿翼第二次再戰
+2179	t	與養鳥人 阿翼第三次再戰
+2181	t	與昆蟲狂 幹雄第一次再戰
+2182	t	與昆蟲狂 幹雄第二次再戰
+2183	t	與昆蟲狂 幹雄第三次再戰
+2534	t	與可怕的大叔 鐵雄第一次再戰
+2535	t	與可怕的大叔 鐵雄第二次再戰
+2536	t	與可怕的大叔 鐵雄第三次再戰
+2542	t	與大姐頭 雅魅第一次再戰
+2543	t	與大姐頭 雅魅第二次再戰
+2544	t	與大姐頭 雅魅第三次再戰
+2184	t	與紳士 羅伯特第一次再戰
+2350	t	與紳士 羅伯特第二次再戰
+2351	t	與紳士 羅伯特第三次再戰
+2367	t	與大姐姐 依子第一次再戰
+2368	t	與大姐姐 依子第二次再戰
+2369	t	與大姐姐 依子第三次再戰
+2510	t	與童話少女 莉莉佳第一次再戰
+2511	t	與童話少女 莉莉佳第二次再戰
+2512	t	與童話少女 莉莉佳第三次再戰
+2201	t	與靈異迷 穂乃佳第一次再戰
+2202	t	與靈異迷 穂乃佳第一次再戰
+2203	t	與靈異迷 穂乃佳第一次再戰
+2185	t	與超能力者 熏第一次再戰
+2186	t	與超能力者 熏第二次再戰
+2187	t	與超能力者 熏第三次再戰
+2286	t	與海上姐弟 小浩和波美第一次再戰
+2287	t	與海上姐弟 小浩和波美第二次再戰
+2288	t	與海上姐弟 小浩和波美第三次再戰
+2247	t	與比基尼姐姐 小渚第一次再戰
+2248	t	與比基尼姐姐 小渚第二次再戰
+2486	t	與潛水員 龍馬第一次再戰
+2487	t	與潛水員 龍馬第二次再戰
+2499	t	與海女 夕夏第一次再戰
+2500	t	與海女 夕夏第二次再戰
+2193	t	與水手 次郎第一次再戰
+2194	t	與水手 次郎第二次再戰
+2224	t	與鐵人三項運動員 英輔第一次再戰
+2225	t	與鐵人三項運動員 英輔第二次再戰
+2226	t	與鐵人三項運動員 英輔第三次再戰
+2571	t	與精英組合 菟梨和居間再戰
+1914	t	與採訪者 瑪莉和小戴第一次再戰
+1915	t	與採訪者 瑪莉和小戴第二次再戰
+1916	t	與採訪者 瑪莉和小戴第三次再戰
+1917	t	與採訪者 瑪莉和小戴第四次再戰
+2322	t	與採訪者 瑪莉和小戴第五次再戰
+2684	t	與滿充第一次再戰
+2686	t	與滿充第二次再戰
