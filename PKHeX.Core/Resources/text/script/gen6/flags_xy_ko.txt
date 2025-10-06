@@ -16,57 +16,57 @@
 0390	+	슈퍼멀티배틀 해금됨
 0771	+	50연승: 배틀샤를레느 격파
 2642	s	포켓몬 도감 수령 완료
-2640	s	Entered Hall of Fame/Zygarde Chamber Accessible
-2645	*	Roller Skates Enabled
-0162	s	Chose blue button in Lysandre Labs B3
-0185	g	Traded for Bisharp in Snowbelle City
-0190	g	Traded with Shauna
-0191	g	Traded for Steelix in Cyllage City
-0320	g	Traded with Diantha
-0426	g	Traded for Farfetch'd in Santalune City
-0319	g	Claimed Kanto Starter from Sycamore
-0949	g	Received Lucario Gift
-1060	s	Unknown Dungeon Accessible
-0299	g	Claimed Diancie via Mystery Gift (PokéCenter Event Completed)
-2666	*	Unlocked Cassius's PC
-2670	+	Usable Roller Skate trick: parallel swizzle
-2671	+	Learned Roller Skate trick: the backflip
-2672	+	Usable Roller Skate trick: the backflip
-2673	+	Usable Roller Skate trick: the 360
-2674	+	Learned Roller Skate trick: the 360
-2675	+	Usable Roller Stake trick: cosmic flip
-2720	f	Can Fly to Vaniville Town
-2721	f	Can Fly to Aquacorde Town
-2722	f	Can Fly to Santalune City
-2724	f	Can Fly to Cyllage City
-2725	f	Can Fly to Shalour City
-2726	f	Can Fly to Coumarine City
-2727	f	Can Fly to Laverre City
-2728	f	Can Fly to Anistar City
-2729	f	Can Fly to Snowbelle City
-2730	f	Can Fly to Camphrier Town
-2731	f	Can Fly to Geosenge Town
-2732	f	Can Fly to Dendemille Town
-2733	f	Can Fly to Couriway Town
-2734	f	Can Fly to Ambrette Town
-2735	f	Can Fly to Pokémon League
-2736	f	Can Fly to Kiloude City
-2737	f	Can Fly to Lumiose City (South Boulevard)
-2738	f	Can Fly to Lumiose City (North Boulevard)
-2739	f	Can Fly to Lumiose City (Center)
-0487	+	Perfect Clear: Restaurant Le Nah Double Battle
-0488	+	Perfect Clear: Restaurant Le Yeah Triple Battle
-0489	+	Perfect Clear: Restaurant Le Yeah Rotation Battle
-0490	+	Perfect Clear: Restaurant Le Wow Double Battle
-0491	+	Perfect Clear: Restaurant Le Wow Triple Battle
-0492	+	Perfect Clear: Restaurant Le Wow Rotation Battle
-0493	+	Perfect Clear: Sushi High Roller Double Battle
-0494	+	Perfect Clear: Sushi High Roller Triple Battle
-0495	+	Perfect Clear: Sushi High Roller Rotation Battle
-0184	+	Perfect Clear: Making Beds Task on 5th Floor
-2984	m	Finished Room Service Task (Today)
-2985	m	Finished Making Beds Task (Today)
-2986	m	Finished Lost and Found Task (Today)
+2640	s	전당등록 완료/지가르데의 방 진입 가능
+2645	*	롤러스케이트 활성화됨
+0162	s	플라드리 래버러토리 B3에서 파란 버튼을 선택했다
+0185	g	이설시티에서 절각참과 교환했다
+0190	g	사나와 교환했다
+0191	g	삼채시티에서 강철톤과 교환했다
+0320	g	카르네와 교환했다
+0426	g	백단시티에서 파오리과 교환했다
+0319	g	플라타느 박사에게서 관동 스타팅을 받았다
+0949	g	루카리오 선물 받음
+1060	s	이름없는 동굴 진입 가능
+0299	g	미스터리 선물로 디안시를 받았다 (포켓몬센터 이벤트 완료)
+2666	*	크로케아의 PC 개방됨
+2670	+	롤러스케이트 트릭 사용 가능: 패럴렐
+2671	+	롤러스케이트 트릭 습득: 백플립
+2672	+	롤러스케이트 트릭 사용 가능: 백플립
+2673	+	롤러스케이트 트릭 사용 가능: 360°
+2674	+	롤러스케이트 트릭 습득: 360°
+2675	+	롤러스케이트 트릭 사용 가능: 코스모플립
+2720	f	비행 위치 해금됨: 조아마을
+2721	f	비행 위치 해금됨: 수미마을
+2722	f	비행 위치 해금됨: 백단시티
+2724	f	비행 위치 해금됨: 삼채시티
+2725	f	비행 위치 해금됨: 사라시티
+2726	f	비행 위치 해금됨: 비익시티
+2727	f	비행 위치 해금됨: 후늬시티
+2728	f	비행 위치 해금됨: 향전시티
+2729	f	비행 위치 해금됨: 이설시티
+2730	f	비행 위치 해금됨: 고목내마을
+2731	f	비행 위치 해금됨: 옥유마을
+2732	f	비행 위치 해금됨: 버들비마을
+2733	f	비행 위치 해금됨: 배롱마을
+2734	f	비행 위치 해금됨: 가라마을
+2735	f	비행 위치 해금됨: 포켓몬리그
+2736	f	비행 위치 해금됨: 기남시티
+2737	f	비행 위치 해금됨: 미르시티 (사우스사이드 스트리트)
+2738	f	비행 위치 해금됨: 미르시티 (노스사이드 스트리트)
+2739	f	비행 위치 해금됨: 미르시티 (센터)
+0487	+	퍼펙트 클리어: 보통 레스토랑 더블배틀
+0488	+	퍼펙트 클리어: 리스토란테 이류 트리플배틀
+0489	+	퍼펙트 클리어: 리스토란테 이류 로테이션배틀
+0490	+	퍼펙트 클리어: 궁극 레스토랑 더블배틀
+0491	+	퍼펙트 클리어: 궁극 레스토랑 트리플배틀
+0492	+	퍼펙트 클리어: 궁극 레스토랑 로테이션배틀
+0493	+	퍼펙트 클리어: 롤링 드리머 레스토랑 더블배틀
+0494	+	퍼펙트 클리어: 롤링 드리머 레스토랑 트리플배틀
+0495	+	퍼펙트 클리어: 롤링 드리머 레스토랑 로테이션배틀
+0184	+	퍼펙트 클리어: 5층 침대 정리 임무
+2984	m	룸서비스 임무 완료 (오늘)
+2985	m	침대 정리 임무 완료 (오늘)
+2986	m	분실물 접수 임무 완료 (오늘)
 3152	m	Daily Pokémon Village Bin Checked (Today)
 3153	m	Thursday Pokémon Village Bin (1) Checked (Today)
 3154	m	Thursday Pokémon Village Bin (2) Checked (Today)
