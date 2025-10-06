@@ -1,37 +1,37 @@
-4	s	Power Plant	0:Normal,1:Guard will get a phone call (Story event)
-5	s	Cerulean Gym	0:Normal,1:Rocket Grunt appeared (Story event)
-6	s	Route 25	0:Normal,1:Misty on a date (Story event)
-8	s	League Reception Gate	0:Not shown 8 Johto Badges,1:Shown 8 Johto Badges
-13	s	Will's Room	0:Reset,1:Recently accessed
-14	s	Koga's Room	0:Reset,1:Recently accessed
-15	s	Bruno's Room	0:Reset,1:Recently accessed
-16	s	Karen's Room	0:Reset,1:Recently accessed
-17	s	Lance's Room	0:Reset,1:Recently accessed,2:Defeated Lance,3:DJ Mary and Oak Appeared
-18	s	Hall of Fame Room	0:Lance will register your team,1:Recently accessed
-19	s	Route 27 Man	0:Will say you entered Kanto,1:Said you entered Kanto
-20	s	New Bark Town Lady	0:Before Starter (Blocks Route 29 access),1:After Starter (Allows Route 29 access)
-21	s	Elm Lab Event	0:Start of game,1:Asked to choose Starter (Can't leave Lab),2:Normal,3:Officer Appeared (Asks for Rival's name),5:Aide will give Potion,6:Aide will give 5 Poké Balls
-22	s	Mom	0:Start of game,1:Gave and explained PokéGear
-23	s	Dude (Route 29)	0:Normal,1:Will ask to show Capture Tutorial
-24	s	Rival (Cherrygrove City)	0:Disappeared,1:Will battle you
-25	s	Mr. Pokémon's House	0:Not Entered,1:Entered (Met Mr. Pokémon and Oak)
-26	s	Route 32 Story Event	0:Dude blocks further access,1:Allowed further access (Accepted Egg from Aide),2:Encountered SlowpokeTail seller
-29	s	Rival (Azalea Town)	0:Disappeared,1:Will battle you
-30	s	Lass Bridget	0:Normal,1:Will inform you made Whitney cry
-32	s	Rival (Olivine City)	0:Not Encountered,1:Encountered
-34	s	Tin Tower Gate Sage	0:Disallows Passage,1:Allows Passage (Showed Fog Badge)
-35	s	Ecruteak PokéCenter	0:Not Entered,1:Entered (Met Bill)
-36	s	RageCandyBar Man	0:Blocks Route 44 access,1:Disappeared (Can access Route 44)
-37	s	Route 43 Gate	0:Rocket Grunts appeared (Payment required),1:Paid Rocket Grunts/Grunts disappeared
-38	s	Rival (Mt. Moon)	0:Will battle you,1:Disappeared
-39	s	Rival (Sprout Tower)	0:Not Encountered,1:Encountered
-40	s	Burned Tower Story Event	0:Not Entered/Will battle Rival,1:Defeated Rival,2:Defeated Firebreather Dick
+4	s	關都發電廠	0:正常,1:警衛會接到電話（劇情事件）
+5	s	華藍道館	0:正常,1:火箭隊喽啰出現(劇情事件)
+6	s	25號道路	0:正常,1:約會的小霞（劇情事件）
+8	s	寶可夢聯盟大門	0:未獲得8個道館徽章,1:獲得8個道館徽章
+13	s	一樹的房間	0:重置,1:最近訪問過
+14	s	阿桔的房間	0:重置,1:最近訪問過
+15	s	希巴的房間	0:重置,1:最近訪問過
+16	s	梨花的房間	0:重置,1:最近訪問過
+17	s	阿渡的房間	0:重置,1:最近訪問過,2:擊敗阿渡,3:DJ胡桃和大木博士出現了
+18	s	名人堂	0:阿渡將為您的隊伍登記,1:最近訪問過
+19	s	27號道路男人	0:會說你進入了關都,1:已說過你進入了關都
+20	s	若葉鎮女士	0:獲得御三家前 (阻止通過29號道路),1:獲得御三家後 (允許通過29號道路)
+21	s	空木博士研究所事件	0:遊戲初始,1:要求選擇御三家（不能離開研究所）,2:正常,3:警官出現（詢問勁敵姓名）,5:助手會給5個傷藥,6:助手會給5個精靈球
+22	s	媽媽	0:遊戲初始,1:給出並解釋了寶可裝置
+23	s	小哥 (29號道路)	0:正常,1:會向主角演示收服寶可夢的方法
+24	s	勁敵 (吉花市)	0:消失了,1:將與你對戰
+25	s	寶可夢爺爺的房子	0:未訪問,1:訪問 (遇見寶可夢爺爺和大木博士)
+26	s	32號道路劇情事件	0:小哥阻止訪問,1:允許訪問(接收助手的蛋),2:遇到呆呆獸尾巴的賣家
+29	s	勁敵 (桧皮鎮)	0:消失了,1:將與你對戰
+30	s	迷你裙 飛鳥	0:正常,1:會告知你讓小茜哭了
+32	s	勁敵 (淺葱市)	0:未遇到,1:遇到
+34	s	鈴鐺塔和尚	0:不允許通過,1:允許通過 (出示徽章)
+35	s	緣朱市寶可夢中心	0:未進入,1:進入 (正輝)
+36	s	賣憤怒饅頭的人	0:封鎖44號道路入口,1:消失了 (可以進入44號道路)
+37	s	43號道路閘口	0:火箭隊喽啰出現(需要付費),1:付費火箭隊喽啰消失了
+38	s	勁敵 (月見山)	0:將與你對戰,1:消失了
+39	s	勁敵 (喇叭芽之塔)	0:未遇到,1:遇到
+40	s	燒焦塔劇情事件	0:未進入/將與勁敵對戰,1:擊敗勁敵,2:擊敗噴火者
 41	*	三聖獸 (燒焦塔)	0:未覺醒,1:已覺醒/逃跑
-42	s	Radio Tower 5F Story Event	0:Will battle imposter director,1:Defeated disguised Rocket Executive,2:Defeated main Rocket Executive in studio room
-46	s	Mahogany Souvenir Shop	0:Normal,1:Lance appeared (Story event)
-48	s	Hideout B2F Story Event	0:Not accessed,1:Lance healed your party/Will battle Rocket Executive,2:Lance wants you to battle Electrode (Can't leave transmitter room),3:Transmitter deactivated
-49	s	Hideout B3F Story Event	0:Not accessed,1:Lance explained passwords,2:Encountered Rival,3:Defeated Rocket Executive
-50	s	Rival (Underground)	0:Will battle you,1:Disappeared
-52	s	Rival (Victory Road)	0:Will battle you,1:Disappeared
-56	s	S.S. Aqua Event	0:Normal,2:Gentleman will bump into you (Story event)
-57	s	S.S. Aqua B1F Sailor	0:Blocks further access,1:Allows further access
+42	s	滿金電台5樓劇情事件	0:將與偽裝的火箭隊幹部對戰,1:擊敗偽裝的火箭隊幹部,2:在工作室擊敗了火箭隊幹部
+46	s	卡吉鎮商店	0:常態,1:阿渡出現了 (劇情事件)
+48	s	火箭隊基地負2樓 劇情事件	0:未訪問,1:阿渡治療了你的隊伍/將與火箭隊幹部對戰,2:阿渡要你和頑皮雷彈對戰（不能離開發電機房）,3:發電機已停用
+49	s	火箭隊基地負3樓 劇情事件	0:未訪問,1:阿渡告知密碼,2:遇到勁敵,3:擊敗火箭隊幹部
+50	s	勁敵 (滿金地道)	0:將與你對戰,1:消失了
+52	s	勁敵 (冠軍之路)	0:將與你對戰,1:消失了
+56	s	水流號事件	0:常態,2:紳士會撞到你（劇情事件）
+57	s	水流號負1樓水手	0:阻止進一步訪問,1:允許進一步訪問
