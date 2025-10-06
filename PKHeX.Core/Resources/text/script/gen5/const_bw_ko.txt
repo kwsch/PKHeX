@@ -2,9 +2,10 @@
 0182	r	N의 성	0:이벤트,1:이벤트,2:레시라무/제크로무 이전,3:N 이전,4:이벤트,5:게치스 이전
 0145	r	비크티니	0:이벤트,1:이벤트,2:배틀 가능,3:쓰러뜨림,4:잡음,5:이벤트 완료,6:사라짐
 0206	r	랜드로스	0:이벤트,1:이벤트,2:이벤트,3:배틀 가능,4:사라짐
-0056	r	Lostlorn Forest	0:Zoroark illusion (1),1032:Normal
-0131	g	Dreamyard girl	0:Not interacted,1:Elemental Monkey Pending,2:Received Elemental Monkey
-0199	r	Zorua Event	0:Disguised as little boy (1),1:Revealed/Catchable (2),3:Caught
-0201	r	Zoroark Event	0:Active (1),1:Defeated,2:Caught
-0202	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
-0218	g	Gorge (Undella Town)	0:Wants to trade,1:Traded for Munchlax,2:After trading
+0216	r	큐렘 동굴 (자이언트홀)	0:얻기 쉬운,1:접근 재설정 가능,2:접근 불가 (잡음)
+0056	r	미혹의 숲	0:Zoroark illusion (1),1032:Normal
+0131	g	꿈터 소녀	0:Not interacted,1:Elemental Monkey Pending,2:Received Elemental Monkey
+0199	r	조로아 이벤트	0:Disguised as little boy (1),1:Revealed/Catchable (2),3:잡음
+0201	r	조로아크 이벤트	0:Active (1),1:쓰러뜨림,2:잡음
+0202	r	P2랩 이벤트	0:활성화되지 않음,1:활성화됨,2:연구원 검웅 배틀 대기 중,3:카세트 받음
+0218	g	태사 (물결마을)	0:교환하고 싶다,1:먹고자와 교환했다,2:교환 완료
