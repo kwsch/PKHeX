@@ -77,10 +77,10 @@
 0119	s	Kurt's Granddaughter Is Worried About Kurt
 0414	s	Kurt at Slowpoke Well
 0415	s	Rocket Grunt Guarding Slowpoke Well Gone
-0539	*	Solved Ruins of Alph Escape Rope wall puzzle
-0541	*	Solved Ruins of Alph Flash wall puzzle
-0543	*	Solved Ruins of Alph Water Stone wall puzzle
-0545	*	Solved Ruins of Alph Ho-Oh wall puzzle
+0539	*	알프의 유적 동굴탈출로프 벽 퍼즐을 해결했다
+0541	*	알프의 유적 플래시 벽 퍼즐을 해결했다
+0543	*	알프의 유적 물의돌 벽 퍼즐을 해결했다
+0545	*	알프의 유적 칠색조 벽 퍼즐을 해결했다
 0376	s	비주기에게 한 번 졌어요 (세레비 이벤트)
 1366	t	Defeated Policeman Keith (Night)
 1440	t	Defeated Policeman Dirk (Night)
