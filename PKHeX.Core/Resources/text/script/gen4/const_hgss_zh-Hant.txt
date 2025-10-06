@@ -1,9 +1,9 @@
 0048	*	初始夥伴	0:無,152:菊草葉,155:火球鼠,158:小鋸鱷
-0299	r	刺刺耳皮丘 (桐樹林)	0:未出現,1:未決定,2:已消失
+0299	r	刺刺耳皮丘 (桐樹林)	0:未解鎖,1:未決定,2:已獲得
 0161	r	三聖獸 (燒焦塔)	0:出現了,1:遊走/逃走
-0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
+0304	s	大吾狀態 0:皮皮玩偶未獲得,1:將在枯葉市相遇 (拉帝事件未觸發),2:遇見 (已觸發拉帝事件),3:要求你選擇豐緣御三家,4:已贈與豐緣御三家,5:在深灰科學博物館交談,6:可在西爾佛公司交換,7:已交換鐵啞鈴
 0067	e	謎之水晶	0:未解鎖,1778:已解鎖
-0249	e	埋藏之塔	0:未接受關都禦三家,1:已獲得關都禦三家,2:獲得玉,3:蓋歐卡解鎖/固拉多,4:蓋歐卡消失/固拉多,5:Received Jade Orb,6:烈空坐解鎖,7:烈空坐已捕獲,8:Event Completed,9:烈空坐消失
+0249	e	埋藏之塔	0:未接受關都禦三家,1:已獲得關都禦三家,2:獲得玉,3:蓋歐卡解鎖/固拉多,4:蓋歐卡消失/固拉多,5:獲得草綠色寶珠,6:烈空坐解鎖,7:烈空坐已捕獲,8:事件完成,9:烈空坐消失
 0251	e	神奧遺跡	1:未進入,4:已傳送 (第一次),5:去了外面,6:可與竹蘭交談 (小屋),7:可與竹蘭交談 (臺上),8:選擇傳說寶可夢前,10:獲得第一隻寶可夢,13:已傳送 (第二次),14:獲得第二隻寶可夢
 0259	r	神奧第一隻傳說	1:帝牙盧卡,2:帕路奇亞,3:騎拉帝納
 0258	r	神奧第二隻阿爾宙斯	1:初始之間,2:命中註定般地遇見
@@ -15,8 +15,8 @@
 0070	r	炎帝狀態	0:未決定,1:已捕獲,2:已瀕死/可復活
 0071	r	游走拉帝亞斯狀態 (HG)	0:未決定,1:已捕獲,2:已瀕死/可復活
 0072	r	游走拉帝歐斯狀態 (SS)	0:未決定,1:已捕獲,2:已瀕死/可復活
-0148	+	Total Week Siblings Met	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
-0151	s	Ace Trainer Sisters (Route 34)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
-0253	r	豐緣初始夥伴	0:未解鎖,1:已解鎖
-0276	s	Mail Quest	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
-0291	+	Catching Show Best Score (Pal Park)
+0148	+	星期兄弟見面總周數	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
+0151	s	精英訓練家三姐妹 (34號道路)	0:未戰,1:擊敗真理紗和真理香,2:強力香草未獲得,3:擊敗真理亞/獲得強力香草
+0253	r	赤紅 (白銀山)	0:未戰,1:已打败 (豐緣初始夥伴已解鎖)
+0276	s	郵件任務	0:未激活,1:收到帶有郵件的烈雀,2:在31號道路上投遞郵件(滿包裹),3:在31號道路上投遞郵件,5:裕司贈與HP增強劑 (完整)
+0291	+	夥伴公園最佳成績
