@@ -2,6 +2,7 @@
 0182	r	Castillo de N	0:Evento,1:Evento,2:Antes de Reshiram/Zekrom,3:Antes de N,4:Evento,5:Antes de Ghetsis
 0145	r	Victini	0:Evento,1:Evento,2:Luchable,3:Derrotado,4:Capturado,5:Evento Completado,6:Desaparecido
 0206	r	Landorus	0:Evento,1:Evento,2:Evento,3:Luchable,4:Desaparecido
+0216	r	Cueva de Kyurem (Boquete Gigante)	0:Accesible,1:Acceso restablecible,2:Inaccesible (Capturado)
 0056	r	Bosque de los Perdidos	0:Ilusión de Zoroark (1),1032:Normal
 0131	g	Chica del Solar de los Sueños	0:Sin interactuar,1:Mono elemental pendiente,2:Mono elemental recibido
 0199	r	Evento de Zorua	0:Camuflado como un niño (1),1:Revelado/Capturable (2),3:Capturado
