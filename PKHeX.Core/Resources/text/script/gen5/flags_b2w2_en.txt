@@ -1,22 +1,37 @@
+0303	r	Cobalion Captured
 0802	r	Cobalion Disappeared
 0302	r	Cobalion (Rematch, Level +20)
+0330	r	Terrakion Captured
 0810	r	Terrakion Disappeared
 0329	r	Terrakion (Rematch, Level +20)
+0301	r	Virizion Captured
 0801	r	Virizion Disappeared
 0300	r	Virizion (Rematch, Level +20)
 0928	r	Volcarona Disappeared
 0403	r	Volcarona Captured (Level 35/65)
 0404	r	Volcarona Defeated (Level 35)
+0234	r	Reshiram/Zekrom Captured
 0667	r	Reshiram/Zekrom Disappeared
+0249	r	Kyurem Captured
 1004	r	Kyurem Disappeared
+0399	r	Regirock Captured
 0922	r	Regirock Disappeared
+0400	r	Regice Captured
 0921	r	Regice Disappeared
+0401	r	Registeel Captured
 0923	r	Registeel Disappeared
+0374	r	Latios/Latias Captured
+0396	r	Uxie Captured
 0918	r	Uxie Disappeared
+0397	r	Mesprit Captured
 0919	r	Mesprit Disappeared
+0398	r	Azelf Captured
 0920	r	Azelf Disappeared
+0380	r	Heatran Captured
 0900	r	Heatran Disappeared
+0402	r	Regigigas Captured
 0924	r	Regigigas Disappeared
+0379	r	Cresselia Captured
 0897	r	Cresselia Disappeared
 0106	*	Trading Functionality Enabled (PokeCenter)
 2403	*	Has Running Shoes
@@ -36,18 +51,21 @@
 0434	s	Battled Lass Diana 2nd Time
 0437	g	Received Happiny Egg Gift
 0445	g	Chose Cover/Plume Fossil from Lenora
-0420	r	Shiny Haxorus in Nature Preserve captured
-0946	r	Shiny Haxorus in Nature Preserve disappeared
+0420	r	Shiny Haxorus (Nature Preserve) Captured
+0946	r	Shiny Haxorus (Nature Preserve) Disappeared
 0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
+2464	s	Visited Abyssal Ruins
+0979	s	Zinzolin Disappeared from Undella Town
 2744	s	Rode Royal Unova (Today)
 2747	s	Received a Fossil from Twist Mountain Worker (Today)
-2774	r	Weekly Mandibuzz/Braviary on Route 4 disappeared
-2775	r	Weekly Jellicent in Undella Bay disappeared
+2774	r	Weekly Mandibuzz/Braviary on Route 4 Disappeared
+2775	r	Weekly Jellicent in Undella Bay Disappeared
 2442	r	N's Pokémon in the Wild
-0929	r	Route 6	 Captured/Defeated Foongus (1)
-0930	r	Route 6	 Captured/Defeated Foongus (2)
-0931	r	Route 6	 Captured/Defeated Foongus (3)
-0932	r	Route 7	 Captured/Defeated Foongus (1)
-0933	r	Route 7	 Captured/Defeated Foongus (2)
-0868	r	Defeated Seaside Cave Crustle
+0929	r	Route 6	Foongus Disappeared (1)
+0930	r	Route 6	Foongus Disappeared (2)
+0931	r	Route 6	Foongus Disappeared (3)
+0932	r	Route 7	Foongus Disappeared (1)
+0933	r	Route 7	Foongus Disappeared (2)
+0868	r	Seaside Cave Crustle Disappeared
+1469	s	Found Relic Crown (Abyssal Ruins 4F)
 2793	t	Rematched Colress (Today)
