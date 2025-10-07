@@ -18,7 +18,7 @@
 0676	*	Feathery Bed
 0677	*	Pink Bed
 0678	*	Polkadot Bed
-0679	*	Pikachu Bed
+0679	*	Pikachu Bed (Illegal)
 0680	*	Red Carpet
 0681	*	Blue Carpet
 0682	*	Yellow Carpet
@@ -51,10 +51,10 @@
 0709	*	Grimer Doll
 0710	*	Voltorb Doll
 0711	*	Weedle Doll
-0712	*	Unown Doll
+0712	*	Unown Doll (Illegal)
 0713	*	Geodude Doll
 0714	*	Machop Doll
-0715	*	Tentacool Doll
+0715	*	Tentacool Doll (Illegal)
 0717	*	Gold Trophy
 0718	*	Silver Trophy
 0719	*	Big Snorlax
