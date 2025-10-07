@@ -21,7 +21,7 @@
 0676	*	Edredón de Plumas
 0677	*	Edredón Rosa
 0678	*	Edredón Lunares
-0679	*	Edredón Pikachu
+0679	*	Edredón Pikachu (Ilegal)
 0680	*	Alfombra Roja
 0681	*	Alfombra Azul
 0682	*	Alfombra Amarilla
@@ -54,10 +54,10 @@
 0709	*	Muñeco Grimer
 0710	*	Muñeco Voltorb
 0711	*	Muñeco Weedle
-0712	*	Muñeco Unown
+0712	*	Muñeco Unown (Ilegal)
 0713	*	Muñeco Geodude
 0714	*	Muñeco Machop
-0715	*	Muñeco Tentacool
+0715	*	Muñeco Tentacool (Ilegal)
 0717	*	Trofeo Oro
 0718	*	Trofeo Plata
 0719	*	Snorlax Grande
