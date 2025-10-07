@@ -121,4 +121,4 @@ s0298	Fósil Domo en Ciudad Fucsia
 s0299	Fósil Hélix en Ciudad Fucsia
 s0357	Recibido Hitmonchan del Dojo Karate
 s0358	Recibido Hitmonlee del Dojo Karate
-s0359	Old Amber Claimed in Pewter City
+s0359	Ámbar Viejo conseguido en Ciudad Plateada
