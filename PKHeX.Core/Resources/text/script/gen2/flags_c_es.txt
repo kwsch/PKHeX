@@ -80,23 +80,23 @@
 0084	s	Togepi Eclosionado
 0085	s	Mostrado Togepi a Elm
 0086	s	Recibida Piedra Eterna de Elm
-1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
-0097	g	Received Tyrogue
+1193	t	Karateka Kiyo derrotado (Puede recibir a Tyrogue)
+0097	g	Recibido Tyrogue
 0046	s	Unown aparecido en Ruinas Alfa
-0098	s	Conocida Frieda
-0099	s	Recibida Flecha Venenosa de Frieda
-0100	s	Conocida Tuscany
-0101	s	Recibido Lazo Rosa de Tuscany
-0102	s	Conocido Arthur
-0103	s	Recbida Piedra Dura de Arthur
-0104	s	Conocido Sunny
-0105	s	Recibido Imán de Sunny
-0106	s	Conocido Wesley
-0107	s	Recibido Cinturón Negro de Wesley
-0108	s	Conocido Santos
-0109	s	Recibido Hechizo de Santos
-0110	s	Conocida Monica
-0111	s	Recibido Pico Afilado de Monica
+0098	s	Conocida Vicky
+0099	s	Recibida Flecha Venenosa de Vicky
+0100	s	Conocida Marta
+0101	s	Recibido Lazo Rosa de Marta
+0102	s	Conocido Josué
+0103	s	Recbida Piedra Dura de Josué
+0104	s	Conocido Domingo
+0105	s	Recibido Imán de Domingo
+0106	s	Conocido Miguel
+0107	s	Recibido Cinturón Negro de Miguel
+0108	s	Conocido Sabino
+0109	s	Recibido Hechizo de Sabino
+0110	s	Conocida Luna
+0111	s	Recibido Pico Afilado de Luna
 0189	g	Recibido Dratini
 0193	g	Quiz respondido mal (Dratini de regalo no tendrá Velocidad Extrema)
 0205	s	Restaurada energía a Kanto/Tren Imán usable
