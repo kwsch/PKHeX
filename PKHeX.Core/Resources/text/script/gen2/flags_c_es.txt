@@ -6,18 +6,18 @@
 1601	s	La bola del Totodile de Elm ha desaparecido 
 1602	s	La bola del Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Capturado
-1760	r	Electrode (top corners) disappeared from Hideout B2F
-1761	r	Electrode (middle corners) disappeared from Hideout B2F
-1762	r	Electrode (bottom corners) disappeared from Hideout B2F
+1760	r	Electrode (esquinas superiores) desaparecido (Guarida Rocket B2F)
+1761	r	Electrode (esquinas centrales) desaparecido (Guarida Rocket B2F)
+1762	r	Electrode (esquinas inferiores) desaparecido (Guarida Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
 0190	*	Kurt puede ver la GS Ball
 0191	*	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
 0192	*	GS Ball puede ser insertada en el Encinar
-0672	*	Ho-Oh puzzle solved in Ruins of Alph
-0673	*	Kabuto puzzle solved in Ruins of Alph
-0674	*	Omanyte puzzle solved in Ruins of Alph
-0675	*	Aerodactyl puzzle solved in Ruins of Alph
+0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
+0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
+0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
+0675	*	Rompecabezas de Aerodactyl resuelto en Ruinas Alfa
 0676	*	Edredón de Plumas
 0677	*	Edredón Rosa
 0678	*	Edredón Lunares
