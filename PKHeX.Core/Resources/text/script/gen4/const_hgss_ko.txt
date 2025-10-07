@@ -16,7 +16,7 @@
 0071	r	떠도는 라티아스 상태 (HG)	0:대기 중,1:잡혔다,2:기절/리스폰됨
 0072	r	떠도는 라티오스 상태 (SS)	0:대기 중,1:잡혔다,2:기절/리스폰됨
 0148	+	매일 형제자매 총 발견됨	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
-0151	s	엘리트트레이너 자매들 (34도로)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
+0151	s	엘리트 트레이너 자매들 (34번도로)	0:배틀하지 않음,1:마리사와 마리카를 이겼어요,2:파워풀허브 대기 중,3:마리아 쓰러뜨림/파워풀허브 받음
 0253	r	레드 (은빛산)	0:쓰러뜨림 않음,1:쓰러뜨림 (호연 스타팅 활성화됨)
-0276	s	메일 탐구	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
+0276	s	메일 탐구	0:활성화되지 않음,1:메일을 지닌 깨비참을 받았다,2:31번도로에서 메일 전달 완료 (가방이 가득 찼다),3:31번도로에서 메일 전달 완료,5:유랑이 맥스업을 주었다 (완료)
 0291	+	잡기쇼 최고 점수 (팔파크)
