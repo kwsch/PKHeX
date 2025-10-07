@@ -15,51 +15,51 @@
 0673	*	Kabuto puzzle solved in Ruins of Alph
 0674	*	Omanyte puzzle solved in Ruins of Alph
 0675	*	Aerodactyl puzzle solved in Ruins of Alph
-0676	*	Feathery Bed
-0677	*	Pink Bed
-0678	*	Polkadot Bed
-0679	*	Pikachu Bed
-0680	*	Red Carpet
-0681	*	Blue Carpet
-0682	*	Yellow Carpet
-0683	*	Green Carpet
-0684	*	Magnaplant
-0685	*	Tropicplant
-0686	*	Jumboplant
-0687	*	Town Map
-0688	*	Pikachu Poster
-0689	*	Clefairy Poster
-0690	*	Jigglypuff Poster
+0676	*	Edredón de Plumas
+0677	*	Edredón Rosa
+0678	*	Edredón Lunares
+0679	*	Edredón Pikachu
+0680	*	Alfombra Roja
+0681	*	Alfombra Azul
+0682	*	Alfombra Amarilla
+0683	*	Alfombra Verde
+0684	*	Megaplanta
+0685	*	Planta Tropical
+0686	*	Planta Colosal
+0687	*	Mapa Pueblo
+0688	*	Póster Pikachu
+0689	*	Póster Clefairy
+0690	*	Póster Jigglypuff
 0691	*	NES
 0692	*	Super NES
 0693	*	Nintendo 64
 0694	*	Virtual Boy
-0695	*	Pikachu Doll
-0696	*	Surf Pikachu Doll
-0697	*	Clefairy Doll
-0698	*	Jigglypuff Doll
-0699	*	Bulbasaur Doll
-0700	*	Charmander Doll
-0701	*	Squirtle Doll
-0702	*	Poliwag Doll
-0703	*	Diglett Doll
-0704	*	Staryu Doll
-0705	*	Magikarp Doll
-0706	*	Oddish Doll
-0707	*	Gengar Doll
-0708	*	Shellder Doll
-0709	*	Grimer Doll
-0710	*	Voltorb Doll
-0711	*	Weedle Doll
-0712	*	Unown Doll
-0713	*	Geodude Doll
-0714	*	Machop Doll
-0715	*	Tentacool Doll
-0717	*	Gold Trophy
-0718	*	Silver Trophy
-0719	*	Big Snorlax
-0720	*	Big Onix
-0721	*	Big Lapras
+0695	*	Muñeco Pikachu
+0696	*	Muñeco Pikachu Surf
+0697	*	Muñeco Clefairy
+0698	*	Muñeco Jigglypuff
+0699	*	Muñeco Bulbasaur
+0700	*	Muñeco Charmander
+0701	*	Muñeco Squirtle
+0702	*	Muñeco Poliwag
+0703	*	Muñeco Diglett
+0704	*	Muñeco Staryu
+0705	*	Muñeco Magikarp
+0706	*	Muñeco Oddish
+0707	*	Muñeco Gengar
+0708	*	Muñeco Shellder
+0709	*	Muñeco Grimer
+0710	*	Muñeco Voltorb
+0711	*	Muñeco Weedle
+0712	*	Muñeco Unown
+0713	*	Muñeco Geodude
+0714	*	Muñeco Machop
+0715	*	Muñeco Tentacool
+0717	*	Trofeo Oro
+0718	*	Trofeo Plata
+0719	*	Snorlax Grande
+0720	*	Onix Grande
+0721	*	Lapras Grande
 0791	r	Ho-oh Capturado
 0792	r	Lugia Capturado
 1904	r	Snorlax Capturado
