@@ -22,7 +22,7 @@
 0676	*	Lit à Plumes
 0677	*	Lit Rose
 0678	*	Lit à Pois
-0679	*	Lit Pikachu
+0679	*	Lit Pikachu (Illégal)
 0680	*	Tapis Rouge
 0681	*	Tapis Bleu
 0682	*	Tapis Jaune
@@ -55,10 +55,10 @@
 0709	*	Poupée Tadmorv
 0710	*	Poupée Voltorbe
 0711	*	Poupée Aspicot
-0712	*	Poupée Zarbi
+0712	*	Poupée Zarbi (Illégal)
 0713	*	Poupée Racaillou
 0714	*	Poupée Machoc
-0715	*	Poupée Tentacool
+0715	*	Poupée Tentacool (Illégal)
 0717	*	Trophée Or
 0718	*	Trophée Argent
 0719	*	Ronflex Super
