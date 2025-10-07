@@ -139,8 +139,8 @@
 0658	t	Se puede tener revancha con Pokémaníaco Toni
 0659	t	Preguntado Dominguera Vera por su Número
 0660	t	Se puede tener revancha con Dominguera Vera
-0661	t	Preguntado Ornitólogo Vance por su Número
-0662	t	Se puede tener revancha con Ornitólogo Vance
+0661	t	Preguntado Ornitólogo Vidal por su Número
+0662	t	Se puede tener revancha con Ornitólogo Vidal
 0663	t	Preguntado Pescador David for por su Número
 0664	t	Se puede tener revancha con Pescador David
 0665	t	Preguntado Karateka Leuco por su Número
