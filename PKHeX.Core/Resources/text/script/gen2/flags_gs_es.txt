@@ -6,15 +6,15 @@
 1601	s	La bola de Totodile de Elm ha desaparecido 
 1602	s	La bola de Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Capturado
-1760	r	Electrode (top corners) disappeared from Hideout B2F
-1761	r	Electrode (middle corners) disappeared from Hideout B2F
-1762	r	Electrode (bottom corners) disappeared from Hideout B2F
+1760	r	Electrode (esquinas superiores) desaparecido (Guarida Rocket B2F)
+1761	r	Electrode (esquinas centrales) desaparecido (Guarida Rocket B2F)
+1762	r	Electrode (esquinas inferiores) desaparecido (Guarida Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las bestias legendarias desaparecieron de la torre incendiada
-0672	*	Ho-Oh puzzle solved in Ruins of Alph
-0673	*	Kabuto puzzle solved in Ruins of Alph
-0674	*	Omanyte puzzle solved in Ruins of Alph
-0675	*	Aerodactyl puzzle solved in Ruins of Alph
+0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
+0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
+0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
+0675	*	Rompecabezas de Aerodactyl resuelto en Ruinas Alfa
 0676	*	Edredón de Plumas
 0677	*	Edredón Rosa
 0678	*	Edredón Lunares
@@ -75,23 +75,23 @@
 0084	s	Togepi Eclosionado
 0085	s	Mostrado Togepi a Elm
 0086	s	Recibida Piedra Eterna de Elm
-1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
-0097	g	Received Tyrogue
+1193	t	Karateka Kiyo derrotado (Puede recibir a Tyrogue)
+0097	g	Recibido Tyrogue
 0046	s	Unown aparecido en Ruinas Alfa
-0098	s	Conocida Frieda
-0099	s	Recibida Flecha Venenosa de Frieda
-0100	s	Conocida Tuscany
-0101	s	Recibido Lazo Rosa de Tuscany
-0102	s	Conocido Arthur
-0103	s	Recbida Piedra Dura de Arthur
-0104	s	Conocido Sunny
-0105	s	Recibido Imán de Sunny
-0106	s	Conocido Wesley
-0107	s	Recibido Cinturón Negro de Wesley
-0108	s	Conocido Santos
-0109	s	Recibido Hechizo de Santos
-0110	s	Conocida Monica
-0111	s	Recibido Pico Afilado de Monica
+0098	s	Conocida Vicky
+0099	s	Recibida Flecha Venenosa de Vicky
+0100	s	Conocida Marta
+0101	s	Recibido Lazo Rosa de Marta
+0102	s	Conocido Josué
+0103	s	Recbida Piedra Dura de Josué
+0104	s	Conocido Domingo
+0105	s	Recibido Imán de Domingo
+0106	s	Conocido Miguel
+0107	s	Recibido Cinturón Negro de Miguel
+0108	s	Conocido Sabino
+0109	s	Recibido Hechizo de Sabino
+0110	s	Conocida Luna
+0111	s	Recibido Pico Afilado de Luna
 0205	s	Restaurada energía a Kanto/Tren Imán usable
 0607	t	Preguntado Schoolboy Jack por su Número
 0608	t	Can Rematch Schoolboy Jack
