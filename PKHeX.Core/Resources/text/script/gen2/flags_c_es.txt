@@ -101,47 +101,47 @@
 0193	g	Quiz respondido mal (Dratini de regalo no tendrá Velocidad Extrema)
 0205	s	Restaurada energía a Kanto/Tren Imán usable
 0256	s	Gina regaló Piedra Hoja
-0257	s	Alan regaló Piedra Fuego
-0258	s	Dana regaló Piedra Trueno
-0259	s	Tully regaló Piedra Agua
-0260	s	Tiffany regaló Lazo Rosa
-0613	s	Recibida Proteina del Sailor Huey 3ra Batalla
-0614	s	Recibido PP Mas del Youngster Joey 4ta Batalla
-0615	s	Recibido Carburante de Bird Keeper Vance 2da Batalla
-0616	s	Recibido Hierro de Hiker Parry 3ra Batalla
-0617	s	Recibido Calcio del Picnicker Erin 2da Batalla
-0823	s	Proteina de Huey 3ra Batalla Pendiente
-0824	s	PP Mas de Joey 4ta Batalla Pendiente
-0825	s	Carburante de Vance 2da Batalla Pendiente
-0826	s	Hierro de Parry 2da Batalla Pendiente
-0827	s	Calcio de Erin 2da Batalla Pendiente
-0607	t	Preguntado Schoolboy Jack por su Número
-0609	t	Preguntado Pokéfan Beverly por su Número
-0611	t	Preguntado Sailor Huey por su Número
-0619	t	Preguntado Cooltrainer Gaven por su Número
-0621	t	Preguntado Cooltrainer Beth por su Número
-0623	t	Preguntado Bird Keeper Jose por su Número
-0625	t	Preguntado Cooltrainer Reena por su Número
-0627	t	Preguntado Youngster Joey por su Número
-0629	t	Preguntado Bug Catcher Wade por su Número
-0631	t	Preguntado Fisher Ralph por su Número
-0633	t	Preguntado Picnicker Liz por su Número
-0635	t	Preguntado Hiker Anthony por su Número
-0637	t	Preguntado Camper Todd por su Número
-0639	t	Preguntado Picnicker Gina por su Número
-0641	t	Preguntado Juggler Irwin por su Número
-0643	t	Preguntado Bug Catcher Arnie por su Número
-0645	t	Preguntado Schoolboy Alan por su Número
-0649	t	Preguntado Lass Dana por su Número
-0651	t	Preguntado Schoolboy Chad por su Número
-0653	t	Preguntado Pokéfan Derek por su Número
-0655	t	Preguntado Fisher Tully por su Número
-0657	t	Preguntado PokéManiac Brent por su Número
-0659	t	Preguntado Picnicker Tiffany por su Número
-0661	t	Preguntado Bird Keeper Vance por su Número
-0663	t	Preguntado Fisher Wilton for por su Número
-0665	t	Preguntado Blackbelt Kenji por su Número
-0667	t	Preguntado Hiker Parry por su Número
-0669	t	Preguntado Picnicker Erin por su Número
+0257	s	Arturo regaló Piedra Fuego
+0258	s	Sara regaló Piedra Trueno
+0259	s	Óscar regaló Piedra Agua
+0260	s	Vera regaló Lazo Rosa
+0613	s	Recibida Proteina del Marinero Ken 3ra Batalla
+0614	s	Recibido PP Mas del Joven Chano 4ta Batalla
+0615	s	Recibido Carburante de Ornitólogo Vidal 2da Batalla
+0616	s	Recibido Hierro de Montañero Ángelo 3ra Batalla
+0617	s	Recibido Calcio del Dominguera Elisa 2da Batalla
+0823	s	Proteina de Ken 3ra Batalla Pendiente
+0824	s	PP Mas de Chano 4ta Batalla Pendiente
+0825	s	Carburante de Vidal 2da Batalla Pendiente
+0826	s	Hierro de Ángelo 2da Batalla Pendiente
+0827	s	Calcio de Elisa 2da Batalla Pendiente
+0607	t	Preguntado Escolar Aitor por su Número
+0609	t	Preguntado Pokéfan Julia por su Número
+0611	t	Preguntado Marinero Ken por su Número
+0619	t	Preguntado Entrenador guay Galo por su Número
+0621	t	Preguntado Entrenadora guay Tina por su Número
+0623	t	Preguntado Ornitólogo José por su Número
+0625	t	Preguntado Entrenadora guay Tara por su Número
+0627	t	Preguntado Joven Chano por su Número
+0629	t	Preguntado Cazabichos Tomy por su Número
+0631	t	Preguntado Pescador Joserra por su Número
+0633	t	Preguntado Dominguera Lisi por su Número
+0635	t	Preguntado Montañero Luis por su Número
+0637	t	Preguntado Campista Gorka por su Número
+0639	t	Preguntado Dominguera Gina por su Número
+0641	t	Preguntado Malabarista Rafi por su Número
+0643	t	Preguntado Cazabichos Ángel por su Número
+0645	t	Preguntado Escolar Arturo por su Número
+0649	t	Preguntado Chica Sara por su Número
+0651	t	Preguntado Escolar Javier por su Número
+0653	t	Preguntado Pokéfan Jonay por su Número
+0655	t	Preguntado Pescador Óscar por su Número
+0657	t	Preguntado Pokémaníaco Toni por su Número
+0659	t	Preguntado Dominguera Vera por su Número
+0661	t	Preguntado Ornitólogo Vidal por su Número
+0663	t	Preguntado Pescador David for por su Número
+0665	t	Preguntado Karateka Leuco por su Número
+0667	t	Preguntado Montañero Ángelo por su Número
+0669	t	Preguntado Dominguera Elisa por su Número
 0828	t	Buena ofreció Número Telefónico una vez
 0670	t	Buena ofreció Número Telefónico (2da vez)
