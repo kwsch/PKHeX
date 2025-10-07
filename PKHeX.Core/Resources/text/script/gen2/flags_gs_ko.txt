@@ -15,51 +15,51 @@
 0673	*	알프의 유적에서 투구 퍼즐이 해결되었습니다
 0674	*	알프의 유적에서 암나이트 퍼즐이 해결되었습니다
 0675	*	알프의 유적에서 프테라 퍼즐이 해결되었습니다
-0676	*	Feathery Bed
-0677	*	Pink Bed
-0678	*	Polkadot Bed
-0679	*	Pikachu Bed
-0680	*	Red Carpet
-0681	*	Blue Carpet
-0682	*	Yellow Carpet
-0683	*	Green Carpet
-0684	*	Magnaplant
-0685	*	Tropicplant
-0686	*	Jumboplant
-0687	*	Town Map
-0688	*	Pikachu Poster
-0689	*	Clefairy Poster
-0690	*	Jigglypuff Poster
-0691	*	NES
-0692	*	Super NES
-0693	*	Nintendo 64
-0694	*	Virtual Boy
-0695	*	Pikachu Doll
-0696	*	Surf Pikachu Doll
-0697	*	Clefairy Doll
-0698	*	Jigglypuff Doll
-0699	*	Bulbasaur Doll
-0700	*	Charmander Doll
-0701	*	Squirtle Doll
-0702	*	Poliwag Doll
-0703	*	Diglett Doll
-0704	*	Staryu Doll
-0705	*	Magikarp Doll
-0706	*	Oddish Doll
-0707	*	Gengar Doll
-0708	*	Shellder Doll
-0709	*	Grimer Doll
-0710	*	Voltorb Doll
-0711	*	Weedle Doll
-0712	*	Unown Doll
-0713	*	Geodude Doll
-0714	*	Machop Doll
-0715	*	Tentacool Doll
-0717	*	Gold Trophy
-0718	*	Silver Trophy
-0719	*	Big Snorlax
-0720	*	Big Onix
-0721	*	Big Lapras
+0676	*	푹신푹신침대
+0677	*	복숭아빛침대
+0678	*	물방울침대
+0679	*	피카츄침대
+0680	*	빨간융단
+0681	*	남빛융단
+0682	*	노란융단
+0683	*	녹색융단
+0684	*	잘 자란 식물
+0685	*	남국 식물
+0686	*	커다란 식물
+0687	*	마을지도
+0688	*	피카츄의 포스터
+0689	*	삐삐의 포스터
+0690	*	푸린의 포스터
+0691	*	패미컴
+0692	*	슈퍼 패미컴
+0693	*	닌텐도64
+0694	*	버철보이
+0695	*	피카츄인형
+0696	*	파도타기피카츄인형
+0697	*	삐삐인형
+0698	*	푸린인형
+0699	*	이상해씨인형
+0700	*	파이리인형
+0701	*	꼬부기인형
+0702	*	발챙이인형
+0703	*	디그다인형
+0704	*	별가사리인형
+0705	*	잉어킹인형
+0706	*	뚜벅쵸인형
+0707	*	팬텀인형
+0708	*	셀러인형
+0709	*	질퍽이인형
+0710	*	찌리리공인형
+0711	*	뿔충이인형
+0712	*	안농인형
+0713	*	꼬마돌인형
+0714	*	알통몬인형
+0715	*	왕눈해인형
+0717	*	금 트로피
+0718	*	은 트로피
+0719	*	커다란잠만보
+0720	*	커다란롱스톤
+0721	*	커다란라프라스
 0791	r	칠색조 잡음
 0792	r	루기아 잡음
 1904	r	잠만보 잡음
