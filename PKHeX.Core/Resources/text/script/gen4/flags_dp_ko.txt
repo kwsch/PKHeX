@@ -56,7 +56,7 @@
 0134	g	영원시티에서 교환했다
 0244	g	선단시티에서 교환했다
 0245	g	226번도로에서 교환했다
-0787	s	Found HP Up in dried Lake Valor
+0787	s	마른 입지호수에서 맥스업 찾음
 2507	s	팔파크 잡기쇼에 들어갔어
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)
