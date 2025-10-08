@@ -6,9 +6,9 @@
 1601	s	La bola del Totodile de Elm ha desaparecido 
 1602	s	La bola del Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Capturado
-1760	r	Electrode (esquinas superiores) desaparecido (Guarida Rocket B2F)
-1761	r	Electrode (esquinas centrales) desaparecido (Guarida Rocket B2F)
-1762	r	Electrode (esquinas inferiores) desaparecido (Guarida Rocket B2F)
+1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
+1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)
+1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
 0190	*	Kurt puede ver la GS Ball
