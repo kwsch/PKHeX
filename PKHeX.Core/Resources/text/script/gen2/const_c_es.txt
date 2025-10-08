@@ -49,7 +49,7 @@
 69	s	Rival (Calle Victoria)	0:Desaparecido,1:Te retará
 70	s	Débora (Guarida Dragón)	0:Desaparecido,1:Te dará la MT24 justo fuera del Santuario
 71	s	Santuario de la Guarida Dragón	0:0: No entrado,1:Entrado y realizado el cuestionario
-74	s	Evento de S.S. Aqua	0:Un caballero se cruzará contigo (Evento de la historia)
+74	s	Evento de S.S. Aqua	0:Normal,2:Un caballero se cruzará contigo (Evento de la historia)
 75	s	Marinero en S.S. Aqua B1F	0:Paso denegado,1:Paso permitido
 128	t	Escolar Aitor	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 130	t	Marinero Ken	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha (Final)
