@@ -36,7 +36,7 @@
 51	s	Rival (Torre Bellsprout)	0:No encontrado,1:Encontrado
 52	r	Suicune (Torre de Hojalata)	0:Batalla,1:Atrapado/Derrotado
 53	s	Evento de historia en la Torre Quemada	0:No ha entrado,1:Conoció a Eusine,2:Rival derrotado
-54	r	Bestias legendarias (Torre quemada)	0:No se han despertado,1:Despertar/Huida
+54	r	Bestias legendarias (Torre Quemada)	0:No se han despertado,1:Despertar/Huida
 55	s	Evento de historia en la 5F de la Torre Radio	0:Batalla contra el Director impostor,1:Recluta del Team Rocket disfrazado derrotado,2:Ejecutivo principal del Team Rocket derrotado en la sala del director
 58	*	Ruina superior izquierda (Ruinas Alfa)	0:Puzzle de pared no resuelto,1:Puzzle de pared resuelto
 59	*	Ruina superior derecha (Ruinas Alfa)	0:Puzzle de pared no resuelto,1:Puzzle de pared resuelto
