@@ -47,7 +47,5 @@
 0770	r	10號道路 敗露球菇 已消失 (2)
 0771	r	10號道路 哎呀球菇 已消失 (1)
 0772	r	10號道路 哎呀球菇 已消失 (2)
-2748	r	Dreamyard Musharna Disappeared (Friday)
-1372	s	Found Relic Crown (Abyssal Ruins 4F)
 2748	r	夢的遺址 夢夢蝕 已消失（星期五）
 1372	s	在海底遺跡4F 找到古代王冠
