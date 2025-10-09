@@ -47,5 +47,5 @@
 0770	r	10번도로 뽀록나 사라짐 (2)
 0771	r	10번도로 깜놀버슬 사라짐 (1)
 0772	r	10번도로 깜놀버슬 사라짐 (2)
-2748	r	Dreamyard Musharna Disappeared (Friday)
-1372	s	Found Relic Crown (Abyssal Ruins 4F)
+2748	r	꿈터 몽얌나 사라짐 (금요일)
+1372	s	고대의왕관 찾음 (해저유적 4F)
