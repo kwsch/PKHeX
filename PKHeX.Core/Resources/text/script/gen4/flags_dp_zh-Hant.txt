@@ -1,7 +1,7 @@
-0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
-0350	s	Lake Valor Water Restored/Can get Palkia/Dialga entry at Celestic Town
+0318	s	在立志湖洞窟擊敗了鎮星/心齊湖恢復了
+0350	s	立志湖水恢復了/可以從神和鎮獲得帝牙盧卡/帕路奇亞圖鑑
 0351	r	帝牙盧卡/帕路奇亞 已捕獲
-0482	s	Dialga/Palkia Gone from Spear Pillar
+0482	s	帝牙盧卡/帕路奇亞離開槍之柱
 0511	r	由克希 已消失
 0295	r	由克希 已捕獲
 0509	r	艾姆利多(心齊湖) 已消失
