@@ -1,5 +1,5 @@
-0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
-0350	s	Lake Valor Water Restored
+0318	s	在立志湖洞窟擊敗了鎮星/心齊湖恢復了
+0350	s	立志湖水恢復了
 0481	r	由克希 已消失
 0295	r	由克希 已捕獲
 0479	r	艾姆利多(心齊湖) 已消失
