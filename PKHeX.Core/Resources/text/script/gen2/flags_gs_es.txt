@@ -5,7 +5,7 @@
 1600	s	La bola de Cyndaquil de Elm ha desaparecido 
 1601	s	La bola de Totodile de Elm ha desaparecido 
 1602	s	La bola de Chikorita de Elm ha desaparecido 
-1784	r	Sudowoodo desaparecido
+1784	r	Sudowoodo Desaparecido
 1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
 1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)
 1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
@@ -60,10 +60,10 @@
 0719	*	Snorlax Grande
 0720	*	Onix Grande
 0721	*	Lapras Grande
-0791	r	Ho-oh desaparecido
-0792	r	Lugia desaparecido
-1904	r	Snorlax desaparecido
-1873	r	Gyarados Rojo desaparecido
+0791	r	Ho-oh Desaparecido
+0792	r	Lugia Desaparecido
+1904	r	Snorlax Desaparecido
+1873	r	Gyarados Rojo Desaparecido
 0068	s	Derrotado el Alto Mando/Elm puede dar el Ticket Barco
 1890	*	Red desapareció en Monte Plateado
 0069	g	Recibido Shuckle de Klaus
