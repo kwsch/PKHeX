@@ -84,22 +84,22 @@
 0376	s	Lost to Giovanni once (Celebi Event)
 1366	t	Policía Alejo derrotado (Noche)
 1440	t	Policía Donato derrotado (Noche)
-0693	t	Revancha contra Whitney
-0694	t	Revancha contra Janine
-0695	t	Revancha contra Clair
+0693	t	Revancha contra Blanca
+0694	t	Revancha contra Sachiko
+0695	t	Revancha contra Débora
 0696	t	Revancha contra Erika
 0697	t	Revancha contra Misty
 0698	t	Revancha contra Blaine
-0699	t	Revancha contra Blue
-0700	t	Revancha contra Chuck
+0699	t	Revancha contra Azul
+0700	t	Revancha contra Aníbal
 0701	t	Revancha contra Brock
-0702	t	Revancha contra Bugsy
+0702	t	Revancha contra Antón
 0703	t	Revancha contra Sabrina
-0704	t	Revancha contra Falkner
+0704	t	Revancha contra Pegaso
 0705	t	Revancha contra Lt. Surge
-0706	t	Revancha contra Morty
-0707	t	Revancha contra Jasmine
-0708	t	Revancha contra Pryce
+0706	t	Revancha contra Morti
+0707	t	Revancha contra Yasmina
+0708	t	Revancha contra Fredo
 1639	t	1ra revancha contra Youngster Joey
 1640	t	2da revancha contra Youngster Joey
 1870	t	3ra revancha contra Youngster Joey
