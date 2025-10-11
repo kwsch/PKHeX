@@ -84,22 +84,22 @@
 0376	s	비주기에게 한 번 졌어요 (세레비 이벤트)
 1366	t	Defeated Policeman Keith (Night)
 1440	t	Defeated Policeman Dirk (Night)
-0693	t	Had Whitney Rematch
-0694	t	Had Janine Rematch
-0695	t	Had Clair Rematch
-0696	t	Had Erika Rematch
-0697	t	Had Misty Rematch
-0698	t	Had Blaine Rematch
-0699	t	Had Blue Rematch
-0700	t	Had Chuck Rematch
-0701	t	Had Brock Rematch
-0702	t	Had Bugsy Rematch
-0703	t	Had Sabrina Rematch
-0704	t	Had Falkner Rematch
-0705	t	Had Lt. Surge Rematch
-0706	t	Had Morty Rematch
-0707	t	Had Jasmine Rematch
-0708	t	Had Pryce Rematch
+0693	t	재대결한 꼭두
+0694	t	재대결한 도희
+0695	t	재대결한 이향
+0696	t	재대결한 민화
+0697	t	재대결한 이슬
+0698	t	재대결한 강연
+0699	t	재대결한 그린
+0700	t	재대결한 사도
+0701	t	재대결한 웅
+0702	t	재대결한 호일
+0703	t	재대결한 초련
+0704	t	재대결한 비상
+0705	t	재대결한 마티스
+0706	t	재대결한 유빈
+0707	t	재대결한 규리
+0708	t	재대결한 류옹
 1639	t	Had Youngster Joey 1st Rematch
 1640	t	Had Youngster Joey 2nd Rematch
 1870	t	Had Youngster Joey 3rd Rematch
