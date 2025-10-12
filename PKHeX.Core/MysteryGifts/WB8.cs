@@ -548,7 +548,8 @@ public sealed class WB8 : DataMysteryGift,
     private void SetEggMetData(PB8 pk)
     {
         pk.IsEgg = true;
-        pk.EggMetDate = EncounterDate.GetDateSwitch();
+        // Use distribution window date if available (e.g., Manaphy Egg CardID 1701), otherwise use generic Switch date
+        pk.EggMetDate = this.GetDistributionWindow(out var dt) ? dt.GetGenerateDate() : EncounterDate.GetDateSwitch();
         pk.NicknameTrash.Clear();
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = false;
