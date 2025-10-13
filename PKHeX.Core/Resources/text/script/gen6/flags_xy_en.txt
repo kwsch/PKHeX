@@ -29,12 +29,12 @@
 1060	s	Unknown Dungeon Accessible
 0299	g	Claimed Diancie via Mystery Gift (PokéCenter Event Completed)
 2666	*	Unlocked Cassius's PC
-2670	+	Usable Roller Skate trick: parallel swizzle
+2670	+	Can use Roller Skate trick: parallel swizzle
 2671	+	Learned Roller Skate trick: the backflip
-2672	+	Usable Roller Skate trick: the backflip
-2673	+	Usable Roller Skate trick: the 360
+2672	+	Can use Roller Skate trick: the backflip
+2673	+	Can use Roller Skate trick: the 360
 2674	+	Learned Roller Skate trick: the 360
-2675	+	Usable Roller Stake trick: cosmic flip
+2675	+	Can use Roller Stake trick: cosmic flip
 2720	f	Can Fly to Vaniville Town
 2721	f	Can Fly to Aquacorde Town
 2722	f	Can Fly to Santalune City

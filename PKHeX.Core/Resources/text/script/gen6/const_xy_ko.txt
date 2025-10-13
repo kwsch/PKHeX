@@ -1,15 +1,15 @@
 0048	*	스타팅 포켓몬	0:도치마론,1:푸호꼬,2:개구마르
-0059	g	관동 스타팅	0:없음,3:이상해씨,4:파이리,5:꼬부기
-0117	s	Route 2 Event	0:Will Battle Static Wild Pidgey,1:Battled Static Wild Pidgey,2:Tutorial Complete
-0138	s	Cycle Shop	0:Bicycle Pending,1:Received Bicycle
-0204	g	Route 12 Breeder	0:Blocking further access,1:Has Lapras Gift,2:Gave Lapras
-0227	s	Lost Hotel Punk Guy	0:Blocking further access (Not learned all Tricks),1:Allows access (Learned all Tricks)
-0174	g	Hiker (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Asks to Trade,4:Trade Pending,5:Traded for Magikarp
-0175	s	Waiter (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Rage Candy Bar,4:Rage Candy Bar Pending,5:Gave Rage Candy Bar
-0176	s	Madame (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Lava Cookie,4:Lava Cookie Pending,5:Gave Lava Cookie
-0177	g	Maid (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Asks to Trade,4:Trade Pending,5:Traded for Eevee
-0178	s	Tourist (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:3rd Meeting,4:4th Meeting
-0179	s	Backpacker (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Strange Souvenir,4:Strange Souvenir Pending,5:Gave Strange Souvenir
-0220	s	Lumiose Station Event	0:Pre-Champion,1:Will get National Dex,2:Received National Dex,3:Received TMV Pass
-0228	s	Hex Maniac Ghost (Lumiose City)	0:Not Encountered,1:Encountered
-0330	+	Hotel Richissme Tasks Perfect
+0059	g	관동 스타팅		0:없음,3:이상해씨,4:파이리,5:꼬부기
+0117	s	2번도로 이벤트	0:스크립트된 야생 구구을 상대할 거예요,1:스크립트된 야생 구구과 싸웠어요,2:튜토리얼 완료
+0138	s	사이클숍	0:자전거 대기 중,1:자전거 받음
+0204	g	12번도로 브리더	0:추가 접근 차단,1:라프라스 선물을 가지고 있어요,2:라프라스를 선물로 줬어
+0227	s	황폐해진호텔 배드가이	0:추가 접근 차단 (기술을 다 못 배웠어요),1:접근을 허용하다 (기술을 다 배웠어요)
+0174	g	등산가 (칼로스 호텔)	0:만나지 않았다,1:첫 번째 만남,2:두 번째 만남,3:교환을 요청해,4:교환 대기 중,5:잉어킹이랑 교환했어요
+0175	s	웨이터 (칼로스 호텔)	0:만나지 않았다,1:첫 번째 만남,2:두 번째 만남,3:분노의호두과자을 줄 거예요,4:분노의호두과자 대기 중,5:분노의호두과자을 줬어요
+0176	s	마담 (칼로스 호텔)	0:만나지 않았다,1:첫 번째 만남,2:두 번째 만남,3:용암전병을 줄 거예요,4:용암전병 대기 중,5:용암전병을 줬어요
+0177	g	메이드 (칼로스 호텔)	0:만나지 않았다,1:첫 번째 만남,2:두 번째 만남,3:교환을 요청해,4:교환 대기 중,5:이브이이랑 교환했어요
+0178	s	투어객 (칼로스 호텔)	0:만나지 않았다,1:첫 번째 만남,2:두 번째 만남,3:세 번째 만남,4:네 번째 만남
+0179	s	백팩커 (칼로스 호텔)	0:만나지 않았다,1:첫 번째 만남,2:두 번째 만남,3:이상한장식품을 줄 거예요,4:이상한장식품 대기 중,5:이상한장식품을 줬어요
+0220	s	미르스테이션 이벤트	0:아직 챔피언이 아니에요,1:전국도감을 얻을 거예요,2:전국도감 받음,3:TMV패스 받음
+0228	s	오컬트마니아 귀신 (미르시티)	0:만나지 않음,1:만남
+0330	+	쉬르 리슈 그랜드 호텔 총 작업 완벽

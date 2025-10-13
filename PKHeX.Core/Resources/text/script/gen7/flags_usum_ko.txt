@@ -1,9 +1,9 @@
-0646	s	Seen Mimikyu in Pikachu Valley RV
+0646	s	피카츄 골짜기 RV에서 미미큐를 봤어요
 4060	*	알로라 챔피언 등극/마기아나 선물 수령 가능
 4562	g	아칼라섬 방문/너로정했다캡 피카츄 수령 가능
 4563	g	너로정했다캡 피카츄 받음
 0518	g	파도타기 피카츄 받음
-0443	g	Received Gift Eevee Egg
+0443	g	이브이 알 선물 받음
 0493	g	폴리곤 선물 받음
 0504	g	프테라 선물 받음
 0654	g	타입:널 선물 받음 (1)
@@ -52,7 +52,7 @@
 1552	r	네크로즈마 잡음
 4370	r	(UM) 포니수림에 차곡차곡 등장
 4371	r	(US) 포니수림에 두파팡 등장
-4115	*	Unlocked IV Judge
+4115	*	개체값을 평가할 수 있게 개방됨
 4545	s	랜턴360 해금됨
 4546	s	누리레느플립 해금됨
 4547	s	아쿠스타토네이도 해금됨
@@ -66,7 +66,7 @@
 4445	+	배틀 스타일 획득: 불타는 
 4446	+	배틀 스타일 획득: 아이돌 
 4453	+	배틀 스타일 획득: 공허한 
-4073	s	Received Ride Pager
+4073	s	라이드기어 받음
 4074	s	켄타로스 러시 해금됨
 4075	s	바랜드 서치 해금됨
 4076	s	괴력몬 푸시 해금됨
@@ -74,46 +74,46 @@
 4078	s	라프라스 스윔 해금됨
 4079	s	샤크니아 제트 해금됨
 4080	s	리자몽 플라이트 해금됨
-0168	g	Traded for Hawlucha on Route 2
-0169	g	Traded for Noibat on Route 5
-0170	g	Traded for Barboach on Royal Avenue
-0171	g	Traded for Arbok on Route 8
-0172	g	Traded for Phantump in Tapu Village
-0173	g	Traded for Shellos in Seafolk Village
-0174	g	Traded for Tauros on Poni Gauntlet
-1592	r	(UM) Defeated Route 15 Sandygast
-0607	r	Defeated Route 14 Frillish
-0547	r	Defeated Bewear in Hau'oli City
-4564	s	Trainers' School is Haunted (Seven Mysteries Event)
-0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
-1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
-1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
-1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
-0185	t	Had First Title Defense Battle
-0186	t	Encountered Hapu (Title Defense)
-3395	t	Defeated Hapu (Title Defense)
-0187	t	Encountered Gladion (Title Defense)
-3453	t	Defeated Gladion (Title Defense; Rowlet is Player Starter)
-3454	t	Defeated Gladion (Title Defense; Litten is Player Starter)
-3455	t	Defeated Gladion (Title Defense; Popplio is Player Starter)
-0188	t	Encountered Ryuki (Title Defense)
-3445	t	Defeated Ryuki (Title Defense)
-0189	t	Encountered Lusamine (Title Defense)
-3680	t	Defeated Lusamine (Title Defense)
-0190	t	Encountered Hau (Title Defense)
-3392	t	Defeated Hau (Title Defense; Rowlet is Player Starter)
-3393	t	Defeated Hau (Title Defense; Litten is Player Starter)
-3394	t	Defeated Hau (Title Defense; Popplio is Player Starter)
-0191	t	Encountered Sophocles (Title Defense)
-3441	t	Defeated Sophocles (Title Defense)
-0192	t	Encountered Guzma (Title Defense)
-3683	t	Defeated Guzma (Title Defense)
-0193	t	Encountered Kukui (Title Defense)
-3513	t	Defeated Kukui (Title Defense; Rowlet is Player Starter)
-3514	t	Defeated Kukui (Title Defense; Litten is Player Starter)
-3515	t	Defeated Kukui (Title Defense; Popplio is Player Starter)
-0194	t	Encountered Plumeria (Title Defense)
-3437	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Tristan (Title Defense)
-3516	t	Defeated Tristan (Title Defense)
-1698	s	Aether Paradise Mohn Event Inactive
+0168	g	2번도로에서 루차불과 교환했다
+0169	g	5번도로에서 음뱃과 교환했다
+0170	g	로열 애버뉴에서 미꾸리과 교환했다
+0171	g	8번도로에서 아보크과 교환했다
+0172	g	카푸마을에서 나목령과 교환했다
+0173	g	바다민족의 마을에서 깝질무과 교환했다
+0174	g	포니험로에서 켄타로스과 교환했다
+1592	r	(UM) 모래꿍 쓰러뜨림 (15번도로)
+0607	r	탱그릴 쓰러뜨림 (14번도로)
+0547	r	이븐곰 쓰러뜨림 (하우올리시티 쇼핑에리어)
+4564	s	트레이너스쿨은 지금 유령이 나타나고 있어요 (7대 불가사의 이벤트)
+0211	s	루자미네의 맨션은 로켓단의 성이 아니에요
+1730	r	붐볼 사라짐 (로켓단의 성, 남서날개, 사이드 룸 2)
+1731	r	붐볼 사라짐 (로켓단의 성, 남서날개, 사이드 룸 11)
+1732	r	붐볼 사라짐 (로켓단의 성, 동남날개, 사이드 룸)
+0185	t	첫 번째 타이틀 방어전 전투를 했어요
+0186	t	만남 하푸우 (타이틀 방어전)
+3395	t	쓰러뜨림 하푸우 (타이틀 방어전)
+0187	t	만남 글라디오 (타이틀 방어전)
+3453	t	쓰러뜨림 글라디오 (타이틀 방어전; 나몰빼미는 플레이어의 스타팅이에요)
+3454	t	쓰러뜨림 글라디오 (타이틀 방어전; 냐오불는 플레이어의 스타팅이에요)
+3455	t	쓰러뜨림 글라디오 (타이틀 방어전; 누리공는 플레이어의 스타팅이에요)
+0188	t	만남 용규 (타이틀 방어전)
+3445	t	쓰러뜨림 용규 (타이틀 방어전)
+0189	t	만남 루자미네 (타이틀 방어전)
+3680	t	쓰러뜨림 루자미네 (타이틀 방어전)
+0190	t	만남 하우 (타이틀 방어전)
+3392	t	쓰러뜨림 하우 (타이틀 방어전; 나몰빼미는 플레이어의 스타팅이에요)
+3393	t	쓰러뜨림 하우 (타이틀 방어전; 냐오불는 플레이어의 스타팅이에요)
+3394	t	쓰러뜨림 하우 (타이틀 방어전; 누리공는 플레이어의 스타팅이에요)
+0191	t	만남 마마네 (타이틀 방어전)
+3441	t	쓰러뜨림 마마네 (타이틀 방어전)
+0192	t	만남 구즈마 (타이틀 방어전)
+3683	t	쓰러뜨림 구즈마 (타이틀 방어전)
+0193	t	만남 쿠쿠이 (타이틀 방어전)
+3513	t	쓰러뜨림 쿠쿠이 (타이틀 방어전; 나몰빼미는 플레이어의 스타팅이에요)
+3514	t	쓰러뜨림 쿠쿠이 (타이틀 방어전; 냐오불는 플레이어의 스타팅이에요)
+3515	t	쓰러뜨림 쿠쿠이 (타이틀 방어전; 누리공는 플레이어의 스타팅이에요)
+0194	t	만남 플루메리 (타이틀 방어전)
+3437	t	쓰러뜨림 플루메리 (타이틀 방어전)
+0195	t	만남 도선 (타이틀 방어전)
+3516	t	쓰러뜨림 도선 (타이틀 방어전)
+1698	s	에테르파라다이스 몬 이벤트 비활성

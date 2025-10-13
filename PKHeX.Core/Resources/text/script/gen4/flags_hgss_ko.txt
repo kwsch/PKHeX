@@ -1,18 +1,30 @@
+0107	s	포켓몬 도감 수령 완료
 0607	*	레드 (은빛산) 사라짐
 0774	r	프리져 사라짐
+0364	r	프리져 잡음
 0663	r	썬더 사라짐
+0330	r	썬더 잡음
 0775	r	파이어 사라짐
+0365	r	파이어 잡음
 0773	r	뮤츠 사라짐
+0363	r	뮤츠 잡음
 0457	r	라이코 배회
 0458	r	엔테이 배회
 0459	s	스이쿤 (불탄탑) 도망침
 0673	s	스이쿤 (25번도로) 사라짐
 0782	r	스이쿤 (불탄탑 재등장) 사라짐
+0373	r	스이쿤 잡음
 0579	r	루기아 사라짐
+0279	r	루기아 잡음
 0578	r	칠색조 사라짐
+0278	r	칠색조 잡음
 0781	r	라티아스/라티오스 (회색시티) 사라짐
-0721	r	가이오가/그란돈 사라짐
+0721	r	가이오가 사라짐 (HG)
+0378	r	가이오가 잡음 (HG)
+0720	r	그란돈 사라짐 (SS)
+0377	r	그란돈 잡음 (SS)
 0722	r	레쿠쟈 사라짐
+0379	r	레쿠쟈 잡음
 2404	a	전당등록 완료 (트레이너 카드 업그레이드)
 0388	a	빛나는나뭇잎 1개 획득 (트레이너 카드 업그레이드)
 0241	a	포켓슬론 신기록 수립 (트레이너 카드 업그레이드)
@@ -20,72 +32,74 @@
 0767	s	꼬부기 스타팅 몬스터볼 사라짐
 0768	s	파이리 스타팅 몬스터볼 사라짐
 0789	*	교환 기능 비활성화됨 (포켓몬센터)
-0501	r	Team Rocket HQ Electrode (1) Disappeared
-0502	r	Team Rocket HQ Electrode (2) Disappeared
-0503	r	Team Rocket HQ Electrode (3) Disappeared
-0609	r	Sleeping Snorlax Disappeared
-0149	g	Gift Eevee Received 
-0450	r	Route 36 Sudowoodo Disappeared
-0483	r	Red Gyarados Disappeared
-0191	g	Received Shuckle Gift
-0193	g	Shuckle returned or allowed to keep
-2744	r	Friday Lapras Disappeared
-0362	r	Caught Red Gyarados
-0219	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
-0220	g	Received Dratini Gift
-0268	g	Received Tyrogue Gift
-0269	s	Defeated Karate King in Mt. Mortar
-0113	g	Traded in Violet City
-0141	g	Traded at Goldenrod Dept. 5F
-0190	g	Traded in Olivine City
-0208	g	Traded in Blackthorn City
-0289	g	Traded at Power Plant
-0307	g	Traded in Pewter City
-0354	g	Traded with Lt. Surge
-0357	g	Traded with Brock
-0358	g	Traded with Jasmine
-0359	g	Traded with Steven
-0375	g	Got Hoenn Starter from Steven
-0762	s	Steven Disappeared from Silph Co.
-0791	s	Steven Disappeared from Pewter Museum
-0643	e	Microwave Oven Appliance Disappeared
-0644	e	Washing Machine Appliance Disappeared
-0645	e	Refrigerator Appliance Disappeared
-0646	e	Rotary Fan Appliance Disappeared
-0647	e	Lawn Mower Appliance Disappeared
-0215	s	Met Monica/Got Sharp Beak
-0216	s	Met Tuscany/Got TwistedSpoon
-0213	s	Met Wesley/Got Black Belt
-0177	s	Met Arthur/Got Hard Stone
-0217	s	Met Frieda/Got Poison Barb
-0212	s	Met Santos/Got Soft Sand
-0165	s	Met Sunny/Got Magnet
+0501	r	로켓단아지트 붐볼 (1) 사라짐
+0502	r	로켓단아지트 붐볼 (2) 사라짐
+0503	r	로켓단아지트 붐볼 (3) 사라짐
+0609	r	잠자는 잠만보 사라짐
+0371	r	잠만보 잡음
+0149	g	이브이 선물 받음 
+0450	r	36번국도 꼬지모 사라짐
+0361	r	꼬지모 잡음
+0483	r	빨간 갸라도스 사라짐
+0362	r	빨간 갸라도스 잡음
+0191	g	단단지 선물 받음
+0193	g	단단지가 돌아왔거나 유지할 수 있어요
+2744	r	금요일 라프라스 사라짐
+0219	g	퀴즈를 틀렸어요 (선물로 받은 미뇽은 신속을 가지고 오지 않아요)
+0220	g	미뇽 선물 받음
+0268	g	배루키 선물 받음
+0269	s	절구산에서 쓰러뜨린 태권도 대왕
+0113	g	도라지시티에서 교환됨
+0141	g	금빛시티 백화점 5층에서 교환됨
+0190	g	담청시티에서 교환됨
+0208	g	검은먹시티에서 교환됨
+0289	g	발전소에서 교환됨
+0307	g	회색시티에서 교환됨
+0354	g	마티스와 거래함
+0357	g	웅와 거래함
+0358	g	규리와 거래함
+0359	g	나성호와 거래함
+0375	g	나성호에게서 호연 스타팅을 받음
+0762	s	나성호가 실프주식회사에서 사라짐
+0791	s	나성호가 회색시티 과학 박물관에서 사라짐
+0643	e	레인지 기구 사라짐
+0644	e	세탁기 기구 사라짐
+0645	e	냉장고 기구 사라짐
+0646	e	선풍기 기구 사라짐
+0647	e	잔디깎기 기구 사라짐
+0215	s	월희 만남/예리한부리 받음
+0216	s	화홍 만남/휘어진스푼 받음
+0213	s	수방 만남/검은띠 받음
+0177	s	목인 만남/딱딱한돌 받음
+0217	s	금순 만남/독바늘 받음
+0212	s	토영 만남/부드러운모래 받음
+0165	s	일식 만남/자석 받음
 0119	s	Kurt's Granddaughter Is Worried About Kurt
 0414	s	Kurt at Slowpoke Well
 0415	s	Rocket Grunt Guarding Slowpoke Well Gone
-0539	*	Solved Ruins of Alph Escape Rope wall puzzle
-0541	*	Solved Ruins of Alph Flash wall puzzle
-0543	*	Solved Ruins of Alph Water Stone wall puzzle
-0545	*	Solved Ruins of Alph Ho-Oh wall puzzle
-0376	s	Lost to Giovanni once (Celebi Event)
+0539	*	알프의 유적 동굴탈출로프 벽 퍼즐을 해결했다
+0541	*	알프의 유적 플래시 벽 퍼즐을 해결했다
+0543	*	알프의 유적 물의돌 벽 퍼즐을 해결했다
+0545	*	알프의 유적 칠색조 벽 퍼즐을 해결했다
+0376	s	비주기에게 한 번 졌어요 (세레비 이벤트)
 1366	t	Defeated Policeman Keith (Night)
 1440	t	Defeated Policeman Dirk (Night)
-0693	t	Had Whitney Rematch
-0694	t	Had Janine Rematch
-0695	t	Had Clair Rematch
-0696	t	Had Erika Rematch
-0697	t	Had Misty Rematch
-0698	t	Had Blaine Rematch
-0699	t	Had Blue Rematch
-0700	t	Had Chuck Rematch
-0701	t	Had Brock Rematch
-0702	t	Had Bugsy Rematch
-0703	t	Had Sabrina Rematch
-0704	t	Had Falkner Rematch
-0705	t	Had Lt. Surge Rematch
-0706	t	Had Morty Rematch
-0707	t	Had Jasmine Rematch
-0708	t	Had Pryce Rematch
+0693	t	재대결한 꼭두
+0694	t	재대결한 도희
+0695	t	재대결한 이향
+0696	t	재대결한 민화
+0697	t	재대결한 이슬
+0698	t	재대결한 강연
+0699	t	재대결한 그린
+0700	t	재대결한 사도
+0701	t	재대결한 웅
+0702	t	재대결한 호일
+0703	t	재대결한 초련
+0704	t	재대결한 비상
+0705	t	재대결한 마티스
+0706	t	재대결한 유빈
+0707	t	재대결한 규리
+0708	t	재대결한 류옹
 1639	t	Had Youngster Joey 1st Rematch
 1640	t	Had Youngster Joey 2nd Rematch
 1870	t	Had Youngster Joey 3rd Rematch

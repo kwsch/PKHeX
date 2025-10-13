@@ -2,13 +2,14 @@
 0152	r	Dialga/Palkia	00:Not Started,01:Grunts Beaten,02:Before Commanders,03:Battleable (story),04:Desaparecido,05:Luchable
 0158	r	Heatran	00:Sin activar,01:Luchable,02:Desaparecido
 0054	e	Isla Plenilunio	0:Sin activar,520:En el mapa
-0055	e	Isla Lunanueva	0:Sin activar,553:En el mapa
+0055	e	Isla Lunanueva (No lanzado)	0:Sin activar,553:En el mapa
 0056	e	Vía Manantial	0:Sin activar,786:Aparecida
-0057	e	Vía Costera	0:Sin activar,4136:Aparecida
-0067	e	Carné Socio	0:Sin activar,4617:Activado
-0068	e	Carta Prof Oak	0:Sin activar,4370:Activado
-0069	e	Flauta Azur	0:Sin activar,4387:Activado
+0057	e	Vía Costera (No lanzado)	0:Sin activar,4136:Aparecida
+0067	e	Carné Socio (No lanzado)	0:Sin activar,4617:Activado
+0068	e	Carta Prof Oak (No lanzado)	0:Sin activar,4370:Activado
+0069	e	Flauta Azur (No lanzado)	0:Sin activar,4387:Activado
 0062	r	Current Players Interacted Underground	32:Spiritomb Aparecido
 0138	e	Torre Sagrada	0:Desactivado,1:Activo
-0248	e	Evento de Taberna Bahía	0:Sin Entra,4:Evento Completado
+0248	e	Evento de Taberna Bahía (No lanzado)	0:No completado,2:Darkrai Capture Pending,3:Sailor outside Inn (Darkrai capturado),4:Completado (Caught Darkrai during nightmare)
+0280	e	Evento de Sala del Origen (No lanzado)	0:Desactivado,1:Activo
 0224	+	Mejor puntuación capturas en Parque Compi

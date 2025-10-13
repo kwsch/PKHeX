@@ -5,12 +5,12 @@
 404	r	카푸느지느	03:배틀 가능,04:쓰러뜨림,05:잡음
 755	r	지가르데	01:배틀 가능,02:쓰러뜨림,05:잡음
 867	r	주인 포켓몬 선물	00:받지 않음,01:1마리 받음,02:2마리 받음,03:3마리 받음,04:4마리 받음,05:5마리 받음,06:모두 받음
-084	s	Pikachu Seen in Pikachu Valley
-078	+	Total Title Defenses
-083	+	Total Important NPC Battles
-750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
-756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
-769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
-783	s	Big Wave Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
-784	r	Haunted Trainers' School Diary	0:Normal,5:Cursed (Drifloon Appeared)
-790	r	Haunted Trainers' School Gastly	6:Battleable,7:Battled
+084	s	피카츄 골짜기에서 본 총 피카츄 수
+078	+	총 타이틀 방어
+083	+	총 중요한 NPC 전투
+750	s	리그 팬걸들 이벤트	0:타이틀 방어 0회,1:타이틀 방어 1회 후 (2 하트스위트 보류 중),2:2번 타이틀 방어 후 (2 하트스위트 받음)
+756	s	슬리퍼 이벤트 (하우올리시티 경찰서)	0:활성화되지 않음,1:활성화됨,2:완료
+769	s	메타몽5 이벤트	0:변장한 경찰관 나타남,1:변장한 경찰관 쓰러뜨림 (보상 보류 중),2:변장한 한약상 나타남,3:변장한 한약상 쓰러뜨림 (보상 보류 중),4:변장한 쿡 나타남,5:변장한 쿡 쓰러뜨림 (보상 보류 중),6:변장한 로미로미 마사지사 나타남,7:변장한 로미로미 마사지사 쓰러뜨림 (보상 보류 중),8:변장한 라이치 나타남,9:변장한 라이치 쓰러뜨림 (보상 보류 중),10:완료
+783	s	빅웨이브비치	0:7대 불가사의 이벤트를 활성화할 것이다,1:활성화됨 7대 불가사의 이벤트,2:고급상처약을 가지고 있어요 (7대 불가사의 완료),3:고급상처약를 줬어
+784	r	귀신 들린 트레이너스쿨 일기	0:정상,5:저주받은 (흔들풍손 나타남)
+790	r	귀신 들린 트레이너스쿨 고오스	6:배틀할 수 있는,7:배틀했다

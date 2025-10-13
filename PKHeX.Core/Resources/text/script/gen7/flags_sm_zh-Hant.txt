@@ -15,40 +15,40 @@
 3118	s	已解鎖 拉普拉斯游泳
 3119	s	已解鎖 巨牙鯊噴射
 3120	s	已解鎖 噴火龍飛行
-0168	g	Traded for Machop on Route 2
-0169	g	Traded for Bounsweet on Route 5
-0170	g	Traded for Poliwhirl in Konikoni City
-0171	g	Traded for Happiny in Malie City
-0172	g	Traded for Graveler in Tapu Village
-0173	g	Traded for Steene in Seafolk Village
-0174	g	Traded for Talonflame on Poni Gauntlet
-0789	s	Lillie Disappeared from Altar
-0790	s	Solgaleo Disappeared from Altar
-0791	s	Lunala Disappeared from Altar
-0185	s	Had First Title Defense Battle
-0186	t	Encountered Hapu (Title Defense)
-2435	t	Defeated Hapu (Title Defense)
-0187	t	Encountered Gladion (Title Defense)
-2493	t	Defeated Gladion (Title Defense; Rowlet is Player Starter)
-2494	t	Defeated Gladion (Title Defense; Litten is Player Starter)
-2495	t	Defeated Gladion (Title Defense; Popplio is Player Starter)
-0188	t	Encountered Ryuki (Title Defense)
-2485	t	Defeated Ryuki (Title Defense)
-0189	t	Encountered Faba (Title Defense)
-2436	t	Defeated Faba (Title Defense)
-0190	t	Encountered Hau (Title Defense)
-2432	t	Defeated Hau (Title Defense; Rowlet is Player Starter)
-2433	t	Defeated Hau (Title Defense; Litten is Player Starter)
-2434	t	Defeated Hau (Title Defense; Popplio is Player Starter)
-0191	t	Encountered Sophocles (Title Defense)
-2481	t	Defeated Sophocles (Title Defense)
-0192	t	Encountered Molayne (Title Defense)
-2557	t	Defeated Molayne (Title Defense)
-0193	t	Encountered Kukui (Title Defense)
-2553	t	Defeated Kukui (Title Defense; Rowlet is Player Starter)
-2554	t	Defeated Kukui (Title Defense; Litten is Player Starter)
-2555	t	Defeated Kukui (Title Defense; Popplio is Player Starter)
-0194	t	Encountered Plumeria (Title Defense)
-2477	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Youngster Tristan (Title Defense)
-2556	t	Defeated Youngster Tristan (Title Defense)
+0168	g	在2號道路交換了腕力
+0169	g	在5號道路交換了甜甜竹
+0170	g	在可霓可市交換了蚊香君
+0171	g	在馬利埃靜市交換了小福蛋
+0172	g	在卡璞村交換了隆隆石
+0173	g	在海洋居民之村交換了甜舞妮
+0174	g	在波尼險路交換了烈箭鷹
+0789	s	莉莉艾從祭壇上消失了
+0790	s	索爾迦雷歐從祭壇上消失了
+0791	s	露娜雅拉從祭壇上消失了
+0185	s	進行第一場聯盟衛冕戰
+0186	t	遭遇哈普烏 (聯盟衛冕戰)
+2435	t	擊敗哈普烏 (聯盟衛冕戰)
+0187	t	遭遇格拉吉歐 (聯盟衛冕戰)
+2493	t	擊敗格拉吉歐 (聯盟衛冕戰; 木木梟是同行首發)
+2494	t	擊敗格拉吉歐 (聯盟衛冕戰; 火斑喵是同行首發)
+2495	t	擊敗格拉吉歐 (聯盟衛冕戰; 球球海獅是同行首發)
+0188	t	遭遇龍葵 (聯盟衛冕戰)
+2485	t	擊敗龍葵 (聯盟衛冕戰)
+0189	t	遇到扎奧博 (聯盟衛冕戰)
+2436	t	擊敗扎奧博 (聯盟衛冕戰)
+0190	t	遭遇哈烏 (聯盟衛冕戰)
+2432	t	擊敗哈烏 (聯盟衛冕戰; 木木梟是同行首發)
+2433	t	擊敗哈烏 (聯盟衛冕戰; 火斑喵是同行首發)
+2434	t	擊敗哈烏 (聯盟衛冕戰; 球球海獅是同行首發)
+0191	t	遭遇馬瑪內 (聯盟衛冕戰)
+2481	t	擊敗馬瑪內 (聯盟衛冕戰)
+0192	t	遇到馬睿因 (聯盟衛冕戰)
+2557	t	擊敗馬睿因 (聯盟衛冕戰)
+0193	t	遭遇庫庫伊 (聯盟衛冕戰)
+2553	t	擊敗庫庫伊 (聯盟衛冕戰; 木木梟是同行首發)
+2554	t	擊敗庫庫伊 (聯盟衛冕戰; 火斑喵是同行首發)
+2555	t	擊敗庫庫伊 (聯盟衛冕戰; 球球海獅是同行首發)
+0194	t	遭遇布爾美麗 (聯盟衛冕戰)
+2477	t	擊敗布爾美麗 (聯盟衛冕戰)
+0195	t	遭遇短褲小子 (聯盟衛冕戰)
+2556	t	擊敗短褲小子 (聯盟衛冕戰)

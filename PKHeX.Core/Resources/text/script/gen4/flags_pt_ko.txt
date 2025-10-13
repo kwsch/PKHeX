@@ -1,26 +1,39 @@
+0318	s	입지호수의 공동에서 새턴을 쓰러뜨렸어/진실호수가 회복됐어
+0350	s	입지호수 물이 회복됐어
 0481	r	유크시 사라짐
+0295	r	유크시 잡음
 0479	r	엠라이트 (진실호수 동굴) 사라짐
 0480	r	아그놈 사라짐
+0294	r	아그놈 잡음
 0208	r	디아루가 잡음
 0209	r	펄기아 잡음
 0591	r	크레세리아 (만월섬) 사라짐
 0476	r	플루토 (하드마운틴) 사라짐
 0293	r	히드런 배틀 가능
-0288	r	히드런 사라짐
+0477	r	히드런 사라짐
+0288	r	히드런 잡음
 0579	r	레지기가스 사라짐
+0283	r	레지기가스 잡음
 0306	r	시작의 방 (창기둥) 나타남
 0461	r	난천 (창기둥) 사라짐
 0672	r	난천 (송별의샘) 사라짐
 0592	r	기라티나 사라짐
-0344	r	다크라이 사라짐
-0301	r	오박사 (224번도로) #1 사라짐
-0594	r	오박사 (224번도로) #2 사라짐
-0714	r	미정 (224번도로) 사라짐
-0604	r	갈라진 바닷길 나타남
-0291	r	쉐이미 (꽃의 낙원) 사라짐
-0286	r	아르세우스 사라짐
+0289	r	기라티나 잡음
+0576	r	다크라이 사라짐
+0344	r	다크라이 잡음/항구 숙소 출입 금지
+0301	r	224번도로의 흰 바위에 글을 썼어 (한국어 미발매)
+0594	r	오박사 (224번도로) 사라짐 (한국어 미발매)
+0604	r	쉐이미 (224번도로) 사라짐 (한국어 미발매)
+0714	r	미정 (224번도로) 사라짐 (한국어 미발매)
+0593	r	쉐이미 (꽃의 낙원) 사라짐 (한국어 미발매)
+0291	r	쉐이미 잡음 (한국어 불법)
+0590	r	아르세우스 사라짐 (미발매)
+0286	r	아르세우스 잡음 (불법적인)
 0307	r	배로 만월섬 이동 가능
 0316	r	배로 신월섬 이동 가능
+0577	r	항구 숙소 방문함
+2532	r	신월섬 방문함
+2517	r	꽃의 낙원 방문함 (한국어 미발매)
 0578	r	오박사 (영원시티) 사라짐
 0281	r	프리져/썬더/파이어 배회 (1)
 0153	r	프리져/썬더/파이어 배회 (2)
@@ -39,30 +52,35 @@
 1262	s	숲의양옥집에서 TM90 찾음
 1281	s	숲의양옥집에서 이상한사탕 찾음
 1282	s	숲의양옥집에서 큰진주 찾음
-1337	s	Found Metal Coat in Iron Ruins
-1338	s	Found Never-Melt Ice in Iceberg Ruins
-1339	s	Found Hard Stone in Rock Peak Ruins
-0151	g	Received Porygon
-0305	g	Received Eevee
-2430	*	Unlocked Bebe's PC
-2433	s	2nd Rematch Against Trainers Unlocked
-2728	r	Friday Drifloon Disappeared
-2722	r	Today's Trophy Garden Pokémon Known
-0710	*	Unlocked Rotom's Room
-0119	*	Changed Rotom Form Once
-0699	e	Microwave Oven Appliance Disappeared
-0700	e	Washing Machine Appliance Disappeared
-0701	e	Refrigerator Appliance Disappeared
-0702	e	Rotary Fan Appliance Disappeared
-0703	e	Lawn Mower Appliance Disappeared
-0133	g	Traded in Oreburgh City
-0134	g	Traded in Eterna City
-0244	g	Traded in Snowpoint City
-0245	g	Traded on Route 226
-0325	r	Dialga/Palkia rifts spawnable
-1051	s	Found Adamant Orb on Mt. Coronet
-1053	s	Found Lustrous Orb on Mt. Coronet
-2507	s	Entered Pal Park Catching Show
+1336	s	깨어진 세계에서 백금옥 찾음
+1337	s	무쇠의 유적에서 금속코트 찾음
+1338	s	빙산의 유적에서 녹지않는얼음 찾음
+1339	s	바위산의 유적에서 딱딱한돌 찾음
+0151	g	폴리곤 받음
+0305	g	이브이 받음
+0226	g	리오르 알 현이에게서 받은 선물 대기 중 (강철섬)
+0229	g	리오르 알 선물 받음 현이에게서 (강철섬)
+0485	s	현이가 강철섬에서 사라짐
+2430	*	이수진의 PC 개방됨
+2433	s	트레이너와 2차 리매치 잠금 해제됨
+2728	r	금요일 흔들풍손 사라짐
+2722	r	오늘의 자랑의 뒷마당에서 알려진 포켓몬
+0710	*	로토무의 방 개방됨
+0119	*	로토무의 형태를 한 번 바꿨어
+0699	e	레인지 기구 사라짐
+0700	e	세탁기 기구 사라짐
+0701	e	냉장고 기구 사라짐
+0702	e	선풍기 기구 사라짐
+0703	e	잔디깎기 기구 사라짐
+0133	g	무쇠시티에서 교환했다
+0134	g	영원시티에서 교환했다
+0244	g	선단시티에서 교환했다
+0245	g	226번도로에서 교환했다
+0787	s	마른 입지호수에서 맥스업 찾음
+2507	s	팔파크 잡기쇼에 들어갔어
+0325	r	디아루가/펄기아 균열 소환 가능
+1051	s	천관산에서 금강옥 찾음
+1053	s	천관산에서 백옥 찾음
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)
 1449	t	Defeated Policeman Alex (Night)

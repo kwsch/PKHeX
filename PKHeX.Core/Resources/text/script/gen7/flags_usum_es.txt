@@ -83,7 +83,7 @@
 0174	g	Intercambio por Tauros en Pendiente de Poni
 1592	r	(UL) Sandygast de la Ruta 15 derrotado
 0607	r	Frillish de la Ruta 14 derrotado
-0547	r	Bewear de Ciudad Tilooli derrotado
+0547	r	Bewear de Ciudad Hauoli Zona Comercial derrotado
 4564	s	Escuela de entrenadores encantada (Evento de los siete misterios)
 0211	s	Mansión de Samina NO es el Castillo del Team Rocket
 1730	r	Electrode desaparecido (Ala izquierda del primer piso del Castillo del Team Rocket, sala intermedia 2)

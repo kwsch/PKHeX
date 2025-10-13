@@ -5,7 +5,7 @@
 1600	s	Ball d'Héricendre au Labo du Prof. Orme disparue
 1601	s	Ball de Kaiminus au Labo du Prof. Orme disparue
 1602	s	Ball de Germignon au Labo du Prof. Orme disparue
-1784	r	Simularbre attrapé
+1784	r	Simularbre disparu
 1760	r	Électrode (coins du haut) disparus du Repaire Rocket -2
 1761	r	Électrode (coins du milieu) disparus du Repaire Rocket -2
 1762	r	Électrode (coins du bas) disparus du Repaire Rocket -2
@@ -18,7 +18,7 @@
 0676	*	Lit à Plumes
 0677	*	Lit Rose
 0678	*	Lit à Pois
-0679	*	Lit Pikachu
+0679	*	Lit Pikachu (illégal)
 0680	*	Tapis Rouge
 0681	*	Tapis Bleu
 0682	*	Tapis Jaune
@@ -51,19 +51,19 @@
 0709	*	Poupée Tadmorv
 0710	*	Poupée Voltorbe
 0711	*	Poupée Aspicot
-0712	*	Poupée Zarbi
+0712	*	Poupée Zarbi (illégal)
 0713	*	Poupée Racaillou
 0714	*	Poupée Machoc
-0715	*	Poupée Tentacool
+0715	*	Poupée Tentacool (illégal)
 0717	*	Trophée Or
 0718	*	Trophée Argent
 0719	*	Ronflex Super
 0720	*	Onix Super
 0721	*	Lokhlass Super
-0791	r	Ho-oh attrapé
-0792	r	Lugia attrapé
-1904	r	Ronflex attrapé
-1873	r	Léviator Rouge attrapé
+0791	r	Ho-oh disparu
+0792	r	Lugia disparu
+1904	r	Ronflex disparu
+1873	r	Léviator Rouge disparu
 0068	s	A battu le Conseil 4/Prof. Orme peut donner le Passe Bateau
 1890	*	Red a disparu du Mont Argenté
 0069	g	Caratroc reçu à Irisia

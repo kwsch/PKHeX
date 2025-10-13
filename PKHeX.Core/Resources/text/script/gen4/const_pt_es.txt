@@ -7,12 +7,13 @@
 0054	e	Isla Plenilunio	0:Sin activar,520:En el mapa
 0055	e	Isla Lunanueva	0:Sin activar,553:En el mapa
 0056	e	Vía Manantial	0:Sin aparecer,786:Aparecida
-0057	e	Vía Costera	0:Sin aparecer,4136:Aparecida
+0057	e	Vía Costera (No lanzado en Coreano)	0:Sin aparecer,4136:Aparecida
 0067	e	Carné Socio	0:Sin activar,4617:Activado
-0068	e	Carta Prof Oak	0:Sin activar,4370:Activado
-0069	e	Flauta Azur	0:Sin activar,4387:Activado
+0068	e	Carta Prof Oak (No lanzado en Coreano)	0:Sin activar,4370:Activado
+0069	e	Flauta Azur (No lanzado)	0:Sin activar,4387:Activado
 0070	e	Ll. Secreta	0:Sin activar,4387:Activado
-0248	e	Evento de Taberna Bahía	0:Sin Entra,4:Evento Completado
+0248	e	Evento de Taberna Bahía	0:No completado,2:Darkrai Capture Pending,3:Sailor outside Inn (Darkrai capturado),4:Completado (Caught Darkrai during nightmare)
+0280	e	Evento de Sala del Origen (No lanzado)	0:Desactivado,1:Activo
 0086	e	Mochilero del Evento de Arceus	0:Sin activar,1:En Mina Pirita,2:En segundo piso de Biblioteca Canal,3:Evento completado
 0087	e	Evento de Sémola (Ruta 224)	0:Sin activar,1:Puede ser activado,2:Activado
 0133	s	Sémola (Ruta 224)	0:Sin activar,1:Activado,2:Aparecido

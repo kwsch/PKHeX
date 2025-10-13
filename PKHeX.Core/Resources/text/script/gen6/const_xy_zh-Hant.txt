@@ -1,15 +1,15 @@
 0048	*	初始夥伴	0:哈力栗,1:火狐狸,2:呱呱泡蛙
-0059	g	Kanto Starter	0:Not Chosen,3:Bulbasaur,4:Charmander,5:Squirtle
-0117	s	Route 2 Event	0:Will Battle Static Wild Pidgey,1:Battled Static Wild Pidgey,2:Tutorial Complete
-0138	s	Cycle Shop	0:Bicycle Pending,1:Received Bicycle
-0204	g	Route 12 Breeder	0:Blocking further access,1:Has Lapras Gift,2:Gave Lapras
-0227	s	Lost Hotel Punk Guy	0:Blocking further access (Not learned all Tricks),1:Allows access (Learned all Tricks)
-0174	g	Hiker (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Asks to Trade,4:Trade Pending,5:Traded for Magikarp
-0175	s	Waiter (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Rage Candy Bar,4:Rage Candy Bar Pending,5:Gave Rage Candy Bar
-0176	s	Madame (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Lava Cookie,4:Lava Cookie Pending,5:Gave Lava Cookie
-0177	g	Maid (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Asks to Trade,4:Trade Pending,5:Traded for Eevee
-0178	s	Tourist (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:3rd Meeting,4:4th Meeting
-0179	s	Backpacker (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Strange Souvenir,4:Strange Souvenir Pending,5:Gave Strange Souvenir
-0220	s	Lumiose Station Event	0:Pre-Champion,1:Will get National Dex,2:Received National Dex,3:Received TMV Pass
-0228	s	Hex Maniac Ghost (Lumiose City)	0:Not Encountered,1:Encountered
-0330	+	Hotel Richissme Tasks Perfect
+0059	g	關都御三家	0:未選擇, 3:妙蛙種子, 4:小火龍, 5:傑尼龜
+0117	s	2號道路事件	0:未開啟捕獲教程（野生波波）, 1:捕獲教程進行中（野生波波）, 2:教程完成
+0138	s	自行車店	0:自行車未領取, 1:自行車已領取
+0204	g	12號道路 寶可夢培育家	0:阻止進一步訪問, 1:可贈與 拉普拉斯, 2:已領取 拉普拉斯
+0227	s	荒廢酒店 路口的小弟	0:阻止進一步訪問（未學會所有輪滑鞋技巧）, 1:允許訪問（學會所有輪滑鞋技巧）
+0174	g	登山男 (卡洛斯旅館)	0:未滿足要求, 1:第1次對話, 2:第2次對話, 3:要求交換暴鯉龍, 4:交換待定, 5:交換了鯉魚王
+0175	s	男侍 (卡洛斯旅館)	0:未滿足要求, 1:第1次對話, 2:第2次對話, 3:可贈與憤怒饅頭, 4:憤怒饅頭待定, 5:已獲得憤怒饅頭
+0176	s	女士 (卡洛斯旅館)	0:未滿足要求, 1:第1次對話, 2:第2次對話, 3:可贈與釜炎仙餅, 4:釜炎仙貝待定, 5:已獲得釜炎仙餅
+0177	g	女僕 (卡洛斯旅館)	0:未滿足要求, 1:第1次對話, 2:第2次對話, 3:要求交換寶可夢, 4:交換待定, 5:交換了伊布
+0178	s	觀光客 (卡洛斯旅館)	0:未滿足要求, 1:第1次對話, 2:第2次對話, 3:第3次對話, 4:第4次對話（透露強大的女性訓練家資訊）
+0179	s	背包客 (卡洛斯旅館)	0:未滿足要求, 1:第1次對話, 2:第2次對話, 3:可贈與神秘擺設, 4:神秘擺設待定, 5:已獲得神秘擺設
+0220	s	密阿雷車站 事件	0:未成為冠軍, 1:將獲得全國圖鑑, 2:已獲得全國圖鑑, 3:已收到 TMV自由票
+0228	s	大樓幽靈事件 (密阿雷市)	0:未遇到, 1:遇到
+0330	+	秀麗世大酒店任務完美完成

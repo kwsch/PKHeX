@@ -1,5 +1,5 @@
 0048	*	Incial	0:Sin elegir,152:Chikorita,155:Cyndaquil,158:Totodile
-0299	r	Pichu Picoreja (Encinar)	0:No aparecido,1:Pendiente,2:Desaparecido
+0299	r	Pichu Picoreja (Encinar)	0:Sin activar,1:Pendiente,2:Obtenida
 0161	r	Perros (Torre Quemada)	0:Aparecido,1:Errante/Escapado
 0304	s	Estado Máximo Peñas	0:Muñeca Clefairy pendiente,1:Pendiente de conocer en Carmín (Lati@s pendiente),2:Conocido (Lati@s errante),3:Da a elegir inicial de Hoenn,4:Entrega inicial de Hoenn,5:Hablado con él en el Museo de Plateada,6:Quiere intercambiar en Silph S.A.,7:Intercambio por Beldum
 0067	e	Piedra Enigma	0:Sin activar,1778:Activa
@@ -17,6 +17,6 @@
 0072	r	Estado Latios errante (SS)	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
 0148	+	Total de Hermanos semanales conocidos	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
 0151	s	Hermanas entrenadoras guay (Ruta 34)	0:Sin luchar,1:Iida y Mar derrotadas,2:Hierba única pendiente,3:Lisa derrotada/Hierba única obtenida
-0253	r	Inicial de Hoenn	0:Sin activar,1:Activado
+0253	r	Rojo (Monte Plateado)	0:No Derrotado,1:Derrotado (Inicial de Hoenn Activado)
 0276	s	Tarea de la carta	0:Sin activar,1:Spearow con Carta recibido,2:Carta entregada en la Ruta 31 (Mochila llena),3:Carta entregada en la Ruta 31,5:Quintín da Más PP (Completado)
 0291	+	Mejor puntuación capturas en Parque Compi

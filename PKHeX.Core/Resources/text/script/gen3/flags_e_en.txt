@@ -26,24 +26,24 @@
 0266	g	Received Wynaut Egg
 0298	g	Received Beldum
 
-0314	e	Received Aurora Ticket from Mystery Gift
+0314	e	Received Aurora Ticket from Mystery Gift (Unreleased for Japanese)
 0315	e	Received Mystic Ticket from Mystery Gift
-0316	e	Received Old Sea Map from Mystery Gift
+0316	e	Received Old Sea Map from Mystery Gift (Unreleased Internationally)
 
 0430	e	Shown Eon Ticket
-0431	e	Shown Aurora Ticket
-0432	e	Shown Old Sea Map
+0431	e	Shown Aurora Ticket (Unreleased for Japanese)
+0432	e	Shown Old Sea Map (Unreleased Internationally)
 0475	e	Shown Mystic Ticket
 
 2227	e	Can Travel to Southern Island
-2261	e	Can Travel to Birth Island
-2262	e	Can Travel to Faraway Island
+2261	e	Can Travel to Birth Island (Unreleased for Japanese)
+2262	e	Can Travel to Faraway Island (Unreleased Internationally)
 2272	e	Can Travel to Navel Rock
 
 0255	r	Lati@s Roaming
 
-0455	r	Defeated Mew
-0458	r	Captured Mew
+0455	r	Defeated Mew (Unreleased Internationally)
+0458	r	Captured Mew (Unreleased Internationally)
 0145	r	Captured Lugia
 0146	r	Captured Ho-Oh
 0476	r	Defeated Ho-Oh
@@ -56,8 +56,8 @@
 0446	r	Captured/Defeated Kyogre
 0447	r	Captured/Defeated Groudon
 0448	r	Captured/Defeated Rayquaza
-0428	r	Defeated Deoxys
-0429	r	Captured Deoxys
+0428	r	Defeated Deoxys (Unreleased for Japanese)
+0429	r	Captured Deoxys (Unreleased for Japanese)
 
 0433	*	Used Move Tutor in Slateport City (Swagger)
 0434	*	Used Move Tutor in Mauville City (Rollout)
@@ -278,7 +278,7 @@
 761	r	Don't spawn truck in front of Brendan's house
 762	r	Don't spawn truck in front of May's house
 
-764	r	Don't spawn triangle on Birth Island
+764	r	Don't spawn triangle on Birth Island (Unreleased for Japanese)
 765	r	Don't spawn Scott in Mauville City
 766	r	Don't spawn Scott in Verdanturf Battle Tent
 767	r	Don't spawn Scott in Fallarbor Battle Tent
@@ -381,7 +381,7 @@
 866	r	Don't spawn Wally in Petalburg Gym
 
 868	r	Don't spawn fat man in Littleroot Town
-869	r	Don't spawnMr. Briney in Stern's Shipyard
+869	r	Don't spawn Mr. Briney in Stern's Shipyard
 870	r	Don't spawn Lanette in her house
 871	r	Don't spawn Lanette in Fallarbor Pokémon Center
 872	r	Don't spawn Trick Master in Trick House Entrance
@@ -479,7 +479,7 @@
 967	r	Don't spawn Steven in his own house
 968	r	Don't spawn Beldum (Pokéball) in Steven's house
 969	r	Don't spawn Kecleon in Fortree City
-970	r	Dont't spawn Kecleon on Route 120 (Bridge)
+970	r	Don't spawn Kecleon on Route 120 (Bridge)
 971	r	Don't spawn Brendan/May in Lilycove City
 972	r	Don't spawn Steven on Route 120
 973	r	Don't spawn Steven in Sootopolis City
@@ -1523,7 +1523,7 @@
 2129	t	Psychic Alvaro in Trick House Puzzle 7 defeated
 2130	t	Gentleman Everett in Trick House Puzzle 7 defeated
 
-2186	m	Rain and Harsh Sunlight in Eastern Hoenn
+2186	m	Rain and Harsh Sunlight in eastern Hoenn
 2159	f	Can Fly to Littleroot Town
 2160	f	Can Fly to Oldale Town
 2161	f	Can Fly to Dewford Town

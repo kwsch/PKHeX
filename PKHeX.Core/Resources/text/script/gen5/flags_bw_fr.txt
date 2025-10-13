@@ -1,11 +1,18 @@
 0669	r	Guide Team Plasma Disparu (Centre Pokémon de la Ligue)
 0661	r	Reshiram/Zekrom Disparu (Château de N)
+0307	r	Reshiram/Zekrom Capturé
 0766	r	Reshiram/Zekrom Disparu (Tour Dragospire)
+0338	r	Kyurem Capturé
 0801	r	Kyurem Disparu
+0348	r	Pyrax Capturé
 0810	r	Pyrax Disparu
+0166	r	Cobaltium Capturé
 0649	r	Cobaltium Disparu
+0167	r	Terrakium Capturé
 0650	r	Terrakium Disparu
+0168	r	Viridium Capturé
 0651	r	Viridium Disparu
+0313	r	Démétéros Capturé
 0652	s	Obstacle Enlevé (Route Victoire)
 0653	s	Obstacle Enlevé (Forêt d'Empoigne)
 2403	*	A les Chaussures de Sport
@@ -34,9 +41,11 @@
 0683	a	Métro de Combat : Trophée Super Solo non Obtenu
 0684	a	Métro de Combat : Trophée Super Duo non Obtenu
 0685	a	Métro de Combat : Trophée Super Multi non Obtenu
-0767	r	Trompignon Route 6 Capturé/Vaincu (1)
-0768	r	Trompignon Route 6 Capturé/Vaincu (2)
-0769	r	Gaulet Route 10 Capturé/Vaincu (1)
-0770	r	Gaulet Route 10 Capturé/Vaincu (2)
-0771	r	Trompignon Route 10 Capturé/Vaincu (1)
-0772	r	Trompignon Route 10 capturé/Vaincu (2)
+0767	r	Trompignon Route 6 Disparu (1)
+0768	r	Trompignon Route 6 Disparu (2)
+0769	r	Gaulet Route 10 Disparu (1)
+0770	r	Gaulet Route 10 Disparu (2)
+0771	r	Trompignon Route 10 Disparu (1)
+0772	r	Trompignon Route 10 Disparu (2)
+2748	r	Musharna Vestiges du Rêve Disparu (Vendredi)
+1372	s	Trouvé Vieux Tortil (Ruines des Abysses 4F)
