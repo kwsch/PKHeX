@@ -47,5 +47,5 @@
 0770	r	Gaulet Route 10 Disparu (2)
 0771	r	Trompignon Route 10 Disparu (1)
 0772	r	Trompignon Route 10 Disparu (2)
-2748	r	Musharna Vestiges du Rêve Disparu (Vendredi)
-1372	s	Trouvé Vieux Tortil (Ruines des Abysses 4F)
+2748	r	Mushana Vestiges du Rêve Disparu (Vendredi)
+1372	s	Trouvé Vieux Tortil (Ruines des Abysses Niveau 3)
