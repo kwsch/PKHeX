@@ -103,7 +103,7 @@ public static class ShowdownParsing
         {
             (int)Basculin when form is "Blue"           => "Blue-Striped",
             (int)Vivillon when form is "Poké Ball"      => "Pokeball",
-            (int)Zygarde                                => form.Replace("-C", string.Empty).Replace("50%", string.Empty),
+            (int)Zygarde  when ability == 211           => $"{(form.Contains("10%") ? "10%" : "50%")}-C",
             (int)Minior   when form.StartsWith("M-", StringComparison.OrdinalIgnoreCase)  => MiniorFormName,
             (int)Minior                                 => form.Replace("C-", string.Empty),
             (int)Necrozma when form is "Dusk"           => $"{form}-Mane",
