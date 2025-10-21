@@ -22,12 +22,10 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     /// <summary>
     /// Rather than deal with managing lists on each slot read/write, store all sequentially in a single buffer.
     /// </summary>
-    private readonly byte[] Reserved = new byte[SIZE_RESERVED];
+    private readonly Memory<byte> Reserved = new byte[0x8000]; // chunk of RAM to store unpacked [..box, ..party, ..etc] data
 
-    private const int SIZE_RESERVED = 0x8000; // unpacked box data
-
-    protected override Span<byte> BoxBuffer => Reserved;
-    protected override Span<byte> PartyBuffer => Reserved;
+    protected override Span<byte> BoxBuffer => Reserved.Span;
+    protected override Span<byte> PartyBuffer => Reserved.Span;
 
     private readonly SAV2Offsets Offsets;
 
@@ -290,9 +288,9 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     protected override void SetChecksums()
     {
-        ushort accum = GetChecksum();
-        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..], accum);
-        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..], accum);
+        ushort checksum = GetChecksum();
+        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..], checksum);
+        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..], checksum);
     }
 
     public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
@@ -301,12 +299,12 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     {
         get
         {
-            ushort accum = GetChecksum();
-            ushort actual = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..]);
+            ushort checksum = GetChecksum();
+            ushort actual1 = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..]);
             ushort actual2 = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..]);
 
-            bool checksum1Valid = (accum == actual);
-            bool checksum2Valid = (accum == actual2);
+            bool checksum1Valid = (checksum == actual1);
+            bool checksum2Valid = (checksum == actual2);
             static string valid(bool s) => s ? "Valid" : "Invalid";
             return $"Checksum 1 {valid(checksum1Valid)}, Checksum 2 {valid(checksum2Valid)}.";
         }
@@ -575,8 +573,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public int DaycareSlotCount => 2;
     private int GetDaycareSlotOffset(int slot) => GetPartyOffset(6 + slot);
-    public Memory<byte> GetDaycareSlot(int slot) => Reserved.AsMemory(GetDaycareSlotOffset(slot), SIZE_STORED);
-    public Memory<byte> GetDaycareEgg() => Reserved.AsMemory(GetDaycareSlotOffset(2), SIZE_STORED);
+    public Memory<byte> GetDaycareSlot(int slot) => Reserved.Slice(GetDaycareSlotOffset(slot), SIZE_STORED);
+    public Memory<byte> GetDaycareEgg() => Reserved.Slice(GetDaycareSlotOffset(2), SIZE_STORED);
     public bool IsDaycareOccupied(int slot) => (DaycareFlagByte(slot) & 1) != 0;
 
     public void SetDaycareOccupied(int slot, bool occupied)

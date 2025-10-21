@@ -17,7 +17,7 @@ public partial class StatusBrowser : Form
     private int StatusWidth => StatusHeight;
     private int StatusBrowserWidth => StatusWidth * 2;
 
-    public StatusBrowser()
+    public StatusBrowser(int generation)
     {
         InitializeComponent();
         StatusHeight = Drawing.PokeSprite.Properties.Resources.sicksleep.Height;
@@ -33,13 +33,15 @@ public partial class StatusBrowser : Form
         };
 
         Add(GetImage(StatusCondition.None, "None"));
-        Add(GetImage(StatusCondition.Sleep1, "Sleep"), false);
-        Add(NUD_Sleep);
+        Add(GetImage(StatusCondition.Sleep1, "Sleep"), generation >= 5);
+        if (generation <= 4)
+            Add(NUD_Sleep);
         Add(GetImage(StatusCondition.Poison, "Poison"));
         Add(GetImage(StatusCondition.Burn, "Burn"));
         Add(GetImage(StatusCondition.Paralysis, "Paralysis"));
         Add(GetImage(StatusCondition.Freeze, "Freeze"));
-        Add(GetImage(StatusCondition.PoisonBad, "Toxic"));
+        if (generation is 3 or 4)
+            Add(GetImage(StatusCondition.PoisonBad, "Toxic"));
 
         Height = StatusCount * StatusHeight;
         Width = StatusBrowserWidth;
@@ -56,9 +58,19 @@ public partial class StatusBrowser : Form
 
     public void LoadList(PKM pk)
     {
-        var condition = (StatusCondition)pk.Status_Condition;
-        NUD_Sleep.Value = Math.Max(1, (int)condition & 7);
-        Text = condition.ToString();
+        StatusType type;
+        if (pk.Format <= 4)
+        {
+            var condition = (StatusCondition)pk.Status_Condition;
+            NUD_Sleep.Value = Math.Max(1, (int)condition & 7);
+            type = condition.GetStatusType();
+        }
+        else
+        {
+            type = (StatusType)(pk.Status_Condition & 7);
+        }
+
+        Text = WinFormsTranslator.TranslateEnum(type, Main.CurrentLanguage);
     }
 
     private SelectablePictureBox GetImage(StatusCondition value, string name)
@@ -79,7 +91,7 @@ public partial class StatusBrowser : Form
             Height = StatusHeight,
         };
 
-        pb.MouseEnter += (_, _) => Text = name;
+        pb.MouseEnter += (_, _) => Text = value is StatusCondition.PoisonBad ? "Toxic" : WinFormsTranslator.TranslateEnum(value.GetStatusType(), Main.CurrentLanguage);
         pb.Click += (_, _) =>
         {
             if (value is StatusCondition.Sleep1)

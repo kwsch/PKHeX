@@ -1,0 +1,23 @@
+{
+  "LineLength": "La ligne dépasse la longueur maximale acceptée : {0}",
+  "TokenUnknown": "Non reconnu : {0}",
+  "TokenFailParse": "Échec de l'analyse des données : {0}",
+  "MoveCountTooMany": "Trop de capacités spécifiées : {0}",
+  "MoveSlotAlreadyUsed": "Emplacement de capacité déjà utilisé : {0}",
+  "MoveDuplicate": "Capacité en double spécifiée : {0}",
+  "MoveUnrecognized": "Capacité non reconnue : {0}",
+  "ItemUnrecognized": "Objet non reconnu : {0}",
+  "AbilityDeclaration": "Talent déjà déclaré : {0}",
+  "AbilityUnrecognized": "Talent non reconnu : {0}",
+  "AbilityAlreadySpecified": "Talent déjà spécifié : {0}",
+  "NatureUnrecognized": "Nature non reconnue : {0}",
+  "NatureAlreadySpecified": "Nature déjà spécifiée : {0}",
+  "HiddenPowerUnknownType": "Type de Puissance Cachée non reconnu : {0}",
+  "HiddenPowerIncompatibleIVs": "Type de Puissance Cachée non compatible avec les IVs : {0}",
+  "NatureEffortAmpDeclaration": "Caractéristique déjà déclarée : {0}",
+  "NatureEffortAmpUnknown": "Caractéristique non reconnue : {0}",
+  "NatureEffortAmpAlreadySpecified": "Caractéristique déjà spécifiée : {0}",
+  "NatureEffortAmpConflictNature": "La Caractéristique déclarée ne correspond pas avec la Nature précédemment spécifiée.",
+  "NatureAmpNoPlus": "Corrélation nature '+' manquante.",
+  "NatureAmpNoMinus": "Corrélation nature '-' manquante."
+}

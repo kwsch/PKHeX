@@ -66,7 +66,7 @@
 4445	+	已習得對戰風格: 熱情風格
 4446	+	已習得對戰風格: 偶像風格
 4453	+	已習得對戰風格: 虛無風格
-4073	s	Received Ride Pager
+4073	s	已接收 騎行裝置
 4074	s	已解鎖 肯泰羅衝撞
 4075	s	已解鎖 長毛狗搜尋
 4076	s	已解鎖 怪力猛推
@@ -74,46 +74,46 @@
 4078	s	已解鎖 拉普拉斯游泳
 4079	s	已解鎖 巨牙鯊噴射
 4080	s	已解鎖 噴火龍飛行
-0168	g	Traded for Hawlucha on Route 2
-0169	g	Traded for Noibat on Route 5
-0170	g	Traded for Barboach on Royal Avenue
-0171	g	Traded for Arbok on Route 8
-0172	g	Traded for Phantump in Tapu Village
-0173	g	Traded for Shellos in Seafolk Village
-0174	g	Traded for Tauros on Poni Gauntlet
-1592	r	(UM) Defeated Route 15 Sandygast
-0607	r	Defeated Route 14 Frillish
-0547	r	Defeated Bewear in Hau'oli City
-4564	s	Trainers' School is Haunted (Seven Mysteries Event)
-0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
-1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
-1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
-1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
-0185	t	Had First Title Defense Battle
-0186	t	Encountered Hapu (Title Defense)
-3395	t	Defeated Hapu (Title Defense)
-0187	t	Encountered Gladion (Title Defense)
-3453	t	Defeated Gladion (Title Defense; Rowlet is Player Starter)
-3454	t	Defeated Gladion (Title Defense; Litten is Player Starter)
-3455	t	Defeated Gladion (Title Defense; Popplio is Player Starter)
-0188	t	Encountered Ryuki (Title Defense)
-3445	t	Defeated Ryuki (Title Defense)
-0189	t	Encountered Lusamine (Title Defense)
-3680	t	Defeated Lusamine (Title Defense)
-0190	t	Encountered Hau (Title Defense)
-3392	t	Defeated Hau (Title Defense; Rowlet is Player Starter)
-3393	t	Defeated Hau (Title Defense; Litten is Player Starter)
-3394	t	Defeated Hau (Title Defense; Popplio is Player Starter)
-0191	t	Encountered Sophocles (Title Defense)
-3441	t	Defeated Sophocles (Title Defense)
-0192	t	Encountered Guzma (Title Defense)
-3683	t	Defeated Guzma (Title Defense)
-0193	t	Encountered Kukui (Title Defense)
-3513	t	Defeated Kukui (Title Defense; Rowlet is Player Starter)
-3514	t	Defeated Kukui (Title Defense; Litten is Player Starter)
-3515	t	Defeated Kukui (Title Defense; Popplio is Player Starter)
-0194	t	Encountered Plumeria (Title Defense)
-3437	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Tristan (Title Defense)
-3516	t	Defeated Tristan (Title Defense)
-1698	s	Aether Paradise Mohn Event Inactive
+0168	g	在2號道路交換了摔角鷹人
+0169	g	在5號道路交換了嗡蝠
+0170	g	在皇家大道交換了泥泥鰍
+0171	g	在8號道路交換了阿柏怪
+0172	g	在卡璞村交換了小木靈
+0173	g	在海洋居民之村交換了無殼海兔
+0174	g	在波尼險路交換了肯泰羅
+1592	r	(UM) 擊敗15號道路的沙丘娃
+0607	r	擊敗14號道路的輕飄飄
+0547	r	擊敗好奧樂市商業區的穿著熊
+4564	s	訓練師學校鬧鬼 (七不思議事件)
+0211	s	露莎米奈的宅邸不是火箭隊的城堡
+1730	r	電極消失 (火箭隊的城堡西南翼 側室2)
+1731	r	電極消失 (火箭隊的城堡西南翼 側室11)
+1732	r	電極消失 (火箭隊的城堡東南翼 側室)
+0185	t	進行第一場聯盟衛冕戰
+0186	t	遭遇哈普烏 (聯盟衛冕戰)
+3395	t	擊敗哈普烏 (聯盟衛冕戰)
+0187	t	遭遇格拉吉歐 (聯盟衛冕戰)
+3453	t	擊敗格拉吉歐 (聯盟衛冕戰; 木木梟是同行首發)
+3454	t	擊敗格拉吉歐 (聯盟衛冕戰; 火斑喵是同行首發)
+3455	t	擊敗格拉吉歐 (聯盟衛冕戰; 球球海獅是同行首發)
+0188	t	遭遇龍葵 (聯盟衛冕戰)
+3445	t	擊敗龍葵 (聯盟衛冕戰)
+0189	t	遭遇露莎米奈 (聯盟衛冕戰)
+3680	t	擊敗露莎米奈 (聯盟衛冕戰)
+0190	t	遭遇哈烏 (聯盟衛冕戰)
+3392	t	擊敗哈烏 (聯盟衛冕戰; 木木梟是同行首發)
+3393	t	擊敗哈烏 (聯盟衛冕戰; 火斑喵是同行首發)
+3394	t	擊敗哈烏 (聯盟衛冕戰; 球球海獅是同行首發)
+0191	t	遭遇馬瑪內 (聯盟衛冕戰)
+3441	t	擊敗馬瑪內 (聯盟衛冕戰)
+0192	t	遭遇古茲馬 (聯盟衛冕戰)
+3683	t	擊敗古茲馬 (聯盟衛冕戰)
+0193	t	遭遇庫庫伊 (聯盟衛冕戰)
+3513	t	擊敗庫庫伊 (聯盟衛冕戰; 木木梟是同行首發)
+3514	t	擊敗庫庫伊 (聯盟衛冕戰; 火斑喵是同行首發)
+3515	t	擊敗庫庫伊 (聯盟衛冕戰; 球球海獅是同行首發)
+0194	t	遭遇布爾美麗 (聯盟衛冕戰)
+3437	t	擊敗布爾美麗 (聯盟衛冕戰)
+0195	t	遭遇小明 (聯盟衛冕戰)
+3516	t	擊敗小明 (聯盟衛冕戰)
+1698	s	以太樂園莫恩事件未激活

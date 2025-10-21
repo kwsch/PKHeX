@@ -1,18 +1,30 @@
+0107	s	Pokédex obtenida
 0607	*	Rojo desaparecido (Monte Plateado)
 0774	r	Articuno desaparecido
+0364	r	Articuno capturado
 0663	r	Zapdos desaparecido
+0330	r	Zapdos capturado
 0775	r	Moltres desaparecido
+0365	r	Moltres capturado
 0773	r	Mewtwo desaparecido
+0363	r	Mewtwo capturado
 0457	r	Raikou errante
 0458	r	Entei errante
 0459	s	Suicune escapó (Torre Quemada)
 0673	s	Suicune desaparecido (Ruta 25)
 0782	r	Suicune desaparecido (Vuelta a Torre Quemada)
+0373	r	Suicune capturado
 0579	r	Lugia desaparecido
+0279	r	Lugia capturado
 0578	r	Ho-Oh desaparecido
+0278	r	Ho-Oh capturado
 0781	r	Lati@s desaparecid@ (Ciudad Plateada)
-0721	r	Kyogre/Groudon desaparecido
+0721	r	Kyogre desaparecido
+0378	r	Kyogre capturado (HG)
+0720	r	Groudon desaparecido
+0377	r	Groudon capturado (SS)
 0722	r	Rayquaza desaparecido
+0379	r	Rayquaza capturado
 2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
 0388	a	Obtenida 1 Corona de hojas doradas (Mejora de Tarjeta Entrenador)
 0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
@@ -24,13 +36,15 @@
 0502	r	Electrode (2) en Cuartel del Team Rocket desaparecido
 0503	r	Electrode (3) en Cuartel del Team Rocket desaparecido
 0609	r	Snorlax durmiendo desaparecido
+0371	r	Snorlax capturado
 0149	g	Eevee de regalo recibido 
 0450	r	Sudowoodo de la Ruta 36 desaparecido
+0361	r	Sudowoodo capturado
 0483	r	Gyarados variocolor desaparecido
+0362	r	Gyarados variocolor capturado
 0191	g	Shuckle de regalo recibido
 0193	g	Shuckle devuelto o permitido quedártelo
 2744	r	Lapras de los viernes desaparecido
-0362	r	Gyarados variocolor capturado
 0219	g	Respuestas incorrectas (Dratini de regalo no tendrá Velocidad extrema)
 0220	g	Dratini de regalo recibido
 0268	g	Tyrogue de regalo recibido
@@ -70,22 +84,22 @@
 0376	s	Lost to Giovanni once (Celebi Event)
 1366	t	Policía Alejo derrotado (Noche)
 1440	t	Policía Donato derrotado (Noche)
-0693	t	Revancha contra Whitney
-0694	t	Revancha contra Janine
-0695	t	Revancha contra Clair
+0693	t	Revancha contra Blanca
+0694	t	Revancha contra Sachiko
+0695	t	Revancha contra Débora
 0696	t	Revancha contra Erika
 0697	t	Revancha contra Misty
 0698	t	Revancha contra Blaine
-0699	t	Revancha contra Blue
-0700	t	Revancha contra Chuck
+0699	t	Revancha contra Azul
+0700	t	Revancha contra Aníbal
 0701	t	Revancha contra Brock
-0702	t	Revancha contra Bugsy
+0702	t	Revancha contra Antón
 0703	t	Revancha contra Sabrina
-0704	t	Revancha contra Falkner
+0704	t	Revancha contra Pegaso
 0705	t	Revancha contra Lt. Surge
-0706	t	Revancha contra Morty
-0707	t	Revancha contra Jasmine
-0708	t	Revancha contra Pryce
+0706	t	Revancha contra Morti
+0707	t	Revancha contra Yasmina
+0708	t	Revancha contra Fredo
 1639	t	1ra revancha contra Youngster Joey
 1640	t	2da revancha contra Youngster Joey
 1870	t	3ra revancha contra Youngster Joey

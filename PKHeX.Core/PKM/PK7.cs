@@ -10,7 +10,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
-        0x2A, // Old Marking Value (PelagoEventStatus)
+        0x2A, // Old Marking Value (ResortEventStatus)
         // 0x36, 0x37, // Unused Ribbons
         0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7,
     ];
@@ -223,15 +223,15 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public bool RIB6_7                      { get => (RIB6 & (1 << 7)) == 1 << 7; set => RIB6 = (byte)((RIB6 & ~(1 << 7)) | (value ? 1 << 7 : 0)); } // Unused
     public byte RibbonCountMemoryContest { get => Data[0x38]; set => Data[0x38] = value; }
     public byte RibbonCountMemoryBattle  { get => Data[0x39]; set => Data[0x39] = value; }
-    private ushort DistByte { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }
-    public bool DistSuperTrain1 { get => (DistByte & (1 << 0)) == 1 << 0; set => DistByte = (byte)((DistByte & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
-    public bool DistSuperTrain2 { get => (DistByte & (1 << 1)) == 1 << 1; set => DistByte = (byte)((DistByte & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
-    public bool DistSuperTrain3 { get => (DistByte & (1 << 2)) == 1 << 2; set => DistByte = (byte)((DistByte & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
-    public bool DistSuperTrain4 { get => (DistByte & (1 << 3)) == 1 << 3; set => DistByte = (byte)((DistByte & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
-    public bool DistSuperTrain5 { get => (DistByte & (1 << 4)) == 1 << 4; set => DistByte = (byte)((DistByte & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
-    public bool DistSuperTrain6 { get => (DistByte & (1 << 5)) == 1 << 5; set => DistByte = (byte)((DistByte & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
-    public bool Dist7 { get => (DistByte & (1 << 6)) == 1 << 6; set => DistByte = (byte)((DistByte & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
-    public bool Dist8 { get => (DistByte & (1 << 7)) == 1 << 7; set => DistByte = (byte)((DistByte & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
+    public ushort DistTrainBitFlags { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }
+    public bool DistSuperTrain1 { get => (DistTrainBitFlags & (1 << 0)) == 1 << 0; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
+    public bool DistSuperTrain2 { get => (DistTrainBitFlags & (1 << 1)) == 1 << 1; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
+    public bool DistSuperTrain3 { get => (DistTrainBitFlags & (1 << 2)) == 1 << 2; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
+    public bool DistSuperTrain4 { get => (DistTrainBitFlags & (1 << 3)) == 1 << 3; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
+    public bool DistSuperTrain5 { get => (DistTrainBitFlags & (1 << 4)) == 1 << 4; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
+    public bool DistSuperTrain6 { get => (DistTrainBitFlags & (1 << 5)) == 1 << 5; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
+    public bool Dist7 { get => (DistTrainBitFlags & (1 << 6)) == 1 << 6; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
+    public bool Dist8 { get => (DistTrainBitFlags & (1 << 7)) == 1 << 7; set => DistTrainBitFlags = (byte)((DistTrainBitFlags & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
     public uint FormArgument { get => ReadUInt32LittleEndian(Data[0x3C..]); set => WriteUInt32LittleEndian(Data[0x3C..], value); }
     public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
     public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
@@ -320,7 +320,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     }
 
     public bool SecretSuperTrainingUnlocked { get => (Data[0x72] & 1) == 1; set => Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); }
-    public bool SecretSuperTrainingComplete { get => (Data[0x72] & 2) == 2; set => Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); }
+    public bool SuperTrainSupremelyTrained { get => (Data[0x72] & 2) == 2; set => Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); }
     // 0x73 Unused
     public override uint IV32 { get => ReadUInt32LittleEndian(Data[0x74..]); set => WriteUInt32LittleEndian(Data[0x74..], value); }
     public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
@@ -421,9 +421,6 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int Stat_SPA { get => ReadUInt16LittleEndian(Data[0xFA..]); set => WriteUInt16LittleEndian(Data[0xFA..], (ushort)value); }
     public override int Stat_SPD { get => ReadUInt16LittleEndian(Data[0xFC..]); set => WriteUInt16LittleEndian(Data[0xFC..], (ushort)value); }
     #endregion
-
-    private const int MedalCount = 30;
-    public int SuperTrainingMedalCount(int lowBitCount = MedalCount) => BitOperations.PopCount((SuperTrainBitFlags >> 2) & (uint.MaxValue >> (MedalCount - lowBitCount)));
 
     public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && MetLocation / 10000 == 4 && Gen6;
 

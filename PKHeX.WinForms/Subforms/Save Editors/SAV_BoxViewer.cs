@@ -51,7 +51,7 @@ public sealed partial class SAV_BoxViewer : Form
 
         Box.ResetBoxNames(box); // fix box names
         Box.ResetSlots(); // refresh box background
-        p.EditEnv.Slots.Publisher.Subscribers.Add(Box);
+        p.EditEnv.Slots.Publisher.Subscribe(Box);
     }
 
     private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.SwapBoxesViewer(Box.CurrentBox);
@@ -70,6 +70,6 @@ public sealed partial class SAV_BoxViewer : Form
     {
         // Remove viewer from manager list
         Box.M?.Boxes.Remove(Box);
-        parent.EditEnv.Slots.Publisher.Subscribers.Remove(Box);
+        parent.EditEnv.Slots.Publisher.Unsubscribe(Box);
     }
 }

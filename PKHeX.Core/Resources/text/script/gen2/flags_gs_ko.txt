@@ -1,151 +1,151 @@
-0026	s	Starter Chosen
-0027	*	Starter is Cyndaquil
-0028	*	Starter is Totodile
-0029	*	Starter is Chikorita
-1600	s	Cyndaquil ball at Elm's Lab disappeared
-1601	s	Totodile ball at Elm's Lab disappeared
-1602	s	Chikorita ball at Elm's Lab disappeared
-1784	r	꼬지모 잡음
-1760	r	Electrode (top corners) disappeared from Hideout B2F
-1761	r	Electrode (middle corners) disappeared from Hideout B2F
-1762	r	Electrode (bottom corners) disappeared from Hideout B2F
+0026	s	스타터가 선택됐어
+0027	*	스타터는 브케인입니다
+0028	*	스타터는 리아코입니다
+0029	*	스타터는 치코리타입니다
+1600	s	공박사 연구소의 브케인 볼이 사라졌습니다
+1601	s	공박사 연구소의 리아코 볼이 사라졌습니다
+1602	s	공박사 연구소의 치코리타 볼이 사라졌습니다
+1784	r	꼬지모 사라짐
+1760	r	붐볼 (탑 코너)이 로켓단 아지트 B2F에서 사라졌습니다
+1761	r	붐볼 (미들 코너)이 로켓단 아지트 B2F에서 사라졌습니다
+1762	r	붐볼 (바텀 코너)이 로켓단 아지트 B2F에서 사라졌습니다
 0079	g	이브이 잡음
-1867	*	Legendary Beasts Disappeared from Burned Tower
-0672	*	Ho-Oh puzzle solved in Ruins of Alph
-0673	*	Kabuto puzzle solved in Ruins of Alph
-0674	*	Omanyte puzzle solved in Ruins of Alph
-0675	*	Aerodactyl puzzle solved in Ruins of Alph
-0676	*	Feathery Bed
-0677	*	Pink Bed
-0678	*	Polkadot Bed
-0679	*	Pikachu Bed
-0680	*	Red Carpet
-0681	*	Blue Carpet
-0682	*	Yellow Carpet
-0683	*	Green Carpet
-0684	*	Magnaplant
-0685	*	Tropicplant
-0686	*	Jumboplant
-0687	*	Town Map
-0688	*	Pikachu Poster
-0689	*	Clefairy Poster
-0690	*	Jigglypuff Poster
-0691	*	NES
-0692	*	Super NES
-0693	*	Nintendo 64
-0694	*	Virtual Boy
-0695	*	Pikachu Doll
-0696	*	Surf Pikachu Doll
-0697	*	Clefairy Doll
-0698	*	Jigglypuff Doll
-0699	*	Bulbasaur Doll
-0700	*	Charmander Doll
-0701	*	Squirtle Doll
-0702	*	Poliwag Doll
-0703	*	Diglett Doll
-0704	*	Staryu Doll
-0705	*	Magikarp Doll
-0706	*	Oddish Doll
-0707	*	Gengar Doll
-0708	*	Shellder Doll
-0709	*	Grimer Doll
-0710	*	Voltorb Doll
-0711	*	Weedle Doll
-0712	*	Unown Doll
-0713	*	Geodude Doll
-0714	*	Machop Doll
-0715	*	Tentacool Doll
-0717	*	Gold Trophy
-0718	*	Silver Trophy
-0719	*	Big Snorlax
-0720	*	Big Onix
-0721	*	Big Lapras
-0791	r	칠색조 잡음
-0792	r	루기아 잡음
-1904	r	잠만보 잡음
-1873	r	붉은 갸라도스 잡음
-0068	s	Beat Elite Four/Elm can give S.S. Ticket
-1890	*	Red disappeared on Mt. Silver
-0069	g	Received Shuckle from Mania
-0070	g	Shuckle Returned/Allowed Ownership
-0080	g	Received Spearow from Randy
-0081	s	Mail can be delivered on Route 31
-0082	s	Received HP Up from Randy
-0083	s	Randy Mail Delivered/Received TM50
-0084	s	Togepi Hatched
-0085	s	Showed Togepi to Elm
-0086	s	Received Everstone from Elm
-1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
-0097	g	Received Tyrogue
-0046	s	Unown appeared in Ruins of Alph
-0098	s	Met Frieda
-0099	s	Received Poison Barb from Frieda
-0100	s	Met Tuscany
-0101	s	Received Pink Bow from Tuscany
-0102	s	Met Arthur
-0103	s	Received Hard Stone from Arthur
-0104	s	Met Sunny
-0105	s	Received Magnet from Sunny
-0106	s	Met Wesley
-0107	s	Received Black Belt from Wesley
-0108	s	Met Santos
-0109	s	Received Spell Tag from Santos
-0110	s	Met to Monica
-0111	s	Received Sharp Beak from Monica
-0205	s	Restored power to Kanto/Magnet Train usable
-0607	t	Asked Schoolboy Jack for Number once
-0608	t	Can Rematch Schoolboy Jack
-0609	t	Asked Pokéfan Beverly for Number once
-0610	t	Can Rematch Pokéfan Beverly
-0611	t	Asked Sailor Huey for Number once
-0612	t	Can Rematch Sailor Huey
-0619	t	Asked Cooltrainer Gaven for Number once
-0620	t	Can Rematch Cooltrainer Gaven
-0621	t	Asked Cooltrainer Beth for Number once
-0622	t	Can Rematch Cooltrainer Beth
-0623	t	Asked Bird Keeper Jose for Number once
-0624	t	Can Rematch Bird Keeper Jose
-0625	t	Asked Cooltrainer Reena for Number once
-0626	t	Can Rematch Cooltrainer Reena
-0627	t	Asked Youngster Joey for Number once
-0628	t	Can Rematch Youngster Joey
-0629	t	Asked Bug Catcher Wade for Number once
-0630	t	Can Rematch Bug Catcher Wade
-0631	t	Asked Fisher Ralph for Number once
-0632	t	Can Rematch Fisher Ralph
-0633	t	Asked Picnicker Liz for Number once
-0634	t	Can Rematch Picnicker Liz
-0635	t	Asked Hiker Anthony for Number once
-0636	t	Can Rematch Hiker Anthony
-0637	t	Asked Camper Todd for Number once
-0638	t	Can Rematch Camper Todd
-0639	t	Asked Picnicker Gina for Number once
-0640	t	Can Rematch Picnicker Gina
-0641	t	Asked Juggler Irwin for Number once
-0642	t	Can Rematch Juggler Irwin
-0643	t	Asked Bug Catcher Arnie for Number once
-0644	t	Can Rematch Bug Catcher Arnie
-0645	t	Asked Schoolboy Alan for Number once
-0646	t	Can Rematch Schoolboy Alan
-0649	t	Asked Lass Dana for Number once
-0650	t	Can Rematch Lass Dana
-0651	t	Asked Schoolboy Chad for Number once
-0652	t	Can Rematch Schoolboy Chad
-0653	t	Asked Pokéfan Derek for Number once
-0654	t	Can Rematch Pokéfan Derek
-0655	t	Asked Fisher Chris for Number once
-0656	t	Can Rematch Fisher Chris
-0657	t	Asked PokéManiac Brent for Number once
-0658	t	Can Rematch PokéManiac Brent
-0659	t	Asked Picnicker Tiffany for Number once
-0660	t	Can Rematch Picnicker Tiffany
-0661	t	Asked Bird Keeper Vance for Number once
-0662	t	Can Rematch Bird Keeper Vance
-0663	t	Asked Fisher Wilton for Number once
-0664	t	Can Rematch Fisher Wilton
-0665	t	Asked Blackbelt Kenji for Number once
-0666	t	Can Rematch Blackbelt Kenji
-0667	t	Asked Hiker Parry for Number once
-0668	t	Can Rematch Hiker Parry
-0669	t	Asked Picnicker Erin for Number once
-0670	t	Can Rematch Picnicker Erin
+1867	*	전설의 야수들이 불탄탑에서 사라졌습니다
+0672	*	알프의 유적에서 칠색조 퍼즐이 해결되었습니다
+0673	*	알프의 유적에서 투구 퍼즐이 해결되었습니다
+0674	*	알프의 유적에서 암나이트 퍼즐이 해결되었습니다
+0675	*	알프의 유적에서 프테라 퍼즐이 해결되었습니다
+0676	*	푹신푹신침대
+0677	*	복숭아빛침대
+0678	*	물방울침대
+0679	*	피카츄침대 (불법적인)
+0680	*	빨간융단
+0681	*	남빛융단
+0682	*	노란융단
+0683	*	녹색융단
+0684	*	잘 자란 식물
+0685	*	남국 식물
+0686	*	커다란 식물
+0687	*	마을지도
+0688	*	피카츄의 포스터
+0689	*	삐삐의 포스터
+0690	*	푸린의 포스터
+0691	*	패미컴
+0692	*	슈퍼 패미컴
+0693	*	닌텐도64
+0694	*	버철보이
+0695	*	피카츄인형
+0696	*	파도타기피카츄인형
+0697	*	삐삐인형
+0698	*	푸린인형
+0699	*	이상해씨인형
+0700	*	파이리인형
+0701	*	꼬부기인형
+0702	*	발챙이인형
+0703	*	디그다인형
+0704	*	별가사리인형
+0705	*	잉어킹인형
+0706	*	뚜벅쵸인형
+0707	*	팬텀인형
+0708	*	셀러인형
+0709	*	질퍽이인형
+0710	*	찌리리공인형
+0711	*	뿔충이인형
+0712	*	안농인형 (불법적인)
+0713	*	꼬마돌인형
+0714	*	알통몬인형
+0715	*	왕눈해인형 (불법적인)
+0717	*	금 트로피
+0718	*	은 트로피
+0719	*	커다란잠만보
+0720	*	커다란롱스톤
+0721	*	커다란라프라스
+0791	r	칠색조 사라짐
+0792	r	루기아 사라짐
+1904	r	잠만보 사라짐
+1873	r	붉은 갸라도스 사라짐
+0068	s	사천왕 쓰러뜨림/공박사는 승선티켓을 줄 수 있습니다
+1890	*	레드 (은빛산) 사라짐
+0069	g	매니아에게서 단단지를 받았습니다
+0070	g	단단지가 반환됐어요/소유권이 허용됐어요
+0080	g	유지에게서 깨비참을 받았어요
+0081	s	메일은 31번도로에서 전달될 수 있어요
+0082	s	유지에게서 맥스업을 받았어요
+0083	s	유지의 메일이 배달됐어요/기술머신50 받음
+0084	s	토게피 알이 부화했어요
+0085	s	토게피를 공박사에게 보여주었습니다
+0086	s	공박사에게서 변함없는돌을 받았습니다
+1193	t	태권왕 노현 쓰러뜨림 (배루키를 받을 수 있어요)
+0097	g	배루키 받음
+0046	s	안농이 알프의 유적에 나타났습니다
+0098	s	금순를 만남
+0099	s	금순에게서 독바늘을 받았습니다
+0100	s	화홍를 만남
+0101	s	화홍에게서 핑크빛리본을 받았습니다
+0102	s	목인를 만남
+0103	s	목인에게서 딱딱한돌을 받았습니다
+0104	s	일식를 만남
+0105	s	일식에게서 자석을 받았습니다
+0106	s	수방를 만남
+0107	s	수방에게서 검은띠을 받았습니다
+0108	s	토영를 만남
+0109	s	토영에게서 저주의부적을 받았습니다
+0110	s	월희를 만남
+0111	s	월희에게서 예리한부리을 받았습니다
+0205	s	관동에 전력을 복원했습니다/리니어 기차를 사용할 수 있어요
+0607	t	학원끝난아이일수에게 전화번호를 한 번 물어봤다
+0608	t	학원끝난아이일수과 리매치 가능
+0609	t	애호가클럽희영에게 전화번호를 한 번 물어봤다
+0610	t	애호가클럽희영과 리매치 가능
+0611	t	선원건강에게 전화번호를 한 번 물어봤다
+0612	t	선원건강과 리매치 가능
+0619	t	엘리트 트레이너 준영에게 전화번호를 한 번 물어봤다
+0620	t	엘리트 트레이너 준영과 리매치 가능
+0621	t	엘리트 트레이너 동숙에게 전화번호를 한 번 물어봤다
+0622	t	엘리트 트레이너 동숙과 리매치 가능
+0623	t	새조련사영진에게 전화번호를 한 번 물어봤다
+0624	t	새조련사영진과 리매치 가능
+0625	t	엘리트 트레이너 하현에게 전화번호를 한 번 물어봤다
+0626	t	엘리트 트레이너 하현과 리매치 가능
+0627	t	반바지 꼬마 오성에게 전화번호를 한 번 물어봤다
+0628	t	반바지 꼬마 오성과 리매치 가능
+0629	t	곤충채집소년광일에게 전화번호를 한 번 물어봤다
+0630	t	곤충채집소년광일과 리매치 가능
+0631	t	낚시꾼태명에게 전화번호를 한 번 물어봤다
+0632	t	낚시꾼태명과 리매치 가능
+0633	t	피크닉걸은향에게 전화번호를 한 번 물어봤다
+0634	t	피크닉걸은향과 리매치 가능
+0635	t	등산가스톰에게 전화번호를 한 번 물어봤다
+0636	t	등산가스톰과 리매치 가능
+0637	t	캠프보이양길에게 전화번호를 한 번 물어봤다
+0638	t	캠프보이양길과 리매치 가능
+0639	t	피크닉걸수수에게 전화번호를 한 번 물어봤다
+0640	t	피크닉걸수수과 리매치 가능
+0641	t	저글러마이크에게 전화번호를 한 번 물어봤다
+0642	t	저글러마이크과 리매치 가능
+0643	t	곤충채집소년경수에게 전화번호를 한 번 물어봤다
+0644	t	곤충채집소년경수과 리매치 가능
+0645	t	학원끝난아이다움에게 전화번호를 한 번 물어봤다
+0646	t	학원끝난아이다움과 리매치 가능
+0649	t	짧은 치마 이화에게 전화번호를 한 번 물어봤다
+0650	t	짧은 치마 이화과 리매치 가능
+0651	t	학원끝난아이규호에게 전화번호를 한 번 물어봤다
+0652	t	학원끝난아이규호과 리매치 가능
+0653	t	애호가클럽주선에게 전화번호를 한 번 물어봤다
+0654	t	애호가클럽주선과 리매치 가능
+0655	t	낚시꾼수연에게 전화번호를 한 번 물어봤다
+0656	t	낚시꾼수연과 리매치 가능
+0657	t	포켓몬 매니아 진진에게 전화번호를 한 번 물어봤다
+0658	t	포켓몬 매니아 진진과 리매치 가능
+0659	t	피크닉걸소천에게 전화번호를 한 번 물어봤다
+0660	t	피크닉걸소천과 리매치 가능
+0661	t	새조련사소홍에게 전화번호를 한 번 물어봤다
+0662	t	새조련사소홍과 리매치 가능
+0663	t	낚시꾼광선에게 전화번호를 한 번 물어봤다
+0664	t	낚시꾼광선과 리매치 가능
+0665	t	태권왕무덕에게 전화번호를 한 번 물어봤다
+0666	t	태권왕무덕과 리매치 가능
+0667	t	등산가도선에게 전화번호를 한 번 물어봤다
+0668	t	등산가도선과 리매치 가능
+0669	t	피크닉걸혜미에게 전화번호를 한 번 물어봤다
+0670	t	피크닉걸혜미과 리매치 가능

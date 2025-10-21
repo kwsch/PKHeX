@@ -12,7 +12,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
-        0x2A, // Old Marking Value (PelagoEventStatus)
+        0x2A, // Old Marking Value (ResortEventStatus)
         0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, // Unused Ribbons
         0x58, 0x59, // Nickname Terminator
         0x73,

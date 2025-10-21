@@ -94,7 +94,7 @@ public static class RibbonRules
             return true;
 
         // Legendaries can not compete in ranked yet.
-        if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(enc))
+        if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(pk, enc))
             return true;
 
         return false;
@@ -124,27 +124,49 @@ public static class RibbonRules
         return true;
     }
 
-    private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
+    private static bool IsRibbonValidMasterRankSV(PKM pk, IEncounterTemplate enc)
     {
         var species = pk.Species;
         if (species is (int)Greninja)
             return pk.Form == 0; // Disallow Ash-Greninja
-        if (SpeciesCategory.IsMythical(species))
-            return false;
+
+        // GO transfers and server gifts: Capture date is global time, and not console changeable.
+        bool hasRealDate = enc is IEncounterServerDate { IsDateRestricted: true };
+        if (hasRealDate)
+        {
+            // Mythicals are only permitted under Regulation Set J
+            var met = pk.MetDate;
+            if (SpeciesCategory.IsMythical(pk.Species) && met > new DateOnly(2026, 1, 5))
+                return false;
+        }
+
         return true;
     }
 
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetCommon6.RibbonTraining"/> ribbon.
     /// </summary>
-    public static bool IsRibbonValidSuperTraining(ISuperTrain pk)
+    public static bool IsRibbonValidSuperTraining(PKM pk)
     {
-        // It is assumed that the entity existed in the Gen6 game to receive the ribbon.
-        // We only enter this method if the entity implements the interface.
-        const int req = 12; // only first 12 are required to get the ribbon.
-        int count = pk.SuperTrainingMedalCount(req);
-        return count >= req;
+        if (pk is not ISuperTrain s)
+            return true; // Medal flags are wiped when the medal bitflags are wiped on transfer 7->8.
+
+        return IsSuperTrainSupremelyTrained(s.SuperTrainBitFlags);
     }
+
+    /// <summary>
+    /// Checks if all Super Training medals are set (including Secret), indicating "Supremely Trained".
+    /// </summary>
+    /// <param name="value">Stored bitflags for Gen6/7 Super Training medals.</param>
+    /// <returns><c>true</c> if all Super Training medals are set, <c>false</c> otherwise.</returns>
+    public static bool IsSuperTrainSupremelyTrained(uint value) => (value & ~0b11) == 0xFFFF_FFFC; // ignore the 2 unused low bits (18 regular, 12 secret).
+
+    /// <summary>
+    /// Forces the input to be in a state indicating "Supremely Trained" for Super Training medals.
+    /// </summary>
+    /// <param name="value">Current value</param>
+    /// <returns>Supremely Trained value</returns>
+    public static uint SetSuperTrainSupremelyTrained(uint value) => (value & 0x3) | 0xFFFF_FFFC; // set all but the 2 unused low bits.
 
     /// <summary>
     /// Checks if the entity participated in battles for the <see cref="IRibbonSetCommon8.RibbonTowerMaster"/> ribbon.

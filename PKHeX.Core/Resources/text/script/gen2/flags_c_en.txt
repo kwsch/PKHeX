@@ -5,7 +5,7 @@
 1600	s	Cyndaquil ball at Elm's Lab disappeared
 1601	s	Totodile ball at Elm's Lab disappeared
 1602	s	Chikorita ball at Elm's Lab disappeared
-1784	r	Captured Sudowoodo
+1784	r	Sudowoodo Disappeared
 1760	r	Electrode (top corners) disappeared from Hideout B2F
 1761	r	Electrode (middle corners) disappeared from Hideout B2F
 1762	r	Electrode (bottom corners) disappeared from Hideout B2F
@@ -22,7 +22,7 @@
 0676	*	Feathery Bed
 0677	*	Pink Bed
 0678	*	Polkadot Bed
-0679	*	Pikachu Bed
+0679	*	Pikachu Bed (Illegal)
 0680	*	Red Carpet
 0681	*	Blue Carpet
 0682	*	Yellow Carpet
@@ -55,21 +55,21 @@
 0709	*	Grimer Doll
 0710	*	Voltorb Doll
 0711	*	Weedle Doll
-0712	*	Unown Doll
+0712	*	Unown Doll (Illegal)
 0713	*	Geodude Doll
 0714	*	Machop Doll
-0715	*	Tentacool Doll
+0715	*	Tentacool Doll (Illegal)
 0717	*	Gold Trophy
 0718	*	Silver Trophy
 0719	*	Big Snorlax
 0720	*	Big Onix
 0721	*	Big Lapras
-0791	r	Captured Ho-oh
-0792	r	Captured Lugia
+0791	r	Ho-oh Disappeared
+0792	r	Lugia Disappeared
 0830	r	Received Odd Egg
 0832	r	Received GS Ball
-1904	r	Captured Snorlax
-1873	r	Captured Red Gyarados
+1904	r	Snorlax Disappeared
+1873	r	Red Gyarados Disappeared
 0068	s	Beat Elite Four/Elm can give S.S. Ticket
 1890	*	Red disappeared on Mt. Silver
 0069	g	Received Shuckle from Mania

@@ -1,147 +1,147 @@
-0026	s	Starter Chosen
-0027	*	Starter is Cyndaquil
-0028	*	Starter is Totodile
-0029	*	Starter is Chikorita
-1600	s	Cyndaquil ball at Elm's Lab disappeared
-1601	s	Totodile ball at Elm's Lab disappeared
-1602	s	Chikorita ball at Elm's Lab disappeared
-1784	r	已捕獲 樹才怪
-1760	r	Electrode (top corners) disappeared from Hideout B2F
-1761	r	Electrode (middle corners) disappeared from Hideout B2F
-1762	r	Electrode (bottom corners) disappeared from Hideout B2F
+0026	s	已選擇御三家
+0027	*	選擇御三家：火球鼠
+0028	*	選擇御三家：小鋸鱷
+0029	*	選擇御三家：菊草葉
+1600	s	空木博士研究所的火球鼠精靈球消失了
+1601	s	空木博士研究所的小鋸鰐精靈球消失了
+1602	s	空木博士研究所的菊草葉精靈球消失了
+1784	r	已消失 樹才怪
+1760	r	火箭隊基地B2F 頑皮雷彈 (上) 已消失
+1761	r	火箭隊基地B2F 頑皮雷彈 (中) 已消失
+1762	r	火箭隊基地B2F 頑皮雷彈 (下) 已消失
 0079	g	已接收 伊布
 1867	*	神獸已從燒焦塔消失
 0190	*	鋼鐵能檢查GS球
 0191	*	鋼鐵能歸還GS球 (與上述旗標綁定)
 0192	*	GS球能放入桐樹林祠堂
-0672	*	Ho-Oh puzzle solved in Ruins of Alph
-0673	*	Kabuto puzzle solved in Ruins of Alph
-0674	*	Omanyte puzzle solved in Ruins of Alph
-0675	*	Aerodactyl puzzle solved in Ruins of Alph
-0676	*	Feathery Bed
-0677	*	Pink Bed
-0678	*	Polkadot Bed
-0679	*	Pikachu Bed
-0680	*	Red Carpet
-0681	*	Blue Carpet
-0682	*	Yellow Carpet
-0683	*	Green Carpet
-0684	*	Magnaplant
-0685	*	Tropicplant
-0686	*	Jumboplant
-0687	*	Town Map
-0688	*	Pikachu Poster
-0689	*	Clefairy Poster
-0690	*	Jigglypuff Poster
-0691	*	NES
-0692	*	Super NES
-0693	*	Nintendo 64
-0694	*	Virtual Boy
-0695	*	Pikachu Doll
-0696	*	Surf Pikachu Doll
-0697	*	Clefairy Doll
-0698	*	Jigglypuff Doll
-0699	*	Bulbasaur Doll
-0700	*	Charmander Doll
-0701	*	Squirtle Doll
-0702	*	Poliwag Doll
-0703	*	Diglett Doll
-0704	*	Staryu Doll
-0705	*	Magikarp Doll
-0706	*	Oddish Doll
-0707	*	Gengar Doll
-0708	*	Shellder Doll
-0709	*	Grimer Doll
-0710	*	Voltorb Doll
-0711	*	Weedle Doll
-0712	*	Unown Doll
-0713	*	Geodude Doll
-0714	*	Machop Doll
-0715	*	Tentacool Doll
-0717	*	Gold Trophy
-0718	*	Silver Trophy
-0719	*	Big Snorlax
-0720	*	Big Onix
-0721	*	Big Lapras
+0672	*	已解決 阿露福遺跡鳳王拼圖謎題
+0673	*	已解決 阿露福遺跡化石盔拼圖謎題
+0674	*	已解決 阿露福遺跡菊石獸拼圖謎題
+0675	*	已解決 阿露福遺跡化石翼龍拼圖謎題
+0676	*	裝飾物品：溫馨的床
+0677	*	裝飾物品：粉紅色的床
+0678	*	裝飾物品：水玉色的床
+0679	*	裝飾物品：皮卡丘的床 (非法的)
+0680	*	裝飾物品：紅色的地毯
+0681	*	裝飾物品：淡藍色的地毯
+0682	*	裝飾物品：黃色的地毯
+0683	*	裝飾物品：綠色的地毯
+0684	*	裝飾物品：壯觀的植物
+0685	*	裝飾物品：南國的植物
+0686	*	裝飾物品：大的植物
+0687	*	裝飾物品：城鎮地圖
+0688	*	裝飾物品：皮卡丘的海報
+0689	*	裝飾物品：皮皮的海報
+0690	*	裝飾物品：胖丁的海報
+0691	*	裝飾物品：NES
+0692	*	裝飾物品：SNES
+0693	*	裝飾物品：N64
+0694	*	裝飾物品：Virtual Boy
+0695	*	裝飾物品：皮卡丘絨毛娃娃
+0696	*	裝飾物品：衝浪皮卡丘絨毛娃娃
+0697	*	裝飾物品：皮皮絨毛娃娃
+0698	*	裝飾物品：胖丁絨毛娃娃
+0699	*	裝飾物品：妙蛙種子絨毛娃娃
+0700	*	裝飾物品：小火龍絨毛娃娃
+0701	*	裝飾物品：杰尼龜絨毛娃娃
+0702	*	裝飾物品：蚊香蝌蚪絨毛娃娃
+0703	*	裝飾物品：地鼠絨毛娃娃
+0704	*	裝飾物品：海星星絨毛娃娃
+0705	*	裝飾物品：鯉魚王絨毛娃娃
+0706	*	裝飾物品：走路草絨毛娃娃
+0707	*	裝飾物品：耿鬼絨毛娃娃
+0708	*	裝飾物品：大舌貝絨毛娃娃
+0709	*	裝飾物品：臭泥絨毛娃娃
+0710	*	裝飾物品：霹靂電球絨毛娃娃
+0711	*	裝飾物品：獨角蟲絨毛娃娃
+0712	*	裝飾物品：未知圖騰絨毛娃娃 (非法的)
+0713	*	裝飾物品：小拳石絨毛娃娃
+0714	*	裝飾物品：腕力絨毛娃娃
+0715	*	裝飾物品：瑪瑙水母絨毛娃娃 (非法的)
+0717	*	裝飾物品：金獎杯
+0718	*	裝飾物品：銀獎杯
+0719	*	裝飾物品：大的卡比獸布偶
+0720	*	裝飾物品：大的大岩蛇布偶
+0721	*	裝飾物品：大的拉普拉斯布偶
 0830	r	已接收 奇異的蛋
 0832	r	已接收 GS球
-0791	r	已捕獲 鳳王
-0792	r	已捕獲 洛奇亞
-1904	r	已捕獲 卡比獸
-1873	r	已捕獲 紅色暴鯉龍
-0068	s	Beat Elite Four/Elm can give S.S. Ticket
-1890	*	Red disappeared on Mt. Silver
-0069	g	Received Shuckle from Mania
-0070	g	Shuckle Returned/Allowed Ownership
-0080	g	Received Spearow from Randy
-0081	s	Mail can be delivered on Route 31
-0082	s	Received HP Up from Randy
-0083	s	Randy Mail Delivered/Received TM50
-0084	s	Togepi Hatched
-0085	s	Showed Togepi to Elm
-0086	s	Received Everstone from Elm
-1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
-0097	g	Received Tyrogue
-0046	s	Unown appeared in Ruins of Alph
-0098	s	Met Frieda
-0099	s	Received Poison Barb from Frieda
-0100	s	Met Tuscany
-0101	s	Received Pink Bow from Tuscany
-0102	s	Met Arthur
-0103	s	Received Hard Stone from Arthur
-0104	s	Met Sunny
-0105	s	Received Magnet from Sunny
-0106	s	Met Wesley
-0107	s	Received Black Belt from Wesley
-0108	s	Met Santos
-0109	s	Received Spell Tag from Santos
-0110	s	Met to Monica
-0111	s	Received Sharp Beak from Monica
-0189	g	Received Dratini
-0193	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
-0205	s	Restored power to Kanto/Magnet Train usable
-0256	s	Gina gave Leaf Stone present
-0257	s	Alan gave Fire Stone present
-0258	s	Dana gave Thunderstone present
-0259	s	Tully gave Water Stone present
-0260	s	Tiffany gave Pink Bow present
-0613	s	Received Protein from Sailor Huey 3rd Rematch
-0614	s	Received HP Up from Youngster Joey 4th Rematch
-0615	s	Received Carbos from Bird Keeper Vance 2nd Rematch
-0616	s	Received Iron from Hiker Parry 3rd Rematch
-0617	s	Received Calcium from Picnicker Erin 2nd Rematch
-0823	s	Protein from Huey 3rd Rematch Pending
-0824	s	HP Up from Joey 4th Rematch Pending
-0825	s	Carbos from Vance 2nd Rematch Pending
-0826	s	Iron from Parry 2nd Rematch Pending
-0827	s	Calcium from Erin 2nd Rematch Pending
-0607	t	Asked Schoolboy Jack for Number once
-0609	t	Asked Pokéfan Beverly for Number once
-0611	t	Asked Sailor Huey for Number once
-0619	t	Asked Cooltrainer Gaven for Number once
-0621	t	Asked Cooltrainer Beth for Number once
-0623	t	Asked Bird Keeper Jose for Number once
-0625	t	Asked Cooltrainer Reena for Number once
-0627	t	Asked Youngster Joey for Number once
-0629	t	Asked Bug Catcher Wade for Number once
-0631	t	Asked Fisher Ralph for Number once
-0633	t	Asked Picnicker Liz for Number once
-0635	t	Asked Hiker Anthony for Number once
-0637	t	Asked Camper Todd for Number once
-0639	t	Asked Picnicker Gina for Number once
-0641	t	Asked Juggler Irwin for Number once
-0643	t	Asked Bug Catcher Arnie for Number once
-0645	t	Asked Schoolboy Alan for Number once
-0649	t	Asked Lass Dana for Number once
-0651	t	Asked Schoolboy Chad for Number once
-0653	t	Asked Pokéfan Derek for Number once
-0655	t	Asked Fisher Tully for Number once
-0657	t	Asked PokéManiac Brent for Number once
-0659	t	Asked Picnicker Tiffany for Number once
-0661	t	Asked Bird Keeper Vance for Number once
-0663	t	Asked Fisher Wilton for Number once
-0665	t	Asked Blackbelt Kenji for Number once
-0667	t	Asked Hiker Parry for Number once
-0669	t	Asked Picnicker Erin for Number once
-0828	t	Buena offered Phone Number once
-0670	t	Buena offered Phone Number (2nd time)
+0791	r	已消失 鳳王
+0792	r	已消失 洛奇亞
+1904	r	已消失 卡比獸
+1873	r	已消失 紅色暴鯉龍
+0068	s	擊敗四天王與聯盟冠軍/空木博士贈與水流號船票
+1890	*	赤紅在白銀山消失了
+0069	g	從青次處收到壺壺
+0070	g	壺壺已歸還或允許玩家保留
+0080	g	從裕司處收到烈雀（郵件）
+0081	s	烈雀（郵件）在31號道路男人處投遞了
+0082	s	從裕司處獲得HP增強劑
+0083	s	裕司郵件已交付/獲得招式學習器50（惡夢）
+0084	s	波克比孵化了
+0085	s	向空木博士展示波克比
+0086	s	從空木博士處獲得不變之石
+1193	t	擊敗空手道王信彥 (可以接收無畏小子)
+0097	g	已收到無畏小子
+0046	s	未知圖騰出現在阿露福遺跡
+0098	s	遇見了星琪舞
+0099	s	從星琪舞處獲得毒針
+0100	s	遇見了星琪兒
+0101	s	從星琪兒處獲得粉紅色絲帶
+0102	s	遇見了星琪思
+0103	s	從星琪思處獲得硬石頭
+0104	s	遇見了星琪天
+0105	s	從星琪天處獲得磁鐵
+0106	s	遇見了星琪山
+0107	s	從星琪山處獲得黑帶
+0108	s	遇見了星琪柳
+0109	s	從星琪柳處獲得詛咒之符
+0110	s	遇見了星琪怡
+0111	s	從星琪怡處獲得銳利鳥嘴
+0189	g	已領取 迷你龍
+0193	g	龍穴提問回答錯誤 (禮物迷你龍不會使用神速)
+0205	s	恢復磁浮列車供電
+0256	s	與野餐女孩 小瑞再戰後獲得葉之石
+0257	s	與補習班學生 阿勉再戰後獲得火之石
+0258	s	與迷你裙 阿香再戰後獲得雷之石
+0259	s	與垂釣者 小實再戰後獲得水之石
+0260	s	與野餐女孩 千惠處再戰後粉紅色絲帶
+0613	s	與水手 幹勁第三次再戰後獲得攻擊增強劑
+0614	s	與短褲小子 五郎第四次再戰後獲得HP增強劑
+0615	s	與養鳥人 本弘第二次再戰後獲得速度增強劑
+0616	s	與登山男 太郎第二次再戰後獲得防禦增強劑
+0617	s	與野餐女孩 恵美第二次再戰後獲得特攻增強劑
+0823	s	水手 幹勁第三次再戰贈與的攻擊增強劑未獲得
+0824	s	短褲小子 五郎第四次贈與的HP增強劑未獲得
+0825	s	養鳥人 本弘第二次再戰贈與的速度增強劑未獲得
+0826	s	登山男 太郎第三次再戰贈與的防禦增強劑未獲得
+0827	s	野餐女孩 恵美第二次再戰贈與的特攻增強劑未獲得
+0607	t	與補習班學生 秀一交換電話號碼
+0609	t	與發燒友俱樂部 小愛交換電話號碼
+0611	t	與水手 幹勁交換電話號碼
+0619	t	與精英訓練家 小周交換電話號碼
+0621	t	與精英訓練家 仁美交換電話號碼
+0623	t	與精英訓練家 蕾佳交換電話號碼
+0625	t	與精英訓練家 夏帆交換電話號碼
+0627	t	與短褲小子 五郎交換電話號碼
+0629	t	與捕蟲少年 光一交換電話號碼
+0631	t	與垂釣者 康明交換電話號碼
+0633	t	與野餐女孩 佳織交換電話號碼
+0635	t	與登山男 阿勤交換電話號碼
+0637	t	與露營少年 洋一交換電話號碼
+0639	t	與野餐女孩 小瑞交換電話號碼
+0641	t	與雜耍藝人 麥克交換電話號碼
+0643	t	與捕蟲少年 洋太交換電話號碼
+0645	t	與補習班學生 阿勉交換電話號碼
+0649	t	與迷你裙 阿香交換電話號碼
+0651	t	與補習班學生 克里歐交換電話號碼
+0653	t	與發燒友俱樂部 見栄晴交換電話號碼
+0655	t	與垂釣者 小實交換電話號碼
+0657	t	與怪獸狂 小誠交換電話號碼
+0659	t	與野餐女孩 千慧交換電話號碼
+0661	t	與養鳥人 本弘交換電話號碼
+0663	t	與垂釣者 秀則交換電話號碼
+0665	t	與空手道王 武則交換電話號碼
+0667	t	與登山男 太郎交換電話號碼
+0669	t	與野餐女孩 恵美交換電話號碼
+0828	t	與葵妍主持人交換電話號碼
+0670	t	與葵妍主持人第二次交換電話號碼

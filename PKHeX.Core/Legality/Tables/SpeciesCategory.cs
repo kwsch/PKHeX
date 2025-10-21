@@ -70,6 +70,9 @@ public static class SpeciesCategory
         or (int)WalkingWake or (int)IronLeaves
         or (int)GougingFire or (int)RagingBolt or (int)IronBoulder or (int)IronCrown;
 
+    /// <summary>
+    /// Checks if the <see cref="currentSpecies"/> is a species that evolved from a bi-gendered species into a single-gendered species/form.
+    /// </summary>
     public static bool IsFixedGenderFromDual(ushort currentSpecies) => currentSpecies switch
     {
         (int)Shedinja => true, // Genderless
@@ -84,7 +87,20 @@ public static class SpeciesCategory
         (int)Meowstic => true, // (M/F) form specific
         (int)Salazzle => true, // (F)
         (int)Oinkologne => true, // (M/F) form specific
+        (int)Basculegion => true, // (M/F) form specific
 
+        _ => false,
+    };
+
+    /// <summary>
+    /// Checks if the <see cref="currentSpecies"/> is a species that has each gender as a different form.
+    /// </summary>
+    public static bool IsFormGenderSpecific(ushort currentSpecies) => currentSpecies switch
+    {
+        (int)Meowstic => true,
+        (int)Indeedee => true,
+        (int)Basculegion => true,
+        (int)Oinkologne => true,
         _ => false,
     };
 }

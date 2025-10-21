@@ -1,24 +1,26 @@
 0048	*	스타팅 포켓몬	0:주리비얀,1:뚜꾸리,2:수댕이
 0077	s	하일링크	6:튜토리얼 완료
-0143	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0143	r	P2랩 이벤트	0:활성화되지 않음,1:활성화됨,2:연구원 검웅 배틀 대기 중,3:카세트 받음
 0268	r	라티아스/라티오스	5:배틀 가능,6:사라짐
-0291	s	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
-0294	e	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated
-0295	e	Yancy/Curtis Call (Driftveil City)	0:Inactive,1:Active,2:Activated
-0296	e	Yancy/Curtis Call (Mistralton City)	0:Inactive,1:Active,2:Activated
-0297	e	Yancy/Curtis Call (Lacunosa Town)	0:Inactive,1:Active,2:Activated
-0298	e	Yancy/Curtis Call (Undella Town)	0:Inactive,1:Active,2:Activated
-0299	e	Yancy/Curtis Call (Lentimas Town)	0:Inactive,1:Active,2:Activated
-0300	e	Yancy/Curtis Call (Route 5)	0:Inactive,1:Active,2:Activated
-0301	e	Yancy/Curtis Call (Route 6)	0:Inactive,1:Active,2:Activated
-0302	e	Yancy/Curtis Call (Route 7)	0:Inactive,1:Active,2:Activated
-0303	e	Yancy/Curtis Call (Route 9)	0:Inactive,1:Active,2:Activated
-0304	e	Yancy/Curtis Call (Route 11)	0:Inactive,1:Active,2:Activated
-0305	e	Yancy/Curtis Call (Route 12)	0:Inactive,1:Active,2:Activated
-0306	e	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
-0307	e	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
-0308	e	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
-0312	e	Liberty Garden Event	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
-0392	e	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
-0396	t	Shadow Triad (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
-0378	g	Fossil Available to Claim	99:Root Fossil (Lileep),100:Claw Fossil (Anorith),101:Helix Fossil (Omanyte),102:Dome Fossil (Kabuto),103:Old Amber (Aerodactyl),104:Armor Fossil (Shieldon),105:Skull Fossil (Cranidos),572:Cover Fossil (Tirtouga),573:Plume Fossil (Archen)
+0283	r	레시라무/제크로무 (용나선탑)	0:활성화되지 않음,1:활성화 가능,2:활성화됨
+0291	s	N의 조로아크 (챔피언로드)		0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
+0294	e	루리/철권 전화 통화 (뇌문시티)	0:비활성,1:활동적인,2:활성화됨
+0295	e	루리/철권 전화 통화 (물풍경시티)	0:비활성,1:활동적인,2:활성화됨
+0296	e	루리/철권 전화 통화 (궐수시티)	0:비활성,1:활동적인,2:활성화됨
+0297	e	루리/철권 전화 통화 (보배마을)	0:비활성,1:활동적인,2:활성화됨
+0298	e	루리/철권 전화 통화 (물결마을)	0:비활성,1:활동적인,2:활성화됨
+0299	e	루리/철권 전화 통화 (산로마을)	0:비활성,1:활동적인,2:활성화됨
+0300	e	루리/철권 전화 통화 (5번도로)	0:비활성,1:활동적인,2:활성화됨
+0301	e	루리/철권 전화 통화 (6번도로)	0:비활성,1:활동적인,2:활성화됨
+0302	e	루리/철권 전화 통화 (7번도로)	0:비활성,1:활동적인,2:활성화됨
+0303	e	루리/철권 전화 통화 (9번도로)	0:비활성,1:활동적인,2:활성화됨
+0304	e	루리/철권 전화 통화 (11번도로)	0:비활성,1:활동적인,2:활성화됨
+0305	e	루리/철권 전화 통화 (12번도로)	0:비활성,1:활동적인,2:활성화됨
+0306	e	루리/철권 전화 통화 (13번도로)	0:비활성,1:활동적인,2:활성화됨
+0307	e	루리/철권 전화 통화 (14번도로)	0:비활성,1:활동적인,2:활성화됨
+0308	e	루리/철권 전화 통화 (16번도로)	0:비활성,1:활동적인,2:활성화됨
+0312	e	리버티가든섬 이벤트	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
+0392	e	루리/철권	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
+0396	t	다크 트리니티 (설화시티)	0:전투 가능 (현재 계절),1:배틀했다 (봄),2:배틀했다 (여름),3:배틀했다 (가을),4:배틀했다 (겨울)
+0399	s	해저유적 비오 이벤트	0:활성화되지 않음,1:활성화됨,2:1층 들어갔다,3:2층 들어갔다,4:3층 들어갔다,6:4층 들어갔다,8:고대의왕관 찾음/완료
+0378	g	받을 수 있는 화석	99:뿌리화석 (릴링),100:발톱화석 (아노딥스),101:조개화석 (암나이트),102:껍질화석 (투구),103:비밀의호박 (프테라),104:방패의화석 (방패톱스),105:두개의화석 (두개도스),572:덮개화석 (프로토가),573:깃털화석 (아켄)

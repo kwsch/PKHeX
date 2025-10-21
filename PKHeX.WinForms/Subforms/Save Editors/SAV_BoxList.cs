@@ -28,13 +28,13 @@ public sealed partial class SAV_BoxList : Form
         CenterToParent();
         Owner = p.ParentForm;
         foreach (var b in Boxes)
-            m.Env.Slots.Publisher.Subscribers.Add(b);
+            m.Env.Slots.Publisher.Subscribe(b);
         FormClosing += (_, _) =>
         {
             foreach (var b in Boxes)
             {
                 b.M?.Boxes.Remove(b);
-                m.Env.Slots.Publisher.Subscribers.Remove(b);
+                m.Env.Slots.Publisher.Unsubscribe(b);
             }
         };
     }

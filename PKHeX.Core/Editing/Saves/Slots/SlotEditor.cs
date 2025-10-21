@@ -93,6 +93,9 @@ public sealed class SlotEditor<T>(SaveFile SAV)
         return WriteSlot(slot, pk, SlotTouchType.Delete, settings);
     }
 
+    /// <summary>
+    /// Undo the last change made to a slot.
+    /// </summary>
     public void Undo()
     {
         if (!Changelog.CanUndo)
@@ -101,6 +104,9 @@ public sealed class SlotEditor<T>(SaveFile SAV)
         NotifySlotChanged(slot, SlotTouchType.Delete, slot.Read(SAV));
     }
 
+    /// <summary>
+    /// Redo the last undone change made to a slot.
+    /// </summary>
     public void Redo()
     {
         if (!Changelog.CanRedo)

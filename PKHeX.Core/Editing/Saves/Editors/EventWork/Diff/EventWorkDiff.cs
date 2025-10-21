@@ -22,13 +22,25 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
 
     private const int MAX_SAVEFILE_SIZE = 0x10_0000; // 1 MB
 
-    private static bool TryGetSaveFile(string path, [NotNullWhen(true)] out TSave? sav, out GameVersion version)
+    private static bool TryGetBlock(string path, [NotNullWhen(true)] out TSave? sav, out GameVersion version)
     {
         version = default;
         sav = null;
-        if (!SaveUtil.TryGetSaveFile(path, out var s) || s is not TSave b)
+        if (!SaveUtil.TryGetSaveFile(path, out var s))
             return false;
-        sav = b;
+        if (s is IEventFlagProvider37 p)
+        {
+            var x = p.EventWork;
+            if (x is not TSave b)
+                return false;
+            sav = b;
+        }
+        else
+        {
+            if (s is not TSave b)
+                return false;
+            sav = b;
+        }
         version = s.Version;
         return true;
     }
@@ -41,7 +53,7 @@ public sealed class EventBlockDiff<TSave, TWorkValue> : IEventWorkDiff
         if (Message != Valid)
             return;
 
-        if (!TryGetSaveFile(f1, out var s1, out var v1) || !TryGetSaveFile(f2, out var s2, out var v2))
+        if (!TryGetBlock(f1, out var s1, out var v1) || !TryGetBlock(f2, out var s2, out var v2))
         {
             Message = DifferentGameGroup;
             return;

@@ -24,6 +24,7 @@ public static class EncounterVerifier
         EncounterShadow3Colo { IsEReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(G3EReader),
         EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese => GetInvalid(EncUnreleasedEMewJP),
         EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(EncUnreleased),
+        EncounterStatic4 { Species: (int)Species.Shaymin } when pk.Language == (int)LanguageID.Korean => GetInvalid(EncUnreleased),
         EncounterStatic4 { IsRoaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(G4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
         IEncounterEgg e when pk.IsEgg => VerifyEncounterEggUnhatched(pk, e),
@@ -134,6 +135,12 @@ public static class EncounterVerifier
 
         // Check the origin game list.
         var met = (byte)pk.MetLocation;
+
+        // Emerald Location IDs: Birth Island is inaccessible for Japanese, and Faraway Island is inaccessible for non-Japanese.
+        byte inaccessible = pk.Japanese ? (byte)200 : (byte)201;
+        if (met == inaccessible)
+            return GetInvalid(EggLocationInvalid, met);
+
         bool valid = EggHatchLocation3.IsValidMet3(met, pk.Version);
         if (valid)
             return GetValid(EggLocation);
@@ -192,6 +199,11 @@ public static class EncounterVerifier
             return GetInvalid(EggFMetLevel_0, level);
 
         var met = pk.MetLocation;
+
+        // Shaymin event was never distributed in Korea. Cannot hatch in Seabreak Path or Flower Paradise.
+        if (pk.Language == (int)LanguageID.Korean && met is 63 or 85)
+            return GetInvalid(EggLocationInvalid);
+
         bool valid = EggHatchLocation4.IsValidMet4(met, pk.Version);
         if (valid)
             return GetValid(EggLocation);

@@ -38,7 +38,12 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
-    public SAV4BR() : base(SIZE_SLOT) => ClearBoxes();
+    public SAV4BR() : base(SIZE_SLOT)
+    {
+        Container = new byte[SIZE_HALF];
+        _currentSlot = 0;
+        ClearBoxes();
+    }
 
     public SAV4BR(Memory<byte> data, bool decrypt = true) : base(new byte[SIZE_SLOT])
     {
@@ -99,6 +104,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
         finally
         {
+            span.Clear();
             pool.Return(rent);
         }
     }

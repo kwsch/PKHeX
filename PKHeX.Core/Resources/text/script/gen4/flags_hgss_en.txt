@@ -1,18 +1,30 @@
+0107	s	Pokédex Obtained
 0607	*	Red (Mt. Silver) Disappeared
 0774	r	Articuno Disappeared
+0364	r	Articuno Captured
 0663	r	Zapdos Disappeared
+0330	r	Zapdos Captured
 0775	r	Moltres Disappeared
+0365	r	Moltres Captured
 0773	r	Mewtwo Disappeared
+0363	r	Mewtwo Captured
 0457	r	Raikou Roamed
 0458	r	Entei Roamed
 0459	s	Suicune (Burned Tower) Fled
 0673	s	Suicune (Route 25) Disappeared
 0782	r	Suicune (Back to Burned Tower) Disappeared
+0373	r	Suicune Captured
 0579	r	Lugia Disappeared
+0279	r	Lugia Captured
 0578	r	Ho-Oh Disappeared
+0278	r	Ho-Oh Captured
 0781	r	Latias/Latios (Pewter City) Disappeared
-0721	r	Kyogre/Groudon Disappeared
+0721	r	Kyogre Disappeared (HG)
+0378	r	Kyogre Captured (HG)
+0720	r	Groudon Disappeared (SS)
+0377	r	Groudon Captured (SS)
 0722	r	Rayquaza Disappeared
+0379	r	Rayquaza Captured
 2404	a	Entered Hall of Fame (Trainer Card Upgrade)
 0388	a	Obtained 1 Shiny Crown (Trainer Card Upgrade)
 0241	a	Beat Pokeathlon Records (Trainer Card Upgrade)
@@ -24,13 +36,15 @@
 0502	r	Team Rocket HQ Electrode (2) Disappeared
 0503	r	Team Rocket HQ Electrode (3) Disappeared
 0609	r	Sleeping Snorlax Disappeared
+0371	r	Snorlax Captured
 0149	g	Gift Eevee Received 
 0450	r	Route 36 Sudowoodo Disappeared
+0361	r	Sudowoodo Captured
 0483	r	Red Gyarados Disappeared
+0362	r	Red Gyarados Captured
 0191	g	Received Shuckle Gift
 0193	g	Shuckle returned or allowed to keep
 2744	r	Friday Lapras Disappeared
-0362	r	Caught Red Gyarados
 0219	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
 0220	g	Received Dratini Gift
 0268	g	Received Tyrogue Gift

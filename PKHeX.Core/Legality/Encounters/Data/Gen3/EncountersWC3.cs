@@ -28,7 +28,7 @@ internal static class EncountersWC3
         new(263, 05, S) { Moves = new(033,045,039,000), Language = (int)Japanese, Method = BACD_RBCD, ID32 = 21121, Shiny = Always, OriginalTrainerName = "ルビー",     OriginalTrainerGender = RandD3_1 }, // Berry Fix Ruby
         new(263, 05, S) { Moves = new(033,045,039,000), Language = (int)Japanese, Method = BACD_RBCD, ID32 = 21121, Shiny = Always, OriginalTrainerName = "サファイア", OriginalTrainerGender = RandD3_0 }, // Berry Fix Sapphire
 
-        new(385, 05, R) { Moves = new(273,093,156,000), Language = (int)Japanese, Method = BACD_T2,   ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = Only0 }, // Negai Boshi Jirachi
+        new(385, 05, R) { Moves = new(273,093,156,000), Language = (int)Japanese, Method = BACD_TA,   ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = Only0 }, // Negai Boshi Jirachi
         new(385, 05, RS){ Moves = new(273,093,156,000), Language = (int)Japanese, Method = BACD_U_AX, ID32 = 30719, Shiny = Never, OriginalTrainerName = "ネガイボシ", OriginalTrainerGender = Recipient }, // Negai Boshi Jirachi (Match Recipient)
         new(385, 05, R) { Moves = new(273,093,156,000), Language = (int)Japanese, Method = BACD_R_A, ID32 = 40707, Shiny = Never, OriginalTrainerName = "タナバタ",   OriginalTrainerGender = Only1 }, // Tanabata Jirachi (2004)
         new(025, 10, R) { Moves = new(019,084,039,086), Language = (int)Japanese, Method = BACD_R_A, ID32 = 41205, Shiny = Never, OriginalTrainerName = "ＡＮＡ",     OriginalTrainerGender = Only0 }, // ANA Pikachu
@@ -183,16 +183,16 @@ internal static class EncountersWC3
         new(172, 5, Gen3, true) { Moves = new(084,204,057,000), Method = BACD_U, OriginalTrainerName = "ＡＺＵＳＡ", OriginalTrainerGender = Only1 }, // Pichu Egg with Surf
 
         // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
-        new(172, 5, R, true) { Moves = new(084,204,298,000), Method = BACD_T3, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0, Shiny = Always }, // Pichu with Teeter Dance
-        new(172, 5, R, true) { Moves = new(084,204,273,000), Method = BACD_T3, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0, Shiny = Always }, // Pichu with Wish
-        new(172, 5, R, true) { Moves = new(084,204,298,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Pichu with Teeter Dance
-        new(172, 5, R, true) { Moves = new(084,204,273,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Pichu with Wish
-        new(280, 5, R, true) { Moves = new(045,204,000,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Ralts with Charm
-        new(280, 5, R, true) { Moves = new(045,273,000,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Ralts with Wish
-        new(359, 5, R, true) { Moves = new(010,043,180,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Absol with Spite
-        new(359, 5, R, true) { Moves = new(010,043,273,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Absol with Wish
-        new(371, 5, R, true) { Moves = new(099,044,334,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Bagon with Iron Defense
-        new(371, 5, R, true) { Moves = new(099,044,273,000), Method = BACD_T2, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Bagon with Wish
+        new(172, 5, R, true) { Moves = new(084,204,298,000), Method = BACD_TS, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0, Shiny = Always }, // Pichu with Teeter Dance
+        new(172, 5, R, true) { Moves = new(084,204,273,000), Method = BACD_TS, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0, Shiny = Always }, // Pichu with Wish
+        new(172, 5, R, true) { Moves = new(084,204,298,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Pichu with Teeter Dance
+        new(172, 5, R, true) { Moves = new(084,204,273,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Pichu with Wish
+        new(280, 5, R, true) { Moves = new(045,204,000,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Ralts with Charm
+        new(280, 5, R, true) { Moves = new(045,273,000,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Ralts with Wish
+        new(359, 5, R, true) { Moves = new(010,043,180,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Absol with Spite
+        new(359, 5, R, true) { Moves = new(010,043,273,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Absol with Wish
+        new(371, 5, R, true) { Moves = new(099,044,334,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Bagon with Iron Defense
+        new(371, 5, R, true) { Moves = new(099,044,273,000), Method = BACD_TA, OriginalTrainerName = PCJPEggTrainerName, OriginalTrainerGender = Only0 }, // Bagon with Wish
 
         // Distributed event gifts for receipt in the Pokémon Center 2F call the same give egg script as the Hot Springs Wynaut.
         // Most often, the game has a VBlank interrupt between PID and IVs (potentially because the script does not lock when starting).

@@ -41,10 +41,10 @@ public sealed class Roamer3 : IContestStats
         set => WriteUInt16LittleEndian(Data[8..], SpeciesConverter.GetInternal3(value));
     }
 
-    public int HP_Current
+    public ushort HP_Current
     {
-        get => ReadInt16LittleEndian(Data[10..]);
-        set => WriteInt16LittleEndian(Data[10..], (short)value);
+        get => ReadUInt16LittleEndian(Data[10..]);
+        set => WriteUInt16LittleEndian(Data[10..], value);
     }
 
     public byte CurrentLevel

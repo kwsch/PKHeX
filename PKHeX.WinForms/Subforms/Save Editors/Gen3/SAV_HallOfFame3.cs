@@ -30,7 +30,7 @@ public partial class SAV_HallOfFame3 : Form
         LB_Entries.SelectedIndex = 0;
         NUD_Members.Value = 0;
         var pk = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
-        SetField(pk);
+        LoadEntry(pk);
         UpdateSprite();
 
         TB_TID.TextChanged += (_, _) => ValidateIDs();
@@ -40,9 +40,9 @@ public partial class SAV_HallOfFame3 : Form
         CB_Species.SelectedValueChanged += (_, _) => UpdateSprite();
         NUD_Members.ValueChanged += (_, _) =>
         {
-            UpdatePKM(Fame[prevEntry].Team[prevMember]);
+            SaveEntry(Fame[prevEntry].Team[prevMember]);
             var pkm = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
-            SetField(pkm);
+            LoadEntry(pkm);
             prevMember = (int)NUD_Members.Value;
             prevEntry = LB_Entries.SelectedIndex;
             UpdateSprite();
@@ -50,10 +50,10 @@ public partial class SAV_HallOfFame3 : Form
 
         LB_Entries.SelectedIndexChanged += (_, _) =>
         {
-            UpdatePKM(Fame[prevEntry].Team[prevMember]);
+            SaveEntry(Fame[prevEntry].Team[prevMember]);
             NUD_Members.Value = 0;
             var pkm = Fame[LB_Entries.SelectedIndex].Team[0];
-            SetField(pkm);
+            LoadEntry(pkm);
             prevMember = (int)NUD_Members.Value;
             prevEntry = LB_Entries.SelectedIndex;
             UpdateSprite();
@@ -69,7 +69,7 @@ public partial class SAV_HallOfFame3 : Form
         CB_Species.SelectedIndex = 0;
     }
 
-    private void SetField(HallFame3PKM pk)
+    private void LoadEntry(HallFame3PKM pk)
     {
         Loading = true;
         TB_TID.Text = pk.TID16.ToString("00000");
@@ -81,7 +81,7 @@ public partial class SAV_HallOfFame3 : Form
         Loading = false;
     }
 
-    private void UpdatePKM(HallFame3PKM pk)
+    private void SaveEntry(HallFame3PKM pk)
     {
         pk.TID16 = Convert.ToUInt16(TB_TID.Text);
         pk.SID16 = Convert.ToUInt16(TB_SID.Text);
@@ -97,7 +97,7 @@ public partial class SAV_HallOfFame3 : Form
     private void B_Save_Click(object sender, EventArgs e)
     {
         var pkm = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
-        UpdatePKM(pkm);
+        SaveEntry(pkm);
         HallFame3Entry.SetEntries(SAV, Fame);
         Origin.CopyChangesFrom(SAV);
         Close();
@@ -131,7 +131,7 @@ public partial class SAV_HallOfFame3 : Form
             return;
 
         var entry = Fame[LB_Entries.SelectedIndex].Team[(int)NUD_Members.Value];
-        SetField(entry);
+        SaveEntry(entry);
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
         PB_Sprite.Image = SpriteUtil.GetSprite(entry.Species, entry.DisplayForm(SAV.Version), 0, 0, 0, false, shiny, EntityContext.Gen3);
     }

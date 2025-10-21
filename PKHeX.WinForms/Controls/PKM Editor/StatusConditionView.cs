@@ -39,7 +39,7 @@ public partial class StatusConditionView : UserControl
         else if (pk.Stat_HPCurrent == 0)
             SetFaint();
         else
-            SetStatus((StatusCondition)(pk.Status_Condition & 0xFF));
+            SetStatus(pk.Status_Condition, pk.Format);
         Loading = false;
     }
 
@@ -55,25 +55,38 @@ public partial class StatusConditionView : UserControl
         Hover.RemoveAll();
     }
 
-    private void SetStatus(StatusCondition status)
+    private void SetStatus(int value, int generation)
     {
-        PB_Status.Image = status.GetStatusSprite();
+        if (generation <= 4)
+        {
+            StatusCondition status = (StatusCondition)(value & 0xFF);
+            PB_Status.Image = status.GetStatusSprite();
 
-        var text = WinFormsTranslator.TranslateEnum(status, Main.CurrentLanguage);
-        Hover.SetToolTip(PB_Status, $"Status Condition: {text}");
+            var text = WinFormsTranslator.TranslateEnum(status, Main.CurrentLanguage);
+            Hover.SetToolTip(PB_Status, $"Status Condition: {text}");
+        }
+        else
+        {
+            StatusType status = (StatusType)(value & 0xFF);
+            PB_Status.Image = status.GetStatusSprite();
+
+            var text = WinFormsTranslator.TranslateEnum(status, Main.CurrentLanguage);
+            Hover.SetToolTip(PB_Status, $"Status Condition: {text}");
+        }
     }
 
     private void PB_Status_Click(object sender, EventArgs e)
     {
         ArgumentNullException.ThrowIfNull(pk);
-        using var form = new StatusBrowser();
+        int generation = pk.Format;
+        using var form = new StatusBrowser(generation);
         form.LoadList(pk);
         form.ShowDialog();
         if (!form.WasChosen)
             return;
         var current = pk.Status_Condition;
         current &= ~0xFF;
-        current |= (int)form.Choice;
+        current |= generation <= 4 ? (int)form.Choice : (int)form.Choice.GetStatusType();
         pk.Status_Condition = current;
         LoadStoredValues();
     }

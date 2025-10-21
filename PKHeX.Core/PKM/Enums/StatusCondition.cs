@@ -2,8 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Status condition flags for Generation 1-4.
+/// </summary>
+/// <remarks>
+/// Bad poison is only stored outside of battle in Generation 3 and 4.
+/// </remarks>
 [Flags]
-public enum StatusCondition
+public enum StatusCondition : byte
 {
     None = 0,
 #pragma warning disable RCS1191 // Declare enum value as combination of names
@@ -21,6 +27,19 @@ public enum StatusCondition
     Freeze = 1 << 5,
     Paralysis = 1 << 6,
     PoisonBad = 1 << 7,
+}
+
+/// <summary>
+/// Status condition enum for Generation 5+.
+/// </summary>
+public enum StatusType : byte
+{
+    None = 0,
+    Paralysis = 1,
+    Sleep = 2,
+    Freeze = 3,
+    Burn = 4,
+    Poison = 5,
 }
 
 public static class StatusConditionUtil
@@ -49,14 +68,4 @@ public static class StatusConditionUtil
 
         return StatusType.None;
     }
-}
-
-public enum StatusType
-{
-    None = 0,
-    Sleep = 1,
-    Poison = 2,
-    Burn = 3,
-    Freeze = 4,
-    Paralysis = 5,
 }

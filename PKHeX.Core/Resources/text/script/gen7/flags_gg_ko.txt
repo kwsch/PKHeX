@@ -5,16 +5,16 @@ v0441	r010r0101_pm0145_thunder (썬더)
 v0513	r023d0102_pm0146_fire (파이어)
 v0603	t004d0103_pm0150_mewtwo (뮤츠)
 
-v1114	t011r0501_pm0106_sawamular (Hitmonlee)
-v1113	t011r0501_pm0107_ebiwalar (Hitmonchan)
+v1114	t011r0501_pm0106_sawamular (시라소몬)
+v1113	t011r0501_pm0107_ebiwalar (홍수몬)
 
-v0627	Bulbasaur in Cerulean City
-v0157	Charmander on Route 24
-v0322	Squirtle in Vermilion City
-v0255	Porygon in Saffron City
+v0627	이상해씨 (블루시티)
+v0157	파이리 (24번도로)
+v0322	꼬부기 (갈색시티)
+v0255	폴리곤 (노랑시티)
 
-e0116	FE_MASTER_RED_BATTLE_TALKED (Spoken to Red)
-e0000	FE_EV0905_BTL_RED (Defeated Red)
+e0116	FE_MASTER_RED_BATTLE_TALKED (레드와 얘기했다)
+e0000	FE_EV0905_BTL_RED (레드 쓰러뜨림)
 e0107	FE_WAZA_OMOIDASHI
 e0108	FE_FIELD_TRADE_FIRST_01 (알로라 꼬렛 첫 교환)
 e0109	FE_FIELD_TRADE_FIRST_02 (알로라 모래두지/식스테일 첫 교환)
@@ -27,27 +27,27 @@ e0191	FE_FIELD_TRADE_FIRST_08 (알로라 꼬마돌 첫 교환)
 e0192	FE_CAPTURE_KABIGON_ROAD012 (12번도로 잠만보 잡음)
 e0193	FE_CAPTURE_KABIGON_ROAD016 (16번도로 잠만보 잡음)
 
-e0029	FE_SUB_23_BTLAFTER (Defeated Karate Master)
-e0030	FE_SUB_23_CLEAR (Received Hitmonlee/Hitmonchan)
+e0029	FE_SUB_23_BTLAFTER (태권도 대왕 쓰러뜨림)
+e0030	FE_SUB_23_CLEAR (시라소몬/홍수몬 만남)
 
-e0006	Received Pewter City Old Amber
-e0004	Purchased Route 4 Magikarp
-e0046	Received Cerulean City Bulbasaur
-e0047	Received Route 24 Charmander
-e0048	Received Vermilion City Squirtle
-e0011	Received Silph Co. Lapras
-e0081	Received Saffron City Porygon
-e0154	Received Vermilion City Persian/Arcanine
+e0006	회색시티 비밀의호박 만남
+e0004	잉어킹을 샀다 (4번도로)
+e0046	블루시티 이상해씨 만남
+e0047	24번도로 파이리 만남
+e0048	갈색시티 꼬부기 만남
+e0011	실프주식회사 라프라스 만남
+e0081	노랑시티 폴리곤 만남
+e0154	갈색시티 페르시온/윈디 만남
 
-s0001	FSYS_HIDEN_OPEN_IAIGIRI (Unlocked Secret Technique: Chop Down)
-s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (Unlocked Secret Technique: Sky Dash)
-s0003	FSYS_HIDEN_OPEN_KAIRIKI (Unlocked Secret Technique: Strong Push)
-s0004	FSYS_HIDEN_OPEN_NAMINORI (Unlocked Secret Technique: Sea Skim)
-s0005	FSYS_HIDEN_OPEN_HURASSYU (Unlocked Secret Technique: Light Up)
+s0001	FSYS_HIDEN_OPEN_IAIGIRI (비술 개방됨: 사선베기)
+s0002	FSYS_HIDEN_OPEN_SORAWOTOBU (비술 개방됨: 하늘날기)
+s0003	FSYS_HIDEN_OPEN_KAIRIKI (비술 개방됨: 밀어내기)
+s0004	FSYS_HIDEN_OPEN_NAMINORI (비술 개방됨: 물결타기)
+s0005	FSYS_HIDEN_OPEN_HURASSYU (비술 개방됨: 반짝이기)
 
-s0021	FSYS_JUDGE_OPEN (Unlocked IV Judge)
-s0023	FSYS_FLAG_WILD_SPAWN (Wild Spawns Enabled)
-s0024	FSYS_FLAG_BIG_WILD_SPAWN (Tiny/Huge Wild Spawns Enabled)
+s0021	FSYS_JUDGE_OPEN (개체값을 평가할 수 있게 개방됨)
+s0023	FSYS_FLAG_WILD_SPAWN (야생 출현 활성화됨)
+s0024	FSYS_FLAG_BIG_WILD_SPAWN (작은/거대한 야생 출현 활성화됨)
 
 s0000	FSYS_GAME_CLEAR (메인 스토리 완료함)
 s0012	FSYS_GYM_CLEAR_ROCK (체육관 관장 웅 이김)
@@ -58,18 +58,18 @@ s0016	FSYS_GYM_CLEAR_POISON (체육관 관장 독수 이김)
 s0017	FSYS_GYM_CLEAR_ESPER (체육관 관장 초련 이김)
 s0018	FSYS_GYM_CLEAR_FIRE (체육관 관장 강연 이김)
 s0019	FSYS_GYM_CLEAR_GROUND (체육관 관장 비주기 이김)
-s0020	FSYS_ZUKAN_COMPLETE (Completed Pokedex)
-s0106	FSYS_GOKIGEN_GAME_CLEAR (Can receive Small Bouquet)
+s0020	FSYS_ZUKAN_COMPLETE (포켓몬 도감 완료)
+s0106	FSYS_GOKIGEN_GAME_CLEAR (작은꽃다발을 받을 수 있다)
 
 s0022	FSYS_FLAG_CAN_NOT_FLY (하늘날기 비활성화됨)
-s0077	FSYS_FLAG_CAN_USE_CAIRIKI (Can use Strong Push)
+s0077	FSYS_FLAG_CAN_USE_CAIRIKI (밀어내기를 쓸 수 있다)
 s0091	FSYS_BUDDY_MODE_TSUREARUKI
 s0092	FSYS_CAPTURE_FOLLOW
 s0099	FSYS_FIELD_FLYHIGH_ENABLE
 s0107	FSYS_BUDDY_POKEMON_ENABLE
 
 s0108	FSYS_SPECIAL_BGM_SIRUHU (실프주식회사 BGM)
-s0109	FSYS_SPECIAL_BGM_SILENT (Silph Co. No BGM)
+s0109	FSYS_SPECIAL_BGM_SILENT (실프주식회사에 BGM이 없다)
 
 s0026	FSYS_ARRIVE_ROAD001 (1번도로 방문함)
 s0027	FSYS_ARRIVE_ROAD002 (2번도로 방문함)
@@ -107,18 +107,18 @@ s0058	FSYS_ARRIVE_TOWN008 (연분홍시티 방문함)
 s0059	FSYS_ARRIVE_TOWN009 (홍련섬 방문함)
 s0060	FSYS_ARRIVE_TOWN010 (석영고원 방문함)
 s0061	FSYS_ARRIVE_TOWN011 (노랑시티 방문함)
-s0062	FSYS_ARRIVE_R002_DUN01 (Visited Viridian Forest)
-s0063	FSYS_ARRIVE_R004_DUN01 (Visited Mt. Moon)
-s0064	FSYS_ARRIVE_R010_DUN01 (Visited Rock Tunnel)
-s0065	FSYS_ARRIVE_R010_DUN02 (Visited Power Plant)
-s0066	FSYS_ARRIVE_R011_DUN01 (Visited Diglett's Cave)
-s0067	FSYS_ARRIVE_R020_DUN01 (Visited Seafoam Islands)
-s0068	FSYS_ARRIVE_R023_DUN01 (Visited Victory Road)
+s0062	FSYS_ARRIVE_R002_DUN01 (상록숲 방문함)
+s0063	FSYS_ARRIVE_R004_DUN01 (달맞이산 방문함)
+s0064	FSYS_ARRIVE_R010_DUN01 (돌산터널 방문함)
+s0065	FSYS_ARRIVE_R010_DUN02 (무인발전소 방문함)
+s0066	FSYS_ARRIVE_R011_DUN01 (디그다의 굴 방문함)
+s0067	FSYS_ARRIVE_R020_DUN01 (쌍둥이섬 방문함)
+s0068	FSYS_ARRIVE_R023_DUN01 (챔피언로드 방문함)
 
-s0270	Helix Fossil Claimed at Mt. Moon
-s0271	Dome Fossil Claimed at Mt. Moon
-s0298	Dome Fossil in Fuchsia City
-s0299	Helix Fossil in Fuchsia City
-s0357	Received Fighting Dojo Hitmonchan
-s0358	Received Fighting Dojo Hitmonlee
-s0359	Old Amber Claimed in Pewter City
+s0270	달맞이산에서 조개화석을 받았다
+s0271	달맞이산에서 껍질화석을 받았다
+s0298	껍질화석은 연분홍시티에 있다
+s0299	조개화석은 연분홍시티에 있다
+s0357	격투도장 홍수몬 만남
+s0358	격투도장 시라소몬 만남
+s0359	회색시티에서 비밀의호박을 받았다

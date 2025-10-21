@@ -198,7 +198,7 @@ public static class ItemConverter
         return destFormat switch
         {
             EntityContext.Gen1 => 0,
-            EntityContext.Gen2 => (byte) srcItem,
+            EntityContext.Gen2 => GetItemOld2((ushort) srcItem),
             EntityContext.Gen3 => GetItemOld3((ushort) srcItem),
             _ => srcItem,
         };

@@ -1,5 +1,5 @@
 0048	*	스타팅 포켓몬	0:없음,387:모부기,390:불꽃숭이,393:팽도리
-0122	r	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Disappeared,3:Cynthia Gives Egg,4:Egg Pending,5:Egg Received
+0122	r	토게피 알	0:동상을 방문했다,1:비전머신01 받음,2:난천 사라짐,3:난천이 알을 준다,4:알 보류 중,5:알 받음
 0196	r	디아루가	0:배틀 가능,1:사라짐
 0197	r	펄기아	0:배틀 가능,1:사라짐
 0085	r	기라티나 (깨어진세계)	13:배틀 가능,14:사라짐
@@ -7,23 +7,24 @@
 0054	e	만월섬	0:활성화되지 않음,520:타운맵에 표시됨
 0055	e	신월섬	0:활성화되지 않음,553:타운맵에 표시됨
 0056	e	숨겨진 샘의 길	0:나타나기 전,786:나타남
-0057	e	갈라진 바닷길	0:나타나기 전,4136:나타남
+0057	e	갈라진 바닷길 (한국어 미발매)	0:나타나기 전,4136:나타남
 0067	e	멤버스카드	0:활성화되지 않음,4617:활성화됨
-0068	e	오박사의 편지	0:활성화되지 않음,4370:활성화됨
-0069	e	천계의 피리	0:활성화되지 않음,4387:활성화됨
+0068	e	오박사의 편지 (한국어 미발매)	0:활성화되지 않음,4370:활성화됨
+0069	e	천계의 피리 (미발매)	0:활성화되지 않음,4387:활성화됨
 0070	e	비밀의열쇠	0:활성화되지 않음,4387:활성화됨
-0248	e	항구 숙소 이벤트	0:입장 전,4:이벤트 완성됨
-0086	e	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
+0248	e	항구 숙소 이벤트	0:미완료,2:다크라이 포획 대기 중",3:선원은 여관 밖에 있다 (다크라이 잡음),4:완성됨 (악몽 중에 다크라이를 잡았다)
+0280	e	시작의 방 이벤트 (미발매)	0:비활성,1:활동적인
+0086	e	아르세우스 이벤트 등산가	0:활성화되지 않음,1:무쇠탄갱에서,2:운하도서관 2층에서,3:이벤트 완료
 0087	e	미정 이벤트 (224번도로)	0:활성화되지 않음,1:활성화 가능,2:활성화됨
 0133	s	미정 (224번도로)	0:활성화되지 않음,1:활성화됨,2:나타남
-0105	r	Iron Ruins Statue (레지스틸)	0:Inactive,270:Activated,280:Defeated,290:Caught
-0106	r	Iceberg Ruins Statue (레지아이스)	0:Inactive,270:Activated,280:Defeated,290:Caught
-0107	r	Rock Peak Ruins Statue (레지락) 	0:Inactive,270:Activated,280:Defeated,290:Caught
-0062	r	Current Players Interacted Underground	32:화강돌 나타남
+0105	r	무쇠의 유적 동상 (레지스틸)	0:비활성,270:활성화됨,280:쓰러뜨림,290:잡혔다
+0106	r	빙산의 유적 동상 (레지아이스)	0:비활성,270:활성화됨,280:쓰러뜨림,290:잡혔다
+0107	r	바위산의 유적 동상 (레지락)	0:비활성,270:활성화됨,280:쓰러뜨림,290:잡혔다
+0062	r	현재 플레이어가 상호작용한 지하통로	32:화강돌 나타남
 0138	r	신령탑	0:비활성,1:활동적인
-0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
-0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
-0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
-0095	r	Zapdos Status	0:Pending,1:Caught,2:Fainted/Can Respawn
-0094	r	Moltres Status	0:Pending,1:Caught,2:Fainted/Can Respawn
-0224	+	Catching Show Best Score (팔파크)
+0089	r	엠라이트 상태	0:대기,1:잡혔다,2:기절/리스폰됨
+0088	r	크레세리아 상태	0:대기,1:잡혔다,2:기절/리스폰됨
+0096	r	프리져 상태		0:대기,1:잡혔다,2:기절/리스폰됨
+0095	r	썬더 상태	0:대기,1:잡혔다,2:기절/리스폰됨
+0094	r	파이어 상태		0:대기,1:잡혔다,2:기절/리스폰됨
+0224	+	잡기쇼 최고 점수 (팔파크)

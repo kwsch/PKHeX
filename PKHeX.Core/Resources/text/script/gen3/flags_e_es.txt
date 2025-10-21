@@ -26,24 +26,24 @@
 0266	g	Huevo de Wynaut recibido
 0298	g	Beldum recibido
 
-0314	e	Ori-Ticket recibido mediante Regalo Misterioso
+0314	e	Ori-Ticket recibido mediante Regalo Misterioso (No lanzado en Japonés)
 0315	e	Misti-Ticket recibido mediante Regalo Misterioso
-0316	e	Mapa Viejo recibido mediante Regalo Misterioso
+0316	e	Mapa Viejo recibido mediante Regalo Misterioso (No lanzada internacionalmente)
 
 0430	e	Ticket Eón enseñado
-0431	e	Ori-Ticket enseñado
-0432	e	Mapa Viejo enseñado
+0431	e	Ori-Ticket enseñado (No lanzado en Japonés)
+0432	e	Mapa Viejo enseñado (No lanzada internacionalmente)
 0475	e	Misti-Ticket enseñado
 
 2227	e	Puede ir a Isla del Sur
-2261	e	Puede ir a Isla Origen
-2262	e	Puede ir a Isla Suprema
+2261	e	Puede ir a Isla Origen (No lanzado en Japonés)
+2262	e	Puede ir a Isla Suprema (No lanzada internacionalmente)
 2272	e	Puede ir a Roca Ombligo
 
 0255	r	Lati@s errante
 
-0455	r	Mew derrotado
-0458	r	Mew capturado
+0455	r	Mew derrotado (No lanzada internacionalmente)
+0458	r	Mew capturado (No lanzada internacionalmente)
 0145	r	Lugia capturado
 0146	r	Ho-Oh capturado
 0476	r	Ho-Oh derrotado
@@ -56,10 +56,10 @@
 0446	r	Kyogre capturado/derrotado
 0447	r	Groudon capturado/derrotado
 0448	r	Rayquaza capturado/derrotado
-0428	r	Deoxys derrotado
-0429	r	Deoxys capturado
+0428	r	Deoxys derrotado (No lanzado en Japonés)
+0429	r	Deoxys capturado (No lanzado en Japonés)
 
-0x2CE	r	Oculto en el mundo (Mew)
+0x2CE	r	Oculto en el mundo (Mew) (No lanzada internacionalmente)
 0x320	r	Oculto en el mundo (Lugia)
 0x321	r	Oculto en el mundo (Ho-Oh)
 0x3A7	r	Oculto en el mundo (Regirock)
@@ -68,8 +68,8 @@
 0x30E	r	Oculto en el mundo (Kyogre)
 0x30F	r	Oculto en el mundo (Groudon)
 0x305	r	Oculto en el mundo (Rayquaza)
-0x2FB	r	Oculto en el mundo (Deoxys)
-0x2FC	r	Oculto en el mundo (Triángulo de Deoxys)
+0x2FB	r	Oculto en el mundo (Deoxys) (No lanzado en Japonés)
+0x2FC	r	Oculto en el mundo (Triángulo de Deoxys) (No lanzado en Japonés)
 0x3C3	r	Oculto en el mundo (Fósil Raíz)
 0x3C4	r	Oculto en el mundo (Fósil Garra)
 0x3C9	r	Descubierto Kecleon (Ciudad Arborada)

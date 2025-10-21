@@ -63,7 +63,7 @@ public static class RibbonVerifierCommon6
         }
         else
         {
-            if (r.RibbonTraining && pk is ISuperTrain s && !RibbonRules.IsRibbonValidSuperTraining(s))
+            if (r.RibbonTraining && !RibbonRules.IsRibbonValidSuperTraining(pk))
                 list.Add(Training);
 
             // Maison

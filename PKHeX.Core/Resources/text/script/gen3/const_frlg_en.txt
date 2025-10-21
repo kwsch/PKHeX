@@ -9,7 +9,7 @@
 0x405D	s	Defeated Rival (Pokemon Tower)	0:No,1:Yes
 0x4089	s	Rival Met (Six Island Pokemon Center)	0:No,1:Yes
 
-0x4024	r	Wild Pokemon in Altering Cave	00:Zubat,01:Mareep,02:Pineco,03:Houndour,04:Teddiursa,05:Aipom,06:Shuckle,07:Stantler,08:Smeargle
+0x4024	r	Wild Pokemon in Altering Cave	00:Zubat,01:Mareep (Illegal),02:Pineco (Illegal),03:Houndour (Illegal),04:Teddiursa (Illegal),05:Aipom (Illegal),06:Shuckle (Illegal),07:Stantler (Illegal),08:Smeargle (Illegal)
 
 0x4049	a	Hall of Fame Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
 0x404A	a	Hatched Eggs Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3

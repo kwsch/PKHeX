@@ -162,7 +162,7 @@ public static class FileUtil
     /// <param name="length">File size</param>
     public static bool IsFileTooBig(long length)
     {
-        if (length <= 0x10_0000) // 1 MB
+        if (length <= 0x100_0000) // 16 MB
             return false;
         if (length > int.MaxValue)
             return true;

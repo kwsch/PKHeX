@@ -188,6 +188,8 @@ public enum LegalityCheckResultCode : ushort
     G5PIDShinyGrotto,
     G5SparkleInvalid,
     G5SparkleRequired,
+    G5PokeStarMustBeZero,
+    G5PokeStarImpossibleValue,
     G7BSocialShouldBe100Spirit,
     G7BSocialShouldBe100Mood,
 
@@ -237,7 +239,6 @@ public enum LegalityCheckResultCode : ushort
     MemoryIndexFeelHTLEQ9,
     MemoryIndexIntensityHT1,
     MemoryIndexLinkHT,
-    MemoryIndexVar_H1,
     MemoryMissingHT,
     MemoryMissingOT,
     MemorySocialZero,
@@ -323,6 +324,8 @@ public enum LegalityCheckResultCode : ushort
     SuperNoUnlocked,
     SuperUnavailable,
     SuperUnused,
+    G6SuperTrainEggBag,
+    G6SuperTrainEggHits,
 
     // Tera Type
     TeraTypeIncorrect,
@@ -401,6 +404,7 @@ public enum LegalityCheckResultCode : ushort
     MovePPTooHigh_0, // move slot
     MovePPUpsTooHigh_0, // move slot
     MemoryHTGender_0, // gender value
+    G6SuperTrainBagInvalid_0,
 
     // Single Argument: Move ID
     FirstWithMove,
@@ -436,6 +440,7 @@ public enum LegalityCheckResultCode : ushort
     MemoryIndexFeel_H1,
     MemoryIndexIntensity_H1,
     MemoryIndexIntensityMin_H1,
+    MemoryIndexVar_H1,
 
     // One/Two Arguments: Special
     FirstComplex,
@@ -460,6 +465,7 @@ public enum LegalityCheckResultCode : ushort
     FormInvalidRangeLEQ_0F,
 
     OTLanguageShouldBe_0or1, // language,language
+    G6SuperTrainBagHitsInvalid_012,
 
     MAX,
 }

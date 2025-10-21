@@ -70,6 +70,7 @@ public static class SaveFileTypeExtensions
         GameVersion.D or GameVersion.P => DP,
         GameVersion.Pt => Pt,
         GameVersion.HG or GameVersion.SS => HGSS,
+        GameVersion.BATREV => BattleRevolution,
         GameVersion.B or GameVersion.W => BW,
         GameVersion.B2 or GameVersion.W2 => B2W2,
         GameVersion.X or GameVersion.Y => XY,

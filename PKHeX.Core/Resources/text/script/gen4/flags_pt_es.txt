@@ -1,26 +1,39 @@
+0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
+0350	s	Agua del Lago Valor Restaurada
 0481	r	Uxie desaparecido
+0295	r	Uxie capturado
 0479	r	Mesprit desaparecido (Caverna Veraz)
 0480	r	Azelf desaparecido
+0294	r	Azelf capturado
 0208	r	Dialga capturado
 0209	r	Palkia capturado
 0591	r	Cresselia desaparecida (Isla Plenilunio)
 0476	r	Plutón desaparecido (Montaña Dura)
 0293	r	Heatran Luchable
-0288	r	Heatran desaparecido
+0477	r	Heatran desaparecido
+0288	r	Heatran capturado
 0579	r	Regigigas desaparecido
+0283	r	Regigigas capturado
 0306	r	Sala del Origen Aparecida (Columna Lanza)
 0461	r	Cynthia desaparecida (Columna Lanza)
 0672	r	Cynthia desaparecida (Fuente Despedida)
 0592	r	Giratina desaparecido
-0344	r	Darkrai desaparecido
-0301	r	Professor Oak #1 desaparecido (Ruta 224)
-0594	r	Professor Oak #2 desaparecido (Ruta 224)
-0714	r	Sémola desaparecida (Ruta 224)
-0604	r	Vía Costera Aparecida
-0291	r	Shaymin desaparecido (Paraiso Floral)
-0286	r	Arceus desaparecido
+0289	r	Giratina capturado
+0576	r	Darkrai desaparecido
+0344	r	Darkrai capturado/Taberna Bahía inaccesible
+0301	r	Wrote text on Route 224 white rock (No lanzado en Coreano)
+0594	r	Professor Oak desaparecido (Ruta 224) (No lanzado en Coreano)
+0604	r	Shaymin desaparecida (Ruta 224) (No lanzado en Coreano)
+0714	r	Sémola desaparecida (Ruta 224) (No lanzado en Coreano)
+0593	r	Shaymin desaparecido (Paraiso Floral) (No lanzado en Coreano)
+0291	r	Shaymin capturado (Ilegal en Coreano)
+0590	r	Arceus desaparecido (No lanzado)
+0286	r	Arceus capturado (Ilegal)
 0307	r	Ferry a Isla Plenilunio accesible
 0316	r	Ferry a Isla Lunanueva accesible
+0577	r	Taberna Bahía visitada
+2532	r	Isla Lunanueva visitada
+2517	r	Paraíso Floral visitada (No lanzado en Coreano)
 0578	r	Professor Oak desaparecido (Ciudad Vetusta)
 0281	r	Articuno/Zapdos/Moltres Errante (1)
 0153	r	Articuno/Zapdos/Moltres Errante (2)
@@ -39,11 +52,15 @@
 1262	s	Encontrada MT90 en la Vieja Mansión
 1281	s	Encontrado Caramelo Raro en la Vieja Mansión
 1282	s	Encontrada Perla Grande en la Vieja Mansión
+1336	s	Encontrada Griseosfera en Mundo Distorsión
 1337	s	Encontrado Revestimiento Metálico en Ruinas Hierro
 1338	s	Encontrado Antiderretir en Ruinas Iceberg
 1339	s	Encontrada Roca Dura Ruinas Pico Roca
 0151	g	Porygon recibido
 0305	g	Eevee recibido
+0226	g	Regalo del huevo de Riolu de Quinoa pendiente (Isla Hierro)
+0229	g	Recibido el regalo del huevo de Riolu de Quinoa (Isla Hierro)
+0485	s	Quinoa desaparecido (Isla Hierro)
 2430	*	PC de Tecla desbloqueado
 2433	s	2nd Rematch Against Trainers Unlocked
 2728	r	Drifloon de los viernes desaparecido
@@ -59,10 +76,11 @@
 0134	g	Intercambio en Ciudad Vetusta
 0244	g	Intercambio en Ciudad Puntaneva
 0245	g	Intercambio en Ruta 226
+0787	s	Más PP encontrado en Lago Valor seco
+2507	s	Participado en las capturas del Parque Compi
 0325	r	Grieta de Dialga/Palkia visible 
 1051	s	Diamansfera encontrada en Monte Corona
 1053	s	Lustresfera encontrada en Monte Corona
-2507	s	Participado en las capturas del Parque Compi
 1409	t	Corredor Romén derrotado (Mañana)
 1448	t	Policía Iñaki derrotado (Noche)
 1449	t	Policía Alex derrotado (Noche)

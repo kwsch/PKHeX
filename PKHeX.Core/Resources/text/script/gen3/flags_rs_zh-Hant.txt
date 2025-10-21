@@ -6,7 +6,7 @@
 0x06B	s	獲得秘傳學習器06碎岩
 0x423	s	獲得秘傳學習器07攀瀑
 0x07B	s	獲得秘傳學習器08潛水
-0302	s	Received HM08 Before Groudon/Kyogre Awakening
+0302	s	在固拉多/蓋歐卡覺醒之前獲得秘傳機器08
 0x05A	s	獲得音速自行車/越野自行車
 
 0x807	*	獲得岩石徽章

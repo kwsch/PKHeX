@@ -119,7 +119,7 @@ public partial class SAV_BattlePass : Form
         {
             if (counts[titles1[i]] > 1)
             {
-                var model = CharacterStyles[i / (titles1.Length / 6) + 1];
+                var model = CharacterStyles[(i / (titles1.Length / 6) + 1)];
                 titles1[i] += $" ({model})";
             }
         }
@@ -341,11 +341,12 @@ public partial class SAV_BattlePass : Form
 
         for (int i = 0; i < BattlePassAccessor.PASS_COUNT; i++)
         {
-            string type = WinFormsTranslator.TranslateEnum(SAV.BattlePasses.GetPassType(i), Main.CurrentLanguage);
-            BattlePass pass = GetBattlePassReference(i);
-            string name = pass.Name;
-            if ((!pass.Rental && !pass.Issued) || string.IsNullOrWhiteSpace(name))
+            var pass = GetBattlePassReference(i);
+            var name = pass.Name;
+            if (string.IsNullOrWhiteSpace(name) || pass is { Rental: false, Issued: false })
                 name = None;
+
+            var type = WinFormsTranslator.TranslateEnum(SAV.BattlePasses.GetPassType(i), Main.CurrentLanguage);
             LB_Passes.Items[i] = $"{i + 1:00} {type}/{name}";
         }
 

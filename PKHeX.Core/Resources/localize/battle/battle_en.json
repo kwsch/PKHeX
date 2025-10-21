@@ -13,6 +13,7 @@
  "Female":  "Female",
  "Left": [
   { "Token": "Friendship", "Text": "Friendship: " },
+  { "Token": "Friendship", "Text": "Happiness: " },
   { "Token": "EVs", "Text": "EVs: " },
   { "Token": "IVs", "Text": "IVs: " },
   { "Token": "AVs", "Text": "AVs: " },

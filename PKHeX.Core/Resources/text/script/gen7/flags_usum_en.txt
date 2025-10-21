@@ -83,7 +83,7 @@
 0174	g	Traded for Tauros on Poni Gauntlet
 1592	r	(UM) Defeated Route 15 Sandygast
 0607	r	Defeated Route 14 Frillish
-0547	r	Defeated Bewear in Hau'oli City
+0547	r	Defeated Bewear in Hau'oli City Shopping District
 4564	s	Trainers' School is Haunted (Seven Mysteries Event Active)
 0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
 1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)

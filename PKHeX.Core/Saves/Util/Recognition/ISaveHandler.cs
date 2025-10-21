@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 #if !(EXCLUDE_EMULATOR_FORMATS && EXCLUDE_HACKS)
@@ -33,14 +34,18 @@ public interface ISaveHandler
 /// <summary>
 /// Provides handling for recognizing atypical save file formats.
 /// </summary>
-public interface ISaveReader : ISaveHandler
+public interface ISaveReader
 {
     /// <summary>
     /// Reads a save file from the <see cref="data"/>
     /// </summary>
     /// <param name="data">Raw input data</param>
+    /// <param name="result">The resulting <see cref="SaveFile"/> if successful, otherwise null.</param>
     /// <param name="path">Optional file path.</param>
     /// <returns>Save File object, or null if invalid. Check <see cref="ISaveHandler"/> if it is compatible first.</returns>
-    SaveFile? ReadSaveFile(Memory<byte> data, string? path = null);
+    bool TryRead(Memory<byte> data, [NotNullWhen(true)] out SaveFile? result, string? path = null);
+
+    /// <inheritdoc cref="ISaveHandler.IsRecognized"/>
+    bool IsRecognized(long dataLength);
 }
 #endif

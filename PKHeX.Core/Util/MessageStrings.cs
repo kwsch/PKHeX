@@ -1,5 +1,6 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -46,6 +47,8 @@ public static class MessageStrings
     #endregion
 
     #region Main Window
+
+    public static string MsgConfirmQuitProgram { get; set; } = "Quit PKHeX?";
 
     public static string MsgFileLoad { get; set; } = "File Loaded:";
     public static string MsgFileLoadAllZero { get; set; } = "File is uninitialized (all zero). Please ensure it was properly saved.";
@@ -99,6 +102,9 @@ public static class MessageStrings
     public static string MsgClipboardLegalityExport { get; set; } = "Copy report to Clipboard?";
     public static string MsgClipboardFailRead { get; set; } = "Clipboard does not contain text.";
     public static string MsgClipboardFailWrite { get; set; } = "Unable to set text to Clipboard.";
+
+    public static string MsgLegalityHoverValid { get; set; } = "Valid";
+    public static string MsgLegalityHoverInvalid { get; set; } = "Invalid: Click for more info.";
 
     public static string MsgSimulatorFailClipboard { get; set; } = "Set data not found in clipboard.";
     public static string MsgSimulatorLoad { get; set; } = "Import this set?";

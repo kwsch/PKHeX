@@ -81,22 +81,6 @@ public static class FormInfo
     };
 
     /// <summary>
-    /// Indicates if the entity should be prevented from being traded away.
-    /// </summary>
-    /// <param name="species">Entity species</param>
-    /// <param name="form">Entity form</param>
-    /// <param name="formArg">Entity form argument</param>
-    /// <param name="format">Current generation format</param>
-    /// <returns>True if trading should be disallowed.</returns>
-    public static bool IsUntradable(ushort species, byte form, uint formArg, byte format) => species switch
-    {
-        (ushort)Koraidon or (int)Miraidon => formArg == 1, // Ride-able Box Legend
-        (ushort)Pikachu => format == 7 && form == 8, // Let's Go Pikachu Starter
-        (ushort)Eevee => format == 7 && form == 1, // Let's Go Eevee Starter
-        _ => IsFusedForm(species, form, format),
-    };
-
-    /// <summary>
     /// Checks if the <see cref="form"/> is a fused form, which indicates it cannot be traded away.
     /// </summary>
     /// <param name="species">Entity species</param>

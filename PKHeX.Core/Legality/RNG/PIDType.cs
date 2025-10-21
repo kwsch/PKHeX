@@ -83,10 +83,10 @@ public enum PIDType : byte
     BACD_R_A,
     /// <summary> Event Reversed Order PID restricted to [0,213] Origin Seed, shiny </summary>
     BACD_RBCD,
-    /// <summary> Event Reversed Order PID with Origin Seed restrictions, consuming 2 calls to the RNG before the PID is generated. </summary>
-    BACD_T2,
-    /// <summary> Event Reversed Order PID with Origin Seed restrictions, consuming 3 calls to the RNG before the PID is generated. </summary>
-    BACD_T3,
+    /// <summary> Event Reversed Order PID restricted to 16bit Origin Seed, consuming 2 calls select the event gift index, anti-shiny. </summary>
+    BACD_TA,
+    /// <summary> Event Reversed Order PID restricted to 16bit Origin Seed, consuming 2 calls select the event gift index, force-shiny. </summary>
+    BACD_TS,
     /// <summary> Event Reversed Order PID with Origin Seed restrictions, only using the Mystry Mew table. </summary>
     BACD_M,
 

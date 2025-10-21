@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
   </ItemGroup>
 
 </Project>
