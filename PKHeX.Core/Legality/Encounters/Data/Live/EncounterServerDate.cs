@@ -147,6 +147,7 @@ public static class EncounterServerDate
         {9016, HOME2_AB}, // Hidden Ability Chimchar
         {9017, HOME2_AB}, // Hidden Ability Piplup
         {9026, new(2025, 01, 27)}, // Shiny Manaphy
+        {1701, new(2021, 11, 19, 2022, 02, 21)}, // Manaphy Egg
     };
 
     /// <summary>
