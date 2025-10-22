@@ -2,6 +2,7 @@
 0077	s	Zona Nexo	6:Tutorial terminado
 0143	r	Evento 2do piso del Laboratorio P+P	0:Sin activar,1:Activado,2:Batalla contra Científico Chema pendiente,3:Cartuchos de Genesect recibidos
 0268	r	Lati@s	5:Luchable,6:Desaparecid@
+0283	r	Reshiram/Zekrom (Torre Duodraco)	0:Sin activar,1:Puede ser activado,2:Activado
 0291	s	Zoroark de N (Calle Victoria)	0:Prohibe el paso (pre-campeón),1:Quiere que le sigas (post-campeón),2:En el acantilado,3:Delante del Castillo de N,4:Dentro del Castillo de N
 0294	e	Llamada con Belinda/Julián (Ciudad Mayólica)	0:Desactivado,1:Activo,2:Activado
 0295	e	Llamada con Belinda/Julián (Ciudad Fayenza)	0:Desactivado,1:Activo,2:Activado
@@ -18,7 +19,8 @@
 0306	e	Llamada con Belinda/Julián (Ruta 13)	0:Desactivado,1:Activo,2:Activado
 0307	e	Llamada con Belinda/Julián (Ruta 14)	0:Desactivado,1:Activo,2:Activado
 0308	e	Llamada con Belinda/Julián (Ruta 16)	0:Desactivado,1:Activo,2:Activado
-0312	e	Liberty Garden Event	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
+0312	e	Evento de Isla Libertad	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
 0392	e	Belinda/Julián	0:Sin conocer,1:Llamada mediante Objeto perdido,2:Quedada en persona tras 10 llamadas
 0396	t	Trío Sombrío (Ciudad Teja)	0:Luchable (estación actual),1:Luchado en primavera,2:Luchado en verano,3:Luchado en otoño,4:Luchado en invierno
+0399	s	Ruinas Submarinas Evento de Menek	0:Sin activar,1:Activado,2:entró en 1F,3:entró en 2F,4:entró en 3F,6:entró en 4F,8:Encontrada Corona Antigua/Completado
 0378	g	Fósil disponible para conseguir	99:Fósil Raíz (Lileep),100:Fósil Garra (Anorith),101:Fósil Hélix (Omanyte),102:Fósil Domo (Kabuto),103:Ámbar Viejo (Aerodactyl),104:Fósil Coraza (Shieldon),105:Fósil Cráneo (Cranidos),572:Fósil Tapa (Tirtouga),573:Fósil Pluma (Archen)

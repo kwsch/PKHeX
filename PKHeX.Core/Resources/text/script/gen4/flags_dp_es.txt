@@ -1,21 +1,33 @@
-0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
-0351	s	Dialga/Palkia Caught
-0482	s	Dialga/Palkia Gone from Spear Pillar
+0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
+0350	s	Agua del Lago Valor Restaurada/Se puede obtener entrada de Palkia/Dialga en Pueblo Caelestis
+0351	r	Dialga/Palkia capturado
+0482	s	Dialga/Palkia desaparecido del Columna Lanza
 0511	r	Uxie desaparecido
+0295	r	Uxie capturado
 0509	r	Mesprit desaparecido (Caverna Veraz)
 0510	r	Azelf desaparecido
+0294	r	Azelf capturado
 0621	r	Cresselia desaparecida (Isla Plenilunio)
-0288	r	Heatran desaparecido
+0507	r	Heatran desaparecido
+0288	r	Heatran capturado
 0609	r	Regigigas desaparecido
+0283	r	Regigigas capturado
 0622	r	Giratina desaparecido
-0606	r	Darkrai desaparecido
-0623	r	Shaymin desaparecido (Paraiso Floral)
-0620	r	Arceus desaparecido
-0286	r	Sala del Origen desaparecida
+0289	r	Giratina capturado
+0606	r	Darkrai desaparecido (No lanzado)
+0344	r	Darkrai capturado/Taberna Bahía inaccesible (Ilegal)
+0623	r	Shaymin desaparecido (Paraiso Floral) (No lanzado)
+0291	r	Shaymin capturado (Ilegal)
+0620	r	Arceus desaparecido (No lanzado)
+0286	r	Arceus capturado (Ilegal)
 0307	r	Ferry a Isla Plenilunio accesible
-0316	r	Ferry a Isla Lunanueva accesible
-0301	r	Professor Oak desaparecido (Ruta 224)
-0634	r	Shaymin desaparecido
+0316	r	Ferry a Isla Lunanueva accesible (No lanzado)
+0607	r	Taberna Bahía visitada (No lanzado)
+2532	r	Isla Lunanueva visitada (No lanzado)
+2517	r	Paraíso Floral visitada (No lanzado)
+0301	r	Wrote text on Route 224 white rock (No lanzado)
+0624	r	Professor Oak desaparecido (Ruta 224) (No lanzado)
+0634	r	Shaymin desaparecida (Ruta 224) (No lanzado)
 2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
 2408	a	Maestro de Concurso Carisma
 2409	a	Maestro de Concurso de Belleza
@@ -31,9 +43,12 @@
 1233	s	Encontrada Tabla Oscura en la Vieja Mansión
 1234	s	Encontrada MT90 en la Vieja Mansión
 2401	*	Deportivas deshabilitadas
-2433	s	2nd Rematch Against Trainers Unlocked
+2433	s	Se desbloqueó la segunda revancha contra los entrenadores
 0251	g	Huevo Happiny de regalo recibido
 0305	g	Eevee recibido
+0226	g	Regalo del huevo de Riolu de Quinoa pendiente (Isla Hierro)
+0229	g	Recibido el regalo del huevo de Riolu de Quinoa (Isla Hierro)
+0515	s	Quinoa desaparecido (Isla Hierro)
 2430	*	PC de Tecla desbloqueado
 2728	r	Drifloon de los viernes desaparecido
 2722	r	Pokémon de hoy en el Jardín Trofeo

@@ -66,9 +66,11 @@
 0387	*	Super Trio Débloqué
 0388	*	Super Rotatif Débloqué
 0389	*	Super Multi Débloqué
+2722	s	Pokédex Obtenu
 2738	*	Entrées Navi-Dex Hors-Dex Débloquées
 0301	s	Primo-Groudon/Kyogre Vaincu (événement scénario)
 2720	s	Entré au Panthéon
+2729	s	Épisode Delta Complété
 0361	s	Conseil 4 Réaffronté
 3023	s	Peut Donner l'Orbe Rouge et l'Orbe Bleu
 0148	s	A Rencontré la Dame des Eaux Thermales

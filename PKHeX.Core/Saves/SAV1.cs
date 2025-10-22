@@ -22,11 +22,10 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     /// <summary>
     /// Rather than deal with managing lists on each slot read/write, store all sequentially in a single buffer.
     /// </summary>
-    private readonly byte[] Reserved = new byte[SIZE_RESERVED];
+    private readonly Memory<byte> Reserved = new byte[0x8000]; // chunk of RAM to store unpacked [..box, ..party, ..etc] data
 
-    private const int SIZE_RESERVED = 0x8000; // unpacked box data
-    protected override Span<byte> BoxBuffer => Reserved;
-    protected override Span<byte> PartyBuffer => Reserved;
+    protected override Span<byte> BoxBuffer => Reserved.Span;
+    protected override Span<byte> PartyBuffer => Reserved.Span;
     private readonly SAV1Offsets Offsets;
 
     public override PersonalTable1 Personal { get; }
@@ -441,7 +440,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public Memory<byte> GetDaycareSlot(int index)
     {
         ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
-        return Reserved.AsMemory(DaycareOffset, SIZE_STORED);
+        return Reserved.Slice(DaycareOffset, SIZE_STORED);
     }
 
     public bool IsDaycareOccupied(int index)

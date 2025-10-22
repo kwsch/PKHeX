@@ -1,24 +1,26 @@
 0048	*	禦三家	0:藤藤蛇,1:暖暖豬,2:水水獺
 0077	s	連入	6:完成教程
-0143	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0143	r	P2實驗室 活動	0:未激活,1:激活,2:研究員研二對戰待定,3:收到蓋諾賽克特卡帶
 0268	r	拉帝亞斯/拉帝歐斯	5:可對戰,6:消失
-0291	s	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
-0294	e	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated
-0295	e	Yancy/Curtis Call (Driftveil City)	0:Inactive,1:Active,2:Activated
-0296	e	Yancy/Curtis Call (Mistralton City)	0:Inactive,1:Active,2:Activated
-0297	e	Yancy/Curtis Call (Lacunosa Town)	0:Inactive,1:Active,2:Activated
-0298	e	Yancy/Curtis Call (Undella Town)	0:Inactive,1:Active,2:Activated
-0299	e	Yancy/Curtis Call (Lentimas Town)	0:Inactive,1:Active,2:Activated
-0300	e	Yancy/Curtis Call (Route 5)	0:Inactive,1:Active,2:Activated
-0301	e	Yancy/Curtis Call (Route 6)	0:Inactive,1:Active,2:Activated
-0302	e	Yancy/Curtis Call (Route 7)	0:Inactive,1:Active,2:Activated
-0303	e	Yancy/Curtis Call (Route 9)	0:Inactive,1:Active,2:Activated
-0304	e	Yancy/Curtis Call (Route 11)	0:Inactive,1:Active,2:Activated
-0305	e	Yancy/Curtis Call (Route 12)	0:Inactive,1:Active,2:Activated
-0306	e	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
-0307	e	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
-0308	e	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
-0312	e	Liberty Garden Event	0:Not Visited,1:Victini Owned (Juniper will appear),2:Met Juniper
-0392	e	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
-0396	t	Shadow Triad (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
-0378	g	Fossil Available to Claim	99:Root Fossil (Lileep),100:Claw Fossil (Anorith),101:Helix Fossil (Omanyte),102:Dome Fossil (Kabuto),103:Old Amber (Aerodactyl),104:Armor Fossil (Shieldon),105:Skull Fossil (Cranidos),572:Cover Fossil (Tirtouga),573:Plume Fossil (Archen)
+0283	r	萊希拉姆/捷克羅姆 (龍螺旋之塔)	0:未解锁,1:可被解锁,2:已解锁
+0291	s	N的索羅亞克 (冠軍之路)	0:阻止進一步訪問（未成為冠軍）,1:希望你跟隨（成為冠軍後）,2:在外面的懸崖上,3:在N的城堡前,4:走進N的城堡
+0294	e	琉璃/阿鐵 呼叫 (雷文市)	0:無效,1:可激活,2:已激活
+0295	e	琉璃/阿鐵 呼叫 (帆巴市)	0:無效,1:可激活,2:已激活
+0296	e	琉璃/阿鐵 呼叫 (吹寄市)	0:無效,1:可激活,2:已激活
+0297	e	琉璃/阿鐵 呼叫 (籠目鎮)	0:無效,1:可激活,2:已激活
+0298	e	琉璃/阿鐵 呼叫 (漣漪鎮)	0:無效,1:可激活,2:已激活
+0299	e	琉璃/阿鐵 呼叫 (山路鎮)	0:無效,1:可激活,2:已激活
+0300	e	琉璃/阿鐵 呼叫 (5號道路)	0:無效,1:可激活,2:已激活
+0301	e	琉璃/阿鐵 呼叫 (6號道路)	0:無效,1:可激活,2:已激活
+0302	e	琉璃/阿鐵 呼叫 (7號道路)	0:無效,1:可激活,2:已激活
+0303	e	琉璃/阿鐵 呼叫 (9號道路)	0:無效,1:可激活,2:已激活
+0304	e	琉璃/阿鐵 呼叫 (11號道路)	0:無效,1:可激活,2:已激活
+0305	e	琉璃/阿鐵 呼叫 (12號道路)	0:無效,1:可激活,2:已激活
+0306	e	琉璃/阿鐵 呼叫 (13號道路)	0:無效,1:可激活,2:已激活
+0307	e	琉璃/阿鐵 呼叫 (14號道路)	0:無效,1:可激活,2:已激活
+0308	e	琉璃/阿鐵 呼叫 (16號道路)	0:無效,1:可激活,2:已激活
+0312	e	自由庭院島劇情	0:未激活,1:擁有比克提尼 (紅豆杉博士將會出現),2:已訪問
+0392	e	琉璃/阿鐵	0:未滿足要求,1:通過遺忘物取得聯繫,2:10次電話後親自見面
+0396	t	黑暗鐵三角 (雪花市)	0:可對戰 (當前季節),1:春季已對戰,2:夏季已對戰,3:秋季已對戰,4:冬季已對戰
+0399	s	海底遺跡維奧事件	0:未解鎖,1:已解鎖,2:進入1樓,3:進入2樓,4:進入3樓,6:進入4樓,8:找到古代王冠/完成
+0378	g	可領取的化石	99:根狀化石 (觸手百合),100:爪子化石 (太古羽蟲),101:貝殼化石 (菊石獸),102:甲殼化石 (化石盔),103:秘密琥珀 (化石翼龍),104:盾甲化石 (盾甲龍),105:頭蓋化石(頭蓋龍),572:背蓋化石 (原蓋海龜),573:羽毛化石 (始祖小鳥)

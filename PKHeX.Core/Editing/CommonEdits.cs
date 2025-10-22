@@ -193,8 +193,10 @@ public static class CommonEdits
             // Under this scenario, just apply maximum EVs (65535).
             if (!evs.ContainsAnyExcept(0))
                 gb.MaxEVs();
-            else
+            else if (evs.ContainsAnyExceptInRange(0, 252)) // Any specified above 252
                 gb.SetEVs(evs);
+            else
+                gb.SetSqrtEVs(evs);
         }
         else
         {

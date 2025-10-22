@@ -83,7 +83,7 @@
 0x85F	s	Can Receive Shell Bell
 0x860	*	Received Running Shoes
 0x862	*	Reset RTC Enabled
-2090	*	Harsh Sunlight/Rain in Eastern Hoenn
+2090	*	Harsh Sunlight/Rain in eastern Hoenn
 2063	f	Can Fly to Littleroot Town
 2064	f	Can Fly to Oldale Town
 2065	f	Can Fly to Dewford Town

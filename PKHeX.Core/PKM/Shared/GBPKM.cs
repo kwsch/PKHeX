@@ -287,4 +287,17 @@ public abstract class GBPKM : PKM
         if (pk.HasMove((int)Move.HiddenPower))
             HPType = pk.HPType;
     }
+
+    public void SetSqrtEVs(ReadOnlySpan<int> evs)
+    {
+        EV_HP = Square(evs[0]);
+        EV_ATK = Square(evs[1]);
+        EV_DEF = Square(evs[2]);
+        EV_SPE = Square(evs[3]);
+        EV_SPC = Square(evs[4]);
+
+        return;
+
+        static ushort Square(int ev) => (ushort)(Math.Min(EffortValues.Max12, ev * ev));
+    }
 }

@@ -851,11 +851,14 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseItemName(ReadOnlySpan<char> itemName, GameStrings strings)
     {
-        if (TryGetItem(itemName, strings, Context))
+        var initial = Context;
+        if (TryGetItem(itemName, strings, initial))
             return true;
         if (TryGetItem(itemName, strings, EntityContext.Gen3))
             return true;
         if (TryGetItem(itemName, strings, EntityContext.Gen2))
+            return true;
+        if (initial is EntityContext.Gen3 or EntityContext.Gen2 && TryGetItem(itemName, strings, Latest.Context))
             return true;
         return false;
     }

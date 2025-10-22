@@ -1,7 +1,16 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/08/30 - New Update:
+25/09/25 - New Update:
+ - Legality:
+ - - Added the Shiny Miraidon/Koraidon mystery gifts, and the other Ruins gifts.
+ - - Added Reg J mythical participation ribbon legality.
+ - Added: Loading of zipped save file/folders is now supported, and can export-update the same zip. Thanks @nitz !
+ - Added: Status (paralyze, sleep, etc) browser is now localized. Thanks @abcboy101 !
+ - Fixed: PK1=>PK2 conversion no longer errors.
+ - Fixed: Gen2 Japanese Crystal save files now detect correctly.
+
+25/08/30 - New Update: (130577) [10712165]
  - Legality:
  - - Added: Gen9 Misty Mark recognition added. Thanks @Lusamine and all the people who helped on Discord to help create a convex hull.
  - - Added: Mystery Gift with problematic OT names now check for scenarios where the OT name would be sanitized, for legality matching.

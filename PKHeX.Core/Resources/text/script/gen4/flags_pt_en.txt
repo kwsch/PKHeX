@@ -1,26 +1,39 @@
+0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
+0350	s	Lake Valor Water Restored
 0481	r	Uxie Disappeared
+0295	r	Uxie Captured
 0479	r	Mesprit (Verity Cavern) Disappeared
 0480	r	Azelf Disappeared
+0294	r	Azelf Captured
 0208	r	Dialga Captured
 0209	r	Palkia Captured
 0591	r	Cresselia (Fullmoon Island) Disappeared
 0476	r	Charon (Stark Mountain) Disappeared
 0293	r	Heatran Battleable
-0288	r	Heatran Disappeared
+0477	r	Heatran Disappeared
+0288	r	Heatran Captured
 0579	r	Regigigas Disappeared
+0283	r	Regigigas Captured
 0306	r	Hall of Origin (Spear Pillar) Appeared
 0461	r	Cynthia (Spear Pillar) Disappeared
 0672	r	Cynthia (Sendoff Spring) Disappeared
 0592	r	Giratina Disappeared
-0344	r	Darkrai Disappeared
-0301	r	Professor Oak (Route 224) #1 Disappeared
-0594	r	Professor Oak (Route 224) #2 Disappeared
-0714	r	Marley (Route 224) Disappeared
-0604	r	Seabreak Path Appeared
-0291	r	Shaymin (Flower Paradise) Disappeared
-0286	r	Arceus Disappeared
+0289	r	Giratina Captured
+0576	r	Darkrai Disappeared
+0344	r	Darkrai Captured/Harbor Inn inaccessible
+0301	r	Wrote text on Route 224 white rock (Unreleased in Korean)
+0594	r	Professor Oak (Route 224) Disappeared (Unreleased in Korean)
+0604	r	Shaymin (Route 224) Disappeared (Unreleased in Korean)
+0714	r	Marley (Route 224) Disappeared (Unreleased in Korean)
+0593	r	Shaymin (Flower Paradise) Disappeared (Unreleased in Korean)
+0291	r	Shaymin Captured (Illegal in Korean)
+0590	r	Arceus Disappeared (Unreleased)
+0286	r	Arceus Captured (Illegal)
 0307	r	Fullmoon Island Ferry Accessible
 0316	r	Newmoon Island Ferry Accessible
+0577	r	Visited Harbor Inn
+2532	r	Visited Newmoon Island
+2517	r	Visited Flower Paradise (Unreleased in Korean)
 0578	r	Professor Oak (Eterna City) Disappeared
 0281	r	Articuno/Zapdos/Moltres Roamed (1)
 0153	r	Articuno/Zapdos/Moltres Roamed (2)
@@ -30,7 +43,7 @@
 2410	a	Cute Contest Master
 2411	a	Smart Contest Master
 2412	a	Tough Contest Master
-0329	r	Rotom Caught
+0329	r	Rotom Captured
 0635	s	Encountered Ghost Butler in Old Chateau
 0636	s	Encountered Ghost Girl in Old Chateau
 0897	s	Found Honey (hidden) in Old Chateau
@@ -39,11 +52,15 @@
 1262	s	Found TM90 in Old Chateau
 1281	s	Found Rare Candy in Old Chateau
 1282	s	Found Big Pearl in Old Chateau
+1336	s	Found Griseous Orb in Distortion World
 1337	s	Found Metal Coat in Iron Ruins
 1338	s	Found Never-Melt Ice in Iceberg Ruins
 1339	s	Found Hard Stone in Rock Peak Ruins
 0151	g	Received Porygon
 0305	g	Received Eevee
+0226	g	Riolu Egg Gift from Riley Pending (Iron Island)
+0229	g	Received Riolu Egg Gift from Riley (Iron Island)
+0485	s	Riley Disappeared from Iron Island
 2430	*	Unlocked Bebe's PC
 2433	s	2nd Rematch Against Trainers Unlocked
 2728	r	Friday Drifloon Disappeared
@@ -59,10 +76,11 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
+0787	s	Found HP Up in dried Lake Valor
+2507	s	Entered Pal Park Catching Show
 0325	r	Dialga/Palkia rifts spawnable
 1051	s	Found Adamant Orb on Mt. Coronet
 1053	s	Found Lustrous Orb on Mt. Coronet
-2507	s	Entered Pal Park Catching Show
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)
 1449	t	Defeated Policeman Alex (Night)

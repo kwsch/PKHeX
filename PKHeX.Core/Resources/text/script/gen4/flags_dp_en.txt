@@ -1,28 +1,40 @@
-0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
-0351	s	Dialga/Palkia Caught
-0482	s	Dialga/Palkia Gone from Spear Pillar
+0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
+0350	s	Lake Valor Water Restored/Can get Palkia/Dialga entry at Celestic Town
+0351	s	Dialga/Palkia Captured
+0482	s	Dialga/Palkia Disappeared from Spear Pillar
 0511	r	Uxie Disappeared
+0295	r	Uxie Captured
 0509	r	Mesprit (Verity Cavern) Disappeared
 0510	r	Azelf Disappeared
-0621	r	Cresselia(Fullmoon Island) Disappeared
-0288	r	Heatran Disappeared
+0294	r	Azelf Captured
+0621	r	Cresselia (Fullmoon Island) Disappeared
+0507	r	Heatran Disappeared
+0288	r	Heatran Captured
 0609	r	Regigigas Disappeared
+0283	r	Regigigas Captured
 0622	r	Giratina Disappeared
-0606	r	Darkrai Disappeared
-0623	r	Shaymin (Flower Paradise) Disappeared
-0620	r	Arceus Disappeared
-0286	r	Hall of Origin Disappeared
+0289	r	Giratina Captured
+0606	r	Darkrai Disappeared (Unreleased)
+0344	r	Darkrai Captured/Harbor Inn inaccessible  (Illegal)
+0623	r	Shaymin (Flower Paradise) Disappeared (Unreleased)
+0291	r	Shaymin Captured (Illegal)
+0620	r	Arceus Disappeared (Unreleased)
+0286	r	Arceus Captured (Illegal)
 0307	r	Fullmoon Island Ferry Accessible
-0316	r	Newmoon Island Ferry Accessible
-0301	r	Professor Oak (Route 224) Disappeared
-0634	r	Shaymin Disappeared
+0316	r	Newmoon Island Ferry Accessible (Unreleased)
+0607	r	Visited Harbor Inn (Unreleased)
+2532	r	Visited Newmoon Island (Unreleased)
+2517	r	Visited Flower Paradise (Unreleased)
+0301	r	Wrote text on Route 224 white rock (Unreleased)
+0624	r	Professor Oak (Route 224) Disappeared (Unreleased)
+0634	r	Shaymin (Route 224) Disappeared (Unreleased)
 2404	a	Entered Hall of Fame (Trainer Card Upgrade)
 2408	a	Cool Contest Master
 2409	a	Beauty Contest Master
 2410	a	Cute Contest Master
 2411	a	Smart Contest Master
 2412	a	Tough Contest Master
-0329	r	Rotom Caught
+0329	r	Rotom Captured
 0665	s	Encountered Ghost Butler in Old Chateau
 0666	s	Encountered Ghost Girl in Old Chateau
 0897	s	Found Antidote (hidden) in Old Chateau
@@ -34,6 +46,9 @@
 2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	Received Happiny Egg Gift
 0305	g	Received Eevee
+0226	g	Riolu Egg Gift from Riley Pending (Iron Island)
+0229	g	Received Riolu Egg Gift from Riley (Iron Island)
+0515	s	Riley Disappeared from Iron Island
 2430	*	Unlocked Bebe's PC
 2728	r	Friday Drifloon Disappeared
 2722	r	Today's Trophy Garden Pokémon Known

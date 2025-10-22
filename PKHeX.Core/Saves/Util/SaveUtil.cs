@@ -96,15 +96,15 @@ public static class SaveUtil
 
     private static readonly SaveHandlerGCI DolphinHandler = new();
 
-#if !EXCLUDE_HACKS
     /// <summary>
-    /// Specialized readers for loading save files from non-standard games (e.g. hacks).
+    /// Specialized readers for loading save files from non-standard games (e.g. hacks) or containers.
     /// </summary>
     // ReSharper disable once CollectionNeverUpdated.Global
-    public static readonly List<ISaveReader> CustomSaveReaders = [];
-#endif
+    public static readonly List<ISaveReader> CustomSaveReaders =
+    [
+        new ZipReader(),
+    ];
 
-#if !EXCLUDE_EMULATOR_FORMATS
     /// <summary>
     /// Pre-formatters for loading save files from non-standard formats (e.g. emulators).
     /// </summary>
@@ -116,7 +116,6 @@ public static class SaveUtil
         new SaveHandlerARDS(),
         new SaveHandlerNSO(),
     ];
-#endif
 
     private static bool IsSizeGen9SV(int length) => length is
         SIZE_G9_0 or SIZE_G9_0a or
@@ -485,19 +484,15 @@ public static class SaveUtil
     /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
     public static bool TryGetSaveFile(Memory<byte> data, [NotNullWhen(true)] out SaveFile? result, string? path = null)
     {
-#if !EXCLUDE_HACKS
         if (TryGetSaveFileCustom(data, out result, path))
             return true;
-#endif
 
         result = GetSaveFileInternal(data);
         if (result is not null)
             return true;
 
-#if !EXCLUDE_EMULATOR_FORMATS
         if (TryGetSaveFileHandler(data, out result, path))
             return true;
-#endif
 
         // unrecognized.
         return false;
@@ -510,8 +505,7 @@ public static class SaveUtil
             if (!h.IsRecognized(data.Length))
                 continue;
 
-            result = h.ReadSaveFile(data, path);
-            if (result is not null)
+            if (h.TryRead(data, out result, path))
                 return true;
         }
         result = null;

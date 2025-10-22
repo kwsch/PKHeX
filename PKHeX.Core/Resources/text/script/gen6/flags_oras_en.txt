@@ -66,9 +66,11 @@
 0387	*	Super Triples Unlocked
 0388	*	Super Rotation Unlocked
 0389	*	Super Multi Unlocked
+2722	s	Pokédex Obtained
 2738	*	Foreign DexNav Encounters Unlocked
 0301	s	Defeated Primal Groudon/Kyogre (Story Event)
 2720	s	Entered Hall of Fame
+2729	s	Completed Delta Episode
 0361	s	Rematched Elite Four
 3023	s	Can Give Red Orb and Blue Orb
 0148	s	Met old hot-springs visitor

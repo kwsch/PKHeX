@@ -66,216 +66,218 @@
 0387	*	슈퍼트리플배틀 해금됨
 0388	*	슈퍼로테이션배틀 해금됨
 0389	*	슈퍼멀티배틀 해금됨
-2738	*	Foreign DexNav Encounters Unlocked
-0301	s	Defeated Primal Groudon/Kyogre (Story Event)
-2720	s	Entered Hall of Fame
-0361	s	Rematched Elite Four
-3023	s	Can Give Red Orb and Blue Orb
-0148	s	Met old hot-springs visitor
-0147	g	Received Wynaut Egg Gift (Lavaridge Town Hot-Springs)
-0187	g	Received Togepi Egg Gift (Lavaridge Town Hot-Springs)
-0119	g	Received Castform Gift (Weather Institute)
-0249	g	Received Beldum Gift (Mossdeep City Steven's House)
-0264	g	Received Camerupt Gift (Battle Resort)
-0265	g	Received Sharpedo Gift (Battle Resort)
-0298	s	Received Diancite (Diancie Event)
-0308	s	Received Prison Bottle (Hoopa Event)
-0310	g	Received Johto Starter
-0349	g	Received Sinnoh Starter
-0311	g	Received Unova Starter
+2722	s	포켓몬 도감 수령 완료
+2738	*	외국 도감내비 조우 해금됨
+0301	s	원시 그란돈/가이오가 쓰러뜨림 (스토리 이벤트)
+2720	s	전당등록 완료
+2729	s	에피소드 델타 완료
+0361	s	사천왕 재대결했다
+3023	s	지닌물건 주홍구슬과 쪽빛구슬을 사용할 수 있음
+0148	s	온천할머니를 만남
+0147	g	마자 알 선물 받음 (용암마을 온천)
+0187	g	토게피 알 선물 받음 (용암마을 온천)
+0119	g	캐스퐁 선물 받음 (날씨 연구소)
+0249	g	메탕 선물 받음 (이끼시티 나성호의 집)
+0264	g	폭타 선물 받음 (배틀리조트)
+0265	g	샤크니아 선물 받음 (배틀리조트)
+0298	s	디안시나이트 받음 (디안시 이벤트)
+0308	s	굴레의항아리 받음 (후파 이벤트)
+0310	g	성도 스타팅 받음
+0349	g	신오 스타팅 받음
+0311	g	하나 스타팅 받음
 0166	g	In-Game Trade Slakoth for Makuhita (Rustboro City)
 0167	g	In-Game Trade Spinda for Skitty (Fortree City)
 0168	g	In-Game Trade Bellosom for Corsola (Pacifidlog Town)
 0692	s	쓰러뜨림 연승가족
-0806	s	Steven Disappeared from Route 120 Bridge
-0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
-0699	s	Steven and Lati@s Disappeared from Route 118
-0789	s	Root Fossil Disappeared from Route 111
-0790	s	Claw Fossil Disappeared from Route 111
-0927	r	Voltorb (1) Disappeared from New Mauville
-0928	r	Voltorb (2) Disappeared from New Mauville
-0929	r	Voltorb (3) Disappeared from New Mauville
-0930	r	Voltorb (4) Disappeared from New Mauville
-1044	r	(OR) Electrode (1) Disappeared from Team Magma Hideout
-1045	r	(OR) Electrode (2) Disappeared from Team Magma Hideout
-1042	r	(AS) Electrode (1) Disappeared from Team Aqua Hideout
-1043	r	(AS) Electrode (2) Disappeared from Team Aqua Hideout
-0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
-0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
-0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
-0506	r	Invisible Kecleon Disappeared (Route 120, Stairs)
-0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
-0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
-0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
+0806	s	성호 사라짐 (120번도로 다리)
+0808	g	브리더 (옷갈아입기 피카츄 의상 체인저) 사라짐
+0699	s	성호와 라티오스/라티아스 사라짐 (118번도로)
+0789	s	뿌리화석 사라짐 (111번도로)
+0790	s	발톱화석 사라짐 (111번도로)
+0927	r	찌리리공 (1) 사라짐 (뉴보라)
+0928	r	찌리리공 (2) 사라짐 (뉴보라)
+0929	r	찌리리공 (3) 사라짐 (뉴보라)
+0930	r	찌리리공 (4) 사라짐 (뉴보라)
+1044	r	(OR) 붐볼 (1) 사라짐 (마그마단아지트)
+1045	r	(OR) 붐볼 (2) 사라짐 (마그마단아지트)
+1042	r	(AS) 붐볼 (1) 사라짐 (아쿠아단아지트)
+1043	r	(AS) 붐볼 (2) 사라짐 (아쿠아단아지트)
+0697	r	보이지 않는 켈리몬 사라짐 (검방울 체육관 차단 중)
+0702	r	보이지 않는 켈리몬 사라짐 (120번도로, 다리)
+0504	r	보이지 않는 켈리몬 사라짐 (119번도로, 폭포 위에)
+0506	r	보이지 않는 켈리몬 사라짐 (120번도로, 계단)
+0508	r	보이지 않는 켈리몬 사라짐 (120번도로, 긴 풀 미로의 왼쪽)
+0510	r	보이지 않는 켈리몬 사라짐 (용암마을)
+0512	r	보이지 않는 켈리몬 사라짐 (이끼 우주센터)
 0302	r	화강돌 쓰러뜨림
 0303	r	화강돌 잡음
-0500	s	Sealed Chamber Puzzle Braille Text Disappeared
-3007	s	Sealed Chamber Puzzle Completed
-3008	r	Regi Caves Unlocked
-0501	s	Desert Ruins Puzzle Braille Text Disappeared
-3004	s	Desert Ruins Puzzle Completed
-0502	s	Island Cave Puzzle Braille Text Disappeared
-3005	s	Island Cave Puzzle Completed
-0503	s	Ancient Tomb Puzzle Braille Text Disappeared
-3006	s	Ancient Tomb Puzzle Completed
-1034	s	Cave of Origin B5F Pathway Cleared
-2746	*	Unlocked Lanette's PC
-3009	*	Organize Boxes at top of PC menu
-2758	f	Visited Littleroot Town
-2833	f	Can Fly to Littleroot Town
-2759	f	Visited Oldale Town
-2834	f	Can Fly to Oldale Town
-2760	f	Visited Dewford Town
-2835	f	Can Fly to Dewford Town
-2761	f	Visited Lavaridge Town
-2836	f	Can Fly to Lavaridge Town
-2762	f	Visited Fallarbor Town
-2837	f	Can Fly to Fallarbor Town
-2763	f	Visited Verdanturf Town
-2838	f	Can Fly to Verdanturf Town
-2764	f	Visited Pacifidlog Town
-2839	f	Can Fly to Pacifidlog Town
-2765	f	Visited Petalburg City
-2840	f	Can Fly to Petalburg City
-2766	f	Visited Slateport City
-2841	f	Can Fly to Slateport City
-2767	f	Visited Mauville City
-2842	f	Can Fly to Mauville City
-2768	f	Visited Rustboro City
-2843	f	Can Fly to Rustboro City
-2769	f	Visited Fortree City
-2844	f	Can Fly to Fortree City
-2770	f	Visited Lilycove City
-2845	f	Can Fly to Lilycove City
-2771	f	Visited Mossdeep City
-2846	f	Can Fly to Mossdeep City
-2772	f	Visited Sootopolis City
-2847	f	Can Fly to Sootopolis City
-2773	f	Visited Ever Grande City
-2848	f	Can Fly to Ever Grande City
-2774	f	Visited Route 101
-2849	f	Can Fly to Route 101
-2775	f	Visited Route 102
-2850	f	Can Fly to Route 102
-2776	f	Visited Route 103
-2851	f	Can Fly to Route 103
-2777	f	Visited Route 104
-2852	f	Can Fly to Route 104
-2778	f	Visited Route 105
-2853	f	Can Fly to Route 105
-2779	f	Visited Route 106
-2854	f	Can Fly to Route 106
-2780	f	Visited Route 107
-2855	f	Can Fly to Route 107
-2781	f	Visited Route 108
-2856	f	Can Fly to Route 108
-2782	f	Visited Route 109
-2857	f	Can Fly to Route 109
-2783	f	Visited Route 110
-2858	f	Can Fly to Route 110
-2784	f	Visited Route 111
-2859	f	Can Fly to Route 111
-2785	f	Visited Route 112
-2860	f	Can Fly to Route 112
-2786	f	Visited Route 113
-2861	f	Can Fly to Route 113
-2787	f	Visited Route 114
-2862	f	Can Fly to Route 114
-2788	f	Visited Route 115
-2863	f	Can Fly to Route 115
-2789	f	Visited Route 116
-2864	f	Can Fly to Route 116
-2790	f	Visited Route 117
-2865	f	Can Fly to Route 117
-2791	f	Visited Route 118
-2866	f	Can Fly to Route 118
-2792	f	Visited Route 119
-2867	f	Can Fly to Route 119
-2793	f	Visited Route 120
-2868	f	Can Fly to Route 120
-2794	f	Visited Route 121
-2869	f	Can Fly to Route 121
-2795	f	Visited Route 122
-2870	f	Can Fly to Route 122
-2796	f	Visited Route 123
-2871	f	Can Fly to Route 123
-2797	f	Visited Route 124
-2872	f	Can Fly to Route 124
-2798	f	Visited Route 125
-2873	f	Can Fly to Route 125
-2799	f	Visited Route 126
-2874	f	Can Fly to Route 126
-2800	f	Visited Route 127
-2875	f	Can Fly to Route 127
-2801	f	Visited Route 128
-2876	f	Can Fly to Route 128
-2802	f	Visited Route 129
-2877	f	Can Fly to Route 129
-2803	f	Visited Route 130
-2878	f	Can Fly to Route 130
-2804	f	Visited Route 131
-2879	f	Can Fly to Route 131
-2805	f	Visited Route 132
-2880	f	Can Fly to Route 132
-2806	f	Visited Route 133
-2881	f	Can Fly to Route 133
-2807	f	Visited Route 134
-2882	f	Can Fly to Route 134
-2808	f	Visited Meteor Falls
-2883	f	Can Fly to Meteor Falls
-2809	f	Visited Rusturf Tunnel
-2884	f	Can Fly to Rusturf Tunnel
-2812	f	Visited Granite Cave
-2885	f	Can Fly to Granite Cave
-2813	f	Visited Petalburg Woods
-2886	f	Can Fly to Petalburg Woods
-2814	f	Visited Mt. Chimney
-2887	f	Can Fly to Mt. Chimney
-2815	f	Visited Jagged Pass
-2888	f	Can Fly to Jagged Pass
-2816	f	Visited Fiery Path
-2889	f	Can Fly to Fiery Path
-2817	f	Visited Mt. Pyre
-2890	f	Can Fly to Mt. Pyre
-2819	f	Visited Seafloor Cavern
-2820	f	Visited Cave of Origin
-2821	f	Visited Victory Road
-2891	f	Can Fly to Victory Road
-2822	f	Visited Shoal Cave
-2892	f	Can Fly to Shoal Cave
-2823	f	Visited New Mauville
-2893	f	Can Fly to New Mauville
-2824	f	Visited Sea Mauville
-2894	f	Can Fly to Sea Mauville
-2831	f	Visited Sky Pillar
-2895	f	Can Fly to Sky Pillar
-2984	f	Sky Pillar on the Map
-2897	f	Visited Pokémon League
-2901	f	Can Fly to Pokémon League
-2898	f	Visited Safari Zone
-2902	f	Can Fly to Safari Zone
-2899	f	Visited Southern Island
-2903	f	Discovered Southern Island (Story Event)
-2985	f	Southern Island on the Map
-2900	f	Visited Battle Resort
-3019	f	Can Fly to Battle Resort
-2986	f	Battle Resort on the Map
-2976	f	Visited Secret Islet
-2977	f	Visited Secret Shore
-2978	f	Visited Secret Meadow
-2979	f	Can Fly to Secret Islet
-2987	f	Discovered Secret Islet
-2980	f	Can Fly to Secret Shore
-2988	f	Discovered Secret Shore
-2981	f	Can Fly to Secret Meadow
-2989	f	Discovered Secret Meadow
-2982	f	(OR) Visited Team Magma Hideout
-2983	f	(AS) Visited Team Aqua Hideout
-2905	*	Extremely Harsh Sunlight in Eastern Hoenn
-2906	*	Heavy Rain in Eastern Hoenn
-3063	s	Had Village Sub Combo (Today)
-3064	s	Had Magnemite Croquette (Today)
-3065	s	Had Mauville Ramen Bowl (Today)
+0500	s	고시의 석실 퍼즐 점자 텍스트 사라짐
+3007	s	고시의 석실 퍼즐 완료
+3008	r	거인 전설의 동굴 개방됨
+0501	s	사막유적 퍼즐 점자 텍스트 사라짐
+3004	s	사막유적 퍼즐 완료
+0502	s	작은 섬 옆굴 퍼즐 점자 텍스트 사라짐
+3005	s	작은 섬 옆굴 퍼즐 완료
+0503	s	고대의 무덤 퍼즐 점자 텍스트 사라짐
+3006	s	고대의 무덤 퍼즐 완료
+1034	s	각성의 사당 B5층 통로 클리어됨
+2746	*	보은의 PC 개방됨
+3009	*	"박스를 정리한다" PC 메뉴 상단의 옵션
+2758	f	방문함 미로마을
+2833	f	비행 위치 해금됨: 미로마을
+2759	f	방문함 고도마을
+2834	f	비행 위치 해금됨: 고도마을
+2760	f	방문함 무로마을
+2835	f	비행 위치 해금됨: 무로마을
+2761	f	방문함 용암마을
+2836	f	비행 위치 해금됨: 용암마을
+2762	f	방문함 단풍마을
+2837	f	비행 위치 해금됨: 단풍마을
+2763	f	방문함 잔디마을
+2838	f	비행 위치 해금됨: 잔디마을
+2764	f	방문함 황금마을
+2839	f	비행 위치 해금됨: 황금마을
+2765	f	방문함 등화도시
+2840	f	비행 위치 해금됨: 등화도시
+2766	f	방문함 잿빛도시
+2841	f	비행 위치 해금됨: 잿빛도시
+2767	f	방문함 보라시티
+2842	f	비행 위치 해금됨: 보라시티
+2768	f	방문함 금탄도시
+2843	f	비행 위치 해금됨: 금탄도시
+2769	f	방문함 검방울시티
+2844	f	비행 위치 해금됨: 검방울시티
+2770	f	방문함 해안시티
+2845	f	비행 위치 해금됨: 해안시티
+2771	f	방문함 이끼시티
+2846	f	비행 위치 해금됨: 이끼시티
+2772	f	방문함 루네시티
+2847	f	비행 위치 해금됨: 루네시티
+2773	f	방문함 그랜드시티
+2848	f	비행 위치 해금됨: 그랜드시티
+2774	f	방문함 101번도로
+2849	f	비행 위치 해금됨: 101번도로
+2775	f	방문함 102번도로
+2850	f	비행 위치 해금됨: 102번도로
+2776	f	방문함 103번도로
+2851	f	비행 위치 해금됨: 103번도로
+2777	f	방문함 104번도로
+2852	f	비행 위치 해금됨: 104번도로
+2778	f	방문함 105번도로
+2853	f	비행 위치 해금됨: 105번도로
+2779	f	방문함 106번도로
+2854	f	비행 위치 해금됨: 106번도로
+2780	f	방문함 107번도로
+2855	f	비행 위치 해금됨: 107번도로
+2781	f	방문함 108번도로
+2856	f	비행 위치 해금됨: 108번도로
+2782	f	방문함 109번도로
+2857	f	비행 위치 해금됨: 109번도로
+2783	f	방문함 110번도로
+2858	f	비행 위치 해금됨: 110번도로
+2784	f	방문함 111번도로
+2859	f	비행 위치 해금됨: 111번도로
+2785	f	방문함 112번도로
+2860	f	비행 위치 해금됨: 112번도로
+2786	f	방문함 113번도로
+2861	f	비행 위치 해금됨: 113번도로
+2787	f	방문함 114번도로
+2862	f	비행 위치 해금됨: 114번도로
+2788	f	방문함 115번도로
+2863	f	비행 위치 해금됨: 115번도로
+2789	f	방문함 116번도로
+2864	f	비행 위치 해금됨: 116번도로
+2790	f	방문함 117번도로
+2865	f	비행 위치 해금됨: 117번도로
+2791	f	방문함 118번도로
+2866	f	비행 위치 해금됨: 118번도로
+2792	f	방문함 119번도로
+2867	f	비행 위치 해금됨: 119번도로
+2793	f	방문함 120번도로
+2868	f	비행 위치 해금됨: 120번도로
+2794	f	방문함 121번도로
+2869	f	비행 위치 해금됨: 121번도로
+2795	f	방문함 122번도로
+2870	f	비행 위치 해금됨: 122번도로
+2796	f	방문함 123번도로
+2871	f	비행 위치 해금됨: 123번도로
+2797	f	방문함 124번도로
+2872	f	비행 위치 해금됨: 124번도로
+2798	f	방문함 125번도로
+2873	f	비행 위치 해금됨: 125번도로
+2799	f	방문함 126번도로
+2874	f	비행 위치 해금됨: 126번도로
+2800	f	방문함 127번도로
+2875	f	비행 위치 해금됨: 127번도로
+2801	f	방문함 128번도로
+2876	f	비행 위치 해금됨: 128번도로
+2802	f	방문함 129번도로
+2877	f	비행 위치 해금됨: 129번도로
+2803	f	방문함 130번도로
+2878	f	비행 위치 해금됨: 130번도로
+2804	f	방문함 131번도로
+2879	f	비행 위치 해금됨: 131번도로
+2805	f	방문함 132번도로
+2880	f	비행 위치 해금됨: 132번도로
+2806	f	방문함 133번도로
+2881	f	비행 위치 해금됨: 133번도로
+2807	f	방문함 134번도로
+2882	f	비행 위치 해금됨: 134번도로
+2808	f	방문함 유성의 폭포
+2883	f	비행 위치 해금됨: 유성의 폭포
+2809	f	방문함 금잔터널
+2884	f	비행 위치 해금됨: 금잔터널
+2812	f	방문함 바위 동굴
+2885	f	비행 위치 해금됨: 바위 동굴
+2813	f	방문함 등화숲
+2886	f	비행 위치 해금됨: 등화숲
+2814	f	방문함 굴뚝산
+2887	f	비행 위치 해금됨: 굴뚝산
+2815	f	방문함 울퉁불퉁 산길
+2888	f	비행 위치 해금됨: 울퉁불퉁 산길
+2816	f	방문함 불꽃샛길
+2889	f	비행 위치 해금됨: 불꽃샛길
+2817	f	방문함 송화산
+2890	f	비행 위치 해금됨: 송화산
+2819	f	방문함 해저동굴
+2820	f	방문함 각성의 사당
+2821	f	방문함 챔피언로드
+2891	f	비행 위치 해금됨: 챔피언로드
+2822	f	방문함 여울의 동굴
+2892	f	비행 위치 해금됨: 여울의 동굴
+2823	f	방문함 뉴보라
+2893	f	비행 위치 해금됨: 뉴보라
+2824	f	방문함 씨보라
+2894	f	비행 위치 해금됨: 씨보라
+2831	f	방문함 하늘기둥
+2895	f	비행 위치 해금됨: 하늘기둥
+2984	f	지도에 하늘기둥 표시됨
+2897	f	방문함 포켓몬리그
+2901	f	비행 위치 해금됨: 포켓몬리그
+2898	f	방문함 사파리존
+2902	f	비행 위치 해금됨: 사파리존
+2899	f	방문함 남쪽의 외딴섬
+2903	f	남쪽의 외딴섬 발견됨 (스토리 이벤트)
+2985	f	지도에 남쪽의 외딴섬 표시됨
+2900	f	방문함 배틀리조트
+3019	f	비행 위치 해금됨: 배틀리조트
+2986	f	지도에 배틀리조트 표시됨
+2976	f	방문함 비밀의 작은 섬
+2977	f	방문함 비밀의 바위해변
+2978	f	방문함 비밀의 꽃밭
+2979	f	비행 위치 해금됨: 비밀의 작은 섬
+2987	f	비밀의 작은 섬 발견됨
+2980	f	비행 위치 해금됨: 비밀의 바위해변
+2988	f	비밀의 바위해변 발견됨
+2981	f	비행 위치 해금됨: 비밀의 꽃밭
+2989	f	비밀의 꽃밭 발견됨
+2982	f	(OR) 방문함 마그마단아지트
+2983	f	(AS) 방문함 아쿠아단아지트
+2905	*	호연 동부에 햇살이 아주 강한
+2906	*	호연 동부에 강한 비
+3063	s	빌리지샌드세트 먹음 (오늘)
+3064	s	코일야키 먹음 (오늘)
+3065	s	보라짬뽕 먹음 (오늘)
 3077	m	Current Battle Resort BGM: Victory Road
 3078	m	Current Battle Resort BGM: Secret Super Training
 3079	m	Current Battle Resort BGM: Hurry Along

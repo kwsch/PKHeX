@@ -119,7 +119,7 @@ public sealed class HistoryVerifier : Verifier
 
         if (current != 1 && (enc.Context != pk.Context || neverOT))
             data.AddLine(GetInvalid(TransferHandlerFlagRequired));
-        if (!pk.IsUntraded && IsUntradeableEncounter(enc)) // Starter, untradeable
+        if (!pk.IsUntraded && TradeRestrictions.IsUntradableEncounter(enc)) // Starter, untradeable
             data.AddLine(GetInvalid(TransferCurrentHandlerInvalid));
     }
 
@@ -151,13 +151,6 @@ public sealed class HistoryVerifier : Verifier
         if (pk is IHandlerLanguage h && h.HandlingTrainerLanguage != tr.Language)
             data.AddLine(Get(Severity.Fishy, TransferHandlerMismatchLanguage));
     }
-
-    private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
-    {
-        EncounterStatic7b { Location: 28 } => true, // LGP/E Starter
-        EncounterStatic9  { StarterBoxLegend: true } => true, // S/V Ride legend
-        _ => false,
-    };
 
     /// <summary>
     /// Checks the non-Memory data for the <see cref="PKM.OriginalTrainerName"/> details.
