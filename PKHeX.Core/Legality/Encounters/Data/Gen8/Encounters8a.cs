@@ -1,18 +1,20 @@
+using System.Collections.Generic;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.EncounterStatic8aCorrelation;
 
 namespace PKHeX.Core;
 
-internal static class Encounters8a
+public static class Encounters8a
 {
-    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"u8));
+    internal static readonly EncounterArea8a[] SlotsLAArray = EncounterArea8a.GetAreas(Get("la", "la"u8));
+    public static IReadOnlyList<EncounterArea8a> SlotsLA => SlotsLAArray;
 
     private const byte M = 127; // Middle Height/Weight
     private const byte A = 255; // Max Height/Weight for Alphas
     private const byte U = 128; // Middle Height - Unown
 
-    internal static readonly EncounterStatic8a[] StaticLA =
+    internal static readonly EncounterStatic8a[] StaticLAArray =
     [
         // Gifts
         new(722,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Rowlet
@@ -111,4 +113,5 @@ internal static class Encounters8a
         new(706,001,58,M,M) { Location = 104, Method = Fixed, IsAlpha = true,                                  Moves = new(231,406,842,056) }, // numelgon01: Goodra-1
         new(904,000,58,M,M) { Location = 105, Method = Fixed, IsAlpha = true,                                  Moves = new(301,398,401,038) }, // harysen01: Overqwil
     ];
+    public static IReadOnlyList<EncounterStatic8a> StaticLA => StaticLAArray;
 }

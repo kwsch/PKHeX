@@ -1,14 +1,18 @@
+using System.Collections.Generic;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-internal static class Encounters7GG
+public static class Encounters7GG
 {
-    internal static readonly EncounterArea7b[] SlotsGP = EncounterArea7b.GetAreas(Get("gp", "gg"u8), GP);
-    internal static readonly EncounterArea7b[] SlotsGE = EncounterArea7b.GetAreas(Get("ge", "gg"u8), GE);
+    internal static readonly EncounterArea7b[] SlotsGPArray = EncounterArea7b.GetAreas(Get("gp", "gg"u8), GP);
+    public static IReadOnlyList<EncounterArea7b> SlotsGP => SlotsGPArray;
 
-    internal static readonly EncounterStatic7b[] Encounter_GG =
+    internal static readonly EncounterArea7b[] SlotsGEArray = EncounterArea7b.GetAreas(Get("ge", "gg"u8), GE);
+    public static IReadOnlyList<EncounterArea7b> SlotsGE => SlotsGEArray;
+
+    internal static readonly EncounterStatic7b[] Encounter_GGArray =
     [
         // encounters
         new(GG) { Species = 144, Level = 50, Location = 44, FlawlessIVCount = 3 }, // Articuno @ Seafoam Islands
@@ -35,18 +39,24 @@ internal static class Encounters7GG
         new(GG) { Species = 007, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(25,25,30,25,31,30) }, // Squirtle @ Vermilion City
         new(GG) { Species = 137, Level = 34, Location = 38, FixedBall = Ball.Poke, IVs = new(25,25,30,25,31,30) }, // Porygon @ Saffron City (Silph Co. Employee, outside)
     ];
+    public static IReadOnlyList<EncounterStatic7b> Encounter_GG => Encounter_GGArray;
 
-    internal static readonly EncounterStatic7b[] StaticGP =
+
+    internal static readonly EncounterStatic7b[] StaticGPArray =
     [
         new(GP) { Species = 025, Level = 05, Location = 28, FixedBall = Ball.Poke, IVs = new(31,31,31,31,31,31), Shiny = Shiny.Never, Form = 8 }, // Pikachu @ Pallet Town
         new(GP) { Species = 053, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(30,30,25,31,25,25) }, // Persian @ Vermilion City (Outside Fan Club)
     ];
+    public static IReadOnlyList<EncounterStatic7b> StaticGP => StaticGPArray;
 
-    internal static readonly EncounterStatic7b[] StaticGE =
+
+    internal static readonly EncounterStatic7b[] StaticGEArray =
     [
         new(GE) { Species = 133, Level = 05, Location = 28, FixedBall = Ball.Poke, IVs = new(31,31,31,31,31,31), Shiny = Shiny.Never, Form = 1 }, // Eevee @ Pallet Town
         new(GE) { Species = 059, Level = 16, Location = 33, FixedBall = Ball.Poke, IVs = new(25,30,25,31,30,25) }, // Arcanine @ Vermilion City (Outside Fan Club)
     ];
+    public static IReadOnlyList<EncounterStatic7b> StaticGE => StaticGEArray;
+
 
     private static readonly string[] T1 = [string.Empty, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", string.Empty, "Tatiana", "미니꼬", "小幂妮", "小幂妮"];
     private static readonly string[] T2 = [string.Empty, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", string.Empty, "Gelasio", "보아이스", "露冰冰", "露冰冰"];
@@ -57,7 +67,7 @@ internal static class Encounters7GG
     private static readonly string[] T7 = [string.Empty, "マニシ", "Exemann", "Koko-fan", "Exechiele", "Einrich", string.Empty, "Gunter", "마니시", "艾浩舒", "艾浩舒"];
     private static readonly string[] T8 = [string.Empty, "コツブ", "Higeo", "Montagnou", "George", "Karstein", string.Empty, "Georgie", "산돌", "科布", "科布"];
 
-    internal static readonly EncounterTrade7b[] TradeGift_GG =
+    internal static readonly EncounterTrade7b[] TradeGift_GGArray =
     [
         // Random candy values! They can be zero so no impact on legality even though statistically rare.
         new(GG) { Species = 019, Form = 1, Level = 12, TrainerNames = T1, ID32 = 121106, OTGender = 1, IVs = new(31,31,-1,-1,-1,-1) }, // Rattata @ Cerulean City, AV rand [0-5)
@@ -67,16 +77,21 @@ internal static class Encounters7GG
         new(GG) { Species = 103, Form = 1, Level = 46, TrainerNames = T7, ID32 = 060310, OTGender = 0, IVs = new(-1,31,-1,-1,31,-1) }, // Exeggutor @ Indigo Plateau, AV rand [0-15)
         new(GG) { Species = 074, Form = 1, Level = 16, TrainerNames = T8, ID32 = 551873, OTGender = 0, IVs = new(31,31,-1,-1,-1,-1) }, // Geodude @ Vermilion City, AV rand [0-5)
     ];
+    public static IReadOnlyList<EncounterTrade7b> TradeGift_GG => TradeGift_GGArray;
 
-    internal static readonly EncounterTrade7b[] TradeGift_GP =
+
+    internal static readonly EncounterTrade7b[] TradeGift_GPArray =
     [
         new(GP) { Species = 027, Form = 1, Level = 27, TrainerNames = T2, ID32 = 703019, OTGender = 0, IVs = new(-1,31,31,-1,-1,-1) }, // Sandshrew @ Celadon City, AV rand [0-5)
         new(GP) { Species = 088, Form = 1, Level = 44, TrainerNames = T4, ID32 = 000219, OTGender = 0, IVs = new(31,31,-1,-1,-1,-1) }, // Grimer @ Cinnabar Island, AV rand [0-10)
     ];
+    public static IReadOnlyList<EncounterTrade7b> TradeGift_GP => TradeGift_GPArray;
 
-    internal static readonly EncounterTrade7b[] TradeGift_GE =
+
+    internal static readonly EncounterTrade7b[] TradeGift_GEArray =
     [
         new(GE) { Species = 037, Form = 1, Level = 27, TrainerNames = T2, ID32 = 703019, OTGender = 0, IVs = new(-1,-1,-1,31,31,-1) }, // Vulpix @ Celadon City, AV rand [0-5)
         new(GE) { Species = 052, Form = 1, Level = 44, TrainerNames = T4, ID32 = 000219, OTGender = 0, IVs = new(31,-1,-1,31,-1,-1) }, // Meowth @ Cinnabar Island, AV rand [0-10)
     ];
+    public static IReadOnlyList<EncounterTrade7b> TradeGift_GE => TradeGift_GEArray;
 }
