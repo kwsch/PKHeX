@@ -78,6 +78,23 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_EXP.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
         TB_Level.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
         TB_Friendship.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+
+        Load += (_, _) =>
+        {
+            if (DesignMode || !Program.Settings.Startup.DarkMode)
+                return;
+
+            var darkBg = Color.FromArgb(30, 30, 30);
+            BackColor = Hidden_TC.BackColor = TC_Editor.BackColor = darkBg;
+            TC_Editor.ForeColor = Color.FromArgb(241, 241, 241);
+
+            foreach (TabPage page in Hidden_TC.TabPages)
+            {
+                page.UseVisualStyleBackColor = false;
+                page.BackColor = darkBg;
+                page.ForeColor = Color.FromArgb(241, 241, 241);
+            }
+        };
     }
 
     private sealed class ValidationRequiredSet(Control[] controls, Func<PKM, bool> shouldCheck, Func<Control, bool> isState)

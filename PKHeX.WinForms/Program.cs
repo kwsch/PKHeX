@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,12 @@ internal static class Program
     public static bool HaX { get; private set; }
     static Program()
     {
+        if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+        {
+            Settings = new PKHeXSettings();
+            return;
+        }
+
 #if !DEBUG
         Application.ThreadException += UIThreadException;
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
