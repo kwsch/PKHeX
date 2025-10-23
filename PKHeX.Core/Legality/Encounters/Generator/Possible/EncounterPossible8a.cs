@@ -61,7 +61,7 @@ public record struct EncounterPossible8a(EvoCriteria[] Chain, EncounterTypeGroup
                     goto case YieldState.SlotStart;
                 State = YieldState.Static; goto case YieldState.Static;
             case YieldState.Static:
-                if (TryGetNextSub(Encounters8a.StaticLA))
+                if (TryGetNextSub(Encounters8a.StaticLAArray))
                     return true;
                 Index = 0; goto case YieldState.SlotStart;
 
@@ -70,7 +70,7 @@ public record struct EncounterPossible8a(EvoCriteria[] Chain, EncounterTypeGroup
                     break;
                 State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
-                if (TryGetNext<EncounterArea8a, EncounterSlot8a>(Encounters8a.SlotsLA))
+                if (TryGetNext<EncounterArea8a, EncounterSlot8a>(Encounters8a.SlotsLAArray))
                     return true;
                 break;
         }

@@ -73,15 +73,15 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
                 { State = YieldState.TradeGE; goto case YieldState.TradeGE; }
                 break;
             case YieldState.TradeGP:
-                if (TryGetNext(Encounters7GG.TradeGift_GP))
+                if (TryGetNext(Encounters7GG.TradeGift_GPArray))
                     return true;
                 Index = 0; State = YieldState.TradeShared; goto case YieldState.TradeShared;
             case YieldState.TradeGE:
-                if (TryGetNext(Encounters7GG.TradeGift_GE))
+                if (TryGetNext(Encounters7GG.TradeGift_GEArray))
                     return true;
                 Index = 0; State = YieldState.TradeShared; goto case YieldState.TradeShared;
             case YieldState.TradeShared:
-                if (TryGetNext(Encounters7GG.TradeGift_GG))
+                if (TryGetNext(Encounters7GG.TradeGift_GGArray))
                     return true;
                 Index = 0; goto case YieldState.StaticStart;
 
@@ -95,15 +95,15 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
                 throw new ArgumentOutOfRangeException(nameof(Version));
 
             case YieldState.StaticGP:
-                if (TryGetNext(Encounters7GG.StaticGP))
+                if (TryGetNext(Encounters7GG.StaticGPArray))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticGE:
-                if (TryGetNext(Encounters7GG.StaticGE))
+                if (TryGetNext(Encounters7GG.StaticGEArray))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticShared:
-                if (TryGetNext(Encounters7GG.Encounter_GG))
+                if (TryGetNext(Encounters7GG.Encounter_GGArray))
                     return true;
                 Index = 0; goto case YieldState.SlotStart;
 
@@ -116,11 +116,11 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
                 { State = YieldState.SlotGE; goto case YieldState.SlotGE; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotGP:
-                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGP))
+                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGPArray))
                     return true;
                 break;
             case YieldState.SlotGE:
-                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGE))
+                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGEArray))
                     return true;
                 break;
         }

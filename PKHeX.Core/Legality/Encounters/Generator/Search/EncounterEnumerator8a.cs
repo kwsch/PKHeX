@@ -61,7 +61,7 @@ public record struct EncounterEnumerator8a(PKM Entity, EvoCriteria[] Chain) : IE
                 Index = 0; State = YieldState.Static; goto case YieldState.Static;
 
             case YieldState.Static:
-                if (TryGetNextSub(Encounters8a.StaticLA))
+                if (TryGetNextSub(Encounters8a.StaticLAArray))
                     return true;
 
                 // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
@@ -72,7 +72,7 @@ public record struct EncounterEnumerator8a(PKM Entity, EvoCriteria[] Chain) : IE
                 Index = 0; State = YieldState.Slot; goto case YieldState.Slot;
 
             case YieldState.Slot:
-                if (TryGetNext<EncounterArea8a, EncounterSlot8a>(Encounters8a.SlotsLA))
+                if (TryGetNext<EncounterArea8a, EncounterSlot8a>(Encounters8a.SlotsLAArray))
                     return true;
                 goto case YieldState.Fallback;
 
