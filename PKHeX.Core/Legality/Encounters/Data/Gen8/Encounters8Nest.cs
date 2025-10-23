@@ -278,9 +278,9 @@ public static class Encounters8Nest
     private const AbilityPermission A3 = AbilityPermission.Any12;
   //private const AbilityPermission A4 = AbilityPermission.Any12H;
 
-    internal const int SharedNest = 162;
-    internal const int Watchtower = 126;
-    internal const int MaxLair = 244;
+    public const int SharedNest = 162;
+    public const int Watchtower = 126;
+    public const int MaxLair = 244;
 
     internal static readonly EncounterStatic8N[] Nest_SWArray = GetBase("sw_nest", SW);
     public static IReadOnlyList<EncounterStatic8N> Nest_SW => Nest_SWArray;
