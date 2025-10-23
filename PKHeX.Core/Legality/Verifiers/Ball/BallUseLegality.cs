@@ -3,7 +3,7 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
-internal static class BallUseLegality
+public static class BallUseLegality
 {
     /// <summary>
     /// In Sun/Moon, capturing with Heavy Ball is impossible in Sun/Moon for specific hard to catch species.
@@ -39,12 +39,12 @@ internal static class BallUseLegality
         _ => 0,
     };
 
-    private const ulong WildPokeRegular = (1 << (int)Master)
+    public const ulong WildPokeRegular = (1 << (int)Master)
                                         | (1 << (int)Ultra)
                                         | (1 << (int)Great)
                                         | (1 << (int)Poke);
 
-    private const ulong WildPokeKurt4 = (1 << (int)Fast)
+    public const ulong WildPokeKurt4 = (1 << (int)Fast)
                                       | (1 << (int)Level)
                                       | (1 << (int)Lure)
                                       | (1 << (int)Heavy)
@@ -52,7 +52,7 @@ internal static class BallUseLegality
                                       | (1 << (int)Friend)
                                       | (1 << (int)Moon);
 
-    private const ulong WildPokeEnhance3 = (1 << (int)Net)
+    public const ulong WildPokeEnhance3 = (1 << (int)Net)
                                          | (1 << (int)Dive)
                                          | (1 << (int)Nest)
                                          | (1 << (int)Repeat)
@@ -60,12 +60,12 @@ internal static class BallUseLegality
                                          | (1 << (int)Luxury)
                                          | (1 << (int)Premier);
 
-    private const ulong WildPokeEnhance4 = (1 << (int)Dusk) | (1 << (int)Heal) | (1 << (int)Quick);
-    private const ulong WildPokeEnhance5 = (1 << (int)Dream);
-    private const ulong WildPokeEnhance7 = (1 << (int)Beast);
-    private const ulong WildPokeEnhance8 = (1 << (int)Dream) | (1 << (int)Safari) | (1 << (int)Sport);
+    public const ulong WildPokeEnhance4 = (1 << (int)Dusk) | (1 << (int)Heal) | (1 << (int)Quick);
+    public const ulong WildPokeEnhance5 = (1 << (int)Dream);
+    public const ulong WildPokeEnhance7 = (1 << (int)Beast);
+    public const ulong WildPokeEnhance8 = (1 << (int)Dream) | (1 << (int)Safari) | (1 << (int)Sport);
 
-    private const ulong WildPokeBalls8a =
+    public const ulong WildPokeBalls8a =
       (1ul << (int)LAPoke)
     | (1ul << (int)LAGreat)
     | (1ul << (int)LAUltra)
@@ -76,19 +76,19 @@ internal static class BallUseLegality
     | (1ul << (int)LALeaden)
     | (1ul << (int)LAGigaton);
 
-    private const ulong WildPokeBalls1 = 1 << (int)Poke;
-    private const ulong WildPokeBalls2 = WildPokeBalls1;
-    private const ulong WildPokeBalls3 = WildPokeRegular | WildPokeEnhance3;
-    private const ulong WildPokeBalls4_DPPt = WildPokeBalls3 | WildPokeEnhance4;
+    public const ulong WildPokeBalls1 = 1 << (int)Poke;
+    public const ulong WildPokeBalls2 = WildPokeBalls1;
+    public const ulong WildPokeBalls3 = WildPokeRegular | WildPokeEnhance3;
+    public const ulong WildPokeBalls4_DPPt = WildPokeBalls3 | WildPokeEnhance4;
     public const ulong WildPokeBalls4_HGSS = WildPokeBalls4_DPPt | WildPokeKurt4;
-    private const ulong WildPokeBalls5 = WildPokeBalls4_DPPt;
+    public const ulong WildPokeBalls5 = WildPokeBalls4_DPPt;
 
     public const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
-    private const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
-    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HG/SS + Beast
-    private const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
+    public const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
+    public const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HG/SS + Beast
+    public const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
-    private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
+    public const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
     public const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
     public const ulong WildPokeballs8g_WithoutRaid = WildPokeRegular & ~(1ul << (int)Master); // Ultra Great Poke, no Premier/Master
 

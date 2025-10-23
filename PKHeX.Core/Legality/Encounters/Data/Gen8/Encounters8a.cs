@@ -4,15 +4,15 @@ using static PKHeX.Core.EncounterStatic8aCorrelation;
 
 namespace PKHeX.Core;
 
-internal static class Encounters8a
+public static class Encounters8a
 {
-    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"u8));
+    public static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"u8));
 
     private const byte M = 127; // Middle Height/Weight
     private const byte A = 255; // Max Height/Weight for Alphas
     private const byte U = 128; // Middle Height - Unown
 
-    internal static readonly EncounterStatic8a[] StaticLA =
+    public static readonly EncounterStatic8a[] StaticLA =
     [
         // Gifts
         new(722,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Rowlet

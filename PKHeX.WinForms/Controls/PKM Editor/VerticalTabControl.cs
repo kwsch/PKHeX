@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -78,8 +79,28 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
         var graphics = e.Graphics;
         if (e.State == DrawItemState.Selected)
         {
-            var settings = Main.Settings.Draw;
-            var (c1, c2) = (settings.VerticalSelectPrimary, settings.VerticalSelectSecondary);
+            Color c1 = Color.White;
+            Color c2 = Color.LightGray;
+
+            if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
+            {
+                try
+                {
+                    if (Main.Settings?.Draw is { } settings)
+                    {
+                        c1 = settings.VerticalSelectPrimary;
+                        c2 = settings.VerticalSelectSecondary;
+                    }
+
+                    if (IsDarkMode(BackColor))
+                    {
+                        if (c1.GetBrightness() > 0.6f) c1 = Color.FromArgb(62, 62, 66);
+                        if (c2.GetBrightness() > 0.6f) c2 = Color.FromArgb(45, 45, 48);
+                    }
+                }
+                catch { }
+            }
+
             using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
             graphics.FillRectangle(brush, bounds);
 
@@ -101,4 +122,6 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
         var tab = TabPages[index];
         graphics.DrawString(tab.Text, Font, text, bounds, flags);
     }
+
+    private static bool IsDarkMode(Color backColor) => backColor.GetBrightness() < 0.5f;
 }

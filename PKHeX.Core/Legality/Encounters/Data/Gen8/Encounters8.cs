@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 Encounters
 /// </summary>
-internal static class Encounters8
+public static class Encounters8
 {
     public static readonly EncounterArea8[] SlotsSW_Symbol = EncounterArea8.GetAreas(Get("sw_symbol", "sw"u8), SW, true);
     public static readonly EncounterArea8[] SlotsSH_Symbol = EncounterArea8.GetAreas(Get("sh_symbol", "sh"u8), SH, true);
@@ -781,7 +781,7 @@ internal static class Encounters8
         new(TradeOT_R1, SWSH, 105,15,01,038,06,2) { Ability = Any12,      ID32 = 101141, FlawlessIVCount = 3, IVs = default, DynamaxLevel = 5, OTGender = 1, Relearn = new(174), Form = 1     }, // Marowak-1
     ];
 
-    internal static readonly EncounterTrade8[] TradeSW =
+    public static readonly EncounterTrade8[] TradeSW =
     [
         new(TradeNames, 04, SW  , 856,30,09,859,08,3) { Ability = OnlySecond, ID32 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 1, Nature = Nature.Quiet                             }, // Hatenna
         new(TradeNames, 07, SW  , 538,37,17,129,20,7) { Ability = OnlySecond, ID32 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant                           }, // Throh
@@ -789,7 +789,7 @@ internal static class Encounters8
         new(TradeOT_R1, SW  , 554,15,01,040,12,2) { Ability = OnlyHidden, ID32 = 101141, FlawlessIVCount = 3, IVs = default, DynamaxLevel = 5, OTGender = 1, Relearn = new(326)               }, // Darumaka
     ];
 
-    internal static readonly EncounterTrade8[] TradeSH =
+    public static readonly EncounterTrade8[] TradeSH =
     [
         new(TradeNames, 05,   SH, 859,30,43,000,07,6) { Ability = OnlyFirst,  ID32 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Brave, Relearn = new(252)   }, // Impidimp
         new(TradeNames, 08,   SH, 539,37,17,129,14,6) { Ability = OnlyFirst,  ID32 = 881426, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant                           }, // Sawk

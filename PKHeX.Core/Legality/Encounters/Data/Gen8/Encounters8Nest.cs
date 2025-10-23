@@ -277,19 +277,19 @@ public static class Encounters8Nest
     private const AbilityPermission A3 = AbilityPermission.Any12;
   //private const AbilityPermission A4 = AbilityPermission.Any12H;
 
-    internal const int SharedNest = 162;
-    internal const int Watchtower = 126;
-    internal const int MaxLair = 244;
+    public const int SharedNest = 162;
+    public const int Watchtower = 126;
+    public const int MaxLair = 244;
 
-    internal static readonly EncounterStatic8N[] Nest_SW = GetBase("sw_nest", SW);
-    internal static readonly EncounterStatic8N[] Nest_SH = GetBase("sh_nest", SH);
+    public static readonly EncounterStatic8N[] Nest_SW = GetBase("sw_nest", SW);
+    public static readonly EncounterStatic8N[] Nest_SH = GetBase("sh_nest", SH);
 
-    internal static readonly EncounterStatic8ND[] Dist_SW = GetDist("sw_dist", SW);
-    internal static readonly EncounterStatic8ND[] Dist_SH = GetDist("sh_dist", SH);
+    public static readonly EncounterStatic8ND[] Dist_SW = GetDist("sw_dist", SW);
+    public static readonly EncounterStatic8ND[] Dist_SH = GetDist("sh_dist", SH);
 
-    internal static readonly EncounterStatic8U[] DynAdv_SWSH = GetUnderground();
+    public static readonly EncounterStatic8U[] DynAdv_SWSH = GetUnderground();
 
-    internal static readonly EncounterStatic8NC[] Crystal_SWSH =
+    public static readonly EncounterStatic8NC[] Crystal_SWSH =
     [
         new(SWSH) { Species = 782, Level = 16, Ability = A3, IVs = new(31,31,31,-1,-1,-1), DynamaxLevel = 2, Moves = new(033,029,525,043) }, // ★And458 Jangmo-o
         new(SWSH) { Species = 246, Level = 16, Ability = A3, IVs = new(31,31,31,-1,-1,-1), DynamaxLevel = 2, Moves = new(033,157,371,044) }, // ★And15 Larvitar

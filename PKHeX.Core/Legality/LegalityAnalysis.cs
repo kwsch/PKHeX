@@ -13,7 +13,7 @@ namespace PKHeX.Core;
 public sealed class LegalityAnalysis
 {
     /// <summary> The entity we are checking. </summary>
-    internal readonly PKM Entity;
+    public readonly PKM Entity;
 
     /// <summary> The entity's <see cref="IPersonalInfo"/>, which may have been sourced from the Save File it resides on. </summary>
     /// <remarks>We store this rather than re-fetching, as some games that use the same <see cref="PKM"/> format have different values.</remarks>

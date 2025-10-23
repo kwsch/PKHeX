@@ -8,11 +8,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Encounters
 /// </summary>
-internal static class Encounters9
+public static class Encounters9
 {
-    internal static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"u8), SV);
+    public static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"u8), SV);
 
-    internal static readonly EncounterStatic9[] Encounter_SV =
+    public static readonly EncounterStatic9[] Encounter_SV =
     [
         // Starters
         new(SV) { FixedBall = Ball.Poke, Species = 0906, Shiny = Never, Level = 05, Location = 080, Ability = OnlyFirst, Size = 128 }, // Sprigatito
@@ -112,7 +112,7 @@ internal static class Encounters9
         #endregion
     ];
 
-    internal static readonly EncounterStatic9[] StaticSL =
+    public static readonly EncounterStatic9[] StaticSL =
     [
         // Box Legendary (Ride Form)
         new(SL) { FixedBall = Ball.Poke, Species = 1007, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Nature = Nature.Quirky, TeraType = GemType.Dragon, Size = 128, IVs = new(31,31,28,31,31,28), Moves = new(053,878,203,851) }, // Koraidon
@@ -131,7 +131,7 @@ internal static class Encounters9
         new(SL) { Species = 1021, Shiny = Never, Level = 75, Location = 124, Ability = OnlyFirst, TeraType = GemType.Electric, Size = 128, IVs = new(20,20,20,20,20,20) }, // Raging Bolt
     ];
 
-    internal static readonly EncounterStatic9[] StaticVL =
+    public static readonly EncounterStatic9[] StaticVL =
     [
         // Box Legendary (Ride Form)
         new(VL) { FixedBall = Ball.Poke, Species = 1008, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Nature = Nature.Quirky, TeraType = GemType.Dragon, Size = 128, IVs = new(31,31,28,31,31,28), Moves = new(408,879,203,851) }, // Miraidon
@@ -154,7 +154,7 @@ internal static class Encounters9
     private const string tradeSV = "tradesv";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSV);
 
-    internal static readonly EncounterTrade9[] TradeGift_SV =
+    public static readonly EncounterTrade9[] TradeGift_SV =
     [
         new(TradeNames, 00, SV, 0194, 18) { FixedBall = Ball.Poke,  ID32 = 033081, Ability = OnlySecond, OTGender = 1, Gender = 0, Nature = Nature.Relaxed, TeraType = GemType.Water,    Weight = SizeType9.M,     Scale = SizeType9.M,     IVs = new(27,18,25,13,16,31) }, // Wooper
         new(TradeNames, 01, SV, 0093, 25) { FixedBall = Ball.Poke,  ID32 = 016519, Ability = OnlyFirst,  OTGender = 1, Gender = 1, Nature = Nature.Lonely,  TeraType = GemType.Ghost,    Weight = SizeType9.S,     Scale = SizeType9.S,     IVs = new(14,20,25,31,28,16), EvolveOnTrade = true }, // Haunter
@@ -191,11 +191,11 @@ internal static class Encounters9
         new(TradeNames, 32, SV, 0872, 10) { FixedBall = Ball.Poke,  ID32 = 050724, Ability = Any12,      OTGender = 0, Gender = 1, Nature = Nature.Bashful, TeraType = GemType.Ice,      Weight = SizeType9.L,     Scale = SizeType9.L,     IVs = new(31,18,13,20,28,26) }, // Snom
     ];
 
-    internal static readonly EncounterTera9[] TeraBase = EncounterTera9.GetArray(Get("gem_paldea"), TeraRaidMapParent.Paldea);
-    internal static readonly EncounterTera9[] TeraDLC1 = EncounterTera9.GetArray(Get("gem_kitakami"), TeraRaidMapParent.Kitakami);
-    internal static readonly EncounterTera9[] TeraDLC2 = EncounterTera9.GetArray(Get("gem_blueberry"), TeraRaidMapParent.Blueberry);
-    internal static readonly EncounterDist9[] Dist = EncounterDist9.GetArray(Get("dist_paldea"));
-    internal static readonly EncounterMight9[] Might = EncounterMight9.GetArray(Get("might_paldea"));
-    internal static readonly EncounterFixed9[] Fixed = EncounterFixed9.GetArray(Get("fixed_paldea"));
-    internal static readonly EncounterOutbreak9[] Outbreak = EncounterOutbreak9.GetArray(Get("outbreak_paldea"));
+    public static readonly EncounterTera9[] TeraBase = EncounterTera9.GetArray(Get("gem_paldea"), TeraRaidMapParent.Paldea);
+    public static readonly EncounterTera9[] TeraDLC1 = EncounterTera9.GetArray(Get("gem_kitakami"), TeraRaidMapParent.Kitakami);
+    public static readonly EncounterTera9[] TeraDLC2 = EncounterTera9.GetArray(Get("gem_blueberry"), TeraRaidMapParent.Blueberry);
+    public static readonly EncounterDist9[] Dist = EncounterDist9.GetArray(Get("dist_paldea"));
+    public static readonly EncounterMight9[] Might = EncounterMight9.GetArray(Get("might_paldea"));
+    public static readonly EncounterFixed9[] Fixed = EncounterFixed9.GetArray(Get("fixed_paldea"));
+    public static readonly EncounterOutbreak9[] Outbreak = EncounterOutbreak9.GetArray(Get("outbreak_paldea"));
 }
