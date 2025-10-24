@@ -57,6 +57,41 @@ public static class RibbonApplicator
     }
 
     /// <summary>
+    /// Sets all valid ribbons for the <see cref="pk"/>'s current game version.
+    /// </summary>
+    /// <param name="pk">Entity to set ribbons for.</param>
+    public static void SetCurrentVersionValidRibbons(PKM pk) => SetCurrentVersionValidRibbons(new LegalityAnalysis(pk));
+
+    /// <inheritdoc cref="SetCurrentVersionValidRibbons(PKM)"/>
+    public static void SetCurrentVersionValidRibbons(LegalityAnalysis la)
+    {
+        var pk = la.Entity;
+        var singleVersionHistory = CreateCurrentVersionHistory(pk, la.Info.EvoChainsAllGens);
+        var args = new RibbonVerifierArguments(pk, la.EncounterMatch, singleVersionHistory);
+        SetAllRibbonState(args, true);
+        FixInvalidRibbons(args);
+
+        if (la.Entity.IsEgg)
+            return;
+
+        if (pk is IRibbonSetCommon6 c6)
+        {
+            if (pk is ISuperTrain s && pk.Version.GetGeneration() is 6)
+            {
+                s.SuperTrainBitFlags = RibbonRules.SetSuperTrainSupremelyTrained(s.SuperTrainBitFlags);
+                if (pk.Format == 6)
+                {
+                    s.SecretSuperTrainingUnlocked = true;
+                    s.SuperTrainSupremelyTrained = true;
+                }
+                c6.RibbonTraining = true;
+            }
+            if (pk.Version is GameVersion.OR or GameVersion.AS)
+                InvertDeadlockContest(c6, true);
+        }
+    }
+
+    /// <summary>
     /// Parses the Entity for all ribbons, then fixes any ribbon that was invalid.
     /// </summary>
     public static void FixInvalidRibbons(in RibbonVerifierArguments args)
@@ -95,5 +130,27 @@ public static class RibbonApplicator
         // Contest Star is a deadlock ribbon with the Master ribbons, as it needs all five Master ribbons to be true.
         if (desiredState)
             c6.RibbonContestStar = c6.HasAllContestRibbons();
+    }
+
+    private static EvolutionHistory CreateCurrentVersionHistory(PKM pk, EvolutionHistory fullHistory)
+    {
+        var history = new EvolutionHistory();
+        switch (pk.Context)
+        {
+            case EntityContext.Gen1: history.Gen1 = fullHistory.Gen1; break;
+            case EntityContext.Gen2: history.Gen2 = fullHistory.Gen2; break;
+            case EntityContext.Gen3: history.Gen3 = fullHistory.Gen3; break;
+            case EntityContext.Gen4: history.Gen4 = fullHistory.Gen4; break;
+            case EntityContext.Gen5: history.Gen5 = fullHistory.Gen5; break;
+            case EntityContext.Gen6: history.Gen6 = fullHistory.Gen6; break;
+            case EntityContext.Gen7: history.Gen7 = fullHistory.Gen7; break;
+            case EntityContext.Gen7b: history.Gen7b = fullHistory.Gen7b; break;
+            case EntityContext.Gen8: history.Gen8 = fullHistory.Gen8; break;
+            case EntityContext.Gen8a: history.Gen8a = fullHistory.Gen8a; break;
+            case EntityContext.Gen8b: history.Gen8b = fullHistory.Gen8b; break;
+            case EntityContext.Gen9: history.Gen9 = fullHistory.Gen9; break;
+        }
+
+        return history;
     }
 }
