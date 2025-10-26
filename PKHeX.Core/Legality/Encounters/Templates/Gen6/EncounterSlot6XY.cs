@@ -49,7 +49,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
 
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage456((LanguageID)tr.Language);
         var version = Version != GameVersion.XY ? Version : tr.Version is GameVersion.X or GameVersion.Y ? tr.Version : GameVersion.X;
         var form = GetWildForm(Form);
         var pi = PersonalTable.XY[Species, form];

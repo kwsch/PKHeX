@@ -338,6 +338,12 @@ public sealed class LegalityCheckLocalization
     public string PIDTypeMismatch { get; set; } = "PID+ correlation does not match what was expected for the Encounter's type.";
     public string PIDZero { get; set; } = "PID is not set.";
 
+    public string PlusMoveAlphaMissing_0 { get; set; } = "Expected to have mastered the move {0} when encountered as an alpha.";
+    public string PlusMoveMultipleInvalid { get; set; } = "Multiple Plus Move flags are invalid.";
+    public string PlusMoveInvalid_0 { get; set; } = "{0} cannot be learned and set as a Plus Move.";
+    public string PlusMoveSufficientLevelMissing_0 { get; set; } = "Plus Move flag for {0} must be set."; // as the Pokémon's current level is above the level it becomes available for use as a Plus Move.
+    public string PlusMoveCountInvalid { get; set; } = "Out of range Plus Move flag index is set.";
+
     public string PokerusDaysTooHigh_0 { get; set; } = "Pokérus Days Remaining value is too high; expected <= {0}.";
     public string PokerusStrainUnobtainable_0 { get; set; } = "Pokérus Strain {0} cannot be obtained.";
 
@@ -447,6 +453,12 @@ public sealed class LegalityCheckLocalization
     public string BulkDuplicateMysteryGiftEggReceived { get; set; } = "Detected multiple redemptions of the same non-repeatable Mystery Gift Egg.";
     public string BulkSharingTrainerID { get; set; } = "Detected sharing of Trainer ID across multiple trainer names.";
     public string BulkSharingTrainerVersion { get; set; } = "Detected sharing of Trainer ID across multiple versions.";
+    public string BulkDuplicateFusionSlot { get; set; } = "Detected multiple fusions of the same fusion stored slot species.";
+    public string BulkDuplicateMegaStoneSlot { get; set; } = "Detected multiple Pokémon holding the same Mega Stone.";
+    public string BulkDuplicateMegaStoneInventory { get; set; } = "Detected Pokémon holding a Mega Stone still stored in player inventory.";
+    public string BulkNotAcquiredMegaStoneInventory { get; set; } = "Mega Stone held by Pokémon has not been acquired in player inventory.";
+    public string BulkAssignedMegaStoneNotFound_0 { get; set; } = "{0} is marked as held by Pokémon but none found in slots checked.";
+    public string BulkFusionSourceInvalid { get; set; } = "The consumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot.";
 }
 
 [JsonSerializable(typeof(LegalityCheckLocalization))]

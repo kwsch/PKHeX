@@ -9,7 +9,8 @@ namespace PKHeX.Core;
 public static class LegalityCheckResultCodeExtensions
 {
     public static bool IsArgument(this LegalityCheckResultCode code) => code is < FirstWithMove and >= FirstWithArgument;
-    public static bool IsMove(this LegalityCheckResultCode code) => code is < FirstWithLanguage and >= FirstWithMove;
+    public static bool IsMove(this LegalityCheckResultCode code) => code is < FirstWithItem and >= FirstWithMove;
+    public static bool IsItem(this LegalityCheckResultCode code) => code is < FirstWithLanguage and >= FirstWithItem;
     public static bool IsLanguage(this LegalityCheckResultCode code) => code is < FirstWithMemory and >= FirstWithLanguage;
     public static bool IsMemory(this LegalityCheckResultCode code) => code is < FirstComplex and >= FirstWithMemory;
 
@@ -342,6 +343,11 @@ public static class LegalityCheckResultCodeExtensions
         PIDNatureMismatch => localization.PIDNatureMismatch,
         PIDTypeMismatch => localization.PIDTypeMismatch,
         PIDZero => localization.PIDZero,
+        PlusMoveCountInvalid => localization.PlusMoveCountInvalid,
+        PlusMoveInvalid_0 => localization.PlusMoveInvalid_0,
+        PlusMoveMultipleInvalid => localization.PlusMoveMultipleInvalid,
+        PlusMoveAlphaMissing_0 => localization.PlusMoveAlphaMissing_0,
+        PlusMoveSufficientLevelMissing_0 => localization.PlusMoveSufficientLevelMissing_0,
         RibbonAllValid => localization.RibbonAllValid,
         RibbonEgg => localization.RibbonEgg,
         StatDynamaxInvalid => localization.StatDynamaxInvalid,
@@ -412,6 +418,12 @@ public static class LegalityCheckResultCodeExtensions
         BulkSharingPIDGenerationSame => localization.BulkSharingPIDGenerationSame,
         BulkSharingPIDEncounterType => localization.BulkSharingPIDRNGType,
         BulkDuplicateMysteryGiftEggReceived => localization.BulkDuplicateMysteryGiftEggReceived,
+        BulkDuplicateFusionSlot => localization.BulkDuplicateFusionSlot,
+        BulkDuplicateMegaStoneSlot => localization.BulkDuplicateMegaStoneSlot,
+        BulkDuplicateMegaStoneInventory => localization.BulkDuplicateMegaStoneInventory,
+        BulkNotAcquiredMegaStoneInventory => localization.BulkNotAcquiredMegaStoneInventory,
+        BulkAssignedMegaStoneNotFound_0 => localization.BulkAssignedMegaStoneNotFound_0,
+        BulkFusionSourceInvalid => localization.BulkFusionSourceInvalid,
         BulkSharingTrainerIDs => localization.BulkSharingTrainerID,
         BulkSharingTrainerVersion => localization.BulkSharingTrainerVersion,
 

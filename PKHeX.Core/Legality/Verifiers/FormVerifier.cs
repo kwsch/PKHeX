@@ -139,8 +139,8 @@ public sealed class FormVerifier : Verifier
                     data.AddLine(Get(Severity.Fishy, FormVivillonNonNative));
                 break;
 
-            case Floette when form == 5: // Floette Eternal Flower -- Never Released
-                if (enc is not MysteryGift)
+            case Floette when form == 5: // Eternal Flower Floette - not released until Pokémon Legends: Z-A
+                if (enc is not EncounterGift9a)
                     return GetInvalid(FormEternalInvalid);
                 return GetValid(FormEternal);
             case Meowstic when form != pk.Gender:
@@ -181,9 +181,28 @@ public sealed class FormVerifier : Verifier
         }
 
         var format = pk.Format;
-        if (FormInfo.IsBattleOnlyForm(species, form, format))
-            return GetInvalid(FormBattle);
+        if (!FormInfo.IsBattleOnlyForm(species, form, format))
+            return VALID;
 
-        return VALID;
+        if (pk.Context is EntityContext.Gen9a)
+            return VerifyBattleForms9a(data, species, form);
+
+        return GetInvalid(FormBattle);
+    }
+
+    private CheckResult VerifyBattleForms9a(LegalityAnalysis data, ushort species, byte form)
+    {
+        if (!data.IsStoredSlot(StorageSlotType.Party))
+            return GetInvalid(FormBattle); // Should have reverted to base form when stored.
+
+        // Battle forms can exist in Party.
+        if (!FormInfo.IsMegaForm(species, form))
+            return VALID;
+
+        var megaStone = ItemStorage9ZA.GetExpectedMegaStone(species, form);
+        if (megaStone == 0 || data.Entity.HeldItem == megaStone)
+            return VALID;
+
+        return GetInvalid(FormBattle);
     }
 }

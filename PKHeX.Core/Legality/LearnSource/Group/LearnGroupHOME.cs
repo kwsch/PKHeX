@@ -33,6 +33,13 @@ public sealed class LearnGroupHOME : ILearnGroup
             if (CleanPurge(result, current, pk, types, local, evos))
                 return true;
         }
+        if (history.HasVisitedZA && pk is not PA9)
+        {
+            var instance = LearnGroup9a.Instance;
+            instance.Check(result, current, pk, history, enc, types, option);
+            if (CleanPurge(result, current, pk, types, local, evos))
+                return true;
+        }
         if (history.HasVisitedSWSH && pk is not PK8)
         {
             var instance = LearnGroup8.Instance;
@@ -153,6 +160,8 @@ public sealed class LearnGroupHOME : ILearnGroup
         // Check all adjacent games
         if (history.HasVisitedGen9 && pk is not PK9)
             RentLoopGetAll(LearnGroup9. Instance, result, pk, history, enc, types, option, evos, local);
+        if (history.HasVisitedZA && pk is not PA9)
+            RentLoopGetAll(LearnGroup9a.Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedSWSH && pk is not PK8)
             RentLoopGetAll(LearnGroup8. Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedPLA && pk is not PA8)
@@ -253,6 +262,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         EntityContext.Gen8a => LearnSource8LA.Instance,
         EntityContext.Gen8b => LearnSource8BDSP.Instance,
         EntityContext.Gen9 => LearnSource9SV.Instance,
+        EntityContext.Gen9a => LearnSource9ZA.Instance,
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 

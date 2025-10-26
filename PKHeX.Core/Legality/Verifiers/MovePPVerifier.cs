@@ -47,11 +47,6 @@ public sealed class MovePPVerifier : Verifier
         ReadOnlySpan<ushort> moves = [pk.Move1, pk.Move2, pk.Move3, pk.Move4];
         ReadOnlySpan<int> pp = [pk.Move1_PP, pk.Move2_PP, pk.Move3_PP, pk.Move4_PP];
 
-        bool expectHeal = !data.IsStoredSlot(StorageSlotType.Party) && data.SlotOrigin switch
-        {
-            StorageSlotType.Box or StorageSlotType.GTS or StorageSlotType.BattleBox => GetIsStoredHealed(pk, data.EncounterOriginal),
-            _ => false, // Deposited slots pass through party.
-        };
 
         if (!Legal.IsPPUpAvailable(pk)) // No PP Ups for format
         {
@@ -70,6 +65,7 @@ public sealed class MovePPVerifier : Verifier
             }
         }
 
+        var expectHeal = Legal.IsPPUnused(pk) || IsPPHealed(data, pk);
         for (int i = 0; i < pp.Length; i++)
         {
             var expect = pk.GetMovePP(moves[i], ups[i]);
@@ -78,6 +74,18 @@ public sealed class MovePPVerifier : Verifier
             else if (expectHeal && pp[i] != expect)
                 data.AddLine(GetInvalid(MovePPExpectHealed_0, (ushort)(i + 1)));
         }
+    }
+
+    private static bool IsPPHealed(LegalityAnalysis data, PKM pk)
+    {
+        if (data.IsStoredSlot(StorageSlotType.Party))
+            return false;
+
+        return data.SlotOrigin switch
+        {
+            StorageSlotType.Box or StorageSlotType.GTS or StorageSlotType.BattleBox => GetIsStoredHealed(pk, data.EncounterOriginal),
+            _ => false, // Deposited slots pass through party.
+        };
     }
 
     /// <summary>

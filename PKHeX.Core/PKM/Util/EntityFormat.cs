@@ -92,7 +92,7 @@ public static class EntityFormat
     {
         var pk = new PK8(data.ToArray());
         if (IsFormatReally9(pk))
-            return FormatPK9;
+            return pk.Data[0xCE] == (byte)GameVersion.ZA ? FormatPA9 : FormatPK9;
         return IsFormatReally8b(pk);
     }
 
@@ -139,6 +139,7 @@ public static class EntityFormat
         Format6or7 => prefer == EntityContext.Gen6 ? new PK6(data) : new PK7(data),
         Format8or8b => prefer == EntityContext.Gen8b ? new PB8(data) : new PK8(data),
         FormatPK9 => new PK9(data),
+        FormatPA9 => new PA9(data),
         _ => null,
     };
 
@@ -227,7 +228,7 @@ public enum EntityFormatDetected
     FormatPK4, FormatBK4, FormatRK4, FormatPK5,
     FormatPK6, FormatPK7, FormatPB7,
     FormatPK8, FormatPA8, FormatPB8,
-    FormatPK9,
+    FormatPK9, FormatPA9,
 
     Format6or7,
     Format8or8b,

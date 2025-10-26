@@ -17,6 +17,7 @@ public static class EntityFileExtension
     private const string ExtensionPB7 = "pb7";
     private const string ExtensionPB8 = "pb8";
     private const string ExtensionPA8 = "pa8";
+    private const string ExtensionPA9 = "pa9";
     private const int CountExtra = 8;
 
     /// <summary>
@@ -55,6 +56,8 @@ public static class EntityFileExtension
             result.Add(ExtensionPB8); // Brilliant Diamond & Shining Pearl
         if (maxGeneration >= 8)
             result.Add(ExtensionPA8); // Legends: Arceus
+        if (maxGeneration >= 9)
+            result.Add(ExtensionPA9); // Legends: Z-A
 
         return [.. result];
     }
@@ -71,6 +74,7 @@ public static class EntityFileExtension
             return prefer;
 
         static bool Is(ReadOnlySpan<char> ext, ReadOnlySpan<char> str) => ext.EndsWith(str, StringComparison.InvariantCultureIgnoreCase);
+        if (Is(ext, "a9")) return EntityContext.Gen9a;
         if (Is(ext, "a8")) return EntityContext.Gen8a;
         if (Is(ext, "b8")) return EntityContext.Gen8b;
         if (Is(ext, "k8")) return EntityContext.Gen8;

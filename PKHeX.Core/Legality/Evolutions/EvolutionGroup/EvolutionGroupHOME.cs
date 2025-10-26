@@ -13,7 +13,13 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
     private static readonly EvolutionEnvironment8b BDSP = new();
     private static readonly EvolutionEnvironment9 SV = new();
 
-    public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => null;
+    public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc)
+    {
+        return null; // TODO HOME ZA2: Re-enable when we have more info.
+        // if (pk.Format <= 9 && pk.Context is not EntityContext.Gen9a)
+        //     return null;
+        // return EvolutionGroupHOME.Instance;
+    }
 
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)
     {
@@ -297,3 +303,4 @@ public sealed class EvolutionEnvironment9 : IEvolutionEnvironment
     public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
         => Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
 }
+

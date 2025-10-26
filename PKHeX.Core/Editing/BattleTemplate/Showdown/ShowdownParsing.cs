@@ -154,6 +154,9 @@ public static class ShowdownParsing
             (int)Maushold   when form is "Four"         => "Family of Four",
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 
+            (int)Pumpkaboo or (int)Gourgeist when form is "Average" => "Medium",
+            (int)Pumpkaboo or (int)Gourgeist when form is "Super" => "Jumbo",
+
             _ => FormInfo.HasTotemForm(species) && form.EndsWith("Totem", StringComparison.OrdinalIgnoreCase) ? "Large" : form,
         };
     }

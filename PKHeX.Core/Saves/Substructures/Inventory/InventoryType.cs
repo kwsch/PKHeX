@@ -21,4 +21,5 @@ public enum InventoryType
     Candy,
     Treasure,
     Ingredients,
+    MegaStones,
 }

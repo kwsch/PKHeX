@@ -170,4 +170,5 @@ public static class Locations
     public static bool IsMetLocation8BDSP(ushort z) => z <= 657; // Ramanas Park (Genome Room)
     public static bool IsMetLocation8LA(ushort z) => z <= 155; // Training Grounds
     public static bool IsMetLocation9SV(ushort z) => z <= 200; // Terarium (Entry Tunnel)
+    public static bool IsMetLocation9ZA(ushort z) => z <= 235; // The Sewers
 }

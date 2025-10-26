@@ -35,6 +35,8 @@ public enum EntityContext : byte
     Gen8a,
     /// <summary> Brilliant Diamond &amp; Shining Pearl </summary>
     Gen8b,
+    /// <summary> Legends: Z-A </summary>
+    Gen9a,
 
     /// <summary>
     /// Internal separator to bounds check count.
@@ -52,6 +54,7 @@ public static class EntityContextExtensions
         Gen7b => (byte)7,
         Gen8a => (byte)8,
         Gen8b => (byte)8,
+        Gen9a => (byte)9,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
@@ -80,6 +83,7 @@ public static class EntityContextExtensions
         Gen7b => GameVersion.GP,
         Gen8a => GameVersion.PLA,
         Gen8b => GameVersion.BD,
+        Gen9a => GameVersion.ZA,
 
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
@@ -93,7 +97,7 @@ public static class EntityContextExtensions
         Gen3 => GameConsole.GBA,
         Gen4 or Gen5 => GameConsole.NDS,
         Gen6 or Gen7 => GameConsole._3DS,
-        Gen7b or Gen8 or Gen8a or Gen8b or Gen9 => GameConsole.NX,
+        Gen7b or Gen8 or Gen8a or Gen8b or Gen9 or Gen9a => GameConsole.NX,
 
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
@@ -106,6 +110,12 @@ public static class EntityContextExtensions
         GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
         GameVersion.PLA => Gen8a,
         GameVersion.BD or GameVersion.SP => Gen8b,
+        GameVersion.ZA => Gen9a,
         _ => (EntityContext)version.GetGeneration(),
     };
+
+    /// <summary>
+    /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
+    /// </summary>
+    public static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b or Gen9a;
 }

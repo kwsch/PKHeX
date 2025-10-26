@@ -31,7 +31,7 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
+        int language = (int)Language.GetSafeLanguage2((LanguageID)tr.Language);
         var rnd = Util.Rand;
 
         var pk = new PK2(language == (int)LanguageID.Japanese)

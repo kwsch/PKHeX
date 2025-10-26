@@ -193,7 +193,7 @@ public static class ClassicEraRNG
     {
         // Check component: hour
         var hour = (byte)(seed >> 16 & 0xFF);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(hour, 23, nameof(hour));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(hour, 23);
 
         // Check component: everything else but delay/year using modular arithmetic to handle overflow
         const uint maxBonusMinSec = 59 + 59; // min + sec

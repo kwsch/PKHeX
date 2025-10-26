@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Pokebean
     {
@@ -122,7 +122,7 @@
             MinimumSize = new System.Drawing.Size(277, 340);
             Name = "SAV_Pokebean";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Text = "‎Poké Beans Editor";
+            Text = "Poké Beans Editor";
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
         }

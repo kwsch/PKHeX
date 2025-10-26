@@ -63,6 +63,46 @@ internal static class EvolutionUtil
                 continue;
 
             ShiftDown(result[i..]);
+            i--; // re-check this index
+        }
+    }
+
+    public static void Discard<T>(Span<EvoCriteria> result, T pt, int ability, int abilityIndex) where T : IPersonalTable
+    {
+        Discard(result, pt);
+
+        // Additionally, discard any that have abilities that don't match.
+        // Birth ability should match.
+        uint indexes = 0u;
+        for (int i = 0; i < result.Length; i++)
+        {
+            var evo = result[i];
+            if (evo.Species == 0)
+                break;
+            if (pt.IsPresentInGame(evo.Species, evo.Form))
+                continue;
+
+            var pi = pt.GetFormEntry(evo.Species, evo.Form);
+            var evoAbility = pi.GetAbilityAtIndex(abilityIndex);
+            if (evoAbility == ability)
+                continue; // OK
+
+            indexes |= 1u << i; // mark for removal
+        }
+
+        if (indexes == 0 || indexes == (1u << result.Length) - 1)
+            return; // nothing to remove, or everything to remove
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            if ((indexes & 1u) == 0u)
+            {
+                indexes >>= 1;
+                continue; // keep
+            }
+            ShiftDown(result[i..]);
+            indexes >>= 1;
+            i--; // re-check this index
         }
     }
 

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Pokepuff
     {
@@ -139,7 +139,7 @@
             MinimumSize = new System.Drawing.Size(277, 340);
             Name = "SAV_Pokepuff";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Text = "‎Poké Puffs Editor";
+            Text = "Poké Puffs Editor";
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
         }

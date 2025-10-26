@@ -100,7 +100,7 @@ public partial class SAV_Trainer9 : Form
     private void GetComboBoxes()
     {
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation, SAV.Context);
     }
 
     private void GetTextBoxes()
@@ -388,7 +388,7 @@ public partial class SAV_Trainer9 : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private static void IMG_Save(Image image, string name)
+    public static void IMG_Save(Image image, string name)
     {
         var sfd = new SaveFileDialog
         {

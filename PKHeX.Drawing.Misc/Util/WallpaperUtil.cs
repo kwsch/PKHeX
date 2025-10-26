@@ -25,6 +25,10 @@ public static class WallpaperUtil
         if (sav is not IBoxDetailWallpaper wp)
             return DefaultWallpaper;
 
+        // City box wallpaper for Lumiose City
+        if (sav is SAV9ZA)
+            return Resources.box_wp02bdsp;
+
         int wallpaper = wp.GetBoxWallpaper(box);
         string s = GetWallpaperResourceName(sav.Version, wallpaper);
         return (Bitmap?)Resources.ResourceManager.GetObject(s) ?? DefaultWallpaper;

@@ -60,7 +60,7 @@ public static class ChannelJirachi
     {
         // The game checks for two random results (25% and 33%).
         // If either passes, we advance once, otherwise we advance twice.
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(acceptPivot, 3u, nameof(acceptPivot));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(acceptPivot, 3u);
 
         // 71.9% chance of passing at least one of the following branches.
         // 28.1% chance of failing all branches.

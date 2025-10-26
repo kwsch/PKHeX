@@ -19,6 +19,7 @@ public static class EntityPresenceFilters
     public static Func<PKM, bool>? GetFilterEntity(EntityContext context) => context switch
     {
         // Allow if it already is that format (eager check)
+        Gen9a => static pk => pk is PA9 || PersonalTable.ZA.IsPresentInGame(pk.Species, pk.Form),
         Gen9  => static pk => pk is PK9 || PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form),
         Gen8a => static pk => pk is PA8 || PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form),
         Gen8b => static pk => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form),
@@ -33,6 +34,7 @@ public static class EntityPresenceFilters
     /// <returns>Null if no filter is applicable (allow all)</returns>
     public static Func<T, bool>? GetFilterGeneric<T>(EntityContext context) where T : ISpeciesForm => context switch
     {
+        Gen9a => IsPresent<T, PersonalTable9ZA>(PersonalTable.ZA),
         Gen9  => IsPresent<T, PersonalTable9SV>(PersonalTable.SV),
         Gen8a => IsPresent<T, PersonalTable8LA>(PersonalTable.LA),
         Gen8b => IsPresent<T, PersonalTable8BDSP>(PersonalTable.BDSP),

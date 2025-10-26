@@ -80,7 +80,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
 
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage2((LanguageID)tr.Language);
         var isJapanese = language == (int)LanguageID.Japanese;
         var pi = PersonalTable.C[Species];
         var rnd = Util.Rand;

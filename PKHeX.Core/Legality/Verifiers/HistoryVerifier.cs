@@ -318,13 +318,16 @@ public sealed class HistoryVerifier : Verifier
 
     private static byte GetBaseFriendship(EntityContext context, ushort species, byte form) => context switch
     {
-        EntityContext.Gen6  => PersonalTable.AO[species].BaseFriendship,
+        EntityContext.Gen6  => PersonalTable.AO  [species].BaseFriendship,
         EntityContext.Gen7  => PersonalTable.USUM[species].BaseFriendship,
-        EntityContext.Gen7b => PersonalTable.GG[species].BaseFriendship,
-        EntityContext.Gen8  => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
-        EntityContext.Gen8a => PersonalTable.LA.GetFormEntry(species, form).BaseFriendship,
-        EntityContext.Gen8b => PersonalTable.BDSP.GetFormEntry(species, form).BaseFriendship,
-        EntityContext.Gen9  => PersonalTable.SV.GetFormEntry(species, form).BaseFriendship,
+        EntityContext.Gen7b => PersonalTable.GG  [species].BaseFriendship,
+
+        EntityContext.Gen8  => PersonalTable.SWSH[species, form].BaseFriendship,
+        EntityContext.Gen8a => PersonalTable.LA  [species, form].BaseFriendship,
+        EntityContext.Gen8b => PersonalTable.BDSP[species, form].BaseFriendship,
+        EntityContext.Gen9  => PersonalTable.SV  [species, form].BaseFriendship,
+        EntityContext.Gen9a => PersonalTable.ZA  [species, form].BaseFriendship,
+
         _ => throw new ArgumentOutOfRangeException(nameof(context)),
     };
 }

@@ -96,7 +96,8 @@ public static class StringFontUtil
         Gen5  or Gen4         => HasChar(c, G5.Defined),
         Gen6                  => HasChar(c, G6.Defined),
         Gen7  or Gen1 or Gen2 => IsDefined7(c, saveLanguage),
-        Gen7b or Gen8 or Gen9 => IsDefined8(c, pkLanguage),
+        Gen7b or Gen8
+              or Gen9 or Gen9a=> IsDefined8(c, pkLanguage),
         Gen8a                 => IsDefined8a(c, pkLanguage),
         Gen8b                 => IsDefined8b(c, pkLanguage, saveLanguage),
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),

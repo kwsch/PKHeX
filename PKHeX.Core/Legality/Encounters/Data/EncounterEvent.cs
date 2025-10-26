@@ -40,6 +40,9 @@ public static class EncounterEvent
 
     /// <summary>Event Database for Generation 9 <see cref="EntityContext.Gen9"/></summary>
     public static readonly WC9[] MGDB_G9 = GetWC9DB(Util.GetBinaryResource("wc9.pkl"));
+
+    /// <summary>Event Database for Generation 9 <see cref="EntityContext.Gen9a"/></summary>
+    public static readonly WA9[] MGDB_G9A = GetWA9DB(Util.GetBinaryResource("wa9.pkl"));
     #endregion
 
     #region Locally Loaded Data
@@ -55,20 +58,23 @@ public static class EncounterEvent
     /// <summary>Event Database for Generation 7</summary>
     public static WC7[] EGDB_G7 { get; private set; } = [];
 
-    /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
+    /// <summary>Event Database for Generation 7 <see cref="EntityContext.Gen7b"/></summary>
     public static WB7[] EGDB_G7GG { get; private set; } = [];
 
-    /// <summary>Event Database for Generation 8</summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8"/></summary>
     public static WC8[] EGDB_G8 { get; private set; } = [];
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.PLA"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8a"/></summary>
     public static WA8[] EGDB_G8A { get; private set; } = [];
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="EntityContext.Gen8b"/></summary>
     public static WB8[] EGDB_G8B { get; private set; } = [];
 
-    /// <summary>Event Database for Generation 9 <see cref="GameVersion.SV"/></summary>
+    /// <summary>Event Database for Generation 9 <see cref="EntityContext.Gen9"/></summary>
     public static WC9[] EGDB_G9 { get; private set; } = [];
+
+    /// <summary>Event Database for Generation 9 <see cref="EntityContext.Gen9a"/></summary>
+    public static WA9[] EGDB_G9A { get; private set; } = [];
     #endregion
 
     private static PCD[] GetPCDDB(Memory<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
@@ -82,6 +88,7 @@ public static class EncounterEvent
     private static WB8[] GetWB8DB(Memory<byte> bin) => Get(bin, WB8.Size, static d => new WB8(d));
     private static WA8[] GetWA8DB(Memory<byte> bin) => Get(bin, WA8.Size, static d => new WA8(d));
     private static WC9[] GetWC9DB(Memory<byte> bin) => Get(bin, WC9.Size, static d => new WC9(d));
+    private static WA9[] GetWA9DB(Memory<byte> bin) => Get(bin, WA9.Size, static d => new WA9(d));
 
     private static T[] Get<T>(Memory<byte> bin, int size, Func<Memory<byte>, T> ctor)
     {
@@ -114,6 +121,7 @@ public static class EncounterEvent
         HashSet<WB8>? b8 = null; List<WB8>? lb8 = null;
         HashSet<WA8>? a8 = null; List<WA8>? la8 = null;
         HashSet<WC9>? g9 = null; List<WC9>? lg9 = null;
+        HashSet<WA9>? a9 = null; List<WA9>? la9 = null;
 
         // Load external files
         // For each file, load the gift object into the appropriate list.
@@ -135,6 +143,7 @@ public static class EncounterEvent
                     WB8 wb8 => AddOrExpand(ref b8, ref lb8, wb8),
                     WA8 wa8 => AddOrExpand(ref a8, ref la8, wa8),
                     WC9 wc9 => AddOrExpand(ref g9, ref lg9, wc9),
+                    WA9 wa9 => AddOrExpand(ref a9, ref la9, wa9),
                     _ => false,
                 };
                 if (!added)
@@ -165,6 +174,7 @@ public static class EncounterEvent
         EGDB_G8A = SetArray(la8);
         EGDB_G8B = SetArray(lb8);
         EGDB_G9 = SetArray(lg9);
+        EGDB_G9A = SetArray(la9);
         return;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

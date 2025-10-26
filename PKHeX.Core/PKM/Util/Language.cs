@@ -22,48 +22,46 @@ public static class Language
 
         (byte)ChineseS,
         (byte)ChineseT,
+
+        (byte)SpanishL, // ZA: LATAM
     ];
 
     // check Korean for the VC case, never possible to match string outside of this case
     private static ReadOnlySpan<byte> Languages_GB => Languages[..7]; // [..KOR]
     private static ReadOnlySpan<byte> Languages_3  => Languages[..6]; // [..KOR)
+    private static ReadOnlySpan<byte> Languages_9  => Languages[..9]; // [..CHT]
     private const LanguageID SafeLanguage = English;
 
     /// <summary>
     /// Returns the available languages for the given generation.
     /// </summary>
-    /// <param name="generation">Generation to check.</param>
+    /// <param name="context">Generation to check.</param>
     /// <returns>Available languages for the given generation.</returns>
-    public static ReadOnlySpan<byte> GetAvailableGameLanguages(byte generation = Latest.Generation) => generation switch
+    public static ReadOnlySpan<byte> GetAvailableGameLanguages(EntityContext context = Latest.Context) => context.Generation() switch
     {
         1           => Languages_3, // No KOR
         2           => Languages_GB,
         3           => Languages_3, // No KOR
         4 or 5 or 6 => Languages_GB,
+        7 or 8      => Languages_9,
+        9 when context is EntityContext.Gen9 => Languages_9,
         _           => Languages,
     };
 
-    private static bool HasLanguage(ReadOnlySpan<byte> permitted, byte language) => permitted.Contains(language);
+    private static bool HasLanguage(ReadOnlySpan<byte> permitted, LanguageID language) => permitted.Contains((byte)language);
 
-    /// <inheritdoc cref="GetSafeLanguage(byte, LanguageID, GameVersion)"/>
-    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer) => GetSafeLanguage(generation, prefer, GameVersion.Any);
-
-    /// <summary>
-    /// Returns the language that is safe to use for the given generation.
-    /// </summary>
-    /// <param name="generation">Generation to check.</param>
-    /// <param name="prefer">Preferred language.</param>
-    /// <param name="version">Game version to check.</param>
-    /// <returns>Language that is safe to use for the given generation.</returns>
-    public static LanguageID GetSafeLanguage(byte generation, LanguageID prefer, GameVersion version) => generation switch
+    public static LanguageID GetSafeLanguage1(LanguageID prefer, GameVersion version)
     {
-        1 when version == GameVersion.BU => Japanese,
-        1           => HasLanguage(Languages_3,  (byte)prefer) ? prefer : SafeLanguage,
-        2           => HasLanguage(Languages_GB, (byte)prefer) ? prefer : SafeLanguage,
-        3           => HasLanguage(Languages_3 , (byte)prefer) ? prefer : SafeLanguage,
-        4 or 5 or 6 => HasLanguage(Languages_GB, (byte)prefer) ? prefer : SafeLanguage,
-        _           => HasLanguage(Languages,    (byte)prefer) ? prefer : SafeLanguage,
-    };
+        if (version is GameVersion.BU)
+            return Japanese;
+        return HasLanguage(Languages_3, prefer) ? prefer : SafeLanguage;
+    }
+
+    public static LanguageID GetSafeLanguage2(LanguageID prefer) => HasLanguage(Languages_GB, prefer) ? prefer : SafeLanguage;
+    public static LanguageID GetSafeLanguage3(LanguageID prefer) => HasLanguage(Languages_3, prefer) ? prefer : SafeLanguage;
+    public static LanguageID GetSafeLanguage456(LanguageID prefer) => HasLanguage(Languages_GB, prefer) ? prefer : SafeLanguage;
+    public static LanguageID GetSafeLanguage789(LanguageID prefer) => HasLanguage(Languages_9, prefer) ? prefer : SafeLanguage;
+    public static LanguageID GetSafeLanguage9a(LanguageID prefer) => HasLanguage(Languages, prefer) ? prefer : SafeLanguage;
 
     /// <summary>
     /// Gets the language code for the given <see cref="LanguageID"/>.
@@ -73,6 +71,7 @@ public static class Language
     public static string GetLanguageCode(this LanguageID language) => language switch
     {
         Japanese => "ja",
+        English => "en",
         French => "fr",
         Italian => "it",
         German => "de",
@@ -80,7 +79,7 @@ public static class Language
         Korean => "ko",
         ChineseS => "zh-Hans",
         ChineseT => "zh-Hant",
-        English => "en",
+        SpanishL => "es-419",
         _ => GameLanguage.DefaultLanguage,
     };
 
@@ -92,6 +91,7 @@ public static class Language
     public static LanguageID GetLanguageValue(string language) => language switch
     {
         "ja" => Japanese,
+        "en" => English,
         "fr" => French,
         "it" => Italian,
         "de" => German,
@@ -99,7 +99,7 @@ public static class Language
         "ko" => Korean,
         "zh-Hans" => ChineseS,
         "zh-Hant" => ChineseT,
-        "en" => English,
+        "es-419" => SpanishL,
         _ => GetLanguageValue(GameLanguage.DefaultLanguage),
     };
 

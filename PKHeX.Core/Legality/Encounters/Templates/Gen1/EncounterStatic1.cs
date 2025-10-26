@@ -35,7 +35,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     public PK1 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var version = this.GetCompatibleVersion(tr.Version);
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage1((LanguageID)tr.Language, version);
         var isJapanese = language == (int)LanguageID.Japanese;
         var pi = EncounterUtil.GetPersonal1(version, Species);
         var pk = new PK1(isJapanese)

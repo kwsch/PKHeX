@@ -116,7 +116,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         bool gsc = CanObtainMinGSC();
         var level = gsc ? LevelMinGSC : LevelMinRBY;
         var version = this.GetCompatibleVersion(tr.Version);
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage1((LanguageID)tr.Language, version);
         var isJapanese = language == (int)LanguageID.Japanese;
         var pi = EncounterUtil.GetPersonal1(version, Species);
         var pk = new PK1(isJapanese)

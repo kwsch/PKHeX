@@ -15,7 +15,7 @@ public sealed class BulkAnalysis
     public readonly ITrainerInfo Trainer;
     public readonly List<BulkCheckResult> Parse = [];
     public readonly Dictionary<ulong, (SlotCache Slot, int Index)> Trackers = [];
-    public readonly bool Valid;
+    public bool Valid => Parse.Count == 0 || Parse.TrueForAll(static z => z.Result.Valid);
 
     public readonly BulkAnalysisSettings Settings;
     private readonly bool[] CloneFlags;
@@ -32,6 +32,7 @@ public sealed class BulkAnalysis
 
     public BulkAnalysis(SaveFile sav, BulkAnalysisSettings settings) : this(GetSlots(sav), settings, sav)
     {
+        RunSaveSpecificChecks();
     }
 
     public BulkAnalysis(IEnumerable<SlotCache> source, BulkAnalysisSettings settings, ITrainerInfo tr) : this(GetSlots(source), settings, tr)
@@ -47,7 +48,6 @@ public sealed class BulkAnalysis
         CloneFlags = new bool[AllData.Count];
 
         ScanAll();
-        Valid = Parse.Count == 0 || Parse.TrueForAll(static z => z.Result.Valid);
     }
 
     private static List<SlotCache> GetSlots(SaveFile sav)
@@ -97,11 +97,23 @@ public sealed class BulkAnalysis
         new DuplicateGiftChecker(),
     ];
 
+    private static readonly List<IBulkAnalyzer> SaveAnalyzers =
+    [
+        new DuplicateFusionChecker(),
+        new DuplicateMegaChecker(),
+    ];
+
     private void ScanAll()
     {
         foreach (var analyzer in Analyzers)
             analyzer.Analyze(this);
         foreach (var analyzer in ExternalBulkCheck.ExternalCheckers.Values)
+            analyzer.Analyze(this);
+    }
+
+    private void RunSaveSpecificChecks()
+    {
+        foreach (var analyzer in SaveAnalyzers)
             analyzer.Analyze(this);
     }
 
@@ -143,6 +155,8 @@ public sealed class BulkAnalysis
         Parse.Add(new(chk, line, index1, index2));
     }
 
+    public void AddMessage(string message, CheckResult chk, int index = BulkCheckResult.NoIndex) => Parse.Add(new(chk, message, index));
+
     public void AddExternal(SlotCache first, CheckIdentifier id, int index1, ushort identity, ushort argument = 0, Severity s = Severity.Invalid)
         => AddLine(first, id, index1, LegalityCheckResultCode.External, identity, argument, s);
 
@@ -163,22 +177,27 @@ public sealed class BulkAnalysis
     public string Report(LegalityLocalizationSet localization)
     {
         var sb = new StringBuilder(1024);
+        var context = LegalityLocalizationContext.Create(AllAnalysis[0], localization);
         foreach (var (chk, comment, index1, index2) in Parse)
         {
             if (sb.Length != 0)
                 sb.AppendLine(); // gap for next result
 
             var code = chk.Result;
-            string template;
             if (code is LegalityCheckResultCode.External)
-                template = ExternalBulkCheck.Localize(chk, localization, AllAnalysis, index1, index2);
+            {
+                var judge = localization.Description(chk.Judgement);
+                var template = ExternalBulkCheck.Localize(chk, localization, AllAnalysis, index1, index2);
+                sb.AppendFormat(localization.Lines.F0_1, judge, template);
+            }
             else
-                template = code.GetTemplate(localization.Lines);
-            var judge = localization.Description(chk.Judgement);
-            sb.AppendFormat(localization.Lines.F0_1, judge, template);
+            {
+                sb.Append(context.Humanize(chk));
+            }
             sb.AppendLine();
 
-            sb.AppendLine(comment);
+            if (comment.Length != 0)
+                sb.AppendLine(comment);
         }
         if (sb.Length == 0)
             sb.AppendLine(localization.Lines.Valid);

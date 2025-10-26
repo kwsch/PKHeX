@@ -12,11 +12,17 @@ public partial class KChart : Form
 {
     private readonly SaveFile SAV;
     private readonly string[] abilities;
+    private readonly string[] moves;
+    private readonly string SpeciesNumberFormat;
 
     public KChart(SaveFile sav)
     {
         InitializeComponent();
         Icon = Properties.Resources.Icon;
+        if (sav is SAV9ZA)
+            DGV.Columns.Add(new DataGridViewTextBoxColumn { ReadOnly = true, HeaderText = "Alpha Move" });
+        DGV.AllowUserToOrderColumns = true;
+
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = sav;
 
@@ -24,6 +30,8 @@ public partial class KChart : Form
         var strings = GameInfo.Strings;
         var species = strings.specieslist;
         abilities = strings.abilitylist;
+        moves = strings.movelist;
+        SpeciesNumberFormat = sav.Generation >= 9 ? "0000" : "000";
 
         DGV.Rows.Clear();
         for (ushort s = 1; s <= pt.MaxSpeciesID; s++)
@@ -55,7 +63,7 @@ public partial class KChart : Form
         int c = 0;
 
         var bst = p.GetBaseStatTotal();
-        cells[c++].Value = species.ToString(pt.MaxSpeciesID > 999 ? "0000" : "000") + (form > 0 ? $"-{form:00}" : string.Empty);
+        cells[c++].Value = species.ToString(SpeciesNumberFormat) + (form > 0 ? $"-{form:00}" : string.Empty);
         cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Context);
         cells[c++].Value = name;
         cells[c++].Value = GetIsNative(p, species);
@@ -73,7 +81,9 @@ public partial class KChart : Form
         var abils = p.AbilityCount;
         cells[c++].Value = abilities[abils > 0 ? p.GetAbilityAtIndex(0) : 0];
         cells[c++].Value = abilities[abils > 1 ? p.GetAbilityAtIndex(1) : 0];
-        cells[c].Value   = abilities[abils > 2 ? p.GetAbilityAtIndex(2) : 0];
+        cells[c++].Value = abilities[abils > 2 ? p.GetAbilityAtIndex(2) : 0];
+        if (p is PersonalInfo9ZA za)
+            cells[c].Value = moves[za.AlphaMove];
 
         row.Height = SpriteUtil.Spriter.Height + 1;
         DGV.Rows.Add(row);
@@ -92,6 +102,7 @@ public partial class KChart : Form
         PersonalInfo8BDSP bs => bs.IsInDex,
         PersonalInfo8LA bs => bs.IsPresentInGame,
         PersonalInfo9SV sv => sv.IsInDex,
+        PersonalInfo9ZA za => za.IsInDex,
         _ => true,
     };
 
@@ -113,11 +124,6 @@ public partial class KChart : Form
             return false;
 
         // [0, 719]; always will be a bit in the array.
-        var offset = species >> 3;
-        var bitSet = PastGenAlolanNatives;
-        var bit = species & 7;
-        if ((bitSet[offset] & (1 << bit)) != 0)
-            return true;
-        return false;
+        return FlagUtil.GetFlag(PastGenAlolanNatives, species);
     }
 }

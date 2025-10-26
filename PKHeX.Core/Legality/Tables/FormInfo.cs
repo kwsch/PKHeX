@@ -55,12 +55,14 @@ public static class FormInfo
         _ => form != 0,
     };
 
-    private static bool IsBattleMegaForm(ushort species, byte form)
+    private static bool IsBattleMegaForm(ushort species, byte form) => species switch
     {
-        if (species is (ushort)Slowbro)
-            return form == 1; // Mega
-        return form != 0;
-    }
+        (ushort)Slowbro => form == 1,
+        (ushort)Zygarde => form == 5,
+        (ushort)Floette => form == 6,
+        (ushort)Greninja => form == 3,
+        _ => form != 0
+    };
 
     /// <summary>
     /// Reverts the Battle Form to the form it would have outside of Battle.
@@ -77,6 +79,7 @@ public static class FormInfo
         (ushort)Minior => (byte)(form + 7),
         (ushort)Mimikyu => (byte)(form & 2),
         (ushort)Ogerpon => (byte)(form & 3),
+        (ushort)Floette => 5,
         _ => 0,
     };
 
@@ -110,12 +113,14 @@ public static class FormInfo
         // Gen6: Introduced; no form changing.
         // Gen7: Form changing introduced; can only change to Form 2/3 (Power Construct), never to 0/1 (Aura Break). A form-1 can be boosted to form-0.
         // Gen8: Form changing improved; can pick any Form & Ability combination.
+        // Gen9a: Form 0/1 inaccessible, and can only toggle between 10%/50% Core Enforcer variants (form 2/3).
         if (species == (int)Zygarde)
         {
             return current switch
             {
                 EntityContext.Gen6 => false,
                 EntityContext.Gen7 => newForm >= 2 || (oldForm == 1 && newForm == 0),
+                EntityContext.Gen9a => newForm >= 2,
                 _ => true,
             };
         }
@@ -239,6 +244,37 @@ public static class FormInfo
 
         (int)Lopunny, (int)Gallade,
         (int)Audino, (int)Diancie,
+
+        // ZA
+        (int)Clefable,
+        (int)Victreebel,
+        (int)Starmie,
+        (int)Dragonite,
+        (int)Meganium,
+        (int)Feraligatr,
+        (int)Skarmory,
+        (int)Froslass,
+        (int)Emboar,
+        (int)Excadrill,
+        (int)Scolipede,
+        (int)Scrafty,
+        (int)Eelektross,
+        (int)Chandelure,
+        (int)Chesnaught,
+        (int)Delphox,
+        (int)Pyroar,
+        (int)Malamar,
+        (int)Barbaracle,
+        (int)Dragalge,
+        (int)Hawlucha,
+        (int)Drampa,
+        (int)Falinks,
+
+        (int)Floette,
+
+        //(int)Heatran,
+        //(int)Darkrai,
+        //(int)Zeraora,
     ];
 
     /// <summary>

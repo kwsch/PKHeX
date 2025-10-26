@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.GameVersion;
@@ -50,14 +51,14 @@ public sealed class EncounterGenerator9 : IEncounterGenerator, IEncounterGenerat
     private const EntityContext Context = EntityContext.Gen9;
     private const byte EggLevel = 1;
 
-    public static bool TryGetEgg(PKM pk, EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg9? result)
+    public static bool TryGetEgg(PKM pk, ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg9? result)
     {
         if (version == 0 && pk.IsEgg)
             version = SL;
         return TryGetEgg(chain, version, out result);
     }
 
-    public static bool TryGetEgg(EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg9? result)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg9? result)
     {
         result = null;
         var devolved = chain[^1];

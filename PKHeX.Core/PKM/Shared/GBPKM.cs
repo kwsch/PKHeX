@@ -87,7 +87,7 @@ public abstract class GBPKM : PKM
 
             Span<char> nickname = stackalloc char[TrashCharCountNickname];
             int len = StringConverter1.LoadString(NicknameTrash, nickname, false);
-            int lang = SpeciesName.GetSpeciesNameLanguage(Species, nickname[..len], Format);
+            int lang = SpeciesName.GetSpeciesNameLanguage(Species, nickname[..len], Context);
             if (lang > 0)
                 return lang;
             return 0;

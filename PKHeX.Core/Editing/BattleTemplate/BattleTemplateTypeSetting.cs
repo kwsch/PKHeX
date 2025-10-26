@@ -70,7 +70,7 @@ public sealed class BattleTemplateTypeSetting
 
     private static MoveDisplayStyle GetMoveDisplayStyle(MoveDisplayStyle style, EntityContext context) => style switch
     {
-        //MoveDisplayStyle.Directional when context is EntityContext.Gen9a => MoveDisplayStyle.Directional, TODO ZA
+        MoveDisplayStyle.Directional when context is EntityContext.Gen9a => MoveDisplayStyle.Directional,
         _ => MoveDisplayStyle.Fill,
     };
 }

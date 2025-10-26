@@ -46,7 +46,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage456((LanguageID)tr.Language);
         var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {

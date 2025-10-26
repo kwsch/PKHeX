@@ -85,7 +85,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     {
         if (IsJapaneseBonusDisk)
             return 1; // Japanese
-        return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        return (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
     }
 
     private static void SetPINGA(CK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)

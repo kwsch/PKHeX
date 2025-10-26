@@ -49,7 +49,7 @@ public sealed record BattleTemplateConfig
     public static ReadOnlySpan<char> GetMoveDisplay(MoveDisplayStyle style = MoveDisplayStyle.Fill) => style switch
     {
         MoveDisplayStyle.Fill => "----",
-        MoveDisplayStyle.Directional => "↑←↓→",
+        MoveDisplayStyle.Directional => "↑→←↓",
         _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
     };
 

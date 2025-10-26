@@ -251,7 +251,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
             {
                 // Detect the language of the species name.
                 // If the species name is the same for Traditional and Simplified Chinese, we prefer the saved language.
-                int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, 7);
+                int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, EntityContext.Gen7);
                 if (lang is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT)
                 {
                     StringConverter7.SetString(NicknameTrash, value, 12, lang, StringConverterOption.None, chinese: true);
