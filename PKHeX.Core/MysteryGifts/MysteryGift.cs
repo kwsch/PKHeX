@@ -41,6 +41,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
         WB8.Size when Equals(ext, ".wb8") => new WB8(data),
         WA8.Size when Equals(ext, ".wa8") => new WA8(data),
         WC9.Size when Equals(ext, ".wc9") => new WC9(data),
+        WA9.Size when Equals(ext, ".wa9") => new WA9(data),
 
         WC5Full.Size when Equals(ext, ".wc5full") => new WC5Full(data).Gift,
         WC6Full.Size when Equals(ext, ".wc6full") => new WC6Full(data).Gift,
@@ -67,8 +68,8 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
         // WC8/WC5Full: WC8 0x2CF always 0, WC5Full 0x2CF contains card checksum
         WC8.Size => data.Span[0x2CF] == 0 ? new WC8(data) : new PGF(data),
 
-        // WA8/WC9: WA8 CardType >0 for WA8, 0 for WC9.
-        WA8.Size => data.Span[0xF] > 0 ? new WA8(data) : new WC9(data),
+        // WA8/WC9/WA9: WA8 CardType >0 for WA8, 0 for WC9/WA9. WA9 Checksum located at 0x2C0, always 0 for WC9.
+        WA8.Size => data.Span[0xF] > 0 ? new WA8(data) : data.Span[0x2C0] == 0 ? new WC9(data) : new WA9(data),
 
         // WC6/WC7: Check year
         WC6.Size => ReadUInt32LittleEndian(data.Span[0x4C..]) / 10000 < 2000 ? new WC7(data) : new WC6(data),
