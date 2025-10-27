@@ -713,6 +713,19 @@ public sealed class GameStrings : IBasicStrings
     private static void SanitizeMetGen9a(LocationSet6 set)
     {
         // ZA: Truncated list to remove all after 235 (no encounters there).
+
+        // Resolve collisions across sets
+        set.Met0[4] += " (-)"; // Faraway Place -- duplicate with 40002
+        set.Met3[27] += " (-)"; // (Laboratory) -- duplicate with 103 in all languages besides English
+        set.Met3[28] += " (-)"; // Wild Zone 11 (30028) -- duplicate with 210
+        set.Met3[29] += " (-)"; // (Museum) -- duplicate with 100 in all languages besides English
+        set.Met3[30] += " (-)"; // Académie Étoile (30030) -- duplicate with 76
+        set.Met3[31] += " (-)"; // Magenta Sector 2 (30031) -- duplicate with 59
+        set.Met3[32] += " (-)"; // North Boulevard (30032) -- duplicate with 65
+        set.Met4[65] += " (-)"; // Pokémon GO -- duplicate with 30012
+        set.Met4[70] += " (-)"; // Pokémon HOME -- duplicate with 30018
+        set.Met6[05] += " (-)"; // Lumiose City (6005) -- duplicate with 30026
+
         Deduplicate(set.Met0, 00000);
         Deduplicate(set.Met3, 30000);
         Deduplicate(set.Met4, 40000);
