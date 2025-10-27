@@ -156,7 +156,10 @@ public partial class SizeCP : UserControl
 
             var label = L_SizeS;
             var value = scale.Scale;
-            label.Text = SizeClassDetailed[(int)PokeSizeDetailedUtil.GetSizeRating(value)];
+            // ZA (PA9) uses 5 size classes, other IScaledSize3 use 9 size classes
+            label.Text = scale is PA9 
+                ? SizeClass[(int)PokeSizeUtil.GetSizeRating(value)]
+                : SizeClassDetailed[(int)PokeSizeDetailedUtil.GetSizeRating(value)];
             if (value is 0 or 255) // Tiny or Jumbo Mark possible.
                 label.ForeColor = Color.Red;
             else
