@@ -36,6 +36,11 @@ public enum ProgramLanguage
     Español,
 
     /// <summary>
+    /// Spanish (LATAM)
+    /// </summary>
+    Español_LATAM,
+
+    /// <summary>
     /// Korean
     /// </summary>
     한국어,

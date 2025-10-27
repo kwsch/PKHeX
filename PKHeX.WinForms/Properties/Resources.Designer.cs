@@ -364,14 +364,14 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///25/09/25 - New Update:
+        ///25/10/26 - New Update:
+        /// - Added: Support for Legends: Z-A.
         /// - Legality:
-        /// - - Added the Shiny Miraidon/Koraidon mystery gifts, and the other Ruins gifts.
-        /// - - Added Reg J mythical participation ribbon legality.
-        /// - Added: Loading of zipped save file/folders is now supported, and can export-update the same zip. Thanks @nitz !
-        /// - Added: Status (paralyze, sleep, etc) browser is now localized. Thanks @abcboy101 !
-        /// - Fixed: PK1=&gt;PK2 conversion no longer errors.
-        /// - Fixed: Gen2 Japanese  [rest of string was truncated]&quot;;.
+        /// - - Initial handling for recognizing and generating encounters from Z-A.
+        /// - - Please do not report issues with this release&apos;s handling with legality/encounters. We are aware of what still needs work.
+        /// - Notes:
+        /// - - All encounters can be traced back to an RNG seed.
+        /// - - With multiple shiny rolls (wild only) or shinies, this calculation is not instant (&gt;15 seconds), so it i [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -814,6 +814,30 @@ namespace PKHeX.WinForms.Properties {
         public static string lang_es {
             get {
                 return ResourceManager.GetString("lang_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=Acerca de
+        ///BatchEditor=Editor por Lotes
+        ///BoxExporter=Exportar caja
+        ///ErrorWindow=Error
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Editor de Memorias / Poké Recreo
+        ///MoveShopEditor=Editor de la Tienda de Movimientos
+        ///RibbonEditor=Editor de Cintas
+        ///SAV_Apricorn=Editor de Bonguri
+        ///SAV_BattlePass=Editor de pases de combate
+        ///SAV_BerryFieldXY=Visor de Campos de Bayas
+        ///SAV_BlockDump8=Respaldo de bloques
+        ///SAV_BoxLayout=Editor de fondos de Cajas
+        ///SAV_BoxList=Visor de Almacenamiento
+        ///SAV_Capture7GG=Editor de Récord d [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_es_419 {
+            get {
+                return ResourceManager.GetString("lang_es-419", resourceCulture);
             }
         }
         
