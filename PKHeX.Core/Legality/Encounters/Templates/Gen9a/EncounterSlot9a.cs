@@ -53,6 +53,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
             ID32 = tr.ID32,
             OriginalTrainerFriendship = pi.BaseFriendship,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            ObedienceLevel = LevelMin,
         };
         SetPINGA(pk, criteria, pi);
         SetMoves(pk, pi, LevelMin);
