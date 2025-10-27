@@ -2,16 +2,16 @@ RibbonChampionKalos	Campeón de Kalos
 RibbonChampionG3	Campeón (Gen3)
 RibbonChampionSinnoh	Campeón de Sinnoh
 RibbonBestFriends	Afecto
-RibbonTraining	Ejercicio
-RibbonBattlerSkillful	Figura del Combate
+RibbonTraining	Entrenamiento
+RibbonBattlerSkillful	Élite del Combate
 RibbonBattlerExpert	Experto del Combate
 RibbonEffort	Esfuerzo
 RibbonAlert	Alerta
 RibbonShock	Impacto
 RibbonDowncast	Abatimiento
 RibbonCareless	Descuido
-RibbonRelax	Relax
-RibbonSnooze	Cabezada
+RibbonRelax	Relajación
+RibbonSnooze	Siesta
 RibbonSmile	Sonrisa
 RibbonGorgeous	Maravilla
 RibbonRoyal	Realeza
@@ -43,7 +43,7 @@ RibbonMasterCoolness	Cinta estrella del carisma
 RibbonMasterBeauty	Cinta estrella de la belleza
 RibbonMasterCuteness	Cinta estrella de la dulzura
 RibbonMasterCleverness	Cinta estrella del ingenio
-RibbonMasterToughness	Cinta estrella de la dureza
+RibbonMasterToughness	Cinta estrella de la solidez
 RibbonG3Cool	Carisma (G3)
 RibbonG3CoolSuper	Carisma Alto
 RibbonG3CoolHyper	Carisma Avanzado
@@ -60,10 +60,10 @@ RibbonG3Smart	Ingenio (G3)
 RibbonG3SmartSuper	Ingenio Alto
 RibbonG3SmartHyper	Ingenio Avanzado
 RibbonG3SmartMaster	Ingenio Experto
-RibbonG3Tough	Dureza (G3)
-RibbonG3ToughSuper	Dureza Alto
-RibbonG3ToughHyper	Dureza Avanzado
-RibbonG3ToughMaster	Dureza Experto
+RibbonG3Tough	Solidez (G3)
+RibbonG3ToughSuper	Solidez Alto
+RibbonG3ToughHyper	Solidez Avanzado
+RibbonG3ToughMaster	Solidez Experto
 RibbonG4Cool	Carisma (G4)
 RibbonG4CoolGreat	Carisma Difícil
 RibbonG4CoolUltra	Carisma Superior
@@ -80,10 +80,10 @@ RibbonG4Smart	Ingenio (G4)
 RibbonG4SmartGreat	Ingenio Difícil
 RibbonG4SmartUltra	Ingenio Superior
 RibbonG4SmartMaster	Ingenio Experto
-RibbonG4Tough	Dureza (G4)
-RibbonG4ToughGreat	Dureza Difícil
-RibbonG4ToughUltra	Dureza Superior
-RibbonG4ToughMaster	Dureza Experto
+RibbonG4Tough	Solidez (G4)
+RibbonG4ToughGreat	Solidez Difícil
+RibbonG4ToughUltra	Solidez Superior
+RibbonG4ToughMaster	Solidez Experto
 RibbonWinning	Ganador
 RibbonVictory	Victoria
 RibbonAbility	Habilidad
@@ -96,9 +96,9 @@ RibbonCountG3Cool	Carisma
 RibbonCountG3Beauty	Belleza
 RibbonCountG3Cute	Dulzura
 RibbonCountG3Smart	Ingenio
-RibbonCountG3Tough	Dureza
+RibbonCountG3Tough	Solidez
 RibbonChampionAlola	Campeón de Alola
-RibbonBattleRoyale	Maestro Battle Royale
+RibbonBattleRoyale	Maestro Batalla Royale
 RibbonBattleTreeGreat	As del Árbol
 RibbonBattleTreeMaster	Maestro del Árbol
 RibbonChampionGalar	Campeón de Galar
@@ -115,12 +115,12 @@ RibbonMarkSnowy	Emblema Nieve
 RibbonMarkBlizzard	Emblema Nevasca
 RibbonMarkDry	Emblema Sequedad
 RibbonMarkSandstorm	Emblema Polvareda
-RibbonMarkMisty	Emblema Niebla
+RibbonMarkMisty	Emblema Bruma
 RibbonMarkDestiny	Emblema Destino
 RibbonMarkFishing	Emblema Pesca
-RibbonMarkCurry	Emblema Curri
+RibbonMarkCurry	Emblema Curry
 RibbonMarkUncommon	Emblema Familiaridad
-RibbonMarkRare	Emblema Rareza
+RibbonMarkRare	Emblema Introspección
 RibbonMarkRowdy	Emblema Travesura
 RibbonMarkAbsentMinded	Emblema Despreocupación
 RibbonMarkJittery	Emblema Nerviosismo
@@ -130,7 +130,7 @@ RibbonMarkCalmness	Emblema Compostura
 RibbonMarkIntense	Emblema Pasión
 RibbonMarkZonedOut	Emblema Distracción
 RibbonMarkJoyful	Emblema Felicidad
-RibbonMarkAngry	Emblema Cólera
+RibbonMarkAngry	Emblema Ira
 RibbonMarkSmiley	Emblema Sonrisa
 RibbonMarkTeary	Emblema Llanto
 RibbonMarkUpbeat	Emblema Buen Humor
@@ -142,23 +142,23 @@ RibbonMarkScowling	Emblema Intimidación
 RibbonMarkKindly	Emblema Amabilidad
 RibbonMarkFlustered	Emblema Desconcierto
 RibbonMarkPumpedUp	Emblema Motivación
-RibbonMarkZeroEnergy	Emblema Desgana
+RibbonMarkZeroEnergy	Emblema Desgano
 RibbonMarkPrideful	Emblema Confianza
 RibbonMarkUnsure	Emblema Inseguridad
-RibbonMarkHumble	Emblema Sencillez
+RibbonMarkHumble	Emblema Modestia
 RibbonMarkThorny	Emblema Altanería
 RibbonMarkVigor	Emblema Vigor
 RibbonMarkSlump	Emblema Extenuación
 RibbonHisui	Hisui
-RibbonTwinklingStar	Estrella Rutilante
+RibbonTwinklingStar	Estrella Resplandeciente
 RibbonChampionPaldea	Campeón de Paldea
 RibbonMarkJumbo	Emblema Enormidad
 RibbonMarkMini	Emblema Miniatura
 RibbonMarkItemfinder	Emblema Recolección
 RibbonMarkPartner	Emblema Compañerismo
-RibbonMarkGourmand	Emblema Sibaritismo
+RibbonMarkGourmand	Emblema Gourmet
 RibbonOnceInALifetime	Excepcionalidad
 RibbonMarkAlpha	Emblema Alfa
 RibbonMarkMightiest	Emblema Imbatibilidad
-RibbonMarkTitan	Emblema Dominancia
+RibbonMarkTitan	Emblema Dominio
 RibbonPartner	Camarada
