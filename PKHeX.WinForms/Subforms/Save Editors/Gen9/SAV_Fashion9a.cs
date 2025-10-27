@@ -13,6 +13,7 @@ public sealed partial class SAV_Fashion9a : Form
     public SAV_Fashion9a(SAV9ZA sav)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         // Allow drag/drop on form and main tab control
         AllowDrop = true;
@@ -198,6 +199,23 @@ public sealed partial class SAV_Fashion9a : Form
         block.ChangeData(data);
         editor.Load();
     }
+
+    private void B_SetAllOwned_Click(object sender, EventArgs e)
+    {
+        bool state = !ModifierKeys.HasFlag(Keys.Alt);
+        bool allTabs = ModifierKeys.HasFlag(Keys.Shift);
+        if (allTabs)
+        {
+            foreach (var editor in _grids)
+                editor.SetAllOwned(state);
+        }
+        else
+        {
+            var current = GetEditor(TC_Features.SelectedTab!);
+            current.SetAllOwned(state);
+        }
+        System.Media.SystemSounds.Asterisk.Play();
+    }
 }
 
 public interface IFashionBlockEditor
@@ -207,6 +225,7 @@ public interface IFashionBlockEditor
     DataGridView Grid { get; }
     void Load();
     void Save();
+    void SetAllOwned(bool state);
 }
 
 public sealed class FashionItemEditor : IFashionBlockEditor
@@ -305,6 +324,18 @@ public sealed class FashionItemEditor : IFashionBlockEditor
         for (int i = 0; i < array.Length; i++)
             SaveItem(i, array[i]);
         FashionItem9a.SetArray(array, Block.Data);
+    }
+
+    public void SetAllOwned(bool state)
+    {
+        for (int i = 0; i < Grid.RowCount; i++)
+        {
+            var cells = Grid.Rows[i].Cells;
+            var value = cells[ColValue].Value?.ToString();
+            if (value == (FashionItem9a.None.ToString()))
+                continue;
+            cells[ColIsOwned].Value = state;
+        }
     }
 
     private void LoadItem(int index, FashionItem9a item)
@@ -432,6 +463,8 @@ public sealed record HairMakeEditor : IFashionBlockEditor
         HairMakeItem9a.SetArray(array, Block.Data);
     }
 
+    public void SetAllOwned(bool state) { }
+
     private void LoadHairMake(int index, HairMakeItem9a item)
     {
         var row = Grid.Rows[index];
@@ -439,7 +472,7 @@ public sealed record HairMakeEditor : IFashionBlockEditor
         row.Cells[ColIsNew].Value = item.IsNew;
     }
 
-    private static bool GetBool(object? o) => o is bool b && b;
+    private static bool GetBool(object? o) => o is true;
 
     private void SaveHairMake(int index, HairMakeItem9a item)
     {
