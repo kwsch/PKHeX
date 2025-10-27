@@ -166,6 +166,38 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
+    public override void WriteBoxSlot(PKM pk, Span<byte> data)
+    {
+        var partyData = GetDataForBox(pk);
+        partyData.CopyTo(data);
+        data[partyData.Length..].Clear(); // Clear 0x40 byte gap
+    }
+
+    public override byte[] GetBoxBinary(int box)
+    {
+        var result = new byte[SIZE_BOXSLOT * BoxSlotCount];
+        for (int slot = 0; slot < BoxSlotCount; slot++)
+        {
+            var pk = GetBoxSlotAtIndex(box, slot);
+            var offset = slot * SIZE_BOXSLOT;
+            var slotData = result.AsSpan(offset, SIZE_BOXSLOT);
+            WriteBoxSlot(pk, slotData);
+        }
+        return result;
+    }
+
+    public override byte[] GetPCBinary()
+    {
+        var result = new byte[SIZE_BOXSLOT * SlotCount];
+        for (int i = 0; i < SlotCount; i++)
+        {
+            var pk = GetBoxSlotAtIndex(i);
+            var offset = i * SIZE_BOXSLOT;
+            var slotData = result.AsSpan(offset, SIZE_BOXSLOT);
+            WriteBoxSlot(pk, slotData);
+        }
+        return result;
+    }
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
         PA9 pa9 = (PA9)pk;
@@ -206,7 +238,13 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
     public override PA9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PA9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PA9 GetBoxSlot(int offset)
+    {
+        var data = BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray();
+        if (!IsPKMPresent(data))
+            return BlankPKM;
+        return GetDecryptedPKM(data);
+    }
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {
