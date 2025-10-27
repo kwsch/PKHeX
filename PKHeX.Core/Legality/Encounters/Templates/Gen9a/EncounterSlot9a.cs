@@ -69,6 +69,8 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
             criteria = criteria.WithoutIVs();
 
         var param = GetParams(pi);
+        if (criteria.Shiny.IsShiny())
+            param = param with { RollCount = 1 + 3 }; // Give the +3 for Shiny Charm so that the generator search is more likely to succeed.
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk, init, param, criteria);
         if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
