@@ -50,6 +50,7 @@ public static class EntityBlank
         7 when version is GameVersion.GP or GameVersion.GE => new PB7(),
         8 when version is GameVersion.BD or GameVersion.SP => new PB8(),
         8 when version is GameVersion.PLA => new PA8(),
+        9 when version is GameVersion.ZA => new PA9(),
         _ => GetBlank(gen),
     };
 

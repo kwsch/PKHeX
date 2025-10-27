@@ -502,6 +502,11 @@ public static class WinFormsUtil
         {
             // For languages with multiple supported variants, map the language tag to one of the supported ones
             // https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
+            "es" => name switch
+            {
+                "es" or "es-ES" or "es-ES_tradnl" or "es-GQ"   => "es",     // Spanish (Spain)
+                                                             _ => "es-419", // Spanish (Latin America)
+            },
             "zh" => name switch
             {
                 "zh-Hant" or "zh-HK" or "zh-MO" or "zh-TW"   => "zh-Hant", // Traditional Chinese (Hong Kong/Macau/Taiwan)

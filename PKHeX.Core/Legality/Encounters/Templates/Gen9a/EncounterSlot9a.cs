@@ -53,6 +53,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
             ID32 = tr.ID32,
             OriginalTrainerFriendship = pi.BaseFriendship,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            ObedienceLevel = LevelMin,
         };
         SetPINGA(pk, criteria, pi);
         SetMoves(pk, pi, LevelMin);
@@ -68,6 +69,8 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
             criteria = criteria.WithoutIVs();
 
         var param = GetParams(pi);
+        if (criteria.Shiny.IsShiny())
+            param = param with { RollCount = 1 + 3 }; // Give the +3 for Shiny Charm so that the generator search is more likely to succeed.
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk, init, param, criteria);
         if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))

@@ -638,7 +638,7 @@ public sealed class MiscVerifier : Verifier
         bool shouldHave = g.FatefulEncounter;
         var result = pk.FatefulEncounter == shouldHave
             ? GetValid(Fateful, FatefulMystery)
-            : GetInvalid(Fateful, FatefulMysteryMissing);
+            : GetInvalid(Fateful, shouldHave ? FatefulMysteryMissing : FatefulInvalid);
         data.AddLine(result);
     }
 

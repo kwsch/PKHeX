@@ -234,7 +234,8 @@ public sealed class GameStrings : IBasicStrings
         itemlist[621] += " (M)"; // Xtransceiver
         itemlist[626] += " (F)"; // Xtransceiver
         itemlist[629] += " (2)"; // DNA Splicers
-        itemlist[637] += " (2)"; // Dropped Item
+        itemlist[636] += " (M)"; // Dropped Item
+        itemlist[637] += " (F)"; // Dropped Item
         itemlist[707] += " (2)"; // Travel Trunk
         itemlist[713] += " (2)"; // Alt Bike
         itemlist[714] += " (2)"; // Holo Caster
@@ -288,8 +289,8 @@ public sealed class GameStrings : IBasicStrings
         if (Language is French)
         {
             itemlist[1681] += " (LA)"; // Galet Noir       dup with 617 (Dark Stone | Black Tumblestone)
-            itemlist[1262] += " (G8)"; // Nouilles         dup with 1934 (Instant Noodles | Rice)
-            itemlist[1263] += " (G8)"; // Steak Haché      dup with 1925 (Precooked Burger | Herbed Sausage)
+            itemlist[1262] += " (G8)"; // Nouilles         dup with 1933 (Noodles | Instant Noodles)
+            itemlist[1263] += " (G8)"; // Steak Haché      dup with 1925 (Hamburger | Precooked Burger)
         }
         else if (Language is Japanese)
         {
@@ -421,7 +422,7 @@ public sealed class GameStrings : IBasicStrings
         SanitizeMetGen9(Gen9);
         SanitizeMetGen9a(Gen9a);
 
-        if (Language is Italian or Spanish)
+        if (Language is Italian or Spanish or SpanishL)
         {
             // Campeonato Mundial duplicates
             for (int i = 28; i < 35; i++)
@@ -464,8 +465,7 @@ public sealed class GameStrings : IBasicStrings
             set.Met0[i] += bw;
 
         // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
-        if (set.Met0[2] == set.Met4[2])
-            set.Met0[2] += " (-)";
+        set.Met0[2] += " (-)";
 
         // Collision between 00069 (legal) and 30014 (illegal) "Entralink"
         if (set.Met3[14] == set.Met0[69])
@@ -508,8 +508,7 @@ public sealed class GameStrings : IBasicStrings
         set.Met3[2] += $" ({EggName})"; // Egg From Link Trade
 
         // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
-        if (set.Met0[4] == set.Met4[2])
-            set.Met0[4] += " (-)";
+        set.Met0[4] += " (-)";
 
         for (int i = 63; i <= 69; i++)
             set.Met4[i] += $" ({i - 62})";
@@ -532,8 +531,7 @@ public sealed class GameStrings : IBasicStrings
         set.Met0[102] += " (2)";
 
         // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
-        if (set.Met0[4] == set.Met4[2])
-            set.Met0[4] += " (-)";
+        set.Met0[4] += " (-)";
 
         // Collision between 30012 (legal, in Gen8+) and 40084 (illegal) "Pokémon GO"
         if (set.Met3[12] == set.Met4[84])
@@ -554,8 +552,7 @@ public sealed class GameStrings : IBasicStrings
             set.Met4[i] += " (-)";
 
         // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
-        if (set.Met0[2] == set.Met4[2])
-            set.Met0[2] += " (-)";
+        set.Met0[2] += " (-)";
         set.Met4[73] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
      // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
     }
@@ -584,8 +581,7 @@ public sealed class GameStrings : IBasicStrings
         set.Met4[53] += " (-)"; // a Pokémon event -- duplicate with line 37
 
         // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
-        if (set.Met0[4] == set.Met4[2])
-            set.Met0[4] += " (-)";
+        set.Met0[4] += " (-)";
         set.Met4[81] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
         set.Met4[86] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
      // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
@@ -631,7 +627,7 @@ public sealed class GameStrings : IBasicStrings
         for (int i = 55; i <= 60; i++) // distinguish second set of YYYY Event from the first
             set.Met4[i] += " (-)";
 
-        if (Language is English or Spanish or German or Italian or French)
+        if (Language is English or Spanish or SpanishL or German or Italian or French)
         {
             // Final four locations are not nouns, rather the same location reference (at the...) as prior entries.
             set.Met0[152] += " (152)"; // Galaxy Hall
@@ -707,8 +703,7 @@ public sealed class GameStrings : IBasicStrings
         set.Met4[48] += " (-)"; // a Pokémon event -- duplicate with line 34
 
         // Collision between 40002 (legal) and 00004 (illegal) "Faraway place"
-        if (set.Met0[4] == set.Met4[2])
-            set.Met0[4] += " (-)";
+        set.Met0[4] += " (-)";
         set.Met4[73] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
         set.Met4[78] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
      // set.Met3[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry

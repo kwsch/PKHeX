@@ -131,7 +131,7 @@ public static class PlusRecordApplicator
             SetPlusFlagsSpecific(record, permit, extra);
     }
 
-    public static void SetPlusFlagsSpecific(IPlusRecord record, IPermitPlus permit, ReadOnlySpan<ushort> extra)
+    public static void SetPlusFlagsSpecific(IPlusRecord record, IPermitPlus permit, params ReadOnlySpan<ushort> extra)
     {
         var indexes = permit.PlusMoveIndexes;
         foreach (var move in extra)

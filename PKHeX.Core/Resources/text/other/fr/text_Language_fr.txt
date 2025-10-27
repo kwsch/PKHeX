@@ -1,12 +1,12 @@
 ﻿
 JPN (日本語)
 ENG (English)
-FRE (Français)
+FRA (Français)
 ITA (Italiano)
-GER (Deutsch)
+DEU (Deutsch)
 
-SPA-ES (Español)
+ES-ES (Español)
 KOR (한국어)
 CHS (简体中文)
 CHT (繁體中文)
-SPA-LA (Español)
+ES-LA (Español)

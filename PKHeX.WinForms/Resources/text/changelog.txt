@@ -1,7 +1,23 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/09/25 - New Update:
+25/10/26 - New Update:
+ - Added: Support for Legends: Z-A.
+ - Legality:
+ - - Initial handling for recognizing and generating encounters from Z-A.
+ - - Please do not report issues with this release's handling with legality/encounters. We are aware of what still needs work.
+ - Notes:
+ - - All encounters can be traced back to an RNG seed.
+ - - With multiple shiny rolls (wild only) or shinies, this calculation is not instant (>15 seconds), so it is only done for non-shiny 1-rolls.
+ - - Do not be lulled into a false sense of safety that PKHeX does not flag your modified Pokémon's PID/IVs.
+ - - Cheat codes that modify the RNG generation routine is detectable in the resulting Pokémon, as previously mentioned in Discord.
+ - - Ability editing via the GUI has been forced into All-Abilities mode due to GameFreak not updating a Pokémon's ability on evolution.
+ - Added: Gen9a: Pokédex and Trainer Info editor are available.
+ - Added: Gen9a: Event block editors are available. 64-bit hash => text is not provided at this time.
+ - Added: Gen9a: Fashion block editors are available. Fashion-item ID => text is not provided at this time.
+ - Added: Bulk (Verify All) checks for issues with the save file, such as mismatched Fused slots or Mega stone inventory state issues.
+
+25/09/25 - New Update: (315492) [11027657]
  - Legality:
  - - Added the Shiny Miraidon/Koraidon mystery gifts, and the other Ruins gifts.
  - - Added Reg J mythical participation ribbon legality.
