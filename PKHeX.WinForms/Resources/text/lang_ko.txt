@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=포켓몬 이름 제거
 Main.mnu_ModifyResetMoves=기술 초기화
 Main.mnu_Sort=박스 정렬
 Main.mnu_SortAdvanced=박스 정렬 (고급)
+Main.mnu_SortAlpha=Alpha
 Main.mnu_SortBST=종족값 합계
 Main.mnu_SortCP=CP
 Main.mnu_SortDate=만난 날짜

@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=Supprimer les surnoms
 Main.mnu_ModifyResetMoves=Réinitialiser les capacités
 Main.mnu_Sort=Trier les boites
 Main.mnu_SortAdvanced=Trier les boites (Avancé)
+Main.mnu_SortAlpha=Alpha
 Main.mnu_SortBST=Base Stat Total
 Main.mnu_SortCP=CP
 Main.mnu_SortDate=Date de rencontre

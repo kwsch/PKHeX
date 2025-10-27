@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=Rimuovi soprannomi
 Main.mnu_ModifyResetMoves=Reset Mosse
 Main.mnu_Sort=Riordina Box
 Main.mnu_SortAdvanced=Riordina Box (Avanzato)
+Main.mnu_SortAlpha=Alfa
 Main.mnu_SortBST=Statistiche Base Totali
 Main.mnu_SortCP=PL
 Main.mnu_SortDate=Data

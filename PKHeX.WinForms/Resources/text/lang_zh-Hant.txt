@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=重置昵稱
 Main.mnu_ModifyResetMoves=填入建議招式
 Main.mnu_Sort=排序
 Main.mnu_SortAdvanced=排序(高級)
+Main.mnu_SortAlpha=頭目
 Main.mnu_SortBST=按種族值和
 Main.mnu_SortCP=按CP值
 Main.mnu_SortDate=按遇見日期
