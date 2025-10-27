@@ -232,8 +232,8 @@ public static class LumioseRNG
         // No way to change abilities. Index must match.
         int ability = enc.Ability switch
         {
-            AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
-            AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
+            AbilityPermission.Any12H => 1 << (int)rand.NextInt(3),
+            AbilityPermission.Any12 => 1 << (int)rand.NextInt(2),
             _ => (int)enc.Ability,
         };
         if (pk.AbilityNumber != ability)
