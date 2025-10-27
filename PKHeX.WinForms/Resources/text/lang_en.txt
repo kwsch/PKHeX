@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=Remove Nicknames
 Main.mnu_ModifyResetMoves=Reset Moves
 Main.mnu_Sort=Sort Boxes
 Main.mnu_SortAdvanced=Sort Boxes (Advanced)
+Main.mnu_SortAlpha=Alpha
 Main.mnu_SortBST=Base Stat Total
 Main.mnu_SortCP=CP
 Main.mnu_SortDate=Met Date

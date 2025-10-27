@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=Lösche Spitznamen
 Main.mnu_ModifyResetMoves=Attacken zurücksetzen
 Main.mnu_Sort=Sortiere Boxen
 Main.mnu_SortAdvanced=Sortiere Boxen (erweitert)
+Main.mnu_SortAlpha=Elite
 Main.mnu_SortBST=Gesamt Basis Statuswerte
 Main.mnu_SortCP=CP
 Main.mnu_SortDate=Funddatum

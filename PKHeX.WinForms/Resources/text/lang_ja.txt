@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=ニックネームを消去
 Main.mnu_ModifyResetMoves=技をリセット
 Main.mnu_Sort=Sort Boxes
 Main.mnu_SortAdvanced=Sort Boxes (Advanced)
+Main.mnu_SortAlpha=オヤブン
 Main.mnu_SortBST=Base Stat Total
 Main.mnu_SortCP=CP
 Main.mnu_SortDate=出会った日

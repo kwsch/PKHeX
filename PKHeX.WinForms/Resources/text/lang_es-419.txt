@@ -570,6 +570,7 @@ Main.mnu_ModifyRemoveNicknames=Eliminar apodos
 Main.mnu_ModifyResetMoves=Reiniciar movimientos
 Main.mnu_Sort=Ordenar Cajas
 Main.mnu_SortAdvanced=Ordenar Cajas (avanzado)
+Main.mnu_SortAlpha=Alfa
 Main.mnu_SortBST=Total de Estad. base
 Main.mnu_SortCP=PC
 Main.mnu_SortDate=Fecha de Encuentro
