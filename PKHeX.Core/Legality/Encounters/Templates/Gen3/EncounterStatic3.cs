@@ -92,7 +92,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (Species is (ushort)Core.Species.Deoxys && tr.Language == 1)
             return (int)LanguageID.English;
 
-        return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        return (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
     }
 
     private void SetPINGA(PK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)

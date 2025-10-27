@@ -233,6 +233,11 @@ public enum GameVersion : byte
     /// Pokémon Violet (NX)
     /// </summary>
     VL = 51,
+
+    /// <summary>
+    /// Pokémon Legends: (Z-A) (NX)
+    /// </summary>
+    ZA = 52,
     #endregion
 
     // The following values are not actually stored values in pk data,

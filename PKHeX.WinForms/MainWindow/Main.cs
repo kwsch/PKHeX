@@ -698,6 +698,12 @@ public partial class Main : Form
 
     private bool OpenSAV(SaveFile sav, string path)
     {
+        if (ModifierKeys == Keys.Alt)
+        {
+            SaveTypeInfo other = default;
+            if (SaveUtil.TryOverride(sav, other, out var replace))
+                sav = replace;
+        }
         if (!sav.IsVersionValid())
         {
             WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);

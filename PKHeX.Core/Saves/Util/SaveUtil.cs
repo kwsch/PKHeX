@@ -14,6 +14,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class SaveUtil
 {
+    private const int SIZE_G9ZA_Min = 0x2F3284;
+    private const int SIZE_G9ZA_Max = 0x2F3284;
+
     private const int SIZE_G9_0   = 0x31626F; // 1.0.0 fresh
     private const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
     private const int SIZE_G9_1   = 0x319DB3; // 1.0.1 fresh
@@ -117,6 +120,8 @@ public static class SaveUtil
         new SaveHandlerNSO(),
     ];
 
+    private static bool IsSizeGen9ZA(int length) => length is (>= SIZE_G9ZA_Min) and (<= SIZE_G9ZA_Max);
+
     private static bool IsSizeGen9SV(int length) => length is
         SIZE_G9_0 or SIZE_G9_0a or
         SIZE_G9_1 or SIZE_G9_1a or SIZE_G9_1A or SIZE_G9_1Aa or SIZE_G9_1Ba or SIZE_G9_1Ab or
@@ -175,6 +180,7 @@ public static class SaveUtil
         if (IsG8BDSP(data)) return BDSP;
         if (IsG8LA(data)) return LA;
         if (IsG9SV(data)) return SV;
+        if (IsG9ZA(data)) return ZA;
 
         // Side-game
         if (IsG3Colosseum(data)) return Colosseum;
@@ -433,6 +439,7 @@ public static class SaveUtil
     private static bool IsG8LA(ReadOnlySpan<byte> data) => data.Length is SIZE_G8LA or SIZE_G8LA_1 && SwishCrypto.GetIsHashValid(data);
     private static bool IsG8SWSH(ReadOnlySpan<byte> data) => IsSizeGen8SWSH(data.Length) && SwishCrypto.GetIsHashValid(data);
     private static bool IsG9SV(ReadOnlySpan<byte> data) => IsSizeGen9SV(data.Length) && SwishCrypto.GetIsHashValid(data);
+    private static bool IsG9ZA(ReadOnlySpan<byte> data) => IsSizeGen9ZA(data.Length) && SwishCrypto.GetIsHashValid(data);
 
     private static bool IsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
     private static bool IsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
@@ -496,6 +503,33 @@ public static class SaveUtil
 
         // unrecognized.
         return false;
+    }
+
+    /// <summary>
+    /// Overrides the detected save type with the manually specified <see cref="SaveTypeInfo"/>.
+    /// </summary>
+    /// <param name="sav">Save file to override</param>
+    /// <param name="toType">Manually specified save type information</param>
+    /// <param name="result">Overridden save file, or null if the override failed.</param>
+    /// <returns><see langword="true"/> if the override was successful; otherwise, <see langword="false"/>.</returns>
+    public static bool TryOverride(SaveFile sav, SaveTypeInfo toType, [NotNullWhen(true)] out SaveFile? result)
+    {
+        try
+        {
+            var data = sav.Buffer;
+            result = GetSaveFileInternal(data, toType);
+            if (result is null)
+                return false;
+
+            result.Metadata.ShareExtraInfo(sav.Metadata);
+            return true;
+        }
+        catch
+        {
+            // General failure, probably bad type selected / bad data.
+            result = null;
+            return false;
+        }
     }
 
     private static bool TryGetSaveFileCustom(Memory<byte> data, [NotNullWhen(true)] out SaveFile? result, string? path)
@@ -573,6 +607,7 @@ public static class SaveUtil
         LA => new SAV8LA(data),
 
         SV => new SAV9SV(data),
+        ZA => new SAV9ZA(data),
 
         // Side Games
         Colosseum => new SAV3Colosseum(data),
@@ -714,6 +749,8 @@ public static class SaveUtil
         if ((uint)size > int.MaxValue)
             return false;
         int length = (int)size;
+        if (IsSizeGen9ZA(length))
+            return true;
         if (IsSizeGen9SV(length))
             return true;
         if (IsSizeGen8SWSH(length))
@@ -721,25 +758,5 @@ public static class SaveUtil
         if (IsSizeCommonFixed(length))
             return true;
         return false;
-    }
-
-    /// <summary>
-    /// Stores the result from a save detection.
-    /// </summary>
-    /// <param name="Type">The save file type detected</param>
-    /// <param name="SubVersion">Specific game version within the type, or Any if not distinguished</param>
-    private readonly record struct SaveTypeInfo(SaveFileType Type, GameVersion SubVersion = default, LanguageID Language = default)
-    {
-        /// <summary>
-        /// Implicit conversion from SaveTypeInfo to SaveFileType for convenience.
-        /// </summary>
-        public static implicit operator SaveFileType(SaveTypeInfo info) => info.Type;
-
-        public static implicit operator SaveTypeInfo(SaveFileType type) => new(type);
-
-        /// <summary>
-        /// Returns Invalid save type info.
-        /// </summary>
-        public static SaveTypeInfo Invalid => default;
     }
 }

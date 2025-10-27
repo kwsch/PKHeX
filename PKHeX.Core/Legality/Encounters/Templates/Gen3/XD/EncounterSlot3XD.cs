@@ -32,7 +32,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
         var pi = PersonalTable.E[Species];
         var pk = new XK3
         {

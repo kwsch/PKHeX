@@ -21,6 +21,16 @@ internal static class LearnVerifier
 
         // Finalize the checks.
         Finalize(result, current);
+
+        // If Empty slots are allowed, revert flagging.
+        if (pk.Context is EntityContext.Gen9a && current.ContainsAnyExcept<ushort>(0))
+        {
+            foreach (ref var x in result)
+            {
+                if (x.Info.Method is LearnMethod.EmptyInvalid)
+                    x = MoveResult.Empty;
+            }
+        }
     }
 
     private static void VerifyMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, IEncounterTemplate enc, EvolutionHistory history)

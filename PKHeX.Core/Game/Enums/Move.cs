@@ -925,5 +925,6 @@ public enum Move : ushort
     PsychicNoise,
     UpperHand,
     MalignantChain,
+    NihilLight,
     MAX_COUNT,
 }

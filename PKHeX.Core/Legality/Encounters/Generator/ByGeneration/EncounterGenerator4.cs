@@ -23,6 +23,8 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
+        if (version is GameVersion.BATREV)
+            yield break;
         var iterator = new EncounterPossible4(chain, groups, version, pk);
         foreach (var enc in iterator)
             yield return enc;

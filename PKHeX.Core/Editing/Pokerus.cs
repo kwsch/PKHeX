@@ -23,6 +23,7 @@ public static class Pokerus
         PA8 pa8 => HasVisitedAnother(pa8, enc),
         PB7 => false, // Does not exist in game.
         PK9 => false, // Does not exist in game, does not get copied over via HOME.
+        PA9 => false, // Does not exist in game, does not get copied over via HOME.
         _ => true,
     };
 
@@ -60,6 +61,7 @@ public static class Pokerus
         EntityContext.Gen7b => false,
         EntityContext.Gen8a => false,
         EntityContext.Gen9 => false,
+        EntityContext.Gen9a => false,
         _ => true,
     };
 

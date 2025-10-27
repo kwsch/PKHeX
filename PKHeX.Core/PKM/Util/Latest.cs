@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Latest
 {
-    public const EntityContext Context = EntityContext.Gen9;
-    public const GameVersion Version = GameVersion.SL;
+    public const EntityContext Context = EntityContext.Gen9a;
+    public const GameVersion Version = GameVersion.ZA;
     public const byte Generation = 9;
 }

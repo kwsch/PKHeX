@@ -1,0 +1,27 @@
+
+Saco PS S
+Saco PS M
+Saco PS L
+Saco Ataque S
+Saco Ataque M
+Saco Ataque L
+Saco Defensa S
+Saco Defensa M
+Saco Defensa L
+Saco At. Esp. S
+Saco At. Esp. M
+Saco At. Esp. L
+Saco Def. Esp. S
+Saco Def. Esp. M
+Saco Def. Esp. L
+Saco Veloc. S
+Saco Veloc. M
+Saco Veloc. L
+Saco Potencia ↑
+Saco Aguante ↑
+Saco Agilidad ↑
+Saco Tamaño ↑
+Saco Mejora x2
+Saco Team Flare
+Saco Reinicio
+Saco Relax

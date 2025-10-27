@@ -24,7 +24,7 @@ PKHeX는 콘솔 전용 키로 암호화되지 않은 세이브 파일을 요구�
 
 ## 스크린샷
 
-![Main Window](https://i.imgur.com/HZs37cM.png)
+![Main Window](https://i.imgur.com/vDiaS7k.png)
 
 ## 빌드
 

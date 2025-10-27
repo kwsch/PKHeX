@@ -23,6 +23,7 @@ public sealed class MetDataSource(GameStrings s)
     private readonly List<ComboItem> MetGen8a = CreateGen8a(s);
     private readonly List<ComboItem> MetGen8b = CreateGen8b(s);
     private readonly List<ComboItem> MetGen9 = CreateGen9(s);
+    private readonly List<ComboItem> MetGen9a = CreateGen9a(s);
 
     private IReadOnlyList<ComboItem>? MetGen4Transfer;
     private IReadOnlyList<ComboItem>? MetGen5Transfer;
@@ -150,6 +151,7 @@ public sealed class MetDataSource(GameStrings s)
         locations.Add(new ComboItem(s.gamelist[(int)BD], LocationsHOME.SWBD));
         locations.Add(new ComboItem(s.gamelist[(int)SP], LocationsHOME.SHSP));
         locations.Add(new ComboItem(s.gamelist[(int)PLA], LocationsHOME.SWLA));
+        // No backwards from ZA+
 
         return locations;
     }
@@ -194,6 +196,18 @@ public sealed class MetDataSource(GameStrings s)
         Util.AddCBWithOffset(locations, s.Gen9.Met3, 30000, Locations9.Met3);
         Util.AddCBWithOffset(locations, s.Gen9.Met4, 40000, Locations9.Met4);
         Util.AddCBWithOffset(locations, s.Gen9.Met6, 60000, Locations9.Met6);
+        return locations;
+    }
+
+    private static List<ComboItem> CreateGen9a(GameStrings s)
+    {
+        var locations = Util.GetCBList(s.Gen9a.Met0, 0);
+        Util.AddCBWithOffset(locations, s.Gen9a.Met6, 60000, Locations.Daycare5);
+        Util.AddCBWithOffset(locations, s.Gen9a.Met3, 30000, Locations.LinkTrade6);
+        Util.AddCBWithOffset(locations, s.Gen9a.Met0, 00000, Locations9a.Met0);
+        Util.AddCBWithOffset(locations, s.Gen9a.Met3, 30000, Locations9a.Met3);
+        Util.AddCBWithOffset(locations, s.Gen9a.Met4, 40000, Locations9a.Met4);
+        Util.AddCBWithOffset(locations, s.Gen9a.Met6, 60000, Locations9a.Met6);
         return locations;
     }
 
@@ -257,6 +271,7 @@ public sealed class MetDataSource(GameStrings s)
         BD or SP => Partition2(MetGen8b, IsMetLocation8BDSP),
         PLA      => Partition2(MetGen8a, IsMetLocation8LA),
         SL or VL => Partition2(MetGen9, IsMetLocation9SV),
+        ZA       => Partition2(MetGen9a, IsMetLocation9ZA),
         _ => GetLocationListModified(version, context),
     };
 

@@ -1,0 +1,236 @@
+——————
+
+Mystery Zone
+
+Faraway place
+
+Vert District
+Bleu District
+Magenta District
+Rouge District
+Jaune District
+Centrico Plaza
+Vernal Avenue
+Estival Avenue
+Autumnal Avenue
+Hibernal Avenue
+Saison Canal
+Vert Street
+Vert Street
+South Boulevard
+South Boulevard
+Vert Sector 1
+Vert Sector 3
+Coulant Waterway
+Vert Sector 6
+Vert Sector 7
+Station Front
+Vert Sector 2
+Vert Sector 4
+Vert Sector 5
+Vert Sector 8
+Vert Sector 9
+Vert Plaza
+Bleu Street
+Bleu Street
+South Boulevard
+South Boulevard
+Bleu Sector 1
+Bleu Sector 3
+Aymlis Park
+Bleu Sector 5
+Bleu Sector 7
+Bleu Sector 2
+Bleu Sector 4
+Espace Vide
+Bleu Sector 6
+Bleu Sector 8
+Bleu Sector 9
+Bleu Sector 10
+Bleu Plaza
+Magenta Street
+Magenta Street
+South Boulevard
+North Boulevard
+Magenta Sector 1
+Magenta Sector 3
+Magenta Sector 5
+Magenta Sector 6
+Electrical Substation
+Magenta Sector 2
+Magenta Sector 4
+Magenta Sector 7
+Quasartico Inc.
+Magenta Sector 8
+Magenta Sector 9
+Magenta Plaza
+Rouge Street
+Rouge Street
+North Boulevard
+North Boulevard
+Rouge Sector 1
+Rouge Sector 3
+Rouge Sector 4
+Rouge Sector 5
+Rouge Sector 7
+Rouge Sector 2
+Académie Étoile
+Rouge Sector 6
+Dormez Bien Cemetery
+Rouge Sector 8
+Rouge Plaza
+Jaune Street
+Jaune Street
+North Boulevard
+North Boulevard
+Jaune Sector 1
+Jaune Sector 3
+Jaune Sector 4
+Jaune Sector 5
+Jaune Sector 7
+Jaune Sector 8
+Jaune Sector 2
+Saison Canalside
+Jaune Sector 6
+Jaune Sector 9
+Jaune Sector 10
+Jaune Sector 11
+Jaune Sector 12
+Jaune Plaza
+Promenade du Vent
+Lumiose Museum
+Vert Pokémon Center
+Hotel Z
+Pokémon Research Lab
+Prism Tower
+Looker Bureau
+Quasartico Inc.
+Racine Construction
+Vert Plaza
+Gare de Lumiose
+Bleu Plaza
+Rust Syndicate Office
+Bleu Pokémon Center
+Vernal Pokémon Center
+Magenta Plaza
+Lysandre Café
+Magenta Pokémon Center
+Magenta Plaza Pokémon Center
+Rouge Plaza
+Hotel Richissime
+Rouge Pokémon Center
+Centrico Pokémon Center
+Jaune Plaza
+Justice Dojo
+Jaune Pokémon Center
+Hibernal Pokémon Center
+Hair Salon
+Stone Emporium
+Poké Ball Boutique
+Changing Gears
+Boutique Couture
+Restaurant Le Nah
+Café Cyclone
+Café Classe
+Café Introversion
+Empty Room (Abandoned Building)
+Sewer Entrance
+Fresh Fits
+BRAVELY
+Dessert du Moment
+Marché Bleu
+In the Zone
+Kickspin
+Triathlon Bleu
+DEFOG Eyewear
+Équipement
+Coiffure Clips
+Café Woof
+Café Soleil
+Shutterbug Café
+Lumiose Sewers
+Café Pokémon-Amie
+Café Rouleau
+Café Gallant
+Café Triste
+The Usual
+Énergie
+Le Passe-temps
+Porte-Chance
+Pinceau
+Naptime
+Soil and Sneaks
+Marquage
+Glammor Girli
+Glammor Pretti
+Glammor Sporti
+NIGHTSIDE
+Bundle Up
+Midnight Rite
+Mode Mature
+Wisp
+Mode Magnifique
+FILMFAN
+DENSOKU Lumiose
+Les Chaussures
+Atelier Heads
+Glammor Cuti
+Kikonashi
+SUBATOMIC
+SUBATOMIC 4
+Masterpiece
+Le Pays des Vêtements
+Triathlon Rouge
+Le Pays des Pieds
+La Tornade
+Restaurant Le Yeah
+Sushi High Roller
+Restaurant Le Wow
+Lumiose Sewers
+Café Kizuna
+Café Ultimo
+Café Action!
+Café Bataille
+Wild Zone 17
+Wild Zone 1
+Wild Zone 2
+Wild Zone 12
+Wild Zone 10
+Wild Zone 5
+Wild Zone 16
+Wild Zone 14
+Wild Zone 9
+Wild Zone 18
+Wild Zone 7
+Wild Zone 13
+Wild Zone 4
+Wild Zone 3
+Wild Zone 15
+Wild Zone 19
+Wild Zone 6
+Wild Zone 11
+Wild Zone 8
+Wild Zone 20
+Battle Zone
+Passage de la Félicité
+Passage Ombragé
+Galerie de la Lune
+Passage du Palais
+Justice Dojo
+Hotel Z
+Racine Construction
+Hotel Richissime
+Rust Syndicate Office
+Gare de Lumiose
+Quasartico Inc.
+Restaurant Le Nah
+Restaurant Le Yeah
+Restaurant Le Wow
+Sushi High Roller
+Looker Bureau
+Pokémon Research Lab
+Old Building
+Lumiose Museum
+Lysandre Café
+Lysandre Labs
+The Sewers

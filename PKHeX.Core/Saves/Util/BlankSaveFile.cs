@@ -33,7 +33,7 @@ public static class BlankSaveFile
     {
         null => English,
         ILangDeviantSave s => s.Japanese ? Japanese : s.Korean ? Korean : English,
-        _ => (uint)sav.Language <= Legal.GetMaxLanguageID(sav.Generation) ? (LanguageID)sav.Language : English,
+        _ => (uint)sav.Language <= Legal.GetMaxLanguageID(sav.Generation, sav.Context) ? (LanguageID)sav.Language : English,
     };
 
     /// <summary>
@@ -139,6 +139,7 @@ public static class BlankSaveFile
         LA => new SAV8LA(),
 
         SV => new SAV9SV(),
+        ZA => new SAV9ZA(),
 
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };

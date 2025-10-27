@@ -47,7 +47,7 @@ public partial class PKMEditor
 
         Span<char> nickname = stackalloc char[sk2.MaxStringLengthNickname];
         int len = sk2.LoadString(sk2.NicknameTrash, nickname);
-        var lang = SpeciesName.GetSpeciesNameLanguage(sk2.Species, nickname[..len], 2);
+        var lang = SpeciesName.GetSpeciesNameLanguage(sk2.Species, nickname[..len], EntityContext.Gen2);
         if (lang >= 1 && (lang == 1 != sk2.Japanese)) // force match language
             sk2.SwapLanguage();
         else if (sk2.Japanese != (sav.Language == 1)) // force match save file

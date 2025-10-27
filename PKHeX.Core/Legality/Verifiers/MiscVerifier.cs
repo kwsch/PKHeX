@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed class MiscVerifier : Verifier
 {
     private static readonly LegendsArceusVerifier Arceus = new();
+    private static readonly LegendsZAVerifier LegendsZA = new();
 
     protected override CheckIdentifier Identifier => Misc;
 
@@ -57,6 +58,7 @@ public sealed class MiscVerifier : Verifier
             case PB8 pb8: VerifyStats8b(data, pb8); break;
             case PA8 pa8: VerifyStats8a(data, pa8); break;
             case PK9 pk9: VerifyStats9(data, pk9); break;
+            case PA9 pa9: VerifyStats9a(data, pa9); break;
         }
 
         if (pk is IFullnessEnjoyment fe) // 6-8
@@ -64,10 +66,9 @@ public sealed class MiscVerifier : Verifier
 
         var enc = data.EncounterMatch;
         if (enc is IEncounterServerDate { IsDateRestricted: true } encounterDate)
-        {
             VerifyServerDate2000(data, pk, enc, encounterDate);
-        }
-        else if (enc is IOverworldCorrelation8 z)
+
+        if (enc is IOverworldCorrelation8 z)
         {
             VerifyCorrelation8(data, z, pk);
         }
@@ -216,6 +217,13 @@ public sealed class MiscVerifier : Verifier
             // Gen1-7 can have 0-0 if kept in PLA before HOME 3.0
             if (s2 is { HeightScalar: 0, WeightScalar: 0 } && !data.Info.EvoChainsAllGens.HasVisitedPLA && enc is not IPogoSlot)
                 data.AddLine(Get(Encounter, Severity.Invalid, StatInvalidHeightWeight));
+        }
+        else if (data.EncounterMatch.Context is EntityContext.Gen9a)
+        {
+            if (s2.HeightScalar != 0)
+                data.AddLine(GetInvalid(Encounter, StatIncorrectHeightValue));
+            if (s2.WeightScalar != 0)
+                data.AddLine(GetInvalid(Encounter, StatIncorrectWeightValue));
         }
         else if (CheckHeightWeightOdds(data.EncounterMatch))
         {
@@ -366,6 +374,18 @@ public sealed class MiscVerifier : Verifier
             if (((BallUseLegality.WildPokeballs9PreDLC2 >> pk9.Ball) & 1) != 1)
                 data.AddLine(GetInvalid(BallUnavailable));
         }
+    }
+
+    private void VerifyStats9a(LegalityAnalysis data, PA9 pa9)
+    {
+        LegendsZA.Verify(data);
+        if (!pa9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
+            data.AddLine(GetInvalid(StatBattleVersionInvalid));
+        VerifyStatNature(data, pa9);
+        if (!IsObedienceLevelValid(pa9, pa9.ObedienceLevel, pa9.MetLevel))
+            data.AddLine(GetInvalid(TransferObedienceLevel));
+        if (pa9.IsAlpha != data.EncounterMatch is IAlphaReadOnly { IsAlpha: true })
+            data.AddLine(GetInvalid(StatAlphaInvalid));
     }
 
     private static void DisallowLevelUpMove(byte level, ushort move, PK9 pk, LegalityAnalysis data)
@@ -903,6 +923,8 @@ public sealed class MiscVerifier : Verifier
     {
         if (enc.Generation < 8)
             return false;
+        if (enc.Context is EntityContext.Gen9a)
+            return true;
         if (enc is WC8 { IsHOMEGift: true })
             return false;
         if (enc is WC9) // fixed values (usually 0 or 128)

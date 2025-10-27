@@ -89,6 +89,13 @@ public static class EncounterLearn
             foreach (var enc in encs)
                 yield return enc;
         }
+        if (PersonalTable.ZA.IsPresentInGame(species, form))
+        {
+            var blank = new PA9 { Species = species, Form = form };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, GameVersion.ZA);
+            foreach (var enc in encs)
+                yield return enc;
+        }
         if (PersonalTable.LA.IsPresentInGame(species, form))
         {
             var blank = new PA8 { Species = species, Form = form };

@@ -1,0 +1,236 @@
+－
+
+Lugar misterioso
+
+Lugar lejano
+
+Distrito Verde
+Distrito Azul
+Distrito Rosa
+Distrito Rojo
+Distrito Amarillo
+Plaza Central
+Avenida Primavera
+Avenida Verano
+Avenida Otoño
+Avenida Invierno
+Canal Saison
+Gran Avenida Verde
+Gran Avenida Verde
+Bulevar Sur
+Bulevar Sur
+Distrito Verde: sector 1
+Distrito Verde: sector 3
+Canal Affluer
+Distrito Verde: sector 6
+Distrito Verde: sector 7
+Estación Luminalia Sur
+Distrito Verde: sector 2
+Distrito Verde: sector 4
+Distrito Verde: sector 5
+Distrito Verde: sector 8
+Distrito Verde: sector 9
+Plaza Verde
+Gran Avenida Azul
+Gran Avenida Azul
+Bulevar Sur
+Bulevar Sur
+Distrito Azul: sector 1
+Distrito Azul: sector 3
+Parque Obnúbilo
+Distrito Azul: sector 5
+Distrito Azul: sector 7
+Distrito Azul: sector 2
+Distrito Azul: sector 4
+Rincón Meh
+Distrito Azul: sector 6
+Distrito Azul: sector 8
+Distrito Azul: sector 9
+Distrito Azul: sector 10
+Plaza Azul
+Gran Avenida Rosa
+Gran Avenida Rosa
+Bulevar Sur
+Bulevar Norte
+Distrito Rosa: sector 1
+Distrito Rosa: sector 3
+Distrito Rosa: sector 5
+Distrito Rosa: sector 6
+Subestación Eléctrica
+Distrito Rosa: sector 2
+Distrito Rosa: sector 4
+Distrito Rosa: sector 7
+Quastelar S. A.
+Distrito Rosa: sector 8
+Distrito Rosa: sector 9
+Plaza Rosa
+Gran Avenida Roja
+Gran Avenida Roja
+Bulevar Norte
+Bulevar Norte
+Distrito Rojo: sector 1
+Distrito Rojo: sector 3
+Distrito Rojo: sector 4
+Distrito Rojo: sector 5
+Distrito Rojo: sector 7
+Distrito Rojo: sector 2
+Escuela Andrómeda
+Distrito Rojo: sector 6
+Cementerio Bonnuit
+Distrito Rojo: sector 8
+Plaza Roja
+Gran Avenida Amarilla
+Gran Avenida Amarilla
+Bulevar Norte
+Bulevar Norte
+Distrito Amarillo: sector 1
+Distrito Amarillo: sector 3
+Distrito Amarillo: sector 4
+Distrito Amarillo: sector 5
+Distrito Amarillo: sector 7
+Distrito Amarillo: sector 8
+Distrito Amarillo: sector 2
+Paseo Saison
+Distrito Amarillo: sector 6
+Distrito Amarillo: sector 9
+Distrito Amarillo: sector 10
+Distrito Amarillo: sector 11
+Distrito Amarillo: sector 12
+Plaza Amarilla
+Bulevar de la Brisa
+Museo de Luminalia
+Centro Pokémon del Distrito Verde
+Hotel Z
+Laboratorio Pokémon
+Torre Prisma
+Looker & Cía.
+Quastelar S. A.
+Construcciones Radix
+Plaza Verde
+Estación Luminalia Sur
+Plaza Azul
+Sede del Clan Corrosión
+Centro Pokémon del Distrito Azul
+Centro Pokémon de la Avenida Primavera
+Plaza Rosa
+Café Lysandre
+Centro Pokémon del Distrito Rosa
+Centro Pokémon de la Plaza Rosa
+Plaza Roja
+Gran Hotel Ricachilton
+Centro Pokémon del Distrito Rojo
+Centro Pokémon de la Plaza Central
+Plaza Amarilla
+Dojo del Círculo Justiciero
+Centro Pokémon del Distrito Amarillo
+Centro Pokémon de la Avenida Invierno
+Peluquería
+Boutique de la Piedra
+Boutique Pokébola
+Accessoire
+Boutique Très Chic
+Restaurante Fulanito Detal
+Café Vorágine
+Cafetería Prêt-à-Sorber
+Café Rubor
+Empty Room (Abandoned Building)
+Sewer Entrance
+Jar-cor
+Héros
+PosTrès Bon
+Galerías Azul
+Internaria
+RitmiK
+Triatlón Azul
+Óptica Defog
+Paramie
+Salón Camerino
+Café Guau
+Café Soleil
+Cafetería Enfoque
+Alcantarillas de Luminalia
+Café Recreo
+Café Sobre Ruedas
+Café Galanes
+Café Coucou
+Lo D 100pre
+Énergie
+Passe-temps
+La Suertuda
+ARTElier
+Mimición
+Correveidile
+Eva Luar
+Brillí Maniquí
+Brillí Rubí
+Brillí Sportif
+Obscura
+AbrigaDitto
+Gothique
+Enseñora
+Ignis Fatuus
+Las Divinas
+Soy Fans
+Densoku Luminalia
+Zapateau
+A-tête-lier
+Brillí Kawaii
+Kikonashi
+Fotón
+Fotón 4
+Kelegancia
+Nación de la Distinción
+Triatlón Rojo
+Villa de la Zapatilla
+Vortex
+Restaurante Nifú Nifà
+Sushi Tres Delicias
+Restaurante Ulalá
+Alcantarillas de Luminalia
+Café Concordia
+Café Quintaesencia
+La Claqueta
+Café Contienda
+Zona salvaje 17
+Zona salvaje 1
+Zona salvaje 2
+Zona salvaje 12
+Zona salvaje 10
+Zona salvaje 5
+Zona salvaje 16
+Zona salvaje 14
+Zona salvaje 9
+Zona salvaje 18
+Zona salvaje 7
+Zona salvaje 13
+Zona salvaje 4
+Zona salvaje 3
+Zona salvaje 15
+Zona salvaje 19
+Zona salvaje 6
+Zona salvaje 11
+Zona salvaje 8
+Zona salvaje 20
+Zona de combate
+Pasaje de la Prosperidad
+Pasaje de la Penumbra
+Pasaje del Plenilunio
+Pasaje del Palacio
+Dojo del Círculo Justiciero
+Hotel Z
+Construcciones Radix
+Gran Hotel Ricachilton
+Sede del Clan Corrosión
+Estación Luminalia Sur
+Quastelar S. A.
+Restaurante Fulanito Detal
+Restaurante Nifú Nifà
+Restaurante Ulalá
+Sushi Tres Delicias
+Looker & Cía.
+Laboratorio Pokémon
+Local vacante
+Museo de Luminalia
+Café Lysandre
+Laboratorios Lysandre
+Alcantarillas

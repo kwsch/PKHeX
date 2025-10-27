@@ -77,14 +77,14 @@ public static class WordFilter3DS
 
     private static bool IsSpeciesNameGen7(ReadOnlySpan<char> message)
     {
-        if (!SpeciesName.TryGetSpeciesAnyLanguageCaseInsensitive(message, out var s7, 7))
+        if (!SpeciesName.TryGetSpeciesAnyLanguageCaseInsensitive(message, out var s7, EntityContext.Gen7))
             return false;
         return s7 <= Legal.MaxSpeciesID_7_USUM;
     }
 
     private static bool IsSpeciesNameGen6(ReadOnlySpan<char> message)
     {
-        if (!SpeciesName.TryGetSpeciesAnyLanguage(message, out var s6, 6))
+        if (!SpeciesName.TryGetSpeciesAnyLanguage(message, out var s6, EntityContext.Gen6))
             return false;
         return s6 <= Legal.MaxSpeciesID_6;
     }

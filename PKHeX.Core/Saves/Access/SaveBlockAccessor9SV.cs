@@ -113,7 +113,7 @@ public sealed class SaveBlockAccessor9SV(SAV9SV sav) : SCBlockAccessor, ISaveBlo
     private const uint KBlueberryQuestRecords = 0x7BF02DBE;
     private const uint KSandwiches = 0x29B4AED2; // [0xC][151] index, unlocked, times made
     private const uint KCurrentClothing = 0x64235B3D;
-    private const uint KCurrentAppearance = 0x812FC3E3;
+    private const uint KCurrentAppearance = 0x812FC3E3; // (conveniently named `PLAYER_SAVE_DATA`, same as PlayerData8b's official name!
     private const uint KCurrentRotomPhoneCase = 0x1433CED7;
     private const uint KRentalTeams = 0x19CB0339;
     private const uint KRentalTeamCodes = 0xB476F6D4;

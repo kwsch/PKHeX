@@ -180,7 +180,7 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
     private const int CountPaintings = 5;
     private Span<byte> GetPaintingSpan(int index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, CountPaintings, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, CountPaintings);
         return Large.Slice(Painting + (Paintings3.SIZE * index), Paintings3.SIZE * CountPaintings);
     }
     public Paintings3 GetPainting(int index) => new(GetPaintingSpan(index).ToArray(), Japanese);

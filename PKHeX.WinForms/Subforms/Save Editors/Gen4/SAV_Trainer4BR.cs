@@ -21,7 +21,7 @@ public partial class SAV_Trainer4BR : Form
         CB_Region.InitializeBinding();
         Main.SetCountrySubRegion(CB_Country, "gen4_countries");
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(3);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(3, EntityContext.Gen4);
 
         TB_OTName.Text = SAV.CurrentOT;
         TB_BirthMonth.Text = SAV.BirthMonth;

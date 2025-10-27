@@ -1,0 +1,921 @@
+—
+Destructor
+Golpe Karate
+Doble Bofetón
+Puño Cometa
+Megapuño
+Día de Pago
+Puño Fuego
+Puño Hielo
+Puño Trueno
+Arañazo
+Fuerza de Garra
+Guillotina
+Viento Cortante
+Danza de Espadas
+Corte
+Ráfaga de Aire
+Ataque de Ala
+Torbellino
+Vuelo
+Atadura
+Golpazo
+Látigo Cepa
+Pisotón
+Doble Patada
+Megapatada
+Patada Salto
+Patada Giro
+Ataque Arena
+Golpe Cabeza
+Ataque Cuerno
+Ataque Furia
+Cuerno Taladro
+Tacleada
+Golpe de Cuerpo
+Constricción
+Derribo
+Golpiza
+Doble Filo
+Látigo de Cola
+Piquete Venenoso
+Doble Aguijón
+Misil Aguja
+Malicioso
+Mordida
+Gruñido
+Rugido
+Canto
+Supersónico
+Explosión Sónica
+Anulación
+Ácido
+Brasas
+Lanzallamas
+Neblina
+Chorro de Agua
+Hidrobomba
+Surf
+Rayo de Hielo
+Ventisca
+Psicorrayo
+Rayo Burbuja
+Rayo Aurora
+Hiperrayo
+Picotazo
+Pico Taladro
+Sumisión
+Patada Baja
+Contraataque
+Sísmico
+Fuerza
+Absorción
+Megadrenado
+Drenadoras
+Crecimiento
+Hojas Navaja
+Rayo Solar
+Polvo Venenoso
+Paralizador
+Somnífero
+Danza de Pétalos
+Disparo de Seda
+Furia Dragón
+Giro Fuego
+Impactrueno
+Atactrueno
+Onda Trueno
+Trueno
+Lanzarrocas
+Terremoto
+Fisura
+Excavar
+Tóxico
+Confusión
+Fuerza Psíquica
+Hipnosis
+Meditación
+Agilidad
+Ataque Rápido
+Furia
+Teletransporte
+Tinieblas
+Mímica
+Chillido
+Doble Equipo
+Recuperación
+Fortaleza
+Reducción
+Pantalla de Humo
+Rayo de Confusión
+Refugio
+Hacerse Bolita
+Barrera
+Pantalla de Luz
+Niebla
+Reflejo
+Centrar Energía
+Venganza
+Metrónomo
+Espejo
+Autodestrucción
+Bomba Huevo
+Lengüetazo
+Humo
+Residuos
+Maza de Hueso
+Llamarada
+Cascada
+Tenaza
+Meteoros
+Cabezazo
+Cañón de Púas
+Restricción
+Amnesia
+Kinético
+Ovocuración
+Pat. Salto Alto
+Fulmirada
+Comesueños
+Gas Venenoso
+Bombardeo
+Chupavidas
+Beso Amoroso
+Ataque Celestial
+Transformación
+Burbuja
+Puño Mareador
+Esporas
+Destello
+Psicoonda
+Salpicadura
+Armadura Ácida
+Martillazo
+Explosión
+Garras Furiosas
+Huesomerang
+Descanso
+Avalancha
+Hipercolmillo
+Afilar
+Conversión
+Triataque
+Supercolmillo
+Cuchillada
+Sustituto
+Forcejeo
+Boceto
+Triple Patada
+Ladrón
+Telaraña
+Telépata
+Pesadilla
+Rueda Ígnea
+Ronquido
+Maldición
+Azote
+Conversión 2
+Aerochorro
+Esporagodón
+Inversión
+Rencor
+Polvo de Nieve
+Protección
+Superpuño
+Cara Aterradora
+Ataque Finta
+Beso Dulce
+Tambor
+Bomba Lodo
+Bofetón Lodo
+Octazuca
+Púas
+Electrocañón
+Visión
+Lazo del Destino
+Canto Mortal
+Viento Helado
+Detección
+Hueso Veloz
+Fijar Blanco
+Enfado
+Tormenta Arena
+Gigadrenado
+Aguante
+Encanto
+Rodada
+Falsa Bofetada
+Fanfarronear
+Licuado
+Chispa
+Corte Furia
+Ala de Acero
+Mal de Ojo
+Atracción
+Sonámbulo
+Cascabel Sanador
+Retribución
+Obsequio
+Frustración
+Velo Sagrado
+Dividedolor
+Fuego Sagrado
+Magnitud
+Puño Dinámico
+Megacuerno
+Aliento Dragón
+Relevo
+Otra Vez
+Persecución
+Giro Rápido
+Dulce Aroma
+Cola de Hierro
+Garra de Metal
+Llave Vital
+Sol Matutino
+Fotosíntesis
+Luz Lunar
+Poder Oculto
+Golpe Cruzado
+Tornado
+Danza de Lluvia
+Día Soleado
+Triturar
+Escudo Espejo
+Autosugestión
+Veloc. Extrema
+Poder Antiguo
+Bola Sombra
+Premonición
+Golpe Roca
+Remolino
+Paliza
+Sorpresa
+Alboroto
+Reserva
+Escupida
+Tragar
+Onda Ígnea
+Granizo
+Tormento
+Halago
+Fuego Fatuo
+Recuerdo
+Fachada
+Puño Centrado
+Estímulo
+Señuelo
+Adaptación
+Carga
+Provocación
+Refuerzos
+Truco
+Imitación
+Deseo
+Ayuda
+Arraigo
+Fuerza Bruta
+Capa Mágica
+Reciclaje
+Desquite
+Karatazo
+Bostezo
+Desarme
+Esfuerzo
+Estallido
+Intercambio
+Sellar
+Alivio
+Rabia
+Robo
+Poder Secreto
+Buceo
+Empujón
+Camuflaje
+Luminicola
+Resplandor
+Bola Neblina
+Danza de Plumas
+Danza del Caos
+Patada Ígnea
+Chapoteo de Lodo
+Bola Hielo
+Brazo Aguja
+Relajar
+Hipervoz
+Colmillo Veneno
+Garra Brutal
+Anillo de Fuego
+Hidrocañón
+Puño Meteoro
+Impresión
+Meteorobola
+Aromaterapia
+Llanto Falso
+Aire Cortante
+Supercalor
+Rastreo
+Tumba de Rocas
+Viento Plateado
+Sonido Metálico
+Silbato de Hoja
+Cosquillas
+Masa Cósmica
+Columna de Agua
+Rayo Señal
+Puño Sombra
+Extrasensorial
+Corte Elevado
+Tumba de Arena
+Frío Extremo
+Agua Lodosa
+Bala Semilla
+As Aéreo
+Lanza de Hielo
+Defensa Hierro
+Bloqueo
+Aullido
+Garra Dragón
+Planta Feroz
+Corpulencia
+Rebote
+Disparo de Lodo
+Cola Venenosa
+Antojo
+Tacleada de Voltios
+Hojas Mágicas
+Chapoteo de Agua
+Paz Mental
+Hoja Aguda
+Danza de Dragón
+Pedrada
+Onda de Choque
+Pulso de Agua
+Deseo Final
+Psicoimpulso
+Respiro
+Gravedad
+Gran Ojo
+Despabilador
+Brazo Martillo
+Giro Bola
+Deseo Sanador
+Agua Salada
+Don Natural
+Amago
+Picoteo
+Viento Afín
+Acupresión
+Expl. Metálica
+Ida y Vuelta
+Cuerpo a Cuerpo
+Revancha
+Garantía
+Embargo
+Lanzamiento
+Psicocambio
+As Oculto
+Anticuración
+Apretón
+Truco Fuerza
+Ácido Gástrico
+Cántico Suerte
+Yo Primero
+Copión
+Cambiafuerza
+Cambiadefensa
+Castigo
+Último Recurso
+Abatidoras
+Golpe Bajo
+Púas Tóxicas
+Cambiaalmas
+Acuaanillo
+Superimán
+Erupción
+Fuerza de Palma
+Aura Esfera
+Pulimento
+Golpe Venenoso
+Pulso Oscuro
+Corte Umbrío
+Cola de Agua
+Bomba Semilla
+Corte Aéreo
+Tijera X
+Zumbido
+Pulso Dragón
+Carga Dragón
+Joya de Luz
+Puño Drenador
+Onda de Vacío
+Ataque Centrado
+Bola de Energía
+Ave Brava
+Poder Terrestre
+Trueque
+Gigaimpacto
+Maquinación
+Puño Bala
+Alud
+Esquirla Helada
+Garra de Sombra
+Colmillo Trueno
+Colmillo Hielo
+Colmillo Fuego
+Sombra Vil
+Bomba Fango
+Psicocorte
+Cabezazo Zen
+Disparo Espejo
+Cañón Resplandor
+Treparrocas
+Desempañar
+Espacio Raro
+Meteoro Dragón
+Chispazo
+Bomba de Lava
+Tormenta Hojas
+Latigazo
+Romperrocas
+Veneno X
+Lanzamugre
+Cabeza de Hierro
+Magnetobomba
+Roca Afilada
+Seducción
+Trampa de Rocas
+Nudo de Pasto
+Parloteo
+Juicio Final
+Picadura
+Rayo Carga
+Mazazo
+Acuajet
+Al Ataque
+A Defender
+Auxilio
+Topetazo
+Doble Golpe
+Rugido Temporal
+Corte Espacial
+Danza de la Luna
+Garra Aplastante
+Lluvia Ígnea
+Abismo Negro
+Fulgor Semilla
+Viento Ominoso
+Golpe Umbrío
+Afilagarras
+Guardia Amplia
+Guardia Dividida
+Fuerza Dividida
+Zona Extraña
+Choque Psíquico
+Carga Tóxica
+Aligerar
+Polvo Ira
+Telequinesis
+Zona Mágica
+Antiaéreo
+Llave Tempestad
+Golpe de Fuego
+Ola de Lodo
+Danza del Aleteo
+Golpe Pesado
+Sincrorruido
+Electrobola
+Empapar
+Carga de Fuego
+Enrosque
+Barredora
+Bomba Ácida
+Juego Sucio
+Onda Simple
+Danza Amiga
+Ceda el Paso
+Canon
+Eco Voz
+Guardia Baja
+Humo Claro
+Poder Acumulado
+Defensa Rápida
+Cambio de Lado
+Escaldar
+Rompecoraza
+Pulso Sanador
+Infortunio
+Caída Libre
+Cambio de Marcha
+Llave Giro
+Incinerar
+Último Lugar
+Acrobacia
+Clonatipo
+Represalia
+Sacrificio
+Ofrenda
+Infierno
+Voto Agua
+Voto Fuego
+Voto Planta
+Cambiavoltaje
+Lucha Insecto
+Terratemblor
+Vaho Helado
+Cola de Dragón
+Avivar
+Electrotela
+Carga Salvaje
+Taladradora
+Golpe Dual
+Sello de Corazón
+Drenacuerno
+Espada Sagrada
+Coraza Afilada
+Golpe de Calor
+Ciclón de Hojas
+Aplanadora
+Guardialgodón
+Pulso Nocturno
+Onda Mental
+Golpe de Cola
+Huracán
+Carga de Cabeza
+Rueda Doble
+Bomba Ígnea
+Tecno Shock
+Canto Arcaico
+Espada Secreta
+Mundo Gélido
+Ataque Fulgor
+Llama Azul
+Danza de Llamas
+Rayo Gélido
+Llama Gélida
+Alarido
+Carámbano
+V de Fuego
+Llama Fusión
+Rayo Fusión
+Plancha Voladora
+Escudo Tatami
+Eructo
+Fertilizante
+Red Pegajosa
+Aguijón Letal
+Golpe Fantasma
+Halloween
+Rugido de Guerra
+Cortina Plasma
+Carga Parabólica
+Condena Silvana
+Tormenta Pétalos
+Liofilización
+Voz Encantadora
+Última Palabra
+Reversión
+Beso Drenador
+Truco Defensa
+Defensa Floral
+Campo de Césped
+Campo de Niebla
+Electrificación
+Juego Rudo
+Viento Feérico
+Fuerza Lunar
+Estruendo
+Cerrojo Feérico
+Escudo Real
+Camaradería
+Confidencia
+Torm. Diamantes
+Chorro de Vapor
+Paso Dimensional
+Shuriken de Agua
+Fuego Místico
+Barrera Espinosa
+Niebla Aromática
+Onda Anómala
+Trampa Venenosa
+Pólvora
+Geocontrol
+Aura Magnética
+Paga Extra
+Campo Eléctrico
+Brillo Mágico
+Celebración
+Manos Juntas
+Ojitos Tiernos
+Frote
+Clemencia
+Infestación
+Puño Incremento
+Ala del Olvido
+Mil Flechas
+Mil Temblores
+Fuerza Telúrica
+Luz Aniquiladora
+Pulso Primigenio
+Filo del Abismo
+Ascen. Dracónico
+Cerco Dimensión
+Carrera Arrolladora
+Carrera Arrolladora
+Ráfaga Demoledora
+Ráfaga Demoledora
+Picada Supersónica
+Picada Supersónica
+Diluvio Corrosivo
+Diluvio Corrosivo
+Barrena Telúrica
+Barrena Telúrica
+Aplastamiento Gigalítico
+Aplastamiento Gigalítico
+Guadaña Sedosa
+Guadaña Sedosa
+Presa Espectral
+Presa Espectral
+Hélice Trepanadora
+Hélice Trepanadora
+Hecatombe Pírica
+Hecatombe Pírica
+Hidrovórtice Abisal
+Hidrovórtice Abisal
+Megatón Floral
+Megatón Floral
+Gigavoltio Destructor
+Gigavoltio Destructor
+Disruptor Psíquico
+Disruptor Psíquico
+Crioaliento Despiadado
+Crioaliento Despiadado
+Dracoaliento Devastador
+Dracoaliento Devastador
+Agujero Negro Aniquilador
+Agujero Negro Aniquilador
+Tacleada Sideral
+Tacleada Sideral
+Pikavoltio Letal
+Recogearena
+Escaramuza
+Búnker
+Puntada Sombría
+Lariat Oscuro
+Aria Burbuja
+Martillo Hielo
+Flores Sanadoras
+Fuerza Equina
+Absorbefuerza
+Cuchillada Solar
+Follaje
+Foco
+Hilo Venenoso
+Agudizar
+Engranajes
+Golpe al Cuello
+Bola de Polen
+Anclaje
+Campo Psíquico
+Plancha
+Látigo Ígneo
+Arrogancia
+Llama Final
+Cambiavelocidad
+Cuerno Certero
+Purificación
+Danza Revelación
+Núcleo Castigo
+Patada Tropical
+Mandato
+Pico Cañón
+Fragor Escamas
+Martillo Dragón
+Giro Vil
+Velo Aurora
+Aluvión de Flechas Sombrías
+Hiperplancha Oscura
+Sinfonía de la Diva Marina
+Cólera del Guardián
+Constelación Robaalmas
+Surfeo Galvánico
+Arrojo Intempestivo
+Novena Potencia
+Supernova Original
+Trampa Coraza
+Cañón Floral
+Psicocolmillo
+Pataleta
+Hueso Sombrío
+Roca Veloz
+Hidroariete
+Láser Prisma
+Robasombra
+Meteoimpacto
+Rayo Umbrío
+Ojos Llorosos
+Electropunzada
+Ira Natural
+Multiataque
+Gigarrayo Fulminante
+Cabeza Sorpresa
+Puños Plasma
+Géiser Fotónico
+Fotodestrucción Apocalíptica
+Embestida Solar
+Deflagración Lunar
+Paliza Amistosa
+Tempestad Rocosa
+Estruendo Implacable
+Pikaturbo
+Salpikasurf
+Pikaída
+Pikatormenta
+Vapodrenaje
+Joltioparálisis
+Flarembestida
+Espeaura
+Umbreozona
+Leafitobombas
+Glaceoprisma
+Sylveotornado
+Eevimpacto
+Ferropuño Doble
+Maxibarrera
+Cañón Dinamax
+Disparo Certero
+Presa Maxilar
+Atiborramiento
+Bastión Final
+Alquitranazo
+Polvo Magia
+Dracoflechas
+Hora del Té
+Octopresa
+Electropico
+Branquibocado
+Cambio de Cancha
+Maxignición
+Maxinsecto
+Maxitormenta
+Maxiataque
+Maxipuño
+Maxiespectro
+Maxihelada
+Maxiácido
+Maxichorro
+Maxiciclón
+Maxiestela
+Maxidraco
+Maxionda
+Maxirroca
+Maxitemblor
+Maxisombra
+Maxiflora
+Maximetal
+Estruendo Escama
+Plancha Corporal
+Decoración
+Batería Asalto
+Trampa Presión
+Balón Ígneo
+Corte Supremo
+Golpe Supremo
+Rueda Aural
+Vasto Impacto
+Ramazo Punzante
+Amplificador
+Ácido Málico
+Fuerza G
+Choque Anímico
+Cautivapor
+Gota Vital
+Obstrucción
+Irreverencia
+Asalto Estelar
+Rayo Infinito
+Metaláser
+Vasta Fuerza
+Ferroaplanadora
+Disparo Escamas
+Rayo Meteórico
+Moluscañón
+Bruma Explosiva
+Fitoimpulso
+Alto Voltaje
+Pulso de Campo
+Golpe Rastrero
+Envidia Ardiente
+Desahogo
+Poltergeist
+Gas Corrosivo
+Motivación
+Viraje
+Triple Axel
+Aletazo Doble
+Arenas Ardientes
+Selva Sanadora
+Golpe Oscuro
+Golpe Torrencial
+Electrojaula
+Dracoenergía
+Mirada Glacial
+Furia Candente
+Patada Relámpago
+Lanza Glacial
+Orbes Espectro
+Conjuro Funesto
+Garra Nociva
+Asalto Barrera
+Cambiapoder
+Hachazo Pétreo
+Ciclón Primavera
+Poder Místico
+Erupción de Ira
+Acuatacleada
+Clorofiláser
+Viento Carámbano
+Danza Triunfal
+Asalto Frontal
+Mil Púas Tóxicas
+Ala Aural
+Rencor Reprimido
+Retracción
+Triple Flecha
+Marcha Espectral
+Corte Metralla
+Vendaval Gélido
+Electormenta
+Tifón de Arena
+Plegaria Lunar
+Bálsamo Osado
+Teraexplosión
+Telatrampa
+Patada Hacha
+Homenaje Póstumo
+Fotocolisión
+Emplatar
+Puño Jet
+Extracto Picante
+Quemarrueda
+Proliferación
+Pirueta Helada
+Asalto Espadón
+Plegaria Vital
+Salación
+Triple Inmersión
+Giro Mortífero
+Plagio
+Fileteo
+Genufendiente
+Truco Floral
+Canto Ígneo
+Danza Acuática
+Furia Taurina
+Fiebre Dorada
+Psicohojas
+Hidrovapor
+Calamidad
+Nitrochoque
+Electroderrape
+Autotomía
+Respuesta Fría
+Limpieza General
+Paisaje Nevado
+Brinco
+Abrecaminos
+Agua Fría
+Hipertaladro
+Láser Doble
+Puño Furia
+Cañón Armadura
+Espada Lamento
+Electropalmas
+Martillo Colosal
+Resarcimiento
+Corte Acuático
+Pirochoque
+Ominochoque
+Ponzochoque
+Pugnachoque
+Feerichoque
+Luna Roja
+Cañón Batidor
+Bomba Caramelo
+Garrote Liana
+Electrorrayo
+Teraclúster
+Láser Caprichoso
+Llama Protectora
+Relámpago Súbito
+Corte Potente
+Corte Taquión
+Prensa Metálica
+Bramido Dragón
+Canto Encantador
+Furia Ardiente
+Golpe Voltaico
+Psicorruido
+Palma Rauda
+Cadena Virulenta
+Luz Devastadora

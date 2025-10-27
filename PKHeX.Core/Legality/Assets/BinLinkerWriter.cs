@@ -80,7 +80,7 @@ public static class BinLinkerWriter
         for (int i = 0; i < count; i++)
         {
             // Write File Offset
-            var fileOffset = (ms.Position - start) + dataOffset;
+            var fileOffset = bw.BaseStream.Length - start;
             bw.Seek(start + 4 + (i * sizeof(uint)), SeekOrigin.Begin);
             bw.Write((uint)fileOffset);
             // Write File to Stream
@@ -94,8 +94,12 @@ public static class BinLinkerWriter
         }
 
         // Cap the File
-        bw.Seek(start + 4 + (count * sizeof(uint)), SeekOrigin.Begin);
-        bw.Write((uint)((ms.Position - start) + dataOffset));
+        {
+            var fileOffset = bw.BaseStream.Length - start;
+            bw.Seek(start + 4 + (count * sizeof(uint)), SeekOrigin.Begin);
+            bw.Write((uint)fileOffset);
+        }
+
         // Return the byte array
         return ms.ToArray();
     }
@@ -121,7 +125,7 @@ public static class BinLinkerWriter
         for (int i = 0; i < count; i++)
         {
             // Write File Offset
-            var fileOffset = ((ms.Position - start) + dataOffset);
+            var fileOffset = bw.BaseStream.Length - start;
             bw.Seek(start + 4 + (i * sizeof(ushort)), SeekOrigin.Begin);
             bw.Write((ushort)fileOffset);
             // Write File to Stream
@@ -135,8 +139,12 @@ public static class BinLinkerWriter
         }
 
         // Cap the File
-        bw.Seek(start + 4 + (count * sizeof(ushort)), SeekOrigin.Begin);
-        bw.Write((ushort)((ms.Position - start) + dataOffset));
+        {
+            var fileOffset = bw.BaseStream.Length - start;
+            bw.Seek(start + 4 + (count * sizeof(ushort)), SeekOrigin.Begin);
+            bw.Write((ushort)fileOffset);
+        }
+
         // Return the byte array
         return ms.ToArray();
     }

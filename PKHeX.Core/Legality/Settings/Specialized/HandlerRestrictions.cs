@@ -24,6 +24,7 @@ public sealed class HandlerRestrictions
     public bool AllowHandleOTGen8a { get; set; }
     public bool AllowHandleOTGen8b { get; set; }
     public bool AllowHandleOTGen9 { get; set; }
+    public bool AllowHandleOTGen9a { get; set; }
 
     public void Disable() => SetAllTo(true);
 
@@ -36,6 +37,7 @@ public sealed class HandlerRestrictions
         AllowHandleOTGen8a = value;
         AllowHandleOTGen8b = value;
         AllowHandleOTGen9 = value;
+        AllowHandleOTGen9a = value;
     }
 
     public bool GetCanOTHandle(EntityContext encContext) => encContext switch
@@ -47,6 +49,7 @@ public sealed class HandlerRestrictions
         EntityContext.Gen8a => AllowHandleOTGen8a,
         EntityContext.Gen8b => AllowHandleOTGen8b,
         EntityContext.Gen9 => AllowHandleOTGen9,
+        EntityContext.Gen9a => AllowHandleOTGen9a,
         _ => false,
     };
 }

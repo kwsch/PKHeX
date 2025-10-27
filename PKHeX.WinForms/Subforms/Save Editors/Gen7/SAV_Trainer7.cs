@@ -60,7 +60,7 @@ public partial class SAV_Trainer7 : Form
         CB_3DSReg.InitializeBinding();
         CB_3DSReg.DataSource = new BindingSource(sources.Regions, string.Empty);
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation, SAV.Context);
         CB_AlolaTime.InitializeBinding();
         CB_AlolaTime.DataSource = GetAlolaTimeList();
 

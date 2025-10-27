@@ -104,6 +104,8 @@ public static class TechnicalRecordApplicator
     {
         if (pk is PK9 pk9)
             SetRecordFlags<PersonalTable9SV, PersonalInfo9SV>(pk9, moves, evos, PersonalTable.SV);
+        else if (pk is PA9 pa9)
+            SetRecordFlags<PersonalTable9ZA, PersonalInfo9ZA>(pa9, moves, evos, PersonalTable.ZA);
         else if (pk is PK8 pk8)
             SetRecordFlags<PersonalTable8SWSH, PersonalInfo8SWSH>(pk8, moves, evos, PersonalTable.SWSH);
     }
@@ -113,6 +115,8 @@ public static class TechnicalRecordApplicator
     {
         if (pk is PK9 pk9)
             SetRecordFlagsAll<PersonalTable9SV, PersonalInfo9SV>(pk9, evos, PersonalTable.SV);
+        else if (pk is PA9 pa9)
+            SetRecordFlagsAll<PersonalTable9ZA, PersonalInfo9ZA>(pa9, evos, PersonalTable.ZA);
         else if (pk is PK8 pk8)
             SetRecordFlagsAll<PersonalTable8SWSH, PersonalInfo8SWSH>(pk8, evos, PersonalTable.SWSH);
     }
@@ -121,6 +125,7 @@ public static class TechnicalRecordApplicator
     public static bool IsRecordPermitted(this ITechRecord pk, ReadOnlySpan<EvoCriteria> evos, int index) => pk switch
     {
         PK9 => IsRecordPermitted<PersonalTable9SV, PersonalInfo9SV>(evos, PersonalTable.SV, index),
+        PA9 => IsRecordPermitted<PersonalTable9ZA, PersonalInfo9ZA>(evos, PersonalTable.ZA, index),
         PK8 => IsRecordPermitted<PersonalTable8SWSH, PersonalInfo8SWSH>(evos, PersonalTable.SWSH, index),
         _ => false,
     };

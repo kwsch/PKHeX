@@ -64,7 +64,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IEncount
 
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.USUM[Species, Form];
         var rnd = Util.Rand;

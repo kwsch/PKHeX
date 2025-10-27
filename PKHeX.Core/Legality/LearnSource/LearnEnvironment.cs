@@ -24,7 +24,7 @@ public enum LearnEnvironment : byte
     /* Gen6 */ XY, ORAS,
     /* Gen7 */ SM, USUM, GG,
     /* Gen8 */ SWSH, BDSP, PLA,
-    /* Gen9 */ SV,
+    /* Gen9 */ SV, ZA,
     HOME,
 }
 
@@ -51,7 +51,7 @@ public static class LearnEnvironmentExtensions
         XY or ORAS => 6,
         SM or USUM or GG => 7,
         SWSH or BDSP or PLA => 8,
-        SV => 9,
+        SV or ZA => 9,
         _ => 0,
     };
 
@@ -72,6 +72,7 @@ public static class LearnEnvironmentExtensions
         PLA => history.Gen8a,
         BDSP => history.Gen8b,
         SV => history.Gen9,
+        ZA => history.Gen9a,
         _ => [],
     };
 }

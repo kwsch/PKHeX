@@ -95,13 +95,13 @@ public sealed class LegendsArceusVerifier : Verifier
         if ((uint)count >= 4)
             return 4;
 
+        // If it can be leveled up in other games, level it up in other games.
+        if (pa is IHomeTrack { HasTracker: true })
+            return count;
+
         var purchasedCount = pa.GetPurchasedCount();
         Span<ushort> purchased = stackalloc ushort[purchasedCount];
         LoadPurchasedMoves(pa, purchased);
-
-        // If it can be leveled up in other games, level it up in other games.
-        if (h.HasVisitedSWSH || h.HasVisitedBDSP)
-            return count;
 
         // Level up to current level
         var level = pa.CurrentLevel;

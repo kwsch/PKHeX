@@ -22,6 +22,7 @@ public sealed class EvolutionHistory
     public EvoCriteria[] Gen7b = NONE;
     public EvoCriteria[] Gen8a = NONE;
     public EvoCriteria[] Gen8b = NONE;
+    public EvoCriteria[] Gen9a = NONE;
 
     public bool HasVisitedGen1 => Gen1.Length != 0;
     public bool HasVisitedGen2 => Gen2.Length != 0;
@@ -36,6 +37,7 @@ public sealed class EvolutionHistory
     public bool HasVisitedLGPE => Gen7b.Length != 0;
     public bool HasVisitedPLA => Gen8a.Length != 0;
     public bool HasVisitedBDSP => Gen8b.Length != 0;
+    public bool HasVisitedZA => Gen9a.Length != 0;
 
     public ReadOnlySpan<EvoCriteria> Get(EntityContext context) => context switch
     {
@@ -52,6 +54,7 @@ public sealed class EvolutionHistory
         EntityContext.Gen7b => Gen7b,
         EntityContext.Gen8a => Gen8a,
         EntityContext.Gen8b => Gen8b,
+        EntityContext.Gen9a => Gen9a,
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
