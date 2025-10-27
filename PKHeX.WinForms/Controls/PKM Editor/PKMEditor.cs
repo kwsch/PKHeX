@@ -269,6 +269,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         EntityContext.Gen7b => (PopulateFieldsPB7, PreparePB7),
         EntityContext.Gen8a => (PopulateFieldsPA8, PreparePA8),
         EntityContext.Gen8b => (PopulateFieldsPB8, PreparePB8),
+        EntityContext.Gen9a => (PopulateFieldsPA9, PreparePA9),
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
@@ -538,6 +539,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         OriginMark.Gen8Arc => Properties.Resources.gen_la,
         OriginMark.Gen9Paldea => Properties.Resources.gen_sv,
         OriginMark.GameBoy => Properties.Resources.gen_vc,
+        OriginMark.Gen9ZA => Properties.Resources.gen_za,
         OriginMark.GO => Properties.Resources.gen_go,
         OriginMark.LetsGo => Properties.Resources.gen_gg,
         _ => null,
@@ -1330,7 +1332,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (CHK_IsEgg.Checked)
             species = 0; // get the egg name.
 
-        if (SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
+        if (SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Context))
             CHK_NicknamedFlag.Checked = true;
     }
 
@@ -1368,7 +1370,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         else
         {
             // If name is that of another language, don't replace the nickname
-            if (sender != CB_Language && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
+            if (sender != CB_Language && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Context))
                 return;
             nickname = SpeciesName.GetSpeciesNameGeneration(species, language, Entity.Format);
         }
@@ -1911,6 +1913,23 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UpdateLegality();
     }
 
+    private void B_PlusRecord_Click(object sender, EventArgs e)
+    {
+        if (Entity is not IPlusRecord m || Entity.PersonalInfo is not IPermitPlus p)
+            return;
+
+        if (ModifierKeys.HasFlag(Keys.Shift))
+        {
+            m.SetPlusFlags(Entity, p, PlusRecordApplicatorOption.LegalCurrent);
+            UpdateLegality();
+            return;
+        }
+
+        using var form = new PlusRecordEditor(m, p, Entity);
+        form.ShowDialog();
+        UpdateLegality();
+    }
+
     /// <summary>
     /// Refreshes the interface for the current PKM format.
     /// </summary>
@@ -1943,6 +1962,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_Spirit7b.Visible = FLP_Mood7b.Visible = pb7;
         B_RelearnFlags.Visible = t is ITechRecord;
         B_MoveShop.Visible = t is IMoveShop8Mastery;
+        B_PlusRecord.Visible = t is IPlusRecord;
         FLP_HTLanguage.Visible = format >= 8;
         L_AlphaMastered.Visible = CB_AlphaMastered.Visible = t is PA8;
         FLP_ObedienceLevel.Visible = t is IObedienceLevel;
@@ -1951,6 +1971,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             L_FormArgument.Visible = false;
         StatusView.Visible = Main.Settings.EntityEditor.ShowStatusCondition;
 
+        DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = format > 3 && HaX || t is PA9;
         ToggleInterface(Entity.Format);
     }
 
@@ -1978,7 +1999,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!orderCorrect) // Swap the locations of the marks.
             (PB_Mark2.Location, PB_Mark3.Location) = (PB_Mark3.Location, PB_Mark2.Location);
 
-        DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = format > 3 && HaX;
         CB_Ability.Visible = CB_Ability.TabStop = !DEV_Ability.Enabled && format >= 3;
         FLP_Nature.Visible = format >= 3;
         FLP_Ability.Visible = format >= 3;
@@ -2246,7 +2266,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var langSav = (LanguageID)RequestSaveFile.Language;
 
         // Gen 7 unnicknamed Chinese Pokémon will always be valid after remapping
-        var isUnnicknamedChinese = Entity is PK7 && (SpeciesName.GetSpeciesNameLanguage(Entity.Species, (int)langPk, TB_Nickname.Text, 7) is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT);
+        var isUnnicknamedChinese = Entity is PK7 && (SpeciesName.GetSpeciesNameLanguage(Entity.Species, (int)langPk, TB_Nickname.Text, EntityContext.Gen7) is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT);
 
         BTN_NicknameWarn.Visible = !isUnnicknamedChinese && StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, context, langPk, langSav);
         BTN_OTNameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_OT.Text, context, langPk, langSav);

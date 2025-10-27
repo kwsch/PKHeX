@@ -46,7 +46,7 @@ Ceniza Sagrada
 Más PS
 Proteína
 Hierro
-Carburante
+Carbohidratos
 Calcio
 Caramelo Raro
 Más PP
@@ -62,7 +62,7 @@ Precisión X
 Ataque Especial X
 Defensa Especial X
 Pokémuñeco
-Cola Skitty
+Cola de Skitty
 Flauta Azul
 Flauta Amarilla
 Flauta Roja
@@ -89,8 +89,8 @@ Seta Grande
 Perla
 Perla Grande
 Polvo Estelar
-Trozo Estrella
-Pepita
+Trozo de Estrella
+Pepita de Oro
 Escama Corazón
 Miel
 Abono Rápido
@@ -123,10 +123,10 @@ Caja de Pokémon
 Botiquín
 Estuche de MT
 Tarro de Caramelos
-Bolsillo Mejoras
+Bolsillo de Mejoras
 Maleta
-Bolsillo Captura
-Bolsillo Combate
+Bolsillo de Captura
+Bolsillo de Combate
 (?)
 (?)
 (?)
@@ -233,7 +233,7 @@ Huevo Suerte
 Periscopio
 Revest. Metálico
 Restos
-Escama Dragón
+Escama de Dragón
 Bola Luminosa
 Arena Fina
 Piedra Dura
@@ -244,11 +244,11 @@ Imán
 Agua Mística
 Pico Afilado
 Flecha Venenosa
-Antiderretir
+Hielo Perpetuo
 Hechizo
 Cuchara Torcida
 Carbón
-Colmillo Dragón
+Colmillo de Dragón
 Pañuelo de Seda
 Mejora
 Cascabel Concha
@@ -266,7 +266,7 @@ Pañuelo Amarillo
 Lupa
 Cinta Fuerte
 Gafas Especiales
-Cinta Experto
+Cinturón de Experto
 Refleluz
 Vidasfera
 Hierba Única
@@ -291,7 +291,7 @@ Brazal Recio
 Cinto Recio
 Lente Recia
 Banda Recia
-Franja Recia
+Tobillera Recia
 Pesa Recia
 Muda Concha
 Raíz Grande
@@ -450,7 +450,7 @@ Psydugadera
 Pokochera
 Bici
 Llave de la Suite
-Carta Prof. Oak
+Carta del Prof. Oak
 Pluma Lunar
 Carné de Socio
 Flauta Azur
@@ -471,7 +471,7 @@ Bloc Unown
 Plantabayas
 Zahorí
 Tarjeta Azul
-Cola Slowpoke
+Cola de Slowpoke
 Cascabel Claro
 Llave Magnética
 Llave del Sótano
@@ -503,33 +503,33 @@ Parque Ball
 Reproductor GB
 Cascabel Oleaje
 Caramelo Furia
-Tarjeta Datos 01
-Tarjeta Datos 02
-Tarjeta Datos 03
-Tarjeta Datos 04
-Tarjeta Datos 05
-Tarjeta Datos 06
-Tarjeta Datos 07
-Tarjeta Datos 08
-Tarjeta Datos 09
-Tarjeta Datos 10
-Tarjeta Datos 11
-Tarjeta Datos 12
-Tarjeta Datos 13
-Tarjeta Datos 14
-Tarjeta Datos 15
-Tarjeta Datos 16
-Tarjeta Datos 17
-Tarjeta Datos 18
-Tarjeta Datos 19
-Tarjeta Datos 20
-Tarjeta Datos 21
-Tarjeta Datos 22
-Tarjeta Datos 23
-Tarjeta Datos 24
-Tarjeta Datos 25
-Tarjeta Datos 26
-Tarjeta Datos 27
+Tarjeta de Datos 01
+Tarjeta de Datos 02
+Tarjeta de Datos 03
+Tarjeta de Datos 04
+Tarjeta de Datos 05
+Tarjeta de Datos 06
+Tarjeta de Datos 07
+Tarjeta de Datos 08
+Tarjeta de Datos 09
+Tarjeta de Datos 10
+Tarjeta de Datos 11
+Tarjeta de Datos 12
+Tarjeta de Datos 13
+Tarjeta de Datos 14
+Tarjeta de Datos 15
+Tarjeta de Datos 16
+Tarjeta de Datos 17
+Tarjeta de Datos 18
+Tarjeta de Datos 19
+Tarjeta de Datos 20
+Tarjeta de Datos 21
+Tarjeta de Datos 22
+Tarjeta de Datos 23
+Tarjeta de Datos 24
+Tarjeta de Datos 25
+Tarjeta de Datos 26
+Tarjeta de Datos 27
 Esfera Verde
 Cápsula Candado
 Prisma Rojo
@@ -577,11 +577,11 @@ Regalosfera
 Ensueño Ball
 Pokéseñuelo
 Neceser
-Cráneo Dragón
+Cráneo de Dragón
 Seta Aroma
-Maxipepita
+Maxipepita de Oro
 Sarta de Perlas
-Fragmento Cometa
+Fragmento de Cometa
 Real de Cobre
 Real de Plata
 Real de Oro
@@ -637,10 +637,10 @@ Acromáquina
 Objeto Perdido
 Objeto Perdido
 Espejo Veraz
-Seguro Debilidad
+Seguro de Debilidad
 Chaleco Asalto
 Holomisor
-Carta Profesor
+Carta del Profesor
 Patines
 Tabla Duende
 Cápsula Habilidad
@@ -694,19 +694,19 @@ MT98
 MT99
 MT100
 Pase de la Central
-Mega-Aro
+Megaaro
 Piedra Insólita
 Piedra Común
-Vale Descuento
+Vale de Descuento
 Llave del Ascensor
 Abono del TMV
 Emblema de Kalos
 Guía de Aventura
 Estatuilla Rara
 Portalentillas
-Kit Maquillaje
+Kit de Maquillaje
 Maleta
-Crêpe Luminalia
+Galette Luminalia
 Galleta Yantra
 Fósil Mandíbula
 Fósil Aleta
@@ -720,7 +720,7 @@ Bici de Carreras
 Bici Acrobática
 Wailmegadera
 Piezas Devon
-Saco Hollín
+Saco de Hollín
 Llave del Sótano
 Kit de Pokécubos
 Carta a Máximo
@@ -728,10 +728,10 @@ Ticket Eón
 Escáner
 Gafas Aislantes
 Meteorito
-Ll. Habitación 1
-Ll. Habitación 2
-Ll. Habitación 4
-Ll. Habitación 6
+Llave Habitación 1
+Llave Habitación 2
+Llave Habitación 4
+Llave Habitación 6
 Llave del Almacén
 Detector Devon
 Ticket del Barco
@@ -763,7 +763,7 @@ Steelixita
 Pidgeotita
 Glalita
 Diancita
-Vasija Castigo
+Vasija de Castigo
 Megabrazalete
 Cameruptita
 Lopunnita
@@ -841,7 +841,7 @@ Ash-Pikastal Z
 (?)
 Zurrón
 Caña
-Máscara Profesor
+Máscara del Profesor
 Festicupón
 Piedra Brillante
 Nerviosfera
@@ -950,7 +950,7 @@ Poké Ball Ajena
 Cupón Eclosión
 Cupón Rebaja
 Cupón Botín
-Cupón Exp
+Cupón Experiencia
 Cupón Amistad
 Cupón Reclamo
 Cupón Sigilo
@@ -1119,7 +1119,7 @@ Manzana Ácida
 Espray Bucal
 Mochila Escape
 Botas Gruesas
-Seguro Fallo
+Seguro de Fallo
 Servicio Raro
 Parasol Multiuso
 Caramelo Exp. XS
@@ -1268,7 +1268,7 @@ Bici Rotom
 Amuleto Captura
 (?)
 Carta Ajada
-Autógrafo Grupo
+Autógrafo del Grupo
 Libro de Sonia
 (?)
 (?)
@@ -1603,7 +1603,7 @@ Crin Negra
 Zanahoria Nívea
 Zanahoria Oscura
 Maxinium
-Sem. Zanahoria
+Semillas Zanahoria
 Parche Habilidad
 Riendas Unión
 Calmasfera Tiempo
@@ -1647,7 +1647,7 @@ Pokémuñeca
 Bola Humareda
 Bola Ruidosa
 Bola Pegajosa
-Trozo Estrella
+Trozo de Estrella
 Cebo de Setas
 Hierba Repelente
 Cebo Meloso
@@ -2556,3 +2556,80 @@ Meteorito
 Libro Escarlata
 Libro Púrpura
 Libro de Brie
+Semilla Dominio
+Clefablita
+Victreebelita
+Starmita
+Dragonitita
+Meganiumita
+Feraligatrita
+Skarmorita
+Froslassita
+
+
+Emboarita
+Excadrillita
+Scolipedita
+Scraftita
+Eelektrossita
+Chandelurita
+Chesnaughtita
+Delphoxita
+Greninjanita
+Pyroarita
+Floettita
+Malamarita
+Barbaraclita
+Dragalgita
+Hawluchanita
+Zygardita
+Drampanita
+
+Falinksita
+Llave Habitación 202
+Supergalette Luminalia
+Llave Laboratorio A
+Llave Laboratorio B
+Llave Laboratorio C
+Llave Laboratorio M
+Llave Laboratorio X
+Piedrecita
+Anillo Preciado
+Amuleto de Naria Firmado
+Basura Suculenta
+Ramita Revitalizante
+Enseres de Bárbara
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Megaesquirla
+Tornillo Colorido
+Amuleto de Naria Rojo
+Amuleto de Naria Rojo
+Amuleto de Naria Rojo
+Amuleto de Naria Dorado
+Amuleto de Naria Dorado
+Amuleto de Naria Dorado
+Amuleto de Naria Rosa
+Amuleto de Naria Rosa
+Amuleto de Naria Rosa
+Amuleto de Naria Verde
+Amuleto de Naria Verde
+Amuleto de Naria Verde
+Amuleto de Naria Azul
+Amuleto de Naria Azul
+Amuleto de Naria Azul

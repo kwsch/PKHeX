@@ -33,6 +33,7 @@ public static class LearnGroupUtil
         Gen7b => LearnGroup7b.Instance,
         Gen8a => LearnGroup8a.Instance,
         Gen8b => LearnGroup8b.Instance,
+        Gen9a => LearnGroup9a.Instance,
 
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };

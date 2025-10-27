@@ -1,0 +1,236 @@
+－－－－－－－－－－
+
+Mysteriöser Ort
+
+Ferner Ort
+
+Zone Verte
+Zone Cyan
+Zone Rose
+Zone Rouge
+Zone Jaune
+Zentral-Plaza
+Frühlingsallee
+Sommerallee
+Herbstallee
+Winterallee
+Jahreszeitenkanal
+Boulevard Vert
+Boulevard Vert
+Südring
+Südring
+Verte-Bezirk 1
+Verte-Bezirk 3
+Nasswasserweg
+Verte-Bezirk 6
+Verte-Bezirk 7
+Bahnhofsplatz Illumina Süd
+Verte-Bezirk 2
+Verte-Bezirk 4
+Verte-Bezirk 5
+Verte-Bezirk 8
+Verte-Bezirk 9
+Place Verte
+Boulevard Cyan
+Boulevard Cyan
+Südring
+Südring
+Cyan-Bezirk 1
+Cyan-Bezirk 3
+Bummelpark
+Cyan-Bezirk 5
+Cyan-Bezirk 7
+Cyan-Bezirk 2
+Cyan-Bezirk 4
+Espace Vide
+Cyan-Bezirk 6
+Cyan-Bezirk 8
+Cyan-Bezirk 9
+Cyan-Bezirk 10
+Place Cyan
+Boulevard Rose
+Boulevard Rose
+Südring
+Nordring
+Rose-Bezirk 1
+Rose-Bezirk 3
+Rose-Bezirk 5
+Rose-Bezirk 6
+Illumina-Umspannwerk
+Rose-Bezirk 2
+Rose-Bezirk 4
+Rose-Bezirk 7
+Quazar Corporation
+Rose-Bezirk 8
+Rose-Bezirk 9
+Place Rose
+Boulevard Rouge
+Boulevard Rouge
+Nordring
+Nordring
+Rouge-Bezirk 1
+Rouge-Bezirk 3
+Rouge-Bezirk 4
+Rouge-Bezirk 5
+Rouge-Bezirk 7
+Rouge-Bezirk 2
+Académie Étoile
+Rouge-Bezirk 6
+Friedhof Bonne Nuit
+Rouge-Bezirk 8
+Place Rouge
+Boulevard Jaune
+Boulevard Jaune
+Nordring
+Nordring
+Jaune-Bezirk 1
+Jaune-Bezirk 3
+Jaune-Bezirk 4
+Jaune-Bezirk 5
+Jaune-Bezirk 7
+Jaune-Bezirk 8
+Jaune-Bezirk 2
+Kanalpromenade
+Jaune-Bezirk 6
+Jaune-Bezirk 9
+Jaune-Bezirk 10
+Jaune-Bezirk 11
+Jaune-Bezirk 12
+Place Jaune
+Boulevard du Vent
+Illumina-Kunstmuseum
+Pokémon-Center (Verte)
+Hotel Z
+Pokémon-Labor
+Prismaturm
+LeBelle-Büro
+Quazar Corporation
+Baufirma Racine
+Place Verte
+Bahnhof Illumina Süd
+Place Cyan
+Corrosio-Clansitz
+Pokémon-Center (Cyan)
+Pokémon-Center (Frühlingsallee)
+Place Rose
+Bistro Flordelis
+Pokémon-Center (Rose)
+Pokémon-Center (Place Rose)
+Place Rouge
+Grand Hôtel Pique Faîne
+Pokémon-Center (Rouge)
+Pokémon-Center (Zentral-Plaza)
+Place Jaune
+Dojo der Gerechten
+Pokémon-Center (Jaune)
+Pokémon-Center (Winterallee)
+Friseursalon
+Stein-Boutique
+Pokéball-Boutique
+GEAR
+Maison Très Chique
+Restaurant Solala
+Café Twister
+Café à la Mode
+Konnex-Café
+Empty Room (Abandoned Building)
+Sewer Entrance
+Cutting Edge
+Bravely
+Le Dessert
+Marché Cyan
+Inner Space
+Backspin
+Sportsfreund Cyan
+Defog Vision
+Equip
+Style-Salon
+Café Wauwau
+Café Soleil
+Café Fokus
+Illumina-Kanalisation
+Café Spielstunde
+Café Freestyle
+Café Adonis
+Café Coucou
+ZéroHuit-15
+Énergétique
+Paston
+Wams im Glück
+Pinceau
+Heia Bubú
+SneakPeak
+Marquage
+Chichiffon Chic
+Chichiffon Pretty
+Chichiffon Sporty
+Eternuit
+1G-PAKT
+Minuit Rite
+Le Bon Goût
+Lichteloh
+Pomp & Ös
+CINEAST
+DENSOKU Illumina
+Schuhbidu
+Prêt à Tête
+Chichiffon Cute
+ReFined
+SUBATOMIC
+SUBATOMIC 4
+Non + Ultra
+Kleiderkiste
+Sportsfreund Rouge
+Schuhschrank
+Tornado
+Restaurant chez Norme
+Sushi-Wok
+Restaurant de Luxe
+Illumina-Kanalisation
+Café Ami
+Café Ultimo
+Café Nachdreh
+Café Bataille
+Wildsektor 17
+Wildsektor 1
+Wildsektor 2
+Wildsektor 12
+Wildsektor 10
+Wildsektor 5
+Wildsektor 16
+Wildsektor 14
+Wildsektor 9
+Wildsektor 18
+Wildsektor 7
+Wildsektor 13
+Wildsektor 4
+Wildsektor 3
+Wildsektor 15
+Wildsektor 19
+Wildsektor 6
+Wildsektor 11
+Wildsektor 8
+Wildsektor 20
+Kampfsektor
+Passage Bonheur
+Passage Ombre
+Galerie Clair de Lune
+Passage Palais
+Dojo der Gerechten
+Hotel Z
+Baufirma Racine
+Grand Hôtel Pique Faîne
+Corrosio-Clansitz
+Bahnhof Illumina Süd
+Quazar Corporation
+Restaurant Solala
+Restaurant chez Norme
+Restaurant de Luxe
+Sushi-Wok
+LeBelle-Büro
+Pokémon-Labor
+Geschäftsgebäude
+Illumina-Kunstmuseum
+Bistro Flordelis
+Labor von Flordelis
+Kanalisation

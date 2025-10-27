@@ -61,4 +61,9 @@ public enum LanguageID : byte
     /// Chinese Traditional (繁體中文)
     /// </summary>
     ChineseT = 10,
+
+    /// <summary>
+    /// Spanish (LATAM)
+    /// </summary>
+    SpanishL = 11,
 }

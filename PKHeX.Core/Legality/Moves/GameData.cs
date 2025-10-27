@@ -51,6 +51,7 @@ public static class GameData
         PLA => LearnSource8LA.Instance,
 
         SL or VL or SV => LearnSource9SV.Instance,
+        ZA => LearnSource9ZA.Instance,
 
         Gen1 => LearnSource1YW.Instance,
         Gen2 => LearnSource2C.Instance,
@@ -105,6 +106,7 @@ public static class GameData
         PLA => PersonalTable.LA,
 
         SL or VL or SV => PersonalTable.SV,
+        ZA => PersonalTable.ZA,
 
         Gen1 => PersonalTable.Y,
         Gen2 => PersonalTable.C,

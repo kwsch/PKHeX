@@ -25,7 +25,7 @@ public static class FormConverter
         byte generation = context.Generation();
 
         // Mega List
-        if (context.IsMegaContext() && IsFormListSingleMega(species))
+        if (context.IsMegaContext() && IsFormListSingleMega(species, context))
             return GetMegaSingle(types, forms);
 
         if (context is Gen7 && FormInfo.HasTotemForm(species))
@@ -38,17 +38,12 @@ public static class FormConverter
             <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, generation),
             <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, generation),
             <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation),
+            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation, context),
             <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, generation),
             <= Legal.MaxSpeciesID_8a => GetFormsGen8(species, generation, types, forms, genders),
             _ => GetFormsGen9(species, generation, types, forms, genders),
         };
     }
-
-    /// <summary>
-    /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
-    /// </summary>
-    private static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
 
     /// <summary>
     /// Used to indicate that the form list is a single form, so no name is specified.
@@ -225,19 +220,11 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen6(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, byte generation)
+    private static string[] GetFormsGen6(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, byte generation, EntityContext context)
     {
         return (Species)species switch
         {
-            Greninja when generation < 9 => [
-                types[0], // Normal
-                forms[962], // Ash
-                forms[1012], // "Bonded" - Active
-            ],
-            Greninja => [
-                types[0], // Normal
-                forms[962], // Ash
-            ],
+            Greninja => GetFormsGreninja(types, forms, new string[!context.IsMegaContext() ? 2 : context.Generation() >= 9 ? 4 : 3]),
             Scatterbug or Spewpa or Vivillon => [
                 forms[(int)Vivillon], // Icy Snow
                 forms[963], // Polar
@@ -260,21 +247,14 @@ public static class FormConverter
                 forms[980], // Fancy
                 forms[981], // Poké Ball
             ],
-            Floette when generation < 9 => [
-                forms[(int)Floette], // Red
-                forms[986], // Yellow
-                forms[987], // Orange
-                forms[988], // Blue
-                forms[989], // White
-                forms[990], // Eternal
-            ],
-            Flabébé or Floette or Florges => [
+            Flabébé or Florges => [
                 forms[(int)Flabébé], // Red
                 forms[986], // Yellow
                 forms[987], // Orange
                 forms[988], // Blue
                 forms[989], // White
             ],
+            Floette => GetFormsFloette(forms, new string[!context.IsMegaContext() ? 5 : context.Generation() >= 9 ? 7 : 6]),
             Furfrou => [
                 forms[(int)Furfrou], // Natural
                 forms[995], // Heart
@@ -295,7 +275,13 @@ public static class FormConverter
                 forms[(int)Aegislash], // Shield
                 forms[1005], // Blade
             ],
-            Sliggoo or Goodra or Avalugg when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Sliggoo or Goodra or Avalugg when context.Generation() >= 8 => GetFormsHisui(species, context.Generation(), types, forms),
+            Pumpkaboo or Gourgeist when generation >= 9 => [
+                forms[MediumVariety],
+                forms[1006], // Small
+                forms[1007], // Large
+                forms[JumboVariety],
+            ],
             Pumpkaboo or Gourgeist => [
                 forms[(int)Pumpkaboo], // Average
                 forms[1006], // Small
@@ -306,16 +292,10 @@ public static class FormConverter
                 forms[(int)Xerneas], // Neutral
                 forms[1012], // Active
             ],
+            Zygarde => GetFormsZygarde(forms, new string[context.IsMegaContext() && context.Generation() >= 9 ? 6 : 5]),
             Hoopa => [
                 forms[(int)Hoopa], // Confined
                 forms[1018], // Unbound
-            ],
-            Zygarde => [
-                forms[(int)Zygarde], // 50% (Aura Break)
-                forms[1013], // 10% (Aura Break)
-                forms[1014] + "-C", // 10% Cell (Power Construct)
-                forms[1015] + "-C", // 50% Cell (Power Construct)
-                forms[1016], // 100% Cell (Power Construct)
             ],
             _ => EMPTY,
         };
@@ -398,10 +378,6 @@ public static class FormConverter
                 forms[(int)Toxtricity], // Amped
                 forms[LowKey],
             ],
-            Indeedee or Basculegion => [
-                genders[000], // Male
-                genders[001], // Female
-            ],
             Sinistea or Polteageist => [
                 forms[Phony],
                 forms[Antique],
@@ -417,13 +393,17 @@ public static class FormConverter
                 forms[CaramelSwirl],
                 forms[RainbowSwirl],
             ],
-            Morpeko => [
-                forms[FullBellyMode],
-                forms[HangryMode],
-            ],
             Eiscue => [
                 forms[IceFace],
                 forms[NoiceFace],
+            ],
+            Indeedee or Basculegion => [
+                genders[000], // Male
+                genders[001], // Female
+            ],
+            Morpeko => [
+                forms[FullBellyMode],
+                forms[HangryMode],
             ],
             Zacian or Zamazenta => [
                 forms[HeroOfManyBattles],
@@ -443,8 +423,8 @@ public static class FormConverter
             ],
             Calyrex => [
                 types[0], // Normal
-                forms[CalyIce],
-                forms[CalyGhost],
+                forms[IceRider],
+                forms[ShadowRider],
             ],
             Kleavor when generation == 8 => [
                 types[0],
@@ -470,28 +450,28 @@ public static class FormConverter
                 genders[000], // Male
                 genders[001], // Female
             ],
-            Dudunsparce => [
-                forms[TwoSegment],
-                forms[ThreeSegment],
-            ],
-            Palafin => [
-                forms[Zero],
-                forms[HeroPalafin],
-            ],
             Maushold => [
                 forms[FamilyOfThree],
                 forms[FamilyOfFour],
-            ],
-            Tatsugiri => [
-                forms[Curly],
-                forms[Droopy],
-                forms[Stretchy],
             ],
             Squawkabilly => [
                 forms[Green],
                 forms[988], // Blue
                 forms[986], // Yellow
                 forms[989], // White
+            ],
+            Palafin => [
+                forms[Zero],
+                forms[HeroPalafin],
+            ],
+            Tatsugiri => [
+                forms[Curly],
+                forms[Droopy],
+                forms[Stretchy],
+            ],
+            Dudunsparce => [
+                forms[TwoSegment],
+                forms[ThreeSegment],
             ],
             Gimmighoul => [
                 forms[Chest],
@@ -511,6 +491,14 @@ public static class FormConverter
                 forms[Aquatic],
                 forms[Glide],
             ],
+            Poltchageist => [
+                forms[Counterfeit],
+                forms[Artisan],
+            ],
+            Sinistcha => [
+                forms[Unremarkable],
+                forms[Masterpiece],
+            ],
             Ogerpon => [
                 forms[MaskTeal],
                 forms[MaskWellspring],
@@ -520,14 +508,6 @@ public static class FormConverter
                 $"*{forms[MaskWellspring]}",
                 $"*{forms[MaskHearthflame]}",
                 $"*{forms[MaskCornerstone]}",
-            ],
-            Poltchageist => [
-                forms[Counterfeit],
-                forms[Artisan],
-            ],
-            Sinistcha => [
-                forms[Unremarkable],
-                forms[Masterpiece],
             ],
             Terapagos => [
                 types[0], // Normal
@@ -763,16 +743,37 @@ public static class FormConverter
             "!", "?",
         ],
     };
+    private static bool IsFormListSingleMega(ushort species, EntityContext context)
+    {
+        if (context.Generation() >= 9 && species is (int)Slowbro) // Kanto, Mega, Galar
+            return false;
+        if (IsFormListSingleMega6(species))
+            return true;
+        if (context.Generation() >= 9 && IsFormListSingleMega9(species))
+            return true;
+        return false;
+    }
 
-    private static bool IsFormListSingleMega(ushort species) => species is
+    private static bool IsFormListSingleMega6(ushort species) => (Species)species is
         // XY
-        003 or 009 or 065 or 094 or 115 or 127 or 130 or 142 or 181 or 212 or
-        214 or 229 or 248 or 257 or 282 or 303 or 306 or 308 or 310 or 354 or
-        359 or 380 or 381 or 445 or 448 or 460 or
+        Venusaur or Blastoise or Alakazam or Gengar or Kangaskhan or Pinsir or Gyarados or Aerodactyl or Ampharos or Scizor or
+        Heracross or Houndoom or Tyranitar or Blaziken or Gardevoir or Mawile or Aggron or Medicham or Manectric or Banette or
+        Absol or Latias or Latios or Garchomp or Lucario or Abomasnow or
 
         // AO
-        015 or 018 or 080 or 208 or 254 or 260 or 302 or 319 or 323 or 334 or
-        362 or 373 or 376 or 384 or 428 or 475 or 531 or 719
+        Beedrill or Pidgeot or Slowbro or Steelix or Sceptile or Swampert or Sableye or Sharpedo or Camerupt or Altaria or
+        Glalie or Salamence or Metagross or Rayquaza or Lopunny or Gallade or Audino or Diancie
+    ;
+
+    private static bool IsFormListSingleMega9(ushort species) => (Species)species is
+        // ZA
+        Clefable or Victreebel or Starmie or Dragonite or
+        Meganium or Feraligatr or Skarmory or
+        Froslass or
+        Emboar or Excadrill or Scolipede or Scrafty or Eelektross or Chandelure or
+        Chesnaught or Delphox or Pyroar or Malamar or Barbaracle or Dragalge or Hawlucha or
+        Drampa or
+        Falinks
     ;
 
     private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
@@ -857,6 +858,43 @@ public static class FormConverter
         ];
     }
 
+    private static string[] GetFormsGreninja(IReadOnlyList<string> types, IReadOnlyList<string> forms, string[] result)
+    {
+        result[0] = types[0]; // Normal
+        result[1] = forms[962]; // Battle Bond
+        if (result.Length > 2)
+            result[2] = forms[1012]; // Ash-Greninja
+        if (result.Length > 3)
+            result[3] = forms[Mega]; // Mega Greninja
+        return result;
+    }
+
+    private static string[] GetFormsFloette(IReadOnlyList<string> forms, string[] result)
+    {
+        result[0] = forms[(int)Floette]; // Red
+        result[1] = forms[986]; // Yellow
+        result[2] = forms[987]; // Orange
+        result[3] = forms[988]; // Blue
+        result[4] = forms[989]; // White
+        if (result.Length > 5)
+            result[5] = forms[990]; // Eternal
+        if (result.Length > 6)
+            result[6] = forms[Mega];
+        return result;
+    }
+
+    private static string[] GetFormsZygarde(IReadOnlyList<string> forms, string[] result)
+    {
+        result[0] = forms[(int)Zygarde]; // 50% Forme (Aura Break)
+        result[1] = forms[1013]; // 10% Forme (Aura Break)
+        result[2] = forms[1014] + "-C"; // 10% Forme (Power Construct)
+        result[3] = forms[1015] + "-C"; // 50% Forme (Power Construct)
+        result[4] = forms[1016]; // Complete Forme
+        if (result.Length > 5)
+            result[5] = forms[Mega];
+        return result;
+    }
+
     private const int Mega = 804;
     private const int MegaX = 805;
     private const int MegaY = 806;
@@ -892,8 +930,8 @@ public static class FormConverter
     private const int SingleStrike = 1086;
     private const int RapidStrike = 1087;
     private const int Dada = 1088;
-    private const int CalyIce = 1089; // Ice
-    private const int CalyGhost = 1090; // Shadow
+    private const int IceRider = 1089;
+    private const int ShadowRider = 1090;
 
     private const int Hisuian = 1094;
     private const int Lord = 1095;
@@ -937,6 +975,8 @@ public static class FormConverter
     private const int Masterpiece = 1134;
     private const int Terastal = 1135;
     private const int Stellar = 1136;
+    private const int MediumVariety = 1137;
+    private const int JumboVariety = 1138;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 

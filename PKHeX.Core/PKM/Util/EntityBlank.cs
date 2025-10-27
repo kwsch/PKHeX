@@ -84,6 +84,8 @@ public static class EntityBlank
             return new PK7();
         if (PersonalTable.SV.IsPresentInGame(species, form))
             return new PK9();
+        if (PersonalTable.ZA.IsPresentInGame(species, form))
+            return new PA9();
         return new PB7();
     }
 }

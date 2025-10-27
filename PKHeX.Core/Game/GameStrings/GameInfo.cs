@@ -38,8 +38,8 @@ public static class GameInfo
         return version.ToString();
     }
 
-    public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation)
-        => Sources.LanguageDataSource(generation);
+    public static IReadOnlyList<ComboItem> LanguageDataSource(byte generation, EntityContext context)
+        => Sources.LanguageDataSource(generation, context);
 
     /// <summary>
     /// Gets the location name for the specified parameters.

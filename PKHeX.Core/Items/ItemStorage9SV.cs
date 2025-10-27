@@ -172,14 +172,6 @@ public sealed class ItemStorage9SV : IItemStorage
         InventoryType.Ingredients, InventoryType.Candy,
     ];
 
-    private static ReadOnlySpan<InventoryType> ValidHeldTypes =>
-    [
-        InventoryType.Items,
-        InventoryType.TMHMs,
-        InventoryType.Medicine, InventoryType.Berries, InventoryType.Balls, InventoryType.BattleItems,
-        InventoryType.Treasure,
-    ];
-
     public static ReadOnlySpan<ushort> Unreleased =>
     [
         0016, // Cherish Ball
@@ -240,27 +232,7 @@ public sealed class ItemStorage9SV : IItemStorage
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    public static ushort[] GetAllHeld()
-    {
-        var valid = ValidHeldTypes;
-        var sum = 0;
-        foreach (var type in valid)
-            sum += GetLegal(type).Length;
-
-        var result = new ushort[sum];
-        LoadAllHeld(valid, result);
-        return result;
-    }
-
-    private static void LoadAllHeld(ReadOnlySpan<InventoryType> valid, Span<ushort> dest)
-    {
-        foreach (var type in valid)
-        {
-            var legal = GetLegal(type);
-            legal.CopyTo(dest);
-            dest = dest[legal.Length..];
-        }
-    }
+    public static ushort[] GetAllHeld() => [..Other, ..Machine, ..Medicine, ..Berry, ..Balls, ..Battle, ..Treasure];
 
     public static InventoryType GetInventoryPouch(ushort itemIndex)
     {

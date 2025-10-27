@@ -113,7 +113,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var pk = GetBlank();
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var rnd = Util.Rand;
         {
             pk.Language = language;

@@ -32,7 +32,7 @@ public partial class SAV_Trainer8a : Form
     private void GetComboBoxes()
     {
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation, SAV.Context);
     }
 
     private void GetTextBoxes()

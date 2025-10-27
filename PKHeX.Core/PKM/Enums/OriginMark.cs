@@ -15,6 +15,7 @@ public enum OriginMark
     Gen8Trio,
     Gen8Arc,
     Gen9Paldea,
+    Gen9ZA,
 
     GameBoy,
     GO,
@@ -46,6 +47,8 @@ public static class OriginMarkUtil
             return Gen8Arc;
         if (pk.SV)
             return Gen9Paldea;
+        if (pk.ZA)
+            return Gen9ZA;
 
         return None;
     }

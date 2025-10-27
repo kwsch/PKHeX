@@ -46,7 +46,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
 
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.GG[Species, Form];
         var date = EncounterDate.GetDateSwitch();

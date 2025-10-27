@@ -7,14 +7,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8b Mystery Gift Template File
 /// </summary>
-public sealed class WB8 : DataMysteryGift,
+public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
     ILangNick, INature, IRibbonIndex, IContestStatsReadOnly, IRelearn,
     ILangNicknamedTemplate, IEncounterServerDate, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8
 {
     public WB8() : this(new byte[Size]) { }
-    public WB8(Memory<byte> raw) : base(raw) { }
     public override WB8 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2DC;
@@ -116,9 +115,7 @@ public sealed class WB8 : DataMysteryGift,
         // Player owned anti-shiny fixed PID
         if (ID32 == 0)
             return uint.MaxValue;
-
-        var xor = PID ^ ID32;
-        return (xor >> 16) ^ (xor & 0xFFFF);
+        return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
     public override uint ID32
@@ -866,7 +863,7 @@ public sealed class WB8 : DataMysteryGift,
             if (GetRibbon(index))
                 return;
             var openIndex = RibbonSpan.IndexOf(RibbonByteNone);
-            ArgumentOutOfRangeException.ThrowIfNegative(openIndex, nameof(openIndex)); // Full?
+            ArgumentOutOfRangeException.ThrowIfNegative(openIndex); // Full?
             SetRibbonAtIndex(openIndex, (byte)index);
         }
         else

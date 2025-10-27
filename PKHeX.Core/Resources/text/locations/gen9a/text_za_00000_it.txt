@@ -1,0 +1,236 @@
+----------
+
+Zona misteriosa
+
+Luogo remoto
+
+Quartiere Verde
+Quartiere Blu
+Quartiere Rosa
+Quartiere Rosso
+Quartiere Giallo
+Piazza Centrale
+Viale Primavera
+Viale Estate
+Viale Autunno
+Viale Inverno
+Canal des Saisons
+Boulevard Verde
+Boulevard Verde
+Corso Basso
+Corso Basso
+1º isolato del Quartiere Verde
+3º isolato del Quartiere Verde
+Canal Couler
+6º isolato del Quartiere Verde
+7º isolato del Quartiere Verde
+Piazzale del terminal
+2º isolato del Quartiere Verde
+4º isolato del Quartiere Verde
+5º isolato del Quartiere Verde
+8º isolato del Quartiere Verde
+9º isolato del Quartiere Verde
+Piazza Verde
+Boulevard Blu
+Boulevard Blu
+Corso Basso
+Corso Basso
+1º isolato del Quartiere Blu
+3º isolato del Quartiere Blu
+Parco Distratto
+5º isolato del Quartiere Blu
+7º isolato del Quartiere Blu
+2º isolato del Quartiere Blu
+4º isolato del Quartiere Blu
+Spazio Rienafaire
+6º isolato del Quartiere Blu
+8º isolato del Quartiere Blu
+9º isolato del Quartiere Blu
+10º isolato del Quartiere Blu
+Piazza Blu
+Boulevard Rosa
+Boulevard Rosa
+Corso Basso
+Corso Alto
+1º isolato del Quartiere Rosa
+3º isolato del Quartiere Rosa
+5º isolato del Quartiere Rosa
+6º isolato del Quartiere Rosa
+Sottostazione elettrica
+2º isolato del Quartiere Rosa
+4º isolato del Quartiere Rosa
+7º isolato del Quartiere Rosa
+Q-asar Inc.
+8º isolato del Quartiere Rosa
+9º isolato del Quartiere Rosa
+Piazza Rosa
+Boulevard Rosso
+Boulevard Rosso
+Corso Alto
+Corso Alto
+1º isolato del Quartiere Rosso
+3º isolato del Quartiere Rosso
+4º isolato del Quartiere Rosso
+5º isolato del Quartiere Rosso
+7º isolato del Quartiere Rosso
+2º isolato del Quartiere Rosso
+Istituto Étoile
+6º isolato del Quartiere Rosso
+Cimitero Dormibien
+8º isolato del Quartiere Rosso
+Piazza Rossa
+Boulevard Giallo
+Boulevard Giallo
+Corso Alto
+Corso Alto
+1º isolato del Quartiere Giallo
+3º isolato del Quartiere Giallo
+4º isolato del Quartiere Giallo
+5º isolato del Quartiere Giallo
+7º isolato del Quartiere Giallo
+8º isolato del Quartiere Giallo
+2º isolato del Quartiere Giallo
+Riva del Canal des Saisons
+6º isolato del Quartiere Giallo
+9º isolato del Quartiere Giallo
+10º isolato del Quartiere Giallo
+11º isolato del Quartiere Giallo
+12º isolato del Quartiere Giallo
+Piazza Gialla
+Promenade du Vent
+Museo di Luminopoli
+Centro Pokémon del Quartiere Verde
+Hotel Z
+Laboratorio Pokémon
+Torre Prisma
+Agenzia Bellocchio
+Q-asar Inc.
+Costruzioni Racines
+Piazza Verde
+Terminal di Luminopoli
+Piazza Blu
+Sede del Clan Ruggine
+Centro Pokémon del Quartiere Blu
+Centro Pokémon di Viale Primavera
+Piazza Rosa
+Caffè Elisio
+Centro Pokémon del Quartiere Rosa
+Centro Pokémon di Piazza Rosa
+Piazza Rossa
+Grand Hotel Fior di Quattrini
+Centro Pokémon del Quartiere Rosso
+Centro Pokémon di Piazza Centrale
+Piazza Gialla
+Dojo del Gruppo Justice
+Centro Pokémon del Quartiere Giallo
+Centro Pokémon di Viale Inverno
+Salone Acconciature
+Gioielleria
+Negozio di Poké Ball
+Gears
+Boutique Chic-à-Porter
+Ristorante Bocca Buona
+Caffè Burrasca
+Caffè À la Mode
+Bar I Timidi
+Empty Room (Abandoned Building)
+Sewer Entrance
+Neat Edge
+BRAVELY
+Dessert du Chef
+Mercato Blu
+In The Zone
+BACKFLIP
+Triathlon Blu
+Defog Ottica
+Equip
+Salone Camerino
+Caffè Qua la Zampa
+Café Soleil
+Bar Lo Scatto
+Acquedotto di Luminopoli
+Caffè io&te
+Caffè Slalom
+Caffè I Ragazzi
+Caffè La Tazza Vuota
+Il Solito
+Énergétique
+Passe-temps
+Porte-Chance
+Pinceau
+Penni Kelly
+Sol et Baskets
+Marquage
+Girly Imp
+Pretty Imp
+Sporty Imp
+Nyx Nox
+Cappotti & Paltò
+Rite de Minuit
+Mode Mature
+La Lanterna
+Mode Magnifique
+GRAN FAN
+DENSOKU Luminopoli
+La Chaussure
+Atelier Capoccia
+Cute Imp
+Kikonashi
+SUBATOMIC
+SUBATOMIC 4
+Prima Scelta
+Le Pays des Vêtements
+Triathlon Rosso
+Le Pays des Pieds
+Tornado
+Ristorante La Buona Forchetta
+Ristorante Girasogno
+Ristorante Gourmet
+Acquedotto di Luminopoli
+Caffè Concordia
+Caffè I Patiti
+Caffè Ciak
+Caffè Le Lotte
+Zona selvaggia 17
+Zona selvaggia 1
+Zona selvaggia 2
+Zona selvaggia 12
+Zona selvaggia 10
+Zona selvaggia 5
+Zona selvaggia 16
+Zona selvaggia 14
+Zona selvaggia 9
+Zona selvaggia 18
+Zona selvaggia 7
+Zona selvaggia 13
+Zona selvaggia 4
+Zona selvaggia 3
+Zona selvaggia 15
+Zona selvaggia 19
+Zona selvaggia 6
+Zona selvaggia 11
+Zona selvaggia 8
+Zona selvaggia 20
+Zona lotta
+Passage du Bonheur
+Passage de l’Ombre
+Galleria Clair de Lune
+Passage du Palais
+Dojo del Gruppo Justice
+Hotel Z
+Costruzioni Racines
+Grand Hotel Fior di Quattrini
+Sede del Clan Ruggine
+Terminal di Luminopoli
+Q-asar Inc.
+Ristorante Bocca Buona
+Ristorante La Buona Forchetta
+Ristorante Gourmet
+Ristorante Girasogno
+Agenzia Bellocchio
+Laboratorio Pokémon
+Edificio commerciale
+Museo di Luminopoli
+Caffè Elisio
+Laboratori Elisio
+Acquedotto

@@ -18,10 +18,15 @@ public static class TradeRestrictions
         (ushort)Species.Koraidon or (int)Species.Miraidon => formArg == 1, // Ride-able Box Legend
         (ushort)Species.Pikachu => format == 7 && form == 8, // Let's Go Pikachu Starter
         (ushort)Species.Eevee => format == 7 && form == 1, // Let's Go Eevee Starter
-        _ => FormInfo.IsFusedForm(species, form, format),
+        _ => FormInfo.IsFusedForm(species, form, format) || FormInfo.IsBattleOnlyForm(species, form, format),
     };
 
-    public static bool IsUntradableHeld(int item) => ItemStorage7USUM.ZCrystalHeld.Contains((ushort)item);
+    public static bool IsUntradableHeld(EntityContext context, int item) => context switch
+    {
+        EntityContext.Gen7 => ItemStorage7USUM.ZCrystalHeld.Contains((ushort)item),
+        EntityContext.Gen9a => ItemStorage9ZA.IsMegaStone((ushort)item),
+        _ => false,
+    };
 
     public static bool IsUntradableEncounter(IEncounterTemplate enc) => enc switch
     {

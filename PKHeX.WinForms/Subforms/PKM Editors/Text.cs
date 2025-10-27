@@ -33,7 +33,7 @@ public partial class TrashEditor : Form
         if (raw.Length != 0)
         {
             Raw = FinalBytes = raw.ToArray();
-            AddTrashEditing(raw.Length, generation);
+            AddTrashEditing(raw.Length, generation, context);
         }
         else
         {
@@ -98,7 +98,7 @@ public partial class TrashEditor : Form
         }
     }
 
-    private void AddTrashEditing(int count, byte generation)
+    private void AddTrashEditing(int count, byte generation, EntityContext context)
     {
         FLP_Hex.Visible = true;
         GB_Trash.Visible = true;
@@ -132,7 +132,7 @@ public partial class TrashEditor : Form
         CB_Species.DataSource = new BindingSource(source.SpeciesDataSource, string.Empty);
 
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(generation);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(generation, context);
     }
 
     private void UpdateNUD(NumericUpDown nud)

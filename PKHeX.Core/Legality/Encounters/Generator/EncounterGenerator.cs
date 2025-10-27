@@ -29,7 +29,7 @@ public static class EncounterGenerator
         6 => EncounterGenerator6.Instance.GetEncounters(pk, info),
         7 => EncounterGenerator7X.Instance.GetEncounters(pk, info),
         8 => EncounterGenerator8X.Instance.GetEncounters(pk, info),
-        9 => EncounterGenerator9.Instance.GetEncounters(pk, info),
+        9 => EncounterGenerator9X.Instance.GetEncounters(pk, info),
         _ => EncounterGeneratorDummy.Instance.GetEncounters(pk, info),
     };
 
@@ -61,7 +61,11 @@ public static class EncounterGenerator
             GameVersion.BD or GameVersion.SP => EncounterGenerator8b.Instance,
             _ => EncounterGenerator8.Instance,
         },
-        9 => EncounterGenerator9.Instance,
+        9 => version switch
+        {
+            GameVersion.ZA => EncounterGenerator9a.Instance,
+            _ => EncounterGenerator9.Instance,
+        },
         _ => EncounterGeneratorDummy.Instance,
     };
 }

@@ -7,14 +7,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 Mystery Gift Template File, same as <see cref="WC8"/> with <see cref="IGanbaru"/> fields at the end.
 /// </summary>
-public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel,
+public sealed class WA8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INature, IGigantamax, IDynamaxLevel,
     IRibbonIndex, IMemoryOT, IRelearn, IEncounterServerDate,
     ILangNicknamedTemplate, IGanbaru, IAlpha, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8
 {
     public WA8() : this(new byte[Size]) { }
-    public WA8(Memory<byte> raw) : base(raw) { }
     public override WA8 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2C8;
@@ -105,9 +104,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         // Player owned anti-shiny fixed PID
         if (ID32 == 0)
             return uint.MaxValue;
-
-        var xor = PID ^ ID32;
-        return (xor >> 16) ^ (xor & 0xFFFF);
+        return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
     public override uint ID32
@@ -483,10 +480,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             pk.Version = GameVersion.PLA;
 
         if (OTGender >= 2)
-        {
-            pk.TID16 = tr.TID16;
-            pk.SID16 = tr.SID16;
-        }
+            pk.ID32 = tr.ID32;
 
         var date = IsDateRestricted && this.GetDistributionWindow(out var dt) ? dt.GetGenerateDate() : EncounterDate.GetDateSwitch();
         if (IsDateLockJapanese && language != (int)LanguageID.Japanese && date < new DateOnly(2022, 5, 20)) // 2022/05/18
@@ -847,7 +841,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             if (GetRibbon(index))
                 return;
             var openIndex = RibbonSpan.IndexOf(RibbonByteNone);
-            ArgumentOutOfRangeException.ThrowIfNegative(openIndex, nameof(openIndex)); // Full?
+            ArgumentOutOfRangeException.ThrowIfNegative(openIndex); // Full?
             SetRibbonAtIndex(openIndex, (byte)index);
         }
         else

@@ -1,4 +1,4 @@
-﻿
+
 Saphir
 Rubin
 Smaragd
@@ -50,3 +50,4 @@ Strahlender Diamant
 Leuchtende Perle
 Karmesin
 Purpur
+Legenden: Z-A

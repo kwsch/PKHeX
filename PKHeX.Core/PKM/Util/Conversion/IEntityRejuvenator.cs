@@ -65,6 +65,11 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             // Try to restore original Tera type / override instead of HOME's double override to current Type1.
             TeraTypeUtil.ResetTeraType(pk9, la.EncounterMatch);
         }
+        else if (pk is PA9 { ZA: true })
+        {
+            var la = new LegalityAnalysis(pk);
+            ResetRelearn(pk, la);
+        }
         else if (pk is PK8 pk8 && !LocationsHOME.IsLocationSWSH(pk8.MetLocation))
         {
             // Gen8 and below (Gen6/7) need their original relearn moves

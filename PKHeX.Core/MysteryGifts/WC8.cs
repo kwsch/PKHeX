@@ -7,12 +7,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 Mystery Gift Template File
 /// </summary>
-public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT,
+public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT,
     ILangNicknamedTemplate, IRelearn, IEncounterServerDate, IRestrictVersion, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, ITrashUnderlaySpecies
 {
     public WC8() : this(new byte[Size]) { }
-    public WC8(Memory<byte> raw) : base(raw) { }
     public override WC8 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2D0;
@@ -113,9 +112,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         // Player owned anti-shiny fixed PID
         if (ID32 == 0)
             return uint.MaxValue;
-
-        var xor = PID ^ ID32;
-        return (xor >> 16) ^ (xor & 0xFFFF);
+        return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
     public override uint ID32
@@ -408,7 +405,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
         var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
-        var language = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var language = (int)Core.Language.GetSafeLanguage789((LanguageID)tr.Language);
         bool hasOT = GetHasOT(language);
 
         var pk = new PK8
@@ -474,15 +471,15 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         if (OTGender >= 2)
         {
-            pk.TID16 = tr.TID16;
-            pk.SID16 = tr.SID16;
+            var value = tr.ID32;
 
             // Initial updates of HOME did not assign a TSV of 0.
             // After enough server updates, HOME can now assign a TSV of 0.
             // They will XOR the PID to ensure the shiny state of gifts is matched.
             // Don't set a Secret ID.
             if (IsHOMEGift)
-                pk.ID32 %= 1_000_000;
+                value %= 1_000_000;
+            pk.ID32 = value;
         }
 
         // Official code explicitly corrects for Meowstic
@@ -909,7 +906,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             if (GetRibbon(index))
                 return;
             var openIndex = RibbonSpan.IndexOf(RibbonByteNone);
-            ArgumentOutOfRangeException.ThrowIfNegative(openIndex, nameof(openIndex)); // Full?
+            ArgumentOutOfRangeException.ThrowIfNegative(openIndex); // Full?
             SetRibbonAtIndex(openIndex, (byte)index);
         }
         else

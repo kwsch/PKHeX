@@ -85,6 +85,18 @@ public sealed record SaveFileMetadata(SaveFile SAV)
         Handler = handler;
     }
 
+    /// <inheritdoc cref="SetExtraInfo(Memory{byte}, Memory{byte}, ISaveHandler)"/>
+    public void ShareExtraInfo(SaveFileMetadata other)
+    {
+        other.Header = Header;
+        other.Footer = Footer;
+        other.Handler = Handler;
+        if (FilePath is not null)
+            other.SetAsLoadedFile(FilePath);
+        else
+            other.SetAsBlank();
+    }
+
     /// <summary>
     /// Sets the details of a path to a <see cref="SaveFile"/> object.
     /// </summary>

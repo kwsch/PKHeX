@@ -20,6 +20,7 @@ public sealed class TeamIndexes8 : ITeamIndexSet
 
     public TeamIndexes8(SAV8SWSH sav, SCBlock indexes, SCBlock locks) : this((SaveFile)sav, indexes, locks) { }
     public TeamIndexes8(SAV9SV sav, SCBlock indexes, SCBlock locks) : this((SaveFile)sav, indexes, locks) { }
+    public TeamIndexes8(SAV9ZA sav, SCBlock indexes, SCBlock locks) : this((SaveFile)sav, indexes, locks) { }
 
     public void LoadBattleTeams()
     {

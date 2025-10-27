@@ -130,6 +130,27 @@ public static partial class Util
         GetStringList(fileName, zh ?? "zh-Hant"), // 10
     ];
 
+    /// <summary>
+    /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Latin American Spanish.
+    /// </summary>
+    /// <param name="fileName">Base file name</param>
+    /// <param name="zh">Language code to use for both Chinese localizations.</param>
+    public static string[][] GetLanguageStrings11([ConstantExpected] string fileName, string? zh = null) =>
+    [
+        [], // 0 - None
+        GetStringList(fileName, "ja"), // 1
+        GetStringList(fileName, "en"), // 2
+        GetStringList(fileName, "fr"), // 3
+        GetStringList(fileName, "it"), // 4
+        GetStringList(fileName, "de"), // 5
+        [], // 6 - None
+        GetStringList(fileName, "es"), // 7
+        GetStringList(fileName, "ko"), // 8
+        GetStringList(fileName, zh ?? "zh-Hans"), // 9
+        GetStringList(fileName, zh ?? "zh-Hant"), // 10
+        GetStringList(fileName, "es-419"), // 11
+    ];
+
     #endregion
 
     /// <inheritdoc cref="GetStringList(string, EmbeddedResourceCache)"/>

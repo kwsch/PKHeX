@@ -491,7 +491,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
         // Apply trash bytes for species name of current app language -- default to PKM's language if no match
         Span<char> nickname = stackalloc char[MaxStringLengthNickname];
         int len = LoadString(NicknameTrash, nickname);
-        int curLang = SpeciesName.GetSpeciesNameLanguage(Species, nickname[..len], 5);
+        int curLang = SpeciesName.GetSpeciesNameLanguage(Species, nickname[..len], EntityContext.Gen5);
         if (curLang <= 0)
             curLang = Language;
         pk6.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, curLang, 6);

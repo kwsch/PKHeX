@@ -53,7 +53,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = Info;
         var pk = new PK8

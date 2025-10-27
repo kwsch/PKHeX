@@ -11,6 +11,11 @@ namespace PKHeX.Core;
 public static class PersonalTable
 {
     /// <summary>
+    /// Personal Table used in <see cref="EntityContext.Gen9a"/>.
+    /// </summary>
+    public static readonly PersonalTable9ZA ZA = new(GetTable("za"));
+
+    /// <summary>
     /// Personal Table used in <see cref="EntityContext.Gen9"/>.
     /// </summary>
     public static readonly PersonalTable9SV SV = new(GetTable("sv"));

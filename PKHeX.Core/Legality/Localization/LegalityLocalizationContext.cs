@@ -37,6 +37,7 @@ public readonly ref struct LegalityLocalizationContext
     public string GetRibbonMessage(LegalityCheckResultCode code) => RibbonVerifier.GetMessage(Analysis, Strings.Ribbons, code);
     public string GetStatName(int displayIndex) => GetSafe(Settings.General.StatNames, displayIndex);
     public string GetMoveName(ushort move) => GetSafe(Strings.movelist, move);
+    public string GetItemName(ushort item) => GetSafe(Strings.itemlist, item);
     public string GetSpeciesName(ushort species) => GetSafe(Strings.specieslist, species);
     public string GetConsoleRegion3DS(int index) => GetSafe(Strings.console3ds, index);
     public string GetRibbonName(RibbonIndex index) => Strings.Ribbons.GetNameSafe($"Ribbon{index}", out var result) ? result : index.ToString();
@@ -85,6 +86,8 @@ public readonly ref struct LegalityLocalizationContext
             return string.Format(template, chk.Argument);
         if (code.IsMove())
             return string.Format(template, GetMoveName(chk.Argument));
+        if (code.IsItem())
+            return string.Format(template, GetItemName(chk.Argument));
         if (code.IsLanguage())
             return string.Format(template, GetLanguageName(chk.Argument), GetLanguageName(Analysis.Entity.Language));
         if (code.IsMemory())

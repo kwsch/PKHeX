@@ -17,7 +17,7 @@ public static class BatchEditing
 {
     public static readonly Type[] Types =
     [
-        typeof (PK9),
+        typeof (PK9), typeof (PA9),
         typeof (PK8), typeof (PA8), typeof (PB8),
         typeof (PB7),
         typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4), typeof(RK4),
@@ -30,7 +30,7 @@ public static class BatchEditing
     /// </summary>
     private static readonly string[] CustomProperties =
     [
-        PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY,
+        PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY, PROP_MOVEPLUS,
         PROP_TYPE1, PROP_TYPE2, PROP_TYPEEITHER,
         IdentifierContains, nameof(ISlotInfo.Slot), nameof(SlotInfoBox.Box),
     ];
@@ -77,6 +77,7 @@ public static class BatchEditing
     internal const string PROP_EVS = "EVs";
     internal const string PROP_CONTESTSTATS = "ContestStats";
     internal const string PROP_MOVEMASTERY = "MoveMastery";
+    internal const string PROP_MOVEPLUS = "PlusMoves";
     internal const string IdentifierContains = nameof(IdentifierContains);
 
     private static string[][] GetPropArray<T>(Dictionary<string, T>.AlternateLookup<ReadOnlySpan<char>>[] types, ReadOnlySpan<string> extra)

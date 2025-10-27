@@ -661,7 +661,8 @@ public partial class StatEditor : UserControl
         FLP_TeraType.Visible = FLP_TeraInner.Visible = pk is ITeraType;
         Label_HiddenPowerPower.Visible = format <= 5;
         FLP_DynamaxLevel.Visible = format == 8;
-        FLP_AlphaNoble.Visible = pk is PA8;
+        FLP_AlphaNoble.Visible = pk is IAlpha;
+        CHK_IsNoble.Visible = pk is PA8;
 
         SetStatOrder(format == 1 ? StatEditorStatOrder.Gen1Special : StatEditorStatOrder.Current);
 

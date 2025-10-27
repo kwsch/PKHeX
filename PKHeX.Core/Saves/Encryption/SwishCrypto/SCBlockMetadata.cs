@@ -60,6 +60,23 @@ public sealed class SCBlockMetadata
         }
     }
 
+    /// <inheritdoc cref="AddExtraKeyNames(Dictionary{uint,string}, IEnumerable{string})"/>
+    public static void AddExtraKeyNames64(Dictionary<ulong, string> names, IEnumerable<string> lines)
+    {
+        foreach (ReadOnlySpan<char> line in lines)
+        {
+            var split = line.IndexOf('\t');
+            if (split < 0)
+                continue;
+            var hex = line[..split];
+            if (!ulong.TryParse(hex, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out var value))
+                continue;
+
+            var name = line[(split + 1)..].ToString();
+            names.TryAdd(value, name);
+        }
+    }
+
     private static string GetSortKey(in ComboItem item)
     {
         var text = item.Text;

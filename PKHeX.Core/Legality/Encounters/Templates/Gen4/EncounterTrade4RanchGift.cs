@@ -85,7 +85,7 @@ public sealed record EncounterTrade4RanchGift : IEncounterable, IEncounterMatch,
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage456((LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.DP[Species];
         var pk = new PK4

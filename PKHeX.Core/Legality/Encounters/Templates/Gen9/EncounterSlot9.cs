@@ -40,7 +40,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var form = GetWildForm(Form);
         var version = Version != GameVersion.SV ? Version : tr.Version is GameVersion.SL or GameVersion.VL ? tr.Version : GameVersion.SL;
         var pi = PersonalTable.SV[Species, form];

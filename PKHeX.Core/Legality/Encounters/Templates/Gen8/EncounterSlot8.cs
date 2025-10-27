@@ -47,7 +47,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     public PK8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var form = GetWildForm(Form);
         var pi = PersonalTable.SWSH[Species, form];
         var pk = new PK8

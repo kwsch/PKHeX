@@ -27,6 +27,9 @@ public sealed class AbilityVerifier : Verifier
     private CheckResult VerifyAbility(LegalityAnalysis data)
     {
         var pk = data.Entity;
+        if (pk is PA9 pa9)
+            return VerifyBirthAbility(data, pa9);
+
         var abilities = (IPersonalAbility12)data.PersonalInfo;
 
         // Check ability is possible (within bounds)
@@ -456,5 +459,17 @@ public sealed class AbilityVerifier : Verifier
 
         // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
         return AbilityChangeRules.IsFormChangeDifferentHidden(species);
+    }
+
+    private CheckResult VerifyBirthAbility(LegalityAnalysis data, PA9 pa9)
+    {
+        var enc = data.EncounterMatch;
+        var pi = PersonalTable.ZA[enc.Species, enc.Form];
+        var index = pa9.AbilityNumber >> 1;
+        var expect = pi.GetAbilityAtIndex(index);
+        if (pa9.Ability != expect)
+            return GetInvalid(AbilityMismatch);
+
+        return VALID;
     }
 }
